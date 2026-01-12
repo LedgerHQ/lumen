@@ -1,39 +1,32 @@
-import { forwardRef, memo, useEffect, useRef } from 'react';
-import { Animated, Easing, View } from 'react-native';
+import { forwardRef, memo, useEffect } from 'react';
+import { View } from 'react-native';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
 import { useResolveTextStyle, useTheme } from '../../../styles';
-import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
 import { SpinnerProps } from './types';
 
 const SpinAnimation = memo(({ children }: { children: React.ReactNode }) => {
-  const spinValue = useRef(new Animated.Value(0)).current;
+  const spinValue = useSharedValue(0);
 
   useEffect(() => {
-    const animation = Animated.loop(
-      Animated.timing(spinValue, {
-        toValue: 1,
-        duration: 1000,
-        easing: Easing.linear,
-        useNativeDriver: RuntimeConstants.isNative,
-      }),
-    );
-    animation.start();
+    spinValue.value = withRepeat(withTiming(1, { duration: 1000 }), -1, false);
+  }, []);
 
-    return () => animation.stop();
-  }, [spinValue]);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { rotate: `${interpolate(spinValue.value, [0, 1], [0, 360])}deg` },
+    ],
+  }));
 
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
-
-  return (
-    <Animated.View style={{ transform: [{ rotate: spin }] }}>
-      {children}
-    </Animated.View>
-  );
+  return <Animated.View style={animatedStyle}>{children}</Animated.View>;
 });
 SpinAnimation.displayName = 'SpinAnimation';
 

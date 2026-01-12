@@ -1,4 +1,19 @@
 {
-  "name": "ReactNative",
-  "displayName": "ReactNative"
+  "expo": {
+    "name": "ReactNative",
+    "slug": "app-sandbox-rnative",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["ios"],
+    "jsEngine": "hermes",
+    "ios": {
+      "jsEngine": "jsc",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ledger.rnative"
+    },
+    "plugins": [
+      "expo-dev-client"
+    ]
+  }
 }

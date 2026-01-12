@@ -4,24 +4,31 @@
   "sourceRoot": "apps/app-sandbox-rnative/src",
   "projectType": "application",
   "targets": {
-    "bundle-android": {
+    "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx react-native bundle --entry-file src/main.tsx --platform android --dev false --bundle-output /tmp/index.android.bundle --assets-dest /tmp",
+        "command": "npx expo start --dev-client",
         "cwd": "apps/app-sandbox-rnative"
       }
     },
-    "bundle-ios": {
+    "ios": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx react-native bundle --entry-file src/main.tsx --platform ios --dev false --bundle-output /tmp/index.ios.bundle --assets-dest /tmp",
+        "command": "npx expo run:ios",
         "cwd": "apps/app-sandbox-rnative"
       }
     },
-    "build": {
+    "prebuild": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nx run-many -t bundle-android bundle-ios",
+        "command": "npx expo prebuild --platform ios",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    },
+    "prebuild-clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx expo prebuild --clean --platform ios",
         "cwd": "apps/app-sandbox-rnative"
       }
     }

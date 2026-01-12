@@ -1,11 +1,16 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
-  Animated,
   Pressable,
   StyleSheet,
   type GestureResponderEvent,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  withTiming,
+  useAnimatedStyle,
+  interpolate,
+} from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
 
 import {
@@ -108,31 +113,28 @@ const BaseSwitchThumb = React.forwardRef<ViewRef, SlottableViewProps>(
       size: size || 'md',
     });
 
-    const translateX = useRef(new Animated.Value(checked ? 1 : 0)).current;
+    const translateX = useSharedValue(checked ? 1 : 0);
 
     useEffect(() => {
-      Animated.timing(translateX, {
-        toValue: checked ? 1 : 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }, [checked, translateX]);
+      translateX.value = withTiming(checked ? 1 : 0, { duration: 200 });
+    }, [checked]);
 
     const getTranslateDistance = (): number => {
       const sizeName = size || 'md';
       return sizeName === 'sm' ? 8 : 16;
     };
 
-    const animatedStyle = {
+    const animatedStyle = useAnimatedStyle(() => ({
       transform: [
         {
-          translateX: translateX.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, getTranslateDistance()],
-          }),
+          translateX: interpolate(
+            translateX.value,
+            [0, 1],
+            [0, getTranslateDistance()],
+          ),
         },
       ],
-    };
+    }));
 
     if (asChild) {
       const Component = SlotView;
