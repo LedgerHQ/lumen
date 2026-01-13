@@ -1,0 +1,266 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TileButtonStories from './TileButton.stories';
+import { TileButton } from './TileButton';
+import {
+    CustomTabs,
+    Tab,
+    DoVsDontRow,
+    DoBlockItem,
+    DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Settings, Plus } from '../../Symbols';
+
+<Meta title='Action/TileButton' of={TileButtonStories} />
+
+# TileButton
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+## Introduction
+
+TileButton is a compact interactive component that displays an icon above a label in a vertical layout. It's designed for quick actions in grids, toolbars, or action menus where space efficiency is important.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10547-591&m=dev).
+
+## Anatomy
+
+<Canvas of={TileButtonStories.Base} />
+
+- **[Icon](/docs/symbols-icons--docs) (required)**: A visual indicator of the action, rendered at 20px
+- **Children (required)**: The label text describing the action
+
+## Properties
+
+### Overview
+
+<Canvas of={TileButtonStories.Base} />
+<Controls of={TileButtonStories.Base} />
+
+### States
+
+TileButton supports default, hover, pressed, and disabled states:
+
+<Canvas of={TileButtonStories.DisabledShowcase} />
+
+### Icons
+
+TileButton works with any [icon](/docs/symbols-icons--docs) from the design system:
+
+<Canvas of={TileButtonStories.IconsShowcase} />
+
+## Responsive Layout
+
+TileButton width adapts to its content by default. Use the `isFull` prop for full-width buttons:
+
+<Canvas of={TileButtonStories.WidthShowcase} />
+
+## Grid Usage
+
+TileButton is ideal for grid-based action menus:
+
+<Canvas of={TileButtonStories.GridLayout} />
+
+## As Child
+
+<Canvas of={TileButtonStories.AsChild} />
+
+<p className='mb-4 text-base body-2-semi-bold'>Important Notes:</p>
+<ul className='space-y-2 text-base body-2'>
+  <li>When using asChild, the child element receives all TileButton styles</li>
+  <li>Icon is still rendered above the child content</li>
+  <li>Perfect for navigation links that should look like tile buttons</li>
+  <li>
+    Maintains semantic HTML (e.g., &lt;a&gt; for links, &lt;button&gt; for
+    actions)
+  </li>
+</ul>
+
+## Accessibility
+
+- Uses semantic `<button>` element
+- Supports `aria-label` for custom accessible names
+- Maintains focus states with visible outline
+- Disabled state properly communicated to assistive technologies
+
+</Tab>
+<Tab label="Implementation ">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+The `@radix-ui/react-slot` dependency enables flexible composition patterns, allowing the TileButton to merge its props with child elements when needed.
+
+## Basic Usage
+
+```tsx
+import { TileButton } from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <TileButton icon={Settings} onClick={() => console.log('clicked')}>
+      Settings
+    </TileButton>
+  );
+}
+```
+
+## Grid Layout Example
+
+```tsx
+import { TileButton } from '@ledgerhq/lumen-ui-react';
+import { Settings, Plus, User, Apps } from '@ledgerhq/lumen-ui-react/symbols';
+
+function ActionGrid() {
+  return (
+    <div className='grid grid-cols-3 gap-8'>
+      <TileButton icon={Plus} onClick={() => {}}>Buy</TileButton>
+      <TileButton icon={Settings} onClick={() => {}}>Settings</TileButton>
+      <TileButton icon={User} onClick={() => {}}>Profile</TileButton>
+      <TileButton icon={Apps} onClick={() => {}}>Apps</TileButton>
+    </div>
+  );
+}
+```
+
+## Full Width
+
+Use the `isFull` prop to make the button take the full width of its container:
+
+```tsx
+<TileButton icon={Settings} isFull>
+  Full Width
+</TileButton>
+```
+
+## Using with Routers (asChild)
+
+The `asChild` prop allows integration with routing libraries by merging TileButton styles with child elements:
+
+```tsx
+import { TileButton } from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+import { Link } from 'react-router-dom';
+
+function MyComponent() {
+  return (
+    <TileButton asChild icon={Settings}>
+      <Link to='/settings'>Settings</Link>
+    </TileButton>
+  );
+}
+```
+
+<Canvas of={TileButtonStories.AsChild} />
+
+<p className='mb-4 text-base body-2-semi-bold'>Important Notes:</p>
+<ul className='space-y-2 text-base body-2'>
+  <li>When using asChild, the child element receives all TileButton styles</li>
+  <li>Icon is still rendered above the child content</li>
+  <li>Perfect for navigation links that should look like tile buttons</li>
+  <li>
+    Maintains semantic HTML (e.g., &lt;a&gt; for links, &lt;button&gt; for
+    actions)
+  </li>
+</ul>
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use the icon prop'
+      description='Pass icon as a component reference'
+    >
+
+```tsx
+<TileButton icon={Plus}>Add</TileButton>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't include icon in children"
+      description='The icon and children are separate'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TileButton icon={Plus}>
+  <Plus /> Add
+</TileButton>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use isFull for width'
+      description='Use the isFull prop for full-width buttons'
+    >
+
+```tsx
+<TileButton icon={Settings} isFull>
+  Settings
+</TileButton>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use className for width"
+      description='Avoid arbitrary width values with className'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TileButton icon={Settings} className='w-full'>
+  Settings
+</TileButton>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use aria-label when needed'
+      description='Add aria-label for additional context when children is ambiguous'
+    >
+
+```tsx
+<TileButton icon={Plus} aria-label='Add new item to list'>
+  Add
+</TileButton>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't duplicate accessible name"
+      description='Avoid redundant aria-label when children is descriptive'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TileButton icon={Settings} aria-label='Settings'>
+  Settings
+</TileButton>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+</Tab>
+</CustomTabs>
