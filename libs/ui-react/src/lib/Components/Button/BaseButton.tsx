@@ -105,7 +105,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, BaseButtonProps>(
         ref={ref}
         data-disabled={disabled || undefined}
         disabled={disabled}
-        onClick={handleClick}
+        onClick={disabled ? undefined : handleClick}
         {...props}
       >
         {loading && (
