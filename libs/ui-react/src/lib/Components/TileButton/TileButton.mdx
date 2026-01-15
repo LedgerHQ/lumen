@@ -230,35 +230,6 @@ function MyComponent() {
 
   </DoVsDontRow>
 
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use aria-label when needed'
-      description='Add aria-label for additional context when children is ambiguous'
-    >
-
-```tsx
-<TileButton icon={Plus} aria-label='Add new item to list'>
-  Add
-</TileButton>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't duplicate accessible name"
-      description='Avoid redundant aria-label when children is descriptive'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TileButton icon={Settings} aria-label='Settings'>
-  Settings
-</TileButton>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
   <CommonRulesDoAndDont />
 </div>
 
