@@ -6,8 +6,8 @@ import { TileButtonProps } from './types';
 
 const tileButtonVariants = cva(
   [
-    'flex flex-col items-center gap-8 p-12 rounded-md',
-    'bg-muted text-base body-2-semi-bold transition-colors',
+    'flex flex-col items-center gap-8 rounded-md p-12',
+    'bg-muted body-2-semi-bold text-base transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
   ],
   {

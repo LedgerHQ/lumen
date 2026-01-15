@@ -90,7 +90,7 @@ export const GridLayout: Story = {
 
 export const WidthShowcase: Story = {
   render: () => (
-    <div className='flex w-320 flex-col items-start gap-8 bg- rounded-md p-16'>
+    <div className='bg- flex w-320 flex-col items-start gap-8 rounded-md p-16'>
       <TileButton icon={Settings}>Default width</TileButton>
       <TileButton icon={Settings} isFull>
         Full width (isFull)
