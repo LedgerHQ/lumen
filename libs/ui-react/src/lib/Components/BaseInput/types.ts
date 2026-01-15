@@ -32,9 +32,13 @@ export type BaseInputProps = {
    */
   hideClearButton?: boolean;
   /**
-   * Additional class names to apply to the container element
+   * Additional class names to apply to the outer wrapper element
    */
   className?: string;
+  /**
+   * Additional class names to apply to the inner container element
+   */
+  containerClassName?: string;
   /**
    * Additional class names to apply to the input element
    */

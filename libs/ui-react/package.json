@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-react",
-  "version": "0.0.64",
+  "version": "0.0.65",
   "license": "Apache-2.0",
   "sideEffects": false,
   "keywords": [

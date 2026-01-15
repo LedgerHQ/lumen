@@ -9,10 +9,12 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-canvas-sheet': 'var(--color-dark-grey-075)',
     '--color-background-canvas-overlay': 'var(--color-dark-grey-050-60)',
     '--color-background-white': 'var(--color-dark-constant-050)',
+    '--color-background-white-transparent': 'var(--color-dark-grey-950-10)',
     '--color-background-black': 'var(--color-dark-constant-950)',
     '--color-background-surface': 'var(--color-dark-grey-100)',
     '--color-background-surface-hover': 'var(--color-dark-grey-200)',
     '--color-background-surface-pressed': 'var(--color-dark-grey-300)',
+    '--color-background-surface-disabled': 'var(--color-dark-grey-100)',
     '--color-background-surface-transparent': 'var(--color-dark-grey-950-5)',
     '--color-background-surface-transparent-hover':
       'var(--color-dark-grey-950-10)',
@@ -103,6 +105,8 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-gradient-80': 'var(--color-dark-grey-050-80)',
     '--color-background-gradient-70': 'var(--color-dark-grey-050-70)',
     '--color-background-gradient-0': 'var(--color-dark-grey-050-0)',
+    '--color-background-gradient-overlay-80': 'var(--color-dark-grey-050-80)',
+    '--color-background-gradient-overlay-0': 'var(--color-dark-grey-050-0)',
     '--color-text-black': 'var(--color-dark-constant-950)',
     '--color-text-white': 'var(--color-dark-constant-050)',
     '--color-text-grey': 'var(--color-dark-grey-900)',
@@ -339,10 +343,13 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-canvas-sheet': 'var(--color-background-canvas-sheet)',
     '--background-canvas-overlay': 'var(--color-background-canvas-overlay)',
     '--background-white': 'var(--color-background-white)',
+    '--background-white-transparent':
+      'var(--color-background-white-transparent)',
     '--background-black': 'var(--color-background-black)',
     '--background-surface': 'var(--color-background-surface)',
     '--background-surface-hover': 'var(--color-background-surface-hover)',
     '--background-surface-pressed': 'var(--color-background-surface-pressed)',
+    '--background-surface-disabled': 'var(--color-background-surface-disabled)',
     '--background-surface-transparent':
       'var(--color-background-surface-transparent)',
     '--background-surface-transparent-hover':
@@ -415,6 +422,10 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-gradient-80': 'var(--color-background-gradient-80)',
     '--background-gradient-70': 'var(--color-background-gradient-70)',
     '--background-gradient-0': 'var(--color-background-gradient-0)',
+    '--background-gradient-overlay-80':
+      'var(--color-background-gradient-overlay-80)',
+    '--background-gradient-overlay-0':
+      'var(--color-background-gradient-overlay-0)',
     '--text-black': 'var(--color-text-black)',
     '--text-white': 'var(--color-text-white)',
     '--text-grey': 'var(--color-text-grey)',

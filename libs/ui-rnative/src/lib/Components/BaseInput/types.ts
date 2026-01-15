@@ -12,9 +12,13 @@ export type BaseInputProps = {
    */
   label?: string;
   /**
-   * Additional styles to apply to the container element.
+   * Additional styles to apply to the outer wrapper element.
    */
   style?: StyleProp<ViewStyle>;
+  /**
+   * Additional styles to apply to the inner container element (Pressable).
+   */
+  containerStyle?: StyleProp<ViewStyle>;
   /**
    * Additional styles to apply to the input element.
    */

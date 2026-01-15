@@ -4,7 +4,7 @@ import {
   extractSlottable,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { MouseEventHandler, useCallback, useState } from 'react';
+import { forwardRef, MouseEventHandler, useCallback, useState } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spot } from '../Spot';
 import {
@@ -106,103 +106,109 @@ const tileVariants = {
  *   <div>Custom content</div>
  * </Tile>
  */
-export const Tile = ({
-  className,
-  onClick,
-  appearance = 'no-background',
-  disabled = false,
-  'aria-label': ariaLabel,
-  children,
-  onMouseDown,
-  onMouseUp,
-  onMouseLeave,
-  ...props
-}: TileProps) => {
-  const [isActive, setIsActive] = useState(false);
-
-  // Extract secondary action from children by component type
-  const { slotElement, remainingChildren } = extractSlottable(
-    children,
-    TileSecondaryAction,
-  );
-
-  const handleMouseDown = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      // Only set parent as active if the click is not on the secondary action container
-      if (
-        !(event.target as HTMLElement).closest(
-          '[data-secondary-button-container]',
-        )
-      ) {
-        onMouseDown?.(event);
-        setIsActive(true);
-      }
+export const Tile = forwardRef<HTMLDivElement, TileProps>(
+  (
+    {
+      className,
+      onClick,
+      appearance = 'no-background',
+      disabled = false,
+      'aria-label': ariaLabel,
+      children,
+      onMouseDown,
+      onMouseUp,
+      onMouseLeave,
+      ...props
     },
-    [onMouseDown],
-  );
+    ref,
+  ) => {
+    const [isActive, setIsActive] = useState(false);
 
-  const handleMouseUp: MouseEventHandler<HTMLDivElement> = useCallback(
-    (event) => {
-      setIsActive(false);
-      onMouseUp?.(event);
-    },
-    [onMouseUp],
-  );
+    // Extract secondary action from children by component type
+    const { slotElement, remainingChildren } = extractSlottable(
+      children,
+      TileSecondaryAction,
+    );
 
-  const handleMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
-    (event) => {
-      setIsActive(false);
-      onMouseLeave?.(event);
-    },
-    [onMouseLeave],
-  );
+    const handleMouseDown = useCallback(
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        // Only set parent as active if the click is not on the secondary action container
+        if (
+          !(event.target as HTMLElement).closest(
+            '[data-secondary-button-container]',
+          )
+        ) {
+          onMouseDown?.(event);
+          setIsActive(true);
+        }
+      },
+      [onMouseDown],
+    );
 
-  return (
-    <TileProvider value={{ disabled }}>
-      <div
-        {...props}
-        className={tileVariants.root({
-          appearance,
-          isActive,
-          disabled,
-          className,
-        })}
-        onMouseDown={
-          disabled
-            ? undefined
-            : (e) => {
-                handleMouseDown(e);
-              }
-        }
-        onMouseUp={
-          disabled
-            ? undefined
-            : (e) => {
-                handleMouseUp(e);
-              }
-        }
-        onMouseLeave={
-          disabled
-            ? undefined
-            : (e) => {
-                handleMouseLeave(e);
-              }
-        }
-      >
-        <button
-          aria-label={ariaLabel}
-          onClick={disabled ? undefined : onClick}
-          disabled={disabled}
-          data-disabled={disabled || undefined}
-          className={tileVariants.button()}
+    const handleMouseUp: MouseEventHandler<HTMLDivElement> = useCallback(
+      (event) => {
+        setIsActive(false);
+        onMouseUp?.(event);
+      },
+      [onMouseUp],
+    );
+
+    const handleMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
+      (event) => {
+        setIsActive(false);
+        onMouseLeave?.(event);
+      },
+      [onMouseLeave],
+    );
+
+    return (
+      <TileProvider value={{ disabled }}>
+        <div
+          {...props}
+          ref={ref}
+          className={tileVariants.root({
+            appearance,
+            isActive,
+            disabled,
+            className,
+          })}
+          onMouseDown={
+            disabled
+              ? undefined
+              : (e) => {
+                  handleMouseDown(e);
+                }
+          }
+          onMouseUp={
+            disabled
+              ? undefined
+              : (e) => {
+                  handleMouseUp(e);
+                }
+          }
+          onMouseLeave={
+            disabled
+              ? undefined
+              : (e) => {
+                  handleMouseLeave(e);
+                }
+          }
         >
-          {remainingChildren}
-        </button>
-        {slotElement}
-      </div>
-    </TileProvider>
-  );
-};
+          <button
+            aria-label={ariaLabel}
+            onClick={disabled ? undefined : onClick}
+            disabled={disabled}
+            data-disabled={disabled || undefined}
+            className={tileVariants.button()}
+          >
+            {remainingChildren}
+          </button>
+          {slotElement}
+        </div>
+      </TileProvider>
+    );
+  },
+);
 Tile.displayName = 'Tile';
 
 /**
@@ -311,13 +317,10 @@ TileDescription.displayName = 'TileDescription';
  *   </TileContent>
  * </Tile>
  */
-export const TileSecondaryAction = ({
-  onClick,
-  icon,
-  className,
-  'aria-label': ariaLabel,
-  ...props
-}: TileSecondaryActionProps) => {
+export const TileSecondaryAction = forwardRef<
+  HTMLButtonElement,
+  TileSecondaryActionProps
+>(({ onClick, icon, className, 'aria-label': ariaLabel, ...props }, ref) => {
   const { disabled } = useTileContext({
     consumerName: 'TileSecondaryAction',
     contextRequired: true,
@@ -347,10 +350,11 @@ export const TileSecondaryAction = ({
       iconType='stroked'
       onClick={handleClick}
       aria-label={ariaLabel}
+      ref={ref}
       {...props}
     >
       <Icon size={24} />
     </InteractiveIcon>
   );
-};
+});
 TileSecondaryAction.displayName = 'TileSecondaryAction';

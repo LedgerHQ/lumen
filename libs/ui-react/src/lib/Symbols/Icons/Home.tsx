@@ -38,7 +38,7 @@ export const Home = createIcon(
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M2.667 5.733V14h10.666V5.733m-12 .934L8 2l6.667 4.667M10 14v-4c0-.74-.6-1.333-1.333-1.333H7.333C6.593 8.667 6 9.26 6 10v4'
+      d='M2.667 5.733V14H6v-4c0-.74.593-1.333 1.333-1.333h1.334C9.4 8.667 10 9.26 10 10v4h3.333V5.733m-12 .934L8 2l6.667 4.667'
     />
   </svg>,
 );

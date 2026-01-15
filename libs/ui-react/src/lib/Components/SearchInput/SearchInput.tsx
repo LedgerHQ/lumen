@@ -1,7 +1,35 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import React from 'react';
 import { Search as SearchIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
 import { SearchInputProps } from './types';
+
+const containerVariants = cva('', {
+  variants: {
+    appearance: {
+      plain: '',
+      transparent:
+        'bg-muted-transparent hover:bg-muted-transparent-hover has-disabled:bg-muted-transparent-disabled',
+    },
+  },
+  defaultVariants: {
+    appearance: 'plain',
+  },
+});
+
+const inputVariants = cva('', {
+  variants: {
+    appearance: {
+      plain: '',
+      transparent:
+        'bg-transparent group-hover:bg-transparent-hover group-has-disabled:bg-transparent-disabled',
+    },
+  },
+  defaultVariants: {
+    appearance: 'plain',
+  },
+});
 
 /**
  * A customizable search input component with built-in search icon, automatic clear button, error states, and focus/hover effects.
@@ -58,7 +86,7 @@ import { SearchInputProps } from './types';
  * />
  */
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  (props, ref) => {
+  ({ appearance = 'plain', className, inputClassName, ...props }, ref) => {
     const searchIcon = (
       <SearchIcon
         size={20}
@@ -69,7 +97,16 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       />
     );
 
-    return <BaseInput ref={ref} prefix={searchIcon} {...props} />;
+    return (
+      <BaseInput
+        ref={ref}
+        prefix={searchIcon}
+        className={className}
+        containerClassName={containerVariants({ appearance })}
+        inputClassName={cn(inputVariants({ appearance }), inputClassName)}
+        {...props}
+      />
+    );
   },
 );
 
