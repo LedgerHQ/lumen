@@ -25,12 +25,14 @@ const config: StorybookConfig = {
     reactDocgen: 'react-docgen-typescript',
   },
 
-  refs: {
-    'react-native': {
-      title: 'React Native',
-      url: 'https://ldls-react-native.vercel.app/',
+  ...(!process.env.NX_TASK_TARGET_TARGET && {
+    refs: {
+      'react-native': {
+        title: 'React Native',
+        url: 'https://ldls-react-native.vercel.app/',
+      },
     },
-  },
+  }),
 
   viteFinal: async (viteConfig) => {
     // Add react-native-web alias for React Native components

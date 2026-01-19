@@ -6,6 +6,9 @@
       "path": "../../libs/ui-rnative"
     },
     {
+      "path": "../../libs/design-core"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ]

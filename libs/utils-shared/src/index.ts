@@ -2,7 +2,6 @@ export * from './lib/string/string';
 export * from './lib/inputFormatter';
 export * from './lib/createSafeContext';
 export * from './lib/cn';
-export * from './lib/extractSlottable';
 export * from './lib/isTextChildren';
 export * from './lib/useMergeRef';
 export * from './lib/getObjectPath';

@@ -1,13 +1,13 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { IconSize } from '../Icon/types';
 import { Spinner } from '../Spinner';
 import { BaseButtonProps } from './types';
 
 const baseButtonVariants = cva(
-  'inline-flex size-fit cursor-pointer items-center justify-center rounded-full body-1-semi-bold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus data-[disabled="true"]:bg-disabled data-[disabled="true"]:text-disabled',
+  'inline-flex size-fit items-center justify-center rounded-full body-1-semi-bold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus data-[disabled="true"]:bg-disabled data-[disabled="true"]:text-disabled',
   {
     variants: {
       appearance: {
@@ -20,6 +20,10 @@ const baseButtonVariants = cva(
         'no-background':
           'bg-transparent text-base hover:bg-base-transparent-hover active:bg-base-transparent-pressed disabled:bg-base-transparent',
         red: 'bg-error text-error hover:bg-error-hover active:bg-error-pressed',
+      },
+      disabled: {
+        true: 'cursor-default',
+        false: 'cursor-pointer',
       },
       size: {
         xs: 'p-8',
@@ -62,7 +66,7 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, BaseButtonProps>(
       appearance = 'base',
       size,
       isFull,
-      disabled,
+      disabled = false,
       asChild = false,
       icon: Icon,
       loading,
@@ -72,19 +76,6 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, BaseButtonProps>(
     },
     ref,
   ) => {
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        // If the button is disabled, prevent the default action (e.g., navigation).
-        if (disabled || loading) {
-          event.preventDefault();
-          return;
-        }
-        // Otherwise, call the original onClick handler if it was provided.
-        onClick?.(event);
-      },
-      [disabled, loading, onClick],
-    );
-
     const iconSizeMap: { [key: string]: IconSize } = {
       xs: 16,
       sm: 20,
@@ -92,20 +83,20 @@ export const BaseButton = React.forwardRef<HTMLButtonElement, BaseButtonProps>(
       lg: 24,
     };
 
+    const isDisabled = loading || disabled;
     const calculatedIconSize = size ? iconSizeMap[size] : 24;
-
     const Comp = asChild ? Slot : 'button';
 
     return (
       <Comp
         className={cn(
-          baseButtonVariants({ appearance, size, isFull }),
+          baseButtonVariants({ disabled, appearance, size, isFull }),
           className,
         )}
         ref={ref}
-        data-disabled={disabled || undefined}
-        disabled={disabled}
-        onClick={handleClick}
+        data-disabled={isDisabled || undefined}
+        disabled={isDisabled}
+        onClick={onClick}
         {...props}
       >
         {loading && (

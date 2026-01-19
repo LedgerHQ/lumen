@@ -38,7 +38,12 @@ export type TileProps = {
    * Aria label for accessibility.
    */
   'aria-label'?: string;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>;
+  /**
+   * The secondary action to display inside the tile.
+   * Typically contains a TileSecondaryAction component.
+   */
+  secondaryAction?: ReactNode;
+} & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 export type TileSpotProps = DiscriminatedSpotProps;
 

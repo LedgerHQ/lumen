@@ -1,10 +1,6 @@
-import {
-  cn,
-  createSafeContext,
-  extractSlottable,
-} from '@ledgerhq/lumen-utils-shared';
+import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { forwardRef, MouseEventHandler, useCallback, useState } from 'react';
+import { forwardRef, useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spot } from '../Spot';
 import {
@@ -21,61 +17,31 @@ const [TileProvider, useTileContext] =
   createSafeContext<TileContextValue>('Tile');
 
 const tileVariants = {
-  root: cva(
+  root: cva([
+    'group relative flex flex-col items-center rounded-md text-base transition-colors focus-visible:outline-2 focus-visible:outline-focus',
+  ]),
+  inner: cva(
     [
-      'group relative flex flex-col items-center gap-8 text-base transition-colors',
+      'flex w-full flex-col items-center px-8 py-12',
       'rounded-md focus-visible:outline-2 focus-visible:outline-focus',
     ],
     {
       variants: {
         appearance: {
-          'no-background': 'bg-base-transparent',
-          card: 'bg-surface',
-        },
-        isActive: {
-          true: '',
-          false: '',
+          'no-background':
+            'bg-base-transparent hover:not-disabled:bg-base-transparent-hover active:not-disabled:bg-base-transparent-pressed',
+          card: 'bg-surface hover:not-disabled:bg-surface-hover active:not-disabled:bg-surface-pressed',
         },
         disabled: {
-          true: '',
-          false: '',
+          true: 'cursor-default',
+          false: 'cursor-pointer',
         },
       },
-      compoundVariants: [
-        {
-          appearance: 'no-background',
-          isActive: false,
-          disabled: false,
-          className: 'hover:bg-base-transparent-hover',
-        },
-        {
-          appearance: 'no-background',
-          isActive: true,
-          disabled: false,
-          className: 'bg-base-transparent-pressed',
-        },
-        {
-          appearance: 'card',
-          isActive: false,
-          disabled: false,
-          className: 'hover:bg-surface-hover',
-        },
-        {
-          appearance: 'card',
-          isActive: true,
-          disabled: false,
-          className: 'bg-surface-pressed',
-        },
-      ],
       defaultVariants: {
         appearance: 'no-background',
-        isActive: false,
         disabled: false,
       },
     },
-  ),
-  button: cva(
-    'flex w-full cursor-pointer flex-col items-center gap-8 rounded-md px-8 py-12 focus-visible:outline-2 focus-visible:outline-focus',
   ),
 };
 
@@ -111,99 +77,36 @@ export const Tile = forwardRef<HTMLDivElement, TileProps>(
     {
       className,
       onClick,
+      secondaryAction,
       appearance = 'no-background',
       disabled = false,
-      'aria-label': ariaLabel,
       children,
-      onMouseDown,
-      onMouseUp,
-      onMouseLeave,
+      style,
       ...props
     },
     ref,
   ) => {
-    const [isActive, setIsActive] = useState(false);
-
-    // Extract secondary action from children by component type
-    const { slotElement, remainingChildren } = extractSlottable(
-      children,
-      TileSecondaryAction,
-    );
-
-    const handleMouseDown = useCallback(
-      (event: React.MouseEvent<HTMLDivElement>) => {
-        // Only set parent as active if the click is not on the secondary action container
-        if (
-          !(event.target as HTMLElement).closest(
-            '[data-secondary-button-container]',
-          )
-        ) {
-          onMouseDown?.(event);
-          setIsActive(true);
-        }
-      },
-      [onMouseDown],
-    );
-
-    const handleMouseUp: MouseEventHandler<HTMLDivElement> = useCallback(
-      (event) => {
-        setIsActive(false);
-        onMouseUp?.(event);
-      },
-      [onMouseUp],
-    );
-
-    const handleMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
-      (event) => {
-        setIsActive(false);
-        onMouseLeave?.(event);
-      },
-      [onMouseLeave],
-    );
-
     return (
       <TileProvider value={{ disabled }}>
         <div
-          {...props}
           ref={ref}
+          style={style}
           className={tileVariants.root({
-            appearance,
-            isActive,
-            disabled,
             className,
           })}
-          onMouseDown={
-            disabled
-              ? undefined
-              : (e) => {
-                  handleMouseDown(e);
-                }
-          }
-          onMouseUp={
-            disabled
-              ? undefined
-              : (e) => {
-                  handleMouseUp(e);
-                }
-          }
-          onMouseLeave={
-            disabled
-              ? undefined
-              : (e) => {
-                  handleMouseLeave(e);
-                }
-          }
         >
           <button
-            aria-label={ariaLabel}
-            onClick={disabled ? undefined : onClick}
+            {...props}
+            onClick={onClick}
             disabled={disabled}
-            data-disabled={disabled || undefined}
-            className={tileVariants.button()}
+            className={tileVariants.inner({
+              appearance,
+              disabled,
+            })}
           >
-            {remainingChildren}
+            {children}
           </button>
-          {slotElement}
+          {secondaryAction}
         </div>
       </TileProvider>
     );
@@ -341,7 +244,6 @@ export const TileSecondaryAction = forwardRef<
 
   return (
     <InteractiveIcon
-      data-slot='tile-secondary-action'
       className={cn(
         'absolute top-8 right-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100',
         className,

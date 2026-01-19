@@ -56,6 +56,7 @@ export const Base: Story = {
     <Menu {...args}>
       <MenuTrigger asChild>
         <IconButton
+          onClick={() => console.log('Menu clicked')}
           icon={MoreVertical}
           aria-label='Open Menu'
           appearance='gray'

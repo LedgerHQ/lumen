@@ -102,8 +102,8 @@ describe('Tile Component', () => {
     });
   });
 
-  describe('Active State', () => {
-    it('should apply active state on mouse down', () => {
+  describe('Button States', () => {
+    it('should have correct base classes', () => {
       render(
         <Tile>
           <TileSpot appearance='icon' icon={Settings} />
@@ -113,19 +113,12 @@ describe('Tile Component', () => {
         </Tile>,
       );
       const buttonElement = screen.getByRole('button');
-      const containerElement = buttonElement.parentElement;
-
-      if (!containerElement) {
-        throw new Error('Container element not found');
-      }
-
-      fireEvent.mouseDown(containerElement);
-      expect(containerElement).toHaveClass('bg-base-transparent-pressed');
+      expect(buttonElement).toHaveClass('bg-base-transparent');
     });
 
-    it('should remove active state on mouse up', () => {
+    it('should have card appearance classes when specified', () => {
       render(
-        <Tile>
+        <Tile appearance='card'>
           <TileSpot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
@@ -133,40 +126,7 @@ describe('Tile Component', () => {
         </Tile>,
       );
       const buttonElement = screen.getByRole('button');
-      const containerElement = buttonElement.parentElement;
-
-      if (!containerElement) {
-        throw new Error('Container element not found');
-      }
-
-      fireEvent.mouseDown(containerElement);
-      expect(containerElement).toHaveClass('bg-base-transparent-pressed');
-
-      fireEvent.mouseUp(containerElement);
-      expect(containerElement).not.toHaveClass('bg-base-transparent-pressed');
-    });
-
-    it('should remove active state on mouse leave', () => {
-      render(
-        <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
-          <TileContent>
-            <TileTitle>Test Title</TileTitle>
-          </TileContent>
-        </Tile>,
-      );
-      const buttonElement = screen.getByRole('button');
-      const containerElement = buttonElement.parentElement;
-
-      if (!containerElement) {
-        throw new Error('Container element not found');
-      }
-
-      fireEvent.mouseDown(containerElement);
-      expect(containerElement).toHaveClass('bg-base-transparent-pressed');
-
-      fireEvent.mouseLeave(containerElement);
-      expect(containerElement).not.toHaveClass('bg-base-transparent-pressed');
+      expect(buttonElement).toHaveClass('bg-surface');
     });
   });
 
@@ -260,7 +220,6 @@ describe('Tile Component', () => {
 
       const buttonElement = screen.getByRole('button');
       expect(buttonElement).toBeDisabled();
-      expect(buttonElement).toHaveAttribute('data-disabled');
     });
   });
 
@@ -278,34 +237,7 @@ describe('Tile Component', () => {
 
       const buttonElement = screen.getByRole('button');
       const containerElement = buttonElement.parentElement;
-
-      if (!containerElement) {
-        throw new Error('Container element not found');
-      }
-
       expect(containerElement).toHaveClass(customClass);
-    });
-  });
-
-  describe('Slottable Pattern', () => {
-    it('should extract secondary action from children and render outside button', () => {
-      render(
-        <Tile aria-label='Main tile'>
-          <TileSecondaryAction icon={MoreVertical} aria-label='More actions' />
-          <TileSpot appearance='icon' icon={Settings} />
-          <TileContent>
-            <TileTitle>Test Title</TileTitle>
-          </TileContent>
-        </Tile>,
-      );
-
-      const mainButton = screen.getByRole('button', { name: /main tile/i });
-      const secondaryButton = screen.getByRole('button', {
-        name: /more actions/i,
-      });
-
-      // Secondary action should NOT be inside the main button
-      expect(mainButton.contains(secondaryButton)).toBe(false);
     });
   });
 });

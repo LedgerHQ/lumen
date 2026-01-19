@@ -119,6 +119,13 @@ const MenuContent = React.forwardRef<
       data-slot='menu-content'
       sideOffset={sideOffset}
       className={cn(contentStyles, className)}
+      /**
+       * Prevent propagation of the click event to the parent element
+       */
+      onClick={(e) => {
+        e.stopPropagation();
+        props.onClick?.(e);
+      }}
       align={align}
       {...props}
     />
