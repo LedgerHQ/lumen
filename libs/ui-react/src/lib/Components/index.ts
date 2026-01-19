@@ -21,5 +21,6 @@ export * from './Switch';
 export * from './Tag';
 export * from './TextInput';
 export * from './Tile';
+export * from './TileButton';
 export * from './Tooltip';
 export * from './ThemeProvider';
