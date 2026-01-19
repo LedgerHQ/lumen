@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { Settings, Plus, User, Apps } from '../../Symbols';
+import { Settings, Plus, User, Apps, ChevronRight } from '../../Symbols';
 import { Tag } from '../Tag/Tag';
 import { Box, Text } from '../Utility';
 import {
@@ -28,14 +28,37 @@ const meta: Meta<typeof Tile> = {
       },
     },
   },
+  argTypes: {
+    onPress: {
+      action: 'pressed',
+    },
+    onLongPress: {
+      action: 'long pressed',
+    },
+    appearance: {
+      control: 'select',
+      options: ['no-background', 'card'],
+    },
+    disabled: {
+      control: 'boolean',
+    },
+    centered: {
+      control: 'boolean',
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof Tile>;
 
 export const Base: Story = {
-  render: () => (
-    <Tile lx={{ maxWidth: 's112' }}>
+  args: {
+    appearance: 'no-background',
+    disabled: false,
+    centered: false,
+  },
+  render: (args) => (
+    <Tile {...args} lx={{ maxWidth: 's112' }}>
       <TileSpot appearance='icon' icon={Settings} />
       <TileContent>
         <TileTitle>Item with Spot and Description</TileTitle>
@@ -250,6 +273,43 @@ export const AppearanceShowcase: Story = {
           </Tile>
         </Box>
       </Box>
+    </Box>
+  ),
+};
+
+export const CenteredShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'row', gap: 's8' }}>
+      <Tile appearance='card' lx={{ width: 's128' }}>
+        <TileSpot appearance='icon' icon={Apps} />
+        <TileContent>
+          <TileTitle>Title</TileTitle>
+          <TileDescription>Description</TileDescription>
+        </TileContent>
+        <Tag label='Label' appearance='base' />
+      </Tile>
+      <Tile appearance='card' lx={{ width: 's128' }}>
+        <TileSpot appearance='icon' icon={Apps} />
+        <TileContent>
+          <TileTitle>Title</TileTitle>
+          <TileDescription>Description</TileDescription>
+        </TileContent>
+        <Tag label='Label' appearance='base' />
+      </Tile>
+      <Tile appearance='card' lx={{ width: 's128' }}>
+        <TileSpot appearance='icon' icon={Apps} />
+        <TileContent>
+          <TileTitle>Title</TileTitle>
+          <TileDescription>Description</TileDescription>
+        </TileContent>
+        <Tag label='Label' appearance='base' />
+      </Tile>
+      <Tile appearance='card' centered lx={{ width: 's128' }}>
+        <TileSpot appearance='icon' icon={ChevronRight} />
+        <TileContent>
+          <TileTitle>Show more</TileTitle>
+        </TileContent>
+      </Tile>
     </Box>
   ),
 };

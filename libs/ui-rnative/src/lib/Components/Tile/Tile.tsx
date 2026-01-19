@@ -25,10 +25,12 @@ const useRootStyles = ({
   appearance,
   disabled,
   pressed,
+  centered,
 }: {
   appearance: Appearance;
   disabled: boolean;
   pressed: boolean;
+  centered: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -60,10 +62,13 @@ const useRootStyles = ({
             !disabled && {
               backgroundColor: pressedBgColors[appearance],
             },
+          centered && {
+            justifyContent: 'center',
+          },
         ]),
       };
     },
-    [appearance, disabled, pressed],
+    [appearance, disabled, pressed, centered],
   );
 };
 
@@ -110,6 +115,7 @@ export const Tile = forwardRef<React.ElementRef<typeof Pressable>, TileProps>(
       style,
       appearance = 'no-background',
       disabled = false,
+      centered = false,
       children,
       ...props
     },
@@ -131,6 +137,7 @@ export const Tile = forwardRef<React.ElementRef<typeof Pressable>, TileProps>(
               appearance={appearance}
               disabled={disabled}
               pressed={pressed}
+              centered={centered}
             >
               {children}
             </TilePressableContent>
@@ -146,14 +153,16 @@ const TilePressableContent = ({
   appearance,
   disabled,
   pressed,
+  centered,
   children,
 }: {
   appearance: Appearance;
   disabled: boolean;
   pressed: boolean;
+  centered: boolean;
   children: ReactNode;
 }) => {
-  const styles = useRootStyles({ appearance, disabled, pressed });
+  const styles = useRootStyles({ appearance, disabled, pressed, centered });
   return <View style={styles.container}>{children}</View>;
 };
 

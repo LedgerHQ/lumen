@@ -76,6 +76,17 @@ const tileVariants = {
   ),
   button: cva(
     'flex w-full cursor-pointer flex-col items-center gap-8 rounded-md px-8 py-12 focus-visible:outline-2 focus-visible:outline-focus',
+    {
+      variants: {
+        centered: {
+          true: 'h-full justify-center',
+          false: '',
+        },
+      },
+      defaultVariants: {
+        centered: false,
+      },
+    },
   ),
 };
 
@@ -113,6 +124,7 @@ export const Tile = forwardRef<HTMLDivElement, TileProps>(
       onClick,
       appearance = 'no-background',
       disabled = false,
+      centered = false,
       'aria-label': ariaLabel,
       children,
       onMouseDown,
@@ -199,7 +211,7 @@ export const Tile = forwardRef<HTMLDivElement, TileProps>(
             onClick={disabled ? undefined : onClick}
             disabled={disabled}
             data-disabled={disabled || undefined}
-            className={tileVariants.button()}
+            className={tileVariants.button({ centered })}
           >
             {remainingChildren}
           </button>
