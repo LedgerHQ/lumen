@@ -1,0 +1,215 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TileButtonStories from './TileButton.stories';
+import { TileButton } from './TileButton';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Action/TileButton' of={TileButtonStories} />
+
+# TileButton
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+## Introduction
+
+TileButton is a compact interactive component that displays an icon above a label in a vertical layout. It's designed for quick actions in grids, toolbars, or action menus where space efficiency is important. This React Native implementation ensures consistent behavior across mobile platforms.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10547-591&m=dev).
+
+## Anatomy
+
+<Canvas of={TileButtonStories.Base} />
+
+- **[Icon](/docs/symbols-icons--docs) (required)**: A visual indicator of the action, rendered at 20px
+- **Children (required)**: The label text describing the action
+
+## Properties
+
+### Overview
+
+<Canvas of={TileButtonStories.Base} />
+<Controls of={TileButtonStories.Base} />
+
+### States
+
+TileButton supports default, pressed, and disabled states:
+
+<Canvas of={TileButtonStories.DisabledShowcase} />
+
+### Icons
+
+TileButton works with any [icon](/docs/symbols-icons--docs) from the design system:
+
+<Canvas of={TileButtonStories.IconsShowcase} />
+
+### Text Truncation
+
+Labels are truncated to 2 lines by default. Use the `numberOfLines` prop to customize:
+
+<Canvas of={TileButtonStories.TruncationShowcase} />
+
+## Responsive Layout
+
+TileButton adapts to its content by default. Use the `isFull` prop for full-width buttons:
+
+<Canvas of={TileButtonStories.WidthShowcase} />
+
+## Grid Usage
+
+TileButton is ideal for grid-based action menus:
+
+<Canvas of={TileButtonStories.GridLayout} />
+
+## Accessibility
+
+- Supports all standard React Native accessibility props
+- Touch targets meet minimum size requirements
+
+</Tab>
+<Tab label="Implementation ">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import { TileButton } from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <TileButton icon={Settings} onPress={() => console.log('pressed')}>
+      Settings
+    </TileButton>
+  );
+}
+```
+
+## Grid Layout Example
+
+```tsx
+import { View } from 'react-native';
+import { TileButton } from '@ledgerhq/lumen-ui-rnative';
+import { Settings, Plus, User, Apps } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function ActionGrid() {
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+      <TileButton icon={Plus} onPress={() => {}}>Buy</TileButton>
+      <TileButton icon={Settings} onPress={() => {}}>Settings</TileButton>
+      <TileButton icon={User} onPress={() => {}}>Profile</TileButton>
+      <TileButton icon={Apps} onPress={() => {}}>Apps</TileButton>
+    </View>
+  );
+}
+```
+
+## Full Width
+
+Use the `isFull` prop to make the button take the full width of its container:
+
+```tsx
+<TileButton icon={Settings} isFull onPress={() => {}}>
+  Full Width
+</TileButton>
+```
+
+## Text Truncation
+
+Labels are truncated to 2 lines by default. Use the `numberOfLines` prop to customize:
+
+```tsx
+<TileButton icon={Settings} numberOfLines={1} onPress={() => {}}>
+  Single line truncation
+</TileButton>
+```
+
+## Custom Styling
+
+Use the `lx` prop for token-based styling:
+
+```tsx
+<TileButton
+  icon={Settings}
+  lx={{ marginTop: 's8' }}
+  onPress={() => {}}
+>
+  Styled
+</TileButton>
+```
+
+Or use the `style` prop for escape-hatch styling:
+
+```tsx
+<TileButton
+  icon={Settings}
+  style={{ marginTop: 16 }}
+  onPress={() => {}}
+>
+  Styled
+</TileButton>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use the icon prop'
+      description='Pass icon as a component reference'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+<TileButton icon={Plus} onPress={() => {}}>
+  Add
+</TileButton>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't include icon in children"
+      description='The icon and children are separate'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+<TileButton icon={Plus} onPress={() => {}}>
+  <Plus /> Add
+</TileButton>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+## Platform Considerations
+
+### iOS Specific
+
+- Touch feedback uses appropriate opacity transitions
+- Respects iOS accessibility settings like reduced motion
+
+### Android Specific
+
+- Material Design touch feedback is supported
+- Respects Android accessibility services
+
+### Cross-Platform
+
+- Consistent visual appearance across platforms
+- Platform-appropriate touch feedback
+- Unified API regardless of platform
+
+</Tab>
+</CustomTabs>
