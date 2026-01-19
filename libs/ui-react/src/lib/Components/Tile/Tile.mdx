@@ -65,6 +65,12 @@ By default the tile fills the width of its container. The title and description 
 
 <Canvas of={TileStories.ResponsiveLayout} />
 
+### Centered Content
+
+Use the `centered` prop to vertically center tile content. This is useful when a tile has less content than its neighbors, like a "Show more" tile in a grid.
+
+<Canvas of={TileStories.CenteredShowcase} />
+
 </Tab>
 <Tab label="Implementation">
 
@@ -160,6 +166,34 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
     <TileDescription>Unavailable</TileDescription>
   </TileContent>
 </Tile>
+```
+
+### Centered Content
+
+Use the `centered` prop to vertically center the tile content. This is useful when a tile has less content than its neighbors in a grid, like a "Show more" tile that needs to align with richer tiles.
+
+```tsx
+import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
+
+// In a grid where other tiles have more content
+<div className='grid grid-cols-4 gap-8'>
+  <Tile appearance='card'>
+    <TileSpot appearance='coin' icon='btc' />
+    <TileContent>
+      <TileTitle>Title</TileTitle>
+      <TileDescription>Description</TileDescription>
+    </TileContent>
+    <Tag label='Label' />
+  </Tile>
+
+  {/* Show more tile with centered content */}
+  <Tile appearance='card' centered>
+    <TileSpot appearance='icon' icon={ChevronRight} />
+    <TileContent>
+      <TileTitle>Show more</TileTitle>
+    </TileContent>
+  </Tile>
+</div>
 ```
 
 ### With Coin Icon

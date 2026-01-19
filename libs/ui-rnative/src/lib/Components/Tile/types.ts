@@ -25,6 +25,12 @@ export type TileProps = {
    */
   disabled?: boolean;
   /**
+   * Whether the tile content should be centered vertically.
+   * Useful when the tile has a fixed height and you want the content centered.
+   * @default false
+   */
+  centered?: boolean;
+  /**
    * Callback function when the tile is pressed.
    */
   onPress?: StyledPressableProps['onPress'];
