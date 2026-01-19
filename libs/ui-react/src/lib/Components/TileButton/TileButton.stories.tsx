@@ -99,6 +99,18 @@ export const WidthShowcase: Story = {
   ),
 };
 
+export const TruncationShowcase: Story = {
+  render: () => (
+    <div className='flex gap-16'>
+      <div className='w-80'>
+        <TileButton icon={Settings} isFull>
+          Very long label text
+        </TileButton>
+      </div>
+    </div>
+  ),
+};
+
 export const AsChild: Story = {
   render: () => (
     <div className='flex gap-16'>

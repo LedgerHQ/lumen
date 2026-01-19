@@ -104,7 +104,7 @@ export const TileButton = React.forwardRef<HTMLButtonElement, TileButtonProps>(
         {asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className='text-center'>{children}</span>
+          <span className='line-clamp-2 text-center'>{children}</span>
         )}
       </Comp>
     );
