@@ -32,6 +32,6 @@ export const createStylesheetTheme = (
       ...theme?.spacings,
       ...getNegativeSpacings(theme?.spacings),
     },
-    typographies: theme.typographies.sm,
+    typographies: theme.typographies.xs,
   };
 };
