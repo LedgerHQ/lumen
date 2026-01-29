@@ -339,16 +339,12 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
-          const groupElement = element as React.ReactElement<{
-            children?: React.ReactNode;
-          }>;
-          extractItems(groupElement.props.children);
+          extractItems(
+            (element.props as { children?: React.ReactNode }).children,
+          );
         } else if (element.type === SelectLabel) {
-          const labelElement = element as React.ReactElement<{
-            children?: React.ReactNode;
-          }>;
           const labelText = extractTextFromChildren(
-            labelElement.props.children,
+            (element.props as { children?: React.ReactNode }).children,
             SelectItemText,
           );
           items.push({
@@ -360,10 +356,11 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             type: 'separator',
           });
         } else if (
-          React.isValidElement<{ children?: React.ReactNode }>(element) &&
-          element.props.children
+          (element.props as { children?: React.ReactNode })?.children
         ) {
-          extractItems(element.props.children);
+          extractItems(
+            (element.props as { children?: React.ReactNode }).children,
+          );
         }
       });
     };
