@@ -1,11 +1,12 @@
 import React from 'react';
-import { IconButton, IconButtonProps } from './IconButton';
+import { IconButton } from './IconButton';
+import { IconButtonProps } from './types';
 
 import figma from '@figma/code-connect';
 
 figma.connect(
   IconButton,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=8166-17796',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=8166-17796',
   {
     imports: [
       "import { IconButton } from '@ledgerhq/lumen-ui-react'",
@@ -34,20 +35,18 @@ figma.connect(
       }),
       icon: figma.instance('icon'),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/action-iconbutton--docs',
+    example: (
+      props: Omit<IconButtonProps, 'icon' | 'aria-label'> & {
+        icon?: any;
       },
-    ],
-    example: (props: IconButtonProps) => (
+    ) => (
       <IconButton
         disabled={props.disabled}
         loading={props.loading}
         appearance={props.appearance}
         size={props.size}
         icon={props.icon}
-        aria-label='aria-label'
+        aria-label='Icon button'
       />
     ),
   },

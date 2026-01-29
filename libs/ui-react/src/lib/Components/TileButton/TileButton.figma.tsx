@@ -1,12 +1,12 @@
 import React from 'react';
 import { TileButton } from './TileButton';
+import { TileButtonProps } from './types';
 
 import figma from '@figma/code-connect';
-import { TileButtonProps } from './types';
 
 figma.connect(
   TileButton,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10547-591',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11291-620',
   {
     imports: [
       "import { TileButton } from '@ledgerhq/lumen-ui-react'",
@@ -19,14 +19,11 @@ figma.connect(
       children: figma.string('label'),
       icon: figma.instance('icon'),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/action-tilebutton--docs',
+    example: (
+      props: Omit<TileButtonProps, 'icon'> & {
+        icon: any;
       },
-    ],
-    // @ts-ignore
-    example: (props: TileButtonProps) => (
+    ) => (
       <TileButton disabled={props.disabled} icon={props.icon}>
         {props.children}
       </TileButton>
