@@ -107,11 +107,7 @@ export const BaseInput = ({
         <TextInput
           ref={inputRef}
           value={value}
-          style={StyleSheet.flatten([
-            styles.input,
-            { lineHeight: 0 },
-            inputStyle,
-          ])}
+          style={StyleSheet.flatten([styles.input, inputStyle])}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={handleChangeText}
