@@ -64,13 +64,6 @@ export const Spinner = ({
   const strokeColor =
     resolvedColorStyle?.color ?? color ?? theme.colors.text.base;
 
-  console.log({
-    strokeColor,
-    color,
-    resolve: resolvedColorStyle?.color,
-    theme: theme.colors.text.base,
-  });
-
   return (
     <Box ref={ref} lx={{ flexShrink: 0, ...lx }} {...props}>
       <SpinAnimation>
