@@ -1,8 +1,6 @@
-import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { BlurView } from '@react-native-community/blur';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text } from 'react-native';
-
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -12,6 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useStyleSheet, useTheme } from '../../../styles';
+import { Placeholder } from '../../Symbols';
 import { Box, Pressable } from '../Utility';
 import { TabBarContext, useTabBarContext } from './TabBarContext';
 import { TabBarItemProps, TabBarProps } from './types';

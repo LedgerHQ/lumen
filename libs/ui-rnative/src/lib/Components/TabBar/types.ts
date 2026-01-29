@@ -1,9 +1,9 @@
-import { ReactElement } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import { IconSize } from '../Icon';
 import { BoxProps } from '../Utility';
 import { TabBarItem } from './TabBar';
 
-type IconComponent = React.ComponentType<{
+type IconComponent = ComponentType<{
   size?: IconSize;
   className?: string;
 }>;
