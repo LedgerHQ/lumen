@@ -1,18 +1,17 @@
-import { createContext, useContext } from 'react';
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 
-type TabBarContextValue = {
+export type TabBarContextValue = {
   active?: string;
   onTabPress: (value: string) => void;
 };
 
-const TabBarContext = createContext<TabBarContextValue | null>(null);
+const [TabBarContextProvider, _useTabBarSafeContext] =
+  createSafeContext<TabBarContextValue>('TabBar');
 
-export function useTabBarContext() {
-  const ctx = useContext(TabBarContext);
-  if (!ctx) {
-    throw new Error('TabBarItem must be used inside TabBar');
-  }
-  return ctx;
-}
+export const useTabBarContext = () =>
+  _useTabBarSafeContext({
+    consumerName: 'TabBarItem',
+    contextRequired: true,
+  });
 
-export { TabBarContext };
+export { TabBarContextProvider };

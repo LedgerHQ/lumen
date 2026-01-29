@@ -12,7 +12,7 @@ import Animated, {
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Placeholder } from '../../Symbols';
 import { Box, Pressable } from '../Utility';
-import { TabBarContext, useTabBarContext } from './TabBarContext';
+import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
 import { TabBarItemProps, TabBarProps } from './types';
 
 const PILL_INSET = 4;
@@ -212,7 +212,7 @@ export function TabBar({
   );
 
   return (
-    <TabBarContext.Provider value={{ active, onTabPress: handleTabPress }}>
+    <TabBarContextProvider value={{ active, onTabPress: handleTabPress }}>
       <Box
         style={styles.container}
         onLayout={onLayout}
@@ -227,7 +227,7 @@ export function TabBar({
         />
         <Animated.View style={[styles.pill, animatedPillStyle]} />
       </Box>
-    </TabBarContext.Provider>
+    </TabBarContextProvider>
   );
 }
 
