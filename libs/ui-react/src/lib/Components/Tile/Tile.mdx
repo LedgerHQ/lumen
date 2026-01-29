@@ -32,7 +32,7 @@ Tile components are compact, card-like interactive elements designed for horizon
 - **TileContent**: Container for title and description
   - **TileTitle**: The main label of the item (required)
   - **TileDescription (optional)**: Provides additional context
-- **Custom Content (optional)**: Any ReactNode like Tag, div, etc.
+- **TileTrailingContent (optional)**: Container for trailing content like Tags, div, etc.
 
 <Controls of={TileStories.Base} />
 
@@ -52,6 +52,12 @@ Both can be combined with the disabled state.
 Tile components support various spot icons to categorize or visualize the content, including coin icons.
 
 <Canvas of={TileStories.VariantsShowcase} />
+
+### Custom spot size
+
+The `TileSpot` component supports a `size` prop to customize the size of the spot.
+
+<Canvas of={TileStories.SizeShowcase} />
 
 ### Horizontal Lists
 
@@ -133,7 +139,7 @@ import { Settings, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
 </Tile>;
 ```
 
-### With Custom Content (Tags, etc.)
+### With Trailing Content (Tags, etc.)
 
 ```tsx
 import {
@@ -142,6 +148,7 @@ import {
   TileContent,
   TileTitle,
   TileDescription,
+  TileTrailingContent,
   Tag,
 } from '@ledgerhq/lumen-ui-react';
 import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
@@ -151,8 +158,10 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
+    <TileTrailingContent>
+      <Tag label='Active' appearance='success' />
+    </TileTrailingContent>
   </TileContent>
-  <Tag label='Active' appearance='success' />
 </Tile>;
 ```
 
@@ -182,8 +191,10 @@ import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
     <TileContent>
       <TileTitle>Title</TileTitle>
       <TileDescription>Description</TileDescription>
+      <TileTrailingContent>
+        <Tag label='Label' />
+      </TileTrailingContent>
     </TileContent>
-    <Tag label='Label' />
   </Tile>
 
   {/* Show more tile with centered content */}
@@ -285,7 +296,52 @@ function VirtualTileList({ items }) {
 ## Do's and Don'ts
 
 <div className='flex flex-col gap-24'>
-  <CommonRulesDoAndDont />
+
+### Trailing Content
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use TileTrailingContent for additional elements'
+    description='Wrap Tags, labels, or supplementary content inside TileTrailingContent within TileContent for proper 4px spacing.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<Tile>
+  <TileSpot appearance="icon" icon={Settings} />
+  <TileContent>
+    <TileTitle>Title</TileTitle>
+    <TileDescription>Description</TileDescription>
+    <TileTrailingContent>
+      <Tag label="Active" />
+    </TileTrailingContent>
+  </TileContent>
+</Tile>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't place trailing content directly in TileContent"
+    description='Placing Tags or other elements directly in TileContent without TileTrailingContent results in incorrect spacing.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<Tile>
+  <TileSpot appearance="icon" icon={Settings} />
+  <TileContent>
+    <TileTitle>Title</TileTitle>
+    <TileDescription>Description</TileDescription>
+    <Tag label="Active" />
+  </TileContent>
+</Tile>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+<CommonRulesDoAndDont />
+
 </div>
 
 </Tab>

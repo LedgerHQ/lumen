@@ -49,7 +49,7 @@ import type {
  *   );
  * }
  */
-export const Select: React.FC<SelectProps> = ({
+export const Select = ({
   children,
   open: controlledOpen,
   defaultOpen = false,
@@ -58,7 +58,7 @@ export const Select: React.FC<SelectProps> = ({
   defaultValue,
   onValueChange,
   disabled = false,
-}) => {
+}: SelectProps) => {
   const selectId = useId();
 
   const [internalOpen, setInternalOpen] = useControllableState({
@@ -114,7 +114,7 @@ export const Select: React.FC<SelectProps> = ({
 };
 Select.displayName = 'Select';
 
-export const SelectTrigger: React.FC<SelectTriggerProps> = ({
+export const SelectTrigger = ({
   children,
   lx,
   style,
@@ -122,7 +122,7 @@ export const SelectTrigger: React.FC<SelectTriggerProps> = ({
   asChild = false,
   disabled: triggerDisabled,
   ...props
-}) => {
+}: SelectTriggerProps) => {
   const {
     selectId,
     setOpen,
@@ -275,7 +275,7 @@ SelectTrigger.displayName = 'SelectTrigger';
 /**
  * Displays the current selected value
  */
-export const SelectValue: React.FC = () => {
+export const SelectValue = () => {
   const { value, items } = useSelectSafeContext({
     consumerName: 'SelectValue',
     contextRequired: true,
@@ -314,7 +314,7 @@ SelectValue.displayName = 'SelectValue';
  * Container for select items. This component collects all items
  * and makes them available to the bottom sheet.
  */
-export const SelectContent: React.FC<SelectContentProps> = ({ children }) => {
+export const SelectContent = ({ children }: SelectContentProps) => {
   const { setItems } = useSelectSafeContext({
     consumerName: 'SelectContent',
     contextRequired: true,
@@ -339,10 +339,12 @@ export const SelectContent: React.FC<SelectContentProps> = ({ children }) => {
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
-          extractItems(element.props.children);
+          extractItems(
+            (element.props as { children?: React.ReactNode }).children,
+          );
         } else if (element.type === SelectLabel) {
           const labelText = extractTextFromChildren(
-            element.props.children,
+            (element.props as { children?: React.ReactNode }).children,
             SelectItemText,
           );
           items.push({
@@ -353,8 +355,12 @@ export const SelectContent: React.FC<SelectContentProps> = ({ children }) => {
           items.push({
             type: 'separator',
           });
-        } else if (element.props?.children) {
-          extractItems(element.props.children);
+        } else if (
+          (element.props as { children?: React.ReactNode })?.children
+        ) {
+          extractItems(
+            (element.props as { children?: React.ReactNode }).children,
+          );
         }
       });
     };
@@ -367,12 +373,12 @@ export const SelectContent: React.FC<SelectContentProps> = ({ children }) => {
 };
 SelectContent.displayName = 'SelectContent';
 
-export const SelectGroup: React.FC<SelectGroupProps> = ({
+export const SelectGroup = ({
   children,
   lx,
   style,
   ...props
-}) => {
+}: SelectGroupProps) => {
   const styles = useStyleSheet(
     (t) => ({
       group: {
@@ -391,12 +397,12 @@ export const SelectGroup: React.FC<SelectGroupProps> = ({
 };
 SelectGroup.displayName = 'SelectGroup';
 
-export const SelectLabel: React.FC<SelectLabelProps> = ({
+export const SelectLabel = ({
   children,
   lx,
   style,
   ...props
-}) => {
+}: SelectLabelProps) => {
   const styles = useStyleSheet(
     (t) => ({
       label: StyleSheet.flatten([
@@ -425,19 +431,19 @@ SelectLabel.displayName = 'SelectLabel';
  * Individual select item. Note: The actual rendering happens in GlobalSelectBottomSheet.
  * This component is used to declare the structure and collect item data.
  */
-export const SelectItem: React.FC<SelectItemProps> = () => {
+export const SelectItem = (_props: SelectItemProps) => {
   // This component doesn't render anything - it's used for structure
   // The actual items are rendered in GlobalSelectBottomSheet
   return null;
 };
 SelectItem.displayName = 'SelectItem';
 
-export const SelectItemText: React.FC<SelectItemTextProps> = ({
+export const SelectItemText = ({
   children,
   lx,
   style,
   ...props
-}) => {
+}: SelectItemTextProps) => {
   const styles = useStyleSheet(
     (t) => ({
       text: StyleSheet.flatten([
@@ -458,7 +464,7 @@ export const SelectItemText: React.FC<SelectItemTextProps> = ({
 };
 SelectItemText.displayName = 'SelectItemText';
 
-export const SelectSeparator: React.FC<SelectSeparatorProps> = () => {
+export const SelectSeparator = (_props: SelectSeparatorProps) => {
   // This component doesn't render anything - it's used for structure
   // The actual separators are rendered in GlobalSelectBottomSheet
   return null;

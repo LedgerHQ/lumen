@@ -12,9 +12,10 @@ import {
   TileContent,
   TileTitle,
   TileDescription,
+  TileTrailingContent,
 } from './Tile';
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     {children}
   </ThemeProvider>
@@ -219,6 +220,129 @@ describe('Tile Component', () => {
       expect(getByText('Test Title')).toBeTruthy();
       expect(getByText(description)).toBeTruthy();
       expect(getByText(tagText)).toBeTruthy();
+    });
+  });
+
+  describe('TileTrailingContent', () => {
+    it('should render children correctly', () => {
+      const { getByText } = render(
+        <TestWrapper>
+          <Tile testID='tile'>
+            <TileSpot appearance='icon' icon={Settings} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label='Active' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+      expect(getByText('Active')).toBeTruthy();
+    });
+
+    it('should render with testID', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Tile testID='tile'>
+            <TileSpot appearance='icon' icon={Settings} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label='Active' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+      expect(getByTestId('tile-trailing-content')).toBeTruthy();
+    });
+
+    it('should have correct styling (4px margin-top and 8px gap)', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Tile testID='tile'>
+            <TileSpot appearance='icon' icon={Settings} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label='First' />
+                <Tag label='Second' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+      const trailingContent = getByTestId('tile-trailing-content');
+      expect(trailingContent.props.style).toMatchObject({
+        marginTop: 4,
+        gap: 8,
+      });
+    });
+
+    it('should render multiple children', () => {
+      const { getByText } = render(
+        <TestWrapper>
+          <Tile testID='tile'>
+            <TileSpot appearance='icon' icon={Settings} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label='First' />
+                <Tag label='Second' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+      expect(getByText('First')).toBeTruthy();
+      expect(getByText('Second')).toBeTruthy();
+    });
+
+    it('should have full width', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Tile testID='tile'>
+            <TileSpot appearance='icon' icon={Settings} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label='Active' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+      const trailingContent = getByTestId('tile-trailing-content');
+      expect(trailingContent.props.style).toMatchObject({
+        width: '100%',
+      });
+    });
+
+    it('should center items horizontally', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Tile testID='tile'>
+            <TileSpot appearance='icon' icon={Settings} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label='Active' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+      const trailingContent = getByTestId('tile-trailing-content');
+      expect(trailingContent.props.style).toMatchObject({
+        alignItems: 'center',
+      });
     });
   });
 });

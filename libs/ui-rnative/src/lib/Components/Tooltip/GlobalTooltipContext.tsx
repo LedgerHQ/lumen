@@ -74,9 +74,9 @@ type GlobalTooltipProviderProps = {
  *   );
  * }
  */
-export const GlobalTooltipProvider: React.FC<GlobalTooltipProviderProps> = ({
+export const GlobalTooltipProvider = ({
   children,
-}) => {
+}: GlobalTooltipProviderProps) => {
   const [currentTooltip, setCurrentTooltip] = useState<TooltipData | null>(
     null,
   );

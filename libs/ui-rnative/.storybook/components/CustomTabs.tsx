@@ -11,7 +11,7 @@ type CustomTabsProps = {
   children: React.ReactNode;
 };
 
-export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
+export const CustomTabs = ({ children }: CustomTabsProps) => {
   const [active, setActive] = React.useState<number>(0);
 
   // Extract Tab components from children
@@ -80,6 +80,6 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
   );
 };
 
-export const Tab: React.FC<TabProps> = ({ children }) => {
+export const Tab = ({ children }: TabProps) => {
   return <Box>{children}</Box>;
 };

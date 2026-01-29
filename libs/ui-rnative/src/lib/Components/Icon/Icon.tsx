@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Svg } from 'react-native-svg';
 import { useResolveTextStyle, useTheme } from '../../../styles';
 import { TextProps } from '../Utility';
@@ -35,26 +35,32 @@ const useStyles = (
   }, [size, theme, resolvedStyle]);
 };
 
-export const Icon = forwardRef<Svg, IconProps>(
-  ({ size = 24, color, lx = {}, children, viewBox, ...props }, ref) => {
-    const styles = useStyles(lx, size, color);
+export const Icon = ({
+  size = 24,
+  color,
+  lx = {},
+  children,
+  viewBox,
+  ref,
+  ...props
+}: IconProps) => {
+  const styles = useStyles(lx, size, color);
 
-    return (
-      <Svg
-        ref={ref}
-        width={styles.container.width}
-        height={styles.container.height}
-        strokeWidth={styles.container.strokeWidth}
-        viewBox={viewBox}
-        color={styles.color}
-        fill='none'
-        style={{ pointerEvents: 'none' }}
-        {...props}
-      >
-        {children}
-      </Svg>
-    );
-  },
-);
+  return (
+    <Svg
+      ref={ref}
+      width={styles.container.width}
+      height={styles.container.height}
+      strokeWidth={styles.container.strokeWidth}
+      viewBox={viewBox}
+      color={styles.color}
+      fill='none'
+      style={{ pointerEvents: 'none' }}
+      {...props}
+    >
+      {children}
+    </Svg>
+  );
+};
 
 Icon.displayName = 'Icon';

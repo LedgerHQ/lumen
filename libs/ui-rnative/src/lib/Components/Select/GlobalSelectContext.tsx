@@ -58,9 +58,9 @@ type GlobalSelectProviderProps = {
  *   );
  * }
  */
-export const GlobalSelectProvider: React.FC<GlobalSelectProviderProps> = ({
+export const GlobalSelectProvider = ({
   children,
-}) => {
+}: GlobalSelectProviderProps) => {
   const [currentSelect, setCurrentSelect] = useState<SelectData | null>(null);
   const showSelectRef = useRef<(data: SelectData) => void>(() => {
     return;

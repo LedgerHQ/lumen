@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-react",
-  "version": "0.0.70",
+  "version": "0.0.74",
   "license": "Apache-2.0",
   "sideEffects": false,
   "keywords": [
@@ -41,7 +41,7 @@
     ]
   },
   "dependencies": {
-    "@ledgerhq/lumen-utils-shared": "0.0.16",
+    "@ledgerhq/lumen-utils-shared": "0.0.17",
     "i18next": "^23.7.0",
     "react-i18next": "^14.0.0"
   },

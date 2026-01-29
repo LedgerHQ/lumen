@@ -131,7 +131,7 @@ export const NumberVariants: Story = {
 
 export const SizesShowcase: Story = {
   render: () => {
-    const sizes = [32, 48, 56, 72] as const;
+    const sizes = [32, 40, 48, 56, 72] as const;
 
     return (
       <div className='flex flex-col gap-32 p-16'>

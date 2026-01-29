@@ -11,6 +11,7 @@ import {
   TileSecondaryActionProps,
   TileSpotProps,
   TileTitleProps,
+  TileTrailingContentProps,
 } from './types';
 
 const [TileProvider, useTileContext] =
@@ -22,7 +23,7 @@ const tileVariants = {
   ]),
   inner: cva(
     [
-      'flex w-full flex-col items-center gap-8 px-8 py-12',
+      'flex w-full flex-1 flex-col items-center gap-8 px-8 py-12',
       'rounded-md focus-visible:outline-2 focus-visible:outline-focus',
     ],
     {
@@ -123,14 +124,13 @@ Tile.displayName = 'Tile';
 
 /**
  * A spot adapter for use within Tile. Automatically inherits the disabled state from the parent Tile.
- * Always renders at a fixed size of 48.
  */
-export const TileSpot = (props: TileSpotProps) => {
+export const TileSpot = ({ size = 48, ...props }: TileSpotProps) => {
   const { disabled } = useTileContext({
     consumerName: 'TileSpot',
     contextRequired: true,
   });
-  return <Spot {...props} size={48} disabled={disabled} />;
+  return <Spot {...props} size={size} disabled={disabled} />;
 };
 TileSpot.displayName = 'TileSpot';
 
@@ -209,6 +209,39 @@ export const TileDescription = ({
   );
 };
 TileDescription.displayName = 'TileDescription';
+
+/**
+ * A container for trailing content inside TileContent.
+ * Use this to wrap Tags, labels, or other supplementary information after title and description.
+ * Multiple items inside will have 8px spacing between them.
+ *
+ * @example
+ * <Tile>
+ *   <TileSpot appearance="icon" icon={Settings} />
+ *   <TileContent>
+ *     <TileTitle>My Title</TileTitle>
+ *     <TileDescription>Description</TileDescription>
+ *     <TileTrailingContent>
+ *       <Tag label="Active" />
+ *     </TileTrailingContent>
+ *   </TileContent>
+ * </Tile>
+ */
+export const TileTrailingContent = ({
+  children,
+  className,
+  ...props
+}: TileTrailingContentProps) => {
+  return (
+    <div
+      className={cn('mt-4 flex w-full flex-col items-center gap-8', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+TileTrailingContent.displayName = 'TileTrailingContent';
 
 /**
  * A self-contained secondary action button for a Tile. Renders an InteractiveIcon that appears

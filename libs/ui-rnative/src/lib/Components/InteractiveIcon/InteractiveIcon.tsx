@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
@@ -75,14 +75,14 @@ const useStyles = ({
  *   <Settings size={20} />
  * </InteractiveIcon>
  */
-export const InteractiveIcon: FC<InteractiveIconProps> = ({
+export const InteractiveIcon = ({
   iconType,
   children,
   disabled = false,
   style,
   lx,
   ...props
-}) => {
+}: InteractiveIconProps) => {
   return (
     <Pressable
       lx={lx}
@@ -105,13 +105,16 @@ export const InteractiveIcon: FC<InteractiveIconProps> = ({
   );
 };
 
-const InteractiveIconContent: FC<
-  PropsWithChildren<{
-    iconType: IconType;
-    pressed: boolean;
-    disabled: boolean;
-  }>
-> = ({ iconType, pressed, disabled, children }) => {
+const InteractiveIconContent = ({
+  iconType,
+  pressed,
+  disabled,
+  children,
+}: PropsWithChildren<{
+  iconType: IconType;
+  pressed: boolean;
+  disabled: boolean;
+}>) => {
   const styles = useStyles({ iconType, pressed, disabled });
 
   return (

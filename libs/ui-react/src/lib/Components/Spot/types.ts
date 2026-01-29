@@ -51,7 +51,7 @@ export type DiscriminatedSpotProps =
   | SpotNumberProps
   | SpotStatusProps;
 
-export type SpotSize = 32 | 48 | 56 | 72;
+export type SpotSize = 32 | 40 | 48 | 56 | 72;
 
 export type SpotProps = DiscriminatedSpotProps & {
   /**

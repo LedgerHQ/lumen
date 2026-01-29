@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(s'ouvre dans un nouvel onglet)"
+    },
+    "navBar": {
+      "goBackAriaLabel": "Retour"
     }
   }
 }

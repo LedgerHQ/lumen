@@ -37,7 +37,7 @@ describe('Divider Component', () => {
 
   it('should forward ref correctly', () => {
     const ref = { current: null };
-    render(<Divider ref={ref as React.RefObject<HTMLDivElement>} />);
+    render(<Divider ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 

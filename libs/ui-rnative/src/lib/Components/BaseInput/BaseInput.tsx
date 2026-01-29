@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -13,161 +13,157 @@ import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable } from '../Utility';
 import { type BaseInputProps } from './types';
 
-export const BaseInput = React.forwardRef<TextInput, BaseInputProps>(
-  (
-    {
-      lx,
-      style,
-      containerStyle,
-      inputStyle,
-      labelStyle,
-      label,
-      errorMessage,
-      hideClearButton,
-      onChangeText: onChangeTextProp,
-      editable = true,
-      prefix,
-      suffix,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useCommonTranslation();
-    const { theme } = useTheme();
-    const inputRef = useRef<TextInput>(null);
-    useImperativeHandle(ref, () => inputRef.current as TextInput);
+export const BaseInput = ({
+  lx,
+  style,
+  containerStyle,
+  inputStyle,
+  labelStyle,
+  label,
+  errorMessage,
+  hideClearButton,
+  onChangeText: onChangeTextProp,
+  editable = true,
+  prefix,
+  suffix,
+  ref,
+  ...props
+}: BaseInputProps) => {
+  const { t } = useCommonTranslation();
+  const { theme } = useTheme();
+  const inputRef = useRef<TextInput>(null);
+  useImperativeHandle(ref, () => inputRef.current as TextInput);
 
-    const [uncontrolledValue, setUncontrolledValue] = useState(
-      props.defaultValue || '',
-    );
-    const [isFocused, setIsFocused] = useState(false);
+  const [uncontrolledValue, setUncontrolledValue] = useState(
+    props.defaultValue || '',
+  );
+  const [isFocused, setIsFocused] = useState(false);
 
-    const isControlled = props.value !== undefined;
-    const value = isControlled ? props.value : uncontrolledValue;
+  const isControlled = props.value !== undefined;
+  const value = isControlled ? props.value : uncontrolledValue;
 
-    const hasContent = isControlled
-      ? !!props.value && props.value.length > 0
-      : uncontrolledValue.length > 0;
+  const hasContent = isControlled
+    ? !!props.value && props.value.length > 0
+    : uncontrolledValue.length > 0;
 
-    const isFloatingLabel = isFocused || hasContent;
-    const showClearButton = hasContent && editable && !hideClearButton;
+  const isFloatingLabel = isFocused || hasContent;
+  const showClearButton = hasContent && editable && !hideClearButton;
 
-    const floatingAnimation = useRef(
-      new Animated.Value(isFloatingLabel ? 1 : 0),
-    ).current;
+  const floatingAnimation = useRef(
+    new Animated.Value(isFloatingLabel ? 1 : 0),
+  ).current;
 
-    useEffect(() => {
-      Animated.timing(floatingAnimation, {
-        toValue: isFloatingLabel ? 1 : 0,
-        duration: 150,
-        useNativeDriver: false,
-      }).start();
-    }, [isFloatingLabel, floatingAnimation]);
+  useEffect(() => {
+    Animated.timing(floatingAnimation, {
+      toValue: isFloatingLabel ? 1 : 0,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  }, [isFloatingLabel, floatingAnimation]);
 
-    const handleChangeText = useCallback(
-      (text: string) => {
-        if (!isControlled) {
-          setUncontrolledValue(text);
-        }
-        onChangeTextProp?.(text);
-      },
-      [isControlled, onChangeTextProp],
-    );
-
-    const handleClear = () => {
+  const handleChangeText = useCallback(
+    (text: string) => {
       if (!isControlled) {
-        setUncontrolledValue('');
-      } else {
-        onChangeTextProp?.('');
+        setUncontrolledValue(text);
       }
-      props.onClear?.();
-    };
+      onChangeTextProp?.(text);
+    },
+    [isControlled, onChangeTextProp],
+  );
 
-    const styles = useStyles({
-      hasError: !!errorMessage,
-      isFocused,
-      isEditable: editable,
-      hasLabel: !!label,
-    });
+  const handleClear = () => {
+    if (!isControlled) {
+      setUncontrolledValue('');
+    } else {
+      onChangeTextProp?.('');
+    }
+    props.onClear?.();
+  };
 
-    const floatingLabelStyles = useFloatingLabelStyles({
-      floatingAnimation,
-      hasContent,
-      showClearButton,
-      hasError: !!errorMessage,
-      isEditable: editable,
-    });
+  const styles = useStyles({
+    hasError: !!errorMessage,
+    isFocused,
+    isEditable: editable,
+    hasLabel: !!label,
+  });
 
-    return (
-      <Box lx={lx} style={style}>
-        <Pressable
-          style={StyleSheet.flatten([styles.container, containerStyle])}
-          onPress={() => inputRef.current?.focus()}
-          disabled={!editable}
-        >
-          {prefix}
+  const floatingLabelStyles = useFloatingLabelStyles({
+    floatingAnimation,
+    hasContent,
+    showClearButton,
+    hasError: !!errorMessage,
+    isEditable: editable,
+  });
 
-          <TextInput
-            ref={inputRef}
-            value={value}
-            style={StyleSheet.flatten([
-              styles.input,
-              { lineHeight: 0 },
-              inputStyle,
-            ])}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            onChangeText={handleChangeText}
-            editable={editable}
-            autoCapitalize='none'
-            autoCorrect={false}
-            selectionColor={theme.colors.text.active}
-            placeholderTextColor={theme.colors.text.muted}
-            {...props}
-          />
+  return (
+    <Box lx={lx} style={style}>
+      <Pressable
+        style={StyleSheet.flatten([styles.container, containerStyle])}
+        onPress={() => inputRef.current?.focus()}
+        disabled={!editable}
+      >
+        {prefix}
 
-          {label && (
-            <Animated.Text
-              style={[
-                floatingLabelStyles.label,
-                floatingLabelStyles.animatedLabel,
-                labelStyle,
-              ]}
-              numberOfLines={1}
-            >
-              {label}
-            </Animated.Text>
-          )}
+        <TextInput
+          ref={inputRef}
+          value={value}
+          style={StyleSheet.flatten([
+            styles.input,
+            { lineHeight: 0 },
+            inputStyle,
+          ])}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onChangeText={handleChangeText}
+          editable={editable}
+          autoCapitalize='none'
+          autoCorrect={false}
+          selectionColor={theme.colors.text.active}
+          placeholderTextColor={theme.colors.text.muted}
+          {...props}
+        />
 
-          {(suffix || (!hideClearButton && editable)) && (
-            <View style={styles.suffixContainer}>
-              {showClearButton ? (
-                <InteractiveIcon
-                  iconType='stroked'
-                  onPress={handleClear}
-                  accessibilityLabel={t(
-                    'components.baseInput.clearInputAriaLabel',
-                  )}
-                >
-                  <DeleteCircleFill size={20} />
-                </InteractiveIcon>
-              ) : (
-                suffix
-              )}
-            </View>
-          )}
-        </Pressable>
+        {label && (
+          <Animated.Text
+            style={[
+              floatingLabelStyles.label,
+              floatingLabelStyles.animatedLabel,
+              labelStyle,
+            ]}
+            numberOfLines={1}
+          >
+            {label}
+          </Animated.Text>
+        )}
 
-        {errorMessage && (
-          <View style={styles.errorContainer}>
-            <DeleteCircleFill size={16} color='error' />
-            <Text style={styles.errorText}>{errorMessage}</Text>
+        {(suffix || (!hideClearButton && editable)) && (
+          <View style={styles.suffixContainer}>
+            {showClearButton ? (
+              <InteractiveIcon
+                iconType='stroked'
+                onPress={handleClear}
+                accessibilityLabel={t(
+                  'components.baseInput.clearInputAriaLabel',
+                )}
+              >
+                <DeleteCircleFill size={20} />
+              </InteractiveIcon>
+            ) : (
+              suffix
+            )}
           </View>
         )}
-      </Box>
-    );
-  },
-);
+      </Pressable>
+
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <DeleteCircleFill size={16} color='error' />
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
+      )}
+    </Box>
+  );
+};
 
 const useStyles = ({
   hasError,

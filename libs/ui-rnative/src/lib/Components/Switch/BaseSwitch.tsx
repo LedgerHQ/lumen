@@ -8,12 +8,7 @@ import {
 } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
-import {
-  PressableRef,
-  SlottablePressableProps,
-  SlottableViewProps,
-  ViewRef,
-} from '../../types';
+import { SlottablePressableProps, SlottableViewProps } from '../../types';
 import { SlotPressable, SlotView } from '../Slot';
 
 import { SwitchProps } from './types';
@@ -32,130 +27,122 @@ type BaseSwitchRootProps = SlottablePressableProps & {
 const [BaseSwitchProvider, useBaseSwitchContext] =
   createSafeContext<BaseSwitchRootProps>(ROOT_COMPONENT_NAME);
 
-const BaseSwitchRoot = React.forwardRef<PressableRef, BaseSwitchRootProps>(
-  (
-    {
-      asChild,
-      checked,
-      size = 'md',
-      onCheckedChange,
-      disabled = false,
-      onPress: onPressProp,
-      'aria-valuetext': ariaValueText,
-      ...props
+const BaseSwitchRoot = ({
+  asChild,
+  checked,
+  size = 'md',
+  onCheckedChange,
+  disabled = false,
+  onPress: onPressProp,
+  'aria-valuetext': ariaValueText,
+  ref,
+  ...props
+}: BaseSwitchRootProps) => {
+  const styles = useStyles({
+    checked: !!checked,
+    disabled: !!disabled,
+    size,
+  });
+
+  const onPress = useCallback(
+    (ev: GestureResponderEvent) => {
+      if (disabled) return;
+      onCheckedChange?.(!checked);
+      onPressProp?.(ev);
     },
-    ref,
-  ) => {
-    const styles = useStyles({
-      checked: !!checked,
-      disabled: !!disabled,
-      size,
-    });
+    [disabled, checked, onCheckedChange, onPressProp],
+  );
 
-    const onPress = useCallback(
-      (ev: GestureResponderEvent) => {
-        if (disabled) return;
-        onCheckedChange?.(!checked);
-        onPressProp?.(ev);
-      },
-      [disabled, checked, onCheckedChange, onPressProp],
-    );
+  const Component = asChild ? SlotPressable : Pressable;
 
-    const Component = asChild ? SlotPressable : Pressable;
-
-    return (
-      <BaseSwitchProvider
-        value={{
+  return (
+    <BaseSwitchProvider
+      value={{
+        checked,
+        onCheckedChange,
+        disabled,
+        size,
+      }}
+    >
+      <Component
+        style={styles.root}
+        ref={ref}
+        aria-disabled={disabled}
+        role='switch'
+        aria-checked={checked}
+        onPress={onPress}
+        accessibilityState={{
           checked,
-          onCheckedChange,
           disabled,
-          size,
         }}
-      >
-        <Component
-          style={styles.root}
-          ref={ref}
-          aria-disabled={disabled}
-          role='switch'
-          aria-checked={checked}
-          onPress={onPress}
-          accessibilityState={{
-            checked,
-            disabled,
-          }}
-          accessibilityValue={
-            ariaValueText ? { text: ariaValueText } : undefined
-          }
-          disabled={disabled}
-          {...props}
-        />
-      </BaseSwitchProvider>
-    );
-  },
-);
+        accessibilityValue={ariaValueText ? { text: ariaValueText } : undefined}
+        disabled={disabled}
+        {...props}
+      />
+    </BaseSwitchProvider>
+  );
+};
 BaseSwitchRoot.displayName = ROOT_COMPONENT_NAME;
 
-const BaseSwitchThumb = React.forwardRef<ViewRef, SlottableViewProps>(
-  ({ asChild, ...props }, ref) => {
-    const { checked, disabled, size } = useBaseSwitchContext({
-      consumerName: THUMB_COMPONENT_NAME,
-      contextRequired: true,
-    });
+const BaseSwitchThumb = ({ asChild, ref, ...props }: SlottableViewProps) => {
+  const { checked, disabled, size } = useBaseSwitchContext({
+    consumerName: THUMB_COMPONENT_NAME,
+    contextRequired: true,
+  });
 
-    const styles = useStyles({
-      checked: !!checked,
-      disabled: !!disabled,
-      size: size || 'md',
-    });
+  const styles = useStyles({
+    checked: !!checked,
+    disabled: !!disabled,
+    size: size || 'md',
+  });
 
-    const translateX = useRef(new Animated.Value(checked ? 1 : 0)).current;
+  const translateX = useRef(new Animated.Value(checked ? 1 : 0)).current;
 
-    useEffect(() => {
-      Animated.timing(translateX, {
-        toValue: checked ? 1 : 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }, [checked, translateX]);
+  useEffect(() => {
+    Animated.timing(translateX, {
+      toValue: checked ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [checked, translateX]);
 
-    const getTranslateDistance = (): number => {
-      const sizeName = size || 'md';
-      return sizeName === 'sm' ? 8 : 16;
-    };
+  const getTranslateDistance = (): number => {
+    const sizeName = size || 'md';
+    return sizeName === 'sm' ? 8 : 16;
+  };
 
-    const animatedStyle = {
-      transform: [
-        {
-          translateX: translateX.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, getTranslateDistance()],
-          }),
-        },
-      ],
-    };
+  const animatedStyle = {
+    transform: [
+      {
+        translateX: translateX.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, getTranslateDistance()],
+        }),
+      },
+    ],
+  };
 
-    if (asChild) {
-      const Component = SlotView;
-      return (
-        <Component
-          ref={ref}
-          role='presentation'
-          style={styles.thumb}
-          {...props}
-        />
-      );
-    }
-
+  if (asChild) {
+    const Component = SlotView;
     return (
-      <Animated.View
+      <Component
         ref={ref}
         role='presentation'
-        style={[styles.thumbBase, animatedStyle]}
+        style={styles.thumb}
         {...props}
       />
     );
-  },
-);
+  }
+
+  return (
+    <Animated.View
+      ref={ref}
+      role='presentation'
+      style={[styles.thumbBase, animatedStyle]}
+      {...props}
+    />
+  );
+};
 
 type Size = NonNullable<SwitchProps['size']>;
 

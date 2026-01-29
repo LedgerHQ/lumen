@@ -8,6 +8,7 @@ import {
   TileContent,
   TileTitle,
   TileDescription,
+  TileTrailingContent,
 } from './Tile';
 
 const meta: Meta<typeof Tile> = {
@@ -17,6 +18,7 @@ const meta: Meta<typeof Tile> = {
     TileContent,
     TileTitle,
     TileDescription,
+    TileTrailingContent,
   },
   title: 'Containment/Tile',
   parameters: {
@@ -104,18 +106,22 @@ export const VariantsShowcase: Story = {
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Custom' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Custom' appearance='base' />
       </Tile>
       <Tile lx={{ maxWidth: 's176' }}>
         <TileSpot appearance='icon' icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
+          <TileTrailingContent>
+            <Text typography='body2SemiBold' lx={{ color: 'success' }}>
+              +7.87%
+            </Text>
+          </TileTrailingContent>
         </TileContent>
-        <Text typography='body2SemiBold' lx={{ color: 'success' }}>
-          +7.87%
-        </Text>
       </Tile>
     </Box>
   ),
@@ -285,24 +291,30 @@ export const CenteredShowcase: Story = {
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' lx={{ width: 's128' }}>
         <TileSpot appearance='icon' icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' lx={{ width: 's128' }}>
         <TileSpot appearance='icon' icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' centered lx={{ width: 's128' }}>
         <TileSpot appearance='icon' icon={ChevronRight} />
@@ -310,6 +322,55 @@ export const CenteredShowcase: Story = {
           <TileTitle>Show more</TileTitle>
         </TileContent>
       </Tile>
+    </Box>
+  ),
+};
+
+export const SizeShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'column', gap: 's24' }}>
+      <Box>
+        <Box lx={{ marginBottom: 's8' }}>
+          <Text typography='body2SemiBold'>Size 48 (default)</Text>
+        </Box>
+        <Box lx={{ flexDirection: 'row', gap: 's16' }}>
+          <Tile appearance='card' lx={{ width: 's112' }}>
+            <TileSpot appearance='icon' icon={Settings} size={48} />
+            <TileContent>
+              <TileTitle>Settings</TileTitle>
+              <TileDescription>Size 48</TileDescription>
+            </TileContent>
+          </Tile>
+          <Tile appearance='card' lx={{ width: 's112' }}>
+            <TileSpot appearance='check' size={48} />
+            <TileContent>
+              <TileTitle>Check</TileTitle>
+              <TileDescription>Size 48</TileDescription>
+            </TileContent>
+          </Tile>
+        </Box>
+      </Box>
+      <Box>
+        <Box lx={{ marginBottom: 's8' }}>
+          <Text typography='body2SemiBold'>Size 40</Text>
+        </Box>
+        <Box lx={{ flexDirection: 'row', gap: 's16' }}>
+          <Tile appearance='card' lx={{ width: 's112' }}>
+            <TileSpot appearance='icon' icon={Settings} size={40} />
+            <TileContent>
+              <TileTitle>Settings</TileTitle>
+              <TileDescription>Size 40</TileDescription>
+            </TileContent>
+          </Tile>
+          <Tile appearance='card' lx={{ width: 's112' }}>
+            <TileSpot appearance='check' size={40} />
+            <TileContent>
+              <TileTitle>Check</TileTitle>
+              <TileDescription>Size 40</TileDescription>
+            </TileContent>
+          </Tile>
+        </Box>
+      </Box>
     </Box>
   ),
 };

@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import {
   GestureResponderEvent,
   Pressable,
@@ -9,10 +9,8 @@ import {
 import { useStyleSheet } from '../../../styles';
 import {
   ForceMountable,
-  PressableRef,
   SlottablePressableProps,
   SlottableViewProps,
-  ViewRef,
 } from '../../types';
 import { SlotPressable, SlotView } from '../Slot';
 import { CheckboxProps } from './types';
@@ -31,28 +29,35 @@ type BaseCheckboxRootProps = SlottablePressableProps & {
 const [BaseCheckboxProvider, useBaseCheckboxContext] =
   createSafeContext<BaseCheckboxRootProps>(ROOT_COMPONENT_NAME);
 
-const BaseCheckboxRoot = React.forwardRef<PressableRef, BaseCheckboxRootProps>(
-  ({ disabled = false, checked, onCheckedChange, nativeID, ...props }, ref) => {
-    return (
-      <BaseCheckboxProvider
-        value={{
-          disabled,
-          checked,
-          onCheckedChange,
-          nativeID,
-        }}
-      >
-        <BaseCheckboxTrigger ref={ref} {...props} />
-      </BaseCheckboxProvider>
-    );
-  },
-);
+const BaseCheckboxRoot = ({
+  disabled = false,
+  checked,
+  onCheckedChange,
+  nativeID,
+  ref,
+  ...props
+}: BaseCheckboxRootProps) => {
+  return (
+    <BaseCheckboxProvider
+      value={{
+        disabled,
+        checked,
+        onCheckedChange,
+        nativeID,
+      }}
+    >
+      <BaseCheckboxTrigger ref={ref} {...props} />
+    </BaseCheckboxProvider>
+  );
+};
 BaseCheckboxRoot.displayName = ROOT_COMPONENT_NAME;
 
-const BaseCheckboxTrigger = React.forwardRef<
-  PressableRef,
-  SlottablePressableProps
->(({ asChild, onPress: onPressProp, ...props }, ref) => {
+const BaseCheckboxTrigger = ({
+  asChild,
+  onPress: onPressProp,
+  ref,
+  ...props
+}: SlottablePressableProps) => {
   const { disabled, checked, onCheckedChange, nativeID } =
     useBaseCheckboxContext({
       consumerName: TRIGGER_COMPONENT_NAME,
@@ -89,14 +94,16 @@ const BaseCheckboxTrigger = React.forwardRef<
       {...props}
     />
   );
-});
+};
 BaseCheckboxTrigger.displayName = TRIGGER_COMPONENT_NAME;
 
 type BaseCheckboxIndicatorProps = ForceMountable & SlottableViewProps;
-const BaseCheckboxIndicator = React.forwardRef<
-  ViewRef,
-  BaseCheckboxIndicatorProps
->(({ asChild, forceMount, ...props }, ref) => {
+const BaseCheckboxIndicator = ({
+  asChild,
+  forceMount,
+  ref,
+  ...props
+}: BaseCheckboxIndicatorProps) => {
   const { checked, disabled } = useBaseCheckboxContext({
     consumerName: INDICATOR_COMPONENT_NAME,
     contextRequired: true,
@@ -122,7 +129,7 @@ const BaseCheckboxIndicator = React.forwardRef<
       {...props}
     />
   );
-});
+};
 
 const useStyles = ({
   checked,

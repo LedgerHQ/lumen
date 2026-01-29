@@ -1,0 +1,269 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as NavBarStories from './NavBar.stories';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarCoinCapsule,
+  NavBarTitle,
+  NavBarTrailing,
+} from './NavBar';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Navigation/NavBar' of={NavBarStories} />
+
+# 🧭 NavBar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+NavBar is a navigation component that provides a consistent header for pages with optional back navigation, title, and trailing action elements. It uses a compound component pattern for flexible composition.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1426-4697&m=dev).
+
+## Anatomy
+
+<Canvas of={NavBarStories.Base} />
+
+<Controls of={NavBarStories.Base} />
+
+- **NavBar**: The root container that provides horizontal layout with proper spacing
+- **NavBarBackButton**: An icon button with arrow-left icon for back navigation
+- **NavBarTitle**: The page title text, automatically truncates when content overflows
+- **NavBarCoinCapsule**: A pill-shaped container for displaying cryptocurrency icon and ticker (e.g., for asset detail pages)
+- **NavBarTrailing**: Container for right-aligned action elements like IconButtons
+
+## Properties
+
+### Basic Usage
+
+The NavBar uses a compound component pattern where you compose the layout by nesting sub-components:
+
+<Canvas of={NavBarStories.Base} />
+
+### Without Trailing Actions
+
+NavBar can be used without trailing elements:
+
+<Canvas of={NavBarStories.WithoutTrailing} />
+
+### Multiple Trailing Actions
+
+Multiple action buttons can be placed in the trailing area:
+
+<Canvas of={NavBarStories.WithMultipleTrailingActions} />
+
+### With Coin Capsule
+
+For cryptocurrency detail pages, use `NavBarCoinCapsule` to display asset information:
+
+<Canvas of={NavBarStories.WithCoinCapsule} />
+
+## Accessibility
+
+Built-in accessibility features:
+
+- **ARIA labels**: NavBarBackButton has a default aria-label that can be customized
+- **Semantic HTML**: Uses `<nav>` element for the container and `<h1>` for the title
+- **Keyboard navigation**: All interactive elements are keyboard accessible
+- **Focus management**: Proper focus states on all buttons
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarTitle,
+  NavBarTrailing,
+  IconButton,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyPage() {
+  return (
+    <NavBar>
+      <NavBarBackButton onClick={() => navigate(-1)} />
+      <NavBarTitle>Page Title</NavBarTitle>
+      <NavBarTrailing>
+        <IconButton
+          appearance='gray'
+          size='sm'
+          icon={Settings}
+          aria-label='Settings'
+        />
+      </NavBarTrailing>
+    </NavBar>
+  );
+}
+```
+
+### With Coin Capsule
+
+For asset detail pages, use `NavBarCoinCapsule` instead of `NavBarTitle`:
+
+```tsx
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarCoinCapsule,
+  NavBarTrailing,
+  IconButton,
+} from '@ledgerhq/lumen-ui-react';
+import { MoreHorizontal } from '@ledgerhq/lumen-ui-react/symbols';
+
+function AssetDetailPage() {
+  return (
+    <NavBar>
+      <NavBarBackButton onClick={() => navigate(-1)} />
+      <NavBarCoinCapsule
+        ticker='BTC'
+        icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+      />
+      <NavBarTrailing>
+        <IconButton
+          appearance='gray'
+          size='sm'
+          icon={MoreHorizontal}
+          aria-label='More options'
+        />
+      </NavBarTrailing>
+    </NavBar>
+  );
+}
+```
+
+### Without Trailing Content
+
+```tsx
+<NavBar>
+  <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarTitle>Settings</NavBarTitle>
+</NavBar>
+```
+
+### With Multiple Actions
+
+```tsx
+<NavBar>
+  <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarTitle>Account Details</NavBarTitle>
+  <NavBarTrailing>
+    <IconButton
+      appearance='no-background'
+      size='sm'
+      icon={Settings}
+      aria-label='Settings'
+    />
+    <IconButton
+      appearance='gray'
+      size='sm'
+      icon={MoreHorizontal}
+      aria-label='More options'
+    />
+  </NavBarTrailing>
+</NavBar>
+```
+
+### Custom Back Button Label
+
+```tsx
+<NavBar>
+  <NavBarBackButton 
+    onClick={handleBack} 
+    aria-label='Return to dashboard'
+  />
+  <NavBarTitle>Details</NavBarTitle>
+</NavBar>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use compound components'
+      description='Compose the NavBar using the provided sub-components'
+    >
+
+```tsx
+<NavBar>
+  <NavBarBackButton onClick={handleBack} />
+  <NavBarTitle>Title</NavBarTitle>
+  <NavBarTrailing>
+    <IconButton ... />
+  </NavBarTrailing>
+</NavBar>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use custom elements directly"
+      description='Avoid placing arbitrary elements without using sub-components'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<NavBar>
+  <button>Back</button>
+  <h1>Title</h1>
+  <div>Actions</div>
+</NavBar>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Keep titles concise'
+      description='Use short, descriptive titles that fit the available space'
+    >
+
+```tsx
+<NavBarTitle>Account Settings</NavBarTitle>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use overly long titles"
+      description='Avoid extremely long titles that will be truncated'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<NavBarTitle>
+  Your Personal Account Settings and Preferences Page
+</NavBarTitle>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+</div>
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>

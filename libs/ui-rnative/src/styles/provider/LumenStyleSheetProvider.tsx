@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   ColorSchemeName,
   useColorScheme as useReactNativeColorScheme,
@@ -20,11 +20,11 @@ const [LumenStyleSheetContextProvider, _useLumenStyleSheetContext] =
 
 export const useLumenStyleSheetContext = _useLumenStyleSheetContext;
 
-export const LumenStyleSheetProvider: FC<LumenStyleSheetProviderProps> = ({
+export const LumenStyleSheetProvider = ({
   themes,
   colorScheme,
   children,
-}) => {
+}: LumenStyleSheetProviderProps) => {
   const nativeColorScheme = useReactNativeColorScheme();
   const currentColorScheme =
     colorScheme ?? nativeColorScheme ?? DEFAULT_COLOR_SCHEME;

@@ -1,4 +1,5 @@
-import { SvgProps } from 'react-native-svg';
+import { Ref } from 'react';
+import { Svg, SvgProps } from 'react-native-svg';
 import { LumenTextStyle } from '../../../styles';
 import { TextProps } from '../Utility';
 
@@ -17,5 +18,9 @@ export type IconProps = {
    * The children of the icon.
    */
   children?: React.ReactNode;
-} & TextProps &
+  /**
+   * The ref to the Svg component.
+   */
+  ref?: Ref<Svg>;
+} & Omit<TextProps, 'ref'> &
   Omit<SvgProps, 'style'>;

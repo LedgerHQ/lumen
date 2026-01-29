@@ -5,6 +5,7 @@
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "jsx": "react-jsx",
     "lib": ["dom"],
+    "skipLibCheck": true,
     "types": [
       "node",
       "@nx/react/typings/cssmodule.d.ts",

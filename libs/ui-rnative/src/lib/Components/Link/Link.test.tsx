@@ -9,9 +9,9 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Link } from './Link';
 import { LinkProps } from './types';
 
-jest.mock('react-native/Libraries/Linking/Linking', () => ({
-  openURL: jest.fn(() => Promise.resolve()),
-}));
+// Mock Linking module - use spyOn after import to handle RN 0.79+ module structure
+const mockOpenURL = jest.fn(() => Promise.resolve());
+jest.spyOn(Linking, 'openURL').mockImplementation(mockOpenURL);
 
 const renderWithProvider = (component: React.ReactElement) => {
   return render(

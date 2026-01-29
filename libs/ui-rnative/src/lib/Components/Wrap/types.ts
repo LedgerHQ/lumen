@@ -1,6 +1,6 @@
-import { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode, ReactElement } from 'react';
 
 export type WrapProps = PropsWithChildren & {
   if: boolean;
-  with: (children: ReactNode) => JSX.Element;
+  with: (children: ReactNode) => ReactElement;
 };

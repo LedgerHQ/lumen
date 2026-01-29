@@ -1,5 +1,3 @@
-import React from 'react';
-import { TextInput as RNTextInput } from 'react-native';
 import { BaseInput } from '../BaseInput';
 import { type TextInputProps } from './types';
 
@@ -57,11 +55,8 @@ import { type TextInputProps } from './types';
  *   }}
  * />
  */
-export const TextInput = React.forwardRef<
-  React.ElementRef<typeof RNTextInput>,
-  TextInputProps
->((props, ref) => {
-  return <BaseInput ref={ref} {...props} />;
-});
+export const TextInput = (props: TextInputProps) => {
+  return <BaseInput {...props} />;
+};
 
 TextInput.displayName = 'TextInput';

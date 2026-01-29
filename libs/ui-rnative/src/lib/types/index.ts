@@ -2,7 +2,7 @@ import React from 'react';
 import type { Pressable, View } from 'react-native';
 
 type ComponentPropsWithAsChild<T extends React.ElementType<any>> =
-  React.ComponentPropsWithoutRef<T> & { asChild?: boolean };
+  React.ComponentPropsWithRef<T> & { asChild?: boolean };
 
 type SlottableViewProps = ComponentPropsWithAsChild<typeof View>;
 type ViewRef = React.ElementRef<typeof View>;

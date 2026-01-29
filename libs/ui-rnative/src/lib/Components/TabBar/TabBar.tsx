@@ -148,7 +148,7 @@ export function TabBar({
   onTabPress,
   children,
   ...props
-}: TabBarProps): JSX.Element {
+}: TabBarProps) {
   const styles = useStyles();
   const { theme, colorScheme } = useTheme();
 

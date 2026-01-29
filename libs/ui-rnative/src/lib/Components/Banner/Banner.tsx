@@ -1,5 +1,5 @@
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
-import React, { ComponentType } from 'react';
+import { ComponentType } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -10,7 +10,6 @@ import {
   DeleteCircleFill,
   Close,
 } from '../../Symbols';
-import { ViewRef } from '../../types';
 import { IconProps } from '../Icon';
 import { IconButton } from '../IconButton';
 import { Box } from '../Utility';
@@ -129,79 +128,75 @@ const iconsMap: Record<Appearance, ComponentType<IconProps>> = {
  *   closeAriaLabel="Close banner"
  * />
  */
-export const Banner = React.forwardRef<ViewRef, BannerProps>(
-  (
-    {
-      appearance = 'info',
-      title,
-      description,
-      primaryAction,
-      secondaryAction,
-      lx = {},
-      style,
-      onClose,
-      closeAriaLabel,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useCommonTranslation();
-    const styles = useStyles({ appearance });
-    const IconComponent = iconsMap[appearance];
-    const iconColor = iconColorMap[appearance];
+export const Banner = ({
+  appearance = 'info',
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  lx = {},
+  style,
+  onClose,
+  closeAriaLabel,
+  ref,
+  ...props
+}: BannerProps) => {
+  const { t } = useCommonTranslation();
+  const styles = useStyles({ appearance });
+  const IconComponent = iconsMap[appearance];
+  const iconColor = iconColorMap[appearance];
 
-    return (
-      <Box
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([styles.root, style])}
-        {...props}
-      >
-        <View style={styles.iconWrapper}>
-          <IconComponent color={iconColor} />
-        </View>
-        <View style={styles.contentWrapper}>
-          <View style={styles.textWrapper}>
-            {title && (
-              <Text style={styles.title} numberOfLines={2}>
-                {title}
-              </Text>
-            )}
-            {description && (
-              <View>
-                <Wrap
-                  if={isTextChildren(description)}
-                  with={(children) => (
-                    <Text style={styles.description}>{children}</Text>
-                  )}
-                >
-                  {description}
-                </Wrap>
-              </View>
-            )}
-          </View>
-          {(primaryAction || secondaryAction) && (
-            <View style={styles.actionsWrapper}>
-              {primaryAction}
-              {secondaryAction}
+  return (
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.root, style])}
+      {...props}
+    >
+      <View style={styles.iconWrapper}>
+        <IconComponent lx={{ color: iconColor }} />
+      </View>
+      <View style={styles.contentWrapper}>
+        <View style={styles.textWrapper}>
+          {title && (
+            <Text style={styles.title} numberOfLines={2}>
+              {title}
+            </Text>
+          )}
+          {description && (
+            <View>
+              <Wrap
+                if={isTextChildren(description)}
+                with={(children) => (
+                  <Text style={styles.description}>{children}</Text>
+                )}
+              >
+                {description}
+              </Wrap>
             </View>
           )}
         </View>
-        {onClose && (
-          <IconButton
-            testID='banner-close-button'
-            appearance='transparent'
-            size='xs'
-            icon={Close}
-            onPress={() => onClose()}
-            accessibilityLabel={
-              closeAriaLabel || t('components.banner.closeAriaLabel')
-            }
-          />
+        {(primaryAction || secondaryAction) && (
+          <View style={styles.actionsWrapper}>
+            {primaryAction}
+            {secondaryAction}
+          </View>
         )}
-      </Box>
-    );
-  },
-);
+      </View>
+      {onClose && (
+        <IconButton
+          testID='banner-close-button'
+          appearance='transparent'
+          size='xs'
+          icon={Close}
+          onPress={() => onClose()}
+          accessibilityLabel={
+            closeAriaLabel || t('components.banner.closeAriaLabel')
+          }
+        />
+      )}
+    </Box>
+  );
+};
 
 Banner.displayName = 'Banner';

@@ -1,17 +1,16 @@
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import { Box, Text } from '../../../src/lib/Components/Utility';
 
 type DontBlockItemProps = {
   title?: string;
   description?: string;
-  children: React.ReactNode;
-};
+} & PropsWithChildren;
 
-export const DontBlockItem: React.FC<DontBlockItemProps> = ({
+export const DontBlockItem = ({
   title,
   description,
   children,
-}) => {
+}: DontBlockItemProps) => {
   return (
     <Box lx={{ gap: 's12' }} {...{ 'data-type': 'dont-item' }}>
       {/* Header */}

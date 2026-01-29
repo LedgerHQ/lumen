@@ -1,4 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Fix for RN 0.79+ Animated API issues in test environment
+// The Animated module tries to connect to native views which don't exist in Jest
+import { Animated } from 'react-native';
+
+const originalTiming = Animated.timing;
+const originalSpring = Animated.spring;
+
+// Override Animated.timing to force useNativeDriver: false in tests
+(Animated as any).timing = (
+  value: Animated.Value | Animated.ValueXY,
+  config: Animated.TimingAnimationConfig,
+): Animated.CompositeAnimation => {
+  return originalTiming(value, { ...config, useNativeDriver: false });
+};
+
+// Override Animated.spring to force useNativeDriver: false in tests
+Animated.spring = (
+  value: Animated.Value | Animated.ValueXY,
+  config: Animated.SpringAnimationConfig,
+): Animated.CompositeAnimation => {
+  return originalSpring(value, { ...config, useNativeDriver: false });
+};
+
 // Mock @gorhom/bottom-sheet with more detailed prop tracking
 jest.mock('@gorhom/bottom-sheet', () => {
   const mockReact = jest.requireActual<typeof import('react')>('react');

@@ -29,7 +29,6 @@ import {
   Links,
   Selects,
   Spots,
-  Subheaders,
   Switches,
   Tags,
   TextInputs,
@@ -43,6 +42,7 @@ import {
   ListItems,
   Gradients,
   ExampleTabBar,
+  Subheaders,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 

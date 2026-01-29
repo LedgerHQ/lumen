@@ -1,4 +1,3 @@
-import React from 'react';
 import { Linking, StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ExternalLink } from '../../Symbols';
@@ -105,59 +104,52 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
  *   Dashboard
  * </Link>
  */
-export const Link = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  LinkProps
->(
-  (
-    {
-      lx,
-      style,
-      children,
-      appearance = 'base',
-      size = 'md',
-      underline = true,
-      icon,
-      isExternal = false,
-      href,
-      onPress,
-      ...props
-    },
-    ref,
-  ) => {
-    const handlePress = async () => {
-      if (onPress) {
-        onPress();
-      } else if (href) {
-        await Linking.openURL(href);
-      }
-    };
+export const Link = ({
+  lx,
+  style,
+  children,
+  appearance = 'base',
+  size = 'md',
+  underline = true,
+  icon,
+  isExternal = false,
+  href,
+  onPress,
+  ref,
+  ...props
+}: LinkProps) => {
+  const handlePress = async () => {
+    if (onPress) {
+      onPress();
+    } else if (href) {
+      await Linking.openURL(href);
+    }
+  };
 
-    return (
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={[style, { flexShrink: 1 }]}
-        onPress={handlePress}
-        accessibilityRole='link'
-        {...props}
-      >
-        {({ pressed }) => (
-          <LinkContent
-            appearance={appearance}
-            size={size}
-            underline={underline}
-            pressed={pressed}
-            icon={icon}
-            isExternal={isExternal}
-          >
-            {children}
-          </LinkContent>
-        )}
-      </Pressable>
-    );
-  },
-);
+  return (
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={[style, { flexShrink: 1 }]}
+      onPress={handlePress}
+      accessibilityRole='link'
+      {...props}
+    >
+      {({ pressed }) => (
+        <LinkContent
+          appearance={appearance}
+          size={size}
+          underline={underline}
+          pressed={pressed}
+          icon={icon}
+          isExternal={isExternal}
+        >
+          {children}
+        </LinkContent>
+      )}
+    </Pressable>
+  );
+};
 
 type LinkContentProps = {
   appearance: Appearance;
@@ -169,7 +161,7 @@ type LinkContentProps = {
   children: React.ReactNode;
 };
 
-const LinkContent: React.FC<LinkContentProps> = ({
+const LinkContent = ({
   appearance,
   size,
   underline,
@@ -177,7 +169,7 @@ const LinkContent: React.FC<LinkContentProps> = ({
   icon,
   isExternal,
   children,
-}) => {
+}: LinkContentProps) => {
   const calculatedIconSize = iconSizeMap[size];
   const IconComponent = icon;
   const styles = useStyles({

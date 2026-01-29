@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Text } from './Text';
+import { TextProps } from './types';
 
-const meta: Meta<typeof Text> = {
+const meta: Meta<TextProps> = {
   component: Text,
   title: 'Utility/Text',
   parameters: {
@@ -16,7 +17,7 @@ const meta: Meta<typeof Text> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Text>;
+type Story = StoryObj<TextProps>;
 
 export const Base: Story = {
   args: {

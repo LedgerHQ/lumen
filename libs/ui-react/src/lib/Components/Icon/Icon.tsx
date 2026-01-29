@@ -9,6 +9,7 @@ const iconVariants = cva('inline-block', {
       12: 'icon-w-12 icon-h-12 icon-stroke-12',
       16: 'icon-w-16 icon-h-16 icon-stroke-16',
       20: 'icon-w-20 icon-h-20 icon-stroke-20',
+      32: 'icon-w-32 icon-h-32 icon-stroke-32',
       24: 'icon-w-24 icon-h-24 icon-stroke-24',
       40: 'icon-w-40 icon-h-40 icon-stroke-40',
       48: 'icon-w-48 icon-h-48 icon-stroke-48',

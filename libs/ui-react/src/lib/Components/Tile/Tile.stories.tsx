@@ -14,6 +14,7 @@ import {
   TileContent,
   TileTitle,
   TileDescription,
+  TileTrailingContent,
   TileSecondaryAction,
 } from './Tile';
 
@@ -25,6 +26,7 @@ const meta: Meta<typeof Tile> = {
     TileContent,
     TileTitle,
     TileDescription,
+    TileTrailingContent,
   },
   title: 'Containment/Tile',
   parameters: {
@@ -155,8 +157,10 @@ export const VariantsShowcase: Story = {
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Custom' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Custom' appearance='base' />
       </Tile>
       <Tile
         className='max-w-160'
@@ -171,8 +175,28 @@ export const VariantsShowcase: Story = {
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
+          <TileTrailingContent>
+            <div className='body-2-semi-bold text-success'>+7.87%</div>
+          </TileTrailingContent>
         </TileContent>
-        <div className='body-2-semi-bold text-success'>+7.87%</div>
+      </Tile>
+
+      <Tile
+        className='max-w-160'
+        secondaryAction={
+          <TileSecondaryAction
+            icon={MoreVertical}
+            onClick={() => console.log('secondary action clicked')}
+          />
+        }
+      >
+        <TileSpot appearance='icon' icon={Settings} />
+        <TileContent>
+          <TileTitle>With Trailing Content</TileTitle>
+          <TileTrailingContent>
+            <div className='body-2-semi-bold text-success'>+7.87%</div>
+          </TileTrailingContent>
+        </TileContent>
       </Tile>
     </div>
   ),
@@ -307,24 +331,29 @@ export const CenteredShowcase: Story = {
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' className='w-128'>
         <TileSpot appearance='icon' icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' className='w-128'>
         <TileSpot appearance='icon' icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
-          <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' centered className='w-128'>
         <TileSpot appearance='icon' icon={ChevronRight} />
@@ -332,6 +361,51 @@ export const CenteredShowcase: Story = {
           <TileTitle>Show more</TileTitle>
         </TileContent>
       </Tile>
+    </div>
+  ),
+};
+
+export const SizeShowcase: Story = {
+  render: () => (
+    <div className='flex flex-col gap-24'>
+      <div>
+        <h3 className='mb-8 heading-4'>Size 48 (default)</h3>
+        <div className='flex gap-16'>
+          <Tile appearance='card' className='w-112'>
+            <TileSpot appearance='icon' icon={Settings} size={48} />
+            <TileContent>
+              <TileTitle>Settings</TileTitle>
+              <TileDescription>Size 48</TileDescription>
+            </TileContent>
+          </Tile>
+          <Tile appearance='card' className='w-112'>
+            <TileSpot appearance='check' size={48} />
+            <TileContent>
+              <TileTitle>Check</TileTitle>
+              <TileDescription>Size 48</TileDescription>
+            </TileContent>
+          </Tile>
+        </div>
+      </div>
+      <div>
+        <h3 className='mb-8 heading-4'>Size 40</h3>
+        <div className='flex gap-16'>
+          <Tile appearance='card' className='w-112'>
+            <TileSpot appearance='icon' icon={Settings} size={40} />
+            <TileContent>
+              <TileTitle>Settings</TileTitle>
+              <TileDescription>Size 40</TileDescription>
+            </TileContent>
+          </Tile>
+          <Tile appearance='card' className='w-112'>
+            <TileSpot appearance='check' size={40} />
+            <TileContent>
+              <TileTitle>Check</TileTitle>
+              <TileDescription>Size 40</TileDescription>
+            </TileContent>
+          </Tile>
+        </div>
+      </div>
     </div>
   ),
 };

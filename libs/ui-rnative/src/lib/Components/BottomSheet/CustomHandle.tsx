@@ -1,5 +1,5 @@
 import { BottomSheetVariables } from '@gorhom/bottom-sheet/lib/typescript/types';
-import { forwardRef } from 'react';
+import React, { Ref } from 'react';
 import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
@@ -25,10 +25,10 @@ const useStyles = () => {
   );
 };
 
-export const CustomHandle = forwardRef<
-  React.ElementRef<typeof View>,
-  BottomSheetVariables
->((props, ref) => {
+export const CustomHandle = ({
+  ref,
+  ...props
+}: BottomSheetVariables & { ref?: Ref<React.ElementRef<typeof View>> }) => {
   const styles = useStyles();
 
   return (
@@ -36,5 +36,5 @@ export const CustomHandle = forwardRef<
       <View style={styles.handle} />
     </View>
   );
-});
+};
 CustomHandle.displayName = 'CustomHandle';

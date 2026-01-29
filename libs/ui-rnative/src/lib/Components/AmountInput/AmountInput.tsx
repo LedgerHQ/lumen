@@ -1,5 +1,5 @@
 import { getFontSize, textFormatter } from '@ledgerhq/lumen-utils-shared';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Pressable, StyleSheet, TextInput } from 'react-native';
 import Animated, {
   Easing,
@@ -18,166 +18,160 @@ import { type AmountInputProps } from './types';
  * This is a controlled component - both `value` and `onChange` props are required.
  * The currency text can be positioned either on the left or right side of the input.
  */
-export const AmountInput = React.forwardRef<TextInput, AmountInputProps>(
-  (
-    {
-      lx = {},
-      style,
-      currencyText,
-      currencyPosition = 'left',
-      editable = true,
-      maxIntegerLength = 9,
-      maxDecimalLength = 9,
-      allowDecimals = true,
-      thousandsSeparator = true,
-      value,
-      onChangeText,
-      isInvalid = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const inputRef = useRef<TextInput>(null);
-    const inputValue = String(value);
-    const [isFocused, setIsFocused] = useState(false);
+export const AmountInput = ({
+  lx = {},
+  style,
+  currencyText,
+  currencyPosition = 'left',
+  editable = true,
+  maxIntegerLength = 9,
+  maxDecimalLength = 9,
+  allowDecimals = true,
+  thousandsSeparator = true,
+  value,
+  onChangeText,
+  isInvalid = false,
+  ref,
+  ...props
+}: AmountInputProps) => {
+  const inputRef = useRef<TextInput>(null);
+  const inputValue = String(value);
+  const [isFocused, setIsFocused] = useState(false);
 
-    const translateX = useSharedValue(0);
-    const animatedFontSize = useSharedValue(getFontSize(inputValue));
-    const caretOpacity = useSharedValue(0);
+  const translateX = useSharedValue(0);
+  const animatedFontSize = useSharedValue(getFontSize(inputValue));
+  const caretOpacity = useSharedValue(0);
 
-    useImperativeHandle(ref, () => inputRef.current as TextInput, []);
+  useImperativeHandle(ref, () => inputRef.current as TextInput, []);
 
-    const styles = useStyles({
-      hasValue: !!inputValue,
-      isEditable: editable,
-      isInvalid,
-    });
+  const styles = useStyles({
+    hasValue: !!inputValue,
+    isEditable: editable,
+    isInvalid,
+  });
 
-    const animatedInputStyle = useAnimatedStyle(
-      () => ({
-        transform: [{ translateX: translateX.value }],
-        fontSize: animatedFontSize.value,
-        letterSpacing: 0,
-      }),
-      [translateX, animatedFontSize],
-    );
+  const animatedInputStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: translateX.value }],
+      fontSize: animatedFontSize.value,
+      letterSpacing: 0,
+    }),
+    [translateX, animatedFontSize],
+  );
 
-    const animatedCurrencyStyle = useAnimatedStyle(
-      () => ({
-        fontSize: animatedFontSize.value,
-        letterSpacing: 0,
-      }),
-      [animatedFontSize],
-    );
+  const animatedCurrencyStyle = useAnimatedStyle(
+    () => ({
+      fontSize: animatedFontSize.value,
+      letterSpacing: 0,
+    }),
+    [animatedFontSize],
+  );
 
-    const animatedCaretStyle = useAnimatedStyle(
-      () => ({
-        opacity: caretOpacity.value,
-        height: animatedFontSize.value,
-      }),
-      [caretOpacity, animatedFontSize],
-    );
+  const animatedCaretStyle = useAnimatedStyle(
+    () => ({
+      opacity: caretOpacity.value,
+      height: animatedFontSize.value,
+    }),
+    [caretOpacity, animatedFontSize],
+  );
 
-    useEffect(() => {
-      const newSize = getFontSize(inputValue);
+  useEffect(() => {
+    const newSize = getFontSize(inputValue);
 
-      translateX.value = withSequence(
-        withTiming(4, { duration: 0 }),
-        withTiming(0, {
-          duration: 250,
-          easing: Easing.bezier(0.4, 0, 0.2, 1),
-        }),
-      );
-
-      animatedFontSize.value = withTiming(newSize, {
+    translateX.value = withSequence(
+      withTiming(4, { duration: 0 }),
+      withTiming(0, {
         duration: 250,
         easing: Easing.bezier(0.4, 0, 0.2, 1),
-      });
-    }, [inputValue, animatedFontSize, translateX]);
-
-    useEffect(() => {
-      if (isFocused && editable) {
-        caretOpacity.value = withRepeat(
-          withSequence(
-            withTiming(1, { duration: 150, easing: Easing.ease }),
-            withTiming(1, { duration: 500 }),
-            withTiming(0, { duration: 150, easing: Easing.ease }),
-            withTiming(0, { duration: 500 }),
-          ),
-          -1,
-          false,
-        );
-      } else {
-        caretOpacity.value = 0;
-      }
-    }, [isFocused, editable, caretOpacity]);
-
-    const handleChangeText = (text: string) => {
-      const formatted = textFormatter(text, {
-        allowDecimals,
-        thousandsSeparator,
-        maxIntegerLength,
-        maxDecimalLength,
-      });
-
-      onChangeText(formatted);
-    };
-
-    const CurrencyText = currencyText ? (
-      <Animated.Text style={[styles.currency, animatedCurrencyStyle]}>
-        {currencyText}
-      </Animated.Text>
-    ) : null;
-
-    const handlePress = () => {
-      if (editable) {
-        inputRef.current?.focus();
-      }
-    };
-
-    return (
-      <Box lx={lx} style={styles.container}>
-        {/** hidden text input because of flickering issue */}
-        <TextInput
-          ref={inputRef}
-          keyboardType='decimal-pad'
-          editable={editable}
-          value={inputValue}
-          onChangeText={handleChangeText}
-          onFocus={(e) => {
-            setIsFocused(true);
-            props.onFocus?.(e);
-          }}
-          onBlur={(e) => {
-            setIsFocused(false);
-            props.onBlur?.(e);
-          }}
-          style={styles.hiddenInput}
-          {...props}
-        />
-        <Pressable
-          onPress={handlePress}
-          style={styles.pressable}
-          accessibilityLabel={props.accessibilityLabel || 'Amount input'}
-        >
-          {currencyPosition === 'left' && CurrencyText}
-
-          {/** display text that mirrors the hidden input's value */}
-          <Animated.Text
-            style={[styles.displayText, animatedInputStyle, style]}
-          >
-            {inputValue || '0'}
-          </Animated.Text>
-
-          {/** custom caret */}
-          <Animated.View style={[styles.caret, animatedCaretStyle]} />
-
-          {currencyPosition === 'right' && CurrencyText}
-        </Pressable>
-      </Box>
+      }),
     );
-  },
-);
+
+    animatedFontSize.value = withTiming(newSize, {
+      duration: 250,
+      easing: Easing.bezier(0.4, 0, 0.2, 1),
+    });
+  }, [inputValue, animatedFontSize, translateX]);
+
+  useEffect(() => {
+    if (isFocused && editable) {
+      caretOpacity.value = withRepeat(
+        withSequence(
+          withTiming(1, { duration: 150, easing: Easing.ease }),
+          withTiming(1, { duration: 500 }),
+          withTiming(0, { duration: 150, easing: Easing.ease }),
+          withTiming(0, { duration: 500 }),
+        ),
+        -1,
+        false,
+      );
+    } else {
+      caretOpacity.value = 0;
+    }
+  }, [isFocused, editable, caretOpacity]);
+
+  const handleChangeText = (text: string) => {
+    const formatted = textFormatter(text, {
+      allowDecimals,
+      thousandsSeparator,
+      maxIntegerLength,
+      maxDecimalLength,
+    });
+
+    onChangeText(formatted);
+  };
+
+  const CurrencyText = currencyText ? (
+    <Animated.Text style={[styles.currency, animatedCurrencyStyle]}>
+      {currencyText}
+    </Animated.Text>
+  ) : null;
+
+  const handlePress = () => {
+    if (editable) {
+      inputRef.current?.focus();
+    }
+  };
+
+  return (
+    <Box lx={lx} style={styles.container}>
+      {/** hidden text input because of flickering issue */}
+      <TextInput
+        ref={inputRef}
+        keyboardType='decimal-pad'
+        editable={editable}
+        value={inputValue}
+        onChangeText={handleChangeText}
+        onFocus={(e) => {
+          setIsFocused(true);
+          props.onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          setIsFocused(false);
+          props.onBlur?.(e);
+        }}
+        style={styles.hiddenInput}
+        {...props}
+      />
+      <Pressable
+        onPress={handlePress}
+        style={styles.pressable}
+        accessibilityLabel={props.accessibilityLabel || 'Amount input'}
+      >
+        {currencyPosition === 'left' && CurrencyText}
+
+        {/** display text that mirrors the hidden input's value */}
+        <Animated.Text style={[styles.displayText, animatedInputStyle, style]}>
+          {inputValue || '0'}
+        </Animated.Text>
+
+        {/** custom caret */}
+        <Animated.View style={[styles.caret, animatedCaretStyle]} />
+
+        {currencyPosition === 'right' && CurrencyText}
+      </Pressable>
+    </Box>
+  );
+};
 
 const useStyles = ({
   hasValue,

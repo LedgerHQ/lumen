@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(yeni sekmede açılır)"
+    },
+    "navBar": {
+      "goBackAriaLabel": "Geri dön"
     }
   }
 }

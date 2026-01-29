@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-import { View } from 'react-native';
 import { Box } from '../Utility';
 import { DividerProps } from './types';
 
@@ -23,30 +21,33 @@ import { DividerProps } from './types';
  * // With custom styling using lx props
  * <Divider lx={{ marginVertical: 's16' }} />
  */
-export const Divider = forwardRef<View, DividerProps>(
-  ({ lx = {}, orientation = 'horizontal', ...props }, ref) => {
-    return (
-      <Box
-        ref={ref}
-        accessibilityRole='none'
-        lx={{
-          ...(orientation === 'horizontal'
-            ? {
-                alignSelf: 'stretch',
-                borderTopWidth: 's1',
-                borderTopColor: 'mutedSubtle',
-              }
-            : {
-                alignSelf: 'stretch',
-                borderLeftWidth: 's1',
-                borderLeftColor: 'mutedSubtle',
-              }),
-          ...lx,
-        }}
-        {...props}
-      />
-    );
-  },
-);
+export const Divider = ({
+  lx = {},
+  orientation = 'horizontal',
+  ref,
+  ...props
+}: DividerProps) => {
+  return (
+    <Box
+      ref={ref}
+      accessibilityRole='none'
+      lx={{
+        ...(orientation === 'horizontal'
+          ? {
+              alignSelf: 'stretch',
+              borderTopWidth: 's1',
+              borderTopColor: 'mutedSubtle',
+            }
+          : {
+              alignSelf: 'stretch',
+              borderLeftWidth: 's1',
+              borderLeftColor: 'mutedSubtle',
+            }),
+        ...lx,
+      }}
+      {...props}
+    />
+  );
+};
 
 Divider.displayName = 'Divider';

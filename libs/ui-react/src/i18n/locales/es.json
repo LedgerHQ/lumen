@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(se abre en una pestaña nueva)"
+    },
+    "navBar": {
+      "goBackAriaLabel": "Volver"
     }
   }
 }

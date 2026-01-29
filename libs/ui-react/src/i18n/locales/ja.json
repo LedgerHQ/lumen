@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "（新しいタブで開く）"
+    },
+    "navBar": {
+      "goBackAriaLabel": "戻る"
     }
   }
 }

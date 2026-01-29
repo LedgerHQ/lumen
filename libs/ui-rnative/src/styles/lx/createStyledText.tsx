@@ -1,4 +1,4 @@
-import { ElementRef, forwardRef, memo } from 'react';
+import { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Text, TextStyle } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
@@ -16,21 +16,26 @@ import { useResolveTextStyle } from './resolveStyle';
  */
 export const createStyledText = (Component: typeof Text) => {
   const StyledComponent = memo(
-    forwardRef<ElementRef<typeof Text>, StyledTextProps>(
-      ({ typography = 'body3', lx = {}, style, ...props }, ref) => {
-        const { theme } = useTheme();
-        const resolvedStyle = useResolveTextStyle(lx);
-        const typographyStyle = theme.typographies[typography] as TextStyle;
+    ({
+      typography = 'body3',
+      lx = {},
+      ref,
+      style,
+      ...props
+    }: StyledTextProps) => {
+      const { theme } = useTheme();
+      const resolvedStyle = useResolveTextStyle(lx);
+      const typographyStyle = theme.typographies[typography] as TextStyle;
 
-        const finalStyle = StyleSheet.flatten([
-          typographyStyle,
-          style,
-          resolvedStyle,
-        ]);
+      const finalStyle = StyleSheet.flatten([
+        typographyStyle,
+        style,
+        resolvedStyle,
+      ]);
 
-        return <Component ref={ref} {...props} style={finalStyle} />;
-      },
-    ),
+      return <Component ref={ref} {...props} style={finalStyle} />;
+    },
+
     areLxPropsEqual,
   );
 

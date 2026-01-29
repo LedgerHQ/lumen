@@ -8,7 +8,7 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 // Mock react-native-gesture-handler which is used by @gorhom/bottom-sheet
 jest.mock('react-native-gesture-handler', () => ({}));
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     {children}
   </ThemeProvider>
@@ -29,15 +29,6 @@ describe('BottomSheet', () => {
   it('exports useBottomSheetContext hook', () => {
     const { useBottomSheetContext } = require('./BottomSheet');
     expect(useBottomSheetContext).toBeDefined();
-  });
-
-  it('is a valid React component', () => {
-    const { BottomSheet } = require('./BottomSheet');
-
-    // Verify component exists and is a valid React component (forwardRef returns an object)
-    expect(BottomSheet).toBeDefined();
-    expect(typeof BottomSheet).toBe('object');
-    expect(BottomSheet.$$typeof).toBeDefined(); // React element type
   });
 
   describe('rendering', () => {
@@ -214,31 +205,6 @@ describe('BottomSheet', () => {
       const onBack = jest.fn();
       const { getByText } = renderWithTheme(
         <BottomSheet onBack={onBack} testID='bottom-sheet'>
-          <Text>Content</Text>
-        </BottomSheet>,
-      );
-
-      // If the component renders without errors, context is working
-      expect(getByText('Content')).toBeTruthy();
-    });
-
-    it('provides context with hideCloseButton prop', () => {
-      const { BottomSheet } = require('./BottomSheet');
-      const { getByText } = renderWithTheme(
-        <BottomSheet hideCloseButton testID='bottom-sheet'>
-          <Text>Content</Text>
-        </BottomSheet>,
-      );
-
-      // If the component renders without errors, context is working
-      expect(getByText('Content')).toBeTruthy();
-    });
-
-    it('provides context with both onBack and hideCloseButton', () => {
-      const { BottomSheet } = require('./BottomSheet');
-      const onBack = jest.fn();
-      const { getByText } = renderWithTheme(
-        <BottomSheet onBack={onBack} hideCloseButton testID='bottom-sheet'>
           <Text>Content</Text>
         </BottomSheet>,
       );

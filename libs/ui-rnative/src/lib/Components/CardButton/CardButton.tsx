@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronRight } from '../../Symbols';
@@ -121,49 +120,42 @@ const useStyles = ({
  *   appearance="outline"
  * />
  */
-export const CardButton = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  CardButtonProps
->(
-  (
-    {
-      lx,
-      style,
-      appearance = 'base',
-      icon,
-      title,
-      description,
-      hideChevron,
-      disabled = false,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([style, { flex: 1 }])}
-        disabled={disabled}
-        accessibilityRole='button'
-        accessibilityState={{ disabled }}
-        {...props}
-      >
-        {({ pressed }) => (
-          <CardButtonContent
-            appearance={appearance}
-            disabled={disabled}
-            pressed={pressed}
-            icon={icon}
-            title={title}
-            description={description}
-            hideChevron={hideChevron}
-          />
-        )}
-      </Pressable>
-    );
-  },
-);
+export const CardButton = ({
+  lx,
+  style,
+  appearance = 'base',
+  icon,
+  title,
+  description,
+  hideChevron,
+  disabled = false,
+  ref,
+  ...props
+}: CardButtonProps) => {
+  return (
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([style, { flex: 1 }])}
+      disabled={disabled}
+      accessibilityRole='button'
+      accessibilityState={{ disabled }}
+      {...props}
+    >
+      {({ pressed }) => (
+        <CardButtonContent
+          appearance={appearance}
+          disabled={disabled}
+          pressed={pressed}
+          icon={icon}
+          title={title}
+          description={description}
+          hideChevron={hideChevron}
+        />
+      )}
+    </Pressable>
+  );
+};
 
 type CardButtonContentProps = {
   appearance: Appearance;
@@ -175,7 +167,7 @@ type CardButtonContentProps = {
   hideChevron?: boolean;
 };
 
-const CardButtonContent: React.FC<CardButtonContentProps> = ({
+const CardButtonContent = ({
   appearance,
   disabled,
   pressed,
@@ -183,7 +175,7 @@ const CardButtonContent: React.FC<CardButtonContentProps> = ({
   title,
   description,
   hideChevron,
-}) => {
+}: CardButtonContentProps) => {
   const IconComponent = icon;
   const styles = useStyles({ appearance, disabled, pressed });
 

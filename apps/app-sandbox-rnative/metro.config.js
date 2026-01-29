@@ -1,43 +1,30 @@
 const path = require('path');
-const { withNxMetro } = require('@nx/react-native');
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const processConfig = async () => {
-  const defaultConfig = getDefaultConfig(__dirname);
-  const { assetExts, sourceExts } = defaultConfig.resolver;
-  const monorepoRoot = path.resolve(__dirname, '../..');
+// Get the monorepo root (two levels up from this app)
+const monorepoRoot = path.resolve(__dirname, '../..');
 
-  /**
-   * Metro configuration
-   * https://reactnative.dev/docs/metro
-   *
-   * @type {import('metro-config').MetroConfig}
-   */
-  const customConfig = {
-    cacheVersion: 'app-sandbox-rnative',
-    transformer: {
-      babelTransformerPath: require.resolve('react-native-svg-transformer'),
-    },
-    resolver: {
-      assetExts: assetExts.filter((ext) => ext !== 'svg'),
-      sourceExts: [...sourceExts, 'cjs', 'mjs', 'svg'],
-    },
-    watchFolders: [
-      monorepoRoot,
-      path.join(monorepoRoot, 'node_modules'),
-      path.join(monorepoRoot, 'libs/ui-rnative'),
+/**
+ * Metro configuration for monorepo
+ * https://reactnative.dev/docs/metro
+ *
+ * @type {import('@react-native/metro-config').MetroConfig}
+ */
+const config = {
+  // Watch all files in the monorepo (including libs)
+  watchFolders: [monorepoRoot],
+
+  resolver: {
+    // Resolve node_modules from both the app and the monorepo root
+    nodeModulesPaths: [
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(monorepoRoot, 'node_modules'),
     ],
-  };
-
-  return await withNxMetro(mergeConfig(defaultConfig, customConfig), {
-    // Change this to true to see debugging info.
-    // Useful if you have issues resolving modules
-    debug: false,
-    // all the file extensions used for imports other than 'ts', 'tsx', 'js', 'jsx', 'json'
-    extensions: [],
-    // Specify folders to watch, in addition to Nx defaults (workspace libraries and node_modules)
-    watchFolders: [],
-  });
+    // Enable package exports resolution for ESM packages (tailwind-merge, clsx, etc.)
+    unstable_enablePackageExports: true,
+    // Ensure packages are resolved from the monorepo
+    disableHierarchicalLookup: true,
+  },
 };
 
-module.exports = processConfig();
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

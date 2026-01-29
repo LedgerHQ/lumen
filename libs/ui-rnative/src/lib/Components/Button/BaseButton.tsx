@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { IconSize } from '../Icon';
@@ -138,54 +138,47 @@ const useStyles = ({
  * @default appearance 'base'
  * @default size 'md'
  */
-export const BaseButton = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  BaseButtonProps
->(
-  (
-    {
-      lx,
-      style,
-      children,
-      appearance = 'base',
-      size = 'md',
-      isFull = false,
-      loading = false,
-      icon: IconProp,
-      disabled = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const rootStyles = useRootStyles({ isFull });
+export const BaseButton = ({
+  lx,
+  style,
+  children,
+  appearance = 'base',
+  size = 'md',
+  isFull = false,
+  loading = false,
+  icon: IconProp,
+  disabled = false,
+  ref,
+  ...props
+}: BaseButtonProps) => {
+  const rootStyles = useRootStyles({ isFull });
 
-    return (
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([style, rootStyles.root])}
-        disabled={disabled}
-        accessibilityRole='button'
-        accessibilityState={{ disabled }}
-        {...props}
-      >
-        {({ pressed }) => (
-          <BaseButtonContent
-            appearance={appearance}
-            size={size}
-            disabled={disabled}
-            pressed={pressed}
-            isFull={isFull}
-            loading={loading}
-            IconProp={IconProp}
-          >
-            {children}
-          </BaseButtonContent>
-        )}
-      </Pressable>
-    );
-  },
-);
+  return (
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([style, rootStyles.root])}
+      disabled={disabled}
+      accessibilityRole='button'
+      accessibilityState={{ disabled }}
+      {...props}
+    >
+      {({ pressed }) => (
+        <BaseButtonContent
+          appearance={appearance}
+          size={size}
+          disabled={disabled}
+          pressed={pressed}
+          isFull={isFull}
+          loading={loading}
+          IconProp={IconProp}
+        >
+          {children}
+        </BaseButtonContent>
+      )}
+    </Pressable>
+  );
+};
 
 type BaseButtonContentProps = PropsWithChildren<{
   appearance: Appearance;
@@ -197,7 +190,7 @@ type BaseButtonContentProps = PropsWithChildren<{
   IconProp?: BaseButtonProps['icon'];
 }>;
 
-const BaseButtonContent: FC<BaseButtonContentProps> = ({
+const BaseButtonContent = ({
   appearance,
   size,
   disabled,
@@ -206,7 +199,7 @@ const BaseButtonContent: FC<BaseButtonContentProps> = ({
   loading,
   IconProp,
   children,
-}) => {
+}: BaseButtonContentProps) => {
   const calculatedIconSize = iconSizeMap[size];
   const iconOnly = Boolean(IconProp && !children);
   const styles = useStyles({

@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(새 탭에서 열기)"
+    },
+    "navBar": {
+      "goBackAriaLabel": "돌아가기"
     }
   }
 }

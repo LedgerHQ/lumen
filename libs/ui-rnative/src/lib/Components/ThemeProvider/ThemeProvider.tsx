@@ -1,5 +1,4 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { FC } from 'react';
 
 import { I18nProvider } from '../../../i18n';
 import { LumenStyleSheetProvider } from '../../../styles';
@@ -10,12 +9,12 @@ import { ThemeProviderProps } from './types';
 
 const [ThemeContextProvider] = createSafeContext('ThemeProvider');
 
-const ThemeProvider: FC<ThemeProviderProps> = ({
+const ThemeProvider = ({
   colorScheme,
   themes,
   children,
   locale,
-}) => {
+}: ThemeProviderProps) => {
   return (
     <ThemeContextProvider value={{}}>
       <LumenStyleSheetProvider colorScheme={colorScheme} themes={themes}>

@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { i18n, switchLanguage } from './i18n';
 import { DEFAULT_LANGUAGE, type SupportedLocale } from './languages';
@@ -7,10 +7,10 @@ type I18nProviderProps = PropsWithChildren & {
   locale?: SupportedLocale;
 };
 
-export const I18nProvider: FC<I18nProviderProps> = ({
+export const I18nProvider = ({
   locale = DEFAULT_LANGUAGE,
   children,
-}) => {
+}: I18nProviderProps) => {
   useEffect(() => {
     switchLanguage(locale);
   }, [locale]);

@@ -1,4 +1,3 @@
-import React, { forwardRef } from 'react';
 import { useStyleSheet } from '../../../styles';
 import { Text } from '../Utility';
 import { LabelProps } from './types';
@@ -21,35 +20,31 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
  * Either choices fields like checkbox, switch or radio.
  * Or text fields like input, textarea, select, etc.
  */
-export const Label = forwardRef<React.ElementRef<typeof Text>, LabelProps>(
-  (
-    {
-      style,
-      lx = {},
-      disabled = false,
-      children,
-      onPress,
-      onLongPress,
-      ...props
-    },
-    ref,
-  ) => {
-    const styles = useStyles({ disabled });
+export const Label = ({
+  style,
+  lx = {},
+  disabled = false,
+  children,
+  onPress,
+  onLongPress,
+  ref,
+  ...props
+}: LabelProps) => {
+  const styles = useStyles({ disabled });
 
-    return (
-      <Text
-        lx={lx}
-        ref={ref}
-        style={[styles.label, style]}
-        disabled={disabled}
-        onPress={disabled ? undefined : onPress}
-        onLongPress={disabled ? undefined : onLongPress}
-        {...props}
-      >
-        {children}
-      </Text>
-    );
-  },
-);
+  return (
+    <Text
+      lx={lx}
+      ref={ref}
+      style={[styles.label, style]}
+      disabled={disabled}
+      onPress={disabled ? undefined : onPress}
+      onLongPress={disabled ? undefined : onLongPress}
+      {...props}
+    >
+      {children}
+    </Text>
+  );
+};
 
 Label.displayName = 'Label';

@@ -1,6 +1,6 @@
 import GorghomBottomSheet, { SNAP_POINT_TYPE } from '@gorhom/bottom-sheet';
 import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
-import { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { RuntimeConstants } from '../../utils';
@@ -54,151 +54,144 @@ const [BottomSheetProvider, useBottomSheetContext] =
     'BottomSheet',
   );
 
-const BottomSheet = forwardRef<
-  React.ElementRef<typeof GorghomBottomSheet>,
-  BottomSheetProps
->(
-  (
-    {
-      onOpen,
-      onClose,
-      onBack,
-      onAnimate,
-      children,
-      hideCloseButton = false,
-      enablePanDownToClose = true,
-      enableDynamicSizing = false,
-      enableBlurKeyboardOnGesture = true,
-      enableHandlePanningGesture = true,
-      maxDynamicContentSize = undefined,
-      detached = false,
-      hideBackdrop = false,
-      backdropPressBehavior = 'close',
-      onBackdropPress,
-      onChange,
-      snapPoints = 'fullWithOffset',
-      ...props
+const BottomSheet = ({
+  onOpen,
+  onClose,
+  onBack,
+  onAnimate,
+  children,
+  hideCloseButton = false,
+  enablePanDownToClose = true,
+  enableDynamicSizing = false,
+  enableBlurKeyboardOnGesture = true,
+  enableHandlePanningGesture = true,
+  maxDynamicContentSize = undefined,
+  detached = false,
+  hideBackdrop = false,
+  backdropPressBehavior = 'close',
+  onBackdropPress,
+  onChange,
+  snapPoints = 'fullWithOffset',
+  ref,
+  ...props
+}: BottomSheetProps) => {
+  // ref
+  const innerRef = useRef<GorghomBottomSheet>(null);
+  const mergedRefs = useMergedRef<GorghomBottomSheet>(ref, innerRef);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const styles = useStyles({ shadow: hideBackdrop && isOpen });
+
+  /**
+   * Match the snap points to the preset or the custom snap points array
+   */
+  const computedSnapPoints = useMemo(() => {
+    if (!snapPoints) {
+      return undefined;
+    }
+
+    if (Array.isArray(snapPoints)) {
+      return snapPoints;
+    }
+
+    return SNAP_POINTS_MAP[snapPoints as keyof typeof SNAP_POINTS_MAP];
+  }, [snapPoints]);
+
+  /**
+   * Match the max dynamic content size to the preset or the custom max dynamic content size
+   */
+  const computedMaxDynamicContentSize = useMemo(() => {
+    if (!maxDynamicContentSize) {
+      return undefined;
+    }
+
+    if (typeof maxDynamicContentSize === 'number') {
+      return maxDynamicContentSize;
+    }
+
+    return MAX_DYNAMIC_CONTENT_SIZE[
+      maxDynamicContentSize as keyof typeof MAX_DYNAMIC_CONTENT_SIZE
+    ];
+  }, [maxDynamicContentSize]);
+
+  const renderBackdrop = useCallback(
+    (backdropProps: React.ComponentProps<typeof CustomBackdrop>) => {
+      return (
+        <CustomBackdrop
+          backdropPressBehavior={backdropPressBehavior}
+          onPress={onBackdropPress}
+          {...backdropProps}
+        />
+      );
     },
-    ref,
-  ) => {
-    // ref
-    const innerRef = useRef<GorghomBottomSheet>(null);
-    const mergedRefs = useMergedRef<GorghomBottomSheet>(ref, innerRef);
-    const [isOpen, setIsOpen] = useState(false);
+    [backdropPressBehavior, onBackdropPress],
+  );
 
-    const styles = useStyles({ shadow: hideBackdrop && isOpen });
-
-    /**
-     * Match the snap points to the preset or the custom snap points array
-     */
-    const computedSnapPoints = useMemo(() => {
-      if (!snapPoints) {
-        return undefined;
+  const handleChange: BottomSheetProps['onChange'] = useCallback(
+    (index: number, position: number, type: SNAP_POINT_TYPE) => {
+      if (index === -1 && onClose) {
+        onClose();
       }
-
-      if (Array.isArray(snapPoints)) {
-        return snapPoints;
+      if (index === 0 && onOpen) {
+        onOpen();
       }
+      onChange?.(index, position, type);
+    },
+    [onClose, onOpen, onChange],
+  );
 
-      return SNAP_POINTS_MAP[snapPoints as keyof typeof SNAP_POINTS_MAP];
-    }, [snapPoints]);
-
-    /**
-     * Match the max dynamic content size to the preset or the custom max dynamic content size
-     */
-    const computedMaxDynamicContentSize = useMemo(() => {
-      if (!maxDynamicContentSize) {
-        return undefined;
+  const handleAnimate: BottomSheetProps['onAnimate'] = useCallback(
+    (
+      fromIndex: number,
+      toIndex: number,
+      fromPosition: number,
+      toPosition: number,
+    ) => {
+      const newIsOpen = fromIndex === -1 && toIndex >= 0;
+      if (newIsOpen !== isOpen) {
+        setIsOpen(newIsOpen);
       }
+      onAnimate?.(fromIndex, toIndex, fromPosition, toPosition);
+    },
+    [isOpen, onAnimate],
+  );
 
-      if (typeof maxDynamicContentSize === 'number') {
-        return maxDynamicContentSize;
-      }
-
-      return MAX_DYNAMIC_CONTENT_SIZE[
-        maxDynamicContentSize as keyof typeof MAX_DYNAMIC_CONTENT_SIZE
-      ];
-    }, [maxDynamicContentSize]);
-
-    const renderBackdrop = useCallback(
-      (backdropProps: React.ComponentProps<typeof CustomBackdrop>) => {
-        return (
-          <CustomBackdrop
-            backdropPressBehavior={backdropPressBehavior}
-            onPress={onBackdropPress}
-            {...backdropProps}
-          />
-        );
-      },
-      [backdropPressBehavior, onBackdropPress],
-    );
-
-    const handleChange: BottomSheetProps['onChange'] = useCallback(
-      (index: number, position: number, type: SNAP_POINT_TYPE) => {
-        if (index === -1 && onClose) {
-          onClose();
-        }
-        if (index === 0 && onOpen) {
-          onOpen();
-        }
-        onChange?.(index, position, type);
-      },
-      [onClose, onOpen, onChange],
-    );
-
-    const handleAnimate: BottomSheetProps['onAnimate'] = useCallback(
-      (
-        fromIndex: number,
-        toIndex: number,
-        fromPosition: number,
-        toPosition: number,
-      ) => {
-        const newIsOpen = fromIndex === -1 && toIndex >= 0;
-        if (newIsOpen !== isOpen) {
-          setIsOpen(newIsOpen);
-        }
-        onAnimate?.(fromIndex, toIndex, fromPosition, toPosition);
-      },
-      [isOpen, onAnimate],
-    );
-
-    return (
-      <BottomSheetProvider value={{ onBack, hideCloseButton }}>
-        <GorghomBottomSheet
-          {...props}
-          ref={mergedRefs}
-          style={styles.root}
-          backgroundStyle={styles.background}
-          onChange={handleChange}
-          onAnimate={handleAnimate}
-          /**
-           * Configuration
-           */
-          snapPoints={computedSnapPoints}
-          enableDynamicSizing={enableDynamicSizing}
-          detached={detached}
-          enableHandlePanningGesture={enableHandlePanningGesture}
-          overDragResistanceFactor={2.5}
-          enablePanDownToClose={enablePanDownToClose}
-          maxDynamicContentSize={computedMaxDynamicContentSize}
-          /**
-           * Keyboard
-           */
-          enableBlurKeyboardOnGesture={enableBlurKeyboardOnGesture}
-          keyboardBehavior='extend'
-          /**
-           * Components
-           */
-          handleComponent={CustomHandle}
-          backdropComponent={hideBackdrop ? undefined : renderBackdrop}
-          index={-1}
-        >
-          {children}
-        </GorghomBottomSheet>
-      </BottomSheetProvider>
-    );
-  },
-);
+  return (
+    <BottomSheetProvider value={{ onBack, hideCloseButton }}>
+      <GorghomBottomSheet
+        {...props}
+        ref={mergedRefs}
+        style={styles.root}
+        backgroundStyle={styles.background}
+        onChange={handleChange}
+        onAnimate={handleAnimate}
+        /**
+         * Configuration
+         */
+        snapPoints={computedSnapPoints}
+        enableDynamicSizing={enableDynamicSizing}
+        detached={detached}
+        enableHandlePanningGesture={enableHandlePanningGesture}
+        overDragResistanceFactor={2.5}
+        enablePanDownToClose={enablePanDownToClose}
+        maxDynamicContentSize={computedMaxDynamicContentSize}
+        /**
+         * Keyboard
+         */
+        enableBlurKeyboardOnGesture={enableBlurKeyboardOnGesture}
+        keyboardBehavior='extend'
+        /**
+         * Components
+         */
+        handleComponent={CustomHandle}
+        backdropComponent={hideBackdrop ? undefined : renderBackdrop}
+        index={-1}
+      >
+        {children}
+      </GorghomBottomSheet>
+    </BottomSheetProvider>
+  );
+};
 BottomSheet.displayName = 'BottomSheet';
 
 export { BottomSheet, useBottomSheetContext };

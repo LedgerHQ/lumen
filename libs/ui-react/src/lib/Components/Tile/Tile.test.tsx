@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { Settings, MoreVertical } from '../../Symbols';
+import { Tag } from '../Tag';
 import {
   Tile,
   TileSpot,
@@ -10,6 +11,7 @@ import {
   TileTitle,
   TileDescription,
   TileSecondaryAction,
+  TileTrailingContent,
 } from './Tile';
 
 describe('Tile Component', () => {
@@ -238,6 +240,98 @@ describe('Tile Component', () => {
       const buttonElement = screen.getByRole('button');
       const containerElement = buttonElement.parentElement;
       expect(containerElement).toHaveClass(customClass);
+    });
+  });
+
+  describe('TileTrailingContent', () => {
+    it('should render children correctly', () => {
+      render(
+        <Tile>
+          <TileSpot appearance='icon' icon={Settings} />
+          <TileContent>
+            <TileTitle>Test Title</TileTitle>
+            <TileTrailingContent>
+              <Tag label='Active' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>,
+      );
+
+      expect(screen.getByText('Active')).toBeInTheDocument();
+    });
+
+    it('should have correct margin-top styling (mt-4)', () => {
+      render(
+        <Tile>
+          <TileSpot appearance='icon' icon={Settings} />
+          <TileContent>
+            <TileTitle>Test Title</TileTitle>
+            <TileTrailingContent data-testid='trailing-content'>
+              <Tag label='Active' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>,
+      );
+
+      const trailingContent = screen.getByTestId('trailing-content');
+      expect(trailingContent).toHaveClass('mt-4');
+    });
+
+    it('should have correct gap styling (gap-8)', () => {
+      render(
+        <Tile>
+          <TileSpot appearance='icon' icon={Settings} />
+          <TileContent>
+            <TileTitle>Test Title</TileTitle>
+            <TileTrailingContent data-testid='trailing-content'>
+              <Tag label='First' />
+              <Tag label='Second' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>,
+      );
+
+      const trailingContent = screen.getByTestId('trailing-content');
+      expect(trailingContent).toHaveClass('gap-8');
+    });
+
+    it('should apply custom className', () => {
+      const customClass = 'custom-trailing-class';
+      render(
+        <Tile>
+          <TileSpot appearance='icon' icon={Settings} />
+          <TileContent>
+            <TileTitle>Test Title</TileTitle>
+            <TileTrailingContent
+              className={customClass}
+              data-testid='trailing-content'
+            >
+              <Tag label='Active' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>,
+      );
+
+      const trailingContent = screen.getByTestId('trailing-content');
+      expect(trailingContent).toHaveClass(customClass);
+    });
+
+    it('should render multiple children with proper spacing', () => {
+      render(
+        <Tile>
+          <TileSpot appearance='icon' icon={Settings} />
+          <TileContent>
+            <TileTitle>Test Title</TileTitle>
+            <TileTrailingContent>
+              <Tag label='First' />
+              <Tag label='Second' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>,
+      );
+
+      expect(screen.getByText('First')).toBeInTheDocument();
+      expect(screen.getByText('Second')).toBeInTheDocument();
     });
   });
 });

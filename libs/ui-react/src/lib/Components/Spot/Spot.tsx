@@ -31,6 +31,7 @@ const spotVariants = cva(
       },
       size: {
         32: 'spot-w-32 spot-h-32',
+        40: 'spot-w-40 spot-h-40',
         48: 'spot-w-48 spot-h-48',
         56: 'spot-w-56 spot-h-56',
         72: 'spot-w-72 spot-h-72',
@@ -78,6 +79,7 @@ export const Spot = (props: SpotProps) => {
 
   const sizeMap: Record<SpotSize, IconSize> = {
     32: 12,
+    40: 16,
     48: 20,
     56: 24,
     72: 40,
@@ -85,6 +87,7 @@ export const Spot = (props: SpotProps) => {
 
   const numberTypographyMap: Record<SpotSize, string> = {
     32: 'body-2-semi-bold',
+    40: 'body-1-semi-bold',
     48: 'heading-5',
     56: 'heading-4',
     72: 'heading-2',

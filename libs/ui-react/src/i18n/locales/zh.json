@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "（在新选项卡中打开）"
+    },
+    "navBar": {
+      "goBackAriaLabel": "返回"
     }
   }
 }

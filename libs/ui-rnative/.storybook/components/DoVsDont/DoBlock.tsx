@@ -1,17 +1,16 @@
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import { Box, Text } from '../../../src/lib/Components/Utility';
 
 type DoBlockItemProps = {
   title?: string;
   description?: string;
-  children: React.ReactNode;
-};
+} & PropsWithChildren;
 
-export const DoBlockItem: React.FC<DoBlockItemProps> = ({
+export const DoBlockItem = ({
   title,
   description,
   children,
-}) => {
+}: DoBlockItemProps) => {
   return (
     <Box lx={{ gap: 's12' }} {...{ 'data-type': 'do-item' }}>
       {/* Header */}

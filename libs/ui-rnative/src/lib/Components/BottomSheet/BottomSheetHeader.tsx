@@ -1,5 +1,5 @@
 import { useBottomSheet } from '@gorhom/bottom-sheet';
-import { FC, useCallback } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -86,7 +86,7 @@ const useStyles = ({
   );
 };
 
-export const BottomSheetHeader: FC<BottomSheetHeaderProps> = ({
+export const BottomSheetHeader = ({
   lx,
   style,
   title,
@@ -94,7 +94,7 @@ export const BottomSheetHeader: FC<BottomSheetHeaderProps> = ({
   appearance = 'compact',
   spacing = false,
   ...props
-}) => {
+}: BottomSheetHeaderProps) => {
   const { t } = useCommonTranslation();
   const { close } = useBottomSheet();
   const { onBack, hideCloseButton } = useBottomSheetContext({

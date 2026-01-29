@@ -1,10 +1,8 @@
-import React, { forwardRef, memo } from 'react';
+import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { StyledViewProps } from '../types';
 import { areLxPropsEqual } from './areLxPropsEqual';
 import { useResolveViewStyle } from './resolveStyle';
-
-type ViewRef = React.ElementRef<typeof View>;
 
 /**
  * Factory function to create a styled View component.
@@ -16,14 +14,12 @@ type ViewRef = React.ElementRef<typeof View>;
  */
 export const createStyledView = (Component: typeof View) => {
   const StyledComponent = memo(
-    forwardRef<ViewRef, StyledViewProps>(
-      ({ lx = {}, style, ...props }, ref) => {
-        const resolvedStyle = useResolveViewStyle(lx);
-        const finalStyle = StyleSheet.flatten([style, resolvedStyle]);
+    ({ lx = {}, ref, style, ...props }: StyledViewProps) => {
+      const resolvedStyle = useResolveViewStyle(lx);
+      const finalStyle = StyleSheet.flatten([style, resolvedStyle]);
 
-        return <Component ref={ref} {...props} style={finalStyle} />;
-      },
-    ),
+      return <Component ref={ref} {...props} style={finalStyle} />;
+    },
     areLxPropsEqual,
   );
 

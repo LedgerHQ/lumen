@@ -7,7 +7,7 @@ import { Divider } from './Divider';
 
 const { colors } = ledgerLiveThemes.dark;
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     {children}
   </ThemeProvider>

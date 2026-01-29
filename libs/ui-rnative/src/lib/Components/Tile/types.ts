@@ -4,11 +4,13 @@ import {
   StyledTextProps,
   StyledViewProps,
 } from '../../../styles';
-import { DiscriminatedSpotProps } from '../Spot/types';
+import { DiscriminatedSpotProps, SpotSize } from '../Spot/types';
 
 export type TileContextValue = {
   disabled: boolean;
 };
+
+export type TileSpotSize = Extract<SpotSize, 40 | 48>;
 
 export type TileProps = {
   /**
@@ -45,7 +47,13 @@ export type TileProps = {
   children: ReactNode;
 } & Omit<StyledPressableProps, 'onPress' | 'onLongPress' | 'disabled'>;
 
-export type TileSpotProps = DiscriminatedSpotProps;
+export type TileSpotProps = {
+  /**
+   * The size of the spot.
+   * @default 48
+   */
+  size?: 40 | 48;
+} & DiscriminatedSpotProps;
 
 export type TileContentProps = {
   /**
@@ -60,7 +68,7 @@ export type TileTitleProps = {
    * The title text to display.
    */
   children: ReactNode;
-} & StyledViewProps;
+} & StyledTextProps;
 
 export type TileDescriptionProps = {
   /**
@@ -68,3 +76,11 @@ export type TileDescriptionProps = {
    */
   children: ReactNode;
 } & StyledTextProps;
+
+export type TileTrailingContentProps = {
+  /**
+   * The trailing content to display after title and description.
+   * Typically contains Tags, custom labels, or other supplementary information.
+   */
+  children: ReactNode;
+} & StyledViewProps;

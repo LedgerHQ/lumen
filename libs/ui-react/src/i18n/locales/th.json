@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(เปิดในแท็บใหม่)"
+    },
+    "navBar": {
+      "goBackAriaLabel": "ย้อนกลับ"
     }
   }
 }

@@ -13,6 +13,7 @@ export * from './InteractiveIcon';
 export * from './Link';
 export * from './ListItem';
 export * from './Menu';
+export * from './NavBar';
 export * from './SearchInput';
 export * from './Select';
 export * from './Skeleton';

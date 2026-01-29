@@ -8,7 +8,7 @@ import {
   DocsContainerProps,
 } from '@storybook/addon-docs/blocks';
 import type { Decorator } from '@storybook/react-native-web-vite';
-import { FC, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 import { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -35,11 +35,11 @@ type StorybookProvidersProps = PropsWithChildren<{
   theme: BrandThemes;
 }>;
 
-const StorybookProviders: FC<StorybookProvidersProps> = ({
+const StorybookProviders = ({
   mode,
   theme,
   children,
-}) => (
+}: StorybookProvidersProps) => (
   <ThemeProvider colorScheme={mode} themes={theme}>
     <GestureHandlerRootView
       style={{ flex: 1, width: '100%', alignItems: 'flex-start' }}

@@ -31,7 +31,7 @@ const eurFormatter = (value: number): FormattedValue => {
 };
 
 const btcFormatter = (value: number): FormattedValue => {
-  const [integerPart, decimalPart] = value.toFixed(1).split(/\.|,/);
+  const [integerPart, decimalPart] = value.toFixed(8).split(/\.|,/);
 
   return {
     integerPart,

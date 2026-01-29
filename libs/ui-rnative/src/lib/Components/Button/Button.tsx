@@ -1,5 +1,3 @@
-import React from 'react';
-import { Pressable } from '../Utility';
 import { BaseButton } from './BaseButton';
 import { ButtonProps } from './types';
 
@@ -24,10 +22,7 @@ import { ButtonProps } from './types';
  *   Submit
  * </Button>
  */
-export const Button = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  ButtonProps
->((props, ref) => {
-  return <BaseButton ref={ref} {...props} />;
-});
+export const Button = (props: ButtonProps) => {
+  return <BaseButton {...props} />;
+};
 Button.displayName = 'Button';

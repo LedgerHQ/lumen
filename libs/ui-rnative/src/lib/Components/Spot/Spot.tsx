@@ -1,3 +1,4 @@
+import { TypographyTokens } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -8,29 +9,36 @@ import {
   InformationFill,
   WarningFill,
 } from '../../Symbols';
+import { IconSize } from '../Icon/types';
 import { Spinner, SpinnerProps } from '../Spinner';
 import { Box } from '../Utility';
 import { SpotAppearance, SpotProps, SpotSize } from './types';
 
 const BLUETOOTH_COLOR = '#0082FC';
 
-const iconSizeMap = {
+const iconSizeMap: Record<SpotSize, IconSize> = {
+  32: 12,
+  40: 16,
   48: 20,
   56: 24,
   72: 40,
-} as const;
+};
 
 const spotSizeMap: Record<SpotSize, number> = {
+  32: 32,
+  40: 40,
   48: 48,
   56: 56,
   72: 72,
-} as const;
+};
 
-const numberTypographyMap = {
+const numberTypographyMap: Record<SpotSize, keyof TypographyTokens> = {
+  32: 'body2SemiBold',
+  40: 'body1SemiBold',
   48: 'heading5',
   56: 'heading4',
   72: 'heading2',
-} as const;
+};
 
 const useStyles = ({
   size,

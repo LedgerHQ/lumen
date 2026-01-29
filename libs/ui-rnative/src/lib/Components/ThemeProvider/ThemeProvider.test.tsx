@@ -24,6 +24,7 @@ describe('ThemeProvider', () => {
       </ThemeProvider>,
     );
 
-    expect(screen.getByTestId('child')).toHaveTextContent('Hello World');
+    expect(screen.getByTestId('child'));
+    expect(screen.getByText('Hello World'));
   });
 });

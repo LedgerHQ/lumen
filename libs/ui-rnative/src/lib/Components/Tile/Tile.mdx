@@ -27,10 +27,10 @@ Tile components are compact, card-like interactive elements designed for horizon
 ## Anatomy
 
 - **TileSpot**: Visual icon or element at the top
-- **TileContent**: Container for title and description
+- **TileContent**: Container for title, description, and trailing content
   - **TileTitle**: The main label of the item (required)
   - **TileDescription (optional)**: Provides additional context
-- **Custom Content (optional)**: Any ReactNode like Tag, View, etc.
+  - **TileTrailingContent (optional)**: Container for trailing content like Tags, Text, etc.
 
 ## Properties
 
@@ -120,7 +120,7 @@ function MyComponent() {
 
 ## Advanced Patterns
 
-### With Custom Content (Tags, etc.)
+### With Trailing Content (Tags, etc.)
 
 ```tsx
 import {
@@ -129,6 +129,7 @@ import {
   TileContent,
   TileTitle,
   TileDescription,
+  TileTrailingContent,
   Tag,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
@@ -138,8 +139,10 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
+    <TileTrailingContent>
+      <Tag label='Active' appearance='success' />
+    </TileTrailingContent>
   </TileContent>
-  <Tag label='Active' appearance='success' />
 </Tile>;
 ```
 
@@ -170,8 +173,10 @@ import { View } from 'react-native';
     <TileContent>
       <TileTitle>Title</TileTitle>
       <TileDescription>Description</TileDescription>
+      <TileTrailingContent>
+        <Tag label='Label' />
+      </TileTrailingContent>
     </TileContent>
-    <Tag label='Label' />
   </Tile>
 
   {/* Show more tile with centered content */}
@@ -240,7 +245,52 @@ import { ScrollView } from 'react-native';
 ## Do's and Don'ts
 
 <Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <CommonRulesDoAndDont />
+
+### Trailing Content
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use TileTrailingContent for additional elements'
+    description='Wrap Tags, labels, or supplementary content inside TileTrailingContent within TileContent for proper 4px spacing.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<Tile>
+  <TileSpot appearance="icon" icon={Settings} />
+  <TileContent>
+    <TileTitle>Title</TileTitle>
+    <TileDescription>Description</TileDescription>
+    <TileTrailingContent>
+      <Tag label="Active" />
+    </TileTrailingContent>
+  </TileContent>
+</Tile>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't place trailing content directly in TileContent"
+    description='Placing Tags or other elements directly in TileContent without TileTrailingContent results in incorrect spacing.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<Tile>
+  <TileSpot appearance="icon" icon={Settings} />
+  <TileContent>
+    <TileTitle>Title</TileTitle>
+    <TileDescription>Description</TileDescription>
+    <Tag label="Active" />
+  </TileContent>
+</Tile>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+<CommonRulesDoAndDont />
+
 </Box>
 
 </Tab>

@@ -1,10 +1,5 @@
-import { FC } from 'react';
 import { WrapProps } from './types';
 
-export const Wrap: FC<WrapProps> = ({
-  if: condition,
-  with: wrapper,
-  children,
-}) => {
+export const Wrap = ({ if: condition, with: wrapper, children }: WrapProps) => {
   return condition ? wrapper(children) : children;
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useId } from 'react';
+import { useState, useEffect, useCallback, useId } from 'react';
 import { Pressable } from 'react-native';
 import { useControllableState } from '../../utils';
 import { SlotPressable } from '../Slot';
@@ -39,7 +39,7 @@ import type {
  *   );
  * }
  */
-export const Tooltip: React.FC<TooltipProps> = ({ children, onOpenChange }) => {
+export const Tooltip = ({ children, onOpenChange }: TooltipProps) => {
   const tooltipId = useId();
   const [internalOpen, setInternalOpen] = useControllableState({
     defaultProp: false,
@@ -78,12 +78,12 @@ Tooltip.displayName = 'Tooltip';
  *   <Button>Help</Button>
  * </TooltipTrigger>
  */
-export const TooltipTrigger: React.FC<TooltipTriggerProps> = ({
+export const TooltipTrigger = ({
   children,
   asChild = false,
   style,
   ...props
-}) => {
+}: TooltipTriggerProps) => {
   const { tooltipId, setOpen, contentData } = useTooltipSafeContext({
     consumerName: 'TooltipTrigger',
     contextRequired: true,
@@ -116,10 +116,7 @@ export const TooltipTrigger: React.FC<TooltipTriggerProps> = ({
 };
 TooltipTrigger.displayName = 'TooltipTrigger';
 
-export const TooltipContent: React.FC<TooltipContentProps> = ({
-  title,
-  content,
-}) => {
+export const TooltipContent = ({ title, content }: TooltipContentProps) => {
   const { setContentData } = useTooltipSafeContext({
     consumerName: 'TooltipContent',
     contextRequired: true,

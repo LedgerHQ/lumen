@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useControllableState } from '../../utils';
 import { Pressable } from '../Utility';
 import { BaseSwitchThumb, BaseSwitchRoot } from './BaseSwitch';
@@ -29,42 +27,35 @@ import { SwitchProps } from './types';
  * // Uncontrolled switch with default state
  * <Switch defaultChecked={true} onCheckedChange={handleChange} />
  */
-export const Switch = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  SwitchProps
->(
-  (
-    {
-      lx,
-      style,
-      checked: checkedProp,
-      onCheckedChange: onCheckedChangeProp,
-      defaultChecked = false,
-      disabled,
-      size = 'md',
-      ...props
-    },
-    ref,
-  ) => {
-    const [checked, onCheckedChange] = useControllableState({
-      prop: checkedProp,
-      onChange: onCheckedChangeProp,
-      defaultProp: defaultChecked,
-    });
+export const Switch = ({
+  lx,
+  style,
+  checked: checkedProp,
+  onCheckedChange: onCheckedChangeProp,
+  defaultChecked = false,
+  disabled,
+  size = 'md',
+  ref,
+  ...props
+}: SwitchProps) => {
+  const [checked, onCheckedChange] = useControllableState({
+    prop: checkedProp,
+    onChange: onCheckedChangeProp,
+    defaultProp: defaultChecked,
+  });
 
-    return (
-      <Pressable ref={ref} lx={lx} style={style} {...props}>
-        <BaseSwitchRoot
-          disabled={disabled}
-          checked={checked}
-          onCheckedChange={onCheckedChange}
-          size={size}
-        >
-          <BaseSwitchThumb />
-        </BaseSwitchRoot>
-      </Pressable>
-    );
-  },
-);
+  return (
+    <Pressable ref={ref} lx={lx} style={style} {...props}>
+      <BaseSwitchRoot
+        disabled={disabled}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        size={size}
+      >
+        <BaseSwitchThumb />
+      </BaseSwitchRoot>
+    </Pressable>
+  );
+};
 
 Switch.displayName = 'Switch';

@@ -1,7 +1,5 @@
-import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { ViewRef } from '../../types';
 import { IconSize } from '../Icon';
 import { Box } from '../Utility';
 import { TagProps } from './types';
@@ -128,37 +126,33 @@ const iconSizeMap: Record<Size, IconSize> = {
  * // Small tag
  * <Tag label="Small" size="sm" />
  */
-export const Tag = React.forwardRef<ViewRef, TagProps>(
-  (
-    {
-      appearance = 'accent',
-      size = 'md',
-      icon,
-      label,
-      disabled = false,
-      lx = {},
-      style,
-      ...props
-    },
-    ref,
-  ) => {
-    const styles = useStyles({ appearance, size, disabled });
+export const Tag = ({
+  appearance = 'accent',
+  size = 'md',
+  icon,
+  label,
+  disabled = false,
+  lx = {},
+  style,
+  ref,
+  ...props
+}: TagProps) => {
+  const styles = useStyles({ appearance, size, disabled });
 
-    const IconComponent = icon;
-    const iconSize = iconSizeMap[size];
+  const IconComponent = icon;
+  const iconSize = iconSizeMap[size];
 
-    return (
-      <Box
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([styles.root, style])}
-        {...props}
-      >
-        {IconComponent && <IconComponent size={iconSize} style={styles.icon} />}
-        <Text style={styles.text}>{label}</Text>
-      </Box>
-    );
-  },
-);
+  return (
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.root, style])}
+      {...props}
+    >
+      {IconComponent && <IconComponent size={iconSize} style={styles.icon} />}
+      <Text style={styles.text}>{label}</Text>
+    </Box>
+  );
+};
 
 Tag.displayName = 'Tag';

@@ -1,7 +1,7 @@
 import { ComponentType, ReactElement } from 'react';
 import { IconSize } from '../Icon';
 import { BoxProps } from '../Utility';
-import { TabBarItem } from './TabBar';
+import type { TabBarItem } from './TabBar';
 
 type IconComponent = ComponentType<{
   size?: IconSize;

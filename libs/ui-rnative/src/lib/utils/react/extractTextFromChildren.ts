@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 /**
  * Recursively extracts text content from React children.
@@ -6,7 +6,7 @@ import React from 'react';
  * ignoring complex React components that don't have text children.
  */
 export function extractTextFromChildren(
-  children: React.ReactNode,
+  children: ReactNode,
   textComponentType?: React.ComponentType<any>,
 ): string {
   let text = '';
@@ -17,10 +17,10 @@ export function extractTextFromChildren(
     } else if (React.isValidElement(child)) {
       if (
         (textComponentType && child.type === textComponentType) ||
-        child.props?.children
+        (child.props as { children?: ReactNode })?.children
       ) {
         text += extractTextFromChildren(
-          child.props.children,
+          (child.props as { children?: ReactNode })?.children,
           textComponentType,
         );
       }

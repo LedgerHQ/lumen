@@ -35,7 +35,7 @@ const meta: Meta<typeof Spot> = {
     },
     size: {
       control: 'select',
-      options: [48, 56, 72],
+      options: [32, 40, 48, 56, 72],
       description: 'The size of the spot',
     },
     disabled: {
@@ -178,7 +178,7 @@ export const NumberVariants: Story = {
 
 export const SizesShowcase: Story = {
   render: () => {
-    const sizes = [48, 56, 72] as const;
+    const sizes = [32, 40, 48, 56, 72] as const;
 
     return (
       <Box lx={{ flexDirection: 'column', gap: 's32', padding: 's16' }}>

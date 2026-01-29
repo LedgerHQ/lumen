@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export type TooltipContentData = {
   title?: string;
@@ -32,14 +32,14 @@ type TooltipContextProviderProps = {
  * Internal context provider for an individual Tooltip component.
  * This is used automatically by the Tooltip component.
  */
-export const TooltipContextProvider: React.FC<TooltipContextProviderProps> = ({
+export const TooltipContextProvider = ({
   tooltipId,
   open,
   setOpen,
   contentData,
   setContentData,
   children,
-}) => {
+}: TooltipContextProviderProps) => {
   return (
     <TooltipProvider
       value={{

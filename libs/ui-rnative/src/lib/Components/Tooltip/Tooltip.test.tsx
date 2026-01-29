@@ -8,7 +8,7 @@ import { GlobalTooltipBottomSheet } from './GlobalTooltipBottomSheet';
 import { GlobalTooltipProvider } from './GlobalTooltipContext';
 import { Tooltip, TooltipTrigger, TooltipContent } from './Tooltip';
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     <GlobalTooltipProvider>
       {children}

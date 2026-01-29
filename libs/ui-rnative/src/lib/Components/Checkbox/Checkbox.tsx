@@ -1,4 +1,3 @@
-import React from 'react';
 import { useStyleSheet } from '../../../styles';
 import { Check } from '../../Symbols';
 import { useControllableState } from '../../utils';
@@ -32,51 +31,44 @@ import { CheckboxProps } from './types';
  * // Uncontrolled checkbox with default state
  * <Checkbox defaultChecked={true} onCheckedChange={handleChange} />
  */
-export const Checkbox = React.forwardRef<
-  React.ElementRef<typeof Box>,
-  CheckboxProps
->(
-  (
-    {
-      lx,
-      style,
-      checked: checkedProp,
-      onCheckedChange: onCheckedChangeProp,
-      defaultChecked = false,
-      disabled = false,
-      label,
-      ...props
-    },
-    ref,
-  ) => {
-    const [checked, onCheckedChange] = useControllableState({
-      prop: checkedProp,
-      onChange: onCheckedChangeProp,
-      defaultProp: defaultChecked,
-    });
+export const Checkbox = ({
+  lx,
+  style,
+  checked: checkedProp,
+  onCheckedChange: onCheckedChangeProp,
+  defaultChecked = false,
+  disabled = false,
+  label,
+  ref,
+  ...props
+}: CheckboxProps) => {
+  const [checked, onCheckedChange] = useControllableState({
+    prop: checkedProp,
+    onChange: onCheckedChangeProp,
+    defaultProp: defaultChecked,
+  });
 
-    const styles = useStyles({ disabled });
+  const styles = useStyles({ disabled });
 
-    return (
-      <Box ref={ref} lx={lx} style={[styles.root, style]} {...props}>
-        <BaseCheckboxRoot
-          disabled={disabled}
-          checked={checked}
-          onCheckedChange={onCheckedChange}
-        >
-          <BaseCheckboxIndicator>
-            <Check size={16} style={styles.icon} />
-          </BaseCheckboxIndicator>
-        </BaseCheckboxRoot>
-        {label && (
-          <Label disabled={disabled} onPress={() => onCheckedChange(!checked)}>
-            {label}
-          </Label>
-        )}
-      </Box>
-    );
-  },
-);
+  return (
+    <Box ref={ref} lx={lx} style={[styles.root, style]} {...props}>
+      <BaseCheckboxRoot
+        disabled={disabled}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+      >
+        <BaseCheckboxIndicator>
+          <Check size={16} style={styles.icon} />
+        </BaseCheckboxIndicator>
+      </BaseCheckboxRoot>
+      {label && (
+        <Label disabled={disabled} onPress={() => onCheckedChange(!checked)}>
+          {label}
+        </Label>
+      )}
+    </Box>
+  );
+};
 
 const useStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(

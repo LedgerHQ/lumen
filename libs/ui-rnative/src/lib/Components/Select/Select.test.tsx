@@ -14,7 +14,7 @@ import {
   SelectItemText,
 } from './Select';
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     <GlobalSelectProvider>
       {children}

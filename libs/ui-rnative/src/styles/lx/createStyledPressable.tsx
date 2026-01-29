@@ -1,4 +1,4 @@
-import { ElementRef, forwardRef, memo } from 'react';
+import { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import type {
   Pressable,
@@ -51,26 +51,24 @@ const resolveStyleFunctions = (
  */
 export const createStyledPressable = (Component: typeof Pressable) => {
   const StyledComponent = memo(
-    forwardRef<ElementRef<typeof Pressable>, StyledPressableProps>(
-      ({ lx = {}, style, ...props }, ref) => {
-        const resolvedStyle = useResolveViewStyle(lx);
+    ({ lx = {}, ref, style, ...props }: StyledPressableProps) => {
+      const resolvedStyle = useResolveViewStyle(lx);
 
-        if (!hasStyleFunction(style)) {
-          const finalStyle = StyleSheet.flatten([
-            style as ViewStyle,
-            resolvedStyle,
-          ]);
-          return <Component ref={ref} {...props} style={finalStyle} />;
-        }
+      if (!hasStyleFunction(style)) {
+        const finalStyle = StyleSheet.flatten([
+          style as ViewStyle,
+          resolvedStyle,
+        ]);
+        return <Component ref={ref} {...props} style={finalStyle} />;
+      }
 
-        const mergedStyle = (state: PressableStateCallbackType): ViewStyle => {
-          const resolvedBareStyle = resolveStyleFunctions(style, state);
-          return StyleSheet.flatten([resolvedBareStyle, resolvedStyle]);
-        };
+      const mergedStyle = (state: PressableStateCallbackType): ViewStyle => {
+        const resolvedBareStyle = resolveStyleFunctions(style, state);
+        return StyleSheet.flatten([resolvedBareStyle, resolvedStyle]);
+      };
 
-        return <Component ref={ref} {...props} style={mergedStyle} />;
-      },
-    ),
+      return <Component ref={ref} {...props} style={mergedStyle} />;
+    },
     areLxPropsEqual,
   );
 

@@ -13,6 +13,15 @@ export const Buttons = () => {
         Base
       </Button>
       <Button
+        loading
+        appearance='base'
+        onPress={() => {
+          console.log('Button pressed');
+        }}
+      >
+        Base
+      </Button>
+      <Button
         appearance='accent'
         onPress={() => {
           console.log('Button pressed');
