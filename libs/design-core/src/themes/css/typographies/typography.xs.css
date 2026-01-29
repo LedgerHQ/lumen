@@ -1,0 +1,83 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --font-style-grid-column-count: 4;
+  --font-style-responsive-display-1-size: var(--font-size-64);
+  --font-style-responsive-display-1-weight: var(--font-weight-bold);
+  --font-style-responsive-display-1-line-height: var(--font-line-height-64);
+  --font-style-responsive-display-1-letter-spacing: var(
+    --font-letter-spacing-64
+  );
+  --font-style-responsive-display-2-size: var(--font-size-40);
+  --font-style-responsive-display-2-weight: var(--font-weight-semi-bold);
+  --font-style-responsive-display-2-line-height: var(--font-line-height-40);
+  --font-style-responsive-display-2-letter-spacing: var(
+    --font-letter-spacing-40
+  );
+  --font-style-responsive-display-3-size: var(--font-size-36);
+  --font-style-responsive-display-3-weight: var(--font-weight-semi-bold);
+  --font-style-responsive-display-3-line-height: var(--font-line-height-36);
+  --font-style-responsive-display-3-letter-spacing: var(
+    --font-letter-spacing-36
+  );
+  --font-style-responsive-display-4-size: var(--font-size-32);
+  --font-style-responsive-display-4-weight: var(--font-weight-semi-bold);
+  --font-style-responsive-display-4-line-height: var(--font-line-height-32);
+  --font-style-responsive-display-4-letter-spacing: var(
+    --font-letter-spacing-32
+  );
+  --font-style-heading-0-size: var(--font-size-48);
+  --font-style-heading-0-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-heading-0-weight-medium: var(--font-weight-medium);
+  --font-style-heading-0-line-height: var(--font-line-height-48);
+  --font-style-heading-0-letter-spacing: var(--font-letter-spacing-48);
+  --font-style-heading-1-size: var(--font-size-40);
+  --font-style-heading-1-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-heading-1-weight-medium: var(--font-weight-medium);
+  --font-style-heading-1-line-height: var(--font-line-height-40);
+  --font-style-heading-1-letter-spacing: var(--font-letter-spacing-40);
+  --font-style-heading-2-size: var(--font-size-28);
+  --font-style-heading-2-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-heading-2-weight-medium: var(--font-weight-medium);
+  --font-style-heading-2-line-height: var(--font-line-height-28);
+  --font-style-heading-2-letter-spacing: var(--font-letter-spacing-28);
+  --font-style-heading-3-size: var(--font-size-24);
+  --font-style-heading-3-size-2: var(--font-size-24);
+  --font-style-heading-3-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-heading-3-weight-medium: var(--font-weight-medium);
+  --font-style-heading-3-line-height: var(--font-line-height-24);
+  --font-style-heading-3-letter-spacing: var(--font-letter-spacing-24);
+  --font-style-heading-4-size: var(--font-size-20);
+  --font-style-heading-4-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-heading-4-weight-medium: var(--font-weight-medium);
+  --font-style-heading-4-line-height: var(--font-line-height-20);
+  --font-style-heading-4-letter-spacing: var(--font-letter-spacing-20);
+  --font-style-heading-5-size: var(--font-size-18);
+  --font-style-heading-5-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-heading-5-weight-medium: var(--font-weight-medium);
+  --font-style-heading-5-line-height: var(--font-line-height-18);
+  --font-style-heading-5-letter-spacing: var(--font-letter-spacing-18);
+  --font-style-body-1-size: var(--font-size-16);
+  --font-style-body-1-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-body-1-weight-medium: var(--font-weight-medium);
+  --font-style-body-1-line-height: var(--font-line-height-16);
+  --font-style-body-1-letter-spacing: var(--font-letter-spacing-16);
+  --font-style-body-2-size: var(--font-size-14);
+  --font-style-body-2-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-body-2-weight-medium: var(--font-weight-medium);
+  --font-style-body-2-line-height: var(--font-line-height-14);
+  --font-style-body-2-letter-spacing: var(--font-letter-spacing-14);
+  --font-style-body-3-size: var(--font-size-12);
+  --font-style-body-3-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-body-3-weight-medium: var(--font-weight-medium);
+  --font-style-body-3-line-height: var(--font-line-height-12);
+  --font-style-body-3-letter-spacing: var(--font-letter-spacing-12);
+  --font-style-body-4-size: var(--font-size-10);
+  --font-style-body-4-weight-semi-bold: var(--font-weight-semi-bold);
+  --font-style-body-4-weight-medium: var(--font-weight-medium);
+  --font-style-body-4-line-height: var(--font-line-height-10);
+  --font-style-body-4-letter-spacing: var(--font-letter-spacing-10);
+  --font-style-grid-gutter: var(--spacing-16);
+}
