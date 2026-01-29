@@ -1,28 +1,26 @@
 import React from 'react';
-import { Link, LinkProps } from './Link';
+import { Link } from './Link';
+import { LinkProps } from './types';
 
 import figma from '@figma/code-connect';
 
 figma.connect(
   Link,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=9661-18364',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=9661-18364',
   {
-    imports: ["import { Link } from '@ledgerhq/lumen-ui-react'"],
+    imports: [
+      "import { Link } from '@ledgerhq/lumen-ui-react'",
+      "// import { YourIconName } from '@ledgerhq/lumen-ui-react/Symbols'",
+    ],
     props: {
-      // These props were automatically mapped based on your linked code:
       isExternal: figma.boolean('show-external-link', {
         true: true,
         false: false,
-      }),
-      icon: figma.boolean('show-icon', {
-        true: figma.instance('icon'),
-        false: undefined,
       }),
       underline: figma.boolean('underline', {
         true: true,
         false: false,
       }),
-      // children: figma.string('label'),
       appearance: figma.enum('appearance', {
         base: 'base',
         accent: 'accent',
@@ -31,14 +29,13 @@ figma.connect(
         sm: 'sm',
         md: 'md',
       }),
+      icon: figma.instance('icon'),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/components-link-overview--docs',
+    example: (
+      props: Omit<LinkProps, 'icon' | 'children'> & {
+        icon?: any;
       },
-    ],
-    example: (props: LinkProps) => (
+    ) => (
       <Link
         isExternal={props.isExternal}
         underline={props.underline}
