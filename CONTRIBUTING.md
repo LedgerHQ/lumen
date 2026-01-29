@@ -245,9 +245,9 @@ figma connect publish --dir libs/ui-react/src/lib/Components/YourComponent/
 ```
 
 #### Remove Broken Connections
-If a component connection is broken, unpublish it by node URL:
+If a component connection is broken, unpublish it by node URL, and label, specified in figma.config.json:
 ```bash
-figma connect unpublish --node "https://figma.com/file/abc?node-id=123"
+figma connect unpublish --node "https://figma.com/file/abc?node-id=123" --label "React"
 ```
 
 ## Testing Guidelines
