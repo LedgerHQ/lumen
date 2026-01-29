@@ -73,6 +73,7 @@ export type PrimitiveOtherTokens = {
   borderWidth: Record<string, number>;
   blur: Record<string, number>;
   breakpoints: {
+    xs: number;
     sm: number;
     md: number;
     lg: number;
@@ -142,6 +143,7 @@ export type TypographyTokens = {
 };
 
 export type TypographyTokensByBreakpoint = {
+  xs?: TypographyTokens;
   sm: TypographyTokens;
   md?: TypographyTokens;
   lg?: TypographyTokens;
