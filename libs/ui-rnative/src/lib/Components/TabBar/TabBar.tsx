@@ -114,7 +114,10 @@ export function TabBarItem({
           </Animated.View>
         </Box>
       </Animated.View>
-      <Text style={[styles.itemText, isActive && styles.activeItemText]}>
+      <Text
+        style={[styles.itemText, isActive && styles.activeItemText]}
+        numberOfLines={1}
+      >
         {label ?? value}
       </Text>
     </Pressable>
@@ -256,6 +259,7 @@ const useStyles = () =>
       },
       itemText: {
         ...t.typographies.body4,
+        paddingHorizontal: t.spacings.s12,
         color: t.colors.text.base,
       },
       itemIcon: {
