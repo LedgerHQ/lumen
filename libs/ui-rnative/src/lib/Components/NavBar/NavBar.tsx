@@ -4,9 +4,11 @@ import { useStyleSheet } from '../../../styles';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
+import { CoinCapsule } from './CoinCapsule';
 import {
   NavBarAppearance,
   NavBarBackButtonProps,
+  NavBarCoinCapsuleProps,
   NavBarDescriptionProps,
   NavBarProps,
   NavBarTitleProps,
@@ -16,7 +18,7 @@ type Slots = {
   backButton: ReactNode | null;
   title: ReactNode | null;
   description: ReactNode | null;
-  rest: ReactNode[];
+  coinCapsule: ReactNode | null;
 };
 
 const [NavBarProvider, useNavBarContext] = createSafeContext<{
@@ -28,7 +30,7 @@ function extractSlots(children: ReactNode): Slots {
     backButton: null,
     title: null,
     description: null,
-    rest: [],
+    coinCapsule: null,
   };
 
   React.Children.forEach(children, (child) => {
@@ -47,12 +49,25 @@ function extractSlots(children: ReactNode): Slots {
       case 'NavBarDescription':
         slots.description = child;
         break;
+      case 'NavBarCoinCapsule':
+        slots.coinCapsule = child;
+        break;
       default:
-        slots.rest.push(child);
+        break;
     }
   });
   return slots;
 }
+
+export function NavBarCoinCapsule({ ticker, icon }: NavBarCoinCapsuleProps) {
+  return (
+    <Box>
+      <CoinCapsule ticker={ticker} icon={icon} />
+    </Box>
+  );
+}
+
+NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
 
 export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
   const { appearance } = useNavBarContext({
@@ -121,8 +136,14 @@ export function NavBar({ appearance, children, ...props }: NavBarProps) {
       <Box style={styles.container} {...props}>
         <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
         <Box style={styles.headerContainer}>
-          {slots.title}
-          {slots.description}
+          {appearance !== 'with-asset' ? (
+            <>
+              {slots.title}
+              {slots.description}
+            </>
+          ) : (
+            slots.coinCapsule
+          )}
         </Box>
       </Box>
     </NavBarProvider>
@@ -143,14 +164,15 @@ const useStyles = ({ appearance }: StyleParams) => {
           minWidth: t.sizes.full,
         },
         backButtonContainer: {
-          ...(appearance === 'compact' && {
-            position: 'absolute',
-            left: t.spacings.s4,
-          }),
-          ...(appearance === 'expanded' && {
-            alignSelf: 'flex-start',
-            marginBottom: t.spacings.s8,
-          }),
+          ...(appearance === 'expanded'
+            ? {
+                alignSelf: 'flex-start',
+                marginBottom: t.spacings.s8,
+              }
+            : {
+                position: 'absolute',
+                left: t.spacings.s4,
+              }),
         },
         headerContainer: {
           ...(appearance === 'expanded' && {

@@ -63,11 +63,7 @@ export type CoinCapsuleProps = {
    * The icon element to display (typically a crypto coin icon).
    */
   icon: ReactNode;
-  /**
-   * Additional custom CSS classes to apply.
-   */
-  className?: string;
-};
+} & Omit<StyledViewProps, 'children'>;
 
 /**
  * Props for the NavBarCoinCapsule component.
