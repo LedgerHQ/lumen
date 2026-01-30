@@ -7,8 +7,8 @@ export function CoinCapsule({ ticker, icon }: CoinCapsuleProps) {
 
   return (
     <Box style={styles.container}>
-      <Text style={styles.text}>{ticker}</Text>
       {icon}
+      <Text style={styles.text}>{ticker}</Text>
     </Box>
   );
 }
@@ -22,6 +22,8 @@ const useStyles = () =>
         flexDirection: 'row',
         gap: t.spacings.s8,
         padding: t.spacings.s8,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: t.borderRadius.full,
         backgroundColor: t.colors.bg.mutedTransparent,
       },

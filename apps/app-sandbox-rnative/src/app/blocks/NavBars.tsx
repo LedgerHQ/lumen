@@ -1,4 +1,3 @@
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import {
   Box,
   NavBar,
@@ -7,6 +6,7 @@ import {
   NavBarDescription,
   NavBarTitle,
 } from '@ledgerhq/lumen-ui-rnative';
+import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 export const NavBars = () => {
   return (
@@ -14,10 +14,10 @@ export const NavBars = () => {
       <NavBar appearance='with-asset'>
         <NavBarTitle>Title</NavBarTitle>
         <NavBarDescription>Description</NavBarDescription>
-        {/* <NavBarCoinCapsule
+        <NavBarCoinCapsule
           ticker='BTC'
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
-        /> */}
+          icon={<CryptoBitcoinCoin size={24} />}
+        />
         <NavBarBackButton />
       </NavBar>
     </Box>

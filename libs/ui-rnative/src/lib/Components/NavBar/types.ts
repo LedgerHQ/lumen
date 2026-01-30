@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { StyledPressableProps, StyledViewProps } from '../../../styles';
 
 export type NavBarAppearance = 'compact' | 'expanded' | 'with-asset';
@@ -62,7 +62,7 @@ export type CoinCapsuleProps = {
   /**
    * The icon element to display (typically a crypto coin icon).
    */
-  icon: ReactNode;
+  icon: ReactElement;
 } & Omit<StyledViewProps, 'children'>;
 
 /**

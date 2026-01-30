@@ -60,8 +60,14 @@ function extractSlots(children: ReactNode): Slots {
 }
 
 export function NavBarCoinCapsule({ ticker, icon }: NavBarCoinCapsuleProps) {
+  const { appearance } = useNavBarContext({
+    consumerName: 'NavBarTitle',
+    contextRequired: true,
+  });
+  const styles = useStyles({ appearance });
+
   return (
-    <Box>
+    <Box style={styles.coinCapsule}>
       <CoinCapsule ticker={ticker} icon={icon} />
     </Box>
   );
@@ -162,6 +168,10 @@ const useStyles = ({ appearance }: StyleParams) => {
       return {
         container: {
           minWidth: t.sizes.full,
+          ...(appearance !== 'expanded' && {
+            justifyContent: 'center',
+            alignItems: 'center',
+          }),
         },
         backButtonContainer: {
           ...(appearance === 'expanded'
@@ -189,6 +199,9 @@ const useStyles = ({ appearance }: StyleParams) => {
           ...t.typographies.body2,
           color: t.colors.text.muted,
           textAlign: appearance === 'expanded' ? 'left' : 'center',
+        },
+        coinCapsule: {
+          alignSelf: 'flex-start',
         },
       };
     },
