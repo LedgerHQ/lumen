@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, ReactNode } from 'react';
 import { Animated, Easing } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
-import { useResolveTextStyle, useTheme } from '../../../styles';
+import { LumenTextStyle, useResolveTextStyle, useTheme } from '../../../styles';
 import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
 import { SpinnerProps } from './types';
@@ -60,8 +60,9 @@ export const Spinner = ({
 }: SpinnerProps) => {
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
-  const resolvedColorStyle = useResolveTextStyle({ color });
-  const strokeColor = resolvedColorStyle?.color ?? theme.colors.text.base;
+  const resolvedColorStyle = useResolveTextStyle({ color } as LumenTextStyle);
+  const strokeColor =
+    resolvedColorStyle?.color ?? color ?? theme.colors.text.base;
 
   return (
     <Box ref={ref} lx={{ flexShrink: 0, ...lx }} {...props}>

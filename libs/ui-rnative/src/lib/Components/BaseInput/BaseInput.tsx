@@ -9,6 +9,7 @@ import { Animated, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
+import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable } from '../Utility';
 import { type BaseInputProps } from './types';
@@ -107,11 +108,7 @@ export const BaseInput = ({
         <TextInput
           ref={inputRef}
           value={value}
-          style={StyleSheet.flatten([
-            styles.input,
-            { lineHeight: 0 },
-            inputStyle,
-          ])}
+          style={StyleSheet.flatten([styles.input, inputStyle])}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={handleChangeText}
@@ -214,7 +211,6 @@ const useStyles = ({
             backgroundColor: t.colors.bg.muted,
             outlineWidth: 0,
             outlineColor: 'transparent',
-            ...t.typographies.body1,
           },
           hasLabel && {
             paddingTop: t.spacings.s16,
@@ -225,6 +221,7 @@ const useStyles = ({
             backgroundColor: t.colors.bg.disabled,
             color: t.colors.text.disabled,
           },
+          RuntimeConstants.isIOS && { lineHeight: 0 },
         ]),
         errorContainer: {
           marginTop: t.spacings.s8,
