@@ -1,5 +1,6 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import React, { ReactNode } from 'react';
+import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
@@ -83,7 +84,11 @@ export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
   const styles = useStyles({ appearance });
 
   return (
-    <Text numberOfLines={1} style={[styles.title, style]} {...props}>
+    <Text
+      numberOfLines={appearance === 'compact' ? 1 : 2}
+      style={[styles.title, style]}
+      {...props}
+    >
       {children}
     </Text>
   );
@@ -166,30 +171,53 @@ const useStyles = ({ appearance }: StyleParams) => {
   return useStyleSheet(
     (t) => {
       return {
-        container: {
-          minWidth: t.sizes.full,
-          ...(appearance !== 'expanded' && {
+        container: StyleSheet.flatten([
+          {
+            minWidth: t.sizes.full,
             justifyContent: 'center',
             alignItems: 'center',
-          }),
-        },
-        backButtonContainer: {
-          ...(appearance === 'expanded'
-            ? {
-                alignSelf: 'flex-start',
-                marginBottom: t.spacings.s8,
-              }
-            : {
-                position: 'absolute',
-                left: t.spacings.s4,
-              }),
-        },
-        headerContainer: {
-          ...(appearance === 'expanded' && {
-            paddingLeft: t.spacings.s16,
-            gap: t.spacings.s8,
-          }),
-        },
+          },
+          {
+            ...(appearance === 'compact' && {
+              paddingVertical: t.spacings.s8,
+            }),
+          },
+          {
+            ...(appearance === 'expanded' && {
+              marginTop: t.spacings.s8,
+              marginBottom: t.spacings.s12,
+              alignItems: 'flex-start',
+            }),
+          },
+          {
+            ...(appearance === 'with-asset' && {
+              marginVertical: t.spacings.s12,
+            }),
+          },
+        ]),
+        backButtonContainer: StyleSheet.flatten([
+          {
+            paddingLeft: t.spacings.s4,
+          },
+          {
+            ...(appearance !== 'expanded'
+              ? {
+                  position: 'absolute',
+                  left: t.spacings.s0,
+                }
+              : {
+                  marginVertical: t.spacings.s8,
+                }),
+          },
+        ]),
+        headerContainer: StyleSheet.flatten([
+          {
+            ...(appearance === 'expanded' && {
+              paddingLeft: t.spacings.s16,
+              gap: t.spacings.s8,
+            }),
+          },
+        ]),
         title: {
           ...t.typographies.heading4SemiBold,
           color: t.colors.text.base,
