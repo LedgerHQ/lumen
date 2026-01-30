@@ -184,36 +184,32 @@ const useStyles = ({ appearance }: StyleParams) => {
           },
           {
             ...(appearance === 'expanded' && {
-              marginTop: t.spacings.s8,
-              marginBottom: t.spacings.s12,
               alignItems: 'flex-start',
             }),
           },
           {
             ...(appearance === 'with-asset' && {
-              marginVertical: t.spacings.s12,
+              paddingVertical: t.spacings.s12,
             }),
           },
         ]),
         backButtonContainer: StyleSheet.flatten([
           {
             paddingLeft: t.spacings.s4,
+            paddingVertical: t.spacings.s8,
           },
           {
-            ...(appearance !== 'expanded'
-              ? {
-                  position: 'absolute',
-                  left: t.spacings.s0,
-                }
-              : {
-                  marginVertical: t.spacings.s8,
-                }),
+            ...(appearance !== 'expanded' && {
+              position: 'absolute',
+              left: t.spacings.s0,
+            }),
           },
         ]),
         headerContainer: StyleSheet.flatten([
           {
             ...(appearance === 'expanded' && {
-              paddingLeft: t.spacings.s16,
+              paddingHorizontal: t.spacings.s16,
+              paddingBottom: t.spacings.s12,
               gap: t.spacings.s8,
             }),
           },
