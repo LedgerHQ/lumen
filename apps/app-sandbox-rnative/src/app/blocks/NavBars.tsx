@@ -9,7 +9,7 @@ import {
 export const NavBars = () => {
   return (
     <Box>
-      <NavBar appearance='compact'>
+      <NavBar appearance='expanded'>
         <NavBarTitle>Title</NavBarTitle>
         <NavBarDescription>Description</NavBarDescription>
         <NavBarBackButton />

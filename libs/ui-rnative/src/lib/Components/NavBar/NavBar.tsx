@@ -1,17 +1,30 @@
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import React, { ReactNode } from 'react';
 import { useStyleSheet } from '../../../styles';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
 import {
+  NavBarAppearance,
   NavBarBackButtonProps,
   NavBarDescriptionProps,
   NavBarProps,
   NavBarTitleProps,
 } from './types';
 
-function extractSlots(children: ReactNode) {
-  const slots: Record<string, ReactNode | ReactNode[] | null> = {
+type Slots = {
+  backButton: ReactNode | null;
+  title: ReactNode | null;
+  description: ReactNode | null;
+  rest: ReactNode[];
+};
+
+const [NavBarProvider, useNavBarContext] = createSafeContext<{
+  appearance: NavBarAppearance;
+}>('NavBar');
+
+function extractSlots(children: ReactNode): Slots {
+  const slots: Slots = {
     backButton: null,
     title: null,
     description: null,
@@ -22,21 +35,31 @@ function extractSlots(children: ReactNode) {
     if (!React.isValidElement(child)) {
       return;
     }
-    if (child.type === NavBarBackButton) {
-      slots.backButton = child;
-    } else if (child.type === NavBarTitle) {
-      slots.title = child;
-    } else if (child.type === NavBarDescription) {
-      slots.description = child;
-    } else {
-      (slots.rest as ReactNode[]).push(child);
+    const displayName = (child.type as any).displayName;
+
+    switch (displayName) {
+      case 'NavBarBackButton':
+        slots.backButton = child;
+        break;
+      case 'NavBarTitle':
+        slots.title = child;
+        break;
+      case 'NavBarDescription':
+        slots.description = child;
+        break;
+      default:
+        slots.rest.push(child);
     }
   });
   return slots;
 }
 
 export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
-  const styles = useStyles();
+  const { appearance } = useNavBarContext({
+    consumerName: 'NavBarTitle',
+    contextRequired: true,
+  });
+  const styles = useStyles({ appearance });
 
   return (
     <Text numberOfLines={1} style={[styles.title, style]} {...props}>
@@ -52,7 +75,11 @@ export function NavBarDescription({
   style,
   ...props
 }: NavBarDescriptionProps) {
-  const styles = useStyles();
+  const { appearance } = useNavBarContext({
+    consumerName: 'NavBarDescription',
+    contextRequired: true,
+  });
+  const styles = useStyles({ appearance });
 
   return (
     <Text numberOfLines={1} style={[styles.description, style]} {...props}>
@@ -68,8 +95,6 @@ export function NavBarBackButton({
   onPress,
   style,
 }: NavBarBackButtonProps) {
-  const styles = useStyles();
-
   return (
     <IconButton
       appearance='no-background'
@@ -77,7 +102,7 @@ export function NavBarBackButton({
       accessibilityLabel={accessibilityLabel}
       icon={ArrowLeft}
       onPress={onPress}
-      style={[styles.backButton, style]}
+      style={style}
     />
   );
 }
@@ -88,64 +113,63 @@ NavBarBackButton.displayName = 'NavBarBackButton';
  * NavBar component for top navigation
  */
 export function NavBar({ appearance, children, ...props }: NavBarProps) {
-  const styles = useStyles();
+  const styles = useStyles({ appearance });
   const slots = extractSlots(children);
 
-  if (appearance === 'compact' || appearance === 'expanded') {
-    return (
+  return (
+    <NavBarProvider value={{ appearance }}>
       <Box style={styles.container} {...props}>
-        {slots.backButton}
-        <Box style={styles.centerContent}>
+        <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
+        <Box style={styles.headerContainer}>
           {slots.title}
           {slots.description}
         </Box>
-        {slots.rest}
       </Box>
-    );
-  }
-
-  if (appearance === 'with-asset') {
-    return (
-      <Box style={styles.container} {...props}>
-        {slots.backButton}
-        <Box style={styles.centerContent}>
-          {slots.title}
-          {/* Icon capsule will go here when implemented */}
-        </Box>
-        {slots.rest}
-      </Box>
-    );
-  }
-
-  return null;
+    </NavBarProvider>
+  );
 }
 
 NavBar.displayName = 'NavBar';
 
-const useStyles = () =>
-  useStyleSheet(
-    (t) => ({
-      container: {
-        alignItems: 'center',
-        minWidth: t.sizes.full,
-      },
-      centerContent: {
-        flex: 1,
-      },
-      backButton: {
-        position: 'absolute',
-        left: t.sizes.s4,
-      },
-      title: {
-        ...t.typographies.heading4SemiBold,
-        color: t.colors.text.base,
-        textAlign: 'center',
-      },
-      description: {
-        ...t.typographies.body2,
-        color: t.colors.text.muted,
-        textAlign: 'center',
-      },
-    }),
-    [],
+type StyleParams = {
+  appearance: NavBarAppearance;
+};
+
+const useStyles = ({ appearance }: StyleParams) => {
+  return useStyleSheet(
+    (t) => {
+      return {
+        container: {
+          minWidth: t.sizes.full,
+        },
+        backButtonContainer: {
+          ...(appearance === 'compact' && {
+            position: 'absolute',
+            left: t.spacings.s4,
+          }),
+          ...(appearance === 'expanded' && {
+            alignSelf: 'flex-start',
+            marginBottom: t.spacings.s8,
+          }),
+        },
+        headerContainer: {
+          ...(appearance === 'expanded' && {
+            paddingLeft: t.spacings.s16,
+            gap: t.spacings.s8,
+          }),
+        },
+        title: {
+          ...t.typographies.heading4SemiBold,
+          color: t.colors.text.base,
+          textAlign: appearance === 'expanded' ? 'left' : 'center',
+        },
+        description: {
+          ...t.typographies.body2,
+          color: t.colors.text.muted,
+          textAlign: appearance === 'expanded' ? 'left' : 'center',
+        },
+      };
+    },
+    [appearance],
   );
+};
