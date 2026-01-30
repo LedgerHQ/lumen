@@ -38,6 +38,7 @@ function extractSlots(children: ReactNode): Slots {
     if (!React.isValidElement(child)) {
       return;
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const displayName = (child.type as any).displayName;
 
     switch (displayName) {
