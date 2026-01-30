@@ -30,14 +30,14 @@ export type NavBarTitleProps = {
    * The title text to display.
    */
   children: ReactNode;
-};
+} & Omit<StyledViewProps, 'children'>;
 
 export type NavBarDescriptionProps = {
   /**
    * The description text to display.
    */
   children: ReactNode;
-};
+} & Omit<StyledViewProps, 'children'>;
 
 export type NavBarTrailingProps = {
   /**

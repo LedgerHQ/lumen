@@ -35,11 +35,11 @@ function extractSlots(children: ReactNode) {
   return slots;
 }
 
-export function NavBarTitle({ children }: NavBarTitleProps) {
+export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
   const styles = useStyles();
 
   return (
-    <Text numberOfLines={1} style={styles.title}>
+    <Text numberOfLines={1} style={[styles.title, style]} {...props}>
       {children}
     </Text>
   );
@@ -47,11 +47,15 @@ export function NavBarTitle({ children }: NavBarTitleProps) {
 
 NavBarTitle.displayName = 'NavBarTitle';
 
-export function NavBarDescription({ children }: NavBarDescriptionProps) {
+export function NavBarDescription({
+  children,
+  style,
+  ...props
+}: NavBarDescriptionProps) {
   const styles = useStyles();
 
   return (
-    <Text numberOfLines={1} style={styles.description}>
+    <Text numberOfLines={1} style={[styles.description, style]} {...props}>
       {children}
     </Text>
   );
@@ -61,6 +65,8 @@ NavBarDescription.displayName = 'NavBarDescription';
 
 export function NavBarBackButton({
   accessibilityLabel = 'Go back',
+  onPress,
+  style,
 }: NavBarBackButtonProps) {
   const styles = useStyles();
 
@@ -70,63 +76,48 @@ export function NavBarBackButton({
       size='md'
       accessibilityLabel={accessibilityLabel}
       icon={ArrowLeft}
-      style={styles.backButton}
+      onPress={onPress}
+      style={[styles.backButton, style]}
     />
   );
 }
 
 NavBarBackButton.displayName = 'NavBarBackButton';
 
-function NavBarCompact({ children, ...props }: any) {
-  const styles = useStyles();
-  const slots = extractSlots(children);
-
-  return (
-    <Box style={styles.container} {...props}>
-      {children}
-    </Box>
-  );
-}
-
-function NavBarExpanded({ children, ...props }: any) {
-  const styles = useStyles();
-  const slots = extractSlots(children);
-
-  return (
-    <Box style={styles.container} {...props}>
-      {children}
-    </Box>
-  );
-}
-
-function NavBarWithAsset({ children, ...props }: any) {
-  const styles = useStyles();
-  const slots = extractSlots(children);
-
-  return (
-    <Box style={styles.container} {...props}>
-      {children}
-    </Box>
-  );
-}
-
 /**
  * NavBar component for top navigation
  */
 export function NavBar({ appearance, children, ...props }: NavBarProps) {
   const styles = useStyles();
+  const slots = extractSlots(children);
 
-  const layout = {
-    compact: <NavBarCompact {...props} />,
-    expanded: <NavBarExpanded {...props} />,
-    'with-asset': <NavBarWithAsset {...props} />,
-  }[appearance];
+  if (appearance === 'compact' || appearance === 'expanded') {
+    return (
+      <Box style={styles.container} {...props}>
+        {slots.backButton}
+        <Box style={styles.centerContent}>
+          {slots.title}
+          {slots.description}
+        </Box>
+        {slots.rest}
+      </Box>
+    );
+  }
 
-  return (
-    <Box style={styles.container} {...props}>
-      {layout}
-    </Box>
-  );
+  if (appearance === 'with-asset') {
+    return (
+      <Box style={styles.container} {...props}>
+        {slots.backButton}
+        <Box style={styles.centerContent}>
+          {slots.title}
+          {/* Icon capsule will go here when implemented */}
+        </Box>
+        {slots.rest}
+      </Box>
+    );
+  }
+
+  return null;
 }
 
 NavBar.displayName = 'NavBar';
@@ -135,7 +126,15 @@ const useStyles = () =>
   useStyleSheet(
     (t) => ({
       container: {
+        alignItems: 'center',
         minWidth: t.sizes.full,
+      },
+      centerContent: {
+        flex: 1,
+      },
+      backButton: {
+        position: 'absolute',
+        left: t.sizes.s4,
       },
       title: {
         ...t.typographies.heading4SemiBold,
@@ -146,12 +145,6 @@ const useStyles = () =>
         ...t.typographies.body2,
         color: t.colors.text.muted,
         textAlign: 'center',
-      },
-      backButton: {
-        position: 'absolute',
-        left: t.spacings.s4,
-        borderRadius: t.borderRadius.full,
-        backgroundColor: t.colors.bg.baseTransparent,
       },
     }),
     [],
