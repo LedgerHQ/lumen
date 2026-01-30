@@ -27,6 +27,7 @@ import {
   Dividers,
   IconButtons,
   Links,
+  NavBars,
   Selects,
   Spots,
   Switches,
@@ -104,6 +105,9 @@ const AppContent = ({
               paddingVertical: 's40',
             }}
           >
+            <SandboxBlock title='NavBars'>
+              <NavBars />
+            </SandboxBlock>
             <SandboxBlock title='InteractiveIcons'>
               <InteractiveIcons />
             </SandboxBlock>

@@ -1,0 +1,20 @@
+import { Meta, Canvas } from '@storybook/addon-docs';
+import * as NavBarStories from './NavBar.stories';
+
+<Meta of={NavBarStories} />
+
+# NavBar
+
+Navigation bar component for top-level navigation.
+
+<Canvas of={NavBarStories.Base} />
+
+## Usage
+
+```tsx
+import { NavBar } from '@ledgerhq/lumen-ui-rnative';
+
+<NavBar>
+  {/* Your content here */}
+</NavBar>
+```
