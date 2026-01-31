@@ -16,6 +16,7 @@ export * from './Menu';
 export * from './NavBar';
 export * from './SearchInput';
 export * from './Select';
+export * from './SideBar';
 export * from './Skeleton';
 export * from './Spot';
 export * from './Subheader';

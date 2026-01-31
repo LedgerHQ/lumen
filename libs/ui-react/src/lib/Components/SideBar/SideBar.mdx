@@ -1,0 +1,482 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SideBarStories from './SideBar.stories';
+import { SideBar } from './SideBar';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Navigation/SideBar' of={SideBarStories} />
+
+# SideBar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+SideBar is a responsive navigation component with collapsible functionality. It uses a composite pattern with value-based selection, allowing you to compose sidebars with leading (top) and trailing (bottom) sections. Selection is managed at the root via `active` and `onActiveChange` props, similar to TabBar.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10860-398).
+
+## Anatomy
+
+<Canvas of={SideBarStories.Base} />
+
+- **SideBar**: Root container that manages collapsed state and provides context
+- **SideBarLeading**: Top section for primary navigation items
+- **SideBarTrailing**: Bottom section for secondary navigation items (pushed to bottom)
+- **SideBarFooter**: Footer section for the collapse toggle and other footer content
+- **SideBarItem**: Individual navigation item with icon and label
+- **SideBarCollapseToggle**: Toggle button to collapse/expand the sidebar
+
+<Controls of={SideBarStories.Base} />
+
+### Collapsed State
+
+The sidebar can be expanded (showing icons and labels) or collapsed (showing only icons with tooltips on hover).
+
+<Canvas of={SideBarStories.CollapsedShowcase} />
+
+
+### Custom Labels
+
+Labels can be strings or React nodes. Use React nodes to add Tags or other elements. When using custom label content, provide a `tooltipLabel` for the collapsed state.
+
+<Canvas of={SideBarStories.WithCustomLabel} />
+
+### Disabled Items
+
+Items can be disabled to indicate unavailable navigation options.
+
+<Canvas of={SideBarStories.WithDisabledItem} />
+
+
+### Controlled State
+
+The collapsed state can be controlled externally for integration with application state or external controls.
+
+<Canvas of={SideBarStories.ControlledState} />
+
+## Accessibility
+
+- The sidebar uses a `<nav>` element with `aria-label="Sidebar navigation"`
+- Items are focusable and support keyboard navigation
+- Tooltips appear when items are focused in collapsed mode
+- The collapse toggle has an `aria-label` describing its action
+
+</Tab>
+<Tab label="Implementation">
+
+# SideBar
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note:** `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import {
+  SideBar,
+  SideBarLeading,
+  SideBarTrailing,
+  SideBarFooter,
+  SideBarItem,
+  SideBarCollapseToggle,
+} from '@ledgerhq/lumen-ui-react';
+import { Home, HomeFill, Wallet, SettingsAlt, SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [active, setActive] = useState('home');
+
+  return (
+    <SideBar active={active} onActiveChange={setActive}>
+      <SideBarLeading>
+        <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+        <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+      </SideBarLeading>
+      <SideBarTrailing>
+        <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
+      </SideBarTrailing>
+      <SideBarFooter>
+        <SideBarCollapseToggle />
+      </SideBarFooter>
+    </SideBar>
+  );
+}
+```
+
+
+### Uncontrolled Mode
+
+For simpler use cases, you can use `defaultActive` and `defaultCollapsed` instead of controlling the state.
+
+```tsx
+<SideBar defaultActive="home" defaultCollapsed={false}>
+  <SideBarLeading>
+    <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+    <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+  </SideBarLeading>
+  <SideBarTrailing>
+    <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
+  </SideBarTrailing>
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+```
+
+### With Custom Label Content
+
+Use React nodes for labels when you need to add Tags or other elements. Provide `tooltipLabel` for collapsed mode.
+
+```tsx
+import { Tag } from '@ledgerhq/lumen-ui-react';
+import { Bell, BellFill } from '@ledgerhq/lumen-ui-react/symbols';
+
+<SideBarItem
+  value="notifications"
+  icon={Bell}
+  activeIcon={BellFill}
+  label={
+    <span className="flex items-center gap-8">
+      <span>Notifications</span>
+      <Tag size="sm" label="3" appearance="accent" />
+    </span>
+  }
+  tooltipLabel="Notifications (3 new)"
+/>
+```
+
+
+### Active/Inactive Icons
+
+Use different icon variants (e.g., filled vs outlined) for visual feedback. When `activeIcon` is not provided, it falls back to `icon`.
+
+```tsx
+import { Star, StarFill, Bell, BellFill } from '@ledgerhq/lumen-ui-react/symbols';
+
+<SideBarItem
+  value="favorites"
+  icon={Star}
+  activeIcon={StarFill}
+  label="Favorites"
+/>
+```
+
+### SideBarFooter
+
+Use `SideBarFooter` to place content at the bottom of the sidebar. This is typically used to contain the `SideBarCollapseToggle`.
+
+**Note:** The footer scrolls with the sidebar content.
+
+```tsx
+import { SideBarFooter, SideBarCollapseToggle } from '@ledgerhq/lumen-ui-react';
+
+// Basic usage with collapse toggle
+<SideBarFooter>
+  <SideBarCollapseToggle />
+</SideBarFooter>
+
+```
+
+
+## State Management
+
+### Controlled vs Uncontrolled
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Mode</th>
+        <th className='p-12 text-left text-on-accent body-2'>Props</th>
+        <th className='p-12 text-left text-on-accent body-2'>Use Case</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Controlled (collapsed)</td>
+        <td className='p-12 text-muted'>`collapsed`, `onCollapsedChange`</td>
+        <td className='p-12 text-muted'>Sync with external state, persist preference</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Uncontrolled (collapsed)</td>
+        <td className='p-12 text-muted'>`defaultCollapsed`</td>
+        <td className='p-12 text-muted'>Simple usage without external state</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Controlled (selection)</td>
+        <td className='p-12 text-muted'>`active`, `onActiveChange`</td>
+        <td className='p-12 text-muted'>Routing, external state management</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>Uncontrolled (selection)</td>
+        <td className='p-12 text-muted'>`defaultActive`</td>
+        <td className='p-12 text-muted'>Simple single-page usage</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```tsx
+// Fully controlled
+const [collapsed, setCollapsed] = useState(false);
+const [active, setActive] = useState('home');
+
+<SideBar
+  collapsed={collapsed}
+  onCollapsedChange={setCollapsed}
+  active={active}
+  onActiveChange={setActive}
+>
+  <SideBarLeading>...</SideBarLeading>
+  <SideBarTrailing>...</SideBarTrailing>
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+
+// Fully uncontrolled
+<SideBar defaultCollapsed={false} defaultActive="home">
+  <SideBarLeading>...</SideBarLeading>
+  <SideBarTrailing>...</SideBarTrailing>
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+```
+
+## Advanced Patterns
+
+### Nested Route Matching
+
+For routes with sub-pages, compute the active value from pathname:
+
+```tsx
+function Navigation() {
+  const { pathname } = useLocation();
+  
+  // Map nested routes to sidebar values
+  const getActiveValue = (path: string): string => {
+    if (path === '/' || path.startsWith('/asset/')) return '/';
+    if (path.startsWith('/account')) return '/accounts';
+    if (path.startsWith('/market')) return '/market';
+    if (path.startsWith('/platform')) return '/platform';
+    return path;
+  };
+
+  return (
+    <SideBar active={getActiveValue(pathname)}>
+      <SideBarLeading>
+        <SideBarItem value="/" icon={Home} activeIcon={HomeFill} label="Dashboard" />
+        <SideBarItem value="/accounts" icon={Wallet} activeIcon={Wallet} label="Accounts" />
+      </SideBarLeading>
+    </SideBar>
+  );
+}
+```
+
+### Items That Open Modals
+
+Not all items navigate. Some trigger modals or other actions. Use a value that won't match any route to prevent false active state.
+
+```tsx
+<SideBarItem
+  value="__send__"  // Won't match pathname, so never "active"
+  icon={ArrowUp}
+  activeIcon={ArrowUp}
+  label="Send"
+  onClick={() => openSendModal()}
+/>
+
+<SideBarItem
+  value="__receive__"
+  icon={ArrowDown}
+  activeIcon={ArrowDown}
+  label="Receive"
+  onClick={() => dispatch(openModal("MODAL_RECEIVE", undefined))}
+/>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use the `value` prop on items'
+    description='Each item needs a unique value. Active state is determined at the root.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBar active={active} onActiveChange={setActive}>
+  <SideBarLeading>
+    <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+    <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+  </SideBarLeading>
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't forget the `value` prop"
+    description='Without `value`, items cannot be selected or identified.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBar active={active} onActiveChange={setActive}>
+  <SideBarLeading>
+    <SideBarItem icon={Home} activeIcon={HomeFill} label="Home" />
+    <SideBarItem icon={Wallet} activeIcon={Wallet} label="Wallet" />
+  </SideBarLeading>
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Provide a distinct `activeIcon` when available'
+    description='This gives clear visual feedback for the active item.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBarItem
+  value="home"
+  icon={Home}
+  activeIcon={HomeFill}
+  label="Home"
+/>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't use the same icon for active and inactive"
+    description='This removes the visual distinction between states.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBarItem
+  value="home"
+  icon={Home}
+  activeIcon={Home}
+  label="Home"
+/>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Provide `tooltipLabel` for custom labels'
+    description='When using a React node label, provide a string tooltip for the collapsed state.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBarItem
+  value="notifications"
+  icon={Bell}
+  activeIcon={BellFill}
+  label={
+    <span className="flex gap-8">
+      <span>Notifications</span>
+      <Tag label="3" />
+    </span>
+  }
+  tooltipLabel="Notifications (3 new)"
+/>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't forget `tooltipLabel` with custom labels"
+    description='Without it, the tooltip may not display usable text in collapsed state.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBarItem
+  value="notifications"
+  icon={Bell}
+  activeIcon={BellFill}
+  label={
+    <span className="flex gap-8">
+      <span>Notifications</span>
+      <Tag label="3" />
+    </span>
+  }
+/>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use section containers'
+    description='Wrap items in SideBarLeading/SideBarTrailing and use SideBarFooter for the collapse toggle.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBar active={active} onActiveChange={setActive}>
+  <SideBarLeading>
+    <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+    <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+  </SideBarLeading>
+  <SideBarTrailing>
+    <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
+  </SideBarTrailing>
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't place items directly in SideBar"
+    description='Items without section containers will not have proper spacing and layout.'
+  >
+
+```tsx
+{/* prettier-ignore */}
+<SideBar active={active} onActiveChange={setActive}>
+  <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+  <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+  <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
+  <SideBarFooter>
+    <SideBarCollapseToggle />
+  </SideBarFooter>
+</SideBar>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+<CommonRulesDoAndDont />
+
+</div>
+</Tab>
+</CustomTabs>

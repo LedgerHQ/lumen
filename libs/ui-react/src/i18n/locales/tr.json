@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "Geri dön"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "Kenar çubuğu gezintisi",
+      "collapseAriaLabel": "Kenar çubuğunu daralt",
+      "expandAriaLabel": "Kenar çubuğunu genişlet"
     }
   }
 }

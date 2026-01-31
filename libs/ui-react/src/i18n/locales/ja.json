@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "戻る"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "サイドバーナビゲーション",
+      "collapseAriaLabel": "サイドバーを折りたたむ",
+      "expandAriaLabel": "サイドバーを展開する"
     }
   }
 }

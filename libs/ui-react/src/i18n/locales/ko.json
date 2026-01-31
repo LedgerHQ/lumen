@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "돌아가기"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "사이드바 탐색",
+      "collapseAriaLabel": "사이드바 접기",
+      "expandAriaLabel": "사이드바 펼치기"
     }
   }
 }
