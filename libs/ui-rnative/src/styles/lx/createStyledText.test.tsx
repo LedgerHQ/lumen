@@ -18,11 +18,14 @@ const testThemes: any = {
     shadows: {},
     typographies: {
       sm: {
-        body1: {
-          fontSize: 16,
-          fontWeight: '500',
-          lineHeight: 24,
-          letterSpacing: 0,
+        heading: {},
+        body: {
+          body1: {
+            fontSize: 16,
+            fontWeight: '500',
+            lineHeight: 24,
+            letterSpacing: 0,
+          },
         },
       },
     },
@@ -39,11 +42,14 @@ const testThemes: any = {
     shadows: {},
     typographies: {
       sm: {
-        body1: {
-          fontSize: 16,
-          fontWeight: '500',
-          lineHeight: 24,
-          letterSpacing: 0,
+        heading: {},
+        body: {
+          body1: {
+            fontSize: 16,
+            fontWeight: '500',
+            lineHeight: 24,
+            letterSpacing: 0,
+          },
         },
       },
     },

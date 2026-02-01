@@ -7,13 +7,12 @@ import { AddEntriesNegative } from './utility.types';
 /**
  * Typography tokens without responsive display (not applicable for React Native)
  */
-export type LumenTypographyTokens = Omit<
-  TypographyTokens,
-  | 'responsiveDisplay1'
-  | 'responsiveDisplay2'
-  | 'responsiveDisplay3'
-  | 'responsiveDisplay4'
->;
+export type LumenTypographyTokens = TypographyTokens['heading'] &
+  TypographyTokens['body'];
+
+export type LumenTypographyTokenName =
+  | keyof TypographyTokens['heading']
+  | keyof TypographyTokens['body'];
 
 /**
  * Instead of exposing the raw theme objects, narrow, extends and transform the theme to improve experience and performances

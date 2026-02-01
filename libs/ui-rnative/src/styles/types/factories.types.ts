@@ -10,7 +10,7 @@ import {
   Pressable as RNPressable,
 } from 'react-native';
 import { LumenTextStyle, LumenViewStyle } from './lx.types';
-import { LumenStyleSheetTheme } from './theme.types';
+import { LumenTypographyTokenName } from './theme.types';
 
 type StyleFn = (state: PressableStateCallbackType) => ViewStyle;
 export type PressableStyleItem =
@@ -46,7 +46,7 @@ export type StyledTextProps = {
   /**
    * Typography preset
    */
-  typography?: keyof LumenStyleSheetTheme['typographies'];
+  typography?: LumenTypographyTokenName;
 } & RNTextProps &
   ComponentPropsWithRef<typeof RNText>;
 

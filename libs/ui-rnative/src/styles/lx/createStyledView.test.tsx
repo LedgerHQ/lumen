@@ -12,7 +12,7 @@ const testThemes: any = {
     colors: { bg: { surface: '#F0F0F0' }, border: {} },
     borderRadius: { md: 12 },
     shadows: {},
-    typographies: { sm: {} },
+    typographies: { sm: { heading: {}, body: {} } },
   },
   dark: {
     spacings: { s16: 16 },
@@ -20,7 +20,7 @@ const testThemes: any = {
     colors: { bg: { surface: '#1C1C1E' }, border: {} },
     borderRadius: { md: 12 },
     shadows: {},
-    typographies: { sm: {} },
+    typographies: { sm: { heading: {}, body: {} } },
   },
 };
 

@@ -26,6 +26,8 @@ export const getNegativeSpacings = <
 export const createStylesheetTheme = (
   theme: LumenTheme,
 ): LumenStyleSheetTheme => {
+  const typography = theme.typographies.xs ?? theme.typographies.sm;
+
   return {
     ...theme,
     spacings: {
@@ -33,26 +35,8 @@ export const createStylesheetTheme = (
       ...getNegativeSpacings(theme?.spacings),
     },
     typographies: {
-      heading0: theme.typographies.xs.heading0,
-      heading0SemiBold: theme.typographies.xs.heading0SemiBold,
-      heading1: theme.typographies.xs.heading1,
-      heading1SemiBold: theme.typographies.xs.heading1SemiBold,
-      heading2: theme.typographies.xs.heading2,
-      heading2SemiBold: theme.typographies.xs.heading2SemiBold,
-      heading3: theme.typographies.xs.heading3,
-      heading3SemiBold: theme.typographies.xs.heading3SemiBold,
-      heading4: theme.typographies.xs.heading4,
-      heading4SemiBold: theme.typographies.xs.heading4SemiBold,
-      heading5: theme.typographies.xs.heading5,
-      heading5SemiBold: theme.typographies.xs.heading5SemiBold,
-      body1: theme.typographies.xs.body1,
-      body1SemiBold: theme.typographies.xs.body1SemiBold,
-      body2: theme.typographies.xs.body2,
-      body2SemiBold: theme.typographies.xs.body2SemiBold,
-      body3: theme.typographies.xs.body3,
-      body3SemiBold: theme.typographies.xs.body3SemiBold,
-      body4: theme.typographies.xs.body4,
-      body4SemiBold: theme.typographies.xs.body4SemiBold,
+      ...typography.heading,
+      ...typography.body,
     },
   };
 };
