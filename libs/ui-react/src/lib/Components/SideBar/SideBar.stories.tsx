@@ -16,6 +16,7 @@ import {
   Exchange,
   ExchangeFill,
 } from '../../Symbols';
+import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import {
   SideBar,
@@ -232,7 +233,7 @@ export const WithCustomLabel: Story = {
                 <Tag size='sm' label='3' appearance='accent' />
               </span>
             }
-            tooltipLabel='Notifications (3 new)'
+            tooltipContent='Notifications (3 new)'
           />
           <SideBarItem
             value='wallet'
@@ -244,7 +245,7 @@ export const WithCustomLabel: Story = {
                 <Tag size='sm' label='New' appearance='base' />
               </span>
             }
-            tooltipLabel='Wallet'
+            tooltipContent='Wallet'
           />
         </SideBarLeading>
         <SideBarTrailing>
@@ -318,15 +319,16 @@ export const ControlledState: Story = {
     const [active, setActive] = useState('home');
 
     return (
-      <div className='flex flex-col gap-16'>
+      <div className='flex w-208 flex-col gap-16'>
         <div className='flex items-center gap-8'>
           <span className='body-3 text-muted'>External control:</span>
-          <button
+          <Button
+            appearance='base'
+            size='sm'
             onClick={() => setCollapsed(!collapsed)}
-            className='rounded-md bg-muted px-12 py-8 body-3'
           >
             {collapsed ? 'Expand' : 'Collapse'}
-          </button>
+          </Button>
         </div>
         <div className='h-400'>
           <SideBar

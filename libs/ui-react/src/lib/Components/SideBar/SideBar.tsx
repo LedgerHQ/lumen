@@ -213,7 +213,7 @@ SideBarFooter.displayName = 'SideBarFooter';
  *   icon={Wallet}
  *   activeIcon={Wallet}
  *   label={<><span>Wallet</span><Tag color="accent" label="new" /></>}
- *   tooltipLabel="Wallet"
+ *   tooltipContent="Wallet"
  * />
  */
 export const SideBarItem = forwardRef<HTMLButtonElement, SideBarItemProps>(
@@ -223,7 +223,7 @@ export const SideBarItem = forwardRef<HTMLButtonElement, SideBarItemProps>(
       icon: Icon,
       activeIcon: ActiveIcon,
       label,
-      tooltipLabel,
+      tooltipContent: tooltipContentProp,
       disabled = false,
       className,
       onClick,
@@ -237,9 +237,8 @@ export const SideBarItem = forwardRef<HTMLButtonElement, SideBarItemProps>(
     });
 
     const isActive = active === value;
-    const IconComponent = isActive ? (ActiveIcon ?? Icon) : Icon;
-    const displayLabel = label ?? value;
-    const tooltipContent = tooltipLabel ?? displayLabel;
+    const IconComponent = isActive ? ActiveIcon : Icon;
+    const tooltipContent = tooltipContentProp ?? label;
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -253,14 +252,16 @@ export const SideBarItem = forwardRef<HTMLButtonElement, SideBarItemProps>(
     const content = (
       <>
         <IconComponent size={16} className='shrink-0' />
-        <span
-          className={cn(
-            'truncate transition-all duration-200',
-            collapsed ? 'ml-0 w-0 opacity-0' : 'ml-8 opacity-100',
-          )}
-        >
-          {displayLabel}
-        </span>
+        {label != null && (
+          <span
+            className={cn(
+              'truncate transition-all duration-200',
+              collapsed ? 'ml-0 w-0 opacity-0' : 'ml-8 opacity-100',
+            )}
+          >
+            {label}
+          </span>
+        )}
       </>
     );
 

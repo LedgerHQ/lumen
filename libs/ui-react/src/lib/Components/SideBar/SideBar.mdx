@@ -31,7 +31,7 @@ SideBar is a responsive navigation component with collapsible functionality. It 
 - **SideBarLeading**: Top section for primary navigation items
 - **SideBarTrailing**: Bottom section for secondary navigation items (pushed to bottom)
 - **SideBarFooter**: Footer section for the collapse toggle and other footer content
-- **SideBarItem**: Individual navigation item with icon and label
+- **SideBarItem**: Individual navigation item with icon and optional label (icon-only when label is omitted)
 - **SideBarCollapseToggle**: Toggle button to collapse/expand the sidebar
 
 <Controls of={SideBarStories.Base} />
@@ -45,7 +45,7 @@ The sidebar can be expanded (showing icons and labels) or collapsed (showing onl
 
 ### Custom Labels
 
-Labels can be strings or React nodes. Use React nodes to add Tags or other elements. When using custom label content, provide a `tooltipLabel` for the collapsed state.
+Labels can be strings or React nodes. Use React nodes to add Tags or other elements. When using custom label content, provide `tooltipContent` for the collapsed state.
 
 <Canvas of={SideBarStories.WithCustomLabel} />
 
@@ -134,32 +134,9 @@ For simpler use cases, you can use `defaultActive` and `defaultCollapsed` instea
 </SideBar>
 ```
 
-### With Custom Label Content
-
-Use React nodes for labels when you need to add Tags or other elements. Provide `tooltipLabel` for collapsed mode.
-
-```tsx
-import { Tag } from '@ledgerhq/lumen-ui-react';
-import { Bell, BellFill } from '@ledgerhq/lumen-ui-react/symbols';
-
-<SideBarItem
-  value="notifications"
-  icon={Bell}
-  activeIcon={BellFill}
-  label={
-    <span className="flex items-center gap-8">
-      <span>Notifications</span>
-      <Tag size="sm" label="3" appearance="accent" />
-    </span>
-  }
-  tooltipLabel="Notifications (3 new)"
-/>
-```
-
-
 ### Active/Inactive Icons
 
-Use different icon variants (e.g., filled vs outlined) for visual feedback. When `activeIcon` is not provided, it falls back to `icon`.
+Use different icon variants (e.g., filled vs outlined) for visual feedback. The `activeIcon` prop is **required**—you must provide both `icon` and `activeIcon`
 
 ```tsx
 import { Star, StarFill, Bell, BellFill } from '@ledgerhq/lumen-ui-react/symbols';
@@ -353,7 +330,7 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 
 <DoVsDontRow>
   <DoBlockItem
-    title='Provide a distinct `activeIcon` when available'
+    title='Provide a distinct `activeIcon`'
     description='This gives clear visual feedback for the active item.'
   >
 
@@ -388,8 +365,8 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 
 <DoVsDontRow>
   <DoBlockItem
-    title='Provide `tooltipLabel` for custom labels'
-    description='When using a React node label, provide a string tooltip for the collapsed state.'
+    title='Provide `tooltipContent` for custom labels'
+    description='When using a React node label, provide tooltip content (string or ReactNode) for the collapsed state.'
   >
 
 ```tsx
@@ -404,14 +381,14 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
       <Tag label="3" />
     </span>
   }
-  tooltipLabel="Notifications (3 new)"
+  tooltipContent="Notifications (3 new)"
 />
 ```
 
   </DoBlockItem>
   <DontBlockItem
-    title="Don't forget `tooltipLabel` with custom labels"
-    description='Without it, the tooltip may not display usable text in collapsed state.'
+    title="Don't forget `tooltipContent` with custom labels"
+    description='Without it, the tooltip may not display usable content when collapsed (label is a React node).'
   >
 
 ```tsx

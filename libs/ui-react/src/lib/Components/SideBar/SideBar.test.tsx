@@ -359,6 +359,25 @@ describe('SideBar Component', () => {
       expect(svgElement).toBeInTheDocument();
     });
 
+    it('should render icon only when label is omitted', () => {
+      render(
+        <SideBar>
+          <SideBarLeading>
+            <SideBarItem
+              value='home'
+              icon={Home}
+              activeIcon={HomeFill}
+              tooltipContent='Home'
+            />
+          </SideBarLeading>
+        </SideBar>,
+      );
+
+      const buttons = screen.getAllByRole('button');
+      expect(buttons).toHaveLength(1);
+      expect(screen.queryByText('Home')).not.toBeInTheDocument();
+    });
+
     it('should be disabled when disabled prop is true', () => {
       render(
         <SideBar>

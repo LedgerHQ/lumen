@@ -111,20 +111,17 @@ export type SideBarItemProps = {
   icon: React.ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * The icon component to display when the item is active.
-   * Falls back to `icon` if not provided.
    */
-  activeIcon?: React.ComponentType<{ size?: IconSize; className?: string }>;
+  activeIcon: React.ComponentType<{ size?: IconSize; className?: string }>;
   /**
-   * The label to display next to the icon (when expanded) or in tooltip (when collapsed).
-   * Can be a string or a ReactNode for custom content (e.g., with Tag).
-   * Falls back to `value` if not provided.
+   * Optional label next to the icon when expanded. Can be a string or a ReactNode (e.g., with Tag).
+   * When omitted, only the icon is shown. When collapsed, use `tooltipContent` for tooltip content.
    */
   label?: ReactNode;
   /**
-   * The text to display in the tooltip when collapsed.
-   * If not provided, falls back to `label`.
+   * Content shown in the tooltip when collapsed. Can be a string or ReactNode. If not provided and `label` is set, `label` is used.
    */
-  tooltipLabel?: string;
+  tooltipContent?: ReactNode;
   /**
    * Whether the item is disabled.
    * @default false
