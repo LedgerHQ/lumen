@@ -17,7 +17,7 @@ const testThemes: any = {
     borderRadius: {},
     shadows: {},
     typographies: {
-      sm: {
+      xs: {
         heading: {},
         body: {
           body1: {
@@ -41,7 +41,7 @@ const testThemes: any = {
     borderRadius: {},
     shadows: {},
     typographies: {
-      sm: {
+      xs: {
         heading: {},
         body: {
           body1: {

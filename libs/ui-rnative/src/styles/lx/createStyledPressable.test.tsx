@@ -17,7 +17,7 @@ const testThemes: any = {
     colors: { bg: { surface: '#F0F0F0', accent: '#6B21A8' }, border: {} },
     borderRadius: { md: 12 },
     shadows: {},
-    typographies: { sm: { heading: {}, body: {} } },
+    typographies: { xs: { heading: {}, body: {} } },
   },
   dark: {
     spacings: { s8: 8, s16: 16 },
@@ -25,7 +25,7 @@ const testThemes: any = {
     colors: { bg: { surface: '#1C1C1E', accent: '#A855F7' }, border: {} },
     borderRadius: { md: 12 },
     shadows: {},
-    typographies: { sm: { heading: {}, body: {} } },
+    typographies: { xs: { heading: {}, body: {} } },
   },
 };
 
