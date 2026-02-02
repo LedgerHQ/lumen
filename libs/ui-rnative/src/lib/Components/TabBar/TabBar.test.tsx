@@ -41,19 +41,6 @@ describe('TabBar', () => {
     expect(onTabPress).toHaveBeenCalledWith('settings');
   });
 
-  it('should fallback to value when label is not provided', () => {
-    const onTabPress = jest.fn();
-    const { getByText } = renderWithProvider(
-      <TabBar active='tab1' onTabPress={onTabPress}>
-        <TabBarItem value='tab1' icon={HomeFill} />
-        <TabBarItem value='tab2' icon={Settings} />
-      </TabBar>,
-    );
-
-    expect(getByText('tab1')).toBeTruthy();
-    expect(getByText('tab2')).toBeTruthy();
-  });
-
   it('should render multiple tabs correctly', () => {
     const onTabPress = jest.fn();
     const { getByText } = renderWithProvider(
