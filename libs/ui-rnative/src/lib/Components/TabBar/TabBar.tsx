@@ -114,12 +114,14 @@ export function TabBarItem({
           </Animated.View>
         </Box>
       </Animated.View>
-      <Text
-        style={[styles.itemText, isActive && styles.activeItemText]}
-        numberOfLines={1}
-      >
-        {label ?? value}
-      </Text>
+      {label && (
+        <Text
+          style={[styles.itemText, isActive && styles.activeItemText]}
+          numberOfLines={1}
+        >
+          {label}
+        </Text>
+      )}
     </Pressable>
   );
 }
@@ -237,6 +239,7 @@ const useStyles = () =>
   useStyleSheet(
     (t) => ({
       container: {
+        height: t.sizes.s56,
         flexDirection: 'row',
         justifyContent: 'center',
         padding: t.spacings.s4,

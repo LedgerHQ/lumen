@@ -14,7 +14,7 @@ export type TabBarItemProps = {
   value: string;
   /**
    * The display label for the tab item.
-   * If not provided, the value will be used as the label.
+   * If not provided, the icon will be centered.
    */
   label?: string;
   /**

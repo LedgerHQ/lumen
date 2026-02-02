@@ -112,7 +112,7 @@ export const MissingLabel: Story = {
     return (
       <TabBar active={active} onTabPress={setActive} lx={{ width: 's320' }}>
         <TabBarItem value='tab1' />
-        <TabBarItem value='tab2' label='Named Tab' icon={Placeholder} />
+        <TabBarItem value='tab2' label='Tab' icon={Placeholder} />
         <TabBarItem value='tab3' icon={Cart} />
       </TabBar>
     );

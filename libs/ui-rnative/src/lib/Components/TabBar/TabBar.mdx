@@ -29,7 +29,7 @@ TabBar is an animated navigation component that allows users to switch between d
 - **Tab Items**: Individual interactive elements representing different views.
 - **Active Indicator (Pill)**: Animated background highlighting the active tab
 - **Icons**: Visual indicators for each tab (with active and inactive states)
-- **Labels**: Text descriptions that can fallback to the tab value
+- **Labels**: Text descriptions for each tab
 
 ## Properties
 
@@ -46,7 +46,7 @@ Tab bar with five items, demonstrating scalability with multiple tabs:
 
 ### Fallback Behavior
 
-When icons or labels are not provided, the component gracefully falls back to placeholder icons and uses the `value` prop for labels:
+When icons are not provided, the component gracefully falls back to placeholder icons. If a label isn't provided, the icon is vertically centered.
 
 <Canvas of={TabBarStories.MissingLabel} />
 
@@ -58,7 +58,6 @@ The TabBar automatically adjusts to accommodate different numbers of tabs while 
 
 - Proper accessibility roles (`tablist` and `tab`) with labels for screen readers
 - Active state communicated through `accessibilityState` and visual indicators (bold text, icon changes)
-- Labels automatically fallback to `value` prop ensuring all tabs have accessible names
 - Fully pressable items with appropriate touch targets and smooth animation feedback
 
 </Tab>
