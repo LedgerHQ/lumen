@@ -1,20 +1,13 @@
 import React from 'react';
 import { Skeleton } from './Skeleton';
-import type { SkeletonProps } from './types';
 
 import figma from '@figma/code-connect';
 
 figma.connect(
   Skeleton,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=8004-10676',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=8004-10676',
   {
     imports: ["import { Skeleton } from '@ledgerhq/lumen-ui-react'"],
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/communication-skeleton--docs',
-      },
-    ],
     props: {
       component: figma.enum('appearance', {
         'list-item': 'list-item',
@@ -26,7 +19,7 @@ figma.connect(
         line: 'h-12 w-112 rounded-full',
       }),
     },
-    example: (props: SkeletonProps) => (
+    example: (props) => (
       <Skeleton component={props.component} className={props.className} />
     ),
   },
