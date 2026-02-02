@@ -110,6 +110,41 @@ export const WithoutTrailing: Story = {
   },
 };
 
+export const WithoutTitle: Story = {
+  render: () => (
+    <NavBar>
+      <NavBarBackButton onClick={() => console.log('Back clicked')} />
+      <NavBarTrailing>
+        <IconButton
+          appearance='gray'
+          size='sm'
+          icon={Settings}
+          aria-label='Settings'
+        />
+      </NavBarTrailing>
+    </NavBar>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavBar>
+  <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarTrailing>
+    <IconButton
+      appearance="gray"
+      size="sm"
+      icon={Settings}
+      aria-label="Settings"
+    />
+  </NavBarTrailing>
+</NavBar>
+        `,
+      },
+    },
+  },
+};
+
 export const WithMultipleTrailingActions: Story = {
   render: () => (
     <NavBar>
