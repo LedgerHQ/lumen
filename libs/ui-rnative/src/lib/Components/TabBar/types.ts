@@ -1,7 +1,6 @@
-import { ComponentType, ReactElement } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { IconSize } from '../Icon';
 import { BoxProps } from '../Utility';
-import type { TabBarItem } from './TabBar';
 
 type IconComponent = ComponentType<{
   size?: IconSize;
@@ -29,9 +28,6 @@ export type TabBarItemProps = {
   activeIcon?: IconComponent;
 };
 
-export type TabBarChild = ReactElement<TabBarItemProps, typeof TabBarItem>;
-export type TabBarChildren = [TabBarChild, TabBarChild, ...TabBarChild[]];
-
 export type TabBarProps = {
   /**
    * The value of the currently active tab.
@@ -42,7 +38,7 @@ export type TabBarProps = {
    */
   onTabPress: (active: string) => void;
   /**
-   * The tab items to display. Requires at least two TabBarItem children.
+   * The tab items to display.
    */
-  children: TabBarChildren;
+  children: ReactNode;
 } & Omit<BoxProps, 'children'>;

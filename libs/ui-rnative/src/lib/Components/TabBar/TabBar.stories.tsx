@@ -44,7 +44,7 @@ const meta = {
     },
     children: {
       control: false,
-      description: 'TabBarItem children (minimum 2 required)',
+      description: 'TabBarItem children',
       table: {
         type: { summary: 'TabBarChildren' },
       },

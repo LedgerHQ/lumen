@@ -133,7 +133,6 @@ TabBarItem.displayName = 'TabBarItem';
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_navigation-tabbar--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_navigation-tabbar--docs#dos-and-donts Guidelines}
  *
- * @warning Requires at least two TabBarItem children to function properly.
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  *
  * @example
