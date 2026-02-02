@@ -21,7 +21,11 @@ const renderWithProvider = (component: React.ReactElement) => {
   );
 };
 
-const typographies = ledgerLiveThemes.dark.typographies.sm;
+const typographyTokens = ledgerLiveThemes.dark.typographies.sm;
+const typographies = {
+  ...typographyTokens.heading,
+  ...typographyTokens.body,
+};
 const { colors, spacings } = ledgerLiveThemes.dark;
 
 describe('Link Component', () => {

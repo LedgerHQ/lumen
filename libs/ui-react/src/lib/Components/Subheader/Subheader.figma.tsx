@@ -16,8 +16,12 @@ import figma from '@figma/code-connect';
 
 figma.connect(
   Subheader,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10438-1354',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
   {
+    imports: [
+      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderInfo, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
+      "import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react'",
+    ],
     variant: { action: 'none' },
     props: {
       title: figma.string('title'),
@@ -36,33 +40,19 @@ figma.connect(
       descriptionBlock: figma.boolean('show-description', {
         true: (
           <SubheaderDescription>
-            {figma.string('description')}
+            Description
           </SubheaderDescription>
         ),
         false: undefined,
       }),
     },
-    imports: [
-      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
-      "import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react'",
-    ],
-    links: [
-      {
-        name: 'Documentation',
-        url: 'https://ldls.vercel.app/?path=/docs/communication-subheader--docs',
-      },
-      {
-        name: 'Storybook',
-        url: 'https://ldls.vercel.app/?path=/story/communication-subheader--base',
-      },
-    ],
-    example: ({ title, info, descriptionBlock }) => (
+    example: (props) => (
       <Subheader>
         <SubheaderRow>
-          <SubheaderTitle>{title}</SubheaderTitle>
-          {info}
+          <SubheaderTitle>{props.title}</SubheaderTitle>
+          {props.info}
         </SubheaderRow>
-        {descriptionBlock}
+        {props.descriptionBlock}
       </Subheader>
     ),
   },
@@ -70,8 +60,9 @@ figma.connect(
 
 figma.connect(
   Subheader,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10438-1354',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
   {
+    imports: [],
     variant: { action: 'button' },
     props: {
       title: figma.string('title'),
@@ -90,38 +81,24 @@ figma.connect(
       descriptionBlock: figma.boolean('show-description', {
         true: (
           <SubheaderDescription>
-            {figma.string('description')}
+            Description
           </SubheaderDescription>
         ),
         false: undefined,
       }),
     },
-    imports: [
-      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderAction, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
-      "import { Link, Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react'",
-    ],
-    links: [
-      {
-        name: 'Documentation',
-        url: 'https://ldls.vercel.app/?path=/docs/communication-subheader--docs',
-      },
-      {
-        name: 'Storybook',
-        url: 'https://ldls.vercel.app/?path=/story/communication-subheader--complete',
-      },
-    ],
-    example: ({ title, info, descriptionBlock }) => (
+    example: (props) => (
       <Subheader>
         <SubheaderRow>
-          <SubheaderTitle>{title}</SubheaderTitle>
-          {info}
-          <SubheaderAction onClick={() => console.log('Action clicked')}>
+          <SubheaderTitle>{props.title}</SubheaderTitle>
+          {props.info}
+          <SubheaderAction onClick={() => {}}>
             <Link href='#' appearance='accent' size='sm'>
               Action
             </Link>
           </SubheaderAction>
         </SubheaderRow>
-        {descriptionBlock}
+        {props.descriptionBlock}
       </Subheader>
     ),
   },
@@ -129,8 +106,11 @@ figma.connect(
 
 figma.connect(
   Subheader,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10438-1354',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
   {
+    imports: [
+      "import { SubheaderShowMore, SubheaderCount } from '@ledgerhq/lumen-ui-react'",
+    ],
     variant: { action: 'show-more' },
     props: {
       title: figma.string('title'),
@@ -142,28 +122,15 @@ figma.connect(
       descriptionBlock: figma.boolean('show-description', {
         true: (
           <SubheaderDescription>
-            {figma.string('description')}
+            Description
           </SubheaderDescription>
         ),
         false: undefined,
       }),
     },
-    imports: [
-      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderCount, SubheaderShowMore, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
-    ],
-    links: [
-      {
-        name: 'Documentation',
-        url: 'https://ldls.vercel.app/?path=/docs/communication-subheader--docs',
-      },
-      {
-        name: 'Storybook',
-        url: 'https://ldls.vercel.app/?path=/story/communication-subheader--with-show-more',
-      },
-    ],
     example: ({ title, count, descriptionBlock }) => (
       <Subheader>
-        <SubheaderRow onClick={() => console.log('Row clicked')}>
+        <SubheaderRow onClick={() => {}}>
           <SubheaderTitle>{title}</SubheaderTitle>
           {count}
           <SubheaderShowMore />

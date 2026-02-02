@@ -73,6 +73,7 @@ export type PrimitiveOtherTokens = {
   borderWidth: Record<string, number>;
   blur: Record<string, number>;
   breakpoints: {
+    xs: number;
     sm: number;
     md: number;
     lg: number;
@@ -106,42 +107,49 @@ export type TypographyDefinition = {
 };
 
 export type TypographyTokens = {
-  /**
-   * responsive display
-   */
-  responsiveDisplay1: TypographyDefinition;
-  responsiveDisplay2: TypographyDefinition;
-  responsiveDisplay3: TypographyDefinition;
-  responsiveDisplay4: TypographyDefinition;
-  /**
-   * headings
-   */
-  heading0: TypographyDefinition;
-  heading0SemiBold: TypographyDefinition;
-  heading1: TypographyDefinition;
-  heading1SemiBold: TypographyDefinition;
-  heading2: TypographyDefinition;
-  heading2SemiBold: TypographyDefinition;
-  heading3: TypographyDefinition;
-  heading3SemiBold: TypographyDefinition;
-  heading4: TypographyDefinition;
-  heading4SemiBold: TypographyDefinition;
-  heading5: TypographyDefinition;
-  heading5SemiBold: TypographyDefinition;
-  /**
-   * body
-   */
-  body1: TypographyDefinition;
-  body1SemiBold: TypographyDefinition;
-  body2: TypographyDefinition;
-  body2SemiBold: TypographyDefinition;
-  body3: TypographyDefinition;
-  body3SemiBold: TypographyDefinition;
-  body4: TypographyDefinition;
-  body4SemiBold: TypographyDefinition;
+  responsive: {
+    /**
+     * responsive display
+     */
+    responsiveDisplay1: TypographyDefinition;
+    responsiveDisplay2: TypographyDefinition;
+    responsiveDisplay3: TypographyDefinition;
+    responsiveDisplay4: TypographyDefinition;
+  };
+  heading: {
+    /**
+     * headings
+     */
+    heading0: TypographyDefinition;
+    heading0SemiBold: TypographyDefinition;
+    heading1: TypographyDefinition;
+    heading1SemiBold: TypographyDefinition;
+    heading2: TypographyDefinition;
+    heading2SemiBold: TypographyDefinition;
+    heading3: TypographyDefinition;
+    heading3SemiBold: TypographyDefinition;
+    heading4: TypographyDefinition;
+    heading4SemiBold: TypographyDefinition;
+    heading5: TypographyDefinition;
+    heading5SemiBold: TypographyDefinition;
+  };
+  body: {
+    /**
+     * body
+     */
+    body1: TypographyDefinition;
+    body1SemiBold: TypographyDefinition;
+    body2: TypographyDefinition;
+    body2SemiBold: TypographyDefinition;
+    body3: TypographyDefinition;
+    body3SemiBold: TypographyDefinition;
+    body4: TypographyDefinition;
+    body4SemiBold: TypographyDefinition;
+  };
 };
 
 export type TypographyTokensByBreakpoint = {
+  xs?: TypographyTokens;
   sm: TypographyTokens;
   md?: TypographyTokens;
   lg?: TypographyTokens;

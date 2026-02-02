@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchInput, SearchInputProps } from './SearchInput';
+import { SearchInput } from './SearchInput';
 
 import figma from '@figma/code-connect';
 
@@ -9,23 +9,23 @@ figma.connect(
   {
     imports: ["import { SearchInput } from '@ledgerhq/lumen-ui-react'"],
     props: {
-      placeholder: figma.string('label'),
+      appearance: figma.enum('appearance', {
+        plain: 'plain',
+        transparent: 'transparent',
+      }),
+      placeholder: figma.enum('search-state', {
+        placeholder: figma.string('label'),
+      }),
       value: figma.enum('search-state', {
-        placeholder: '',
         typing: 'Search text',
       }),
       disabled: figma.enum('state', {
         disabled: true,
       }),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/components-searchinput-overview--docs',
-      },
-    ],
-    example: (props: SearchInputProps) => (
+    example: (props) => (
       <SearchInput
+        appearance={props.appearance}
         placeholder={props.placeholder}
         value={props.value}
         disabled={props.disabled}
@@ -33,4 +33,3 @@ figma.connect(
     ),
   },
 );
-
