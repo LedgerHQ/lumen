@@ -5,44 +5,60 @@ import figma from '@figma/code-connect';
 
 figma.connect(
   Checkbox,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6688-3600',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6688-3600',
   {
     imports: ["import { Checkbox } from '@ledgerhq/lumen-ui-react'"],
+    variant: { 'show-label': true },
     props: {
       checkbox: figma.nestedProps('.checkbox', {
-        checked: figma.boolean('checked'),
+        checked: figma.boolean('selected'),
         disabled: figma.enum('state', {
           disabled: true,
         }),
       }),
-      label: figma.boolean('show-label', {
-        true: (
-          <label htmlFor='checkbox-id' className='cursor-pointer body-2'>
-            Label
-          </label>
-        ),
-        false: undefined,
-      }),
+      label: figma.string('label')
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/components-checkbox-overview--docs',
-      },
-    ],
-    example: (props: {
-      checkbox: { checked: boolean; disabled: boolean };
-      label?: string;
-    }) => (
+    example: (props) => (
       <>
         <Checkbox
           id='checkbox-id'
           name='checkbox-name'
           checked={props.checkbox.checked}
+          onCheckedChange={(checked: boolean) => {}}
+          defaultChecked={false}
           disabled={props.checkbox.disabled}
         />
-        {props.label}
+        <label htmlFor="checkbox-id" className="cursor-pointer body-2">
+          {props.label}
+        </label>
       </>
+    ),
+  },
+);
+
+figma.connect(
+  Checkbox,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6688-3600',
+  {
+    imports: ["import { Checkbox } from '@ledgerhq/lumen-ui-react'"],
+    variant: { 'show-label': false },
+    props: {
+      checkbox: figma.nestedProps('.checkbox', {
+        checked: figma.boolean('selected'),
+        disabled: figma.enum('state', {
+          disabled: true,
+        }),
+      }),
+    },
+    example: (props) => (
+      <Checkbox
+        id='checkbox-id'
+        name='checkbox-name'
+        checked={props.checkbox.checked}
+        onCheckedChange={(checked: boolean) => {}}
+        defaultChecked={false}
+        disabled={props.checkbox.disabled}
+      />
     ),
   },
 );

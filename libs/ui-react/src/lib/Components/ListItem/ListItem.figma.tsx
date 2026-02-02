@@ -9,9 +9,12 @@ import {
   ListItemSpot,
   ListItemIcon,
 } from './ListItem';
+import { Tag } from '../Tag'
+import { Switch } from '../Switch'
+import { Checkbox } from '../Checkbox'
+import { Settings } from '../../Symbols/Icons/Settings';
 
 import figma from '@figma/code-connect';
-import { Settings } from '../../Symbols/Icons/Settings';
 
 figma.connect(
   ListItem,
@@ -35,6 +38,10 @@ figma.connect(
       }),
       descriptionTag: figma.boolean('show-description-tag', {
         true: figma.instance('description'),
+        false: undefined,
+      }),
+      checkbox: figma.boolean('show-checkbox', {
+        true: <Checkbox checked={false} />,
         false: undefined,
       }),
       trailingContent: figma.enum('trailing-content', {
@@ -82,22 +89,17 @@ figma.connect(
           false: <ListItemTitle>42.00</ListItemTitle>,
         }),
         icon: figma.instance('trailing-icon'),
-        tag: '{<Tag label="New" appearance="accent" />}',
-        toggle: '{<Switch selected={selected} />}',
+        tag: <Tag label="New" appearance="accent" />,
+        toggle: <Switch selected={false} />,
       }),
       disabled: figma.enum('state', {
         disabled: true,
       }),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/components-listitem-overview--docs',
-      },
-    ],
     example: (props) => (
       <ListItem disabled={props.disabled}>
         <ListItemLeading>
+          {props.checkbox}
           {props.leadingContent}
           <ListItemContent>
             <ListItemTitle>{props.title}</ListItemTitle>
@@ -107,9 +109,7 @@ figma.connect(
               </ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
-        {props.trailingContent && (
-          <ListItemTrailing>{props.trailingContent}</ListItemTrailing>
-        )}
+        <ListItemTrailing>{props.trailingContent}</ListItemTrailing>
       </ListItem>
     ),
   },
