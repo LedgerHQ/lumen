@@ -13,7 +13,7 @@ import {
 // Menu Item Component
 figma.connect(
   MenuItem,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=7897-7037',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7897-7037',
   {
     props: {
       children: figma.boolean('show-description', {
@@ -53,7 +53,7 @@ figma.connect(
 // Menu Content
 figma.connect(
   MenuContent,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=7983-4755',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7983-4755',
   {
     props: {
       section2: figma.boolean('show-section-2', {
@@ -159,7 +159,7 @@ figma.connect(
 // Menu with Checkboxes and Radio
 figma.connect(
   Menu,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10211-1993',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10211-1993',
   {
     example: () => (
       <Menu>
