@@ -1332,6 +1332,30 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
+  - react-native-blur (4.4.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - react-native-safe-area-context (5.6.2):
     - DoubleConversion
     - glog
@@ -1729,7 +1753,7 @@ PODS:
     - React-logger (= 0.79.7)
     - React-perflogger (= 0.79.7)
     - React-utils (= 0.79.7)
-  - RNGestureHandler (2.30.0):
+  - RNGestureHandler (2.28.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1970,6 +1994,7 @@ DEPENDENCIES:
   - React-logger (from `../../../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../../../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../../../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - "react-native-blur (from `../../../node_modules/@react-native-community/blur`)"
   - react-native-safe-area-context (from `../../../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../../../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../../../node_modules/react-native/ReactCommon/oscompat`)
@@ -2089,6 +2114,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../../../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-blur:
+    :path: "../../../node_modules/@react-native-community/blur"
   react-native-safe-area-context:
     :path: "../../../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
@@ -2201,6 +2228,7 @@ SPEC CHECKSUMS:
   React-logger: fbdc0814b62fefa412a90af7cacc666387f1bc9a
   React-Mapbuffer: cfe4726ba1929b9dab4645c78376a9165375d62f
   React-microtasksnativemodule: c99b8f1240609566de105b73f2569c0f22880ee1
+  react-native-blur: 06d0f9906ecd6cde3a42de16c6cd829a2bf0710c
   react-native-safe-area-context: 0b8555c40461feb7198e999912a3446602e7c601
   React-NativeModulesApple: 74051ff264ce0b89ac799b56314f8f440a95ee4d
   React-oscompat: 0047f0ce53a328ce225777a6c617970556602c7c
@@ -2233,7 +2261,7 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: b203bace11326361b7f0513b3f5854cd340aa929
   ReactCodegen: 25463f45cfeb98adf151620288bf1132398f39b2
   ReactCommon: 4e460daed3ccb6af9e3de3176920362d8b888a17
-  RNGestureHandler: 4d34255948b634d4f3827cc534a1a3d05e50095b
+  RNGestureHandler: 0397fea67f39d5a2d17fcf4a028e206f7ba098ba
   RNReanimated: 9b3e2234620cd4b8fd92e4221cb2e910cc5d0b0e
   RNSVG: ba22deba00b123dd9bca2e5540b6fbc0d3f858cb
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748

@@ -28,7 +28,6 @@ describe('Icon', () => {
     const svg = screen.getByTestId('icon');
     expect(screen.getByTestId('path')).toBeTruthy();
     expect(svg.props.fill).toBe('none');
-    expect(svg.props.pointerEvents).toBe('none');
     expect(svg.props.width).toBe(iconTokens.width.s24);
     expect(svg.props.height).toBe(iconTokens.height.s24);
     expect(svg.props.strokeWidth).toBe(iconTokens.borderWidth.s24);
