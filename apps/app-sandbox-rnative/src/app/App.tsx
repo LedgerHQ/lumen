@@ -42,6 +42,7 @@ import {
   Tooltips,
   ListItems,
   Gradients,
+  ExampleTabBar,
   Subheaders,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
@@ -187,6 +188,16 @@ const AppContent = ({
             </SandboxBlock>
           </Box>
         </ScrollView>
+        <Box
+          lx={{
+            position: 'absolute',
+            bottom: 's20',
+            width: 'full',
+            paddingHorizontal: 's24',
+          }}
+        >
+          <ExampleTabBar />
+        </Box>
         <BottomSheetFlatLists ref={bottomSheetFlatListsRef} />
         <BottomSheetDynamicSize ref={bottomSheetDynamicSizeRef} />
         <GlobalTooltipBottomSheet />

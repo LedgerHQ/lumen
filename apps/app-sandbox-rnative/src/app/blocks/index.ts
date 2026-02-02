@@ -11,6 +11,7 @@ export * from './Selects';
 export * from './Spots';
 export * from './Subheaders';
 export * from './Switches';
+export * from './TabBars';
 export * from './Tags';
 export * from './TextInputs';
 export * from './Tiles';

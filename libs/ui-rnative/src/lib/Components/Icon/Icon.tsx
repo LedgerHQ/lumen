@@ -59,7 +59,7 @@ export const Icon = ({
       viewBox={viewBox}
       color={styles.color}
       fill='none'
-      pointerEvents='none'
+      style={{ pointerEvents: 'none' }}
       {...props}
     >
       {children}

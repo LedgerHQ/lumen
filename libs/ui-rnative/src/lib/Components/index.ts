@@ -17,6 +17,7 @@ export * from './Select';
 export * from './Spot';
 export * from './Subheader';
 export * from './Switch';
+export * from './TabBar';
 export * from './Tag';
 export * from './Utility';
 export * from './TextInput';
