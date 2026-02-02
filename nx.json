@@ -114,6 +114,9 @@
     },
     "test": {
       "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
     }
   },
   "generators": {
