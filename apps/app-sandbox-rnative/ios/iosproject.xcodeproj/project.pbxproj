@@ -11,9 +11,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9EEA632722D44EFCAA91AB1B /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 402DE6CB241C43B884FF94E2 /* Inter-Bold.ttf */; };
 		A1999006FD9F494EFD80DEE9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		B4CFEA603D024D4F9A445C92 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6BF47C5A93E4ADABD6B18B1 /* Inter-Medium.ttf */; };
-		9EEA632722D44EFCAA91AB1B /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 402DE6CB241C43B884FF94E2 /* Inter-Bold.ttf */; };
 		E3E4D96111C947909500EE18 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F70F3AEE10E4C67B5638D0A /* Inter-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
@@ -23,14 +23,14 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = iosproject/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = iosproject/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-iosproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosproject.debug.xcconfig"; path = "Target Support Files/Pods-iosproject/Pods-iosproject.debug.xcconfig"; sourceTree = "<group>"; };
+		402DE6CB241C43B884FF94E2 /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-iosproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosproject.release.xcconfig"; path = "Target Support Files/Pods-iosproject/Pods-iosproject.release.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-iosproject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iosproject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = iosproject/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iosproject/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9F70F3AEE10E4C67B5638D0A /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.ttf"; path = "../assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		A6BF47C5A93E4ADABD6B18B1 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		A6BF47C5A93E4ADABD6B18B1 /* Inter-Medium.ttf */ = {isa = PBXFileReference; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		402DE6CB241C43B884FF94E2 /* Inter-Bold.ttf */ = {isa = PBXFileReference; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9F70F3AEE10E4C67B5638D0A /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; name = "Inter-SemiBold.ttf"; path = "../assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +64,17 @@
 				5DCACB8F33CDC322A6C60F78 /* libPods-iosproject.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		57FFF72D748A45C5B5FAD295 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A6BF47C5A93E4ADABD6B18B1 /* Inter-Medium.ttf */,
+				402DE6CB241C43B884FF94E2 /* Inter-Bold.ttf */,
+				9F70F3AEE10E4C67B5638D0A /* Inter-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -104,17 +115,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		57FFF72D748A45C5B5FAD295 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				A6BF47C5A93E4ADABD6B18B1 /* Inter-Medium.ttf */,
-				402DE6CB241C43B884FF94E2 /* Inter-Bold.ttf */,
-				9F70F3AEE10E4C67B5638D0A /* Inter-SemiBold.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
