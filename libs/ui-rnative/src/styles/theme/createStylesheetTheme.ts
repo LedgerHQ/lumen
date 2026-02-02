@@ -26,8 +26,6 @@ export const getNegativeSpacings = <
 export const createStylesheetTheme = (
   theme: LumenTheme,
 ): LumenStyleSheetTheme => {
-  const typography = theme.typographies.xs ?? theme.typographies.sm;
-
   return {
     ...theme,
     spacings: {
@@ -35,8 +33,8 @@ export const createStylesheetTheme = (
       ...getNegativeSpacings(theme?.spacings),
     },
     typographies: {
-      ...typography.heading,
-      ...typography.body,
+      ...theme.typographies.xs.heading,
+      ...theme.typographies.xs.body,
     },
   };
 };
