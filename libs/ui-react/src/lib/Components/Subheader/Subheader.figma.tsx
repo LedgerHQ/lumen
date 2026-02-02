@@ -18,7 +18,10 @@ figma.connect(
   Subheader,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
   {
-    imports: [],
+    imports: [
+      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderInfo, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
+      "import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react'",
+    ],
     variant: { action: 'none' },
     props: {
       title: figma.string('title'),
@@ -105,7 +108,9 @@ figma.connect(
   Subheader,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
   {
-    imports: [],
+    imports: [
+      "import { SubheaderShowMore, SubheaderCount } from '@ledgerhq/lumen-ui-react'",
+    ],
     variant: { action: 'show-more' },
     props: {
       title: figma.string('title'),
