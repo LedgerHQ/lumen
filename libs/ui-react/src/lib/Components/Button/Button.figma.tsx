@@ -32,6 +32,9 @@ figma.connect(
         md: 'md',
         lg: 'lg',
       }),
+      className: figma.enum('width', {
+        'min-width': 'min-w-128'
+      }),
       children: figma.string('label'),
       icon: figma.instance('icon'),
     },
@@ -46,6 +49,7 @@ figma.connect(
         appearance={props.appearance}
         size={props.size}
         icon={props.icon}
+        className={props.className}
       >
         {props.children}
       </Button>
