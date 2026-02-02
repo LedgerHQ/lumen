@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ledgerhq/lumen-design-core": "0.0.45",
+    "@ledgerhq/lumen-design-core": "0.0.46",
     "@ledgerhq/lumen-ui-rnative": "0.0.63",
     "react": "19.0.0",
     "react-native": "0.79.7",
