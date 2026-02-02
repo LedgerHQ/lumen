@@ -20,9 +20,17 @@ const useStyles = () => {
         color: t.colors.text.muted,
       },
       currencyStartText: {
-        marginRight: t.spacings.s4,
+        ...t.typographies.heading1SemiBold,
+        color: t.colors.text.base,
       },
       currencyEndText: {
+        ...t.typographies.heading2SemiBold,
+        color: t.colors.text.muted,
+      },
+      spacingStart: {
+        marginRight: t.spacings.s4,
+      },
+      spacingEnd: {
         marginLeft: t.spacings.s4,
       },
     }),
@@ -74,21 +82,25 @@ export const AmountDisplay = React.forwardRef<ViewRef, AmountDisplayProps>(
         style={StyleSheet.flatten([styles.container, style])}
         {...props}
       >
+        {(parts.currencyPosition === undefined ||
+          parts.currencyPosition === 'start') && (
+          <Text style={[styles.currencyStartText, styles.spacingStart]}>
+            {parts.currencyText}
+          </Text>
+        )}
         <Text style={styles.integerText}>
-          {(parts.currencyPosition === undefined ||
-            parts.currencyPosition === 'start') && (
-            <Text style={styles.currencyStartText}>{parts.currencyText}</Text>
-          )}
-          <Text>{hidden ? '••••' : parts.integerPart}</Text>
+          {hidden ? '••••' : parts.integerPart}
         </Text>
-        <Text style={styles.decimalText}>
-          {parts.decimalPart && !hidden && (
-            <Text>{(parts.decimalSeparator || '.') + parts.decimalPart}</Text>
-          )}
-          {parts.currencyPosition === 'end' && (
-            <Text style={styles.currencyEndText}>{parts.currencyText}</Text>
-          )}
-        </Text>
+        {parts.decimalPart && !hidden && (
+          <Text style={styles.decimalText}>
+            {(parts.decimalSeparator || '.') + parts.decimalPart}
+          </Text>
+        )}
+        {parts.currencyPosition === 'end' && (
+          <Text style={[styles.currencyEndText, styles.spacingEnd]}>
+            {parts.currencyText}
+          </Text>
+        )}
       </View>
     );
   },
