@@ -147,6 +147,7 @@ export const primitiveLayoutTokens = {
     lg: 64,
   },
   breakpoints: {
+    xs: 360,
     sm: 640,
     md: 768,
     lg: 1024,

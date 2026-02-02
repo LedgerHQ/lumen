@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, TextInputProps } from './TextInput';
+import { TextInput } from './TextInput';
 
 import figma from '@figma/code-connect';
 
@@ -9,32 +9,31 @@ figma.connect(
   {
     imports: ["import { TextInput } from '@ledgerhq/lumen-ui-react'"],
     props: {
-      label: figma.string('label-text'),
-      placeholder: figma.string('placeholder-text'),
+      label: figma.enum('input-state', {
+        label: figma.string('label-text'),
+        placeholder: figma.string('label-text'),
+        input: figma.string('label-text'),
+      }),
+      placeholder: figma.enum('input-state', {
+        placeholder: figma.string('placeholder-text'),
+      }),
       value: figma.enum('input-state', {
-        placeholder: '',
-        typing: 'User input text',
+        input: figma.string('input-text'),
       }),
       disabled: figma.enum('state', {
         disabled: true,
       }),
-      errorMessage: figma.enum('state', {
-        error: 'This field is required',
-      }),
+      errorMessage: figma.nestedProps('.status', {
+        label: figma.string('label')
+      })
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/input-textinput--docs',
-      },
-    ],
-    example: (props: TextInputProps) => (
+    example: (props) => (
       <TextInput
+        disabled={props.disabled}
         label={props.label}
         placeholder={props.placeholder}
         value={props.value}
-        errorMessage={props.errorMessage}
-        disabled={props.disabled}
+        errorMessage={props.errorMessage.label}
       />
     ),
   },

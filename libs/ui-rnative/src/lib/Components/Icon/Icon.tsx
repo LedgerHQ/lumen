@@ -20,7 +20,11 @@ const useStyles = (
   color: IconProps['color'],
 ) => {
   const { theme } = useTheme();
-  const resolvedStyle = useResolveTextStyle({ ...(lx || {}), color });
+
+  const resolvedStyle = useResolveTextStyle({
+    ...(lx || {}),
+    color: color || lx?.color,
+  });
 
   return useMemo(() => {
     return {
@@ -55,7 +59,7 @@ export const Icon = ({
       viewBox={viewBox}
       color={styles.color}
       fill='none'
-      pointerEvents='none'
+      style={{ pointerEvents: 'none' }}
       {...props}
     >
       {children}

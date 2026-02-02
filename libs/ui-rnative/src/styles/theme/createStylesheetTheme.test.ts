@@ -32,12 +32,16 @@ describe('createStylesheetTheme', () => {
       expect(result.spacings['-s16']).toBe(-16);
     });
 
-    it('should use sm typography tokens', () => {
+    it('should flatten heading/body typography tokens', () => {
       const theme = ledgerLiveThemes.dark;
 
       const result = createStylesheetTheme(theme);
 
-      expect(result.typographies).toBe(theme.typographies.sm);
+      const typographyTokens = theme.typographies.xs ?? theme.typographies.sm;
+      expect(result.typographies).toEqual({
+        ...typographyTokens.heading,
+        ...typographyTokens.body,
+      });
     });
   });
 });

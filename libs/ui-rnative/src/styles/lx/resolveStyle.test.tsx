@@ -4,16 +4,12 @@ import { renderHook } from '@testing-library/react-native';
 import React from 'react';
 import type { BoxShadowValue } from 'react-native';
 import { LumenStyleSheetProvider } from '../provider/LumenStyleSheetProvider';
-import { createStylesheetTheme } from '../theme/createStylesheetTheme';
 import { useResolveViewStyle, useResolveTextStyle } from './resolveStyle';
 
 /**
  * Use actual theme from design-core for type-safe testing
  */
-const themes = {
-  dark: createStylesheetTheme(ledgerLiveThemes.dark),
-  light: createStylesheetTheme(ledgerLiveThemes.light),
-};
+const themes = ledgerLiveThemes;
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <LumenStyleSheetProvider themes={themes as any} colorScheme='dark'>

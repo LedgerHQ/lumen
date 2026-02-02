@@ -50,6 +50,7 @@ const useRootStyles = ({
           {
             position: 'relative',
             flexDirection: 'column',
+            overflow: 'hidden',
             width: '100%',
             flex: 1,
             alignItems: 'center',
@@ -124,7 +125,10 @@ export const Tile = ({
       <Pressable
         ref={ref}
         lx={lx}
-        style={StyleSheet.flatten([{ width: '100%' }, style])}
+        style={StyleSheet.flatten([
+          { width: '100%', overflow: 'hidden' },
+          style,
+        ])}
         disabled={disabled}
         accessibilityRole='button'
         accessibilityState={{ disabled }}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Tag, TagProps } from './Tag';
+import { Tag } from './Tag';
+import { TagProps } from './types';
 
 import figma from '@figma/code-connect';
 
@@ -8,14 +9,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=722%3A5547',
   {
     imports: ["import { Tag } from '@ledgerhq/lumen-ui-react'"],
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/components-tag-overview--docs',
-      },
-    ],
     props: {
-      // These props were automatically mapped based on your linked code:
       label: figma.string('label'),
       appearance: figma.enum('appearance', {
         base: 'base',
@@ -24,7 +18,6 @@ figma.connect(
         success: 'success',
         error: 'error',
         warning: 'warning',
-        disabled: 'disabled',
       }),
       size: figma.enum('size', {
         md: 'md',
@@ -32,11 +25,15 @@ figma.connect(
       }),
       showicon: figma.boolean('show-icon'),
       icon: figma.instance('icon'),
-      // No matching props could be found for these Figma properties:
-      // "label": figma.string('label')
+      disabled: figma.enum('appearance', {
+        disabled: true,
+      })
     },
-    example: (props: TagProps) => (
+    example: (props: Omit<TagProps, 'icon'> & {
+      icon: any,
+    }) => (
       <Tag
+        disabled={props.disabled}
         label={props.label}
         appearance={props.appearance}
         size={props.size}

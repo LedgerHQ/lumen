@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 import {
   EdgeInsets,
@@ -22,6 +22,14 @@ export class RuntimeConstants {
 
   static get isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof document !== 'undefined';
+  }
+
+  static get isAndroid(): boolean {
+    return this.isNative && Platform.OS === 'android';
+  }
+
+  static get isIOS(): boolean {
+    return this.isNative && Platform.OS === 'ios';
   }
 
   static get isNative(): boolean {

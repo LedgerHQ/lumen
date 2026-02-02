@@ -1,0 +1,185 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TabBarStories from './TabBar.stories';
+import { TabBar } from './TabBar';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Box } from '../Utility';
+
+<Meta title='Navigation/TabBar' of={TabBarStories} />
+
+# 🔘 TabBar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+TabBar is an animated navigation component that allows users to switch between different pages, views and sections. It features smooth transitions, blur effects, and customizable icons for each tab. Designed specifically for React Native applications, it seamlessly integrates with React Navigation and Expo Router.
+
+> **Note:** This component uses `react-native-reanimated` for animations and `@react-native-community/blur` for visual effects. These native libraries have limited support in web-based Storybook environments and may not render with full fidelity. For the complete experience with all animations and blur effects, please test the component in the native sandbox app on iOS or Android.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10804-1045&m=dev).
+
+
+## Anatomy
+
+<Canvas of={TabBarStories.Base} />
+
+- **Tab Items**: Individual interactive elements representing different views.
+- **Active Indicator (Pill)**: Animated background highlighting the active tab
+- **Icons**: Visual indicators for each tab (with active and inactive states)
+- **Labels**: Text descriptions for each tab
+
+## Properties
+
+### Overview
+
+<Canvas of={TabBarStories.Base} />
+<Controls of={TabBarStories.Base} />
+
+### Complex Example
+
+Tab bar with five items, demonstrating scalability with multiple tabs:
+
+<Canvas of={TabBarStories.Complex} />
+
+### Fallback Behavior
+
+When icons are not provided, the component gracefully falls back to placeholder icons. If a label isn't provided, the icon is vertically centered.
+
+<Canvas of={TabBarStories.MissingLabel} />
+
+## Responsive Layout
+
+The TabBar automatically adjusts to accommodate different numbers of tabs while maintaining equal spacing and proper alignment. The animated pill indicator smoothly transitions between tabs as users switch views.
+
+## Accessibility
+
+- Proper accessibility roles (`tablist` and `tab`) with labels for screen readers
+- Active state communicated through `accessibilityState` and visual indicators (bold text, icon changes)
+- Fully pressable items with appropriate touch targets and smooth animation feedback
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { useState } from 'react';
+import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
+import { Home, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  const [active, setActive] = useState('home');
+
+  return (
+    <TabBar active={active} onTabPress={setActive}>
+      <TabBarItem value='home' label='Home' icon={Home} />
+      <TabBarItem value='settings' label='Settings' icon={Settings} />
+    </TabBar>
+  );
+}
+```
+
+### With Active Icons
+
+Provide different icons for active and inactive states:
+
+```tsx
+import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
+import { Home, HomeFill, Settings, SettingsFill } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  const [active, setActive] = useState('home');
+
+  return (
+    <TabBar active={active} onTabPress={setActive}>
+      <TabBarItem 
+        value='home' 
+        label='Home' 
+        icon={Home} 
+        activeIcon={HomeFill} 
+      />
+      <TabBarItem 
+        value='settings' 
+        label='Settings' 
+        icon={Settings}
+        activeIcon={SettingsFill}
+      />
+    </TabBar>
+  );
+}
+```
+
+### Integration with React Navigation
+
+Use TabBar as a custom tab bar for React Navigation's bottom tab navigator:
+
+```tsx
+import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Home, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      tabBar={({ state, navigation }) => (
+        <TabBar
+          active={state.routes[state.index].name}
+          onTabPress={(routeName) => navigation.navigate(routeName)}
+        >
+          <TabBarItem value='Home' label='Home' icon={Home} />
+          <TabBarItem value='Settings' label='Settings' icon={Settings} />
+        </TabBar>
+      )}
+    >
+      <Tab.Screen name='Home' component={HomeScreen} />
+      <Tab.Screen name='Settings' component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+}
+```
+
+### Integration with Expo Router
+
+TabBar works seamlessly with Expo Router's tab layout:
+
+```tsx
+// app/(tabs)/_layout.tsx
+import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
+import { Tabs } from 'expo-router';
+import { Home, Profile } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+export default function TabLayout() {
+  return (
+    <Tabs
+      tabBar={({ state, navigation }) => (
+        <TabBar
+          active={state.routes[state.index].name}
+          onTabPress={(routeName) => navigation.navigate(routeName)}
+        >
+          <TabBarItem value='index' label='Home' icon={Home} />
+          <TabBarItem value='profile' label='Profile' icon={Profile} />
+        </TabBar>
+      )}
+    >
+      <Tabs.Screen name='index' />
+      <Tabs.Screen name='profile' />
+    </Tabs>
+  );
+}
+```
+
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+  <CommonRulesDoAndDont />
+</Box>
+
+</Tab>
+</CustomTabs>

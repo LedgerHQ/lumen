@@ -5,7 +5,7 @@ import StyleDictionary from 'style-dictionary';
 import type { TransformedToken } from 'style-dictionary';
 
 const brands = ['enterprise', 'websites', 'ledger-live'];
-const breakpoints = ['sm', 'md', 'lg', 'xl'];
+const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
 const themes = ['light', 'dark'];
 const tokensFolder = 'tokens';
 const defaultSuffix = '-default';

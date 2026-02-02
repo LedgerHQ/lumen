@@ -11,31 +11,19 @@ import { Button } from '../Button/Button';
 
 import figma from '@figma/code-connect';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const onClose = () => {};
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const onBack = () => {};
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const setOpen = () => {};
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const open = false;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const onOpenChange = () => {};
-
 figma.connect(
   Dialog,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6345-2641',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6345-2641',
   {
     imports: [
       "import { Dialog, DialogContent, DialogTrigger, DialogHeader } from '@ledgerhq/lumen-ui-react'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
     props: {
-      // Access nested DialogHeader properties using figma.nestedProps()
       dialogHeader: figma.nestedProps('.dialog-header', {
         appearance: figma.enum('appearance', {
           compact: 'compact',
-          extended: 'extended',
+          expanded: 'extended',
         }),
         title: figma.boolean('show-title', {
           true: figma.string('title'),
@@ -46,37 +34,22 @@ figma.connect(
           false: undefined,
         }),
         onBack: figma.boolean('show-back-icon', {
-          true: onBack,
+          true: () => {},
           false: undefined,
         }),
       }),
-      dialogFooter: figma.boolean('show-button', {
-        true: <DialogFooter>
+      dialogFooter: figma.boolean('show-sticky-button', {
+        true:
+        <DialogFooter>
           <Button appearance='base' isFull>
             Confirm
           </Button>
         </DialogFooter>,
         false: undefined,
       }),
-
-      // Dialog close handler
-      onOpenChange: onOpenChange,
-      onClose: onClose,
-      setOpen: setOpen,
-      open: open,
     },
-    links: [
-      {
-        name: 'Documentation',
-        url: 'https://ldls.vercel.app/?path=/docs/components-dialog--docs',
-      },
-      {
-        name: 'Storybook',
-        url: 'https://ldls.vercel.app/?path=/story/components-dialog--base',
-      },
-    ],
     example: (props) => (
-      <Dialog open={props.open} onOpenChange={props.onOpenChange}>
+      <Dialog open={false} onOpenChange={() => {}}>
         <DialogTrigger asChild>
           <Button>Open Dialog</Button>
         </DialogTrigger>
@@ -86,11 +59,10 @@ figma.connect(
             title={props.dialogHeader.title}
             description={props.dialogHeader.description}
             onBack={props.dialogHeader.onBack}
-            onClose={onClose}
+            onClose={() => {}}
           />
           <DialogBody>
             <p>Dialog content goes here</p>
-            {/* Content varies based on: {props.contentState} */}
           </DialogBody>
           {props.dialogFooter}
         </DialogContent>

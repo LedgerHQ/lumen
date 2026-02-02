@@ -203,6 +203,53 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 5. Document any known limitations or edge cases
 6. Follow the story naming conventions above for consistency
 
+### Code connect best practices
+
+#### Generate Your Figma Access Token
+
+1. Go to your Figma account settings
+2. Navigate to **Security** section
+3. In the **Personal access tokens** section, click **Generate new token**
+4. Give it a descriptive name (e.g., "Code Connect - Local Dev")
+5. Copy the token (it starts with `figd_`)
+
+#### Configure Your Token
+
+Add your token to a `.env` file at the root of your project:
+```bash
+FIGMA_ACCESS_TOKEN=figd_your_token_here
+```
+
+Once configured, you can skip the `--token` flag in all commands:
+```bash
+# Instead of this:
+figma connect publish --token $FIGMA_ACCESS_TOKEN
+
+# You can simply use:
+figma connect publish
+```
+
+### Daily Workflow Commands
+
+#### Test Before Publishing
+Always dry run before publishing to catch errors early:
+```bash
+# Dry run with directory
+figma connect publish --dry-run --dir libs/ui-react/src/lib/Components/YourComponent/
+```
+
+#### Publish Specific Directory
+When working on a single component, publish only its directory:
+```bash
+figma connect publish --dir libs/ui-react/src/lib/Components/YourComponent/
+```
+
+#### Remove Broken Connections
+If a component connection is broken, unpublish it by node URL, and label, specified in figma.config.json:
+```bash
+figma connect unpublish --node "https://figma.com/file/abc?node-id=123" --label "React"
+```
+
 ## Testing Guidelines
 
 ### Writing Interaction Tests

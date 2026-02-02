@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, ButtonProps } from './Button';
+import { Button } from './Button';
+import { ButtonProps } from './types';
+
 import figma from '@figma/code-connect';
-import { IconSize } from '../Icon/Icon';
 
 figma.connect(
   Button,
@@ -12,7 +13,6 @@ figma.connect(
       "// import { YourIconName } from '@ledgerhq/lumen-ui-react/Symbols'",
     ],
     props: {
-      // These props were automatically mapped based on your linked code:
       disabled: figma.enum('state', {
         disabled: true,
       }),
@@ -32,15 +32,12 @@ figma.connect(
         md: 'md',
         lg: 'lg',
       }),
+      className: figma.enum('width', {
+        'min-width': 'min-w-128'
+      }),
       children: figma.string('label'),
       icon: figma.instance('icon'),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/action-button-overview--docs',
-      },
-    ],
     example: (
       props: Omit<ButtonProps, 'icon'> & {
         icon?: any;
@@ -51,12 +48,8 @@ figma.connect(
         loading={props.loading}
         appearance={props.appearance}
         size={props.size}
-        icon={
-          props.icon as unknown as React.ComponentType<{
-            size?: IconSize;
-            className?: string;
-          }>
-        }
+        icon={props.icon}
+        className={props.className}
       >
         {props.children}
       </Button>
