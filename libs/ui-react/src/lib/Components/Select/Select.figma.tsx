@@ -11,50 +11,29 @@ import figma from '@figma/code-connect';
 
 figma.connect(
   Select,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6397-463',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6397-463',
   {
     imports: [
       "import { Select, SelectContent, SelectItem, SelectItemText, SelectTrigger } from '@ledgerhq/lumen-ui-react'",
     ],
     props: {
-      opened: figma.boolean('opened', {
-        true: true,
-        false: false,
-      }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
-      label: figma.boolean('show-label', {
-        true: figma.string('label'),
-        false: false,
-      }),
-
-      value: figma.string('value'),
+      opened: figma.boolean('opened'),
+      triggerProps: figma.nestedProps('.select-trigger-input', {
+        label: figma.string('label'),
+        value: figma.string('input-value'),
+        disabled: figma.enum('state', {
+          disabled: true,
+        })
+      })
     },
-    links: [
-      {
-        name: 'Documentation',
-        url: 'https://ldls.vercel.app/?path=/docs/selection-select--docs',
-      },
-      {
-        name: 'Storybook',
-        url: 'https://ldls.vercel.app/?path=/story/selection-select--base',
-      },
-    ],
-    example: (props: {
-      opened: boolean;
-      disabled: boolean;
-      showLabel: boolean;
-      label: string;
-      value: string;
-    }) => (
+    example: (props) => (
       <Select
         open={props.opened}
-        disabled={props.disabled}
-        value={props.value}
+        disabled={props.triggerProps.disabled}
+        value={props.triggerProps.value}
         onValueChange={() => {}}
       >
-        <SelectTrigger label={props.label} />
+        <SelectTrigger label={props.triggerProps.label} />
         <SelectContent>
           <SelectItem value='option1'>
             <SelectItemText>Option 1</SelectItemText>
