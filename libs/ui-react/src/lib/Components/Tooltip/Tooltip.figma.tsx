@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Tooltip,
   TooltipContent,
-  TooltipProps,
   TooltipTrigger,
 } from './Tooltip';
 
@@ -24,18 +23,7 @@ figma.connect(
         right: 'right',
       }),
     },
-    links: [
-      {
-        name: '*',
-        url: 'https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs',
-      },
-    ],
-    example: (
-      props: TooltipProps & {
-        side: 'top' | 'bottom' | 'left' | 'right';
-        label: string;
-      },
-    ) => (
+    example: (props) => (
       <Tooltip>
         <TooltipTrigger>
           <button>Hover me</button>

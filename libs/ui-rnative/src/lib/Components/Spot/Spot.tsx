@@ -1,7 +1,6 @@
-import { TypographyTokens } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { useStyleSheet } from '../../../styles';
+import { LumenTypographyTokens, useStyleSheet } from '../../../styles';
 import {
   BluetoothCircleFill,
   CheckmarkCircleFill,
@@ -32,7 +31,7 @@ const spotSizeMap: Record<SpotSize, number> = {
   72: 72,
 };
 
-const numberTypographyMap: Record<SpotSize, keyof TypographyTokens> = {
+const numberTypographyMap: Record<SpotSize, keyof LumenTypographyTokens> = {
   32: 'body2SemiBold',
   40: 'body1SemiBold',
   48: 'heading5',

@@ -214,10 +214,7 @@ const BaseButtonContent = ({
   return (
     <View style={styles.container} testID='base-button-content'>
       {loading && (
-        <Spinner
-          size={calculatedIconSize}
-          style={{ color: styles.icon.color }}
-        />
+        <Spinner size={calculatedIconSize} color={styles.icon.color} />
       )}
       {!loading && IconProp && (
         <IconProp size={calculatedIconSize} style={styles.icon} />

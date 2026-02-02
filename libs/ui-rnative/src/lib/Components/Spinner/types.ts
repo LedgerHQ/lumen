@@ -12,5 +12,5 @@ export type SpinnerProps = {
    * The color of the spinner icon.
    * @default 'base'
    */
-  color?: LumenTextStyle['color'];
+  color?: LumenTextStyle['color'] | string;
 } & Omit<TextProps, 'children'>;
