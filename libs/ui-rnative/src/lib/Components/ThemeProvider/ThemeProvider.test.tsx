@@ -6,12 +6,12 @@ import { ThemeProvider } from './ThemeProvider';
 const themes: any = {
   light: {
     typographies: {
-      sm: {},
+      xs: {},
     },
   },
   dark: {
     typographies: {
-      sm: {},
+      xs: {},
     },
   },
 };

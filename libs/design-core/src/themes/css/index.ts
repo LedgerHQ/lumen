@@ -8,12 +8,14 @@ import { tokens as typographyLgTokens } from './typographies/typography.lg-css';
 import { tokens as typographyMdTokens } from './typographies/typography.md-css';
 import { tokens as typographySmTokens } from './typographies/typography.sm-css';
 import { tokens as typographyXlTokens } from './typographies/typography.xl-css';
+import { tokens as typographyXsTokens } from './typographies/typography.xs-css';
 import { tokens as websitesDarkThemeTokens } from './websites/theme.dark-css';
 import { tokens as websitesLightThemeTokens } from './websites/theme.light-css';
 
 export const primitivesTheme = {
   ':root': {
     ...primitivesTokens[':root'],
+    ...typographyXsTokens[':root'],
     ...typographySmTokens[':root'],
     ...typographyLgTokens,
     ...typographyMdTokens,

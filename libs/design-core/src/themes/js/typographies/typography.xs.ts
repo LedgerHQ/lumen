@@ -1,38 +1,38 @@
 import { primitiveTypographyTokens } from '../primitives/primitive.typographies';
 import { TypographyTokens } from '../types';
 
-export const typographyMdTokens = {
+export const typographyXsTokens = {
   responsive: {
     /**
      * Responsive
      */
     responsiveDisplay1: {
       fontFamily: primitiveTypographyTokens.fontFamily.sans,
-      fontSize: primitiveTypographyTokens.fontSize['112'],
-      fontWeight: primitiveTypographyTokens.fontWeight.bold,
-      lineHeight: primitiveTypographyTokens.lineHeight['112'],
-      letterSpacing: primitiveTypographyTokens.letterSpacing['112'],
-    },
-    responsiveDisplay2: {
-      fontFamily: primitiveTypographyTokens.fontFamily.sans,
-      fontSize: primitiveTypographyTokens.fontSize['80'],
-      fontWeight: primitiveTypographyTokens.fontWeight.semiBold,
-      lineHeight: primitiveTypographyTokens.lineHeight['80'],
-      letterSpacing: primitiveTypographyTokens.letterSpacing['80'],
-    },
-    responsiveDisplay3: {
-      fontFamily: primitiveTypographyTokens.fontFamily.sans,
       fontSize: primitiveTypographyTokens.fontSize['64'],
-      fontWeight: primitiveTypographyTokens.fontWeight.semiBold,
+      fontWeight: primitiveTypographyTokens.fontWeight.bold,
       lineHeight: primitiveTypographyTokens.lineHeight['64'],
       letterSpacing: primitiveTypographyTokens.letterSpacing['64'],
     },
+    responsiveDisplay2: {
+      fontFamily: primitiveTypographyTokens.fontFamily.sans,
+      fontSize: primitiveTypographyTokens.fontSize['40'],
+      fontWeight: primitiveTypographyTokens.fontWeight.semiBold,
+      lineHeight: primitiveTypographyTokens.lineHeight['40'],
+      letterSpacing: primitiveTypographyTokens.letterSpacing['40'],
+    },
+    responsiveDisplay3: {
+      fontFamily: primitiveTypographyTokens.fontFamily.sans,
+      fontSize: primitiveTypographyTokens.fontSize['36'],
+      fontWeight: primitiveTypographyTokens.fontWeight.semiBold,
+      lineHeight: primitiveTypographyTokens.lineHeight['36'],
+      letterSpacing: primitiveTypographyTokens.letterSpacing['36'],
+    },
     responsiveDisplay4: {
       fontFamily: primitiveTypographyTokens.fontFamily.sans,
-      fontSize: primitiveTypographyTokens.fontSize['52'],
+      fontSize: primitiveTypographyTokens.fontSize['32'],
       fontWeight: primitiveTypographyTokens.fontWeight.semiBold,
-      lineHeight: primitiveTypographyTokens.lineHeight['52'],
-      letterSpacing: primitiveTypographyTokens.letterSpacing['52'],
+      lineHeight: primitiveTypographyTokens.lineHeight['32'],
+      letterSpacing: primitiveTypographyTokens.letterSpacing['32'],
     },
   },
   heading: {

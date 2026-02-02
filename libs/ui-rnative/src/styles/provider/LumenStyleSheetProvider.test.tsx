@@ -15,7 +15,7 @@ const testThemes: any = {
       },
     },
     typographies: {
-      sm: {
+      xs: {
         body1: {
           fontSize: 16,
           fontWeight: 'normal',
@@ -31,7 +31,7 @@ const testThemes: any = {
       },
     },
     typographies: {
-      sm: {
+      xs: {
         body1: {
           fontSize: 16,
           fontWeight: 'normal',
