@@ -177,6 +177,7 @@ const useStyles = ({ appearance }: StyleParams) => {
             minWidth: t.sizes.full,
             justifyContent: 'center',
             alignItems: 'center',
+            flexDirection: 'row',
           },
           {
             ...(appearance === 'compact' && {
@@ -186,6 +187,7 @@ const useStyles = ({ appearance }: StyleParams) => {
           {
             ...(appearance === 'expanded' && {
               alignItems: 'flex-start',
+              flexDirection: 'column',
             }),
           },
           {
@@ -203,15 +205,29 @@ const useStyles = ({ appearance }: StyleParams) => {
             ...(appearance !== 'expanded' && {
               position: 'absolute',
               left: t.spacings.s0,
+              zIndex: 1,
             }),
           },
         ]),
         headerContainer: StyleSheet.flatten([
           {
+            flex: 1,
+            ...(appearance !== 'expanded' && {
+              paddingHorizontal: t.spacings.s48,
+            }),
+          },
+          {
             ...(appearance === 'expanded' && {
               paddingHorizontal: t.spacings.s16,
               paddingBottom: t.spacings.s12,
               gap: t.spacings.s8,
+              width: '100%',
+            }),
+          },
+          {
+            ...(appearance === 'with-asset' && {
+              alignItems: 'center',
+              justifyContent: 'center',
             }),
           },
         ]),
@@ -226,7 +242,9 @@ const useStyles = ({ appearance }: StyleParams) => {
           textAlign: appearance === 'expanded' ? 'left' : 'center',
         },
         coinCapsule: {
-          alignSelf: 'flex-start',
+          ...(appearance !== 'with-asset' && {
+            alignSelf: 'flex-start',
+          }),
         },
       };
     },

@@ -128,12 +128,13 @@ export const TruncationShowcase: Story = {
       <NavBar {...args} appearance='expanded'>
         <NavBarBackButton onPress={() => console.log('Back pressed')} />
         <NavBarTitle>
-          This is a very long title in expanded mode that will also truncate but
-          has more space
+          This is a very long title in expanded mode with multiple lines of text
+          that demonstrates the two-line truncation behavior when the content
+          exceeds the available space in the navigation bar
         </NavBarTitle>
         <NavBarDescription>
           And this description also truncates when it gets too long for the
-          available space
+          available space in the navigation bar
         </NavBarDescription>
       </NavBar>
     </Box>
