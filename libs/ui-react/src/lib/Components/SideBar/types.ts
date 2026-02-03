@@ -46,7 +46,7 @@ export type SideBarProps = {
    */
   onActiveChange?: (value: string) => void;
   /**
-   * The children of the sidebar (SideBarLeading, SideBarTrailing).
+   * The children of the sidebar (SideBarLeading, SideBarTrailing, SideBarFooter).
    */
   children: ReactNode;
   /**
