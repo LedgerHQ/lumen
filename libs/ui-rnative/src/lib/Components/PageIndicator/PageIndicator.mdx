@@ -1,14 +1,119 @@
-import { Meta, Canvas } from '@storybook/blocks';
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as PageIndicatorStories from './PageIndicator.stories';
+import { PageIndicator } from './PageIndicator';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 
-<Meta of={PageIndicatorStories} />
+<Meta title='Communication/PageIndicator' of={PageIndicatorStories} />
 
-# Page Indicator
+# PageIndicator
+
+<CustomTabs>
+  <Tab label="Overview">
 
 ## Introduction
 
-The PageIndicator component displays pagination progress with visual dots representing pages.
+The PageIndicator component displays pagination progress with animated dots representing pages. It shows a maximum of 4 dots on screen at a time, with smooth transitions when navigating through multiple pages.
+
+## Anatomy
+
+<div style={{ width: '100%' }}>
+  <Canvas of={PageIndicatorStories.Base} />
+</div>
+
+The PageIndicator consists of:
+
+- **Container**: The root wrapper that centers the dots
+- **Viewport**: A fixed-width container showing up to 4 dots
+- **Dots**: Circular indicators representing each page
+- **Active dot**: The current page, displayed with stronger color
+- **Inactive dots**: Other pages, displayed with muted color
+
+## Properties
+
+### Overview
+
+<div style={{ width: '100%' }}>
+  <Canvas of={PageIndicatorStories.Base} />
+</div>
+
+<Controls of={PageIndicatorStories.Base} />
+
+### Interactive Example
+
+When there are more than 4 pages, the indicator automatically shows a sliding window of dots. Edge dots shrink to indicate more pages are available in that direction.
+
+<div style={{ width: '100%' }}>
+  <Canvas of={PageIndicatorStories.Interactive} />
+</div>
+
+## Behavior
+
+- **Maximum visible dots**: 4 dots are displayed on screen at once
+- **Smooth animations**: Page transitions are animated with 200ms duration
+- **Smart scrolling**: The indicator automatically scrolls to keep the current page visible
+- **Edge indicators**: Dots at the edges shrink when more pages exist beyond the visible range
+
+## Accessibility
+
+- The component has `accessibilityRole='none'` as it's a visual indicator
+- Ensure surrounding controls (like navigation buttons) have proper accessibility labels
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
 ## Basic Usage
 
-<Canvas of={PageIndicatorStories.Base} />
+```tsx
+import { PageIndicator } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const totalPages = 5;
+
+  return <PageIndicator currentPage={currentPage} totalPages={totalPages} />;
+}
+```
+
+### With Navigation Controls
+
+```tsx
+import { PageIndicator, IconButton, Box } from '@ledgerhq/lumen-ui-rnative';
+import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [page, setPage] = useState(0);
+  const totalPages = 9;
+
+  return (
+    <Box lx={{ gap: 's16', alignItems: 'center' }}>
+      <Box lx={{ flexDirection: 'row', gap: 's16', alignItems: 'center' }}>
+        <IconButton
+          icon={ArrowLeft}
+          size='xs'
+          accessibilityLabel='Previous page'
+          onPress={() => setPage((v) => Math.max(0, v - 1))}
+        />
+        <PageIndicator currentPage={page} totalPages={totalPages} />
+        <IconButton
+          icon={ArrowRight}
+          size='xs'
+          accessibilityLabel='Next page'
+          onPress={() => setPage((v) => Math.min(totalPages - 1, v + 1))}
+        />
+      </Box>
+    </Box>
+  );
+}
+```
+
+## Performance Considerations
+
+The PageIndicator uses React Native Reanimated for smooth animations. Animations run on the UI thread for optimal performance, even with frequent page changes.
+
+</Tab>
+</CustomTabs>

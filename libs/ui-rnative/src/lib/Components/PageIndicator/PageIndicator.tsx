@@ -56,7 +56,7 @@ const PageIndicatorDot = ({
       height: size,
       width: size,
     };
-  });
+  }, []);
 
   return <AnimatedBox style={[styles.dot, animatedStyle]} />;
 };
@@ -100,9 +100,12 @@ export const PageIndicator = ({
     translateX.value = withTiming(-offset * dotWidth, { duration: 200 });
   }, [currentPage, totalPages, theme.sizes.s6, theme.spacings.s4, offset]);
 
-  const stripAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
+  const stripAnimatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: translateX.value }],
+    }),
+    [],
+  );
 
   const dotSize = theme.sizes.s6;
   const gap = theme.spacings.s4;
