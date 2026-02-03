@@ -287,7 +287,7 @@ describe('SideBar Component', () => {
         </SideBar>,
       );
 
-      expect(navElement).toHaveClass('w-fit');
+      expect(navElement).toHaveClass('w-72');
     });
   });
 
