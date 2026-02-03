@@ -95,7 +95,7 @@ export const Base: Story = {
               label='Home'
             />
             <SideBarItem
-              value='Exchange'
+              value='exchange'
               icon={Exchange}
               activeIcon={ExchangeFill}
               label='Exchange'
