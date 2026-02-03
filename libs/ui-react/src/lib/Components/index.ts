@@ -23,6 +23,7 @@ export * from './Spinner';
 export * from './Spot';
 export * from './Subheader';
 export * from './Switch';
+export * from './Table';
 export * from './Tag';
 export * from './TextInput';
 export * from './Tile';
