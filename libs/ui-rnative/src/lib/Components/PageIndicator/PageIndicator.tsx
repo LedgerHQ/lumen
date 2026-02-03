@@ -1,5 +1,4 @@
 import Animated, {
-  Easing,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -98,7 +97,7 @@ export const PageIndicator = ({
     const gap = theme.spacings.s4;
     const dotWidth = dotSize + gap;
 
-    translateX.value = withTiming(-offset * dotWidth, { duration: 300 });
+    translateX.value = withTiming(-offset * dotWidth, { duration: 200 });
   }, [currentPage, totalPages, theme.sizes.s6, theme.spacings.s4, offset]);
 
   const stripAnimatedStyle = useAnimatedStyle(() => ({
