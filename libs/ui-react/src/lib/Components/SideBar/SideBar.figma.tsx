@@ -22,7 +22,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10860-398',
   {
     imports: [
-      "import { SideBar, SideBarLeading, SideBarTrailing, SideBarItem } from '@ledgerhq/lumen-ui-react'",
+      "import { SideBar, SideBarLeading, SideBarTrailing, SideBarItem, SideBarFooter, SideBarCollapseToggle } from '@ledgerhq/lumen-ui-react'",
     ],
     props: {
       appearance: figma.enum('appearance', {
