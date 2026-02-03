@@ -178,6 +178,8 @@ const useStyles = ({ appearance }: StyleParams) => {
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
+            gap: t.spacings.s4,
+            paddingHorizontal: t.spacings.s4,
           },
           {
             ...(appearance === 'compact' && {
@@ -198,13 +200,12 @@ const useStyles = ({ appearance }: StyleParams) => {
         ]),
         backButtonContainer: StyleSheet.flatten([
           {
-            paddingLeft: t.spacings.s4,
             paddingVertical: t.spacings.s8,
           },
           {
             ...(appearance !== 'expanded' && {
               position: 'absolute',
-              left: t.spacings.s0,
+              left: t.spacings.s4,
               zIndex: 1,
             }),
           },
@@ -218,7 +219,7 @@ const useStyles = ({ appearance }: StyleParams) => {
           },
           {
             ...(appearance === 'expanded' && {
-              paddingHorizontal: t.spacings.s16,
+              paddingHorizontal: t.spacings.s12,
               paddingBottom: t.spacings.s12,
               gap: t.spacings.s8,
               width: '100%',

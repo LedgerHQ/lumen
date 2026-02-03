@@ -53,7 +53,8 @@ export const Base: Story = {
   render: (args) => (
     <NavBar {...args}>
       <NavBarBackButton onPress={() => console.log('Back pressed')} />
-      <NavBarTitle>Page Title</NavBarTitle>
+      <NavBarTitle>Title</NavBarTitle>
+      <NavBarDescription>Description</NavBarDescription>
       <IconButton
         appearance='no-background'
         size='md'
@@ -123,6 +124,10 @@ export const TruncationShowcase: Story = {
         <NavBarTitle>
           This is a very long title that will be truncated on a single line
         </NavBarTitle>
+        <NavBarDescription>
+          This is a very long description that will be truncated in compact mode
+          showing how descriptions are hidden when space is limited
+        </NavBarDescription>
       </NavBar>
 
       <NavBar {...args} appearance='expanded'>
