@@ -1,4 +1,5 @@
 import Animated, {
+  interpolate,
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
@@ -7,33 +8,52 @@ import Animated, {
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Box } from '../Utility';
 import { PageIndicatorProps } from './types';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 type PageIndicatorDotProps = {
   index: number;
-  active: boolean;
+  isActive: boolean;
+  isShrunk: boolean;
 };
 
-const PageIndicatorDot = ({ index, active }: PageIndicatorDotProps) => {
+const MAX_NUMBER_OF_DOTS = 4;
+
+const PageIndicatorDot = ({
+  index,
+  isActive,
+  isShrunk,
+}: PageIndicatorDotProps) => {
   const styles = useStyles();
   const { theme } = useTheme();
 
-  const progress = useSharedValue(0);
+  const colorProgress = useSharedValue(0);
+  const shrinkProgress = useSharedValue(0);
 
   useEffect(() => {
-    progress.value = withTiming(active ? 1 : 0, { duration: 200 });
-  }, [active]);
+    colorProgress.value = withTiming(isActive ? 1 : 0, { duration: 200 });
+  }, [isActive]);
+
+  useEffect(() => {
+    shrinkProgress.value = withTiming(isShrunk ? 1 : 0, { duration: 200 });
+  }, [isShrunk]);
 
   const animatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
-      progress.value,
+      colorProgress.value,
       [0, 1],
       [theme.colors.bg.mutedHover, theme.colors.bg.mutedStrong],
     );
+    const size = interpolate(
+      shrinkProgress.value,
+      [0, 1],
+      [theme.sizes.s6, theme.sizes.s4],
+    );
     return {
       backgroundColor,
+      height: size,
+      width: size,
     };
   });
 
@@ -54,6 +74,32 @@ export const PageIndicator = ({
     activeDotProgress.value = withTiming(currentPage, { duration: 200 });
   }, [currentPage]);
 
+  const prevPage = useRef(currentPage);
+  const direction = currentPage > prevPage.current ? 'forward' : 'backward';
+
+  useEffect(() => {
+    prevPage.current = currentPage;
+  }, [currentPage]);
+
+  const forwardAnchor = MAX_NUMBER_OF_DOTS - 2;
+  const backwardAnchor = 1;
+
+  const anchorIndex = direction === 'forward' ? forwardAnchor : backwardAnchor;
+
+  const visibleDots = Math.min(totalPages, MAX_NUMBER_OF_DOTS);
+  const lastPage = totalPages - 1;
+
+  const windowStart = Math.max(
+    0,
+    Math.min(currentPage - anchorIndex, lastPage - (visibleDots - 1)),
+  );
+
+  const isActive = (index: number) => windowStart + index === currentPage;
+
+  const isShrunk = (index: number) =>
+    (index === 0 && windowStart > 0) ||
+    (index === visibleDots - 1 && windowStart + visibleDots - 1 < lastPage);
+
   return (
     <Box
       ref={ref}
@@ -62,9 +108,16 @@ export const PageIndicator = ({
       style={styles.container}
       {...props}
     >
-      {Array.from({ length: totalPages }).map((_, i) => (
-        <PageIndicatorDot index={i} active={i + 1 === currentPage} />
-      ))}
+      {Array.from({ length: Math.min(totalPages, MAX_NUMBER_OF_DOTS) }).map(
+        (_, index) => (
+          <PageIndicatorDot
+            key={index}
+            index={index}
+            isActive={isActive(index)}
+            isShrunk={isShrunk(index)}
+          />
+        ),
+      )}
     </Box>
   );
 };
@@ -77,6 +130,7 @@ const useStyles = () =>
       container: {
         flexDirection: 'row',
         gap: t.spacings.s4,
+        alignItems: 'center',
       },
       dot: {
         height: t.sizes.s6,
