@@ -183,7 +183,7 @@ describe('SideBar Component', () => {
       );
 
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('w-fit');
+      expect(navElement).toHaveClass('w-72');
     });
 
     it('should hide labels when collapsed', () => {
