@@ -43,6 +43,7 @@ import {
   Gradients,
   ExampleTabBar,
   Subheaders,
+  PageIndicators,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 
@@ -178,6 +179,9 @@ const AppContent = ({
             </SandboxBlock>
             <SandboxBlock title='Dividers'>
               <Dividers />
+            </SandboxBlock>
+            <SandboxBlock title='PageIndicators'>
+              <PageIndicators />
             </SandboxBlock>
             <SandboxBlock title='Gradients' hideDivider>
               <Gradients />
