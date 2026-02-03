@@ -1,4 +1,5 @@
 import Animated, {
+  Easing,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -14,22 +15,23 @@ const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 type PageIndicatorDotProps = {
   index: number;
-  isActive: boolean;
+  currentPage: number;
   isShrunk: boolean;
 };
 
-const MAX_NUMBER_OF_DOTS = 4;
+const MAX_VISIBLE_DOTS = 4;
 
 const PageIndicatorDot = ({
   index,
-  isActive,
+  currentPage,
   isShrunk,
 }: PageIndicatorDotProps) => {
   const styles = useStyles();
   const { theme } = useTheme();
 
-  const colorProgress = useSharedValue(0);
-  const shrinkProgress = useSharedValue(0);
+  const isActive = index === currentPage;
+  const colorProgress = useSharedValue(isActive ? 1 : 0);
+  const shrinkProgress = useSharedValue(isShrunk ? 1 : 0);
 
   useEffect(() => {
     colorProgress.value = withTiming(isActive ? 1 : 0, { duration: 200 });
@@ -68,37 +70,60 @@ export const PageIndicator = ({
   ...props
 }: PageIndicatorProps) => {
   const styles = useStyles();
-  const activeDotProgress = useSharedValue(0);
-
-  useEffect(() => {
-    activeDotProgress.value = withTiming(currentPage, { duration: 200 });
-  }, [currentPage]);
-
+  const { theme } = useTheme();
+  const translateX = useSharedValue(0);
   const prevPage = useRef(currentPage);
+
   const direction = currentPage > prevPage.current ? 'forward' : 'backward';
 
   useEffect(() => {
     prevPage.current = currentPage;
   }, [currentPage]);
 
-  const forwardAnchor = MAX_NUMBER_OF_DOTS - 2;
+  const forwardAnchor = MAX_VISIBLE_DOTS - 2;
   const backwardAnchor = 1;
 
   const anchorIndex = direction === 'forward' ? forwardAnchor : backwardAnchor;
 
-  const visibleDots = Math.min(totalPages, MAX_NUMBER_OF_DOTS);
   const lastPage = totalPages - 1;
+  const visibleDots = Math.min(totalPages, MAX_VISIBLE_DOTS);
 
-  const windowStart = Math.max(
+  const offset = Math.max(
     0,
     Math.min(currentPage - anchorIndex, lastPage - (visibleDots - 1)),
   );
 
-  const isActive = (index: number) => windowStart + index === currentPage;
+  useEffect(() => {
+    const dotSize = theme.sizes.s6;
+    const gap = theme.spacings.s4;
+    const dotWidth = dotSize + gap;
 
-  const isShrunk = (index: number) =>
-    (index === 0 && windowStart > 0) ||
-    (index === visibleDots - 1 && windowStart + visibleDots - 1 < lastPage);
+    translateX.value = withTiming(-offset * dotWidth, { duration: 300 });
+  }, [currentPage, totalPages, theme.sizes.s6, theme.spacings.s4, offset]);
+
+  const stripAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  const dotSize = theme.sizes.s6;
+  const gap = theme.spacings.s4;
+  const viewportWidth = visibleDots * dotSize + (visibleDots - 1) * gap;
+
+  const firstVisibleIndex = offset;
+  const lastVisibleIndex = offset + MAX_VISIBLE_DOTS - 1;
+
+  const isShrunk = (index: number): boolean => {
+    if (totalPages <= MAX_VISIBLE_DOTS) {
+      return false;
+    }
+    if (index === firstVisibleIndex && firstVisibleIndex > 0) {
+      return true;
+    }
+    if (index === lastVisibleIndex && lastVisibleIndex < totalPages - 1) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <Box
@@ -108,16 +133,18 @@ export const PageIndicator = ({
       style={styles.container}
       {...props}
     >
-      {Array.from({ length: Math.min(totalPages, MAX_NUMBER_OF_DOTS) }).map(
-        (_, index) => (
-          <PageIndicatorDot
-            key={index}
-            index={index}
-            isActive={isActive(index)}
-            isShrunk={isShrunk(index)}
-          />
-        ),
-      )}
+      <Box style={[styles.viewport, { width: viewportWidth }]}>
+        <AnimatedBox style={[styles.strip, stripAnimatedStyle]}>
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <PageIndicatorDot
+              key={index}
+              index={index}
+              currentPage={currentPage}
+              isShrunk={isShrunk(index)}
+            />
+          ))}
+        </AnimatedBox>
+      </Box>
     </Box>
   );
 };
@@ -128,13 +155,22 @@ const useStyles = () =>
   useStyleSheet(
     (t) => ({
       container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      viewport: {
+        overflow: 'hidden',
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      strip: {
         flexDirection: 'row',
         gap: t.spacings.s4,
         alignItems: 'center',
       },
       dot: {
         height: t.sizes.s6,
-        aspectRatio: 1,
+        width: t.sizes.s6,
         borderRadius: t.borderRadius.full,
         backgroundColor: t.colors.bg.mutedHover,
       },
