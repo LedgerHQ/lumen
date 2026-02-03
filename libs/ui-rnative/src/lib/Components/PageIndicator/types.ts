@@ -1,3 +1,6 @@
 import { BoxProps } from '../Utility';
 
-export type PageIndicatorProps = {} & Omit<BoxProps, 'children'>;
+export type PageIndicatorProps = {
+  currentPage: number;
+  totalPages: number;
+} & Omit<BoxProps, 'children'>;
