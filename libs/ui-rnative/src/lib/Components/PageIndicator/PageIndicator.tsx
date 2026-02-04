@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import Animated, {
   interpolate,
   interpolateColor,
@@ -8,7 +9,6 @@ import Animated, {
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Box } from '../Utility';
 import { PageIndicatorProps } from './types';
-import { useEffect, useRef } from 'react';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
@@ -29,16 +29,16 @@ const PageIndicatorDot = ({
   const { theme } = useTheme();
 
   const isActive = index === currentPage;
-  const colorProgress = useSharedValue(isActive ? 1 : 0);
-  const shrinkProgress = useSharedValue(isShrunk ? 1 : 0);
+  const colorProgress = useSharedValue(0);
+  const shrinkProgress = useSharedValue(0);
 
   useEffect(() => {
     colorProgress.value = withTiming(isActive ? 1 : 0, { duration: 200 });
-  }, [isActive]);
+  }, [isActive, colorProgress]);
 
   useEffect(() => {
     shrinkProgress.value = withTiming(isShrunk ? 1 : 0, { duration: 200 });
-  }, [isShrunk]);
+  }, [isShrunk, shrinkProgress]);
 
   const animatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
@@ -56,7 +56,14 @@ const PageIndicatorDot = ({
       height: size,
       width: size,
     };
-  }, []);
+  }, [
+    colorProgress,
+    shrinkProgress,
+    theme.colors.bg.mutedHover,
+    theme.colors.bg.mutedStrong,
+    theme.sizes.s6,
+    theme.sizes.s4,
+  ]);
 
   return <AnimatedBox style={[styles.dot, animatedStyle]} />;
 };
@@ -98,13 +105,20 @@ export const PageIndicator = ({
     const dotWidth = dotSize + gap;
 
     translateX.value = withTiming(-offset * dotWidth, { duration: 200 });
-  }, [currentPage, totalPages, theme.sizes.s6, theme.spacings.s4, offset]);
+  }, [
+    currentPage,
+    totalPages,
+    theme.sizes.s6,
+    theme.spacings.s4,
+    offset,
+    translateX,
+  ]);
 
   const stripAnimatedStyle = useAnimatedStyle(
     () => ({
       transform: [{ translateX: translateX.value }],
     }),
-    [],
+    [translateX],
   );
 
   const dotSize = theme.sizes.s6;

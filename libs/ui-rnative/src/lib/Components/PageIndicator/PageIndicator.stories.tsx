@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
-import { PageIndicator } from './PageIndicator';
 import { Box, Text, IconButton } from '../';
-import { ArrowLeft, ArrowRight } from '../../Symbols';
 import { useTheme } from '../../../styles';
+import { ArrowLeft, ArrowRight } from '../../Symbols';
+import { PageIndicator } from './PageIndicator';
 
 const meta = {
   title: 'Communication/PageIndicator',
@@ -71,6 +71,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
 
 export const Interactive: Story = {
   args: {
+    currentPage: 0,
     totalPages: 9,
   },
   render: (args) => <InteractiveComponent totalPages={args.totalPages} />,
