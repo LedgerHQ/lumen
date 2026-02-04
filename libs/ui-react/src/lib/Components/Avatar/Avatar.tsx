@@ -50,9 +50,9 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     const [error, setError] = React.useState<boolean>(false);
     const shouldFallback = !src || error;
 
-    const fallBackSizes = {
-      sm: 24,
-      md: 32,
+    const fallbackSizes = {
+      sm: 16,
+      md: 24,
     } as const;
 
     React.useEffect(() => {
