@@ -9,13 +9,7 @@ import {
   NavBarDescription,
   NavBarCoinCapsule,
 } from './NavBar';
-import {
-  CustomTabs,
-  Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
-} from '../../../../.storybook/components';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Navigation/NavBar' of={NavBarStories} />
@@ -70,8 +64,8 @@ Titles and descriptions automatically truncate when content exceeds available sp
 
 > **Key behaviors:**
 >
-> - **Compact**: Title and description truncate to one line, centered
-> - **Expanded**: Title and description truncate to one line, left-aligned
+> - **Compact**: Title truncates to one line, description truncates to one line, centered
+> - **Expanded**: Title truncates to two lines, description truncates to one line, left-aligned
 > - Back button and trailing actions maintain fixed sizes
 
 ## Accessibility
@@ -236,110 +230,6 @@ export default function DetailsScreen() {
   );
 }
 ```
-
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appropriate appearance'
-      description='Choose the appearance that best fits your content needs'
-    >
-      {/* prettier-ignore */}
-      ```tsx
-      // Compact for simple navigation
-      <NavBar appearance='compact'>
-        <NavBarBackButton onPress={goBack} />
-        <NavBarTitle>Settings</NavBarTitle>
-      </NavBar>
-
-      // Expanded for more context
-      <NavBar appearance='expanded'>
-        <NavBarBackButton onPress={goBack} />
-        <NavBarTitle>Account</NavBarTitle>
-        <NavBarDescription>Manage your preferences</NavBarDescription>
-      </NavBar>
-      ```
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix incompatible children"
-      description='with-asset appearance should only use NavBarCoinCapsule, not title/description'
-    >
-      {/* prettier-ignore */}
-      ```tsx
-      // Wrong: Using title with with-asset
-      <NavBar appearance='with-asset'>
-        <NavBarBackButton onPress={goBack} />
-        <NavBarTitle>Bitcoin</NavBarTitle>
-      </NavBar>
-
-      // Correct: Use NavBarCoinCapsule
-      <NavBar appearance='with-asset'>
-        <NavBarBackButton onPress={goBack} />
-        <NavBarCoinCapsule ticker='BTC' icon={icon} />
-      </NavBar>
-      ```
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Keep titles concise'
-      description='Use short, clear titles that work well when truncated'
-    >
-      {/* prettier-ignore */}
-      ```tsx
-      <NavBar appearance='compact'>
-        <NavBarBackButton onPress={goBack} />
-        <NavBarTitle>Settings</NavBarTitle>
-      </NavBar>
-      ```
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use overly long titles"
-      description='Long titles will truncate and lose important information'
-    >
-      {/* prettier-ignore */}
-      ```tsx
-      <NavBar appearance='compact'>
-        <NavBarBackButton onPress={goBack} />
-        <NavBarTitle>
-          Account Settings and Preferences Configuration
-        </NavBarTitle>
-      </NavBar>
-      ```
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide onPress handlers'
-      description='Always implement navigation actions for interactive elements'
-    >
-      {/* prettier-ignore */}
-      ```tsx
-      <NavBar appearance='compact'>
-        <NavBarBackButton 
-          onPress={() => navigation.goBack()} 
-        />
-        <NavBarTitle>Details</NavBarTitle>
-      </NavBar>
-      ```
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit onPress handlers"
-      description='NavBarBackButton needs onPress to handle navigation'
-    >
-      {/* prettier-ignore */}
-      ```tsx
-      <NavBar appearance='compact'>
-        <NavBarBackButton />
-        <NavBarTitle>Details</NavBarTitle>
-      </NavBar>
-      ```
-    </DontBlockItem>
-  </DoVsDontRow>
-</div>
 
 <CommonRulesDoAndDont />
 

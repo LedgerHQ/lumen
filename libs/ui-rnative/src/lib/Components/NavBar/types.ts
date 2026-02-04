@@ -20,7 +20,7 @@ export type NavBarBackButtonProps = {
   onPress?: () => void;
   /**
    * Accessible label for the back button.
-   * @default "Go back"
+   * @default Translated "Go back" from i18n
    */
   accessibilityLabel?: string;
 } & Omit<StyledPressableProps, 'onPress'>;
@@ -38,17 +38,6 @@ export type NavBarDescriptionProps = {
    */
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
-
-export type NavBarTrailingProps = {
-  /**
-   * The trailing content, typically IconButton components.
-   */
-  children: ReactNode;
-  /**
-   * Additional custom CSS classes to apply.
-   */
-  className?: string;
-};
 
 /**
  * @internal

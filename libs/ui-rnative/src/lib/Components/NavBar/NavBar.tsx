@@ -1,6 +1,7 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import React, { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
+import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
@@ -61,15 +62,19 @@ function extractSlots(children: ReactNode): Slots {
   return slots;
 }
 
-export function NavBarCoinCapsule({ ticker, icon }: NavBarCoinCapsuleProps) {
+export function NavBarCoinCapsule({
+  ticker,
+  icon,
+  ...props
+}: NavBarCoinCapsuleProps) {
   const { appearance } = useNavBarContext({
-    consumerName: 'NavBarTitle',
+    consumerName: 'NavBarCoinCapsule',
     contextRequired: true,
   });
   const styles = useStyles({ appearance });
 
   return (
-    <Box style={styles.coinCapsule}>
+    <Box style={styles.coinCapsule} {...props}>
       <CoinCapsule ticker={ticker} icon={icon} />
     </Box>
   );
@@ -118,15 +123,19 @@ export function NavBarDescription({
 NavBarDescription.displayName = 'NavBarDescription';
 
 export function NavBarBackButton({
-  accessibilityLabel = 'Go back',
+  accessibilityLabel,
   onPress,
   style,
 }: NavBarBackButtonProps) {
+  const { t } = useCommonTranslation();
+
   return (
     <IconButton
       appearance='no-background'
       size='md'
-      accessibilityLabel={accessibilityLabel}
+      accessibilityLabel={
+        accessibilityLabel ?? t('components.bottomSheetHeader.goBackAriaLabel')
+      }
       icon={ArrowLeft}
       onPress={onPress}
       style={style}
