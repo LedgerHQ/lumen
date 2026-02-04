@@ -67,14 +67,19 @@ Then run install to synchronize tools versions
 proto install
 ```
 
+Then proto use
+```bash
+proto use
+```
 
-2. Install dependencies:
+
+3. Install dependencies:
 
 ```bash
 npm install --legacy-peer-deps
 ```
 
-3. Start development environment:
+4. Start development environment:
 
 ```bash
 # Build all libraries
