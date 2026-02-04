@@ -289,47 +289,6 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 
 <DoVsDontRow>
   <DoBlockItem
-    title='Use the `value` prop on items'
-    description='Each item needs a unique value. Active state is determined at the root.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBar active={active} onActiveChange={setActive}>
-  <SideBarLeading>
-    <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-    <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
-  </SideBarLeading>
-  <SideBarFooter>
-    <SideBarCollapseToggle />
-  </SideBarFooter>
-</SideBar>
-```
-
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't forget the `value` prop"
-    description='Without `value`, items cannot be selected or identified.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBar active={active} onActiveChange={setActive}>
-  <SideBarLeading>
-    <SideBarItem icon={Home} activeIcon={HomeFill} label="Home" />
-    <SideBarItem icon={Wallet} activeIcon={Wallet} label="Wallet" />
-  </SideBarLeading>
-  <SideBarFooter>
-    <SideBarCollapseToggle />
-  </SideBarFooter>
-</SideBar>
-```
-
-  </DontBlockItem>
-</DoVsDontRow>
-
-<DoVsDontRow>
-  <DoBlockItem
     title='Provide a distinct `activeIcon`'
     description='This gives clear visual feedback for the active item.'
   >
