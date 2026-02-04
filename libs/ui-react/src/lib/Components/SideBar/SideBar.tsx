@@ -310,6 +310,7 @@ SideBarItem.displayName = 'SideBarItem';
  */
 export const SideBarCollapseToggle = ({
   className,
+  ...props
 }: SideBarCollapseToggleProps) => {
   const { collapsed, setCollapsed } = useSideBarContext({
     consumerName: 'SideBarCollapseToggle',
@@ -336,6 +337,7 @@ export const SideBarCollapseToggle = ({
           ? t('components.sideBar.expandAriaLabel')
           : t('components.sideBar.collapseAriaLabel')
       }
+      {...props}
     >
       <Icon size={16} className='shrink-0' />
     </button>

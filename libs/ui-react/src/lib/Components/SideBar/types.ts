@@ -12,7 +12,7 @@ export type SideBarContextValue = {
   /** The value of the currently active item */
   active: string;
   /** Function to update the active item */
-  onActiveChange: ((value: string) => void) | undefined;
+  onActiveChange: (value: string) => void;
 };
 
 /**
@@ -146,4 +146,4 @@ export type SideBarCollapseToggleProps = {
    * Additional CSS classes for the toggle.
    */
   className?: string;
-};
+} & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>;
