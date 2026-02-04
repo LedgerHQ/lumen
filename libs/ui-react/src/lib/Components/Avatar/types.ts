@@ -34,5 +34,5 @@ export type AvatarProps = {
    * @optional
    * @default undefined (browser default: eager)
    */
-  loading?: 'eager' | 'lazy';
+  imgLoading?: 'eager' | 'lazy';
 } & React.HTMLAttributes<HTMLDivElement>;

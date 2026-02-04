@@ -160,38 +160,6 @@ While the component comes with predefined styles, you can extend them for layout
 <div className='flex flex-col gap-24'>
   <DoVsDontRow>
     <DoBlockItem
-      title='Use the size prop'
-      description='Use the size prop to control avatar dimensions for consistent sizing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-  size="md" 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't override size with className"
-      description='Avoid using className to change component dimensions'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-  className="size-64" 
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
       title='Provide descriptive alt text'
       description='Use meaningful alt text for better accessibility and screen reader support'
     >
@@ -215,38 +183,6 @@ While the component comes with predefined styles, you can extend them for layout
 <Avatar 
   src="https://example.com/photo.jpg" 
 />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use showNotification prop'
-      description='Use the showNotification prop to display notification indicators'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-  showNotification={hasNotifications} 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't add custom notification elements"
-      description='Avoid manually adding notification indicators outside the component'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<div className="relative">
-  <Avatar src="https://example.com/photo.jpg" />
-  <div className="notification-dot" />
-</div>
 ```
 
     </DontBlockItem>
