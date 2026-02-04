@@ -19,6 +19,17 @@ const avatarVariants = cva(
   },
 );
 
+const sizeConfig = {
+  sm: {
+    fallbackIcon: 16,
+    notification: 'size-10',
+  },
+  md: {
+    fallbackIcon: 24,
+    notification: 'size-12',
+  },
+} as const;
+
 /**
  * A circular avatar component that displays a user image or fallback icon.
  *
@@ -51,11 +62,6 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     const [error, setError] = React.useState<boolean>(false);
     const shouldFallback = !src || error;
 
-    const fallbackSizes = {
-      sm: 16,
-      md: 24,
-    } as const;
-
     React.useEffect(() => {
       setError(false);
     }, [src]);
@@ -67,10 +73,15 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         {...props}
       >
         {showNotification && (
-          <div className='absolute top-1 right-2 size-12 rounded-full bg-error-strong' />
+          <div
+            className={cn(
+              'absolute top-0 right-0 rounded-full bg-error-strong',
+              sizeConfig[size].notification,
+            )}
+          />
         )}
         {shouldFallback ? (
-          <User size={fallbackSizes[size]} />
+          <User size={sizeConfig[size].fallbackIcon} />
         ) : (
           <img
             src={src}
