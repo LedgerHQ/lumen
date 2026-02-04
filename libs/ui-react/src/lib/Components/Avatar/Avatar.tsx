@@ -42,7 +42,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       src,
       alt = 'avatar',
       size = 'md',
-      loading,
+      imgLoading,
       showNotification = false,
       ...props
     },
@@ -75,7 +75,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
           <img
             src={src}
             alt={alt}
-            loading={loading}
+            loading={imgLoading}
             onError={() => setError(true)}
             className='size-full overflow-hidden rounded-full object-cover'
           />

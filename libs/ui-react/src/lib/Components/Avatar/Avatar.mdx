@@ -143,6 +143,45 @@ function MyComponent() {
 }
 ```
 
+### Image Loading Strategy
+
+The `imgLoading` prop controls the **loading strategy for the avatar's image** (not the component itself). It allows you to optimize image loading performance based on where the avatar appears on your page.
+
+> **Note**: This prop specifically controls when the browser loads the image resource. It does not affect the component's rendering or display state.
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function UserList() {
+  return (
+    <div className="flex flex-col gap-8">
+      {users.map((user) => (
+        <Avatar
+          key={user.id}
+          src={user.avatarUrl}
+          imgLoading="lazy"
+          alt={user.name}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function UserProfile() {
+  return (
+    <Avatar
+      src="https://example.com/photo.jpg"
+      imgLoading="eager"
+      alt="Current user profile"
+    />
+  );
+}
+```
+
 ### Custom Styling
 
 While the component comes with predefined styles, you can extend them for layout purposes using Tailwind classes:

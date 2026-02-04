@@ -19,7 +19,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <Avatar src="https://example-image.com" size={props.size} alt="John Doe's Avatar" showNotification={props.showNotification} />
+      <Avatar src="https://example-image.com" size={props.size} alt="John Doe's Avatar" imgLoading="eager" showNotification={props.showNotification} />
     )
   }
 )
