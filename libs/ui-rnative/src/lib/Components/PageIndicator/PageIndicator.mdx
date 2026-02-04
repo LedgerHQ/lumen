@@ -2,6 +2,7 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as PageIndicatorStories from './PageIndicator.stories';
 import { PageIndicator } from './PageIndicator';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Communication/PageIndicator' of={PageIndicatorStories} />
 
@@ -13,6 +14,8 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 ## Introduction
 
 The PageIndicator component displays pagination progress with animated dots representing pages. It shows a maximum of 4 dots on screen at a time, with smooth transitions when navigating through multiple pages.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11227-7095&m=dev).
 
 ## Anatomy
 
@@ -69,6 +72,7 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 ```tsx
 import { PageIndicator } from '@ledgerhq/lumen-ui-rnative';
+import { useState } from 'react';
 
 function MyComponent() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -111,9 +115,7 @@ function MyComponent() {
 }
 ```
 
-## Performance Considerations
-
-The PageIndicator uses React Native Reanimated for smooth animations. Animations run on the UI thread for optimal performance, even with frequent page changes.
+<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>
