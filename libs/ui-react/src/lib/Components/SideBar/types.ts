@@ -10,7 +10,7 @@ export type SideBarContextValue = {
   /** Function to update the collapsed state */
   setCollapsed: (value: boolean) => void;
   /** The value of the currently active item */
-  active: string | undefined;
+  active: string;
   /** Function to update the active item */
   onActiveChange: ((value: string) => void) | undefined;
 };
