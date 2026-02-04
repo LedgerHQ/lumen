@@ -18,6 +18,10 @@ import {
   SideBarCollapseToggle,
 } from './SideBar';
 
+vi.mock('i18next', () => ({
+  t: (key: string) => key,
+}));
+
 describe('SideBar Component', () => {
   describe('Basic Rendering', () => {
     it('should render correctly with composite API', () => {
@@ -44,7 +48,10 @@ describe('SideBar Component', () => {
 
       const navElement = screen.getByRole('navigation');
       expect(navElement).toBeInTheDocument();
-      expect(navElement).toHaveAttribute('aria-label', 'Sidebar navigation');
+      expect(navElement).toHaveAttribute(
+        'aria-label',
+        'components.sideBar.navigationAriaLabel',
+      );
     });
 
     it('should render all items', () => {
@@ -92,12 +99,12 @@ describe('SideBar Component', () => {
             />
           </SideBarLeading>
           <SideBarFooter>
-            <SideBarCollapseToggle />
+            <SideBarCollapseToggle data-testid='sidebar-collapse' />
           </SideBarFooter>
         </SideBar>,
       );
 
-      expect(screen.getByLabelText('Collapse sidebar')).toBeInTheDocument();
+      expect(screen.getByTestId('sidebar-collapse')).toBeInTheDocument();
     });
 
     it('should render SideBarFooter at bottom', () => {
@@ -200,11 +207,13 @@ describe('SideBar Component', () => {
         </SideBar>,
       );
 
-      // Label should not be visible when collapsed
+      // Label is still in DOM but visually hidden with CSS
       const buttons = screen.getAllByRole('button');
       const homeButton = buttons.find((btn) => btn.querySelector('svg'));
       expect(homeButton).toBeInTheDocument();
-      expect(screen.queryByText('Home')).not.toBeInTheDocument();
+      const homeLabel = homeButton?.querySelector('span');
+      expect(homeLabel).toHaveTextContent('Home');
+      expect(homeLabel).toHaveClass('opacity-0', 'w-0');
     });
 
     it('should toggle collapsed state when collapse button is clicked', () => {
@@ -219,7 +228,7 @@ describe('SideBar Component', () => {
             />
           </SideBarLeading>
           <SideBarFooter>
-            <SideBarCollapseToggle />
+            <SideBarCollapseToggle data-testid='sidebar-collapse' />
           </SideBarFooter>
         </SideBar>,
       );
@@ -227,7 +236,7 @@ describe('SideBar Component', () => {
       const navElement = screen.getByRole('navigation');
       expect(navElement).toHaveClass('w-208');
 
-      const collapseButton = screen.getByLabelText('Collapse sidebar');
+      const collapseButton = screen.getByTestId('sidebar-collapse');
       fireEvent.click(collapseButton);
 
       expect(navElement).toHaveClass('w-72');
@@ -246,12 +255,12 @@ describe('SideBar Component', () => {
             />
           </SideBarLeading>
           <SideBarFooter>
-            <SideBarCollapseToggle />
+            <SideBarCollapseToggle data-testid='sidebar-collapse' />
           </SideBarFooter>
         </SideBar>,
       );
 
-      const collapseButton = screen.getByLabelText('Collapse sidebar');
+      const collapseButton = screen.getByTestId('sidebar-collapse');
       fireEvent.click(collapseButton);
 
       expect(handleCollapsedChange).toHaveBeenCalledWith(true);
@@ -478,7 +487,10 @@ describe('SideBar Component', () => {
       );
 
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveAttribute('aria-label', 'Sidebar navigation');
+      expect(navElement).toHaveAttribute(
+        'aria-label',
+        'components.sideBar.navigationAriaLabel',
+      );
     });
 
     it('should have correct aria-label on collapse toggle', () => {
@@ -493,12 +505,17 @@ describe('SideBar Component', () => {
             />
           </SideBarLeading>
           <SideBarFooter>
-            <SideBarCollapseToggle />
+            <SideBarCollapseToggle data-testid='sidebar-collapse' />
           </SideBarFooter>
         </SideBar>,
       );
 
-      expect(screen.getByLabelText('Collapse sidebar')).toBeInTheDocument();
+      const collapseToggle = screen.getByTestId('sidebar-collapse');
+      expect(collapseToggle).toBeInTheDocument();
+      expect(collapseToggle).toHaveAttribute(
+        'aria-label',
+        'components.sideBar.collapseAriaLabel',
+      );
     });
 
     it('should update collapse toggle aria-label when collapsed', () => {
@@ -518,7 +535,9 @@ describe('SideBar Component', () => {
         </SideBar>,
       );
 
-      expect(screen.getByLabelText('Expand sidebar')).toBeInTheDocument();
+      expect(
+        screen.getByLabelText('components.sideBar.expandAriaLabel'),
+      ).toBeInTheDocument();
     });
 
     it('should support keyboard navigation on items', () => {
