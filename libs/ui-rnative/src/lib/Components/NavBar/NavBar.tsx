@@ -126,6 +126,7 @@ export function NavBarBackButton({
   accessibilityLabel,
   onPress,
   style,
+  ...props
 }: NavBarBackButtonProps) {
   const { t } = useCommonTranslation();
 
@@ -139,6 +140,7 @@ export function NavBarBackButton({
       icon={ArrowLeft}
       onPress={onPress}
       style={style}
+      {...props}
     />
   );
 }

@@ -1,5 +1,6 @@
 import { ReactElement, ReactNode } from 'react';
-import { StyledPressableProps, StyledViewProps } from '../../../styles';
+import { StyledViewProps } from '../../../styles';
+import { IconButtonProps } from '../IconButton';
 
 export type NavBarAppearance = 'compact' | 'expanded' | 'with-asset';
 
@@ -15,15 +16,14 @@ export type NavBarProps = {
 
 export type NavBarBackButtonProps = {
   /**
-   * Callback function when the back button is clicked.
-   */
-  onPress?: () => void;
-  /**
    * Accessible label for the back button.
    * @default Translated "Go back" from i18n
    */
   accessibilityLabel?: string;
-} & Omit<StyledPressableProps, 'onPress'>;
+} & Omit<
+  IconButtonProps,
+  'appearance' | 'size' | 'icon' | 'accessibilityLabel'
+>;
 
 export type NavBarTitleProps = {
   /**
