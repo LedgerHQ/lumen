@@ -17,12 +17,11 @@ describe('Avatar Component', () => {
   });
 
   it('should render fallback icon when no src is provided', () => {
-    render(<Avatar src='' />);
+    const { container } = render(<Avatar src='' />);
 
     const img = screen.queryByRole('img');
     expect(img).not.toBeInTheDocument();
 
-    const { container } = render(<Avatar src='' />);
     const svg = container.querySelector('svg');
     expect(svg).toBeInTheDocument();
   });
@@ -107,15 +106,15 @@ describe('Avatar Component', () => {
     const { container } = render(<Avatar src='' size='sm' />);
 
     const svg = container.querySelector('svg');
-    expect(svg).toHaveClass('icon-w-24');
-    expect(svg).toHaveClass('icon-h-24');
+    expect(svg).toHaveClass('icon-w-16');
+    expect(svg).toHaveClass('icon-h-16');
   });
 
   it('should render correct fallback icon size for md', () => {
     const { container } = render(<Avatar src='' size='md' />);
 
     const svg = container.querySelector('svg');
-    expect(svg).toHaveClass('icon-w-32');
-    expect(svg).toHaveClass('icon-h-32');
+    expect(svg).toHaveClass('icon-w-24');
+    expect(svg).toHaveClass('icon-h-24');
   });
 });

@@ -7,7 +7,7 @@ figma.connect(
   Avatar,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11097-8',
   {
-    imports: ["import { Avatar } from '@ledgerHQ/lumen-ui-react'"],
+    imports: ["import { Avatar } from '@ledgerhq/lumen-ui-react'"],
     props: {
       size: figma.enum('size', {
         sm: 'sm',

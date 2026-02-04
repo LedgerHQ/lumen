@@ -33,7 +33,7 @@ export const Base: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://example.com" size="md" alt="Avatar" showNotification="false" />`,
+        code: `<Avatar src="https://example.com" size="md" alt="Avatar" showNotification={false} />`,
       },
     },
   },
@@ -69,11 +69,12 @@ export const FallbackShowcase: Story = {
     src: 'https://brokenLink.random',
     size: 'md',
     alt: 'Fallback example',
+    showNotification: false,
   },
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" showNotification="false" />`,
+        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" showNotification={false} />`,
       },
     },
   },
