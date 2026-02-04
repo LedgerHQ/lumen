@@ -1,0 +1,260 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Action/Avatar' of={AvatarStories} />
+
+# 👤 Avatar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The Avatar component displays a circular user profile image with automatic fallback to a User icon when the image is unavailable or fails to load. It supports an optional notification indicator and two size variants.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
+
+## Anatomy
+
+<Canvas of={AvatarStories.Base} />
+
+- **Image/Fallback Icon**: The circular user image or User icon fallback displayed when image is unavailable
+- **Notification Indicator (optional)**: A red dot positioned at the top-right corner to indicate notifications
+- **Container**: Rounded full background with muted-transparent styling
+
+## Properties
+
+### Overview
+
+<Canvas of={AvatarStories.Base} />
+<Controls of={AvatarStories.Base} />
+
+### Size
+
+Avatars come in two different sizes:
+
+- **sm** (40px)
+- **md** (48px, default)
+
+<Canvas of={AvatarStories.SizeShowcase} />
+
+### States
+
+The Avatar component handles two primary states automatically:
+
+- **With Image**: Displays the provided image when `src` is valid and loads successfully
+- **Fallback**: Shows a User icon when `src` is undefined or the image fails to load
+
+<Canvas of={AvatarStories.FallbackShowcase} />
+
+### Notification Indicator
+
+An optional notification indicator can be displayed to show status or alerts:
+
+- **showNotification**: Boolean prop to toggle the notification dot (default: false)
+
+<Canvas of={AvatarStories.NotificationShowcase} />
+
+## Accessibility
+
+To be implemented:
+
+- **Color contrast**
+- **Text zoom support**
+- **Semantic alt text for images**
+- **Screen reader announcements for notification state**
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return <Avatar src="https://example.com/photo.jpg" size="md" />;
+}
+```
+
+## Advanced Patterns
+
+### Fallback Handling
+
+The Avatar component automatically displays a fallback User icon when the image source is undefined or fails to load:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  // Fallback will be shown automatically
+  return <Avatar size="md" alt="User profile" />;
+}
+```
+
+### With Notification
+
+Display a notification indicator to show status or alerts:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  const hasNotifications = true;
+  
+  return (
+    <Avatar 
+      src="https://example.com/photo.jpg" 
+      showNotification={hasNotifications}
+      size="md" 
+    />
+  );
+}
+```
+
+### Different Sizes
+
+Choose between small and medium sizes based on your layout needs:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <div className="flex items-center gap-8">
+      <Avatar src="https://example.com/photo.jpg" size="sm" />
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+    </div>
+  );
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them for layout purposes using Tailwind classes:
+
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md" 
+  className="mr-8" // Layout positioning only
+/>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use the size prop'
+      description='Use the size prop to control avatar dimensions for consistent sizing'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md" 
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't override size with className"
+      description='Avoid using className to change component dimensions'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  className="size-64" 
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Provide descriptive alt text'
+      description='Use meaningful alt text for better accessibility and screen reader support'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  alt="John Doe profile picture" 
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't omit alt text"
+      description='Missing alt text reduces accessibility for screen reader users'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use showNotification prop'
+      description='Use the showNotification prop to display notification indicators'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  showNotification={hasNotifications} 
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't add custom notification elements"
+      description='Avoid manually adding notification indicators outside the component'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<div className="relative">
+  <Avatar src="https://example.com/photo.jpg" />
+  <div className="notification-dot" />
+</div>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+</Tab>
+</CustomTabs>
