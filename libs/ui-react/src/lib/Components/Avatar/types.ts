@@ -12,11 +12,13 @@ export type AvatarProps = {
   alt?: string;
   /**
    * The size variant of the avatar.
+   * @optional
    * @default md
    */
   size?: 'sm' | 'md';
   /**
    * Whether to show the notifications indicator.
+   * @optional
    * @default false
    */
   showNotification?: boolean;
@@ -25,4 +27,12 @@ export type AvatarProps = {
    * @optional
    */
   className?: string;
+  /**
+   * Loading strategy for the image.
+   * - `eager`: Load immediately (default browser behavior, recommended for above-fold avatars)
+   * - `lazy`: Defer loading until near viewport (use for long lists)
+   * @optional
+   * @default undefined (browser default: eager)
+   */
+  loading?: 'eager' | 'lazy';
 } & React.HTMLAttributes<HTMLDivElement>;

@@ -42,6 +42,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       src,
       alt = 'avatar',
       size = 'md',
+      loading,
       showNotification = false,
       ...props
     },
@@ -69,11 +70,12 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
           <div className='absolute top-1 right-2 size-12 rounded-full bg-error-strong' />
         )}
         {shouldFallback ? (
-          <User size={fallBackSizes[size]} />
+          <User size={fallbackSizes[size]} />
         ) : (
           <img
             src={src}
             alt={alt}
+            loading={loading}
             onError={() => setError(true)}
             className='size-full overflow-hidden rounded-full object-cover'
           />
