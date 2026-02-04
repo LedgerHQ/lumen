@@ -32,7 +32,7 @@ describe('PageIndicator Component', () => {
     });
 
     it('should render all dots when totalPages is less than max visible', () => {
-      const { UNSAFE_getAllByType } = renderWithProvider(
+      renderWithProvider(
         <PageIndicator testID='page-indicator' currentPage={0} totalPages={3} />,
       );
       // Should render 3 dots (less than MAX_VISIBLE_DOTS which is 4)
