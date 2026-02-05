@@ -1,6 +1,7 @@
 export * from './AddressInput';
 export * from './AmountInput';
 export * from './AmountDisplay';
+export * from './Avatar';
 export * from './Banner';
 export * from './BaseInput';
 export * from './Button';
@@ -16,6 +17,7 @@ export * from './Menu';
 export * from './NavBar';
 export * from './SearchInput';
 export * from './Select';
+export * from './SideBar';
 export * from './Skeleton';
 export * from './Spinner';
 export * from './Spot';

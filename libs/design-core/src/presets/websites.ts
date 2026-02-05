@@ -8,6 +8,7 @@ import {
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
+  createScrollbarPlugin,
 } from '../utils/index.js';
 
 export const websitesPreset: Config = {
@@ -27,6 +28,7 @@ export const websitesPreset: Config = {
     createGradientPlugin(websitesCSSTheme),
     createShadowPlugin(),
     createAnimationsPlugin(),
+    createScrollbarPlugin(),
   ],
   darkMode: 'class',
 };
