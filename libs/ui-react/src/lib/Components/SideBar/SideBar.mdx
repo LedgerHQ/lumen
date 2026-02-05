@@ -10,7 +10,7 @@ import {
 } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
-<Meta title='Navigation/SideBar' of={SideBarStories} />
+<Meta title='Navigation/SideBar/Docs' of={SideBarStories} />
 
 # SideBar
 
@@ -30,7 +30,6 @@ SideBar is a responsive navigation component with collapsible functionality. It 
 - **SideBar**: Root container that manages collapsed state and provides context
 - **SideBarLeading**: Top section for primary navigation items
 - **SideBarTrailing**: Bottom section for secondary navigation items (pushed to bottom)
-- **SideBarFooter**: Footer section for the collapse toggle and other footer content
 - **SideBarItem**: Individual navigation item with icon and optional label (icon-only when label is omitted)
 - **SideBarCollapseToggle**: Toggle button to collapse/expand the sidebar
 
@@ -87,7 +86,6 @@ import {
   SideBar,
   SideBarLeading,
   SideBarTrailing,
-  SideBarFooter,
   SideBarItem,
   SideBarCollapseToggle,
 } from '@ledgerhq/lumen-ui-react';
@@ -106,9 +104,8 @@ function MyComponent() {
       <SideBarTrailing>
         <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
       </SideBarTrailing>
-      <SideBarFooter>
         <SideBarCollapseToggle />
-      </SideBarFooter>
+      </SideBarTrailing>
     </SideBar>
   );
 }
@@ -128,9 +125,8 @@ For simpler use cases, you can use `defaultActive` and `defaultCollapsed` instea
   <SideBarTrailing>
     <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
   </SideBarTrailing>
-  <SideBarFooter>
     <SideBarCollapseToggle />
-  </SideBarFooter>
+  </SideBarTrailing>
 </SideBar>
 ```
 
@@ -148,23 +144,6 @@ import { Star, StarFill, Bell, BellFill } from '@ledgerhq/lumen-ui-react/symbols
   label="Favorites"
 />
 ```
-
-### SideBarFooter
-
-Use `SideBarFooter` to place content at the bottom of the sidebar. This is typically used to contain the `SideBarCollapseToggle`.
-
-**Note:** The footer scrolls with the sidebar content.
-
-```tsx
-import { SideBarFooter, SideBarCollapseToggle } from '@ledgerhq/lumen-ui-react';
-
-// Basic usage with collapse toggle
-<SideBarFooter>
-  <SideBarCollapseToggle />
-</SideBarFooter>
-
-```
-
 
 ## State Management
 
@@ -216,18 +195,16 @@ const [active, setActive] = useState('home');
 >
   <SideBarLeading>...</SideBarLeading>
   <SideBarTrailing>...</SideBarTrailing>
-  <SideBarFooter>
     <SideBarCollapseToggle />
-  </SideBarFooter>
+  </SideBarTrailing>
 </SideBar>
 
 // Fully uncontrolled
 <SideBar defaultCollapsed={false} defaultActive="home">
   <SideBarLeading>...</SideBarLeading>
   <SideBarTrailing>...</SideBarTrailing>
-  <SideBarFooter>
     <SideBarCollapseToggle />
-  </SideBarFooter>
+  </SideBarTrailing>
 </SideBar>
 ```
 
@@ -371,7 +348,7 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 <DoVsDontRow>
   <DoBlockItem
     title='Use section containers'
-    description='Wrap items in SideBarLeading/SideBarTrailing and use SideBarFooter for the collapse toggle.'
+    description='Wrap items in SideBarLeading/SideBarTrailing. Place the collapse toggle in SideBarTrailing.'
   >
 
 ```tsx
@@ -384,9 +361,8 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
   <SideBarTrailing>
     <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
   </SideBarTrailing>
-  <SideBarFooter>
     <SideBarCollapseToggle />
-  </SideBarFooter>
+  </SideBarTrailing>
 </SideBar>
 ```
 
@@ -402,9 +378,8 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
   <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
   <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
   <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
-  <SideBarFooter>
     <SideBarCollapseToggle />
-  </SideBarFooter>
+  </SideBarTrailing>
 </SideBar>
 ```
 

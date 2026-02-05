@@ -10,7 +10,6 @@ import {
   SideBarProps,
   SideBarLeadingProps,
   SideBarTrailingProps,
-  SideBarFooterProps,
   SideBarItemProps,
   SideBarCollapseToggleProps,
 } from './types';
@@ -80,10 +79,8 @@ const sideBarVariants = {
  *   </SideBarLeading>
  *   <SideBarTrailing>
  *     <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
- *   </SideBarTrailing>
- *   <SideBarFooter>
  *     <SideBarCollapseToggle />
- *   </SideBarFooter>
+ *   </SideBarTrailing>
  * </SideBar>
  */
 export const SideBar = forwardRef<HTMLElement, SideBarProps>(
@@ -169,30 +166,6 @@ export const SideBarTrailing = forwardRef<HTMLDivElement, SideBarTrailingProps>(
   },
 );
 SideBarTrailing.displayName = 'SideBarTrailing';
-
-/**
- * Footer section of the sidebar.
- * Typically contains the collapse toggle and optionally other footer content.
- *
- * @example
- * <SideBarFooter>
- *   <SideBarCollapseToggle />
- * </SideBarFooter>
- */
-export const SideBarFooter = forwardRef<HTMLDivElement, SideBarFooterProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn('flex flex-col gap-8', className)}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
-SideBarFooter.displayName = 'SideBarFooter';
 
 /**
  * A navigation item within the sidebar.
@@ -301,12 +274,12 @@ SideBarItem.displayName = 'SideBarItem';
 
 /**
  * Collapse toggle button for the sidebar.
- * Place inside SideBarFooter to allow users to collapse/expand the sidebar.
+ * Place inside SideBarTrailing to allow users to collapse/expand the sidebar.
  *
  * @example
- * <SideBarFooter>
+ * <SideBarTrailing>
  *   <SideBarCollapseToggle />
- * </SideBarFooter>
+ * </SideBarTrailing>
  */
 export const SideBarCollapseToggle = ({
   className,

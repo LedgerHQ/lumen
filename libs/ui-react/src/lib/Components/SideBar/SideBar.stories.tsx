@@ -15,6 +15,9 @@ import {
   StarFill,
   Exchange,
   ExchangeFill,
+  CreditCard,
+  CreditCardFill,
+  CoinPercent,
 } from '../../Symbols';
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
@@ -22,7 +25,6 @@ import {
   SideBar,
   SideBarLeading,
   SideBarTrailing,
-  SideBarFooter,
   SideBarItem,
   SideBarCollapseToggle,
 } from './SideBar';
@@ -34,10 +36,11 @@ const meta: Meta<typeof SideBar> = {
     SideBarLeading,
     SideBarTrailing,
     SideBarItem,
-    SideBarFooter,
     SideBarCollapseToggle,
   },
   parameters: {
+    layout: 'padded',
+
     docs: {
       source: {
         language: 'tsx',
@@ -73,11 +76,10 @@ type Story = StoryObj<typeof SideBar>;
 
 export const Base: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: (args) => {
-    const [active, setActive] = useState('home');
+    const [active, setActive] = useState('earn');
 
     return (
       <div>
@@ -95,16 +97,22 @@ export const Base: Story = {
               label='Home'
             />
             <SideBarItem
-              value='exchange'
+              value='swap'
               icon={Exchange}
               activeIcon={ExchangeFill}
-              label='Exchange'
+              label='Swap'
             />
             <SideBarItem
-              value='discover'
-              icon={Compass}
-              activeIcon={Compass}
-              label='Discover'
+              value='earn'
+              icon={CoinPercent}
+              activeIcon={CoinPercent}
+              label='Earn'
+            />
+            <SideBarItem
+              value='card'
+              icon={CreditCard}
+              activeIcon={CreditCardFill}
+              label='Card'
             />
           </SideBarLeading>
           <SideBarTrailing>
@@ -114,10 +122,8 @@ export const Base: Story = {
               activeIcon={SettingsAlt2}
               label='Settings'
             />
-          </SideBarTrailing>
-          <SideBarFooter>
             <SideBarCollapseToggle />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>
       </div>
     );
@@ -126,7 +132,6 @@ export const Base: Story = {
 
 export const CollapsedShowcase: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -161,10 +166,8 @@ export const CollapsedShowcase: Story = {
               activeIcon={SettingsAlt2}
               label='Settings'
             />
-          </SideBarTrailing>
-          <SideBarFooter>
             <SideBarCollapseToggle />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>
       </div>
 
@@ -198,10 +201,8 @@ export const CollapsedShowcase: Story = {
               activeIcon={SettingsAlt2}
               label='Settings'
             />
-          </SideBarTrailing>
-          <SideBarFooter>
             <SideBarCollapseToggle />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>
       </div>
     </div>
@@ -210,7 +211,6 @@ export const CollapsedShowcase: Story = {
 
 export const WithCustomLabel: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -255,10 +255,8 @@ export const WithCustomLabel: Story = {
             activeIcon={SettingsAlt2}
             label='Settings'
           />
-        </SideBarTrailing>
-        <SideBarFooter>
           <SideBarCollapseToggle />
-        </SideBarFooter>
+        </SideBarTrailing>
       </SideBar>
     </div>
   ),
@@ -266,7 +264,6 @@ export const WithCustomLabel: Story = {
 
 export const WithDisabledItem: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -300,10 +297,8 @@ export const WithDisabledItem: Story = {
             activeIcon={SettingsAlt2}
             label='Settings'
           />
-        </SideBarTrailing>
-        <SideBarFooter>
           <SideBarCollapseToggle />
-        </SideBarFooter>
+        </SideBarTrailing>
       </SideBar>
     </div>
   ),
@@ -311,7 +306,6 @@ export const WithDisabledItem: Story = {
 
 export const ControlledState: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {
@@ -364,10 +358,8 @@ export const ControlledState: Story = {
                 activeIcon={SettingsAlt2}
                 label='Settings'
               />
-            </SideBarTrailing>
-            <SideBarFooter>
               <SideBarCollapseToggle />
-            </SideBarFooter>
+            </SideBarTrailing>
           </SideBar>
         </div>
       </div>
@@ -377,7 +369,6 @@ export const ControlledState: Story = {
 
 export const ManyItems: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -428,10 +419,8 @@ export const ManyItems: Story = {
             activeIcon={Settings}
             label='Settings'
           />
-        </SideBarTrailing>
-        <SideBarFooter>
           <SideBarCollapseToggle />
-        </SideBarFooter>
+        </SideBarTrailing>
       </SideBar>
     </div>
   ),

@@ -46,7 +46,7 @@ export type SideBarProps = {
    */
   onActiveChange?: (value: string) => void;
   /**
-   * The children of the sidebar (SideBarLeading, SideBarTrailing, SideBarFooter).
+   * The children of the sidebar (SideBarLeading, SideBarTrailing).
    */
   children: ReactNode;
   /**
@@ -79,20 +79,6 @@ export type SideBarTrailingProps = {
   children?: ReactNode;
   /**
    * Additional CSS classes for the trailing container.
-   */
-  className?: string;
-} & HTMLAttributes<HTMLDivElement>;
-
-/**
- * Props for the SideBarFooter component (bottom section)
- */
-export type SideBarFooterProps = {
-  /**
-   * The content of the footer section (e.g., SideBarCollapseToggle, user info).
-   */
-  children: ReactNode;
-  /**
-   * Additional CSS classes for the footer container.
    */
   className?: string;
 } & HTMLAttributes<HTMLDivElement>;

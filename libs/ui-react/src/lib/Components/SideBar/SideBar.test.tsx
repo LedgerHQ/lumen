@@ -13,7 +13,6 @@ import {
   SideBar,
   SideBarLeading,
   SideBarTrailing,
-  SideBarFooter,
   SideBarItem,
   SideBarCollapseToggle,
 } from './SideBar';
@@ -98,16 +97,16 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
-          <SideBarFooter>
+          <SideBarTrailing>
             <SideBarCollapseToggle data-testid='sidebar-collapse' />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
       expect(screen.getByTestId('sidebar-collapse')).toBeInTheDocument();
     });
 
-    it('should render SideBarFooter at bottom', () => {
+    it('should render SideBarCollapseToggle in trailing section', () => {
       render(
         <SideBar>
           <SideBarLeading>
@@ -118,13 +117,13 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
-          <SideBarFooter data-testid='sidebar-footer'>
+          <SideBarTrailing data-testid='sidebar-trailing'>
             <SideBarCollapseToggle />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
-      expect(screen.getByTestId('sidebar-footer')).toBeInTheDocument();
+      expect(screen.getByTestId('sidebar-trailing')).toBeInTheDocument();
     });
 
     it('should have SideBarTrailing with mt-auto to push to bottom', () => {
@@ -146,9 +145,8 @@ describe('SideBar Component', () => {
               label='Settings'
             />
           </SideBarTrailing>
-          <SideBarFooter>
             <SideBarCollapseToggle />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
@@ -227,9 +225,9 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
-          <SideBarFooter>
+          <SideBarTrailing>
             <SideBarCollapseToggle data-testid='sidebar-collapse' />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
@@ -254,9 +252,9 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
-          <SideBarFooter>
+          <SideBarTrailing>
             <SideBarCollapseToggle data-testid='sidebar-collapse' />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
@@ -504,9 +502,9 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
-          <SideBarFooter>
+          <SideBarTrailing>
             <SideBarCollapseToggle data-testid='sidebar-collapse' />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
@@ -529,9 +527,8 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
-          <SideBarFooter>
             <SideBarCollapseToggle />
-          </SideBarFooter>
+          </SideBarTrailing>
         </SideBar>,
       );
 
