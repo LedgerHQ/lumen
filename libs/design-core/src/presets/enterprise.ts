@@ -8,6 +8,7 @@ import {
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
+  createScrollbarPlugin,
 } from '../utils/index.js';
 
 export const enterprisePreset: Config = {
@@ -27,6 +28,7 @@ export const enterprisePreset: Config = {
     createGradientPlugin(enterpriseCSSTheme),
     createShadowPlugin(),
     createAnimationsPlugin(),
+    createScrollbarPlugin(),
   ],
   darkMode: 'class',
 };

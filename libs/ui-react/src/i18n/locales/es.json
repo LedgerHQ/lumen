@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "Volver"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "Navegación lateral",
+      "collapseAriaLabel": "Contraer barra lateral",
+      "expandAriaLabel": "Expandir barra lateral"
     }
   }
 }

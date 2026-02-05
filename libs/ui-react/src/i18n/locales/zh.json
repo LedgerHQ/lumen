@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "返回"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "侧边栏导航",
+      "collapseAriaLabel": "收起侧边栏",
+      "expandAriaLabel": "展开侧边栏"
     }
   }
 }
