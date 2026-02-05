@@ -6,9 +6,10 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
   NavBar,
   NavBarBackButton,
-  NavBarTitle,
-  NavBarDescription,
   NavBarCoinCapsule,
+  NavBarContent,
+  NavBarDescription,
+  NavBarTitle,
 } from './NavBar';
 
 const renderWithProvider = (component: React.ReactElement) => {
@@ -26,7 +27,9 @@ describe('NavBar', () => {
     it('should render with title', () => {
       renderWithProvider(
         <NavBar testID='navbar' appearance='compact'>
-          <NavBarTitle>Test Title</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -37,8 +40,10 @@ describe('NavBar', () => {
     it('should render with title and description', () => {
       renderWithProvider(
         <NavBar testID='navbar' appearance='expanded'>
-          <NavBarTitle>Test Title</NavBarTitle>
-          <NavBarDescription>Test Description</NavBarDescription>
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+            <NavBarDescription>Test Description</NavBarDescription>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -51,7 +56,9 @@ describe('NavBar', () => {
       renderWithProvider(
         <NavBar testID='navbar' appearance='compact'>
           <NavBarBackButton onPress={onPress} />
-          <NavBarTitle>Test Title</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -60,8 +67,10 @@ describe('NavBar', () => {
 
     it('should render with coin capsule', () => {
       renderWithProvider(
-        <NavBar testID='navbar' appearance='with-asset'>
-          <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+        <NavBar testID='navbar' appearance='compact'>
+          <NavBarContent>
+            <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -73,8 +82,10 @@ describe('NavBar', () => {
       renderWithProvider(
         <NavBar testID='navbar' appearance='expanded'>
           <NavBarBackButton onPress={onPress} />
-          <NavBarTitle>Test Title</NavBarTitle>
-          <NavBarDescription>Test Description</NavBarDescription>
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+            <NavBarDescription>Test Description</NavBarDescription>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -85,12 +96,14 @@ describe('NavBar', () => {
   });
 
   describe('Appearances', () => {
-    it.each(['compact', 'expanded', 'with-asset'] as const)(
+    it.each(['compact', 'expanded'] as const)(
       'should render with %s appearance',
       (appearance) => {
         renderWithProvider(
           <NavBar testID='navbar' appearance={appearance}>
-            <NavBarTitle>Test Title</NavBarTitle>
+            <NavBarContent>
+              <NavBarTitle>Test Title</NavBarTitle>
+            </NavBarContent>
           </NavBar>,
         );
 
@@ -103,7 +116,9 @@ describe('NavBar', () => {
     it('should truncate to 1 line in compact mode', () => {
       renderWithProvider(
         <NavBar appearance='compact'>
-          <NavBarTitle testID='title'>Very long title text</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle testID='title'>Very long title text</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -114,7 +129,9 @@ describe('NavBar', () => {
     it('should truncate to 2 lines in expanded mode', () => {
       renderWithProvider(
         <NavBar appearance='expanded'>
-          <NavBarTitle testID='title'>Very long title text</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle testID='title'>Very long title text</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -126,9 +143,11 @@ describe('NavBar', () => {
       const customStyle = { opacity: 0.5 };
       renderWithProvider(
         <NavBar appearance='compact'>
-          <NavBarTitle testID='title' style={customStyle}>
-            Test
-          </NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle testID='title' style={customStyle}>
+              Test
+            </NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -146,10 +165,12 @@ describe('NavBar', () => {
     it('should always truncate to 1 line', () => {
       renderWithProvider(
         <NavBar appearance='expanded'>
-          <NavBarTitle>Title</NavBarTitle>
-          <NavBarDescription testID='description'>
-            Very long description text
-          </NavBarDescription>
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+            <NavBarDescription testID='description'>
+              Very long description text
+            </NavBarDescription>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -161,10 +182,12 @@ describe('NavBar', () => {
       const customStyle = { opacity: 0.7 };
       renderWithProvider(
         <NavBar appearance='expanded'>
-          <NavBarTitle>Title</NavBarTitle>
-          <NavBarDescription testID='description' style={customStyle}>
-            Test
-          </NavBarDescription>
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+            <NavBarDescription testID='description' style={customStyle}>
+              Test
+            </NavBarDescription>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -184,7 +207,9 @@ describe('NavBar', () => {
       renderWithProvider(
         <NavBar appearance='compact'>
           <NavBarBackButton onPress={handlePress} />
-          <NavBarTitle>Test Title</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -200,7 +225,9 @@ describe('NavBar', () => {
             onPress={handlePress}
             accessibilityLabel='Navigate back'
           />
-          <NavBarTitle>Test Title</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -211,8 +238,10 @@ describe('NavBar', () => {
   describe('NavBarCoinCapsule', () => {
     it('should render ticker and icon', () => {
       renderWithProvider(
-        <NavBar appearance='with-asset'>
-          <NavBarCoinCapsule ticker='ETH' icon={<MockIcon />} />
+        <NavBar appearance='compact'>
+          <NavBarContent>
+            <NavBarCoinCapsule ticker='ETH' icon={<MockIcon />} />
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -220,33 +249,33 @@ describe('NavBar', () => {
     });
   });
 
-  describe('Slot extraction', () => {
-    it('should only render title and description in non-asset mode', () => {
-      renderWithProvider(
+  describe('NavBarContent', () => {
+    it('should render content in both compact and expanded modes', () => {
+      const { rerender } = renderWithProvider(
         <NavBar appearance='compact'>
-          <NavBarTitle>Title</NavBarTitle>
-          <NavBarDescription>Description</NavBarDescription>
-          <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+            <NavBarDescription>Description</NavBarDescription>
+          </NavBarContent>
         </NavBar>,
       );
 
       expect(screen.getByText('Title')).toBeTruthy();
       expect(screen.getByText('Description')).toBeTruthy();
-      expect(screen.queryByText('BTC')).toBeNull();
-    });
 
-    it('should only render coin capsule in asset mode', () => {
-      renderWithProvider(
-        <NavBar appearance='with-asset'>
-          <NavBarTitle>Title</NavBarTitle>
-          <NavBarDescription>Description</NavBarDescription>
-          <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
-        </NavBar>,
+      rerender(
+        <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
+          <NavBar appearance='expanded'>
+            <NavBarContent>
+              <NavBarTitle>Title</NavBarTitle>
+              <NavBarDescription>Description</NavBarDescription>
+            </NavBarContent>
+          </NavBar>
+        </ThemeProvider>,
       );
 
-      expect(screen.queryByText('Title')).toBeNull();
-      expect(screen.queryByText('Description')).toBeNull();
-      expect(screen.getByText('BTC')).toBeTruthy();
+      expect(screen.getByText('Title')).toBeTruthy();
+      expect(screen.getByText('Description')).toBeTruthy();
     });
 
     it('should render back button in all modes', () => {
@@ -254,7 +283,9 @@ describe('NavBar', () => {
       const { rerender } = renderWithProvider(
         <NavBar appearance='compact'>
           <NavBarBackButton onPress={onPress} />
-          <NavBarTitle>Title</NavBarTitle>
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+          </NavBarContent>
         </NavBar>,
       );
 
@@ -264,18 +295,9 @@ describe('NavBar', () => {
         <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
           <NavBar appearance='expanded'>
             <NavBarBackButton onPress={onPress} />
-            <NavBarTitle>Title</NavBarTitle>
-          </NavBar>
-        </ThemeProvider>,
-      );
-
-      expect(screen.getByLabelText('Go back')).toBeTruthy();
-
-      rerender(
-        <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-          <NavBar appearance='with-asset'>
-            <NavBarBackButton onPress={onPress} />
-            <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+            <NavBarContent>
+              <NavBarTitle>Title</NavBarTitle>
+            </NavBarContent>
           </NavBar>
         </ThemeProvider>,
       );
@@ -308,13 +330,15 @@ describe('NavBar', () => {
       console.error = originalError;
     });
 
-    it('should throw error when NavBarCoinCapsule used outside NavBar', () => {
+    it('should throw error when NavBarContent used outside NavBar', () => {
       const originalError = console.error;
       console.error = jest.fn();
 
       expect(() => {
         renderWithProvider(
-          <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />,
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+          </NavBarContent>,
         );
       }).toThrow();
 

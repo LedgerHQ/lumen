@@ -2,11 +2,11 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { MoreHorizontal, Settings } from '../../Symbols';
 import { IconButton } from '../IconButton';
-import { Box } from '../Utility';
 import {
   NavBar,
   NavBarBackButton,
   NavBarCoinCapsule,
+  NavBarContent,
   NavBarDescription,
   NavBarTitle,
 } from './NavBar';
@@ -16,6 +16,7 @@ const meta: Meta<typeof NavBar> = {
   title: 'Navigation/NavBar',
   subcomponents: {
     NavBarBackButton,
+    NavBarContent,
     NavBarTitle,
     NavBarDescription,
     NavBarCoinCapsule,
@@ -34,7 +35,7 @@ const meta: Meta<typeof NavBar> = {
   argTypes: {
     appearance: {
       control: 'select',
-      options: ['compact', 'expanded', 'with-asset'],
+      options: ['compact', 'expanded'],
       description: 'Controls the appearance/layout of the NavBar',
     },
   },
@@ -53,8 +54,10 @@ export const Base: Story = {
   render: (args) => (
     <NavBar {...args}>
       <NavBarBackButton onPress={() => console.log('Back pressed')} />
-      <NavBarTitle>Title</NavBarTitle>
-      <NavBarDescription>Description</NavBarDescription>
+      <NavBarContent>
+        <NavBarTitle>Title</NavBarTitle>
+        <NavBarDescription>Description</NavBarDescription>
+      </NavBarContent>
       <IconButton
         appearance='no-background'
         size='md'
@@ -75,8 +78,10 @@ export const Expanded: Story = {
   render: (args) => (
     <NavBar {...args}>
       <NavBarBackButton onPress={() => console.log('Back pressed')} />
-      <NavBarTitle>Account Details</NavBarTitle>
-      <NavBarDescription>View and manage your account</NavBarDescription>
+      <NavBarContent>
+        <NavBarTitle>Account Details</NavBarTitle>
+        <NavBarDescription>View and manage your account</NavBarDescription>
+      </NavBarContent>
       <IconButton
         appearance='no-background'
         size='md'
@@ -87,9 +92,9 @@ export const Expanded: Story = {
   ),
 };
 
-export const WithAsset: Story = {
+export const WithCoinCapsule: Story = {
   args: {
-    appearance: 'with-asset',
+    appearance: 'compact',
     lx: {
       width: 's480',
     },
@@ -97,10 +102,12 @@ export const WithAsset: Story = {
   render: (args) => (
     <NavBar {...args}>
       <NavBarBackButton onPress={() => console.log('Back pressed')} />
-      <NavBarCoinCapsule
-        ticker='BTC'
-        icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
-      />
+      <NavBarContent>
+        <NavBarCoinCapsule
+          ticker='BTC'
+          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+        />
+      </NavBarContent>
       <IconButton
         appearance='no-background'
         size='md'
@@ -108,40 +115,5 @@ export const WithAsset: Story = {
         accessibilityLabel='More options'
       />
     </NavBar>
-  ),
-};
-
-export const TruncationShowcase: Story = {
-  args: {
-    lx: {
-      width: 's480',
-    },
-  },
-  render: (args) => (
-    <Box lx={{ gap: 's16' }}>
-      <NavBar {...args} appearance='compact'>
-        <NavBarBackButton onPress={() => console.log('Back pressed')} />
-        <NavBarTitle>
-          This is a very long title that will be truncated on a single line
-        </NavBarTitle>
-        <NavBarDescription>
-          This is a very long description that will be truncated in compact mode
-          showing how descriptions are hidden when space is limited
-        </NavBarDescription>
-      </NavBar>
-
-      <NavBar {...args} appearance='expanded'>
-        <NavBarBackButton onPress={() => console.log('Back pressed')} />
-        <NavBarTitle>
-          This is a very long title in expanded mode with multiple lines of text
-          that demonstrates the two-line truncation behavior when the content
-          exceeds the available space in the navigation bar
-        </NavBarTitle>
-        <NavBarDescription>
-          And this description also truncates when it gets too long for the
-          available space in the navigation bar
-        </NavBarDescription>
-      </NavBar>
-    </Box>
   ),
 };

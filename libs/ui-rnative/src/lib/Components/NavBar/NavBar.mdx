@@ -2,26 +2,20 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import { Box } from '../Utility';
 import * as NavBarStories from './NavBar.stories';
-import {
-  NavBar,
-  NavBarBackButton,
-  NavBarTitle,
-  NavBarDescription,
-  NavBarCoinCapsule,
-} from './NavBar';
+import { NavBar, NavBarBackButton, NavBarContent } from './NavBar';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Navigation/NavBar' of={NavBarStories} />
 
-# NavBar
+# 🧭 NavBar
 
 <CustomTabs>
   <Tab label="Overview">
 
 ## Introduction
 
-The NavBar component provides navigation controls at the top of your screen. It supports three layouts: compact for standard navigation, expanded for more context, and with-asset for displaying cryptocurrency information.
+The NavBar component provides navigation controls at the top of your screen. It supports two layouts: compact for centered, vertically stacked content, and expanded for left-aligned, vertically stacked content with more spacing.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library).
 
@@ -31,49 +25,37 @@ The NavBar component provides navigation controls at the top of your screen. It 
 
 - **NavBar**: Root container that provides appearance context
 - **NavBarBackButton**: Back navigation button with arrow icon
-- **NavBarTitle**: The main heading text (required)
-- **NavBarDescription**: Optional subtitle for additional context
-- **NavBarCoinCapsule**: Cryptocurrency display with icon and ticker (for `with-asset` appearance)
+- **NavBarContent**: Container for content (must wrap NavBarTitle, NavBarDescription, etc.)
+- **NavBarTitle**: Styled title text with proper truncation
+- **NavBarDescription**: Styled description text with proper truncation
+- **NavBarCoinCapsule**: Cryptocurrency display with icon and ticker
 
 ## Properties
 
 ### Appearance: Compact
 
-The default compact layout centers the title and description horizontally.
+The compact layout displays content vertically, centered horizontally with standard spacing.
 
 <Canvas of={NavBarStories.Base} />
 <Controls of={NavBarStories.Base} />
 
 ### Appearance: Expanded
 
-The expanded layout provides more vertical space with left-aligned content.
+The expanded layout displays content vertically with left-alignment and increased spacing.
 
 <Canvas of={NavBarStories.Expanded} />
 
-### Appearance: With Asset
+### With Cryptocurrency Asset
 
-Special layout for displaying cryptocurrency or asset information.
+Display cryptocurrency information centered in compact mode.
 
-<Canvas of={NavBarStories.WithAsset} />
-
-## Text Truncation
-
-Titles and descriptions automatically truncate when content exceeds available space.
-
-<Canvas of={NavBarStories.TruncationShowcase} />
-
-> **Key behaviors:**
->
-> - **Compact**: Title truncates to one line, description truncates to one line, centered
-> - **Expanded**: Title truncates to two lines, description truncates to one line, left-aligned
-> - Back button and trailing actions maintain fixed sizes
+<Canvas of={NavBarStories.WithCoinCapsule} />
 
 ## Accessibility
 
 React Native NavBar includes:
 
 - Touch targets sized appropriately for mobile interaction
-- Text truncation with ellipsis for long content
 - Screen reader support through React Native's accessibility features
 - Descriptive labels for icon buttons
 
@@ -90,23 +72,35 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 import {
   NavBar,
   NavBarBackButton,
+  NavBarContent,
   NavBarTitle,
-  NavBarDescription,
 } from '@ledgerhq/lumen-ui-rnative';
 
 <NavBar appearance='compact'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
-  <NavBarTitle>Page Title</NavBarTitle>
+  <NavBarContent>
+    <NavBarTitle>Page Title</NavBarTitle>
+  </NavBarContent>
 </NavBar>;
 ```
 
 ## With Description
 
 ```tsx
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+  NavBarDescription,
+} from '@ledgerhq/lumen-ui-rnative';
+
 <NavBar appearance='expanded'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
-  <NavBarTitle>Account Details</NavBarTitle>
-  <NavBarDescription>View and manage your account</NavBarDescription>
+  <NavBarContent>
+    <NavBarTitle>Account Details</NavBarTitle>
+    <NavBarDescription>View and manage your account</NavBarDescription>
+  </NavBarContent>
 </NavBar>
 ```
 
@@ -118,7 +112,9 @@ import { IconButton } from '@ledgerhq/lumen-ui-rnative';
 
 <NavBar appearance='compact'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
-  <NavBarTitle>Settings</NavBarTitle>
+  <NavBarContent>
+    <NavBarTitle>Settings</NavBarTitle>
+  </NavBarContent>
   <IconButton
     appearance='no-background'
     size='md'
@@ -132,15 +128,18 @@ import { IconButton } from '@ledgerhq/lumen-ui-rnative';
 ## With Cryptocurrency Asset
 
 ```tsx
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import Icon from '@ledgerhq/crypto-icons/native';
 import { NavBarCoinCapsule } from '@ledgerhq/lumen-ui-rnative';
 
-<NavBar appearance='with-asset'>
+<NavBar appearance='compact'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
-  <NavBarCoinCapsule
-    ticker='BTC'
-    icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
-  />
+  <NavBarContent>
+    <NavBarCoinCapsule
+      ticker='BTC'
+      icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
+    />
+    <NavBarTitle>Bitcoin</NavBarTitle>
+  </NavBarContent>
 </NavBar>;
 ```
 
@@ -149,7 +148,12 @@ import { NavBarCoinCapsule } from '@ledgerhq/lumen-ui-rnative';
 The NavBar integrates seamlessly with React Navigation's header options:
 
 ```tsx
-import { NavBar, NavBarBackButton, NavBarTitle } from '@ledgerhq/lumen-ui-rnative';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+} from '@ledgerhq/lumen-ui-rnative';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
@@ -161,7 +165,9 @@ function App() {
         header: ({ navigation, route }) => (
           <NavBar appearance='compact'>
             <NavBarBackButton onPress={() => navigation.goBack()} />
-            <NavBarTitle>{route.name}</NavBarTitle>
+            <NavBarContent>
+              <NavBarTitle>{route.name}</NavBarTitle>
+            </NavBarContent>
           </NavBar>
         ),
       }}
@@ -180,7 +186,12 @@ For Expo Router, use the NavBar in your layout files:
 ```tsx
 // app/_layout.tsx
 import { Stack } from 'expo-router';
-import { NavBar, NavBarBackButton, NavBarTitle } from '@ledgerhq/lumen-ui-rnative';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+} from '@ledgerhq/lumen-ui-rnative';
 import { useRouter } from 'expo-router';
 
 export default function Layout() {
@@ -192,7 +203,9 @@ export default function Layout() {
         header: ({ route }) => (
           <NavBar appearance='compact'>
             <NavBarBackButton onPress={() => router.back()} />
-            <NavBarTitle>{route.name}</NavBarTitle>
+            <NavBarContent>
+              <NavBarTitle>{route.name}</NavBarTitle>
+            </NavBarContent>
           </NavBar>
         ),
       }}
@@ -206,7 +219,13 @@ Or for a specific screen:
 ```tsx
 // app/details.tsx
 import { Stack } from 'expo-router';
-import { NavBar, NavBarBackButton, NavBarTitle } from '@ledgerhq/lumen-ui-rnative';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+  NavBarDescription,
+} from '@ledgerhq/lumen-ui-rnative';
 import { useRouter } from 'expo-router';
 
 export default function DetailsScreen() {
@@ -219,8 +238,12 @@ export default function DetailsScreen() {
           header: () => (
             <NavBar appearance='expanded'>
               <NavBarBackButton onPress={() => router.back()} />
-              <NavBarTitle>Details</NavBarTitle>
-              <NavBarDescription>View detailed information</NavBarDescription>
+              <NavBarContent>
+                <NavBarTitle>Details</NavBarTitle>
+                <NavBarDescription>
+                  View detailed information
+                </NavBarDescription>
+              </NavBarContent>
             </NavBar>
           ),
         }}

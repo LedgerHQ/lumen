@@ -2,14 +2,13 @@ import { ReactElement, ReactNode } from 'react';
 import { StyledViewProps } from '../../../styles';
 import { IconButtonProps } from '../IconButton';
 
-export type NavBarAppearance = 'compact' | 'expanded' | 'with-asset';
+export type NavBarAppearance = 'compact' | 'expanded';
 
 export type NavBarProps = {
   /**
    * Controls the appearance/layout of the NavBar.
-   * - 'compact': Standard height
-   * - 'expanded': Increased height
-   * - 'with-asset': Special layout for displaying asset/coin info
+   * - 'compact': Content displayed vertically, centered with standard spacing
+   * - 'expanded': Content displayed vertically, left-aligned with increased spacing
    */
   appearance: NavBarAppearance;
 } & StyledViewProps;
@@ -24,6 +23,16 @@ export type NavBarBackButtonProps = {
   IconButtonProps,
   'appearance' | 'size' | 'icon' | 'accessibilityLabel'
 >;
+
+export type NavBarContentProps = {
+  /**
+   * The content to display in the NavBar.
+   * Should contain NavBarTitle, NavBarDescription, NavBarCoinCapsule, or other React nodes.
+   * Content is always displayed vertically (column layout).
+   * Compact mode centers content, expanded mode left-aligns with more spacing.
+   */
+  children: ReactNode;
+} & Omit<StyledViewProps, 'children'>;
 
 export type NavBarTitleProps = {
   /**

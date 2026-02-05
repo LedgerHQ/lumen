@@ -4,6 +4,7 @@ import {
   NavBar,
   NavBarBackButton,
   NavBarCoinCapsule,
+  NavBarContent,
   NavBarDescription,
   NavBarTitle,
 } from '@ledgerhq/lumen-ui-rnative';
@@ -18,13 +19,11 @@ export const NavBars = () => {
         }}
       >
         <NavBar appearance='compact'>
-          <NavBarTitle>Portfolio</NavBarTitle>
-          <NavBarDescription>Manage your positions</NavBarDescription>
-          <NavBarCoinCapsule
-            ticker='BTC'
-            icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
-          />
           <NavBarBackButton />
+          <NavBarContent>
+            <NavBarTitle>Portfolio</NavBarTitle>
+            <NavBarDescription>Manage your positions</NavBarDescription>
+          </NavBarContent>
         </NavBar>
       </Box>
       <Box
@@ -34,18 +33,16 @@ export const NavBars = () => {
         }}
       >
         <NavBar appearance='expanded'>
-          <NavBarTitle>
-            Are you sure you want to continue? This transfer can't be undone
-            once confirmed.
-          </NavBarTitle>
-          <NavBarDescription>
-            Please double-check the details before proceeding.
-          </NavBarDescription>
-          <NavBarCoinCapsule
-            ticker='BTC'
-            icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
-          />
           <NavBarBackButton />
+          <NavBarContent>
+            <NavBarTitle>Are you sure you want to continue?</NavBarTitle>
+            <NavBarDescription>
+              This transfer can't be undone once confirmed.
+            </NavBarDescription>
+            <NavBarDescription>
+              Please double-check the details before proceeding.
+            </NavBarDescription>
+          </NavBarContent>
         </NavBar>
       </Box>
 
@@ -55,14 +52,14 @@ export const NavBars = () => {
           borderRadius: 'lg',
         }}
       >
-        <NavBar appearance='with-asset'>
-          <NavBarTitle>Title</NavBarTitle>
-          <NavBarDescription>Description</NavBarDescription>
-          <NavBarCoinCapsule
-            ticker='BTC'
-            icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
-          />
+        <NavBar appearance='compact'>
           <NavBarBackButton />
+          <NavBarContent>
+            <NavBarCoinCapsule
+              ticker='BTC'
+              icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
+            />
+          </NavBarContent>
         </NavBar>
       </Box>
     </Box>

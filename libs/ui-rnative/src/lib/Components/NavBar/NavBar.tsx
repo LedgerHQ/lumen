@@ -11,6 +11,7 @@ import {
   NavBarAppearance,
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
+  NavBarContentProps,
   NavBarDescriptionProps,
   NavBarProps,
   NavBarTitleProps,
@@ -18,9 +19,7 @@ import {
 
 type Slots = {
   backButton: ReactNode | null;
-  title: ReactNode | null;
-  description: ReactNode | null;
-  coinCapsule: ReactNode | null;
+  content: ReactNode | null;
 };
 
 const [NavBarProvider, useNavBarContext] = createSafeContext<{
@@ -30,9 +29,7 @@ const [NavBarProvider, useNavBarContext] = createSafeContext<{
 function extractSlots(children: ReactNode): Slots {
   const slots: Slots = {
     backButton: null,
-    title: null,
-    description: null,
-    coinCapsule: null,
+    content: null,
   };
 
   React.Children.forEach(children, (child) => {
@@ -46,14 +43,8 @@ function extractSlots(children: ReactNode): Slots {
       case 'NavBarBackButton':
         slots.backButton = child;
         break;
-      case 'NavBarTitle':
-        slots.title = child;
-        break;
-      case 'NavBarDescription':
-        slots.description = child;
-        break;
-      case 'NavBarCoinCapsule':
-        slots.coinCapsule = child;
+      case 'NavBarContent':
+        slots.content = child;
         break;
       default:
         break;
@@ -62,25 +53,25 @@ function extractSlots(children: ReactNode): Slots {
   return slots;
 }
 
-export function NavBarCoinCapsule({
-  ticker,
-  icon,
+export function NavBarContent({
+  children,
+  style,
   ...props
-}: NavBarCoinCapsuleProps) {
+}: NavBarContentProps) {
   const { appearance } = useNavBarContext({
-    consumerName: 'NavBarCoinCapsule',
+    consumerName: 'NavBarContent',
     contextRequired: true,
   });
   const styles = useStyles({ appearance });
 
   return (
-    <Box style={styles.coinCapsule} {...props}>
-      <CoinCapsule ticker={ticker} icon={icon} />
+    <Box style={[styles.content, style]} {...props}>
+      {children}
     </Box>
   );
 }
 
-NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
+NavBarContent.displayName = 'NavBarContent';
 
 export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
   const { appearance } = useNavBarContext({
@@ -122,6 +113,20 @@ export function NavBarDescription({
 
 NavBarDescription.displayName = 'NavBarDescription';
 
+export function NavBarCoinCapsule({
+  ticker,
+  icon,
+  ...props
+}: NavBarCoinCapsuleProps) {
+  return (
+    <Box {...props}>
+      <CoinCapsule ticker={ticker} icon={icon} />
+    </Box>
+  );
+}
+
+NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
+
 export function NavBarBackButton({
   accessibilityLabel,
   onPress,
@@ -158,16 +163,7 @@ export function NavBar({ appearance, children, ...props }: NavBarProps) {
     <NavBarProvider value={{ appearance }}>
       <Box style={styles.container} {...props}>
         <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
-        <Box style={styles.headerContainer}>
-          {appearance !== 'with-asset' ? (
-            <>
-              {slots.title}
-              {slots.description}
-            </>
-          ) : (
-            slots.coinCapsule
-          )}
-        </Box>
+        <Box style={styles.contentContainer}>{slots.content}</Box>
       </Box>
     </NavBarProvider>
   );
@@ -191,21 +187,12 @@ const useStyles = ({ appearance }: StyleParams) => {
             flexDirection: 'row',
             gap: t.spacings.s4,
             paddingHorizontal: t.spacings.s4,
-          },
-          {
-            ...(appearance === 'compact' && {
-              paddingVertical: t.spacings.s8,
-            }),
+            paddingVertical: t.spacings.s8,
           },
           {
             ...(appearance === 'expanded' && {
               alignItems: 'flex-start',
               flexDirection: 'column',
-            }),
-          },
-          {
-            ...(appearance === 'with-asset' && {
-              paddingVertical: t.spacings.s12,
             }),
           },
         ]),
@@ -221,25 +208,38 @@ const useStyles = ({ appearance }: StyleParams) => {
             }),
           },
         ]),
-        headerContainer: StyleSheet.flatten([
+        contentContainer: StyleSheet.flatten([
           {
             flex: 1,
-            ...(appearance !== 'expanded' && {
+          },
+          {
+            ...(appearance === 'compact' && {
               paddingHorizontal: t.spacings.s48,
+              alignItems: 'center',
+              justifyContent: 'center',
             }),
           },
           {
             ...(appearance === 'expanded' && {
               paddingHorizontal: t.spacings.s12,
               paddingBottom: t.spacings.s12,
-              gap: t.spacings.s8,
               width: '100%',
             }),
           },
+        ]),
+        content: StyleSheet.flatten([
           {
-            ...(appearance === 'with-asset' && {
+            flexDirection: 'column',
+          },
+          {
+            ...(appearance === 'compact' && {
               alignItems: 'center',
               justifyContent: 'center',
+            }),
+          },
+          {
+            ...(appearance === 'expanded' && {
+              gap: t.spacings.s8,
             }),
           },
         ]),
@@ -252,11 +252,6 @@ const useStyles = ({ appearance }: StyleParams) => {
           ...t.typographies.body2,
           color: t.colors.text.muted,
           textAlign: appearance === 'expanded' ? 'left' : 'center',
-        },
-        coinCapsule: {
-          ...(appearance !== 'with-asset' && {
-            alignSelf: 'flex-start',
-          }),
         },
       };
     },
