@@ -1,5 +1,5 @@
 import {
-  BottomSheetModal,
+  BottomSheetModal as GorhomBottomSheetModal,
   BottomSheetView as GorhomBottomSheetView,
   BottomSheetFlatList as GorhomBottomSheetFlatList,
   BottomSheetSectionList as GorhomBottomSheetSectionList,
@@ -13,7 +13,7 @@ export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.
    */
-  ref?: Ref<React.ElementRef<typeof BottomSheetModal>>;
+  ref?: Ref<React.ElementRef<typeof GorhomBottomSheetModal>>;
   /**
    * Used to locate this view in end-to-end tests.
    */

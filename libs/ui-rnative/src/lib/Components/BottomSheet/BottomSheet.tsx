@@ -1,4 +1,7 @@
-import { BottomSheetModal, SNAP_POINT_TYPE } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModal as GorhomBottomSheetModal,
+  SNAP_POINT_TYPE,
+} from '@gorhom/bottom-sheet';
 import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
@@ -76,8 +79,8 @@ const BottomSheet = ({
   ...props
 }: BottomSheetProps) => {
   // ref
-  const innerRef = useRef<BottomSheetModal>(null);
-  const mergedRefs = useMergedRef<BottomSheetModal>(ref, innerRef);
+  const innerRef = useRef<GorhomBottomSheetModal>(null);
+  const mergedRefs = useMergedRef<GorhomBottomSheetModal>(ref, innerRef);
   const [isOpen, setIsOpen] = useState(false);
 
   const styles = useStyles({ shadow: hideBackdrop && isOpen });
@@ -157,7 +160,7 @@ const BottomSheet = ({
   );
 
   return (
-    <BottomSheetModal
+    <GorhomBottomSheetModal
       {...props}
       ref={mergedRefs}
       style={styles.root}
@@ -188,7 +191,7 @@ const BottomSheet = ({
       <BottomSheetProvider value={{ onBack, hideCloseButton }}>
         {children}
       </BottomSheetProvider>
-    </BottomSheetModal>
+    </GorhomBottomSheetModal>
   );
 };
 BottomSheet.displayName = 'BottomSheet';
