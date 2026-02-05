@@ -94,7 +94,7 @@ export type SideBarItemProps = {
   /**
    * The icon component to display when inactive.
    */
-  icon: ReactNode;
+  icon: React.ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * The icon component to display when the item is active.
    */
