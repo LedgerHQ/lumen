@@ -1,33 +1,36 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import React from 'react';
 import { User } from '../../Symbols';
 import { AvatarProps } from './types';
 
-const avatarVariants = cva(
-  'relative inline-flex items-center justify-center rounded-full bg-muted-transparent transition-colors',
-  {
-    variants: {
-      size: {
-        sm: 'size-40 p-4',
-        md: 'size-48 p-4',
+const avatarVariants = {
+  root: cva(
+    'relative inline-flex items-center justify-center rounded-full bg-muted-transparent transition-colors',
+    {
+      variants: {
+        size: {
+          sm: 'size-40 p-4',
+          md: 'size-48 p-4',
+        },
+      },
+      defaultVariants: {
+        size: 'md',
       },
     },
-    defaultVariants: {
-      size: 'md',
+  ),
+  notification: cva('absolute top-0 right-0 rounded-full bg-error-strong', {
+    variants: {
+      size: {
+        sm: 'size-10',
+        md: 'size-12',
+      },
     },
-  },
-);
+  }),
+};
 
-const sizeConfig = {
-  sm: {
-    fallbackIcon: 16,
-    notification: 'size-10',
-  },
-  md: {
-    fallbackIcon: 24,
-    notification: 'size-12',
-  },
+const fallbackSizes = {
+  sm: 16,
+  md: 24,
 } as const;
 
 /**
@@ -69,19 +72,14 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     return (
       <div
         ref={ref}
-        className={cn(avatarVariants({ size }), className)}
+        className={avatarVariants.root({ size, className })}
         {...props}
       >
         {showNotification && (
-          <div
-            className={cn(
-              'absolute top-0 right-0 rounded-full bg-error-strong',
-              sizeConfig[size].notification,
-            )}
-          />
+          <div className={avatarVariants.notification({ size })} />
         )}
         {shouldFallback ? (
-          <User size={sizeConfig[size].fallbackIcon} />
+          <User size={fallbackSizes[size]} />
         ) : (
           <img
             src={src}
