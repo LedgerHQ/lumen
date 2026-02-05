@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
 import { Avatar } from './Avatar';
 
 const meta = {
@@ -85,6 +86,36 @@ export const NotificationShowcase: Story = {
     <div className='inline-flex items-center gap-16'>
       <Avatar src={exampleSrc} showNotification={false} />
       <Avatar src={exampleSrc} showNotification={true} />
+    </div>
+  ),
+};
+
+export const InteractiveShowcase: Story = {
+  render: () => (
+    <div className='inline-flex gap-24'>
+      <Menu>
+        <MenuTrigger asChild>
+          <button className='cursor-pointer rounded-full transition-colors hover:bg-muted-hover'>
+            <Avatar size='md' alt='Avatar as trigger' showNotification />
+          </button>
+        </MenuTrigger>
+        <MenuContent className='w-208'>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>Notifications</MenuItem>
+          <MenuItem>Team</MenuItem>
+          <MenuItem>Subscription</MenuItem>
+        </MenuContent>
+      </Menu>
+      <Menu>
+        <a
+          href='https://shop.ledger.com/pages/ledger-nano-gen5'
+          className='rounded-full transition-colors hover:bg-muted-hover'
+          target='_blank'
+          rel='noreferrer'
+        >
+          <Avatar size='md' />
+        </a>
+      </Menu>
     </div>
   ),
 };

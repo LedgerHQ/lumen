@@ -63,6 +63,12 @@ An optional notification indicator can be displayed to show status or alerts:
 
 <Canvas of={AvatarStories.NotificationShowcase} />
 
+### As Interactive Trigger
+
+Avatars are commonly used as interactive triggers for menus, dropdowns, or navigation:
+
+<Canvas of={AvatarStories.InteractiveShowcase} />
+
 ## Accessibility
 
 To be implemented:
@@ -142,6 +148,43 @@ function MyComponent() {
   );
 }
 ```
+
+### As Interactive Trigger
+
+Avatars are commonly used as interactive triggers for menus, dropdowns, or navigation. Wrap the Avatar in a semantic HTML element (`<button>` or `<a>`) and add appropriate hover states:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+import { Menu, MenuTrigger, MenuContent, MenuItem } from '@ledgerhq/lumen-ui-react';
+
+function UserMenu() {
+  return (
+    <Menu>
+      <MenuTrigger asChild>
+        <button className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover">
+          <Avatar 
+            src="https://example.com/photo.jpg"
+            size="md" 
+            alt="User menu" 
+            showNotification 
+          />
+        </button>
+      </MenuTrigger>
+      <MenuContent>
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>Settings</MenuItem>
+        <MenuItem>Logout</MenuItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+**Key points:**
+- Wrap Avatar in a semantic interactive element (`<button>` for actions, `<a>` for navigation)
+- Use `rounded-full` to maintain circular hover area
+- Add `transition-colors` and `hover:bg-muted-hover` for visual feedback
+- Use `cursor-pointer` to indicate interactivity
 
 ### Image Loading Strategy
 
