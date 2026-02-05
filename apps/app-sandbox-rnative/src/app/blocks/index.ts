@@ -15,6 +15,7 @@ export * from './Tags';
 export * from './TextInputs';
 export * from './Tiles';
 export * from './ListItems';
+export * from './PageIndicators';
 export * from './ToggleLocaleSwitch';
 export * from './ToggleThemeSwitch';
 export * from './InteractiveIcons';
