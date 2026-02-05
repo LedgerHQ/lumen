@@ -144,7 +144,6 @@ describe('SideBar Component', () => {
               activeIcon={SettingsAlt2}
               label='Settings'
             />
-          </SideBarTrailing>
             <SideBarCollapseToggle />
           </SideBarTrailing>
         </SideBar>,
@@ -527,6 +526,7 @@ describe('SideBar Component', () => {
               label='Home'
             />
           </SideBarLeading>
+          <SideBarTrailing>
             <SideBarCollapseToggle />
           </SideBarTrailing>
         </SideBar>,
