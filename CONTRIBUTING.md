@@ -53,13 +53,33 @@ git clone https://github.com/your-org/lumen.git
 cd lumen
 ```
 
-2. Install dependencies:
+2. Setup proto
+Proto is a pluggable version manager, a unified toolchain.
+[Installation docs](https://moonrepo.dev/docs/proto/install)
+
+You might need to run this command to sync your bashprofile, or zshrc
+```bash
+proto setup
+```
+
+Then run install to synchronize tools versions
+```bash
+proto install
+```
+
+Then proto use
+```bash
+proto use
+```
+
+
+3. Install dependencies:
 
 ```bash
 npm install --legacy-peer-deps
 ```
 
-3. Start development environment:
+4. Start development environment:
 
 ```bash
 # Build all libraries
