@@ -103,7 +103,6 @@ function MyComponent() {
       </SideBarLeading>
       <SideBarTrailing>
         <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
-      </SideBarTrailing>
         <SideBarCollapseToggle />
       </SideBarTrailing>
     </SideBar>
@@ -124,7 +123,6 @@ For simpler use cases, you can use `defaultActive` and `defaultCollapsed` instea
   </SideBarLeading>
   <SideBarTrailing>
     <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
-  </SideBarTrailing>
     <SideBarCollapseToggle />
   </SideBarTrailing>
 </SideBar>
@@ -194,7 +192,7 @@ const [active, setActive] = useState('home');
   onActiveChange={setActive}
 >
   <SideBarLeading>...</SideBarLeading>
-  <SideBarTrailing>...</SideBarTrailing>
+  <SideBarTrailing>
     <SideBarCollapseToggle />
   </SideBarTrailing>
 </SideBar>
@@ -202,7 +200,7 @@ const [active, setActive] = useState('home');
 // Fully uncontrolled
 <SideBar defaultCollapsed={false} defaultActive="home">
   <SideBarLeading>...</SideBarLeading>
-  <SideBarTrailing>...</SideBarTrailing>
+  <SideBarTrailing>
     <SideBarCollapseToggle />
   </SideBarTrailing>
 </SideBar>
@@ -360,7 +358,6 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
   </SideBarLeading>
   <SideBarTrailing>
     <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
-  </SideBarTrailing>
     <SideBarCollapseToggle />
   </SideBarTrailing>
 </SideBar>
@@ -378,8 +375,7 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
   <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
   <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
   <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
-    <SideBarCollapseToggle />
-  </SideBarTrailing>
+  <SideBarCollapseToggle />
 </SideBar>
 ```
 
