@@ -83,9 +83,9 @@ export const GlobalSelectBottomSheet: React.FC = () => {
 
   useEffect(() => {
     if (currentSelect) {
-      bottomSheetRef.current?.expand();
+      bottomSheetRef.current?.present();
     } else {
-      bottomSheetRef.current?.close();
+      bottomSheetRef.current?.dismiss();
     }
   }, [currentSelect, bottomSheetRef]);
 

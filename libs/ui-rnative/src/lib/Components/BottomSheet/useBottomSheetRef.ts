@@ -1,8 +1,8 @@
-import GorghomBottomSheet from '@gorhom/bottom-sheet';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useRef } from 'react';
 
 export const useBottomSheetRef = () => {
-  const bottomSheetRef = useRef<GorghomBottomSheet>(null);
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   return bottomSheetRef;
 };
