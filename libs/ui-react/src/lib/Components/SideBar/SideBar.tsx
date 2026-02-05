@@ -27,7 +27,7 @@ const sideBarVariants = {
     {
       variants: {
         collapsed: {
-          true: 'w-72 overflow-hidden',
+          true: 'w-72',
           false: 'w-208',
         },
       },
@@ -40,7 +40,7 @@ const sideBarVariants = {
   item: cva(
     [
       'flex h-44 w-full cursor-pointer items-center rounded-md p-12',
-      'transition-colors duration-200',
+      'transition-all duration-300',
       'focus-visible:outline-2 focus-visible:outline-focus',
     ],
     {
