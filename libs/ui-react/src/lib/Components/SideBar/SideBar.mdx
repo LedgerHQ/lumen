@@ -33,6 +33,8 @@ SideBar is a responsive navigation component with collapsible functionality. It 
 - **SideBarItem**: Individual navigation item with icon and optional label (icon-only when label is omitted)
 - **SideBarCollapseToggle**: Toggle button to collapse/expand the sidebar
 
+> **Note:** The sidebar has fixed widths - `72px` when collapsed (icon-only) and `208px` when expanded (with labels).
+
 <Controls of={SideBarStories.Base} />
 
 ### Collapsed State
@@ -89,7 +91,7 @@ import {
   SideBarItem,
   SideBarCollapseToggle,
 } from '@ledgerhq/lumen-ui-react';
-import { Home, HomeFill, Wallet, SettingsAlt, SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols';
+import { Home, HomeFill, Wallet, WalletFill, SettingsAlt, SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols';
 import { useState } from 'react';
 
 function MyComponent() {
@@ -99,7 +101,7 @@ function MyComponent() {
     <SideBar active={active} onActiveChange={setActive}>
       <SideBarLeading>
         <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-        <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+        <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
       </SideBarLeading>
       <SideBarTrailing>
         <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
@@ -119,7 +121,7 @@ For simpler use cases, you can use `defaultActive` and `defaultCollapsed` instea
 <SideBar defaultActive="home" defaultCollapsed={false}>
   <SideBarLeading>
     <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-    <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+    <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
   </SideBarLeading>
   <SideBarTrailing>
     <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
@@ -229,7 +231,7 @@ function Navigation() {
     <SideBar active={getActiveValue(pathname)}>
       <SideBarLeading>
         <SideBarItem value="/" icon={Home} activeIcon={HomeFill} label="Dashboard" />
-        <SideBarItem value="/accounts" icon={Wallet} activeIcon={Wallet} label="Accounts" />
+        <SideBarItem value="/accounts" icon={Wallet} activeIcon={WalletFill} label="Accounts" />
       </SideBarLeading>
     </SideBar>
   );
@@ -289,7 +291,7 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 <SideBarItem
   value="home"
   icon={Home}
-  activeIcon={Home}
+  activeIcon={HomeFill}
   label="Home"
 />
 ```
@@ -354,10 +356,10 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 <SideBar active={active} onActiveChange={setActive}>
   <SideBarLeading>
     <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-    <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
+    <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
   </SideBarLeading>
   <SideBarTrailing>
-    <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
+    <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
     <SideBarCollapseToggle />
   </SideBarTrailing>
 </SideBar>
@@ -373,8 +375,8 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 {/* prettier-ignore */}
 <SideBar active={active} onActiveChange={setActive}>
   <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-  <SideBarItem value="wallet" icon={Wallet} activeIcon={Wallet} label="Wallet" />
-  <SideBarItem value="settings" icon={Settings} activeIcon={Settings} label="Settings" />
+  <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
+  <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
   <SideBarCollapseToggle />
 </SideBar>
 ```
