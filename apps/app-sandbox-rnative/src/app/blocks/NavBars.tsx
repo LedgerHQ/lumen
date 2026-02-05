@@ -35,10 +35,10 @@ export const NavBars = () => {
         <NavBar appearance='expanded'>
           <NavBarBackButton />
           <NavBarContent>
-            <NavBarTitle>Are you sure you want to continue?</NavBarTitle>
-            <NavBarDescription>
-              This transfer can't be undone once confirmed.
-            </NavBarDescription>
+            <NavBarTitle>
+              Are you sure you want to continue? This transfer can't be undone
+              once confirmed.
+            </NavBarTitle>
             <NavBarDescription>
               Please double-check the details before proceeding.
             </NavBarDescription>
