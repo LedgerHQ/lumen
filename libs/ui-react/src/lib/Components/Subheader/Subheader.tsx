@@ -81,7 +81,10 @@ export const SubheaderCount = ({
 }: SubheaderCountProps) => {
   const formatted = format ? format(value) : `(${value})`;
   return (
-    <span className={cn('shrink-0 body-2 text-muted', className)} {...props}>
+    <span
+      className={cn('shrink-0 pl-2 body-2 text-muted', className)}
+      {...props}
+    >
       {formatted}
     </span>
   );
@@ -119,12 +122,9 @@ export const SubheaderShowMore = ({
   ...props
 }: SubheaderShowMoreProps) => {
   return (
-    <span
-      className={cn('shrink-0 self-center text-muted', className)}
-      {...props}
-    >
-      <ChevronRight size={16} />
-    </span>
+    <InteractiveIcon className='-ml-2' iconType='stroked' {...props}>
+      <ChevronRight size={20} />
+    </InteractiveIcon>
   );
 };
 
