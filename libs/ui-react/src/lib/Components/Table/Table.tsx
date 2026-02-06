@@ -15,7 +15,11 @@ import {
   TableCellProps,
   TableHeaderCellProps,
   TableHeaderRowProps,
+<<<<<<< HEAD
   TableHeaderProps,
+=======
+  TableHeadProps,
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
   TableProps,
   TableRowProps,
   TableActionBarLeadingProps,
@@ -26,17 +30,28 @@ import {
   TableRootProps,
   TableInfoIconProps,
   TableSortButtonProps,
+<<<<<<< HEAD
   TableGroupHeaderRowProps,
+=======
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
 } from './types';
 import { useThrottledScrollBottom } from './utils/useThrottledScrollBottom';
 
 const [TableProvider, useTableContext] = createSafeContext<{
   appearance: TableRootProps['appearance'];
+<<<<<<< HEAD
   loading: TableRootProps['loading'];
 }>('Table');
 
 const tableVariants = cva(
   'relative scrollbar-none w-full max-w-full border-collapse overflow-x-auto rounded-lg',
+=======
+  isLoading: TableRootProps['isLoading'];
+}>('Table');
+
+const tableVariants = cva(
+  'relative w-full max-w-full border-collapse overflow-x-auto rounded-lg',
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
   {
     variants: {
       appearance: {
@@ -48,6 +63,7 @@ const tableVariants = cva(
 );
 
 /**
+<<<<<<< HEAD
  * Root table container component. Wraps a scrollable HTML `<div>` around the `Table` element.
  *
  * @example
@@ -69,19 +85,45 @@ const tableVariants = cva(
  * </TableRoot>
  */
 export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
+=======
+ * Root table component. Wraps the HTML `<table>` element.
+ *
+ * @example
+ * <Table>
+ *   <TableHead>
+ *     <TableHeaderRow>
+ *       <TableHeaderCell>
+ *         <TableHeaderCellSort sortDirection={sortDir} onToggleSort={setSortDir}>Name</TableHeaderCellSort>
+ *       </TableHeaderCell>
+ *     </TableHeaderRow>
+ *   </TableHead>
+ *   <TableBody>
+ *     <TableRow>
+ *       <TableCell>John</TableCell>
+ *     </TableRow>
+ *   </TableBody>
+ * </Table>
+ */
+export const TableRoot = forwardRef<HTMLTableElement, TableRootProps>(
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
   (
     {
       children,
       appearance = 'no-background',
       className,
       onScrollBottom,
+<<<<<<< HEAD
       loading,
+=======
+      isLoading,
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       ...props
     },
     ref,
   ) => {
     const handleScroll = useThrottledScrollBottom({
       onScrollBottom,
+<<<<<<< HEAD
       loading,
     });
 
@@ -90,6 +132,17 @@ export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
         <div
           {...props}
           ref={ref}
+=======
+      isLoading,
+    });
+
+    return (
+      <TableProvider value={{ appearance, isLoading }}>
+        <div
+          {...props}
+          ref={ref}
+          style={{ scrollbarWidth: 'none' }}
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
           className={tableVariants({ appearance, className })}
           onScroll={handleScroll}
         >
@@ -114,11 +167,16 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
     );
   },
 );
+<<<<<<< HEAD
 Table.displayName = 'Table';
+=======
+TableRoot.displayName = 'TableRoot';
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
 
 /**
  * Table head component. Wraps the HTML `<thead>` element.
  */
+<<<<<<< HEAD
 export const TableHeader = forwardRef<
   HTMLTableSectionElement,
   TableHeaderProps
@@ -130,6 +188,18 @@ export const TableHeader = forwardRef<
   );
 });
 TableHeader.displayName = 'TableHeader';
+=======
+export const TableHead = forwardRef<HTMLTableSectionElement, TableHeadProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <thead ref={ref} className={className} {...props}>
+        {children}
+      </thead>
+    );
+  },
+);
+TableHead.displayName = 'TableHead';
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
 
 /**
  * Table body component. Wraps the HTML `<tbody>` element.
@@ -137,7 +207,11 @@ TableHeader.displayName = 'TableHeader';
 export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ children, className, ...props }, ref) => {
     return (
+<<<<<<< HEAD
       <tbody ref={ref} className={className} {...props}>
+=======
+      <tbody ref={ref} className={cn('', className)} {...props}>
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
         {children}
       </tbody>
     );
@@ -153,11 +227,18 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
     return (
       <tr
         ref={ref}
+<<<<<<< HEAD
         onClick={onClick}
         role={clickable ? 'button' : undefined}
         className={cn(
           clickable &&
             'cursor-pointer outline-none select-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
+=======
+        role={clickable ? 'button' : undefined}
+        className={cn(
+          clickable &&
+            'cursor-pointer outline-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
           className,
         )}
         {...props}
@@ -201,6 +282,7 @@ export const TableHeaderRow = forwardRef<
 });
 TableHeaderRow.displayName = 'TableHeaderRow';
 
+<<<<<<< HEAD
 /**
  * Table Group Header row component. Wraps the HTML `<tr> + <td>` element with header sub-section for a table.
  */
@@ -249,6 +331,25 @@ const cellVariants = {
       align: {
         start: 'text-start justify-start',
         end: 'text-end justify-end',
+=======
+const cellVariants = {
+  root: cva('h-64 truncate p-12 body-3 text-base', {
+    variants: {
+      hideBelow: {
+        xs: 'hidden xs:table-cell',
+        sm: 'hidden sm:table-cell',
+        md: 'hidden md:table-cell',
+        lg: 'hidden lg:table-cell',
+        xl: 'hidden xl:table-cell',
+      },
+    },
+  }),
+  inner: cva('flex flex-1 justify-end', {
+    variants: {
+      align: {
+        left: 'text-left justify-start',
+        right: 'text-right justify-end',
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       },
     },
   }),
@@ -258,7 +359,11 @@ const cellVariants = {
  * Table data cell component. Wraps the HTML `<td>` element.
  */
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
+<<<<<<< HEAD
   ({ children, className, hideBelow, align = 'start', ...props }, ref) => {
+=======
+  ({ children, className, hideBelow, align = 'left', ...props }, ref) => {
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
     return (
       <td
         ref={ref}
@@ -275,8 +380,13 @@ TableCell.displayName = 'TableCell';
 const cellContentVariants = cva('flex items-center gap-12 truncate', {
   variants: {
     align: {
+<<<<<<< HEAD
       start: 'text-start',
       end: 'text-end',
+=======
+      left: 'text-left',
+      right: 'text-right',
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
     },
   },
 });
@@ -290,9 +400,16 @@ export const TableCellContent = forwardRef<
 >(
   (
     {
+<<<<<<< HEAD
       className,
       align = 'start',
       leadingContent,
+=======
+      children,
+      className,
+      align = 'left',
+      leading,
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       title,
       description,
       ...props
@@ -305,7 +422,11 @@ export const TableCellContent = forwardRef<
         className={cellContentVariants({ align, className })}
         {...props}
       >
+<<<<<<< HEAD
         <div>{leadingContent}</div>
+=======
+        <div>{leading}</div>
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
         <div className='flex flex-col gap-4 truncate'>
           <div className='truncate body-2 text-base'>{title}</div>
           <div className='truncate body-3 text-muted'>{description}</div>
@@ -317,7 +438,11 @@ export const TableCellContent = forwardRef<
 TableCellContent.displayName = 'TableCellContent';
 
 const headerCellVariants = {
+<<<<<<< HEAD
   root: cva('group h-40 truncate p-12 body-3 text-base', {
+=======
+  root: cva('h-40 truncate p-12 body-3 text-base', {
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
     variants: {
       hideBelow: {
         xs: 'hidden xs:table-cell',
@@ -328,6 +453,7 @@ const headerCellVariants = {
       },
     },
   }),
+<<<<<<< HEAD
   content: cva('flex min-w-0 items-center gap-4 truncate', {
     variants: {
       align: {
@@ -339,15 +465,30 @@ const headerCellVariants = {
   trailingContent: cva(
     'flex items-center justify-center opacity-0 group-hover:opacity-100',
   ),
+=======
+  content: cva('flex min-w-0 items-center gap-4', {
+    variants: {
+      align: {
+        left: 'text-left justify-start',
+        right: 'text-right justify-end',
+      },
+    },
+  }),
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
 };
 
 /**
  * Table header cell component. Wraps the HTML `<th>` element.
+<<<<<<< HEAD
  * Use TableSortButton for sortable columns; other children are trailing content.
+=======
+ * Use TableHeaderCellSort for sortable columns; other children are trailing content.
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
  */
 export const TableHeaderCell = forwardRef<
   HTMLTableCellElement,
   TableHeaderCellProps
+<<<<<<< HEAD
 >(
   (
     {
@@ -382,6 +523,21 @@ export const TableHeaderCell = forwardRef<
     );
   },
 );
+=======
+>(({ children, className, hideBelow, align = 'left', ...props }, ref) => {
+  return (
+    <th
+      ref={ref}
+      className={headerCellVariants.root({ hideBelow, className })}
+      {...props}
+    >
+      <div className='min-w-0'>
+        <div className={headerCellVariants.content({ align })}>{children}</div>
+      </div>
+    </th>
+  );
+});
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
 TableHeaderCell.displayName = 'TableHeaderCell';
 
 /**
@@ -454,13 +610,22 @@ TableActionBarTrailing.displayName = 'TableActionBarTrailing';
  * Loading row component displayed at the bottom of the table during infinite scroll loading.
  */
 export const TableLoadingRow = forwardRef<HTMLDivElement, TableLoadingRowProps>(
+<<<<<<< HEAD
   ({ className, ...props }, ref) => {
     const { loading } = useTableContext({
+=======
+  ({ children, className, ...props }, ref) => {
+    const { isLoading } = useTableContext({
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       consumerName: 'TableLoadingRow',
       contextRequired: true,
     });
 
+<<<<<<< HEAD
     if (!loading) {
+=======
+    if (!isLoading) {
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       return null;
     }
 
@@ -468,10 +633,14 @@ export const TableLoadingRow = forwardRef<HTMLDivElement, TableLoadingRowProps>(
       <div
         {...props}
         ref={ref}
+<<<<<<< HEAD
         className={cn(
           'flex h-80 w-full items-center justify-center p-12',
           className,
         )}
+=======
+        className='flex h-80 w-full items-center justify-center p-12'
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       >
         <Spot appearance='loader' size={48} />
       </div>
@@ -487,12 +656,16 @@ TableLoadingRow.displayName = 'TableLoadingRow';
 export const TableInfoIcon = forwardRef<HTMLButtonElement, TableInfoIconProps>(
   ({ className, ...props }, ref) => {
     return (
+<<<<<<< HEAD
       <InteractiveIcon
         {...props}
         iconType='filled'
         className={className}
         ref={ref}
       >
+=======
+      <InteractiveIcon {...props} iconType='filled' ref={ref}>
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
         <Information size={20} />
       </InteractiveIcon>
     );
@@ -515,8 +688,13 @@ const tableSortButtonVariants = {
     {
       variants: {
         align: {
+<<<<<<< HEAD
           end: 'flex-row-reverse',
           start: '',
+=======
+          right: 'flex-row-reverse',
+          left: '',
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
         },
       },
     },
@@ -543,7 +721,11 @@ export const TableSortButton = forwardRef<
     {
       children,
       sortDirection,
+<<<<<<< HEAD
       align = 'start',
+=======
+      align = 'left',
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       onToggleSort,
       className,
       onClick,
@@ -571,14 +753,31 @@ export const TableSortButton = forwardRef<
         }}
       >
         <span className='min-w-0 truncate'>{children}</span>
+<<<<<<< HEAD
         <Icon
           size={20}
           className={tableSortButtonVariants.icon({
             active: Boolean(sortDirection),
           })}
         />
+=======
+        <InteractiveIcon
+          tabIndex={-1}
+          iconType='filled'
+          ref={ref}
+          className={tableSortButtonVariants.icon({
+            active: Boolean(sortDirection),
+          })}
+        >
+          <Icon size={20} />
+        </InteractiveIcon>
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
       </button>
     );
   },
 );
+<<<<<<< HEAD
 TableSortButton.displayName = 'TableSortButton';
+=======
+TableSortButton.displayName = 'TableHeaderCellSort';
+>>>>>>> 98f30787 (feat(ui-react): add Table sub-components + additional utility table component for header content or cell content)
