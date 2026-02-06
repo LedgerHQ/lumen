@@ -10,6 +10,7 @@ import {
   NavBarContent,
   NavBarDescription,
   NavBarTitle,
+  NavBarTrailing,
 } from './NavBar';
 
 const renderWithProvider = (component: React.ReactElement) => {
@@ -162,7 +163,23 @@ describe('NavBar', () => {
   });
 
   describe('NavBarDescription', () => {
-    it('should always truncate to 1 line', () => {
+    it('should truncate to 1 line in compact mode', () => {
+      renderWithProvider(
+        <NavBar appearance='compact'>
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+            <NavBarDescription testID='description'>
+              Very long description text
+            </NavBarDescription>
+          </NavBarContent>
+        </NavBar>,
+      );
+
+      const description = screen.getByTestId('description');
+      expect(description.props.numberOfLines).toBe(1);
+    });
+
+    it('should truncate to 3 lines in expanded mode', () => {
       renderWithProvider(
         <NavBar appearance='expanded'>
           <NavBarContent>
@@ -175,7 +192,7 @@ describe('NavBar', () => {
       );
 
       const description = screen.getByTestId('description');
-      expect(description.props.numberOfLines).toBe(1);
+      expect(description.props.numberOfLines).toBe(3);
     });
 
     it('should accept custom style prop', () => {
@@ -246,6 +263,62 @@ describe('NavBar', () => {
       );
 
       expect(screen.getByText('ETH')).toBeTruthy();
+    });
+  });
+
+  describe('NavBarTrailing', () => {
+    it('should render trailing content in compact mode', () => {
+      renderWithProvider(
+        <NavBar appearance='compact'>
+          <NavBarBackButton />
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+          </NavBarContent>
+          <NavBarTrailing>
+            <MockIcon />
+          </NavBarTrailing>
+        </NavBar>,
+      );
+
+      expect(screen.getByText('Test Title')).toBeTruthy();
+    });
+
+    it('should render trailing content in expanded mode', () => {
+      renderWithProvider(
+        <NavBar appearance='expanded'>
+          <NavBarBackButton />
+          <NavBarContent>
+            <NavBarTitle>Test Title</NavBarTitle>
+          </NavBarContent>
+          <NavBarTrailing>
+            <MockIcon />
+          </NavBarTrailing>
+        </NavBar>,
+      );
+
+      expect(screen.getByText('Test Title')).toBeTruthy();
+    });
+
+    it('should accept custom style prop', () => {
+      const customStyle = { opacity: 0.8 };
+      renderWithProvider(
+        <NavBar appearance='compact'>
+          <NavBarContent>
+            <NavBarTitle>Title</NavBarTitle>
+          </NavBarContent>
+          <NavBarTrailing testID='trailing' style={customStyle}>
+            <MockIcon />
+          </NavBarTrailing>
+        </NavBar>,
+      );
+
+      const trailing = screen.getByTestId('trailing');
+      const styles = Array.isArray(trailing.props.style)
+        ? trailing.props.style
+        : [trailing.props.style];
+      expect(styles.some((s: { opacity?: number }) => s?.opacity === 0.8)).toBe(
+        true,
+      );
     });
   });
 

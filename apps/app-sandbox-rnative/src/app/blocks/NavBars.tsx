@@ -35,7 +35,7 @@ export const NavBars = () => {
               icon={MoreVertical}
               appearance='no-background'
               size='md'
-              accessibilityLabel='Settings'
+              accessibilityLabel='More'
             />
           </NavBarTrailing>
           <NavBarContent>
@@ -80,7 +80,7 @@ export const NavBars = () => {
               icon={isFavorited ? StarFill : Star}
               appearance='no-background'
               size='md'
-              accessibilityLabel='Settings'
+              accessibilityLabel='Favorite'
               onPress={() => setIsFavorited((s) => !s)}
             />
           </NavBarTrailing>
