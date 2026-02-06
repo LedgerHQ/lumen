@@ -1,0 +1,240 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as StepperStories from './Stepper.stories';
+import { DoVsDontRow, DoBlockItem, DontBlockItem, CustomTabs, Tab } from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Feedback/Stepper/Docs' of={StepperStories} />
+
+# 🔄 Stepper
+
+<CustomTabs>
+  <Tab label="Overview">
+
+The Stepper component provides visual feedback for multi-step processes and workflows. It displays progress as a circular indicator showing the current step out of total steps, helping users understand where they are in a sequence.
+
+## Figma Library
+
+All stepper designs are created and managed in our components library. This ensures consistency across all platforms and use cases.
+
+- 🔗 **[Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11977-94&m=dev)**
+
+## Interactive Example
+
+<Canvas of={StepperStories.Base} />
+<Controls of={StepperStories.Base} />
+
+## 🎯 Anatomy
+
+The Stepper consists of:
+- **Track Circle**: A muted circular background showing the full progress path
+- **Progress Arc**: A colored arc that fills clockwise from the top, representing completed progress
+- **Label**: Centered text showing "current/total" steps (e.g., "2/4")
+
+The progress arc starts at the top (12 o'clock position) and fills clockwise. When at 0% progress, a small dot appears at the top instead of an empty arc.
+
+---
+
+## 🎨 Disabled State
+
+The Stepper supports a disabled state that changes the progress arc to a muted appearance:
+
+<Canvas of={StepperStories.DisabledShowcase} />
+
+### Default
+The default state with an interactive accent color for the progress arc. Use this for current, ongoing processes.
+
+### Disabled
+A muted appearance for the progress arc. Use this for paused or disabled steppers.
+
+---
+
+## 🏷️ Custom Labels
+
+By default, the stepper displays "currentStep/totalSteps" (e.g., "2/4"). You can provide a custom label for special cases:
+
+<Canvas of={StepperStories.WithCustomLabel} />
+
+---
+
+## Usage Guidelines
+
+### Best Practices
+
+- Keep step counts reasonable (typically 3-7 steps)
+- Use descriptive labels when the numeric format isn't clear
+- Combine with textual step indicators for better context
+- Use disabled for paused or inactive steppers
+
+</Tab>
+<Tab label="Implementation">
+
+## Installation
+
+Install the packages and their peer dependencies:
+
+```bash
+# Install the UI Kit
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core
+
+# Install peer dependencies
+npm install tailwindcss@^3.4.0 react@^18.3.1 clsx tailwind-merge class-variance-authority
+```
+
+### Tailwind Configuration
+
+To use Stepper components with our custom Tailwind preset, you need to configure your `tailwind.config.ts`:
+
+```typescript
+import type { Config } from 'tailwindcss';
+import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
+
+const config = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}', // Your project's files
+    './node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}', // Ledger UI Kit components
+  ],
+  presets: [ledgerLivePreset], // the installed tailwind preset
+} satisfies Config;
+
+export default config;
+```
+
+### Basic Usage
+
+Import and use the Stepper component:
+
+```tsx
+import { Stepper } from '@ledgerhq/lumen-ui-react';
+
+function OnboardingFlow() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const totalSteps = 4;
+
+  return (
+    <div>
+      <Stepper currentStep={currentStep} totalSteps={totalSteps} />
+      {/* Your step content */}
+    </div>
+  );
+}
+```
+
+### With Disabled State
+
+Control the visual state based on step completion:
+
+```tsx
+import { Stepper } from '@ledgerhq/lumen-ui-react';
+
+function MultiStepForm() {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  return (
+    <div className='flex gap-16'>
+      <Stepper 
+        currentStep={1} 
+        totalSteps={3} 
+      />
+      <Stepper 
+        currentStep={2} 
+        totalSteps={3} 
+      />
+      <Stepper 
+        currentStep={0} 
+        totalSteps={3} 
+        disabled // Not started
+      />
+    </div>
+  );
+}
+```
+
+### Custom Labels
+
+Provide custom labels for localized or descriptive text:
+
+```tsx
+import { Stepper } from '@ledgerhq/lumen-ui-react';
+
+function LocalizedStepper() {
+  const currentStep = 3;
+  const totalSteps = 5;
+  
+  return (
+    <Stepper 
+      currentStep={currentStep} 
+      totalSteps={totalSteps}
+      label={`Étape ${currentStep} sur ${totalSteps}`}
+    />
+  );
+}
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Provide meaningful step counts'
+      description='Use realistic total steps that match your flow'
+    >
+
+```tsx
+{/* prettier-ignore */}
+<Stepper currentStep={3} totalSteps={5} />
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use for single-step processes"
+      description='Steppers are for multi-step workflows only'
+    >
+
+```tsx
+{/* prettier-ignore */}
+<Stepper currentStep={1} totalSteps={1} />
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use disabled for paused steppers'
+      description='Reserve disabled for steppers that are not actively progressing'
+    >
+
+```tsx
+{/* prettier-ignore */}
+<Stepper 
+  currentStep={2} 
+  totalSteps={4} 
+  disabled 
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't disable active steps"
+      description='Active steps in progress should not be disabled'
+    >
+
+```tsx
+{/* prettier-ignore */}
+<Stepper 
+  currentStep={2} 
+  totalSteps={4} 
+  disabled // Wrong for active step
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+</div>
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>
