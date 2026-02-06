@@ -3990,7 +3990,7 @@
         },
         "050": {
           "$type": "color",
-          "$value": "#1f122d",
+          "$value": "#251a31",
           "$description": "",
           "$extensions": {
             "com.figma": {

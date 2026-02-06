@@ -7,6 +7,8 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-canvas': 'var(--color-light-grey-050)',
     '--color-background-canvas-muted': 'var(--color-light-grey-100)',
     '--color-background-canvas-sheet': 'var(--color-light-grey-050)',
+    '--color-background-canvas-sheet-transparent':
+      'var(--color-light-grey-050-0)',
     '--color-background-canvas-overlay': 'var(--color-light-grey-950-60)',
     '--color-background-white': 'var(--color-light-constant-050)',
     '--color-background-black': 'var(--color-light-constant-950)',
