@@ -1,5 +1,4 @@
 import Icon from '@ledgerhq/crypto-icons/native';
-import { MoreHorizontal, Settings } from '@ledgerhq/lumen-symbols-rnative';
 import {
   Box,
   IconButton,
@@ -11,8 +10,16 @@ import {
   NavBarTitle,
   NavBarTrailing,
 } from '@ledgerhq/lumen-ui-rnative';
+import {
+  MoreVertical,
+  Star,
+  StarFill,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
+import { useState } from 'react';
 
 export const NavBars = () => {
+  const [isFavorited, setIsFavorited] = useState(false);
+
   return (
     <Box lx={{ gap: 's16', marginVertical: 's4' }}>
       <Box
@@ -23,6 +30,14 @@ export const NavBars = () => {
       >
         <NavBar appearance='compact'>
           <NavBarBackButton />
+          <NavBarTrailing>
+            <IconButton
+              icon={MoreVertical}
+              appearance='no-background'
+              size='md'
+              accessibilityLabel='Settings'
+            />
+          </NavBarTrailing>
           <NavBarContent>
             <NavBarTitle>Portfolio</NavBarTitle>
             <NavBarDescription>Manage your positions</NavBarDescription>
@@ -43,7 +58,10 @@ export const NavBars = () => {
               once confirmed.
             </NavBarTitle>
             <NavBarDescription>
-              Please double-check the details before proceeding.
+              Please carefully and thoroughly review, verify, and confirm all
+              provided information, assumptions, inputs, and associated details
+              in their entirety to ensure absolute accuracy and completeness
+              before taking any further action or proceeding to the next step.
             </NavBarDescription>
           </NavBarContent>
         </NavBar>
@@ -57,63 +75,21 @@ export const NavBars = () => {
       >
         <NavBar appearance='compact'>
           <NavBarBackButton />
+          <NavBarTrailing>
+            <IconButton
+              icon={isFavorited ? StarFill : Star}
+              appearance='no-background'
+              size='md'
+              accessibilityLabel='Settings'
+              onPress={() => setIsFavorited((s) => !s)}
+            />
+          </NavBarTrailing>
           <NavBarContent>
             <NavBarCoinCapsule
               ticker='BTC'
               icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
             />
           </NavBarContent>
-        </NavBar>
-      </Box>
-
-      <Box
-        lx={{
-          backgroundColor: 'surfaceTransparent',
-          borderRadius: 'lg',
-        }}
-      >
-        <NavBar appearance='compact'>
-          <NavBarBackButton />
-          <NavBarContent>
-            <NavBarTitle>With Trailing</NavBarTitle>
-            <NavBarDescription>Shows trailing actions</NavBarDescription>
-          </NavBarContent>
-          <NavBarTrailing>
-            <IconButton
-              icon={Settings}
-              appearance='no-background'
-              size='md'
-              accessibilityLabel='Settings'
-            />
-          </NavBarTrailing>
-        </NavBar>
-      </Box>
-
-      <Box
-        lx={{
-          backgroundColor: 'surfaceTransparent',
-          borderRadius: 'lg',
-        }}
-      >
-        <NavBar appearance='compact'>
-          <NavBarBackButton />
-          <NavBarContent>
-            <NavBarTitle>Multiple Actions</NavBarTitle>
-          </NavBarContent>
-          <NavBarTrailing>
-            <IconButton
-              icon={Settings}
-              appearance='no-background'
-              size='md'
-              accessibilityLabel='Settings'
-            />
-            <IconButton
-              icon={MoreHorizontal}
-              appearance='no-background'
-              size='md'
-              accessibilityLabel='More'
-            />
-          </NavBarTrailing>
         </NavBar>
       </Box>
     </Box>
