@@ -12,7 +12,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 
 import { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ThemeProvider } from '../src/lib/Components';
+import { BottomSheetModalProvider, ThemeProvider } from '../src/lib/Components';
 
 type BrandThemes = typeof ledgerLiveThemes;
 
@@ -44,7 +44,7 @@ const StorybookProviders = ({
     <GestureHandlerRootView
       style={{ flex: 1, width: '100%', alignItems: 'flex-start' }}
     >
-      {children}
+      <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
     </GestureHandlerRootView>
   </ThemeProvider>
 );

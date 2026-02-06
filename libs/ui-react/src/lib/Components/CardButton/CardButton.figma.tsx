@@ -27,7 +27,7 @@ figma.connect(
       }),
       appearance: figma.enum('appearance', {
         base: 'base',
-        outlined: 'outline',
+        outline: 'outline',
       }),
       icon: figma.instance('icon'),
     },

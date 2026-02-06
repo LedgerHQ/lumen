@@ -139,7 +139,8 @@
     "projectsRelationship": "independent",
     "versionPlans": true,
     "version": {
-      "preVersionCommand": "npx nx run-many -t build --projects='libs/*'"
+      "preVersionCommand": "npx nx run-many -t build --projects='libs/*'",
+      "updateDependents": "auto"
     },
     "changelog": {
       "projectChangelogs": {

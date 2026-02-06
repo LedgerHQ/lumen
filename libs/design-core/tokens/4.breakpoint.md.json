@@ -971,36 +971,6 @@
           }
         }
       }
-    },
-    "grid": {
-      "column-count": {
-        "$type": "number",
-        "$value": 12,
-        "$description": "",
-        "$extensions": {
-          "com.figma": {
-            "hiddenFromPublishing": false,
-            "scopes": [
-              "ALL_SCOPES"
-            ],
-            "codeSyntax": {}
-          }
-        }
-      },
-      "gutter": {
-        "$type": "number",
-        "$value": "{spacing.32}",
-        "$description": "",
-        "$extensions": {
-          "com.figma": {
-            "hiddenFromPublishing": false,
-            "scopes": [
-              "ALL_SCOPES"
-            ],
-            "codeSyntax": {}
-          }
-        }
-      }
     }
   }
 }

@@ -9,16 +9,12 @@ figma.connect(
   {
     imports: ["import { TextInput } from '@ledgerhq/lumen-ui-react'"],
     props: {
-      label: figma.enum('input-state', {
-        label: figma.string('label-text'),
-        placeholder: figma.string('label-text'),
-        input: figma.string('label-text'),
-      }),
+      label: figma.string('label'),
       placeholder: figma.enum('input-state', {
-        placeholder: figma.string('placeholder-text'),
+        placeholder: figma.string('placeholder'),
       }),
       value: figma.enum('input-state', {
-        input: figma.string('input-text'),
+        input: figma.string('value'),
       }),
       disabled: figma.enum('state', {
         disabled: true,
