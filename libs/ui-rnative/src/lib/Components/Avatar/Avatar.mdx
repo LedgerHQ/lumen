@@ -1,0 +1,458 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+import { Avatar } from './Avatar';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Box } from '../Utility';
+
+<Meta title='Communication/Avatar' of={AvatarStories} />
+
+# 👤 Avatar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The Avatar component displays a circular user profile image with automatic fallback to a User icon when the image is unavailable or fails to load. It supports an optional notification indicator and two size variants. This React Native implementation ensures consistent behavior across mobile platforms while maintaining design system coherence.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
+
+## Anatomy
+
+<Canvas of={AvatarStories.Base} />
+
+- **Image/Fallback Icon**: The circular user image or User icon fallback displayed when image is unavailable
+- **Notification Indicator (optional)**: A red dot positioned at the top-right corner to indicate notifications
+- **Container**: Rounded full background with muted styling
+
+## Properties
+
+### Overview
+
+<Canvas of={AvatarStories.Base} />
+<Controls of={AvatarStories.Base} />
+
+### Size
+
+Avatars come in two different sizes:
+
+- **sm** (40px)
+- **md** (48px, default)
+
+<Canvas of={AvatarStories.SizeShowcase} />
+
+### States
+
+The Avatar component handles two primary states automatically:
+
+- **With Image**: Displays the provided image when `src` is valid and loads successfully
+- **Fallback**: Shows a User icon when `src` is undefined or the image fails to load
+
+<Canvas of={AvatarStories.FallbackShowcase} />
+
+### Notification Indicator
+
+An optional notification indicator can be displayed to show status or alerts:
+
+- **showNotification**: Boolean prop to toggle the notification dot (default: false)
+
+<Canvas of={AvatarStories.NotificationShowcase} />
+
+### As Interactive Trigger
+
+Avatars are commonly used as interactive triggers for navigation or actions:
+
+<Canvas of={AvatarStories.InteractiveShowcase} />
+
+## Accessibility
+
+To be implemented:
+
+- **Color contrast**
+- **Text zoom support**
+- **Semantic alt text for images**
+- **Screen reader announcements for notification state**
+- **Touch target sizing** (minimum 44px)
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return <Avatar src="https://example.com/photo.jpg" size="md" />;
+}
+```
+
+### Fallback Handling
+
+The Avatar component automatically displays a fallback User icon when the image source is undefined or fails to load:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  // Fallback will be shown automatically
+  return <Avatar size="md" alt="User profile" />;
+}
+```
+
+### With Notification
+
+Display a notification indicator to show status or alerts:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  const hasNotifications = true;
+  
+  return (
+    <Avatar 
+      src="https://example.com/photo.jpg" 
+      showNotification={hasNotifications}
+      size="md" 
+      alt="User profile"
+    />
+  );
+}
+```
+
+### Different Sizes
+
+Choose between small and medium sizes based on your layout needs:
+
+```tsx
+import { Avatar, Box } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
+      <Avatar src="https://example.com/photo.jpg" size="sm" />
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+    </Box>
+  );
+}
+```
+
+### As Interactive Trigger
+
+Avatars are commonly used as interactive triggers for navigation or actions. Wrap the Avatar in a `Pressable` component:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+import { Pressable, Linking } from 'react-native';
+
+function UserProfile() {
+  const handlePress = () => {
+    // Navigate or perform action
+    console.log('Avatar pressed');
+  };
+
+  return (
+    <Pressable
+      onPress={handlePress}
+      style={({ pressed }) => ({
+        borderRadius: 9999,
+        opacity: pressed ? 0.7 : 1,
+        backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
+      })}
+    >
+      <Avatar 
+        src="https://example.com/photo.jpg"
+        size="md" 
+        alt="User menu" 
+        showNotification 
+      />
+    </Pressable>
+  );
+}
+```
+
+**Key points:**
+- Wrap Avatar in a `Pressable` component for touch interactions
+- Use `borderRadius: 9999` to maintain circular touch area
+- Add opacity changes for visual feedback on press
+- Provide appropriate `alt` text for accessibility
+
+### With Navigation
+
+Link avatars to external URLs or internal navigation:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+import { Pressable, Linking } from 'react-native';
+
+function ProfileLink() {
+  const handleNavigate = () => {
+    Linking.openURL('https://example.com/profile');
+  };
+
+  return (
+    <Pressable
+      onPress={handleNavigate}
+      style={({ pressed }) => ({
+        borderRadius: 9999,
+        opacity: pressed ? 0.7 : 1,
+      })}
+    >
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+    </Pressable>
+  );
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using the `lx` prop for token-based styling:
+
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md" 
+  lx={{ marginRight: 's8' }} // Layout positioning with design tokens
+/>
+```
+
+You can also use the `style` prop for escape-hatch styling when needed:
+
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md" 
+  style={{ marginRight: 8 }} // Raw style values
+/>
+```
+
+### Complete Example
+
+Here's a comprehensive example showing all Avatar features in a user profile context:
+
+```tsx
+import { Avatar, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Pressable } from 'react-native';
+import { useState } from 'react';
+
+function UserProfileHeader() {
+  const [user, setUser] = useState({
+    name: 'John Doe',
+    avatar: 'https://example.com/photo.jpg',
+    hasNotifications: true,
+  });
+
+  const handleProfilePress = () => {
+    console.log('Opening user menu...');
+    // Navigate to profile or show menu
+  };
+
+  return (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12', padding: 's16' }}>
+      <Pressable
+        onPress={handleProfilePress}
+        style={({ pressed }) => ({
+          borderRadius: 9999,
+          opacity: pressed ? 0.7 : 1,
+          backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
+        })}
+      >
+        <Avatar
+          src={user.avatar}
+          size="md"
+          showNotification={user.hasNotifications}
+          alt={`${user.name} profile picture`}
+        />
+      </Pressable>
+      <Box lx={{ flexDirection: 'column' }}>
+        <Text>{user.name}</Text>
+        {user.hasNotifications && (
+          <Text style={{ fontSize: 12, color: '#666' }}>
+            You have new notifications
+          </Text>
+        )}
+      </Box>
+    </Box>
+  );
+}
+```
+
+## Do's and Don'ts
+
+The following guidelines ensure consistent usage of the Avatar component and maintain design system principles.
+
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Provide descriptive alt text'
+      description='Use meaningful alt text for better accessibility and screen reader support'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  alt="John Doe profile picture" 
+  size="md"
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't omit alt text"
+      description='Missing alt text reduces accessibility for screen reader users'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md"
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use Pressable for interactions'
+      description='Wrap Avatar in Pressable component for proper touch handling'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Pressable
+  onPress={handlePress}
+  style={({ pressed }) => ({
+    borderRadius: 9999,
+    opacity: pressed ? 0.7 : 1,
+  })}
+>
+  <Avatar src="https://example.com/photo.jpg" size="md" />
+</Pressable>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't add onPress to Avatar directly"
+      description='Avatar is not a pressable component, wrap it in Pressable instead'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md"
+  onPress={handlePress}
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use lx for layout adjustments'
+      description='Use the lx prop for margins, positioning, and other layout adjustments with design tokens'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md"
+  lx={{ marginRight: 's8' }}
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use lx for appearance changes"
+      description='Avoid using lx to modify colors, borders, or other core appearance styles'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md"
+  lx={{ backgroundColor: 'accent', borderWidth: 's2' }}
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Handle notification state properly'
+      description='Use showNotification prop to indicate status or alerts'
+    >
+
+{/* prettier-ignore */}
+```tsx
+const hasUnreadMessages = true;
+
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md"
+  showNotification={hasUnreadMessages}
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't hardcode notification visibility"
+      description='Avoid always showing notification indicator without proper state'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md"
+  showNotification={true}
+/>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</Box>
+
+## Platform Considerations
+
+### iOS Specific
+
+- Avatars automatically adapt to iOS design guidelines
+- Touch feedback uses appropriate opacity transitions
+- Respects iOS accessibility settings like reduced motion
+
+### Android Specific
+
+- Material Design touch feedback is supported through React Native's Pressable
+- Handles Android back button interactions appropriately
+- Respects Android accessibility services
+
+### Cross-Platform
+
+- Consistent visual appearance across platforms
+- Platform-appropriate touch feedback via Pressable
+- Unified API regardless of platform
+- Images load using React Native's Image component with cross-platform optimization
+
+</Tab>
+</CustomTabs>
