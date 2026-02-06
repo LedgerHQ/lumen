@@ -15,11 +15,13 @@ import {
   NavBarDescriptionProps,
   NavBarProps,
   NavBarTitleProps,
+  NavBarTrailingProps,
 } from './types';
 
 type Slots = {
   backButton: ReactNode | null;
   content: ReactNode | null;
+  trailing: ReactNode | null;
 };
 
 const [NavBarProvider, useNavBarContext] = createSafeContext<{
@@ -30,6 +32,7 @@ function extractSlots(children: ReactNode): Slots {
   const slots: Slots = {
     backButton: null,
     content: null,
+    trailing: null,
   };
 
   React.Children.forEach(children, (child) => {
@@ -45,6 +48,9 @@ function extractSlots(children: ReactNode): Slots {
         break;
       case 'NavBarContent':
         slots.content = child;
+        break;
+      case 'NavBarTrailing':
+        slots.trailing = child;
         break;
       default:
         break;
@@ -153,6 +159,40 @@ export function NavBarBackButton({
 NavBarBackButton.displayName = 'NavBarBackButton';
 
 /**
+ * Trailing content area for the NavBar, typically used for action buttons like IconButtons.
+ * Automatically positions itself at the end of the navbar and aligns with the back button.
+ *
+ * @example
+ * <NavBarTrailing>
+ *   <IconButton icon={Settings} accessibilityLabel="Settings" />
+ * </NavBarTrailing>
+ */
+export function NavBarTrailing({
+  children,
+  style,
+  ...props
+}: NavBarTrailingProps) {
+  const styles = useStyleSheet(
+    (t) => ({
+      container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: t.spacings.s4,
+      },
+    }),
+    [],
+  );
+
+  return (
+    <Box style={[styles.container, style]} {...props}>
+      {children}
+    </Box>
+  );
+}
+
+NavBarTrailing.displayName = 'NavBarTrailing';
+
+/**
  * NavBar component for top navigation
  */
 export function NavBar({ appearance, children, ...props }: NavBarProps) {
@@ -162,8 +202,25 @@ export function NavBar({ appearance, children, ...props }: NavBarProps) {
   return (
     <NavBarProvider value={{ appearance }}>
       <Box style={styles.container} {...props}>
-        <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
-        <Box style={styles.contentContainer}>{slots.content}</Box>
+        {appearance === 'expanded' ? (
+          <>
+            <Box style={styles.topRow}>
+              <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
+              {slots.trailing && (
+                <Box style={styles.trailingContainer}>{slots.trailing}</Box>
+              )}
+            </Box>
+            <Box style={styles.contentContainer}>{slots.content}</Box>
+          </>
+        ) : (
+          <>
+            <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
+            <Box style={styles.contentContainer}>{slots.content}</Box>
+            {slots.trailing && (
+              <Box style={styles.trailingContainer}>{slots.trailing}</Box>
+            )}
+          </>
+        )}
       </Box>
     </NavBarProvider>
   );
@@ -196,15 +253,39 @@ const useStyles = ({ appearance }: StyleParams) => {
             }),
           },
         ]),
+        topRow: {
+          width: '100%',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: t.spacings.s4,
+        },
         backButtonContainer: StyleSheet.flatten([
           {
             paddingVertical: t.spacings.s8,
           },
           {
-            ...(appearance !== 'expanded' && {
+            ...(appearance === 'compact' && {
               position: 'absolute',
               left: t.spacings.s4,
               zIndex: 1,
+            }),
+          },
+        ]),
+        trailingContainer: StyleSheet.flatten([
+          {
+            paddingVertical: t.spacings.s8,
+            flexShrink: 0,
+          },
+          {
+            ...(appearance === 'compact' && {
+              position: 'absolute',
+              right: t.spacings.s4,
+              zIndex: 1,
+            }),
+          },
+          {
+            ...(appearance === 'expanded' && {
+              marginLeft: 'auto',
             }),
           },
         ]),

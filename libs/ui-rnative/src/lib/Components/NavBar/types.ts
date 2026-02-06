@@ -67,3 +67,10 @@ export type CoinCapsuleProps = {
  * Props for the NavBarCoinCapsule component.
  */
 export type NavBarCoinCapsuleProps = CoinCapsuleProps;
+
+export type NavBarTrailingProps = {
+  /**
+   * The trailing content, typically IconButton components.
+   */
+  children: ReactNode;
+} & Omit<StyledViewProps, 'children'>;

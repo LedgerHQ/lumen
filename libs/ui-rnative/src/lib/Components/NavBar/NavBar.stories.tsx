@@ -9,6 +9,7 @@ import {
   NavBarContent,
   NavBarDescription,
   NavBarTitle,
+  NavBarTrailing,
 } from './NavBar';
 
 const meta: Meta<typeof NavBar> = {
@@ -20,6 +21,7 @@ const meta: Meta<typeof NavBar> = {
     NavBarTitle,
     NavBarDescription,
     NavBarCoinCapsule,
+    NavBarTrailing,
   },
   parameters: {
     layout: 'centered',
@@ -58,12 +60,14 @@ export const Base: Story = {
         <NavBarTitle>Title</NavBarTitle>
         <NavBarDescription>Description</NavBarDescription>
       </NavBarContent>
-      <IconButton
-        appearance='no-background'
-        size='md'
-        icon={MoreHorizontal}
-        accessibilityLabel='More options'
-      />
+      <NavBarTrailing>
+        <IconButton
+          appearance='no-background'
+          size='md'
+          icon={MoreHorizontal}
+          accessibilityLabel='More options'
+        />
+      </NavBarTrailing>
     </NavBar>
   ),
 };
@@ -82,12 +86,14 @@ export const Expanded: Story = {
         <NavBarTitle>Account Details</NavBarTitle>
         <NavBarDescription>View and manage your account</NavBarDescription>
       </NavBarContent>
-      <IconButton
-        appearance='no-background'
-        size='md'
-        icon={Settings}
-        accessibilityLabel='Settings'
-      />
+      <NavBarTrailing>
+        <IconButton
+          appearance='no-background'
+          size='md'
+          icon={Settings}
+          accessibilityLabel='Settings'
+        />
+      </NavBarTrailing>
     </NavBar>
   ),
 };
@@ -108,12 +114,46 @@ export const WithCoinCapsule: Story = {
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
         />
       </NavBarContent>
-      <IconButton
-        appearance='no-background'
-        size='md'
-        icon={MoreHorizontal}
-        accessibilityLabel='More options'
-      />
+      <NavBarTrailing>
+        <IconButton
+          appearance='no-background'
+          size='md'
+          icon={MoreHorizontal}
+          accessibilityLabel='More options'
+        />
+      </NavBarTrailing>
+    </NavBar>
+  ),
+};
+
+export const WithMultipleTrailingActions: Story = {
+  args: {
+    appearance: 'compact',
+    lx: {
+      width: 's480',
+    },
+  },
+  render: (args) => (
+    <NavBar {...args}>
+      <NavBarBackButton onPress={() => console.log('Back pressed')} />
+      <NavBarContent>
+        <NavBarTitle>Portfolio</NavBarTitle>
+        <NavBarDescription>Manage your assets</NavBarDescription>
+      </NavBarContent>
+      <NavBarTrailing>
+        <IconButton
+          appearance='no-background'
+          size='md'
+          icon={Settings}
+          accessibilityLabel='Settings'
+        />
+        <IconButton
+          appearance='no-background'
+          size='md'
+          icon={MoreHorizontal}
+          accessibilityLabel='More options'
+        />
+      </NavBarTrailing>
     </NavBar>
   ),
 };
