@@ -243,6 +243,7 @@ const useStyles = ({ appearance }: StyleParams) => {
         container: StyleSheet.flatten([
           {
             minWidth: t.sizes.full,
+            minHeight: t.sizes.s64,
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
