@@ -106,7 +106,7 @@ export const Base: Story = {
           paddingTop: 's32',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -156,7 +156,7 @@ export const TitleExpanded: Story = {
           paddingTop: 's32',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -201,7 +201,7 @@ export const DynamicSizingWithoutSnapPoints: Story = {
           justifyContent: 'center',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -243,10 +243,7 @@ export const DynamicSizingWithSnapPoints: Story = {
           justifyContent: 'center',
         }}
       >
-        <Button
-          size='sm'
-          onPress={() => bottomSheetRef.current?.snapToIndex(1)}
-        >
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -291,7 +288,7 @@ export const PreventClose: Story = {
           paddingTop: 's32',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -335,7 +332,7 @@ export const ScrollView: Story = {
           paddingTop: 's32',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -391,7 +388,7 @@ export const VirtualList: Story = {
           paddingTop: 's32',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -467,7 +464,7 @@ export const VirtualizedList: Story = {
           paddingTop: 's32',
         }}
       >
-        <Button size='sm' onPress={() => bottomSheetRef.current?.expand()}>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
