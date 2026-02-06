@@ -46,6 +46,10 @@ export const WithTile: Story = {
   render: () => <Skeleton component='tile' />,
 };
 
+export const WithTable: Story = {
+  render: () => <Skeleton component='table' className='w-560' />,
+};
+
 export const SizeShowcase: Story = {
   render: () => (
     <div className='space-y-4'>
