@@ -1,0 +1,340 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/Table' of={TableStories} />
+
+# Table
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+## Introduction
+
+The Table component provides a structured way to display tabular data with support for sorting, responsive hiding, clickable rows, infinite scroll, and action bars.
+
+> View in [Figma](#).
+
+## Anatomy
+
+<Canvas of={TableStories.Base} />
+
+The Table is composed of the following sub-components:
+
+- **TableRoot**: Outer scroll container with appearance variants and scroll handling
+- **Table**: HTML `<table>` wrapper with `table-fixed` layout
+- **TableHead TableHeaderRow / TableHeaderCell**: Header structure with sticky positioning
+- **TableBody / TableRow / TableCell**: Body structure with responsive hiding and alignment
+- **TableCellContent**: Structured cell layout with optional leading icon, title, and description
+- **TableSortButton**: Sortable header button with ascending/descending indicators
+- **TableInfoIcon**: Information icon for header tooltips
+- **TableActionBar / TableActionBarLeading / TableActionBarTrailing**: Controls above the table
+- **TableLoadingRow**: Loading indicator for infinite scroll
+
+<Controls of={TableStories.Base} />
+
+## Properties
+
+### Appearance
+
+The `TableRoot` component supports two appearance modes:
+
+- `no-background` (default): transparent canvas background
+- `plain`: surface background
+
+<Canvas of={TableStories.AppearanceShowcase} />
+
+### Responsive Layout
+
+Columns can be hidden below specific breakpoints using the `hideBelow` prop on `TableHeaderCell` and `TableCell`. Use `TableHeaderCellLabel` to enable text truncation with ellipsis on long header labels.
+
+<Canvas of={TableStories.ResponsiveLayout} />
+
+### Clickable Rows
+
+Rows accept a `clickable` prop that applies hover and active styles, along with an `onClick` handler.
+
+<Canvas of={TableStories.WithClickableRow} />
+
+### Custom Header
+
+Header cells can contain `TableSortButton` for sortable columns and `TableInfoIcon` wrapped in a `Tooltip` for additional information.
+
+<Canvas of={TableStories.WithCustomHeader} />
+
+### Action Bar
+
+The `TableActionBar` provides a layout for controls above the table, split into leading (left) and trailing (right) sections.
+
+<Canvas of={TableStories.WithActionBar} />
+
+### Infinite Loading
+
+Use `onScrollBottom` on `TableRoot` to trigger data loading when the user scrolls to the bottom. Combine with `isLoading` and `TableLoadingRow` to show a loading indicator.
+
+<Canvas of={TableStories.WithInfiniteLoading} />
+
+## Accessibility
+
+To be implemented:
+
+- Keyboard navigation between rows and cells
+- ARIA attributes for sortable columns
+- Screen reader announcements for loading states
+
+</Tab> <Tab label="Implementation ">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import {
+  TableRoot,
+  Table,
+  TableHead,
+  TableHeaderRow,
+  TableHeaderCell,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <TableRoot>
+      <Table>
+        <TableHead>
+          <TableHeaderRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell align='right'>Price</TableHeaderCell>
+          </TableHeaderRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>Bitcoin</TableCell>
+            <TableCell align='right'>$43,250.00</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableRoot>
+  );
+}
+```
+
+## Advanced Patterns
+
+### Sorting
+
+Use `TableSortButton` inside `TableHeaderCell` to add sortable columns:
+
+```tsx
+import { TableSortButton } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function SortableTable() {
+  const [sortDir, setSortDir] = useState(undefined);
+
+  return (
+    <TableHeaderCell>
+      <TableSortButton
+        sortDirection={sortDir}
+        onToggleSort={setSortDir}
+      >
+        Name
+      </TableSortButton>
+    </TableHeaderCell>
+  );
+}
+```
+
+### Info Icon with Tooltip
+
+Combine `TableHeaderCellLabel` and `TableInfoIcon` inside a `TableHeaderCell`:
+
+```tsx
+import {
+  TableHeaderCell,
+  TableHeaderCellLabel,
+  TableInfoIcon,
+} from '@ledgerhq/lumen-ui-react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react';
+
+<TableHeaderCell align='right'>
+  <TableHeaderCellLabel>Market cap</TableHeaderCellLabel>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <TableInfoIcon />
+    </TooltipTrigger>
+    <TooltipContent>Total market capitalization</TooltipContent>
+  </Tooltip>
+</TableHeaderCell>
+```
+
+### Infinite Scroll
+
+Use `onScrollBottom` and `isLoading` on `TableRoot`, with `TableLoadingRow` at the bottom:
+
+```tsx
+<TableRoot
+  className='h-480'
+  isLoading={isLoading}
+  onScrollBottom={loadMore}
+>
+  <Table>
+    {/* ... */}
+  </Table>
+  <TableLoadingRow />
+</TableRoot>
+```
+
+### Action Bar
+
+Place `TableActionBar` above the table for search and action controls:
+
+```tsx
+import {
+  TableActionBar,
+  TableActionBarLeading,
+  TableActionBarTrailing,
+} from '@ledgerhq/lumen-ui-react';
+
+<TableActionBar>
+  <TableActionBarLeading>
+    <SearchInput placeholder='Search...' />
+  </TableActionBarLeading>
+  <TableActionBarTrailing>
+    <Button appearance='base' size='md'>Export</Button>
+  </TableActionBarTrailing>
+</TableActionBar>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use TableCellContent for structured cells'
+      description='It handles layout, truncation, and alignment for title + description + leading icon'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TableCell>
+  <TableCellContent
+    title='Bitcoin'
+    description='BTC'
+    leading={<Spot appearance='icon' icon={Android} />}
+  />
+</TableCell>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't build custom cell layouts"
+      description='Avoid manually composing flex layouts inside cells'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TableCell>
+  <div className='flex items-center gap-12'>
+    <Spot appearance='icon' icon={Android} />
+    <div>
+      <div>Bitcoin</div>
+      <div>BTC</div>
+    </div>
+  </div>
+</TableCell>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use TableHeaderCellLabel for truncatable text'
+      description='Wraps header text in a span that handles overflow with ellipsis'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TableHeaderCell>
+  <TableHeaderCellLabel>
+    Long header text
+  </TableHeaderCellLabel>
+  <TableInfoIcon />
+</TableHeaderCell>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use raw text next to icons"
+      description='Raw text nodes in a flex container cannot truncate'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TableHeaderCell>
+  Long header text
+  <TableInfoIcon />
+</TableHeaderCell>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use TableSortButton for sortable headers'
+      description='Provides built-in sort direction icon and accessible button'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TableHeaderCell>
+  <TableSortButton
+    sortDirection={sortDir}
+    onToggleSort={setSortDir}
+  >
+    Name
+  </TableSortButton>
+</TableHeaderCell>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't build custom sort controls"
+      description='Custom buttons miss accessibility and consistent styling'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<TableHeaderCell>
+  <button onClick={toggleSort}>
+    Name {sortDir === 'asc' ? '↑' : '↓'}
+  </button>
+</TableHeaderCell>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+</Tab>
+</CustomTabs>
