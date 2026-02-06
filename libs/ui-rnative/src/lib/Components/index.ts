@@ -1,6 +1,7 @@
 export * from './AddressInput';
 export * from './AmountDisplay';
 export * from './AmountInput';
+export * from './Avatar';
 export * from './Banner';
 export * from './BottomSheet';
 export * from './Button';
