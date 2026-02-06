@@ -6,9 +6,11 @@
   --color-background-success-strong: #47883a;
   --color-background-native: #f7f7f7;
   --color-text-native: #007aff;
+  --utility-is-dark: false; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-light-grey-050);
   --color-background-canvas-muted: var(--color-light-grey-100);
   --color-background-canvas-sheet: var(--color-light-grey-050);
+  --color-background-canvas-sheet-transparent: var(--color-light-grey-050-0);
   --color-background-canvas-overlay: var(--color-light-grey-950-60);
   --color-background-white: var(--color-light-constant-050);
   --color-background-black: var(--color-light-constant-950);
@@ -332,6 +334,9 @@
   --background-canvas: var(--color-background-canvas-default);
   --background-canvas-muted: var(--color-background-canvas-muted);
   --background-canvas-sheet: var(--color-background-canvas-sheet);
+  --background-canvas-sheet-transparent: var(
+    --color-background-canvas-sheet-transparent
+  );
   --background-canvas-overlay: var(--color-background-canvas-overlay);
   --background-white: var(--color-background-white-default);
   --background-black: var(--color-background-black-default);

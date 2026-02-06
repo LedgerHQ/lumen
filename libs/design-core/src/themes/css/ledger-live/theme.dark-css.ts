@@ -7,6 +7,8 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-canvas': 'var(--color-dark-grey-050)',
     '--color-background-canvas-muted': 'var(--color-dark-grey-050)',
     '--color-background-canvas-sheet': 'var(--color-dark-grey-075)',
+    '--color-background-canvas-sheet-transparent':
+      'var(--color-dark-grey-075-0)',
     '--color-background-canvas-overlay': 'var(--color-dark-grey-050-60)',
     '--color-background-white': 'var(--color-dark-constant-050)',
     '--color-background-black': 'var(--color-dark-constant-950)',
@@ -337,6 +339,7 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-discover-mercuryo': 'var(--color-dark-discover-mercuryo)',
     '--color-discover-juno': 'var(--color-dark-discover-juno)',
     '--color-discover-sardine': 'var(--color-dark-discover-sardine)',
+    '--utility-is-dark': true,
     '--background-canvas': 'var(--color-background-canvas)',
     '--background-canvas-muted': 'var(--color-background-canvas-muted)',
     '--background-canvas-sheet': 'var(--color-background-canvas-sheet)',
