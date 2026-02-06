@@ -262,6 +262,35 @@ import {
 </BottomSheet>
 ```
 
+### Lifecycle Callbacks: `onClose` vs `onDismiss`
+
+The BottomSheet provides two lifecycle callbacks that fire at different stages of the close process:
+
+| Callback | When it fires | Use case |
+|---|---|---|
+| `onClose` | When the sheet **reaches the closed position** (index = -1). Fires during/after the close animation, before the modal is removed from the presentation stack. | UI updates, analytics tracking. |
+| `onDismiss` | When the modal is **fully unmounted** from the presentation stack. Fires after `onClose`. | Queue systems, cleanup that requires the modal to be completely gone before `present()` can be called again. |
+
+> **Important:** If you manage a drawer queue or need to call `present()` on the same (or another) BottomSheet immediately after closing, always use `onDismiss` for your cleanup logic. Using `onClose` in this scenario can cause `present()` to silently fail because the previous modal has not yet been fully removed.
+
+```tsx
+<BottomSheet
+  ref={bottomSheetRef}
+  snapPoints="full"
+  onClose={() => {
+    // Fires early — good for UI state updates
+    console.log('Sheet is closing');
+  }}
+  onDismiss={() => {
+    // Fires after full unmount — safe to present() another sheet
+    console.log('Sheet is fully dismissed');
+    openNextSheet();
+  }}
+>
+  {/* Content */}
+</BottomSheet>
+```
+
 ### Important Notes
 
 - **Dynamic Sizing**: When using `enableDynamicSizing`, do not define `snapPoints`
