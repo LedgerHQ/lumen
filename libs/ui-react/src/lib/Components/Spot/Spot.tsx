@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import {
   BluetoothCircleFill,
   CheckmarkCircleFill,
@@ -74,7 +74,7 @@ const spotVariants = cva(
  * <Spot appearance="bluetooth" />
  * <Spot appearance="bluetooth" disabled />
  */
-export const Spot = (props: SpotProps) => {
+export const Spot = forwardRef<HTMLDivElement, SpotProps>((props, ref) => {
   const { appearance, className, disabled, size = 48, ...rest } = props;
 
   const sizeMap: Record<SpotSize, IconSize> = {
@@ -124,10 +124,12 @@ export const Spot = (props: SpotProps) => {
 
   return (
     <div
+      ref={ref}
       className={cn(className, spotVariants({ appearance, disabled, size }))}
       {...rest}
     >
       {content}
     </div>
   );
-};
+});
+Spot.displayName = 'Spot';
