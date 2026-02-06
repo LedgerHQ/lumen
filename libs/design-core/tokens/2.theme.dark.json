@@ -40,6 +40,18 @@
             }
           }
         },
+        "sheet-transparent": {
+          "$type": "color",
+          "$value": "{color.dark.grey.075-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "overlay": {
           "$type": "color",
           "$value": "{color.dark.grey.050-60%}",
@@ -4309,6 +4321,22 @@
             ],
             "codeSyntax": {}
           }
+        }
+      }
+    }
+  },
+  "utility": {
+    "is-dark": {
+      "$type": "boolean",
+      "$value": true,
+      "$description": "Theme toggle for illustrations (design utility)",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "codeSyntax": {}
         }
       }
     }

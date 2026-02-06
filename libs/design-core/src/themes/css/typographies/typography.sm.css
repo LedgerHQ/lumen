@@ -3,7 +3,6 @@
  */
 
 :root {
-  --font-style-grid-column-count: 8;
   --font-style-responsive-display-1-size: var(--font-size-80);
   --font-style-responsive-display-1-weight: var(--font-weight-bold);
   --font-style-responsive-display-1-line-height: var(--font-line-height-80);
@@ -79,5 +78,4 @@
   --font-style-body-4-weight-medium: var(--font-weight-medium);
   --font-style-body-4-line-height: var(--font-line-height-10);
   --font-style-body-4-letter-spacing: var(--font-letter-spacing-10);
-  --font-style-grid-gutter: var(--spacing-24);
 }
