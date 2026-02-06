@@ -60,6 +60,7 @@ const [BottomSheetProvider, useBottomSheetContext] =
 const BottomSheet = ({
   onOpen,
   onClose,
+  onDismiss,
   onBack,
   onAnimate,
   children,
@@ -182,6 +183,10 @@ const BottomSheet = ({
        */
       enableBlurKeyboardOnGesture={enableBlurKeyboardOnGesture}
       keyboardBehavior='extend'
+      /**
+       * Lifecycle
+       */
+      onDismiss={onDismiss}
       /**
        * Components
        */

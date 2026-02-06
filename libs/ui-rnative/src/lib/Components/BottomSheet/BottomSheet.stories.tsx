@@ -64,6 +64,16 @@ const meta = {
         undefined: undefined,
       },
     },
+    onDismiss: {
+      control: 'select',
+      options: ['() => {}', 'undefined'],
+      mapping: {
+        '() => {}': () => {
+          return null;
+        },
+        undefined: undefined,
+      },
+    },
     backdropPressBehavior: {
       control: 'select',
       options: ['none', 'close', 'collapse', 1],
