@@ -111,7 +111,11 @@ export function NavBarDescription({
   const styles = useStyles({ appearance });
 
   return (
-    <Text numberOfLines={1} style={[styles.description, style]} {...props}>
+    <Text
+      numberOfLines={appearance === 'compact' ? 1 : 3}
+      style={[styles.description, style]}
+      {...props}
+    >
       {children}
     </Text>
   );
