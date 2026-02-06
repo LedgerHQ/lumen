@@ -26,6 +26,10 @@
       "navigationAriaLabel": "Sidebar navigation",
       "collapseAriaLabel": "Collapse sidebar",
       "expandAriaLabel": "Expand sidebar"
+    },
+    "table": {
+      "ascAriaLabel": "Sort ascending",
+      "descAriaLabel": "Sort descending"
     }
   }
 }
