@@ -14,10 +14,10 @@ figma.connect(
         transparent: 'transparent',
       }),
       placeholder: figma.enum('search-state', {
-        placeholder: figma.string('label'),
+        placeholder: figma.string('placeholder'),
       }),
       value: figma.enum('search-state', {
-        typing: 'Search text',
+        typing: figma.string('value'),
       }),
       disabled: figma.enum('state', {
         disabled: true,
