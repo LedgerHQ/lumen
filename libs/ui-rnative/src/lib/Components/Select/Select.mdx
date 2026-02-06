@@ -41,12 +41,7 @@ The Select component consists of several sub-components:
 
 Unlike web implementations, the React Native Select uses a bottom sheet for displaying options. This provides a native mobile experience with smooth animations and proper handling of keyboard and screen size.
 
-The bottom sheet is managed globally through:
-
-- **GlobalSelectProvider**: Manages the global state of select bottom sheets
-- **GlobalSelectBottomSheet**: The actual bottom sheet component that displays options
-
-These must be set up at your app's root level (inside `GestureHandlerRootView`).
+The bottom sheet requires `ThemeProvider` and `BottomSheetModalProvider` at your app's root level. See the [Implementation tab](#implementation) for setup.
 
 ### Floating Label
 
@@ -124,32 +119,27 @@ The Select component follows accessibility best practices:
 
 Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
-### Global Provider Setup
+### Provider Setup
 
-Before using Select components, you must set up the global providers at your app's root:
+Select uses a bottom sheet that requires specific providers. `BottomSheetModalProvider` must be **inside** `GestureHandlerRootView`:
 
 ```tsx
-import {
-  GlobalSelectProvider,
-  GlobalSelectBottomSheet,
-} from '@ledgerhq/lumen-ui-rnative';
+import { ThemeProvider, BottomSheetModalProvider, GlobalSelectBottomSheet } from '@ledgerhq/lumen-ui-rnative';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <GlobalSelectProvider>
-        {/* Your app content */}
-        <YourAppContent />
-        {/* Bottom sheet should be at root level */}
-        <GlobalSelectBottomSheet />
-      </GlobalSelectProvider>
-    </GestureHandlerRootView>
+    <ThemeProvider themes={yourThemes} colorScheme="light">
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <YourAppContent />
+          <GlobalSelectBottomSheet />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 }
 ```
-
-> **Note:** Both `GlobalSelectProvider` and `GlobalSelectBottomSheet` are required for the Select component to work properly.
 
 ### Basic Usage
 

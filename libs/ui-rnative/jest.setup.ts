@@ -30,41 +30,50 @@ jest.mock('@gorhom/bottom-sheet', () => {
     jest.requireActual<typeof import('react-native')>('react-native');
 
   const mockRef = {
+    present: jest.fn(),
+    dismiss: jest.fn(),
     expand: jest.fn(),
+    collapse: jest.fn(),
     close: jest.fn(),
     snapToIndex: jest.fn(),
     snapToPosition: jest.fn(),
     forceClose: jest.fn(),
   };
 
+  const MockBottomSheetModal = mockReact.forwardRef((props: any, ref: any) => {
+    mockReact.useEffect(() => {
+      if (ref) {
+        if (typeof ref === 'function') ref(mockRef);
+        else ref.current = mockRef;
+      }
+    }, [ref]);
+
+    return mockReact.createElement(mockRN.View, {
+      testID: props.testID,
+      'data-snap-points': JSON.stringify(props.snapPoints),
+      'data-enable-dynamic-sizing': String(props.enableDynamicSizing),
+      'data-enable-pan-down-to-close': String(props.enablePanDownToClose),
+      'data-detached': String(props.detached),
+      'data-enable-handle-panning-gesture': String(
+        props.enableHandlePanningGesture,
+      ),
+      children: props.children,
+    } as any);
+  });
+
   return {
     __esModule: true,
-    default: mockReact.forwardRef((props: any, ref: any) => {
-      mockReact.useEffect(() => {
-        if (ref) {
-          if (typeof ref === 'function') ref(mockRef);
-          else ref.current = mockRef;
-        }
-      }, [ref]);
-
-      return mockReact.createElement(mockRN.View, {
-        testID: props.testID,
-        'data-snap-points': JSON.stringify(props.snapPoints),
-        'data-enable-dynamic-sizing': String(props.enableDynamicSizing),
-        'data-enable-pan-down-to-close': String(props.enablePanDownToClose),
-        'data-detached': String(props.detached),
-        'data-enable-handle-panning-gesture': String(
-          props.enableHandlePanningGesture,
-        ),
-        children: props.children,
-      } as any);
-    }),
+    default: MockBottomSheetModal,
+    BottomSheetModal: MockBottomSheetModal,
+    BottomSheetModalProvider: ({ children }: any) =>
+      mockReact.createElement(mockRN.View, { children }),
     BottomSheetBackdrop: () => null,
     BottomSheetScrollView: ({ children }: any) =>
       mockReact.createElement(mockRN.ScrollView, { children }),
     BottomSheetView: ({ children }: any) =>
       mockReact.createElement(mockRN.View, { children }),
     useBottomSheet: () => mockRef,
+    SNAP_POINT_TYPE: { DYNAMIC: 0, PROVIDED: 1 },
   };
 });
 

@@ -22,7 +22,7 @@ Tooltips display contextual information in a bottom sheet when users press an in
 
 - **TooltipTrigger:** The interactive element that opens the tooltip
 - **TooltipContent:** Defines the title and content displayed in the bottom sheet
-- **GlobalTooltipBottomSheet:** The shared bottom sheet that renders all tooltip content
+- **GlobalTooltipBottomSheet:** The shared bottom sheet (requires `ThemeProvider` and `BottomSheetModalProvider`)
 
 ## Properties
 
@@ -66,20 +66,21 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 ### Requirements
 
-To use tooltips, you must include two global components in your app setup:
-
-1. **ThemeProvider** – Wrap your entire app and register theme and shared components context.
-2. **GlobalTooltipBottomSheet** – Instance of the bottom sheet component that will be used to display the tooltip content.
+Tooltip uses a bottom sheet that requires specific providers. `BottomSheetModalProvider` must be **inside** `GestureHandlerRootView`:
 
 ```tsx
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
-import { GlobalTooltipBottomSheet } from '@ledgerhq/lumen-ui-rnative';
+import { ThemeProvider, BottomSheetModalProvider, GlobalTooltipBottomSheet } from '@ledgerhq/lumen-ui-rnative';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
   return (
-    <ThemeProvider>
-      <YourAppContent />
-      <GlobalTooltipBottomSheet />
+    <ThemeProvider themes={yourThemes} colorScheme="light">
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <YourAppContent />
+          <GlobalTooltipBottomSheet />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }
@@ -244,39 +245,38 @@ function CallbackFunctionTooltip() {
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Include GlobalTooltipBottomSheet at root level'
-      description='Add GlobalTooltipBottomSheet once in your app root, after ThemeProvider'
+      title='Correct provider order'
+      description='BottomSheetModalProvider must be inside GestureHandlerRootView'
     >
 
 {/* prettier-ignore */}
 ```tsx
-function App() {
-  return (
-    <ThemeProvider>
-      <Navigation />
+<ThemeProvider>
+  <GestureHandlerRootView>
+    <BottomSheetModalProvider>
+      <App />
       <GlobalTooltipBottomSheet />
-    </ThemeProvider>
-  );
-}
+    </BottomSheetModalProvider>
+  </GestureHandlerRootView>
+</ThemeProvider>
 ```
 
     </DoBlockItem>
     <DontBlockItem
-      title="Don't include GlobalTooltipBottomSheet multiple times"
-      description='Only include GlobalTooltipBottomSheet once at the root level'
+      title="Don't place providers in wrong order"
+      description="Gestures won't work if BottomSheetModalProvider is outside GestureHandlerRootView"
     >
 
 {/* prettier-ignore */}
 ```tsx
-function App() {
-  return (
-    <ThemeProvider>
-      <Navigation />
+<ThemeProvider>
+  <BottomSheetModalProvider> {/* Wrong! */}
+    <GestureHandlerRootView>
+      <App />
       <GlobalTooltipBottomSheet />
-      <GlobalTooltipBottomSheet /> {/* Don't duplicate */}
-    </ThemeProvider>
-  );
-}
+    </GestureHandlerRootView>
+  </BottomSheetModalProvider>
+</ThemeProvider>
 ```
 
     </DontBlockItem>

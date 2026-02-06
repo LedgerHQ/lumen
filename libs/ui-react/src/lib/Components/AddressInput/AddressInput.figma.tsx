@@ -12,10 +12,10 @@ figma.connect(
     imports: ["import { AddressInput } from '@ledgerhq/lumen-ui-react'"],
     props: {
       placeholder: figma.enum('input-state', {
-        placeholder: figma.string('placeholder-text')
+        placeholder: figma.string('placeholder')
       }),
       value: figma.enum('input-state', {
-        'input-address': figma.string('input-text')
+        'input-address': figma.string('value')
       }),
       disabled: figma.enum('state', {
         disabled: true,
@@ -29,7 +29,7 @@ figma.connect(
         disabled={props.disabled}
         value={props.value}
         placeholder={props.placeholder}
-        onQrCodeClick={openQrScanner}
+        onQrCodeClick={() => openQrScanner}
         errorMessage={props.errorMessage.label}
       />
     ),
