@@ -32,7 +32,10 @@ export const SubheaderTitle = ({
 }: SubheaderTitleProps) => {
   return (
     <Component
-      className={cn('min-w-0 truncate heading-4-semi-bold', className)}
+      className={cn(
+        'min-w-0 truncate heading-4-semi-bold text-base',
+        className,
+      )}
       {...props}
     >
       {children}
