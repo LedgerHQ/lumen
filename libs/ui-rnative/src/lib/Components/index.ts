@@ -12,6 +12,7 @@ export * from './IconButton';
 export * from './InteractiveIcon';
 export * from './Link';
 export * from './ListItem';
+export * from './NavBar';
 export * from './SearchInput';
 export * from './Select';
 export * from './Spot';

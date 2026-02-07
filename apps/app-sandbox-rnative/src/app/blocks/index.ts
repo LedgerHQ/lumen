@@ -6,6 +6,7 @@ export * from './Checkboxes';
 export * from './Dividers';
 export * from './IconButtons';
 export * from './Links';
+export * from './NavBars';
 export * from './Selects';
 export * from './Spots';
 export * from './Subheaders';
