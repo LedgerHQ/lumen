@@ -54,7 +54,7 @@ StyleDictionary.registerFormat({
     if (currentTheme === 'dark') {
       mainKey = '.dark';
     } else if (currentBreakpoint && currentBreakpoint !== 'sm') {
-      mainKey = `@media (min-width: theme("screens.${currentBreakpoint}"))`;
+      mainKey = `@media (min-width: var(--breakpoint-${currentBreakpoint}))`;
     }
 
     const output = { [mainKey]: {} };
