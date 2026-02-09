@@ -3,7 +3,7 @@
  */
 
 export const tokens: Record<string, Record<string, string | number>> = {
-  '@media (min-width: theme("screens.xs"))': {
+  '@media (min-width: 360px)': {
     '--font-style-responsive-display-1-size': 'var(--font-size-64)',
     '--font-style-responsive-display-1-weight': 'var(--font-weight-bold)',
     '--font-style-responsive-display-1-line-height':

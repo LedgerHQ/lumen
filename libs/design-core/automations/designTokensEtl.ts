@@ -7,6 +7,14 @@ import type { TransformedToken } from 'style-dictionary';
 const brands = ['enterprise', 'websites', 'ledger-live'];
 const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
 const themes = ['light', 'dark'];
+
+const breakpointPixels: Record<string, string> = {
+  xs: '360px',
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+};
 const tokensFolder = 'tokens';
 const defaultSuffix = '-default';
 
@@ -54,7 +62,7 @@ StyleDictionary.registerFormat({
     if (currentTheme === 'dark') {
       mainKey = '.dark';
     } else if (currentBreakpoint && currentBreakpoint !== 'sm') {
-      mainKey = `@media (min-width: var(--breakpoint-${currentBreakpoint}))`;
+      mainKey = `@media (min-width: ${breakpointPixels[currentBreakpoint] ?? `var(--breakpoint-${currentBreakpoint})`})`;
     }
 
     const output = { [mainKey]: {} };
