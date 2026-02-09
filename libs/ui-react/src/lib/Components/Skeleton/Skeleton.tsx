@@ -10,14 +10,12 @@ const BaseSkeleton = forwardRef<HTMLDivElement, BaseSkeletonProps>(
   ({ className, ...props }, ref) => {
     return (
       <div
-        {...props}
         ref={ref}
-        data-slot='skeleton'
-        data-testid='skeleton'
         className={cn(
           'animate-pulse rounded-md bg-muted-transparent',
           className,
         )}
+        {...props}
       />
     );
   },
@@ -30,7 +28,6 @@ const ListItemSkeleton = forwardRef<HTMLDivElement, BaseSkeletonProps>(
       <div
         ref={ref}
         data-slot='skeleton'
-        data-testid='skeleton'
         className={cn('flex w-full items-center gap-16 py-8', className)}
         {...props}
       >
@@ -49,14 +46,13 @@ const TileSkeleton = forwardRef<HTMLDivElement, BaseSkeletonProps>(
   ({ className, ...props }, ref) => {
     return (
       <div
-        {...props}
         ref={ref}
         data-slot='skeleton'
-        data-testid='skeleton'
         className={cn(
           'flex w-112 flex-col items-center gap-12 rounded-md px-8 py-16',
           className,
         )}
+        {...props}
       >
         <BaseSkeleton className='size-48 shrink-0 rounded-full' />
         <div className='flex w-full flex-col items-center gap-8'>
@@ -75,7 +71,6 @@ const TableSkeleton = forwardRef<HTMLDivElement, BaseSkeletonProps>(
       <div
         ref={ref}
         data-slot='skeleton'
-        data-testid='skeleton'
         className={cn('flex w-full flex-col', className)}
         {...props}
       >
@@ -123,11 +118,11 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
 
     return (
       <BaseSkeleton
-        {...props}
         ref={ref}
-        data-slot='skeleton'
         data-testid='skeleton'
         className={className}
+        data-slot='skeleton'
+        {...props}
       />
     );
   },

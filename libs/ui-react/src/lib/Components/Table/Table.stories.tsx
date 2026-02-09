@@ -55,7 +55,7 @@ const meta: Meta<typeof TableRoot> = {
     TableCell,
     TableHeaderRow,
     TableHeaderCell,
-    TableHeaderCellSort: TableSortButton,
+    TableSortButton,
     TableActionBar,
     TableActionBarLeading,
     TableActionBarTrailing,
