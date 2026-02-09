@@ -47,23 +47,25 @@ const tableVariants = cva(
 );
 
 /**
- * Root table component. Wraps the HTML `<table>` element.
+ * Root table container component. Wraps a scrollable HTML `<div>` around the `Table` element.
  *
  * @example
- * <Table>
- *   <TableHead>
- *     <TableHeaderRow>
- *       <TableHeaderCell>
- *         <TableHeaderCellSort sortDirection={sortDir} onToggleSort={setSortDir}>Name</TableHeaderCellSort>
- *       </TableHeaderCell>
- *     </TableHeaderRow>
- *   </TableHead>
- *   <TableBody>
- *     <TableRow>
- *       <TableCell>John</TableCell>
- *     </TableRow>
- *   </TableBody>
- * </Table>
+ * <TableRoot>
+ *   <Table>
+ *     <TableHead>
+ *       <TableHeaderRow>
+ *         <TableHeaderCell>
+ *           <TableHeaderCellSort sortDirection={sortDir} onToggleSort={setSortDir}>Name</TableHeaderCellSort>
+ *         </TableHeaderCell>
+ *       </TableHeaderRow>
+ *     </TableHead>
+ *     <TableBody>
+ *       <TableRow>
+ *         <TableCell>John</TableCell>
+ *       </TableRow>
+ *     </TableBody>
+ *   </Table>
+ * </TableRoot>
  */
 export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
   (
