@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "ย้อนกลับ"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "การนำทางแถบด้านข้าง",
+      "collapseAriaLabel": "ย่อแถบด้านข้าง",
+      "expandAriaLabel": "ขยายแถบด้านข้าง"
     }
   }
 }

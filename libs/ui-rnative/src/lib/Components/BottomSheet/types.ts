@@ -1,4 +1,5 @@
-import GorghomBottomSheet, {
+import {
+  BottomSheetModal as GorhomBottomSheetModal,
   BottomSheetView as GorhomBottomSheetView,
   BottomSheetFlatList as GorhomBottomSheetFlatList,
   BottomSheetSectionList as GorhomBottomSheetSectionList,
@@ -12,7 +13,7 @@ export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.
    */
-  ref?: Ref<React.ElementRef<typeof GorghomBottomSheet>>;
+  ref?: Ref<React.ElementRef<typeof GorhomBottomSheetModal>>;
   /**
    * Used to locate this view in end-to-end tests.
    */
@@ -71,7 +72,17 @@ export type BottomSheetProps = PropsWithChildren & {
    */
   hideCloseButton?: boolean;
   /**
+   * Callback fired when the modal is fully dismissed and removed from the presentation stack.
+   * Unlike {@link onClose} (which fires when the sheet reaches the closed position during animation),
+   * `onDismiss` fires only after the modal has been completely unmounted.
+   * Use this for cleanup logic that requires the modal to be fully gone (e.g., queued drawer systems).
+   * @default undefined
+   */
+  onDismiss?: () => void;
+  /**
    * Callback function to handle the close event.
+   * Fires when the sheet reaches the closed position (index = -1), before the modal is removed from the presentation stack.
+   * If you need to wait for the modal to be fully unmounted, use {@link onDismiss} instead.
    * @default undefined
    */
   onClose?: () => void;

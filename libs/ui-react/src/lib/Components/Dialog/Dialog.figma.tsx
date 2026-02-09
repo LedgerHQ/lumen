@@ -23,7 +23,7 @@ figma.connect(
       dialogHeader: figma.nestedProps('.dialog-header', {
         appearance: figma.enum('appearance', {
           compact: 'compact',
-          expanded: 'extended',
+          extended: 'extended',
         }),
         title: figma.boolean('show-title', {
           true: figma.string('title'),

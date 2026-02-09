@@ -172,6 +172,7 @@ export const enterpriseDarkColorTokens = {
     canvas: primitiveColorTokens.dark.grey['050'],
     canvasMuted: primitiveColorTokens.dark.grey['050'],
     canvasSheet: primitiveColorTokens.dark.grey['075'],
+    canvasSheetTransparent: primitiveColorTokens.dark.grey['075-0'],
     canvasOverlay: primitiveColorTokens.dark.grey['050-60'],
     white: primitiveColorTokens.dark.constant['050'],
     black: primitiveColorTokens.dark.constant['950'],

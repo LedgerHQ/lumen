@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "Назад"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "Боковая навигация",
+      "collapseAriaLabel": "Свернуть боковую панель",
+      "expandAriaLabel": "Развернуть боковую панель"
     }
   }
 }

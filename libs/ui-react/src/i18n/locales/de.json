@@ -21,6 +21,11 @@
     },
     "navBar": {
       "goBackAriaLabel": "Zurück"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "Seitennavigation",
+      "collapseAriaLabel": "Seitenleiste einklappen",
+      "expandAriaLabel": "Seitenleiste ausklappen"
     }
   }
 }
