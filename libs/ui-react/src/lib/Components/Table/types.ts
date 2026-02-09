@@ -1,9 +1,7 @@
 import {
   HTMLAttributes,
-  ReactNode,
-  TableHTMLAttributes,
-  TdHTMLAttributes,
-  ThHTMLAttributes,
+  ReactNode, TdHTMLAttributes,
+  ThHTMLAttributes
 } from 'react';
 import { Breakpoints } from '../../../types';
 
@@ -31,7 +29,7 @@ export type TableRootProps = {
    * Use this while data is being loaded.
    */
   isLoading?: boolean;
-} & TableHTMLAttributes<HTMLDivElement>;
+} & HTMLAttributes<HTMLDivElement>;
 
 export type TableProps = {
   /**
@@ -75,7 +73,7 @@ export type TableRowProps = {
   /**
    * The function to call when the row is clicked
    */
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLTableRowElement>) => void;
   /**
    * The row content (TableCell)
    */

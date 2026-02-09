@@ -313,19 +313,27 @@ const headerCellVariants = {
 export const TableHeaderCell = forwardRef<
   HTMLTableCellElement,
   TableHeaderCellProps
->(({ children, className, hideBelow, align = 'left', ...props }, ref) => {
-  return (
-    <th
-      ref={ref}
-      className={headerCellVariants.root({ hideBelow, className })}
-      {...props}
-    >
-      <div className='min-w-0'>
-        <div className={headerCellVariants.content({ align })}>{children}</div>
-      </div>
-    </th>
-  );
-});
+>(
+  (
+    { children, className, scope = 'col', hideBelow, align = 'left', ...props },
+    ref,
+  ) => {
+    return (
+      <th
+        ref={ref}
+        scope={scope}
+        className={headerCellVariants.root({ hideBelow, className })}
+        {...props}
+      >
+        <div className='min-w-0'>
+          <div className={headerCellVariants.content({ align })}>
+            {children}
+          </div>
+        </div>
+      </th>
+    );
+  },
+);
 TableHeaderCell.displayName = 'TableHeaderCell';
 
 /**
