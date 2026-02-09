@@ -3,11 +3,7 @@ import * as TableStories from './Table.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Components/Table' of={TableStories} />
 
@@ -46,38 +42,38 @@ The Table is composed of the following sub-components:
 
 The `TableRoot` component supports two appearance modes:
 
-- `no-background` (default): transparent canvas background
-- `plain`: surface background
+- `no-background` (default): uses the canvas background, ideal when the table sits directly on the page
+- `plain`: uses a surface background, useful when the table needs visual separation from its surroundings
 
 <Canvas of={TableStories.AppearanceShowcase} />
 
 ### Responsive Layout
 
-Columns can be hidden below specific breakpoints using the `hideBelow` prop on `TableHeaderCell` and `TableCell`. Use `TableHeaderCellLabel` to enable text truncation with ellipsis on long header labels.
+Columns can be hidden below specific breakpoints using the `hideBelow` prop on both `TableHeaderCell` and `TableCell`. Make sure to apply `hideBelow` to matching header and body cells so they stay in sync. Long header text is automatically truncated with ellipsis.
 
 <Canvas of={TableStories.ResponsiveLayout} />
 
 ### Clickable Rows
 
-Rows accept a `clickable` prop that applies hover and active styles, along with an `onClick` handler.
+Set `clickable` on `TableRow` to enable hover and active background states, and pass an `onClick` handler. This adds `role="button"` for accessibility. Use this when rows navigate to a detail view or trigger an action.
 
 <Canvas of={TableStories.WithClickableRow} />
 
 ### Custom Header
 
-Header cells can contain `TableSortButton` for sortable columns and `TableInfoIcon` wrapped in a `Tooltip` for additional information.
+Header cells can combine `TableSortButton` for sortable columns and `TableInfoIcon` (wrapped in a `Tooltip`) for contextual information. When a column has both a sort control and an info icon, place them as siblings inside `TableHeaderCell`. Use the `align` prop on `TableSortButton` to match the cell alignment (e.g. `align="right"` for numeric columns).
 
 <Canvas of={TableStories.WithCustomHeader} />
 
 ### Action Bar
 
-The `TableActionBar` provides a layout for controls above the table, split into leading (left) and trailing (right) sections.
+The `TableActionBar` sits above the table and splits into `TableActionBarLeading` (left-aligned, typically search/filter) and `TableActionBarTrailing` (right-aligned, typically export/action buttons). It is rendered outside `TableRoot` so it doesn't scroll with the table content.
 
 <Canvas of={TableStories.WithActionBar} />
 
 ### Infinite Loading
 
-Use `onScrollBottom` on `TableRoot` to trigger data loading when the user scrolls to the bottom. Combine with `isLoading` and `TableLoadingRow` to show a loading indicator.
+Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom. Set `isLoading` to `true` while fetching to prevent duplicate calls. Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot` -- it only renders when `isLoading` is true. A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />
 
@@ -163,18 +159,17 @@ function SortableTable() {
 
 ### Info Icon with Tooltip
 
-Combine `TableHeaderCellLabel` and `TableInfoIcon` inside a `TableHeaderCell`:
+Combine a truncatable `<span>` and `TableInfoIcon` inside a `TableHeaderCell`:
 
 ```tsx
 import {
   TableHeaderCell,
-  TableHeaderCellLabel,
   TableInfoIcon,
 } from '@ledgerhq/lumen-ui-react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react';
 
 <TableHeaderCell align='right'>
-  <TableHeaderCellLabel>Market cap</TableHeaderCellLabel>
+  <span className='truncate'>Market cap</span>
   <Tooltip>
     <TooltipTrigger asChild>
       <TableInfoIcon />
@@ -221,120 +216,6 @@ import {
   </TableActionBarTrailing>
 </TableActionBar>
 ```
-
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use TableCellContent for structured cells'
-      description='It handles layout, truncation, and alignment for title + description + leading icon'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TableCell>
-  <TableCellContent
-    title='Bitcoin'
-    description='BTC'
-    leading={<Spot appearance='icon' icon={Android} />}
-  />
-</TableCell>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't build custom cell layouts"
-      description='Avoid manually composing flex layouts inside cells'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TableCell>
-  <div className='flex items-center gap-12'>
-    <Spot appearance='icon' icon={Android} />
-    <div>
-      <div>Bitcoin</div>
-      <div>BTC</div>
-    </div>
-  </div>
-</TableCell>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use TableHeaderCellLabel for truncatable text'
-      description='Wraps header text in a span that handles overflow with ellipsis'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TableHeaderCell>
-  <TableHeaderCellLabel>
-    Long header text
-  </TableHeaderCellLabel>
-  <TableInfoIcon />
-</TableHeaderCell>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use raw text next to icons"
-      description='Raw text nodes in a flex container cannot truncate'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TableHeaderCell>
-  Long header text
-  <TableInfoIcon />
-</TableHeaderCell>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use TableSortButton for sortable headers'
-      description='Provides built-in sort direction icon and accessible button'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TableHeaderCell>
-  <TableSortButton
-    sortDirection={sortDir}
-    onToggleSort={setSortDir}
-  >
-    Name
-  </TableSortButton>
-</TableHeaderCell>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't build custom sort controls"
-      description='Custom buttons miss accessibility and consistent styling'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TableHeaderCell>
-  <button onClick={toggleSort}>
-    Name {sortDir === 'asc' ? '↑' : '↓'}
-  </button>
-</TableHeaderCell>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>
