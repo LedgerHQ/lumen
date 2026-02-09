@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Animated, {
   interpolate,
   interpolateColor,
@@ -11,14 +11,13 @@ import { Box } from '../Utility';
 import { PageIndicatorProps } from './types';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
+const MAX_VISIBLE_DOTS = 4;
 
 type PageIndicatorDotProps = {
   index: number;
   currentPage: number;
   isShrunk: boolean;
 };
-
-const MAX_VISIBLE_DOTS = 4;
 
 const PageIndicatorDot = ({
   index,
@@ -56,14 +55,7 @@ const PageIndicatorDot = ({
       height: size,
       width: size,
     };
-  }, [
-    colorProgress,
-    shrinkProgress,
-    theme.colors.bg.mutedHover,
-    theme.colors.bg.mutedStrong,
-    theme.sizes.s6,
-    theme.sizes.s4,
-  ]);
+  }, [colorProgress, shrinkProgress, theme]);
 
   return <AnimatedBox style={[styles.dot, animatedStyle]} />;
 };
@@ -100,19 +92,9 @@ export const PageIndicator = ({
   );
 
   useEffect(() => {
-    const dotSize = theme.sizes.s6;
-    const gap = theme.spacings.s4;
-    const dotWidth = dotSize + gap;
-
+    const dotWidth = theme.sizes.s6 + theme.spacings.s4;
     translateX.value = withTiming(-offset * dotWidth, { duration: 200 });
-  }, [
-    currentPage,
-    totalPages,
-    theme.sizes.s6,
-    theme.spacings.s4,
-    offset,
-    translateX,
-  ]);
+  }, [currentPage, totalPages, theme, offset, translateX]);
 
   const stripAnimatedStyle = useAnimatedStyle(
     () => ({
@@ -121,25 +103,32 @@ export const PageIndicator = ({
     [translateX],
   );
 
-  const dotSize = theme.sizes.s6;
-  const gap = theme.spacings.s4;
-  const viewportWidth = visibleDots * dotSize + (visibleDots - 1) * gap;
+  const viewportWidth =
+    visibleDots * theme.sizes.s6 + (visibleDots - 1) * theme.spacings.s4;
 
   const firstVisibleIndex = offset;
   const lastVisibleIndex = offset + MAX_VISIBLE_DOTS - 1;
 
-  const isShrunk = (index: number): boolean => {
-    if (totalPages <= MAX_VISIBLE_DOTS) {
+  const isShrunk = useCallback(
+    (index: number): boolean => {
+      if (totalPages <= MAX_VISIBLE_DOTS) {
+        return false;
+      }
+      if (
+        (index === firstVisibleIndex && firstVisibleIndex > 0) ||
+        (index === lastVisibleIndex && lastVisibleIndex < totalPages - 1)
+      ) {
+        return true;
+      }
       return false;
-    }
-    if (index === firstVisibleIndex && firstVisibleIndex > 0) {
-      return true;
-    }
-    if (index === lastVisibleIndex && lastVisibleIndex < totalPages - 1) {
-      return true;
-    }
-    return false;
-  };
+    },
+    [totalPages, firstVisibleIndex, lastVisibleIndex],
+  );
+
+  const dotIndexes = useMemo(
+    () => Array.from({ length: totalPages }, (_, i) => i),
+    [totalPages],
+  );
 
   return (
     <Box
@@ -151,7 +140,7 @@ export const PageIndicator = ({
     >
       <Box style={[styles.viewport, { width: viewportWidth }]}>
         <AnimatedBox style={[styles.strip, stripAnimatedStyle]}>
-          {Array.from({ length: totalPages }).map((_, index) => (
+          {dotIndexes.map((index) => (
             <PageIndicatorDot
               key={index}
               index={index}
