@@ -65,7 +65,7 @@ const tableVariants = cva(
  *   </TableBody>
  * </Table>
  */
-export const TableRoot = forwardRef<HTMLTableElement, TableRootProps>(
+export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
   (
     {
       children,
