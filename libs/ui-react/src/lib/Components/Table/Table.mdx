@@ -16,7 +16,7 @@ import {
 
 The Table component provides a structured way to display tabular data with support for sorting, responsive hiding, clickable rows, infinite scroll, and action bars.
 
-> View in [Figma](#).
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11618-5962&m=dev).
 
 ## Anatomy
 
@@ -26,7 +26,7 @@ The Table is composed of the following sub-components:
 
 - **TableRoot**: Outer scroll container with appearance variants and scroll handling
 - **Table**: HTML `<table>` wrapper with `table-fixed` layout
-- **TableHead TableHeaderRow / TableHeaderCell**: Header structure with sticky positioning
+- **TableHeader / TableHeaderRow / TableHeaderCell**: Header structure with sticky positioning
 - **TableBody / TableRow / TableCell**: Body structure with responsive hiding and alignment
 - **TableCellContent**: Structured cell layout with optional leading icon, title, and description
 - **TableSortButton**: Sortable header button with ascending/descending indicators
@@ -101,7 +101,7 @@ npm install @ledgerhq/lumen-ui-react
 import {
   TableRoot,
   Table,
-  TableHead,
+  TableHeader,
   TableHeaderRow,
   TableHeaderCell,
   TableBody,
@@ -113,12 +113,12 @@ function MyComponent() {
   return (
     <TableRoot>
       <Table>
-        <TableHead>
+        <TableHeader>
           <TableHeaderRow>
             <TableHeaderCell>Name</TableHeaderCell>
             <TableHeaderCell align='right'>Price</TableHeaderCell>
           </TableHeaderRow>
-        </TableHead>
+        </TableHeader>
         <TableBody>
           <TableRow>
             <TableCell>Bitcoin</TableCell>

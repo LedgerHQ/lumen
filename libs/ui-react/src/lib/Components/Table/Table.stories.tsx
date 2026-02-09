@@ -6,11 +6,12 @@ import { SearchInput } from '../SearchInput/SearchInput';
 import { Spot } from '../Spot';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
+  TableRoot,
   Table,
-  TableHead,
   TableBody,
   TableRow,
   TableCell,
+  TableHeader,
   TableHeaderRow,
   TableHeaderCell,
   TableSortButton,
@@ -19,7 +20,6 @@ import {
   TableActionBarTrailing,
   TableCellContent,
   TableLoadingRow,
-  TableRoot,
   TableInfoIcon,
 } from './Table';
 import { TableSortValue } from './types';
@@ -49,7 +49,7 @@ const meta: Meta<typeof TableRoot> = {
   component: TableRoot,
   title: 'Data/Table',
   subcomponents: {
-    TableHead,
+    TableHeader,
     TableBody,
     TableRow,
     TableCell,
@@ -105,16 +105,16 @@ export const Base: Story = {
     <div className='w-560 text-base'>
       <TableRoot appearance={args.appearance} isLoading={args.isLoading}>
         <Table>
-          <TableHead>
+          <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell className='w-224'>Asset</TableHeaderCell>
               <TableHeaderCell>Symbol</TableHeaderCell>
-              <TableHeaderCell align='right'>Price</TableHeaderCell>
-              <TableHeaderCell className='w-144' align='right'>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell className='w-144' align='end'>
                 Performance
               </TableHeaderCell>
             </TableHeaderRow>
-          </TableHead>
+          </TableHeader>
           <TableBody>
             {smallData.map((row) => (
               <TableRow key={row.symbol}>
@@ -122,14 +122,14 @@ export const Base: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leading={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={<Spot appearance='icon' icon={Android} />}
                   />
                 </TableCell>
                 <TableCell>{row.symbol}</TableCell>
-                <TableCell align='right'>{row.price}</TableCell>
-                <TableCell className='w-144' align='right'>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell className='w-144' align='end'>
                   <TableCellContent
-                    align='right'
+                    align='end'
                     title={row.price}
                     description={row.change}
                   />
@@ -149,17 +149,17 @@ export const AppearanceShowcase: Story = {
       <div className='w-400'>
         <TableRoot {...args} appearance={appearance}>
           <Table>
-            <TableHead>
+            <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>Asset</TableHeaderCell>
-                <TableHeaderCell align='right'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
               </TableHeaderRow>
-            </TableHead>
+            </TableHeader>
             <TableBody>
               {smallData.map((row) => (
                 <TableRow key={row.symbol}>
                   <TableCell>{row.name}</TableCell>
-                  <TableCell align='right'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -182,20 +182,20 @@ export const ResponsiveLayout: Story = {
     <div className='w-560 text-base'>
       <TableRoot {...args}>
         <Table>
-          <TableHead>
+          <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>
                 Asset name that is very long and should be truncated
               </TableHeaderCell>
-              <TableHeaderCell align='right'>Price</TableHeaderCell>
-              <TableHeaderCell hideBelow='lg' align='right'>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell hideBelow='lg' align='end'>
                 Hidden below lg
               </TableHeaderCell>
-              <TableHeaderCell hideBelow='lg' align='right'>
+              <TableHeaderCell hideBelow='lg' align='end'>
                 Hidden below lg
               </TableHeaderCell>
             </TableHeaderRow>
-          </TableHead>
+          </TableHeader>
           <TableBody>
             {smallData.map((row) => (
               <TableRow key={row.symbol}>
@@ -203,14 +203,14 @@ export const ResponsiveLayout: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leading={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={<Spot appearance='icon' icon={Android} />}
                   />
                 </TableCell>
-                <TableCell align='right'>{row.price}</TableCell>
-                <TableCell hideBelow='lg' align='right'>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell hideBelow='lg' align='end'>
                   {row.change}
                 </TableCell>
-                <TableCell hideBelow='lg' align='right'>
+                <TableCell hideBelow='lg' align='end'>
                   $1.2B
                 </TableCell>
               </TableRow>
@@ -227,13 +227,13 @@ export const WithClickableRow: Story = {
     <div className='w-480 text-base'>
       <TableRoot {...args}>
         <Table>
-          <TableHead>
+          <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>Asset</TableHeaderCell>
-              <TableHeaderCell align='right'>Price</TableHeaderCell>
-              <TableHeaderCell align='right'>Change</TableHeaderCell>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell align='end'>Change</TableHeaderCell>
             </TableHeaderRow>
-          </TableHead>
+          </TableHeader>
           <TableBody>
             {smallData.map((row) => (
               <TableRow
@@ -245,11 +245,11 @@ export const WithClickableRow: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leading={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={<Spot appearance='icon' icon={Android} />}
                   />
                 </TableCell>
-                <TableCell align='right'>{row.price}</TableCell>
-                <TableCell align='right'>{row.change}</TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -289,13 +289,13 @@ export const WithInfiniteLoading: Story = {
           onScrollBottom={loadMore}
         >
           <Table>
-            <TableHead>
+            <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>Asset</TableHeaderCell>
-                <TableHeaderCell align='right'>Price</TableHeaderCell>
-                <TableHeaderCell align='right'>Change</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
               </TableHeaderRow>
-            </TableHead>
+            </TableHeader>
             <TableBody>
               {data.map((row) => (
                 <TableRow key={row.id}>
@@ -303,11 +303,11 @@ export const WithInfiniteLoading: Story = {
                     <TableCellContent
                       title={row.name}
                       description={row.symbol}
-                      leading={<Spot appearance='icon' icon={Android} />}
+                      leadingContent={<Spot appearance='icon' icon={Android} />}
                     />
                   </TableCell>
-                  <TableCell align='right'>{row.price}</TableCell>
-                  <TableCell align='right'>{row.change}</TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -330,7 +330,7 @@ export const WithCustomHeader: Story = {
       <div className='w-560 text-base'>
         <TableRoot {...args}>
           <Table>
-            <TableHead>
+            <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>
                   <TableSortButton
@@ -340,7 +340,7 @@ export const WithCustomHeader: Story = {
                     Asset
                   </TableSortButton>
                 </TableHeaderCell>
-                <TableHeaderCell align='right'>
+                <TableHeaderCell align='end'>
                   <span className='truncate'>Market cap</span>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -349,17 +349,17 @@ export const WithCustomHeader: Story = {
                     <TooltipContent>Total market capitalization</TooltipContent>
                   </Tooltip>
                 </TableHeaderCell>
-                <TableHeaderCell align='right'>
+                <TableHeaderCell align='end'>
                   <TableSortButton
                     sortDirection={priceSortDirection}
                     onToggleSort={setPriceSortDirection}
-                    align='right'
+                    align='end'
                   >
                     Price
                   </TableSortButton>
                 </TableHeaderCell>
               </TableHeaderRow>
-            </TableHead>
+            </TableHeader>
             <TableBody>
               {smallData.map((row) => (
                 <TableRow key={row.symbol}>
@@ -367,11 +367,11 @@ export const WithCustomHeader: Story = {
                     <TableCellContent
                       title={row.name}
                       description={row.symbol}
-                      leading={<Spot appearance='icon' icon={Android} />}
+                      leadingContent={<Spot appearance='icon' icon={Android} />}
                     />
                   </TableCell>
-                  <TableCell align='right'>{row.price}</TableCell>
-                  <TableCell align='right'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -398,13 +398,13 @@ export const WithActionBar: Story = {
 
       <TableRoot {...args}>
         <Table>
-          <TableHead>
+          <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>Asset</TableHeaderCell>
-              <TableHeaderCell align='right'>Price</TableHeaderCell>
-              <TableHeaderCell align='right'>Change</TableHeaderCell>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell align='end'>Change</TableHeaderCell>
             </TableHeaderRow>
-          </TableHead>
+          </TableHeader>
           <TableBody>
             {smallData.map((row) => (
               <TableRow key={row.symbol}>
@@ -412,11 +412,11 @@ export const WithActionBar: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leading={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={<Spot appearance='icon' icon={Android} />}
                   />
                 </TableCell>
-                <TableCell align='right'>{row.price}</TableCell>
-                <TableCell align='right'>{row.change}</TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
               </TableRow>
             ))}
           </TableBody>

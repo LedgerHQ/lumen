@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import {
   Table,
   TableRoot,
-  TableHead,
+  TableHeader,
   TableBody,
   TableRow,
   TableHeaderRow,
@@ -32,11 +32,11 @@ describe('Table', () => {
     render(
       <TableRoot>
         <Table>
-          <TableHead>
+          <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>Name</TableHeaderCell>
             </TableHeaderRow>
-          </TableHead>
+          </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell>John</TableCell>
@@ -83,14 +83,14 @@ describe('TableRoot', () => {
   });
 });
 
-describe('TableHead', () => {
+describe('TableHeader', () => {
   it('should render a thead element', () => {
     renderTable(
-      <TableHead>
+      <TableHeader>
         <TableHeaderRow>
           <TableHeaderCell>Header</TableHeaderCell>
         </TableHeaderRow>
-      </TableHead>,
+      </TableHeader>,
     );
     expect(screen.getByText('Header')).toBeInTheDocument();
   });
@@ -147,11 +147,11 @@ describe('TableRow', () => {
 describe('TableHeaderRow', () => {
   it('should render inside TableRoot context', () => {
     renderTable(
-      <TableHead>
+      <TableHeader>
         <TableHeaderRow>
           <TableHeaderCell>Col</TableHeaderCell>
         </TableHeaderRow>
-      </TableHead>,
+      </TableHeader>,
     );
     expect(
       screen.getByRole('columnheader', { name: 'Col' }),
@@ -162,11 +162,11 @@ describe('TableHeaderRow', () => {
 describe('TableHeaderCell', () => {
   it('should render a th element with children', () => {
     renderTable(
-      <TableHead>
+      <TableHeader>
         <TableHeaderRow>
           <TableHeaderCell>Amount</TableHeaderCell>
         </TableHeaderRow>
-      </TableHead>,
+      </TableHeader>,
     );
     expect(
       screen.getByRole('columnheader', { name: 'Amount' }),
@@ -197,7 +197,7 @@ describe('TableCellContent', () => {
   it('should render leading content', () => {
     render(
       <TableCellContent
-        leading={<span data-testid='icon'>icon</span>}
+        leadingContent={<span data-testid='icon'>icon</span>}
         title='Ethereum'
       />,
     );

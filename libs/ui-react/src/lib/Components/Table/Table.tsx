@@ -15,7 +15,7 @@ import {
   TableCellProps,
   TableHeaderCellProps,
   TableHeaderRowProps,
-  TableHeadProps,
+  TableHeaderProps,
   TableProps,
   TableRowProps,
   TableActionBarLeadingProps,
@@ -52,13 +52,13 @@ const tableVariants = cva(
  * @example
  * <TableRoot>
  *   <Table>
- *     <TableHead>
+ *     <TableHeader>
  *       <TableHeaderRow>
  *         <TableHeaderCell>
  *           <TableHeaderCellSort sortDirection={sortDir} onToggleSort={setSortDir}>Name</TableHeaderCellSort>
  *         </TableHeaderCell>
  *       </TableHeaderRow>
- *     </TableHead>
+ *     </TableHeader>
  *     <TableBody>
  *       <TableRow>
  *         <TableCell>John</TableCell>
@@ -118,16 +118,17 @@ Table.displayName = 'Table';
 /**
  * Table head component. Wraps the HTML `<thead>` element.
  */
-export const TableHead = forwardRef<HTMLTableSectionElement, TableHeadProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <thead ref={ref} className={className} {...props}>
-        {children}
-      </thead>
-    );
-  },
-);
-TableHead.displayName = 'TableHead';
+export const TableHeader = forwardRef<
+  HTMLTableSectionElement,
+  TableHeaderProps
+>(({ children, className, ...props }, ref) => {
+  return (
+    <thead ref={ref} className={className} {...props}>
+      {children}
+    </thead>
+  );
+});
+TableHeader.displayName = 'TableHeader';
 
 /**
  * Table body component. Wraps the HTML `<tbody>` element.
@@ -135,7 +136,7 @@ TableHead.displayName = 'TableHead';
 export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <tbody ref={ref} className={cn('', className)} {...props}>
+      <tbody ref={ref} className={className} {...props}>
         {children}
       </tbody>
     );
@@ -155,7 +156,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
         role={clickable ? 'button' : undefined}
         className={cn(
           clickable &&
-            'cursor-pointer outline-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
+            'cursor-pointer outline-none select-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
           className,
         )}
         {...props}
@@ -214,8 +215,8 @@ const cellVariants = {
   inner: cva('flex flex-1 justify-end', {
     variants: {
       align: {
-        left: 'text-left justify-start',
-        right: 'text-right justify-end',
+        start: 'text-start justify-start',
+        end: 'text-end justify-end',
       },
     },
   }),
@@ -225,7 +226,7 @@ const cellVariants = {
  * Table data cell component. Wraps the HTML `<td>` element.
  */
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ children, className, hideBelow, align = 'left', ...props }, ref) => {
+  ({ children, className, hideBelow, align = 'start', ...props }, ref) => {
     return (
       <td
         ref={ref}
@@ -242,8 +243,8 @@ TableCell.displayName = 'TableCell';
 const cellContentVariants = cva('flex items-center gap-12 truncate', {
   variants: {
     align: {
-      left: 'text-left',
-      right: 'text-right',
+      start: 'text-start',
+      end: 'text-end',
     },
   },
 });
@@ -256,7 +257,14 @@ export const TableCellContent = forwardRef<
   TableCellContentProps
 >(
   (
-    { className, align = 'left', leading, title, description, ...props },
+    {
+      className,
+      align = 'start',
+      leadingContent,
+      title,
+      description,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -265,7 +273,7 @@ export const TableCellContent = forwardRef<
         className={cellContentVariants({ align, className })}
         {...props}
       >
-        <div>{leading}</div>
+        <div>{leadingContent}</div>
         <div className='flex flex-col gap-4 truncate'>
           <div className='truncate body-2 text-base'>{title}</div>
           <div className='truncate body-3 text-muted'>{description}</div>
@@ -288,11 +296,11 @@ const headerCellVariants = {
       },
     },
   }),
-  content: cva('flex min-w-0 items-center gap-4', {
+  content: cva('flex min-w-0 items-center gap-4 truncate', {
     variants: {
       align: {
-        left: 'text-left justify-start',
-        right: 'text-right justify-end',
+        start: 'text-left justify-start',
+        end: 'text-right justify-end',
       },
     },
   }),
@@ -307,7 +315,14 @@ export const TableHeaderCell = forwardRef<
   TableHeaderCellProps
 >(
   (
-    { children, className, scope = 'col', hideBelow, align = 'left', ...props },
+    {
+      children,
+      className,
+      scope = 'col',
+      hideBelow,
+      align = 'start',
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -319,7 +334,7 @@ export const TableHeaderCell = forwardRef<
       >
         <div className='min-w-0'>
           <div className={headerCellVariants.content({ align })}>
-            {children}
+            <span className='min-w-0 truncate'>{children}</span>
           </div>
         </div>
       </th>
@@ -459,8 +474,8 @@ const tableSortButtonVariants = {
     {
       variants: {
         align: {
-          right: 'flex-row-reverse',
-          left: '',
+          end: 'flex-row-reverse',
+          start: '',
         },
       },
     },
@@ -487,7 +502,7 @@ export const TableSortButton = forwardRef<
     {
       children,
       sortDirection,
-      align = 'left',
+      align = 'start',
       onToggleSort,
       className,
       onClick,

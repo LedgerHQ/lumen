@@ -18,7 +18,7 @@ const meta: Meta<typeof Skeleton> = {
   argTypes: {
     component: {
       control: 'select',
-      options: [undefined, 'list-item', 'tile'],
+      options: [undefined, 'list-item', 'tile', 'table'],
       description: 'Pre-built skeleton component variant',
     },
   },

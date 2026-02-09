@@ -13,7 +13,7 @@ export type TableRootProps = {
    */
   appearance?: 'no-background' | 'plain';
   /**
-   * The table content (TableHead, TableBody)
+   * The table content (TableHeader, TableBody)
    */
   children: ReactNode;
   /**
@@ -34,7 +34,7 @@ export type TableRootProps = {
 
 export type TableProps = {
   /**
-   * The table content (TableHead, TableBody)
+   * The table content (TableHeader, TableBody)
    */
   children: ReactNode;
   /**
@@ -43,7 +43,7 @@ export type TableProps = {
   className?: string;
 } & HTMLAttributes<HTMLTableElement>;
 
-export type TableHeadProps = {
+export type TableHeaderProps = {
   /**
    * The header content (TableHeaderRow)
    */
@@ -87,7 +87,8 @@ export type TableRowProps = {
 
 export type TableCellProps = {
   /**
-   * Hide the cell below a specific breakpoint
+   * Hides this table header cell when the screen width is below the specified breakpoint.
+   * Use this to responsively show or hide columns at certain viewport sizes.
    */
   hideBelow?: Breakpoints;
   /**
@@ -100,15 +101,17 @@ export type TableCellProps = {
   className?: string;
   /**
    * Text alignment within the cell
+   * @default 'start'
    */
-  align?: 'left' | 'right';
-} & TdHTMLAttributes<HTMLTableCellElement>;
+  align?: 'start' | 'end';
+} & Omit<TdHTMLAttributes<HTMLTableCellElement>, 'align'>;
 
 export type TableCellContentProps = {
   /**
    * Text alignment within the cell
+   * @default 'start'
    */
-  align?: 'left' | 'right';
+  align?: 'start' | 'end';
   /**
    * Custom classname
    */
@@ -117,7 +120,7 @@ export type TableCellContentProps = {
    * The leading content of the cell
    * Typically an spot, icon or crypto-icon.
    */
-  leading?: ReactNode;
+  leadingContent?: ReactNode;
   /**
    * The title of the cell
    */
@@ -141,7 +144,8 @@ export type TableHeaderRowProps = {
 
 export type TableHeaderCellProps = {
   /**
-   * Hide the cell below a specific breakpoint
+   * Hides this table header cell when the screen width is below the specified breakpoint.
+   * Use this to responsively show or hide columns at certain viewport sizes.
    */
   hideBelow?: Breakpoints;
   /**
@@ -154,14 +158,15 @@ export type TableHeaderCellProps = {
   className?: string;
   /**
    * Text alignment within the cell
+   * @default 'start'
    */
-  align?: 'left' | 'right';
+  align?: 'start' | 'end';
   /**
    * Scope of the header cell
    * @default 'col'
    */
   scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
-} & ThHTMLAttributes<HTMLTableCellElement>;
+} & Omit<ThHTMLAttributes<HTMLTableCellElement>, 'align'>;
 
 export type TableActionBarProps = {
   /**
@@ -176,7 +181,7 @@ export type TableActionBarProps = {
 
 export type TableActionBarLeadingProps = {
   /**
-   * The leading content (left-aligned actions)
+   * The leading content (start-aligned actions)
    */
   children: ReactNode;
   /**
@@ -187,7 +192,7 @@ export type TableActionBarLeadingProps = {
 
 export type TableActionBarTrailingProps = {
   /**
-   * The trailing content (right-aligned actions)
+   * The trailing content (end-aligned actions)
    */
   children: ReactNode;
   /**
@@ -216,7 +221,7 @@ export type TableSortButtonProps = {
   /**
    * Text and elements alignment within the cell
    */
-  align?: 'left' | 'right';
+  align?: 'start' | 'end';
   /**
    * The column label (e.g. "Name", "Amount")
    */
