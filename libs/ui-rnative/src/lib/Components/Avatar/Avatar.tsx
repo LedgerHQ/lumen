@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
+import { useCommonTranslation } from 'src/i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
 import { Box } from '../Utility';
@@ -68,9 +69,16 @@ export const Avatar = ({
   ref,
   ...props
 }: AvatarProps) => {
+  const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
   const styles = useStyles({ size });
+
+  const resolvedAlt = alt || t('components.avatar.defaultAlt');
+
+  const accessibilityLabel = showNotification
+    ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
+    : resolvedAlt;
 
   useEffect(() => {
     setError(false);
@@ -81,16 +89,20 @@ export const Avatar = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.root, style])}
+      accessibilityRole='image'
+      accessibilityLabel={accessibilityLabel}
       {...props}
     >
-      {showNotification && <View style={styles.notification} />}
+      {showNotification && (
+        <View style={styles.notification} accessible={false} />
+      )}
       {shouldFallback ? (
-        <User size={fallbackSizes[size]} accessibilityLabel='Fallback Icon' />
+        <User size={fallbackSizes[size]} accessible={false} />
       ) : (
         <Image
           source={{ uri: src }}
           style={styles.image}
-          accessibilityLabel={alt}
+          accessible={false}
           onError={() => setError(true)}
         />
       )}

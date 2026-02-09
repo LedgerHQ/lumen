@@ -9,7 +9,6 @@ export type AvatarProps = {
   /**
    * Alternative text for the image.
    * @optional
-   * @default avatar
    */
   alt?: string;
   /**
