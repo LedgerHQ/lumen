@@ -59,6 +59,22 @@ const useStyles = ({ size }: { size: Size }) => {
   );
 };
 
+/**
+ * A circular avatar component that displays a user image or fallback icon.
+ *
+ * When the image fails to load or no src is provided, displays a User icon fallback.
+ * Supports an optional notification indicator.
+ *
+ * @see {@link https://lumen-ldls.vercel.app/?path=/docs/react-native_communication-avatar--docs Storybook}
+ *
+ * @example
+ * import { Avatar } from '@ledgerhq/lumen-ui-react';
+ *
+ * <Avatar src="https://example.com/photo.jpg" size="md" />
+ *
+ * // With notification indicator
+ * <Avatar src="https://example.com/photo.jpg" showNotification />
+ */
 export const Avatar = ({
   lx,
   style,
