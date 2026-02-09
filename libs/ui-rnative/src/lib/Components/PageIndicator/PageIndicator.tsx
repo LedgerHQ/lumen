@@ -60,6 +60,12 @@ const PageIndicatorDot = ({
   return <AnimatedBox style={[styles.dot, animatedStyle]} />;
 };
 
+/**
+ * A page indicator component that shows the current position within a set of pages (e.g. carousel or onboarding).
+ *
+ * Renders a row of dots: the active dot is highlighted, and when there are more pages than visible dots,
+ * edge dots shrink and the strip scrolls to keep the current page in view.
+ */
 export const PageIndicator = ({
   currentPage,
   totalPages,
@@ -103,8 +109,10 @@ export const PageIndicator = ({
     [translateX],
   );
 
-  const viewportWidth =
-    visibleDots * theme.sizes.s6 + (visibleDots - 1) * theme.spacings.s4;
+  const viewportWidth = Math.max(
+    0,
+    visibleDots * theme.sizes.s6 + (visibleDots - 1) * theme.spacings.s4,
+  );
 
   const firstVisibleIndex = offset;
   const lastVisibleIndex = offset + MAX_VISIBLE_DOTS - 1;
@@ -134,7 +142,7 @@ export const PageIndicator = ({
     <Box
       ref={ref}
       accessibilityRole='none'
-      lx={{ ...lx }}
+      lx={lx}
       style={styles.container}
       {...props}
     >
