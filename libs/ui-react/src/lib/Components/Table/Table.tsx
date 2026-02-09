@@ -519,4 +519,4 @@ export const TableSortButton = forwardRef<
     );
   },
 );
-TableSortButton.displayName = 'TableHeaderCellSort';
+TableSortButton.displayName = 'TableSortButton';
