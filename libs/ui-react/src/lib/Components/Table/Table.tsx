@@ -112,7 +112,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
     );
   },
 );
-TableRoot.displayName = 'TableRoot';
+Table.displayName = 'Table';
 
 /**
  * Table head component. Wraps the HTML `<thead>` element.
