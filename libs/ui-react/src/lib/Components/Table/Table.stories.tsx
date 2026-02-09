@@ -144,10 +144,10 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
-  render: () => {
+  render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
       <div className='w-400'>
-        <TableRoot appearance={appearance}>
+        <TableRoot {...args} appearance={appearance}>
           <Table>
             <TableHead>
               <TableHeaderRow>
@@ -178,9 +178,9 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
-  render: () => (
+  render: (args) => (
     <div className='w-560 text-base'>
-      <TableRoot>
+      <TableRoot {...args}>
         <Table>
           <TableHead>
             <TableHeaderRow>
@@ -223,9 +223,9 @@ export const ResponsiveLayout: Story = {
 };
 
 export const WithClickableRow: Story = {
-  render: () => (
+  render: (args) => (
     <div className='w-480 text-base'>
-      <TableRoot>
+      <TableRoot {...args}>
         <Table>
           <TableHead>
             <TableHeaderRow>
@@ -260,7 +260,7 @@ export const WithClickableRow: Story = {
 };
 
 export const WithInfiniteLoading: Story = {
-  render: () => {
+  render: (args) => {
     const [data, setData] = useState(
       largeData.map((item, i) => ({ ...item, id: i })),
     );
@@ -283,6 +283,7 @@ export const WithInfiniteLoading: Story = {
     return (
       <div className='w-560 text-base'>
         <TableRoot
+          {...args}
           className='h-480'
           isLoading={isLoading}
           onScrollBottom={loadMore}
@@ -319,7 +320,7 @@ export const WithInfiniteLoading: Story = {
 };
 
 export const WithCustomHeader: Story = {
-  render: () => {
+  render: (args) => {
     const [nameSortDirection, setNameSortDirection] =
       useState<TableSortValue>('asc');
     const [priceSortDirection, setPriceSortDirection] =
@@ -327,7 +328,7 @@ export const WithCustomHeader: Story = {
 
     return (
       <div className='w-560 text-base'>
-        <TableRoot>
+        <TableRoot {...args}>
           <Table>
             <TableHead>
               <TableHeaderRow>
@@ -382,7 +383,7 @@ export const WithCustomHeader: Story = {
 };
 
 export const WithActionBar: Story = {
-  render: () => (
+  render: (args) => (
     <div className='w-560 text-base'>
       <TableActionBar>
         <TableActionBarLeading>
@@ -395,7 +396,7 @@ export const WithActionBar: Story = {
         </TableActionBarTrailing>
       </TableActionBar>
 
-      <TableRoot>
+      <TableRoot {...args}>
         <Table>
           <TableHead>
             <TableHeaderRow>

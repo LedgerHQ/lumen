@@ -35,7 +35,7 @@ const [TableProvider, useTableContext] = createSafeContext<{
 }>('Table');
 
 const tableVariants = cva(
-  'relative w-full max-w-full border-collapse overflow-x-auto rounded-lg',
+  'relative scrollbar-none w-full max-w-full border-collapse overflow-x-auto rounded-lg',
   {
     variants: {
       appearance: {
@@ -89,7 +89,6 @@ export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
         <div
           {...props}
           ref={ref}
-          style={{ scrollbarWidth: 'none' }}
           className={tableVariants({ appearance, className })}
           onScroll={handleScroll}
         >
@@ -152,6 +151,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
     return (
       <tr
         ref={ref}
+        onClick={onClick}
         role={clickable ? 'button' : undefined}
         className={cn(
           clickable &&
@@ -256,15 +256,7 @@ export const TableCellContent = forwardRef<
   TableCellContentProps
 >(
   (
-    {
-      children,
-      className,
-      align = 'left',
-      leading,
-      title,
-      description,
-      ...props
-    },
+    { className, align = 'left', leading, title, description, ...props },
     ref,
   ) => {
     return (
@@ -406,7 +398,7 @@ TableActionBarTrailing.displayName = 'TableActionBarTrailing';
  * Loading row component displayed at the bottom of the table during infinite scroll loading.
  */
 export const TableLoadingRow = forwardRef<HTMLDivElement, TableLoadingRowProps>(
-  ({ children, className, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     const { isLoading } = useTableContext({
       consumerName: 'TableLoadingRow',
       contextRequired: true,
@@ -420,7 +412,10 @@ export const TableLoadingRow = forwardRef<HTMLDivElement, TableLoadingRowProps>(
       <div
         {...props}
         ref={ref}
-        className='flex h-80 w-full items-center justify-center p-12'
+        className={cn(
+          'flex h-80 w-full items-center justify-center p-12',
+          className,
+        )}
       >
         <Spot appearance='loader' size={48} />
       </div>
@@ -520,16 +515,12 @@ export const TableSortButton = forwardRef<
         }}
       >
         <span className='min-w-0 truncate'>{children}</span>
-        <InteractiveIcon
-          tabIndex={-1}
-          iconType='filled'
-          ref={ref}
+        <Icon
+          size={20}
           className={tableSortButtonVariants.icon({
             active: Boolean(sortDirection),
           })}
-        >
-          <Icon size={20} />
-        </InteractiveIcon>
+        />
       </button>
     );
   },

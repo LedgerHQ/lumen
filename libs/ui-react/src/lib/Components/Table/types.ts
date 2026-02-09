@@ -1,7 +1,8 @@
 import {
   HTMLAttributes,
-  ReactNode, TdHTMLAttributes,
-  ThHTMLAttributes
+  ReactNode,
+  TdHTMLAttributes,
+  ThHTMLAttributes,
 } from 'react';
 import { Breakpoints } from '../../../types';
 
@@ -109,10 +110,6 @@ export type TableCellContentProps = {
    */
   align?: 'left' | 'right';
   /**
-   * The cell content
-   */
-  children?: ReactNode;
-  /**
    * Custom classname
    */
   className?: string;
@@ -129,7 +126,7 @@ export type TableCellContentProps = {
    * The description of the cell
    */
   description?: ReactNode;
-} & HTMLAttributes<HTMLDivElement>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
 
 export type TableHeaderRowProps = {
   /**
@@ -204,14 +201,14 @@ export type TableLoadingRowProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
 
 export type TableInfoIconProps = {
   /**
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLButtonElement>;
+} & Omit<HTMLAttributes<HTMLButtonElement>, 'children'>;
 
 export type TableSortValue = 'asc' | 'desc' | undefined;
 
