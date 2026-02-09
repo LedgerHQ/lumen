@@ -5,6 +5,7 @@ import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
 
 import {
   createGradientPlugin,
+  createScreensPlugin,
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
@@ -23,6 +24,7 @@ export const websitesPreset: Config = {
   },
   plugins: [
     createPrimitivesPlugin(),
+    createScreensPlugin(),
     createThemePlugin(websitesCSSTheme),
     createTypographyPlugin(),
     createGradientPlugin(websitesCSSTheme),

@@ -16,7 +16,7 @@ export const primitivesTheme = {
   ':root': {
     ...primitivesTokens[':root'],
     ...typographyXsTokens[':root'],
-    ...typographySmTokens[':root'],
+    ...typographySmTokens,
     ...typographyLgTokens,
     ...typographyMdTokens,
     ...typographyXlTokens,
