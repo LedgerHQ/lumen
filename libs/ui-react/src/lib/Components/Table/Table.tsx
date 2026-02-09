@@ -306,7 +306,7 @@ const headerCellVariants = {
 
 /**
  * Table header cell component. Wraps the HTML `<th>` element.
- * Use TableHeaderCellSort for sortable columns; other children are trailing content.
+ * Use TableSortButton for sortable columns; other children are trailing content.
  */
 export const TableHeaderCell = forwardRef<
   HTMLTableCellElement,
