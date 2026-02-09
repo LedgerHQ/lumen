@@ -15,6 +15,7 @@ export * from './Link';
 export * from './ListItem';
 export * from './Menu';
 export * from './NavBar';
+export * from './PageIndicator';
 export * from './SearchInput';
 export * from './Select';
 export * from './SideBar';
