@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "Escanear código QR"
     },
+    "avatar": {
+      "defaultAlt": "Avatar de usuario",
+      "notificationAriaLabel": "Tiene notificación"
+    },
     "baseInput": {
       "clearInputAriaLabel": "Borrar entrada"
     },

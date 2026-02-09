@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "Karekodu okut"
     },
+    "avatar": {
+      "defaultAlt": "Kullanıcı avatarı",
+      "notificationAriaLabel": "Bildirim var"
+    },
     "baseInput": {
       "clearInputAriaLabel": "Girdiyi temizle"
     },

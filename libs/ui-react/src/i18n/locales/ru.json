@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "Сканировать QR-код"
     },
+    "avatar": {
+      "defaultAlt": "Аватар пользователя",
+      "notificationAriaLabel": "Есть уведомление"
+    },
     "baseInput": {
       "clearInputAriaLabel": "Очистить поле"
     },

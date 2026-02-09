@@ -1,5 +1,6 @@
 import { cva } from 'class-variance-authority';
 import React from 'react';
+import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
 import { AvatarProps } from './types';
 
@@ -54,7 +55,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     {
       className,
       src,
-      alt = 'avatar',
+      alt,
       size = 'md',
       imgLoading,
       showNotification = false,
@@ -62,8 +63,15 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     },
     ref,
   ) => {
+    const { t } = useCommonTranslation();
     const [error, setError] = React.useState<boolean>(false);
     const shouldFallback = !src || error;
+
+    const resolvedAlt = alt || t('components.avatar.defaultAlt');
+
+    const ariaLabel = showNotification
+      ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
+      : resolvedAlt;
 
     React.useEffect(() => {
       setError(false);
@@ -73,20 +81,30 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       <div
         ref={ref}
         className={avatarVariants.root({ size, className })}
+        role='img'
+        aria-label={ariaLabel}
         {...props}
       >
         {showNotification && (
-          <div className={avatarVariants.notification({ size })} />
+          <div
+            className={avatarVariants.notification({ size })}
+            aria-hidden='true'
+          />
         )}
         {shouldFallback ? (
-          <User size={fallbackSizes[size]} />
+          <User
+            size={fallbackSizes[size]}
+            aria-label='Fallback Icon'
+            aria-hidden='true'
+          />
         ) : (
           <img
             src={src}
-            alt={alt}
+            alt=''
             loading={imgLoading}
             onError={() => setError(true)}
             className='size-full overflow-hidden rounded-full object-cover'
+            aria-hidden='true'
           />
         )}
       </div>
