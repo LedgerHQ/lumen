@@ -4,6 +4,7 @@ import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
 import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
 import {
   createGradientPlugin,
+  createScreensPlugin,
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
@@ -18,17 +19,10 @@ export const allBrandsPreset: Config = {
     fontWeight: {},
     lineHeight: {},
     colors: {},
-    screens: {
-      xs: '360px',
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1536px',
-    },
   },
   plugins: [
     createPrimitivesPlugin(),
+    createScreensPlugin(),
     createThemePlugin(allBrandsCSSTheme),
     createTypographyPlugin(),
     createGradientPlugin(allBrandsCSSTheme),
