@@ -62,7 +62,7 @@ StyleDictionary.registerFormat({
     if (currentTheme === 'dark') {
       mainKey = '.dark';
     } else if (currentBreakpoint && currentBreakpoint !== 'sm') {
-      mainKey = `@media (min-width: ${breakpointPixels[currentBreakpoint] ?? `var(--breakpoint-${currentBreakpoint})`})`;
+      mainKey = `@media (min-width: ${breakpointPixels[currentBreakpoint]})`;
     }
 
     const output = { [mainKey]: {} };
