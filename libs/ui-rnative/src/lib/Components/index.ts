@@ -15,6 +15,7 @@ export * from './ListItem';
 export * from './SearchInput';
 export * from './Select';
 export * from './Spot';
+export * from './Stepper';
 export * from './Subheader';
 export * from './Switch';
 export * from './TabBar';

@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(yeni sekmede açılır)"
+    },
+    "stepper": {
+      "progressAriaLabel": "{{totalSteps}} adımdan {{currentStep}}. adım"
     }
   }
 }

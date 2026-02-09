@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(새 탭에서 열기)"
+    },
+    "stepper": {
+      "progressAriaLabel": "{{totalSteps}}단계 중 {{currentStep}}단계"
     }
   }
 }

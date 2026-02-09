@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(Öffnet in neuem Tab)"
+    },
+    "stepper": {
+      "progressAriaLabel": "Schritt {{currentStep}} von {{totalSteps}}"
     }
   }
 }

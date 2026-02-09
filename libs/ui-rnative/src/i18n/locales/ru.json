@@ -18,6 +18,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(открывается в новой вкладке)"
+    },
+    "stepper": {
+      "progressAriaLabel": "Шаг {{currentStep}} из {{totalSteps}}"
     }
   }
 }
