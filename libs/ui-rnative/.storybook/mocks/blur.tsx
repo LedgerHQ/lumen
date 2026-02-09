@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, ViewProps } from 'react-native';
 
 /**
@@ -6,6 +5,6 @@ import { View, ViewProps } from 'react-native';
  * @react-native-community/blur doesn't work on web, so we use a simple View
  */
 export const BlurView = (props: ViewProps & { blurAmount?: number }) => {
-  const { blurAmount, ...restProps } = props;
+  const { blurAmount: _blurAmount, ...restProps } = props;
   return <View {...restProps} />;
 };
