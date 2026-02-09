@@ -330,7 +330,9 @@ const useStyles = ({ appearance }: StyleParams) => {
           },
         ]),
         title: {
-          ...t.typographies.heading4SemiBold,
+          ...(appearance === 'expanded'
+            ? t.typographies.heading3SemiBold
+            : t.typographies.heading4SemiBold),
           color: t.colors.text.base,
           textAlign: appearance === 'expanded' ? 'left' : 'center',
         },
