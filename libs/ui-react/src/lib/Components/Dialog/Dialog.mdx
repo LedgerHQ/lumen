@@ -76,9 +76,16 @@ Always use the `DialogHeader` component as the header for dialogs to maintain co
 - Close button
 - Optional back button for navigation
 - Two appearance variants: `compact` and `extended`
+- Optional trailing content (e.g., search input, tabs)
 - Automatic accessibility with proper ARIA roles
 
 <Canvas of={DialogStories.HeaderVariants} />
+
+### Header with Trailing Content
+
+Use the `trailingContent` prop to add custom content below the header (e.g., search input, tabs, filters).
+
+<Canvas of={DialogStories.WithListsContent} />
 
 ### With multiple steps
 

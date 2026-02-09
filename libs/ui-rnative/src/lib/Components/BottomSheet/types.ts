@@ -130,14 +130,6 @@ export type BottomSheetProps = PropsWithChildren & {
    * @default true
    */
   enableBlurKeyboardOnGesture?: boolean;
-  /**
-   * Callback fired when the modal is fully dismissed and removed from the presentation stack.
-   * Unlike `onClose` (which fires when the sheet reaches the closed position during animation),
-   * `onDismiss` fires only after the modal has been completely unmounted.
-   * Use this for cleanup logic that requires the modal to be fully gone (e.g., queued drawer systems).
-   * @default undefined
-   */
-  onDismiss?: () => void;
 };
 
 export type BottomSheetHeaderProps = {
@@ -160,6 +152,11 @@ export type BottomSheetHeaderProps = {
    * @default false
    */
   spacing?: boolean;
+  /**
+   * Optional trailing content rendered below the title/description section.
+   * The content is sticky and part of the header (usually for searchInput, filters, ...).
+   */
+  trailingContent?: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
 export type BottomSheetViewProps = Parameters<typeof GorhomBottomSheetView>[0];

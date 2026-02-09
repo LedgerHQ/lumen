@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../Button';
+import { SearchInput } from '../SearchInput';
 import { Box, Text } from '../Utility';
 import { BottomSheet } from './BottomSheet';
 import { BottomSheetHeader } from './BottomSheetHeader';
@@ -188,6 +189,77 @@ export const TitleExpanded: Story = {
               </Text>
             </Box>
           </BottomSheetView>
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
+export const WithTrailingContent: Story = {
+  args: {
+    snapPoints: 'full',
+  },
+  render: (args) => {
+    const bottomSheetRef = useBottomSheetRef();
+
+    type ListItem = {
+      id: string;
+      title: string;
+      description: string;
+    };
+
+    const data: ListItem[] = Array.from({ length: 50 }, (_, i) => ({
+      id: i.toString(),
+      title: `Item ${i + 1}`,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+    }));
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+        }}
+      >
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+          Toggle open
+        </Button>
+        <BottomSheet {...args} ref={bottomSheetRef}>
+          <BottomSheetHeader
+            spacing
+            title='Search'
+            appearance='compact'
+            description='Find an item in the list'
+            trailingContent={<SearchInput placeholder='Search...' />}
+          />
+          <BottomSheetFlatList
+            data={data}
+            keyExtractor={(item) => (item as ListItem).id}
+            renderItem={({ item }) => {
+              const typedItem = item as ListItem;
+              return (
+                <Box
+                  lx={{
+                    flexDirection: 'column',
+                    gap: 's4',
+                    borderBottomWidth: 's1',
+                    borderColor: 'base',
+                    paddingVertical: 's12',
+                  }}
+                >
+                  <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+                    {typedItem.title}
+                  </Text>
+                  <Text typography='body3' lx={{ color: 'muted' }}>
+                    {typedItem.description}
+                  </Text>
+                </Box>
+              );
+            }}
+          />
         </BottomSheet>
       </Box>
     );

@@ -2,11 +2,15 @@ import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as BottomSheetStories from './BottomSheet.stories';
 import { BottomSheet } from './BottomSheet';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import {
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components/DoVsDont';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 import { Box } from '../Utility';
 
-<Meta title="Components/BottomSheet" of={BottomSheetStories} />
+<Meta title='Components/BottomSheet' of={BottomSheetStories} />
 
 # 📋 BottomSheet
 
@@ -25,7 +29,7 @@ BottomSheet provides a flexible and performant way to present content, forms, or
 
 - **Handle**: Visual indicator for draggable area
 - **Backdrop**: Semi-transparent overlay behind the sheet
-- **Header**: Optional header with title, description, back button, and close button
+- **Header**: Optional header with title, description, back button, close button, and optional trailing content (e.g., search input, filters)
 - **Content**: Scrollable or static content using specialized scrollable components
 
 ## Properties
@@ -47,6 +51,12 @@ Bottom sheets support two header appearances:
 The expanded appearance provides more breathing room for content-heavy headers and is recommended when your title exceeds 2-3 words or when you need to display substantial description text.
 
 <Canvas of={BottomSheetStories.TitleExpanded} />
+
+### Trailing Content (Sticky Header)
+
+The `BottomSheetHeader` supports a `trailingContent` prop that renders custom content below the title/description section. This content is part of the header and remains **sticky** at the top when the list scrolls — ideal for search inputs, filters, or segmented controls.
+
+<Canvas of={BottomSheetStories.WithTrailingContent} />
 
 ### Scrollable Content
 
@@ -85,11 +95,12 @@ You can also combine snap points with dynamic sizing to control the height of th
 
 ### Prevent Close
 
-Prevent user dismissal for critical flows where users must complete an action or make a decision. 
-Set both properties: 
+Prevent user dismissal for critical flows where users must complete an action or make a decision.
+Set both properties:
+
 - `hideCloseButton={true}`
 - `enablePanDownToClose={false}`
-- `backdropPressBehavior='none'` 
+- `backdropPressBehavior='none'`
 
 <Canvas of={BottomSheetStories.PreventClose} />
 
@@ -117,12 +128,19 @@ import { BottomSheetModalProvider } from '@ledgerhq/lumen-ui-rnative';
 </GestureHandlerRootView>
 ```
 
-> **Note:** The provider must be inside `GestureHandlerRootView` because BottomSheet uses gestures for drag and swipe interactions.  
+> **Note:** The provider must be inside `GestureHandlerRootView` because BottomSheet uses gestures for drag and swipe interactions.
 
 ### Basic Usage
 
 ```tsx
-import { BottomSheet, BottomSheetView, BottomSheetHeader, useBottomSheetRef, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import {
+  BottomSheet,
+  BottomSheetView,
+  BottomSheetHeader,
+  useBottomSheetRef,
+  Box,
+  Text,
+} from '@ledgerhq/lumen-ui-rnative';
 import { Button } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
@@ -134,14 +152,16 @@ function MyComponent() {
         Open Bottom Sheet
       </Button>
 
-      <BottomSheet ref={bottomSheetRef} snapPoints="full">
+      <BottomSheet ref={bottomSheetRef} snapPoints='full'>
         <BottomSheetView>
           <BottomSheetHeader
-            title="Welcome"
-            appearance="compact"
-            description="Get started with our platform"
+            title='Welcome'
+            appearance='compact'
+            description='Get started with our platform'
           />
-          <Text typography='body2' lx={{ color: 'base' }}>Your content here</Text>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Your content here
+          </Text>
         </BottomSheetView>
       </BottomSheet>
     </>
@@ -164,7 +184,7 @@ const MyComponent = () => {
       {/* Content */}
     </BottomSheet>
   );
-}
+};
 ```
 
 The `useBottomSheet` hook provides a typed ref for programmatic control inside of the BottomSheet component:
@@ -175,7 +195,9 @@ import { useBottomSheet } from '@ledgerhq/lumen-ui-rnative';
 const Content = () => {
   const { snapToIndex } = useBottomSheet();
   return (
-    <Pressable onPress={() => snapToIndex(1)}>Expand to next snap point</Pressable>
+    <Pressable onPress={() => snapToIndex(1)}>
+      Expand to next snap point
+    </Pressable>
   );
 };
 
@@ -187,43 +209,57 @@ const MyComponent = () => {
       </BottomSheetView>
     </BottomSheet>
   );
-}
+};
 ```
 
-<table style={{width: "100%"}}>
+<table style={{ width: '100%' }}>
   <thead>
     <tr>
-      <th style={{textAlign: "left"}}>Method</th>
-      <th style={{textAlign: "left"}}>Description</th>
+      <th style={{ textAlign: 'left' }}>Method</th>
+      <th style={{ textAlign: 'left' }}>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><b>present()</b></td>
+      <td>
+        <b>present()</b>
+      </td>
       <td>Present the bottom sheet (modal presentation)</td>
     </tr>
     <tr>
-      <td><b>dismiss()</b></td>
+      <td>
+        <b>dismiss()</b>
+      </td>
       <td>Dismiss the bottom sheet completely</td>
     </tr>
     <tr>
-      <td><b>expand()</b></td>
+      <td>
+        <b>expand()</b>
+      </td>
       <td>Expand to the highest snap point</td>
     </tr>
     <tr>
-      <td><b>collapse()</b></td>
+      <td>
+        <b>collapse()</b>
+      </td>
       <td>Collapse to the lowest snap point</td>
     </tr>
     <tr>
-      <td><b>snapToIndex(index: number)</b></td>
+      <td>
+        <b>snapToIndex(index: number)</b>
+      </td>
       <td>Snap to a specific snap point by index</td>
     </tr>
     <tr>
-      <td><b>snapToPosition(position: string | number)</b></td>
+      <td>
+        <b>snapToPosition(position: string | number)</b>
+      </td>
       <td>Snap to a specific position</td>
     </tr>
     <tr>
-      <td><b>forceClose()</b></td>
+      <td>
+        <b>forceClose()</b>
+      </td>
       <td>Force close without animation</td>
     </tr>
   </tbody>
@@ -248,46 +284,33 @@ const MyComponent = () => {
 Always use specialized scrollable components, never regular React Native components:
 
 ```tsx
-import { 
-  BottomSheetView,           // Static content
-  BottomSheetScrollView,      // Scrollable content
-  BottomSheetFlatList,        // Large lists (100+ items)
+import {
+  BottomSheetView, // Static content
+  BottomSheetScrollView, // Scrollable content
+  BottomSheetFlatList, // Large lists (100+ items)
   BottomSheetVirtualizedList, // Custom data access patterns
 } from '@ledgerhq/lumen-ui-rnative';
 
 // Use spacing prop on header when using list components
-<BottomSheet ref={ref} snapPoints="full">
-  <BottomSheetHeader spacing title="List" appearance="compact" />
+<BottomSheet ref={ref} snapPoints='full'>
+  <BottomSheetHeader spacing title='List' appearance='compact' />
   <BottomSheetFlatList data={data} renderItem={renderItem} />
 </BottomSheet>
 ```
 
-### Lifecycle Callbacks: `onClose` vs `onDismiss`
+### Trailing Content (Sticky Header)
 
-The BottomSheet provides two lifecycle callbacks that fire at different stages of the close process:
-
-| Callback | When it fires | Use case |
-|---|---|---|
-| `onClose` | When the sheet **reaches the closed position** (index = -1). Fires during/after the close animation, before the modal is removed from the presentation stack. | UI updates, analytics tracking. |
-| `onDismiss` | When the modal is **fully unmounted** from the presentation stack. Fires after `onClose`. | Queue systems, cleanup that requires the modal to be completely gone before `present()` can be called again. |
-
-> **Important:** If you manage a drawer queue or need to call `present()` on the same (or another) BottomSheet immediately after closing, always use `onDismiss` for your cleanup logic. Using `onClose` in this scenario can cause `present()` to silently fail because the previous modal has not yet been fully removed.
+Use the `trailingContent` prop on `BottomSheetHeader` to render sticky content (e.g., search input, filters) that stays visible while the list scrolls. Always pair it with `spacing` when using list components:
 
 ```tsx
-<BottomSheet
-  ref={bottomSheetRef}
-  snapPoints="full"
-  onClose={() => {
-    // Fires early — good for UI state updates
-    console.log('Sheet is closing');
-  }}
-  onDismiss={() => {
-    // Fires after full unmount — safe to present() another sheet
-    console.log('Sheet is fully dismissed');
-    openNextSheet();
-  }}
->
-  {/* Content */}
+<BottomSheet ref={bottomSheetRef} snapPoints='full'>
+  <BottomSheetHeader
+    spacing
+    title='Search'
+    appearance='compact'
+    trailingContent={<SearchInput placeholder='Search...' />}
+  />
+  <BottomSheetFlatList data={data} renderItem={renderItem} />
 </BottomSheet>
 ```
 

@@ -7,11 +7,11 @@ import { ArrowLeft, Close } from '../../../Symbols';
 import { IconButton } from '../../IconButton';
 import { DialogHeaderProps } from '../types';
 
-const dialogHeaderVariants = cva('flex px-24 text-base', {
+const dialogHeaderVariants = cva('flex flex-col px-24 text-base', {
   variants: {
     appearance: {
-      compact: 'mb-12 h-64 min-h-64 flex-row items-center gap-12',
-      extended: 'flex-col gap-16 pb-12 pt-10',
+      compact: 'mb-12',
+      extended: 'gap-16 pb-12 pt-10',
     },
   },
 });
@@ -100,6 +100,7 @@ const DialogHeaderComponent = React.forwardRef<
       description,
       onClose,
       onBack,
+      trailingContent,
       ...props
     },
     ref,
@@ -107,29 +108,35 @@ const DialogHeaderComponent = React.forwardRef<
     return (
       <div
         ref={ref}
-        className={dialogHeaderVariants({ appearance, className })}
+        className={cn(
+          dialogHeaderVariants({ appearance, className }),
+          trailingContent && appearance === 'compact' && 'mb-0 pb-12',
+        )}
         {...props}
       >
         {appearance === 'compact' && (
           <>
-            {onBack && <BackButton onBack={onBack} />}
-            <div
-              className={cn('flex min-w-0 flex-1 flex-col', {
-                'pl-40': !onBack,
-              })}
-            >
-              {title && (
-                <div className='truncate text-center heading-5-semi-bold'>
-                  {title}
-                </div>
-              )}
-              {description && (
-                <div className='truncate text-center body-2 text-muted'>
-                  {description}
-                </div>
-              )}
+            <div className='flex h-64 min-h-64 flex-row items-center gap-12'>
+              {onBack && <BackButton onBack={onBack} />}
+              <div
+                className={cn('flex min-w-0 flex-1 flex-col', {
+                  'pl-40': !onBack,
+                })}
+              >
+                {title && (
+                  <div className='truncate text-center heading-5-semi-bold'>
+                    {title}
+                  </div>
+                )}
+                {description && (
+                  <div className='truncate text-center body-2 text-muted'>
+                    {description}
+                  </div>
+                )}
+              </div>
+              <CloseButton onClose={onClose} />
             </div>
-            <CloseButton onClose={onClose} />
+            {trailingContent && <div>{trailingContent}</div>}
           </>
         )}
         {appearance === 'extended' && (
@@ -148,6 +155,7 @@ const DialogHeaderComponent = React.forwardRef<
                 )}
               </div>
             )}
+            {trailingContent && <div>{trailingContent}</div>}
           </>
         )}
       </div>

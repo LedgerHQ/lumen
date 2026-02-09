@@ -122,6 +122,10 @@ export type DialogHeaderProps = {
    */
   onBack?: () => void;
   /**
+   * Optional content to display below the header (e.g., search input, tabs).
+   */
+  trailingContent?: ReactNode;
+  /**
    * Additional custom CSS classes to apply.
    */
   className?: string;

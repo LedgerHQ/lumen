@@ -17,10 +17,12 @@ const useStyles = ({
   appearance,
   spacing,
   hidden,
+  hasTrailingContent,
 }: {
   appearance: Appearance;
   spacing: boolean;
   hidden: boolean;
+  hasTrailingContent: boolean;
 }) => {
   return useStyleSheet(
     (t) => ({
@@ -29,12 +31,15 @@ const useStyles = ({
           position: 'relative',
           zIndex: Z_INDEX_DIALOG_CONTENT,
           backgroundColor: t.colors.bg.canvasSheet,
-          paddingBottom: t.spacings.s12,
+          paddingBottom: hasTrailingContent ? t.spacings.s24 : t.spacings.s12,
         },
         spacing && {
           paddingHorizontal: t.spacings.s16,
         },
       ]),
+      trailingContentWrapper: {
+        marginTop: hidden ? 0 : t.spacings.s12,
+      },
       inner: StyleSheet.flatten([
         {
           flexDirection: 'row',
@@ -82,7 +87,7 @@ const useStyles = ({
         height: t.sizes.s32,
       },
     }),
-    [appearance, spacing, hidden],
+    [appearance, spacing, hidden, hasTrailingContent],
   );
 };
 
@@ -93,6 +98,7 @@ export const BottomSheetHeader = ({
   description,
   appearance = 'compact',
   spacing = false,
+  trailingContent,
   ...props
 }: BottomSheetHeaderProps) => {
   const { t } = useCommonTranslation();
@@ -112,10 +118,17 @@ export const BottomSheetHeader = ({
   const styles = useStyles({
     appearance,
     spacing,
-    hidden: !hasIcons && appearance !== 'compact',
+    hidden: !hasIcons && (appearance !== 'compact' || !hasTitleSection),
+    hasTrailingContent: Boolean(trailingContent),
   });
 
-  if (!title && !description && !onBack && hideCloseButton) {
+  if (
+    !title &&
+    !description &&
+    !onBack &&
+    hideCloseButton &&
+    !trailingContent
+  ) {
     return null;
   }
 
@@ -158,6 +171,9 @@ export const BottomSheetHeader = ({
         </Box>
       </Box>
       {appearance === 'expanded' && titleComponent}
+      {trailingContent && (
+        <Box style={styles.trailingContentWrapper}>{trailingContent}</Box>
+      )}
     </Box>
   );
 };

@@ -528,6 +528,7 @@ export const WithListsContent: Story = {
             description='Description content is fixed to the top of the dialog'
             onBack={() => setOpen(false)}
             onClose={() => setOpen(false)}
+            trailingContent={<SearchInput placeholder='Search item...' />}
           />
           <DialogBody className='gap-32'>
             {/* Horizontal Tile List */}
@@ -535,7 +536,7 @@ export const WithListsContent: Story = {
               <h4 className='heading-5-semi-bold'>Quick Actions</h4>
               <div className='-mx-24 flex gap-8 overflow-x-auto px-24'>
                 {Array.from({ length: 12 }).map((_, i) => (
-                  <Tile>
+                  <Tile key={i}>
                     <TileSpot appearance='icon' icon={Apps} />
                     <TileContent>
                       <TileTitle>Action {i + 1}</TileTitle>
@@ -550,11 +551,8 @@ export const WithListsContent: Story = {
               <h4 className='heading-5-semi-bold'>Settings</h4>
 
               <div className='-mx-8 flex flex-col gap-4'>
-                <div className='sticky top-0 bg-canvas py-8'>
-                  <SearchInput className='mx-8' placeholder='Search item...' />
-                </div>
                 {Array.from({ length: 12 }).map((_, i) => (
-                  <ListItem>
+                  <ListItem key={i}>
                     <ListItemLeading>
                       <ListItemSpot appearance='icon' icon={Chart1} />
                       <ListItemContent>
