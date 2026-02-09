@@ -428,7 +428,12 @@ TableLoadingRow.displayName = 'TableLoadingRow';
 export const TableInfoIcon = forwardRef<HTMLButtonElement, TableInfoIconProps>(
   ({ className, ...props }, ref) => {
     return (
-      <InteractiveIcon {...props} iconType='filled' ref={ref}>
+      <InteractiveIcon
+        {...props}
+        iconType='filled'
+        className={className}
+        ref={ref}
+      >
         <Information size={20} />
       </InteractiveIcon>
     );
