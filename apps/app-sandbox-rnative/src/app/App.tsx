@@ -1,5 +1,6 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import {
+  BottomSheetModalProvider,
   Box,
   GlobalSelectBottomSheet,
   GlobalTooltipBottomSheet,
@@ -90,114 +91,116 @@ const AppContent = ({
           backgroundColor: theme.colors.bg.accent,
         }}
       >
-        <ScrollView
-          contentInsetAdjustmentBehavior='automatic'
-          style={{
-            height: '100%',
-            backgroundColor: theme.colors.bg.canvas,
-            paddingHorizontal: theme.spacings.s16,
-          }}
-        >
-          <Box
-            lx={{
-              flexDirection: 'column',
-              gap: 's32',
-              paddingVertical: 's40',
+        <BottomSheetModalProvider>
+          <ScrollView
+            contentInsetAdjustmentBehavior='automatic'
+            style={{
+              height: '100%',
+              backgroundColor: theme.colors.bg.canvas,
+              paddingHorizontal: theme.spacings.s16,
             }}
           >
-            <SandboxBlock title='InteractiveIcons'>
-              <InteractiveIcons />
-            </SandboxBlock>
-            <SandboxBlock title='Select'>
-              <Selects />
-            </SandboxBlock>
-            <SandboxBlock title='Text inputs'>
-              <TextInputs />
-            </SandboxBlock>
-            <SandboxBlock title='Amount displays'>
-              <AmountDisplays />
-            </SandboxBlock>
-            <SandboxBlock title='Amount inputs'>
-              <AmountInputs />
-            </SandboxBlock>
-            <SandboxBlock title='CardButtons'>
-              <CardButtons />
-            </SandboxBlock>
-            <SandboxBlock title='Checkboxes'>
-              <Checkboxes />
-            </SandboxBlock>
-            <SandboxBlock title='Spots'>
-              <Spots />
-            </SandboxBlock>
-            <SandboxBlock title='Tags'>
-              <Tags />
-            </SandboxBlock>
-            <SandboxBlock title='Subheaders'>
-              <Subheaders />
-            </SandboxBlock>
-            <SandboxBlock title='Switches'>
-              <Switches />
-            </SandboxBlock>
-            <SandboxBlock title='Buttons'>
-              <Buttons />
-            </SandboxBlock>
-            <SandboxBlock title='IconButtons'>
-              <IconButtons />
-            </SandboxBlock>
-            <SandboxBlock title='Theme Provider toggles'>
-              <Box lx={{ gap: 's12' }}>
-                <ToggleThemeSwitch
-                  colorScheme={colorScheme}
-                  setColorScheme={setColorScheme}
+            <Box
+              lx={{
+                flexDirection: 'column',
+                gap: 's32',
+                paddingVertical: 's40',
+              }}
+            >
+              <SandboxBlock title='InteractiveIcons'>
+                <InteractiveIcons />
+              </SandboxBlock>
+              <SandboxBlock title='Select'>
+                <Selects />
+              </SandboxBlock>
+              <SandboxBlock title='Text inputs'>
+                <TextInputs />
+              </SandboxBlock>
+              <SandboxBlock title='Amount displays'>
+                <AmountDisplays />
+              </SandboxBlock>
+              <SandboxBlock title='Amount inputs'>
+                <AmountInputs />
+              </SandboxBlock>
+              <SandboxBlock title='CardButtons'>
+                <CardButtons />
+              </SandboxBlock>
+              <SandboxBlock title='Checkboxes'>
+                <Checkboxes />
+              </SandboxBlock>
+              <SandboxBlock title='Spots'>
+                <Spots />
+              </SandboxBlock>
+              <SandboxBlock title='Tags'>
+                <Tags />
+              </SandboxBlock>
+              <SandboxBlock title='Subheaders'>
+                <Subheaders />
+              </SandboxBlock>
+              <SandboxBlock title='Switches'>
+                <Switches />
+              </SandboxBlock>
+              <SandboxBlock title='Buttons'>
+                <Buttons />
+              </SandboxBlock>
+              <SandboxBlock title='IconButtons'>
+                <IconButtons />
+              </SandboxBlock>
+              <SandboxBlock title='Theme Provider toggles'>
+                <Box lx={{ gap: 's12' }}>
+                  <ToggleThemeSwitch
+                    colorScheme={colorScheme}
+                    setColorScheme={setColorScheme}
+                  />
+                  <ToggleLocaleSwitch locale={locale} setLocale={setLocale} />
+                </Box>
+              </SandboxBlock>
+              <SandboxBlock title='Tiles'>
+                <Tiles />
+              </SandboxBlock>
+              <SandboxBlock title='ListItems'>
+                <ListItems />
+              </SandboxBlock>
+              <SandboxBlock title='Tooltips'>
+                <Tooltips />
+              </SandboxBlock>
+              <SandboxBlock title='Banners'>
+                <Banners />
+              </SandboxBlock>
+              <SandboxBlock title='BottomSheets'>
+                <BottomSheetsButton
+                  onPress={() => bottomSheetFlatListsRef.current?.present()}
                 />
-                <ToggleLocaleSwitch locale={locale} setLocale={setLocale} />
-              </Box>
-            </SandboxBlock>
-            <SandboxBlock title='Tiles'>
-              <Tiles />
-            </SandboxBlock>
-            <SandboxBlock title='ListItems'>
-              <ListItems />
-            </SandboxBlock>
-            <SandboxBlock title='Tooltips'>
-              <Tooltips />
-            </SandboxBlock>
-            <SandboxBlock title='Banners'>
-              <Banners />
-            </SandboxBlock>
-            <SandboxBlock title='BottomSheets'>
-              <BottomSheetsButton
-                onPress={() => bottomSheetFlatListsRef.current?.expand()}
-              />
-              <BottomSheetsButton
-                onPress={() => bottomSheetDynamicSizeRef.current?.expand()}
-              />
-            </SandboxBlock>
-            <SandboxBlock title='Link'>
-              <Links />
-            </SandboxBlock>
-            <SandboxBlock title='Dividers'>
-              <Dividers />
-            </SandboxBlock>
-            <SandboxBlock title='Gradients' hideDivider>
-              <Gradients />
-            </SandboxBlock>
+                <BottomSheetsButton
+                  onPress={() => bottomSheetDynamicSizeRef.current?.present()}
+                />
+              </SandboxBlock>
+              <SandboxBlock title='Link'>
+                <Links />
+              </SandboxBlock>
+              <SandboxBlock title='Dividers'>
+                <Dividers />
+              </SandboxBlock>
+              <SandboxBlock title='Gradients' hideDivider>
+                <Gradients />
+              </SandboxBlock>
+            </Box>
+          </ScrollView>
+          <Box
+            lx={{
+              position: 'absolute',
+              bottom: 's20',
+              width: 'full',
+              paddingHorizontal: 's24',
+            }}
+          >
+            <ExampleTabBar />
           </Box>
-        </ScrollView>
-        <Box
-          lx={{
-            position: 'absolute',
-            bottom: 's20',
-            width: 'full',
-            paddingHorizontal: 's24',
-          }}
-        >
-          <ExampleTabBar />
-        </Box>
-        <BottomSheetFlatLists ref={bottomSheetFlatListsRef} />
-        <BottomSheetDynamicSize ref={bottomSheetDynamicSizeRef} />
-        <GlobalTooltipBottomSheet />
-        <GlobalSelectBottomSheet />
+          <BottomSheetFlatLists ref={bottomSheetFlatListsRef} />
+          <BottomSheetDynamicSize ref={bottomSheetDynamicSizeRef} />
+          <GlobalTooltipBottomSheet />
+          <GlobalSelectBottomSheet />
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaView>
   );

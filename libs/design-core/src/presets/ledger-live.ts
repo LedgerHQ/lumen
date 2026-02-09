@@ -8,6 +8,7 @@ import {
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
+  createScrollbarPlugin,
 } from '../utils/index.js';
 
 export const ledgerLivePreset: Config = {
@@ -28,6 +29,7 @@ export const ledgerLivePreset: Config = {
     createGradientPlugin(ledgerLiveCSSTheme),
     createShadowPlugin(),
     createAnimationsPlugin(),
+    createScrollbarPlugin(),
   ],
   darkMode: 'class',
 };

@@ -46,6 +46,21 @@
           }
         }
       },
+      "sheet-transparent": {
+        "$type": "color",
+        "$value": "{color.background.canvas.sheet-transparent}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
       "overlay": {
         "$type": "color",
         "$value": "{color.background.canvas.overlay}",
@@ -112,7 +127,9 @@
               "FRAME_FILL",
               "SHAPE_FILL"
             ],
-            "codeSyntax": {}
+            "codeSyntax": {
+              "WEB": "var(--background-surface);"
+            }
           }
         }
       },
@@ -175,7 +192,7 @@
               "SHAPE_FILL"
             ],
             "codeSyntax": {
-              "WEB": "var(--color-background-muted-transparent);"
+              "WEB": "var(--surface-transparent);"
             }
           }
         }
@@ -284,8 +301,8 @@
           "com.figma": {
             "hiddenFromPublishing": false,
             "scopes": [
-              "FRAME_FILL",
-              "SHAPE_FILL"
+              "ALL_FILLS",
+              "EFFECT_COLOR"
             ],
             "codeSyntax": {
               "WEB": "var(--background-base-transparent);"

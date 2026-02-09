@@ -1,4 +1,7 @@
-import GorghomBottomSheet, { SNAP_POINT_TYPE } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModal as GorhomBottomSheetModal,
+  SNAP_POINT_TYPE,
+} from '@gorhom/bottom-sheet';
 import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
@@ -76,8 +79,8 @@ const BottomSheet = ({
   ...props
 }: BottomSheetProps) => {
   // ref
-  const innerRef = useRef<GorghomBottomSheet>(null);
-  const mergedRefs = useMergedRef<GorghomBottomSheet>(ref, innerRef);
+  const innerRef = useRef<GorhomBottomSheetModal>(null);
+  const mergedRefs = useMergedRef<GorhomBottomSheetModal>(ref, innerRef);
   const [isOpen, setIsOpen] = useState(false);
 
   const styles = useStyles({ shadow: hideBackdrop && isOpen });
@@ -157,39 +160,38 @@ const BottomSheet = ({
   );
 
   return (
-    <BottomSheetProvider value={{ onBack, hideCloseButton }}>
-      <GorghomBottomSheet
-        {...props}
-        ref={mergedRefs}
-        style={styles.root}
-        backgroundStyle={styles.background}
-        onChange={handleChange}
-        onAnimate={handleAnimate}
-        /**
-         * Configuration
-         */
-        snapPoints={computedSnapPoints}
-        enableDynamicSizing={enableDynamicSizing}
-        detached={detached}
-        enableHandlePanningGesture={enableHandlePanningGesture}
-        overDragResistanceFactor={2.5}
-        enablePanDownToClose={enablePanDownToClose}
-        maxDynamicContentSize={computedMaxDynamicContentSize}
-        /**
-         * Keyboard
-         */
-        enableBlurKeyboardOnGesture={enableBlurKeyboardOnGesture}
-        keyboardBehavior='extend'
-        /**
-         * Components
-         */
-        handleComponent={CustomHandle}
-        backdropComponent={hideBackdrop ? undefined : renderBackdrop}
-        index={-1}
-      >
+    <GorhomBottomSheetModal
+      {...props}
+      ref={mergedRefs}
+      style={styles.root}
+      backgroundStyle={styles.background}
+      onChange={handleChange}
+      onAnimate={handleAnimate}
+      /**
+       * Configuration
+       */
+      snapPoints={computedSnapPoints}
+      enableDynamicSizing={enableDynamicSizing}
+      detached={detached}
+      enableHandlePanningGesture={enableHandlePanningGesture}
+      overDragResistanceFactor={2.5}
+      enablePanDownToClose={enablePanDownToClose}
+      maxDynamicContentSize={computedMaxDynamicContentSize}
+      /**
+       * Keyboard
+       */
+      enableBlurKeyboardOnGesture={enableBlurKeyboardOnGesture}
+      keyboardBehavior='extend'
+      /**
+       * Components
+       */
+      handleComponent={CustomHandle}
+      backdropComponent={hideBackdrop ? undefined : renderBackdrop}
+    >
+      <BottomSheetProvider value={{ onBack, hideCloseButton }}>
         {children}
-      </GorghomBottomSheet>
-    </BottomSheetProvider>
+      </BottomSheetProvider>
+    </GorhomBottomSheetModal>
   );
 };
 BottomSheet.displayName = 'BottomSheet';

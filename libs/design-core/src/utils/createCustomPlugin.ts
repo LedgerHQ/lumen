@@ -391,3 +391,16 @@ export function createShadowPlugin(): TailwindPlugin {
     );
   });
 }
+
+export function createScrollbarPlugin(): TailwindPlugin {
+  return plugin(function ({ addUtilities }) {
+    addUtilities({
+      '.scrollbar-none': {
+        'scrollbar-width': 'none',
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      },
+    });
+  });
+}

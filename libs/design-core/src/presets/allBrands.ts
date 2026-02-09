@@ -8,6 +8,7 @@ import {
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
+  createScrollbarPlugin,
 } from '../utils/index.js';
 
 export const allBrandsPreset: Config = {
@@ -28,6 +29,7 @@ export const allBrandsPreset: Config = {
     createGradientPlugin(allBrandsCSSTheme),
     createShadowPlugin(),
     createAnimationsPlugin(),
+    createScrollbarPlugin(),
   ],
   darkMode: 'class',
 };

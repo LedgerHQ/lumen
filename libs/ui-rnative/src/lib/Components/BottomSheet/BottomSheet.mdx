@@ -99,7 +99,25 @@ Set both properties:
 ## Setup
 
 Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
-BottomSheet is built on top of [@gorhom/bottom-sheet v5](https://gorhom.dev/react-native-bottom-sheet/).  
+BottomSheet is built on top of [@gorhom/bottom-sheet v5](https://gorhom.dev/react-native-bottom-sheet/).
+
+### Required Provider
+
+`BottomSheetModalProvider` must be placed **inside** `GestureHandlerRootView` in your app:
+
+```tsx
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@ledgerhq/lumen-ui-rnative';
+
+// Inside your app, after GestureHandlerRootView
+<GestureHandlerRootView style={{ flex: 1 }}>
+  <BottomSheetModalProvider>
+    {/* Your app content and BottomSheet components */}
+  </BottomSheetModalProvider>
+</GestureHandlerRootView>
+```
+
+> **Note:** The provider must be inside `GestureHandlerRootView` because BottomSheet uses gestures for drag and swipe interactions.  
 
 ### Basic Usage
 
@@ -112,7 +130,7 @@ function MyComponent() {
 
   return (
     <>
-      <Button onPress={() => bottomSheetRef.current?.expand()}>
+      <Button onPress={() => bottomSheetRef.current?.present()}>
         Open Bottom Sheet
       </Button>
 
@@ -155,9 +173,9 @@ The `useBottomSheet` hook provides a typed ref for programmatic control inside o
 import { useBottomSheet } from '@ledgerhq/lumen-ui-rnative';
 
 const Content = () => {
-  const { expand } = useBottomSheet();
+  const { snapToIndex } = useBottomSheet();
   return (
-    <Pressable onPress={expand}>Content</Pressable>
+    <Pressable onPress={() => snapToIndex(1)}>Expand to next snap point</Pressable>
   );
 };
 
@@ -181,16 +199,20 @@ const MyComponent = () => {
   </thead>
   <tbody>
     <tr>
+      <td><b>present()</b></td>
+      <td>Present the bottom sheet (modal presentation)</td>
+    </tr>
+    <tr>
+      <td><b>dismiss()</b></td>
+      <td>Dismiss the bottom sheet completely</td>
+    </tr>
+    <tr>
       <td><b>expand()</b></td>
       <td>Expand to the highest snap point</td>
     </tr>
     <tr>
       <td><b>collapse()</b></td>
       <td>Collapse to the lowest snap point</td>
-    </tr>
-    <tr>
-      <td><b>close()</b></td>
-      <td>Close the bottom sheet completely</td>
     </tr>
     <tr>
       <td><b>snapToIndex(index: number)</b></td>
@@ -296,8 +318,8 @@ import {
 ```tsx
 const bottomSheetRef = useBottomSheetRef();
 
-bottomSheetRef.current?.expand();
-bottomSheetRef.current?.close();
+bottomSheetRef.current?.present();
+bottomSheetRef.current?.dismiss();
 ```
 
     </DoBlockItem>
@@ -310,8 +332,8 @@ bottomSheetRef.current?.close();
 ```tsx
 const bottomSheetRef = useBottomSheetRef();
 
-bottomSheetRef.current.expand();
-bottomSheetRef.current.close();
+bottomSheetRef.current.present();
+bottomSheetRef.current.dismiss();
 ```
 
     </DontBlockItem>

@@ -238,7 +238,44 @@ const InteractiveList = () => (
 - Import compound components together: `Select, SelectTrigger, SelectContent, SelectItem, SelectItemText`
 - Example: `import { Button, Banner, Tag } from '@ledgerhq/lumen-ui-react'`
 
+### Available Components
+
+Below is a complete list of all available Lumen components. Click any component name to view its documentation and interactive examples in Storybook.
+
+- [AddressInput](https://ldls.vercel.app/?path=/docs/input-addressinput--docs) - Input field for cryptocurrency addresses
+- [AmountDisplay](https://ldls.vercel.app/?path=/docs/communication-amountdisplay--docs) - Display formatted amounts with currency
+- [AmountInput](https://ldls.vercel.app/?path=/docs/input-amountinput--docs) - Input field for amount values
+- [Banner](https://ldls.vercel.app/?path=/docs/communication-banner--docs) - Alert and notification banners
+- [Button](https://ldls.vercel.app/?path=/docs/action-button--docs) - Primary action button component
+- [CardButton](https://ldls.vercel.app/?path=/docs/action-cardbutton--docs) - Card-style interactive button
+- [Checkbox](https://ldls.vercel.app/?path=/docs/selection-checkbox--docs) - Checkbox input for selections
+- [Dialog](https://ldls.vercel.app/?path=/docs/containment-dialog--docs) - Modal dialog and sheet component
+- [Divider](https://ldls.vercel.app/?path=/docs/layout-divider--docs) - Visual separator line
+- [Icon](https://ldls.vercel.app/?path=/docs/symbols-interface-icons--docs) - Interface icon components
+- [IconButton](https://ldls.vercel.app/?path=/docs/action-iconbutton--docs) - Button with icon only
+- [InteractiveIcon](https://ldls.vercel.app/?path=/docs/action-interactiveicon--docs) - Interactive icon with states
+- [Link](https://ldls.vercel.app/?path=/docs/action-link--docs) - Hyperlink component
+- [ListItem](https://ldls.vercel.app/?path=/docs/containment-listitem--docs) - List item with flexible composition
+- [Menu](https://ldls.vercel.app/?path=/docs/selection-menu--docs) - Dropdown menu component
+- [NavBar](https://ldls.vercel.app/?path=/docs/navigation-navbar--docs) - Top navigation bar
+- [SearchInput](https://ldls.vercel.app/?path=/docs/input-searchinput--docs) - Search input field
+- [Select](https://ldls.vercel.app/?path=/docs/selection-select--docs) - Dropdown select component
+- [SideBar](https://ldls.vercel.app/?path=/docs/navigation-sidebar--docs) - Side navigation panel
+- [Skeleton](https://ldls.vercel.app/?path=/docs/communication-skeleton--docs) - Loading placeholder skeleton
+- [Spinner](https://ldls.vercel.app/?path=/docs/communication-spinner--docs) - Loading spinner indicator
+- [Spot](https://ldls.vercel.app/?path=/docs/communication-spot--docs) - Icon container with background
+- [Stepper](https://ldls.vercel.app/?path=/docs/feedback-stepper--docs) - Multi-step progress indicator
+- [Subheader](https://ldls.vercel.app/?path=/docs/communication-subheader--docs) - Section subheader component
+- [Switch](https://ldls.vercel.app/?path=/docs/selection-switch--docs) - Toggle switch component
+- [Tag](https://ldls.vercel.app/?path=/docs/communication-tag--docs) - Label and tag component
+- [TextInput](https://ldls.vercel.app/?path=/docs/input-textinput--docs) - Text input field
+- [Tile](https://ldls.vercel.app/?path=/docs/containment-tile--docs) - Content container tile
+- [TileButton](https://ldls.vercel.app/?path=/docs/action-tilebutton--docs) - Interactive tile button
+- [Tooltip](https://ldls.vercel.app/?path=/docs/communication-tooltip--docs) - Tooltip overlay component
+
 ### Icons
+
+[View all available icons in Storybook →](https://ldls.vercel.app/?path=/docs/symbols-interface-icons--docs)
 
 - Always import icons from `/symbols` entry point
 - Import: `import { ArrowRight, CheckCircle } from '@ledgerhq/lumen-ui-react/symbols'`

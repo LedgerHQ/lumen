@@ -38,9 +38,9 @@ export const GlobalTooltipBottomSheet: React.FC = () => {
 
   useEffect(() => {
     if (currentTooltip) {
-      bottomSheetRef.current?.expand();
+      bottomSheetRef.current?.present();
     } else {
-      bottomSheetRef.current?.close();
+      bottomSheetRef.current?.dismiss();
     }
   }, [currentTooltip, bottomSheetRef]);
 

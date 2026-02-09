@@ -47,7 +47,7 @@ figma.connect(
     imports: ["import { AmountInput } from '@ledgerhq/lumen-ui-react'"],
     variant: { type: 'crypto' },
     props: {
-      value: figma.string('crypto-amout'),
+      value: figma.string('crypto-amount'),
       currencyText: figma.string('crypto'),
       disabled: figma.enum('state', {
         disabled: true,
