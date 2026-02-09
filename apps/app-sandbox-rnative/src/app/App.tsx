@@ -44,6 +44,7 @@ import {
   Gradients,
   ExampleTabBar,
   Subheaders,
+  Avatars,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 
@@ -127,6 +128,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Checkboxes'>
                 <Checkboxes />
+              </SandboxBlock>
+              <SandboxBlock title='Avatar'>
+                <Avatars />
               </SandboxBlock>
               <SandboxBlock title='Spots'>
                 <Spots />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import { useCommonTranslation } from 'src/i18n';
+import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
 import { Box } from '../Utility';
