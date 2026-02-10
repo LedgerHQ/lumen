@@ -16,7 +16,7 @@ export function createSafeContext<ContextValue extends object>(
       Object.values(context ?? {}),
     ) as ContextValue;
 
-    return <Context.Provider value={memoValue}>{children}</Context.Provider>;
+    return <Context value={memoValue}>{children}</Context>;
   };
 
   Provider.displayName = rootComponentName + 'Provider';
