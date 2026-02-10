@@ -47,7 +47,7 @@ const SelectTrigger = ({
   label,
   ...props
 }: SelectTriggerProps & {
-  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Trigger>>;
+  ref?: React.Ref<React.ComponentRef<typeof SelectPrimitive.Trigger>>;
 }) => (
   <SelectPrimitive.Trigger
     ref={ref}
@@ -122,7 +122,7 @@ const SelectContent = ({
   position = 'popper',
   ...props
 }: SelectContentProps & {
-  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Content>>;
+  ref?: React.Ref<React.ComponentRef<typeof SelectPrimitive.Content>>;
 }) => (
   <SelectPrimitive.Portal data-slot='select-portal'>
     <SelectPrimitive.Content
@@ -147,7 +147,7 @@ const SelectLabel = ({
   className,
   ...props
 }: SelectLabelProps & {
-  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Label>>;
+  ref?: React.Ref<React.ComponentRef<typeof SelectPrimitive.Label>>;
 }) => (
   <SelectPrimitive.Label
     ref={ref}
@@ -174,7 +174,7 @@ const SelectItem = ({
   children,
   ...props
 }: SelectItemProps & {
-  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Item>>;
+  ref?: React.Ref<React.ComponentRef<typeof SelectPrimitive.Item>>;
 }) => (
   <SelectPrimitive.Item
     ref={ref}
@@ -208,7 +208,7 @@ const SelectItemText = ({
   className,
   ...props
 }: SelectItemTextProps & {
-  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.ItemText>>;
+  ref?: React.Ref<React.ComponentRef<typeof SelectPrimitive.ItemText>>;
 }) => (
   <SelectPrimitive.ItemText
     ref={ref}

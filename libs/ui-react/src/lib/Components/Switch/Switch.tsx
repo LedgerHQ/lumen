@@ -68,7 +68,7 @@ export const Switch = ({
   size = 'md',
   ...props
 }: SwitchProps & {
-  ref?: React.Ref<React.ElementRef<typeof SwitchPrimitive.Root>>;
+  ref?: React.Ref<React.ComponentRef<typeof SwitchPrimitive.Root>>;
 }) => (
   <SwitchPrimitive.Root
     ref={ref}
