@@ -267,6 +267,21 @@ describe('BottomSheet', () => {
       expect(onBackdropPress).not.toHaveBeenCalled();
     });
 
+    it('accepts onDismiss callback', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const onDismiss = jest.fn();
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet onDismiss={onDismiss} testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      // Component should render without errors and forward onDismiss
+      const element = getByTestId('bottom-sheet');
+      expect(element.props['data-on-dismiss']).toBe('true');
+      expect(onDismiss).not.toHaveBeenCalled();
+    });
+
     it('accepts multiple callbacks simultaneously', () => {
       const { BottomSheet } = require('./BottomSheet');
       const onOpen = jest.fn();
