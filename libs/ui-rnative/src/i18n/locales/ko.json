@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "QR 코드 스캔"
     },
+    "avatar": {
+      "defaultAlt": "사용자 아바타",
+      "notificationAriaLabel": "알림 있음"
+    },
     "baseInput": {
       "clearInputAriaLabel": "입력 값 지우기"
     },

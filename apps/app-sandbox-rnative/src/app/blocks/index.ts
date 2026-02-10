@@ -1,5 +1,6 @@
 export * from './AmountDisplays';
 export * from './AmountInputs';
+export * from './Avatars';
 export * from './BottomSheets';
 export * from './Buttons';
 export * from './Checkboxes';
