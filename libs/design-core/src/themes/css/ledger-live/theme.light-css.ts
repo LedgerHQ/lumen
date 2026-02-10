@@ -343,7 +343,6 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-discover-mercuryo': 'var(--color-light-discover-mercuryo)',
     '--color-discover-juno': 'var(--color-light-discover-juno)',
     '--color-discover-sardine': 'var(--color-light-discover-sardine)',
-    '--utility-is-dark': false,
     '--background-canvas': 'var(--color-background-canvas)',
     '--background-canvas-muted': 'var(--color-background-canvas-muted)',
     '--background-canvas-sheet': 'var(--color-background-canvas-sheet)',

@@ -6,7 +6,6 @@
   --color-background-success-strong: #47883a;
   --color-background-native: #f7f7f7;
   --color-text-native: #007aff;
-  --utility-is-dark: false; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-light-grey-050);
   --color-background-canvas-muted: var(--color-light-grey-100);
   --color-background-canvas-sheet: var(--color-light-grey-050);
