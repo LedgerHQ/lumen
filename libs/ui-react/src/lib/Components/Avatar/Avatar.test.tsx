@@ -97,7 +97,7 @@ describe('Avatar Component', () => {
     expect(img).toHaveAttribute('aria-label', 'components.avatar.defaultAlt');
   });
 
-  it('should use custom aria-label text when provided', () => {
+  it('should use custom alt text when provided', () => {
     render(<Avatar src={validSrc} alt='User profile picture' />);
 
     const img = screen.getByRole('img');
