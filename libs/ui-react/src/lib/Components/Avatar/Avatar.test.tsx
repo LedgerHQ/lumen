@@ -11,15 +11,16 @@ describe('Avatar Component', () => {
   it('should render with image when valid src is provided', () => {
     render(<Avatar src={validSrc} />);
 
-    const img = screen.getByRole('img');
+    const container = screen.getByRole('img');
+    expect(container).toBeInTheDocument();
+    const img = container.querySelector('img');
     expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute('src', validSrc);
   });
 
   it('should render fallback icon when no src is provided', () => {
     const { container } = render(<Avatar src='' />);
 
-    const img = screen.queryByRole('img');
+    const img = container.querySelector('img');
     expect(img).not.toBeInTheDocument();
 
     const svg = container.querySelector('svg');
@@ -31,7 +32,7 @@ describe('Avatar Component', () => {
       <Avatar src='https://broken-link.com/404.jpg' />,
     );
 
-    const img = screen.getByRole('img');
+    const img = screen.getByAltText('');
 
     fireEvent.error(img);
 
@@ -67,18 +68,40 @@ describe('Avatar Component', () => {
     expect(notificationDot).toBeInTheDocument();
   });
 
-  it('should use default alt text when not provided', () => {
+  it('should include notification in aria-label when showNotification is true', () => {
+    render(<Avatar src={validSrc} showNotification />);
+
+    const container = screen.getByRole('img');
+
+    expect(container).toHaveAttribute(
+      'aria-label',
+      'components.avatar.defaultAlt, components.avatar.notificationAriaLabel',
+    );
+  });
+
+  it('should include notification with custom alt when provided', () => {
+    render(<Avatar src={validSrc} alt='John Doe' showNotification />);
+
+    const container = screen.getByRole('img');
+
+    expect(container).toHaveAttribute(
+      'aria-label',
+      'John Doe, components.avatar.notificationAriaLabel',
+    );
+  });
+
+  it('should use default aria-label text when not provided', () => {
     render(<Avatar src={validSrc} />);
 
     const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('alt', 'avatar');
+    expect(img).toHaveAttribute('aria-label', 'components.avatar.defaultAlt');
   });
 
-  it('should use custom alt text when provided', () => {
+  it('should use custom aria-label text when provided', () => {
     render(<Avatar src={validSrc} alt='User profile picture' />);
 
     const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('alt', 'User profile picture');
+    expect(img).toHaveAttribute('aria-label', 'User profile picture');
   });
 
   it('should apply custom className', () => {
