@@ -186,7 +186,9 @@ export const ResponsiveLayout: Story = {
           <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>
-                Asset name that is very long and should be truncated
+                <span className='truncate'>
+                  Asset name that is very long and should be truncated
+                </span>
               </TableHeaderCell>
               <TableHeaderCell align='end'>Price</TableHeaderCell>
               <TableHeaderCell hideBelow='lg' align='end'>
@@ -341,16 +343,33 @@ export const WithCustomHeader: Story = {
                     Asset
                   </TableSortButton>
                 </TableHeaderCell>
-                <TableHeaderCell align='end'>
-                  <span className='truncate'>Market cap</span>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <TableInfoIcon />
-                    </TooltipTrigger>
-                    <TooltipContent>Total market capitalization</TooltipContent>
-                  </Tooltip>
-                </TableHeaderCell>
-                <TableHeaderCell align='end'>
+                <TableHeaderCell
+                  align='end'
+                  children='Market cap long text that should be truncated'
+                  trailingContent={
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <TableInfoIcon />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Total market capitalization
+                      </TooltipContent>
+                    </Tooltip>
+                  }
+                />
+                <TableHeaderCell
+                  align='end'
+                  trailingContent={
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <TableInfoIcon />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Total market capitalization
+                      </TooltipContent>
+                    </Tooltip>
+                  }
+                >
                   <TableSortButton
                     sortDirection={priceSortDirection}
                     onToggleSort={setPriceSortDirection}

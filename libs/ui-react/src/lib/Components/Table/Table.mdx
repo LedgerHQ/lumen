@@ -22,18 +22,6 @@ The Table component provides a structured way to display tabular data with suppo
 
 <Canvas of={TableStories.Base} />
 
-The Table is composed of the following sub-components:
-
-- **TableRoot**: Outer scroll container with appearance variants and scroll handling
-- **Table**: HTML `<table>` wrapper with `table-fixed` layout
-- **TableHeader / TableHeaderRow / TableHeaderCell**: Header structure with sticky positioning
-- **TableBody / TableRow / TableCell**: Body structure with responsive hiding and alignment
-- **TableCellContent**: Structured cell layout with optional leading icon, title, and description
-- **TableSortButton**: Sortable header button with ascending/descending indicators
-- **TableInfoIcon**: Information icon for header tooltips
-- **TableActionBar / TableActionBarLeading / TableActionBarTrailing**: Controls above the table
-- **TableLoadingRow**: Loading indicator for infinite scroll
-
 <Controls of={TableStories.Base} />
 
 ## Properties
@@ -49,7 +37,9 @@ The `TableRoot` component supports two appearance modes:
 
 ### Responsive Layout
 
-Columns can be hidden below specific breakpoints using the `hideBelow` prop on both `TableHeaderCell` and `TableCell`. Make sure to apply `hideBelow` to matching header and body cells so they stay in sync. Long header text is automatically truncated with ellipsis.
+Columns can be hidden below specific breakpoints using the `hideBelow` prop on both `TableHeaderCell` and `TableCell`.  
+Make sure to apply `hideBelow` to matching header and body cells so they stay in sync.  
+Long header text should be wrapped into a non-flex element with `truncate` classname.
 
 <Canvas of={TableStories.ResponsiveLayout} />
 
@@ -61,13 +51,20 @@ Set `clickable` on `TableRow` to enable hover and active background states, and 
 
 ### Custom Header
 
-Header cells can combine `TableSortButton` for sortable columns and `TableInfoIcon` (wrapped in a `Tooltip`) for contextual information. When a column has both a sort control and an info icon, place them as siblings inside `TableHeaderCell`. Use the `align` prop on `TableSortButton` to match the cell alignment (e.g. `align="right"` for numeric columns).
+Sorting controls can be defined using `TableSortButton` that will be shown on hover.  
+Make sure to match the `TableSortButton` alignment with the cell one.  
+Additional content can be defined using the `trailingContent` prop of the `TableHeaderCell`.  
+
 
 <Canvas of={TableStories.WithCustomHeader} />
 
 ### Infinite Loading
 
-Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom. Set `isLoading` to `true` while fetching to prevent duplicate calls. Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot` -- it only renders when `isLoading` is true. A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
+Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom.  
+Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicate calls.  
+
+Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot`, it only renders when `loading` is true.  
+A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />
 
@@ -80,7 +77,8 @@ Be sure to define the `colSpan` property to match the total number of columns in
 
 ### Action Bar
 
-The `TableActionBar` sits above the table and splits into `TableActionBarLeading` (left-aligned, typically search/filter) and `TableActionBarTrailing` (right-aligned, typically export/action buttons). It is rendered outside `TableRoot` so it doesn't scroll with the table content.
+The `TableActionBar` sits above the table and splits into `TableActionBarLeading` and `TableActionBarTrailing`.  
+It is rendered outside `TableRoot` so it doesn't scroll with the table content.
 
 <Canvas of={TableStories.WithActionBar} />
 
@@ -189,12 +187,12 @@ import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-reac
 
 ### Infinite Scroll
 
-Use `onScrollBottom` and `isLoading` on `TableRoot`, with `TableLoadingRow` at the bottom:
+Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the bottom:
 
 ```tsx
 <TableRoot
   className='h-480'
-  isLoading={isLoading}
+  loading={loading}
   onScrollBottom={loadMore}
 >
   <Table>

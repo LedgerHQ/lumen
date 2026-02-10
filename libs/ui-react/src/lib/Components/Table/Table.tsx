@@ -208,10 +208,19 @@ export const TableGroupHeaderRow = forwardRef<
   HTMLTableRowElement,
   TableGroupHeaderRowProps
 >(({ children, className, colSpan = 1, ...props }, ref) => {
+  const { appearance } = useTableContext({
+    consumerName: 'TableGroupHeaderRow',
+    contextRequired: true,
+  });
   return (
     <tr ref={ref} className={cn('h-40', className)} {...props}>
       <td colSpan={colSpan}>
-        <div className='flex h-32 w-full items-center rounded-sm bg-muted px-12 body-3 text-base'>
+        <div
+          className={cn(
+            'flex h-32 w-full items-center bg-muted px-12 body-3 text-base',
+            appearance === 'no-background' && 'rounded-sm',
+          )}
+        >
           {children}
         </div>
       </td>
@@ -308,7 +317,7 @@ export const TableCellContent = forwardRef<
 TableCellContent.displayName = 'TableCellContent';
 
 const headerCellVariants = {
-  root: cva('h-40 truncate p-12 body-3 text-base', {
+  root: cva('group h-40 truncate p-12 body-3 text-base', {
     variants: {
       hideBelow: {
         xs: 'hidden xs:table-cell',
@@ -327,6 +336,9 @@ const headerCellVariants = {
       },
     },
   }),
+  trailingContent: cva(
+    'flex items-center justify-center opacity-0 group-hover:opacity-100',
+  ),
 };
 
 /**
@@ -344,6 +356,7 @@ export const TableHeaderCell = forwardRef<
       scope = 'col',
       hideBelow,
       align = 'start',
+      trailingContent,
       ...props
     },
     ref,
@@ -357,7 +370,12 @@ export const TableHeaderCell = forwardRef<
       >
         <div className='min-w-0'>
           <div className={headerCellVariants.content({ align })}>
-            {children}
+            <span className={cn('truncate', align === 'end' && 'order-1')}>
+              {children}
+            </span>
+            <div className='flex items-center justify-center opacity-0 group-hover:opacity-100'>
+              {trailingContent}
+            </div>
           </div>
         </div>
       </th>

@@ -173,6 +173,11 @@ export type TableHeaderCellProps = {
    */
   children?: ReactNode;
   /**
+   * The trailing content of the header cell
+   * Typically icons or other content, these are shown only on hover.
+   */
+  trailingContent?: ReactNode;
+  /**
    * Custom classname
    */
   className?: string;
