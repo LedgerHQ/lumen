@@ -56,7 +56,7 @@ const usePageIndicator = ({
   const translateX = -offset * DOT_WIDTH;
 
   const firstVisibleIndex = offset;
-  const lastVisibleIndex = offset + MAX_VISIBLE_DOTS - 1;
+  const lastVisibleIndex = offset + visibleDots - 1;
 
   const isActive = useCallback(
     (index: number): boolean => index === currentPage,
