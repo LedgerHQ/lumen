@@ -136,4 +136,59 @@ describe('getStepperCalculations', () => {
       `${result.trackArcLength} ${result.circumference}`,
     );
   });
+
+  describe('currentStep clamping', () => {
+    it('should clamp negative currentStep to 0', () => {
+      const result = getStepperCalculations({
+        ...defaultInput,
+        currentStep: -3,
+      });
+      expect(result.displayLabel).toBe('0/4');
+      expect(result.progress).toBe(0);
+      expect(result.showMinimalDot).toBe(true);
+    });
+
+    it('should clamp currentStep above totalSteps to totalSteps', () => {
+      const result = getStepperCalculations({
+        ...defaultInput,
+        currentStep: 7,
+        totalSteps: 4,
+      });
+      expect(result.displayLabel).toBe('4/4');
+      expect(result.progress).toBe(1);
+      expect(result.showMinimalDot).toBe(false);
+    });
+
+    it('should not affect currentStep within valid range', () => {
+      const result = getStepperCalculations({
+        ...defaultInput,
+        currentStep: 2,
+        totalSteps: 4,
+      });
+      expect(result.displayLabel).toBe('2/4');
+      expect(result.progress).toBe(0.5);
+      expect(result.showMinimalDot).toBe(false);
+    });
+
+    it('should allow currentStep equal to 0', () => {
+      const result = getStepperCalculations({
+        ...defaultInput,
+        currentStep: 0,
+      });
+      expect(result.displayLabel).toBe('0/4');
+      expect(result.progress).toBe(0);
+      expect(result.showMinimalDot).toBe(true);
+    });
+
+    it('should allow currentStep equal to totalSteps', () => {
+      const result = getStepperCalculations({
+        ...defaultInput,
+        currentStep: 4,
+        totalSteps: 4,
+      });
+      expect(result.displayLabel).toBe('4/4');
+      expect(result.progress).toBe(1);
+      expect(result.showMinimalDot).toBe(false);
+    });
+  });
 });

@@ -67,10 +67,11 @@ export const getStepperCalculations = ({
   strokeWidth = 4,
   arcPercentage = 0.75,
 }: StepperCalculationsInput): StepperCalculationsOutput => {
-  const displayLabel =
-    label ?? `${Math.min(currentStep, totalSteps)}/${totalSteps}`;
-  const progress =
-    totalSteps <= 0 ? 0 : Math.min(1, Math.max(0, currentStep / totalSteps));
+  // Clamp currentStep: minimum 0, maximum totalSteps
+  const clampedCurrentStep = Math.min(Math.max(currentStep, 0), totalSteps);
+
+  const displayLabel = label ?? `${clampedCurrentStep}/${totalSteps}`;
+  const progress = totalSteps <= 0 ? 0 : clampedCurrentStep / totalSteps;
 
   // SVG circle geometry
   const r = (size - strokeWidth) / 2;
@@ -83,7 +84,7 @@ export const getStepperCalculations = ({
   const dashOffset = trackArcLength * (1 - progress);
 
   // Minimal dot handling (currentStep <= 0 means "not started")
-  const showMinimalDot = currentStep <= 0;
+  const showMinimalDot = clampedCurrentStep <= 0;
   const progressDashArray = `${trackArcLength} ${circumference}`;
   const progressDashOffset = showMinimalDot ? trackArcLength - 2 : dashOffset;
 
