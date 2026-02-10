@@ -24,13 +24,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {
-    currentPage: 0,
+    currentPage: 1,
     totalPages: 5,
   },
 };
 
 const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const { theme } = useTheme();
 
   return (
@@ -48,7 +48,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
           size='xs'
           accessibilityLabel='Previous page'
           appearance='transparent'
-          onPress={() => setPage((v) => Math.max(0, v - 1))}
+          onPress={() => setPage((v) => Math.max(1, v - 1))}
         />
         <Text
           lx={{ color: 'base', width: 's28', textAlign: 'center' }}
@@ -61,7 +61,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
           size='xs'
           accessibilityLabel='Next page'
           appearance='transparent'
-          onPress={() => setPage((v) => Math.min(totalPages - 1, v + 1))}
+          onPress={() => setPage((v) => Math.min(totalPages, v + 1))}
         />
       </Box>
       <PageIndicator currentPage={page} totalPages={totalPages} />
@@ -71,7 +71,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
 
 export const Interactive: Story = {
   args: {
-    currentPage: 0,
+    currentPage: 1,
     totalPages: 9,
   },
   render: (args) => <InteractiveComponent totalPages={args.totalPages} />,

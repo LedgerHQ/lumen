@@ -192,9 +192,13 @@ export const PageIndicator = ({
   const styles = usePageIndicatorStyles();
   const { theme } = useTheme();
 
+  const currentPageIndex = Math.max(
+    0,
+    Math.min(currentPage - 1, totalPages - 1),
+  );
   const { viewportWidth, stripAnimatedStyle, isActive, isShrunk } =
     usePageIndicator({
-      currentPage,
+      currentPage: currentPageIndex,
       totalPages,
       dotSize: theme.sizes.s6,
       gap: theme.spacings.s4,

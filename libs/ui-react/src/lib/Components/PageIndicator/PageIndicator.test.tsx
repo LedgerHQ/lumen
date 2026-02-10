@@ -9,7 +9,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -20,7 +20,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -32,7 +32,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={3}
         />,
       );
@@ -43,7 +43,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={10}
         />,
       );
@@ -56,7 +56,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -67,7 +67,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={2}
+          currentPage={3}
           totalPages={5}
         />,
       );
@@ -78,7 +78,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={4}
+          currentPage={5}
           totalPages={5}
         />,
       );
@@ -91,7 +91,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={1}
         />,
       );
@@ -102,7 +102,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={2}
         />,
       );
@@ -113,7 +113,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={5}
+          currentPage={6}
           totalPages={20}
         />,
       );
@@ -126,7 +126,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
           className='mt-16'
         />,
@@ -143,7 +143,7 @@ describe('PageIndicator Component', () => {
         <PageIndicator
           ref={ref}
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -155,7 +155,7 @@ describe('PageIndicator Component', () => {
       render(
         <PageIndicator
           data-testid='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
           aria-label='Page indicator'
         />,

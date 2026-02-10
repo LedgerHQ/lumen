@@ -20,7 +20,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -31,7 +31,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -43,7 +43,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={3}
         />,
       );
@@ -55,7 +55,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={10}
         />,
       );
@@ -69,7 +69,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -80,7 +80,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={2}
+          currentPage={3}
           totalPages={5}
         />,
       );
@@ -91,7 +91,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={4}
+          currentPage={5}
           totalPages={5}
         />,
       );
@@ -104,7 +104,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={1}
         />,
       );
@@ -115,7 +115,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={2}
         />,
       );
@@ -126,7 +126,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={5}
+          currentPage={6}
           totalPages={20}
         />,
       );
@@ -139,7 +139,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
           lx={{ marginTop: 's16' }}
         />,
@@ -151,7 +151,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
           style={{ marginTop: 16 }}
         />,
@@ -167,7 +167,7 @@ describe('PageIndicator Component', () => {
         <PageIndicator
           ref={ref}
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
         />,
       );
@@ -178,7 +178,7 @@ describe('PageIndicator Component', () => {
       renderWithProvider(
         <PageIndicator
           testID='page-indicator'
-          currentPage={0}
+          currentPage={1}
           totalPages={5}
           accessibilityLabel='Page indicator'
         />,

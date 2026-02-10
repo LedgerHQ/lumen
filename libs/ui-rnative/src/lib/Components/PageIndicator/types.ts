@@ -2,7 +2,7 @@ import { BoxProps } from '../Utility';
 
 export type PageIndicatorProps = {
   /**
-   * The currently active page index. 0-based (first page is 0, second is 1, etc.).
+   * The currently active page. 1-based (first page is 1, second is 2, etc.).
    */
   currentPage: number;
   /**

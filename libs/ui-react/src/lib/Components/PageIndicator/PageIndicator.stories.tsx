@@ -23,13 +23,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {
-    currentPage: 0,
+    currentPage: 1,
     totalPages: 5,
   },
 };
 
 const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   return (
     <div className='flex w-full flex-col items-center gap-16'>
@@ -39,7 +39,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
           size='xs'
           aria-label='Previous page'
           appearance='transparent'
-          onClick={() => setPage((v) => Math.max(0, v - 1))}
+          onClick={() => setPage((v) => Math.max(1, v - 1))}
         />
         <span className='w-28 text-center heading-2-semi-bold text-base'>
           {page}
@@ -49,7 +49,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
           size='xs'
           aria-label='Next page'
           appearance='transparent'
-          onClick={() => setPage((v) => Math.min(totalPages - 1, v + 1))}
+          onClick={() => setPage((v) => Math.min(totalPages, v + 1))}
         />
       </div>
       <PageIndicator currentPage={page} totalPages={totalPages} />
@@ -59,7 +59,7 @@ const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
 
 export const Interactive: Story = {
   args: {
-    currentPage: 0,
+    currentPage: 1,
     totalPages: 9,
   },
   render: (args) => <InteractiveComponent totalPages={args.totalPages} />,

@@ -33,6 +33,9 @@ The PageIndicator consists of:
 
 ## Properties
 
+- **currentPage**: 1-based page number (first page is 1, second is 2, etc.). Valid range: 1 to totalPages.
+- **totalPages**: Total number of pages.
+
 ### Overview
 
 <div style={{ width: '100%' }}>
@@ -75,7 +78,7 @@ import { PageIndicator } from '@ledgerhq/lumen-ui-rnative';
 import { useState } from 'react';
 
 function MyComponent() {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 5;
 
   return <PageIndicator currentPage={currentPage} totalPages={totalPages} />;
@@ -90,7 +93,7 @@ import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
 function MyComponent() {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const totalPages = 9;
 
   return (
@@ -100,14 +103,14 @@ function MyComponent() {
           icon={ArrowLeft}
           size='xs'
           accessibilityLabel='Previous page'
-          onPress={() => setPage((v) => Math.max(0, v - 1))}
+          onPress={() => setPage((v) => Math.max(1, v - 1))}
         />
         <PageIndicator currentPage={page} totalPages={totalPages} />
         <IconButton
           icon={ArrowRight}
           size='xs'
           accessibilityLabel='Next page'
-          onPress={() => setPage((v) => Math.min(totalPages - 1, v + 1))}
+          onPress={() => setPage((v) => Math.min(totalPages, v + 1))}
         />
       </Box>
     </Box>

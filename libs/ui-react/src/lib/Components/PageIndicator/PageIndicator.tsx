@@ -93,8 +93,12 @@ const usePageIndicator = ({
  */
 export const PageIndicator = forwardRef<HTMLDivElement, PageIndicatorProps>(
   ({ currentPage, totalPages, className, ...props }, ref) => {
+    const currentPageIndex = Math.max(
+      0,
+      Math.min(totalPages - 1, currentPage - 1),
+    );
     const { viewportWidth, translateX, isActive, isShrunk } = usePageIndicator({
-      currentPage,
+      currentPage: currentPageIndex,
       totalPages,
     });
 

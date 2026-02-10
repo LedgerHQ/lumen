@@ -9,7 +9,7 @@ import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
 export const PageIndicators = () => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const totalPages = 9;
   const { theme } = useTheme();
 
@@ -29,7 +29,7 @@ export const PageIndicators = () => {
             size='xs'
             accessibilityLabel='Left'
             appearance='transparent'
-            onPress={() => setPage((v) => Math.max(0, v - 1))}
+            onPress={() => setPage((v) => Math.max(1, v - 1))}
           />
           <Text
             lx={{ color: 'base', width: 's28', textAlign: 'center' }}
@@ -42,7 +42,7 @@ export const PageIndicators = () => {
             size='xs'
             accessibilityLabel='Right'
             appearance='transparent'
-            onPress={() => setPage((v) => Math.min(totalPages - 1, v + 1))}
+            onPress={() => setPage((v) => Math.min(totalPages, v + 1))}
           />
         </Box>
         <PageIndicator currentPage={page} totalPages={totalPages} />
