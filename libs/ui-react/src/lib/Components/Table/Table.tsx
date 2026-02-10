@@ -26,6 +26,7 @@ import {
   TableRootProps,
   TableInfoIconProps,
   TableSortButtonProps,
+  TableGroupHeaderRowProps,
 } from './types';
 import { useThrottledScrollBottom } from './utils/useThrottledScrollBottom';
 
@@ -200,18 +201,40 @@ export const TableHeaderRow = forwardRef<
 });
 TableHeaderRow.displayName = 'TableHeaderRow';
 
+/**
+ * Table Group Header row component. Wraps the HTML `<tr> + <td>` element with header sub-section for a table.
+ */
+export const TableGroupHeaderRow = forwardRef<
+  HTMLTableRowElement,
+  TableGroupHeaderRowProps
+>(({ children, className, colSpan = 1, ...props }, ref) => {
+  return (
+    <tr ref={ref} className={cn('h-40', className)} {...props}>
+      <td colSpan={colSpan}>
+        <div className='flex h-32 w-full items-center rounded-sm bg-muted px-12 body-3 text-base'>
+          {children}
+        </div>
+      </td>
+    </tr>
+  );
+});
+TableGroupHeaderRow.displayName = 'TableGroupHeaderRow';
+
 const cellVariants = {
-  root: cva('h-64 truncate p-12 body-3 text-base', {
-    variants: {
-      hideBelow: {
-        xs: 'hidden xs:table-cell',
-        sm: 'hidden sm:table-cell',
-        md: 'hidden md:table-cell',
-        lg: 'hidden lg:table-cell',
-        xl: 'hidden xl:table-cell',
+  root: cva(
+    'h-64 truncate p-12 body-3 text-base first:rounded-l-md last:rounded-r-md',
+    {
+      variants: {
+        hideBelow: {
+          xs: 'hidden xs:table-cell',
+          sm: 'hidden sm:table-cell',
+          md: 'hidden md:table-cell',
+          lg: 'hidden lg:table-cell',
+          xl: 'hidden xl:table-cell',
+        },
       },
     },
-  }),
+  ),
   inner: cva('flex flex-1 justify-end', {
     variants: {
       align: {
@@ -334,7 +357,7 @@ export const TableHeaderCell = forwardRef<
       >
         <div className='min-w-0'>
           <div className={headerCellVariants.content({ align })}>
-            <span className='min-w-0 truncate'>{children}</span>
+            {children}
           </div>
         </div>
       </th>

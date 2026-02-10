@@ -137,9 +137,29 @@ export type TableHeaderRowProps = {
    */
   children: ReactNode;
   /**
+   * The number of columns to span
+   */
+  colSpan?: number;
+  /**
    * Custom classname
    */
   className?: string;
+} & HTMLAttributes<HTMLTableRowElement>;
+
+export type TableGroupHeaderRowProps = {
+  /**
+   * The group header row content (TableHeaderCell)
+   */
+  children: ReactNode;
+  /**
+   * Custom classname
+   */
+  className?: string;
+  /**
+   * Number of columns the group header row should span.
+   * This property is mandatory and should match the total number of columns in the table.
+   */
+  colSpan: number;
 } & HTMLAttributes<HTMLTableRowElement>;
 
 export type TableHeaderCellProps = {

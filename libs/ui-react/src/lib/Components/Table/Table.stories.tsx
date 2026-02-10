@@ -13,6 +13,7 @@ import {
   TableCell,
   TableHeader,
   TableHeaderRow,
+  TableGroupHeaderRow,
   TableHeaderCell,
   TableSortButton,
   TableActionBar,
@@ -380,6 +381,65 @@ export const WithCustomHeader: Story = {
       </div>
     );
   },
+};
+
+export const WithGroupHeader: Story = {
+  render: (args) => (
+    <div className='w-560 text-base'>
+      <TableActionBar>
+        <TableActionBarLeading>
+          <SearchInput placeholder='Search assets...' />
+        </TableActionBarLeading>
+        <TableActionBarTrailing>
+          <Button appearance='base' size='md'>
+            Export
+          </Button>
+        </TableActionBarTrailing>
+      </TableActionBar>
+
+      <TableRoot {...args}>
+        <Table>
+          <TableHeader>
+            <TableHeaderRow>
+              <TableHeaderCell>Asset</TableHeaderCell>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell align='end'>Change</TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            <TableGroupHeaderRow colSpan={3}>February 2026</TableGroupHeaderRow>
+            {smallData.map((row) => (
+              <TableRow key={row.symbol}>
+                <TableCell>
+                  <TableCellContent
+                    title={row.name}
+                    description={row.symbol}
+                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                  />
+                </TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
+              </TableRow>
+            ))}
+            <TableGroupHeaderRow colSpan={3}>January 2026</TableGroupHeaderRow>
+            {smallData.map((row) => (
+              <TableRow clickable key={row.symbol}>
+                <TableCell>
+                  <TableCellContent
+                    title={row.name}
+                    description={row.symbol}
+                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                  />
+                </TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </div>
+  ),
 };
 
 export const WithActionBar: Story = {

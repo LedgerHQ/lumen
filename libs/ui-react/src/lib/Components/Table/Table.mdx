@@ -65,17 +65,25 @@ Header cells can combine `TableSortButton` for sortable columns and `TableInfoIc
 
 <Canvas of={TableStories.WithCustomHeader} />
 
+### Infinite Loading
+
+Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom. Set `isLoading` to `true` while fetching to prevent duplicate calls. Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot` -- it only renders when `isLoading` is true. A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
+
+<Canvas of={TableStories.WithInfiniteLoading} />
+
+### Group Header
+
+The `TableGroupHeaderRow` sits can be used to group rows together by a date or other category. It is rendered as `<tr>` + `<td>`.
+Be sure to define the `colSpan` property to match the total number of columns in the table.
+
+<Canvas of={TableStories.WithGroupHeader} />
+
 ### Action Bar
 
 The `TableActionBar` sits above the table and splits into `TableActionBarLeading` (left-aligned, typically search/filter) and `TableActionBarTrailing` (right-aligned, typically export/action buttons). It is rendered outside `TableRoot` so it doesn't scroll with the table content.
 
 <Canvas of={TableStories.WithActionBar} />
 
-### Infinite Loading
-
-Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom. Set `isLoading` to `true` while fetching to prevent duplicate calls. Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot` -- it only renders when `isLoading` is true. A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
-
-<Canvas of={TableStories.WithInfiniteLoading} />
 
 ## Accessibility
 
