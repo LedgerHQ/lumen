@@ -1,7 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { IconSize } from '../Icon/types';
 import { Spinner } from '../Spinner';
 import { BaseButtonProps } from './types';
