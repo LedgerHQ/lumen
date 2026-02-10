@@ -1,25 +1,14 @@
-import { describe, expect, it } from '@jest/globals';
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render, screen } from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-
-import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
+import { describe, expect, it } from 'vitest';
 import { PageIndicator } from './PageIndicator';
-
-const renderWithProvider = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-      {component}
-    </ThemeProvider>,
-  );
-};
 
 describe('PageIndicator Component', () => {
   describe('Rendering', () => {
     it('should render with required props', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={5}
         />,
@@ -28,47 +17,45 @@ describe('PageIndicator Component', () => {
     });
 
     it('should have correct accessibility role', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={5}
         />,
       );
       const indicator = screen.getByTestId('page-indicator');
-      expect(indicator.props.accessibilityRole).toBe('none');
+      expect(indicator.getAttribute('role')).toBe('none');
     });
 
     it('should render all dots when totalPages is less than max visible', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={3}
         />,
       );
-      // Should render 3 dots (less than MAX_VISIBLE_DOTS which is 4)
       expect(screen.getByTestId('page-indicator')).toBeTruthy();
     });
 
     it('should render max visible dots when totalPages exceeds max', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={10}
         />,
       );
-      // Should render 10 dots but only 4 visible in viewport
       expect(screen.getByTestId('page-indicator')).toBeTruthy();
     });
   });
 
   describe('Page States', () => {
     it('should render with first page active', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={5}
         />,
@@ -77,9 +64,9 @@ describe('PageIndicator Component', () => {
     });
 
     it('should render with middle page active', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={3}
           totalPages={5}
         />,
@@ -88,9 +75,9 @@ describe('PageIndicator Component', () => {
     });
 
     it('should render with last page active', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={5}
           totalPages={5}
         />,
@@ -101,9 +88,9 @@ describe('PageIndicator Component', () => {
 
   describe('Edge Cases', () => {
     it('should render with single page', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={1}
         />,
@@ -112,9 +99,9 @@ describe('PageIndicator Component', () => {
     });
 
     it('should render with two pages', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={2}
         />,
@@ -123,9 +110,9 @@ describe('PageIndicator Component', () => {
     });
 
     it('should render with many pages', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={6}
           totalPages={20}
         />,
@@ -135,56 +122,46 @@ describe('PageIndicator Component', () => {
   });
 
   describe('Custom Styling', () => {
-    it('should accept lx prop for custom styling', () => {
-      renderWithProvider(
+    it('should accept className prop for custom styling', () => {
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={5}
-          lx={{ marginTop: 's16' }}
+          className='mt-16'
         />,
       );
-      expect(screen.getByTestId('page-indicator')).toBeTruthy();
-    });
-
-    it('should accept style prop for custom styling', () => {
-      renderWithProvider(
-        <PageIndicator
-          testID='page-indicator'
-          currentPage={1}
-          totalPages={5}
-          style={{ marginTop: 16 }}
-        />,
-      );
-      expect(screen.getByTestId('page-indicator')).toBeTruthy();
+      const indicator = screen.getByTestId('page-indicator');
+      expect(indicator).toHaveClass('mt-16');
     });
   });
 
   describe('Props', () => {
     it('should accept ref prop', () => {
-      const ref = React.createRef<React.ElementRef<typeof PageIndicator>>();
-      renderWithProvider(
+      const ref = React.createRef<HTMLDivElement>();
+      render(
         <PageIndicator
           ref={ref}
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={5}
         />,
       );
       expect(screen.getByTestId('page-indicator')).toBeTruthy();
+      expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
 
     it('should accept additional props', () => {
-      renderWithProvider(
+      render(
         <PageIndicator
-          testID='page-indicator'
+          data-testid='page-indicator'
           currentPage={1}
           totalPages={5}
-          accessibilityLabel='Page indicator'
+          aria-label='Page indicator'
         />,
       );
       const indicator = screen.getByTestId('page-indicator');
-      expect(indicator.props.accessibilityLabel).toBe('Page indicator');
+      expect(indicator.getAttribute('aria-label')).toBe('Page indicator');
     });
   });
 });

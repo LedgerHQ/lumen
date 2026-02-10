@@ -61,7 +61,7 @@ When there are more than 4 pages, the indicator automatically shows a sliding wi
 
 ## Accessibility
 
-- The component has `accessibilityRole='none'` as it's a visual indicator
+- The component has `role="none"` as it's a visual indicator
 - Ensure surrounding controls (like navigation buttons) have proper accessibility labels
 
 </Tab>
@@ -74,7 +74,7 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 ## Basic Usage
 
 ```tsx
-import { PageIndicator } from '@ledgerhq/lumen-ui-rnative';
+import { PageIndicator } from '@ledgerhq/lumen-ui-react';
 import { useState } from 'react';
 
 function MyComponent() {
@@ -88,8 +88,8 @@ function MyComponent() {
 ### With Navigation Controls
 
 ```tsx
-import { PageIndicator, IconButton, Box } from '@ledgerhq/lumen-ui-rnative';
-import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { PageIndicator, IconButton } from '@ledgerhq/lumen-ui-react';
+import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-react/symbols';
 import { useState } from 'react';
 
 function MyComponent() {
@@ -97,23 +97,25 @@ function MyComponent() {
   const totalPages = 9;
 
   return (
-    <Box lx={{ gap: 's16', alignItems: 'center' }}>
-      <Box lx={{ flexDirection: 'row', gap: 's16', alignItems: 'center' }}>
+    <div className='flex w-full flex-col items-center gap-16'>
+      <div className='flex flex-row items-center justify-center gap-16'>
         <IconButton
           icon={ArrowLeft}
           size='xs'
-          accessibilityLabel='Previous page'
-          onPress={() => setPage((v) => Math.max(1, v - 1))}
+          aria-label='Previous page'
+          appearance='transparent'
+          onClick={() => setPage((v) => Math.max(1, v - 1))}
         />
         <PageIndicator currentPage={page} totalPages={totalPages} />
         <IconButton
           icon={ArrowRight}
           size='xs'
-          accessibilityLabel='Next page'
-          onPress={() => setPage((v) => Math.min(totalPages, v + 1))}
+          aria-label='Next page'
+          appearance='transparent'
+          onClick={() => setPage((v) => Math.min(totalPages, v + 1))}
         />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 ```

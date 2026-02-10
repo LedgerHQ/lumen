@@ -1,4 +1,4 @@
-import { BoxProps } from '../Utility';
+import { HTMLAttributes } from 'react';
 
 export type PageIndicatorProps = {
   /**
@@ -9,4 +9,4 @@ export type PageIndicatorProps = {
    * The total number of pages to display.
    */
   totalPages: number;
-} & Omit<BoxProps, 'children'>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;

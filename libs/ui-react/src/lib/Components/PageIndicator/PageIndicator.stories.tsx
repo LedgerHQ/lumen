@@ -1,8 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Box, Text, IconButton } from '../';
-import { useTheme } from '../../../styles';
 import { ArrowLeft, ArrowRight } from '../../Symbols';
+import { IconButton } from '../IconButton';
 import { PageIndicator } from './PageIndicator';
 
 const meta = {
@@ -31,41 +30,30 @@ export const Base: Story = {
 
 const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
   const [page, setPage] = useState(1);
-  const { theme } = useTheme();
 
   return (
-    <Box lx={{ gap: 's16', alignItems: 'center', width: 'full' }}>
-      <Box
-        lx={{
-          flexDirection: 'row',
-          gap: 's16',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+    <div className='flex w-full flex-col items-center gap-16'>
+      <div className='flex flex-row items-center justify-center gap-16'>
         <IconButton
           icon={ArrowLeft}
           size='xs'
-          accessibilityLabel='Previous page'
+          aria-label='Previous page'
           appearance='transparent'
-          onPress={() => setPage((v) => Math.max(1, v - 1))}
+          onClick={() => setPage((v) => Math.max(1, v - 1))}
         />
-        <Text
-          lx={{ color: 'base', width: 's28', textAlign: 'center' }}
-          style={{ ...theme.typographies.heading2SemiBold }}
-        >
+        <span className='w-28 text-center heading-2-semi-bold text-base'>
           {page}
-        </Text>
+        </span>
         <IconButton
           icon={ArrowRight}
           size='xs'
-          accessibilityLabel='Next page'
+          aria-label='Next page'
           appearance='transparent'
-          onPress={() => setPage((v) => Math.min(totalPages, v + 1))}
+          onClick={() => setPage((v) => Math.min(totalPages, v + 1))}
         />
-      </Box>
+      </div>
       <PageIndicator currentPage={page} totalPages={totalPages} />
-    </Box>
+    </div>
   );
 };
 
