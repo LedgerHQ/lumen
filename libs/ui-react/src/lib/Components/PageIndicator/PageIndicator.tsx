@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { useCallback, useEffect, useMemo, useRef, forwardRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { PageIndicatorProps } from './types';
 
 const MAX_VISIBLE_DOTS = 4;
@@ -91,52 +91,58 @@ const usePageIndicator = ({
  * Renders a row of dots: the active dot is highlighted, and when there are more pages than visible dots,
  * edge dots shrink and the strip scrolls to keep the current page in view.
  */
-export const PageIndicator = forwardRef<HTMLDivElement, PageIndicatorProps>(
-  ({ currentPage, totalPages, className, ...props }, ref) => {
-    const currentPageIndex = Math.max(
-      0,
-      Math.min(totalPages - 1, currentPage - 1),
-    );
-    const { viewportWidth, translateX, isActive, isShrunk } = usePageIndicator({
-      currentPage: currentPageIndex,
-      totalPages,
-    });
+export const PageIndicator = ({
+  ref,
+  currentPage,
+  totalPages,
+  className,
+  ...props
+}: PageIndicatorProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
+  const currentPageIndex = Math.max(
+    0,
+    Math.min(totalPages - 1, currentPage - 1),
+  );
+  const { viewportWidth, translateX, isActive, isShrunk } = usePageIndicator({
+    currentPage: currentPageIndex,
+    totalPages,
+  });
 
-    const dotIndexes = useMemo(
-      () => Array.from({ length: totalPages }, (_, i) => i),
-      [totalPages],
-    );
+  const dotIndexes = useMemo(
+    () => Array.from({ length: totalPages }, (_, i) => i),
+    [totalPages],
+  );
 
-    return (
+  return (
+    <div
+      ref={ref}
+      role='none'
+      className={cn('flex items-center justify-center', className)}
+      {...props}
+    >
       <div
-        ref={ref}
-        role='none'
-        className={cn('flex items-center justify-center', className)}
-        {...props}
+        className='flex flex-row items-center overflow-hidden'
+        style={{ width: viewportWidth }}
       >
         <div
-          className='flex flex-row items-center overflow-hidden'
-          style={{ width: viewportWidth }}
+          className='flex flex-row items-center gap-4'
+          style={{
+            transform: `translateX(${translateX}px)`,
+            transition: `transform ${ANIMATION_MS}ms ease-out`,
+          }}
         >
-          <div
-            className='flex flex-row items-center gap-4'
-            style={{
-              transform: `translateX(${translateX}px)`,
-              transition: `transform ${ANIMATION_MS}ms ease-out`,
-            }}
-          >
-            {dotIndexes.map((index) => (
-              <PageIndicatorDot
-                key={index}
-                isActive={isActive(index)}
-                isShrunk={isShrunk(index)}
-              />
-            ))}
-          </div>
+          {dotIndexes.map((index) => (
+            <PageIndicatorDot
+              key={index}
+              isActive={isActive(index)}
+              isShrunk={isShrunk(index)}
+            />
+          ))}
         </div>
       </div>
-    );
-  },
-);
+    </div>
+  );
+};
 
 PageIndicator.displayName = 'PageIndicator';

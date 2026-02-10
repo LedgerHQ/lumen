@@ -77,67 +77,63 @@ const iconVariants = cva('shrink-0', {
   },
 });
 
-export const BaseButton = React.forwardRef<HTMLButtonElement, BaseButtonProps>(
-  (
-    {
-      className,
-      appearance = 'base',
-      size,
-      isFull,
-      disabled = false,
-      asChild = false,
-      icon: Icon,
-      loading = false,
-      children,
-      onClick,
-      ...props
-    },
-    ref,
-  ) => {
-    const iconSizeMap: { [key: string]: IconSize } = {
-      xs: 16,
-      sm: 20,
-      md: 24,
-      lg: 24,
-    };
+export const BaseButton = ({
+  ref,
+  className,
+  appearance = 'base',
+  size,
+  isFull,
+  disabled = false,
+  asChild = false,
+  icon: Icon,
+  loading = false,
+  children,
+  onClick,
+  ...props
+}: BaseButtonProps) => {
+  const iconSizeMap: { [key: string]: IconSize } = {
+    xs: 16,
+    sm: 20,
+    md: 24,
+    lg: 24,
+  };
 
-    const calculatedIconSize = size ? iconSizeMap[size] : 24;
-    const Comp = asChild ? Slot : 'button';
+  const calculatedIconSize = size ? iconSizeMap[size] : 24;
+  const Comp = asChild ? Slot : 'button';
 
-    return (
-      <Comp
-        className={cn(
-          baseButtonVariants({ disabled, loading, appearance, size, isFull }),
-          className,
-        )}
-        ref={ref}
-        data-disabled={disabled || undefined}
-        disabled={disabled}
-        onClick={onClick}
-        {...props}
-      >
-        {loading && (
-          <Spinner
-            size={calculatedIconSize}
-            className={iconVariants({ appearance, disabled })}
-          />
-        )}
-        {!loading && Icon && (
-          <Icon
-            size={calculatedIconSize}
-            className={iconVariants({ appearance, disabled })}
-          />
-        )}
+  return (
+    <Comp
+      className={cn(
+        baseButtonVariants({ disabled, loading, appearance, size, isFull }),
+        className,
+      )}
+      ref={ref}
+      data-disabled={disabled || undefined}
+      disabled={disabled}
+      onClick={onClick}
+      {...props}
+    >
+      {loading && (
+        <Spinner
+          size={calculatedIconSize}
+          className={iconVariants({ appearance, disabled })}
+        />
+      )}
+      {!loading && Icon && (
+        <Icon
+          size={calculatedIconSize}
+          className={iconVariants({ appearance, disabled })}
+        />
+      )}
 
-        {children &&
-          (asChild ? (
-            <Slottable>{children}</Slottable>
-          ) : (
-            <span className='line-clamp-2 text-left'>{children}</span>
-          ))}
-      </Comp>
-    );
-  },
-);
+      {children &&
+        (asChild ? (
+          <Slottable>{children}</Slottable>
+        ) : (
+          <span className='line-clamp-2 text-left'>{children}</span>
+        ))}
+    </Comp>
+  );
+};
 
 BaseButton.displayName = 'BaseButton';

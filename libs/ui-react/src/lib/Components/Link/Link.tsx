@@ -73,68 +73,66 @@ const linkVariants = cva(
  * // Note: When using asChild, the child element is responsible for its own content.
  * // Icons and other Link props like 'icon' are ignored when asChild is true - handle these in the child if needed.
  */
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  (
-    {
-      className,
-      children,
-      appearance,
-      size = 'inherit',
-      underline = true,
-      icon,
-      isExternal = false,
-      asChild = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const iconSizeMap: { [key: string]: IconSize } = {
-      sm: 16,
-      md: 20,
-    };
+export const Link = ({
+  ref,
+  className,
+  children,
+  appearance,
+  size = 'inherit',
+  underline = true,
+  icon,
+  isExternal = false,
+  asChild = false,
+  ...props
+}: LinkProps & {
+  ref?: React.Ref<HTMLAnchorElement>;
+}) => {
+  const iconSizeMap: { [key: string]: IconSize } = {
+    sm: 16,
+    md: 20,
+  };
 
-    const calculatedIconSize = size ? iconSizeMap[size] : 20;
-    const IconComponent = icon;
+  const calculatedIconSize = size ? iconSizeMap[size] : 20;
+  const IconComponent = icon;
 
-    const Comp = asChild ? Slot : 'a';
+  const Comp = asChild ? Slot : 'a';
 
-    return (
-      <Comp
-        ref={ref}
-        className={cn(
-          className,
-          linkVariants({
-            appearance,
-            size,
-            underline,
-          }),
-        )}
-        target={isExternal && !asChild ? '_blank' : undefined}
-        rel={isExternal && !asChild ? 'noopener noreferrer' : undefined}
-        {...props}
-      >
-        {asChild ? (
-          children
-        ) : (
-          <>
-            {IconComponent && (
-              <IconComponent size={calculatedIconSize} className='shrink-0' />
-            )}
-            <span className='min-w-0 truncate'>{children}</span>
-            {isExternal && (
-              <>
-                <ExternalLink
-                  size={calculatedIconSize}
-                  className='shrink-0'
-                  aria-hidden='true'
-                />
-                <span className='sr-only'>(opens in a new tab)</span>
-              </>
-            )}
-          </>
-        )}
-      </Comp>
-    );
-  },
-);
+  return (
+    <Comp
+      ref={ref}
+      className={cn(
+        className,
+        linkVariants({
+          appearance,
+          size,
+          underline,
+        }),
+      )}
+      target={isExternal && !asChild ? '_blank' : undefined}
+      rel={isExternal && !asChild ? 'noopener noreferrer' : undefined}
+      {...props}
+    >
+      {asChild ? (
+        children
+      ) : (
+        <>
+          {IconComponent && (
+            <IconComponent size={calculatedIconSize} className='shrink-0' />
+          )}
+          <span className='min-w-0 truncate'>{children}</span>
+          {isExternal && (
+            <>
+              <ExternalLink
+                size={calculatedIconSize}
+                className='shrink-0'
+                aria-hidden='true'
+              />
+              <span className='sr-only'>(opens in a new tab)</span>
+            </>
+          )}
+        </>
+      )}
+    </Comp>
+  );
+};
 Link.displayName = 'Link';

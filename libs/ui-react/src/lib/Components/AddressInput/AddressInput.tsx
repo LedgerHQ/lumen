@@ -60,10 +60,15 @@ import { AddressInputProps } from './types';
  *   }}
  * />
  */
-export const AddressInput = React.forwardRef<
-  HTMLInputElement,
-  AddressInputProps
->(({ prefix = 'To:', suffix, onQrCodeClick, ...props }, ref) => {
+export const AddressInput = ({
+  ref,
+  prefix = 'To:',
+  suffix,
+  onQrCodeClick,
+  ...props
+}: AddressInputProps & {
+  ref?: React.Ref<HTMLInputElement>;
+}) => {
   const { t } = useCommonTranslation();
   // Use custom prefix if provided, otherwise default "To:" prefix
   const effectivePrefix = (
@@ -98,6 +103,6 @@ export const AddressInput = React.forwardRef<
       {...props}
     />
   );
-});
+};
 
 AddressInput.displayName = 'AddressInput';

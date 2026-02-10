@@ -93,10 +93,14 @@ export const SubheaderCount = ({
 /**
  * Info component for the Subheader. Displays an information icon that can be wrapped in a Tooltip.
  */
-export const SubheaderInfo = React.forwardRef<
-  HTMLButtonElement,
-  SubheaderInfoProps
->(({ iconType = 'stroked', className, ...props }, ref) => {
+export const SubheaderInfo = ({
+  ref,
+  iconType = 'stroked',
+  className,
+  ...props
+}: SubheaderInfoProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}) => {
   return (
     <span className='flex shrink-0 items-center'>
       <InteractiveIcon
@@ -110,7 +114,7 @@ export const SubheaderInfo = React.forwardRef<
       </InteractiveIcon>
     </span>
   );
-});
+};
 SubheaderInfo.displayName = 'SubheaderInfo';
 
 /**

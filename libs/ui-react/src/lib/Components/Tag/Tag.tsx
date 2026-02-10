@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { cva, type VariantProps } from 'class-variance-authority';
-import React from 'react';
+import { cva } from 'class-variance-authority';
 import { IconSize } from '../Icon/types';
 import { TagProps } from './types';
 
@@ -33,10 +32,16 @@ const tagVariants = cva(
   },
 );
 
-export const Tag = React.forwardRef<
-  HTMLDivElement,
-  TagProps & VariantProps<typeof tagVariants>
->(({ className, appearance, size, icon, label, disabled, ...props }, ref) => {
+export const Tag = ({
+  ref,
+  className,
+  appearance,
+  size,
+  icon,
+  label,
+  disabled,
+  ...props
+}: TagProps) => {
   const iconSizeMap: { [key: string]: IconSize } = {
     md: 16,
     sm: 12,
@@ -57,6 +62,6 @@ export const Tag = React.forwardRef<
       <span>{label}</span>
     </div>
   );
-});
+};
 
 Tag.displayName = 'Tag';

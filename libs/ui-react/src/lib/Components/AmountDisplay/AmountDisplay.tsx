@@ -34,10 +34,15 @@ import { AmountDisplayProps } from './types';
  * <AmountDisplay value={1234.56} formatter={usdFormatter} hidden={true} />
  * ```
  */
-export const AmountDisplay = React.forwardRef<
-  HTMLDivElement,
-  AmountDisplayProps
->(({ value, formatter, hidden = false, ...props }, ref) => {
+export const AmountDisplay = ({
+  ref,
+  value,
+  formatter,
+  hidden = false,
+  ...props
+}: AmountDisplayProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
   const parts = formatter(value);
 
   return (
@@ -59,6 +64,6 @@ export const AmountDisplay = React.forwardRef<
       </span>
     </div>
   );
-});
+};
 
 AmountDisplay.displayName = 'AmountDisplay';

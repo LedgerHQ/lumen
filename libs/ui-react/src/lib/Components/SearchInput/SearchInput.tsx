@@ -85,29 +85,35 @@ const inputVariants = cva('', {
  *   }}
  * />
  */
-export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ appearance = 'plain', className, inputClassName, ...props }, ref) => {
-    const searchIcon = (
-      <SearchIcon
-        size={20}
-        // Todo: fix gap between search icon and input not showing input-caret on hover
-        // we need to use paddings around the prefix rather then gaps ( radix ui is doing this )
-        className='text-muted group-has-disabled:text-disabled'
-        aria-hidden='true'
-      />
-    );
+export const SearchInput = ({
+  ref,
+  appearance = 'plain',
+  className,
+  inputClassName,
+  ...props
+}: SearchInputProps & {
+  ref?: React.Ref<HTMLInputElement>;
+}) => {
+  const searchIcon = (
+    <SearchIcon
+      size={20}
+      // Todo: fix gap between search icon and input not showing input-caret on hover
+      // we need to use paddings around the prefix rather then gaps ( radix ui is doing this )
+      className='text-muted group-has-disabled:text-disabled'
+      aria-hidden='true'
+    />
+  );
 
-    return (
-      <BaseInput
-        ref={ref}
-        prefix={searchIcon}
-        className={className}
-        containerClassName={containerVariants({ appearance })}
-        inputClassName={cn(inputVariants({ appearance }), inputClassName)}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <BaseInput
+      ref={ref}
+      prefix={searchIcon}
+      className={className}
+      containerClassName={containerVariants({ appearance })}
+      inputClassName={cn(inputVariants({ appearance }), inputClassName)}
+      {...props}
+    />
+  );
+};
 
 SearchInput.displayName = 'SearchInput';

@@ -58,10 +58,13 @@ const checkboxStyles = cn(
  * // With custom styling (layout only)
  * <Checkbox className="mr-8" />
  */
-export const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
-  CheckboxProps
->(({ className, ...props }, ref) => (
+export const Checkbox = ({
+  ref,
+  className,
+  ...props
+}: CheckboxProps & {
+  ref?: React.Ref<React.ElementRef<typeof CheckboxPrimitive.Root>>;
+}) => (
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(checkboxStyles, className)}
@@ -71,6 +74,6 @@ export const Checkbox = React.forwardRef<
       <Check size={16} />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
-));
+);
 
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;

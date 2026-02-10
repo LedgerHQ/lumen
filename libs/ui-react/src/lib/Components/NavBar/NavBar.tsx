@@ -22,14 +22,18 @@ import {
  *
  * <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />} />
  */
-export const NavBarCoinCapsule = React.forwardRef<
-  HTMLDivElement,
-  NavBarCoinCapsuleProps
->(({ ticker, icon, className }, ref) => (
+export const NavBarCoinCapsule = ({
+  ref,
+  ticker,
+  icon,
+  className,
+}: NavBarCoinCapsuleProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => (
   <div className='flex flex-1 items-center' data-slot='navbar-coin-capsule'>
     <CoinCapsule ref={ref} ticker={ticker} icon={icon} className={className} />
   </div>
-));
+);
 NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
 
 /**
@@ -38,10 +42,14 @@ NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
  * @example
  * <NavBarBackButton onClick={() => navigate(-1)} />
  */
-export const NavBarBackButton = React.forwardRef<
-  HTMLButtonElement,
-  NavBarBackButtonProps
->(({ onClick, 'aria-label': ariaLabel, className }, ref) => {
+export const NavBarBackButton = ({
+  ref,
+  onClick,
+  'aria-label': ariaLabel,
+  className,
+}: NavBarBackButtonProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}) => {
   const { t } = useCommonTranslation();
 
   return (
@@ -56,7 +64,7 @@ export const NavBarBackButton = React.forwardRef<
       data-slot='navbar-back-button'
     />
   );
-});
+};
 NavBarBackButton.displayName = 'NavBarBackButton';
 
 /**
@@ -70,23 +78,28 @@ NavBarBackButton.displayName = 'NavBarBackButton';
  * // With custom heading level
  * <NavBarTitle as="h2">Page Title</NavBarTitle>
  */
-export const NavBarTitle = React.forwardRef<HTMLElement, NavBarTitleProps>(
-  ({ children, className, as: Component = 'h1' }, ref) => {
-    return (
-      <Component
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ref={ref as any}
-        className={cn(
-          'min-w-0 flex-1 truncate heading-4-semi-bold text-base',
-          className,
-        )}
-        data-slot='navbar-title'
-      >
-        {children}
-      </Component>
-    );
-  },
-);
+export const NavBarTitle = ({
+  ref,
+  children,
+  className,
+  as: Component = 'h1',
+}: NavBarTitleProps & {
+  ref?: React.Ref<HTMLElement>;
+}) => {
+  return (
+    <Component
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={ref as any}
+      className={cn(
+        'min-w-0 flex-1 truncate heading-4-semi-bold text-base',
+        className,
+      )}
+      data-slot='navbar-title'
+    >
+      {children}
+    </Component>
+  );
+};
 NavBarTitle.displayName = 'NavBarTitle';
 
 /**
@@ -97,10 +110,14 @@ NavBarTitle.displayName = 'NavBarTitle';
  *   <IconButton icon={Settings} aria-label="Settings" />
  * </NavBarTrailing>
  */
-export const NavBarTrailing = React.forwardRef<
-  HTMLDivElement,
-  NavBarTrailingProps
->(({ children, className, ...props }, ref) => {
+export const NavBarTrailing = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarTrailingProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
   return (
     <div
       ref={ref}
@@ -111,7 +128,7 @@ export const NavBarTrailing = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 NavBarTrailing.displayName = 'NavBarTrailing';
 
 /**
@@ -148,18 +165,23 @@ NavBarTrailing.displayName = 'NavBarTrailing';
  *   </NavBarTrailing>
  * </NavBar>
  */
-export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <nav
-        ref={ref}
-        className={cn('flex items-center gap-4', className)}
-        data-slot='navbar'
-        {...props}
-      >
-        {children}
-      </nav>
-    );
-  },
-);
+export const NavBar = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarProps & {
+  ref?: React.Ref<HTMLElement>;
+}) => {
+  return (
+    <nav
+      ref={ref}
+      className={cn('flex items-center gap-4', className)}
+      data-slot='navbar'
+      {...props}
+    >
+      {children}
+    </nav>
+  );
+};
 NavBar.displayName = 'NavBar';

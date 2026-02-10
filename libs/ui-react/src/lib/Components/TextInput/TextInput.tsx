@@ -56,10 +56,13 @@ import { TextInputProps } from './types';
  *   }}
  * />
  */
-export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
-  (props, ref) => {
-    return <BaseInput ref={ref} {...props} />;
-  },
-);
+export const TextInput = ({
+  ref,
+  ...props
+}: TextInputProps & {
+  ref?: React.Ref<HTMLInputElement>;
+}) => {
+  return <BaseInput ref={ref} {...props} />;
+};
 
 TextInput.displayName = 'TextInput';

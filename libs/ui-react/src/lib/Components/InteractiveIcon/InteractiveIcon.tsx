@@ -49,10 +49,15 @@ const buttonVariants = cva(
  *   <Settings size={20} />
  * </InteractiveIcon>
  */
-export const InteractiveIcon = React.forwardRef<
-  HTMLButtonElement,
-  InteractiveIconProps
->(({ className, iconType, disabled = false, ...props }, ref) => {
+export const InteractiveIcon = ({
+  ref,
+  className,
+  iconType,
+  disabled = false,
+  ...props
+}: InteractiveIconProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}) => {
   return (
     <button
       {...props}
@@ -61,5 +66,5 @@ export const InteractiveIcon = React.forwardRef<
       className={cn(className, buttonVariants({ disabled, iconType }))}
     />
   );
-});
+};
 InteractiveIcon.displayName = 'InteractiveIcon';

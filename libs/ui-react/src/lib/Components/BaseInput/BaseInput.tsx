@@ -50,192 +50,190 @@ const baseLabelStyles = cn(
  * @internal
  */
 
-export const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
-  (
-    {
-      className,
-      containerClassName,
-      inputClassName,
-      labelClassName,
-      label,
-      id,
-      disabled,
-      errorMessage,
-      suffix,
-      prefix,
-      onClear,
-      hideClearButton = false,
-      'aria-invalid': ariaInvalidProp,
-      onChange: onChangeProp,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useCommonTranslation();
-    const inputRef = React.useRef<HTMLInputElement>(null);
+export const BaseInput = ({
+  ref,
+  className,
+  containerClassName,
+  inputClassName,
+  labelClassName,
+  label,
+  id,
+  disabled,
+  errorMessage,
+  suffix,
+  prefix,
+  onClear,
+  hideClearButton = false,
+  'aria-invalid': ariaInvalidProp,
+  onChange: onChangeProp,
+  ...props
+}: BaseInputProps & {
+  ref?: React.Ref<HTMLInputElement>;
+}) => {
+  const { t } = useCommonTranslation();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const reactId = React.useId();
-    const inputId = id || `input-${reactId}`;
+  const reactId = React.useId();
+  const inputId = id || `input-${reactId}`;
 
-    // Handle aria-invalid properly - use provided value or derive from errorMessage
-    const ariaInvalid = ariaInvalidProp
-      ? ariaInvalidProp
-      : errorMessage
-        ? true
-        : undefined;
+  // Handle aria-invalid properly - use provided value or derive from errorMessage
+  const ariaInvalid = ariaInvalidProp
+    ? ariaInvalidProp
+    : errorMessage
+      ? true
+      : undefined;
 
-    const isControlled = props.value !== undefined;
+  const isControlled = props.value !== undefined;
 
-    // For uncontrolled inputs, we need state to track value changes for UI reactivity.
-    // We can't use inputRef.current.value directly because:
-    // 1. On first render, inputRef.current is null (so we fallback to defaultValue)
-    // 2. When clearing the input, DOM value changes but React doesn't re-render
-    //    to recalculate hasContent, causing clear button to stay visible
-    // This state is only for UI reactivity (clear button visibility), not controlling the input
-    const [uncontrolledValue, setUncontrolledValue] = React.useState(
-      props.defaultValue?.toString() || '',
-    );
+  // For uncontrolled inputs, we need state to track value changes for UI reactivity.
+  // We can't use inputRef.current.value directly because:
+  // 1. On first render, inputRef.current is null (so we fallback to defaultValue)
+  // 2. When clearing the input, DOM value changes but React doesn't re-render
+  //    to recalculate hasContent, causing clear button to stay visible
+  // This state is only for UI reactivity (clear button visibility), not controlling the input
+  const [uncontrolledValue, setUncontrolledValue] = React.useState(
+    props.defaultValue?.toString() || '',
+  );
 
-    const handleInput = React.useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Track uncontrolled input value changes
-        if (!isControlled) {
-          setUncontrolledValue(e.target.value);
-        }
-        // Always call the original onChange if provided
-        onChangeProp?.(e);
-      },
-      [isControlled, onChangeProp],
-    );
-
-    const hasContent = isControlled
-      ? !!props.value && props.value.toString().length > 0
-      : uncontrolledValue.length > 0;
-
-    const showClearButton = hasContent && !disabled && !hideClearButton;
-
-    const errorId = `${inputId}-error`;
-
-    const handleClear = () => {
-      if (!inputRef.current) return;
-
-      // programmatically trigger an onChange for controlled components.
-      // It simulates a user action more closely by setting the value natively and dispatching a real event.
-      const valueSetter = Object.getOwnPropertyDescriptor(
-        window.HTMLInputElement.prototype,
-        'value',
-      )?.set;
-      valueSetter?.call(inputRef.current, '');
-
+  const handleInput = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      // Track uncontrolled input value changes
       if (!isControlled) {
-        setUncontrolledValue('');
+        setUncontrolledValue(e.target.value);
       }
+      // Always call the original onChange if provided
+      onChangeProp?.(e);
+    },
+    [isControlled, onChangeProp],
+  );
 
-      const event = new Event('input', { bubbles: true });
-      inputRef.current.dispatchEvent(event);
+  const hasContent = isControlled
+    ? !!props.value && props.value.toString().length > 0
+    : uncontrolledValue.length > 0;
 
-      inputRef.current.focus();
+  const showClearButton = hasContent && !disabled && !hideClearButton;
 
-      onClear?.();
-    };
+  const errorId = `${inputId}-error`;
 
-    /** TODO: move to utils-shared */
-    function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
-      return (node: T) => {
-        refs.forEach((ref) => {
-          if (!ref) return;
-          if (typeof ref === 'function') {
-            ref(node);
-          } else {
-            (ref as React.MutableRefObject<T | null>).current = node;
-          }
-        });
-      };
+  const handleClear = () => {
+    if (!inputRef.current) return;
+
+    // programmatically trigger an onChange for controlled components.
+    // It simulates a user action more closely by setting the value natively and dispatching a real event.
+    const valueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      'value',
+    )?.set;
+    valueSetter?.call(inputRef.current, '');
+
+    if (!isControlled) {
+      setUncontrolledValue('');
     }
 
-    return (
-      <div className={className}>
-        <div
-          className={cn(baseContainerStyles, containerClassName)}
-          onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => {
-            const target = event.target as Element;
-            if (target.closest('input, button, a')) return;
+    const event = new Event('input', { bubbles: true });
+    inputRef.current.dispatchEvent(event);
 
-            const input = inputRef.current;
-            if (!input) return;
+    inputRef.current.focus();
 
-            // Smart cursor positioning for better UX:
-            // - Container/label clicks with content: end (user likely wants to continue typing)
-            // - Container/label clicks on empty input: start (natural starting point)
-            const cursorPosition =
-              input.value.length > 0 ? input.value.length : 0;
+    onClear?.();
+  };
 
-            window.requestAnimationFrame(() => {
-              try {
-                input.setSelectionRange(cursorPosition, cursorPosition);
-              } catch {
-                // setSelectionRange is not supported on all input types
-              }
-              input.focus();
-            });
-          }}
-        >
-          {prefix}
+  /** TODO: move to utils-shared */
+  function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
+    return (node: T) => {
+      refs.forEach((ref) => {
+        if (!ref) return;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else {
+          (ref as React.MutableRefObject<T | null>).current = node;
+        }
+      });
+    };
+  }
 
-          <input
-            ref={composeRefs(ref, inputRef)}
-            id={inputId}
-            disabled={disabled}
-            placeholder=' '
-            aria-invalid={ariaInvalid}
-            aria-describedby={errorMessage ? errorId : undefined}
+  return (
+    <div className={className}>
+      <div
+        className={cn(baseContainerStyles, containerClassName)}
+        onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => {
+          const target = event.target as Element;
+          if (target.closest('input, button, a')) return;
+
+          const input = inputRef.current;
+          if (!input) return;
+
+          // Smart cursor positioning for better UX:
+          // - Container/label clicks with content: end (user likely wants to continue typing)
+          // - Container/label clicks on empty input: start (natural starting point)
+          const cursorPosition =
+            input.value.length > 0 ? input.value.length : 0;
+
+          window.requestAnimationFrame(() => {
+            try {
+              input.setSelectionRange(cursorPosition, cursorPosition);
+            } catch {
+              // setSelectionRange is not supported on all input types
+            }
+            input.focus();
+          });
+        }}
+      >
+        {prefix}
+
+        <input
+          ref={composeRefs(ref, inputRef)}
+          id={inputId}
+          disabled={disabled}
+          placeholder=' '
+          aria-invalid={ariaInvalid}
+          aria-describedby={errorMessage ? errorId : undefined}
+          className={cn(
+            baseInputStyles,
+            label && 'pt-12 body-2',
+            inputClassName,
+          )}
+          onChange={handleInput}
+          {...props}
+        />
+
+        {label && (
+          <label
+            htmlFor={inputId}
             className={cn(
-              baseInputStyles,
-              label && 'pt-12 body-2',
-              inputClassName,
+              baseLabelStyles,
+              errorMessage && 'text-error',
+              labelClassName,
             )}
-            onChange={handleInput}
-            {...props}
-          />
-
-          {label && (
-            <label
-              htmlFor={inputId}
-              className={cn(
-                baseLabelStyles,
-                errorMessage && 'text-error',
-                labelClassName,
-              )}
-            >
-              {label}
-            </label>
-          )}
-
-          {showClearButton && (
-            <InteractiveIcon
-              iconType='filled'
-              onClick={handleClear}
-              aria-label={t('components.baseInput.clearInputAriaLabel')}
-            >
-              <DeleteCircleFill size={20} />
-            </InteractiveIcon>
-          )}
-
-          {!showClearButton && suffix}
-        </div>
-        {errorMessage && (
-          <div
-            id={errorId}
-            className='mt-8 flex items-center gap-2 body-3 text-error'
-            role='alert'
           >
-            <DeleteCircleFill size={16} className='shrink-0 text-error' />
-            <span>{errorMessage}</span>
-          </div>
+            {label}
+          </label>
         )}
+
+        {showClearButton && (
+          <InteractiveIcon
+            iconType='filled'
+            onClick={handleClear}
+            aria-label={t('components.baseInput.clearInputAriaLabel')}
+          >
+            <DeleteCircleFill size={20} />
+          </InteractiveIcon>
+        )}
+
+        {!showClearButton && suffix}
       </div>
-    );
-  },
-);
+      {errorMessage && (
+        <div
+          id={errorId}
+          className='mt-8 flex items-center gap-2 body-3 text-error'
+          role='alert'
+        >
+          <DeleteCircleFill size={16} className='shrink-0 text-error' />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 BaseInput.displayName = 'BaseInput';

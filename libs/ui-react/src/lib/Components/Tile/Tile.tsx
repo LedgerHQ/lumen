@@ -1,6 +1,6 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { forwardRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spot } from '../Spot';
 import {
@@ -78,48 +78,46 @@ const tileVariants = {
  *   <div>Custom content</div>
  * </Tile>
  */
-export const Tile = forwardRef<HTMLDivElement, TileProps>(
-  (
-    {
-      className,
-      onClick,
-      secondaryAction,
-      appearance = 'no-background',
-      disabled = false,
-      centered = false,
-      children,
-      style,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <TileProvider value={{ disabled }}>
-        <div
-          ref={ref}
-          style={style}
-          className={tileVariants.root({
-            className,
+export const Tile = ({
+  ref,
+  className,
+  onClick,
+  secondaryAction,
+  appearance = 'no-background',
+  disabled = false,
+  centered = false,
+  children,
+  style,
+  ...props
+}: TileProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
+  return (
+    <TileProvider value={{ disabled }}>
+      <div
+        ref={ref}
+        style={style}
+        className={tileVariants.root({
+          className,
+        })}
+      >
+        <button
+          {...props}
+          onClick={onClick}
+          disabled={disabled}
+          className={tileVariants.inner({
+            appearance,
+            disabled,
+            centered,
           })}
         >
-          <button
-            {...props}
-            onClick={onClick}
-            disabled={disabled}
-            className={tileVariants.inner({
-              appearance,
-              disabled,
-              centered,
-            })}
-          >
-            {children}
-          </button>
-          {secondaryAction}
-        </div>
-      </TileProvider>
-    );
-  },
-);
+          {children}
+        </button>
+        {secondaryAction}
+      </div>
+    </TileProvider>
+  );
+};
 Tile.displayName = 'Tile';
 
 /**
@@ -260,10 +258,16 @@ TileTrailingContent.displayName = 'TileTrailingContent';
  *   </TileContent>
  * </Tile>
  */
-export const TileSecondaryAction = forwardRef<
-  HTMLButtonElement,
-  TileSecondaryActionProps
->(({ onClick, icon, className, 'aria-label': ariaLabel, ...props }, ref) => {
+export const TileSecondaryAction = ({
+  ref,
+  onClick,
+  icon,
+  className,
+  'aria-label': ariaLabel,
+  ...props
+}: TileSecondaryActionProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}) => {
   const { disabled } = useTileContext({
     consumerName: 'TileSecondaryAction',
     contextRequired: true,
@@ -298,5 +302,5 @@ export const TileSecondaryAction = forwardRef<
       <Icon size={24} />
     </InteractiveIcon>
   );
-});
+};
 TileSecondaryAction.displayName = 'TileSecondaryAction';

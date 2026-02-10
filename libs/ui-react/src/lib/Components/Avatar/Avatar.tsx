@@ -50,66 +50,64 @@ const fallbackSizes = {
  * // With notification indicator
  * <Avatar src="https://example.com/photo.jpg" showNotification />
  */
-export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
-  (
-    {
-      className,
-      src,
-      alt,
-      size = 'md',
-      imgLoading,
-      showNotification = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useCommonTranslation();
-    const [error, setError] = React.useState<boolean>(false);
-    const shouldFallback = !src || error;
+export const Avatar = ({
+  ref,
+  className,
+  src,
+  alt,
+  size = 'md',
+  imgLoading,
+  showNotification = false,
+  ...props
+}: AvatarProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
+  const { t } = useCommonTranslation();
+  const [error, setError] = React.useState<boolean>(false);
+  const shouldFallback = !src || error;
 
-    const resolvedAlt = alt || t('components.avatar.defaultAlt');
+  const resolvedAlt = alt || t('components.avatar.defaultAlt');
 
-    const ariaLabel = showNotification
-      ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
-      : resolvedAlt;
+  const ariaLabel = showNotification
+    ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
+    : resolvedAlt;
 
-    React.useEffect(() => {
-      setError(false);
-    }, [src]);
+  React.useEffect(() => {
+    setError(false);
+  }, [src]);
 
-    return (
-      <div
-        ref={ref}
-        className={avatarVariants.root({ size, className })}
-        role='img'
-        aria-label={ariaLabel}
-        {...props}
-      >
-        {showNotification && (
-          <div
-            className={avatarVariants.notification({ size })}
-            aria-hidden='true'
-          />
-        )}
-        {shouldFallback ? (
-          <User
-            size={fallbackSizes[size]}
-            aria-label='Fallback Icon'
-            aria-hidden='true'
-          />
-        ) : (
-          <img
-            src={src}
-            alt=''
-            loading={imgLoading}
-            onError={() => setError(true)}
-            className='size-full overflow-hidden rounded-full object-cover'
-            aria-hidden='true'
-          />
-        )}
-      </div>
-    );
-  },
-);
+  return (
+    <div
+      ref={ref}
+      className={avatarVariants.root({ size, className })}
+      role='img'
+      aria-label={ariaLabel}
+      {...props}
+    >
+      {showNotification && (
+        <div
+          className={avatarVariants.notification({ size })}
+          aria-hidden='true'
+        />
+      )}
+      {shouldFallback ? (
+        <User
+          size={fallbackSizes[size]}
+          aria-label='Fallback Icon'
+          aria-hidden='true'
+        />
+      ) : (
+        <img
+          src={src}
+          alt=''
+          loading={imgLoading}
+          onError={() => setError(true)}
+          className='size-full overflow-hidden rounded-full object-cover'
+          aria-hidden='true'
+        />
+      )}
+    </div>
+  );
+};
 
 Avatar.displayName = 'Avatar';

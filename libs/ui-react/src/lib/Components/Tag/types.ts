@@ -26,4 +26,5 @@ export type TagProps = {
    * @default false
    */
   disabled?: boolean;
+  ref?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;

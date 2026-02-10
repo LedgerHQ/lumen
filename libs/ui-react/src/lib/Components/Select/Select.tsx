@@ -40,10 +40,15 @@ const labelStyles = cn(
   'max-w-[calc(100%-var(--size-56))] truncate',
 );
 
-const SelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
-  SelectTriggerProps
->(({ className, labelClassName, label, ...props }, ref) => (
+const SelectTrigger = ({
+  ref,
+  className,
+  labelClassName,
+  label,
+  ...props
+}: SelectTriggerProps & {
+  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Trigger>>;
+}) => (
   <SelectPrimitive.Trigger
     ref={ref}
     data-slot='select-trigger'
@@ -70,7 +75,7 @@ const SelectTrigger = React.forwardRef<
       />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
-));
+);
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const contentStyles = cva(
@@ -110,10 +115,15 @@ const viewportStyles = cva('p-8', {
   },
 });
 
-const SelectContent = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Content>,
-  SelectContentProps
->(({ className, children, position = 'popper', ...props }, ref) => (
+const SelectContent = ({
+  ref,
+  className,
+  children,
+  position = 'popper',
+  ...props
+}: SelectContentProps & {
+  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Content>>;
+}) => (
   <SelectPrimitive.Portal data-slot='select-portal'>
     <SelectPrimitive.Content
       ref={ref}
@@ -129,20 +139,23 @@ const SelectContent = React.forwardRef<
       <SelectScrollDownButton />
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>
-));
+);
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
-const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  SelectLabelProps
->(({ className, ...props }, ref) => (
+const SelectLabel = ({
+  ref,
+  className,
+  ...props
+}: SelectLabelProps & {
+  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Label>>;
+}) => (
   <SelectPrimitive.Label
     ref={ref}
     data-slot='select-label'
     className={cn('mb-4 px-8 pt-8 pb-0 body-3-semi-bold text-muted', className)}
     {...props}
   />
-));
+);
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 const itemStyles = cn(
@@ -155,10 +168,14 @@ const itemStyles = cn(
   'data-disabled:cursor-not-allowed data-disabled:text-disabled',
 );
 
-const SelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
-  SelectItemProps
->(({ className, children, ...props }, ref) => (
+const SelectItem = ({
+  ref,
+  className,
+  children,
+  ...props
+}: SelectItemProps & {
+  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Item>>;
+}) => (
   <SelectPrimitive.Item
     ref={ref}
     data-slot='select-item'
@@ -172,31 +189,34 @@ const SelectItem = React.forwardRef<
       </SelectPrimitive.ItemIndicator>
     </span>
   </SelectPrimitive.Item>
-));
+);
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
-const SelectSeparator = React.forwardRef<HTMLDivElement, SelectSeparatorProps>(
-  ({ className, ...props }, ref) => (
-    <Divider
-      ref={ref}
-      className={cn('mx-8 my-4 w-auto', className)}
-      {...props}
-    />
-  ),
+const SelectSeparator = ({
+  ref,
+  className,
+  ...props
+}: SelectSeparatorProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => (
+  <Divider ref={ref} className={cn('mx-8 my-4 w-auto', className)} {...props} />
 );
 SelectSeparator.displayName = 'SelectSeparator';
 
-const SelectItemText = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ItemText>,
-  SelectItemTextProps
->(({ className, ...props }, ref) => (
+const SelectItemText = ({
+  ref,
+  className,
+  ...props
+}: SelectItemTextProps & {
+  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.ItemText>>;
+}) => (
   <SelectPrimitive.ItemText
     ref={ref}
     data-slot='select-item-text'
     className={cn('body-2 text-muted', className)}
     {...props}
   />
-));
+);
 SelectItemText.displayName = SelectPrimitive.ItemText.displayName;
 
 function SelectScrollUpButton({

@@ -61,54 +61,52 @@ const iconVariants = cva('shrink-0', {
  *   <Link to="/settings">Settings</Link>
  * </TileButton>
  */
-export const TileButton = React.forwardRef<HTMLButtonElement, TileButtonProps>(
-  (
-    {
-      icon: Icon,
-      children,
-      onClick,
-      disabled = false,
-      isFull = false,
-      className,
-      asChild = false,
-      'aria-label': ariaLabel,
-      ...props
+export const TileButton = ({
+  ref,
+  icon: Icon,
+  children,
+  onClick,
+  disabled = false,
+  isFull = false,
+  className,
+  asChild = false,
+  'aria-label': ariaLabel,
+  ...props
+}: TileButtonProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}) => {
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (disabled) {
+        event.preventDefault();
+        return;
+      }
+      onClick?.(event);
     },
-    ref,
-  ) => {
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (disabled) {
-          event.preventDefault();
-          return;
-        }
-        onClick?.(event);
-      },
-      [disabled, onClick],
-    );
+    [disabled, onClick],
+  );
 
-    const Comp = asChild ? Slot : 'button';
+  const Comp = asChild ? Slot : 'button';
 
-    return (
-      <Comp
-        ref={ref}
-        type={asChild ? undefined : 'button'}
-        className={cn(tileButtonVariants({ disabled, isFull }), className)}
-        onClick={handleClick}
-        disabled={disabled}
-        data-disabled={disabled || undefined}
-        aria-label={ariaLabel}
-        {...props}
-      >
-        <Icon size={20} className={iconVariants({ disabled })} />
-        {asChild ? (
-          <Slottable>{children}</Slottable>
-        ) : (
-          <span className='line-clamp-2 text-center'>{children}</span>
-        )}
-      </Comp>
-    );
-  },
-);
+  return (
+    <Comp
+      ref={ref}
+      type={asChild ? undefined : 'button'}
+      className={cn(tileButtonVariants({ disabled, isFull }), className)}
+      onClick={handleClick}
+      disabled={disabled}
+      data-disabled={disabled || undefined}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      <Icon size={20} className={iconVariants({ disabled })} />
+      {asChild ? (
+        <Slottable>{children}</Slottable>
+      ) : (
+        <span className='line-clamp-2 text-center'>{children}</span>
+      )}
+    </Comp>
+  );
+};
 
 TileButton.displayName = 'TileButton';

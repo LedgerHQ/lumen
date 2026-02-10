@@ -1,7 +1,7 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { t } from 'i18next';
-import React, { forwardRef, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ExpandRight, ExpandLeft } from '../../Symbols';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
@@ -83,68 +83,71 @@ const sideBarVariants = {
  *   </SideBarTrailing>
  * </SideBar>
  */
-export const SideBar = forwardRef<HTMLElement, SideBarProps>(
-  (
-    {
-      collapsed: controlledCollapsed,
-      defaultCollapsed = false,
-      onCollapsedChange,
-      active: controlledActive,
-      defaultActive,
-      onActiveChange,
-      children,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
-    const [collapsed, setCollapsed] = useControllableState({
-      prop: controlledCollapsed,
-      defaultProp: defaultCollapsed,
-      onChange: onCollapsedChange,
-    });
+export const SideBar = ({
+  ref,
+  collapsed: controlledCollapsed,
+  defaultCollapsed = false,
+  onCollapsedChange,
+  active: controlledActive,
+  defaultActive,
+  onActiveChange,
+  children,
+  className,
+  ...props
+}: SideBarProps & {
+  ref?: React.Ref<HTMLElement>;
+}) => {
+  const [collapsed, setCollapsed] = useControllableState({
+    prop: controlledCollapsed,
+    defaultProp: defaultCollapsed,
+    onChange: onCollapsedChange,
+  });
 
-    const [active, setActive] = useControllableState({
-      prop: controlledActive,
-      defaultProp: defaultActive ?? '',
-      onChange: onActiveChange,
-    });
+  const [active, setActive] = useControllableState({
+    prop: controlledActive,
+    defaultProp: defaultActive ?? '',
+    onChange: onActiveChange,
+  });
 
-    return (
-      <SideBarProvider
-        value={{ collapsed, setCollapsed, active, onActiveChange: setActive }}
+  return (
+    <SideBarProvider
+      value={{ collapsed, setCollapsed, active, onActiveChange: setActive }}
+    >
+      <nav
+        ref={ref}
+        className={cn(sideBarVariants.root({ collapsed }), className)}
+        aria-label={t('components.sideBar.navigationAriaLabel')}
+        {...props}
       >
-        <nav
-          ref={ref}
-          className={cn(sideBarVariants.root({ collapsed }), className)}
-          aria-label={t('components.sideBar.navigationAriaLabel')}
-          {...props}
-        >
-          {children}
-        </nav>
-      </SideBarProvider>
-    );
-  },
-);
+        {children}
+      </nav>
+    </SideBarProvider>
+  );
+};
 SideBar.displayName = 'SideBar';
 
 /**
  * Container for the leading (top) section of the sidebar.
  * Typically contains the main navigation items.
  */
-export const SideBarLeading = forwardRef<HTMLDivElement, SideBarLeadingProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(sideBarVariants.section(), className)}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+export const SideBarLeading = ({
+  ref,
+  children,
+  className,
+  ...props
+}: SideBarLeadingProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
+  return (
+    <div
+      ref={ref}
+      className={cn(sideBarVariants.section(), className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 SideBarLeading.displayName = 'SideBarLeading';
 
 /**
@@ -152,19 +155,24 @@ SideBarLeading.displayName = 'SideBarLeading';
  * Typically contains secondary navigation items and settings.
  * Uses `mt-auto` to push itself and the footer to the bottom.
  */
-export const SideBarTrailing = forwardRef<HTMLDivElement, SideBarTrailingProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn('mt-auto', sideBarVariants.section(), className)}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+export const SideBarTrailing = ({
+  ref,
+  children,
+  className,
+  ...props
+}: SideBarTrailingProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('mt-auto', sideBarVariants.section(), className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 SideBarTrailing.displayName = 'SideBarTrailing';
 
 /**
@@ -189,87 +197,85 @@ SideBarTrailing.displayName = 'SideBarTrailing';
  *   tooltipContent="Wallet"
  * />
  */
-export const SideBarItem = forwardRef<HTMLButtonElement, SideBarItemProps>(
-  (
-    {
-      value,
-      icon: Icon,
-      activeIcon: ActiveIcon,
-      label,
-      tooltipContent: tooltipContentProp,
-      disabled = false,
-      className,
-      onClick,
-      ...props
+export const SideBarItem = ({
+  ref,
+  value,
+  icon: Icon,
+  activeIcon: ActiveIcon,
+  label,
+  tooltipContent: tooltipContentProp,
+  disabled = false,
+  className,
+  onClick,
+  ...props
+}: SideBarItemProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}) => {
+  const { collapsed, active, onActiveChange } = useSideBarContext({
+    consumerName: 'SideBarItem',
+    contextRequired: true,
+  });
+
+  const isActive = active === value;
+  const IconComponent = isActive ? ActiveIcon : Icon;
+  const tooltipContent = tooltipContentProp ?? label;
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (disabled) return;
+      onClick?.(event);
+      onActiveChange?.(value);
     },
-    ref,
-  ) => {
-    const { collapsed, active, onActiveChange } = useSideBarContext({
-      consumerName: 'SideBarItem',
-      contextRequired: true,
-    });
+    [disabled, onClick, onActiveChange, value],
+  );
 
-    const isActive = active === value;
-    const IconComponent = isActive ? ActiveIcon : Icon;
-    const tooltipContent = tooltipContentProp ?? label;
+  const content = (
+    <>
+      <IconComponent size={16} className='shrink-0' />
+      {label != null && (
+        <span
+          className={cn(
+            'truncate transition-all duration-200',
+            collapsed ? 'ml-0 w-0 opacity-0' : 'ml-8 opacity-100',
+          )}
+        >
+          {label}
+        </span>
+      )}
+    </>
+  );
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (disabled) return;
-        onClick?.(event);
-        onActiveChange?.(value);
-      },
-      [disabled, onClick, onActiveChange, value],
+  const item = (
+    <button
+      ref={ref}
+      type='button'
+      disabled={disabled}
+      onClick={handleClick}
+      className={cn(
+        sideBarVariants.item({ active: isActive, disabled }),
+        collapsed && 'w-fit',
+        className,
+      )}
+      aria-current={isActive ? 'page' : undefined}
+      {...props}
+    >
+      {content}
+    </button>
+  );
+
+  if (collapsed && tooltipContent) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{item}</TooltipTrigger>
+        <TooltipContent side='right' sideOffset={8}>
+          {tooltipContent}
+        </TooltipContent>
+      </Tooltip>
     );
+  }
 
-    const content = (
-      <>
-        <IconComponent size={16} className='shrink-0' />
-        {label != null && (
-          <span
-            className={cn(
-              'truncate transition-all duration-200',
-              collapsed ? 'ml-0 w-0 opacity-0' : 'ml-8 opacity-100',
-            )}
-          >
-            {label}
-          </span>
-        )}
-      </>
-    );
-
-    const item = (
-      <button
-        ref={ref}
-        type='button'
-        disabled={disabled}
-        onClick={handleClick}
-        className={cn(
-          sideBarVariants.item({ active: isActive, disabled }),
-          collapsed && 'w-fit',
-          className,
-        )}
-        aria-current={isActive ? 'page' : undefined}
-        {...props}
-      >
-        {content}
-      </button>
-    );
-
-    if (collapsed && tooltipContent) {
-      return (
-        <Tooltip>
-          <TooltipTrigger asChild>{item}</TooltipTrigger>
-          <TooltipContent side='right' sideOffset={8}>
-            {tooltipContent}
-          </TooltipContent>
-        </Tooltip>
-      );
-    }
-
-    return item;
-  },
-);
+  return item;
+};
 SideBarItem.displayName = 'SideBarItem';
 
 /**

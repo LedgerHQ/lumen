@@ -46,16 +46,18 @@ function Menu({ ...props }: MenuProps) {
   return <DropdownMenuPrimitive.Root data-slot='menu' {...props} />;
 }
 
-const MenuTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
-  MenuTriggerProps
->(({ ...props }, ref) => (
+const MenuTrigger = ({
+  ref,
+  ...props
+}: MenuTriggerProps & {
+  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Trigger>>;
+}) => (
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     data-slot='menu-trigger'
     {...props}
   />
-));
+);
 MenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
 
 function MenuGroup({ ...props }: MenuGroupProps) {
@@ -80,10 +82,17 @@ function MenuRadioGroup({ ...props }: MenuRadioGroupProps) {
   );
 }
 
-const MenuSubTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
-  MenuSubTriggerProps
->(({ className, inset, children, ...props }, ref) => (
+const MenuSubTrigger = ({
+  ref,
+  className,
+  inset,
+  children,
+  ...props
+}: MenuSubTriggerProps & {
+  ref?: React.Ref<
+    React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>
+  >;
+}) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     data-slot='menu-sub-trigger'
@@ -93,26 +102,36 @@ const MenuSubTrigger = React.forwardRef<
     {children}
     <ChevronRight size={20} className='ml-auto text-muted' />
   </DropdownMenuPrimitive.SubTrigger>
-));
+);
 MenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
 
-const MenuSubContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
-  MenuSubContentProps
->(({ className, ...props }, ref) => (
+const MenuSubContent = ({
+  ref,
+  className,
+  ...props
+}: MenuSubContentProps & {
+  ref?: React.Ref<
+    React.ElementRef<typeof DropdownMenuPrimitive.SubContent>
+  >;
+}) => (
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     data-slot='menu-sub-content'
     className={cn(contentStyles, className)}
     {...props}
   />
-));
+);
 MenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
 
-const MenuContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  MenuContentProps
->(({ className, sideOffset = 4, align = 'start', ...props }, ref) => (
+const MenuContent = ({
+  ref,
+  className,
+  sideOffset = 4,
+  align = 'start',
+  ...props
+}: MenuContentProps & {
+  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Content>>;
+}) => (
   <DropdownMenuPrimitive.Portal>
     <DropdownMenuPrimitive.Content
       ref={ref}
@@ -130,26 +149,37 @@ const MenuContent = React.forwardRef<
       {...props}
     />
   </DropdownMenuPrimitive.Portal>
-));
+);
 MenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
-const MenuItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-  MenuItemProps
->(({ className, inset, ...props }, ref) => (
+const MenuItem = ({
+  ref,
+  className,
+  inset,
+  ...props
+}: MenuItemProps & {
+  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Item>>;
+}) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     data-slot='menu-item'
     className={cn(itemStyles, inset && 'pl-32', className)}
     {...props}
   />
-));
+);
 MenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
-const MenuCheckboxItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
-  MenuCheckboxItemProps
->(({ className, children, checked, ...props }, ref) => (
+const MenuCheckboxItem = ({
+  ref,
+  className,
+  children,
+  checked,
+  ...props
+}: MenuCheckboxItemProps & {
+  ref?: React.Ref<
+    React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>
+  >;
+}) => (
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     data-slot='menu-checkbox-item'
@@ -164,13 +194,19 @@ const MenuCheckboxItem = React.forwardRef<
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
   </DropdownMenuPrimitive.CheckboxItem>
-));
+);
 MenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
 
-const MenuRadioItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
-  MenuRadioItemProps
->(({ className, children, ...props }, ref) => (
+const MenuRadioItem = ({
+  ref,
+  className,
+  children,
+  ...props
+}: MenuRadioItemProps & {
+  ref?: React.Ref<
+    React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>
+  >;
+}) => (
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     data-slot='menu-radio-item'
@@ -184,30 +220,34 @@ const MenuRadioItem = React.forwardRef<
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
   </DropdownMenuPrimitive.RadioItem>
-));
+);
 MenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
 
-const MenuLabel = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
-  MenuLabelProps
->(({ className, inset, ...props }, ref) => (
+const MenuLabel = ({
+  ref,
+  className,
+  inset,
+  ...props
+}: MenuLabelProps & {
+  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Label>>;
+}) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
     data-slot='menu-label'
     className={cn(labelStyles, inset && 'pl-32', className)}
     {...props}
   />
-));
+);
 MenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
-const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
-  ({ className, ...props }, ref) => (
-    <Divider
-      ref={ref}
-      className={cn('mx-8 my-4 w-auto', className)}
-      {...props}
-    />
-  ),
+const MenuSeparator = ({
+  ref,
+  className,
+  ...props
+}: MenuSeparatorProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}) => (
+  <Divider ref={ref} className={cn('mx-8 my-4 w-auto', className)} {...props} />
 );
 MenuSeparator.displayName = 'MenuSeparator';
 
