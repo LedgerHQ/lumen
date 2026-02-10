@@ -53,34 +53,48 @@ describe('Avatar Component', () => {
   });
 
   it('should render fallback icon when no src is provided', () => {
-    const { queryByLabelText } = render(
+    const { getByLabelText, getByTestId } = render(
       <TestWrapper>
         <Avatar />
       </TestWrapper>,
     );
-    expect(queryByLabelText('avatar')).toBeNull();
+
+    const avatarContainer = getByLabelText('avatar');
+    expect(avatarContainer).toBeTruthy();
+    expect(avatarContainer.props.accessibilityRole).toBe('image');
+
+    expect(getByTestId('avatar-fallback-icon')).toBeTruthy();
   });
 
   it('should render image when src is provided', () => {
-    const { getByLabelText } = render(
+    const { getByLabelText, getByTestId } = render(
       <TestWrapper>
         <Avatar src='https://example.com/avatar.jpg' alt='user avatar' />
       </TestWrapper>,
     );
-    const image = getByLabelText('user avatar');
+
+    const avatarContainer = getByLabelText('user avatar');
+    expect(avatarContainer).toBeTruthy();
+    expect(avatarContainer.props.accessibilityRole).toBe('image');
+
+    const image = getByTestId('avatar-image');
     expect(image.props.source).toEqual({
       uri: 'https://example.com/avatar.jpg',
     });
   });
 
   it('should render fallback icon on image error', async () => {
-    const { getByLabelText, queryByLabelText, rerender } = render(
+    const { getByLabelText, getByTestId, queryByTestId, rerender } = render(
       <TestWrapper>
         <Avatar src='https://example.com/invalid.jpg' alt='broken image' />
       </TestWrapper>,
     );
 
-    const image = getByLabelText('broken image');
+    const avatarContainer = getByLabelText('broken image');
+    expect(avatarContainer).toBeTruthy();
+
+    const image = getByTestId('avatar-image');
+    expect(image).toBeTruthy();
 
     image.props.onError();
 
@@ -91,18 +105,22 @@ describe('Avatar Component', () => {
     );
 
     await waitFor(() => {
-      expect(queryByLabelText('broken image')).toBeNull();
+      expect(queryByTestId('avatar-image')).toBeNull();
+      expect(getByTestId('avatar-fallback-icon')).toBeTruthy();
     });
   });
 
   it('should reset error state when src changes', async () => {
-    const { getByLabelText, rerender } = render(
+    const { getByLabelText, getByTestId, rerender } = render(
       <TestWrapper>
         <Avatar src='https://example.com/avatar1.jpg' alt='avatar image' />
       </TestWrapper>,
     );
 
-    const image = getByLabelText('avatar image');
+    const avatarContainer = getByLabelText('avatar image');
+    expect(avatarContainer).toBeTruthy();
+
+    const image = getByTestId('avatar-image');
     image.props.onError();
 
     rerender(
@@ -112,7 +130,7 @@ describe('Avatar Component', () => {
     );
 
     await waitFor(() => {
-      const newImage = getByLabelText('avatar image');
+      const newImage = getByTestId('avatar-image');
       expect(newImage.props.source).toEqual({
         uri: 'https://example.com/avatar2.jpg',
       });

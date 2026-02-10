@@ -113,13 +113,18 @@ export const Avatar = ({
         <View style={styles.notification} accessible={false} />
       )}
       {shouldFallback ? (
-        <User size={fallbackSizes[size]} accessible={false} />
+        <User
+          size={fallbackSizes[size]}
+          accessible={false}
+          testID='avatar-fallback-icon'
+        />
       ) : (
         <Image
           source={{ uri: src }}
           style={styles.image}
           accessible={false}
           onError={() => setError(true)}
+          testID='avatar-image'
         />
       )}
     </Box>
