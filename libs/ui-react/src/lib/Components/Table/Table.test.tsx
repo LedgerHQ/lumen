@@ -223,18 +223,18 @@ describe('TableActionBar', () => {
 });
 
 describe('TableLoadingRow', () => {
-  it('should render when isLoading is true', () => {
+  it('should render when loading is true', () => {
     render(
-      <TableRoot isLoading>
+      <TableRoot loading>
         <TableLoadingRow data-testid='loading' />
       </TableRoot>,
     );
     expect(screen.getByTestId('loading')).toBeInTheDocument();
   });
 
-  it('should not render when isLoading is false', () => {
+  it('should not render when loading is false', () => {
     render(
-      <TableRoot isLoading={false}>
+      <TableRoot loading={false}>
         <TableLoadingRow data-testid='loading' />
       </TableRoot>,
     );

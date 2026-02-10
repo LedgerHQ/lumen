@@ -31,7 +31,7 @@ import { useThrottledScrollBottom } from './utils/useThrottledScrollBottom';
 
 const [TableProvider, useTableContext] = createSafeContext<{
   appearance: TableRootProps['appearance'];
-  isLoading: TableRootProps['isLoading'];
+  loading: TableRootProps['loading'];
 }>('Table');
 
 const tableVariants = cva(
@@ -74,18 +74,18 @@ export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
       appearance = 'no-background',
       className,
       onScrollBottom,
-      isLoading,
+      loading,
       ...props
     },
     ref,
   ) => {
     const handleScroll = useThrottledScrollBottom({
       onScrollBottom,
-      isLoading,
+      loading,
     });
 
     return (
-      <TableProvider value={{ appearance, isLoading }}>
+      <TableProvider value={{ appearance, loading }}>
         <div
           {...props}
           ref={ref}
@@ -299,8 +299,8 @@ const headerCellVariants = {
   content: cva('flex min-w-0 items-center gap-4 truncate', {
     variants: {
       align: {
-        start: 'text-left justify-start',
-        end: 'text-right justify-end',
+        start: 'text-start justify-start',
+        end: 'text-end justify-end',
       },
     },
   }),
@@ -414,12 +414,12 @@ TableActionBarTrailing.displayName = 'TableActionBarTrailing';
  */
 export const TableLoadingRow = forwardRef<HTMLDivElement, TableLoadingRowProps>(
   ({ className, ...props }, ref) => {
-    const { isLoading } = useTableContext({
+    const { loading } = useTableContext({
       consumerName: 'TableLoadingRow',
       contextRequired: true,
     });
 
-    if (!isLoading) {
+    if (!loading) {
       return null;
     }
 

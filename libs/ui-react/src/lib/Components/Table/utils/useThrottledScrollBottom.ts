@@ -30,7 +30,7 @@ type UseThrottledScrollBottomOptions = {
   /**
    * When true, disables the callback to prevent duplicate fetches.
    */
-  isLoading?: boolean;
+  loading?: boolean;
   /**
    * Distance from bottom (in pixels) to trigger the callback.
    * @default 2
@@ -45,14 +45,14 @@ type UseThrottledScrollBottomOptions = {
  * @example
  * const handleScroll = useThrottledScrollBottom({
  *   onScrollBottom: fetchMore,
- *   isLoading,
+ *   loading,
  * });
  *
  * return <div onScroll={handleScroll}>...</div>;
  */
 export const useThrottledScrollBottom = ({
   onScrollBottom,
-  isLoading = false,
+  loading = false,
   thresholdInRow = TABLE_SCROLL_BOTTOM_THRESHOLD_IN_ROW,
 }: UseThrottledScrollBottomOptions):
   | ((event: UIEvent<HTMLElement>) => void)
@@ -62,11 +62,11 @@ export const useThrottledScrollBottom = ({
     [thresholdInRow],
   );
   const callbackRef = useRef(onScrollBottom);
-  const isLoadingRef = useRef(isLoading);
+  const loadingRef = useRef(loading);
 
   // Keep refs in sync
   callbackRef.current = onScrollBottom;
-  isLoadingRef.current = isLoading;
+  loadingRef.current = loading;
   const throttledCheckRef = useRef<{ cancel: () => void } | null>(null);
 
   const handler = useMemo(() => {
@@ -77,7 +77,7 @@ export const useThrottledScrollBottom = ({
     // Inner throttled function receives the element directly (not the event)
     // This avoids issues with React's synthetic event recycling
     const throttledCheck = throttle((element: HTMLElement) => {
-      if (isLoadingRef.current || !callbackRef.current) {
+      if (loadingRef.current || !callbackRef.current) {
         return;
       }
 

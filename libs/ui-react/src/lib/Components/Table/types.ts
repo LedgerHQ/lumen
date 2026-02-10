@@ -29,7 +29,7 @@ export type TableRootProps = {
    * When true, disables onScrollBottom to prevent duplicate fetches.
    * Use this while data is being loaded.
    */
-  isLoading?: boolean;
+  loading?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 export type TableProps = {

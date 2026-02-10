@@ -72,7 +72,7 @@ const meta: Meta<typeof TableRoot> = {
         defaultValue: { summary: 'no-background' },
       },
     },
-    isLoading: {
+    loading: {
       control: 'boolean',
       description: 'Loading state for infinite scroll',
       table: {
@@ -99,11 +99,11 @@ type Story = StoryObj<typeof TableRoot>;
 export const Base: Story = {
   args: {
     appearance: 'no-background',
-    isLoading: false,
+    loading: false,
   },
   render: (args) => (
     <div className='w-560 text-base'>
-      <TableRoot appearance={args.appearance} isLoading={args.isLoading}>
+      <TableRoot appearance={args.appearance} loading={args.loading}>
         <Table>
           <TableHeader>
             <TableHeaderRow>
@@ -264,10 +264,10 @@ export const WithInfiniteLoading: Story = {
     const [data, setData] = useState(
       largeData.map((item, i) => ({ ...item, id: i })),
     );
-    const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const loadMore = useCallback(() => {
-      setIsLoading(true);
+      setLoading(true);
       setTimeout(() => {
         setData((prev) => [
           ...prev,
@@ -276,7 +276,7 @@ export const WithInfiniteLoading: Story = {
             id: prev.length + i,
           })),
         ]);
-        setIsLoading(false);
+        setLoading(false);
       }, 2000);
     }, []);
 
@@ -285,7 +285,7 @@ export const WithInfiniteLoading: Story = {
         <TableRoot
           {...args}
           className='h-480'
-          isLoading={isLoading}
+          loading={loading}
           onScrollBottom={loadMore}
         >
           <Table>
