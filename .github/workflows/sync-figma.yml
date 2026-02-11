@@ -24,8 +24,6 @@ jobs:
   figma-export-design-tokens:
     name: Export Design Tokens from Figma
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Required to upload design tokens artifacts
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -57,11 +55,9 @@ jobs:
   figma-download-svgs:
     name: Download SVGs from Figma
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Required to upload SVG artifacts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -92,11 +88,9 @@ jobs:
     name: Process Design Tokens
     needs: figma-export-design-tokens
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Required to upload processed design tokens artifacts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -129,11 +123,9 @@ jobs:
     name: Generate React Symbol Components
     needs: figma-download-svgs
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Required to upload React symbols artifacts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -169,11 +161,9 @@ jobs:
     name: Generate React Native Symbol Components
     needs: figma-download-svgs
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Required to upload React Native symbols artifacts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -215,7 +205,7 @@ jobs:
       pull-requests: write # Required to create and update pull requests
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
