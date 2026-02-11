@@ -1,6 +1,6 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { flexRender } from '@tanstack/react-table';
-import { forwardRef } from 'react';
+import { flexRender, Row, RowData, Table as TanstackTable } from '@tanstack/react-table';
+import { forwardRef, Ref } from 'react';
 import {
   TableRoot,
   Table,
@@ -19,11 +19,14 @@ import {
   DataTableRootProps,
 } from './types';
 
+// Context stores `any`-typed values because React context cannot be generic
+// per-instance. Type safety is enforced at the DataTableRoot public API level.
 const [DataTableProvider, useDataTableContext] = createSafeContext<{
-  table: DataTableRootProps['table'];
+  table: TanstackTable<any>;
   appearance: DataTableRootProps['appearance'];
   loading: DataTableRootProps['loading'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
+  onRowClick?: (row: Row<any>) => void;
 }>('DataTable');
 
 /**
@@ -36,29 +39,36 @@ const [DataTableProvider, useDataTableContext] = createSafeContext<{
  *   <DataTable />
  * </DataTableRoot>
  */
-export const DataTableRoot = forwardRef<HTMLDivElement, DataTableRootProps>(
-  (
-    {
-      table,
-      appearance = 'no-background',
-      loading,
-      onScrollBottom,
-      children,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <DataTableProvider value={{ table, appearance, loading, onScrollBottom }}>
-        <div ref={ref} className={cn('flex flex-col', className)} {...props}>
-          {children}
-        </div>
-      </DataTableProvider>
-    );
-  },
-);
-DataTableRoot.displayName = 'DataTableRoot';
+const DataTableRootInner = <TData extends RowData>(
+  {
+    table,
+    appearance = 'no-background',
+    loading,
+    onScrollBottom,
+    onRowClick,
+    children,
+    className,
+    ...props
+  }: DataTableRootProps<TData>,
+  ref: Ref<HTMLDivElement>,
+) => {
+  return (
+    <DataTableProvider
+      value={{ table, appearance, loading, onScrollBottom, onRowClick }}
+    >
+      <div ref={ref} className={cn('flex flex-col', className)} {...props}>
+        {children}
+      </div>
+    </DataTableProvider>
+  );
+};
+
+export const DataTableRoot = forwardRef(DataTableRootInner) as <
+  TData extends RowData = RowData,
+>(
+  props: DataTableRootProps<TData> & { ref?: Ref<HTMLDivElement> },
+) => React.ReactElement | null;
+(DataTableRoot as { displayName?: string }).displayName = 'DataTableRoot';
 
 /**
  * Internal component that auto-renders the table header groups
@@ -108,15 +118,21 @@ DataTableHeader.displayName = 'DataTableHeader';
  */
 const DataTableBody = forwardRef<HTMLTableSectionElement, DataTableBodyProps>(
   ({ className, ...props }, ref) => {
-    const { table } = useDataTableContext({
+    const { table, onRowClick } = useDataTableContext({
       consumerName: 'DataTableBody',
       contextRequired: true,
     });
 
+    const isClickable = Boolean(onRowClick);
+
     return (
       <TableBody ref={ref} className={className} {...props}>
         {table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id}>
+          <TableRow
+            key={row.id}
+            clickable={isClickable}
+            onClick={isClickable ? () => onRowClick?.(row) : undefined}
+          >
             {row.getVisibleCells().map((cell) => {
               const meta = cell.column.columnDef.meta;
               return (

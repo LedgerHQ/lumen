@@ -1,4 +1,4 @@
-import { RowData, Table } from '@tanstack/react-table';
+import { Row, RowData, Table } from '@tanstack/react-table';
 import { HTMLAttributes, ReactNode } from 'react';
 import { Breakpoints } from '../../../types';
 import { TableRootProps } from '../Table/types';
@@ -29,12 +29,11 @@ declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> extends LumenColumnMeta {}
 }
 
-export type DataTableRootProps = {
+export type DataTableRootProps<TData extends RowData = RowData> = {
   /**
    * The TanStack table instance returned by `useLumenDataTable`.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  table: Table<any>;
+  table: Table<TData>;
   /**
    * The appearance of the table.
    * @default 'no-background'
@@ -56,6 +55,11 @@ export type DataTableRootProps = {
    * Custom className for the root wrapper.
    */
   className?: string;
+  /**
+   * Callback fired when a row is clicked.
+   * Return the data of the given row from the callback function.
+   */
+  onRowClick?: (row: Row<TData>) => void;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
 
 export type DataTableProps = {

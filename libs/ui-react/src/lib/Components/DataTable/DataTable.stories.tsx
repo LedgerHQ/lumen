@@ -4,6 +4,7 @@ import { Android } from '../../Symbols';
 import { Spot } from '../Spot';
 import { TableCellContent } from '../Table';
 import { DataTableRoot, DataTable } from './DataTable';
+import { DataTableRootProps } from './types';
 import { useLumenDataTable } from './useLumenDataTable/useLumenDataTable';
 
 type CryptoAsset = {
@@ -103,14 +104,15 @@ const DataTableStory = ({
   data,
   columns,
   appearance,
+  ...props
 }: {
   data: CryptoAsset[];
   columns: ColumnDef<CryptoAsset>[];
   appearance?: 'no-background' | 'plain';
-}) => {
+} & Omit<DataTableRootProps<CryptoAsset>, 'table' | 'children'>) => {
   const table = useLumenDataTable({ data, columns });
   return (
-    <DataTableRoot table={table} appearance={appearance}>
+    <DataTableRoot table={table} appearance={appearance} {...props}>
       <DataTable className='max-h-400' />
     </DataTableRoot>
   );
@@ -163,6 +165,19 @@ export const WithManyRows: Story = {
   render: (args) => (
     <div className='h-400 w-560 text-base'>
       <DataTableStory
+        data={largeData}
+        columns={baseColumns}
+        appearance={args.appearance}
+      />
+    </div>
+  ),
+};
+
+export const WithClickableRow: Story = {
+  render: (args) => (
+    <div className='h-400 w-560 text-base'>
+      <DataTableStory
+        onRowClick={(row) => alert(JSON.stringify(row, null, 4))}
         data={largeData}
         columns={baseColumns}
         appearance={args.appearance}
