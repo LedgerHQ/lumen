@@ -1,5 +1,5 @@
 import { Row, RowData, Table } from '@tanstack/react-table';
-import { HTMLAttributes, ReactNode } from 'react';
+import { ComponentPropsWithRef, ReactNode } from 'react';
 import { Breakpoints } from '../../../types';
 import { TableRootProps } from '../Table/types';
 
@@ -60,25 +60,25 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    * Return the data of the given row from the callback function.
    */
   onRowClick?: (row: Row<TData>) => void;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type DataTableProps = {
   /**
    * Custom className for the scrollable table container (TableRoot).
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type DataTableHeaderProps = {
   /**
    * Custom className for the header section.
    */
   className?: string;
-} & HTMLAttributes<HTMLTableSectionElement>;
+} & ComponentPropsWithRef<'thead'>;
 
 export type DataTableBodyProps = {
   /**
    * Custom className for the body section.
    */
   className?: string;
-} & HTMLAttributes<HTMLTableSectionElement>;
+} & ComponentPropsWithRef<'tbody'>;

@@ -5,7 +5,6 @@ import {
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
-import { forwardRef, Ref } from 'react';
 import {
   TableRoot,
   Table,
@@ -44,19 +43,17 @@ const [DataTableProvider, useDataTableContext] = createSafeContext<{
  *   <DataTable />
  * </DataTableRoot>
  */
-const DataTableRootInner = <TData extends RowData>(
-  {
-    table,
-    appearance = 'no-background',
-    loading,
-    onScrollBottom,
-    onRowClick,
-    children,
-    className,
-    ...props
-  }: DataTableRootProps<TData>,
-  ref: Ref<HTMLDivElement>,
-) => {
+export const DataTableRoot = <TData extends RowData>({
+  table,
+  appearance = 'no-background',
+  loading,
+  onScrollBottom,
+  onRowClick,
+  children,
+  className,
+  ref,
+  ...props
+}: DataTableRootProps<TData>) => {
   return (
     <DataTableProvider
       value={{ table, appearance, loading, onScrollBottom, onRowClick }}
@@ -67,22 +64,17 @@ const DataTableRootInner = <TData extends RowData>(
     </DataTableProvider>
   );
 };
-
-export const DataTableRoot = forwardRef(DataTableRootInner) as <
-  TData extends RowData = RowData,
->(
-  props: DataTableRootProps<TData> & { ref?: Ref<HTMLDivElement> },
-) => React.ReactElement | null;
-(DataTableRoot as { displayName?: string }).displayName = 'DataTableRoot';
+DataTableRoot.displayName = 'DataTableRoot';
 
 /**
  * Internal component that auto-renders the table header groups
  * from the TanStack table instance in context.
  */
-const DataTableHeader = forwardRef<
-  HTMLTableSectionElement,
-  DataTableHeaderProps
->(({ className, ...props }, ref) => {
+const DataTableHeader = ({
+  className,
+  ref,
+  ...props
+}: DataTableHeaderProps) => {
   const { table } = useDataTableContext({
     consumerName: 'DataTableHeader',
     contextRequired: true,
@@ -114,49 +106,47 @@ const DataTableHeader = forwardRef<
       ))}
     </TableHeader>
   );
-});
+};
 DataTableHeader.displayName = 'DataTableHeader';
 
 /**
  * Internal component that auto-renders the table body rows
  * from the TanStack table instance in context.
  */
-const DataTableBody = forwardRef<HTMLTableSectionElement, DataTableBodyProps>(
-  ({ className, ...props }, ref) => {
-    const { table, onRowClick } = useDataTableContext({
-      consumerName: 'DataTableBody',
-      contextRequired: true,
-    });
+const DataTableBody = ({ className, ref, ...props }: DataTableBodyProps) => {
+  const { table, onRowClick } = useDataTableContext({
+    consumerName: 'DataTableBody',
+    contextRequired: true,
+  });
 
-    const isClickable = Boolean(onRowClick);
+  const isClickable = Boolean(onRowClick);
 
-    return (
-      <TableBody ref={ref} className={className} {...props}>
-        {table.getRowModel().rows.map((row) => (
-          <TableRow
-            key={row.id}
-            clickable={isClickable}
-            onClick={isClickable ? () => onRowClick?.(row) : undefined}
-          >
-            {row.getVisibleCells().map((cell) => {
-              const meta = cell.column.columnDef.meta;
-              return (
-                <TableCell
-                  key={cell.id}
-                  align={meta?.align}
-                  hideBelow={meta?.hideBelow}
-                  className={meta?.className}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableBody>
-    );
-  },
-);
+  return (
+    <TableBody ref={ref} className={className} {...props}>
+      {table.getRowModel().rows.map((row) => (
+        <TableRow
+          key={row.id}
+          clickable={isClickable}
+          onClick={isClickable ? () => onRowClick?.(row) : undefined}
+        >
+          {row.getVisibleCells().map((cell) => {
+            const meta = cell.column.columnDef.meta;
+            return (
+              <TableCell
+                key={cell.id}
+                align={meta?.align}
+                hideBelow={meta?.hideBelow}
+                className={meta?.className}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      ))}
+    </TableBody>
+  );
+};
 DataTableBody.displayName = 'DataTableBody';
 
 /**
@@ -168,29 +158,27 @@ DataTableBody.displayName = 'DataTableBody';
  *   <DataTable />
  * </DataTableRoot>
  */
-export const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
-  ({ className, ...props }, ref) => {
-    const { appearance, loading, onScrollBottom } = useDataTableContext({
-      consumerName: 'DataTable',
-      contextRequired: true,
-    });
+export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
+  const { appearance, loading, onScrollBottom } = useDataTableContext({
+    consumerName: 'DataTable',
+    contextRequired: true,
+  });
 
-    return (
-      <TableRoot
-        ref={ref}
-        appearance={appearance}
-        loading={loading}
-        onScrollBottom={onScrollBottom}
-        className={className}
-        {...props}
-      >
-        <Table>
-          <DataTableHeader />
-          <DataTableBody />
-        </Table>
-        <TableLoadingRow />
-      </TableRoot>
-    );
-  },
-);
+  return (
+    <TableRoot
+      ref={ref}
+      appearance={appearance}
+      loading={loading}
+      onScrollBottom={onScrollBottom}
+      className={className}
+      {...props}
+    >
+      <Table>
+        <DataTableHeader />
+        <DataTableBody />
+      </Table>
+      <TableLoadingRow />
+    </TableRoot>
+  );
+};
 DataTable.displayName = 'DataTable';
