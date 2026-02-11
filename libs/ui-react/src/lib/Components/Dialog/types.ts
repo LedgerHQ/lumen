@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export type DialogHeight = 'hug' | 'fixed';
 
@@ -57,11 +57,7 @@ export type DialogOverlayProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-  /**
-   * Ref to the dialog overlay element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-};
+} & React.ComponentPropsWithRef<'div'>;
 
 export type DialogContentProps = {
   /**
@@ -129,11 +125,7 @@ export type DialogHeaderProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-  /**
-   * Ref to the dialog header element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
+} & Omit<React.ComponentPropsWithRef<'div'>, 'className'>;
 
 export type DialogBodyProps = {
   /**
@@ -150,11 +142,7 @@ export type DialogBodyProps = {
    * @default 'none'
    */
   scrollbarWidth?: 'none' | 'auto';
-  /**
-   * Ref to the dialog body element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 export type DialogFooterProps = {
   /**
@@ -165,8 +153,4 @@ export type DialogFooterProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-  /**
-   * Ref to the dialog footer element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;

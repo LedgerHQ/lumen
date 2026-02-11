@@ -9,17 +9,9 @@ export type NavBarProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-  /**
-   * Ref to the navbar root element.
-   */
-  ref?: React.Ref<HTMLElement>;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'className'>;
+} & Omit<React.ComponentPropsWithRef<'nav'>, 'children' | 'className'>;
 
 export type NavBarBackButtonProps = {
-  /**
-   * Ref to the back button element.
-   */
-  ref?: React.Ref<HTMLButtonElement>;
   /**
    * Callback function when the back button is clicked.
    */
@@ -33,7 +25,7 @@ export type NavBarBackButtonProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-};
+} & React.ComponentPropsWithRef<'button'>;
 
 export type NavBarTitleProps = {
   /**
@@ -50,11 +42,7 @@ export type NavBarTitleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-  /**
-   * Ref to the navbar title element.
-   */
-  ref?: React.Ref<HTMLElement>;
-};
+} & React.ComponentPropsWithRef<'h1'>;
 
 export type NavBarTrailingProps = {
   /**
@@ -84,11 +72,7 @@ export type CoinCapsuleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-  /**
-   * Ref to the coin capsule element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-};
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the NavBarCoinCapsule component.

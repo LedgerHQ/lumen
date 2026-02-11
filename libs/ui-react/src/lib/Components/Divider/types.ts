@@ -6,8 +6,4 @@ export type DividerProps = {
    * @default 'horizontal'
    */
   orientation?: 'horizontal' | 'vertical';
-  /**
-   * Ref to the divider element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;

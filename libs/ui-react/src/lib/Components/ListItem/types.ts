@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import React from 'react';
 import { DiscriminatedSpotProps } from '../Spot';
 
 /**
@@ -28,11 +28,7 @@ export type ListItemProps = {
    * Callback function when the list item is pressed.
    */
   onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
-  /**
-   * Ref to the list item button element.
-   */
-  ref?: React.Ref<HTMLButtonElement>;
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>;
+} & Omit<React.ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
  * Props for the ListItemLeading component
@@ -46,11 +42,7 @@ export type ListItemLeadingProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item leading element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemContent component
@@ -64,11 +56,7 @@ export type ListItemContentProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item content element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemTitle component
@@ -82,11 +70,7 @@ export type ListItemTitleProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item title element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemDescription component
@@ -100,11 +84,7 @@ export type ListItemDescriptionProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item description element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemTrailing component
@@ -118,17 +98,13 @@ export type ListItemTrailingProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item trailing element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for ListItemSpot when appearance is 'icon'
  */
 export type ListItemSpotProps = DiscriminatedSpotProps &
-  HTMLAttributes<HTMLDivElement>;
+  React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemTruncate component
@@ -143,11 +119,7 @@ export type ListItemTruncateProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item truncate element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemIcon component
@@ -161,8 +133,4 @@ export type ListItemIconProps = {
    * custom classname
    */
   className?: string;
-  /**
-   * Ref to the list item icon element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;

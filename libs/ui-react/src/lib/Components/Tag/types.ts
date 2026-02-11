@@ -26,8 +26,4 @@ export type TagProps = {
    * @default false
    */
   disabled?: boolean;
-  /**
-   * Ref to the tag element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;

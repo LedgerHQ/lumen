@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type BaseInputProps = {
   /**
    * The label text that floats above the input when focused or filled.
@@ -47,8 +49,4 @@ export type BaseInputProps = {
    * Additional class names to apply to the label element
    */
   labelClassName?: string;
-  /**
-   * Ref to the input element.
-   */
-  ref?: React.Ref<HTMLInputElement>;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'>;
+} & Omit<React.ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;

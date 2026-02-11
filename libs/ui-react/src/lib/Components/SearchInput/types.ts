@@ -1,3 +1,4 @@
+import React from 'react';
 import { BaseInputProps } from '../BaseInput/types';
 
 export type SearchInputProps = Omit<
@@ -9,8 +10,4 @@ export type SearchInputProps = Omit<
    * @default 'plain'
    */
   appearance?: 'plain' | 'transparent';
-  /**
-   * Ref to the search input element.
-   */
-  ref?: React.Ref<HTMLInputElement>;
-};
+} & React.ComponentPropsWithRef<'input'>;

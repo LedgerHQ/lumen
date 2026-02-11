@@ -1,13 +1,10 @@
+import React from 'react';
 import { IconSize } from '../Icon/types';
 
-export type SpinnerProps = React.SVGProps<SVGSVGElement> & {
+export type SpinnerProps = {
   /**
    * The size of the spinner icon in pixels.
    * @default 16
    */
   size?: IconSize;
-  /**
-   * Ref to the spinner SVG element.
-   */
-  ref?: React.Ref<SVGSVGElement>;
-};
+} & React.ComponentPropsWithRef<'svg'>;

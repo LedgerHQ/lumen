@@ -1,4 +1,4 @@
-import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
+import React, { MouseEventHandler, ReactNode } from 'react';
 import { IconProps } from '../Icon';
 import { DiscriminatedSpotProps, SpotSize } from '../Spot/types';
 
@@ -52,10 +52,10 @@ export type TileProps = {
    */
   secondaryAction?: ReactNode;
   /**
-   * Ref to the tile root element.
+   * Ref to the tile root element (the outer div).
    */
   ref?: React.Ref<HTMLDivElement>;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 export type TileSpotProps = {
   /**
@@ -75,7 +75,7 @@ export type TileContentProps = {
    * Additional CSS classes for the content container.
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 export type TileTitleProps = {
   /**
@@ -86,7 +86,7 @@ export type TileTitleProps = {
    * Additional CSS classes for the title.
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 export type TileDescriptionProps = {
   /**
@@ -97,7 +97,7 @@ export type TileDescriptionProps = {
    * Additional CSS classes for the description.
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 export type TileTrailingContentProps = {
   /**
@@ -109,7 +109,7 @@ export type TileTrailingContentProps = {
    * Additional CSS classes for the trailing content container.
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 export type TileSecondaryActionProps = {
   /**
@@ -124,8 +124,4 @@ export type TileSecondaryActionProps = {
    * Additional CSS classes for the secondary action container.
    */
   className?: string;
-  /**
-   * Ref to the tile secondary action button element.
-   */
-  ref?: React.Ref<HTMLButtonElement>;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
+} & Omit<React.ComponentPropsWithRef<'button'>, 'onClick'>;

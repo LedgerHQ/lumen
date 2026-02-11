@@ -17,11 +17,7 @@ export type CheckboxProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-  /**
-   * Ref to the checkbox root component.
-   */
-  ref?: React.Ref<React.ComponentRef<typeof CheckboxPrimitive.Root>>;
 } & Omit<
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
+  React.ComponentPropsWithRef<typeof CheckboxPrimitive.Root>,
   'checked' | 'defaultChecked' | 'onCheckedChange' | 'asChild'
 >;

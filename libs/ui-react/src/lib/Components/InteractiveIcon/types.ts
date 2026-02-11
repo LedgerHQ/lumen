@@ -9,8 +9,4 @@ export type InteractiveIconProps = {
    * Should be a single icon element from the design system.
    */
   children: React.ReactNode;
-  /**
-   * Ref to the interactive icon button element.
-   */
-  ref?: React.Ref<HTMLButtonElement>;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+} & React.ComponentPropsWithRef<'button'>;

@@ -9,8 +9,4 @@ export type PageIndicatorProps = {
    * The total number of pages to display.
    */
   totalPages: number;
-  /**
-   * Ref to the page indicator element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<React.ComponentPropsWithRef<'div'>, 'children'>;

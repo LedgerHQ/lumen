@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { IconSize } from '../Icon/types';
 
 /**
@@ -53,11 +53,7 @@ export type SideBarProps = {
    * Additional CSS classes for the sidebar container.
    */
   className?: string;
-  /**
-   * Ref to the sidebar root element.
-   */
-  ref?: React.Ref<HTMLElement>;
-} & Omit<HTMLAttributes<HTMLElement>, 'children'>;
+} & Omit<React.ComponentPropsWithRef<'aside'>, 'children'>;
 
 /**
  * Props for the SideBarLeading component (top section)
@@ -71,11 +67,7 @@ export type SideBarLeadingProps = {
    * Additional CSS classes for the leading container.
    */
   className?: string;
-  /**
-   * Ref to the sidebar leading container element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the SideBarTrailing component (bottom section)
@@ -89,11 +81,7 @@ export type SideBarTrailingProps = {
    * Additional CSS classes for the trailing container.
    */
   className?: string;
-  /**
-   * Ref to the sidebar trailing container element.
-   */
-  ref?: React.Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+} & React.ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the SideBarItem component
@@ -134,11 +122,7 @@ export type SideBarItemProps = {
    * Additional CSS classes for the item.
    */
   className?: string;
-  /**
-   * Ref to the sidebar item button element.
-   */
-  ref?: React.Ref<HTMLButtonElement>;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'children' | 'onClick'>;
+} & Omit<React.ComponentPropsWithRef<'button'>, 'children' | 'onClick'>;
 
 /**
  * Internal props for the collapse toggle component
@@ -148,4 +132,4 @@ export type SideBarCollapseToggleProps = {
    * Additional CSS classes for the toggle.
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>;
+} & Omit<React.ComponentPropsWithRef<'button'>, 'onClick' | 'children'>;
