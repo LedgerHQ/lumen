@@ -1,8 +1,4 @@
-import type {
-  ComponentPropsWithRef,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 
 type Direction = 'ltr' | 'rtl';
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
@@ -211,9 +207,7 @@ export type SelectItemProps = {
    * @example children={<SelectItemText>Option</SelectItemText>}
    * @required
    */
-  children:
-    | ReactElement<SelectItemTextProps>
-    | readonly ReactElement[];
+  children: ReactElement<SelectItemTextProps> | readonly ReactElement[];
   /**
    * Optional text used for typeahead purposes. Use this when the content is complex, or you have non-textual content inside.
    * @example textValue='Option'
