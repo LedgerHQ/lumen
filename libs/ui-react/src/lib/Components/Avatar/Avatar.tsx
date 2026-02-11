@@ -59,9 +59,7 @@ export const Avatar = ({
   imgLoading,
   showNotification = false,
   ...props
-}: AvatarProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: AvatarProps) => {
   const { t } = useCommonTranslation();
   const [error, setError] = React.useState<boolean>(false);
   const shouldFallback = !src || error;

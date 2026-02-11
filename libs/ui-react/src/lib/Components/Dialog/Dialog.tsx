@@ -136,9 +136,7 @@ const DialogOverlay = ({
   ref,
   className,
   ...props
-}: DialogOverlayProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: DialogOverlayProps) => {
   return (
     <DialogPrimitive.Overlay
       ref={ref}
@@ -230,9 +228,7 @@ export const DialogBody = ({
   scrollbarWidth = 'none',
   style,
   ...props
-}: DialogBodyProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: DialogBodyProps) => {
   const { height } = useDialogContext({
     consumerName: 'DialogBody',
     contextRequired: true,
@@ -280,9 +276,7 @@ export const DialogFooter = ({
   className,
   children,
   ...props
-}: DialogFooterProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: DialogFooterProps) => {
   return (
     <div
       ref={ref}

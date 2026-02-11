@@ -46,12 +46,7 @@ function Menu({ ...props }: MenuProps) {
   return <DropdownMenuPrimitive.Root data-slot='menu' {...props} />;
 }
 
-const MenuTrigger = ({
-  ref,
-  ...props
-}: MenuTriggerProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>>;
-}) => (
+const MenuTrigger = ({ ref, ...props }: MenuTriggerProps) => (
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     data-slot='menu-trigger'
@@ -88,9 +83,7 @@ const MenuSubTrigger = ({
   inset,
   children,
   ...props
-}: MenuSubTriggerProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.SubTrigger>>;
-}) => (
+}: MenuSubTriggerProps) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     data-slot='menu-sub-trigger'
@@ -103,13 +96,7 @@ const MenuSubTrigger = ({
 );
 MenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
 
-const MenuSubContent = ({
-  ref,
-  className,
-  ...props
-}: MenuSubContentProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>>;
-}) => (
+const MenuSubContent = ({ ref, className, ...props }: MenuSubContentProps) => (
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     data-slot='menu-sub-content'
@@ -125,9 +112,7 @@ const MenuContent = ({
   sideOffset = 4,
   align = 'start',
   ...props
-}: MenuContentProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Content>>;
-}) => (
+}: MenuContentProps) => (
   <DropdownMenuPrimitive.Portal>
     <DropdownMenuPrimitive.Content
       ref={ref}
@@ -148,14 +133,7 @@ const MenuContent = ({
 );
 MenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
-const MenuItem = ({
-  ref,
-  className,
-  inset,
-  ...props
-}: MenuItemProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Item>>;
-}) => (
+const MenuItem = ({ ref, className, inset, ...props }: MenuItemProps) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     data-slot='menu-item'
@@ -171,11 +149,7 @@ const MenuCheckboxItem = ({
   children,
   checked,
   ...props
-}: MenuCheckboxItemProps & {
-  ref?: React.Ref<
-    React.ComponentRef<typeof DropdownMenuPrimitive.CheckboxItem>
-  >;
-}) => (
+}: MenuCheckboxItemProps) => (
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     data-slot='menu-checkbox-item'
@@ -198,9 +172,7 @@ const MenuRadioItem = ({
   className,
   children,
   ...props
-}: MenuRadioItemProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>>;
-}) => (
+}: MenuRadioItemProps) => (
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     data-slot='menu-radio-item'
@@ -234,13 +206,7 @@ const MenuLabel = ({
 );
 MenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
-const MenuSeparator = ({
-  ref,
-  className,
-  ...props
-}: MenuSeparatorProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => (
+const MenuSeparator = ({ ref, className, ...props }: MenuSeparatorProps) => (
   <Divider ref={ref} className={cn('mx-8 my-4 w-auto', className)} {...props} />
 );
 MenuSeparator.displayName = 'MenuSeparator';

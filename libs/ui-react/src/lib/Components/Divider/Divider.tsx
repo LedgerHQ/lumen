@@ -26,9 +26,7 @@ export const Divider = ({
   className,
   orientation = 'horizontal',
   ...props
-}: DividerProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: DividerProps) => {
   return (
     <div
       ref={ref}

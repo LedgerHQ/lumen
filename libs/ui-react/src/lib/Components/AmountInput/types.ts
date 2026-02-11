@@ -42,6 +42,7 @@ export type AmountInputProps = {
    * @default true
    */
   thousandsSeparator?: boolean;
+  ref?: React.Ref<HTMLInputElement>;
 } & Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   'size' | 'prefix' | 'value' | 'onChange'

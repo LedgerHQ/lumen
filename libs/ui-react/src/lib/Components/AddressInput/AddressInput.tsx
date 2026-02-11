@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { QrCode as QrCodeIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
@@ -66,9 +65,7 @@ export const AddressInput = ({
   suffix,
   onQrCodeClick,
   ...props
-}: AddressInputProps & {
-  ref?: React.Ref<HTMLInputElement>;
-}) => {
+}: AddressInputProps) => {
   const { t } = useCommonTranslation();
   // Use custom prefix if provided, otherwise default "To:" prefix
   const effectivePrefix = (

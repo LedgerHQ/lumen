@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import React from 'react';
 import { Check } from '../../Symbols/Icons/Check';
 import { CheckboxProps } from './types';
 
@@ -58,13 +57,7 @@ const checkboxStyles = cn(
  * // With custom styling (layout only)
  * <Checkbox className="mr-8" />
  */
-export const Checkbox = ({
-  ref,
-  className,
-  ...props
-}: CheckboxProps & {
-  ref?: React.Ref<React.ComponentRef<typeof CheckboxPrimitive.Root>>;
-}) => (
+export const Checkbox = ({ ref, className, ...props }: CheckboxProps) => (
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(checkboxStyles, className)}

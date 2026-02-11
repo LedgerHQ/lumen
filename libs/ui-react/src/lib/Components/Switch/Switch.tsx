@@ -1,7 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { SwitchProps } from './types';
 
 const switchVariants = cva(
@@ -67,9 +66,7 @@ export const Switch = ({
   onChange,
   size = 'md',
   ...props
-}: SwitchProps & {
-  ref?: React.Ref<React.ComponentRef<typeof SwitchPrimitive.Root>>;
-}) => (
+}: SwitchProps) => (
   <SwitchPrimitive.Root
     ref={ref}
     className={cn(className, switchVariants({ size }))}

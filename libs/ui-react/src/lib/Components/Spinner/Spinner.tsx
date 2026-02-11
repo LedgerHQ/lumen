@@ -13,9 +13,7 @@ export const Spinner = ({
   className,
   size = 16,
   ...props
-}: SpinnerProps & {
-  ref?: React.Ref<SVGSVGElement>;
-}) => {
+}: SpinnerProps) => {
   const { t } = useCommonTranslation();
   return (
     <svg

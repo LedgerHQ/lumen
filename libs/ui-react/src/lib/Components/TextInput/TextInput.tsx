@@ -59,9 +59,7 @@ import { TextInputProps } from './types';
 export const TextInput = ({
   ref,
   ...props
-}: TextInputProps & {
-  ref?: React.Ref<HTMLInputElement>;
-}) => {
+}: TextInputProps) => {
   return <BaseInput ref={ref} {...props} />;
 };
 

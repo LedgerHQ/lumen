@@ -94,9 +94,7 @@ export const SideBar = ({
   children,
   className,
   ...props
-}: SideBarProps & {
-  ref?: React.Ref<HTMLElement>;
-}) => {
+}: SideBarProps) => {
   const [collapsed, setCollapsed] = useControllableState({
     prop: controlledCollapsed,
     defaultProp: defaultCollapsed,
@@ -135,9 +133,7 @@ export const SideBarLeading = ({
   children,
   className,
   ...props
-}: SideBarLeadingProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: SideBarLeadingProps) => {
   return (
     <div
       ref={ref}
@@ -160,9 +156,7 @@ export const SideBarTrailing = ({
   children,
   className,
   ...props
-}: SideBarTrailingProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: SideBarTrailingProps) => {
   return (
     <div
       ref={ref}
@@ -208,9 +202,7 @@ export const SideBarItem = ({
   className,
   onClick,
   ...props
-}: SideBarItemProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: SideBarItemProps) => {
   const { collapsed, active, onActiveChange } = useSideBarContext({
     consumerName: 'SideBarItem',
     contextRequired: true,

@@ -47,4 +47,5 @@ export type BaseInputProps = {
    * Additional class names to apply to the label element
    */
   labelClassName?: string;
+  ref?: React.Ref<HTMLInputElement>;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'>;

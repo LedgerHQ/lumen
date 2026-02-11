@@ -9,6 +9,7 @@ export type NavBarProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
+  ref?: React.Ref<HTMLElement>;
 } & Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'className'>;
 
 export type NavBarBackButtonProps = {
@@ -42,6 +43,7 @@ export type NavBarTitleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  ref?: React.Ref<HTMLElement>;
 };
 
 export type NavBarTrailingProps = {
@@ -72,6 +74,7 @@ export type CoinCapsuleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 /**

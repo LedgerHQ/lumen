@@ -27,9 +27,7 @@ export const NavBarCoinCapsule = ({
   ticker,
   icon,
   className,
-}: NavBarCoinCapsuleProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => (
+}: NavBarCoinCapsuleProps) => (
   <div className='flex flex-1 items-center' data-slot='navbar-coin-capsule'>
     <CoinCapsule ref={ref} ticker={ticker} icon={icon} className={className} />
   </div>
@@ -47,9 +45,7 @@ export const NavBarBackButton = ({
   onClick,
   'aria-label': ariaLabel,
   className,
-}: NavBarBackButtonProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: NavBarBackButtonProps) => {
   const { t } = useCommonTranslation();
 
   return (
@@ -83,9 +79,7 @@ export const NavBarTitle = ({
   children,
   className,
   as: Component = 'h1',
-}: NavBarTitleProps & {
-  ref?: React.Ref<HTMLElement>;
-}) => {
+}: NavBarTitleProps) => {
   return (
     <Component
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -170,9 +164,7 @@ export const NavBar = ({
   children,
   className,
   ...props
-}: NavBarProps & {
-  ref?: React.Ref<HTMLElement>;
-}) => {
+}: NavBarProps) => {
   return (
     <nav
       ref={ref}

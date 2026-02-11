@@ -29,4 +29,5 @@ export type BannerProps = React.HTMLAttributes<HTMLDivElement> & {
    * Optional aria label for the close button.
    */
   closeAriaLabel?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };

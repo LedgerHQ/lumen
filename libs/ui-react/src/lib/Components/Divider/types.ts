@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { type HTMLAttributes, type Ref } from 'react';
 
 export type DividerProps = {
   /**
@@ -6,4 +6,5 @@ export type DividerProps = {
    * @default 'horizontal'
    */
   orientation?: 'horizontal' | 'vertical';
+  ref?: Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;

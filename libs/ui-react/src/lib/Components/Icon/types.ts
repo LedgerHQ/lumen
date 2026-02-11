@@ -13,4 +13,5 @@ export type IconProps = {
    * The children of the icon.
    */
   children: React.ReactNode;
+  ref?: React.Ref<SVGSVGElement>;
 } & React.SVGProps<SVGSVGElement>;

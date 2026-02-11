@@ -73,6 +73,7 @@ export type SelectTriggerProps = {
    * @example labelClassName='text-error'
    */
   labelClassName?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 };
 
 export type SelectContentProps = {
@@ -159,6 +160,7 @@ export type SelectContentProps = {
    * @example className='text-error'
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 export type SelectGroupProps = {
@@ -179,6 +181,7 @@ export type SelectLabelProps = {
    * The class name of the select label
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 export type SelectItemTextProps = {
@@ -193,6 +196,7 @@ export type SelectItemTextProps = {
    * @example className='text-error'
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 export type SelectItemProps = {
@@ -225,6 +229,7 @@ export type SelectItemProps = {
    * @example className='text-error'
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 export type SelectSeparatorProps = {
@@ -237,4 +242,5 @@ export type SelectSeparatorProps = {
    * Extra class names to apply to the separator element
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };

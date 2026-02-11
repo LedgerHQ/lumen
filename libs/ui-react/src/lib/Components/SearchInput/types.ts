@@ -9,4 +9,5 @@ export type SearchInputProps = Omit<
    * @default 'plain'
    */
   appearance?: 'plain' | 'transparent';
+  ref?: React.Ref<HTMLInputElement>;
 };

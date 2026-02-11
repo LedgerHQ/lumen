@@ -89,9 +89,7 @@ export const Tile = ({
   children,
   style,
   ...props
-}: TileProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: TileProps) => {
   return (
     <TileProvider value={{ disabled }}>
       <div
@@ -265,9 +263,7 @@ export const TileSecondaryAction = ({
   className,
   'aria-label': ariaLabel,
   ...props
-}: TileSecondaryActionProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: TileSecondaryActionProps) => {
   const { disabled } = useTileContext({
     consumerName: 'TileSecondaryAction',
     contextRequired: true,

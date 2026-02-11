@@ -24,4 +24,5 @@ export type IconButtonProps = {
    * Optional text to show in the tooltip. If not provided, aria-label will be used
    */
   tooltipText?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 } & Omit<BaseButtonProps, 'isFull'>;

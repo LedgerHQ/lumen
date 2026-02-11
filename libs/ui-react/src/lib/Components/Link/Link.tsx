@@ -84,9 +84,7 @@ export const Link = ({
   isExternal = false,
   asChild = false,
   ...props
-}: LinkProps & {
-  ref?: React.Ref<HTMLAnchorElement>;
-}) => {
+}: LinkProps) => {
   const iconSizeMap: { [key: string]: IconSize } = {
     sm: 16,
     md: 20,

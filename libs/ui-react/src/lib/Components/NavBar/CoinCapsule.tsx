@@ -13,9 +13,7 @@ export const CoinCapsule = ({
   ticker,
   icon,
   className,
-}: CoinCapsuleProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: CoinCapsuleProps) => {
   return (
     <div
       ref={ref}

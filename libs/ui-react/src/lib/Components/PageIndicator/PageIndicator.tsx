@@ -97,9 +97,7 @@ export const PageIndicator = ({
   totalPages,
   className,
   ...props
-}: PageIndicatorProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: PageIndicatorProps) => {
   const currentPageIndex = Math.max(
     0,
     Math.min(totalPages - 1, currentPage - 1),

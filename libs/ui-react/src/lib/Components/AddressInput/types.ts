@@ -25,6 +25,7 @@ export type AddressInputProps = {
    * When not provided, no QR code scanner icon will be shown.
    */
   onQrCodeClick?: () => void;
+  ref?: React.Ref<HTMLInputElement>;
 } & Omit<
   BaseInputProps,
   'prefix' | 'label' | 'labelClassName' | 'inputClassName'

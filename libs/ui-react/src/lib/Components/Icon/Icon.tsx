@@ -29,9 +29,7 @@ export const Icon = ({
   viewBox,
   xmlns,
   ...props
-}: IconProps & {
-  ref?: React.Ref<SVGSVGElement>;
-}) => {
+}: IconProps) => {
   return createElement(
     'svg',
     {

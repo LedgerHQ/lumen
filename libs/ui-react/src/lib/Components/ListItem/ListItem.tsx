@@ -47,9 +47,7 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
 export const ListItem = ({
   ref,
   ...props
-}: ListItemProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: ListItemProps) => {
   const { children, className, disabled, ...buttonProps } = props;
 
   return (
@@ -82,9 +80,7 @@ export const ListItemLeading = ({
   ref,
   children,
   className,
-}: ListItemLeadingProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: ListItemLeadingProps) => {
   return (
     <div
       ref={ref}
@@ -104,9 +100,7 @@ export const ListItemContent = ({
   ref,
   children,
   className,
-}: ListItemContentProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: ListItemContentProps) => {
   return (
     <div
       ref={ref}
@@ -126,9 +120,7 @@ export const ListItemTitle = ({
   ref,
   children,
   className,
-}: ListItemTitleProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: ListItemTitleProps) => {
   const { isInTrailing } = useListItemTrailingContext({
     consumerName: 'ListItemTitle',
     contextRequired: false,
@@ -158,9 +150,7 @@ export const ListItemDescription = ({
   ref,
   children,
   className,
-}: ListItemDescriptionProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: ListItemDescriptionProps) => {
   const { disabled } = useListItemContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
@@ -195,9 +185,7 @@ export const ListItemTrailing = ({
   ref,
   children,
   className,
-}: ListItemTrailingProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: ListItemTrailingProps) => {
   const { disabled } = useListItemContext({
     consumerName: 'ListItemTrailing',
     contextRequired: true,
@@ -244,9 +232,7 @@ export const ListItemIcon = ({
   icon: Icon,
   className,
   ...props
-}: ListItemIconProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: ListItemIconProps) => {
   const { disabled } = useListItemContext({
     consumerName: 'ListItemIcon',
     contextRequired: true,

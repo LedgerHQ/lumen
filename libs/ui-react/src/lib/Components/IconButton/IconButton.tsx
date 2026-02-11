@@ -12,9 +12,7 @@ export const IconButton = ({
   tooltipText,
   'aria-label': ariaLabel,
   ...props
-}: IconButtonProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: IconButtonProps) => {
   const button = (
     <BaseButton
       ref={ref}

@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import {
   InformationFill,
@@ -77,9 +76,7 @@ export const Banner = ({
   onClose,
   closeAriaLabel,
   ...props
-}: BannerProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: BannerProps) => {
   const { t } = useCommonTranslation();
   const icon = iconMap[appearance];
 

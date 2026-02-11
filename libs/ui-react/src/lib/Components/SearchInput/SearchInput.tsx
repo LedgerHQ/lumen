@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { Search as SearchIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
 import { SearchInputProps } from './types';
@@ -91,9 +90,7 @@ export const SearchInput = ({
   className,
   inputClassName,
   ...props
-}: SearchInputProps & {
-  ref?: React.Ref<HTMLInputElement>;
-}) => {
+}: SearchInputProps) => {
   const searchIcon = (
     <SearchIcon
       size={20}

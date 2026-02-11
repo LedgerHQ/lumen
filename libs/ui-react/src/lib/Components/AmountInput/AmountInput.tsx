@@ -57,9 +57,7 @@ export const AmountInput = ({
   value,
   onChange,
   ...props
-}: AmountInputProps & {
-  ref?: React.Ref<HTMLInputElement>;
-}) => {
+}: AmountInputProps) => {
   const spanRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(value.toString());

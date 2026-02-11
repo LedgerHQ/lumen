@@ -72,9 +72,7 @@ export const TileButton = ({
   asChild = false,
   'aria-label': ariaLabel,
   ...props
-}: TileButtonProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: TileButtonProps) => {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled) {

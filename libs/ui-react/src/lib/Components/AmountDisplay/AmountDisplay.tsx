@@ -1,4 +1,3 @@
-import React from 'react';
 import { AmountDisplayProps } from './types';
 
 /**
@@ -40,9 +39,7 @@ export const AmountDisplay = ({
   formatter,
   hidden = false,
   ...props
-}: AmountDisplayProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: AmountDisplayProps) => {
   const parts = formatter(value);
 
   return (

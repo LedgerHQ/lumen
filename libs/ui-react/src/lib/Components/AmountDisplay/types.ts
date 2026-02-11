@@ -43,4 +43,5 @@ export type AmountDisplayProps = React.HTMLAttributes<HTMLDivElement> & {
    * @default false
    */
   hidden?: boolean;
+  ref?: React.Ref<HTMLDivElement>;
 };

@@ -18,9 +18,7 @@ const createIcon = (
     ref,
     className,
     ...props
-  }: Omit<IconProps, 'children'> & {
-    ref?: React.Ref<SVGSVGElement>;
-  }) =>
+  }: Omit<IconProps, 'children'>) =>
     createElement(Icon, {
       ref,
       className,

@@ -26,7 +26,7 @@ const baseLabelStyles = cn(
   'pointer-events-none absolute top-6 left-16 origin-left body-4 text-muted transition-all duration-300',
   'peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:body-2',
   'group-has-disabled:text-disabled',
-  'peer-focus:top-6 peer-focus:-translate-y-0 peer-focus:body-4',
+  'peer-focus:top-6 peer-focus:translate-y-0 peer-focus:body-4',
   'w-[calc(100%-var(--size-56))] truncate',
 );
 
@@ -67,9 +67,7 @@ export const BaseInput = ({
   'aria-invalid': ariaInvalidProp,
   onChange: onChangeProp,
   ...props
-}: BaseInputProps & {
-  ref?: React.Ref<HTMLInputElement>;
-}) => {
+}: BaseInputProps) => {
   const { t } = useCommonTranslation();
   const inputRef = React.useRef<HTMLInputElement>(null);
 

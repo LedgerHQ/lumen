@@ -193,7 +193,14 @@ export const TooltipTextVariations: Story = {
 
 export const AsChild: Story = {
   render: () => {
-    const CustomLink = ({ ref, to, ...props }) => (
+    const CustomLink = ({
+      ref,
+      to,
+      ...props
+    }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+      to: string;
+      ref?: React.Ref<HTMLAnchorElement>;
+    }) => (
       <a ref={ref} href={to} {...props} />
     );
     CustomLink.displayName = 'CustomLink';

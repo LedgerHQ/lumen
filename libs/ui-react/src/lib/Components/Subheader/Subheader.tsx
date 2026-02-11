@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import {
@@ -98,9 +97,7 @@ export const SubheaderInfo = ({
   iconType = 'stroked',
   className,
   ...props
-}: SubheaderInfoProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: SubheaderInfoProps) => {
   return (
     <span className='flex shrink-0 items-center'>
       <InteractiveIcon

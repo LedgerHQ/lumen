@@ -57,9 +57,7 @@ export const CardButton = ({
   description,
   hideChevron,
   ...props
-}: CardButtonProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: CardButtonProps) => {
   const IconComponent = icon;
 
   return (

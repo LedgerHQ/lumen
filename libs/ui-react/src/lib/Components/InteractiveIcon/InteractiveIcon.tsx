@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { InteractiveIconProps } from './types';
 
 const buttonVariants = cva(
@@ -55,9 +54,7 @@ export const InteractiveIcon = ({
   iconType,
   disabled = false,
   ...props
-}: InteractiveIconProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}) => {
+}: InteractiveIconProps) => {
   return (
     <button
       {...props}

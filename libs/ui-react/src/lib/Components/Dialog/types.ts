@@ -52,6 +52,14 @@ export type DialogTriggerProps = {
   className?: string;
 };
 
+export type DialogOverlayProps = {
+  /**
+   * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
+   */
+  className?: string;
+  ref?: React.Ref<HTMLDivElement>;
+};
+
 export type DialogContentProps = {
   /**
    * The content to display inside the dialog.
@@ -92,13 +100,6 @@ export type DialogContentProps = {
   onInteractOutside?: (event: CustomEvent) => void;
 };
 
-export type DialogOverlayProps = {
-  /**
-   * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
-   */
-  className?: string;
-};
-
 export type DialogHeaderProps = {
   /**
    * The appearance variant of the header.
@@ -125,6 +126,7 @@ export type DialogHeaderProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
 
 export type DialogBodyProps = {
@@ -142,6 +144,7 @@ export type DialogBodyProps = {
    * @default 'none'
    */
   scrollbarWidth?: 'none' | 'auto';
+  ref?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export type DialogFooterProps = {
@@ -153,4 +156,5 @@ export type DialogFooterProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;

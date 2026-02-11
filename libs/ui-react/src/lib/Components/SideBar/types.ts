@@ -53,6 +53,7 @@ export type SideBarProps = {
    * Additional CSS classes for the sidebar container.
    */
   className?: string;
+  ref?: React.Ref<HTMLElement>;
 } & Omit<HTMLAttributes<HTMLElement>, 'children'>;
 
 /**
@@ -67,6 +68,7 @@ export type SideBarLeadingProps = {
    * Additional CSS classes for the leading container.
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -81,6 +83,7 @@ export type SideBarTrailingProps = {
    * Additional CSS classes for the trailing container.
    */
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -122,6 +125,7 @@ export type SideBarItemProps = {
    * Additional CSS classes for the item.
    */
   className?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 } & Omit<HTMLAttributes<HTMLButtonElement>, 'children' | 'onClick'>;
 
 /**

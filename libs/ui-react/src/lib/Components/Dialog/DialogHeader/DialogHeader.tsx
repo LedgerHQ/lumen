@@ -97,9 +97,7 @@ const DialogHeaderComponent = ({
   onClose,
   onBack,
   ...props
-}: DialogHeaderProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: DialogHeaderProps) => {
   return (
     <div
       ref={ref}
@@ -157,9 +155,7 @@ export const DialogHeader = ({
   description,
   appearance = 'compact',
   ...props
-}: DialogHeaderProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => {
+}: DialogHeaderProps) => {
   return (
     <>
       <DialogHeaderComponent

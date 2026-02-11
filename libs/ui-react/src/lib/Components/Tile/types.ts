@@ -51,6 +51,7 @@ export type TileProps = {
    * Typically contains a TileSecondaryAction component.
    */
   secondaryAction?: ReactNode;
+  ref?: React.Ref<HTMLDivElement>;
 } & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 export type TileSpotProps = {
@@ -120,4 +121,5 @@ export type TileSecondaryActionProps = {
    * Additional CSS classes for the secondary action container.
    */
   className?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 } & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
