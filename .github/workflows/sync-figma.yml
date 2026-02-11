@@ -1,7 +1,7 @@
 name: Sync Figma
 
 concurrency:
-  group: sync-figma-${{ github.ref }}
+  group: sync-figma
   cancel-in-progress: true
 
 on:
