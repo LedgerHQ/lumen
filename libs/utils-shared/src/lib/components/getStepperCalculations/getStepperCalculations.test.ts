@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getStepperCalculations } from './getStepperCalculations';
+import { getStepperCalculations } from '../getStepperCalculations';
 
 describe('getStepperCalculations', () => {
   const defaultInput = {
