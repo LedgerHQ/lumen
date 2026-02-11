@@ -1,0 +1,347 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ContentBannerStories from './ContentBanner.stories';
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+} from './ContentBanner';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/ContentBanner' of={ContentBannerStories} />
+
+# ContentBanner
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+ContentBanner is a composable banner component used to display contextual information with an optional leading visual, title, description, and close button. It follows the same composite component pattern as ListItem.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11235-5966).
+
+## Anatomy
+
+<Canvas of={ContentBannerStories.Base} />
+
+- **ContentBanner**: Root container with surface background and drop shadow
+- **Leading element**: Any visual element (Spot, Icon, Avatar) passed as a direct child
+- **ContentBannerContent**: Container for title and description
+- **ContentBannerTitle**: The main label of the banner
+- **ContentBannerDescription**: Provides additional context below the title
+- **Close button**: Optional, rendered via the `onClose` prop (positioned absolute top-right)
+
+## Properties
+
+### Overview
+
+<Canvas of={ContentBannerStories.Base} />
+<Controls of={ContentBannerStories.Base} />
+
+### Content Variations
+
+ContentBanners follow a composite component pattern that allows flexible content composition.
+
+<Canvas of={ContentBannerStories.ContentVariationsShowcase} />
+
+### Dismissible
+
+When `onClose` is provided, a close button (InteractiveIcon) is rendered in the top-right corner of the banner.
+
+<Canvas of={ContentBannerStories.WithClose} />
+
+## Responsive Layout
+
+ContentBanner adapts to its container width. Title and description clamp at two lines when content overflows.
+
+> **Key behaviors:**
+>
+> - Automatically fits container width
+> - Title clamps to two lines
+> - Description clamps to two lines
+> - Leading visual and close button maintain fixed sizes
+
+## Accessibility
+
+- The close button includes an `aria-label` (customizable via `closeAriaLabel` prop or auto-translated)
+- The close button uses `InteractiveIcon` with proper focus states
+- All sub-components forward refs and spread HTML attributes for ARIA support
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+The ContentBanner uses a composite component pattern for maximum flexibility:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+  Spot,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <ContentBanner>
+      <Spot appearance='icon' icon={Settings} size={48} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Title</ContentBannerTitle>
+        <ContentBannerDescription>
+          Description text for the content banner.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### With Close Button
+
+Add an `onClose` callback to render a dismissible close button in the top-right corner:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+  Spot,
+} from '@ledgerhq/lumen-ui-react';
+import { Wallet } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <ContentBanner
+      onClose={() => console.log('Closed')}
+      closeAriaLabel='Close banner'
+    >
+      <Spot appearance='icon' icon={Wallet} size={48} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Dismissible Banner</ContentBannerTitle>
+        <ContentBannerDescription>
+          Click the close button to dismiss.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### Without Leading Visual
+
+The leading visual is optional. You can use ContentBanner with just title and description:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <ContentBanner onClose={() => console.log('Closed')}>
+      <ContentBannerContent>
+        <ContentBannerTitle>No Icon</ContentBannerTitle>
+        <ContentBannerDescription>
+          A content banner without a leading visual element.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### Title Only
+
+Description is optional:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  Spot,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <ContentBanner>
+      <Spot appearance='icon' icon={Settings} size={48} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Title Only</ContentBannerTitle>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### Custom Styling
+
+Use `className` for layout purposes only, such as maximum width:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+  Spot,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+<ContentBanner className='max-w-md'>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerContent>
+    <ContentBannerTitle>Constrained Width</ContentBannerTitle>
+    <ContentBannerDescription>
+      This banner has a maximum width applied.
+    </ContentBannerDescription>
+  </ContentBannerContent>
+</ContentBanner>
+```
+
+## Do's and Don'ts
+
+The following guidelines ensure consistent usage of the ContentBanner component and maintain design system principles.
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use the composite pattern correctly'
+      description='ContentBannerTitle and ContentBannerDescription should be nested inside ContentBannerContent'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<ContentBanner>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerContent>
+    <ContentBannerTitle>Title</ContentBannerTitle>
+    <ContentBannerDescription>Description</ContentBannerDescription>
+  </ContentBannerContent>
+</ContentBanner>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't place title and description outside ContentBannerContent"
+      description='Title and description must be inside ContentBannerContent for proper vertical stacking'
+    >
+
+{/* prettier-ignore */}
+```tsx
+// DON'T - Title and description outside ContentBannerContent
+<ContentBanner>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerTitle>Title</ContentBannerTitle>
+  <ContentBannerDescription>Description</ContentBannerDescription>
+</ContentBanner>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Place leading visual as a direct child of ContentBanner'
+      description='The leading element (Spot, Icon, Avatar) should be a direct child of the root, alongside ContentBannerContent'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<ContentBanner>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerContent>
+    <ContentBannerTitle>Title</ContentBannerTitle>
+  </ContentBannerContent>
+</ContentBanner>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't nest the leading visual inside ContentBannerContent"
+      description='The leading element should be a sibling of ContentBannerContent, not nested inside it'
+    >
+
+{/* prettier-ignore */}
+```tsx
+// DON'T - Spot inside ContentBannerContent
+<ContentBanner>
+  <ContentBannerContent>
+    <Spot appearance='icon' icon={Settings} size={48} />
+    <ContentBannerTitle>Title</ContentBannerTitle>
+  </ContentBannerContent>
+</ContentBanner>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use onClose prop for dismissible banners'
+      description='The close button is handled by the root component via the onClose prop'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<ContentBanner onClose={() => handleClose()}>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerContent>
+    <ContentBannerTitle>Dismissible</ContentBannerTitle>
+  </ContentBannerContent>
+</ContentBanner>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't add a custom close button inside the banner"
+      description='Use the built-in onClose prop instead of adding your own close button'
+    >
+
+{/* prettier-ignore */}
+```tsx
+// DON'T - Custom close button
+<ContentBanner>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerContent>
+    <ContentBannerTitle>Dismissible</ContentBannerTitle>
+  </ContentBannerContent>
+  <InteractiveIcon iconType='filled' onClick={handleClose}>
+    <Close size={16} />
+  </InteractiveIcon>
+</ContentBanner>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+</Tab>
+</CustomTabs>
