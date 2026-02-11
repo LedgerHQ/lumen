@@ -6,5 +6,8 @@ export type DividerProps = {
    * @default 'horizontal'
    */
   orientation?: 'horizontal' | 'vertical';
+  /**
+   * Ref to the divider element.
+   */
   ref?: Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;

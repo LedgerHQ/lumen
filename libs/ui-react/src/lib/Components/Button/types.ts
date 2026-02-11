@@ -49,6 +49,9 @@ export type BaseButtonProps = {
    * Optional children to render inside the button.
    */
   children?: React.ReactNode;
+  /**
+   * Ref to the button element.
+   */
   ref?: React.Ref<HTMLButtonElement>;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 

@@ -9,5 +9,8 @@ export type PageIndicatorProps = {
    * The total number of pages to display.
    */
   totalPages: number;
+  /**
+   * Ref to the page indicator element.
+   */
   ref?: Ref<HTMLDivElement>;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;

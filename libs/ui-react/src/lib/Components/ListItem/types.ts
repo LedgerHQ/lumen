@@ -28,6 +28,9 @@ export type ListItemProps = {
    * Callback function when the list item is pressed.
    */
   onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
+  /**
+   * Ref to the list item button element.
+   */
   ref?: React.Ref<HTMLButtonElement>;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>;
 
@@ -43,6 +46,9 @@ export type ListItemLeadingProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item leading element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -58,6 +64,9 @@ export type ListItemContentProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item content element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -73,6 +82,9 @@ export type ListItemTitleProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item title element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -88,6 +100,9 @@ export type ListItemDescriptionProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item description element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -103,6 +118,9 @@ export type ListItemTrailingProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item trailing element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -125,6 +143,9 @@ export type ListItemTruncateProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item truncate element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -140,5 +161,8 @@ export type ListItemIconProps = {
    * custom classname
    */
   className?: string;
+  /**
+   * Ref to the list item icon element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;

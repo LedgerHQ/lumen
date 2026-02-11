@@ -9,6 +9,9 @@ export type NavBarProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
+  /**
+   * Ref to the navbar root element.
+   */
   ref?: React.Ref<HTMLElement>;
 } & Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'className'>;
 
@@ -43,6 +46,9 @@ export type NavBarTitleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  /**
+   * Ref to the navbar title element.
+   */
   ref?: React.Ref<HTMLElement>;
 };
 
@@ -74,6 +80,9 @@ export type CoinCapsuleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  /**
+   * Ref to the coin capsule element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };
 

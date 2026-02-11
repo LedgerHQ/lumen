@@ -45,5 +45,8 @@ export type TileButtonProps = {
    * @default false
    */
   asChild?: boolean;
+  /**
+   * Ref to the tile button element.
+   */
   ref?: Ref<HTMLButtonElement>;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>;

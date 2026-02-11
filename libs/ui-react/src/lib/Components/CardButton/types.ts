@@ -24,5 +24,8 @@ export type CardButtonProps = {
    * @default false
    */
   hideChevron?: boolean;
+  /**
+   * Ref to the card button element.
+   */
   ref?: React.Ref<HTMLButtonElement>;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>;

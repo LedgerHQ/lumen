@@ -34,5 +34,8 @@ export type AvatarProps = {
    * @default undefined (browser default: eager)
    */
   imgLoading?: 'eager' | 'lazy';
+  /**
+   * Ref to the avatar element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;

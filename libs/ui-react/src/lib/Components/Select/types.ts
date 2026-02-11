@@ -73,6 +73,9 @@ export type SelectTriggerProps = {
    * @example labelClassName='text-error'
    */
   labelClassName?: string;
+  /**
+   * Ref to the select trigger button element.
+   */
   ref?: React.Ref<HTMLButtonElement>;
 };
 
@@ -160,6 +163,9 @@ export type SelectContentProps = {
    * @example className='text-error'
    */
   className?: string;
+  /**
+   * Ref to the select content element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };
 
@@ -181,6 +187,9 @@ export type SelectLabelProps = {
    * The class name of the select label
    */
   className?: string;
+  /**
+   * Ref to the select label element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };
 
@@ -196,6 +205,9 @@ export type SelectItemTextProps = {
    * @example className='text-error'
    */
   className?: string;
+  /**
+   * Ref to the select item text element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };
 
@@ -229,6 +241,9 @@ export type SelectItemProps = {
    * @example className='text-error'
    */
   className?: string;
+  /**
+   * Ref to the select item element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };
 
@@ -242,5 +257,8 @@ export type SelectSeparatorProps = {
    * Extra class names to apply to the separator element
    */
   className?: string;
+  /**
+   * Ref to the select separator element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };

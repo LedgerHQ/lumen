@@ -6,5 +6,8 @@ export type SpinnerProps = React.SVGProps<SVGSVGElement> & {
    * @default 16
    */
   size?: IconSize;
+  /**
+   * Ref to the spinner SVG element.
+   */
   ref?: React.Ref<SVGSVGElement>;
 };

@@ -18,6 +18,9 @@ export type SwitchProps = {
    * @default 'md'
    */
   size?: 'sm' | 'md';
+  /**
+   * Ref to the switch root component.
+   */
   ref?: React.Ref<React.ComponentRef<typeof SwitchPrimitive.Root>>;
 } & Omit<
   React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>,

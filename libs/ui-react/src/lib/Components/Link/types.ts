@@ -36,5 +36,8 @@ export type LinkProps = {
    * The link's content, typically text.
    */
   children: React.ReactNode;
+  /**
+   * Ref to the link anchor element.
+   */
   ref?: React.Ref<HTMLAnchorElement>;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;

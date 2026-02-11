@@ -57,6 +57,9 @@ export type DialogOverlayProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
+  /**
+   * Ref to the dialog overlay element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 };
 
@@ -126,6 +129,9 @@ export type DialogHeaderProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  /**
+   * Ref to the dialog header element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
 
@@ -144,6 +150,9 @@ export type DialogBodyProps = {
    * @default 'none'
    */
   scrollbarWidth?: 'none' | 'auto';
+  /**
+   * Ref to the dialog body element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -156,5 +165,8 @@ export type DialogFooterProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
+  /**
+   * Ref to the dialog footer element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;

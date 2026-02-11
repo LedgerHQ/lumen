@@ -57,6 +57,9 @@ export type MenuTriggerProps = {
    * Use this when you need to trigger the menu from a custom component.
    */
   asChild?: boolean;
+  /**
+   * Ref to the menu trigger button element.
+   */
   ref?: React.Ref<HTMLButtonElement>;
 } & React.ComponentPropsWithoutRef<'button'>;
 
@@ -184,6 +187,9 @@ export type MenuContentProps = {
    * @default false
    */
   hideWhenDetached?: boolean;
+  /**
+   * Ref to the menu content element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.ComponentPropsWithoutRef<'div'>;
 
@@ -228,6 +234,9 @@ export type MenuItemProps = {
    * Use this when the content is complex, or you have non-textual content inside.
    */
   textValue?: string;
+  /**
+   * Ref to the menu item element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.ComponentPropsWithoutRef<'div'>;
 
@@ -249,6 +258,9 @@ export type MenuCheckboxItemProps = {
    * @param checked - The new checked state
    */
   onCheckedChange?: (checked: boolean) => void;
+  /**
+   * Ref to the menu checkbox item element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & Omit<MenuItemProps, 'onSelect'>;
 
@@ -265,6 +277,9 @@ export type MenuRadioItemProps = {
    * @required
    */
   value: string;
+  /**
+   * Ref to the menu radio item element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & Omit<MenuItemProps, 'onSelect'>;
 
@@ -290,6 +305,9 @@ export type MenuLabelProps = {
    * merging their props and behavior.
    */
   asChild?: boolean;
+  /**
+   * Ref to the menu label element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.ComponentPropsWithoutRef<'div'>;
 
@@ -309,6 +327,9 @@ export type MenuSeparatorProps = {
    * merging their props and behavior.
    */
   asChild?: boolean;
+  /**
+   * Ref to the menu separator element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.ComponentPropsWithoutRef<'div'>;
 
@@ -417,6 +438,9 @@ export type MenuSubTriggerProps = {
    * Use this when the content is complex, or you have non-textual content inside.
    */
   textValue?: string;
+  /**
+   * Ref to the menu sub trigger element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & React.ComponentPropsWithoutRef<'div'>;
 
@@ -431,6 +455,9 @@ export type MenuSubContentProps = {
    * Additional CSS class names to apply to the sub content.
    */
   className?: string;
+  /**
+   * Ref to the menu sub content element.
+   */
   ref?: React.Ref<HTMLDivElement>;
 } & Omit<
   MenuContentProps,
