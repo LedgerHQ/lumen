@@ -1,10 +1,4 @@
-import {
-  type ButtonHTMLAttributes,
-  type ComponentType,
-  type MouseEventHandler,
-  type ReactNode,
-  type Ref,
-} from 'react';
+import React from 'react';
 import { IconSize } from '../Icon/types';
 
 export type TileButtonProps = {
@@ -12,15 +6,15 @@ export type TileButtonProps = {
    * The icon component to render above the label.
    * Will be rendered at 20px size.
    */
-  icon: ComponentType<{ size?: IconSize; className?: string }>;
+  icon: React.ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * The content of the button (label text).
    */
-  children: ReactNode;
+  children: React.ReactNode;
   /**
    * Click handler for the button.
    */
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   /**
    * Whether the button is disabled.
    * @default false
@@ -48,5 +42,5 @@ export type TileButtonProps = {
   /**
    * Ref to the tile button element.
    */
-  ref?: Ref<HTMLButtonElement>;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>;
+  ref?: React.Ref<HTMLButtonElement>;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>;

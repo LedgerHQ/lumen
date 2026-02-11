@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type Ref } from 'react';
+import React from 'react';
 
 export type PageIndicatorProps = {
   /**
@@ -12,5 +12,5 @@ export type PageIndicatorProps = {
   /**
    * Ref to the page indicator element.
    */
-  ref?: Ref<HTMLDivElement>;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+  ref?: React.Ref<HTMLDivElement>;
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>;

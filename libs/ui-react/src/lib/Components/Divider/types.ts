@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type Ref } from 'react';
+import React from 'react';
 
 export type DividerProps = {
   /**
@@ -9,5 +9,5 @@ export type DividerProps = {
   /**
    * Ref to the divider element.
    */
-  ref?: Ref<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+  ref?: React.Ref<HTMLDivElement>;
+} & React.HTMLAttributes<HTMLDivElement>;
