@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { BaseButton } from './BaseButton';
 import { ButtonProps } from './types';
 
@@ -50,22 +49,29 @@ const buttonVariants = cva('', {
  * </Button>
  *
  */
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, loading, disabled, children, size, icon, ...props }, ref) => {
-    return (
-      <BaseButton
-        ref={ref}
-        size={size}
-        disabled={disabled}
-        icon={icon}
-        loading={loading}
-        className={cn(buttonVariants({ size }), 'gap-8', className)}
-        {...props}
-      >
-        {children}
-      </BaseButton>
-    );
-  },
-);
+export const Button = ({
+  ref,
+  className,
+  loading,
+  disabled,
+  children,
+  size,
+  icon,
+  ...props
+}: ButtonProps) => {
+  return (
+    <BaseButton
+      ref={ref}
+      size={size}
+      disabled={disabled}
+      icon={icon}
+      loading={loading}
+      className={cn(buttonVariants({ size }), 'gap-8', className)}
+      {...props}
+    >
+      {children}
+    </BaseButton>
+  );
+};
 
 Button.displayName = 'Button';

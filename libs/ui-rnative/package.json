@@ -38,7 +38,7 @@
     "@types/react": "^19.0.0",
     "@gorhom/bottom-sheet": "^5.0.0",
     "@ledgerhq/lumen-design-core": "0.0.51",
-    "react": "19.0.0",
+    "react": "^19.0.0",
     "react-native": "~0.79.7",
     "react-native-reanimated": "^3.0.0",
     "react-native-safe-area-context": "^4.0.0 || ^5.0.0",

@@ -1,5 +1,4 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { Spot } from '../Spot/Spot';
 import {
   ListItemContextValue,
@@ -44,30 +43,28 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  *   </ListItemTrailing>
  * </ListItem>
  */
-export const ListItem = React.forwardRef<HTMLButtonElement, ListItemProps>(
-  (props, ref) => {
-    const { children, className, disabled, ...buttonProps } = props;
+export const ListItem = ({ ref, ...props }: ListItemProps) => {
+  const { children, className, disabled, ...buttonProps } = props;
 
-    return (
-      <ListItemProvider value={{ disabled }}>
-        <button
-          ref={ref}
-          type='button'
-          disabled={disabled}
-          className={cn(
-            'flex h-64 w-full cursor-pointer items-center gap-16 rounded-md bg-base-transparent px-8 py-12 text-base transition-colors',
-            'hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
-            'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
-            className,
-          )}
-          {...buttonProps}
-        >
-          {children}
-        </button>
-      </ListItemProvider>
-    );
-  },
-);
+  return (
+    <ListItemProvider value={{ disabled }}>
+      <button
+        ref={ref}
+        type='button'
+        disabled={disabled}
+        className={cn(
+          'flex h-64 w-full cursor-pointer items-center gap-16 rounded-md bg-base-transparent px-8 py-12 text-base transition-colors',
+          'hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
+          'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
+          className,
+        )}
+        {...buttonProps}
+      >
+        {children}
+      </button>
+    </ListItemProvider>
+  );
+};
 
 ListItem.displayName = 'ListItem';
 
@@ -75,10 +72,11 @@ ListItem.displayName = 'ListItem';
  * Container for the leading (left) part of the list item.
  * Contains the visual element (ListItemSpot, Avatar, Icon) and the content (title + description).
  */
-export const ListItemLeading = React.forwardRef<
-  HTMLDivElement,
-  ListItemLeadingProps
->(({ children, className }, ref) => {
+export const ListItemLeading = ({
+  ref,
+  children,
+  className,
+}: ListItemLeadingProps) => {
   return (
     <div
       ref={ref}
@@ -87,17 +85,18 @@ export const ListItemLeading = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ListItemLeading.displayName = 'ListItemLeading';
 
 /**
  * Container for the text content (title and description) within the leading area.
  */
-export const ListItemContent = React.forwardRef<
-  HTMLDivElement,
-  ListItemContentProps
->(({ children, className }, ref) => {
+export const ListItemContent = ({
+  ref,
+  children,
+  className,
+}: ListItemContentProps) => {
   return (
     <div
       ref={ref}
@@ -106,17 +105,18 @@ export const ListItemContent = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ListItemContent.displayName = 'ListItemContent';
 
 /**
  * The main title of the list item.
  */
-export const ListItemTitle = React.forwardRef<
-  HTMLDivElement,
-  ListItemTitleProps
->(({ children, className }, ref) => {
+export const ListItemTitle = ({
+  ref,
+  children,
+  className,
+}: ListItemTitleProps) => {
   const { isInTrailing } = useListItemTrailingContext({
     consumerName: 'ListItemTitle',
     contextRequired: false,
@@ -134,7 +134,7 @@ export const ListItemTitle = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ListItemTitle.displayName = 'ListItemTitle';
 
@@ -142,10 +142,11 @@ ListItemTitle.displayName = 'ListItemTitle';
  * Optional description text below the title. Can include inline elements like Tag.
  * Automatically applies disabled styling when the parent ListItem is disabled.
  */
-export const ListItemDescription = React.forwardRef<
-  HTMLDivElement,
-  ListItemDescriptionProps
->(({ children, className }, ref) => {
+export const ListItemDescription = ({
+  ref,
+  children,
+  className,
+}: ListItemDescriptionProps) => {
   const { disabled } = useListItemContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
@@ -168,7 +169,7 @@ export const ListItemDescription = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ListItemDescription.displayName = 'ListItemDescription';
 
@@ -176,10 +177,11 @@ ListItemDescription.displayName = 'ListItemDescription';
  * Container for the trailing (right) content of the list item.
  * Used for icons, switches, values, tags, chevrons, etc.
  */
-export const ListItemTrailing = React.forwardRef<
-  HTMLDivElement,
-  ListItemTrailingProps
->(({ children, className }, ref) => {
+export const ListItemTrailing = ({
+  ref,
+  children,
+  className,
+}: ListItemTrailingProps) => {
   const { disabled } = useListItemContext({
     consumerName: 'ListItemTrailing',
     contextRequired: true,
@@ -199,7 +201,7 @@ export const ListItemTrailing = React.forwardRef<
       </div>
     </ListItemTrailingProvider>
   );
-});
+};
 
 ListItemTrailing.displayName = 'ListItemTrailing';
 
@@ -221,24 +223,27 @@ ListItemSpot.displayName = 'ListItemSpot';
  * Icon adapter for ListItem. Automatically applies disabled styling from parent ListItem.
  * Fixed at size 24 for consistent list item appearance.
  */
-export const ListItemIcon = React.forwardRef<HTMLDivElement, ListItemIconProps>(
-  ({ icon: Icon, className, ...props }, ref) => {
-    const { disabled } = useListItemContext({
-      consumerName: 'ListItemIcon',
-      contextRequired: true,
-    });
+export const ListItemIcon = ({
+  ref,
+  icon: Icon,
+  className,
+  ...props
+}: ListItemIconProps) => {
+  const { disabled } = useListItemContext({
+    consumerName: 'ListItemIcon',
+    contextRequired: true,
+  });
 
-    return (
-      <div
-        ref={ref}
-        className={cn('shrink-0', disabled && 'text-disabled', className)}
-        {...props}
-      >
-        <Icon size={24} />
-      </div>
-    );
-  },
-);
+  return (
+    <div
+      ref={ref}
+      className={cn('shrink-0', disabled && 'text-disabled', className)}
+      {...props}
+    >
+      <Icon size={24} />
+    </div>
+  );
+};
 
 ListItemIcon.displayName = 'ListItemIcon';
 

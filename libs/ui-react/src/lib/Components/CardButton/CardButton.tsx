@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { ChevronRight } from '../../Symbols';
 import { CardButtonProps } from './types';
 
@@ -48,37 +47,41 @@ const buttonVariants = cva(
  *   appearance="outline"
  * />
  */
-export const CardButton = React.forwardRef<HTMLButtonElement, CardButtonProps>(
-  (
-    { className, appearance, icon, title, description, hideChevron, ...props },
-    ref,
-  ) => {
-    const IconComponent = icon;
+export const CardButton = ({
+  ref,
+  className,
+  appearance,
+  icon,
+  title,
+  description,
+  hideChevron,
+  ...props
+}: CardButtonProps) => {
+  const IconComponent = icon;
 
-    return (
-      <button
-        ref={ref}
-        className={cn(
-          className,
-          buttonVariants({
-            appearance,
-          }),
+  return (
+    <button
+      ref={ref}
+      className={cn(
+        className,
+        buttonVariants({
+          appearance,
+        }),
+      )}
+      disabled={props.disabled}
+      {...props}
+    >
+      {IconComponent && <IconComponent size={24} className='shrink-0' />}
+      <div className='flex min-w-0 flex-1 flex-col gap-4 text-left'>
+        <div className='min-w-0 truncate body-2-semi-bold'>{title}</div>
+        {description && (
+          <div className='line-clamp-2 min-w-0 body-3 text-muted'>
+            {description}
+          </div>
         )}
-        disabled={props.disabled}
-        {...props}
-      >
-        {IconComponent && <IconComponent size={24} className='shrink-0' />}
-        <div className='flex min-w-0 flex-1 flex-col gap-4 text-left'>
-          <div className='min-w-0 truncate body-2-semi-bold'>{title}</div>
-          {description && (
-            <div className='line-clamp-2 min-w-0 body-3 text-muted'>
-              {description}
-            </div>
-          )}
-        </div>
-        {!hideChevron && <ChevronRight size={24} className='shrink-0' />}
-      </button>
-    );
-  },
-);
+      </div>
+      {!hideChevron && <ChevronRight size={24} className='shrink-0' />}
+    </button>
+  );
+};
 CardButton.displayName = 'CardButton';

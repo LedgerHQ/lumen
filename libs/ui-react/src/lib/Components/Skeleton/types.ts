@@ -1,4 +1,6 @@
-type SkeletonProps = React.ComponentProps<'div'> & {
+import type { ComponentProps } from 'react';
+
+type SkeletonProps = ComponentProps<'div'> & {
   /**
    * Pre-built skeleton component variant
    * - `list-item`: Horizontal layout with circle and two text lines

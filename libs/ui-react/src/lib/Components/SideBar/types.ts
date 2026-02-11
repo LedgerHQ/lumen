@@ -1,4 +1,9 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ComponentType,
+  MouseEventHandler,
+  ReactNode,
+} from 'react';
 import { IconSize } from '../Icon/types';
 
 /**
@@ -53,7 +58,7 @@ export type SideBarProps = {
    * Additional CSS classes for the sidebar container.
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'aside'>, 'children'>;
 
 /**
  * Props for the SideBarLeading component (top section)
@@ -67,7 +72,7 @@ export type SideBarLeadingProps = {
    * Additional CSS classes for the leading container.
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the SideBarTrailing component (bottom section)
@@ -81,7 +86,7 @@ export type SideBarTrailingProps = {
    * Additional CSS classes for the trailing container.
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the SideBarItem component
@@ -94,11 +99,11 @@ export type SideBarItemProps = {
   /**
    * The icon component to display when inactive.
    */
-  icon: React.ComponentType<{ size?: IconSize; className?: string }>;
+  icon: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * The icon component to display when the item is active.
    */
-  activeIcon: React.ComponentType<{ size?: IconSize; className?: string }>;
+  activeIcon: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * Optional label next to the icon when expanded. Can be a string or a ReactNode (e.g., with Tag).
    * When omitted, only the icon is shown. When collapsed, use `tooltipContent` for tooltip content.
@@ -117,12 +122,12 @@ export type SideBarItemProps = {
    * Optional click handler. Called before `onActiveChange`.
    * Use this for analytics tracking, custom navigation, or side effects.
    */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   /**
    * Additional CSS classes for the item.
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'children' | 'onClick'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'children' | 'onClick'>;
 
 /**
  * Internal props for the collapse toggle component
@@ -132,4 +137,4 @@ export type SideBarCollapseToggleProps = {
    * Additional CSS classes for the toggle.
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'onClick' | 'children'>;

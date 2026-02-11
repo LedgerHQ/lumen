@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import {
@@ -93,10 +92,12 @@ export const SubheaderCount = ({
 /**
  * Info component for the Subheader. Displays an information icon that can be wrapped in a Tooltip.
  */
-export const SubheaderInfo = React.forwardRef<
-  HTMLButtonElement,
-  SubheaderInfoProps
->(({ iconType = 'stroked', className, ...props }, ref) => {
+export const SubheaderInfo = ({
+  ref,
+  iconType = 'stroked',
+  className,
+  ...props
+}: SubheaderInfoProps) => {
   return (
     <span className='flex shrink-0 items-center'>
       <InteractiveIcon
@@ -110,7 +111,7 @@ export const SubheaderInfo = React.forwardRef<
       </InteractiveIcon>
     </span>
   );
-});
+};
 SubheaderInfo.displayName = 'SubheaderInfo';
 
 /**
