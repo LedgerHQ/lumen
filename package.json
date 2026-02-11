@@ -115,7 +115,7 @@
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.20.0",
     "react-native-worklets": "^0.6.1",
-    "react-router-dom": "6.29.0",
+    "react-router-dom": "6.30.3",
     "rollup": "4.50.0",
     "storybook": "10.0.3",
     "style-dictionary": "^4.3.3",
