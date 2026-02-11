@@ -132,11 +132,7 @@ function DialogPortal({
  * @example
  * <DialogOverlay className="bg-opacity-50" />
  */
-const DialogOverlay = ({
-  ref,
-  className,
-  ...props
-}: DialogOverlayProps) => {
+const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
   return (
     <DialogPrimitive.Overlay
       ref={ref}

@@ -138,11 +138,7 @@ const SelectContent = ({
 );
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
-const SelectLabel = ({
-  ref,
-  className,
-  ...props
-}: SelectLabelProps) => (
+const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
   <SelectPrimitive.Label
     ref={ref}
     data-slot='select-label'
@@ -195,11 +191,7 @@ const SelectSeparator = ({
 );
 SelectSeparator.displayName = 'SelectSeparator';
 
-const SelectItemText = ({
-  ref,
-  className,
-  ...props
-}: SelectItemTextProps) => (
+const SelectItemText = ({ ref, className, ...props }: SelectItemTextProps) => (
   <SelectPrimitive.ItemText
     ref={ref}
     data-slot='select-item-text'

@@ -44,10 +44,7 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  *   </ListItemTrailing>
  * </ListItem>
  */
-export const ListItem = ({
-  ref,
-  ...props
-}: ListItemProps) => {
+export const ListItem = ({ ref, ...props }: ListItemProps) => {
   const { children, className, disabled, ...buttonProps } = props;
 
   return (

@@ -200,9 +200,7 @@ export const AsChild: Story = {
     }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
       to: string;
       ref?: React.Ref<HTMLAnchorElement>;
-    }) => (
-      <a ref={ref} href={to} {...props} />
-    );
+    }) => <a ref={ref} href={to} {...props} />;
     CustomLink.displayName = 'CustomLink';
 
     return (

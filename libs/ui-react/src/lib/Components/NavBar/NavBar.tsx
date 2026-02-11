@@ -159,12 +159,7 @@ NavBarTrailing.displayName = 'NavBarTrailing';
  *   </NavBarTrailing>
  * </NavBar>
  */
-export const NavBar = ({
-  ref,
-  children,
-  className,
-  ...props
-}: NavBarProps) => {
+export const NavBar = ({ ref, children, className, ...props }: NavBarProps) => {
   return (
     <nav
       ref={ref}
