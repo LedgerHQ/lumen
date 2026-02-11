@@ -25,6 +25,7 @@ export * from './Spot';
 export * from './Stepper';
 export * from './Subheader';
 export * from './Switch';
+export * from './Table';
 export * from './Tag';
 export * from './TextInput';
 export * from './Tile';

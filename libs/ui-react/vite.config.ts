@@ -65,6 +65,7 @@ export default defineConfig(() => ({
         '@radix-ui/react-select',
         '@radix-ui/react-tooltip',
         '@radix-ui/react-dropdown-menu',
+        '@tanstack/react-table',
       ],
       preserveEntrySignatures: 'strict' as const,
       output: {
