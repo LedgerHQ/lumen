@@ -75,6 +75,7 @@
     "@swc/jest": "~0.2.36",
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-table": "^8.21.3",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react": "16.1.0",
