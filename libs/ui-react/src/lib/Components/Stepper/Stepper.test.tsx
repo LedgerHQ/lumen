@@ -49,12 +49,12 @@ describe('Stepper Component', () => {
 
   it('should handle currentStep <= 0 (minimal dot)', () => {
     const { container } = render(<Stepper currentStep={0} totalSteps={4} />);
-    const progressCircle = container.querySelectorAll('circle')[1];
-    const style = progressCircle.getAttribute('style');
+    const progressCircle = container.querySelectorAll('circle')[1] as SVGElement;
     // When currentStep is 0, the offset should position a minimal visible dot
     const circumference = 2 * Math.PI * ((48 - 4) / 2);
     const trackArcLength = circumference * 0.75;
-    expect(style).toContain(`stroke-dashoffset: ${trackArcLength - 2}`);
+    const strokeDashoffset = parseFloat(progressCircle.style.strokeDashoffset);
+    expect(strokeDashoffset).toBeCloseTo(trackArcLength - 2);
   });
 
   it('should clamp currentStep to totalSteps', () => {
