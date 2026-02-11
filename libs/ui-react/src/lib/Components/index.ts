@@ -7,6 +7,7 @@ export * from './BaseInput';
 export * from './Button';
 export * from './CardButton';
 export * from './Checkbox';
+export * from './DataTable';
 export * from './Dialog';
 export * from './Divider';
 export * from './IconButton';
