@@ -5,3 +5,5 @@ export * from './lib/cn';
 export * from './lib/isTextChildren';
 export * from './lib/useMergeRef';
 export * from './lib/getObjectPath';
+export * from './lib/throttle';
+export * from './lib/debounce';

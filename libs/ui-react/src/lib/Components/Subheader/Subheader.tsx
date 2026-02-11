@@ -123,7 +123,11 @@ export const SubheaderShowMore = ({
   ...props
 }: SubheaderShowMoreProps) => {
   return (
-    <InteractiveIcon className='-ml-2' iconType='stroked' {...props}>
+    <InteractiveIcon
+      className={cn('-ml-2', className)}
+      iconType='stroked'
+      {...props}
+    >
       <ChevronRight size={20} />
     </InteractiveIcon>
   );

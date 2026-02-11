@@ -1,0 +1,2 @@
+export const TABLE_CELL_HEIGHT = 64;
+export const TABLE_SCROLL_BOTTOM_THRESHOLD_IN_ROW = 2;
