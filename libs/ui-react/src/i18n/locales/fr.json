@@ -30,6 +30,10 @@
       "navigationAriaLabel": "Navigation latérale",
       "collapseAriaLabel": "Réduire la barre latérale",
       "expandAriaLabel": "Développer la barre latérale"
+    },
+    "table": {
+      "ascAriaLabel": "Trier par ordre croissant",
+      "descAriaLabel": "Trier par ordre décroissant"
     }
   }
 }

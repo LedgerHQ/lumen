@@ -55,7 +55,6 @@ export default defineConfig(
           caughtErrorsIgnorePattern: '^_',
           destructuredArrayIgnorePattern: '^_',
           varsIgnorePattern: '^_',
-          ignoreRestSiblings: true,
         },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],

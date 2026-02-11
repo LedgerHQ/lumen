@@ -18,7 +18,7 @@ const meta: Meta<typeof Skeleton> = {
   argTypes: {
     component: {
       control: 'select',
-      options: [undefined, 'list-item', 'tile'],
+      options: [undefined, 'list-item', 'tile', 'table'],
       description: 'Pre-built skeleton component variant',
     },
   },
@@ -44,6 +44,10 @@ export const WithListItem: Story = {
 
 export const WithTile: Story = {
   render: () => <Skeleton component='tile' />,
+};
+
+export const WithTable: Story = {
+  render: () => <Skeleton component='table' className='w-560' />,
 };
 
 export const SizeShowcase: Story = {
