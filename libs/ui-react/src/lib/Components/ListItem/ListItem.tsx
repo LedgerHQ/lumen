@@ -1,5 +1,4 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { Spot } from '../Spot/Spot';
 import {
   ListItemContextValue,

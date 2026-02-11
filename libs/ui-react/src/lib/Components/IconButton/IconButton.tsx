@@ -1,4 +1,3 @@
-import React from 'react';
 import { BaseButton } from '../Button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
 import { IconButtonProps } from './types';

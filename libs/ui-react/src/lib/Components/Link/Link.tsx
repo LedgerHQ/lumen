@@ -1,7 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { ExternalLink } from '../../Symbols';
 import { IconSize } from '../Icon/types';
 import { LinkProps } from './types';

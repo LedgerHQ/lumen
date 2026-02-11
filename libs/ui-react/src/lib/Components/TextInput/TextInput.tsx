@@ -1,4 +1,3 @@
-import React from 'react';
 import { BaseInput } from '../BaseInput';
 import { TextInputProps } from './types';
 

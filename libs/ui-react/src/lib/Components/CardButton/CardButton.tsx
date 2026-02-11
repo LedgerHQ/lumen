@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { ChevronRight } from '../../Symbols';
 import { CardButtonProps } from './types';
 
