@@ -1,15 +1,15 @@
-import React from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type NavBarProps = {
   /**
    * The children of the NavBar, typically NavBarBackButton, NavBarTitle, NavBarTrailing, or NavBarCoinCapsule components.
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
   /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-} & Omit<React.ComponentPropsWithRef<'nav'>, 'children' | 'className'>;
+} & Omit<ComponentPropsWithRef<'nav'>, 'children' | 'className'>;
 
 export type NavBarBackButtonProps = {
   /**
@@ -25,13 +25,13 @@ export type NavBarBackButtonProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'button'>;
+} & ComponentPropsWithRef<'button'>;
 
 export type NavBarTitleProps = {
   /**
    * The title text to display.
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * The HTML element to render as.
    * Use this to control heading semantics and avoid multiple h1s on a page.
@@ -42,13 +42,13 @@ export type NavBarTitleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'h1'>;
+} & ComponentPropsWithRef<'h1'>;
 
 export type NavBarTrailingProps = {
   /**
    * The trailing content, typically IconButton components.
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Additional custom CSS classes to apply.
    */
@@ -67,12 +67,12 @@ export type CoinCapsuleProps = {
   /**
    * The icon element to display (typically a crypto coin icon).
    */
-  icon: React.ReactNode;
+  icon: ReactNode;
   /**
    * Additional custom CSS classes to apply.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the NavBarCoinCapsule component.

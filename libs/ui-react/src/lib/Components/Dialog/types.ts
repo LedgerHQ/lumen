@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type DialogHeight = 'hug' | 'fixed';
 
@@ -57,7 +57,7 @@ export type DialogOverlayProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type DialogContentProps = {
   /**
@@ -125,7 +125,7 @@ export type DialogHeaderProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-} & Omit<React.ComponentPropsWithRef<'div'>, 'className'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'className'>;
 
 export type DialogBodyProps = {
   /**
@@ -142,7 +142,7 @@ export type DialogBodyProps = {
    * @default 'none'
    */
   scrollbarWidth?: 'none' | 'auto';
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type DialogFooterProps = {
   /**
@@ -153,4 +153,4 @@ export type DialogFooterProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;

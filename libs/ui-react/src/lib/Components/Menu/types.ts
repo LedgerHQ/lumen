@@ -1,4 +1,8 @@
-import type * as React from 'react';
+import type {
+  ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
+  ReactNode,
+} from 'react';
 
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
 type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>;
@@ -12,7 +16,7 @@ export type MenuProps = {
   /**
    * The content of the dropdown menu (trigger and content components).
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /**
    * The controlled open state of the dropdown menu.
@@ -57,7 +61,7 @@ export type MenuTriggerProps = {
    * Use this when you need to trigger the menu from a custom component.
    */
   asChild?: boolean;
-} & React.ComponentPropsWithRef<'button'>;
+} & ComponentPropsWithRef<'button'>;
 
 /**
  * Props for the Menu content component.
@@ -183,7 +187,7 @@ export type MenuContentProps = {
    * @default false
    */
   hideWhenDetached?: boolean;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for a Menu item component.
@@ -226,7 +230,7 @@ export type MenuItemProps = {
    * Use this when the content is complex, or you have non-textual content inside.
    */
   textValue?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for a Menu checkbox item component.
@@ -285,7 +289,7 @@ export type MenuLabelProps = {
    * merging their props and behavior.
    */
   asChild?: boolean;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for a Menu separator component.
@@ -303,7 +307,7 @@ export type MenuSeparatorProps = {
    * merging their props and behavior.
    */
   asChild?: boolean;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for a Menu group component.
@@ -316,7 +320,7 @@ export type MenuGroupProps = {
    * merging their props and behavior.
    */
   asChild?: boolean;
-} & React.ComponentPropsWithoutRef<'div'>;
+} & ComponentPropsWithoutRef<'div'>;
 
 /**
  * Props for a Menu radio group component.
@@ -342,7 +346,7 @@ export type MenuRadioGroupProps = {
    * merging their props and behavior.
    */
   asChild?: boolean;
-} & React.ComponentPropsWithoutRef<'div'>;
+} & ComponentPropsWithoutRef<'div'>;
 
 /**
  * Props for a Menu sub component.
@@ -353,7 +357,7 @@ export type MenuSubProps = {
   /**
    * The content of the submenu (trigger and content components).
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /**
    * The controlled open state of the submenu.
@@ -410,7 +414,7 @@ export type MenuSubTriggerProps = {
    * Use this when the content is complex, or you have non-textual content inside.
    */
   textValue?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for a Menu sub content component.

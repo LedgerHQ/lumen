@@ -1,4 +1,5 @@
 import type * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import type { ComponentPropsWithRef } from 'react';
 import { BaseButtonProps } from '../Button/types';
 
 export type IconButtonProps = {
@@ -25,4 +26,4 @@ export type IconButtonProps = {
    */
   tooltipText?: string;
 } & Omit<BaseButtonProps, 'isFull'> &
-  React.ComponentPropsWithRef<'button'>;
+  ComponentPropsWithRef<'button'>;

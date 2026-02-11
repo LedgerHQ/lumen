@@ -1,3 +1,5 @@
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+
 export type IconSize = 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56;
 
 export type IconProps = {
@@ -12,5 +14,5 @@ export type IconProps = {
   /**
    * The children of the icon.
    */
-  children: React.ReactNode;
-} & React.ComponentPropsWithRef<'svg'>;
+  children: ReactNode;
+} & ComponentPropsWithRef<'svg'>;

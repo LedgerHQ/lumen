@@ -1,3 +1,4 @@
+import type { ComponentPropsWithRef, ComponentType } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type CardButtonProps = {
@@ -9,7 +10,7 @@ export type CardButtonProps = {
   /**
    * An optional icon component to render on the left side.
    */
-  icon?: React.ComponentType<{ size?: IconSize; className?: string }>;
+  icon?: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * The main title of the card button.
    * @required
@@ -24,4 +25,4 @@ export type CardButtonProps = {
    * @default false
    */
   hideChevron?: boolean;
-} & Omit<React.ComponentPropsWithRef<'button'>, 'children'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'children'>;

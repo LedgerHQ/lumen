@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type SpinnerProps = {
@@ -7,4 +7,4 @@ export type SpinnerProps = {
    * @default 16
    */
   size?: IconSize;
-} & React.ComponentPropsWithRef<'svg'>;
+} & ComponentPropsWithRef<'svg'>;

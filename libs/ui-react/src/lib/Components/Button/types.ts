@@ -1,3 +1,4 @@
+import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type BaseButtonProps = {
@@ -44,12 +45,12 @@ export type BaseButtonProps = {
   /**
    * An optional icon component to render inside the button.
    */
-  icon?: React.ComponentType<{ size?: IconSize; className?: string }>;
+  icon?: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * Optional children to render inside the button.
    */
-  children?: React.ReactNode;
-} & React.ComponentPropsWithRef<'button'>;
+  children?: ReactNode;
+} & ComponentPropsWithRef<'button'>;
 
 export type ButtonProps = {
   /**
@@ -61,7 +62,7 @@ export type ButtonProps = {
    * The content of the button. This is required to ensure buttons always have a label.
    * @required
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * The size variant of the button.
    * @default md

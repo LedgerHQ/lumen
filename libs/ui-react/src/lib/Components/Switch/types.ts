@@ -1,4 +1,5 @@
 import * as SwitchPrimitive from '@radix-ui/react-switch';
+import type { ComponentPropsWithRef } from 'react';
 
 export type SwitchProps = {
   /**
@@ -19,6 +20,6 @@ export type SwitchProps = {
    */
   size?: 'sm' | 'md';
 } & Omit<
-  React.ComponentPropsWithRef<typeof SwitchPrimitive.Root>,
+  ComponentPropsWithRef<typeof SwitchPrimitive.Root>,
   'onChange' | 'checked' | 'defaultChecked' | 'onCheckedChange'
 >;

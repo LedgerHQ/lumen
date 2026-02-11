@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { BaseInputProps } from '../BaseInput/types';
 
 export type AddressInputProps = {
@@ -8,7 +9,7 @@ export type AddressInputProps = {
    *
    * @default QrCodeIcon
    */
-  suffix?: React.ReactNode;
+  suffix?: ReactNode;
   /**
    * Custom prefix text to show instead of the "To:" prefix.
    * @default "To:"

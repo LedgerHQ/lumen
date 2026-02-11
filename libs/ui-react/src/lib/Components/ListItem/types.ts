@@ -1,4 +1,9 @@
-import React from 'react';
+import type {
+  ButtonHTMLAttributes,
+  ComponentPropsWithRef,
+  ComponentType,
+  ReactNode,
+} from 'react';
 import { DiscriminatedSpotProps } from '../Spot';
 
 /**
@@ -15,7 +20,7 @@ export type ListItemProps = {
   /**
    * The content of the list item (ListItemLeading, ListItemTrailing)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
@@ -27,8 +32,8 @@ export type ListItemProps = {
   /**
    * Callback function when the list item is pressed.
    */
-  onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
-} & Omit<React.ComponentPropsWithRef<'button'>, 'children'>;
+  onClick?: ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
+} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
  * Props for the ListItemLeading component
@@ -37,12 +42,12 @@ export type ListItemLeadingProps = {
   /**
    * The content of the leading area (visual element + ListItemContent)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemContent component
@@ -51,12 +56,12 @@ export type ListItemContentProps = {
   /**
    * The content (ListItemTitle, ListItemDescription)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemTitle component
@@ -65,12 +70,12 @@ export type ListItemTitleProps = {
   /**
    * The title text or custom content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemDescription component
@@ -79,12 +84,12 @@ export type ListItemDescriptionProps = {
   /**
    * The description text or custom content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemTrailing component
@@ -93,18 +98,18 @@ export type ListItemTrailingProps = {
   /**
    * The trailing content (icons, switches, values, etc.)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for ListItemSpot when appearance is 'icon'
  */
 export type ListItemSpotProps = DiscriminatedSpotProps &
-  React.ComponentPropsWithRef<'div'>;
+  ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemTruncate component
@@ -114,12 +119,12 @@ export type ListItemTruncateProps = {
   /**
    * The content to truncate
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ListItemIcon component
@@ -128,9 +133,9 @@ export type ListItemIconProps = {
   /**
    * The icon component to render
    */
-  icon: React.ComponentType<any>;
+  icon: ComponentType<any>;
   /**
    * custom classname
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;

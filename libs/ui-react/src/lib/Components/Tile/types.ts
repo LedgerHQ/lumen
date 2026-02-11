@@ -1,4 +1,11 @@
-import React, { MouseEventHandler, ReactNode } from 'react';
+import type {
+  ButtonHTMLAttributes,
+  ComponentPropsWithRef,
+  ComponentType,
+  MouseEventHandler,
+  ReactNode,
+  Ref,
+} from 'react';
 import { IconProps } from '../Icon';
 import { DiscriminatedSpotProps, SpotSize } from '../Spot/types';
 
@@ -54,8 +61,8 @@ export type TileProps = {
   /**
    * Ref to the tile root element (the outer div).
    */
-  ref?: React.Ref<HTMLDivElement>;
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
+  ref?: Ref<HTMLDivElement>;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 export type TileSpotProps = {
   /**
@@ -75,7 +82,7 @@ export type TileContentProps = {
    * Additional CSS classes for the content container.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TileTitleProps = {
   /**
@@ -86,7 +93,7 @@ export type TileTitleProps = {
    * Additional CSS classes for the title.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TileDescriptionProps = {
   /**
@@ -97,7 +104,7 @@ export type TileDescriptionProps = {
    * Additional CSS classes for the description.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TileTrailingContentProps = {
   /**
@@ -109,7 +116,7 @@ export type TileTrailingContentProps = {
    * Additional CSS classes for the trailing content container.
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TileSecondaryActionProps = {
   /**
@@ -119,9 +126,9 @@ export type TileSecondaryActionProps = {
   /**
    * Icon component to render inside the InteractiveIcon.
    */
-  icon: React.ComponentType<Omit<IconProps, 'children'>>;
+  icon: ComponentType<Omit<IconProps, 'children'>>;
   /**
    * Additional CSS classes for the secondary action container.
    */
   className?: string;
-} & Omit<React.ComponentPropsWithRef<'button'>, 'onClick'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'onClick'>;

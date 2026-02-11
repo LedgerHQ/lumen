@@ -1,3 +1,4 @@
+import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type LinkProps = {
@@ -20,7 +21,7 @@ export type LinkProps = {
    * An optional icon component to render inside the link.
    * The icon styles are defined by the link. Please do not override them.
    */
-  icon?: React.ComponentType<{ size?: IconSize; className?: string }>;
+  icon?: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * If true, adds target="_blank" and rel="noopener noreferrer" for external links.
    * @default false
@@ -35,5 +36,5 @@ export type LinkProps = {
   /**
    * The link's content, typically text.
    */
-  children: React.ReactNode;
-} & React.ComponentPropsWithRef<'a'>;
+  children: ReactNode;
+} & ComponentPropsWithRef<'a'>;

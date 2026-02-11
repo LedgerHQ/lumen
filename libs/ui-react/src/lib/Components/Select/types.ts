@@ -1,4 +1,8 @@
-import * as React from 'react';
+import type {
+  ComponentPropsWithRef,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
 type Direction = 'ltr' | 'rtl';
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
@@ -7,7 +11,7 @@ export type SelectProps = {
   /**
    * The children of the select item
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * The controlled open state of the select.
    * Must be used in conjunction with onOpenChange.
@@ -73,13 +77,13 @@ export type SelectTriggerProps = {
    * @example labelClassName='text-error'
    */
   labelClassName?: string;
-} & React.ComponentPropsWithRef<'button'>;
+} & ComponentPropsWithRef<'button'>;
 
 export type SelectContentProps = {
   /**
    * The children of the select content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Change the default rendered element for the one passed as a child, merging their props and behavior.
    * @default false
@@ -159,13 +163,13 @@ export type SelectContentProps = {
    * @example className='text-error'
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type SelectGroupProps = {
   /**
    * The children of the select group
    */
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export type SelectLabelProps = {
@@ -174,12 +178,12 @@ export type SelectLabelProps = {
    * @example children={<SelectLabel>Option</SelectLabel>}
    * @required
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * The class name of the select label
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type SelectItemTextProps = {
   /**
@@ -187,13 +191,13 @@ export type SelectItemTextProps = {
    * @example children={<SelectItemText>Option</SelectItemText>}
    * @required
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Extra class names to apply to the item text element
    * @example className='text-error'
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type SelectItemProps = {
   /**
@@ -208,8 +212,8 @@ export type SelectItemProps = {
    * @required
    */
   children:
-    | React.ReactElement<SelectItemTextProps>
-    | readonly React.ReactElement[];
+    | ReactElement<SelectItemTextProps>
+    | readonly ReactElement[];
   /**
    * Optional text used for typeahead purposes. Use this when the content is complex, or you have non-textual content inside.
    * @example textValue='Option'
@@ -225,7 +229,7 @@ export type SelectItemProps = {
    * @example className='text-error'
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export type SelectSeparatorProps = {
   /**
@@ -237,4 +241,4 @@ export type SelectSeparatorProps = {
    * Extra class names to apply to the separator element
    */
   className?: string;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;

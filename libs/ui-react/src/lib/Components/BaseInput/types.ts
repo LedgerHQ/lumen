@@ -1,4 +1,4 @@
-import React from 'react';
+import { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type BaseInputProps = {
   /**
@@ -18,12 +18,12 @@ export type BaseInputProps = {
    * Custom content to render after the input.
    * @example suffix={<Icon />}
    */
-  suffix?: React.ReactNode;
+  suffix?: ReactNode;
   /**
    * Custom content to render before the input (left side in LTR).
    * @example prefix={<Icon />}
    */
-  prefix?: React.ReactNode;
+  prefix?: ReactNode;
   /**
    * Optional function to extend the default clear behavior with custom logic
    */
@@ -49,4 +49,4 @@ export type BaseInputProps = {
    * Additional class names to apply to the label element
    */
   labelClassName?: string;
-} & Omit<React.ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;
+} & Omit<ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;

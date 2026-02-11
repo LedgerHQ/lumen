@@ -1,3 +1,4 @@
+import type { ComponentPropsWithRef, ComponentType } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type TagProps = {
@@ -14,7 +15,7 @@ export type TagProps = {
   /**
    * Icon component to render.
    */
-  icon?: React.ComponentType<{ size?: IconSize; className?: string }>;
+  icon?: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * Label text to display.
    * @required
@@ -26,4 +27,4 @@ export type TagProps = {
    * @default false
    */
   disabled?: boolean;
-} & React.ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
