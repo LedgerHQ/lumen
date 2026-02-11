@@ -2,7 +2,7 @@ name: Release All
 
 concurrency:
   group: release-all-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false # release action, we shouldn't cancel in-progress actions.
 
 on:
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup git user
-        uses: LedgerHQ/ledger-live@136007006ce023768ed1bc90f04823721a2fbb4c # v22.0.1
+        uses: LedgerHQ/ledger-live/tools/actions/composites/setup-git-user@develop # internal action. branch is fine.
 
       - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #v4.3.0
         with:
@@ -59,7 +59,7 @@ jobs:
 
       - name: Login to internal JFrog registry
         id: jfrog-login
-        uses: LedgerHQ/actions-security@3868be0ef1ec8722fbdb2c6cda90f739cbfc742d # actions/jfrog-login-1
+        uses: LedgerHQ/actions-security@actions/jfrog-login-1 # internal action. branch is fine
 
       - name: Setup npm config for JFrog
         env:
