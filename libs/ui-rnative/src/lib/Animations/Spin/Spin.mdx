@@ -1,0 +1,130 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SpinStories from './Spin.stories';
+import { Spin } from './Spin';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Animations/Spin' of={SpinStories} />
+
+# 🔄 Spin
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The Spin animation creates a continuous rotation effect, commonly used for loading indicators and progress spinners. It provides visual feedback that a process is ongoing or content is being loaded.
+
+## Anatomy
+
+<Canvas of={SpinStories.Base} />
+
+- **Children**: The content to rotate continuously
+- **Duration**: Time for one complete 360° rotation
+
+## Properties
+
+### Overview
+
+<Canvas of={SpinStories.Base} />
+<Controls of={SpinStories.Base} />
+
+### Duration
+
+The duration prop controls how long one complete rotation takes. Shorter durations create faster spins, while longer durations provide slower, more subtle rotation.
+
+<Canvas of={SpinStories.DurationShowcase} />
+
+### Practical Usage
+
+The Spin animation is commonly used with the Spinner component to create loading indicators throughout the application.
+
+<Canvas of={SpinStories.WithSpinner} />
+
+## Accessibility
+
+- Respects user motion preferences
+- Does not rely on animation alone to convey information
+- Should be paired with appropriate loading labels for screen readers
+
+</Tab>
+<Tab label="Implementation">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-rnative
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `react-native`, etc.) are required. See our Setup Guide for complete installation.
+
+## Basic Usage
+
+```tsx
+import { Spin } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+function LoadingIcon() {
+  return (
+    <Spin>
+      <View style={{ width: 40, height: 40, backgroundColor: '#007AFF' }} />
+    </Spin>
+  );
+}
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use appropriate speeds'
+      description='Keep rotation duration between 800-1200ms for smooth, perceivable motion'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Spin } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+<Spin duration={1000}>
+  <View style={{ width: 40, height: 40 }} />
+</Spin>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use very fast rotations"
+      description='Avoid very fast spins (< 500ms) as they can cause discomfort'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Spin } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+<Spin duration={200}>
+  <View style={{ width: 40, height: 40 }} />
+</Spin>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+## Performance Considerations
+
+- The Spin component uses `useNativeDriver` for optimal performance on native platforms
+- Rotation animation runs continuously until component unmounts
+- Animation cleanup is handled automatically on unmount
+
+</Tab>
+</CustomTabs>
