@@ -15,6 +15,7 @@ import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
 import { TabBarItemProps, TabBarProps } from './types';
 
+export const TAB_BAR_HEIGHT = 56;
 const PILL_INSET = 4;
 
 /**
@@ -239,7 +240,7 @@ const useStyles = () =>
   useStyleSheet(
     (t) => ({
       container: {
-        height: t.sizes.s56,
+        height: TAB_BAR_HEIGHT,
         flexDirection: 'row',
         justifyContent: 'center',
         padding: t.spacings.s4,
