@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type NavBarProps = {
   /**
@@ -9,7 +9,7 @@ export type NavBarProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'className'>;
+} & Omit<ComponentPropsWithRef<'nav'>, 'children' | 'className'>;
 
 export type NavBarBackButtonProps = {
   /**
@@ -25,7 +25,7 @@ export type NavBarBackButtonProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-};
+} & ComponentPropsWithRef<'button'>;
 
 export type NavBarTitleProps = {
   /**
@@ -42,7 +42,7 @@ export type NavBarTitleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-};
+} & ComponentPropsWithRef<'h1'>;
 
 export type NavBarTrailingProps = {
   /**
@@ -72,7 +72,7 @@ export type CoinCapsuleProps = {
    * Additional custom CSS classes to apply.
    */
   className?: string;
-};
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the NavBarCoinCapsule component.

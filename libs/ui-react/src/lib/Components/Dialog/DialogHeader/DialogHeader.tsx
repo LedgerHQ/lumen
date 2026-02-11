@@ -88,96 +88,93 @@ const DialogDescription: FC<
   );
 };
 
-const DialogHeaderComponent = React.forwardRef<
-  HTMLDivElement,
-  DialogHeaderProps
->(
-  (
-    {
-      className,
-      appearance = 'compact',
-      title,
-      description,
-      onClose,
-      onBack,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <div
-        ref={ref}
-        className={dialogHeaderVariants({ appearance, className })}
-        {...props}
-      >
-        {appearance === 'compact' && (
-          <>
-            {onBack && <BackButton onBack={onBack} />}
-            <div
-              className={cn('flex min-w-0 flex-1 flex-col', {
-                'pl-40': !onBack,
-              })}
-            >
-              {title && (
-                <div className='truncate text-center heading-5-semi-bold'>
-                  {title}
-                </div>
-              )}
-              {description && (
-                <div className='truncate text-center body-2 text-muted'>
-                  {description}
-                </div>
-              )}
-            </div>
-            <CloseButton onClose={onClose} />
-          </>
-        )}
-        {appearance === 'extended' && (
-          <>
-            <div className='flex h-40 flex-row items-center'>
-              {onBack && <BackButton onBack={onBack} />}
-              <div className='ml-auto'>
-                <CloseButton onClose={onClose} />
-              </div>
-            </div>
-            {(title || description) && (
-              <div className='flex flex-col gap-4'>
-                {title && <div className='heading-3-semi-bold'>{title}</div>}
-                {description && (
-                  <div className='body-2 text-muted'>{description}</div>
-                )}
+const DialogHeaderComponent = ({
+  ref,
+  className,
+  appearance = 'compact',
+  title,
+  description,
+  onClose,
+  onBack,
+  ...props
+}: DialogHeaderProps) => {
+  return (
+    <div
+      ref={ref}
+      className={dialogHeaderVariants({ appearance, className })}
+      {...props}
+    >
+      {appearance === 'compact' && (
+        <>
+          {onBack && <BackButton onBack={onBack} />}
+          <div
+            className={cn('flex min-w-0 flex-1 flex-col', {
+              'pl-40': !onBack,
+            })}
+          >
+            {title && (
+              <div className='truncate text-center heading-5-semi-bold'>
+                {title}
               </div>
             )}
-          </>
-        )}
-      </div>
-    );
-  },
-);
+            {description && (
+              <div className='truncate text-center body-2 text-muted'>
+                {description}
+              </div>
+            )}
+          </div>
+          <CloseButton onClose={onClose} />
+        </>
+      )}
+      {appearance === 'extended' && (
+        <>
+          <div className='flex h-40 flex-row items-center'>
+            {onBack && <BackButton onBack={onBack} />}
+            <div className='ml-auto'>
+              <CloseButton onClose={onClose} />
+            </div>
+          </div>
+          {(title || description) && (
+            <div className='flex flex-col gap-4'>
+              {title && <div className='heading-3-semi-bold'>{title}</div>}
+              {description && (
+                <div className='body-2 text-muted'>{description}</div>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
 DialogHeaderComponent.displayName = 'DialogHeaderComponent';
 
-export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
-  ({ title = '', description, appearance = 'compact', ...props }, ref) => {
-    return (
-      <>
-        <DialogHeaderComponent
-          ref={ref}
-          title={title}
-          description={description}
-          appearance={appearance}
-          {...props}
-        />
-        {/* Accessibility Note: Even though the visible header/description are
-        rendered by DialogHeader, Radix Dialog still requires DialogTitle (and
-        optionally DialogDescription) for proper labeling. These hidden elements
-        ensure assistive technologies announce the dialog correctly without
-        duplicating visible text. */}
-        <DialogTitle hidden>{title}</DialogTitle>
-        {description && (
-          <DialogDescription hidden>{description}</DialogDescription>
-        )}
-      </>
-    );
-  },
-);
+export const DialogHeader = ({
+  ref,
+  title = '',
+  description,
+  appearance = 'compact',
+  ...props
+}: DialogHeaderProps) => {
+  return (
+    <>
+      <DialogHeaderComponent
+        ref={ref}
+        title={title}
+        description={description}
+        appearance={appearance}
+        {...props}
+      />
+      {/* Accessibility Note: Even though the visible header/description are
+      rendered by DialogHeader, Radix Dialog still requires DialogTitle (and
+      optionally DialogDescription) for proper labeling. These hidden elements
+      ensure assistive technologies announce the dialog correctly without
+      duplicating visible text. */}
+      <DialogTitle hidden>{title}</DialogTitle>
+      {description && (
+        <DialogDescription hidden>{description}</DialogDescription>
+      )}
+    </>
+  );
+};
 DialogHeader.displayName = 'DialogHeader';

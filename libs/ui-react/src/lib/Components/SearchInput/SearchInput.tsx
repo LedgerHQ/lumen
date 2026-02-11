@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { Search as SearchIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
 import { SearchInputProps } from './types';
@@ -85,29 +84,33 @@ const inputVariants = cva('', {
  *   }}
  * />
  */
-export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ appearance = 'plain', className, inputClassName, ...props }, ref) => {
-    const searchIcon = (
-      <SearchIcon
-        size={20}
-        // Todo: fix gap between search icon and input not showing input-caret on hover
-        // we need to use paddings around the prefix rather then gaps ( radix ui is doing this )
-        className='text-muted group-has-disabled:text-disabled'
-        aria-hidden='true'
-      />
-    );
+export const SearchInput = ({
+  ref,
+  appearance = 'plain',
+  className,
+  inputClassName,
+  ...props
+}: SearchInputProps) => {
+  const searchIcon = (
+    <SearchIcon
+      size={20}
+      // Todo: fix gap between search icon and input not showing input-caret on hover
+      // we need to use paddings around the prefix rather then gaps ( radix ui is doing this )
+      className='text-muted group-has-disabled:text-disabled'
+      aria-hidden='true'
+    />
+  );
 
-    return (
-      <BaseInput
-        ref={ref}
-        prefix={searchIcon}
-        className={className}
-        containerClassName={containerVariants({ appearance })}
-        inputClassName={cn(inputVariants({ appearance }), inputClassName)}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <BaseInput
+      ref={ref}
+      prefix={searchIcon}
+      className={className}
+      containerClassName={containerVariants({ appearance })}
+      inputClassName={cn(inputVariants({ appearance }), inputClassName)}
+      {...props}
+    />
+  );
+};
 
 SearchInput.displayName = 'SearchInput';
