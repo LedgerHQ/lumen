@@ -33,6 +33,8 @@ Use `meta.hideBelow` on column definitions to hide columns below a given breakpo
 
 ## With Infinite Loading
 
-Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls.
+Combine properties `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.
+Set `pagination='infinite-scroll'` and `loading=true` on `DataTableRoot` to enable infinite scroll indicator.
+
 
 <Canvas of={DataTableStories.WithInfiniteLoading} />

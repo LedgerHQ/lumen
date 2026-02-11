@@ -23,12 +23,11 @@ import {
   DataTableRootProps,
 } from './types';
 
-// Context stores `any`-typed values because React context cannot be generic
-// per-instance. Type safety is enforced at the DataTableRoot public API level.
 const [DataTableProvider, useDataTableContext] = createSafeContext<{
   table: TanstackTable<any>;
   appearance: DataTableRootProps['appearance'];
   loading: DataTableRootProps['loading'];
+  paginationMode: DataTableRootProps['paginationMode'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   onRowClick?: (row: Row<any>) => void;
 }>('DataTable');
@@ -46,7 +45,8 @@ const [DataTableProvider, useDataTableContext] = createSafeContext<{
 export const DataTableRoot = <TData extends RowData>({
   table,
   appearance = 'no-background',
-  loading,
+  paginationMode = 'none',
+  loading = false,
   onScrollBottom,
   onRowClick,
   children,
@@ -56,7 +56,14 @@ export const DataTableRoot = <TData extends RowData>({
 }: DataTableRootProps<TData>) => {
   return (
     <DataTableProvider
-      value={{ table, appearance, loading, onScrollBottom, onRowClick }}
+      value={{
+        paginationMode,
+        table,
+        appearance,
+        loading,
+        onScrollBottom,
+        onRowClick,
+      }}
     >
       <div ref={ref} className={cn('flex flex-col', className)} {...props}>
         {children}
@@ -159,10 +166,11 @@ DataTableBody.displayName = 'DataTableBody';
  * </DataTableRoot>
  */
 export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
-  const { appearance, loading, onScrollBottom } = useDataTableContext({
-    consumerName: 'DataTable',
-    contextRequired: true,
-  });
+  const { appearance, paginationMode, loading, onScrollBottom } =
+    useDataTableContext({
+      consumerName: 'DataTable',
+      contextRequired: true,
+    });
 
   return (
     <TableRoot
@@ -177,7 +185,7 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
         <DataTableHeader />
         <DataTableBody />
       </Table>
-      <TableLoadingRow />
+      {paginationMode === 'infinite-scroll' && <TableLoadingRow />}
     </TableRoot>
   );
 };

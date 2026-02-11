@@ -125,7 +125,7 @@ export const Base: Story = {
     const table = useLumenDataTable({ data, columns });
 
     return (
-      <DataTableRoot table={table} appearance={args.appearance}>
+      <DataTableRoot {...args} table={table}>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
@@ -392,6 +392,7 @@ export const WithInfiniteLoading: Story = {
         {...args}
         table={table}
         loading={query.isFetchingNextPage}
+        paginationMode='infinite-scroll'
         onScrollBottom={() => {
           if (query.hasNextPage) {
             query.fetchNextPage();

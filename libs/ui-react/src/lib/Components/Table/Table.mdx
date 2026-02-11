@@ -63,7 +63,7 @@ Additional content can be defined using the `trailingContent` prop of the `Table
 Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom.  
 Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicate calls.  
 
-Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot`, it only renders when `loading` is true.  
+Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
 A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />

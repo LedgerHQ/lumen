@@ -40,6 +40,11 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    */
   appearance?: TableRootProps['appearance'];
   /**
+   * The pagination mode of the table.
+   * @default 'none'
+   */
+  paginationMode?: 'infinite-scroll' | 'pagination' | 'none';
+  /**
    * When true, displays loading indicator and disables onScrollBottom.
    */
   loading?: boolean;
