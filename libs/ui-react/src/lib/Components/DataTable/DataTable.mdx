@@ -1,0 +1,38 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DataTableStories from './DataTable.stories';
+
+<Meta title='Data/DataTable' of={DataTableStories} />
+
+# DataTable
+
+A compound component that combines TanStack Table with the Lumen `Table` primitives.
+Wrap a `<DataTable />` inside a `<DataTableRoot>` to render a fully featured data table from a TanStack table instance.
+
+## Overview
+
+<Canvas of={DataTableStories.Base} />
+<Controls of={DataTableStories.Base} />
+
+## Appearance
+
+<Canvas of={DataTableStories.AppearanceShowcase} />
+
+## With Many Rows
+
+<Canvas of={DataTableStories.WithManyRows} />
+
+## With Clickable Rows
+
+<Canvas of={DataTableStories.WithClickableRow} />
+
+## With Responsive Columns
+
+Use `meta.hideBelow` on column definitions to hide columns below a given breakpoint.
+
+<Canvas of={DataTableStories.WithResponsiveColumns} />
+
+## With Infinite Loading
+
+Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls.
+
+<Canvas of={DataTableStories.WithInfiniteLoading} />

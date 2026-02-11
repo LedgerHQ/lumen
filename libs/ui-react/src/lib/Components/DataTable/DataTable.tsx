@@ -1,5 +1,10 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { flexRender, Row, RowData, Table as TanstackTable } from '@tanstack/react-table';
+import {
+  flexRender,
+  Row,
+  RowData,
+  Table as TanstackTable,
+} from '@tanstack/react-table';
 import { forwardRef, Ref } from 'react';
 import {
   TableRoot,
