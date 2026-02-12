@@ -1,3 +1,4 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { AmountDisplayProps } from './types';
 
 /**
@@ -34,16 +35,17 @@ import { AmountDisplayProps } from './types';
  * ```
  */
 export const AmountDisplay = ({
-  ref,
   value,
   formatter,
   hidden = false,
+  loading = false,
+  className,
   ...props
 }: AmountDisplayProps) => {
   const parts = formatter(value);
 
   return (
-    <div ref={ref} {...props}>
+    <div className={cn(loading && 'animate-pulse', className)} {...props}>
       <span className='heading-1-semi-bold text-base'>
         {(parts.currencyPosition === undefined ||
           parts.currencyPosition === 'start') && (

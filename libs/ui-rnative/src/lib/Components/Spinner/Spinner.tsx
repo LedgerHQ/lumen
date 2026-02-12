@@ -1,41 +1,9 @@
-import { memo, useEffect, useRef, ReactNode } from 'react';
-import { Animated, Easing } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
 import { LumenTextStyle, useResolveTextStyle, useTheme } from '../../../styles';
-import { RuntimeConstants } from '../../utils';
+import { Spin } from '../../Animations/Spin';
 import { Box } from '../Utility';
 import { SpinnerProps } from './types';
-
-const SpinAnimation = memo(({ children }: { children: ReactNode }) => {
-  const spinValue = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    const animation = Animated.loop(
-      Animated.timing(spinValue, {
-        toValue: 1,
-        duration: 1000,
-        easing: Easing.linear,
-        useNativeDriver: RuntimeConstants.isNative,
-      }),
-    );
-    animation.start();
-
-    return () => animation.stop();
-  }, [spinValue]);
-
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
-
-  return (
-    <Animated.View style={{ transform: [{ rotate: spin }] }}>
-      {children}
-    </Animated.View>
-  );
-});
-SpinAnimation.displayName = 'SpinAnimation';
 
 /**
  * A basic spinner component for loading states.
@@ -66,7 +34,7 @@ export const Spinner = ({
 
   return (
     <Box ref={ref} lx={{ flexShrink: 0, ...lx }} {...props}>
-      <SpinAnimation>
+      <Spin>
         <Svg
           width={size}
           height={size}
@@ -81,7 +49,7 @@ export const Spinner = ({
             strokeLinecap='round'
           />
         </Svg>
-      </SpinAnimation>
+      </Spin>
     </Box>
   );
 };

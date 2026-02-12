@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, HTMLAttributes } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 export type FormattedValue = {
   /**
@@ -29,7 +29,7 @@ export type FormattedValue = {
 /**
  * Props for the AmountDisplay component.
  */
-export type AmountDisplayProps = HTMLAttributes<HTMLDivElement> & {
+export type AmountDisplayProps = {
   /**
    * The numeric value to display.
    * Pass the raw number value (e.g., 1234.56) - the formatter will handle conversion.
@@ -45,4 +45,9 @@ export type AmountDisplayProps = HTMLAttributes<HTMLDivElement> & {
    * @default false
    */
   hidden?: boolean;
+  /**
+   * When true, applies a pulse animation to indicate the amount is being fetched or updated.
+   * @default false
+   */
+  loading?: boolean;
 } & ComponentPropsWithRef<'div'>;

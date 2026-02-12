@@ -61,6 +61,14 @@ export function AmountDisplays() {
           </View>
           <Text style={styles.sectionDescription}>With hide button</Text>
         </View>
+        <View style={styles.sectionContainer}>
+          <AmountDisplay
+            value={1234.56}
+            formatter={eurFormatter}
+            loading={true}
+          />
+          <Text style={styles.sectionDescription}>With loading state</Text>
+        </View>
       </View>
     </View>
   );
