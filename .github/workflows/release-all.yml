@@ -59,7 +59,7 @@ jobs:
 
       - name: Login to internal JFrog registry
         id: jfrog-login
-        uses: LedgerHQ/actions-security@actions/jfrog-login-1 # internal action. branch is fine
+        uses: LedgerHQ/actions-security/actions/jfrog-login@actions/jfrog-login-1 # internal action. branch is fine
 
       - name: Setup npm config for JFrog
         env:
