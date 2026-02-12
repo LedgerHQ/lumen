@@ -1,112 +1,97 @@
-import { forwardRef, memo } from 'react';
-import { View } from 'react-native';
 import { Pulse } from '../../Animations/Pulse';
 import { Box } from '../Utility';
 import type { SkeletonProps } from './types';
 
-type BaseSkeletonProps = SkeletonProps;
-
 /** Internal base skeleton element */
-const BaseSkeleton = memo(
-  forwardRef<View, BaseSkeletonProps>(({ lx, ...props }, ref) => {
-    return (
-      <Pulse animate>
-        <Box
-          ref={ref}
-          lx={{
-            borderRadius: 'md',
-            backgroundColor: 'mutedTransparent',
-            ...lx,
-          }}
-          {...props}
-        />
-      </Pulse>
-    );
-  }),
-);
+const BaseSkeleton = ({ lx, ...props }: SkeletonProps) => {
+  return (
+    <Box
+      lx={{
+        borderRadius: 'md',
+        backgroundColor: 'mutedTransparent',
+        ...lx,
+      }}
+      {...props}
+    />
+  );
+};
 BaseSkeleton.displayName = 'BaseSkeleton';
 
-const ListItemSkeleton = memo(
-  forwardRef<View, BaseSkeletonProps>(({ lx, ...props }, ref) => {
-    return (
-      <Box
-        ref={ref}
+const ListItemSkeleton = ({ lx, ...props }: SkeletonProps) => {
+  return (
+    <Box
+      lx={{
+        flexDirection: 'row',
+        width: 'full',
+        alignItems: 'center',
+        gap: 's16',
+        paddingVertical: 's8',
+        ...lx,
+      }}
+      {...props}
+    >
+      <BaseSkeleton
         lx={{
-          flexDirection: 'row',
-          width: 'full',
-          alignItems: 'center',
-          gap: 's16',
-          paddingVertical: 's8',
-          ...lx,
+          width: 's48',
+          height: 's48',
+          borderRadius: 'full',
+          flexShrink: 0,
         }}
-        {...props}
-      >
+      />
+      <Box lx={{ flex: 1, flexDirection: 'column', gap: 's10' }}>
         <BaseSkeleton
-          lx={{
-            width: 's48',
-            height: 's48',
-            borderRadius: 'full',
-            flexShrink: 0,
-          }}
+          lx={{ height: 's12', width: 's176', borderRadius: 'full' }}
         />
-        <Box lx={{ flex: 1, flexDirection: 'column', gap: 's10' }}>
-          <BaseSkeleton
-            lx={{ height: 's12', width: 's176', borderRadius: 'full' }}
-          />
-          <BaseSkeleton
-            lx={{ height: 's12', width: 's112', borderRadius: 'full' }}
-          />
-        </Box>
+        <BaseSkeleton
+          lx={{ height: 's12', width: 's112', borderRadius: 'full' }}
+        />
       </Box>
-    );
-  }),
-);
+    </Box>
+  );
+};
 ListItemSkeleton.displayName = 'ListItemSkeleton';
 
-const TileSkeleton = memo(
-  forwardRef<View, BaseSkeletonProps>(({ lx, ...props }, ref) => {
-    return (
-      <Box
-        ref={ref}
+const TileSkeleton = ({ lx, ...props }: SkeletonProps) => {
+  return (
+    <Box
+      lx={{
+        flexDirection: 'column',
+        width: 's112',
+        alignItems: 'center',
+        gap: 's12',
+        borderRadius: 'md',
+        paddingHorizontal: 's8',
+        paddingVertical: 's16',
+        ...lx,
+      }}
+      {...props}
+    >
+      <BaseSkeleton
         lx={{
-          flexDirection: 'column',
-          width: 's112',
-          alignItems: 'center',
-          gap: 's12',
-          borderRadius: 'md',
-          paddingHorizontal: 's8',
-          paddingVertical: 's16',
-          ...lx,
+          width: 's48',
+          height: 's48',
+          borderRadius: 'full',
+          flexShrink: 0,
         }}
-        {...props}
+      />
+      <Box
+        lx={{
+          width: 'full',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 's8',
+        }}
       >
         <BaseSkeleton
-          lx={{
-            width: 's48',
-            height: 's48',
-            borderRadius: 'full',
-            flexShrink: 0,
-          }}
+          lx={{ height: 's12', width: 's48', borderRadius: 'full' }}
         />
-        <Box
-          lx={{
-            width: 'full',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 's8',
-          }}
-        >
-          <BaseSkeleton
-            lx={{ height: 's12', width: 's48', borderRadius: 'full' }}
-          />
-          <BaseSkeleton
-            lx={{ height: 's12', width: 's64', borderRadius: 'full' }}
-          />
-        </Box>
+        <BaseSkeleton
+          lx={{ height: 's12', width: 's64', borderRadius: 'full' }}
+        />
       </Box>
-    );
-  }),
-);
+    </Box>
+  );
+};
 TileSkeleton.displayName = 'TileSkeleton';
 
 const componentsMap = {
@@ -128,19 +113,25 @@ const componentsMap = {
  * // Tile variant
  * <Skeleton component='tile' />
  */
-const Skeleton = memo(
-  forwardRef<View, SkeletonProps>(({ lx, component, ...props }, ref) => {
-    /**
-     * Check if the component is a valid pre-built variant and return the corresponding component.
-     */
-    if (component && componentsMap[component]) {
-      const Component = componentsMap[component];
-      return <Component {...props} ref={ref} lx={lx} />;
-    }
+const Skeleton = ({ lx, component, ...props }: SkeletonProps) => {
+  /**
+   * Check if the component is a valid pre-built variant and return the corresponding component.
+   */
+  if (component && componentsMap[component]) {
+    const Component = componentsMap[component];
+    return (
+      <Pulse animate>
+        <Component {...props} lx={lx} />
+      </Pulse>
+    );
+  }
 
-    return <BaseSkeleton ref={ref} testID='skeleton' lx={lx} {...props} />;
-  }),
-);
+  return (
+    <Pulse animate>
+      <BaseSkeleton testID='skeleton' lx={lx} {...props} />
+    </Pulse>
+  );
+};
 Skeleton.displayName = 'Skeleton';
 
 export { Skeleton };

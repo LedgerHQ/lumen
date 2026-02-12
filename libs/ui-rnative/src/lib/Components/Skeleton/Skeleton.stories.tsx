@@ -40,7 +40,7 @@ export const Base: Story = {
 export const WithListItem: Story = {
   render: () => (
     <Box lx={{ padding: 's16', backgroundColor: 'canvas', borderRadius: 'md' }}>
-      <Skeleton component='list-item' lx={{ width: 's320' }} />
+      <Skeleton component='list-item' />
     </Box>
   ),
 };
