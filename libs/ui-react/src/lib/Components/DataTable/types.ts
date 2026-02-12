@@ -63,8 +63,23 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   /**
    * Callback fired when a row is clicked.
    * Return the data of the given row from the callback function.
+   * @default undefined
    */
   onRowClick?: (row: Row<TData>) => void;
+  /**
+   * Extracts a group key from a row. When provided, rows are visually
+   * separated by group header rows whenever the key changes.
+   * Data must be pre-sorted by the grouping field.
+   * @default undefined
+   */
+  groupBy?: (row: Row<TData>) => string;
+  /**
+   * Custom renderer for group header content.
+   * Receives the first row of the group and the number of rows in the group.
+   * When omitted, defaults to rendering the group key string.
+   * @default undefined
+   */
+  renderGroupHeader?: (info: { row: Row<TData>; count: number }) => ReactNode;
 } & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type DataTableProps = {

@@ -14,35 +14,174 @@ type CryptoAsset = {
   symbol: string;
   price: string;
   change: string;
+  category: string;
 };
 
 const largeData: CryptoAsset[] = [
-  { name: 'Bitcoin', symbol: 'BTC', price: '$43,250.00', change: '+2.5%' },
-  { name: 'Ethereum', symbol: 'ETH', price: '$2,650.00', change: '+1.8%' },
-  { name: 'Solana', symbol: 'SOL', price: '$98.50', change: '-0.5%' },
-  { name: 'Cardano', symbol: 'ADA', price: '$0.52', change: '+3.2%' },
-  { name: 'Dogecoin', symbol: 'DOGE', price: '$0.08', change: '-1.2%' },
-  { name: 'Ripple', symbol: 'XRP', price: '$0.32', change: '+0.8%' },
-  { name: 'Litecoin', symbol: 'LTC', price: '$120.00', change: '+0.3%' },
-  { name: 'Bitcoin Cash', symbol: 'BCH', price: '$350.00', change: '+1.1%' },
-  { name: 'EOS', symbol: 'EOS', price: '$2.10', change: '-0.7%' },
-  { name: 'Tron', symbol: 'TRX', price: '$0.06', change: '+0.5%' },
-  { name: 'Bitcoin SV', symbol: 'BSV', price: '$100.00', change: '+0.2%' },
-  { name: 'Stellar', symbol: 'XLM', price: '$0.12', change: '-0.3%' },
-  { name: 'Polkadot', symbol: 'DOT', price: '$10.00', change: '+0.1%' },
-  { name: 'Chainlink', symbol: 'LINK', price: '$15.00', change: '+0.2%' },
-  { name: 'Uniswap', symbol: 'UNI', price: '$12.00', change: '+0.3%' },
-  { name: 'Aave', symbol: 'AAVE', price: '$100.00', change: '+0.4%' },
-  { name: 'Sushi', symbol: 'SUSHI', price: '$100.00', change: '+0.5%' },
-  { name: 'Yearn', symbol: 'YFI', price: '$100.00', change: '+0.6%' },
-  { name: 'Maker', symbol: 'MKR', price: '$100.00', change: '+0.7%' },
-  { name: 'Compound', symbol: 'COMP', price: '$100.00', change: '+0.8%' },
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    price: '$43,250.00',
+    change: '+2.5%',
+    category: 'Layer One',
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    price: '$2,650.00',
+    change: '+1.8%',
+    category: 'Layer One',
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    price: '$98.50',
+    change: '-0.5%',
+    category: 'Layer One',
+  },
+  {
+    name: 'Cardano',
+    symbol: 'ADA',
+    price: '$0.52',
+    change: '+3.2%',
+    category: 'Layer Two',
+  },
+  {
+    name: 'Dogecoin',
+    symbol: 'DOGE',
+    price: '$0.08',
+    change: '-1.2%',
+    category: 'Layer Two',
+  },
+  {
+    name: 'Ripple',
+    symbol: 'XRP',
+    price: '$0.32',
+    change: '+0.8%',
+    category: 'Layer Two',
+  },
+  {
+    name: 'Litecoin',
+    symbol: 'LTC',
+    price: '$120.00',
+    change: '+0.3%',
+    category: 'Layer Two',
+  },
+  {
+    name: 'Bitcoin Cash',
+    symbol: 'BCH',
+    price: '$350.00',
+    change: '+1.1%',
+    category: 'Layer Three',
+  },
+  {
+    name: 'EOS',
+    symbol: 'EOS',
+    price: '$2.10',
+    change: '-0.7%',
+    category: 'Layer Three',
+  },
+  {
+    name: 'Tron',
+    symbol: 'TRX',
+    price: '$0.06',
+    change: '+0.5%',
+    category: 'Layer Three',
+  },
+  {
+    name: 'Bitcoin SV',
+    symbol: 'BSV',
+    price: '$100.00',
+    change: '+0.2%',
+    category: 'Layer Three',
+  },
+  {
+    name: 'Stellar',
+    symbol: 'XLM',
+    price: '$0.12',
+    change: '-0.3%',
+    category: 'Infrastructure',
+  },
+  {
+    name: 'Polkadot',
+    symbol: 'DOT',
+    price: '$10.00',
+    change: '+0.1%',
+    category: 'Infrastructure',
+  },
+  {
+    name: 'Chainlink',
+    symbol: 'LINK',
+    price: '$15.00',
+    change: '+0.2%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Uniswap',
+    symbol: 'UNI',
+    price: '$12.00',
+    change: '+0.3%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Aave',
+    symbol: 'AAVE',
+    price: '$100.00',
+    change: '+0.4%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Sushi',
+    symbol: 'SUSHI',
+    price: '$100.00',
+    change: '+0.5%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Yearn',
+    symbol: 'YFI',
+    price: '$100.00',
+    change: '+0.6%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Maker',
+    symbol: 'MKR',
+    price: '$100.00',
+    change: '+0.7%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Compound',
+    symbol: 'COMP',
+    price: '$100.00',
+    change: '+0.8%',
+    category: 'DeFi',
+  },
 ];
 
-const data = [
-  { name: 'Bitcoin', symbol: 'BTC', price: '$43,250.00', change: '+2.5%' },
-  { name: 'Ethereum', symbol: 'ETH', price: '$2,650.00', change: '+1.8%' },
-  { name: 'Solana', symbol: 'SOL', price: '$98.50', change: '-0.5%' },
+const data: CryptoAsset[] = [
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    price: '$43,250.00',
+    change: '+2.5%',
+    category: 'Layer One',
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    price: '$2,650.00',
+    change: '+1.8%',
+    category: 'Layer One',
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    price: '$98.50',
+    change: '-0.5%',
+    category: 'Layer One',
+  },
 ];
 
 const meta: Meta<typeof DataTableRoot> = {
@@ -55,6 +194,14 @@ const meta: Meta<typeof DataTableRoot> = {
       description: 'Visual appearance of the table',
       table: {
         defaultValue: { summary: 'no-background' },
+      },
+    },
+    paginationMode: {
+      control: 'radio',
+      options: ['infinite-scroll', 'pagination', 'none'],
+      description: 'Pagination mode of the table',
+      table: {
+        defaultValue: { summary: 'none' },
       },
     },
   },
@@ -203,7 +350,7 @@ export const WithManyRows: Story = {
     const table = useLumenDataTable({ data, columns });
 
     return (
-      <DataTableRoot table={table} appearance={args.appearance}>
+      <DataTableRoot {...args} table={table} onRowClick={undefined}>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
@@ -251,11 +398,7 @@ export const WithClickableRow: Story = {
     const table = useLumenDataTable({ data, columns });
 
     return (
-      <DataTableRoot
-        table={table}
-        appearance={args.appearance}
-        onRowClick={(row) => alert(JSON.stringify(row, null, 4))}
-      >
+      <DataTableRoot {...args} table={table}>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
@@ -297,16 +440,66 @@ export const WithResponsiveColumns: Story = {
     const table = useLumenDataTable({ data, columns: responsiveColumns });
 
     return (
-      <DataTableRoot table={table} appearance={args.appearance}>
+      <DataTableRoot {...args} table={table}>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
   },
 };
 
-/* ---------------------------------------------------------------------------
- * Infinite loading with cursor-based pagination (TanStack Query)
- * ------------------------------------------------------------------------- */
+export const WithGrouping: Story = {
+  render: (args) => {
+    const columns: ColumnDef<CryptoAsset>[] = [
+      {
+        accessorKey: 'name',
+        header: 'Asset',
+        cell: ({ row }) => (
+          <TableCellContent
+            title={row.original.name}
+            description={row.original.symbol}
+            leadingContent={<Spot appearance='icon' icon={Android} />}
+          />
+        ),
+        meta: { className: 'w-224' },
+      },
+      {
+        accessorKey: 'price',
+        header: 'Price',
+        meta: { align: 'end' as const },
+      },
+      {
+        accessorKey: 'change',
+        header: 'Performance',
+        cell: ({ row }) => (
+          <TableCellContent
+            align='end'
+            title={row.original.price}
+            description={row.original.change}
+          />
+        ),
+        meta: { align: 'end' as const, className: 'w-144' },
+      },
+    ];
+
+    const table = useLumenDataTable({ data: largeData, columns });
+
+    console.log({ args });
+    return (
+      <DataTableRoot
+        {...args}
+        table={table}
+        groupBy={(row) => row.original.category}
+        renderGroupHeader={({ row, count }) => (
+          <>
+            {row.original.category} ({count})
+          </>
+        )}
+      >
+        <DataTable className='max-h-560' />
+      </DataTableRoot>
+    );
+  },
+};
 
 type CryptoPage = {
   data: CryptoAsset[];
