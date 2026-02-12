@@ -1,10 +1,11 @@
-import { PropsWithChildren } from 'react';
+import { Children, isValidElement, PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
 import { InjectStylesIntoChildren } from '../../utils/components/InjectStylesIntoChildren';
+import { IconProps, IconSize } from '../Icon';
 import { Pressable } from '../Utility';
-import { InteractiveIconProps } from './types';
+import { HIT_SLOP_MAP, InteractiveIconProps } from './types';
 
 type IconType = InteractiveIconProps['iconType'];
 
@@ -79,10 +80,21 @@ export const InteractiveIcon = ({
   iconType,
   children,
   disabled = false,
+  hitSlop: hitSlopProp,
+  hitSlopType = 'compact-horizontal',
   style,
   lx,
   ...props
 }: InteractiveIconProps) => {
+  const child = Children.only(children);
+
+  let iconSize: IconSize = 20;
+  if (isValidElement<IconProps>(child) && 'size' in child.props) {
+    iconSize = child.props.size ?? 20;
+  }
+
+  const resolvedHitSlop = hitSlopProp ?? HIT_SLOP_MAP[hitSlopType]?.[iconSize];
+
   return (
     <Pressable
       lx={lx}
@@ -90,6 +102,7 @@ export const InteractiveIcon = ({
       accessibilityRole='button'
       accessibilityState={{ disabled: !!disabled }}
       disabled={disabled}
+      hitSlop={resolvedHitSlop}
       {...props}
     >
       {({ pressed }) => (
