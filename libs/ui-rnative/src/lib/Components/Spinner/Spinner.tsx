@@ -1,7 +1,7 @@
 import Svg, { Path } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
 import { LumenTextStyle, useResolveTextStyle, useTheme } from '../../../styles';
-import { Spin } from '../../Animations/Spin/';
+import { Spin } from '../../Animations/Spin';
 import { Box } from '../Utility';
 import { SpinnerProps } from './types';
 
