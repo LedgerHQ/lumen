@@ -7,4 +7,4 @@ export type SkeletonProps = {
    * - `tile`: Vertical centered layout with circle and two text lines in a rounded container
    */
   component?: 'list-item' | 'tile';
-} & StyledViewProps;
+} & Omit<StyledViewProps, 'children'>;
