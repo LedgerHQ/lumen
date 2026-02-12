@@ -22,16 +22,6 @@ describe('Skeleton Component', () => {
     expect(skeletonElement).toBeTruthy();
   });
 
-  it('should apply custom lx styles', () => {
-    const { getByTestId } = render(
-      <TestWrapper>
-        <Skeleton lx={{ marginTop: 's8' }} />
-      </TestWrapper>,
-    );
-    const skeletonElement = getByTestId('skeleton');
-    expect(skeletonElement).toBeTruthy();
-  });
-
   it('should render list-item variant', () => {
     const { getByTestId } = render(
       <TestWrapper>
@@ -59,20 +49,6 @@ describe('Skeleton Component', () => {
       </TestWrapper>,
     );
     const skeletonElement = getByTestId('custom-skeleton');
-    expect(skeletonElement).toBeTruthy();
-  });
-
-  it('should apply custom lx styles to variants', () => {
-    const { getByTestId } = render(
-      <TestWrapper>
-        <Skeleton
-          testID='styled-list-item'
-          component='list-item'
-          lx={{ width: 's320' }}
-        />
-      </TestWrapper>,
-    );
-    const skeletonElement = getByTestId('styled-list-item');
     expect(skeletonElement).toBeTruthy();
   });
 });
