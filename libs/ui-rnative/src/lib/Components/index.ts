@@ -17,6 +17,8 @@ export * from './NavBar';
 export * from './PageIndicator';
 export * from './SearchInput';
 export * from './Select';
+export * from './Skeleton';
+export * from './Spinner';
 export * from './Spot';
 export * from './Subheader';
 export * from './Switch';
