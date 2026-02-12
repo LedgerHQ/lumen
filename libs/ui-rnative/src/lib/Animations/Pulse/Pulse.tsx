@@ -1,6 +1,6 @@
 import { useRef, useEffect, memo } from 'react';
 import { Animated, Easing } from 'react-native';
-import { RuntimeConstants } from '../../../lib/utils';
+import { RuntimeConstants } from '../../utils';
 import { PulseProps } from './types';
 
 export const Pulse = memo(
@@ -46,7 +46,7 @@ export const Pulse = memo(
 
     const pulse = pulseAnim.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0.35', '1'],
+      outputRange: [0.35, 1],
     });
 
     return <Animated.View style={{ opacity: pulse }}>{children}</Animated.View>;
