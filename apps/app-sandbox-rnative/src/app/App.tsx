@@ -30,6 +30,7 @@ import {
   Links,
   NavBars,
   Selects,
+  Skeletons,
   Spots,
   Switches,
   Tags,
@@ -175,6 +176,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Banners'>
                 <Banners />
+              </SandboxBlock>
+              <SandboxBlock title='Skeletons'>
+                <Skeletons />
               </SandboxBlock>
               <SandboxBlock title='BottomSheets'>
                 <BottomSheetsButton
