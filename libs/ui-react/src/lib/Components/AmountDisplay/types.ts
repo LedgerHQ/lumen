@@ -1,3 +1,5 @@
+import type { ComponentPropsWithRef, HTMLAttributes } from 'react';
+
 export type FormattedValue = {
   /**
    * The whole number portion of the amount (e.g., "1234" from 1234.56)
@@ -27,7 +29,7 @@ export type FormattedValue = {
 /**
  * Props for the AmountDisplay component.
  */
-export type AmountDisplayProps = React.HTMLAttributes<HTMLDivElement> & {
+export type AmountDisplayProps = HTMLAttributes<HTMLDivElement> & {
   /**
    * The numeric value to display.
    * Pass the raw number value (e.g., 1234.56) - the formatter will handle conversion.
@@ -43,4 +45,4 @@ export type AmountDisplayProps = React.HTMLAttributes<HTMLDivElement> & {
    * @default false
    */
   hidden?: boolean;
-};
+} & ComponentPropsWithRef<'div'>;

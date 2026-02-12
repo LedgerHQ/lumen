@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { createElement, forwardRef } from 'react';
+import { createElement } from 'react';
 import { IconProps } from './types';
 
 const iconVariants = cva('inline-block', {
@@ -21,22 +21,28 @@ const iconVariants = cva('inline-block', {
   },
 });
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(
-  ({ size = 24, className = '', children, viewBox, xmlns, ...props }, ref) => {
-    return createElement(
-      'svg',
-      {
-        ref,
-        fill: 'none',
-        'aria-hidden': 'true',
-        xmlns,
-        viewBox,
-        className: cn(className, iconVariants({ size }), 'inline-block'),
-        ...props,
-      },
-      children,
-    );
-  },
-);
+export const Icon = ({
+  ref,
+  size = 24,
+  className = '',
+  children,
+  viewBox,
+  xmlns,
+  ...props
+}: IconProps) => {
+  return createElement(
+    'svg',
+    {
+      ref,
+      fill: 'none',
+      'aria-hidden': 'true',
+      xmlns,
+      viewBox,
+      className: cn(className, iconVariants({ size }), 'inline-block'),
+      ...props,
+    },
+    children,
+  );
+};
 
 Icon.displayName = 'Icon';

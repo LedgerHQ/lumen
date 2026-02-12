@@ -132,21 +132,19 @@ function DialogPortal({
  * @example
  * <DialogOverlay className="bg-opacity-50" />
  */
-const DialogOverlay = React.forwardRef<HTMLDivElement, DialogOverlayProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <DialogPrimitive.Overlay
-        ref={ref}
-        data-slot='dialog-overlay'
-        className={cn(
-          className,
-          'fixed inset-0 z-dialog-overlay bg-canvas-overlay backdrop-blur-sm data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in',
-        )}
-        {...props}
-      />
-    );
-  },
-);
+const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
+  return (
+    <DialogPrimitive.Overlay
+      ref={ref}
+      data-slot='dialog-overlay'
+      className={cn(
+        className,
+        'fixed inset-0 z-dialog-overlay bg-canvas-overlay backdrop-blur-sm data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in',
+      )}
+      {...props}
+    />
+  );
+};
 DialogOverlay.displayName = 'DialogOverlay';
 
 /**
@@ -219,29 +217,34 @@ export function DialogContent({
  *   </DialogFooter>
  * </DialogContent>
  */
-export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
-  ({ className, children, scrollbarWidth = 'none', style, ...props }, ref) => {
-    const { height } = useDialogContext({
-      consumerName: 'DialogBody',
-      contextRequired: true,
-    });
-    return (
-      <div
-        ref={ref}
-        data-slot='dialog-body'
-        style={{ scrollbarWidth, ...style }}
-        className={cn(
-          '-mb-24 flex min-h-0 grow flex-col overflow-y-auto px-24 pb-24',
-          height === 'hug' ? 'basis-auto' : 'basis-0',
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+export const DialogBody = ({
+  ref,
+  className,
+  children,
+  scrollbarWidth = 'none',
+  style,
+  ...props
+}: DialogBodyProps) => {
+  const { height } = useDialogContext({
+    consumerName: 'DialogBody',
+    contextRequired: true,
+  });
+  return (
+    <div
+      ref={ref}
+      data-slot='dialog-body'
+      style={{ scrollbarWidth, ...style }}
+      className={cn(
+        '-mb-24 flex min-h-0 grow flex-col overflow-y-auto px-24 pb-24',
+        height === 'hug' ? 'basis-auto' : 'basis-0',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 DialogBody.displayName = 'DialogBody';
 
 /**
@@ -264,20 +267,23 @@ DialogBody.displayName = 'DialogBody';
  *   </DialogFooter>
  * </DialogContent>
  */
-export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        data-slot='dialog-footer'
-        className={cn('flex shrink-0 justify-end gap-8 px-24 pt-24', className)}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+export const DialogFooter = ({
+  ref,
+  className,
+  children,
+  ...props
+}: DialogFooterProps) => {
+  return (
+    <div
+      ref={ref}
+      data-slot='dialog-footer'
+      className={cn('flex shrink-0 justify-end gap-8 px-24 pt-24', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 DialogFooter.displayName = 'DialogFooter';
 
 export { DialogHeader };
