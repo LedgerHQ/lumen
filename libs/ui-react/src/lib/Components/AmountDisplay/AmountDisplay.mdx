@@ -45,6 +45,12 @@ The `hidden` prop allows you to toggle amount visibility for privacy-sensitive a
 
 <Canvas of={AmountDisplayStories.WithHideButton} />
 
+### Loading State
+
+The `loading` prop displays a pulse animation to indicate that the amount is being fetched or updated. When set to `true`, the component applies a subtle pulsing effect while maintaining the displayed value.
+
+<Canvas of={AmountDisplayStories.Loading} />
+
 ## Accessibility
 
 - Uses semantic HTML for proper screen reader support
