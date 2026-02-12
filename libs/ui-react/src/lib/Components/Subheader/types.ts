@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
+import type { ComponentPropsWithRef, HTMLAttributes, ReactNode } from 'react';
 import { InteractiveIconProps } from '../InteractiveIcon';
 
 export type SubheaderProps = {
@@ -73,8 +73,14 @@ export type SubheaderActionProps = {
   /**
    * Click handler for the action.
    */
-  onClick: () => void;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'onClick'>;
+  onClick?: () => void;
+  /**
+   * If true, renders the action as its child element, merging props into it.
+   * Useful for rendering as a link or custom component.
+   * @default false
+   */
+  asChild?: boolean;
+} & Omit<ComponentPropsWithRef<'button'>, 'children' | 'onClick'>;
 
 export type SubheaderShowMoreProps = Omit<
   HTMLAttributes<HTMLSpanElement>,

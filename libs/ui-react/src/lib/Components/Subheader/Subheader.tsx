@@ -1,4 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
+import { Slot, Slottable } from '@radix-ui/react-slot';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import {
@@ -151,16 +152,29 @@ export const SubheaderDescription = ({
 /**
  * Action component for the Subheader. Displays an interactive text button.
  * Automatically positions itself at the end of the row using ml-auto.
+ * Use the `asChild` prop to render as a child element (e.g., a link).
+ *
+ * @example
+ * <SubheaderAction onClick={handleClick}>See all</SubheaderAction>
+ *
+ * @example
+ * // With asChild to render as a link
+ * <SubheaderAction asChild>
+ *   <a href="/all">See all</a>
+ * </SubheaderAction>
  */
 export const SubheaderAction = ({
   children,
   onClick,
+  asChild = false,
   className,
   ...props
 }: SubheaderActionProps) => {
+  const Comp = asChild ? Slot : 'button';
+
   return (
-    <button
-      type='button'
+    <Comp
+      type={asChild ? undefined : 'button'}
       onClick={onClick}
       className={cn(
         'ml-auto shrink-0 cursor-pointer pl-8 body-2 text-interactive',
@@ -168,8 +182,8 @@ export const SubheaderAction = ({
       )}
       {...props}
     >
-      {children}
-    </button>
+      <Slottable>{children}</Slottable>
+    </Comp>
   );
 };
 
