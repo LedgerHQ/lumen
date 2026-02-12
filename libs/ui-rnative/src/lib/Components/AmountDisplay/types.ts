@@ -47,7 +47,8 @@ export type AmountDisplayProps = ViewProps & {
    */
   hidden?: boolean;
   /**
-   *
+   * When true, applies a pulse animation to indicate the amount is being fetched or updated.
+   * @default false
    */
   loading?: boolean;
 } & Omit<StyledViewProps, 'children'>;

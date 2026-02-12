@@ -46,7 +46,8 @@ export type AmountDisplayProps = {
    */
   hidden?: boolean;
   /**
-   *
+   * When true, applies a pulse animation to indicate the amount is being fetched or updated.
+   * @default false
    */
   loading?: boolean;
 } & ComponentPropsWithRef<'div'>;
