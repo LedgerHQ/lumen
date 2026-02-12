@@ -79,47 +79,6 @@ function LoadingIcon() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appropriate speeds'
-      description='Keep rotation duration between 800-1200ms for smooth, perceivable motion'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Spin } from '@ledgerhq/lumen-ui-rnative';
-import { View } from 'react-native';
-
-<Spin duration={1000}>
-  <View style={{ width: 40, height: 40 }} />
-</Spin>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use very fast rotations"
-      description='Avoid very fast spins (< 500ms) as they can cause discomfort'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Spin } from '@ledgerhq/lumen-ui-rnative';
-import { View } from 'react-native';
-
-<Spin duration={200}>
-  <View style={{ width: 40, height: 40 }} />
-</Spin>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
-
 ## Performance Considerations
 
 - The Spin component uses `useNativeDriver` for optimal performance on native platforms
