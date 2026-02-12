@@ -1,0 +1,203 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PulseStories from './Pulse.stories';
+import { Pulse } from './Pulse';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Animations/Pulse' of={PulseStories} />
+
+# ⚡ Pulse
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The Pulse animation creates a smooth opacity fade in/out effect, commonly used for loading states and skeleton screens. It provides visual feedback that content is being processed or loaded.
+
+## Anatomy
+
+<Canvas of={PulseStories.Base} />
+
+- **Children**: The content to animate with opacity changes
+- **Duration**: Complete cycle duration (fade out + fade in)
+- **Animate**: Controls whether the animation is active
+
+## Properties
+
+### Overview
+
+<Canvas of={PulseStories.Base} />
+<Controls of={PulseStories.Base} />
+
+### Duration
+
+The duration prop controls how long a complete pulse cycle takes (fade out to fade in). Shorter durations create faster, more noticeable pulses, while longer durations provide subtle, gentle feedback.
+
+<Canvas of={PulseStories.DurationShowcase} />
+
+### Practical Usage
+
+The Pulse animation is commonly used with components like AmountDisplay to indicate that data is being fetched or updated.
+
+<Canvas of={PulseStories.WithAmountDisplay} />
+
+## Accessibility
+
+- Respects user motion preferences
+- Does not rely on animation alone to convey information
+- Maintains readable opacity range (0.35 to 1.0)
+
+</Tab>
+<Tab label="Implementation">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-rnative
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `react-native`, etc.) are required. See our Setup Guide for complete installation.
+
+## Basic Usage
+
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+function LoadingCard() {
+  return (
+    <Pulse animate={true}>
+      <View style={{ width: 200, height: 100, backgroundColor: '#E0E0E0' }} />
+    </Pulse>
+  );
+}
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use for loading indicators'
+      description='Apply pulse to skeleton elements that represent loading content'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+<Pulse animate={isLoading}>
+  <View style={{ width: 200, height: 100 }} />
+</Pulse>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use for critical information"
+      description='Avoid using pulse as the only indicator for important state changes'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { Text } from 'react-native';
+
+<Pulse animate={hasError}>
+  <Text>Payment Failed</Text>
+</Pulse>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Control animation state'
+      description='Use the animate prop to start/stop the animation based on loading state'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+const [loading, setLoading] = useState(true);
+
+<Pulse animate={loading}>
+  <View style={{ width: 200, height: 100 }} />
+</Pulse>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't leave always running"
+      description='Stop the animation when content has loaded to avoid unnecessary performance overhead'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+<Pulse animate={true}>
+  <View style={{ width: 200, height: 100 }} />
+</Pulse>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use appropriate durations'
+      description='Keep durations between 1500-3000ms for gentle, non-distracting feedback'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+<Pulse animate={true} duration={2000}>
+  <View style={{ width: 200, height: 100 }} />
+</Pulse>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use very short durations"
+      description='Avoid fast pulses (< 1000ms) as they can be jarring and distracting'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Pulse } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
+
+<Pulse animate={true} duration={300}>
+  <View style={{ width: 200, height: 100 }} />
+</Pulse>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</div>
+
+## Performance Considerations
+
+- The Pulse component uses `useNativeDriver` for optimal performance on native platforms
+- Animation cleanup is handled automatically on unmount
+- Consider using different duration values for multiple skeleton elements to create a more natural loading pattern
+
+</Tab>
+</CustomTabs>
