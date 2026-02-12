@@ -1,4 +1,5 @@
 import { ViewProps } from 'react-native';
+import { StyledViewProps } from '../../../styles';
 
 export type FormattedValue = {
   /**
@@ -45,4 +46,8 @@ export type AmountDisplayProps = ViewProps & {
    * @default false
    */
   hidden?: boolean;
-};
+  /**
+   *
+   */
+  loading?: boolean;
+} & Omit<StyledViewProps, 'children'>;
