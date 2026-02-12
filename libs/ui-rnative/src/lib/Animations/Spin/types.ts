@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Duration } from '../types';
 
 export type SpinProps = {
   /**
@@ -9,5 +10,5 @@ export type SpinProps = {
    * Duration of one complete rotation in milliseconds
    * @default 1000
    */
-  duration?: 75 | 100 | 150 | 200 | 300 | 500 | 700 | 1000 | 2000;
+  duration?: Duration;
 };
