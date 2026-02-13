@@ -126,3 +126,15 @@ export const WithHideButton: Story = {
     );
   },
 };
+
+export const Loading: Story = {
+  render: (props) => {
+    return (
+      <AmountDisplay
+        formatter={props.formatter}
+        value={1234.56}
+        loading={true}
+      />
+    );
+  },
+};

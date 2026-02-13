@@ -51,13 +51,9 @@ The `component` prop provides pre-built skeleton patterns for common UI elements
 
 > **Note**: List item and Tile width are fixed
 
-#### **Table**
-
-<Canvas of={SkeletonStories.WithTable} />
-
 ### Sizes
 
-Skeletons can be sized using Tailwind CSS classes with pixel values.
+Skeletons can be sized using the `lx` prop with design system size tokens.
 
 <Canvas of={SkeletonStories.SizeShowcase} />
 
@@ -79,18 +75,18 @@ Skeletons can take various shapes depending on the content they're representing.
 <Tab label="Implementation">
 
 ```bash
-npm install @ledgerhq/lumen-ui-react
+npm install @ledgerhq/lumen-ui-rnative
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `react-native`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup--docs) for complete installation.
 
 ## Basic Usage
 
 ```tsx
-import { Skeleton } from '@ledgerhq/lumen-ui-react';
+import { Skeleton } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
-  return <Skeleton className='h-16 w-256' />;
+  return <Skeleton lx={{ height: 's16', width: 's256' }} />;
 }
 ```
 
@@ -99,7 +95,7 @@ function MyComponent() {
 Use the `component` prop for pre-built skeleton patterns:
 
 ```tsx
-import { Skeleton } from '@ledgerhq/lumen-ui-react';
+import { Skeleton } from '@ledgerhq/lumen-ui-rnative';
 
 // List item skeleton - horizontal layout with avatar and text lines
 <Skeleton component='list-item' />
@@ -110,10 +106,10 @@ import { Skeleton } from '@ledgerhq/lumen-ui-react';
 
 ### Custom Styling
 
-While the component comes with predefined styles, you can extend them using Tailwind classes:
+While the component comes with predefined styles, you can extend them using the `lx` prop:
 
 ```tsx
-<Skeleton className='h-40 w-256 rounded-lg' />
+<Skeleton lx={{ height: 's40', width: 's256', borderRadius: 'lg' }} />
 ```
 
 ### Manual Composition
@@ -121,13 +117,15 @@ While the component comes with predefined styles, you can extend them using Tail
 For custom layouts, compose multiple skeleton elements:
 
 ```tsx
-<div className='flex items-center gap-16'>
-  <Skeleton className='size-48 rounded-full' />
-  <div className='flex flex-col gap-8'>
-    <Skeleton className='h-16 w-160' />
-    <Skeleton className='h-16 w-128' />
-  </div>
-</div>
+import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
+
+<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+  <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
+  <Box lx={{ flex: 1, flexDirection: 'column', gap: 's8' }}>
+    <Skeleton lx={{ height: 's16', width: 's160' }} />
+    <Skeleton lx={{ height: 's16', width: 's128' }} />
+  </Box>
+</Box>
 ```
 
 ## Do's and Don'ts
@@ -153,13 +151,15 @@ For custom layouts, compose multiple skeleton elements:
 
 {/* prettier-ignore */}
 ```tsx
-<div className='flex items-center gap-16'>
-  <Skeleton className='size-48 rounded-full' />
-  <div className='flex flex-col gap-8'>
-    <Skeleton className='h-12 w-176' />
-    <Skeleton className='h-12 w-112' />
-  </div>
-</div>
+import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
+
+<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+  <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
+  <Box lx={{ flex: 1, flexDirection: 'column', gap: 's8' }}>
+    <Skeleton lx={{ height: 's12', width: 's176' }} />
+    <Skeleton lx={{ height: 's12', width: 's112' }} />
+  </Box>
+</Box>
 ```
 
     </DontBlockItem>
@@ -168,23 +168,24 @@ For custom layouts, compose multiple skeleton elements:
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Use className for sizing'
-      description='Use pixel values for consistent sizing and styling'
-    >
-
-```tsx
-<Skeleton className='h-16 w-256' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary values"
-      description='Avoid arbitrary values or overriding core animation'
+      title='Use lx prop for sizing'
+      description='Use design system size tokens for consistent sizing'
     >
 
 {/* prettier-ignore */}
 ```tsx
-<Skeleton className='h-4 w-[200px]' />
+<Skeleton lx={{ height: 's16', width: 's256' }} />
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use arbitrary style values"
+      description='Avoid using the style prop or arbitrary values'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Skeleton style={{ height: 16, width: 200 }} />
 ```
 
     </DontBlockItem>

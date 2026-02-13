@@ -39,7 +39,7 @@ export const Base: Story = {
   ),
 };
 export const WithListItem: Story = {
-  render: () => <Skeleton component='list-item' className='w-320' />,
+  render: () => <Skeleton component='list-item' />,
 };
 
 export const WithTile: Story = {

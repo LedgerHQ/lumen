@@ -9,6 +9,7 @@ export * from './IconButtons';
 export * from './Links';
 export * from './NavBars';
 export * from './Selects';
+export * from './Skeletons';
 export * from './Spots';
 export * from './Subheaders';
 export * from './Switches';
