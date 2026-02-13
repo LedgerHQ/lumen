@@ -1,7 +1,8 @@
 name: Release All
-permissions:
-  contents: write
-  id-token: write
+
+concurrency:
+  group: release-all-${{ github.ref }}
+  cancel-in-progress: false # release action, we shouldn't cancel in-progress actions.
 
 on:
   workflow_dispatch:
@@ -15,16 +16,25 @@ env:
   NX_NO_CLOUD: true
   NPM_REGISTRY: jfrog.ledgerlabs.net/artifactory/api/npm/lumen-npm-prod-public
 
+permissions:
+  contents: read
+
 jobs:
   release:
+    name: Release and Publish
     runs-on: public-ledgerhq-shared-small
+    permissions:
+      contents: write # Required for creating Git tags, version commits, and GitHub releases
+      id-token: write # Required for OIDC token generation to authenticate with JFrog Artifactory registry
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
+          persist-credentials: true # required to create commits and tags
 
       - name: Setup git user
-        uses: LedgerHQ/ledger-live/tools/actions/composites/setup-git-user@develop
+        uses: LedgerHQ/ledger-live/tools/actions/composites/setup-git-user@develop # internal action. branch is fine.
 
       - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #v4.3.0
         with:
@@ -49,7 +59,7 @@ jobs:
 
       - name: Login to internal JFrog registry
         id: jfrog-login
-        uses: LedgerHQ/actions-security/actions/jfrog-login@actions/jfrog-login-1
+        uses: LedgerHQ/actions-security/actions/jfrog-login@actions/jfrog-login-1 # internal action. branch is fine
 
       - name: Setup npm config for JFrog
         env:

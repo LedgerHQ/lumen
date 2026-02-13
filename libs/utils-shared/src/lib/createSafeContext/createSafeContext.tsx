@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useContext, useMemo } from 'react';
+import { createContext, FC, ReactNode, use, useMemo } from 'react';
 
 export function createSafeContext<ContextValue extends object>(
   rootComponentName: string,
@@ -16,7 +16,7 @@ export function createSafeContext<ContextValue extends object>(
       Object.values(context ?? {}),
     ) as ContextValue;
 
-    return <Context.Provider value={memoValue}>{children}</Context.Provider>;
+    return <Context value={memoValue}>{children}</Context>;
   };
 
   Provider.displayName = rootComponentName + 'Provider';
@@ -28,7 +28,7 @@ export function createSafeContext<ContextValue extends object>(
     consumerName: string;
     contextRequired: ContextRequired;
   }): ContextRequired extends true ? ContextValue : Partial<ContextValue> {
-    const context = useContext(Context);
+    const context = use(Context);
 
     if (context) {
       return context;

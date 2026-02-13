@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { ViewRef } from '../../types';
+import { Pulse } from '../../Animations/Pulse';
+import { Box } from '../Utility';
 import { AmountDisplayProps } from './types';
 
 const useStyles = () => {
@@ -71,39 +71,43 @@ const useStyles = () => {
  * <AmountDisplay value={1234.56} formatter={usdFormatter} hidden={true} />
  * ```
  */
-export const AmountDisplay = React.forwardRef<ViewRef, AmountDisplayProps>(
-  ({ value, formatter, hidden = false, style, ...props }, ref) => {
-    const styles = useStyles();
-    const parts = formatter(value);
+export const AmountDisplay = ({
+  value,
+  formatter,
+  hidden = false,
+  loading = false,
+  ...props
+}: AmountDisplayProps) => {
+  const styles = useStyles();
+  const parts = formatter(value);
 
-    return (
-      <View
-        ref={ref}
-        style={StyleSheet.flatten([styles.container, style])}
-        {...props}
-      >
-        {(parts.currencyPosition === undefined ||
-          parts.currencyPosition === 'start') && (
-          <Text style={[styles.currencyStartText, styles.spacingStart]}>
-            {parts.currencyText}
+  return (
+    <Box {...props}>
+      <Pulse animate={loading}>
+        <View style={styles.container}>
+          {(parts.currencyPosition === undefined ||
+            parts.currencyPosition === 'start') && (
+            <Text style={[styles.currencyStartText, styles.spacingStart]}>
+              {parts.currencyText}
+            </Text>
+          )}
+          <Text style={styles.integerText}>
+            {hidden ? '••••' : parts.integerPart}
           </Text>
-        )}
-        <Text style={styles.integerText}>
-          {hidden ? '••••' : parts.integerPart}
-        </Text>
-        {parts.decimalPart && !hidden && (
-          <Text style={styles.decimalText}>
-            {(parts.decimalSeparator || '.') + parts.decimalPart}
-          </Text>
-        )}
-        {parts.currencyPosition === 'end' && (
-          <Text style={[styles.currencyEndText, styles.spacingEnd]}>
-            {parts.currencyText}
-          </Text>
-        )}
-      </View>
-    );
-  },
-);
+          {parts.decimalPart && !hidden && (
+            <Text style={styles.decimalText}>
+              {(parts.decimalSeparator || '.') + parts.decimalPart}
+            </Text>
+          )}
+          {parts.currencyPosition === 'end' && (
+            <Text style={[styles.currencyEndText, styles.spacingEnd]}>
+              {parts.currencyText}
+            </Text>
+          )}
+        </View>
+      </Pulse>
+    </Box>
+  );
+};
 
 AmountDisplay.displayName = 'AmountDisplay';

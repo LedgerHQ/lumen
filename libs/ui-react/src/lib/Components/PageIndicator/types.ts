@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 export type PageIndicatorProps = {
   /**
@@ -9,4 +9,4 @@ export type PageIndicatorProps = {
    * The total number of pages to display.
    */
   totalPages: number;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;

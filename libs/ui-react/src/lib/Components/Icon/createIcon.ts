@@ -1,5 +1,5 @@
 import { toPascalCase } from '@ledgerhq/lumen-utils-shared';
-import { createElement, forwardRef, SVGProps } from 'react';
+import { createElement, SVGProps } from 'react';
 import { Icon } from './Icon';
 import { IconProps } from './types';
 
@@ -14,16 +14,18 @@ const createIcon = (
   iconName: string,
   iconJsx: React.ReactElement<SVGProps<SVGSVGElement>>,
 ) => {
-  const Component = forwardRef<SVGSVGElement, Omit<IconProps, 'children'>>(
-    ({ className, ...props }, ref) =>
-      createElement(Icon, {
-        ref,
-        className,
-        viewBox: iconJsx.props.viewBox,
-        ...props,
-        children: iconJsx.props.children,
-      }),
-  );
+  const Component = ({
+    ref,
+    className,
+    ...props
+  }: Omit<IconProps, 'children'>) =>
+    createElement(Icon, {
+      ref,
+      className,
+      viewBox: iconJsx.props.viewBox,
+      ...props,
+      children: iconJsx.props.children,
+    });
 
   Component.displayName = toPascalCase(iconName);
 

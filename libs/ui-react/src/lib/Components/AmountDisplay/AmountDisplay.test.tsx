@@ -155,4 +155,21 @@ describe('AmountDisplay', () => {
     expect(screen.getByText('••••')).toBeInTheDocument();
     expect(screen.queryByText('.56')).not.toBeInTheDocument();
   });
+  it('has animate-pulse class when loading prop is set to true', () => {
+    const formatter = createFormatter();
+    const { container } = render(
+      <AmountDisplay value={1234.56} formatter={formatter} loading={true} />,
+    );
+
+    expect(container.firstChild).toHaveClass('animate-pulse');
+  });
+
+  it('does not have animate-pulse class when loading is false', () => {
+    const formatter = createFormatter();
+    const { container } = render(
+      <AmountDisplay value={1234.56} formatter={formatter} loading={false} />,
+    );
+
+    expect(container.firstChild).not.toHaveClass('animate-pulse');
+  });
 });

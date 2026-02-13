@@ -1,3 +1,5 @@
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+
 export type InteractiveIconProps = {
   /**
    * The visual style of the icon button.
@@ -8,5 +10,5 @@ export type InteractiveIconProps = {
    * The icon component to display inside the button.
    * Should be a single icon element from the design system.
    */
-  children: React.ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  children: ReactNode;
+} & ComponentPropsWithRef<'button'>;

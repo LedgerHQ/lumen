@@ -1,0 +1,200 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SkeletonStories from './Skeleton.stories';
+import { Skeleton } from './Skeleton';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Communication/Skeleton' of={SkeletonStories} />
+
+# Skeleton
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Skeleton components provide visual placeholders for content that is loading. They use a pulsing animation to indicate that content is being fetched or processed, improving perceived performance and user experience.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10196-8001&m=dev).
+
+## Anatomy
+
+<Canvas of={SkeletonStories.Base} />
+
+- **Shape**: Defines the visual placeholder shape (rectangle, circle, etc.)
+- **Animation**: Built-in pulse animation to indicate loading state
+
+## Properties
+
+### Overview
+
+<Canvas of={SkeletonStories.Base} />
+<Controls of={SkeletonStories.Base} />
+
+### Component Variants
+
+The `component` prop provides pre-built skeleton patterns for common UI elements.
+
+#### **List Item**
+
+<Canvas of={SkeletonStories.WithListItem} />
+
+#### **Tile**
+
+<Canvas of={SkeletonStories.WithTile} />
+
+> **Note**: List item and Tile width are fixed
+
+### Sizes
+
+Skeletons can be sized using the `lx` prop with design system size tokens.
+
+<Canvas of={SkeletonStories.SizeShowcase} />
+
+### Shapes
+
+Skeletons can take various shapes depending on the content they're representing.
+
+<Canvas of={SkeletonStories.ShapeShowcase} />
+
+## Best Practices
+
+- **Use Component Variants**: Prefer using the `component` prop for common patterns like list items and tiles
+- **Match Content Shape**: Make skeleton shapes match the actual content they represent
+- **Consistent Spacing**: Use consistent spacing between skeleton elements
+- **Appropriate Sizing**: Size skeletons to match the expected content dimensions
+- **Loading States**: Show skeletons only during actual loading states
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-rnative
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `react-native`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup--docs) for complete installation.
+
+## Basic Usage
+
+```tsx
+import { Skeleton } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return <Skeleton lx={{ height: 's16', width: 's256' }} />;
+}
+```
+
+### Component Variants
+
+Use the `component` prop for pre-built skeleton patterns:
+
+```tsx
+import { Skeleton } from '@ledgerhq/lumen-ui-rnative';
+
+// List item skeleton - horizontal layout with avatar and text lines
+<Skeleton component='list-item' />
+
+// Tile skeleton - vertical centered layout
+<Skeleton component='tile' />
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using the `lx` prop:
+
+```tsx
+<Skeleton lx={{ height: 's40', width: 's256', borderRadius: 'lg' }} />
+```
+
+### Manual Composition
+
+For custom layouts, compose multiple skeleton elements:
+
+```tsx
+import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
+
+<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+  <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
+  <Box lx={{ flex: 1, flexDirection: 'column', gap: 's8' }}>
+    <Skeleton lx={{ height: 's16', width: 's160' }} />
+    <Skeleton lx={{ height: 's16', width: 's128' }} />
+  </Box>
+</Box>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use component prop for common patterns'
+      description='Use pre-built variants for consistent loading states'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Skeleton component='list-item' />
+<Skeleton component='tile' />
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't manually recreate common patterns"
+      description='Avoid recreating patterns that already exist as component variants'
+    >
+
+{/* prettier-ignore */}
+```tsx
+import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
+
+<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+  <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
+  <Box lx={{ flex: 1, flexDirection: 'column', gap: 's8' }}>
+    <Skeleton lx={{ height: 's12', width: 's176' }} />
+    <Skeleton lx={{ height: 's12', width: 's112' }} />
+  </Box>
+</Box>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use lx prop for sizing'
+      description='Use design system size tokens for consistent sizing'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Skeleton lx={{ height: 's16', width: 's256' }} />
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use arbitrary style values"
+      description='Avoid using the style prop or arbitrary values'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Skeleton style={{ height: 16, width: 200 }} />
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+</div>
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>

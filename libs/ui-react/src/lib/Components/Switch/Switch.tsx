@@ -1,7 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { SwitchProps } from './types';
 
 const switchVariants = cva(
@@ -59,24 +58,24 @@ const thumbVariants = cva(
  * const [selected, setSelected] = useState(false);
  * <Switch size="sm" selected={selected} onChange={(selected) => setSelected(selected)} disabled={someCondition} />
  */
-export const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitive.Root>,
-  SwitchProps
->(
-  (
-    { className, selected, defaultSelected, onChange, size = 'md', ...props },
-    ref,
-  ) => (
-    <SwitchPrimitive.Root
-      ref={ref}
-      className={cn(className, switchVariants({ size }))}
-      checked={selected}
-      defaultChecked={defaultSelected}
-      onCheckedChange={onChange}
-      {...props}
-    >
-      <SwitchPrimitive.Thumb className={thumbVariants({ size })} />
-    </SwitchPrimitive.Root>
-  ),
+export const Switch = ({
+  ref,
+  className,
+  selected,
+  defaultSelected,
+  onChange,
+  size = 'md',
+  ...props
+}: SwitchProps) => (
+  <SwitchPrimitive.Root
+    ref={ref}
+    className={cn(className, switchVariants({ size }))}
+    checked={selected}
+    defaultChecked={defaultSelected}
+    onCheckedChange={onChange}
+    {...props}
+  >
+    <SwitchPrimitive.Thumb className={thumbVariants({ size })} />
+  </SwitchPrimitive.Root>
 );
 Switch.displayName = 'Switch';

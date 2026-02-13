@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { forwardRef } from 'react';
 import { DividerProps } from './types';
 
 /**
@@ -22,22 +21,25 @@ import { DividerProps } from './types';
  * // With custom styling
  * <Divider className="my-16" />
  */
-export const Divider = forwardRef<HTMLDivElement, DividerProps>(
-  ({ className, orientation = 'horizontal', ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        role='separator'
-        aria-orientation={orientation}
-        className={cn(
-          'border-muted-subtle',
-          orientation === 'horizontal' ? 'w-full border-t' : 'h-full border-l',
-          className,
-        )}
-        {...props}
-      />
-    );
-  },
-);
+export const Divider = ({
+  ref,
+  className,
+  orientation = 'horizontal',
+  ...props
+}: DividerProps) => {
+  return (
+    <div
+      ref={ref}
+      role='separator'
+      aria-orientation={orientation}
+      className={cn(
+        'border-muted-subtle',
+        orientation === 'horizontal' ? 'w-full border-t' : 'h-full border-l',
+        className,
+      )}
+      {...props}
+    />
+  );
+};
 
 Divider.displayName = 'Divider';
