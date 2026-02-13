@@ -66,7 +66,7 @@ export const Stepper = ({
       accessibilityLabel={
         label ??
         t('components.stepper.progressAriaLabel', {
-          currentStep: Math.min(currentStep, totalSteps),
+          currentStep: Math.min(Math.max(currentStep, 0), totalSteps),
           totalSteps,
         })
       }
@@ -133,7 +133,7 @@ export const Stepper = ({
         ) : (
           <>
             <Text typography='body1SemiBold' lx={{ color: 'base' }}>
-              {Math.min(currentStep, totalSteps)}
+              {Math.min(Math.max(currentStep, 0), totalSteps)}
             </Text>
             <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
               /{totalSteps}
