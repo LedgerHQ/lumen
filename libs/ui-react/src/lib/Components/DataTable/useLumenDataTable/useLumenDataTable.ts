@@ -1,5 +1,6 @@
 import {
   getCoreRowModel,
+  getSortedRowModel,
   TableOptions,
   Table,
   useReactTable,
@@ -9,19 +10,25 @@ import '../types';
 
 type UseLumenDataTableOptions<TData> = Omit<
   TableOptions<TData>,
-  'getCoreRowModel'
+  'getCoreRowModel' | 'getSortedRowModel'
 > & {
   /**
    * Override the default getCoreRowModel if needed.
    * @default getCoreRowModel()
    */
   getCoreRowModel?: TableOptions<TData>['getCoreRowModel'];
+  /**
+   * Override the default getSortedRowModel if needed.
+   * @default getSortedRowModel()
+   */
+  getSortedRowModel?: TableOptions<TData>['getSortedRowModel'];
 };
 
 /**
  * Hook wrapping TanStack's `useReactTable` with opinionated defaults.
  *
  * - Injects `getCoreRowModel` automatically.
+ * - Injects `getSortedRowModel` automatically for client-side sorting.
  * - Returns the TanStack `Table` instance.
  *
  * @example
@@ -38,6 +45,8 @@ export const useLumenDataTable = <TData>(
 ): Table<TData> => {
   return useReactTable<TData>({
     ...options,
+    enableSorting: options.enableSorting || false,
     getCoreRowModel: options.getCoreRowModel ?? getCoreRowModel(),
+    getSortedRowModel: options.getSortedRowModel ?? getSortedRowModel(),
   });
 };

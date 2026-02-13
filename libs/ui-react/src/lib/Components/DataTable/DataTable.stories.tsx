@@ -426,14 +426,14 @@ export const WithResponsiveColumns: Story = {
       },
       {
         accessorKey: 'change',
-        header: 'Change',
+        header: 'Hide column below lg',
         meta: { align: 'end', hideBelow: 'lg' },
       },
       {
         id: 'marketCap',
-        header: 'Market Cap',
+        header: 'Hide column below md',
         cell: () => '$1.2B',
-        meta: { align: 'end', hideBelow: 'lg' },
+        meta: { align: 'end', hideBelow: 'md' },
       },
     ];
 
@@ -496,6 +496,56 @@ export const WithGrouping: Story = {
         )}
       >
         <DataTable className='max-h-560' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithSorting: Story = {
+  render: (args) => {
+    const columns: ColumnDef<CryptoAsset>[] = [
+      {
+        accessorKey: 'name',
+        header: 'Asset',
+        cell: ({ row }) => (
+          <TableCellContent
+            title={row.original.name}
+            description={row.original.symbol}
+            leadingContent={<Spot appearance='icon' icon={Android} />}
+          />
+        ),
+        enableSorting: true,
+        meta: { className: 'w-224' },
+      },
+      {
+        accessorKey: 'symbol',
+        header: 'Symbol',
+      },
+      {
+        accessorKey: 'price',
+        header: 'Price',
+        enableSorting: true,
+        meta: { align: 'end' as const },
+      },
+      {
+        accessorKey: 'change',
+        header: 'Performance',
+        cell: ({ row }) => (
+          <TableCellContent
+            align='end'
+            title={row.original.price}
+            description={row.original.change}
+          />
+        ),
+        meta: { align: 'end' as const, className: 'w-144' },
+      },
+    ];
+
+    const table = useLumenDataTable({ data: largeData, columns });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
       </DataTableRoot>
     );
   },

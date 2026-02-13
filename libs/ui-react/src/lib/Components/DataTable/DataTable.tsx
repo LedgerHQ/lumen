@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableHeaderRow,
   TableHeaderCell,
+  TableSortButton,
   TableBody,
   TableRow,
   TableCell,
@@ -108,12 +109,23 @@ const DataTableHeader = ({
                 hideBelow={meta?.hideBelow}
                 className={meta?.className}
               >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
+                {header.isPlaceholder ? null : header.column.getCanSort() ? (
+                  <TableSortButton
+                    sortDirection={header.column.getIsSorted() || undefined}
+                    onClick={header.column.getToggleSortingHandler()}
+                    align={meta?.align}
+                  >
+                    {flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
                     )}
+                  </TableSortButton>
+                ) : (
+                  flexRender(
+                    header.column.columnDef.header,
+                    header.getContext(),
+                  )
+                )}
               </TableHeaderCell>
             );
           })}
