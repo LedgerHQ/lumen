@@ -89,16 +89,16 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
             }}
           />
         </svg>
-        <span className='absolute inset-0 m-4 flex items-center justify-center truncate text-base'>
+        <span className='absolute inset-0 m-4 flex items-center justify-center text-base'>
           {label ? (
             <span className='body-2-semi-bold'>{label}</span>
           ) : (
-            <>
+            <span>
               <span className='body-1-semi-bold'>
                 {Math.min(Math.max(currentStep, 0), totalSteps)}
               </span>
               <span className='body-2-semi-bold text-muted'>/{totalSteps}</span>
-            </>
+            </span>
           )}
         </span>
       </div>
