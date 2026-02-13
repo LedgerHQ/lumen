@@ -1,13 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ColumnDef, SortingState } from '@tanstack/react-table';
+import { SortingState } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
+import { Button } from '../Button/Button';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
-import { TableCellContent, TableInfoIcon } from '../Table';
+import {
+  TableActionBar,
+  TableActionBarLeading,
+  TableActionBarTrailing,
+  TableCellContent,
+  TableInfoIcon,
+} from '../Table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
-import { DataTableRoot, DataTable } from './DataTable';
+import {
+  DataTableRoot,
+  DataTable,
+  DataTableGlobalSearchInput,
+} from './DataTable';
 import { useLumenDataTable } from './useLumenDataTable/useLumenDataTable';
 
 type CryptoAsset = {
@@ -219,7 +230,7 @@ const meta: Meta<typeof DataTableRoot> = {
   },
   decorators: [
     (Story) => (
-      <div className='w-560 text-base'>
+      <div className='w-3xl text-base'>
         <Story />
       </div>
     ),
@@ -234,43 +245,48 @@ export const Base: Story = {
     appearance: 'no-background',
   },
   render: (args) => {
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'symbol',
-        header: 'Symbol',
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { align: 'end' },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Performance',
-        cell: ({ row }) => (
-          <TableCellContent
-            align='end'
-            title={row.original.price}
-            description={row.original.change}
-          />
-        ),
-        meta: { align: 'end', className: 'w-144' },
-      },
-    ];
-
-    const table = useLumenDataTable({ data, columns });
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+    });
 
     return (
       <DataTableRoot {...args} table={table}>
@@ -282,16 +298,21 @@ export const Base: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const simpleColumns: ColumnDef<CryptoAsset>[] = [
-      { accessorKey: 'name', header: 'Asset' },
-      { accessorKey: 'price', header: 'Price', meta: { align: 'end' } },
-    ];
-
     const noBackgroundTable = useLumenDataTable({
       data,
-      columns: simpleColumns,
+      columns: [
+        { accessorKey: 'name', header: 'Asset', enableSorting: false },
+        { accessorKey: 'price', header: 'Price', meta: { align: 'end' } },
+      ],
     });
-    const plainTable = useLumenDataTable({ data, columns: simpleColumns });
+
+    const plainTable = useLumenDataTable({
+      data,
+      columns: [
+        { accessorKey: 'name', header: 'Asset', enableSorting: false },
+        { accessorKey: 'price', header: 'Price', meta: { align: 'end' } },
+      ],
+    });
 
     return (
       <div className='flex gap-24 text-base'>
@@ -312,46 +333,55 @@ export const AppearanceShowcase: Story = {
 
 export const WithClickableRow: Story = {
   render: (args) => {
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'symbol',
-        header: 'Symbol',
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { align: 'end' },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Performance',
-        cell: ({ row }) => (
-          <TableCellContent
-            align='end'
-            title={row.original.price}
-            description={row.original.change}
-          />
-        ),
-        meta: { align: 'end', className: 'w-144' },
-      },
-    ];
-
-    const table = useLumenDataTable({ data, columns });
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end', className: 'w-144' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+    });
 
     return (
-      <DataTableRoot {...args} table={table}>
+      <DataTableRoot
+        {...args}
+        table={table}
+        onRowClick={(row) => console.log(row)}
+      >
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
@@ -360,32 +390,36 @@ export const WithClickableRow: Story = {
 
 export const WithResponsiveColumns: Story = {
   render: (args) => {
-    const responsiveColumns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Very very long truncated header text',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-      },
-      {
-        accessorKey: 'change',
-        header: 'Hide column below lg',
-        meta: { align: 'end', hideBelow: 'lg' },
-      },
-      {
-        id: 'marketCap',
-        header: 'Hide column below md',
-        cell: () => '$1.2B',
-        meta: { align: 'end', hideBelow: 'md' },
-      },
-    ];
-
-    const table = useLumenDataTable({ data, columns: responsiveColumns });
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Very very long truncated header text',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+        },
+        {
+          accessorKey: 'change',
+          header: 'Hide column below lg',
+          enableSorting: false,
+          meta: { align: 'end', hideBelow: 'lg' },
+        },
+        {
+          id: 'marketCap',
+          header: 'Hide column below md',
+          enableSorting: false,
+          cell: () => '$1.2B',
+          meta: { align: 'end', hideBelow: 'md' },
+        },
+      ],
+    });
 
     return (
       <DataTableRoot
@@ -401,39 +435,43 @@ export const WithResponsiveColumns: Story = {
 
 export const WithGroupHeader: Story = {
   render: (args) => {
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { align: 'end' },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Performance',
-        cell: ({ row }) => (
-          <TableCellContent
-            align='end'
-            title={row.original.price}
-            description={row.original.change}
-          />
-        ),
-        meta: { align: 'end', className: 'w-144' },
-      },
-    ];
-
-    const table = useLumenDataTable({ data: largeData, columns });
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+    });
 
     return (
       <DataTableRoot
@@ -454,56 +492,58 @@ export const WithGroupHeader: Story = {
 
 export const WithCustomHeader: Story = {
   render: (args) => {
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        enableSorting: true,
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'price',
-        header: 'Market cap long text that should be truncated',
-        meta: {
-          align: 'end',
-          headerTrailingContent: (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <TableInfoIcon />
-              </TooltipTrigger>
-              <TooltipContent>Total market capitalization</TooltipContent>
-            </Tooltip>
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
           ),
+          meta: { className: 'w-224' },
         },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Price',
-        enableSorting: true,
-        meta: {
-          align: 'end',
-          headerTrailingContent: (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <TableInfoIcon />
-              </TooltipTrigger>
-              <TooltipContent>
-                Price evolution of the last 7 days
-              </TooltipContent>
-            </Tooltip>
-          ),
+        {
+          accessorKey: 'price',
+          header: 'Market cap long text that should be truncated',
+          enableSorting: false,
+          meta: {
+            align: 'end',
+            headerTrailingContent: (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TableInfoIcon />
+                </TooltipTrigger>
+                <TooltipContent>Total market capitalization</TooltipContent>
+              </Tooltip>
+            ),
+          },
         },
-      },
-    ];
-
-    const table = useLumenDataTable({ data, columns });
+        {
+          accessorKey: 'change',
+          header: 'Price',
+          enableSorting: false,
+          meta: {
+            align: 'end',
+            headerTrailingContent: (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TableInfoIcon />
+                </TooltipTrigger>
+                <TooltipContent>
+                  Price evolution of the last 7 days
+                </TooltipContent>
+              </Tooltip>
+            ),
+          },
+        },
+      ],
+    });
 
     return (
       <DataTableRoot {...args} table={table}>
@@ -515,57 +555,120 @@ export const WithCustomHeader: Story = {
 
 export const WithSorting: Story = {
   render: (args) => {
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        enableSorting: true,
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'symbol',
-        header: 'Symbol',
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        enableSorting: true,
-        meta: { align: 'end' },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Performance',
-        cell: ({ row }) => (
-          <TableCellContent
-            align='end'
-            title={row.original.price}
-            description={row.original.change}
-          />
-        ),
-        meta: { align: 'end', className: 'w-144' },
-      },
-    ];
-
     const [sorting, setSorting] = useState<SortingState>([
       { id: 'name', desc: true },
     ]);
 
     const table = useLumenDataTable({
       data: largeData,
-      columns,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
       onSortingChange: setSorting,
       state: { sorting },
     });
 
     return (
       <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithGlobalFilter: Story = {
+  render: (args) => {
+    const [globalFilter, setGlobalFilter] = useState();
+
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      onGlobalFilterChange: setGlobalFilter,
+      state: { globalFilter },
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <TableActionBar>
+          <TableActionBarLeading>
+            <DataTableGlobalSearchInput placeholder='Search assets...' />
+          </TableActionBarLeading>
+          <TableActionBarTrailing>
+            <Button appearance='base' size='md'>
+              Export
+            </Button>
+          </TableActionBarTrailing>
+        </TableActionBar>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
@@ -606,45 +709,43 @@ export const WithInfiniteLoading: Story = {
       [query.data],
     );
 
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'symbol',
-        header: 'Symbol',
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { align: 'end' },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Performance',
-        cell: ({ row }) => (
-          <TableCellContent
-            align='end'
-            title={row.original.price}
-            description={row.original.change}
-          />
-        ),
-        meta: { align: 'end', className: 'w-144' },
-      },
-    ];
-
     const table = useLumenDataTable({
       data: flatData,
-      columns,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
     });
 
     if (query.isLoading) {
@@ -664,6 +765,71 @@ export const WithInfiniteLoading: Story = {
         }}
       >
         <DataTable className='max-h-320' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithServerSideState: Story = {
+  render: (args) => {
+    const fetchApiBackend = async (...args: any) => {
+      return args;
+    };
+
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      onSortingChange: (sortingState) =>
+        fetchApiBackend({ sort: sortingState }),
+
+      onGlobalFilterChange: (globalFilterState) =>
+        fetchApiBackend({ globalFilter: globalFilterState }),
+
+      onPaginationChange: (paginationState) =>
+        fetchApiBackend({ pagination: paginationState }),
+
+      manualFiltering: true,
+      manualPagination: true,
+      manualSorting: true,
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
       </DataTableRoot>
     );
   },

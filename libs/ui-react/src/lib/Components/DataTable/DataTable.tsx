@@ -5,7 +5,9 @@ import {
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
-import { Fragment, ReactNode } from 'react';
+import { ChangeEvent, Fragment, ReactNode, useCallback } from 'react';
+import { SearchInput, SearchInputProps } from '../SearchInput';
+
 import {
   TableRoot,
   Table,
@@ -291,3 +293,34 @@ const DataTableRow = ({ row }: { row: Row<RowData> }) => {
   );
 };
 DataTableRow.displayName = 'DataTableRow';
+
+/**
+ * A search input that connects to the TanStack table's `globalFilter` state
+ * via the `DataTableRoot` context. No external state management is required.
+ */
+export const DataTableGlobalSearchInput = ({
+  onChange,
+  ...props
+}: SearchInputProps) => {
+  const { table } = useDataTableContext({
+    consumerName: 'DataTableGlobalSearchInput',
+    contextRequired: true,
+  });
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      table.setGlobalFilter(e.target.value);
+      onChange?.(e);
+    },
+    [table, onChange],
+  );
+
+  return (
+    <SearchInput
+      value={table.getState().globalFilter ?? ''}
+      onChange={handleChange}
+      {...props}
+    />
+  );
+};
+DataTableGlobalSearchInput.displayName = 'DataTableGlobalSearchInput';

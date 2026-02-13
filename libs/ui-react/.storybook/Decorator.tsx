@@ -1,5 +1,5 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Decorator } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeMode, ThemeProvider } from '../src/lib/Components/ThemeProvider';
 
 const queryClient = new QueryClient({

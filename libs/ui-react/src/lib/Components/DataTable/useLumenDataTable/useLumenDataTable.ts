@@ -1,16 +1,16 @@
 import {
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   TableOptions,
   Table,
   useReactTable,
 } from '@tanstack/react-table';
-// Side-effect import: ensures the ColumnMeta module augmentation is in scope
 import '../types';
 
 type UseLumenDataTableOptions<TData> = Omit<
   TableOptions<TData>,
-  'getCoreRowModel' | 'getSortedRowModel'
+  'getCoreRowModel' | 'getSortedRowModel' | 'getFilteredRowModel'
 > & {
   /**
    * Override the default getCoreRowModel if needed.
@@ -22,12 +22,18 @@ type UseLumenDataTableOptions<TData> = Omit<
    * @default getSortedRowModel()
    */
   getSortedRowModel?: TableOptions<TData>['getSortedRowModel'];
+  /**
+   * Override the default getFilteredRowModel if needed.
+   * @default getFilteredRowModel()
+   */
+  getFilteredRowModel?: TableOptions<TData>['getFilteredRowModel'];
 };
 
 /**
  * Hook wrapping TanStack's `useReactTable` with opinionated defaults.
  *
  * - Injects `getCoreRowModel` automatically.
+ * - Injects `getFilteredRowModel` automatically for client-side filtering.
  * - Injects `getSortedRowModel` automatically for client-side sorting.
  * - Returns the TanStack `Table` instance.
  *
@@ -45,11 +51,8 @@ export const useLumenDataTable = <TData>(
 ): Table<TData> => {
   return useReactTable<TData>({
     ...options,
-    columns: options.columns?.map((column) => ({
-      ...column,
-      enableSorting: column.enableSorting ?? false,
-    })),
     getCoreRowModel: options.getCoreRowModel ?? getCoreRowModel(),
+    getFilteredRowModel: options.getFilteredRowModel ?? getFilteredRowModel(),
     getSortedRowModel: options.getSortedRowModel ?? getSortedRowModel(),
   });
 };

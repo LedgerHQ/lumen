@@ -5,8 +5,12 @@ import * as DataTableStories from './DataTable.stories';
 
 # DataTable
 
-A compound component that combines TanStack Table with the Lumen `Table` primitives.
-Wrap a `<DataTable />` inside a `<DataTableRoot>` to render a fully featured data table from a TanStack table instance.
+DataTable is a **high-level abstraction** built on top of [TanStack Table](https://tanstack.com/table/latest/docs/introduction) and the Lumen [Table](?path=/docs/components-table--docs) primitives.
+Define your columns and data, and DataTable handles the rendering — with built-in support for sorting, filtering, pagination, infinite scroll, and both **client-side** and **server-side** state management.
+
+> If you need full control over the table markup and layout, see [Table](?path=/docs/components-table--docs) for the underlying UI primitives.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11618-5962&m=dev).
 
 ## Overview
 
@@ -15,26 +19,56 @@ Wrap a `<DataTable />` inside a `<DataTableRoot>` to render a fully featured dat
 
 ## Appearance
 
+The `appearance` prop controls the visual style of the table. Use `no-background` (default) for a transparent look or `plain` for a bordered container with a background.
+
 <Canvas of={DataTableStories.AppearanceShowcase} />
 
-## With Many Rows
+## Clickable Rows
 
-<Canvas of={DataTableStories.WithManyRows} />
-
-## With Clickable Rows
+Pass `onRowClick` to `DataTableRoot` to make rows interactive. Each row receives hover and press styles automatically. The callback receives the full TanStack `Row` object, giving access to `row.original` data.
 
 <Canvas of={DataTableStories.WithClickableRow} />
 
-## With Responsive Columns
+## Responsive Columns
 
-Use `meta.hideBelow` on column definitions to hide columns below a given breakpoint.
+Use `meta.hideBelow` on column definitions to hide columns below a given breakpoint. Header text is automatically truncated when the column is too narrow.
 
 <Canvas of={DataTableStories.WithResponsiveColumns} />
 
-## With Infinite Loading
+## Group Headers
 
-Combine properties `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.
-Set `pagination='infinite-scroll'` and `loading=true` on `DataTableRoot` to enable infinite scroll indicator.
+Use `groupBy` and `renderGroupHeader` on `DataTableRoot` to visually separate rows into groups. The `groupBy` function extracts a group key from each row, and `renderGroupHeader` controls what is displayed in the separator. Data must be pre-sorted by the grouping field.
 
+<Canvas of={DataTableStories.WithGroupHeader} />
+
+## Custom Header
+
+Use `meta.headerTrailingContent` on a column definition to render additional content inside the header cell, such as a `Tooltip` with a `TableInfoIcon`. The trailing content is revealed on hover.
+
+<Canvas of={DataTableStories.WithCustomHeader} />
+
+## Sorting
+
+Pass `onSortingChange` and `state.sorting` to `useLumenDataTable` to enable controlled sorting. Columns are sortable by default; set `enableSorting: false` on a column to opt it out. The header automatically renders a `TableSortButton` for sortable columns.
+
+<Canvas of={DataTableStories.WithSorting} />
+
+## Global Filter
+
+Use `DataTableGlobalSearchInput` inside a `TableActionBar` to add a search field that connects to TanStack Table's built-in `globalFilter` state. No external state management is needed for the basic case. For controlled filtering (e.g. syncing with a URL), pass `state.globalFilter` and `onGlobalFilterChange` to `useLumenDataTable`.
+
+<Canvas of={DataTableStories.WithGlobalFilter} />
+
+## Manual Server-Side State
+
+Pass `manualFiltering`, `manualPagination`, and `manualSorting` to `useLumenDataTable` to disable client-side processing.  
+In this mode, the table expects pre-processed data from the server.  
+Combine with `onSortingChange`, `onGlobalFilterChange`, or `onPaginationChange` to send state updates back to your API layer.
+
+<Canvas of={DataTableStories.WithServerSideState} />
+
+## Infinite Loading
+
+Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table. Set `paginationMode='infinite-scroll'` and `loading={true}` on `DataTableRoot` to display the loading indicator. Use a `Skeleton` component with `component='table'` while the initial page is loading.
 
 <Canvas of={DataTableStories.WithInfiniteLoading} />
