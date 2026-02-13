@@ -34,10 +34,11 @@ const [DataTableProvider, useDataTableContext] = createSafeContext<{
   loading: DataTableRootProps['loading'];
   paginationMode: DataTableRootProps['paginationMode'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
+  hideHeader: DataTableRootProps['hideHeader'];
   onRowClick?: (row: Row<any>) => void;
   groupBy?: (row: Row<any>) => string;
   renderGroupHeader?: (info: { row: Row<any>; count: number }) => ReactNode;
-}>('DataTable');
+}>('DataTableContext');
 
 /**
  * Context provider for the DataTable compound.
@@ -58,6 +59,7 @@ export const DataTableRoot = <TData extends RowData>({
   onRowClick,
   groupBy,
   renderGroupHeader,
+  hideHeader = false,
   children,
   className,
   ref,
@@ -66,6 +68,7 @@ export const DataTableRoot = <TData extends RowData>({
   return (
     <DataTableProvider
       value={{
+        hideHeader,
         paginationMode,
         table,
         appearance,
@@ -150,11 +153,17 @@ DataTableHeader.displayName = 'DataTableHeader';
  * </DataTableRoot>
  */
 export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
-  const { appearance, paginationMode, loading, onScrollBottom, groupBy } =
-    useDataTableContext({
-      consumerName: 'DataTable',
-      contextRequired: true,
-    });
+  const {
+    appearance,
+    paginationMode,
+    hideHeader,
+    loading,
+    onScrollBottom,
+    groupBy,
+  } = useDataTableContext({
+    consumerName: 'DataTable',
+    contextRequired: true,
+  });
 
   return (
     <TableRoot
@@ -166,7 +175,7 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
       {...props}
     >
       <Table>
-        <DataTableHeader />
+        {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
       {paginationMode === 'infinite-scroll' && <TableLoadingRow />}

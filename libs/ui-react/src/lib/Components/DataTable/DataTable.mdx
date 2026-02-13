@@ -48,9 +48,13 @@ Note that cells text is automatically truncated when the column is too narrow.
 
 ## Group Headers
 
+In order to display group headers, you must pre-sort the data by the grouping field.  
+
 Use `groupBy` and `renderGroupHeader` on `DataTableRoot` to visually separate rows into groups.  
-The `groupBy` function extracts a group key from each row, and `renderGroupHeader` controls what is displayed in the separator.  
-Data must be pre-sorted by the grouping field.
+The `groupBy` function extracts a group key from each row, and `renderGroupHeader` controls what is displayed in the separator.   
+
+You can additionally hide the header section by setting `hideHeader=true` on `DataTableRoot`.  
+
 
 <Canvas of={DataTableStories.WithGroupHeader} />
 
@@ -63,7 +67,8 @@ Use `meta.headerTrailingContent` on a column definition to render additional con
 ## Sorting
 
 Pass `onSortingChange` and `state.sorting` to `useLumenDataTable` to enable controlled sorting.  
-Columns are sortable by default; set `enableSorting: false` on a column to opt it out. The header automatically renders a `TableSortButton` for sortable columns.
+Columns are sortable by default; set `enableSorting: false` on a column to opt it out. The header automatically renders a `TableSortButton` for sortable columns.  
+Extends Tanstack Table's `sortingFn` property to allow custom sorting logic.
 
 <Canvas of={DataTableStories.WithSorting} />
 

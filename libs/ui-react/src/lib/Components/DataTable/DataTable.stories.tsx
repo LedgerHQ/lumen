@@ -494,6 +494,7 @@ export const WithGroupHeader: Story = {
       <DataTableRoot
         {...args}
         table={table}
+        hideHeader
         groupBy={(row) => row.original.category}
         renderGroupHeader={({ row, count }) => (
           <>
@@ -501,7 +502,7 @@ export const WithGroupHeader: Story = {
           </>
         )}
       >
-        <DataTable className='max-h-560' />
+        <DataTable className='max-h-480' />
       </DataTableRoot>
     );
   },
@@ -594,6 +595,7 @@ export const WithSorting: Story = {
         {
           accessorKey: 'symbol',
           header: 'Symbol',
+          enableSorting: false,
         },
         {
           accessorKey: 'price',
@@ -601,6 +603,9 @@ export const WithSorting: Story = {
           meta: { align: 'end' },
         },
         {
+          sortingFn: (rowA, rowB) => {
+            return rowA.original.price.localeCompare(rowB.original.price);
+          },
           accessorKey: 'change',
           header: 'Performance',
           cell: ({ row }) => (

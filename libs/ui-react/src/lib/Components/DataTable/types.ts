@@ -66,6 +66,11 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    */
   className?: string;
   /**
+   * When true, hides the header section.
+   * @default false
+   */
+  hideHeader?: boolean;
+  /**
    * Callback fired when a row is clicked.
    * Return the data of the given row from the callback function.
    * @default undefined
