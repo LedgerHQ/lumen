@@ -302,7 +302,12 @@ export const AppearanceShowcase: Story = {
       data,
       columns: [
         { accessorKey: 'name', header: 'Asset', enableSorting: false },
-        { accessorKey: 'price', header: 'Price', meta: { align: 'end' } },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
       ],
     });
 
@@ -310,7 +315,12 @@ export const AppearanceShowcase: Story = {
       data,
       columns: [
         { accessorKey: 'name', header: 'Asset', enableSorting: false },
-        { accessorKey: 'price', header: 'Price', meta: { align: 'end' } },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
       ],
     });
 
@@ -388,22 +398,29 @@ export const WithClickableRow: Story = {
   },
 };
 
-export const WithResponsiveColumns: Story = {
+export const ColumnsLayout: Story = {
   render: (args) => {
     const table = useLumenDataTable({
       data,
       columns: [
         {
           accessorKey: 'name',
-          header: 'Very very long truncated header text',
+          header: 'w-256 column',
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellContent
               title={row.original.name}
-              description={row.original.symbol}
+              description='Very long description that should be truncated in the table cell'
               leadingContent={<Spot appearance='icon' icon={Android} />}
             />
           ),
+          meta: { className: 'w-256' },
+        },
+        {
+          accessorKey: 'price',
+          header: 'w-52 column',
+          enableSorting: false,
+          meta: { align: 'end', hideBelow: 'lg', className: 'w-52' },
         },
         {
           accessorKey: 'change',

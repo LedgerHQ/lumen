@@ -17,6 +17,49 @@ Define your columns and data, and DataTable handles the rendering — with built
 <Canvas of={DataTableStories.Base} />
 <Controls of={DataTableStories.Base} />
 
+## Column Meta
+
+Each column definition accepts a `meta` object with Lumen-specific properties that control layout and rendering.
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Property</th>
+        <th className='p-12 text-left text-on-accent body-2'>Type</th>
+        <th className='p-12 text-left text-on-accent body-2'>Default</th>
+        <th className='p-12 text-left text-on-accent body-2'>Description</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>`align`</td>
+        <td className='p-12 text-muted'>`'start' | 'end'`</td>
+        <td className='p-12 text-muted'>`'start'`</td>
+        <td className='p-12 text-muted'>Text alignment for the header and body cells.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>`className`</td>
+        <td className='p-12 text-muted'>`string`</td>
+        <td className='p-12 text-muted'>—</td>
+        <td className='p-12 text-muted'>Custom class applied to every cell in the column, including the header Use design-token width classes (e.g. `w-224`) to set a fixed column width.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>`hideBelow`</td>
+        <td className='p-12 text-muted'>`'xs' | 'sm' | 'md' | 'lg' | 'xl'`</td>
+        <td className='p-12 text-muted'>—</td>
+        <td className='p-12 text-muted'>Hides the column when the viewport is below the specified breakpoint.</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>`headerTrailingContent`</td>
+        <td className='p-12 text-muted'>`ReactNode`</td>
+        <td className='p-12 text-muted'>—</td>
+        <td className='p-12 text-muted'>Additional content rendered in the header cell (e.g. a Tooltip with an info icon). Shown on hover.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ## Appearance
 
 The `appearance` prop controls the visual style of the table. Use `no-background` (default) for a transparent look or `plain` for a bordered container with a background.
@@ -29,15 +72,20 @@ Pass `onRowClick` to `DataTableRoot` to make rows interactive. Each row receives
 
 <Canvas of={DataTableStories.WithClickableRow} />
 
-## Responsive Columns
+## Columns Layout
 
-Use `meta.hideBelow` on column definitions to hide columns below a given breakpoint. Header text is automatically truncated when the column is too narrow.
+Use `meta.className` on column definition to define custom width using design-tokens.  
+Use `meta.align` property to align the column content.  
+You can use `meta.hideBelow` on column definitions to hide columns below a given breakpoint.  
+Note that cells text is automatically truncated when the column is too narrow.
 
-<Canvas of={DataTableStories.WithResponsiveColumns} />
+<Canvas of={DataTableStories.ColumnsLayout} />
 
 ## Group Headers
 
-Use `groupBy` and `renderGroupHeader` on `DataTableRoot` to visually separate rows into groups. The `groupBy` function extracts a group key from each row, and `renderGroupHeader` controls what is displayed in the separator. Data must be pre-sorted by the grouping field.
+Use `groupBy` and `renderGroupHeader` on `DataTableRoot` to visually separate rows into groups.  
+The `groupBy` function extracts a group key from each row, and `renderGroupHeader` controls what is displayed in the separator.  
+Data must be pre-sorted by the grouping field.
 
 <Canvas of={DataTableStories.WithGroupHeader} />
 
@@ -49,13 +97,15 @@ Use `meta.headerTrailingContent` on a column definition to render additional con
 
 ## Sorting
 
-Pass `onSortingChange` and `state.sorting` to `useLumenDataTable` to enable controlled sorting. Columns are sortable by default; set `enableSorting: false` on a column to opt it out. The header automatically renders a `TableSortButton` for sortable columns.
+Pass `onSortingChange` and `state.sorting` to `useLumenDataTable` to enable controlled sorting.  
+Columns are sortable by default; set `enableSorting: false` on a column to opt it out. The header automatically renders a `TableSortButton` for sortable columns.
 
 <Canvas of={DataTableStories.WithSorting} />
 
 ## Global Filter
 
-Use `DataTableGlobalSearchInput` inside a `TableActionBar` to add a search field that connects to TanStack Table's built-in `globalFilter` state. No external state management is needed for the basic case. For controlled filtering (e.g. syncing with a URL), pass `state.globalFilter` and `onGlobalFilterChange` to `useLumenDataTable`.
+Use `DataTableGlobalSearchInput` inside a `TableActionBar` to add a search field that connects to TanStack Table's built-in `globalFilter` state.  
+No external state management is needed for the basic case. For controlled filtering (e.g. syncing with a URL), pass `state.globalFilter` and `onGlobalFilterChange` to `useLumenDataTable`.
 
 <Canvas of={DataTableStories.WithGlobalFilter} />
 
@@ -69,6 +119,8 @@ Combine with `onSortingChange`, `onGlobalFilterChange`, or `onPaginationChange` 
 
 ## Infinite Loading
 
-Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table. Set `paginationMode='infinite-scroll'` and `loading={true}` on `DataTableRoot` to display the loading indicator. Use a `Skeleton` component with `component='table'` while the initial page is loading.
+Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.  
+Set `paginationMode='infinite-scroll'` and `loading={true}` on `DataTableRoot` to display the loading indicator.  
+Use a `Skeleton` component with `component='table'` while the initial page is loading.
 
 <Canvas of={DataTableStories.WithInfiniteLoading} />
