@@ -95,7 +95,7 @@ export const ContentBanner = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'relative flex w-full items-center gap-8 rounded-md bg-surface p-12 drop-shadow-sm',
+        'relative flex w-full items-center gap-8 rounded-md bg-surface p-12',
         className,
       )}
       {...props}
