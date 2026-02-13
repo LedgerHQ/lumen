@@ -186,9 +186,7 @@ export const ResponsiveLayout: Story = {
           <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>
-                <span className='truncate'>
-                  Asset name that is very long and should be truncated
-                </span>
+                Asset name that is very long and should be truncated
               </TableHeaderCell>
               <TableHeaderCell align='end'>Price</TableHeaderCell>
               <TableHeaderCell hideBelow='lg' align='end'>

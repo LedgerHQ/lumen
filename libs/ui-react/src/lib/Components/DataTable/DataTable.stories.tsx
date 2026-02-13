@@ -5,7 +5,8 @@ import { useMemo } from 'react';
 import { Android } from '../../Symbols';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
-import { TableCellContent } from '../Table';
+import { TableCellContent, TableInfoIcon } from '../Table';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import { DataTableRoot, DataTable } from './DataTable';
 import { useLumenDataTable } from './useLumenDataTable/useLumenDataTable';
 
@@ -447,7 +448,7 @@ export const WithResponsiveColumns: Story = {
   },
 };
 
-export const WithGrouping: Story = {
+export const WithGroupHeader: Story = {
   render: (args) => {
     const columns: ColumnDef<CryptoAsset>[] = [
       {
@@ -496,6 +497,67 @@ export const WithGrouping: Story = {
         )}
       >
         <DataTable className='max-h-560' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithCustomHeader: Story = {
+  render: (args) => {
+    const columns: ColumnDef<CryptoAsset>[] = [
+      {
+        accessorKey: 'name',
+        header: 'Asset',
+        cell: ({ row }) => (
+          <TableCellContent
+            title={row.original.name}
+            description={row.original.symbol}
+            leadingContent={<Spot appearance='icon' icon={Android} />}
+          />
+        ),
+        enableSorting: true,
+        meta: { className: 'w-224' },
+      },
+      {
+        accessorKey: 'price',
+        header: 'Market cap long text that should be truncated',
+        meta: {
+          align: 'end' as const,
+          headerTrailingContent: (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TableInfoIcon />
+              </TooltipTrigger>
+              <TooltipContent>Total market capitalization</TooltipContent>
+            </Tooltip>
+          ),
+        },
+      },
+      {
+        accessorKey: 'change',
+        header: 'Price',
+        enableSorting: true,
+        meta: {
+          align: 'end' as const,
+          headerTrailingContent: (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TableInfoIcon />
+              </TooltipTrigger>
+              <TooltipContent>
+                Price evolution of the last 7 days
+              </TooltipContent>
+            </Tooltip>
+          ),
+        },
+      },
+    ];
+
+    const table = useLumenDataTable({ data, columns });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
       </DataTableRoot>
     );
   },

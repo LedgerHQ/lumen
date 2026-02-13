@@ -18,9 +18,14 @@ export type LumenColumnMeta = {
    */
   hideBelow?: Breakpoints;
   /**
-   * Custom className applied to each cell in this column.
+   * Custom className applied to each cell in this column including the header cell.
    */
   className?: string;
+  /**
+   * Trailing content rendered in the header cell for additional content.
+   * Shown only on hover.
+   */
+  headerTrailingContent?: ReactNode;
 };
 
 // Module augmentation so TanStack's ColumnMeta is typed with our properties.

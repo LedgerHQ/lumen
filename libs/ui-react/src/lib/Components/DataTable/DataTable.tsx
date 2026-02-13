@@ -108,6 +108,7 @@ const DataTableHeader = ({
                 align={meta?.align}
                 hideBelow={meta?.hideBelow}
                 className={meta?.className}
+                trailingContent={meta?.headerTrailingContent}
               >
                 {header.isPlaceholder ? null : header.column.getCanSort() ? (
                   <TableSortButton
