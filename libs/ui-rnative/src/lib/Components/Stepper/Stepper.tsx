@@ -1,9 +1,9 @@
 import { getStepperCalculations } from '@ledgerhq/lumen-utils-shared';
-import { Animated } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { Animated, Easing } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
 import { useTheme } from '../../../styles';
-import { useAnimatedValue } from '../../utils';
 import { Box } from '../Utility/Box';
 import { Text } from '../Utility/Text';
 import { StepperProps } from './types';
@@ -51,7 +51,18 @@ export const Stepper = ({
     strokeWidth: STROKE_WIDTH,
   });
 
-  const animatedOffset = useAnimatedValue({ toValue: progressDashOffset });
+  const animatedOffset = useRef(new Animated.Value(progressDashOffset)).current;
+
+  useEffect(() => {
+    const animation = Animated.timing(animatedOffset, {
+      toValue: progressDashOffset,
+      duration: 300,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: false,
+    });
+    animation.start();
+    return () => animation.stop();
+  }, [progressDashOffset, animatedOffset]);
 
   return (
     <Box
