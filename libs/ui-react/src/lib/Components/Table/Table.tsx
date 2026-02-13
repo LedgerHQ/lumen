@@ -323,7 +323,7 @@ export const TableCellContent = ({
 TableCellContent.displayName = 'TableCellContent';
 
 const headerCellVariants = {
-  root: cva('group h-40 truncate p-12 body-3 text-base', {
+  root: cva('group/header-cell h-40 truncate p-12 body-3 text-base', {
     variants: {
       hideBelow: {
         xs: 'hidden xs:table-cell',
@@ -343,7 +343,7 @@ const headerCellVariants = {
     },
   }),
   trailingContent: cva(
-    'flex items-center justify-center opacity-0 group-hover:opacity-100',
+    'flex items-center justify-center opacity-0 group-hover/header-cell:opacity-100',
   ),
 };
 
@@ -373,7 +373,7 @@ export const TableHeaderCell = ({
           <span className={cn('truncate', align === 'end' && 'order-1')}>
             {children}
           </span>
-          <div className='flex items-center justify-center opacity-0 group-hover:opacity-100'>
+          <div className='flex items-center justify-center opacity-0 group-hover/header-cell:opacity-100'>
             {trailingContent}
           </div>
         </div>
@@ -535,7 +535,7 @@ const tableSortButtonVariants = {
     variants: {
       active: {
         true: 'opacity-100',
-        false: 'opacity-0 group-hover:opacity-100',
+        false: 'opacity-0 group-hover/header-cell:opacity-100',
       },
     },
   }),

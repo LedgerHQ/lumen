@@ -103,7 +103,7 @@ export const Base: Story = {
     loading: false,
   },
   render: (args) => (
-    <div className='w-560 text-base'>
+    <div className='w-3xl text-base'>
       <TableRoot appearance={args.appearance} loading={args.loading}>
         <Table>
           <TableHeader>
@@ -180,7 +180,7 @@ export const AppearanceShowcase: Story = {
 
 export const ResponsiveLayout: Story = {
   render: (args) => (
-    <div className='w-560 text-base'>
+    <div className='w-3xl text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -282,7 +282,7 @@ export const WithInfiniteLoading: Story = {
     }, []);
 
     return (
-      <div className='w-560 text-base'>
+      <div className='w-3xl text-base'>
         <TableRoot
           {...args}
           className='h-480'
@@ -327,7 +327,7 @@ export const WithCustomHeader: Story = {
       useState<TableSortValue>(undefined);
 
     return (
-      <div className='w-560 text-base'>
+      <div className='w-3xl text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -401,7 +401,7 @@ export const WithCustomHeader: Story = {
 
 export const WithGroupHeader: Story = {
   render: (args) => (
-    <div className='w-560 text-base'>
+    <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
           <SearchInput placeholder='Search assets...' />
@@ -460,7 +460,7 @@ export const WithGroupHeader: Story = {
 
 export const WithActionBar: Story = {
   render: (args) => (
-    <div className='w-560 text-base'>
+    <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
           <SearchInput placeholder='Search assets...' />
