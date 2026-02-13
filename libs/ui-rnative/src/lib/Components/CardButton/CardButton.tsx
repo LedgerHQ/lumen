@@ -67,7 +67,7 @@ const useStyles = ({
           gap: t.spacings.s4,
         },
         title: StyleSheet.flatten([
-          t.typographies.body1SemiBold,
+          t.typographies.body2SemiBold,
           {
             color: disabled ? t.colors.text.disabled : t.colors.text.base,
             minWidth: 0,
@@ -75,9 +75,9 @@ const useStyles = ({
           },
         ]),
         description: StyleSheet.flatten([
-          t.typographies.body2,
+          t.typographies.body3,
           {
-            color: disabled ? t.colors.text.disabled : t.colors.text.base,
+            color: disabled ? t.colors.text.disabled : t.colors.text.muted,
             minWidth: 0,
           },
         ]),

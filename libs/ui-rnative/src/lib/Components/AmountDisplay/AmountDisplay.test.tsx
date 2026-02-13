@@ -178,4 +178,17 @@ describe('AmountDisplay', () => {
     expect(screen.getByText('••••')).toBeTruthy();
     expect(screen.queryByText('.56')).toBeNull();
   });
+
+  it('renders correctly when loading is true', () => {
+    const formatter = createFormatter();
+    render(
+      <TestWrapper>
+        <AmountDisplay value={1234.56} formatter={formatter} loading={true} />
+      </TestWrapper>,
+    );
+
+    expect(screen.getByText('USD')).toBeTruthy();
+    expect(screen.getByText('1234')).toBeTruthy();
+    expect(screen.getByText('.56')).toBeTruthy();
+  });
 });

@@ -3,7 +3,7 @@ import * as StepperStories from './Stepper.stories';
 import { DoVsDontRow, DoBlockItem, DontBlockItem, CustomTabs, Tab } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
-<Meta title='Feedback/Stepper/Docs' of={StepperStories} />
+<Meta title='Communication/Stepper/Docs' of={StepperStories} />
 
 # 🔄 Stepper
 
@@ -34,25 +34,37 @@ The progress arc starts at the top (12 o'clock position) and fills clockwise. Wh
 
 ---
 
+## 🏷️ Labels
+
+**Default label**: The default label is "currentStep/totalSteps" (e.g., "2/4").
+
+
+### Step Ranges
+- **`totalSteps`** must be between **2** and **9**
+- **`currentStep`** must be between **0** and **`totalSteps`**
+- Use `currentStep={0}` to show the initial state (minimal dot before starting)
+
+> ⚠️ Using more than **9** total steps or exceeding the valid range may cause the UI to break and text to be truncated inside the circular indicator.
+
+> ⚠️ Values outside valid ranges are automatically clamped: **`currentStep`** is kept between **0** and **`totalSteps`**.
+
 ## 🎨 Disabled State
 
 The Stepper supports a disabled state that changes the progress arc to a muted appearance:
 
 <Canvas of={StepperStories.DisabledShowcase} />
 
-### Default
-The default state with an interactive accent color for the progress arc. Use this for current, ongoing processes.
 
-### Disabled
-A muted appearance for the progress arc. Use this for paused or disabled steppers.
 
----
-
-## 🏷️ Custom Labels
+## Custom Labels
 
 By default, the stepper displays "currentStep/totalSteps" (e.g., "2/4"). You can provide a custom label for special cases:
 
 <Canvas of={StepperStories.WithCustomLabel} />
+
+
+> ⚠️ **Note**: The label and step counts are automatically truncated if they overflow the circular indicator. Keep custom labels short to ensure readability within the 48px circle.
+
 
 ---
 
@@ -76,8 +88,6 @@ Install the packages and their peer dependencies:
 # Install the UI Kit
 npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core
 
-# Install peer dependencies
-npm install tailwindcss@^3.4.0 react@^18.3.1 clsx tailwind-merge class-variance-authority
 ```
 
 ### Tailwind Configuration

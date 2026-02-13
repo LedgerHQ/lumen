@@ -4,6 +4,7 @@ import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
 import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
 import {
   createGradientPlugin,
+  createScreensPlugin,
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
@@ -22,6 +23,7 @@ export const ledgerLivePreset: Config = {
   },
   plugins: [
     createPrimitivesPlugin(),
+    createScreensPlugin(),
     createThemePlugin(ledgerLiveCSSTheme),
     createTypographyPlugin(),
     createGradientPlugin(ledgerLiveCSSTheme),

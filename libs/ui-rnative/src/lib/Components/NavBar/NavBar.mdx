@@ -1,0 +1,260 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import { Box } from '../Utility';
+import * as NavBarStories from './NavBar.stories';
+import { NavBar, NavBarBackButton, NavBarContent } from './NavBar';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Navigation/NavBar' of={NavBarStories} />
+
+# 🧭 NavBar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The NavBar component provides navigation controls at the top of your screen. It supports two layouts: compact for centered, vertically stacked content, and expanded for left-aligned, vertically stacked content with more spacing.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library).
+
+## Anatomy
+
+<Canvas of={NavBarStories.Base} />
+
+- **NavBar**: Root container that provides appearance context
+- **NavBarBackButton**: Back navigation button with arrow icon
+- **NavBarContent**: Container for content (must wrap NavBarTitle, NavBarDescription, etc.)
+- **NavBarTitle**: Styled title text with proper truncation
+- **NavBarDescription**: Styled description text with proper truncation
+- **NavBarCoinCapsule**: Cryptocurrency display with icon and ticker
+
+## Properties
+
+### Appearance: Compact
+
+The compact layout displays content vertically, centered horizontally with standard spacing.
+
+<Canvas of={NavBarStories.Base} />
+<Controls of={NavBarStories.Base} />
+
+### Appearance: Expanded
+
+The expanded layout displays content vertically with left-alignment and increased spacing.
+
+<Canvas of={NavBarStories.Expanded} />
+
+### With Cryptocurrency Asset
+
+Display cryptocurrency information centered in compact mode.
+
+<Canvas of={NavBarStories.WithCoinCapsule} />
+
+## Accessibility
+
+React Native NavBar includes:
+
+- Touch targets sized appropriately for mobile interaction
+- Screen reader support through React Native's accessibility features
+- Descriptive labels for icon buttons
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+} from '@ledgerhq/lumen-ui-rnative';
+
+<NavBar appearance='compact'>
+  <NavBarBackButton onPress={() => navigation.goBack()} />
+  <NavBarContent>
+    <NavBarTitle>Page Title</NavBarTitle>
+  </NavBarContent>
+</NavBar>;
+```
+
+## With Description
+
+```tsx
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+  NavBarDescription,
+} from '@ledgerhq/lumen-ui-rnative';
+
+<NavBar appearance='expanded'>
+  <NavBarBackButton onPress={() => navigation.goBack()} />
+  <NavBarContent>
+    <NavBarTitle>Account Details</NavBarTitle>
+    <NavBarDescription>View and manage your account</NavBarDescription>
+  </NavBarContent>
+</NavBar>
+```
+
+## With Trailing Actions
+
+```tsx
+import { MoreHorizontal } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { IconButton } from '@ledgerhq/lumen-ui-rnative';
+
+<NavBar appearance='compact'>
+  <NavBarBackButton onPress={() => navigation.goBack()} />
+  <NavBarContent>
+    <NavBarTitle>Settings</NavBarTitle>
+  </NavBarContent>
+  <IconButton
+    appearance='no-background'
+    size='md'
+    icon={MoreHorizontal}
+    accessibilityLabel='More options'
+    onPress={() => showMenu()}
+  />
+</NavBar>;
+```
+
+## With Cryptocurrency Asset
+
+```tsx
+import Icon from '@ledgerhq/crypto-icons/native';
+import { NavBarCoinCapsule } from '@ledgerhq/lumen-ui-rnative';
+
+<NavBar appearance='compact'>
+  <NavBarBackButton onPress={() => navigation.goBack()} />
+  <NavBarContent>
+    <NavBarCoinCapsule
+      ticker='BTC'
+      icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
+    />
+    <NavBarTitle>Bitcoin</NavBarTitle>
+  </NavBarContent>
+</NavBar>;
+```
+
+## Integration with React Navigation
+
+The NavBar integrates seamlessly with React Navigation's header options:
+
+```tsx
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+} from '@ledgerhq/lumen-ui-rnative';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        header: ({ navigation, route }) => (
+          <NavBar appearance='compact'>
+            <NavBarBackButton onPress={() => navigation.goBack()} />
+            <NavBarContent>
+              <NavBarTitle>{route.name}</NavBarTitle>
+            </NavBarContent>
+          </NavBar>
+        ),
+      }}
+    >
+      <Stack.Screen name='Home' component={HomeScreen} />
+      <Stack.Screen name='Details' component={DetailsScreen} />
+    </Stack.Navigator>
+  );
+}
+```
+
+## Integration with Expo Router
+
+For Expo Router, use the NavBar in your layout files:
+
+```tsx
+// app/_layout.tsx
+import { Stack } from 'expo-router';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+} from '@ledgerhq/lumen-ui-rnative';
+import { useRouter } from 'expo-router';
+
+export default function Layout() {
+  const router = useRouter();
+
+  return (
+    <Stack
+      screenOptions={{
+        header: ({ route }) => (
+          <NavBar appearance='compact'>
+            <NavBarBackButton onPress={() => router.back()} />
+            <NavBarContent>
+              <NavBarTitle>{route.name}</NavBarTitle>
+            </NavBarContent>
+          </NavBar>
+        ),
+      }}
+    />
+  );
+}
+```
+
+Or for a specific screen:
+
+```tsx
+// app/details.tsx
+import { Stack } from 'expo-router';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarContent,
+  NavBarTitle,
+  NavBarDescription,
+} from '@ledgerhq/lumen-ui-rnative';
+import { useRouter } from 'expo-router';
+
+export default function DetailsScreen() {
+  const router = useRouter();
+
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          header: () => (
+            <NavBar appearance='expanded'>
+              <NavBarBackButton onPress={() => router.back()} />
+              <NavBarContent>
+                <NavBarTitle>Details</NavBarTitle>
+                <NavBarDescription>
+                  View detailed information
+                </NavBarDescription>
+              </NavBarContent>
+            </NavBar>
+          ),
+        }}
+      />
+      {/* Your screen content */}
+    </>
+  );
+}
+```
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>

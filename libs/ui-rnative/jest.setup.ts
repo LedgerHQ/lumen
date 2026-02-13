@@ -57,6 +57,7 @@ jest.mock('@gorhom/bottom-sheet', () => {
       'data-enable-handle-panning-gesture': String(
         props.enableHandlePanningGesture,
       ),
+      'data-on-dismiss': props.onDismiss ? 'true' : 'false',
       children: props.children,
     } as any);
   });

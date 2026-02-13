@@ -4,6 +4,7 @@ import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
 import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
 import {
   createGradientPlugin,
+  createScreensPlugin,
   createThemePlugin,
   createTypographyPlugin,
   createShadowPlugin,
@@ -22,6 +23,7 @@ export const allBrandsPreset: Config = {
   },
   plugins: [
     createPrimitivesPlugin(),
+    createScreensPlugin(),
     createThemePlugin(allBrandsCSSTheme),
     createTypographyPlugin(),
     createGradientPlugin(allBrandsCSSTheme),

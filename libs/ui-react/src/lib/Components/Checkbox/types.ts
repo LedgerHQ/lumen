@@ -1,4 +1,5 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import type { ComponentPropsWithRef } from 'react';
 
 export type CheckboxProps = {
   /**
@@ -18,6 +19,6 @@ export type CheckboxProps = {
    */
   className?: string;
 } & Omit<
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
+  ComponentPropsWithRef<typeof CheckboxPrimitive.Root>,
   'checked' | 'defaultChecked' | 'onCheckedChange' | 'asChild'
 >;

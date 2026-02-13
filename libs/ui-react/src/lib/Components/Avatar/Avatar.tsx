@@ -1,5 +1,6 @@
 import { cva } from 'class-variance-authority';
 import React from 'react';
+import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
 import { AvatarProps } from './types';
 
@@ -49,49 +50,62 @@ const fallbackSizes = {
  * // With notification indicator
  * <Avatar src="https://example.com/photo.jpg" showNotification />
  */
-export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
-  (
-    {
-      className,
-      src,
-      alt = 'avatar',
-      size = 'md',
-      imgLoading,
-      showNotification = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const [error, setError] = React.useState<boolean>(false);
-    const shouldFallback = !src || error;
+export const Avatar = ({
+  ref,
+  className,
+  src,
+  alt,
+  size = 'md',
+  imgLoading,
+  showNotification = false,
+  ...props
+}: AvatarProps) => {
+  const { t } = useCommonTranslation();
+  const [error, setError] = React.useState<boolean>(false);
+  const shouldFallback = !src || error;
 
-    React.useEffect(() => {
-      setError(false);
-    }, [src]);
+  const resolvedAlt = alt || t('components.avatar.defaultAlt');
 
-    return (
-      <div
-        ref={ref}
-        className={avatarVariants.root({ size, className })}
-        {...props}
-      >
-        {showNotification && (
-          <div className={avatarVariants.notification({ size })} />
-        )}
-        {shouldFallback ? (
-          <User size={fallbackSizes[size]} />
-        ) : (
-          <img
-            src={src}
-            alt={alt}
-            loading={imgLoading}
-            onError={() => setError(true)}
-            className='size-full overflow-hidden rounded-full object-cover'
-          />
-        )}
-      </div>
-    );
-  },
-);
+  const ariaLabel = showNotification
+    ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
+    : resolvedAlt;
+
+  React.useEffect(() => {
+    setError(false);
+  }, [src]);
+
+  return (
+    <div
+      ref={ref}
+      className={avatarVariants.root({ size, className })}
+      role='img'
+      aria-label={ariaLabel}
+      {...props}
+    >
+      {showNotification && (
+        <div
+          className={avatarVariants.notification({ size })}
+          aria-hidden='true'
+        />
+      )}
+      {shouldFallback ? (
+        <User
+          size={fallbackSizes[size]}
+          aria-label='Fallback Icon'
+          aria-hidden='true'
+        />
+      ) : (
+        <img
+          src={src}
+          alt=''
+          loading={imgLoading}
+          onError={() => setError(true)}
+          className='size-full overflow-hidden rounded-full object-cover'
+          aria-hidden='true'
+        />
+      )}
+    </div>
+  );
+};
 
 Avatar.displayName = 'Avatar';

@@ -1,3 +1,5 @@
+import type { ChangeEvent, ComponentPropsWithRef } from 'react';
+
 export type AmountInputProps = {
   /**
    * The controlled value of the input
@@ -8,7 +10,7 @@ export type AmountInputProps = {
    * Change handler
    * @required
    */
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   /**
    * The currency text (e.g. USD, EUR)
    */
@@ -43,6 +45,6 @@ export type AmountInputProps = {
    */
   thousandsSeparator?: boolean;
 } & Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
+  ComponentPropsWithRef<'input'>,
   'size' | 'prefix' | 'value' | 'onChange'
 >;

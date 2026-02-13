@@ -1,4 +1,5 @@
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import type { ComponentProps, ReactNode } from 'react';
 
 export type TooltipProps = {
   /**
@@ -6,24 +7,24 @@ export type TooltipProps = {
    * @default 200
    */
   delayDuration?: number;
-} & React.ComponentProps<typeof TooltipPrimitive.Root>;
+} & ComponentProps<typeof TooltipPrimitive.Root>;
 
 export type TooltipTriggerProps = {
   /**
    * The element that will trigger the tooltip (e.g., button, icon, text).
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
   /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-} & React.ComponentProps<typeof TooltipPrimitive.Trigger>;
+} & ComponentProps<typeof TooltipPrimitive.Trigger>;
 
 export type TooltipContentProps = {
   /**
    * The content to display inside the tooltip.
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
   /**
    * The side of the trigger element to position the tooltip on.
    * @default top
@@ -38,4 +39,4 @@ export type TooltipContentProps = {
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
   className?: string;
-} & React.ComponentProps<typeof TooltipPrimitive.Content>;
+} & ComponentProps<typeof TooltipPrimitive.Content>;

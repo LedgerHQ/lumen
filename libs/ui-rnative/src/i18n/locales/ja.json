@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "QRコードをスキャン"
     },
+    "avatar": {
+      "defaultAlt": "ユーザーアバター",
+      "notificationAriaLabel": "通知あり"
+    },
     "baseInput": {
       "clearInputAriaLabel": "インプットを削除"
     },

@@ -1,3 +1,5 @@
+import type { ComponentPropsWithRef } from 'react';
+
 export type AvatarProps = {
   /**
    * Image source URL. When undefined or on load error, displays a fallback icon.
@@ -7,7 +9,6 @@ export type AvatarProps = {
   /**
    * Alternative text for the image.
    * @optional
-   * @default avatar
    */
   alt?: string;
   /**
@@ -35,4 +36,4 @@ export type AvatarProps = {
    * @default undefined (browser default: eager)
    */
   imgLoading?: 'eager' | 'lazy';
-} & React.HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;

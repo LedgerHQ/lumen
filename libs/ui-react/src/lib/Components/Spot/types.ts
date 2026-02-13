@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import type { ComponentType, HTMLAttributes } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type SpotAppearance =
@@ -20,7 +20,7 @@ type SpotIconProps = {
   /**
    * Icon component to render. Required when appearance is 'icon'.
    */
-  icon: React.ComponentType<{ size?: IconSize; className?: string }>;
+  icon: ComponentType<{ size?: IconSize; className?: string }>;
 };
 
 type SpotNumberProps = {

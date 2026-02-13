@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "สแกน QR Code"
     },
+    "avatar": {
+      "defaultAlt": "อวาตาร์ผู้ใช้",
+      "notificationAriaLabel": "มีการแจ้งเตือน"
+    },
     "baseInput": {
       "clearInputAriaLabel": "ล้างอินพุต"
     },

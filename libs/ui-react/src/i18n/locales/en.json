@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "Scan QR code"
     },
+    "avatar": {
+      "defaultAlt": "User avatar",
+      "notificationAriaLabel": "Has notification"
+    },
     "baseInput": {
       "clearInputAriaLabel": "Clear input"
     },
@@ -26,6 +30,10 @@
       "navigationAriaLabel": "Sidebar navigation",
       "collapseAriaLabel": "Collapse sidebar",
       "expandAriaLabel": "Expand sidebar"
+    },
+    "table": {
+      "ascAriaLabel": "Sort ascending",
+      "descAriaLabel": "Sort descending"
     }
   }
 }

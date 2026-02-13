@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "扫描二维码"
     },
+    "avatar": {
+      "defaultAlt": "用户头像",
+      "notificationAriaLabel": "有通知"
+    },
     "baseInput": {
       "clearInputAriaLabel": "清空输入框"
     },

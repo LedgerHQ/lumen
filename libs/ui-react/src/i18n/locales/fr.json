@@ -3,6 +3,10 @@
     "addressInput": {
       "qrCodeAriaLabel": "Scanner le code QR"
     },
+    "avatar": {
+      "defaultAlt": "Avatar de l'utilisateur",
+      "notificationAriaLabel": "A une notification"
+    },
     "baseInput": {
       "clearInputAriaLabel": "Effacer la saisie"
     },
@@ -26,6 +30,10 @@
       "navigationAriaLabel": "Navigation latérale",
       "collapseAriaLabel": "Réduire la barre latérale",
       "expandAriaLabel": "Développer la barre latérale"
+    },
+    "table": {
+      "ascAriaLabel": "Trier par ordre croissant",
+      "descAriaLabel": "Trier par ordre décroissant"
     }
   }
 }

@@ -28,7 +28,9 @@ import {
   Dividers,
   IconButtons,
   Links,
+  NavBars,
   Selects,
+  Skeletons,
   Spots,
   Switches,
   Tags,
@@ -44,6 +46,8 @@ import {
   Gradients,
   ExampleTabBar,
   Subheaders,
+  Avatars,
+  PageIndicators,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 
@@ -107,6 +111,9 @@ const AppContent = ({
                 paddingVertical: 's40',
               }}
             >
+              <SandboxBlock title='NavBars'>
+                <NavBars />
+              </SandboxBlock>
               <SandboxBlock title='InteractiveIcons'>
                 <InteractiveIcons />
               </SandboxBlock>
@@ -127,6 +134,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Checkboxes'>
                 <Checkboxes />
+              </SandboxBlock>
+              <SandboxBlock title='Avatar'>
+                <Avatars />
               </SandboxBlock>
               <SandboxBlock title='Spots'>
                 <Spots />
@@ -167,6 +177,9 @@ const AppContent = ({
               <SandboxBlock title='Banners'>
                 <Banners />
               </SandboxBlock>
+              <SandboxBlock title='Skeletons'>
+                <Skeletons />
+              </SandboxBlock>
               <SandboxBlock title='BottomSheets'>
                 <BottomSheetsButton
                   onPress={() => bottomSheetFlatListsRef.current?.present()}
@@ -180,6 +193,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Dividers'>
                 <Dividers />
+              </SandboxBlock>
+              <SandboxBlock title='PageIndicators'>
+                <PageIndicators />
               </SandboxBlock>
               <SandboxBlock title='Gradients' hideDivider>
                 <Gradients />

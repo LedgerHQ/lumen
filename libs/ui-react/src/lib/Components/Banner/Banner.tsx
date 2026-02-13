@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import {
   InformationFill,
@@ -66,59 +65,53 @@ const bannerVariants = {
  *   closeAriaLabel="Close banner"
  * />
  */
-export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
-  (
-    {
-      appearance = 'info',
-      title,
-      description,
-      primaryAction,
-      secondaryAction,
-      className,
-      onClose,
-      closeAriaLabel,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useCommonTranslation();
-    const icon = iconMap[appearance];
+export const Banner = ({
+  ref,
+  appearance = 'info',
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  className,
+  onClose,
+  closeAriaLabel,
+  ...props
+}: BannerProps) => {
+  const { t } = useCommonTranslation();
+  const icon = iconMap[appearance];
 
-    return (
-      <div
-        ref={ref}
-        className={cn(className, bannerVariants.root({ appearance }))}
-        {...props}
-      >
-        <div className='flex shrink-0 items-start py-4'>{icon}</div>
-        <div className='mr-8 flex flex-1 flex-col gap-8 py-4'>
-          <div className='flex flex-col gap-4'>
-            {title && (
-              <h3 className='line-clamp-2 body-1-semi-bold'>{title}</h3>
-            )}
-            {description && (
-              <div className={cn('line-clamp-5 body-2', !title && 'mt-2')}>
-                {description}
-              </div>
-            )}
-          </div>
-          {(primaryAction || secondaryAction) && (
-            <div className='flex gap-4'>
-              {primaryAction}
-              {secondaryAction}
+  return (
+    <div
+      ref={ref}
+      className={cn(className, bannerVariants.root({ appearance }))}
+      {...props}
+    >
+      <div className='flex shrink-0 items-start py-4'>{icon}</div>
+      <div className='mr-8 flex flex-1 flex-col gap-8 py-4'>
+        <div className='flex flex-col gap-4'>
+          {title && <h3 className='line-clamp-2 body-1-semi-bold'>{title}</h3>}
+          {description && (
+            <div className={cn('line-clamp-5 body-2', !title && 'mt-2')}>
+              {description}
             </div>
           )}
         </div>
-        {onClose && (
-          <IconButton
-            appearance='transparent'
-            size='xs'
-            icon={Close}
-            onClick={() => onClose()}
-            aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
-          />
+        {(primaryAction || secondaryAction) && (
+          <div className='flex gap-4'>
+            {primaryAction}
+            {secondaryAction}
+          </div>
         )}
       </div>
-    );
-  },
-);
+      {onClose && (
+        <IconButton
+          appearance='transparent'
+          size='xs'
+          icon={Close}
+          onClick={() => onClose()}
+          aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
+        />
+      )}
+    </div>
+  );
+};

@@ -1,4 +1,4 @@
-import React from 'react';
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { AmountDisplayProps } from './types';
 
 /**
@@ -34,14 +34,18 @@ import { AmountDisplayProps } from './types';
  * <AmountDisplay value={1234.56} formatter={usdFormatter} hidden={true} />
  * ```
  */
-export const AmountDisplay = React.forwardRef<
-  HTMLDivElement,
-  AmountDisplayProps
->(({ value, formatter, hidden = false, ...props }, ref) => {
+export const AmountDisplay = ({
+  value,
+  formatter,
+  hidden = false,
+  loading = false,
+  className,
+  ...props
+}: AmountDisplayProps) => {
   const parts = formatter(value);
 
   return (
-    <div ref={ref} {...props}>
+    <div className={cn(loading && 'animate-pulse', className)} {...props}>
       <span className='heading-1-semi-bold text-base'>
         {(parts.currencyPosition === undefined ||
           parts.currencyPosition === 'start') && (
@@ -59,6 +63,6 @@ export const AmountDisplay = React.forwardRef<
       </span>
     </div>
   );
-});
+};
 
 AmountDisplay.displayName = 'AmountDisplay';

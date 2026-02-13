@@ -1,3 +1,4 @@
+import type { ComponentPropsWithRef } from 'react';
 import { BaseInputProps } from '../BaseInput/types';
 
 export type SearchInputProps = Omit<
@@ -9,4 +10,4 @@ export type SearchInputProps = Omit<
    * @default 'plain'
    */
   appearance?: 'plain' | 'transparent';
-};
+} & ComponentPropsWithRef<'input'>;
