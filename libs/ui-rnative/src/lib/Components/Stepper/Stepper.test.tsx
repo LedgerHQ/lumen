@@ -91,6 +91,26 @@ describe('Stepper Component', () => {
     expect(stepper).toBeTruthy();
   });
 
+  it('should clamp negative currentStep to 0', async () => {
+    const { findByLabelText, getByText } = render(
+      <TestWrapper>
+        <Stepper currentStep={-3} totalSteps={4} />
+      </TestWrapper>,
+    );
+    const stepper = await findByLabelText('Step 0 of 4');
+    expect(stepper).toBeTruthy();
+    expect(stepper.props.accessibilityValue).toEqual(
+      expect.objectContaining({
+        now: -3,
+        min: 1,
+        max: 4,
+        text: '0/4',
+      }),
+    );
+    expect(getByText('0')).toBeTruthy();
+    expect(getByText('/4')).toBeTruthy();
+  });
+
   it('should apply custom lx props', () => {
     const { getByTestId } = render(
       <TestWrapper>
