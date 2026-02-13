@@ -45,7 +45,10 @@ export const useLumenDataTable = <TData>(
 ): Table<TData> => {
   return useReactTable<TData>({
     ...options,
-    enableSorting: options.enableSorting || false,
+    columns: options.columns?.map((column) => ({
+      ...column,
+      enableSorting: column.enableSorting ?? false,
+    })),
     getCoreRowModel: options.getCoreRowModel ?? getCoreRowModel(),
     getSortedRowModel: options.getSortedRowModel ?? getSortedRowModel(),
   });

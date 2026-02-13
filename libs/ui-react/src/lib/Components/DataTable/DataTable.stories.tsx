@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { ColumnDef, SortingState } from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
@@ -254,7 +254,7 @@ export const Base: Story = {
       {
         accessorKey: 'price',
         header: 'Price',
-        meta: { align: 'end' as const },
+        meta: { align: 'end' },
       },
       {
         accessorKey: 'change',
@@ -266,7 +266,7 @@ export const Base: Story = {
             description={row.original.change}
           />
         ),
-        meta: { align: 'end' as const, className: 'w-144' },
+        meta: { align: 'end', className: 'w-144' },
       },
     ];
 
@@ -310,54 +310,6 @@ export const AppearanceShowcase: Story = {
   },
 };
 
-export const WithManyRows: Story = {
-  render: (args) => {
-    const columns: ColumnDef<CryptoAsset>[] = [
-      {
-        accessorKey: 'name',
-        header: 'Asset',
-        cell: ({ row }) => (
-          <TableCellContent
-            title={row.original.name}
-            description={row.original.symbol}
-            leadingContent={<Spot appearance='icon' icon={Android} />}
-          />
-        ),
-        meta: { className: 'w-224' },
-      },
-      {
-        accessorKey: 'symbol',
-        header: 'Symbol',
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { align: 'end' as const },
-      },
-      {
-        accessorKey: 'change',
-        header: 'Performance',
-        cell: ({ row }) => (
-          <TableCellContent
-            align='end'
-            title={row.original.price}
-            description={row.original.change}
-          />
-        ),
-        meta: { align: 'end' as const, className: 'w-144' },
-      },
-    ];
-
-    const table = useLumenDataTable({ data, columns });
-
-    return (
-      <DataTableRoot {...args} table={table} onRowClick={undefined}>
-        <DataTable className='max-h-400' />
-      </DataTableRoot>
-    );
-  },
-};
-
 export const WithClickableRow: Story = {
   render: (args) => {
     const columns: ColumnDef<CryptoAsset>[] = [
@@ -380,7 +332,7 @@ export const WithClickableRow: Story = {
       {
         accessorKey: 'price',
         header: 'Price',
-        meta: { align: 'end' as const },
+        meta: { align: 'end' },
       },
       {
         accessorKey: 'change',
@@ -392,7 +344,7 @@ export const WithClickableRow: Story = {
             description={row.original.change}
           />
         ),
-        meta: { align: 'end' as const, className: 'w-144' },
+        meta: { align: 'end', className: 'w-144' },
       },
     ];
 
@@ -411,7 +363,7 @@ export const WithResponsiveColumns: Story = {
     const responsiveColumns: ColumnDef<CryptoAsset>[] = [
       {
         accessorKey: 'name',
-        header: 'Asset',
+        header: 'Very very long truncated header text',
         cell: ({ row }) => (
           <TableCellContent
             title={row.original.name}
@@ -419,11 +371,6 @@ export const WithResponsiveColumns: Story = {
             leadingContent={<Spot appearance='icon' icon={Android} />}
           />
         ),
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { align: 'end' },
       },
       {
         accessorKey: 'change',
@@ -441,7 +388,11 @@ export const WithResponsiveColumns: Story = {
     const table = useLumenDataTable({ data, columns: responsiveColumns });
 
     return (
-      <DataTableRoot {...args} table={table}>
+      <DataTableRoot
+        {...args}
+        table={table}
+        appearance={args.appearance ?? 'plain'}
+      >
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
@@ -466,7 +417,7 @@ export const WithGroupHeader: Story = {
       {
         accessorKey: 'price',
         header: 'Price',
-        meta: { align: 'end' as const },
+        meta: { align: 'end' },
       },
       {
         accessorKey: 'change',
@@ -478,13 +429,12 @@ export const WithGroupHeader: Story = {
             description={row.original.change}
           />
         ),
-        meta: { align: 'end' as const, className: 'w-144' },
+        meta: { align: 'end', className: 'w-144' },
       },
     ];
 
     const table = useLumenDataTable({ data: largeData, columns });
 
-    console.log({ args });
     return (
       <DataTableRoot
         {...args}
@@ -522,7 +472,7 @@ export const WithCustomHeader: Story = {
         accessorKey: 'price',
         header: 'Market cap long text that should be truncated',
         meta: {
-          align: 'end' as const,
+          align: 'end',
           headerTrailingContent: (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -538,7 +488,7 @@ export const WithCustomHeader: Story = {
         header: 'Price',
         enableSorting: true,
         meta: {
-          align: 'end' as const,
+          align: 'end',
           headerTrailingContent: (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -587,7 +537,7 @@ export const WithSorting: Story = {
         accessorKey: 'price',
         header: 'Price',
         enableSorting: true,
-        meta: { align: 'end' as const },
+        meta: { align: 'end' },
       },
       {
         accessorKey: 'change',
@@ -599,11 +549,20 @@ export const WithSorting: Story = {
             description={row.original.change}
           />
         ),
-        meta: { align: 'end' as const, className: 'w-144' },
+        meta: { align: 'end', className: 'w-144' },
       },
     ];
 
-    const table = useLumenDataTable({ data: largeData, columns });
+    const [sorting, setSorting] = useState<SortingState>([
+      { id: 'name', desc: true },
+    ]);
+
+    const table = useLumenDataTable({
+      data: largeData,
+      columns,
+      onSortingChange: setSorting,
+      state: { sorting },
+    });
 
     return (
       <DataTableRoot {...args} table={table}>
@@ -667,7 +626,7 @@ export const WithInfiniteLoading: Story = {
       {
         accessorKey: 'price',
         header: 'Price',
-        meta: { align: 'end' as const },
+        meta: { align: 'end' },
       },
       {
         accessorKey: 'change',
@@ -679,7 +638,7 @@ export const WithInfiniteLoading: Story = {
             description={row.original.change}
           />
         ),
-        meta: { align: 'end' as const, className: 'w-144' },
+        meta: { align: 'end', className: 'w-144' },
       },
     ];
 

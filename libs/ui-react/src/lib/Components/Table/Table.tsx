@@ -519,7 +519,7 @@ const sortControlIconMap = {
 const tableSortButtonVariants = {
   root: cva(
     [
-      'group flex min-w-0 cursor-pointer items-center gap-4',
+      'flex min-w-0 cursor-pointer items-center gap-4',
       'rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     ],
     {
@@ -575,6 +575,7 @@ export const TableSortButton = ({
       }}
     >
       <span className='min-w-0 truncate'>{children}</span>
+
       <Icon
         size={20}
         className={tableSortButtonVariants.icon({

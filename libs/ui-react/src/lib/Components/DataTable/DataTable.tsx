@@ -102,6 +102,7 @@ const DataTableHeader = ({
         <TableHeaderRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => {
             const meta = header.column.columnDef.meta;
+
             return (
               <TableHeaderCell
                 key={header.id}
