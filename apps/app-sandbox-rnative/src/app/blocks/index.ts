@@ -11,6 +11,7 @@ export * from './NavBars';
 export * from './Selects';
 export * from './Skeletons';
 export * from './Spots';
+export * from './Steppers';
 export * from './Subheaders';
 export * from './Switches';
 export * from './TabBars';
