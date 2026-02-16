@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const sizes: IconSize[] = [12, 16, 20, 24, 40, 48, 56];
+const sizes: IconSize[] = [12, 16, 20, 24, 32, 40, 48, 56];
 
 type IconName = keyof typeof Icons;
 const iconNames = Object.keys(Icons) as IconName[];
