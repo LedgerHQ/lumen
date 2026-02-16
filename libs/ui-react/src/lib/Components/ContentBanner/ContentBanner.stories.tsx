@@ -3,6 +3,7 @@ import React from 'react';
 import { Settings, Wallet } from '../../Symbols';
 import { Button } from '../Button';
 import { Spot } from '../Spot';
+import { Stepper } from '../Stepper';
 import {
   ContentBanner,
   ContentBannerContent,
@@ -94,6 +95,22 @@ export const WithClose: Story = {
       </div>
     );
   },
+};
+
+export const WithStepper: Story = {
+  render: () => (
+    <div className='w-320'>
+      <ContentBanner onClose={() => console.log('close')}>
+        <Stepper currentStep={5} totalSteps={5} label='🎉' />
+        <ContentBannerContent>
+          <ContentBannerTitle>All steps completed!</ContentBannerTitle>
+          <ContentBannerDescription>
+            Congratulations, you have completed all steps.
+          </ContentBannerDescription>
+        </ContentBannerContent>
+      </ContentBanner>
+    </div>
+  ),
 };
 
 export const ContentVariationsShowcase: Story = {
