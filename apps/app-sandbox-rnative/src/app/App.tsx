@@ -32,6 +32,7 @@ import {
   Selects,
   Skeletons,
   Spots,
+  Steppers,
   Switches,
   Tags,
   TextInputs,
@@ -146,6 +147,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Subheaders'>
                 <Subheaders />
+              </SandboxBlock>
+              <SandboxBlock title='Steppers'>
+                <Steppers />
               </SandboxBlock>
               <SandboxBlock title='Switches'>
                 <Switches />

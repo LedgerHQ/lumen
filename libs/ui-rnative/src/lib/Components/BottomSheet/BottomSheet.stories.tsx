@@ -22,6 +22,10 @@ const meta = {
         format: true,
         type: 'code',
       },
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
     },
   },
   argTypes: {
