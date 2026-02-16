@@ -130,7 +130,8 @@ export const ContentVariationsShowcase: Story = {
         <Spot appearance='icon' icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>
-            Longer Title That Demonstrates Clamping Behavior
+            Longer Title That Demonstrates Clamping Behavior With a Long
+            Description
           </ContentBannerTitle>
           <ContentBannerDescription>
             This is a longer description that demonstrates how the content
