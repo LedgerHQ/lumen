@@ -14,7 +14,11 @@ import {
 
 ## Introduction
 
-The Table component provides a structured way to display tabular data with support for sorting, responsive hiding, clickable rows, infinite scroll, and action bars.
+Table provides **low-level UI primitives** for building tables with full control over the markup and rendering. Every row, cell, and header is explicitly authored by you.
+
+Use Table when you need **maximum flexibility** over the layout, or when your data doesn't fit a standard flat-array model.
+
+> If you want built-in sorting, filtering, pagination, and more without wiring the UI yourself, see [DataTable](?path=/docs/data-datatable--docs) instead.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11618-5962&m=dev).
 
@@ -63,7 +67,7 @@ Additional content can be defined using the `trailingContent` prop of the `Table
 Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom.  
 Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicate calls.  
 
-Place `TableLoadingRow` outside the `<Table>` but inside `TableRoot`, it only renders when `loading` is true.  
+Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
 A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />

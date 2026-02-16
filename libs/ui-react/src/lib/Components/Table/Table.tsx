@@ -1,6 +1,5 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { forwardRef } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import {
   ChevronAscending,
@@ -68,105 +67,109 @@ const tableVariants = cva(
  *   </Table>
  * </TableRoot>
  */
-export const TableRoot = forwardRef<HTMLDivElement, TableRootProps>(
-  (
-    {
-      children,
-      appearance = 'no-background',
-      className,
-      onScrollBottom,
-      loading,
-      ...props
-    },
-    ref,
-  ) => {
-    const handleScroll = useThrottledScrollBottom({
-      onScrollBottom,
-      loading,
-    });
+export const TableRoot = ({
+  children,
+  appearance = 'no-background',
+  className,
+  onScrollBottom,
+  loading,
+  ref,
+  ...props
+}: TableRootProps) => {
+  const handleScroll = useThrottledScrollBottom({
+    onScrollBottom,
+    loading,
+  });
 
-    return (
-      <TableProvider value={{ appearance, loading }}>
-        <div
-          {...props}
-          ref={ref}
-          className={tableVariants({ appearance, className })}
-          onScroll={handleScroll}
-        >
-          {children}
-        </div>
-      </TableProvider>
-    );
-  },
-);
-TableRoot.displayName = 'TableRoot';
-
-export const Table = forwardRef<HTMLTableElement, TableProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <table
+  return (
+    <TableProvider value={{ appearance, loading }}>
+      <div
         {...props}
-        className={cn('w-full max-w-full table-fixed', className)}
         ref={ref}
+        className={tableVariants({ appearance, className })}
+        onScroll={handleScroll}
       >
         {children}
-      </table>
-    );
-  },
-);
+      </div>
+    </TableProvider>
+  );
+};
+TableRoot.displayName = 'TableRoot';
+
+export const Table = ({ children, className, ref, ...props }: TableProps) => {
+  return (
+    <table
+      {...props}
+      className={cn('w-full max-w-full table-fixed', className)}
+      ref={ref}
+    >
+      {children}
+    </table>
+  );
+};
 Table.displayName = 'Table';
 
 /**
  * Table head component. Wraps the HTML `<thead>` element.
  */
-export const TableHeader = forwardRef<
-  HTMLTableSectionElement,
-  TableHeaderProps
->(({ children, className, ...props }, ref) => {
+export const TableHeader = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableHeaderProps) => {
   return (
     <thead ref={ref} className={className} {...props}>
       {children}
     </thead>
   );
-});
+};
 TableHeader.displayName = 'TableHeader';
 
 /**
  * Table body component. Wraps the HTML `<tbody>` element.
  */
-export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <tbody ref={ref} className={className} {...props}>
-        {children}
-      </tbody>
-    );
-  },
-);
+export const TableBody = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableBodyProps) => {
+  return (
+    <tbody ref={ref} className={className} {...props}>
+      {children}
+    </tbody>
+  );
+};
 TableBody.displayName = 'TableBody';
 
 /**
  * Table row component for body rows. Wraps the HTML `<tr>` element.
  */
-export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ children, className, clickable = false, onClick, ...props }, ref) => {
-    return (
-      <tr
-        ref={ref}
-        onClick={onClick}
-        role={clickable ? 'button' : undefined}
-        className={cn(
-          clickable &&
-            'cursor-pointer outline-none select-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </tr>
-    );
-  },
-);
+export const TableRow = ({
+  children,
+  className,
+  clickable = false,
+  onClick,
+  ref,
+  ...props
+}: TableRowProps) => {
+  return (
+    <tr
+      ref={ref}
+      onClick={onClick}
+      role={clickable ? 'button' : undefined}
+      className={cn(
+        clickable &&
+          'cursor-pointer outline-none select-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </tr>
+  );
+};
 TableRow.displayName = 'TableRow';
 
 const headerRowVariants = cva('sticky top-0', {
@@ -181,10 +184,12 @@ const headerRowVariants = cva('sticky top-0', {
 /**
  * Table header row component. Wraps the HTML `<tr>` element with header-specific styles.
  */
-export const TableHeaderRow = forwardRef<
-  HTMLTableRowElement,
-  TableHeaderRowProps
->(({ children, className, ...props }, ref) => {
+export const TableHeaderRow = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableHeaderRowProps) => {
   const { appearance } = useTableContext({
     consumerName: 'TableHeaderRow',
     contextRequired: true,
@@ -198,16 +203,19 @@ export const TableHeaderRow = forwardRef<
       {children}
     </tr>
   );
-});
+};
 TableHeaderRow.displayName = 'TableHeaderRow';
 
 /**
  * Table Group Header row component. Wraps the HTML `<tr> + <td>` element with header sub-section for a table.
  */
-export const TableGroupHeaderRow = forwardRef<
-  HTMLTableRowElement,
-  TableGroupHeaderRowProps
->(({ children, className, colSpan = 1, ...props }, ref) => {
+export const TableGroupHeaderRow = ({
+  children,
+  className,
+  colSpan = 1,
+  ref,
+  ...props
+}: TableGroupHeaderRowProps) => {
   const { appearance } = useTableContext({
     consumerName: 'TableGroupHeaderRow',
     contextRequired: true,
@@ -226,7 +234,7 @@ export const TableGroupHeaderRow = forwardRef<
       </td>
     </tr>
   );
-});
+};
 TableGroupHeaderRow.displayName = 'TableGroupHeaderRow';
 
 const cellVariants = {
@@ -257,19 +265,24 @@ const cellVariants = {
 /**
  * Table data cell component. Wraps the HTML `<td>` element.
  */
-export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ children, className, hideBelow, align = 'start', ...props }, ref) => {
-    return (
-      <td
-        ref={ref}
-        className={cellVariants.root({ hideBelow, className })}
-        {...props}
-      >
-        <div className={cellVariants.inner({ align })}>{children}</div>
-      </td>
-    );
-  },
-);
+export const TableCell = ({
+  children,
+  className,
+  hideBelow,
+  align = 'start',
+  ref,
+  ...props
+}: TableCellProps) => {
+  return (
+    <td
+      ref={ref}
+      className={cellVariants.root({ hideBelow, className })}
+      {...props}
+    >
+      <div className={cellVariants.inner({ align })}>{children}</div>
+    </td>
+  );
+};
 TableCell.displayName = 'TableCell';
 
 const cellContentVariants = cva('flex items-center gap-12 truncate', {
@@ -284,36 +297,29 @@ const cellContentVariants = cva('flex items-center gap-12 truncate', {
 /**
  * Cell content component. To be used inside a TableCell or inside tanstack column render.
  */
-export const TableCellContent = forwardRef<
-  HTMLDivElement,
-  TableCellContentProps
->(
-  (
-    {
-      className,
-      align = 'start',
-      leadingContent,
-      title,
-      description,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <div
-        ref={ref}
-        className={cellContentVariants({ align, className })}
-        {...props}
-      >
-        <div>{leadingContent}</div>
-        <div className='flex flex-col gap-4 truncate'>
-          <div className='truncate body-2 text-base'>{title}</div>
-          <div className='truncate body-3 text-muted'>{description}</div>
-        </div>
+export const TableCellContent = ({
+  className,
+  align = 'start',
+  leadingContent,
+  title,
+  description,
+  ref,
+  ...props
+}: TableCellContentProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cellContentVariants({ align, className })}
+      {...props}
+    >
+      <div>{leadingContent}</div>
+      <div className='flex flex-col gap-4 truncate'>
+        <div className='truncate body-2 text-base'>{title}</div>
+        <div className='truncate body-3 text-muted'>{description}</div>
       </div>
-    );
-  },
-);
+    </div>
+  );
+};
 TableCellContent.displayName = 'TableCellContent';
 
 const headerCellVariants = {
@@ -345,43 +351,36 @@ const headerCellVariants = {
  * Table header cell component. Wraps the HTML `<th>` element.
  * Use TableSortButton for sortable columns; other children are trailing content.
  */
-export const TableHeaderCell = forwardRef<
-  HTMLTableCellElement,
-  TableHeaderCellProps
->(
-  (
-    {
-      children,
-      className,
-      scope = 'col',
-      hideBelow,
-      align = 'start',
-      trailingContent,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <th
-        ref={ref}
-        scope={scope}
-        className={headerCellVariants.root({ hideBelow, className })}
-        {...props}
-      >
-        <div className='min-w-0'>
-          <div className={headerCellVariants.content({ align })}>
-            <span className={cn('truncate', align === 'end' && 'order-1')}>
-              {children}
-            </span>
-            <div className='flex items-center justify-center opacity-0 group-hover:opacity-100'>
-              {trailingContent}
-            </div>
+export const TableHeaderCell = ({
+  children,
+  className,
+  scope = 'col',
+  hideBelow,
+  align = 'start',
+  trailingContent,
+  ref,
+  ...props
+}: TableHeaderCellProps) => {
+  return (
+    <th
+      ref={ref}
+      scope={scope}
+      className={headerCellVariants.root({ hideBelow, className })}
+      {...props}
+    >
+      <div className='min-w-0'>
+        <div className={headerCellVariants.content({ align })}>
+          <span className={cn('truncate', align === 'end' && 'order-1')}>
+            {children}
+          </span>
+          <div className='flex items-center justify-center opacity-0 group-hover:opacity-100'>
+            {trailingContent}
           </div>
         </div>
-      </th>
-    );
-  },
-);
+      </div>
+    </th>
+  );
+};
 TableHeaderCell.displayName = 'TableHeaderCell';
 
 /**
@@ -397,28 +396,33 @@ TableHeaderCell.displayName = 'TableHeaderCell';
  *   </TableActionBarTrailing>
  * </TableActionBar>
  */
-export const TableActionBar = forwardRef<HTMLDivElement, TableActionBarProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn('flex items-center gap-8 py-12', className)}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+export const TableActionBar = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableActionBarProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('flex items-center gap-8 py-12', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 TableActionBar.displayName = 'TableActionBar';
 
 /**
  * Leading section of the action bar. Contains left-aligned actions.
  */
-export const TableActionBarLeading = forwardRef<
-  HTMLDivElement,
-  TableActionBarLeadingProps
->(({ children, className, ...props }, ref) => {
+export const TableActionBarLeading = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableActionBarLeadingProps) => {
   return (
     <div
       ref={ref}
@@ -428,16 +432,18 @@ export const TableActionBarLeading = forwardRef<
       {children}
     </div>
   );
-});
+};
 TableActionBarLeading.displayName = 'TableActionBarLeading';
 
 /**
  * Trailing section of the action bar. Contains right-aligned actions.
  */
-export const TableActionBarTrailing = forwardRef<
-  HTMLDivElement,
-  TableActionBarTrailingProps
->(({ children, className, ...props }, ref) => {
+export const TableActionBarTrailing = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableActionBarTrailingProps) => {
   return (
     <div
       ref={ref}
@@ -447,57 +453,61 @@ export const TableActionBarTrailing = forwardRef<
       {children}
     </div>
   );
-});
+};
 TableActionBarTrailing.displayName = 'TableActionBarTrailing';
 
 /**
  * Loading row component displayed at the bottom of the table during infinite scroll loading.
  */
-export const TableLoadingRow = forwardRef<HTMLDivElement, TableLoadingRowProps>(
-  ({ className, ...props }, ref) => {
-    const { loading } = useTableContext({
-      consumerName: 'TableLoadingRow',
-      contextRequired: true,
-    });
+export const TableLoadingRow = ({
+  className,
+  ref,
+  ...props
+}: TableLoadingRowProps) => {
+  const { loading } = useTableContext({
+    consumerName: 'TableLoadingRow',
+    contextRequired: true,
+  });
 
-    if (!loading) {
-      return null;
-    }
+  if (!loading) {
+    return null;
+  }
 
-    return (
-      <div
-        {...props}
-        ref={ref}
-        className={cn(
-          'flex h-80 w-full items-center justify-center p-12',
-          className,
-        )}
-      >
-        <Spot appearance='loader' size={48} />
-      </div>
-    );
-  },
-);
+  return (
+    <div
+      {...props}
+      ref={ref}
+      className={cn(
+        'flex h-80 w-full items-center justify-center p-12',
+        className,
+      )}
+    >
+      <Spot appearance='loader' size={48} />
+    </div>
+  );
+};
 TableLoadingRow.displayName = 'TableLoadingRow';
 
 /**
  * Clickable sort control for table header columns.
  * Displays the current sort state (asc/desc/idle) and triggers sort changes on click.
  */
-export const TableInfoIcon = forwardRef<HTMLButtonElement, TableInfoIconProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <InteractiveIcon
-        {...props}
-        iconType='filled'
-        className={className}
-        ref={ref}
-      >
-        <Information size={20} />
-      </InteractiveIcon>
-    );
-  },
-);
+export const TableInfoIcon = ({
+  className,
+  ref,
+  ...props
+}: TableInfoIconProps) => {
+  return (
+    <InteractiveIcon
+      {...props}
+      iconType='filled'
+      className={className}
+      ref={ref}
+    >
+      <Information size={20} />
+    </InteractiveIcon>
+  );
+};
 TableInfoIcon.displayName = 'TableInfoIcon';
 
 const sortControlIconMap = {
@@ -509,7 +519,7 @@ const sortControlIconMap = {
 const tableSortButtonVariants = {
   root: cva(
     [
-      'group flex min-w-0 cursor-pointer items-center gap-4',
+      'flex min-w-0 cursor-pointer items-center gap-4',
       'rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     ],
     {
@@ -535,50 +545,44 @@ const tableSortButtonVariants = {
  * Sortable header label + icon. Renders a single button (label + sort icon) for accessibility.
  * Use as the first child of TableHeaderCell; other children are trailing content.
  */
-export const TableSortButton = forwardRef<
-  HTMLButtonElement,
-  TableSortButtonProps
->(
-  (
-    {
-      children,
-      sortDirection,
-      align = 'start',
-      onToggleSort,
-      className,
-      onClick,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useCommonTranslation();
-    const Icon = sortControlIconMap[sortDirection || 'idle'];
-    const ariaLabelMap = {
-      asc: t('table.ascAriaLabel'),
-      desc: t('table.descAriaLabel'),
-    };
+export const TableSortButton = ({
+  children,
+  sortDirection,
+  align = 'start',
+  onToggleSort,
+  className,
+  onClick,
+  ref,
+  ...props
+}: TableSortButtonProps) => {
+  const { t } = useCommonTranslation();
+  const Icon = sortControlIconMap[sortDirection || 'idle'];
+  const ariaLabelMap = {
+    asc: t('table.ascAriaLabel'),
+    desc: t('table.descAriaLabel'),
+  };
 
-    return (
-      <button
-        {...props}
-        ref={ref}
-        type='button'
-        className={tableSortButtonVariants.root({ align, className })}
-        aria-label={sortDirection ? ariaLabelMap[sortDirection] : undefined}
-        onClick={(e) => {
-          onClick?.(e);
-          onToggleSort?.(sortDirection === 'asc' ? 'desc' : 'asc');
-        }}
-      >
-        <span className='min-w-0 truncate'>{children}</span>
-        <Icon
-          size={20}
-          className={tableSortButtonVariants.icon({
-            active: Boolean(sortDirection),
-          })}
-        />
-      </button>
-    );
-  },
-);
+  return (
+    <button
+      {...props}
+      ref={ref}
+      type='button'
+      className={tableSortButtonVariants.root({ align, className })}
+      aria-label={sortDirection ? ariaLabelMap[sortDirection] : undefined}
+      onClick={(e) => {
+        onClick?.(e);
+        onToggleSort?.(sortDirection === 'asc' ? 'desc' : 'asc');
+      }}
+    >
+      <span className='min-w-0 truncate'>{children}</span>
+
+      <Icon
+        size={20}
+        className={tableSortButtonVariants.icon({
+          active: Boolean(sortDirection),
+        })}
+      />
+    </button>
+  );
+};
 TableSortButton.displayName = 'TableSortButton';
