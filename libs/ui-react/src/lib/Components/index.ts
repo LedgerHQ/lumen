@@ -23,6 +23,7 @@ export * from './SideBar';
 export * from './Skeleton';
 export * from './Spinner';
 export * from './Spot';
+export * from './Stepper';
 export * from './Subheader';
 export * from './Switch';
 export * from './Table';

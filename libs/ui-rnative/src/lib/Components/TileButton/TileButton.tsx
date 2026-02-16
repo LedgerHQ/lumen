@@ -1,5 +1,5 @@
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { IconSize } from '../Icon';
@@ -74,50 +74,41 @@ const useStyles = ({
  *   Settings
  * </TileButton>
  */
-export const TileButton = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  TileButtonProps
->(
-  (
-    {
-      lx,
-      style,
-      icon: IconProp,
-      children,
-      disabled = false,
-      isFull = false,
-      numberOfLines = 2,
-      ...props
-    },
-    ref,
-  ) => {
-    const rootStyles = useRootStyles({ isFull });
+export const TileButton = ({
+  lx,
+  style,
+  icon: IconProp,
+  children,
+  disabled = false,
+  isFull = false,
+  numberOfLines = 2,
+  ...props
+}: TileButtonProps) => {
+  const rootStyles = useRootStyles({ isFull });
 
-    return (
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([style, rootStyles.root])}
-        disabled={disabled}
-        accessibilityRole='button'
-        accessibilityState={{ disabled }}
-        {...props}
-      >
-        {({ pressed }) => (
-          <TileButtonContent
-            disabled={disabled}
-            pressed={pressed}
-            isFull={isFull}
-            IconProp={IconProp}
-            numberOfLines={numberOfLines}
-          >
-            {children}
-          </TileButtonContent>
-        )}
-      </Pressable>
-    );
-  },
-);
+  return (
+    <Pressable
+      lx={lx}
+      style={StyleSheet.flatten([style, rootStyles.root])}
+      disabled={disabled}
+      accessibilityRole='button'
+      accessibilityState={{ disabled }}
+      {...props}
+    >
+      {({ pressed }) => (
+        <TileButtonContent
+          disabled={disabled}
+          pressed={pressed}
+          isFull={isFull}
+          IconProp={IconProp}
+          numberOfLines={numberOfLines}
+        >
+          {children}
+        </TileButtonContent>
+      )}
+    </Pressable>
+  );
+};
 
 type TileButtonContentProps = PropsWithChildren<{
   disabled: boolean;

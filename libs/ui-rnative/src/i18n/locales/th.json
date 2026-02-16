@@ -22,6 +22,9 @@
     },
     "link": {
       "opensInNewTabAriaLabel": "(เปิดในแท็บใหม่)"
+    },
+    "stepper": {
+      "progressAriaLabel": "ขั้นตอนที่ {{currentStep}} จาก {{totalSteps}}"
     }
   }
 }

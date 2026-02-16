@@ -30,7 +30,9 @@ import {
   Links,
   NavBars,
   Selects,
+  Skeletons,
   Spots,
+  Steppers,
   Switches,
   Tags,
   TextInputs,
@@ -146,6 +148,9 @@ const AppContent = ({
               <SandboxBlock title='Subheaders'>
                 <Subheaders />
               </SandboxBlock>
+              <SandboxBlock title='Steppers'>
+                <Steppers />
+              </SandboxBlock>
               <SandboxBlock title='Switches'>
                 <Switches />
               </SandboxBlock>
@@ -175,6 +180,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Banners'>
                 <Banners />
+              </SandboxBlock>
+              <SandboxBlock title='Skeletons'>
+                <Skeletons />
               </SandboxBlock>
               <SandboxBlock title='BottomSheets'>
                 <BottomSheetsButton
