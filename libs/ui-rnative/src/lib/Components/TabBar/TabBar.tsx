@@ -256,6 +256,7 @@ const useStyles = () =>
       },
       blur: {
         ...StyleSheet.absoluteFillObject,
+        bottom: -2,
         zIndex: -1,
       },
       item: {
