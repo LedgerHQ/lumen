@@ -104,7 +104,7 @@ export const ContentBanner = ({
     <div
       ref={ref}
       className={cn(
-        'relative flex w-full items-center gap-8 rounded-md bg-surface p-12',
+        'relative flex w-full items-center gap-12 rounded-md bg-surface p-12',
         className,
       )}
       {...props}
@@ -113,7 +113,7 @@ export const ContentBanner = ({
       {onClose && (
         <InteractiveIcon
           type='button'
-          iconType='filled'
+          iconType='stroked'
           className='absolute top-8 right-8'
           onClick={() => onClose()}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
