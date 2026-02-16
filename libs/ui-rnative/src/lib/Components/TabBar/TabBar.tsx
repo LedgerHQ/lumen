@@ -1,4 +1,4 @@
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from '@sbaiahmed1/react-native-blur';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text } from 'react-native';
 import Animated, {

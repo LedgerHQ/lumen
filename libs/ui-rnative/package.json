@@ -43,7 +43,7 @@
     "react-native-reanimated": "^3.0.0",
     "react-native-safe-area-context": "^4.0.0 || ^5.0.0",
     "react-native-svg": "^15.0.0",
-    "@react-native-community/blur": "^4.4.1"
+    "@sbaiahmed1/react-native-blur": "^4.5.5"
   },
   "nx": {
     "tags": [
