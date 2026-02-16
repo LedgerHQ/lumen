@@ -227,8 +227,13 @@ export function TabBar({
         {children}
         <BlurView
           style={styles.blur}
-          blurAmount={theme.blur.md}
+          blurAmount={theme.blur.lg}
           blurType={colorScheme === 'dark' ? 'dark' : 'light'}
+          overlayColor={
+            colorScheme === 'dark'
+              ? 'rgba(0,0,0,0.15)'
+              : 'rgba(255,255,255,0.2)'
+          }
         />
         <Animated.View style={[styles.pill, animatedPillStyle]} />
       </Box>
