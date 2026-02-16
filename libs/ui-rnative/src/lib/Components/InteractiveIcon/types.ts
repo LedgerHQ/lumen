@@ -32,7 +32,7 @@ export const HIT_SLOP_MAP: Partial<
 
 /**
  * Preset for the touchable area around the icon.
- * - `comfortable`: Increases hit area across axis in a 1:1 ratio.
+ * - `comfortable`: Increases hit area across both axes in a 1:1 ratio.
  * - `compact-horizontal`: Larger hit area on the horizontal axis.
  * - `compact-vertical`: Larger hit area on the vertical axis.
  */
