@@ -51,7 +51,7 @@ export type InteractiveIconProps = {
    * Preset for the touchable area. Ignored if `hitSlop` is passed explicitly.
    * Automatically applies insets based on the child's icon size.
    *
-   * @default 'compact-horizontal'
+   * @default 'comfortable'
    */
   hitSlopType?: HitSlopType;
 } & PropsWithChildren &
