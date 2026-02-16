@@ -81,7 +81,7 @@ export const InteractiveIcon = ({
   children,
   disabled = false,
   hitSlop: hitSlopProp,
-  hitSlopType = 'compact-horizontal',
+  hitSlopType = 'comfortable',
   style,
   lx,
   ...props
