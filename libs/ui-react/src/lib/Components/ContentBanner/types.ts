@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 /**
  * Props for the ContentBanner root component
@@ -7,7 +7,7 @@ export type ContentBannerProps = {
   /**
    * The content of the content banner (ContentBannerContent, ContentBannerTitle, ContentBannerDescription, or any leading element)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Custom classname
    */
@@ -20,7 +20,7 @@ export type ContentBannerProps = {
    * Optional aria label for the close button.
    */
   closeAriaLabel?: string;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 /**
  * Props for the ContentBannerContent component
@@ -29,12 +29,12 @@ export type ContentBannerContentProps = {
   /**
    * The content (ContentBannerTitle, ContentBannerDescription)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ContentBannerTitle component
@@ -43,12 +43,12 @@ export type ContentBannerTitleProps = {
   /**
    * The title text or custom content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 /**
  * Props for the ContentBannerDescription component
@@ -57,9 +57,9 @@ export type ContentBannerDescriptionProps = {
   /**
    * The description text or custom content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;

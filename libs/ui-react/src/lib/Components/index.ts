@@ -5,6 +5,7 @@ export * from './Avatar';
 export * from './Banner';
 export * from './BaseInput';
 export * from './Button';
+export * from './ContentBanner';
 export * from './CardButton';
 export * from './Checkbox';
 export * from './Dialog';

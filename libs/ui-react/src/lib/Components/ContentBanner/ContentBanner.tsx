@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -13,10 +12,12 @@ import {
 /**
  * Container for the text content (title and description) within the content banner.
  */
-export const ContentBannerContent = React.forwardRef<
-  HTMLDivElement,
-  ContentBannerContentProps
->(({ children, className, ...props }, ref) => {
+export const ContentBannerContent = ({
+  ref,
+  children,
+  className,
+  ...props
+}: ContentBannerContentProps) => {
   return (
     <div
       ref={ref}
@@ -26,17 +27,19 @@ export const ContentBannerContent = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ContentBannerContent.displayName = 'ContentBannerContent';
 
 /**
  * The main title of the content banner.
  */
-export const ContentBannerTitle = React.forwardRef<
-  HTMLDivElement,
-  ContentBannerTitleProps
->(({ children, className, ...props }, ref) => {
+export const ContentBannerTitle = ({
+  ref,
+  children,
+  className,
+  ...props
+}: ContentBannerTitleProps) => {
   return (
     <div
       ref={ref}
@@ -46,17 +49,19 @@ export const ContentBannerTitle = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ContentBannerTitle.displayName = 'ContentBannerTitle';
 
 /**
  * Optional description text below the title.
  */
-export const ContentBannerDescription = React.forwardRef<
-  HTMLDivElement,
-  ContentBannerDescriptionProps
->(({ children, className, ...props }, ref) => {
+export const ContentBannerDescription = ({
+  ref,
+  children,
+  className,
+  ...props
+}: ContentBannerDescriptionProps) => {
   return (
     <div
       ref={ref}
@@ -66,7 +71,7 @@ export const ContentBannerDescription = React.forwardRef<
       {children}
     </div>
   );
-});
+};
 
 ContentBannerDescription.displayName = 'ContentBannerDescription';
 
@@ -85,10 +90,14 @@ ContentBannerDescription.displayName = 'ContentBannerDescription';
  *   </ContentBannerContent>
  * </ContentBanner>
  */
-export const ContentBanner = React.forwardRef<
-  HTMLDivElement,
-  ContentBannerProps
->(({ children, className, onClose, closeAriaLabel, ...props }, ref) => {
+export const ContentBanner = ({
+  ref,
+  children,
+  className,
+  onClose,
+  closeAriaLabel,
+  ...props
+}: ContentBannerProps) => {
   const { t } = useCommonTranslation();
 
   return (
@@ -103,18 +112,17 @@ export const ContentBanner = React.forwardRef<
       {children}
       {onClose && (
         <InteractiveIcon
+          type='button'
           iconType='filled'
           className='absolute top-8 right-8'
           onClick={() => onClose()}
-          aria-label={
-            closeAriaLabel || t('components.contentBanner.closeAriaLabel')
-          }
+          aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
         >
           <Close size={16} />
         </InteractiveIcon>
       )}
     </div>
   );
-});
+};
 
 ContentBanner.displayName = 'ContentBanner';
