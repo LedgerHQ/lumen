@@ -43,7 +43,7 @@ export const ContentBannerTitle = ({
   return (
     <div
       ref={ref}
-      className={cn('line-clamp-2 body-2-semi-bold', className)}
+      className={cn('line-clamp-1 body-2-semi-bold', className)}
       {...props}
     >
       {children}
@@ -105,6 +105,7 @@ export const ContentBanner = ({
       ref={ref}
       className={cn(
         'relative flex w-full items-center gap-12 rounded-md bg-surface p-12',
+        onClose && 'pr-48',
         className,
       )}
       {...props}
