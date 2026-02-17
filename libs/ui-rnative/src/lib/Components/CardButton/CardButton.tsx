@@ -83,7 +83,7 @@ const useStyles = ({
         ]),
         icon: {
           flexShrink: 0,
-          color: disabled ? t.colors.text.disabled : t.colors.text.base,
+          color: disabled ? t.colors.text.disabled : t.colors.text.muted,
         },
       };
     },
