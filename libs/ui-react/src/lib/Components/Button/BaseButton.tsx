@@ -43,13 +43,13 @@ const baseButtonVariants = cva(
         disabled: true,
         loading: false,
         class:
-          'cursor-default bg-disabled text-disabled hover:bg-disabled hover:text-disabled active:bg-disabled active:text-disabled',
+          'cursor-not-allowed bg-disabled text-disabled hover:bg-disabled hover:text-disabled active:bg-disabled active:text-disabled',
       },
       {
         disabled: true,
         loading: true,
         class:
-          'cursor-default bg-disabled text-disabled hover:bg-disabled hover:text-disabled active:bg-disabled active:text-disabled',
+          'cursor-not-allowed bg-disabled text-disabled hover:bg-disabled hover:text-disabled active:bg-disabled active:text-disabled',
       },
     ],
     defaultVariants: {
