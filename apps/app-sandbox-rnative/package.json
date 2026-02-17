@@ -19,7 +19,7 @@
     "react-native-svg": "~15.13.0",
     "@gorhom/bottom-sheet": "^5.2.6",
     "react-native-gesture-handler": "^2.28.0",
-    "@react-native-community/blur": "^4.4.1"
+    "@sbaiahmed1/react-native-blur": "^4.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
