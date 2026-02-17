@@ -15,7 +15,7 @@ import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
 import { TabBarItemProps, TabBarProps } from './types';
 
-export const TAB_BAR_HEIGHT = 56;
+export const TAB_BAR_HEIGHT = 60;
 const PILL_INSET = 4;
 
 /**
