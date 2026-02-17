@@ -176,7 +176,7 @@ export const ContentBanner = ({
         flexDirection: 'row',
         width: t.sizes.full,
         alignItems: 'center',
-        gap: t.spacings.s8,
+        gap: t.spacings.s12,
         borderRadius: t.borderRadius.md,
         padding: t.spacings.s12,
         backgroundColor: t.colors.bg.surface,
@@ -201,8 +201,8 @@ export const ContentBanner = ({
       {onClose && (
         <View style={styles.closeButton}>
           <InteractiveIcon
+            iconType='stroked'
             testID='content-banner-close-button'
-            iconType='filled'
             onPress={() => onClose()}
             accessibilityLabel={
               closeAriaLabel || t('components.banner.closeAriaLabel')
