@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ledgerhq/lumen-design-core": "0.0.52",
-    "@ledgerhq/lumen-ui-rnative": "0.0.72",
+    "@ledgerhq/lumen-design-core": "0.0.53",
+    "@ledgerhq/lumen-ui-rnative": "0.0.73",
     "react": "19.0.0",
     "react-native": "0.79.7",
     "react-native-reanimated": "~3.19.5",
@@ -19,7 +19,7 @@
     "react-native-svg": "~15.13.0",
     "@gorhom/bottom-sheet": "^5.2.6",
     "react-native-gesture-handler": "^2.28.0",
-    "@react-native-community/blur": "^4.4.1"
+    "@sbaiahmed1/react-native-blur": "^4.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

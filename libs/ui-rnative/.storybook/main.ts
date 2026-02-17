@@ -28,7 +28,7 @@ const config: StorybookConfig = {
       ...config.resolve.alias,
       'react-native': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
-      '@react-native-community/blur': fileURLToPath(
+      '@sbaiahmed1/react-native-blur': fileURLToPath(
         new URL('./mocks/blur.tsx', import.meta.url),
       ),
     };
