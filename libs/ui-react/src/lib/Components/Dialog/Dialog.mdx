@@ -3,6 +3,7 @@ import * as DialogStories from './Dialog.stories';
 import {
   Dialog,
   DialogBody,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -40,7 +41,8 @@ Dialogs are modal windows that interrupt the normal workflow to grab the user's 
 
 - **Trigger**: The element that opens the dialog when interacted with
 - **Overlay**: Dimmed background that covers the underlying content
-- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls
+- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls. The `onClose` prop is optional — the close button always dismisses the dialog via `DialogClose` internally, and `onClose` fires as a side-effect when provided
+- **Close**: Use `DialogClose` to wrap any element that should dismiss the dialog when clicked (e.g., Cancel buttons)
 - **Content**: The main container for dialog content
 - **Body**: Scrollable area that expands to fill remaining space (use with `DialogBody`)
 - **Footer**: Fixed bottom area for actions like buttons (use with `DialogFooter`)
@@ -104,6 +106,12 @@ When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margi
 ### Info State Variants
 
 <Canvas of={DialogStories.InfoStateVariants} />
+
+### Uncontrolled Pattern
+
+Dialogs can be used without any explicit state management. The `DialogTrigger` handles opening, and `DialogClose` (used internally by `DialogHeader` and available for custom close buttons) handles closing:
+
+<Canvas of={DialogStories.Uncontrolled} />
 
 ## Accessibility
 
@@ -235,6 +243,62 @@ Use `DialogBody` and `DialogFooter` for scrollable content with fixed actions:
     </DialogFooter>
   </DialogContent>
 </Dialog>
+```
+
+### DialogClose
+
+Use `DialogClose` to wrap any element that should dismiss the dialog when clicked. This is useful for Cancel or Done buttons in the dialog footer:
+
+```tsx
+import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';
+
+<DialogFooter>
+  <DialogClose asChild>
+    <Button appearance='no-background'>Cancel</Button>
+  </DialogClose>
+  <Button appearance='base'>Confirm</Button>
+</DialogFooter>;
+```
+
+> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally, so the dialog always closes when the close button is clicked. The `onClose` prop on `DialogHeader` is optional — when provided, it fires as a side-effect callback (useful for analytics or cleanup).
+
+### Uncontrolled Pattern
+
+For simple dialogs that don't need external state management, use the uncontrolled pattern. No `open`, `onOpenChange`, or `onClose` props are needed:
+
+```tsx
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTrigger,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader appearance='compact' title='Simple Dialog' />
+        <DialogBody>Content here</DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
 ```
 
 ## Do's and Don'ts

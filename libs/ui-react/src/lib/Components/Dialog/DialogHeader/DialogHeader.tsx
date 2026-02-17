@@ -5,6 +5,7 @@ import React, { FC } from 'react';
 import { useCommonTranslation } from '../../../../i18n';
 import { ArrowLeft, Close } from '../../../Symbols';
 import { IconButton } from '../../IconButton';
+import { DialogClose } from '../DialogClose/DialogClose';
 import { DialogHeaderProps } from '../types';
 
 const dialogHeaderVariants = cva('flex px-24 text-base', {
@@ -31,18 +32,20 @@ const BackButton: FC<{ onBack: () => void }> = ({ onBack }) => {
   );
 };
 
-const CloseButton: FC<{ onClose: () => void }> = ({ onClose }) => {
+const CloseButton: FC<{ onClose?: () => void }> = ({ onClose }) => {
   const { t } = useCommonTranslation();
 
   return (
-    <IconButton
-      appearance='gray'
-      size='xs'
-      icon={Close}
-      onClick={onClose}
-      className='-mr-8 shrink-0'
-      aria-label={t('components.dialogHeader.closeAriaLabel')}
-    />
+    <DialogClose asChild>
+      <IconButton
+        appearance='gray'
+        size='xs'
+        icon={Close}
+        onClick={onClose}
+        className='-mr-8 shrink-0'
+        aria-label={t('components.dialogHeader.closeAriaLabel')}
+      />
+    </DialogClose>
   );
 };
 

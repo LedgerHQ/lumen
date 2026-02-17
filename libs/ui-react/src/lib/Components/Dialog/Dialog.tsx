@@ -96,27 +96,7 @@ export function DialogTrigger({ ...props }: DialogTriggerProps) {
   return <DialogPrimitive.Trigger data-slot='dialog-trigger' {...props} />;
 }
 
-/**
- * A button that closes the dialog when interacted with.
- *
- * This component wraps any interactive element and makes it dismiss the dialog
- * when clicked. It is typically used inside the dialog content to provide
- * an explicit close action, such as a "Cancel" or "Done" button.
- *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
- *
- * @example
- * import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';
- *
- * <DialogClose asChild>
- *   <Button>Cancel</Button>
- * </DialogClose>
- */
-export function DialogClose({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
-  return <DialogPrimitive.Close data-slot='dialog-close' {...props} />;
-}
+export { DialogClose } from './DialogClose/DialogClose';
 
 /**
  * A portal component that renders the dialog content into a new DOM context.

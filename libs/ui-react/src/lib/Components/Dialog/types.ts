@@ -114,9 +114,12 @@ export type DialogHeaderProps = {
    */
   description?: string;
   /**
-   * Callback function to handle close action.
+   * Optional callback fired as a side-effect when the close button is clicked.
+   * The dialog always closes via the built-in `DialogClose` mechanism regardless
+   * of whether this callback is provided. Use this for analytics, cleanup, or
+   * syncing controlled state.
    */
-  onClose: () => void;
+  onClose?: () => void;
   /**
    * Optional callback for back navigation.
    */
@@ -154,3 +157,12 @@ export type DialogFooterProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
+
+export type DialogCloseProps = {
+  /**
+   * Change the default rendered element for the one passed as a child,
+   * merging their props and behavior.
+   * @default false
+   */
+  asChild?: boolean;
+} & ComponentPropsWithRef<'button'>;

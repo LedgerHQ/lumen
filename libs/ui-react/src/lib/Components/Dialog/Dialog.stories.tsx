@@ -16,6 +16,7 @@ import { Tile, TileContent, TileSpot, TileTitle } from '../Tile';
 import {
   Dialog,
   DialogBody,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -78,6 +79,7 @@ const meta: Meta<typeof Dialog> = {
     DialogHeader,
     DialogBody,
     DialogFooter,
+    DialogClose,
   },
   parameters: {
     docs: {
@@ -132,6 +134,66 @@ export const Base: Story = {
         </Button>
       </DialogFooter>
     */}
+  </DialogContent>
+</Dialog>
+        `,
+      },
+    },
+  },
+};
+
+export const Uncontrolled: Story = {
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button appearance='base'>Open Uncontrolled Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          appearance='compact'
+          title='Uncontrolled Dialog'
+          description='No state management needed'
+        />
+        <DialogBody>
+          <DialogContentTemplate />
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+// No open/onOpenChange state needed — fully uncontrolled
+<Dialog>
+  <DialogTrigger asChild>
+    <Button appearance="base">Open Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader
+      appearance="compact"
+      title="Uncontrolled Dialog"
+      description="No state management needed"
+    />
+    <DialogBody>
+      Content here
+    </DialogBody>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button appearance="no-background">Cancel</Button>
+      </DialogClose>
+      <DialogClose asChild>
+        <Button appearance="base">Done</Button>
+      </DialogClose>
+    </DialogFooter>
   </DialogContent>
 </Dialog>
         `,

@@ -101,4 +101,40 @@ describe('DialogHeader', () => {
     fireEvent.click(buttons[1]);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it('renders close button without onClose prop', () => {
+    render(
+      <Dialog open>
+        <DialogHeader appearance='compact' title='Test Title' />
+      </Dialog>,
+    );
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(1);
+  });
+
+  it('renders close button in extended appearance without onClose prop', () => {
+    render(
+      <Dialog open>
+        <DialogHeader appearance='extended' title='Test Title' />
+      </Dialog>,
+    );
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(1);
+  });
+
+  it('calls onClose callback when provided and close button is clicked', () => {
+    const onClose = vi.fn();
+    render(
+      <Dialog open>
+        <DialogHeader
+          appearance='compact'
+          title='Test Title'
+          onClose={onClose}
+        />
+      </Dialog>,
+    );
+    const buttons = screen.getAllByRole('button');
+    fireEvent.click(buttons[0]);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });
