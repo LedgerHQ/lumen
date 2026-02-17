@@ -3,6 +3,7 @@ import React from 'react';
 import { Settings, Wallet } from '../../Symbols';
 import { Button } from '../Button';
 import { Spot } from '../Spot';
+import { Stepper } from '../Stepper';
 import { Box, Text } from '../Utility';
 import {
   ContentBanner,
@@ -35,7 +36,7 @@ const meta: Meta<typeof ContentBanner> = {
         None: undefined,
       },
     },
-    closeAriaLabel: {
+    closeAccessibilityLabel: {
       control: 'text',
       description: 'Accessibility label for the close button',
     },
@@ -47,7 +48,7 @@ type Story = StoryObj<typeof ContentBanner>;
 
 export const Base: Story = {
   args: {
-    closeAriaLabel: 'Close content banner',
+    closeAccessibilityLabel: 'Close content banner',
   },
   render: (args) => (
     <Box lx={{ maxWidth: 's400' }}>
@@ -101,7 +102,7 @@ export const WithClose: Story = {
       <Box lx={{ maxWidth: 's400' }}>
         <ContentBanner
           onClose={() => setVisible(false)}
-          closeAriaLabel='Close content banner'
+          closeAccessibilityLabel='Close content banner'
         >
           <Spot appearance='icon' icon={Settings} size={48} />
           <ContentBannerContent>
@@ -163,6 +164,22 @@ export const ContentVariationsShowcase: Story = {
           <ContentBannerDescription>
             This is a longer description that demonstrates how the content
             banner handles overflow. It should be clamped at two lines.
+          </ContentBannerDescription>
+        </ContentBannerContent>
+      </ContentBanner>
+    </Box>
+  ),
+};
+
+export const WithStepper: Story = {
+  render: () => (
+    <Box lx={{ maxWidth: 's400' }}>
+      <ContentBanner onClose={() => console.log('close')}>
+        <Stepper currentStep={2} totalSteps={4} />
+        <ContentBannerContent>
+          <ContentBannerTitle>Setup your wallet</ContentBannerTitle>
+          <ContentBannerDescription>
+            Complete all steps to secure your wallet.
           </ContentBannerDescription>
         </ContentBannerContent>
       </ContentBanner>

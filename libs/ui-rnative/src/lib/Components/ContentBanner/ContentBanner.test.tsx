@@ -83,11 +83,11 @@ describe('ContentBanner', () => {
     expect(queryByTestId('content-banner-close-button')).toBeNull();
   });
 
-  it('should apply custom closeAriaLabel', () => {
+  it('should apply custom closeAccessibilityLabel', () => {
     const handleClose = jest.fn();
     const { getByLabelText } = render(
       <TestWrapper>
-        <ContentBanner onClose={handleClose} closeAriaLabel='Dismiss'>
+        <ContentBanner onClose={handleClose} closeAccessibilityLabel='Dismiss'>
           <ContentBannerContent>
             <ContentBannerTitle>Title</ContentBannerTitle>
           </ContentBannerContent>

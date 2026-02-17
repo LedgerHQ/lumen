@@ -14,9 +14,9 @@ export type ContentBannerProps = {
    */
   onClose?: () => void;
   /**
-   * Optional aria label for the close button.
+   * Optional accessibility label for the close button.
    */
-  closeAriaLabel?: string;
+  closeAccessibilityLabel?: string;
 } & Omit<StyledViewProps, 'children'>;
 
 /**

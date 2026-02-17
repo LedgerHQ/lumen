@@ -76,7 +76,7 @@ export const ContentBannerTitle = ({
         ref={ref}
         lx={lx}
         style={StyleSheet.flatten([styles.title, style])}
-        numberOfLines={2}
+        numberOfLines={1}
         ellipsizeMode='tail'
       >
         {children}
@@ -164,7 +164,7 @@ export const ContentBanner = ({
   lx = {},
   style,
   onClose,
-  closeAriaLabel,
+  closeAccessibilityLabel,
   ref,
   ...viewProps
 }: ContentBannerProps) => {
@@ -181,6 +181,9 @@ export const ContentBanner = ({
         padding: t.spacings.s12,
         backgroundColor: t.colors.bg.surface,
       },
+      rootWithClose: {
+        paddingRight: t.spacings.s48,
+      },
       closeButton: {
         position: 'absolute',
         top: t.spacings.s8,
@@ -194,7 +197,11 @@ export const ContentBanner = ({
     <Box
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.root, style])}
+      style={StyleSheet.flatten([
+        styles.root,
+        onClose && styles.rootWithClose,
+        style,
+      ])}
       {...viewProps}
     >
       {children}
@@ -205,7 +212,7 @@ export const ContentBanner = ({
             testID='content-banner-close-button'
             onPress={() => onClose()}
             accessibilityLabel={
-              closeAriaLabel || t('components.banner.closeAriaLabel')
+              closeAccessibilityLabel || t('components.banner.closeAriaLabel')
             }
           >
             <Close size={16} />
