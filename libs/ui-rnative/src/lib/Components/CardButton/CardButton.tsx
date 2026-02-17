@@ -19,12 +19,12 @@ const useStyles = ({
   return useStyleSheet(
     (t) => {
       const bgColors: Record<Appearance, string> = {
-        base: t.colors.bg.muted,
+        base: t.colors.bg.surface,
         outline: 'transparent',
       };
 
       const pressedBgColors: Record<Appearance, string> = {
-        base: t.colors.bg.mutedPressed,
+        base: t.colors.bg.surfacePressed,
         outline: t.colors.bg.baseTransparentPressed,
       };
 

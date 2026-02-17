@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       appearance: {
-        base: 'bg-muted text-base hover:bg-muted-hover active:bg-muted-pressed disabled:bg-disabled',
+        base: 'bg-surface text-base hover:bg-surface-hover active:bg-surface-pressed disabled:bg-disabled',
         outline:
           'bg-base-transparent text-base outline-dashed outline-1 outline-muted-subtle hover:bg-base-transparent-hover hover:outline-muted-subtle-hover focus-visible:outline-hidden focus-visible:outline-offset-0 active:bg-base-transparent-pressed active:outline-muted-subtle-pressed disabled:bg-base-transparent disabled:outline-disabled',
       },
