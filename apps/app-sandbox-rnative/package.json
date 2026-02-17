@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ledgerhq/lumen-design-core": "0.0.53",
-    "@ledgerhq/lumen-ui-rnative": "0.0.73",
+    "@ledgerhq/lumen-ui-rnative": "0.0.74",
     "react": "19.0.0",
     "react-native": "0.79.7",
     "react-native-reanimated": "~3.19.5",
