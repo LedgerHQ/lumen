@@ -105,6 +105,7 @@ export const AmountDisplay = ({
         className,
       )}
       aria-label={ariaLabel}
+      aria-busy={loading}
       {...props}
     >
       <span
