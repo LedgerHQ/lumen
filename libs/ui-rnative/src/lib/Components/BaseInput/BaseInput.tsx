@@ -9,6 +9,7 @@ import { Animated, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
+import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable } from '../Utility';
 import { type BaseInputProps } from './types';
@@ -210,7 +211,6 @@ const useStyles = ({
             color: t.colors.text.base,
             backgroundColor: t.colors.bg.muted,
             outline: 'none',
-            includeFontPadding: false,
           },
           hasLabel && {
             paddingTop: t.spacings.s20,
@@ -218,6 +218,8 @@ const useStyles = ({
             paddingHorizontal: 0,
             ...t.typographies.body2,
           },
+          RuntimeConstants.isIOS && hasLabel && { lineHeight: 0 },
+          RuntimeConstants.isAndroid && { includeFontPadding: false },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
             color: t.colors.text.disabled,
