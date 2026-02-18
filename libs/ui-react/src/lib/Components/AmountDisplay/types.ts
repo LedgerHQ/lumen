@@ -1,5 +1,10 @@
 import type { ComponentPropsWithRef } from 'react';
 
+export type DigitStripProps = {
+  value: number;
+  animate: boolean;
+};
+
 export type FormattedValue = {
   /**
    * The whole number portion of the amount (e.g., "1234" from 1234.56)
@@ -50,4 +55,9 @@ export type AmountDisplayProps = {
    * @default false
    */
   loading?: boolean;
+  /**
+   * Whether the odometer animation should play on value change or not
+   * @default true
+   */
+  animate?: boolean;
 } & ComponentPropsWithRef<'div'>;

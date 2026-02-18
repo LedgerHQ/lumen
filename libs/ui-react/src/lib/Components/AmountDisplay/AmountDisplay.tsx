@@ -1,5 +1,52 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { AmountDisplayProps } from './types';
+import { AmountDisplayProps, DigitStripProps, FormattedValue } from './types';
+import { useSplitText } from './useSplitText';
+
+const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+function buildAriaLabel(parts: FormattedValue, hidden: boolean): string {
+  if (hidden) return 'Amount hidden';
+
+  const decimal = parts.decimalPart
+    ? `${parts.decimalSeparator}${parts.decimalPart}`
+    : '';
+  const amount = `${parts.integerPart}${decimal}`;
+
+  if (parts.currencyPosition === 'end') {
+    return `${amount} ${parts.currencyText}`;
+  }
+
+  return `${parts.currencyText} ${amount}`;
+}
+
+function DigitStrip({ value, animate }: DigitStripProps) {
+  return (
+    <div
+      className={cn(
+        'relative overflow-hidden',
+        animate && 'animate-slide-in-from-bottom',
+      )}
+    >
+      <span className='invisible' aria-hidden>
+        0
+      </span>
+      <span
+        className={cn(
+          'absolute inset-x-0 top-0 flex flex-col items-center justify-center',
+          animate && 'transition-transform duration-600 ease-in-out',
+        )}
+        style={{
+          transform: `translateY(-${value * 10}%)`,
+          willChange: 'transform',
+        }}
+      >
+        {digits.map((d, i) => (
+          <span key={i}>{d}</span>
+        ))}
+      </span>
+    </div>
+  );
+}
 
 /**
  * AmountDisplay - Renders formatted monetary amounts with flexible currency positioning and decimal formatting.
@@ -39,24 +86,71 @@ export const AmountDisplay = ({
   formatter,
   hidden = false,
   loading = false,
+  animate = true,
   className,
   ...props
 }: AmountDisplayProps) => {
   const parts = formatter(value);
+  const splitDigits = useSplitText(parts);
+  const ariaLabel = buildAriaLabel(parts, hidden);
+  let integerDigitIndex = splitDigits.integerPart.filter(
+    (c) => c.type === 'digit',
+  ).length;
 
   return (
-    <div className={cn(loading && 'animate-pulse', className)} {...props}>
-      <span className='heading-1-semi-bold text-base'>
+    <div
+      className={cn(
+        loading && 'animate-pulse',
+        'relative inline-flex items-end',
+        className,
+      )}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      <span
+        className='inline-flex flex-row mask-fade-y heading-1-semi-bold text-base'
+        aria-hidden='true'
+      >
         {(parts.currencyPosition === undefined ||
           parts.currencyPosition === 'start') && (
           <span className='me-4'>{parts.currencyText}</span>
         )}
-        <span>{hidden ? '••••' : parts.integerPart}</span>
-      </span>
-      <span className='heading-2-semi-bold text-muted'>
-        {parts.decimalPart && !hidden && (
-          <span>{(parts.decimalSeparator || '.') + parts.decimalPart}</span>
+        {hidden ? (
+          <span>••••</span>
+        ) : (
+          splitDigits.integerPart.map((item, index) => {
+            if (item.type === 'separator') {
+              return <span key={`sep-${index}`}>{item.value}</span>;
+            }
+            integerDigitIndex--;
+            return (
+              <DigitStrip
+                key={integerDigitIndex}
+                value={parseInt(item.value)}
+                animate={animate}
+              />
+            );
+          })
         )}
+      </span>
+      <span
+        className='inline-flex flex-row mask-fade-y heading-2-semi-bold text-muted'
+        aria-hidden='true'
+      >
+        {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
+        {parts.decimalPart &&
+          !hidden &&
+          splitDigits.decimalPart.map((item, index) => {
+            const positionFromRight =
+              splitDigits.decimalPart.length - 1 - index;
+            return (
+              <DigitStrip
+                key={positionFromRight}
+                value={parseInt(item.value)}
+                animate={animate}
+              />
+            );
+          })}
         {parts.currencyPosition === 'end' && (
           <span className='ms-4'>{parts.currencyText}</span>
         )}
