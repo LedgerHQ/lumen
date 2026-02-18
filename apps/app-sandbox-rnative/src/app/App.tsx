@@ -42,6 +42,7 @@ import {
   InteractiveIcons,
   Banners,
   CardButtons,
+  ContentBanners,
   Tooltips,
   ListItems,
   Gradients,
@@ -180,6 +181,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='Banners'>
                 <Banners />
+              </SandboxBlock>
+              <SandboxBlock title='ContentBanners'>
+                <ContentBanners />
               </SandboxBlock>
               <SandboxBlock title='Skeletons'>
                 <Skeletons />

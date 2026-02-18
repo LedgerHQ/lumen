@@ -25,5 +25,6 @@ export * from './ToggleThemeSwitch';
 export * from './InteractiveIcons';
 export * from './Banners';
 export * from './CardButtons';
+export * from './ContentBanners';
 export * from './Tooltips';
 export * from './Gradients';
