@@ -260,11 +260,11 @@ import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';
 </DialogFooter>;
 ```
 
-> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally, so the dialog always closes when the close button is clicked. The `onClose` prop on `DialogHeader` is optional — when provided, it fires as a side-effect callback (useful for analytics or cleanup).
+> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally. `DialogClose` calls the dialog's `onOpenChange(false)` handler; for uncontrolled dialogs this closes the dialog automatically. When using a controlled dialog (with an `open` prop), you must update your `open` state in response (or close the dialog from `onClose`). The `onClose` prop on `DialogHeader` is optional — when provided, it fires as a side-effect callback (useful for analytics or cleanup).
 
 ### Uncontrolled Pattern
 
-For simple dialogs that don't need external state management, use the uncontrolled pattern. No `open`, `onOpenChange`, or `onClose` props are needed:
+For simple dialogs that don't need external state management, use the uncontrolled pattern. You don't need to pass `open`, `onOpenChange`, or `onClose` props — the dialog manages its own open state and `DialogClose` will hide it automatically:
 
 ```tsx
 import {
