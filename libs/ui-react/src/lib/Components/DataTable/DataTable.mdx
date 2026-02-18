@@ -1,0 +1,203 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DataTableStories from './DataTable.stories';
+import {
+  CustomTabs,
+  Tab,
+} from '../../../../.storybook/components';
+
+<Meta title='Data/DataTable' of={DataTableStories} />
+
+# DataTable
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+
+DataTable is a high-level abstraction built on top of [TanStack Table](https://tanstack.com/table/latest/docs/introduction) and the Lumen [Table](?path=/docs/components-table--docs) primitives.
+Define your columns and data, and DataTable handles the rendering - with built-in support for sorting, filtering, pagination, infinite scroll, and both client-side and server-side state management.
+
+> If you need full control over the table markup and layout, see [Table](?path=/docs/components-table--docs) for the underlying UI primitives.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11618-5962&m=dev).
+
+## Overview
+
+<Canvas of={DataTableStories.Base} />
+<Controls of={DataTableStories.Base} />
+
+## Appearance
+
+The `appearance` prop controls the visual style of the table. Use `no-background` (default) for a transparent look or `plain` for a bordered container with a background.
+
+<Canvas of={DataTableStories.AppearanceShowcase} />
+
+## Clickable Rows
+
+Pass `onRowClick` to `DataTableRoot` to make rows interactive. Each row receives hover and press styles automatically. The callback receives the full TanStack `Row` object, giving access to `row.original` data.
+
+<Canvas of={DataTableStories.WithClickableRow} />
+
+## Columns Layout
+
+Use `meta.className` on column definition to define custom width using design-tokens.  
+Use `meta.align` property to align the column content.  
+You can use `meta.hideBelow` on column definitions to hide columns below a given breakpoint.  
+Note that cells text is automatically truncated when the column is too narrow.
+
+<Canvas of={DataTableStories.ColumnsLayout} />
+
+## Group Headers
+
+In order to display group headers, you must pre-sort the data by the grouping field.  
+
+Use `groupBy` and `renderGroupHeader` on `DataTableRoot` to visually separate rows into groups.  
+The `groupBy` function extracts a group key from each row, and `renderGroupHeader` controls what is displayed in the separator.   
+
+You can additionally hide the header section by setting `hideHeader=true` on `DataTableRoot`.  
+
+
+<Canvas of={DataTableStories.WithGroupHeader} />
+
+## Custom Header
+
+Use `meta.headerTrailingContent` on a column definition to render additional content inside the header cell, such as a `Tooltip` with a `TableInfoIcon`. The trailing content is revealed on hover.
+
+<Canvas of={DataTableStories.WithCustomHeader} />
+
+## Sorting
+
+Pass `onSortingChange` and `state.sorting` to `useLumenDataTable` to enable controlled sorting.  
+Columns are sortable by default; set `enableSorting: false` on a column to opt it out. The header automatically renders a `TableSortButton` for sortable columns.  
+Extends Tanstack Table's `sortingFn` property to allow custom sorting logic.
+
+<Canvas of={DataTableStories.WithSorting} />
+
+## Global Filter
+
+Use `DataTableGlobalSearchInput` inside a `TableActionBar` to add a search field that connects to TanStack Table's built-in `globalFilter` state.  
+No external state management is needed for the basic case. For controlled filtering (e.g. syncing with a URL), pass `state.globalFilter` and `onGlobalFilterChange` to `useLumenDataTable`.
+
+<Canvas of={DataTableStories.WithGlobalFilter} />
+
+## Infinite Loading
+
+Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.  
+Set `paginationMode='infinite-scroll'` and `loading={true}` on `DataTableRoot` to display the loading indicator.  
+Use a `Skeleton` component with `component='table'` while the initial page is loading.
+
+<Canvas of={DataTableStories.WithInfiniteLoading} />
+
+</Tab>
+<Tab label="Implementation ">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## useLumenDataTable
+
+A thin wrapper around TanStack's [useReactTable](https://tanstack.com/table/latest/docs/framework/react/react-table). It accepts the same options and returns the same Table instance, but injects these defaults:
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Option</th>
+        <th className='p-12 text-left text-on-accent body-2'>Default</th>
+        <th className='p-12 text-left text-on-accent body-2'>Purpose</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>getCoreRowModel</td>
+        <td className='p-12 text-muted'>getCoreRowModel()</td>
+        <td className='p-12 text-muted'>Required by TanStack, always injected.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>getSortedRowModel</td>
+        <td className='p-12 text-muted'>getSortedRowModel()</td>
+        <td className='p-12 text-muted'>Client-side sorting.</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>getFilteredRowModel</td>
+        <td className='p-12 text-muted'>getFilteredRowModel()</td>
+        <td className='p-12 text-muted'>Client-side filtering.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+All other TanStack Table options (columns, data, state, onSortingChange, etc.) are passed through directly. See the [TanStack Table docs](https://tanstack.com/table/latest/docs/introduction) for the full API.
+
+## Client-Side vs Server-Side
+
+By default, sorting, filtering, and pagination are processed client-side in the browser.
+
+To delegate processing to your backend, pass the manual flags and wire the state callbacks to your API:
+
+```tsx
+const table = useLumenDataTable({
+  data: serverData,
+  columns,
+  manualSorting: true,
+  manualFiltering: true,
+  manualPagination: true,
+  onSortingChange: (sorting) => fetchFromApi({ sorting }),
+  onGlobalFilterChange: (filter) => fetchFromApi({ filter }),
+  state: { sorting, globalFilter },
+});
+```
+
+In this mode the table renders whatever data you provide as-is. You are responsible for sending state changes back to your API and updating data accordingly.
+
+<Canvas of={DataTableStories.WithServerSideState} />
+
+## Column Meta
+
+Each column definition accepts a meta object with Lumen-specific properties that control layout and rendering. These extend TanStack's [ColumnMeta](https://tanstack.com/table/latest/docs/api/core/column-def#meta) via module augmentation, so they are fully typed.
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Property</th>
+        <th className='p-12 text-left text-on-accent body-2'>Type</th>
+        <th className='p-12 text-left text-on-accent body-2'>Default</th>
+        <th className='p-12 text-left text-on-accent body-2'>Description</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>align</td>
+        <td className='p-12 text-muted'>'start' | 'end'</td>
+        <td className='p-12 text-muted'>'start'</td>
+        <td className='p-12 text-muted'>Text alignment for the header and body cells.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>className</td>
+        <td className='p-12 text-muted'>string</td>
+        <td className='p-12 text-muted'>—</td>
+        <td className='p-12 text-muted'>Class applied to every cell in the column including the header. Use width tokens (e.g. w-224) for fixed widths.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>hideBelow</td>
+        <td className='p-12 text-muted'>'xs' | 'sm' | 'md' | 'lg' | 'xl'</td>
+        <td className='p-12 text-muted'>—</td>
+        <td className='p-12 text-muted'>Hides the column below the specified breakpoint.</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>headerTrailingContent</td>
+        <td className='p-12 text-muted'>ReactNode</td>
+        <td className='p-12 text-muted'>—</td>
+        <td className='p-12 text-muted'>Content rendered in the header cell on hover (e.g. a Tooltip with an info icon).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</Tab>
+</CustomTabs>

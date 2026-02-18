@@ -6,6 +6,7 @@ const transformIncludePatterns = [
   'react-native-reanimated',
   '(jest-)?react-native',
   '@react-native(-community)?',
+  '@sbaiahmed1/react-native-blur',
 ];
 
 export default {

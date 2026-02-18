@@ -1,4 +1,4 @@
-import type { ComponentType, HTMLAttributes } from 'react';
+import type { ComponentPropsWithRef, ComponentType } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type SpotAppearance =
@@ -64,4 +64,4 @@ export type SpotProps = DiscriminatedSpotProps & {
    * @default 48
    */
   size?: SpotSize;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;

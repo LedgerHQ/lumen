@@ -1,4 +1,4 @@
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from '@sbaiahmed1/react-native-blur';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text } from 'react-native';
 import Animated, {
@@ -15,7 +15,7 @@ import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
 import { TabBarItemProps, TabBarProps } from './types';
 
-export const TAB_BAR_HEIGHT = 56;
+export const TAB_BAR_HEIGHT = 60;
 const PILL_INSET = 4;
 
 /**
@@ -227,8 +227,13 @@ export function TabBar({
         {children}
         <BlurView
           style={styles.blur}
-          blurAmount={theme.blur.md}
+          blurAmount={theme.blur.lg}
           blurType={colorScheme === 'dark' ? 'dark' : 'light'}
+          overlayColor={
+            colorScheme === 'dark'
+              ? 'rgba(0,0,0,0.15)'
+              : 'rgba(255,255,255,0.2)'
+          }
         />
         <Animated.View style={[styles.pill, animatedPillStyle]} />
       </Box>
@@ -251,6 +256,7 @@ const useStyles = () =>
       },
       blur: {
         ...StyleSheet.absoluteFillObject,
+        bottom: -2,
         zIndex: -1,
       },
       item: {

@@ -192,6 +192,7 @@ const useStyles = ({
             overflow: 'hidden',
           },
           hasError && {
+            borderWidth: 1,
             borderColor: t.colors.border.error,
           },
           !isEditable && {
@@ -209,8 +210,7 @@ const useStyles = ({
             width: t.sizes.full,
             color: t.colors.text.base,
             backgroundColor: t.colors.bg.muted,
-            outlineWidth: 0,
-            outlineColor: 'transparent',
+            outline: 'none',
           },
           hasLabel && {
             paddingTop: t.spacings.s16,

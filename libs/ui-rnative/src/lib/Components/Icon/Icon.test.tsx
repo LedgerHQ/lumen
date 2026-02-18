@@ -33,7 +33,7 @@ describe('Icon', () => {
     expect(svg.props.strokeWidth).toBe(iconTokens.borderWidth.s24);
   });
 
-  it.each([12, 16, 20, 24, 40, 48, 56] as IconSize[])(
+  it.each([12, 16, 20, 24, 32, 40, 48, 56] as IconSize[])(
     'should apply correct dimensions for size %i',
     (size) => {
       renderWithProvider(
