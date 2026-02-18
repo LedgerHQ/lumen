@@ -211,17 +211,18 @@ const useStyles = ({
             color: t.colors.text.base,
             backgroundColor: t.colors.bg.muted,
             outline: 'none',
+            includeFontPadding: false,
           },
           hasLabel && {
-            paddingTop: t.spacings.s16,
-            paddingBottom: t.spacings.s2,
+            paddingTop: t.spacings.s20,
+            paddingBottom: t.spacings.s4,
+            paddingHorizontal: 0,
             ...t.typographies.body2,
           },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
             color: t.colors.text.disabled,
           },
-          RuntimeConstants.isIOS && { lineHeight: 0 },
         ]),
         errorContainer: {
           marginTop: t.spacings.s8,
@@ -286,7 +287,7 @@ const useFloatingLabelStyles = ({
   const animatedLabel = {
     top: floatingAnimation.interpolate({
       inputRange: [0, 1],
-      outputRange: [theme.spacings.s14, theme.spacings.s8],
+      outputRange: [theme.spacings.s14, theme.spacings.s6],
     }),
     fontSize: floatingAnimation.interpolate({
       inputRange: [0, 1],
