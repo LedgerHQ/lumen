@@ -3,6 +3,7 @@ import type { ComponentPropsWithRef } from 'react';
 export type DigitStripProps = {
   value: number;
   animate: boolean;
+  loading: boolean;
 };
 
 export type FormattedValue = {

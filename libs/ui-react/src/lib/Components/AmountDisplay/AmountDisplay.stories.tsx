@@ -47,6 +47,7 @@ const meta: Meta<typeof AmountDisplay> = {
   args: {
     formatter: eurFormatter,
     hidden: false,
+    animate: true,
   },
   argTypes: {
     formatter: {
@@ -73,6 +74,13 @@ const meta: Meta<typeof AmountDisplay> = {
       },
       description: 'When true, displays bullet points instead of the amount',
     },
+    animate: {
+      control: {
+        type: 'boolean',
+      },
+      description:
+        'Whether the odometer animation should play on value change or not',
+    },
   },
   parameters: {
     layout: 'centered',
@@ -98,13 +106,20 @@ export const Base: Story = {
     docs: {
       source: {
         code: `
-<AmountDisplay value={1234.56} />
+          <AmountDisplay value={1234.56} formatter={eurFormatter} />
         `.trim(),
       },
     },
   },
-  render: (props) => {
-    const [randomDigit, setRandomDigit] = useState<number>(1234.56);
+};
+
+export const AnimationShowcase: Story = {
+  args: {
+    value: 1234.56,
+    loading: true,
+  },
+  render: ({ value, ...props }) => {
+    const [randomDigit, setRandomDigit] = useState<number>(value);
 
     useEffect(() => {
       const interval = setInterval(() => {
@@ -113,7 +128,7 @@ export const Base: Story = {
       return () => clearInterval(interval);
     }, []);
 
-    return <AmountDisplay formatter={props.formatter} value={randomDigit} />;
+    return <AmountDisplay {...props} value={randomDigit} />;
   },
 };
 

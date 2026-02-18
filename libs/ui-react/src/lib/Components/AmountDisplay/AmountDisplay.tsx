@@ -19,12 +19,12 @@ function buildAriaLabel(parts: FormattedValue, hidden: boolean): string {
   return `${parts.currencyText} ${amount}`;
 }
 
-function DigitStrip({ value, animate }: DigitStripProps) {
+function DigitStrip({ value, animate, loading }: DigitStripProps) {
   return (
     <div
       className={cn(
         'relative overflow-hidden',
-        animate && 'animate-slide-in-from-bottom',
+        animate && !loading && 'animate-slide-in-from-bottom',
       )}
     >
       <span className='invisible' aria-hidden>
@@ -128,13 +128,14 @@ export const AmountDisplay = ({
                 key={integerDigitIndex}
                 value={parseInt(item.value)}
                 animate={animate}
+                loading={loading}
               />
             );
           })
         )}
       </span>
       <span
-        className='inline-flex flex-row mask-fade-y heading-2-semi-bold text-muted'
+        className='inline-flex flex-row mask-fade-y pb-2 heading-2-semi-bold text-muted'
         aria-hidden='true'
       >
         {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
@@ -148,6 +149,7 @@ export const AmountDisplay = ({
                 key={positionFromRight}
                 value={parseInt(item.value)}
                 animate={animate}
+                loading={loading}
               />
             );
           })}
