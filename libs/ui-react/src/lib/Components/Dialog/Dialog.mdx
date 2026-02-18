@@ -107,11 +107,11 @@ When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margi
 
 <Canvas of={DialogStories.InfoStateVariants} />
 
-### Uncontrolled Pattern
+### Controlled Pattern
 
-Dialogs can be used without any explicit state management. The `DialogTrigger` handles opening, and `DialogClose` (used internally by `DialogHeader` and available for custom close buttons) handles closing:
+When you need to manage the dialog's open state externally (e.g., for form submission, analytics, or multi-step flows), use the controlled pattern with `open`, `onOpenChange`, and `onClose`:
 
-<Canvas of={DialogStories.Uncontrolled} />
+<Canvas of={DialogStories.Controlled} />
 
 ## Accessibility
 
@@ -141,7 +141,9 @@ The `@radix-ui/react-dialog` dependency provides accessible dialog behavior prim
 import {
   Dialog,
   DialogBody,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTrigger,
 } from '@ledgerhq/lumen-ui-react';
@@ -154,16 +156,16 @@ function MyComponent() {
         <Button>Open Dialog</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader
-          appearance='compact'
-          title='Dialog Title'
-          onClose={() => {
-            /* handle close */
-          }}
-        />
-        <DialogBody>
-          Content here
-        </DialogBody>
+        <DialogHeader appearance='compact' title='Dialog Title' />
+        <DialogBody>Content here</DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -178,16 +180,8 @@ Use extended `DialogHeader` for bigger dialogs:
 <Dialog>
   <DialogTrigger>Open Extended</DialogTrigger>
   <DialogContent className='w-[800px]'>
-    <DialogHeader
-      appearance='extended'
-      title='Extended Dialog'
-      onClose={() => {
-        /* handle close */
-      }}
-    />
-    <DialogBody>
-      Extended content here
-    </DialogBody>
+    <DialogHeader appearance='extended' title='Extended Dialog' />
+    <DialogBody>Extended content here</DialogBody>
   </DialogContent>
 </Dialog>
 ```
@@ -202,13 +196,8 @@ Use extended `DialogHeader` for bigger dialogs:
       appearance='compact'
       title='Title'
       onBack={() => console.log('Back')}
-      onClose={() => {
-        /* handle close */
-      }}
     />
-    <DialogBody>
-      Content here
-    </DialogBody>
+    <DialogBody>Content here</DialogBody>
   </DialogContent>
 </Dialog>
 ```
@@ -231,15 +220,17 @@ Use `DialogBody` and `DialogFooter` for scrollable content with fixed actions:
     <Button>Open</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader title='Title' onClose={handleClose} />
+    <DialogHeader title='Title' />
     <DialogBody>
       {/* Scrollable content */}
       <div className='space-y-16'>{items.map((item) => /* ... */)}</div>
     </DialogBody>
     <DialogFooter>
-      <Button appearance='base' size='lg' isFull>
-        Confirm
-      </Button>
+      <DialogClose asChild>
+        <Button appearance='base' size='lg' isFull>
+          Confirm
+        </Button>
+      </DialogClose>
     </DialogFooter>
   </DialogContent>
 </Dialog>
@@ -260,17 +251,16 @@ import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';
 </DialogFooter>;
 ```
 
-> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally. `DialogClose` calls the dialog's `onOpenChange(false)` handler; for uncontrolled dialogs this closes the dialog automatically. When using a controlled dialog (with an `open` prop), you must update your `open` state in response (or close the dialog from `onClose`). The `onClose` prop on `DialogHeader` is optional — when provided, it fires as a side-effect callback (useful for analytics or cleanup).
+> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally. For uncontrolled dialogs (the default), `DialogClose` closes the dialog automatically. For controlled dialogs (with an `open` prop), you must also handle `onOpenChange` and update your `open` state. The `onClose` prop on `DialogHeader` is optional — use it only for controlled usage or side-effects like analytics.
 
-### Uncontrolled Pattern
+### Controlled Pattern
 
-For simple dialogs that don't need external state management, use the uncontrolled pattern. You don't need to pass `open`, `onOpenChange`, or `onClose` props — the dialog manages its own open state and `DialogClose` will hide it automatically:
+When you need to manage the dialog's open state externally (e.g., for form validation, multi-step flows, or analytics), use the controlled pattern with `open`, `onOpenChange`, and `onClose`:
 
 ```tsx
 import {
   Dialog,
   DialogBody,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogFooter,
@@ -278,22 +268,28 @@ import {
 } from '@ledgerhq/lumen-ui-react';
 import { Button } from '@ledgerhq/lumen-ui-react';
 
-function MyDialog() {
+function MyControlledDialog() {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Open Dialog</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader appearance='compact' title='Simple Dialog' />
+        <DialogHeader
+          appearance='compact'
+          title='Controlled Dialog'
+          onClose={() => setOpen(false)}
+        />
         <DialogBody>Content here</DialogBody>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button appearance='no-background'>Cancel</Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button appearance='base'>Done</Button>
-          </DialogClose>
+          <Button appearance='no-background' onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button appearance='base' onClick={() => setOpen(false)}>
+            Done
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
