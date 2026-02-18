@@ -9,6 +9,7 @@ import {
   createTypographyPlugin,
   createShadowPlugin,
   createScrollbarPlugin,
+  createMaskPlugin,
 } from '../utils/index.js';
 
 export const ledgerLivePreset: Config = {
@@ -30,6 +31,7 @@ export const ledgerLivePreset: Config = {
     createShadowPlugin(),
     createAnimationsPlugin(),
     createScrollbarPlugin(),
+    createMaskPlugin(),
   ],
   darkMode: 'class',
 };
