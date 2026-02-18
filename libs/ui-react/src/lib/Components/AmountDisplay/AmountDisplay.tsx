@@ -27,7 +27,7 @@ function DigitStrip({ value, animate, loading }: DigitStripProps) {
         animate && !loading && 'animate-slide-in-from-bottom',
       )}
     >
-      <span className='invisible' aria-hidden>
+      <span className='invisible' aria-hidden='true'>
         0
       </span>
       <span
