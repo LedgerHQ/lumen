@@ -41,8 +41,8 @@ Dialogs are modal windows that interrupt the normal workflow to grab the user's 
 
 - **Trigger**: The element that opens the dialog when interacted with
 - **Overlay**: Dimmed background that covers the underlying content
-- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls. The `onClose` prop is optional — the close button always dismisses the dialog via `DialogClose` internally, and `onClose` fires as a side-effect when provided
-- **Close**: Use `DialogClose` to wrap any element that should dismiss the dialog when clicked (e.g., Cancel buttons)
+- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls. The `onClose` prop is optional — the header close button uses `DialogClose` internally. For uncontrolled dialogs this will dismiss the dialog automatically; for controlled dialogs (using the `open` prop), dismissal also requires handling `onOpenChange` and updating `open` accordingly, with `onClose` firing as a side-effect when provided
+- **Close**: Use `DialogClose` to wrap any element that should dismiss the dialog when clicked (e.g., Cancel buttons). In uncontrolled dialogs this will close the dialog automatically; in controlled dialogs you must handle `onOpenChange` and update the `open` prop for the dialog to actually close
 - **Content**: The main container for dialog content
 - **Body**: Scrollable area that expands to fill remaining space (use with `DialogBody`)
 - **Footer**: Fixed bottom area for actions like buttons (use with `DialogFooter`)

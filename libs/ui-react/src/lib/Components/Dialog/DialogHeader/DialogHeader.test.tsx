@@ -122,19 +122,16 @@ describe('DialogHeader', () => {
     expect(buttons.length).toBe(1);
   });
 
-  it('calls onClose callback when provided and close button is clicked', () => {
-    const onClose = vi.fn();
+  it('triggers Dialog onOpenChange(false) when close button is clicked', () => {
+    const onOpenChange = vi.fn();
     render(
-      <Dialog open>
-        <DialogHeader
-          appearance='compact'
-          title='Test Title'
-          onClose={onClose}
-        />
+      <Dialog open onOpenChange={onOpenChange}>
+        <DialogHeader appearance='compact' title='Test Title' />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
     fireEvent.click(buttons[0]);
-    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
   });
 });
