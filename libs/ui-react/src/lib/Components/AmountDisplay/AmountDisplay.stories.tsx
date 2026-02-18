@@ -116,7 +116,7 @@ export const Base: Story = {
 export const AnimationShowcase: Story = {
   args: {
     value: 1234.56,
-    loading: true,
+    loading: false,
   },
   render: ({ value, ...props }) => {
     const [randomDigit, setRandomDigit] = useState<number>(value);
