@@ -9,6 +9,7 @@ import {
   createTypographyPlugin,
   createShadowPlugin,
   createScrollbarPlugin,
+  createMaskPlugin,
 } from '../utils/index.js';
 
 export const allBrandsPreset: Config = {
@@ -30,6 +31,7 @@ export const allBrandsPreset: Config = {
     createShadowPlugin(),
     createAnimationsPlugin(),
     createScrollbarPlugin(),
+    createMaskPlugin(),
   ],
   darkMode: 'class',
 };
