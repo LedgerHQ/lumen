@@ -9,7 +9,6 @@ import { Animated, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
-import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable } from '../Utility';
 import { type BaseInputProps } from './types';
