@@ -1,5 +1,11 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { AmountDisplayProps, DigitStripProps, FormattedValue } from './types';
+import { memo } from 'react';
+import {
+  AmountDisplayProps,
+  DigitStripProps,
+  FormattedValue,
+  SplitChar,
+} from './types';
 import { useSplitText } from './useSplitText';
 
 const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -19,12 +25,13 @@ function buildAriaLabel(parts: FormattedValue, hidden: boolean): string {
   return `${parts.currencyText} ${amount}`;
 }
 
-function DigitStrip({ value, animate, loading }: DigitStripProps) {
+const DigitStrip = memo(({ value, animate, loading }: DigitStripProps) => {
+  const animated = animate && !loading;
   return (
     <div
       className={cn(
         'relative overflow-hidden',
-        animate && !loading && 'animate-slide-in-from-bottom',
+        animated && 'animate-slide-in-from-bottom',
       )}
     >
       <span className='invisible' aria-hidden='true'>
@@ -37,7 +44,6 @@ function DigitStrip({ value, animate, loading }: DigitStripProps) {
         )}
         style={{
           transform: `translateY(-${value * 10}%)`,
-          willChange: 'transform',
         }}
       >
         {digits.map((d, i) => (
@@ -46,7 +52,7 @@ function DigitStrip({ value, animate, loading }: DigitStripProps) {
       </span>
     </div>
   );
-}
+});
 
 /**
  * AmountDisplay - Renders formatted monetary amounts with flexible currency positioning and decimal formatting.
@@ -93,9 +99,23 @@ export const AmountDisplay = ({
   const parts = formatter(value);
   const splitDigits = useSplitText(parts);
   const ariaLabel = buildAriaLabel(parts, hidden);
-  let integerDigitIndex = splitDigits.integerPart.filter(
-    (c) => c.type === 'digit',
-  ).length;
+  const renderDigits = (items: SplitChar[]) => {
+    let digitCount = items.filter((c) => c.type === 'digit').length;
+    return items.map((item, index) => {
+      if (item.type === 'separator') {
+        return <span key={`sep-${index}`}>{item.value}</span>;
+      }
+      digitCount--;
+      return (
+        <DigitStrip
+          key={digitCount}
+          value={parseInt(item.value, 10)}
+          animate={animate}
+          loading={loading}
+        />
+      );
+    });
+  };
 
   return (
     <div
@@ -116,44 +136,14 @@ export const AmountDisplay = ({
           parts.currencyPosition === 'start') && (
           <span className='me-4'>{parts.currencyText}</span>
         )}
-        {hidden ? (
-          <span>••••</span>
-        ) : (
-          splitDigits.integerPart.map((item, index) => {
-            if (item.type === 'separator') {
-              return <span key={`sep-${index}`}>{item.value}</span>;
-            }
-            integerDigitIndex--;
-            return (
-              <DigitStrip
-                key={integerDigitIndex}
-                value={parseInt(item.value)}
-                animate={animate}
-                loading={loading}
-              />
-            );
-          })
-        )}
+        {hidden ? <span>••••</span> : renderDigits(splitDigits.integerPart)}
       </span>
       <span
         className='inline-flex flex-row mask-fade-y pb-2 heading-2-semi-bold text-muted'
         aria-hidden='true'
       >
         {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
-        {parts.decimalPart &&
-          !hidden &&
-          splitDigits.decimalPart.map((item, index) => {
-            const positionFromRight =
-              splitDigits.decimalPart.length - 1 - index;
-            return (
-              <DigitStrip
-                key={positionFromRight}
-                value={parseInt(item.value)}
-                animate={animate}
-                loading={loading}
-              />
-            );
-          })}
+        {parts.decimalPart && !hidden && renderDigits(splitDigits.decimalPart)}
         {parts.currencyPosition === 'end' && (
           <span className='ms-4'>{parts.currencyText}</span>
         )}

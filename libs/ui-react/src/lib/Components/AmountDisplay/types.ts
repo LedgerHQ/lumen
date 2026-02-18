@@ -1,5 +1,10 @@
 import type { ComponentPropsWithRef } from 'react';
 
+export type SplitChar = {
+  value: string;
+  type: 'digit' | 'separator';
+};
+
 export type DigitStripProps = {
   value: number;
   animate: boolean;
