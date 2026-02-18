@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-rnative",
-  "version": "0.0.76",
+  "version": "0.0.78",
   "license": "Apache-2.0",
   "keywords": [
     "react-native",
@@ -37,7 +37,7 @@
   "peerDependencies": {
     "@types/react": "^19.0.0",
     "@gorhom/bottom-sheet": "^5.0.0",
-    "@ledgerhq/lumen-design-core": "0.0.53",
+    "@ledgerhq/lumen-design-core": "0.0.54",
     "react": "^19.0.0",
     "react-native": "~0.79.7",
     "react-native-reanimated": "^3.0.0",

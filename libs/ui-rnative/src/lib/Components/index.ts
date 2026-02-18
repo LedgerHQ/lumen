@@ -6,6 +6,7 @@ export * from './Banner';
 export * from './BottomSheet';
 export * from './Button';
 export * from './CardButton';
+export * from './ContentBanner';
 export * from './Checkbox';
 export * from './Divider';
 export * from './Icon';

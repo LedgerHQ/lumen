@@ -1,0 +1,246 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ContentBannerStories from './ContentBanner.stories';
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+} from './ContentBanner';
+import { Box } from '../Utility';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/ContentBanner' of={ContentBannerStories} />
+
+# ContentBanner
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+ContentBanner is a composable banner component used to display contextual information with an optional leading visual, title, description, and close button. It follows a composite component pattern for maximum flexibility.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11235-5966).
+
+## Anatomy
+
+<Canvas of={ContentBannerStories.Base} />
+
+- **ContentBanner**: Root container with surface background and rounded corners
+- **Leading element**: Any visual element (Spot, Icon, Avatar) passed as a direct child
+- **ContentBannerContent**: Container for title and description
+- **ContentBannerTitle**: The main label of the banner (clamps at 2 lines)
+- **ContentBannerDescription**: Provides additional context below the title (clamps at 2 lines)
+- **Close button**: Optional InteractiveIcon, rendered via the `onClose` prop (positioned absolute top-right)
+
+## Properties
+
+### Overview
+
+<Canvas of={ContentBannerStories.Base} />
+<Controls of={ContentBannerStories.Base} />
+
+### Content Variations
+
+ContentBanners follow a composite component pattern that allows flexible content composition.
+
+<Canvas of={ContentBannerStories.ContentVariationsShowcase} />
+
+### With Stepper
+
+A Stepper can be used as the leading element to display progress within a multi-step flow.
+
+<Canvas of={ContentBannerStories.WithStepper} />
+
+### Dismissible
+
+When `onClose` is provided, a close button (InteractiveIcon) is rendered in the top-right corner of the banner.
+
+<Canvas of={ContentBannerStories.WithClose} />
+
+## Responsive Layout
+
+ContentBanner adapts to its container width. Title and description clamp at two lines when content overflows.
+
+<Canvas of={ContentBannerStories.ResponsiveLayout} />
+
+> **Key behaviors:**
+>
+> - Automatically fits container width
+> - Title clamps to two lines
+> - Description clamps to two lines
+> - Leading visual and close button maintain fixed sizes
+
+## Accessibility
+
+- The close button includes an `accessibilityLabel` (customizable via `closeAccessibilityLabel` prop or auto-translated)
+- The close button uses `InteractiveIcon` with proper press states
+- All sub-components forward refs and spread View props for accessibility support
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+The ContentBanner uses a composite component pattern for maximum flexibility:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+  Spot,
+} from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <ContentBanner>
+      <Spot appearance='icon' icon={Settings} size={48} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Title</ContentBannerTitle>
+        <ContentBannerDescription>
+          Description text for the content banner.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### With Close Button
+
+Add an `onClose` callback to render a dismissible close button in the top-right corner:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+  Spot,
+} from '@ledgerhq/lumen-ui-rnative';
+import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <ContentBanner
+      onClose={() => console.log('Closed')}
+      closeAccessibilityLabel='Close banner'
+    >
+      <Spot appearance='icon' icon={Wallet} size={48} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Dismissible Banner</ContentBannerTitle>
+        <ContentBannerDescription>
+          Press the close button to dismiss.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### With Stepper
+
+Use a `Stepper` as the leading element to show progress in a multi-step flow:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+  Stepper,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <ContentBanner onClose={() => console.log('Closed')}>
+      <Stepper currentStep={2} totalSteps={4} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Setup your wallet</ContentBannerTitle>
+        <ContentBannerDescription>
+          Complete all steps to secure your wallet.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### Without Leading Visual
+
+The leading visual is optional. You can use ContentBanner with just title and description:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  ContentBannerDescription,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <ContentBanner onClose={() => console.log('Closed')}>
+      <ContentBannerContent>
+        <ContentBannerTitle>No Icon</ContentBannerTitle>
+        <ContentBannerDescription>
+          A content banner without a leading visual element.
+        </ContentBannerDescription>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### Title Only
+
+Description is optional:
+
+```tsx
+import {
+  ContentBanner,
+  ContentBannerContent,
+  ContentBannerTitle,
+  Spot,
+} from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <ContentBanner>
+      <Spot appearance='icon' icon={Settings} size={48} />
+      <ContentBannerContent>
+        <ContentBannerTitle>Title Only</ContentBannerTitle>
+      </ContentBannerContent>
+    </ContentBanner>
+  );
+}
+```
+
+### Layout Adjustments with lx
+
+Use the `lx` prop for layout adjustments like margins or positioning:
+
+```tsx
+<ContentBanner lx={{ marginTop: 's16', marginBottom: 's8' }}>
+  <Spot appearance='icon' icon={Settings} size={48} />
+  <ContentBannerContent>
+    <ContentBannerTitle>With Margin</ContentBannerTitle>
+    <ContentBannerDescription>
+      This banner has layout adjustments via lx.
+    </ContentBannerDescription>
+  </ContentBannerContent>
+</ContentBanner>
+```
+
+</Tab>
+</CustomTabs>
