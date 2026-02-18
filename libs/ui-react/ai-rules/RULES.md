@@ -267,6 +267,7 @@ Below is a complete list of all available Lumen components. Click any component 
 - [Stepper](https://ldls.vercel.app/?path=/docs/feedback-stepper--docs) - Multi-step progress indicator
 - [Subheader](https://ldls.vercel.app/?path=/docs/communication-subheader--docs) - Section subheader component
 - [Switch](https://ldls.vercel.app/?path=/docs/selection-switch--docs) - Toggle switch component
+- [Table](https://ldls.vercel.app/?path=/docs/communication-tag--docs) - Table component
 - [Tag](https://ldls.vercel.app/?path=/docs/communication-tag--docs) - Label and tag component
 - [TextInput](https://ldls.vercel.app/?path=/docs/input-textinput--docs) - Text input field
 - [Tile](https://ldls.vercel.app/?path=/docs/containment-tile--docs) - Content container tile

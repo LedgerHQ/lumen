@@ -1,9 +1,4 @@
-import {
-  HTMLAttributes,
-  ReactNode,
-  TdHTMLAttributes,
-  ThHTMLAttributes,
-} from 'react';
+import { ComponentPropsWithRef, ReactNode } from 'react';
 import { Breakpoints } from '../../../types';
 
 export type TableRootProps = {
@@ -30,7 +25,7 @@ export type TableRootProps = {
    * Use this while data is being loaded.
    */
   loading?: boolean;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TableProps = {
   /**
@@ -41,7 +36,7 @@ export type TableProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLTableElement>;
+} & ComponentPropsWithRef<'table'>;
 
 export type TableHeaderProps = {
   /**
@@ -52,7 +47,7 @@ export type TableHeaderProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLTableSectionElement>;
+} & ComponentPropsWithRef<'thead'>;
 
 export type TableBodyProps = {
   /**
@@ -63,7 +58,7 @@ export type TableBodyProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLTableSectionElement>;
+} & ComponentPropsWithRef<'tbody'>;
 
 export type TableRowProps = {
   /**
@@ -83,7 +78,7 @@ export type TableRowProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLTableRowElement>;
+} & ComponentPropsWithRef<'tr'>;
 
 export type TableCellProps = {
   /**
@@ -104,7 +99,7 @@ export type TableCellProps = {
    * @default 'start'
    */
   align?: 'start' | 'end';
-} & Omit<TdHTMLAttributes<HTMLTableCellElement>, 'align'>;
+} & Omit<ComponentPropsWithRef<'td'>, 'align'>;
 
 export type TableCellContentProps = {
   /**
@@ -129,7 +124,7 @@ export type TableCellContentProps = {
    * The description of the cell
    */
   description?: ReactNode;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type TableHeaderRowProps = {
   /**
@@ -144,7 +139,7 @@ export type TableHeaderRowProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLTableRowElement>;
+} & ComponentPropsWithRef<'tr'>;
 
 export type TableGroupHeaderRowProps = {
   /**
@@ -160,7 +155,7 @@ export type TableGroupHeaderRowProps = {
    * This property is mandatory and should match the total number of columns in the table.
    */
   colSpan: number;
-} & HTMLAttributes<HTMLTableRowElement>;
+} & ComponentPropsWithRef<'tr'>;
 
 export type TableHeaderCellProps = {
   /**
@@ -191,7 +186,7 @@ export type TableHeaderCellProps = {
    * @default 'col'
    */
   scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
-} & Omit<ThHTMLAttributes<HTMLTableCellElement>, 'align'>;
+} & Omit<ComponentPropsWithRef<'th'>, 'align'>;
 
 export type TableActionBarProps = {
   /**
@@ -202,7 +197,7 @@ export type TableActionBarProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TableActionBarLeadingProps = {
   /**
@@ -213,7 +208,7 @@ export type TableActionBarLeadingProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TableActionBarTrailingProps = {
   /**
@@ -224,21 +219,21 @@ export type TableActionBarTrailingProps = {
    * Custom classname
    */
   className?: string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<'div'>;
 
 export type TableLoadingRowProps = {
   /**
    * Custom classname
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type TableInfoIconProps = {
   /**
    * Custom classname
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 export type TableSortValue = 'asc' | 'desc' | undefined;
 
@@ -263,4 +258,4 @@ export type TableSortButtonProps = {
    * Custom classname
    */
   className?: string;
-} & Omit<HTMLAttributes<HTMLButtonElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'children'>;

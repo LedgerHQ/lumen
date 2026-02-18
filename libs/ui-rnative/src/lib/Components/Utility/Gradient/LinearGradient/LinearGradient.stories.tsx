@@ -114,8 +114,6 @@ export const WithMultipleStops: Story = {
     },
   },
   render: (args) => {
-    const { theme } = useTheme();
-    console.log({ theme });
     return (
       <Box lx={{ gap: 's12' }}>
         <LinearGradient {...args} />

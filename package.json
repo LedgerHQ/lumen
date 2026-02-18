@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.6",
-    "@react-native-community/blur": "^4.4.1",
+    "@sbaiahmed1/react-native-blur": "^4.5.5",
     "ajv": "^8.17.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -75,6 +75,8 @@
     "@swc/jest": "~0.2.36",
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-table": "^8.21.3",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react": "16.1.0",
