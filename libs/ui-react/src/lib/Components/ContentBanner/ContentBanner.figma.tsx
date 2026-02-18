@@ -13,7 +13,7 @@ import { Stepper } from '../Stepper';
 
 figma.connect(
   ContentBanner,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11235-5966',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11235-5966',
   {
     imports: [
       "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
@@ -46,7 +46,7 @@ figma.connect(
 
 figma.connect(
   ContentBanner,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11235-5966',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11235-5966',
   {
     imports: [
       "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
