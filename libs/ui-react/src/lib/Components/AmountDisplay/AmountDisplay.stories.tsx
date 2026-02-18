@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, EyeCross } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { AmountDisplay } from './AmountDisplay';
@@ -102,6 +102,18 @@ export const Base: Story = {
         `.trim(),
       },
     },
+  },
+  render: (props) => {
+    const [randomDigit, setRandomDigit] = useState<number>(1234.56);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setRandomDigit(Math.random() * 100_000);
+      }, 2000);
+      return () => clearInterval(interval);
+    }, []);
+
+    return <AmountDisplay formatter={props.formatter} value={randomDigit} />;
   },
 };
 
