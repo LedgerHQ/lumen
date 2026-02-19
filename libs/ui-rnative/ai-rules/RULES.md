@@ -31,9 +31,14 @@ Below is a complete list of all available Lumen React Native components. Click a
 - [Link](https://ldls.vercel.app/?path=/docs/action-link--docs) - Hyperlink component
 - [TileButton](https://ldls.vercel.app/?path=/docs/action-tilebutton--docs) - Interactive tile button
 - [AmountDisplay](https://ldls.vercel.app/?path=/docs/communication-amountdisplay--docs) - Display formatted amounts with currency
+- [Avatar](https://ldls.vercel.app/?path=/docs/communication-avatar--docs) - User avatar with image, initials, or placeholder
 - [Banner](https://ldls.vercel.app/?path=/docs/communication-banner--docs) - Alert and notification banners
+- [ContentBanner](https://ldls.vercel.app/?path=/docs/communication-contentbanner--docs) - Rich content banner with image support
+- [PageIndicator](https://ldls.vercel.app/?path=/docs/communication-pageindicator--docs) - Step and page progress indicator
+- [Skeleton](https://ldls.vercel.app/?path=/docs/communication-skeleton--docs) - Loading placeholder skeleton
 - [Spinner](https://ldls.vercel.app/?path=/docs/communication-spinner--docs) - Loading spinner indicator
 - [Spot](https://ldls.vercel.app/?path=/docs/communication-spot--docs) - Icon container with background
+- [Stepper](https://ldls.vercel.app/?path=/docs/communication-stepper--docs) - Multi-step progress indicator
 - [Subheader](https://ldls.vercel.app/?path=/docs/communication-subheader--docs) - Section subheader component
 - [Tag](https://ldls.vercel.app/?path=/docs/communication-tag--docs) - Label and tag component
 - [Tooltip](https://ldls.vercel.app/?path=/docs/communication-tooltip--docs) - Tooltip overlay component
@@ -45,6 +50,7 @@ Below is a complete list of all available Lumen React Native components. Click a
 - [SearchInput](https://ldls.vercel.app/?path=/docs/input-searchinput--docs) - Search input field
 - [TextInput](https://ldls.vercel.app/?path=/docs/input-textinput--docs) - Text input field
 - [Divider](https://ldls.vercel.app/?path=/docs/layout-divider--docs) - Visual separator line
+- [NavBar](https://ldls.vercel.app/?path=/docs/navigation-navbar--docs) - Top navigation bar
 - [TabBar](https://ldls.vercel.app/?path=/docs/navigation-tabbar--docs) - Bottom tab navigation bar
 - [Checkbox](https://ldls.vercel.app/?path=/docs/selection-checkbox--docs) - Checkbox input for selections
 - [Select](https://ldls.vercel.app/?path=/docs/selection-select--docs) - Dropdown select component
