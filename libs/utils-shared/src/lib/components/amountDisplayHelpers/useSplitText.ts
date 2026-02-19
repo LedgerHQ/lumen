@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
-import { FormattedValue, SplitChar } from '..';
+import { FormattedValue, SplitChar } from './types';
 
-export function useSplitText(value: FormattedValue): {
+export const useSplitText = (
+  value: FormattedValue,
+): {
   integerPart: SplitChar[];
   decimalPart: SplitChar[];
-} {
+} => {
   return useMemo(
     () => ({
       integerPart: Array.from(value.integerPart, (digit) => ({
@@ -20,4 +22,4 @@ export function useSplitText(value: FormattedValue): {
     }),
     [value.integerPart, value.decimalPart],
   );
-}
+};

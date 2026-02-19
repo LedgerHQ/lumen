@@ -1,42 +1,14 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo } from 'react';
-import {
-  AmountDisplayProps,
-  DigitStripProps,
-  FormattedValue,
-  SplitChar,
-} from './types';
-import { useSplitText } from './useSplitText';
+import { useCommonTranslation } from '../../../i18n';
+import { AmountDisplayProps, DigitStripProps, SplitChar } from './types';
 
 const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-function buildAriaLabel(parts: FormattedValue, hidden: boolean): string {
-  if (hidden) return 'Amount hidden';
-
-  const decimal = parts.decimalPart
-    ? `${parts.decimalSeparator}${parts.decimalPart}`
-    : '';
-  const amount = `${parts.integerPart}${decimal}`;
-
-  if (parts.currencyPosition === 'end') {
-    return `${amount} ${parts.currencyText}`;
-  }
-
-  return `${parts.currencyText} ${amount}`;
-}
-
-const DigitStrip = memo(({ value, animate, loading }: DigitStripProps) => {
-  const animated = animate && !loading;
+const DigitStrip = memo(({ value, animate }: DigitStripProps) => {
   return (
-    <div
-      className={cn(
-        'relative overflow-hidden',
-        animated && 'animate-slide-in-from-bottom',
-      )}
-    >
-      <span className='invisible' aria-hidden='true'>
-        0
-      </span>
+    <div className={cn('relative overflow-hidden')}>
+      <span className='invisible'>0</span>
       <span
         className={cn(
           'absolute inset-x-0 top-0 flex flex-col items-center justify-center',
@@ -98,7 +70,12 @@ export const AmountDisplay = ({
 }: AmountDisplayProps) => {
   const parts = formatter(value);
   const splitDigits = useSplitText(parts);
-  const ariaLabel = buildAriaLabel(parts, hidden);
+  const { t } = useCommonTranslation();
+  const ariaLabel = buildAriaLabel(
+    parts,
+    hidden,
+    t('components.amountDisplay.amountHiddenAriaLabel'),
+  );
   const renderDigits = (items: SplitChar[]) => {
     let digitCount = items.filter((c) => c.type === 'digit').length;
     return items.map((item, index) => {
@@ -111,7 +88,6 @@ export const AmountDisplay = ({
           key={digitCount}
           value={parseInt(item.value, 10)}
           animate={animate}
-          loading={loading}
         />
       );
     });
@@ -132,8 +108,7 @@ export const AmountDisplay = ({
         className='inline-flex flex-row mask-fade-y heading-1-semi-bold text-base'
         aria-hidden='true'
       >
-        {(parts.currencyPosition === undefined ||
-          parts.currencyPosition === 'start') && (
+        {parts.currencyPosition === 'start' && (
           <span className='me-4'>{parts.currencyText}</span>
         )}
         {hidden ? <span>••••</span> : renderDigits(splitDigits.integerPart)}

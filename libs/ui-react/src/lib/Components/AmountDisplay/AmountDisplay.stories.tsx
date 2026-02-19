@@ -116,19 +116,21 @@ export const Base: Story = {
 export const AnimationShowcase: Story = {
   args: {
     value: 1234.56,
-    loading: false,
   },
   render: ({ value, ...props }) => {
-    const [randomDigit, setRandomDigit] = useState<number>(value);
+    const [currentValue, setCurrentValue] = useState<number>(value);
 
     useEffect(() => {
       const interval = setInterval(() => {
-        setRandomDigit(Math.random() * 100_000);
+        setCurrentValue((prev) => {
+          const delta = prev * (Math.random() * 0.02 - 0.01);
+          return Math.round((prev + delta) * 100) / 100;
+        });
       }, 2000);
       return () => clearInterval(interval);
     }, []);
 
-    return <AmountDisplay {...props} value={randomDigit} />;
+    return <AmountDisplay {...props} value={currentValue} />;
   },
 };
 

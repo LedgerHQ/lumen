@@ -3,6 +3,9 @@
     "addressInput": {
       "qrCodeAriaLabel": "扫描二维码"
     },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "金额已隐藏"
+    },
     "avatar": {
       "defaultAlt": "用户头像",
       "notificationAriaLabel": "有通知"

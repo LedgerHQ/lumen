@@ -1,2 +1,2 @@
 export { AmountDisplay } from './AmountDisplay';
-export * from './types';
+export type { AmountDisplayProps, FormattedValue } from './types';
