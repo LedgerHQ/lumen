@@ -114,9 +114,20 @@ export type DialogHeaderProps = {
    */
   description?: string;
   /**
-   * Callback function to handle close action.
+   * Optional callback fired as a side-effect when the close button is clicked.
+   *
+   * Clicking the close button triggers the underlying Radix `DialogClose`
+   * behavior:
+   * - In uncontrolled mode (using `defaultOpen` and not controlling `open`),
+   *   the dialog will close automatically.
+   * - In controlled mode (when the `open` prop is provided), it will call
+   *   `onOpenChange(false)` and consumers are responsible for updating their
+   *   `open` state for the dialog to actually close.
+   *
+   * Use this callback for analytics, cleanup, or syncing additional
+   * controlled state.
    */
-  onClose: () => void;
+  onClose?: () => void;
   /**
    * Optional callback for back navigation.
    */
@@ -154,3 +165,12 @@ export type DialogFooterProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
+
+export type DialogCloseProps = {
+  /**
+   * Change the default rendered element for the one passed as a child,
+   * merging their props and behavior.
+   * @default false
+   */
+  asChild?: boolean;
+} & ComponentPropsWithRef<'button'>;

@@ -101,4 +101,37 @@ describe('DialogHeader', () => {
     fireEvent.click(buttons[1]);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it('renders close button without onClose prop', () => {
+    render(
+      <Dialog open>
+        <DialogHeader appearance='compact' title='Test Title' />
+      </Dialog>,
+    );
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(1);
+  });
+
+  it('renders close button in extended appearance without onClose prop', () => {
+    render(
+      <Dialog open>
+        <DialogHeader appearance='extended' title='Test Title' />
+      </Dialog>,
+    );
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(1);
+  });
+
+  it('triggers Dialog onOpenChange(false) when close button is clicked', () => {
+    const onOpenChange = vi.fn();
+    render(
+      <Dialog open onOpenChange={onOpenChange}>
+        <DialogHeader appearance='compact' title='Test Title' />
+      </Dialog>,
+    );
+    const buttons = screen.getAllByRole('button');
+    fireEvent.click(buttons[0]);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+  });
 });

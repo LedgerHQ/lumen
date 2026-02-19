@@ -16,6 +16,7 @@ import { Tile, TileContent, TileSpot, TileTitle } from '../Tile';
 import {
   Dialog,
   DialogBody,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -41,34 +42,6 @@ const DialogContentTemplate = () => {
   );
 };
 
-const DialogTemplate = ({
-  dialogHeaderProps,
-  triggerLabel = 'Open Dialog',
-}: {
-  dialogHeaderProps: Omit<React.ComponentProps<typeof DialogHeader>, 'onClose'>;
-  triggerLabel?: string;
-}) => {
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button appearance='base'>{triggerLabel}</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader
-          {...dialogHeaderProps}
-          appearance='extended'
-          onClose={() => setOpen(false)}
-        />
-        <DialogBody>
-          <DialogContentTemplate />
-        </DialogBody>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
 const meta: Meta<typeof Dialog> = {
   component: Dialog,
   title: 'Containment/Dialog',
@@ -78,6 +51,7 @@ const meta: Meta<typeof Dialog> = {
     DialogHeader,
     DialogBody,
     DialogFooter,
+    DialogClose,
   },
   parameters: {
     docs: {
@@ -95,43 +69,126 @@ type Story = StoryObj<typeof Dialog>;
 
 export const Base: Story = {
   render: () => (
-    <DialogTemplate
-      dialogHeaderProps={{
-        appearance: 'compact',
-        title: 'Sheet Title',
-        description: 'Additional information',
-        onBack: () => {
-          return;
-        },
-      }}
-    />
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button appearance='base'>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          appearance='compact'
+          title='Sheet Title'
+          description='Additional information'
+        />
+        <DialogBody>
+          <DialogContentTemplate />
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   ),
   parameters: {
     docs: {
       source: {
         code: `
-<Dialog open={open} onOpenChange={setOpen}>
+// Uncontrolled — no open/onOpenChange state needed.
+// Use DialogClose to dismiss the dialog from buttons.
+<Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader 
-      appearance="compact" 
-      title="Sheet Title" 
-      description="Additional information" 
-      onClose={() => setOpen(false)} 
-      onBack={() => goBack()}
+    <DialogHeader
+      appearance="compact"
+      title="Sheet Title"
+      description="Additional information"
     />
     <DialogBody>
       Content here ...
     </DialogBody>
-    {/* Optional
-      <DialogFooter>
-        <Button appearance="base" size="lg" isFull>
-          Label
-        </Button>
-      </DialogFooter>
-    */}
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button appearance="no-background">Cancel</Button>
+      </DialogClose>
+      <DialogClose asChild>
+        <Button appearance="base">Done</Button>
+      </DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+        `,
+      },
+    },
+  },
+};
+
+export const Controlled: Story = {
+  render: () => {
+    const [open, setOpen] = React.useState(false);
+
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button appearance='base'>Open Controlled Dialog</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader
+            appearance='compact'
+            title='Controlled Dialog'
+            description='State is managed externally'
+            onClose={() => setOpen(false)}
+          />
+          <DialogBody>
+            <DialogContentTemplate />
+          </DialogBody>
+          <DialogFooter>
+            <Button appearance='no-background' onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button appearance='base' onClick={() => setOpen(false)}>
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+// Controlled — manage open state yourself.
+// Use onClose on DialogHeader and onClick handlers to close via state.
+const [open, setOpen] = React.useState(false);
+
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger asChild>
+    <Button appearance="base">Open Controlled Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader
+      appearance="compact"
+      title="Controlled Dialog"
+      description="State is managed externally"
+      onClose={() => setOpen(false)}
+    />
+    <DialogBody>
+      Content here ...
+    </DialogBody>
+    <DialogFooter>
+      <Button appearance="no-background" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button appearance="base" onClick={() => setOpen(false)}>
+        Done
+      </Button>
+    </DialogFooter>
   </DialogContent>
 </Dialog>
         `,
@@ -142,13 +199,9 @@ export const Base: Story = {
 
 export const HeightLayouts: Story = {
   render: () => {
-    const [openHug, setOpenHug] = React.useState(false);
-    const [openFixed, setOpenFixed] = React.useState(false);
-    const [openScrollable, setOpenScrollable] = React.useState(false);
-
     return (
       <div className='flex gap-16'>
-        <Dialog height='hug' open={openHug} onOpenChange={setOpenHug}>
+        <Dialog height='hug'>
           <DialogTrigger asChild>
             <Button appearance='base'>Hug (default)</Button>
           </DialogTrigger>
@@ -157,7 +210,6 @@ export const HeightLayouts: Story = {
               appearance='compact'
               title='Hug Height'
               description='Content-fit height'
-              onClose={() => setOpenHug(false)}
             />
             <DialogBody>
               <p className='body-2 text-muted'>
@@ -168,7 +220,7 @@ export const HeightLayouts: Story = {
           </DialogContent>
         </Dialog>
 
-        <Dialog height='fixed' open={openFixed} onOpenChange={setOpenFixed}>
+        <Dialog height='fixed'>
           <DialogTrigger asChild>
             <Button appearance='base'>Fixed</Button>
           </DialogTrigger>
@@ -177,7 +229,6 @@ export const HeightLayouts: Story = {
               appearance='compact'
               title='Fixed Height'
               description='Always 560px'
-              onClose={() => setOpenFixed(false)}
             />
             <DialogBody>
               <p className='body-2 text-muted'>
@@ -188,11 +239,7 @@ export const HeightLayouts: Story = {
           </DialogContent>
         </Dialog>
 
-        <Dialog
-          height='fixed'
-          open={openScrollable}
-          onOpenChange={setOpenScrollable}
-        >
+        <Dialog height='fixed'>
           <DialogTrigger asChild>
             <Button appearance='base'>Scrollable</Button>
           </DialogTrigger>
@@ -201,7 +248,6 @@ export const HeightLayouts: Story = {
               appearance='compact'
               title='Scrollable Content'
               description='Fixed height with scroll'
-              onClose={() => setOpenScrollable(false)}
             />
             <DialogBody>
               <div className='-mx-8 flex flex-col gap-4'>
@@ -227,12 +273,9 @@ export const HeightLayouts: Story = {
 
 export const WithFooter: Story = {
   render: () => {
-    const [open, setOpen] = React.useState(false);
-    const [openMultipleButtons, setOpenMultipleButtons] = React.useState(false);
-
     return (
       <div className='flex flex-wrap gap-16'>
-        <Dialog height='fixed' open={open} onOpenChange={setOpen}>
+        <Dialog height='fixed'>
           <DialogTrigger asChild>
             <Button appearance='base'>Open with Footer</Button>
           </DialogTrigger>
@@ -241,21 +284,18 @@ export const WithFooter: Story = {
               appearance='compact'
               title='Scrollable Content'
               description='With fixed footer'
-              onClose={() => setOpen(false)}
             />
             <DialogBody />
             <DialogFooter>
-              <Button appearance='base' isFull>
-                Confirm
-              </Button>
+              <DialogClose asChild>
+                <Button appearance='base' isFull>
+                  Confirm
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <Dialog
-          height='fixed'
-          open={openMultipleButtons}
-          onOpenChange={setOpenMultipleButtons}
-        >
+        <Dialog height='fixed'>
           <DialogTrigger asChild>
             <Button appearance='base'>Open with Multiple Buttons footer</Button>
           </DialogTrigger>
@@ -264,17 +304,15 @@ export const WithFooter: Story = {
               appearance='compact'
               title='Scrollable Content'
               description='With fixed footer'
-              onClose={() => setOpenMultipleButtons(false)}
             />
             <DialogBody />
             <DialogFooter>
-              <Button
-                appearance='no-background'
-                onClick={() => setOpenMultipleButtons(false)}
-              >
-                Cancel
-              </Button>
-              <Button appearance='base'>Confirm</Button>
+              <DialogClose asChild>
+                <Button appearance='no-background'>Cancel</Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button appearance='base'>Confirm</Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -285,14 +323,9 @@ export const WithFooter: Story = {
 
 export const HeaderVariants: Story = {
   render: () => {
-    const [openCompact, setOpenCompact] = React.useState(false);
-    const [openExtended, setOpenExtended] = React.useState(false);
-    const [openCompactBack, setOpenCompactBack] = React.useState(false);
-    const [openExtendedBack, setOpenExtendedBack] = React.useState(false);
-
     return (
       <div className='flex flex-wrap gap-16'>
-        <Dialog open={openCompact} onOpenChange={setOpenCompact}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button appearance='base'>Compact</Button>
           </DialogTrigger>
@@ -301,7 +334,6 @@ export const HeaderVariants: Story = {
               appearance='compact'
               title='Sheet Title'
               description='Additional information'
-              onClose={() => setOpenCompact(false)}
             />
             <DialogBody>
               <DialogContentTemplate />
@@ -309,7 +341,7 @@ export const HeaderVariants: Story = {
           </DialogContent>
         </Dialog>
 
-        <Dialog open={openExtended} onOpenChange={setOpenExtended}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button appearance='base'>Extended</Button>
           </DialogTrigger>
@@ -318,7 +350,6 @@ export const HeaderVariants: Story = {
               appearance='extended'
               title='Sheet Title'
               description='Additional information'
-              onClose={() => setOpenExtended(false)}
             />
             <DialogBody>
               <DialogContentTemplate />
@@ -326,7 +357,7 @@ export const HeaderVariants: Story = {
           </DialogContent>
         </Dialog>
 
-        <Dialog open={openCompactBack} onOpenChange={setOpenCompactBack}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button appearance='base'>Compact with Back</Button>
           </DialogTrigger>
@@ -335,7 +366,6 @@ export const HeaderVariants: Story = {
               appearance='compact'
               title='Sheet Title'
               description='Additional information'
-              onClose={() => setOpenCompactBack(false)}
               onBack={() => console.log('Back clicked')}
             />
             <DialogBody>
@@ -344,7 +374,7 @@ export const HeaderVariants: Story = {
           </DialogContent>
         </Dialog>
 
-        <Dialog open={openExtendedBack} onOpenChange={setOpenExtendedBack}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button appearance='base'>Extended with Back</Button>
           </DialogTrigger>
@@ -353,7 +383,6 @@ export const HeaderVariants: Story = {
               appearance='extended'
               title='Sheet Title'
               description='Additional information'
-              onClose={() => setOpenExtendedBack(false)}
               onBack={() => console.log('Back clicked')}
             />
             <DialogBody>
@@ -368,34 +397,34 @@ export const HeaderVariants: Story = {
     docs: {
       source: {
         code: `
-// Compact appearance
-<Dialog open={open} onOpenChange={setOpen}>
+// Compact appearance (uncontrolled)
+<Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="compact" title="Sheet Title" description="Additional information" onClose={() => setOpen(false)} />
+    <DialogHeader appearance="compact" title="Sheet Title" description="Additional information" />
     <DialogBody>
       Content here
     </DialogBody>
   </DialogContent>
 </Dialog>
 
-// Extended appearance
-<Dialog open={open} onOpenChange={setOpen}>
+// Extended appearance (uncontrolled)
+<Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="extended" title="Sheet Title" description="Additional information" onClose={() => setOpen(false)} />
+    <DialogHeader appearance="extended" title="Sheet Title" description="Additional information" />
     <DialogBody>
       Content here
     </DialogBody>
   </DialogContent>
 </Dialog>
 
-// With back button
-<Dialog open={open} onOpenChange={setOpen}>
+// With back button (uncontrolled)
+<Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
@@ -404,7 +433,6 @@ export const HeaderVariants: Story = {
       appearance="compact" 
       title="Sheet Title" 
       onBack={() => console.log('Back clicked')}
-      onClose={() => setOpen(false)} 
     />
     <DialogBody>
       Content here
@@ -466,6 +494,8 @@ export const WithMultiSteps: Story = {
     docs: {
       source: {
         code: `
+// Controlled — multi-step dialogs require state to manage steps and open/close.
+// Use onClose on DialogHeader to close the dialog via state.
 const [open, setOpen] = React.useState(false);
 const [step, setStep] = React.useState(1);
 
@@ -514,10 +544,8 @@ const handleOpenChange = (isOpen: boolean) => {
 
 export const WithListsContent: Story = {
   render: () => {
-    const [open, setOpen] = React.useState(false);
-
     return (
-      <Dialog height='fixed' open={open} onOpenChange={setOpen}>
+      <Dialog height='fixed'>
         <DialogTrigger asChild>
           <Button appearance='base'>Open Dialog</Button>
         </DialogTrigger>
@@ -526,8 +554,7 @@ export const WithListsContent: Story = {
             appearance='extended'
             title='Browse Options'
             description='Description content is fixed to the top of the dialog'
-            onBack={() => setOpen(false)}
-            onClose={() => setOpen(false)}
+            onBack={() => console.log('Back clicked')}
           />
           <DialogBody className='gap-32'>
             {/* Horizontal Tile List */}
@@ -575,21 +602,14 @@ export const WithListsContent: Story = {
 
 export const InfoStateVariants: Story = {
   render: () => {
-    const [openError, setOpenError] = React.useState(false);
-    const [openSuccess, setOpenSuccess] = React.useState(false);
-
     return (
       <div className='flex gap-16'>
-        <Dialog open={openError} onOpenChange={setOpenError}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button appearance='base'>Error</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader
-              appearance='compact'
-              onClose={() => setOpenError(false)}
-              className='relative'
-            />
+            <DialogHeader appearance='compact' className='relative' />
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
@@ -601,26 +621,26 @@ export const InfoStateVariants: Story = {
               </div>
             </DialogBody>
             <DialogFooter className='gap-8'>
-              <Button appearance='base' size='lg' isFull>
-                Label
-              </Button>
-              <Button appearance='no-background' size='lg' isFull>
-                Label
-              </Button>
+              <DialogClose asChild>
+                <Button appearance='base' size='lg' isFull>
+                  Label
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button appearance='no-background' size='lg' isFull>
+                  Label
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
-        <Dialog open={openSuccess} onOpenChange={setOpenSuccess}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button appearance='base'>Success</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader
-              appearance='compact'
-              onClose={() => setOpenSuccess(false)}
-              className='relative'
-            />
+            <DialogHeader appearance='compact' className='relative' />
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
@@ -632,12 +652,16 @@ export const InfoStateVariants: Story = {
               </div>
             </DialogBody>
             <DialogFooter className='gap-8'>
-              <Button appearance='base' size='lg' isFull>
-                Label
-              </Button>
-              <Button appearance='no-background' size='lg' isFull>
-                Label
-              </Button>
+              <DialogClose asChild>
+                <Button appearance='base' size='lg' isFull>
+                  Label
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button appearance='no-background' size='lg' isFull>
+                  Label
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -648,13 +672,13 @@ export const InfoStateVariants: Story = {
     docs: {
       source: {
         code: `
-// Error state
-<Dialog open={open} onOpenChange={setOpen}>
+// Error state (uncontrolled)
+<Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Error Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="compact" onClose={() => setOpen(false)} className="relative" />
+    <DialogHeader appearance="compact" className="relative" />
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error" />
@@ -666,19 +690,23 @@ export const InfoStateVariants: Story = {
       </div>
     </DialogBody>
     <DialogFooter className="gap-8">
-      <Button appearance="base" size="lg" isFull>Label</Button>
-      <Button appearance="no-background" size="lg" isFull>Label</Button>
+      <DialogClose asChild>
+        <Button appearance="base" size="lg" isFull>Label</Button>
+      </DialogClose>
+      <DialogClose asChild>
+        <Button appearance="no-background" size="lg" isFull>Label</Button>
+      </DialogClose>
     </DialogFooter>
   </DialogContent>
 </Dialog>
 
-// Success state
-<Dialog open={open} onOpenChange={setOpen}>
+// Success state (uncontrolled)
+<Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Success Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="compact" onClose={() => setOpen(false)} className="relative" />
+    <DialogHeader appearance="compact" className="relative" />
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success" />
@@ -690,8 +718,12 @@ export const InfoStateVariants: Story = {
     </div>
     </DialogBody>
     <DialogFooter className="gap-8">
-      <Button appearance="base" size="lg" isFull>Label</Button>
-      <Button appearance="no-background" size="lg" isFull>Label</Button>
+      <DialogClose asChild>
+        <Button appearance="base" size="lg" isFull>Label</Button>
+      </DialogClose>
+      <DialogClose asChild>
+        <Button appearance="no-background" size="lg" isFull>Label</Button>
+      </DialogClose>
     </DialogFooter>
   </DialogContent>
 </Dialog>

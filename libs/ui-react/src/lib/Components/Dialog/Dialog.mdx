@@ -3,6 +3,7 @@ import * as DialogStories from './Dialog.stories';
 import {
   Dialog,
   DialogBody,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -40,7 +41,8 @@ Dialogs are modal windows that interrupt the normal workflow to grab the user's 
 
 - **Trigger**: The element that opens the dialog when interacted with
 - **Overlay**: Dimmed background that covers the underlying content
-- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls
+- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls. The `onClose` prop is optional — the header close button uses `DialogClose` internally. For uncontrolled dialogs this will dismiss the dialog automatically; for controlled dialogs (using the `open` prop), dismissal also requires handling `onOpenChange` and updating `open` accordingly, with `onClose` firing as a side-effect when provided
+- **Close**: Use `DialogClose` to wrap any element that should dismiss the dialog when clicked (e.g., Cancel buttons). In uncontrolled dialogs this will close the dialog automatically; in controlled dialogs you must handle `onOpenChange` and update the `open` prop for the dialog to actually close
 - **Content**: The main container for dialog content
 - **Body**: Scrollable area that expands to fill remaining space (use with `DialogBody`)
 - **Footer**: Fixed bottom area for actions like buttons (use with `DialogFooter`)
@@ -105,6 +107,12 @@ When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margi
 
 <Canvas of={DialogStories.InfoStateVariants} />
 
+### Controlled Pattern
+
+When you need to manage the dialog's open state externally (e.g., for form submission, analytics, or multi-step flows), use the controlled pattern with `open`, `onOpenChange`, and `onClose`:
+
+<Canvas of={DialogStories.Controlled} />
+
 ## Accessibility
 
 Built-in accessibility features from Radix UI:
@@ -133,7 +141,9 @@ The `@radix-ui/react-dialog` dependency provides accessible dialog behavior prim
 import {
   Dialog,
   DialogBody,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTrigger,
 } from '@ledgerhq/lumen-ui-react';
@@ -146,16 +156,16 @@ function MyComponent() {
         <Button>Open Dialog</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader
-          appearance='compact'
-          title='Dialog Title'
-          onClose={() => {
-            /* handle close */
-          }}
-        />
-        <DialogBody>
-          Content here
-        </DialogBody>
+        <DialogHeader appearance='compact' title='Dialog Title' />
+        <DialogBody>Content here</DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -170,16 +180,8 @@ Use extended `DialogHeader` for bigger dialogs:
 <Dialog>
   <DialogTrigger>Open Extended</DialogTrigger>
   <DialogContent className='w-[800px]'>
-    <DialogHeader
-      appearance='extended'
-      title='Extended Dialog'
-      onClose={() => {
-        /* handle close */
-      }}
-    />
-    <DialogBody>
-      Extended content here
-    </DialogBody>
+    <DialogHeader appearance='extended' title='Extended Dialog' />
+    <DialogBody>Extended content here</DialogBody>
   </DialogContent>
 </Dialog>
 ```
@@ -194,13 +196,8 @@ Use extended `DialogHeader` for bigger dialogs:
       appearance='compact'
       title='Title'
       onBack={() => console.log('Back')}
-      onClose={() => {
-        /* handle close */
-      }}
     />
-    <DialogBody>
-      Content here
-    </DialogBody>
+    <DialogBody>Content here</DialogBody>
   </DialogContent>
 </Dialog>
 ```
@@ -223,18 +220,81 @@ Use `DialogBody` and `DialogFooter` for scrollable content with fixed actions:
     <Button>Open</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader title='Title' onClose={handleClose} />
+    <DialogHeader title='Title' />
     <DialogBody>
       {/* Scrollable content */}
       <div className='space-y-16'>{items.map((item) => /* ... */)}</div>
     </DialogBody>
     <DialogFooter>
-      <Button appearance='base' size='lg' isFull>
-        Confirm
-      </Button>
+      <DialogClose asChild>
+        <Button appearance='base' size='lg' isFull>
+          Confirm
+        </Button>
+      </DialogClose>
     </DialogFooter>
   </DialogContent>
 </Dialog>
+```
+
+### DialogClose
+
+Use `DialogClose` to wrap any element that should dismiss the dialog when clicked. This is useful for Cancel or Done buttons in the dialog footer:
+
+```tsx
+import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';
+
+<DialogFooter>
+  <DialogClose asChild>
+    <Button appearance='no-background'>Cancel</Button>
+  </DialogClose>
+  <Button appearance='base'>Confirm</Button>
+</DialogFooter>;
+```
+
+> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally. For uncontrolled dialogs (the default), `DialogClose` closes the dialog automatically. For controlled dialogs (with an `open` prop), you must also handle `onOpenChange` and update your `open` state. The `onClose` prop on `DialogHeader` is optional — use it only for controlled usage or side-effects like analytics.
+
+### Controlled Pattern
+
+When you need to manage the dialog's open state externally (e.g., for form validation, multi-step flows, or analytics), use the controlled pattern with `open`, `onOpenChange`, and `onClose`:
+
+```tsx
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTrigger,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyControlledDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          appearance='compact'
+          title='Controlled Dialog'
+          onClose={() => setOpen(false)}
+        />
+        <DialogBody>Content here</DialogBody>
+        <DialogFooter>
+          <Button appearance='no-background' onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button appearance='base' onClick={() => setOpen(false)}>
+            Done
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
 ```
 
 ## Do's and Don'ts

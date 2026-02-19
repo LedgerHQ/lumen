@@ -96,6 +96,8 @@ export function DialogTrigger({ ...props }: DialogTriggerProps) {
   return <DialogPrimitive.Trigger data-slot='dialog-trigger' {...props} />;
 }
 
+export { DialogClose } from './DialogClose/DialogClose';
+
 /**
  * A portal component that renders the dialog content into a new DOM context.
  *
