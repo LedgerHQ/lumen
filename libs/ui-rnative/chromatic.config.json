@@ -1,0 +1,7 @@
+{
+  "onlyChanged": true,
+  "projectId": "Project:6995e38fbeb7afd7cb1abfa0",
+  "storybookBaseDir": "libs/ui-rnative",
+  "zip": true,
+  "outputDir": "./storybook-static"
+}
