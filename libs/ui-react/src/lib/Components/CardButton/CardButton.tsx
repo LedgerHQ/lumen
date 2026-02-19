@@ -4,7 +4,7 @@ import { ChevronRight } from '../../Symbols';
 import { CardButtonProps } from './types';
 
 const buttonVariants = cva(
-  'inline-flex h-fit w-full cursor-pointer items-center gap-12 rounded-sm p-12 transition-colors focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-default disabled:text-disabled',
+  'group inline-flex h-fit w-full cursor-pointer items-center gap-12 rounded-sm p-12 transition-colors focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-default disabled:text-disabled',
   {
     variants: {
       appearance: {
@@ -75,12 +75,17 @@ export const CardButton = ({
       <div className='flex min-w-0 flex-1 flex-col gap-4 text-left'>
         <div className='min-w-0 truncate body-2-semi-bold'>{title}</div>
         {description && (
-          <div className='line-clamp-2 min-w-0 body-3 text-muted'>
+          <div className='line-clamp-2 min-w-0 body-3 text-muted group-disabled:text-disabled'>
             {description}
           </div>
         )}
       </div>
-      {!hideChevron && <ChevronRight size={24} className='shrink-0' />}
+      {!hideChevron && (
+        <ChevronRight
+          size={24}
+          className='shrink-0 text-muted group-disabled:text-disabled'
+        />
+      )}
     </button>
   );
 };

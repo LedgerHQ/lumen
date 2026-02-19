@@ -7092,6 +7092,18 @@
         }
       }
     },
+    "18": {
+      "$type": "number",
+      "$value": 18,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
     "20": {
       "$type": "number",
       "$value": 20,
@@ -7181,6 +7193,18 @@
     "16": {
       "$type": "number",
       "$value": 16,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "18": {
+      "$type": "number",
+      "$value": 18,
       "$description": "",
       "$extensions": {
         "com.figma": {
