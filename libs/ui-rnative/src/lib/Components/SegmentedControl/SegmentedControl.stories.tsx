@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
-import { Text } from '../Utility';
-import { SegmentedControl } from './SegmentedControl';
+import React, { useState } from 'react';
+import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
   title: 'Navigation/SegmentedControl',
@@ -11,23 +10,23 @@ const meta = {
     backgrounds: { default: 'light' },
   },
   argTypes: {
-    value: {
+    onChange: {
+      action: 'change',
+      description: 'Callback when the selected index changes',
+      table: {
+        type: { summary: '(index: number) => void' },
+      },
+    },
+    accessibilityLabel: {
       control: 'text',
-      description: 'The currently selected segment value',
+      description: 'Accessible label for the control',
       table: {
         type: { summary: 'string' },
       },
     },
-    onValueChange: {
-      action: 'value changed',
-      description: 'Callback when a segment is selected',
-      table: {
-        type: { summary: '(value: string) => void' },
-      },
-    },
     children: {
       control: false,
-      description: 'Segment items',
+      description: 'SegmentedControlButton elements',
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -41,12 +40,25 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: () => {
-    const [value, setValue] = useState('one');
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const handleChange = (i: number) => {
+      setSelectedIndex(i);
+    };
+
     return (
-      <SegmentedControl value={value} onValueChange={setValue}>
-        <Text>Segment 1</Text>
-        <Text>Segment 2</Text>
-        <Text>Segment 3</Text>
+      <SegmentedControl
+        accessibilityLabel='File view'
+        onChange={handleChange}
+      >
+        <SegmentedControlButton selected={selectedIndex === 0}>
+          Preview
+        </SegmentedControlButton>
+        <SegmentedControlButton selected={selectedIndex === 1}>
+          Raw
+        </SegmentedControlButton>
+        <SegmentedControlButton selected={selectedIndex === 2}>
+          Blame
+        </SegmentedControlButton>
       </SegmentedControl>
     );
   },

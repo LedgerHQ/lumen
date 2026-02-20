@@ -44,15 +44,29 @@ Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide â†
 ## Basic Usage
 
 ```tsx
-import { useState } from 'react';
-import { SegmentedControl } from '@ledgerhq/lumen-ui-rnative';
+import React from 'react';
+import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
 
-function MyScreen() {
-  const [value, setValue] = useState('a');
+export default function Default() {
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleChange = (i: number) => {
+    setSelectedIndex(i);
+  };
 
   return (
-    <SegmentedControl value={value} onValueChange={setValue}>
-      {/* Add segment items */}
+    <SegmentedControl
+      accessibilityLabel='File view'
+      onChange={handleChange}
+    >
+      <SegmentedControlButton selected={selectedIndex === 0}>
+        Preview
+      </SegmentedControlButton>
+      <SegmentedControlButton selected={selectedIndex === 1}>
+        Raw
+      </SegmentedControlButton>
+      <SegmentedControlButton selected={selectedIndex === 2}>
+        Blame
+      </SegmentedControlButton>
     </SegmentedControl>
   );
 }

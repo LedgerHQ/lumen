@@ -3,7 +3,7 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render } from '@testing-library/react-native';
 import React from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { SegmentedControl } from './SegmentedControl';
+import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -12,18 +12,21 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 describe('SegmentedControl', () => {
-  it('renders with value and onValueChange', () => {
-    const { getByTestId } = render(
+  it('renders with onChange and buttons', () => {
+    const { getByTestId, getByText } = render(
       <TestWrapper>
         <SegmentedControl
-          value='one'
-          onValueChange={() => {}}
+          onChange={() => {}}
+          accessibilityLabel='File view'
           testID='segmented-control'
         >
-          <React.Fragment />
+          <SegmentedControlButton selected>Preview</SegmentedControlButton>
+          <SegmentedControlButton selected={false}>Raw</SegmentedControlButton>
         </SegmentedControl>
       </TestWrapper>,
     );
     expect(getByTestId('segmented-control')).toBeTruthy();
+    expect(getByText('Preview')).toBeTruthy();
+    expect(getByText('Raw')).toBeTruthy();
   });
 });
