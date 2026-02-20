@@ -1,0 +1,34 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { TypographyTable } from './TypographyTable';
+
+<Meta title='Style System/Theme/Typographies' />
+
+# 🔤 Typographies
+
+Our typography system provides a set of predefined text styles that ensure visual consistency across the app. Each token maps directly to the `typography` prop of the `Text` component.
+
+## Usage
+
+Apply typographies through the `typography` prop on the `Text` component:
+
+```tsx
+import { Text } from '@ledgerhq/lumen-ui-rnative';
+
+<Text typography='heading3'>Page title</Text>
+<Text typography='body1SemiBold'>Emphasized content</Text>
+<Text typography='body2'>Regular paragraph text</Text>
+```
+
+## Heading
+
+Heading styles are used for titles and key content that needs visual hierarchy.
+
+<TypographyTable category="heading" />
+
+## Body
+
+Body styles are used for general content such as paragraphs, labels, and descriptions.
+
+<TypographyTable category="body" />
+
+
