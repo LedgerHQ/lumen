@@ -121,8 +121,19 @@ export const BottomSheetHeader = ({
 
   const titleComponent = hasTitleSection ? (
     <Box style={styles.textWrapper}>
-      {title && <Text style={styles.title}>{title}</Text>}
-      {description && <Text style={styles.description}>{description}</Text>}
+      {title && (
+        <Text style={styles.title} testID='bottom-sheet-header-title'>
+          {title}
+        </Text>
+      )}
+      {description && (
+        <Text
+          style={styles.description}
+          testID='bottom-sheet-header-description'
+        >
+          {description}
+        </Text>
+      )}
     </Box>
   ) : null;
 
@@ -139,6 +150,7 @@ export const BottomSheetHeader = ({
               onPress={onBack}
               icon={ArrowLeft}
               appearance='transparent'
+              testID='bottom-sheet-header-back-button'
             />
           )}
         </Box>
@@ -153,6 +165,7 @@ export const BottomSheetHeader = ({
               onPress={handleClose}
               icon={Close}
               appearance='transparent'
+              testID='bottom-sheet-header-close-button'
             />
           )}
         </Box>
