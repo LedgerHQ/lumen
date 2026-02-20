@@ -17,6 +17,7 @@ export * from './ListItem';
 export * from './NavBar';
 export * from './PageIndicator';
 export * from './SearchInput';
+export * from './SegmentedControl';
 export * from './Select';
 export * from './Skeleton';
 export * from './Spinner';

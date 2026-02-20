@@ -29,6 +29,7 @@ import {
   IconButtons,
   Links,
   NavBars,
+  SegmentedControls,
   Selects,
   Skeletons,
   Spots,
@@ -118,6 +119,9 @@ const AppContent = ({
               </SandboxBlock>
               <SandboxBlock title='InteractiveIcons'>
                 <InteractiveIcons />
+              </SandboxBlock>
+              <SandboxBlock title='SegmentedControl'>
+                <SegmentedControls />
               </SandboxBlock>
               <SandboxBlock title='Select'>
                 <Selects />

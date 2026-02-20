@@ -8,6 +8,7 @@ export * from './Dividers';
 export * from './IconButtons';
 export * from './Links';
 export * from './NavBars';
+export * from './SegmentedControls';
 export * from './Selects';
 export * from './Skeletons';
 export * from './Spots';

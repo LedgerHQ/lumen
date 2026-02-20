@@ -1,0 +1,62 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SegmentedControlStories from './SegmentedControl.stories';
+import { SegmentedControl } from './SegmentedControl';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Navigation/SegmentedControl' of={SegmentedControlStories} />
+
+# SegmentedControl
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+## Introduction
+
+SegmentedControl is a tab bar–style component for switching between mutually exclusive options. Use it when the user needs to choose one of a small set of choices (e.g. time range, view mode).
+
+## Anatomy
+
+<Canvas of={SegmentedControlStories.Base} />
+
+- **Segments**: Individual options the user can select.
+- **Selected state**: The currently active segment.
+
+## Properties
+
+<Canvas of={SegmentedControlStories.Base} />
+<Controls of={SegmentedControlStories.Base} />
+
+## Responsive Layout
+
+SegmentedControl lays out segments in a horizontal row. Layout and styling are left to the implementation.
+
+## Accessibility
+
+- Use appropriate roles and labels for each segment so screen readers announce the control and selected option.
+
+  </Tab>
+  <Tab label="Implementation ">
+
+## Installation
+
+Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import { useState } from 'react';
+import { SegmentedControl } from '@ledgerhq/lumen-ui-rnative';
+
+function MyScreen() {
+  const [value, setValue] = useState('a');
+
+  return (
+    <SegmentedControl value={value} onValueChange={setValue}>
+      {/* Add segment items */}
+    </SegmentedControl>
+  );
+}
+```
+
+  </Tab>
+</CustomTabs>
