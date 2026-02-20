@@ -56,13 +56,6 @@ function App() {
 }
 ```
 
-### Learn More
-
-- [📖 Full User Guide](./USER_GUIDE.md) - Comprehensive guide for using Lumen
-- [🎨 Design Guidelines](./USER_GUIDE.md#design-tokens) - Learn about our design tokens and principles
-- [🧩 Component Library](https://ldls.vercel.app) - Explore available components
-- [⚙️ Configuration Guide](./USER_GUIDE.md#configuration) - Advanced configuration options
-
 ### 🤖 AI Assistant Support
 
 Lumen includes AI rules to help assistants (Cursor, Claude, VS Code Copilot, etc.) suggest correct usage patterns.
