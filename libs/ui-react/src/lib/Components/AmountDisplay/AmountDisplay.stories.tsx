@@ -72,14 +72,11 @@ const meta: Meta<typeof AmountDisplay> = {
       control: {
         type: 'boolean',
       },
-      description: 'When true, displays bullet points instead of the amount',
     },
     animate: {
       control: {
         type: 'boolean',
       },
-      description:
-        'Whether the odometer animation should play on value change or not',
     },
   },
   parameters: {
