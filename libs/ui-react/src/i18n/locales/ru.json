@@ -3,6 +3,9 @@
     "addressInput": {
       "qrCodeAriaLabel": "Сканировать QR-код"
     },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Сумма скрыта"
+    },
     "avatar": {
       "defaultAlt": "Аватар пользователя",
       "notificationAriaLabel": "Есть уведомление"

@@ -2,7 +2,6 @@ import type { Config } from 'tailwindcss';
 import { enterpriseCSSTheme } from '../themes/css';
 import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
 import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
-
 import {
   createGradientPlugin,
   createScreensPlugin,
@@ -10,6 +9,7 @@ import {
   createTypographyPlugin,
   createShadowPlugin,
   createScrollbarPlugin,
+  createMaskPlugin,
 } from '../utils/index.js';
 
 export const enterprisePreset: Config = {
@@ -31,6 +31,7 @@ export const enterprisePreset: Config = {
     createShadowPlugin(),
     createAnimationsPlugin(),
     createScrollbarPlugin(),
+    createMaskPlugin(),
   ],
   darkMode: 'class',
 };

@@ -10,6 +10,7 @@ import {
   createTypographyPlugin,
   createShadowPlugin,
   createScrollbarPlugin,
+  createMaskPlugin,
 } from '../utils/index.js';
 
 export const websitesPreset: Config = {
@@ -31,6 +32,7 @@ export const websitesPreset: Config = {
     createShadowPlugin(),
     createAnimationsPlugin(),
     createScrollbarPlugin(),
+    createMaskPlugin(),
   ],
   darkMode: 'class',
 };

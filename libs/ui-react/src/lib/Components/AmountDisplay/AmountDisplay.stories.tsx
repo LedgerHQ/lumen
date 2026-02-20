@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, EyeCross } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { AmountDisplay } from './AmountDisplay';
@@ -47,6 +47,7 @@ const meta: Meta<typeof AmountDisplay> = {
   args: {
     formatter: eurFormatter,
     hidden: false,
+    animate: true,
   },
   argTypes: {
     formatter: {
@@ -71,7 +72,11 @@ const meta: Meta<typeof AmountDisplay> = {
       control: {
         type: 'boolean',
       },
-      description: 'When true, displays bullet points instead of the amount',
+    },
+    animate: {
+      control: {
+        type: 'boolean',
+      },
     },
   },
   parameters: {
@@ -98,10 +103,31 @@ export const Base: Story = {
     docs: {
       source: {
         code: `
-<AmountDisplay value={1234.56} />
+          <AmountDisplay value={1234.56} formatter={eurFormatter} />
         `.trim(),
       },
     },
+  },
+};
+
+export const AnimationShowcase: Story = {
+  args: {
+    value: 1234.56,
+  },
+  render: ({ value, ...props }) => {
+    const [currentValue, setCurrentValue] = useState<number>(value);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentValue((prev) => {
+          const delta = prev * (Math.random() * 0.02 - 0.01);
+          return Math.round((prev + delta) * 100) / 100;
+        });
+      }, 2000);
+      return () => clearInterval(interval);
+    }, []);
+
+    return <AmountDisplay {...props} value={currentValue} />;
   },
 };
 

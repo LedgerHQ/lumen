@@ -45,6 +45,12 @@ The `hidden` prop allows you to toggle amount visibility for privacy-sensitive a
 
 <Canvas of={AmountDisplayStories.WithHideButton} />
 
+### Animation
+
+The `animate` prop controls whether the odometer-style animation plays when the value changes. When set to `true` (the default), digits smoothly transition between values. Set to `false` to display values instantly without animation.
+
+<Canvas of={AmountDisplayStories.AnimationShowcase} />
+
 ### Loading State
 
 The `loading` prop displays a pulse animation to indicate that the amount is being fetched or updated. When set to `true`, the component applies a subtle pulsing effect while maintaining the displayed value.
