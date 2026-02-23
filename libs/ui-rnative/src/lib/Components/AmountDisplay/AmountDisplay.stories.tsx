@@ -48,6 +48,7 @@ const meta: Meta<typeof AmountDisplay> = {
   args: {
     formatter: eurFormatter,
     hidden: false,
+    animate: true,
   },
   argTypes: {
     formatter: {
@@ -69,6 +70,11 @@ const meta: Meta<typeof AmountDisplay> = {
         '- `currencyPosition?`: "start" | "end"',
     },
     hidden: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    animate: {
       control: {
         type: 'boolean',
       },

@@ -20,35 +20,41 @@ const timingConfig = {
   easing: Easing.inOut(Easing.ease),
 };
 
-const DigitStrip = memo(({ value, lineHeight, textStyle }: DigitStripProps) => {
-  const translateY = useSharedValue(-value * lineHeight);
+const DigitStrip = memo(
+  ({ value, lineHeight, textStyle, animate }: DigitStripProps) => {
+    const translateY = useSharedValue(-value * lineHeight);
 
-  useEffect(() => {
-    translateY.value = withTiming(-value * lineHeight, timingConfig);
-  }, [value, lineHeight, translateY]);
+    useEffect(() => {
+      if (animate) {
+        translateY.value = withTiming(-value * lineHeight, timingConfig);
+      } else {
+        translateY.value = -value * lineHeight;
+      }
+    }, [value, lineHeight, translateY, animate]);
 
-  const animatedStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateY: translateY.value }],
-    }),
-    [translateY],
-  );
+    const animatedStyle = useAnimatedStyle(
+      () => ({
+        transform: [{ translateY: translateY.value }],
+      }),
+      [translateY],
+    );
 
-  return (
-    <View
-      style={{ height: lineHeight, overflow: 'hidden' }}
-      accessibilityValue={{ text: String(value) }}
-    >
-      <Animated.View style={animatedStyle}>
-        {digits.map((d) => (
-          <Text key={d} style={textStyle}>
-            {d}
-          </Text>
-        ))}
-      </Animated.View>
-    </View>
-  );
-});
+    return (
+      <View
+        style={{ height: lineHeight, overflow: 'hidden' }}
+        accessibilityValue={{ text: String(value) }}
+      >
+        <Animated.View style={animatedStyle}>
+          {digits.map((d) => (
+            <Text key={d} style={textStyle}>
+              {d}
+            </Text>
+          ))}
+        </Animated.View>
+      </View>
+    );
+  },
+);
 
 const useStyles = () => {
   return useStyleSheet(
@@ -151,22 +157,20 @@ export const AmountDisplay = ({
     textStyle: TextStyle,
     lineHeight: number,
   ) => {
-    let digitCount = items.filter((c) => c.type === 'digit').length;
     return items.map((item, index) => {
+      const key = items.length - index;
       if (item.type === 'separator') {
         return (
-          <Text key={`sep-${index}`} style={textStyle}>
+          <Text key={key} style={textStyle}>
             {item.value}
           </Text>
         );
       }
-      digitCount--;
       return (
         <DigitStrip
-          key={digitCount}
-          value={parseInt(item.value, 10)}
+          key={key}
+          value={Number(item.value)}
           animate={animate}
-          loading={loading}
           lineHeight={lineHeight}
           textStyle={textStyle}
         />
@@ -175,7 +179,11 @@ export const AmountDisplay = ({
   };
 
   return (
-    <Box accessibilityLabel={ariaLabel} {...props}>
+    <Box
+      accessibilityLabel={ariaLabel}
+      accessibilityState={{ busy: loading }}
+      {...props}
+    >
       <Pulse animate={loading}>
         <View
           style={styles.container}

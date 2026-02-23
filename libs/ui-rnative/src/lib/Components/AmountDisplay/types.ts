@@ -7,7 +7,6 @@ export type { FormattedValue, SplitChar };
 export type DigitStripProps = {
   value: number;
   animate: boolean;
-  loading: boolean;
   lineHeight: number;
   textStyle: TextStyle;
 };
