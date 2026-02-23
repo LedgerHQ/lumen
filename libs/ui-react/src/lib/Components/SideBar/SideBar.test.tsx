@@ -190,29 +190,6 @@ describe('SideBar Component', () => {
       expect(navElement).toHaveClass('w-72');
     });
 
-    it('should hide labels when collapsed', () => {
-      render(
-        <SideBar defaultCollapsed={true}>
-          <SideBarLeading>
-            <SideBarItem
-              value='home'
-              icon={Home}
-              activeIcon={HomeFill}
-              label='Home'
-            />
-          </SideBarLeading>
-        </SideBar>,
-      );
-
-      // Label is still in DOM but visually hidden with CSS
-      const buttons = screen.getAllByRole('button');
-      const homeButton = buttons.find((btn) => btn.querySelector('svg'));
-      expect(homeButton).toBeInTheDocument();
-      const homeLabel = homeButton?.querySelector('span');
-      expect(homeLabel).toHaveTextContent('Home');
-      expect(homeLabel).toHaveClass('opacity-0');
-    });
-
     it('should toggle collapsed state when collapse button is clicked', () => {
       render(
         <SideBar>

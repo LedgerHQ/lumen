@@ -224,18 +224,7 @@ export const SideBarItem = ({
   const content = (
     <>
       <IconComponent size={16} className='shrink-0' />
-      {label != null && (
-        <span
-          className={cn(
-            'truncate',
-            collapsed
-              ? 'ml-0 opacity-0'
-              : 'ml-8 opacity-100 transition-opacity delay-150 duration-300',
-          )}
-        >
-          {label}
-        </span>
-      )}
+      {label != null && <span className='ml-8 truncate'>{label}</span>}
     </>
   );
 
@@ -256,18 +245,14 @@ export const SideBarItem = ({
     </button>
   );
 
-  if (collapsed && tooltipContent) {
-    return (
-      <Tooltip>
-        <TooltipTrigger asChild>{item}</TooltipTrigger>
-        <TooltipContent side='right' sideOffset={8}>
-          {tooltipContent}
-        </TooltipContent>
-      </Tooltip>
-    );
-  }
-
-  return item;
+  return (
+    <Tooltip open={collapsed ? undefined : false}>
+      <TooltipTrigger asChild>{item}</TooltipTrigger>
+      <TooltipContent side='right' sideOffset={8}>
+        {tooltipContent}
+      </TooltipContent>
+    </Tooltip>
+  );
 };
 SideBarItem.displayName = 'SideBarItem';
 
@@ -301,7 +286,6 @@ export const SideBarCollapseToggle = ({
       onClick={handleToggle}
       className={cn(
         sideBarVariants.item({ active: false, disabled: false }),
-        collapsed && 'w-fit',
         className,
       )}
       aria-label={
