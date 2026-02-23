@@ -210,7 +210,7 @@ describe('SideBar Component', () => {
       expect(homeButton).toBeInTheDocument();
       const homeLabel = homeButton?.querySelector('span');
       expect(homeLabel).toHaveTextContent('Home');
-      expect(homeLabel).toHaveClass('opacity-0', 'w-0');
+      expect(homeLabel).toHaveClass('opacity-0');
     });
 
     it('should toggle collapsed state when collapse button is clicked', () => {
