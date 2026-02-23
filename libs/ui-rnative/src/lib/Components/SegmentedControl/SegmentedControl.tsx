@@ -19,7 +19,6 @@ import type {
   SegmentedControlProps,
 } from './types';
 
-const PILL_INSET = 4;
 const ICON_SIZE = 16;
 
 export function SegmentedControlButton({
@@ -39,17 +38,20 @@ export function SegmentedControlButton({
       style={styles.button}
       {...props}
     >
-      {Icon && (
-        <Box style={styles.iconWrap}>
-          <Icon size={ICON_SIZE} />
-        </Box>
-      )}
-      <Text
-        typography={selected ? 'body2SemiBold' : 'body2'}
-        lx={{ color: 'base' }}
-      >
-        {children}
-      </Text>
+      <Box style={styles.content}>
+        {Icon && (
+          <Box style={styles.iconWrap}>
+            <Icon size={ICON_SIZE} />
+          </Box>
+        )}
+        <Text
+          typography={selected ? 'body2SemiBold' : 'body2'}
+          lx={{ color: 'base' }}
+          style={styles.label}
+        >
+          {children}
+        </Text>
+      </Box>
     </Pressable>
   );
 }
@@ -64,11 +66,20 @@ function useButtonStyles() {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: t.spacings.s8,
         paddingHorizontal: t.spacings.s16,
         paddingVertical: t.spacings.s8,
         borderRadius: t.borderRadius.full,
         zIndex: 1,
+      },
+      content: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: t.spacings.s8,
+      },
+      label: {
+        textAlign: 'center',
+        includeFontPadding: false,
       },
       iconWrap: {
         flexDirection: 'row',
@@ -98,12 +109,12 @@ export function SegmentedControl({
     (e: LayoutChangeEvent) => {
       const { width, height } = e.nativeEvent.layout;
       if (count <= 0) return;
-      const slotWidth = (width - PILL_INSET * 2) / count;
+      const slotWidth = width / count;
       pillWidth.value = slotWidth;
-      pillHeight.value = height - PILL_INSET * 2;
+      pillHeight.value = height;
       if (!hasLayoutRef.current) {
         hasLayoutRef.current = true;
-        pillTranslateX.value = PILL_INSET + selectedIndex * slotWidth;
+        pillTranslateX.value = selectedIndex * slotWidth;
       }
     },
     [count, selectedIndex, pillWidth, pillHeight, pillTranslateX],
@@ -111,13 +122,10 @@ export function SegmentedControl({
 
   useEffect(() => {
     if (!hasLayoutRef.current || pillWidth.value <= 0) return;
-    pillTranslateX.value = withTiming(
-      PILL_INSET + selectedIndex * pillWidth.value,
-      {
-        duration: 250,
-        easing: Easing.bezier(0.4, 0, 0.2, 1),
-      },
-    );
+    pillTranslateX.value = withTiming(selectedIndex * pillWidth.value, {
+      duration: 250,
+      easing: Easing.bezier(0.4, 0, 0.2, 1),
+    });
   }, [selectedIndex, pillTranslateX, pillWidth]);
 
   const childrenWithInjections = React.Children.map(
@@ -176,14 +184,14 @@ function useRootStyles() {
         flexDirection: 'row',
         alignItems: 'center',
         position: 'relative',
-        padding: PILL_INSET,
+        width: '100%',
         borderRadius: t.borderRadius.full,
         backgroundColor: t.colors.bg.baseTransparent,
       },
       pill: {
         position: 'absolute',
-        top: PILL_INSET,
-        left: PILL_INSET,
+        top: 0,
+        left: 0,
         borderRadius: t.borderRadius.sm,
         backgroundColor: t.colors.bg.muted,
         zIndex: 0,
