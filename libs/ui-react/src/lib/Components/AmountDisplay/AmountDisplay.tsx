@@ -7,7 +7,7 @@ const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const DigitStrip = memo(({ value, animate }: DigitStripProps) => {
   return (
-    <div className={cn('relative overflow-hidden')}>
+    <div className='relative overflow-hidden'>
       <span className='invisible'>0</span>
       <span
         className={cn(
@@ -77,18 +77,13 @@ export const AmountDisplay = ({
     t('components.amountDisplay.amountHiddenAriaLabel'),
   );
   const renderDigits = (items: SplitChar[]) => {
-    let digitCount = items.filter((c) => c.type === 'digit').length;
     return items.map((item, index) => {
+      const key = items.length - index;
       if (item.type === 'separator') {
-        return <span key={`sep-${index}`}>{item.value}</span>;
+        return <span key={key}>{item.value}</span>;
       }
-      digitCount--;
       return (
-        <DigitStrip
-          key={digitCount}
-          value={parseInt(item.value, 10)}
-          animate={animate}
-        />
+        <DigitStrip key={key} value={Number(item.value)} animate={animate} />
       );
     });
   };
