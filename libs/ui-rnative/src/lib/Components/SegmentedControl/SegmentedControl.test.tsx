@@ -1,6 +1,6 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import React from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
@@ -12,22 +12,40 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 describe('SegmentedControl', () => {
-  it('renders with onChange and buttons', () => {
-    const { getByTestId, getByText } = render(
+  it('renders segments with labels', () => {
+    const { getByText } = render(
       <TestWrapper>
         <SegmentedControl
           selectedIndex={0}
           onChange={() => {}}
-          accessibilityLabel='File view'
-          testID='segmented-control'
+          accessibilityLabel='Transaction type'
         >
-          <SegmentedControlButton selected>Preview</SegmentedControlButton>
-          <SegmentedControlButton selected={false}>Raw</SegmentedControlButton>
+          <SegmentedControlButton selected>Send</SegmentedControlButton>
+          <SegmentedControlButton selected={false}>Receive</SegmentedControlButton>
         </SegmentedControl>
       </TestWrapper>,
     );
-    expect(getByTestId('segmented-control')).toBeTruthy();
-    expect(getByText('Preview')).toBeTruthy();
-    expect(getByText('Raw')).toBeTruthy();
+    expect(getByText('Send')).toBeTruthy();
+    expect(getByText('Receive')).toBeTruthy();
+  });
+
+  it('calls onChange with segment index when a segment is pressed', () => {
+    const onChange = jest.fn();
+    const { getByText } = render(
+      <TestWrapper>
+        <SegmentedControl
+          selectedIndex={0}
+          onChange={onChange}
+          accessibilityLabel='Transaction type'
+        >
+          <SegmentedControlButton selected>Send</SegmentedControlButton>
+          <SegmentedControlButton selected={false}>Receive</SegmentedControlButton>
+        </SegmentedControl>
+      </TestWrapper>,
+    );
+
+    fireEvent.press(getByText('Receive'));
+
+    expect(onChange).toHaveBeenCalledWith(1);
   });
 });

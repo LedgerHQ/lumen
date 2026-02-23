@@ -2,24 +2,26 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as SegmentedControlStories from './SegmentedControl.stories';
 import { SegmentedControl } from './SegmentedControl';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Box } from '../Utility';
 
 <Meta title='Navigation/SegmentedControl' of={SegmentedControlStories} />
 
-# SegmentedControl
+# 📑 SegmentedControl
 
 <CustomTabs>
-  <Tab label="Overview ">
+  <Tab label="Overview">
 
 ## Introduction
 
-SegmentedControl is a tab bar–style component for switching between mutually exclusive options. Use it when the user needs to choose one of a small set of choices (e.g. time range, view mode).
+SegmentedControl is a tab bar–style component for switching between mutually exclusive options. Use it when the user needs to choose one of a small set of choices (e.g. transaction type, asset section).
 
 ## Anatomy
 
 <Canvas of={SegmentedControlStories.Base} />
 
 - **Segments**: Individual options the user can select.
-- **Selected state**: The active segment (sliding pill + body2SemiBold).
+- **Selected state**: The active segment (sliding pill + semi-bold label).
 - **Optional icon**: Icon to the left of the label (from Symbols).
 
 ## Properties
@@ -27,70 +29,136 @@ SegmentedControl is a tab bar–style component for switching between mutually e
 <Canvas of={SegmentedControlStories.Base} />
 <Controls of={SegmentedControlStories.Base} />
 
+### Labels only vs with icons
+
+You can use segments with text only (Base), or add an icon to each button (WithIcons). Use one approach consistently for all segments in a single control.
+
+<Canvas of={SegmentedControlStories.Base} />
+
+<Canvas of={SegmentedControlStories.WithIcons} />
+
 ## Responsive Layout
 
-SegmentedControl lays out segments in a horizontal row. Layout and styling are left to the implementation.
+SegmentedControl lays out segments in a horizontal row with equal width per segment. The sliding pill animates to the selected segment.
 
 ## Accessibility
 
-- Use appropriate roles and labels for each segment so screen readers announce the control and selected option.
+- Use accessibilityLabel on SegmentedControl to describe the control (e.g. "Transaction type", "Asset section").
+- Each segment exposes accessibilityState with a selected value for screen readers.
 
-  </Tab>
-  <Tab label="Implementation ">
+</Tab>
+  <Tab label="Implementation">
 
 ## Installation
 
 Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
+## SegmentedControlButton
+
+Use as a direct child of SegmentedControl. Required: selected (boolean) and children (label). Optional: icon (component from symbols), onPress (runs in addition to parent onChange).
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Prop</th>
+        <th className='p-12 text-left text-on-accent body-2'>Type</th>
+        <th className='p-12 text-left text-on-accent body-2'>Description</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>selected</td>
+        <td className='p-12 text-muted'>boolean</td>
+        <td className='p-12 text-muted'>Whether this segment is selected (e.g. selectedIndex === index)</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>children</td>
+        <td className='p-12 text-muted'>ReactNode</td>
+        <td className='p-12 text-muted'>Button label (e.g. "Send", "Tokens")</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>icon</td>
+        <td className='p-12 text-muted'>ComponentType</td>
+        <td className='p-12 text-muted'>Optional icon to the left of the label (from Symbols)</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>onPress</td>
+        <td className='p-12 text-muted'>() =&gt; void</td>
+        <td className='p-12 text-muted'>Optional callback when the button is pressed (in addition to parent onChange)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ## Basic Usage
 
-Control `selectedIndex` in state and pass it to `SegmentedControl` so the sliding pill animates correctly.
+Control selectedIndex in state and pass it to SegmentedControl so the sliding pill animates correctly. Pass selected to each SegmentedControlButton.
 
 ```tsx
 import React from 'react';
 import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
 
-export default function Default() {
+export default function Example() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleChange = (i: number) => {
-    setSelectedIndex(i);
-  };
+  const handleChange = (i: number) => setSelectedIndex(i);
 
   return (
     <SegmentedControl
       selectedIndex={selectedIndex}
-      accessibilityLabel='File view'
+      accessibilityLabel='Transaction type'
       onChange={handleChange}
     >
       <SegmentedControlButton selected={selectedIndex === 0}>
-        Preview
+        Send
       </SegmentedControlButton>
       <SegmentedControlButton selected={selectedIndex === 1}>
-        Raw
+        Receive
       </SegmentedControlButton>
       <SegmentedControlButton selected={selectedIndex === 2}>
-        Blame
+        Buy
       </SegmentedControlButton>
     </SegmentedControl>
   );
 }
 ```
 
-### With icon
+## With icons
 
-Pass an `icon` from `@ledgerhq/lumen-ui-rnative/symbols` for a left-positioned icon:
+Pass an icon from symbols to each button for a left-positioned icon. Use icons on all segments or none for consistency.
 
 ```tsx
 import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
-import { Eye, Code } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { Coins, Nft, TransferHorizontal, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-<SegmentedControlButton selected={selectedIndex === 0} icon={Eye}>
-  Preview
-</SegmentedControlButton>
-<SegmentedControlButton selected={selectedIndex === 1} icon={Code}>
-  Raw
-</SegmentedControlButton>
+function Example() {
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  return (
+    <SegmentedControl
+      selectedIndex={selectedIndex}
+      accessibilityLabel='Asset section'
+      onChange={(i) => setSelectedIndex(i)}
+    >
+      <SegmentedControlButton selected={selectedIndex === 0} icon={Coins}>
+        Tokens
+      </SegmentedControlButton>
+      <SegmentedControlButton selected={selectedIndex === 1} icon={Nft}>
+        NFTs
+      </SegmentedControlButton>
+      <SegmentedControlButton selected={selectedIndex === 2} icon={TransferHorizontal}>
+        Activity
+      </SegmentedControlButton>
+      <SegmentedControlButton selected={selectedIndex === 3} icon={Settings}>
+        Settings
+      </SegmentedControlButton>
+    </SegmentedControl>
+  );
+}
 ```
 
-  </Tab>
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+  <CommonRulesDoAndDont />
+</Box>
+
+</Tab>
 </CustomTabs>

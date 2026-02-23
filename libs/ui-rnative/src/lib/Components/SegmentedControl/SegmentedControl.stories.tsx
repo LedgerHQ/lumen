@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import React, { useState } from 'react';
-import { Eye, EyeCross, Code } from '../../Symbols';
+import { Coins, Nft, TransferHorizontal, Settings } from '../../Symbols';
+import { Box } from '../Utility';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
   title: 'Navigation/SegmentedControl',
   component: SegmentedControl,
+  subcomponents: {
+    SegmentedControlButton,
+  },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -27,7 +31,8 @@ const meta = {
     },
     selectedIndex: {
       control: 'number',
-      description: 'The currently selected segment index (drives the sliding pill)',
+      description:
+        'The currently selected segment index (drives the sliding pill)',
       table: {
         type: { summary: 'number' },
       },
@@ -49,26 +54,26 @@ export const Base: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const handleChange = (i: number) => {
-      setSelectedIndex(i);
-    };
+    const handleChange = (i: number) => setSelectedIndex(i);
 
     return (
-      <SegmentedControl
-        selectedIndex={selectedIndex}
-        accessibilityLabel='File view'
-        onChange={handleChange}
-      >
-        <SegmentedControlButton selected={selectedIndex === 0}>
-          Preview
-        </SegmentedControlButton>
-        <SegmentedControlButton selected={selectedIndex === 1}>
-          Raw
-        </SegmentedControlButton>
-        <SegmentedControlButton selected={selectedIndex === 2}>
-          Blame
-        </SegmentedControlButton>
-      </SegmentedControl>
+      <Box lx={{ width: 's256' }}>
+        <SegmentedControl
+          selectedIndex={selectedIndex}
+          accessibilityLabel='Transaction type'
+          onChange={handleChange}
+        >
+          <SegmentedControlButton selected={selectedIndex === 0}>
+            Send
+          </SegmentedControlButton>
+          <SegmentedControlButton selected={selectedIndex === 1}>
+            Receive
+          </SegmentedControlButton>
+          <SegmentedControlButton selected={selectedIndex === 2}>
+            Buy
+          </SegmentedControlButton>
+        </SegmentedControl>
+      </Box>
     );
   },
 };
@@ -82,26 +87,23 @@ export const WithIcons: Story = {
     return (
       <SegmentedControl
         selectedIndex={selectedIndex}
-        accessibilityLabel='View mode'
+        accessibilityLabel='Asset section'
         onChange={handleChange}
       >
-        <SegmentedControlButton
-          selected={selectedIndex === 0}
-          icon={Eye}
-        >
-          Preview
+        <SegmentedControlButton selected={selectedIndex === 0} icon={Coins}>
+          Tokens
         </SegmentedControlButton>
-        <SegmentedControlButton
-          selected={selectedIndex === 1}
-          icon={Code}
-        >
-          Raw
+        <SegmentedControlButton selected={selectedIndex === 1} icon={Nft}>
+          NFTs
         </SegmentedControlButton>
         <SegmentedControlButton
           selected={selectedIndex === 2}
-          icon={EyeCross}
+          icon={TransferHorizontal}
         >
-          Blame
+          Activity
+        </SegmentedControlButton>
+        <SegmentedControlButton selected={selectedIndex === 3} icon={Settings}>
+          Settings
         </SegmentedControlButton>
       </SegmentedControl>
     );
