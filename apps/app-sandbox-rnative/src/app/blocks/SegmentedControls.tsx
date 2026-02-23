@@ -13,7 +13,11 @@ export const SegmentedControls = () => {
 
   return (
     <Box lx={{ gap: 's16', width: 'full' }}>
-      <SegmentedControl accessibilityLabel='File view' onChange={handleChange}>
+      <SegmentedControl
+        selectedIndex={selectedIndex}
+        accessibilityLabel='File view'
+        onChange={handleChange}
+      >
         <SegmentedControlButton selected={selectedIndex === 0}>
           Preview
         </SegmentedControlButton>

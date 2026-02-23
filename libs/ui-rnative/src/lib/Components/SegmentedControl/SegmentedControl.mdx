@@ -19,7 +19,8 @@ SegmentedControl is a tab barâ€“style component for switching between mutually e
 <Canvas of={SegmentedControlStories.Base} />
 
 - **Segments**: Individual options the user can select.
-- **Selected state**: The currently active segment.
+- **Selected state**: The active segment (sliding pill + body2SemiBold).
+- **Optional icon**: Icon to the left of the label (from Symbols).
 
 ## Properties
 
@@ -43,6 +44,8 @@ Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide â†
 
 ## Basic Usage
 
+Control `selectedIndex` in state and pass it to `SegmentedControl` so the sliding pill animates correctly.
+
 ```tsx
 import React from 'react';
 import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
@@ -55,6 +58,7 @@ export default function Default() {
 
   return (
     <SegmentedControl
+      selectedIndex={selectedIndex}
       accessibilityLabel='File view'
       onChange={handleChange}
     >
@@ -70,6 +74,22 @@ export default function Default() {
     </SegmentedControl>
   );
 }
+```
+
+### With icon
+
+Pass an `icon` from `@ledgerhq/lumen-ui-rnative/symbols` for a left-positioned icon:
+
+```tsx
+import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
+import { Eye, Code } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+<SegmentedControlButton selected={selectedIndex === 0} icon={Eye}>
+  Preview
+</SegmentedControlButton>
+<SegmentedControlButton selected={selectedIndex === 1} icon={Code}>
+  Raw
+</SegmentedControlButton>
 ```
 
   </Tab>

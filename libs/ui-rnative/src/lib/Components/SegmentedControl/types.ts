@@ -1,8 +1,13 @@
-import { ReactNode } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { StyledPressableProps } from '../../../styles';
+import { IconSize } from '../Icon';
 import { BoxProps } from '../Utility';
 
 export type SegmentedControlProps = {
+  /**
+   * The index of the currently selected segment (drives the sliding pill).
+   */
+  selectedIndex: number;
   /**
    * Callback when the selected segment index changes.
    */
@@ -12,10 +17,15 @@ export type SegmentedControlProps = {
    */
   accessibilityLabel?: string;
   /**
-   * Segment buttons (SegmentedControl.Button).
+   * Segment buttons (SegmentedControlButton).
    */
   children: ReactNode;
 } & Omit<BoxProps, 'children'>;
+
+type IconComponent = ComponentType<{
+  size?: IconSize;
+  className?: string;
+}>;
 
 export type SegmentedControlButtonProps = {
   /**
@@ -26,6 +36,10 @@ export type SegmentedControlButtonProps = {
    * Button label (e.g. "Preview", "Raw").
    */
   children: ReactNode;
+  /**
+   * Optional icon shown to the left of the label (from Symbols).
+   */
+  icon?: IconComponent;
   /**
    * @internal Injected by SegmentedControl; do not pass.
    */

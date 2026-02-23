@@ -16,6 +16,7 @@ describe('SegmentedControl', () => {
     const { getByTestId, getByText } = render(
       <TestWrapper>
         <SegmentedControl
+          selectedIndex={0}
           onChange={() => {}}
           accessibilityLabel='File view'
           testID='segmented-control'
