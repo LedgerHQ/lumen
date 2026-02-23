@@ -227,8 +227,10 @@ export const SideBarItem = ({
       {label != null && (
         <span
           className={cn(
-            'truncate transition-all duration-200',
-            collapsed ? 'ml-0 w-0 opacity-0' : 'ml-8 opacity-100',
+            'truncate',
+            collapsed
+              ? 'ml-0 opacity-0'
+              : 'ml-8 opacity-100 transition-opacity delay-150 duration-300',
           )}
         >
           {label}
@@ -245,7 +247,6 @@ export const SideBarItem = ({
       onClick={handleClick}
       className={cn(
         sideBarVariants.item({ active: isActive, disabled }),
-        collapsed && 'w-fit',
         className,
       )}
       aria-current={isActive ? 'page' : undefined}
