@@ -17,11 +17,15 @@ describe('SegmentedControl', () => {
       <TestWrapper>
         <SegmentedControl
           selectedIndex={0}
-          onChange={() => {}}
+          onChange={() => {
+            /* empty */
+          }}
           accessibilityLabel='Transaction type'
         >
           <SegmentedControlButton selected>Send</SegmentedControlButton>
-          <SegmentedControlButton selected={false}>Receive</SegmentedControlButton>
+          <SegmentedControlButton selected={false}>
+            Receive
+          </SegmentedControlButton>
         </SegmentedControl>
       </TestWrapper>,
     );
@@ -39,7 +43,9 @@ describe('SegmentedControl', () => {
           accessibilityLabel='Transaction type'
         >
           <SegmentedControlButton selected>Send</SegmentedControlButton>
-          <SegmentedControlButton selected={false}>Receive</SegmentedControlButton>
+          <SegmentedControlButton selected={false}>
+            Receive
+          </SegmentedControlButton>
         </SegmentedControl>
       </TestWrapper>,
     );
