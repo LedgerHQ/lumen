@@ -32,7 +32,7 @@ export const SubheaderTitle = ({
   return (
     <Component
       className={cn(
-        'min-w-0 truncate heading-4-semi-bold text-base',
+        'min-w-0 truncate heading-4-semi-bold text-base group-hover/row:text-base-hover',
         className,
       )}
       {...props}
@@ -57,7 +57,7 @@ export const SubheaderRow = ({
   return (
     <Component
       className={cn(
-        'flex items-center gap-4',
+        'group/row flex items-center gap-4',
         onClick && 'cursor-pointer',
         className,
       )}
@@ -123,13 +123,16 @@ export const SubheaderShowMore = ({
   ...props
 }: SubheaderShowMoreProps) => {
   return (
-    <InteractiveIcon
-      className={cn('-ml-2', className)}
-      iconType='stroked'
+    <span
+      className={cn(
+        'inline-flex size-fit items-center justify-center rounded-full bg-base-transparent text-muted transition-colors group-hover/row:bg-base-transparent-hover group-hover/row:text-muted-hover',
+        '-ml-2',
+        className,
+      )}
       {...props}
     >
       <ChevronRight size={20} />
-    </InteractiveIcon>
+    </span>
   );
 };
 
