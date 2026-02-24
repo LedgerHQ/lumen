@@ -44,7 +44,7 @@ const DigitStrip = memo(
         style={{ height: lineHeight, overflow: 'hidden' }}
         accessibilityValue={{ text: String(value) }}
       >
-        <Animated.View style={animatedStyle}>
+        <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
           {digits.map((d) => (
             <Text key={d} style={textStyle}>
               {d}
@@ -158,7 +158,7 @@ export const AmountDisplay = ({
     lineHeight: number,
   ) => {
     return items.map((item, index) => {
-      const key = items.length - index;
+      const key = items.length - 1 - index;
       if (item.type === 'separator') {
         return (
           <Text key={key} style={textStyle}>
