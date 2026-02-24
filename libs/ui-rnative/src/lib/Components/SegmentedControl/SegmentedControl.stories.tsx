@@ -15,11 +15,11 @@ const meta = {
     backgrounds: { default: 'light' },
   },
   argTypes: {
-    onChange: {
+    onSelectedChange: {
       action: 'change',
-      description: 'Callback when the selected index changes',
+      description: 'Callback when the selected value changes',
       table: {
-        type: { summary: '(index: number) => void' },
+        type: { summary: '(value: string) => void' },
       },
     },
     accessibilityLabel: {
@@ -29,12 +29,12 @@ const meta = {
         type: { summary: 'string' },
       },
     },
-    selectedIndex: {
-      control: 'number',
+    selectedValue: {
+      control: 'text',
       description:
-        'The currently selected segment index (drives the sliding pill)',
+        'The value of the currently selected segment (drives the sliding pill)',
       table: {
-        type: { summary: 'number' },
+        type: { summary: 'string' },
       },
     },
     children: {
@@ -53,25 +53,20 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: () => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const handleChange = (i: number) => setSelectedIndex(i);
+    const [state, setState] = useState('send');
 
     return (
       <Box lx={{ width: 's256' }}>
         <SegmentedControl
-          selectedIndex={selectedIndex}
+          selectedValue={state}
+          onSelectedChange={setState}
           accessibilityLabel='Transaction type'
-          onChange={handleChange}
         >
-          <SegmentedControlButton selected={selectedIndex === 0}>
-            Send
-          </SegmentedControlButton>
-          <SegmentedControlButton selected={selectedIndex === 1}>
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
             Receive
           </SegmentedControlButton>
-          <SegmentedControlButton selected={selectedIndex === 2}>
-            Buy
-          </SegmentedControlButton>
+          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
         </SegmentedControl>
       </Box>
     );
@@ -81,28 +76,24 @@ export const Base: Story = {
 export const WithIcons: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: () => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const handleChange = (i: number) => setSelectedIndex(i);
+    const [state, setState] = useState('tokens');
 
     return (
       <SegmentedControl
-        selectedIndex={selectedIndex}
+        selectedValue={state}
+        onSelectedChange={setState}
         accessibilityLabel='Asset section'
-        onChange={handleChange}
       >
-        <SegmentedControlButton selected={selectedIndex === 0} icon={Coins}>
+        <SegmentedControlButton value='tokens' icon={Coins}>
           Tokens
         </SegmentedControlButton>
-        <SegmentedControlButton selected={selectedIndex === 1} icon={Nft}>
+        <SegmentedControlButton value='nfts' icon={Nft}>
           NFTs
         </SegmentedControlButton>
-        <SegmentedControlButton
-          selected={selectedIndex === 2}
-          icon={TransferHorizontal}
-        >
+        <SegmentedControlButton value='activity' icon={TransferHorizontal}>
           Activity
         </SegmentedControlButton>
-        <SegmentedControlButton selected={selectedIndex === 3} icon={Settings}>
+        <SegmentedControlButton value='settings' icon={Settings}>
           Settings
         </SegmentedControlButton>
       </SegmentedControl>

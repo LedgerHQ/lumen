@@ -7,55 +7,33 @@ import { Code, Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import React from 'react';
 
 export const SegmentedControls = () => {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleChange = (i: number) => {
-    setSelectedIndex(i);
-  };
-
-  const [selectedIndexWithIcons, setSelectedIndexWithIcons] = React.useState(0);
-  const handleChangeWithIcons = (i: number) => {
-    setSelectedIndexWithIcons(i);
-  };
+  const [state, setState] = React.useState('preview');
+  const [stateWithIcons, setStateWithIcons] = React.useState('preview');
 
   return (
     <Box lx={{ gap: 's24', width: 'full' }}>
       <SegmentedControl
-        selectedIndex={selectedIndex}
+        selectedValue={state}
+        onSelectedChange={setState}
         accessibilityLabel='File view'
-        onChange={handleChange}
       >
-        <SegmentedControlButton selected={selectedIndex === 0}>
-          Preview
-        </SegmentedControlButton>
-        <SegmentedControlButton selected={selectedIndex === 1}>
-          Raw
-        </SegmentedControlButton>
-        <SegmentedControlButton selected={selectedIndex === 2}>
-          Blame
-        </SegmentedControlButton>
+        <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
+        <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
+        <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
       </SegmentedControl>
 
       <SegmentedControl
-        selectedIndex={selectedIndexWithIcons}
+        selectedValue={stateWithIcons}
+        onSelectedChange={setStateWithIcons}
         accessibilityLabel='File view with icons'
-        onChange={handleChangeWithIcons}
       >
-        <SegmentedControlButton
-          selected={selectedIndexWithIcons === 0}
-          icon={Eye}
-        >
+        <SegmentedControlButton value='preview' icon={Eye}>
           Preview
         </SegmentedControlButton>
-        <SegmentedControlButton
-          selected={selectedIndexWithIcons === 1}
-          icon={Code}
-        >
+        <SegmentedControlButton value='raw' icon={Code}>
           Raw
         </SegmentedControlButton>
-        <SegmentedControlButton
-          selected={selectedIndexWithIcons === 2}
-          icon={EyeCross}
-        >
+        <SegmentedControlButton value='blame' icon={EyeCross}>
           Blame
         </SegmentedControlButton>
       </SegmentedControl>

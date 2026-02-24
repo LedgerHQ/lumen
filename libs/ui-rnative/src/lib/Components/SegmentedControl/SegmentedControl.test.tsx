@@ -16,14 +16,14 @@ describe('SegmentedControl', () => {
     const { getByText } = render(
       <TestWrapper>
         <SegmentedControl
-          selectedIndex={0}
-          onChange={() => {
+          selectedValue='send'
+          onSelectedChange={() => {
             /* empty */
           }}
           accessibilityLabel='Transaction type'
         >
-          <SegmentedControlButton selected>Send</SegmentedControlButton>
-          <SegmentedControlButton selected={false}>
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
             Receive
           </SegmentedControlButton>
         </SegmentedControl>
@@ -33,17 +33,17 @@ describe('SegmentedControl', () => {
     expect(getByText('Receive')).toBeTruthy();
   });
 
-  it('calls onChange with segment index when a segment is pressed', () => {
-    const onChange = jest.fn();
+  it('calls onSelectedChange with segment value when a segment is pressed', () => {
+    const onSelectedChange = jest.fn();
     const { getByText } = render(
       <TestWrapper>
         <SegmentedControl
-          selectedIndex={0}
-          onChange={onChange}
+          selectedValue='send'
+          onSelectedChange={onSelectedChange}
           accessibilityLabel='Transaction type'
         >
-          <SegmentedControlButton selected>Send</SegmentedControlButton>
-          <SegmentedControlButton selected={false}>
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
             Receive
           </SegmentedControlButton>
         </SegmentedControl>
@@ -52,6 +52,6 @@ describe('SegmentedControl', () => {
 
     fireEvent.press(getByText('Receive'));
 
-    expect(onChange).toHaveBeenCalledWith(1);
+    expect(onSelectedChange).toHaveBeenCalledWith('receive');
   });
 });

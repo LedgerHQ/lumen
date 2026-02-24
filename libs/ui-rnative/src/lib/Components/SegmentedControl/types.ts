@@ -5,19 +5,19 @@ import { BoxProps } from '../Utility';
 
 export type SegmentedControlProps = {
   /**
-   * The index of the currently selected segment (drives the sliding pill).
+   * The value of the currently selected segment (drives the sliding pill).
    */
-  selectedIndex: number;
+  selectedValue: string;
   /**
-   * Callback when the selected segment index changes.
+   * Callback when the selected segment value changes.
    */
-  onChange: (index: number) => void;
+  onSelectedChange: (value: string) => void;
   /**
    * Accessible label for the control (e.g. "File view").
    */
   accessibilityLabel?: string;
   /**
-   * Segment buttons (SegmentedControlButton).
+   * Segment buttons (SegmentedControlButton). Can be wrapped (e.g. in Tooltip).
    */
   children: ReactNode;
 } & Omit<BoxProps, 'children'>;
@@ -28,9 +28,9 @@ type IconComponent = ComponentType<{
 
 export type SegmentedControlButtonProps = {
   /**
-   * Whether this segment is selected.
+   * Value for this segment (must be unique among siblings).
    */
-  selected: boolean;
+  value: string;
   /**
    * Button label (e.g. "Preview", "Raw").
    */
@@ -40,11 +40,7 @@ export type SegmentedControlButtonProps = {
    */
   icon?: IconComponent;
   /**
-   * @internal Injected by SegmentedControl; do not pass.
-   */
-  index?: number;
-  /**
-   * Optional callback when the button is pressed (in addition to onChange on the parent).
+   * Optional callback when the button is pressed (in addition to onSelectedChange on the parent).
    */
   onPress?: () => void;
 } & Omit<StyledPressableProps, 'children'>;

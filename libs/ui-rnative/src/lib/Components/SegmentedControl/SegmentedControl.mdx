@@ -55,7 +55,7 @@ Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide â†
 
 ## SegmentedControlButton
 
-Use as a direct child of SegmentedControl. Required: selected (boolean) and children (label). Optional: icon (component from symbols), onPress (runs in addition to parent onChange).
+Use as a direct child of SegmentedControl (or inside wrappers such as Tooltip). Required: value (string) and children (label). Optional: icon (component from symbols), onPress (runs in addition to parent onSelectedChange).
 
 <div className='my-24 overflow-hidden rounded-lg'>
   <table className='w-full'>
@@ -68,9 +68,9 @@ Use as a direct child of SegmentedControl. Required: selected (boolean) and chil
     </thead>
     <tbody className='bg-canvas'>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>selected</td>
-        <td className='p-12 text-muted'>boolean</td>
-        <td className='p-12 text-muted'>Whether this segment is selected (e.g. selectedIndex === index)</td>
+        <td className='text-accent p-12'>value</td>
+        <td className='p-12 text-muted'>string</td>
+        <td className='p-12 text-muted'>Unique value for this segment (e.g. "send", "receive")</td>
       </tr>
       <tr className='border-b border-muted'>
         <td className='text-accent p-12'>children</td>
@@ -85,7 +85,7 @@ Use as a direct child of SegmentedControl. Required: selected (boolean) and chil
       <tr>
         <td className='text-accent p-12'>onPress</td>
         <td className='p-12 text-muted'>() =&gt; void</td>
-        <td className='p-12 text-muted'>Optional callback when the button is pressed (in addition to parent onChange)</td>
+        <td className='p-12 text-muted'>Optional callback when the button is pressed (in addition to parent onSelectedChange)</td>
       </tr>
     </tbody>
   </table>
@@ -93,31 +93,24 @@ Use as a direct child of SegmentedControl. Required: selected (boolean) and chil
 
 ## Basic Usage
 
-Control selectedIndex in state and pass it to SegmentedControl so the sliding pill animates correctly. Pass selected to each SegmentedControlButton.
+Control selected value in state at the top level and pass it to SegmentedControl. Buttons use value to identify themselves; selected state is derived from context.
 
 ```tsx
 import React from 'react';
 import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
 
 export default function Example() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleChange = (i: number) => setSelectedIndex(i);
+  const [state, setState] = React.useState('send');
 
   return (
     <SegmentedControl
-      selectedIndex={selectedIndex}
+      selectedValue={state}
+      onSelectedChange={setState}
       accessibilityLabel='Transaction type'
-      onChange={handleChange}
     >
-      <SegmentedControlButton selected={selectedIndex === 0}>
-        Send
-      </SegmentedControlButton>
-      <SegmentedControlButton selected={selectedIndex === 1}>
-        Receive
-      </SegmentedControlButton>
-      <SegmentedControlButton selected={selectedIndex === 2}>
-        Buy
-      </SegmentedControlButton>
+      <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+      <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+      <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
     </SegmentedControl>
   );
 }
@@ -132,23 +125,23 @@ import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rna
 import { Coins, Nft, TransferHorizontal, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function Example() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [state, setState] = React.useState('tokens');
   return (
     <SegmentedControl
-      selectedIndex={selectedIndex}
+      selectedValue={state}
+      onSelectedChange={setState}
       accessibilityLabel='Asset section'
-      onChange={(i) => setSelectedIndex(i)}
     >
-      <SegmentedControlButton selected={selectedIndex === 0} icon={Coins}>
+      <SegmentedControlButton value='tokens' icon={Coins}>
         Tokens
       </SegmentedControlButton>
-      <SegmentedControlButton selected={selectedIndex === 1} icon={Nft}>
+      <SegmentedControlButton value='nfts' icon={Nft}>
         NFTs
       </SegmentedControlButton>
-      <SegmentedControlButton selected={selectedIndex === 2} icon={TransferHorizontal}>
+      <SegmentedControlButton value='activity' icon={TransferHorizontal}>
         Activity
       </SegmentedControlButton>
-      <SegmentedControlButton selected={selectedIndex === 3} icon={Settings}>
+      <SegmentedControlButton value='settings' icon={Settings}>
         Settings
       </SegmentedControlButton>
     </SegmentedControl>

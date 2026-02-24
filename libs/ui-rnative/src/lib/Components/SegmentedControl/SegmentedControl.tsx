@@ -1,19 +1,17 @@
-import React, {
-  isValidElement,
-  cloneElement,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
+import { durations, easingCurves } from '../../Animations/constants';
 import { Box, Pressable, Text } from '../Utility';
+import {
+  SegmentedControlContextProvider,
+  useSegmentedControlContext,
+} from './SegmentedControlContext';
 import type {
   SegmentedControlButtonProps,
   SegmentedControlProps,
@@ -22,18 +20,25 @@ import type {
 const ICON_SIZE = 16;
 
 export function SegmentedControlButton({
-  selected,
+  value,
   children,
   icon: Icon,
-  index: _index = 0,
   onPress,
   ...props
 }: SegmentedControlButtonProps) {
   const styles = useButtonStyles();
+  const { selectedValue, onSelectedChange } = useSegmentedControlContext();
+
+  const selected = selectedValue === value;
+
+  function handlePress() {
+    onSelectedChange(value);
+    onPress?.();
+  }
 
   return (
     <Pressable
-      onPress={onPress}
+      onPress={handlePress}
       accessibilityState={{ selected }}
       style={styles.button}
       {...props}
@@ -91,8 +96,8 @@ function useButtonStyles() {
 }
 
 export function SegmentedControl({
-  selectedIndex,
-  onChange,
+  selectedValue,
+  onSelectedChange,
   accessibilityLabel,
   children,
   ...props
@@ -103,51 +108,42 @@ export function SegmentedControl({
   const pillHeight = useSharedValue(0);
   const hasLayoutRef = useRef(false);
 
-  const count = React.Children.count(children);
-
-  const onLayout = useCallback(
-    (e: LayoutChangeEvent) => {
-      const { width, height } = e.nativeEvent.layout;
-      if (count <= 0) return;
-      const slotWidth = width / count;
-      pillWidth.value = slotWidth;
-      pillHeight.value = height;
-      if (!hasLayoutRef.current) {
-        hasLayoutRef.current = true;
-        pillTranslateX.value = selectedIndex * slotWidth;
+  const getSelectedIndex = useCallback((): number => {
+    return React.Children.toArray(children).findIndex((child) => {
+      if (React.isValidElement(child) && child.props != null) {
+        return (child.props as { value?: string }).value === selectedValue;
       }
-    },
-    [count, selectedIndex, pillWidth, pillHeight, pillTranslateX],
-  );
+      return false;
+    });
+  }, [selectedValue, children]);
+
+  function onLayout(e: LayoutChangeEvent) {
+    const { width, height } = e.nativeEvent.layout;
+    const count = React.Children.count(children);
+    const slotWidth = count > 0 ? width / count : 0;
+
+    pillWidth.value = slotWidth;
+    pillHeight.value = height;
+
+    if (!hasLayoutRef.current) {
+      hasLayoutRef.current = true;
+      const index = getSelectedIndex();
+      if (index >= 0) {
+        pillTranslateX.value = index * slotWidth;
+      }
+    }
+  }
 
   useEffect(() => {
-    if (!hasLayoutRef.current || pillWidth.value <= 0) return;
-    pillTranslateX.value = withTiming(selectedIndex * pillWidth.value, {
-      duration: 250,
-      easing: Easing.bezier(0.4, 0, 0.2, 1),
-    });
-  }, [selectedIndex, pillTranslateX, pillWidth]);
-
-  const childrenWithInjections = React.Children.map(
-    children,
-    (child, index) => {
-      if (isValidElement(child) && child.type === SegmentedControlButton) {
-        const existingOnPress = (child.props as SegmentedControlButtonProps)
-          .onPress;
-        return cloneElement(
-          child as React.ReactElement<SegmentedControlButtonProps>,
-          {
-            index,
-            onPress: () => {
-              onChange(index);
-              existingOnPress?.();
-            },
-          },
-        );
-      }
-      return child;
-    },
-  );
+    if (!hasLayoutRef.current) return;
+    const index = getSelectedIndex();
+    if (index >= 0 && pillWidth.value > 0) {
+      pillTranslateX.value = withTiming(index * pillWidth.value, {
+        duration: durations['250'],
+        easing: easingCurves.bezier.default,
+      });
+    }
+  }, [pillWidth, pillTranslateX, getSelectedIndex]);
 
   const animatedPillStyle = useAnimatedStyle(
     () => ({
@@ -159,19 +155,23 @@ export function SegmentedControl({
   );
 
   return (
-    <Box
-      accessibilityRole='radiogroup'
-      accessibilityLabel={accessibilityLabel}
-      onLayout={onLayout}
-      style={styles.container}
-      {...props}
+    <SegmentedControlContextProvider
+      value={{ selectedValue, onSelectedChange }}
     >
-      {childrenWithInjections}
-      <Animated.View
-        style={[styles.pill, animatedPillStyle]}
-        pointerEvents='none'
-      />
-    </Box>
+      <Box
+        accessibilityRole='radiogroup'
+        accessibilityLabel={accessibilityLabel}
+        onLayout={onLayout}
+        style={styles.container}
+        {...props}
+      >
+        {children}
+        <Animated.View
+          style={[styles.pill, animatedPillStyle]}
+          pointerEvents='none'
+        />
+      </Box>
+    </SegmentedControlContextProvider>
   );
 }
 
