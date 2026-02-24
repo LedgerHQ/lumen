@@ -27,7 +27,7 @@ const sideBarVariants = {
     {
       variants: {
         collapsed: {
-          true: 'w-72',
+          true: 'w-[76px]',
           false: 'w-208',
         },
       },
@@ -223,8 +223,12 @@ export const SideBarItem = ({
 
   const content = (
     <>
-      <IconComponent size={16} className='shrink-0' />
-      {label != null && <span className='ml-8 truncate'>{label}</span>}
+      <IconComponent size={20} className='shrink-0' />
+      {label != null && (
+        <span className='translate-x-8 overflow-hidden whitespace-nowrap'>
+          {label}
+        </span>
+      )}
     </>
   );
 
