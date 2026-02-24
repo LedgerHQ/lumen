@@ -168,7 +168,7 @@ export const SubheaderShowMore = ({
 
   return (
     <Box lx={lx} style={[styles.container, style]} {...props}>
-      <ChevronRight size={16} style={styles.icon} />
+      <ChevronRight size={20} style={styles.icon} />
     </Box>
   );
 };
