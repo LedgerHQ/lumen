@@ -142,7 +142,7 @@ export const AnimationShowcase: Story = {
     useEffect(() => {
       const interval = setInterval(() => {
         setCurrentValue((prev) => {
-          const delta = prev * (Math.random() * 0.2 - 0.1);
+          const delta = prev * (Math.random() * 0.02 - 0.01);
           return Math.round((prev + delta) * 100) / 100;
         });
       }, 2000);
