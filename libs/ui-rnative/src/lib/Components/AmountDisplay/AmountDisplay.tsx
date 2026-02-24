@@ -158,7 +158,7 @@ export const AmountDisplay = ({
     lineHeight: number,
   ) => {
     return items.map((item, index) => {
-      const key = items.length - 1 - index;
+      const key = items.length - index;
       if (item.type === 'separator') {
         return (
           <Text key={key} style={textStyle}>
