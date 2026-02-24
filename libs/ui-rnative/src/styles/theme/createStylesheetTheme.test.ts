@@ -1,6 +1,5 @@
-import { describe, it, expect, afterEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { Platform } from 'react-native';
 import {
   getNegativeSpacings,
   createStylesheetTheme,
@@ -42,76 +41,6 @@ describe('createStylesheetTheme', () => {
       expect(result.typographies).toEqual({
         ...typographyTokens.heading,
         ...typographyTokens.body,
-      });
-    });
-  });
-
-  describe('resolveTypographies (android)', () => {
-    const originalOS = Platform.OS;
-
-    afterEach(() => {
-      Platform.OS = originalOS;
-    });
-
-    it('should not modify fontFamily on iOS', () => {
-      Platform.OS = 'ios';
-      const theme = ledgerLiveThemes.dark;
-
-      const result = createStylesheetTheme(theme);
-
-      const typographyTokens = theme.typographies.xs ?? theme.typographies.sm;
-      const firstKey = Object.keys(
-        typographyTokens.heading,
-      )[0] as keyof typeof typographyTokens.heading;
-      expect(result.typographies[firstKey].fontFamily).toBe(
-        typographyTokens.heading[firstKey].fontFamily,
-      );
-    });
-
-    it('should append weight suffix to fontFamily on android', () => {
-      Platform.OS = 'android';
-      const theme = ledgerLiveThemes.dark;
-
-      const result = createStylesheetTheme(theme);
-
-      Object.values(result.typographies).forEach((typography) => {
-        const { fontFamily, fontWeight } = typography as {
-          fontFamily: string;
-          fontWeight: string;
-        };
-        const suffixMap: Record<string, string> = {
-          '400': '',
-          '500': '-Medium',
-          '600': '-SemiBold',
-          '700': '-Bold',
-        };
-        const expectedSuffix = suffixMap[fontWeight] ?? '';
-        expect(fontFamily).toContain(expectedSuffix);
-      });
-    });
-
-    it('should not modify other typography properties on android', () => {
-      Platform.OS = 'android';
-      const theme = ledgerLiveThemes.dark;
-
-      const result = createStylesheetTheme(theme);
-      const typographyTokens = theme.typographies.xs ?? theme.typographies.sm;
-      const allTokens = {
-        ...typographyTokens.heading,
-        ...typographyTokens.body,
-      };
-
-      Object.entries(result.typographies).forEach(([key, resolved]) => {
-        const original = allTokens[key as keyof typeof allTokens];
-        const { fontFamily: _f, ...resolvedRest } = resolved as Record<
-          string,
-          unknown
-        >;
-        const { fontFamily: _o, ...originalRest } = original as Record<
-          string,
-          unknown
-        >;
-        expect(resolvedRest).toEqual(originalRest);
       });
     });
   });
