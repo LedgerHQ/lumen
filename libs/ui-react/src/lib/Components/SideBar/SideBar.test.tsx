@@ -187,7 +187,7 @@ describe('SideBar Component', () => {
       );
 
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('w-72');
+      expect(navElement).toHaveClass('w-[76px]');
     });
 
     it('should toggle collapsed state when collapse button is clicked', () => {
@@ -213,7 +213,7 @@ describe('SideBar Component', () => {
       const collapseButton = screen.getByTestId('sidebar-collapse');
       fireEvent.click(collapseButton);
 
-      expect(navElement).toHaveClass('w-72');
+      expect(navElement).toHaveClass('w-[76px]');
     });
 
     it('should call onCollapsedChange when state changes', () => {
@@ -270,7 +270,7 @@ describe('SideBar Component', () => {
         </SideBar>,
       );
 
-      expect(navElement).toHaveClass('w-72');
+      expect(navElement).toHaveClass('w-[76px]');
     });
   });
 
