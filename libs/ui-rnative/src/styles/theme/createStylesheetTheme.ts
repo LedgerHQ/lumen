@@ -1,9 +1,7 @@
+import { Platform } from 'react-native';
 import { LumenStyleSheetTheme, LumenTheme } from '../types';
 import { AddEntriesNegative } from '../types/utility.types';
 
-/**
- *
- */
 export const getNegativeSpacings = <
   Input extends LumenTheme['spacings'],
   Output = AddEntriesNegative<Input>,
@@ -13,6 +11,28 @@ export const getNegativeSpacings = <
   return Object.fromEntries(
     Object.entries(spacings).map(([key, value]) => [`-${key}`, value * -1]),
   ) as Output;
+};
+
+const ANDROID_FONT_WEIGHT_SUFFIX: Record<string, string> = {
+  '400': '',
+  '500': '-Medium',
+  '600': '-SemiBold',
+  '700': '-Bold',
+};
+
+const resolveTypographies = <
+  T extends Record<string, { fontFamily: string; fontWeight: string }>,
+>(
+  typographies: T,
+): T => {
+  if (Platform.OS !== 'android') return typographies;
+
+  return Object.fromEntries(
+    Object.entries(typographies).map(([key, value]) => {
+      const suffix = ANDROID_FONT_WEIGHT_SUFFIX[value.fontWeight] ?? '';
+      return [key, { ...value, fontFamily: `${value.fontFamily}${suffix}` }];
+    }),
+  ) as T;
 };
 
 /**
@@ -32,9 +52,9 @@ export const createStylesheetTheme = (
       ...theme?.spacings,
       ...getNegativeSpacings(theme?.spacings),
     },
-    typographies: {
+    typographies: resolveTypographies({
       ...theme.typographies.xs.heading,
       ...theme.typographies.xs.body,
-    },
+    }),
   };
 };
