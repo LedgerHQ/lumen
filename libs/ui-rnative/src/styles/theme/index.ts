@@ -1,4 +1,1 @@
-export {
-  createStylesheetTheme,
-  getNegativeSpacings,
-} from './createStylesheetTheme';
+export { createStylesheetTheme } from './createStylesheetTheme';

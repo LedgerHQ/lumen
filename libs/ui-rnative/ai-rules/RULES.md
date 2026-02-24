@@ -82,7 +82,9 @@ Below is a complete list of all available Lumen React Native components. Click a
 
 ## React Native Style System
 
-Lumen React Native uses a custom style system called `lx` that provides type-safe access to design tokens. Explore the style system documentation:
+Lumen React Native uses a custom style system called `lx` that provides type-safe access to design tokens. 
+
+Explore the complete theme reference:
 
 - [Colors](https://ldls.vercel.app/?path=/docs/style-system-theme-colors--docs) - Semantic color tokens for background, text, and borders
 - [Spacings](https://ldls.vercel.app/?path=/docs/style-system-theme-spacings--docs) - Spacing scale for padding, margin, and gaps
@@ -93,22 +95,12 @@ Lumen React Native uses a custom style system called `lx` that provides type-saf
 
 ### Style System Usage
 
-```tsx
-import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
 
-// Using lx prop for type-safe styling
-<Box
-  lx={{
-    backgroundColor: 'base',
-    padding: 16,
-    borderRadius: 'md',
-    borderWidth: 1,
-    borderColor: 'muted',
-  }}
->
-  <Text lx={{ color: 'base', fontSize: 'body-2' }}>Styled with design tokens</Text>
-</Box>;
-```
+- [Style System](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-style-system--docs) - high level guidelines
+- [useTheme](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-usetheme--docs) - useTheme hook
+- [useStyleSheet](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-usestylesheet--docs) - useStyleSheet
+- [lx property](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-lx--docs) - lx property
+
 
 ---
 

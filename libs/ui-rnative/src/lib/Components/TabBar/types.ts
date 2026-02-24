@@ -1,4 +1,5 @@
 import { ComponentType, ReactNode } from 'react';
+import { StyledViewProps } from '../../../styles';
 import { IconSize } from '../Icon';
 import { BoxProps } from '../Utility';
 
@@ -25,7 +26,7 @@ export type TabBarItemProps = {
    * If not provided, the inactive icon will be used.
    */
   activeIcon?: IconComponent;
-};
+} & Omit<StyledViewProps, 'children'>;
 
 export type TabBarProps = {
   /**
