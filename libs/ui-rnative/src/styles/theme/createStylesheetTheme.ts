@@ -1,48 +1,6 @@
-import { Platform } from 'react-native';
-import {
-  LumenStyleSheetTheme,
-  LumenTheme,
-  LumenTypographyTokens,
-} from '../types';
-import { AddEntriesNegative } from '../types/utility.types';
-
-export const resolveNegativeSpacing = <
-  Input extends LumenTheme['spacings'],
-  Output = AddEntriesNegative<Input>,
->(
-  spacings: Input = {} as Input,
-): Output => {
-  return Object.fromEntries(
-    Object.entries(spacings).map(([key, value]) => [`-${key}`, value * -1]),
-  ) as Output;
-};
-
-const FONT_WEIGHT_RN_SYNTAX_MAP = {
-  '400': '',
-  '500': '-Medium',
-  '600': '-SemiBold',
-  '700': '-Bold',
-};
-
-const resolveTypographies = (typographies: LumenTypographyTokens) => {
-  if (Platform.OS !== 'android') {
-    return typographies;
-  }
-
-  return Object.fromEntries(
-    Object.entries(typographies).map(([key, value]) => {
-      const reactNativeFontWeight =
-        FONT_WEIGHT_RN_SYNTAX_MAP[
-          value.fontWeight as keyof typeof FONT_WEIGHT_RN_SYNTAX_MAP
-        ];
-
-      return [
-        key,
-        { ...value, fontFamily: `${value.fontFamily}${reactNativeFontWeight}` },
-      ];
-    }),
-  ) as LumenTypographyTokens;
-};
+import { LumenStyleSheetTheme, LumenTheme } from '../types';
+import { resolveFontWeights } from './resolvers/resolveFontWeights';
+import { resolveNegativeSpacing } from './resolvers/resolveNegativeSpacing';
 
 /**
  * The theme object from design-core is not directly compatible with React Native's StyleSheet.
@@ -57,11 +15,8 @@ export const createStylesheetTheme = (
 ): LumenStyleSheetTheme => {
   return {
     ...theme,
-    spacings: {
-      ...theme?.spacings,
-      ...resolveNegativeSpacing(theme?.spacings),
-    },
-    typographies: resolveTypographies({
+    spacings: resolveNegativeSpacing(theme?.spacings),
+    typographies: resolveFontWeights({
       ...theme.typographies.xs.heading,
       ...theme.typographies.xs.body,
     }),
