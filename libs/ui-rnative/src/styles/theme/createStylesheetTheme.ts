@@ -1,8 +1,12 @@
 import { Platform } from 'react-native';
-import { LumenStyleSheetTheme, LumenTheme } from '../types';
+import {
+  LumenStyleSheetTheme,
+  LumenTheme,
+  LumenTypographyTokens,
+} from '../types';
 import { AddEntriesNegative } from '../types/utility.types';
 
-export const getNegativeSpacings = <
+export const resolveNegativeSpacing = <
   Input extends LumenTheme['spacings'],
   Output = AddEntriesNegative<Input>,
 >(
@@ -13,26 +17,31 @@ export const getNegativeSpacings = <
   ) as Output;
 };
 
-const ANDROID_FONT_WEIGHT_SUFFIX: Record<string, string> = {
+const FONT_WEIGHT_RN_SYNTAX_MAP = {
   '400': '',
   '500': '-Medium',
   '600': '-SemiBold',
   '700': '-Bold',
 };
 
-const resolveTypographies = <
-  T extends Record<string, { fontFamily: string; fontWeight: string }>,
->(
-  typographies: T,
-): T => {
-  if (Platform.OS !== 'android') return typographies;
+const resolveTypographies = (typographies: LumenTypographyTokens) => {
+  if (Platform.OS !== 'android') {
+    return typographies;
+  }
 
   return Object.fromEntries(
     Object.entries(typographies).map(([key, value]) => {
-      const suffix = ANDROID_FONT_WEIGHT_SUFFIX[value.fontWeight] ?? '';
-      return [key, { ...value, fontFamily: `${value.fontFamily}${suffix}` }];
+      const reactNativeFontWeight =
+        FONT_WEIGHT_RN_SYNTAX_MAP[
+          value.fontWeight as keyof typeof FONT_WEIGHT_RN_SYNTAX_MAP
+        ];
+
+      return [
+        key,
+        { ...value, fontFamily: `${value.fontFamily}${reactNativeFontWeight}` },
+      ];
     }),
-  ) as T;
+  ) as LumenTypographyTokens;
 };
 
 /**
@@ -50,7 +59,7 @@ export const createStylesheetTheme = (
     ...theme,
     spacings: {
       ...theme?.spacings,
-      ...getNegativeSpacings(theme?.spacings),
+      ...resolveNegativeSpacing(theme?.spacings),
     },
     typographies: resolveTypographies({
       ...theme.typographies.xs.heading,

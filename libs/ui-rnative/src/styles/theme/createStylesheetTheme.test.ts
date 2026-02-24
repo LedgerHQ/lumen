@@ -2,12 +2,12 @@ import { describe, it, expect, afterEach } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { Platform } from 'react-native';
 import {
-  getNegativeSpacings,
+  resolveNegativeSpacing,
   createStylesheetTheme,
 } from './createStylesheetTheme';
 
 describe('createStylesheetTheme', () => {
-  describe('getNegativeSpacings', () => {
+  describe('resolveNegativeSpacing', () => {
     it('should create negative entries for each spacing', () => {
       const spacings = {
         s4: 4,
@@ -15,7 +15,7 @@ describe('createStylesheetTheme', () => {
         s16: 16,
       } as typeof ledgerLiveThemes.dark.spacings;
 
-      const result = getNegativeSpacings(spacings);
+      const result = resolveNegativeSpacing(spacings);
 
       expect(result['-s4']).toBe(-4);
       expect(result['-s8']).toBe(-8);
