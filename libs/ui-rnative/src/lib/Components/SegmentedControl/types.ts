@@ -24,7 +24,6 @@ export type SegmentedControlProps = {
 
 type IconComponent = ComponentType<{
   size?: IconSize;
-  className?: string;
 }>;
 
 export type SegmentedControlButtonProps = {
