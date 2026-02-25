@@ -6,6 +6,7 @@ export type { FormattedValue, SplitChar };
 export type DigitStripProps = {
   value: number;
   animate: boolean;
+  type: 'integer' | 'decimal';
 };
 
 /**
