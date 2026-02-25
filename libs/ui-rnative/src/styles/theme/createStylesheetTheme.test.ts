@@ -15,7 +15,7 @@ describe('createStylesheetTheme', () => {
     });
 
     it('should flatten heading/body typography tokens', () => {
-      jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+      jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
       const theme = ledgerLiveThemes.dark;
 
       const result = createStylesheetTheme(theme);

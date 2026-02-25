@@ -124,7 +124,7 @@ export type TableCellContentProps = {
    * The description of the cell
    */
   description?: ReactNode;
-} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children' | 'title'>;
 
 export type TableHeaderRowProps = {
   /**
