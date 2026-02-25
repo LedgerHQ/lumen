@@ -9,6 +9,7 @@ export type DigitStripProps = {
   animate: boolean;
   lineHeight: number;
   textStyle: TextStyle;
+  type: 'integer' | 'decimal';
 };
 
 /**

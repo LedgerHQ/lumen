@@ -13,24 +13,56 @@ import { Pulse } from '../../Animations/Pulse';
 import { Box } from '../Utility';
 import { AmountDisplayProps, DigitStripProps, SplitChar } from './types';
 
-const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const timingConfig = {
+const INTEGER_DIGIT_WIDTHS = {
+  0: 24.5,
+  1: 15,
+  2: 23,
+  3: 23.5,
+  4: 24.7,
+  5: 22.6,
+  6: 23.6,
+  7: 21.1,
+  8: 23.7,
+  9: 23.6,
+};
+
+const DECIMAL_DIGIT_WIDTHS = {
+  0: 17,
+  1: 10.5,
+  2: 16,
+  3: 16.5,
+  4: 17.2,
+  5: 15.7,
+  6: 16.5,
+  7: 14.7,
+  8: 16.5,
+  9: 16.5,
+};
+
+const TIMING_CONFIG = {
   duration: 600,
   easing: Easing.inOut(Easing.ease),
 };
 
 const DigitStrip = memo(
-  ({ value, lineHeight, textStyle, animate }: DigitStripProps) => {
+  ({ value, lineHeight, textStyle, animate, type }: DigitStripProps) => {
+    const targetWidth = (
+      type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
+    )[value as keyof typeof INTEGER_DIGIT_WIDTHS];
     const translateY = useSharedValue(-value * lineHeight);
+    const width = useSharedValue<number>(targetWidth);
 
     useEffect(() => {
       if (animate) {
-        translateY.value = withTiming(-value * lineHeight, timingConfig);
+        translateY.value = withTiming(-value * lineHeight, TIMING_CONFIG);
+        width.value = withTiming(targetWidth, TIMING_CONFIG);
       } else {
         translateY.value = -value * lineHeight;
+        width.value = targetWidth;
       }
-    }, [value, lineHeight, translateY, animate]);
+    }, [value, lineHeight, translateY, animate, width, targetWidth]);
 
     const animatedStyle = useAnimatedStyle(
       () => ({
@@ -40,18 +72,18 @@ const DigitStrip = memo(
     );
 
     return (
-      <View
-        style={{ height: lineHeight, overflow: 'hidden' }}
+      <Animated.View
+        style={{ height: lineHeight, overflow: 'hidden', width: width }}
         accessibilityValue={{ text: String(value) }}
       >
         <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
-          {digits.map((d) => (
+          {DIGITS.map((d) => (
             <Text key={d} style={textStyle}>
               {d}
             </Text>
           ))}
         </Animated.View>
-      </View>
+      </Animated.View>
     );
   },
 );
@@ -156,6 +188,7 @@ export const AmountDisplay = ({
     items: SplitChar[],
     textStyle: TextStyle,
     lineHeight: number,
+    type: 'integer' | 'decimal',
   ) => {
     return items.map((item, index) => {
       const key = items.length - index;
@@ -173,6 +206,7 @@ export const AmountDisplay = ({
           animate={animate}
           lineHeight={lineHeight}
           textStyle={textStyle}
+          type={type}
         />
       );
     });
@@ -203,6 +237,7 @@ export const AmountDisplay = ({
                 splitDigits.integerPart,
                 styles.integerText,
                 integerLineHeight,
+                'integer',
               )
             )}
           </View>
@@ -216,6 +251,7 @@ export const AmountDisplay = ({
                 splitDigits.decimalPart,
                 styles.decimalText,
                 decimalLineHeight,
+                'decimal',
               )}
             {parts.currencyPosition === 'end' && (
               <Text style={[styles.currencyEndText, styles.spacingEnd]}>
