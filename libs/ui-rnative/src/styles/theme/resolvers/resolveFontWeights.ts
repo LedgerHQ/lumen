@@ -14,7 +14,7 @@ export const FONT_WEIGHT_SUFFIX_MAP = {
 };
 
 export const resolveFontWeights = (typographies: LumenTypographyTokens) => {
-  if (RuntimeConstants.isAndroid || RuntimeConstants.isBrowser) {
+  if (RuntimeConstants.isIOS || RuntimeConstants.isBrowser) {
     return typographies;
   }
 

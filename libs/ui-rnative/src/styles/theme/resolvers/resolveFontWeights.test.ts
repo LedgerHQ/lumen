@@ -9,8 +9,9 @@ describe('resolveTypographies', () => {
     jest.restoreAllMocks();
   });
 
-  it('should not modify fontFamily on android', () => {
-    jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+  it('should not modify fontFamily on iOS', () => {
+    jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
+    jest.spyOn(RuntimeConstants, 'isBrowser', 'get').mockReturnValue(false);
     const theme = ledgerLiveThemes.dark;
 
     const result = createStylesheetTheme(theme);
@@ -24,8 +25,9 @@ describe('resolveTypographies', () => {
     );
   });
 
-  it('should append weight suffix to fontFamily on non-android', () => {
-    jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(false);
+  it('should append weight suffix to fontFamily on Android', () => {
+    jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(false);
+    jest.spyOn(RuntimeConstants, 'isBrowser', 'get').mockReturnValue(false);
     const theme = ledgerLiveThemes.dark;
 
     const result = createStylesheetTheme(theme);
@@ -44,8 +46,9 @@ describe('resolveTypographies', () => {
     });
   });
 
-  it('should not modify other typography properties on non-android', () => {
-    jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(false);
+  it('should not modify other typography properties on Android', () => {
+    jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(false);
+    jest.spyOn(RuntimeConstants, 'isBrowser', 'get').mockReturnValue(false);
     const theme = ledgerLiveThemes.dark;
 
     const result = createStylesheetTheme(theme);
