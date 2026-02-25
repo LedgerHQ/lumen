@@ -1,19 +1,6 @@
 import { LumenStyleSheetTheme, LumenTheme } from '../types';
-import { AddEntriesNegative } from '../types/utility.types';
-
-/**
- *
- */
-export const getNegativeSpacings = <
-  Input extends LumenTheme['spacings'],
-  Output = AddEntriesNegative<Input>,
->(
-  spacings: Input = {} as Input,
-): Output => {
-  return Object.fromEntries(
-    Object.entries(spacings).map(([key, value]) => [`-${key}`, value * -1]),
-  ) as Output;
-};
+import { resolveFontWeights } from './resolvers/resolveFontWeights';
+import { resolveNegativeSpacing } from './resolvers/resolveNegativeSpacing';
 
 /**
  * The theme object from design-core is not directly compatible with React Native's StyleSheet.
@@ -28,13 +15,10 @@ export const createStylesheetTheme = (
 ): LumenStyleSheetTheme => {
   return {
     ...theme,
-    spacings: {
-      ...theme?.spacings,
-      ...getNegativeSpacings(theme?.spacings),
-    },
-    typographies: {
+    spacings: resolveNegativeSpacing(theme?.spacings),
+    typographies: resolveFontWeights({
       ...theme.typographies.xs.heading,
       ...theme.typographies.xs.body,
-    },
+    }),
   };
 };

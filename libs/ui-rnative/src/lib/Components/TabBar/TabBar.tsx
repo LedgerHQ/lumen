@@ -30,6 +30,8 @@ export function TabBarItem({
   label,
   icon,
   activeIcon,
+  style,
+  ...props
 }: TabBarItemProps) {
   const styles = useStyles();
   const { active, onTabPress } = useTabBarContext();
@@ -97,13 +99,14 @@ export function TabBarItem({
 
   return (
     <Pressable
-      style={styles.item}
+      style={StyleSheet.flatten([styles.item, style])}
       onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
       accessibilityRole='tab'
       accessibilityLabel={label ?? value}
       accessibilityState={{ selected: isActive }}
+      {...props}
     >
       <Animated.View style={scaleStyle}>
         <Box style={styles.itemIconContainer}>
