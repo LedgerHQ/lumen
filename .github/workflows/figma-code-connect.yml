@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'libs/ui-react/src/lib/Components/**/*.figma.tsx'
-      - 'libs/ui-rnative/src/lib/Components/**/*.figma.tsx'
 
 permissions:
   contents: read
