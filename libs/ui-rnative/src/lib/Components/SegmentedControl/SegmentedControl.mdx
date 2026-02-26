@@ -1,0 +1,159 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SegmentedControlStories from './SegmentedControl.stories';
+import { SegmentedControl } from './SegmentedControl';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Box } from '../Utility';
+
+<Meta title='Navigation/SegmentedControl' of={SegmentedControlStories} />
+
+# 📑 SegmentedControl
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+SegmentedControl is a tab bar–style component for switching between mutually exclusive options. Use it when the user needs to choose one of a small set of choices (e.g. transaction type, asset section).
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1170-2345&m=dev).
+
+## Anatomy
+
+<Canvas of={SegmentedControlStories.Base} />
+
+- **Segments**: Individual options the user can select.
+- **Selected state**: The active segment (sliding pill + semi-bold label).
+- **Optional icon**: Icon to the left of the label (from Symbols).
+
+## Properties
+
+<Canvas of={SegmentedControlStories.Base} />
+<Controls of={SegmentedControlStories.Base} />
+
+### Labels only vs with icons
+
+You can use segments with text only (Base), or add an icon to each button (WithIcons). Use one approach consistently for all segments in a single control.
+
+<Canvas of={SegmentedControlStories.Base} />
+
+<Canvas of={SegmentedControlStories.WithIcons} />
+
+## Responsive Layout
+
+SegmentedControl lays out segments in a horizontal row with equal width per segment. The sliding pill animates to the selected segment.
+
+## Accessibility
+
+- Use accessibilityLabel on SegmentedControl to describe the control (e.g. "Transaction type", "Asset section").
+- Each segment exposes accessibilityState with a selected value for screen readers.
+
+</Tab>
+  <Tab label="Implementation">
+
+## Installation
+
+Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## SegmentedControlButton
+
+Use as a direct child of SegmentedControl (or inside wrappers such as Tooltip). Required: value (string) and children (label). Optional: icon (component from symbols), onPress (runs in addition to parent onSelectedChange).
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Prop</th>
+        <th className='p-12 text-left text-on-accent body-2'>Type</th>
+        <th className='p-12 text-left text-on-accent body-2'>Description</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>value</td>
+        <td className='p-12 text-muted'>string</td>
+        <td className='p-12 text-muted'>Unique value for this segment (e.g. "send", "receive")</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>children</td>
+        <td className='p-12 text-muted'>ReactNode</td>
+        <td className='p-12 text-muted'>Button label (e.g. "Send", "Tokens")</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>icon</td>
+        <td className='p-12 text-muted'>ComponentType</td>
+        <td className='p-12 text-muted'>Optional icon to the left of the label (from Symbols)</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>onPress</td>
+        <td className='p-12 text-muted'>() =&gt; void</td>
+        <td className='p-12 text-muted'>Optional callback when the button is pressed (in addition to parent onSelectedChange)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Basic Usage
+
+Control selected value in state at the top level and pass it to SegmentedControl. Buttons use value to identify themselves; selected state is derived from context.
+
+```tsx
+import React from 'react';
+import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
+
+export default function Example() {
+  const [state, setState] = React.useState('send');
+
+  return (
+    <SegmentedControl
+      selectedValue={state}
+      onSelectedChange={setState}
+      accessibilityLabel='Transaction type'
+    >
+      <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+      <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+      <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+    </SegmentedControl>
+  );
+}
+```
+
+## With icons
+
+Pass an icon from symbols to each button for a left-positioned icon. Use icons on all segments or none for consistency.
+
+```tsx
+import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
+import { Coins, Nft, TransferHorizontal, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function Example() {
+  const [state, setState] = React.useState('tokens');
+  return (
+    <SegmentedControl
+      selectedValue={state}
+      onSelectedChange={setState}
+      accessibilityLabel='Asset section'
+    >
+      <SegmentedControlButton value='tokens' icon={Coins}>
+        Tokens
+      </SegmentedControlButton>
+      <SegmentedControlButton value='nfts' icon={Nft}>
+        NFTs
+      </SegmentedControlButton>
+      <SegmentedControlButton value='activity' icon={TransferHorizontal}>
+        Activity
+      </SegmentedControlButton>
+      <SegmentedControlButton value='settings' icon={Settings}>
+        Settings
+      </SegmentedControlButton>
+    </SegmentedControl>
+  );
+}
+```
+
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+  <CommonRulesDoAndDont />
+</Box>
+
+</Tab>
+</CustomTabs>
