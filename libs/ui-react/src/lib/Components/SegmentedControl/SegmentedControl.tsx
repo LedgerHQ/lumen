@@ -14,12 +14,16 @@ const ICON_SIZE = 16;
 const PILL_TRANSITION_MS = 250;
 const PILL_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
+const buttonBaseClass =
+  'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-default';
+
 export function SegmentedControlButton({
   value,
   children,
   icon: Icon,
   onPress,
   className,
+  disabled,
   ...props
 }: SegmentedControlButtonProps) {
   const { selectedValue, onSelectedChange } = useSegmentedControlContext();
@@ -36,24 +40,22 @@ export function SegmentedControlButton({
       type='button'
       role='radio'
       aria-checked={selected}
+      disabled={disabled}
       onClick={handleClick}
       className={cn(
-        'z-10 flex flex-1 flex-row items-center justify-center rounded-full px-16 py-8 text-center',
-        'transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-        'hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
-        'disabled:cursor-default disabled:opacity-50',
+        buttonBaseClass,
         selected ? 'body-2-semi-bold text-base' : 'body-2 text-base',
         className,
       )}
       {...props}
     >
-      <span className='flex flex-row items-center justify-center gap-8'>
+      <span className='inline-flex shrink-0 items-center justify-center gap-8'>
         {Icon && (
-          <span className='flex flex-row items-center'>
+          <span className='flex items-center'>
             <Icon size={ICON_SIZE} />
           </span>
         )}
-        <span className='text-center'>{children}</span>
+        <span>{children}</span>
       </span>
     </button>
   );
@@ -138,7 +140,7 @@ export function SegmentedControl({
       >
         {children}
         <div
-          className='pointer-events-none absolute top-0 left-0 z-0 rounded-sm bg-muted'
+          className='pointer-events-none absolute top-0 left-0 z-0 rounded-sm bg-muted-transparent'
           style={{
             width: pillStyle.width,
             height: pillStyle.height,
