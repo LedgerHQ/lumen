@@ -20,6 +20,7 @@ export * from './NavBar';
 export * from './PageIndicator';
 export * from './SearchInput';
 export * from './Select';
+export * from './SelectTriggerButton';
 export * from './SideBar';
 export * from './Skeleton';
 export * from './Spinner';
