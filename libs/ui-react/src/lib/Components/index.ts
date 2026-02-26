@@ -19,6 +19,7 @@ export * from './Menu';
 export * from './NavBar';
 export * from './PageIndicator';
 export * from './SearchInput';
+export * from './SegmentedControl';
 export * from './Select';
 export * from './SideBar';
 export * from './Skeleton';
