@@ -185,8 +185,8 @@ function useRootStyles() {
         alignItems: 'center',
         position: 'relative',
         width: '100%',
-        borderRadius: t.borderRadius.full,
-        backgroundColor: t.colors.bg.baseTransparent,
+        borderRadius: t.borderRadius.md,
+        backgroundColor: t.colors.bg.surface,
       },
       pill: {
         position: 'absolute',

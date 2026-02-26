@@ -133,7 +133,7 @@ export function SegmentedControl({
         ref={containerRef}
         role='radiogroup'
         className={cn(
-          'relative flex w-full flex-row items-center rounded-full bg-base-transparent',
+          'relative flex w-full flex-row items-center rounded-md bg-surface',
           className,
         )}
         {...props}
