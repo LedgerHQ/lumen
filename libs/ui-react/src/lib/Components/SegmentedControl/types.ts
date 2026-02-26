@@ -1,4 +1,5 @@
 import { ComponentType, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import { IconSize } from '../Icon/types';
 
 export type SegmentedControlProps = {
@@ -14,7 +15,7 @@ export type SegmentedControlProps = {
    * Segment buttons (SegmentedControlButton). Can be wrapped (e.g. in Tooltip).
    */
   children: ReactNode;
-} & Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>;
+} & Omit<ComponentPropsWithoutRef<'div'>, 'children'>;
 
 type IconComponent = ComponentType<{
   size?: IconSize;
@@ -38,4 +39,4 @@ export type SegmentedControlButtonProps = {
    * Optional callback when the button is pressed (in addition to onSelectedChange on the parent).
    */
   onPress?: () => void;
-} & Omit<React.ComponentPropsWithoutRef<'button'>, 'children'>;
+} & Omit<ComponentPropsWithoutRef<'button'>, 'children'>;

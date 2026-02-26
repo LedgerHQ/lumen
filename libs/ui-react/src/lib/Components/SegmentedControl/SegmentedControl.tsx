@@ -94,13 +94,13 @@ export function SegmentedControl({
       value={{ selectedValue, onSelectedChange }}
     >
       <div
+        {...props}
         ref={ref}
         role='radiogroup'
         className={cn(
           'relative flex w-full flex-row items-center rounded-full bg-surface',
           className,
         )}
-        {...props}
       >
         {children}
         <div
