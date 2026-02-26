@@ -109,6 +109,9 @@ export function SegmentedControl({
 
     updateLayout();
 
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
     const observer = new ResizeObserver(updateLayout);
     observer.observe(el);
     return () => observer.disconnect();
