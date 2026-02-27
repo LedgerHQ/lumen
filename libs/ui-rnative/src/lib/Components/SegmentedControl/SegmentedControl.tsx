@@ -55,7 +55,9 @@ export function SegmentedControlButton({
         )}
         <Text
           typography={selected ? 'body2SemiBold' : 'body2'}
-          lx={{ color: disabled && selected ? 'muted' : 'base' }}
+          lx={{
+            color: selected && !disabled ? 'base' : 'muted',
+          }}
           style={styles.label}
         >
           {children}

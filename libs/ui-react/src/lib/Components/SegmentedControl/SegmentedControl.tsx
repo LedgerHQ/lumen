@@ -42,8 +42,8 @@ export function SegmentedControlButton({
       }}
       className={cn(
         buttonClass,
-        selected ? 'body-2-semi-bold text-base' : 'body-2 text-base',
-        disabled && selected && 'text-muted',
+        selected ? 'body-2-semi-bold' : 'body-2',
+        selected && !disabled ? 'text-base' : 'text-muted',
         className,
       )}
       {...props}
