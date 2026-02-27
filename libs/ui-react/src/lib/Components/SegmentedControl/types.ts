@@ -12,7 +12,7 @@ export type SegmentedControlProps = {
    */
   onSelectedChange: (value: string) => void;
   /**
-   * Segment buttons (SegmentedControlButton). Can be wrapped (e.g. in Tooltip).
+   * Segment buttons (SegmentedControlButton).
    */
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<'div'>, 'children'>;
@@ -28,7 +28,7 @@ export type SegmentedControlButtonProps = {
    */
   value: string;
   /**
-   * Button label (e.g. "Preview", "Raw").
+   * Button label.
    */
   children: ReactNode;
   /**
