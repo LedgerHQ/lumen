@@ -1,5 +1,5 @@
 import { ComponentType, ReactNode } from 'react';
-import { StyledPressableProps } from '../../../styles';
+import { LumenTextStyle, StyledPressableProps } from '../../../styles';
 import { IconSize } from '../Icon';
 import { BoxProps } from '../Utility';
 
@@ -28,6 +28,7 @@ export type SegmentedControlProps = {
 
 type IconComponent = ComponentType<{
   size?: IconSize;
+  color?: LumenTextStyle['color'];
 }>;
 
 export type SegmentedControlButtonProps = {

@@ -17,8 +17,6 @@ import type {
   SegmentedControlProps,
 } from './types';
 
-const ICON_SIZE = 16;
-
 export function SegmentedControlButton({
   value,
   children,
@@ -50,7 +48,7 @@ export function SegmentedControlButton({
       <Box style={styles.content}>
         {Icon && (
           <Box style={styles.iconWrap}>
-            <Icon size={ICON_SIZE} />
+            <Icon size={16} color={selected && !disabled ? 'base' : 'muted'} />
           </Box>
         )}
         <Text
