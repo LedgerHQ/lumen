@@ -54,44 +54,6 @@ SegmentedControl lays out segments in a horizontal row with equal width per segm
 
 Use the library as part of `@ledgerhq/lumen-ui-react`. See the [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
-## SegmentedControlButton
-
-Use as a direct child of SegmentedControl (or inside wrappers such as Tooltip). Required: value (string) and children (label). Optional: icon (component from symbols), onPress (runs in addition to parent onSelectedChange).
-
-<div className='my-24 overflow-hidden rounded-lg'>
-  <table className='w-full'>
-    <thead>
-      <tr className='border-b border-muted bg-muted'>
-        <th className='p-12 text-left text-on-accent body-2'>Prop</th>
-        <th className='p-12 text-left text-on-accent body-2'>Type</th>
-        <th className='p-12 text-left text-on-accent body-2'>Description</th>
-      </tr>
-    </thead>
-    <tbody className='bg-canvas'>
-      <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>value</td>
-        <td className='p-12 text-muted'>string</td>
-        <td className='p-12 text-muted'>Unique value for this segment (e.g. "send", "receive")</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>children</td>
-        <td className='p-12 text-muted'>ReactNode</td>
-        <td className='p-12 text-muted'>Button label (e.g. "Send", "Tokens")</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>icon</td>
-        <td className='p-12 text-muted'>ComponentType</td>
-        <td className='p-12 text-muted'>Optional icon to the left of the label (from Symbols)</td>
-      </tr>
-      <tr>
-        <td className='text-accent p-12'>onPress</td>
-        <td className='p-12 text-muted'>() =&gt; void</td>
-        <td className='p-12 text-muted'>Optional callback when the button is pressed (in addition to parent onSelectedChange)</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 ## Basic Usage
 
 Control selected value in state at the top level and pass it to SegmentedControl. Buttons use value to identify themselves; selected state is derived from context.
