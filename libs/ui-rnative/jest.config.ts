@@ -13,7 +13,6 @@ export default {
   displayName: '@ledgerhq/lumen-ui-rnative',
   preset: 'react-native',
   setupFiles: ['<rootDir>/jest.setup.ts'],
-  setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   transformIgnorePatterns: [
     `node_modules/(?!(.pnpm|${transformIncludePatterns.join('|')})/)`,
   ],
