@@ -19,7 +19,7 @@ export function SegmentedControlButton({
   value,
   children,
   icon: Icon,
-  onPress,
+  onClick,
   className,
   ...props
 }: SegmentedControlButtonProps) {
@@ -34,10 +34,10 @@ export function SegmentedControlButton({
       aria-checked={selected}
       aria-disabled={disabled}
       disabled={disabled}
-      onClick={() => {
+      onClick={(e) => {
         if (!disabled) {
           onSelectedChange(value);
-          onPress?.();
+          onClick?.(e);
         }
       }}
       className={cn(

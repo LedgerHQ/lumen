@@ -39,8 +39,4 @@ export type SegmentedControlButtonProps = {
    * Optional icon shown to the left of the label (from Symbols).
    */
   icon?: IconComponent;
-  /**
-   * Optional callback when the button is pressed (in addition to onSelectedChange on the parent).
-   */
-  onPress?: () => void;
 } & Omit<ComponentPropsWithoutRef<'button'>, 'children'>;
