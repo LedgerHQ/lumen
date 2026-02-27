@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useTheme } from 'src/styles';
+import { useTheme } from '../../../../../styles';
 import { Box } from '../../Box';
 import { Text } from '../../Text';
 import { LinearGradient } from './LinearGradient';
