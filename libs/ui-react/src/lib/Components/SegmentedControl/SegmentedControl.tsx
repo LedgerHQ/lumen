@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   SegmentedControlContextProvider,
   useSegmentedControlContext,
@@ -69,6 +69,16 @@ export function SegmentedControl({
   const ref = useRef<HTMLDivElement>(null);
   const [pill, setPill] = useState({ width: 0, height: 0, x: 0 });
 
+  const selectedIndex = useMemo(
+    () =>
+      React.Children.toArray(children).findIndex(
+        (c) =>
+          React.isValidElement(c) &&
+          (c.props as { value?: string }).value === selectedValue,
+      ),
+    [selectedValue, children],
+  );
+
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -77,15 +87,10 @@ export function SegmentedControl({
       const { width, height } = el.getBoundingClientRect();
       const count = React.Children.count(children);
       const slotWidth = count > 0 ? width / count : 0;
-      const index = React.Children.toArray(children).findIndex(
-        (c) =>
-          React.isValidElement(c) &&
-          (c.props as { value?: string }).value === selectedValue,
-      );
       setPill({
         width: slotWidth,
         height,
-        x: index >= 0 ? index * slotWidth : 0,
+        x: selectedIndex >= 0 ? selectedIndex * slotWidth : 0,
       });
     };
 
@@ -94,7 +99,7 @@ export function SegmentedControl({
     const ro = new ResizeObserver(sync);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [children, selectedValue]);
+  }, [children, selectedIndex]);
 
   return (
     <SegmentedControlContextProvider

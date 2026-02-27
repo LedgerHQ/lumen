@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -115,14 +115,16 @@ export function SegmentedControl({
   const pillHeight = useSharedValue(0);
   const hasLayoutRef = useRef(false);
 
-  const getSelectedIndex = useCallback((): number => {
-    return React.Children.toArray(children).findIndex((child) => {
-      if (React.isValidElement(child) && child.props != null) {
-        return (child.props as { value?: string }).value === selectedValue;
-      }
-      return false;
-    });
-  }, [selectedValue, children]);
+  const selectedIndex = useMemo(
+    () =>
+      React.Children.toArray(children).findIndex((child) => {
+        if (React.isValidElement(child) && child.props != null) {
+          return (child.props as { value?: string }).value === selectedValue;
+        }
+        return false;
+      }),
+    [selectedValue, children],
+  );
 
   function onLayout(e: LayoutChangeEvent) {
     const { width, height } = e.nativeEvent.layout;
@@ -134,23 +136,21 @@ export function SegmentedControl({
 
     if (!hasLayoutRef.current) {
       hasLayoutRef.current = true;
-      const index = getSelectedIndex();
-      if (index >= 0) {
-        pillTranslateX.value = index * slotWidth;
+      if (selectedIndex >= 0) {
+        pillTranslateX.value = selectedIndex * slotWidth;
       }
     }
   }
 
   useEffect(() => {
     if (!hasLayoutRef.current) return;
-    const index = getSelectedIndex();
-    if (index >= 0 && pillWidth.value > 0) {
-      pillTranslateX.value = withTiming(index * pillWidth.value, {
+    if (selectedIndex >= 0 && pillWidth.value > 0) {
+      pillTranslateX.value = withTiming(selectedIndex * pillWidth.value, {
         duration: durations['250'],
         easing: easingCurves.bezier.default,
       });
     }
-  }, [pillWidth, pillTranslateX, getSelectedIndex]);
+  }, [selectedIndex, pillWidth, pillTranslateX]);
 
   const animatedPillStyle = useAnimatedStyle(
     () => ({
