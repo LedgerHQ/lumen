@@ -13,7 +13,7 @@ const ICON_SIZE = 16;
 const PILL_TRANSITION = 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)';
 
 const buttonClass =
-  'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-default';
+  'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed';
 
 export function SegmentedControlButton({
   value,
