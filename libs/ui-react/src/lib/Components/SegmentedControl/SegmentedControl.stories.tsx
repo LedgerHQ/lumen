@@ -16,32 +16,15 @@ const meta = {
   argTypes: {
     onSelectedChange: {
       action: 'change',
-      description: 'Callback when the selected value changes',
-      table: {
-        type: { summary: '(value: string) => void' },
-      },
     },
     disabled: {
       control: 'boolean',
-      description: 'When true, the entire control is disabled',
-      table: {
-        type: { summary: 'boolean' },
-      },
     },
     selectedValue: {
       control: 'text',
-      description:
-        'The value of the currently selected segment (drives the sliding pill)',
-      table: {
-        type: { summary: 'string' },
-      },
     },
     children: {
       control: false,
-      description: 'SegmentedControlButton elements',
-      table: {
-        type: { summary: 'ReactNode' },
-      },
     },
   },
 } satisfies Meta<typeof SegmentedControl>;
