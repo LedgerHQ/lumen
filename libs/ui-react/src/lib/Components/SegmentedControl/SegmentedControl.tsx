@@ -9,12 +9,6 @@ import type {
   SegmentedControlProps,
 } from './types';
 
-const ICON_SIZE = 16;
-const PILL_TRANSITION = 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)';
-
-const buttonClass =
-  'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed';
-
 export function SegmentedControlButton({
   value,
   children,
@@ -41,7 +35,7 @@ export function SegmentedControlButton({
         }
       }}
       className={cn(
-        buttonClass,
+        'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
         selected ? 'body-2-semi-bold' : 'body-2',
         selected && !disabled ? 'text-base' : 'text-muted',
         className,
@@ -49,7 +43,7 @@ export function SegmentedControlButton({
       {...props}
     >
       <span className='inline-flex shrink-0 items-center justify-center gap-8'>
-        {Icon && <Icon size={ICON_SIZE} />}
+        {Icon && <Icon size={16} />}
         <span>{children}</span>
       </span>
     </button>
@@ -126,7 +120,7 @@ export function SegmentedControl({
             width: pill.width,
             height: pill.height,
             transform: `translateX(${pill.x}px)`,
-            transition: PILL_TRANSITION,
+            transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         />
       </div>
