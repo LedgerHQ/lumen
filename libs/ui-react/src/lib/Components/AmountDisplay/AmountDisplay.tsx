@@ -1,21 +1,24 @@
 import { cn, useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import { AmountDisplayProps, DigitStripProps, SplitChar } from './types';
-
-const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+import {
+  AmountDisplayProps,
+  DigitStripListProps,
+  DigitStripProps,
+  DIGITS,
+} from './types';
 
 const INTEGER_DIGIT_WIDTHS = {
   0: 24.5,
   1: 15,
   2: 23,
-  3: 23.5,
-  4: 24.7,
-  5: 22.5,
-  6: 23.6,
-  7: 21.1,
-  8: 23.7,
-  9: 23.6,
+  3: 24,
+  4: 25,
+  5: 23,
+  6: 24.5,
+  7: 21.5,
+  8: 24,
+  9: 24,
 };
 
 const DECIMAL_DIGIT_WIDTHS = {
@@ -25,17 +28,17 @@ const DECIMAL_DIGIT_WIDTHS = {
   3: 16.5,
   4: 17.2,
   5: 15.7,
-  6: 16.5,
+  6: 17,
   7: 14.7,
   8: 16.5,
   9: 16.5,
 };
 
 const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
-  const width =
-    type === 'integer'
-      ? INTEGER_DIGIT_WIDTHS[value as keyof typeof INTEGER_DIGIT_WIDTHS]
-      : DECIMAL_DIGIT_WIDTHS[value as keyof typeof DECIMAL_DIGIT_WIDTHS];
+  const width = (
+    type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
+  )[value];
+
   return (
     <div
       className='relative overflow-hidden transition-[width] duration-600'
@@ -52,11 +55,30 @@ const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
         }}
       >
         {DIGITS.map((d, i) => (
-          <span key={i}>{d}</span>
+          <span inert={d !== value ? true : false} key={i}>
+            {d}
+          </span>
         ))}
       </span>
     </div>
   );
+});
+
+const DigitStripList = memo(({ items, type, animate }: DigitStripListProps) => {
+  return items.map((item, index) => {
+    const key = items.length - index;
+    if (item.type === 'separator') {
+      return <span key={key}>{item.value}</span>;
+    }
+    return (
+      <DigitStrip
+        key={key}
+        value={Number(item.value) as DigitStripProps['value']}
+        animate={animate}
+        type={type}
+      />
+    );
+  });
 });
 
 /**
@@ -109,28 +131,6 @@ export const AmountDisplay = ({
     hidden,
     t('components.amountDisplay.amountHiddenAriaLabel'),
   );
-  const renderDigits = ({
-    items,
-    type,
-  }: {
-    items: SplitChar[];
-    type: 'integer' | 'decimal';
-  }) => {
-    return items.map((item, index) => {
-      const key = items.length - index;
-      if (item.type === 'separator') {
-        return <span key={key}>{item.value}</span>;
-      }
-      return (
-        <DigitStrip
-          key={key}
-          value={Number(item.value)}
-          animate={animate}
-          type={type}
-        />
-      );
-    });
-  };
 
   return (
     <div
@@ -153,7 +153,11 @@ export const AmountDisplay = ({
         {hidden ? (
           <span>••••</span>
         ) : (
-          renderDigits({ items: splitDigits.integerPart, type: 'integer' })
+          <DigitStripList
+            items={splitDigits.integerPart}
+            animate={animate}
+            type='integer'
+          />
         )}
       </span>
       <span
@@ -161,9 +165,13 @@ export const AmountDisplay = ({
         aria-hidden='true'
       >
         {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
-        {parts.decimalPart &&
-          !hidden &&
-          renderDigits({ items: splitDigits.decimalPart, type: 'decimal' })}
+        {parts.decimalPart && !hidden && (
+          <DigitStripList
+            items={splitDigits.decimalPart}
+            animate={animate}
+            type='decimal'
+          />
+        )}
         {parts.currencyPosition === 'end' && (
           <span className='ms-4'>{parts.currencyText}</span>
         )}

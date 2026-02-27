@@ -2,15 +2,22 @@ import type { FormattedValue, SplitChar } from '@ledgerhq/lumen-utils-shared';
 import { ViewProps, TextStyle } from 'react-native';
 import { StyledViewProps } from '../../../styles';
 
-export type { FormattedValue, SplitChar };
+export type { FormattedValue };
+
+export const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+
+type IntegerDigit = (typeof DIGITS)[number];
 
 export type DigitStripProps = {
-  value: number;
+  value: IntegerDigit;
   animate: boolean;
-  lineHeight: number;
-  textStyle: TextStyle;
+  textStyle: TextStyle & { lineHeight: number };
   type: 'integer' | 'decimal';
 };
+
+export type DigitStripListProps = {
+  items: SplitChar[];
+} & Omit<DigitStripProps, 'value'>;
 
 /**
  * Props for the AmountDisplay component.
