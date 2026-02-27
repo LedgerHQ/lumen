@@ -5,7 +5,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { useStyleSheet, useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
 const eurFormatter = (value: number): FormattedValue => {
@@ -34,14 +34,26 @@ const usdFormatter = (value: number): FormattedValue => {
 
 export function AmountDisplays() {
   const [hidden, setHidden] = useState(false);
+  const [currentValue, setCurrentValue] = useState<number>(1234.56);
   const styles = useStyles();
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentValue((prev) => {
+        const delta = prev * (Math.random() * 0.02 - 0.01);
+        return Math.round((prev + delta) * 100) / 100;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <View style={{ width: theme.sizes.full }}>
       <View style={{ alignItems: 'center' }}>
         <View style={styles.sectionContainer}>
-          <AmountDisplay value={1234.56} formatter={eurFormatter} />
+          <AmountDisplay value={currentValue} formatter={eurFormatter} />
           <Text style={styles.sectionDescription}>EUR formatted</Text>
         </View>
         <View style={styles.sectionContainer}>

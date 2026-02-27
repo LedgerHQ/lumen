@@ -3,6 +3,9 @@
     "addressInput": {
       "qrCodeAriaLabel": "QR 코드 스캔"
     },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "금액 숨김"
+    },
     "avatar": {
       "defaultAlt": "사용자 아바타",
       "notificationAriaLabel": "알림 있음"

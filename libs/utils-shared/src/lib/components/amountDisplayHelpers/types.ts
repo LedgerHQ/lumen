@@ -26,5 +26,5 @@ export type FormattedValue = {
    * @optional
    * @default 'start'
    */
-  currencyPosition?: 'start' | 'end';
+  currencyPosition: 'start' | 'end';
 };
