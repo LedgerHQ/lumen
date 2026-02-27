@@ -269,12 +269,11 @@ const useStyles = () =>
       },
       blur: {
         ...StyleSheet.absoluteFillObject,
-        bottom: -2,
+        height: TAB_BAR_HEIGHT + t.sizes.s16,
         zIndex: -1,
       },
       androidBackground: {
         ...StyleSheet.absoluteFillObject,
-        bottom: -2,
         zIndex: -1,
         backgroundColor: t.colors.bg.muted,
       },
