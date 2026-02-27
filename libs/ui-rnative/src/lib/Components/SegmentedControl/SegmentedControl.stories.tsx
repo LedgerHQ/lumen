@@ -22,6 +22,13 @@ const meta = {
         type: { summary: '(value: string) => void' },
       },
     },
+    disabled: {
+      control: 'boolean',
+      description: 'When true, the entire control is disabled',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
     accessibilityLabel: {
       control: 'text',
       description: 'Accessible label for the control',
@@ -99,4 +106,24 @@ export const WithIcons: Story = {
       </SegmentedControl>
     );
   },
+};
+
+export const Disabled: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: () => (
+    <Box lx={{ width: 's256' }}>
+      <SegmentedControl
+        selectedValue='receive'
+        onSelectedChange={() => {
+          /* empty */
+        }}
+        accessibilityLabel='Transaction type (disabled)'
+        disabled
+      >
+        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+      </SegmentedControl>
+    </Box>
+  ),
 };

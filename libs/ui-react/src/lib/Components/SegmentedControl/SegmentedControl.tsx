@@ -23,7 +23,8 @@ export function SegmentedControlButton({
   className,
   ...props
 }: SegmentedControlButtonProps) {
-  const { selectedValue, onSelectedChange } = useSegmentedControlContext();
+  const { selectedValue, onSelectedChange, disabled } =
+    useSegmentedControlContext();
   const selected = selectedValue === value;
 
   return (
@@ -31,13 +32,18 @@ export function SegmentedControlButton({
       type='button'
       role='radio'
       aria-checked={selected}
+      aria-disabled={disabled}
+      disabled={disabled}
       onClick={() => {
-        onSelectedChange(value);
-        onPress?.();
+        if (!disabled) {
+          onSelectedChange(value);
+          onPress?.();
+        }
       }}
       className={cn(
         buttonClass,
         selected ? 'body-2-semi-bold text-base' : 'body-2 text-base',
+        disabled && selected && 'text-muted',
         className,
       )}
       {...props}
@@ -57,6 +63,7 @@ export function SegmentedControl({
   onSelectedChange,
   children,
   className,
+  disabled,
   ...props
 }: SegmentedControlProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -91,12 +98,13 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange }}
+      value={{ selectedValue, onSelectedChange, disabled }}
     >
       <div
         {...props}
         ref={ref}
         role='radiogroup'
+        aria-disabled={disabled}
         className={cn(
           'relative flex w-full flex-row items-center rounded-sm bg-surface',
           className,
@@ -105,7 +113,10 @@ export function SegmentedControl({
         {children}
         <div
           aria-hidden
-          className='pointer-events-none absolute top-0 left-0 z-0 rounded-sm bg-muted-transparent'
+          className={cn(
+            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm',
+            disabled ? 'bg-base-transparent-pressed' : 'bg-muted-transparent',
+          )}
           style={{
             width: pill.width,
             height: pill.height,

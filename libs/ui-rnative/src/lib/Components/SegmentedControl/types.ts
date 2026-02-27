@@ -13,6 +13,10 @@ export type SegmentedControlProps = {
    */
   onSelectedChange: (value: string) => void;
   /**
+   * When true, the entire control is disabled (no interaction, selected uses muted styling).
+   */
+  disabled?: boolean;
+  /**
    * Accessible label for the control (e.g. "File view").
    */
   accessibilityLabel?: string;

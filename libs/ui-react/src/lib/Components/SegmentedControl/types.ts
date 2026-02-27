@@ -12,6 +12,10 @@ export type SegmentedControlProps = {
    */
   onSelectedChange: (value: string) => void;
   /**
+   * When true, the entire control is disabled (no interaction, selected uses muted styling).
+   */
+  disabled?: boolean;
+  /**
    * Segment buttons (SegmentedControlButton).
    */
   children: ReactNode;

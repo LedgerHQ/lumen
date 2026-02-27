@@ -27,19 +27,23 @@ export function SegmentedControlButton({
   ...props
 }: SegmentedControlButtonProps) {
   const styles = useButtonStyles();
-  const { selectedValue, onSelectedChange } = useSegmentedControlContext();
+  const { selectedValue, onSelectedChange, disabled } =
+    useSegmentedControlContext();
 
   const selected = selectedValue === value;
 
   function handlePress() {
-    onSelectedChange(value);
-    onPress?.();
+    if (!disabled) {
+      onSelectedChange(value);
+      onPress?.();
+    }
   }
 
   return (
     <Pressable
       onPress={handlePress}
-      accessibilityState={{ selected }}
+      disabled={disabled}
+      accessibilityState={{ selected, disabled }}
       style={styles.button}
       {...props}
     >
@@ -51,7 +55,7 @@ export function SegmentedControlButton({
         )}
         <Text
           typography={selected ? 'body2SemiBold' : 'body2'}
-          lx={{ color: 'base' }}
+          lx={{ color: disabled && selected ? 'muted' : 'base' }}
           style={styles.label}
         >
           {children}
@@ -100,9 +104,10 @@ export function SegmentedControl({
   onSelectedChange,
   accessibilityLabel,
   children,
+  disabled,
   ...props
 }: SegmentedControlProps) {
-  const styles = useRootStyles();
+  const styles = useRootStyles(!!disabled);
   const pillTranslateX = useSharedValue(0);
   const pillWidth = useSharedValue(0);
   const pillHeight = useSharedValue(0);
@@ -156,11 +161,12 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange }}
+      value={{ selectedValue, onSelectedChange, disabled }}
     >
       <Box
         accessibilityRole='radiogroup'
         accessibilityLabel={accessibilityLabel}
+        accessibilityState={{ disabled }}
         onLayout={onLayout}
         style={styles.container}
         {...props}
@@ -177,7 +183,7 @@ export function SegmentedControl({
 
 SegmentedControl.displayName = 'SegmentedControl';
 
-function useRootStyles() {
+function useRootStyles(disabled: boolean) {
   return useStyleSheet(
     (t) => ({
       container: {
@@ -193,10 +199,12 @@ function useRootStyles() {
         top: 0,
         left: 0,
         borderRadius: t.borderRadius.sm,
-        backgroundColor: t.colors.bg.muted,
+        backgroundColor: disabled
+          ? t.colors.bg.baseTransparentPressed
+          : t.colors.bg.muted,
         zIndex: 0,
       },
     }),
-    [],
+    [disabled],
   );
 }
