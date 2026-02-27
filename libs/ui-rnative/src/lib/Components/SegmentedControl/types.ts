@@ -21,7 +21,7 @@ export type SegmentedControlProps = {
    */
   accessibilityLabel?: string;
   /**
-   * Segment buttons (SegmentedControlButton). Can be wrapped (e.g. in Tooltip).
+   * Segment buttons (SegmentedControlButton).
    */
   children: ReactNode;
 } & Omit<BoxProps, 'children'>;
