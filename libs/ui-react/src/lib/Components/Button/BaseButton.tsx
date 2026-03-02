@@ -6,7 +6,7 @@ import { Spinner } from '../Spinner';
 import { BaseButtonProps } from './types';
 
 export const baseButtonVariants = cva(
-  'inline-flex size-fit cursor-pointer items-center justify-center rounded-full body-1-semi-bold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+  'inline-flex size-fit cursor-pointer items-center justify-center rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
   {
     variants: {
       appearance: {
