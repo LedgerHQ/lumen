@@ -2,10 +2,10 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactNode } from 'react';
 import { Settings, Star } from '../../Symbols';
-import { SelectTriggerButton } from './SelectTriggerButton';
-import type { SelectTriggerButtonProps } from './types';
+import { ButtonTrigger } from './ButtonTrigger';
+import type { ButtonTriggerProps } from './types';
 
-type Size = NonNullable<SelectTriggerButtonProps['size']>;
+type Size = NonNullable<ButtonTriggerProps['size']>;
 
 const cryptoIconSizes = {
   sm: '24px',
@@ -35,9 +35,9 @@ const resolveIcon = (
   }
 };
 
-const meta: Meta<typeof SelectTriggerButton> = {
-  component: SelectTriggerButton,
-  title: 'Action/SelectTriggerButton',
+const meta: Meta<typeof ButtonTrigger> = {
+  component: ButtonTrigger,
+  title: 'Action/ButtonTrigger',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -62,7 +62,7 @@ const meta: Meta<typeof SelectTriggerButton> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SelectTriggerButton>;
+type Story = StoryObj<typeof ButtonTrigger>;
 
 export const Base: Story = {
   args: {
@@ -72,14 +72,14 @@ export const Base: Story = {
   render: ({ icon, size, iconType, ...args }) => {
     const resolved = resolveIcon(icon as string, size);
     return (
-      <SelectTriggerButton
+      <ButtonTrigger
         {...args}
         size={size}
         icon={resolved.node}
         iconType={resolved.type ?? iconType}
       >
         {args.children}
-      </SelectTriggerButton>
+      </ButtonTrigger>
     );
   },
 };
@@ -87,12 +87,12 @@ export const Base: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
-      <SelectTriggerButton size='sm' icon={<Star size={20} />} iconType='flat'>
+      <ButtonTrigger size='sm' icon={<Star size={20} />} iconType='flat'>
         Small
-      </SelectTriggerButton>
-      <SelectTriggerButton size='md' icon={<Star size={20} />} iconType='flat'>
+      </ButtonTrigger>
+      <ButtonTrigger size='md' icon={<Star size={20} />} iconType='flat'>
         Medium
-      </SelectTriggerButton>
+      </ButtonTrigger>
     </div>
   ),
 };
@@ -101,44 +101,44 @@ export const IconTypeShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
       <div className='flex items-center gap-16'>
-        <SelectTriggerButton
+        <ButtonTrigger
           icon={<Settings size={20} />}
           iconType='flat'
           appearance='gray'
         >
           Flat icon (md)
-        </SelectTriggerButton>
-        <SelectTriggerButton
+        </ButtonTrigger>
+        <ButtonTrigger
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />}
           iconType='rounded'
           appearance='gray'
         >
           Rounded icon (md)
-        </SelectTriggerButton>
-        <SelectTriggerButton appearance='gray'>
+        </ButtonTrigger>
+        <ButtonTrigger appearance='gray'>
           No icon (md)
-        </SelectTriggerButton>
+        </ButtonTrigger>
       </div>
       <div className='flex items-center gap-16'>
-        <SelectTriggerButton
+        <ButtonTrigger
           icon={<Settings size={20} />}
           iconType='flat'
           appearance='gray'
           size='sm'
         >
           Flat icon (sm)
-        </SelectTriggerButton>
-        <SelectTriggerButton
+        </ButtonTrigger>
+        <ButtonTrigger
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
           iconType='rounded'
           appearance='gray'
           size='sm'
         >
           Rounded icon (sm)
-        </SelectTriggerButton>
-        <SelectTriggerButton appearance='gray' size='sm'>
+        </ButtonTrigger>
+        <ButtonTrigger appearance='gray' size='sm'>
           No icon (sm)
-        </SelectTriggerButton>
+        </ButtonTrigger>
       </div>
     </div>
   ),
@@ -161,23 +161,23 @@ export const AllAppearancesWithIcons: Story = {
       >
         {appearances.map((appearance) => (
           <div key={appearance} className='flex items-center gap-16'>
-            <SelectTriggerButton appearance={appearance}>
+            <ButtonTrigger appearance={appearance}>
               {appearance}
-            </SelectTriggerButton>
-            <SelectTriggerButton
+            </ButtonTrigger>
+            <ButtonTrigger
               appearance={appearance}
               icon={<Settings size={20} />}
               iconType='flat'
             >
               {appearance}
-            </SelectTriggerButton>
-            <SelectTriggerButton
+            </ButtonTrigger>
+            <ButtonTrigger
               appearance={appearance}
               icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />}
               iconType='rounded'
             >
               {appearance}
-            </SelectTriggerButton>
+            </ButtonTrigger>
           </div>
         ))}
       </div>

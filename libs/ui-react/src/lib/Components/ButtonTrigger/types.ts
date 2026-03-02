@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { BaseButtonProps } from '../Button/types';
 
-export type SelectTriggerButtonProps = {
+export type ButtonTriggerProps = {
   /**
    * The visual style of the trigger button.
    * @default 'gray'

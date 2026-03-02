@@ -3,7 +3,7 @@ import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ChevronDown } from '../../Symbols';
 import { baseButtonVariants } from '../Button/BaseButton';
-import { SelectTriggerButtonProps } from './types';
+import { ButtonTriggerProps } from './types';
 
 const triggerVariants = cva('gap-8 body-2-semi-bold', {
   variants: {
@@ -42,23 +42,23 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
  * @see {@link https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6389-45680 Figma}
  *
  * @example
- * import { SelectTriggerButton } from '@ledgerhq/lumen-ui-react';
+ * import { ButtonTrigger } from '@ledgerhq/lumen-ui-react';
  * import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
  *
  * // With flat interface icon
- * <SelectTriggerButton icon={<Settings size={20} />} iconType="flat">
+ * <ButtonTrigger icon={<Settings size={20} />} iconType="flat">
  *   Network
- * </SelectTriggerButton>
+ * </ButtonTrigger>
  *
  * // With rounded crypto icon
- * <SelectTriggerButton icon={<CryptoIcon ledgerId="bitcoin" size="32px" />} iconType="rounded">
+ * <ButtonTrigger icon={<CryptoIcon ledgerId="bitcoin" size="32px" />} iconType="rounded">
  *   Bitcoin
- * </SelectTriggerButton>
+ * </ButtonTrigger>
  *
  * // Without icon
- * <SelectTriggerButton>All accounts</SelectTriggerButton>
+ * <ButtonTrigger>All accounts</ButtonTrigger>
  */
-export const SelectTriggerButton = ({
+export const ButtonTrigger = ({
   ref,
   className,
   appearance = 'gray',
@@ -69,7 +69,7 @@ export const SelectTriggerButton = ({
   iconType = 'flat',
   children,
   ...props
-}: SelectTriggerButtonProps) => {
+}: ButtonTriggerProps) => {
   const effectiveIconType = icon ? iconType : 'none';
   const Comp = asChild ? Slot : 'button';
 
@@ -102,4 +102,4 @@ export const SelectTriggerButton = ({
   );
 };
 
-SelectTriggerButton.displayName = 'SelectTriggerButton';
+ButtonTrigger.displayName = 'ButtonTrigger';
