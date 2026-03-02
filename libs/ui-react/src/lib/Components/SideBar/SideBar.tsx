@@ -224,11 +224,7 @@ export const SideBarItem = ({
   const content = (
     <>
       <IconComponent size={20} className='shrink-0' />
-      {label != null && (
-        <span className='translate-x-8 overflow-hidden whitespace-nowrap'>
-          {label}
-        </span>
-      )}
+      {label != null && <span className='translate-x-8 truncate'>{label}</span>}
     </>
   );
 
