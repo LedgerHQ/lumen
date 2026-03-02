@@ -43,7 +43,7 @@ export const ContentBannerTitle = ({
   return (
     <div
       ref={ref}
-      className={cn('line-clamp-1 body-2-semi-bold', className)}
+      className={cn('line-clamp-1 body-2-semi-bold text-base', className)}
       {...props}
     >
       {children}

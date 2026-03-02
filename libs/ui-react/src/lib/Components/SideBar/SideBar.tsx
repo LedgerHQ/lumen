@@ -39,7 +39,7 @@ const sideBarVariants = {
   section: cva(['flex flex-col gap-16']),
   item: cva(
     [
-      'flex h-44 w-full cursor-pointer items-center rounded-md p-12',
+      'flex h-44 w-full cursor-pointer items-center overflow-hidden rounded-md p-12',
       'transition-all duration-300',
       'focus-visible:outline-2 focus-visible:outline-focus',
     ],
