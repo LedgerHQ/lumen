@@ -31,6 +31,9 @@ const meta = {
       control: false,
     },
   },
+  args: {
+    appearance: 'background',
+  },
 } satisfies Meta<typeof SegmentedControl>;
 
 export default meta;
@@ -38,12 +41,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
-  render: () => {
+  render: (args) => {
     const [state, setState] = useState('send');
 
     return (
       <div className='w-256'>
-        <SegmentedControl selectedValue={state} onSelectedChange={setState}>
+        <SegmentedControl
+          {...args}
+          selectedValue={state}
+          onSelectedChange={setState}
+        >
           <SegmentedControlButton value='send'>Send</SegmentedControlButton>
           <SegmentedControlButton value='receive'>
             Receive
@@ -57,11 +64,15 @@ export const Base: Story = {
 
 export const WithIcons: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
-  render: () => {
+  render: (args) => {
     const [state, setState] = useState('tokens');
 
     return (
-      <SegmentedControl selectedValue={state} onSelectedChange={setState}>
+      <SegmentedControl
+        {...args}
+        selectedValue={state}
+        onSelectedChange={setState}
+      >
         <SegmentedControlButton value='tokens' icon={Coins}>
           Tokens
         </SegmentedControlButton>
@@ -81,9 +92,10 @@ export const WithIcons: Story = {
 
 export const Disabled: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
-  render: () => (
+  render: (args) => (
     <div className='w-256'>
       <SegmentedControl
+        {...args}
         selectedValue='receive'
         onSelectedChange={() => {
           /* empty */

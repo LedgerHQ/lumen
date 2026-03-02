@@ -35,6 +35,9 @@ const meta = {
       control: false,
     },
   },
+  args: {
+    appearance: 'background',
+  },
 } satisfies Meta<typeof SegmentedControl>;
 
 export default meta;
@@ -42,12 +45,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
-  render: () => {
+  render: (args) => {
     const [state, setState] = useState('send');
 
     return (
       <Box lx={{ width: 's256' }}>
         <SegmentedControl
+          {...args}
           selectedValue={state}
           onSelectedChange={setState}
           accessibilityLabel='Transaction type'
@@ -65,11 +69,12 @@ export const Base: Story = {
 
 export const WithIcons: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
-  render: () => {
+  render: (args) => {
     const [state, setState] = useState('tokens');
 
     return (
       <SegmentedControl
+        {...args}
         selectedValue={state}
         onSelectedChange={setState}
         accessibilityLabel='Asset section'
@@ -93,9 +98,10 @@ export const WithIcons: Story = {
 
 export const Disabled: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
-  render: () => (
+  render: (args) => (
     <Box lx={{ width: 's256' }}>
       <SegmentedControl
+        {...args}
         selectedValue='receive'
         onSelectedChange={() => {
           /* empty */
