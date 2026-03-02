@@ -204,9 +204,7 @@ function useRootStyles(
         top: 0,
         left: 0,
         borderRadius: t.borderRadius.sm,
-        backgroundColor: disabled
-          ? t.colors.bg.baseTransparentPressed
-          : t.colors.bg.muted,
+        backgroundColor: t.colors.bg.muted,
         zIndex: 0,
       },
     }),

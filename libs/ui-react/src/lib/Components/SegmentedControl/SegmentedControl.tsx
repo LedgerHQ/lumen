@@ -115,8 +115,7 @@ export function SegmentedControl({
         <div
           aria-hidden
           className={cn(
-            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm',
-            disabled ? 'bg-base-transparent-pressed' : 'bg-muted-transparent',
+            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm bg-muted',
           )}
           style={{
             width: pill.width,
