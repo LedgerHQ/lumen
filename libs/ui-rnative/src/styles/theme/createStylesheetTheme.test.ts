@@ -1,27 +1,9 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import {
-  getNegativeSpacings,
-  createStylesheetTheme,
-} from './createStylesheetTheme';
+import { RuntimeConstants } from '../../lib/utils';
+import { createStylesheetTheme } from './createStylesheetTheme';
 
 describe('createStylesheetTheme', () => {
-  describe('getNegativeSpacings', () => {
-    it('should create negative entries for each spacing', () => {
-      const spacings = {
-        s4: 4,
-        s8: 8,
-        s16: 16,
-      } as typeof ledgerLiveThemes.dark.spacings;
-
-      const result = getNegativeSpacings(spacings);
-
-      expect(result['-s4']).toBe(-4);
-      expect(result['-s8']).toBe(-8);
-      expect(result['-s16']).toBe(-16);
-    });
-  });
-
   describe('createStylesheetTheme', () => {
     it('should include both positive and negative spacings', () => {
       const theme = ledgerLiveThemes.dark;
@@ -33,6 +15,7 @@ describe('createStylesheetTheme', () => {
     });
 
     it('should flatten heading/body typography tokens', () => {
+      jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
       const theme = ledgerLiveThemes.dark;
 
       const result = createStylesheetTheme(theme);

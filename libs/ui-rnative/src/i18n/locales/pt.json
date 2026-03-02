@@ -3,6 +3,9 @@
     "addressInput": {
       "qrCodeAriaLabel": "Escanear QR Code"
     },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Valor oculto"
+    },
     "avatar": {
       "defaultAlt": "Avatar do usuário",
       "notificationAriaLabel": "Tem notificação"
