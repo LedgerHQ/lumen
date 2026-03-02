@@ -234,7 +234,9 @@ export function TabBar({
         {...props}
       >
         {children}
-        {Platform.OS === 'ios' ? (
+        {Platform.OS === 'android' ? (
+          <View style={styles.androidBackground} />
+        ) : (
           <BlurView
             style={styles.blur}
             blurAmount={theme.blur.lg}
@@ -245,8 +247,6 @@ export function TabBar({
                 : 'rgba(255,255,255,0.2)'
             }
           />
-        ) : (
-          <View style={styles.androidBackground} />
         )}
         <Animated.View style={[styles.pill, animatedPillStyle]} />
       </Box>
