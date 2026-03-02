@@ -21,6 +21,10 @@ const meta = {
     disabled: {
       control: 'boolean',
     },
+    appearance: {
+      options: ['background', 'no-background'],
+      control: 'radio',
+    },
     accessibilityLabel: {
       control: 'text',
     },

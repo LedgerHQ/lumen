@@ -17,6 +17,11 @@ export type SegmentedControlProps = {
    */
   disabled?: boolean;
   /**
+   * Visual style of the control container: "background" shows the surface bg, "no-background" is transparent.
+   * @default 'background'
+   */
+  appearance?: 'background' | 'no-background';
+  /**
    * Accessible label for the control (e.g. "File view").
    */
   accessibilityLabel?: string;

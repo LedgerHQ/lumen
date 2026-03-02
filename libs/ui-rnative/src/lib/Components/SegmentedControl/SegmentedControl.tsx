@@ -105,9 +105,10 @@ export function SegmentedControl({
   accessibilityLabel,
   children,
   disabled,
+  appearance = 'background',
   ...props
 }: SegmentedControlProps) {
-  const styles = useRootStyles(!!disabled);
+  const styles = useRootStyles(!!disabled, appearance);
   const pillTranslateX = useSharedValue(0);
   const pillWidth = useSharedValue(0);
   const pillHeight = useSharedValue(0);
@@ -183,7 +184,10 @@ export function SegmentedControl({
 
 SegmentedControl.displayName = 'SegmentedControl';
 
-function useRootStyles(disabled: boolean) {
+function useRootStyles(
+  disabled: boolean,
+  appearance: 'background' | 'no-background',
+) {
   return useStyleSheet(
     (t) => ({
       container: {
@@ -192,7 +196,8 @@ function useRootStyles(disabled: boolean) {
         position: 'relative',
         width: '100%',
         borderRadius: t.borderRadius.md,
-        backgroundColor: t.colors.bg.surface,
+        backgroundColor:
+          appearance === 'background' ? t.colors.bg.surface : 'transparent',
       },
       pill: {
         position: 'absolute',
@@ -205,6 +210,6 @@ function useRootStyles(disabled: boolean) {
         zIndex: 0,
       },
     }),
-    [disabled],
+    [disabled, appearance],
   );
 }

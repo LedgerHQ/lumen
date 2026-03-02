@@ -58,6 +58,7 @@ export function SegmentedControl({
   children,
   className,
   disabled,
+  appearance = 'background',
   ...props
 }: SegmentedControlProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -105,7 +106,8 @@ export function SegmentedControl({
         role='radiogroup'
         aria-disabled={disabled}
         className={cn(
-          'relative flex w-full flex-row items-center rounded-sm bg-surface',
+          'relative flex w-full flex-row items-center rounded-sm',
+          appearance === 'background' && 'bg-surface',
           className,
         )}
       >
