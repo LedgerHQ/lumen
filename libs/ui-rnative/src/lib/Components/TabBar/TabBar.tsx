@@ -287,6 +287,7 @@ const useStyles = () =>
       },
       pill: {
         position: 'absolute',
+        pointerEvents: 'none',
         top: PILL_INSET,
         left: PILL_INSET,
         borderRadius: t.borderRadius.full,
