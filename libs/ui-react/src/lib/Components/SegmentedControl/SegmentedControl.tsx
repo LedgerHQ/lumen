@@ -17,7 +17,7 @@ export function SegmentedControlButton({
   className,
   ...props
 }: SegmentedControlButtonProps) {
-  const { selectedValue, onSelectedChange, disabled } =
+  const { selectedValue, onSelectedChange, disabled, setPillPressed } =
     useSegmentedControlContext();
   const selected = selectedValue === value;
 
@@ -34,10 +34,16 @@ export function SegmentedControlButton({
           onClick?.(e);
         }
       }}
+      onPointerDown={() => {
+        if (selected && !disabled) setPillPressed?.(true);
+      }}
+      onPointerUp={() => setPillPressed?.(false)}
+      onPointerLeave={() => setPillPressed?.(false)}
       className={cn(
         'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
         selected ? 'body-2-semi-bold' : 'body-2',
         selected && !disabled ? 'text-base' : 'text-muted',
+        !selected && !disabled && 'hover:bg-base-transparent-hover',
         className,
       )}
       {...props}
@@ -63,6 +69,7 @@ export function SegmentedControl({
 }: SegmentedControlProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [pill, setPill] = useState({ width: 0, height: 0, x: 0 });
+  const [pillPressed, setPillPressed] = useState(false);
 
   const selectedIndex = useMemo(
     () =>
@@ -98,7 +105,7 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange, disabled }}
+      value={{ selectedValue, onSelectedChange, disabled, setPillPressed }}
     >
       <div
         {...props}
@@ -115,7 +122,12 @@ export function SegmentedControl({
         <div
           aria-hidden
           className={cn(
-            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm bg-muted',
+            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm',
+            disabled
+              ? 'bg-base-transparent-pressed'
+              : pillPressed
+                ? 'bg-muted-transparent-pressed'
+                : 'bg-muted-transparent',
           )}
           style={{
             width: pill.width,

@@ -4,6 +4,7 @@ export type SegmentedControlContextValue = {
   selectedValue: string;
   onSelectedChange: (value: string) => void;
   disabled?: boolean;
+  setPillPressed?: (pressed: boolean) => void;
 };
 
 const [SegmentedControlContextProvider, _useSegmentedControlSafeContext] =

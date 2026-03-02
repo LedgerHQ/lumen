@@ -25,7 +25,7 @@ export function SegmentedControlButton({
   ...props
 }: SegmentedControlButtonProps) {
   const styles = useButtonStyles();
-  const { selectedValue, onSelectedChange, disabled } =
+  const { selectedValue, onSelectedChange, disabled, setPillPressed } =
     useSegmentedControlContext();
 
   const selected = selectedValue === value;
@@ -40,6 +40,10 @@ export function SegmentedControlButton({
   return (
     <Pressable
       onPress={handlePress}
+      onPressIn={() => {
+        if (selected && !disabled) setPillPressed?.(true);
+      }}
+      onPressOut={() => setPillPressed?.(false)}
       disabled={disabled}
       accessibilityState={{ selected, disabled }}
       style={styles.button}
@@ -108,7 +112,8 @@ export function SegmentedControl({
   appearance = 'background',
   ...props
 }: SegmentedControlProps) {
-  const styles = useRootStyles(!!disabled, appearance);
+  const [pillPressed, setPillPressed] = React.useState(false);
+  const styles = useRootStyles(!!disabled, appearance, pillPressed);
   const pillTranslateX = useSharedValue(0);
   const pillWidth = useSharedValue(0);
   const pillHeight = useSharedValue(0);
@@ -162,7 +167,7 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange, disabled }}
+      value={{ selectedValue, onSelectedChange, disabled, setPillPressed }}
     >
       <Box
         accessibilityRole='radiogroup'
@@ -187,6 +192,7 @@ SegmentedControl.displayName = 'SegmentedControl';
 function useRootStyles(
   disabled: boolean,
   appearance: 'background' | 'no-background',
+  pillPressed: boolean,
 ) {
   return useStyleSheet(
     (t) => ({
@@ -204,10 +210,14 @@ function useRootStyles(
         top: 0,
         left: 0,
         borderRadius: t.borderRadius.sm,
-        backgroundColor: t.colors.bg.muted,
+        backgroundColor: disabled
+          ? t.colors.bg.baseTransparentPressed
+          : pillPressed
+            ? t.colors.bg.mutedTransparentPressed
+            : t.colors.bg.mutedTransparent,
         zIndex: 0,
       },
     }),
-    [disabled, appearance],
+    [disabled, appearance, pillPressed],
   );
 }
