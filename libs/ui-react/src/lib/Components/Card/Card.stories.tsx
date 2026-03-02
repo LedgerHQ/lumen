@@ -140,11 +140,9 @@ export const StatesShowcase: Story = {
           </CardTrailing>
         </CardHeader>
         <CardFooter>
-          <CardLeading>
-            <CardContentDescription>
-              3 assets on 2 networks
-            </CardContentDescription>
-          </CardLeading>
+          <CardContentDescription>
+            3 assets on 2 networks
+          </CardContentDescription>
         </CardFooter>
       </Card>
 

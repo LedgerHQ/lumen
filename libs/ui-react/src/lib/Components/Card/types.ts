@@ -7,8 +7,8 @@ import type {
 export type CardType = 'interactive' | 'expandable' | 'info';
 
 export type CardContextValue = {
-  type?: CardType;
-  expanded?: boolean;
+  type: CardType;
+  expanded: boolean;
   onHeaderClick?: MouseEventHandler<HTMLDivElement>;
 };
 

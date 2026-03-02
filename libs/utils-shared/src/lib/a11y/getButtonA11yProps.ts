@@ -2,6 +2,7 @@ import type {
   AriaAttributes,
   KeyboardEventHandler,
   MouseEventHandler,
+  MouseEvent,
   HTMLAttributes,
 } from 'react';
 
@@ -23,11 +24,6 @@ type ButtonA11yProps<T extends HTMLElement = HTMLElement> = Pick<
  *
  * When `disabled` is `true`, the element gets `aria-disabled`, is removed
  * from the tab order, and click/keyboard handlers are omitted.
- *
- * Returns `undefined` when `onClick` is falsy so it can be used inline:
- * ```tsx
- * <div {...getButtonA11yProps({ onClick, disabled })} />
- * ```
  */
 export const getButtonA11yProps = <T extends HTMLElement = HTMLElement>({
   onClick,
@@ -44,7 +40,7 @@ export const getButtonA11yProps = <T extends HTMLElement = HTMLElement>({
   const onKeyDown: KeyboardEventHandler<T> = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onClick?.(e as unknown as React.MouseEvent<T>);
+      onClick?.(e as unknown as MouseEvent<T>);
     }
   };
 

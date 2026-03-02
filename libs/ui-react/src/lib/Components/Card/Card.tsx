@@ -24,7 +24,11 @@ import {
 
 const [CardProvider, useCardContext] = createSafeContext<CardContextValue>(
   'Card',
-  {},
+  {
+    type: 'interactive',
+    expanded: false,
+    onHeaderClick: undefined,
+  },
 );
 
 const [CardContentAlignProvider, useCardContentAlignContext] =
@@ -102,7 +106,7 @@ export const Card = ({
     <CardProvider
       value={{
         type,
-        expanded,
+        expanded: Boolean(expanded),
         onHeaderClick: isExpandable ? onClick : undefined,
       }}
     >
@@ -111,7 +115,11 @@ export const Card = ({
           ref={ref}
           {...(isInteractive && getButtonA11yProps({ onClick, disabled }))}
           className={cn(
-            cardVariants({ interactive: isInteractive, outlined, disabled }),
+            cardVariants({
+              interactive: isInteractive,
+              outlined,
+              disabled,
+            }),
             className,
           )}
           {...props}
