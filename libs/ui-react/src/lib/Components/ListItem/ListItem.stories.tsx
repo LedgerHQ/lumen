@@ -320,26 +320,6 @@ export const DisabledState: Story = {
       </ListItem>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<ListItem disabled>
-  <ListItemLeading>
-    <ListItemSpot appearance="icon" icon={Settings} />
-    <ListItemContent>
-      <ListItemTitle>Disabled Item</ListItemTitle>
-      <ListItemDescription>This item is disabled</ListItemDescription>
-    </ListItemContent>
-  </ListItemLeading>
-  <ListItemTrailing>
-    <ChevronRight size={24} className="text-disabled" />
-  </ListItemTrailing>
-</ListItem>
-`,
-      },
-    },
-  },
 };
 
 export const ResponsiveLayout: Story = {
