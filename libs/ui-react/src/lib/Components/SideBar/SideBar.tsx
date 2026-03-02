@@ -27,7 +27,7 @@ const sideBarVariants = {
     {
       variants: {
         collapsed: {
-          true: 'w-72',
+          true: 'w-[76px]',
           false: 'w-208',
         },
       },
@@ -223,17 +223,8 @@ export const SideBarItem = ({
 
   const content = (
     <>
-      <IconComponent size={16} className='shrink-0' />
-      {label != null && (
-        <span
-          className={cn(
-            'truncate transition-all duration-200',
-            collapsed ? 'ml-0 w-0 opacity-0' : 'ml-8 opacity-100',
-          )}
-        >
-          {label}
-        </span>
-      )}
+      <IconComponent size={20} className='shrink-0' />
+      {label != null && <span className='translate-x-8 truncate'>{label}</span>}
     </>
   );
 
@@ -245,7 +236,6 @@ export const SideBarItem = ({
       onClick={handleClick}
       className={cn(
         sideBarVariants.item({ active: isActive, disabled }),
-        collapsed && 'w-fit',
         className,
       )}
       aria-current={isActive ? 'page' : undefined}
@@ -255,18 +245,14 @@ export const SideBarItem = ({
     </button>
   );
 
-  if (collapsed && tooltipContent) {
-    return (
-      <Tooltip>
-        <TooltipTrigger asChild>{item}</TooltipTrigger>
-        <TooltipContent side='right' sideOffset={8}>
-          {tooltipContent}
-        </TooltipContent>
-      </Tooltip>
-    );
-  }
-
-  return item;
+  return (
+    <Tooltip open={collapsed ? undefined : false}>
+      <TooltipTrigger asChild>{item}</TooltipTrigger>
+      <TooltipContent side='right' sideOffset={8}>
+        {tooltipContent}
+      </TooltipContent>
+    </Tooltip>
+  );
 };
 SideBarItem.displayName = 'SideBarItem';
 
@@ -300,7 +286,6 @@ export const SideBarCollapseToggle = ({
       onClick={handleToggle}
       className={cn(
         sideBarVariants.item({ active: false, disabled: false }),
-        collapsed && 'w-fit',
         className,
       )}
       aria-label={
@@ -310,7 +295,7 @@ export const SideBarCollapseToggle = ({
       }
       {...props}
     >
-      <Icon size={16} className='shrink-0' />
+      <Icon size={20} className='shrink-0' />
     </button>
   );
 
