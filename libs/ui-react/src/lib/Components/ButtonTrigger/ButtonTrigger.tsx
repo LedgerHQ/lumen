@@ -3,7 +3,7 @@ import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ChevronDown } from '../../Symbols';
 import { baseButtonVariants } from '../Button/BaseButton';
-import { ButtonTriggerProps } from './types';
+import type { ButtonTriggerProps } from './types';
 
 const triggerVariants = cva('gap-8 body-2-semi-bold', {
   variants: {

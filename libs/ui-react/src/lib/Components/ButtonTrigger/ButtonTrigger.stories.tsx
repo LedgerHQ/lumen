@@ -115,9 +115,7 @@ export const IconTypeShowcase: Story = {
         >
           Rounded icon (md)
         </ButtonTrigger>
-        <ButtonTrigger appearance='gray'>
-          No icon (md)
-        </ButtonTrigger>
+        <ButtonTrigger appearance='gray'>No icon (md)</ButtonTrigger>
       </div>
       <div className='flex items-center gap-16'>
         <ButtonTrigger
@@ -161,9 +159,7 @@ export const AllAppearancesWithIcons: Story = {
       >
         {appearances.map((appearance) => (
           <div key={appearance} className='flex items-center gap-16'>
-            <ButtonTrigger appearance={appearance}>
-              {appearance}
-            </ButtonTrigger>
+            <ButtonTrigger appearance={appearance}>{appearance}</ButtonTrigger>
             <ButtonTrigger
               appearance={appearance}
               icon={<Settings size={20} />}

@@ -14,9 +14,7 @@ describe('ButtonTrigger', () => {
   });
 
   it('should always render a chevron icon', () => {
-    const { container } = render(
-      <ButtonTrigger>Label</ButtonTrigger>,
-    );
+    const { container } = render(<ButtonTrigger>Label</ButtonTrigger>);
     const svg = container.querySelector('svg');
     expect(svg).toBeInTheDocument();
   });
@@ -56,9 +54,7 @@ describe('ButtonTrigger', () => {
 
   it('should call onClick handler when clicked', () => {
     const handleClick = vi.fn();
-    render(
-      <ButtonTrigger onClick={handleClick}>Label</ButtonTrigger>,
-    );
+    render(<ButtonTrigger onClick={handleClick}>Label</ButtonTrigger>);
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
