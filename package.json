@@ -101,7 +101,7 @@
     "eslint-plugin-react-hooks": "5.0.0",
     "eslint-plugin-storybook": "10.2.13",
     "jest": "30.0.5",
-    "jest-environment-node": "^29.7.0",
+    "jest-environment-node": "30.0.5",
     "jest-react-native": "18.0.0",
     "jest-util": "30.0.5",
     "jiti": "2.4.2",
