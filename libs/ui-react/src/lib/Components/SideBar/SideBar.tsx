@@ -295,7 +295,7 @@ export const SideBarCollapseToggle = ({
       }
       {...props}
     >
-      <Icon size={16} className='shrink-0' />
+      <Icon size={20} className='shrink-0' />
     </button>
   );
 
