@@ -79,7 +79,7 @@ export type SelectTriggerProps = {
    * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
    * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
    */
-  render?: (props: SelectTriggerRenderProps) => ReactNode;
+  render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
    * Extra class names to apply to the trigger element
    * @example className='text-error'

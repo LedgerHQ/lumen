@@ -65,7 +65,10 @@ const SelectTrigger = ({
   render,
   ...props
 }: SelectTriggerProps) => {
-  const { selectedValue } = useSelectContext();
+  const { selectedValue } = useSelectContext({
+    consumerName: 'SelectTrigger',
+    contextRequired: true,
+  });
   const selectedContent = <SelectPrimitive.Value data-slot='select-value' />;
 
   if (render) {

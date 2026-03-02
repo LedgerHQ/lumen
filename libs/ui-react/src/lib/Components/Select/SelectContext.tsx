@@ -1,19 +1,8 @@
-import { createContext, useContext } from 'react';
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 
 type SelectContextValue = {
   selectedValue: string;
 };
 
-const SelectContext = createContext<SelectContextValue | undefined>(undefined);
-
-export const useSelectContext = (): SelectContextValue => {
-  const context = useContext(SelectContext);
-  if (!context) {
-    throw new Error(
-      'useSelectContext must be used within a <Select> component',
-    );
-  }
-  return context;
-};
-
-export const SelectProvider = SelectContext.Provider;
+export const [SelectProvider, useSelectContext] =
+  createSafeContext<SelectContextValue>('Select');
