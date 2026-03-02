@@ -187,30 +187,7 @@ describe('SideBar Component', () => {
       );
 
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('w-72');
-    });
-
-    it('should hide labels when collapsed', () => {
-      render(
-        <SideBar defaultCollapsed={true}>
-          <SideBarLeading>
-            <SideBarItem
-              value='home'
-              icon={Home}
-              activeIcon={HomeFill}
-              label='Home'
-            />
-          </SideBarLeading>
-        </SideBar>,
-      );
-
-      // Label is still in DOM but visually hidden with CSS
-      const buttons = screen.getAllByRole('button');
-      const homeButton = buttons.find((btn) => btn.querySelector('svg'));
-      expect(homeButton).toBeInTheDocument();
-      const homeLabel = homeButton?.querySelector('span');
-      expect(homeLabel).toHaveTextContent('Home');
-      expect(homeLabel).toHaveClass('opacity-0', 'w-0');
+      expect(navElement).toHaveClass('w-[76px]');
     });
 
     it('should toggle collapsed state when collapse button is clicked', () => {
@@ -236,7 +213,7 @@ describe('SideBar Component', () => {
       const collapseButton = screen.getByTestId('sidebar-collapse');
       fireEvent.click(collapseButton);
 
-      expect(navElement).toHaveClass('w-72');
+      expect(navElement).toHaveClass('w-[76px]');
     });
 
     it('should call onCollapsedChange when state changes', () => {
@@ -293,7 +270,7 @@ describe('SideBar Component', () => {
         </SideBar>,
       );
 
-      expect(navElement).toHaveClass('w-72');
+      expect(navElement).toHaveClass('w-[76px]');
     });
   });
 

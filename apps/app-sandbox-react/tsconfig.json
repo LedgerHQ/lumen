@@ -3,12 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/design-core"
-    },
-    {
-      "path": "../../libs/ui-react"
-    },
-    {
       "path": "./tsconfig.app.json"
     },
     {

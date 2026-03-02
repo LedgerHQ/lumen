@@ -1,6 +1,12 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { LayoutChangeEvent, StyleSheet, Text } from 'react-native';
+import {
+  LayoutChangeEvent,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -228,16 +234,20 @@ export function TabBar({
         {...props}
       >
         {children}
-        <BlurView
-          style={styles.blur}
-          blurAmount={theme.blur.lg}
-          blurType={colorScheme === 'dark' ? 'dark' : 'light'}
-          overlayColor={
-            colorScheme === 'dark'
-              ? 'rgba(0,0,0,0.15)'
-              : 'rgba(255,255,255,0.2)'
-          }
-        />
+        {Platform.OS === 'android' ? (
+          <View style={styles.androidBackground} />
+        ) : (
+          <BlurView
+            style={styles.blur}
+            blurAmount={theme.blur.lg}
+            blurType={colorScheme === 'dark' ? 'dark' : 'light'}
+            overlayColor={
+              colorScheme === 'dark'
+                ? 'rgba(0,0,0,0.15)'
+                : 'rgba(255,255,255,0.2)'
+            }
+          />
+        )}
         <Animated.View style={[styles.pill, animatedPillStyle]} />
       </Box>
     </TabBarContextProvider>
@@ -259,8 +269,13 @@ const useStyles = () =>
       },
       blur: {
         ...StyleSheet.absoluteFillObject,
-        bottom: -2,
+        height: TAB_BAR_HEIGHT + t.sizes.s16,
         zIndex: -1,
+      },
+      androidBackground: {
+        ...StyleSheet.absoluteFillObject,
+        zIndex: -1,
+        backgroundColor: t.colors.bg.muted,
       },
       item: {
         flex: 1,
@@ -287,6 +302,7 @@ const useStyles = () =>
       },
       pill: {
         position: 'absolute',
+        pointerEvents: 'none',
         top: PILL_INSET,
         left: PILL_INSET,
         borderRadius: t.borderRadius.full,

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Eye, EyeCross } from '../../Symbols';
 import { IconButton } from '../IconButton';
@@ -48,6 +48,7 @@ const meta: Meta<typeof AmountDisplay> = {
   args: {
     formatter: eurFormatter,
     hidden: false,
+    animate: true,
   },
   argTypes: {
     formatter: {
@@ -72,7 +73,11 @@ const meta: Meta<typeof AmountDisplay> = {
       control: {
         type: 'boolean',
       },
-      description: 'When true, displays bullet points instead of the amount',
+    },
+    animate: {
+      control: {
+        type: 'boolean',
+      },
     },
   },
   parameters: {
@@ -124,6 +129,28 @@ export const WithHideButton: Story = {
         />
       </View>
     );
+  },
+};
+
+export const AnimationShowcase: Story = {
+  args: {
+    value: 1234.56,
+  },
+  render: (props) => {
+    const [currentValue, setCurrentValue] = useState<number>(props.value);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentValue((prev) => {
+          const delta = prev * (Math.random() * 0.02 - 0.01);
+          return Math.round((prev + delta) * 100) / 100;
+        });
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }, []);
+
+    return <AmountDisplay {...props} value={currentValue} />;
   },
 };
 

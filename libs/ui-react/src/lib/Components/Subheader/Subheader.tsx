@@ -32,7 +32,7 @@ export const SubheaderTitle = ({
   return (
     <Component
       className={cn(
-        'min-w-0 truncate heading-4-semi-bold text-base group-hover/row:text-base-hover',
+        'min-w-0 truncate pe-1 heading-4-semi-bold text-base group-hover/row:text-base-hover',
         className,
       )}
       {...props}

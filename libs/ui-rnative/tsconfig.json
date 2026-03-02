@@ -6,20 +6,7 @@
   "files": [],
   "include": [],
   "references": [
-    {
-      "path": "../design-core"
-    },
-    {
-      "path": "../utils-shared"
-    },
-    {
-      "path": "./tsconfig.lib.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    },
-    {
-      "path": "./tsconfig.storybook.json"
-    }
-  ],
+    { "path": "./tsconfig.lib.json" },
+    { "path": "./tsconfig.spec.json" }
+  ]
 }
