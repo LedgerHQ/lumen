@@ -25,10 +25,12 @@ export function SegmentedControlButton({
   ...props
 }: SegmentedControlButtonProps) {
   const styles = useButtonStyles();
-  const { selectedValue, onSelectedChange, disabled, setPillPressed } =
+  const { selectedValue, onSelectedChange, disabled } =
     useSegmentedControlContext();
 
   const selected = selectedValue === value;
+  const typography = selected ? 'body2SemiBold' : 'body2';
+  const textColor = selected && !disabled ? 'base' : 'muted';
 
   function handlePress() {
     if (!disabled) {
@@ -40,10 +42,6 @@ export function SegmentedControlButton({
   return (
     <Pressable
       onPress={handlePress}
-      onPressIn={() => {
-        if (selected && !disabled) setPillPressed?.(true);
-      }}
-      onPressOut={() => setPillPressed?.(false)}
       disabled={disabled}
       accessibilityState={{ selected, disabled }}
       style={styles.button}
@@ -52,14 +50,12 @@ export function SegmentedControlButton({
       <Box style={styles.content}>
         {Icon && (
           <Box style={styles.iconWrap}>
-            <Icon size={16} color={selected && !disabled ? 'base' : 'muted'} />
+            <Icon size={16} color={textColor} />
           </Box>
         )}
         <Text
-          typography={selected ? 'body2SemiBold' : 'body2'}
-          lx={{
-            color: selected && !disabled ? 'base' : 'muted',
-          }}
+          typography={typography}
+          lx={{ color: textColor }}
           style={styles.label}
         >
           {children}
@@ -112,8 +108,7 @@ export function SegmentedControl({
   appearance = 'background',
   ...props
 }: SegmentedControlProps) {
-  const [pillPressed, setPillPressed] = React.useState(false);
-  const styles = useRootStyles(!!disabled, appearance, pillPressed);
+  const styles = useRootStyles(!!disabled, appearance);
   const pillTranslateX = useSharedValue(0);
   const pillWidth = useSharedValue(0);
   const pillHeight = useSharedValue(0);
@@ -167,7 +162,7 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange, disabled, setPillPressed }}
+      value={{ selectedValue, onSelectedChange, disabled }}
     >
       <Box
         accessibilityRole='radiogroup'
@@ -192,7 +187,6 @@ SegmentedControl.displayName = 'SegmentedControl';
 function useRootStyles(
   disabled: boolean,
   appearance: 'background' | 'no-background',
-  pillPressed: boolean,
 ) {
   return useStyleSheet(
     (t) => ({
@@ -212,12 +206,10 @@ function useRootStyles(
         borderRadius: t.borderRadius.sm,
         backgroundColor: disabled
           ? t.colors.bg.baseTransparentPressed
-          : pillPressed
-            ? t.colors.bg.mutedTransparentPressed
-            : t.colors.bg.mutedTransparent,
+          : t.colors.bg.mutedTransparent,
         zIndex: 0,
       },
     }),
-    [disabled, appearance, pillPressed],
+    [disabled, appearance],
   );
 }
