@@ -65,13 +65,7 @@ describe('getButtonA11yProps', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it('returns props without error when onClick is undefined', () => {
-    const result = getButtonA11yProps({});
-
-    expect(result).toMatchObject({
-      role: 'button',
-      tabIndex: 0,
-    });
-    expect(result?.onClick).toBeUndefined();
+  it('returns undefined when onClick is not provided', () => {
+    expect(getButtonA11yProps({})).toBeUndefined();
   });
 });

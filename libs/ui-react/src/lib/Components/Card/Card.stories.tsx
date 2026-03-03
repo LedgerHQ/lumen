@@ -47,6 +47,9 @@ type Story = StoryObj<typeof Card>;
 export const Base: Story = {
   args: {
     className: 'w-320',
+    onClick: () => {
+      return;
+    },
   },
   render: (args) => (
     <Card {...args}>
@@ -73,9 +76,15 @@ export const Base: Story = {
 };
 
 export const StatesShowcase: Story = {
-  render: () => (
+  args: {
+    className: 'w-320',
+    onClick: () => {
+      return;
+    },
+  },
+  render: (args) => (
     <div className='flex flex-col gap-16'>
-      <Card className='w-320'>
+      <Card {...args} className='w-320'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -100,7 +109,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card className='w-320' outlined>
+      <Card {...args} className='w-320' outlined>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -123,7 +132,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card className='w-320' type='info'>
+      <Card {...args} className='w-320' type='info'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -146,7 +155,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card className='w-320' disabled>
+      <Card {...args} className='w-320' disabled>
         <CardHeader>
           <CardLeading>
             <div className='opacity-30'>
@@ -171,7 +180,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card className='w-320' disabled>
+      <Card {...args} className='w-320' disabled>
         <CardHeader>
           <CardLeading>
             <Wallet size={20} />
@@ -301,9 +310,15 @@ export const ExpandableShowcase: Story = {
 };
 
 export const LayoutShowcase: Story = {
-  render: () => (
+  args: {
+    className: 'w-320',
+    onClick: () => {
+      return;
+    },
+  },
+  render: (args) => (
     <div className='flex w-480 flex-col gap-32'>
-      <Card className='w-fit'>
+      <Card {...args} className='w-fit'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -318,7 +333,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card className='w-320'>
+      <Card {...args} className='w-320'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -342,7 +357,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card className='w-320'>
+      <Card {...args} className='w-320'>
         <CardHeader>
           <CardLeading>
             <div className='shrink-0'>
@@ -379,7 +394,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card>
+      <Card {...args} className='w-full'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -404,12 +419,18 @@ export const LayoutShowcase: Story = {
 };
 
 export const CompositionsShowcase: Story = {
-  render: () => {
+  args: {
+    className: 'w-320',
+    onClick: () => {
+      return;
+    },
+  },
+  render: (args) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
       <div className='flex flex-col gap-16'>
-        <Card className='w-320' type='info'>
+        <Card {...args} className='w-320' type='info'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -433,12 +454,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card
-          className='w-320'
-          onClick={() => {
-            // do stuff
-          }}
-        >
+        <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -461,7 +477,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card className='w-320'>
+        <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
               <Spot appearance='icon' icon={Wallet} />
@@ -484,7 +500,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card className='w-320'>
+        <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -504,7 +520,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card className='w-320'>
+        <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -557,7 +573,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card className='w-320' type='info'>
+        <Card {...args} className='w-320' type='info'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -585,7 +601,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card className='w-320' type='info'>
+        <Card {...args} className='w-320' type='info'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -608,6 +624,7 @@ export const CompositionsShowcase: Story = {
         </Card>
 
         <Card
+          {...args}
           className='w-320'
           type='expandable'
           expanded={expanded}
@@ -639,6 +656,17 @@ export const CompositionsShowcase: Story = {
               </Button>
             </CardFooterActions>
           </CardFooter>
+        </Card>
+
+        <Card {...args} className='w-320'>
+          <CardHeader>
+            <CardLeading>
+              <CardContent>
+                <CardContentDescription>BTC</CardContentDescription>
+                <CardContentTitle>Bitcoin</CardContentTitle>
+              </CardContent>
+            </CardLeading>
+          </CardHeader>
         </Card>
       </div>
     );

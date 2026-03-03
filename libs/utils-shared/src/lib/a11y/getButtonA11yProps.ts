@@ -22,6 +22,8 @@ type ButtonA11yProps<T extends HTMLElement = HTMLElement> = Pick<
  * button: `role="button"`, `tabIndex`, keyboard activation on Enter/Space,
  * and the original `onClick` passthrough.
  *
+ * Returns undefined if `onClick` is not provided
+ *
  * When `disabled` is `true`, the element gets `aria-disabled`, is removed
  * from the tab order, and click/keyboard handlers are omitted.
  */
@@ -29,6 +31,10 @@ export const getButtonA11yProps = <T extends HTMLElement = HTMLElement>({
   onClick,
   disabled,
 }: ButtonA11yOptions<T>): ButtonA11yProps<T> | undefined => {
+  if (!onClick) {
+    return undefined;
+  }
+
   if (disabled) {
     return {
       role: 'button',

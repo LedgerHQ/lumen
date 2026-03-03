@@ -6,6 +6,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import { useMemo } from 'react';
 import { ChevronDown, ChevronUp } from '../../Symbols';
 import {
   CardContentAlignContextValue,
@@ -20,14 +21,51 @@ import {
   CardLeadingProps,
   CardProps,
   CardTrailingProps,
+  CardType,
 } from './types';
+
+export const resolveCardInnerContext = ({
+  type,
+  expanded,
+  onClick,
+  disabled,
+}: {
+  type: CardType;
+  expanded: CardProps['expanded'];
+  onClick: CardProps['onClick'];
+  disabled: CardProps['disabled'];
+}): CardContextValue => {
+  switch (type) {
+    case 'interactive':
+      return {
+        cardClickable: !!onClick,
+        headerClickable: false,
+        footerExpanded: true,
+        onHeaderClick: undefined,
+      };
+    case 'expandable':
+      return {
+        cardClickable: false,
+        headerClickable: !!onClick && !disabled,
+        footerExpanded: Boolean(expanded),
+        onHeaderClick: onClick,
+      };
+    case 'info':
+      return {
+        cardClickable: false,
+        headerClickable: false,
+        footerExpanded: true,
+        onHeaderClick: undefined,
+      };
+  }
+};
 
 const [CardProvider, useCardContext] = createSafeContext<CardContextValue>(
   'Card',
   {
-    type: 'interactive',
-    expanded: false,
-    onHeaderClick: undefined,
+    cardClickable: false,
+    headerClickable: false,
+    footerExpanded: true,
   },
 );
 
@@ -99,24 +137,27 @@ export const Card = ({
   children,
   ...props
 }: CardProps) => {
-  const isInteractive = type === 'interactive';
-  const isExpandable = type === 'expandable';
+  const innerContext = useMemo(
+    () =>
+      resolveCardInnerContext({
+        type,
+        expanded,
+        onClick,
+        disabled,
+      }),
+    [type, expanded, onClick, disabled],
+  );
 
   return (
-    <CardProvider
-      value={{
-        type,
-        expanded: Boolean(expanded),
-        onHeaderClick: isExpandable ? onClick : undefined,
-      }}
-    >
+    <CardProvider value={innerContext}>
       <DisabledProvider value={{ disabled }}>
         <div
           ref={ref}
-          {...(isInteractive && getButtonA11yProps({ onClick, disabled }))}
+          {...(innerContext.cardClickable &&
+            getButtonA11yProps({ onClick, disabled }))}
           className={cn(
             cardVariants({
-              interactive: isInteractive,
+              interactive: innerContext.cardClickable,
               outlined,
               disabled,
             }),
@@ -145,34 +186,31 @@ export const CardHeader = ({
   const disabled = useDisabledContext({
     consumerName: 'CardHeader',
   });
-  const { type, expanded, onHeaderClick } = useCardContext({
+  const { headerClickable, footerExpanded, onHeaderClick } = useCardContext({
     consumerName: 'CardHeader',
     contextRequired: false,
   });
 
-  const isExpandable = type === 'expandable';
-  const isClickable = isExpandable && !disabled && !!onHeaderClick;
-
   return (
     <div
       ref={ref}
-      aria-expanded={isExpandable ? expanded : undefined}
-      {...(isExpandable &&
-        getButtonA11yProps({ onClick: onHeaderClick, disabled }))}
+      aria-expanded={onHeaderClick ? footerExpanded : undefined}
+      {...getButtonA11yProps({ onClick: onHeaderClick, disabled })}
       className={cn(
         'flex items-center gap-12 p-12',
-        isClickable &&
+        headerClickable &&
           'cursor-pointer -outline-offset-6 transition-colors hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-surface-pressed',
         className,
       )}
       {...props}
     >
       {children}
-      {isExpandable && expanded && (
-        <ChevronUp className='text-muted' size={20} />
-      )}
-      {isExpandable && !expanded && (
-        <ChevronDown className='text-muted' size={20} />
+
+      {onHeaderClick && (
+        <>
+          {footerExpanded && <ChevronUp className='text-muted' size={20} />}
+          {!footerExpanded && <ChevronDown className='text-muted' size={20} />}
+        </>
       )}
     </div>
   );
@@ -353,9 +391,8 @@ export const CardTrailing = ({
 CardTrailing.displayName = 'CardTrailing';
 
 /**
- * Footer container for the card. When the card `type` is `"expandable"`,
- * the footer collapses with a 300ms transition when `expanded === false`.
- * When `expanded` is `undefined`, the footer is always visible.
+ * Footer container for the card. Collapses with a 300ms transition
+ * when `footerExpanded` is `false` (only happens in `"expandable"` mode).
  */
 export const CardFooter = ({
   ref,
@@ -367,7 +404,7 @@ export const CardFooter = ({
     consumerName: 'CardFooter',
   });
 
-  const { expanded } = useCardContext({
+  const { footerExpanded } = useCardContext({
     consumerName: 'CardFooter',
     contextRequired: false,
   });
@@ -376,7 +413,7 @@ export const CardFooter = ({
     <div
       className={cn(
         'grid flex-1 bg-muted-transparent transition-[grid-template-rows] duration-300',
-        expanded === false ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]',
+        footerExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
       )}
     >
       <div className='overflow-hidden'>

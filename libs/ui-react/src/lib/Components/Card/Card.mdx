@@ -23,7 +23,7 @@ Card is a flexible container component that uses a composite pattern for display
 - **Card**: Root container with surface background and rounded corners.
 - **CardHeader**: Horizontal layout for the header row. Becomes the click target when `type="expandable"`.
 - **CardLeading**: Left section containing visual element and content. Reusable in both header and footer.
-- **CardContent**: Column wrapper for title + description. Use `align="right"` when placed inside `CardTrailing`.
+- **CardContent**: Column wrapper for title + description.
 - **CardContentTitle**: Primary text label with truncation.
 - **CardContentDescription**: Secondary muted text with truncation.
 - **CardTrailing**: Right section for trailing content (Button, Tag, right-aligned values, etc.).
@@ -37,7 +37,8 @@ The `type` prop defines the card's interaction behavior:
 - **`"expandable"`**: only `CardHeader` is clickable with hover/pressed states. Pass `onClick` on Card — it is routed to the header internally.
 - **`"info"`**: data-display only, no hover or click handling. Use for cards with their own action elements (e.g. buttons).
 
-Use `outlined` for selection state and `disabled` to cascade disabled styling to all sub-components.
+Use `outlined` for selection state.  
+The `disabled` prop cascades disabled styling to all sub-components (except for crypto-icon, it needs to managed in the app).
 
 <Canvas of={CardStories.StatesShowcase} />
 
