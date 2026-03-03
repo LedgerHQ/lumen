@@ -10,7 +10,7 @@ import {
   ListItemSpot,
   ListItemTitle,
 } from '../ListItem';
-import { SearchInput } from '../SearchInput/SearchInput';
+import { SearchInput } from '../SearchInput';
 import { Spot } from '../Spot';
 import { Tile, TileContent, TileSpot, TileTitle } from '../Tile';
 import {
@@ -598,6 +598,38 @@ export const WithListsContent: Story = {
       </Dialog>
     );
   },
+};
+
+export const WithScrollbar: Story = {
+  render: () => (
+    <Dialog height='fixed'>
+      <DialogTrigger asChild>
+        <Button appearance='base'>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          appearance='compact'
+          title='Custom Scrollbar'
+          description='Fixed height with styled scrollbar'
+        />
+        <DialogBody scrollbarWidth='auto'>
+          <div className='-mx-8 flex flex-col gap-4'>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <ListItem key={i}>
+                <ListItemLeading>
+                  <ListItemSpot appearance='icon' icon={Chart1} />
+                  <ListItemContent>
+                    <ListItemTitle>Content item</ListItemTitle>
+                    <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
+                  </ListItemContent>
+                </ListItemLeading>
+              </ListItem>
+            ))}
+          </div>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
 };
 
 export const InfoStateVariants: Story = {

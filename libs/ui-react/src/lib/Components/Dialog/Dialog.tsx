@@ -235,11 +235,12 @@ export const DialogBody = ({
     <div
       ref={ref}
       data-slot='dialog-body'
-      style={{ scrollbarWidth, ...style }}
+      style={style}
       className={cn(
         '-mb-24 flex min-h-0 grow flex-col overflow-y-auto px-24 pb-24',
         height === 'hug' ? 'basis-auto' : 'basis-0',
         className,
+        scrollbarWidth === 'auto' ? 'scrollbar-custom' : 'scrollbar-none',
       )}
       {...props}
     >

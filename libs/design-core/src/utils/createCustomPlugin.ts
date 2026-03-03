@@ -401,6 +401,30 @@ export function createScrollbarPlugin(): TailwindPlugin {
           display: 'none',
         },
       },
+      '.scrollbar-custom': {
+        'scrollbar-width': 'thin',
+        'scrollbar-color': 'var(--background-muted-strong) transparent',
+        '&::-webkit-scrollbar': {
+          width: 'var(--size-10)',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          'background-color': 'var(--background-muted-strong)',
+          'border-radius': 'var(--border-radius-full)',
+          border: 'var(--size-2) solid transparent',
+          'background-clip': 'padding-box',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          'background-color': 'var(--background-muted-strong-hover)',
+          border: 'var(--size-2) solid transparent',
+        },
+        '&::-webkit-scrollbar-thumb:active': {
+          'background-color': 'var(--background-muted-strong-hover)',
+          border: 'var(--size-2) solid transparent',
+        },
+      },
     });
   });
 }
