@@ -11,7 +11,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -122,24 +121,6 @@ describe('Subheader', () => {
     expect(screen.getByText('This is a description')).toBeTruthy();
   });
 
-  it('renders the action in row', () => {
-    const handlePress = jest.fn();
-    render(
-      <TestWrapper>
-        <Subheader>
-          <SubheaderRow>
-            <SubheaderTitle>Title</SubheaderTitle>
-            <SubheaderAction onPress={handlePress}>Action</SubheaderAction>
-          </SubheaderRow>
-        </Subheader>
-      </TestWrapper>,
-    );
-    const button = screen.getByText('Action');
-    expect(button).toBeTruthy();
-    fireEvent.press(button);
-    expect(handlePress).toHaveBeenCalledTimes(1);
-  });
-
   it('renders interactive row with onPress', () => {
     const handlePress = jest.fn();
     render(
@@ -160,7 +141,6 @@ describe('Subheader', () => {
   });
 
   it('renders all components together', () => {
-    const handleAction = jest.fn();
     render(
       <TestWrapper>
         <Subheader>
@@ -168,7 +148,6 @@ describe('Subheader', () => {
             <SubheaderTitle>Title</SubheaderTitle>
             <SubheaderCount value={42} />
             <SubheaderInfo />
-            <SubheaderAction onPress={handleAction}>Action</SubheaderAction>
           </SubheaderRow>
           <SubheaderDescription>Description text</SubheaderDescription>
         </Subheader>
@@ -176,7 +155,6 @@ describe('Subheader', () => {
     );
     expect(screen.getByText('Title')).toBeTruthy();
     expect(screen.getByText('(42)')).toBeTruthy();
-    expect(screen.getByText('Action')).toBeTruthy();
     expect(screen.getByText('Description text')).toBeTruthy();
   });
 

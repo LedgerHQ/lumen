@@ -1,7 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
-import { Link } from '../Link/Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 import {
   Subheader,
@@ -11,7 +10,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 
 const Container = ({
@@ -31,7 +29,6 @@ const meta: Meta<typeof Subheader> = {
     SubheaderCount,
     SubheaderInfo,
     SubheaderShowMore,
-    SubheaderAction,
   },
   parameters: {
     docs: {
@@ -154,47 +151,6 @@ export const WithInfoIcon: Story = {
   </SubheaderRow>
   <SubheaderDescription>
     Use the info icon to provide contextual help or additional details
-  </SubheaderDescription>
-</Subheader>
-        `,
-      },
-    },
-  },
-};
-
-export const WithAction: Story = {
-  render: () => (
-    <Container>
-      <Subheader>
-        <SubheaderRow>
-          <SubheaderTitle>Recent Activity</SubheaderTitle>
-          <SubheaderAction onClick={() => console.log('View all clicked')}>
-            <Link appearance='accent' size='sm' underline={false}>
-              View all
-            </Link>
-          </SubheaderAction>
-        </SubheaderRow>
-        <SubheaderDescription>
-          Use actions for quick access to related functionality
-        </SubheaderDescription>
-      </Subheader>
-    </Container>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Recent Activity</SubheaderTitle>
-    <SubheaderAction onClick={handleViewAll}>
-      <Link appearance="accent" size="sm" underline={false}>
-        View all
-      </Link>
-    </SubheaderAction>
-  </SubheaderRow>
-  <SubheaderDescription>
-    Use actions for quick access to related functionality
   </SubheaderDescription>
 </Subheader>
         `,

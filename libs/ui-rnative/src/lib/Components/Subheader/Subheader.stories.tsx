@@ -10,7 +10,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 
 const Container = ({ children }: { children: React.ReactNode }) => (
@@ -29,7 +28,6 @@ const meta: Meta<typeof Subheader> = {
     SubheaderCount,
     SubheaderInfo,
     SubheaderShowMore,
-    SubheaderAction,
   },
   decorators: [
     (Story) => (
@@ -89,22 +87,6 @@ export const WithInfoIcon: Story = {
       </SubheaderRow>
       <SubheaderDescription>
         Use the info icon to provide contextual help or additional details
-      </SubheaderDescription>
-    </Subheader>
-  ),
-};
-
-export const WithAction: Story = {
-  render: () => (
-    <Subheader lx={{ maxWidth: 's480' }}>
-      <SubheaderRow>
-        <SubheaderTitle>Recent Activity</SubheaderTitle>
-        <SubheaderAction onPress={() => console.log('View all')}>
-          View all
-        </SubheaderAction>
-      </SubheaderRow>
-      <SubheaderDescription>
-        Use actions for quick access to related functionality
       </SubheaderDescription>
     </Subheader>
   ),
