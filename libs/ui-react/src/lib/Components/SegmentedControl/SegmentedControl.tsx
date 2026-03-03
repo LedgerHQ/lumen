@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   SegmentedControlContextProvider,
   useSegmentedControlContext,
@@ -8,6 +8,10 @@ import type {
   SegmentedControlButtonProps,
   SegmentedControlProps,
 } from './types';
+import {
+  usePillElementLayoutEffect,
+  useSegmentedControlSelectedIndex,
+} from './usePillElementLayoutEffect';
 
 export function SegmentedControlButton({
   value,
@@ -63,39 +67,15 @@ export function SegmentedControl({
   ...props
 }: SegmentedControlProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [pill, setPill] = useState({ width: 0, height: 0, x: 0 });
-
-  const selectedIndex = useMemo(
-    () =>
-      React.Children.toArray(children).findIndex(
-        (c) =>
-          React.isValidElement(c) &&
-          (c.props as { value?: string }).value === selectedValue,
-      ),
-    [selectedValue, children],
+  const selectedIndex = useSegmentedControlSelectedIndex(
+    selectedValue,
+    children,
   );
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const sync = (): void => {
-      const { width, height } = el.getBoundingClientRect();
-      const count = React.Children.count(children);
-      const slotWidth = count > 0 ? width / count : 0;
-      setPill({
-        width: slotWidth,
-        height,
-        x: selectedIndex >= 0 ? selectedIndex * slotWidth : 0,
-      });
-    };
-
-    sync();
-    if (typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(sync);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [children, selectedIndex]);
+  const { pill } = usePillElementLayoutEffect({
+    ref,
+    selectedIndex,
+    children,
+  });
 
   return (
     <SegmentedControlContextProvider
@@ -116,14 +96,13 @@ export function SegmentedControl({
         <div
           aria-hidden
           className={cn(
-            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm',
+            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm transition-transform duration-250 ease-in-out',
             disabled ? 'bg-base-transparent-pressed' : 'bg-muted-transparent',
           )}
           style={{
             width: pill.width,
             height: pill.height,
             transform: `translateX(${pill.x}px)`,
-            transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         />
       </div>

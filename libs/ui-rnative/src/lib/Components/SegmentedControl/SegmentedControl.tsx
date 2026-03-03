@@ -1,12 +1,6 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import { LayoutChangeEvent } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
-import { durations, easingCurves } from '../../Animations/constants';
+import type { LumenTextStyle, LumenTypographyTokenName } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
 import {
   SegmentedControlContextProvider,
@@ -16,6 +10,10 @@ import type {
   SegmentedControlButtonProps,
   SegmentedControlProps,
 } from './types';
+import {
+  usePillLayout,
+  useSegmentedControlSelectedIndex,
+} from './usePillLayout';
 
 export function SegmentedControlButton({
   value,
@@ -24,13 +22,10 @@ export function SegmentedControlButton({
   onPress,
   ...props
 }: SegmentedControlButtonProps) {
-  const styles = useButtonStyles();
   const { selectedValue, onSelectedChange, disabled } =
     useSegmentedControlContext();
-
   const selected = selectedValue === value;
-  const typography = selected ? 'body2SemiBold' : 'body2';
-  const textColor = selected && !disabled ? 'base' : 'muted';
+  const styles = useButtonStyles({ selected, disabled });
 
   function handlePress() {
     if (!disabled) {
@@ -50,12 +45,12 @@ export function SegmentedControlButton({
       <Box style={styles.content}>
         {Icon && (
           <Box style={styles.iconWrap}>
-            <Icon size={16} color={textColor} />
+            <Icon size={16} color={styles.textColor} />
           </Box>
         )}
         <Text
-          typography={typography}
-          lx={{ color: textColor }}
+          typography={styles.typography}
+          lx={{ color: styles.textColor }}
           style={styles.label}
         >
           {children}
@@ -67,8 +62,14 @@ export function SegmentedControlButton({
 
 SegmentedControlButton.displayName = 'SegmentedControlButton';
 
-function useButtonStyles() {
-  return useStyleSheet(
+function useButtonStyles({
+  selected,
+  disabled,
+}: {
+  selected: boolean;
+  disabled?: boolean;
+}) {
+  const styles = useStyleSheet(
     (t) => ({
       button: {
         flex: 1,
@@ -97,6 +98,12 @@ function useButtonStyles() {
     }),
     [],
   );
+  const typography: LumenTypographyTokenName = selected
+    ? 'body2SemiBold'
+    : 'body2';
+  const textColor: LumenTextStyle['color'] =
+    selected && !disabled ? 'base' : 'muted';
+  return { ...styles, typography, textColor };
 }
 
 export function SegmentedControl({
@@ -108,57 +115,18 @@ export function SegmentedControl({
   appearance = 'background',
   ...props
 }: SegmentedControlProps) {
-  const styles = useRootStyles(!!disabled, appearance);
-  const pillTranslateX = useSharedValue(0);
-  const pillWidth = useSharedValue(0);
-  const pillHeight = useSharedValue(0);
-  const hasLayoutRef = useRef(false);
-
-  const selectedIndex = useMemo(
-    () =>
-      React.Children.toArray(children).findIndex((child) => {
-        if (React.isValidElement(child) && child.props != null) {
-          return (child.props as { value?: string }).value === selectedValue;
-        }
-        return false;
-      }),
-    [selectedValue, children],
+  const styles = useRootStyles({
+    disabled: Boolean(disabled),
+    appearance,
+  });
+  const selectedIndex = useSegmentedControlSelectedIndex(
+    selectedValue,
+    children,
   );
-
-  function onLayout(e: LayoutChangeEvent) {
-    const { width, height } = e.nativeEvent.layout;
-    const count = React.Children.count(children);
-    const slotWidth = count > 0 ? width / count : 0;
-
-    pillWidth.value = slotWidth;
-    pillHeight.value = height;
-
-    if (!hasLayoutRef.current) {
-      hasLayoutRef.current = true;
-      if (selectedIndex >= 0) {
-        pillTranslateX.value = selectedIndex * slotWidth;
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (!hasLayoutRef.current) return;
-    if (selectedIndex >= 0 && pillWidth.value > 0) {
-      pillTranslateX.value = withTiming(selectedIndex * pillWidth.value, {
-        duration: durations['250'],
-        easing: easingCurves.bezier.default,
-      });
-    }
-  }, [selectedIndex, pillWidth, pillTranslateX]);
-
-  const animatedPillStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateX: pillTranslateX.value }],
-      width: pillWidth.value,
-      height: pillHeight.value,
-    }),
-    [pillTranslateX, pillWidth, pillHeight],
-  );
+  const { onLayout, animatedPillStyle } = usePillLayout({
+    selectedIndex,
+    children,
+  });
 
   return (
     <SegmentedControlContextProvider
@@ -184,10 +152,13 @@ export function SegmentedControl({
 
 SegmentedControl.displayName = 'SegmentedControl';
 
-function useRootStyles(
-  disabled: boolean,
-  appearance: 'background' | 'no-background',
-) {
+function useRootStyles({
+  disabled,
+  appearance,
+}: {
+  disabled: boolean;
+  appearance: 'background' | 'no-background';
+}) {
   return useStyleSheet(
     (t) => ({
       container: {
