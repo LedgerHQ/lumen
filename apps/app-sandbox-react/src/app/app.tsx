@@ -1,25 +1,19 @@
-import {
-  Button,
-  ThemeProvider,
-  Switch,
-  useTheme,
-} from '@ledgerhq/lumen-ui-react';
-
-const ToggleThemeButton = () => {
-  const { mode, toggleMode } = useTheme();
-  return (
-    <div className='flex flex-row gap-8 text-muted'>
-      Dark mode
-      <Switch selected={mode === 'dark'} onChange={toggleMode} />
-    </div>
-  );
-};
+import { Button, ThemeProvider } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
 
 export function App() {
+  const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
+
   return (
-    <ThemeProvider defaultMode='system'>
+    <ThemeProvider colorScheme='system'>
       <div className='flex h-screen w-screen flex-col items-center justify-center bg-muted'>
-        <ToggleThemeButton />
+        <Button
+          onClick={() =>
+            setColorScheme(colorScheme === 'light' ? 'dark' : 'light')
+          }
+        >
+          Toggle theme
+        </Button>
         <div className='mt-32 flex flex-row gap-2'>
           <Button appearance='accent'>Button</Button>
           <Button appearance='base'>Button</Button>

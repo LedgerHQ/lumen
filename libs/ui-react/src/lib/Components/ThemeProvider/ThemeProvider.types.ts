@@ -12,7 +12,8 @@ export type ColorSchemeName =
 
 export type ThemeProviderProps = PropsWithChildren & {
   /**
-   * The default mode of the theme.
+   * The color scheme of the theme.
+   * system will follow the user's OS preference via `prefers-color-scheme`.
    * @default 'system'
    */
   colorScheme?: ColorSchemeName;

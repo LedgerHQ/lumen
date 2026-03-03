@@ -35,5 +35,8 @@ export const useRootColorModeSideEffect = ({
     }
 
     root.classList.add(colorScheme);
+    return () => {
+      // return empty
+    };
   }, [colorScheme]);
 };

@@ -1,6 +1,9 @@
 import type { Decorator } from '@storybook/react-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeMode, ThemeProvider } from '../src/lib/Components/ThemeProvider';
+import {
+  ColorSchemeName,
+  ThemeProvider,
+} from '../src/lib/Components/ThemeProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -22,7 +25,7 @@ const createThemeDecorator = (
 
     return (
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultMode={context.globals.mode as ThemeMode}>
+        <ThemeProvider colorScheme={context.globals.mode as ColorSchemeName}>
           <Story />
         </ThemeProvider>
       </QueryClientProvider>
