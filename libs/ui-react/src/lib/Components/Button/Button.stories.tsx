@@ -135,19 +135,21 @@ export const ContentTypesShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
-  render: () => (
-    <div className='flex items-center gap-4'>
-      <Button appearance='base' size='sm'>
-        Small
-      </Button>
-      <Button appearance='base' size='md'>
-        Medium
-      </Button>
-      <Button appearance='base' size='lg' icon={Settings}>
-        Large
-      </Button>
-    </div>
-  ),
+  render: () => {
+    return (
+      <div className='flex items-center gap-4'>
+        <Button appearance='base' size='sm'>
+          Small
+        </Button>
+        <Button appearance='base' size='md'>
+          Medium
+        </Button>
+        <Button appearance='base' size='lg' icon={Settings}>
+          Large
+        </Button>
+      </div>
+    );
+  },
 };
 
 export const StatesShowcase: Story = {

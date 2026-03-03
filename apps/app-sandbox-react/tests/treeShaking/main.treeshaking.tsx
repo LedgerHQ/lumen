@@ -9,7 +9,7 @@ const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(
     <StrictMode>
-      <ThemeProvider defaultMode='light'>
+      <ThemeProvider colorScheme='light'>
         <div className='flex h-screen w-screen flex-col items-center justify-center gap-16 bg-base'>
           <Incognito size={48} />
           <Button appearance='accent'>Tree Shaking Test</Button>
