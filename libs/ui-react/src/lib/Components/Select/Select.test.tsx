@@ -7,8 +7,8 @@ import {
   SelectItem,
   SelectItemText,
   SelectTrigger,
+  SelectButtonTrigger,
 } from './Select';
-import { SelectButtonTrigger } from './SelectButtonTrigger';
 
 describe('Select', () => {
   it('renders with floating label', () => {

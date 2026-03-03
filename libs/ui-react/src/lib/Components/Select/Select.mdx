@@ -26,7 +26,7 @@ The Select component provides a dropdown interface for choosing from a list of o
 
 <Canvas of={SelectStories.Base} />
 
-- **Trigger**: The clickable element that opens the dropdown with floating label support
+- **Trigger**: The clickable element that opens the dropdown with floating label support. Also supports [custom triggers](#custom-trigger) for button-style or fully custom rendering.
 - **Label**: Optional floating label that animates when a value is selected
 - **Value**: The currently selected value
 - **Icon**: Chevron down/up indicator
@@ -88,25 +88,11 @@ The `render` function receives two props:
 - **`selectedValue`**: the currently selected value (empty string if nothing is selected)
 - **`selectedContent`**: a ReactNode that renders the selected item's text
 
-### Button Trigger
+### Trigger Variants
 
-`SelectButtonTrigger` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked.
+`SelectButtonTrigger` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `ButtonTrigger` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
 
-<Canvas of={SelectStories.WithButtonTrigger} />
-
-It supports icons and all `ButtonTrigger` appearances:
-
-<Canvas of={SelectStories.WithButtonTriggerAndIcon} />
-
-<Canvas of={SelectStories.WithButtonTriggerCryptoIcon} />
-
-<Canvas of={SelectStories.WithButtonTriggerAppearances} />
-
-### Fully Custom Trigger
-
-You can also build a trigger from scratch using the `render` function directly:
-
-<Canvas of={SelectStories.WithCustomRender} />
+<Canvas of={SelectStories.TriggerShowcase} />
 
 ## Accessibility
 

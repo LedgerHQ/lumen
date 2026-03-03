@@ -12,8 +12,8 @@ import {
   SelectItemText,
   SelectGroup,
   SelectSeparator,
+  SelectButtonTrigger,
 } from './Select';
-import { SelectButtonTrigger } from './SelectButtonTrigger';
 
 const meta: Meta<typeof Select> = {
   title: 'Selection/Select',
@@ -327,179 +327,163 @@ export const FormIntegration: Story = {
   },
 };
 
-export const WithButtonTrigger: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-
-    return (
-      <Select value={value} onValueChange={setValue}>
-        <SelectTrigger
-          render={(renderProps) => (
-            <SelectButtonTrigger {...renderProps} label='All accounts' />
-          )}
-        />
-        <SelectContent className='w-208'>
-          <SelectItem value='all'>
-            <SelectItemText>All accounts</SelectItemText>
-          </SelectItem>
-          <SelectItem value='checking'>
-            <SelectItemText>Checking</SelectItemText>
-          </SelectItem>
-          <SelectItem value='savings'>
-            <SelectItemText>Savings</SelectItemText>
-          </SelectItem>
-        </SelectContent>
-      </Select>
-    );
-  },
-};
-
-export const WithButtonTriggerAndIcon: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-
-    return (
-      <Select value={value} onValueChange={setValue}>
-        <SelectTrigger
-          render={(renderProps) => (
-            <SelectButtonTrigger
-              {...renderProps}
-              label='Settings'
-              icon={<Settings size={20} />}
-              iconType='flat'
-            />
-          )}
-        />
-        <SelectContent className='w-208'>
-          <SelectItem value='general'>
-            <SelectItemText>General</SelectItemText>
-          </SelectItem>
-          <SelectItem value='security'>
-            <SelectItemText>Security</SelectItemText>
-          </SelectItem>
-          <SelectItem value='notifications'>
-            <SelectItemText>Notifications</SelectItemText>
-          </SelectItem>
-        </SelectContent>
-      </Select>
-    );
-  },
-};
-
 const cryptos = [
   { value: 'btc', label: 'Bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' },
   { value: 'eth', label: 'Ethereum', ledgerId: 'ethereum', ticker: 'ETH' },
   { value: 'sol', label: 'Solana', ledgerId: 'solana', ticker: 'SOL' },
 ] as const;
 
-export const WithButtonTriggerCryptoIcon: Story = {
+export const TriggerShowcase: Story = {
   render: () => {
-    const [value, setValue] = useState('');
-    const selected = cryptos.find((c) => c.value === value);
-
-    return (
-      <Select value={value} onValueChange={setValue}>
-        <SelectTrigger
-          render={(renderProps) => (
-            <SelectButtonTrigger
-              {...renderProps}
-              label='Network'
-              icon={
-                selected ? (
-                  <CryptoIcon
-                    ledgerId={selected.ledgerId}
-                    ticker={selected.ticker}
-                    size='32px'
-                  />
-                ) : undefined
-              }
-              iconType='rounded'
-            />
-          )}
-        />
-        <SelectContent className='w-fit'>
-          {cryptos.map((crypto) => (
-            <SelectItem
-              key={crypto.value}
-              value={crypto.value}
-              textValue={crypto.label}
-              className='flex items-center gap-8'
-            >
-              <CryptoIcon
-                ledgerId={crypto.ledgerId}
-                ticker={crypto.ticker}
-                size='24px'
-              />
-              <SelectItemText>{crypto.label}</SelectItemText>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    );
-  },
-};
-
-export const WithButtonTriggerAppearances: Story = {
-  render: () => {
+    const [buttonValue, setButtonValue] = useState('');
+    const [iconValue, setIconValue] = useState('');
+    const [cryptoValue, setCryptoValue] = useState('');
+    const [customValue, setCustomValue] = useState('');
+    const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
     const appearances = ['gray', 'transparent', 'no-background'] as const;
 
     return (
-      <div className='flex items-center gap-16'>
-        {appearances.map((appearance) => (
-          <Select key={appearance}>
-            <SelectTrigger
-              render={(renderProps) => (
-                <SelectButtonTrigger
-                  {...renderProps}
-                  label={appearance}
-                  appearance={appearance}
+      <div
+        className='flex flex-col gap-24 p-32'
+        style={{
+          backgroundImage:
+            'linear-gradient(45deg, #f2f2f2 25%, transparent 25%), ' +
+            'linear-gradient(-45deg, #f2f2f2 25%, transparent 25%), ' +
+            'linear-gradient(45deg, transparent 75%, #f2f2f2 75%), ' +
+            'linear-gradient(-45deg, transparent 75%, #f2f2f2 75%)',
+          backgroundSize: '20px 20px',
+        }}
+      >
+        <Select value={buttonValue} onValueChange={setButtonValue}>
+          <SelectTrigger
+            render={(renderProps) => (
+              <SelectButtonTrigger {...renderProps} label='All accounts' />
+            )}
+          />
+          <SelectContent className='w-208'>
+            <SelectItem value='all'>
+              <SelectItemText>All accounts</SelectItemText>
+            </SelectItem>
+            <SelectItem value='checking'>
+              <SelectItemText>Checking</SelectItemText>
+            </SelectItem>
+            <SelectItem value='savings'>
+              <SelectItemText>Savings</SelectItemText>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={iconValue} onValueChange={setIconValue}>
+          <SelectTrigger
+            render={(renderProps) => (
+              <SelectButtonTrigger
+                {...renderProps}
+                label='Settings'
+                icon={<Settings size={20} />}
+                iconType='flat'
+              />
+            )}
+          />
+          <SelectContent className='w-208'>
+            <SelectItem value='general'>
+              <SelectItemText>General</SelectItemText>
+            </SelectItem>
+            <SelectItem value='security'>
+              <SelectItemText>Security</SelectItemText>
+            </SelectItem>
+            <SelectItem value='notifications'>
+              <SelectItemText>Notifications</SelectItemText>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={cryptoValue} onValueChange={setCryptoValue}>
+          <SelectTrigger
+            render={(renderProps) => (
+              <SelectButtonTrigger
+                {...renderProps}
+                label='Network'
+                icon={
+                  selectedCrypto ? (
+                    <CryptoIcon
+                      ledgerId={selectedCrypto.ledgerId}
+                      ticker={selectedCrypto.ticker}
+                      size='32px'
+                    />
+                  ) : undefined
+                }
+                iconType='rounded'
+              />
+            )}
+          />
+          <SelectContent className='w-fit'>
+            {cryptos.map((crypto) => (
+              <SelectItem
+                key={crypto.value}
+                value={crypto.value}
+                textValue={crypto.label}
+                className='flex items-center gap-8'
+              >
+                <CryptoIcon
+                  ledgerId={crypto.ledgerId}
+                  ticker={crypto.ticker}
+                  size='24px'
                 />
-              )}
-            />
-            <SelectContent className='w-208'>
-              <SelectItem value='option1'>
-                <SelectItemText>Option 1</SelectItemText>
+                <SelectItemText>{crypto.label}</SelectItemText>
               </SelectItem>
-              <SelectItem value='option2'>
-                <SelectItemText>Option 2</SelectItemText>
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        ))}
+            ))}
+          </SelectContent>
+        </Select>
+
+        <div className='flex items-center gap-16'>
+          {appearances.map((appearance) => (
+            <Select key={appearance}>
+              <SelectTrigger
+                render={(renderProps) => (
+                  <SelectButtonTrigger
+                    {...renderProps}
+                    label={appearance}
+                    appearance={appearance}
+                  />
+                )}
+              />
+              <SelectContent className='w-208'>
+                <SelectItem value='option1'>
+                  <SelectItemText>Option 1</SelectItemText>
+                </SelectItem>
+                <SelectItem value='option2'>
+                  <SelectItemText>Option 2</SelectItemText>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          ))}
+        </div>
+
+        <Select value={customValue} onValueChange={setCustomValue}>
+          <SelectTrigger
+            render={({ selectedValue, selectedContent }) => (
+              <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'>
+                {selectedValue ? (
+                  selectedContent
+                ) : (
+                  <span className='text-muted'>Pick an option…</span>
+                )}
+              </button>
+            )}
+          />
+          <SelectContent>
+            <SelectItem value='alpha'>
+              <SelectItemText>Alpha</SelectItemText>
+            </SelectItem>
+            <SelectItem value='beta'>
+              <SelectItemText>Beta</SelectItemText>
+            </SelectItem>
+            <SelectItem value='gamma'>
+              <SelectItemText>Gamma</SelectItemText>
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-    );
-  },
-};
-
-export const WithCustomRender: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-
-    return (
-      <Select value={value} onValueChange={setValue}>
-        <SelectTrigger
-          render={({ selectedValue, selectedContent }) => (
-            <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'>
-              {selectedValue ? (
-                selectedContent
-              ) : (
-                <span className='text-muted'>Pick an option…</span>
-              )}
-            </button>
-          )}
-        />
-        <SelectContent>
-          <SelectItem value='alpha'>
-            <SelectItemText>Alpha</SelectItemText>
-          </SelectItem>
-          <SelectItem value='beta'>
-            <SelectItemText>Beta</SelectItemText>
-          </SelectItem>
-          <SelectItem value='gamma'>
-            <SelectItemText>Gamma</SelectItemText>
-          </SelectItem>
-        </SelectContent>
-      </Select>
     );
   },
 };
