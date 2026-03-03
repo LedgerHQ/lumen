@@ -14,7 +14,8 @@ const tileButtonVariants = cva(
     variants: {
       disabled: {
         true: 'bg-disabled text-disabled cursor-not-allowed',
-        false: 'hover:bg-surface-hover active:bg-surface-pressed cursor-pointer',
+        false:
+          'hover:bg-surface-hover active:bg-surface-pressed cursor-pointer',
       },
       isFull: {
         true: 'w-full',
