@@ -10,6 +10,7 @@ import Animated, {
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Pulse } from '../../Animations/Pulse';
+import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
 import {
   AmountDisplayProps,
@@ -123,7 +124,13 @@ const DigitStrip = memo(
       >
         <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
           {DIGITS.map((d) => (
-            <Text key={d} style={textStyle}>
+            <Text
+              key={d}
+              style={[
+                textStyle,
+                RuntimeConstants.isAndroid && { height: lineHeight },
+              ]}
+            >
               {d}
             </Text>
           ))}
