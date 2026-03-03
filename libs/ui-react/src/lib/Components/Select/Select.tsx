@@ -4,6 +4,7 @@ import { cva } from 'class-variance-authority';
 import * as React from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check, ChevronUp } from '../../Symbols';
+import { ButtonTrigger } from '../ButtonTrigger';
 import { Divider } from '../Divider';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
@@ -15,6 +16,7 @@ import type {
   SelectItemTextProps,
   SelectItemProps,
   SelectSeparatorProps,
+  SelectButtonTriggerProps,
 } from './types';
 
 function Select({ value, defaultValue, onValueChange, ...props }: SelectProps) {
@@ -273,6 +275,17 @@ function SelectScrollDownButton({
   );
 }
 
+const SelectButtonTrigger = ({
+  selectedValue,
+  selectedContent,
+  label,
+  ...props
+}: SelectButtonTriggerProps) => (
+  <ButtonTrigger {...props}>
+    {selectedValue ? selectedContent : label}
+  </ButtonTrigger>
+);
+
 export {
   Select,
   SelectGroup,
@@ -282,4 +295,5 @@ export {
   SelectItemText,
   SelectItem,
   SelectSeparator,
+  SelectButtonTrigger,
 };

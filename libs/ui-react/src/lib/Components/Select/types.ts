@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type { ButtonTriggerProps } from '../ButtonTrigger';
 
 type Direction = 'ltr' | 'rtl';
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
@@ -257,3 +258,12 @@ export type SelectSeparatorProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
+
+export type SelectButtonTriggerProps = SelectTriggerRenderProps &
+  Omit<ButtonTriggerProps, 'children'> & {
+    /**
+     * The label displayed when no value is selected.
+     * Once a value is selected, it is replaced by the selected item's content.
+     */
+    label: string;
+  };

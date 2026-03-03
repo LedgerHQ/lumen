@@ -1,6 +1,4 @@
 export * from './Select';
-export { SelectButtonTrigger } from './SelectButtonTrigger';
-export type { SelectButtonTriggerProps } from './SelectButtonTrigger';
 export type {
   SelectProps,
   SelectTriggerProps,
@@ -11,4 +9,5 @@ export type {
   SelectItemTextProps,
   SelectItemProps,
   SelectSeparatorProps,
+  SelectButtonTriggerProps,
 } from './types';
