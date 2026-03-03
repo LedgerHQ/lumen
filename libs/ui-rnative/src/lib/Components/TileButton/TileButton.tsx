@@ -38,10 +38,10 @@ const useStyles = ({
           gap: t.spacings.s8,
           padding: t.spacings.s12,
           borderRadius: t.borderRadius.md,
-          backgroundColor: t.colors.bg.muted,
+          backgroundColor: t.colors.bg.surface,
         },
         isFull && { width: t.sizes.full },
-        pressed && !disabled && { backgroundColor: t.colors.bg.mutedPressed },
+        pressed && !disabled && { backgroundColor: t.colors.bg.surfacePressed },
         disabled && { backgroundColor: t.colors.bg.disabled },
       ]),
       label: StyleSheet.flatten([

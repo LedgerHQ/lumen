@@ -7,14 +7,14 @@ import { TileButtonProps } from './types';
 const tileButtonVariants = cva(
   [
     'flex flex-col items-center gap-8 rounded-md p-12',
-    'bg-muted body-2-semi-bold text-base transition-colors',
+    'bg-surface body-2-semi-bold text-base transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
   ],
   {
     variants: {
       disabled: {
         true: 'bg-disabled text-disabled cursor-not-allowed',
-        false: 'hover:bg-muted-hover active:bg-muted-pressed cursor-pointer',
+        false: 'hover:bg-surface-hover active:bg-surface-pressed cursor-pointer',
       },
       isFull: {
         true: 'w-full',
