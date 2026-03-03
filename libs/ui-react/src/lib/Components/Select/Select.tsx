@@ -59,14 +59,44 @@ const labelStyles = cn(
   'max-w-[calc(100%-var(--size-56))] truncate',
 );
 
-const SelectTrigger = ({
+const SelectInputTrigger = ({
   ref,
   className,
   labelClassName,
   label,
-  render,
+  selectedContent,
   ...props
-}: SelectTriggerProps) => {
+}: Omit<SelectTriggerProps, 'render'> & {
+  selectedContent: React.ReactNode;
+}) => (
+  <SelectPrimitive.Trigger
+    ref={ref}
+    data-slot='select-trigger'
+    className={cn(triggerStyles, className)}
+    {...props}
+  >
+    {label && (
+      <label className={cn(labelStyles, labelClassName)}>{label}</label>
+    )}
+    <span
+      className={cn(
+        'flex-1 truncate text-left',
+        label &&
+          'mt-16 opacity-100 transition-opacity delay-100 duration-300 group-data-placeholder:mt-0 group-data-placeholder:opacity-0',
+      )}
+    >
+      {selectedContent}
+    </span>
+    <SelectPrimitive.Icon asChild>
+      <ChevronDown
+        size={20}
+        className='shrink-0 text-muted group-data-disabled:text-disabled'
+      />
+    </SelectPrimitive.Icon>
+  </SelectPrimitive.Trigger>
+);
+
+const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
   const { selectedValue } = useSelectContext({
     consumerName: 'SelectTrigger',
     contextRequired: true,
@@ -76,43 +106,16 @@ const SelectTrigger = ({
   if (render) {
     return (
       <SelectPrimitive.Trigger
-        ref={ref}
+        ref={props.ref}
         data-slot='select-trigger'
         asChild
-        {...props}
       >
         {render({ selectedValue, selectedContent })}
       </SelectPrimitive.Trigger>
     );
   }
 
-  return (
-    <SelectPrimitive.Trigger
-      ref={ref}
-      data-slot='select-trigger'
-      className={cn(triggerStyles, className)}
-      {...props}
-    >
-      {label && (
-        <label className={cn(labelStyles, labelClassName)}>{label}</label>
-      )}
-      <span
-        className={cn(
-          'flex-1 truncate text-left',
-          label &&
-            'mt-16 opacity-100 transition-opacity delay-100 duration-300 group-data-placeholder:mt-0 group-data-placeholder:opacity-0',
-        )}
-      >
-        {selectedContent}
-      </span>
-      <SelectPrimitive.Icon asChild>
-        <ChevronDown
-          size={20}
-          className='shrink-0 text-muted group-data-disabled:text-disabled'
-        />
-      </SelectPrimitive.Icon>
-    </SelectPrimitive.Trigger>
-  );
+  return <SelectInputTrigger {...props} selectedContent={selectedContent} />;
 };
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
@@ -193,6 +196,7 @@ const itemStyles = cn(
   'rounded-sm p-8',
   'body-2 text-base',
   'outline-hidden',
+  'truncate',
   'focus:bg-base-transparent-hover',
   'active:bg-base-transparent-pressed',
   'data-disabled:cursor-not-allowed data-disabled:text-disabled',
@@ -213,7 +217,7 @@ const SelectItem = ({
     {children}
     <span className='absolute right-8 flex size-24 items-center justify-center'>
       <SelectPrimitive.ItemIndicator>
-        <Check size={24} className='ms-8 text-active' />
+        <Check size={24} className='ms-8 shrink-0 text-active' />
       </SelectPrimitive.ItemIndicator>
     </span>
   </SelectPrimitive.Item>
