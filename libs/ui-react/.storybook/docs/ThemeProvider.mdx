@@ -3,52 +3,58 @@ import { Meta } from '@storybook/addon-docs/blocks';
 <Meta title="Getting Started/Theme Provider" />
 
 ## Ledger Design System Theme Provider
-The ThemeProvider from @ledgerhq/lumen-ui-react manages the app’s visual theme (light or dark mode) using React Context.
+
+The ThemeProvider from @ledgerhq/lumen-ui-react manages the app's visual theme (light, dark, or system) and locale.
 Define the `ThemeProvider` at the top-level of your app.
+
+### Color Scheme
+
+The `colorScheme` prop is fully controlled. It accepts `"light"`, `"dark"`, or `"system"` (default).
+When set to `"system"`, the theme automatically follows the user's OS preference via `prefers-color-scheme`.
 
 ```tsx
 import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 
 function AppProviders() {
   return (
-    <ThemeProvider defaultMode="dark">
+    <ThemeProvider colorScheme="dark">
       <App />
     </ThemeProvider>
   );
 }
 ```
 
-Updates the mode using the `useTheme` context hook.
-```tsx
-import { ThemeProvider, useTheme } from '@ledgerhq/lumen-ui-react';
+To let users toggle the theme, manage the state in your app and pass it down:
 
-const UpdateThemeModeButton = () => {
-  const { mode, toggleMode, setMode } = useTheme();
-  return (
-    <Button onClick={toggleMode}>
-      {mode}
-    </Button>
-  );
-};
+```tsx
+import { useState } from 'react';
+import { ThemeProvider, type ColorSchemeName } from '@ledgerhq/lumen-ui-react';
 
 function AppProviders() {
+  const [colorScheme, setColorScheme] = useState<ColorSchemeName>('system');
+
   return (
-    <ThemeProvider mode="dark">
-      <UpdateThemeModeButton />
+    <ThemeProvider colorScheme={colorScheme}>
+      <Button onClick={() => setColorScheme(prev => prev === 'dark' ? 'light' : 'dark')}>
+        Toggle theme
+      </Button>
     </ThemeProvider>
   );
 }
 ```
 
-## Internationalization
-The ThemeProvider also manages the app’s locale using React Context.  
-You can just pass the locale to the `ThemeProvider` and the translations will be lazy-loaded automatically.
+### Internationalization
+
+The ThemeProvider also manages the app's locale.
+Pass the `locale` prop and translations will be lazy-loaded automatically.
 
 ```tsx
+import { useState } from 'react';
 import { ThemeProvider, type SupportedLocale, Languages } from '@ledgerhq/lumen-ui-react';
 
 function AppProviders() {
   const [locale, setLocale] = useState<SupportedLocale>(Languages.en.id);
+
   return (
     <ThemeProvider locale={locale}>
       <App />

@@ -1,14 +1,21 @@
 import { PropsWithChildren } from 'react';
 import { type SupportedLocale } from '../../../i18n';
 
-export type ThemeMode = 'dark' | 'light' | 'system';
+export const COLOR_SCHEMES = {
+  light: 'light',
+  dark: 'dark',
+  system: 'system',
+} as const;
+
+export type ColorSchemeName =
+  (typeof COLOR_SCHEMES)[keyof typeof COLOR_SCHEMES];
 
 export type ThemeProviderProps = PropsWithChildren & {
   /**
    * The default mode of the theme.
    * @default 'system'
    */
-  defaultMode?: ThemeMode;
+  colorScheme?: ColorSchemeName;
   /**
    * The locale to use for translations.
    * When changed, translations will be lazy-loaded automatically.

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { ThemeMode } from './ThemeProvider.types';
+import { useLayoutEffect } from 'react';
+import { COLOR_SCHEMES, ColorSchemeName } from './ThemeProvider.types';
 
 export const LIGHT_MODE = 'light';
 export const DARK_MODE = 'dark';
@@ -9,21 +9,31 @@ export const SYSTEM_MODE = 'system';
  * Updates the root element className when the theme mode changes.
  * This allows the design-system theme config to be applied
  */
-export const useRootColorModeSideEffect = ({ mode }: { mode: ThemeMode }) => {
-  useEffect(() => {
+export const useRootColorModeSideEffect = ({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) => {
+  useLayoutEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove(LIGHT_MODE, DARK_MODE);
 
-    if (mode === SYSTEM_MODE) {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? DARK_MODE
-        : LIGHT_MODE;
+    if (colorScheme === COLOR_SCHEMES.system) {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-      root.classList.add(systemTheme);
-      return;
+      const applySystemTheme = () => {
+        root.classList.remove(LIGHT_MODE, DARK_MODE);
+        root.classList.add(mediaQuery.matches ? DARK_MODE : LIGHT_MODE);
+      };
+
+      applySystemTheme();
+      mediaQuery.addEventListener('change', applySystemTheme);
+
+      return () => {
+        mediaQuery.removeEventListener('change', applySystemTheme);
+      };
     }
 
-    root.classList.add(mode);
-  }, [mode]);
+    root.classList.add(colorScheme);
+  }, [colorScheme]);
 };

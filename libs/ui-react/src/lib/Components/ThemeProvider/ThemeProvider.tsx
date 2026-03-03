@@ -1,39 +1,29 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 import { I18nProvider } from '../../../i18n';
-import { ThemeMode, ThemeProviderProps } from './ThemeProvider.types';
-import {
-  DARK_MODE,
-  LIGHT_MODE,
-  SYSTEM_MODE,
-  useRootColorModeSideEffect,
-} from './useRootColorModeSideEffect';
+import { COLOR_SCHEMES, ThemeProviderProps } from './ThemeProvider.types';
+import { useRootColorModeSideEffect } from './useRootColorModeSideEffect';
 
 type ThemeProviderState = {
-  mode: ThemeMode;
-  setMode: (mode: ThemeMode) => void;
   locale: ThemeProviderProps['locale'];
 };
 
-const [ThemeProviderContext, useThemeContext] =
+const [ThemeProviderContext] =
   createSafeContext<ThemeProviderState>('ThemeProvider');
 
-const ThemeProvider: FC<ThemeProviderProps> = ({
+export const ThemeProvider: FC<ThemeProviderProps> = ({
   children,
-  defaultMode = SYSTEM_MODE,
+  colorScheme = COLOR_SCHEMES.system,
   locale,
 }) => {
-  const [mode, setMode] = useState(defaultMode);
-
-  useRootColorModeSideEffect({ mode });
+  useRootColorModeSideEffect({ colorScheme });
 
   const value = useMemo(
     () => ({
-      mode,
-      setMode,
+      colorScheme,
       locale,
     }),
-    [mode, locale],
+    [colorScheme, locale],
   );
 
   return (
@@ -42,17 +32,3 @@ const ThemeProvider: FC<ThemeProviderProps> = ({
     </ThemeProviderContext>
   );
 };
-
-const useTheme = () => {
-  const context = useThemeContext({
-    consumerName: 'useTheme',
-    contextRequired: true,
-  });
-  return {
-    ...context,
-    toggleMode: () =>
-      context.setMode(context.mode === DARK_MODE ? LIGHT_MODE : DARK_MODE),
-  };
-};
-
-export { ThemeProvider, useTheme };
