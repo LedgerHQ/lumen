@@ -136,7 +136,7 @@ export const AmountDisplay = ({
     <div
       className={cn(
         loading && 'animate-pulse',
-        'relative inline-flex items-center',
+        'relative inline-flex items-baseline',
         className,
       )}
       aria-label={ariaLabel}
@@ -161,7 +161,7 @@ export const AmountDisplay = ({
         )}
       </span>
       <span
-        className='mt-8 inline-flex heading-2-semi-bold text-muted'
+        className='inline-flex heading-2-semi-bold text-muted'
         aria-hidden='true'
       >
         {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
