@@ -144,7 +144,7 @@ export const AmountDisplay = ({
       {...props}
     >
       <span
-        className='inline-flex flex-row heading-1-semi-bold text-base'
+        className='inline-flex heading-1-semi-bold text-base'
         aria-hidden='true'
       >
         {parts.currencyPosition === 'start' && (
