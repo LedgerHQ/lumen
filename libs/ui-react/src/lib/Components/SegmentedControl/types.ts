@@ -1,7 +1,6 @@
 import { ComponentType, ReactNode } from 'react';
-import { LumenTextStyle, StyledPressableProps } from '../../../styles';
-import { IconSize } from '../Icon';
-import { BoxProps } from '../Utility';
+import type { ComponentPropsWithoutRef } from 'react';
+import { IconSize } from '../Icon/types';
 
 export type SegmentedControlProps = {
   /**
@@ -22,18 +21,14 @@ export type SegmentedControlProps = {
    */
   appearance?: 'background' | 'no-background';
   /**
-   * Accessible label for the control (e.g. "File view").
-   */
-  accessibilityLabel?: string;
-  /**
    * Segment buttons (SegmentedControlButton).
    */
   children: ReactNode;
-} & Omit<BoxProps, 'children'>;
+} & Omit<ComponentPropsWithoutRef<'div'>, 'children'>;
 
 type IconComponent = ComponentType<{
   size?: IconSize;
-  color?: LumenTextStyle['color'];
+  className?: string;
 }>;
 
 export type SegmentedControlButtonProps = {
@@ -42,15 +37,11 @@ export type SegmentedControlButtonProps = {
    */
   value: string;
   /**
-   * Button label (e.g. "Preview", "Raw").
+   * Button label.
    */
   children: ReactNode;
   /**
    * Optional icon shown to the left of the label (from Symbols).
    */
   icon?: IconComponent;
-  /**
-   * Optional callback when the button is pressed (in addition to onSelectedChange on the parent).
-   */
-  onPress?: () => void;
-} & Omit<StyledPressableProps, 'children'>;
+} & Omit<ComponentPropsWithoutRef<'button'>, 'children'>;

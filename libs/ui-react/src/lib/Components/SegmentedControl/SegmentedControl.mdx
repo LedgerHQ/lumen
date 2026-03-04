@@ -3,7 +3,6 @@ import * as SegmentedControlStories from './SegmentedControl.stories';
 import { SegmentedControl } from './SegmentedControl';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
-import { Box } from '../Utility';
 
 <Meta title='Navigation/SegmentedControl' of={SegmentedControlStories} />
 
@@ -14,7 +13,7 @@ import { Box } from '../Utility';
 
 ## Introduction
 
-SegmentedControl is a tab bar–style component for switching between mutually exclusive options. Use it when the user needs to choose one of a small set of choices (e.g. transaction type, asset section).
+SegmentedControl is a tab bar-style component for switching between mutually exclusive options. Use it when the user needs to choose one of a small set of choices (e.g. transaction type, asset section).
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1170-2345&m=dev).
 
@@ -46,15 +45,15 @@ SegmentedControl lays out segments in a horizontal row with equal width per segm
 
 ## Accessibility
 
-- Use accessibilityLabel on SegmentedControl to describe the control (e.g. "Transaction type", "Asset section").
-- Each segment exposes accessibilityState with a selected value for screen readers.
+- Use aria-label on SegmentedControl to describe the control (e.g. "Transaction type", "Asset section").
+- Each segment exposes role="radio" and aria-checked for screen readers.
 
 </Tab>
   <Tab label="Implementation">
 
 ## Installation
 
-Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide →](?path=/docs/getting-started-setup--docs).
+Use the library as part of `@ledgerhq/lumen-ui-react`. See the [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
 ## Basic Usage
 
@@ -62,7 +61,7 @@ Control selected value in state at the top level and pass it to SegmentedControl
 
 ```tsx
 import React from 'react';
-import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
+import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-react';
 
 export default function Example() {
   const [state, setState] = React.useState('send');
@@ -71,7 +70,7 @@ export default function Example() {
     <SegmentedControl
       selectedValue={state}
       onSelectedChange={setState}
-      accessibilityLabel='Transaction type'
+      aria-label='Transaction type'
     >
       <SegmentedControlButton value='send'>Send</SegmentedControlButton>
       <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
@@ -86,8 +85,8 @@ export default function Example() {
 Pass an icon from symbols to each button for a left-positioned icon. Use icons on all segments or none for consistency.
 
 ```tsx
-import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
-import { Coins, Nft, TransferHorizontal, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-react';
+import { Coins, Nft, TransferHorizontal, Settings } from '@ledgerhq/lumen-ui-react/symbols';
 
 function Example() {
   const [state, setState] = React.useState('tokens');
@@ -95,7 +94,7 @@ function Example() {
     <SegmentedControl
       selectedValue={state}
       onSelectedChange={setState}
-      accessibilityLabel='Asset section'
+      aria-label='Asset section'
     >
       <SegmentedControlButton value='tokens' icon={Coins}>
         Tokens
@@ -114,9 +113,9 @@ function Example() {
 }
 ```
 
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+<div className='flex flex-col gap-24'>
   <CommonRulesDoAndDont />
-</Box>
+</div>
 
 </Tab>
 </CustomTabs>

@@ -161,7 +161,7 @@ describe('TileButton Component', () => {
       );
 
       const link = screen.getByRole('link');
-      expect(link).toHaveClass('bg-muted');
+      expect(link).toHaveClass('bg-surface');
       expect(link).toHaveClass('rounded-md');
     });
 

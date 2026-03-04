@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import React, { useState } from 'react';
 import { Coins, Nft, TransferHorizontal, Settings } from '../../Symbols';
-import { Box } from '../Utility';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
@@ -25,9 +24,6 @@ const meta = {
       options: ['background', 'no-background'],
       control: 'radio',
     },
-    accessibilityLabel: {
-      control: 'text',
-    },
     selectedValue: {
       control: 'text',
     },
@@ -49,12 +45,11 @@ export const Base: Story = {
     const [state, setState] = useState('send');
 
     return (
-      <Box lx={{ width: 's256' }}>
+      <div className='w-256'>
         <SegmentedControl
           {...args}
           selectedValue={state}
           onSelectedChange={setState}
-          accessibilityLabel='Transaction type'
         >
           <SegmentedControlButton value='send'>Send</SegmentedControlButton>
           <SegmentedControlButton value='receive'>
@@ -62,7 +57,7 @@ export const Base: Story = {
           </SegmentedControlButton>
           <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
         </SegmentedControl>
-      </Box>
+      </div>
     );
   },
 };
@@ -77,7 +72,6 @@ export const WithIcons: Story = {
         {...args}
         selectedValue={state}
         onSelectedChange={setState}
-        accessibilityLabel='Asset section'
       >
         <SegmentedControlButton value='tokens' icon={Coins}>
           Tokens
@@ -99,20 +93,19 @@ export const WithIcons: Story = {
 export const Disabled: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => (
-    <Box lx={{ width: 's256' }}>
+    <div className='w-256'>
       <SegmentedControl
         {...args}
         selectedValue='receive'
         onSelectedChange={() => {
           /* empty */
         }}
-        accessibilityLabel='Transaction type (disabled)'
         disabled
       >
         <SegmentedControlButton value='send'>Send</SegmentedControlButton>
         <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
         <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
       </SegmentedControl>
-    </Box>
+    </div>
   ),
 };

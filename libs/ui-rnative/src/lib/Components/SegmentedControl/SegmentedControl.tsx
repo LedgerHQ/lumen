@@ -1,12 +1,6 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { LayoutChangeEvent } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
-import { durations, easingCurves } from '../../Animations/constants';
+import type { LumenTextStyle, LumenTypographyTokenName } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
 import {
   SegmentedControlContextProvider,
@@ -16,8 +10,10 @@ import type {
   SegmentedControlButtonProps,
   SegmentedControlProps,
 } from './types';
-
-const ICON_SIZE = 16;
+import {
+  usePillLayout,
+  useSegmentedControlSelectedIndex,
+} from './usePillLayout';
 
 export function SegmentedControlButton({
   value,
@@ -26,32 +22,35 @@ export function SegmentedControlButton({
   onPress,
   ...props
 }: SegmentedControlButtonProps) {
-  const styles = useButtonStyles();
-  const { selectedValue, onSelectedChange } = useSegmentedControlContext();
-
+  const { selectedValue, onSelectedChange, disabled } =
+    useSegmentedControlContext();
   const selected = selectedValue === value;
+  const styles = useButtonStyles({ selected, disabled });
 
   function handlePress() {
-    onSelectedChange(value);
-    onPress?.();
+    if (!disabled) {
+      onSelectedChange(value);
+      onPress?.();
+    }
   }
 
   return (
     <Pressable
       onPress={handlePress}
-      accessibilityState={{ selected }}
+      disabled={disabled}
+      accessibilityState={{ selected, disabled }}
       style={styles.button}
       {...props}
     >
       <Box style={styles.content}>
         {Icon && (
           <Box style={styles.iconWrap}>
-            <Icon size={ICON_SIZE} />
+            <Icon size={16} color={styles.textColor} />
           </Box>
         )}
         <Text
-          typography={selected ? 'body2SemiBold' : 'body2'}
-          lx={{ color: 'base' }}
+          typography={styles.typography}
+          lx={{ color: styles.textColor }}
           style={styles.label}
         >
           {children}
@@ -63,8 +62,14 @@ export function SegmentedControlButton({
 
 SegmentedControlButton.displayName = 'SegmentedControlButton';
 
-function useButtonStyles() {
-  return useStyleSheet(
+function useButtonStyles({
+  selected,
+  disabled,
+}: {
+  selected: boolean;
+  disabled?: boolean;
+}) {
+  const styles = useStyleSheet(
     (t) => ({
       button: {
         flex: 1,
@@ -93,6 +98,12 @@ function useButtonStyles() {
     }),
     [],
   );
+  const typography: LumenTypographyTokenName = selected
+    ? 'body2SemiBold'
+    : 'body2';
+  const textColor: LumenTextStyle['color'] =
+    selected && !disabled ? 'base' : 'muted';
+  return { ...styles, typography, textColor };
 }
 
 export function SegmentedControl({
@@ -100,67 +111,31 @@ export function SegmentedControl({
   onSelectedChange,
   accessibilityLabel,
   children,
+  disabled,
+  appearance = 'background',
   ...props
 }: SegmentedControlProps) {
-  const styles = useRootStyles();
-  const pillTranslateX = useSharedValue(0);
-  const pillWidth = useSharedValue(0);
-  const pillHeight = useSharedValue(0);
-  const hasLayoutRef = useRef(false);
-
-  const getSelectedIndex = useCallback((): number => {
-    return React.Children.toArray(children).findIndex((child) => {
-      if (React.isValidElement(child) && child.props != null) {
-        return (child.props as { value?: string }).value === selectedValue;
-      }
-      return false;
-    });
-  }, [selectedValue, children]);
-
-  function onLayout(e: LayoutChangeEvent) {
-    const { width, height } = e.nativeEvent.layout;
-    const count = React.Children.count(children);
-    const slotWidth = count > 0 ? width / count : 0;
-
-    pillWidth.value = slotWidth;
-    pillHeight.value = height;
-
-    if (!hasLayoutRef.current) {
-      hasLayoutRef.current = true;
-      const index = getSelectedIndex();
-      if (index >= 0) {
-        pillTranslateX.value = index * slotWidth;
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (!hasLayoutRef.current) return;
-    const index = getSelectedIndex();
-    if (index >= 0 && pillWidth.value > 0) {
-      pillTranslateX.value = withTiming(index * pillWidth.value, {
-        duration: durations['250'],
-        easing: easingCurves.bezier.default,
-      });
-    }
-  }, [pillWidth, pillTranslateX, getSelectedIndex]);
-
-  const animatedPillStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateX: pillTranslateX.value }],
-      width: pillWidth.value,
-      height: pillHeight.value,
-    }),
-    [pillTranslateX, pillWidth, pillHeight],
+  const styles = useRootStyles({
+    disabled: Boolean(disabled),
+    appearance,
+  });
+  const selectedIndex = useSegmentedControlSelectedIndex(
+    selectedValue,
+    children,
   );
+  const { onLayout, animatedPillStyle } = usePillLayout({
+    selectedIndex,
+    children,
+  });
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange }}
+      value={{ selectedValue, onSelectedChange, disabled }}
     >
       <Box
         accessibilityRole='radiogroup'
         accessibilityLabel={accessibilityLabel}
+        accessibilityState={{ disabled }}
         onLayout={onLayout}
         style={styles.container}
         {...props}
@@ -177,7 +152,13 @@ export function SegmentedControl({
 
 SegmentedControl.displayName = 'SegmentedControl';
 
-function useRootStyles() {
+function useRootStyles({
+  disabled,
+  appearance,
+}: {
+  disabled: boolean;
+  appearance: 'background' | 'no-background';
+}) {
   return useStyleSheet(
     (t) => ({
       container: {
@@ -185,18 +166,21 @@ function useRootStyles() {
         alignItems: 'center',
         position: 'relative',
         width: '100%',
-        borderRadius: t.borderRadius.full,
-        backgroundColor: t.colors.bg.baseTransparent,
+        borderRadius: t.borderRadius.md,
+        backgroundColor:
+          appearance === 'background' ? t.colors.bg.surface : 'transparent',
       },
       pill: {
         position: 'absolute',
         top: 0,
         left: 0,
         borderRadius: t.borderRadius.sm,
-        backgroundColor: t.colors.bg.muted,
+        backgroundColor: disabled
+          ? t.colors.bg.baseTransparentPressed
+          : t.colors.bg.mutedTransparent,
         zIndex: 0,
       },
     }),
-    [],
+    [disabled, appearance],
   );
 }
