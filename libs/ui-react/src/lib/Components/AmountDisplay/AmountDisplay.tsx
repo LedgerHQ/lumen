@@ -41,7 +41,7 @@ const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
 
   return (
     <div
-      className='relative overflow-hidden transition-[width] duration-600'
+      className='relative overflow-hidden mask-fade-y transition-[width] duration-600'
       style={{ width: width + 'px' }}
     >
       <span className='invisible'>0</span>
@@ -136,7 +136,7 @@ export const AmountDisplay = ({
     <div
       className={cn(
         loading && 'animate-pulse',
-        'relative inline-flex items-end',
+        'relative inline-flex items-baseline',
         className,
       )}
       aria-label={ariaLabel}
@@ -144,7 +144,7 @@ export const AmountDisplay = ({
       {...props}
     >
       <span
-        className='inline-flex flex-row mask-fade-y heading-1-semi-bold text-base'
+        className='inline-flex heading-1-semi-bold text-base'
         aria-hidden='true'
       >
         {parts.currencyPosition === 'start' && (
@@ -161,7 +161,7 @@ export const AmountDisplay = ({
         )}
       </span>
       <span
-        className='inline-flex flex-row mask-fade-y pb-2 heading-2-semi-bold text-muted'
+        className='inline-flex heading-2-semi-bold text-muted'
         aria-hidden='true'
       >
         {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
