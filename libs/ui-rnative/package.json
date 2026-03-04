@@ -20,16 +20,19 @@
     ".": {
       "source": "./src/index.ts",
       "types": "./dist/typescript/src/index.d.ts",
+      "import": "./dist/module/index.js",
       "default": "./dist/module/index.js"
     },
     "./symbols": {
       "source": "./src/lib/Symbols/index.ts",
       "types": "./dist/typescript/src/lib/Symbols/index.d.ts",
+      "import": "./dist/module/lib/Symbols/index.js",
       "default": "./dist/module/lib/Symbols/index.js"
     },
     "./styles": {
       "source": "./src/styles/index.ts",
       "types": "./dist/typescript/src/styles/index.d.ts",
+      "import": "./dist/module/styles/index.js",
       "default": "./dist/module/styles/index.js"
     }
   },
