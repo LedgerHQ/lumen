@@ -25,5 +25,10 @@ export type IconButtonProps = {
    * Optional text to show in the tooltip. If not provided, aria-label will be used
    */
   tooltipText?: string;
+  /**
+   * Callback fired when the tooltip becomes visible.
+   * Useful for analytics tracking (e.g. logging tooltip impressions).
+   */
+  onTooltipShow?: () => void;
 } & Omit<BaseButtonProps, 'isFull'> &
   ComponentPropsWithRef<'button'>;

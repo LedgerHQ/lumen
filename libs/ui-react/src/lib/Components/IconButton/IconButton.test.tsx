@@ -73,4 +73,36 @@ describe('IconButton', () => {
     );
     expect(screen.getByLabelText('Settings')).toHaveClass('bg-muted text-base');
   });
+
+  it('calls onTooltipShow when the tooltip becomes visible', async () => {
+    const handleTooltipShow = vi.fn();
+    render(
+      <IconButton
+        aria-label='Settings'
+        icon={Settings}
+        tooltip
+        onTooltipShow={handleTooltipShow}
+      />,
+    );
+
+    await userEvent.hover(screen.getByLabelText('Settings'));
+    await screen.findByRole('tooltip');
+
+    expect(handleTooltipShow).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call onTooltipShow when tooltip is not enabled', async () => {
+    const handleTooltipShow = vi.fn();
+    render(
+      <IconButton
+        aria-label='Settings'
+        icon={Settings}
+        onTooltipShow={handleTooltipShow}
+      />,
+    );
+
+    await userEvent.hover(screen.getByLabelText('Settings'));
+
+    expect(handleTooltipShow).not.toHaveBeenCalled();
+  });
 });
