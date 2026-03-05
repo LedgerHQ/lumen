@@ -7,8 +7,8 @@ const buttonVariants = cva('', {
   variants: {
     size: {
       sm: 'px-16 py-10 body-2-semi-bold',
-      md: 'px-16 py-12',
-      lg: 'p-16',
+      md: 'px-16 py-12 body-1-semi-bold',
+      lg: 'p-16 body-1-semi-bold',
     },
   },
   defaultVariants: {
