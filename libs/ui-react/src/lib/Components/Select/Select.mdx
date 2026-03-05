@@ -30,7 +30,7 @@ The Select component provides a dropdown interface for choosing from a list of o
 - **Label**: Optional floating label that animates when a value is selected
 - **Value**: The currently selected value
 - **Icon**: Chevron down/up indicator
-- **Content**: The dropdown container with options
+- **Content**: The dropdown container with options. Its minimum width matches the trigger width, so the dropdown is never narrower than the trigger.
 - **Items**: Individual selectable options
 - **Groups**: Optional grouping of related items with labels
 - **Separators**: Visual dividers between groups
@@ -119,6 +119,8 @@ npm install @ledgerhq/lumen-ui-react @radix-ui/react-select
 The `@radix-ui/react-select` dependency provides accessible, unstyled select functionality with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
+
+> **Content width:** `SelectContent` has a minimum width equal to the trigger width (`min-w-[trigger-width]`). The dropdown will grow wider if items need more space but will never be narrower than the trigger.
 
 ```tsx
 import {

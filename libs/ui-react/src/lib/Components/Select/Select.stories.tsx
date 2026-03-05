@@ -447,7 +447,7 @@ export const TriggerShowcase: Story = {
                   />
                 )}
               />
-              <SelectContent className='w-fit'>
+              <SelectContent>
                 <SelectItem value='option1'>
                   <SelectItemText>Option 1</SelectItemText>
                 </SelectItem>
