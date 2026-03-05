@@ -14,7 +14,7 @@ import {
 } from './Subheader';
 
 const Container = ({ children }: { children: React.ReactNode }) => (
-  <View style={{ padding: 8, backgroundColor: '#ffffff', width: '100%' }}>
+  <View style={{ padding: 8, backgroundColor: '#ffffff', width: 400 }}>
     {children}
   </View>
 );
