@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../../Components/Icon/createIcon';
 
 /**
- * RefreshBack icon component for React Native.
+ * Reduce icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,31 +15,31 @@ import createIcon from '../../Components/Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { RefreshBack } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Reduce } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <RefreshBack />
+ * <Reduce />
  *
  * @example
  * // With custom size and style
- * <RefreshBack size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Reduce size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={RefreshBack} size="md">
+ * <Button icon={Reduce} size="md">
  *   Click me
  * </Button>
  */
-export const RefreshBack = createIcon(
-  'RefreshBack',
+export const Reduce = createIcon(
+  'Reduce',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M3.008 3.093V5.45h2.356m-2.049 0A5.334 5.334 0 1 1 2.666 8'
+      d='M14.002 8v3.335a2.67 2.67 0 0 1-2.667 2.667h-6.67a2.67 2.67 0 0 1-2.668-2.667v-6.67a2.67 2.67 0 0 1 2.668-2.667H8m-.667 6.669 6.67-6.67m-6.67 6.67h2.668m-2.668 0V5.999'
     />
   </Svg>,
 );

@@ -685,7 +685,7 @@
           }
         },
         "websites": {
-          "Default": {
+          "default": {
             "$type": "color",
             "$value": "{color.dark.orange.400}",
             "$description": "",
@@ -699,7 +699,7 @@
               }
             }
           },
-          "Hover": {
+          "hover": {
             "$type": "color",
             "$value": "{color.dark.orange.500}",
             "$description": "",
@@ -711,7 +711,7 @@
               }
             }
           },
-          "Pressed": {
+          "pressed": {
             "$type": "color",
             "$value": "{color.dark.orange.600}",
             "$description": "",
@@ -1043,6 +1043,30 @@
         "70%": {
           "$type": "color",
           "$value": "{color.dark.grey.050-70%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "40%": {
+          "$type": "color",
+          "$value": "{color.dark.grey.050-40%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "30%": {
+          "$type": "color",
+          "$value": "{color.dark.grey.050-30%}",
           "$description": "",
           "$extensions": {
             "com.figma": {

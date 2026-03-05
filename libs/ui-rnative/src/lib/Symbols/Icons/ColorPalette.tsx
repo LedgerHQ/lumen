@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../../Components/Icon/createIcon';
 
 /**
- * RefreshBack icon component for React Native.
+ * ColorPalette icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,31 +15,31 @@ import createIcon from '../../Components/Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { RefreshBack } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { ColorPalette } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <RefreshBack />
+ * <ColorPalette />
  *
  * @example
  * // With custom size and style
- * <RefreshBack size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <ColorPalette size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={RefreshBack} size="md">
+ * <Button icon={ColorPalette} size="md">
  *   Click me
  * </Button>
  */
-export const RefreshBack = createIcon(
-  'RefreshBack',
+export const ColorPalette = createIcon(
+  'ColorPalette',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M3.008 3.093V5.45h2.356m-2.049 0A5.334 5.334 0 1 1 2.666 8'
+      d='M11.148 5.285a1.334 1.334 0 0 1 1.569.594l1.103 1.885a1.334 1.334 0 0 1-.49 1.832l-6.705 3.822a4.46 4.46 0 0 1-2.21.585m-.083 0a2.334 2.334 0 0 0 2.334-2.335V3.331c0-.736-.597-1.333-1.334-1.333h-2c-.737 0-1.334.597-1.334 1.333v8.337a2.334 2.334 0 0 0 2.334 2.335m0 0a3.13 3.13 0 0 0 2.703-1.55l3.969-6.786a1.334 1.334 0 0 0-.491-1.832L8.588 2.738a1.334 1.334 0 0 0-1.812.485l-.11.187M4.5 11.668a.167.167 0 1 1-.334 0 .167.167 0 0 1 .334 0'
     />
   </Svg>,
 );

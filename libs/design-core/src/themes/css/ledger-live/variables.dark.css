@@ -5,6 +5,7 @@
 :root {
   --color-background-native: #c3c3c3;
   --color-text-native: #007aff;
+  --utility-is-dark: true; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-dark-grey-050);
   --color-background-canvas-muted: var(--color-dark-grey-050);
   --color-background-canvas-sheet: var(--color-dark-grey-075);
@@ -89,6 +90,8 @@
   --color-background-gradient-100: var(--color-dark-grey-050);
   --color-background-gradient-80: var(--color-dark-grey-050-80);
   --color-background-gradient-70: var(--color-dark-grey-050-70);
+  --color-background-gradient-40: var(--color-dark-grey-050-40);
+  --color-background-gradient-30: var(--color-dark-grey-050-30);
   --color-background-gradient-0: var(--color-dark-grey-050-0);
   --color-background-gradient-overlay-80: var(--color-dark-grey-050-80);
   --color-background-gradient-overlay-0: var(--color-dark-grey-050-0);

@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../../Components/Icon/createIcon';
 
 /**
- * RefreshBack icon component for React Native.
+ * Feather icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,31 +15,31 @@ import createIcon from '../../Components/Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { RefreshBack } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Feather } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <RefreshBack />
+ * <Feather />
  *
  * @example
  * // With custom size and style
- * <RefreshBack size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Feather size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={RefreshBack} size="md">
+ * <Button icon={Feather} size="md">
  *   Click me
  * </Button>
  */
-export const RefreshBack = createIcon(
-  'RefreshBack',
+export const Feather = createIcon(
+  'Feather',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M3.008 3.093V5.45h2.356m-2.049 0A5.334 5.334 0 1 1 2.666 8'
+      d='m8.666 7.334-6 6m7.871-2.08a9.6 9.6 0 0 0 2.673-7.161 1.36 1.36 0 0 0-1.303-1.303 9.6 9.6 0 0 0-7.162 2.673c-1.92 1.921-2.182 4.775-.582 6.374 1.6 1.6 4.453 1.339 6.374-.582'
     />
   </Svg>,
 );
