@@ -1,6 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
+import { Link } from '../Link/Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 import {
   Subheader,
@@ -151,6 +152,57 @@ export const WithInfoIcon: Story = {
   </SubheaderRow>
   <SubheaderDescription>
     Use the info icon to provide contextual help or additional details
+  </SubheaderDescription>
+</Subheader>
+        `,
+      },
+    },
+  },
+};
+
+export const WithAction: Story = {
+  render: () => (
+    <Container>
+      <Subheader>
+        <div className='flex w-full items-center justify-between gap-24'>
+          <SubheaderRow className='min-w-0 flex-1'>
+            <SubheaderTitle>Recent Activity</SubheaderTitle>
+          </SubheaderRow>
+          <Link
+            href='#'
+            appearance='accent'
+            size='sm'
+            underline={false}
+            className='shrink-0'
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('View all clicked');
+            }}
+          >
+            View all
+          </Link>
+        </div>
+        <SubheaderDescription>
+          Place the action link in a flex layout beside the subheader
+        </SubheaderDescription>
+      </Subheader>
+    </Container>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Subheader>
+  <div className="flex w-full items-center justify-between gap-24">
+    <SubheaderRow className="min-w-0 flex-1">
+      <SubheaderTitle>Recent Activity</SubheaderTitle>
+    </SubheaderRow>
+    <Link href="#" appearance="accent" size="sm" underline={false} className="shrink-0">
+      View all
+    </Link>
+  </div>
+  <SubheaderDescription>
+    Place the action link in a flex layout beside the subheader
   </SubheaderDescription>
 </Subheader>
         `,

@@ -50,6 +50,12 @@ Use the info icon to provide contextual help:
 
 <Canvas of={SubheaderStories.WithInfoIcon} />
 
+### With action (layout)
+
+To show an action like "View all" next to a subheader, use a flex container with the Subheader and a Link. Put the **title row** (`SubheaderRow`) and the Link in the same flex row so the action aligns with the title; keep `SubheaderDescription` below. The SubheaderRow gets `min-w-0 flex-1` so the title can truncate; the Link stays aligned to the end.
+
+<Canvas of={SubheaderStories.WithAction} />
+
 > **Key behaviors:**
 >
 > - Subheaders flow naturally to fill their parent container width
@@ -169,6 +175,38 @@ function DescriptionExample() {
       <SubheaderDescription>
         This is a detailed description that provides additional context about
         this section.
+      </SubheaderDescription>
+    </Subheader>
+  );
+}
+```
+
+### With action (layout pattern)
+
+To show an action link (e.g. "View all") beside a subheader, use a flex row for the **title row only**: put `SubheaderRow` and a `Link` in the same flex container inside `Subheader`, with `SubheaderDescription` below. Give the SubheaderRow `min-w-0 flex-1` so the title can truncate, and the Link `shrink-0` so it stays visible.
+
+```tsx
+import {
+  Subheader,
+  SubheaderRow,
+  SubheaderTitle,
+  SubheaderDescription,
+  Link,
+} from '@ledgerhq/lumen-ui-react';
+
+function WithActionExample() {
+  return (
+    <Subheader>
+      <div className="flex w-full items-center justify-between gap-24">
+        <SubheaderRow className="min-w-0 flex-1">
+          <SubheaderTitle>Recent Activity</SubheaderTitle>
+        </SubheaderRow>
+        <Link href="/activity" appearance="accent" size="sm" underline={false} className="shrink-0">
+          View all
+        </Link>
+      </div>
+      <SubheaderDescription>
+        Place the action link in a flex layout beside the subheader
       </SubheaderDescription>
     </Subheader>
   );

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Link } from '../Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';
 import {
   Subheader,
@@ -87,6 +88,29 @@ export const WithInfoIcon: Story = {
       </SubheaderRow>
       <SubheaderDescription>
         Use the info icon to provide contextual help or additional details
+      </SubheaderDescription>
+    </Subheader>
+  ),
+};
+
+export const WithAction: Story = {
+  render: () => (
+    <Subheader>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
+        <SubheaderRow style={{ flex: 1, minWidth: 0 }}>
+          <SubheaderTitle>Recent Activity</SubheaderTitle>
+        </SubheaderRow>
+        <Link
+          onPress={() => console.log('View all')}
+          appearance='accent'
+          size='sm'
+          underline={false}
+        >
+          View all
+        </Link>
+      </View>
+      <SubheaderDescription>
+        Place the action link in a flex layout beside the subheader
       </SubheaderDescription>
     </Subheader>
   ),
