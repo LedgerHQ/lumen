@@ -25,7 +25,7 @@ Example:
 | Element  | Definition | Example |
 | -------- | ---------- | ------- |
 | Property | border-radius token determining the curvature of elements | border-radius |
-| Size     | defines the curvature of an element's corners | none, xs, sm, md, lg, xl, 2xl, full |
+| Size     | defines the curvature of an element's corners | none, xxs, xs, sm, md, lg, xl, 2xl, full |
 `}
 </Markdown>
 
@@ -51,6 +51,12 @@ the radius of an element using the `border-radius-*` token.
         <td className="p-12 body-4">rounded-none</td>
         <td className="p-12 text-muted body-4">
           border-radius: var(--border-radius-none); /* 0px */
+        </td>
+      </tr>
+      <tr className="border-b border-muted">
+        <td className="p-12 body-4">rounded-xxs</td>
+        <td className="p-12 text-muted body-4">
+          border-radius: var(--border-radius-xxs); /* 2px */
         </td>
       </tr>
       <tr className="border-b border-muted">
@@ -106,6 +112,7 @@ the radius of an element using the `border-radius-*` token.
 | Size | Usage |
 | ---- | ----- |
 | none | no rounding; for sharp, rectangular corners |
+| xxs  | minimal rounding; subtle curvature for very compact elements |
 | xs   | very slight rounding; suitable for compact tags or checkbox |
 | sm   | light rounding on inputs, search, or small components |
 | md   | standard rounding on small components like segmented control |
