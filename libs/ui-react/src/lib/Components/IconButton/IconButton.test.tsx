@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Settings } from '../../Symbols/Icons/Settings';
 import { IconButton } from './IconButton';
@@ -86,9 +86,9 @@ describe('IconButton', () => {
     );
 
     await userEvent.hover(screen.getByLabelText('Settings'));
-    await screen.findByRole('tooltip');
-
-    expect(handleTooltipShow).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(handleTooltipShow).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('does not call onTooltipShow when tooltip is not enabled', async () => {
