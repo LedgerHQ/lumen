@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 import {
@@ -75,7 +75,18 @@ const spotVariants = cva(
  * <Spot appearance="bluetooth" disabled />
  */
 export const Spot = (props: SpotProps) => {
-  const { appearance, className, disabled, size = 48, ref, ...rest } = props;
+  const {
+    appearance,
+    className,
+    disabled = false,
+    size = 48,
+    ref,
+    ...rest
+  } = props;
+  const mergedDisabled = useDisabledContext({
+    consumerName: 'Spot',
+    mergeWith: { disabled },
+  });
 
   const sizeMap: Record<SpotSize, IconSize> = {
     32: 12,
@@ -125,7 +136,14 @@ export const Spot = (props: SpotProps) => {
   return (
     <div
       ref={ref}
-      className={cn(className, spotVariants({ appearance, disabled, size }))}
+      className={cn(
+        className,
+        spotVariants({
+          disabled: mergedDisabled,
+          appearance,
+          size,
+        }),
+      )}
       {...rest}
     >
       {content}

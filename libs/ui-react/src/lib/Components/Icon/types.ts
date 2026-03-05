@@ -12,6 +12,11 @@ export type IconProps = {
    */
   className?: string;
   /**
+   * Whether the icon is disabled.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * The children of the icon.
    */
   children: ReactNode;
