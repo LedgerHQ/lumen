@@ -67,7 +67,7 @@ Use the info icon to provide contextual help:
 
 ### With action (layout)
 
-To show an action like "View all" next to a subheader, use a flex container with the Subheader and a Link. Put the **title row** (`SubheaderRow`) and the Link in the same flex row so the action aligns with the title; keep `SubheaderDescription` below. The SubheaderRow gets `flex: 1` and `minWidth: 0` so the title can truncate; the Link stays aligned to the end.
+You can add an action by placing a Link in a flex row aligned with the title row.
 
 <Canvas of={SubheaderStories.WithAction} />
 
@@ -207,7 +207,7 @@ function InfoExample() {
 
 ### With action (layout pattern)
 
-To show an action link (e.g. "View all") beside a subheader, use a flex row for the **title row only**: put `SubheaderRow` and a `Link` in the same flex container inside `Subheader`, with `SubheaderDescription` below. Give the SubheaderRow `flex: 1` and `minWidth: 0` so the title can truncate; the Link stays aligned to the end.
+Add an action by placing a Link in a flex row aligned with the title:
 
 ```tsx
 import {
