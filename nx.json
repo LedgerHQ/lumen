@@ -140,18 +140,27 @@
     }
   },
   "release": {
-    "projects": ["libs/*"],
     "projectsRelationship": "independent",
     "versionPlans": true,
+    "groups": {
+      "packages": {
+        "projects": ["libs/*"],
+        "changelog": {
+          "projectChangelogs": {
+            "file": false,
+            "createRelease": "github"
+          }
+        }
+      },
+      "sandbox-apps": {
+        "projects": ["apps/*"],
+        "changelog": false,
+        "versionPlans": false
+      }
+    },
     "version": {
       "preVersionCommand": "npx nx run-many -t build --projects='libs/*'",
       "updateDependents": "auto"
-    },
-    "changelog": {
-      "projectChangelogs": {
-        "file": false,
-        "createRelease": "github"
-      }
     }
   }
 }
