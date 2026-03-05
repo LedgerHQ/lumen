@@ -1,6 +1,6 @@
 export * from './lib/string/string';
 export * from './lib/inputFormatter';
-export * from './lib/createSafeContext';
+export * from './lib/context';
 export * from './lib/cn';
 export * from './lib/isTextChildren';
 export * from './lib/useMergeRef';
@@ -8,3 +8,4 @@ export * from './lib/getObjectPath';
 export * from './lib/components';
 export * from './lib/throttle';
 export * from './lib/debounce';
+export * from './lib/a11y';

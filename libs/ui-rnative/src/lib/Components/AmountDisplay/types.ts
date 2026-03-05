@@ -1,31 +1,23 @@
-import { ViewProps } from 'react-native';
+import type { FormattedValue, SplitChar } from '@ledgerhq/lumen-utils-shared';
+import { ViewProps, TextStyle } from 'react-native';
 import { StyledViewProps } from '../../../styles';
 
-export type FormattedValue = {
-  /**
-   * The whole number portion of the amount (e.g., "1234" from 1234.56)
-   */
-  integerPart: string;
-  /**
-   * The fractional portion of the amount without the separator (e.g., "56" from 1234.56)
-   * @optional
-   */
-  decimalPart?: string;
-  /**
-   * The currency text or symbol (e.g., "$", "USD", "€", "BTC")
-   */
-  currencyText: string;
-  /**
-   * The character which separates integer and fractional parts.
-   */
-  decimalSeparator: '.' | ',';
-  /**
-   * Position of the currency text relative to the amount.
-   * @optional
-   * @default 'start'
-   */
-  currencyPosition?: 'start' | 'end';
+export type { FormattedValue };
+
+export const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+
+type IntegerDigit = (typeof DIGITS)[number];
+
+export type DigitStripProps = {
+  value: IntegerDigit;
+  animate: boolean;
+  textStyle: TextStyle & { lineHeight: number };
+  type: 'integer' | 'decimal';
 };
+
+export type DigitStripListProps = {
+  items: SplitChar[];
+} & Omit<DigitStripProps, 'value'>;
 
 /**
  * Props for the AmountDisplay component.
@@ -51,4 +43,9 @@ export type AmountDisplayProps = ViewProps & {
    * @default false
    */
   loading?: boolean;
+  /**
+   * Whether the odometer animation should play on value change or not
+   * @default true
+   */
+  animate?: boolean;
 } & Omit<StyledViewProps, 'children'>;

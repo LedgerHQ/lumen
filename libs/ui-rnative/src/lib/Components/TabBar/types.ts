@@ -5,7 +5,6 @@ import { BoxProps } from '../Utility';
 
 type IconComponent = ComponentType<{
   size?: IconSize;
-  className?: string;
 }>;
 
 export type TabBarItemProps = {

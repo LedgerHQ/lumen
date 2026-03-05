@@ -1,8 +1,8 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
-import { ThemeProvider, useTheme } from './ThemeProvider';
+import { ThemeProvider } from './ThemeProvider';
 
 const root = document.documentElement;
 
@@ -33,7 +33,7 @@ afterEach(() => {
 describe('ThemeProvider', () => {
   it('applies light class when theme is light', () => {
     render(
-      <ThemeProvider defaultMode='light'>
+      <ThemeProvider colorScheme='light'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -44,7 +44,7 @@ describe('ThemeProvider', () => {
 
   it('applies dark class when theme is dark', () => {
     render(
-      <ThemeProvider defaultMode='dark'>
+      <ThemeProvider colorScheme='dark'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -57,7 +57,7 @@ describe('ThemeProvider', () => {
     setupMatchMedia(true);
 
     render(
-      <ThemeProvider defaultMode='system'>
+      <ThemeProvider colorScheme='system'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -70,34 +70,11 @@ describe('ThemeProvider', () => {
     setupMatchMedia(false);
 
     render(
-      <ThemeProvider defaultMode='system'>
+      <ThemeProvider colorScheme='system'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
 
-    expect(root).toHaveClass('light');
-    expect(root).not.toHaveClass('dark');
-  });
-
-  it('updates class using useTheme context', () => {
-    const Consumer = () => {
-      const { mode, setMode } = useTheme();
-      return (
-        <div data-testid='theme-value' onClick={() => setMode('light')}>
-          {mode}
-        </div>
-      );
-    };
-
-    render(
-      <ThemeProvider defaultMode='dark'>
-        <Consumer />
-      </ThemeProvider>,
-    );
-
-    expect(screen.getByTestId('theme-value')).toHaveTextContent('dark');
-    fireEvent.click(screen.getByTestId('theme-value'));
-    expect(screen.getByTestId('theme-value')).toHaveTextContent('light');
     expect(root).toHaveClass('light');
     expect(root).not.toHaveClass('dark');
   });

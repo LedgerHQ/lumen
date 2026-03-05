@@ -1,0 +1,117 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CardStories from './Card.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Components/Card' of={CardStories} />
+
+# Card
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Card is a flexible container component that uses a composite pattern for displaying structured content. The `type` prop controls the interaction mode: `"interactive"` (default), `"expandable"`, or `"info"`.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=14067-7418).
+
+<Canvas of={CardStories.Base} />
+<Controls of={CardStories.Base} />
+
+## Anatomy
+
+- **Card**: Root container with surface background and rounded corners.
+- **CardHeader**: Horizontal layout for the header row. Becomes the click target when `type="expandable"`.
+- **CardLeading**: Left section containing visual element and content. Reusable in both header and footer.
+- **CardContent**: Column wrapper for title + description.
+- **CardContentTitle**: Primary text label with truncation.
+- **CardContentDescription**: Secondary muted text with truncation.
+- **CardTrailing**: Right section for trailing content (Button, Tag, right-aligned values, etc.).
+- **CardFooter**: Footer container with muted background. Collapses with a 300ms transition when `expanded === false`.
+
+## States
+
+The `type` prop defines the card's interaction behavior:
+
+- **`"interactive"`** (default): whole card is clickable with hover/pressed states. Pass `onClick` on Card.
+- **`"expandable"`**: only `CardHeader` is clickable with hover/pressed states. Pass `onClick` on Card — it is routed to the header internally.
+- **`"info"`**: data-display only, no hover or click handling. Use for cards with their own action elements (e.g. buttons).
+
+Use `outlined` for selection state.  
+The `disabled` prop cascades disabled styling to all sub-components (except for crypto-icon, it needs to managed in the app).
+
+<Canvas of={CardStories.StatesShowcase} />
+
+## Expandable
+
+Set `type="expandable"` with the `expanded` and `onClick` props. Only the header shows hover/pressed states and handles the click. Footer actions (buttons, links) work independently without `stopPropagation`.
+
+<Canvas of={CardStories.ExpandableShowcase} />
+
+## Layout
+
+Cards default to full width (`w-full`). Use `className` to control sizing: `w-fit` for content-fit, `w-320` for a fixed width, or let it fill its parent.
+
+<Canvas of={CardStories.LayoutShowcase} />
+
+## Compositions
+
+Cards support various compositions by combining sub-components differently.
+
+<Canvas of={CardStories.CompositionsShowcase} />
+
+  </Tab>
+
+  <Tab label="Implementation">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+## Basic Usage
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardLeading,
+  CardContent,
+  CardContentTitle,
+  CardContentDescription,
+  CardTrailing,
+  CardFooter,
+} from '@ledgerhq/lumen-ui-react';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
+```
+
+## Example: Info Card with Footer Action
+
+```tsx
+<Card type="info">
+  <CardHeader>
+    <CardLeading>
+      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="40px" />
+      <CardContent>
+        <CardContentTitle>Staking</CardContentTitle>
+        <CardContentDescription>Earn rewards</CardContentDescription>
+      </CardContent>
+    </CardLeading>
+    <CardTrailing>
+      <CardContent>
+        <CardContentTitle>5.2%</CardContentTitle>
+        <CardContentDescription>APY</CardContentDescription>
+      </CardContent>
+    </CardTrailing>
+  </CardHeader>
+  <CardFooter>
+    <CardFooterActions>
+      <Button appearance="base" isFull>Stake Now</Button>
+    </CardFooterActions>
+  </CardFooter>
+</Card>
+```
+
+  </Tab>
+</CustomTabs>

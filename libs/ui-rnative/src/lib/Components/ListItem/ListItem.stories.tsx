@@ -192,7 +192,7 @@ export const VariantsShowcase: Story = {
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon icon={ChevronRight} />
+            <ListItemIcon color='muted' icon={ChevronRight} />
           </ListItemTrailing>
         </ListItem>
 
@@ -205,7 +205,7 @@ export const VariantsShowcase: Story = {
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon icon={ChevronRight} />
+            <ListItemIcon color='muted' icon={ChevronRight} />
           </ListItemTrailing>
         </ListItem>
 
@@ -284,7 +284,7 @@ export const DisabledState: Story = {
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
-          <ListItemIcon icon={ChevronRight} />
+          <ListItemIcon color='muted' icon={ChevronRight} />
         </ListItemTrailing>
       </ListItem>
 
@@ -357,7 +357,7 @@ export const ResponsiveLayout: Story = {
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon icon={ChevronRight} />
+            <ListItemIcon color='muted' icon={ChevronRight} />
           </ListItemTrailing>
         </ListItem>
 
@@ -375,7 +375,7 @@ export const ResponsiveLayout: Story = {
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon icon={ChevronRight} />
+            <ListItemIcon color='muted' icon={ChevronRight} />
           </ListItemTrailing>
         </ListItem>
 

@@ -1,13 +1,49 @@
 import { cn, useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import { AmountDisplayProps, DigitStripProps, SplitChar } from './types';
+import {
+  AmountDisplayProps,
+  DigitStripListProps,
+  DigitStripProps,
+  DIGITS,
+} from './types';
 
-const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const INTEGER_DIGIT_WIDTHS = {
+  0: 24.5,
+  1: 15,
+  2: 23,
+  3: 24,
+  4: 25,
+  5: 23,
+  6: 24.5,
+  7: 21.5,
+  8: 24,
+  9: 24,
+};
 
-const DigitStrip = memo(({ value, animate }: DigitStripProps) => {
+const DECIMAL_DIGIT_WIDTHS = {
+  0: 17,
+  1: 10.5,
+  2: 16,
+  3: 16.5,
+  4: 17.2,
+  5: 15.7,
+  6: 17,
+  7: 14.7,
+  8: 16.5,
+  9: 16.5,
+};
+
+const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
+  const width = (
+    type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
+  )[value];
+
   return (
-    <div className={cn('relative overflow-hidden')}>
+    <div
+      className='relative overflow-hidden mask-fade-y transition-[width] duration-600'
+      style={{ width: width + 'px' }}
+    >
       <span className='invisible'>0</span>
       <span
         className={cn(
@@ -18,12 +54,31 @@ const DigitStrip = memo(({ value, animate }: DigitStripProps) => {
           transform: `translateY(-${value * 10}%)`,
         }}
       >
-        {digits.map((d, i) => (
-          <span key={i}>{d}</span>
+        {DIGITS.map((d, i) => (
+          <span inert={d !== value ? true : false} key={i}>
+            {d}
+          </span>
         ))}
       </span>
     </div>
   );
+});
+
+const DigitStripList = memo(({ items, type, animate }: DigitStripListProps) => {
+  return items.map((item, index) => {
+    const key = items.length - index;
+    if (item.type === 'separator') {
+      return <span key={key}>{item.value}</span>;
+    }
+    return (
+      <DigitStrip
+        key={key}
+        value={Number(item.value) as DigitStripProps['value']}
+        animate={animate}
+        type={type}
+      />
+    );
+  });
 });
 
 /**
@@ -76,28 +131,12 @@ export const AmountDisplay = ({
     hidden,
     t('components.amountDisplay.amountHiddenAriaLabel'),
   );
-  const renderDigits = (items: SplitChar[]) => {
-    let digitCount = items.filter((c) => c.type === 'digit').length;
-    return items.map((item, index) => {
-      if (item.type === 'separator') {
-        return <span key={`sep-${index}`}>{item.value}</span>;
-      }
-      digitCount--;
-      return (
-        <DigitStrip
-          key={digitCount}
-          value={parseInt(item.value, 10)}
-          animate={animate}
-        />
-      );
-    });
-  };
 
   return (
     <div
       className={cn(
         loading && 'animate-pulse',
-        'relative inline-flex items-end',
+        'relative inline-flex items-baseline',
         className,
       )}
       aria-label={ariaLabel}
@@ -105,20 +144,34 @@ export const AmountDisplay = ({
       {...props}
     >
       <span
-        className='inline-flex flex-row mask-fade-y heading-1-semi-bold text-base'
+        className='inline-flex heading-1-semi-bold text-base'
         aria-hidden='true'
       >
         {parts.currencyPosition === 'start' && (
           <span className='me-4'>{parts.currencyText}</span>
         )}
-        {hidden ? <span>••••</span> : renderDigits(splitDigits.integerPart)}
+        {hidden ? (
+          <span>••••</span>
+        ) : (
+          <DigitStripList
+            items={splitDigits.integerPart}
+            animate={animate}
+            type='integer'
+          />
+        )}
       </span>
       <span
-        className='inline-flex flex-row mask-fade-y pb-2 heading-2-semi-bold text-muted'
+        className='inline-flex heading-2-semi-bold text-muted'
         aria-hidden='true'
       >
         {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
-        {parts.decimalPart && !hidden && renderDigits(splitDigits.decimalPart)}
+        {parts.decimalPart && !hidden && (
+          <DigitStripList
+            items={splitDigits.decimalPart}
+            animate={animate}
+            type='decimal'
+          />
+        )}
         {parts.currencyPosition === 'end' && (
           <span className='ms-4'>{parts.currencyText}</span>
         )}

@@ -1,4 +1,8 @@
-import { toPascalCase } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  toPascalCase,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { createElement, SVGProps } from 'react';
 import { Icon } from './Icon';
 import { IconProps } from './types';
@@ -17,15 +21,22 @@ const createIcon = (
   const Component = ({
     ref,
     className,
+    disabled,
     ...props
-  }: Omit<IconProps, 'children'>) =>
-    createElement(Icon, {
+  }: Omit<IconProps, 'children'>) => {
+    const mergedDisabled = useDisabledContext({
+      consumerName: iconName,
+      mergeWith: { disabled },
+    });
+
+    return createElement(Icon, {
       ref,
-      className,
+      className: cn(mergedDisabled && 'text-disabled', className),
       viewBox: iconJsx.props.viewBox,
       ...props,
       children: iconJsx.props.children,
     });
+  };
 
   Component.displayName = toPascalCase(iconName);
 

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 import { BaseButtonProps } from '../Button/types';
 
 export type ButtonTriggerProps = {
@@ -30,7 +30,5 @@ export type ButtonTriggerProps = {
    * The label content of the trigger button.
    */
   children: ReactNode;
-} & Omit<
-  BaseButtonProps,
-  'appearance' | 'size' | 'icon' | 'children' | 'isFull' | 'loading'
->;
+} & Pick<BaseButtonProps, 'disabled' | 'className' | 'asChild'> &
+  ComponentPropsWithRef<'button'>;

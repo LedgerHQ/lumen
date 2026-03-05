@@ -3,6 +3,9 @@
     "addressInput": {
       "qrCodeAriaLabel": "Karekodu okut"
     },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Tutar gizlendi"
+    },
     "avatar": {
       "defaultAlt": "Kullanıcı avatarı",
       "notificationAriaLabel": "Bildirim var"

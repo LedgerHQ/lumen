@@ -58,6 +58,9 @@ const meta: Meta<typeof ButtonTrigger> = {
       control: 'select',
       options: ['flat', 'rounded'],
     },
+    asChild: {
+      control: false,
+    },
   },
 };
 

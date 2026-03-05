@@ -3,6 +3,9 @@
     "addressInput": {
       "qrCodeAriaLabel": "สแกน QR Code"
     },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "ยอดเงินถูกซ่อน"
+    },
     "avatar": {
       "defaultAlt": "อวาตาร์ผู้ใช้",
       "notificationAriaLabel": "มีการแจ้งเตือน"
