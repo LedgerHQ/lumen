@@ -5,14 +5,11 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
-        "outputPath": "libs/ui-rnative/dist",
-        "main": "libs/ui-rnative/src/index.ts",
-        "tsConfig": "libs/ui-rnative/tsconfig.lib.json",
-        "assets": [],
-        "project": "libs/ui-rnative/package.json"
+        "command": "npx bob build",
+        "cwd": "libs/ui-rnative"
       }
     }
   },

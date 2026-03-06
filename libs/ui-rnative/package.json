@@ -9,23 +9,38 @@
     "design-system",
     "mobile"
   ],
+  "sideEffects": false,
   "type": "module",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
+  "source": "./src/index.ts",
+  "main": "./dist/module/index.js",
+  "module": "./dist/module/index.js",
+  "types": "./dist/typescript/src/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts",
-      "default": "./src/index.ts"
+      "source": "./src/index.ts",
+      "types": "./dist/typescript/src/index.d.ts",
+      "import": "./dist/module/index.js",
+      "default": "./dist/module/index.js"
     },
     "./symbols": {
-      "types": "./src/lib/Symbols/index.ts",
-      "import": "./src/lib/Symbols/index.ts",
-      "default": "./src/lib/Symbols/index.ts"
+      "source": "./src/lib/Symbols/index.ts",
+      "types": "./dist/typescript/src/lib/Symbols/index.d.ts",
+      "import": "./dist/module/lib/Symbols/index.js",
+      "default": "./dist/module/lib/Symbols/index.js"
     },
-    "./styles": "./src/styles/index.ts"
+    "./styles": {
+      "source": "./src/styles/index.ts",
+      "types": "./dist/typescript/src/styles/index.d.ts",
+      "import": "./dist/module/styles/index.js",
+      "default": "./dist/module/styles/index.js"
+    }
   },
+  "files": [
+    "dist",
+    "src",
+    "!**/*.tsbuildinfo"
+  ],
   "dependencies": {
     "@ledgerhq/lumen-utils-shared": "0.1.1",
     "i18next": "^23.7.0",
@@ -49,6 +64,14 @@
     "tags": [
       "scope:react-native",
       "type:ui"
+    ]
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "dist",
+    "targets": [
+      ["module", { "esm": true, "configFile": "./babel.config.bob.cjs" }],
+      ["typescript", { "project": "tsconfig.lib.json" }]
     ]
   }
 }
