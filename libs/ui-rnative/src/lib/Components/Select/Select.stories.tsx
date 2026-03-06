@@ -1,3 +1,4 @@
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import React, { useState } from 'react';
 import { Settings } from '../../Symbols';
@@ -267,12 +268,20 @@ export const WithChangeCallback: Story = {
   },
 };
 
+const cryptos = [
+  { value: 'btc', label: 'Bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' },
+  { value: 'eth', label: 'Ethereum', ledgerId: 'ethereum', ticker: 'ETH' },
+  { value: 'sol', label: 'Solana', ledgerId: 'solana', ticker: 'SOL' },
+] as const;
+
 const appearances = ['gray', 'transparent', 'no-background'] as const;
 
 export const TriggerShowcase: Story = {
   render: () => {
     const [buttonValue, setButtonValue] = useState<string>('');
     const [iconValue, setIconValue] = useState<string>('');
+    const [cryptoValue, setCryptoValue] = useState<string>('');
+    const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
 
     return (
       <>
@@ -317,6 +326,38 @@ export const TriggerShowcase: Story = {
               <SelectItem value='notifications'>
                 <SelectItemText>Notifications</SelectItemText>
               </SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={cryptoValue} onValueChange={setCryptoValue}>
+            <SelectTrigger
+              render={(renderProps) => (
+                <SelectButtonTrigger
+                  {...renderProps}
+                  label='Network'
+                  icon={
+                    selectedCrypto ? (
+                      <CryptoIcon
+                        ledgerId={selectedCrypto.ledgerId}
+                        ticker={selectedCrypto.ticker}
+                        size='32px'
+                      />
+                    ) : undefined
+                  }
+                  iconType='rounded'
+                />
+              )}
+            />
+            <SelectContent>
+              {cryptos.map((crypto) => (
+                <SelectItem
+                  key={crypto.value}
+                  value={crypto.value}
+                  textValue={crypto.label}
+                >
+                  <SelectItemText>{crypto.label}</SelectItemText>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 

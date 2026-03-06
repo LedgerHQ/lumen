@@ -338,7 +338,6 @@ export const TriggerShowcase: Story = {
     const [buttonValue, setButtonValue] = useState('');
     const [iconValue, setIconValue] = useState('');
     const [cryptoValue, setCryptoValue] = useState('');
-    const [customValue, setCustomValue] = useState('');
     const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
     const appearances = ['gray', 'transparent', 'no-background'] as const;
 
@@ -458,31 +457,6 @@ export const TriggerShowcase: Story = {
             </Select>
           ))}
         </div>
-
-        <Select value={customValue} onValueChange={setCustomValue}>
-          <SelectTrigger
-            render={({ selectedValue, selectedContent }) => (
-              <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'>
-                {selectedValue ? (
-                  selectedContent
-                ) : (
-                  <span className='text-muted'>Pick an option…</span>
-                )}
-              </button>
-            )}
-          />
-          <SelectContent>
-            <SelectItem value='alpha'>
-              <SelectItemText>Alpha</SelectItemText>
-            </SelectItem>
-            <SelectItem value='beta'>
-              <SelectItemText>Beta</SelectItemText>
-            </SelectItem>
-            <SelectItem value='gamma'>
-              <SelectItemText>Gamma</SelectItemText>
-            </SelectItem>
-          </SelectContent>
-        </Select>
       </div>
     );
   },

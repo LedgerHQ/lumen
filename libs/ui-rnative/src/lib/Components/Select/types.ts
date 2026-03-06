@@ -50,13 +50,16 @@ export type SelectProps = {
 
 export type SelectTriggerRenderProps = {
   /**
-   * The currently selected value, or undefined if nothing is selected.
+   * The currently selected value, or `undefined` if nothing is selected.
+   *
    */
   selectedValue: string | undefined;
   /**
-   * A ReactNode that renders the selected item's label text.
+   * The plain-text label of the currently selected item, or `null` when
+   * nothing is selected.
+   *
    */
-  selectedContent: ReactNode;
+  selectedContent: string | null;
 };
 
 export type SelectTriggerProps = {
@@ -71,11 +74,10 @@ export type SelectTriggerProps = {
   label?: string;
   /**
    * Render function that replaces the default input-style trigger.
-   * When provided, the result is wrapped in a SlotPressable that merges
-   * press handling onto the rendered element.
+   * The returned element receives `onPress` and `disabled` automatically.
    *
    * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
-   * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
+   * @example render={({ selectedValue, selectedContent }) => <MyCustomTrigger />}
    */
   render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
