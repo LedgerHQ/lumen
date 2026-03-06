@@ -17,7 +17,41 @@ Run `git branch --show-current` to check the current branch. If the current bran
 
 If already on a feature branch, continue directly.
 
-## Step 1: Create a commit if needed
+## Step 1: Ensure an Nx version plan exists
+
+Check if this branch has added a version plan file compared to `main`:
+
+```bash
+git diff main...HEAD --name-only -- .nx/version-plans/
+```
+
+If the output is empty (no version plan was added on this branch), create one. Determine which packages are affected by looking at the changed files (`git diff main...HEAD --name-only`):
+
+- Files under `libs/ui-react/` → `'@ledgerhq/lumen-ui-react'`
+- Files under `libs/ui-rnative/` → `'@ledgerhq/lumen-ui-rnative'`
+- Files under `libs/design-core/` → `'@ledgerhq/lumen-design-core'`
+- Files under `libs/utils-shared/` → `'@ledgerhq/lumen-utils-shared'`
+
+Pick the bump type based on the change:
+- `patch` — bug fixes, small tweaks
+- `minor` — new features, new components, new props
+- `major` — breaking changes
+
+Write the file as `.nx/version-plans/version-plan-<timestamp>.md` with this format:
+
+```markdown
+---
+'@ledgerhq/lumen-ui-rnative': minor
+---
+
+feat(Select): add render prop and SelectButtonTrigger
+```
+
+The description line should match the PR title / commit message style. If multiple packages are affected, list them all in the frontmatter.
+
+If a version plan already exists, skip this step.
+
+## Step 2: Create a commit if needed
 
 - If `git status` shows **uncommitted changes** (staged or unstaged):
   - Summarise the diff in one short sentence.
@@ -27,9 +61,9 @@ If already on a feature branch, continue directly.
     git add -A
     git commit -m "Your generated message"
     ```
-- If everything is already committed, skip to Step 2.
+- If everything is already committed, skip to Step 3.
 
-## Step 2: Push the branch
+## Step 3: Push the branch
 
 Push the branch to the remote (or update it if already pushed):
 
@@ -37,7 +71,7 @@ Push the branch to the remote (or update it if already pushed):
 git push -u origin HEAD
 ```
 
-## Step 3: Check for an existing PR
+## Step 4: Check for an existing PR
 
 Before creating a new PR, check if one already exists for this branch:
 
@@ -46,9 +80,9 @@ gh pr view --json url
 ```
 
 - If a PR already exists, skip creation and print the existing PR URL.
-- If no PR exists (`no pull requests found` error), continue to Step 4.
+- If no PR exists (`no pull requests found` error), continue to Step 5.
 
-## Step 4: Prepare PR body
+## Step 5: Prepare PR body
 
 1. **Generate the PR body** using the following structure:
 
@@ -79,7 +113,7 @@ gh pr view --json url
 
 4. **Save the body** to `/tmp/pr-body.md`.
 
-## Step 5: Create the PR with GitHub CLI
+## Step 6: Create the PR with GitHub CLI
 
 1. **Generate a PR title** based on the changes using a conventional commit prefix. Pick the most appropriate prefix:
    - `feat` — new feature or user-facing addition
@@ -108,9 +142,10 @@ gh pr view --json url
 ## Summary
 
 1. Ensure we are on a feature branch (create one if on `main`).
-2. If there are uncommitted changes, create a commit with a clear conventional message.
-3. Push the branch to the remote.
-4. Check if a PR already exists — if so, skip creation and print the URL.
-5. Build the PR body with Description (why), How to test (concrete steps), Screenshots, and auto-linked Linear issue.
-6. Run `gh pr create --base main --body-file /tmp/pr-body.md` and output a clickable link to the created PR.
-7. Delete the temporary body file.
+2. Ensure an Nx version plan exists in `.nx/version-plans/` — create one if missing, based on affected packages and change type.
+3. If there are uncommitted changes, create a commit with a clear conventional message.
+4. Push the branch to the remote.
+5. Check if a PR already exists — if so, skip creation and print the URL.
+6. Build the PR body with Description (why), How to test (concrete steps), Screenshots, and auto-linked Linear issue.
+7. Run `gh pr create --base main --body-file /tmp/pr-body.md` and output a clickable link to the created PR.
+8. Delete the temporary body file.
