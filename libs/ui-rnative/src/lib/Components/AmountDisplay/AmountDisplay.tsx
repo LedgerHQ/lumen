@@ -125,6 +125,7 @@ const DigitStrip = memo(
         <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
           {DIGITS.map((d) => (
             <Text
+              allowFontScaling={false}
               key={d}
               style={[
                 textStyle,
@@ -146,7 +147,7 @@ const DigitStripList = memo(
       const key = items.length - index;
       if (item.type === 'separator') {
         return (
-          <Text key={key} style={textStyle}>
+          <Text allowFontScaling={false} key={key} style={textStyle}>
             {item.value}
           </Text>
         );
@@ -229,12 +230,17 @@ export const AmountDisplay = ({
         >
           <View style={styles.integerPartContainer}>
             {parts.currencyPosition === 'start' && (
-              <Text style={[styles.currencyStartText, styles.spacingStart]}>
+              <Text
+                allowFontScaling={false}
+                style={[styles.currencyStartText, styles.spacingStart]}
+              >
                 {parts.currencyText}
               </Text>
             )}
             {hidden ? (
-              <Text style={styles.integerText}>••••</Text>
+              <Text allowFontScaling={false} style={styles.integerText}>
+                ••••
+              </Text>
             ) : (
               <DigitStripList
                 items={splitDigits.integerPart}
@@ -246,7 +252,9 @@ export const AmountDisplay = ({
           </View>
           <View style={styles.decimalPartContainer}>
             {!hidden && parts.decimalPart && (
-              <Text style={styles.decimalText}>{parts.decimalSeparator}</Text>
+              <Text allowFontScaling={false} style={styles.decimalText}>
+                {parts.decimalSeparator}
+              </Text>
             )}
             {parts.decimalPart && !hidden && (
               <DigitStripList
@@ -257,7 +265,10 @@ export const AmountDisplay = ({
               />
             )}
             {parts.currencyPosition === 'end' && (
-              <Text style={[styles.currencyEndText, styles.spacingEnd]}>
+              <Text
+                allowFontScaling={false}
+                style={[styles.currencyEndText, styles.spacingEnd]}
+              >
                 {parts.currencyText}
               </Text>
             )}
