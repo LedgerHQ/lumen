@@ -6,6 +6,7 @@ import {
   type GestureResponderEvent,
 } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -94,6 +95,34 @@ const THUMB_TRANSLATE: Record<Size, number> = {
   md: 16,
 };
 
+const useAnimatedThumb = ({
+  checked,
+  size,
+}: {
+  checked: boolean | undefined;
+  size: Size;
+}) => {
+  const timingConfig = useTimingConfig({ duration: 200, easing: 'easeInOut' });
+  const translateX = useSharedValue(checked ? THUMB_TRANSLATE[size] : 0);
+
+  useEffect(() => {
+    translateX.value = withTiming(
+      checked ? THUMB_TRANSLATE[size] : 0,
+      timingConfig,
+    );
+    return () => cancelAnimation(translateX);
+  }, [checked, size, translateX, timingConfig]);
+
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: translateX.value }],
+    }),
+    [translateX],
+  );
+
+  return { animatedStyle };
+};
+
 const BaseSwitchThumb = ({ asChild, ref, ...props }: SlottableViewProps) => {
   const {
     checked,
@@ -110,22 +139,7 @@ const BaseSwitchThumb = ({ asChild, ref, ...props }: SlottableViewProps) => {
     size,
   });
 
-  const timingConfig = useTimingConfig({ duration: 200, easing: 'easeInOut' });
-  const translateX = useSharedValue(checked ? THUMB_TRANSLATE[size] : 0);
-
-  useEffect(() => {
-    translateX.value = withTiming(
-      checked ? THUMB_TRANSLATE[size] : 0,
-      timingConfig,
-    );
-  }, [checked, size, translateX, timingConfig]);
-
-  const animatedStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateX: translateX.value }],
-    }),
-    [translateX],
-  );
+  const { animatedStyle } = useAnimatedThumb({ checked, size });
 
   if (asChild) {
     const Component = SlotView;

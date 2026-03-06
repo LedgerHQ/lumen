@@ -2,6 +2,7 @@ import { useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Animated, {
+  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -86,44 +87,68 @@ const useStyles = () => {
   );
 };
 
+const useAnimatedDigitStrip = ({
+  value,
+  lineHeight,
+  targetWidth,
+  width,
+  animate,
+}: {
+  value: number;
+  lineHeight: number;
+  targetWidth: number;
+  width: SharedValue<number>;
+  animate: boolean;
+}) => {
+  const translateY = useSharedValue(-value * lineHeight);
+
+  const timingConfig = useTimingConfig({
+    duration: 700,
+    easing: 'easeInOut',
+  });
+
+  useEffect(() => {
+    if (animate) {
+      translateY.value = withTiming(-value * lineHeight, timingConfig);
+      width.value = withTiming(targetWidth, timingConfig);
+    } else {
+      translateY.value = -value * lineHeight;
+      width.value = targetWidth;
+    }
+  }, [
+    value,
+    lineHeight,
+    translateY,
+    animate,
+    width,
+    targetWidth,
+    timingConfig,
+  ]);
+
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateY: translateY.value }],
+    }),
+    [translateY],
+  );
+
+  return { animatedStyle };
+};
+
 const DigitStrip = memo(
   ({ value, textStyle, animate, type }: DigitStripProps) => {
     const targetWidth = (
       type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
     )[value];
     const lineHeight = textStyle.lineHeight;
-    const translateY = useSharedValue(-value * lineHeight);
     const width = useSharedValue<number>(targetWidth);
-
-    const timingConfig = useTimingConfig({
-      duration: 700,
-      easing: 'easeInOut',
-    });
-
-    useEffect(() => {
-      if (animate) {
-        translateY.value = withTiming(-value * lineHeight, timingConfig);
-        width.value = withTiming(targetWidth, timingConfig);
-      } else {
-        translateY.value = -value * lineHeight;
-        width.value = targetWidth;
-      }
-    }, [
+    const { animatedStyle } = useAnimatedDigitStrip({
       value,
       lineHeight,
-      translateY,
-      animate,
-      width,
       targetWidth,
-      timingConfig,
-    ]);
-
-    const animatedStyle = useAnimatedStyle(
-      () => ({
-        transform: [{ translateY: translateY.value }],
-      }),
-      [translateY],
-    );
+      width,
+      animate,
+    });
 
     return (
       <Animated.View
