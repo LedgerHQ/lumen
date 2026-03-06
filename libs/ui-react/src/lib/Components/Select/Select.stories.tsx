@@ -416,7 +416,7 @@ export const TriggerShowcase: Story = {
               />
             )}
           />
-          <SelectContent className='w-fit'>
+          <SelectContent className='w-208'>
             {cryptos.map((crypto) => (
               <SelectItem
                 key={crypto.value}
@@ -447,7 +447,7 @@ export const TriggerShowcase: Story = {
                   />
                 )}
               />
-              <SelectContent>
+              <SelectContent className='w-208'>
                 <SelectItem value='option1'>
                   <SelectItemText>Option 1</SelectItemText>
                 </SelectItem>
