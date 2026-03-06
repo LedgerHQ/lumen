@@ -1,7 +1,19 @@
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type { ButtonTriggerProps } from '../ButtonTrigger';
 
 type Direction = 'ltr' | 'rtl';
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
+
+export type SelectTriggerRenderProps = {
+  /**
+   * The currently selected value, or empty string if nothing is selected.
+   */
+  selectedValue: string;
+  /**
+   * A ReactNode that renders the selected item's content via Radix `SelectPrimitive.Value`.
+   */
+  selectedContent: ReactNode;
+};
 
 export type SelectProps = {
   /**
@@ -59,6 +71,16 @@ export type SelectProps = {
 };
 
 export type SelectTriggerProps = {
+  /**
+   * Render function that replaces the default input-style trigger.
+   * When provided, `SelectPrimitive.Trigger` renders with `asChild` and
+   * delegates rendering to this function.
+   * Can be a preset component (e.g. `SelectButtonTrigger`) or a custom render function.
+   *
+   * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
+   * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
+   */
+  render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
    * Extra class names to apply to the trigger element
    * @example className='text-error'
@@ -236,3 +258,12 @@ export type SelectSeparatorProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
+
+export type SelectButtonTriggerProps = SelectTriggerRenderProps &
+  Omit<ButtonTriggerProps, 'children'> & {
+    /**
+     * The label displayed when no value is selected.
+     * Once a value is selected, it is replaced by the selected item's content.
+     */
+    label: string;
+  };

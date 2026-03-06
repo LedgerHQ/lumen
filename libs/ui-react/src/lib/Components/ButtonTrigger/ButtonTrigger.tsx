@@ -94,7 +94,7 @@ export const ButtonTrigger = ({
         {asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className='line-clamp-2 text-left'>{children}</span>
+          <span className='line-clamp-1 text-left'>{children}</span>
         )}
         <ChevronDown size={20} className='shrink-0' />
       </span>
