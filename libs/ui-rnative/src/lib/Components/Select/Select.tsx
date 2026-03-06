@@ -178,7 +178,7 @@ export const SelectTrigger = ({
       (item) => item.type === 'item' && item.value === value,
     );
     const selectedContent =
-      selectedItem?.type === 'item' ? <Text>{selectedItem.label}</Text> : null;
+      selectedItem?.type === 'item' ? selectedItem.label : null;
 
     return (
       <SlotPressable disabled={disabled} onPress={handlePress} {...props}>

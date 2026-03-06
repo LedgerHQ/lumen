@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
 import { Settings } from '../../Symbols';
 import { Box } from '../Utility';
 import { GlobalSelectBottomSheet } from './GlobalSelectBottomSheet';
@@ -321,7 +320,7 @@ export const TriggerShowcase: Story = {
             </SelectContent>
           </Select>
 
-          <View style={{ flexDirection: 'row', gap: 16 }}>
+          <Box lx={{ flexDirection: 'row', gap: 's16' }}>
             {appearances.map((appearance) => (
               <Select key={appearance}>
                 <SelectTrigger
@@ -343,7 +342,7 @@ export const TriggerShowcase: Story = {
                 </SelectContent>
               </Select>
             ))}
-          </View>
+          </Box>
         </Box>
         <GlobalSelectBottomSheet />
       </>

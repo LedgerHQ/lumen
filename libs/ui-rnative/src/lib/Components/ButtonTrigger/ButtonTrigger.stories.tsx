@@ -9,6 +9,8 @@ const meta: Meta<typeof ButtonTrigger> = {
   component: ButtonTrigger,
   title: 'Action/ButtonTrigger',
   parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
     docs: {
       source: {
         language: 'tsx',
@@ -99,7 +101,7 @@ export const IconTypeShowcase: Story = {
   ),
 };
 
-export const AllAppearancesWithIcons: Story = {
+export const AppearanceShowcase: Story = {
   render: () => {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
     return (

@@ -212,10 +212,14 @@ const ButtonTriggerContent = ({
     <View style={styles.container} testID='button-trigger-content'>
       {icon && <View style={styles.icon}>{icon}</View>}
       <View style={styles.labelWrapper}>
-        <Text style={styles.label} numberOfLines={2}>
+        <Text style={styles.label} numberOfLines={1} ellipsizeMode='tail'>
           {children}
         </Text>
-        <ChevronDown size={20} style={styles.chevron} />
+        <ChevronDown
+          size={20}
+          style={styles.chevron}
+          testID='button-trigger-chevron'
+        />
       </View>
     </View>
   );

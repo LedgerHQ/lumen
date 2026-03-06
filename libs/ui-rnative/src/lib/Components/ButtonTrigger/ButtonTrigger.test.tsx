@@ -30,13 +30,12 @@ describe('ButtonTrigger', () => {
 
     it('should always render a chevron icon', () => {
       renderWithProvider(<ButtonTrigger testID='trigger'>Label</ButtonTrigger>);
-      expect(screen.getByTestId('trigger')).toBeTruthy();
-      expect(screen.getByTestId('button-trigger-content')).toBeTruthy();
+      expect(screen.getByTestId('button-trigger-chevron')).toBeTruthy();
     });
 
     it.each(['gray', 'transparent', 'no-background'] as const)(
       'should render without errors for appearance "%s"',
-      appearance => {
+      (appearance) => {
         renderWithProvider(
           <ButtonTrigger testID='trigger' appearance={appearance}>
             Label
@@ -48,7 +47,7 @@ describe('ButtonTrigger', () => {
 
     it.each(['sm', 'md'] as const)(
       'should render without errors for size "%s"',
-      size => {
+      (size) => {
         renderWithProvider(
           <ButtonTrigger testID='trigger' size={size}>
             Label
