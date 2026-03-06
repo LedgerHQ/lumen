@@ -82,6 +82,7 @@ export const NavBars = () => {
               size='md'
               accessibilityLabel='Favorite'
               onPress={() => setIsFavorited((s) => !s)}
+              hapticFeedback='light'
             />
           </NavBarTrailing>
           <NavBarContent>
