@@ -9,6 +9,7 @@ export const IconButton = ({
   tooltip = false,
   tooltipPlacement = 'top',
   tooltipText,
+  onTooltipOpenChange,
   'aria-label': ariaLabel,
   ...props
 }: IconButtonProps) => {
@@ -24,7 +25,7 @@ export const IconButton = ({
 
   if (tooltip) {
     return (
-      <Tooltip>
+      <Tooltip onOpenChange={onTooltipOpenChange}>
         <TooltipTrigger asChild>{button}</TooltipTrigger>
         <TooltipContent side={tooltipPlacement}>
           {tooltipText || ariaLabel}
