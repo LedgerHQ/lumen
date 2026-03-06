@@ -65,14 +65,18 @@ The tooltip placement is customizable via the `tooltipPlacement` prop and toolti
 
 ### Tracking tooltip visibility
 
-Use the `onTooltipShow` callback to react when the tooltip becomes visible. This is useful for analytics tracking, such as logging tooltip impressions to measure feature discoverability.
+Use the `onTooltipOpenChange` callback to react when the tooltip open state changes. It mirrors the Tooltip's `onOpenChange` API and receives a boolean indicating whether the tooltip is open or closed. This is useful for analytics tracking, such as logging tooltip impressions to measure feature discoverability.
 
 ```tsx
 <IconButton
   aria-label='Settings'
   icon={Settings}
   tooltip
-  onTooltipShow={() => analytics.track('settings_tooltip_shown')}
+  onTooltipOpenChange={(open) => {
+    if (open) {
+      analytics.track('settings_tooltip_shown');
+    }
+  }}
 />
 ```
 

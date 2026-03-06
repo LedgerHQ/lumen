@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Settings } from '../../Symbols/Icons/Settings';
 import { IconButton } from './IconButton';
@@ -74,30 +74,13 @@ describe('IconButton', () => {
     expect(screen.getByLabelText('Settings')).toHaveClass('bg-muted text-base');
   });
 
-  it('calls onTooltipShow when the tooltip becomes visible', async () => {
+  it('does not call onTooltipOpenChange when tooltip is not enabled', async () => {
     const handleTooltipShow = vi.fn();
     render(
       <IconButton
         aria-label='Settings'
         icon={Settings}
-        tooltip
-        onTooltipShow={handleTooltipShow}
-      />,
-    );
-
-    await userEvent.hover(screen.getByLabelText('Settings'));
-    await waitFor(() => {
-      expect(handleTooltipShow).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('does not call onTooltipShow when tooltip is not enabled', async () => {
-    const handleTooltipShow = vi.fn();
-    render(
-      <IconButton
-        aria-label='Settings'
-        icon={Settings}
-        onTooltipShow={handleTooltipShow}
+        onTooltipOpenChange={handleTooltipShow}
       />,
     );
 

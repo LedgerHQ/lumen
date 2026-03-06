@@ -26,9 +26,10 @@ export type IconButtonProps = {
    */
   tooltipText?: string;
   /**
-   * Callback fired when the tooltip becomes visible.
+   * Callback fired when the tooltip open state changes.
+   * Mirrors the Tooltip's `onOpenChange` API.
    * Useful for analytics tracking (e.g. logging tooltip impressions).
    */
-  onTooltipShow?: () => void;
+  onTooltipOpenChange?: (open: boolean) => void;
 } & Omit<BaseButtonProps, 'isFull'> &
   ComponentPropsWithRef<'button'>;
