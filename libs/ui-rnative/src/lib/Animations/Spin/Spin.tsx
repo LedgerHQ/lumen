@@ -10,7 +10,7 @@ import { TimingTokens } from '../types';
 import { useTimingConfig } from '../useTimingConfig';
 import { SpinProps } from './types';
 
-const SPIN_TIMING_DEFAULTS: TimingTokens = {
+const TIMING_DEFAULTS: TimingTokens = {
   duration: 1000,
   easing: 'linear',
 };
@@ -18,8 +18,8 @@ export const Spin = memo(({ children, timing }: SpinProps) => {
   const sv = useSharedValue<number>(0);
 
   const timingConfig = useTimingConfig({
-    duration: timing?.duration ?? SPIN_TIMING_DEFAULTS.duration,
-    easing: timing?.easing ?? SPIN_TIMING_DEFAULTS.easing,
+    duration: timing?.duration ?? TIMING_DEFAULTS.duration,
+    easing: timing?.easing ?? TIMING_DEFAULTS.easing,
   });
 
   useEffect(() => {

@@ -13,7 +13,7 @@ import { PulseProps } from './types';
 
 const MIN_OPACITY = 0.35;
 
-const PULSE_TIMING_DEFAULTS: TimingTokens = {
+const TIMING_DEFAULTS: TimingTokens = {
   duration: 1000,
   easing: 'linear',
 };
@@ -21,8 +21,8 @@ export const Pulse = memo(({ children, timing, animate }: PulseProps) => {
   const sv = useSharedValue<number>(1);
 
   const timingConfig = useTimingConfig({
-    duration: timing?.duration ?? PULSE_TIMING_DEFAULTS.duration,
-    easing: timing?.easing ?? PULSE_TIMING_DEFAULTS.easing,
+    duration: timing?.duration ?? TIMING_DEFAULTS.duration,
+    easing: timing?.easing ?? TIMING_DEFAULTS.easing,
   });
 
   useEffect(() => {
