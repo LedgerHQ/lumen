@@ -2,8 +2,11 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
+import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check, ChevronUp } from '../../Symbols';
+import { ButtonTrigger } from '../ButtonTrigger';
 import { Divider } from '../Divider';
+import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
   SelectProps,
   SelectTriggerProps,
@@ -13,10 +16,26 @@ import type {
   SelectItemTextProps,
   SelectItemProps,
   SelectSeparatorProps,
+  SelectButtonTriggerProps,
 } from './types';
 
-function Select({ ...props }: SelectProps) {
-  return <SelectPrimitive.Root data-slot='select' {...props} />;
+function Select({ value, defaultValue, onValueChange, ...props }: SelectProps) {
+  const [selectedValue, setSelectedValue] = useControllableState({
+    prop: value,
+    defaultProp: defaultValue ?? '',
+    onChange: onValueChange,
+  });
+
+  return (
+    <SelectProvider value={{ selectedValue }}>
+      <SelectPrimitive.Root
+        data-slot='select'
+        value={selectedValue}
+        onValueChange={setSelectedValue}
+        {...props}
+      />
+    </SelectProvider>
+  );
 }
 
 function SelectGroup({ ...props }: SelectGroupProps) {
@@ -40,13 +59,16 @@ const labelStyles = cn(
   'max-w-[calc(100%-var(--size-56))] truncate',
 );
 
-const SelectTrigger = ({
+const SelectInputTrigger = ({
   ref,
   className,
   labelClassName,
   label,
+  selectedContent,
   ...props
-}: SelectTriggerProps) => (
+}: Omit<SelectTriggerProps, 'render'> & {
+  selectedContent: React.ReactNode;
+}) => (
   <SelectPrimitive.Trigger
     ref={ref}
     data-slot='select-trigger'
@@ -61,10 +83,9 @@ const SelectTrigger = ({
         'flex-1 truncate text-left',
         label &&
           'mt-16 opacity-100 transition-opacity delay-100 duration-300 group-data-placeholder:mt-0 group-data-placeholder:opacity-0',
-        className,
       )}
     >
-      <SelectPrimitive.Value data-slot='select-value' />
+      {selectedContent}
     </span>
     <SelectPrimitive.Icon asChild>
       <ChevronDown
@@ -74,6 +95,28 @@ const SelectTrigger = ({
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 );
+
+const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
+  const { selectedValue } = useSelectContext({
+    consumerName: 'SelectTrigger',
+    contextRequired: true,
+  });
+  const selectedContent = <SelectPrimitive.Value data-slot='select-value' />;
+
+  if (render) {
+    return (
+      <SelectPrimitive.Trigger
+        ref={props.ref}
+        data-slot='select-trigger'
+        asChild
+      >
+        {render({ selectedValue, selectedContent })}
+      </SelectPrimitive.Trigger>
+    );
+  }
+
+  return <SelectInputTrigger {...props} selectedContent={selectedContent} />;
+};
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const contentStyles = cva(
@@ -153,6 +196,7 @@ const itemStyles = cn(
   'rounded-sm p-8',
   'body-2 text-base',
   'outline-hidden',
+  'truncate',
   'focus:bg-base-transparent-hover',
   'active:bg-base-transparent-pressed',
   'data-disabled:cursor-not-allowed data-disabled:text-disabled',
@@ -173,7 +217,7 @@ const SelectItem = ({
     {children}
     <span className='absolute right-8 flex size-24 items-center justify-center'>
       <SelectPrimitive.ItemIndicator>
-        <Check size={24} className='text-active' />
+        <Check size={24} className='ms-8 shrink-0 text-active' />
       </SelectPrimitive.ItemIndicator>
     </span>
   </SelectPrimitive.Item>
@@ -184,9 +228,7 @@ const SelectSeparator = ({
   ref,
   className,
   ...props
-}: SelectSeparatorProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}) => (
+}: SelectSeparatorProps) => (
   <Divider ref={ref} className={cn('mx-8 my-4 w-auto', className)} {...props} />
 );
 SelectSeparator.displayName = 'SelectSeparator';
@@ -237,6 +279,17 @@ function SelectScrollDownButton({
   );
 }
 
+const SelectButtonTrigger = ({
+  selectedValue,
+  selectedContent,
+  label,
+  ...props
+}: SelectButtonTriggerProps) => (
+  <ButtonTrigger {...props}>
+    {selectedValue ? selectedContent : label}
+  </ButtonTrigger>
+);
+
 export {
   Select,
   SelectGroup,
@@ -246,4 +299,5 @@ export {
   SelectItemText,
   SelectItem,
   SelectSeparator,
+  SelectButtonTrigger,
 };

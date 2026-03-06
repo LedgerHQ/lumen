@@ -26,11 +26,11 @@ The Select component provides a dropdown interface for choosing from a list of o
 
 <Canvas of={SelectStories.Base} />
 
-- **Trigger**: The clickable element that opens the dropdown with floating label support
+- **Trigger**: The clickable element that opens the dropdown with floating label support. Also supports [custom triggers](#custom-trigger) for button-style or fully custom rendering.
 - **Label**: Optional floating label that animates when a value is selected
 - **Value**: The currently selected value
 - **Icon**: Chevron down/up indicator
-- **Content**: The dropdown container with options
+- **Content**: The dropdown container with options. Its minimum width matches the trigger width, so the dropdown is never narrower than the trigger.
 - **Items**: Individual selectable options
 - **Groups**: Optional grouping of related items with labels
 - **Separators**: Visual dividers between groups
@@ -80,6 +80,20 @@ The Select component integrates seamlessly with HTML forms.
 
 <Canvas of={SelectStories.FormIntegration} />
 
+## Custom Trigger
+
+By default, `SelectTrigger` renders an input-style trigger with a floating label. When you need a different look, pass a `render` prop to replace the default trigger entirely.
+
+The `render` function receives two props:
+- **`selectedValue`**: the currently selected value (empty string if nothing is selected)
+- **`selectedContent`**: a ReactNode that renders the selected item's text
+
+### Trigger Variants
+
+`SelectButtonTrigger` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `ButtonTrigger` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
+
+<Canvas of={SelectStories.TriggerShowcase} />
+
 ## Accessibility
 
 - **Keyboard Navigation**: Full keyboard support with arrow keys, Enter, Space, and Escape
@@ -105,6 +119,8 @@ npm install @ledgerhq/lumen-ui-react @radix-ui/react-select
 The `@radix-ui/react-select` dependency provides accessible, unstyled select functionality with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
+
+> **Content width:** `SelectContent` has a minimum width equal to the trigger width (`min-w-[trigger-width]`). The dropdown will grow wider if items need more space but will never be narrower than the trigger.
 
 ```tsx
 import {
@@ -278,6 +294,72 @@ const [value, setValue] = useState('option1');
 <Select defaultValue='option1' onValueChange={(value) => console.log(value)}>
 ```
 
+### Custom Trigger with `render`
+
+The `SelectTrigger` component accepts an optional `render` prop that replaces the default input-style trigger. The function receives `{ selectedValue, selectedContent }` and must return a single root element.
+
+#### Using `SelectButtonTrigger`
+
+`SelectButtonTrigger` is a ready-made preset for button-style triggers. It accepts all `ButtonTrigger` props (`appearance`, `size`, `icon`, `iconType`) plus a required `label`.
+
+```tsx
+import {
+  Select,
+  SelectButtonTrigger,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger
+        render={(renderProps) => (
+          <SelectButtonTrigger
+            {...renderProps}
+            label='All accounts'
+            icon={<Settings size={20} />}
+            iconType='flat'
+          />
+        )}
+      />
+      <SelectContent>
+        <SelectItem value='all'>
+          <SelectItemText>All accounts</SelectItemText>
+        </SelectItem>
+        <SelectItem value='checking'>
+          <SelectItemText>Checking</SelectItemText>
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+#### Fully custom trigger
+
+When none of the presets fit, write your own render function. Use `selectedValue` to decide what to display and `selectedContent` to render the selected item's text.
+
+```tsx
+<SelectTrigger
+  render={({ selectedValue, selectedContent }) => (
+    <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12'>
+      {selectedValue ? (
+        selectedContent
+      ) : (
+        <span className='text-muted'>Pick an option…</span>
+      )}
+    </button>
+  )}
+/>
+```
+
+> **Note:** When `render` is provided, the props `label`, `className`, and `labelClassName` have no effect — they only apply to the default trigger.
+
 ### Form Integration
 
 The Select component integrates seamlessly with HTML forms:
@@ -428,6 +510,48 @@ function MyComponent() {
     </SelectItem>
   </SelectContent>
 </Select>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use render for custom triggers'
+      description='Pass a render function to SelectTrigger when you need a different trigger style. Use selectedValue and selectedContent from the render props.'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<SelectTrigger
+  render={(renderProps) => (
+    <SelectButtonTrigger
+      {...renderProps}
+      label='All accounts'
+    />
+  )}
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't mix render with label props"
+      description='When using render, the label, className, and labelClassName props are ignored. Style your custom trigger directly instead.'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<SelectTrigger
+  label='Category'
+  className='bg-accent'
+  render={(renderProps) => (
+    <SelectButtonTrigger
+      {...renderProps}
+      label='All accounts'
+    />
+  )}
+/>
 ```
 
     </DontBlockItem>
