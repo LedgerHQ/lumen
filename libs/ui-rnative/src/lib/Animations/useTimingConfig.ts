@@ -14,6 +14,6 @@ export const useTimingConfig = ({
       duration: theme.motion.durations[duration],
       easing: Easing.bezier(...theme.motion.easings[easing]),
     }),
-    [theme.motion.durations, duration, theme.motion.easings, easing],
+    [duration, easing, theme],
   );
 };
