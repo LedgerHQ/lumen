@@ -113,7 +113,7 @@ const useStyles = ({
         labelWrapper: {
           flexDirection: 'row' as const,
           alignItems: 'center' as const,
-          gap: 2,
+          gap: t.spacings.s2,
         },
         icon: {
           flexShrink: 0,
