@@ -33,6 +33,30 @@ describe('ButtonTrigger', () => {
       expect(screen.getByTestId('trigger')).toBeTruthy();
       expect(screen.getByTestId('button-trigger-content')).toBeTruthy();
     });
+
+    it.each(['gray', 'transparent', 'no-background'] as const)(
+      'should render without errors for appearance "%s"',
+      appearance => {
+        renderWithProvider(
+          <ButtonTrigger testID='trigger' appearance={appearance}>
+            Label
+          </ButtonTrigger>,
+        );
+        expect(screen.getByTestId('trigger')).toBeTruthy();
+      },
+    );
+
+    it.each(['sm', 'md'] as const)(
+      'should render without errors for size "%s"',
+      size => {
+        renderWithProvider(
+          <ButtonTrigger testID='trigger' size={size}>
+            Label
+          </ButtonTrigger>,
+        );
+        expect(screen.getByTestId('trigger')).toBeTruthy();
+      },
+    );
   });
 
   describe('Icons', () => {
