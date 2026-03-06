@@ -73,4 +73,19 @@ describe('IconButton', () => {
     );
     expect(screen.getByLabelText('Settings')).toHaveClass('bg-muted text-base');
   });
+
+  it('does not call onTooltipOpenChange when tooltip is not enabled', async () => {
+    const handleTooltipShow = vi.fn();
+    render(
+      <IconButton
+        aria-label='Settings'
+        icon={Settings}
+        onTooltipOpenChange={handleTooltipShow}
+      />,
+    );
+
+    await userEvent.hover(screen.getByLabelText('Settings'));
+
+    expect(handleTooltipShow).not.toHaveBeenCalled();
+  });
 });
