@@ -11,7 +11,7 @@
 
 ## 👩‍💻 Using Lumen in Your Project
 
-Lumen is a comprehensive design system that provides consistent UI components for both web and mobile applications.
+Lumen is a comprehensive design system that provides consistent UI components for both web and mobile applications..
 
 ### Quick Start
 
