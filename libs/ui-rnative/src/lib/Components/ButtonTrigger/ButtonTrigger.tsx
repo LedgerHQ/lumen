@@ -166,7 +166,7 @@ export const ButtonTrigger = ({
     <Pressable
       ref={ref}
       lx={lx}
-      style={style}
+      style={[{ alignSelf: 'flex-start' }, style]}
       disabled={disabled}
       accessibilityRole='button'
       accessibilityState={{ disabled }}
