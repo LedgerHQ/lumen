@@ -1,2 +1,2 @@
 export { triggerHapticFeedback } from './triggerHapticFeedback';
-export type { HapticFeedback } from './types';
+export type { HapticFeedback as ImpactFeedbackStyle } from './types';
