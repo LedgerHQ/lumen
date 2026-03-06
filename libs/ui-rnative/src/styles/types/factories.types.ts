@@ -9,6 +9,7 @@ import {
   View as RNView,
   Pressable as RNPressable,
 } from 'react-native';
+import type { HapticFeedback } from '../../lib/Haptics';
 import { LumenTextStyle, LumenViewStyle } from './lx.types';
 import { LumenTypographyTokenName } from './theme.types';
 
@@ -58,5 +59,10 @@ export type StyledPressableProps = {
    * Support LX property - [see documentation](/?path=/docs/style-system-lx--docs).
    */
   lx?: LumenViewStyle;
+  /**
+   * Triggers haptic feedback on press.
+   * Defaults to `undefined` (no haptic feedback).
+   */
+  hapticFeedback?: HapticFeedback;
 } & ExtendRNPressableProps &
   ComponentPropsWithRef<typeof RNPressable>;
