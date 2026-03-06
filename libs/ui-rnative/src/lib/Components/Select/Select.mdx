@@ -29,6 +29,7 @@ The Select component consists of several sub-components:
 
 - **Select**: The root component that manages the select's state
 - **SelectTrigger**: The clickable element that opens the bottom sheet with floating label support
+- **SelectButtonTrigger**: A compact button-style trigger preset, used with the `render` prop to replace the default input trigger
 - **SelectValue**: Displays the currently selected value
 - **SelectContent**: Container for select items (not rendered directly, used for structure)
 - **SelectItem**: Individual selectable options
@@ -76,6 +77,14 @@ The entire select can be disabled:
 Listen to value changes and open/close events:
 
 <Canvas of={SelectStories.WithChangeCallback} />
+
+### ButtonTrigger Variant
+
+The Select supports a compact button-style trigger via the `render` prop and `SelectButtonTrigger`. This is useful for inline filters, toolbar selects, or any context where a full-width input trigger is too large.
+
+`SelectButtonTrigger` supports all `ButtonTrigger` props including `icon`, `iconType`, `appearance`, and `size`.
+
+<Canvas of={SelectStories.TriggerShowcase} />
 
 ## Controlled vs Uncontrolled
 
@@ -301,6 +310,61 @@ import { Box } from '@ledgerhq/lumen-ui-rnative';
 </Box>
 ```
 
+### With ButtonTrigger
+
+Use the `render` prop on `SelectTrigger` with `SelectButtonTrigger` for a compact button-style trigger. `SelectButtonTrigger` automatically receives `selectedValue` and `selectedContent` and falls back to the `label` prop when nothing is selected.
+
+```tsx
+import {
+  Select,
+  SelectButtonTrigger,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+} from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger
+        render={(renderProps) => (
+          <SelectButtonTrigger {...renderProps} label='All accounts' />
+        )}
+      />
+      <SelectContent>
+        <SelectItem value='all'>
+          <SelectItemText>All accounts</SelectItemText>
+        </SelectItem>
+        <SelectItem value='checking'>
+          <SelectItemText>Checking</SelectItemText>
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+You can pass any `ButtonTrigger` prop such as `icon`, `iconType`, `appearance`, and `size`:
+
+```tsx
+<SelectTrigger
+  render={(renderProps) => (
+    <SelectButtonTrigger
+      {...renderProps}
+      label='Settings'
+      icon={<Settings size={20} />}
+      iconType='flat'
+      appearance='transparent'
+    />
+  )}
+/>
+```
+
 ## Do's and Don'ts
 
 The following guidelines ensure consistent usage of the Select component and maintain design system principles.
@@ -356,6 +420,42 @@ The following guidelines ensure consistent usage of the Select component and mai
 <Select value={value}>
   <SelectTrigger label='Choose option' />
 </Select>
+```
+
+### Render Prop Usage
+
+✅ **Do**
+
+```tsx
+// Use render prop with SelectButtonTrigger for compact triggers
+<SelectTrigger
+  render={(renderProps) => (
+    <SelectButtonTrigger {...renderProps} label='Filter' />
+  )}
+/>
+
+// Use render prop for fully custom triggers
+<SelectTrigger
+  render={({ selectedValue, selectedContent }) => (
+    <MyCustomTrigger selected={!!selectedValue}>
+      {selectedContent}
+    </MyCustomTrigger>
+  )}
+/>
+```
+
+❌ **Don't**
+
+```tsx
+// Don't combine render with children or label — render takes precedence and the others are ignored
+<SelectTrigger
+  label='Ignored label'
+  render={(renderProps) => (
+    <SelectButtonTrigger {...renderProps} label='Filter' />
+  )}
+>
+  <SelectValue />
+</SelectTrigger>
 ```
 
 ### Value Management

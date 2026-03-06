@@ -7,6 +7,7 @@ import { GlobalSelectBottomSheet } from './GlobalSelectBottomSheet';
 import { GlobalSelectProvider } from './GlobalSelectContext';
 import {
   Select,
+  SelectButtonTrigger,
   SelectTrigger,
   SelectValue,
   SelectContent,
@@ -114,5 +115,60 @@ describe('Select', () => {
     }).toThrow();
 
     console.error = originalError;
+  });
+
+  it('renders with render prop and SelectButtonTrigger', () => {
+    const onValueChange = jest.fn();
+    const { getByText, getByTestId } = render(
+      <TestWrapper>
+        <Select onValueChange={onValueChange}>
+          <SelectTrigger
+            testID='select-trigger'
+            render={(renderProps) => (
+              <SelectButtonTrigger {...renderProps} label='All accounts' />
+            )}
+          />
+          <SelectContent>
+            <SelectItem value='all'>
+              <SelectItemText>All accounts</SelectItemText>
+            </SelectItem>
+            <SelectItem value='checking'>
+              <SelectItemText>Checking</SelectItemText>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </TestWrapper>,
+    );
+
+    expect(getByText('All accounts')).toBeTruthy();
+
+    fireEvent.press(getByTestId('select-trigger'));
+    fireEvent.press(getByText('Checking'));
+
+    expect(onValueChange).toHaveBeenCalledWith('checking');
+  });
+
+  it('shows selected content in ButtonTrigger when value is set', () => {
+    const { getByText } = render(
+      <TestWrapper>
+        <Select value='checking'>
+          <SelectTrigger
+            render={(renderProps) => (
+              <SelectButtonTrigger {...renderProps} label='All accounts' />
+            )}
+          />
+          <SelectContent>
+            <SelectItem value='all'>
+              <SelectItemText>All accounts</SelectItemText>
+            </SelectItem>
+            <SelectItem value='checking'>
+              <SelectItemText>Checking</SelectItemText>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </TestWrapper>,
+    );
+
+    expect(getByText('Checking')).toBeTruthy();
   });
 });

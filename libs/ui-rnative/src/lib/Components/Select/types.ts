@@ -1,10 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { PressableProps } from 'react-native';
 import {
   StyledViewProps,
   StyledPressableProps,
   StyledTextProps,
 } from '../../../styles';
+import type { ButtonTriggerProps } from '../ButtonTrigger';
 import { BoxProps } from '../Utility';
 
 export type SelectProps = {
@@ -47,6 +48,17 @@ export type SelectProps = {
   onValueChange?: (value: string) => void;
 };
 
+export type SelectTriggerRenderProps = {
+  /**
+   * The currently selected value, or undefined if nothing is selected.
+   */
+  selectedValue: string | undefined;
+  /**
+   * A ReactNode that renders the selected item's label text.
+   */
+  selectedContent: ReactNode;
+};
+
 export type SelectTriggerProps = {
   /**
    * The children to render inside the trigger
@@ -57,6 +69,15 @@ export type SelectTriggerProps = {
    * @example label='Select an option'
    */
   label?: string;
+  /**
+   * Render function that replaces the default input-style trigger.
+   * When provided, the result is wrapped in a SlotPressable that merges
+   * press handling onto the rendered element.
+   *
+   * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
+   * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
+   */
+  render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
    * Change the default rendered element for the one passed as a child,
    * merging their props and behavior.
@@ -147,3 +168,12 @@ export type SelectData = {
   setOpen?: (open: boolean) => void;
   label?: string;
 };
+
+export type SelectButtonTriggerProps = SelectTriggerRenderProps &
+  Omit<ButtonTriggerProps, 'children'> & {
+    /**
+     * The label displayed when no value is selected.
+     * Once a value is selected, it is replaced by the selected item's content.
+     */
+    label: string;
+  };

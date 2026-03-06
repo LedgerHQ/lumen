@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
+import { View } from 'react-native';
+import { Settings } from '../../Symbols';
 import { Box } from '../Utility';
 import { GlobalSelectBottomSheet } from './GlobalSelectBottomSheet';
 import {
   Select,
+  SelectButtonTrigger,
   SelectTrigger,
   SelectValue,
   SelectContent,
@@ -18,6 +21,7 @@ const meta: Meta<typeof Select> = {
   component: Select,
   subcomponents: {
     SelectTrigger,
+    SelectButtonTrigger,
     SelectValue,
     SelectContent,
     SelectItem,
@@ -257,6 +261,89 @@ export const WithChangeCallback: Story = {
               </SelectContent>
             </Select>
           </Box>
+        </Box>
+        <GlobalSelectBottomSheet />
+      </>
+    );
+  },
+};
+
+const appearances = ['gray', 'transparent', 'no-background'] as const;
+
+export const TriggerShowcase: Story = {
+  render: () => {
+    const [buttonValue, setButtonValue] = useState<string>('');
+    const [iconValue, setIconValue] = useState<string>('');
+
+    return (
+      <>
+        <Box style={{ flex: 1, minHeight: 400, padding: 24, gap: 24 }}>
+          <Select value={buttonValue} onValueChange={setButtonValue}>
+            <SelectTrigger
+              render={(renderProps) => (
+                <SelectButtonTrigger {...renderProps} label='All accounts' />
+              )}
+            />
+            <SelectContent>
+              <SelectItem value='all'>
+                <SelectItemText>All accounts</SelectItemText>
+              </SelectItem>
+              <SelectItem value='checking'>
+                <SelectItemText>Checking</SelectItemText>
+              </SelectItem>
+              <SelectItem value='savings'>
+                <SelectItemText>Savings</SelectItemText>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={iconValue} onValueChange={setIconValue}>
+            <SelectTrigger
+              render={(renderProps) => (
+                <SelectButtonTrigger
+                  {...renderProps}
+                  label='Settings'
+                  icon={<Settings size={20} />}
+                  iconType='flat'
+                />
+              )}
+            />
+            <SelectContent>
+              <SelectItem value='general'>
+                <SelectItemText>General</SelectItemText>
+              </SelectItem>
+              <SelectItem value='security'>
+                <SelectItemText>Security</SelectItemText>
+              </SelectItem>
+              <SelectItem value='notifications'>
+                <SelectItemText>Notifications</SelectItemText>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          <View style={{ flexDirection: 'row', gap: 16 }}>
+            {appearances.map((appearance) => (
+              <Select key={appearance}>
+                <SelectTrigger
+                  render={(renderProps) => (
+                    <SelectButtonTrigger
+                      {...renderProps}
+                      label={appearance}
+                      appearance={appearance}
+                    />
+                  )}
+                />
+                <SelectContent>
+                  <SelectItem value='option1'>
+                    <SelectItemText>Option 1</SelectItemText>
+                  </SelectItem>
+                  <SelectItem value='option2'>
+                    <SelectItemText>Option 2</SelectItemText>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            ))}
+          </View>
         </Box>
         <GlobalSelectBottomSheet />
       </>

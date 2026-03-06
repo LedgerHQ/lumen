@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
 import { useControllableState, extractTextFromChildren } from '../../utils';
+import { ButtonTrigger } from '../ButtonTrigger';
 import { SlotPressable } from '../Slot';
 import { Box, Pressable, Text } from '../Utility';
 import { useSelectActions } from './GlobalSelectContext';
@@ -10,6 +11,7 @@ import { SelectContextProvider, useSelectSafeContext } from './SelectContext';
 import type {
   SelectProps,
   SelectTriggerProps,
+  SelectButtonTriggerProps,
   SelectContentProps,
   SelectGroupProps,
   SelectLabelProps,
@@ -119,6 +121,7 @@ export const SelectTrigger = ({
   lx,
   style,
   label,
+  render,
   asChild = false,
   disabled: triggerDisabled,
   ...props
@@ -169,6 +172,20 @@ export const SelectTrigger = ({
     hasValue,
     hasLabel: !!finalLabel,
   });
+
+  if (render) {
+    const selectedItem = items.find(
+      (item) => item.type === 'item' && item.value === value,
+    );
+    const selectedContent =
+      selectedItem?.type === 'item' ? <Text>{selectedItem.label}</Text> : null;
+
+    return (
+      <SlotPressable disabled={disabled} onPress={handlePress} {...props}>
+        {render({ selectedValue: value, selectedContent })}
+      </SlotPressable>
+    );
+  }
 
   const Comp = asChild ? SlotPressable : Pressable;
 
@@ -470,3 +487,15 @@ export const SelectSeparator = (_props: SelectSeparatorProps) => {
   return null;
 };
 SelectSeparator.displayName = 'SelectSeparator';
+
+export const SelectButtonTrigger = ({
+  selectedValue,
+  selectedContent,
+  label,
+  ...props
+}: SelectButtonTriggerProps) => (
+  <ButtonTrigger {...props}>
+    {selectedValue ? selectedContent : label}
+  </ButtonTrigger>
+);
+SelectButtonTrigger.displayName = 'SelectButtonTrigger';
