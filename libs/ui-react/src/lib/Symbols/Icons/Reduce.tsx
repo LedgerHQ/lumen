@@ -1,13 +1,13 @@
 import createIcon from '../../Components/Icon/createIcon';
 
 /**
- * WalletInput icon component.
+ * Reduce icon component.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props and additional
  * size variants defined in the Icon component.
  *
- * @see {@link https://ldls.vercel.app/?path=/story/symbols-interface-icons--icon&args=name:WalletInput Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/story/symbols-interface-icons--icon&args=name:Reduce Storybook}
  *
  * @component
  * @param {16 | 20 | 24 | 40 | 48 | 56} [size=24] - The size of the icon in pixels.
@@ -16,16 +16,16 @@ import createIcon from '../../Components/Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { WalletInput } from '@ledgerhq/lumen-ui-react/symbols';
+ * import { Reduce } from '@ledgerhq/lumen-ui-react/symbols';
  *
- * <WalletInput />
+ * <Reduce />
  *
  * @example
  * // With custom size and className
- * <WalletInput size={40} className="text-warning" />
+ * <Reduce size={40} className="text-warning" />
  */
-export const WalletInput = createIcon(
-  'WalletInput',
+export const Reduce = createIcon(
+  'Reduce',
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='1em'
@@ -38,7 +38,7 @@ export const WalletInput = createIcon(
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M1.998 4.665h10.67c.737 0 1.335.598 1.335 1.334v6.336c0 .921-.747 1.667-1.668 1.667H8.667m2.668-9.337v-.667c0-.736-.598-1.334-1.334-1.334H3.665c-.921 0-1.667.747-1.667 1.668V10m4.668 2.668H1.998m4.668 0-1.334 1.333m1.334-1.333-1.334-1.334m6.002-2.001h-.666'
+      d='M14.002 8v3.335a2.67 2.67 0 0 1-2.667 2.667h-6.67a2.67 2.67 0 0 1-2.668-2.667v-6.67a2.67 2.67 0 0 1 2.668-2.667H8m-.667 6.669 6.67-6.67m-6.67 6.67h2.668m-2.668 0V5.999'
     />
   </svg>,
 );

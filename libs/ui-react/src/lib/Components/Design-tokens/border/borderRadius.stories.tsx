@@ -13,6 +13,7 @@ const BorderRadiusShowcase = () => (
     <div className='grid grid-cols-2 gap-16 sm:grid-cols-4 lg:grid-cols-8'>
       {[
         { name: 'none', class: 'rounded-none' },
+        { name: 'xxs', class: 'rounded-xxs' },
         { name: 'xs', class: 'rounded-xs' },
         { name: 'sm', class: 'rounded-sm' },
         { name: 'md', class: 'rounded-md' },

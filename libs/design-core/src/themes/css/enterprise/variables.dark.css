@@ -89,6 +89,8 @@
   --color-background-gradient-100: var(--color-dark-grey-050);
   --color-background-gradient-80: var(--color-dark-grey-050-80);
   --color-background-gradient-70: var(--color-dark-grey-050-70);
+  --color-background-gradient-40: var(--color-dark-grey-050-40);
+  --color-background-gradient-30: var(--color-dark-grey-050-30);
   --color-background-gradient-0: var(--color-dark-grey-050-0);
   --color-background-gradient-overlay-80: var(--color-dark-grey-050-80);
   --color-background-gradient-overlay-0: var(--color-dark-grey-050-0);
@@ -421,6 +423,8 @@
   --background-gradient-100: var(--color-background-gradient-100);
   --background-gradient-80: var(--color-background-gradient-80);
   --background-gradient-70: var(--color-background-gradient-70);
+  --background-gradient-40: var(--color-background-gradient-40);
+  --background-gradient-30: var(--color-background-gradient-30);
   --background-gradient-0: var(--color-background-gradient-0);
   --background-gradient-overlay-80: var(--color-background-gradient-overlay-80);
   --background-gradient-overlay-0: var(--color-background-gradient-overlay-0);

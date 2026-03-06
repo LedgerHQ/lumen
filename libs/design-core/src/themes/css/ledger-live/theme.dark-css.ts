@@ -105,6 +105,8 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-gradient-100': 'var(--color-dark-grey-050)',
     '--color-background-gradient-80': 'var(--color-dark-grey-050-80)',
     '--color-background-gradient-70': 'var(--color-dark-grey-050-70)',
+    '--color-background-gradient-40': 'var(--color-dark-grey-050-40)',
+    '--color-background-gradient-30': 'var(--color-dark-grey-050-30)',
     '--color-background-gradient-0': 'var(--color-dark-grey-050-0)',
     '--color-background-gradient-overlay-80': 'var(--color-dark-grey-050-80)',
     '--color-background-gradient-overlay-0': 'var(--color-dark-grey-050-0)',
