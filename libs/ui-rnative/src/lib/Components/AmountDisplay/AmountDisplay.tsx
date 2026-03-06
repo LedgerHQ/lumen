@@ -2,7 +2,6 @@ import { useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -10,6 +9,7 @@ import Animated, {
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Pulse } from '../../Animations/Pulse';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
 import {
@@ -43,11 +43,6 @@ const DECIMAL_DIGIT_WIDTHS = {
   7: 14.7,
   8: 16.5,
   9: 16.5,
-};
-
-const TIMING_CONFIG = {
-  duration: 600,
-  easing: Easing.inOut(Easing.ease),
 };
 
 const useStyles = () => {
@@ -100,15 +95,28 @@ const DigitStrip = memo(
     const translateY = useSharedValue(-value * lineHeight);
     const width = useSharedValue<number>(targetWidth);
 
+    const timingConfig = useTimingConfig({
+      duration: 700,
+      easing: 'easeInOut',
+    });
+
     useEffect(() => {
       if (animate) {
-        translateY.value = withTiming(-value * lineHeight, TIMING_CONFIG);
-        width.value = withTiming(targetWidth, TIMING_CONFIG);
+        translateY.value = withTiming(-value * lineHeight, timingConfig);
+        width.value = withTiming(targetWidth, timingConfig);
       } else {
         translateY.value = -value * lineHeight;
         width.value = targetWidth;
       }
-    }, [value, lineHeight, translateY, animate, width, targetWidth]);
+    }, [
+      value,
+      lineHeight,
+      translateY,
+      animate,
+      width,
+      targetWidth,
+      timingConfig,
+    ]);
 
     const animatedStyle = useAnimatedStyle(
       () => ({

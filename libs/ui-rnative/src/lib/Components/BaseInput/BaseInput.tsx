@@ -5,9 +5,18 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Animated, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Animated, {
+  interpolate,
+  SharedValue,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  cancelAnimation,
+} from 'react-native-reanimated';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
 import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -50,17 +59,17 @@ export const BaseInput = ({
   const isFloatingLabel = isFocused || hasContent;
   const showClearButton = hasContent && editable && !hideClearButton;
 
-  const floatingAnimation = useRef(
-    new Animated.Value(isFloatingLabel ? 1 : 0),
-  ).current;
+  const floatingAnimation = useSharedValue(isFloatingLabel ? 1 : 0);
+  const timingConfig = useTimingConfig({
+    duration: 150,
+    easing: 'linear',
+  });
 
   useEffect(() => {
-    Animated.timing(floatingAnimation, {
-      toValue: isFloatingLabel ? 1 : 0,
-      duration: 150,
-      useNativeDriver: false,
-    }).start();
-  }, [isFloatingLabel, floatingAnimation]);
+    floatingAnimation.value = withTiming(isFloatingLabel ? 1 : 0, timingConfig);
+
+    return () => cancelAnimation(floatingAnimation);
+  }, [isFloatingLabel, timingConfig, floatingAnimation]);
 
   const handleChangeText = useCallback(
     (text: string) => {
@@ -253,7 +262,7 @@ const useFloatingLabelStyles = ({
   hasError,
   isEditable,
 }: {
-  floatingAnimation: Animated.Value;
+  floatingAnimation: SharedValue<number>;
   hasContent: boolean;
   showClearButton: boolean;
   hasError: boolean;
@@ -285,19 +294,21 @@ const useFloatingLabelStyles = ({
     [hasContent, showClearButton, hasError, isEditable],
   );
 
-  const animatedLabel = {
-    top: floatingAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [theme.spacings.s14, theme.spacings.s6],
+  const animatedLabel = useAnimatedStyle(
+    () => ({
+      top: interpolate(
+        floatingAnimation.value,
+        [0, 1],
+        [theme.spacings.s14, theme.spacings.s6],
+      ),
+      fontSize: interpolate(
+        floatingAnimation.value,
+        [0, 1],
+        [theme.typographies.body2.fontSize, theme.typographies.body4.fontSize],
+      ),
     }),
-    fontSize: floatingAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [
-        theme.typographies.body2.fontSize,
-        theme.typographies.body4.fontSize,
-      ],
-    }),
-  };
+    [floatingAnimation, theme],
+  );
 
   return { label: label.label, animatedLabel };
 };
