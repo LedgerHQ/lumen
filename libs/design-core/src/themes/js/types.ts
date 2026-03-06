@@ -179,4 +179,5 @@ export type ThemeColorTokens = {
 export type ThemeCoreTokens = PrimitiveOtherTokens & {
   shadows: PrimitiveShadowTokens;
   typographies: TypographyTokensByBreakpoint;
+  motion: PrimitiveMotionTokens;
 };

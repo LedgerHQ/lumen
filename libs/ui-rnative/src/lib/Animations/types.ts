@@ -1,11 +1,12 @@
-export type Duration =
-  | 75
-  | 100
-  | 150
-  | 200
-  | 300
-  | 500
-  | 700
-  | 1000
-  | 2000
-  | 3000;
+import { WithTimingConfig } from 'react-native-reanimated';
+import { LumenStyleSheetTheme } from '../../styles/types';
+
+export type DurationToken = keyof LumenStyleSheetTheme['motion']['durations'];
+export type EasingToken = keyof LumenStyleSheetTheme['motion']['easings'];
+
+export type TimingTokens = {
+  duration: DurationToken;
+  easing: EasingToken;
+};
+
+export type TimingConfig = WithTimingConfig;
