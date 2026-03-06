@@ -1,12 +1,11 @@
 /**
  * Defines the intensity of haptic feedback triggered on press.
  *
- * Uses React Native's `Vibration` API.
- * On Android, maps to different vibration durations.
- * On iOS, the Vibration API always triggers a fixed system vibration
+ * Uses expo-haptics impact feedback. Maps to ImpactFeedbackStyle on both
+ * iOS (UIImpactFeedbackStyle) and Android (simulated via Vibrator).
  *
- * - `'light'`  — Quick, subtle tap (10ms on Android)
- * - `'medium'` — Moderate vibration (25ms on Android)
- * - `'heavy'`  — Strong, pronounced vibration (50ms on Android)
+ * - `'light'`  — Quick, subtle tap
+ * - `'medium'` — Moderate impact
+ * - `'heavy'`  — Strong, pronounced impact
  */
 export type HapticFeedback = 'light' | 'medium' | 'heavy';
