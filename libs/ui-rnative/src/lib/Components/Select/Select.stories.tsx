@@ -1,8 +1,18 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import React, { useState } from 'react';
-import { Settings } from '../../Symbols';
-import { Box } from '../Utility';
+import {
+  ArrowDown,
+  ArrowUp,
+  Coins,
+  CoinsCheck,
+  HandCoins,
+  PenEdit,
+  Settings,
+  Star,
+} from '../../Symbols';
+import { Spot } from '../Spot';
+import { Box, Text } from '../Utility';
 import { GlobalSelectBottomSheet } from './GlobalSelectBottomSheet';
 import {
   Select,
@@ -274,11 +284,14 @@ const cryptos = [
   { value: 'sol', label: 'Solana', ledgerId: 'solana', ticker: 'SOL' },
 ] as const;
 
-const appearances = ['gray', 'transparent', 'no-background'] as const;
+const appearances = [
+  { value: 'gray', label: 'Gray' },
+  { value: 'transparent', label: 'Transparent' },
+  { value: 'no-background', label: 'No background' },
+] as const;
 
 export const TriggerShowcase: Story = {
   render: () => {
-    const [buttonValue, setButtonValue] = useState<string>('');
     const [iconValue, setIconValue] = useState<string>('');
     const [cryptoValue, setCryptoValue] = useState<string>('');
     const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
@@ -286,25 +299,9 @@ export const TriggerShowcase: Story = {
     return (
       <>
         <Box style={{ flex: 1, minHeight: 400, padding: 24, gap: 24 }}>
-          <Select value={buttonValue} onValueChange={setButtonValue}>
-            <SelectTrigger
-              render={(renderProps) => (
-                <SelectButtonTrigger {...renderProps} label='All accounts' />
-              )}
-            />
-            <SelectContent>
-              <SelectItem value='all'>
-                <SelectItemText>All accounts</SelectItemText>
-              </SelectItem>
-              <SelectItem value='checking'>
-                <SelectItemText>Checking</SelectItemText>
-              </SelectItem>
-              <SelectItem value='savings'>
-                <SelectItemText>Savings</SelectItemText>
-              </SelectItem>
-            </SelectContent>
-          </Select>
-
+          <Text typography='body2' lx={{ color: 'muted' }}>
+            Trigger with a flat icon
+          </Text>
           <Select value={iconValue} onValueChange={setIconValue}>
             <SelectTrigger
               render={(renderProps) => (
@@ -328,7 +325,9 @@ export const TriggerShowcase: Story = {
               </SelectItem>
             </SelectContent>
           </Select>
-
+          <Text typography='body2' lx={{ color: 'muted' }}>
+            Trigger with a crypto icon
+          </Text>
           <Select value={cryptoValue} onValueChange={setCryptoValue}>
             <SelectTrigger
               render={(renderProps) => (
@@ -355,35 +354,87 @@ export const TriggerShowcase: Story = {
                   value={crypto.value}
                   textValue={crypto.label}
                 >
+                  <CryptoIcon
+                    ledgerId={crypto.ledgerId}
+                    ticker={crypto.ticker}
+                    size='24px'
+                  />
                   <SelectItemText>{crypto.label}</SelectItemText>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-
-          <Box lx={{ flexDirection: 'row', gap: 's16' }}>
-            {appearances.map((appearance) => (
-              <Select key={appearance}>
-                <SelectTrigger
-                  render={(renderProps) => (
-                    <SelectButtonTrigger
-                      {...renderProps}
-                      label={appearance}
-                      appearance={appearance}
-                    />
-                  )}
-                />
-                <SelectContent>
-                  <SelectItem value='option1'>
-                    <SelectItemText>Option 1</SelectItemText>
-                  </SelectItem>
-                  <SelectItem value='option2'>
-                    <SelectItemText>Option 2</SelectItemText>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            ))}
+          <Box lx={{ gap: 's16' }}>
+            <Text typography='body2' lx={{ color: 'muted' }}>
+              Appearances:
+            </Text>
+            <Box lx={{ flexDirection: 'row', gap: 's16' }}>
+              {appearances.map((appearance) => (
+                <Select key={appearance.value}>
+                  <SelectTrigger
+                    render={(renderProps) => (
+                      <SelectButtonTrigger
+                        {...renderProps}
+                        label={appearance.label}
+                        appearance={appearance.value}
+                      />
+                    )}
+                  />
+                  <SelectContent>
+                    <SelectItem value='option1'>
+                      <SelectItemText>Option 1</SelectItemText>
+                    </SelectItem>
+                    <SelectItem value='option2'>
+                      <SelectItemText>Option 2</SelectItemText>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              ))}
+            </Box>
           </Box>
+        </Box>
+        <GlobalSelectBottomSheet />
+      </>
+    );
+  },
+};
+
+const filterTypes = [
+  { value: 'send', label: 'Send', icon: ArrowUp },
+  { value: 'receive', label: 'Receive', icon: ArrowDown },
+  { value: 'fees', label: 'Fees', icon: Coins },
+  { value: 'claimed-rewards', label: 'Claimed rewards', icon: Star },
+  { value: 'delegated', label: 'Delegated', icon: CoinsCheck },
+  { value: 'withdraw', label: 'Withdraw', icon: HandCoins },
+  { value: 'approval', label: 'Approval', icon: PenEdit },
+] as const;
+
+export const WithSpotItems: Story = {
+  render: () => {
+    const [value, setValue] = useState<string>('send');
+
+    return (
+      <>
+        <Box style={{ flex: 1, minHeight: 800, padding: 24 }}>
+          <Select value={value} onValueChange={setValue}>
+            <SelectTrigger
+              render={(renderProps) => (
+                <SelectButtonTrigger {...renderProps} label='Add filter type' />
+              )}
+            />
+            <SelectContent>
+              {filterTypes.map((filter) => (
+                <SelectItem
+                  key={filter.value}
+                  value={filter.value}
+                  textValue={filter.label}
+                >
+                  <Spot appearance='icon' icon={filter.icon} size={40} />
+                  <SelectItemText>{filter.label}</SelectItemText>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Box>
         <GlobalSelectBottomSheet />
       </>
