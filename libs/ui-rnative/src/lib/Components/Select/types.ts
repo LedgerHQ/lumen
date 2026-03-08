@@ -51,15 +51,13 @@ export type SelectProps = {
 export type SelectTriggerRenderProps = {
   /**
    * The currently selected value, or `undefined` if nothing is selected.
-   *
    */
   selectedValue: string | undefined;
   /**
-   * The plain-text label of the currently selected item, or `null` when
-   * nothing is selected.
-   *
+   * A ReactNode that renders the selected item's text content.
+   * Contains only the text from `SelectItemText`, not the full item content.
    */
-  selectedContent: string | null;
+  selectedContent: ReactNode;
 };
 
 export type SelectTriggerProps = {
@@ -145,6 +143,7 @@ export type SelectItemData = {
   type: 'item';
   value: string;
   label: string;
+  content?: ReactNode;
   disabled?: boolean;
 };
 

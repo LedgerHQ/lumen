@@ -353,6 +353,7 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             type: 'item',
             value: props.value,
             label: textValue,
+            content: props.children,
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {

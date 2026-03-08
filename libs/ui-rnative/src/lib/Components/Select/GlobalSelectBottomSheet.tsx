@@ -38,6 +38,12 @@ const useStyles = () => {
       itemDisabled: {
         opacity: 0.5,
       },
+      itemContent: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: t.spacings.s8,
+      },
       itemLabel: {
         flex: 1,
         color: t.colors.text.base,
@@ -156,15 +162,19 @@ export const GlobalSelectBottomSheet: React.FC = () => {
                           item.disabled && styles.itemDisabled,
                         ]}
                       >
-                        <Text
-                          style={[
-                            styles.itemLabel,
-                            item.disabled && styles.itemLabelDisabled,
-                          ]}
-                          numberOfLines={1}
-                        >
-                          {item.label}
-                        </Text>
+                        {item.content ? (
+                          <Box style={styles.itemContent}>{item.content}</Box>
+                        ) : (
+                          <Text
+                            style={[
+                              styles.itemLabel,
+                              item.disabled && styles.itemLabelDisabled,
+                            ]}
+                            numberOfLines={1}
+                          >
+                            {item.label}
+                          </Text>
+                        )}
                         {isSelected && <Check size={24} color='active' />}
                       </Box>
                     )}
