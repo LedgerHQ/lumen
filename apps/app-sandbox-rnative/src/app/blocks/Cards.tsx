@@ -279,16 +279,6 @@ export const Cards = () => {
               </CardContentDescription>
             </CardContent>
           </CardLeading>
-          <CardTrailing>
-            <CardContent>
-              <CardContentTitle>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </CardContentTitle>
-              <CardContentDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </CardContentDescription>
-            </CardContent>
-          </CardTrailing>
         </CardHeader>
         <CardFooter>
           <CardContentDescription>

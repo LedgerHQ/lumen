@@ -597,8 +597,6 @@ export const CardTrailing = ({
   const styles = useStyleSheet(
     () => ({
       container: {
-        flex: 1,
-        minWidth: 0,
         flexDirection: 'row',
         alignItems: 'center',
       },
