@@ -5,7 +5,6 @@ export {
   TileContent,
   TileTitle,
   TileDescription,
-  TileTrailingContent,
   TileTrailing,
 } from './Tile';
 export * from './types';

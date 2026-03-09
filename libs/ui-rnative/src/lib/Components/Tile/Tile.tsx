@@ -14,7 +14,6 @@ import {
   TileLeadingProps,
   TileProps,
   TileTitleProps,
-  TileTrailingContentProps,
   TileTrailingProps,
 } from './types';
 
@@ -158,8 +157,8 @@ export const Tile = ({
 Tile.displayName = 'Tile';
 
 /**
- * Header row container for the tile.
- * Lays out TileLeading and TileTrailing horizontally.
+ * Header container for the tile.
+ * Lays out TileLeading and TileTrailing vertically (TileTrailing underneath TileLeading).
  */
 export const TileHeader = ({
   children,
@@ -237,12 +236,14 @@ const useHeaderStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
         gap: t.spacings.s12,
         paddingHorizontal: t.spacings.s8,
         paddingVertical: t.spacings.s12,
         width: t.sizes.full,
+        minWidth: 0,
+        overflow: 'hidden',
       },
     }),
     [],
@@ -255,6 +256,7 @@ const useLeadingStyles = () => {
       container: {
         flexDirection: 'column',
         alignItems: 'center',
+        alignSelf: 'stretch',
         flex: 1,
         minWidth: 0,
         gap: t.spacings.s8,
@@ -300,7 +302,9 @@ const useContentStyles = () => {
         flex: 1,
         minWidth: 0,
         width: t.sizes.full,
+        alignSelf: 'stretch',
         alignItems: 'center',
+        overflow: 'hidden',
       },
     }),
     [],
@@ -337,13 +341,15 @@ const useTitleStyles = ({ disabled }: { disabled: boolean }) => {
     (t) => ({
       container: {
         width: t.sizes.full,
+        minWidth: 0,
         alignItems: 'center',
       },
       text: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
           alignItems: 'center',
-          width: t.sizes.full,
+          width: '100%',
+          minWidth: 0,
           textAlign: 'center',
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         },
@@ -370,6 +376,7 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
       <Text
         testID='tile-title'
         numberOfLines={1}
+        ellipsizeMode='tail'
         lx={lx}
         style={StyleSheet.flatten([styles.text, style])}
       >
@@ -395,12 +402,14 @@ const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
     (t) => ({
       container: {
         width: t.sizes.full,
+        minWidth: 0,
         alignItems: 'center',
       },
       text: StyleSheet.flatten([
         t.typographies.body3,
         {
-          width: t.sizes.full,
+          width: '100%',
+          minWidth: 0,
           alignItems: 'center',
           textAlign: 'center',
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
@@ -440,6 +449,7 @@ export const TileDescription = ({
       <Text
         lx={lx}
         numberOfLines={1}
+        ellipsizeMode='tail'
         style={StyleSheet.flatten([styles.text, style])}
         testID='tile-description'
       >
@@ -459,56 +469,3 @@ export const TileDescription = ({
   );
 };
 TileDescription.displayName = 'TileDescription';
-
-const useTrailingContentStyles = () => {
-  return useStyleSheet(
-    (t) => ({
-      container: {
-        width: t.sizes.full,
-        alignItems: 'center',
-        marginTop: t.spacings.s4,
-        gap: t.spacings.s8,
-      },
-    }),
-    [],
-  );
-};
-
-/**
- * A container for trailing content inside TileContent.
- * Use this to wrap Tags, labels, or other supplementary information after title and description.
- * Multiple items inside will have 8px spacing between them.
- *
- * @example
- * <Tile>
- *   <TileHeader>
- *     <TileLeading>
- *       <Settings size={20} />
- *       <TileContent>
- *         <TileTitle>My Title</TileTitle>
- *         <TileDescription>Description</TileDescription>
- *         <TileTrailingContent>
- *           <Tag label="Active" />
- *         </TileTrailingContent>
- *       </TileContent>
- *     </TileLeading>
- *   </TileHeader>
- * </Tile>
- */
-export const TileTrailingContent = ({
-  children,
-  lx,
-  style,
-}: TileTrailingContentProps) => {
-  const styles = useTrailingContentStyles();
-  return (
-    <Box
-      lx={lx}
-      style={StyleSheet.flatten([styles.container, style])}
-      testID='tile-trailing-content'
-    >
-      {children}
-    </Box>
-  );
-};
-TileTrailingContent.displayName = 'TileTrailingContent';
