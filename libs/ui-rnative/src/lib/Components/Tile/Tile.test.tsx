@@ -8,11 +8,13 @@ import { Tag } from '../Tag';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
   Tile,
-  TileSpot,
+  TileHeader,
+  TileLeading,
   TileContent,
   TileTitle,
   TileDescription,
   TileTrailingContent,
+  TileTrailing,
 } from './Tile';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -27,10 +29,14 @@ describe('Tile Component', () => {
       const { getByText, getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -44,11 +50,17 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
-            <Tag label={tagText} />
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+              <TileTrailing>
+                <Tag label={tagText} />
+              </TileTrailing>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -64,10 +76,14 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onPress={handlePress} testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -82,10 +98,14 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onLongPress={handleLongPress} testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -105,10 +125,14 @@ describe('Tile Component', () => {
             onLongPress={handleLongPress}
             testID='tile'
           >
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -124,14 +148,18 @@ describe('Tile Component', () => {
   });
 
   describe('Context Propagation', () => {
-    it('should propagate disabled state to TileSpot', () => {
+    it('should propagate disabled state to TileTrailing', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -144,11 +172,15 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileDescription>Test Description</TileDescription>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileDescription>Test Description</TileDescription>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -164,10 +196,14 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile' accessibilityLabel={customLabel}>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -180,10 +216,14 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -206,12 +246,18 @@ describe('Tile Component', () => {
             onLongPress={jest.fn()}
             testID='tile'
           >
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileDescription>{description}</TileDescription>
-            </TileContent>
-            <Tag label={tagText} />
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileDescription>{description}</TileDescription>
+                </TileContent>
+              </TileLeading>
+              <TileTrailing>
+                <Tag label={tagText} />
+              </TileTrailing>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -228,13 +274,17 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileTrailingContent>
+                    <Tag label='Active' />
+                  </TileTrailingContent>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -246,13 +296,17 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileTrailingContent>
+                    <Tag label='Active' />
+                  </TileTrailingContent>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -264,14 +318,18 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='First' />
-                <Tag label='Second' />
-              </TileTrailingContent>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileTrailingContent>
+                    <Tag label='First' />
+                    <Tag label='Second' />
+                  </TileTrailingContent>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -287,14 +345,18 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='First' />
-                <Tag label='Second' />
-              </TileTrailingContent>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileTrailingContent>
+                    <Tag label='First' />
+                    <Tag label='Second' />
+                  </TileTrailingContent>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -307,13 +369,17 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileTrailingContent>
+                    <Tag label='Active' />
+                  </TileTrailingContent>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
@@ -328,13 +394,17 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
+            <TileHeader>
+              <TileLeading>
+                <Settings size={24} />
+                <TileContent>
+                  <TileTitle>Test Title</TileTitle>
+                  <TileTrailingContent>
+                    <Tag label='Active' />
+                  </TileTrailingContent>
+                </TileContent>
+              </TileLeading>
+            </TileHeader>
           </Tile>
         </TestWrapper>,
       );
