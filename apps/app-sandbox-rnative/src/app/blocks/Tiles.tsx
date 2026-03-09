@@ -1,5 +1,6 @@
 import {
   Box,
+  Spot,
   Tag,
   Tile,
   TileContent,
@@ -18,7 +19,7 @@ export const Tiles = () => {
         <Tile lx={{ width: 's112' }}>
           <TileHeader>
             <TileLeading>
-              <Settings size={24} />
+              <Spot appearance='icon' icon={Settings} />
               <TileContent>
                 <TileTitle>Tile 1</TileTitle>
                 <TileDescription>Tile description</TileDescription>
@@ -32,7 +33,7 @@ export const Tiles = () => {
         <Tile lx={{ width: 's112' }}>
           <TileHeader>
             <TileLeading>
-              <Settings size={24} />
+              <Spot appearance='icon' icon={Settings} />
               <TileContent>
                 <TileTitle>Tile 2</TileTitle>
                 <TileDescription>Tile description</TileDescription>
@@ -46,7 +47,7 @@ export const Tiles = () => {
         <Tile lx={{ width: 's112' }} centered>
           <TileHeader>
             <TileLeading>
-              <ChevronRight size={24} />
+              <Spot appearance='icon' icon={ChevronRight} />
               <TileContent>
                 <TileTitle>See more</TileTitle>
               </TileContent>
@@ -58,7 +59,7 @@ export const Tiles = () => {
       <Tile>
         <TileHeader>
           <TileLeading>
-            <Settings size={24} />
+            <Spot appearance='info' />
             <TileContent>
               <TileTitle>
                 Long Title that should truncate appropriately and not be break
