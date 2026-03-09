@@ -39,10 +39,11 @@ The Avatar component displays a circular user profile image with automatic fallb
 
 ### Size
 
-Avatars come in two different sizes:
+Avatars come in three different sizes:
 
 - **sm** (40px)
 - **md** (48px, default)
+- **lg** (72px)
 
 <Canvas of={AvatarStories.SizeShowcase} />
 
@@ -134,7 +135,7 @@ function MyComponent() {
 
 ### Different Sizes
 
-Choose between small and medium sizes based on your layout needs:
+Choose the appropriate size based on your layout needs:
 
 ```tsx
 import { Avatar } from '@ledgerhq/lumen-ui-react';
@@ -144,6 +145,7 @@ function MyComponent() {
     <div className="flex items-center gap-8">
       <Avatar src="https://example.com/photo.jpg" size="sm" />
       <Avatar src="https://example.com/photo.jpg" size="md" />
+      <Avatar src="https://example.com/photo.jpg" size="lg" />
     </div>
   );
 }
