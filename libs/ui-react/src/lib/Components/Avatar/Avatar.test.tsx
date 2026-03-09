@@ -152,7 +152,7 @@ describe('Avatar Component', () => {
     const { container } = render(<Avatar src='' size='lg' />);
 
     const svg = container.querySelector('svg');
-    expect(svg).toHaveClass('icon-w-40');
-    expect(svg).toHaveClass('icon-h-40');
+    expect(svg).toHaveClass('icon-w-32');
+    expect(svg).toHaveClass('icon-h-32');
   });
 });
