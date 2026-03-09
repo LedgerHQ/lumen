@@ -9,7 +9,7 @@ import {
   TileTitle,
   TileTrailing,
 } from '@ledgerhq/lumen-ui-rnative';
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { ChevronRight, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 export const Tiles = () => {
   return (
@@ -24,6 +24,9 @@ export const Tiles = () => {
                 <TileDescription>Tile description</TileDescription>
               </TileContent>
             </TileLeading>
+            <TileTrailing>
+              <Tag label='Tag' appearance='accent' />
+            </TileTrailing>
           </TileHeader>
         </Tile>
         <Tile lx={{ width: 's112' }}>
@@ -35,20 +38,19 @@ export const Tiles = () => {
                 <TileDescription>Tile description</TileDescription>
               </TileContent>
             </TileLeading>
-          </TileHeader>
-        </Tile>
-        <Tile lx={{ width: 's112' }}>
-          <TileHeader>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Tile 3</TileTitle>
-                <TileDescription>Tile description</TileDescription>
-              </TileContent>
-            </TileLeading>
             <TileTrailing>
               <Tag label='Tag' appearance='accent' />
             </TileTrailing>
+          </TileHeader>
+        </Tile>
+        <Tile lx={{ width: 's112' }} centered>
+          <TileHeader>
+            <TileLeading>
+              <ChevronRight size={24} />
+              <TileContent>
+                <TileTitle>See more</TileTitle>
+              </TileContent>
+            </TileLeading>
           </TileHeader>
         </Tile>
       </Box>
