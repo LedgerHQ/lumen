@@ -4,13 +4,10 @@ import {
   StyledTextProps,
   StyledViewProps,
 } from '../../../styles';
-import { DiscriminatedSpotProps, SpotSize } from '../Spot/types';
 
 export type TileContextValue = {
   disabled: boolean;
 };
-
-export type TileSpotSize = Extract<SpotSize, 40 | 48>;
 
 export type TileProps = {
   /**
@@ -47,13 +44,26 @@ export type TileProps = {
   children: ReactNode;
 } & Omit<StyledPressableProps, 'onPress' | 'onLongPress' | 'disabled'>;
 
-export type TileSpotProps = {
+export type TileHeaderProps = {
   /**
-   * The size of the spot.
-   * @default 48
+   * The header content (TileLeading, TileTrailing).
    */
-  size?: 40 | 48;
-} & DiscriminatedSpotProps;
+  children: ReactNode;
+} & StyledViewProps;
+
+export type TileLeadingProps = {
+  /**
+   * The leading content (e.g. icon + TileContent).
+   */
+  children: ReactNode;
+} & StyledViewProps;
+
+export type TileTrailingProps = {
+  /**
+   * The trailing content (e.g. Button, Tag).
+   */
+  children: ReactNode;
+} & StyledViewProps;
 
 export type TileContentProps = {
   /**

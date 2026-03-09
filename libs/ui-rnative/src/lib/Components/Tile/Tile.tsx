@@ -5,16 +5,17 @@ import {
 import { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { Spot } from '../Spot';
 import { Box, Pressable, Text } from '../Utility';
 import {
   TileContentProps,
   TileContextValue,
   TileDescriptionProps,
+  TileHeaderProps,
+  TileLeadingProps,
   TileProps,
-  TileSpotProps,
   TileTitleProps,
   TileTrailingContentProps,
+  TileTrailingProps,
 } from './types';
 
 const [TileProvider, useTileContext] =
@@ -54,9 +55,6 @@ const useRootStyles = ({
             width: '100%',
             flex: 1,
             alignItems: 'center',
-            gap: t.spacings.s8,
-            paddingHorizontal: t.spacings.s8,
-            paddingVertical: t.spacings.s12,
             borderRadius: t.borderRadius.sm,
             backgroundColor: bgColors[appearance],
           },
@@ -76,7 +74,7 @@ const useRootStyles = ({
 
 /**
  * A flexible tile component that uses a composite pattern for maximum customization.
- * Displays content in a vertical layout with support for spots, text, and custom content.
+ * Displays content in a vertical layout with support for leading content, text, and custom content.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-tile--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-tile--docs#dos-and-donts Guidelines}
@@ -85,29 +83,37 @@ const useRootStyles = ({
  * Do not use it to modify the tile's core appearance (colors, padding, etc). Use the `appearance` prop instead.
  *
  * @example
- * // Basic tile with spot and content
- * import { Tile, TileSpot, TileContent, TileTitle, TileDescription } from '@ledgerhq/lumen-ui-rnative';
+ * // Basic tile with icon and content
+ * import { Tile, TileHeader, TileLeading, TileContent, TileTitle, TileDescription } from '@ledgerhq/lumen-ui-rnative';
+ * import { Icon } from '@ledgerhq/lumen-ui-rnative';
  * import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onPress={() => console.log('Pressed!')}>
- *   <TileSpot appearance="icon" icon={Wallet} />
- *   <TileContent>
- *     <TileTitle>My Wallet</TileTitle>
- *     <TileDescription>Description</TileDescription>
- *   </TileContent>
+ *   <TileHeader>
+ *     <TileLeading>
+ *       <Wallet size={20} />
+ *       <TileContent>
+ *         <TileTitle>My Wallet</TileTitle>
+ *         <TileDescription>Description</TileDescription>
+ *       </TileContent>
+ *     </TileLeading>
+ *   </TileHeader>
  * </Tile>
  *
  * @example
  * // With custom content and long press
- * import { Tile, TileSpot, TileContent, TileTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
+ * import { Tile, TileHeader, TileLeading, TileContent, TileTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
  * import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onLongPress={() => console.log('Long pressed')}>
- *   <TileSpot appearance="icon" icon={Bitcoin} />
- *   <TileContent>
- *     <TileTitle>Bitcoin</TileTitle>
- *   </TileContent>
- *   <Tag label="Active" />
+ *   <TileHeader>
+ *     <TileLeading>
+ *       <Bitcoin size={20} />
+ *       <TileContent>
+ *         <TileTitle>Bitcoin</TileTitle>
+ *       </TileContent>
+ *     </TileLeading>
+ *   </TileHeader>
  * </Tile>
  */
 export const Tile = ({
@@ -151,6 +157,125 @@ export const Tile = ({
 
 Tile.displayName = 'Tile';
 
+/**
+ * Header row container for the tile.
+ * Lays out TileLeading and TileTrailing horizontally.
+ */
+export const TileHeader = ({
+  children,
+  lx,
+  style,
+  ...props
+}: TileHeaderProps) => {
+  const styles = useHeaderStyles();
+  return (
+    <Box
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
+      testID='tile-header'
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+};
+TileHeader.displayName = 'TileHeader';
+
+/**
+ * Leading section container.
+ * Wraps leading content (e.g. icon) + TileContent.
+ */
+export const TileLeading = ({
+  children,
+  lx,
+  style,
+  ...props
+}: TileLeadingProps) => {
+  const styles = useLeadingStyles();
+  return (
+    <Box
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
+      testID='tile-leading'
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+};
+TileLeading.displayName = 'TileLeading';
+
+/**
+ * Trailing content container in the header. Used for Button, Tag, or other end content.
+ * Inherits the disabled state from the parent Tile via context.
+ */
+export const TileTrailing = ({
+  children,
+  lx,
+  style,
+  ...props
+}: TileTrailingProps) => {
+  const { disabled } = useTileContext({
+    consumerName: 'TileTrailing',
+    contextRequired: true,
+  });
+  const styles = useTrailingStyles({ disabled });
+  return (
+    <Box
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
+      testID='tile-trailing'
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+};
+TileTrailing.displayName = 'TileTrailing';
+
+const useHeaderStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      container: {
+        flexDirection: 'row' as const,
+        alignItems: 'center',
+        gap: t.spacings.s12,
+        paddingHorizontal: t.spacings.s8,
+        paddingVertical: t.spacings.s12,
+        width: t.sizes.full,
+      },
+    }),
+    [],
+  );
+};
+
+const useLeadingStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      container: {
+        flexDirection: 'row' as const,
+        alignItems: 'center',
+        flex: 1,
+        minWidth: 0,
+        gap: t.spacings.s12,
+      },
+    }),
+    [],
+  );
+};
+
+const useTrailingStyles = ({ disabled }: { disabled: boolean }) => {
+  return useStyleSheet(
+    () => ({
+      container: {
+        flexShrink: 0,
+        opacity: disabled ? 0.5 : 1,
+      },
+    }),
+    [disabled],
+  );
+};
+
 const TilePressableContent = ({
   appearance,
   disabled,
@@ -168,26 +293,12 @@ const TilePressableContent = ({
   return <View style={styles.container}>{children}</View>;
 };
 
-/**
- * A spot adapter for use within Tile. Automatically inherits the disabled state from the parent Tile.
- *
- * @example
- * <Tile>
- *   <TileSpot appearance="icon" icon={Settings} />
- * </Tile>
- */
-export const TileSpot = ({ size = 48, ...props }: TileSpotProps) => {
-  const { disabled } = useTileContext({
-    consumerName: 'TileSpot',
-    contextRequired: true,
-  });
-  return <Spot {...props} size={size} disabled={disabled} />;
-};
-
 const useContentStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
+        flex: 1,
+        minWidth: 0,
         width: t.sizes.full,
         alignItems: 'center',
       },
@@ -195,8 +306,6 @@ const useContentStyles = () => {
     [],
   );
 };
-TileSpot.displayName = 'TileSpot';
-
 /**
  * A container for grouping TileTitle and TileDescription with consistent spacing.
  * Use this to wrap text content within a Tile.
@@ -372,14 +481,18 @@ const useTrailingContentStyles = () => {
  *
  * @example
  * <Tile>
- *   <TileSpot appearance="icon" icon={Settings} />
- *   <TileContent>
- *     <TileTitle>My Title</TileTitle>
- *     <TileDescription>Description</TileDescription>
- *     <TileTrailingContent>
- *       <Tag label="Active" />
- *     </TileTrailingContent>
- *   </TileContent>
+ *   <TileHeader>
+ *     <TileLeading>
+ *       <Settings size={20} />
+ *       <TileContent>
+ *         <TileTitle>My Title</TileTitle>
+ *         <TileDescription>Description</TileDescription>
+ *         <TileTrailingContent>
+ *           <Tag label="Active" />
+ *         </TileTrailingContent>
+ *       </TileContent>
+ *     </TileLeading>
+ *   </TileHeader>
  * </Tile>
  */
 export const TileTrailingContent = ({
