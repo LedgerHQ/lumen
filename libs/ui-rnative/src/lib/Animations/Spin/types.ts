@@ -10,5 +10,5 @@ export type SpinProps = {
    * Motion token overrides for this animation.
    * Wrapper defaults are used when values are omitted.
    */
-  timing?: TimingTokens;
+  timing?: Partial<TimingTokens>;
 };
