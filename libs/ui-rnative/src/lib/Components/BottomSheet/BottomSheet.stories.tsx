@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import React, { useState } from 'react';
 import { Button } from '../Button';
+import { SearchInput } from '../SearchInput';
 import { Box, Text } from '../Utility';
 import { BottomSheet } from './BottomSheet';
 import { BottomSheetHeader } from './BottomSheetHeader';
@@ -417,6 +419,98 @@ export const VirtualList: Story = {
             keyExtractor={(item) => (item as ListItem).id}
             renderItem={({ item }) => {
               const typedItem = item as ListItem;
+              return (
+                <Box
+                  lx={{
+                    flexDirection: 'column',
+                    gap: 's4',
+                    borderBottomWidth: 's1',
+                    borderColor: 'base',
+                    paddingVertical: 's12',
+                  }}
+                >
+                  <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+                    {typedItem.title}
+                  </Text>
+                  <Text typography='body3' lx={{ color: 'muted' }}>
+                    {typedItem.description}
+                  </Text>
+                </Box>
+              );
+            }}
+          />
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
+export const FlatListStickyHeader: Story = {
+  args: {
+    snapPoints: 'full',
+  },
+  render: (args) => {
+    const bottomSheetRef = useBottomSheetRef();
+    const [query, setQuery] = useState('');
+
+    type ListItem = {
+      id: string;
+      title: string;
+      description: string;
+    };
+
+    const data: ListItem[] = Array.from({ length: 50 }, (_, i) => ({
+      id: i.toString(),
+      title: `Item ${i + 1}`,
+      description: 'Sticky search stays pinned with stickyHeaderIndices.',
+    }));
+
+    const filteredData = data.filter((item) =>
+      item.title.toLowerCase().includes(query.toLowerCase()),
+    );
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+        }}
+      >
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+          Toggle open
+        </Button>
+        <BottomSheet {...args} ref={bottomSheetRef}>
+          <BottomSheetHeader
+            spacing
+            title='Sticky FlatList Header'
+            appearance='compact'
+            description='The search input is rendered as a sticky list header'
+          />
+          <BottomSheetFlatList
+            data={filteredData}
+            keyExtractor={(item) => (item as ListItem).id}
+            stickyHeaderIndices={[0]}
+            ListHeaderComponent={
+              <Box
+                lx={{
+                  backgroundColor: 'canvasSheet',
+                  paddingTop: 's4',
+                  paddingBottom: 's8',
+                }}
+              >
+                <SearchInput
+                  value={query}
+                  onChangeText={setQuery}
+                  placeholder='Search item...'
+                />
+              </Box>
+            }
+            renderItem={({ item }) => {
+              const typedItem = item as ListItem;
+
               return (
                 <Box
                   lx={{
