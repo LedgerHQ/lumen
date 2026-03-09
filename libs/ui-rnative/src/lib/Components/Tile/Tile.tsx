@@ -237,7 +237,7 @@ const useHeaderStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
-        flexDirection: 'row' as const,
+        flexDirection: 'row',
         alignItems: 'center',
         gap: t.spacings.s12,
         paddingHorizontal: t.spacings.s8,
@@ -253,11 +253,11 @@ const useLeadingStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
-        flexDirection: 'row' as const,
+        flexDirection: 'column',
         alignItems: 'center',
         flex: 1,
         minWidth: 0,
-        gap: t.spacings.s12,
+        gap: t.spacings.s8,
       },
     }),
     [],
