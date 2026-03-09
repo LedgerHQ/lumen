@@ -1,9 +1,15 @@
 import { getStepperCalculations } from '@ledgerhq/lumen-utils-shared';
-import { useEffect, useRef } from 'react';
-import { Animated, Easing } from 'react-native';
+import { useEffect } from 'react';
+import Animated, {
+  cancelAnimation,
+  useAnimatedProps,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
 import { useTheme } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Box } from '../Utility/Box';
 import { Text } from '../Utility/Text';
 import { StepperProps } from './types';
@@ -12,6 +18,32 @@ const SIZE = 48;
 const STROKE_WIDTH = 4;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
+const useAnimatedProgress = ({
+  progressDashOffset,
+}: {
+  progressDashOffset: number;
+}) => {
+  const animatedOffset = useSharedValue(progressDashOffset);
+  const timingConfig = useTimingConfig({
+    duration: 300,
+    easing: 'easeInOut',
+  });
+
+  useEffect(() => {
+    animatedOffset.value = withTiming(progressDashOffset, timingConfig);
+    return () => cancelAnimation(animatedOffset);
+  }, [progressDashOffset, animatedOffset, timingConfig]);
+
+  const animatedProgress = useAnimatedProps(
+    () => ({
+      strokeDashoffset: animatedOffset.value,
+    }),
+    [animatedOffset],
+  );
+
+  return animatedProgress;
+};
 
 /**
  * A circular stepper component showing progress as current step out of total steps.
@@ -51,18 +83,9 @@ export const Stepper = ({
     strokeWidth: STROKE_WIDTH,
   });
 
-  const animatedOffset = useRef(new Animated.Value(progressDashOffset)).current;
-
-  useEffect(() => {
-    const animation = Animated.timing(animatedOffset, {
-      toValue: progressDashOffset,
-      duration: 300,
-      easing: Easing.inOut(Easing.ease),
-      useNativeDriver: false,
-    });
-    animation.start();
-    return () => animation.stop();
-  }, [progressDashOffset, animatedOffset]);
+  const animatedProgress = useAnimatedProgress({
+    progressDashOffset,
+  });
 
   return (
     <Box
@@ -122,7 +145,7 @@ export const Stepper = ({
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={progressDashArray}
-          strokeDashoffset={animatedOffset}
+          animatedProps={animatedProgress}
         />
       </Svg>
       <Box

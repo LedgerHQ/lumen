@@ -112,6 +112,12 @@ jest.mock('react-native-reanimated', () => {
     withDelay: (value: any) => value,
     withSequence: (...values: any[]) => values[0],
     withRepeat: (value: any) => value,
+    cancelAnimation: () => {
+      return;
+    },
+    useAnimatedProps: (_cb: any) => {
+      return {};
+    },
     useAnimatedGestureHandler: (handlers: any) => handlers,
     useAnimatedScrollHandler: () => () => {
       return;

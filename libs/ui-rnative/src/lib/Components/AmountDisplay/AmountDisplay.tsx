@@ -2,7 +2,7 @@ import { useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Animated, {
-  Easing,
+  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -10,6 +10,7 @@ import Animated, {
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Pulse } from '../../Animations/Pulse';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
 import {
@@ -43,11 +44,6 @@ const DECIMAL_DIGIT_WIDTHS = {
   7: 14.7,
   8: 16.5,
   9: 16.5,
-};
-
-const TIMING_CONFIG = {
-  duration: 600,
-  easing: Easing.inOut(Easing.ease),
 };
 
 const useStyles = () => {
@@ -91,31 +87,68 @@ const useStyles = () => {
   );
 };
 
+const useAnimatedDigitStrip = ({
+  value,
+  lineHeight,
+  targetWidth,
+  width,
+  animate,
+}: {
+  value: number;
+  lineHeight: number;
+  targetWidth: number;
+  width: SharedValue<number>;
+  animate: boolean;
+}) => {
+  const translateY = useSharedValue(-value * lineHeight);
+
+  const timingConfig = useTimingConfig({
+    duration: 700,
+    easing: 'easeInOut',
+  });
+
+  useEffect(() => {
+    if (animate) {
+      translateY.value = withTiming(-value * lineHeight, timingConfig);
+      width.value = withTiming(targetWidth, timingConfig);
+    } else {
+      translateY.value = -value * lineHeight;
+      width.value = targetWidth;
+    }
+  }, [
+    value,
+    lineHeight,
+    translateY,
+    animate,
+    width,
+    targetWidth,
+    timingConfig,
+  ]);
+
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateY: translateY.value }],
+    }),
+    [translateY],
+  );
+
+  return { animatedStyle };
+};
+
 const DigitStrip = memo(
   ({ value, textStyle, animate, type }: DigitStripProps) => {
     const targetWidth = (
       type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
     )[value];
     const lineHeight = textStyle.lineHeight;
-    const translateY = useSharedValue(-value * lineHeight);
     const width = useSharedValue<number>(targetWidth);
-
-    useEffect(() => {
-      if (animate) {
-        translateY.value = withTiming(-value * lineHeight, TIMING_CONFIG);
-        width.value = withTiming(targetWidth, TIMING_CONFIG);
-      } else {
-        translateY.value = -value * lineHeight;
-        width.value = targetWidth;
-      }
-    }, [value, lineHeight, translateY, animate, width, targetWidth]);
-
-    const animatedStyle = useAnimatedStyle(
-      () => ({
-        transform: [{ translateY: translateY.value }],
-      }),
-      [translateY],
-    );
+    const { animatedStyle } = useAnimatedDigitStrip({
+      value,
+      lineHeight,
+      targetWidth,
+      width,
+      animate,
+    });
 
     return (
       <Animated.View

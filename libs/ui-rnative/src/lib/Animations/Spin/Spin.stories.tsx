@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {
-    duration: 1000,
+    timing: { duration: 1000, easing: 'linear' },
     children: (
       <Box lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }} />
     ),
@@ -25,34 +25,28 @@ export const Base: Story = {
 };
 
 export const DurationShowcase: Story = {
-  render: () => (
+  args: {
+    timing: { duration: 1000, easing: 'linear' },
+    children: (
+      <Box lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }} />
+    ),
+  },
+  render: (args) => (
     <View style={{ flexDirection: 'row', gap: 24, alignItems: 'center' }}>
       <View style={{ alignItems: 'center', gap: 8 }}>
-        <Spin duration={500}>
-          <Box
-            lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }}
-          />
-        </Spin>
+        <Spin timing={{ ...args.timing, duration: 500 }}>{args.children}</Spin>
         <Text typography='body4' lx={{ color: 'muted' }}>
           500ms
         </Text>
       </View>
       <View style={{ alignItems: 'center', gap: 8 }}>
-        <Spin duration={1000}>
-          <Box
-            lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }}
-          />
-        </Spin>
+        <Spin timing={{ ...args.timing, duration: 1000 }}>{args.children}</Spin>
         <Text typography='body4' lx={{ color: 'muted' }}>
           1000ms
         </Text>
       </View>
       <View style={{ alignItems: 'center', gap: 8 }}>
-        <Spin duration={2000}>
-          <Box
-            lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }}
-          />
-        </Spin>
+        <Spin timing={{ ...args.timing, duration: 2000 }}>{args.children}</Spin>
         <Text typography='body4' lx={{ color: 'muted' }}>
           2000ms
         </Text>

@@ -5,7 +5,7 @@ import {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { durations, easingCurves } from '../../Animations/constants';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 
 export function useSegmentedControlSelectedIndex(
   selectedValue: string,
@@ -37,6 +37,11 @@ export function usePillLayout({
   const pillHeight = useSharedValue(0);
   const hasLayoutRef = useRef(false);
 
+  const timingConfig = useTimingConfig({
+    duration: 300,
+    easing: 'easeInOut',
+  });
+
   const onLayout = (e: LayoutChangeEvent): void => {
     const { width, height } = e.nativeEvent.layout;
     const count = React.Children.count(children);
@@ -56,12 +61,12 @@ export function usePillLayout({
   useEffect(() => {
     if (!hasLayoutRef.current) return;
     if (selectedIndex >= 0 && pillWidth.value > 0) {
-      pillTranslateX.value = withTiming(selectedIndex * pillWidth.value, {
-        duration: durations['250'],
-        easing: easingCurves.bezier.default,
-      });
+      pillTranslateX.value = withTiming(
+        selectedIndex * pillWidth.value,
+        timingConfig,
+      );
     }
-  }, [selectedIndex, pillWidth, pillTranslateX]);
+  }, [selectedIndex, pillWidth, pillTranslateX, timingConfig]);
 
   const animatedPillStyle = useAnimatedStyle(
     () => ({

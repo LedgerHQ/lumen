@@ -1,34 +1,40 @@
-import { memo, useEffect, useRef } from 'react';
-import { Animated, Easing } from 'react-native';
-import { RuntimeConstants } from '../../utils';
+import { memo, useEffect } from 'react';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import { TimingTokens } from '../types';
+import { useTimingConfig } from '../useTimingConfig';
 import { SpinProps } from './types';
 
-export const Spin = memo(({ children, duration = 1000 }: SpinProps) => {
-  const spinValue = useRef(new Animated.Value(0)).current;
+const TIMING_DEFAULTS: TimingTokens = {
+  duration: 1000,
+  easing: 'linear',
+};
+export const Spin = memo(({ children, timing }: SpinProps) => {
+  const sv = useSharedValue<number>(0);
 
-  useEffect(() => {
-    const animation = Animated.loop(
-      Animated.timing(spinValue, {
-        toValue: 1,
-        duration: duration,
-        easing: Easing.linear,
-        useNativeDriver: RuntimeConstants.isNative,
-      }),
-    );
-    animation.start();
-
-    return () => animation.stop();
-  }, [spinValue, duration]);
-
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+  const timingConfig = useTimingConfig({
+    duration: timing?.duration ?? TIMING_DEFAULTS.duration,
+    easing: timing?.easing ?? TIMING_DEFAULTS.easing,
   });
 
-  return (
-    <Animated.View style={{ transform: [{ rotate: spin }] }}>
-      {children}
-    </Animated.View>
+  useEffect(() => {
+    sv.value = withRepeat(withTiming(1, timingConfig), -1);
+
+    return () => cancelAnimation(sv);
+  }, [sv, timingConfig]);
+
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ rotate: `${sv.value * 360}deg` }],
+    }),
+    [sv],
   );
+
+  return <Animated.View style={animatedStyle}>{children}</Animated.View>;
 });
 Spin.displayName = 'Spin';

@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {
-    duration: 2000,
+    timing: { duration: 1000, easing: 'linear' },
     animate: true,
     children: (
       <Box lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }} />
@@ -39,36 +39,37 @@ export const Base: Story = {
 };
 
 export const DurationShowcase: Story = {
-  render: () => (
+  args: {
+    timing: { duration: 1000, easing: 'linear' },
+    animate: true,
+    children: (
+      <Box lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }} />
+    ),
+  },
+  render: (args) => (
     <View style={{ flexDirection: 'row', gap: 24, alignItems: 'center' }}>
       <View style={{ alignItems: 'center', gap: 8 }}>
-        <Pulse duration={1000} animate={true}>
-          <Box
-            lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }}
-          />
+        <Pulse timing={{ ...args.timing, duration: 700 }} animate={true}>
+          {args.children}
+        </Pulse>
+        <Text typography='body4' lx={{ color: 'muted' }}>
+          700ms
+        </Text>
+      </View>
+      <View style={{ alignItems: 'center', gap: 8 }}>
+        <Pulse timing={{ ...args.timing, duration: 1000 }} animate={true}>
+          {args.children}
         </Pulse>
         <Text typography='body4' lx={{ color: 'muted' }}>
           1000ms
         </Text>
       </View>
       <View style={{ alignItems: 'center', gap: 8 }}>
-        <Pulse duration={2000} animate={true}>
-          <Box
-            lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }}
-          />
+        <Pulse timing={{ ...args.timing, duration: 2000 }} animate={true}>
+          {args.children}
         </Pulse>
         <Text typography='body4' lx={{ color: 'muted' }}>
           2000ms
-        </Text>
-      </View>
-      <View style={{ alignItems: 'center', gap: 8 }}>
-        <Pulse duration={3000} animate={true}>
-          <Box
-            lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }}
-          />
-        </Pulse>
-        <Text typography='body4' lx={{ color: 'muted' }}>
-          3000ms
         </Text>
       </View>
     </View>
