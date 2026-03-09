@@ -54,6 +54,13 @@ describe('Avatar Component', () => {
     expect(wrapper).toHaveClass('size-40');
   });
 
+  it('should render with lg size when specified', () => {
+    const { container } = render(<Avatar src={validSrc} size='lg' />);
+
+    const wrapper = container.firstChild;
+    expect(wrapper).toHaveClass('size-72');
+  });
+
   it('should not show notification indicator by default', () => {
     const { container } = render(<Avatar src={validSrc} />);
 
@@ -139,5 +146,13 @@ describe('Avatar Component', () => {
     const svg = container.querySelector('svg');
     expect(svg).toHaveClass('icon-w-24');
     expect(svg).toHaveClass('icon-h-24');
+  });
+
+  it('should render correct fallback icon size for lg', () => {
+    const { container } = render(<Avatar src='' size='lg' />);
+
+    const svg = container.querySelector('svg');
+    expect(svg).toHaveClass('icon-w-32');
+    expect(svg).toHaveClass('icon-h-32');
   });
 });

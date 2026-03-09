@@ -11,6 +11,7 @@ type Size = NonNullable<AvatarProps['size']>;
 const fallbackSizes = {
   sm: 16,
   md: 24,
+  lg: 32,
 } as const;
 
 const useStyles = ({ size }: { size: Size }) => {
@@ -19,11 +20,13 @@ const useStyles = ({ size }: { size: Size }) => {
       const sizeMap = {
         sm: { size: t.sizes.s40, padding: t.spacings.s4 },
         md: { size: t.sizes.s48, padding: t.spacings.s4 },
+        lg: { size: t.sizes.s72, padding: t.spacings.s4 },
       };
 
       const notificationsMap = {
         sm: t.sizes.s10,
         md: t.sizes.s12,
+        lg: t.sizes.s16,
       };
 
       return {
