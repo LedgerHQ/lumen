@@ -44,13 +44,6 @@ export type TileProps = {
   children: ReactNode;
 } & Omit<StyledPressableProps, 'onPress' | 'onLongPress' | 'disabled'>;
 
-export type TileHeaderProps = {
-  /**
-   * The header content (TileLeading, TileTrailing).
-   */
-  children: ReactNode;
-} & StyledViewProps;
-
 export type TileLeadingProps = {
   /**
    * The leading content (e.g. icon + TileContent).

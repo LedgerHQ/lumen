@@ -10,7 +10,6 @@ import {
   TileContentProps,
   TileContextValue,
   TileDescriptionProps,
-  TileHeaderProps,
   TileLeadingProps,
   TileProps,
   TileTitleProps,
@@ -54,6 +53,11 @@ const useRootStyles = ({
             width: '100%',
             flex: 1,
             alignItems: 'center',
+            justifyContent: 'center',
+            gap: t.spacings.s12,
+            paddingHorizontal: t.spacings.s8,
+            paddingVertical: t.spacings.s12,
+            minWidth: 0,
             borderRadius: t.borderRadius.sm,
             backgroundColor: bgColors[appearance],
           },
@@ -83,36 +87,32 @@ const useRootStyles = ({
  *
  * @example
  * // Basic tile with icon and content
- * import { Tile, TileHeader, TileLeading, TileContent, TileTitle, TileDescription } from '@ledgerhq/lumen-ui-rnative';
+ * import { Tile, TileLeading, TileContent, TileTitle, TileDescription } from '@ledgerhq/lumen-ui-rnative';
  * import { Icon } from '@ledgerhq/lumen-ui-rnative';
  * import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onPress={() => console.log('Pressed!')}>
- *   <TileHeader>
- *     <TileLeading>
- *       <Wallet size={20} />
- *       <TileContent>
- *         <TileTitle>My Wallet</TileTitle>
- *         <TileDescription>Description</TileDescription>
- *       </TileContent>
- *     </TileLeading>
- *   </TileHeader>
+ *   <TileLeading>
+ *     <Wallet size={20} />
+ *     <TileContent>
+ *       <TileTitle>My Wallet</TileTitle>
+ *       <TileDescription>Description</TileDescription>
+ *     </TileContent>
+ *   </TileLeading>
  * </Tile>
  *
  * @example
  * // With custom content and long press
- * import { Tile, TileHeader, TileLeading, TileContent, TileTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
+ * import { Tile, TileLeading, TileContent, TileTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
  * import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onLongPress={() => console.log('Long pressed')}>
- *   <TileHeader>
- *     <TileLeading>
- *       <Bitcoin size={20} />
- *       <TileContent>
- *         <TileTitle>Bitcoin</TileTitle>
- *       </TileContent>
- *     </TileLeading>
- *   </TileHeader>
+ *   <TileLeading>
+ *     <Bitcoin size={20} />
+ *     <TileContent>
+ *       <TileTitle>Bitcoin</TileTitle>
+ *     </TileContent>
+ *   </TileLeading>
  * </Tile>
  */
 export const Tile = ({
@@ -157,32 +157,8 @@ export const Tile = ({
 Tile.displayName = 'Tile';
 
 /**
- * Header container for the tile.
- * Lays out TileLeading and TileTrailing vertically (TileTrailing underneath TileLeading).
- */
-export const TileHeader = ({
-  children,
-  lx,
-  style,
-  ...props
-}: TileHeaderProps) => {
-  const styles = useHeaderStyles();
-  return (
-    <Box
-      lx={lx}
-      style={StyleSheet.flatten([styles.container, style])}
-      testID='tile-header'
-      {...props}
-    >
-      {children}
-    </Box>
-  );
-};
-TileHeader.displayName = 'TileHeader';
-
-/**
  * Leading section container.
- * Wraps leading content (e.g. icon) + TileContent.
+ * Wraps leading content (e.g. Spot) + TileContent. Renders above TileTrailing.
  */
 export const TileLeading = ({
   children,
@@ -231,24 +207,6 @@ export const TileTrailing = ({
   );
 };
 TileTrailing.displayName = 'TileTrailing';
-
-const useHeaderStyles = () => {
-  return useStyleSheet(
-    (t) => ({
-      container: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: t.spacings.s12,
-        paddingHorizontal: t.spacings.s8,
-        paddingVertical: t.spacings.s12,
-        width: t.sizes.full,
-        minWidth: 0,
-        overflow: 'hidden',
-      },
-    }),
-    [],
-  );
-};
 
 const useLeadingStyles = () => {
   return useStyleSheet(

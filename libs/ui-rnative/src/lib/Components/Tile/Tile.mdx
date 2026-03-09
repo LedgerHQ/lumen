@@ -26,7 +26,7 @@ Tile components are compact, card-like interactive elements designed for horizon
 
 ## Anatomy
 
-- **TileHeader**: Container that lays out TileLeading and TileTrailing vertically (TileTrailing underneath TileLeading)
+- **Tile**: Root container; direct children are TileLeading and optionally TileTrailing, laid out vertically
 - **TileLeading**: Wraps leading content (e.g. Spot) + TileContent + any additional content (e.g. Tags), stacked vertically
 - **TileContent**: Container for title and description
   - **TileTitle**: The main label of the item (required)
@@ -95,7 +95,6 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 ```tsx
 import {
   Tile,
-  TileHeader,
   TileLeading,
   TileContent,
   TileTitle,
@@ -111,15 +110,13 @@ function MyComponent() {
       onPress={() => console.log('Primary action')}
       onLongPress={() => console.log('Secondary action')}
     >
-      <TileHeader>
-        <TileLeading>
-          <Spot appearance='icon' icon={Settings} />
-          <TileContent>
-            <TileTitle>Settings</TileTitle>
-            <TileDescription>Manage preferences</TileDescription>
-          </TileContent>
-        </TileLeading>
-      </TileHeader>
+      <TileLeading>
+        <Spot appearance='icon' icon={Settings} />
+        <TileContent>
+          <TileTitle>Settings</TileTitle>
+          <TileDescription>Manage preferences</TileDescription>
+        </TileContent>
+      </TileLeading>
     </Tile>
   );
 }
@@ -134,7 +131,6 @@ Place Tags or other content after TileContent inside TileLeading.
 ```tsx
 import {
   Tile,
-  TileHeader,
   TileLeading,
   TileContent,
   TileTitle,
@@ -145,16 +141,14 @@ import {
 import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile appearance='card'>
-  <TileHeader>
-    <TileLeading>
-      <Spot appearance='icon' icon={Bitcoin} />
-      <TileContent>
-        <TileTitle>Bitcoin</TileTitle>
-        <TileDescription>BTC</TileDescription>
-      </TileContent>
-      <Tag label='Active' appearance='success' />
-    </TileLeading>
-  </TileHeader>
+  <TileLeading>
+    <Spot appearance='icon' icon={Bitcoin} />
+    <TileContent>
+      <TileTitle>Bitcoin</TileTitle>
+      <TileDescription>BTC</TileDescription>
+    </TileContent>
+    <Tag label='Active' appearance='success' />
+  </TileLeading>
 </Tile>;
 ```
 
@@ -162,15 +156,13 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 ```tsx
 <Tile disabled>
-  <TileHeader>
-    <TileLeading>
-      <Spot appearance='icon' icon={Settings} />
-      <TileContent>
-        <TileTitle>Settings</TileTitle>
-        <TileDescription>Unavailable</TileDescription>
-      </TileContent>
-    </TileLeading>
-  </TileHeader>
+  <TileLeading>
+    <Spot appearance='icon' icon={Settings} />
+    <TileContent>
+      <TileTitle>Settings</TileTitle>
+      <TileDescription>Unavailable</TileDescription>
+    </TileContent>
+  </TileLeading>
 </Tile>
 ```
 
@@ -186,28 +178,24 @@ import { View } from 'react-native';
 // In a grid where other tiles have more content
 <View style={{ flexDirection: 'row', gap: 8 }}>
   <Tile appearance='card'>
-    <TileHeader>
-      <TileLeading>
-        <Spot appearance='icon' icon={CryptoBitcoinCoin} />
-        <TileContent>
-          <TileTitle>Title</TileTitle>
-          <TileDescription>Description</TileDescription>
-        </TileContent>
-        <Tag label='Label' />
-      </TileLeading>
-    </TileHeader>
+    <TileLeading>
+      <Spot appearance='icon' icon={CryptoBitcoinCoin} />
+      <TileContent>
+        <TileTitle>Title</TileTitle>
+        <TileDescription>Description</TileDescription>
+      </TileContent>
+      <Tag label='Label' />
+    </TileLeading>
   </Tile>
 
   {/* Show more tile with centered content */}
   <Tile appearance='card' centered>
-    <TileHeader>
-      <TileLeading>
-        <Spot appearance='icon' icon={ChevronRight} />
-        <TileContent>
-          <TileTitle>Show more</TileTitle>
-        </TileContent>
-      </TileLeading>
-    </TileHeader>
+    <TileLeading>
+      <Spot appearance='icon' icon={ChevronRight} />
+      <TileContent>
+        <TileTitle>Show more</TileTitle>
+      </TileContent>
+    </TileLeading>
   </Tile>
 </View>
 ```
@@ -217,7 +205,6 @@ import { View } from 'react-native';
 ```tsx
 import {
   Tile,
-  TileHeader,
   TileLeading,
   TileContent,
   TileTitle,
@@ -227,15 +214,13 @@ import {
 import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile onPress={() => console.log('Clicked!')}>
-  <TileHeader>
-    <TileLeading>
-      <Spot appearance='icon' icon={CryptoBitcoinCoin} />
-      <TileContent>
-        <TileTitle>Bitcoin</TileTitle>
-        <TileDescription>BTC</TileDescription>
-      </TileContent>
-    </TileLeading>
-  </TileHeader>
+  <TileLeading>
+    <Spot appearance='icon' icon={CryptoBitcoinCoin} />
+    <TileContent>
+      <TileTitle>Bitcoin</TileTitle>
+      <TileDescription>BTC</TileDescription>
+    </TileContent>
+  </TileLeading>
 </Tile>;
 ```
 
@@ -243,22 +228,20 @@ import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 ```tsx
 import { ScrollView } from 'react-native';
-import { Tile, TileHeader, TileLeading, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/lumen-ui-rnative';
+import { Tile, TileLeading, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/lumen-ui-rnative';
 
 <ScrollView horizontal>
   {items.map((item) => {
     const Icon = item.icon;
     return (
       <Tile key={item.id} lx={{ width: 's128', flexShrink: 0 }}>
-        <TileHeader>
-          <TileLeading>
-            <Spot appearance='icon' icon={Icon} />
-            <TileContent>
-              <TileTitle>{item.title}</TileTitle>
-              <TileDescription>{item.description}</TileDescription>
-            </TileContent>
-          </TileLeading>
-        </TileHeader>
+        <TileLeading>
+          <Spot appearance='icon' icon={Icon} />
+          <TileContent>
+            <TileTitle>{item.title}</TileTitle>
+            <TileDescription>{item.description}</TileDescription>
+          </TileContent>
+        </TileLeading>
       </Tile>
     );
   })}
@@ -272,15 +255,13 @@ import { Tile, TileHeader, TileLeading, TileContent, TileTitle, TileDescription,
   onPress={() => console.log('Primary action')}
   onLongPress={() => console.log('Secondary action - show menu')}
 >
-  <TileHeader>
-    <TileLeading>
-      <Spot appearance='icon' icon={Settings} />
-      <TileContent>
-        <TileTitle>Settings</TileTitle>
-        <TileDescription>Long press for options</TileDescription>
-      </TileContent>
-    </TileLeading>
-  </TileHeader>
+  <TileLeading>
+    <Spot appearance='icon' icon={Settings} />
+    <TileContent>
+      <TileTitle>Settings</TileTitle>
+      <TileDescription>Long press for options</TileDescription>
+    </TileContent>
+  </TileLeading>
 </Tile>
 ```
 
@@ -299,16 +280,14 @@ import { Tile, TileHeader, TileLeading, TileContent, TileTitle, TileDescription,
 ```tsx
 {/* prettier-ignore */}
 <Tile>
-  <TileHeader>
-    <TileLeading>
-      <Spot appearance="icon" icon={Settings} />
-      <TileContent>
-        <TileTitle>Title</TileTitle>
-        <TileDescription>Description</TileDescription>
-      </TileContent>
-      <Tag label="Active" />
-    </TileLeading>
-  </TileHeader>
+  <TileLeading>
+    <Spot appearance="icon" icon={Settings} />
+    <TileContent>
+      <TileTitle>Title</TileTitle>
+      <TileDescription>Description</TileDescription>
+    </TileContent>
+    <Tag label="Active" />
+  </TileLeading>
 </Tile>
 ```
 
@@ -321,16 +300,14 @@ import { Tile, TileHeader, TileLeading, TileContent, TileTitle, TileDescription,
 ```tsx
 {/* prettier-ignore */}
 <Tile>
-  <TileHeader>
-    <TileLeading>
-      <Spot appearance="icon" icon={Settings} />
-      <TileContent>
-        <TileTitle>Title</TileTitle>
-        <TileDescription>Description</TileDescription>
-        <Tag label="Active" />
-      </TileContent>
-    </TileLeading>
-  </TileHeader>
+  <TileLeading>
+    <Spot appearance="icon" icon={Settings} />
+    <TileContent>
+      <TileTitle>Title</TileTitle>
+      <TileDescription>Description</TileDescription>
+      <Tag label="Active" />
+    </TileContent>
+  </TileLeading>
 </Tile>
 ```
 

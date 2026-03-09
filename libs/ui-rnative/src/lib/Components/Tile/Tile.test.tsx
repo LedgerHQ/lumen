@@ -8,7 +8,6 @@ import { Tag } from '../Tag';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
   Tile,
-  TileHeader,
   TileLeading,
   TileContent,
   TileTitle,
@@ -28,14 +27,12 @@ describe('Tile Component', () => {
       const { getByText, getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -49,17 +46,15 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-              <TileTrailing>
-                <Tag label={tagText} />
-              </TileTrailing>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
+            <TileTrailing>
+              <Tag label={tagText} />
+            </TileTrailing>
           </Tile>
         </TestWrapper>,
       );
@@ -75,14 +70,12 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onPress={handlePress} testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -97,14 +90,12 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onLongPress={handleLongPress} testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -124,14 +115,12 @@ describe('Tile Component', () => {
             onLongPress={handleLongPress}
             testID='tile'
           >
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -151,14 +140,12 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -171,15 +158,13 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                  <TileDescription>Test Description</TileDescription>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+                <TileDescription>Test Description</TileDescription>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -195,14 +180,12 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile' accessibilityLabel={customLabel}>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -215,14 +198,12 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                </TileContent>
-              </TileLeading>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+              </TileContent>
+            </TileLeading>
           </Tile>
         </TestWrapper>,
       );
@@ -245,18 +226,16 @@ describe('Tile Component', () => {
             onLongPress={jest.fn()}
             testID='tile'
           >
-            <TileHeader>
-              <TileLeading>
-                <Settings size={24} />
-                <TileContent>
-                  <TileTitle>Test Title</TileTitle>
-                  <TileDescription>{description}</TileDescription>
-                </TileContent>
-              </TileLeading>
-              <TileTrailing>
-                <Tag label={tagText} />
-              </TileTrailing>
-            </TileHeader>
+            <TileLeading>
+              <Settings size={24} />
+              <TileContent>
+                <TileTitle>Test Title</TileTitle>
+                <TileDescription>{description}</TileDescription>
+              </TileContent>
+            </TileLeading>
+            <TileTrailing>
+              <Tag label={tagText} />
+            </TileTrailing>
           </Tile>
         </TestWrapper>,
       );

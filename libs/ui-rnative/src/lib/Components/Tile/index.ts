@@ -1,6 +1,5 @@
 export {
   Tile,
-  TileHeader,
   TileLeading,
   TileContent,
   TileTitle,
