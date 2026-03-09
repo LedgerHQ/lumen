@@ -11,26 +11,26 @@
   ],
   "sideEffects": false,
   "type": "module",
-  "source": "./src/index.ts",
+  "react-native": "./src/index.ts",
   "main": "./dist/module/index.js",
   "module": "./dist/module/index.js",
   "types": "./dist/typescript/src/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "source": "./src/index.ts",
+      "react-native": "./src/index.ts",
       "types": "./dist/typescript/src/index.d.ts",
       "import": "./dist/module/index.js",
       "default": "./dist/module/index.js"
     },
     "./symbols": {
-      "source": "./src/lib/Symbols/index.ts",
+      "react-native": "./src/lib/Symbols/index.ts",
       "types": "./dist/typescript/src/lib/Symbols/index.d.ts",
       "import": "./dist/module/lib/Symbols/index.js",
       "default": "./dist/module/lib/Symbols/index.js"
     },
     "./styles": {
-      "source": "./src/styles/index.ts",
+      "react-native": "./src/styles/index.ts",
       "types": "./dist/typescript/src/styles/index.d.ts",
       "import": "./dist/module/styles/index.js",
       "default": "./dist/module/styles/index.js"
