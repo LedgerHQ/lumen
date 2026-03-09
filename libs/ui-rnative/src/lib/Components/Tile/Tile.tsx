@@ -53,7 +53,7 @@ const useRootStyles = ({
             width: '100%',
             flex: 1,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: centered ? 'center' : 'flex-start',
             gap: t.spacings.s12,
             paddingHorizontal: t.spacings.s8,
             paddingVertical: t.spacings.s12,
@@ -65,9 +65,6 @@ const useRootStyles = ({
             !disabled && {
               backgroundColor: pressedBgColors[appearance],
             },
-          centered && {
-            justifyContent: 'center',
-          },
         ]),
       };
     },
@@ -215,7 +212,6 @@ const useLeadingStyles = () => {
         flexDirection: 'column',
         alignItems: 'center',
         alignSelf: 'stretch',
-        flex: 1,
         minWidth: 0,
         gap: t.spacings.s8,
       },
