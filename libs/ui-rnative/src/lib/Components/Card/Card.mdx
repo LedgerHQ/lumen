@@ -1,0 +1,438 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Box } from '../Utility';
+import * as CardStories from './Card.stories';
+import {
+  Card,
+  CardHeader,
+  CardLeading,
+  CardContent,
+  CardContentRow,
+  CardContentTitle,
+  CardContentDescription,
+  CardTrailing,
+  CardFooter,
+  CardFooterActions,
+} from './Card';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/Card' of={CardStories} />
+
+# Card
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Card is a flexible container component that uses a composite pattern for displaying structured content. The `type` prop controls the interaction mode: `"interactive"` (default), `"expandable"`, or `"info"`.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=14067-7418).
+
+## Anatomy
+
+<Canvas of={CardStories.Base} />
+
+- **Card**: Root interactive container. Uses `Pressable` when `type="interactive"`, otherwise a non-interactive `View`.
+- **CardHeader**: Horizontal layout for the header row. Becomes the press target when `type="expandable"`.
+- **CardLeading**: Left section containing visual element and content. Reusable in both header and footer.
+- **CardContent**: Column wrapper for title + description. Supports right alignment when inside `CardTrailing`.
+- **CardContentRow**: Horizontal row for placing title/description alongside additional inline content (e.g. Tag).
+- **CardContentTitle**: Primary text label with single-line truncation.
+- **CardContentDescription**: Secondary muted text with single-line truncation.
+- **CardTrailing**: Right section for trailing content (Button, Tag, right-aligned values, etc.).
+- **CardFooter**: Footer container with muted background. Collapses with a 300ms animation when `expanded === false`.
+- **CardFooterActions**: Horizontal row for action buttons.
+
+## Properties
+
+### Overview
+
+<Canvas of={CardStories.Base} />
+<Controls of={CardStories.Base} />
+
+## States
+
+The `type` prop defines the card's interaction behavior:
+
+- **`"interactive"`** (default): whole card is pressable with pressed states. Pass `onPress` on Card.
+- **`"expandable"`**: only `CardHeader` is pressable. Pass `onPress` on Card — it is routed to the header internally.
+- **`"info"`**: data-display only, no press handling. Use for cards with their own action elements (e.g. buttons).
+
+Use `outlined` for selection state.
+The `disabled` prop cascades disabled styling to all sub-components via context.
+
+<Canvas of={CardStories.StatesShowcase} />
+
+## Expandable
+
+Set `type="expandable"` with the `expanded` and `onPress` props. Only the header shows pressed states and handles the press. Footer actions (buttons) work independently.
+
+<Canvas of={CardStories.ExpandableShowcase} />
+
+## Layout
+
+Cards default to full width. Use `lx` prop to control sizing: `maxWidth: 's320'` for a fixed width, or let it fill its parent.
+
+<Canvas of={CardStories.LayoutShowcase} />
+
+## Compositions
+
+Cards support various compositions by combining sub-components differently.
+
+<Canvas of={CardStories.CompositionsShowcase} />
+
+## Accessibility
+
+React Native Card includes:
+
+- Native touch feedback with `Pressable`
+- Proper text truncation with `numberOfLines` and `ellipsizeMode`
+- Disabled state handling with automatic context propagation
+- Screen reader support through React Native's accessibility features (`accessibilityRole`, `accessibilityState`)
+- Expandable header reports `accessibilityState={{ expanded }}` for screen readers
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+The Card uses a composite component pattern for maximum flexibility:
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardLeading,
+  CardContent,
+  CardContentTitle,
+  CardContentDescription,
+  CardTrailing,
+  CardFooter,
+} from '@ledgerhq/lumen-ui-rnative';
+```
+
+## Example: Interactive Card
+
+```tsx
+<Card onPress={() => console.log('Pressed!')}>
+  <CardHeader>
+    <CardLeading>
+      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="48px" />
+      <CardContent>
+        <CardContentTitle>Bitcoin</CardContentTitle>
+        <CardContentDescription>BTC</CardContentDescription>
+      </CardContent>
+    </CardLeading>
+    <CardTrailing>
+      <CardContent>
+        <CardContentTitle>$43,210.00</CardContentTitle>
+        <CardContentDescription>0.5 BTC</CardContentDescription>
+      </CardContent>
+    </CardTrailing>
+  </CardHeader>
+  <CardFooter>
+    <CardContentDescription>1 asset on 1 network</CardContentDescription>
+  </CardFooter>
+</Card>
+```
+
+## Example: Expandable Card
+
+```tsx
+import { useState } from 'react';
+import {
+  Card,
+  CardHeader,
+  CardLeading,
+  CardContent,
+  CardContentTitle,
+  CardContentDescription,
+  CardTrailing,
+  CardFooter,
+  CardFooterActions,
+  Button,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function ExpandableCard() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <Card
+      type="expandable"
+      expanded={expanded}
+      onPress={() => setExpanded(!expanded)}
+    >
+      <CardHeader>
+        <CardLeading>
+          <CardContent>
+            <CardContentTitle>Transaction Details</CardContentTitle>
+            <CardContentDescription>Press to expand</CardContentDescription>
+          </CardContent>
+        </CardLeading>
+      </CardHeader>
+      <CardFooter>
+        <CardContentDescription>Fee: 0.001 ETH</CardContentDescription>
+        <CardFooterActions>
+          <Button isFull appearance="transparent" size="sm">
+            Cancel
+          </Button>
+          <Button isFull appearance="base" size="sm">
+            Confirm
+          </Button>
+        </CardFooterActions>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+## Example: Info Card with Footer Actions
+
+```tsx
+<Card type="info">
+  <CardHeader>
+    <CardLeading>
+      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="48px" />
+      <CardContent>
+        <CardContentTitle>Staking</CardContentTitle>
+        <CardContentDescription>Earn rewards</CardContentDescription>
+      </CardContent>
+    </CardLeading>
+    <CardTrailing>
+      <CardContent>
+        <CardContentTitle>5.2%</CardContentTitle>
+        <CardContentDescription>APY</CardContentDescription>
+      </CardContent>
+    </CardTrailing>
+  </CardHeader>
+  <CardFooter>
+    <CardFooterActions>
+      <Button appearance="base" isFull size="sm">Stake Now</Button>
+    </CardFooterActions>
+  </CardFooter>
+</Card>
+```
+
+## Example: With Tags in CardContentRow
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardLeading,
+  CardContent,
+  CardContentRow,
+  CardContentTitle,
+  CardContentDescription,
+  CardTrailing,
+  Tag,
+} from '@ledgerhq/lumen-ui-rnative';
+
+<Card onPress={() => console.log('Pressed!')}>
+  <CardHeader>
+    <CardLeading>
+      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="48px" />
+      <CardContent>
+        <CardContentRow>
+          <CardContentTitle>Bitcoin</CardContentTitle>
+          <Tag size="sm" label="Staking" appearance="base" />
+        </CardContentRow>
+        <CardContentRow>
+          <CardContentDescription>BTC</CardContentDescription>
+          <Tag size="sm" label="5.2% APY" appearance="warning" />
+        </CardContentRow>
+      </CardContent>
+    </CardLeading>
+  </CardHeader>
+</Card>
+```
+
+## Custom Styling
+
+Use `lx` prop for layout purposes only, such as maximum width:
+
+```tsx
+<Card lx={{ maxWidth: 's320' }} onPress={handlePress}>
+  <CardHeader>
+    <CardLeading>
+      <CardContent>
+        <CardContentTitle>Constrained Width</CardContentTitle>
+        <CardContentDescription>
+          This card has a maximum width applied
+        </CardContentDescription>
+      </CardContent>
+    </CardLeading>
+  </CardHeader>
+</Card>
+```
+
+## Do's and Don'ts
+
+The following guidelines ensure consistent usage of the Card component and maintain design system principles.
+
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use the composite pattern correctly'
+      description='CardContent should be nested inside CardLeading or CardTrailing to group visual and text content together'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Card onPress={handlePress}>
+  <CardHeader>
+    <CardLeading>
+      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="48px" />
+      <CardContent>
+        <CardContentTitle>Bitcoin</CardContentTitle>
+        <CardContentDescription>BTC</CardContentDescription>
+      </CardContent>
+    </CardLeading>
+  </CardHeader>
+</Card>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't place CardContent outside CardLeading"
+      description='CardContent must be inside CardLeading or CardTrailing for proper layout'
+    >
+
+{/* prettier-ignore */}
+```tsx
+// DON'T - CardContent outside CardLeading
+<Card onPress={handlePress}>
+  <CardHeader>
+    <CardLeading>
+      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="48px" />
+    </CardLeading>
+    <CardContent>
+      <CardContentTitle>Bitcoin</CardContentTitle>
+    </CardContent>
+  </CardHeader>
+</Card>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use type="info" for cards with action buttons'
+      description='Info cards have no press handling on the card itself, allowing buttons to work independently'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Card type="info">
+  <CardHeader>
+    <CardLeading>
+      <CardContent>
+        <CardContentTitle>Staking</CardContentTitle>
+      </CardContent>
+    </CardLeading>
+    <CardTrailing>
+      <Button appearance="base" size="sm">Stake</Button>
+    </CardTrailing>
+  </CardHeader>
+</Card>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't put interactive elements in interactive cards"
+      description='Buttons inside an interactive card create nested press targets'
+    >
+
+{/* prettier-ignore */}
+```tsx
+// DON'T - Nested pressables
+<Card onPress={handlePress}>
+  <CardHeader>
+    <CardLeading>
+      <CardContent>
+        <CardContentTitle>Staking</CardContentTitle>
+      </CardContent>
+    </CardLeading>
+    <CardTrailing>
+      <Button appearance="base" size="sm">Stake</Button>
+    </CardTrailing>
+  </CardHeader>
+</Card>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use lx for layout adjustments only'
+      description='The lx prop should be used for layout-level adjustments like max-width or margins'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Card
+  lx={{ maxWidth: 's320' }}
+  onPress={handlePress}
+>
+  <CardHeader>
+    <CardLeading>
+      <CardContent>
+        <CardContentTitle>Settings</CardContentTitle>
+      </CardContent>
+    </CardLeading>
+  </CardHeader>
+</Card>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't override card appearance with lx"
+      description='Do not use lx to change the card background, padding, or border radius'
+    >
+
+{/* prettier-ignore */}
+```tsx
+// DON'T - Overriding appearance via lx
+<Card
+  lx={{
+    maxWidth: 's320',
+    backgroundColor: 'accent',
+    padding: 's24',
+    borderRadius: 'xl',
+  }}
+  onPress={handlePress}
+>
+  <CardHeader>
+    <CardLeading>
+      <CardContent>
+        <CardContentTitle>Settings</CardContentTitle>
+      </CardContent>
+    </CardLeading>
+  </CardHeader>
+</Card>
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</Box>
+
+</Tab>
+</CustomTabs>
