@@ -100,9 +100,15 @@ When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margi
 
 - Use negative margin for `ListItem` to align with dialog horizontal padding
 - Use combination of negative margin and positive padding for horizontal scrollable `Tile` lists to allow edge-to-edge scrolling while maintaining content padding
-- Use `DialogBodyStickyContent` for search or filter controls that must stay visible while the list scrolls
 
 <Canvas of={DialogStories.WithListsContent} />
+
+
+### With Sticky Body Content
+
+Use `DialogBodyStickyContent` inside `DialogBody` when controls such as a search input should remain pinned to the top of the scroll area:
+
+<Canvas of={DialogStories.WithStickyBodyContent} />
 
 ## Examples
 
