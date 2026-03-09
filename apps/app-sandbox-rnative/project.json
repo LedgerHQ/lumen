@@ -1,0 +1,41 @@
+{
+  "name": "app-sandbox-rnative",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/app-sandbox-rnative/src",
+  "targets": {
+    "run-ios": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "lumen-ui-rnative-build"],
+      "options": {
+        "command": "npx react-native run-ios",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    },
+    "run-android": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "lumen-ui-rnative-build"],
+      "options": {
+        "command": "npx react-native run-android",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "lumen-ui-rnative-build"],
+      "options": {
+        "command": "npx react-native start --reset-cache",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    },
+    "lumen-ui-rnative-build": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run @ledgerhq/lumen-ui-rnative:build"
+      }
+    }
+  },
+  "tags": ["scope:react-native"]
+}
+
