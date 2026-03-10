@@ -5,8 +5,7 @@
     "emitDeclarationOnly": true,
     "types": ["node"],
     "jsx": "react-jsx",
-    "tsBuildInfoFile": "dist/typescript/tsconfig.lib.tsbuildinfo",
-    "baseUrl": "."
+    "tsBuildInfoFile": "dist/typescript/tsconfig.lib.tsbuildinfo"
   },
   "exclude": [
     "out-tsc",
