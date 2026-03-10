@@ -3,8 +3,8 @@ import {
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
 import { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { useStyleSheet } from '../../../styles';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { useResolveViewStyle, useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
 import {
   TileContentProps,
@@ -117,6 +117,8 @@ export const Tile = ({
   ref,
   ...props
 }: TileProps) => {
+  const resolvedLxStyle = useResolveViewStyle(lx);
+
   return (
     <TileProvider value={{ disabled }}>
       <Pressable
@@ -138,6 +140,7 @@ export const Tile = ({
             disabled={disabled}
             pressed={pressed}
             centered={centered}
+            contentLxStyle={resolvedLxStyle}
           >
             {children}
           </TilePressableContent>
@@ -154,16 +157,22 @@ const TilePressableContent = ({
   disabled,
   pressed,
   centered,
+  contentLxStyle,
   children,
 }: {
   appearance: Appearance;
   disabled: boolean;
   pressed: boolean;
   centered: boolean;
+  contentLxStyle: ViewStyle;
   children: ReactNode;
 }) => {
   const styles = useRootStyles({ appearance, disabled, pressed, centered });
-  return <View style={styles.container}>{children}</View>;
+  return (
+    <View style={StyleSheet.flatten([styles.container, contentLxStyle])}>
+      {children}
+    </View>
+  );
 };
 
 const useContentStyles = () => {
