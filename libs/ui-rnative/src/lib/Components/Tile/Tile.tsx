@@ -74,8 +74,7 @@ const useRootStyles = ({
 
 /**
  * A flexible tile component that uses a composite pattern for maximum customization.
- * Displays content in a vertical layout. Place Spot, TileContent (TileTitle, TileDescription, TileTrailingContent),
- * or other content as direct children.
+ * Displays content in a vertical layout with support for spots, text, and custom content.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-tile--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-tile--docs#dos-and-donts Guidelines}
@@ -279,8 +278,7 @@ const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
       text: StyleSheet.flatten([
         t.typographies.body3,
         {
-          width: '100%',
-          minWidth: 0,
+          width: t.sizes.full,
           alignItems: 'center',
           textAlign: 'center',
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
@@ -320,7 +318,6 @@ export const TileDescription = ({
       <Text
         lx={lx}
         numberOfLines={1}
-        ellipsizeMode='tail'
         style={StyleSheet.flatten([styles.text, style])}
         testID='tile-description'
       >
