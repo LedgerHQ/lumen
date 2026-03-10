@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { PressableProps } from 'react-native';
 import {
   StyledViewProps,
@@ -47,6 +47,19 @@ export type SelectProps = {
   onValueChange?: (value: string) => void;
 };
 
+export type SelectTriggerRenderProps = {
+  /**
+   * The currently selected value, or `undefined` if nothing is selected.
+   */
+  selectedValue: string | undefined;
+  /**
+   * The plain text extracted from `SelectItemText` for the selected item,
+   * or `null` when nothing is selected or the value cannot be resolved.
+   * This is text-only — it does not include icons or other rich content.
+   */
+  selectedContent: string | null;
+};
+
 export type SelectTriggerProps = {
   /**
    * The children to render inside the trigger
@@ -57,6 +70,14 @@ export type SelectTriggerProps = {
    * @example label='Select an option'
    */
   label?: string;
+  /**
+   * Render function that replaces the default input-style trigger.
+   * The returned element receives `onPress` and `disabled` automatically.
+   *
+   * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
+   * @example render={({ selectedValue, selectedContent }) => <MyCustomTrigger />}
+   */
+  render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
    * Change the default rendered element for the one passed as a child,
    * merging their props and behavior.

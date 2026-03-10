@@ -119,6 +119,7 @@ export const SelectTrigger = ({
   lx,
   style,
   label,
+  render,
   asChild = false,
   disabled: triggerDisabled,
   ...props
@@ -169,6 +170,25 @@ export const SelectTrigger = ({
     hasValue,
     hasLabel: !!finalLabel,
   });
+
+  if (render) {
+    const selectedItem = items.find(
+      (item) => item.type === 'item' && item.value === value,
+    );
+    const selectedContent =
+      selectedItem?.type === 'item' ? selectedItem.label : null;
+
+    return (
+      <SlotPressable
+        style={style}
+        disabled={disabled}
+        onPress={handlePress}
+        {...props}
+      >
+        {render({ selectedValue: value, selectedContent })}
+      </SlotPressable>
+    );
+  }
 
   const Comp = asChild ? SlotPressable : Pressable;
 
