@@ -3,8 +3,8 @@ import {
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
 import { ReactNode } from 'react';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
-import { useResolveViewStyle, useStyleSheet } from '../../../styles';
+import { StyleSheet, View } from 'react-native';
+import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
 import {
   TileContentProps,
@@ -12,6 +12,7 @@ import {
   TileDescriptionProps,
   TileProps,
   TileTitleProps,
+  TileTrailingContentProps,
 } from './types';
 
 const [TileProvider, useTileContext] =
@@ -72,8 +73,8 @@ const useRootStyles = ({
 
 /**
  * A flexible tile component that uses a composite pattern for maximum customization.
- * Displays content in a vertical layout. Place Spot, TileContent (TileTitle, TileDescription),
- * Tags, or other content as direct children.
+ * Displays content in a vertical layout. Place Spot, TileContent (TileTitle, TileDescription, TileTrailingContent),
+ * or other content as direct children.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-tile--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-tile--docs#dos-and-donts Guidelines}
@@ -96,14 +97,18 @@ const useRootStyles = ({
  * </Tile>
  *
  * @example
- * // With custom content and long press
- * import { Tile, TileContent, TileTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
+ * // With trailing content (Tags)
+ * import { Tile, TileContent, TileTitle, TileTrailingContent, Tag } from '@ledgerhq/lumen-ui-rnative';
  * import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onLongPress={() => console.log('Long pressed')}>
  *   <Spot appearance="icon" icon={Bitcoin} />
  *   <TileContent>
  *     <TileTitle>Bitcoin</TileTitle>
+ *     <TileTrailingContent>
+ *       <Tag label="First" />
+ *       <Tag label="Second" />
+ *     </TileTrailingContent>
  *   </TileContent>
  * </Tile>
  */
@@ -117,8 +122,6 @@ export const Tile = ({
   ref,
   ...props
 }: TileProps) => {
-  const resolvedLxStyle = useResolveViewStyle(lx);
-
   return (
     <TileProvider value={{ disabled }}>
       <Pressable
@@ -140,7 +143,6 @@ export const Tile = ({
             disabled={disabled}
             pressed={pressed}
             centered={centered}
-            contentLxStyle={resolvedLxStyle}
           >
             {children}
           </TilePressableContent>
@@ -157,22 +159,16 @@ const TilePressableContent = ({
   disabled,
   pressed,
   centered,
-  contentLxStyle,
   children,
 }: {
   appearance: Appearance;
   disabled: boolean;
   pressed: boolean;
   centered: boolean;
-  contentLxStyle: ViewStyle;
   children: ReactNode;
 }) => {
   const styles = useRootStyles({ appearance, disabled, pressed, centered });
-  return (
-    <View style={StyleSheet.flatten([styles.container, contentLxStyle])}>
-      {children}
-    </View>
-  );
+  return <View style={styles.container}>{children}</View>;
 };
 
 const useContentStyles = () => {
@@ -190,14 +186,18 @@ const useContentStyles = () => {
   );
 };
 /**
- * A container for grouping TileTitle and TileDescription with consistent spacing.
+ * A container for grouping TileTitle, TileDescription and TileTrailingContent with consistent spacing.
  * Use this to wrap text content within a Tile.
  *
  * @example
  * <Tile>
  *   <TileContent>
  *     <TileTitle>My Title</TileTitle>
- *     <TileDescription>My Description</TileDescription>
+ *     <TileDescription>Description</TileDescription>
+ *     <TileTrailingContent>
+ *       <Tag label="First" />
+ *       <Tag label="Second" />
+ *     </TileTrailingContent>
  *   </TileContent>
  * </Tile>
  */
@@ -275,6 +275,56 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
   );
 };
 TileTitle.displayName = 'TileTitle';
+
+const useTrailingContentStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      container: {
+        marginTop: t.spacings.s16,
+        width: t.sizes.full,
+        minWidth: 0,
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: t.spacings.s8,
+      },
+    }),
+    [],
+  );
+};
+
+/**
+ * A container for trailing content inside TileContent.
+ * Use this to wrap Tags, labels, or other supplementary information after title and description.
+ *
+ * @example
+ * <Tile>
+ *   <Spot appearance="icon" icon={Settings} />
+ *   <TileContent>
+ *     <TileTitle>My Title</TileTitle>
+ *     <TileTrailingContent>
+ *       <Tag label="First" />
+ *       <Tag label="Second" />
+ *     </TileTrailingContent>
+ *   </TileContent>
+ * </Tile>
+ */
+export const TileTrailingContent = ({
+  children,
+  lx,
+  style,
+}: TileTrailingContentProps) => {
+  const styles = useTrailingContentStyles();
+  return (
+    <Box
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
+      testID='tile-trailing-content'
+    >
+      {children}
+    </Box>
+  );
+};
+TileTrailingContent.displayName = 'TileTrailingContent';
 
 const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(

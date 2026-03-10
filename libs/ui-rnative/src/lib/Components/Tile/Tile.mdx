@@ -20,17 +20,18 @@ import { Box } from '../Utility';
 
 ## Introduction
 
-Tile components are compact, card-like interactive elements designed for horizontal lists, carousels, or grids. They use a flexible composite pattern (same as Card) that allows you to compose tiles with Spot, TileContent (TileTitle, TileDescription), Tags, or other content as direct children in a vertical layout.
+Tile components are compact, card-like interactive elements designed for horizontal lists, carousels, or grids. They use a flexible composite pattern (same as Card) that allows you to compose tiles with Spot and TileContent (TileTitle, TileDescription, TileTrailingContent) as direct children in a vertical layout.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=5783-1328).
 
 ## Anatomy
 
-- **Tile**: Root container; direct children are laid out vertically (e.g. Spot, TileContent, Tag)
-- **TileContent**: Container for title and description
+- **Tile**: Root container; direct children are laid out vertically (e.g. Spot, TileContent)
+- **TileContent**: Container for title, description and trailing content
   - **TileTitle**: The main label of the item (required)
   - **TileDescription (optional)**: Provides additional context
-- Additional content (e.g. Spot, Tag, custom elements) can be placed as direct children of Tile
+  - **TileTrailingContent (optional)**: Container for Tags, labels, or other supplementary content
+- Spot and other custom elements can be placed as direct children of Tile
 
 ## Properties
 
@@ -122,7 +123,7 @@ function MyComponent() {
 
 ### With Trailing Content (Tags, etc.)
 
-Place Tags or other content after TileContent as direct children of Tile.
+Use TileTrailingContent inside TileContent to wrap Tags or other supplementary content.
 
 ```tsx
 import {
@@ -130,6 +131,7 @@ import {
   TileContent,
   TileTitle,
   TileDescription,
+  TileTrailingContent,
   Tag,
   Spot,
 } from '@ledgerhq/lumen-ui-rnative';
@@ -140,8 +142,11 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
+    <TileTrailingContent>
+      <Tag label='First' />
+      <Tag label='Second' />
+    </TileTrailingContent>
   </TileContent>
-  <Tag label='Active' appearance='success' />
 </Tile>;
 ```
 
@@ -163,7 +168,7 @@ Use the `centered` prop to vertically center the tile content. This is useful wh
 
 ```tsx
 import { ChevronRight, CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { Spot } from '@ledgerhq/lumen-ui-rnative';
+import { Spot, Tile, TileContent, TileTitle, TileDescription, TileTrailingContent, Tag } from '@ledgerhq/lumen-ui-rnative';
 import { View } from 'react-native';
 
 // In a grid where other tiles have more content
@@ -173,8 +178,10 @@ import { View } from 'react-native';
     <TileContent>
       <TileTitle>Title</TileTitle>
       <TileDescription>Description</TileDescription>
+      <TileTrailingContent>
+        <Tag label='Label' />
+      </TileTrailingContent>
     </TileContent>
-    <Tag label='Label' />
   </Tile>
 
   {/* Show more tile with centered content */}
@@ -249,12 +256,12 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
 
 <Box lx={{ flexDirection: 'column', gap: 's24' }}>
 
-### Additional content in Tile
+### Trailing content (Tags, etc.)
 
 <DoVsDontRow>
   <DoBlockItem
-    title='Place Tags or extra content after TileContent inside Tile'
-    description='Put supplementary content (Tags, labels) as siblings of TileContent within Tile so they appear below the title and description.'
+    title='Use TileTrailingContent for Tags and supplementary content'
+    description='Wrap Tags, labels, or other trailing content inside TileTrailingContent within TileContent for proper spacing.'
   >
 
 ```tsx
@@ -264,15 +271,18 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
   <TileContent>
     <TileTitle>Title</TileTitle>
     <TileDescription>Description</TileDescription>
+    <TileTrailingContent>
+      <Tag label="First" />
+      <Tag label="Second" />
+    </TileTrailingContent>
   </TileContent>
-  <Tag label="Active" />
 </Tile>
 ```
 
   </DoBlockItem>
   <DontBlockItem
-    title="Don't put non-title/description content inside TileContent"
-    description='TileContent is for TileTitle and TileDescription only. Put Tags and other elements as siblings after TileContent.'
+    title="Don't place trailing content directly in TileContent"
+    description='Place Tags and other supplementary content inside TileTrailingContent, not as direct children of TileContent.'
   >
 
 ```tsx

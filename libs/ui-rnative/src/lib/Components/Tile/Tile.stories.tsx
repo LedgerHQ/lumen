@@ -4,7 +4,13 @@ import { Settings, Plus, User, Apps, ChevronRight } from '../../Symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
 import { Box, Text } from '../Utility';
-import { Tile, TileContent, TileTitle, TileDescription } from './Tile';
+import {
+  Tile,
+  TileContent,
+  TileTitle,
+  TileDescription,
+  TileTrailingContent,
+} from './Tile';
 
 const meta: Meta<typeof Tile> = {
   component: Tile,
@@ -12,6 +18,7 @@ const meta: Meta<typeof Tile> = {
     TileContent,
     TileTitle,
     TileDescription,
+    TileTrailingContent,
   },
   title: 'Containment/Tile',
   parameters: {
@@ -99,18 +106,22 @@ export const VariantsShowcase: Story = {
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Custom' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Custom' appearance='base' />
       </Tile>
       <Tile lx={{ maxWidth: 's176', gap: 's4' }}>
         <Spot appearance='icon' icon={Settings} />
         <TileContent lx={{ marginTop: 's8' }}>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
+          <TileTrailingContent>
+            <Text typography='body2SemiBold' lx={{ color: 'success' }}>
+              +7.87%
+            </Text>
+          </TileTrailingContent>
         </TileContent>
-        <Text typography='body2SemiBold' lx={{ color: 'success' }}>
-          +7.87%
-        </Text>
       </Tile>
     </Box>
   ),
@@ -280,24 +291,30 @@ export const CenteredShowcase: Story = {
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' lx={{ width: 's128' }}>
         <Spot appearance='icon' icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' lx={{ width: 's128' }}>
         <Spot appearance='icon' icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
+          <TileTrailingContent>
+            <Tag label='Label' appearance='base' />
+          </TileTrailingContent>
         </TileContent>
-        <Tag label='Label' appearance='base' />
       </Tile>
       <Tile appearance='card' centered lx={{ width: 's128' }}>
         <Spot appearance='icon' icon={ChevronRight} />

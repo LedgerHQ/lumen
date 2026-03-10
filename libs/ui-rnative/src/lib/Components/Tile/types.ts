@@ -59,6 +59,14 @@ export type TileTitleProps = {
   children: ReactNode;
 } & StyledTextProps;
 
+export type TileTrailingContentProps = {
+  /**
+   * The trailing content to display after title and description.
+   * Typically contains Tags, custom labels, or other supplementary information.
+   */
+  children: ReactNode;
+} & StyledViewProps;
+
 export type TileDescriptionProps = {
   /**
    * The description text to display.

@@ -6,7 +6,13 @@ import React from 'react';
 import { Settings } from '../../Symbols';
 import { Tag } from '../Tag';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { Tile, TileContent, TileTitle, TileDescription } from './Tile';
+import {
+  Tile,
+  TileContent,
+  TileTitle,
+  TileDescription,
+  TileTrailingContent,
+} from './Tile';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -40,8 +46,10 @@ describe('Tile Component', () => {
             <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label={tagText} />
+              </TileTrailingContent>
             </TileContent>
-            <Tag label={tagText} />
           </Tile>
         </TestWrapper>,
       );
@@ -203,8 +211,10 @@ describe('Tile Component', () => {
             <TileContent>
               <TileTitle>Test Title</TileTitle>
               <TileDescription>{description}</TileDescription>
+              <TileTrailingContent>
+                <Tag label={tagText} />
+              </TileTrailingContent>
             </TileContent>
-            <Tag label={tagText} />
           </Tile>
         </TestWrapper>,
       );
