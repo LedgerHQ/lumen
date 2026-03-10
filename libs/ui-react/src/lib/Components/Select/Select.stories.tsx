@@ -338,9 +338,12 @@ export const TriggerShowcase: Story = {
     const [buttonValue, setButtonValue] = useState('');
     const [iconValue, setIconValue] = useState('');
     const [cryptoValue, setCryptoValue] = useState('');
-    const [customValue, setCustomValue] = useState('');
     const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
-    const appearances = ['gray', 'transparent', 'no-background'] as const;
+    const appearances = [
+      { value: 'gray', label: 'Gray' },
+      { value: 'transparent', label: 'Transparent' },
+      { value: 'no-background', label: 'No background' },
+    ] as const;
 
     return (
       <div
@@ -373,6 +376,7 @@ export const TriggerShowcase: Story = {
           </SelectContent>
         </Select>
 
+        <p className='body-2 text-muted'>Trigger with a flat icon</p>
         <Select value={iconValue} onValueChange={setIconValue}>
           <SelectTrigger
             render={(renderProps) => (
@@ -397,6 +401,7 @@ export const TriggerShowcase: Story = {
           </SelectContent>
         </Select>
 
+        <p className='body-2 text-muted'>Trigger with a crypto icon</p>
         <Select value={cryptoValue} onValueChange={setCryptoValue}>
           <SelectTrigger
             render={(renderProps) => (
@@ -435,54 +440,32 @@ export const TriggerShowcase: Story = {
           </SelectContent>
         </Select>
 
-        <div className='flex items-center gap-16'>
-          {appearances.map((appearance) => (
-            <Select key={appearance}>
-              <SelectTrigger
-                render={(renderProps) => (
-                  <SelectButtonTrigger
-                    {...renderProps}
-                    label={appearance}
-                    appearance={appearance}
-                  />
-                )}
-              />
-              <SelectContent className='w-208'>
-                <SelectItem value='option1'>
-                  <SelectItemText>Option 1</SelectItemText>
-                </SelectItem>
-                <SelectItem value='option2'>
-                  <SelectItemText>Option 2</SelectItemText>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          ))}
+        <div className='flex flex-col gap-16'>
+          <p className='body-2 text-muted'>Appearances:</p>
+          <div className='flex items-center gap-16'>
+            {appearances.map((appearance) => (
+              <Select key={appearance.value}>
+                <SelectTrigger
+                  render={(renderProps) => (
+                    <SelectButtonTrigger
+                      {...renderProps}
+                      label={appearance.label}
+                      appearance={appearance.value}
+                    />
+                  )}
+                />
+                <SelectContent className='w-208'>
+                  <SelectItem value='option1'>
+                    <SelectItemText>Option 1</SelectItemText>
+                  </SelectItem>
+                  <SelectItem value='option2'>
+                    <SelectItemText>Option 2</SelectItemText>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            ))}
+          </div>
         </div>
-
-        <Select value={customValue} onValueChange={setCustomValue}>
-          <SelectTrigger
-            render={({ selectedValue, selectedContent }) => (
-              <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'>
-                {selectedValue ? (
-                  selectedContent
-                ) : (
-                  <span className='text-muted'>Pick an option…</span>
-                )}
-              </button>
-            )}
-          />
-          <SelectContent>
-            <SelectItem value='alpha'>
-              <SelectItemText>Alpha</SelectItemText>
-            </SelectItem>
-            <SelectItem value='beta'>
-              <SelectItemText>Beta</SelectItemText>
-            </SelectItem>
-            <SelectItem value='gamma'>
-              <SelectItemText>Gamma</SelectItemText>
-            </SelectItem>
-          </SelectContent>
-        </Select>
       </div>
     );
   },

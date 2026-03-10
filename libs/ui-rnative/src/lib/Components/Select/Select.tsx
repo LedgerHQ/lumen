@@ -7,6 +7,7 @@ import {
   extractTextFromChildren,
   collectText,
 } from '../../utils';
+import { ButtonTrigger } from '../ButtonTrigger';
 import { SlotPressable } from '../Slot';
 import { Box, Pressable, Text } from '../Utility';
 import { useSelectActions } from './GlobalSelectContext';
@@ -14,6 +15,7 @@ import { SelectContextProvider, useSelectSafeContext } from './SelectContext';
 import type {
   SelectProps,
   SelectTriggerProps,
+  SelectButtonTriggerProps,
   SelectContentProps,
   SelectGroupProps,
   SelectLabelProps,
@@ -505,3 +507,15 @@ export const SelectSeparator = (_props: SelectSeparatorProps) => {
   return null;
 };
 SelectSeparator.displayName = 'SelectSeparator';
+
+export const SelectButtonTrigger = ({
+  selectedValue,
+  selectedContent,
+  label,
+  ...props
+}: SelectButtonTriggerProps) => (
+  <ButtonTrigger {...props}>
+    {selectedValue && selectedContent ? selectedContent : label}
+  </ButtonTrigger>
+);
+SelectButtonTrigger.displayName = 'SelectButtonTrigger';

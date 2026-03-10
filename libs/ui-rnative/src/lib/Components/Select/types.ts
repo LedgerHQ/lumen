@@ -5,6 +5,7 @@ import {
   StyledPressableProps,
   StyledTextProps,
 } from '../../../styles';
+import type { ButtonTriggerProps } from '../ButtonTrigger';
 import { BoxProps } from '../Utility';
 
 export type SelectProps = {
@@ -169,3 +170,12 @@ export type SelectData = {
   setOpen?: (open: boolean) => void;
   label?: string;
 };
+
+export type SelectButtonTriggerProps = SelectTriggerRenderProps &
+  Omit<ButtonTriggerProps, 'children'> & {
+    /**
+     * The label displayed when no value is selected.
+     * Once a value is selected, it is replaced by the selected item's content.
+     */
+    label: string;
+  };
