@@ -3,6 +3,7 @@ import * as DialogStories from './Dialog.stories';
 import {
   Dialog,
   DialogBody,
+  DialogBodyStickyContent,
   DialogClose,
   DialogContent,
   DialogFooter,
@@ -45,6 +46,7 @@ Dialogs are modal windows that interrupt the normal workflow to grab the user's 
 - **Close**: Use `DialogClose` to wrap any element that should dismiss the dialog when clicked (e.g., Cancel buttons). In uncontrolled dialogs this will close the dialog automatically; in controlled dialogs you must handle `onOpenChange` and update the `open` prop for the dialog to actually close
 - **Content**: The main container for dialog content
 - **Body**: Scrollable area that expands to fill remaining space (use with `DialogBody`)
+- **Body Sticky Content**: Sticky content region inside `DialogBody` for search, filters, or controls that should remain visible while the body scrolls
 - **Footer**: Fixed bottom area for actions like buttons (use with `DialogFooter`)
 
 > **Note**: The **width** of the dialog is `400px` by default, you can adjust the width of the dialog content by using the `className` prop on `DialogContent`.
@@ -100,6 +102,13 @@ When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margi
 - Use combination of negative margin and positive padding for horizontal scrollable `Tile` lists to allow edge-to-edge scrolling while maintaining content padding
 
 <Canvas of={DialogStories.WithListsContent} />
+
+
+### With Sticky Body Content
+
+Use `DialogBodyStickyContent` inside `DialogBody` when controls such as a search input should remain pinned to the top of the scroll area:
+
+<Canvas of={DialogStories.WithStickyBodyContent} />
 
 ## Examples
 
@@ -232,6 +241,38 @@ Use `DialogBody` and `DialogFooter` for scrollable content with fixed actions:
         </Button>
       </DialogClose>
     </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+### Sticky Content Inside The Body
+
+Use `DialogBodyStickyContent` inside `DialogBody` when controls such as a search input should remain pinned to the top of the scroll area:
+
+```tsx
+import {
+  Dialog,
+  DialogBody,
+  DialogBodyStickyContent,
+  DialogContent,
+  DialogHeader,
+  ListItem,
+  SearchInput,
+} from '@ledgerhq/lumen-ui-react';
+
+<Dialog height='fixed'>
+  <DialogContent>
+    <DialogHeader title='Browse Options' />
+    <DialogBody>
+      <div className='-mx-8 flex flex-col gap-4'>
+        <DialogBodyStickyContent className='bg-canvas'>
+          <SearchInput className='mx-8' placeholder='Search item...' />
+        </DialogBodyStickyContent>
+        {items.map((item) => (
+          <ListItem key={item.id}>{item.label}</ListItem>
+        ))}
+      </div>
+    </DialogBody>
   </DialogContent>
 </Dialog>
 ```

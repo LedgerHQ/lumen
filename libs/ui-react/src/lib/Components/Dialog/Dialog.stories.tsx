@@ -16,6 +16,7 @@ import { Tile, TileContent, TileSpot, TileTitle } from '../Tile';
 import {
   Dialog,
   DialogBody,
+  DialogBodyStickyContent,
   DialogClose,
   DialogContent,
   DialogFooter,
@@ -50,6 +51,7 @@ const meta: Meta<typeof Dialog> = {
     DialogContent,
     DialogHeader,
     DialogBody,
+    DialogBodyStickyContent,
     DialogFooter,
     DialogClose,
   },
@@ -577,9 +579,6 @@ export const WithListsContent: Story = {
               <h4 className='heading-5-semi-bold'>Settings</h4>
 
               <div className='-mx-8 flex flex-col gap-4'>
-                <div className='sticky top-0 bg-canvas py-8'>
-                  <SearchInput className='mx-8' placeholder='Search item...' />
-                </div>
                 {Array.from({ length: 12 }).map((_, i) => (
                   <ListItem>
                     <ListItemLeading>
@@ -598,6 +597,41 @@ export const WithListsContent: Story = {
       </Dialog>
     );
   },
+};
+
+export const WithStickyBodyContent: Story = {
+  render: () => (
+    <Dialog height='fixed'>
+      <DialogTrigger asChild>
+        <Button appearance='base'>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          appearance='extended'
+          title='Browse Options'
+          description='Search stays visible while the list scrolls'
+        />
+        <DialogBody>
+          <div className='-mx-8 flex flex-col gap-4'>
+            <DialogBodyStickyContent className='bg-canvas'>
+              <SearchInput className='mx-8' placeholder='Search item...' />
+            </DialogBodyStickyContent>
+            {Array.from({ length: 12 }).map((_, i) => (
+              <ListItem key={i}>
+                <ListItemLeading>
+                  <ListItemSpot appearance='icon' icon={Chart1} />
+                  <ListItemContent>
+                    <ListItemTitle>Content item</ListItemTitle>
+                    <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
+                  </ListItemContent>
+                </ListItemLeading>
+              </ListItem>
+            ))}
+          </div>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
 };
 
 export const WithScrollbar: Story = {

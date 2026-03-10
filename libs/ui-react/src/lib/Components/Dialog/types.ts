@@ -155,6 +155,17 @@ export type DialogBodyProps = {
   scrollbarWidth?: 'none' | 'auto';
 } & ComponentPropsWithRef<'div'>;
 
+export type DialogBodyStickyContentProps = {
+  /**
+   * The content to display in the sticky region inside the dialog body.
+   */
+  children?: ReactNode;
+  /**
+   * Additional custom CSS classes to apply.
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
 export type DialogFooterProps = {
   /**
    * The content to display inside the dialog footer.

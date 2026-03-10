@@ -62,6 +62,12 @@ Use `BottomSheetFlatList` for efficiently rendering large lists (100+ items) wit
 
 <Canvas of={BottomSheetStories.VirtualList} />
 
+#### Sticky Header Content
+
+You can set up a sticky header content in a `BottomSheetFlatList` or `BottomSheetScrollView` by using the `stickyHeaderIndices` prop.
+
+<Canvas of={BottomSheetStories.StickyHeaderContent} />
+
 #### VirtualizedList
 
 Use `BottomSheetVirtualizedList` when you need more control over item access patterns or work with complex data structures. Requires explicit `getItem` and `getItemCount` implementations. This is the lower-level API that `FlatList` is built upon—use it for custom optimizations or non-array data sources.
