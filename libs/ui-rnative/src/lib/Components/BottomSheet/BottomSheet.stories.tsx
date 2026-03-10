@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../Button';
 import { SearchInput } from '../SearchInput';
 import { Box, Text } from '../Utility';
@@ -445,12 +445,13 @@ export const VirtualList: Story = {
   },
 };
 
-export const FlatListStickyHeader: Story = {
+export const StickyHeaderContent: Story = {
   args: {
-    snapPoints: 'full',
+    snapPoints: 'fullWithOffset',
   },
   render: (args) => {
     const bottomSheetRef = useBottomSheetRef();
+    const bottomSheetRef2 = useBottomSheetRef();
     const [query, setQuery] = useState('');
 
     type ListItem = {
@@ -477,15 +478,19 @@ export const FlatListStickyHeader: Story = {
           alignItems: 'center',
           justifyContent: 'center',
           paddingTop: 's32',
+          gap: 's12',
         }}
       >
         <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
-          Toggle open
+          Toggle open virtual-list
+        </Button>
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+          Toggle open scrollview
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
           <BottomSheetHeader
             spacing
-            title='Sticky FlatList Header'
+            title='BottomSheetFlatList'
             appearance='compact'
             description='The search input is rendered as a sticky list header'
           />
@@ -531,6 +536,35 @@ export const FlatListStickyHeader: Story = {
               );
             }}
           />
+        </BottomSheet>
+
+        <BottomSheet {...args} ref={bottomSheetRef2}>
+          <BottomSheetScrollView stickyHeaderIndices={[0]}>
+            <BottomSheetHeader
+              spacing
+              title='BottomSheetScrollView'
+              appearance='compact'
+              description='The search input is rendered as a sticky list header'
+            />
+            {data.map((item) => (
+              <Box
+                lx={{
+                  flexDirection: 'column',
+                  gap: 's4',
+                  borderBottomWidth: 's1',
+                  borderColor: 'base',
+                  paddingVertical: 's12',
+                }}
+              >
+                <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+                  {item.title}
+                </Text>
+                <Text typography='body3' lx={{ color: 'muted' }}>
+                  {item.description}
+                </Text>
+              </Box>
+            ))}
+          </BottomSheetScrollView>
         </BottomSheet>
       </Box>
     );

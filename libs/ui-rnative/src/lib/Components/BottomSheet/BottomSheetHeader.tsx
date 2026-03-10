@@ -38,7 +38,7 @@ const useStyles = ({
       inner: StyleSheet.flatten([
         {
           flexDirection: 'row',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           gap: t.spacings.s16,
         },
