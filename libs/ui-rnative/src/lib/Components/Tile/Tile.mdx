@@ -20,7 +20,7 @@ import { Box } from '../Utility';
 
 ## Introduction
 
-Tile components are compact, card-like interactive elements designed for horizontal lists, carousels, or grids. They use a flexible composite pattern (same as Card) that allows you to compose tiles with Spot and TileContent (TileTitle, TileDescription, TileTrailingContent) as direct children in a vertical layout.
+Tile components are compact, card-like interactive elements designed for horizontal lists, carousels, or grids. They use a flexible composite pattern that allows you to compose tiles with spots, text content, tags, and custom elements in a vertical layout.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=5783-1328).
 
@@ -31,7 +31,6 @@ Tile components are compact, card-like interactive elements designed for horizon
   - **TileTitle**: The main label of the item (required)
   - **TileDescription (optional)**: Provides additional context
   - **TileTrailingContent (optional)**: Container for Tags, labels, or other supplementary content
-- Spot and other custom elements can be placed as direct children of Tile
 
 ## Properties
 
@@ -143,8 +142,7 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
     <TileTrailingContent>
-      <Tag label='First' />
-      <Tag label='Second' />
+      <Tag label='Active' appearance='success' />
     </TileTrailingContent>
   </TileContent>
 </Tile>;
@@ -256,12 +254,12 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
 
 <Box lx={{ flexDirection: 'column', gap: 's24' }}>
 
-### Trailing content (Tags, etc.)
+### Trailing Content
 
 <DoVsDontRow>
   <DoBlockItem
-    title='Use TileTrailingContent for Tags and supplementary content'
-    description='Wrap Tags, labels, or other trailing content inside TileTrailingContent within TileContent for proper spacing.'
+    title='Use TileTrailingContent for additional elements'
+    description='Wrap Tags, labels, or supplementary content inside TileTrailingContent within TileContent for proper spacing.'
   >
 
 ```tsx
@@ -272,8 +270,7 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
     <TileTitle>Title</TileTitle>
     <TileDescription>Description</TileDescription>
     <TileTrailingContent>
-      <Tag label="First" />
-      <Tag label="Second" />
+      <Tag label="Active" />
     </TileTrailingContent>
   </TileContent>
 </Tile>
@@ -282,7 +279,7 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
   </DoBlockItem>
   <DontBlockItem
     title="Don't place trailing content directly in TileContent"
-    description='Place Tags and other supplementary content inside TileTrailingContent, not as direct children of TileContent.'
+    description='Placing Tags or other elements directly in TileContent without TileTrailingContent results in incorrect spacing.'
   >
 
 ```tsx
