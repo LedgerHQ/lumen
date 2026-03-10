@@ -31,7 +31,7 @@ export type CardProps = {
   /**
    * Whether the card footer is expanded (visible).
    * Only relevant when `type="expandable"`.
-   * When `false`, CardFooter is hidden. When `undefined`, CardFooter is always visible.
+   * When `false`, CardFooter is hidden.
    */
   expanded?: boolean;
   /**
