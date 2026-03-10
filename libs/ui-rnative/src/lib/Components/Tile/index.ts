@@ -1,9 +1,2 @@
-export {
-  Tile,
-  TileLeading,
-  TileContent,
-  TileTitle,
-  TileDescription,
-  TileTrailing,
-} from './Tile';
+export { Tile, TileContent, TileTitle, TileDescription } from './Tile';
 export * from './types';

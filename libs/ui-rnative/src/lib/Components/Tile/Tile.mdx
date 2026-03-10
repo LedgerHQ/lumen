@@ -20,18 +20,17 @@ import { Box } from '../Utility';
 
 ## Introduction
 
-Tile components are compact, card-like interactive elements designed for horizontal lists, carousels, or grids. They use a flexible composite pattern (same as Card) that allows you to compose tiles with leading content (e.g. Spot), text, and custom elements in a vertical layout.
+Tile components are compact, card-like interactive elements designed for horizontal lists, carousels, or grids. They use a flexible composite pattern (same as Card) that allows you to compose tiles with Spot, TileContent (TileTitle, TileDescription), Tags, or other content as direct children in a vertical layout.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=5783-1328).
 
 ## Anatomy
 
-- **Tile**: Root container; direct children are TileLeading and optionally TileTrailing, laid out vertically
-- **TileLeading**: Wraps leading content (e.g. Spot) + TileContent + any additional content (e.g. Tags), stacked vertically
+- **Tile**: Root container; direct children are laid out vertically (e.g. Spot, TileContent, Tag)
 - **TileContent**: Container for title and description
   - **TileTitle**: The main label of the item (required)
   - **TileDescription (optional)**: Provides additional context
-- **TileTrailing (optional)**: Trailing content below the leading block (e.g. Tag, Button)
+- Additional content (e.g. Spot, Tag, custom elements) can be placed as direct children of Tile
 
 ## Properties
 
@@ -95,7 +94,6 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 ```tsx
 import {
   Tile,
-  TileLeading,
   TileContent,
   TileTitle,
   TileDescription,
@@ -110,13 +108,11 @@ function MyComponent() {
       onPress={() => console.log('Primary action')}
       onLongPress={() => console.log('Secondary action')}
     >
-      <TileLeading>
-        <Spot appearance='icon' icon={Settings} />
-        <TileContent>
-          <TileTitle>Settings</TileTitle>
-          <TileDescription>Manage preferences</TileDescription>
-        </TileContent>
-      </TileLeading>
+      <Spot appearance='icon' icon={Settings} />
+      <TileContent>
+        <TileTitle>Settings</TileTitle>
+        <TileDescription>Manage preferences</TileDescription>
+      </TileContent>
     </Tile>
   );
 }
@@ -126,12 +122,11 @@ function MyComponent() {
 
 ### With Trailing Content (Tags, etc.)
 
-Place Tags or other content after TileContent inside TileLeading.
+Place Tags or other content after TileContent as direct children of Tile.
 
 ```tsx
 import {
   Tile,
-  TileLeading,
   TileContent,
   TileTitle,
   TileDescription,
@@ -141,14 +136,12 @@ import {
 import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile appearance='card'>
-  <TileLeading>
-    <Spot appearance='icon' icon={Bitcoin} />
-    <TileContent>
-      <TileTitle>Bitcoin</TileTitle>
-      <TileDescription>BTC</TileDescription>
-    </TileContent>
-    <Tag label='Active' appearance='success' />
-  </TileLeading>
+  <Spot appearance='icon' icon={Bitcoin} />
+  <TileContent>
+    <TileTitle>Bitcoin</TileTitle>
+    <TileDescription>BTC</TileDescription>
+  </TileContent>
+  <Tag label='Active' appearance='success' />
 </Tile>;
 ```
 
@@ -156,13 +149,11 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 ```tsx
 <Tile disabled>
-  <TileLeading>
-    <Spot appearance='icon' icon={Settings} />
-    <TileContent>
-      <TileTitle>Settings</TileTitle>
-      <TileDescription>Unavailable</TileDescription>
-    </TileContent>
-  </TileLeading>
+  <Spot appearance='icon' icon={Settings} />
+  <TileContent>
+    <TileTitle>Settings</TileTitle>
+    <TileDescription>Unavailable</TileDescription>
+  </TileContent>
 </Tile>
 ```
 
@@ -178,24 +169,20 @@ import { View } from 'react-native';
 // In a grid where other tiles have more content
 <View style={{ flexDirection: 'row', gap: 8 }}>
   <Tile appearance='card'>
-    <TileLeading>
-      <Spot appearance='icon' icon={CryptoBitcoinCoin} />
-      <TileContent>
-        <TileTitle>Title</TileTitle>
-        <TileDescription>Description</TileDescription>
-      </TileContent>
-      <Tag label='Label' />
-    </TileLeading>
+    <Spot appearance='icon' icon={CryptoBitcoinCoin} />
+    <TileContent>
+      <TileTitle>Title</TileTitle>
+      <TileDescription>Description</TileDescription>
+    </TileContent>
+    <Tag label='Label' />
   </Tile>
 
   {/* Show more tile with centered content */}
   <Tile appearance='card' centered>
-    <TileLeading>
-      <Spot appearance='icon' icon={ChevronRight} />
-      <TileContent>
-        <TileTitle>Show more</TileTitle>
-      </TileContent>
-    </TileLeading>
+    <Spot appearance='icon' icon={ChevronRight} />
+    <TileContent>
+      <TileTitle>Show more</TileTitle>
+    </TileContent>
   </Tile>
 </View>
 ```
@@ -205,7 +192,6 @@ import { View } from 'react-native';
 ```tsx
 import {
   Tile,
-  TileLeading,
   TileContent,
   TileTitle,
   TileDescription,
@@ -214,13 +200,11 @@ import {
 import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile onPress={() => console.log('Clicked!')}>
-  <TileLeading>
-    <Spot appearance='icon' icon={CryptoBitcoinCoin} />
-    <TileContent>
-      <TileTitle>Bitcoin</TileTitle>
-      <TileDescription>BTC</TileDescription>
-    </TileContent>
-  </TileLeading>
+  <Spot appearance='icon' icon={CryptoBitcoinCoin} />
+  <TileContent>
+    <TileTitle>Bitcoin</TileTitle>
+    <TileDescription>BTC</TileDescription>
+  </TileContent>
 </Tile>;
 ```
 
@@ -228,20 +212,18 @@ import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 ```tsx
 import { ScrollView } from 'react-native';
-import { Tile, TileLeading, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/lumen-ui-rnative';
+import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/lumen-ui-rnative';
 
 <ScrollView horizontal>
   {items.map((item) => {
     const Icon = item.icon;
     return (
       <Tile key={item.id} lx={{ width: 's128', flexShrink: 0 }}>
-        <TileLeading>
-          <Spot appearance='icon' icon={Icon} />
-          <TileContent>
-            <TileTitle>{item.title}</TileTitle>
-            <TileDescription>{item.description}</TileDescription>
-          </TileContent>
-        </TileLeading>
+        <Spot appearance='icon' icon={Icon} />
+        <TileContent>
+          <TileTitle>{item.title}</TileTitle>
+          <TileDescription>{item.description}</TileDescription>
+        </TileContent>
       </Tile>
     );
   })}
@@ -255,13 +237,11 @@ import { Tile, TileLeading, TileContent, TileTitle, TileDescription, Spot } from
   onPress={() => console.log('Primary action')}
   onLongPress={() => console.log('Secondary action - show menu')}
 >
-  <TileLeading>
-    <Spot appearance='icon' icon={Settings} />
-    <TileContent>
-      <TileTitle>Settings</TileTitle>
-      <TileDescription>Long press for options</TileDescription>
-    </TileContent>
-  </TileLeading>
+  <Spot appearance='icon' icon={Settings} />
+  <TileContent>
+    <TileTitle>Settings</TileTitle>
+    <TileDescription>Long press for options</TileDescription>
+  </TileContent>
 </Tile>
 ```
 
@@ -269,25 +249,23 @@ import { Tile, TileLeading, TileContent, TileTitle, TileDescription, Spot } from
 
 <Box lx={{ flexDirection: 'column', gap: 's24' }}>
 
-### Additional content in TileLeading
+### Additional content in Tile
 
 <DoVsDontRow>
   <DoBlockItem
-    title='Place Tags or extra content after TileContent inside TileLeading'
-    description='Put supplementary content (Tags, labels) as siblings of TileContent within TileLeading so they appear below the title and description.'
+    title='Place Tags or extra content after TileContent inside Tile'
+    description='Put supplementary content (Tags, labels) as siblings of TileContent within Tile so they appear below the title and description.'
   >
 
 ```tsx
 {/* prettier-ignore */}
 <Tile>
-  <TileLeading>
-    <Spot appearance="icon" icon={Settings} />
-    <TileContent>
-      <TileTitle>Title</TileTitle>
-      <TileDescription>Description</TileDescription>
-    </TileContent>
-    <Tag label="Active" />
-  </TileLeading>
+  <Spot appearance="icon" icon={Settings} />
+  <TileContent>
+    <TileTitle>Title</TileTitle>
+    <TileDescription>Description</TileDescription>
+  </TileContent>
+  <Tag label="Active" />
 </Tile>
 ```
 
@@ -300,14 +278,12 @@ import { Tile, TileLeading, TileContent, TileTitle, TileDescription, Spot } from
 ```tsx
 {/* prettier-ignore */}
 <Tile>
-  <TileLeading>
-    <Spot appearance="icon" icon={Settings} />
-    <TileContent>
-      <TileTitle>Title</TileTitle>
-      <TileDescription>Description</TileDescription>
-      <Tag label="Active" />
-    </TileContent>
-  </TileLeading>
+  <Spot appearance="icon" icon={Settings} />
+  <TileContent>
+    <TileTitle>Title</TileTitle>
+    <TileDescription>Description</TileDescription>
+    <Tag label="Active" />
+  </TileContent>
 </Tile>
 ```
 

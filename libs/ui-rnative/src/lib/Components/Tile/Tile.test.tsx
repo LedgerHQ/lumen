@@ -6,14 +6,7 @@ import React from 'react';
 import { Settings } from '../../Symbols';
 import { Tag } from '../Tag';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import {
-  Tile,
-  TileLeading,
-  TileContent,
-  TileTitle,
-  TileDescription,
-  TileTrailing,
-} from './Tile';
+import { Tile, TileContent, TileTitle, TileDescription } from './Tile';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -27,12 +20,10 @@ describe('Tile Component', () => {
       const { getByText, getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -46,15 +37,11 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
-            <TileTrailing>
-              <Tag label={tagText} />
-            </TileTrailing>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
+            <Tag label={tagText} />
           </Tile>
         </TestWrapper>,
       );
@@ -70,12 +57,10 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onPress={handlePress} testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -90,12 +75,10 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onLongPress={handleLongPress} testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -115,12 +98,10 @@ describe('Tile Component', () => {
             onLongPress={handleLongPress}
             testID='tile'
           >
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -136,16 +117,14 @@ describe('Tile Component', () => {
   });
 
   describe('Context Propagation', () => {
-    it('should propagate disabled state to TileTrailing', () => {
+    it('should propagate disabled state to pressable', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -158,13 +137,11 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-                <TileDescription>Test Description</TileDescription>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileDescription>Test Description</TileDescription>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -180,12 +157,10 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile' accessibilityLabel={customLabel}>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -198,12 +173,10 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-              </TileContent>
-            </TileLeading>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+            </TileContent>
           </Tile>
         </TestWrapper>,
       );
@@ -226,16 +199,12 @@ describe('Tile Component', () => {
             onLongPress={jest.fn()}
             testID='tile'
           >
-            <TileLeading>
-              <Settings size={24} />
-              <TileContent>
-                <TileTitle>Test Title</TileTitle>
-                <TileDescription>{description}</TileDescription>
-              </TileContent>
-            </TileLeading>
-            <TileTrailing>
-              <Tag label={tagText} />
-            </TileTrailing>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Test Title</TileTitle>
+              <TileDescription>{description}</TileDescription>
+            </TileContent>
+            <Tag label={tagText} />
           </Tile>
         </TestWrapper>,
       );
