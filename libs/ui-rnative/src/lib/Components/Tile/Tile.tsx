@@ -280,11 +280,9 @@ const useTrailingContentStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
-        marginTop: t.spacings.s16,
         width: t.sizes.full,
-        minWidth: 0,
-        flexDirection: 'column',
         alignItems: 'center',
+        marginTop: t.spacings.s4,
         gap: t.spacings.s8,
       },
     }),

@@ -111,9 +111,9 @@ export const VariantsShowcase: Story = {
           </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile lx={{ maxWidth: 's176', gap: 's4' }}>
+      <Tile lx={{ maxWidth: 's176' }}>
         <Spot appearance='icon' icon={Settings} />
-        <TileContent lx={{ marginTop: 's8' }}>
+        <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
           <TileTrailingContent>
