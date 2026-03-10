@@ -124,6 +124,7 @@ export const Tile = ({
         lx={lx}
         style={StyleSheet.flatten([
           { width: '100%', overflow: 'hidden' },
+          centered && { alignSelf: 'stretch' },
           style,
         ])}
         disabled={disabled}
@@ -169,7 +170,6 @@ const useContentStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
-        flex: 1,
         minWidth: 0,
         width: t.sizes.full,
         alignSelf: 'stretch',
