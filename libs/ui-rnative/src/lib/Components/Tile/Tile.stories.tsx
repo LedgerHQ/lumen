@@ -239,7 +239,7 @@ export const AppearanceShowcase: Story = {
             </TileContent>
           </Tile>
           <Tile appearance='no-background' disabled lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={Settings} />
+            <Spot appearance='icon' icon={Settings} disabled />
             <TileContent>
               <TileTitle>Disabled</TileTitle>
               <TileDescription>Disabled state</TileDescription>
@@ -260,7 +260,7 @@ export const AppearanceShowcase: Story = {
             </TileContent>
           </Tile>
           <Tile appearance='card' disabled lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={User} />
+            <Spot appearance='icon' icon={User} disabled />
             <TileContent>
               <TileTitle>Disabled</TileTitle>
               <TileDescription>Disabled state</TileDescription>
