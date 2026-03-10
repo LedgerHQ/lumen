@@ -327,6 +327,15 @@ export const SelectValue = () => {
 };
 SelectValue.displayName = 'SelectValue';
 
+const hasComplexChildren = (children: React.ReactNode): boolean => {
+  const childArray = React.Children.toArray(children);
+  if (childArray.length !== 1) return true;
+  const onlyChild = childArray[0];
+  return !(
+    React.isValidElement(onlyChild) && onlyChild.type === SelectItemText
+  );
+};
+
 /**
  * Container for select items. This component collects all items
  * and makes them available to the bottom sheet.
@@ -353,7 +362,9 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             type: 'item',
             value: props.value,
             label: textValue,
-            content: props.children,
+            content: hasComplexChildren(props.children)
+              ? props.children
+              : undefined,
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
@@ -496,7 +507,7 @@ export const SelectButtonTrigger = ({
   ...props
 }: SelectButtonTriggerProps) => (
   <ButtonTrigger {...props}>
-    {selectedValue ? selectedContent : label}
+    {selectedValue && selectedContent ? selectedContent : label}
   </ButtonTrigger>
 );
 SelectButtonTrigger.displayName = 'SelectButtonTrigger';

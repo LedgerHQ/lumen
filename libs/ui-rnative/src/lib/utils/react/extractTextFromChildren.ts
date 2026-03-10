@@ -13,9 +13,7 @@ export function extractTextFromChildren(
   let text = '';
 
   React.Children.forEach(children, (child) => {
-    if (typeof child === 'string' || typeof child === 'number') {
-      text += child;
-    } else if (React.isValidElement(child)) {
+    if (React.isValidElement(child)) {
       if (child.type === textComponentType) {
         text += collectText(
           (child.props as { children?: ReactNode })?.children,
