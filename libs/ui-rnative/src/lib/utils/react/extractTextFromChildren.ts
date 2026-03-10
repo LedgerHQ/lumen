@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
 
 /**
- * Extracts text from the children of a specific component type.
+ * Recursively searches the React element tree for nodes matching
+ * `textComponentType` and collects the string/number content inside them.
  *
- * Walks the React element tree looking for `textComponentType` and collects
- * only the string/number content inside it. Returns `""` if no match is found.
- *
- * When `textComponentType` is omitted, returns `""`.
+ * Non-matching elements are traversed so that `textComponentType` can be
+ * found at any depth (e.g. wrapped inside a layout `Box`).
+ * Returns `""` when `textComponentType` is omitted or no match is found.
  */
 export function extractTextFromChildren(
   children: ReactNode,
@@ -17,12 +17,15 @@ export function extractTextFromChildren(
   let text = '';
 
   React.Children.forEach(children, (child) => {
-    if (React.isValidElement(child)) {
-      if (child.type === textComponentType) {
-        text += collectText(
-          (child.props as { children?: ReactNode })?.children,
-        );
-      }
+    if (!React.isValidElement(child)) return;
+
+    if (child.type === textComponentType) {
+      text += collectText((child.props as { children?: ReactNode })?.children);
+    } else if ((child.props as { children?: ReactNode })?.children) {
+      text += extractTextFromChildren(
+        (child.props as { children?: ReactNode })?.children,
+        textComponentType,
+      );
     }
   });
 

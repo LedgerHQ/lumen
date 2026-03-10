@@ -367,13 +367,18 @@ export const SelectContent = ({ children }: SelectContentProps) => {
           const textValue =
             props.textValue ??
             extractTextFromChildren(props.children, SelectItemText);
+          const isComplex = hasComplexChildren(props.children);
+          if (__DEV__ && isComplex && !textValue) {
+            console.warn(
+              `SelectItem (value="${props.value}"): complex children detected but no text label could be resolved. ` +
+                'Add a <SelectItemText> inside the item or pass the textValue prop explicitly.',
+            );
+          }
           items.push({
             type: 'item',
             value: props.value,
             label: textValue,
-            content: hasComplexChildren(props.children)
-              ? props.children
-              : undefined,
+            content: isComplex ? props.children : undefined,
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
