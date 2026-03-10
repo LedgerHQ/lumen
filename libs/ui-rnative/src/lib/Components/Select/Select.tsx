@@ -2,7 +2,11 @@ import React, { useState, useEffect, useCallback, useId } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
-import { useControllableState, extractTextFromChildren } from '../../utils';
+import {
+  useControllableState,
+  extractTextFromChildren,
+  collectText,
+} from '../../utils';
 import { SlotPressable } from '../Slot';
 import { Box, Pressable, Text } from '../Utility';
 import { useSelectActions } from './GlobalSelectContext';
@@ -330,6 +334,15 @@ export const SelectValue = () => {
 };
 SelectValue.displayName = 'SelectValue';
 
+const hasComplexChildren = (children: React.ReactNode): boolean => {
+  const childArray = React.Children.toArray(children);
+  if (childArray.length !== 1) return true;
+  const onlyChild = childArray[0];
+  return !(
+    React.isValidElement(onlyChild) && onlyChild.type === SelectItemText
+  );
+};
+
 /**
  * Container for select items. This component collects all items
  * and makes them available to the bottom sheet.
@@ -356,6 +369,9 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             type: 'item',
             value: props.value,
             label: textValue,
+            content: hasComplexChildren(props.children)
+              ? props.children
+              : undefined,
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
@@ -363,9 +379,8 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             (element.props as { children?: React.ReactNode }).children,
           );
         } else if (element.type === SelectLabel) {
-          const labelText = extractTextFromChildren(
+          const labelText = collectText(
             (element.props as { children?: React.ReactNode }).children,
-            SelectItemText,
           );
           items.push({
             type: 'group-label',

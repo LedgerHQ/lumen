@@ -143,6 +143,7 @@ export type SelectItemData = {
   type: 'item';
   value: string;
   label: string;
+  content?: ReactNode;
   disabled?: boolean;
 };
 
