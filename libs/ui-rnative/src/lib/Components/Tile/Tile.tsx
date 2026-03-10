@@ -272,7 +272,6 @@ const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
     (t) => ({
       container: {
         width: t.sizes.full,
-        minWidth: 0,
         alignItems: 'center',
       },
       text: StyleSheet.flatten([
