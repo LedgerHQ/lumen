@@ -1,0 +1,161 @@
+import React from 'react';
+import figma from '@figma/code-connect';
+import { Button } from '../Button/Button';
+import { Spot } from '../Spot/Spot';
+
+/**
+ * InfoState is a custom screen-level layout — there is no reusable component in Lumen.
+ * It must be composed per-screen from existing design system primitives.
+ * Code Connect is provided here so Figma Dev Mode shows the correct code snippet per variant.
+ */
+
+// content-preset=success
+figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
+  variant: { 'content-preset': 'success' },
+  imports: [
+    '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
+    "import { Spot } from '@ledgerhq/lumen-ui-react'",
+    "import { Button } from '@ledgerhq/lumen-ui-react'",
+  ],
+  example: () => (
+    <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+      <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
+      <Spot appearance='check' size={72} />
+      <div className='flex flex-col items-center gap-12 text-center'>
+        <h3 className='heading-4-semi-bold text-base'>Title</h3>
+        <p className='body-2 text-muted'>Description</p>
+      </div>
+      <Button appearance='base' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+      <Button appearance='gray' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+    </div>
+  ),
+});
+
+// content-preset=error
+figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
+  variant: { 'content-preset': 'error' },
+  imports: [
+    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    "import { Spot } from '@ledgerhq/lumen-ui-react'",
+    "import { Button } from '@ledgerhq/lumen-ui-react'",
+  ],
+  example: () => (
+    <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+      <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
+      <Spot appearance='error' size={72} />
+      <div className='flex flex-col items-center gap-12 text-center'>
+        <h3 className='heading-4-semi-bold text-base'>Title</h3>
+        <p className='body-2 text-muted'>Description</p>
+      </div>
+      <Button appearance='base' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+      <Button appearance='gray' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+    </div>
+  ),
+});
+
+// content-preset=info
+figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
+  variant: { 'content-preset': 'info' },
+  imports: [
+    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    "import { Spot } from '@ledgerhq/lumen-ui-react'",
+    "import { Button } from '@ledgerhq/lumen-ui-react'",
+  ],
+  example: () => (
+    <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+      <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
+      <Spot appearance='info' size={72} />
+      <div className='flex flex-col items-center gap-12 text-center'>
+        <h3 className='heading-4-semi-bold text-base'>Title</h3>
+        <p className='body-2 text-muted'>Description</p>
+      </div>
+      <Button appearance='base' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+      <Button appearance='gray' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+    </div>
+  ),
+});
+
+// content-preset=spot
+figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
+  variant: { 'content-preset': 'spot' },
+  imports: [
+    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    "import { Spot } from '@ledgerhq/lumen-ui-react'",
+    "import { Button } from '@ledgerhq/lumen-ui-react'",
+  ],
+  example: () => (
+    <div className='flex flex-col items-center gap-24 overflow-hidden'>
+      <Spot appearance='check' size={72} />
+      <div className='flex flex-col items-center gap-12 text-center'>
+        <h3 className='heading-4-semi-bold text-base'>Title</h3>
+        <p className='body-2 text-muted'>Description</p>
+      </div>
+      <Button appearance='base' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+      <Button appearance='gray' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+    </div>
+  ),
+});
+
+// content-preset=illustration (no design system illustration component — use a custom placeholder)
+figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
+  variant: { 'content-preset': 'illustration' },
+  imports: [
+    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    "import { Button } from '@ledgerhq/lumen-ui-react'",
+  ],
+  example: () => (
+    <div className='flex flex-col items-center gap-24 overflow-hidden'>
+      {/* Replace with your illustration */}
+      <div className='size-208 rounded-md bg-muted' />
+      <div className='flex flex-col items-center gap-12 text-center'>
+        <h3 className='heading-4-semi-bold text-base'>Title</h3>
+        <p className='body-2 text-muted'>Description</p>
+      </div>
+      <Button appearance='base' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+      <Button appearance='gray' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+    </div>
+  ),
+});
+
+// content-preset=text (no visual media — text only)
+figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
+  variant: { 'content-preset': 'text' },
+  imports: [
+    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    "import { Button } from '@ledgerhq/lumen-ui-react'",
+  ],
+  example: () => (
+    <div className='flex flex-col items-center gap-24 overflow-hidden'>
+      <div className='flex flex-col items-center gap-12 text-center'>
+        <h3 className='heading-4-semi-bold text-base'>Title</h3>
+        <p className='body-2 text-muted'>Description</p>
+      </div>
+      <Button appearance='base' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+      <Button appearance='gray' size='lg' onClick={() => {}}>
+        Label
+      </Button>
+    </div>
+  ),
+});
