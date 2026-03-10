@@ -52,11 +52,9 @@ const useRootStyles = ({
             width: '100%',
             flex: 1,
             alignItems: 'center',
-            justifyContent: centered ? 'center' : 'flex-start',
-            gap: t.spacings.s12,
+            gap: t.spacings.s8,
             paddingHorizontal: t.spacings.s8,
             paddingVertical: t.spacings.s12,
-            minWidth: 0,
             borderRadius: t.borderRadius.sm,
             backgroundColor: bgColors[appearance],
           },
@@ -64,6 +62,9 @@ const useRootStyles = ({
             !disabled && {
               backgroundColor: pressedBgColors[appearance],
             },
+          centered && {
+            justifyContent: 'center',
+          },
         ]),
       };
     },
@@ -106,8 +107,7 @@ const useRootStyles = ({
  *   <TileContent>
  *     <TileTitle>Bitcoin</TileTitle>
  *     <TileTrailingContent>
- *       <Tag label="First" />
- *       <Tag label="Second" />
+ *       <Tag label="Active" />
  *     </TileTrailingContent>
  *   </TileContent>
  * </Tile>
@@ -129,7 +129,6 @@ export const Tile = ({
         lx={lx}
         style={StyleSheet.flatten([
           { width: '100%', overflow: 'hidden' },
-          centered && { alignSelf: 'stretch' },
           style,
         ])}
         disabled={disabled}
@@ -175,11 +174,8 @@ const useContentStyles = () => {
   return useStyleSheet(
     (t) => ({
       container: {
-        minWidth: 0,
         width: t.sizes.full,
-        alignSelf: 'stretch',
         alignItems: 'center',
-        overflow: 'hidden',
       },
     }),
     [],
@@ -195,8 +191,7 @@ const useContentStyles = () => {
  *     <TileTitle>My Title</TileTitle>
  *     <TileDescription>Description</TileDescription>
  *     <TileTrailingContent>
- *       <Tag label="First" />
- *       <Tag label="Second" />
+ *       <Tag label="Active" />
  *     </TileTrailingContent>
  *   </TileContent>
  * </Tile>
@@ -220,15 +215,13 @@ const useTitleStyles = ({ disabled }: { disabled: boolean }) => {
     (t) => ({
       container: {
         width: t.sizes.full,
-        minWidth: 0,
         alignItems: 'center',
       },
       text: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
           alignItems: 'center',
-          width: '100%',
-          minWidth: 0,
+          width: t.sizes.full,
           textAlign: 'center',
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         },
@@ -255,7 +248,6 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
       <Text
         testID='tile-title'
         numberOfLines={1}
-        ellipsizeMode='tail'
         lx={lx}
         style={StyleSheet.flatten([styles.text, style])}
       >
@@ -275,54 +267,6 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
   );
 };
 TileTitle.displayName = 'TileTitle';
-
-const useTrailingContentStyles = () => {
-  return useStyleSheet(
-    (t) => ({
-      container: {
-        width: t.sizes.full,
-        alignItems: 'center',
-        marginTop: t.spacings.s4,
-        gap: t.spacings.s8,
-      },
-    }),
-    [],
-  );
-};
-
-/**
- * A container for trailing content inside TileContent.
- * Use this to wrap Tags, labels, or other supplementary information after title and description.
- *
- * @example
- * <Tile>
- *   <Spot appearance="icon" icon={Settings} />
- *   <TileContent>
- *     <TileTitle>My Title</TileTitle>
- *     <TileTrailingContent>
- *       <Tag label="First" />
- *       <Tag label="Second" />
- *     </TileTrailingContent>
- *   </TileContent>
- * </Tile>
- */
-export const TileTrailingContent = ({
-  children,
-  lx,
-  style,
-}: TileTrailingContentProps) => {
-  const styles = useTrailingContentStyles();
-  return (
-    <Box
-      lx={lx}
-      style={StyleSheet.flatten([styles.container, style])}
-      testID='tile-trailing-content'
-    >
-      {children}
-    </Box>
-  );
-};
-TileTrailingContent.displayName = 'TileTrailingContent';
 
 const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(
@@ -396,3 +340,52 @@ export const TileDescription = ({
   );
 };
 TileDescription.displayName = 'TileDescription';
+
+const useTrailingContentStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      container: {
+        width: t.sizes.full,
+        alignItems: 'center',
+        marginTop: t.spacings.s4,
+        gap: t.spacings.s8,
+      },
+    }),
+    [],
+  );
+};
+
+/**
+ * A container for trailing content inside TileContent.
+ * Use this to wrap Tags, labels, or other supplementary information after title and description.
+ * Multiple items inside will have 8px spacing between them.
+ *
+ * @example
+ * <Tile>
+ *   <TileSpot appearance="icon" icon={Settings} />
+ *   <TileContent>
+ *     <TileTitle>My Title</TileTitle>
+ *     <TileDescription>Description</TileDescription>
+ *     <TileTrailingContent>
+ *       <Tag label="Active" />
+ *     </TileTrailingContent>
+ *   </TileContent>
+ * </Tile>
+ */
+export const TileTrailingContent = ({
+  children,
+  lx,
+  style,
+}: TileTrailingContentProps) => {
+  const styles = useTrailingContentStyles();
+  return (
+    <Box
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
+      testID='tile-trailing-content'
+    >
+      {children}
+    </Box>
+  );
+};
+TileTrailingContent.displayName = 'TileTrailingContent';
