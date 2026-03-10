@@ -5,12 +5,12 @@ import {
 import React, { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { ChevronDown, ChevronUp } from '../../Symbols';
 import { Box, Pressable, Text } from '../Utility';
 import {
@@ -619,8 +619,6 @@ export const CardTrailing = ({
 };
 CardTrailing.displayName = 'CardTrailing';
 
-const FOOTER_ANIMATION_DURATION = 300;
-
 const useCardFooterAnimation = ({
   footerExpanded,
 }: {
@@ -639,12 +637,14 @@ const useCardFooterAnimation = ({
     [contentHeight],
   );
 
+  const timingConfig = useTimingConfig({
+    duration: 300,
+    easing: 'easeInOut',
+  });
+
   useEffect(() => {
-    animatedHeight.value = withTiming(footerExpanded ? 1 : 0, {
-      duration: FOOTER_ANIMATION_DURATION,
-      easing: Easing.bezier(0.25, 0.1, 0.25, 1.0),
-    });
-  }, [footerExpanded, animatedHeight]);
+    animatedHeight.value = withTiming(footerExpanded ? 1 : 0, timingConfig);
+  }, [timingConfig, footerExpanded, animatedHeight]);
 
   const animatedContainerStyle = useAnimatedStyle(
     () => ({
@@ -652,7 +652,7 @@ const useCardFooterAnimation = ({
         contentHeight.value > 0
           ? animatedHeight.value * contentHeight.value
           : undefined,
-      overflow: 'hidden' as const,
+      overflow: 'hidden',
     }),
     [contentHeight, animatedHeight],
   );
