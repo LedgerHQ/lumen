@@ -437,14 +437,13 @@ The following guidelines ensure consistent usage of the Select component and mai
 
   </DoBlockItem>
   <DontBlockItem
-    title="Don't combine render with children or label"
-    description='When render is provided, children and label are ignored'
+    title="Don't add children when using render"
+    description='When render is provided, children are ignored — the render function controls the trigger UI entirely. Note: label is still used as the bottom sheet header title.'
   >
 
 {/* prettier-ignore */}
 ```tsx
 <SelectTrigger
-  label='Ignored label'
   render={(renderProps) => (
     <SelectButtonTrigger
       {...renderProps}

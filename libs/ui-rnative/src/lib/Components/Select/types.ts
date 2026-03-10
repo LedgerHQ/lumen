@@ -50,7 +50,9 @@ export type SelectProps = {
 
 export type SelectTriggerRenderProps = {
   /**
-   * The currently selected value, or `undefined` if nothing is selected.
+   * The currently selected value, or `undefined` / `""` when nothing is selected.
+   * Treat any falsy value as "no selection" — do not rely on `=== undefined` alone,
+   * as a controlled select can represent an empty selection with `value=""`.
    */
   selectedValue: string | undefined;
   /**
