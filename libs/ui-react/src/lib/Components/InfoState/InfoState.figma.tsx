@@ -39,7 +39,7 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
 figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
   variant: { 'content-preset': 'error' },
   imports: [
-    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
     "import { Spot } from '@ledgerhq/lumen-ui-react'",
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
@@ -65,7 +65,7 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
 figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
   variant: { 'content-preset': 'info' },
   imports: [
-    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
     "import { Spot } from '@ledgerhq/lumen-ui-react'",
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
@@ -91,7 +91,7 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
 figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
   variant: { 'content-preset': 'spot' },
   imports: [
-    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
     "import { Spot } from '@ledgerhq/lumen-ui-react'",
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
@@ -116,7 +116,7 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
 figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
   variant: { 'content-preset': 'illustration' },
   imports: [
-    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
@@ -141,7 +141,7 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
 figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=1425-2784', {
   variant: { 'content-preset': 'text' },
   imports: [
-    '/* Custom layout — no reusable InfoState component exists in the design system */',
+    '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
