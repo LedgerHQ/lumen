@@ -54,10 +54,11 @@ export type SelectTriggerRenderProps = {
    */
   selectedValue: string | undefined;
   /**
-   * A ReactNode that renders the selected item's text content.
-   * Contains only the text from `SelectItemText`, not the full item content.
+   * The plain text extracted from `SelectItemText` for the selected item,
+   * or `null` when nothing is selected or the value cannot be resolved.
+   * This is text-only — it does not include icons or other rich content.
    */
-  selectedContent: ReactNode;
+  selectedContent: string | null;
 };
 
 export type SelectTriggerProps = {

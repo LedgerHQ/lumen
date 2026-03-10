@@ -298,7 +298,7 @@ export const TriggerShowcase: Story = {
 
     return (
       <>
-        <Box style={{ flex: 1, minHeight: 400, padding: 24, gap: 24 }}>
+        <Box lx={{ flex: 1, minHeight: 's400', padding: 's24', gap: 's24' }}>
           <Text typography='body2' lx={{ color: 'muted' }}>
             Trigger with a flat icon
           </Text>
@@ -415,7 +415,7 @@ export const WithSpotItems: Story = {
 
     return (
       <>
-        <Box style={{ flex: 1, minHeight: 800, padding: 24 }}>
+        <Box lx={{ flex: 1, minHeight: 's560', padding: 's24' }}>
           <Select value={value} onValueChange={setValue}>
             <SelectTrigger
               render={(renderProps) => (

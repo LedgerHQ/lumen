@@ -4,12 +4,16 @@ import React, { ReactNode } from 'react';
  * Extracts text from the children of a specific component type.
  *
  * Walks the React element tree looking for `textComponentType` and collects
- * only the string/number content inside it. Returns `""` if no match is found,
+ * only the string/number content inside it. Returns `""` if no match is found.
+ *
+ * When `textComponentType` is omitted, returns `""`.
  */
 export function extractTextFromChildren(
   children: ReactNode,
-  textComponentType: React.ComponentType<any>,
+  textComponentType?: React.ComponentType<any>,
 ): string {
+  if (!textComponentType) return '';
+
   let text = '';
 
   React.Children.forEach(children, (child) => {
@@ -25,7 +29,7 @@ export function extractTextFromChildren(
   return text;
 }
 
-function collectText(children: ReactNode): string {
+export function collectText(children: ReactNode): string {
   let text = '';
 
   React.Children.forEach(children, (child) => {
