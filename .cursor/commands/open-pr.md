@@ -15,8 +15,6 @@ Run `git branch --show-current` to check the current branch.
   git checkout -b DLS-<number>-<branch-name>
   ```
 
-
-
 ## Step 1: Ensure an Nx version plan exists
 
 Run:
@@ -105,13 +103,11 @@ gh pr view --json url
    - **How to test:** Derive concrete, specific testing steps from the changed code (e.g. which screen to open, what to interact with, what to expect).
    - **Screenshots:** If the change is UI-related, add "Add before/after screenshots here"; otherwise write "N/A".
 
-3. **Jira issue:** The branch name was already ensured to contain a `DLS-<number>` prefix in Step 0. Extract it from `git branch --show-current` using the pattern `DLS-\d+`. It will be included in the PR title in Step 6 — no action needed here.
-
-4. **Save the body** to `/tmp/pr-body.md`.
+3. **Save the body** to `/tmp/pr-body.md`.
 
 ## Step 6: Create the PR with GitHub CLI
 
-1. **Generate a PR title** by combining the Jira ticket ID extracted in Step 5 with a conventional commit message. Format: `DLS-<number> <prefix>(<scope>): <summary>`. Pick the most appropriate prefix:
+1. **Generate a PR title** using a conventional commit message. Format: `<prefix>(<scope>): <summary>`. Pick the most appropriate prefix:
    - `feat` — new feature or user-facing addition
    - `fix` — bug fix
    - `refactor` — code restructuring without behaviour change
