@@ -18,19 +18,23 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
-    <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+    <div className='relative flex flex-col items-center gap-32 py-24 px-16 overflow-hidden'>
       <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
-      <Spot appearance='check' size={72} />
-      <div className='flex flex-col items-center gap-12 text-center'>
-        <h3 className='heading-4-semi-bold text-base'>Title</h3>
-        <p className='body-2 text-muted'>Description</p>
+      <div className='flex w-full flex-col items-center gap-24'>
+        <Spot appearance='check' size={72} />
+        <div className='flex flex-col items-center gap-8 text-center'>
+          <h3 className='heading-4-semi-bold text-base'>Title</h3>
+          <p className='body-2 text-muted'>Description</p>
+        </div>
       </div>
-      <Button appearance='base' size='lg' onClick={() => {}}>
-        Label
-      </Button>
-      <Button appearance='gray' size='lg' onClick={() => {}}>
-        Label
-      </Button>
+      <div className='flex w-full flex-col items-center gap-16'>
+        <Button appearance='base' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+        <Button appearance='gray' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+      </div>
     </div>
   ),
 });
@@ -44,19 +48,23 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
-    <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+    <div className='relative flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
       <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
-      <Spot appearance='error' size={72} />
-      <div className='flex flex-col items-center gap-12 text-center'>
-        <h3 className='heading-4-semi-bold text-base'>Title</h3>
-        <p className='body-2 text-muted'>Description</p>
+      <div className='flex w-full flex-col items-center gap-24'>
+        <Spot appearance='error' size={72} />
+        <div className='flex flex-col items-center gap-8 text-center'>
+          <h3 className='heading-4-semi-bold text-base'>Title</h3>
+          <p className='body-2 text-muted'>Description</p>
+        </div>
       </div>
-      <Button appearance='base' size='lg' onClick={() => {}}>
-        Label
-      </Button>
-      <Button appearance='gray' size='lg' onClick={() => {}}>
-        Label
-      </Button>
+      <div className='flex w-full flex-col items-center gap-16'>
+        <Button appearance='base' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+        <Button appearance='gray' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+      </div>
     </div>
   ),
 });
@@ -70,19 +78,23 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
-    <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+    <div className='relative flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
       <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
-      <Spot appearance='info' size={72} />
-      <div className='flex flex-col items-center gap-12 text-center'>
-        <h3 className='heading-4-semi-bold text-base'>Title</h3>
-        <p className='body-2 text-muted'>Description</p>
+      <div className='flex w-full flex-col items-center gap-24'>
+        <Spot appearance='info' size={72} />
+        <div className='flex flex-col items-center gap-8 text-center'>
+          <h3 className='heading-4-semi-bold text-base'>Title</h3>
+          <p className='body-2 text-muted'>Description</p>
+        </div>
       </div>
-      <Button appearance='base' size='lg' onClick={() => {}}>
-        Label
-      </Button>
-      <Button appearance='gray' size='lg' onClick={() => {}}>
-        Label
-      </Button>
+      <div className='flex w-full flex-col items-center gap-16'>
+        <Button appearance='base' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+        <Button appearance='gray' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+      </div>
     </div>
   ),
 });
@@ -96,18 +108,22 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
-    <div className='flex flex-col items-center gap-24 overflow-hidden'>
-      <Spot appearance='check' size={72} />
-      <div className='flex flex-col items-center gap-12 text-center'>
-        <h3 className='heading-4-semi-bold text-base'>Title</h3>
-        <p className='body-2 text-muted'>Description</p>
+    <div className='flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
+      <div className='flex w-full flex-col items-center gap-24'>
+        <Spot appearance='check' size={72} />
+        <div className='flex flex-col items-center gap-8 text-center'>
+          <h3 className='heading-4-semi-bold text-base'>Title</h3>
+          <p className='body-2 text-muted'>Description</p>
+        </div>
       </div>
-      <Button appearance='base' size='lg' onClick={() => {}}>
-        Label
-      </Button>
-      <Button appearance='gray' size='lg' onClick={() => {}}>
-        Label
-      </Button>
+      <div className='flex w-full flex-col items-center gap-16'>
+        <Button appearance='base' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+        <Button appearance='gray' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+      </div>
     </div>
   ),
 });
@@ -120,19 +136,23 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
-    <div className='flex flex-col items-center gap-24 overflow-hidden'>
-      {/* Replace with your illustration */}
-      <div className='size-208 rounded-md bg-muted' />
-      <div className='flex flex-col items-center gap-12 text-center'>
-        <h3 className='heading-4-semi-bold text-base'>Title</h3>
-        <p className='body-2 text-muted'>Description</p>
+    <div className='flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
+      <div className='flex w-full flex-col items-center gap-24'>
+        {/* Replace with your illustration */}
+        <div className='size-208 rounded-md bg-muted' />
+        <div className='flex flex-col items-center gap-8 text-center'>
+          <h3 className='heading-4-semi-bold text-base'>Title</h3>
+          <p className='body-2 text-muted'>Description</p>
+        </div>
       </div>
-      <Button appearance='base' size='lg' onClick={() => {}}>
-        Label
-      </Button>
-      <Button appearance='gray' size='lg' onClick={() => {}}>
-        Label
-      </Button>
+      <div className='flex w-full flex-col items-center gap-16'>
+        <Button appearance='base' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+        <Button appearance='gray' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+      </div>
     </div>
   ),
 });
@@ -145,17 +165,19 @@ figma.connect('https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components
     "import { Button } from '@ledgerhq/lumen-ui-react'",
   ],
   example: () => (
-    <div className='flex flex-col items-center gap-24 overflow-hidden'>
-      <div className='flex flex-col items-center gap-12 text-center'>
+    <div className='flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
+      <div className='flex flex-col items-center gap-8 text-center'>
         <h3 className='heading-4-semi-bold text-base'>Title</h3>
         <p className='body-2 text-muted'>Description</p>
       </div>
-      <Button appearance='base' size='lg' onClick={() => {}}>
-        Label
-      </Button>
-      <Button appearance='gray' size='lg' onClick={() => {}}>
-        Label
-      </Button>
+      <div className='flex w-full flex-col items-center gap-16'>
+        <Button appearance='base' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+        <Button appearance='gray' size='lg' className='w-full' onClick={() => {}}>
+          Label
+        </Button>
+      </div>
     </div>
   ),
 });
