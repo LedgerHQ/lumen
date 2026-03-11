@@ -9,12 +9,11 @@ Open a PR from the current branch to `main`. Commit if needed, push, then create
 
 Run `git branch --show-current` to check the current branch.
 
-**If already on a feature branch:**  continue directly.
-
-**If on `main`:** Ask the user for a Jira ticket number, generate a descriptive branch name from uncommitted changes, then create and switch to `DLS-<number>-<branch-name>`:
-```bash
-git checkout -b DLS-<number>-<branch-name>
-```
+- If already on a feature branch: **skip to Step 1**
+- If on `main`: Ask the user for a Jira ticket number, generate a descriptive branch name from uncommitted changes, then create and switch to `DLS-<number>-<branch-name>`:
+  ```bash
+  git checkout -b DLS-<number>-<branch-name>
+  ```
 
 
 
@@ -24,9 +23,8 @@ Run:
 ```bash
 git diff main...HEAD --name-only -- .nx/version-plans/
 ```
-If the output is non-empty, a version plan already exists — skip to Step 2.
-
-Otherwise, create one. Determine which packages are affected by looking at the changed files (`git diff main...HEAD --name-only`):
+- If the output is non-empty, a version plan already exists — **skip to Step 2**.
+- Otherwise, create one. Determine which packages are affected by looking at the changed files (`git diff main...HEAD --name-only`):
 
 - Files under `libs/ui-react/` → `'@ledgerhq/lumen-ui-react'`
 - Files under `libs/ui-rnative/` → `'@ledgerhq/lumen-ui-rnative'`
@@ -52,6 +50,8 @@ The description line should match the PR title / commit message style. If multip
 
 ## Step 2: Create a commit if needed
 
+- If `git status` shows nothing to commit, **skip to Step 3**.
+
 - If `git status` shows **uncommitted changes** (staged or unstaged):
   - Summarise the diff in one short sentence.
   - Generate a conventional commit message (e.g. `feat(select): add custom trigger support`).
@@ -60,7 +60,6 @@ The description line should match the PR title / commit message style. If multip
     git add -A
     git commit -m "Your generated message"
     ```
-- If everything is already committed, skip to Step 3.
 
 ## Step 3: Push the branch
 
@@ -76,7 +75,8 @@ Run:
 ```bash
 gh pr view --json url
 ```
-If a PR already exists, print the existing PR URL and stop. Otherwise, continue to Step 5.
+- If a PR already exists, print the existing PR URL and **stop**.
+- Otherwise, continue to Step 5.
 
 ## Step 5: Prepare PR body
 
