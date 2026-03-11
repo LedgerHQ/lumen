@@ -6,5 +6,9 @@ import type { HapticFeedback } from './types';
  * Uses impact feedback on both iOS and Android.
  */
 export const triggerHapticFeedback = (feedback: HapticFeedback): void => {
-  Haptics.impactAsync(feedback as Haptics.ImpactFeedbackStyle);
+  void Haptics.impactAsync(feedback as Haptics.ImpactFeedbackStyle).catch(
+    () => {
+      /* empty */
+    },
+  );
 };
