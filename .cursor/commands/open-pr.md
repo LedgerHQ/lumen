@@ -6,26 +6,27 @@ Open a PR from the current branch to `main`. Commit if needed, push, then create
 
 ## Step 0: Ensure we are on a feature branch
 
-Run `git branch --show-current` to check the current branch. If the current branch is `main`:
 
-1. Generate a descriptive branch name from the uncommitted changes or ask the user.
-2. Create and switch to the new branch:
-   ```bash
-   git checkout -b <branch-name>
-   ```
-3. Continue with Step 1.
+Run `git branch --show-current` to check the current branch.
 
-If already on a feature branch, continue directly.
+**If already on a feature branch:**  continue directly.
+
+**If on `main`:** Ask the user for a Jira ticket number, generate a descriptive branch name from uncommitted changes, then create and switch to `DLS-<number>-<branch-name>`:
+```bash
+git checkout -b DLS-<number>-<branch-name>
+```
+
+
 
 ## Step 1: Ensure an Nx version plan exists
 
-Check if this branch has added a version plan file compared to `main`:
-
+Run:
 ```bash
 git diff main...HEAD --name-only -- .nx/version-plans/
 ```
+If the output is non-empty, a version plan already exists — skip to Step 2.
 
-If the output is empty (no version plan was added on this branch), create one. Determine which packages are affected by looking at the changed files (`git diff main...HEAD --name-only`):
+Otherwise, create one. Determine which packages are affected by looking at the changed files (`git diff main...HEAD --name-only`):
 
 - Files under `libs/ui-react/` → `'@ledgerhq/lumen-ui-react'`
 - Files under `libs/ui-rnative/` → `'@ledgerhq/lumen-ui-rnative'`
@@ -49,8 +50,6 @@ feat(Select): add render prop and SelectButtonTrigger
 
 The description line should match the PR title / commit message style. If multiple packages are affected, list them all in the frontmatter.
 
-If a version plan already exists, skip this step.
-
 ## Step 2: Create a commit if needed
 
 - If `git status` shows **uncommitted changes** (staged or unstaged):
@@ -73,14 +72,11 @@ git push -u origin HEAD
 
 ## Step 4: Check for an existing PR
 
-Before creating a new PR, check if one already exists for this branch:
-
+Run:
 ```bash
 gh pr view --json url
 ```
-
-- If a PR already exists, skip creation and print the existing PR URL.
-- If no PR exists (`no pull requests found` error), continue to Step 5.
+If a PR already exists, print the existing PR URL and stop. Otherwise, continue to Step 5.
 
 ## Step 5: Prepare PR body
 
@@ -109,13 +105,13 @@ gh pr view --json url
    - **How to test:** Derive concrete, specific testing steps from the changed code (e.g. which screen to open, what to interact with, what to expect).
    - **Screenshots:** If the change is UI-related, add "Add before/after screenshots here"; otherwise write "N/A".
 
-3. **Linear issue:** Try to infer a Linear issue ID from the branch name. Run `git branch --show-current` and look for a pattern: a short alphanumeric prefix (1–4 characters) followed by a hyphen and a number (e.g. `AND-12345`, `REV-42`, `FAN1-99`). The match is case-insensitive. If found, uppercase the prefix and append a line to the description: `refs [PREFIX-123](https://linear.app/ledger/issue/PREFIX-123)`. If no issue ID can be extracted, skip this.
+3. **Jira issue:** The branch name was already ensured to contain a `DLS-<number>` prefix in Step 0. Extract it from `git branch --show-current` using the pattern `DLS-\d+`. It will be included in the PR title in Step 6 — no action needed here.
 
 4. **Save the body** to `/tmp/pr-body.md`.
 
 ## Step 6: Create the PR with GitHub CLI
 
-1. **Generate a PR title** based on the changes using a conventional commit prefix. Pick the most appropriate prefix:
+1. **Generate a PR title** by combining the Jira ticket ID extracted in Step 5 with a conventional commit message. Format: `DLS-<number> <prefix>(<scope>): <summary>`. Pick the most appropriate prefix:
    - `feat` — new feature or user-facing addition
    - `fix` — bug fix
    - `refactor` — code restructuring without behaviour change
@@ -146,6 +142,6 @@ gh pr view --json url
 3. If there are uncommitted changes, create a commit with a clear conventional message.
 4. Push the branch to the remote.
 5. Check if a PR already exists — if so, skip creation and print the URL.
-6. Build the PR body with Description (why), How to test (concrete steps), Screenshots, and auto-linked Linear issue.
+6. Build the PR body with Description (why), How to test (concrete steps), and Screenshots.
 7. Run `gh pr create --base main --body-file /tmp/pr-body.md` and output a clickable link to the created PR.
 8. Delete the temporary body file.
