@@ -60,10 +60,10 @@ export type StyledPressableProps = {
    */
   lx?: LumenViewStyle;
   /**
-   * Triggers haptic feedback on press.
-   * Use impact style: `"light"` | `"medium"` | `"heavy"` | `"soft"` | `"rigid"`.
-   * Defaults to `undefined` (no haptic feedback).
+   * Triggers haptic feedback on press-in.
+   * - `true` — default medium intensity.
+   * - Impact style: `"light"` | `"medium"` | `"heavy"` | `"soft"` | `"rigid"`.
    */
-  hapticFeedback?: ImpactFeedbackStyle;
+  hapticFeedback?: ImpactFeedbackStyle | true;
 } & ExtendRNPressableProps &
   ComponentPropsWithRef<typeof RNPressable>;

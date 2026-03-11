@@ -1,11 +1,12 @@
-import { memo, useCallback } from 'react';
-import { GestureResponderEvent, StyleSheet } from 'react-native';
+import { memo } from 'react';
+import { StyleSheet } from 'react-native';
 import type {
   Pressable,
   PressableStateCallbackType,
   ViewStyle,
 } from 'react-native';
-import { triggerHapticFeedback } from '../../lib/Haptics';
+import { useHapticFeedbackWithPressIn } from '../../lib/Haptics';
+import type { HapticFeedback } from '../../lib/Haptics/types';
 import { StyledPressableProps, PressableStyleItem } from '../types';
 import { areLxPropsEqual } from './areLxPropsEqual';
 import { useResolveViewStyle } from './resolveStyle';
@@ -41,13 +42,14 @@ const resolveStyleFunctions = (
  * Factory function to create a styled Pressable component.
  *
  * Supports `style` as an object, function, or array of objects/functions (including nested).
- * Supports `hapticFeedback` to trigger vibration on press-in.
+ * Supports `hapticFeedback` to trigger vibration on press-in (`true` = medium, or an impact style string).
  *
  * ```tsx
  * // Create a styled Pressable
  * const Pressable = createStyledPressable(RNPressable);
  *
  * // Usage with haptic feedback
+ * <Pressable hapticFeedback onPress={handlePress} />
  * <Pressable hapticFeedback="light" onPress={handlePress} />
  *
  * // Usage with array of styles
@@ -65,19 +67,13 @@ export const createStyledPressable = (Component: typeof Pressable) => {
       ...props
     }: StyledPressableProps) => {
       const resolvedStyle = useResolveViewStyle(lx);
+      const intensity: HapticFeedback | undefined =
+        hapticFeedback === true ? 'medium' : (hapticFeedback ?? undefined);
 
-      const handlePressIn = useCallback(
-        (event: GestureResponderEvent) => {
-          if (hapticFeedback) {
-            triggerHapticFeedback(hapticFeedback);
-          }
-          onPressIn?.(event);
-        },
-        [hapticFeedback, onPressIn],
-      );
-
-      const pressInHandler =
-        hapticFeedback || onPressIn ? handlePressIn : undefined;
+      const { handlePressIn } = useHapticFeedbackWithPressIn({
+        hapticFeedback: intensity,
+        onPressIn: onPressIn ?? undefined,
+      });
 
       if (!hasStyleFunction(style)) {
         const finalStyle = StyleSheet.flatten([
@@ -88,7 +84,7 @@ export const createStyledPressable = (Component: typeof Pressable) => {
           <Component
             ref={ref}
             {...props}
-            onPressIn={pressInHandler}
+            {...(handlePressIn !== undefined && { onPressIn: handlePressIn })}
             style={finalStyle}
           />
         );
@@ -103,7 +99,7 @@ export const createStyledPressable = (Component: typeof Pressable) => {
         <Component
           ref={ref}
           {...props}
-          onPressIn={pressInHandler}
+          {...(handlePressIn !== undefined && { onPressIn: handlePressIn })}
           style={mergedStyle}
         />
       );
