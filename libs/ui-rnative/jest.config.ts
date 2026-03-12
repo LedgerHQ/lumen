@@ -23,5 +23,6 @@ export default {
       '<rootDir>/../../libs/utils-shared/src/index.ts',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
   coverageDirectory: 'test-output/jest/coverage',
 } as Config;

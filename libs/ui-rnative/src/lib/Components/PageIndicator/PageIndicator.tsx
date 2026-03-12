@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Animated, {
+  cancelAnimation,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -7,34 +8,40 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useStyleSheet, useTheme } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Box } from '../Utility';
 import { PageIndicatorProps } from './types';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const MAX_VISIBLE_DOTS = 4;
 
-type PageIndicatorDotProps = {
+const useDotAnimation = ({
+  isActive,
+  isShrunk,
+}: {
   isActive: boolean;
   isShrunk: boolean;
-};
-
-const useDotAnimation = (
-  isActive: boolean,
-  isShrunk: boolean,
-  theme: ReturnType<typeof useTheme>['theme'],
-) => {
+}) => {
+  const { theme } = useTheme();
   const colorProgress = useSharedValue(isActive ? 1 : 0);
   const shrinkProgress = useSharedValue(isShrunk ? 1 : 0);
 
-  useEffect(() => {
-    colorProgress.value = withTiming(isActive ? 1 : 0, { duration: 200 });
-  }, [isActive, colorProgress]);
+  const timingConfig = useTimingConfig({
+    duration: 200,
+    easing: 'easeInOut',
+  });
 
   useEffect(() => {
-    shrinkProgress.value = withTiming(isShrunk ? 1 : 0, { duration: 200 });
-  }, [isShrunk, shrinkProgress]);
+    colorProgress.value = withTiming(isActive ? 1 : 0, timingConfig);
+    return () => cancelAnimation(colorProgress);
+  }, [isActive, colorProgress, timingConfig]);
 
-  return useAnimatedStyle(() => {
+  useEffect(() => {
+    shrinkProgress.value = withTiming(isShrunk ? 1 : 0, timingConfig);
+    return () => cancelAnimation(shrinkProgress);
+  }, [isShrunk, shrinkProgress, timingConfig]);
+
+  const animatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       colorProgress.value,
       [0, 1],
@@ -51,42 +58,21 @@ const useDotAnimation = (
       width: size,
     };
   }, [colorProgress, shrinkProgress, theme]);
+
+  return { animatedStyle };
 };
 
-const useDotStyles = () =>
-  useStyleSheet(
-    (t) => ({
-      dot: {
-        height: t.sizes.s6,
-        width: t.sizes.s6,
-        borderRadius: t.borderRadius.full,
-        backgroundColor: t.colors.bg.mutedHover,
-      },
-    }),
-    [],
-  );
-
-const PageIndicatorDot = ({ isActive, isShrunk }: PageIndicatorDotProps) => {
-  const styles = useDotStyles();
-  const { theme } = useTheme();
-  const animatedStyle = useDotAnimation(isActive, isShrunk, theme);
-
-  return <AnimatedBox style={[styles.dot, animatedStyle]} />;
-};
-
-type UsePageIndicatorParams = {
-  currentPage: number;
-  totalPages: number;
-  dotSize: number;
-  gap: number;
-};
-
-const usePageIndicator = ({
+const useStripAnimation = ({
   currentPage,
   totalPages,
   dotSize,
   gap,
-}: UsePageIndicatorParams) => {
+}: {
+  currentPage: number;
+  totalPages: number;
+  dotSize: number;
+  gap: number;
+}) => {
   const translateX = useSharedValue(0);
   const prevPage = useRef(currentPage);
 
@@ -109,9 +95,15 @@ const usePageIndicator = ({
 
   const dotWidth = dotSize + gap;
 
+  const timingConfig = useTimingConfig({
+    duration: 200,
+    easing: 'easeInOut',
+  });
+
   useEffect(() => {
-    translateX.value = withTiming(-offset * dotWidth, { duration: 200 });
-  }, [currentPage, totalPages, offset, dotWidth, translateX]);
+    translateX.value = withTiming(-offset * dotWidth, timingConfig);
+    return () => cancelAnimation(translateX);
+  }, [currentPage, totalPages, offset, dotWidth, translateX, timingConfig]);
 
   const stripAnimatedStyle = useAnimatedStyle(
     () => ({
@@ -155,26 +147,18 @@ const usePageIndicator = ({
   };
 };
 
-const usePageIndicatorStyles = () =>
-  useStyleSheet(
-    (t) => ({
-      container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      viewport: {
-        overflow: 'hidden',
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
-      strip: {
-        flexDirection: 'row',
-        gap: t.spacings.s4,
-        alignItems: 'center',
-      },
-    }),
-    [],
-  );
+const PageIndicatorDot = ({
+  isActive,
+  isShrunk,
+}: {
+  isActive: boolean;
+  isShrunk: boolean;
+}) => {
+  const styles = useDotStyles();
+  const { animatedStyle } = useDotAnimation({ isActive, isShrunk });
+
+  return <AnimatedBox style={[styles.dot, animatedStyle]} />;
+};
 
 /**
  * A page indicator component that shows the current position within a set of pages (e.g. carousel or onboarding).
@@ -197,7 +181,7 @@ export const PageIndicator = ({
     Math.min(currentPage - 1, totalPages - 1),
   );
   const { viewportWidth, stripAnimatedStyle, isActive, isShrunk } =
-    usePageIndicator({
+    useStripAnimation({
       currentPage: currentPageIndex,
       totalPages,
       dotSize: theme.sizes.s6,
@@ -233,3 +217,37 @@ export const PageIndicator = ({
 };
 
 PageIndicator.displayName = 'PageIndicator';
+
+const useDotStyles = () =>
+  useStyleSheet(
+    (t) => ({
+      dot: {
+        height: t.sizes.s6,
+        width: t.sizes.s6,
+        borderRadius: t.borderRadius.full,
+        backgroundColor: t.colors.bg.mutedHover,
+      },
+    }),
+    [],
+  );
+
+const usePageIndicatorStyles = () =>
+  useStyleSheet(
+    (t) => ({
+      container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      viewport: {
+        overflow: 'hidden',
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      strip: {
+        flexDirection: 'row',
+        gap: t.spacings.s4,
+        alignItems: 'center',
+      },
+    }),
+    [],
+  );

@@ -50,6 +50,14 @@ describe('Avatar Component', () => {
     );
     expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s48);
     expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s48);
+
+    rerender(
+      <TestWrapper>
+        <Avatar testID='avatar-id' size='lg' />
+      </TestWrapper>,
+    );
+    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s72);
+    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s72);
   });
 
   it('should render fallback icon when no src is provided', () => {
@@ -188,6 +196,17 @@ describe('Avatar Component', () => {
     notificationIndicator = avatar.props.children[0];
     expect(notificationIndicator.props.style.width).toBe(sizes.s12);
     expect(notificationIndicator.props.style.height).toBe(sizes.s12);
+
+    rerender(
+      <TestWrapper>
+        <Avatar testID='avatar-id' size='lg' showNotification />
+      </TestWrapper>,
+    );
+
+    avatar = getByTestId('avatar-id');
+    notificationIndicator = avatar.props.children[0];
+    expect(notificationIndicator.props.style.width).toBe(sizes.s16);
+    expect(notificationIndicator.props.style.height).toBe(sizes.s16);
   });
 
   it('should apply custom styles', () => {

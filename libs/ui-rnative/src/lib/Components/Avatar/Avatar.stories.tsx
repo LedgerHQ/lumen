@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import React from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 
 import { Box } from '../Utility';
@@ -67,6 +68,15 @@ export const SizeShowcase: Story = {
           showNotification={false}
         />
         <Text style={{ marginTop: 4 }}>md</Text>
+      </View>
+      <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
+        <Avatar
+          src={exampleSrc}
+          alt='avatar'
+          size='lg'
+          showNotification={false}
+        />
+        <Text style={{ marginTop: 4 }}>lg</Text>
       </View>
     </Box>
   ),

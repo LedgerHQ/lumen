@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import Animated, {
-  Easing,
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -16,6 +16,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useStyleSheet, useTheme } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Placeholder } from '../../Symbols';
 import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
@@ -24,63 +25,43 @@ import { TabBarItemProps, TabBarProps } from './types';
 export const TAB_BAR_HEIGHT = 60;
 const PILL_INSET = 4;
 
-/**
- * Individual tab item component that displays an icon and label.
- * Must be used as a child of TabBar.
- *
- * @example
- * <TabBarItem value="home" label="Home" icon={HomeFill} activeIcon={HomeActive} />
- */
-export function TabBarItem({
-  value,
-  label,
-  icon,
-  activeIcon,
-  style,
-  ...props
-}: TabBarItemProps) {
-  const styles = useStyles();
-  const { active, onTabPress } = useTabBarContext();
-
-  const isActive = active === value;
+const useTabBarItemAnimations = ({ isActive }: { isActive: boolean }) => {
   const activeProgress = useSharedValue(isActive ? 1 : 0);
   const pressProgress = useSharedValue(1);
 
-  const Icon = icon ?? Placeholder;
-  const ActiveIcon = activeIcon ?? Icon;
+  const activeTimingConfig = useTimingConfig({
+    duration: 200,
+    easing: 'easeInOut',
+  });
+
+  const pressInTimingConfig = useTimingConfig({
+    duration: 100,
+    easing: 'easeOut',
+  });
+
+  const pressOutTimingConfig = useTimingConfig({
+    duration: 100,
+    easing: 'easeOut',
+  });
 
   useEffect(() => {
     activeProgress.value = withDelay(
       50,
-      withTiming(isActive ? 1 : 0, {
-        duration: 200,
-        easing: Easing.bezier(0.4, 0, 0.2, 1),
-      }),
+      withTiming(isActive ? 1 : 0, activeTimingConfig),
     );
-  }, [isActive, activeProgress]);
+    return () => cancelAnimation(activeProgress);
+  }, [isActive, activeProgress, activeTimingConfig]);
 
-  function onPress() {
-    onTabPress(value);
-  }
+  const onPressIn = () => {
+    pressProgress.value = withTiming(0.9, pressInTimingConfig);
+  };
 
-  function onPressIn() {
-    pressProgress.value = withTiming(0.9, {
-      duration: 100,
-      easing: Easing.bezier(0, 0, 0.2, 1),
-    });
-  }
-
-  function onPressOut() {
+  const onPressOut = () => {
     pressProgress.value = withSequence(
-      withTiming(0.95, {
-        duration: 0,
-      }),
-      withTiming(1, {
-        duration: 120,
-        easing: Easing.out(Easing.quad),
-      }),
+      withTiming(0.95, { duration: 0 }),
+      withTiming(1, pressOutTimingConfig),
     );
-  }
+  };
 
   const scaleStyle = useAnimatedStyle(
     () => ({
@@ -102,6 +83,108 @@ export function TabBarItem({
     }),
     [activeProgress],
   );
+
+  return {
+    onPressIn,
+    onPressOut,
+    scaleStyle,
+    activeIconStyle,
+    inactiveIconStyle,
+  };
+};
+
+const useTabBarPillLayout = ({
+  active,
+  children,
+}: {
+  active: string;
+  children: React.ReactNode;
+}) => {
+  const pillProgress = useSharedValue(0);
+  const itemWidth = useSharedValue(0);
+  const itemHeight = useSharedValue(0);
+  const hasLayoutRef = useRef(false);
+
+  const timingConfig = useTimingConfig({
+    duration: 300,
+    easing: 'easeInOut',
+  });
+
+  const getActiveIndex = useCallback((): number => {
+    return React.Children.toArray(children).findIndex((child) => {
+      if (React.isValidElement<TabBarItemProps>(child)) {
+        return child.props.value === active;
+      }
+      return false;
+    });
+  }, [active, children]);
+
+  const onLayout = (e: LayoutChangeEvent): void => {
+    const { width, height } = e.nativeEvent.layout;
+    const count = React.Children.count(children);
+    const slotWidth = (width - PILL_INSET * 2) / count;
+
+    itemWidth.value = slotWidth;
+    itemHeight.value = height;
+
+    if (!hasLayoutRef.current) {
+      hasLayoutRef.current = true;
+      const index = getActiveIndex();
+      if (index >= 0) {
+        pillProgress.value = index * slotWidth;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!hasLayoutRef.current) return;
+    const index = getActiveIndex();
+
+    if (index >= 0 && itemWidth.value > 0) {
+      pillProgress.value = withTiming(index * itemWidth.value, timingConfig);
+    }
+
+    return () => cancelAnimation(pillProgress);
+  }, [itemWidth, pillProgress, getActiveIndex, timingConfig]);
+
+  const animatedPillStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: pillProgress.value }],
+      width: itemWidth.value,
+      height: itemHeight.value - PILL_INSET * 2,
+    }),
+    [pillProgress, itemWidth, itemHeight],
+  );
+
+  return { onLayout, animatedPillStyle };
+};
+
+export function TabBarItem({
+  value,
+  label,
+  icon,
+  activeIcon,
+  style,
+  ...props
+}: TabBarItemProps) {
+  const styles = useStyles();
+  const { active, onTabPress } = useTabBarContext();
+
+  const isActive = active === value;
+  const Icon = icon ?? Placeholder;
+  const ActiveIcon = activeIcon ?? Icon;
+
+  const {
+    onPressIn,
+    onPressOut,
+    scaleStyle,
+    activeIconStyle,
+    inactiveIconStyle,
+  } = useTabBarItemAnimations({ isActive });
+
+  function onPress() {
+    onTabPress(value);
+  }
 
   return (
     <Pressable
@@ -166,64 +249,14 @@ export function TabBar({
   const styles = useStyles();
   const { theme, colorScheme } = useTheme();
 
-  const pillProgress = useSharedValue(0);
-  const itemWidth = useSharedValue(0);
-  const itemHeight = useSharedValue(0);
-  const hasLayoutRef = useRef(false);
-
-  const getActiveIndex = useCallback((): number => {
-    return React.Children.toArray(children).findIndex((child) => {
-      if (React.isValidElement<TabBarItemProps>(child)) {
-        return child.props.value === active;
-      }
-      return false;
-    });
-  }, [active, children]);
-
-  function onLayout(e: LayoutChangeEvent) {
-    const { width, height } = e.nativeEvent.layout;
-
-    const count = React.Children.count(children);
-    const slotWidth = (width - PILL_INSET * 2) / count;
-
-    itemWidth.value = slotWidth;
-    itemHeight.value = height;
-
-    if (!hasLayoutRef.current) {
-      hasLayoutRef.current = true;
-      const index = getActiveIndex();
-      if (index >= 0) {
-        pillProgress.value = index * slotWidth;
-      }
-    }
-  }
+  const { onLayout, animatedPillStyle } = useTabBarPillLayout({
+    active,
+    children,
+  });
 
   function handleTabPress(value: string) {
     onTabPress?.(value);
   }
-
-  useEffect(() => {
-    if (!hasLayoutRef.current) {
-      return;
-    }
-    const index = getActiveIndex();
-
-    if (index >= 0 && itemWidth.value > 0) {
-      pillProgress.value = withTiming(index * itemWidth.value, {
-        duration: 300,
-        easing: Easing.bezier(0.4, 0, 0.2, 1),
-      });
-    }
-  }, [itemWidth, pillProgress, getActiveIndex]);
-
-  const animatedPillStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateX: pillProgress.value }],
-      width: itemWidth.value,
-      height: itemHeight.value - PILL_INSET * 2,
-    }),
-    [pillProgress, itemWidth, itemHeight],
-  );
 
   return (
     <TabBarContextProvider value={{ active, onTabPress: handleTabPress }}>

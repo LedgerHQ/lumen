@@ -5,6 +5,7 @@ import * as React from 'react';
 import { DialogHeader } from './DialogHeader/DialogHeader';
 import {
   DialogBodyProps,
+  DialogBodyStickyContentProps,
   DialogContentProps,
   DialogFooterProps,
   DialogHeight,
@@ -249,6 +250,42 @@ export const DialogBody = ({
   );
 };
 DialogBody.displayName = 'DialogBody';
+
+/**
+ * A sticky region inside the dialog body.
+ *
+ * This component is useful for content that should remain visible while the
+ * dialog body scrolls, such as search inputs, filters, or section controls.
+ * It should be used inside `DialogBody`.
+ *
+ * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ *
+ * @example
+ * <DialogBody>
+ *   <DialogBodyStickyContent>
+ *     <SearchInput placeholder="Search item..." />
+ *   </DialogBodyStickyContent>
+ *   <div>Scrollable content</div>
+ * </DialogBody>
+ */
+export const DialogBodyStickyContent = ({
+  ref,
+  className,
+  children,
+  ...props
+}: DialogBodyStickyContentProps) => {
+  return (
+    <div
+      ref={ref}
+      data-slot='dialog-body-sticky-content'
+      className={cn('sticky top-0 bg-canvas-sheet py-8', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+DialogBodyStickyContent.displayName = 'DialogBodyStickyContent';
 
 /**
  * The fixed footer area of the dialog.

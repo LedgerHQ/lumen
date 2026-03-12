@@ -10,6 +10,8 @@ export function Avatars() {
       <Avatar src={exampleSrc} size='sm' />
       <Avatar />
       <Avatar src={exampleSrc} showNotification />
+      <Avatar size='lg' />
+      <Avatar src={exampleSrc} size='lg' />
     </Box>
   );
 }

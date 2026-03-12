@@ -16,7 +16,7 @@ export type AvatarProps = {
    * @optional
    * @default md
    */
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
   /**
    * Whether to show the notifications indicator.
    * @optional

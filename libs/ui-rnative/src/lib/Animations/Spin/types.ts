@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Duration } from '../types';
+import { TimingTokens } from '../types';
 
 export type SpinProps = {
   /**
@@ -7,8 +7,8 @@ export type SpinProps = {
    */
   children: ReactNode;
   /**
-   * Duration of one complete rotation in milliseconds
-   * @default 1000
+   * Motion token overrides for this animation.
+   * Wrapper defaults are used when values are omitted.
    */
-  duration?: Duration;
+  timing?: Partial<TimingTokens>;
 };
