@@ -1,6 +1,7 @@
-import { toPascalCase } from '@ledgerhq/lumen-utils-shared';
+import { toPascalCase, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import React from 'react';
 import { SvgProps } from 'react-native-svg';
+import { useTheme } from '../../../styles';
 import { Icon } from './Icon';
 import { IconProps } from './types';
 
@@ -14,12 +15,23 @@ const createIcon = (
   iconName: string,
   iconJsx: React.ReactElement<SvgProps>,
 ) => {
-  const Component = (props: Omit<IconProps, 'children'>) =>
-    React.createElement(Icon, {
+  const Component = ({ disabled, ...props }: Omit<IconProps, 'children'>) => {
+    const { theme } = useTheme();
+    const mergedDisabled = useDisabledContext({
+      consumerName: iconName,
+      mergeWith: { disabled },
+    });
+
+    return React.createElement(Icon, {
       viewBox: iconJsx.props.viewBox,
       ...props,
+      style: [
+        mergedDisabled ? { color: theme.colors.text.disabled } : {},
+        props.style,
+      ],
       children: iconJsx.props.children,
     });
+  };
 
   Component.displayName = toPascalCase(iconName);
 

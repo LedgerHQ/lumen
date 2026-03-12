@@ -19,6 +19,7 @@ type IconStoryProps = {
   size: IconSize;
   name: IconName;
   className?: string;
+  disabled?: boolean;
 };
 
 type IconCardProps = {
@@ -76,6 +77,9 @@ export const Icon: StoryObj<IconStoryProps> = {
     name: {
       control: 'select',
       options: iconNames,
+    },
+    disabled: {
+      control: 'boolean',
     },
   },
   render: (args) => {

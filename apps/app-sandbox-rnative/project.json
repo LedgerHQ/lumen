@@ -1,0 +1,31 @@
+{
+  "name": "app-sandbox-rnative",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/app-sandbox-rnative/src",
+  "targets": {
+    "run-ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx react-native run-ios",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    },
+    "run-android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx react-native run-android",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx react-native start --reset-cache",
+        "cwd": "apps/app-sandbox-rnative"
+      }
+    }
+  },
+  "tags": ["scope:react-native"]
+}
+
