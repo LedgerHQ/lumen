@@ -345,11 +345,11 @@ export const HeaderVariants: Story = {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button appearance='base'>Extended</Button>
+            <Button appearance='base'>Expanded</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='extended'
+              appearance='expanded'
               title='Sheet Title'
               description='Additional information'
             />
@@ -378,11 +378,11 @@ export const HeaderVariants: Story = {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button appearance='base'>Extended with Back</Button>
+            <Button appearance='base'>Expanded with Back</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='extended'
+              appearance='expanded'
               title='Sheet Title'
               description='Additional information'
               onBack={() => console.log('Back clicked')}
@@ -412,13 +412,13 @@ export const HeaderVariants: Story = {
   </DialogContent>
 </Dialog>
 
-// Extended appearance (uncontrolled)
+// Expanded appearance (uncontrolled)
 <Dialog>
   <DialogTrigger asChild>
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="extended" title="Sheet Title" description="Additional information" />
+    <DialogHeader appearance="expanded" title="Sheet Title" description="Additional information" />
     <DialogBody>
       Content here
     </DialogBody>
@@ -466,7 +466,7 @@ export const WithMultiSteps: Story = {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
-            appearance='extended'
+            appearance='expanded'
             title={step === 1 ? 'Step 1' : 'Step 2'}
             onClose={() => setOpen(false)}
             onBack={step > 1 ? () => setStep(step - 1) : undefined}
@@ -514,7 +514,7 @@ const handleOpenChange = (isOpen: boolean) => {
   </DialogTrigger>
   <DialogContent>
     <DialogHeader
-      appearance="extended"
+      appearance="expanded"
       title={step === 1 ? 'Step 1' : 'Step 2'}
       onClose={() => setOpen(false)}
       onBack={step > 1 ? () => setStep(step - 1) : undefined}
@@ -553,7 +553,7 @@ export const WithListsContent: Story = {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
-            appearance='extended'
+            appearance='expanded'
             title='Browse Options'
             description='Description content is fixed to the top of the dialog'
             onBack={() => console.log('Back clicked')}
@@ -607,7 +607,7 @@ export const WithStickyBodyContent: Story = {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader
-          appearance='extended'
+          appearance='expanded'
           title='Browse Options'
           description='Search stays visible while the list scrolls'
         />
