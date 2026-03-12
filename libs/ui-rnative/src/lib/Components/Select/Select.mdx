@@ -2,10 +2,12 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as SelectStories from './Select.stories.tsx';
 import { Select } from './Select';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Selection/Select' of={SelectStories} />
 
-# 📋 Select
+# Select
 
 <CustomTabs>
   <Tab label="Overview">
@@ -29,6 +31,7 @@ The Select component consists of several sub-components:
 
 - **Select**: The root component that manages the select's state
 - **SelectTrigger**: The clickable element that opens the bottom sheet with floating label support
+- **SelectButtonTrigger**: A compact button-style trigger preset, used with the `render` prop to replace the default input trigger
 - **SelectValue**: Displays the currently selected value
 - **SelectContent**: Container for select items (not rendered directly, used for structure)
 - **SelectItem**: Individual selectable options
@@ -76,6 +79,14 @@ The entire select can be disabled:
 Listen to value changes and open/close events:
 
 <Canvas of={SelectStories.WithChangeCallback} />
+
+### ButtonTrigger Variant
+
+The Select supports a compact button-style trigger via the `render` prop and `SelectButtonTrigger`. This is useful for inline filters, toolbar selects, or any context where a full-width input trigger is too large.
+
+`SelectButtonTrigger` supports all [`ButtonTrigger`](/docs/action-buttontrigger--docs) props including `icon`, `iconType`, `appearance`, and `size`.
+
+<Canvas of={SelectStories.TriggerShowcase} />
 
 ## Controlled vs Uncontrolled
 
@@ -301,16 +312,77 @@ import { Box } from '@ledgerhq/lumen-ui-rnative';
 </Box>
 ```
 
+### With ButtonTrigger
+
+Use the `render` prop on `SelectTrigger` with `SelectButtonTrigger` for a compact button-style trigger. `SelectButtonTrigger` automatically receives `selectedValue` and `selectedContent` and falls back to the `label` prop when nothing is selected.
+
+```tsx
+import {
+  Select,
+  SelectButtonTrigger,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+} from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger
+        render={(renderProps) => (
+          <SelectButtonTrigger {...renderProps} label='All accounts' />
+        )}
+      />
+      <SelectContent>
+        <SelectItem value='all'>
+          <SelectItemText>All accounts</SelectItemText>
+        </SelectItem>
+        <SelectItem value='checking'>
+          <SelectItemText>Checking</SelectItemText>
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+You can pass any `ButtonTrigger` prop such as `icon`, `iconType`, `appearance`, and `size`:
+
+```tsx
+<SelectTrigger
+  render={(renderProps) => (
+    <SelectButtonTrigger
+      {...renderProps}
+      label='Settings'
+      icon={<Settings size={20} />}
+      iconType='flat'
+      appearance='transparent'
+    />
+  )}
+/>
+```
+
 ## Do's and Don'ts
 
 The following guidelines ensure consistent usage of the Select component and maintain design system principles.
 
 ### Component Structure
 
-✅ **Do**
+<div className='flex flex-col gap-24'>
 
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use the complete component structure'
+    description='Always include SelectTrigger, SelectValue, SelectContent, SelectItem, and SelectItemText'
+  >
+
+{/* prettier-ignore */}
 ```tsx
-// Always use the complete component structure
 <Select value={value} onValueChange={setValue}>
   <SelectTrigger label='Choose option'>
     <SelectValue />
@@ -321,163 +393,196 @@ The following guidelines ensure consistent usage of the Select component and mai
     </SelectItem>
   </SelectContent>
 </Select>
-
-// Use groups and labels for organized lists
-<Select value={value} onValueChange={setValue}>
-  <SelectTrigger label='Category'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectGroup>
-      <SelectLabel>Group Title</SelectLabel>
-      <SelectItem value='item1'>
-        <SelectItemText>Item 1</SelectItemText>
-      </SelectItem>
-    </SelectGroup>
-  </SelectContent>
-</Select>
-
-// Always wrap SelectItemText in SelectItem
-<SelectItem value='option1'>
-  <SelectItemText>Option 1</SelectItemText>
-</SelectItem>
 ```
 
-❌ **Don't**
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't skip required components"
+    description='Omitting SelectValue, SelectContent, or SelectItemText will break the component'
+  >
 
+{/* prettier-ignore */}
 ```tsx
-// Don't omit SelectValue from SelectTrigger
-<SelectTrigger label='Choose option' />
-
-// Don't use raw text in SelectItem without SelectItemText
-<SelectItem value='option1'>Option 1</SelectItem>
-
-// Don't skip required components
 <Select value={value}>
   <SelectTrigger label='Choose option' />
 </Select>
 ```
 
-### Value Management
+  </DontBlockItem>
+</DoVsDontRow>
 
-✅ **Do**
+</div>
 
+### Render Prop Usage
+
+<div className='flex flex-col gap-24'>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use render prop with SelectButtonTrigger'
+    description='Use the render prop to replace the default input-style trigger with a compact button'
+  >
+
+{/* prettier-ignore */}
 ```tsx
-// Use controlled pattern with both value and onValueChange
-const [value, setValue] = useState('');
-<Select value={value} onValueChange={setValue}>
-  <SelectTrigger label='Option'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
-
-// Or use uncontrolled pattern with defaultValue
-<Select defaultValue='option1' onValueChange={(value) => console.log(value)}>
-  <SelectTrigger label='Option'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
+<SelectTrigger
+  render={(renderProps) => (
+    <SelectButtonTrigger
+      {...renderProps}
+      label='Filter'
+    />
+  )}
+/>
 ```
 
-❌ **Don't**
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't add children when using render"
+    description='When render is provided, children are ignored — the render function controls the trigger UI entirely. Note: label is still used as the bottom sheet header title.'
+  >
 
+{/* prettier-ignore */}
 ```tsx
-// Don't mix controlled and uncontrolled patterns
-<Select value={value} defaultValue='option1' onValueChange={setValue}>
-  <SelectTrigger label='Option'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
-
-// Don't forget onValueChange in controlled mode
-<Select value={value}>
-  <SelectTrigger label='Option'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
-```
-
-### Layout and Styling
-
-The Select component takes the **full width** of its parent container by default. You can control the width using `lx` prop or wrapper containers:
-
-✅ **Do**
-
-```tsx
-// Preferred: Direct width control with lx
-<Select value={value} onValueChange={setValue}>
-  <SelectTrigger label='Option' lx={{ maxWidth: 's320' }}>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
-
-// Use lx for margins and positioning
-<Select value={value} onValueChange={setValue}>
-  <SelectTrigger label='Option' lx={{ marginTop: 's16', marginHorizontal: 'auto' }}>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
-
-// Alternative: Container wrapper
-<Box lx={{ maxWidth: 's320' }}>
-  <Select value={value} onValueChange={setValue}>
-    <SelectTrigger label='Option'>
-      <SelectValue />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem value='option1'>
-        <SelectItemText>Option 1</SelectItemText>
-      </SelectItem>
-    </SelectContent>
-  </Select>
-</Box>
-```
-
-❌ **Don't**
-
-```tsx
-// Don't use style prop for token-based values (use lx instead)
-<SelectTrigger label='Option' style={{ maxWidth: 320 }}>
+<SelectTrigger
+  render={(renderProps) => (
+    <SelectButtonTrigger
+      {...renderProps}
+      label='Filter'
+    />
+  )}
+>
   <SelectValue />
 </SelectTrigger>
 ```
 
+  </DontBlockItem>
+</DoVsDontRow>
+
+</div>
+
+### Value Management
+
+<div className='flex flex-col gap-24'>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use controlled or uncontrolled patterns'
+    description='Use value + onValueChange for controlled, or defaultValue for uncontrolled'
+  >
+
+{/* prettier-ignore */}
+```tsx
+<Select
+  value={value}
+  onValueChange={setValue}
+>
+  <SelectTrigger label='Option'>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value='option1'>
+      <SelectItemText>Option 1</SelectItemText>
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't mix controlled and uncontrolled patterns"
+    description='Providing both value and defaultValue leads to unpredictable behavior'
+  >
+
+{/* prettier-ignore */}
+```tsx
+<Select
+  value={value}
+  defaultValue='option1'
+  onValueChange={setValue}
+>
+  <SelectTrigger label='Option'>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value='option1'>
+      <SelectItemText>Option 1</SelectItemText>
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+</div>
+
+### Layout and Styling
+
+<div className='flex flex-col gap-24'>
+
+<DoVsDontRow>
+  <DoBlockItem
+    title='Use lx for layout adjustments'
+    description='Use the lx prop for width, margins, and positioning'
+  >
+
+{/* prettier-ignore */}
+```tsx
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger
+    label='Option'
+    lx={{ maxWidth: 's320' }}
+  >
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value='option1'>
+      <SelectItemText>Option 1</SelectItemText>
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't use style for token-based values"
+    description='Use lx instead of style for values that should come from design tokens'
+  >
+
+{/* prettier-ignore */}
+```tsx
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger
+    label='Option'
+    style={{ maxWidth: 320 }}
+  >
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value='option1'>
+      <SelectItemText>Option 1</SelectItemText>
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+  </DontBlockItem>
+</DoVsDontRow>
+
+</div>
+
 ### Accessibility and Labels
 
-✅ **Do**
+<div className='flex flex-col gap-24'>
 
+<DoVsDontRow>
+  <DoBlockItem
+    title='Always provide labels'
+    description='Labels float above the input when a value is selected and are required for accessibility'
+  >
+
+{/* prettier-ignore */}
 ```tsx
-// Always provide labels
 <Select value={value} onValueChange={setValue}>
   <SelectTrigger label='Choose category'>
     <SelectValue />
@@ -488,24 +593,16 @@ The Select component takes the **full width** of its parent container by default
     </SelectItem>
   </SelectContent>
 </Select>
-
-// Labels automatically float when a value is selected
-<Select value={value} onValueChange={setValue}>
-  <SelectTrigger label='Important'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>
 ```
 
-❌ **Don't**
+  </DoBlockItem>
+  <DontBlockItem
+    title="Don't omit labels"
+    description='Without a label, the trigger lacks context for screen readers and users'
+  >
 
+{/* prettier-ignore */}
 ```tsx
-// Don't omit labels
 <Select value={value} onValueChange={setValue}>
   <SelectTrigger>
     <SelectValue />
@@ -516,58 +613,14 @@ The Select component takes the **full width** of its parent container by default
     </SelectItem>
   </SelectContent>
 </Select>
-
-// Don't use style prop to modify core appearance
-<SelectTrigger label='Option' style={{ backgroundColor: 'red' }}>
-  <SelectValue />
-</SelectTrigger>
 ```
 
-### Performance Considerations
+  </DontBlockItem>
+</DoVsDontRow>
 
-✅ **Do**
+<CommonRulesDoAndDont />
 
-```tsx
-// Use stable callbacks with useCallback
-const handleValueChange = useCallback((newValue: string) => {
-  setValue(newValue);
-}, []);
-
-<Select value={value} onValueChange={handleValueChange}>
-  <SelectTrigger label='Option'>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
-  </SelectContent>
-</Select>;
-```
-
-❌ **Don't**
-
-```tsx
-// Don't create new functions in render for frequently re-rendered components
-<FlatList
-  data={items}
-  renderItem={({ item }) => (
-    <Select
-      value={item.value}
-      onValueChange={(value) => handleChange(item.id, value)}
-    >
-      <SelectTrigger label='Option'>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value='option1'>
-          <SelectItemText>Option 1</SelectItemText>
-        </SelectItem>
-      </SelectContent>
-    </Select>
-  )}
-/>
-```
+</div>
 
 ## Platform Considerations
 

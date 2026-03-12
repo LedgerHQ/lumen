@@ -1,10 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { PressableProps } from 'react-native';
 import {
   StyledViewProps,
   StyledPressableProps,
   StyledTextProps,
 } from '../../../styles';
+import type { ButtonTriggerProps } from '../ButtonTrigger';
 import { BoxProps } from '../Utility';
 
 export type SelectProps = {
@@ -47,6 +48,21 @@ export type SelectProps = {
   onValueChange?: (value: string) => void;
 };
 
+export type SelectTriggerRenderProps = {
+  /**
+   * The currently selected value, or `undefined` / `""` when nothing is selected.
+   * Treat any falsy value as "no selection" — do not rely on `=== undefined` alone,
+   * as a controlled select can represent an empty selection with `value=""`.
+   */
+  selectedValue: string | undefined;
+  /**
+   * The plain text extracted from `SelectItemText` for the selected item,
+   * or `null` when nothing is selected or the value cannot be resolved.
+   * This is text-only — it does not include icons or other rich content.
+   */
+  selectedContent: string | null;
+};
+
 export type SelectTriggerProps = {
   /**
    * The children to render inside the trigger
@@ -57,6 +73,14 @@ export type SelectTriggerProps = {
    * @example label='Select an option'
    */
   label?: string;
+  /**
+   * Render function that replaces the default input-style trigger.
+   * The returned element receives `onPress` and `disabled` automatically.
+   *
+   * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
+   * @example render={({ selectedValue, selectedContent }) => <MyCustomTrigger />}
+   */
+  render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
    * Change the default rendered element for the one passed as a child,
    * merging their props and behavior.
@@ -122,6 +146,7 @@ export type SelectItemData = {
   type: 'item';
   value: string;
   label: string;
+  content?: ReactNode;
   disabled?: boolean;
 };
 
@@ -147,3 +172,12 @@ export type SelectData = {
   setOpen?: (open: boolean) => void;
   label?: string;
 };
+
+export type SelectButtonTriggerProps = SelectTriggerRenderProps &
+  Omit<ButtonTriggerProps, 'children'> & {
+    /**
+     * The label displayed when no value is selected.
+     * Once a value is selected, it is replaced by the selected item's content.
+     */
+    label: string;
+  };

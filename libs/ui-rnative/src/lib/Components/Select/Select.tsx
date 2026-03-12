@@ -2,7 +2,12 @@ import React, { useState, useEffect, useCallback, useId } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
-import { useControllableState, extractTextFromChildren } from '../../utils';
+import {
+  useControllableState,
+  extractTextFromChildren,
+  collectText,
+} from '../../utils';
+import { ButtonTrigger } from '../ButtonTrigger';
 import { SlotPressable } from '../Slot';
 import { Box, Pressable, Text } from '../Utility';
 import { useSelectActions } from './GlobalSelectContext';
@@ -10,6 +15,7 @@ import { SelectContextProvider, useSelectSafeContext } from './SelectContext';
 import type {
   SelectProps,
   SelectTriggerProps,
+  SelectButtonTriggerProps,
   SelectContentProps,
   SelectGroupProps,
   SelectLabelProps,
@@ -119,6 +125,7 @@ export const SelectTrigger = ({
   lx,
   style,
   label,
+  render,
   asChild = false,
   disabled: triggerDisabled,
   ...props
@@ -169,6 +176,25 @@ export const SelectTrigger = ({
     hasValue,
     hasLabel: !!finalLabel,
   });
+
+  if (render) {
+    const selectedItem = items.find(
+      (item) => item.type === 'item' && item.value === value,
+    );
+    const selectedContent =
+      selectedItem?.type === 'item' ? selectedItem.label : null;
+
+    return (
+      <SlotPressable
+        style={style}
+        disabled={disabled}
+        onPress={handlePress}
+        {...props}
+      >
+        {render({ selectedValue: value, selectedContent })}
+      </SlotPressable>
+    );
+  }
 
   const Comp = asChild ? SlotPressable : Pressable;
 
@@ -310,6 +336,15 @@ export const SelectValue = () => {
 };
 SelectValue.displayName = 'SelectValue';
 
+const hasComplexChildren = (children: React.ReactNode): boolean => {
+  const childArray = React.Children.toArray(children);
+  if (childArray.length !== 1) return true;
+  const onlyChild = childArray[0];
+  return !(
+    React.isValidElement(onlyChild) && onlyChild.type === SelectItemText
+  );
+};
+
 /**
  * Container for select items. This component collects all items
  * and makes them available to the bottom sheet.
@@ -332,10 +367,18 @@ export const SelectContent = ({ children }: SelectContentProps) => {
           const textValue =
             props.textValue ??
             extractTextFromChildren(props.children, SelectItemText);
+          const isComplex = hasComplexChildren(props.children);
+          if (__DEV__ && isComplex && !textValue) {
+            console.warn(
+              `SelectItem (value="${props.value}"): complex children detected but no text label could be resolved. ` +
+                'Add a <SelectItemText> inside the item or pass the textValue prop explicitly.',
+            );
+          }
           items.push({
             type: 'item',
             value: props.value,
             label: textValue,
+            content: isComplex ? props.children : undefined,
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
@@ -343,9 +386,8 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             (element.props as { children?: React.ReactNode }).children,
           );
         } else if (element.type === SelectLabel) {
-          const labelText = extractTextFromChildren(
+          const labelText = collectText(
             (element.props as { children?: React.ReactNode }).children,
-            SelectItemText,
           );
           items.push({
             type: 'group-label',
@@ -470,3 +512,15 @@ export const SelectSeparator = (_props: SelectSeparatorProps) => {
   return null;
 };
 SelectSeparator.displayName = 'SelectSeparator';
+
+export const SelectButtonTrigger = ({
+  selectedValue,
+  selectedContent,
+  label,
+  ...props
+}: SelectButtonTriggerProps) => (
+  <ButtonTrigger {...props}>
+    {selectedValue && selectedContent ? selectedContent : label}
+  </ButtonTrigger>
+);
+SelectButtonTrigger.displayName = 'SelectButtonTrigger';
