@@ -666,6 +666,133 @@ export const WithScrollbar: Story = {
   ),
 };
 
+/**
+ * Helper that wraps children in a container whose height smoothly transitions
+ * when the content size changes (e.g. switching steps in a dialog).
+ *
+ * How it works:
+ * - The *inner* div has natural (auto) height driven by children.
+ * - A ResizeObserver watches the inner div and copies its pixel height onto
+ *   the *outer* div, which carries a CSS transition on `height`.
+ * - The browser interpolates between the old and new pixel values, producing
+ *   a smooth resize even though the ultimate height is content-driven.
+ */
+const AnimatedHeight = ({ children }: { children: React.ReactNode }) => {
+  const outerRef = React.useRef<HTMLDivElement>(null);
+  const innerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const inner = innerRef.current;
+    const outer = outerRef.current;
+    if (!inner || !outer) return;
+
+    outer.style.height = `${inner.offsetHeight}px`;
+
+    const observer = new ResizeObserver(() => {
+      if (inner && outer) {
+        outer.style.height = `${inner.offsetHeight}px`;
+      }
+    });
+
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={outerRef}
+      style={{ overflow: 'hidden', transition: 'height 300ms ease' }}
+    >
+      <div ref={innerRef}>{children}</div>
+    </div>
+  );
+};
+
+const stepContents = [
+  <p key={0} className='body-2 text-base'>
+    Short content — click <strong className='body-2-semi-bold'>Next</strong> to
+    see the dialog grow smoothly.
+  </p>,
+
+  <div key={1} className='flex flex-col gap-16'>
+    <p className='body-2 text-base'>
+      This step has significantly more content to demonstrate the animated
+      height change.
+    </p>
+    <p className='body-2 text-muted'>
+      The dialog uses a ResizeObserver-based wrapper that reads the natural
+      content height and applies it as an explicit pixel value with a CSS
+      transition.
+    </p>
+    <div className='rounded-sm bg-muted p-12'>
+      <p className='body-3 text-muted'>
+        <strong className='body-3-semi-bold text-base'>How it works:</strong> An
+        inner <code>div</code> holds the content at its natural height. A
+        ResizeObserver copies that height onto an outer <code>div</code> which
+        carries <code>transition: height 300ms ease</code>.
+      </p>
+    </div>
+  </div>,
+
+  <div key={2} className='-mx-8 flex flex-col gap-4'>
+    {Array.from({ length: 6 }).map((_, i) => (
+      <ListItem key={i}>
+        <ListItemLeading>
+          <ListItemSpot appearance='icon' icon={Chart1} />
+          <ListItemContent>
+            <ListItemTitle>Item {i + 1}</ListItemTitle>
+            <ListItemDescription>
+              Description for item {i + 1}
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+    ))}
+  </div>,
+];
+
+export const SmoothHeightTransition: Story = {
+  render: () => {
+    const [open, setOpen] = React.useState(false);
+    const [step, setStep] = React.useState(0);
+
+    const handleOpenChange = (isOpen: boolean) => {
+      setOpen(isOpen);
+      if (!isOpen) setStep(0);
+    };
+
+    return (
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogTrigger asChild>
+          <Button appearance='base'>Open Dialog</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader
+            appearance='compact'
+            title={`Step ${step + 1} of ${stepContents.length}`}
+            onClose={() => setOpen(false)}
+            onBack={step > 0 ? () => setStep(step - 1) : undefined}
+          />
+          <DialogBody>
+            <AnimatedHeight>{stepContents[step]}</AnimatedHeight>
+          </DialogBody>
+          <DialogFooter>
+            {step < stepContents.length - 1 ? (
+              <Button appearance='base' onClick={() => setStep(step + 1)}>
+                Next
+              </Button>
+            ) : (
+              <Button appearance='base' onClick={() => setOpen(false)}>
+                Done
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  },
+};
+
 export const InfoStateVariants: Story = {
   render: () => {
     return (
