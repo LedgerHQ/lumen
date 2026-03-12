@@ -9,12 +9,13 @@ import {
   ListItemSpot,
   ListItemIcon,
 } from './ListItem';
-import { Tag } from '../Tag'
-import { Switch } from '../Switch'
-import { Checkbox } from '../Checkbox'
+import { Tag } from '../Tag';
+import { Switch } from '../Switch';
+import { Checkbox } from '../Checkbox';
 import { Settings } from '../../Symbols/Icons/Settings';
 
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols/Icons/Placeholder';
 
 figma.connect(
   ListItem,
@@ -22,6 +23,7 @@ figma.connect(
   {
     imports: [
       "import { ListItem, ListItemLeading, ListItemContent, ListItemTitle, ListItemDescription, ListItemTrailing, ListItemSpot } from '@ledgerhq/lumen-ui-react'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       title: figma.string('title'),
@@ -32,7 +34,7 @@ figma.connect(
       leadingContent: figma.enum('leading-content', {
         none: undefined,
         'no-icon': undefined,
-        coin: <ListItemSpot appearance='icon' icon={Settings} />,
+        coin: <Placeholder size={24} />,
         spot: <ListItemSpot appearance='icon' icon={Settings} />,
         'interface-icon': <ListItemIcon icon={Settings} />,
       }),
