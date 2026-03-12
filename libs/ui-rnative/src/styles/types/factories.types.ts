@@ -9,6 +9,7 @@ import {
   View as RNView,
   Pressable as RNPressable,
 } from 'react-native';
+import type { ImpactFeedbackStyle } from '../../lib/Haptics';
 import { LumenTextStyle, LumenViewStyle } from './lx.types';
 import { LumenTypographyTokenName } from './theme.types';
 
@@ -58,5 +59,11 @@ export type StyledPressableProps = {
    * Support LX property - [see documentation](/?path=/docs/style-system-lx--docs).
    */
   lx?: LumenViewStyle;
+  /**
+   * Triggers haptic feedback on press-in.
+   * - `true` — default medium intensity.
+   * - Impact style: `"light"` | `"medium"` | `"heavy"` | `"soft"` | `"rigid"`.
+   */
+  hapticFeedback?: ImpactFeedbackStyle | true;
 } & ExtendRNPressableProps &
   ComponentPropsWithRef<typeof RNPressable>;

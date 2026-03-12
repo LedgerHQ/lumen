@@ -7,6 +7,8 @@ const transformIncludePatterns = [
   '(jest-)?react-native',
   '@react-native(-community)?',
   '@sbaiahmed1/react-native-blur',
+  'expo-haptics',
+  'expo-modules-core',
 ];
 
 export default {
