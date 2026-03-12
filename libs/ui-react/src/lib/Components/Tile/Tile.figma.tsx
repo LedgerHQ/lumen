@@ -18,7 +18,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
     imports: [
-      "import { Tile, TileContent, TileTitle, TileDescription, TileSecondaryAction } from '@ledgerhq/lumen-ui-react'",
+      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction } from '@ledgerhq/lumen-ui-react'",
     ],
     variant: { 'show-additionnal-content': false },
     props: {
