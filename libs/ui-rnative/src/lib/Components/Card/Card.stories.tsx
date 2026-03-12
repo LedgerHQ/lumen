@@ -1,6 +1,6 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Wallet } from '../../Symbols';
 import { Button } from '../Button';
 import { Spot } from '../Spot';
@@ -34,7 +34,7 @@ const meta: Meta<typeof Card> = {
     CardFooterActions,
   },
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -303,10 +303,10 @@ export const ExpandableShowcase: Story = {
             <CardContentDescription>Network: Ethereum</CardContentDescription>
             <CardContentDescription>Fee: 0.001 ETH</CardContentDescription>
             <CardFooterActions>
-              <Button isFull appearance='red' size='sm'>
+              <Button lx={{ flex: 1 }} appearance='red' size='sm'>
                 Delete
               </Button>
-              <Button isFull appearance='base' size='sm'>
+              <Button lx={{ flex: 1 }} appearance='base' size='sm'>
                 Stake
               </Button>
             </CardFooterActions>
@@ -589,10 +589,10 @@ export const CompositionsShowcase: Story = {
           </CardHeader>
           <CardFooter>
             <CardFooterActions>
-              <Button isFull appearance='transparent' size='sm'>
+              <Button lx={{ flex: 1 }} appearance='transparent' size='sm'>
                 Sell
               </Button>
-              <Button isFull appearance='base' size='sm'>
+              <Button lx={{ flex: 1 }} appearance='base' size='sm'>
                 Stake now
               </Button>
             </CardFooterActions>
@@ -644,10 +644,10 @@ export const CompositionsShowcase: Story = {
           <CardFooter>
             <CardContentDescription>Fee: 0.001 ETH</CardContentDescription>
             <CardFooterActions>
-              <Button isFull appearance='transparent' size='sm'>
+              <Button lx={{ flex: 1 }} appearance='transparent' size='sm'>
                 Cancel
               </Button>
-              <Button isFull appearance='base' size='sm'>
+              <Button lx={{ flex: 1 }} appearance='base' size='sm'>
                 Confirm
               </Button>
             </CardFooterActions>

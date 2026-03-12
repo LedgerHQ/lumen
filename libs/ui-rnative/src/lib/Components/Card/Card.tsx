@@ -1,6 +1,8 @@
 import {
   createSafeContext,
+  DisabledProvider,
   isTextChildren,
+  useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import React, { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
@@ -20,7 +22,6 @@ import {
   CardContentRowProps,
   CardContentTitleProps,
   CardContextValue,
-  CardDisabledContextValue,
   CardFooterActionsProps,
   CardFooterProps,
   CardHeaderProps,
@@ -74,11 +75,6 @@ const [CardProvider, useCardContext] = createSafeContext<CardContextValue>(
     footerExpanded: true,
   },
 );
-
-const [CardDisabledProvider, useCardDisabledContext] =
-  createSafeContext<CardDisabledContextValue>('CardDisabled', {
-    disabled: false,
-  });
 
 const [CardContentAlignProvider, useCardContentAlignContext] =
   createSafeContext<CardContentAlignContextValue>('CardContentAlign', {
@@ -166,7 +162,7 @@ export const Card = ({
   if (innerContext.cardPressable) {
     return (
       <CardProvider value={innerContext}>
-        <CardDisabledProvider value={{ disabled }}>
+        <DisabledProvider value={{ disabled }}>
           <Pressable
             ref={ref}
             lx={lx}
@@ -188,14 +184,14 @@ export const Card = ({
               </CardInner>
             )}
           </Pressable>
-        </CardDisabledProvider>
+        </DisabledProvider>
       </CardProvider>
     );
   }
 
   return (
     <CardProvider value={innerContext}>
-      <CardDisabledProvider value={{ disabled }}>
+      <DisabledProvider value={{ disabled }}>
         <Box lx={lx} style={style} {...props}>
           <CardInner
             outlined={outlined}
@@ -206,7 +202,7 @@ export const Card = ({
             {children}
           </CardInner>
         </Box>
-      </CardDisabledProvider>
+      </DisabledProvider>
     </CardProvider>
   );
 };
@@ -259,9 +255,8 @@ export const CardHeader = ({
   style,
   ...props
 }: CardHeaderProps) => {
-  const { disabled } = useCardDisabledContext({
+  const disabled = useDisabledContext({
     consumerName: 'CardHeader',
-    contextRequired: false,
   });
   const { headerPressable, footerExpanded, onHeaderPress } = useCardContext({
     consumerName: 'CardHeader',
@@ -459,9 +454,8 @@ export const CardContentTitle = ({
   style,
   ...props
 }: CardContentTitleProps & { ref?: Ref<View> }) => {
-  const { disabled } = useCardDisabledContext({
+  const disabled = useDisabledContext({
     consumerName: 'CardContentTitle',
-    contextRequired: false,
   });
   const { align } = useCardContentAlignContext({
     consumerName: 'CardContentTitle',
@@ -526,9 +520,8 @@ export const CardContentDescription = ({
   style,
   ...props
 }: CardContentDescriptionProps & { ref?: Ref<View> }) => {
-  const { disabled } = useCardDisabledContext({
+  const disabled = useDisabledContext({
     consumerName: 'CardContentDescription',
-    contextRequired: false,
   });
   const { align } = useCardContentAlignContext({
     consumerName: 'CardContentDescription',
@@ -595,8 +588,9 @@ export const CardTrailing = ({
   ...props
 }: CardTrailingProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
-    () => ({
+    (t) => ({
       container: {
+        gap: t.spacings.s12,
         flexDirection: 'row',
         alignItems: 'center',
       },
@@ -671,9 +665,8 @@ export const CardFooter = ({
   style,
   ...props
 }: CardFooterProps & { ref?: Ref<View> }) => {
-  const { disabled } = useCardDisabledContext({
+  const disabled = useDisabledContext({
     consumerName: 'CardFooter',
-    contextRequired: false,
   });
   const { footerExpanded } = useCardContext({
     consumerName: 'CardFooter',
@@ -708,12 +701,7 @@ export const CardFooter = ({
   return (
     <Animated.View style={[footerStyles.wrapper, animatedContainerStyle]}>
       <View onLayout={onContentLayout}>
-        <Box
-          ref={ref}
-          lx={lx}
-          style={StyleSheet.flatten([footerStyles.content, style])}
-          {...props}
-        >
+        <Box ref={ref} lx={lx} style={[footerStyles.content, style]} {...props}>
           {children}
         </Box>
       </View>

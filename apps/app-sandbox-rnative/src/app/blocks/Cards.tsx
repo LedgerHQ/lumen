@@ -176,10 +176,10 @@ export const Cards = () => {
         </CardHeader>
         <CardFooter>
           <CardFooterActions>
-            <Button isFull appearance='transparent' size='sm'>
+            <Button lx={{ flex: 1 }} appearance='transparent' size='sm'>
               Sell
             </Button>
-            <Button isFull appearance='base' size='sm'>
+            <Button lx={{ flex: 1 }} appearance='base' size='sm'>
               Stake now
             </Button>
           </CardFooterActions>
@@ -236,10 +236,10 @@ export const Cards = () => {
         <CardFooter>
           <CardContentDescription>Fee: 0.001 ETH</CardContentDescription>
           <CardFooterActions>
-            <Button isFull appearance='transparent' size='sm'>
+            <Button lx={{ flex: 1 }} appearance='transparent' size='sm'>
               Cancel
             </Button>
-            <Button isFull appearance='base' size='sm'>
+            <Button lx={{ flex: 1 }} appearance='base' size='sm'>
               Confirm
             </Button>
           </CardFooterActions>

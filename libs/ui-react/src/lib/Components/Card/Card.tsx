@@ -377,7 +377,7 @@ export const CardTrailing = ({
       <div
         ref={ref}
         className={cn(
-          'flex shrink-0 items-center',
+          'flex shrink-0 items-center gap-12',
           disabled && 'text-disabled',
           className,
         )}
