@@ -50,6 +50,33 @@ export const Cards = () => {
 
       <Card
         lx={{ maxWidth: 'full' }}
+        disabled
+        onPress={() => {
+          return;
+        }}
+      >
+        <CardHeader>
+          <CardLeading>
+            <Spot appearance='icon' icon={Wallet} />
+            <CardContent>
+              <CardContentTitle>Bitcoin</CardContentTitle>
+              <CardContentDescription>BTC</CardContentDescription>
+            </CardContent>
+          </CardLeading>
+          <CardTrailing>
+            <CardContent>
+              <CardContentTitle>$43,210.00</CardContentTitle>
+              <CardContentDescription>0.5 BTC</CardContentDescription>
+            </CardContent>
+          </CardTrailing>
+        </CardHeader>
+        <CardFooter>
+          <CardContentDescription>1 asset on 1 network</CardContentDescription>
+        </CardFooter>
+      </Card>
+
+      <Card
+        lx={{ maxWidth: 'full' }}
         onPress={() => {
           return;
         }}
