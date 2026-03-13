@@ -67,39 +67,7 @@ const config = {
 export default config;
 ```
 
-### 2. Font Family Setup
-
-Our typography system uses the **Inter** font family. Since our typography classes (`heading-*`, `body-*`, `responsive-display-*`) set `font-family: Inter` through design tokens, **you must load the Inter font in your project** for text to render correctly.
-
-**Option A: Google Fonts (recommended)**
-
-Add the following to your HTML `<head>`:
-
-```html
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-  rel="stylesheet"
-/>
-```
-
-**Option B: Self-hosted**
-
-Download Inter from [Google Fonts](https://fonts.google.com/specimen/Inter) and add a `@font-face` declaration in your CSS:
-
-```css
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/inter.woff2') format('woff2');
-}
-```
-
-> **Note:** If Inter is not loaded, the browser will fall back to its default sans-serif font and text may not match the intended design.
-
-### 3. VSCode Extensions and Setup
+### 2. VSCode Extensions and Setup
 
 For the best development experience, we recommend the following setup:
 
@@ -135,7 +103,7 @@ For the best development experience, we recommend the following setup:
      ```
    - [View documentation →](https://www.npmjs.com/package/@ledgerhq/lumen-ui-react#-ai-assistant-setup)
 
-### 4. Utility Functions
+### 3. Utility Functions
 
 We recommend creating utility functions to help you work with Tailwind classes. Here's how to create powerful utilities that handle conditional classes, Tailwind class conflicts, and type-safe variants:
 

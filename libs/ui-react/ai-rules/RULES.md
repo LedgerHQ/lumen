@@ -16,10 +16,6 @@
 - Import icons from `@ledgerhq/lumen-ui-react/symbols` (not from main package)
 - Import design tokens/presets from `@ledgerhq/lumen-design-core`
 
-### Font Family (REQUIRED)
-
-Lumen typography classes set `font-family: Inter` via design tokens. The consumer project must load the Inter font. Recommend Google Fonts or self-hosting.
-
 ### Tailwind Configuration (REQUIRED)
 
 - Tailwind config MUST include Lumen in content array: `'./node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}'`
