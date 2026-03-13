@@ -9,7 +9,7 @@ import {
   TileTrailingContent,
 } from './Tile';
 import { Tag } from '../Tag';
-import { Settings } from '../../Symbols';
+import { MoreVertical, Settings } from '../../Symbols';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 
 import figma from '@figma/code-connect';
@@ -24,7 +24,7 @@ figma.connect(
       "import { Tile, TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
       "import { Tag } from '@ledgerhq/lumen-ui-react'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
-      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+      "import { Placeholder, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     variant: { 'show-additionnal-content': false },
     props: {
@@ -53,7 +53,7 @@ figma.connect(
         onClick={() => {}}
       >
         <TileSecondaryAction
-          icon={Settings}
+          icon={MoreVertical}
           onClick={() => {}}
         />
         {props.leadingContent}
@@ -75,7 +75,7 @@ figma.connect(
       "import { Tile, TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
       "import { Tag } from '@ledgerhq/lumen-ui-react'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
-      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+      "import { Placeholder, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     variant: { 'show-additionnal-content': true },
     props: {
@@ -116,7 +116,7 @@ figma.connect(
         onClick={() => {}}
       >
         <TileSecondaryAction
-          icon={Settings}
+          icon={MoreVertical}
           onClick={() => {}}
         />
         {props.leadingContent}
