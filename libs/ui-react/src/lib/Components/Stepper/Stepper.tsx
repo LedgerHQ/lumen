@@ -1,4 +1,8 @@
-import { cn, getStepperCalculations } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  getStepperCalculations,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { forwardRef } from 'react';
 import { StepperProps } from './types';
 
@@ -17,9 +21,21 @@ const STROKE_WIDTH = 4;
  */
 export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
   (
-    { className, currentStep, totalSteps, disabled = false, label, ...props },
+    {
+      className,
+      currentStep,
+      totalSteps,
+      disabled: disabledProp = false,
+      label,
+      ...props
+    },
     ref,
   ) => {
+    const disabled = useDisabledContext({
+      consumerName: 'Stepper',
+      mergeWith: { disabled: disabledProp },
+    });
+
     const {
       displayLabel,
       r,

@@ -1,4 +1,5 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import { useRef } from 'react';
 import {
   SegmentedControlContextProvider,
@@ -12,6 +13,40 @@ import {
   usePillElementLayoutEffect,
   useSegmentedControlSelectedIndex,
 } from './usePillElementLayoutEffect';
+
+const segmentedControlStyles = {
+  root: cva('relative flex w-full flex-row items-center rounded-sm', {
+    variants: {
+      appearance: {
+        background: 'bg-surface',
+        'no-background': 'bg-transparent',
+      },
+    },
+  }),
+  pill: cva(
+    'pointer-events-none absolute top-0 left-0 z-0 rounded-sm transition-transform duration-250 ease-in-out',
+    {
+      variants: {
+        disabled: {
+          true: 'bg-base-transparent-pressed',
+          false: 'bg-muted-transparent',
+        },
+      },
+    },
+  ),
+  item: cva(
+    'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
+    {
+      variants: {
+        selected: {
+          true: 'body-2-semi-bold text-base',
+          false:
+            'body-2 text-muted hover:body-2-semi-bold hover:text-muted-hover',
+        },
+      },
+    },
+  ),
+};
 
 export function SegmentedControlButton({
   value,
@@ -39,10 +74,9 @@ export function SegmentedControlButton({
         }
       }}
       className={cn(
-        'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
-        selected
-          ? 'body-2-semi-bold text-base'
-          : 'body-2 text-muted hover:body-2-semi-bold hover:text-muted-hover',
+        segmentedControlStyles.item({
+          selected,
+        }),
         className,
       )}
       {...props}
@@ -62,10 +96,14 @@ export function SegmentedControl({
   onSelectedChange,
   children,
   className,
-  disabled,
+  disabled: disabledProp,
   appearance = 'background',
   ...props
 }: SegmentedControlProps) {
+  const disabled = useDisabledContext({
+    consumerName: 'SegmentedControl',
+    mergeWith: { disabled: disabledProp },
+  });
   const ref = useRef<HTMLDivElement>(null);
   const selectedIndex = useSegmentedControlSelectedIndex(
     selectedValue,
@@ -87,18 +125,18 @@ export function SegmentedControl({
         role='radiogroup'
         aria-disabled={disabled}
         className={cn(
-          'relative flex w-full flex-row items-center rounded-sm',
-          appearance === 'background' && 'bg-surface',
+          segmentedControlStyles.root({
+            appearance,
+          }),
           className,
         )}
       >
         {children}
         <div
           aria-hidden
-          className={cn(
-            'pointer-events-none absolute top-0 left-0 z-0 rounded-sm transition-transform duration-250 ease-in-out',
-            disabled ? 'bg-base-transparent-pressed' : 'bg-muted-transparent',
-          )}
+          className={segmentedControlStyles.pill({
+            disabled,
+          })}
           style={{
             width: pill.width,
             height: pill.height,

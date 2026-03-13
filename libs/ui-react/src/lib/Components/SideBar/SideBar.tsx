@@ -1,4 +1,8 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  createSafeContext,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { t } from 'i18next';
 import React, { useCallback } from 'react';
@@ -198,11 +202,15 @@ export const SideBarItem = ({
   activeIcon: ActiveIcon,
   label,
   tooltipContent: tooltipContentProp,
-  disabled = false,
+  disabled: disabledProp = false,
   className,
   onClick,
   ...props
 }: SideBarItemProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'SideBarItem',
+    mergeWith: { disabled: disabledProp },
+  });
   const { collapsed, active, onActiveChange } = useSideBarContext({
     consumerName: 'SideBarItem',
     contextRequired: true,

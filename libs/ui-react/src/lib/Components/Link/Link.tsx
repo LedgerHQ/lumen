@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ExternalLink } from '../../Symbols';
@@ -24,11 +24,16 @@ const linkVariants = cva(
         true: 'underline underline-offset-2',
         false: '',
       },
+      disabled: {
+        true: 'pointer-events-none text-disabled',
+        false: '',
+      },
     },
     defaultVariants: {
       appearance: 'inherit',
       size: 'inherit',
       underline: true,
+      disabled: false,
     },
   },
 );
@@ -82,8 +87,13 @@ export const Link = ({
   icon,
   isExternal = false,
   asChild = false,
+  disabled: disabledProp,
   ...props
 }: LinkProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Link',
+    mergeWith: { disabled: disabledProp },
+  });
   const iconSizeMap: { [key: string]: IconSize } = {
     sm: 16,
     md: 20,
@@ -103,8 +113,10 @@ export const Link = ({
           appearance,
           size,
           underline,
+          disabled,
         }),
       )}
+      aria-disabled={disabled || undefined}
       target={isExternal && !asChild ? '_blank' : undefined}
       rel={isExternal && !asChild ? 'noopener noreferrer' : undefined}
       {...props}

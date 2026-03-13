@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check } from '../../Symbols/Icons/Check';
 import { CheckboxProps } from './types';
@@ -57,16 +57,29 @@ const checkboxStyles = cn(
  * // With custom styling (layout only)
  * <Checkbox className="mr-8" />
  */
-export const Checkbox = ({ ref, className, ...props }: CheckboxProps) => (
-  <CheckboxPrimitive.Root
-    ref={ref}
-    className={cn(checkboxStyles, className)}
-    {...props}
-  >
-    <CheckboxPrimitive.Indicator className='flex items-center justify-center'>
-      <Check size={16} />
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
-);
+export const Checkbox = ({
+  ref,
+  className,
+  disabled: disabledProp,
+  ...props
+}: CheckboxProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Checkbox',
+    mergeWith: { disabled: disabledProp },
+  });
+
+  return (
+    <CheckboxPrimitive.Root
+      ref={ref}
+      className={cn(checkboxStyles, className)}
+      disabled={disabled}
+      {...props}
+    >
+      <CheckboxPrimitive.Indicator className='flex items-center justify-center'>
+        <Check size={16} />
+      </CheckboxPrimitive.Indicator>
+    </CheckboxPrimitive.Root>
+  );
+};
 
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;

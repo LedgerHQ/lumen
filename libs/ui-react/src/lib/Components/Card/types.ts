@@ -10,6 +10,7 @@ export type CardContextValue = {
   cardClickable: boolean;
   headerClickable: boolean;
   footerExpanded: boolean;
+  disabled: boolean;
   onHeaderClick?: MouseEventHandler<HTMLDivElement>;
 };
 

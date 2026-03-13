@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { DeleteCircleFill } from '../../Symbols';
@@ -58,7 +58,7 @@ export const BaseInput = ({
   labelClassName,
   label,
   id,
-  disabled,
+  disabled: disabledProp,
   errorMessage,
   suffix,
   prefix,
@@ -68,6 +68,10 @@ export const BaseInput = ({
   onChange: onChangeProp,
   ...props
 }: BaseInputProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'BaseInput',
+    mergeWith: { disabled: disabledProp },
+  });
   const { t } = useCommonTranslation();
   const inputRef = React.useRef<HTMLInputElement>(null);
 
