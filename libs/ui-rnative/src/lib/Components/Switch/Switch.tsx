@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useControllableState } from '../../utils';
 import { Pressable } from '../Utility';
 import { BaseSwitchThumb, BaseSwitchRoot } from './BaseSwitch';
@@ -33,11 +34,15 @@ export const Switch = ({
   checked: checkedProp,
   onCheckedChange: onCheckedChangeProp,
   defaultChecked = false,
-  disabled,
+  disabled: disabledProp,
   size = 'md',
   ref,
   ...props
 }: SwitchProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Switch',
+    mergeWith: { disabled: disabledProp },
+  });
   const [checked, onCheckedChange] = useControllableState({
     prop: checkedProp,
     onChange: onCheckedChangeProp,

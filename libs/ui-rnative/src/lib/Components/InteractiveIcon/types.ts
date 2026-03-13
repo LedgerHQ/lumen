@@ -43,6 +43,11 @@ export type HitSlopType =
 
 export type InteractiveIconProps = {
   /**
+   * Whether the icon is disabled.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * The visual style of the icon button.
    * Choose 'filled' for icons with solid backgrounds or 'stroked' for outlined icons.
    */
@@ -55,4 +60,4 @@ export type InteractiveIconProps = {
    */
   hitSlopType?: HitSlopType;
 } & PropsWithChildren &
-  Omit<StyledPressableProps, 'children'>;
+  Omit<StyledPressableProps, 'children' | 'disabled'>;

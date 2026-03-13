@@ -129,18 +129,18 @@ const useStyles = ({
 export const Spot = (props: SpotProps) => {
   const {
     appearance,
-    disabled = false,
+    disabled: disabledProp = false,
     size = 48,
     lx = {},
     style,
     ...rest
   } = props;
-  const mergedDisabled = useDisabledContext({
+  const disabled = useDisabledContext({
     consumerName: 'Spot',
-    mergeWith: { disabled },
+    mergeWith: { disabled: disabledProp },
   });
 
-  const styles = useStyles({ size, appearance, disabled: mergedDisabled });
+  const styles = useStyles({ size, appearance, disabled });
   const calculatedIconSize = iconSizeMap[size];
 
   const content = useMemo(() => {

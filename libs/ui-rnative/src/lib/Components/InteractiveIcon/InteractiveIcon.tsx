@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Children, isValidElement, PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -79,13 +80,17 @@ const useStyles = ({
 export const InteractiveIcon = ({
   iconType,
   children,
-  disabled = false,
+  disabled: disabledProp = false,
   hitSlop: hitSlopProp,
   hitSlopType = 'comfortable',
   style,
   lx,
   ...props
 }: InteractiveIconProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'InteractiveIcon',
+    mergeWith: { disabled: disabledProp },
+  });
   const child = Children.only(children);
 
   let iconSize: IconSize = 20;
@@ -100,7 +105,7 @@ export const InteractiveIcon = ({
       lx={lx}
       style={[style, { alignItems: 'center', justifyContent: 'center' }]}
       accessibilityRole='button'
-      accessibilityState={{ disabled: !!disabled }}
+      accessibilityState={{ disabled }}
       disabled={disabled}
       hitSlop={resolvedHitSlop}
       {...props}
@@ -109,7 +114,7 @@ export const InteractiveIcon = ({
         <InteractiveIconContent
           iconType={iconType}
           pressed={pressed}
-          disabled={!!disabled}
+          disabled={disabled}
         >
           {children}
         </InteractiveIconContent>

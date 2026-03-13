@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronRight } from '../../Symbols';
@@ -128,10 +129,15 @@ export const CardButton = ({
   title,
   description,
   hideChevron,
-  disabled = false,
+  disabled: disabledProp = false,
   ref,
   ...props
 }: CardButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'CardButton',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
     <Pressable
       ref={ref}

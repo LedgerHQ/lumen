@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Text } from '../Utility';
 import { LabelProps } from './types';
@@ -23,14 +24,18 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
 export const Label = ({
   style,
   lx = {},
-  disabled = false,
+  disabled: disabledProp = false,
   children,
   onPress,
   onLongPress,
   ref,
   ...props
 }: LabelProps) => {
-  const styles = useStyles({ disabled });
+  const disabled = useDisabledContext({
+    consumerName: 'Label',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ disabled: !!disabled });
 
   return (
     <Text
