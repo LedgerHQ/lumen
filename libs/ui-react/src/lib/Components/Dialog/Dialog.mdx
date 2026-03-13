@@ -79,7 +79,7 @@ Always use the `DialogHeader` component as the header for dialogs to maintain co
 - Title and optional description
 - Close button
 - Optional back button for navigation
-- Two appearance variants: `compact` and `extended`
+- Two appearance variants: `compact` and `expanded`
 - Automatic accessibility with proper ARIA roles
 
 <Canvas of={DialogStories.HeaderVariants} />
@@ -181,16 +181,16 @@ function MyComponent() {
 }
 ```
 
-### Extended Appearance
+### Expanded Appearance
 
-Use extended `DialogHeader` for bigger dialogs:
+Use expanded `DialogHeader` for bigger dialogs:
 
 ```tsx
 <Dialog>
-  <DialogTrigger>Open Extended</DialogTrigger>
+  <DialogTrigger>Open Expanded</DialogTrigger>
   <DialogContent className='w-[800px]'>
-    <DialogHeader appearance='extended' title='Extended Dialog' />
-    <DialogBody>Extended content here</DialogBody>
+    <DialogHeader appearance='expanded' title='Expanded Dialog' />
+    <DialogBody>Expanded content here</DialogBody>
   </DialogContent>
 </Dialog>
 ```

@@ -54,11 +54,11 @@ describe('DialogHeader', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('renders extended appearance with title and description', () => {
+  it('renders expanded appearance with title and description', () => {
     render(
       <Dialog open>
         <DialogHeader
-          appearance='extended'
+          appearance='expanded'
           title='Test Title'
           description='Test Desc'
           onClose={() => {
@@ -73,11 +73,11 @@ describe('DialogHeader', () => {
     expect(descriptions.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('calls onClose when close button is clicked in extended appearance', () => {
+  it('calls onClose when close button is clicked in expanded appearance', () => {
     const onClose = vi.fn();
     render(
       <Dialog open>
-        <DialogHeader appearance='extended' onClose={onClose} />
+        <DialogHeader appearance='expanded' onClose={onClose} />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -86,12 +86,12 @@ describe('DialogHeader', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('renders back button and calls onBack when clicked in extended appearance', () => {
+  it('renders back button and calls onBack when clicked in expanded appearance', () => {
     const onBack = vi.fn();
     const onClose = vi.fn();
     render(
       <Dialog open>
-        <DialogHeader appearance='extended' onClose={onClose} onBack={onBack} />
+        <DialogHeader appearance='expanded' onClose={onClose} onBack={onBack} />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -112,10 +112,10 @@ describe('DialogHeader', () => {
     expect(buttons.length).toBe(1);
   });
 
-  it('renders close button in extended appearance without onClose prop', () => {
+  it('renders close button in expanded appearance without onClose prop', () => {
     render(
       <Dialog open>
-        <DialogHeader appearance='extended' title='Test Title' />
+        <DialogHeader appearance='expanded' title='Test Title' />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
