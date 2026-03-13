@@ -1,6 +1,7 @@
 import {
-  createSafeContext,
+  DisabledProvider,
   isTextChildren,
+  useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -9,16 +10,12 @@ import { Spot } from '../Spot';
 import { Box, Pressable, Text } from '../Utility';
 import {
   TileContentProps,
-  TileContextValue,
   TileDescriptionProps,
   TileProps,
   TileSpotProps,
   TileTitleProps,
   TileTrailingContentProps,
 } from './types';
-
-const [TileProvider, useTileContext] =
-  createSafeContext<TileContextValue>('Tile');
 
 type Appearance = NonNullable<TileProps['appearance']>;
 
@@ -114,14 +111,19 @@ export const Tile = ({
   lx = {},
   style,
   appearance = 'no-background',
-  disabled = false,
+  disabled: disabledProp = false,
   centered = false,
   children,
   ref,
   ...props
 }: TileProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Tile',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
-    <TileProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled }}>
       <Pressable
         ref={ref}
         lx={lx}
@@ -137,7 +139,7 @@ export const Tile = ({
         {({ pressed }) => (
           <TilePressableContent
             appearance={appearance}
-            disabled={disabled}
+            disabled={!!disabled}
             pressed={pressed}
             centered={centered}
           >
@@ -145,7 +147,7 @@ export const Tile = ({
           </TilePressableContent>
         )}
       </Pressable>
-    </TileProvider>
+    </DisabledProvider>
   );
 };
 
@@ -177,7 +179,7 @@ const TilePressableContent = ({
  * </Tile>
  */
 export const TileSpot = ({ size = 48, ...props }: TileSpotProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileSpot',
     contextRequired: true,
   });
@@ -250,7 +252,7 @@ const useTitleStyles = ({ disabled }: { disabled: boolean }) => {
  * If children is a string, it will be automatically wrapped in a Text component.
  */
 export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileTitle',
     contextRequired: true,
   });
@@ -320,7 +322,7 @@ export const TileDescription = ({
   lx,
   style,
 }: TileDescriptionProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileDescription',
     contextRequired: true,
   });

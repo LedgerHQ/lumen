@@ -78,14 +78,14 @@ export const Spot = (props: SpotProps) => {
   const {
     appearance,
     className,
-    disabled = false,
+    disabled: disabledProp = false,
     size = 48,
     ref,
     ...rest
   } = props;
-  const mergedDisabled = useDisabledContext({
+  const disabled = useDisabledContext({
     consumerName: 'Spot',
-    mergeWith: { disabled },
+    mergeWith: { disabled: disabledProp },
   });
 
   const sizeMap: Record<SpotSize, IconSize> = {
@@ -139,7 +139,7 @@ export const Spot = (props: SpotProps) => {
       className={cn(
         className,
         spotVariants({
-          disabled: mergedDisabled,
+          disabled,
           appearance,
           size,
         }),

@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Check } from '../../Symbols';
 import { useControllableState } from '../../utils';
@@ -37,11 +38,16 @@ export const Checkbox = ({
   checked: checkedProp,
   onCheckedChange: onCheckedChangeProp,
   defaultChecked = false,
-  disabled = false,
+  disabled: disabledProp = false,
   label,
   ref,
   ...props
 }: CheckboxProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Checkbox',
+    mergeWith: { disabled: disabledProp },
+  });
+
   const [checked, onCheckedChange] = useControllableState({
     prop: checkedProp,
     onChange: onCheckedChangeProp,

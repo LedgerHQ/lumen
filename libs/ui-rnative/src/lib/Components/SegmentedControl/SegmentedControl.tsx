@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
 import type { LumenTextStyle, LumenTypographyTokenName } from '../../../styles';
@@ -111,10 +112,14 @@ export function SegmentedControl({
   onSelectedChange,
   accessibilityLabel,
   children,
-  disabled,
+  disabled: disabledProp,
   appearance = 'background',
   ...props
 }: SegmentedControlProps) {
+  const disabled = useDisabledContext({
+    consumerName: 'SegmentedControl',
+    mergeWith: { disabled: disabledProp },
+  });
   const styles = useRootStyles({
     disabled: Boolean(disabled),
     appearance,

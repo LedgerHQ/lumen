@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, Text } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { IconSize } from '../Icon';
@@ -131,13 +132,17 @@ export const Tag = ({
   size = 'md',
   icon,
   label,
-  disabled = false,
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
   ...props
 }: TagProps) => {
-  const styles = useStyles({ appearance, size, disabled });
+  const disabled = useDisabledContext({
+    consumerName: 'Tag',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ appearance, size, disabled: !!disabled });
 
   const IconComponent = icon;
   const iconSize = iconSizeMap[size];

@@ -21,7 +21,7 @@ const useDisabledContext = ({
     contextRequired: contextRequired ?? false,
   });
 
-  return mergeWith?.disabled || disabledContext.disabled;
+  return Boolean(mergeWith?.disabled || disabledContext.disabled);
 };
 
 export { DisabledProvider, useDisabledContext };

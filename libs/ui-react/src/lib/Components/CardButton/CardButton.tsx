@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { ChevronRight } from '../../Symbols';
 import { CardButtonProps } from './types';
@@ -55,8 +55,13 @@ export const CardButton = ({
   title,
   description,
   hideChevron,
+  disabled: disabledProp,
   ...props
 }: CardButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'CardButton',
+    mergeWith: { disabled: disabledProp },
+  });
   const IconComponent = icon;
 
   return (
@@ -68,7 +73,7 @@ export const CardButton = ({
           appearance,
         }),
       )}
-      disabled={props.disabled}
+      disabled={disabled}
       {...props}
     >
       {IconComponent && <IconComponent size={24} className='shrink-0' />}

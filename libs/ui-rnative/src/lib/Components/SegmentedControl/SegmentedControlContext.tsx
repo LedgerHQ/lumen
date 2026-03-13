@@ -3,7 +3,7 @@ import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 export type SegmentedControlContextValue = {
   selectedValue: string;
   onSelectedChange: (value: string) => void;
-  disabled?: boolean;
+  disabled: boolean;
 };
 
 const [SegmentedControlContextProvider, _useSegmentedControlSafeContext] =

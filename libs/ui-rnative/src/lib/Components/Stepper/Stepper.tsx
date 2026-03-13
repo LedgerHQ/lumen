@@ -1,4 +1,7 @@
-import { getStepperCalculations } from '@ledgerhq/lumen-utils-shared';
+import {
+  getStepperCalculations,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { useEffect } from 'react';
 import Animated, {
   cancelAnimation,
@@ -59,11 +62,15 @@ export const Stepper = ({
   lx = {},
   currentStep,
   totalSteps,
-  disabled = false,
+  disabled: disabledProp = false,
   label,
   ref,
   ...props
 }: StepperProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Stepper',
+    mergeWith: { disabled: disabledProp },
+  });
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
 

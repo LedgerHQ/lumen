@@ -1,11 +1,14 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spot } from '../Spot';
 import {
   TileContentProps,
-  TileContextValue,
   TileDescriptionProps,
   TileProps,
   TileSecondaryActionProps,
@@ -13,9 +16,6 @@ import {
   TileTitleProps,
   TileTrailingContentProps,
 } from './types';
-
-const [TileProvider, useTileContext] =
-  createSafeContext<TileContextValue>('Tile');
 
 const tileVariants = {
   root: cva([
@@ -84,14 +84,19 @@ export const Tile = ({
   onClick,
   secondaryAction,
   appearance = 'no-background',
-  disabled = false,
+  disabled: disabledProp = false,
   centered = false,
   children,
   style,
   ...props
 }: TileProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Tile',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
-    <TileProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled }}>
       <div
         ref={ref}
         style={style}
@@ -113,7 +118,7 @@ export const Tile = ({
         </button>
         {secondaryAction}
       </div>
-    </TileProvider>
+    </DisabledProvider>
   );
 };
 Tile.displayName = 'Tile';
@@ -122,7 +127,7 @@ Tile.displayName = 'Tile';
  * A spot adapter for use within Tile. Automatically inherits the disabled state from the parent Tile.
  */
 export const TileSpot = ({ size = 48, ...props }: TileSpotProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileSpot',
     contextRequired: true,
   });
@@ -159,7 +164,7 @@ export const TileTitle = ({
   className,
   ...props
 }: TileTitleProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileTitle',
     contextRequired: true,
   });
@@ -187,7 +192,7 @@ export const TileDescription = ({
   className,
   ...props
 }: TileDescriptionProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileDescription',
     contextRequired: true,
   });
@@ -264,7 +269,7 @@ export const TileSecondaryAction = ({
   'aria-label': ariaLabel,
   ...props
 }: TileSecondaryActionProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileSecondaryAction',
     contextRequired: true,
   });
@@ -278,7 +283,9 @@ export const TileSecondaryAction = ({
     [onClick],
   );
 
-  if (disabled) return null;
+  if (disabled) {
+    return null;
+  }
 
   const Icon = icon;
 

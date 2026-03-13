@@ -2,6 +2,11 @@ import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type InteractiveIconProps = {
   /**
+   * Whether the icon is disabled.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * The visual style of the icon button.
    * Choose 'filled' for icons with solid backgrounds or 'stroked' for outlined icons.
    */
@@ -11,4 +16,4 @@ export type InteractiveIconProps = {
    * Should be a single icon element from the design system.
    */
   children: ReactNode;
-} & ComponentPropsWithRef<'button'>;
+} & Omit<ComponentPropsWithRef<'button'>, 'disabled'>;

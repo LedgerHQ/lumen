@@ -8,15 +8,12 @@ export type CardContextValue = {
   cardPressable: boolean;
   headerPressable: boolean;
   footerExpanded: boolean;
+  disabled: boolean;
   onHeaderPress?: (event: GestureResponderEvent) => void;
 };
 
 export type CardContentAlignContextValue = {
   align?: 'left' | 'right';
-};
-
-export type CardDisabledContextValue = {
-  disabled: boolean;
 };
 
 export type CardProps = {

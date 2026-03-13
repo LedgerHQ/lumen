@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ChevronDown } from '../../Symbols';
@@ -63,13 +63,17 @@ export const ButtonTrigger = ({
   className,
   appearance = 'gray',
   size = 'md',
-  disabled = false,
+  disabled: disabledProp = false,
   asChild = false,
   icon,
   iconType = 'flat',
   children,
   ...props
 }: ButtonTriggerProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'ButtonTrigger',
+    mergeWith: { disabled: disabledProp },
+  });
   const effectiveIconType = icon ? iconType : 'none';
   const Comp = asChild ? Slot : 'button';
 
