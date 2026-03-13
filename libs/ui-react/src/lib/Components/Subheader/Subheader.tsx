@@ -2,7 +2,6 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import {
-  SubheaderActionProps,
   SubheaderCountProps,
   SubheaderDescriptionProps,
   SubheaderInfoProps,
@@ -152,31 +151,6 @@ export const SubheaderDescription = ({
 };
 
 /**
- * Action component for the Subheader. Displays an interactive text button.
- * Automatically positions itself at the end of the row using ml-auto.
- */
-export const SubheaderAction = ({
-  children,
-  onClick,
-  className,
-  ...props
-}: SubheaderActionProps) => {
-  return (
-    <button
-      type='button'
-      onClick={onClick}
-      className={cn(
-        'ml-auto shrink-0 cursor-pointer pl-8 body-2 text-interactive',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
-
-/**
  * A subheader component for displaying section titles with optional count, hints, descriptions, and action elements.
  * Uses a composable API where you explicitly nest sub-components to define the layout.
  *
@@ -210,7 +184,7 @@ export const SubheaderAction = ({
  * </Subheader>
  *
  * @example
- * // Interactive row with action
+ * // Interactive row
  * <Subheader>
  *   <SubheaderRow onClick={handleClick}>
  *     <SubheaderTitle>Accounts</SubheaderTitle>

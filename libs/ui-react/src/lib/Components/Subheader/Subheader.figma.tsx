@@ -3,13 +3,11 @@ import {
   Subheader,
   SubheaderRow,
   SubheaderTitle,
-  SubheaderAction,
   SubheaderCount,
   SubheaderDescription,
   SubheaderInfo,
   SubheaderShowMore,
 } from './Subheader';
-import { Link } from '../Link/Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 
 import figma from '@figma/code-connect';
@@ -51,52 +49,6 @@ figma.connect(
         <SubheaderRow>
           <SubheaderTitle>{props.title}</SubheaderTitle>
           {props.info}
-        </SubheaderRow>
-        {props.descriptionBlock}
-      </Subheader>
-    ),
-  },
-);
-
-figma.connect(
-  Subheader,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
-  {
-    imports: [],
-    variant: { action: 'button' },
-    props: {
-      title: figma.string('title'),
-      description: figma.string('description'),
-      info: figma.boolean('show-info', {
-        true: (
-          <Tooltip>
-            <TooltipTrigger>
-              <SubheaderInfo />
-            </TooltipTrigger>
-            <TooltipContent>Additional information</TooltipContent>
-          </Tooltip>
-        ),
-        false: undefined,
-      }),
-      descriptionBlock: figma.boolean('show-description', {
-        true: (
-          <SubheaderDescription>
-            Description
-          </SubheaderDescription>
-        ),
-        false: undefined,
-      }),
-    },
-    example: (props) => (
-      <Subheader>
-        <SubheaderRow>
-          <SubheaderTitle>{props.title}</SubheaderTitle>
-          {props.info}
-          <SubheaderAction onClick={() => {}}>
-            <Link href='#' appearance='accent' size='sm'>
-              Action
-            </Link>
-          </SubheaderAction>
         </SubheaderRow>
         {props.descriptionBlock}
       </Subheader>

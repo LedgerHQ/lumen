@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import { InteractiveIconProps } from '../InteractiveIcon';
 
 export type SubheaderProps = {
@@ -64,17 +64,6 @@ export type SubheaderDescriptionProps = {
    */
   children: ReactNode;
 } & Omit<HTMLAttributes<HTMLParagraphElement>, 'children'>;
-
-export type SubheaderActionProps = {
-  /**
-   * The action element to display (e.g., button text).
-   */
-  children: ReactNode;
-  /**
-   * Click handler for the action.
-   */
-  onClick: () => void;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'onClick'>;
 
 export type SubheaderShowMoreProps = Omit<
   HTMLAttributes<HTMLSpanElement>,

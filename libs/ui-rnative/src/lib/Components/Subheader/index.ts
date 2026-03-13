@@ -6,6 +6,5 @@ export {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 export * from './types';

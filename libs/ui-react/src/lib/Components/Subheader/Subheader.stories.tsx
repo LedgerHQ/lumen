@@ -11,7 +11,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 
 const Container = ({
@@ -31,7 +30,6 @@ const meta: Meta<typeof Subheader> = {
     SubheaderCount,
     SubheaderInfo,
     SubheaderShowMore,
-    SubheaderAction,
   },
   parameters: {
     docs: {
@@ -166,16 +164,26 @@ export const WithAction: Story = {
   render: () => (
     <Container>
       <Subheader>
-        <SubheaderRow>
-          <SubheaderTitle>Recent Activity</SubheaderTitle>
-          <SubheaderAction onClick={() => console.log('View all clicked')}>
-            <Link appearance='accent' size='sm' underline={false}>
-              View all
-            </Link>
-          </SubheaderAction>
-        </SubheaderRow>
+        <div className='flex w-full items-center justify-between gap-24'>
+          <SubheaderRow className='min-w-0 flex-1'>
+            <SubheaderTitle>Recent Activity</SubheaderTitle>
+          </SubheaderRow>
+          <Link
+            href='#'
+            appearance='accent'
+            size='sm'
+            underline={false}
+            className='shrink-0'
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('View all clicked');
+            }}
+          >
+            View all
+          </Link>
+        </div>
         <SubheaderDescription>
-          Use actions for quick access to related functionality
+          Place the action link in a flex layout beside the subheader
         </SubheaderDescription>
       </Subheader>
     </Container>
@@ -185,16 +193,16 @@ export const WithAction: Story = {
       source: {
         code: `
 <Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Recent Activity</SubheaderTitle>
-    <SubheaderAction onClick={handleViewAll}>
-      <Link appearance="accent" size="sm" underline={false}>
-        View all
-      </Link>
-    </SubheaderAction>
-  </SubheaderRow>
+  <div className="flex w-full items-center justify-between gap-24">
+    <SubheaderRow className="min-w-0 flex-1">
+      <SubheaderTitle>Recent Activity</SubheaderTitle>
+    </SubheaderRow>
+    <Link href="#" appearance="accent" size="sm" underline={false} className="shrink-0">
+      View all
+    </Link>
+  </div>
   <SubheaderDescription>
-    Use actions for quick access to related functionality
+    Place the action link in a flex layout beside the subheader
   </SubheaderDescription>
 </Subheader>
         `,
