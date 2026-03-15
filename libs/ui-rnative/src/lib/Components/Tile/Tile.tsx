@@ -5,14 +5,12 @@ import {
 import { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { Spot } from '../Spot';
 import { Box, Pressable, Text } from '../Utility';
 import {
   TileContentProps,
   TileContextValue,
   TileDescriptionProps,
   TileProps,
-  TileSpotProps,
   TileTitleProps,
   TileTrailingContentProps,
 } from './types';
@@ -85,12 +83,13 @@ const useRootStyles = ({
  * Do not use it to modify the tile's core appearance (colors, padding, etc). Use the `appearance` prop instead.
  *
  * @example
- * // Basic tile with spot and content
- * import { Tile, TileSpot, TileContent, TileTitle, TileDescription } from '@ledgerhq/lumen-ui-rnative';
+ * // Basic tile with icon and content
+ * import { Tile, TileContent, TileTitle, TileDescription } from '@ledgerhq/lumen-ui-rnative';
+ * import { Spot } from '@ledgerhq/lumen-ui-rnative';
  * import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onPress={() => console.log('Pressed!')}>
- *   <TileSpot appearance="icon" icon={Wallet} />
+ *   <Spot appearance="icon" icon={Wallet} />
  *   <TileContent>
  *     <TileTitle>My Wallet</TileTitle>
  *     <TileDescription>Description</TileDescription>
@@ -98,16 +97,18 @@ const useRootStyles = ({
  * </Tile>
  *
  * @example
- * // With custom content and long press
- * import { Tile, TileSpot, TileContent, TileTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
+ * // With trailing content (Tags)
+ * import { Tile, TileContent, TileTitle, TileTrailingContent, Tag } from '@ledgerhq/lumen-ui-rnative';
  * import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onLongPress={() => console.log('Long pressed')}>
- *   <TileSpot appearance="icon" icon={Bitcoin} />
+ *   <Spot appearance="icon" icon={Bitcoin} />
  *   <TileContent>
  *     <TileTitle>Bitcoin</TileTitle>
+ *     <TileTrailingContent>
+ *       <Tag label="Active" />
+ *     </TileTrailingContent>
  *   </TileContent>
- *   <Tag label="Active" />
  * </Tile>
  */
 export const Tile = ({
@@ -168,22 +169,6 @@ const TilePressableContent = ({
   return <View style={styles.container}>{children}</View>;
 };
 
-/**
- * A spot adapter for use within Tile. Automatically inherits the disabled state from the parent Tile.
- *
- * @example
- * <Tile>
- *   <TileSpot appearance="icon" icon={Settings} />
- * </Tile>
- */
-export const TileSpot = ({ size = 48, ...props }: TileSpotProps) => {
-  const { disabled } = useTileContext({
-    consumerName: 'TileSpot',
-    contextRequired: true,
-  });
-  return <Spot {...props} size={size} disabled={disabled} />;
-};
-
 const useContentStyles = () => {
   return useStyleSheet(
     (t) => ({
@@ -195,17 +180,18 @@ const useContentStyles = () => {
     [],
   );
 };
-TileSpot.displayName = 'TileSpot';
-
 /**
- * A container for grouping TileTitle and TileDescription with consistent spacing.
+ * A container for grouping TileTitle, TileDescription and TileTrailingContent with consistent spacing.
  * Use this to wrap text content within a Tile.
  *
  * @example
  * <Tile>
  *   <TileContent>
  *     <TileTitle>My Title</TileTitle>
- *     <TileDescription>My Description</TileDescription>
+ *     <TileDescription>Description</TileDescription>
+ *     <TileTrailingContent>
+ *       <Tag label="Active" />
+ *     </TileTrailingContent>
  *   </TileContent>
  * </Tile>
  */

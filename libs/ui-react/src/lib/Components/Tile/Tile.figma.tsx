@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
@@ -12,13 +11,14 @@ import { Tag } from '../Tag';
 import { Settings } from '../../Symbols';
 
 import figma from '@figma/code-connect';
+import { Spot } from '../Spot';
 
 figma.connect(
   Tile,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
     imports: [
-      "import { Tile, TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction } from '@ledgerhq/lumen-ui-react'",
+      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction } from '@ledgerhq/lumen-ui-react'",
     ],
     variant: { 'show-additionnal-content': false },
     props: {
@@ -45,7 +45,7 @@ figma.connect(
           icon={Settings}
           onClick={() => {}}
         />
-        <TileSpot appearance='icon' icon={Settings} />
+        <Spot appearance='icon' icon={Settings} />
         <TileContent>
           <TileTitle>{props.title}</TileTitle>
           <TileDescription>{props.description}</TileDescription>
@@ -60,7 +60,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
     imports: [
-      "import { Tile, TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction } from '@ledgerhq/lumen-ui-react'",
+      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction } from '@ledgerhq/lumen-ui-react'",
     ],
     variant: { 'show-additionnal-content': true },
     props: {
@@ -101,7 +101,7 @@ figma.connect(
         centered={true}
         aria-label='Tile aria'
       >
-        <TileSpot appearance='icon' icon={Settings} />
+        <Spot appearance='icon' icon={Settings} />
         <TileContent>
           <TileTitle>{props.title}</TileTitle>
           <TileDescription>{props.description}</TileDescription>

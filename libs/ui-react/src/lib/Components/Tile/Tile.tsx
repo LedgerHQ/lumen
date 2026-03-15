@@ -1,15 +1,17 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  createSafeContext,
+  DisabledProvider,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { Spot } from '../Spot';
 import {
   TileContentProps,
   TileContextValue,
   TileDescriptionProps,
   TileProps,
   TileSecondaryActionProps,
-  TileSpotProps,
   TileTitleProps,
   TileTrailingContentProps,
 } from './types';
@@ -61,17 +63,17 @@ const tileVariants = {
  * @example
  * import {
  *   Tile,
- *   TileSpot,
  *   TileContent,
  *   TileTitle,
  *   TileSecondaryAction,
  *   Tag
  * } from '@ledgerhq/lumen-ui-react';
+ * import { Spot } from '@ledgerhq/lumen-ui-react';
  * import { Bitcoin, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
  *
  * <Tile appearance="card">
  *   <TileSecondaryAction icon={MoreVertical} onClick={() => console.log('More')} />
- *   <TileSpot appearance="icon" icon={Bitcoin} />
+ *   <Spot appearance="icon" icon={Bitcoin} />
  *   <TileContent>
  *     <TileTitle>Bitcoin</TileTitle>
  *   </TileContent>
@@ -109,7 +111,7 @@ export const Tile = ({
             centered,
           })}
         >
-          {children}
+          <DisabledProvider value={{ disabled }}>{children}</DisabledProvider>
         </button>
         {secondaryAction}
       </div>
@@ -117,18 +119,6 @@ export const Tile = ({
   );
 };
 Tile.displayName = 'Tile';
-
-/**
- * A spot adapter for use within Tile. Automatically inherits the disabled state from the parent Tile.
- */
-export const TileSpot = ({ size = 48, ...props }: TileSpotProps) => {
-  const { disabled } = useTileContext({
-    consumerName: 'TileSpot',
-    contextRequired: true,
-  });
-  return <Spot {...props} size={size} disabled={disabled} />;
-};
-TileSpot.displayName = 'TileSpot';
 
 /**
  * A container for grouping TileTitle and TileDescription with consistent spacing.
@@ -213,7 +203,7 @@ TileDescription.displayName = 'TileDescription';
  *
  * @example
  * <Tile>
- *   <TileSpot appearance="icon" icon={Settings} />
+ *   <Spot appearance="icon" icon={Settings} />
  *   <TileContent>
  *     <TileTitle>My Title</TileTitle>
  *     <TileDescription>Description</TileDescription>
