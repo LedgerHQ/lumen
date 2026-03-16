@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
 import { Pressable } from '../Utility';
-import type { ButtonTriggerProps } from './types';
+import type { TriggerButtonProps } from './types';
 
-type Appearance = NonNullable<ButtonTriggerProps['appearance']>;
-type Size = NonNullable<ButtonTriggerProps['size']>;
+type Appearance = NonNullable<TriggerButtonProps['appearance']>;
+type Size = NonNullable<TriggerButtonProps['size']>;
 type IconType = 'flat' | 'rounded' | 'none';
 
 const useStyles = ({
@@ -139,16 +139,16 @@ const useStyles = ({
  * @see {@link https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6389-45680 Figma}
  *
  * @example
- * import { ButtonTrigger } from '@ledgerhq/lumen-ui-rnative';
+ * import { TriggerButton } from '@ledgerhq/lumen-ui-rnative';
  * import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <ButtonTrigger icon={<Settings size={20} />} iconType="flat">
+ * <TriggerButton icon={<Settings size={20} />} iconType="flat">
  *   Network
- * </ButtonTrigger>
+ * </TriggerButton>
  *
- * <ButtonTrigger>All accounts</ButtonTrigger>
+ * <TriggerButton>All accounts</TriggerButton>
  */
-export const ButtonTrigger = ({
+export const TriggerButton = ({
   lx,
   style,
   appearance = 'gray',
@@ -159,7 +159,7 @@ export const ButtonTrigger = ({
   children: label,
   ref,
   ...props
-}: ButtonTriggerProps) => {
+}: TriggerButtonProps) => {
   const effectiveIconType: IconType = icon ? iconType : 'none';
 
   return (
@@ -173,7 +173,7 @@ export const ButtonTrigger = ({
       {...props}
     >
       {({ pressed }) => (
-        <ButtonTriggerContent
+        <TriggerButtonContent
           appearance={appearance}
           size={size}
           disabled={disabled}
@@ -182,22 +182,22 @@ export const ButtonTrigger = ({
           icon={icon}
         >
           {label}
-        </ButtonTriggerContent>
+        </TriggerButtonContent>
       )}
     </Pressable>
   );
 };
 
-type ButtonTriggerContentProps = PropsWithChildren<{
+type TriggerButtonContentProps = PropsWithChildren<{
   appearance: Appearance;
   size: Size;
   disabled: boolean;
   pressed: boolean;
   iconType: IconType;
-  icon?: ButtonTriggerProps['icon'];
+  icon?: TriggerButtonProps['icon'];
 }>;
 
-const ButtonTriggerContent = ({
+const TriggerButtonContent = ({
   appearance,
   size,
   disabled,
@@ -205,7 +205,7 @@ const ButtonTriggerContent = ({
   iconType,
   icon,
   children,
-}: ButtonTriggerContentProps) => {
+}: TriggerButtonContentProps) => {
   const styles = useStyles({ appearance, size, disabled, pressed, iconType });
 
   return (
@@ -225,4 +225,4 @@ const ButtonTriggerContent = ({
   );
 };
 
-ButtonTrigger.displayName = 'ButtonTrigger';
+TriggerButton.displayName = 'TriggerButton';

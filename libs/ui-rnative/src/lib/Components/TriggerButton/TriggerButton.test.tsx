@@ -6,7 +6,7 @@ import { View, ViewStyle } from 'react-native';
 
 import { Settings } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { ButtonTrigger } from './ButtonTrigger';
+import { TriggerButton } from './TriggerButton';
 
 const renderWithProvider = (component: React.ReactElement) => {
   return render(
@@ -16,11 +16,11 @@ const renderWithProvider = (component: React.ReactElement) => {
   );
 };
 
-describe('ButtonTrigger', () => {
+describe('TriggerButton', () => {
   describe('Rendering', () => {
     it('should render with label text and correct accessibility role', () => {
       renderWithProvider(
-        <ButtonTrigger testID='trigger'>All accounts</ButtonTrigger>,
+        <TriggerButton testID='trigger'>All accounts</TriggerButton>,
       );
       const trigger = screen.getByTestId('trigger');
       expect(trigger).toBeTruthy();
@@ -29,7 +29,7 @@ describe('ButtonTrigger', () => {
     });
 
     it('should always render a chevron icon', () => {
-      renderWithProvider(<ButtonTrigger testID='trigger'>Label</ButtonTrigger>);
+      renderWithProvider(<TriggerButton testID='trigger'>Label</TriggerButton>);
       expect(screen.getByTestId('button-trigger-chevron')).toBeTruthy();
     });
 
@@ -37,9 +37,9 @@ describe('ButtonTrigger', () => {
       'should render without errors for appearance "%s"',
       (appearance) => {
         renderWithProvider(
-          <ButtonTrigger testID='trigger' appearance={appearance}>
+          <TriggerButton testID='trigger' appearance={appearance}>
             Label
-          </ButtonTrigger>,
+          </TriggerButton>,
         );
         expect(screen.getByTestId('trigger')).toBeTruthy();
       },
@@ -49,9 +49,9 @@ describe('ButtonTrigger', () => {
       'should render without errors for size "%s"',
       (size) => {
         renderWithProvider(
-          <ButtonTrigger testID='trigger' size={size}>
+          <TriggerButton testID='trigger' size={size}>
             Label
-          </ButtonTrigger>,
+          </TriggerButton>,
         );
         expect(screen.getByTestId('trigger')).toBeTruthy();
       },
@@ -61,13 +61,13 @@ describe('ButtonTrigger', () => {
   describe('Icons', () => {
     it('should render with a flat interface icon', () => {
       renderWithProvider(
-        <ButtonTrigger
+        <TriggerButton
           testID='trigger'
           icon={<Settings size={20} testID='icon' />}
           iconType='flat'
         >
           Network
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
       expect(screen.getByTestId('icon')).toBeTruthy();
       expect(screen.getByText('Network')).toBeTruthy();
@@ -75,13 +75,13 @@ describe('ButtonTrigger', () => {
 
     it('should render with a rounded icon', () => {
       renderWithProvider(
-        <ButtonTrigger
+        <TriggerButton
           testID='trigger'
           icon={<View testID='crypto-icon' />}
           iconType='rounded'
         >
           Bitcoin
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
       expect(screen.getByTestId('crypto-icon')).toBeTruthy();
       expect(screen.getByText('Bitcoin')).toBeTruthy();
@@ -91,9 +91,9 @@ describe('ButtonTrigger', () => {
   describe('States', () => {
     it('should be disabled when disabled prop is true', () => {
       renderWithProvider(
-        <ButtonTrigger testID='trigger' disabled>
+        <TriggerButton testID='trigger' disabled>
           Label
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
       const trigger = screen.getByTestId('trigger');
       expect(trigger.props.accessibilityState.disabled).toBe(true);
@@ -104,9 +104,9 @@ describe('ButtonTrigger', () => {
     it('should call onPress when pressed', () => {
       const handlePress = jest.fn();
       renderWithProvider(
-        <ButtonTrigger testID='trigger' onPress={handlePress}>
+        <TriggerButton testID='trigger' onPress={handlePress}>
           Press me
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
 
       fireEvent.press(screen.getByTestId('trigger'));
@@ -116,9 +116,9 @@ describe('ButtonTrigger', () => {
     it('should not call onPress when disabled', () => {
       const handlePress = jest.fn();
       renderWithProvider(
-        <ButtonTrigger testID='trigger' onPress={handlePress} disabled>
+        <TriggerButton testID='trigger' onPress={handlePress} disabled>
           Disabled
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
 
       fireEvent.press(screen.getByTestId('trigger'));
@@ -130,9 +130,9 @@ describe('ButtonTrigger', () => {
     it('should forward ref', () => {
       const ref = createRef<View>();
       renderWithProvider(
-        <ButtonTrigger ref={ref} testID='trigger'>
+        <TriggerButton ref={ref} testID='trigger'>
           Label
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
       expect(ref.current).toBeTruthy();
     });
@@ -142,13 +142,13 @@ describe('ButtonTrigger', () => {
     it('should apply custom style and lx props', () => {
       const customStyle: ViewStyle = { marginTop: 16 };
       renderWithProvider(
-        <ButtonTrigger
+        <TriggerButton
           testID='trigger'
           style={customStyle}
           lx={{ padding: 's8' }}
         >
           Styled
-        </ButtonTrigger>,
+        </TriggerButton>,
       );
       const trigger = screen.getByTestId('trigger');
       expect(trigger.props.style).toBeDefined();

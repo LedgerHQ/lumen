@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { StyledPressableProps } from '../../../styles';
 
-export type ButtonTriggerProps = {
+export type TriggerButtonProps = {
   /**
    * The visual style of the trigger button.
    * @default 'gray'

@@ -3,14 +3,12 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import React from 'react';
 import { Settings, Star } from '../../Symbols';
 import { Box } from '../Utility';
-import { ButtonTrigger } from './ButtonTrigger';
+import { TriggerButton } from './TriggerButton';
 
-const meta: Meta<typeof ButtonTrigger> = {
-  component: ButtonTrigger,
-  title: 'Action/ButtonTrigger',
+const meta: Meta<typeof TriggerButton> = {
+  component: TriggerButton,
+  title: 'Action/TriggerButton',
   parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
     docs: {
       source: {
         language: 'tsx',
@@ -22,21 +20,21 @@ const meta: Meta<typeof ButtonTrigger> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof ButtonTrigger>;
+type Story = StoryObj<typeof TriggerButton>;
 
 export const Base: Story = {
   args: {
     children: 'All accounts',
     appearance: 'gray',
   },
-  render: (args) => <ButtonTrigger {...args} />,
+  render: (args) => <TriggerButton {...args} />,
   parameters: {
     docs: {
       source: {
         code: `
-<ButtonTrigger appearance="gray">
+<TriggerButton appearance="gray">
   All accounts
-</ButtonTrigger>
+</TriggerButton>
 `,
       },
     },
@@ -46,12 +44,12 @@ export const Base: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
-      <ButtonTrigger size='sm' icon={<Star size={20} />} iconType='flat'>
+      <TriggerButton size='sm' icon={<Star size={20} />} iconType='flat'>
         Small
-      </ButtonTrigger>
-      <ButtonTrigger size='md' icon={<Star size={20} />} iconType='flat'>
+      </TriggerButton>
+      <TriggerButton size='md' icon={<Star size={20} />} iconType='flat'>
         Medium
-      </ButtonTrigger>
+      </TriggerButton>
     </Box>
   ),
 };
@@ -60,42 +58,42 @@ export const IconTypeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
-        <ButtonTrigger
+        <TriggerButton
           icon={<Settings size={20} />}
           iconType='flat'
           appearance='gray'
         >
           Flat icon (md)
-        </ButtonTrigger>
-        <ButtonTrigger
+        </TriggerButton>
+        <TriggerButton
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />}
           iconType='rounded'
           appearance='gray'
         >
           Rounded icon (md)
-        </ButtonTrigger>
-        <ButtonTrigger appearance='gray'>No icon (md)</ButtonTrigger>
+        </TriggerButton>
+        <TriggerButton appearance='gray'>No icon (md)</TriggerButton>
       </Box>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
-        <ButtonTrigger
+        <TriggerButton
           icon={<Settings size={20} />}
           iconType='flat'
           appearance='gray'
           size='sm'
         >
           Flat icon (sm)
-        </ButtonTrigger>
-        <ButtonTrigger
+        </TriggerButton>
+        <TriggerButton
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
           iconType='rounded'
           appearance='gray'
           size='sm'
         >
           Rounded icon (sm)
-        </ButtonTrigger>
-        <ButtonTrigger appearance='gray' size='sm'>
+        </TriggerButton>
+        <TriggerButton appearance='gray' size='sm'>
           No icon (sm)
-        </ButtonTrigger>
+        </TriggerButton>
       </Box>
     </Box>
   ),
@@ -111,21 +109,21 @@ export const AppearanceShowcase: Story = {
             key={appearance}
             lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}
           >
-            <ButtonTrigger appearance={appearance}>{appearance}</ButtonTrigger>
-            <ButtonTrigger
+            <TriggerButton appearance={appearance}>{appearance}</TriggerButton>
+            <TriggerButton
               appearance={appearance}
               icon={<Settings size={20} />}
               iconType='flat'
             >
               {appearance}
-            </ButtonTrigger>
-            <ButtonTrigger
+            </TriggerButton>
+            <TriggerButton
               appearance={appearance}
               icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />}
               iconType='rounded'
             >
               {appearance}
-            </ButtonTrigger>
+            </TriggerButton>
           </Box>
         ))}
       </Box>

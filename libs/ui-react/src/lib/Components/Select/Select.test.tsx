@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectItemText,
   SelectTrigger,
-  SelectButtonTrigger,
+  SelectTriggerButton,
 } from './Select';
 
 describe('Select', () => {
@@ -194,13 +194,13 @@ describe('SelectTrigger render prop', () => {
   });
 });
 
-describe('SelectButtonTrigger', () => {
+describe('SelectTriggerButton', () => {
   it('renders the label when no value is selected', () => {
     render(
       <Select>
         <SelectTrigger
           render={(renderProps) => (
-            <SelectButtonTrigger {...renderProps} label='Pick one' />
+            <SelectTriggerButton {...renderProps} label='Pick one' />
           )}
         />
         <SelectContent>
@@ -219,7 +219,7 @@ describe('SelectButtonTrigger', () => {
       <Select defaultValue='option1'>
         <SelectTrigger
           render={(renderProps) => (
-            <SelectButtonTrigger {...renderProps} label='Pick one' />
+            <SelectTriggerButton {...renderProps} label='Pick one' />
           )}
         />
         <SelectContent>

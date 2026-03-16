@@ -90,7 +90,7 @@ The `render` function receives two props:
 
 ### Trigger Variants
 
-`SelectButtonTrigger` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `ButtonTrigger` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
+`SelectTriggerButton` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `TriggerButton` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
 
 <Canvas of={SelectStories.TriggerShowcase} />
 
@@ -298,14 +298,14 @@ const [value, setValue] = useState('option1');
 
 The `SelectTrigger` component accepts an optional `render` prop that replaces the default input-style trigger. The function receives `{ selectedValue, selectedContent }` and must return a single root element.
 
-#### Using `SelectButtonTrigger`
+#### Using `SelectTriggerButton`
 
-`SelectButtonTrigger` is a ready-made preset for button-style triggers. It accepts all `ButtonTrigger` props (`appearance`, `size`, `icon`, `iconType`) plus a required `label`.
+`SelectTriggerButton` is a ready-made preset for button-style triggers. It accepts all `TriggerButton` props (`appearance`, `size`, `icon`, `iconType`) plus a required `label`.
 
 ```tsx
 import {
   Select,
-  SelectButtonTrigger,
+  SelectTriggerButton,
   SelectContent,
   SelectItem,
   SelectItemText,
@@ -319,7 +319,7 @@ function MyComponent() {
     <Select value={value} onValueChange={setValue}>
       <SelectTrigger
         render={(renderProps) => (
-          <SelectButtonTrigger
+          <SelectTriggerButton
             {...renderProps}
             label='All accounts'
             icon={<Settings size={20} />}
@@ -526,7 +526,7 @@ function MyComponent() {
 ```tsx
 <SelectTrigger
   render={(renderProps) => (
-    <SelectButtonTrigger
+    <SelectTriggerButton
       {...renderProps}
       label='All accounts'
     />
@@ -546,7 +546,7 @@ function MyComponent() {
   label='Category'
   className='bg-accent'
   render={(renderProps) => (
-    <SelectButtonTrigger
+    <SelectTriggerButton
       {...renderProps}
       label='All accounts'
     />

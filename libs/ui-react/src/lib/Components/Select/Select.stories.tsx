@@ -12,7 +12,7 @@ import {
   SelectItemText,
   SelectGroup,
   SelectSeparator,
-  SelectButtonTrigger,
+  SelectTriggerButton,
 } from './Select';
 
 const meta: Meta<typeof Select> = {
@@ -357,7 +357,7 @@ export const TriggerShowcase: Story = {
         <Select value={buttonValue} onValueChange={setButtonValue}>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger {...renderProps} label='All accounts' />
+              <SelectTriggerButton {...renderProps} label='All accounts' />
             )}
           />
           <SelectContent className='w-208'>
@@ -388,7 +388,7 @@ export const TriggerShowcase: Story = {
         <Select value={iconValue} onValueChange={setIconValue}>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger
+              <SelectTriggerButton
                 {...renderProps}
                 label='Settings'
                 icon={<Settings size={20} />}
@@ -412,7 +412,7 @@ export const TriggerShowcase: Story = {
         <Select value={cryptoValue} onValueChange={setCryptoValue}>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger
+              <SelectTriggerButton
                 {...renderProps}
                 label='Network'
                 icon={
@@ -452,7 +452,7 @@ export const TriggerShowcase: Story = {
             <Select key={appearance}>
               <SelectTrigger
                 render={(renderProps) => (
-                  <SelectButtonTrigger
+                  <SelectTriggerButton
                     {...renderProps}
                     label={appearance}
                     appearance={appearance}
