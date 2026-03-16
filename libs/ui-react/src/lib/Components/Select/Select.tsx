@@ -4,8 +4,8 @@ import { cva } from 'class-variance-authority';
 import * as React from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check, ChevronUp } from '../../Symbols';
-import { TriggerButton } from '../TriggerButton';
 import { Divider } from '../Divider';
+import { TriggerButton } from '../TriggerButton';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
   SelectProps,
