@@ -1039,7 +1039,7 @@
         "$description": "",
         "$extensions": {
           "com.figma": {
-            "hiddenFromPublishing": true,
+            "hiddenFromPublishing": false,
             "scopes": [
               "FRAME_FILL",
               "SHAPE_FILL",
@@ -1055,7 +1055,7 @@
         "$description": "",
         "$extensions": {
           "com.figma": {
-            "hiddenFromPublishing": true,
+            "hiddenFromPublishing": false,
             "scopes": [
               "FRAME_FILL",
               "SHAPE_FILL",
