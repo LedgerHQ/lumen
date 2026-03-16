@@ -92,7 +92,7 @@ figma.connect(
             Action
           </Button>
         ),
-        tag: <Tag label='Label' size='sm' appearance='gray' />,
+        tag: <Tag label='Label' appearance='gray' />,
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
