@@ -5,6 +5,7 @@ export * from './Avatar';
 export * from './Banner';
 export * from './BottomSheet';
 export * from './Button';
+export * from './ButtonTrigger';
 export * from './Card';
 export * from './CardButton';
 export * from './ContentBanner';
