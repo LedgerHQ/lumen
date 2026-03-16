@@ -16,6 +16,10 @@
 - Import icons from `@ledgerhq/lumen-ui-rnative/symbols` (not from main package)
 - Import design tokens/presets from `@ledgerhq/lumen-design-core`
 
+### Font Family (REQUIRED)
+
+Lumen typography tokens set `fontFamily: 'Inter'`. The consumer project must load the Inter font with all required weight variants. On Android, Lumen appends weight suffixes to the font family name, so font files must be named accordingly (`Inter`, `Inter-Medium`, `Inter-SemiBold`, `Inter-Bold`).
+
 ---
 
 ## Available React Native Components
