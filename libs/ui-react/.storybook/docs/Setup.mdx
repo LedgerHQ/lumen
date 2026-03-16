@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title='Getting Started/Quick Start' />
+<Meta title='Getting Started/Setup' />
 
-## 🚀 Quick Start
+## 🛠️ Setup
 
 ### 📦 Available Packages
 
@@ -12,12 +12,38 @@ Our design system is available as npm packages:
 - **[@ledgerhq/lumen-ui-react](https://www.npmjs.com/package/@ledgerhq/lumen-ui-react)** - React components built with Tailwind CSS v4 and Radix UI primitives.
 - **[@ledgerhq/lumen-ui-rnative](https://www.npmjs.com/package/@ledgerhq/lumen-ui-rnative)** - React Native components built with NativeWind.
 
-### 🛠️ Setup Steps
+### Steps
 
-1 . Configure Tailwind:
+1 . **Load the Inter font family:**
+
+Lumen typography uses the **Inter** font. You must load it in your project for text to render correctly.
+
+**Via Google Fonts** (recommended) — add to your HTML `<head>`:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+**Or self-hosted** — download from [Google Fonts](https://fonts.google.com/specimen/Inter) and declare a `@font-face` in your CSS:
+
+```css
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/inter.woff2') format('woff2');
+}
+```
+
+2 . **Configure Tailwind:**
 See our [Setup Tailwind](?path=/docs/getting-started-setup-tailwind--docs) guide for complete setup instructions.
 
-2 . Install `lumen-ui-react` package:
+3 . Install `lumen-ui-react` package:
 
 Install the package:
 
@@ -31,7 +57,7 @@ And its peer dependencies:
 npm install clsx tailwind-merge class-variance-authority
 ```
 
-3 . Start using components:
+4 . Start using components:
 
 ```bash
 # Install peer dependency related to the button component
@@ -48,7 +74,7 @@ function App() {
 }
 ```
 
-**4. (Optional) Setup AI Assistant**
+**5. Setup AI Assistant**
 
 For better AI assistance (Cursor, Claude, VS Code Copilot, etc.), reference the included rules.
 
@@ -62,7 +88,7 @@ For better AI assistance (Cursor, Claude, VS Code Copilot, etc.), reference the 
 
 **Check out our [User Guide](https://github.com/LedgerHQ/lumen/blob/main/USER_GUIDE.md) for more information on how to use the UI Kit.**
 
-### 5. Design Resources
+### 6. Design Resources
 
 - [Figma Component Library](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?m=dev) - Design tokens, components, and patterns
 - [Figma Symbols Library](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.Symbol-Library?node-id=0-1&p=f&m=dev) - Comprehensive icon library

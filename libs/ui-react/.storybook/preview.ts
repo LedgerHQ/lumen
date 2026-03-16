@@ -45,7 +45,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Getting Started',
-          ['Introduction', 'Quick Start', 'Setup Tailwind', 'Changelog'],
+          ['Introduction', 'Setup', 'Setup Tailwind', 'Changelog'],
           'Foundations',
           ['Docs', 'Colors', 'Border', 'Spacing', 'Size', 'Height', 'Width'],
           'Symbols',

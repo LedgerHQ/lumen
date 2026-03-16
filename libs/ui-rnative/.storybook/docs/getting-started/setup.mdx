@@ -15,6 +15,49 @@ npm install react-native@^0.77.0 react@^18.3.1
 
 
 
+## Font Family Setup
+
+Lumen typography tokens use the **Inter** font family. You must load it in your project for text to render correctly.
+
+**Bare React Native projects:**
+
+1. Download Inter font files (`.ttf` or `.otf`) from [Google Fonts](https://fonts.google.com/specimen/Inter)
+2. Place them in `assets/fonts/` with names matching: `Inter.ttf`, `Inter-Medium.ttf`, `Inter-SemiBold.ttf`, `Inter-Bold.ttf`
+3. Add to your `react-native.config.js`:
+
+```js
+module.exports = {
+  assets: ['./assets/fonts'],
+};
+```
+
+4. Run `npx react-native-asset` to link the fonts
+
+**Expo projects:**
+
+```bash
+npx expo install expo-font @expo-google-fonts/inter
+```
+
+```tsx
+import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
+
+function App() {
+  const [fontsLoaded] = useFonts({
+    'Inter': Inter_400Regular,
+    'Inter-Medium': Inter_500Medium,
+    'Inter-SemiBold': Inter_600SemiBold,
+    'Inter-Bold': Inter_700Bold,
+  });
+
+  if (!fontsLoaded) return null;
+
+  return <ThemeProvider themes={ledgerLiveThemes}><YourApp /></ThemeProvider>;
+}
+```
+
+> **Note:** On Android, Lumen automatically maps font weights to font file names (e.g., `Inter-SemiBold`). Make sure your font files or aliases follow this naming convention.
+
 ## Setup ThemeProvider
 
 The `ThemeProvider` will manage themes, colorScheme, locale, rtl and other global state...
