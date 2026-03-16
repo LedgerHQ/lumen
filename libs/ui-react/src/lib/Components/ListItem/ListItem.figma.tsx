@@ -6,15 +6,16 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
-  ListItemIcon,
+  ListItemSpot
 } from './ListItem';
-import { Tag } from '../Tag'
-import { Switch } from '../Switch'
-import { Checkbox } from '../Checkbox'
+import { Tag } from '../Tag';
+import { Switch } from '../Switch';
+import { Checkbox } from '../Checkbox';
 import { Settings } from '../../Symbols/Icons/Settings';
 
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols/Icons/Placeholder';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 
 figma.connect(
   ListItem,
@@ -22,6 +23,7 @@ figma.connect(
   {
     imports: [
       "import { ListItem, ListItemLeading, ListItemContent, ListItemTitle, ListItemDescription, ListItemTrailing, ListItemSpot } from '@ledgerhq/lumen-ui-react'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       title: figma.string('title'),
@@ -32,9 +34,9 @@ figma.connect(
       leadingContent: figma.enum('leading-content', {
         none: undefined,
         'no-icon': undefined,
-        coin: <ListItemSpot appearance='icon' icon={Settings} />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
         spot: <ListItemSpot appearance='icon' icon={Settings} />,
-        'interface-icon': <ListItemIcon icon={Settings} />,
+        'interface-icon': <Placeholder size={24} />,
       }),
       descriptionTag: figma.boolean('show-description-tag', {
         true: figma.instance('description'),

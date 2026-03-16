@@ -6,9 +6,7 @@ import {
   CardContent,
   CardContentTitle,
   CardContentDescription,
-  CardTrailing,
-  CardFooter,
-  CardFooterActions,
+  CardTrailing
 } from './Card';
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
@@ -48,6 +46,7 @@ figma.connect(
   },
 );
 
+// —— show-networks: false ——
 figma.connect(
   CardHeader,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10541-743',
@@ -64,13 +63,13 @@ figma.connect(
       }),
       title: figma.string('title'),
       description: figma.boolean('show-description', {
-        true: figma.string('description'),
+        true: <CardContentDescription>Description</CardContentDescription>,
         false: undefined,
       }),
       leading: figma.enum('leading', {
         spot: <Spot appearance='icon' icon={Wallet} />,
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
-        provider: <Spot appearance='icon' icon={Wallet} />,
+        provider: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='48px' overridesRadius='16px' />,
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
@@ -93,7 +92,7 @@ figma.connect(
             Action
           </Button>
         ),
-        tag: <Tag label='Label' appearance='accent' />,
+        tag: <Tag label='Label' appearance='gray' />,
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
@@ -107,9 +106,7 @@ figma.connect(
           {props.leading}
           <CardContent>
             <CardContentTitle>{props.title}</CardContentTitle>
-            <CardContentDescription>
-              {props.description}
-            </CardContentDescription>
+            {props.description}
           </CardContent>
         </CardLeading>
         <CardTrailing>{props.trailing}</CardTrailing>
@@ -118,44 +115,3 @@ figma.connect(
   },
 );
 
-figma.connect(
-  CardFooter,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=14067-7402',
-  {
-    imports: [
-      "import { CardFooter, CardFooterActions, CardContentDescription } from '@ledgerhq/lumen-ui-react'",
-      "import { Button } from '@ledgerhq/lumen-ui-react'",
-    ],
-    props: {
-      actions: figma.enum('actions', {
-        primary: (
-          <CardFooterActions>
-            <Button isFull appearance='base' size='sm'>
-              Primary
-            </Button>
-          </CardFooterActions>
-        ),
-        'primary+secondary': (
-          <CardFooterActions>
-            <Button isFull appearance='transparent' size='sm'>
-              Secondary
-            </Button>
-            <Button isFull appearance='base' size='sm'>
-              Primary
-            </Button>
-          </CardFooterActions>
-        ),
-        none: undefined,
-      }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
-    },
-    example: (props) => (
-      <CardFooter>
-        Footer content
-        {props.actions}
-      </CardFooter>
-    ),
-  },
-);
