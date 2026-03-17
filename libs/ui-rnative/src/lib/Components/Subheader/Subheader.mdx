@@ -9,7 +9,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 import {
   CustomTabs,
@@ -29,7 +28,7 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 ## Introduction
 
-Subheaders are section headers that provide context and organization to content blocks. They use a composite component pattern that provides full flexibility over layout and content through composable sub-components.
+Subheaders are section headers that provide context and organization to content blocks. They use a composite component pattern that provides full flexibility over layout and content through composable sub-components. The right-side action slot (`SubheaderAction`) has been removed to simplify the API.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=your-node-id).
 
@@ -46,7 +45,6 @@ The Subheader uses a composite structure with the following components:
 - **SubheaderShowMore**: Static chevron right icon to indicate expandable content, positioned after the count (optional)
 - **SubheaderInfo**: Information icon that can be wrapped in tooltips or bottom sheets (optional)
 - **SubheaderDescription**: Additional descriptive text below the row (optional)
-- **SubheaderAction**: Container for action elements, positioned at the far right (optional)
 
 ## Properties
 
@@ -67,9 +65,9 @@ Use the info icon to provide contextual help:
 
 <Canvas of={SubheaderStories.WithInfoIcon} />
 
-### With Action
+### With action (layout)
 
-Use actions for quick access to related functionality:
+You can add an action by placing a Link in a flex row aligned with the title row.
 
 <Canvas of={SubheaderStories.WithAction} />
 
@@ -79,7 +77,6 @@ Use actions for quick access to related functionality:
 > - Title truncates with ellipsis when too long for the available space
 > - Count, hint, and action elements maintain their positions
 > - Uses flex layout for responsive arrangement
-> - Action elements are positioned at the far right using `marginLeft: 'auto'`
 
 ## Accessibility
 
@@ -208,27 +205,39 @@ function InfoExample() {
 }
 ```
 
-### With Action
+### With action (layout pattern)
 
-Include an action element in the row (automatically aligned to the right):
+Add an action by placing a Link in a flex row aligned with the title:
 
 ```tsx
 import {
   Subheader,
   SubheaderRow,
   SubheaderTitle,
-  SubheaderAction,
+  SubheaderDescription,
+  Link,
 } from '@ledgerhq/lumen-ui-rnative';
+import { View } from 'react-native';
 
-function ActionExample() {
+function WithActionExample() {
   return (
     <Subheader>
-      <SubheaderRow>
-        <SubheaderTitle>Section Title</SubheaderTitle>
-        <SubheaderAction onPress={() => console.log('Action clicked')}>
-          View More
-        </SubheaderAction>
-      </SubheaderRow>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
+        <SubheaderRow style={{ flex: 1, minWidth: 0 }}>
+          <SubheaderTitle>Recent Activity</SubheaderTitle>
+        </SubheaderRow>
+        <Link
+          onPress={() => {}}
+          appearance="accent"
+          size="sm"
+          underline={false}
+        >
+          View all
+        </Link>
+      </View>
+      <SubheaderDescription>
+        Place the action link in a flex layout beside the subheader
+      </SubheaderDescription>
     </Subheader>
   );
 }
@@ -303,7 +312,7 @@ function InteractiveExample() {
 
 ### Combining Multiple Options
 
-You can combine different components as needed. The `SubheaderRow` and `SubheaderTitle` are required, while all other components (`SubheaderCount`, `SubheaderInfo`, `SubheaderDescription`, `SubheaderAction`) are optional:
+You can combine different components as needed. The `SubheaderRow` and `SubheaderTitle` are required, while all other components (`SubheaderCount`, `SubheaderInfo`, `SubheaderDescription`) are optional:
 
 ```tsx
 import {
@@ -313,7 +322,6 @@ import {
   SubheaderCount,
   SubheaderInfo,
   SubheaderDescription,
-  SubheaderAction,
   Tooltip,
   TooltipTrigger,
   TooltipContent,
@@ -332,9 +340,6 @@ function FullExample() {
           </TooltipTrigger>
           <TooltipContent content={<Text>Additional info</Text>} />
         </Tooltip>
-        <SubheaderAction onPress={() => console.log('Action clicked')}>
-          Action
-        </SubheaderAction>
       </SubheaderRow>
       <SubheaderDescription>
         This is a detailed description of the section.
@@ -428,46 +433,6 @@ The following guidelines ensure consistent usage of the Subheader component and 
 <Subheader>
   <Text>Title (5)</Text>
   <Text>Description</Text>
-</Subheader>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use Action in Row with onPress'
-      description='Action should have an onPress handler and be placed in Row for right alignment'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Title</SubheaderTitle>
-    <SubheaderAction onPress={handleAction}>
-      Action
-    </SubheaderAction>
-  </SubheaderRow>
-</Subheader>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't place Action outside Row"
-      description='Action must be inside SubheaderRow for proper positioning'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Title</SubheaderTitle>
-  </SubheaderRow>
-  <SubheaderAction onPress={handleAction}>
-    Action
-  </SubheaderAction>
 </Subheader>
 ```
 

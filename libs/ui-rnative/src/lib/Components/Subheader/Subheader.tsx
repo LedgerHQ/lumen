@@ -4,7 +4,6 @@ import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable, Text } from '../Utility';
 import {
-  SubheaderActionProps,
   SubheaderCountProps,
   SubheaderDescriptionProps,
   SubheaderInfoProps,
@@ -202,46 +201,6 @@ export const SubheaderDescription = ({
 };
 
 /**
- * Action component for the Subheader. Displays an interactive text button.
- * Automatically positions itself at the end of the row using marginLeft: 'auto'.
- */
-export const SubheaderAction = ({
-  children,
-  onPress,
-  lx,
-  style,
-  ...props
-}: SubheaderActionProps) => {
-  const styles = useStyleSheet(
-    (t) => ({
-      container: {
-        flexShrink: 0,
-        marginLeft: 'auto',
-        paddingLeft: t.spacings.s8,
-      },
-      text: StyleSheet.flatten([
-        t.typographies.body2,
-        {
-          color: t.colors.text.interactive,
-        },
-      ]),
-    }),
-    [],
-  );
-
-  return (
-    <Pressable
-      lx={lx}
-      onPress={onPress}
-      style={[styles.container, style]}
-      {...props}
-    >
-      <Text style={styles.text}>{children}</Text>
-    </Pressable>
-  );
-};
-
-/**
  * A subheader component for displaying section titles with optional count, hints, descriptions, and action elements.
  * Uses a composable API where you explicitly nest sub-components to define the layout.
  *
@@ -269,7 +228,7 @@ export const SubheaderAction = ({
  * </Subheader>
  *
  * @example
- * // Interactive row with action
+ * // Interactive row
  * <Subheader>
  *   <SubheaderRow onPress={handleClick}>
  *     <SubheaderTitle>Accounts</SubheaderTitle>

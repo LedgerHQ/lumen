@@ -1,9 +1,5 @@
 import { ReactNode } from 'react';
-import {
-  StyledPressableProps,
-  StyledTextProps,
-  StyledViewProps,
-} from '../../../styles';
+import { StyledTextProps, StyledViewProps } from '../../../styles';
 import { InteractiveIconProps } from '../InteractiveIcon';
 
 export type SubheaderProps = {
@@ -60,16 +56,5 @@ export type SubheaderDescriptionProps = {
    */
   children: ReactNode;
 } & Omit<StyledTextProps, 'children'>;
-
-export type SubheaderActionProps = {
-  /**
-   * The action text to display.
-   */
-  children: ReactNode;
-  /**
-   * Press handler for the action.
-   */
-  onPress: () => void;
-} & Omit<StyledPressableProps, 'children' | 'onPress'>;
 
 export type SubheaderShowMoreProps = Omit<StyledViewProps, 'children'>;

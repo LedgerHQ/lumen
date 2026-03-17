@@ -9,7 +9,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 import '@testing-library/jest-dom';
 
@@ -121,22 +120,6 @@ describe('Subheader', () => {
     expect(screen.getByText('This is a description')).toBeInTheDocument();
   });
 
-  it('renders the action in row', () => {
-    const handlePress = vi.fn();
-    render(
-      <Subheader>
-        <SubheaderRow>
-          <SubheaderTitle>Title</SubheaderTitle>
-          <SubheaderAction onClick={handlePress}>Action</SubheaderAction>
-        </SubheaderRow>
-      </Subheader>,
-    );
-    const button = screen.getByText('Action');
-    expect(button).toBeInTheDocument();
-    button.click();
-    expect(handlePress).toHaveBeenCalledTimes(1);
-  });
-
   it('renders interactive row with onClick', () => {
     const handlePress = vi.fn();
     render(
@@ -154,7 +137,6 @@ describe('Subheader', () => {
   });
 
   it('renders all components together', () => {
-    const handleAction = vi.fn();
     const { container } = render(
       <Subheader>
         <SubheaderRow>
@@ -166,7 +148,6 @@ describe('Subheader', () => {
             </TooltipTrigger>
             <TooltipContent>Info</TooltipContent>
           </Tooltip>
-          <SubheaderAction onClick={handleAction}>Action</SubheaderAction>
         </SubheaderRow>
         <SubheaderDescription>Description text</SubheaderDescription>
       </Subheader>,
@@ -176,7 +157,6 @@ describe('Subheader', () => {
     expect(
       container.querySelector('[aria-label="More information"]'),
     ).toBeInTheDocument();
-    expect(screen.getByText('Action')).toBeInTheDocument();
     expect(screen.getByText('Description text')).toBeInTheDocument();
   });
 
