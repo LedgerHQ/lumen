@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
@@ -19,7 +19,17 @@ import type {
   SelectButtonTriggerProps,
 } from './types';
 
-function Select({ value, defaultValue, onValueChange, ...props }: SelectProps) {
+function Select({
+  value,
+  defaultValue,
+  onValueChange,
+  disabled: disabledProp,
+  ...props
+}: SelectProps) {
+  const disabled = useDisabledContext({
+    consumerName: 'Select',
+    mergeWith: { disabled: disabledProp },
+  });
   const [selectedValue, setSelectedValue] = useControllableState({
     prop: value,
     defaultProp: defaultValue ?? '',
@@ -32,6 +42,7 @@ function Select({ value, defaultValue, onValueChange, ...props }: SelectProps) {
         data-slot='select'
         value={selectedValue}
         onValueChange={setSelectedValue}
+        disabled={disabled}
         {...props}
       />
     </SelectProvider>
@@ -96,7 +107,7 @@ const SelectInputTrigger = ({
   </SelectPrimitive.Trigger>
 );
 
-const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
+const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
   const { selectedValue } = useSelectContext({
     consumerName: 'SelectTrigger',
     contextRequired: true,
@@ -106,6 +117,7 @@ const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
   if (render) {
     return (
       <SelectPrimitive.Trigger
+        disabled={disabled}
         ref={props.ref}
         data-slot='select-trigger'
         asChild
@@ -115,7 +127,13 @@ const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
     );
   }
 
-  return <SelectInputTrigger {...props} selectedContent={selectedContent} />;
+  return (
+    <SelectInputTrigger
+      {...props}
+      disabled={disabled}
+      selectedContent={selectedContent}
+    />
+  );
 };
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 

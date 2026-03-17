@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import React, { useCallback } from 'react';
@@ -67,13 +67,17 @@ export const TileButton = ({
   icon: Icon,
   children,
   onClick,
-  disabled = false,
+  disabled: disabledProp = false,
   isFull = false,
   className,
   asChild = false,
   'aria-label': ariaLabel,
   ...props
 }: TileButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'TileButton',
+    mergeWith: { disabled: disabledProp },
+  });
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled) {

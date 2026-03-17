@@ -1,4 +1,8 @@
-import { getFontSize, textFormatter } from '@ledgerhq/lumen-utils-shared';
+import {
+  getFontSize,
+  textFormatter,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Pressable, StyleSheet, TextInput } from 'react-native';
 import Animated, {
@@ -23,7 +27,7 @@ export const AmountInput = ({
   style,
   currencyText,
   currencyPosition = 'left',
-  editable = true,
+  editable: editableProp = true,
   maxIntegerLength = 9,
   maxDecimalLength = 9,
   allowDecimals = true,
@@ -37,6 +41,10 @@ export const AmountInput = ({
   const inputRef = useRef<TextInput>(null);
   const inputValue = String(value);
   const [isFocused, setIsFocused] = useState(false);
+  const disabled = useDisabledContext({
+    consumerName: 'AmountInput',
+    mergeWith: { disabled: !editableProp },
+  });
 
   const translateX = useSharedValue(0);
   const animatedFontSize = useSharedValue(getFontSize(inputValue));
@@ -46,7 +54,7 @@ export const AmountInput = ({
 
   const styles = useStyles({
     hasValue: !!inputValue,
-    isEditable: editable,
+    isEditable: !disabled,
     isInvalid,
   });
 
@@ -93,7 +101,7 @@ export const AmountInput = ({
   }, [inputValue, animatedFontSize, translateX]);
 
   useEffect(() => {
-    if (isFocused && editable) {
+    if (isFocused && !disabled) {
       caretOpacity.value = withRepeat(
         withSequence(
           withTiming(1, { duration: 150, easing: Easing.ease }),
@@ -107,7 +115,7 @@ export const AmountInput = ({
     } else {
       caretOpacity.value = 0;
     }
-  }, [isFocused, editable, caretOpacity]);
+  }, [isFocused, disabled, caretOpacity]);
 
   const handleChangeText = (text: string) => {
     const formatted = textFormatter(text, {
@@ -127,7 +135,7 @@ export const AmountInput = ({
   ) : null;
 
   const handlePress = () => {
-    if (editable) {
+    if (!disabled) {
       inputRef.current?.focus();
     }
   };
@@ -138,7 +146,7 @@ export const AmountInput = ({
       <TextInput
         ref={inputRef}
         keyboardType='decimal-pad'
-        editable={editable}
+        editable={!disabled}
         value={inputValue}
         onChangeText={handleChangeText}
         onFocus={(e) => {

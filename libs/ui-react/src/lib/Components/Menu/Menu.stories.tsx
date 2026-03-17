@@ -86,7 +86,7 @@ export const WithGroups: Story = {
       <MenuContent className='w-208'>
         <MenuLabel>My Account</MenuLabel>
         <MenuGroup>
-          <MenuItem>Profile</MenuItem>
+          <MenuItem disabled>Profile</MenuItem>
           <MenuItem>Billing</MenuItem>
           <MenuItem>Settings</MenuItem>
         </MenuGroup>

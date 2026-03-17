@@ -9,3 +9,4 @@ export * from './lib/components';
 export * from './lib/throttle';
 export * from './lib/debounce';
 export * from './lib/a11y';
+export * from './lib/shallowEqual';

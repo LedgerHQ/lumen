@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useContext, useMemo } from 'react';
+import { createContext, FC, ReactNode, useContext, useRef } from 'react';
+import { shallowEqual } from '../shallowEqual';
 
 export function createSafeContext<ContextValue extends object>(
   rootComponentName: string,
@@ -9,14 +10,14 @@ export function createSafeContext<ContextValue extends object>(
   const Provider: FC<{
     children: ReactNode;
     value: ContextValue;
-  }> = ({ children, value: context }) => {
-    // Only re-memoize when prop values change
-    const memoValue = useMemo(
-      () => context,
-      Object.values(context ?? {}),
-    ) as ContextValue;
+  }> = ({ children, value }) => {
+    const ref = useRef(value);
 
-    return <Context.Provider value={memoValue}>{children}</Context.Provider>;
+    if (!shallowEqual(ref.current, value)) {
+      ref.current = value;
+    }
+
+    return <Context.Provider value={ref.current}>{children}</Context.Provider>;
   };
 
   Provider.displayName = rootComponentName + 'Provider';

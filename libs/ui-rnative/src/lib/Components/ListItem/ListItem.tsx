@@ -1,6 +1,8 @@
 import {
   createSafeContext,
+  DisabledProvider,
   isTextChildren,
+  useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import React, { Ref } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -9,7 +11,6 @@ import { Spot } from '../Spot';
 import { Box, Pressable, Text } from '../Utility';
 import {
   ListItemContentProps,
-  ListItemContextValue,
   ListItemDescriptionProps,
   ListItemIconProps,
   ListItemLeadingProps,
@@ -19,9 +20,6 @@ import {
   ListItemTrailingProps,
   ListItemTruncateProps,
 } from './types';
-
-const [ListItemProvider, useListItemContext] =
-  createSafeContext<ListItemContextValue>('ListItem', {});
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
   createSafeContext<{ isInTrailing: boolean }>('ListItemTrailing', {
@@ -91,12 +89,17 @@ export const ListItem = ({
   children,
   lx = {},
   style,
-  disabled = false,
+  disabled: disabledProp = false,
   ref,
   ...pressableProps
 }: ListItemProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'ListItem',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
-    <ListItemProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled }}>
       <Pressable
         ref={ref}
         lx={lx}
@@ -110,7 +113,7 @@ export const ListItem = ({
           <ListItemInner pressed={pressed}>{children}</ListItemInner>
         )}
       </Pressable>
-    </ListItemProvider>
+    </DisabledProvider>
   );
 };
 
@@ -224,7 +227,7 @@ export const ListItemTitle = ({
   ref,
   ...viewProps
 }: ListItemTitleProps & { ref?: Ref<View> }) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemTitle',
     contextRequired: true,
   });
@@ -302,7 +305,7 @@ export const ListItemDescription = ({
   ref,
   ...viewProps
 }: ListItemDescriptionProps & { ref?: Ref<View> }) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
   });
@@ -411,7 +414,7 @@ ListItemTrailing.displayName = 'ListItemTrailing';
  * Fixed at size 48 for consistent list item appearance.
  */
 export const ListItemSpot = (props: ListItemSpotProps) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemSpot',
     contextRequired: true,
   });
@@ -433,7 +436,7 @@ export const ListItemIcon = ({
   ...viewProps
 }: ListItemIconProps) => {
   const { theme } = useTheme();
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemIcon',
     contextRequired: true,
   });
@@ -471,7 +474,7 @@ export const ListItemTruncate = ({
   ref,
   ...textProps
 }: ListItemTruncateProps & { ref?: Ref<React.ElementRef<typeof Text>> }) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemTruncate',
     contextRequired: true,
   });

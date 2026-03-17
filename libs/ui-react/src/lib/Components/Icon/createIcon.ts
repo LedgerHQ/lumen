@@ -31,7 +31,7 @@ const createIcon = (
 
     return createElement(Icon, {
       ref,
-      className: cn(mergedDisabled && 'text-disabled', className),
+      className: cn(className, mergedDisabled && 'text-disabled'),
       viewBox: iconJsx.props.viewBox,
       ...props,
       children: iconJsx.props.children,

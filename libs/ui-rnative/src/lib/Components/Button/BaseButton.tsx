@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { PropsWithChildren } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -147,10 +148,14 @@ export const BaseButton = ({
   isFull = false,
   loading = false,
   icon: IconProp,
-  disabled = false,
+  disabled: disabledProp = false,
   ref,
   ...props
 }: BaseButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'BaseButton',
+    mergeWith: { disabled: disabledProp },
+  });
   const rootStyles = useRootStyles({ isFull });
 
   return (

@@ -1,8 +1,6 @@
 import {
   createSafeContext,
-  DisabledProvider,
   isTextChildren,
-  useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import React, { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
@@ -48,6 +46,7 @@ const resolveCardInnerContext = ({
         cardPressable: !!onPress,
         headerPressable: false,
         footerExpanded: true,
+        disabled: !!disabled,
         onHeaderPress: undefined,
       };
     case 'expandable':
@@ -55,6 +54,7 @@ const resolveCardInnerContext = ({
         cardPressable: false,
         headerPressable: !!onPress && !disabled,
         footerExpanded: Boolean(expanded),
+        disabled: !!disabled,
         onHeaderPress: onPress,
       };
     case 'info':
@@ -62,6 +62,7 @@ const resolveCardInnerContext = ({
         cardPressable: false,
         headerPressable: false,
         footerExpanded: true,
+        disabled: !!disabled,
         onHeaderPress: undefined,
       };
   }
@@ -73,6 +74,7 @@ const [CardProvider, useCardContext] = createSafeContext<CardContextValue>(
     cardPressable: false,
     headerPressable: false,
     footerExpanded: true,
+    disabled: false,
   },
 );
 
@@ -162,47 +164,43 @@ export const Card = ({
   if (innerContext.cardPressable) {
     return (
       <CardProvider value={innerContext}>
-        <DisabledProvider value={{ disabled }}>
-          <Pressable
-            ref={ref}
-            lx={lx}
-            style={style as ViewStyle}
-            onPress={onPress}
-            disabled={disabled}
-            accessibilityRole='button'
-            accessibilityState={{ disabled }}
-            {...props}
-          >
-            {({ pressed }) => (
-              <CardInner
-                outlined={outlined}
-                pressed={pressed}
-                disabled={disabled}
-                interactive
-              >
-                {children}
-              </CardInner>
-            )}
-          </Pressable>
-        </DisabledProvider>
+        <Pressable
+          ref={ref}
+          lx={lx}
+          style={style as ViewStyle}
+          onPress={onPress}
+          disabled={disabled}
+          accessibilityRole='button'
+          accessibilityState={{ disabled }}
+          {...props}
+        >
+          {({ pressed }) => (
+            <CardInner
+              outlined={outlined}
+              pressed={pressed}
+              disabled={disabled}
+              interactive
+            >
+              {children}
+            </CardInner>
+          )}
+        </Pressable>
       </CardProvider>
     );
   }
 
   return (
     <CardProvider value={innerContext}>
-      <DisabledProvider value={{ disabled }}>
-        <Box lx={lx} style={style} {...props}>
-          <CardInner
-            outlined={outlined}
-            pressed={false}
-            disabled={disabled}
-            interactive={false}
-          >
-            {children}
-          </CardInner>
-        </Box>
-      </DisabledProvider>
+      <Box lx={lx} style={style} {...props}>
+        <CardInner
+          outlined={outlined}
+          pressed={false}
+          disabled={disabled}
+          interactive={false}
+        >
+          {children}
+        </CardInner>
+      </Box>
     </CardProvider>
   );
 };
@@ -255,13 +253,11 @@ export const CardHeader = ({
   style,
   ...props
 }: CardHeaderProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'CardHeader',
-  });
-  const { headerPressable, footerExpanded, onHeaderPress } = useCardContext({
-    consumerName: 'CardHeader',
-    contextRequired: false,
-  });
+  const { disabled, headerPressable, footerExpanded, onHeaderPress } =
+    useCardContext({
+      consumerName: 'CardHeader',
+      contextRequired: false,
+    });
 
   const chevronStyle = useStyleSheet(
     (t) => ({
@@ -454,8 +450,9 @@ export const CardContentTitle = ({
   style,
   ...props
 }: CardContentTitleProps & { ref?: Ref<View> }) => {
-  const disabled = useDisabledContext({
+  const { disabled } = useCardContext({
     consumerName: 'CardContentTitle',
+    contextRequired: false,
   });
   const { align } = useCardContentAlignContext({
     consumerName: 'CardContentTitle',
@@ -520,8 +517,9 @@ export const CardContentDescription = ({
   style,
   ...props
 }: CardContentDescriptionProps & { ref?: Ref<View> }) => {
-  const disabled = useDisabledContext({
+  const { disabled } = useCardContext({
     consumerName: 'CardContentDescription',
+    contextRequired: false,
   });
   const { align } = useCardContentAlignContext({
     consumerName: 'CardContentDescription',
@@ -665,10 +663,7 @@ export const CardFooter = ({
   style,
   ...props
 }: CardFooterProps & { ref?: Ref<View> }) => {
-  const disabled = useDisabledContext({
-    consumerName: 'CardFooter',
-  });
-  const { footerExpanded } = useCardContext({
+  const { disabled, footerExpanded } = useCardContext({
     consumerName: 'CardFooter',
     contextRequired: false,
   });

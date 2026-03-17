@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import {
   useCallback,
   useEffect,
@@ -32,12 +33,16 @@ export const BaseInput = ({
   errorMessage,
   hideClearButton,
   onChangeText: onChangeTextProp,
-  editable = true,
+  editable: editableProp = true,
   prefix,
   suffix,
   ref,
   ...props
 }: BaseInputProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'BaseInput',
+    mergeWith: { disabled: !editableProp },
+  });
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
   const inputRef = useRef<TextInput>(null);
@@ -55,7 +60,7 @@ export const BaseInput = ({
     ? !!props.value && props.value.length > 0
     : uncontrolledValue.length > 0;
 
-  const showClearButton = hasContent && editable && !hideClearButton;
+  const showClearButton = hasContent && !disabled && !hideClearButton;
 
   const handleChangeText = useCallback(
     (text: string) => {
@@ -79,7 +84,7 @@ export const BaseInput = ({
   const styles = useStyles({
     hasError: !!errorMessage,
     isFocused,
-    isEditable: editable,
+    isEditable: !disabled,
     hasLabel: !!label,
   });
 
@@ -88,7 +93,7 @@ export const BaseInput = ({
     isFocused,
     showClearButton,
     hasError: !!errorMessage,
-    isEditable: editable,
+    isEditable: !disabled,
   });
 
   return (
@@ -96,7 +101,7 @@ export const BaseInput = ({
       <Pressable
         style={StyleSheet.flatten([styles.container, containerStyle])}
         onPress={() => inputRef.current?.focus()}
-        disabled={!editable}
+        disabled={disabled}
       >
         {prefix}
 
@@ -107,7 +112,7 @@ export const BaseInput = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={handleChangeText}
-          editable={editable}
+          editable={!disabled}
           autoCapitalize='none'
           autoCorrect={false}
           selectionColor={theme.colors.text.active}
@@ -128,7 +133,7 @@ export const BaseInput = ({
           </Animated.Text>
         )}
 
-        {(suffix || (!hideClearButton && editable)) && (
+        {(suffix || (!hideClearButton && !disabled)) && (
           <View style={styles.suffixContainer}>
             {showClearButton ? (
               <InteractiveIcon
