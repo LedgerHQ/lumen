@@ -51,6 +51,15 @@ export type PrimitiveTypographyTokens = {
 };
 
 /**
+ * Motion primitives
+ */
+export type PrimitiveMotionTokens = {
+  durations: Record<string, number>;
+  delays: Record<string, number>;
+  easings: Record<string, readonly [number, number, number, number]>;
+};
+
+/**
  * Size & Spacing & Other primitives
  */
 export type PrimitiveOtherTokens = {
@@ -170,4 +179,5 @@ export type ThemeColorTokens = {
 export type ThemeCoreTokens = PrimitiveOtherTokens & {
   shadows: PrimitiveShadowTokens;
   typographies: TypographyTokensByBreakpoint;
+  motion: PrimitiveMotionTokens;
 };

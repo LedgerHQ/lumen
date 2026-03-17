@@ -1,23 +1,19 @@
 import {
   cn,
-  createSafeContext,
   DisabledProvider,
+  useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
 import {
   TileContentProps,
-  TileContextValue,
   TileDescriptionProps,
   TileProps,
   TileSecondaryActionProps,
   TileTitleProps,
   TileTrailingContentProps,
 } from './types';
-
-const [TileProvider, useTileContext] =
-  createSafeContext<TileContextValue>('Tile');
 
 const tileVariants = {
   root: cva([
@@ -86,14 +82,19 @@ export const Tile = ({
   onClick,
   secondaryAction,
   appearance = 'no-background',
-  disabled = false,
+  disabled: disabledProp = false,
   centered = false,
   children,
   style,
   ...props
 }: TileProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Tile',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
-    <TileProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled }}>
       <div
         ref={ref}
         style={style}
@@ -115,7 +116,7 @@ export const Tile = ({
         </button>
         {secondaryAction}
       </div>
-    </TileProvider>
+    </DisabledProvider>
   );
 };
 Tile.displayName = 'Tile';
@@ -149,7 +150,7 @@ export const TileTitle = ({
   className,
   ...props
 }: TileTitleProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileTitle',
     contextRequired: true,
   });
@@ -177,7 +178,7 @@ export const TileDescription = ({
   className,
   ...props
 }: TileDescriptionProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileDescription',
     contextRequired: true,
   });
@@ -254,7 +255,7 @@ export const TileSecondaryAction = ({
   'aria-label': ariaLabel,
   ...props
 }: TileSecondaryActionProps) => {
-  const { disabled } = useTileContext({
+  const disabled = useDisabledContext({
     consumerName: 'TileSecondaryAction',
     contextRequired: true,
   });
@@ -268,7 +269,9 @@ export const TileSecondaryAction = ({
     [onClick],
   );
 
-  if (disabled) return null;
+  if (disabled) {
+    return null;
+  }
 
   const Icon = icon;
 

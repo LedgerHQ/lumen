@@ -6,7 +6,6 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
   Tooltip,
   TooltipTrigger,
   TooltipContent,
@@ -51,15 +50,6 @@ export const Subheaders = () => {
 
       <Subheader>
         <SubheaderRow>
-          <SubheaderTitle>With Action</SubheaderTitle>
-          <SubheaderAction onPress={() => console.log('Action pressed')}>
-            Manage
-          </SubheaderAction>
-        </SubheaderRow>
-      </Subheader>
-
-      <Subheader>
-        <SubheaderRow>
           <SubheaderTitle>Complete Example</SubheaderTitle>
           <SubheaderCount
             value={200}
@@ -78,9 +68,6 @@ export const Subheaders = () => {
               }
             />
           </Tooltip>
-          <SubheaderAction onPress={() => console.log('Action')}>
-            Action
-          </SubheaderAction>
         </SubheaderRow>
         <SubheaderDescription>
           This is a description with all features combined

@@ -1,9 +1,7 @@
 import {
   cn,
   createSafeContext,
-  DisabledProvider,
   getButtonA11yProps,
-  useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
@@ -41,6 +39,7 @@ export const resolveCardInnerContext = ({
         cardClickable: !!onClick,
         headerClickable: false,
         footerExpanded: true,
+        disabled: !!disabled,
         onHeaderClick: undefined,
       };
     case 'expandable':
@@ -48,6 +47,7 @@ export const resolveCardInnerContext = ({
         cardClickable: false,
         headerClickable: !!onClick && !disabled,
         footerExpanded: Boolean(expanded),
+        disabled: !!disabled,
         onHeaderClick: onClick,
       };
     case 'info':
@@ -55,6 +55,7 @@ export const resolveCardInnerContext = ({
         cardClickable: false,
         headerClickable: false,
         footerExpanded: true,
+        disabled: !!disabled,
         onHeaderClick: undefined,
       };
   }
@@ -66,6 +67,7 @@ const [CardProvider, useCardContext] = createSafeContext<CardContextValue>(
     cardClickable: false,
     headerClickable: false,
     footerExpanded: true,
+    disabled: false,
   },
 );
 
@@ -150,24 +152,22 @@ export const Card = ({
 
   return (
     <CardProvider value={innerContext}>
-      <DisabledProvider value={{ disabled }}>
-        <div
-          ref={ref}
-          {...(innerContext.cardClickable &&
-            getButtonA11yProps({ onClick, disabled }))}
-          className={cn(
-            cardVariants({
-              interactive: innerContext.cardClickable,
-              outlined,
-              disabled,
-            }),
-            className,
-          )}
-          {...props}
-        >
-          {children}
-        </div>
-      </DisabledProvider>
+      <div
+        ref={ref}
+        {...(innerContext.cardClickable &&
+          getButtonA11yProps({ onClick, disabled }))}
+        className={cn(
+          cardVariants({
+            interactive: innerContext.cardClickable,
+            outlined,
+            disabled,
+          }),
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
     </CardProvider>
   );
 };
@@ -183,13 +183,11 @@ export const CardHeader = ({
   className,
   ...props
 }: CardHeaderProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'CardHeader',
-  });
-  const { headerClickable, footerExpanded, onHeaderClick } = useCardContext({
-    consumerName: 'CardHeader',
-    contextRequired: false,
-  });
+  const { disabled, headerClickable, footerExpanded, onHeaderClick } =
+    useCardContext({
+      consumerName: 'CardHeader',
+      contextRequired: false,
+    });
 
   return (
     <div
@@ -309,8 +307,9 @@ export const CardContentTitle = ({
   className,
   ...props
 }: CardContentTitleProps) => {
-  const disabled = useDisabledContext({
+  const { disabled } = useCardContext({
     consumerName: 'CardContentTitle',
+    contextRequired: false,
   });
 
   return (
@@ -338,8 +337,9 @@ export const CardContentDescription = ({
   className,
   ...props
 }: CardContentDescriptionProps) => {
-  const disabled = useDisabledContext({
+  const { disabled } = useCardContext({
     consumerName: 'CardContentDescription',
+    contextRequired: false,
   });
 
   return (
@@ -368,8 +368,9 @@ export const CardTrailing = ({
   className,
   ...props
 }: CardTrailingProps) => {
-  const disabled = useDisabledContext({
+  const { disabled } = useCardContext({
     consumerName: 'CardTrailing',
+    contextRequired: false,
   });
 
   return (
@@ -377,7 +378,7 @@ export const CardTrailing = ({
       <div
         ref={ref}
         className={cn(
-          'flex shrink-0 items-center',
+          'flex shrink-0 items-center gap-12',
           disabled && 'text-disabled',
           className,
         )}
@@ -400,11 +401,7 @@ export const CardFooter = ({
   className,
   ...props
 }: CardFooterProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'CardFooter',
-  });
-
-  const { footerExpanded } = useCardContext({
+  const { disabled, footerExpanded } = useCardContext({
     consumerName: 'CardFooter',
     contextRequired: false,
   });

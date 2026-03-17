@@ -23,6 +23,23 @@ Animated.spring = (
   return originalSpring(value, { ...config, useNativeDriver: false });
 };
 
+// Mock expo-haptics (uses native modules not available in Jest)
+jest.mock('expo-haptics', () => ({
+  impactAsync: jest.fn(() => Promise.resolve()),
+  notificationAsync: jest.fn(() => Promise.resolve()),
+  selectionAsync: jest.fn(() => Promise.resolve()),
+  ImpactFeedbackStyle: {
+    Light: 'light',
+    Medium: 'medium',
+    Heavy: 'heavy',
+  },
+  NotificationFeedbackType: {
+    Success: 'success',
+    Warning: 'warning',
+    Error: 'error',
+  },
+}));
+
 // Mock @gorhom/bottom-sheet with more detailed prop tracking
 jest.mock('@gorhom/bottom-sheet', () => {
   const mockReact = jest.requireActual<typeof import('react')>('react');
@@ -112,6 +129,12 @@ jest.mock('react-native-reanimated', () => {
     withDelay: (value: any) => value,
     withSequence: (...values: any[]) => values[0],
     withRepeat: (value: any) => value,
+    cancelAnimation: () => {
+      return;
+    },
+    useAnimatedProps: (_cb: any) => {
+      return {};
+    },
     useAnimatedGestureHandler: (handlers: any) => handlers,
     useAnimatedScrollHandler: () => () => {
       return;

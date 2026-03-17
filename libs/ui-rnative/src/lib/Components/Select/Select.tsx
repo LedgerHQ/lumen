@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import React, { useState, useEffect, useCallback, useId } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -57,8 +58,12 @@ export const Select = ({
   value: controlledValue,
   defaultValue,
   onValueChange,
-  disabled = false,
+  disabled: disabledProp = false,
 }: SelectProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Select',
+    mergeWith: { disabled: disabledProp },
+  });
   const selectId = useId();
 
   const [internalOpen, setInternalOpen] = useControllableState({

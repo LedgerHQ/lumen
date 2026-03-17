@@ -12,6 +12,7 @@ figma.connect(
       size: figma.enum('size', {
         sm: 'sm',
         md: 'md',
+        lg: 'lg',
       }),
       showNotification: figma.boolean('show-notification', {
         true: true,

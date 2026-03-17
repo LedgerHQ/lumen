@@ -1,6 +1,8 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
 import React from 'react';
-import { Folder } from '../../src/lib/Symbols/Icons/Folder';
+import {
+  SegmentedControl,
+  SegmentedControlButton,
+} from '../../src/lib/Components/SegmentedControl';
 
 type TabProps = {
   label: string;
@@ -12,12 +14,13 @@ type CustomTabsProps = {
 };
 
 export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
-  const [active, setActive] = React.useState<number>(0);
-
-  // Extract Tab components from children
   const tabs = React.Children.toArray(children).filter(
     (child): child is React.ReactElement<TabProps> =>
       React.isValidElement(child) && child.type === Tab,
+  );
+
+  const [activeLabel, setActiveLabel] = React.useState<string>(
+    tabs[0]?.props.label ?? '',
   );
 
   if (tabs.length === 0) {
@@ -26,49 +29,27 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
 
   return (
     <div>
-      {/* Tab buttons */}
-      <div className='mb-24 flex gap-24'>
-        {tabs.map((tab, idx) => (
-          <button
-            key={idx}
-            className={cn(
-              'group relative flex flex-col items-center gap-8 rounded-lg p-12 transition-all duration-200 focus:outline-hidden',
-              active === idx ? 'text-active' : 'text-muted hover:text-active',
-            )}
-            onClick={() => setActive(idx)}
-          >
-            {/* Folder Icon */}
-            <div
-              className={cn(
-                'rounded-lg p-8 transition-all duration-200',
-                active === idx
-                  ? 'bg-accent text-base'
-                  : 'group-hover:opacity-80',
-              )}
-            >
-              <Folder size={24} />
-            </div>
-
-            {/* Label */}
-            <span
-              className={cn(
-                'body-3 transition-colors duration-200',
-                active === idx
-                  ? 'text-black'
-                  : 'group-hover:text-active group-hover:opacity-80',
-              )}
+      <div className='sticky top-0 z-10 bg-canvas py-12'>
+        <SegmentedControl
+          selectedValue={activeLabel}
+          onSelectedChange={(value) => setActiveLabel(value)}
+          className='w-480'
+        >
+          {tabs.map((tab) => (
+            <SegmentedControlButton
+              key={tab.props.label}
+              value={tab.props.label}
             >
               {tab.props.label}
-            </span>
-          </button>
-        ))}
+            </SegmentedControlButton>
+          ))}
+        </SegmentedControl>
       </div>
 
-      {/* Tab content */}
-      <div className='p-24'>
-        {tabs.map((tab, idx) => {
-          if (idx !== active) return null;
-          return <div key={idx}>{tab.props.children}</div>;
+      <div className='pt-24'>
+        {tabs.map((tab) => {
+          if (tab.props.label !== activeLabel) return null;
+          return <div key={tab.props.label}>{tab.props.children}</div>;
         })}
       </div>
     </div>

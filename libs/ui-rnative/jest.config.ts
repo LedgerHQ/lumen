@@ -7,6 +7,8 @@ const transformIncludePatterns = [
   '(jest-)?react-native',
   '@react-native(-community)?',
   '@sbaiahmed1/react-native-blur',
+  'expo-haptics',
+  'expo-modules-core',
 ];
 
 export default {
@@ -21,5 +23,6 @@ export default {
       '<rootDir>/../../libs/utils-shared/src/index.ts',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
   coverageDirectory: 'test-output/jest/coverage',
 } as Config;

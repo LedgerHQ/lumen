@@ -1,4 +1,9 @@
-import { cn, getFontSize, textFormatter } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  getFontSize,
+  textFormatter,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import React, {
   useEffect,
@@ -49,7 +54,7 @@ export const AmountInput = ({
   className,
   currencyText,
   currencyPosition = 'left',
-  disabled,
+  disabled: disabledProp,
   maxIntegerLength = 9,
   maxDecimalLength = 9,
   allowDecimals = true,
@@ -58,6 +63,10 @@ export const AmountInput = ({
   onChange,
   ...props
 }: AmountInputProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'AmountInput',
+    mergeWith: { disabled: disabledProp },
+  });
   const spanRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(value.toString());

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Duration } from '../types';
+import { TimingTokens } from '../types';
 
 export type PulseProps = {
   /**
@@ -7,10 +7,10 @@ export type PulseProps = {
    */
   children: ReactNode;
   /**
-   * Duration of one complete pulse in milliseconds
-   * @default 2000
+   * Motion token overrides for this animation.
+   * Wrapper defaults are used when values are omitted.
    */
-  duration?: Duration;
+  timing?: Partial<TimingTokens>;
   /**
    * Whether the pulse animation should play
    */

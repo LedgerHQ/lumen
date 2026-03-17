@@ -1,4 +1,7 @@
-import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
+import {
+  isTextChildren,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { FC, PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -79,11 +82,15 @@ export const TileButton = ({
   style,
   icon: IconProp,
   children,
-  disabled = false,
+  disabled: disabledProp = false,
   isFull = false,
   numberOfLines = 2,
   ...props
 }: TileButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'TileButton',
+    mergeWith: { disabled: disabledProp },
+  });
   const rootStyles = useRootStyles({ isFull });
 
   return (

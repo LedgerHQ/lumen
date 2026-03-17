@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Link } from '../Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';
 import {
   Subheader,
@@ -10,11 +11,10 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
   SubheaderDescription,
-  SubheaderAction,
 } from './Subheader';
 
 const Container = ({ children }: { children: React.ReactNode }) => (
-  <View style={{ padding: 8, backgroundColor: '#ffffff', width: '100%' }}>
+  <View style={{ padding: 8, backgroundColor: '#ffffff', width: 400 }}>
     {children}
   </View>
 );
@@ -29,7 +29,6 @@ const meta: Meta<typeof Subheader> = {
     SubheaderCount,
     SubheaderInfo,
     SubheaderShowMore,
-    SubheaderAction,
   },
   decorators: [
     (Story) => (
@@ -96,15 +95,22 @@ export const WithInfoIcon: Story = {
 
 export const WithAction: Story = {
   render: () => (
-    <Subheader lx={{ maxWidth: 's480' }}>
-      <SubheaderRow>
-        <SubheaderTitle>Recent Activity</SubheaderTitle>
-        <SubheaderAction onPress={() => console.log('View all')}>
+    <Subheader>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
+        <SubheaderRow style={{ flex: 1, minWidth: 0 }}>
+          <SubheaderTitle>Recent Activity</SubheaderTitle>
+        </SubheaderRow>
+        <Link
+          onPress={() => console.log('View all')}
+          appearance='accent'
+          size='sm'
+          underline={false}
+        >
           View all
-        </SubheaderAction>
-      </SubheaderRow>
+        </Link>
+      </View>
       <SubheaderDescription>
-        Use actions for quick access to related functionality
+        Place the action link in a flex layout beside the subheader
       </SubheaderDescription>
     </Subheader>
   ),

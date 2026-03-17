@@ -1,12 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "emitDeclarationOnly": false,
+    "outDir": "dist/typescript",
+    "emitDeclarationOnly": true,
     "types": ["node"],
     "jsx": "react-jsx",
-    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
-    "baseUrl": "."
+    "tsBuildInfoFile": "dist/typescript/tsconfig.lib.tsbuildinfo"
   },
   "exclude": [
     "out-tsc",

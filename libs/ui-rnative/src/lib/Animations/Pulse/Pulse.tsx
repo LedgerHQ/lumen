@@ -1,55 +1,54 @@
-import { useRef, useEffect, memo } from 'react';
-import { Animated, Easing } from 'react-native';
-import { RuntimeConstants } from '../../utils';
+import { useEffect, memo } from 'react';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
+import { TimingTokens } from '../types';
+import { useTimingConfig } from '../useTimingConfig';
 import { PulseProps } from './types';
 
-export const Pulse = memo(
-  ({ children, duration = 2000, animate }: PulseProps) => {
-    const pulseAnim = useRef(new Animated.Value(1)).current;
-    const animationRef = useRef<Animated.CompositeAnimation | null>(null);
+const MIN_OPACITY = 0.35;
 
-    useEffect(() => {
-      if (animate) {
-        const animation = Animated.loop(
-          Animated.sequence([
-            Animated.timing(pulseAnim, {
-              toValue: 0,
-              duration: duration / 2,
-              easing: Easing.linear,
-              useNativeDriver: RuntimeConstants.isNative,
-            }),
-            Animated.timing(pulseAnim, {
-              toValue: 1,
-              duration: duration / 2,
-              easing: Easing.linear,
-              useNativeDriver: RuntimeConstants.isNative,
-            }),
-          ]),
-        );
+const TIMING_DEFAULTS: TimingTokens = {
+  duration: 1000,
+  easing: 'linear',
+};
+export const Pulse = memo(({ children, timing, animate }: PulseProps) => {
+  const sv = useSharedValue<number>(1);
 
-        animationRef.current = animation;
-        animation.start();
-      } else {
-        animationRef.current?.stop();
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 200,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: RuntimeConstants.isNative,
-        }).start();
-      }
+  const timingConfig = useTimingConfig({
+    duration: timing?.duration ?? TIMING_DEFAULTS.duration,
+    easing: timing?.easing ?? TIMING_DEFAULTS.easing,
+  });
 
-      return () => {
-        animationRef.current?.stop();
-      };
-    }, [pulseAnim, duration, animate]);
+  useEffect(() => {
+    if (animate) {
+      sv.value = withRepeat(
+        withSequence(
+          withTiming(MIN_OPACITY, timingConfig),
+          withTiming(1, timingConfig),
+        ),
+        -1,
+      );
+    } else {
+      cancelAnimation(sv);
+      sv.value = withTiming(1, timingConfig);
+    }
 
-    const pulse = pulseAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0.35, 1],
-    });
+    return () => cancelAnimation(sv);
+  }, [sv, animate, timingConfig]);
 
-    return <Animated.View style={{ opacity: pulse }}>{children}</Animated.View>;
-  },
-);
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      opacity: sv.value,
+    }),
+    [sv],
+  );
+
+  return <Animated.View style={animatedStyle}>{children}</Animated.View>;
+});
 Pulse.displayName = 'Pulse';

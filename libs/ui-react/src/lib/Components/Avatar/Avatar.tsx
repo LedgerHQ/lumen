@@ -12,6 +12,7 @@ const avatarVariants = {
         size: {
           sm: 'size-40 p-4',
           md: 'size-48 p-4',
+          lg: 'size-72 p-4',
         },
       },
       defaultVariants: {
@@ -24,6 +25,7 @@ const avatarVariants = {
       size: {
         sm: 'size-10',
         md: 'size-12',
+        lg: 'size-16',
       },
     },
   }),
@@ -32,6 +34,7 @@ const avatarVariants = {
 const fallbackSizes = {
   sm: 16,
   md: 24,
+  lg: 32,
 } as const;
 
 /**

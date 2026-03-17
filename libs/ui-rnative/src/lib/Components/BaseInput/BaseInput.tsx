@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import {
   useCallback,
   useEffect,
@@ -5,9 +6,17 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Animated, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Animated, {
+  interpolate,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  cancelAnimation,
+} from 'react-native-reanimated';
 import { useCommonTranslation } from '../../../i18n';
-import { useStyleSheet, useTheme } from '../../../styles';
+import { LumenStyleSheetTheme, useStyleSheet, useTheme } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
 import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -24,12 +33,16 @@ export const BaseInput = ({
   errorMessage,
   hideClearButton,
   onChangeText: onChangeTextProp,
-  editable = true,
+  editable: editableProp = true,
   prefix,
   suffix,
   ref,
   ...props
 }: BaseInputProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'BaseInput',
+    mergeWith: { disabled: !editableProp },
+  });
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
   const inputRef = useRef<TextInput>(null);
@@ -47,20 +60,7 @@ export const BaseInput = ({
     ? !!props.value && props.value.length > 0
     : uncontrolledValue.length > 0;
 
-  const isFloatingLabel = isFocused || hasContent;
-  const showClearButton = hasContent && editable && !hideClearButton;
-
-  const floatingAnimation = useRef(
-    new Animated.Value(isFloatingLabel ? 1 : 0),
-  ).current;
-
-  useEffect(() => {
-    Animated.timing(floatingAnimation, {
-      toValue: isFloatingLabel ? 1 : 0,
-      duration: 150,
-      useNativeDriver: false,
-    }).start();
-  }, [isFloatingLabel, floatingAnimation]);
+  const showClearButton = hasContent && !disabled && !hideClearButton;
 
   const handleChangeText = useCallback(
     (text: string) => {
@@ -84,16 +84,16 @@ export const BaseInput = ({
   const styles = useStyles({
     hasError: !!errorMessage,
     isFocused,
-    isEditable: editable,
+    isEditable: !disabled,
     hasLabel: !!label,
   });
 
   const floatingLabelStyles = useFloatingLabelStyles({
-    floatingAnimation,
     hasContent,
+    isFocused,
     showClearButton,
     hasError: !!errorMessage,
-    isEditable: editable,
+    isEditable: !disabled,
   });
 
   return (
@@ -101,7 +101,7 @@ export const BaseInput = ({
       <Pressable
         style={StyleSheet.flatten([styles.container, containerStyle])}
         onPress={() => inputRef.current?.focus()}
-        disabled={!editable}
+        disabled={disabled}
       >
         {prefix}
 
@@ -112,7 +112,7 @@ export const BaseInput = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={handleChangeText}
-          editable={editable}
+          editable={!disabled}
           autoCapitalize='none'
           autoCorrect={false}
           selectionColor={theme.colors.text.active}
@@ -124,7 +124,7 @@ export const BaseInput = ({
           <Animated.Text
             style={[
               floatingLabelStyles.label,
-              floatingLabelStyles.animatedLabel,
+              floatingLabelStyles.animatedStyle,
               labelStyle,
             ]}
             numberOfLines={1}
@@ -133,7 +133,7 @@ export const BaseInput = ({
           </Animated.Text>
         )}
 
-        {(suffix || (!hideClearButton && editable)) && (
+        {(suffix || (!hideClearButton && !disabled)) && (
           <View style={styles.suffixContainer}>
             {showClearButton ? (
               <InteractiveIcon
@@ -246,14 +246,52 @@ const useStyles = ({
   );
 };
 
+const useAnimatedFloatingLabel = ({
+  isFloatingLabel,
+  theme,
+}: {
+  isFloatingLabel: boolean;
+  theme: LumenStyleSheetTheme;
+}) => {
+  const floatingAnimation = useSharedValue(isFloatingLabel ? 1 : 0);
+  const timingConfig = useTimingConfig({
+    duration: 150,
+    easing: 'linear',
+  });
+
+  useEffect(() => {
+    floatingAnimation.value = withTiming(isFloatingLabel ? 1 : 0, timingConfig);
+
+    return () => cancelAnimation(floatingAnimation);
+  }, [isFloatingLabel, timingConfig, floatingAnimation]);
+
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      top: interpolate(
+        floatingAnimation.value,
+        [0, 1],
+        [theme.spacings.s14, theme.spacings.s6],
+      ),
+      fontSize: interpolate(
+        floatingAnimation.value,
+        [0, 1],
+        [theme.typographies.body2.fontSize, theme.typographies.body4.fontSize],
+      ),
+    }),
+    [floatingAnimation, theme],
+  );
+
+  return { animatedStyle };
+};
+
 const useFloatingLabelStyles = ({
-  floatingAnimation,
+  isFocused,
   hasContent,
   showClearButton,
   hasError,
   isEditable,
 }: {
-  floatingAnimation: Animated.Value;
+  isFocused: boolean;
   hasContent: boolean;
   showClearButton: boolean;
   hasError: boolean;
@@ -261,7 +299,7 @@ const useFloatingLabelStyles = ({
 }) => {
   const { theme } = useTheme();
 
-  const label = useStyleSheet(
+  const { label } = useStyleSheet(
     (t) => ({
       label: StyleSheet.flatten([
         {
@@ -285,21 +323,12 @@ const useFloatingLabelStyles = ({
     [hasContent, showClearButton, hasError, isEditable],
   );
 
-  const animatedLabel = {
-    top: floatingAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [theme.spacings.s14, theme.spacings.s6],
-    }),
-    fontSize: floatingAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [
-        theme.typographies.body2.fontSize,
-        theme.typographies.body4.fontSize,
-      ],
-    }),
-  };
+  const { animatedStyle } = useAnimatedFloatingLabel({
+    theme,
+    isFloatingLabel: isFocused || hasContent,
+  });
 
-  return { label: label.label, animatedLabel };
+  return { label, animatedStyle };
 };
 
 BaseInput.displayName = 'BaseInput';

@@ -104,7 +104,7 @@ export type DialogHeaderProps = {
    * The appearance variant of the header.
    * @default 'compact'
    */
-  appearance?: 'compact' | 'extended';
+  appearance?: 'compact' | 'expanded';
   /**
    * The main title to display in the header.
    */
@@ -153,6 +153,17 @@ export type DialogBodyProps = {
    * @default 'none'
    */
   scrollbarWidth?: 'none' | 'auto';
+} & ComponentPropsWithRef<'div'>;
+
+export type DialogBodyStickyContentProps = {
+  /**
+   * The content to display in the sticky region inside the dialog body.
+   */
+  children?: ReactNode;
+  /**
+   * Additional custom CSS classes to apply.
+   */
+  className?: string;
 } & ComponentPropsWithRef<'div'>;
 
 export type DialogFooterProps = {

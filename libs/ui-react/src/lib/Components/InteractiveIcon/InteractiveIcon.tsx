@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { InteractiveIconProps } from './types';
 
@@ -52,9 +52,14 @@ export const InteractiveIcon = ({
   ref,
   className,
   iconType,
-  disabled = false,
+  disabled: disabledProp = false,
   ...props
 }: InteractiveIconProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'InteractiveIcon',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
     <button
       {...props}

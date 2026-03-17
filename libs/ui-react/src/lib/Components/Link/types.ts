@@ -34,6 +34,11 @@ export type LinkProps = {
    */
   asChild?: boolean;
   /**
+   * Whether the link is disabled.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * The link's content, typically text.
    */
   children: ReactNode;

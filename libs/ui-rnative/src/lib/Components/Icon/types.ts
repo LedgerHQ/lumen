@@ -19,6 +19,10 @@ export type IconProps = {
    */
   children?: React.ReactNode;
   /**
+   * Whether the icon is disabled.
+   */
+  disabled?: boolean;
+  /**
    * The ref to the Svg component.
    */
   ref?: Ref<Svg>;

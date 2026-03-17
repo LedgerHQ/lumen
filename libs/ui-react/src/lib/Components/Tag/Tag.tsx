@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { IconSize } from '../Icon/types';
 import { TagProps } from './types';
@@ -39,9 +39,13 @@ export const Tag = ({
   size,
   icon,
   label,
-  disabled,
+  disabled: disabledProp,
   ...props
 }: TagProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Tag',
+    mergeWith: { disabled: disabledProp },
+  });
   const iconSizeMap: { [key: string]: IconSize } = {
     md: 16,
     sm: 12,

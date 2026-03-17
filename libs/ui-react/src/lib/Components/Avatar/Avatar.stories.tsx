@@ -61,6 +61,15 @@ export const SizeShowcase: Story = {
         />
         <span className='mt-4'>md</span>
       </div>
+      <div className='flex flex-col items-center justify-end'>
+        <Avatar
+          size='lg'
+          alt='large'
+          src={exampleSrc}
+          showNotification={false}
+        />
+        <span className='mt-4'>lg</span>
+      </div>
     </div>
   ),
 };

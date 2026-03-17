@@ -10,13 +10,21 @@ import { IconSize } from '../Icon/types';
  * Context value for passing state to SideBar sub-components
  */
 export type SideBarContextValue = {
-  /** Whether the sidebar is collapsed */
+  /**
+   * Whether the sidebar is collapsed.
+   */
   collapsed: boolean;
-  /** Function to update the collapsed state */
+  /**
+   * Function to update the collapsed state.
+   */
   setCollapsed: (value: boolean) => void;
-  /** The value of the currently active item */
+  /**
+   * The value of the currently active item.
+   */
   active: string;
-  /** Function to update the active item */
+  /**
+   * Function to update the active item.
+   */
   onActiveChange: (value: string) => void;
 };
 

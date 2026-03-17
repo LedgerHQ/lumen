@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { IconSize } from '../Icon/types';
@@ -82,7 +82,7 @@ export const BaseButton = ({
   appearance = 'base',
   size,
   isFull,
-  disabled = false,
+  disabled: disabledProp = false,
   asChild = false,
   icon: Icon,
   loading = false,
@@ -90,6 +90,10 @@ export const BaseButton = ({
   onClick,
   ...props
 }: BaseButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'BaseButton',
+    mergeWith: { disabled: disabledProp },
+  });
   const iconSizeMap: { [key: string]: IconSize } = {
     xs: 16,
     sm: 20,

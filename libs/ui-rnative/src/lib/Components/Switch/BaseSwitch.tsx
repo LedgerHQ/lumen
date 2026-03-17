@@ -1,12 +1,18 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
-  Animated,
   Pressable,
   StyleSheet,
   type GestureResponderEvent,
 } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
+import { useTimingConfig } from '../../Animations/useTimingConfig';
 
 import { SlottablePressableProps, SlottableViewProps } from '../../types';
 import { SlotPressable, SlotView } from '../Slot';
@@ -84,8 +90,45 @@ const BaseSwitchRoot = ({
 };
 BaseSwitchRoot.displayName = ROOT_COMPONENT_NAME;
 
+const THUMB_TRANSLATE: Record<Size, number> = {
+  sm: 8,
+  md: 16,
+};
+
+const useAnimatedThumb = ({
+  checked,
+  size,
+}: {
+  checked: boolean | undefined;
+  size: Size;
+}) => {
+  const timingConfig = useTimingConfig({ duration: 200, easing: 'easeInOut' });
+  const translateX = useSharedValue(checked ? THUMB_TRANSLATE[size] : 0);
+
+  useEffect(() => {
+    translateX.value = withTiming(
+      checked ? THUMB_TRANSLATE[size] : 0,
+      timingConfig,
+    );
+    return () => cancelAnimation(translateX);
+  }, [checked, size, translateX, timingConfig]);
+
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: translateX.value }],
+    }),
+    [translateX],
+  );
+
+  return { animatedStyle };
+};
+
 const BaseSwitchThumb = ({ asChild, ref, ...props }: SlottableViewProps) => {
-  const { checked, disabled, size } = useBaseSwitchContext({
+  const {
+    checked,
+    disabled,
+    size = 'md',
+  } = useBaseSwitchContext({
     consumerName: THUMB_COMPONENT_NAME,
     contextRequired: true,
   });
@@ -93,34 +136,10 @@ const BaseSwitchThumb = ({ asChild, ref, ...props }: SlottableViewProps) => {
   const styles = useStyles({
     checked: !!checked,
     disabled: !!disabled,
-    size: size || 'md',
+    size,
   });
 
-  const translateX = useRef(new Animated.Value(checked ? 1 : 0)).current;
-
-  useEffect(() => {
-    Animated.timing(translateX, {
-      toValue: checked ? 1 : 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  }, [checked, translateX]);
-
-  const getTranslateDistance = (): number => {
-    const sizeName = size || 'md';
-    return sizeName === 'sm' ? 8 : 16;
-  };
-
-  const animatedStyle = {
-    transform: [
-      {
-        translateX: translateX.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, getTranslateDistance()],
-        }),
-      },
-    ],
-  };
+  const { animatedStyle } = useAnimatedThumb({ checked, size });
 
   if (asChild) {
     const Component = SlotView;

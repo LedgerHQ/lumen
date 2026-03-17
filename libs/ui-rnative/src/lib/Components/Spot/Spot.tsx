@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { LumenTypographyTokens, useStyleSheet } from '../../../styles';
@@ -46,7 +47,7 @@ const useStyles = ({
 }: {
   size: SpotSize;
   appearance: SpotAppearance;
-  disabled: boolean;
+  disabled?: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -128,12 +129,17 @@ const useStyles = ({
 export const Spot = (props: SpotProps) => {
   const {
     appearance,
-    disabled = false,
+    disabled: disabledProp = false,
     size = 48,
     lx = {},
     style,
     ...rest
   } = props;
+  const disabled = useDisabledContext({
+    consumerName: 'Spot',
+    mergeWith: { disabled: disabledProp },
+  });
+
   const styles = useStyles({ size, appearance, disabled });
   const calculatedIconSize = iconSizeMap[size];
 

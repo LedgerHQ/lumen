@@ -1,7 +1,11 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  createSafeContext,
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { Spot } from '../Spot/Spot';
 import {
-  ListItemContextValue,
   ListItemContentProps,
   ListItemDescriptionProps,
   ListItemIconProps,
@@ -12,9 +16,6 @@ import {
   ListItemTrailingProps,
   ListItemTruncateProps,
 } from './types';
-
-const [ListItemProvider, useListItemContext] =
-  createSafeContext<ListItemContextValue>('ListItem', {});
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
   createSafeContext<{ isInTrailing: boolean }>('ListItemTrailing', {
@@ -44,10 +45,14 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  * </ListItem>
  */
 export const ListItem = ({ ref, ...props }: ListItemProps) => {
-  const { children, className, disabled, ...buttonProps } = props;
+  const { children, className, disabled: disabledProp, ...buttonProps } = props;
+  const disabled = useDisabledContext({
+    consumerName: 'ListItem',
+    mergeWith: { disabled: disabledProp },
+  });
 
   return (
-    <ListItemProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled }}>
       <button
         ref={ref}
         type='button'
@@ -62,7 +67,7 @@ export const ListItem = ({ ref, ...props }: ListItemProps) => {
       >
         {children}
       </button>
-    </ListItemProvider>
+    </DisabledProvider>
   );
 };
 
@@ -117,6 +122,10 @@ export const ListItemTitle = ({
   children,
   className,
 }: ListItemTitleProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'ListItemTitle',
+    contextRequired: true,
+  });
   const { isInTrailing } = useListItemTrailingContext({
     consumerName: 'ListItemTitle',
     contextRequired: false,
@@ -128,6 +137,7 @@ export const ListItemTitle = ({
       className={cn(
         'w-full truncate body-2-semi-bold',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
+        disabled && 'text-disabled',
         className,
       )}
     >
@@ -147,7 +157,7 @@ export const ListItemDescription = ({
   children,
   className,
 }: ListItemDescriptionProps) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
   });
@@ -182,7 +192,7 @@ export const ListItemTrailing = ({
   children,
   className,
 }: ListItemTrailingProps) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemTrailing',
     contextRequired: true,
   });
@@ -209,7 +219,7 @@ ListItemTrailing.displayName = 'ListItemTrailing';
  * Spot adapter for ListItem. Automatically inherits disabled state from parent ListItem.
  */
 export const ListItemSpot = (props: ListItemSpotProps) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemSpot',
     contextRequired: true,
   });
@@ -229,7 +239,7 @@ export const ListItemIcon = ({
   className,
   ...props
 }: ListItemIconProps) => {
-  const { disabled } = useListItemContext({
+  const disabled = useDisabledContext({
     consumerName: 'ListItemIcon',
     contextRequired: true,
   });
