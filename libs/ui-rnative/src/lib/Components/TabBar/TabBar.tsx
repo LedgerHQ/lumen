@@ -268,7 +268,7 @@ export function TabBar({
       >
         {children}
         {Platform.OS === 'android' ? (
-          <View style={styles.androidBackground} />
+          <View style={styles.fallbackBackground} />
         ) : (
           <BlurView
             style={styles.blur}
@@ -280,7 +280,7 @@ export function TabBar({
                 : 'rgba(255,255,255,0.2)'
             }
             reducedTransparencyFallbackColor={
-              styles.androidBackground.backgroundColor
+              styles.fallbackBackground.backgroundColor
             }
           />
         )}
@@ -308,7 +308,7 @@ const useStyles = () =>
         height: TAB_BAR_HEIGHT + t.sizes.s16,
         zIndex: -1,
       },
-      androidBackground: {
+      fallbackBackground: {
         ...StyleSheet.absoluteFillObject,
         zIndex: -1,
         backgroundColor: t.colors.bg.muted,
