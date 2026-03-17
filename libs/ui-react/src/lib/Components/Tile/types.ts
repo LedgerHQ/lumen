@@ -7,13 +7,10 @@ import type {
   Ref,
 } from 'react';
 import { IconProps } from '../Icon';
-import { DiscriminatedSpotProps, SpotSize } from '../Spot/types';
 
 export type TileContextValue = {
   disabled: boolean;
 };
-
-export type TileSpotSize = Extract<SpotSize, 40 | 48>;
 
 export type TileProps = {
   /**
@@ -41,7 +38,7 @@ export type TileProps = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   /**
    * The children to display inside the tile.
-   * Can include TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction, and any custom content.
+   * Can include TileContent, TileTitle, TileDescription, TileSecondaryAction, and any custom content.
    */
   children: ReactNode;
   /**
@@ -63,14 +60,6 @@ export type TileProps = {
    */
   ref?: Ref<HTMLDivElement>;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
-
-export type TileSpotProps = {
-  /**
-   * The size of the spot.
-   * @default 48
-   */
-  size?: 40 | 48;
-} & DiscriminatedSpotProps;
 
 export type TileContentProps = {
   /**

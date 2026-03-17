@@ -3,10 +3,10 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { Settings, MoreVertical } from '../../Symbols';
+import { Spot } from '../Spot';
 import { Tag } from '../Tag';
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
@@ -19,7 +19,7 @@ describe('Tile Component', () => {
     it('should render correctly with composite API', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -33,7 +33,7 @@ describe('Tile Component', () => {
     it('should render custom content', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -47,7 +47,7 @@ describe('Tile Component', () => {
       render(
         <Tile>
           <TileSecondaryAction icon={MoreVertical} aria-label='More actions' />
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -63,7 +63,7 @@ describe('Tile Component', () => {
       const handleClick = vi.fn();
       render(
         <Tile onClick={handleClick}>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -87,7 +87,7 @@ describe('Tile Component', () => {
             onClick={handleSecondaryClick}
             aria-label='More actions'
           />
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -108,7 +108,7 @@ describe('Tile Component', () => {
     it('should have correct base classes', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -121,7 +121,7 @@ describe('Tile Component', () => {
     it('should have card appearance classes when specified', () => {
       render(
         <Tile appearance='card'>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -133,10 +133,10 @@ describe('Tile Component', () => {
   });
 
   describe('Context Propagation', () => {
-    it('should propagate disabled state to TileSpot', () => {
+    it('should propagate disabled state to Spot', () => {
       render(
         <Tile disabled>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -150,7 +150,7 @@ describe('Tile Component', () => {
     it('should propagate disabled state to TileTitle', () => {
       render(
         <Tile disabled>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -164,7 +164,7 @@ describe('Tile Component', () => {
     it('should propagate disabled state to TileDescription', () => {
       render(
         <Tile disabled>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
             <TileDescription>Test Description</TileDescription>
@@ -180,7 +180,7 @@ describe('Tile Component', () => {
       render(
         <Tile disabled>
           <TileSecondaryAction icon={MoreVertical} aria-label='More actions' />
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -197,7 +197,7 @@ describe('Tile Component', () => {
       const customAriaLabel = 'Custom label';
       render(
         <Tile aria-label={customAriaLabel}>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -213,7 +213,7 @@ describe('Tile Component', () => {
     it('should set disabled attribute on button when disabled', () => {
       render(
         <Tile disabled>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -230,7 +230,7 @@ describe('Tile Component', () => {
       const customClass = 'custom-test-class';
       render(
         <Tile className={customClass}>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
           </TileContent>
@@ -247,7 +247,7 @@ describe('Tile Component', () => {
     it('should render children correctly', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
             <TileTrailingContent>
@@ -263,7 +263,7 @@ describe('Tile Component', () => {
     it('should have correct margin-top styling (mt-4)', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
             <TileTrailingContent data-testid='trailing-content'>
@@ -280,7 +280,7 @@ describe('Tile Component', () => {
     it('should have correct gap styling (gap-8)', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
             <TileTrailingContent data-testid='trailing-content'>
@@ -299,7 +299,7 @@ describe('Tile Component', () => {
       const customClass = 'custom-trailing-class';
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
             <TileTrailingContent
@@ -319,7 +319,7 @@ describe('Tile Component', () => {
     it('should render multiple children with proper spacing', () => {
       render(
         <Tile>
-          <TileSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <TileContent>
             <TileTitle>Test Title</TileTitle>
             <TileTrailingContent>

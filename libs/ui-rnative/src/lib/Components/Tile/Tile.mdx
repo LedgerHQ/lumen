@@ -26,11 +26,11 @@ Tile components are compact, card-like interactive elements designed for horizon
 
 ## Anatomy
 
-- **TileSpot**: Visual icon or element at the top
-- **TileContent**: Container for title, description, and trailing content
+- **Tile**: Root container; direct children are laid out vertically (e.g. Spot, TileContent)
+- **TileContent**: Container for title, description and trailing content
   - **TileTitle**: The main label of the item (required)
   - **TileDescription (optional)**: Provides additional context
-  - **TileTrailingContent (optional)**: Container for trailing content like Tags, Text, etc.
+  - **TileTrailingContent (optional)**: Container for Tags, labels, or other supplementary content
 
 ## Properties
 
@@ -94,10 +94,10 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 ```tsx
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
+  Spot,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
@@ -108,7 +108,7 @@ function MyComponent() {
       onPress={() => console.log('Primary action')}
       onLongPress={() => console.log('Secondary action')}
     >
-      <TileSpot appearance='icon' icon={Settings} />
+      <Spot appearance='icon' icon={Settings} />
       <TileContent>
         <TileTitle>Settings</TileTitle>
         <TileDescription>Manage preferences</TileDescription>
@@ -122,20 +122,22 @@ function MyComponent() {
 
 ### With Trailing Content (Tags, etc.)
 
+Use TileTrailingContent inside TileContent to wrap Tags or other supplementary content.
+
 ```tsx
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
   TileTrailingContent,
   Tag,
+  Spot,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile appearance='card'>
-  <TileSpot appearance='icon' icon={Bitcoin} />
+  <Spot appearance='icon' icon={Bitcoin} />
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
@@ -150,7 +152,7 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 ```tsx
 <Tile disabled>
-  <TileSpot appearance='icon' icon={Settings} />
+  <Spot appearance='icon' icon={Settings} />
   <TileContent>
     <TileTitle>Settings</TileTitle>
     <TileDescription>Unavailable</TileDescription>
@@ -163,13 +165,14 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 Use the `centered` prop to vertically center the tile content. This is useful when a tile has less content than its neighbors in a grid, like a "Show more" tile that needs to align with richer tiles.
 
 ```tsx
-import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { ChevronRight, CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { Spot, Tile, TileContent, TileTitle, TileDescription, TileTrailingContent, Tag } from '@ledgerhq/lumen-ui-rnative';
 import { View } from 'react-native';
 
 // In a grid where other tiles have more content
 <View style={{ flexDirection: 'row', gap: 8 }}>
   <Tile appearance='card'>
-    <TileSpot appearance='coin' icon='btc' />
+    <Spot appearance='icon' icon={CryptoBitcoinCoin} />
     <TileContent>
       <TileTitle>Title</TileTitle>
       <TileDescription>Description</TileDescription>
@@ -181,7 +184,7 @@ import { View } from 'react-native';
 
   {/* Show more tile with centered content */}
   <Tile appearance='card' centered>
-    <TileSpot appearance='icon' icon={ChevronRight} />
+    <Spot appearance='icon' icon={ChevronRight} />
     <TileContent>
       <TileTitle>Show more</TileTitle>
     </TileContent>
@@ -194,14 +197,15 @@ import { View } from 'react-native';
 ```tsx
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
+  Spot,
 } from '@ledgerhq/lumen-ui-rnative';
+import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile onPress={() => console.log('Clicked!')}>
-  <TileSpot appearance='coin' icon='btc' />
+  <Spot appearance='icon' icon={CryptoBitcoinCoin} />
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
@@ -213,17 +217,21 @@ import {
 
 ```tsx
 import { ScrollView } from 'react-native';
+import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/lumen-ui-rnative';
 
 <ScrollView horizontal>
-  {items.map((item) => (
-    <Tile key={item.id} lx={{ width: 's128', flexShrink: 0 }}>
-      <TileSpot appearance='icon' icon={item.icon} />
-      <TileContent>
-        <TileTitle>{item.title}</TileTitle>
-        <TileDescription>{item.description}</TileDescription>
-      </TileContent>
-    </Tile>
-  ))}
+  {items.map((item) => {
+    const Icon = item.icon;
+    return (
+      <Tile key={item.id} lx={{ width: 's128', flexShrink: 0 }}>
+        <Spot appearance='icon' icon={Icon} />
+        <TileContent>
+          <TileTitle>{item.title}</TileTitle>
+          <TileDescription>{item.description}</TileDescription>
+        </TileContent>
+      </Tile>
+    );
+  })}
 </ScrollView>;
 ```
 
@@ -234,7 +242,7 @@ import { ScrollView } from 'react-native';
   onPress={() => console.log('Primary action')}
   onLongPress={() => console.log('Secondary action - show menu')}
 >
-  <TileSpot appearance='icon' icon={Settings} />
+  <Spot appearance='icon' icon={Settings} />
   <TileContent>
     <TileTitle>Settings</TileTitle>
     <TileDescription>Long press for options</TileDescription>
@@ -251,13 +259,13 @@ import { ScrollView } from 'react-native';
 <DoVsDontRow>
   <DoBlockItem
     title='Use TileTrailingContent for additional elements'
-    description='Wrap Tags, labels, or supplementary content inside TileTrailingContent within TileContent for proper 4px spacing.'
+    description='Wrap Tags, labels, or supplementary content inside TileTrailingContent within TileContent for proper spacing.'
   >
 
 ```tsx
 {/* prettier-ignore */}
 <Tile>
-  <TileSpot appearance="icon" icon={Settings} />
+  <Spot appearance="icon" icon={Settings} />
   <TileContent>
     <TileTitle>Title</TileTitle>
     <TileDescription>Description</TileDescription>
@@ -277,7 +285,7 @@ import { ScrollView } from 'react-native';
 ```tsx
 {/* prettier-ignore */}
 <Tile>
-  <TileSpot appearance="icon" icon={Settings} />
+  <Spot appearance="icon" icon={Settings} />
   <TileContent>
     <TileTitle>Title</TileTitle>
     <TileDescription>Description</TileDescription>

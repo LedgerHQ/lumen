@@ -12,7 +12,7 @@ import {
 } from '../ListItem';
 import { SearchInput } from '../SearchInput';
 import { Spot } from '../Spot';
-import { Tile, TileContent, TileSpot, TileTitle } from '../Tile';
+import { Tile, TileContent, TileTitle } from '../Tile';
 import {
   Dialog,
   DialogBody,
@@ -565,7 +565,7 @@ export const WithListsContent: Story = {
               <div className='-mx-24 flex gap-8 overflow-x-auto px-24'>
                 {Array.from({ length: 12 }).map((_, i) => (
                   <Tile>
-                    <TileSpot appearance='icon' icon={Apps} />
+                    <Spot appearance='icon' icon={Apps} />
                     <TileContent>
                       <TileTitle>Action {i + 1}</TileTitle>
                     </TileContent>

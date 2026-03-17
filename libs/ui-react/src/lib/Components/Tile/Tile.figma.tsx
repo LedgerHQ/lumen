@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
@@ -13,6 +12,7 @@ import { MoreVertical, Settings } from '../../Symbols';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 
 import figma from '@figma/code-connect';
+import { Spot } from '../Spot';
 import { Placeholder } from '../../Symbols/Icons/Placeholder';
 
 // —— no additional content ——
@@ -21,7 +21,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
     imports: [
-      "import { Tile, TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
+      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
       "import { Tag } from '@ledgerhq/lumen-ui-react'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
       "import { Placeholder, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
@@ -42,7 +42,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-icon', {
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
-        spot: <TileSpot appearance='icon' icon={Settings} />,
+        spot: <Spot appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
     },
@@ -56,6 +56,7 @@ figma.connect(
           icon={MoreVertical}
           onClick={() => {}}
         />
+        <Spot appearance='icon' icon={Settings} />
         {props.leadingContent}
         <TileContent>
           <TileTitle>{props.title}</TileTitle>
@@ -72,7 +73,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
     imports: [
-      "import { Tile, TileSpot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
+      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
       "import { Tag } from '@ledgerhq/lumen-ui-react'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
       "import { Placeholder, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
@@ -93,7 +94,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-icon', {
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
-        spot: <TileSpot appearance='icon' icon={Settings} />,
+        spot: <Spot appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
       tag: figma.boolean('show-tag', {
