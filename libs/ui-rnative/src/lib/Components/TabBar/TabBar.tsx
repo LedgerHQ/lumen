@@ -279,6 +279,9 @@ export function TabBar({
                 ? 'rgba(0,0,0,0.15)'
                 : 'rgba(255,255,255,0.2)'
             }
+            reducedTransparencyFallbackColor={
+              styles.androidBackground.backgroundColor
+            }
           />
         )}
         <Animated.View style={[styles.pill, animatedPillStyle]} />
