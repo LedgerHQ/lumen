@@ -73,12 +73,12 @@ export default meta;
 type Story = StoryObj<typeof Select>;
 
 export const Base: Story = {
-  render: () => {
+  render: (args) => {
     const [value, setValue] = useState('');
 
     return (
       <div className='w-400'>
-        <Select value={value} onValueChange={setValue}>
+        <Select {...args} value={value} onValueChange={setValue}>
           <SelectTrigger label='Label' />
           <SelectContent>
             <SelectItem value='option1'>
@@ -369,6 +369,18 @@ export const TriggerShowcase: Story = {
             </SelectItem>
             <SelectItem value='savings'>
               <SelectItemText>Savings</SelectItemText>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={buttonValue} onValueChange={setButtonValue} disabled>
+          <SelectTrigger
+            render={(renderProps) => (
+              <SelectButtonTrigger {...renderProps} label='Disabled' />
+            )}
+          />
+          <SelectContent className='w-208'>
+            <SelectItem value='all'>
+              <SelectItemText>All accounts</SelectItemText>
             </SelectItem>
           </SelectContent>
         </Select>

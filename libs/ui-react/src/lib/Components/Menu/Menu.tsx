@@ -1,4 +1,8 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import * as React from 'react';
 import { Check, ChevronRight } from '../../Symbols';
@@ -146,13 +150,15 @@ const MenuItem = ({
   });
 
   return (
-    <DropdownMenuPrimitive.Item
-      ref={ref}
-      data-slot='menu-item'
-      className={cn(itemStyles, inset && 'pl-32', className)}
-      disabled={disabled}
-      {...props}
-    />
+    <DisabledProvider value={{ disabled }}>
+      <DropdownMenuPrimitive.Item
+        ref={ref}
+        data-slot='menu-item'
+        className={cn(itemStyles, inset && 'pl-32', className)}
+        disabled={disabled}
+        {...props}
+      />
+    </DisabledProvider>
   );
 };
 MenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
@@ -171,21 +177,23 @@ const MenuCheckboxItem = ({
   });
 
   return (
-    <DropdownMenuPrimitive.CheckboxItem
-      ref={ref}
-      data-slot='menu-checkbox-item'
-      className={cn(itemStyles, className)}
-      checked={checked}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-      <span className='ml-auto flex size-24 items-center justify-center'>
-        <DropdownMenuPrimitive.ItemIndicator>
-          <Check size={24} className='text-active' />
-        </DropdownMenuPrimitive.ItemIndicator>
-      </span>
-    </DropdownMenuPrimitive.CheckboxItem>
+    <DisabledProvider value={{ disabled }}>
+      <DropdownMenuPrimitive.CheckboxItem
+        ref={ref}
+        data-slot='menu-checkbox-item'
+        className={cn(itemStyles, className)}
+        checked={checked}
+        disabled={disabled}
+        {...props}
+      >
+        {children}
+        <span className='ml-auto flex size-24 items-center justify-center'>
+          <DropdownMenuPrimitive.ItemIndicator>
+            <Check disabled={disabled} size={24} className='text-active' />
+          </DropdownMenuPrimitive.ItemIndicator>
+        </span>
+      </DropdownMenuPrimitive.CheckboxItem>
+    </DisabledProvider>
   );
 };
 MenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
@@ -194,22 +202,33 @@ const MenuRadioItem = ({
   ref,
   className,
   children,
+  disabled: disabledProp,
   ...props
-}: MenuRadioItemProps) => (
-  <DropdownMenuPrimitive.RadioItem
-    ref={ref}
-    data-slot='menu-radio-item'
-    className={cn(itemStyles, className)}
-    {...props}
-  >
-    {children}
-    <span className='ml-auto flex size-24 items-center justify-center'>
-      <DropdownMenuPrimitive.ItemIndicator>
-        <Check size={24} className='text-active' />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
-  </DropdownMenuPrimitive.RadioItem>
-);
+}: MenuRadioItemProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'MenuRadioItem',
+    mergeWith: { disabled: disabledProp },
+  });
+
+  return (
+    <DisabledProvider value={{ disabled }}>
+      <DropdownMenuPrimitive.RadioItem
+        ref={ref}
+        data-slot='menu-radio-item'
+        disabled={disabled}
+        className={cn(itemStyles, className)}
+        {...props}
+      >
+        {children}
+        <span className='ml-auto flex size-24 items-center justify-center'>
+          <DropdownMenuPrimitive.ItemIndicator>
+            <Check disabled={disabled} size={24} className='text-active' />
+          </DropdownMenuPrimitive.ItemIndicator>
+        </span>
+      </DropdownMenuPrimitive.RadioItem>
+    </DisabledProvider>
+  );
+};
 MenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
 
 const MenuLabel = ({

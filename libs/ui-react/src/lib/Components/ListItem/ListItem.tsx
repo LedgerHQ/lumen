@@ -122,6 +122,10 @@ export const ListItemTitle = ({
   children,
   className,
 }: ListItemTitleProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'ListItemTitle',
+    contextRequired: true,
+  });
   const { isInTrailing } = useListItemTrailingContext({
     consumerName: 'ListItemTitle',
     contextRequired: false,
@@ -133,6 +137,7 @@ export const ListItemTitle = ({
       className={cn(
         'w-full truncate body-2-semi-bold',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
+        disabled && 'text-disabled',
         className,
       )}
     >

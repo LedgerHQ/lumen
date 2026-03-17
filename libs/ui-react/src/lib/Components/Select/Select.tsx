@@ -107,7 +107,7 @@ const SelectInputTrigger = ({
   </SelectPrimitive.Trigger>
 );
 
-const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
+const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
   const { selectedValue } = useSelectContext({
     consumerName: 'SelectTrigger',
     contextRequired: true,
@@ -117,6 +117,7 @@ const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
   if (render) {
     return (
       <SelectPrimitive.Trigger
+        disabled={disabled}
         ref={props.ref}
         data-slot='select-trigger'
         asChild
@@ -126,7 +127,13 @@ const SelectTrigger = ({ render, ...props }: SelectTriggerProps) => {
     );
   }
 
-  return <SelectInputTrigger {...props} selectedContent={selectedContent} />;
+  return (
+    <SelectInputTrigger
+      {...props}
+      disabled={disabled}
+      selectedContent={selectedContent}
+    />
+  );
 };
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 

@@ -104,6 +104,7 @@ export function SegmentedControl({
     consumerName: 'SegmentedControl',
     mergeWith: { disabled: disabledProp },
   });
+
   const ref = useRef<HTMLDivElement>(null);
   const selectedIndex = useSegmentedControlSelectedIndex(
     selectedValue,
