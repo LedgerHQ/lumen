@@ -45,6 +45,7 @@ import {
   Banners,
   CardButtons,
   ContentBanners,
+  MediaCards,
   Tooltips,
   ListItems,
   Gradients,
@@ -176,6 +177,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='ListItems'>
                   <ListItems />
+                </SandboxBlock>
+                <SandboxBlock title='MediaCards'>
+                  <MediaCards />
                 </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />

@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "Cerrar"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "Escanear código QR"

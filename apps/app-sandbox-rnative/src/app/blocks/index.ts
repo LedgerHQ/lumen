@@ -28,5 +28,6 @@ export * from './InteractiveIcons';
 export * from './Banners';
 export * from './CardButtons';
 export * from './ContentBanners';
+export * from './MediaCards';
 export * from './Tooltips';
 export * from './Gradients';

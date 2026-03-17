@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "ปิด"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "สแกน QR Code"

@@ -1,0 +1,113 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MediaCardStories from './MediaCard.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Communication/MediaCard' of={MediaCardStories} />
+
+# MediaCard
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaCard is a composable card component that displays a full-bleed background image with gradient overlays for text readability. It supports a leading content slot (e.g. tags), a trailing content slot (title + description), and a close button.
+
+## Anatomy
+
+<Canvas of={MediaCardStories.Base} />
+
+- **MediaCard**: Root pressable container with background image and gradient overlays
+- **MediaCardLeadingContent**: Slot for secondary content above the title (tags, badges)
+- **MediaCardTrailingContent**: Container for title and description
+- **MediaCardTitle**: Primary title text (clamps at 2 lines)
+- **MediaCardDescription**: Secondary description text (clamps at 2 lines)
+- **Close button**: Rendered via the `onClose` prop (positioned absolute top-right)
+
+## Properties
+
+<Canvas of={MediaCardStories.Base} />
+<Controls of={MediaCardStories.Base} />
+
+### Layout
+
+The card fills its parent width by default.
+
+<Canvas of={MediaCardStories.LayoutShowcase} />
+
+### Compositions
+
+All slots are optional. Combine leading content and trailing content to match your use case.
+
+<Canvas of={MediaCardStories.CompositionShowcase} />
+
+## Accessibility
+
+- The root element uses `accessibilityRole='button'` and responds to press events
+- The close button includes an `accessibilityLabel` (auto-translated via i18n)
+- The background image is not accessible (`accessible={false}`) since it is decorative
+- All sub-components forward refs and spread View/Text props for accessibility support
+- Image loading errors are gracefully handled by hiding the broken image
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import {
+  MediaCard,
+  MediaCardLeadingContent,
+  MediaCardTrailingContent,
+  MediaCardTitle,
+  MediaCardDescription,
+  Tag,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <MediaCard
+      imageUrl='https://example.com/promo.jpg'
+      onPress={() => console.log('pressed')}
+      onClose={() => console.log('closed')}
+    >
+      <MediaCardLeadingContent>
+        <Tag label='New' size='md' />
+      </MediaCardLeadingContent>
+      <MediaCardTrailingContent>
+        <MediaCardTitle>Card title</MediaCardTitle>
+        <MediaCardDescription>
+          Card description
+        </MediaCardDescription>
+      </MediaCardTrailingContent>
+    </MediaCard>
+  );
+}
+```
+
+### Layout Adjustments with lx
+
+Use the `lx` prop for layout adjustments like margins or positioning:
+
+```tsx
+<MediaCard
+  imageUrl='https://example.com/promo.jpg'
+  onPress={() => console.log('pressed')}
+  onClose={() => console.log('closed')}
+  lx={{ marginTop: 's16', marginBottom: 's8' }}
+>
+  <MediaCardTrailingContent>
+    <MediaCardTitle>With margin</MediaCardTitle>
+  </MediaCardTrailingContent>
+</MediaCard>
+```
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>
