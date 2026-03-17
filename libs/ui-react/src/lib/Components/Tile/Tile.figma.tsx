@@ -116,7 +116,6 @@ figma.connect(
         disabled={props.disabled}
         onClick={() => {}}
       >
-        <Spot appearance='icon' icon={Settings} />
         <TileSecondaryAction
           icon={MoreVertical}
           onClick={() => {}}
