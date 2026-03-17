@@ -104,7 +104,7 @@ export type DialogHeaderProps = {
    * The appearance variant of the header.
    * @default 'compact'
    */
-  appearance?: 'compact' | 'extended';
+  appearance?: 'compact' | 'expanded';
   /**
    * The main title to display in the header.
    */

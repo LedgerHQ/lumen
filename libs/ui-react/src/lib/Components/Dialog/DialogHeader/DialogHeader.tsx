@@ -12,7 +12,7 @@ const dialogHeaderVariants = cva('flex px-24 text-base', {
   variants: {
     appearance: {
       compact: 'mb-12 h-64 min-h-64 flex-row items-center gap-12',
-      extended: 'flex-col gap-16 pb-12 pt-10',
+      expanded: 'flex-col gap-16 pb-12 pt-10',
     },
   },
 });
@@ -129,7 +129,7 @@ const DialogHeaderComponent = ({
           <CloseButton onClose={onClose} />
         </>
       )}
-      {appearance === 'extended' && (
+      {appearance === 'expanded' && (
         <>
           <div className='flex h-40 flex-row items-center'>
             {onBack && <BackButton onBack={onBack} />}
