@@ -52,6 +52,7 @@ import {
   Subheaders,
   Avatars,
   PageIndicators,
+  MediaBanners,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -176,6 +177,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='ListItems'>
                   <ListItems />
+                </SandboxBlock>
+                <SandboxBlock title='MediaBanners'>
+                  <MediaBanners />
                 </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />

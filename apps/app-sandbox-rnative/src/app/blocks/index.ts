@@ -8,6 +8,7 @@ export * from './Cards';
 export * from './Dividers';
 export * from './IconButtons';
 export * from './Links';
+export * from './MediaBanners';
 export * from './NavBars';
 export * from './SegmentedControls';
 export * from './Selects';
