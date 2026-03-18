@@ -3,7 +3,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
-import { LinearGradient, Pressable, RadialGradient, Text } from '../Utility';
+import { LinearGradient, Pressable, Text } from '../Utility';
 import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
@@ -128,19 +128,19 @@ export const MediaCard = ({
           <LinearGradient
             direction='to-top'
             stops={[
-              { color: 'rgba(0, 0, 0, 0.80)', opacity: 1, offset: 0 },
-              { color: 'rgba(0, 0, 0, 0)', opacity: 0, offset: 0.75 },
+              { color: '#000', opacity: 0.8, offset: 0 },
+              { color: '#000', opacity: 0, offset: 0.75 },
             ]}
             style={StyleSheet.absoluteFillObject}
             pointerEvents='none'
             accessible={false}
           />
 
-          <RadialGradient
-            center={{ x: 1.05, y: 0 }}
+          <LinearGradient
+            direction={65}
             stops={[
-              { color: 'rgba(0, 0, 0, 0.80)', opacity: 1, offset: 0 },
-              { color: 'transparent', opacity: 0, offset: 1 },
+              { color: '#000', opacity: 0, offset: 0.6 },
+              { color: '#000', opacity: 0.8, offset: 1 },
             ]}
             style={StyleSheet.absoluteFillObject}
             pointerEvents='none'
