@@ -3,79 +3,55 @@ import { Image, StyleSheet, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
-import {
-  Box,
-  LinearGradient,
-  Pressable,
-  RadialGradient,
-  Text,
-} from '../Utility';
-import {
-  MediaCardDescriptionProps,
-  MediaCardLeadingContentProps,
-  MediaCardProps,
-  MediaCardTitleProps,
-  MediaCardTrailingContentProps,
-} from './types';
+import { LinearGradient, Pressable, RadialGradient, Text } from '../Utility';
+import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
 const WHITE = '#FFFFFF';
 
-/**
- * Slot for secondary content displayed above the trailing content, such as tags or icons.
- */
-export const MediaCardLeadingContent = ({
-  children,
-  lx = {},
-  style,
-  ref,
-  ...viewProps
-}: MediaCardLeadingContentProps) => {
-  return (
-    <Box ref={ref} lx={lx} style={style} {...viewProps}>
-      {children}
-    </Box>
-  );
-};
-
-MediaCardLeadingContent.displayName = 'MediaCardLeadingContent';
-
-/**
- * Text content displayed at the bottom of the card.
- */
-export const MediaCardTrailingContent = ({
-  children,
-  lx = {},
-  style,
-  ref,
-  ...viewProps
-}: MediaCardTrailingContentProps) => {
-  const styles = useStyleSheet(
+const useStyles = () =>
+  useStyleSheet(
     (t) => ({
       root: {
+        position: 'relative',
+        width: t.sizes.full,
+        height: CARD_HEIGHT,
+        borderRadius: t.borderRadius.md,
+        overflow: 'hidden',
         flexDirection: 'column',
-        gap: t.spacings.s4,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-end',
+        backgroundColor: t.colors.bg.muted,
+      },
+      image: {
+        ...StyleSheet.absoluteFillObject,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+      },
+      content: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: t.spacings.s8,
+        width: t.sizes.full,
+        minWidth: 0,
+        padding: t.spacings.s12,
+      },
+      title: {
+        ...t.typographies.heading3SemiBold,
+        color: WHITE,
+      },
+      closeButton: {
+        position: 'absolute',
+        top: t.spacings.s12,
+        right: t.spacings.s12,
       },
     }),
     [],
   );
 
-  return (
-    <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.root, style])}
-      {...viewProps}
-    >
-      {children}
-    </Box>
-  );
-};
-
-MediaCardTrailingContent.displayName = 'MediaCardTrailingContent';
-
 /**
- * Title text for the card, rendered inside `MediaCardTrailingContent`.
+ * Title text for the card, styled with heading typography and white color.
  */
 export const MediaCardTitle = ({
   children,
@@ -83,22 +59,14 @@ export const MediaCardTitle = ({
   style,
   ref,
 }: MediaCardTitleProps) => {
-  const styles = useStyleSheet(
-    (t) => ({
-      title: StyleSheet.flatten([
-        t.typographies.heading3SemiBold,
-        { color: WHITE },
-      ]),
-    }),
-    [],
-  );
+  const styles = useStyles();
 
   return (
     <Text
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.title, style])}
-      numberOfLines={2}
+      numberOfLines={3}
       ellipsizeMode='tail'
     >
       {children}
@@ -109,52 +77,17 @@ export const MediaCardTitle = ({
 MediaCardTitle.displayName = 'MediaCardTitle';
 
 /**
- * Description text displayed below the title.
- */
-export const MediaCardDescription = ({
-  children,
-  lx = {},
-  style,
-  ref,
-}: MediaCardDescriptionProps) => {
-  const styles = useStyleSheet(
-    (t) => ({
-      description: StyleSheet.flatten([t.typographies.body3, { color: WHITE }]),
-    }),
-    [],
-  );
-
-  return (
-    <Text
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.description, style])}
-      numberOfLines={2}
-      ellipsizeMode='tail'
-    >
-      {children}
-    </Text>
-  );
-};
-
-MediaCardDescription.displayName = 'MediaCardDescription';
-
-/**
  * A media card component for displaying a full-bleed background image with
- * composable text content and a close button, using gradient overlays to
- * ensure readability.
+ * composable content and a close button, using gradient overlays to ensure
+ * readability.
  *
  * @example
- * import { MediaCard, MediaCardLeadingContent, MediaCardTrailingContent, MediaCardTitle, MediaCardDescription } from '@ledgerhq/lumen-ui-rnative';
+ * import { MediaCard, MediaCardTitle } from '@ledgerhq/lumen-ui-rnative';
+ * import { Tag } from '@ledgerhq/lumen-ui-rnative';
  *
  * <MediaCard imageUrl="/image.jpg" onPress={() => {}} onClose={() => {}}>
- *   <MediaCardLeadingContent>
- *     <Tag label="New" size="md" />
- *   </MediaCardLeadingContent>
- *   <MediaCardTrailingContent>
- *     <MediaCardTitle>Card title</MediaCardTitle>
- *     <MediaCardDescription>Card description</MediaCardDescription>
- *   </MediaCardTrailingContent>
+ *   <Tag label="New" size="md" />
+ *   <MediaCardTitle>Card title</MediaCardTitle>
  * </MediaCard>
  */
 export const MediaCard = ({
@@ -170,41 +103,7 @@ export const MediaCard = ({
   const { t } = useCommonTranslation();
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const styles = useStyleSheet(
-    (t) => ({
-      root: {
-        position: 'relative',
-        width: t.sizes.full,
-        height: CARD_HEIGHT,
-        borderRadius: t.borderRadius.md,
-        overflow: 'hidden',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-end',
-        padding: t.spacings.s12,
-        backgroundColor: t.colors.bg.interactive,
-      },
-      image: {
-        ...StyleSheet.absoluteFillObject,
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-      },
-      content: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: t.spacings.s8,
-        width: t.sizes.full,
-        minWidth: 0,
-      },
-      closeButton: {
-        position: 'absolute',
-        top: t.spacings.s12,
-        right: t.spacings.s12,
-      },
-    }),
-    [],
-  );
+  const styles = useStyles();
 
   return (
     <Pressable
@@ -217,7 +116,7 @@ export const MediaCard = ({
     >
       <Image
         source={{ uri: imageUrl }}
-        style={styles.image}
+        style={[styles.image, !imageLoaded && { opacity: 0 }]}
         accessible={false}
         onLoad={() => setImageLoaded(true)}
         onError={() => setImageLoaded(false)}
@@ -229,8 +128,8 @@ export const MediaCard = ({
           <LinearGradient
             direction='to-top'
             stops={[
-              { color: 'rgba(0, 0, 0, 0.80)', offset: 0 },
-              { color: 'rgba(0, 0, 0, 0)', offset: 0.75 },
+              { color: 'rgba(0, 0, 0, 0.80)', opacity: 1, offset: 0 },
+              { color: 'rgba(0, 0, 0, 0)', opacity: 0, offset: 0.75 },
             ]}
             style={StyleSheet.absoluteFillObject}
             pointerEvents='none'
@@ -238,10 +137,10 @@ export const MediaCard = ({
           />
 
           <RadialGradient
-            center={{ x: 1, y: 0 }}
+            center={{ x: 1.05, y: 0 }}
             stops={[
-              { color: 'rgba(0, 0, 0, 0.80)', offset: 0 },
-              { color: 'transparent', offset: 1 },
+              { color: 'rgba(0, 0, 0, 0.80)', opacity: 1, offset: 0 },
+              { color: 'transparent', opacity: 0, offset: 1 },
             ]}
             style={StyleSheet.absoluteFillObject}
             pointerEvents='none'

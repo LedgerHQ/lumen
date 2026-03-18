@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  StyledPressableProps,
-  StyledTextProps,
-  StyledViewProps,
-} from '../../../styles';
+import { StyledPressableProps, StyledTextProps } from '../../../styles';
 
 /**
  * Props for the MediaCard root component
@@ -22,30 +18,11 @@ export type MediaCardProps = {
    */
   onClose: () => void;
   /**
-   * The content of the card (MediaCardLeadingContent, MediaCardTrailingContent).
+   * The card content — typically a `MediaCardTitle` and optional
+   * leading content such as tags or icons.
    */
   children: React.ReactNode;
 } & Omit<StyledPressableProps, 'children' | 'onPress'>;
-
-/**
- * Props for the MediaCardLeadingContent component
- */
-export type MediaCardLeadingContentProps = {
-  /**
-   * The leading content (tags, badges, icons).
-   */
-  children: React.ReactNode;
-} & Omit<StyledViewProps, 'children'>;
-
-/**
- * Props for the MediaCardTrailingContent component
- */
-export type MediaCardTrailingContentProps = {
-  /**
-   * The trailing content (MediaCardTitle, MediaCardDescription).
-   */
-  children: React.ReactNode;
-} & Omit<StyledViewProps, 'children'>;
 
 /**
  * Props for the MediaCardTitle component
@@ -53,16 +30,6 @@ export type MediaCardTrailingContentProps = {
 export type MediaCardTitleProps = {
   /**
    * The title text or custom content.
-   */
-  children: React.ReactNode;
-} & Omit<StyledTextProps, 'children'>;
-
-/**
- * Props for the MediaCardDescription component
- */
-export type MediaCardDescriptionProps = {
-  /**
-   * The description text or custom content.
    */
   children: React.ReactNode;
 } & Omit<StyledTextProps, 'children'>;

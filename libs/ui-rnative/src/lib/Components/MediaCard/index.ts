@@ -1,8 +1,2 @@
-export {
-  MediaCard,
-  MediaCardLeadingContent,
-  MediaCardTrailingContent,
-  MediaCardTitle,
-  MediaCardDescription,
-} from './MediaCard';
+export { MediaCard, MediaCardTitle } from './MediaCard';
 export * from './types';

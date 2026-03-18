@@ -2,14 +2,8 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import React from 'react';
 import { Tag } from '../Tag';
-import { Box } from '../Utility';
-import {
-  MediaCard,
-  MediaCardDescription,
-  MediaCardLeadingContent,
-  MediaCardTitle,
-  MediaCardTrailingContent,
-} from './MediaCard';
+import { Box, Text } from '../Utility';
+import { MediaCard, MediaCardTitle } from './MediaCard';
 
 const meta = {
   component: MediaCard,
@@ -33,23 +27,26 @@ type Story = StoryObj<typeof MediaCard>;
 const EXAMPLE_SRC =
   'https://ledger-wp-website-s3-prd.ledger.com/uploads/2026/03/hero_visual-1.webp';
 
+const baseArgs = {
+  imageUrl: EXAMPLE_SRC,
+  onPress: () => ({}),
+  onClose: () => ({}),
+};
+
 export const Base: Story = {
-  args: {
-    imageUrl: EXAMPLE_SRC,
-    onPress: () => ({}),
-    onClose: () => ({}),
-  },
+  args: baseArgs,
   render: (args) => (
-    <Box lx={{ width: 's400' }}>
+    <Box lx={{ width: 's320' }}>
       <MediaCard {...args}>
-        <MediaCardLeadingContent>
-          <Tag label='Label' size='md' />
-        </MediaCardLeadingContent>
-        <MediaCardTrailingContent>
-          <MediaCardTitle>
-            Black Friday sale. 3 days with no fees on your transactions.
-          </MediaCardTitle>
-        </MediaCardTrailingContent>
+        <Tag label='Label' size='md' />
+        <MediaCardTitle>
+          Black Friday sale.
+          <Text typography='heading3SemiBold' lx={{ color: 'active' }}>
+            {' '}
+            3 days with no fees{' '}
+          </Text>
+          on your transactions.
+        </MediaCardTitle>
       </MediaCard>
     </Box>
   ),
@@ -57,94 +54,97 @@ export const Base: Story = {
     docs: {
       source: {
         code: `
-<MediaCard imageUrl="..." onPress={() => {}} onClose={() => {}}>
-  <MediaCardLeadingContent>
-    <Tag label="Label" size="md" />
-  </MediaCardLeadingContent>
-  <MediaCardTrailingContent>
-    <MediaCardTitle>Card title</MediaCardTitle>
-  </MediaCardTrailingContent>
-</MediaCard>
-`,
+<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
+  <Tag label='Label' size='md' />
+  <MediaCardTitle>
+    Black Friday sale.
+    <Text typography='heading3SemiBold' lx={{ color: 'active' }}>
+      {' '}
+      3 days with no fees{' '}
+    </Text>
+    on your transactions.
+  </MediaCardTitle>
+</MediaCard>`,
       },
     },
   },
 };
 
 export const LayoutShowcase: Story = {
-  args: {
-    imageUrl: EXAMPLE_SRC,
-    onPress: () => ({}),
-    onClose: () => ({}),
-  },
-  render: (args) => (
+  render: () => (
     <Box
       lx={{
         flexDirection: 'column',
-        width: 's400',
+        width: 's320',
         gap: 's16',
         padding: 's8',
       }}
     >
-      <MediaCard {...args}>
-        <MediaCardTrailingContent>
-          <MediaCardTitle>Full width card</MediaCardTitle>
-        </MediaCardTrailingContent>
+      <MediaCard {...baseArgs}>
+        <Tag label='Label' size='md' />
+        <MediaCardTitle>Full width card</MediaCardTitle>
       </MediaCard>
     </Box>
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
+  <Tag label="Label" size="md" />
+  <MediaCardTitle>Full width card</MediaCardTitle>
+</MediaCard>`,
+      },
+    },
+  },
 };
 
 export const CompositionShowcase: Story = {
-  args: {
-    imageUrl: EXAMPLE_SRC,
-    onPress: () => ({}),
-    onClose: () => ({}),
-  },
-  render: (args) => (
+  render: () => (
     <Box
       lx={{
         flexDirection: 'column',
-        width: 's400',
+        width: 's320',
         gap: 's16',
         padding: 's8',
       }}
     >
-      <MediaCard {...args}>
-        <MediaCardTrailingContent>
-          <MediaCardTitle>Title only</MediaCardTitle>
-        </MediaCardTrailingContent>
+      <MediaCard {...baseArgs}>
+        <MediaCardTitle>Title only</MediaCardTitle>
       </MediaCard>
 
-      <MediaCard {...args}>
-        <MediaCardLeadingContent>
-          <Tag label='Promo' size='md' />
-        </MediaCardLeadingContent>
-        <MediaCardTrailingContent>
-          <MediaCardTitle>With tag and title</MediaCardTitle>
-        </MediaCardTrailingContent>
+      <MediaCard {...baseArgs}>
+        <Tag label='Promo' size='md' />
+        <MediaCardTitle>With tag and title</MediaCardTitle>
       </MediaCard>
 
-      <MediaCard {...args}>
-        <MediaCardTrailingContent>
-          <MediaCardTitle>Title and description</MediaCardTitle>
-          <MediaCardDescription>
-            A short description below the main title.
-          </MediaCardDescription>
-        </MediaCardTrailingContent>
-      </MediaCard>
-
-      <MediaCard {...args}>
-        <MediaCardLeadingContent>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
-        </MediaCardLeadingContent>
-        <MediaCardTrailingContent>
-          <MediaCardTitle>With crypto icon</MediaCardTitle>
-          <MediaCardDescription>
-            Leading content can be any element.
-          </MediaCardDescription>
-        </MediaCardTrailingContent>
+      <MediaCard {...baseArgs}>
+        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+        <MediaCardTitle>With crypto icon</MediaCardTitle>
       </MediaCard>
     </Box>
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+{/* Title only */}
+<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
+  <MediaCardTitle>Title only</MediaCardTitle>
+</MediaCard>
+
+{/* With tag */}
+<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
+  <Tag label="Promo" size="md" />
+  <MediaCardTitle>With tag and title</MediaCardTitle>
+</MediaCard>
+
+{/* With crypto icon */}
+<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
+  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="32px" />
+  <MediaCardTitle>With crypto icon</MediaCardTitle>
+</MediaCard>`,
+      },
+    },
+  },
 };

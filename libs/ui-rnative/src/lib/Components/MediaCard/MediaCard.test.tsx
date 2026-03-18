@@ -3,13 +3,7 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { fireEvent, render } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import {
-  MediaCard,
-  MediaCardDescription,
-  MediaCardLeadingContent,
-  MediaCardTitle,
-  MediaCardTrailingContent,
-} from './MediaCard';
+import { MediaCard, MediaCardTitle } from './MediaCard';
 
 const TestWrapper = ({ children }: { children: ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -24,13 +18,11 @@ const makeProps = () => ({
 });
 
 describe('MediaCard', () => {
-  it('should render children', () => {
+  it('should render title', () => {
     const { getByText } = render(
       <TestWrapper>
         <MediaCard {...makeProps()}>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Title</MediaCardTitle>
-          </MediaCardTrailingContent>
+          <MediaCardTitle>Title</MediaCardTitle>
         </MediaCard>
       </TestWrapper>,
     );
@@ -38,16 +30,12 @@ describe('MediaCard', () => {
     getByText('Title');
   });
 
-  it('should render leading and trailing content', () => {
+  it('should render leading content and title', () => {
     const { getByText } = render(
       <TestWrapper>
         <MediaCard {...makeProps()}>
-          <MediaCardLeadingContent testID='leading'>
-            <MediaCardTitle>Tag</MediaCardTitle>
-          </MediaCardLeadingContent>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Title</MediaCardTitle>
-          </MediaCardTrailingContent>
+          <MediaCardTitle>Tag</MediaCardTitle>
+          <MediaCardTitle>Title</MediaCardTitle>
         </MediaCard>
       </TestWrapper>,
     );
@@ -56,30 +44,12 @@ describe('MediaCard', () => {
     getByText('Title');
   });
 
-  it('should render title and description', () => {
-    const { getByText } = render(
-      <TestWrapper>
-        <MediaCard {...makeProps()}>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Card Title</MediaCardTitle>
-            <MediaCardDescription>Card description</MediaCardDescription>
-          </MediaCardTrailingContent>
-        </MediaCard>
-      </TestWrapper>,
-    );
-
-    getByText('Card Title');
-    getByText('Card description');
-  });
-
   it('should fire onPress on press', () => {
     const props = makeProps();
     const { getByTestId } = render(
       <TestWrapper>
         <MediaCard {...props} testID='media-card'>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Title</MediaCardTitle>
-          </MediaCardTrailingContent>
+          <MediaCardTitle>Title</MediaCardTitle>
         </MediaCard>
       </TestWrapper>,
     );
@@ -92,9 +62,7 @@ describe('MediaCard', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MediaCard {...makeProps()}>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Title</MediaCardTitle>
-          </MediaCardTrailingContent>
+          <MediaCardTitle>Title</MediaCardTitle>
         </MediaCard>
       </TestWrapper>,
     );
@@ -114,9 +82,7 @@ describe('MediaCard', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MediaCard {...makeProps()}>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Title</MediaCardTitle>
-          </MediaCardTrailingContent>
+          <MediaCardTitle>Title</MediaCardTitle>
         </MediaCard>
       </TestWrapper>,
     );
@@ -135,9 +101,7 @@ describe('MediaCard', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MediaCard {...props}>
-          <MediaCardTrailingContent>
-            <MediaCardTitle>Title</MediaCardTitle>
-          </MediaCardTrailingContent>
+          <MediaCardTitle>Title</MediaCardTitle>
         </MediaCard>
       </TestWrapper>,
     );
