@@ -1,26 +1,24 @@
 import { describe, expect, it } from '@jest/globals';
+import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
-import { Text } from 'react-native';
+import { ChevronBigLeft, Wallet } from '../../Symbols';
+import { Button } from '../Button';
+import { Spot } from '../Spot';
+import { Tile } from '../Tile/Tile';
+import { Box, Text } from '../Utility';
 import { ThemeProvider } from './ThemeProvider';
-
-const themes: any = {
-  light: {
-    typographies: {
-      xs: {},
-    },
-  },
-  dark: {
-    typographies: {
-      xs: {},
-    },
-  },
-};
 
 describe('ThemeProvider', () => {
   it('renders children correctly', () => {
     render(
-      <ThemeProvider themes={themes}>
-        <Text testID='child'>Hello World</Text>
+      <ThemeProvider themes={ledgerLiveThemes}>
+        <Button testID='child'>Hello World</Button>
+        <Tile>Tile</Tile>
+        <Spot appearance='icon' icon={Wallet} />
+        <Box>
+          <Text>Text</Text>
+        </Box>
+        <ChevronBigLeft />
       </ThemeProvider>,
     );
 
