@@ -1,5 +1,6 @@
 import {
   createSafeContext,
+  DisabledProvider,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
 import React, { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
@@ -164,43 +165,47 @@ export const Card = ({
   if (innerContext.cardPressable) {
     return (
       <CardProvider value={innerContext}>
-        <Pressable
-          ref={ref}
-          lx={lx}
-          style={style as ViewStyle}
-          onPress={onPress}
-          disabled={disabled}
-          accessibilityRole='button'
-          accessibilityState={{ disabled }}
-          {...props}
-        >
-          {({ pressed }) => (
-            <CardInner
-              outlined={outlined}
-              pressed={pressed}
-              disabled={disabled}
-              interactive
-            >
-              {children}
-            </CardInner>
-          )}
-        </Pressable>
+        <DisabledProvider value={{ disabled }}>
+          <Pressable
+            ref={ref}
+            lx={lx}
+            style={style as ViewStyle}
+            onPress={onPress}
+            disabled={disabled}
+            accessibilityRole='button'
+            accessibilityState={{ disabled }}
+            {...props}
+          >
+            {({ pressed }) => (
+              <CardInner
+                outlined={outlined}
+                pressed={pressed}
+                disabled={disabled}
+                interactive
+              >
+                {children}
+              </CardInner>
+            )}
+          </Pressable>
+        </DisabledProvider>
       </CardProvider>
     );
   }
 
   return (
     <CardProvider value={innerContext}>
-      <Box lx={lx} style={style} {...props}>
-        <CardInner
-          outlined={outlined}
-          pressed={false}
-          disabled={disabled}
-          interactive={false}
-        >
-          {children}
-        </CardInner>
-      </Box>
+      <DisabledProvider value={{ disabled }}>
+        <Box lx={lx} style={style} {...props}>
+          <CardInner
+            outlined={outlined}
+            pressed={false}
+            disabled={disabled}
+            interactive={false}
+          >
+            {children}
+          </CardInner>
+        </Box>
+      </DisabledProvider>
     </CardProvider>
   );
 };
