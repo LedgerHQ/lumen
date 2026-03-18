@@ -34,7 +34,6 @@ import {
   SegmentedControls,
   Selects,
   Skeletons,
-  SpinBlock,
   Spots,
   Steppers,
   Switches,
@@ -196,9 +195,6 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Skeletons'>
                   <Skeletons />
-                </SandboxBlock>
-                <SandboxBlock title='Spin'>
-                  <SpinBlock />
                 </SandboxBlock>
                 <SandboxBlock title='Spots'>
                   <Spots />
