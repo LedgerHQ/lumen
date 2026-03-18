@@ -20,6 +20,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   AmountDisplays,
   AmountInputs,
+  Animations,
   BottomSheetDynamicSize,
   BottomSheetFlatLists,
   BottomSheetsButton,
@@ -33,6 +34,7 @@ import {
   SegmentedControls,
   Selects,
   Skeletons,
+  SpinBlock,
   Spots,
   Steppers,
   Switches,
@@ -130,6 +132,9 @@ const AppContent = ({
                 <SandboxBlock title='Amount inputs'>
                   <AmountInputs />
                 </SandboxBlock>
+                <SandboxBlock title='Animations'>
+                  <Animations />
+                </SandboxBlock>
                 <SandboxBlock title='Avatar'>
                   <Avatars />
                 </SandboxBlock>
@@ -191,6 +196,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Skeletons'>
                   <Skeletons />
+                </SandboxBlock>
+                <SandboxBlock title='Spin'>
+                  <SpinBlock />
                 </SandboxBlock>
                 <SandboxBlock title='Spots'>
                   <Spots />

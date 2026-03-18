@@ -1,5 +1,6 @@
 export * from './AmountDisplays';
 export * from './AmountInputs';
+export * from './Animations';
 export * from './Avatars';
 export * from './BottomSheets';
 export * from './Buttons';
@@ -30,3 +31,4 @@ export * from './CardButtons';
 export * from './ContentBanners';
 export * from './Tooltips';
 export * from './Gradients';
+export * from './Spin';
