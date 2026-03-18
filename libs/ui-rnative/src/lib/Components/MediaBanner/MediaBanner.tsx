@@ -24,9 +24,11 @@ export function MediaBanner({
         borderRadius: t.borderRadius.md,
         overflow: 'hidden',
         flexDirection: 'row',
+        height: t.sizes.s72,
       },
       contentWrapper: {
         flex: 1,
+        justifyContent: 'center',
         paddingHorizontal: t.spacings.s12,
         paddingVertical: t.spacings.s2,
       },
