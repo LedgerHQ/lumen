@@ -1,6 +1,7 @@
 import {
   cn,
   createSafeContext,
+  DisabledProvider,
   getButtonA11yProps,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
@@ -152,22 +153,24 @@ export const Card = ({
 
   return (
     <CardProvider value={innerContext}>
-      <div
-        ref={ref}
-        {...(innerContext.cardClickable &&
-          getButtonA11yProps({ onClick, disabled }))}
-        className={cn(
-          cardVariants({
-            interactive: innerContext.cardClickable,
-            outlined,
-            disabled,
-          }),
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
+      <DisabledProvider value={{ disabled }}>
+        <div
+          ref={ref}
+          {...(innerContext.cardClickable &&
+            getButtonA11yProps({ onClick, disabled }))}
+          className={cn(
+            cardVariants({
+              interactive: innerContext.cardClickable,
+              outlined,
+              disabled,
+            }),
+            className,
+          )}
+          {...props}
+        >
+          {children}
+        </div>
+      </DisabledProvider>
     </CardProvider>
   );
 };
