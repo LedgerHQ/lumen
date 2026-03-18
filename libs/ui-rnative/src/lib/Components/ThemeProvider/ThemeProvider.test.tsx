@@ -22,7 +22,7 @@ describe('ThemeProvider', () => {
       </ThemeProvider>,
     );
 
-    expect(screen.getByTestId('child'));
-    expect(screen.getByText('Hello World'));
+    expect(screen.getByTestId('child')).toBeTruthy();
+    expect(screen.getByText('Hello World')).toBeTruthy();
   });
 });
