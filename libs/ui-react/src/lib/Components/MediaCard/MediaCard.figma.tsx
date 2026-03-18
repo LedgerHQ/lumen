@@ -13,7 +13,7 @@ figma.connect(
       "import { Tag } from '@ledgerhq/lumen-ui-react'",
     ],
     props: {
-      text: figma.string('title'),
+      title: figma.string('title'),
       tag: figma.boolean('show-tag', {
         true: <Tag label='Label' appearance='base' />,
         false: undefined,
@@ -26,7 +26,7 @@ figma.connect(
         onClose={() => {}}
       >
         {props.tag}
-        <MediaCardTitle>{props.text}</MediaCardTitle>
+        <MediaCardTitle>{props.title}</MediaCardTitle>
       </MediaCard>
     ),
   },
