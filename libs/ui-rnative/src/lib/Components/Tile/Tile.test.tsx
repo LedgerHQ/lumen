@@ -8,7 +8,6 @@ import { Tag } from '../Tag';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
   Tile,
-  TileSpot,
   TileContent,
   TileTitle,
   TileDescription,
@@ -27,7 +26,7 @@ describe('Tile Component', () => {
       const { getByText, getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -44,11 +43,13 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
+              <TileTrailingContent>
+                <Tag label={tagText} />
+              </TileTrailingContent>
             </TileContent>
-            <Tag label={tagText} />
           </Tile>
         </TestWrapper>,
       );
@@ -64,7 +65,7 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onPress={handlePress} testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -82,7 +83,7 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile onLongPress={handleLongPress} testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -105,7 +106,7 @@ describe('Tile Component', () => {
             onLongPress={handleLongPress}
             testID='tile'
           >
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -124,11 +125,11 @@ describe('Tile Component', () => {
   });
 
   describe('Context Propagation', () => {
-    it('should propagate disabled state to TileSpot', () => {
+    it('should propagate disabled state to pressable', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -144,7 +145,7 @@ describe('Tile Component', () => {
       const { getByText } = render(
         <TestWrapper>
           <Tile disabled testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
               <TileDescription>Test Description</TileDescription>
@@ -164,7 +165,7 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile' accessibilityLabel={customLabel}>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -180,7 +181,7 @@ describe('Tile Component', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
             </TileContent>
@@ -206,12 +207,14 @@ describe('Tile Component', () => {
             onLongPress={jest.fn()}
             testID='tile'
           >
-            <TileSpot appearance='icon' icon={Settings} />
+            <Settings size={24} />
             <TileContent>
               <TileTitle>Test Title</TileTitle>
               <TileDescription>{description}</TileDescription>
+              <TileTrailingContent>
+                <Tag label={tagText} />
+              </TileTrailingContent>
             </TileContent>
-            <Tag label={tagText} />
           </Tile>
         </TestWrapper>,
       );
@@ -220,129 +223,6 @@ describe('Tile Component', () => {
       expect(getByText('Test Title')).toBeTruthy();
       expect(getByText(description)).toBeTruthy();
       expect(getByText(tagText)).toBeTruthy();
-    });
-  });
-
-  describe('TileTrailingContent', () => {
-    it('should render children correctly', () => {
-      const { getByText } = render(
-        <TestWrapper>
-          <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
-          </Tile>
-        </TestWrapper>,
-      );
-
-      expect(getByText('Active')).toBeTruthy();
-    });
-
-    it('should render with testID', () => {
-      const { getByTestId } = render(
-        <TestWrapper>
-          <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
-          </Tile>
-        </TestWrapper>,
-      );
-
-      expect(getByTestId('tile-trailing-content')).toBeTruthy();
-    });
-
-    it('should have correct styling (4px margin-top and 8px gap)', () => {
-      const { getByTestId } = render(
-        <TestWrapper>
-          <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='First' />
-                <Tag label='Second' />
-              </TileTrailingContent>
-            </TileContent>
-          </Tile>
-        </TestWrapper>,
-      );
-
-      const trailingContent = getByTestId('tile-trailing-content');
-      expect(trailingContent.props.style).toMatchObject({
-        marginTop: 4,
-        gap: 8,
-      });
-    });
-
-    it('should render multiple children', () => {
-      const { getByText } = render(
-        <TestWrapper>
-          <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='First' />
-                <Tag label='Second' />
-              </TileTrailingContent>
-            </TileContent>
-          </Tile>
-        </TestWrapper>,
-      );
-
-      expect(getByText('First')).toBeTruthy();
-      expect(getByText('Second')).toBeTruthy();
-    });
-
-    it('should have full width', () => {
-      const { getByTestId } = render(
-        <TestWrapper>
-          <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
-          </Tile>
-        </TestWrapper>,
-      );
-
-      const trailingContent = getByTestId('tile-trailing-content');
-      expect(trailingContent.props.style).toMatchObject({
-        width: '100%',
-      });
-    });
-
-    it('should center items horizontally', () => {
-      const { getByTestId } = render(
-        <TestWrapper>
-          <Tile testID='tile'>
-            <TileSpot appearance='icon' icon={Settings} />
-            <TileContent>
-              <TileTitle>Test Title</TileTitle>
-              <TileTrailingContent>
-                <Tag label='Active' />
-              </TileTrailingContent>
-            </TileContent>
-          </Tile>
-        </TestWrapper>,
-      );
-
-      const trailingContent = getByTestId('tile-trailing-content');
-      expect(trailingContent.props.style).toMatchObject({
-        alignItems: 'center',
-      });
     });
   });
 });
