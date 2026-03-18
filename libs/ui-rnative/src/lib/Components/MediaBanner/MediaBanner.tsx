@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { Pressable, Text } from '../Utility';
+import { Box, LinearGradient, Pressable, Text } from '../Utility';
 import {
   MediaBannerDescriptionProps,
   MediaBannerProps,
@@ -15,14 +15,45 @@ export function MediaBanner({
 }: MediaBannerProps) {
   const styles = useStyleSheet(
     (t) => ({
-      container: {},
+      container: {
+        backgroundColor: t.colors.bg.surface,
+        borderRadius: t.borderRadius.md,
+        minHeight: t.sizes.s72,
+        justifyContent: 'center',
+        overflow: 'hidden',
+        alignSelf: 'stretch',
+      },
+      contentWrapper: {
+        paddingHorizontal: t.spacings.s12,
+        paddingVertical: t.spacings.s2,
+      },
+      contentContainer: {
+        paddingVertical: t.spacings.s12,
+        gap: 4,
+      },
+      gradient: {
+        position: 'absolute',
+        right: 0,
+        height: '100%',
+        width: t.sizes.s72,
+      },
     }),
     [],
   );
 
   return (
     <Pressable lx={lx} style={[styles.container, style]} {...props}>
-      {children}
+      <Box style={styles.contentWrapper}>
+        <Box style={styles.contentContainer}>{children}</Box>
+      </Box>
+      <LinearGradient
+        direction={45}
+        stops={[
+          { color: '#000', opacity: 0, offset: 0.6417 },
+          { color: '#000', opacity: 0.8 },
+        ]}
+        style={styles.gradient}
+      />
     </Pressable>
   );
 }
@@ -36,9 +67,9 @@ export function MediaBannerTitle({
   const styles = useStyleSheet(
     (t) => ({
       description: StyleSheet.flatten([
-        t.typographies.body3,
+        t.typographies.body2SemiBold,
         {
-          color: t.colors.text.muted,
+          color: t.colors.text.base,
         },
       ]),
     }),
@@ -46,7 +77,12 @@ export function MediaBannerTitle({
   );
 
   return (
-    <Text lx={lx} style={[styles.description, style]} {...props}>
+    <Text
+      lx={lx}
+      style={[styles.description, style]}
+      numberOfLines={1}
+      {...props}
+    >
       {children}
     </Text>
   );
@@ -71,7 +107,12 @@ export function MediaBannerDescription({
   );
 
   return (
-    <Text lx={lx} style={[styles.description, style]} {...props}>
+    <Text
+      lx={lx}
+      style={[styles.description, style]}
+      numberOfLines={2}
+      {...props}
+    >
       {children}
     </Text>
   );

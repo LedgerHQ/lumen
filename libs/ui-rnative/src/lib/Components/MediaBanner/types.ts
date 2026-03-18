@@ -1,10 +1,9 @@
 import { ReactNode } from 'react';
-import { StyledTextProps } from '../../../styles';
-import { PressableProps } from '../Utility';
+import { StyledPressableProps, StyledTextProps } from '../../../styles';
 
 export type MediaBannerProps = {
   children: ReactNode;
-} & Omit<PressableProps, 'children'>;
+} & Omit<StyledPressableProps, 'children'>;
 
 export type MediaBannerTitleProps = {
   children: ReactNode;
