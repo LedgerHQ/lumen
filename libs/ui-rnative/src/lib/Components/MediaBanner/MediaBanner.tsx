@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
+import { Close } from '../../Symbols';
+import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, LinearGradient, Pressable, Text } from '../Utility';
 import {
   MediaBannerDescriptionProps,
@@ -10,6 +12,8 @@ import {
 export function MediaBanner({
   lx,
   style,
+  imageUrl,
+  onClose,
   children,
   ...props
 }: MediaBannerProps) {
@@ -18,12 +22,11 @@ export function MediaBanner({
       container: {
         backgroundColor: t.colors.bg.surface,
         borderRadius: t.borderRadius.md,
-        minHeight: t.sizes.s72,
-        justifyContent: 'center',
         overflow: 'hidden',
-        alignSelf: 'stretch',
+        flexDirection: 'row',
       },
       contentWrapper: {
+        flex: 1,
         paddingHorizontal: t.spacings.s12,
         paddingVertical: t.spacings.s2,
       },
@@ -31,11 +34,10 @@ export function MediaBanner({
         paddingVertical: t.spacings.s12,
         gap: 4,
       },
-      gradient: {
+      closeButton: {
         position: 'absolute',
-        right: 0,
-        height: '100%',
-        width: t.sizes.s72,
+        top: 8.5,
+        right: 8.5,
       },
     }),
     [],
@@ -46,14 +48,26 @@ export function MediaBanner({
       <Box style={styles.contentWrapper}>
         <Box style={styles.contentContainer}>{children}</Box>
       </Box>
-      <LinearGradient
-        direction={45}
-        stops={[
-          { color: '#000', opacity: 0, offset: 0.6417 },
-          { color: '#000', opacity: 0.8 },
-        ]}
-        style={styles.gradient}
-      />
+      <Box style={{ width: 120 }}>
+        <Image
+          src={imageUrl}
+          style={StyleSheet.absoluteFill}
+          resizeMode='cover'
+        />
+        <LinearGradient
+          direction={45}
+          stops={[
+            { color: '#000', opacity: 0, offset: 0.6417 },
+            { color: '#000', opacity: 0.8 },
+          ]}
+          style={StyleSheet.absoluteFill}
+        />
+      </Box>
+      <Box style={styles.closeButton}>
+        <InteractiveIcon iconType='stroked' onPress={onClose}>
+          <Close size={16} />
+        </InteractiveIcon>
+      </Box>
     </Pressable>
   );
 }

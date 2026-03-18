@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { StyledPressableProps, StyledTextProps } from '../../../styles';
 
 export type MediaBannerProps = {
+  imageUrl: string;
+  onClose?: () => void;
   children: ReactNode;
 } & Omit<StyledPressableProps, 'children'>;
 
