@@ -1,9 +1,9 @@
 import { cn, getButtonA11yProps } from '@ledgerhq/lumen-utils-shared';
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { Close } from '../../Symbols/Icons/Close';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { MediaCardProps } from './types';
+import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const mediaCardStyles = {
   root: 'group relative flex h-[164px] w-full cursor-pointer flex-col items-start justify-end overflow-hidden rounded-md bg-muted p-12 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
@@ -11,7 +11,7 @@ const mediaCardStyles = {
   overlay:
     'absolute inset-0 size-full transition-colors group-hover:bg-muted-transparent-hover group-[:active:not(:has(button:active))]:bg-muted-transparent-pressed',
   content: 'isolate flex flex-col items-start gap-8',
-  text: 'line-clamp-3 heading-3-semi-bold text-white',
+  title: 'line-clamp-3 heading-3-semi-bold text-white',
 };
 
 const GradientOverlays = () => {
@@ -34,36 +34,49 @@ const GradientOverlays = () => {
   );
 };
 
+export const MediaCardTitle = ({
+  ref,
+  className,
+  children,
+  ...props
+}: MediaCardTitleProps) => {
+  return (
+    <div ref={ref} className={cn(mediaCardStyles.title, className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+MediaCardTitle.displayName = 'MediaCardTitle';
+
 /**
  * A media card component for displaying a full-bleed background image with
- * text, optional leading content, and a close button, using gradient
- * overlays to ensure readability.
+ * composable content and a close button, using gradient overlays to ensure
+ * readability.
  *
  * @example
- * import { MediaCard } from '@ledgerhq/lumen-ui-react';
+ * import { MediaCard, MediaCardTitle } from '@ledgerhq/lumen-ui-react';
  * import { Tag } from '@ledgerhq/lumen-ui-react';
  *
  * <MediaCard
  *   imageUrl="/image.jpg"
- *   text="Card text"
- *   leadingContent={<Tag label="New" size="md" />}
  *   onClick={() => {}}
  *   onClose={() => {}}
- * />
+ * >
+ *   <Tag label="New" size="md" />
+ *   <MediaCardTitle>Card text</MediaCardTitle>
+ * </MediaCard>
  */
 export const MediaCard = ({
   ref,
   imageUrl,
-  text,
-  leadingContent,
+  children,
   onClick,
   onClose,
   className,
   ...props
 }: MediaCardProps) => {
   const { t } = useCommonTranslation();
-  const closeLabelId = useId();
-  const textId = useId();
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
@@ -87,21 +100,12 @@ export const MediaCard = ({
 
       <div aria-hidden='true' className={mediaCardStyles.overlay} />
 
-      <div className={mediaCardStyles.content}>
-        {leadingContent}
-        <div id={textId} className={mediaCardStyles.text}>
-          {text}
-        </div>
-      </div>
-
-      <span id={closeLabelId} className='sr-only'>
-        {t('common.closeAriaLabel')}
-      </span>
+      <div className={mediaCardStyles.content}>{children}</div>
 
       <InteractiveIcon
         type='button'
         iconType='stroked'
-        aria-labelledby={`${closeLabelId} ${textId}`}
+        aria-label={t('common.closeAriaLabel')}
         className='absolute top-12 right-12 z-10'
         onClick={(e) => {
           e.stopPropagation();

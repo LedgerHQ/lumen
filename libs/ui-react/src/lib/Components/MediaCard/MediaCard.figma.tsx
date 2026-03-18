@@ -1,5 +1,5 @@
 import React from 'react';
-import { MediaCard } from './MediaCard';
+import { MediaCard, MediaCardTitle } from './MediaCard';
 import { Tag } from '../Tag/Tag';
 
 import figma from '@figma/code-connect';
@@ -9,7 +9,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=15160-2853',
   {
     imports: [
-      "import { MediaCard } from '@ledgerhq/lumen-ui-react'",
+      "import { MediaCard, MediaCardTitle } from '@ledgerhq/lumen-ui-react'",
       "import { Tag } from '@ledgerhq/lumen-ui-react'",
     ],
     props: {
@@ -22,11 +22,12 @@ figma.connect(
     example: (props) => (
       <MediaCard
         imageUrl='/image.jpg'
-        text={props.text}
-        leadingContent={props.tag}
         onClick={() => {}}
         onClose={() => {}}
-      />
+      >
+        {props.tag}
+        <MediaCardTitle>{props.text}</MediaCardTitle>
+      </MediaCard>
     ),
   },
 );

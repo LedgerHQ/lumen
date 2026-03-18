@@ -6,14 +6,10 @@ export type MediaCardProps = {
    */
   imageUrl: string;
   /**
-   * The text content displayed at the bottom of the card.
-   * Supports rich text via inline elements (e.g. styled spans).
+   * The card content — typically a `MediaCardTitle` and optional
+   * leading content such as tags or icons.
    */
-  text: ReactNode;
-  /**
-   * Optional content displayed above the text, such as tags or icons.
-   */
-  leadingContent?: ReactNode;
+  children: ReactNode;
   /**
    * Callback fired when the card is pressed.
    */
@@ -27,3 +23,5 @@ export type MediaCardProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
+
+export type MediaCardTitleProps = ComponentPropsWithRef<'div'>;

@@ -15,15 +15,15 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 ## Introduction
 
-MediaCard is a promotional card component that displays a full-bleed background image with gradient overlays for text readability. It accepts text content, optional leading content (e.g. tags, icons), and a close button.
+MediaCard is a promotional card component that displays a full-bleed background image with gradient overlays for text readability. It uses a simplified compound pattern with `MediaCardTitle` for the text and free-form children for leading content (e.g. tags, icons).
 
 ## Anatomy
 
 <Canvas of={MediaCardStories.Base} />
 
-- **MediaCard**: Root container with background image, gradient overlays, text, optional leading content, and close button
-- **`text`**: Primary text content (clamps at 3 lines), supports rich text via inline elements
-- **`leadingContent`**: Optional slot for secondary content above the text (tags, badges, icons)
+- **MediaCard**: Root container with background image, gradient overlays, composable content area, and close button
+- **MediaCardTitle**: Styled text block (clamps at 3 lines), supports rich text via inline elements
+- **Leading content**: Any JSX rendered before `MediaCardTitle` (tags, badges, icons) — no wrapper needed
 - **Close button**: Rendered via the `onClose` prop (positioned absolute top-right)
 
 ## Properties
@@ -39,14 +39,14 @@ The card fills its parent width by default. Use `className` to constrain or adap
 
 ### Compositions
 
-The `leadingContent` prop is optional. Combine it with `text` to match your use case.
+Leading content is optional — just place any JSX before `MediaCardTitle` inside `MediaCard`.
 
 <Canvas of={MediaCardStories.CompositionShowcase} />
 
 ## Accessibility
 
 - The card root uses `role="button"` with keyboard activation (Enter/Space) and a visible focus ring
-- The close button uses `aria-labelledby` to compose its accessible name from the card text (e.g. "Close, Black Friday sale")
+- The close button uses `aria-label` for its accessible name
 - The background image and gradient overlays are marked `aria-hidden` since they are decorative
 - The component forwards refs and spreads HTML attributes for ARIA support
 
@@ -62,38 +62,38 @@ npm install @ledgerhq/lumen-ui-react
 ## Basic Usage
 
 ```tsx
-import { MediaCard, Tag } from '@ledgerhq/lumen-ui-react';
+import { MediaCard, MediaCardTitle, Tag } from '@ledgerhq/lumen-ui-react';
 
 function MyComponent() {
   return (
     <MediaCard
       imageUrl='/promo.jpg'
-      text='Card text'
-      leadingContent={<Tag label='New' size='md' />}
       onClick={() => console.log('clicked')}
       onClose={() => console.log('closed')}
-    />
+    >
+      <Tag label='New' size='md' />
+      <MediaCardTitle>Card text</MediaCardTitle>
+    </MediaCard>
   );
 }
 ```
 
 ### Rich Text Content
 
-Use inline elements in the `text` prop for mixed styling:
+Use inline elements inside `MediaCardTitle` for mixed styling:
 
 ```tsx
 <MediaCard
   imageUrl='/promo.jpg'
-  text={
-    <>
-      <span>Black Friday sale. </span>
-      <span className='text-interactive'>3 days with no fees </span>
-      <span>on your transactions.</span>
-    </>
-  }
   onClick={() => {}}
   onClose={() => {}}
-/>
+>
+  <MediaCardTitle>
+    <span>Black Friday sale. </span>
+    <span className='text-interactive'>3 days with no fees </span>
+    <span>on your transactions.</span>
+  </MediaCardTitle>
+</MediaCard>
 ```
 
 <CommonRulesDoAndDont />

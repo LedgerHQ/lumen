@@ -1,10 +1,11 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Tag } from '../Tag/Tag';
-import { MediaCard } from './MediaCard';
+import { MediaCard, MediaCardTitle } from './MediaCard';
 
 const meta = {
   component: MediaCard,
+  subcomponents: { MediaCardTitle },
   title: 'Communication/MediaCard',
   parameters: {
     layout: 'centered',
@@ -40,17 +41,16 @@ export const Base: Story = {
         code: `
 <MediaCard
   imageUrl="/promo.jpg"
-  text={
-    <>
-      <span>Black Friday sale. </span>
-      <span className="text-interactive">3 days with no fees </span>
-      <span>on your transactions.</span>
-    </>
-  }
-  leadingContent={<Tag label="Label" size="md" />}
   onClick={() => {}}
   onClose={() => {}}
-/>`.trim(),
+>
+  <Tag label="Label" size="md" />
+  <MediaCardTitle>
+    <span>Black Friday sale. </span>
+    <span className="text-interactive">3 days with no fees </span>
+    <span>on your transactions.</span>
+  </MediaCardTitle>
+</MediaCard>`.trim(),
       },
     },
   },
@@ -60,15 +60,14 @@ export const Base: Story = {
         imageUrl={args.imageUrl}
         onClick={args.onClick}
         onClose={args.onClose}
-        leadingContent={<Tag label='Label' size='md' />}
-        text={
-          <>
-            <span>Black Friday sale. </span>
-            <span className='text-interactive'>3 days with no fees </span>
-            <span>on your transactions.</span>
-          </>
-        }
-      />
+      >
+        <Tag label='Label' size='md' />
+        <MediaCardTitle>
+          <span>Black Friday sale. </span>
+          <span className='text-interactive'>3 days with no fees </span>
+          <span>on your transactions.</span>
+        </MediaCardTitle>
+      </MediaCard>
     </div>
   ),
 };
@@ -80,53 +79,51 @@ export const LayoutShowcase: Story = {
         code: `
 <MediaCard
   imageUrl="/promo.jpg"
-  text="Fit displayed content"
-  leadingContent={<Tag label="Label" size="md" />}
   className="w-fit"
   onClick={() => {}}
   onClose={() => {}}
-/>
+>
+  <Tag label="Label" size="md" />
+  <MediaCardTitle>Fit displayed content</MediaCardTitle>
+</MediaCard>
 
 <MediaCard
   imageUrl="/promo.jpg"
-  text="Defined width (320px)"
-  leadingContent={<Tag label="Label" size="md" />}
   className="w-320"
   onClick={() => {}}
   onClose={() => {}}
-/>
+>
+  <Tag label="Label" size="md" />
+  <MediaCardTitle>Defined width (320px)</MediaCardTitle>
+</MediaCard>
 
 <MediaCard
   imageUrl="/promo.jpg"
-  text="Full width (fills parent)"
-  leadingContent={<Tag label="Label" size="md" />}
   onClick={() => {}}
   onClose={() => {}}
-/>`.trim(),
+>
+  <Tag label="Label" size="md" />
+  <MediaCardTitle>Full width (fills parent)</MediaCardTitle>
+</MediaCard>`.trim(),
       },
     },
   },
   render: () => (
     <div className='flex w-[640px] flex-col gap-16'>
-      <MediaCard
-        {...baseArgs}
-        text='Fit displayed content'
-        leadingContent={<Tag label='Label' size='md' />}
-        className='w-fit'
-      />
+      <MediaCard {...baseArgs} className='w-fit'>
+        <Tag label='Label' size='md' />
+        <MediaCardTitle>Fit displayed content</MediaCardTitle>
+      </MediaCard>
 
-      <MediaCard
-        {...baseArgs}
-        text='Defined width (320px)'
-        leadingContent={<Tag label='Label' size='md' />}
-        className='w-320'
-      />
+      <MediaCard {...baseArgs} className='w-320'>
+        <Tag label='Label' size='md' />
+        <MediaCardTitle>Defined width (320px)</MediaCardTitle>
+      </MediaCard>
 
-      <MediaCard
-        {...baseArgs}
-        text='Full width (fills parent)'
-        leadingContent={<Tag label='Label' size='md' />}
-      />
+      <MediaCard {...baseArgs}>
+        <Tag label='Label' size='md' />
+        <MediaCardTitle>Full width (fills parent)</MediaCardTitle>
+      </MediaCard>
     </div>
   ),
 };
@@ -139,71 +136,68 @@ export const CompositionShowcase: Story = {
 {/* Title only */}
 <MediaCard
   imageUrl="/promo.jpg"
-  text="Title only"
   onClick={() => {}}
   onClose={() => {}}
-/>
+>
+  <MediaCardTitle>Title only</MediaCardTitle>
+</MediaCard>
 
 {/* With tag */}
 <MediaCard
   imageUrl="/promo.jpg"
-  text="With tag and text"
-  leadingContent={<Tag label="Promo" size="md" />}
   onClick={() => {}}
   onClose={() => {}}
-/>
+>
+  <Tag label="Promo" size="md" />
+  <MediaCardTitle>With tag and text</MediaCardTitle>
+</MediaCard>
 
 {/* With rich text */}
 <MediaCard
   imageUrl="/promo.jpg"
-  text={
-    <>
-      With<span className="text-interactive"> rich text </span>styling
-    </>
-  }
-  leadingContent={<Tag label="New" size="md" />}
   onClick={() => {}}
   onClose={() => {}}
-/>
+>
+  <Tag label="New" size="md" />
+  <MediaCardTitle>
+    With<span className="text-interactive"> rich text </span>styling
+  </MediaCardTitle>
+</MediaCard>
 
 {/* With crypto icon */}
 <MediaCard
   imageUrl="/promo.jpg"
-  text="With crypto icon"
-  leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="32px" />}
   onClick={() => {}}
   onClose={() => {}}
-/>`.trim(),
+>
+  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="32px" />
+  <MediaCardTitle>With crypto icon</MediaCardTitle>
+</MediaCard>`.trim(),
       },
     },
   },
   render: () => (
     <div className='flex w-400 flex-col gap-16'>
-      <MediaCard {...baseArgs} text='Title only' />
+      <MediaCard {...baseArgs}>
+        <MediaCardTitle>Title only</MediaCardTitle>
+      </MediaCard>
 
-      <MediaCard
-        {...baseArgs}
-        text='With tag and text'
-        leadingContent={<Tag label='Promo' size='md' />}
-      />
+      <MediaCard {...baseArgs}>
+        <Tag label='Promo' size='md' />
+        <MediaCardTitle>With tag and text</MediaCardTitle>
+      </MediaCard>
 
-      <MediaCard
-        {...baseArgs}
-        text={
-          <>
-            With<span className='text-interactive'> rich text </span>styling
-          </>
-        }
-        leadingContent={<Tag label='New' size='md' />}
-      />
+      <MediaCard {...baseArgs}>
+        <Tag label='New' size='md' />
+        <MediaCardTitle>
+          With<span className='text-interactive'> rich text </span>styling
+        </MediaCardTitle>
+      </MediaCard>
 
-      <MediaCard
-        {...baseArgs}
-        text='With crypto icon'
-        leadingContent={
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
-        }
-      />
+      <MediaCard {...baseArgs}>
+        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+        <MediaCardTitle>With crypto icon</MediaCardTitle>
+      </MediaCard>
     </div>
   ),
 };
