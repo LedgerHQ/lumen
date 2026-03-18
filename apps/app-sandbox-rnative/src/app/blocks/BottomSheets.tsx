@@ -42,8 +42,8 @@ export const BottomSheetFlatLists = forwardRef<
       />
       <BottomSheetFlatList
         data={data}
-        keyExtractor={(item) => (item as any).id}
-        renderItem={({ item }) => {
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }: { item: any }) => {
           const typedItem = item as any;
           return (
             <Box

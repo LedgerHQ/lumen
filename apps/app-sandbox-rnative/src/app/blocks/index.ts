@@ -31,4 +31,3 @@ export * from './CardButtons';
 export * from './ContentBanners';
 export * from './Tooltips';
 export * from './Gradients';
-export * from './Spin';
