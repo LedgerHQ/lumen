@@ -18,7 +18,9 @@ export const MediaBanners = () => {
           imageUrl='https://images.unsplash.com/photo-1663741954108-d15d514529ef'
           onClose={() => setShowBanner1(false)}
         >
-          <MediaBannerTitle>Earn Up to 12% APY</MediaBannerTitle>
+          <MediaBannerTitle>
+            Earn Up to 12% APY With Staking Now!
+          </MediaBannerTitle>
           <MediaBannerDescription>
             Put your idle crypto to work. Start staking SOL, ETH, ATOM and more
             directly from Ledger Live

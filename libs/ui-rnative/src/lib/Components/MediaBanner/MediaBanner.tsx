@@ -52,15 +52,15 @@ export function MediaBanner({
       </Box>
       <Box style={{ width: 120 }}>
         <Image
-          src={imageUrl}
+          source={{ uri: imageUrl }}
           style={StyleSheet.absoluteFill}
           resizeMode='cover'
         />
         <LinearGradient
-          direction={35}
+          direction={45}
           stops={[
-            { color: '#000', opacity: 0, offset: 0.8 },
-            { color: '#000', opacity: 0.5 },
+            { color: '#000', opacity: 0, offset: 0.6417 },
+            { color: '#000', opacity: 0.6 },
           ]}
           style={StyleSheet.absoluteFill}
         />

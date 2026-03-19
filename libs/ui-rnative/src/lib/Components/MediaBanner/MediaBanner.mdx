@@ -1,0 +1,142 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MediaBannerStories from './MediaBanner.stories';
+import {
+  MediaBanner,
+  MediaBannerTitle,
+  MediaBannerDescription,
+} from './MediaBanner';
+import { Box } from '../Utility';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/MediaBanner' of={MediaBannerStories} />
+
+# 🖼️ MediaBanner
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaBanner is a promotional banner component that displays a background image alongside a title and description. It is designed for marketing or informational content and supports an optional close action for dismissibility.
+
+## Anatomy
+
+<Canvas of={MediaBannerStories.Base} />
+
+- **MediaBanner**: Root pressable container with surface background, rounded corners, and a fixed height
+- **MediaBannerTitle**: The main label of the banner (clamps at 1 line)
+- **MediaBannerDescription**: Additional context below the title (clamps at 2 lines)
+- **Image**: Background image displayed on the right side with a gradient overlay
+- **Close button**: Optional InteractiveIcon rendered in the top-right corner via the `onClose` prop
+
+## Properties
+
+### Overview
+
+<Canvas of={MediaBannerStories.Base} />
+<Controls of={MediaBannerStories.Base} />
+
+### Truncation
+
+Title clamps at 1 line and description clamps at 2 lines when content overflows.
+
+<Canvas of={MediaBannerStories.Truncation} />
+
+### Dismissible
+
+When `onClose` is provided, the close button allows the user to dismiss the banner.
+
+<Canvas of={MediaBannerStories.WithClose} />
+
+## Accessibility
+
+- The close button uses `InteractiveIcon` with proper press states
+- The root element is a `Pressable` for interactive use cases
+- Title and description use semantic `Text` elements
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+MediaBanner uses a composite component pattern with `MediaBannerTitle` and `MediaBannerDescription`:
+
+```tsx
+import {
+  MediaBanner,
+  MediaBannerTitle,
+  MediaBannerDescription,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <MediaBanner imageUrl='https://example.com/promo.jpg'>
+      <MediaBannerTitle>Firmware Update</MediaBannerTitle>
+      <MediaBannerDescription>
+        Keep your Nano updated!
+      </MediaBannerDescription>
+    </MediaBanner>
+  );
+}
+```
+
+### With Close Button
+
+Add an `onClose` callback to make the banner dismissible:
+
+```tsx
+import {
+  MediaBanner,
+  MediaBannerTitle,
+  MediaBannerDescription,
+} from '@ledgerhq/lumen-ui-rnative';
+import { useState } from 'react';
+
+function DismissibleBanner() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
+  return (
+    <MediaBanner
+      imageUrl='https://example.com/promo.jpg'
+      onClose={() => setIsVisible(false)}
+    >
+      <MediaBannerTitle>
+        Earn Up to 12% APY With Staking Now!
+      </MediaBannerTitle>
+      <MediaBannerDescription>
+        Put your idle crypto to work. Start staking SOL, ETH, ATOM and more
+        directly from Ledger Live
+      </MediaBannerDescription>
+    </MediaBanner>
+  );
+}
+```
+
+### Layout Adjustments with lx
+
+Use the `lx` prop for layout adjustments like margins or positioning:
+
+```tsx
+<MediaBanner
+  imageUrl='https://example.com/promo.jpg'
+  lx={{ marginTop: 's16', marginBottom: 's8' }}
+>
+  <MediaBannerTitle>With Margin</MediaBannerTitle>
+  <MediaBannerDescription>
+    This banner has layout adjustments via lx.
+  </MediaBannerDescription>
+</MediaBanner>
+```
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>
