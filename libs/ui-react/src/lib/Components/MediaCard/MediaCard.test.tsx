@@ -59,7 +59,7 @@ describe('MediaCard', () => {
     expect(props.onClick).not.toHaveBeenCalled();
   });
 
-  it('should hide image on error and show fallback', () => {
+  it('should hide image on error by applying opacity-0', () => {
     const { container } = render(
       <MediaCard {...makeProps()}>
         <MediaCardTitle>Title</MediaCardTitle>
