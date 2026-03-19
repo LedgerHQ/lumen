@@ -1147,6 +1147,34 @@
               }
             }
           }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.dark.constant.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {
+                "WEB": "var(--color-text-white);"
+              }
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.dark.constant.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {
+                "WEB": "var(--color-text-white);"
+              }
+            }
+          }
         }
       },
       "grey": {

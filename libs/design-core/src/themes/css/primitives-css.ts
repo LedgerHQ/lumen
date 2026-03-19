@@ -4,6 +4,8 @@
 
 export const tokens: Record<string, Record<string, string | number>> = {
   ':root': {
+    '--color-light-constant-100': '#fafafa',
+    '--color-light-constant-200': '#f1f1f1',
     '--color-light-constant-300': '#e8e8e8',
     '--color-light-constant-400': '#d5d5d5',
     '--color-light-constant-950': '#000000',
@@ -282,6 +284,8 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-light-discover-mercuryo': '#212529',
     '--color-light-discover-juno': '#4643ee',
     '--color-light-discover-sardine': '#2d29d7',
+    '--color-dark-constant-100': '#fafafa',
+    '--color-dark-constant-200': '#f1f1f1',
     '--color-dark-constant-300': '#e1e1e1',
     '--color-dark-constant-400': '#c3c3c3',
     '--color-dark-constant-950': '#000000',
