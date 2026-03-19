@@ -468,6 +468,14 @@ export const Text: Story = {
             textClassName: 'text-white',
           },
           {
+            name: 'White Hover',
+            className: 'bg-base text-white-hover',
+          },
+          {
+            name: 'White Pressed',
+            className: 'bg-base text-white-pressed',
+          },
+          {
             name: 'Black',
             className: 'bg-white',
             textClassName: 'text-black',
@@ -560,6 +568,8 @@ export const Border: Story = {
         tokens={[
           { name: 'Black', className: 'bg-base border-black' },
           { name: 'White', className: 'bg-base border-white' },
+          { name: 'White Hover', className: 'bg-base border-white-hover' },
+          { name: 'White Pressed', className: 'bg-base border-white-pressed' },
         ]}
       />
 
