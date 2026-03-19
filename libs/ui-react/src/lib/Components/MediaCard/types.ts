@@ -23,6 +23,10 @@ export type MediaCardProps = {
    */
   onClose: () => void;
   /**
+   * Aria label for the close button.
+   */
+  closeAriaLabel?: string;
+  /**
    * Additional CSS classes for the card.
    */
   className?: string;
