@@ -3,6 +3,8 @@ import { PrimitiveColorTokens } from '../types';
 export const primitiveColorTokens = {
   light: {
     constant: {
+      '100': '#fafafa',
+      '200': '#f1f1f1',
       '300': '#e8e8e8',
       '400': '#d5d5d5',
       '950': '#000000',
@@ -304,6 +306,8 @@ export const primitiveColorTokens = {
   },
   dark: {
     constant: {
+      '100': '#fafafa',
+      '200': '#f1f1f1',
       '300': '#e1e1e1',
       '400': '#c3c3c3',
       '950': '#000000',

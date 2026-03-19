@@ -232,6 +232,8 @@ export const websitesDarkColorTokens = {
   text: {
     black: primitiveColorTokens.dark.constant['950'],
     white: primitiveColorTokens.dark.constant['050'],
+    whiteHover: primitiveColorTokens.dark.constant['200'],
+    whitePressed: primitiveColorTokens.dark.constant['300'],
     grey: primitiveColorTokens.dark.grey['900'],
     base: primitiveColorTokens.dark.grey['950'],
     baseHover: primitiveColorTokens.dark.grey['900'],
@@ -258,6 +260,8 @@ export const websitesDarkColorTokens = {
   border: {
     black: primitiveColorTokens.dark.constant['950'],
     white: primitiveColorTokens.dark.constant['050'],
+    whiteHover: primitiveColorTokens.dark.constant['200'],
+    whitePressed: primitiveColorTokens.dark.constant['300'],
     base: primitiveColorTokens.dark.grey['950'],
     baseHover: primitiveColorTokens.dark.grey['900'],
     basePressed: primitiveColorTokens.dark.grey['800'],
