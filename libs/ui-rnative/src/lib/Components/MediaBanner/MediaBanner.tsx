@@ -57,10 +57,10 @@ export function MediaBanner({
           resizeMode='cover'
         />
         <LinearGradient
-          direction={45}
+          direction={35}
           stops={[
-            { color: '#000', opacity: 0, offset: 0.6417 },
-            { color: '#000', opacity: 0.8 },
+            { color: '#000', opacity: 0, offset: 0.8 },
+            { color: '#000', opacity: 0.5 },
           ]}
           style={StyleSheet.absoluteFill}
         />
