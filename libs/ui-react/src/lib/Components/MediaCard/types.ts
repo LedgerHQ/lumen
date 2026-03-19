@@ -1,4 +1,8 @@
-import type { ComponentPropsWithRef, MouseEventHandler, ReactNode } from 'react';
+import type {
+  ComponentPropsWithRef,
+  MouseEventHandler,
+  ReactNode,
+} from 'react';
 
 export type MediaCardProps = {
   /**
