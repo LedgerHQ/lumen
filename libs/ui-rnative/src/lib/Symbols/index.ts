@@ -164,6 +164,7 @@ export { Moon } from './Icons/Moon';
 export { MoreHorizontal } from './Icons/MoreHorizontal';
 export { MoreVertical } from './Icons/MoreVertical';
 export { Nano } from './Icons/Nano';
+export { NanoGen5 } from './Icons/NanoGen5';
 export { NetworkWarning } from './Icons/NetworkWarning';
 export { Nfc } from './Icons/Nfc';
 export { Nft } from './Icons/Nft';

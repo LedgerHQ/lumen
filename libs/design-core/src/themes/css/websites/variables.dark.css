@@ -96,6 +96,8 @@
   --color-background-gradient-overlay-0: var(--color-dark-grey-050-0);
   --color-text-black: var(--color-dark-constant-950);
   --color-text-white: var(--color-dark-constant-050);
+  --color-text-white-hover: var(--color-dark-constant-200);
+  --color-text-white-pressed: var(--color-dark-constant-300);
   --color-text-grey: var(--color-dark-grey-900);
   --color-text-base: var(--color-dark-grey-950);
   --color-text-base-hover: var(--color-dark-grey-900);
@@ -426,6 +428,8 @@
   --background-gradient-overlay-0: var(--color-background-gradient-overlay-0);
   --text-black: var(--color-text-black-default);
   --text-white: var(--color-text-white-default);
+  --text-white-hover: var(--color-text-white-hover);
+  --text-white-pressed: var(--color-text-white-pressed);
   --text-grey: var(--color-text-grey-default);
   --text-base: var(--color-text-base-default);
   --text-base-hover: var(--color-text-base-hover);

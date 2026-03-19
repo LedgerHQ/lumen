@@ -1039,7 +1039,7 @@
         "$description": "",
         "$extensions": {
           "com.figma": {
-            "hiddenFromPublishing": true,
+            "hiddenFromPublishing": false,
             "scopes": [
               "FRAME_FILL",
               "SHAPE_FILL",
@@ -1055,7 +1055,7 @@
         "$description": "",
         "$extensions": {
           "com.figma": {
-            "hiddenFromPublishing": true,
+            "hiddenFromPublishing": false,
             "scopes": [
               "FRAME_FILL",
               "SHAPE_FILL",
@@ -1092,6 +1092,42 @@
       "default": {
         "$type": "color",
         "$value": "{color.text.white.default}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ],
+            "codeSyntax": {
+              "WEB": "var(--text-white);"
+            }
+          }
+        }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{color.text.white.hover}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ],
+            "codeSyntax": {
+              "WEB": "var(--text-white);"
+            }
+          }
+        }
+      },
+      "pressed": {
+        "$type": "color",
+        "$value": "{color.text.white.pressed}",
         "$description": "",
         "$extensions": {
           "com.figma": {
