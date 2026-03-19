@@ -59,7 +59,7 @@ describe('MediaCard', () => {
     expect(props.onClick).not.toHaveBeenCalled();
   });
 
-  it('should hide image on error by applying opacity-0', () => {
+  it('should hide image on error', () => {
     const { container } = render(
       <MediaCard {...makeProps()}>
         <MediaCardTitle>Title</MediaCardTitle>
@@ -70,7 +70,7 @@ describe('MediaCard', () => {
     expect(img).toBeInTheDocument();
     fireEvent.error(img as HTMLImageElement);
 
-    expect(img).toHaveClass('opacity-0');
+    expect(img).not.toBeInTheDocument();
   });
 
   it('should show image after successful load', () => {
