@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef, MouseEventHandler, ReactNode } from 'react';
 
 export type MediaCardProps = {
   /**
@@ -13,7 +13,7 @@ export type MediaCardProps = {
   /**
    * Callback fired when the card is pressed.
    */
-  onClick: () => void;
+  onClick: MouseEventHandler<HTMLDivElement>;
   /**
    * Callback fired when the close button is pressed.
    */
@@ -22,6 +22,6 @@ export type MediaCardProps = {
    * Additional CSS classes for the card.
    */
   className?: string;
-} & ComponentPropsWithRef<'div'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'onClick'>;
 
 export type MediaCardTitleProps = ComponentPropsWithRef<'div'>;
