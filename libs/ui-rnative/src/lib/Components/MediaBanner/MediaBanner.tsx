@@ -9,6 +9,11 @@ import {
   MediaBannerTitleProps,
 } from './types';
 
+/**
+ * A promotional banner with a background image, title, description, and an optional close button.
+ *
+ * @see {@link https://ldls.vercel.app/?path=/docs/communication-mediabanner--docs Storybook}
+ */
 export function MediaBanner({
   lx,
   style,
@@ -74,6 +79,9 @@ export function MediaBanner({
   );
 }
 
+/**
+ * The title of the MediaBanner. Clamps at 1 line.
+ */
 export function MediaBannerTitle({
   lx,
   style,
@@ -104,6 +112,9 @@ export function MediaBannerTitle({
   );
 }
 
+/**
+ * The description of the MediaBanner. Clamps at 2 lines.
+ */
 export function MediaBannerDescription({
   lx,
   style,
