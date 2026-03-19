@@ -2,6 +2,30 @@
   "color": {
     "light": {
       "constant": {
+        "100": {
+          "$type": "color",
+          "$value": "#fafafa",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "#f1f1f1",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "300": {
           "$type": "color",
           "$value": "#e8e8e8",
@@ -3360,6 +3384,30 @@
     },
     "dark": {
       "constant": {
+        "100": {
+          "$type": "color",
+          "$value": "#fafafa",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "#f1f1f1",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "300": {
           "$type": "color",
           "$value": "#e1e1e1",

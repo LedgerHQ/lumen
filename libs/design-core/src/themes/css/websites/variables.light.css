@@ -6,6 +6,7 @@
   --color-background-success-strong: #47883a;
   --color-background-native: #f7f7f7;
   --color-text-native: #007aff;
+  --utility-is-dark: false; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-light-grey-050);
   --color-background-canvas-muted: var(--color-light-grey-100);
   --color-background-canvas-sheet: var(--color-light-grey-050);
@@ -102,6 +103,8 @@
   --color-background-gradient-overlay-0: var(--color-light-grey-950-0);
   --color-text-black: var(--color-light-constant-950);
   --color-text-white: var(--color-light-constant-050);
+  --color-text-white-hover: var(--color-light-constant-200);
+  --color-text-white-pressed: var(--color-light-constant-300);
   --color-text-grey: var(--color-light-grey-300);
   --color-text-base: var(--color-light-grey-950);
   --color-text-base-hover: var(--color-light-grey-900);
@@ -432,6 +435,8 @@
   --background-gradient-overlay-0: var(--color-background-gradient-overlay-0);
   --text-black: var(--color-text-black-default);
   --text-white: var(--color-text-white-default);
+  --text-white-hover: var(--color-text-white-hover);
+  --text-white-pressed: var(--color-text-white-pressed);
   --text-grey: var(--color-text-grey-default);
   --text-base: var(--color-text-base-default);
   --text-base-hover: var(--color-text-base-hover);
