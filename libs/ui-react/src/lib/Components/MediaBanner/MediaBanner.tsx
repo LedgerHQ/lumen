@@ -43,8 +43,8 @@ export const MediaBanner = ({
       <div className='flex flex-1 items-center px-12 py-2'>
         <div className='flex flex-col gap-4 py-12'>{children}</div>
       </div>
-      {showImage && (
-        <div className='relative w-128'>
+      <div className='relative w-128'>
+        {showImage && (
           <img
             src={imageUrl}
             alt=''
@@ -52,9 +52,9 @@ export const MediaBanner = ({
             className='absolute inset-0 size-full object-cover'
             onError={() => setImageLoadError(true)}
           />
-          <div className='absolute inset-0 bg-linear-[45deg] from-black/60 to-black/0 to-70%' />
-        </div>
-      )}
+        )}
+        <div className='absolute inset-0 bg-linear-[45deg] from-black/60 to-black/0 to-70%' />
+      </div>
       {onClose && (
         <InteractiveIcon
           type='button'

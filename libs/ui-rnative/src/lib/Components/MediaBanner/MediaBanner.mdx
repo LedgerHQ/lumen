@@ -46,6 +46,12 @@ Title clamps at 1 line and description clamps at 2 lines when content overflows.
 
 <Canvas of={MediaBannerStories.Truncation} />
 
+### Broken Image
+
+When the `imageUrl` fails to load, the broken image is hidden while the gradient overlay and image space are preserved. The banner remains functional and visually consistent.
+
+<Canvas of={MediaBannerStories.WithBrokenImage} />
+
 ### Dismissible
 
 When `onClose` is provided, the close button allows the user to dismiss the banner.

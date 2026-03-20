@@ -65,24 +65,24 @@ export function MediaBanner({
       <Box style={styles.contentWrapper}>
         <Box style={styles.contentContainer}>{children}</Box>
       </Box>
-      {showImage && (
-        <Box style={{ width: 120 }}>
+      <Box style={{ width: 120 }}>
+        {showImage && (
           <Image
             source={{ uri: imageUrl }}
             style={StyleSheet.absoluteFill}
             resizeMode='cover'
             onError={() => setImageLoadError(true)}
           />
-          <LinearGradient
-            direction={45}
-            stops={[
-              { color: t.colors.bg.black, opacity: 0, offset: 0.6417 },
-              { color: t.colors.bg.black, opacity: 0.6 },
-            ]}
-            style={StyleSheet.absoluteFill}
-          />
-        </Box>
-      )}
+        )}
+        <LinearGradient
+          direction={45}
+          stops={[
+            { color: t.colors.bg.black, opacity: 0, offset: 0.6417 },
+            { color: t.colors.bg.black, opacity: 0.6 },
+          ]}
+          style={StyleSheet.absoluteFill}
+        />
+      </Box>
       {onClose && (
         <Box style={styles.closeButton}>
           <InteractiveIcon
