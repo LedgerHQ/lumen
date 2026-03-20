@@ -1,4 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
+import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -22,6 +23,13 @@ export const MediaBanner = ({
   ...props
 }: MediaBannerProps) => {
   const { t } = useCommonTranslation();
+  const [imageLoadError, setImageLoadError] = useState(false);
+
+  useEffect(() => {
+    setImageLoadError(false);
+  }, [imageUrl]);
+
+  const showImage = imageUrl && !imageLoadError;
 
   return (
     <div
@@ -35,20 +43,24 @@ export const MediaBanner = ({
       <div className='flex flex-1 items-center px-12 py-2'>
         <div className='flex flex-col gap-4 py-12'>{children}</div>
       </div>
-      <div className='relative w-128'>
-        <img
-          src={imageUrl}
-          alt=''
-          className='absolute inset-0 size-full object-cover'
-        />
-        <div
-          className='absolute inset-0'
-          style={{
-            background:
-              'linear-gradient(45deg, rgba(0,0,0,0.6), rgba(0,0,0,0) 64.17%)',
-          }}
-        />
-      </div>
+      {showImage && (
+        <div className='relative w-128'>
+          <img
+            src={imageUrl}
+            alt=''
+            aria-hidden
+            className='absolute inset-0 size-full object-cover'
+            onError={() => setImageLoadError(true)}
+          />
+          <div
+            className='absolute inset-0'
+            style={{
+              background:
+                'linear-gradient(45deg, rgba(0,0,0,0.6), rgba(0,0,0,0) 64.17%)',
+            }}
+          />
+        </div>
+      )}
       {onClose && (
         <InteractiveIcon
           type='button'

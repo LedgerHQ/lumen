@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
@@ -22,6 +23,14 @@ export function MediaBanner({
   children,
   ...props
 }: MediaBannerProps) {
+  const [imageLoadError, setImageLoadError] = useState(false);
+
+  useEffect(() => {
+    setImageLoadError(false);
+  }, [imageUrl]);
+
+  const showImage = imageUrl && !imageLoadError;
+
   const styles = useStyleSheet(
     (t) => ({
       container: {
@@ -55,21 +64,24 @@ export function MediaBanner({
       <Box style={styles.contentWrapper}>
         <Box style={styles.contentContainer}>{children}</Box>
       </Box>
-      <Box style={{ width: 120 }}>
-        <Image
-          source={{ uri: imageUrl }}
-          style={StyleSheet.absoluteFill}
-          resizeMode='cover'
-        />
-        <LinearGradient
-          direction={45}
-          stops={[
-            { color: '#000', opacity: 0, offset: 0.6417 },
-            { color: '#000', opacity: 0.6 },
-          ]}
-          style={StyleSheet.absoluteFill}
-        />
-      </Box>
+      {showImage && (
+        <Box style={{ width: 120 }}>
+          <Image
+            source={{ uri: imageUrl }}
+            style={StyleSheet.absoluteFill}
+            resizeMode='cover'
+            onError={() => setImageLoadError(true)}
+          />
+          <LinearGradient
+            direction={45}
+            stops={[
+              { color: '#000', opacity: 0, offset: 0.6417 },
+              { color: '#000', opacity: 0.6 },
+            ]}
+            style={StyleSheet.absoluteFill}
+          />
+        </Box>
+      )}
       {onClose && (
         <Box style={styles.closeButton}>
           <InteractiveIcon
