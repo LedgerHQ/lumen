@@ -9,5 +9,5 @@ export type {
   SelectItemTextProps,
   SelectItemProps,
   SelectSeparatorProps,
-  SelectButtonTriggerProps,
+  SelectTriggerButtonProps,
 } from './types';

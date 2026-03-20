@@ -3,30 +3,30 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { Settings } from '../../Symbols';
-import { ButtonTrigger } from './ButtonTrigger';
+import { TriggerButton } from './TriggerButton';
 
-describe('ButtonTrigger', () => {
+describe('TriggerButton', () => {
   it('should render with label text', () => {
-    render(<ButtonTrigger>All accounts</ButtonTrigger>);
+    render(<TriggerButton>All accounts</TriggerButton>);
     expect(
       screen.getByRole('button', { name: /all accounts/i }),
     ).toBeInTheDocument();
   });
 
   it('should always render a chevron icon', () => {
-    const { container } = render(<ButtonTrigger>Label</ButtonTrigger>);
+    const { container } = render(<TriggerButton>Label</TriggerButton>);
     const svg = container.querySelector('svg');
     expect(svg).toBeInTheDocument();
   });
 
   it('should render with a flat interface icon', () => {
     const { container } = render(
-      <ButtonTrigger
+      <TriggerButton
         icon={<Settings size={20} data-testid='icon' />}
         iconType='flat'
       >
         Network
-      </ButtonTrigger>,
+      </TriggerButton>,
     );
     expect(screen.getByTestId('icon')).toBeInTheDocument();
     expect(container.querySelectorAll('svg').length).toBeGreaterThanOrEqual(2);
@@ -34,12 +34,12 @@ describe('ButtonTrigger', () => {
 
   it('should render with a rounded icon', () => {
     render(
-      <ButtonTrigger
+      <TriggerButton
         icon={<span data-testid='crypto-icon'>BTC</span>}
         iconType='rounded'
       >
         Bitcoin
-      </ButtonTrigger>,
+      </TriggerButton>,
     );
     expect(screen.getByTestId('crypto-icon')).toBeInTheDocument();
     expect(
@@ -48,13 +48,13 @@ describe('ButtonTrigger', () => {
   });
 
   it('should be disabled when the disabled prop is true', () => {
-    render(<ButtonTrigger disabled>Label</ButtonTrigger>);
+    render(<TriggerButton disabled>Label</TriggerButton>);
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
   it('should call onClick handler when clicked', () => {
     const handleClick = vi.fn();
-    render(<ButtonTrigger onClick={handleClick}>Label</ButtonTrigger>);
+    render(<TriggerButton onClick={handleClick}>Label</TriggerButton>);
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -62,9 +62,9 @@ describe('ButtonTrigger', () => {
   it('should not call onClick handler when disabled', () => {
     const handleClick = vi.fn();
     render(
-      <ButtonTrigger onClick={handleClick} disabled>
+      <TriggerButton onClick={handleClick} disabled>
         Label
-      </ButtonTrigger>,
+      </TriggerButton>,
     );
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).not.toHaveBeenCalled();
@@ -72,12 +72,12 @@ describe('ButtonTrigger', () => {
 
   it('should forward ref to the button element', () => {
     const ref = vi.fn();
-    render(<ButtonTrigger ref={ref}>Label</ButtonTrigger>);
+    render(<TriggerButton ref={ref}>Label</TriggerButton>);
     expect(ref).toHaveBeenCalledWith(expect.any(HTMLButtonElement));
   });
 
   it('should apply custom className', () => {
-    render(<ButtonTrigger className='ml-16'>Label</ButtonTrigger>);
+    render(<TriggerButton className='ml-16'>Label</TriggerButton>);
     expect(screen.getByRole('button')).toHaveClass('ml-16');
   });
 });

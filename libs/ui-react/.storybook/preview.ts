@@ -55,6 +55,7 @@ const preview: Preview = {
             'CardButton',
             'IconButton',
             'TileButton',
+            'TriggerButton',
             'Link',
             'InteractiveIcon',
           ],

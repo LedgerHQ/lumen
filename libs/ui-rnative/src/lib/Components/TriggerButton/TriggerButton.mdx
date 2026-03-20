@@ -1,0 +1,44 @@
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TriggerButtonStories from './TriggerButton.stories';
+
+<Meta title='Action/TriggerButton' of={TriggerButtonStories} />
+
+<CustomTabs>
+  <Tab label="Overview ">
+  
+# TriggerButton
+
+## Introduction
+
+A specialized trigger button designed exclusively for select and dropdown patterns. It displays a label with an optional leading icon and a permanent trailing chevron indicator.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6389-45680&m=dev).
+
+> **Important**: This component should only be used as a trigger inside a Select or dropdown. For standalone actions, use [Button](/docs/action-button--docs) or [IconButton](/docs/action-iconbutton--docs) instead.
+
+## Properties
+
+<Canvas of={TriggerButtonStories.Base} />
+<Controls of={TriggerButtonStories.Base} />
+
+## Appearance
+
+Three appearances are available: `gray` (default), `transparent`, and `no-background`.
+
+<Canvas of={TriggerButtonStories.AppearanceShowcase} />
+
+## Sizes
+
+<Canvas of={TriggerButtonStories.SizeShowcase} />
+
+## Icon Types
+
+The `iconType` prop controls the padding scheme based on the leading icon's shape:
+
+- **`flat`**: Standard padding for interface icons (line icons without background).
+- **`rounded`**: Tighter left padding for circular icons with their own background (e.g., crypto icons).
+
+<Canvas of={TriggerButtonStories.IconTypeShowcase} />
+</Tab>
+</CustomTabs>

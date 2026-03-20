@@ -23,7 +23,7 @@ export * from './PageIndicator';
 export * from './SearchInput';
 export * from './SegmentedControl';
 export * from './Select';
-export * from './ButtonTrigger';
+export * from './TriggerButton';
 export * from './SideBar';
 export * from './Skeleton';
 export * from './Spinner';

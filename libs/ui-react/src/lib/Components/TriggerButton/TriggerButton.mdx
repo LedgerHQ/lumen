@@ -1,9 +1,9 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import * as ButtonTriggerStories from './ButtonTrigger.stories';
+import * as TriggerButtonStories from './TriggerButton.stories';
 
-<Meta title='Components/ButtonTrigger' of={ButtonTriggerStories} />
+<Meta title='Components/TriggerButton' of={TriggerButtonStories} />
 
-# ButtonTrigger
+# TriggerButton
 
 ## Introduction
 
@@ -15,18 +15,18 @@ A specialized trigger button designed exclusively for select and dropdown patter
 
 ## Properties
 
-<Canvas of={ButtonTriggerStories.Base} />
-<Controls of={ButtonTriggerStories.Base} />
+<Canvas of={TriggerButtonStories.Base} />
+<Controls of={TriggerButtonStories.Base} />
 
 ## Appearance
 
 Three appearances are available: `gray` (default), `transparent`, and `no-background`.
 
-<Canvas of={ButtonTriggerStories.AllAppearancesWithIcons} />
+<Canvas of={TriggerButtonStories.AllAppearancesWithIcons} />
 
 ## Sizes
 
-<Canvas of={ButtonTriggerStories.SizeShowcase} />
+<Canvas of={TriggerButtonStories.SizeShowcase} />
 
 ## Icon Types
 
@@ -35,4 +35,4 @@ The `iconType` prop controls the padding scheme based on the leading icon's shap
 - **`flat`**: Standard padding for interface icons (line icons without background).
 - **`rounded`**: Tighter left padding for circular icons with their own background (e.g., crypto icons).
 
-<Canvas of={ButtonTriggerStories.IconTypeShowcase} />
+<Canvas of={TriggerButtonStories.IconTypeShowcase} />
