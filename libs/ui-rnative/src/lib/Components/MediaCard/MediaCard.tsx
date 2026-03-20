@@ -3,11 +3,11 @@ import { Image, StyleSheet, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
+import { InteractiveIcon } from '../InteractiveIcon';
 import { LinearGradient, Pressable, Text } from '../Utility';
 import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
-const WHITE = '#FFFFFF';
 
 const useStyles = () =>
   useStyleSheet(
@@ -39,7 +39,7 @@ const useStyles = () =>
       },
       title: {
         ...t.typographies.heading3SemiBold,
-        color: WHITE,
+        color: t.colors.text.white,
       },
       closeButton: {
         position: 'absolute',
@@ -75,6 +75,34 @@ export const MediaCardTitle = ({
 };
 
 MediaCardTitle.displayName = 'MediaCardTitle';
+
+const GradientOverlays = () => {
+  return (
+    <>
+      <LinearGradient
+        direction='to-top'
+        stops={[
+          { color: '#000', opacity: 0.8, offset: 0 },
+          { color: '#000', opacity: 0, offset: 0.75 },
+        ]}
+        style={StyleSheet.absoluteFillObject}
+        pointerEvents='none'
+        accessible={false}
+      />
+
+      <LinearGradient
+        direction={65}
+        stops={[
+          { color: '#000', opacity: 0, offset: 0.6 },
+          { color: '#000', opacity: 0.8, offset: 1 },
+        ]}
+        style={StyleSheet.absoluteFillObject}
+        pointerEvents='none'
+        accessible={false}
+      />
+    </>
+  );
+};
 
 /**
  * A media card component for displaying a full-bleed background image with
@@ -123,47 +151,20 @@ export const MediaCard = ({
         testID='media-card-image'
       />
 
-      {imageLoaded && (
-        <>
-          <LinearGradient
-            direction='to-top'
-            stops={[
-              { color: '#000', opacity: 0.8, offset: 0 },
-              { color: '#000', opacity: 0, offset: 0.75 },
-            ]}
-            style={StyleSheet.absoluteFillObject}
-            pointerEvents='none'
-            accessible={false}
-          />
-
-          <LinearGradient
-            direction={65}
-            stops={[
-              { color: '#000', opacity: 0, offset: 0.6 },
-              { color: '#000', opacity: 0.8, offset: 1 },
-            ]}
-            style={StyleSheet.absoluteFillObject}
-            pointerEvents='none'
-            accessible={false}
-          />
-        </>
-      )}
+      {imageLoaded && <GradientOverlays />}
 
       <View style={styles.content}>{children}</View>
 
-      <Pressable
-        style={({ pressed }) => [
-          styles.closeButton,
-          pressed && { opacity: 0.6 },
-        ]}
+      <InteractiveIcon
+        iconType='stroked'
+        appearance='white'
+        style={styles.closeButton}
         onPress={onClose}
-        accessibilityRole='button'
         accessibilityLabel={t('common.closeAriaLabel')}
-        hitSlop={8}
         testID='media-card-close-button'
       >
-        <Close size={20} style={{ color: WHITE }} />
-      </Pressable>
+        <Close size={20} />
+      </InteractiveIcon>
     </Pressable>
   );
 };

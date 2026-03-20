@@ -9,13 +9,16 @@ import { Pressable } from '../Utility';
 import { HIT_SLOP_MAP, InteractiveIconProps } from './types';
 
 type IconType = InteractiveIconProps['iconType'];
+type Appearance = NonNullable<InteractiveIconProps['appearance']>;
 
 const useStyles = ({
   iconType,
+  appearance,
   pressed,
   disabled,
 }: {
   iconType: IconType;
+  appearance: Appearance;
   pressed: boolean;
   disabled: boolean;
 }) => {
@@ -25,6 +28,21 @@ const useStyles = ({
         filled: { backgroundColor: t.colors.bg.base },
         stroked: { backgroundColor: t.colors.bg.baseTransparent },
       };
+      const appearanceColors = {
+        base: {
+          default: t.colors.text.base,
+          pressed: t.colors.text.basePressed,
+        },
+        muted: {
+          default: t.colors.text.muted,
+          pressed: t.colors.text.mutedPressed,
+        },
+        white: {
+          default: t.colors.text.white,
+          pressed: t.colors.text.whitePressed,
+        },
+      };
+      const colorSet = appearanceColors[appearance];
 
       return {
         container: StyleSheet.flatten([
@@ -39,12 +57,12 @@ const useStyles = ({
           color: disabled
             ? t.colors.text.disabled
             : pressed
-              ? t.colors.text.mutedPressed
-              : t.colors.text.muted,
+              ? colorSet.pressed
+              : colorSet.default,
         },
       };
     },
-    [iconType, pressed, disabled],
+    [iconType, appearance, pressed, disabled],
   );
 };
 
@@ -83,6 +101,7 @@ export const InteractiveIcon = ({
   disabled: disabledProp = false,
   hitSlop: hitSlopProp,
   hitSlopType = 'comfortable',
+  appearance = 'muted',
   style,
   lx,
   ...props
@@ -113,6 +132,7 @@ export const InteractiveIcon = ({
       {({ pressed }) => (
         <InteractiveIconContent
           iconType={iconType}
+          appearance={appearance}
           pressed={pressed}
           disabled={disabled}
         >
@@ -125,15 +145,17 @@ export const InteractiveIcon = ({
 
 const InteractiveIconContent = ({
   iconType,
+  appearance,
   pressed,
   disabled,
   children,
 }: PropsWithChildren<{
   iconType: IconType;
+  appearance: Appearance;
   pressed: boolean;
   disabled: boolean;
 }>) => {
-  const styles = useStyles({ iconType, pressed, disabled });
+  const styles = useStyles({ iconType, appearance, pressed, disabled });
 
   return (
     <View style={styles.container}>
