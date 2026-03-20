@@ -4,7 +4,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { Box, LinearGradient, Pressable, Text } from '../Utility';
+import { LinearGradient, Pressable, Text } from '../Utility';
 import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
@@ -40,8 +40,10 @@ const useStyles = () =>
         top: t.spacings.s12,
         right: t.spacings.s12,
       },
+      gradientOverlays: {
+        color: t.colors.text.black,
+      },
       pressedOverlay: {
-        ...StyleSheet.absoluteFillObject,
         backgroundColor: t.colors.bg.mutedTransparentPressed,
       },
     }),
@@ -77,13 +79,15 @@ export const MediaCardTitle = ({
 MediaCardTitle.displayName = 'MediaCardTitle';
 
 const GradientOverlays = () => {
+  const styles = useStyles();
+
   return (
     <>
       <LinearGradient
         direction='to-top'
         stops={[
-          { color: '#000', opacity: 0.8, offset: 0 },
-          { color: '#000', opacity: 0, offset: 0.75 },
+          { color: styles.gradientOverlays.color, opacity: 0.8, offset: 0 },
+          { color: styles.gradientOverlays.color, opacity: 0, offset: 0.75 },
         ]}
         style={StyleSheet.absoluteFill}
         pointerEvents='none'
@@ -93,8 +97,8 @@ const GradientOverlays = () => {
       <LinearGradient
         direction={45}
         stops={[
-          { color: '#000', opacity: 0, offset: 0.6 },
-          { color: '#000', opacity: 0.8 },
+          { color: styles.gradientOverlays.color, opacity: 0, offset: 0.6 },
+          { color: styles.gradientOverlays.color, opacity: 0.8 },
         ]}
         style={StyleSheet.absoluteFill}
         pointerEvents='none'
@@ -132,7 +136,7 @@ export const MediaCard = ({
   closeAccessibilityLabel,
   lx = {},
   style,
-  ...viewProps
+  ...pressableProps
 }: MediaCardProps) => {
   const { t } = useCommonTranslation();
   const [imageLoadError, setImageLoadError] = useState(false);
@@ -140,67 +144,52 @@ export const MediaCard = ({
 
   const styles = useStyles();
 
-  const content = (
-    <>
-      {showImage && (
-        <Image
-          source={{ uri: imageUrl }}
-          style={[StyleSheet.absoluteFill, imageLoadError && { opacity: 0 }]}
-          accessible={false}
-          onError={() => setImageLoadError(true)}
-          testID='media-card-image'
-        />
-      )}
-
-      <GradientOverlays />
-
-      <View style={styles.content}>{children}</View>
-
-      {onClose && (
-        <InteractiveIcon
-          iconType='stroked'
-          appearance='white'
-          style={styles.closeButton}
-          onPress={onClose}
-          accessibilityLabel={
-            closeAccessibilityLabel || t('common.closeAriaLabel')
-          }
-          testID='media-card-close-button'
-        >
-          <Close size={20} />
-        </InteractiveIcon>
-      )}
-    </>
-  );
-
-  if (!onPress) {
-    return (
-      <Box
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([styles.root, style])}
-        {...viewProps}
-      >
-        {content}
-      </Box>
-    );
-  }
-
   return (
     <Pressable
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.root, style])}
-      accessibilityRole='button'
+      accessibilityRole={onPress ? 'button' : undefined}
       onPress={onPress}
-      {...viewProps}
+      {...pressableProps}
     >
       {({ pressed }) => (
         <>
-          {content}
+          {showImage && (
+            <Image
+              source={{ uri: imageUrl }}
+              style={[
+                StyleSheet.absoluteFill,
+                imageLoadError && { opacity: 0 },
+              ]}
+              accessible={false}
+              onError={() => setImageLoadError(true)}
+              testID='media-card-image'
+            />
+          )}
+
+          <GradientOverlays />
+
+          <View style={styles.content}>{children}</View>
+
+          {onClose && (
+            <InteractiveIcon
+              iconType='stroked'
+              appearance='white'
+              style={styles.closeButton}
+              onPress={onClose}
+              accessibilityLabel={
+                closeAccessibilityLabel || t('common.closeAriaLabel')
+              }
+              testID='media-card-close-button'
+            >
+              <Close size={20} />
+            </InteractiveIcon>
+          )}
+
           {pressed && (
             <View
-              style={styles.pressedOverlay}
+              style={[StyleSheet.absoluteFill, styles.pressedOverlay]}
               pointerEvents='none'
               accessible={false}
             />
