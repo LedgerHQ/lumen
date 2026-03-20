@@ -72,7 +72,11 @@ export function MediaBanner({
       </Box>
       {onClose && (
         <Box style={styles.closeButton}>
-          <InteractiveIcon iconType='stroked' onPress={onClose}>
+          <InteractiveIcon
+            testID='media-banner-close-button'
+            iconType='stroked'
+            onPress={onClose}
+          >
             <Close size={16} />
           </InteractiveIcon>
         </Box>
