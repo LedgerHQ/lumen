@@ -64,7 +64,7 @@ export const CenterPositionShowcase: Story = {
           { center: { x: 0.8, y: 0.2 }, label: '{x: 0.8, y: 0.2}' },
         ],
       },
-    ] as const;
+    ];
 
     return (
       <Box lx={{ flexDirection: 'column', gap: 's40' }}>

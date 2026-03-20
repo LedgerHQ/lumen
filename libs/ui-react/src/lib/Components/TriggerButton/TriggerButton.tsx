@@ -3,7 +3,7 @@ import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ChevronDown } from '../../Symbols';
 import { baseButtonVariants } from '../Button/BaseButton';
-import type { ButtonTriggerProps } from './types';
+import type { TriggerButtonProps } from './types';
 
 const triggerVariants = cva('gap-8 body-2-semi-bold', {
   variants: {
@@ -42,23 +42,23 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
  * @see {@link https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6389-45680 Figma}
  *
  * @example
- * import { ButtonTrigger } from '@ledgerhq/lumen-ui-react';
+ * import { TriggerButton } from '@ledgerhq/lumen-ui-react';
  * import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
  *
  * // With flat interface icon
- * <ButtonTrigger icon={<Settings size={20} />} iconType="flat">
+ * <TriggerButton icon={<Settings size={20} />} iconType="flat">
  *   Network
- * </ButtonTrigger>
+ * </TriggerButton>
  *
  * // With rounded crypto icon
- * <ButtonTrigger icon={<CryptoIcon ledgerId="bitcoin" size="32px" />} iconType="rounded">
+ * <TriggerButton icon={<CryptoIcon ledgerId="bitcoin" size="32px" />} iconType="rounded">
  *   Bitcoin
- * </ButtonTrigger>
+ * </TriggerButton>
  *
  * // Without icon
- * <ButtonTrigger>All accounts</ButtonTrigger>
+ * <TriggerButton>All accounts</TriggerButton>
  */
-export const ButtonTrigger = ({
+export const TriggerButton = ({
   ref,
   className,
   appearance = 'gray',
@@ -69,9 +69,9 @@ export const ButtonTrigger = ({
   iconType = 'flat',
   children,
   ...props
-}: ButtonTriggerProps) => {
+}: TriggerButtonProps) => {
   const disabled = useDisabledContext({
-    consumerName: 'ButtonTrigger',
+    consumerName: 'TriggerButton',
     mergeWith: { disabled: disabledProp },
   });
   const effectiveIconType = icon ? iconType : 'none';
@@ -106,4 +106,4 @@ export const ButtonTrigger = ({
   );
 };
 
-ButtonTrigger.displayName = 'ButtonTrigger';
+TriggerButton.displayName = 'TriggerButton';

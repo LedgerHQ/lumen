@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
-import type { ButtonTriggerProps } from '../ButtonTrigger';
+import type { TriggerButtonProps } from '../TriggerButton';
 
 type Direction = 'ltr' | 'rtl';
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
@@ -75,9 +75,9 @@ export type SelectTriggerProps = {
    * Render function that replaces the default input-style trigger.
    * When provided, `SelectPrimitive.Trigger` renders with `asChild` and
    * delegates rendering to this function.
-   * Can be a preset component (e.g. `SelectButtonTrigger`) or a custom render function.
+   * Can be a preset component (e.g. `SelectTriggerButton`) or a custom render function.
    *
-   * @example render={(props) => <SelectButtonTrigger {...props} label="Label" />}
+   * @example render={(props) => <SelectTriggerButton {...props} label="Label" />}
    * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
    */
   render?: (props: SelectTriggerRenderProps) => ReactElement;
@@ -259,8 +259,8 @@ export type SelectSeparatorProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
-export type SelectButtonTriggerProps = SelectTriggerRenderProps &
-  Omit<ButtonTriggerProps, 'children'> & {
+export type SelectTriggerButtonProps = SelectTriggerRenderProps &
+  Omit<TriggerButtonProps, 'children'> & {
     /**
      * The label displayed when no value is selected.
      * Once a value is selected, it is replaced by the selected item's content.
