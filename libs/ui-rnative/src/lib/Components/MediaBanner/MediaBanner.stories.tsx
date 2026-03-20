@@ -97,7 +97,10 @@ export const Truncation: Story = {
 export const WithBrokenImage: Story = {
   render: () => (
     <Box lx={{ width: 's400' }}>
-      <MediaBanner imageUrl='https://broken-url.invalid/image.jpg'>
+      <MediaBanner
+        imageUrl='https://broken-url.invalid/image.jpg'
+        onClose={() => console.log('close')}
+      >
         <MediaBannerTitle>Sorry!</MediaBannerTitle>
         <MediaBannerDescription>
           The image failed to load so the banner decided to gracefully hide it.
