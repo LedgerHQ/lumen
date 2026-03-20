@@ -113,6 +113,11 @@ const GradientOverlays = () => {
  *   <Tag label="New" size="md" />
  *   <MediaCardTitle>Card title</MediaCardTitle>
  * </MediaCard>
+ *
+ * // Without close button
+ * <MediaCard imageUrl="/image.jpg" onPress={() => {}}>
+ *   <MediaCardTitle>Card title</MediaCardTitle>
+ * </MediaCard>
  */
 export const MediaCard = ({
   ref,
@@ -120,12 +125,14 @@ export const MediaCard = ({
   imageUrl,
   onPress,
   onClose,
+  closeAccessibilityLabel,
   lx = {},
   style,
   ...pressableProps
 }: MediaCardProps) => {
   const { t } = useCommonTranslation();
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
+  const showImage = imageUrl && !imageLoadError;
 
   const styles = useStyles();
 
@@ -134,33 +141,38 @@ export const MediaCard = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.root, style])}
-      accessibilityRole='button'
+      accessibilityRole={onPress ? 'button' : undefined}
       onPress={onPress}
       {...pressableProps}
     >
-      <Image
-        source={{ uri: imageUrl }}
-        style={[StyleSheet.absoluteFill, !imageLoaded && { opacity: 0 }]}
-        accessible={false}
-        onLoad={() => setImageLoaded(true)}
-        onError={() => setImageLoaded(false)}
-        testID='media-card-image'
-      />
+      {showImage && (
+        <Image
+          source={{ uri: imageUrl }}
+          style={[StyleSheet.absoluteFill, imageLoadError && { opacity: 0 }]}
+          accessible={false}
+          onError={() => setImageLoadError(true)}
+          testID='media-card-image'
+        />
+      )}
 
-      {imageLoaded && <GradientOverlays />}
+      <GradientOverlays />
 
       <View style={styles.content}>{children}</View>
 
-      <InteractiveIcon
-        iconType='stroked'
-        appearance='white'
-        style={styles.closeButton}
-        onPress={onClose}
-        accessibilityLabel={t('common.closeAriaLabel')}
-        testID='media-card-close-button'
-      >
-        <Close size={20} />
-      </InteractiveIcon>
+      {onClose && (
+        <InteractiveIcon
+          iconType='stroked'
+          appearance='white'
+          style={styles.closeButton}
+          onPress={onClose}
+          accessibilityLabel={
+            closeAccessibilityLabel || t('common.closeAriaLabel')
+          }
+          testID='media-card-close-button'
+        >
+          <Close size={20} />
+        </InteractiveIcon>
+      )}
     </Pressable>
   );
 };

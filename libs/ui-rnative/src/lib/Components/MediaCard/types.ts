@@ -12,11 +12,15 @@ export type MediaCardProps = {
   /**
    * Callback fired when the card is pressed.
    */
-  onPress: () => void;
+  onPress?: () => void;
   /**
    * Callback fired when the close button is pressed.
    */
-  onClose: () => void;
+  onClose?: () => void;
+  /**
+   * Optional accessibility label for the close button.
+   */
+  closeAccessibilityLabel?: string;
   /**
    * The card content — typically a `MediaCardTitle` and optional
    * leading content such as tags or icons.

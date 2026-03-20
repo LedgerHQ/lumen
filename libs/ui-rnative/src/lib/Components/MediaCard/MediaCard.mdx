@@ -23,7 +23,7 @@ MediaCard is a promotional card component that displays a full-bleed background 
 - **MediaCard**: Root pressable container with background image and gradient overlays
 - **MediaCardTitle**: Styled title text (clamps at 3 lines)
 - **Leading content**: Any element rendered before `MediaCardTitle` (tags, badges, icons) — no wrapper needed
-- **Close button**: Rendered via the `onClose` prop (positioned absolute top-right)
+- **Close button**: Rendered via the `onClose` prop (positioned absolute top-right) — only visible when `onClose` is provided
 
 ## Properties
 
@@ -44,8 +44,8 @@ Leading content is optional — just place any element before `MediaCardTitle` i
 
 ## Accessibility
 
-- The root element uses `accessibilityRole='button'` and responds to press events
-- The close button includes an `accessibilityLabel` (auto-translated via i18n)
+- The root element uses `accessibilityRole='button'` when `onPress` is provided
+- The close button includes an `accessibilityLabel` (auto-translated via i18n) — only rendered when `onClose` is provided
 - The background image is not accessible (`accessible={false}`) since it is decorative
 - Components forward refs and spread props for accessibility support
 
@@ -57,6 +57,8 @@ Leading content is optional — just place any element before `MediaCardTitle` i
 Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
 ## Basic Usage
+
+Both `onPress` and `onClose` are optional. When `onClose` is omitted, the close button is hidden. When `onPress` is omitted, the card is non-interactive.
 
 ```tsx
 import { MediaCard, MediaCardTitle, Tag } from '@ledgerhq/lumen-ui-rnative';
@@ -75,6 +77,20 @@ function MyComponent() {
 }
 ```
 
+### Without Close Button
+
+Omit `onClose` to hide the close button — useful for non-dismissible promotions:
+
+```tsx
+<MediaCard
+  imageUrl='https://example.com/promo.jpg'
+  onPress={() => console.log('pressed')}
+>
+  <Tag label='New' size='md' />
+  <MediaCardTitle>Card title</MediaCardTitle>
+</MediaCard>
+```
+
 ### Layout Adjustments with lx
 
 Use the `lx` prop for layout adjustments like margins or positioning:
@@ -83,7 +99,6 @@ Use the `lx` prop for layout adjustments like margins or positioning:
 <MediaCard
   imageUrl='https://example.com/promo.jpg'
   onPress={() => console.log('pressed')}
-  onClose={() => console.log('closed')}
   lx={{ marginTop: 's16', marginBottom: 's8' }}
 >
   <MediaCardTitle>With margin</MediaCardTitle>

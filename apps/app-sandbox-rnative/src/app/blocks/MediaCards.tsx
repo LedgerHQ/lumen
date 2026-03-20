@@ -1,5 +1,6 @@
 import {
   Box,
+  Text,
   MediaCard,
   MediaCardTitle,
   Tag,
@@ -28,7 +29,9 @@ export const MediaCards = () => {
         onClose={() => ({})}
       >
         <MediaCardTitle>Secure your crypto assets</MediaCardTitle>
-        Get started with Ledger and protect your digital assets today.
+        <Text typography='body2' lx={{ color: 'white' }}>
+          Get started with Ledger and protect your digital assets today.
+        </Text>
       </MediaCard>
     </Box>
   );

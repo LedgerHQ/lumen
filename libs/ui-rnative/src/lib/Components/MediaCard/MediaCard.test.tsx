@@ -109,4 +109,28 @@ describe('MediaCard', () => {
     fireEvent.press(getByTestId('media-card-close-button'));
     expect(props.onClose).toHaveBeenCalledTimes(1);
   });
+
+  it('should not render close button when onClose is not provided', () => {
+    const { queryByTestId } = render(
+      <TestWrapper>
+        <MediaCard imageUrl='https://example.com/image.jpg'>
+          <MediaCardTitle>Title</MediaCardTitle>
+        </MediaCard>
+      </TestWrapper>,
+    );
+
+    expect(queryByTestId('media-card-close-button')).toBeNull();
+  });
+
+  it('should not have button role when onPress is not provided', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <MediaCard imageUrl='https://example.com/image.jpg' testID='media-card'>
+          <MediaCardTitle>Title</MediaCardTitle>
+        </MediaCard>
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('media-card').props.accessibilityRole).toBeUndefined();
+  });
 });
