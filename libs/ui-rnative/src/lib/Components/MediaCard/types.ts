@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { StyledPressableProps, StyledTextProps } from '../../../styles';
 
 /**
@@ -21,7 +21,7 @@ export type MediaCardProps = {
    * The card content — typically a `MediaCardTitle` and optional
    * leading content such as tags or icons.
    */
-  children: React.ReactNode;
+  children: ReactNode;
 } & Omit<StyledPressableProps, 'children' | 'onPress'>;
 
 /**
@@ -31,5 +31,5 @@ export type MediaCardTitleProps = {
   /**
    * The title text or custom content.
    */
-  children: React.ReactNode;
+  children: ReactNode;
 } & Omit<StyledTextProps, 'children'>;
