@@ -64,7 +64,7 @@ describe('MediaBanner', () => {
       </MediaBanner>,
     );
 
-    const img = screen.getByRole('presentation');
+    const img = screen.getByRole('presentation', { hidden: true });
     expect(img).toHaveAttribute('src', IMAGE_URL);
   });
 

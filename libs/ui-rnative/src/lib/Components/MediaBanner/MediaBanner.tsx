@@ -77,8 +77,8 @@ export function MediaBanner({
         <LinearGradient
           direction={45}
           stops={[
-            { color: t.colors.bg.black, opacity: 0, offset: 0.6417 },
-            { color: t.colors.bg.black, opacity: 0.6 },
+            { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
+            { color: t.colors.bg.black, opacity: 0.8 },
           ]}
           style={StyleSheet.absoluteFill}
         />

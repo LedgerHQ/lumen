@@ -53,7 +53,7 @@ export const MediaBanner = ({
             onError={() => setImageLoadError(true)}
           />
         )}
-        <div className='absolute inset-0 bg-linear-[45deg] from-black/60 to-black/0 to-70%' />
+        <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
       </div>
       {onClose && (
         <InteractiveIcon
