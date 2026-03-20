@@ -1,61 +1,47 @@
 import React from 'react';
-import { InteractiveIcon } from './InteractiveIcon';
-
 import figma from '@figma/code-connect';
+import { InteractiveIcon } from './InteractiveIcon';
 import { InteractiveIconProps } from './types';
 
-figma.connect(
-  InteractiveIcon,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6975%3A2571',
-  {
-    variant: { appearance: 'filled' },
-    imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
-    props: {
-      iconType: figma.enum('appearance', {
-        filled: 'filled',
-        stroked: 'stroked',
-      }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
-      children: figma.instance('icon-filled'),
-    },
-    example: (props: InteractiveIconProps) => (
-      <InteractiveIcon
-        iconType={props.iconType}
-        disabled={props.disabled}
-        aria-label='Interactive icon'
-      >
-        {props.children}
-      </InteractiveIcon>
-    ),
-  },
+const URL =
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6975-2571';
+
+const sharedProps = {
+  iconType: figma.enum('appearance', {
+    filled: 'filled',
+    stroked: 'stroked',
+  }),
+  appearance: figma.enum('color', {
+    muted: 'muted',
+    white: 'white',
+    base: 'base',
+  }),
+  disabled: figma.enum('state', {
+    disabled: true,
+  }),
+};
+
+const example = (props: InteractiveIconProps) => (
+  <InteractiveIcon
+    iconType={props.iconType}
+    appearance={props.appearance}
+    disabled={props.disabled}
+    aria-label='Interactive icon'
+  >
+    {props.children}
+  </InteractiveIcon>
 );
 
-figma.connect(
-  InteractiveIcon,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6975%3A2571',
-  {
-    variant: { appearance: 'stroked' },
-    imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
-    props: {
-      iconType: figma.enum('appearance', {
-        filled: 'filled',
-        stroked: 'stroked',
-      }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
-      children: figma.instance('icon-stroked'),
-    },
-    example: (props: InteractiveIconProps) => (
-      <InteractiveIcon
-        iconType={props.iconType}
-        disabled={props.disabled}
-        aria-label='Interactive icon'
-      >
-        {props.children}
-      </InteractiveIcon>
-    ),
-  },
-);
+figma.connect(InteractiveIcon, URL, {
+  variant: { appearance: 'filled' },
+  imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
+  props: { ...sharedProps, children: figma.instance('icon-filled') },
+  example,
+});
+
+figma.connect(InteractiveIcon, URL, {
+  variant: { appearance: 'stroked' },
+  imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
+  props: { ...sharedProps, children: figma.instance('icon-stroked') },
+  example,
+});

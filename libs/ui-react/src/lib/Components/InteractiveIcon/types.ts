@@ -12,6 +12,14 @@ export type InteractiveIconProps = {
    */
   iconType: 'filled' | 'stroked';
   /**
+   * The visual style of the icon button.
+   * - 'muted': with muted background
+   * - 'white': with white background
+   * - 'base': with base background
+   * @default 'muted'
+   */
+  appearance?: 'muted' | 'white' | 'base';
+  /**
    * The icon component to display inside the button.
    * Should be a single icon element from the design system.
    */

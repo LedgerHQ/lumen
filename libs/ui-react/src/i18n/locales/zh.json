@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "关闭"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "扫描二维码"
