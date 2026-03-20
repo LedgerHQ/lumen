@@ -12,7 +12,7 @@ import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import { Spot } from '../Spot/Spot';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import { Wallet } from '../../Symbols';
+import { ChevronRight, Wallet } from '../../Symbols';
 
 import figma from '@figma/code-connect';
 
@@ -115,3 +115,37 @@ figma.connect(
   },
 );
 
+figma.connect(
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=14481-33979',
+  {
+    imports: [
+      "import { Card } from '@ledgerhq/lumen-ui-react'",
+    ],
+    props: {
+      title: figma.string('title'),
+      description: figma.string('value'),
+      type: figma.enum('type', {
+        display: 'info',
+        interactive: 'interactive',
+      }),
+      disabled: figma.enum('state', {
+        disabled: true,
+      }),
+    },
+    example: (props) => (
+      <Card className='w-full' type={props.type} disabled={props.disabled}>
+        <CardHeader>
+          <CardLeading>
+            <CardContent>
+              <CardContentDescription>{props.description}</CardContentDescription>
+              <CardContentTitle>{props.title}</CardContentTitle>
+            </CardContent>
+          </CardLeading>
+          <CardTrailing>
+            <ChevronRight size={20} className='text-muted' />
+          </CardTrailing>
+        </CardHeader>
+      </Card>
+    ),
+  },
+);

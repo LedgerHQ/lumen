@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-rnative",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "license": "Apache-2.0",
   "keywords": [
     "react-native",
@@ -42,7 +42,7 @@
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {
-    "@ledgerhq/lumen-utils-shared": "0.1.1",
+    "@ledgerhq/lumen-utils-shared": "0.1.2",
     "i18next": "^23.7.0",
     "react-i18next": "^14.0.0"
   },
@@ -52,10 +52,10 @@
   "peerDependencies": {
     "@types/react": "^19.0.0",
     "@gorhom/bottom-sheet": "^5.0.0",
-    "@ledgerhq/lumen-design-core": "0.1.4",
+    "@ledgerhq/lumen-design-core": "0.1.5",
     "react": "^19.0.0",
     "react-native": "~0.79.7",
-    "react-native-reanimated": "^3.0.0",
+    "react-native-reanimated": "^4.1.0",
     "react-native-safe-area-context": "^4.0.0 || ^5.0.0",
     "react-native-svg": "^15.0.0",
     "@sbaiahmed1/react-native-blur": "^4.5.5",

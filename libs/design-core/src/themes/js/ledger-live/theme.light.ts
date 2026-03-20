@@ -232,6 +232,8 @@ export const ledgerLiveLightColorTokens = {
   text: {
     black: primitiveColorTokens.light.constant['950'],
     white: primitiveColorTokens.light.constant['050'],
+    whiteHover: primitiveColorTokens.light.constant['200'],
+    whitePressed: primitiveColorTokens.light.constant['300'],
     grey: primitiveColorTokens.light.grey['300'],
     base: primitiveColorTokens.light.grey['950'],
     baseHover: primitiveColorTokens.light.grey['900'],
@@ -258,6 +260,8 @@ export const ledgerLiveLightColorTokens = {
   border: {
     black: primitiveColorTokens.light.constant['950'],
     white: primitiveColorTokens.light.constant['050'],
+    whiteHover: primitiveColorTokens.light.constant['200'],
+    whitePressed: primitiveColorTokens.light.constant['300'],
     base: primitiveColorTokens.light.grey['950'],
     baseHover: primitiveColorTokens.light.grey['900'],
     basePressed: primitiveColorTokens.light.grey['800'],
