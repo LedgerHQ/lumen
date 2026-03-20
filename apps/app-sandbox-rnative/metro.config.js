@@ -22,9 +22,6 @@ const config = {
     ],
     // Enable package exports resolution for ESM packages (tailwind-merge, clsx, etc.)
     unstable_enablePackageExports: true,
-
-    // Ensure packages are resolved from the monorepo
-    disableHierarchicalLookup: true,
   },
 };
 
