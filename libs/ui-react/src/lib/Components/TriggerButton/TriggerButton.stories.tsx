@@ -149,17 +149,7 @@ export const AllAppearancesWithIcons: Story = {
   render: () => {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
     return (
-      <div
-        className='flex flex-col gap-16 p-16'
-        style={{
-          backgroundImage:
-            'linear-gradient(45deg, #f2f2f2 25%, transparent 25%), ' +
-            'linear-gradient(-45deg, #f2f2f2 25%, transparent 25%), ' +
-            'linear-gradient(45deg, transparent 75%, #f2f2f2 75%), ' +
-            'linear-gradient(-45deg, transparent 75%, #f2f2f2 75%)',
-          backgroundSize: '20px 20px',
-        }}
-      >
+      <div className='flex flex-col gap-16 p-16'>
         {appearances.map((appearance) => (
           <div key={appearance} className='flex items-center gap-16'>
             <TriggerButton appearance={appearance}>{appearance}</TriggerButton>

@@ -91,8 +91,8 @@ const useStyles = ({
       return {
         container: StyleSheet.flatten([
           {
-            flexDirection: 'row' as const,
-            alignItems: 'center' as const,
+            flexDirection: 'row',
+            alignItems: 'center',
             borderRadius: t.borderRadius.full,
             backgroundColor: bgColors[appearance],
             gap: t.spacings.s8,
@@ -107,12 +107,12 @@ const useStyles = ({
           t.typographies.body2SemiBold,
           {
             color: textColor,
-            textAlign: 'left' as const,
+            textAlign: 'left',
           },
         ]),
         labelWrapper: {
-          flexDirection: 'row' as const,
-          alignItems: 'center' as const,
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: t.spacings.s2,
         },
         icon: {
@@ -166,7 +166,7 @@ export const TriggerButton = ({
     <Pressable
       ref={ref}
       lx={lx}
-      style={[{ alignSelf: 'flex-start' }, style]}
+      style={style}
       disabled={disabled}
       accessibilityRole='button'
       accessibilityState={{ disabled }}

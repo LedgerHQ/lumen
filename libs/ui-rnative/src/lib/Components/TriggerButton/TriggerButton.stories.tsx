@@ -1,6 +1,5 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
 import { Settings, Star } from '../../Symbols';
 import { Box } from '../Utility';
 import { TriggerButton } from './TriggerButton';
@@ -9,6 +8,7 @@ const meta: Meta<typeof TriggerButton> = {
   component: TriggerButton,
   title: 'Action/TriggerButton',
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

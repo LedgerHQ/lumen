@@ -375,11 +375,11 @@ export const CardContent = ({
     (t) => ({
       container: StyleSheet.flatten([
         {
-          flexDirection: 'column' as const,
+          flexDirection: 'column',
           gap: t.spacings.s4,
         },
         isTrailing
-          ? { flexShrink: 1, minWidth: 0, alignItems: 'flex-end' as const }
+          ? { flexShrink: 1, minWidth: 0, alignItems: 'flex-end' }
           : { flex: 1, minWidth: 0 },
       ]),
     }),

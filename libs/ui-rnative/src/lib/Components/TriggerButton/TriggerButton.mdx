@@ -1,8 +1,12 @@
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as TriggerButtonStories from './TriggerButton.stories';
 
 <Meta title='Action/TriggerButton' of={TriggerButtonStories} />
 
+<CustomTabs>
+  <Tab label="Overview ">
+  
 # TriggerButton
 
 ## Introduction
@@ -36,3 +40,5 @@ The `iconType` prop controls the padding scheme based on the leading icon's shap
 - **`rounded`**: Tighter left padding for circular icons with their own background (e.g., crypto icons).
 
 <Canvas of={TriggerButtonStories.IconTypeShowcase} />
+</Tab>
+</CustomTabs>
