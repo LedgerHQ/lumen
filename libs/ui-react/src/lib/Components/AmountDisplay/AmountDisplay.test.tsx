@@ -190,10 +190,14 @@ describe('AmountDisplay', () => {
     );
 
     const root = container.firstChild as HTMLElement;
-    const children = Array.from(root.children);
-    expect(children).toHaveLength(2);
-    expect(children[0]).toHaveAttribute('aria-hidden', 'true');
-    expect(children[1]).toHaveAttribute('aria-hidden', 'true');
+    // Traverse all descendants (not just immediate children)
+    const allDescendants = Array.from(
+      root.querySelectorAll('[aria-hidden="true"]'),
+    );
+    expect(allDescendants.length).toBe(2);
+    allDescendants.forEach((node) => {
+      expect(node).toHaveAttribute('aria-hidden', 'true');
+    });
   });
 
   it('renders group separators', () => {
