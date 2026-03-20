@@ -54,7 +54,7 @@ export const Base: Story = {
     imageUrl: IMAGE_URL,
   },
   render: (args) => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ width: 's400' }}>
       <MediaBanner {...args}>
         <MediaBannerTitle>Firmware Update</MediaBannerTitle>
         <MediaBannerDescription>Keep your Nano updated!</MediaBannerDescription>
@@ -79,8 +79,8 @@ export const Base: Story = {
 
 export const Truncation: Story = {
   render: () => (
-    <Box lx={{ maxWidth: 's400' }}>
-      <MediaBanner imageUrl={IMAGE_URL}>
+    <Box lx={{ width: 's400' }}>
+      <MediaBanner imageUrl={IMAGE_URL} onClose={() => console.log('close')}>
         <MediaBannerTitle>
           Earn Up to 12% APY With Staking Now And Much More Rewards Awaiting You
         </MediaBannerTitle>
@@ -96,7 +96,7 @@ export const Truncation: Story = {
 
 export const WithBrokenImage: Story = {
   render: () => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ width: 's400' }}>
       <MediaBanner imageUrl='https://broken-url.invalid/image.jpg'>
         <MediaBannerTitle>Sorry!</MediaBannerTitle>
         <MediaBannerDescription>
@@ -124,7 +124,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <Box lx={{ maxWidth: 's400' }}>
+      <Box lx={{ width: 's400' }}>
         <MediaBanner imageUrl={IMAGE_URL} onClose={() => setVisible(false)}>
           <MediaBannerTitle>
             Earn Up to 12% APY With Staking Now!

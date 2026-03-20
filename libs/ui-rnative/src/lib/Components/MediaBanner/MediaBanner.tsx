@@ -43,6 +43,7 @@ export function MediaBanner({
       },
       contentWrapper: {
         flex: 1,
+        overflow: 'hidden',
         justifyContent: 'center',
         paddingHorizontal: t.spacings.s12,
         paddingVertical: t.spacings.s2,
@@ -75,7 +76,7 @@ export function MediaBanner({
           />
         )}
         <LinearGradient
-          direction={45}
+          direction='to-topright'
           stops={[
             { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
             { color: t.colors.bg.black, opacity: 0.8 },
