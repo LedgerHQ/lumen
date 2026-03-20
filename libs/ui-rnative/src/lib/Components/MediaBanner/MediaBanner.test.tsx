@@ -1,7 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { fireEvent, render } from '@testing-library/react-native';
-import React from 'react';
+import { type ReactNode } from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
   MediaBanner,
@@ -9,7 +9,7 @@ import {
   MediaBannerDescription,
 } from './MediaBanner';
 
-const TestWrapper = ({ children }: { children: React.ReactNode }) => (
+const TestWrapper = ({ children }: { children: ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     {children}
   </ThemeProvider>

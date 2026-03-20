@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState } from 'react';
 import { Button } from '../Button';
 import {
   MediaBanner,
@@ -75,7 +75,7 @@ export const Truncation: Story = {
 
 export const WithClose: Story = {
   render: () => {
-    const [visible, setVisible] = React.useState(true);
+    const [visible, setVisible] = useState(true);
 
     if (!visible) {
       return (
