@@ -70,11 +70,13 @@ export function MediaBanner({
           style={StyleSheet.absoluteFill}
         />
       </Box>
-      <Box style={styles.closeButton}>
-        <InteractiveIcon iconType='stroked' onPress={onClose}>
-          <Close size={16} />
-        </InteractiveIcon>
-      </Box>
+      {onClose && (
+        <Box style={styles.closeButton}>
+          <InteractiveIcon iconType='stroked' onPress={onClose}>
+            <Close size={16} />
+          </InteractiveIcon>
+        </Box>
+      )}
     </Pressable>
   );
 }
