@@ -9,29 +9,29 @@ import {
 } from './types';
 
 const INTEGER_DIGIT_WIDTHS = {
-  0: 24.5,
-  1: 15,
-  2: 23,
-  3: 24,
-  4: 25,
-  5: 23,
-  6: 24.5,
-  7: 21.5,
-  8: 24,
-  9: 24,
+  0: 25,
+  1: 15.5,
+  2: 23.5,
+  3: 24.5,
+  4: 25.5,
+  5: 23.5,
+  6: 25,
+  7: 22,
+  8: 24.5,
+  9: 24.5,
 };
 
 const DECIMAL_DIGIT_WIDTHS = {
-  0: 17,
-  1: 10.5,
-  2: 16,
-  3: 16.5,
-  4: 17.2,
-  5: 15.7,
-  6: 17,
-  7: 14.7,
-  8: 16.5,
-  9: 16.5,
+  0: 17.5,
+  1: 11,
+  2: 16.5,
+  3: 17,
+  4: 18,
+  5: 16,
+  6: 17.5,
+  7: 15,
+  8: 17,
+  9: 17,
 };
 
 const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
@@ -136,46 +136,50 @@ export const AmountDisplay = ({
     <div
       className={cn(
         loading && 'animate-pulse',
-        'relative inline-flex items-baseline',
+        'relative inline-flex',
         className,
       )}
       aria-label={ariaLabel}
       aria-busy={loading}
       {...props}
     >
-      <span
-        className='inline-flex heading-1-semi-bold text-base'
-        aria-hidden='true'
-      >
-        {parts.currencyPosition === 'start' && (
-          <span className='me-4'>{parts.currencyText}</span>
-        )}
-        {hidden ? (
-          <span>••••</span>
-        ) : (
-          <DigitStripList
-            items={splitDigits.integerPart}
-            animate={animate}
-            type='integer'
-          />
-        )}
-      </span>
-      <span
-        className='inline-flex heading-2-semi-bold text-muted'
-        aria-hidden='true'
-      >
-        {!hidden && parts.decimalPart && <span>{parts.decimalSeparator}</span>}
-        {parts.decimalPart && !hidden && (
-          <DigitStripList
-            items={splitDigits.decimalPart}
-            animate={animate}
-            type='decimal'
-          />
-        )}
-        {parts.currencyPosition === 'end' && (
-          <span className='ms-4'>{parts.currencyText}</span>
-        )}
-      </span>
+      <div className='flex items-baseline'>
+        <span
+          className='inline-flex heading-1-semi-bold text-base'
+          aria-hidden='true'
+        >
+          {parts.currencyPosition === 'start' && (
+            <span className='me-4'>{parts.currencyText}</span>
+          )}
+          {hidden ? (
+            <span>••••</span>
+          ) : (
+            <DigitStripList
+              items={splitDigits.integerPart}
+              animate={animate}
+              type='integer'
+            />
+          )}
+        </span>
+        <span
+          className='inline-flex heading-2-semi-bold text-muted'
+          aria-hidden='true'
+        >
+          {!hidden && parts.decimalPart && (
+            <span>{parts.decimalSeparator}</span>
+          )}
+          {parts.decimalPart && !hidden && (
+            <DigitStripList
+              items={splitDigits.decimalPart}
+              animate={animate}
+              type='decimal'
+            />
+          )}
+          {parts.currencyPosition === 'end' && (
+            <span className='ms-4'>{parts.currencyText}</span>
+          )}
+        </span>
+      </div>
     </div>
   );
 };
