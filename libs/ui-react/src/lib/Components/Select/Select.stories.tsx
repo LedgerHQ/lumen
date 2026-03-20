@@ -12,7 +12,7 @@ import {
   SelectItemText,
   SelectGroup,
   SelectSeparator,
-  SelectButtonTrigger,
+  SelectTriggerButton,
 } from './Select';
 
 const meta: Meta<typeof Select> = {
@@ -343,21 +343,11 @@ export const TriggerShowcase: Story = {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
 
     return (
-      <div
-        className='flex flex-col gap-24 p-32'
-        style={{
-          backgroundImage:
-            'linear-gradient(45deg, #f2f2f2 25%, transparent 25%), ' +
-            'linear-gradient(-45deg, #f2f2f2 25%, transparent 25%), ' +
-            'linear-gradient(45deg, transparent 75%, #f2f2f2 75%), ' +
-            'linear-gradient(-45deg, transparent 75%, #f2f2f2 75%)',
-          backgroundSize: '20px 20px',
-        }}
-      >
+      <div className='flex flex-col gap-24 p-32'>
         <Select value={buttonValue} onValueChange={setButtonValue}>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger {...renderProps} label='All accounts' />
+              <SelectTriggerButton {...renderProps} label='All accounts' />
             )}
           />
           <SelectContent className='w-208'>
@@ -375,7 +365,7 @@ export const TriggerShowcase: Story = {
         <Select value={buttonValue} onValueChange={setButtonValue} disabled>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger {...renderProps} label='Disabled' />
+              <SelectTriggerButton {...renderProps} label='Disabled' />
             )}
           />
           <SelectContent className='w-208'>
@@ -388,7 +378,7 @@ export const TriggerShowcase: Story = {
         <Select value={iconValue} onValueChange={setIconValue}>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger
+              <SelectTriggerButton
                 {...renderProps}
                 label='Settings'
                 icon={<Settings size={20} />}
@@ -412,7 +402,7 @@ export const TriggerShowcase: Story = {
         <Select value={cryptoValue} onValueChange={setCryptoValue}>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectButtonTrigger
+              <SelectTriggerButton
                 {...renderProps}
                 label='Network'
                 icon={
@@ -452,7 +442,7 @@ export const TriggerShowcase: Story = {
             <Select key={appearance}>
               <SelectTrigger
                 render={(renderProps) => (
-                  <SelectButtonTrigger
+                  <SelectTriggerButton
                     {...renderProps}
                     label={appearance}
                     appearance={appearance}
