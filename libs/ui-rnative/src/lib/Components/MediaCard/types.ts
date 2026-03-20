@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { StyledPressableProps, StyledTextProps } from '../../../styles';
+import { StyledTextProps, StyledViewProps } from '../../../styles';
 
 /**
  * Props for the MediaCard root component
@@ -26,7 +26,7 @@ export type MediaCardProps = {
    * leading content such as tags or icons.
    */
   children: ReactNode;
-} & Omit<StyledPressableProps, 'children' | 'onPress'>;
+} & Omit<StyledViewProps, 'children'>;
 
 /**
  * Props for the MediaCardTitle component

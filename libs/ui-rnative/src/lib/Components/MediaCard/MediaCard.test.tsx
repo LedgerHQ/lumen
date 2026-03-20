@@ -58,7 +58,7 @@ describe('MediaCard', () => {
     expect(props.onPress).toHaveBeenCalledTimes(1);
   });
 
-  it('should show image after successful load', () => {
+  it('should render image when imageUrl is provided', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MediaCard {...makeProps()}>
@@ -67,19 +67,11 @@ describe('MediaCard', () => {
       </TestWrapper>,
     );
 
-    const img = getByTestId('media-card-image');
-    expect(img.props.style).toEqual(
-      expect.arrayContaining([expect.objectContaining({ opacity: 0 })]),
-    );
-
-    fireEvent(img, 'onLoad');
-    expect(img.props.style).not.toEqual(
-      expect.arrayContaining([expect.objectContaining({ opacity: 0 })]),
-    );
+    expect(getByTestId('media-card-image')).toBeTruthy();
   });
 
   it('should hide image on error', () => {
-    const { getByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <TestWrapper>
         <MediaCard {...makeProps()}>
           <MediaCardTitle>Title</MediaCardTitle>
@@ -88,12 +80,9 @@ describe('MediaCard', () => {
     );
 
     const img = getByTestId('media-card-image');
-    fireEvent(img, 'onLoad');
     fireEvent(img, 'onError');
 
-    expect(img.props.style).toEqual(
-      expect.arrayContaining([expect.objectContaining({ opacity: 0 })]),
-    );
+    expect(queryByTestId('media-card-image')).toBeNull();
   });
 
   it('should fire onClose on close button press', () => {

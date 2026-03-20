@@ -4,7 +4,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { LinearGradient, Pressable, Text } from '../Utility';
+import { Box, LinearGradient, Pressable, Text } from '../Utility';
 import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
@@ -39,6 +39,10 @@ const useStyles = () =>
         position: 'absolute',
         top: t.spacings.s12,
         right: t.spacings.s12,
+      },
+      pressedOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: t.colors.bg.mutedTransparentPressed,
       },
     }),
     [],
@@ -87,10 +91,10 @@ const GradientOverlays = () => {
       />
 
       <LinearGradient
-        direction={65}
+        direction={45}
         stops={[
           { color: '#000', opacity: 0, offset: 0.6 },
-          { color: '#000', opacity: 0.8, offset: 1 },
+          { color: '#000', opacity: 0.8 },
         ]}
         style={StyleSheet.absoluteFill}
         pointerEvents='none'
@@ -128,7 +132,7 @@ export const MediaCard = ({
   closeAccessibilityLabel,
   lx = {},
   style,
-  ...pressableProps
+  ...viewProps
 }: MediaCardProps) => {
   const { t } = useCommonTranslation();
   const [imageLoadError, setImageLoadError] = useState(false);
@@ -136,15 +140,8 @@ export const MediaCard = ({
 
   const styles = useStyles();
 
-  return (
-    <Pressable
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.root, style])}
-      accessibilityRole={onPress ? 'button' : undefined}
-      onPress={onPress}
-      {...pressableProps}
-    >
+  const content = (
+    <>
       {showImage && (
         <Image
           source={{ uri: imageUrl }}
@@ -172,6 +169,43 @@ export const MediaCard = ({
         >
           <Close size={20} />
         </InteractiveIcon>
+      )}
+    </>
+  );
+
+  if (!onPress) {
+    return (
+      <Box
+        ref={ref}
+        lx={lx}
+        style={StyleSheet.flatten([styles.root, style])}
+        {...viewProps}
+      >
+        {content}
+      </Box>
+    );
+  }
+
+  return (
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.root, style])}
+      accessibilityRole='button'
+      onPress={onPress}
+      {...viewProps}
+    >
+      {({ pressed }) => (
+        <>
+          {content}
+          {pressed && (
+            <View
+              style={styles.pressedOverlay}
+              pointerEvents='none'
+              accessible={false}
+            />
+          )}
+        </>
       )}
     </Pressable>
   );
