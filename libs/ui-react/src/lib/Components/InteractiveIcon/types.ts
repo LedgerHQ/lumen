@@ -13,7 +13,10 @@ export type InteractiveIconProps = {
   iconType: 'filled' | 'stroked';
   /**
    * The visual style of the icon button.
-   * Choose 'muted' for icons with muted background, 'white' for icons with white background, or 'base' for icons with base background.
+   * - 'muted': with muted background
+   * - 'white': with white background
+   * - 'base': with base background
+   * @default 'muted'
    */
   appearance?: 'muted' | 'white' | 'base';
   /**
