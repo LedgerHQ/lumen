@@ -17,11 +17,11 @@ export type MediaCardProps = {
   /**
    * Callback fired when the card is pressed.
    */
-  onClick: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   /**
    * Callback fired when the close button is pressed.
    */
-  onClose: () => void;
+  onClose?: () => void;
   /**
    * Aria label for the close button.
    */

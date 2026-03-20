@@ -107,4 +107,24 @@ describe('MediaCard', () => {
 
     expect(ref).toHaveBeenCalled();
   });
+
+  it('should not render close button when onClose is not provided', () => {
+    render(
+      <MediaCard imageUrl='/test.jpg'>
+        <MediaCardTitle>Title</MediaCardTitle>
+      </MediaCard>,
+    );
+
+    expect(screen.queryByLabelText(/close/i)).not.toBeInTheDocument();
+  });
+
+  it('should not have button role when onClick is not provided', () => {
+    const { container } = render(
+      <MediaCard imageUrl='/test.jpg'>
+        <MediaCardTitle>Title</MediaCardTitle>
+      </MediaCard>,
+    );
+
+    expect(container.firstChild).not.toHaveAttribute('role', 'button');
+  });
 });

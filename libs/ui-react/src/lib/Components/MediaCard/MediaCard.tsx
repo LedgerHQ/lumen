@@ -7,12 +7,23 @@ import { InteractiveIcon } from '../InteractiveIcon';
 import { MediaCardProps, MediaCardTitleProps } from './types';
 
 const mediaCardVariants = {
-  root: cva([
-    'group relative overflow-hidden rounded-md',
-    'flex h-[164px] w-full flex-col items-start justify-end p-12',
-    'cursor-pointer bg-muted text-left',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-  ]),
+  root: cva(
+    [
+      'group relative overflow-hidden rounded-md',
+      'flex h-[164px] w-full flex-col items-start justify-end p-12',
+      'bg-muted text-left',
+    ],
+    {
+      variants: {
+        interactive: {
+          true: [
+            'cursor-pointer',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+          ],
+        },
+      },
+    },
+  ),
   image: cva(['absolute inset-0', 'size-full object-cover']),
   overlay: cva([
     'absolute inset-0 size-full',
@@ -76,6 +87,11 @@ MediaCardTitle.displayName = 'MediaCardTitle';
  *   <Tag label="New" size="md" />
  *   <MediaCardTitle>Card text</MediaCardTitle>
  * </MediaCard>
+ *
+ * // Without close button
+ * <MediaCard imageUrl="/image.jpg" onClick={() => {}}>
+ *   <MediaCardTitle>Card text</MediaCardTitle>
+ * </MediaCard>
  */
 export const MediaCard = ({
   ref,
@@ -98,44 +114,48 @@ export const MediaCard = ({
   return (
     <div
       {...getButtonA11yProps({ onClick })}
-      className={cn(mediaCardVariants.root(), className)}
+      className={cn(
+        mediaCardVariants.root({ interactive: !!onClick }),
+        className,
+      )}
       ref={ref}
       {...props}
     >
       {showImage && (
-        <>
-          <img
-            src={imageUrl}
-            alt=''
-            className={mediaCardVariants.image()}
-            aria-hidden='true'
-            loading='lazy'
-            onError={() => setImageLoadError(true)}
-          />
-          <GradientOverlays />
-        </>
+        <img
+          src={imageUrl}
+          alt=''
+          className={mediaCardVariants.image()}
+          aria-hidden='true'
+          loading='lazy'
+          onError={() => setImageLoadError(true)}
+        />
       )}
+
+      <GradientOverlays />
 
       <div aria-hidden='true' className={mediaCardVariants.overlay()} />
 
       <div className={mediaCardVariants.content()}>{children}</div>
 
-      <InteractiveIcon
-        type='button'
-        iconType='stroked'
-        appearance='white'
-        aria-label={closeAriaLabel || t('common.closeAriaLabel')}
-        className='absolute top-12 right-12 z-10'
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-        onKeyDown={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <Close size={20} />
-      </InteractiveIcon>
+      {onClose && (
+        <InteractiveIcon
+          type='button'
+          iconType='stroked'
+          appearance='white'
+          aria-label={closeAriaLabel || t('common.closeAriaLabel')}
+          className='absolute top-12 right-12 z-10'
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <Close size={20} />
+        </InteractiveIcon>
+      )}
     </div>
   );
 };

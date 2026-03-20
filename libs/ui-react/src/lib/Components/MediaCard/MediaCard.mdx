@@ -24,7 +24,7 @@ MediaCard is a promotional card component that displays a full-bleed background 
 - **MediaCard**: Root container with background image, gradient overlays, composable content area, and close button
 - **MediaCardTitle**: Styled text block (clamps at 3 lines), supports rich text via inline elements
 - **Leading content**: Any JSX rendered before `MediaCardTitle` (tags, badges, icons) — no wrapper needed
-- **Close button**: Rendered via the `onClose` prop (positioned absolute top-right)
+- **Close button**: Rendered via the `onClose` prop (positioned absolute top-right) — only visible when `onClose` is provided
 
 ## Properties
 
@@ -45,8 +45,8 @@ Leading content is optional — just place any JSX before `MediaCardTitle` insid
 
 ## Accessibility
 
-- The card root uses `role="button"` with keyboard activation (Enter/Space) and a visible focus ring
-- The close button uses `aria-label` for its accessible name
+- The card root uses `role="button"` with keyboard activation (Enter/Space) and a visible focus ring when `onClick` is provided
+- The close button uses `aria-label` for its accessible name — only rendered when `onClose` is provided
 - The background image and gradient overlays are marked `aria-hidden` since they are decorative
 - The component forwards refs and spreads HTML attributes for ARIA support
 
@@ -60,6 +60,8 @@ npm install @ledgerhq/lumen-ui-react
 > **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
 
 ## Basic Usage
+
+Both `onClick` and `onClose` are optional. When `onClose` is omitted, the close button is hidden. When `onClick` is omitted, the card is non-interactive.
 
 ```tsx
 import { MediaCard, MediaCardTitle, Tag } from '@ledgerhq/lumen-ui-react';
@@ -76,6 +78,20 @@ function MyComponent() {
     </MediaCard>
   );
 }
+```
+
+### Without Close Button
+
+Omit `onClose` to hide the close button — useful for non-dismissible promotions:
+
+```tsx
+<MediaCard
+  imageUrl='/promo.jpg'
+  onClick={() => console.log('clicked')}
+>
+  <Tag label='New' size='md' />
+  <MediaCardTitle>Card text</MediaCardTitle>
+</MediaCard>
 ```
 
 ### Rich Text Content
