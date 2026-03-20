@@ -3,13 +3,23 @@ import { cva } from 'class-variance-authority';
 import { InteractiveIconProps } from './types';
 
 const buttonVariants = cva(
-  'inline-flex size-fit items-center justify-center rounded-full text-muted transition-colors hover:text-muted-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:text-muted-pressed disabled:text-disabled',
+  [
+    'inline-flex size-fit items-center justify-center rounded-full',
+    'transition-colors',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+    'disabled:text-disabled',
+  ],
   {
     variants: {
       iconType: {
         filled: '',
         stroked:
           'bg-base-transparent hover:bg-base-transparent-hover active:bg-base-transparent-pressed disabled:bg-disabled',
+      },
+      appearance: {
+        muted: 'text-muted hover:text-muted-hover active:text-muted-pressed',
+        white: 'text-white hover:text-white-hover active:text-white-pressed',
+        base: 'text-base hover:text-base-hover active:text-base-pressed',
       },
       disabled: {
         true: 'cursor-default',
@@ -52,6 +62,7 @@ export const InteractiveIcon = ({
   ref,
   className,
   iconType,
+  appearance = 'muted',
   disabled: disabledProp = false,
   ...props
 }: InteractiveIconProps) => {
@@ -65,7 +76,10 @@ export const InteractiveIcon = ({
       {...props}
       ref={ref}
       disabled={disabled}
-      className={cn(className, buttonVariants({ disabled, iconType }))}
+      className={cn(
+        className,
+        buttonVariants({ disabled, iconType, appearance }),
+      )}
     />
   );
 };
