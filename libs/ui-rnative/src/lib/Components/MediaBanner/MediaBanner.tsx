@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { useStyleSheet } from '../../../styles';
+import { useStyleSheet, useTheme } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, LinearGradient, Pressable, Text } from '../Utility';
@@ -23,6 +23,7 @@ export function MediaBanner({
   children,
   ...props
 }: MediaBannerProps) {
+  const { theme: t } = useTheme();
   const [imageLoadError, setImageLoadError] = useState(false);
 
   useEffect(() => {
@@ -75,8 +76,8 @@ export function MediaBanner({
           <LinearGradient
             direction={45}
             stops={[
-              { color: '#000', opacity: 0, offset: 0.6417 },
-              { color: '#000', opacity: 0.6 },
+              { color: t.colors.bg.black, opacity: 0, offset: 0.6417 },
+              { color: t.colors.bg.black, opacity: 0.6 },
             ]}
             style={StyleSheet.absoluteFill}
           />

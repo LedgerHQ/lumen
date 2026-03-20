@@ -52,7 +52,7 @@ export const MediaBanner = ({
             className='absolute inset-0 size-full object-cover'
             onError={() => setImageLoadError(true)}
           />
-          <div className='absolute inset-0 bg-linear-[45deg] from-gradient-overlay-0 from-70% to-gradient-overlay-80' />
+          <div className='absolute inset-0 bg-linear-[45deg] from-black/60 to-black/0 to-70%' />
         </div>
       )}
       {onClose && (
