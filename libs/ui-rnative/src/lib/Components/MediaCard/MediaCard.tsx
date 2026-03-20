@@ -58,6 +58,7 @@ export const MediaCardTitle = ({
   lx = {},
   style,
   ref,
+  ...props
 }: MediaCardTitleProps) => {
   const styles = useStyles();
 
@@ -68,6 +69,7 @@ export const MediaCardTitle = ({
       style={StyleSheet.flatten([styles.title, style])}
       numberOfLines={3}
       ellipsizeMode='tail'
+      {...props}
     >
       {children}
     </Text>
