@@ -1,0 +1,118 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MediaCardStories from './MediaCard.stories';
+import {
+  CustomTabs,
+  Tab,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Communication/MediaCard' of={MediaCardStories} />
+
+# MediaCard
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaCard is a promotional card component that displays a full-bleed background image with gradient overlays for text readability. It uses a simplified compound pattern with `MediaCardTitle` for the text and free-form children for leading content (e.g. tags, icons).
+
+## Anatomy
+
+<Canvas of={MediaCardStories.Base} />
+
+- **MediaCard**: Root container with background image, gradient overlays, composable content area, and close button
+- **MediaCardTitle**: Styled text block (clamps at 3 lines), supports rich text via inline elements
+- **Leading content**: Any JSX rendered before `MediaCardTitle` (tags, badges, icons) — no wrapper needed
+- **Close button**: Rendered via the `onClose` prop (positioned absolute top-right) — only visible when `onClose` is provided
+
+## Properties
+
+<Canvas of={MediaCardStories.Base} />
+<Controls of={MediaCardStories.Base} />
+
+### Layout
+
+The card fills its parent width by default. Use `className` to constrain or adapt the width.
+
+<Canvas of={MediaCardStories.LayoutShowcase} />
+
+### Compositions
+
+Leading content is optional — just place any JSX before `MediaCardTitle` inside `MediaCard`.
+
+<Canvas of={MediaCardStories.CompositionShowcase} />
+
+## Accessibility
+
+- The card root uses `role="button"` with keyboard activation (Enter/Space) and a visible focus ring when `onClick` is provided
+- The close button uses `aria-label` for its accessible name — only rendered when `onClose` is provided
+- The background image and gradient overlays are marked `aria-hidden` since they are decorative
+- The component forwards refs and spreads HTML attributes for ARIA support
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+Both `onClick` and `onClose` are optional. When `onClose` is omitted, the close button is hidden. When `onClick` is omitted, the card is non-interactive.
+
+```tsx
+import { MediaCard, MediaCardTitle, Tag } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <MediaCard
+      imageUrl='/promo.jpg'
+      onClick={() => console.log('clicked')}
+      onClose={() => console.log('closed')}
+    >
+      <Tag label='New' size='md' />
+      <MediaCardTitle>Card text</MediaCardTitle>
+    </MediaCard>
+  );
+}
+```
+
+### Without Close Button
+
+Omit `onClose` to hide the close button — useful for non-dismissible promotions:
+
+```tsx
+<MediaCard
+  imageUrl='/promo.jpg'
+  onClick={() => console.log('clicked')}
+>
+  <Tag label='New' size='md' />
+  <MediaCardTitle>Card text</MediaCardTitle>
+</MediaCard>
+```
+
+### Rich Text Content
+
+Use inline elements inside `MediaCardTitle` for mixed styling:
+
+```tsx
+<MediaCard
+  imageUrl='/promo.jpg'
+  onClick={() => {}}
+  onClose={() => {}}
+>
+  <MediaCardTitle>
+    <span>Black Friday sale. </span>
+    <span className='text-interactive'>3 days with no fees </span>
+    <span>on your transactions.</span>
+  </MediaCardTitle>
+</MediaCard>
+```
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>
