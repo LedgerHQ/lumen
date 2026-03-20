@@ -416,9 +416,9 @@ export const VirtualList: Story = {
           />
           <BottomSheetFlatList
             data={data}
-            keyExtractor={(item) => (item as ListItem).id}
-            renderItem={({ item }) => {
-              const typedItem = item as ListItem;
+            keyExtractor={(item: ListItem) => item.id}
+            renderItem={({ item }: { item: ListItem }) => {
+              const typedItem = item;
               return (
                 <Box
                   lx={{
@@ -496,7 +496,7 @@ export const StickyHeaderContent: Story = {
           />
           <BottomSheetFlatList
             data={filteredData}
-            keyExtractor={(item) => (item as ListItem).id}
+            keyExtractor={(item: ListItem) => item.id}
             stickyHeaderIndices={[0]}
             ListHeaderComponent={
               <Box
@@ -513,7 +513,7 @@ export const StickyHeaderContent: Story = {
                 />
               </Box>
             }
-            renderItem={({ item }) => {
+            renderItem={({ item }: { item: ListItem }) => {
               const typedItem = item as ListItem;
 
               return (
@@ -618,16 +618,16 @@ export const VirtualizedList: Story = {
           />
           <BottomSheetVirtualizedList
             data={data}
-            getItem={(items, index) => {
+            getItem={(items: ListItem[], index: number) => {
               const typedData = items as ListItem[];
               return typedData[index];
             }}
-            getItemCount={(items) => {
+            getItemCount={(items: ListItem[]) => {
               const typedData = items as ListItem[];
               return typedData.length;
             }}
-            keyExtractor={(item) => (item as ListItem).id}
-            renderItem={({ item }) => {
+            keyExtractor={(item: ListItem) => item.id}
+            renderItem={({ item }: { item: ListItem }) => {
               const typedItem = item as ListItem;
               return (
                 <Box
