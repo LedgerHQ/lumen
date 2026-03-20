@@ -1,6 +1,7 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
+import { useState } from 'react';
+import { Button } from '../Button';
 import { Tag } from '../Tag';
 import { Box, Text } from '../Utility';
 import { MediaCard, MediaCardTitle } from './MediaCard';
@@ -146,5 +147,43 @@ export const CompositionShowcase: Story = {
 </MediaCard>`,
       },
     },
+  },
+};
+
+export const WithClose: Story = {
+  render: () => {
+    const [visible, setVisible] = useState(true);
+
+    if (!visible) {
+      return (
+        <Button
+          appearance='transparent'
+          size='sm'
+          onPress={() => setVisible(true)}
+        >
+          Show card again
+        </Button>
+      );
+    }
+
+    return (
+      <Box lx={{ width: 's320' }}>
+        <MediaCard
+          imageUrl={EXAMPLE_SRC}
+          onPress={() => ({})}
+          onClose={() => setVisible(false)}
+        >
+          <Tag label='Label' size='md' />
+          <MediaCardTitle>
+            Black Friday sale.
+            <Text typography='heading3SemiBold' lx={{ color: 'active' }}>
+              {' '}
+              3 days with no fees{' '}
+            </Text>
+            on your transactions.
+          </MediaCardTitle>
+        </MediaCard>
+      </Box>
+    );
   },
 };
