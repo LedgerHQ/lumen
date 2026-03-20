@@ -23,12 +23,6 @@ const useStyles = () =>
         justifyContent: 'flex-end',
         backgroundColor: t.colors.bg.muted,
       },
-      image: {
-        ...StyleSheet.absoluteFillObject,
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-      },
       content: {
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -87,7 +81,7 @@ const GradientOverlays = () => {
           { color: '#000', opacity: 0.8, offset: 0 },
           { color: '#000', opacity: 0, offset: 0.75 },
         ]}
-        style={StyleSheet.absoluteFillObject}
+        style={StyleSheet.absoluteFill}
         pointerEvents='none'
         accessible={false}
       />
@@ -98,7 +92,7 @@ const GradientOverlays = () => {
           { color: '#000', opacity: 0, offset: 0.6 },
           { color: '#000', opacity: 0.8, offset: 1 },
         ]}
-        style={StyleSheet.absoluteFillObject}
+        style={StyleSheet.absoluteFill}
         pointerEvents='none'
         accessible={false}
       />
@@ -146,7 +140,7 @@ export const MediaCard = ({
     >
       <Image
         source={{ uri: imageUrl }}
-        style={[styles.image, !imageLoaded && { opacity: 0 }]}
+        style={[StyleSheet.absoluteFill, !imageLoaded && { opacity: 0 }]}
         accessible={false}
         onLoad={() => setImageLoaded(true)}
         onError={() => setImageLoaded(false)}
