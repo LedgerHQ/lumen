@@ -1,5 +1,7 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import { MediaCard, MediaCardTitle } from './MediaCard';
 
@@ -200,4 +202,39 @@ export const CompositionShowcase: Story = {
       </MediaCard>
     </div>
   ),
+};
+
+export const WithClose: Story = {
+  render: () => {
+    const [visible, setVisible] = useState(true);
+
+    if (!visible) {
+      return (
+        <Button
+          appearance='transparent'
+          size='sm'
+          onClick={() => setVisible(true)}
+        >
+          Show card again
+        </Button>
+      );
+    }
+
+    return (
+      <div className='w-320'>
+        <MediaCard
+          imageUrl={EXAMPLE_SRC}
+          onClick={() => ({})}
+          onClose={() => setVisible(false)}
+        >
+          <Tag label='Label' size='md' />
+          <MediaCardTitle>
+            <span>Black Friday sale. </span>
+            <span className='text-interactive'>3 days with no fees </span>
+            <span>on your transactions.</span>
+          </MediaCardTitle>
+        </MediaCard>
+      </div>
+    );
+  },
 };
