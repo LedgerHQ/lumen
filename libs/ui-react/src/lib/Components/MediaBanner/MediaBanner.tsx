@@ -52,13 +52,7 @@ export const MediaBanner = ({
             className='absolute inset-0 size-full object-cover'
             onError={() => setImageLoadError(true)}
           />
-          <div
-            className='absolute inset-0'
-            style={{
-              background:
-                'linear-gradient(45deg, rgba(0,0,0,0.6), rgba(0,0,0,0) 64.17%)',
-            }}
-          />
+          <div className='absolute inset-0 bg-linear-[45deg] from-gradient-overlay-0 from-70% to-gradient-overlay-80' />
         </div>
       )}
       {onClose && (
