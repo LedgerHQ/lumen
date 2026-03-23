@@ -14,6 +14,10 @@ export type MediaBannerProps = {
    */
   onClose?: () => void;
   /**
+   * Optional accessibility label for the close button.
+   */
+  closeAccessibilityLabel?: string;
+  /**
    * The banner content (MediaBannerTitle, MediaBannerDescription).
    */
   children: ReactNode;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -20,9 +21,11 @@ export function MediaBanner({
   style,
   imageUrl,
   onClose,
+  closeAccessibilityLabel,
   children,
   ...props
 }: MediaBannerProps) {
+  const { t: translate } = useCommonTranslation();
   const { theme: t } = useTheme();
   const [imageLoadError, setImageLoadError] = useState(false);
 
@@ -94,6 +97,10 @@ export function MediaBanner({
             iconType='stroked'
             appearance='white'
             onPress={onClose}
+            accessibilityLabel={
+              closeAccessibilityLabel ||
+              translate('components.banner.closeAriaLabel')
+            }
           >
             <Close size={16} />
           </InteractiveIcon>

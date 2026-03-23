@@ -18,6 +18,7 @@ export const MediaBanner = ({
   ref,
   imageUrl,
   onClose,
+  closeAriaLabel,
   children,
   className,
   ...props
@@ -62,7 +63,7 @@ export const MediaBanner = ({
           appearance='white'
           className='absolute top-8 right-8'
           onClick={() => onClose()}
-          aria-label={t('components.banner.closeAriaLabel')}
+          aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
         >
           <Close size={16} />
         </InteractiveIcon>
