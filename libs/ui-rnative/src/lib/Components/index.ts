@@ -17,6 +17,7 @@ export * from './InteractiveIcon';
 export * from './Link';
 export * from './ListItem';
 export * from './MediaBanner';
+export * from './MediaCard';
 export * from './NavBar';
 export * from './PageIndicator';
 export * from './SearchInput';

@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "Kapat"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "Karekodu okut"

@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "닫기"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "QR 코드 스캔"

@@ -53,6 +53,14 @@ export type InteractiveIconProps = {
    */
   iconType: 'filled' | 'stroked';
   /**
+   * The color appearance of the icon.
+   * - `base`: Default high-contrast color.
+   * - `muted`: Subdued color for secondary actions.
+   * - `white`: White color for use on dark backgrounds.
+   * @default 'muted'
+   */
+  appearance?: 'base' | 'muted' | 'white';
+  /**
    * Preset for the touchable area. Ignored if `hitSlop` is passed explicitly.
    * Automatically applies insets based on the child's icon size.
    *
