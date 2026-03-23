@@ -73,6 +73,7 @@ export function MediaBanner({
             style={StyleSheet.absoluteFill}
             resizeMode='cover'
             onError={() => setImageLoadError(true)}
+            accessible={false}
           />
         )}
         <LinearGradient
@@ -82,6 +83,8 @@ export function MediaBanner({
             { color: t.colors.bg.black, opacity: 0.8 },
           ]}
           style={StyleSheet.absoluteFill}
+          accessible={false}
+          pointerEvents='none'
         />
       </Box>
       {onClose && (
@@ -111,7 +114,7 @@ export function MediaBannerTitle({
 }: MediaBannerTitleProps) {
   const styles = useStyleSheet(
     (t) => ({
-      description: StyleSheet.flatten([
+      title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
           color: t.colors.text.base,
@@ -122,12 +125,7 @@ export function MediaBannerTitle({
   );
 
   return (
-    <Text
-      lx={lx}
-      style={[styles.description, style]}
-      numberOfLines={1}
-      {...props}
-    >
+    <Text lx={lx} style={[styles.title, style]} numberOfLines={1} {...props}>
       {children}
     </Text>
   );
