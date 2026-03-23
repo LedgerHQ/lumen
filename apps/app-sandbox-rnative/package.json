@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.6",
-    "@ledgerhq/lumen-design-core": "0.1.5",
-    "@ledgerhq/lumen-ui-rnative": "0.1.11",
+    "@ledgerhq/lumen-design-core": "0.1.6",
+    "@ledgerhq/lumen-ui-rnative": "0.1.12",
     "@sbaiahmed1/react-native-blur": "^4.5.5",
     "expo": "~53.0.0",
     "expo-haptics": "~14.1.4",
