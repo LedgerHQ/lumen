@@ -59,6 +59,7 @@ export const MediaBanner = ({
         <InteractiveIcon
           type='button'
           iconType='stroked'
+          appearance='white'
           className='absolute top-8 right-8'
           onClick={() => onClose()}
           aria-label={t('components.banner.closeAriaLabel')}

@@ -89,6 +89,7 @@ export function MediaBanner({
           <InteractiveIcon
             testID='media-banner-close-button'
             iconType='stroked'
+            appearance='white'
             onPress={onClose}
           >
             <Close size={16} />
