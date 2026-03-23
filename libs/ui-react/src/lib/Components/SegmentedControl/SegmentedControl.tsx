@@ -46,10 +46,6 @@ const segmentedControlStyles = {
           true: 'body-2-semi-bold text-base',
           false: 'body-2 text-muted hover:text-muted-hover',
         },
-        tabLayout: {
-          hug: '',
-          fixed: 'flex-1 min-w-0',
-        },
       },
     },
   ),
@@ -81,10 +77,8 @@ export function SegmentedControlButton({
         }
       }}
       className={cn(
-        segmentedControlStyles.item({
-          selected,
-          tabLayout,
-        }),
+        segmentedControlStyles.item({ selected }),
+        tabLayout === 'fixed' && 'min-w-0 flex-1',
         className,
       )}
       {...props}
@@ -123,7 +117,6 @@ export function SegmentedControl({
     ref,
     selectedIndex,
     children,
-    tabLayout,
   });
 
   return (

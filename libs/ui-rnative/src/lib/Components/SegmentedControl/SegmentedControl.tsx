@@ -90,7 +90,7 @@ function useButtonStyles({
   const styles = useStyleSheet(
     (t) => ({
       button: {
-        ...(tabLayout === 'fixed' ? { flex: 1 } : {}),
+        flex: tabLayout === 'fixed' ? 1 : undefined,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
