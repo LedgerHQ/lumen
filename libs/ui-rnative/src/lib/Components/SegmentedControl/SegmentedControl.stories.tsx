@@ -25,6 +25,10 @@ const meta = {
       options: ['background', 'no-background'],
       control: 'radio',
     },
+    tabLayout: {
+      options: ['hug', 'fixed'],
+      control: 'radio',
+    },
     accessibilityLabel: {
       control: 'text',
     },
@@ -37,6 +41,7 @@ const meta = {
   },
   args: {
     appearance: 'background',
+    tabLayout: 'hug',
   },
 } satisfies Meta<typeof SegmentedControl>;
 
@@ -49,20 +54,16 @@ export const Base: Story = {
     const [state, setState] = useState('send');
 
     return (
-      <Box lx={{ width: 's256' }}>
-        <SegmentedControl
-          {...args}
-          selectedValue={state}
-          onSelectedChange={setState}
-          accessibilityLabel='Transaction type'
-        >
-          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
-          <SegmentedControlButton value='receive'>
-            Receive
-          </SegmentedControlButton>
-          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
-        </SegmentedControl>
-      </Box>
+      <SegmentedControl
+        {...args}
+        selectedValue={state}
+        onSelectedChange={setState}
+        accessibilityLabel='Transaction type'
+      >
+        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+      </SegmentedControl>
     );
   },
 };
@@ -96,23 +97,60 @@ export const WithIcons: Story = {
   },
 };
 
+export const TabLayoutShowcase: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: (args) => {
+    const [hugState, setHugState] = useState('send');
+    const [fixedState, setFixedState] = useState('send');
+
+    return (
+      <Box lx={{ width: 's400', gap: 's24' }}>
+        <SegmentedControl
+          {...args}
+          tabLayout='hug'
+          selectedValue={hugState}
+          onSelectedChange={setHugState}
+          accessibilityLabel='Hug layout'
+        >
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
+            Receive
+          </SegmentedControlButton>
+          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+        </SegmentedControl>
+        <SegmentedControl
+          {...args}
+          tabLayout='fixed'
+          selectedValue={fixedState}
+          onSelectedChange={setFixedState}
+          accessibilityLabel='Fixed layout'
+        >
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
+            Receive
+          </SegmentedControlButton>
+          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+        </SegmentedControl>
+      </Box>
+    );
+  },
+};
+
 export const Disabled: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => (
-    <Box lx={{ width: 's256' }}>
-      <SegmentedControl
-        {...args}
-        selectedValue='receive'
-        onSelectedChange={() => {
-          /* empty */
-        }}
-        accessibilityLabel='Transaction type (disabled)'
-        disabled
-      >
-        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
-        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
-        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
-      </SegmentedControl>
-    </Box>
+    <SegmentedControl
+      {...args}
+      selectedValue='receive'
+      onSelectedChange={() => {
+        /* empty */
+      }}
+      accessibilityLabel='Transaction type (disabled)'
+      disabled
+    >
+      <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+      <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+      <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+    </SegmentedControl>
   ),
 };

@@ -33,7 +33,6 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
         <SegmentedControl
           selectedValue={activeLabel}
           onSelectedChange={(value) => setActiveLabel(value)}
-          className='w-480'
         >
           {tabs.map((tab) => (
             <SegmentedControlButton

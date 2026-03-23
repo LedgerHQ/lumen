@@ -21,6 +21,13 @@ export type SegmentedControlProps = {
    */
   appearance?: 'background' | 'no-background';
   /**
+   * Controls how tab widths are calculated.
+   * - "hug": each tab sizes to its content
+   * - "fixed": all tabs share equal width, filling the container
+   * @default 'hug'
+   */
+  tabLayout?: 'hug' | 'fixed';
+  /**
    * Segment buttons (SegmentedControlButton).
    */
   children: ReactNode;
