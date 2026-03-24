@@ -19,6 +19,7 @@ export * from './ListItem';
 export * from './MediaBanner';
 export * from './MediaCard';
 export * from './Menu';
+export * from './Popover';
 export * from './NavBar';
 export * from './PageIndicator';
 export * from './SearchInput';
