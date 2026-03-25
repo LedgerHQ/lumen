@@ -27,17 +27,14 @@ const segmentedControlStyles = {
       },
     },
   }),
-  pill: cva(
-    'pointer-events-none absolute top-0 left-0 z-0 rounded-sm transition-[transform,width] duration-250 ease-in-out',
-    {
-      variants: {
-        disabled: {
-          true: 'bg-base-transparent-pressed',
-          false: 'bg-muted-transparent',
-        },
+  pill: cva('pointer-events-none absolute top-0 left-0 z-0 rounded-sm', {
+    variants: {
+      disabled: {
+        true: 'bg-base-transparent-pressed',
+        false: 'bg-muted-transparent',
       },
     },
-  ),
+  }),
   item: cva(
     'z-10 flex cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
     {
@@ -125,7 +122,7 @@ export function SegmentedControl({
     selectedValue,
     children,
   );
-  const { pill } = usePillElementLayoutEffect({
+  const { pill, isReady } = usePillElementLayoutEffect({
     ref,
     selectedIndex,
     children,
@@ -151,13 +148,14 @@ export function SegmentedControl({
         {children}
         <div
           aria-hidden
-          className={segmentedControlStyles.pill({
-            disabled,
-          })}
+          className={segmentedControlStyles.pill({ disabled })}
           style={{
             width: pill.width,
             height: pill.height,
             transform: `translateX(${pill.x}px)`,
+            transition: isReady
+              ? 'transform 250ms ease-in-out, width 250ms ease-in-out'
+              : 'none',
           }}
         />
       </div>

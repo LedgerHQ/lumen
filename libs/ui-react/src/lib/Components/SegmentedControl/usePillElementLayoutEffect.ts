@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 export type PillLayout = {
   width: number;
@@ -14,8 +14,9 @@ export function usePillElementLayoutEffect({
   ref: React.RefObject<HTMLDivElement | null>;
   selectedIndex: number;
   children: React.ReactNode;
-}): { pill: PillLayout } {
+}): { pill: PillLayout; isReady: boolean } {
   const [pill, setPill] = useState<PillLayout>({ width: 0, height: 0, x: 0 });
+  const [isReady, setIsReady] = useState(false);
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -39,7 +40,14 @@ export function usePillElementLayoutEffect({
     return () => ro.disconnect();
   }, [children, selectedIndex, ref]);
 
-  return { pill };
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      setIsReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return { pill, isReady };
 }
 
 export function useSegmentedControlSelectedIndex(
