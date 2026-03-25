@@ -47,7 +47,9 @@ const DefaultContent = () => {
       <div>
         <p className='heading-4-semi-bold text-base'>Notifications</p>
         <p className='body-2 text-muted'>
-          You have 10 notifications in your account
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+          quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Quisquam, quos.
         </p>
       </div>
       <div className='flex gap-12'>
@@ -65,10 +67,11 @@ const DefaultContent = () => {
 export const Base: Story = {
   render: (args: PopoverProps) => (
     <Popover {...args}>
-      <PopoverTrigger>
-        <Button appearance='gray'>Open Popover</Button>
-      </PopoverTrigger>
-      <PopoverContent>
+      <PopoverTrigger
+        render={<Button appearance='gray'>Open Popover</Button>}
+      />
+
+      <PopoverContent className='w-400'>
         <DefaultContent />
       </PopoverContent>
     </Popover>
@@ -79,9 +82,10 @@ export const WidthShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
       <Popover>
-        <PopoverTrigger>
-          <Button appearance='gray'>Hug (default)</Button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Hug (default)</Button>}
+        />
+
         <PopoverContent width='hug'>
           <p className='body-2 text-base'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
@@ -91,9 +95,12 @@ export const WidthShowcase: Story = {
       </Popover>
 
       <Popover>
-        <PopoverTrigger>
-          <Button appearance='gray'>Hug (with custom width w-256)</Button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          render={
+            <Button appearance='gray'>Hug (with custom width w-256)</Button>
+          }
+        />
+
         <PopoverContent width='hug' className='w-256'>
           <p className='body-2 text-base'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
@@ -103,9 +110,10 @@ export const WidthShowcase: Story = {
       </Popover>
 
       <Popover>
-        <PopoverTrigger>
-          <Button appearance='gray'>Fixed (max-w 400px)</Button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Fixed (max-w 400px)</Button>}
+        />
+
         <PopoverContent width='fixed'>
           <p className='body-2 text-base'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
@@ -127,11 +135,14 @@ export const PositionShowcase: Story = {
         {side.map((side) => (
           <div key={side} className='flex items-center gap-16'>
             {align.map((align) => (
-              <Popover key={side} overlay={false}>
-                <PopoverTrigger>
-                  <Button appearance='gray'>{`${side}-${align}`}</Button>
-                </PopoverTrigger>
-                <PopoverContent side={side} align={align}>
+              <Popover key={`${side}-${align}`}>
+                <PopoverTrigger
+                  render={
+                    <Button appearance='gray'>{`${side}-${align}`}</Button>
+                  }
+                />
+
+                <PopoverContent side={side} align={align} className='w-256'>
                   <DefaultContent />
                 </PopoverContent>
               </Popover>
@@ -147,18 +158,20 @@ export const WithOverlay: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
       <Popover overlay>
-        <PopoverTrigger>
-          <Button appearance='gray'>With Overlay (default)</Button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>With Overlay (default)</Button>}
+        />
+
         <PopoverContent width='fixed'>
           <DefaultContent />
         </PopoverContent>
       </Popover>
 
-      <Popover overlay={false}>
-        <PopoverTrigger>
-          <Button appearance='gray'>Without Overlay</Button>
-        </PopoverTrigger>
+      <Popover>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Without Overlay</Button>}
+        />
+
         <PopoverContent width='fixed'>
           <DefaultContent />
         </PopoverContent>
@@ -167,7 +180,7 @@ export const WithOverlay: Story = {
   ),
 };
 
-export const Controlled: Story = {
+export const WithControlledState: Story = {
   render: () => {
     const [open, setOpen] = React.useState(false);
 
@@ -177,11 +190,16 @@ export const Controlled: Story = {
           open={open}
           onOpenChange={(isOpen: boolean) => setOpen(isOpen)}
         >
-          <PopoverTrigger>
-            <Button appearance='gray'>{open ? 'Close' : 'Open'} Popover</Button>
-          </PopoverTrigger>
+          <PopoverTrigger
+            render={
+              <Button appearance='gray'>
+                {open ? 'Close' : 'Open'} Popover
+              </Button>
+            }
+          />
+
           <PopoverContent>
-            <div className='flex flex-col gap-16'>
+            <div className='flex w-400 flex-col gap-16'>
               <DefaultContent />
               <Button
                 size='sm'
@@ -219,19 +237,23 @@ export const WithRenderProp: Story = {
   ),
 };
 
-export const DetachedTrigger: Story = {
+export const WithDetachedTrigger: Story = {
   render: () => {
     const handle = createPopoverHandle<{ label: string }>();
 
     return (
       <div className='flex items-center gap-16'>
-        <PopoverTrigger handle={handle} payload={{ label: 'Button A' }}>
-          <Button appearance='gray'>Trigger A</Button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          handle={handle}
+          payload={{ label: 'Button A' }}
+          render={<Button appearance='gray'>Trigger A</Button>}
+        />
 
-        <PopoverTrigger handle={handle} payload={{ label: 'Button B' }}>
-          <Button appearance='gray'>Trigger B</Button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          handle={handle}
+          payload={{ label: 'Button B' }}
+          render={<Button appearance='gray'>Trigger A</Button>}
+        />
 
         <Popover handle={handle}>
           {({ payload }: { payload: { label: string } | undefined }) => (

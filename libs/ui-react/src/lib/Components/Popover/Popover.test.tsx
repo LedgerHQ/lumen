@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
+import { Button } from '../Button/Button';
 import {
   Popover,
   PopoverTrigger,
@@ -12,7 +13,9 @@ describe('Popover', () => {
   it('renders trigger element', () => {
     render(
       <Popover>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Content</p>
         </PopoverContent>
@@ -26,7 +29,9 @@ describe('Popover', () => {
     const user = userEvent.setup();
     render(
       <Popover>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Popover Content</p>
         </PopoverContent>
@@ -45,7 +50,9 @@ describe('Popover', () => {
 
     const { rerender } = render(
       <Popover open={false} onOpenChange={onOpenChange}>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Controlled Content</p>
         </PopoverContent>
@@ -56,7 +63,9 @@ describe('Popover', () => {
 
     rerender(
       <Popover open={true} onOpenChange={onOpenChange}>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Controlled Content</p>
         </PopoverContent>
@@ -71,7 +80,9 @@ describe('Popover', () => {
   it('supports defaultOpen', async () => {
     render(
       <Popover defaultOpen>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Default Open Content</p>
         </PopoverContent>
@@ -87,7 +98,9 @@ describe('Popover', () => {
     const user = userEvent.setup();
     render(
       <Popover overlay>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>With Overlay</p>
         </PopoverContent>
@@ -107,7 +120,9 @@ describe('Popover', () => {
     const user = userEvent.setup();
     render(
       <Popover overlay={false}>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Without Overlay</p>
         </PopoverContent>
@@ -127,9 +142,11 @@ describe('Popover', () => {
   it('applies fixed width variant', async () => {
     const user = userEvent.setup();
     render(
-      <Popover width='fixed'>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
-        <PopoverContent>
+      <Popover>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
+        <PopoverContent width='fixed'>
           <p>Fixed Width Content</p>
         </PopoverContent>
       </Popover>,
@@ -148,8 +165,10 @@ describe('Popover', () => {
     const user = userEvent.setup();
     render(
       <Popover>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
-        <PopoverContent>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
+        <PopoverContent className='w-256'>
           <p>Hug Width Content</p>
         </PopoverContent>
       </Popover>,
@@ -160,7 +179,7 @@ describe('Popover', () => {
     await waitFor(() => {
       const popup = document.querySelector('[data-slot="popover-content"]');
       expect(popup).toBeInTheDocument();
-      expect(popup).toHaveClass('max-w-400');
+      expect(popup).toHaveClass('w-256');
     });
   });
 
@@ -168,7 +187,9 @@ describe('Popover', () => {
     const user = userEvent.setup();
     render(
       <Popover>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent className='min-w-320'>
           <p>Custom Class</p>
         </PopoverContent>
@@ -189,7 +210,9 @@ describe('Popover', () => {
 
     render(
       <Popover onOpenChange={onOpenChange} overlay={false}>
-        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverTrigger
+          render={<Button appearance='gray'>Open Popover</Button>}
+        />
         <PopoverContent>
           <p>Content</p>
         </PopoverContent>
@@ -207,9 +230,11 @@ describe('Popover', () => {
 
     render(
       <>
-        <PopoverTrigger handle={handle} payload={{ label: 'external' }}>
-          External Trigger
-        </PopoverTrigger>
+        <PopoverTrigger
+          handle={handle}
+          payload={{ label: 'external' }}
+          render={<Button appearance='gray'>External Trigger</Button>}
+        />
         <Popover handle={handle} overlay={false}>
           {({ payload }: { payload: { label: string } | undefined }) => (
             <PopoverContent>

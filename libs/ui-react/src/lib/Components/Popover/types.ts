@@ -2,7 +2,7 @@ import type {
   PopoverRootChangeEventDetails,
   Popover as PopoverNamespace,
 } from '@base-ui/react/popover';
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 
 type PopoverHandle<Payload> = PopoverNamespace.Handle<Payload>;
 
@@ -84,15 +84,13 @@ export type PopoverTriggerProps<Payload = unknown> = {
   payload?: Payload;
 
   /**
-   * Additional CSS class names to apply to the trigger.
+   * Allows you to replace the component's HTML element
+   * with a different tag, or compose it with another component.
+   *
+   * Accepts a `ReactElement`.
    */
-  className?: string;
-
-  /**
-   * The content of the trigger button.
-   */
-  children?: ReactNode;
-} & Pick<PopoverNamespace.Trigger.Props, 'render'>;
+  render?: ReactElement;
+} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
  * Props for the PopoverContent component.

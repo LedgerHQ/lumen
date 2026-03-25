@@ -11,18 +11,31 @@ import type {
 const [PopoverContextProvider, usePopoverContext] =
   createSafeContext<PopoverContextValue>('Popover');
 
-const popupVariants = cva(
-  [
-    'overflow-hidden rounded-md bg-canvas-sheet p-16',
-    'shadow-xl',
-    'data-open:animate-fade-in data-open:duration-100!',
-    'data-closed:animate-fade-out data-closed:duration-100!',
-  ],
+const popoverContentVariants = cva(
+  ['overflow-hidden rounded-md bg-canvas-sheet p-16 outline-none', 'shadow-xl'],
   {
     variants: {
       width: {
         hug: '',
         fixed: 'w-400',
+      },
+      side: {
+        top: [
+          'data-open:animate-slide-in-from-top',
+          'data-closed:animate-slide-out-to-top',
+        ],
+        bottom: [
+          'data-open:animate-slide-in-from-bottom',
+          'data-closed:animate-slide-out-to-bottom',
+        ],
+        left: [
+          'data-open:animate-slide-in-from-left',
+          'data-closed:animate-slide-out-to-left',
+        ],
+        right: [
+          'data-open:animate-slide-in-from-right',
+          'data-closed:animate-slide-out-to-right',
+        ],
       },
     },
     defaultVariants: {
@@ -32,8 +45,8 @@ const popupVariants = cva(
 );
 
 const overlayStyles = cn(
-  'fixed inset-0 z-dialog-overlay bg-canvas-overlay',
-  'data-open:animate-fade-in data-open:duration-100!',
+  'fixed inset-0 z-dialog-overlay bg-canvas-overlay-subtle',
+  'data-open:animate-fade-in',
   'data-closed:animate-fade-out',
 );
 
@@ -59,14 +72,14 @@ const overlayStyles = cn(
  *   );
  * }
  */
-function Popover<Payload = unknown>({
+const Popover = <Payload,>({
   open,
   defaultOpen,
   onOpenChange,
   overlay = false,
   handle,
   children,
-}: PopoverProps<Payload>) {
+}: PopoverProps<Payload>) => {
   return (
     <PopoverContextProvider value={{ overlay }}>
       <PopoverPrimitive.Root
@@ -81,7 +94,7 @@ function Popover<Payload = unknown>({
       </PopoverPrimitive.Root>
     </PopoverContextProvider>
   );
-}
+};
 
 /**
  * A button that opens the popover. Renders a `<button>` element by default.
@@ -95,7 +108,6 @@ const PopoverTrigger = <Payload,>({
   payload,
   render,
   className,
-  children,
   ...props
 }: PopoverTriggerProps<Payload>) => (
   <PopoverPrimitive.Trigger
@@ -103,11 +115,10 @@ const PopoverTrigger = <Payload,>({
     handle={handle}
     payload={payload}
     render={render}
+    nativeButton={false}
     className={className}
     {...props}
-  >
-    {children}
-  </PopoverPrimitive.Trigger>
+  />
 );
 PopoverTrigger.displayName = 'PopoverTrigger';
 
@@ -117,14 +128,14 @@ PopoverTrigger.displayName = 'PopoverTrigger';
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/components-popover-overview--docs Storybook}
  */
-function PopoverContent({
+const PopoverContent = ({
   side = 'bottom',
   sideOffset = 8,
   align = 'start',
   width = 'hug',
   className,
   children,
-}: PopoverContentProps) {
+}: PopoverContentProps) => {
   const { overlay } = usePopoverContext({
     consumerName: 'PopoverContent',
     contextRequired: true,
@@ -147,14 +158,14 @@ function PopoverContent({
       >
         <PopoverPrimitive.Popup
           data-slot='popover-content'
-          className={cn(popupVariants({ width }), className)}
+          className={cn(popoverContentVariants({ width, side }), className)}
         >
           {children}
         </PopoverPrimitive.Popup>
       </PopoverPrimitive.Positioner>
     </PopoverPrimitive.Portal>
   );
-}
+};
 
 /**
  * Creates a handle for connecting a `Popover` with detached `PopoverTrigger` components.
