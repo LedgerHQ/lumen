@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { useState } from 'react';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag';
@@ -9,8 +9,6 @@ import {
   PopoverContent,
   createPopoverHandle,
 } from './Popover';
-import type { PopoverProps } from './types';
-
 const meta: Meta<typeof Popover> = {
   title: 'Containment/Popover',
   component: Popover,
@@ -65,7 +63,7 @@ const DefaultContent = () => {
 };
 
 export const Base: Story = {
-  render: (args: PopoverProps) => (
+  render: (args) => (
     <Popover {...args}>
       <PopoverTrigger
         render={<Button appearance='gray'>Open Popover</Button>}
@@ -143,7 +141,10 @@ export const PositionShowcase: Story = {
                 />
 
                 <PopoverContent side={side} align={align} className='w-256'>
-                  <DefaultContent />
+                  <div>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Quisquam, quos.
+                  </div>
                 </PopoverContent>
               </Popover>
             ))}
@@ -182,7 +183,7 @@ export const WithOverlay: Story = {
 
 export const WithControlledState: Story = {
   render: () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
       <div className='flex items-center gap-16'>
@@ -219,24 +220,6 @@ export const WithControlledState: Story = {
   },
 };
 
-export const WithRenderProp: Story = {
-  render: () => (
-    <Popover>
-      <PopoverTrigger
-        render={<Button appearance='gray'>Custom Trigger</Button>}
-      />
-      <PopoverContent>
-        <div className='flex flex-col gap-8'>
-          <p className='heading-4-semi-bold text-base'>Render Prop</p>
-          <p className='body-2 text-muted'>
-            The trigger uses the render prop to compose with a Button component.
-          </p>
-        </div>
-      </PopoverContent>
-    </Popover>
-  ),
-};
-
 export const WithDetachedTrigger: Story = {
   render: () => {
     const handle = createPopoverHandle<{ label: string }>();
@@ -252,7 +235,7 @@ export const WithDetachedTrigger: Story = {
         <PopoverTrigger
           handle={handle}
           payload={{ label: 'Button B' }}
-          render={<Button appearance='gray'>Trigger A</Button>}
+          render={<Button appearance='gray'>Trigger B</Button>}
         />
 
         <Popover handle={handle}>

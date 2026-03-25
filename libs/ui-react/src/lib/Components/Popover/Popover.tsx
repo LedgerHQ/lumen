@@ -11,7 +11,7 @@ import type {
 const [PopoverContextProvider, usePopoverContext] =
   createSafeContext<PopoverContextValue>('Popover');
 
-const popoverContentVariants = cva(
+const popoverContentStyles = cva(
   ['overflow-hidden rounded-md bg-canvas-sheet p-16 outline-none', 'shadow-xl'],
   {
     variants: {
@@ -44,7 +44,7 @@ const popoverContentVariants = cva(
   },
 );
 
-const overlayStyles = cn(
+const popoverOverlayStyles = cn(
   'fixed inset-0 z-dialog-overlay bg-canvas-overlay-subtle',
   'data-open:animate-fade-in',
   'data-closed:animate-fade-out',
@@ -62,12 +62,10 @@ const overlayStyles = cn(
  * function MyComponent() {
  *   return (
  *     <Popover>
- *       <PopoverTrigger>
- *         <button>Open</button>
- *       </PopoverTrigger>
+ *       <PopoverTrigger render={<Button>Open</Button>} />
  *       <PopoverContent sideOffset={4} align="start">
  *         <p>Popover content</p>
- *       </PopoverContent>
+ *       </PopoverContent>} />
  *     </Popover>
  *   );
  * }
@@ -83,7 +81,6 @@ const Popover = <Payload,>({
   return (
     <PopoverContextProvider value={{ overlay }}>
       <PopoverPrimitive.Root
-        data-slot='popover'
         open={open}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
@@ -97,8 +94,7 @@ const Popover = <Payload,>({
 };
 
 /**
- * A button that opens the popover. Renders a `<button>` element by default.
- *
+ * A button that opens the popover.
  * Use the `render` prop to compose with a custom component.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/components-popover-overview--docs Storybook}
@@ -115,8 +111,7 @@ const PopoverTrigger = <Payload,>({
     handle={handle}
     payload={payload}
     render={render}
-    nativeButton={false}
-    className={className}
+    className={cn('data-popup-open:z-menu', className)}
     {...props}
   />
 );
@@ -146,7 +141,7 @@ const PopoverContent = ({
       {overlay && (
         <PopoverPrimitive.Backdrop
           data-slot='popover-overlay'
-          className={overlayStyles}
+          className={popoverOverlayStyles}
         />
       )}
       <PopoverPrimitive.Positioner
@@ -158,7 +153,7 @@ const PopoverContent = ({
       >
         <PopoverPrimitive.Popup
           data-slot='popover-content'
-          className={cn(popoverContentVariants({ width, side }), className)}
+          className={cn(popoverContentStyles({ width, side }), className)}
         >
           {children}
         </PopoverPrimitive.Popup>
@@ -173,17 +168,13 @@ const PopoverContent = ({
  * @example
  * const handle = createPopoverHandle<{ id: string }>();
  *
- * <PopoverTrigger handle={handle} payload={{ id: '123' }}>
- *   <button>Open from outside</button>
- * </PopoverTrigger>
+ * <PopoverTrigger handle={handle} payload={{ id: '123' }} render={<Button>Open</Button>} />
  *
- * <Popover handle={handle}>
- *   {({ payload }) => (
- *     <PopoverContent>
- *       <p>Item: {payload?.id}</p>
- *     </PopoverContent>
- *   )}
- * </Popover>
+ * <Popover handle={handle} render={({ payload }) => (
+ *   <PopoverContent>
+ *     <p>Item: {payload?.id}</p>
+ *   </PopoverContent>
+ * )} />
  */
 const createPopoverHandle = PopoverPrimitive.createHandle;
 

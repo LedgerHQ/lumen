@@ -2,7 +2,7 @@ import type {
   PopoverRootChangeEventDetails,
   Popover as PopoverNamespace,
 } from '@base-ui/react/popover';
-import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 type PopoverHandle<Payload> = PopoverNamespace.Handle<Payload>;
 
@@ -44,11 +44,11 @@ export type PopoverProps<Payload = unknown> = {
 
   /**
    * Whether to show a backdrop overlay and block outside interactions.
+   * When `false`, no overlay is rendered and users can interact with the rest of the page.
    * When `true`, renders a visual overlay and sets the popover to modal mode
    * (disables scrolling and pointer events on elements behind the overlay).
-   * When `false`, no overlay is rendered and users can interact with the rest of the page.
    *
-   * @default true
+   * @default false
    */
   overlay?: boolean;
 
@@ -67,8 +67,7 @@ export type PopoverProps<Payload = unknown> = {
 
 /**
  * Props for the PopoverTrigger component.
- *
- * A button that opens the popover. Renders a `<button>` element by default.
+ * Use the `render` prop to compose with a custom component.
  */
 export type PopoverTriggerProps<Payload = unknown> = {
   /**
@@ -84,12 +83,12 @@ export type PopoverTriggerProps<Payload = unknown> = {
   payload?: Payload;
 
   /**
-   * Allows you to replace the component's HTML element
-   * with a different tag, or compose it with another component.
+   * Render function that replaces the default button-style trigger.
    *
-   * Accepts a `ReactElement`.
+   * @example render={<Button {...props} label="Label" />}
+   * @example render={(props) => <Button {...props} label="Label" />}
    */
-  render?: ReactElement;
+  render?: PopoverNamespace.Trigger.Props['render'];
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
@@ -124,7 +123,7 @@ export type PopoverContentProps = {
 
   /**
    * The width behavior of the popover content panel.
-   * - `'hug'`: Content-fit width up to max 400px (default)
+   * - `'hug'`: Content-fit width (default), define custom width with the `className` prop
    * - `'fixed'`: Always exactly 400px width
    *
    * @default 'hug'
