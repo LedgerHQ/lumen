@@ -54,6 +54,11 @@ export const Background: Story = {
             className: 'bg-canvas-overlay',
             textClassName: 'text-base',
           },
+          {
+            name: 'Canvas Overlay Subtle',
+            className: 'bg-canvas-overlay-subtle',
+            textClassName: 'text-base',
+          },
         ]}
       />
 

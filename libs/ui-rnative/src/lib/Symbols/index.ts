@@ -238,6 +238,8 @@ export { Tools } from './Icons/Tools';
 export { TransferHorizontal } from './Icons/TransferHorizontal';
 export { TransferVertical } from './Icons/TransferVertical';
 export { Trash } from './Icons/Trash';
+export { TriangleDown } from './Icons/TriangleDown';
+export { TriangleUp } from './Icons/TriangleUp';
 export { Truck } from './Icons/Truck';
 export { Twitter } from './Icons/Twitter';
 export { Unlink } from './Icons/Unlink';

@@ -63,6 +63,18 @@
               "codeSyntax": {}
             }
           }
+        },
+        "overlay-subtle": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
         }
       },
       "white": {
