@@ -1,7 +1,5 @@
 import type { Config } from 'tailwindcss';
-import { allBrandsCSSTheme } from '../themes/css';
-import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
-import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
+import { websitesCSSTheme } from '../themes/css';
 import {
   createGradientPlugin,
   createScreensPlugin,
@@ -10,9 +8,11 @@ import {
   createShadowPlugin,
   createScrollbarPlugin,
   createMaskPlugin,
-} from '../utils/index.js';
+  createAnimationsPlugin,
+  createPrimitivesPlugin,
+} from '../utils';
 
-export const allBrandsPreset: Config = {
+export const websitesPreset: Config = {
   content: [],
   theme: {
     boxShadow: {},
@@ -25,9 +25,9 @@ export const allBrandsPreset: Config = {
   plugins: [
     createPrimitivesPlugin(),
     createScreensPlugin(),
-    createThemePlugin(allBrandsCSSTheme),
+    createThemePlugin(websitesCSSTheme),
     createTypographyPlugin(),
-    createGradientPlugin(allBrandsCSSTheme),
+    createGradientPlugin(websitesCSSTheme),
     createShadowPlugin(),
     createAnimationsPlugin(),
     createScrollbarPlugin(),

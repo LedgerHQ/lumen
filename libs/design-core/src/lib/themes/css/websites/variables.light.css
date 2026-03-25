@@ -6,6 +6,7 @@
   --color-background-success-strong: #47883a;
   --color-background-native: #f7f7f7;
   --color-text-native: #007aff;
+  --utility-is-dark: false; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-light-grey-050);
   --color-background-canvas-muted: var(--color-light-grey-100);
   --color-background-canvas-sheet: var(--color-light-grey-050);
@@ -397,11 +398,9 @@
   --background-muted-strong-pressed: var(
     --color-background-muted-strong-pressed
   );
-  --background-accent: var(--color-background-accent-ledger-live-default);
-  --background-accent-hover: var(--color-background-accent-ledger-live-hover);
-  --background-accent-pressed: var(
-    --color-background-accent-ledger-live-pressed
-  );
+  --background-accent: var(--color-background-accent-websites-default);
+  --background-accent-hover: var(--color-background-accent-websites-hover);
+  --background-accent-pressed: var(--color-background-accent-websites-pressed);
   --background-interactive: var(--color-background-interactive-default);
   --background-interactive-hover: var(--color-background-interactive-hover);
   --background-interactive-pressed: var(--color-background-interactive-pressed);
@@ -418,19 +417,17 @@
   --background-success-transparent: var(
     --color-background-success-transparent-default
   );
-  --background-active: var(--color-background-active-ledger-live-default);
-  --background-active-hover: var(--color-background-active-ledger-live-hover);
-  --background-active-pressed: var(
-    --color-background-active-ledger-live-pressed
-  );
+  --background-active: var(--color-background-accent-websites-default);
+  --background-active-hover: var(--color-background-accent-websites-hover);
+  --background-active-pressed: var(--color-background-accent-websites-pressed);
   --background-active-subtle: var(
-    --color-background-active-subtle-ledger-live-default
+    --color-background-active-subtle-website-default
   );
   --background-active-subtle-hover: var(
-    --color-background-active-subtle-ledger-live-hover
+    --color-background-active-subtle-website-hover
   );
   --background-active-subtle-pressed: var(
-    --color-background-active-subtle-ledger-live-pressed
+    --color-background-active-subtle-website-pressed
   );
   --background-gradient-100: var(--color-background-gradient-100);
   --background-gradient-80: var(--color-background-gradient-80);
@@ -453,14 +450,14 @@
   --text-muted-hover: var(--color-text-muted-hover);
   --text-muted-pressed: var(--color-text-muted-pressed);
   --text-muted-subtle: var(--color-text-muted-subtle-default);
-  --text-active: var(--color-text-active-ledger-live-default);
-  --text-interactive: var(--color-text-interactive-ledger-live-default);
-  --text-interactive-hover: var(--color-text-interactive-ledger-live-hover);
-  --text-interactive-pressed: var(--color-text-interactive-ledger-live-pressed);
+  --text-active: var(--color-text-active-websites-default);
+  --text-interactive: var(--color-text-interactive-websites-default);
+  --text-interactive-hover: var(--color-text-interactive-websites-hover);
+  --text-interactive-pressed: var(--color-text-interactive-websites-pressed);
   --text-error: var(--color-text-error-default);
   --text-warning: var(--color-text-warning-default);
   --text-success: var(--color-text-success-default);
-  --text-on-accent: var(--color-text-on-accent-ledger-live-default);
+  --text-on-accent: var(--color-text-on-accent-websites-default);
   --text-on-interactive: var(--color-text-on-interactive-default);
   --text-on-error-strong: var(--color-text-on-error-strong-default);
   --text-on-warning-strong: var(--color-text-on-warning-strong-default);
@@ -482,9 +479,9 @@
   --border-error-pressed: var(--color-border-error-pressed);
   --border-warning: var(--color-border-warning-default);
   --border-success: var(--color-border-success-default);
-  --border-active: var(--color-border-active-ledger-live-default);
-  --border-active-hover: var(--color-border-active-ledger-live-hover);
-  --border-active-pressed: var(--color-border-active-ledger-live-pressed);
-  --border-focus: var(--color-border-focus-ledger-live-default);
+  --border-active: var(--color-border-active-websites-default);
+  --border-active-hover: var(--color-border-active-websites-hover);
+  --border-active-pressed: var(--color-border-active-websites-pressed);
+  --border-focus: var(--color-border-focus-websites-default);
   --border-icon: var(--color-border-icon-default);
 }

@@ -349,6 +349,7 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-discover-mercuryo': 'var(--color-light-discover-mercuryo)',
     '--color-discover-juno': 'var(--color-light-discover-juno)',
     '--color-discover-sardine': 'var(--color-light-discover-sardine)',
+    '--utility-is-dark': false,
     '--background-canvas': 'var(--color-background-canvas)',
     '--background-canvas-muted': 'var(--color-background-canvas-muted)',
     '--background-canvas-sheet': 'var(--color-background-canvas-sheet)',
@@ -397,11 +398,11 @@ export const tokens: Record<string, Record<string, string>> = {
       'var(--color-background-muted-strong-hover)',
     '--background-muted-strong-pressed':
       'var(--color-background-muted-strong-pressed)',
-    '--background-accent': 'var(--color-background-accent-websites)',
+    '--background-accent': 'var(--color-background-accent-ledger-live)',
     '--background-accent-hover':
-      'var(--color-background-accent-websites-hover)',
+      'var(--color-background-accent-ledger-live-hover)',
     '--background-accent-pressed':
-      'var(--color-background-accent-websites-pressed)',
+      'var(--color-background-accent-ledger-live-pressed)',
     '--background-interactive': 'var(--color-background-interactive)',
     '--background-interactive-hover':
       'var(--color-background-interactive-hover)',
@@ -419,17 +420,17 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-success-strong': 'var(--color-background-success-strong)',
     '--background-success-transparent':
       'var(--color-background-success-transparent)',
-    '--background-active': 'var(--color-background-accent-websites)',
+    '--background-active': 'var(--color-background-active-ledger-live)',
     '--background-active-hover':
-      'var(--color-background-accent-websites-hover)',
+      'var(--color-background-active-ledger-live-hover)',
     '--background-active-pressed':
-      'var(--color-background-accent-websites-pressed)',
+      'var(--color-background-active-ledger-live-pressed)',
     '--background-active-subtle':
-      'var(--color-background-active-subtle-website)',
+      'var(--color-background-active-subtle-ledger-live)',
     '--background-active-subtle-hover':
-      'var(--color-background-active-subtle-website-hover)',
+      'var(--color-background-active-subtle-ledger-live-hover)',
     '--background-active-subtle-pressed':
-      'var(--color-background-active-subtle-website-pressed)',
+      'var(--color-background-active-subtle-ledger-live-pressed)',
     '--background-native': 'var(--color-background-native)',
     '--background-gradient-100': 'var(--color-background-gradient-100)',
     '--background-gradient-80': 'var(--color-background-gradient-80)',
@@ -454,15 +455,16 @@ export const tokens: Record<string, Record<string, string>> = {
     '--text-muted-hover': 'var(--color-text-muted-hover)',
     '--text-muted-pressed': 'var(--color-text-muted-pressed)',
     '--text-muted-subtle': 'var(--color-text-muted-subtle)',
-    '--text-active': 'var(--color-text-active-websites)',
-    '--text-interactive': 'var(--color-text-interactive-websites)',
-    '--text-interactive-hover': 'var(--color-text-interactive-websites-hover)',
+    '--text-active': 'var(--color-text-active-ledger-live)',
+    '--text-interactive': 'var(--color-text-interactive-ledger-live)',
+    '--text-interactive-hover':
+      'var(--color-text-interactive-ledger-live-hover)',
     '--text-interactive-pressed':
-      'var(--color-text-interactive-websites-pressed)',
+      'var(--color-text-interactive-ledger-live-pressed)',
     '--text-error': 'var(--color-text-error)',
     '--text-warning': 'var(--color-text-warning)',
     '--text-success': 'var(--color-text-success)',
-    '--text-on-accent': 'var(--color-text-on-accent-websites)',
+    '--text-on-accent': 'var(--color-text-on-accent-ledger-live)',
     '--text-on-interactive': 'var(--color-text-on-interactive)',
     '--text-on-error-strong': 'var(--color-text-on-error-strong)',
     '--text-on-warning-strong': 'var(--color-text-on-warning-strong)',
@@ -485,10 +487,10 @@ export const tokens: Record<string, Record<string, string>> = {
     '--border-error-pressed': 'var(--color-border-error-pressed)',
     '--border-warning': 'var(--color-border-warning)',
     '--border-success': 'var(--color-border-success)',
-    '--border-active': 'var(--color-border-active-websites)',
-    '--border-active-hover': 'var(--color-border-active-websites-hover)',
-    '--border-active-pressed': 'var(--color-border-active-websites-pressed)',
-    '--border-focus': 'var(--color-border-focus-websites)',
+    '--border-active': 'var(--color-border-active-ledger-live)',
+    '--border-active-hover': 'var(--color-border-active-ledger-live-hover)',
+    '--border-active-pressed': 'var(--color-border-active-ledger-live-pressed)',
+    '--border-focus': 'var(--color-border-focus-ledger-live)',
     '--border-icon': 'var(--color-border-icon)',
     '--border-width': 'var(--stroke-1)',
     '--border-width-active': 'var(--stroke-2)',

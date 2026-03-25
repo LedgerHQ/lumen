@@ -5,6 +5,7 @@
 :root {
   --color-background-native: #c3c3c3;
   --color-text-native: #007aff;
+  --utility-is-dark: true; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-dark-grey-050);
   --color-background-canvas-muted: var(--color-dark-grey-050);
   --color-background-canvas-sheet: var(--color-dark-grey-075);

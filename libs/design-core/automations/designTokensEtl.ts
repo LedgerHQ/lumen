@@ -3,11 +3,12 @@ import path from 'path';
 import prettier from 'prettier';
 import StyleDictionary from 'style-dictionary';
 import type { TransformedToken } from 'style-dictionary';
+import { automationConfig } from './automation.config';
 
 const brands = ['enterprise', 'websites', 'ledger-live'];
 const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
 const themes = ['light', 'dark'];
-const tokensFolder = 'tokens';
+const tokensFolder = automationConfig.figmaTokensInputPath;
 const defaultSuffix = '-default';
 
 StyleDictionary.registerTransform({
@@ -135,15 +136,15 @@ ${variables}
 
 function getSDTypographyConfigForBreakpoint(breakpoint: string) {
   const sources = [
-    `${tokensFolder}/1.primitives.value.json`,
-    `${tokensFolder}/4.breakpoint.${breakpoint}.json`,
+    `${tokensFolder}1.primitives.value.json`,
+    `${tokensFolder}4.breakpoint.${breakpoint}.json`,
   ];
 
   return {
     source: sources,
     platforms: {
       CSS: {
-        buildPath: `src/themes/css/`,
+        buildPath: automationConfig.cssOutputPath,
         transformGroup: 'css',
         files: [
           {
@@ -161,7 +162,7 @@ function getSDTypographyConfigForBreakpoint(breakpoint: string) {
         actions: ['remove-default-suffix', 'prettier'],
       },
       JavaScriptThemeObject: {
-        buildPath: `src/themes/css/`,
+        buildPath: automationConfig.cssOutputPath,
         transformGroup: 'js',
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],
         files: [
@@ -182,16 +183,16 @@ function getSDTypographyConfigForBreakpoint(breakpoint: string) {
 
 function getSDThemeConfig(brand: string, theme: string) {
   const themeSpecificSources = [
-    `${tokensFolder}/1.primitives.value.json`,
-    `${tokensFolder}/2.theme.${theme}.json`,
-    `${tokensFolder}/3.brand.${brand}.json`,
+    `${tokensFolder}1.primitives.value.json`,
+    `${tokensFolder}2.theme.${theme}.json`,
+    `${tokensFolder}3.brand.${brand}.json`,
   ];
 
   return {
     source: themeSpecificSources,
     platforms: {
       CSS: {
-        buildPath: `src/themes/css/${brand.toLowerCase()}/`,
+        buildPath: `${automationConfig.cssOutputPath}${brand.toLowerCase()}/`,
         transformGroup: 'css',
         files: [
           {
@@ -207,7 +208,7 @@ function getSDThemeConfig(brand: string, theme: string) {
       },
       JavaScriptThemeObject: {
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],
-        buildPath: `src/themes/css/${brand.toLowerCase()}/`,
+        buildPath: `${automationConfig.cssOutputPath}${brand.toLowerCase()}/`,
         files: [
           {
             destination: `theme.${theme.toLowerCase()}-css.ts`,
@@ -226,13 +227,13 @@ function getSDThemeConfig(brand: string, theme: string) {
 }
 
 function getSDPrimitivesConfig() {
-  const sources = [`${tokensFolder}/1.primitives.value.json`];
+  const sources = [`${tokensFolder}1.primitives.value.json`];
 
   return {
     source: sources,
     platforms: {
       CSS: {
-        buildPath: `src/themes/css/`,
+        buildPath: automationConfig.cssOutputPath,
         transformGroup: 'css',
         files: [
           {
@@ -244,7 +245,7 @@ function getSDPrimitivesConfig() {
       },
       JavaScriptThemeObject: {
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],
-        buildPath: `src/themes/css/`,
+        buildPath: automationConfig.cssOutputPath,
         files: [
           {
             destination: 'primitives-css.ts',
