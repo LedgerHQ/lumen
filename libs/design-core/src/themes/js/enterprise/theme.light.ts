@@ -174,6 +174,7 @@ export const enterpriseLightColorTokens = {
     canvasSheet: primitiveColorTokens.light.grey['050'],
     canvasSheetTransparent: primitiveColorTokens.light.grey['050-0'],
     canvasOverlay: primitiveColorTokens.light.grey['950-60'],
+    canvasOverlaySubtle: primitiveColorTokens.light.grey['950-10'],
     white: primitiveColorTokens.light.constant['050'],
     black: primitiveColorTokens.light.constant['950'],
     surface: primitiveColorTokens.light.grey['100'],
