@@ -17,7 +17,7 @@ export default defineConfig(
     ],
   },
   {
-    files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'],
+    files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts,mdx}'],
     languageOptions: {
       parser: tsParser,
     },
@@ -91,6 +91,18 @@ export default defineConfig(
         },
       ],
     },
+  },
+  {
+    files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts,mdx}'],
+    ignores: [
+      '**/*.test.{ts,tsx}',
+      '**/*.spec.{ts,tsx}',
+      '**/*.stories.{ts,tsx}',
+      '**/*.figma.{ts,tsx}',
+    ],
+    'import/no-extraneous-dependencies': [
+      'error',
+    ],
   },
   eslintPluginPrettierRecommended,
   globalIgnores(['**/out-tsc']),
