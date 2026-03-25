@@ -10,6 +10,7 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-canvas-sheet-transparent':
       'var(--color-dark-grey-075-0)',
     '--color-background-canvas-overlay': 'var(--color-dark-grey-050-60)',
+    '--color-background-canvas-overlay-subtle': 'var(--color-dark-grey-050-30)',
     '--color-background-white': 'var(--color-dark-constant-050)',
     '--color-background-black': 'var(--color-dark-constant-950)',
     '--color-background-surface': 'var(--color-dark-grey-100)',
@@ -343,12 +344,15 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-discover-mercuryo': 'var(--color-dark-discover-mercuryo)',
     '--color-discover-juno': 'var(--color-dark-discover-juno)',
     '--color-discover-sardine': 'var(--color-dark-discover-sardine)',
+    '--utility-is-dark': true,
     '--background-canvas': 'var(--color-background-canvas)',
     '--background-canvas-muted': 'var(--color-background-canvas-muted)',
     '--background-canvas-sheet': 'var(--color-background-canvas-sheet)',
     '--background-canvas-sheet-transparent':
       'var(--color-background-canvas-sheet-transparent)',
     '--background-canvas-overlay': 'var(--color-background-canvas-overlay)',
+    '--background-canvas-overlay-subtle':
+      'var(--color-background-canvas-overlay-subtle)',
     '--background-white': 'var(--color-background-white)',
     '--background-black': 'var(--color-background-black)',
     '--background-surface': 'var(--color-background-surface)',
