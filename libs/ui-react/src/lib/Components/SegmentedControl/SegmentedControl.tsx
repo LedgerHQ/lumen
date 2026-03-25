@@ -43,10 +43,22 @@ const segmentedControlStyles = {
     {
       variants: {
         selected: {
-          true: 'body-2-semi-bold text-base',
-          false: 'body-2 text-muted hover:text-muted-hover',
+          true: 'body-2-semi-bold',
+          false: 'body-2',
+        },
+        disabled: {
+          true: 'text-muted',
+          false: '',
         },
       },
+      compoundVariants: [
+        { selected: true, disabled: false, className: 'text-base' },
+        {
+          selected: false,
+          disabled: false,
+          className: 'text-muted hover:text-muted-hover',
+        },
+      ],
     },
   ),
 };
@@ -77,7 +89,7 @@ export function SegmentedControlButton({
         }
       }}
       className={cn(
-        segmentedControlStyles.item({ selected }),
+        segmentedControlStyles.item({ selected, disabled: !!disabled }),
         tabLayout === 'fixed' && 'min-w-0 flex-1',
         className,
       )}
