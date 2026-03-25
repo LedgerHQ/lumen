@@ -1,13 +1,31 @@
 import nx from '@nx/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import { defineConfig, globalIgnores } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+
+const allFilePatterns = ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'];
+const prodFilePatterns = ['libs/src/**/*.{ts,tsx,js,jsx,cjs,cts,mjs,mts}'];
+const devFilePatterns = [
+  'eslint.config.mjs',
+  '**/*.{ts,tsx}',
+  '**/*.stories.{ts,tsx}',
+  '**/*.figma.{ts,tsx}',
+  '**/*.test.{ts,tsx}',
+  '**/*.spec.{ts,tsx}',
+  'apps/**/*.{ts,tsx}',
+];
 
 export default defineConfig(
   ...nx.configs['flat/base'],
   ...nx.configs['flat/react'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
+  {
+    plugins: {
+      import: importPlugin,
+    },
+  },
   {
     ignores: [
       '**/dist',
@@ -17,7 +35,8 @@ export default defineConfig(
     ],
   },
   {
-    files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts,mdx}'],
+    name: 'all-files',
+    files: allFilePatterns,
     languageOptions: {
       parser: tsParser,
     },
@@ -93,16 +112,18 @@ export default defineConfig(
     },
   },
   {
-    files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts,mdx}'],
-    ignores: [
-      '**/*.test.{ts,tsx}',
-      '**/*.spec.{ts,tsx}',
-      '**/*.stories.{ts,tsx}',
-      '**/*.figma.{ts,tsx}',
-    ],
-    'import/no-extraneous-dependencies': [
-      'error',
-    ],
+    name: 'production-files',
+    files: prodFilePatterns,
+    ignores: devFilePatterns,
+    rules: {
+      'no-console': 'error',
+      'no-restricted-imports': 'error',
+      'import/no-extraneous-dependencies': ['error'],
+    },
+  },
+  {
+    name: 'development-files',
+    files: devFilePatterns,
   },
   eslintPluginPrettierRecommended,
   globalIgnores(['**/out-tsc']),
