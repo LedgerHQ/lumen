@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { createElement } from 'react';
 import { IconProps } from './types';
 
-const iconVariants = cva('inline-block', {
+const iconVariants = cva('inline-block shrink-0', {
   variants: {
     size: {
       12: 'icon-w-12 icon-h-12 icon-stroke-12',
