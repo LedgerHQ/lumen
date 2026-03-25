@@ -37,6 +37,24 @@ describe('MediaBanner', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
+  it('should not propagate close button click to parent', () => {
+    const handleClose = vi.fn();
+    const handleClick = vi.fn();
+    render(
+      <MediaBanner
+        imageUrl={IMAGE_URL}
+        onClose={handleClose}
+        onClick={handleClick}
+      >
+        <MediaBannerTitle>Title</MediaBannerTitle>
+      </MediaBanner>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(handleClick).not.toHaveBeenCalled();
+  });
+
   it('should not render close button when onClose is not provided', () => {
     render(
       <MediaBanner imageUrl={IMAGE_URL}>

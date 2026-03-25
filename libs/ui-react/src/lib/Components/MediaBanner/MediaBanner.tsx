@@ -62,7 +62,10 @@ export const MediaBanner = ({
           iconType='stroked'
           appearance='white'
           className='absolute top-8 right-8'
-          onClick={() => onClose()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
         >
           <Close size={16} />
