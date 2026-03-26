@@ -1,20 +1,15 @@
 import nx from '@nx/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-
-const allFilePatterns = ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'];
-const prodFilePatterns = ['libs/src/**/*.{ts,tsx,js,jsx,cjs,cts,mjs,mts}'];
-const devFilePatterns = [
-  'eslint.config.mjs',
-  '**/*.{ts,tsx}',
-  '**/*.stories.{ts,tsx}',
-  '**/*.figma.{ts,tsx}',
-  '**/*.test.{ts,tsx}',
-  '**/*.spec.{ts,tsx}',
-  'apps/**/*.{ts,tsx}',
-];
+import {
+  definedGlobalIgnores,
+  defineGlobalRules,
+  defineProdRules,
+  defineDevRules,
+} from './eslint.shared.mjs';
 
 export default defineConfig(
   ...nx.configs['flat/base'],
@@ -24,19 +19,10 @@ export default defineConfig(
   {
     plugins: {
       import: importPlugin,
+      'jsx-a11y': jsxA11y,
     },
   },
-  {
-    ignores: [
-      '**/dist',
-      '**/storybook-static',
-      '**/vite.config.*.timestamp*',
-      '**/vitest.config.*.timestamp*',
-    ],
-  },
-  {
-    name: 'all-files',
-    files: allFilePatterns,
+  defineGlobalRules({
     languageOptions: {
       parser: tsParser,
     },
@@ -77,6 +63,14 @@ export default defineConfig(
         },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+    },
+  }),
+  defineProdRules({
+    rules: {
+      ...jsxA11y.flatConfigs.strict.rules,
+      'no-console': 'error',
+      'no-restricted-imports': 'error',
+      'import/no-extraneous-dependencies': ['error'],
       /**
        * nx
        */
@@ -110,21 +104,12 @@ export default defineConfig(
         },
       ],
     },
-  },
-  {
-    name: 'production-files',
-    files: prodFilePatterns,
-    ignores: devFilePatterns,
+  }),
+  defineDevRules({
     rules: {
-      'no-console': 'error',
-      'no-restricted-imports': 'error',
-      'import/no-extraneous-dependencies': ['error'],
+      '@typescript-eslint/no-empty-function': 'off',
     },
-  },
-  {
-    name: 'development-files',
-    files: devFilePatterns,
-  },
+  }),
   eslintPluginPrettierRecommended,
-  globalIgnores(['**/out-tsc']),
+  definedGlobalIgnores,
 );

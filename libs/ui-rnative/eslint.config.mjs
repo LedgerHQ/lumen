@@ -1,7 +1,7 @@
 import storybook from 'eslint-plugin-storybook';
 
 import baseConfig from '../../eslint.config.mjs';
-
+import { defineProdRules } from '../../eslint.shared.mjs';
 export default [
   ...baseConfig,
   {
@@ -9,14 +9,9 @@ export default [
     plugins: {
       storybook,
     },
-    // Override or add rules here
+  },
+  defineProdRules({
     rules: {
-      'storybook/no-uninstalled-addons': [
-        'error',
-        {
-          packageJsonLocation: '../../package.json',
-        },
-      ],
       'no-restricted-imports': [
         'error',
         {
@@ -24,9 +19,14 @@ export default [
           importNames: ['TouchableOpacity'],
           message: 'Prefer `Pressable` instead of `TouchableOpacity`.',
         },
+        {
+          name: 'react-native',
+          importNames: ['Animated', 'Easing', 'LayoutAnimation'],
+          message: 'Prefer react-native-reanimated for animations.',
+        },
       ],
     },
-  },
+  }),
   {
     ignores: ['public', '.cache', 'node_modules'],
   },

@@ -43,13 +43,5 @@ export default [
       },
     },
   },
-  {
-    ignores: [
-      '**/*.figma.ts',
-      '**/*.figma.tsx',
-      '**/*.figma.js',
-      '**/*.figma.jsx',
-    ],
-  },
   ...storybook.configs['flat/recommended'],
 ];
