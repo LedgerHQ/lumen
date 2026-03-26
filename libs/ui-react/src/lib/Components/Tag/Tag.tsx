@@ -4,7 +4,7 @@ import { IconSize } from '../Icon/types';
 import { TagProps } from './types';
 
 const tagVariants = cva(
-  'inline-flex items-center justify-center gap-4 rounded-xs',
+  'inline-flex items-center justify-center gap-4 truncate rounded-xs',
   {
     variants: {
       appearance: {
@@ -63,7 +63,7 @@ export const Tag = ({
       {IconComponent && (
         <IconComponent size={calculatedIconSize} className='shrink-0' />
       )}
-      <span className='line-clamp-1'>{label}</span>
+      <span className='truncate'>{label}</span>
     </div>
   );
 };
