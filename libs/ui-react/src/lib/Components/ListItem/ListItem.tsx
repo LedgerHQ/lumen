@@ -175,7 +175,7 @@ export const ListItemTitle = ({
 ListItemTitle.displayName = 'ListItemTitle';
 
 /**
- * Optional description text below the title. Can include inline elements like Tag.
+ * Optional description text below the title.
  * Automatically applies disabled styling when the parent ListItem is disabled.
  */
 export const ListItemDescription = ({
