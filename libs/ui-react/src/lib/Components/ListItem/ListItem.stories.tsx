@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Settings, Wallet, ChevronRight } from '../../Symbols';
+import { Spot } from '../Spot/Spot';
 import { Switch } from '../Switch';
 import { Tag } from '../Tag/Tag';
 import {
@@ -10,9 +11,7 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
-  ListItemIcon,
-  ListItemTruncate,
+  ListItemContentRow,
 } from './ListItem';
 
 const meta: Meta<typeof ListItem> = {
@@ -24,11 +23,10 @@ const meta: Meta<typeof ListItem> = {
     ListItemTitle,
     ListItemDescription,
     ListItemTrailing,
-    ListItemSpot,
-    ListItemIcon,
-    ListItemTruncate,
+    ListItemContentRow,
   },
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',
@@ -54,7 +52,7 @@ export const Base: Story = {
   render: (args) => (
     <ListItem {...args}>
       <ListItemLeading>
-        <ListItemSpot appearance='icon' icon={Settings} />
+        <Spot appearance='icon' icon={Settings} />
         <ListItemContent>
           <ListItemTitle>Item with Icon and Description</ListItemTitle>
           <ListItemDescription>Additional information</ListItemDescription>
@@ -89,7 +87,7 @@ export const VariantsShowcase: Story = {
       <div className='flex max-w-320 flex-col gap-4'>
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Settings} />
+            <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>Simple composition</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
@@ -99,7 +97,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem onClick={() => setSelected(!selected)}>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
               <ListItemTitle>Switch Variant</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
@@ -112,7 +110,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
               <ListItemTitle>Content Variant</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
@@ -128,7 +126,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
               <ListItemTitle>Content Variant</ListItemTitle>
               <ListItemDescription>Custom style</ListItemDescription>
@@ -146,7 +144,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
               <ListItemTitle>Content Variant</ListItemTitle>
               <ListItemDescription>Custom style</ListItemDescription>
@@ -164,7 +162,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Settings} />
+            <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>Content Variant</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
@@ -177,7 +175,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Settings} />
+            <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>Tag Variant</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
@@ -190,42 +188,42 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Settings} />
+            <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>Icon Variant</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon className='text-muted' icon={ChevronRight} />
+            <ChevronRight size={24} className='text-muted' />
           </ListItemTrailing>
         </ListItem>
 
         <ListItem>
           <ListItemLeading>
-            <ListItemIcon icon={Wallet} />
+            <Wallet size={24} />
             <ListItemContent>
               <ListItemTitle>Icon without Spot</ListItemTitle>
-              <ListItemDescription>Using ListItemIcon</ListItemDescription>
+              <ListItemDescription>With icon</ListItemDescription>
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon className='text-muted' icon={ChevronRight} />
+            <ChevronRight size={24} className='text-muted' />
           </ListItemTrailing>
         </ListItem>
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
-              <ListItemTitle className='flex gap-6'>
-                <ListItemTruncate>Complex 1</ListItemTruncate>
+              <ListItemContentRow>
+                <ListItemTitle>Complex 1</ListItemTitle>
                 <Tag size='sm' label='New' appearance='base' />
-              </ListItemTitle>
-              <ListItemDescription className='flex gap-6'>
-                <ListItemTruncate>With description</ListItemTruncate>
+              </ListItemContentRow>
+              <ListItemContentRow>
+                <ListItemDescription>With description</ListItemDescription>
                 <Tag size='sm' label='Custom Tag' appearance='gray' />
-              </ListItemDescription>
+              </ListItemContentRow>
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
@@ -238,7 +236,7 @@ export const VariantsShowcase: Story = {
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
               <ListItemTitle>Complex 2</ListItemTitle>
               <ListItemDescription>With description</ListItemDescription>
@@ -246,13 +244,13 @@ export const VariantsShowcase: Story = {
           </ListItemLeading>
           <ListItemTrailing>
             <ListItemContent>
-              <ListItemTitle className='flex gap-6'>
+              <ListItemContentRow>
                 <Tag size='sm' label='New' appearance='base' />
-                <ListItemTruncate>1200.12</ListItemTruncate>
-              </ListItemTitle>
-              <ListItemDescription className='flex gap-6'>
+                <ListItemTitle>1200.12</ListItemTitle>
+              </ListItemContentRow>
+              <ListItemContentRow>
                 <Tag size='sm' label='BTC' appearance='gray' />
-              </ListItemDescription>
+              </ListItemContentRow>
             </ListItemContent>
           </ListItemTrailing>
         </ListItem>
@@ -269,7 +267,7 @@ export const DisabledState: Story = {
     <div className='flex w-320 flex-col gap-4'>
       <ListItem {...args}>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={Settings} />
+          <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Disabled Item</ListItemTitle>
             <ListItemDescription>This item is disabled</ListItemDescription>
@@ -282,20 +280,20 @@ export const DisabledState: Story = {
 
       <ListItem {...args}>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={Settings} />
+          <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Disabled Item</ListItemTitle>
             <ListItemDescription>This item is disabled</ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
-          <ListItemIcon className='text-disabled' icon={ChevronRight} />
+          <ChevronRight size={24} className='text-disabled' />
         </ListItemTrailing>
       </ListItem>
 
       <ListItem {...args}>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={Wallet} />
+          <Spot size={48} appearance='icon' icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -311,7 +309,7 @@ export const DisabledState: Story = {
 
       <ListItem {...args}>
         <ListItemLeading>
-          <ListItemIcon icon={Wallet} />
+          <Wallet size={24} />
           <ListItemContent>
             <ListItemTitle>Icon without Spot</ListItemTitle>
             <ListItemDescription>Using ListItemIcon</ListItemDescription>
@@ -329,20 +327,20 @@ export const ResponsiveLayout: Story = {
       <div>
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Settings} />
+            <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>Short Title</ListItemTitle>
               <ListItemDescription>Short description</ListItemDescription>
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon className='text-muted' icon={ChevronRight} />
+            <ChevronRight size={24} className='text-muted' />
           </ListItemTrailing>
         </ListItem>
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Settings} />
+            <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>
                 Long Title that should truncate appropriately
@@ -354,27 +352,27 @@ export const ResponsiveLayout: Story = {
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
-            <ListItemIcon className='text-muted' icon={ChevronRight} />
+            <ChevronRight size={24} className='text-muted' />
           </ListItemTrailing>
         </ListItem>
 
         <ListItem>
           <ListItemLeading>
-            <ListItemSpot appearance='icon' icon={Wallet} />
+            <Spot size={48} appearance='icon' icon={Wallet} />
             <ListItemContent>
-              <ListItemTitle className='flex gap-6'>
-                <ListItemTruncate>
+              <ListItemContentRow>
+                <ListItemTitle>
                   Long Title that should truncate appropriately
-                </ListItemTruncate>
+                </ListItemTitle>
                 <Tag size='sm' label='New' appearance='base' />
-              </ListItemTitle>
-              <ListItemDescription className='flex gap-6'>
-                <ListItemTruncate>
+              </ListItemContentRow>
+              <ListItemContentRow>
+                <ListItemDescription>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Quisquam, quos.
-                </ListItemTruncate>
+                </ListItemDescription>
                 <Tag size='sm' label='Custom Tag' appearance='gray' />
-              </ListItemDescription>
+              </ListItemContentRow>
             </ListItemContent>
           </ListItemLeading>
           <ListItemTrailing>
