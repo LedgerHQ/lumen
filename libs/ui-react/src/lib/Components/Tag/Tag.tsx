@@ -60,9 +60,7 @@ export const Tag = ({
       ref={ref}
       {...props}
     >
-      {IconComponent && (
-        <IconComponent size={calculatedIconSize} className='shrink-0' />
-      )}
+      {IconComponent && <IconComponent size={calculatedIconSize} />}
       <span>{label}</span>
     </div>
   );

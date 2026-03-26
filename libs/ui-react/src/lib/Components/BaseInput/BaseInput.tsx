@@ -230,7 +230,7 @@ export const BaseInput = ({
           className='mt-8 flex items-center gap-2 body-3 text-error'
           role='alert'
         >
-          <DeleteCircleFill size={16} className='shrink-0 text-error' />
+          <DeleteCircleFill size={16} className='text-error' />
           <span>{errorMessage}</span>
         </div>
       )}
