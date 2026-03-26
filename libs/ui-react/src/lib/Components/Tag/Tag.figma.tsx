@@ -1,8 +1,7 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { Tag } from './Tag';
 import { TagProps } from './types';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Tag,
@@ -27,11 +26,13 @@ figma.connect(
       icon: figma.instance('icon'),
       disabled: figma.enum('appearance', {
         disabled: true,
-      })
+      }),
     },
-    example: (props: Omit<TagProps, 'icon'> & {
-      icon: any,
-    }) => (
+    example: (
+      props: Omit<TagProps, 'icon'> & {
+        icon: any;
+      },
+    ) => (
       <Tag
         disabled={props.disabled}
         label={props.label}

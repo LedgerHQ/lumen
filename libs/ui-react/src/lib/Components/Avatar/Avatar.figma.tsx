@@ -1,7 +1,6 @@
-import React from "react";
-import { Avatar } from './Avatar'
-
 import figma from '@figma/code-connect';
+import React from 'react';
+import { Avatar } from './Avatar';
 
 figma.connect(
   Avatar,
@@ -20,7 +19,13 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <Avatar src="https://example-image.com" size={props.size} alt="John Doe's Avatar" imgLoading="eager" showNotification={props.showNotification} />
-    )
-  }
-)
+      <Avatar
+        src='https://example-image.com'
+        size={props.size}
+        alt="John Doe's Avatar"
+        imgLoading='eager'
+        showNotification={props.showNotification}
+      />
+    ),
+  },
+);

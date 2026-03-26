@@ -1,8 +1,7 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { CardButton } from './CardButton';
 import { CardButtonProps } from './types';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   CardButton,
@@ -33,7 +32,7 @@ figma.connect(
     },
     example: (
       props: Omit<CardButtonProps, 'icon'> & {
-        icon?: any,
+        icon?: any;
       },
     ) => (
       <CardButton

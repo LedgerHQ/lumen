@@ -1,8 +1,7 @@
-import React from 'react';
-import { MediaCard, MediaCardTitle } from './MediaCard';
-import { Tag } from '../Tag/Tag';
-
 import figma from '@figma/code-connect';
+import React from 'react';
+import { Tag } from '../Tag/Tag';
+import { MediaCard, MediaCardTitle } from './MediaCard';
 
 figma.connect(
   MediaCard,
@@ -20,11 +19,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <MediaCard
-        imageUrl='/image.jpg'
-        onClick={() => {}}
-        onClose={() => {}}
-      >
+      <MediaCard imageUrl='/image.jpg' onClick={() => {}} onClose={() => {}}>
         {props.tag}
         <MediaCardTitle>{props.title}</MediaCardTitle>
       </MediaCard>

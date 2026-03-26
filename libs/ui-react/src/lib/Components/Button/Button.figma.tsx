@@ -1,8 +1,7 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { Button } from './Button';
 import { ButtonProps } from './types';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Button,
@@ -33,7 +32,7 @@ figma.connect(
         lg: 'lg',
       }),
       className: figma.enum('width', {
-        'min-width': 'min-w-128'
+        'min-width': 'min-w-128',
       }),
       children: figma.string('label'),
       icon: figma.instance('icon'),

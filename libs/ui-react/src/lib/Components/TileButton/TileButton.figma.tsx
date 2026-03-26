@@ -1,8 +1,7 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { TileButton } from './TileButton';
 import { TileButtonProps } from './types';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   TileButton,

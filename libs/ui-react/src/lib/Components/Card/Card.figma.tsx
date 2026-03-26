@@ -1,4 +1,10 @@
+import figma from '@figma/code-connect';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import React from 'react';
+import { ChevronRight, Wallet } from '../../Symbols';
+import { Button } from '../Button/Button';
+import { Spot } from '../Spot/Spot';
+import { Tag } from '../Tag/Tag';
 import {
   Card,
   CardHeader,
@@ -6,23 +12,14 @@ import {
   CardContent,
   CardContentTitle,
   CardContentDescription,
-  CardTrailing
+  CardTrailing,
 } from './Card';
-import { Button } from '../Button/Button';
-import { Tag } from '../Tag/Tag';
-import { Spot } from '../Spot/Spot';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import { ChevronRight, Wallet } from '../../Symbols';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Card,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11025-33000',
   {
-    imports: [
-      "import { Card, CardFooter } from '@ledgerhq/lumen-ui-react'",
-    ],
+    imports: ["import { Card, CardFooter } from '@ledgerhq/lumen-ui-react'"],
     props: {
       outlined: figma.boolean('is-selected', {
         true: true,
@@ -69,7 +66,14 @@ figma.connect(
       leading: figma.enum('leading', {
         spot: <Spot appearance='icon' icon={Wallet} />,
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
-        provider: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='48px' overridesRadius='16px' />,
+        provider: (
+          <CryptoIcon
+            ledgerId='ethereum'
+            ticker='ETH'
+            size='48px'
+            overridesRadius='16px'
+          />
+        ),
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
@@ -118,9 +122,7 @@ figma.connect(
 figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=14481-33979',
   {
-    imports: [
-      "import { Card } from '@ledgerhq/lumen-ui-react'",
-    ],
+    imports: ["import { Card } from '@ledgerhq/lumen-ui-react'"],
     props: {
       title: figma.string('title'),
       description: figma.string('value'),
@@ -137,7 +139,9 @@ figma.connect(
         <CardHeader>
           <CardLeading>
             <CardContent>
-              <CardContentDescription>{props.description}</CardContentDescription>
+              <CardContentDescription>
+                {props.description}
+              </CardContentDescription>
               <CardContentTitle>{props.title}</CardContentTitle>
             </CardContent>
           </CardLeading>

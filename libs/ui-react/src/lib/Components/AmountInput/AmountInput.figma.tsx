@@ -1,6 +1,6 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { AmountInput } from './AmountInput';
-import figma from '@figma/code-connect';
 
 figma.connect(
   AmountInput,
@@ -63,7 +63,7 @@ figma.connect(
         value={props.value}
         onChange={() => {}}
         currencyText={props.currencyText}
-        currencyPosition="right"
+        currencyPosition='right'
       />
     ),
   },

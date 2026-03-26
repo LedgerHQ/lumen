@@ -1,7 +1,6 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { Checkbox } from './Checkbox';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Checkbox,
@@ -16,7 +15,7 @@ figma.connect(
           disabled: true,
         }),
       }),
-      label: figma.string('label')
+      label: figma.string('label'),
     },
     example: (props) => (
       <>
@@ -24,11 +23,11 @@ figma.connect(
           id='checkbox-id'
           name='checkbox-name'
           checked={props.checkbox.checked}
-          onCheckedChange={(checked: boolean) => {}}
+          onCheckedChange={(_checked: boolean) => {}}
           defaultChecked={false}
           disabled={props.checkbox.disabled}
         />
-        <label htmlFor="checkbox-id" className="cursor-pointer body-2">
+        <label htmlFor='checkbox-id' className='cursor-pointer body-2'>
           {props.label}
         </label>
       </>
@@ -55,7 +54,7 @@ figma.connect(
         id='checkbox-id'
         name='checkbox-name'
         checked={props.checkbox.checked}
-        onCheckedChange={(checked: boolean) => {}}
+        onCheckedChange={(_checked: boolean) => {}}
         defaultChecked={false}
         disabled={props.checkbox.disabled}
       />

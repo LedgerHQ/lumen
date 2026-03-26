@@ -1,4 +1,11 @@
+import figma from '@figma/code-connect';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import React from 'react';
+import { MoreVertical, Settings } from '../../Symbols';
+
+import { Placeholder } from '../../Symbols/Icons/Placeholder';
+import { Spot } from '../Spot';
+import { Tag } from '../Tag';
 import {
   Tile,
   TileContent,
@@ -7,13 +14,6 @@ import {
   TileSecondaryAction,
   TileTrailingContent,
 } from './Tile';
-import { Tag } from '../Tag';
-import { MoreVertical, Settings } from '../../Symbols';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
-
-import figma from '@figma/code-connect';
-import { Spot } from '../Spot';
-import { Placeholder } from '../../Symbols/Icons/Placeholder';
 
 // —— no additional content ——
 figma.connect(
@@ -52,10 +52,7 @@ figma.connect(
         disabled={props.disabled}
         onClick={() => {}}
       >
-        <TileSecondaryAction
-          icon={MoreVertical}
-          onClick={() => {}}
-        />
+        <TileSecondaryAction icon={MoreVertical} onClick={() => {}} />
         <Spot appearance='icon' icon={Settings} />
         {props.leadingContent}
         <TileContent>
@@ -116,10 +113,7 @@ figma.connect(
         disabled={props.disabled}
         onClick={() => {}}
       >
-        <TileSecondaryAction
-          icon={MoreVertical}
-          onClick={() => {}}
-        />
+        <TileSecondaryAction icon={MoreVertical} onClick={() => {}} />
         {props.leadingContent}
         <TileContent>
           <TileTitle>{props.title}</TileTitle>

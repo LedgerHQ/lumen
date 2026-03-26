@@ -1,8 +1,7 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import { IconButton } from './IconButton';
 import { IconButtonProps } from './types';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   IconButton,

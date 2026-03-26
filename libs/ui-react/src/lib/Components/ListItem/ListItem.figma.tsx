@@ -1,4 +1,11 @@
+import figma from '@figma/code-connect';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import React from 'react';
+import { Placeholder } from '../../Symbols/Icons/Placeholder';
+import { Settings } from '../../Symbols/Icons/Settings';
+import { Checkbox } from '../Checkbox';
+import { Switch } from '../Switch';
+import { Tag } from '../Tag';
 import {
   ListItem,
   ListItemLeading,
@@ -8,14 +15,9 @@ import {
   ListItemDescription,
   ListItemTrailing,
 } from './ListItem';
-import { Tag } from '../Tag';
-import { Switch } from '../Switch';
-import { Checkbox } from '../Checkbox';
 import { Button } from '../Button';
-import { Settings, ChevronRight, Placeholder } from '../../Symbols';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import { ChevronRight } from '../../Symbols';
 import { Spot } from '../Spot';
-import figma from '@figma/code-connect';
 
 // —— trailing-content: none ——
 figma.connect(

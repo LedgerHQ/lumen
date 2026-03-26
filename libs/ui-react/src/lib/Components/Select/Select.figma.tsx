@@ -1,3 +1,4 @@
+import figma from '@figma/code-connect';
 import React from 'react';
 import {
   Select,
@@ -6,8 +7,6 @@ import {
   SelectItemText,
   SelectTrigger,
 } from './Select';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Select,
@@ -23,8 +22,8 @@ figma.connect(
         value: figma.string('input-value'),
         disabled: figma.enum('state', {
           disabled: true,
-        })
-      })
+        }),
+      }),
     },
     example: (props) => (
       <Select

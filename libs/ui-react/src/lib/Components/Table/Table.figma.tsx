@@ -1,3 +1,5 @@
+import figma from '@figma/code-connect';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import React from 'react';
 import {
   TableRoot,
@@ -9,11 +11,8 @@ import {
   TableRow,
   TableCell,
   TableCellContent,
-  TableSortButton
+  TableSortButton,
 } from './Table';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   TableRoot,
@@ -36,10 +35,7 @@ figma.connect(
           <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>
-                <TableSortButton
-                  sortDirection='asc'
-                  onToggleSort={() => {}}
-                >
+                <TableSortButton sortDirection='asc' onToggleSort={() => {}}>
                   Name
                 </TableSortButton>
               </TableHeaderCell>
