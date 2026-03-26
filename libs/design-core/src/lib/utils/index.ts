@@ -3,7 +3,3 @@ export * from './createScreensPlugin.js';
 export * from './createMaskPlugin.js';
 export * from './createAnimationsPlugin.js';
 export * from './createPrimitivesPlugin.js';
-export * from './createShadowPlugin.js';
-export * from './createScrollbarPlugin.js';
-export * from './createThemePlugin.js';
-export * from './createTypographyPlugin.js';
