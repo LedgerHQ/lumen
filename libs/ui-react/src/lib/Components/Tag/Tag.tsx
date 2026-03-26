@@ -63,7 +63,7 @@ export const Tag = ({
       {IconComponent && (
         <IconComponent size={calculatedIconSize} className='shrink-0' />
       )}
-      <span>{label}</span>
+      <span className='line-clamp-1'>{label}</span>
     </div>
   );
 };

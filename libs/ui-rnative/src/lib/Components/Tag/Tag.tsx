@@ -155,7 +155,9 @@ export const Tag = ({
       {...props}
     >
       {IconComponent && <IconComponent size={iconSize} style={styles.icon} />}
-      <Text style={styles.text}>{label}</Text>
+      <Text style={styles.text} numberOfLines={1}>
+        {label}
+      </Text>
     </Box>
   );
 };
