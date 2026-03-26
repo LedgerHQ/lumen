@@ -110,7 +110,7 @@ describe('LumenStyleSheetProvider', () => {
     // Suppress console.error for this test
     const consoleErrorSpy = jest
       .spyOn(console, 'error')
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
+
       .mockImplementation(() => {});
 
     expect(() => {

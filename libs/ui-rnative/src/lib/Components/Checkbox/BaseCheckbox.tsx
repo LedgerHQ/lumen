@@ -125,7 +125,7 @@ const BaseCheckboxIndicator = ({
       style={styles.indicator}
       aria-disabled={disabled}
       aria-hidden={!(forceMount || checked)}
-      role={'presentation'}
+      role='checkbox'
       {...props}
     />
   );
