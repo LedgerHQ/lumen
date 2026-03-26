@@ -29,7 +29,7 @@ const SizeShowcase = () => (
           >
             <div
               className={`${token} flex items-center justify-center rounded-xs bg-accent text-white`}
-            ></div>
+            />
             <div className='space-y-1 text-center'>
               <div className='text-left body-3 text-muted'>{token}</div>
               <div className='text-left body-4 text-muted'>{value}px</div>

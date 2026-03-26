@@ -213,7 +213,7 @@ export const DefaultTailwindAnimations: Story = {
             </div>
             <div className='flex h-80 w-144 items-center justify-center rounded-sm border border-muted-subtle'>
               <div className='relative size-24'>
-                <div className='absolute inset-0 animate-spin bg-accent'></div>
+                <div className='absolute inset-0 animate-spin bg-accent' />
               </div>
             </div>
           </div>
@@ -226,8 +226,8 @@ export const DefaultTailwindAnimations: Story = {
             </div>
             <div className='flex h-80 w-144 items-center justify-center rounded-sm border border-muted-subtle'>
               <div className='relative size-24'>
-                <div className='absolute inset-0 animate-ping bg-accent'></div>
-                <div className='relative size-full bg-accent'></div>
+                <div className='absolute inset-0 animate-ping bg-accent' />
+                <div className='relative size-full bg-accent' />
               </div>
             </div>
           </div>
@@ -240,7 +240,7 @@ export const DefaultTailwindAnimations: Story = {
             </div>
             <div className='flex h-80 w-144 items-center justify-center rounded-sm border border-muted-subtle'>
               <div className='relative size-24'>
-                <div className='absolute inset-0 animate-pulse bg-accent'></div>
+                <div className='absolute inset-0 animate-pulse bg-accent' />
               </div>
             </div>
           </div>
@@ -253,7 +253,7 @@ export const DefaultTailwindAnimations: Story = {
             </div>
             <div className='flex h-80 w-144 items-center justify-center rounded-sm border border-muted-subtle'>
               <div className='relative size-24'>
-                <div className='absolute inset-0 animate-bounce bg-accent'></div>
+                <div className='absolute inset-0 animate-bounce bg-accent' />
               </div>
             </div>
           </div>

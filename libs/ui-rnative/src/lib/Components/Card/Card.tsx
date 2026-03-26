@@ -13,7 +13,8 @@ import Animated, {
 import { useStyleSheet } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { ChevronDown, ChevronUp } from '../../Symbols';
-import { Box, Pressable, Text } from '../Utility';
+import { Box, Text, Pressable } from '../Utility';
+
 import {
   CardContentAlignContextValue,
   CardContentDescriptionProps,

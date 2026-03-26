@@ -28,6 +28,10 @@ export default defineConfig(
     },
     rules: {
       /**
+       * React
+       */
+      'react/self-closing-comp': ['error', { component: true, html: true }],
+      /**
        * import
        */
       'import/no-unused-modules': 'error',
@@ -50,7 +54,6 @@ export default defineConfig(
       /**
        * typescript
        */
-      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -63,6 +66,32 @@ export default defineConfig(
         },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      /**
+       * Others
+       */
+      'no-unused-vars': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['forwardRef'],
+              message: 'Use ref as a regular prop instead (React 19 pattern).',
+            },
+            {
+              name: 'react-native',
+              importNames: ['TouchableOpacity'],
+              message: 'Prefer usage of `Pressable`.',
+            },
+            {
+              name: 'react-native',
+              importNames: ['Animated', 'Easing', 'LayoutAnimation'],
+              message: 'Prefer react-native-reanimated for animations.',
+            },
+          ],
+        },
+      ],
     },
   }),
   defineProdRules({

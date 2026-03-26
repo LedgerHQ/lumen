@@ -10,23 +10,7 @@ export default [
       storybook,
     },
   },
-  defineProdRules({
-    rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-          name: 'react-native',
-          importNames: ['TouchableOpacity'],
-          message: 'Prefer `Pressable` instead of `TouchableOpacity`.',
-        },
-        {
-          name: 'react-native',
-          importNames: ['Animated', 'Easing', 'LayoutAnimation'],
-          message: 'Prefer react-native-reanimated for animations.',
-        },
-      ],
-    },
-  }),
+  defineProdRules({}),
   {
     ignores: ['public', '.cache', 'node_modules'],
   },

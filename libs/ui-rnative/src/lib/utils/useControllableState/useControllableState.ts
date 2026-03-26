@@ -1,13 +1,11 @@
-import * as React from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { startTransition } from '../startTransition';
 import { useEvent } from '../useEvent';
 
 // can configure to allow most-recent-wins or prop-wins
 // defaults to prop-wins
 
-type ChangeCb<T> =
-  | ((next: T) => void)
-  | React.Dispatch<React.SetStateAction<T>>;
+type ChangeCb<T> = ((next: T) => void) | Dispatch<SetStateAction<T>>;
 
 const emptyCallbackFn = (_: any) => _();
 
@@ -27,16 +25,16 @@ export function useControllableState<T>({
   onChange?: ChangeCb<T>;
   strategy?: 'prop-wins' | 'most-recent-wins';
   transition?: boolean;
-}): [T, React.Dispatch<React.SetStateAction<T>>] {
-  const [state, setState] = React.useState(prop ?? defaultProp);
-  const previous = React.useRef<any>(state);
+}): [T, Dispatch<SetStateAction<T>>] {
+  const [state, setState] = useState(prop ?? defaultProp);
+  const previous = useRef<any>(state);
   const propWins = strategy === 'prop-wins' && prop !== undefined;
   const value = propWins ? prop : state;
   const onChangeCb = useEvent(onChange || idFn);
 
   const transitionFn = transition ? startTransition : emptyCallbackFn;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (prop === undefined) return;
     previous.current = prop;
     transitionFn(() => {
@@ -44,7 +42,7 @@ export function useControllableState<T>({
     });
   }, [prop]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (propWins) return;
     if (state !== previous.current) {
       previous.current = state;
