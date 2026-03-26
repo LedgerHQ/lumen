@@ -3,7 +3,7 @@ import { globalIgnores } from 'eslint/config';
 
 const extensions = '{js,jsx,ts,tsx,cjs,cts,mjs,mts}';
 const allFilePatterns = [`**/*.${extensions}`];
-const prodFilePatterns = [`libs/src/**/*.${extensions}`];
+const prodFilePatterns = [`libs/**/src/**/*.${extensions}`];
 
 const devFilePatterns = [
   /** configs & tooling */
