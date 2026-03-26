@@ -7,7 +7,6 @@ import {
   ListItemContent,
   ListItemDescription,
   ListItemLeading,
-  ListItemSpot,
   ListItemTitle,
 } from '../ListItem';
 import { SearchInput } from '../SearchInput';
@@ -256,7 +255,7 @@ export const HeightLayouts: Story = {
                 {Array.from({ length: 10 }).map((_, i) => (
                   <ListItem>
                     <ListItemLeading>
-                      <ListItemSpot appearance='icon' icon={Chart1} />
+                      <Spot appearance='icon' icon={Chart1} />
                       <ListItemContent>
                         <ListItemTitle>Content item</ListItemTitle>
                         <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -582,7 +581,7 @@ export const WithListsContent: Story = {
                 {Array.from({ length: 12 }).map((_, i) => (
                   <ListItem>
                     <ListItemLeading>
-                      <ListItemSpot appearance='icon' icon={Chart1} />
+                      <Spot appearance='icon' icon={Chart1} />
                       <ListItemContent>
                         <ListItemTitle>Content item</ListItemTitle>
                         <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -619,7 +618,7 @@ export const WithStickyBodyContent: Story = {
             {Array.from({ length: 12 }).map((_, i) => (
               <ListItem key={i}>
                 <ListItemLeading>
-                  <ListItemSpot appearance='icon' icon={Chart1} />
+                  <Spot appearance='icon' icon={Chart1} />
                   <ListItemContent>
                     <ListItemTitle>Content item</ListItemTitle>
                     <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -651,7 +650,7 @@ export const WithScrollbar: Story = {
             {Array.from({ length: 10 }).map((_, i) => (
               <ListItem key={i}>
                 <ListItemLeading>
-                  <ListItemSpot appearance='icon' icon={Chart1} />
+                  <Spot appearance='icon' icon={Chart1} />
                   <ListItemContent>
                     <ListItemTitle>Content item</ListItemTitle>
                     <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>

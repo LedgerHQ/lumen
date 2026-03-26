@@ -312,7 +312,7 @@ export const DisabledState: Story = {
           <Wallet size={24} />
           <ListItemContent>
             <ListItemTitle>Icon without Spot</ListItemTitle>
-            <ListItemDescription>Using ListItemIcon</ListItemDescription>
+            <ListItemDescription>Using interface icon</ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
       </ListItem>
