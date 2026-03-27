@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-feat(ui-react): add hug layout for SegmentedControl
+BREAKING_CHANGE(ui-react): add hug layout for SegmentedControl
