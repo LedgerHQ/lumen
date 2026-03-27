@@ -9,7 +9,7 @@ import {
 } from './types';
 
 const tooltipContentVariants = cva(
-  'z-tooltip w-fit rounded-xs bg-interactive px-8 py-4 body-3 text-balance text-on-interactive select-none',
+  'z-tooltip w-fit rounded-xs bg-interactive px-8 py-4 body-3 text-on-interactive select-none',
   {
     variants: {
       side: {

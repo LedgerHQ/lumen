@@ -1,0 +1,223 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PopoverStories from './Popover.stories';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Containment/Popover' of={PopoverStories} />
+
+# 💬 Popover
+
+<CustomTabs>
+  <Tab label='Overview'>
+
+## Introduction
+
+The Popover component displays rich content in a floating panel anchored to a trigger element. It supports positioning, optional backdrop overlays, and both controlled and uncontrolled modes.
+
+Built on top of [Base UI Popover](https://base-ui.com/react/components/popover) primitives, it provides accessible focus management, keyboard interactions, and automatic collision detection.
+
+## Anatomy
+
+- **Trigger**: The element that toggles the popover open/closed
+- **Content**: The floating panel containing the popover body
+- **Overlay** (optional): A backdrop that blocks outside interactions when enabled
+
+## Properties
+
+### Overview
+
+<Canvas of={PopoverStories.Base} />
+<Controls of={PopoverStories.Base} />
+
+### Width
+
+The popover content width can be configured:
+
+- `hug` (default): Content-fit width
+- `fixed`: Fixed 400px width
+
+You can also apply a custom width via `className` on `PopoverContent` when using `hug`.
+
+<Canvas of={PopoverStories.WidthShowcase} />
+
+### Position
+
+Position the popover on any side of the trigger with the `side` prop, and align it with the `align` prop. The popover automatically repositions to avoid viewport collisions.
+
+<Canvas of={PopoverStories.PositionShowcase} />
+
+Available sides: `top`, `bottom` (default), `left`, `right`
+
+Available alignments: `start` (default), `center`, `end`
+
+### Overlay
+
+When `overlay` is `true`, a backdrop is rendered and the popover enters modal mode, blocking scrolling and pointer events on elements behind it.
+
+<Canvas of={PopoverStories.WithOverlay} />
+
+### Controlled State
+
+Use `open` and `onOpenChange` to control the popover state externally:
+
+<Canvas of={PopoverStories.WithControlledState} />
+
+### Detached Trigger
+
+Use `createPopoverHandle` to connect triggers that live outside the `Popover` tree. Each trigger can pass a typed `payload` that the popover receives via a render function:
+
+<Canvas of={PopoverStories.WithDetachedTrigger} />
+
+## Responsive Behavior
+
+- The popover automatically repositions itself to stay within the viewport
+- Content width adapts to its children in `hug` mode, or stays fixed at 400px in `fixed` mode
+- Use `className` on `PopoverContent` for custom responsive widths
+
+## Accessibility
+
+- **Keyboard Navigation**: Escape closes the popover, Tab moves focus within the content
+- **Focus Management**: Focus is trapped inside the popover in modal (overlay) mode
+- **Screen Reader Support**: Proper ARIA attributes via Base UI primitives
+- **Backdrop**: When `overlay` is enabled, outside elements are inert
+
+### Keyboard Shortcuts
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Key</th>
+        <th className='p-12 text-left text-on-accent body-2'>Action</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Space / Enter</td>
+        <td className='p-12 text-muted'>Toggles the popover open/closed</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Esc</td>
+        <td className='p-12 text-muted'>Closes the popover</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>Tab</td>
+        <td className='p-12 text-muted'>Moves focus within the popover content</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</Tab>
+
+<Tab label='Implementation'>
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react @base-ui/react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button appearance='gray'>Open Popover</Button>} />
+      <PopoverContent>
+        <p>Popover content goes here.</p>
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use PopoverTrigger for the trigger'
+      description='Wrap your trigger element with PopoverTrigger for proper behavior'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Popover>
+  <PopoverTrigger render={<Button appearance='gray'>Open Popover</Button>} />
+  <PopoverContent>...</PopoverContent>
+</Popover>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't manually toggle the popover"
+      description='Avoid using onClick handlers to manually toggle open state when a simple trigger suffices'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Popover open={open}>
+  <Button onClick={() => setOpen(!open)}>
+    Open
+  </Button>
+  <PopoverContent>...</PopoverContent>
+</Popover>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use overlay for blocking interactions'
+      description='Enable overlay when the popover should block the rest of the page'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<Popover overlay>
+  <PopoverTrigger render={<Button appearance='gray'>Open Popover</Button>} />
+  <PopoverContent>...</PopoverContent>
+</Popover>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't create custom overlays"
+      description='Use the built-in overlay prop instead of adding your own backdrop'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<div className='fixed inset-0 bg-black/50' />
+<Popover>
+  <PopoverTrigger render={<Button appearance='gray'>Open Popover</Button>} />
+  <PopoverContent>...</PopoverContent>
+</Popover>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+</div>
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>
