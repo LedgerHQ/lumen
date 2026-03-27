@@ -14,31 +14,6 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
-  argTypes: {
-    onSelectedChange: {
-      action: 'change',
-    },
-    disabled: {
-      control: 'boolean',
-    },
-    appearance: {
-      options: ['background', 'no-background'],
-      control: 'radio',
-    },
-    tabLayout: {
-      options: ['hug', 'fixed'],
-      control: 'radio',
-    },
-    accessibilityLabel: {
-      control: 'text',
-    },
-    selectedValue: {
-      control: 'text',
-    },
-    children: {
-      control: false,
-    },
-  },
   args: {
     appearance: 'background',
     tabLayout: 'hug',
