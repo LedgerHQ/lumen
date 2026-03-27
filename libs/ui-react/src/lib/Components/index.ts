@@ -20,6 +20,7 @@ export * from './MediaBanner';
 export * from './MediaCard';
 export * from './Menu';
 export * from './NavBar';
+export * from './Popover';
 export * from './PageIndicator';
 export * from './SearchInput';
 export * from './SegmentedControl';
