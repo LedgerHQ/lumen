@@ -76,7 +76,7 @@ export const CardButton = ({
       disabled={disabled}
       {...props}
     >
-      {IconComponent && <IconComponent size={24} className='shrink-0' />}
+      {IconComponent && <IconComponent size={24} />}
       <div className='flex min-w-0 flex-1 flex-col gap-4 text-left'>
         <div className='min-w-0 truncate body-2-semi-bold'>{title}</div>
         {description && (
@@ -88,7 +88,7 @@ export const CardButton = ({
       {!hideChevron && (
         <ChevronRight
           size={24}
-          className='shrink-0 text-muted group-disabled:text-disabled'
+          className='text-muted group-disabled:text-disabled'
         />
       )}
     </button>

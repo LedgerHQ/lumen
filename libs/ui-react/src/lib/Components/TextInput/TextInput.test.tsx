@@ -117,7 +117,7 @@ describe('Input Component', () => {
     const messageElement = screen.getByText(errorMessage);
     expect(messageElement).toBeInTheDocument();
 
-    const errorIcon = document.querySelector('.text-error.shrink-0');
+    const errorIcon = document.querySelector('svg.text-error');
     expect(errorIcon).toBeInTheDocument();
   });
 

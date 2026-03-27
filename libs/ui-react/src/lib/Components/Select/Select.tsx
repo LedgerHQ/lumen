@@ -101,7 +101,7 @@ const SelectInputTrigger = ({
     <SelectPrimitive.Icon asChild>
       <ChevronDown
         size={20}
-        className='shrink-0 text-muted group-data-disabled:text-disabled'
+        className='text-muted group-data-disabled:text-disabled'
       />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
@@ -235,7 +235,7 @@ const SelectItem = ({
     {children}
     <span className='absolute right-8 flex size-24 items-center justify-center'>
       <SelectPrimitive.ItemIndicator>
-        <Check size={24} className='ms-8 shrink-0 text-active' />
+        <Check size={24} className='ms-8 text-active' />
       </SelectPrimitive.ItemIndicator>
     </span>
   </SelectPrimitive.Item>
