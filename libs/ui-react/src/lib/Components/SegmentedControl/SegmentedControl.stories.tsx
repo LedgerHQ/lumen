@@ -13,6 +13,13 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
+  decorators: [
+    (Story) => (
+      <div className='flex w-320 justify-center'>
+        <Story />
+      </div>
+    ),
+  ],
   args: {
     appearance: 'background',
     tabLayout: 'hug',
@@ -76,7 +83,7 @@ export const TabLayoutShowcase: Story = {
     const [fixedState, setFixedState] = useState('send');
 
     return (
-      <div className='flex w-400 flex-col gap-24'>
+      <div className='flex flex-col gap-24'>
         <div>
           <p className='mb-8 body-2 text-muted'>Hug</p>
           <SegmentedControl

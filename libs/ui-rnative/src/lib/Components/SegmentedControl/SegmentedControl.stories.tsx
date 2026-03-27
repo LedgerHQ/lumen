@@ -14,6 +14,19 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
+  decorators: [
+    (Story) => (
+      <Box
+        lx={{
+          width: 's320',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </Box>
+    ),
+  ],
   args: {
     appearance: 'background',
     tabLayout: 'hug',
@@ -79,7 +92,7 @@ export const TabLayoutShowcase: Story = {
     const [fixedState, setFixedState] = useState('send');
 
     return (
-      <Box lx={{ width: 's400', gap: 's24' }}>
+      <Box lx={{ gap: 's24' }} style={{ width: '100%' }}>
         <SegmentedControl
           {...args}
           tabLayout='hug'

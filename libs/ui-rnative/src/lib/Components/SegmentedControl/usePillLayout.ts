@@ -70,14 +70,12 @@ export function usePillLayout({
     (value: string, layout: ButtonLayout): void => {
       buttonLayoutsRef.current.set(value, layout);
 
-      if (
-        tabLayout === 'hug' &&
-        value === selectedValue &&
-        !hasLayoutRef.current
-      ) {
+      if (tabLayout === 'hug' && !hasLayoutRef.current) {
         hasLayoutRef.current = true;
-        pillTranslateX.value = layout.x;
-        pillWidth.value = layout.width;
+        if (value === selectedValue) {
+          pillTranslateX.value = layout.x;
+          pillWidth.value = layout.width;
+        }
       }
     },
     [tabLayout, selectedValue, pillTranslateX, pillWidth],
