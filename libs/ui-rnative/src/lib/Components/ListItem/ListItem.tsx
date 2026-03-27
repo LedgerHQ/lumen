@@ -1,7 +1,6 @@
 import {
   createSafeContext,
   DisabledProvider,
-  isTextChildren,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { ElementRef, ReactNode, Ref } from 'react';
@@ -192,8 +191,8 @@ export const ListItemContent = ({
       content: {
         flex: isInTrailing ? 0 : 1,
         minWidth: 0,
-        flexDirection: 'column',
         gap: t.spacings.s4,
+        alignItems: isInTrailing ? 'flex-end' : 'flex-start',
       },
     }),
     [isInTrailing],
@@ -258,8 +257,8 @@ export const ListItemTitle = ({
   lx = {},
   style,
   ref,
-  ...viewProps
-}: ListItemTitleProps & { ref?: Ref<View> }) => {
+  ...textProps
+}: ListItemTitleProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemTitle',
     contextRequired: true,
@@ -270,54 +269,30 @@ export const ListItemTitle = ({
   });
 
   const styles = useStyleSheet(
-    (t) => {
-      const { boxStyle } = StyleSheet.create({
-        boxStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
+    (t) => ({
+      title: StyleSheet.flatten([
+        t.typographies.body2SemiBold,
+        {
           minWidth: 0,
           textAlign: isInTrailing ? 'right' : 'left',
-          justifyContent: isInTrailing ? 'flex-end' : 'flex-start',
+          color: disabled ? t.colors.text.disabled : t.colors.text.base,
         } as const,
-      });
-
-      return {
-        asBox: boxStyle,
-        asText: StyleSheet.flatten([
-          t.typographies.body2SemiBold,
-          {
-            ...boxStyle,
-            color: disabled ? t.colors.text.disabled : t.colors.text.base,
-          },
-        ]),
-      };
-    },
-    [disabled],
+      ]),
+    }),
+    [disabled, isInTrailing],
   );
 
-  if (isTextChildren(children)) {
-    return (
-      <Text
-        ref={ref as Ref<ElementRef<typeof Text>>}
-        lx={lx}
-        style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-    );
-  }
-
   return (
-    <Box
+    <Text
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.asBox, style])}
-      {...viewProps}
+      style={StyleSheet.flatten([styles.title, style])}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      {...textProps}
     >
       {children}
-    </Box>
+    </Text>
   );
 };
 
@@ -332,8 +307,8 @@ export const ListItemDescription = ({
   lx = {},
   style,
   ref,
-  ...viewProps
-}: ListItemDescriptionProps & { ref?: Ref<View> }) => {
+  ...textProps
+}: ListItemDescriptionProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
@@ -344,54 +319,30 @@ export const ListItemDescription = ({
   });
 
   const styles = useStyleSheet(
-    (t) => {
-      const { boxStyle } = StyleSheet.create({
-        boxStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
+    (t) => ({
+      description: StyleSheet.flatten([
+        t.typographies.body3,
+        {
           minWidth: 0,
           textAlign: isInTrailing ? 'right' : 'left',
-          justifyContent: isInTrailing ? 'flex-end' : 'flex-start',
+          color: disabled ? t.colors.text.disabled : t.colors.text.muted,
         } as const,
-      });
-
-      return {
-        asBox: boxStyle,
-        asText: StyleSheet.flatten([
-          t.typographies.body3,
-          {
-            ...boxStyle,
-            color: disabled ? t.colors.text.disabled : t.colors.text.muted,
-          },
-        ]),
-      };
-    },
+      ]),
+    }),
     [disabled, isInTrailing],
   );
 
-  if (isTextChildren(children)) {
-    return (
-      <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
-        lx={lx}
-        style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-    );
-  }
-
   return (
-    <Box
+    <Text
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.asBox, style])}
-      {...viewProps}
+      style={StyleSheet.flatten([styles.description, style])}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      {...textProps}
     >
       {children}
-    </Box>
+    </Text>
   );
 };
 
