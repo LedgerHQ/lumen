@@ -82,3 +82,11 @@ export const ContentTypeShowcase: Story = {
     </Box>
   ),
 };
+
+export const TruncateShowcase: Story = {
+  render: () => (
+    <Box lx={{ width: 's176' }}>
+      <Tag label='Very long custom Tag text that should truncate' />
+    </Box>
+  ),
+};
