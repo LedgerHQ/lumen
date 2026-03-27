@@ -33,6 +33,10 @@ const segmentedControlStyles = {
         true: 'bg-base-transparent-pressed',
         false: 'bg-muted-transparent',
       },
+      isReady: {
+        true: 'transition-[transform,width] duration-250 ease-in-out',
+        false: 'transition-none',
+      },
     },
   }),
   item: cva(
@@ -148,14 +152,11 @@ export function SegmentedControl({
         {children}
         <div
           aria-hidden
-          className={segmentedControlStyles.pill({ disabled })}
+          className={segmentedControlStyles.pill({ disabled, isReady })}
           style={{
             width: pill.width,
             height: pill.height,
             transform: `translateX(${pill.x}px)`,
-            transition: isReady
-              ? 'transform 250ms ease-in-out, width 250ms ease-in-out'
-              : 'none',
           }}
         />
       </div>
