@@ -1,14 +1,15 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import {
   useRef,
   useId,
   useState,
   useCallback,
-  ChangeEvent,
-  Ref,
-  RefObject,
-  PointerEvent,
+  ChangeEvent, PointerEvent
 } from 'react';
+import {
+  cn,
+  useDisabledContext,
+  useMergedRef,
+} from '@ledgerhq/lumen-utils-shared';
 import { useCommonTranslation } from '../../../i18n';
 import { DeleteCircleFill } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -149,19 +150,7 @@ export const BaseInput = ({
     onClear?.();
   };
 
-  /** TODO: move to utils-shared */
-  function composeRefs<T>(...refs: (Ref<T> | undefined)[]) {
-    return (node: T) => {
-      refs.forEach((ref) => {
-        if (!ref) return;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else {
-          (ref as RefObject<T | null>).current = node;
-        }
-      });
-    };
-  }
+  const composedRef = useMergedRef(ref, inputRef);
 
   return (
     <div className={className}>
@@ -193,7 +182,7 @@ export const BaseInput = ({
         {prefix}
 
         <input
-          ref={composeRefs(ref, inputRef)}
+          ref={composedRef}
           id={inputId}
           disabled={disabled}
           placeholder=' '
@@ -204,8 +193,8 @@ export const BaseInput = ({
             label && 'pt-12 body-2',
             inputClassName,
           )}
-          onChange={handleInput}
           {...props}
+          onChange={handleInput}
         />
 
         {label && (

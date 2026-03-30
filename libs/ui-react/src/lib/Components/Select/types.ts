@@ -1,80 +1,93 @@
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type { SearchInputProps } from '../SearchInput/types';
 import type { TriggerButtonProps } from '../TriggerButton';
 
-type Direction = 'ltr' | 'rtl';
-type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
+export type SelectItemData = {
+  value: string;
+  label: string;
+  disabled?: boolean;
+  description?: string;
+  [key: string]: unknown;
+};
 
 export type SelectTriggerRenderProps = {
   /**
-   * The currently selected value, or empty string if nothing is selected.
+   * The currently selected value, or null if nothing is selected.
    */
-  selectedValue: string;
+  selectedValue: string | null;
   /**
-   * A ReactNode that renders the selected item's content via Radix `SelectPrimitive.Value`.
+   * A ReactNode that renders the selected item's content via `Combobox.Value`.
    */
   selectedContent: ReactNode;
 };
 
 export type SelectProps = {
   /**
-   * The children of the select item
+   * The children of the select.
    */
   children: ReactNode;
   /**
-   * The controlled open state of the select.
-   * Must be used in conjunction with onOpenChange.
+   * The items displayed in the dropdown list.
+   * Each item must have a `value` (unique string identifier) and a `label` (display text for search and trigger).
+   * Extra fields are allowed and accessible in the render function.
+   */
+  items: SelectItemData[];
+  /**
+   * Filter function used to match items against a search query.
+   * When `SelectSearch` is rendered inside the content, a default case-insensitive
+   * label filter is applied automatically. Pass a custom function to override it,
+   * or `null` to disable filtering entirely.
+   * @default null
+   */
+  filter?: null | ((item: SelectItemData, query: string) => boolean);
+  /**
+   * Whether the popup is open. Use for controlled open state.
+   * Must be used in conjunction with `onOpenChange`.
    */
   open?: boolean;
   /**
-   * The value of the select when initially rendered.
-   * Use when you do not need to control the state of the select.
-   */
-  defaultValue?: string;
-  /**
-   * Event handler called when the open state of the select changes.
-   */
-  onOpenChange?(open: boolean): void;
-  /**
-   * The open state of the select when it is initially rendered.
+   * The open state of the popup when initially rendered.
    * Use when you do not need to control its open state.
    * @default false
    */
   defaultOpen?: boolean;
   /**
-   * The reading direction of the select when applicable.
-   * If omitted, inherits globally from DirectionProvider or assumes LTR (left-to-right) reading mode.
+   * The value of the select when initially rendered (uncontrolled).
    */
-  dir?: Direction;
+  defaultValue?: string;
   /**
-   * The name of the select.
-   * Submitted with its owning form as part of a name/value pair.
+   * Event handler called when the open state of the popup changes.
+   */
+  onOpenChange?: (open: boolean) => void;
+  /**
+   * The controlled value of the select.
+   * Should be used in conjunction with `onValueChange`.
+   */
+  value?: string | null;
+  /**
+   * Event handler called when the selected value changes.
+   * Receives `null` when the selection is cleared (e.g. combobox clear behavior).
+   */
+  onValueChange?: (value: string | null) => void;
+  /**
+   * The name of the select for form submission.
    */
   name?: string;
   /**
-   * When true, prevents the user from interacting with select.
+   * When true, prevents the user from interacting with the select.
    */
   disabled?: boolean;
   /**
-   * Whether the select is required
+   * Whether the select is required for form validation.
    * @default false
    */
   required?: boolean;
-  /**
-   * The controlled value of the select.
-   * Should be used in conjunction with onValueChange.
-   */
-  value?: string;
-  /**
-   * Event handler called when the value changes.
-   */
-  onValueChange?(value: string): void;
 };
 
 export type SelectTriggerProps = {
   /**
    * Render function that replaces the default input-style trigger.
-   * When provided, `SelectPrimitive.Trigger` renders with `asChild` and
-   * delegates rendering to this function.
+   * When provided, the trigger delegates rendering to this function.
    * Can be a preset component (e.g. `SelectTriggerButton`) or a custom render function.
    *
    * @example render={(props) => <SelectTriggerButton {...props} label="Label" />}
@@ -82,179 +95,146 @@ export type SelectTriggerProps = {
    */
   render?: (props: SelectTriggerRenderProps) => ReactElement;
   /**
-   * Extra class names to apply to the trigger element
-   * @example className='text-error'
+   * Extra class names to apply to the trigger element.
    */
   className?: string;
   /**
-   * The label text that floats above the input when focused or filled
-   * @example label='Label'
+   * The label text that floats above the input when focused or filled.
    */
   label?: string;
-  /** Additional class names to apply to the label element
-   * @example labelClassName='text-error'
+  /**
+   * Additional class names to apply to the label element.
    */
   labelClassName?: string;
 } & ComponentPropsWithRef<'button'>;
 
 export type SelectContentProps = {
   /**
-   * The children of the select content
+   * The children of the select content.
    */
   children: ReactNode;
   /**
-   * Change the default rendered element for the one passed as a child, merging their props and behavior.
-   * @default false
-   */
-  asChild?: boolean;
-  /**
-   * Event handler called when focus moves to the trigger after closing.
-   * It can be prevented by calling event.preventDefault.
-   */
-  onCloseAutoFocus?: (event: Event) => void;
-  /**
-   * Event handler called when the escape key is down.
-   * It can be prevented by calling event.preventDefault.
-   */
-  onEscapeKeyDown?: (event: KeyboardEvent) => void;
-  /**
-   * Event handler called when a pointer event occurs outside the bounds of the component.
-   * It can be prevented by calling event.preventDefault.
-   */
-  onPointerDownOutside?: (event: PointerDownOutsideEvent) => void;
-  /**
-   * The positioning mode to use.
-   * we are using popper by default to position the content relative to the trigger.
-   * @default "popper"
-   */
-  position?: 'item-aligned' | 'popper';
-  /**
-   * The preferred side of the anchor to render against when open. Will be reversed when collisions occur and avoidCollisions is enabled.
-   * This is only available when position is set to popper.
+   * The preferred side of the anchor to render against when open.
    * @default "bottom"
    */
   side?: 'top' | 'right' | 'bottom' | 'left';
   /**
-   * The distance in pixels from the trigger
-   * @default 0
+   * The distance in pixels from the trigger.
+   * @default 8
    */
   sideOffset?: number;
   /**
-   * The preferred alignment against the trigger
+   * The preferred alignment against the trigger.
    * @default "start"
    */
   align?: 'start' | 'center' | 'end';
   /**
-   * An offset in pixels from the "start" or "end" alignment options
+   * An offset in pixels from the "start" or "end" alignment options.
    * @default 0
    */
   alignOffset?: number;
   /**
-   * When true, overrides the side and align preferences to prevent collisions with boundary edges
-   * @default true
-   */
-  avoidCollisions?: boolean;
-  /**
-   * The element used as the collision boundary. Accepts an array of elements
-   * @default []
-   */
-  collisionBoundary?: Element | Element[];
-  /**
-   * The distance in pixels from the boundary edges where collision detection should occur
-   * @default 10
-   */
-  collisionPadding?:
-    | number
-    | { top?: number; right?: number; bottom?: number; left?: number };
-  /**
-   * The sticky behavior on the align axis
-   * @default "partial"
-   */
-  sticky?: 'partial' | 'always';
-  /**
-   * Whether to hide the content when the trigger becomes fully occluded
-   * @default false
-   */
-  hideWhenDetached?: boolean;
-  /**
-   * Extra class names to apply to the content element
-   * @example className='text-error'
+   * Extra class names to apply to the content element.
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
+export type SelectListProps = {
+  /**
+   * A render function that receives each item and its index, returning a ReactNode.
+   * Can also accept static ReactNode children.
+   * @example children={(item) => <SelectItem value={item.value}>{item.label}</SelectItem>}
+   */
+  children?: ReactNode | ((item: SelectItemData, index: number) => ReactNode);
+  /**
+   * Extra class names to apply to the list element.
+   */
+  className?: string;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
+
 export type SelectGroupProps = {
   /**
-   * The children of the select group
+   * The children of the select group.
    */
   children: ReactNode;
-};
+  /**
+   * Items to be rendered within this group.
+   */
+  items?: readonly SelectItemData[];
+  /**
+   * Extra class names to apply to the group element.
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
 
 export type SelectLabelProps = {
   /**
-   * The children of the select label
-   * @example children={<SelectLabel>Option</SelectLabel>}
-   * @required
+   * The children of the select label.
    */
   children: ReactNode;
   /**
-   * The class name of the select label
+   * Extra class names to apply to the label element.
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
 export type SelectItemTextProps = {
   /**
-   * The children of the select item text
-   * @example children={<SelectItemText>Option</SelectItemText>}
-   * @required
+   * The text content of the item.
    */
   children: ReactNode;
   /**
-   * Extra class names to apply to the item text element
-   * @example className='text-error'
+   * Extra class names to apply to the item text element.
    */
   className?: string;
-} & ComponentPropsWithRef<'div'>;
+} & ComponentPropsWithRef<'span'>;
 
 export type SelectItemProps = {
   /**
-   * The value of the select item
-   * @example value='option1'
-   * @required
+   * The unique string value associated with this item.
    */
   value: string;
   /**
-   * The children of the select item
-   * @example children={<SelectItemText>Option</SelectItemText>}
-   * @required
+   * The children of the select item. Supports custom content
+   * (icons, tags, descriptions, etc.) alongside `SelectItemText`.
    */
-  children: ReactElement<SelectItemTextProps> | readonly ReactElement[];
+  children: ReactNode;
   /**
-   * Optional text used for typeahead purposes. Use this when the content is complex, or you have non-textual content inside.
-   * @example textValue='Option'
-   */
-  textValue?: string;
-  /**
-   * The disabled state of the select item
-   * @example disabled={true}
+   * Whether the item is disabled.
+   * @default false
    */
   disabled?: boolean;
   /**
-   * Extra class names to apply to the item element
-   * @example className='text-error'
+   * Extra class names to apply to the item element.
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
 export type SelectSeparatorProps = {
   /**
-   * Change the default rendered element for the one passed as a child, merging their props and behavior.
-   * @default false
+   * Extra class names to apply to the separator element.
    */
-  asChild?: boolean;
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type SelectSearchProps = Pick<
+  SearchInputProps,
+  | 'placeholder'
+  | 'className'
+  | 'errorMessage'
+  | 'aria-invalid'
+  | 'suffix'
+  | 'onClear'
+  | 'hideClearButton'
+>;
+
+export type SelectEmptyStateProps = {
   /**
-   * Extra class names to apply to the separator element
+   * Content displayed when no items match the current search query.
+   */
+  children: ReactNode;
+  /**
+   * Extra class names to apply to the empty state element.
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;

@@ -8,10 +8,13 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectContent,
+  SelectSearch,
+  SelectList,
   SelectItem,
   SelectItemText,
   SelectGroup,
   SelectSeparator,
+  SelectEmptyState,
   SelectTriggerButton,
 } from './Select';
 
@@ -21,75 +24,65 @@ const meta: Meta<typeof Select> = {
   subcomponents: {
     SelectTrigger,
     SelectContent,
+    SelectSearch,
+    SelectList,
     SelectItem,
     SelectItemText,
     SelectGroup,
     SelectSeparator,
+    SelectEmptyState,
   },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
   argTypes: {
-    children: {
-      control: false,
-    },
-    open: {
-      control: 'boolean',
-    },
-    defaultOpen: {
-      control: 'boolean',
-    },
-    onOpenChange: {
-      action: false,
-    },
-    value: {
-      control: 'select',
-      options: ['option 1', 'option 3'],
-      mapping: {
-        'option 1': 'option1',
-        'option 3': 'option3',
-      },
-    },
-    defaultValue: {
-      control: false,
-    },
-    dir: {
-      control: false,
-    },
-    name: {
-      control: false,
-    },
-    required: {
-      control: 'boolean',
-    },
-    disabled: {
-      control: 'boolean',
-    },
+    children: { control: false },
+    open: { control: 'boolean' },
+    defaultOpen: { control: 'boolean' },
+    onOpenChange: { action: false },
+    value: { control: false },
+    defaultValue: { control: false },
+    name: { control: false },
+    required: { control: 'boolean' },
+    disabled: { control: 'boolean' },
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof Select>;
 
+const baseOptions = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2 disabled', disabled: true },
+  { value: 'option3', label: 'Option 3' },
+];
+
 export const Base: Story = {
   render: (args) => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState<string | null>(null);
 
     return (
       <div className='w-400'>
-        <Select {...args} value={value} onValueChange={setValue}>
+        <Select
+          items={baseOptions}
+          value={value}
+          onValueChange={setValue}
+          disabled={args.disabled}
+        >
           <SelectTrigger label='Label' />
           <SelectContent>
-            <SelectItem value='option1'>
-              <SelectItemText>Option 1</SelectItemText>
-            </SelectItem>
-            <SelectItem value='option2' disabled textValue='Option 2 disabled'>
-              <SelectItemText>Option 2 disabled</SelectItemText>
-            </SelectItem>
-            <SelectItem value='option3' textValue='Option 3'>
-              <SelectItemText>Option 3</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem
+                  key={item.value}
+                  value={item.value}
+                  disabled={item.disabled}
+                >
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
       </div>
@@ -100,80 +93,95 @@ export const Base: Story = {
   },
 };
 
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'orange', label: 'Orange' },
+];
+
+const vegetables = [
+  { value: 'carrot', label: 'Carrot' },
+  { value: 'broccoli', label: 'Broccoli' },
+  { value: 'spinach', label: 'Spinach' },
+];
+
 export const WithGroups: Story = {
   render: () => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState<string | null>(null);
 
     return (
       <div className='w-400'>
-        <Select value={value} onValueChange={setValue}>
+        <Select
+          items={[...fruits, ...vegetables]}
+          value={value}
+          onValueChange={setValue}
+        >
           <SelectTrigger label='Category' />
           <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value='apple'>
-                <SelectItemText>Apple</SelectItemText>
-              </SelectItem>
-              <SelectItem value='banana'>
-                <SelectItemText>Banana</SelectItemText>
-              </SelectItem>
-              <SelectItem value='orange'>
-                <SelectItemText>Orange</SelectItemText>
-              </SelectItem>
-            </SelectGroup>
-            <SelectSeparator />
-            <SelectGroup>
-              <SelectLabel>Vegetables</SelectLabel>
-              <SelectItem value='carrot'>
-                <SelectItemText>Carrot</SelectItemText>
-              </SelectItem>
-              <SelectItem value='broccoli'>
-                <SelectItemText>Broccoli</SelectItemText>
-              </SelectItem>
-              <SelectItem value='spinach'>
-                <SelectItemText>Spinach</SelectItemText>
-              </SelectItem>
-            </SelectGroup>
+            <SelectList>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                {fruits.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    <SelectItemText>{item.label}</SelectItemText>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+              <SelectSeparator />
+              <SelectGroup>
+                <SelectLabel>Vegetables</SelectLabel>
+                {vegetables.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    <SelectItemText>{item.label}</SelectItemText>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectList>
           </SelectContent>
         </Select>
       </div>
     );
   },
 };
+
+const countryOptions = [
+  'United States',
+  'Canada',
+  'Mexico',
+  'United Kingdom',
+  'France',
+  'Germany',
+  'Italy',
+  'Spain',
+  'Japan',
+  'South Korea',
+  'China',
+  'India',
+  'Australia',
+  'New Zealand',
+  'Brazil',
+  'Argentina',
+].map((name) => ({
+  value: name.toLowerCase().replace(/ /g, '-'),
+  label: name,
+}));
 
 export const LongList: Story = {
   render: () => {
-    const [value, setValue] = useState('');
-
-    const countries = [
-      'United States',
-      'Canada',
-      'Mexico',
-      'United Kingdom',
-      'France',
-      'Germany',
-      'Italy',
-      'Spain',
-      'Japan',
-      'South Korea',
-      'China',
-      'India',
-      'Australia',
-      'New Zealand',
-      'Brazil',
-      'Argentina',
-    ];
+    const [value, setValue] = useState<string | null>(null);
 
     return (
       <div className='w-208'>
-        <Select value={value} onValueChange={setValue}>
+        <Select items={countryOptions} value={value} onValueChange={setValue}>
           <SelectTrigger label='Country' />
           <SelectContent>
-            {countries.map((country) => (
-              <SelectItem key={country} value={country.toLowerCase()}>
-                <SelectItemText>{country}</SelectItemText>
-              </SelectItem>
-            ))}
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
       </div>
@@ -181,20 +189,103 @@ export const LongList: Story = {
   },
 };
 
-// Disabled
+export const WithSearch: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+
+    return (
+      <div className='w-400'>
+        <Select items={countryOptions} value={value} onValueChange={setValue}>
+          <SelectTrigger label='Country' />
+          <SelectContent>
+            <SelectSearch placeholder='Search countries' />
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
+            <SelectEmptyState>No countries found</SelectEmptyState>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  },
+};
+
+export const WithCustomFilter: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+
+    const tokenOptions = [
+      { value: 'btc', label: 'Bitcoin', ticker: 'BTC' },
+      { value: 'eth', label: 'Ethereum', ticker: 'ETH' },
+      { value: 'sol', label: 'Solana', ticker: 'SOL' },
+      { value: 'ada', label: 'Cardano', ticker: 'ADA' },
+      { value: 'dot', label: 'Polkadot', ticker: 'DOT' },
+      { value: 'avax', label: 'Avalanche', ticker: 'AVAX' },
+    ];
+
+    return (
+      <div className='w-400'>
+        <Select
+          items={tokenOptions}
+          value={value}
+          onValueChange={setValue}
+          filter={(item, query) => {
+            const q = query.toLowerCase();
+            return (
+              item.label.toLowerCase().includes(q) ||
+              (item.ticker as string).toLowerCase().includes(q)
+            );
+          }}
+        >
+          <SelectTrigger label='Token' />
+          <SelectContent>
+            <SelectSearch placeholder='Search by name or ticker' />
+            <SelectList>
+              {(item) => (
+                <SelectItem
+                  key={item.value}
+                  value={item.value}
+                  className='flex flex-col items-start justify-start gap-4'
+                >
+                  <SelectItemText>{item.label}</SelectItemText>
+                  <span className='body-3 text-muted'>
+                    {item.ticker as string}
+                  </span>
+                </SelectItem>
+              )}
+            </SelectList>
+            <SelectEmptyState>No tokens found</SelectEmptyState>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  },
+};
+
+const simpleOptions = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3' },
+];
+
 export const Disabled: Story = {
   render: () => {
     return (
       <div className='w-208'>
-        <Select disabled>
+        <Select items={simpleOptions} disabled>
           <SelectTrigger label='Disabled' />
           <SelectContent>
-            <SelectItem value='option1'>
-              <SelectItemText>Option 1</SelectItemText>
-            </SelectItem>
-            <SelectItem value='option2'>
-              <SelectItemText>Option 2</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
       </div>
@@ -202,51 +293,51 @@ export const Disabled: Story = {
   },
 };
 
-// With Default Value
 export const WithDefaultValue: Story = {
   render: () => {
     return (
       <div className='w-208'>
-        <Select defaultValue='option2'>
+        <Select items={simpleOptions} defaultValue='option2'>
           <SelectTrigger label='Label' />
           <SelectContent>
-            <SelectItem value='option1'>
-              <SelectItemText>Option 1</SelectItemText>
-            </SelectItem>
-            <SelectItem value='option2'>
-              <SelectItemText>Option 2</SelectItemText>
-            </SelectItem>
-            <SelectItem value='option3'>
-              <SelectItemText>Option 3</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
       </div>
     );
   },
 };
+
+const descriptionOptions = [
+  { value: 'option1', label: 'Option 1', description: 'this is a description' },
+  { value: 'option2', label: 'Option 2', description: 'this is a description' },
+];
 
 export const WithDescription: Story = {
   render: () => {
     return (
       <div className='w-208'>
-        <Select>
+        <Select items={descriptionOptions}>
           <SelectTrigger label='Label' />
           <SelectContent>
-            <SelectItem
-              value='option1'
-              className='flex flex-col items-start justify-start gap-4'
-            >
-              <SelectItemText>Option 1</SelectItemText>
-              <div className='body-4 text-muted'>this is a description</div>
-            </SelectItem>
-            <SelectItem
-              value='option2'
-              className='flex flex-col items-start justify-start gap-4'
-            >
-              <SelectItemText>Option 2</SelectItemText>
-              <div className='body-4 text-muted'>this is a description</div>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem
+                  key={item.value}
+                  value={item.value}
+                  className='flex flex-col items-start justify-start gap-4'
+                >
+                  <SelectItemText>{item.label}</SelectItemText>
+                  <div className='body-4 text-muted'>{item.description}</div>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
       </div>
@@ -254,68 +345,66 @@ export const WithDescription: Story = {
   },
 };
 
-// Form Integration
+const categoryOptions = [
+  { value: 'technology', label: 'Technology' },
+  { value: 'design', label: 'Design' },
+  { value: 'business', label: 'Business' },
+];
+
+const priorityOptions = [
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+  { value: 'urgent', label: 'Urgent' },
+];
+
 export const FormIntegration: Story = {
   render: () => {
-    const [formData, setFormData] = useState({
-      category: '',
-      priority: '',
-    });
+    const [category, setCategory] = useState<string | null>(null);
+    const [priority, setPriority] = useState<string | null>(null);
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      console.log('Form submitted:', formData);
-      alert(
-        `Form submitted:\nCategory: ${formData.category}\nPriority: ${formData.priority}`,
-      );
+      alert(`Form submitted:\nCategory: ${category}\nPriority: ${priority}`);
     };
 
     return (
       <form onSubmit={handleSubmit} className='flex w-256 flex-col gap-16'>
         <Select
-          value={formData.category}
-          onValueChange={(value) =>
-            setFormData((prev) => ({ ...prev, category: value }))
-          }
+          items={categoryOptions}
+          value={category}
+          onValueChange={setCategory}
           name='category'
           required
         >
           <SelectTrigger label='Category' />
           <SelectContent>
-            <SelectItem value='tech'>
-              <SelectItemText>Technology</SelectItemText>
-            </SelectItem>
-            <SelectItem value='design'>
-              <SelectItemText>Design</SelectItemText>
-            </SelectItem>
-            <SelectItem value='business'>
-              <SelectItemText>Business</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
 
         <Select
-          value={formData.priority}
-          onValueChange={(value) =>
-            setFormData((prev) => ({ ...prev, priority: value }))
-          }
+          items={priorityOptions}
+          value={priority}
+          onValueChange={setPriority}
           name='priority'
           required
         >
           <SelectTrigger label='Priority' />
           <SelectContent>
-            <SelectItem value='low'>
-              <SelectItemText>Low</SelectItemText>
-            </SelectItem>
-            <SelectItem value='medium'>
-              <SelectItemText>Medium</SelectItemText>
-            </SelectItem>
-            <SelectItem value='high'>
-              <SelectItemText>High</SelectItemText>
-            </SelectItem>
-            <SelectItem value='urgent'>
-              <SelectItemText>Urgent</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
 
@@ -331,51 +420,87 @@ const cryptos = [
   { value: 'btc', label: 'Bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' },
   { value: 'eth', label: 'Ethereum', ledgerId: 'ethereum', ticker: 'ETH' },
   { value: 'sol', label: 'Solana', ledgerId: 'solana', ticker: 'SOL' },
-] as const;
+];
+
+const accountOptions = [
+  { value: 'all', label: 'All accounts' },
+  { value: 'checking', label: 'Checking' },
+  { value: 'savings', label: 'Savings' },
+];
+
+const settingsOptions = [
+  { value: 'general', label: 'General' },
+  { value: 'security', label: 'Security' },
+  { value: 'notifications', label: 'Notifications' },
+];
+
+const appearanceOptions = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3' },
+];
+
+const greekOptions = [
+  { value: 'alpha', label: 'Alpha' },
+  { value: 'beta', label: 'Beta' },
+  { value: 'gamma', label: 'Gamma' },
+];
 
 export const TriggerShowcase: Story = {
   render: () => {
-    const [buttonValue, setButtonValue] = useState('');
-    const [iconValue, setIconValue] = useState('');
-    const [cryptoValue, setCryptoValue] = useState('');
-    const [customValue, setCustomValue] = useState('');
-    const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
+    const [buttonValue, setButtonValue] = useState<string | null>(null);
+    const [iconValue, setIconValue] = useState<string | null>(null);
+    const [cryptoValue, setCryptoValue] = useState<string | null>(null);
+    const [customValue, setCustomValue] = useState<string | null>(null);
     const appearances = ['gray', 'transparent', 'no-background'] as const;
+
+    const selectedCrypto = cryptos.find((c) => c.value === cryptoValue);
 
     return (
       <div className='flex flex-col gap-24 p-32'>
-        <Select value={buttonValue} onValueChange={setButtonValue}>
+        <Select
+          items={accountOptions}
+          value={buttonValue}
+          onValueChange={setButtonValue}
+        >
           <SelectTrigger
             render={(renderProps) => (
               <SelectTriggerButton {...renderProps} label='All accounts' />
             )}
           />
-          <SelectContent className='w-208'>
-            <SelectItem value='all'>
-              <SelectItemText>All accounts</SelectItemText>
-            </SelectItem>
-            <SelectItem value='checking'>
-              <SelectItemText>Checking</SelectItemText>
-            </SelectItem>
-            <SelectItem value='savings'>
-              <SelectItemText>Savings</SelectItemText>
-            </SelectItem>
+          <SelectContent className='w-128'>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
-        <Select value={buttonValue} onValueChange={setButtonValue} disabled>
+
+        <Select items={accountOptions} disabled>
           <SelectTrigger
             render={(renderProps) => (
               <SelectTriggerButton {...renderProps} label='Disabled' />
             )}
           />
           <SelectContent className='w-208'>
-            <SelectItem value='all'>
-              <SelectItemText>All accounts</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
 
-        <Select value={iconValue} onValueChange={setIconValue}>
+        <Select
+          items={settingsOptions}
+          value={iconValue}
+          onValueChange={setIconValue}
+        >
           <SelectTrigger
             render={(renderProps) => (
               <SelectTriggerButton
@@ -387,19 +512,21 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent className='w-208'>
-            <SelectItem value='general'>
-              <SelectItemText>General</SelectItemText>
-            </SelectItem>
-            <SelectItem value='security'>
-              <SelectItemText>Security</SelectItemText>
-            </SelectItem>
-            <SelectItem value='notifications'>
-              <SelectItemText>Notifications</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
 
-        <Select value={cryptoValue} onValueChange={setCryptoValue}>
+        <Select
+          items={cryptos}
+          value={cryptoValue}
+          onValueChange={setCryptoValue}
+        >
           <SelectTrigger
             render={(renderProps) => (
               <SelectTriggerButton
@@ -408,8 +535,8 @@ export const TriggerShowcase: Story = {
                 icon={
                   selectedCrypto ? (
                     <CryptoIcon
-                      ledgerId={selectedCrypto.ledgerId}
-                      ticker={selectedCrypto.ticker}
+                      ledgerId={selectedCrypto.ledgerId ?? ''}
+                      ticker={selectedCrypto.ticker ?? ''}
                       size='32px'
                     />
                   ) : undefined
@@ -419,27 +546,28 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent className='w-208'>
-            {cryptos.map((crypto) => (
-              <SelectItem
-                key={crypto.value}
-                value={crypto.value}
-                textValue={crypto.label}
-                className='flex items-center gap-8'
-              >
-                <CryptoIcon
-                  ledgerId={crypto.ledgerId}
-                  ticker={crypto.ticker}
-                  size='24px'
-                />
-                <SelectItemText>{crypto.label}</SelectItemText>
-              </SelectItem>
-            ))}
+            <SelectList>
+              {(crypto) => (
+                <SelectItem
+                  key={crypto.value}
+                  value={crypto.value}
+                  className='flex items-center gap-8'
+                >
+                  <CryptoIcon
+                    ledgerId={crypto.ledgerId ?? ''}
+                    ticker={crypto.ticker ?? ''}
+                    size='24px'
+                  />
+                  <SelectItemText>{crypto.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
 
         <div className='flex items-center gap-16'>
           {appearances.map((appearance) => (
-            <Select key={appearance}>
+            <Select key={appearance} items={appearanceOptions}>
               <SelectTrigger
                 render={(renderProps) => (
                   <SelectTriggerButton
@@ -450,18 +578,23 @@ export const TriggerShowcase: Story = {
                 )}
               />
               <SelectContent className='w-208'>
-                <SelectItem value='option1'>
-                  <SelectItemText>Option 1</SelectItemText>
-                </SelectItem>
-                <SelectItem value='option2'>
-                  <SelectItemText>Option 2</SelectItemText>
-                </SelectItem>
+                <SelectList>
+                  {(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                </SelectList>
               </SelectContent>
             </Select>
           ))}
         </div>
 
-        <Select value={customValue} onValueChange={setCustomValue}>
+        <Select
+          items={greekOptions}
+          value={customValue}
+          onValueChange={setCustomValue}
+        >
           <SelectTrigger
             render={({ selectedValue, selectedContent }) => (
               <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'>
@@ -474,15 +607,13 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent>
-            <SelectItem value='alpha'>
-              <SelectItemText>Alpha</SelectItemText>
-            </SelectItem>
-            <SelectItem value='beta'>
-              <SelectItemText>Beta</SelectItemText>
-            </SelectItem>
-            <SelectItem value='gamma'>
-              <SelectItemText>Gamma</SelectItemText>
-            </SelectItem>
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
           </SelectContent>
         </Select>
       </div>

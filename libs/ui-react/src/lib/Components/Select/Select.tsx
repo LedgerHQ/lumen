@@ -1,56 +1,119 @@
+import { Combobox } from '@base-ui/react/combobox';
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import * as SelectPrimitive from '@radix-ui/react-select';
-import { cva } from 'class-variance-authority';
-import { ComponentProps, ReactNode } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
-import { ChevronDown, Check, ChevronUp } from '../../Symbols';
+import { ChevronDown, Check } from '../../Symbols';
 import { Divider } from '../Divider';
+import { SearchInput } from '../SearchInput';
 import { TriggerButton } from '../TriggerButton';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
+  SelectItemData,
   SelectProps,
   SelectTriggerProps,
   SelectContentProps,
+  SelectListProps,
+  SelectSearchProps,
   SelectGroupProps,
   SelectLabelProps,
   SelectItemTextProps,
   SelectItemProps,
   SelectSeparatorProps,
+  SelectEmptyStateProps,
   SelectTriggerButtonProps,
 } from './types';
+
+const defaultLabelFilter = (item: SelectItemData, query: string): boolean => {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return true;
+  return item.label.toLowerCase().includes(normalizedQuery);
+};
 
 function Select({
   value,
   defaultValue,
   onValueChange,
   disabled: disabledProp,
-  ...props
+  items,
+  filter = null,
+  open,
+  defaultOpen,
+  onOpenChange,
+  name,
+  required,
+  children,
 }: SelectProps) {
   const disabled = useDisabledContext({
     consumerName: 'Select',
     mergeWith: { disabled: disabledProp },
   });
-  const [selectedValue, setSelectedValue] = useControllableState({
-    prop: value,
-    defaultProp: defaultValue ?? '',
-    onChange: onValueChange,
-  });
+
+  const [selectedValue, setSelectedValue] = useControllableState<string | null>(
+    {
+      prop: value,
+      defaultProp: defaultValue ?? null,
+      onChange: (next) => {
+        onValueChange?.(next);
+      },
+    },
+  );
+
+  const isValueControlled = value !== undefined;
+  const [searchMounted, setSearchMounted] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const registerSearch = useCallback((): (() => void) => {
+    setSearchMounted(true);
+    return () => setSearchMounted(false);
+  }, []);
+
+  const filterFn = searchMounted ? (filter ?? defaultLabelFilter) : null;
+
+  const filteredItems = useMemo(() => {
+    if (!filterFn || !inputValue.trim()) return items;
+    return items.filter((item) => filterFn(item, inputValue));
+  }, [items, inputValue, filterFn]);
 
   return (
-    <SelectProvider value={{ selectedValue }}>
-      <SelectPrimitive.Root
-        data-slot='select'
-        value={selectedValue}
-        onValueChange={setSelectedValue}
-        disabled={disabled}
-        {...props}
-      />
-    </SelectProvider>
+    <Combobox.Root
+      data-slot='select'
+      filter={null}
+      items={items}
+      filteredItems={filteredItems}
+      onInputValueChange={setInputValue}
+      value={isValueControlled ? selectedValue : undefined}
+      defaultValue={isValueControlled ? undefined : defaultValue}
+      onValueChange={setSelectedValue}
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      name={name}
+      required={required}
+      disabled={disabled}
+    >
+      <SelectProvider value={{ selectedValue, registerSearch }}>
+        {children}
+      </SelectProvider>
+    </Combobox.Root>
   );
 }
 
-function SelectGroup({ ...props }: SelectGroupProps) {
-  return <SelectPrimitive.Group data-slot='select-group' {...props} />;
+function SelectGroup({
+  className,
+  children,
+  items,
+  ...props
+}: SelectGroupProps) {
+  return (
+    <Combobox.Group
+      data-slot='select-group'
+      className={className}
+      items={items}
+      {...props}
+    >
+      {children}
+    </Combobox.Group>
+  );
 }
 
 const triggerStyles = cn(
@@ -66,7 +129,7 @@ const labelStyles = cn(
   'pointer-events-none absolute left-16 origin-left text-muted transition-all duration-300',
   'top-10 -translate-y-4 body-4',
   'group-data-placeholder:top-14 group-data-placeholder:translate-y-0 group-data-placeholder:body-2',
-  'group-data-disabled:text-disabled disabled:text-disabled',
+  'group-data-disabled:text-disabled',
   'max-w-[calc(100%-var(--size-56))] truncate',
 );
 
@@ -75,139 +138,132 @@ const SelectInputTrigger = ({
   className,
   labelClassName,
   label,
-  selectedContent,
   ...props
-}: Omit<SelectTriggerProps, 'render'> & {
-  selectedContent: ReactNode;
-}) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    data-slot='select-trigger'
-    className={cn(triggerStyles, className)}
-    {...props}
-  >
-    {label && (
-      <label className={cn(labelStyles, labelClassName)}>{label}</label>
-    )}
-    <span
-      className={cn(
-        'flex-1 truncate text-left',
-        label &&
-          'mt-16 opacity-100 transition-opacity delay-100 duration-300 group-data-placeholder:mt-0 group-data-placeholder:opacity-0',
-      )}
+}: Omit<SelectTriggerProps, 'render'>) => {
+  const { selectedValue } = useSelectContext({
+    consumerName: 'SelectInputTrigger',
+    contextRequired: true,
+  });
+  const hasValue = selectedValue != null && selectedValue !== '';
+
+  return (
+    <Combobox.Trigger
+      ref={ref}
+      data-slot='select-trigger'
+      data-placeholder={!hasValue ? '' : undefined}
+      className={cn(triggerStyles, className)}
+      {...props}
     >
-      {selectedContent}
-    </span>
-    <SelectPrimitive.Icon asChild>
+      {label && (
+        <label className={cn(labelStyles, labelClassName)}>{label}</label>
+      )}
+      <span
+        className={cn(
+          'flex-1 truncate text-left',
+          label &&
+            'mt-16 opacity-100 transition-opacity delay-100 duration-300',
+          label && !hasValue && 'mt-0 opacity-0',
+        )}
+      >
+        <Combobox.Value />
+      </span>
       <ChevronDown
         size={20}
         className='text-muted group-data-disabled:text-disabled'
       />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-);
+    </Combobox.Trigger>
+  );
+};
 
 const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
   const { selectedValue } = useSelectContext({
     consumerName: 'SelectTrigger',
     contextRequired: true,
   });
-  const selectedContent = <SelectPrimitive.Value data-slot='select-value' />;
+  const selectedContent = <Combobox.Value />;
 
   if (render) {
     return (
-      <SelectPrimitive.Trigger
+      <Combobox.Trigger
         disabled={disabled}
         ref={props.ref}
         data-slot='select-trigger'
-        asChild
-      >
-        {render({ selectedValue, selectedContent })}
-      </SelectPrimitive.Trigger>
+        render={render({ selectedValue, selectedContent })}
+      />
     );
   }
 
-  return (
-    <SelectInputTrigger
-      {...props}
-      disabled={disabled}
-      selectedContent={selectedContent}
-    />
-  );
+  return <SelectInputTrigger {...props} disabled={disabled} />;
 };
-SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+SelectTrigger.displayName = 'SelectTrigger';
 
-const contentStyles = cva(
-  [
-    'relative z-select max-h-(--radix-select-content-available-height) overflow-x-hidden overflow-y-auto',
-    'rounded-sm bg-muted',
-    'shadow-md',
-    'data-[side=bottom]:animate-slide-in-from-top',
-    'data-[side=top]:animate-slide-in-from-bottom',
-    'data-[side=left]:animate-slide-in-from-right',
-    'data-[side=right]:animate-slide-in-from-left',
-  ],
-  {
-    variants: {
-      position: {
-        popper:
-          'data-[side=bottom]:translate-y-8 data-[side=left]:-translate-x-8 data-[side=right]:translate-x-8 data-[side=top]:-translate-y-8',
-        'item-aligned': '',
-      },
-    },
-    defaultVariants: {
-      position: 'popper',
-    },
-  },
+const contentStyles = cn(
+  'group/select-content relative z-select max-h-(--available-height) overflow-x-hidden overflow-y-auto',
+  'rounded-sm bg-muted',
+  'shadow-md',
+  'data-[side=bottom]:animate-slide-in-from-top',
+  'data-[side=top]:animate-slide-in-from-bottom',
+  'data-[side=left]:animate-slide-in-from-right',
+  'data-[side=right]:animate-slide-in-from-left',
 );
-
-const viewportStyles = cva('p-8', {
-  variants: {
-    position: {
-      popper:
-        'h-(--radix-select-trigger-height) w-full min-w-(--radix-select-trigger-width)',
-      'item-aligned': '',
-    },
-  },
-  defaultVariants: {
-    position: 'popper',
-  },
-});
 
 const SelectContent = ({
   ref,
   className,
   children,
-  position = 'popper',
+  side = 'bottom',
+  sideOffset = 8,
+  align = 'start',
+  alignOffset = 0,
   ...props
 }: SelectContentProps) => (
-  <SelectPrimitive.Portal data-slot='select-portal'>
-    <SelectPrimitive.Content
-      ref={ref}
-      data-slot='select-content'
-      className={cn(contentStyles({ position }), className)}
-      position={position}
-      {...props}
+  <Combobox.Portal data-slot='select-portal'>
+    <Combobox.Positioner
+      data-slot='select-positioner'
+      side={side}
+      sideOffset={sideOffset}
+      align={align}
+      alignOffset={alignOffset}
     >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport className={viewportStyles({ position })}>
+      <Combobox.Popup
+        ref={ref}
+        data-slot='select-content'
+        className={cn(contentStyles, className)}
+        {...props}
+      >
         {children}
-      </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
 );
-SelectContent.displayName = SelectPrimitive.Content.displayName;
+SelectContent.displayName = 'SelectContent';
+
+const SelectList = ({
+  ref,
+  className,
+  children,
+  ...props
+}: SelectListProps) => (
+  <Combobox.List
+    ref={ref}
+    data-slot='select-list'
+    className={cn('min-w-(--anchor-width) p-8', className)}
+    {...props}
+  >
+    {children}
+  </Combobox.List>
+);
+SelectList.displayName = 'SelectList';
 
 const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
-  <SelectPrimitive.Label
+  <Combobox.GroupLabel
     ref={ref}
     data-slot='select-label'
     className={cn('mb-4 px-8 pt-8 pb-0 body-3-semi-bold text-muted', className)}
     {...props}
   />
 );
-SelectLabel.displayName = SelectPrimitive.Label.displayName;
+SelectLabel.displayName = 'SelectLabel';
 
 const itemStyles = cn(
   'relative flex w-full cursor-pointer items-center bg-base-transparent select-none',
@@ -215,7 +271,7 @@ const itemStyles = cn(
   'body-2 text-base',
   'outline-hidden',
   'truncate',
-  'focus:bg-base-transparent-hover',
+  'data-highlighted:bg-base-transparent-hover',
   'active:bg-base-transparent-pressed',
   'data-disabled:cursor-not-allowed data-disabled:text-disabled',
 );
@@ -226,21 +282,19 @@ const SelectItem = ({
   children,
   ...props
 }: SelectItemProps) => (
-  <SelectPrimitive.Item
+  <Combobox.Item
     ref={ref}
     data-slot='select-item'
     className={cn(itemStyles, className)}
     {...props}
   >
     {children}
-    <span className='absolute right-8 flex size-24 items-center justify-center'>
-      <SelectPrimitive.ItemIndicator>
-        <Check size={24} className='ms-8 text-active' />
-      </SelectPrimitive.ItemIndicator>
-    </span>
-  </SelectPrimitive.Item>
+    <Combobox.ItemIndicator className='absolute right-8 flex size-24 items-center justify-center'>
+      <Check size={24} className='ms-8 shrink-0 text-active' />
+    </Combobox.ItemIndicator>
+  </Combobox.Item>
 );
-SelectItem.displayName = SelectPrimitive.Item.displayName;
+SelectItem.displayName = 'SelectItem';
 
 const SelectSeparator = ({
   ref,
@@ -252,50 +306,71 @@ const SelectSeparator = ({
 SelectSeparator.displayName = 'SelectSeparator';
 
 const SelectItemText = ({ ref, className, ...props }: SelectItemTextProps) => (
-  <SelectPrimitive.ItemText
+  <span
     ref={ref}
     data-slot='select-item-text'
-    className={cn('body-2 text-muted', className)}
+    className={cn('truncate body-2', className)}
     {...props}
   />
 );
-SelectItemText.displayName = SelectPrimitive.ItemText.displayName;
+SelectItemText.displayName = 'SelectItemText';
 
-function SelectScrollUpButton({
+const SelectSearch = ({
   className,
-  ...props
-}: ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
-  return (
-    <SelectPrimitive.ScrollUpButton
-      data-slot='select-scroll-up-button'
-      className={cn(
-        'flex cursor-default items-center justify-center py-1 text-muted',
-        className,
-      )}
-      {...props}
-    >
-      <ChevronUp className='size-4' />
-    </SelectPrimitive.ScrollUpButton>
-  );
-}
+  placeholder = 'Search',
+  errorMessage,
+  'aria-invalid': ariaInvalid,
+  suffix,
+  onClear,
+  hideClearButton,
+}: SelectSearchProps) => {
+  const { registerSearch } = useSelectContext({
+    consumerName: 'SelectSearch',
+    contextRequired: true,
+  });
 
-function SelectScrollDownButton({
-  className,
-  ...props
-}: ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
+  useLayoutEffect(() => registerSearch(), [registerSearch]);
+
   return (
-    <SelectPrimitive.ScrollDownButton
-      data-slot='select-scroll-down-button'
-      className={cn(
-        'flex cursor-default items-center justify-center py-1 text-muted',
-        className,
+    <Combobox.Input
+      render={(comboboxProps) => (
+        <SearchInput
+          {...comboboxProps}
+          aria-invalid={ariaInvalid}
+          errorMessage={errorMessage}
+          suffix={suffix}
+          onClear={onClear}
+          hideClearButton={hideClearButton}
+          placeholder={placeholder}
+          containerClassName='rounded-b-none ring-inset'
+          className={cn(className, 'rounded-b-none ring-inset')}
+        />
       )}
-      {...props}
-    >
-      <ChevronDown className='size-4' />
-    </SelectPrimitive.ScrollDownButton>
+    />
   );
-}
+};
+SelectSearch.displayName = 'SelectSearch';
+
+const SelectEmptyState = ({
+  ref,
+  className,
+  children,
+  ...props
+}: SelectEmptyStateProps) => (
+  <Combobox.Empty
+    ref={ref}
+    data-slot='select-empty-state'
+    className={cn(
+      'hidden w-full justify-center p-16 body-2 text-muted',
+      'group-data-empty/select-content:flex',
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </Combobox.Empty>
+);
+SelectEmptyState.displayName = 'SelectEmptyState';
 
 const SelectTriggerButton = ({
   selectedValue,
@@ -313,9 +388,12 @@ export {
   SelectGroup,
   SelectTrigger,
   SelectContent,
+  SelectSearch,
+  SelectList,
   SelectLabel,
   SelectItemText,
   SelectItem,
   SelectSeparator,
+  SelectEmptyState,
   SelectTriggerButton,
 };
