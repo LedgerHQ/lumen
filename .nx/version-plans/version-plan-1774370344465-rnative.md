@@ -2,6 +2,6 @@
 '@ledgerhq/lumen-ui-rnative': patch
 ---
 
-BREAKING_CHANGE(ui-rnative): add fit layout for SegmentedControl
+feat(ui-rnative): add fit layout for SegmentedControl
 
-The default `tabLayout` is now `'fixed'` (segments share the container width equally). If you relied on the previous default behavior—tabs sizing to their content—pass `tabLayout="fit"` explicitly on `SegmentedControl`. No change is required if equal-width segments match your design.
+Equal-width segments were already the default before `tabLayout` existed, and they still are (`tabLayout` defaults to `'fixed'`). **No migration** is needed to keep the same look and behavior. Use `tabLayout="fit"` only when you want each tab to size to its content instead.
