@@ -22,7 +22,7 @@ const meta = {
   ],
   args: {
     appearance: 'background',
-    tabLayout: 'fit',
+    tabLayout: 'fixed',
   },
 } satisfies Meta<typeof SegmentedControl>;
 

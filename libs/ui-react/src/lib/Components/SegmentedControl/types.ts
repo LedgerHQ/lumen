@@ -24,7 +24,7 @@ export type SegmentedControlProps = {
    * Controls how tab widths are calculated.
    * - "fit": each tab sizes to its content
    * - "fixed": all tabs share equal width, filling the container
-   * @default 'fit'
+   * @default 'fixed'
    */
   tabLayout?: 'fit' | 'fixed';
   /**
