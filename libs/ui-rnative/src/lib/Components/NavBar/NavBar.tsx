@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { ReactNode } from 'react';
+import { Children, isValidElement, ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -35,8 +35,8 @@ function extractSlots(children: ReactNode): Slots {
     trailing: null,
   };
 
-  React.Children.forEach(children, (child) => {
-    if (!React.isValidElement(child)) {
+  Children.forEach(children, (child) => {
+    if (!isValidElement(child)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

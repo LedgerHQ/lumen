@@ -1,11 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useMemo,
-  ReactNode,
-} from 'react';
+import { useState, useCallback, useRef, useMemo, ReactNode } from 'react';
 
 export type TooltipData = {
   id: string;

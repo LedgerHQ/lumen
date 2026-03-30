@@ -1,5 +1,13 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import React, { useState, useEffect, useCallback, useId } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useId,
+  Children,
+  isValidElement,
+  ReactNode,
+} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
@@ -328,9 +336,9 @@ export const SelectContent = ({ children }: SelectContentProps) => {
   useEffect(() => {
     const items: SelectContentItem[] = [];
 
-    const extractItems = (child: React.ReactNode): void => {
-      React.Children.forEach(child, (element) => {
-        if (!React.isValidElement(element)) return;
+    const extractItems = (child: ReactNode): void => {
+      Children.forEach(child, (element) => {
+        if (!isValidElement(element)) return;
 
         if (element.type === SelectItem) {
           const props = element.props as SelectItemProps;
@@ -344,12 +352,10 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
-          extractItems(
-            (element.props as { children?: React.ReactNode }).children,
-          );
+          extractItems((element.props as { children?: ReactNode }).children);
         } else if (element.type === SelectLabel) {
           const labelText = extractTextFromChildren(
-            (element.props as { children?: React.ReactNode }).children,
+            (element.props as { children?: ReactNode }).children,
             SelectItemText,
           );
           items.push({
@@ -360,12 +366,8 @@ export const SelectContent = ({ children }: SelectContentProps) => {
           items.push({
             type: 'separator',
           });
-        } else if (
-          (element.props as { children?: React.ReactNode })?.children
-        ) {
-          extractItems(
-            (element.props as { children?: React.ReactNode }).children,
-          );
+        } else if ((element.props as { children?: ReactNode })?.children) {
+          extractItems((element.props as { children?: ReactNode }).children);
         }
       });
     };

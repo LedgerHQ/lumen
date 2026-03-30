@@ -1,10 +1,10 @@
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import storybook from 'eslint-plugin-storybook';
 
-import baseConfig from '../../eslint.config.mjs';
+import { prodConfig } from '../../eslint.config.mjs';
 
 export default [
-  ...baseConfig,
+  ...prodConfig,
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     plugins: {
@@ -43,13 +43,4 @@ export default [
       },
     },
   },
-  {
-    ignores: [
-      '**/*.figma.ts',
-      '**/*.figma.tsx',
-      '**/*.figma.js',
-      '**/*.figma.jsx',
-    ],
-  },
-  ...storybook.configs['flat/recommended'],
 ];

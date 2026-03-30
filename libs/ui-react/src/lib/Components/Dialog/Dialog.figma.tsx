@@ -1,4 +1,5 @@
-import React from 'react';
+import figma from '@figma/code-connect';
+import { Button } from '../Button/Button';
 import {
   Dialog,
   DialogContent,
@@ -7,9 +8,6 @@ import {
   DialogBody,
   DialogFooter,
 } from './Dialog';
-import { Button } from '../Button/Button';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Dialog,
@@ -39,12 +37,13 @@ figma.connect(
         }),
       }),
       dialogFooter: figma.boolean('show-sticky-button', {
-        true:
-        <DialogFooter>
-          <Button appearance='base' isFull>
-            Confirm
-          </Button>
-        </DialogFooter>,
+        true: (
+          <DialogFooter>
+            <Button appearance='base' isFull>
+              Confirm
+            </Button>
+          </DialogFooter>
+        ),
         false: undefined,
       }),
     },

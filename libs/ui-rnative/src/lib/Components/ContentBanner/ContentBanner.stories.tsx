@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
+import { useState } from 'react';
 import { Settings, Wallet } from '../../Symbols';
 import { Button } from '../Button';
 import { Spot } from '../Spot';
@@ -84,7 +84,7 @@ export const Base: Story = {
 
 export const WithClose: Story = {
   render: () => {
-    const [visible, setVisible] = React.useState(true);
+    const [visible, setVisible] = useState(true);
 
     if (!visible) {
       return (

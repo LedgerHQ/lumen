@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentPropsWithRef } from 'react';
 
 export type StepperProps = {
   /**
@@ -18,4 +18,4 @@ export type StepperProps = {
    * Optional custom label. Defaults to "{currentStep}/{totalSteps}".
    */
   label?: string;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;

@@ -5,7 +5,7 @@ import {
   userEvent,
   waitFor,
 } from '@testing-library/react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ColorSchemeName, Pressable, Text, View } from 'react-native';
 import { LumenStyleSheetProvider } from '../provider/LumenStyleSheetProvider';
 import { useStyleSheet } from './useStyleSheet';

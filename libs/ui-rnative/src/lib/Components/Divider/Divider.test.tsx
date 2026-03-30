@@ -1,7 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render } from '@testing-library/react-native';
-import React from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Divider } from './Divider';
 

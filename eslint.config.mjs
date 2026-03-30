@@ -1,27 +1,39 @@
 import nx from '@nx/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import storybook from 'eslint-plugin-storybook';
+import { defineConfig } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import {
+  definedGlobalIgnores,
+  defineGlobalRules,
+  defineProdRules,
+  defineDevRules,
+} from './eslint.shared.mjs';
 
-export default defineConfig(
+export const sharedConfig = defineConfig(
   ...nx.configs['flat/base'],
   ...nx.configs['flat/react'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
+  ...storybook.configs['flat/recommended'],
   {
-    ignores: [
-      '**/dist',
-      '**/storybook-static',
-      '**/vite.config.*.timestamp*',
-      '**/vitest.config.*.timestamp*',
-    ],
+    plugins: {
+      import: importPlugin,
+      'jsx-a11y': jsxA11y,
+    },
   },
-  {
-    files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'],
+  defineGlobalRules({
     languageOptions: {
       parser: tsParser,
     },
     rules: {
+      /**
+       * React
+       */
+      'react/self-closing-comp': ['error', { component: true, html: true }],
+
       /**
        * import
        */
@@ -45,7 +57,6 @@ export default defineConfig(
       /**
        * typescript
        */
-      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -58,6 +69,52 @@ export default defineConfig(
         },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      /**
+       * Others
+       */
+      'no-unused-vars': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['forwardRef'],
+              message: 'Use ref as a regular prop instead (React 19 pattern).',
+            },
+            {
+              name: 'react-native',
+              importNames: ['TouchableOpacity'],
+              message: 'Prefer usage of `Pressable`.',
+            },
+            {
+              name: 'react-native',
+              importNames: ['Animated', 'Easing', 'LayoutAnimation'],
+              message: 'Prefer react-native-reanimated for animations.',
+            },
+          ],
+        },
+      ],
+    },
+  }),
+  defineDevRules({
+    rules: {
+      '@typescript-eslint/no-empty-function': 'off',
+    },
+  }),
+  eslintPluginPrettierRecommended,
+  definedGlobalIgnores,
+);
+
+export const prodConfig = defineConfig(
+  ...sharedConfig,
+  defineProdRules({
+    rules: {
+      ...jsxA11y.flatConfigs.strict.rules,
+      'no-console': 'error',
+      'no-restricted-imports': 'error',
+      'import/no-extraneous-dependencies': ['error'],
+      'import/no-default-export': 'error',
       /**
        * nx
        */
@@ -91,7 +148,5 @@ export default defineConfig(
         },
       ],
     },
-  },
-  eslintPluginPrettierRecommended,
-  globalIgnores(['**/out-tsc']),
+  }),
 );

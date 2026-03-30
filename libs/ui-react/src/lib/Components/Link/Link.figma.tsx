@@ -1,8 +1,6 @@
-import React from 'react';
+import figma from '@figma/code-connect';
 import { Link } from './Link';
 import { LinkProps } from './types';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Link,

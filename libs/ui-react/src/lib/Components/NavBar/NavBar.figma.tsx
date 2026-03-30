@@ -1,4 +1,7 @@
-import React from 'react';
+import figma from '@figma/code-connect';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import { Settings } from '../../Symbols';
+import { IconButton } from '../IconButton';
 import {
   NavBar,
   NavBarBackButton,
@@ -6,11 +9,6 @@ import {
   NavBarTitle,
   NavBarTrailing,
 } from './NavBar';
-import { IconButton } from '../IconButton';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
-
-import figma from '@figma/code-connect';
-import { Settings } from '../../Symbols';
 
 figma.connect(
   NavBar,
@@ -27,14 +25,15 @@ figma.connect(
       }),
       title: figma.string('title'),
       coinCapsule: figma.enum('appearance', {
-        'with-asset':
-        <NavBarCoinCapsule
-          ticker='Bitcoin'
-          icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />}
-        />,
+        'with-asset': (
+          <NavBarCoinCapsule
+            ticker='Bitcoin'
+            icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+          />
+        ),
       }),
       trailing: figma.boolean('show-trailing-icon', {
-        true:
+        true: (
           <NavBarTrailing>
             <IconButton
               appearance='gray'
@@ -42,7 +41,8 @@ figma.connect(
               icon={Settings}
               aria-label='Action'
             />
-          </NavBarTrailing>,
+          </NavBarTrailing>
+        ),
         false: undefined,
       }),
     },
@@ -50,9 +50,7 @@ figma.connect(
       <NavBar>
         {props.backButton}
         {props.coinCapsule}
-        <NavBarTitle>
-          {props.title}
-        </NavBarTitle>
+        <NavBarTitle>{props.title}</NavBarTitle>
         {props.trailing}
       </NavBar>
     ),

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Coins, Nft, TransferHorizontal, Settings } from '../../Symbols';
 import { Box } from '../Utility';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';

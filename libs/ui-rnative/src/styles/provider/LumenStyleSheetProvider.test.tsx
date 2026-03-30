@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, userEvent } from '@testing-library/react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ColorSchemeName, Pressable, Text, View } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { LumenStyleSheetProvider } from './LumenStyleSheetProvider';
@@ -110,7 +110,7 @@ describe('LumenStyleSheetProvider', () => {
     // Suppress console.error for this test
     const consoleErrorSpy = jest
       .spyOn(console, 'error')
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
+
       .mockImplementation(() => {});
 
     expect(() => {

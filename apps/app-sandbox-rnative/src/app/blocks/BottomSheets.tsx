@@ -7,8 +7,8 @@ import {
   BottomSheetScrollView,
   BottomSheetView,
   Text,
+  BottomSheetProps,
 } from '@ledgerhq/lumen-ui-rnative';
-import { forwardRef } from 'react';
 
 export const BottomSheetsButton = ({ onPress }: any) => {
   return (
@@ -18,9 +18,7 @@ export const BottomSheetsButton = ({ onPress }: any) => {
   );
 };
 
-export const BottomSheetFlatLists = forwardRef<
-  React.ElementRef<typeof BottomSheet>
->((props, ref) => {
+export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
   const data = Array.from({ length: 100 }, (_, i) => ({
     id: i.toString(),
     title: `Item ${i + 1}`,
@@ -67,11 +65,9 @@ export const BottomSheetFlatLists = forwardRef<
       />
     </BottomSheet>
   );
-});
+};
 
-export const BottomSheetDynamicSize = forwardRef<
-  React.ElementRef<typeof BottomSheet>
->((props, ref) => {
+export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
   const data = Array.from(
     new Array(20).fill(0).map((_, i) => ({
       id: i.toString(),
@@ -121,4 +117,4 @@ export const BottomSheetDynamicSize = forwardRef<
       </BottomSheetScrollView>
     </BottomSheet>
   );
-});
+};

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ListItem,
   ListItemContent,
@@ -131,10 +131,10 @@ export const Error: Story = {
  */
 export const DebouncedSearchInput: Story = {
   render: () => {
-    const [inputValue, setInputValue] = React.useState(''); // Display value (updates immediately)
-    const [searchQuery, setSearchQuery] = React.useState(''); // Debounced search query
-    const [filteredResults, setFilteredResults] = React.useState<string[]>([]);
-    const [isSearching, setIsSearching] = React.useState(false);
+    const [inputValue, setInputValue] = useState(''); // Display value (updates immediately)
+    const [searchQuery, setSearchQuery] = useState(''); // Debounced search query
+    const [filteredResults, setFilteredResults] = useState<string[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
 
     const items = [
       'Apple',
@@ -149,7 +149,7 @@ export const DebouncedSearchInput: Story = {
       'Pineapple',
     ];
 
-    const debounce = React.useCallback(
+    const debounce = useCallback(
       (callback: (...args: any[]) => void, wait: number) => {
         let timeoutId: number | null = null;
         return (...args: any[]) => {
@@ -164,7 +164,7 @@ export const DebouncedSearchInput: Story = {
       [],
     );
 
-    const debouncedSearch = React.useMemo(
+    const debouncedSearch = useMemo(
       () =>
         debounce((query: string) => {
           console.log('🔍 Performing search for:', query); // This would be your API call
@@ -175,7 +175,7 @@ export const DebouncedSearchInput: Story = {
     );
 
     // Handle input change (updates display immediately)
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setInputValue(value);
       setIsSearching(value.trim().length > 0);
@@ -183,7 +183,7 @@ export const DebouncedSearchInput: Story = {
     };
 
     // Filter results when search query changes (this would be your API response)
-    React.useEffect(() => {
+    useEffect(() => {
       if (searchQuery.trim() === '') {
         setFilteredResults([]);
       } else {

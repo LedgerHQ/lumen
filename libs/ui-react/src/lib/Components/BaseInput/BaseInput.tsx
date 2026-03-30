@@ -1,5 +1,14 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
+import {
+  useRef,
+  useId,
+  useState,
+  useCallback,
+  ChangeEvent,
+  Ref,
+  RefObject,
+  PointerEvent,
+} from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { DeleteCircleFill } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -73,9 +82,9 @@ export const BaseInput = ({
     mergeWith: { disabled: disabledProp },
   });
   const { t } = useCommonTranslation();
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const reactId = React.useId();
+  const reactId = useId();
   const inputId = id || `input-${reactId}`;
 
   // Handle aria-invalid properly - use provided value or derive from errorMessage
@@ -93,12 +102,12 @@ export const BaseInput = ({
   // 2. When clearing the input, DOM value changes but React doesn't re-render
   //    to recalculate hasContent, causing clear button to stay visible
   // This state is only for UI reactivity (clear button visibility), not controlling the input
-  const [uncontrolledValue, setUncontrolledValue] = React.useState(
+  const [uncontrolledValue, setUncontrolledValue] = useState(
     props.defaultValue?.toString() || '',
   );
 
-  const handleInput = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
       // Track uncontrolled input value changes
       if (!isControlled) {
         setUncontrolledValue(e.target.value);
@@ -141,14 +150,14 @@ export const BaseInput = ({
   };
 
   /** TODO: move to utils-shared */
-  function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
+  function composeRefs<T>(...refs: (Ref<T> | undefined)[]) {
     return (node: T) => {
       refs.forEach((ref) => {
         if (!ref) return;
         if (typeof ref === 'function') {
           ref(node);
         } else {
-          (ref as React.MutableRefObject<T | null>).current = node;
+          (ref as RefObject<T | null>).current = node;
         }
       });
     };
@@ -158,7 +167,7 @@ export const BaseInput = ({
     <div className={className}>
       <div
         className={cn(baseContainerStyles, containerClassName)}
-        onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => {
+        onPointerDown={(event: PointerEvent<HTMLDivElement>) => {
           const target = event.target as Element;
           if (target.closest('input, button, a')) return;
 

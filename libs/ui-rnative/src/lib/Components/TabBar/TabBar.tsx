@@ -1,5 +1,12 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
-import React, { useCallback, useEffect, useRef } from 'react';
+import {
+  Children,
+  isValidElement,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import {
   LayoutChangeEvent,
   Platform,
@@ -98,7 +105,7 @@ const useTabBarPillLayout = ({
   children,
 }: {
   active: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const pillProgress = useSharedValue(0);
   const itemWidth = useSharedValue(0);
@@ -111,8 +118,8 @@ const useTabBarPillLayout = ({
   });
 
   const getActiveIndex = useCallback((): number => {
-    return React.Children.toArray(children).findIndex((child) => {
-      if (React.isValidElement<TabBarItemProps>(child)) {
+    return Children.toArray(children).findIndex((child) => {
+      if (isValidElement<TabBarItemProps>(child)) {
         return child.props.value === active;
       }
       return false;
@@ -121,7 +128,7 @@ const useTabBarPillLayout = ({
 
   const onLayout = (e: LayoutChangeEvent): void => {
     const { width, height } = e.nativeEvent.layout;
-    const count = React.Children.count(children);
+    const count = Children.count(children);
     const slotWidth = (width - PILL_INSET * 2) / count;
 
     itemWidth.value = slotWidth;

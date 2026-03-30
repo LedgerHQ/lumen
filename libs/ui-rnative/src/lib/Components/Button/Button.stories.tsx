@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
+import { useState } from 'react';
 import { Plus, Settings } from '../../Symbols';
 import { Box, Text } from '../Utility';
 import { Button } from './Button';
@@ -210,7 +210,7 @@ export const LabelTruncate: Story = {
 
 export const InteractiveLoadingStates: Story = {
   render: () => {
-    const [states, setStates] = React.useState<
+    const [states, setStates] = useState<
       Record<'text' | 'withIcon' | 'iconOnly', 'idle' | 'loading' | 'red'>
     >({
       text: 'idle',

@@ -4,7 +4,7 @@ import {
   isTextChildren,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import React, { Ref } from 'react';
+import { Ref } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Spot } from '../Spot';

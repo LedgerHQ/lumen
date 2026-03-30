@@ -3,7 +3,6 @@ import {
   getStepperCalculations,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { forwardRef } from 'react';
 import { StepperProps } from './types';
 
 const SIZE = 48;
@@ -19,107 +18,103 @@ const STROKE_WIDTH = 4;
  * <Stepper currentStep={1} totalSteps={4} />
  * <Stepper currentStep={0} totalSteps={9} disabled /> // Shows minimal dot, disabled style
  */
-export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
-  (
-    {
-      className,
-      currentStep,
-      totalSteps,
-      disabled: disabledProp = false,
-      label,
-      ...props
-    },
-    ref,
-  ) => {
-    const disabled = useDisabledContext({
-      consumerName: 'Stepper',
-      mergeWith: { disabled: disabledProp },
-    });
+export const Stepper = ({
+  className,
+  currentStep,
+  totalSteps,
+  disabled: disabledProp = false,
+  label,
+  ref,
+  ...props
+}: StepperProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Stepper',
+    mergeWith: { disabled: disabledProp },
+  });
 
-    const {
-      displayLabel,
-      r,
-      cx,
-      cy,
-      trackDashArray,
-      progressDashArray,
-      progressDashOffset,
-    } = getStepperCalculations({
-      currentStep,
-      totalSteps,
-      size: SIZE,
-      label,
-      strokeWidth: STROKE_WIDTH,
-    });
+  const {
+    displayLabel,
+    r,
+    cx,
+    cy,
+    trackDashArray,
+    progressDashArray,
+    progressDashOffset,
+  } = getStepperCalculations({
+    currentStep,
+    totalSteps,
+    size: SIZE,
+    label,
+    strokeWidth: STROKE_WIDTH,
+  });
 
-    return (
-      <div
-        ref={ref}
-        role='progressbar'
-        aria-valuenow={currentStep}
-        aria-valuemin={1}
-        aria-valuemax={totalSteps}
-        aria-label={displayLabel}
-        className={cn(
-          'relative flex size-48 shrink-0 items-center justify-center rounded-full',
-          className,
-        )}
-        {...props}
+  return (
+    <div
+      ref={ref}
+      role='progressbar'
+      aria-valuenow={currentStep}
+      aria-valuemin={1}
+      aria-valuemax={totalSteps}
+      aria-label={displayLabel}
+      className={cn(
+        'relative flex size-48 shrink-0 items-center justify-center rounded-full',
+        className,
+      )}
+      {...props}
+    >
+      <svg
+        width={SIZE}
+        height={SIZE}
+        viewBox={`0 0 ${SIZE} ${SIZE}`}
+        className='rotate-135'
+        aria-hidden
       >
-        <svg
-          width={SIZE}
-          height={SIZE}
-          viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className='rotate-135'
-          aria-hidden
-        >
-          <circle
-            cx={cx}
-            cy={cy}
-            r={r}
-            fill='none'
-            stroke='currentColor'
-            strokeLinecap='round'
-            className='stroke-muted-subtle'
-            style={{
-              strokeWidth: `${STROKE_WIDTH}px`,
-              strokeDasharray: trackDashArray,
-              strokeDashoffset: 0,
-            }}
-          />
-          <circle
-            cx={cx}
-            cy={cy}
-            r={r}
-            fill='none'
-            stroke='currentColor'
-            strokeLinecap='round'
-            className={cn(
-              disabled ? 'stroke-muted-subtle-hover' : 'stroke-active',
-              'transition-[stroke-dashoffset,stroke] duration-300 ease-in-out',
-            )}
-            style={{
-              strokeWidth: `${STROKE_WIDTH}px`,
-              strokeDasharray: progressDashArray,
-              strokeDashoffset: progressDashOffset,
-            }}
-          />
-        </svg>
-        <span className='absolute inset-0 m-4 flex items-center justify-center text-base'>
-          {label ? (
-            <span className='body-2-semi-bold'>{label}</span>
-          ) : (
-            <span>
-              <span className='body-1-semi-bold'>
-                {Math.min(Math.max(currentStep, 0), totalSteps)}
-              </span>
-              <span className='body-2-semi-bold text-muted'>/{totalSteps}</span>
-            </span>
+        <circle
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill='none'
+          stroke='currentColor'
+          strokeLinecap='round'
+          className='stroke-muted-subtle'
+          style={{
+            strokeWidth: `${STROKE_WIDTH}px`,
+            strokeDasharray: trackDashArray,
+            strokeDashoffset: 0,
+          }}
+        />
+        <circle
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill='none'
+          stroke='currentColor'
+          strokeLinecap='round'
+          className={cn(
+            disabled ? 'stroke-muted-subtle-hover' : 'stroke-active',
+            'transition-[stroke-dashoffset,stroke] duration-300 ease-in-out',
           )}
-        </span>
-      </div>
-    );
-  },
-);
+          style={{
+            strokeWidth: `${STROKE_WIDTH}px`,
+            strokeDasharray: progressDashArray,
+            strokeDashoffset: progressDashOffset,
+          }}
+        />
+      </svg>
+      <span className='absolute inset-0 m-4 flex items-center justify-center text-base'>
+        {label ? (
+          <span className='body-2-semi-bold'>{label}</span>
+        ) : (
+          <span>
+            <span className='body-1-semi-bold'>
+              {Math.min(Math.max(currentStep, 0), totalSteps)}
+            </span>
+            <span className='body-2-semi-bold text-muted'>/{totalSteps}</span>
+          </span>
+        )}
+      </span>
+    </div>
+  );
+};
 
 Stepper.displayName = 'Stepper';

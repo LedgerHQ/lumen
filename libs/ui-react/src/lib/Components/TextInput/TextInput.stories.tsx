@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { InformationFill, SparksFill } from '../../Symbols';
 import { Button } from '../Button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';
@@ -45,7 +45,7 @@ type Story = StoryObj<typeof TextInput>;
  */
 export const Default: Story = {
   render: (args) => {
-    const [value, setValue] = React.useState(args.value || '');
+    const [value, setValue] = useState(args.value || '');
 
     return (
       <TextInput
@@ -84,7 +84,7 @@ export const Default: Story = {
  */
 export const WithContent: Story = {
   render: () => {
-    const [value, setValue] = React.useState('Initial content');
+    const [value, setValue] = useState('Initial content');
     return (
       <TextInput
         label='Label'
@@ -136,9 +136,7 @@ export const ExtendedClearBehavior: Story = {
 
 // Separate components to avoid state interference
 export const ControlledInputExample = () => {
-  const [value, setValue] = React.useState(
-    'Type here to see default clear button',
-  );
+  const [value, setValue] = useState('Type here to see default clear button');
   return (
     <TextInput
       label='Controlled Input (Default Clear)'
@@ -166,7 +164,7 @@ export const UncontrolledInputExample = () => {
  */
 export const HiddenClearButton: Story = {
   render: () => {
-    const [value, setValue] = React.useState('Content with no clear button');
+    const [value, setValue] = useState('Content with no clear button');
     return (
       <div className='max-w-md space-y-16'>
         <TextInput
@@ -200,7 +198,7 @@ export const HiddenClearButton: Story = {
  */
 export const WithError: Story = {
   render: () => {
-    const [email, setEmail] = React.useState('invalid.email');
+    const [email, setEmail] = useState('invalid.email');
     // Consider empty input as valid to allow clearing
     const isValidEmail =
       email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -231,7 +229,7 @@ export const WithError: Story = {
  */
 export const Disabled: Story = {
   render: () => {
-    const [value] = React.useState('Disabled content');
+    const [value] = useState('Disabled content');
     return (
       <TextInput
         label='Label'
@@ -293,7 +291,7 @@ const GeneratePasswordButton = () => (
 
 export const WithCustomElement: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = useState('');
     return (
       <div className='max-w-4xl'>
         <div className='grid grid-cols-1 gap-16 md:grid-cols-2'>
@@ -338,17 +336,17 @@ export const WithCustomElement: Story = {
  */
 export const Interactive: Story = {
   render: () => {
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = useState({
       username: '',
       email: '',
       password: '',
       confirmPassword: '',
     });
-    const [errors, setErrors] = React.useState<Record<string, string>>({});
-    const [isSubmitted, setIsSubmitted] = React.useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange =
-      (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      (field: string) => (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setFormData((prev) => ({ ...prev, [field]: value }));
 
@@ -393,7 +391,7 @@ export const Interactive: Story = {
       return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
       e.preventDefault();
       if (validateForm()) {
         setIsSubmitted(true);

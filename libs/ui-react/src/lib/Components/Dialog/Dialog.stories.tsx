@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState } from 'react';
 import { Apps, Chart1 } from '../../Symbols';
 import { Button } from '../Button';
 import {
@@ -131,7 +131,7 @@ export const Base: Story = {
 
 export const Controlled: Story = {
   render: () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -166,7 +166,7 @@ export const Controlled: Story = {
         code: `
 // Controlled — manage open state yourself.
 // Use onClose on DialogHeader and onClick handlers to close via state.
-const [open, setOpen] = React.useState(false);
+const [open, setOpen] = useState(false);
 
 <Dialog open={open} onOpenChange={setOpen}>
   <DialogTrigger asChild>
@@ -448,8 +448,8 @@ export const HeaderVariants: Story = {
 
 export const WithMultiSteps: Story = {
   render: () => {
-    const [open, setOpen] = React.useState(false);
-    const [step, setStep] = React.useState(1);
+    const [open, setOpen] = useState(false);
+    const [step, setStep] = useState(1);
 
     const handleOpenChange = (isOpen: boolean) => {
       setOpen(isOpen);
@@ -497,8 +497,8 @@ export const WithMultiSteps: Story = {
         code: `
 // Controlled — multi-step dialogs require state to manage steps and open/close.
 // Use onClose on DialogHeader to close the dialog via state.
-const [open, setOpen] = React.useState(false);
-const [step, setStep] = React.useState(1);
+const [open, setOpen] = useState(false);
+const [step, setStep] = useState(1);
 
 const handleOpenChange = (isOpen: boolean) => {
   setOpen(isOpen);

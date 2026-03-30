@@ -87,7 +87,7 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 Import and use the Stepper component:
 
 ```tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Stepper } from '@ledgerhq/lumen-ui-rnative';
 
@@ -109,7 +109,6 @@ function OnboardingFlow() {
 Control the visual state based on step completion:
 
 ```tsx
-import React from 'react';
 import { Box, Stepper } from '@ledgerhq/lumen-ui-rnative';
 
 function MultiStepForm() {
@@ -128,7 +127,6 @@ function MultiStepForm() {
 Provide custom labels for localized or descriptive text:
 
 ```tsx
-import React from 'react';
 import { Stepper } from '@ledgerhq/lumen-ui-rnative';
 
 function LocalizedStepper() {

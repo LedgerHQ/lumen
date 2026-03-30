@@ -1,4 +1,12 @@
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import {
+  Children,
+  isValidElement,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 export type PillLayout = {
   width: number;
@@ -52,13 +60,13 @@ export function usePillElementLayoutEffect({
 
 export function useSegmentedControlSelectedIndex(
   selectedValue: string,
-  children: React.ReactNode,
+  children: ReactNode,
 ): number {
   return useMemo(
     () =>
-      React.Children.toArray(children).findIndex(
+      Children.toArray(children).findIndex(
         (c) =>
-          React.isValidElement(c) &&
+          isValidElement(c) &&
           (c.props as { value?: string }).value === selectedValue,
       ),
     [selectedValue, children],

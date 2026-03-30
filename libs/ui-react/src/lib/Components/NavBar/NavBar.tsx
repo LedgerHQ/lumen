@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';

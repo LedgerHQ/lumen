@@ -3,7 +3,7 @@ import {
   SNAP_POINT_TYPE,
 } from '@gorhom/bottom-sheet';
 import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { RuntimeConstants } from '../../utils';

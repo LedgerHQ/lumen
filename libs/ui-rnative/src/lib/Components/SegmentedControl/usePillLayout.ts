@@ -1,4 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, {
+  Children,
+  isValidElement,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import {
   useAnimatedStyle,
@@ -10,12 +18,12 @@ import type { ButtonLayout } from './SegmentedControlContext';
 
 export function useSegmentedControlSelectedIndex(
   selectedValue: string,
-  children: React.ReactNode,
+  children: ReactNode,
 ): number {
   return useMemo(
     () =>
-      React.Children.toArray(children).findIndex((child) => {
-        if (React.isValidElement(child) && child.props != null) {
+      Children.toArray(children).findIndex((child) => {
+        if (isValidElement(child) && child.props != null) {
           return (child.props as { value?: string }).value === selectedValue;
         }
         return false;

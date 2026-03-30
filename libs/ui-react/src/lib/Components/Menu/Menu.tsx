@@ -4,7 +4,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import * as React from 'react';
+import { ComponentProps, ComponentRef, Ref } from 'react';
 import { Check, ChevronRight } from '../../Symbols';
 import { Divider } from '../Divider';
 import type {
@@ -65,13 +65,13 @@ function MenuGroup({ ...props }: MenuGroupProps) {
 
 function MenuPortal({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
+}: ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
   return <DropdownMenuPrimitive.Portal {...props} />;
 }
 
 function MenuSub({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
+}: ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub {...props} />;
 }
 
@@ -237,7 +237,7 @@ const MenuLabel = ({
   inset,
   ...props
 }: MenuLabelProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Label>>;
+  ref?: Ref<ComponentRef<typeof DropdownMenuPrimitive.Label>>;
 }) => (
   <DropdownMenuPrimitive.Label
     ref={ref}

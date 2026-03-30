@@ -1,11 +1,5 @@
-import React from 'react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from './Tooltip';
-
 import figma from '@figma/code-connect';
+import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 figma.connect(
   Tooltip,

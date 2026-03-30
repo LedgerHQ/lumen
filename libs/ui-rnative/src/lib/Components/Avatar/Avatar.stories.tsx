@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 
 import { Box } from '../Utility';
