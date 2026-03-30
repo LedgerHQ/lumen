@@ -1,14 +1,17 @@
 ---
 name: pr-review
 description: >-
-  Review a local PR branch against origin/main for code quality, consistency, performance,
-  type safety, and completeness. Use when the user asks to review a PR, review code changes,
-  check a branch, or do a local code review.
+  Review a PR for code quality, consistency, performance, type safety, and completeness.
+  Works with local branches (diffed against origin/main) or remote PRs when a GitHub link is provided.
+  Use when the user asks to review a PR, review code changes, check a branch, do a local code review,
+  or provides a GitHub PR URL.
 ---
 
 # PR Review
 
 ## Setup
+
+### Local branch
 
 1. Fetch latest origin and determine the diff:
 
@@ -18,6 +21,17 @@ git diff origin/main...HEAD --stat
 git diff origin/main...HEAD
 git log origin/main...HEAD --oneline
 ```
+
+### Remote PR (GitHub link)
+
+1. If the user provides a GitHub PR URL, use the `gh` CLI to fetch the diff and metadata:
+
+```bash
+gh pr view <PR_NUMBER> --json title,body,baseRefName,headRefName,files
+gh pr diff <PR_NUMBER>
+```
+
+Then continue with the same review process below.
 
 2. Read the full diff to understand every changed file. Group changes by category:
    - New files (additions)
@@ -135,6 +149,29 @@ Cross-reference with existing patterns in the repo. Look for:
 - Guard clauses over nested `if/else` pyramids (early return).
 - Magic numbers and strings should be named constants.
 
+#### 10. Documentation vs Implementation Consistency
+
+- Do Storybook stories (`.stories.tsx`) accurately reflect the current component API? No stories referencing removed or renamed props.
+- Does the MDX documentation (`.mdx`) match the actual props, variants, and behavior of the component?
+- Are code examples in Do's and Don'ts sections using props that actually exist on the component?
+- If props were added, removed, or renamed, are the docs and stories updated accordingly?
+- Are default values documented correctly (matching the implementation)?
+- Do interactive examples still work with the current component API?
+
+---
+
+## Version Plan Check
+
+If the PR includes changes to production code (files under `libs/*/src/` - verify that a version-plan file exists in `.nx/version-plans/`.
+
+```bash
+git diff origin/main...HEAD --name-only -- .nx/version-plans/
+```
+
+- If no version-plan is present and production code was changed, flag this as a **Major (8/10)** finding under category `Release`.
+- Changes that are **docs-only**, **tests-only**, **stories-only**, **CI/config-only**, or **.figma files only** do not require a version plan.
+- If a version-plan exists, verify it references the correct package(s) and uses an appropriate bump type (`patch` / `minor` / `major`) for the nature of the change.
+
 ---
 
 ## Component Addition Checklist
@@ -237,7 +274,7 @@ The review is a **flat, scored list** -- one item per finding, sorted by severit
 ### Key rules for output
 
 - Each finding has exactly one severity score, one category, and one file reference.
-- Categories are strictly: `Correctness`, `Type Safety`, `Consistency`, `Performance`, `Abstraction`, `API Quality`, `Clarity`, `Robustness`, `Design Principles`.
+- Categories are strictly: `Correctness`, `Type Safety`, `Consistency`, `Performance`, `Abstraction`, `API Quality`, `Clarity`, `Robustness`, `Design Principles`, `Docs Consistency`, `Release`.
 - Include line numbers when possible (`file.tsx:42`).
 - The summary table comes first for a quick scan; the details section follows for depth.
 - If there are zero findings, say so explicitly and recommend approval.
