@@ -1,5 +1,5 @@
 import { BottomSheetVariables } from '@gorhom/bottom-sheet/lib/typescript/types';
-import React, { Ref } from 'react';
+import { Ref } from 'react';
 import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 

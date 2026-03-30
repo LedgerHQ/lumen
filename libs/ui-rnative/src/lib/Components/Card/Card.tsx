@@ -3,7 +3,7 @@ import {
   DisabledProvider,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
-import React, { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
+import { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, {
   useAnimatedStyle,

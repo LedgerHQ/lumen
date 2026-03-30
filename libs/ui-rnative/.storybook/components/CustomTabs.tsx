@@ -1,4 +1,4 @@
-import React from 'react';
+import { Children, ReactElement, isValidElement, useState } from 'react';
 import {
   SegmentedControl,
   SegmentedControlButton,
@@ -15,12 +15,12 @@ type CustomTabsProps = {
 };
 
 export const CustomTabs = ({ children }: CustomTabsProps) => {
-  const tabs = React.Children.toArray(children).filter(
-    (child): child is React.ReactElement<TabProps> =>
-      React.isValidElement(child) && child.type === Tab,
+  const tabs = Children.toArray(children).filter(
+    (child): child is ReactElement<TabProps> =>
+      isValidElement(child) && child.type === Tab,
   );
 
-  const [activeLabel, setActiveLabel] = React.useState<string>(
+  const [activeLabel, setActiveLabel] = useState<string>(
     tabs[0]?.props.label ?? '',
   );
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, fireEvent, screen } from '@testing-library/react-native';
-import React from 'react';
+import { Children } from 'react';
 import { Linking } from 'react-native';
 
 import { Information } from '../../Symbols';
@@ -121,7 +121,7 @@ describe('Link Component', () => {
         </Link>,
       );
 
-      const children = React.Children.toArray(
+      const children = Children.toArray(
         screen.getByTestId('link-content').props.children,
       );
       expect(children.length).toBe(2); // icon + text wrapper
@@ -134,7 +134,7 @@ describe('Link Component', () => {
         </Link>,
       );
 
-      const children = React.Children.toArray(
+      const children = Children.toArray(
         screen.getByTestId('link-content').props.children,
       );
       expect(children.length).toBe(2); // text wrapper + external icon

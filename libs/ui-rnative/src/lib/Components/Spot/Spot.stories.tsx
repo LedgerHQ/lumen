@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
 import { Settings, Plus, Heart, Star } from '../../Symbols';
 import { IconProps } from '../Icon';
 import { Box, Text } from '../Utility';

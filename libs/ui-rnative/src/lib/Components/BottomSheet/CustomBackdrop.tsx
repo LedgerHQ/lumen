@@ -1,5 +1,4 @@
 import { BottomSheetBackdrop as GorhomBottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import React from 'react';
 import { useStyleSheet } from '../../../styles';
 import { BottomSheetProps } from './types';
 

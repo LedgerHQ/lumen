@@ -1,5 +1,5 @@
 import { toPascalCase, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
+import { createElement } from 'react';
 import { SvgProps } from 'react-native-svg';
 import { useTheme } from '../../../styles';
 import { Icon } from './Icon';
@@ -22,7 +22,7 @@ const createIcon = (
       mergeWith: { disabled },
     });
 
-    return React.createElement(Icon, {
+    return createElement(Icon, {
       viewBox: iconJsx.props.viewBox,
       ...props,
       style: [
