@@ -1,26 +1,28 @@
 /** @import { Linter } from 'eslint' */
 import { globalIgnores } from 'eslint/config';
 
-const extensions = '{js,jsx,ts,tsx,cjs,cts,mjs,mts}';
-const allFilePatterns = [`**/*.${extensions}`];
-const prodFilePatterns = [`libs/**/src/**/*.${extensions}`];
+const ext = '{js,jsx,ts,tsx,cjs,cts,mjs,mts}';
+const allFilePatterns = [`**/*.${ext}`];
+const prodFilePatterns = [`src/**/*.${ext}`];
 
 const devFilePatterns = [
   /** configs & tooling */
-  `eslint.config.${extensions}`,
-  `jest.setup.${extensions}`,
+  `**/eslint.config.${ext}`,
+  `**/test-setup.${ext}`,
+  `**/jest.setup.${ext}`,
 
   /** specific files pattern */
-  `**/*.stories.${extensions}`,
-  `**/*.figma.${extensions}`,
-  `**/*.test.${extensions}`,
-  `**/*.spec.${extensions}`,
+  `**/*.stories.${ext}`,
+  `**/*.figma.${ext}`,
+  `**/*.test.${ext}`,
+  `**/*.spec.${ext}`,
 
   /** specific folders considered as dev */
-  `apps/**/*.${extensions}`,
+  `apps/**/*.${ext}`,
 ];
 
 const globalIgnorePatterns = [
+  'dist/**',
   '**/dist',
   '**/out-tsc',
   'node_modules',
@@ -70,7 +72,6 @@ export const defineDevRules = (config) => ({
   ...config,
   files: [...devFilePatterns, ...(config.files ?? [])],
   ignores: [
-    ...prodFilePatterns,
     ...globalIgnorePatterns,
     ...(config.ignores ?? []),
   ],

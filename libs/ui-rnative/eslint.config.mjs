@@ -1,9 +1,9 @@
 import storybook from 'eslint-plugin-storybook';
 
-import baseConfig from '../../eslint.config.mjs';
+import { prodConfig } from '../../eslint.config.mjs';
 import { defineProdRules } from '../../eslint.shared.mjs';
 export default [
-  ...baseConfig,
+  ...prodConfig,
   {
     files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'],
     plugins: {

@@ -1,5 +1,6 @@
 import nx from '@nx/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import storybook from 'eslint-plugin-storybook';
 import { defineConfig } from 'eslint/config';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
@@ -11,11 +12,12 @@ import {
   defineDevRules,
 } from './eslint.shared.mjs';
 
-export default defineConfig(
+export const sharedConfig = defineConfig(
   ...nx.configs['flat/base'],
   ...nx.configs['flat/react'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
+  ...storybook.configs['flat/recommended'],
   {
     plugins: {
       import: importPlugin,
@@ -31,6 +33,7 @@ export default defineConfig(
        * React
        */
       'react/self-closing-comp': ['error', { component: true, html: true }],
+
       /**
        * import
        */
@@ -94,12 +97,24 @@ export default defineConfig(
       ],
     },
   }),
+  defineDevRules({
+    rules: {
+      '@typescript-eslint/no-empty-function': 'off',
+    },
+  }),
+  eslintPluginPrettierRecommended,
+  definedGlobalIgnores,
+);
+
+export const prodConfig = defineConfig(
+  ...sharedConfig,
   defineProdRules({
     rules: {
       ...jsxA11y.flatConfigs.strict.rules,
       'no-console': 'error',
       'no-restricted-imports': 'error',
       'import/no-extraneous-dependencies': ['error'],
+      'import/no-default-export': 'error',
       /**
        * nx
        */
@@ -134,11 +149,4 @@ export default defineConfig(
       ],
     },
   }),
-  defineDevRules({
-    rules: {
-      '@typescript-eslint/no-empty-function': 'off',
-    },
-  }),
-  eslintPluginPrettierRecommended,
-  definedGlobalIgnores,
 );
