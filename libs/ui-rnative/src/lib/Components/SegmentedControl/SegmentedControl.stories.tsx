@@ -14,29 +14,22 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
-  argTypes: {
-    onSelectedChange: {
-      action: 'change',
-    },
-    disabled: {
-      control: 'boolean',
-    },
-    appearance: {
-      options: ['background', 'no-background'],
-      control: 'radio',
-    },
-    accessibilityLabel: {
-      control: 'text',
-    },
-    selectedValue: {
-      control: 'text',
-    },
-    children: {
-      control: false,
-    },
-  },
+  decorators: [
+    (Story) => (
+      <Box
+        lx={{
+          width: 's320',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </Box>
+    ),
+  ],
   args: {
     appearance: 'background',
+    tabLayout: 'fixed',
   },
 } satisfies Meta<typeof SegmentedControl>;
 
@@ -49,20 +42,16 @@ export const Base: Story = {
     const [state, setState] = useState('send');
 
     return (
-      <Box lx={{ width: 's256' }}>
-        <SegmentedControl
-          {...args}
-          selectedValue={state}
-          onSelectedChange={setState}
-          accessibilityLabel='Transaction type'
-        >
-          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
-          <SegmentedControlButton value='receive'>
-            Receive
-          </SegmentedControlButton>
-          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
-        </SegmentedControl>
-      </Box>
+      <SegmentedControl
+        {...args}
+        selectedValue={state}
+        onSelectedChange={setState}
+        accessibilityLabel='Transaction type'
+      >
+        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+      </SegmentedControl>
     );
   },
 };
@@ -96,23 +85,60 @@ export const WithIcons: Story = {
   },
 };
 
+export const TabLayoutShowcase: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: (args) => {
+    const [fitState, setFitState] = useState('send');
+    const [fixedState, setFixedState] = useState('send');
+
+    return (
+      <Box lx={{ gap: 's24' }} style={{ width: '100%' }}>
+        <SegmentedControl
+          {...args}
+          tabLayout='fit'
+          selectedValue={fitState}
+          onSelectedChange={setFitState}
+          accessibilityLabel='Fit layout'
+        >
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
+            Receive
+          </SegmentedControlButton>
+          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+        </SegmentedControl>
+        <SegmentedControl
+          {...args}
+          tabLayout='fixed'
+          selectedValue={fixedState}
+          onSelectedChange={setFixedState}
+          accessibilityLabel='Fixed layout'
+        >
+          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+          <SegmentedControlButton value='receive'>
+            Receive
+          </SegmentedControlButton>
+          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+        </SegmentedControl>
+      </Box>
+    );
+  },
+};
+
 export const Disabled: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => (
-    <Box lx={{ width: 's256' }}>
-      <SegmentedControl
-        {...args}
-        selectedValue='receive'
-        onSelectedChange={() => {
-          /* empty */
-        }}
-        accessibilityLabel='Transaction type (disabled)'
-        disabled
-      >
-        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
-        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
-        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
-      </SegmentedControl>
-    </Box>
+    <SegmentedControl
+      {...args}
+      selectedValue='receive'
+      onSelectedChange={() => {
+        /* empty */
+      }}
+      accessibilityLabel='Transaction type (disabled)'
+      disabled
+    >
+      <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+      <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+      <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+    </SegmentedControl>
   ),
 };

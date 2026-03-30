@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 export type PillLayout = {
   width: number;
@@ -6,31 +6,30 @@ export type PillLayout = {
   x: number;
 };
 
-type UsePillElementLayoutEffectParams = {
-  ref: React.RefObject<HTMLDivElement | null>;
-  selectedIndex: number;
-  children: React.ReactNode;
-};
-
 export function usePillElementLayoutEffect({
   ref,
   selectedIndex,
   children,
-}: UsePillElementLayoutEffectParams): { pill: PillLayout } {
+}: {
+  ref: React.RefObject<HTMLDivElement | null>;
+  selectedIndex: number;
+  children: React.ReactNode;
+}): { pill: PillLayout; isReady: boolean } {
   const [pill, setPill] = useState<PillLayout>({ width: 0, height: 0, x: 0 });
+  const [isReady, setIsReady] = useState(false);
 
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
     const sync = (): void => {
-      const { width, height } = el.getBoundingClientRect();
-      const count = React.Children.count(children);
-      const slotWidth = count > 0 ? width / count : 0;
+      const { height } = el.getBoundingClientRect();
+      const buttons = Array.from(el.children).slice(0, -1) as HTMLElement[];
+      const target = selectedIndex >= 0 ? buttons[selectedIndex] : undefined;
       setPill({
-        width: slotWidth,
+        width: target?.offsetWidth ?? 0,
         height,
-        x: selectedIndex >= 0 ? selectedIndex * slotWidth : 0,
+        x: target?.offsetLeft ?? 0,
       });
     };
 
@@ -41,7 +40,14 @@ export function usePillElementLayoutEffect({
     return () => ro.disconnect();
   }, [children, selectedIndex, ref]);
 
-  return { pill };
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      setIsReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return { pill, isReady };
 }
 
 export function useSegmentedControlSelectedIndex(
