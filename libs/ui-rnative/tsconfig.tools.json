@@ -28,8 +28,8 @@
     "src/**/*.figma.js",
     "src/**/*.figma.jsx",
     "src/**/*.figma.tsx",
-    ".storybook/*.js",
-    ".storybook/*.ts",
+    ".storybook/**/*.js",
+    ".storybook/**/*.ts",
     ".storybook/**/*.tsx"
   ],
   "references": [

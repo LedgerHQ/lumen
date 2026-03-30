@@ -1,6 +1,7 @@
 import {
   Children,
   isValidElement,
+  ReactNode,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -59,7 +60,7 @@ export function usePillElementLayoutEffect({
 
 export function useSegmentedControlSelectedIndex(
   selectedValue: string,
-  children: React.ReactNode,
+  children: ReactNode,
 ): number {
   return useMemo(
     () =>
