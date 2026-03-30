@@ -100,7 +100,7 @@ export const TriggerButton = ({
         ) : (
           <span className='line-clamp-1 text-left'>{children}</span>
         )}
-        <ChevronDown size={20} className='shrink-0' />
+        <ChevronDown size={20} />
       </span>
     </Comp>
   );

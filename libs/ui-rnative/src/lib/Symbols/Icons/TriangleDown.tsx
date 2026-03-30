@@ -36,7 +36,7 @@ export const TriangleDown = createIcon(
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       fill='currentColor'
-      d='m13.519 4.58-5.125 8.157a.5.5 0 0 1-.848-.002L2.475 4.58a.5.5 0 0 1 .425-.764h10.195a.5.5 0 0 1 .424.766'
+      d='M13.038 5.347 8.82 12.06a1 1 0 0 1-1.696-.004L2.95 5.343a1 1 0 0 1 .85-1.528h8.39a1 1 0 0 1 .848 1.532'
     />
   </Svg>,
 );

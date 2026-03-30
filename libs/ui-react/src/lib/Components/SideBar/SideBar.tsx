@@ -231,7 +231,7 @@ export const SideBarItem = ({
 
   const content = (
     <>
-      <IconComponent size={20} className='shrink-0' />
+      <IconComponent size={20} />
       {label != null && <span className='translate-x-8 truncate'>{label}</span>}
     </>
   );
@@ -303,7 +303,7 @@ export const SideBarCollapseToggle = ({
       }
       {...props}
     >
-      <Icon size={20} className='shrink-0' />
+      <Icon size={20} />
     </button>
   );
 

@@ -125,17 +125,11 @@ export const Link = ({
         children
       ) : (
         <>
-          {IconComponent && (
-            <IconComponent size={calculatedIconSize} className='shrink-0' />
-          )}
+          {IconComponent && <IconComponent size={calculatedIconSize} />}
           <span className='min-w-0 truncate'>{children}</span>
           {isExternal && (
             <>
-              <ExternalLink
-                size={calculatedIconSize}
-                className='shrink-0'
-                aria-hidden='true'
-              />
+              <ExternalLink size={calculatedIconSize} aria-hidden='true' />
               <span className='sr-only'>(opens in a new tab)</span>
             </>
           )}

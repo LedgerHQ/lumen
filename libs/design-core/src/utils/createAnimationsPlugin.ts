@@ -103,14 +103,14 @@ export function createAnimationsPlugin(): TailwindPlugin {
             'fade-in': 'fade-in 300ms ease-in',
             'fade-out': 'fade-out 300ms ease-out',
 
-            'slide-in-from-top': 'slide-in-from-top 300ms ease-in',
-            'slide-in-from-bottom': 'slide-in-from-bottom 300ms ease-in',
-            'slide-in-from-left': 'slide-in-from-left 300ms ease-in',
-            'slide-in-from-right': 'slide-in-from-right 300ms ease-in',
-            'slide-out-to-top': 'slide-out-to-top 300ms ease-out',
-            'slide-out-to-bottom': 'slide-out-to-bottom 300ms ease-out',
-            'slide-out-to-left': 'slide-out-to-left 300ms ease-out',
-            'slide-out-to-right': 'slide-out-to-right 300ms ease-out',
+            'slide-in-from-top': 'slide-in-from-top 200ms ease-in',
+            'slide-in-from-bottom': 'slide-in-from-bottom 200ms ease-in',
+            'slide-in-from-left': 'slide-in-from-left 200ms ease-in',
+            'slide-in-from-right': 'slide-in-from-right 200ms ease-in',
+            'slide-out-to-top': 'slide-out-to-top 200ms ease-out',
+            'slide-out-to-bottom': 'slide-out-to-bottom 200ms ease-out',
+            'slide-out-to-left': 'slide-out-to-left 200ms ease-out',
+            'slide-out-to-right': 'slide-out-to-right 200ms ease-out',
 
             'translate-from-right':
               'translate-from-right 250ms cubic-bezier(0.4, 0, 0.2, 1)',
