@@ -4,9 +4,12 @@
     "outDir": "out-tsc/storybook",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "jsx": "preserve",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ]
   },
   "exclude": [
     "src/**/*.test.ts",
@@ -19,10 +22,13 @@
     "src/**/*.stories.js",
     "src/**/*.stories.jsx",
     "src/**/*.stories.tsx",
-    "src/**/*.stories.mdx",
+    "src/**/*.mdx",
+    "src/**/*.figma.ts",
+    "src/**/*.figma.js",
+    "src/**/*.figma.jsx",
+    "src/**/*.figma.tsx",
     ".storybook/*.js",
     ".storybook/*.ts",
-    ".storybook/**/*.ts",
     ".storybook/**/*.tsx"
   ],
   "references": [
@@ -32,6 +38,7 @@
   ],
   "files": [
     "../../node_modules/@nx/react/typings/styled-jsx.d.ts",
+    "../../node_modules/@nx/react/typings/cssmodule.d.ts",
     "../../node_modules/@nx/react/typings/image.d.ts"
   ]
 }
