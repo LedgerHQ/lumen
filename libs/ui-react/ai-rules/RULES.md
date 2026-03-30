@@ -217,7 +217,7 @@ const InteractiveList = () => (
     {items.map((item) => (
       <ListItem>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={Settings} />
+          <Spot appearance='icon' icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Simple composition</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>

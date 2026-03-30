@@ -22,7 +22,7 @@ figma.connect(
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leadingElement: figma.enum('type', {
+      leadingElement: figma.enum('leading-content', {
         spot: <Spot appearance='icon' icon={Placeholder} size={48} />,
         stepper: <Stepper currentStep={1} totalSteps={4} />,
       }),
@@ -55,7 +55,7 @@ figma.connect(
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leadingElement: figma.enum('type', {
+      leadingElement: figma.enum('leading-content', {
         spot: <Spot appearance='icon' icon={Wallet} size={48} />,
         stepper: <Stepper currentStep={1} totalSteps={4} />,
       }),
