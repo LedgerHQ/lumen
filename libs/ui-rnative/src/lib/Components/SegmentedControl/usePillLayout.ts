@@ -28,7 +28,7 @@ type UsePillLayoutParams = {
   selectedIndex: number;
   selectedValue: string;
   children: React.ReactNode;
-  tabLayout: 'hug' | 'fixed';
+  tabLayout: 'fit' | 'fixed';
 };
 
 export function usePillLayout({
@@ -70,7 +70,7 @@ export function usePillLayout({
     (value: string, layout: ButtonLayout): void => {
       buttonLayoutsRef.current.set(value, layout);
 
-      if (tabLayout === 'hug' && !hasLayoutRef.current) {
+      if (tabLayout === 'fit' && !hasLayoutRef.current) {
         hasLayoutRef.current = true;
         if (value === selectedValue) {
           pillTranslateX.value = layout.x;
@@ -84,7 +84,7 @@ export function usePillLayout({
   useEffect(() => {
     if (!hasLayoutRef.current) return;
 
-    if (tabLayout === 'hug') {
+    if (tabLayout === 'fit') {
       const layout = buttonLayoutsRef.current.get(selectedValue);
       if (layout) {
         pillTranslateX.value = withTiming(layout.x, timingConfig);

@@ -22,7 +22,7 @@ const segmentedControlStyles = {
         'no-background': 'bg-transparent',
       },
       tabLayout: {
-        hug: 'inline-flex',
+        fit: 'inline-flex',
         fixed: 'w-full',
       },
     },
@@ -113,7 +113,7 @@ export function SegmentedControl({
   className,
   disabled: disabledProp,
   appearance = 'background',
-  tabLayout = 'hug',
+  tabLayout = 'fit',
   ...props
 }: SegmentedControlProps) {
   const disabled = useDisabledContext({

@@ -42,7 +42,7 @@ export function SegmentedControlButton({
   }
 
   function handleLayout(e: LayoutChangeEvent) {
-    if (tabLayout === 'hug') {
+    if (tabLayout === 'fit') {
       const { x, width } = e.nativeEvent.layout;
       registerButtonLayout(value, { x, width });
     }
@@ -85,7 +85,7 @@ function useButtonStyles({
 }: {
   selected: boolean;
   disabled?: boolean;
-  tabLayout: 'hug' | 'fixed';
+  tabLayout: 'fit' | 'fixed';
 }) {
   const styles = useStyleSheet(
     (t) => ({
@@ -133,7 +133,7 @@ export function SegmentedControl({
   children,
   disabled: disabledProp,
   appearance = 'background',
-  tabLayout = 'hug',
+  tabLayout = 'fit',
   ...props
 }: SegmentedControlProps) {
   const disabled = useDisabledContext({
@@ -193,7 +193,7 @@ function useRootStyles({
 }: {
   disabled: boolean;
   appearance: 'background' | 'no-background';
-  tabLayout: 'hug' | 'fixed';
+  tabLayout: 'fit' | 'fixed';
 }) {
   return useStyleSheet(
     (t) => ({

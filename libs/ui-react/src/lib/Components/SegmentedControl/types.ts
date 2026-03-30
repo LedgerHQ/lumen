@@ -22,11 +22,11 @@ export type SegmentedControlProps = {
   appearance?: 'background' | 'no-background';
   /**
    * Controls how tab widths are calculated.
-   * - "hug": each tab sizes to its content
+   * - "fit": each tab sizes to its content
    * - "fixed": all tabs share equal width, filling the container
-   * @default 'hug'
+   * @default 'fit'
    */
-  tabLayout?: 'hug' | 'fixed';
+  tabLayout?: 'fit' | 'fixed';
   /**
    * Segment buttons (SegmentedControlButton).
    */

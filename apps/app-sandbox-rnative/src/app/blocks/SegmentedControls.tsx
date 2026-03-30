@@ -8,20 +8,20 @@ import { Code, Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import React from 'react';
 
 export const SegmentedControls = () => {
-  const [hugState, setHugState] = React.useState('preview');
+  const [fitState, setFitState] = React.useState('preview');
   const [fixedState, setFixedState] = React.useState('preview');
   const [iconsState, setIconsState] = React.useState('preview');
 
   return (
     <Box lx={{ gap: 's24', width: 'full' }}>
       <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
-        Hug
+        Fit
       </Text>
       <SegmentedControl
-        selectedValue={hugState}
-        onSelectedChange={setHugState}
-        tabLayout='hug'
-        accessibilityLabel='Hug layout'
+        selectedValue={fitState}
+        onSelectedChange={setFitState}
+        tabLayout='fit'
+        accessibilityLabel='Fit layout'
       >
         <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
         <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
@@ -43,12 +43,12 @@ export const SegmentedControls = () => {
       </SegmentedControl>
 
       <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
-        With Icons (hug)
+        With Icons (fit)
       </Text>
       <SegmentedControl
         selectedValue={iconsState}
         onSelectedChange={setIconsState}
-        tabLayout='hug'
+        tabLayout='fit'
         accessibilityLabel='File view with icons'
       >
         <SegmentedControlButton value='preview' icon={Eye}>

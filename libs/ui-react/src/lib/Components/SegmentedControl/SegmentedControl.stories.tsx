@@ -22,7 +22,7 @@ const meta = {
   ],
   args: {
     appearance: 'background',
-    tabLayout: 'hug',
+    tabLayout: 'fit',
   },
 } satisfies Meta<typeof SegmentedControl>;
 
@@ -79,18 +79,18 @@ export const WithIcons: Story = {
 export const TabLayoutShowcase: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => {
-    const [hugState, setHugState] = useState('send');
+    const [fitState, setFitState] = useState('send');
     const [fixedState, setFixedState] = useState('send');
 
     return (
       <div className='flex flex-col gap-24'>
         <div>
-          <p className='mb-8 body-2 text-muted'>Hug</p>
+          <p className='mb-8 body-2 text-muted'>Fit</p>
           <SegmentedControl
             {...args}
-            tabLayout='hug'
-            selectedValue={hugState}
-            onSelectedChange={setHugState}
+            tabLayout='fit'
+            selectedValue={fitState}
+            onSelectedChange={setFitState}
           >
             <SegmentedControlButton value='send'>Send</SegmentedControlButton>
             <SegmentedControlButton value='receive'>
