@@ -35,7 +35,6 @@ export const CustomBackdrop = ({
       disappearsOnIndex={-1}
       pressBehavior={backdropPressBehavior}
       onPress={() => {
-        console.log('onPress');
         onPress?.();
       }}
     />

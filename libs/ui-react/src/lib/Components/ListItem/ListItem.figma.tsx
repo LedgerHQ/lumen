@@ -1,9 +1,12 @@
 import figma from '@figma/code-connect';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import React from 'react';
+import { ChevronRight } from '../../Symbols';
 import { Placeholder } from '../../Symbols/Icons/Placeholder';
 import { Settings } from '../../Symbols/Icons/Settings';
+import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
+import { Spot } from '../Spot';
 import { Switch } from '../Switch';
 import { Tag } from '../Tag';
 import {
@@ -15,9 +18,6 @@ import {
   ListItemDescription,
   ListItemTrailing,
 } from './ListItem';
-import { Button } from '../Button';
-import { ChevronRight } from '../../Symbols';
-import { Spot } from '../Spot';
 
 // —— trailing-content: none ——
 figma.connect(

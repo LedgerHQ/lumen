@@ -27,6 +27,7 @@ const SlotPressable = ({
   const { children, ...pressableSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.Pressable - Invalid asChild element', children);
     return null;
   }
@@ -49,6 +50,7 @@ const SlotView = ({
   const { children, ...viewSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.View - Invalid asChild element', children);
     return null;
   }
@@ -71,6 +73,7 @@ const SlotText = ({
   const { children, ...textSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.Text - Invalid asChild element', children);
     return null;
   }
@@ -94,6 +97,7 @@ const SlotImage = ({ ref, ...props }: SlotImageSlotProps) => {
   const { children, ...imageSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.Image - Invalid asChild element', children);
     return null;
   }
