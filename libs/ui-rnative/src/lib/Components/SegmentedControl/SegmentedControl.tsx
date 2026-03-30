@@ -133,7 +133,7 @@ export function SegmentedControl({
   children,
   disabled: disabledProp,
   appearance = 'background',
-  tabLayout = 'fixed',
+  tabLayout = 'hug',
   ...props
 }: SegmentedControlProps) {
   const disabled = useDisabledContext({

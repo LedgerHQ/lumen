@@ -40,14 +40,9 @@ You can use segments with text only (Base), or add an icon to each button (WithI
 
 <Canvas of={SegmentedControlStories.WithIcons} />
 
-## Tab Layout
+## Responsive Layout
 
-The `tabLayout` prop controls how segment widths are calculated:
-
-- **`fixed`** (default): all segments share equal width, filling the container. Best suited for mobile where full-width controls feel native.
-- **`hug`**: each segment sizes to its content.
-
-<Canvas of={SegmentedControlStories.TabLayoutShowcase} />
+SegmentedControl lays out segments in a horizontal row with equal width per segment. The sliding pill animates to the selected segment.
 
 ## Accessibility
 
