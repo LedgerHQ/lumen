@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
 import { AvatarProps } from './types';
@@ -64,7 +64,7 @@ export const Avatar = ({
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
-  const [error, setError] = React.useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
 
   const resolvedAlt = alt || t('components.avatar.defaultAlt');
@@ -73,7 +73,7 @@ export const Avatar = ({
     ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
     : resolvedAlt;
 
-  React.useEffect(() => {
+  useEffect(() => {
     setError(false);
   }, [src]);
 

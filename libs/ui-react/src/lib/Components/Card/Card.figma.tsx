@@ -1,6 +1,5 @@
 import figma from '@figma/code-connect';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import React from 'react';
 import { ChevronRight, Wallet } from '../../Symbols';
 import { Button } from '../Button/Button';
 import { Spot } from '../Spot/Spot';

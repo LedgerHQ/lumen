@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { InformationFill, QrCode } from '../../Symbols';
 import { AddressInput } from './AddressInput';
 
@@ -139,11 +139,11 @@ export const Error: Story = {
  */
 export const Controlled: Story = {
   render: () => {
-    const [address, setAddress] = React.useState('');
-    const [error, setError] = React.useState('');
+    const [address, setAddress] = useState('');
+    const [error, setError] = useState('');
 
     // Simulate address validation
-    React.useEffect(() => {
+    useEffect(() => {
       if (address.length > 0) {
         const isValidAddress =
           address.startsWith('0x') && address.length === 42;

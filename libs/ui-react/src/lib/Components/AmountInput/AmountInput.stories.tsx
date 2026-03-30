@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState } from 'react';
 import { TransferVertical } from '../../Symbols/Icons/TransferVertical';
 import { IconButton } from '../IconButton';
 import { AmountInput } from './AmountInput';
@@ -101,8 +101,8 @@ export const LargeAmountDisplay: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => {
-    const [isEth, setIsEth] = React.useState(true);
-    const [value, setValue] = React.useState('');
+    const [isEth, setIsEth] = useState(true);
+    const [value, setValue] = useState('');
 
     const currentCurrency = isEth ? 'ETH' : '$';
     const convertedValue = isEth ? '$0' : '0 ETH';

@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useCommonTranslation } from '../../../../i18n';
 import { ArrowLeft, Close } from '../../../Symbols';
 import { IconButton } from '../../IconButton';

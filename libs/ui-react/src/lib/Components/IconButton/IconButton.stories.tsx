@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 import { ExternalLink, Home } from '../../Symbols';
 import { Close } from '../../Symbols/Icons/Close';
 import { Heart } from '../../Symbols/Icons/Heart';

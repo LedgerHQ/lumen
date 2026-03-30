@@ -1,5 +1,4 @@
 import figma from '@figma/code-connect';
-import React from 'react';
 import { Tag } from './Tag';
 import { TagProps } from './types';
 

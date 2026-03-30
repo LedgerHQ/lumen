@@ -1,5 +1,4 @@
 import figma from '@figma/code-connect';
-import React from 'react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 import {
   Subheader,

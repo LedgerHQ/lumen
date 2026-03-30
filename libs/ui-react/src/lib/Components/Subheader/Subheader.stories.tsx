@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { HTMLAttributes } from 'react';
 import { Link } from '../Link/Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 import {
@@ -13,10 +13,7 @@ import {
   SubheaderDescription,
 } from './Subheader';
 
-const Container = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div className={cn('w-400 bg-canvas p-8 text-base', className)} {...props} />
 );
 

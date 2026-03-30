@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import React from 'react';
+import { createRef } from 'react';
 import { describe, expect, it } from 'vitest';
 import { PageIndicator } from './PageIndicator';
 
@@ -138,7 +138,7 @@ describe('PageIndicator Component', () => {
 
   describe('Props', () => {
     it('should accept ref prop', () => {
-      const ref = React.createRef<HTMLDivElement>();
+      const ref = createRef<HTMLDivElement>();
       render(
         <PageIndicator
           ref={ref}

@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import React from 'react';
+
 import { MoreVertical, Settings } from '../../Symbols';
 
 import { Placeholder } from '../../Symbols/Icons/Placeholder';
