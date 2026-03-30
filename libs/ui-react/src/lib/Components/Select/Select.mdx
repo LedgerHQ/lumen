@@ -65,6 +65,12 @@ By default, `SelectSearch` filters items using a case-insensitive match on the `
 
 <Canvas of={SelectStories.WithCustomFilter} />
 
+### Async Search
+
+For large datasets or remote data sources, use `filteredItems` and `onInputValueChange` to control filtering externally. Pass `filteredItems` with your server results and listen to `onInputValueChange` to trigger API calls.
+
+<Canvas of={SelectStories.WithAsyncSearch} />
+
 ### Long Lists
 
 The component handles long lists with proper scrolling and keyboard navigation.
@@ -412,6 +418,62 @@ function MyComponent() {
   );
 }
 ```
+
+### Async Search
+
+When items are loaded from a remote source, use `filteredItems` and `onInputValueChange` to control filtering externally. Pass `filteredItems` with the server results — when provided, the component skips internal filtering and uses your array directly. Listen to `onInputValueChange` to trigger API calls.
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectEmptyState,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectSearch,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+import type { SelectItemData } from '@ledgerhq/lumen-ui-react';
+
+function AsyncSelect() {
+  const [value, setValue] = useState<string | null>(null);
+  const [filteredItems, setFilteredItems] = useState<SelectItemData[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleInputValueChange = async (query: string) => {
+    setLoading(true);
+    const results = await fetchUsersFromApi(query);
+    setFilteredItems(results);
+    setLoading(false);
+  };
+
+  return (
+    <Select
+      items={allUsers}
+      filteredItems={filteredItems}
+      onInputValueChange={handleInputValueChange}
+      value={value}
+      onValueChange={setValue}
+    >
+      <SelectTrigger label='Assign reviewer' />
+      <SelectContent>
+        <SelectSearch placeholder='Search users…' />
+        <SelectList>
+          {(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        </SelectList>
+        <SelectEmptyState>{loading ? 'Loading…' : 'No results'}</SelectEmptyState>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+> **Tip:** Consider debouncing `onInputValueChange` to avoid excessive API calls while the user is typing.
 
 ### Controlled vs Uncontrolled
 

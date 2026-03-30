@@ -1,6 +1,7 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import { debounce } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Settings } from '../../Symbols';
 import { Button } from '../Button';
 import {
@@ -17,6 +18,7 @@ import {
   SelectEmptyState,
   SelectTriggerButton,
 } from './Select';
+import type { SelectItemData } from './types';
 
 const meta: Meta<typeof Select> = {
   title: 'Selection/Select',
@@ -614,6 +616,85 @@ export const TriggerShowcase: Story = {
                 </SelectItem>
               )}
             </SelectList>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  },
+};
+
+const allReviewers: SelectItemData[] = [
+  { value: 'alice-johnson', label: 'Alice Johnson' },
+  { value: 'bob-smith', label: 'Bob Smith' },
+  { value: 'charlie-brown', label: 'Charlie Brown' },
+  { value: 'diana-prince', label: 'Diana Prince' },
+  { value: 'edward-norton', label: 'Edward Norton' },
+  { value: 'fiona-apple', label: 'Fiona Apple' },
+  { value: 'george-martin', label: 'George Martin' },
+  { value: 'hannah-montana', label: 'Hannah Montana' },
+  { value: 'ivan-drago', label: 'Ivan Drago' },
+  { value: 'julia-roberts', label: 'Julia Roberts' },
+];
+
+const simulateSearch = (query: string): Promise<SelectItemData[]> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      if (!query.trim()) {
+        resolve(allReviewers);
+        return;
+      }
+      resolve(
+        allReviewers.filter((u) =>
+          u.label.toLowerCase().includes(query.toLowerCase()),
+        ),
+      );
+    }, 600);
+  });
+
+export const WithAsyncSearch: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+    const [filteredItems, setFilteredItems] =
+      useState<SelectItemData[]>(allReviewers);
+    const [loading, setLoading] = useState(false);
+    const requestRef = useRef(0);
+
+    const fetchResults = useCallback(async (query: string) => {
+      const id = ++requestRef.current;
+      setLoading(true);
+      const results = await simulateSearch(query);
+      if (id !== requestRef.current) return;
+      setFilteredItems(results);
+      setLoading(false);
+    }, []);
+
+    const debouncedFetch = useMemo(
+      () => debounce(fetchResults, 300),
+      [fetchResults],
+    );
+
+    return (
+      <div className='w-400'>
+        <Select
+          items={allReviewers}
+          filteredItems={filteredItems}
+          onInputValueChange={debouncedFetch}
+          value={value}
+          onValueChange={setValue}
+        >
+          <SelectTrigger label='Assign reviewer' />
+          <SelectContent>
+            <SelectSearch placeholder='Search users...' />
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
+            <SelectEmptyState>
+              {loading ? 'Searching…' : 'No users found'}
+            </SelectEmptyState>
           </SelectContent>
         </Select>
       </div>

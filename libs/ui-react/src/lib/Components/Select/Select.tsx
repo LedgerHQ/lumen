@@ -36,6 +36,8 @@ function Select({
   disabled: disabledProp,
   items,
   filter = null,
+  filteredItems: filteredItemsProp,
+  onInputValueChange: onInputValueChangeProp,
   open,
   defaultOpen,
   onOpenChange,
@@ -67,9 +69,17 @@ function Select({
     return () => setSearchMounted(false);
   }, []);
 
+  const handleInputValueChange = useCallback(
+    (val: string) => {
+      setInputValue(val);
+      onInputValueChangeProp?.(val);
+    },
+    [onInputValueChangeProp],
+  );
+
   const filterFn = searchMounted ? (filter ?? defaultLabelFilter) : null;
 
-  const filteredItems = useMemo(() => {
+  const internalFilteredItems = useMemo(() => {
     if (!filterFn || !inputValue.trim()) return items;
     return items.filter((item) => filterFn(item, inputValue));
   }, [items, inputValue, filterFn]);
@@ -79,8 +89,8 @@ function Select({
       data-slot='select'
       filter={null}
       items={items}
-      filteredItems={filteredItems}
-      onInputValueChange={setInputValue}
+      filteredItems={filteredItemsProp ?? internalFilteredItems}
+      onInputValueChange={handleInputValueChange}
       value={isValueControlled ? selectedValue : undefined}
       defaultValue={isValueControlled ? undefined : defaultValue}
       onValueChange={setSelectedValue}

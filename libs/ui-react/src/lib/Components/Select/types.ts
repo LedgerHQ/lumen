@@ -41,6 +41,17 @@ export type SelectProps = {
    */
   filter?: null | ((item: SelectItemData, query: string) => boolean);
   /**
+   * Pre-filtered items to display in the list. When provided, the component uses
+   * these items directly instead of filtering `items` internally. Use alongside
+   * `onInputValueChange` for async/remote search where the server handles filtering.
+   */
+  filteredItems?: SelectItemData[];
+  /**
+   * Callback fired when the search input value changes.
+   * Use to trigger async fetches or track the current query externally.
+   */
+  onInputValueChange?: (value: string) => void;
+  /**
    * Whether the popup is open. Use for controlled open state.
    * Must be used in conjunction with `onOpenChange`.
    */
