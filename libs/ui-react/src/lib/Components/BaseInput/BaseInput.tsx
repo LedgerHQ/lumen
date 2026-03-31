@@ -1,15 +1,16 @@
 import {
-  useRef,
-  useId,
-  useState,
-  useCallback,
-  ChangeEvent, PointerEvent
-} from 'react';
-import {
   cn,
   useDisabledContext,
   useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
+import {
+  useRef,
+  useId,
+  useState,
+  useCallback,
+  ChangeEvent,
+  PointerEvent,
+} from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { DeleteCircleFill } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -193,8 +194,8 @@ export const BaseInput = ({
             label && 'pt-12 body-2',
             inputClassName,
           )}
-          {...props}
           onChange={handleInput}
+          {...props}
         />
 
         {label && (
