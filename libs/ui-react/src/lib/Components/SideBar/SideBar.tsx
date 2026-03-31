@@ -275,6 +275,7 @@ SideBarItem.displayName = 'SideBarItem';
  */
 export const SideBarCollapseToggle = ({
   className,
+  tooltipContent: tooltipContentProp,
   ...props
 }: SideBarCollapseToggleProps) => {
   const { collapsed, setCollapsed } = useSideBarContext({
@@ -307,6 +308,15 @@ export const SideBarCollapseToggle = ({
     </button>
   );
 
-  return buttonContent;
+  const tooltipContent = tooltipContentProp ?? "Collapse";
+
+  return (
+    <Tooltip open={collapsed ? undefined : false}>
+      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+      <TooltipContent side='right' sideOffset={8}>
+        {tooltipContent}
+      </TooltipContent>
+    </Tooltip>
+  );
 };
 SideBarCollapseToggle.displayName = 'SideBarCollapseToggle';

@@ -142,6 +142,10 @@ export type SideBarItemProps = {
  */
 export type SideBarCollapseToggleProps = {
   /**
+   * Content shown in the tooltip when collapsed. Can be a string or ReactNode. If not provided, defaults to "Collapse".
+   */
+  tooltipContent?: ReactNode;
+  /**
    * Additional CSS classes for the toggle.
    */
   className?: string;
