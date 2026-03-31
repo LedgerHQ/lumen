@@ -9,12 +9,12 @@ import { TriggerButton } from '../TriggerButton';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
   SelectItemData,
+  SelectItemGroup,
   SelectProps,
   SelectTriggerProps,
   SelectContentProps,
   SelectListProps,
   SelectSearchProps,
-  SelectGroupProps,
   SelectLabelProps,
   SelectItemTextProps,
   SelectItemProps,
@@ -22,6 +22,20 @@ import type {
   SelectEmptyStateProps,
   SelectTriggerButtonProps,
 } from './types';
+
+function groupItemsByKey(items: SelectItemData[]): SelectItemGroup[] {
+  const order: string[] = [];
+  const map: Record<string, SelectItemData[]> = {};
+  for (const item of items) {
+    const key = item.group ?? '';
+    if (!map[key]) {
+      order.push(key);
+      map[key] = [];
+    }
+    map[key].push(item);
+  }
+  return order.map((value) => ({ value, items: map[value] }));
+}
 
 const defaultLabelFilter = (item: SelectItemData, query: string): boolean => {
   const normalizedQuery = query.trim().toLowerCase();
@@ -35,7 +49,7 @@ function Select({
   onValueChange,
   disabled: disabledProp,
   items,
-  filter = null,
+  filter,
   filteredItems: filteredItemsProp,
   onInputValueChange: onInputValueChangeProp,
   open,
@@ -76,20 +90,54 @@ function Select({
     },
     [onInputValueChangeProp],
   );
+  const filterFn = searchMounted
+    ? filter === undefined
+      ? defaultLabelFilter
+      : filter
+    : null;
+  const isGrouped = useMemo(
+    () => items.some((item) => item.group != null),
+    [items],
+  );
 
-  const filterFn = searchMounted ? (filter ?? defaultLabelFilter) : null;
+  const groupedItems = useMemo(
+    () => (isGrouped ? groupItemsByKey(items) : null),
+    [items, isGrouped],
+  );
 
-  const internalFilteredItems = useMemo(() => {
-    if (!filterFn || !inputValue.trim()) return items;
+  const internalFilteredItems = useMemo(():
+    | SelectItemData[]
+    | SelectItemGroup[] => {
+    if (!filterFn || !inputValue.trim()) return groupedItems ?? items;
+
+    if (groupedItems) {
+      return groupedItems
+        .map((group) => ({
+          ...group,
+          items: group.items.filter((item) => filterFn(item, inputValue)),
+        }))
+        .filter((group) => group.items.length > 0);
+    }
+
     return items.filter((item) => filterFn(item, inputValue));
-  }, [items, inputValue, filterFn]);
+  }, [groupedItems, items, inputValue, filterFn]);
+
+  const externalGroupedItems = useMemo(():
+    | SelectItemData[]
+    | SelectItemGroup[]
+    | null => {
+    if (!filteredItemsProp) return null;
+    return isGrouped ? groupItemsByKey(filteredItemsProp) : filteredItemsProp;
+  }, [filteredItemsProp, isGrouped]);
+
+  const filteredItemsForRoot = externalGroupedItems ?? internalFilteredItems;
 
   return (
     <Combobox.Root
       data-slot='select'
       filter={null}
-      items={items}
-      filteredItems={filteredItemsProp ?? internalFilteredItems}
+      items={groupedItems ?? items}
+      filteredItems={filteredItemsForRoot}
       onInputValueChange={handleInputValueChange}
       value={isValueControlled ? selectedValue : undefined}
       defaultValue={isValueControlled ? undefined : defaultValue}
@@ -101,28 +149,10 @@ function Select({
       required={required}
       disabled={disabled}
     >
-      <SelectProvider value={{ selectedValue, registerSearch }}>
+      <SelectProvider value={{ selectedValue, registerSearch, isGrouped }}>
         {children}
       </SelectProvider>
     </Combobox.Root>
-  );
-}
-
-function SelectGroup({
-  className,
-  children,
-  items,
-  ...props
-}: SelectGroupProps) {
-  return (
-    <Combobox.Group
-      data-slot='select-group'
-      className={className}
-      items={items}
-      {...props}
-    >
-      {children}
-    </Combobox.Group>
   );
 }
 
@@ -253,16 +283,46 @@ const SelectList = ({
   className,
   children,
   ...props
-}: SelectListProps) => (
-  <Combobox.List
-    ref={ref}
-    data-slot='select-list'
-    className={cn('min-w-(--anchor-width) p-8', className)}
-    {...props}
-  >
-    {children}
-  </Combobox.List>
-);
+}: SelectListProps) => {
+  const { isGrouped } = useSelectContext({
+    consumerName: 'SelectList',
+    contextRequired: true,
+  });
+
+  if (isGrouped && typeof children === 'function') {
+    return (
+      <Combobox.List
+        ref={ref}
+        data-slot='select-list'
+        className={cn('min-w-(--anchor-width) p-8', className)}
+        {...props}
+      >
+        {(group: SelectItemGroup, groupIndex: number) => (
+          <Combobox.Group
+            key={group.value}
+            items={group.items}
+            data-slot='select-group'
+          >
+            {groupIndex > 0 && <SelectSeparator />}
+            <SelectLabel>{group.value}</SelectLabel>
+            <Combobox.Collection>{children}</Combobox.Collection>
+          </Combobox.Group>
+        )}
+      </Combobox.List>
+    );
+  }
+
+  return (
+    <Combobox.List
+      ref={ref}
+      data-slot='select-list'
+      className={cn('min-w-(--anchor-width) p-8', className)}
+      {...props}
+    >
+      {children}
+    </Combobox.List>
+  );
+};
 SelectList.displayName = 'SelectList';
 
 const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
@@ -395,12 +455,10 @@ const SelectTriggerButton = ({
 
 export {
   Select,
-  SelectGroup,
   SelectTrigger,
   SelectContent,
   SelectSearch,
   SelectList,
-  SelectLabel,
   SelectItemText,
   SelectItem,
   SelectSeparator,

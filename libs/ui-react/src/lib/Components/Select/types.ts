@@ -7,7 +7,18 @@ export type SelectItemData = {
   label: string;
   disabled?: boolean;
   description?: string;
+  /**
+   * Optional group name. When at least one item has a `group` value,
+   * the component automatically groups items and renders group headers,
+   * separators, and per-group filtering internally.
+   */
+  group?: string;
   [key: string]: unknown;
+};
+
+export type SelectItemGroup = {
+  value: string;
+  items: SelectItemData[];
 };
 
 export type SelectTriggerRenderProps = {
@@ -28,8 +39,13 @@ export type SelectProps = {
   children: ReactNode;
   /**
    * The items displayed in the dropdown list.
-   * Each item must have a `value` (unique string identifier) and a `label` (display text for search and trigger).
-   * Extra fields are allowed and accessible in the render function.
+   * Each item must have a `value` (unique string identifier) and a `label`
+   * (display text for search and trigger). Extra fields are allowed and
+   * accessible in the render function.
+   *
+   * When items include a `group` field, the component automatically groups
+   * them by that value, rendering group headers, separators, and per-group
+   * collection iteration internally.
    */
   items: SelectItemData[];
   /**
@@ -37,7 +53,10 @@ export type SelectProps = {
    * When `SelectSearch` is rendered inside the content, a default case-insensitive
    * label filter is applied automatically. Pass a custom function to override it,
    * or `null` to disable filtering entirely.
-   * @default null
+   *
+   * When items include a `group` field, the filter is applied to individual
+   * items within each group. Empty groups are automatically hidden.
+   * @default undefined
    */
   filter?: null | ((item: SelectItemData, query: string) => boolean);
   /**
@@ -154,6 +173,10 @@ export type SelectListProps = {
   /**
    * A render function that receives each item and its index, returning a ReactNode.
    * Can also accept static ReactNode children.
+   *
+   * When items are grouped, this render function is used for individual items
+   * within each group — the group scaffolding (headers, separators, collection)
+   * is handled automatically by `SelectList`.
    * @example children={(item) => <SelectItem value={item.value}>{item.label}</SelectItem>}
    */
   children?: ReactNode | ((item: SelectItemData, index: number) => ReactNode);

@@ -282,6 +282,92 @@ describe('SelectTriggerButton', () => {
   });
 });
 
+const groupedOptions = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
+];
+
+describe('Grouped items', () => {
+  it('renders group headers when items have a group field', () => {
+    render(
+      <Select items={groupedOptions}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList>
+            {(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          </SelectList>
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    expect(screen.getByText('Fruits')).toBeInTheDocument();
+    expect(screen.getByText('Vegetables')).toBeInTheDocument();
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Carrot')).toBeInTheDocument();
+  });
+
+  it('filters items within groups and hides empty groups', () => {
+    render(
+      <Select items={groupedOptions}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList>
+            {(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          </SelectList>
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'Apple' } });
+
+    expect(screen.getByText('Fruits')).toBeInTheDocument();
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.queryByText('Banana')).not.toBeInTheDocument();
+    expect(screen.queryByText('Vegetables')).not.toBeInTheDocument();
+    expect(screen.queryByText('Carrot')).not.toBeInTheDocument();
+  });
+
+  it('selects an item from a group', () => {
+    const handleChange = vi.fn();
+
+    render(
+      <Select items={groupedOptions} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList>
+            {(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          </SelectList>
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Carrot'));
+
+    expect(handleChange).toHaveBeenCalledWith('carrot');
+  });
+});
+
 describe('SelectSearch', () => {
   it('renders a search input with the given placeholder', () => {
     render(
@@ -354,5 +440,32 @@ describe('SelectSearch', () => {
     expect(screen.getByText('Option 1')).toBeInTheDocument();
     expect(screen.queryByText('Option 2')).not.toBeInTheDocument();
     expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
+  });
+
+  it('shows all items when filter={null} disables filtering', () => {
+    render(
+      <Select items={options} filter={null}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList>
+            {(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          </SelectList>
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'Option 1' } });
+
+    expect(screen.getByText('Option 1')).toBeInTheDocument();
+    expect(screen.getByText('Option 2')).toBeInTheDocument();
+    expect(screen.getByText('Option 3')).toBeInTheDocument();
   });
 });

@@ -45,15 +45,19 @@ The Select component provides a dropdown interface for choosing from a list of o
 
 ### With Groups and Separators
 
-Organize related options using groups with labels and separators for better user experience.
-
-The `items` prop on `Select` must list every option you render (including items inside `SelectGroup`); keyboard navigation and filtering use that collection as the source of truth.
+Organize related options using groups by adding a `group` field to your items. The component automatically groups items by that value, rendering group headers, separators between groups, and per-group collection iteration internally. The item render function stays the same as a flat list.
 
 <Canvas of={SelectStories.WithGroups} />
 
+### With Groups and Search
+
+Search works seamlessly with grouped items. The filter is applied to individual items within each group, and empty groups are automatically hidden.
+
+<Canvas of={SelectStories.WithGroupsAndSearch} />
+
 ### With Search
 
-Add `SelectSearch` inside `SelectContent` (above `SelectList`) to enable type-to-filter. A default case-insensitive label filter is applied automatically; pass a custom `filter` to `Select` to override.
+Add `SelectSearch` inside `SelectContent` (above `SelectList`) to enable type-to-filter. A default case-insensitive label filter is applied automatically; pass a custom `filter` to `Select` to override, or `null` to disable filtering entirely.
 
 > View search variant in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=14490-34214&m=dev).
 
@@ -266,55 +270,84 @@ function MyComponent() {
 
 ### With Groups
 
+Add a `group` field to your items. The component groups them automatically, rendering headers, separators, and per-group collection iteration. The item render function is identical to a flat list.
+
 ```tsx
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectItemText,
-  SelectLabel,
   SelectList,
-  SelectSeparator,
   SelectTrigger,
 } from '@ledgerhq/lumen-ui-react';
 
-const fruits = [
-  { value: 'apple', label: 'Apple' },
-  { value: 'banana', label: 'Banana' },
-];
-
-const vegetables = [
-  { value: 'carrot', label: 'Carrot' },
-  { value: 'broccoli', label: 'Broccoli' },
+const produceItems = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
 ];
 
 function MyComponent() {
   const [value, setValue] = useState<string | null>(null);
 
   return (
-    <Select items={[...fruits, ...vegetables]} value={value} onValueChange={setValue}>
+    <Select items={produceItems} value={value} onValueChange={setValue}>
       <SelectTrigger label='Category' />
       <SelectContent>
         <SelectList>
-          <SelectGroup>
-            <SelectLabel>Fruits</SelectLabel>
-            {fruits.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                <SelectItemText>{item.label}</SelectItemText>
-              </SelectItem>
-            ))}
-          </SelectGroup>
-          <SelectSeparator />
-          <SelectGroup>
-            <SelectLabel>Vegetables</SelectLabel>
-            {vegetables.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                <SelectItemText>{item.label}</SelectItemText>
-              </SelectItem>
-            ))}
-          </SelectGroup>
+          {(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
         </SelectList>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+### With Groups and Search
+
+Combine `SelectSearch` with grouped items. The filter applies per-item within each group and empty groups are hidden automatically.
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectEmptyState,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectSearch,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+
+const produceItems = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
+];
+
+function MyComponent() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <Select items={produceItems} value={value} onValueChange={setValue}>
+      <SelectTrigger label='Category' />
+      <SelectContent>
+        <SelectSearch placeholder='Search produce' />
+        <SelectList>
+          {(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        </SelectList>
+        <SelectEmptyState>No produce found</SelectEmptyState>
       </SelectContent>
     </Select>
   );
@@ -323,7 +356,7 @@ function MyComponent() {
 
 ### With Search
 
-Drop `SelectSearch` inside `SelectContent`, above `SelectList`. The `items` prop on `Select` must still list every option; search filters the list automatically using a case-insensitive label match. Override via the root `filter` prop when you need custom matching.
+Drop `SelectSearch` inside `SelectContent`, above `SelectList`. The `items` prop on `Select` must still list every option; search filters the list automatically using a case-insensitive label match. Override via the root `filter` prop when you need custom matching, or pass `filter={null}` to disable filtering entirely (useful when filtering is handled externally via `filteredItems`).
 
 ```tsx
 import {

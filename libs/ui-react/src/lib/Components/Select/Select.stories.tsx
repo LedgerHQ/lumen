@@ -6,15 +6,12 @@ import { Settings } from '../../Symbols';
 import { Button } from '../Button';
 import {
   Select,
-  SelectLabel,
   SelectTrigger,
   SelectContent,
   SelectSearch,
   SelectList,
   SelectItem,
   SelectItemText,
-  SelectGroup,
-  SelectSeparator,
   SelectEmptyState,
   SelectTriggerButton,
 } from './Select';
@@ -30,8 +27,6 @@ const meta: Meta<typeof Select> = {
     SelectList,
     SelectItem,
     SelectItemText,
-    SelectGroup,
-    SelectSeparator,
     SelectEmptyState,
   },
   parameters: {
@@ -95,16 +90,13 @@ export const Base: Story = {
   },
 };
 
-const fruits = [
-  { value: 'apple', label: 'Apple' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'orange', label: 'Orange' },
-];
-
-const vegetables = [
-  { value: 'carrot', label: 'Carrot' },
-  { value: 'broccoli', label: 'Broccoli' },
-  { value: 'spinach', label: 'Spinach' },
+const produceItems: SelectItemData[] = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'orange', label: 'Orange', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
+  { value: 'spinach', label: 'Spinach', group: 'Vegetables' },
 ];
 
 export const WithGroups: Story = {
@@ -113,32 +105,41 @@ export const WithGroups: Story = {
 
     return (
       <div className='w-400'>
-        <Select
-          items={[...fruits, ...vegetables]}
-          value={value}
-          onValueChange={setValue}
-        >
+        <Select items={produceItems} value={value} onValueChange={setValue}>
           <SelectTrigger label='Category' />
           <SelectContent>
             <SelectList>
-              <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                {fruits.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    <SelectItemText>{item.label}</SelectItemText>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-              <SelectSeparator />
-              <SelectGroup>
-                <SelectLabel>Vegetables</SelectLabel>
-                {vegetables.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    <SelectItemText>{item.label}</SelectItemText>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
             </SelectList>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  },
+};
+
+export const WithGroupsAndSearch: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+
+    return (
+      <div className='w-400'>
+        <Select items={produceItems} value={value} onValueChange={setValue}>
+          <SelectTrigger label='Category' />
+          <SelectContent>
+            <SelectSearch placeholder='Search produce' />
+            <SelectList>
+              {(item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemText>{item.label}</SelectItemText>
+                </SelectItem>
+              )}
+            </SelectList>
+            <SelectEmptyState>No produce found</SelectEmptyState>
           </SelectContent>
         </Select>
       </div>

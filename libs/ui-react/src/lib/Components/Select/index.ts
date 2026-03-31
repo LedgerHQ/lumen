@@ -7,8 +7,6 @@ export type {
   SelectContentProps,
   SelectSearchProps,
   SelectListProps,
-  SelectGroupProps,
-  SelectLabelProps,
   SelectItemTextProps,
   SelectItemProps,
   SelectSeparatorProps,
