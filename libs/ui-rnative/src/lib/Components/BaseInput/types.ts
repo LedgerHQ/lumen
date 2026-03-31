@@ -12,6 +12,13 @@ export type BaseInputProps = {
    */
   label?: string;
   /**
+   * Whether the input is disabled.
+   * When true, the input is not editable and displays a muted visual style.
+   * This differs from `editable={false}` which only prevents interaction.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * Additional styles to apply to the outer wrapper element.
    */
   style?: StyleProp<ViewStyle>;

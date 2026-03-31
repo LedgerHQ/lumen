@@ -33,7 +33,8 @@ export const BaseInput = ({
   errorMessage,
   hideClearButton,
   onChangeText: onChangeTextProp,
-  editable: editableProp = true,
+  editable,
+  disabled: disabledProp = false,
   prefix,
   suffix,
   ref,
@@ -41,7 +42,7 @@ export const BaseInput = ({
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
     consumerName: 'BaseInput',
-    mergeWith: { disabled: !editableProp },
+    mergeWith: { disabled: !disabledProp },
   });
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
@@ -112,7 +113,7 @@ export const BaseInput = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={handleChangeText}
-          editable={!disabled}
+          editable={!editable}
           autoCapitalize='none'
           autoCorrect={false}
           selectionColor={theme.colors.text.active}
