@@ -1,0 +1,9 @@
+{
+  "codeConnect": {
+    "include": [
+      "libs/ui-react/src/lib/Components/**/*.{tsx,jsx}"
+    ],
+    "label": "React",
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7"
+  }
+}
