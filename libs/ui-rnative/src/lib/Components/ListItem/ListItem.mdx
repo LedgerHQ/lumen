@@ -5,11 +5,10 @@ import {
   ListItem,
   ListItemLeading,
   ListItemContent,
+  ListItemContentRow,
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
-  ListItemTruncate,
 } from './ListItem';
 import {
   CustomTabs,
@@ -39,10 +38,10 @@ ListItems are flexible interactive elements designed for lists. They use a compo
 
 - **ListItem**: Root interactive container (Pressable)
 - **ListItemLeading**: Left section containing visual element and content
-- **ListItemSpot**: Spot adapter that inherits disabled state from parent ListItem
 - **ListItemContent**: Container for title and description
+- **ListItemContentRow**: Horizontal row within ListItemContent for placing a title or description alongside inline elements like Tag
 - **ListItemTitle**: The main label of the item (required)
-- **ListItemDescription**: Provides additional context, can include inline Tag
+- **ListItemDescription**: Provides additional context
 - **ListItemTrailing**: Right section for trailing content (chevron, switch, value, etc.)
 
 ## Properties
@@ -60,7 +59,7 @@ ListItems follow composite component pattern to allow for maximum flexibility ov
 
 ### Disabled State
 
-When disabled, the ListItem becomes non-interactive. The disabled state is automatically propagated to ListItemSpot and ListItemDescription via context.
+When disabled, the ListItem becomes non-interactive. The disabled state is automatically propagated to sub-components via context.
 
 <Canvas of={ListItemStories.DisabledState} />
 
@@ -154,7 +153,7 @@ function MyComponent() {
 
 ### With Leading Content
 
-Include a ListItemSpot component as leading icon for visual identification. It automatically inherits the disabled state from the parent ListItem:
+Use a `Spot` component as leading visual element for identification:
 
 ```tsx
 import {
@@ -164,7 +163,7 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
+  Spot,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Settings, ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 
@@ -172,7 +171,7 @@ function MyComponent() {
   return (
     <ListItem>
       <ListItemLeading>
-        <ListItemSpot appearance='icon' icon={Settings} />
+        <Spot appearance='icon' icon={Settings} />
         <ListItemContent>
           <ListItemTitle>Settings</ListItemTitle>
           <ListItemDescription>
@@ -201,7 +200,7 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
+  Spot,
   Switch,
   Tag,
   Box,
@@ -216,7 +215,7 @@ function ListVariants() {
       {/* Chevron - For navigation items */}
       <ListItem>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={User} />
+          <Spot appearance='icon' icon={User} />
           <ListItemContent>
             <ListItemTitle>Chevron Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -230,7 +229,7 @@ function ListVariants() {
       {/* Switch - For switchable options */}
       <ListItem onPress={() => setSelected(!selected)}>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={User} />
+          <Spot appearance='icon' icon={User} />
           <ListItemContent>
             <ListItemTitle>Enable Feature</ListItemTitle>
             <ListItemDescription>Toggle this setting on/off</ListItemDescription>
@@ -244,14 +243,14 @@ function ListVariants() {
       {/* Value - For displaying values */}
       <ListItem>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={User} />
+          <Spot appearance='icon' icon={User} />
           <ListItemContent>
             <ListItemTitle>Account Balance</ListItemTitle>
             <ListItemDescription>Current available funds</ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
-          <ListItemContent align='end'>
+          <ListItemContent>
             <ListItemTitle>42.00</ListItemTitle>
             <ListItemDescription>USD</ListItemDescription>
           </ListItemContent>
@@ -261,7 +260,7 @@ function ListVariants() {
       {/* Tag - For status indicators */}
       <ListItem>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={User} />
+          <Spot appearance='icon' icon={User} />
           <ListItemContent>
             <ListItemTitle>New Feature</ListItemTitle>
             <ListItemDescription>Recently added functionality</ListItemDescription>
@@ -275,7 +274,7 @@ function ListVariants() {
       {/* Icon - For trailing icons */}
       <ListItem>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={User} />
+          <Spot appearance='icon' icon={User} />
           <ListItemContent>
             <ListItemTitle>Edit Profile</ListItemTitle>
             <ListItemDescription>Modify your information</ListItemDescription>
@@ -289,7 +288,7 @@ function ListVariants() {
       {/* None - No trailing content */}
       <ListItem>
         <ListItemLeading>
-          <ListItemSpot appearance='icon' icon={User} />
+          <Spot appearance='icon' icon={User} />
           <ListItemContent>
             <ListItemTitle>Simple Item</ListItemTitle>
             <ListItemDescription>No trailing elements</ListItemDescription>
@@ -301,33 +300,38 @@ function ListVariants() {
 }
 ```
 
-### With Description Tag
+### With Inline Tag
 
-Add a tag inline with the description for additional status information:
+Use `ListItemContentRow` to place a Tag alongside a title or description. The row layout ensures the Tag keeps its natural size while the text truncates:
 
 ```tsx
 import {
   ListItem,
   ListItemLeading,
   ListItemContent,
+  ListItemContentRow,
   ListItemTitle,
   ListItemDescription,
-  ListItemTruncate,
   ListItemTrailing,
+  Spot,
   Tag,
 } from '@ledgerhq/lumen-ui-rnative';
-import { Bolt, ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+import { Wallet, ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function MyComponent() {
   return (
     <ListItem>
       <ListItemLeading>
+        <Spot appearance='icon' icon={Wallet} />
         <ListItemContent>
-          <ListItemTitle>New Item</ListItemTitle>
-          <ListItemDescription>
-            <ListItemTruncate>Recently added</ListItemTruncate>
-            <Tag label='New' appearance='accent' icon={Bolt} size='sm' />
-          </ListItemDescription>
+          <ListItemContentRow>
+            <ListItemTitle>New Item</ListItemTitle>
+            <Tag label='New' appearance='base' size='sm' />
+          </ListItemContentRow>
+          <ListItemContentRow>
+            <ListItemDescription>Recently added</ListItemDescription>
+            <Tag label='Status' appearance='gray' size='sm' />
+          </ListItemContentRow>
         </ListItemContent>
       </ListItemLeading>
       <ListItemTrailing>
@@ -340,7 +344,7 @@ function MyComponent() {
 
 ### Disabled State
 
-Disable the ListItem to prevent interaction. The disabled state is automatically propagated to ListItemDescription and ListItemSpot via context:
+Disable the ListItem to prevent interaction. The disabled state is automatically propagated to sub-components via context:
 
 ```tsx
 import {
@@ -350,14 +354,14 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
+  Spot,
   Switch,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <ListItem disabled>
   <ListItemLeading>
-    <ListItemSpot appearance='icon' icon={Settings} />
+    <Spot appearance='icon' icon={Settings} />
     <ListItemContent>
       <ListItemTitle>Disabled Option</ListItemTitle>
       <ListItemDescription>Cannot be changed</ListItemDescription>
@@ -381,13 +385,13 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemTrailing,
-  ListItemSpot,
+  Spot,
 } from '@ledgerhq/lumen-ui-rnative';
 import { User, ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <ListItem lx={{ maxWidth: 's256' }}>
   <ListItemLeading>
-    <ListItemSpot appearance='icon' icon={User} />
+    <Spot appearance='icon' icon={User} />
     <ListItemContent>
       <ListItemTitle>Very Long Title That Will Truncate</ListItemTitle>
       <ListItemDescription>
@@ -446,7 +450,7 @@ The following guidelines ensure consistent usage of the ListItem component and m
 ```tsx
 <ListItem>
   <ListItemLeading>
-    <ListItemSpot appearance='icon' icon={Settings} />
+    <Spot appearance='icon' icon={Settings} />
     <ListItemContent>
       <ListItemTitle>Settings</ListItemTitle>
       <ListItemDescription>Manage preferences</ListItemDescription>
@@ -469,7 +473,7 @@ The following guidelines ensure consistent usage of the ListItem component and m
 // DON'T - ListItemContent outside ListItemLeading
 <ListItem>
   <ListItemLeading>
-    <ListItemSpot appearance='icon' icon={Settings} />
+    <Spot appearance='icon' icon={Settings} />
   </ListItemLeading>
   <ListItemContent>
     <ListItemTitle>Settings</ListItemTitle>
@@ -483,35 +487,35 @@ The following guidelines ensure consistent usage of the ListItem component and m
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Use ListItemTruncate with Tags'
-      description='Wrap text in ListItemTruncate when combining with Tags. Use variant="title" inside ListItemTitle.'
+      title='Use ListItemContentRow for inline Tags'
+      description='Wrap title or description with a Tag inside ListItemContentRow for proper layout'
     >
 
 {/* prettier-ignore */}
 ```tsx
-<ListItemTitle>
-  <ListItemTruncate variant='title'>Title text</ListItemTruncate>
-  <Tag label='New' appearance='base' size='sm' />
-</ListItemTitle>
-<ListItemDescription>
-  <ListItemTruncate>Description text</ListItemTruncate>
-  <Tag label='New' appearance='accent' size='sm' />
-</ListItemDescription>
+<ListItemContent>
+  <ListItemContentRow>
+    <ListItemTitle>New Item</ListItemTitle>
+    <Tag label='New' appearance='base' size='sm' />
+  </ListItemContentRow>
+  <ListItemDescription>Recently added</ListItemDescription>
+</ListItemContent>
 ```
 
     </DoBlockItem>
     <DontBlockItem
-      title="Don't mix text and Tags without ListItemTruncate"
-      description='Text will not truncate properly without ListItemTruncate wrapper'
+      title="Don't place Tags outside ListItemContentRow"
+      description='Tags placed directly inside ListItemContent break the layout'
     >
 
 {/* prettier-ignore */}
 ```tsx
-// DON'T - Text won't truncate correctly
-<ListItemDescription>
-  Recently added
-  <Tag label='New' appearance='accent' size='sm' />
-</ListItemDescription>
+// DON'T - Tag outside ListItemContentRow
+<ListItemContent>
+  <ListItemTitle>New Item</ListItemTitle>
+  <ListItemDescription>Recently added</ListItemDescription>
+  <Tag label='New' appearance='base' size='sm' />
+</ListItemContent>
 ```
 
     </DontBlockItem>

@@ -1,24 +1,20 @@
 import {
   createSafeContext,
   DisabledProvider,
-  isTextChildren,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { Ref } from 'react';
+import { ElementRef, ReactNode, Ref } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useStyleSheet, useTheme } from '../../../styles';
-import { Spot } from '../Spot';
+import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
 import {
   ListItemContentProps,
+  ListItemContentRowProps,
   ListItemDescriptionProps,
-  ListItemIconProps,
   ListItemLeadingProps,
   ListItemProps,
-  ListItemSpotProps,
   ListItemTitleProps,
   ListItemTrailingProps,
-  ListItemTruncateProps,
 } from './types';
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
@@ -64,17 +60,17 @@ const useRootStyles = ({ pressed }: { pressed: boolean }) => {
  * import {
  *   ListItem,
  *   ListItemLeading,
- *   ListItemSpot,
  *   ListItemContent,
  *   ListItemTitle,
  *   ListItemDescription,
  *   ListItemTrailing,
+ *   Spot,
  * } from '@ledgerhq/lumen-ui-rnative';
  * import { Wallet, ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <ListItem onPress={() => console.log('Clicked!')}>
  *   <ListItemLeading>
- *     <ListItemSpot appearance="icon" icon={Wallet} />
+ *     <Spot size={48} appearance="icon" icon={Wallet} />
  *     <ListItemContent>
  *       <ListItemTitle>Balance</ListItemTitle>
  *       <ListItemDescription>Optional description</ListItemDescription>
@@ -127,7 +123,7 @@ const ListItemInner = ({
   children,
 }: {
   pressed: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const styles = useRootStyles({ pressed });
   return (
@@ -139,7 +135,7 @@ const ListItemInner = ({
 
 /**
  * Container for the leading (left) part of the list item.
- * Contains the visual element (ListItemSpot, Avatar, Icon) and the content (title + description).
+ * Contains the visual element (Spot, Avatar, Icon) and the content (title + description).
  */
 export const ListItemLeading = ({
   children,
@@ -195,8 +191,8 @@ export const ListItemContent = ({
       content: {
         flex: isInTrailing ? 0 : 1,
         minWidth: 0,
-        flexDirection: 'column',
         gap: t.spacings.s4,
+        alignItems: isInTrailing ? 'flex-end' : 'flex-start',
       },
     }),
     [isInTrailing],
@@ -217,73 +213,33 @@ export const ListItemContent = ({
 ListItemContent.displayName = 'ListItemContent';
 
 /**
- * The main title of the list item. Can contain text directly or
- * ListItemTruncate + Tag for more complex layouts.
+ * Horizontal row container within ListItemContent to place a title or description
+ * alongside additional inline content (e.g. Tag) while preserving text truncation.
  */
-export const ListItemTitle = ({
+export const ListItemContentRow = ({
   children,
   lx = {},
   style,
   ref,
   ...viewProps
-}: ListItemTitleProps & { ref?: Ref<View> }) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemTitle',
-    contextRequired: true,
-  });
-  const { isInTrailing } = useListItemTrailingContext({
-    consumerName: 'ListItemTitle',
-    contextRequired: false,
-  });
-
+}: ListItemContentRowProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
-    (t) => {
-      const { boxStyle } = StyleSheet.create({
-        boxStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: t.spacings.s4,
-          width: '100%',
-          textAlign: isInTrailing ? 'right' : 'left',
-          justifyContent: isInTrailing ? 'flex-end' : 'flex-start',
-        } as const,
-      });
-
-      return {
-        asBox: boxStyle,
-        asText: StyleSheet.flatten([
-          t.typographies.body2SemiBold,
-          {
-            ...boxStyle,
-            color: disabled ? t.colors.text.disabled : t.colors.text.base,
-          },
-        ]),
-      };
-    },
-    [disabled],
+    (t) => ({
+      row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        minWidth: 0,
+        gap: t.spacings.s8,
+      },
+    }),
+    [],
   );
 
-  // If children is a string, render it directly as Text with truncation
-  if (isTextChildren(children)) {
-    return (
-      <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
-        lx={lx}
-        style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-    );
-  }
-
-  // Otherwise, render as a row container for ListItemTruncate + Tag
   return (
     <Box
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.asBox, style])}
+      style={StyleSheet.flatten([styles.row, style])}
       {...viewProps}
     >
       {children}
@@ -291,11 +247,59 @@ export const ListItemTitle = ({
   );
 };
 
+ListItemContentRow.displayName = 'ListItemContentRow';
+
+/**
+ * The main title of the list item.
+ */
+export const ListItemTitle = ({
+  children,
+  lx = {},
+  style,
+  ref,
+  ...textProps
+}: ListItemTitleProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
+  const disabled = useDisabledContext({
+    consumerName: 'ListItemTitle',
+    contextRequired: true,
+  });
+  const { isInTrailing } = useListItemTrailingContext({
+    consumerName: 'ListItemTitle',
+    contextRequired: false,
+  });
+
+  const styles = useStyleSheet(
+    (t) => ({
+      title: StyleSheet.flatten([
+        t.typographies.body2SemiBold,
+        {
+          minWidth: 0,
+          textAlign: isInTrailing ? 'right' : 'left',
+          color: disabled ? t.colors.text.disabled : t.colors.text.base,
+        } as const,
+      ]),
+    }),
+    [disabled, isInTrailing],
+  );
+
+  return (
+    <Text
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.title, style])}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      {...textProps}
+    >
+      {children}
+    </Text>
+  );
+};
+
 ListItemTitle.displayName = 'ListItemTitle';
 
 /**
- * Optional description below the title. Can contain text directly or
- * ListItemTruncate + Tag for more complex layouts.
+ * Optional description text below the title.
  * Automatically applies disabled styling when the parent ListItem is disabled.
  */
 export const ListItemDescription = ({
@@ -303,8 +307,8 @@ export const ListItemDescription = ({
   lx = {},
   style,
   ref,
-  ...viewProps
-}: ListItemDescriptionProps & { ref?: Ref<View> }) => {
+  ...textProps
+}: ListItemDescriptionProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
@@ -315,57 +319,30 @@ export const ListItemDescription = ({
   });
 
   const styles = useStyleSheet(
-    (t) => {
-      const { boxStyle } = StyleSheet.create({
-        boxStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: t.spacings.s4,
-          width: '100%',
+    (t) => ({
+      description: StyleSheet.flatten([
+        t.typographies.body3,
+        {
+          minWidth: 0,
           textAlign: isInTrailing ? 'right' : 'left',
-          justifyContent: isInTrailing ? 'flex-end' : 'flex-start',
+          color: disabled ? t.colors.text.disabled : t.colors.text.muted,
         } as const,
-      });
-
-      return {
-        asBox: boxStyle,
-        asText: StyleSheet.flatten([
-          t.typographies.body3,
-          {
-            ...boxStyle,
-            color: disabled ? t.colors.text.disabled : t.colors.text.muted,
-          },
-        ]),
-      };
-    },
+      ]),
+    }),
     [disabled, isInTrailing],
   );
 
-  // If children is a string, render it directly as Text with truncation
-  if (isTextChildren(children)) {
-    return (
-      <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
-        lx={lx}
-        style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-    );
-  }
-
-  // Otherwise, render as a row container for ListItemTruncate + Tag
   return (
-    <Box
+    <Text
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.asBox, style])}
-      {...viewProps}
+      style={StyleSheet.flatten([styles.description, style])}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      {...textProps}
     >
       {children}
-    </Box>
+    </Text>
   );
 };
 
@@ -386,7 +363,6 @@ export const ListItemTrailing = ({
     () => ({
       trailing: {
         flexShrink: 0,
-        flexDirection: 'row',
         alignItems: 'center',
       },
     }),
@@ -408,109 +384,3 @@ export const ListItemTrailing = ({
 };
 
 ListItemTrailing.displayName = 'ListItemTrailing';
-
-/**
- * Spot adapter for ListItem. Automatically inherits disabled state from parent ListItem.
- * Fixed at size 48 for consistent list item appearance.
- */
-export const ListItemSpot = (props: ListItemSpotProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemSpot',
-    contextRequired: true,
-  });
-
-  return <Spot {...props} size={48} disabled={disabled} />;
-};
-
-ListItemSpot.displayName = 'ListItemSpot';
-
-/**
- * Icon adapter for ListItem. Automatically inherits disabled state from parent ListItem.
- * Fixed at size 24 for consistent list item appearance.
- */
-export const ListItemIcon = ({
-  icon: Icon,
-  color,
-  lx = {},
-  style,
-  ...viewProps
-}: ListItemIconProps) => {
-  const { theme } = useTheme();
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemIcon',
-    contextRequired: true,
-  });
-
-  return (
-    <Box
-      lx={lx}
-      style={StyleSheet.flatten([{ flexShrink: 0 }, style])}
-      {...viewProps}
-    >
-      <Icon
-        size={24}
-        style={{
-          color: disabled
-            ? theme.colors.text.disabled
-            : (color ?? theme.colors.text.base),
-        }}
-      />
-    </Box>
-  );
-};
-
-ListItemIcon.displayName = 'ListItemIcon';
-
-/**
- * Text wrapper that truncates when space is limited.
- * Use inside ListItemTitle or ListItemDescription when combining text with a Tag.
- * Set variant='title' for title styling or variant='description' (default) for description styling.
- */
-export const ListItemTruncate = ({
-  children,
-  variant = 'description',
-  lx = {},
-  style,
-  ref,
-  ...textProps
-}: ListItemTruncateProps & { ref?: Ref<React.ElementRef<typeof Text>> }) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemTruncate',
-    contextRequired: true,
-  });
-
-  const styles = useStyleSheet(
-    (t) => ({
-      truncate: StyleSheet.flatten([
-        variant === 'title'
-          ? t.typographies.body2SemiBold
-          : t.typographies.body3,
-        {
-          color: disabled
-            ? t.colors.text.disabled
-            : variant === 'title'
-              ? t.colors.text.base
-              : t.colors.text.muted,
-          minWidth: 0,
-          flexShrink: 1,
-        },
-      ]),
-    }),
-    [disabled, variant],
-  );
-
-  return (
-    <Text
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.truncate, style])}
-      numberOfLines={1}
-      ellipsizeMode='tail'
-      {...textProps}
-    >
-      {children}
-    </Text>
-  );
-};
-
-ListItemTruncate.displayName = 'ListItemTruncate';
