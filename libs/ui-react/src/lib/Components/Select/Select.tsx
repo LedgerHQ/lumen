@@ -74,7 +74,6 @@ function Select({
     },
   );
 
-  const isValueControlled = value !== undefined;
   const [searchMounted, setSearchMounted] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -139,8 +138,7 @@ function Select({
       items={groupedItems ?? items}
       filteredItems={filteredItemsForRoot}
       onInputValueChange={handleInputValueChange}
-      value={isValueControlled ? selectedValue : undefined}
-      defaultValue={isValueControlled ? undefined : defaultValue}
+      value={selectedValue}
       onValueChange={setSelectedValue}
       open={open}
       defaultOpen={defaultOpen}
