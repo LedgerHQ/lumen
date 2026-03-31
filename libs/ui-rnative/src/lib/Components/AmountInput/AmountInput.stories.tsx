@@ -155,7 +155,7 @@ export const DisabledAmountInput: Story = {
     allowDecimals: true,
     thousandsSeparator: true,
     isInvalid: false,
-    editable: false,
+    disabled: true,
   },
 };
 

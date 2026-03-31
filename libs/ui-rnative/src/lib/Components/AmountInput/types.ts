@@ -40,6 +40,13 @@ export type AmountInputProps = Omit<
    */
   allowDecimals?: boolean;
   /**
+   * Whether the input is disabled.
+   * When true, the input is not editable and displays a muted visual style.
+   * This differs from `editable={false}` which only prevents interaction.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * Additional style
    */
   style?: ViewStyle;
