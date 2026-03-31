@@ -16,32 +16,6 @@ const meta: Meta<typeof AddressInput> = {
       },
     },
   },
-  argTypes: {
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text when input is empty',
-    },
-    prefix: {
-      control: 'text',
-      description: 'Custom prefix text (default: "To:")',
-    },
-    errorMessage: {
-      control: 'text',
-      description: 'Error message to display below input',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Whether the input is disabled',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-    hideClearButton: {
-      control: 'boolean',
-      description: 'Hide the clear button',
-    },
-  },
 };
 
 export default meta;

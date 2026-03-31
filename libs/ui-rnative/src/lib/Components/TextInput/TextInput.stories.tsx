@@ -16,37 +16,6 @@ const meta: Meta<typeof TextInput> = {
       },
     },
   },
-  argTypes: {
-    label: {
-      control: 'text',
-      description: 'Floating label text',
-    },
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text when input is empty',
-    },
-    errorMessage: {
-      control: 'text',
-      description: 'Error message to display below input',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Whether the input is disabled',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-    hideClearButton: {
-      control: 'boolean',
-      description: 'Hide the clear button',
-    },
-    keyboardType: {
-      control: 'select',
-      options: ['default', 'email-address', 'numeric', 'phone-pad', 'url'],
-      description: 'Keyboard type for input',
-    },
-  },
 };
 
 export default meta;
