@@ -310,7 +310,8 @@ export const SideBarCollapseToggle = ({
     </button>
   );
 
-  const tooltipContent = tooltipContentProp ?? t('components.sideBar.collapseAriaLabel');
+  const tooltipContent =
+    tooltipContentProp ?? t('components.sideBar.collapseAriaLabel');
 
   return (
     <Tooltip open={collapsed ? undefined : false}>
