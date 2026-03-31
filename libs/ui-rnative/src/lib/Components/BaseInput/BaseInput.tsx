@@ -113,7 +113,7 @@ export const BaseInput = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={handleChangeText}
-          editable={editable && !disabled}
+          editable={editable !== false && !disabled}
           autoCapitalize='none'
           autoCorrect={false}
           selectionColor={theme.colors.text.active}

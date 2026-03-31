@@ -28,6 +28,10 @@ const meta: Meta<typeof SearchInput> = {
       control: 'text',
       description: 'Error message to display below input',
     },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the input is disabled',
+    },
     editable: {
       control: 'boolean',
       description: 'Whether the input is editable',
@@ -105,7 +109,7 @@ export const DisabledSearchInput: Story = {
   ),
   args: {
     placeholder: 'Search products',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
   },
 };

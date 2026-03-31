@@ -29,6 +29,10 @@ const meta: Meta<typeof AddressInput> = {
       control: 'text',
       description: 'Error message to display below input',
     },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the input is disabled',
+    },
     editable: {
       control: 'boolean',
       description: 'Whether the input is editable',
@@ -154,7 +158,7 @@ export const DisabledAddressInput: Story = {
     placeholder: 'Enter address or ENS',
     value: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
     prefix: 'To:',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
   },
 };

@@ -29,6 +29,10 @@ const meta: Meta<typeof TextInput> = {
       control: 'text',
       description: 'Error message to display below input',
     },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the input is disabled',
+    },
     editable: {
       control: 'boolean',
       description: 'Whether the input is editable',
@@ -108,7 +112,7 @@ export const DisabledTextInput: Story = {
   render: (args) => <TextInputStory {...args} initialValue='johndoe' />,
   args: {
     label: 'Username',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
     keyboardType: 'default',
   },
