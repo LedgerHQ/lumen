@@ -4,8 +4,8 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { t } from 'i18next';
 import { useCallback } from 'react';
+import { useCommonTranslation } from '../../../i18n';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ExpandRight, ExpandLeft } from '../../Symbols';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
@@ -99,6 +99,7 @@ export const SideBar = ({
   className,
   ...props
 }: SideBarProps) => {
+  const { t } = useCommonTranslation();
   const [collapsed, setCollapsed] = useControllableState({
     prop: controlledCollapsed,
     defaultProp: defaultCollapsed,
@@ -278,6 +279,7 @@ export const SideBarCollapseToggle = ({
   tooltipContent: tooltipContentProp,
   ...props
 }: SideBarCollapseToggleProps) => {
+  const { t } = useCommonTranslation();
   const { collapsed, setCollapsed } = useSideBarContext({
     consumerName: 'SideBarCollapseToggle',
     contextRequired: true,
@@ -308,7 +310,7 @@ export const SideBarCollapseToggle = ({
     </button>
   );
 
-  const tooltipContent = tooltipContentProp ?? "Collapse";
+  const tooltipContent = tooltipContentProp ?? t('components.sideBar.collapseAriaLabel');
 
   return (
     <Tooltip open={collapsed ? undefined : false}>
