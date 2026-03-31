@@ -172,11 +172,13 @@ export type SelectContentProps = {
 export type SelectListProps = {
   /**
    * A render function that receives each item and its index, returning a ReactNode.
-   * Can also accept static ReactNode children.
+   * Can also accept static ReactNode children, which are rendered as-is.
    *
    * When items are grouped, this render function is used for individual items
    * within each group — the group scaffolding (headers, separators, collection)
-   * is handled automatically by `SelectList`.
+   * is handled automatically by `SelectList` **only when `children` is provided as
+   * a render function**. If you pass static ReactNode children while using grouped
+   * items, you are responsible for rendering any group headers or separators.
    * @example children={(item) => <SelectItem value={item.value}>{item.label}</SelectItem>}
    */
   children?: ReactNode | ((item: SelectItemData, index: number) => ReactNode);
