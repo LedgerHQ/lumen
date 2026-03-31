@@ -1,4 +1,3 @@
-import React from 'react';
 import figma from '@figma/code-connect';
 import { InteractiveIcon } from './InteractiveIcon';
 import { InteractiveIconProps } from './types';

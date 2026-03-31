@@ -2,6 +2,7 @@
 
 // Fix for RN 0.79+ Animated API issues in test environment
 // The Animated module tries to connect to native views which don't exist in Jest
+/* eslint-disable-next-line no-restricted-imports */
 import { Animated } from 'react-native';
 
 const originalTiming = Animated.timing;

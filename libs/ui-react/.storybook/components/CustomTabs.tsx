@@ -1,4 +1,11 @@
-import React from 'react';
+import {
+  ReactNode,
+  FC,
+  Children,
+  ReactElement,
+  isValidElement,
+  useState,
+} from 'react';
 import {
   SegmentedControl,
   SegmentedControlButton,
@@ -6,20 +13,20 @@ import {
 
 type TabProps = {
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 type CustomTabsProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
-  const tabs = React.Children.toArray(children).filter(
-    (child): child is React.ReactElement<TabProps> =>
-      React.isValidElement(child) && child.type === Tab,
+export const CustomTabs: FC<CustomTabsProps> = ({ children }) => {
+  const tabs = Children.toArray(children).filter(
+    (child): child is ReactElement<TabProps> =>
+      isValidElement(child) && child.type === Tab,
   );
 
-  const [activeLabel, setActiveLabel] = React.useState<string>(
+  const [activeLabel, setActiveLabel] = useState<string>(
     tabs[0]?.props.label ?? '',
   );
 
@@ -33,7 +40,6 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
         <SegmentedControl
           selectedValue={activeLabel}
           onSelectedChange={(value) => setActiveLabel(value)}
-          className='w-480'
         >
           {tabs.map((tab) => (
             <SegmentedControlButton
@@ -56,6 +62,6 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ children }) => {
   );
 };
 
-export const Tab: React.FC<TabProps> = ({ children }) => {
+export const Tab: FC<TabProps> = ({ children }) => {
   return <div>{children}</div>;
 };

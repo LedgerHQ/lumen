@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useCallback } from 'react';
 import { useIsomorphicLayoutEffect } from '../constants';
 
 /**
@@ -9,12 +9,12 @@ export function useGet<A>(
   initialValue?: any,
   forwardToFunction?: boolean,
 ): () => A {
-  const curRef = React.useRef<any>(initialValue ?? currentValue);
+  const curRef = useRef<any>(initialValue ?? currentValue);
   useIsomorphicLayoutEffect(() => {
     curRef.current = currentValue;
   });
 
-  return React.useCallback(
+  return useCallback(
     forwardToFunction
       ? (...args) => curRef.current?.apply(null, args)
       : () => curRef.current,

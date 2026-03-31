@@ -1,4 +1,4 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import { StyledViewProps } from '../../../styles';
 import { IconProps } from '../Icon';
 
@@ -20,7 +20,7 @@ type IconSpotProps = {
   /**
    * A React component to be rendered as the icon. Required when appearance is 'icon'.
    */
-  icon: React.ComponentType<IconProps>;
+  icon: ComponentType<IconProps>;
 };
 
 type NumberSpotProps = {

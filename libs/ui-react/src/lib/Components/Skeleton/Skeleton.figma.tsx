@@ -1,7 +1,5 @@
-import React from 'react';
-import { Skeleton } from './Skeleton';
-
 import figma from '@figma/code-connect';
+import { Skeleton } from './Skeleton';
 
 figma.connect(
   Skeleton,

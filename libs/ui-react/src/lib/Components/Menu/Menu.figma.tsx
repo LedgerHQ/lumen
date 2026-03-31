@@ -1,4 +1,3 @@
-import React from 'react';
 import { figma } from '@figma/code-connect';
 import {
   Menu,
@@ -21,13 +20,13 @@ figma.connect(
           disabled: (
             <div className='flex flex-col'>
               <span>Title</span>
-              <span className='text-disabled body-3'>Description</span>
+              <span className='body-3 text-disabled'>Description</span>
             </div>
           ),
           default: (
             <div className='flex flex-col'>
               <span>Title</span>
-              <span className='text-muted body-3'>Description</span>
+              <span className='body-3 text-muted'>Description</span>
             </div>
           ),
         }),

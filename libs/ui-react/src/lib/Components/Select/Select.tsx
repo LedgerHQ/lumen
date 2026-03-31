@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { cva } from 'class-variance-authority';
-import * as React from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check, ChevronUp } from '../../Symbols';
 import { Divider } from '../Divider';
@@ -78,7 +78,7 @@ const SelectInputTrigger = ({
   selectedContent,
   ...props
 }: Omit<SelectTriggerProps, 'render'> & {
-  selectedContent: React.ReactNode;
+  selectedContent: ReactNode;
 }) => (
   <SelectPrimitive.Trigger
     ref={ref}
@@ -264,7 +264,7 @@ SelectItemText.displayName = SelectPrimitive.ItemText.displayName;
 function SelectScrollUpButton({
   className,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
+}: ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
   return (
     <SelectPrimitive.ScrollUpButton
       data-slot='select-scroll-up-button'
@@ -282,7 +282,7 @@ function SelectScrollUpButton({
 function SelectScrollDownButton({
   className,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
+}: ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
   return (
     <SelectPrimitive.ScrollDownButton
       data-slot='select-scroll-down-button'

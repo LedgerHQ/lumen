@@ -1,5 +1,5 @@
 import plugin from 'tailwindcss/plugin.js';
-import { primitivesTheme } from '../themes/css';
+import { primitivesTheme } from '../themes/css/index';
 import { createIconUtilities } from './createIconUtilities.js';
 import { createSpotUtilities } from './createSpotUtilities.js';
 import { getThemeUtilsByPrefix } from './getThemeUtilsByPrefix.js';

@@ -22,7 +22,7 @@ const BorderWidthShowcase = () => (
           </div>
           <div
             className={`${borderWidthClass} size-80 rounded-sm border border-active`}
-          ></div>
+          />
         </div>
       ))}
     </div>

@@ -1,7 +1,6 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import React from 'react';
 import { ViewStyle } from 'react-native';
 
 import { Plus, Settings } from '../../Symbols';

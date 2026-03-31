@@ -15,35 +15,51 @@ import {
 } from './usePillElementLayoutEffect';
 
 const segmentedControlStyles = {
-  root: cva('relative flex w-full flex-row items-center rounded-sm', {
+  root: cva('relative flex flex-row items-center rounded-sm', {
     variants: {
       appearance: {
         background: 'bg-surface',
         'no-background': 'bg-transparent',
       },
-    },
-  }),
-  pill: cva(
-    'pointer-events-none absolute top-0 left-0 z-0 rounded-sm transition-transform duration-250 ease-in-out',
-    {
-      variants: {
-        disabled: {
-          true: 'bg-base-transparent-pressed',
-          false: 'bg-muted-transparent',
-        },
+      tabLayout: {
+        fit: 'inline-flex',
+        fixed: 'w-full',
       },
     },
-  ),
+  }),
+  pill: cva('pointer-events-none absolute top-0 left-0 z-0 rounded-sm', {
+    variants: {
+      disabled: {
+        true: 'bg-base-transparent-pressed',
+        false: 'bg-muted-transparent',
+      },
+      isReady: {
+        true: 'transition-[transform,width] duration-250 ease-in-out',
+        false: 'transition-none',
+      },
+    },
+  }),
   item: cva(
-    'z-10 flex min-w-0 flex-1 cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
+    'z-10 flex cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
     {
       variants: {
         selected: {
-          true: 'body-2-semi-bold text-base',
-          false:
-            'body-2 text-muted hover:body-2-semi-bold hover:text-muted-hover',
+          true: 'body-2-semi-bold',
+          false: 'body-2',
+        },
+        disabled: {
+          true: 'text-muted',
+          false: '',
         },
       },
+      compoundVariants: [
+        { selected: true, disabled: false, className: 'text-base' },
+        {
+          selected: false,
+          disabled: false,
+          className: 'text-muted hover:text-muted-hover',
+        },
+      ],
     },
   ),
 };
@@ -56,7 +72,7 @@ export function SegmentedControlButton({
   className,
   ...props
 }: SegmentedControlButtonProps) {
-  const { selectedValue, onSelectedChange, disabled } =
+  const { selectedValue, onSelectedChange, disabled, tabLayout } =
     useSegmentedControlContext();
   const selected = selectedValue === value;
 
@@ -74,16 +90,15 @@ export function SegmentedControlButton({
         }
       }}
       className={cn(
-        segmentedControlStyles.item({
-          selected,
-        }),
+        segmentedControlStyles.item({ selected, disabled: !!disabled }),
+        tabLayout === 'fixed' && 'min-w-0 flex-1',
         className,
       )}
       {...props}
     >
-      <span className='inline-flex shrink-0 items-center justify-center gap-8'>
-        {Icon && <Icon size={16} />}
-        <span>{children}</span>
+      <span className='inline-flex min-w-0 items-center justify-center gap-8'>
+        {Icon && <Icon size={16} className='shrink-0' />}
+        <span className='truncate'>{children}</span>
       </span>
     </button>
   );
@@ -98,6 +113,7 @@ export function SegmentedControl({
   className,
   disabled: disabledProp,
   appearance = 'background',
+  tabLayout = 'fixed',
   ...props
 }: SegmentedControlProps) {
   const disabled = useDisabledContext({
@@ -110,7 +126,7 @@ export function SegmentedControl({
     selectedValue,
     children,
   );
-  const { pill } = usePillElementLayoutEffect({
+  const { pill, isReady } = usePillElementLayoutEffect({
     ref,
     selectedIndex,
     children,
@@ -118,7 +134,7 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange, disabled }}
+      value={{ selectedValue, onSelectedChange, disabled, tabLayout }}
     >
       <div
         {...props}
@@ -128,6 +144,7 @@ export function SegmentedControl({
         className={cn(
           segmentedControlStyles.root({
             appearance,
+            tabLayout,
           }),
           className,
         )}
@@ -135,9 +152,7 @@ export function SegmentedControl({
         {children}
         <div
           aria-hidden
-          className={segmentedControlStyles.pill({
-            disabled,
-          })}
+          className={segmentedControlStyles.pill({ disabled, isReady })}
           style={{
             width: pill.width,
             height: pill.height,

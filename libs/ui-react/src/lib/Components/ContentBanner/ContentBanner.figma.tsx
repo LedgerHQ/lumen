@@ -1,15 +1,14 @@
-import React from 'react';
+import figma from '@figma/code-connect';
+
+import { Placeholder, Wallet } from '../../Symbols';
+import { Spot } from '../Spot';
+import { Stepper } from '../Stepper';
 import {
   ContentBanner,
   ContentBannerContent,
   ContentBannerTitle,
   ContentBannerDescription,
 } from './ContentBanner';
-
-import { Spot } from '../Spot';
-import { Placeholder, Wallet } from '../../Symbols';
-import figma from '@figma/code-connect';
-import { Stepper } from '../Stepper';
 
 figma.connect(
   ContentBanner,
@@ -28,10 +27,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner
-        onClose={() => {}}
-        closeAriaLabel='Close content banner'
-      >
+      <ContentBanner onClose={() => {}} closeAriaLabel='Close content banner'>
         {props.leadingElement}
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>

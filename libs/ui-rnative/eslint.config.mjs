@@ -1,32 +1,16 @@
 import storybook from 'eslint-plugin-storybook';
 
-import baseConfig from '../../eslint.config.mjs';
-
+import { prodConfig } from '../../eslint.config.mjs';
+import { defineProdRules } from '../../eslint.shared.mjs';
 export default [
-  ...baseConfig,
+  ...prodConfig,
   {
     files: ['**/*.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'],
     plugins: {
       storybook,
     },
-    // Override or add rules here
-    rules: {
-      'storybook/no-uninstalled-addons': [
-        'error',
-        {
-          packageJsonLocation: '../../package.json',
-        },
-      ],
-      'no-restricted-imports': [
-        'error',
-        {
-          name: 'react-native',
-          importNames: ['TouchableOpacity'],
-          message: 'Prefer `Pressable` instead of `TouchableOpacity`.',
-        },
-      ],
-    },
   },
+  defineProdRules({}),
   {
     ignores: ['public', '.cache', 'node_modules'],
   },

@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import {
   Pressable,
   PressableProps,

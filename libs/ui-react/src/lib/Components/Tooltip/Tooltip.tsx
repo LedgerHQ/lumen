@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cva } from 'class-variance-authority';
-import React from 'react';
+import { ComponentProps } from 'react';
 import {
   TooltipContentProps,
   TooltipProps,
@@ -54,7 +54,7 @@ export const TooltipProvider = ({
    */
   delayDuration = 200,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Provider>) => {
+}: ComponentProps<typeof TooltipPrimitive.Provider>) => {
   return (
     <TooltipPrimitive.Provider
       data-slot='tooltip-provider'

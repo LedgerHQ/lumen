@@ -1,4 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { LayoutChangeEvent } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
 import type { LumenTextStyle, LumenTypographyTokenName } from '../../../styles';
@@ -23,10 +24,15 @@ export function SegmentedControlButton({
   onPress,
   ...props
 }: SegmentedControlButtonProps) {
-  const { selectedValue, onSelectedChange, disabled } =
-    useSegmentedControlContext();
+  const {
+    selectedValue,
+    onSelectedChange,
+    disabled,
+    tabLayout,
+    registerButtonLayout,
+  } = useSegmentedControlContext();
   const selected = selectedValue === value;
-  const styles = useButtonStyles({ selected, disabled });
+  const styles = useButtonStyles({ selected, disabled, tabLayout });
 
   function handlePress() {
     if (!disabled) {
@@ -35,9 +41,17 @@ export function SegmentedControlButton({
     }
   }
 
+  function handleLayout(e: LayoutChangeEvent) {
+    if (tabLayout === 'fit') {
+      const { x, width } = e.nativeEvent.layout;
+      registerButtonLayout(value, { x, width });
+    }
+  }
+
   return (
     <Pressable
       onPress={handlePress}
+      onLayout={handleLayout}
       disabled={disabled}
       accessibilityState={{ selected, disabled }}
       style={styles.button}
@@ -53,6 +67,7 @@ export function SegmentedControlButton({
           typography={styles.typography}
           lx={{ color: styles.textColor }}
           style={styles.label}
+          numberOfLines={1}
         >
           {children}
         </Text>
@@ -66,14 +81,16 @@ SegmentedControlButton.displayName = 'SegmentedControlButton';
 function useButtonStyles({
   selected,
   disabled,
+  tabLayout,
 }: {
   selected: boolean;
   disabled?: boolean;
+  tabLayout: 'fit' | 'fixed';
 }) {
   const styles = useStyleSheet(
     (t) => ({
       button: {
-        flex: 1,
+        flex: tabLayout === 'fixed' ? 1 : undefined,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -91,13 +108,15 @@ function useButtonStyles({
       label: {
         textAlign: 'center',
         includeFontPadding: false,
+        flexShrink: 1,
       },
       iconWrap: {
         flexDirection: 'row',
         alignItems: 'center',
+        flexShrink: 0,
       },
     }),
-    [],
+    [tabLayout],
   );
   const typography: LumenTypographyTokenName = selected
     ? 'body2SemiBold'
@@ -114,6 +133,7 @@ export function SegmentedControl({
   children,
   disabled: disabledProp,
   appearance = 'background',
+  tabLayout = 'fixed',
   ...props
 }: SegmentedControlProps) {
   const disabled = useDisabledContext({
@@ -123,19 +143,28 @@ export function SegmentedControl({
   const styles = useRootStyles({
     disabled: Boolean(disabled),
     appearance,
+    tabLayout,
   });
   const selectedIndex = useSegmentedControlSelectedIndex(
     selectedValue,
     children,
   );
-  const { onLayout, animatedPillStyle } = usePillLayout({
+  const { onLayout, animatedPillStyle, registerButtonLayout } = usePillLayout({
     selectedIndex,
+    selectedValue,
     children,
+    tabLayout,
   });
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange, disabled }}
+      value={{
+        selectedValue,
+        onSelectedChange,
+        disabled,
+        tabLayout,
+        registerButtonLayout,
+      }}
     >
       <Box
         accessibilityRole='radiogroup'
@@ -160,9 +189,11 @@ SegmentedControl.displayName = 'SegmentedControl';
 function useRootStyles({
   disabled,
   appearance,
+  tabLayout,
 }: {
   disabled: boolean;
   appearance: 'background' | 'no-background';
+  tabLayout: 'fit' | 'fixed';
 }) {
   return useStyleSheet(
     (t) => ({
@@ -170,7 +201,9 @@ function useRootStyles({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'relative',
-        width: '100%',
+        ...(tabLayout === 'fixed'
+          ? { width: '100%' }
+          : { alignSelf: 'flex-start' }),
         borderRadius: t.borderRadius.md,
         backgroundColor:
           appearance === 'background' ? t.colors.bg.surface : 'transparent',
@@ -186,6 +219,6 @@ function useRootStyles({
         zIndex: 0,
       },
     }),
-    [disabled, appearance],
+    [disabled, appearance, tabLayout],
   );
 }

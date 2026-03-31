@@ -1,7 +1,7 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
-import * as React from 'react';
+import { ComponentProps } from 'react';
 import { DialogHeader } from './DialogHeader/DialogHeader';
 import {
   DialogBodyProps,
@@ -116,7 +116,7 @@ export { DialogClose } from './DialogClose/DialogClose';
  */
 function DialogPortal({
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+}: ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot='dialog-portal' {...props} />;
 }
 

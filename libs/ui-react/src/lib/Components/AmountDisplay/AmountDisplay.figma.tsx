@@ -1,7 +1,5 @@
-import React from 'react';
-import { AmountDisplay } from './AmountDisplay';
-
 import figma from '@figma/code-connect';
+import { AmountDisplay } from './AmountDisplay';
 
 figma.connect(
   AmountDisplay,

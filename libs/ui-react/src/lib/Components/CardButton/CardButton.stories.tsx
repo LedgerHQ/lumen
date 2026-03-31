@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 import { Settings, Plus, Coins, CreditCard, Bank } from '../../Symbols';
 import { CardButton } from './CardButton';
 

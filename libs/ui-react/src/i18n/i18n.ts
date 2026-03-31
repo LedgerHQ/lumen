@@ -26,6 +26,7 @@ const initializeI18n = (): I18nInstance => {
       },
     })
     .catch((error: unknown) => {
+      // eslint-disable-next-line no-console
       console.error('Failed to initialize i18next:', error);
     });
 
@@ -54,6 +55,7 @@ export const loadLocale = async (locale: SupportedLocale): Promise<void> => {
 
     loadedLocales.add(locale);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to load locale ${locale}`, error);
     throw error;
   }

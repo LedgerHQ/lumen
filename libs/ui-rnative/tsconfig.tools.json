@@ -6,7 +6,11 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "jsx": "preserve",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ]
   },
   "exclude": [
     "src/**/*.test.ts",
@@ -19,9 +23,12 @@
     "src/**/*.stories.js",
     "src/**/*.stories.jsx",
     "src/**/*.stories.tsx",
-    "src/**/*.stories.mdx",
-    ".storybook/*.js",
-    ".storybook/*.ts",
+    "src/**/*.mdx",
+    "src/**/*.figma.ts",
+    "src/**/*.figma.js",
+    "src/**/*.figma.jsx",
+    "src/**/*.figma.tsx",
+    ".storybook/**/*.js",
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx"
   ],

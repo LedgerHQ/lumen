@@ -1,7 +1,5 @@
-import React from 'react';
-import { Switch } from './Switch';
-
 import figma from '@figma/code-connect';
+import { Switch } from './Switch';
 
 figma.connect(
   Switch,
@@ -27,7 +25,7 @@ figma.connect(
       <Switch
         selected={props.switchProps.selected}
         defaultSelected={false}
-        onChange={(selected: boolean) => {}}
+        onChange={(_selected: boolean) => {}}
         size={props.switchProps.size}
         disabled={props.switchProps.disabled}
       />
@@ -57,7 +55,7 @@ figma.connect(
       <Switch
         selected={props.selected}
         defaultSelected={false}
-        onChange={(selected: boolean) => {}}
+        onChange={(_selected: boolean) => {}}
         size={props.size}
         disabled={props.disabled}
       />
