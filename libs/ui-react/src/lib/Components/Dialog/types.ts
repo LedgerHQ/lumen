@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-export type DialogHeight = 'hug' | 'fixed';
+export type DialogHeight = 'fit' | 'fixed';
 
 export type DialogProps = {
   /**
@@ -24,9 +24,9 @@ export type DialogProps = {
   defaultOpen?: boolean;
   /**
    * The height behavior of the dialog.
-   * - `hug`: Content-fit height up to max 560px (default)
+   * - `fit`: Content-fit height up to max 560px (default)
    * - `fixed`: Always exactly 560px height
-   * @default 'hug'
+   * @default 'fit'
    */
   height?: DialogHeight;
   /**
