@@ -118,7 +118,8 @@ export type SideBarItemProps = {
    */
   label?: ReactNode;
   /**
-   * Content shown in the tooltip when collapsed. Can be a string or ReactNode. If not provided and `label` is set, `label` is used.
+   * Content shown in the tooltip when collapsed. Can be a string or ReactNode.
+   * If not provided and `label` is set, `label` is used.
    */
   tooltipContent?: ReactNode;
   /**
@@ -141,6 +142,11 @@ export type SideBarItemProps = {
  * Internal props for the collapse toggle component
  */
 export type SideBarCollapseToggleProps = {
+  /**
+   * Content shown in the tooltip when collapsed. Can be a string or ReactNode.
+   * If not provided, defaults to the `components.sideBar.collapseAriaLabel` translation key.
+   */
+  tooltipContent?: ReactNode;
   /**
    * Additional CSS classes for the toggle.
    */
