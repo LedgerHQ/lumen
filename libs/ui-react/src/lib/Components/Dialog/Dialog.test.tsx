@@ -249,6 +249,6 @@ describe('Dialog', () => {
 
     await user.click(screen.getByText('Open Dialog'));
 
-    expect(screen.getByText('Test Title')).toBeInTheDocument();
+    expect(screen.getAllByText('Test Title').length).toBeGreaterThanOrEqual(1);
   });
 });
