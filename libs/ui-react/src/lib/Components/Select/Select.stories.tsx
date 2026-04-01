@@ -422,9 +422,21 @@ export const FormIntegration: Story = {
 };
 
 const cryptos: SelectItemData[] = [
-  { value: 'btc', label: 'Bitcoin', meta: { ledgerId: 'bitcoin', ticker: 'BTC' } },
-  { value: 'eth', label: 'Ethereum', meta: { ledgerId: 'ethereum', ticker: 'ETH' } },
-  { value: 'sol', label: 'Solana', meta: { ledgerId: 'solana', ticker: 'SOL' } },
+  {
+    value: 'btc',
+    label: 'Bitcoin',
+    meta: { ledgerId: 'bitcoin', ticker: 'BTC' },
+  },
+  {
+    value: 'eth',
+    label: 'Ethereum',
+    meta: { ledgerId: 'ethereum', ticker: 'ETH' },
+  },
+  {
+    value: 'sol',
+    label: 'Solana',
+    meta: { ledgerId: 'solana', ticker: 'SOL' },
+  },
 ];
 
 const accountOptions = [
@@ -681,7 +693,6 @@ const cryptoItemsWithDescription: SelectItemData[] = [
   },
 ];
 
-
 export const LeadingContentShowcase: Story = {
   render: () => {
     const [smCoinValue, setSmCoinValue] = useState<string | null>(null);
@@ -721,7 +732,7 @@ export const LeadingContentShowcase: Story = {
                       ticker={(item.meta?.ticker as string) ?? ''}
                       size='24px'
                     />
-                      <SelectItemText>{item.label}</SelectItemText>
+                    <SelectItemText>{item.label}</SelectItemText>
                   </SelectItem>
                 )}
               />

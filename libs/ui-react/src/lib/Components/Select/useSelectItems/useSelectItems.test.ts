@@ -162,9 +162,7 @@ describe('useSelectItems', () => {
 
   describe('external filteredItems', () => {
     it('uses filteredItems instead of internal filtering when provided', () => {
-      const external: SelectItemData[] = [
-        { value: 'opt3', label: 'Option 3' },
-      ];
+      const external: SelectItemData[] = [{ value: 'opt3', label: 'Option 3' }];
 
       const { result } = renderHook(() =>
         useSelectItems({ items: flat, filteredItems: external }),
