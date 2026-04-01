@@ -17,7 +17,7 @@ export const ImageMedias = () => {
       />
       <MediaImage
         src='https://crypto-icons.ledger.com/BTC.png'
-        alt='USDC'
+        alt='Bitcoin'
         size={48}
         shape='circle'
       />
