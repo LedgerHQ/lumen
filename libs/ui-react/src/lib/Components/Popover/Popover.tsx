@@ -16,7 +16,7 @@ const popoverContentStyles = cva(
   {
     variants: {
       width: {
-        hug: '',
+        fit: '',
         fixed: 'w-400',
       },
       side: {
@@ -39,7 +39,7 @@ const popoverContentStyles = cva(
       },
     },
     defaultVariants: {
-      width: 'hug',
+      width: 'fit',
     },
   },
 );
@@ -127,7 +127,7 @@ const PopoverContent = ({
   side = 'bottom',
   sideOffset = 8,
   align = 'start',
-  width = 'hug',
+  width = 'fit',
   className,
   children,
 }: PopoverContentProps) => {

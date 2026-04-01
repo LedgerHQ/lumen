@@ -39,10 +39,10 @@ Built on top of [Base UI Popover](https://base-ui.com/react/components/popover) 
 
 The popover content width can be configured:
 
-- `hug` (default): Content-fit width
+- `fit` (default): Content-fit width
 - `fixed`: Fixed 400px width
 
-You can also apply a custom width via `className` on `PopoverContent` when using `hug`.
+You can also apply a custom width via `className` on `PopoverContent` when using `fit`.
 
 <Canvas of={PopoverStories.WidthShowcase} />
 
@@ -77,7 +77,7 @@ Use `createPopoverHandle` to connect triggers that live outside the `Popover` tr
 ## Responsive Behavior
 
 - The popover automatically repositions itself to stay within the viewport
-- Content width adapts to its children in `hug` mode, or stays fixed at 400px in `fixed` mode
+- Content width adapts to its children in `fit` mode, or stays fixed at 400px in `fixed` mode
 - Use `className` on `PopoverContent` for custom responsive widths
 
 ## Accessibility

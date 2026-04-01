@@ -81,10 +81,10 @@ export const WidthShowcase: Story = {
     <div className='flex items-center gap-16'>
       <Popover>
         <PopoverTrigger
-          render={<Button appearance='gray'>Hug (default)</Button>}
+          render={<Button appearance='gray'>Fit (default)</Button>}
         />
 
-        <PopoverContent width='hug'>
+        <PopoverContent width='fit'>
           <p className='body-2 text-base'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
             quos.
@@ -95,11 +95,11 @@ export const WidthShowcase: Story = {
       <Popover>
         <PopoverTrigger
           render={
-            <Button appearance='gray'>Hug (with custom width w-256)</Button>
+            <Button appearance='gray'>Fit (with custom width w-256)</Button>
           }
         />
 
-        <PopoverContent width='hug' className='w-256'>
+        <PopoverContent width='fit' className='w-256'>
           <p className='body-2 text-base'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
             quos.
