@@ -1,0 +1,175 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MediaImageStories from './MediaImage.stories';
+import { MediaImage } from './MediaImage';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Box } from '../Utility';
+
+<Meta title='Communication/MediaImage' of={MediaImageStories} />
+
+# MediaImage
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaImage displays an image with consistent sizing and shape. When the image fails to load or no source is provided, a background placeholder is shown automatically. This React Native implementation ensures consistent behavior across mobile platforms.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library).
+
+## Anatomy
+
+<Canvas of={MediaImageStories.Base} />
+
+- **Container**: Sized wrapper with rounded corners and overflow clipping
+- **Image**: Fills the container using React Native's `Image` component
+- **Fallback**: Background placeholder shown on missing or broken source
+
+## Properties
+
+### Overview
+
+<Canvas of={MediaImageStories.Base} />
+<Controls of={MediaImageStories.Base} />
+
+### Sizes
+
+Eight sizes are available (12, 16, 20, 24, 32, 40, 48, 56). Border radius scales with size.
+
+<Canvas of={MediaImageStories.SizeShowcase} />
+
+### Shapes
+
+<Canvas of={MediaImageStories.ShapeShowcase} />
+
+- **square** (default): Rounded corners that scale with size
+- **circle**: Fully rounded
+
+## Accessibility
+
+- The root element uses `accessibilityRole="image"` with `accessibilityLabel` derived from `alt`.
+- The inner `Image` is marked `accessible={false}` to avoid duplicate announcements.
+- Always provide a meaningful `alt` prop so screen readers can announce the image.
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { MediaImage } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return <MediaImage src='https://example.com/icon.png' alt='Bitcoin' size={32} />;
+}
+```
+
+### With Circle Shape
+
+```tsx
+<MediaImage src='https://example.com/icon.png' alt='Ethereum' size={48} shape='circle' />
+```
+
+### Custom Styling
+
+Use the `lx` prop for token-based layout adjustments:
+
+```tsx
+<MediaImage
+  src='https://example.com/icon.png'
+  alt='Token'
+  size={40}
+  lx={{ marginRight: 's8' }}
+/>
+```
+
+You can also use the `style` prop for escape-hatch styling:
+
+```tsx
+<MediaImage
+  src='https://example.com/icon.png'
+  alt='Token'
+  size={40}
+  style={{ marginRight: 8 }}
+/>
+```
+
+## Do's and Don'ts
+
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Provide alt text'
+      description='Always pass a descriptive alt prop for accessibility'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<MediaImage
+  src='https://example.com/btc.png'
+  alt='Bitcoin'
+  size={40}
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't omit alt"
+      description='Missing alt leaves the image unlabelled for screen readers'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<MediaImage
+  src='https://example.com/btc.png'
+  size={40}
+/>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use design-system size tokens'
+      description='Pick from the predefined size values for consistent spacing'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<MediaImage
+  src='https://example.com/btc.png'
+  alt='Bitcoin'
+  size={32}
+/>
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use arbitrary sizes"
+      description='Arbitrary values break visual consistency across the UI'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<MediaImage
+  src='https://example.com/btc.png'
+  alt='Bitcoin'
+  style={{ width: 37, height: 37 }}
+/>
+```
+
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</Box>
+
+</Tab>
+</CustomTabs>
