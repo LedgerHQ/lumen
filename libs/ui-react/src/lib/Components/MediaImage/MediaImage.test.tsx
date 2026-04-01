@@ -8,9 +8,7 @@ describe('MediaImage Component', () => {
   const validSrc = 'https://crypto-icons.ledger.com/ADA.png';
 
   it('should render image when valid src is provided', () => {
-    const { container } = render(
-      <MediaImage src={validSrc} alt='Cardano' />,
-    );
+    const { container } = render(<MediaImage src={validSrc} alt='Cardano' />);
 
     const root = screen.getByRole('img');
     expect(root).toBeInTheDocument();

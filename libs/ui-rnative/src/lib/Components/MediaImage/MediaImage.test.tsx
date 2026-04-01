@@ -127,7 +127,13 @@ describe('MediaImage Component', () => {
   it('should apply square shape with correct border radius', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <MediaImage testID='mi' src={validSrc} alt='Test' size={48} shape='square' />
+        <MediaImage
+          testID='mi'
+          src={validSrc}
+          alt='Test'
+          size={48}
+          shape='square'
+        />
       </TestWrapper>,
     );
 
@@ -148,7 +154,12 @@ describe('MediaImage Component', () => {
   it('should apply custom styles', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <MediaImage testID='mi' src={validSrc} alt='Test' style={{ borderWidth: 2 }} />
+        <MediaImage
+          testID='mi'
+          src={validSrc}
+          alt='Test'
+          style={{ borderWidth: 2 }}
+        />
       </TestWrapper>,
     );
 
