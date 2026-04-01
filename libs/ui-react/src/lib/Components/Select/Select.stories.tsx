@@ -221,13 +221,13 @@ export const WithCustomFilter: Story = {
   render: () => {
     const [value, setValue] = useState<string | null>(null);
 
-    const tokenOptions = [
-      { value: 'btc', label: 'Bitcoin', ticker: 'BTC' },
-      { value: 'eth', label: 'Ethereum', ticker: 'ETH' },
-      { value: 'sol', label: 'Solana', ticker: 'SOL' },
-      { value: 'ada', label: 'Cardano', ticker: 'ADA' },
-      { value: 'dot', label: 'Polkadot', ticker: 'DOT' },
-      { value: 'avax', label: 'Avalanche', ticker: 'AVAX' },
+    const tokenOptions: SelectItemData[] = [
+      { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC' } },
+      { value: 'eth', label: 'Ethereum', meta: { ticker: 'ETH' } },
+      { value: 'sol', label: 'Solana', meta: { ticker: 'SOL' } },
+      { value: 'ada', label: 'Cardano', meta: { ticker: 'ADA' } },
+      { value: 'dot', label: 'Polkadot', meta: { ticker: 'DOT' } },
+      { value: 'avax', label: 'Avalanche', meta: { ticker: 'AVAX' } },
     ];
 
     return (
@@ -240,7 +240,7 @@ export const WithCustomFilter: Story = {
             const q = query.toLowerCase();
             return (
               item.label.toLowerCase().includes(q) ||
-              (item.ticker as string).toLowerCase().includes(q)
+              ((item.meta?.ticker as string) ?? '').toLowerCase().includes(q)
             );
           }}
         >
@@ -256,7 +256,7 @@ export const WithCustomFilter: Story = {
                 >
                   <SelectItemText>{item.label}</SelectItemText>
                   <span className='body-3 text-muted'>
-                    {item.ticker as string}
+                    {item.meta?.ticker as string}
                   </span>
                 </SelectItem>
               )}
@@ -419,10 +419,10 @@ export const FormIntegration: Story = {
   },
 };
 
-const cryptos = [
-  { value: 'btc', label: 'Bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' },
-  { value: 'eth', label: 'Ethereum', ledgerId: 'ethereum', ticker: 'ETH' },
-  { value: 'sol', label: 'Solana', ledgerId: 'solana', ticker: 'SOL' },
+const cryptos: SelectItemData[] = [
+  { value: 'btc', label: 'Bitcoin', meta: { ledgerId: 'bitcoin', ticker: 'BTC' } },
+  { value: 'eth', label: 'Ethereum', meta: { ledgerId: 'ethereum', ticker: 'ETH' } },
+  { value: 'sol', label: 'Solana', meta: { ledgerId: 'solana', ticker: 'SOL' } },
 ];
 
 const accountOptions = [
@@ -538,8 +538,8 @@ export const TriggerShowcase: Story = {
                 icon={
                   selectedCrypto ? (
                     <CryptoIcon
-                      ledgerId={selectedCrypto.ledgerId ?? ''}
-                      ticker={selectedCrypto.ticker ?? ''}
+                      ledgerId={(selectedCrypto.meta?.ledgerId as string) ?? ''}
+                      ticker={(selectedCrypto.meta?.ticker as string) ?? ''}
                       size='32px'
                     />
                   ) : undefined
@@ -557,8 +557,8 @@ export const TriggerShowcase: Story = {
                   className='flex items-center gap-8'
                 >
                   <CryptoIcon
-                    ledgerId={crypto.ledgerId ?? ''}
-                    ticker={crypto.ticker ?? ''}
+                    ledgerId={(crypto.meta?.ledgerId as string) ?? ''}
+                    ticker={(crypto.meta?.ticker as string) ?? ''}
                     size='24px'
                   />
                   <SelectItemText>{crypto.label}</SelectItemText>

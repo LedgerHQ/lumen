@@ -17,7 +17,12 @@ export type SelectItemData = {
    * separators, and per-group filtering internally.
    */
   group?: string;
-  [key: string]: unknown;
+  /**
+   * Optional bag of arbitrary data attached to this item.
+   * Use it to carry extra fields (icons, tickers, IDs, etc.)
+   * that your render function or custom filter needs.
+   */
+  meta?: Record<string, unknown>;
 };
 
 export type SelectItemGroup = {
@@ -44,8 +49,9 @@ export type SelectProps = {
   /**
    * The items displayed in the dropdown list.
    * Each item must have a `value` (unique string identifier) and a `label`
-   * (display text for search and trigger). Extra fields are allowed and
-   * accessible in the render function.
+   * (display text for search and trigger). Use the optional `meta` field to
+   * attach arbitrary data (icons, tickers, IDs, etc.) accessible in the
+   * render function and custom filters.
    *
    * When items include a `group` field, the component automatically groups
    * them by that value, rendering group headers, separators, and per-group

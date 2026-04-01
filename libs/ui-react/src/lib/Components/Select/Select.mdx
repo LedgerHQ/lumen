@@ -65,7 +65,7 @@ Add `SelectSearch` inside `SelectContent` (above `SelectList`) to enable type-to
 
 ### Custom Filter
 
-By default, `SelectSearch` filters items using a case-insensitive match on the `label` field. Pass a custom `filter` function to `Select` to match on additional fields like tickers, codes, or descriptions.
+By default, `SelectSearch` filters items using a case-insensitive match on the `label` field. Pass a custom `filter` function to `Select` to match on additional fields stored in `meta` like tickers, codes, or descriptions.
 
 <Canvas of={SelectStories.WithCustomFilter} />
 
@@ -398,7 +398,7 @@ function MyComponent() {
 
 ### Custom Filter
 
-The default search matches items by `label` only. When your items have additional searchable fields (e.g. ticker symbols, codes, descriptions), provide a custom `filter` function to `Select`. The function receives each item and the current query, and returns `true` to keep the item visible.
+The default search matches items by `label` only. When your items carry additional searchable fields in `meta` (e.g. ticker symbols, codes, descriptions), provide a custom `filter` function to `Select`. The function receives each item and the current query, and returns `true` to keep the item visible.
 
 ```tsx
 import {
@@ -413,9 +413,9 @@ import {
 } from '@ledgerhq/lumen-ui-react';
 
 const tokenOptions = [
-  { value: 'btc', label: 'Bitcoin', ticker: 'BTC' },
-  { value: 'eth', label: 'Ethereum', ticker: 'ETH' },
-  { value: 'sol', label: 'Solana', ticker: 'SOL' },
+  { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC' } },
+  { value: 'eth', label: 'Ethereum', meta: { ticker: 'ETH' } },
+  { value: 'sol', label: 'Solana', meta: { ticker: 'SOL' } },
 ];
 
 function MyComponent() {
@@ -430,7 +430,7 @@ function MyComponent() {
         const q = query.toLowerCase();
         return (
           item.label.toLowerCase().includes(q) ||
-          (item.ticker as string).toLowerCase().includes(q)
+          ((item.meta?.ticker as string) ?? '').toLowerCase().includes(q)
         );
       }}
     >
@@ -441,7 +441,7 @@ function MyComponent() {
           {(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
-              <span className='body-3 text-muted'>{item.ticker as string}</span>
+              <span className='body-3 text-muted'>{item.meta?.ticker as string}</span>
             </SelectItem>
           )}
         </SelectList>
