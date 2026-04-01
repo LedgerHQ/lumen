@@ -24,13 +24,13 @@ describe('Select', () => {
       <Select items={options}>
         <SelectTrigger label='Choose an option' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -43,13 +43,13 @@ describe('Select', () => {
       <Select items={options}>
         <SelectTrigger />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -62,13 +62,13 @@ describe('Select', () => {
       <Select items={options} disabled>
         <SelectTrigger label='Choose an option' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -82,13 +82,13 @@ describe('Select', () => {
       <Select items={options} defaultValue='opt2'>
         <SelectTrigger label='Choose an option' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -103,13 +103,13 @@ describe('Select', () => {
       <Select items={options} onValueChange={handleChange}>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -125,13 +125,13 @@ describe('Select', () => {
       <Select items={options} value='opt1'>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -142,13 +142,13 @@ describe('Select', () => {
       <Select items={options} value='opt2'>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -165,13 +165,13 @@ describe('SelectTrigger render prop', () => {
           render={() => <button data-testid='custom-trigger'>Custom</button>}
         />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -190,13 +190,13 @@ describe('SelectTrigger render prop', () => {
       <Select items={options} defaultValue='opt1'>
         <SelectTrigger render={renderSpy} />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -216,13 +216,13 @@ describe('SelectTrigger render prop', () => {
       <Select items={options}>
         <SelectTrigger render={renderSpy} />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -243,13 +243,13 @@ describe('SelectTriggerButton', () => {
           )}
         />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -266,13 +266,13 @@ describe('SelectTriggerButton', () => {
           )}
         />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -295,13 +295,13 @@ describe('Grouped items', () => {
       <Select items={groupedOptions}>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -320,13 +320,13 @@ describe('Grouped items', () => {
         <SelectTrigger label='Label' />
         <SelectContent>
           <SelectSearch placeholder='Search' />
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -350,13 +350,13 @@ describe('Grouped items', () => {
       <Select items={groupedOptions} onValueChange={handleChange}>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -375,13 +375,13 @@ describe('SelectSearch', () => {
         <SelectTrigger label='Label' />
         <SelectContent>
           <SelectSearch placeholder='Find option' />
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -396,13 +396,13 @@ describe('SelectSearch', () => {
         <SelectTrigger label='Label' />
         <SelectContent>
           <SelectSearch />
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -417,13 +417,13 @@ describe('SelectSearch', () => {
         <SelectTrigger label='Label' />
         <SelectContent>
           <SelectSearch placeholder='Search' />
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );
@@ -448,13 +448,13 @@ describe('SelectSearch', () => {
         <SelectTrigger label='Label' />
         <SelectContent>
           <SelectSearch placeholder='Search' />
-          <SelectList>
-            {(item) => (
+          <SelectList
+            renderItem={(item) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>,
     );

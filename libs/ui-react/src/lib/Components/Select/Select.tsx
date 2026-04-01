@@ -219,7 +219,7 @@ SelectContent.displayName = 'SelectContent';
 const SelectList = ({
   ref,
   className,
-  children,
+  renderItem,
   ...props
 }: SelectListProps) => {
   const { isGrouped } = useSelectContext({
@@ -227,7 +227,7 @@ const SelectList = ({
     contextRequired: true,
   });
 
-  if (isGrouped && typeof children === 'function') {
+  if (isGrouped) {
     return (
       <Combobox.List
         ref={ref}
@@ -243,7 +243,7 @@ const SelectList = ({
           >
             {groupIndex > 0 && <SelectSeparator />}
             <SelectLabel>{group.value}</SelectLabel>
-            <Combobox.Collection>{children}</Combobox.Collection>
+            <Combobox.Collection>{renderItem}</Combobox.Collection>
           </Combobox.Group>
         )}
       </Combobox.List>
@@ -257,7 +257,7 @@ const SelectList = ({
       className={cn('min-w-(--anchor-width) p-8', className)}
       {...props}
     >
-      {children}
+      {renderItem}
     </Combobox.List>
   );
 };

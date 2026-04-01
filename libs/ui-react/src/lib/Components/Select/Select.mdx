@@ -170,13 +170,13 @@ function MyComponent() {
     <Select items={options} value={value} onValueChange={setValue}>
       <SelectTrigger label='Label' />
       <SelectContent>
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
             </SelectItem>
           )}
-        </SelectList>
+        />
       </SelectContent>
     </Select>
   );
@@ -211,8 +211,8 @@ function MyComponent() {
     <Select items={planOptions} value={value} onValueChange={setValue}>
       <SelectTrigger label='Label' />
       <SelectContent>
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem
               key={item.value}
               value={item.value}
@@ -224,7 +224,7 @@ function MyComponent() {
               )}
             </SelectItem>
           )}
-        </SelectList>
+        />
       </SelectContent>
     </Select>
   );
@@ -296,13 +296,13 @@ function MyComponent() {
     <Select items={produceItems} value={value} onValueChange={setValue}>
       <SelectTrigger label='Category' />
       <SelectContent>
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
             </SelectItem>
           )}
-        </SelectList>
+        />
       </SelectContent>
     </Select>
   );
@@ -340,13 +340,13 @@ function MyComponent() {
       <SelectTrigger label='Category' />
       <SelectContent>
         <SelectSearch placeholder='Search produce' />
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
             </SelectItem>
           )}
-        </SelectList>
+        />
         <SelectEmptyState>No produce found</SelectEmptyState>
       </SelectContent>
     </Select>
@@ -383,13 +383,13 @@ function MyComponent() {
       <SelectTrigger label='Country' />
       <SelectContent>
         <SelectSearch placeholder='Search countries' />
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
             </SelectItem>
           )}
-        </SelectList>
+        />
       </SelectContent>
     </Select>
   );
@@ -437,14 +437,14 @@ function MyComponent() {
       <SelectTrigger label='Token' />
       <SelectContent>
         <SelectSearch placeholder='Search by name or ticker' />
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
               <span className='body-3 text-muted'>{item.meta?.ticker as string}</span>
             </SelectItem>
           )}
-        </SelectList>
+        />
         <SelectEmptyState>No tokens found</SelectEmptyState>
       </SelectContent>
     </Select>
@@ -492,13 +492,13 @@ function AsyncSelect() {
       <SelectTrigger label='Assign reviewer' />
       <SelectContent>
         <SelectSearch placeholder='Search users…' />
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
             </SelectItem>
           )}
-        </SelectList>
+        />
         <SelectEmptyState>{loading ? 'Loading…' : 'No results'}</SelectEmptyState>
       </SelectContent>
     </Select>
@@ -561,13 +561,13 @@ function MyComponent() {
         )}
       />
       <SelectContent>
-        <SelectList>
-          {(item) => (
+        <SelectList
+          renderItem={(item) => (
             <SelectItem key={item.value} value={item.value}>
               <SelectItemText>{item.label}</SelectItemText>
             </SelectItem>
           )}
-        </SelectList>
+        />
       </SelectContent>
     </Select>
   );
@@ -609,13 +609,13 @@ const categoryOptions = [
   <Select items={categoryOptions} name='category' required>
     <SelectTrigger label='Category' />
     <SelectContent>
-      <SelectList>
-        {(item) => (
+      <SelectList
+        renderItem={(item) => (
           <SelectItem key={item.value} value={item.value}>
             <SelectItemText>{item.label}</SelectItemText>
           </SelectItem>
         )}
-      </SelectList>
+      />
     </SelectContent>
   </Select>
   <button type='submit'>Submit</button>
@@ -636,13 +636,13 @@ const categoryOptions = [
 <Select items={options} value={value} onValueChange={setValue}>
   <SelectTrigger label='Category' />
   <SelectContent>
-    <SelectList>
-      {(item) => (
+    <SelectList
+      renderItem={(item) => (
         <SelectItem key={item.value} value={item.value}>
           <SelectItemText>{item.label}</SelectItemText>
         </SelectItem>
       )}
-    </SelectList>
+    />
   </SelectContent>
 </Select>
 ```
@@ -683,13 +683,13 @@ const categoryOptions = [
     labelClassName='font-semibold'
   />
   <SelectContent>
-    <SelectList>
-      {(item) => (
+    <SelectList
+      renderItem={(item) => (
         <SelectItem key={item.value} value={item.value}>
           <SelectItemText>{item.label}</SelectItemText>
         </SelectItem>
       )}
-    </SelectList>
+    />
   </SelectContent>
 </Select>
 ```
@@ -708,13 +708,13 @@ const categoryOptions = [
     className='font-semibold'
   />
   <SelectContent>
-    <SelectList>
-      {(item) => (
+    <SelectList
+      renderItem={(item) => (
         <SelectItem key={item.value} value={item.value}>
           <SelectItemText>{item.label}</SelectItemText>
         </SelectItem>
       )}
-    </SelectList>
+    />
   </SelectContent>
 </Select>
 ```

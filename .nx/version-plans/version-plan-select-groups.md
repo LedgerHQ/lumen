@@ -10,7 +10,7 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 
 - Migrated underlying library from `@radix-ui/react-select` to `@base-ui/react/combobox`.
 - `items` prop is now **mandatory** on `Select`. The component is now data-driven: items are declared as a flat array and rendered via a render function on `SelectList`.
-- `SelectList` is now a required wrapper inside `SelectContent`. Children must be a render function `(item) => ReactNode` or static `ReactNode`.
+- `SelectList` is now a required wrapper inside `SelectContent`. It accepts a `renderItem` prop `(item) => ReactNode` to render each item.
 - `value` type changed from `string` to `string | null`. `onValueChange` now receives `string | null` (`null` when selection is cleared).
 - `SelectGroup` and `SelectLabel` are no longer exported. Grouping is now automatic via the `group` field on items.
 - `SelectItem.children` changed from `ReactElement<SelectItemTextProps> | readonly ReactElement[]` to `ReactNode`.
@@ -69,13 +69,13 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 + <Select items={options} value={value} onValueChange={setValue}>
 +   <SelectTrigger label='Pick one' />
 +   <SelectContent>
-+     <SelectList>
-+       {(item) => (
++     <SelectList
++       renderItem={(item) => (
 +         <SelectItem key={item.value} value={item.value}>
 +           <SelectItemText>{item.label}</SelectItemText>
 +         </SelectItem>
 +       )}
-+     </SelectList>
++     />
 +   </SelectContent>
 + </Select>
 ```

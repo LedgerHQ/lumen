@@ -69,8 +69,8 @@ export const Base: Story = {
         >
           <SelectTrigger label='Label' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem
                   key={item.value}
                   value={item.value}
@@ -79,7 +79,7 @@ export const Base: Story = {
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -108,13 +108,13 @@ export const WithGroups: Story = {
         <Select items={produceItems} value={value} onValueChange={setValue}>
           <SelectTrigger label='Category' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -132,13 +132,13 @@ export const WithGroupsAndSearch: Story = {
           <SelectTrigger label='Category' />
           <SelectContent>
             <SelectSearch placeholder='Search produce' />
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
             <SelectEmptyState>No produce found</SelectEmptyState>
           </SelectContent>
         </Select>
@@ -178,13 +178,13 @@ export const LongList: Story = {
         <Select items={countryOptions} value={value} onValueChange={setValue}>
           <SelectTrigger label='Country' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -202,13 +202,13 @@ export const WithSearch: Story = {
           <SelectTrigger label='Country' />
           <SelectContent>
             <SelectSearch placeholder='Search countries' />
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
             <SelectEmptyState>No countries found</SelectEmptyState>
           </SelectContent>
         </Select>
@@ -247,8 +247,8 @@ export const WithCustomFilter: Story = {
           <SelectTrigger label='Token' />
           <SelectContent>
             <SelectSearch placeholder='Search by name or ticker' />
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem
                   key={item.value}
                   value={item.value}
@@ -260,7 +260,7 @@ export const WithCustomFilter: Story = {
                   </span>
                 </SelectItem>
               )}
-            </SelectList>
+            />
             <SelectEmptyState>No tokens found</SelectEmptyState>
           </SelectContent>
         </Select>
@@ -282,13 +282,13 @@ export const Disabled: Story = {
         <Select items={simpleOptions} disabled>
           <SelectTrigger label='Disabled' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -303,13 +303,13 @@ export const WithDefaultValue: Story = {
         <Select items={simpleOptions} defaultValue='option2'>
           <SelectTrigger label='Label' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -329,8 +329,8 @@ export const WithDescription: Story = {
         <Select items={descriptionOptions}>
           <SelectTrigger label='Label' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem
                   key={item.value}
                   value={item.value}
@@ -340,7 +340,7 @@ export const WithDescription: Story = {
                   <div className='body-4 text-muted'>{item.description}</div>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -382,13 +382,13 @@ export const FormIntegration: Story = {
         >
           <SelectTrigger label='Category' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
 
@@ -401,13 +401,13 @@ export const FormIntegration: Story = {
         >
           <SelectTrigger label='Priority' />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
 
@@ -472,13 +472,13 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent className='w-128'>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
 
@@ -489,13 +489,13 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent className='w-208'>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
 
@@ -515,13 +515,13 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent className='w-208'>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
 
@@ -549,8 +549,8 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent className='w-208'>
-            <SelectList>
-              {(crypto) => (
+            <SelectList
+              renderItem={(crypto) => (
                 <SelectItem
                   key={crypto.value}
                   value={crypto.value}
@@ -564,7 +564,7 @@ export const TriggerShowcase: Story = {
                   <SelectItemText>{crypto.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
 
@@ -581,13 +581,13 @@ export const TriggerShowcase: Story = {
                 )}
               />
               <SelectContent className='w-208'>
-                <SelectList>
-                  {(item) => (
+                <SelectList
+                  renderItem={(item) => (
                     <SelectItem key={item.value} value={item.value}>
                       <SelectItemText>{item.label}</SelectItemText>
                     </SelectItem>
                   )}
-                </SelectList>
+                />
               </SelectContent>
             </Select>
           ))}
@@ -610,13 +610,13 @@ export const TriggerShowcase: Story = {
             )}
           />
           <SelectContent>
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
           </SelectContent>
         </Select>
       </div>
@@ -696,13 +696,13 @@ export const ControlledSearch: Story = {
           <SelectTrigger label='Assign reviewer' />
           <SelectContent>
             <SelectSearch placeholder='Search users...' />
-            <SelectList>
-              {(item) => (
+            <SelectList
+              renderItem={(item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemText>{item.label}</SelectItemText>
                 </SelectItem>
               )}
-            </SelectList>
+            />
             <SelectEmptyState>
               {loading ? 'Searching…' : 'No users found'}
             </SelectEmptyState>

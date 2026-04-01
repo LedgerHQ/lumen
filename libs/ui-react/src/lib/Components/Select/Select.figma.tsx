@@ -42,13 +42,13 @@ figma.connect(
       >
         <SelectTrigger label={props.triggerProps.label} />
         <SelectContent>
-          <SelectList>
-            {(item: SelectItemData) => (
+          <SelectList
+            renderItem={(item: SelectItemData) => (
               <SelectItem key={item.value} value={item.value}>
                 <SelectItemText>{item.label}</SelectItemText>
               </SelectItem>
             )}
-          </SelectList>
+          />
         </SelectContent>
       </Select>
     ),
