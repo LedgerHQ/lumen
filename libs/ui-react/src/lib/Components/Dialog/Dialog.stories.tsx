@@ -202,14 +202,14 @@ export const HeightLayouts: Story = {
   render: () => {
     return (
       <div className='flex gap-16'>
-        <Dialog height='hug'>
+        <Dialog height='fit'>
           <DialogTrigger asChild>
-            <Button appearance='base'>Hug (default)</Button>
+            <Button appearance='base'>Fit (default)</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
               appearance='compact'
-              title='Hug Height'
+              title='Fit Height'
               description='Content-fit height'
             />
             <DialogBody>
