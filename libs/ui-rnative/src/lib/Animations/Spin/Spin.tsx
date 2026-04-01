@@ -35,6 +35,10 @@ export const Spin = memo(({ children, timing }: SpinProps) => {
     [sv],
   );
 
-  return <Animated.View style={animatedStyle}>{children}</Animated.View>;
+  return (
+    <Animated.View style={[{ alignSelf: 'flex-start' }, animatedStyle]}>
+      {children}
+    </Animated.View>
+  );
 });
 Spin.displayName = 'Spin';
