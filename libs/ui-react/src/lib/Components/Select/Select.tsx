@@ -1,6 +1,6 @@
 import { Combobox } from '@base-ui/react/combobox';
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check } from '../../Symbols';
 import { Divider } from '../Divider';
@@ -8,7 +8,6 @@ import { SearchInput } from '../SearchInput';
 import { TriggerButton } from '../TriggerButton';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
-  SelectItemData,
   SelectItemGroup,
   SelectProps,
   SelectTriggerProps,
@@ -22,26 +21,7 @@ import type {
   SelectEmptyStateProps,
   SelectTriggerButtonProps,
 } from './types';
-
-function groupItemsByKey(items: SelectItemData[]): SelectItemGroup[] {
-  const order: string[] = [];
-  const map: Record<string, SelectItemData[]> = {};
-  for (const item of items) {
-    const key = item.group ?? '';
-    if (!map[key]) {
-      order.push(key);
-      map[key] = [];
-    }
-    map[key].push(item);
-  }
-  return order.map((value) => ({ value, items: map[value] }));
-}
-
-const defaultLabelFilter = (item: SelectItemData, query: string): boolean => {
-  const normalizedQuery = query.trim().toLowerCase();
-  if (!normalizedQuery) return true;
-  return item.label.toLowerCase().includes(normalizedQuery);
-};
+import { useSelectItems } from './useSelectItems';
 
 function Select({
   value,
@@ -50,8 +30,10 @@ function Select({
   disabled: disabledProp,
   items,
   filter,
-  filteredItems: filteredItemsProp,
-  onInputValueChange: onInputValueChangeProp,
+  filteredItems,
+  inputValue: inputValueProp,
+  defaultInputValue,
+  onInputValueChange,
   open,
   defaultOpen,
   onOpenChange,
@@ -74,62 +56,21 @@ function Select({
     },
   );
 
-  const [searchMounted, setSearchMounted] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-
-  const registerSearch = useCallback((): (() => void) => {
-    setSearchMounted(true);
-    return () => setSearchMounted(false);
-  }, []);
-
-  const handleInputValueChange = useCallback(
-    (val: string) => {
-      setInputValue(val);
-      onInputValueChangeProp?.(val);
-    },
-    [onInputValueChangeProp],
-  );
-  const filterFn = searchMounted
-    ? filter === undefined
-      ? defaultLabelFilter
-      : filter
-    : null;
-  const isGrouped = useMemo(
-    () => items.some((item) => item.group != null),
-    [items],
-  );
-
-  const groupedItems = useMemo(
-    () => (isGrouped ? groupItemsByKey(items) : null),
-    [items, isGrouped],
-  );
-
-  const internalFilteredItems = useMemo(():
-    | SelectItemData[]
-    | SelectItemGroup[] => {
-    if (!filterFn || !inputValue.trim()) return groupedItems ?? items;
-
-    if (groupedItems) {
-      return groupedItems
-        .map((group) => ({
-          ...group,
-          items: group.items.filter((item) => filterFn(item, inputValue)),
-        }))
-        .filter((group) => group.items.length > 0);
-    }
-
-    return items.filter((item) => filterFn(item, inputValue));
-  }, [groupedItems, items, inputValue, filterFn]);
-
-  const externalGroupedItems = useMemo(():
-    | SelectItemData[]
-    | SelectItemGroup[]
-    | null => {
-    if (!filteredItemsProp) return null;
-    return isGrouped ? groupItemsByKey(filteredItemsProp) : filteredItemsProp;
-  }, [filteredItemsProp, isGrouped]);
-
-  const filteredItemsForRoot = externalGroupedItems ?? internalFilteredItems;
+  const {
+    isGrouped,
+    groupedItems,
+    filteredItemsForRoot,
+    resolvedInputValue,
+    registerSearch,
+    handleInputValueChange,
+  } = useSelectItems({
+    items,
+    filter,
+    filteredItems,
+    inputValue: inputValueProp,
+    defaultInputValue,
+    onInputValueChange,
+  });
 
   return (
     <Combobox.Root
@@ -137,6 +78,7 @@ function Select({
       filter={null}
       items={groupedItems ?? items}
       filteredItems={filteredItemsForRoot}
+      inputValue={resolvedInputValue}
       onInputValueChange={handleInputValueChange}
       value={selectedValue}
       onValueChange={setSelectedValue}
@@ -252,7 +194,6 @@ const SelectContent = ({
   side = 'bottom',
   sideOffset = 8,
   align = 'start',
-  alignOffset = 0,
   ...props
 }: SelectContentProps) => (
   <Combobox.Portal data-slot='select-portal'>
@@ -261,7 +202,6 @@ const SelectContent = ({
       side={side}
       sideOffset={sideOffset}
       align={align}
-      alignOffset={alignOffset}
     >
       <Combobox.Popup
         ref={ref}

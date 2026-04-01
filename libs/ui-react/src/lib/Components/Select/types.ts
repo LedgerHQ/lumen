@@ -3,9 +3,13 @@ import type { SearchInputProps } from '../SearchInput/types';
 import type { TriggerButtonProps } from '../TriggerButton';
 
 export type SelectItemData = {
+  /** Unique string identifier for this item, used for selection tracking. */
   value: string;
+  /** Display text used in the trigger. Also the field matched against by the default search filter. */
   label: string;
+  /** When true, the item cannot be selected or focused. */
   disabled?: boolean;
+  /** Secondary text displayed below the label inside the item. */
   description?: string;
   /**
    * Optional group name. When at least one item has a `group` value,
@@ -65,6 +69,16 @@ export type SelectProps = {
    * `onInputValueChange` for async/remote search where the server handles filtering.
    */
   filteredItems?: SelectItemData[];
+  /**
+   * The controlled search input value.
+   * Should be used in conjunction with `onInputValueChange`.
+   */
+  inputValue?: string;
+  /**
+   * The search input value when initially rendered (uncontrolled).
+   * @default ''
+   */
+  defaultInputValue?: string;
   /**
    * Callback fired when the search input value changes.
    * Use to trigger async fetches or track the current query externally.
@@ -158,11 +172,6 @@ export type SelectContentProps = {
    * @default "start"
    */
   align?: 'start' | 'center' | 'end';
-  /**
-   * An offset in pixels from the "start" or "end" alignment options.
-   * @default 0
-   */
-  alignOffset?: number;
   /**
    * Extra class names to apply to the content element.
    */

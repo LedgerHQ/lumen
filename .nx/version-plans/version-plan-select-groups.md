@@ -18,6 +18,7 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 - `SelectItemText` now renders a `<span>` instead of a `<div>`.
 - `SelectContentProps` removed Radix-specific props: `asChild`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onPointerDownOutside`, `position`, `avoidCollisions`, `collisionBoundary`, `collisionPadding`, `sticky`, `hideWhenDetached`.
 - `SelectContentProps.sideOffset` default changed from `0` to `8`.
+- `SelectContentProps.alignOffset` removed.
 - `SelectSeparatorProps.asChild` removed.
 - `SelectProps.dir` removed.
 

@@ -652,9 +652,10 @@ const simulateSearch = (query: string): Promise<SelectItemData[]> =>
     }, 600);
   });
 
-export const WithAsyncSearch: Story = {
+export const ControlledSearch: Story = {
   render: () => {
     const [value, setValue] = useState<string | null>(null);
+    const [search, setSearch] = useState('');
     const [filteredItems, setFilteredItems] =
       useState<SelectItemData[]>(allReviewers);
     const [loading, setLoading] = useState(false);
@@ -674,12 +675,21 @@ export const WithAsyncSearch: Story = {
       [fetchResults],
     );
 
+    const handleInputValueChange = useCallback(
+      (query: string) => {
+        setSearch(query);
+        debouncedFetch(query);
+      },
+      [debouncedFetch],
+    );
+
     return (
       <div className='w-400'>
         <Select
           items={allReviewers}
           filteredItems={filteredItems}
-          onInputValueChange={debouncedFetch}
+          inputValue={search}
+          onInputValueChange={handleInputValueChange}
           value={value}
           onValueChange={setValue}
         >
