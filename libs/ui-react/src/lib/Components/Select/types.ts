@@ -272,6 +272,29 @@ export type SelectEmptyStateProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
+export type SelectItemContentProps = {
+  /**
+   * The content of the item, typically `SelectItemText` and optionally
+   * `SelectItemDescription` stacked vertically.
+   */
+  children: ReactNode;
+  /**
+   * Extra class names to apply to the content wrapper.
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type SelectItemDescriptionProps = {
+  /**
+   * Secondary text displayed below the item label.
+   */
+  children: ReactNode;
+  /**
+   * Extra class names to apply to the description element.
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
 export type SelectTriggerButtonProps = SelectTriggerRenderProps &
   Omit<TriggerButtonProps, 'children'> & {
     /**

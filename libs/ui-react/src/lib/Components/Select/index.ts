@@ -8,6 +8,8 @@ export type {
   SelectSearchProps,
   SelectListProps,
   SelectItemTextProps,
+  SelectItemContentProps,
+  SelectItemDescriptionProps,
   SelectItemProps,
   SelectSeparatorProps,
   SelectEmptyStateProps,

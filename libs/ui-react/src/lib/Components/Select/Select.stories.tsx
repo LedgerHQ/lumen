@@ -12,6 +12,8 @@ import {
   SelectList,
   SelectItem,
   SelectItemText,
+  SelectItemContent,
+  SelectItemDescription,
   SelectEmptyState,
   SelectTriggerButton,
 } from './Select';
@@ -27,6 +29,8 @@ const meta: Meta<typeof Select> = {
     SelectList,
     SelectItem,
     SelectItemText,
+    SelectItemContent,
+    SelectItemDescription,
     SelectEmptyState,
   },
   parameters: {
@@ -249,15 +253,13 @@ export const WithCustomFilter: Story = {
             <SelectSearch placeholder='Search by name or ticker' />
             <SelectList
               renderItem={(item) => (
-                <SelectItem
-                  key={item.value}
-                  value={item.value}
-                  className='flex flex-col items-start justify-start gap-4'
-                >
-                  <SelectItemText>{item.label}</SelectItemText>
-                  <span className='body-3 text-muted'>
-                    {item.meta?.ticker as string}
-                  </span>
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemContent>
+                    <SelectItemText>{item.label}</SelectItemText>
+                    <SelectItemDescription>
+                      {item.meta?.ticker as string}
+                    </SelectItemDescription>
+                  </SelectItemContent>
                 </SelectItem>
               )}
             />
@@ -331,13 +333,13 @@ export const WithDescription: Story = {
           <SelectContent>
             <SelectList
               renderItem={(item) => (
-                <SelectItem
-                  key={item.value}
-                  value={item.value}
-                  className='flex flex-col items-start justify-start gap-4'
-                >
-                  <SelectItemText>{item.label}</SelectItemText>
-                  <div className='body-4 text-muted'>{item.description}</div>
+                <SelectItem key={item.value} value={item.value}>
+                  <SelectItemContent>
+                    <SelectItemText>{item.label}</SelectItemText>
+                    <SelectItemDescription>
+                      {item.description}
+                    </SelectItemDescription>
+                  </SelectItemContent>
                 </SelectItem>
               )}
             />
@@ -651,6 +653,141 @@ const simulateSearch = (query: string): Promise<SelectItemData[]> =>
       );
     }, 600);
   });
+
+const cryptoItemsWithDescription: SelectItemData[] = [
+  {
+    value: 'btc',
+    label: 'Bitcoin',
+    description: 'BTC',
+    meta: { ledgerId: 'bitcoin', ticker: 'BTC' },
+  },
+  {
+    value: 'eth',
+    label: 'Ethereum',
+    description: 'ETH',
+    meta: { ledgerId: 'ethereum', ticker: 'ETH' },
+  },
+  {
+    value: 'sol',
+    label: 'Solana',
+    description: 'SOL',
+    meta: { ledgerId: 'solana', ticker: 'SOL' },
+  },
+  {
+    value: 'ada',
+    label: 'Cardano',
+    description: 'ADA',
+    meta: { ledgerId: 'cardano', ticker: 'ADA' },
+  },
+];
+
+
+export const LeadingContentShowcase: Story = {
+  render: () => {
+    const [smCoinValue, setSmCoinValue] = useState<string | null>(null);
+    const [mdCoinValue, setMdCoinValue] = useState<string | null>(null);
+    const [iconValue, setIconValue] = useState<string | null>(null);
+
+    const iconOptions: SelectItemData[] = [
+      { value: 'general', label: 'General', description: 'App preferences' },
+      {
+        value: 'security',
+        label: 'Security',
+        description: 'Privacy & security',
+      },
+      {
+        value: 'notifications',
+        label: 'Notifications',
+        description: 'Alert settings',
+      },
+    ];
+
+    return (
+      <div className='flex flex-col gap-24 p-32'>
+        <div className='w-400'>
+          <p className='mb-8 body-3 text-muted'>Small coin (24px)</p>
+          <Select
+            items={cryptoItemsWithDescription}
+            value={smCoinValue}
+            onValueChange={setSmCoinValue}
+          >
+            <SelectTrigger label='Token' />
+            <SelectContent>
+              <SelectList
+                renderItem={(item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    <CryptoIcon
+                      ledgerId={(item.meta?.ledgerId as string) ?? ''}
+                      ticker={(item.meta?.ticker as string) ?? ''}
+                      size='24px'
+                    />
+                      <SelectItemText>{item.label}</SelectItemText>
+                  </SelectItem>
+                )}
+              />
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className='w-400'>
+          <p className='mb-8 body-3 text-muted'>Medium coin (32px)</p>
+          <Select
+            items={cryptoItemsWithDescription}
+            value={mdCoinValue}
+            onValueChange={setMdCoinValue}
+          >
+            <SelectTrigger label='Token' />
+            <SelectContent>
+              <SelectList
+                renderItem={(item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    <CryptoIcon
+                      ledgerId={(item.meta?.ledgerId as string) ?? ''}
+                      ticker={(item.meta?.ticker as string) ?? ''}
+                      size='32px'
+                    />
+                    <SelectItemContent>
+                      <SelectItemText>{item.label}</SelectItemText>
+                      <SelectItemDescription>
+                        {item.description}
+                      </SelectItemDescription>
+                    </SelectItemContent>
+                  </SelectItem>
+                )}
+              />
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className='w-400'>
+          <p className='mb-8 body-3 text-muted'>Interface icon (20px)</p>
+          <Select
+            items={iconOptions}
+            value={iconValue}
+            onValueChange={setIconValue}
+          >
+            <SelectTrigger label='Settings' />
+            <SelectContent>
+              <SelectList
+                renderItem={(item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    <Settings size={20} />
+                    <SelectItemContent>
+                      <SelectItemText>{item.label}</SelectItemText>
+                      <SelectItemDescription>
+                        {item.description}
+                      </SelectItemDescription>
+                    </SelectItemContent>
+                  </SelectItem>
+                )}
+              />
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+    );
+  },
+};
 
 export const ControlledSearch: Story = {
   render: () => {

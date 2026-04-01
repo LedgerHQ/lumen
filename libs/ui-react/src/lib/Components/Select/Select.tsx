@@ -17,6 +17,8 @@ import type {
   SelectLabelProps,
   SelectItemTextProps,
   SelectItemProps,
+  SelectItemContentProps,
+  SelectItemDescriptionProps,
   SelectSeparatorProps,
   SelectEmptyStateProps,
   SelectTriggerButtonProps,
@@ -274,11 +276,10 @@ const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
 SelectLabel.displayName = 'SelectLabel';
 
 const itemStyles = cn(
-  'relative flex w-full cursor-pointer items-center bg-base-transparent select-none',
+  'relative flex w-full cursor-pointer items-center gap-12 bg-base-transparent select-none',
   'rounded-sm p-8',
   'body-2 text-base',
   'outline-hidden',
-  'truncate',
   'data-highlighted:bg-base-transparent-hover',
   'active:bg-base-transparent-pressed',
   'data-disabled:cursor-not-allowed data-disabled:text-disabled',
@@ -322,6 +323,44 @@ const SelectItemText = ({ ref, className, ...props }: SelectItemTextProps) => (
   />
 );
 SelectItemText.displayName = 'SelectItemText';
+
+const SelectItemContent = ({
+  ref,
+  className,
+  children,
+  ...props
+}: SelectItemContentProps) => (
+  <div
+    ref={ref}
+    data-slot='select-item-content'
+    className={cn('flex min-w-0 flex-1 flex-col gap-4', className)}
+    {...props}
+  >
+    {children}
+  </div>
+);
+SelectItemContent.displayName = 'SelectItemContent';
+
+const SelectItemDescription = ({
+  ref,
+  className,
+  children,
+  ...props
+}: SelectItemDescriptionProps) => (
+  <div
+    ref={ref}
+    data-slot='select-item-description'
+    className={cn(
+      'truncate body-3 text-muted',
+      'data-disabled:text-disabled',
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </div>
+);
+SelectItemDescription.displayName = 'SelectItemDescription';
 
 const SelectSearch = ({
   className,
@@ -398,6 +437,8 @@ export {
   SelectSearch,
   SelectList,
   SelectItemText,
+  SelectItemContent,
+  SelectItemDescription,
   SelectItem,
   SelectSeparator,
   SelectEmptyState,
