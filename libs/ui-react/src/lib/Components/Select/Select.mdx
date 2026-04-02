@@ -69,11 +69,11 @@ By default, `SelectSearch` filters items using a case-insensitive match on the `
 
 <Canvas of={SelectStories.WithCustomFilter} />
 
-### Async Search
+### Controlled Search
 
-For large datasets or remote data sources, use `filteredItems` and `onInputValueChange` to control filtering externally. Pass `filteredItems` with your server results and listen to `onInputValueChange` to trigger API calls.
+Use `inputValue` and `onInputValueChange` to take full control of the search field. Combined with `filteredItems`, this pattern is ideal for async or remote data sources where the server handles filtering. Pass your API results via `filteredItems` — the component skips its internal filter and renders your array directly.
 
-<Canvas of={SelectStories.WithAsyncSearch} />
+<Canvas of={SelectStories.ControlledSearch} />
 
 ### Long Lists
 
