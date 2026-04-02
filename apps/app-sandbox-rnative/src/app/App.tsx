@@ -28,7 +28,7 @@ import {
   Checkboxes,
   Cards,
   Dividers,
-  ImageMedias,
+  MediaImages,
   IconButtons,
   Links,
   NavBars,
@@ -169,8 +169,8 @@ const AppContent = ({
                 <SandboxBlock title='Dividers'>
                   <Dividers />
                 </SandboxBlock>
-                <SandboxBlock title='ImageMedias'>
-                  <ImageMedias />
+                <SandboxBlock title='MediaImages'>
+                  <MediaImages />
                 </SandboxBlock>
                 <SandboxBlock title='Gradients'>
                   <Gradients />

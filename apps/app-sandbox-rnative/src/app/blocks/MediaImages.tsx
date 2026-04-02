@@ -1,6 +1,6 @@
 import { Box, MediaImage } from '@ledgerhq/lumen-ui-rnative';
 
-export const ImageMedias = () => {
+export const MediaImages = () => {
   return (
     <Box lx={{ gap: 's32' }}>
       <MediaImage

@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React from 'react';
-import { MediaImageProps } from './types';
+import { useEffect, useState } from 'react';
+import { MediaImageProps, MediaImageSize } from './types';
 
 const mediaImageVariants = {
   root: cva(
@@ -27,7 +27,7 @@ const mediaImageVariants = {
   ),
 };
 
-export const mediaImageDotSizeMap = {
+export const mediaImageDotSizeMap: Record<MediaImageSize, number> = {
   12: 8,
   16: 8,
   20: 8,
@@ -60,10 +60,10 @@ export const MediaImage = ({
   imgLoading = 'eager',
   ...props
 }: MediaImageProps) => {
-  const [error, setError] = React.useState(false);
+  const [error, setError] = useState(false);
   const shouldFallback = !src || error;
 
-  React.useEffect(() => {
+  useEffect(() => {
     setError(false);
   }, [src]);
 

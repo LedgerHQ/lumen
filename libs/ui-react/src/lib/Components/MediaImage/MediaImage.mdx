@@ -4,9 +4,6 @@ import { MediaImage } from './MediaImage';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
@@ -21,7 +18,7 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 MediaImage displays an image with consistent sizing and shape. When the image fails to load or no source is provided, a background placeholder is shown automatically.
 
-> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library).
+> View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6159-1866).
 
 ## Anatomy
 
@@ -89,76 +86,6 @@ Defer image loading until the element is near the viewport:
 ```tsx
 <MediaImage src='https://example.com/icon.png' alt='Token' imgLoading='lazy' />
 ```
-
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide alt text'
-      description='Always pass a descriptive alt prop for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  alt='Bitcoin'
-  size={40}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit alt"
-      description='Missing alt leaves the image unlabelled for screen readers'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  size={40}
-/>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use design-system size tokens'
-      description='Pick from the predefined size values for consistent spacing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  alt='Bitcoin'
-  size={32}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary sizes"
-      description='Arbitrary values break visual consistency across the UI'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  alt='Bitcoin'
-  className='size-[37px]'
-/>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-</div>
-
 <CommonRulesDoAndDont />
 
 </Tab>

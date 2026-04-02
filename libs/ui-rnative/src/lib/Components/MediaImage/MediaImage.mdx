@@ -2,9 +2,8 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as MediaImageStories from './MediaImage.stories';
 import { MediaImage } from './MediaImage';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
-import { Box } from '../Utility';
+
 
 <Meta title='Communication/MediaImage' of={MediaImageStories} />
 
@@ -17,7 +16,7 @@ import { Box } from '../Utility';
 
 MediaImage displays an image with consistent sizing and shape. When the image fails to load or no source is provided, a background placeholder is shown automatically. This React Native implementation ensures consistent behavior across mobile platforms.
 
-> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library).
+> View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6159-1866).
 
 ## Anatomy
 
@@ -99,77 +98,6 @@ You can also use the `style` prop for escape-hatch styling:
   style={{ marginRight: 8 }}
 />
 ```
-
-## Do's and Don'ts
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide alt text'
-      description='Always pass a descriptive alt prop for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  alt='Bitcoin'
-  size={40}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit alt"
-      description='Missing alt leaves the image unlabelled for screen readers'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  size={40}
-/>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use design-system size tokens'
-      description='Pick from the predefined size values for consistent spacing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  alt='Bitcoin'
-  size={32}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary sizes"
-      description='Arbitrary values break visual consistency across the UI'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<MediaImage
-  src='https://example.com/btc.png'
-  alt='Bitcoin'
-  style={{ width: 37, height: 37 }}
-/>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>
