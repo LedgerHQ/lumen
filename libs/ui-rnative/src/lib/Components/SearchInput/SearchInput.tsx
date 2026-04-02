@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Search as SearchIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
@@ -8,18 +9,30 @@ export const SearchInput = ({
   style,
   containerStyle,
   inputStyle,
+  disabled: disabledProp,
   ref,
   ...props
 }: SearchInputProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'SearchInput',
+    mergeWith: { disabled: disabledProp },
+  });
   const styles = useAppearanceStyles(appearance);
 
   return (
     <BaseInput
       ref={ref}
-      prefix={<SearchIcon size={20} color='muted' accessible={false} />}
+      prefix={
+        <SearchIcon
+          size={20}
+          color={disabled ? 'disabled' : 'muted'}
+          accessible={false}
+        />
+      }
       style={style}
       containerStyle={[containerStyle, styles.container]}
       inputStyle={[inputStyle, styles.input]}
+      disabled={disabledProp}
       {...props}
     />
   );
