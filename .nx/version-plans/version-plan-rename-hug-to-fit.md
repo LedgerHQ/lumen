@@ -1,5 +1,5 @@
 ---
-'@ledgerhq/lumen-ui-react': path
+'@ledgerhq/lumen-ui-react': patch
 ---
 
 refactor(Dialog): rename 'hug' variant to 'fit' in Popover and Dialog
