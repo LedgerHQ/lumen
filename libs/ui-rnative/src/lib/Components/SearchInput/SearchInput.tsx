@@ -22,13 +22,7 @@ export const SearchInput = ({
   return (
     <BaseInput
       ref={ref}
-      prefix={
-        <SearchIcon
-          size={20}
-          color={disabled ? 'disabled' : 'muted'}
-          accessible={false}
-        />
-      }
+      prefix={<SearchIcon size={20} accessible={false} disabled={disabled} />}
       style={style}
       containerStyle={[containerStyle, styles.container]}
       inputStyle={[inputStyle, styles.input]}
