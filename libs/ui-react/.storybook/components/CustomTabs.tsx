@@ -38,6 +38,7 @@ export const CustomTabs: FC<CustomTabsProps> = ({ children }) => {
     <div>
       <div className='sticky top-0 z-10 bg-canvas py-12'>
         <SegmentedControl
+          tabLayout='fit'
           selectedValue={activeLabel}
           onSelectedChange={(value) => setActiveLabel(value)}
         >

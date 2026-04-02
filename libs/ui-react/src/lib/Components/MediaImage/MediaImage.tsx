@@ -1,6 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
+import { DotSymbolSize } from '../DotSymbol';
 import { MediaImageProps, MediaImageSize } from './types';
 
 const mediaImageVariants = {
@@ -27,7 +28,7 @@ const mediaImageVariants = {
   ),
 };
 
-export const mediaImageDotSizeMap: Record<MediaImageSize, number> = {
+export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   12: 8,
   16: 8,
   20: 8,
