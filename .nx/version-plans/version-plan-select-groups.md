@@ -35,15 +35,14 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 ### Migration
 
 ```diff
-- import * as Select from '@radix-ui/react-select';
-+ import {
-+   Select,
-+   SelectTrigger,
-+   SelectContent,
+  import {
+    Select,
+    SelectTrigger,
+    SelectContent,
 +   SelectList,
-+   SelectItem,
-+   SelectItemText,
-+ } from '@ledgerhq/lumen-ui-react';
+    SelectItem,
+    SelectItemText,
+  } from '@ledgerhq/lumen-ui-react';
 
 - const [value, setValue] = useState('');
 + const [value, setValue] = useState<string | null>(null);
@@ -53,19 +52,17 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 +   { value: 'opt2', label: 'Option 2' },
 + ];
 
-- <Select.Root value={value} onValueChange={setValue}>
--   <Select.Trigger>
--     <Select.Value placeholder="Pick one" />
--   </Select.Trigger>
--   <Select.Content>
--     <Select.Item value="opt1">
--       <Select.ItemText>Option 1</Select.ItemText>
--     </Select.Item>
--     <Select.Item value="opt2">
--       <Select.ItemText>Option 2</Select.ItemText>
--     </Select.Item>
--   </Select.Content>
-- </Select.Root>
+- <Select value={value} onValueChange={setValue}>
+-   <SelectTrigger label='Pick one' />
+-   <SelectContent>
+-     <SelectItem value="opt1">
+-       <SelectItemText>Option 1</SelectItemText>
+-     </SelectItem>
+-     <SelectItem value="opt2">
+-       <SelectItemText>Option 2</SelectItemText>
+-     </SelectItem>
+-   </SelectContent>
+- </Select>
 + <Select items={options} value={value} onValueChange={setValue}>
 +   <SelectTrigger label='Pick one' />
 +   <SelectContent>
