@@ -182,7 +182,7 @@ SelectTrigger.displayName = 'SelectTrigger';
 
 const contentStyles = cva(
   [
-    'group/select-content relative z-select max-h-(--available-height) overflow-x-hidden overflow-y-auto',
+    'group/select-content relative z-select flex max-h-(--available-height) flex-col overflow-hidden',
     'rounded-sm bg-muted',
     'shadow-md',
   ],
@@ -255,7 +255,10 @@ const SelectList = ({
       <Combobox.List
         ref={ref}
         data-slot='select-list'
-        className={cn('min-w-(--anchor-width) p-8', className)}
+        className={cn(
+          'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8',
+          className,
+        )}
         {...props}
       >
         {(group: SelectItemGroup, groupIndex: number) => (
@@ -277,7 +280,10 @@ const SelectList = ({
     <Combobox.List
       ref={ref}
       data-slot='select-list'
-      className={cn('min-w-(--anchor-width) p-8', className)}
+      className={cn(
+        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8',
+        className,
+      )}
       {...props}
     >
       {renderItem}
