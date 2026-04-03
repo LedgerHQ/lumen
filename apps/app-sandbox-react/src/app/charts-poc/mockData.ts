@@ -146,10 +146,10 @@ function findMinMax(data: DataPoint[]): { min: DataPoint; max: DataPoint } {
 }
 
 const walletBtcData = btcDaily;
-const { min: btcMin, max: btcMax } = findMinMax(walletBtcData);
+const { min: btcMin } = findMinMax(walletBtcData);
 const btcThreshold = Math.round(btcMin.value / 1000) * 1000;
 
-const walletLines: LineConfig[] = [
+export const walletLines: LineConfig[] = [
   {
     id: 'btc',
     data: walletBtcData,
@@ -159,7 +159,12 @@ const walletLines: LineConfig[] = [
   },
 ];
 
-const walletReferenceLines: ReferenceLineConfig[] = [
+const allValues = walletBtcData.map((pt) => pt.value);
+const dataMin = Math.min(...allValues);
+const dataMax = Math.max(...allValues);
+const dataRange = dataMax - dataMin;
+
+export const walletReferenceLines: ReferenceLineConfig[] = [
   {
     value: btcThreshold,
     label: formatCurrency(btcThreshold),
@@ -167,9 +172,23 @@ const walletReferenceLines: ReferenceLineConfig[] = [
     style: 'dotted',
     color: 'rgba(255, 255, 255, 0.3)',
   },
+  {
+    value: dataMin + dataRange * 0.5,
+    label: formatCurrency(dataMin + dataRange * 0.5),
+    labelPosition: 'right',
+    style: 'solid',
+    color: 'rgba(74, 222, 128, 0.4)',
+  },
+  {
+    value: dataMax - dataRange * 0.1,
+    label: formatCurrency(dataMax - dataRange * 0.1),
+    labelPosition: 'left',
+    style: 'dashed',
+    color: 'rgba(244, 114, 182, 0.4)',
+  },
 ];
 
-const walletValueLabels: ValueLabelConfig[] = [
+export const walletValueLabels: ValueLabelConfig[] = [
   { type: 'max', position: 'right' },
   { type: 'min', position: 'left' },
 ];
@@ -177,7 +196,7 @@ const walletValueLabels: ValueLabelConfig[] = [
 const midIndex = Math.floor(walletBtcData.length * 0.4);
 const midPoint = walletBtcData[midIndex];
 
-const walletMarkers: MarkerConfig[] = [
+export const walletMarkers: MarkerConfig[] = [
   {
     timestamp: btcMin.timestamp,
     value: btcMin.value,
@@ -203,6 +222,7 @@ export const walletVariant: Pick<
   | 'showYAxis'
   | 'showTooltip'
   | 'showCursor'
+  | 'formatXLabel'
   | 'formatYLabel'
 > = {
   lines: walletLines,
@@ -214,5 +234,6 @@ export const walletVariant: Pick<
   showYAxis: false,
   showTooltip: false,
   showCursor: false,
+  formatXLabel: formatDate,
   formatYLabel: formatCurrency,
 };

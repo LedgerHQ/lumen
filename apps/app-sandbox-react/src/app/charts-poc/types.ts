@@ -45,6 +45,8 @@ export type LineChartProps = {
   interactive?: boolean;
   showTooltip?: boolean;
   showCursor?: boolean;
+  showCursorLabel?: boolean;
+  dimAfterCursor?: boolean;
   onPointHover?: (point: DataPoint | null, lineId: string) => void;
   className?: string;
   referenceLines?: ReferenceLineConfig[];

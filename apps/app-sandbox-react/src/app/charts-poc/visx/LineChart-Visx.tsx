@@ -1,14 +1,14 @@
-import { useMemo, useCallback, useId } from 'react';
-import { Group } from '@visx/group';
-import { LinePath, AreaClosed } from '@visx/shape';
-import { scaleLinear, scaleTime } from '@visx/scale';
 import { AxisBottom, AxisLeft } from '@visx/axis';
-import { GridRows, GridColumns } from '@visx/grid';
-import { LinearGradient } from '@visx/gradient';
+import { curveNatural } from '@visx/curve';
 import { localPoint } from '@visx/event';
+import { LinearGradient } from '@visx/gradient';
+import { GridRows, GridColumns } from '@visx/grid';
+import { Group } from '@visx/group';
+import { scaleLinear, scaleTime } from '@visx/scale';
+import { LinePath, AreaClosed } from '@visx/shape';
 import { useTooltip, TooltipWithBounds } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { curveMonotoneX } from '@visx/curve';
+import { useMemo, useCallback, useId } from 'react';
 import type { LineChartProps, DataPoint } from '../types';
 import {
   resolveCssColor,
@@ -19,15 +19,15 @@ import {
 
 const getTimestamp = (d: DataPoint): Date => new Date(d.timestamp);
 const getValue = (d: DataPoint): number => d.value;
-const bisectDate = bisector<DataPoint, Date>(
-  (d) => new Date(d.timestamp),
-).left;
+const bisectDate = bisector<DataPoint, Date>((d) => new Date(d.timestamp)).left;
 
 type TooltipData = {
   lineId: string;
   point: DataPoint;
   color: string;
 };
+
+const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
 
 export const LineChartVisx = (props: LineChartProps) => {
   const {
@@ -39,6 +39,8 @@ export const LineChartVisx = (props: LineChartProps) => {
     showGrid = true,
     showTooltip: showTooltipProp = true,
     showCursor = true,
+    showCursorLabel = false,
+    dimAfterCursor = false,
     formatXLabel,
     formatYLabel,
     onPointHover,
@@ -70,10 +72,7 @@ export const LineChartVisx = (props: LineChartProps) => {
   const xScale = useMemo(
     () =>
       scaleTime({
-        domain: extent(allPoints, (d) => new Date(d.timestamp)) as [
-          Date,
-          Date,
-        ],
+        domain: extent(allPoints, (d) => new Date(d.timestamp)) as [Date, Date],
         range: [0, innerWidth],
       }),
     [allPoints, innerWidth],
@@ -125,8 +124,7 @@ export const LineChartVisx = (props: LineChartProps) => {
         const primaryPoint = tooltipEntries[0].point;
         showTooltip({
           tooltipData: tooltipEntries,
-          tooltipLeft:
-            xScale(new Date(primaryPoint.timestamp)) + margin.left,
+          tooltipLeft: xScale(new Date(primaryPoint.timestamp)) + margin.left,
           tooltipTop: yScale(primaryPoint.value) + margin.top,
         });
         onPointHover?.(primaryPoint, tooltipEntries[0].lineId);
@@ -151,16 +149,16 @@ export const LineChartVisx = (props: LineChartProps) => {
               <GridRows
                 scale={yScale}
                 width={innerWidth}
-                stroke="var(--border-muted)"
+                stroke='var(--border-muted)'
                 strokeOpacity={0.5}
-                strokeDasharray="4 4"
+                strokeDasharray='4 4'
               />
               <GridColumns
                 scale={xScale}
                 height={innerHeight}
-                stroke="var(--border-muted)"
+                stroke='var(--border-muted)'
                 strokeOpacity={0.5}
-                strokeDasharray="4 4"
+                strokeDasharray='4 4'
               />
             </>
           )}
@@ -214,49 +212,131 @@ export const LineChartVisx = (props: LineChartProps) => {
                 key={`vl-${vl.value}-${vl.placement}`}
                 x={cx}
                 y={cy + dy}
-                fill="rgba(255, 255, 255, 0.7)"
+                fill='rgba(255, 255, 255, 0.7)'
                 fontSize={12}
                 fontWeight={600}
-                textAnchor="middle"
+                textAnchor='middle'
               >
                 {vl.label}
               </text>
             );
           })}
 
-          {lines.map((line) =>
-            line.showGradient ? (
-              <g key={`area-${line.id}`}>
-                <LinearGradient
-                  id={`${uid}-grad-${line.id}`}
-                  from={resolvedColors[line.id]}
-                  fromOpacity={0.3}
-                  to={resolvedColors[line.id]}
-                  toOpacity={0}
-                />
-                <AreaClosed
-                  data={line.data}
-                  x={(d) => xScale(getTimestamp(d)) ?? 0}
-                  y={(d) => yScale(getValue(d)) ?? 0}
-                  yScale={yScale}
-                  curve={curveMonotoneX}
-                  fill={`url(#${uid}-grad-${line.id})`}
-                  stroke={resolvedColors[line.id]}
-                  strokeWidth={line.width ?? 2}
-                />
-              </g>
-            ) : (
-              <LinePath
-                key={`line-${line.id}`}
-                data={line.data}
-                x={(d) => xScale(getTimestamp(d)) ?? 0}
-                y={(d) => yScale(getValue(d)) ?? 0}
-                curve={curveMonotoneX}
-                stroke={resolvedColors[line.id]}
-                strokeWidth={line.width ?? 2}
-              />
-            ),
-          )}
+          {(() => {
+            const cursorXPx =
+              dimAfterCursor && tooltipData && tooltipLeft != null
+                ? tooltipLeft - margin.left
+                : null;
+
+            return (
+              <>
+                {cursorXPx != null && (
+                  <defs>
+                    <clipPath id={`${uid}-clip-before`}>
+                      <rect x={0} y={0} width={cursorXPx} height={innerHeight} />
+                    </clipPath>
+                    <clipPath id={`${uid}-clip-after`}>
+                      <rect
+                        x={cursorXPx}
+                        y={0}
+                        width={innerWidth - cursorXPx}
+                        height={innerHeight}
+                      />
+                    </clipPath>
+                  </defs>
+                )}
+
+                {lines.map((line) => {
+                  const xAccessor = (d: DataPoint): number =>
+                    xScale(getTimestamp(d)) ?? 0;
+                  const yAccessor = (d: DataPoint): number =>
+                    yScale(getValue(d)) ?? 0;
+                  const color = resolvedColors[line.id];
+                  const sw = line.width ?? 2;
+
+                  if (cursorXPx != null) {
+                    return (
+                      <g key={line.id}>
+                        <g clipPath={`url(#${uid}-clip-before)`}>
+                          {line.showGradient && (
+                            <>
+                              <LinearGradient
+                                id={`${uid}-grad-${line.id}`}
+                                from={color}
+                                fromOpacity={0.3}
+                                to={color}
+                                toOpacity={0}
+                              />
+                              <AreaClosed
+                                data={line.data}
+                                x={xAccessor}
+                                y={yAccessor}
+                                yScale={yScale}
+                                curve={curveNatural}
+                                fill={`url(#${uid}-grad-${line.id})`}
+                                stroke='none'
+                              />
+                            </>
+                          )}
+                          <LinePath
+                            data={line.data}
+                            x={xAccessor}
+                            y={yAccessor}
+                            curve={curveNatural}
+                            stroke={color}
+                            strokeWidth={sw}
+                          />
+                        </g>
+                        <g clipPath={`url(#${uid}-clip-after)`}>
+                          <LinePath
+                            data={line.data}
+                            x={xAccessor}
+                            y={yAccessor}
+                            curve={curveNatural}
+                            stroke={DIM_COLOR}
+                            strokeWidth={sw}
+                          />
+                        </g>
+                      </g>
+                    );
+                  }
+
+                  return (
+                    <g key={`area-${line.id}`}>
+                      {line.showGradient && (
+                        <>
+                          <LinearGradient
+                            id={`${uid}-grad-${line.id}`}
+                            from={color}
+                            fromOpacity={0.3}
+                            to={color}
+                            toOpacity={0}
+                          />
+                          <AreaClosed
+                            data={line.data}
+                            x={xAccessor}
+                            y={yAccessor}
+                            yScale={yScale}
+                            curve={curveNatural}
+                            fill={`url(#${uid}-grad-${line.id})`}
+                            stroke='none'
+                          />
+                        </>
+                      )}
+                      <LinePath
+                        data={line.data}
+                        x={xAccessor}
+                        y={yAccessor}
+                        curve={curveNatural}
+                        stroke={color}
+                        strokeWidth={sw}
+                      />
+                    </g>
+                  );
+                })}
+              </>
+            );
+          })()}
 
           {markers?.map((m, i) => (
             <circle
@@ -265,7 +345,7 @@ export const LineChartVisx = (props: LineChartProps) => {
               cy={yScale(m.value)}
               r={m.radius ?? 4}
               fill={m.color ?? 'var(--text-base)'}
-              stroke="none"
+              stroke='none'
             />
           ))}
 
@@ -275,25 +355,44 @@ export const LineChartVisx = (props: LineChartProps) => {
               y1={0}
               x2={tooltipLeft - margin.left}
               y2={innerHeight}
-              stroke="var(--text-muted)"
+              stroke='var(--text-muted)'
               strokeWidth={1}
-              strokeDasharray="4 4"
-              pointerEvents="none"
+              strokeDasharray='4 4'
+              pointerEvents='none'
             />
           )}
 
-          {tooltipData?.map((entry) => (
-            <circle
-              key={entry.lineId}
-              cx={xScale(new Date(entry.point.timestamp))}
-              cy={yScale(entry.point.value)}
-              r={4}
-              fill={entry.color}
-              stroke="var(--background-surface)"
-              strokeWidth={2}
-              pointerEvents="none"
-            />
-          ))}
+          {tooltipData?.map((entry) => {
+            const cx = xScale(new Date(entry.point.timestamp));
+            const cy = yScale(entry.point.value);
+            const label = formatYLabel
+              ? formatYLabel(entry.point.value)
+              : String(entry.point.value);
+            return (
+              <g key={entry.lineId} pointerEvents='none'>
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r={4}
+                  fill={entry.color}
+                  stroke='var(--background-surface)'
+                  strokeWidth={2}
+                />
+                {showCursorLabel && (
+                  <text
+                    x={cx + 10}
+                    y={cy + 4}
+                    fill='#fff'
+                    fontSize={11}
+                    fontWeight={600}
+                    textAnchor='start'
+                  >
+                    {label}
+                  </text>
+                )}
+              </g>
+            );
+          })}
 
           {showXAxis && (
             <AxisBottom
@@ -305,8 +404,8 @@ export const LineChartVisx = (props: LineChartProps) => {
                   ? formatXLabel((val as Date).getTime())
                   : (val as Date).toLocaleDateString()
               }
-              stroke="var(--border-muted)"
-              tickStroke="transparent"
+              stroke='var(--border-muted)'
+              tickStroke='transparent'
               tickLabelProps={{
                 fill: 'var(--text-muted)',
                 fontSize: 11,
@@ -322,8 +421,8 @@ export const LineChartVisx = (props: LineChartProps) => {
               tickFormat={(val) =>
                 formatYLabel ? formatYLabel(val as number) : String(val)
               }
-              stroke="transparent"
-              tickStroke="transparent"
+              stroke='transparent'
+              tickStroke='transparent'
               tickLabelProps={{
                 fill: 'var(--text-muted)',
                 fontSize: 11,
@@ -336,7 +435,7 @@ export const LineChartVisx = (props: LineChartProps) => {
           <rect
             width={innerWidth}
             height={innerHeight}
-            fill="transparent"
+            fill='transparent'
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           />
@@ -372,9 +471,7 @@ export const LineChartVisx = (props: LineChartProps) => {
           <div style={{ opacity: 0.6, marginTop: 2 }}>
             {formatXLabel
               ? formatXLabel(tooltipData[0].point.timestamp)
-              : new Date(
-                  tooltipData[0].point.timestamp,
-                ).toLocaleDateString()}
+              : new Date(tooltipData[0].point.timestamp).toLocaleDateString()}
           </div>
         </TooltipWithBounds>
       )}

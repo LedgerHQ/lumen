@@ -17,6 +17,8 @@ import {
   computeYDomain,
 } from '../utils';
 
+const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
+
 export const LineChartVictory = (props: LineChartProps) => {
   const {
     lines,
@@ -27,8 +29,11 @@ export const LineChartVictory = (props: LineChartProps) => {
     showGrid = true,
     showTooltip = true,
     showCursor = true,
+    showCursorLabel = false,
+    dimAfterCursor = false,
     formatXLabel,
     formatYLabel,
+    onPointHover,
     className,
     referenceLines,
     markers,
@@ -36,6 +41,7 @@ export const LineChartVictory = (props: LineChartProps) => {
 
   const gradientId = useId();
   const [cursorX, setCursorX] = useState<number | null>(null);
+  const [cursorY, setCursorY] = useState<number | null>(null);
 
   const resolvedColors = useMemo(() => {
     const map: Record<string, string> = {};
@@ -102,13 +108,13 @@ export const LineChartVictory = (props: LineChartProps) => {
               <linearGradient
                 key={d.id}
                 id={`${gradientId}-${d.id}`}
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
+                x1='0'
+                y1='0'
+                x2='0'
+                y2='1'
               >
-                <stop offset="0%" stopColor={d.color} stopOpacity={0.3} />
-                <stop offset="100%" stopColor={d.color} stopOpacity={0} />
+                <stop offset='0%' stopColor={d.color} stopOpacity={0.3} />
+                <stop offset='100%' stopColor={d.color} stopOpacity={0} />
               </linearGradient>
             ))}
         </defs>
@@ -120,10 +126,11 @@ export const LineChartVictory = (props: LineChartProps) => {
         padding={padding}
         domain={{ y: yDomain }}
         containerComponent={
-          showTooltip ? (
+          showTooltip || showCursor ? (
             <VictoryVoronoiContainer
-              voronoiDimension="x"
+              voronoiDimension='x'
               labels={({ datum }: { datum: { x: number; y: number } }) => {
+                if (!showTooltip) return ' ';
                 const yLabel = formatYLabel
                   ? formatYLabel(datum.y)
                   : String(datum.y);
@@ -133,30 +140,45 @@ export const LineChartVictory = (props: LineChartProps) => {
                 return `${xLabel}\n${yLabel}`;
               }}
               labelComponent={
-                <VictoryTooltip
-                  cornerRadius={8}
-                  flyoutStyle={{
-                    fill: 'var(--background-surface)',
-                    stroke: 'var(--border-muted)',
-                    strokeWidth: 1,
-                  }}
-                  style={{ fontSize: 11, fill: 'var(--text-base)' }}
-                  flyoutPadding={{ top: 8, bottom: 8, left: 12, right: 12 }}
-                />
+                showTooltip ? (
+                  <VictoryTooltip
+                    cornerRadius={8}
+                    flyoutStyle={{
+                      fill: 'var(--background-surface)',
+                      stroke: 'var(--border-muted)',
+                      strokeWidth: 1,
+                    }}
+                    style={{ fontSize: 11, fill: 'var(--text-base)' }}
+                    flyoutPadding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+                  />
+                ) : (
+                  <VictoryLabel style={{ fill: 'transparent' }} />
+                )
               }
-              onActivated={(points: Array<{ x: number }>) => {
-                if (showCursor && points.length > 0) {
+              onActivated={(points: Array<{ x: number; y: number }>) => {
+                if (points.length > 0) {
                   setCursorX(points[0].x);
+                  setCursorY(points[0].y);
+                }
+                if (onPointHover && points.length > 0) {
+                  onPointHover(
+                    { timestamp: points[0].x, value: points[0].y },
+                    lines[0]?.id ?? '',
+                  );
                 }
               }}
-              onDeactivated={() => setCursorX(null)}
+              onDeactivated={() => {
+                setCursorX(null);
+                setCursorY(null);
+                onPointHover?.(null, '');
+              }}
             />
           ) : undefined
         }
       >
         {showXAxis ? (
           <VictoryAxis
-            scale="time"
+            scale='time'
             tickFormat={formatXLabel}
             style={axisStyle}
             tickCount={6}
@@ -251,18 +273,67 @@ export const LineChartVictory = (props: LineChartProps) => {
                   fontSize: 12,
                   fontWeight: 600,
                 }}
-                textAnchor="middle"
+                textAnchor='middle'
               />
             }
           />
         )}
 
-        {victoryData.map((d) =>
-          d.showGradient ? (
+        {victoryData.map((d) => {
+          const isDimming = dimAfterCursor && cursorX != null;
+          const splitIdx = isDimming
+            ? d.data.findIndex((pt) => pt.x > cursorX!)
+            : -1;
+
+          if (isDimming && splitIdx > 0) {
+            const before = d.data.slice(0, splitIdx + 1);
+            const after = d.data.slice(splitIdx);
+
+            return (
+              <g key={d.id}>
+                {d.showGradient ? (
+                  <VictoryArea
+                    data={before}
+                    interpolation='natural'
+                    style={{
+                      data: {
+                        fill: `url(#${gradientId}-${d.id})`,
+                        stroke: d.color,
+                        strokeWidth: d.width,
+                      },
+                    }}
+                  />
+                ) : (
+                  <VictoryLine
+                    data={before}
+                    interpolation='natural'
+                    style={{
+                      data: {
+                        stroke: d.color,
+                        strokeWidth: d.width,
+                      },
+                    }}
+                  />
+                )}
+                <VictoryLine
+                  data={after}
+                  interpolation='natural'
+                  style={{
+                    data: {
+                      stroke: DIM_COLOR,
+                      strokeWidth: d.width,
+                    },
+                  }}
+                />
+              </g>
+            );
+          }
+
+          return d.showGradient ? (
             <VictoryArea
               key={`area-${d.id}`}
               data={d.data}
-              interpolation="monotoneX"
+              interpolation='natural'
               style={{
                 data: {
                   fill: `url(#${gradientId}-${d.id})`,
@@ -275,7 +346,7 @@ export const LineChartVictory = (props: LineChartProps) => {
             <VictoryLine
               key={`line-${d.id}`}
               data={d.data}
-              interpolation="monotoneX"
+              interpolation='natural'
               style={{
                 data: {
                   stroke: d.color,
@@ -283,8 +354,8 @@ export const LineChartVictory = (props: LineChartProps) => {
                 },
               }}
             />
-          ),
-        )}
+          );
+        })}
 
         {markers && markers.length > 0 && (
           <VictoryScatter
@@ -294,9 +365,7 @@ export const LineChartVictory = (props: LineChartProps) => {
               fill: m.color ?? 'var(--text-base)',
             }))}
             size={({ datum }: { datum: { fill: string } }) => {
-              const mk = markers.find(
-                (m) => m.color === datum.fill,
-              );
+              const mk = markers.find((m) => m.color === datum.fill);
               return mk?.radius ?? 4;
             }}
             style={{
@@ -318,10 +387,29 @@ export const LineChartVictory = (props: LineChartProps) => {
               },
             }}
             data={[
-              { x: cursorX, y: 0 },
-              { x: cursorX, y: 1 },
+              { x: cursorX, y: yDomain[0] },
+              { x: cursorX, y: yDomain[1] },
             ]}
-            y={(d: { y: number }) => d.y}
+          />
+        )}
+
+        {showCursorLabel && cursorX != null && cursorY != null && (
+          <VictoryScatter
+            data={[{ x: cursorX, y: cursorY }]}
+            size={0}
+            style={{ data: { fill: 'transparent' } }}
+            labels={[formatYLabel ? formatYLabel(cursorY) : String(cursorY)]}
+            labelComponent={
+              <VictoryLabel
+                dx={12}
+                style={{
+                  fill: '#fff',
+                  fontSize: 11,
+                  fontWeight: 600,
+                }}
+                textAnchor='start'
+              />
+            }
           />
         )}
       </VictoryChart>
