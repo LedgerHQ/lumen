@@ -47,6 +47,8 @@ The Select component provides a dropdown interface for choosing from a list of o
 
 Organize related options using groups by adding a `group` field to your items. The component automatically groups items by that value, rendering group headers, separators between groups, and per-group collection iteration internally. The item render function stays the same as a flat list.
 
+> **Note:** Items render in the order you pass them. Groups appear in the order they are first found in the array. Items without a `group` are collected together where the first ungrouped item appears.
+
 <Canvas of={SelectStories.WithGroups} />
 
 ### With Groups and Search
