@@ -251,32 +251,6 @@ const SelectList = ({
     contextRequired: true,
   });
 
-  if (isGrouped) {
-    return (
-      <Combobox.List
-        ref={ref}
-        data-slot='select-list'
-        className={cn(
-          'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8',
-          className,
-        )}
-        {...props}
-      >
-        {(group: SelectItemGroup, groupIndex: number) => (
-          <Combobox.Group
-            key={group.value}
-            items={group.items}
-            data-slot='select-group'
-          >
-            {groupIndex > 0 && <SelectSeparator />}
-            <SelectLabel>{group.value}</SelectLabel>
-            <Combobox.Collection>{renderItem}</Combobox.Collection>
-          </Combobox.Group>
-        )}
-      </Combobox.List>
-    );
-  }
-
   return (
     <Combobox.List
       ref={ref}
@@ -287,7 +261,19 @@ const SelectList = ({
       )}
       {...props}
     >
-      {renderItem}
+      {isGrouped
+        ? (group: SelectItemGroup, groupIndex: number) => (
+            <Combobox.Group
+              key={group.value}
+              items={group.items}
+              data-slot='select-group'
+            >
+              {groupIndex > 0 && <SelectSeparator />}
+              <SelectLabel>{group.value}</SelectLabel>
+              <Combobox.Collection>{renderItem}</Combobox.Collection>
+            </Combobox.Group>
+          )
+        : renderItem}
     </Combobox.List>
   );
 };
