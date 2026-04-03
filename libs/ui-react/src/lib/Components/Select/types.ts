@@ -28,8 +28,11 @@ export type SelectItemData<Meta = Record<string, unknown>> = {
   meta?: Meta;
 };
 
+/** @internal A named group of select items, used to represent a resolved group with its header label and child items. */
 export type SelectItemGroup = {
-  value: string;
+  /** The displayed group name, matching the `group` field on each child item. */
+  label: string;
+  /** The items belonging to this group. */
   items: SelectItemData[];
 };
 
