@@ -229,6 +229,7 @@ const SelectContent = ({
       <Combobox.Popup
         ref={ref}
         data-slot='select-content'
+        initialFocus={false}
         className={cn(contentStyles({ side }), className)}
         {...props}
       >
