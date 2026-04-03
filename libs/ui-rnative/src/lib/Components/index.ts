@@ -11,6 +11,7 @@ export * from './CardButton';
 export * from './ContentBanner';
 export * from './Checkbox';
 export * from './Divider';
+export * from './DotSymbol';
 export * from './Icon';
 export * from './IconButton';
 export * from './InteractiveIcon';
