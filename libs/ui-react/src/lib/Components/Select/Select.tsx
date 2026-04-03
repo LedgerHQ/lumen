@@ -1,5 +1,6 @@
 import { Combobox } from '@base-ui/react/combobox';
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import { useLayoutEffect } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check } from '../../Symbols';
@@ -179,14 +180,34 @@ const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
 };
 SelectTrigger.displayName = 'SelectTrigger';
 
-const contentStyles = cn(
-  'group/select-content relative z-select max-h-(--available-height) overflow-x-hidden overflow-y-auto',
-  'rounded-sm bg-muted',
-  'shadow-md',
-  'data-[side=bottom]:animate-slide-in-from-top',
-  'data-[side=top]:animate-slide-in-from-bottom',
-  'data-[side=left]:animate-slide-in-from-right',
-  'data-[side=right]:animate-slide-in-from-left',
+const contentStyles = cva(
+  [
+    'group/select-content relative z-select max-h-(--available-height) overflow-x-hidden overflow-y-auto',
+    'rounded-sm bg-muted',
+    'shadow-md',
+  ],
+  {
+    variants: {
+      side: {
+        top: [
+          'data-open:animate-slide-in-from-top',
+          'data-closed:animate-slide-out-to-top',
+        ],
+        bottom: [
+          'data-open:animate-slide-in-from-bottom',
+          'data-closed:animate-slide-out-to-bottom',
+        ],
+        left: [
+          'data-open:animate-slide-in-from-left',
+          'data-closed:animate-slide-out-to-left',
+        ],
+        right: [
+          'data-open:animate-slide-in-from-right',
+          'data-closed:animate-slide-out-to-right',
+        ],
+      },
+    },
+  },
 );
 
 const SelectContent = ({
@@ -208,7 +229,7 @@ const SelectContent = ({
       <Combobox.Popup
         ref={ref}
         data-slot='select-content'
-        className={cn(contentStyles, className)}
+        className={cn(contentStyles({ side }), className)}
         {...props}
       >
         {children}
