@@ -12,9 +12,12 @@ export type SelectItemData = {
   /** Secondary text displayed below the label inside the item. */
   description?: string;
   /**
-   * Optional group name. When at least one item has a `group` value,
-   * the component automatically groups items and renders group headers,
-   * separators, and per-group filtering internally.
+   * Optional group name. Items with the same `group` are grouped together
+   * with automatic headers, separators, and per-group filtering.
+   * The group name is used as the displayed group label.
+   *
+   * Groups are ordered by first occurrence in the `items` array.
+   * Ungrouped items are collected together at the position of the first ungrouped item.
    */
   group?: string;
   /**
