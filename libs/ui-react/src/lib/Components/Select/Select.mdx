@@ -349,7 +349,7 @@ function MyComponent() {
             </SelectItem>
           )}
         />
-        <SelectEmptyState>No produce found</SelectEmptyState>
+        <SelectEmptyState title='No results found' description='Try a different search term' />
       </SelectContent>
     </Select>
   );
@@ -447,7 +447,7 @@ function MyComponent() {
             </SelectItem>
           )}
         />
-        <SelectEmptyState>No tokens found</SelectEmptyState>
+        <SelectEmptyState title='No results found' description='Try a different search term' />
       </SelectContent>
     </Select>
   );
@@ -501,7 +501,7 @@ function AsyncSelect() {
             </SelectItem>
           )}
         />
-        <SelectEmptyState>{loading ? 'Loading…' : 'No results'}</SelectEmptyState>
+        <SelectEmptyState title={loading ? 'Loading…' : 'No results found'} description={loading ? undefined : 'Try a different search term'} />
       </SelectContent>
     </Select>
   );

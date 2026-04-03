@@ -143,7 +143,10 @@ export const WithGroupsAndSearch: Story = {
                 </SelectItem>
               )}
             />
-            <SelectEmptyState>No produce found</SelectEmptyState>
+            <SelectEmptyState
+              title='No results found'
+              description='Try a different search term'
+            />
           </SelectContent>
         </Select>
       </div>
@@ -213,7 +216,10 @@ export const WithSearch: Story = {
                 </SelectItem>
               )}
             />
-            <SelectEmptyState>No countries found</SelectEmptyState>
+            <SelectEmptyState
+              title='No results found'
+              description='Try a different search term'
+            />
           </SelectContent>
         </Select>
       </div>
@@ -263,7 +269,10 @@ export const WithCustomFilter: Story = {
                 </SelectItem>
               )}
             />
-            <SelectEmptyState>No tokens found</SelectEmptyState>
+            <SelectEmptyState
+              title='No results found'
+              description='Try a different search term'
+            />
           </SelectContent>
         </Select>
       </div>
@@ -851,9 +860,10 @@ export const ControlledSearch: Story = {
                 </SelectItem>
               )}
             />
-            <SelectEmptyState>
-              {loading ? 'Searching…' : 'No users found'}
-            </SelectEmptyState>
+            <SelectEmptyState
+              title={loading ? 'Searching…' : 'No results found'}
+              description={loading ? undefined : 'Try a different search term'}
+            />
           </SelectContent>
         </Select>
       </div>

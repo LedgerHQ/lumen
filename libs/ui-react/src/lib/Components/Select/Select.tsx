@@ -415,20 +415,22 @@ SelectSearch.displayName = 'SelectSearch';
 const SelectEmptyState = ({
   ref,
   className,
-  children,
+  title,
+  description,
   ...props
 }: SelectEmptyStateProps) => (
   <Combobox.Empty
     ref={ref}
     data-slot='select-empty-state'
     className={cn(
-      'hidden w-full justify-center p-16 body-2 text-muted',
+      'hidden w-full flex-col items-center gap-8 px-16 py-24',
       'group-data-empty/select-content:flex',
       className,
     )}
     {...props}
   >
-    {children}
+    <span className='heading-4-semi-bold text-base'>{title}</span>
+    {description && <span className='body-2 text-muted'>{description}</span>}
   </Combobox.Empty>
 );
 SelectEmptyState.displayName = 'SelectEmptyState';

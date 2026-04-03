@@ -266,9 +266,13 @@ export type SelectSearchProps = Pick<
 
 export type SelectEmptyStateProps = {
   /**
-   * Content displayed when no items match the current search query.
+   * The primary heading displayed in the empty state (e.g. "No results found").
    */
-  children: ReactNode;
+  title?: ReactNode;
+  /**
+   * Secondary text displayed below the title (e.g. a hint or explanation).
+   */
+  description?: ReactNode;
   /**
    * Extra class names to apply to the empty state element.
    */
