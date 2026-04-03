@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CoinAlert } from '../../Symbols';
-import { MediaImage, mediaImageDotSizeMap } from '../MediaImage';
+import { MediaImage } from '../MediaImage';
 import { Spot } from '../Spot';
-import { DotSymbol } from './DotSymbol';
+import { DotSymbol, mediaImageDotSizeMap, spotDotSizeMap } from './DotSymbol';
 
 const meta = {
   component: DotSymbol,
@@ -64,11 +64,7 @@ export const PinShowcase: Story = {
         </DotSymbol>
       </div>
       <div className='flex items-center gap-32'>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-end' size={spotDotSizeMap[48]}>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-end' size={mediaImageDotSizeMap[48]}>
@@ -114,7 +110,6 @@ export const ShapeShowcase: Story = {
 
       <div className='inline-flex items-center gap-48'>
         <DotSymbol
-          overlap='square'
           src={dotSrc}
           pin='bottom-end'
           size={mediaImageDotSizeMap[48]}
@@ -122,7 +117,6 @@ export const ShapeShowcase: Story = {
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
         <DotSymbol
-          overlap='circle'
           src={dotSrc}
           pin='bottom-end'
           size={mediaImageDotSizeMap[48]}
@@ -143,7 +137,6 @@ export const SizeShowcase: Story = {
           src={dotSrc}
           size={mediaImageDotSizeMap[20]}
           pin='bottom-end'
-          overlap='square'
         >
           <MediaImage src={parentSrc} size={20} shape='circle' />
         </DotSymbol>
@@ -151,7 +144,6 @@ export const SizeShowcase: Story = {
           src={dotSrc}
           size={mediaImageDotSizeMap[24]}
           pin='bottom-end'
-          overlap='square'
         >
           <MediaImage src={parentSrc} size={24} shape='circle' />
         </DotSymbol>
@@ -159,7 +151,6 @@ export const SizeShowcase: Story = {
           src={dotSrc}
           size={mediaImageDotSizeMap[32]}
           pin='bottom-end'
-          overlap='square'
         >
           <MediaImage src={parentSrc} size={32} shape='circle' />
         </DotSymbol>
@@ -167,7 +158,6 @@ export const SizeShowcase: Story = {
           src={dotSrc}
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
-          overlap='square'
         >
           <MediaImage src={parentSrc} size={40} shape='circle' />
         </DotSymbol>
@@ -175,7 +165,6 @@ export const SizeShowcase: Story = {
           src={dotSrc}
           size={mediaImageDotSizeMap[48]}
           pin='bottom-end'
-          overlap='square'
         >
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
@@ -183,7 +172,6 @@ export const SizeShowcase: Story = {
           src={dotSrc}
           size={mediaImageDotSizeMap[56]}
           pin='bottom-end'
-          overlap='square'
         >
           <MediaImage src={parentSrc} size={56} shape='circle' />
         </DotSymbol>

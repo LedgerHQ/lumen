@@ -18,11 +18,6 @@ export type DotSymbolProps = {
    */
   alt?: string;
   /**
-   * Whether the dot indicator should overlap the parent.
-   * @default 'circle'
-   */
-  overlap?: 'circle' | 'square';
-  /**
    * Corner placement of the dot indicator.
    * @default 'bottom-end'
    */

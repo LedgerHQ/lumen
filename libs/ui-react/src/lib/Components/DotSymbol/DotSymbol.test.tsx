@@ -9,8 +9,8 @@ describe('DotSymbol Component', () => {
 
   it('should render children and dot image', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} alt="Bitcoin">
-        <span data-testid="child">Child</span>
+      <DotSymbol src={dotSrc} alt='Bitcoin'>
+        <span data-testid='child'>Child</span>
       </DotSymbol>,
     );
 
@@ -40,7 +40,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply bottom-end pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin="bottom-end" size={16} />,
+      <DotSymbol src={dotSrc} pin='bottom-end' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -49,7 +49,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply top-end pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin="top-end" size={16} />,
+      <DotSymbol src={dotSrc} pin='top-end' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -58,7 +58,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply bottom-start pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin="bottom-start" size={16} />,
+      <DotSymbol src={dotSrc} pin='bottom-start' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -67,7 +67,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply top-start pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin="top-start" size={16} />,
+      <DotSymbol src={dotSrc} pin='top-start' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -83,7 +83,7 @@ describe('DotSymbol Component', () => {
     { size: 24 as const, offset: '-3px' },
   ])('should apply correct offset for size $size', ({ size, offset }) => {
     const { container } = render(
-      <DotSymbol src={dotSrc} size={size} pin="bottom-end" />,
+      <DotSymbol src={dotSrc} size={size} pin='bottom-end' />,
     );
 
     const dot = container.querySelector(`.size-${size}`);
@@ -93,7 +93,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply square shape class', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} shape="square" size={16} />,
+      <DotSymbol src={dotSrc} shape='square' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -103,7 +103,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply circle shape class', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} shape="circle" size={16} />,
+      <DotSymbol src={dotSrc} shape='circle' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -111,9 +111,7 @@ describe('DotSymbol Component', () => {
   });
 
   it('should apply custom className to the wrapper', () => {
-    const { container } = render(
-      <DotSymbol src={dotSrc} className="mt-16" />,
-    );
+    const { container } = render(<DotSymbol src={dotSrc} className='mt-16' />);
 
     expect(container.firstChild).toHaveClass('mt-16');
   });
@@ -133,7 +131,7 @@ describe('DotSymbol Component', () => {
   });
 
   it('should pass additional HTML attributes', () => {
-    render(<DotSymbol src={dotSrc} data-testid="dot" id="dot-symbol" />);
+    render(<DotSymbol src={dotSrc} data-testid='dot' id='dot-symbol' />);
 
     const el = screen.getByTestId('dot');
     expect(el).toHaveAttribute('id', 'dot-symbol');

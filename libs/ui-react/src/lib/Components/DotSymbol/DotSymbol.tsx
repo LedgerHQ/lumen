@@ -1,10 +1,12 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { MediaImageSize } from '../MediaImage';
+import { SpotSize } from '../Spot';
 import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
-  'absolute z-10 box-content overflow-hidden border-muted-subtle',
+  'absolute z-10 box-content overflow-hidden border-base',
   {
     variants: {
       size: {
@@ -14,10 +16,6 @@ const dotVariants = cva(
         16: 'size-16 border',
         20: 'size-20 border',
         24: 'size-24 border',
-      },
-      overlap: {
-        circle: '',
-        square: '',
       },
       shape: {
         square: '',
@@ -41,11 +39,6 @@ const dotVariants = cva(
       { size: 20, shape: 'square', className: 'rounded-[6px]' },
       { size: 24, shape: 'square', className: 'rounded-[8px]' },
       { shape: 'circle', className: 'rounded-full' },
-      { shape: 'circle', className: 'rounded-full' },
-      { shape: 'circle', className: 'rounded-full' },
-      { shape: 'circle', className: 'rounded-full' },
-      { shape: 'circle', className: 'rounded-full' },
-      { shape: 'circle', className: 'rounded-full' },
     ],
   },
 );
@@ -59,14 +52,40 @@ const offsetBySize: Record<DotSymbolSize, number> = {
   24: -3,
 };
 
-const getPinOffsetMap = (pin: DotSymbolPin, size: DotSymbolSize) => {
-  const offsetMap = {
-    'top-start': { top: offsetBySize[size], left: offsetBySize[size] },
-    'top-end': { top: offsetBySize[size], right: offsetBySize[size] },
-    'bottom-start': { bottom: offsetBySize[size], left: offsetBySize[size] },
-    'bottom-end': { bottom: offsetBySize[size], right: offsetBySize[size] },
+export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
+  12: 8,
+  16: 8,
+  20: 8,
+  24: 10,
+  32: 12,
+  40: 16,
+  48: 20,
+  56: 24,
+} as const;
+
+export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
+  32: 12,
+  40: 16,
+  48: 20,
+  56: 24,
+  72: 24,
+} as const;
+
+const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
+  {
+    'top-start': ['top', 'left'],
+    'top-end': ['top', 'right'],
+    'bottom-start': ['bottom', 'left'],
+    'bottom-end': ['bottom', 'right'],
   };
-  return offsetMap[pin];
+
+const getPinOffset = (
+  pin: DotSymbolPin,
+  size: DotSymbolSize,
+): Record<string, number> => {
+  const [v, h] = pinAxisMap[pin];
+  const offset = offsetBySize[size];
+  return { [v]: offset, [h]: offset };
 };
 
 /**
@@ -76,7 +95,7 @@ const getPinOffsetMap = (pin: DotSymbolPin, size: DotSymbolSize) => {
  * @example
  * import { DotSymbol } from '@ledgerhq/lumen-ui-react';
  *
- * <DotSymbol imgUrl="https://example.com/eth.png" imgAlt="Ethereum" pin="bottom-end">
+ * <DotSymbol src="https://example.com/eth.png" alt="Ethereum" pin="bottom-end">
  *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
  * </DotSymbol>
  */
@@ -84,7 +103,6 @@ export const DotSymbol = ({
   children,
   src,
   alt,
-  overlap = 'circle',
   pin = 'bottom-end',
   size = 16,
   shape = 'circle',
@@ -92,17 +110,31 @@ export const DotSymbol = ({
   ref,
   ...rest
 }: DotSymbolProps) => {
-  const style = useMemo(() => getPinOffsetMap(pin, size), [pin, size]);
+  const style = useMemo(() => getPinOffset(pin, size), [pin, size]);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  }, [src]);
 
   return (
     <div
       ref={ref}
       className={cn('relative inline-flex w-fit', className)}
+      role='img'
+      aria-label={alt}
       {...rest}
     >
       <div className='inline-flex'>{children}</div>
-      <div className={dotVariants({ size, shape, pin, overlap })} style={style}>
-        <img src={src} alt={alt} />
+      <div className={dotVariants({ size, shape, pin })} style={style}>
+        {!error && (
+          <img
+            src={src}
+            alt=''
+            aria-hidden='true'
+            onError={() => setError(true)}
+          />
+        )}
       </div>
     </div>
   );
