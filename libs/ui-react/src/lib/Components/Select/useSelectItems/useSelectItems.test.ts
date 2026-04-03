@@ -29,8 +29,8 @@ describe('useSelectItems', () => {
 
       expect(result.current.isGrouped).toBe(true);
       expect(result.current.groupedItems).toHaveLength(2);
-      expect(result.current.groupedItems![0].value).toBe('Fruits');
-      expect(result.current.groupedItems![1].value).toBe('Vegetables');
+      expect(result.current.groupedItems![0].label).toBe('Fruits');
+      expect(result.current.groupedItems![1].label).toBe('Vegetables');
     });
   });
 
@@ -99,11 +99,11 @@ describe('useSelectItems', () => {
       });
 
       const filtered = result.current.filteredItemsForRoot as {
-        value: string;
+        label: string;
         items: SelectItemData[];
       }[];
       expect(filtered).toHaveLength(1);
-      expect(filtered[0].value).toBe('Fruits');
+      expect(filtered[0].label).toBe('Fruits');
       expect(filtered[0].items).toHaveLength(1);
       expect(filtered[0].items[0].value).toBe('apple');
     });
@@ -182,12 +182,12 @@ describe('useSelectItems', () => {
       );
 
       const filtered = result.current.filteredItemsForRoot as {
-        value: string;
+        label: string;
         items: SelectItemData[];
       }[];
       expect(filtered).toHaveLength(2);
-      expect(filtered[0].value).toBe('Fruits');
-      expect(filtered[1].value).toBe('Vegetables');
+      expect(filtered[0].label).toBe('Fruits');
+      expect(filtered[1].label).toBe('Vegetables');
     });
   });
 

@@ -11,8 +11,8 @@ describe('groupItemsByKey', () => {
     ];
 
     expect(groupItemsByKey(items)).toEqual([
-      { value: 'Fruits', items: [items[0], items[1]] },
-      { value: 'Vegetables', items: [items[2]] },
+      { label: 'Fruits', items: [items[0], items[1]] },
+      { label: 'Vegetables', items: [items[2]] },
     ]);
   });
 
@@ -25,8 +25,8 @@ describe('groupItemsByKey', () => {
 
     const groups = groupItemsByKey(items);
 
-    expect(groups[0].value).toBe('Vegetables');
-    expect(groups[1].value).toBe('Fruits');
+    expect(groups[0].label).toBe('Vegetables');
+    expect(groups[1].label).toBe('Fruits');
   });
 
   it('collects items without a group under an empty-string key', () => {
@@ -36,7 +36,7 @@ describe('groupItemsByKey', () => {
     ];
 
     expect(groupItemsByKey(items)).toEqual([
-      { value: '', items: [items[0], items[1]] },
+      { label: '', items: [items[0], items[1]] },
     ]);
   });
 
@@ -50,9 +50,9 @@ describe('groupItemsByKey', () => {
     const groups = groupItemsByKey(items);
 
     expect(groups).toHaveLength(3);
-    expect(groups[0].value).toBe('Fruits');
-    expect(groups[1].value).toBe('');
-    expect(groups[2].value).toBe('Vegetables');
+    expect(groups[0].label).toBe('Fruits');
+    expect(groups[1].label).toBe('');
+    expect(groups[2].label).toBe('Vegetables');
   });
 
   it('returns an empty array for an empty input', () => {

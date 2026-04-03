@@ -16,7 +16,7 @@ export function groupItemsByKey(items: SelectItemData[]): SelectItemGroup[] {
     }
     map[key].push(item);
   }
-  return order.map((value) => ({ value, items: map[value] }));
+  return order.map((label) => ({ label, items: map[label] }));
 }
 
 /**
