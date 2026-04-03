@@ -73,7 +73,7 @@ By default, `SelectSearch` filters items using a case-insensitive match on the `
 
 ### Controlled Search
 
-Use `inputValue` and `onInputValueChange` to take full control of the search field. Combined with `filteredItems`, this pattern is ideal for async or remote data sources where the server handles filtering. Pass your API results via `filteredItems` — the component skips its internal filter and renders your array directly.
+Use `searchValue` and `onSearchValueChange` to take full control of the search field. Combined with `filteredItems`, this pattern is ideal for async or remote data sources where the server handles filtering. Pass your API results via `filteredItems` — the component skips its internal filter and renders your array directly.
 
 <Canvas of={SelectStories.ControlledSearch} />
 
@@ -456,7 +456,7 @@ function MyComponent() {
 
 ### Async Search
 
-When items are loaded from a remote source, use `filteredItems` and `onInputValueChange` to control filtering externally. Pass `filteredItems` with the server results — when provided, the component skips internal filtering and uses your array directly. Listen to `onInputValueChange` to trigger API calls.
+When items are loaded from a remote source, use `filteredItems` and `onSearchValueChange` to control filtering externally. Pass `filteredItems` with the server results — when provided, the component skips internal filtering and uses your array directly. Listen to `onSearchValueChange` to trigger API calls.
 
 ```tsx
 import {
@@ -476,7 +476,7 @@ function AsyncSelect() {
   const [filteredItems, setFilteredItems] = useState<SelectItemData[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleInputValueChange = async (query: string) => {
+  const handleSearchValueChange = async (query: string) => {
     setLoading(true);
     const results = await fetchUsersFromApi(query);
     setFilteredItems(results);
@@ -487,7 +487,7 @@ function AsyncSelect() {
     <Select
       items={allUsers}
       filteredItems={filteredItems}
-      onInputValueChange={handleInputValueChange}
+      onSearchValueChange={handleSearchValueChange}
       value={value}
       onValueChange={setValue}
     >
@@ -508,7 +508,7 @@ function AsyncSelect() {
 }
 ```
 
-> **Tip:** Consider debouncing `onInputValueChange` to avoid excessive API calls while the user is typing.
+> **Tip:** Consider debouncing `onSearchValueChange` to avoid excessive API calls while the user is typing.
 
 ### Controlled vs Uncontrolled
 

@@ -17,7 +17,6 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 - `SelectItem.textValue` prop removed (labels are derived from the `items` array).
 - `SelectItemText` now renders a `<span>` instead of a `<div>`.
 - `SelectContentProps` removed Radix-specific props: `asChild`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onPointerDownOutside`, `position`, `avoidCollisions`, `collisionBoundary`, `collisionPadding`, `sticky`, `hideWhenDetached`.
-- `SelectContentProps.sideOffset` default changed from `0` to `8`.
 - `SelectContentProps.alignOffset` removed.
 - `SelectSeparatorProps.asChild` removed.
 - `SelectProps.dir` removed.
@@ -25,7 +24,7 @@ BREAKING CHANGE(Select): migrate from `@radix-ui/react-select` to `@base-ui/reac
 **New features**
 
 - `filter` prop: custom filter function for search. When `SelectSearch` is present, a default case-insensitive label filter is applied automatically. Pass a custom function to override, or `null` to disable.
-- `filteredItems` + `onInputValueChange` props: external/async search support.
+- `filteredItems` + `onSearchValueChange` props: external/async search support.
 - `SelectSearch` component: built-in search input rendered above the list.
 - `SelectEmptyState` component: displayed when no items match.
 - `SelectTriggerButton` preset: button-style trigger with icon support.

@@ -7,18 +7,18 @@ type UseSelectItemsParams = {
   items: SelectItemData[];
   filter?: null | ((item: SelectItemData, query: string) => boolean);
   filteredItems?: SelectItemData[];
-  inputValue?: string;
-  defaultInputValue?: string;
-  onInputValueChange?: (value: string) => void;
+  searchValue?: string;
+  defaultSearchValue?: string;
+  onSearchValueChange?: (value: string) => void;
 };
 
 type UseSelectItemsReturn = {
   isGrouped: boolean;
   groupedItems: SelectItemGroup[] | null;
   filteredItemsForRoot: SelectItemData[] | SelectItemGroup[];
-  resolvedInputValue: string;
+  resolvedSearchValue: string;
   registerSearch: () => () => void;
-  handleInputValueChange: (val: string) => void;
+  handleSearchValueChange: (val: string) => void;
 };
 
 /**
@@ -29,21 +29,21 @@ type UseSelectItemsReturn = {
  *   is mounted and no custom `filter` is provided.
  * - Allows external/async filtering via `filteredItems`, bypassing
  *   the internal filter entirely.
- * - Supports controlled and uncontrolled `inputValue` via `useControllableState`.
+ * - Supports controlled and uncontrolled `searchValue` via `useControllableState`.
  */
 export function useSelectItems({
   items,
   filter,
   filteredItems: filteredItemsProp,
-  inputValue: inputValueProp,
-  defaultInputValue,
-  onInputValueChange: onInputValueChangeProp,
+  searchValue: searchValueProp,
+  defaultSearchValue,
+  onSearchValueChange: onSearchValueChangeProp,
 }: UseSelectItemsParams): UseSelectItemsReturn {
   const [searchMounted, setSearchMounted] = useState(false);
-  const [inputValue, setInputValue] = useControllableState<string>({
-    prop: inputValueProp,
-    defaultProp: defaultInputValue ?? '',
-    onChange: onInputValueChangeProp,
+  const [searchValue, setSearchValue] = useControllableState<string>({
+    prop: searchValueProp,
+    defaultProp: defaultSearchValue ?? '',
+    onChange: onSearchValueChangeProp,
   });
 
   const registerSearch = useCallback((): (() => void) => {
@@ -51,11 +51,11 @@ export function useSelectItems({
     return () => setSearchMounted(false);
   }, []);
 
-  const handleInputValueChange = useCallback(
+  const handleSearchValueChange = useCallback(
     (val: string) => {
-      setInputValue(val);
+      setSearchValue(val);
     },
-    [setInputValue],
+    [setSearchValue],
   );
 
   const filterFn = searchMounted
@@ -77,19 +77,19 @@ export function useSelectItems({
   const internalFilteredItems = useMemo(():
     | SelectItemData[]
     | SelectItemGroup[] => {
-    if (!filterFn || !inputValue.trim()) return groupedItems ?? items;
+    if (!filterFn || !searchValue.trim()) return groupedItems ?? items;
 
     if (groupedItems) {
       return groupedItems
         .map((group) => ({
           ...group,
-          items: group.items.filter((item) => filterFn(item, inputValue)),
+          items: group.items.filter((item) => filterFn(item, searchValue)),
         }))
         .filter((group) => group.items.length > 0);
     }
 
-    return items.filter((item) => filterFn(item, inputValue));
-  }, [groupedItems, items, inputValue, filterFn]);
+    return items.filter((item) => filterFn(item, searchValue));
+  }, [groupedItems, items, searchValue, filterFn]);
 
   const externalGroupedItems = useMemo(():
     | SelectItemData[]
@@ -105,8 +105,8 @@ export function useSelectItems({
     isGrouped,
     groupedItems,
     filteredItemsForRoot,
-    resolvedInputValue: inputValue,
+    resolvedSearchValue: searchValue,
     registerSearch,
-    handleInputValueChange,
+    handleSearchValueChange,
   };
 }

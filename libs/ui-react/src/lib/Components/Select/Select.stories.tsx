@@ -823,7 +823,7 @@ export const ControlledSearch: Story = {
       [fetchResults],
     );
 
-    const handleInputValueChange = useCallback(
+    const handleSearchValueChange = useCallback(
       (query: string) => {
         setSearch(query);
         debouncedFetch(query);
@@ -836,8 +836,8 @@ export const ControlledSearch: Story = {
         <Select
           items={allReviewers}
           filteredItems={filteredItems}
-          inputValue={search}
-          onInputValueChange={handleInputValueChange}
+          searchValue={search}
+          onSearchValueChange={handleSearchValueChange}
           value={value}
           onValueChange={setValue}
         >

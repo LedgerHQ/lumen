@@ -59,7 +59,7 @@ describe('useSelectItems', () => {
       });
 
       act(() => {
-        result.current.handleInputValueChange('Option 1');
+        result.current.handleSearchValueChange('Option 1');
       });
 
       const filtered = result.current.filteredItemsForRoot as SelectItemData[];
@@ -76,7 +76,7 @@ describe('useSelectItems', () => {
       });
 
       act(() => {
-        result.current.handleInputValueChange('Option 1');
+        result.current.handleSearchValueChange('Option 1');
       });
       expect(result.current.filteredItemsForRoot).toHaveLength(1);
 
@@ -95,7 +95,7 @@ describe('useSelectItems', () => {
       });
 
       act(() => {
-        result.current.handleInputValueChange('Apple');
+        result.current.handleSearchValueChange('Apple');
       });
 
       const filtered = result.current.filteredItemsForRoot as {
@@ -121,7 +121,7 @@ describe('useSelectItems', () => {
       });
 
       act(() => {
-        result.current.handleInputValueChange('opt2');
+        result.current.handleSearchValueChange('opt2');
       });
 
       const filtered = result.current.filteredItemsForRoot as SelectItemData[];
@@ -139,7 +139,7 @@ describe('useSelectItems', () => {
       });
 
       act(() => {
-        result.current.handleInputValueChange('Option 1');
+        result.current.handleSearchValueChange('Option 1');
       });
 
       expect(result.current.filteredItemsForRoot).toEqual(flat);
@@ -153,7 +153,7 @@ describe('useSelectItems', () => {
       });
 
       act(() => {
-        result.current.handleInputValueChange('   ');
+        result.current.handleSearchValueChange('   ');
       });
 
       expect(result.current.filteredItemsForRoot).toEqual(flat);
@@ -191,41 +191,41 @@ describe('useSelectItems', () => {
     });
   });
 
-  describe('inputValue', () => {
-    it('calls onInputValueChange when handleInputValueChange is called', () => {
-      const onInputValueChange = vi.fn();
+  describe('searchValue', () => {
+    it('calls onSearchValueChange when handleSearchValueChange is called', () => {
+      const onSearchValueChange = vi.fn();
 
       const { result } = renderHook(() =>
-        useSelectItems({ items: flat, onInputValueChange }),
+        useSelectItems({ items: flat, onSearchValueChange }),
       );
 
       act(() => {
-        result.current.handleInputValueChange('test');
+        result.current.handleSearchValueChange('test');
       });
 
-      expect(onInputValueChange).toHaveBeenCalledWith('test');
-      expect(result.current.resolvedInputValue).toBe('test');
+      expect(onSearchValueChange).toHaveBeenCalledWith('test');
+      expect(result.current.resolvedSearchValue).toBe('test');
     });
 
-    it('supports controlled inputValue', () => {
+    it('supports controlled searchValue', () => {
       const { result, rerender } = renderHook(
-        ({ inputValue }) => useSelectItems({ items: flat, inputValue }),
-        { initialProps: { inputValue: 'initial' } },
+        ({ searchValue }) => useSelectItems({ items: flat, searchValue }),
+        { initialProps: { searchValue: 'initial' } },
       );
 
-      expect(result.current.resolvedInputValue).toBe('initial');
+      expect(result.current.resolvedSearchValue).toBe('initial');
 
-      rerender({ inputValue: 'updated' });
+      rerender({ searchValue: 'updated' });
 
-      expect(result.current.resolvedInputValue).toBe('updated');
+      expect(result.current.resolvedSearchValue).toBe('updated');
     });
 
-    it('uses defaultInputValue as the initial uncontrolled value', () => {
+    it('uses defaultSearchValue as the initial uncontrolled value', () => {
       const { result } = renderHook(() =>
-        useSelectItems({ items: flat, defaultInputValue: 'default' }),
+        useSelectItems({ items: flat, defaultSearchValue: 'default' }),
       );
 
-      expect(result.current.resolvedInputValue).toBe('default');
+      expect(result.current.resolvedSearchValue).toBe('default');
     });
   });
 });

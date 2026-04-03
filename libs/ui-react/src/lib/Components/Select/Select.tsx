@@ -34,9 +34,9 @@ function Select({
   items,
   filter,
   filteredItems,
-  inputValue: inputValueProp,
-  defaultInputValue,
-  onInputValueChange,
+  searchValue: searchValueProp,
+  defaultSearchValue,
+  onSearchValueChange,
   open,
   defaultOpen,
   onOpenChange,
@@ -63,16 +63,16 @@ function Select({
     isGrouped,
     groupedItems,
     filteredItemsForRoot,
-    resolvedInputValue,
+    resolvedSearchValue,
     registerSearch,
-    handleInputValueChange,
+    handleSearchValueChange,
   } = useSelectItems({
     items,
     filter,
     filteredItems,
-    inputValue: inputValueProp,
-    defaultInputValue,
-    onInputValueChange,
+    searchValue: searchValueProp,
+    defaultSearchValue,
+    onSearchValueChange,
   });
 
   return (
@@ -81,8 +81,8 @@ function Select({
       filter={null}
       items={groupedItems ?? items}
       filteredItems={filteredItemsForRoot}
-      inputValue={resolvedInputValue}
-      onInputValueChange={handleInputValueChange}
+      inputValue={resolvedSearchValue}
+      onInputValueChange={handleSearchValueChange}
       value={selectedValue}
       onValueChange={setSelectedValue}
       open={open}
