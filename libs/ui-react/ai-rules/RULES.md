@@ -33,7 +33,7 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 - Switch requires `@radix-ui/react-switch`
 - Dialog requires `@radix-ui/react-dialog`
 - Tooltip requires `@radix-ui/react-tooltip`
-- Select requires `@radix-ui/react-select`
+- Select requires `@base-ui/react/combobox`
 
 ---
 
