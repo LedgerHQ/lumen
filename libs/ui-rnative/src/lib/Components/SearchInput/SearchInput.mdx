@@ -57,9 +57,13 @@ Use `onClear` to extend the default clear behavior with custom logic.
 
 ### Disabled State
 
-The search input can be disabled using the `editable` prop set to `false`.
+The search input can be fully disabled using the `disabled` prop, which prevents interaction and applies a muted visual style.
 
 <Canvas of={SearchInputStories.DisabledSearchInput} />
+
+### Read-Only State
+
+Alternatively, use `editable={false}` to prevent editing without applying the muted visual style. This is useful for displaying non-editable values that should still look like regular inputs.
 
 ### Error State
 
@@ -273,7 +277,15 @@ Use the `keyboardType` prop to show the appropriate keyboard:
 
 ### Disabled State
 
-Use the `editable` prop to disable the search input:
+Use the `disabled` prop to disable the search input with a muted visual style:
+
+```tsx
+<SearchInput placeholder='Search' value='Current search' disabled />
+```
+
+### Read-Only State
+
+Use the `editable` prop to make the search input non-editable without the muted visual style:
 
 ```tsx
 <SearchInput placeholder='Search' value='Current search' editable={false} />

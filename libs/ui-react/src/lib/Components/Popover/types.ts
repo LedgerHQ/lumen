@@ -6,7 +6,7 @@ import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 type PopoverHandle<Payload> = PopoverNamespace.Handle<Payload>;
 
-export type PopoverWidth = 'hug' | 'fixed';
+export type PopoverWidth = 'fit' | 'fixed';
 export type PopoverSide = 'top' | 'right' | 'bottom' | 'left';
 export type PopoverAlign = 'start' | 'center' | 'end';
 
@@ -123,10 +123,10 @@ export type PopoverContentProps = {
 
   /**
    * The width behavior of the popover content panel.
-   * - `'hug'`: Content-fit width (default), define custom width with the `className` prop
+   * - `'fit'`: Content-fit width (default), define custom width with the `className` prop
    * - `'fixed'`: Always exactly 400px width
    *
-   * @default 'hug'
+   * @default 'fit'
    */
   width?: PopoverWidth;
 

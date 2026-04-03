@@ -1,4 +1,7 @@
-import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import {
   useCallback,
   useEffect,
@@ -33,7 +36,8 @@ export const BaseInput = ({
   errorMessage,
   hideClearButton,
   onChangeText: onChangeTextProp,
-  editable: editableProp = true,
+  editable,
+  disabled: disabledProp = false,
   prefix,
   suffix,
   ref,
@@ -41,7 +45,7 @@ export const BaseInput = ({
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
     consumerName: 'BaseInput',
-    mergeWith: { disabled: !editableProp },
+    mergeWith: { disabled: disabledProp },
   });
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
@@ -97,68 +101,70 @@ export const BaseInput = ({
   });
 
   return (
-    <Box lx={lx} style={style}>
-      <Pressable
-        style={StyleSheet.flatten([styles.container, containerStyle])}
-        onPress={() => inputRef.current?.focus()}
-        disabled={disabled}
-      >
-        {prefix}
+    <DisabledProvider value={{ disabled }}>
+      <Box lx={lx} style={style}>
+        <Pressable
+          style={StyleSheet.flatten([styles.container, containerStyle])}
+          onPress={() => inputRef.current?.focus()}
+          disabled={disabled}
+        >
+          {prefix}
 
-        <TextInput
-          ref={inputRef}
-          value={value}
-          style={StyleSheet.flatten([styles.input, inputStyle])}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          onChangeText={handleChangeText}
-          editable={!disabled}
-          autoCapitalize='none'
-          autoCorrect={false}
-          selectionColor={theme.colors.text.active}
-          placeholderTextColor={theme.colors.text.muted}
-          {...props}
-        />
+          <TextInput
+            ref={inputRef}
+            value={value}
+            style={StyleSheet.flatten([styles.input, inputStyle])}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onChangeText={handleChangeText}
+            editable={editable !== false && !disabled}
+            autoCapitalize='none'
+            autoCorrect={false}
+            selectionColor={theme.colors.text.active}
+            placeholderTextColor={theme.colors.text.muted}
+            {...props}
+          />
 
-        {label && (
-          <Animated.Text
-            style={[
-              floatingLabelStyles.label,
-              floatingLabelStyles.animatedStyle,
-              labelStyle,
-            ]}
-            numberOfLines={1}
-          >
-            {label}
-          </Animated.Text>
-        )}
+          {label && (
+            <Animated.Text
+              style={[
+                floatingLabelStyles.label,
+                floatingLabelStyles.animatedStyle,
+                labelStyle,
+              ]}
+              numberOfLines={1}
+            >
+              {label}
+            </Animated.Text>
+          )}
 
-        {(suffix || (!hideClearButton && !disabled)) && (
-          <View style={styles.suffixContainer}>
-            {showClearButton ? (
-              <InteractiveIcon
-                iconType='stroked'
-                onPress={handleClear}
-                accessibilityLabel={t(
-                  'components.baseInput.clearInputAriaLabel',
-                )}
-              >
-                <DeleteCircleFill size={20} />
-              </InteractiveIcon>
-            ) : (
-              suffix
-            )}
+          {(suffix || (!hideClearButton && !disabled)) && (
+            <View style={styles.suffixContainer}>
+              {showClearButton ? (
+                <InteractiveIcon
+                  iconType='stroked'
+                  onPress={handleClear}
+                  accessibilityLabel={t(
+                    'components.baseInput.clearInputAriaLabel',
+                  )}
+                >
+                  <DeleteCircleFill size={20} />
+                </InteractiveIcon>
+              ) : (
+                suffix
+              )}
+            </View>
+          )}
+        </Pressable>
+
+        {errorMessage && (
+          <View style={styles.errorContainer}>
+            <DeleteCircleFill size={16} color='error' />
+            <Text style={styles.errorText}>{errorMessage}</Text>
           </View>
         )}
-      </Pressable>
-
-      {errorMessage && (
-        <View style={styles.errorContainer}>
-          <DeleteCircleFill size={16} color='error' />
-          <Text style={styles.errorText}>{errorMessage}</Text>
-        </View>
-      )}
-    </Box>
+      </Box>
+    </DisabledProvider>
   );
 };
 

@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Text } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -10,11 +11,16 @@ export const AddressInput = ({
   prefix = 'To:',
   suffix,
   onQrCodeClick,
+  disabled: disabledProp,
   ref,
   ...props
 }: AddressInputProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'AddressInput',
+    mergeWith: { disabled: disabledProp },
+  });
   const { t } = useCommonTranslation();
-  const styles = useStyles();
+  const styles = useStyles({ disabled });
 
   const actualPrefix = (
     <Text accessible={false} style={styles.prefix}>
@@ -39,20 +45,22 @@ export const AddressInput = ({
       ref={ref}
       prefix={actualPrefix}
       suffix={actualSuffix}
+      disabled={disabledProp}
       {...props}
     />
   );
 };
 
-const useStyles = () => {
-  return useStyleSheet((t) => {
-    return {
+const useStyles = ({ disabled }: { disabled: boolean }) => {
+  return useStyleSheet(
+    (t) => ({
       prefix: {
         ...t.typographies.body1,
-        color: t.colors.text.base,
+        color: disabled ? t.colors.text.disabled : t.colors.text.base,
       },
-    };
-  }, []);
+    }),
+    [disabled],
+  );
 };
 
 AddressInput.displayName = 'AddressInput';

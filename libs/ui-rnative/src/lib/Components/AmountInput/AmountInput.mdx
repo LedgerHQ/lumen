@@ -76,9 +76,13 @@ The input supports error handling through `isInvalid` prop which controls the er
 
 ### Disabled State
 
-The component supports disabled state through the `editable` prop set to `false` with appropriate visual feedback.
+The input can be fully disabled using the `disabled` prop, which prevents interaction and applies a muted visual style.
 
 <Canvas of={AmountInputStories.DisabledAmountInput} />
+
+### Read-Only State
+
+Alternatively, use `editable={false}` to prevent editing without applying the muted visual style. This is useful for displaying non-editable values that should still look like regular inputs.
 
 ## Animations
 

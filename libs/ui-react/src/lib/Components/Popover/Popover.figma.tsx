@@ -11,7 +11,7 @@ figma.connect(
     ],
     props: {
       width: figma.enum('width', {
-        hug: 'hug',
+        hug: 'fit',
         fixed: 'fixed',
       }),
     },

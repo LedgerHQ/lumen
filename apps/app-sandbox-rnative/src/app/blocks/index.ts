@@ -7,6 +7,7 @@ export * from './Buttons';
 export * from './Checkboxes';
 export * from './Cards';
 export * from './Dividers';
+export * from './MediaImages';
 export * from './IconButtons';
 export * from './Links';
 export * from './MediaBanners';

@@ -27,12 +27,12 @@ const dialogContentVariants = cva(
   {
     variants: {
       height: {
-        hug: 'max-h-560',
+        fit: 'max-h-560',
         fixed: 'h-560',
       },
     },
     defaultVariants: {
-      height: 'hug',
+      height: 'fit',
     },
   },
 );
@@ -69,7 +69,7 @@ const dialogContentVariants = cva(
  *   );
  * }
  */
-export function Dialog({ height = 'hug', ...props }: DialogProps) {
+export function Dialog({ height = 'fit', ...props }: DialogProps) {
   return (
     <DialogContextProvider value={{ height }}>
       <DialogPrimitive.Root data-slot='dialog' {...props} />
@@ -239,7 +239,7 @@ export const DialogBody = ({
       style={style}
       className={cn(
         '-mb-24 flex min-h-0 grow flex-col overflow-y-auto px-24 pb-24',
-        height === 'hug' ? 'basis-auto' : 'basis-0',
+        height === 'fit' ? 'basis-auto' : 'basis-0',
         className,
         scrollbarWidth === 'auto' ? 'scrollbar-custom' : 'scrollbar-none',
       )}

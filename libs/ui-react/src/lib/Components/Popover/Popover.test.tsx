@@ -161,7 +161,7 @@ describe('Popover', () => {
     });
   });
 
-  it('applies hug width variant by default', async () => {
+  it('applies fit width variant by default', async () => {
     const user = userEvent.setup();
     render(
       <Popover>
@@ -169,7 +169,7 @@ describe('Popover', () => {
           render={<Button appearance='gray'>Open Popover</Button>}
         />
         <PopoverContent className='w-256'>
-          <p>Hug Width Content</p>
+          <p>Fit Width Content</p>
         </PopoverContent>
       </Popover>,
     );
