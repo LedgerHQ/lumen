@@ -256,7 +256,7 @@ const SelectList = ({
       ref={ref}
       data-slot='select-list'
       className={cn(
-        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8',
+        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8 group-data-empty/select-content:p-0',
         className,
       )}
       {...props}
