@@ -104,7 +104,7 @@ const triggerStyles = cn(
   'rounded-sm bg-muted px-16',
   'body-2 text-base',
   'hover:bg-muted-hover',
-  'transition-colors duration-200 focus:ring-2 focus:ring-focus focus:outline-hidden',
+  'transition-colors duration-200 focus:ring-2 focus:ring-active focus:outline-hidden',
   'disabled:cursor-not-allowed disabled:text-disabled',
 );
 
@@ -183,7 +183,7 @@ SelectTrigger.displayName = 'SelectTrigger';
 const contentStyles = cva(
   [
     'group/select-content relative z-select flex max-h-(--available-height) flex-col overflow-hidden',
-    'rounded-sm bg-muted',
+    'rounded-sm bg-surface',
     'shadow-md',
   ],
   {
@@ -264,12 +264,12 @@ const SelectList = ({
       {isGrouped
         ? (group: SelectItemGroup, groupIndex: number) => (
             <Combobox.Group
-              key={group.value}
+              key={group.label}
               items={group.items}
               data-slot='select-group'
             >
               {groupIndex > 0 && <SelectSeparator />}
-              <SelectLabel>{group.value}</SelectLabel>
+              <SelectLabel>{group.label}</SelectLabel>
               <Combobox.Collection>{renderItem}</Combobox.Collection>
             </Combobox.Group>
           )
@@ -423,7 +423,7 @@ const SelectEmptyState = ({
     ref={ref}
     data-slot='select-empty-state'
     className={cn(
-      'hidden w-full flex-col items-center gap-8 px-16 py-24',
+      'hidden w-full flex-col items-center gap-8 py-24',
       'group-data-empty/select-content:flex',
       className,
     )}
