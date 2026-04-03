@@ -2,7 +2,7 @@ import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 import type { SearchInputProps } from '../SearchInput/types';
 import type { TriggerButtonProps } from '../TriggerButton';
 
-export type SelectItemData = {
+export type SelectItemData<Meta = Record<string, unknown>> = {
   /** Unique string identifier for this item, used for selection tracking. */
   value: string;
   /** Display text used in the trigger. Also the field matched against by the default search filter. */
@@ -25,7 +25,7 @@ export type SelectItemData = {
    * Use it to carry extra fields (icons, tickers, IDs, etc.)
    * that your render function or custom filter needs.
    */
-  meta?: Record<string, unknown>;
+  meta?: Meta;
 };
 
 export type SelectItemGroup = {
