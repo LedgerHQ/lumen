@@ -89,6 +89,7 @@ export const SearchInput = ({
   appearance = 'plain',
   className,
   inputClassName,
+  containerClassName,
   ...props
 }: SearchInputProps) => {
   const searchIcon = (
@@ -106,7 +107,10 @@ export const SearchInput = ({
       ref={ref}
       prefix={searchIcon}
       className={className}
-      containerClassName={containerVariants({ appearance })}
+      containerClassName={cn(
+        containerVariants({ appearance }),
+        containerClassName,
+      )}
       inputClassName={cn(inputVariants({ appearance }), inputClassName)}
       {...props}
     />
