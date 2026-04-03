@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import {
   Select,
   SelectContent,
+  SelectEmptyState,
   SelectItem,
   SelectItemText,
   SelectList,
@@ -467,5 +468,129 @@ describe('SelectSearch', () => {
     expect(screen.getByText('Option 1')).toBeInTheDocument();
     expect(screen.getByText('Option 2')).toBeInTheDocument();
     expect(screen.getByText('Option 3')).toBeInTheDocument();
+  });
+});
+
+describe('SelectEmptyState', () => {
+  it('renders title and description when search yields no results', () => {
+    render(
+      <Select items={options}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+          <SelectEmptyState
+            title='No results found'
+            description='Try a different query'
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'zzz' } });
+
+    expect(screen.getByText('No results found')).toBeInTheDocument();
+    expect(screen.getByText('Try a different query')).toBeInTheDocument();
+  });
+});
+
+describe('Disabled items', () => {
+  const optionsWithDisabled = [
+    { value: 'opt1', label: 'Option 1' },
+    { value: 'opt2', label: 'Option 2', disabled: true },
+    { value: 'opt3', label: 'Option 3' },
+  ];
+
+  it('renders disabled items with data-disabled attribute', () => {
+    render(
+      <Select items={optionsWithDisabled}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const disabledItem = screen
+      .getByText('Option 2')
+      .closest('[data-slot="select-item"]');
+    expect(disabledItem).toHaveAttribute('data-disabled', '');
+  });
+
+  it('does not call onValueChange when clicking a disabled item', () => {
+    const handleChange = vi.fn();
+
+    render(
+      <Select items={optionsWithDisabled} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Option 2'));
+
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
+  it('still allows selecting non-disabled items', () => {
+    const handleChange = vi.fn();
+
+    render(
+      <Select items={optionsWithDisabled} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Option 3'));
+
+    expect(handleChange).toHaveBeenCalledWith('opt3');
   });
 });
