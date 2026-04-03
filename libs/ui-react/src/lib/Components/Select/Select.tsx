@@ -182,7 +182,7 @@ SelectTrigger.displayName = 'SelectTrigger';
 
 const contentStyles = cva(
   [
-    'group/select-content relative z-select flex max-h-(--available-height) flex-col overflow-hidden',
+    'group/select-content relative z-select flex max-h-(--available-height) w-(--anchor-width) flex-col overflow-hidden',
     'rounded-sm bg-surface',
     'shadow-md',
   ],
@@ -290,7 +290,7 @@ const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
 SelectLabel.displayName = 'SelectLabel';
 
 const itemStyles = cn(
-  'relative flex w-full cursor-pointer items-center gap-12 bg-base-transparent select-none',
+  'flex w-full min-w-0 cursor-pointer items-center gap-12 bg-base-transparent select-none',
   'rounded-sm p-8',
   'body-2 text-base',
   'outline-hidden',
@@ -312,8 +312,8 @@ const SelectItem = ({
     {...props}
   >
     {children}
-    <Combobox.ItemIndicator className='absolute right-8 flex size-24 items-center justify-center'>
-      <Check size={24} className='ms-8 shrink-0 text-active' />
+    <Combobox.ItemIndicator className='ml-auto flex shrink-0 items-center justify-center'>
+      <Check size={24} className='shrink-0 text-active' />
     </Combobox.ItemIndicator>
   </Combobox.Item>
 );
