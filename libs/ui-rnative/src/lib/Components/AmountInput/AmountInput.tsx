@@ -27,7 +27,8 @@ export const AmountInput = ({
   style,
   currencyText,
   currencyPosition = 'left',
-  editable: editableProp = true,
+  editable,
+  disabled: disabledProp = false,
   maxIntegerLength = 9,
   maxDecimalLength = 9,
   allowDecimals = true,
@@ -43,7 +44,7 @@ export const AmountInput = ({
   const [isFocused, setIsFocused] = useState(false);
   const disabled = useDisabledContext({
     consumerName: 'AmountInput',
-    mergeWith: { disabled: !editableProp },
+    mergeWith: { disabled: disabledProp },
   });
 
   const translateX = useSharedValue(0);
@@ -146,7 +147,7 @@ export const AmountInput = ({
       <TextInput
         ref={inputRef}
         keyboardType='decimal-pad'
-        editable={!disabled}
+        editable={editable !== false && !disabled}
         value={inputValue}
         onChangeText={handleChangeText}
         onFocus={(e) => {

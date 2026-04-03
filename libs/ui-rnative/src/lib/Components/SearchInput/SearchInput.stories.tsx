@@ -19,24 +19,6 @@ const meta: Meta<typeof SearchInput> = {
       },
     },
   },
-  argTypes: {
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text when input is empty',
-    },
-    errorMessage: {
-      control: 'text',
-      description: 'Error message to display below input',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-    hideClearButton: {
-      control: 'boolean',
-      description: 'Hide the clear button',
-    },
-  },
 };
 
 export default meta;
@@ -105,7 +87,7 @@ export const DisabledSearchInput: Story = {
   ),
   args: {
     placeholder: 'Search products',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
   },
 };
