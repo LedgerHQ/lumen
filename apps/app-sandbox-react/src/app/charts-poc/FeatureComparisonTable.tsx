@@ -197,82 +197,53 @@ const FEATURE_MATRIX: FeatureEntry[] = [
   },
 ];
 
-const thStyle: React.CSSProperties = {
-  padding: '12px 16px',
-  textAlign: 'left',
-  fontSize: 13,
-  fontWeight: 700,
-  color: 'var(--text-base)',
-};
-
-const tdStyle: React.CSSProperties = {
-  padding: '10px 16px',
-  fontSize: 13,
-  color: 'var(--text-muted)',
-};
-
-const detailCellStyle: React.CSSProperties = {
-  padding: '8px 16px 12px',
-  fontSize: 12,
-  lineHeight: 1.6,
-  color: 'var(--text-muted)',
-  verticalAlign: 'top',
-};
-
-const chevronStyle = (open: boolean): React.CSSProperties => ({
-  display: 'inline-block',
-  transition: 'transform 0.2s',
-  transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
-  marginRight: 8,
-  fontSize: 10,
-  color: 'var(--text-muted)',
-});
-
 const FeatureRow = ({ row, index }: { row: FeatureEntry; index: number }) => {
   const [open, setOpen] = useState(false);
-  const bg =
-    index % 2 === 0 ? 'var(--background-surface)' : 'var(--background-base)';
 
   return (
     <>
       <tr
         onClick={() => setOpen((v) => !v)}
-        style={{
-          borderTop: '1px solid var(--border-muted)',
-          backgroundColor: bg,
-          cursor: 'pointer',
-          userSelect: 'none',
-        }}
+        className={`border-t border-muted cursor-pointer select-none ${
+          index % 2 === 0 ? 'bg-surface' : 'bg-base'
+        }`}
       >
-        <td style={{ ...tdStyle, fontWeight: 600 }}>
-          <span style={chevronStyle(open)}>&#9654;</span>
+        <td className='px-16 py-10 body-3 text-muted font-semibold'>
+          <span
+            className={`inline-block mr-8 body-4 text-muted transition-transform duration-200 ${
+              open ? 'rotate-90' : 'rotate-0'
+            }`}
+          >
+            &#9654;
+          </span>
           {row.feature}
         </td>
-        <td style={tdStyle}>{row.recharts}</td>
-        <td style={tdStyle}>{row.victory}</td>
-        <td style={tdStyle}>{row.visx}</td>
-        <td style={tdStyle}>{row.d3}</td>
+        <td className='px-16 py-10 body-3 text-muted'>{row.recharts}</td>
+        <td className='px-16 py-10 body-3 text-muted'>{row.victory}</td>
+        <td className='px-16 py-10 body-3 text-muted'>{row.visx}</td>
+        <td className='px-16 py-10 body-3 text-muted'>{row.d3}</td>
       </tr>
       {open && (
         <tr
-          style={{
-            backgroundColor: bg,
-            borderTop: '1px dashed var(--border-muted)',
-          }}
+          className={`border-t border-dashed border-muted ${
+            index % 2 === 0 ? 'bg-surface' : 'bg-base'
+          }`}
         >
-          <td
-            style={{
-              ...detailCellStyle,
-              fontWeight: 600,
-              color: 'var(--text-base)',
-            }}
-          >
+          <td className='px-16 pt-8 pb-12 body-4 leading-relaxed text-base font-semibold align-top'>
             Details
           </td>
-          <td style={detailCellStyle}>{row.details.recharts}</td>
-          <td style={detailCellStyle}>{row.details.victory}</td>
-          <td style={detailCellStyle}>{row.details.visx}</td>
-          <td style={detailCellStyle}>{row.details.d3}</td>
+          <td className='px-16 pt-8 pb-12 body-4 leading-relaxed text-muted align-top'>
+            {row.details.recharts}
+          </td>
+          <td className='px-16 pt-8 pb-12 body-4 leading-relaxed text-muted align-top'>
+            {row.details.victory}
+          </td>
+          <td className='px-16 pt-8 pb-12 body-4 leading-relaxed text-muted align-top'>
+            {row.details.visx}
+          </td>
+          <td className='px-16 pt-8 pb-12 body-4 leading-relaxed text-muted align-top'>
+            {row.details.d3}
+          </td>
         </tr>
       )}
     </>
@@ -281,28 +252,29 @@ const FeatureRow = ({ row, index }: { row: FeatureEntry; index: number }) => {
 
 export const FeatureComparisonTable = () => (
   <>
-    <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>
-      Feature Comparison
-    </h2>
-    <p style={{ color: 'var(--text-muted)', marginBottom: 16, fontSize: 13 }}>
+    <h2 className='heading-3 mb-16'>Feature Comparison</h2>
+    <p className='text-muted mb-16 body-3'>
       Click any row to expand detailed notes for each library.
     </p>
-    <div
-      style={{
-        borderRadius: 12,
-        overflow: 'hidden',
-        border: '1px solid var(--border-muted)',
-        maxWidth: 960,
-      }}
-    >
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <div className='rounded-lg overflow-hidden border border-muted max-w-[960px]'>
+      <table className='w-full border-collapse'>
         <thead>
-          <tr style={{ backgroundColor: 'var(--background-muted)' }}>
-            <th style={thStyle}>Feature</th>
-            <th style={thStyle}>Recharts v3</th>
-            <th style={thStyle}>Victory v37</th>
-            <th style={thStyle}>visx v3</th>
-            <th style={thStyle}>D3.js v7</th>
+          <tr className='bg-muted'>
+            <th className='px-16 py-12 text-left body-3 font-bold text-base'>
+              Feature
+            </th>
+            <th className='px-16 py-12 text-left body-3 font-bold text-base'>
+              Recharts v3
+            </th>
+            <th className='px-16 py-12 text-left body-3 font-bold text-base'>
+              Victory v37
+            </th>
+            <th className='px-16 py-12 text-left body-3 font-bold text-base'>
+              visx v3
+            </th>
+            <th className='px-16 py-12 text-left body-3 font-bold text-base'>
+              D3.js v7
+            </th>
           </tr>
         </thead>
         <tbody>

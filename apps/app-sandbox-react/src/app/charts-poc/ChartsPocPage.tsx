@@ -1,3 +1,10 @@
+import {
+  IconButton,
+  SegmentedControl,
+  SegmentedControlButton,
+  Switch,
+} from '@ledgerhq/lumen-ui-react';
+import { Moon, Sun } from '@ledgerhq/lumen-ui-react/symbols';
 import { useState, useMemo, useCallback } from 'react';
 import { CHART_HEIGHT, CHART_WIDTH, LIB_LABELS } from './constants';
 import type { LibKey } from './constants';
@@ -16,7 +23,15 @@ import type { DataPoint, LineChartProps } from './types';
 import { LineChartVictory } from './victory';
 import { LineChartVisx } from './visx';
 
-export const ChartsPocPage = () => {
+type ChartsPocPageProps = {
+  colorScheme: 'light' | 'dark';
+  onColorSchemeChange: (scheme: 'light' | 'dark') => void;
+};
+
+export const ChartsPocPage = ({
+  colorScheme,
+  onColorSchemeChange,
+}: ChartsPocPageProps) => {
   const [activeLib, setActiveLib] = useState<LibKey>('recharts');
 
   const [walletGradient, setWalletGradient] = useState(false);
@@ -80,54 +95,41 @@ export const ChartsPocPage = () => {
     d3: LineChartD3,
   }[activeLib];
 
+  const isDark = colorScheme === 'dark';
+
   return (
-    <div
-      className='bg-[#f00]'
-      style={{
-        minHeight: '100vh',
-        backgroundColor: 'var(--background-base)',
-        color: 'var(--text-base)',
-        padding: 32,
-        fontFamily: 'Inter, system-ui, sans-serif',
-      }}
-    >
-      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>
-        Charts Library POC
-      </h1>
-      <p
-        style={{ color: 'var(--text-muted)', marginBottom: 32, maxWidth: 700 }}
-      >
+    <div className='min-h-screen bg-base text-base p-32'>
+      {/* Header row */}
+      <div className='flex items-center justify-between mb-8'>
+        <h1 className='heading-2'>Charts Library POC</h1>
+        <IconButton
+          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          icon={isDark ? Sun : Moon}
+          appearance='gray'
+          size='md'
+          tooltip
+          onClick={() => onColorSchemeChange(isDark ? 'light' : 'dark')}
+        />
+      </div>
+      <p className='text-muted mb-32 max-w-[700px] body-2'>
         Comparing Recharts, Victory, visx, and D3.js with a shared abstraction
         API. All charts render identical data through the same{' '}
-        <code>LineChartProps</code> interface.
+        <code className='text-accent'>LineChartProps</code> interface.
       </p>
 
       {/* Library tabs */}
-      <div style={{ display: 'flex', gap: 0, marginBottom: 24 }}>
-        {(Object.keys(LIB_LABELS) as LibKey[]).map((key) => (
-          <button
-            key={key}
-            onClick={() => setActiveLib(key)}
-            style={{
-              padding: '10px 24px',
-              fontSize: 14,
-              fontWeight: activeLib === key ? 700 : 400,
-              backgroundColor:
-                activeLib === key ? 'var(--background-surface)' : 'transparent',
-              color:
-                activeLib === key ? 'var(--text-base)' : 'var(--text-muted)',
-              border: '1px solid var(--border-muted)',
-              borderBottom:
-                activeLib === key
-                  ? '2px solid var(--text-base)'
-                  : '1px solid var(--border-muted)',
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}
-          >
-            {LIB_LABELS[key]}
-          </button>
-        ))}
+      <div className='mb-24'>
+        <SegmentedControl
+          selectedValue={activeLib}
+          onSelectedChange={(v) => setActiveLib(v as LibKey)}
+          tabLayout='fit'
+        >
+          {(Object.keys(LIB_LABELS) as LibKey[]).map((key) => (
+            <SegmentedControlButton key={key} value={key}>
+              {LIB_LABELS[key]}
+            </SegmentedControlButton>
+          ))}
+        </SegmentedControl>
       </div>
 
       <WalletControls
@@ -150,29 +152,15 @@ export const ChartsPocPage = () => {
 
       {/* Chart */}
       <div
-        style={{
-          backgroundColor: '#1A1A2E',
-          borderRadius: 12,
-          padding: '24px 16px 16px',
-          marginBottom: 48,
-          maxWidth: CHART_WIDTH + 32,
-        }}
+        className='rounded-lg pt-24 px-16 pb-16 mb-48'
+        style={{ backgroundColor: '#1A1A2E', maxWidth: CHART_WIDTH + 32 }}
       >
-        <div
-          style={{
-            color: '#fff',
-            marginBottom: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-            minHeight: 64,
-          }}
-        >
-          <span style={{ fontSize: 11, opacity: 0.6 }}>
+        <div className='flex flex-col gap-4 mb-12 min-h-64 text-white'>
+          <span className='body-4 opacity-60'>
             Bitcoin
             {hoveredPoint ? ` · ${formatDate(hoveredPoint.timestamp)}` : ''}
           </span>
-          <span style={{ fontSize: 24, fontWeight: 700 }}>
+          <span className='heading-2'>
             {formatCurrency(
               hoveredPoint?.value ??
                 lines[0]?.data[lines[0].data.length - 1]?.value ??
@@ -180,12 +168,12 @@ export const ChartsPocPage = () => {
             )}
           </span>
           {!hoveredPoint && (
-            <span style={{ fontSize: 13, color: '#4ADE80' }}>
+            <span className='body-3' style={{ color: '#4ADE80' }}>
               +$134.43 12.31% &middot; 1 day
             </span>
           )}
           {hoveredPoint && (
-            <span style={{ fontSize: 13, opacity: 0.5 }}>
+            <span className='body-3 opacity-50'>
               {new Date(hoveredPoint.timestamp).toLocaleDateString('en-US', {
                 weekday: 'short',
                 month: 'short',
@@ -198,15 +186,8 @@ export const ChartsPocPage = () => {
 
         <ChartComponent {...chartProps} />
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 4,
-            marginTop: 12,
-          }}
-        >
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>
+        <div className='flex justify-center gap-4 mt-12'>
+          <span className='body-4 text-white/50'>
             Rendered with <strong>{LIB_LABELS[activeLib]}</strong>
           </span>
         </div>
@@ -217,31 +198,17 @@ export const ChartsPocPage = () => {
   );
 };
 
-const Toggle = ({
+const SwitchControl = ({
   label,
-  checked,
+  selected,
   onChange,
 }: {
   label: string;
-  checked: boolean;
+  selected: boolean;
   onChange: (v: boolean) => void;
 }) => (
-  <label
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 6,
-      fontSize: 12,
-      cursor: 'pointer',
-      color: 'var(--text-base)',
-    }}
-  >
-    <input
-      type='checkbox'
-      checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
-      style={{ accentColor: 'var(--background-accent)' }}
-    />
+  <label className='flex items-center gap-8 body-4 cursor-pointer text-base'>
+    <Switch size='sm' selected={selected} onChange={onChange} />
     {label}
   </label>
 );
@@ -279,112 +246,66 @@ const WalletControls = ({
   dimAfterCursor: boolean;
   onDimAfterCursorChange: (v: boolean) => void;
 }) => (
-  <div
-    style={{
-      display: 'flex',
-      gap: 32,
-      marginBottom: 24,
-      flexWrap: 'wrap',
-      alignItems: 'flex-start',
-    }}
-  >
-    <fieldset
-      style={{
-        border: '1px solid var(--border-muted)',
-        borderRadius: 8,
-        padding: '12px 16px',
-      }}
-    >
-      <legend
-        style={{ fontSize: 12, color: 'var(--text-muted)', padding: '0 4px' }}
-      >
-        Line Style
-      </legend>
-      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        <Toggle
+  <div className='flex gap-32 mb-24 flex-wrap items-start'>
+    <fieldset className='border border-muted rounded-md px-16 py-12'>
+      <legend className='body-4 text-muted px-4'>Line Style</legend>
+      <div className='flex gap-16 flex-wrap'>
+        <SwitchControl
           label='Gradient fill'
-          checked={gradient}
+          selected={gradient}
           onChange={onGradientChange}
         />
-        <Toggle
+        <SwitchControl
           label='Dim after cursor'
-          checked={dimAfterCursor}
+          selected={dimAfterCursor}
           onChange={onDimAfterCursorChange}
         />
       </div>
     </fieldset>
 
-    <fieldset
-      style={{
-        border: '1px solid var(--border-muted)',
-        borderRadius: 8,
-        padding: '12px 16px',
-      }}
-    >
-      <legend
-        style={{ fontSize: 12, color: 'var(--text-muted)', padding: '0 4px' }}
-      >
-        Overlays
-      </legend>
-      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        <Toggle
+    <fieldset className='border border-muted rounded-md px-16 py-12'>
+      <legend className='body-4 text-muted px-4'>Overlays</legend>
+      <div className='flex gap-16 flex-wrap'>
+        <SwitchControl
           label='Hover cursor'
-          checked={showHoverCursor}
+          selected={showHoverCursor}
           onChange={onShowHoverCursorChange}
         />
-        <Toggle
+        <SwitchControl
           label='Cursor label'
-          checked={showCursorLabel}
+          selected={showCursorLabel}
           onChange={onShowCursorLabelChange}
         />
-        <Toggle
+        <SwitchControl
           label='Value labels'
-          checked={showValueLabels}
+          selected={showValueLabels}
           onChange={onShowValueLabelsChange}
         />
-        <Toggle
+        <SwitchControl
           label='Dot markers'
-          checked={showMarkers}
+          selected={showMarkers}
           onChange={onShowMarkersChange}
         />
       </div>
     </fieldset>
 
-    <fieldset
-      style={{
-        border: '1px solid var(--border-muted)',
-        borderRadius: 8,
-        padding: '12px 16px',
-      }}
-    >
-      <legend
-        style={{ fontSize: 12, color: 'var(--text-muted)', padding: '0 4px' }}
-      >
+    <fieldset className='border border-muted rounded-md px-16 py-12'>
+      <legend className='body-4 text-muted px-4'>
         Reference Lines ({refLineCount})
       </legend>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>0</span>
+      <div className='flex items-center gap-8'>
+        <span className='body-4 text-muted'>0</span>
         <input
           type='range'
           min={0}
           max={maxRefLines}
           value={refLineCount}
           onChange={(e) => onRefLineCountChange(Number(e.target.value))}
-          style={{ width: 120, accentColor: 'var(--background-accent)' }}
+          className='w-[120px] accent-accent'
         />
-        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-          {maxRefLines}
-        </span>
+        <span className='body-4 text-muted'>{maxRefLines}</span>
       </div>
-      <div
-        style={{
-          marginTop: 8,
-          display: 'flex',
-          gap: 12,
-          fontSize: 11,
-          color: 'var(--text-muted)',
-        }}
-      >
+      <div className='mt-8 flex gap-12 body-4 text-muted'>
         {walletReferenceLines.slice(0, refLineCount).map((rl, i) => (
           <span key={i} style={{ color: rl.color }}>
             {rl.style} @ {rl.label}
