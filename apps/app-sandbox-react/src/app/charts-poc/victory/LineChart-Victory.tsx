@@ -34,6 +34,7 @@ export const LineChartVictory = (props: LineChartProps) => {
     formatXLabel,
     formatYLabel,
     onPointHover,
+    onMarkerHover,
     className,
     referenceLines,
     markers,
@@ -159,18 +160,27 @@ export const LineChartVictory = (props: LineChartProps) => {
                 if (points.length > 0) {
                   setCursorX(points[0].x);
                   setCursorY(points[0].y);
-                }
-                if (onPointHover && points.length > 0) {
-                  onPointHover(
+                  onPointHover?.(
                     { timestamp: points[0].x, value: points[0].y },
                     lines[0]?.id ?? '',
                   );
+
+                  if (markers) {
+                    const totalRange = xMax - xMin;
+                    const hit = markers.find(
+                      (m) =>
+                        Math.abs(m.timestamp - points[0].x) <
+                        totalRange * 0.015,
+                    );
+                    onMarkerHover?.(hit ?? null);
+                  }
                 }
               }}
               onDeactivated={() => {
                 setCursorX(null);
                 setCursorY(null);
                 onPointHover?.(null, '');
+                onMarkerHover?.(null);
               }}
             />
           ) : undefined
@@ -362,16 +372,27 @@ export const LineChartVictory = (props: LineChartProps) => {
             data={markers.map((m) => ({
               x: m.timestamp,
               y: m.value,
-              fill: m.color ?? 'var(--text-base)',
+              _color: m.color ?? 'var(--text-base)',
+              _variant: m.variant ?? 'filled',
+              _radius: m.radius ?? 4,
             }))}
-            size={({ datum }: { datum: { fill: string } }) => {
-              const mk = markers.find((m) => m.color === datum.fill);
-              return mk?.radius ?? 4;
-            }}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            size={({ datum }: any) => datum?._radius ?? 4}
             style={{
               data: {
-                fill: ({ datum }: { datum: { fill: string } }) => datum.fill,
-                stroke: 'none',
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                fill: ({ datum }: any) =>
+                  datum?._variant === 'outlined'
+                    ? 'transparent'
+                    : (datum?._color ?? 'var(--text-base)'),
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                stroke: ({ datum }: any) =>
+                  datum?._variant === 'outlined'
+                    ? (datum?._color ?? 'var(--text-base)')
+                    : 'none',
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                strokeWidth: ({ datum }: any) =>
+                  datum?._variant === 'outlined' ? 2 : 0,
               },
             }}
           />

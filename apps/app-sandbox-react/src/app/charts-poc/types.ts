@@ -31,6 +31,10 @@ export type MarkerConfig = {
   value: number;
   color?: string;
   radius?: number;
+  /** @default 'filled' */
+  variant?: 'filled' | 'outlined';
+  /** Label shown on hover (e.g. "Buy", "Sell") */
+  label?: string;
 };
 
 export type LineChartProps = {
@@ -48,6 +52,7 @@ export type LineChartProps = {
   showCursorLabel?: boolean;
   dimAfterCursor?: boolean;
   onPointHover?: (point: DataPoint | null, lineId: string) => void;
+  onMarkerHover?: (marker: MarkerConfig | null) => void;
   className?: string;
   referenceLines?: ReferenceLineConfig[];
   valueLabels?: ValueLabelConfig[];

@@ -193,23 +193,33 @@ export const walletValueLabels: ValueLabelConfig[] = [
   { type: 'min', position: 'left' },
 ];
 
-const midIndex = Math.floor(walletBtcData.length * 0.4);
-const midPoint = walletBtcData[midIndex];
-
-export const walletMarkers: MarkerConfig[] = [
-  {
-    timestamp: btcMin.timestamp,
-    value: btcMin.value,
-    color: '#4ADE80',
-    radius: 5,
-  },
-  {
-    timestamp: midPoint.timestamp,
-    value: midPoint.value,
-    color: '#F472B6',
-    radius: 5,
-  },
+const MARKER_LABELS: { label: string; variant: 'filled' | 'outlined' }[] = [
+  { label: 'Buy', variant: 'filled' },
+  { label: 'Sell', variant: 'outlined' },
+  { label: 'Buy', variant: 'filled' },
+  { label: 'Swap', variant: 'outlined' },
+  { label: 'Sell', variant: 'outlined' },
+  { label: 'Buy', variant: 'filled' },
+  { label: 'Stake', variant: 'filled' },
+  { label: 'Sell', variant: 'outlined' },
+  { label: 'Buy', variant: 'filled' },
+  { label: 'Swap', variant: 'outlined' },
 ];
+
+export const walletMarkers: MarkerConfig[] = MARKER_LABELS.map(
+  ({ label, variant }, i) => {
+    const idx = Math.round(((i + 1) / 11) * (walletBtcData.length - 1));
+    const pt = walletBtcData[idx];
+    return {
+      timestamp: pt.timestamp,
+      value: pt.value,
+      color: '#E87A2C',
+      radius: variant === 'filled' ? 4 : 5,
+      variant,
+      label,
+    };
+  },
+);
 
 export const walletVariant: Pick<
   LineChartProps,

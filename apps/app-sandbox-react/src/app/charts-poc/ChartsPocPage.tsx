@@ -19,7 +19,7 @@ import {
   walletMarkers,
 } from './mockData';
 import { LineChartRecharts } from './recharts';
-import type { DataPoint, LineChartProps } from './types';
+import type { DataPoint, LineChartProps, MarkerConfig } from './types';
 import { LineChartVictory } from './victory';
 import { LineChartVisx } from './visx';
 
@@ -44,9 +44,14 @@ export const ChartsPocPage = ({
   const [walletShowCursorLabel, setWalletShowCursorLabel] = useState(true);
   const [walletDimAfterCursor, setWalletDimAfterCursor] = useState(true);
   const [hoveredPoint, setHoveredPoint] = useState<DataPoint | null>(null);
+  const [hoveredMarker, setHoveredMarker] = useState<MarkerConfig | null>(null);
 
   const handlePointHover = useCallback((point: DataPoint | null) => {
     setHoveredPoint(point);
+  }, []);
+
+  const handleMarkerHover = useCallback((marker: MarkerConfig | null) => {
+    setHoveredMarker(marker);
   }, []);
 
   const lines = useMemo(
@@ -67,6 +72,7 @@ export const ChartsPocPage = ({
       showCursorLabel: walletShowCursorLabel,
       dimAfterCursor: walletDimAfterCursor,
       onPointHover: walletShowHoverCursor ? handlePointHover : undefined,
+      onMarkerHover: handleMarkerHover,
       formatXLabel: formatDate,
       formatYLabel: formatCurrency,
       referenceLines:
@@ -85,6 +91,7 @@ export const ChartsPocPage = ({
       walletShowCursorLabel,
       walletDimAfterCursor,
       handlePointHover,
+      handleMarkerHover,
     ],
   );
 
@@ -160,21 +167,37 @@ export const ChartsPocPage = ({
             Bitcoin
             {hoveredPoint ? ` · ${formatDate(hoveredPoint.timestamp)}` : ''}
           </span>
-          <span className='heading-2'>
-            {formatCurrency(
-              hoveredPoint?.value ??
-                lines[0]?.data[lines[0].data.length - 1]?.value ??
-                0,
+          <div className='flex items-center gap-12'>
+            <span className='heading-2'>
+              {formatCurrency(
+                hoveredPoint?.value ??
+                  lines[0]?.data[lines[0].data.length - 1]?.value ??
+                  0,
+              )}
+            </span>
+            {hoveredMarker?.label && (
+              <span
+                className='body-3 font-semibold rounded-md px-8 py-4'
+                style={{
+                  backgroundColor: 'rgba(255,255,255,0.12)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: '#E87A2C',
+                }}
+              >
+                {hoveredMarker.label}
+              </span>
             )}
-          </span>
-          {!hoveredPoint && (
+          </div>
+          {!hoveredPoint && !hoveredMarker && (
             <span className='body-3' style={{ color: '#4ADE80' }}>
               +$134.43 12.31% &middot; 1 day
             </span>
           )}
-          {hoveredPoint && (
+          {(hoveredPoint || hoveredMarker) && (
             <span className='body-3 opacity-50'>
-              {new Date(hoveredPoint.timestamp).toLocaleDateString('en-US', {
+              {new Date(
+                (hoveredMarker ?? hoveredPoint ?? { timestamp: 0 }).timestamp,
+              ).toLocaleDateString('en-US', {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric',

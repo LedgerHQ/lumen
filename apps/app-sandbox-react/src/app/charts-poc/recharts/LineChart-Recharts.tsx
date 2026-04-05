@@ -107,6 +107,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
     formatXLabel,
     formatYLabel,
     onPointHover,
+    onMarkerHover,
     className,
     referenceLines,
     markers,
@@ -158,15 +159,29 @@ export const LineChartRecharts = (props: LineChartProps) => {
             lineId,
           );
         }
+
+        if (markers && entry) {
+          const hit = markers.find((m) => {
+            const timeDiff = Math.abs(m.timestamp - entry.timestamp);
+            const totalRange =
+              mergedData[mergedData.length - 1].timestamp -
+              mergedData[0].timestamp;
+            return timeDiff < totalRange * 0.015;
+          });
+          onMarkerHover?.(hit ?? null);
+        } else {
+          onMarkerHover?.(null);
+        }
       }
     },
-    [onPointHover, mergedData, lines],
+    [onPointHover, onMarkerHover, mergedData, lines, markers],
   );
 
   const handleMouseLeave = useCallback(() => {
     setActiveIndex(null);
     onPointHover?.(null, '');
-  }, [onPointHover]);
+    onMarkerHover?.(null);
+  }, [onPointHover, onMarkerHover]);
 
   const cursorFraction = useMemo((): number | null => {
     if (!dimAfterCursor || activeIndex == null || mergedData.length < 2)
@@ -415,16 +430,22 @@ export const LineChartRecharts = (props: LineChartProps) => {
               );
             })}
 
-          {markers?.map((m, i) => (
-            <ReferenceDot
-              key={`marker-${i}`}
-              x={m.timestamp}
-              y={m.value}
-              r={m.radius ?? 4}
-              fill={m.color ?? 'var(--text-base)'}
-              stroke='none'
-            />
-          ))}
+          {markers?.map((m, i) => {
+            const isOutlined = m.variant === 'outlined';
+            return (
+              <ReferenceDot
+                key={`marker-${i}`}
+                x={m.timestamp}
+                y={m.value}
+                r={m.radius ?? 4}
+                fill={
+                  isOutlined ? 'transparent' : (m.color ?? 'var(--text-base)')
+                }
+                stroke={isOutlined ? (m.color ?? 'var(--text-base)') : 'none'}
+                strokeWidth={isOutlined ? 2 : 0}
+              />
+            );
+          })}
         </ComposedChart>
       </ResponsiveContainer>
     </div>

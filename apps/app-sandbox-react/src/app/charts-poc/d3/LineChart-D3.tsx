@@ -28,6 +28,7 @@ export const LineChartD3 = (props: LineChartProps) => {
     formatXLabel,
     formatYLabel,
     onPointHover,
+    onMarkerHover,
     className,
     referenceLines,
     markers,
@@ -145,14 +146,42 @@ export const LineChartD3 = (props: LineChartProps) => {
         });
         onPointHover?.(primary, entries[0].lineId);
       }
+
+      const mouseY = event.clientY - rect.top - margin.top;
+      const HIT_RADIUS = 12;
+      let hitMarker: typeof markers extends (infer M)[] | undefined
+        ? M | null
+        : never = null;
+      if (markers) {
+        for (const m of markers) {
+          const mx = xScale(new Date(m.timestamp));
+          const my = yScale(m.value);
+          const dist = Math.sqrt((mouseX - mx) ** 2 + (mouseY - my) ** 2);
+          if (dist <= HIT_RADIUS) {
+            hitMarker = m;
+            break;
+          }
+        }
+      }
+      onMarkerHover?.(hitMarker);
     },
-    [xScale, yScale, lines, resolvedColors, onPointHover, margin],
+    [
+      xScale,
+      yScale,
+      lines,
+      resolvedColors,
+      onPointHover,
+      onMarkerHover,
+      margin,
+      markers,
+    ],
   );
 
   const handleMouseLeave = useCallback(() => {
     setTooltip(null);
     onPointHover?.(null, '');
-  }, [onPointHover]);
+    onMarkerHover?.(null);
+  }, [onPointHover, onMarkerHover]);
 
   if (width < 10 || height < 10) return null;
 
@@ -358,18 +387,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             );
           })}
 
-          {/* Markers */}
-          {markers?.map((m, i) => (
-            <circle
-              key={`marker-${i}`}
-              cx={xScale(new Date(m.timestamp))}
-              cy={yScale(m.value)}
-              r={m.radius ?? 4}
-              fill={m.color ?? 'var(--text-base)'}
-              stroke='none'
-            />
-          ))}
-
           {/* Cursor line */}
           {showCursor && tooltip && (
             <line
@@ -471,6 +488,23 @@ export const LineChartD3 = (props: LineChartProps) => {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           />
+
+          {/* Markers (pointerEvents:none — hover detected via proximity in handleMouseMove) */}
+          {markers?.map((m, i) => {
+            const isOutlined = m.variant === 'outlined';
+            return (
+              <circle
+                key={`marker-${i}`}
+                cx={xScale(new Date(m.timestamp))}
+                cy={yScale(m.value)}
+                r={m.radius ?? 4}
+                fill={isOutlined ? 'transparent' : (m.color ?? '#E87A2C')}
+                stroke={isOutlined ? (m.color ?? '#E87A2C') : 'none'}
+                strokeWidth={isOutlined ? 2 : 0}
+                pointerEvents='none'
+              />
+            );
+          })}
         </g>
       </svg>
 
