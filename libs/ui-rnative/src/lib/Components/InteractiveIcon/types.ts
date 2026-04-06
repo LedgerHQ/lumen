@@ -1,7 +1,7 @@
-import { PropsWithChildren } from 'react';
+import { ComponentType } from 'react';
 import { Insets } from 'react-native';
 import { StyledPressableProps } from '../../../styles';
-import { IconSize } from '../Icon';
+import { IconProps, IconSize } from '../Icon';
 
 export const HIT_SLOP_MAP: Partial<
   Record<HitSlopType, Partial<Record<IconSize, Insets>>>
@@ -61,11 +61,19 @@ export type InteractiveIconProps = {
    */
   appearance?: 'base' | 'muted' | 'white';
   /**
+   * The icon component to render.
+   */
+  icon: ComponentType<Omit<IconProps, 'children'>>;
+  /**
+   * The size of the icon in pixels.
+   * @default 20
+   */
+  size?: IconSize;
+  /**
    * Preset for the touchable area. Ignored if `hitSlop` is passed explicitly.
-   * Automatically applies insets based on the child's icon size.
+   * Automatically applies insets based on the icon size.
    *
    * @default 'comfortable'
    */
   hitSlopType?: HitSlopType;
-} & PropsWithChildren &
-  Omit<StyledPressableProps, 'children' | 'disabled'>;
+} & Omit<StyledPressableProps, 'children' | 'disabled'>;
