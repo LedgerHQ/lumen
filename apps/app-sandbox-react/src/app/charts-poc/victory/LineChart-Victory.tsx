@@ -12,10 +12,14 @@ import {
 import { getVictoryInterpolation } from '../chartCurves';
 import type { LineChartProps } from '../types';
 import {
+  getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
   getReferenceLineStrokeWidth,
+  GRID_LINE_STROKE,
+  GRID_LINE_STROKE_DASHARRAY,
+  GRID_LINE_STROKE_WIDTH,
   REFERENCE_LINE_STROKE,
   computeYDomain,
   computeXTimeDomainMs,
@@ -23,20 +27,21 @@ import {
   effectiveShowXAxis,
   effectiveShowYAxis,
   lineDataRuns,
+  resolveGridVisibility,
+  resolveSeries,
 } from '../utils';
 
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
 
 export const LineChartVictory = (props: LineChartProps) => {
+  const lines = resolveSeries(props);
   const {
-    lines,
     width,
     height,
-    showGrid = true,
+    enableScrubbing = true,
     showTooltip = true,
     showCursor = true,
     showCursorLabel = false,
-    dimAfterCursor = false,
     formatXLabel,
     formatYLabel,
     onPointHover,
@@ -52,6 +57,12 @@ export const LineChartVictory = (props: LineChartProps) => {
     xAxis: xAxisConfig,
     yAxis: yAxisConfig,
   } = props;
+
+  const showTooltipEff = showTooltip && enableScrubbing;
+  const showCursorEff = showCursor && enableScrubbing;
+  const showCursorLabelEff = showCursorLabel && enableScrubbing;
+  const dimAfterCursorEff = enableScrubbing;
+  const gridVisibility = resolveGridVisibility(props);
 
   const gradientId = useId();
   const lastActiveIndexRef = useRef<number | null>(null);
@@ -73,8 +84,14 @@ export const LineChartVictory = (props: LineChartProps) => {
     () =>
       lines.map((line) => ({
         id: line.id,
+        label: getSeriesLabel(line),
         runs: lineDataRuns(line.data, line.connectNulls).map((run) =>
-          run.map((pt) => ({ x: pt.timestamp, y: pt.value })),
+          run.map((pt) => ({
+            x: pt.timestamp,
+            y: pt.value,
+            lineId: line.id,
+            lineLabel: getSeriesLabel(line),
+          })),
         ),
         color: resolvedColors[line.id],
         width: line.width ?? 2,
@@ -119,12 +136,12 @@ export const LineChartVictory = (props: LineChartProps) => {
   const innerHeight = height - padding.top - padding.bottom;
 
   const isDimming =
-    dimAfterCursor && cursorX != null && xMax > xMin && innerWidth > 0;
+    dimAfterCursorEff && cursorX != null && xMax > xMin && innerWidth > 0;
 
   let clipBeforeW = 0;
   let clipAfterX = 0;
   let clipAfterW = 0;
-  if (dimAfterCursor && cursorX != null && xMax > xMin && innerWidth > 0) {
+  if (dimAfterCursorEff && cursorX != null && xMax > xMin && innerWidth > 0) {
     const t = (cursorX - xMin) / (xMax - xMin);
     const clampedT = Math.min(1, Math.max(0, t));
     const cursorClipPx = padding.left + clampedT * innerWidth;
@@ -133,24 +150,32 @@ export const LineChartVictory = (props: LineChartProps) => {
     clipAfterW = Math.max(0, width - padding.right - cursorClipPx);
   }
 
-  const gridStyle = showGrid
+  const gridStyleX = gridVisibility.x
     ? {
-        stroke: 'var(--border-muted)',
-        strokeWidth: 0.5,
-        strokeDasharray: '4 4',
+        stroke: GRID_LINE_STROKE,
+        strokeWidth: GRID_LINE_STROKE_WIDTH,
+        strokeDasharray: GRID_LINE_STROKE_DASHARRAY,
+      }
+    : { stroke: 'transparent' };
+
+  const gridStyleY = gridVisibility.y
+    ? {
+        stroke: GRID_LINE_STROKE,
+        strokeWidth: GRID_LINE_STROKE_WIDTH,
+        strokeDasharray: GRID_LINE_STROKE_DASHARRAY,
       }
     : { stroke: 'transparent' };
 
   const axisStyle = {
     axis: { stroke: 'var(--border-muted)' },
     tickLabels: { fontSize: 11, fill: 'var(--text-muted)', padding: 5 },
-    grid: gridStyle,
+    grid: gridStyleX,
   };
 
   const dependentAxisStyle = {
     axis: { stroke: 'transparent' },
     tickLabels: { fontSize: 11, fill: 'var(--text-muted)', padding: 5 },
-    grid: gridStyle,
+    grid: gridStyleY,
   };
 
   const clipBeforeId = `${gradientId}-clip-before`;
@@ -200,11 +225,15 @@ export const LineChartVictory = (props: LineChartProps) => {
           y: yDomain,
         }}
         containerComponent={
-          showTooltip || showCursor ? (
+          showTooltipEff || showCursorEff ? (
             <VictoryVoronoiContainer
               voronoiDimension='x'
-              labels={({ datum }: { datum: { x: number; y: number } }) => {
-                if (!showTooltip) return ' ';
+              labels={({
+                datum,
+              }: {
+                datum: { x: number; y: number; lineLabel?: string };
+              }) => {
+                if (!showTooltipEff) return ' ';
                 const yLabel =
                   datum.y == null || Number.isNaN(datum.y)
                     ? '—'
@@ -214,10 +243,10 @@ export const LineChartVictory = (props: LineChartProps) => {
                 const xLabel = formatXLabel
                   ? formatXLabel(datum.x)
                   : String(datum.x);
-                return `${xLabel}\n${yLabel}`;
+                return `${datum.lineLabel ?? 'Series'}\n${xLabel}\n${yLabel}`;
               }}
               labelComponent={
-                showTooltip ? (
+                showTooltipEff ? (
                   <VictoryTooltip
                     cornerRadius={8}
                     flyoutStyle={{
@@ -579,7 +608,7 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         )}
 
-        {showCursor && cursorX != null && (
+        {showCursorEff && cursorX != null && (
           <VictoryLine
             animate={false}
             style={{
@@ -596,13 +625,17 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         )}
 
-        {showCursorLabel && cursorX != null && cursorY != null && (
+        {showCursorLabelEff && cursorX != null && cursorY != null && (
           <VictoryScatter
             animate={false}
             data={[{ x: cursorX, y: cursorY }]}
             size={0}
             style={{ data: { fill: 'transparent' } }}
-            labels={[formatYLabel ? formatYLabel(cursorY) : String(cursorY)]}
+            labels={[
+              `${lines[0] ? getSeriesLabel(lines[0]) : 'Series'}: ${
+                formatYLabel ? formatYLabel(cursorY) : String(cursorY)
+              }`,
+            ]}
             labelComponent={
               <VictoryLabel
                 dx={12}

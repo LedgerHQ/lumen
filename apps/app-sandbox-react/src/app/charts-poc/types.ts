@@ -14,6 +14,8 @@ export type DataPoint = {
 
 export type LineConfig = {
   id: string;
+  /** Human-friendly series label (defaults to `id` when omitted). */
+  label?: string;
   data: DataPoint[];
   color: string;
   width?: number;
@@ -66,13 +68,29 @@ export type MarkerConfig = {
 /** Per-axis options. Omit `show` or set `show: true` to display the axis (default). */
 export type ChartAxisConfig = {
   show?: boolean;
+  /** Controls grid lines for this axis (same style as other axis). */
+  showGrid?: boolean;
   /** x: [minTs, maxTs] ms; y: [min, max] in value space */
   domain?: [number, number];
   tickCount?: number;
 };
 
+/** Grid visibility. `true` shows both axes; object allows per-axis control. */
+export type ChartGridConfig =
+  | boolean
+  | {
+      x?: boolean;
+      y?: boolean;
+    };
+
 export type LineChartProps = {
-  lines: LineConfig[];
+  /**
+   * Primary API used in this POC. Multiple series are supported by default.
+   * Prefer `series` when using Coinbase-like naming.
+   */
+  lines?: LineConfig[];
+  /** Coinbase-like alias for `lines` (takes precedence when provided). */
+  series?: LineConfig[];
   width: number;
   height: number;
   /** Merged with defaults per chart; unspecified sides keep library defaults. */
@@ -86,11 +104,16 @@ export type LineChartProps = {
   yAxis?: ChartAxisConfig;
   formatXLabel?: (timestamp: number) => string;
   formatYLabel?: (value: number) => string;
-  showGrid?: boolean;
+  /**
+   * @deprecated Prefer `xAxis.showGrid` / `yAxis.showGrid`.
+   * Kept as backward-compatible fallback.
+   */
+  showGrid?: ChartGridConfig;
+  /** Coinbase-like interaction switch for hover/cursor/tooltip scrubbing. */
+  enableScrubbing?: boolean;
   showTooltip?: boolean;
   showCursor?: boolean;
   showCursorLabel?: boolean;
-  dimAfterCursor?: boolean;
   onPointHover?: (point: DataPoint | null, lineId: string) => void;
   onMarkerHover?: (marker: MarkerConfig | null) => void;
   /**

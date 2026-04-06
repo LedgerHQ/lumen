@@ -4,6 +4,7 @@ import { useMemo, useCallback, useId, useState, useRef } from 'react';
 import { getD3Curve } from '../chartCurves';
 import type { LineChartProps, DataPoint } from '../types';
 import {
+  getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
@@ -16,20 +17,21 @@ import {
   effectiveShowYAxis,
   lineDataRuns,
   nearestDefinedPointByTime,
+  resolveGridVisibility,
+  resolveSeries,
 } from '../utils';
 
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
 
 export const LineChartD3 = (props: LineChartProps) => {
+  const lines = resolveSeries(props);
   const {
-    lines,
     width,
     height,
-    showGrid = true,
+    enableScrubbing = true,
     showTooltip: showTooltipProp = true,
     showCursor = true,
     showCursorLabel = false,
-    dimAfterCursor = false,
     formatXLabel,
     formatYLabel,
     onPointHover,
@@ -46,6 +48,12 @@ export const LineChartD3 = (props: LineChartProps) => {
     yAxis: yAxisConfig,
   } = props;
 
+  const showTooltipEff = showTooltipProp && enableScrubbing;
+  const showCursorEff = showCursor && enableScrubbing;
+  const showCursorLabelEff = showCursorLabel && enableScrubbing;
+  const dimAfterCursorEff = enableScrubbing;
+  const gridVisibility = resolveGridVisibility(props);
+
   const uid = useId();
   const svgRef = useRef<SVGSVGElement>(null);
   const lastSnapTsRef = useRef<number | null>(null);
@@ -55,7 +63,12 @@ export const LineChartD3 = (props: LineChartProps) => {
   const showYAxisEff = effectiveShowYAxis(props);
 
   const [tooltip, setTooltip] = useState<{
-    entries: Array<{ lineId: string; point: DataPoint; color: string }>;
+    entries: Array<{
+      lineId: string;
+      lineLabel: string;
+      point: DataPoint;
+      color: string;
+    }>;
     left: number;
     top: number;
   } | null>(null);
@@ -170,6 +183,7 @@ export const LineChartD3 = (props: LineChartProps) => {
 
         entries.push({
           lineId: l.id,
+          lineLabel: getSeriesLabel(l),
           point: closest,
           color: resolvedColors[l.id],
         });
@@ -247,7 +261,7 @@ export const LineChartD3 = (props: LineChartProps) => {
   }, [onPointHover, onMarkerHover, onActiveIndexChange]);
 
   const cursorXPx =
-    dimAfterCursor && tooltip ? tooltip.left - margin.left : null;
+    dimAfterCursorEff && tooltip ? tooltip.left - margin.left : null;
 
   const a11yLive =
     tooltip?.entries[0] && lines[0] && getPointA11yLabel
@@ -302,32 +316,34 @@ export const LineChartD3 = (props: LineChartProps) => {
             )}
           </defs>
 
-          {showGrid && (
+          {(gridVisibility.x || gridVisibility.y) && (
             <>
-              {yTicks.map((tick) => (
-                <line
-                  key={`grid-y-${tick}`}
-                  x1={0}
-                  y1={yScale(tick)}
-                  x2={innerWidth}
-                  y2={yScale(tick)}
-                  stroke='var(--border-muted)'
-                  strokeOpacity={0.5}
-                  strokeDasharray='4 4'
-                />
-              ))}
-              {xTicks.map((tick) => (
-                <line
-                  key={`grid-x-${tick.getTime()}`}
-                  x1={xScale(tick)}
-                  y1={0}
-                  x2={xScale(tick)}
-                  y2={innerHeight}
-                  stroke='var(--border-muted)'
-                  strokeOpacity={0.5}
-                  strokeDasharray='4 4'
-                />
-              ))}
+              {gridVisibility.y &&
+                yTicks.map((tick) => (
+                  <line
+                    key={`grid-y-${tick}`}
+                    x1={0}
+                    y1={yScale(tick)}
+                    x2={innerWidth}
+                    y2={yScale(tick)}
+                    stroke='var(--border-muted)'
+                    strokeOpacity={0.5}
+                    strokeDasharray='4 4'
+                  />
+                ))}
+              {gridVisibility.x &&
+                xTicks.map((tick) => (
+                  <line
+                    key={`grid-x-${tick.getTime()}`}
+                    x1={xScale(tick)}
+                    y1={0}
+                    x2={xScale(tick)}
+                    y2={innerHeight}
+                    stroke='var(--border-muted)'
+                    strokeOpacity={0.5}
+                    strokeDasharray='4 4'
+                  />
+                ))}
             </>
           )}
 
@@ -473,7 +489,7 @@ export const LineChartD3 = (props: LineChartProps) => {
             );
           })}
 
-          {showCursor && tooltip && (
+          {showCursorEff && tooltip && (
             <line
               x1={tooltip.left - margin.left}
               y1={0}
@@ -491,7 +507,8 @@ export const LineChartD3 = (props: LineChartProps) => {
             const val = entry.point.value;
             if (val == null) return null;
             const cy = yScale(val);
-            const label = formatYLabel ? formatYLabel(val) : String(val);
+            const valueText = formatYLabel ? formatYLabel(val) : String(val);
+            const label = `${entry.lineLabel}: ${valueText}`;
             return (
               <g key={entry.lineId} pointerEvents='none'>
                 <circle
@@ -502,7 +519,7 @@ export const LineChartD3 = (props: LineChartProps) => {
                   stroke='var(--background-surface)'
                   strokeWidth={2}
                 />
-                {showCursorLabel && (
+                {showCursorLabelEff && (
                   <text
                     x={cx + 10}
                     y={cy + 4}
@@ -566,8 +583,8 @@ export const LineChartD3 = (props: LineChartProps) => {
             width={innerWidth}
             height={innerHeight}
             fill='transparent'
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onMouseMove={enableScrubbing ? handleMouseMove : undefined}
+            onMouseLeave={enableScrubbing ? handleMouseLeave : undefined}
           />
 
           {markers?.map((m, i) => {
@@ -588,7 +605,7 @@ export const LineChartD3 = (props: LineChartProps) => {
         </g>
       </svg>
 
-      {showTooltipProp && tooltip && (
+      {showTooltipEff && tooltip && (
         <div
           style={{
             position: 'absolute',
@@ -608,7 +625,7 @@ export const LineChartD3 = (props: LineChartProps) => {
           {tooltip.entries.map((entry) => (
             <div key={entry.lineId}>
               <span style={{ color: entry.color, fontWeight: 600 }}>
-                {entry.lineId}
+                {entry.lineLabel}
               </span>
               :{' '}
               {entry.point.value == null

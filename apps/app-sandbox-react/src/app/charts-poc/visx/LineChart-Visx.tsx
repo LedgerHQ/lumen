@@ -10,10 +10,13 @@ import { useMemo, useCallback, useId, useRef } from 'react';
 import { getVisxCurve } from '../chartCurves';
 import type { LineChartProps, DataPoint } from '../types';
 import {
+  getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
   getReferenceLineStrokeWidth,
+  GRID_LINE_STROKE,
+  GRID_LINE_STROKE_DASHARRAY,
   REFERENCE_LINE_STROKE,
   computeYDomain,
   computeXTimeDomainMs,
@@ -22,12 +25,15 @@ import {
   effectiveShowYAxis,
   lineDataRuns,
   nearestDefinedPointByTime,
+  resolveGridVisibility,
+  resolveSeries,
 } from '../utils';
 
 const getTimestamp = (d: DataPoint): Date => new Date(d.timestamp);
 
 type TooltipData = {
   lineId: string;
+  lineLabel: string;
   point: DataPoint;
   color: string;
 };
@@ -35,15 +41,14 @@ type TooltipData = {
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
 
 export const LineChartVisx = (props: LineChartProps) => {
+  const lines = resolveSeries(props);
   const {
-    lines,
     width,
     height,
-    showGrid = true,
+    enableScrubbing = true,
     showTooltip: showTooltipProp = true,
     showCursor = true,
     showCursorLabel = false,
-    dimAfterCursor = false,
     formatXLabel,
     formatYLabel,
     onPointHover,
@@ -59,6 +64,12 @@ export const LineChartVisx = (props: LineChartProps) => {
     xAxis: xAxisConfig,
     yAxis: yAxisConfig,
   } = props;
+
+  const showTooltipEff = showTooltipProp && enableScrubbing;
+  const showCursorEff = showCursor && enableScrubbing;
+  const showCursorLabelEff = showCursorLabel && enableScrubbing;
+  const dimAfterCursorEff = enableScrubbing;
+  const gridVisibility = resolveGridVisibility(props);
 
   const uid = useId();
   const lastSnapTsRef = useRef<number | null>(null);
@@ -152,6 +163,7 @@ export const LineChartVisx = (props: LineChartProps) => {
 
         tooltipEntries.push({
           lineId: line.id,
+          lineLabel: getSeriesLabel(line),
           point: closest,
           color: resolvedColors[line.id],
         });
@@ -232,7 +244,7 @@ export const LineChartVisx = (props: LineChartProps) => {
 
   const lineLayers = useMemo(() => {
     const cursorXPx =
-      dimAfterCursor && tooltipData && tooltipLeft != null
+      dimAfterCursorEff && tooltipData && tooltipLeft != null
         ? tooltipLeft - margin.left
         : null;
 
@@ -338,7 +350,7 @@ export const LineChartVisx = (props: LineChartProps) => {
       );
     });
   }, [
-    dimAfterCursor,
+    dimAfterCursorEff,
     lines,
     margin.left,
     resolvedColors,
@@ -350,7 +362,7 @@ export const LineChartVisx = (props: LineChartProps) => {
   ]);
 
   const clipDefs =
-    dimAfterCursor && tooltipData && tooltipLeft != null ? (
+    dimAfterCursorEff && tooltipData && tooltipLeft != null ? (
       <defs>
         <clipPath id={`${uid}-clip-before`}>
           <rect
@@ -388,22 +400,24 @@ export const LineChartVisx = (props: LineChartProps) => {
       {a11yLive ? <span className='sr-only'>{a11yLive}</span> : null}
       <svg width={width} height={height}>
         <Group left={margin.left} top={margin.top}>
-          {showGrid && (
+          {(gridVisibility.x || gridVisibility.y) && (
             <>
-              <GridRows
-                scale={yScale}
-                width={innerWidth}
-                stroke='var(--border-muted)'
-                strokeOpacity={0.5}
-                strokeDasharray='4 4'
-              />
-              <GridColumns
-                scale={xScale}
-                height={innerHeight}
-                stroke='var(--border-muted)'
-                strokeOpacity={0.5}
-                strokeDasharray='4 4'
-              />
+              {gridVisibility.y && (
+                <GridRows
+                  scale={yScale}
+                  width={innerWidth}
+                  stroke={GRID_LINE_STROKE}
+                  strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
+                />
+              )}
+              {gridVisibility.x && (
+                <GridColumns
+                  scale={xScale}
+                  height={innerHeight}
+                  stroke={GRID_LINE_STROKE}
+                  strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
+                />
+              )}
             </>
           )}
 
@@ -491,7 +505,7 @@ export const LineChartVisx = (props: LineChartProps) => {
           {clipDefs}
           {lineLayers}
 
-          {showCursor && tooltipData && tooltipLeft != null && (
+          {showCursorEff && tooltipData && tooltipLeft != null && (
             <line
               x1={tooltipLeft - margin.left}
               y1={0}
@@ -509,7 +523,8 @@ export const LineChartVisx = (props: LineChartProps) => {
             const val = entry.point.value;
             if (val == null) return null;
             const cy = yScale(val);
-            const label = formatYLabel ? formatYLabel(val) : String(val);
+            const valueText = formatYLabel ? formatYLabel(val) : String(val);
+            const label = `${entry.lineLabel}: ${valueText}`;
             return (
               <g key={entry.lineId} pointerEvents='none'>
                 <circle
@@ -520,7 +535,7 @@ export const LineChartVisx = (props: LineChartProps) => {
                   stroke='var(--background-surface)'
                   strokeWidth={2}
                 />
-                {showCursorLabel && (
+                {showCursorLabelEff && (
                   <text
                     x={cx + 10}
                     y={cy + 4}
@@ -578,8 +593,8 @@ export const LineChartVisx = (props: LineChartProps) => {
             width={innerWidth}
             height={innerHeight}
             fill='transparent'
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onMouseMove={enableScrubbing ? handleMouseMove : undefined}
+            onMouseLeave={enableScrubbing ? handleMouseLeave : undefined}
           />
 
           {markers?.map((m, i) => {
@@ -600,7 +615,7 @@ export const LineChartVisx = (props: LineChartProps) => {
         </Group>
       </svg>
 
-      {showTooltipProp && tooltipData && (
+      {showTooltipEff && tooltipData && (
         <TooltipWithBounds
           left={tooltipLeft}
           top={tooltipTop}
@@ -618,7 +633,7 @@ export const LineChartVisx = (props: LineChartProps) => {
           {tooltipData.map((entry) => (
             <div key={entry.lineId}>
               <span style={{ color: entry.color, fontWeight: 600 }}>
-                {entry.lineId}
+                {entry.lineLabel}
               </span>
               :{' '}
               {entry.point.value == null

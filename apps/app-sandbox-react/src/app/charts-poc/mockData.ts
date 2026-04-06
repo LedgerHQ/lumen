@@ -102,6 +102,7 @@ export function formatDateTime(timestamp: number): string {
 export const singleLineBtc: LineConfig[] = [
   {
     id: 'btc',
+    label: 'Bitcoin',
     data: btcDaily,
     color: 'var(--color-crypto-bitcoin)',
     width: 2,
@@ -112,6 +113,7 @@ export const singleLineBtc: LineConfig[] = [
 export const multiLine: LineConfig[] = [
   {
     id: 'btc',
+    label: 'Bitcoin',
     data: btcDaily,
     color: 'var(--color-crypto-bitcoin)',
     width: 2,
@@ -119,6 +121,7 @@ export const multiLine: LineConfig[] = [
   },
   {
     id: 'eth',
+    label: 'Ethereum',
     data: ethDaily,
     color: 'var(--color-crypto-ethereum)',
     width: 2,
@@ -129,6 +132,7 @@ export const multiLine: LineConfig[] = [
 export const highDensityBtc: LineConfig[] = [
   {
     id: 'btc-hourly',
+    label: 'Bitcoin',
     data: btcHourly,
     color: 'var(--color-crypto-bitcoin)',
     width: 1.5,
@@ -163,6 +167,7 @@ const btcThreshold = Math.round(btcMin.value / 1000) * 1000;
 export const walletLines: LineConfig[] = [
   {
     id: 'btc',
+    label: 'Bitcoin',
     data: walletBtcData,
     color: '#E87A2C',
     width: 2.5,
@@ -247,9 +252,9 @@ export const walletVariant: Pick<
   | 'referenceLines'
   | 'valueLabels'
   | 'markers'
-  | 'showGrid'
   | 'xAxis'
   | 'yAxis'
+  | 'enableScrubbing'
   | 'showTooltip'
   | 'showCursor'
   | 'formatXLabel'
@@ -259,9 +264,9 @@ export const walletVariant: Pick<
   referenceLines: walletReferenceLines,
   valueLabels: walletValueLabels,
   markers: walletMarkers,
-  showGrid: false,
-  xAxis: { show: false },
-  yAxis: { show: false },
+  xAxis: { show: false, showGrid: false },
+  yAxis: { show: false, showGrid: false },
+  enableScrubbing: false,
   showTooltip: false,
   showCursor: false,
   formatXLabel: formatDate,

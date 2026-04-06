@@ -6,7 +6,7 @@ import {
   Switch,
 } from '@ledgerhq/lumen-ui-react';
 import { Moon, Sun } from '@ledgerhq/lumen-ui-react/symbols';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { CHART_HEIGHT, CHART_WIDTH, LIB_LABELS } from './constants';
 import type { LibKey } from './constants';
 import { LineChartD3 } from './d3';
@@ -14,6 +14,7 @@ import { FeatureComparisonTable } from './FeatureComparisonTable';
 import {
   formatCurrency,
   formatDate,
+  ethDaily,
   walletLines,
   walletReferenceLines,
   walletValueLabels,
@@ -43,9 +44,11 @@ export const ChartsPocPage = ({
   );
   const [walletShowValueLabels, setWalletShowValueLabels] = useState(true);
   const [walletShowMarkers, setWalletShowMarkers] = useState(true);
+  const [walletEnableScrubbing, setWalletEnableScrubbing] = useState(true);
   const [walletShowHoverCursor, setWalletShowHoverCursor] = useState(true);
   const [walletShowCursorLabel, setWalletShowCursorLabel] = useState(true);
-  const [walletDimAfterCursor, setWalletDimAfterCursor] = useState(true);
+  const [walletUseMultipleSeries, setWalletUseMultipleSeries] = useState(false);
+  const [walletUseSeriesLabels, setWalletUseSeriesLabels] = useState(true);
   const [hoveredPoint, setHoveredPoint] = useState<DataPoint | null>(null);
   const [hoveredMarker, setHoveredMarker] = useState<MarkerConfig | null>(null);
 
@@ -57,10 +60,34 @@ export const ChartsPocPage = ({
     setHoveredMarker(marker);
   }, []);
 
-  const lines = useMemo(
-    () => walletLines.map((l) => ({ ...l, showGradient: walletGradient })),
-    [walletGradient],
-  );
+  useEffect(() => {
+    if (!walletEnableScrubbing || !walletShowHoverCursor) {
+      setHoveredPoint(null);
+      setHoveredMarker(null);
+    }
+  }, [walletEnableScrubbing, walletShowHoverCursor]);
+
+  const lines = useMemo(() => {
+    const series = walletUseMultipleSeries
+      ? [
+          ...walletLines,
+          {
+            id: 'eth',
+            label: 'Ethereum',
+            data: ethDaily,
+            color: 'var(--color-crypto-ethereum)',
+            width: 2,
+            showGradient: false,
+          },
+        ]
+      : walletLines;
+
+    return series.map((line) => ({
+      ...line,
+      showGradient: walletGradient,
+      label: walletUseSeriesLabels ? line.label : line.id,
+    }));
+  }, [walletUseMultipleSeries, walletGradient, walletUseSeriesLabels]);
 
   const visibleReferenceLines = useMemo(
     () => walletReferenceLines.filter((_, i) => refLinesEnabled[i]),
@@ -72,15 +99,17 @@ export const ChartsPocPage = ({
       lines,
       width: CHART_WIDTH,
       height: CHART_HEIGHT,
-      showGrid: false,
-      xAxis: { show: false },
-      yAxis: { show: false },
+      xAxis: { show: false, showGrid: false },
+      yAxis: { show: false, showGrid: false },
+      enableScrubbing: walletEnableScrubbing,
       showTooltip: false,
       showCursor: walletShowHoverCursor,
       showCursorLabel: walletShowCursorLabel,
-      dimAfterCursor: walletDimAfterCursor,
-      onPointHover: walletShowHoverCursor ? handlePointHover : undefined,
-      onMarkerHover: handleMarkerHover,
+      onPointHover:
+        walletEnableScrubbing && walletShowHoverCursor
+          ? handlePointHover
+          : undefined,
+      onMarkerHover: walletEnableScrubbing ? handleMarkerHover : undefined,
       formatXLabel: formatDate,
       formatYLabel: formatCurrency,
       referenceLines:
@@ -93,9 +122,9 @@ export const ChartsPocPage = ({
       visibleReferenceLines,
       walletShowValueLabels,
       walletShowMarkers,
+      walletEnableScrubbing,
       walletShowHoverCursor,
       walletShowCursorLabel,
-      walletDimAfterCursor,
       handlePointHover,
       handleMarkerHover,
     ],
@@ -148,6 +177,12 @@ export const ChartsPocPage = ({
       <WalletControls
         gradient={walletGradient}
         onGradientChange={setWalletGradient}
+        enableScrubbing={walletEnableScrubbing}
+        onEnableScrubbingChange={setWalletEnableScrubbing}
+        useMultipleSeries={walletUseMultipleSeries}
+        onUseMultipleSeriesChange={setWalletUseMultipleSeries}
+        useSeriesLabels={walletUseSeriesLabels}
+        onUseSeriesLabelsChange={setWalletUseSeriesLabels}
         refLinesEnabled={refLinesEnabled}
         onRefLineCheckedChange={(index, checked) => {
           setRefLinesEnabled((prev) => {
@@ -164,8 +199,6 @@ export const ChartsPocPage = ({
         onShowHoverCursorChange={setWalletShowHoverCursor}
         showCursorLabel={walletShowCursorLabel}
         onShowCursorLabelChange={setWalletShowCursorLabel}
-        dimAfterCursor={walletDimAfterCursor}
-        onDimAfterCursorChange={setWalletDimAfterCursor}
       />
 
       {/* Chart */}
@@ -175,7 +208,7 @@ export const ChartsPocPage = ({
       >
         <div className='flex flex-col gap-4 mb-12 min-h-64 text-white'>
           <span className='body-4 opacity-60'>
-            Bitcoin
+            {walletUseMultipleSeries ? 'Bitcoin + Ethereum' : 'Bitcoin'}
             {hoveredPoint ? ` · ${formatDate(hoveredPoint.timestamp)}` : ''}
           </span>
           <div className='flex items-center gap-12'>
@@ -220,10 +253,24 @@ export const ChartsPocPage = ({
 
         <ChartComponent {...chartProps} />
 
-        <div className='flex justify-center gap-4 mt-12'>
+        <div className='mt-12 flex flex-wrap items-center justify-between gap-8'>
           <span className='body-4 text-white/50'>
             Rendered with <strong>{LIB_LABELS[activeLib]}</strong>
           </span>
+          <div className='flex flex-wrap items-center gap-12'>
+            {lines.map((line) => (
+              <span
+                key={`series-legend-${line.id}`}
+                className='body-4 text-white/60 flex items-center gap-6'
+              >
+                <span
+                  className='inline-block h-8 w-8 rounded-full'
+                  style={{ backgroundColor: line.color }}
+                />
+                {line.label ?? line.id}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -238,13 +285,24 @@ const SwitchControl = ({
   label,
   selected,
   onChange,
+  disabled = false,
 }: {
   label: string;
   selected: boolean;
   onChange: (v: boolean) => void;
+  disabled?: boolean;
 }) => (
-  <label className='flex items-center gap-8 body-4 cursor-pointer text-base'>
-    <Switch size='sm' selected={selected} onChange={onChange} />
+  <label
+    className={`flex items-center gap-8 body-4 text-base ${
+      disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+    }`}
+  >
+    <Switch
+      size='sm'
+      selected={selected}
+      onChange={onChange}
+      disabled={disabled}
+    />
     {label}
   </label>
 );
@@ -252,6 +310,12 @@ const SwitchControl = ({
 const WalletControls = ({
   gradient,
   onGradientChange,
+  enableScrubbing,
+  onEnableScrubbingChange,
+  useMultipleSeries,
+  onUseMultipleSeriesChange,
+  useSeriesLabels,
+  onUseSeriesLabelsChange,
   refLinesEnabled,
   onRefLineCheckedChange,
   showValueLabels,
@@ -262,11 +326,15 @@ const WalletControls = ({
   onShowHoverCursorChange,
   showCursorLabel,
   onShowCursorLabelChange,
-  dimAfterCursor,
-  onDimAfterCursorChange,
 }: {
   gradient: boolean;
   onGradientChange: (v: boolean) => void;
+  enableScrubbing: boolean;
+  onEnableScrubbingChange: (v: boolean) => void;
+  useMultipleSeries: boolean;
+  onUseMultipleSeriesChange: (v: boolean) => void;
+  useSeriesLabels: boolean;
+  onUseSeriesLabelsChange: (v: boolean) => void;
   refLinesEnabled: boolean[];
   onRefLineCheckedChange: (index: number, checked: boolean) => void;
   showValueLabels: boolean;
@@ -277,8 +345,6 @@ const WalletControls = ({
   onShowHoverCursorChange: (v: boolean) => void;
   showCursorLabel: boolean;
   onShowCursorLabelChange: (v: boolean) => void;
-  dimAfterCursor: boolean;
-  onDimAfterCursorChange: (v: boolean) => void;
 }) => (
   <div className='flex gap-32 mb-24 flex-wrap items-start'>
     <fieldset className='border border-muted rounded-md px-16 py-12'>
@@ -290,9 +356,25 @@ const WalletControls = ({
           onChange={onGradientChange}
         />
         <SwitchControl
-          label='Dim after cursor'
-          selected={dimAfterCursor}
-          onChange={onDimAfterCursorChange}
+          label='Enable scrubbing'
+          selected={enableScrubbing}
+          onChange={onEnableScrubbingChange}
+        />
+      </div>
+    </fieldset>
+
+    <fieldset className='border border-muted rounded-md px-16 py-12'>
+      <legend className='body-4 text-muted px-4'>Series</legend>
+      <div className='flex gap-16 flex-wrap'>
+        <SwitchControl
+          label='Multiple series (add ETH)'
+          selected={useMultipleSeries}
+          onChange={onUseMultipleSeriesChange}
+        />
+        <SwitchControl
+          label='Friendly labels'
+          selected={useSeriesLabels}
+          onChange={onUseSeriesLabelsChange}
         />
       </div>
     </fieldset>
@@ -304,11 +386,13 @@ const WalletControls = ({
           label='Hover cursor'
           selected={showHoverCursor}
           onChange={onShowHoverCursorChange}
+          disabled={!enableScrubbing}
         />
         <SwitchControl
           label='Cursor label'
           selected={showCursorLabel}
           onChange={onShowCursorLabelChange}
+          disabled={!enableScrubbing}
         />
         <SwitchControl
           label='Value labels'
@@ -323,25 +407,24 @@ const WalletControls = ({
       </div>
     </fieldset>
 
-    <fieldset className='border border-muted rounded-md px-16 py-12 max-w-400'>
+    <fieldset className='border border-muted rounded-md px-16 py-12'>
       <legend className='body-4 text-muted px-4'>Reference lines</legend>
-      <div className='flex flex-col gap-12'>
+      <div className='flex flex-wrap items-center gap-12'>
         {walletReferenceLines.map((rl, i) => (
           <label
             key={`ref-${i}`}
-            className='flex items-start gap-12 cursor-pointer'
+            className='flex items-center gap-8 cursor-pointer'
           >
             <Checkbox
-              className='mt-2 shrink-0'
+              className='shrink-0'
               checked={refLinesEnabled[i] ?? false}
               onCheckedChange={(checked) => onRefLineCheckedChange(i, checked)}
             />
-            <span className='flex flex-col gap-4 min-w-0'>
-              <span className='body-3 text-base'>
-                {rl.domain ?? `Level ${i + 1}`}
-              </span>
-              <span className='body-4 text-muted'>
-                {getReferenceLineStyleCaption(rl.style)} · {rl.label}
+            <span className='body-4 text-base whitespace-nowrap'>
+              <span>{rl.domain ?? `Level ${i + 1}`}</span>
+              <span className='text-muted'>
+                {' '}
+                ({getReferenceLineStyleCaption(rl.style)} · {rl.label})
               </span>
             </span>
           </label>

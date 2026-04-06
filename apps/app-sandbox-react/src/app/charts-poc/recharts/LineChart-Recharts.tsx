@@ -11,8 +11,9 @@ import {
   ReferenceDot,
 } from 'recharts';
 import { getRechartsLineType } from '../chartCurves';
-import type { LineChartProps } from '../types';
+import type { LineChartProps, LineConfig } from '../types';
 import {
+  getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
@@ -20,9 +21,13 @@ import {
   REFERENCE_LINE_STROKE,
   computeYDomain,
   computeXTimeDomainMs,
+  GRID_LINE_STROKE,
+  GRID_LINE_STROKE_DASHARRAY,
   resolveChartInset,
   effectiveShowXAxis,
   effectiveShowYAxis,
+  resolveGridVisibility,
+  resolveSeries,
 } from '../utils';
 
 type MergedDataPoint = {
@@ -30,7 +35,7 @@ type MergedDataPoint = {
   [key: string]: number | null;
 };
 
-function mergeLineData(lines: LineChartProps['lines']): MergedDataPoint[] {
+function mergeLineData(lines: LineConfig[]): MergedDataPoint[] {
   if (lines.length === 1) {
     const line = lines[0];
     return line.data.map((point) => ({
@@ -112,15 +117,14 @@ const CustomTooltip = ({
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
 
 export const LineChartRecharts = (props: LineChartProps) => {
+  const lines = resolveSeries(props);
   const {
-    lines,
     width,
     height,
-    showGrid = true,
+    enableScrubbing = true,
     showTooltip = true,
     showCursor = true,
     showCursorLabel = false,
-    dimAfterCursor = false,
     formatXLabel,
     formatYLabel,
     onPointHover,
@@ -136,6 +140,12 @@ export const LineChartRecharts = (props: LineChartProps) => {
     xAxis: xAxisConfig,
     yAxis: yAxisConfig,
   } = props;
+
+  const showTooltipEff = showTooltip && enableScrubbing;
+  const showCursorEff = showCursor && enableScrubbing;
+  const showCursorLabelEff = showCursorLabel && enableScrubbing;
+  const dimAfterCursorEff = enableScrubbing;
+  const gridVisibility = resolveGridVisibility(props);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const lastActiveIndexRef = useRef<number | null>(null);
@@ -172,7 +182,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
   const renderTooltipContent = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (tooltipProps: any) => {
-      if (!showTooltip) return null;
+      if (!showTooltipEff) return null;
       return (
         <CustomTooltip
           active={tooltipProps.active}
@@ -183,12 +193,13 @@ export const LineChartRecharts = (props: LineChartProps) => {
         />
       );
     },
-    [showTooltip, formatXLabel, formatYLabel],
+    [showTooltipEff, formatXLabel, formatYLabel],
   );
 
   const handleMouseMove = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Recharts passes MouseHandlerDataParam; index may be TooltipIndex | null
     (state: any) => {
+      if (!enableScrubbing) return;
       if (state?.isTooltipActive && state.activeTooltipIndex != null) {
         setActiveIndex(Number(state.activeTooltipIndex));
         const entry = mergedData[state.activeTooltipIndex];
@@ -227,6 +238,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
       }
     },
     [
+      enableScrubbing,
       onPointHover,
       onMarkerHover,
       mergedData,
@@ -245,14 +257,14 @@ export const LineChartRecharts = (props: LineChartProps) => {
   }, [onPointHover, onMarkerHover, onActiveIndexChange]);
 
   const cursorFraction = useMemo((): number | null => {
-    if (!dimAfterCursor || activeIndex == null || mergedData.length < 2)
+    if (!dimAfterCursorEff || activeIndex == null || mergedData.length < 2)
       return null;
     const xMin = mergedData[0].timestamp;
     const xMax = mergedData[mergedData.length - 1].timestamp;
     const range = xMax - xMin;
     if (range === 0) return null;
     return (mergedData[activeIndex].timestamp - xMin) / range;
-  }, [dimAfterCursor, activeIndex, mergedData]);
+  }, [dimAfterCursorEff, activeIndex, mergedData]);
 
   const hasNoAxes = !showXAxisEff && !showYAxisEff;
   const chartMargin = resolveChartInset(
@@ -290,18 +302,20 @@ export const LineChartRecharts = (props: LineChartProps) => {
         data={mergedData}
         margin={chartMargin}
         onMouseMove={
-          onPointHover ||
-          dimAfterCursor ||
-          onActiveIndexChange ||
-          Boolean(markers?.length)
+          enableScrubbing &&
+          (onPointHover ||
+            dimAfterCursorEff ||
+            onActiveIndexChange ||
+            Boolean(markers?.length))
             ? handleMouseMove
             : undefined
         }
         onMouseLeave={
-          onPointHover ||
-          dimAfterCursor ||
-          onActiveIndexChange ||
-          Boolean(markers?.length)
+          enableScrubbing &&
+          (onPointHover ||
+            dimAfterCursorEff ||
+            onActiveIndexChange ||
+            Boolean(markers?.length))
             ? handleMouseLeave
             : undefined
         }
@@ -370,11 +384,12 @@ export const LineChartRecharts = (props: LineChartProps) => {
             ))}
         </defs>
 
-        {showGrid && (
+        {(gridVisibility.x || gridVisibility.y) && (
           <CartesianGrid
-            strokeDasharray='3 3'
-            stroke='var(--border-muted)'
-            strokeOpacity={0.5}
+            strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
+            stroke={GRID_LINE_STROKE}
+            vertical={gridVisibility.x}
+            horizontal={gridVisibility.y}
           />
         )}
 
@@ -404,11 +419,12 @@ export const LineChartRecharts = (props: LineChartProps) => {
           tickCount={yAxisConfig?.tickCount}
         />
 
-        {(showTooltip || showCursor) && (
+        {(showTooltipEff || showCursorEff) && (
           <Tooltip
             content={renderTooltipContent}
+            active={enableScrubbing ? undefined : false}
             cursor={
-              showCursor
+              showCursorEff
                 ? {
                     stroke: 'var(--text-muted)',
                     strokeWidth: 1,
@@ -502,6 +518,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
           return line.showGradient ? (
             <Area
               key={`area-${line.id}`}
+              name={getSeriesLabel(line)}
               type={lineType}
               dataKey={line.id}
               stroke={strokeColor}
@@ -516,6 +533,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
           ) : (
             <Line
               key={`line-${line.id}`}
+              name={getSeriesLabel(line)}
               type={lineType}
               dataKey={line.id}
               stroke={strokeColor}
@@ -528,14 +546,15 @@ export const LineChartRecharts = (props: LineChartProps) => {
           );
         })}
 
-        {showCursorLabel &&
+        {showCursorLabelEff &&
           activeIndex != null &&
           lines.map((ln) => {
             const entry = mergedData[activeIndex];
             if (!entry) return null;
             const val = entry[ln.id] as number | null | undefined;
             if (val == null) return null;
-            const label = formatYLabel ? formatYLabel(val) : String(val);
+            const valueText = formatYLabel ? formatYLabel(val) : String(val);
+            const label = `${getSeriesLabel(ln)}: ${valueText}`;
             return (
               <ReferenceDot
                 key={`cursor-label-${ln.id}`}

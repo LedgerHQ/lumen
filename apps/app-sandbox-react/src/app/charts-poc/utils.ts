@@ -1,6 +1,8 @@
 import { bisector } from 'd3-array';
 import type {
+  ChartGridConfig,
   DataPoint,
+  LineConfig,
   LineChartProps,
   ReferenceLineStyle,
   ValueLabelConfig,
@@ -20,6 +22,23 @@ export function resolveCssColor(cssVar: string): string {
   );
 }
 
+export function resolveSeries(props: LineChartProps): LineConfig[] {
+  const bySeries = props.series;
+  if (bySeries && bySeries.length > 0) {
+    return bySeries;
+  }
+  return props.lines ?? [];
+}
+
+export function getSeriesLabel(series: LineConfig): string {
+  return series.label ?? series.id;
+}
+
+/** Shared dotted grid style used by all renderers. */
+export const GRID_LINE_STROKE = 'rgba(148, 163, 184, 0.35)';
+export const GRID_LINE_STROKE_DASHARRAY = '1 4';
+export const GRID_LINE_STROKE_WIDTH = 1;
+
 export type ResolvedValueLabel = {
   timestamp: number;
   value: number;
@@ -31,8 +50,9 @@ export function resolveValueLabels(
   props: LineChartProps,
 ): ResolvedValueLabel[] {
   if (!props.valueLabels?.length) return [];
+  const lines = resolveSeries(props);
 
-  const numericPoints = props.lines
+  const numericPoints = lines
     .flatMap((l) => l.data)
     .filter((p): p is DataPoint & { value: number } => p.value != null);
   if (numericPoints.length === 0) return [];
@@ -138,11 +158,12 @@ export function nearestDefinedPointByTime(
 const Y_PADDING_FACTOR = 0.05;
 
 export function computeYDomain(props: LineChartProps): [number, number] {
+  const lines = resolveSeries(props);
   if (props.yAxis?.domain) {
     return props.yAxis.domain;
   }
 
-  const allValues = props.lines.flatMap((l) =>
+  const allValues = lines.flatMap((l) =>
     l.data.map((d) => d.value).filter((v): v is number => v != null),
   );
 
@@ -173,11 +194,12 @@ export function computeYDomain(props: LineChartProps): [number, number] {
 
 /** X domain in epoch ms; respects `xAxis.domain` when set. */
 export function computeXTimeDomainMs(props: LineChartProps): [number, number] {
+  const lines = resolveSeries(props);
   if (props.xAxis?.domain) {
     return props.xAxis.domain;
   }
 
-  const allPoints = props.lines.flatMap((l) => l.data);
+  const allPoints = lines.flatMap((l) => l.data);
   if (allPoints.length === 0) {
     const n = Date.now();
     return [n, n];
@@ -211,6 +233,33 @@ export function effectiveShowXAxis(props: LineChartProps): boolean {
 
 export function effectiveShowYAxis(props: LineChartProps): boolean {
   return props.yAxis?.show ?? true;
+}
+
+function normalizeLegacyGrid(showGrid: ChartGridConfig | undefined): {
+  x: boolean;
+  y: boolean;
+} {
+  if (showGrid == null) {
+    return { x: true, y: true };
+  }
+  if (typeof showGrid === 'boolean') {
+    return { x: showGrid, y: showGrid };
+  }
+  return {
+    x: showGrid.x ?? true,
+    y: showGrid.y ?? true,
+  };
+}
+
+export function resolveGridVisibility(props: LineChartProps): {
+  x: boolean;
+  y: boolean;
+} {
+  const legacy = normalizeLegacyGrid(props.showGrid);
+  return {
+    x: props.xAxis?.showGrid ?? legacy.x,
+    y: props.yAxis?.showGrid ?? legacy.y,
+  };
 }
 
 /**

@@ -13,7 +13,7 @@ import type { LibKey } from './constants';
 import { LineChartD3 } from './d3';
 import { generatePriceSeries, formatCurrency, formatDate } from './mockData';
 import { LineChartRecharts } from './recharts';
-import type { LineChartProps } from './types';
+import type { LineChartProps, LineConfig } from './types';
 import { LineChartVictory } from './victory';
 import { LineChartVisx } from './visx';
 
@@ -51,7 +51,7 @@ type BenchmarkTask = { lib: LibKey; preset: BenchmarkPreset };
 function generateLineConfig(
   seed: number,
   dataPointCount: number,
-): LineChartProps['lines'] {
+): LineConfig[] {
   return [
     {
       id: 'bench',
@@ -198,12 +198,11 @@ function BenchmarkHarness({
     lines,
     width: CHART_WIDTH,
     height: CHART_HEIGHT,
-    showGrid: false,
-    xAxis: { show: false },
-    yAxis: { show: false },
+    xAxis: { show: false, showGrid: false },
+    yAxis: { show: false, showGrid: false },
     showTooltip: false,
+    enableScrubbing: true,
     showCursor: true,
-    dimAfterCursor: true,
     formatXLabel: formatDate,
     formatYLabel: formatCurrency,
   };
