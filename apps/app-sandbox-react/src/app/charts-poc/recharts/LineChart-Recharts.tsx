@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
   ReferenceLine,
   ReferenceDot,
 } from 'recharts';
@@ -24,10 +23,18 @@ type MergedDataPoint = {
   [key: string]: number;
 };
 
-function mergeLineData(props: LineChartProps): MergedDataPoint[] {
+function mergeLineData(lines: LineChartProps['lines']): MergedDataPoint[] {
+  if (lines.length === 1) {
+    const line = lines[0];
+    return line.data.map((point) => ({
+      timestamp: point.timestamp,
+      [line.id]: point.value,
+    }));
+  }
+
   const timestampMap = new Map<number, MergedDataPoint>();
 
-  for (const line of props.lines) {
+  for (const line of lines) {
     for (const point of line.data) {
       let entry = timestampMap.get(point.timestamp);
       if (!entry) {
@@ -111,13 +118,22 @@ export const LineChartRecharts = (props: LineChartProps) => {
     className,
     referenceLines,
     markers,
+    valueLabels,
   } = props;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const mergedData = useMemo(() => mergeLineData(props), [props]);
-  const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
-  const yDomain = useMemo(() => computeYDomain(props), [props]);
+  const mergedData = useMemo(() => mergeLineData(lines), [lines]);
+  const valueLabelEntries = useMemo(
+    () => resolveValueLabels(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- lines/valueLabels/formatYLabel mirror resolveValueLabels inputs
+    [lines, valueLabels, formatYLabel],
+  );
+  const yDomain = useMemo(
+    () => computeYDomain(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- lines/referenceLines/valueLabels mirror computeYDomain inputs
+    [lines, referenceLines, valueLabels],
+  );
 
   const resolvedColors = useMemo(() => {
     const map: Record<string, string> = {};
@@ -145,12 +161,10 @@ export const LineChartRecharts = (props: LineChartProps) => {
   );
 
   const handleMouseMove = useCallback(
-    (state: { activeTooltipIndex?: number; isTooltipActive?: boolean }) => {
-      if (
-        state?.isTooltipActive &&
-        state.activeTooltipIndex != null
-      ) {
-        setActiveIndex(state.activeTooltipIndex as number);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Recharts passes MouseHandlerDataParam; index may be TooltipIndex | null
+    (state: any) => {
+      if (state?.isTooltipActive && state.activeTooltipIndex != null) {
+        setActiveIndex(Number(state.activeTooltipIndex));
         const entry = mergedData[state.activeTooltipIndex];
         if (entry && onPointHover) {
           const lineId = lines[0]?.id ?? '';
@@ -200,46 +214,61 @@ export const LineChartRecharts = (props: LineChartProps) => {
 
   return (
     <div className={className}>
-      <ResponsiveContainer width={width} height={height}>
-        <ComposedChart
-          data={mergedData}
-          margin={chartMargin}
-          onMouseMove={
-            onPointHover || dimAfterCursor ? handleMouseMove : undefined
-          }
-          onMouseLeave={
-            onPointHover || dimAfterCursor ? handleMouseLeave : undefined
-          }
-        >
-          <defs>
-            {lines
-              .filter((l) => l.showGradient)
-              .map((line) => (
+      <ComposedChart
+        width={width}
+        height={height}
+        data={mergedData}
+        margin={chartMargin}
+        onMouseMove={
+          onPointHover || dimAfterCursor ? handleMouseMove : undefined
+        }
+        onMouseLeave={
+          onPointHover || dimAfterCursor ? handleMouseLeave : undefined
+        }
+      >
+        <defs>
+          {lines
+            .filter((l) => l.showGradient)
+            .map((line) => (
+              <linearGradient
+                key={`grad-${line.id}`}
+                id={`recharts-grad-${line.id}`}
+                x1='0'
+                y1='0'
+                x2='0'
+                y2='1'
+              >
+                <stop
+                  offset='0%'
+                  stopColor={resolvedColors[line.id]}
+                  stopOpacity={0.3}
+                />
+                <stop
+                  offset='100%'
+                  stopColor={resolvedColors[line.id]}
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            ))}
+          {cursorFraction != null &&
+            lines.map((line) => (
+              <g key={`split-grads-${line.id}`}>
                 <linearGradient
-                  key={`grad-${line.id}`}
-                  id={`recharts-grad-${line.id}`}
+                  id={`recharts-split-${line.id}`}
                   x1='0'
                   y1='0'
-                  x2='0'
-                  y2='1'
+                  x2='1'
+                  y2='0'
                 >
                   <stop
-                    offset='0%'
+                    offset={`${cursorFraction}`}
                     stopColor={resolvedColors[line.id]}
-                    stopOpacity={0.3}
                   />
-                  <stop
-                    offset='100%'
-                    stopColor={resolvedColors[line.id]}
-                    stopOpacity={0}
-                  />
+                  <stop offset={`${cursorFraction}`} stopColor={DIM_COLOR} />
                 </linearGradient>
-              ))}
-            {cursorFraction != null &&
-              lines.map((line) => (
-                <g key={`split-grads-${line.id}`}>
+                {line.showGradient && (
                   <linearGradient
-                    id={`recharts-split-${line.id}`}
+                    id={`recharts-split-fill-${line.id}`}
                     x1='0'
                     y1='0'
                     x2='1'
@@ -248,206 +277,188 @@ export const LineChartRecharts = (props: LineChartProps) => {
                     <stop
                       offset={`${cursorFraction}`}
                       stopColor={resolvedColors[line.id]}
+                      stopOpacity={0.15}
                     />
                     <stop
                       offset={`${cursorFraction}`}
-                      stopColor={DIM_COLOR}
+                      stopColor={resolvedColors[line.id]}
+                      stopOpacity={0}
                     />
                   </linearGradient>
-                  {line.showGradient && (
-                    <linearGradient
-                      id={`recharts-split-fill-${line.id}`}
-                      x1='0'
-                      y1='0'
-                      x2='1'
-                      y2='0'
-                    >
-                      <stop
-                        offset={`${cursorFraction}`}
-                        stopColor={resolvedColors[line.id]}
-                        stopOpacity={0.15}
-                      />
-                      <stop
-                        offset={`${cursorFraction}`}
-                        stopColor={resolvedColors[line.id]}
-                        stopOpacity={0}
-                      />
-                    </linearGradient>
-                  )}
-                </g>
-              ))}
-          </defs>
+                )}
+              </g>
+            ))}
+        </defs>
 
-          {showGrid && (
-            <CartesianGrid
-              strokeDasharray='3 3'
-              stroke='var(--border-muted)'
-              strokeOpacity={0.5}
-            />
-          )}
-
-          <XAxis
-            dataKey='timestamp'
-            type='number'
-            domain={['dataMin', 'dataMax']}
-            tickFormatter={formatXLabel}
-            stroke='var(--text-muted)'
-            tick={showXAxis ? { fontSize: 11 } : false}
-            tickLine={false}
-            axisLine={showXAxis ? { stroke: 'var(--border-muted)' } : false}
-            hide={!showXAxis}
+        {showGrid && (
+          <CartesianGrid
+            strokeDasharray='3 3'
+            stroke='var(--border-muted)'
+            strokeOpacity={0.5}
           />
+        )}
 
-          <YAxis
-            domain={yDomain}
-            tickFormatter={formatYLabel}
-            stroke='var(--text-muted)'
-            tick={showYAxis ? { fontSize: 11 } : false}
-            tickLine={false}
-            axisLine={false}
-            width={showYAxis ? 60 : 0}
-            hide={!showYAxis}
-            allowDataOverflow
+        <XAxis
+          dataKey='timestamp'
+          type='number'
+          domain={['dataMin', 'dataMax']}
+          tickFormatter={formatXLabel}
+          stroke='var(--text-muted)'
+          tick={showXAxis ? { fontSize: 11 } : false}
+          tickLine={false}
+          axisLine={showXAxis ? { stroke: 'var(--border-muted)' } : false}
+          hide={!showXAxis}
+        />
+
+        <YAxis
+          domain={yDomain}
+          tickFormatter={formatYLabel}
+          stroke='var(--text-muted)'
+          tick={showYAxis ? { fontSize: 11 } : false}
+          tickLine={false}
+          axisLine={false}
+          width={showYAxis ? 60 : 0}
+          hide={!showYAxis}
+          allowDataOverflow
+        />
+
+        {(showTooltip || showCursor) && (
+          <Tooltip
+            content={renderTooltipContent}
+            cursor={
+              showCursor
+                ? {
+                    stroke: 'var(--text-muted)',
+                    strokeWidth: 1,
+                    strokeDasharray: '4 4',
+                  }
+                : false
+            }
           />
+        )}
 
-          {(showTooltip || showCursor) && (
-            <Tooltip
-              content={renderTooltipContent}
-              cursor={
-                showCursor
-                  ? {
-                      stroke: 'var(--text-muted)',
-                      strokeWidth: 1,
-                      strokeDasharray: '4 4',
-                    }
-                  : false
-              }
+        {referenceLines?.map((rl, i) => (
+          <ReferenceLine
+            key={`ref-${i}`}
+            y={rl.value}
+            stroke={rl.color ?? 'var(--text-muted)'}
+            strokeDasharray={getRefLineStrokeDasharray(rl.style)}
+            strokeWidth={1}
+            label={
+              rl.label
+                ? {
+                    value: rl.label,
+                    position:
+                      rl.labelPosition === 'left'
+                        ? 'insideLeft'
+                        : rl.labelPosition === 'right'
+                          ? 'insideRight'
+                          : 'insideBottomLeft',
+                    fill: rl.color ?? 'var(--text-muted)',
+                    fontSize: 12,
+                    dy: 14,
+                  }
+                : undefined
+            }
+          />
+        ))}
+
+        {valueLabelEntries.map((vl) => (
+          <ReferenceDot
+            key={`vl-${vl.value}-${vl.placement}`}
+            x={vl.timestamp}
+            y={vl.value}
+            r={0}
+            label={{
+              value: vl.label,
+              position: vl.placement === 'above' ? 'top' : 'bottom',
+              fill: 'rgba(255, 255, 255, 0.7)',
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+          />
+        ))}
+
+        {lines.map((line) => {
+          const strokeColor =
+            cursorFraction != null
+              ? `url(#recharts-split-${line.id})`
+              : resolvedColors[line.id];
+          const fillColor =
+            cursorFraction != null && line.showGradient
+              ? `url(#recharts-split-fill-${line.id})`
+              : `url(#recharts-grad-${line.id})`;
+
+          return line.showGradient ? (
+            <Area
+              key={`area-${line.id}`}
+              type='natural'
+              dataKey={line.id}
+              stroke={strokeColor}
+              strokeWidth={line.width ?? 2}
+              fill={fillColor}
+              fillOpacity={1}
+              dot={false}
+              activeDot={{ r: 4, strokeWidth: 0 }}
+              isAnimationActive={false}
             />
-          )}
-
-          {referenceLines?.map((rl, i) => (
-            <ReferenceLine
-              key={`ref-${i}`}
-              y={rl.value}
-              stroke={rl.color ?? 'var(--text-muted)'}
-              strokeDasharray={getRefLineStrokeDasharray(rl.style)}
-              strokeWidth={1}
-              label={
-                rl.label
-                  ? {
-                      value: rl.label,
-                      position:
-                        rl.labelPosition === 'left'
-                          ? 'insideLeft'
-                          : rl.labelPosition === 'right'
-                            ? 'insideRight'
-                            : 'insideBottomLeft',
-                      fill: rl.color ?? 'var(--text-muted)',
-                      fontSize: 12,
-                      dy: 14,
-                    }
-                  : undefined
-              }
+          ) : (
+            <Line
+              key={`line-${line.id}`}
+              type='natural'
+              dataKey={line.id}
+              stroke={strokeColor}
+              strokeWidth={line.width ?? 2}
+              dot={false}
+              activeDot={{ r: 4, strokeWidth: 0 }}
+              isAnimationActive={false}
             />
-          ))}
+          );
+        })}
 
-          {valueLabelEntries.map((vl) => (
-            <ReferenceDot
-              key={`vl-${vl.value}-${vl.placement}`}
-              x={vl.timestamp}
-              y={vl.value}
-              r={0}
-              label={{
-                value: vl.label,
-                position: vl.placement === 'above' ? 'top' : 'bottom',
-                fill: 'rgba(255, 255, 255, 0.7)',
-                fontSize: 12,
-                fontWeight: 600,
-              }}
-            />
-          ))}
-
-          {lines.map((line) => {
-            const strokeColor =
-              cursorFraction != null
-                ? `url(#recharts-split-${line.id})`
-                : resolvedColors[line.id];
-            const fillColor =
-              cursorFraction != null && line.showGradient
-                ? `url(#recharts-split-fill-${line.id})`
-                : `url(#recharts-grad-${line.id})`;
-
-            return line.showGradient ? (
-              <Area
-                key={`area-${line.id}`}
-                type='natural'
-                dataKey={line.id}
-                stroke={strokeColor}
-                strokeWidth={line.width ?? 2}
-                fill={fillColor}
-                fillOpacity={1}
-                dot={false}
-                activeDot={{ r: 4, strokeWidth: 0 }}
-                isAnimationActive={false}
-              />
-            ) : (
-              <Line
-                key={`line-${line.id}`}
-                type='natural'
-                dataKey={line.id}
-                stroke={strokeColor}
-                strokeWidth={line.width ?? 2}
-                dot={false}
-                activeDot={{ r: 4, strokeWidth: 0 }}
-                isAnimationActive={false}
-              />
-            );
-          })}
-
-          {showCursorLabel &&
-            activeIndex != null &&
-            lines.map((ln) => {
-              const entry = mergedData[activeIndex];
-              if (!entry) return null;
-              const val = entry[ln.id] as number | undefined;
-              if (val == null) return null;
-              const label = formatYLabel ? formatYLabel(val) : String(val);
-              return (
-                <ReferenceDot
-                  key={`cursor-label-${ln.id}`}
-                  x={entry.timestamp}
-                  y={val}
-                  r={0}
-                  label={{
-                    value: label,
-                    position: 'right',
-                    fill: '#fff',
-                    fontSize: 11,
-                    fontWeight: 600,
-                    dx: 8,
-                  }}
-                />
-              );
-            })}
-
-          {markers?.map((m, i) => {
-            const isOutlined = m.variant === 'outlined';
+        {showCursorLabel &&
+          activeIndex != null &&
+          lines.map((ln) => {
+            const entry = mergedData[activeIndex];
+            if (!entry) return null;
+            const val = entry[ln.id] as number | undefined;
+            if (val == null) return null;
+            const label = formatYLabel ? formatYLabel(val) : String(val);
             return (
               <ReferenceDot
-                key={`marker-${i}`}
-                x={m.timestamp}
-                y={m.value}
-                r={m.radius ?? 4}
-                fill={
-                  isOutlined ? 'transparent' : (m.color ?? 'var(--text-base)')
-                }
-                stroke={isOutlined ? (m.color ?? 'var(--text-base)') : 'none'}
-                strokeWidth={isOutlined ? 2 : 0}
+                key={`cursor-label-${ln.id}`}
+                x={entry.timestamp}
+                y={val}
+                r={0}
+                label={{
+                  value: label,
+                  position: 'right',
+                  fill: '#fff',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  dx: 8,
+                }}
               />
             );
           })}
-        </ComposedChart>
-      </ResponsiveContainer>
+
+        {markers?.map((m, i) => {
+          const isOutlined = m.variant === 'outlined';
+          return (
+            <ReferenceDot
+              key={`marker-${i}`}
+              x={m.timestamp}
+              y={m.value}
+              r={m.radius ?? 4}
+              fill={
+                isOutlined ? 'transparent' : (m.color ?? 'var(--text-base)')
+              }
+              stroke={isOutlined ? (m.color ?? 'var(--text-base)') : 'none'}
+              strokeWidth={isOutlined ? 2 : 0}
+            />
+          );
+        })}
+      </ComposedChart>
     </div>
   );
 };

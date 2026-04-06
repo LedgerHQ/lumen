@@ -8,7 +8,7 @@ import { scaleLinear, scaleTime } from '@visx/scale';
 import { LinePath, AreaClosed } from '@visx/shape';
 import { useTooltip, TooltipWithBounds } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { useMemo, useCallback, useId } from 'react';
+import { useMemo, useCallback, useId, useRef } from 'react';
 import type { LineChartProps, DataPoint } from '../types';
 import {
   resolveCssColor,
@@ -19,7 +19,7 @@ import {
 
 const getTimestamp = (d: DataPoint): Date => new Date(d.timestamp);
 const getValue = (d: DataPoint): number => d.value;
-const bisectDate = bisector<DataPoint, Date>((d) => new Date(d.timestamp)).left;
+const bisectTimestamp = bisector<DataPoint, number>((d) => d.timestamp).left;
 
 type TooltipData = {
   lineId: string;
@@ -48,14 +48,20 @@ export const LineChartVisx = (props: LineChartProps) => {
     className,
     referenceLines,
     markers,
+    valueLabels,
   } = props;
 
   const uid = useId();
+  const lastSnapTsRef = useRef<number | null>(null);
 
   const hasNoAxes = !showXAxis && !showYAxis;
-  const margin = hasNoAxes
-    ? { top: 16, right: 40, bottom: 24, left: 16 }
-    : { top: 16, right: 16, bottom: 40, left: 60 };
+  const margin = useMemo(
+    () =>
+      hasNoAxes
+        ? { top: 16, right: 40, bottom: 24, left: 16 }
+        : { top: 16, right: 16, bottom: 40, left: 60 },
+    [hasNoAxes],
+  );
 
   const resolvedColors = useMemo(() => {
     const map: Record<string, string> = {};
@@ -70,16 +76,29 @@ export const LineChartVisx = (props: LineChartProps) => {
 
   const allPoints = useMemo(() => lines.flatMap((l) => l.data), [lines]);
 
+  const xDomain = useMemo((): [Date, Date] => {
+    if (allPoints.length === 0) {
+      const n = Date.now();
+      return [new Date(n), new Date(n)];
+    }
+    const tsExtent = extent(allPoints, (d) => d.timestamp) as [number, number];
+    return [new Date(tsExtent[0]), new Date(tsExtent[1])];
+  }, [allPoints]);
+
   const xScale = useMemo(
     () =>
       scaleTime({
-        domain: extent(allPoints, (d) => new Date(d.timestamp)) as [Date, Date],
+        domain: xDomain,
         range: [0, innerWidth],
       }),
-    [allPoints, innerWidth],
+    [xDomain, innerWidth],
   );
 
-  const yDomain = useMemo(() => computeYDomain(props), [props]);
+  const yDomain = useMemo(
+    () => computeYDomain(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror computeYDomain inputs
+    [lines, referenceLines, valueLabels],
+  );
 
   const yScale = useMemo(
     () =>
@@ -90,7 +109,11 @@ export const LineChartVisx = (props: LineChartProps) => {
     [yDomain, innerHeight],
   );
 
-  const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
+  const valueLabelEntries = useMemo(
+    () => resolveValueLabels(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror resolveValueLabels inputs
+    [lines, valueLabels, formatYLabel],
+  );
 
   const { tooltipData, tooltipLeft, tooltipTop, showTooltip, hideTooltip } =
     useTooltip<TooltipData[]>();
@@ -101,18 +124,16 @@ export const LineChartVisx = (props: LineChartProps) => {
       if (!coords) return;
 
       const x0 = xScale.invert(coords.x - margin.left);
+      const xMs = x0.getTime();
       const tooltipEntries: TooltipData[] = [];
 
       for (const line of lines) {
-        const idx = bisectDate(line.data, x0, 1);
+        const idx = bisectTimestamp(line.data, xMs, 1);
         const d0 = line.data[idx - 1];
         const d1 = line.data[idx];
         if (!d0) continue;
 
-        const closest =
-          d1 && x0.getTime() - d0.timestamp > d1.timestamp - x0.getTime()
-            ? d1
-            : d0;
+        const closest = d1 && xMs - d0.timestamp > d1.timestamp - xMs ? d1 : d0;
 
         tooltipEntries.push({
           lineId: line.id,
@@ -123,11 +144,15 @@ export const LineChartVisx = (props: LineChartProps) => {
 
       if (tooltipEntries.length > 0) {
         const primaryPoint = tooltipEntries[0].point;
-        showTooltip({
-          tooltipData: tooltipEntries,
-          tooltipLeft: xScale(new Date(primaryPoint.timestamp)) + margin.left,
-          tooltipTop: yScale(primaryPoint.value) + margin.top,
-        });
+        const snapTs = primaryPoint.timestamp;
+        if (snapTs !== lastSnapTsRef.current) {
+          lastSnapTsRef.current = snapTs;
+          showTooltip({
+            tooltipData: tooltipEntries,
+            tooltipLeft: xScale(new Date(snapTs)) + margin.left,
+            tooltipTop: yScale(primaryPoint.value) + margin.top,
+          });
+        }
         onPointHover?.(primaryPoint, tooltipEntries[0].lineId);
       }
 
@@ -158,16 +183,144 @@ export const LineChartVisx = (props: LineChartProps) => {
       showTooltip,
       onPointHover,
       onMarkerHover,
-      margin,
+      margin.left,
+      margin.top,
       markers,
     ],
   );
 
   const handleMouseLeave = useCallback(() => {
+    lastSnapTsRef.current = null;
     hideTooltip();
     onPointHover?.(null, '');
     onMarkerHover?.(null);
   }, [hideTooltip, onPointHover, onMarkerHover]);
+
+  const lineLayers = useMemo(() => {
+    const cursorXPx =
+      dimAfterCursor && tooltipData && tooltipLeft != null
+        ? tooltipLeft - margin.left
+        : null;
+
+    return lines.map((line) => {
+      const xAccessor = (d: DataPoint): number => xScale(getTimestamp(d)) ?? 0;
+      const yAccessor = (d: DataPoint): number => yScale(getValue(d)) ?? 0;
+      const color = resolvedColors[line.id];
+      const sw = line.width ?? 2;
+
+      if (cursorXPx != null) {
+        return (
+          <g key={line.id}>
+            <g clipPath={`url(#${uid}-clip-before)`}>
+              {line.showGradient && (
+                <>
+                  <LinearGradient
+                    id={`${uid}-grad-${line.id}`}
+                    from={color}
+                    fromOpacity={0.3}
+                    to={color}
+                    toOpacity={0}
+                  />
+                  <AreaClosed
+                    data={line.data}
+                    x={xAccessor}
+                    y={yAccessor}
+                    yScale={yScale}
+                    curve={curveNatural}
+                    fill={`url(#${uid}-grad-${line.id})`}
+                    stroke='none'
+                  />
+                </>
+              )}
+              <LinePath
+                data={line.data}
+                x={xAccessor}
+                y={yAccessor}
+                curve={curveNatural}
+                stroke={color}
+                strokeWidth={sw}
+              />
+            </g>
+            <g clipPath={`url(#${uid}-clip-after)`}>
+              <LinePath
+                data={line.data}
+                x={xAccessor}
+                y={yAccessor}
+                curve={curveNatural}
+                stroke={DIM_COLOR}
+                strokeWidth={sw}
+              />
+            </g>
+          </g>
+        );
+      }
+
+      return (
+        <g key={`area-${line.id}`}>
+          {line.showGradient && (
+            <>
+              <LinearGradient
+                id={`${uid}-grad-${line.id}`}
+                from={color}
+                fromOpacity={0.3}
+                to={color}
+                toOpacity={0}
+              />
+              <AreaClosed
+                data={line.data}
+                x={xAccessor}
+                y={yAccessor}
+                yScale={yScale}
+                curve={curveNatural}
+                fill={`url(#${uid}-grad-${line.id})`}
+                stroke='none'
+              />
+            </>
+          )}
+          <LinePath
+            data={line.data}
+            x={xAccessor}
+            y={yAccessor}
+            curve={curveNatural}
+            stroke={color}
+            strokeWidth={sw}
+          />
+        </g>
+      );
+    });
+  }, [
+    dimAfterCursor,
+    lines,
+    margin.left,
+    resolvedColors,
+    tooltipData,
+    tooltipLeft,
+    uid,
+    xScale,
+    yScale,
+  ]);
+
+  const clipDefs =
+    dimAfterCursor && tooltipData && tooltipLeft != null ? (
+      <defs>
+        <clipPath id={`${uid}-clip-before`}>
+          <rect
+            x={0}
+            y={0}
+            width={tooltipLeft - margin.left}
+            height={innerHeight}
+          />
+        </clipPath>
+        <clipPath id={`${uid}-clip-after`}>
+          <rect
+            x={tooltipLeft - margin.left}
+            y={0}
+            width={innerWidth - (tooltipLeft - margin.left)}
+            height={innerHeight}
+          />
+        </clipPath>
+      </defs>
+    ) : null;
 
   if (width < 10 || height < 10) return null;
 
@@ -253,121 +406,8 @@ export const LineChartVisx = (props: LineChartProps) => {
             );
           })}
 
-          {(() => {
-            const cursorXPx =
-              dimAfterCursor && tooltipData && tooltipLeft != null
-                ? tooltipLeft - margin.left
-                : null;
-
-            return (
-              <>
-                {cursorXPx != null && (
-                  <defs>
-                    <clipPath id={`${uid}-clip-before`}>
-                      <rect x={0} y={0} width={cursorXPx} height={innerHeight} />
-                    </clipPath>
-                    <clipPath id={`${uid}-clip-after`}>
-                      <rect
-                        x={cursorXPx}
-                        y={0}
-                        width={innerWidth - cursorXPx}
-                        height={innerHeight}
-                      />
-                    </clipPath>
-                  </defs>
-                )}
-
-                {lines.map((line) => {
-                  const xAccessor = (d: DataPoint): number =>
-                    xScale(getTimestamp(d)) ?? 0;
-                  const yAccessor = (d: DataPoint): number =>
-                    yScale(getValue(d)) ?? 0;
-                  const color = resolvedColors[line.id];
-                  const sw = line.width ?? 2;
-
-                  if (cursorXPx != null) {
-                    return (
-                      <g key={line.id}>
-                        <g clipPath={`url(#${uid}-clip-before)`}>
-                          {line.showGradient && (
-                            <>
-                              <LinearGradient
-                                id={`${uid}-grad-${line.id}`}
-                                from={color}
-                                fromOpacity={0.3}
-                                to={color}
-                                toOpacity={0}
-                              />
-                              <AreaClosed
-                                data={line.data}
-                                x={xAccessor}
-                                y={yAccessor}
-                                yScale={yScale}
-                                curve={curveNatural}
-                                fill={`url(#${uid}-grad-${line.id})`}
-                                stroke='none'
-                              />
-                            </>
-                          )}
-                          <LinePath
-                            data={line.data}
-                            x={xAccessor}
-                            y={yAccessor}
-                            curve={curveNatural}
-                            stroke={color}
-                            strokeWidth={sw}
-                          />
-                        </g>
-                        <g clipPath={`url(#${uid}-clip-after)`}>
-                          <LinePath
-                            data={line.data}
-                            x={xAccessor}
-                            y={yAccessor}
-                            curve={curveNatural}
-                            stroke={DIM_COLOR}
-                            strokeWidth={sw}
-                          />
-                        </g>
-                      </g>
-                    );
-                  }
-
-                  return (
-                    <g key={`area-${line.id}`}>
-                      {line.showGradient && (
-                        <>
-                          <LinearGradient
-                            id={`${uid}-grad-${line.id}`}
-                            from={color}
-                            fromOpacity={0.3}
-                            to={color}
-                            toOpacity={0}
-                          />
-                          <AreaClosed
-                            data={line.data}
-                            x={xAccessor}
-                            y={yAccessor}
-                            yScale={yScale}
-                            curve={curveNatural}
-                            fill={`url(#${uid}-grad-${line.id})`}
-                            stroke='none'
-                          />
-                        </>
-                      )}
-                      <LinePath
-                        data={line.data}
-                        x={xAccessor}
-                        y={yAccessor}
-                        curve={curveNatural}
-                        stroke={color}
-                        strokeWidth={sw}
-                      />
-                    </g>
-                  );
-                })}
-              </>
-            );
-          })()}
+          {clipDefs}
+          {lineLayers}
 
           {showCursor && tooltipData && tooltipLeft != null && (
             <line
@@ -460,7 +500,6 @@ export const LineChartVisx = (props: LineChartProps) => {
             onMouseLeave={handleMouseLeave}
           />
 
-          {/* Markers (pointerEvents:none — hover detected via proximity in handleMouseMove) */}
           {markers?.map((m, i) => {
             const isOutlined = m.variant === 'outlined';
             return (

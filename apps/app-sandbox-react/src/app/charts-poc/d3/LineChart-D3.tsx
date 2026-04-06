@@ -11,7 +11,7 @@ import {
 } from '../utils';
 
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
-const bisectDate = bisector<DataPoint, Date>((d) => new Date(d.timestamp)).left;
+const bisectTimestamp = bisector<DataPoint, number>((d) => d.timestamp).left;
 
 export const LineChartD3 = (props: LineChartProps) => {
   const {
@@ -32,10 +32,12 @@ export const LineChartD3 = (props: LineChartProps) => {
     className,
     referenceLines,
     markers,
+    valueLabels,
   } = props;
 
   const uid = useId();
   const svgRef = useRef<SVGSVGElement>(null);
+  const lastSnapTsRef = useRef<number | null>(null);
 
   const [tooltip, setTooltip] = useState<{
     entries: Array<{ lineId: string; point: DataPoint; color: string }>;
@@ -65,22 +67,36 @@ export const LineChartD3 = (props: LineChartProps) => {
 
   const allPoints = useMemo(() => lines.flatMap((l) => l.data), [lines]);
 
+  const xDomainDates = useMemo((): [Date, Date] => {
+    if (allPoints.length === 0) {
+      const n = Date.now();
+      return [new Date(n), new Date(n)];
+    }
+    const tsExtent = extent(allPoints, (d) => d.timestamp) as [number, number];
+    return [new Date(tsExtent[0]), new Date(tsExtent[1])];
+  }, [allPoints]);
+
   const xScale = useMemo(
-    () =>
-      scaleTime()
-        .domain(extent(allPoints, (d) => new Date(d.timestamp)) as [Date, Date])
-        .range([0, innerWidth]),
-    [allPoints, innerWidth],
+    () => scaleTime().domain(xDomainDates).range([0, innerWidth]),
+    [xDomainDates, innerWidth],
   );
 
-  const yDomain = useMemo(() => computeYDomain(props), [props]);
+  const yDomain = useMemo(
+    () => computeYDomain(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror computeYDomain inputs
+    [lines, referenceLines, valueLabels],
+  );
 
   const yScale = useMemo(
     () => scaleLinear().domain(yDomain).range([innerHeight, 0]),
     [yDomain, innerHeight],
   );
 
-  const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
+  const valueLabelEntries = useMemo(
+    () => resolveValueLabels(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror resolveValueLabels inputs
+    [lines, valueLabels, formatYLabel],
+  );
 
   const lineGenerator = useMemo(
     () =>
@@ -101,6 +117,19 @@ export const LineChartD3 = (props: LineChartProps) => {
     [xScale, yScale, innerHeight],
   );
 
+  const linePaths = useMemo(
+    () =>
+      lines.map((l) => ({
+        id: l.id,
+        pathD: lineGenerator(l.data) ?? '',
+        areaD: areaGenerator(l.data) ?? '',
+        showGradient: Boolean(l.showGradient),
+        color: resolvedColors[l.id],
+        sw: l.width ?? 2,
+      })),
+    [areaGenerator, lineGenerator, lines, resolvedColors],
+  );
+
   const xTicks = useMemo(() => xScale.ticks(6), [xScale]);
   const yTicks = useMemo(() => yScale.ticks(5), [yScale]);
 
@@ -112,6 +141,7 @@ export const LineChartD3 = (props: LineChartProps) => {
       const rect = svg.getBoundingClientRect();
       const mouseX = event.clientX - rect.left - margin.left;
       const x0 = xScale.invert(mouseX);
+      const xMs = x0.getTime();
 
       const entries: Array<{
         lineId: string;
@@ -120,15 +150,12 @@ export const LineChartD3 = (props: LineChartProps) => {
       }> = [];
 
       for (const l of lines) {
-        const idx = bisectDate(l.data, x0, 1);
+        const idx = bisectTimestamp(l.data, xMs, 1);
         const d0 = l.data[idx - 1];
         const d1 = l.data[idx];
         if (!d0) continue;
 
-        const closest =
-          d1 && x0.getTime() - d0.timestamp > d1.timestamp - x0.getTime()
-            ? d1
-            : d0;
+        const closest = d1 && xMs - d0.timestamp > d1.timestamp - xMs ? d1 : d0;
 
         entries.push({
           lineId: l.id,
@@ -139,11 +166,15 @@ export const LineChartD3 = (props: LineChartProps) => {
 
       if (entries.length > 0) {
         const primary = entries[0].point;
-        setTooltip({
-          entries,
-          left: xScale(new Date(primary.timestamp)) + margin.left,
-          top: yScale(primary.value) + margin.top,
-        });
+        const snapTs = primary.timestamp;
+        if (snapTs !== lastSnapTsRef.current) {
+          lastSnapTsRef.current = snapTs;
+          setTooltip({
+            entries,
+            left: xScale(new Date(snapTs)) + margin.left,
+            top: yScale(primary.value) + margin.top,
+          });
+        }
         onPointHover?.(primary, entries[0].lineId);
       }
 
@@ -172,12 +203,14 @@ export const LineChartD3 = (props: LineChartProps) => {
       resolvedColors,
       onPointHover,
       onMarkerHover,
-      margin,
+      margin.left,
+      margin.top,
       markers,
     ],
   );
 
   const handleMouseLeave = useCallback(() => {
+    lastSnapTsRef.current = null;
     setTooltip(null);
     onPointHover?.(null, '');
     onMarkerHover?.(null);
@@ -192,7 +225,42 @@ export const LineChartD3 = (props: LineChartProps) => {
     <div className={className} style={{ position: 'relative' }}>
       <svg ref={svgRef} width={width} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {/* Grid */}
+          <defs>
+            {lines
+              .filter((l) => l.showGradient)
+              .map((l) => {
+                const color = resolvedColors[l.id];
+                return (
+                  <linearGradient
+                    key={`grad-${l.id}`}
+                    id={`${uid}-grad-${l.id}`}
+                    x1='0'
+                    y1='0'
+                    x2='0'
+                    y2='1'
+                  >
+                    <stop offset='0%' stopColor={color} stopOpacity={0.3} />
+                    <stop offset='100%' stopColor={color} stopOpacity={0} />
+                  </linearGradient>
+                );
+              })}
+            {cursorXPx != null && (
+              <>
+                <clipPath id={`${uid}-clip-before`}>
+                  <rect x={0} y={0} width={cursorXPx} height={innerHeight} />
+                </clipPath>
+                <clipPath id={`${uid}-clip-after`}>
+                  <rect
+                    x={cursorXPx}
+                    y={0}
+                    width={innerWidth - cursorXPx}
+                    height={innerHeight}
+                  />
+                </clipPath>
+              </>
+            )}
+          </defs>
+
           {showGrid && (
             <>
               {yTicks.map((tick) => (
@@ -222,7 +290,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             </>
           )}
 
-          {/* Reference lines */}
           {referenceLines?.map((rl, i) => {
             const y = yScale(rl.value);
             return (
@@ -263,7 +330,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             );
           })}
 
-          {/* Value labels */}
           {valueLabelEntries.map((vl) => {
             const cx = xScale(new Date(vl.timestamp));
             const cy = yScale(vl.value);
@@ -283,76 +349,31 @@ export const LineChartD3 = (props: LineChartProps) => {
             );
           })}
 
-          {/* Clip paths for dim-after-cursor */}
-          {cursorXPx != null && (
-            <defs>
-              <clipPath id={`${uid}-clip-before`}>
-                <rect x={0} y={0} width={cursorXPx} height={innerHeight} />
-              </clipPath>
-              <clipPath id={`${uid}-clip-after`}>
-                <rect
-                  x={cursorXPx}
-                  y={0}
-                  width={innerWidth - cursorXPx}
-                  height={innerHeight}
-                />
-              </clipPath>
-            </defs>
-          )}
-
-          {/* Lines */}
-          {lines.map((l) => {
-            const color = resolvedColors[l.id];
-            const sw = l.width ?? 2;
-            const pathD = lineGenerator(l.data) ?? '';
-            const areaD = areaGenerator(l.data) ?? '';
-
+          {linePaths.map((lp) => {
             if (cursorXPx != null) {
               return (
-                <g key={l.id}>
+                <g key={lp.id}>
                   <g clipPath={`url(#${uid}-clip-before)`}>
-                    {l.showGradient && (
-                      <>
-                        <defs>
-                          <linearGradient
-                            id={`${uid}-grad-${l.id}`}
-                            x1='0'
-                            y1='0'
-                            x2='0'
-                            y2='1'
-                          >
-                            <stop
-                              offset='0%'
-                              stopColor={color}
-                              stopOpacity={0.3}
-                            />
-                            <stop
-                              offset='100%'
-                              stopColor={color}
-                              stopOpacity={0}
-                            />
-                          </linearGradient>
-                        </defs>
-                        <path
-                          d={areaD}
-                          fill={`url(#${uid}-grad-${l.id})`}
-                          stroke='none'
-                        />
-                      </>
+                    {lp.showGradient && (
+                      <path
+                        d={lp.areaD}
+                        fill={`url(#${uid}-grad-${lp.id})`}
+                        stroke='none'
+                      />
                     )}
                     <path
-                      d={pathD}
+                      d={lp.pathD}
                       fill='none'
-                      stroke={color}
-                      strokeWidth={sw}
+                      stroke={lp.color}
+                      strokeWidth={lp.sw}
                     />
                   </g>
                   <g clipPath={`url(#${uid}-clip-after)`}>
                     <path
-                      d={pathD}
+                      d={lp.pathD}
                       fill='none'
                       stroke={DIM_COLOR}
-                      strokeWidth={sw}
+                      strokeWidth={lp.sw}
                     />
                   </g>
                 </g>
@@ -360,34 +381,24 @@ export const LineChartD3 = (props: LineChartProps) => {
             }
 
             return (
-              <g key={`area-${l.id}`}>
-                {l.showGradient && (
-                  <>
-                    <defs>
-                      <linearGradient
-                        id={`${uid}-grad-${l.id}`}
-                        x1='0'
-                        y1='0'
-                        x2='0'
-                        y2='1'
-                      >
-                        <stop offset='0%' stopColor={color} stopOpacity={0.3} />
-                        <stop offset='100%' stopColor={color} stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      d={areaD}
-                      fill={`url(#${uid}-grad-${l.id})`}
-                      stroke='none'
-                    />
-                  </>
+              <g key={`area-${lp.id}`}>
+                {lp.showGradient && (
+                  <path
+                    d={lp.areaD}
+                    fill={`url(#${uid}-grad-${lp.id})`}
+                    stroke='none'
+                  />
                 )}
-                <path d={pathD} fill='none' stroke={color} strokeWidth={sw} />
+                <path
+                  d={lp.pathD}
+                  fill='none'
+                  stroke={lp.color}
+                  strokeWidth={lp.sw}
+                />
               </g>
             );
           })}
 
-          {/* Cursor line */}
           {showCursor && tooltip && (
             <line
               x1={tooltip.left - margin.left}
@@ -401,7 +412,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             />
           )}
 
-          {/* Active dots + cursor label */}
           {tooltip?.entries.map((entry) => {
             const cx = xScale(new Date(entry.point.timestamp));
             const cy = yScale(entry.point.value);
@@ -434,7 +444,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             );
           })}
 
-          {/* X Axis */}
           {showXAxis && (
             <g transform={`translate(0,${innerHeight})`}>
               <line
@@ -461,7 +470,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             </g>
           )}
 
-          {/* Y Axis */}
           {showYAxis && (
             <g>
               {yTicks.map((tick) => (
@@ -480,7 +488,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             </g>
           )}
 
-          {/* Interaction overlay */}
           <rect
             width={innerWidth}
             height={innerHeight}
@@ -489,7 +496,6 @@ export const LineChartD3 = (props: LineChartProps) => {
             onMouseLeave={handleMouseLeave}
           />
 
-          {/* Markers (pointerEvents:none — hover detected via proximity in handleMouseMove) */}
           {markers?.map((m, i) => {
             const isOutlined = m.variant === 'outlined';
             return (
@@ -508,7 +514,6 @@ export const LineChartD3 = (props: LineChartProps) => {
         </g>
       </svg>
 
-      {/* Tooltip */}
       {showTooltipProp && tooltip && (
         <div
           style={{

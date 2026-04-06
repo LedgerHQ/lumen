@@ -78,8 +78,16 @@ export function computeYDomain(props: LineChartProps): [number, number] {
     .map((vl) => vl.value as number);
 
   const combined = [...allValues, ...refValues, ...vlValues];
-  const rawMin = Math.min(...combined);
-  const rawMax = Math.max(...combined);
+  if (combined.length === 0) {
+    return [0, 1];
+  }
+  let rawMin = combined[0];
+  let rawMax = combined[0];
+  for (let i = 1; i < combined.length; i++) {
+    const v = combined[i];
+    if (v < rawMin) rawMin = v;
+    if (v > rawMax) rawMax = v;
+  }
   const range = rawMax - rawMin || 1;
   const padding = range * Y_PADDING_FACTOR;
 

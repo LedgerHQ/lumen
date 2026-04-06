@@ -18,7 +18,7 @@ function seededRandom(seed: number): () => number {
   };
 }
 
-function generatePriceSeries(
+export function generatePriceSeries(
   basePrice: number,
   volatility: number,
   days: number,

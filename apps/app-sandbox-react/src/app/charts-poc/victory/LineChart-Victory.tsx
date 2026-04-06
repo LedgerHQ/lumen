@@ -19,6 +19,24 @@ import {
 
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
 
+function computeXExtent(lines: LineChartProps['lines']): {
+  xMin: number;
+  xMax: number;
+} {
+  let xMin = Infinity;
+  let xMax = -Infinity;
+  for (const line of lines) {
+    for (const d of line.data) {
+      if (d.timestamp < xMin) xMin = d.timestamp;
+      if (d.timestamp > xMax) xMax = d.timestamp;
+    }
+  }
+  if (!Number.isFinite(xMin) || !Number.isFinite(xMax)) {
+    return { xMin: 0, xMax: 1 };
+  }
+  return { xMin, xMax };
+}
+
 export const LineChartVictory = (props: LineChartProps) => {
   const {
     lines,
@@ -38,6 +56,7 @@ export const LineChartVictory = (props: LineChartProps) => {
     className,
     referenceLines,
     markers,
+    valueLabels,
   } = props;
 
   const gradientId = useId();
@@ -64,15 +83,45 @@ export const LineChartVictory = (props: LineChartProps) => {
     [lines, resolvedColors],
   );
 
-  const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
-  const yDomain = useMemo(() => computeYDomain(props), [props]);
-
-  const allTimestamps = useMemo(
-    () => lines.flatMap((l) => l.data.map((d) => d.timestamp)),
-    [lines],
+  const valueLabelEntries = useMemo(
+    () => resolveValueLabels(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror resolveValueLabels inputs
+    [lines, valueLabels, formatYLabel],
   );
-  const xMin = Math.min(...allTimestamps);
-  const xMax = Math.max(...allTimestamps);
+  const yDomain = useMemo(
+    () => computeYDomain(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror computeYDomain inputs
+    [lines, referenceLines, valueLabels],
+  );
+
+  const { xMin, xMax } = useMemo(() => computeXExtent(lines), [lines]);
+
+  const hasNoAxes = !showXAxis && !showYAxis;
+  const padding = useMemo(
+    () =>
+      hasNoAxes
+        ? { top: 16, right: 40, bottom: 24, left: 16 }
+        : { top: 16, right: 16, bottom: 40, left: 60 },
+    [hasNoAxes],
+  );
+
+  const innerWidth = width - padding.left - padding.right;
+  const innerHeight = height - padding.top - padding.bottom;
+
+  const isDimming =
+    dimAfterCursor && cursorX != null && xMax > xMin && innerWidth > 0;
+
+  let clipBeforeW = 0;
+  let clipAfterX = 0;
+  let clipAfterW = 0;
+  if (dimAfterCursor && cursorX != null && xMax > xMin && innerWidth > 0) {
+    const t = (cursorX - xMin) / (xMax - xMin);
+    const clampedT = Math.min(1, Math.max(0, t));
+    const cursorClipPx = padding.left + clampedT * innerWidth;
+    clipBeforeW = Math.max(0, cursorClipPx - padding.left);
+    clipAfterX = cursorClipPx;
+    clipAfterW = Math.max(0, width - padding.right - cursorClipPx);
+  }
 
   const gridStyle = showGrid
     ? {
@@ -81,11 +130,6 @@ export const LineChartVictory = (props: LineChartProps) => {
         strokeDasharray: '4 4',
       }
     : { stroke: 'transparent' };
-
-  const hasNoAxes = !showXAxis && !showYAxis;
-  const padding = hasNoAxes
-    ? { top: 16, right: 40, bottom: 24, left: 16 }
-    : { top: 16, right: 16, bottom: 40, left: 60 };
 
   const axisStyle = {
     axis: { stroke: 'var(--border-muted)' },
@@ -98,6 +142,9 @@ export const LineChartVictory = (props: LineChartProps) => {
     tickLabels: { fontSize: 11, fill: 'var(--text-muted)', padding: 5 },
     grid: gridStyle,
   };
+
+  const clipBeforeId = `${gradientId}-clip-before`;
+  const clipAfterId = `${gradientId}-clip-after`;
 
   return (
     <div className={className}>
@@ -122,6 +169,7 @@ export const LineChartVictory = (props: LineChartProps) => {
       </svg>
 
       <VictoryChart
+        animate={false}
         width={width}
         height={height}
         padding={padding}
@@ -186,8 +234,30 @@ export const LineChartVictory = (props: LineChartProps) => {
           ) : undefined
         }
       >
+        {isDimming && (
+          <defs>
+            <clipPath id={clipBeforeId}>
+              <rect
+                x={padding.left}
+                y={padding.top}
+                width={clipBeforeW}
+                height={innerHeight}
+              />
+            </clipPath>
+            <clipPath id={clipAfterId}>
+              <rect
+                x={clipAfterX}
+                y={padding.top}
+                width={clipAfterW}
+                height={innerHeight}
+              />
+            </clipPath>
+          </defs>
+        )}
+
         {showXAxis ? (
           <VictoryAxis
+            animate={false}
             scale='time'
             tickFormat={formatXLabel}
             style={axisStyle}
@@ -195,6 +265,7 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         ) : (
           <VictoryAxis
+            animate={false}
             style={{
               axis: { stroke: 'transparent' },
               tickLabels: { fill: 'transparent' },
@@ -205,6 +276,7 @@ export const LineChartVictory = (props: LineChartProps) => {
 
         {showYAxis ? (
           <VictoryAxis
+            animate={false}
             dependentAxis
             tickFormat={formatYLabel}
             style={dependentAxisStyle}
@@ -212,6 +284,7 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         ) : (
           <VictoryAxis
+            animate={false}
             dependentAxis
             style={{
               axis: { stroke: 'transparent' },
@@ -224,6 +297,7 @@ export const LineChartVictory = (props: LineChartProps) => {
         {referenceLines?.map((rl, i) => (
           <VictoryLine
             key={`ref-${i}`}
+            animate={false}
             data={[
               { x: xMin, y: rl.value },
               { x: xMax, y: rl.value },
@@ -264,6 +338,7 @@ export const LineChartVictory = (props: LineChartProps) => {
 
         {valueLabelEntries.length > 0 && (
           <VictoryScatter
+            animate={false}
             data={valueLabelEntries.map((vl) => ({
               x: vl.timestamp,
               y: vl.value,
@@ -275,8 +350,9 @@ export const LineChartVictory = (props: LineChartProps) => {
             labels={({ datum }: { datum: { label: string } }) => datum.label}
             labelComponent={
               <VictoryLabel
-                dy={({ datum }: { datum: { placement: string } }) =>
-                  datum.placement === 'above' ? -12 : 16
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Victory CallbackArgs
+                dy={({ datum }: any) =>
+                  datum?.placement === 'above' ? -12 : 16
                 }
                 style={{
                   fill: 'rgba(255, 255, 255, 0.7)',
@@ -290,51 +366,50 @@ export const LineChartVictory = (props: LineChartProps) => {
         )}
 
         {victoryData.map((d) => {
-          const isDimming = dimAfterCursor && cursorX != null;
-          const splitIdx = isDimming
-            ? d.data.findIndex((pt) => pt.x > cursorX!)
-            : -1;
-
-          if (isDimming && splitIdx > 0) {
-            const before = d.data.slice(0, splitIdx + 1);
-            const after = d.data.slice(splitIdx);
-
+          if (isDimming) {
             return (
               <g key={d.id}>
-                {d.showGradient ? (
-                  <VictoryArea
-                    data={before}
-                    interpolation='natural'
-                    style={{
-                      data: {
-                        fill: `url(#${gradientId}-${d.id})`,
-                        stroke: d.color,
-                        strokeWidth: d.width,
-                      },
-                    }}
-                  />
-                ) : (
+                <g clipPath={`url(#${clipBeforeId})`}>
+                  {d.showGradient ? (
+                    <VictoryArea
+                      animate={false}
+                      data={d.data}
+                      interpolation='natural'
+                      style={{
+                        data: {
+                          fill: `url(#${gradientId}-${d.id})`,
+                          stroke: d.color,
+                          strokeWidth: d.width,
+                        },
+                      }}
+                    />
+                  ) : (
+                    <VictoryLine
+                      animate={false}
+                      data={d.data}
+                      interpolation='natural'
+                      style={{
+                        data: {
+                          stroke: d.color,
+                          strokeWidth: d.width,
+                        },
+                      }}
+                    />
+                  )}
+                </g>
+                <g clipPath={`url(#${clipAfterId})`}>
                   <VictoryLine
-                    data={before}
+                    animate={false}
+                    data={d.data}
                     interpolation='natural'
                     style={{
                       data: {
-                        stroke: d.color,
+                        stroke: DIM_COLOR,
                         strokeWidth: d.width,
                       },
                     }}
                   />
-                )}
-                <VictoryLine
-                  data={after}
-                  interpolation='natural'
-                  style={{
-                    data: {
-                      stroke: DIM_COLOR,
-                      strokeWidth: d.width,
-                    },
-                  }}
-                />
+                </g>
               </g>
             );
           }
@@ -342,6 +417,7 @@ export const LineChartVictory = (props: LineChartProps) => {
           return d.showGradient ? (
             <VictoryArea
               key={`area-${d.id}`}
+              animate={false}
               data={d.data}
               interpolation='natural'
               style={{
@@ -355,6 +431,7 @@ export const LineChartVictory = (props: LineChartProps) => {
           ) : (
             <VictoryLine
               key={`line-${d.id}`}
+              animate={false}
               data={d.data}
               interpolation='natural'
               style={{
@@ -369,6 +446,7 @@ export const LineChartVictory = (props: LineChartProps) => {
 
         {markers && markers.length > 0 && (
           <VictoryScatter
+            animate={false}
             data={markers.map((m) => ({
               x: m.timestamp,
               y: m.value,
@@ -400,6 +478,7 @@ export const LineChartVictory = (props: LineChartProps) => {
 
         {showCursor && cursorX != null && (
           <VictoryLine
+            animate={false}
             style={{
               data: {
                 stroke: 'var(--text-muted)',
@@ -416,6 +495,7 @@ export const LineChartVictory = (props: LineChartProps) => {
 
         {showCursorLabel && cursorX != null && cursorY != null && (
           <VictoryScatter
+            animate={false}
             data={[{ x: cursorX, y: cursorY }]}
             size={0}
             style={{ data: { fill: 'transparent' } }}

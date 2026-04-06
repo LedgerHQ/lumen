@@ -18,6 +18,7 @@ import {
   walletValueLabels,
   walletMarkers,
 } from './mockData';
+import { PerfBenchmark } from './PerfBenchmark';
 import { LineChartRecharts } from './recharts';
 import type { DataPoint, LineChartProps, MarkerConfig } from './types';
 import { LineChartVictory } from './victory';
@@ -217,6 +218,8 @@ export const ChartsPocPage = ({
       </div>
 
       <FeatureComparisonTable />
+
+      <PerfBenchmark />
     </div>
   );
 };
