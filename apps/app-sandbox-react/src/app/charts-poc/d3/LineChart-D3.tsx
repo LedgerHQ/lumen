@@ -1,7 +1,7 @@
-import { bisector, extent } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { line, area, curveNatural } from 'd3-shape';
+import { line, area } from 'd3-shape';
 import { useMemo, useCallback, useId, useState, useRef } from 'react';
+import { getD3Curve } from '../chartCurves';
 import type { LineChartProps, DataPoint } from '../types';
 import {
   resolveCssColor,
@@ -10,18 +10,21 @@ import {
   getReferenceLineStrokeWidth,
   REFERENCE_LINE_STROKE,
   computeYDomain,
+  computeXTimeDomainMs,
+  resolveChartInset,
+  effectiveShowXAxis,
+  effectiveShowYAxis,
+  lineDataRuns,
+  nearestDefinedPointByTime,
 } from '../utils';
 
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
-const bisectTimestamp = bisector<DataPoint, number>((d) => d.timestamp).left;
 
 export const LineChartD3 = (props: LineChartProps) => {
   const {
     lines,
     width,
     height,
-    showXAxis = true,
-    showYAxis = true,
     showGrid = true,
     showTooltip: showTooltipProp = true,
     showCursor = true,
@@ -35,11 +38,21 @@ export const LineChartD3 = (props: LineChartProps) => {
     referenceLines,
     markers,
     valueLabels,
+    inset,
+    onActiveIndexChange,
+    chartAccessibilityLabel,
+    getPointA11yLabel,
+    xAxis: xAxisConfig,
+    yAxis: yAxisConfig,
   } = props;
 
   const uid = useId();
   const svgRef = useRef<SVGSVGElement>(null);
   const lastSnapTsRef = useRef<number | null>(null);
+  const lastActiveIndexRef = useRef<number | null>(null);
+
+  const showXAxisEff = effectiveShowXAxis(props);
+  const showYAxisEff = effectiveShowYAxis(props);
 
   const [tooltip, setTooltip] = useState<{
     entries: Array<{ lineId: string; point: DataPoint; color: string }>;
@@ -47,13 +60,16 @@ export const LineChartD3 = (props: LineChartProps) => {
     top: number;
   } | null>(null);
 
-  const hasNoAxes = !showXAxis && !showYAxis;
+  const hasNoAxes = !showXAxisEff && !showYAxisEff;
   const margin = useMemo(
     () =>
-      hasNoAxes
-        ? { top: 16, right: 40, bottom: 24, left: 16 }
-        : { top: 16, right: 16, bottom: 40, left: 60 },
-    [hasNoAxes],
+      resolveChartInset(
+        inset,
+        hasNoAxes
+          ? { top: 16, right: 40, bottom: 24, left: 16 }
+          : { top: 16, right: 16, bottom: 40, left: 60 },
+      ),
+    [inset, hasNoAxes],
   );
 
   const resolvedColors = useMemo(() => {
@@ -67,16 +83,16 @@ export const LineChartD3 = (props: LineChartProps) => {
   const innerWidth = Math.max(0, width - margin.left - margin.right);
   const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 
-  const allPoints = useMemo(() => lines.flatMap((l) => l.data), [lines]);
+  const xDomainMs = useMemo(
+    () => computeXTimeDomainMs(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- xAxis.domain drives domain
+    [lines, xAxisConfig?.domain],
+  );
 
-  const xDomainDates = useMemo((): [Date, Date] => {
-    if (allPoints.length === 0) {
-      const n = Date.now();
-      return [new Date(n), new Date(n)];
-    }
-    const tsExtent = extent(allPoints, (d) => d.timestamp) as [number, number];
-    return [new Date(tsExtent[0]), new Date(tsExtent[1])];
-  }, [allPoints]);
+  const xDomainDates = useMemo(
+    (): [Date, Date] => [new Date(xDomainMs[0]), new Date(xDomainMs[1])],
+    [xDomainMs],
+  );
 
   const xScale = useMemo(
     () => scaleTime().domain(xDomainDates).range([0, innerWidth]),
@@ -86,7 +102,7 @@ export const LineChartD3 = (props: LineChartProps) => {
   const yDomain = useMemo(
     () => computeYDomain(props),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror computeYDomain inputs
-    [lines, referenceLines, valueLabels],
+    [lines, referenceLines, valueLabels, yAxisConfig?.domain],
   );
 
   const yScale = useMemo(
@@ -100,40 +116,37 @@ export const LineChartD3 = (props: LineChartProps) => {
     [lines, valueLabels, formatYLabel],
   );
 
-  const lineGenerator = useMemo(
-    () =>
-      line<DataPoint>()
+  const linePaths = useMemo(() => {
+    return lines.map((l) => {
+      const curve = getD3Curve(l.curve);
+      const runs = lineDataRuns(l.data, l.connectNulls);
+      const lg = line<DataPoint & { value: number }>()
         .x((d) => xScale(new Date(d.timestamp)))
         .y((d) => yScale(d.value))
-        .curve(curveNatural),
-    [xScale, yScale],
-  );
-
-  const areaGenerator = useMemo(
-    () =>
-      area<DataPoint>()
+        .curve(curve);
+      const ag = area<DataPoint & { value: number }>()
         .x((d) => xScale(new Date(d.timestamp)))
         .y0(innerHeight)
         .y1((d) => yScale(d.value))
-        .curve(curveNatural),
-    [xScale, yScale, innerHeight],
-  );
-
-  const linePaths = useMemo(
-    () =>
-      lines.map((l) => ({
+        .curve(curve);
+      const segments = runs.map((run) => ({
+        pathD: lg(run) ?? '',
+        areaD: ag(run) ?? '',
+      }));
+      return {
         id: l.id,
-        pathD: lineGenerator(l.data) ?? '',
-        areaD: areaGenerator(l.data) ?? '',
+        segments,
         showGradient: Boolean(l.showGradient),
         color: resolvedColors[l.id],
         sw: l.width ?? 2,
-      })),
-    [areaGenerator, lineGenerator, lines, resolvedColors],
-  );
+      };
+    });
+  }, [innerHeight, lines, resolvedColors, xScale, yScale]);
 
-  const xTicks = useMemo(() => xScale.ticks(6), [xScale]);
-  const yTicks = useMemo(() => yScale.ticks(5), [yScale]);
+  const xTickCount = xAxisConfig?.tickCount ?? 6;
+  const yTickCount = yAxisConfig?.tickCount ?? 5;
+  const xTicks = useMemo(() => xScale.ticks(xTickCount), [xScale, xTickCount]);
+  const yTicks = useMemo(() => yScale.ticks(yTickCount), [yScale, yTickCount]);
 
   const handleMouseMove = useCallback(
     (event: React.MouseEvent<SVGRectElement>) => {
@@ -152,12 +165,8 @@ export const LineChartD3 = (props: LineChartProps) => {
       }> = [];
 
       for (const l of lines) {
-        const idx = bisectTimestamp(l.data, xMs, 1);
-        const d0 = l.data[idx - 1];
-        const d1 = l.data[idx];
-        if (!d0) continue;
-
-        const closest = d1 && xMs - d0.timestamp > d1.timestamp - xMs ? d1 : d0;
+        const closest = nearestDefinedPointByTime(l.data, xMs);
+        if (!closest) continue;
 
         entries.push({
           lineId: l.id,
@@ -171,13 +180,28 @@ export const LineChartD3 = (props: LineChartProps) => {
         const snapTs = primary.timestamp;
         if (snapTs !== lastSnapTsRef.current) {
           lastSnapTsRef.current = snapTs;
+          const py = primary.value;
           setTooltip({
             entries,
             left: xScale(new Date(snapTs)) + margin.left,
-            top: yScale(primary.value) + margin.top,
+            top:
+              py != null
+                ? yScale(py) + margin.top
+                : margin.top + innerHeight / 2,
           });
         }
         onPointHover?.(primary, entries[0].lineId);
+
+        if (lines[0] && onActiveIndexChange) {
+          const idx = lines[0].data.findIndex(
+            (p) => p.timestamp === primary.timestamp,
+          );
+          const nextIdx = idx >= 0 ? idx : null;
+          if (nextIdx !== lastActiveIndexRef.current) {
+            lastActiveIndexRef.current = nextIdx;
+            onActiveIndexChange(nextIdx);
+          }
+        }
       }
 
       const mouseY = event.clientY - rect.top - margin.top;
@@ -205,26 +229,41 @@ export const LineChartD3 = (props: LineChartProps) => {
       resolvedColors,
       onPointHover,
       onMarkerHover,
+      onActiveIndexChange,
       margin.left,
       margin.top,
+      innerHeight,
       markers,
     ],
   );
 
   const handleMouseLeave = useCallback(() => {
     lastSnapTsRef.current = null;
+    lastActiveIndexRef.current = null;
     setTooltip(null);
+    onActiveIndexChange?.(null);
     onPointHover?.(null, '');
     onMarkerHover?.(null);
-  }, [onPointHover, onMarkerHover]);
-
-  if (width < 10 || height < 10) return null;
+  }, [onPointHover, onMarkerHover, onActiveIndexChange]);
 
   const cursorXPx =
     dimAfterCursor && tooltip ? tooltip.left - margin.left : null;
 
+  const a11yLive =
+    tooltip?.entries[0] && lines[0] && getPointA11yLabel
+      ? getPointA11yLabel(tooltip.entries[0].point, lines[0].id)
+      : null;
+
+  if (width < 10 || height < 10) return null;
+
   return (
-    <div className={className} style={{ position: 'relative' }}>
+    <div
+      className={className}
+      style={{ position: 'relative' }}
+      role={chartAccessibilityLabel ? 'img' : undefined}
+      aria-label={chartAccessibilityLabel}
+    >
+      {a11yLive ? <span className='sr-only'>{a11yLive}</span> : null}
       <svg ref={svgRef} width={width} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
           <defs>
@@ -292,15 +331,37 @@ export const LineChartD3 = (props: LineChartProps) => {
             </>
           )}
 
-          {referenceLines?.map((rl, i) => {
-            const y = yScale(rl.value);
-            return (
-              <g key={`ref-${i}`}>
+          {referenceLines?.map((rl, i) =>
+            (rl.axis ?? 'y') === 'x' ? (
+              <g key={`ref-x-${i}`}>
+                <line
+                  x1={xScale(new Date(rl.value))}
+                  y1={0}
+                  x2={xScale(new Date(rl.value))}
+                  y2={innerHeight}
+                  stroke={REFERENCE_LINE_STROKE}
+                  strokeWidth={getReferenceLineStrokeWidth(rl.style)}
+                  strokeDasharray={getRefLineStrokeDasharray(rl.style)}
+                />
+                {rl.label && (
+                  <text
+                    x={xScale(new Date(rl.value)) + 4}
+                    y={12}
+                    fill={REFERENCE_LINE_STROKE}
+                    fontSize={12}
+                    textAnchor='start'
+                  >
+                    {rl.label}
+                  </text>
+                )}
+              </g>
+            ) : (
+              <g key={`ref-y-${i}`}>
                 <line
                   x1={0}
-                  y1={y}
+                  y1={yScale(rl.value)}
                   x2={innerWidth}
-                  y2={y}
+                  y2={yScale(rl.value)}
                   stroke={REFERENCE_LINE_STROKE}
                   strokeWidth={getReferenceLineStrokeWidth(rl.style)}
                   strokeDasharray={getRefLineStrokeDasharray(rl.style)}
@@ -314,7 +375,7 @@ export const LineChartD3 = (props: LineChartProps) => {
                           ? innerWidth - 4
                           : innerWidth / 2
                     }
-                    y={y + 16}
+                    y={yScale(rl.value) + 16}
                     fill={REFERENCE_LINE_STROKE}
                     fontSize={12}
                     textAnchor={
@@ -329,8 +390,8 @@ export const LineChartD3 = (props: LineChartProps) => {
                   </text>
                 )}
               </g>
-            );
-          })}
+            ),
+          )}
 
           {valueLabelEntries.map((vl) => {
             const cx = xScale(new Date(vl.timestamp));
@@ -356,27 +417,34 @@ export const LineChartD3 = (props: LineChartProps) => {
               return (
                 <g key={lp.id}>
                   <g clipPath={`url(#${uid}-clip-before)`}>
-                    {lp.showGradient && (
-                      <path
-                        d={lp.areaD}
-                        fill={`url(#${uid}-grad-${lp.id})`}
-                        stroke='none'
-                      />
-                    )}
-                    <path
-                      d={lp.pathD}
-                      fill='none'
-                      stroke={lp.color}
-                      strokeWidth={lp.sw}
-                    />
+                    {lp.segments.map((seg, si) => (
+                      <g key={`${lp.id}-b-${si}`}>
+                        {lp.showGradient && (
+                          <path
+                            d={seg.areaD}
+                            fill={`url(#${uid}-grad-${lp.id})`}
+                            stroke='none'
+                          />
+                        )}
+                        <path
+                          d={seg.pathD}
+                          fill='none'
+                          stroke={lp.color}
+                          strokeWidth={lp.sw}
+                        />
+                      </g>
+                    ))}
                   </g>
                   <g clipPath={`url(#${uid}-clip-after)`}>
-                    <path
-                      d={lp.pathD}
-                      fill='none'
-                      stroke={DIM_COLOR}
-                      strokeWidth={lp.sw}
-                    />
+                    {lp.segments.map((seg, si) => (
+                      <path
+                        key={`${lp.id}-dim-${si}`}
+                        d={seg.pathD}
+                        fill='none'
+                        stroke={DIM_COLOR}
+                        strokeWidth={lp.sw}
+                      />
+                    ))}
                   </g>
                 </g>
               );
@@ -384,19 +452,23 @@ export const LineChartD3 = (props: LineChartProps) => {
 
             return (
               <g key={`area-${lp.id}`}>
-                {lp.showGradient && (
-                  <path
-                    d={lp.areaD}
-                    fill={`url(#${uid}-grad-${lp.id})`}
-                    stroke='none'
-                  />
-                )}
-                <path
-                  d={lp.pathD}
-                  fill='none'
-                  stroke={lp.color}
-                  strokeWidth={lp.sw}
-                />
+                {lp.segments.map((seg, si) => (
+                  <g key={`${lp.id}-s-${si}`}>
+                    {lp.showGradient && (
+                      <path
+                        d={seg.areaD}
+                        fill={`url(#${uid}-grad-${lp.id})`}
+                        stroke='none'
+                      />
+                    )}
+                    <path
+                      d={seg.pathD}
+                      fill='none'
+                      stroke={lp.color}
+                      strokeWidth={lp.sw}
+                    />
+                  </g>
+                ))}
               </g>
             );
           })}
@@ -416,10 +488,10 @@ export const LineChartD3 = (props: LineChartProps) => {
 
           {tooltip?.entries.map((entry) => {
             const cx = xScale(new Date(entry.point.timestamp));
-            const cy = yScale(entry.point.value);
-            const label = formatYLabel
-              ? formatYLabel(entry.point.value)
-              : String(entry.point.value);
+            const val = entry.point.value;
+            if (val == null) return null;
+            const cy = yScale(val);
+            const label = formatYLabel ? formatYLabel(val) : String(val);
             return (
               <g key={entry.lineId} pointerEvents='none'>
                 <circle
@@ -446,7 +518,7 @@ export const LineChartD3 = (props: LineChartProps) => {
             );
           })}
 
-          {showXAxis && (
+          {showXAxisEff && (
             <g transform={`translate(0,${innerHeight})`}>
               <line
                 x1={0}
@@ -472,7 +544,7 @@ export const LineChartD3 = (props: LineChartProps) => {
             </g>
           )}
 
-          {showYAxis && (
+          {showYAxisEff && (
             <g>
               {yTicks.map((tick) => (
                 <text
@@ -539,9 +611,11 @@ export const LineChartD3 = (props: LineChartProps) => {
                 {entry.lineId}
               </span>
               :{' '}
-              {formatYLabel
-                ? formatYLabel(entry.point.value)
-                : entry.point.value}
+              {entry.point.value == null
+                ? '—'
+                : formatYLabel
+                  ? formatYLabel(entry.point.value)
+                  : entry.point.value}
             </div>
           ))}
           <div style={{ opacity: 0.6, marginTop: 2 }}>

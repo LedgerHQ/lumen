@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useCallback, useState, useRef } from 'react';
 import {
   ComposedChart,
   Line,
@@ -10,6 +10,7 @@ import {
   ReferenceLine,
   ReferenceDot,
 } from 'recharts';
+import { getRechartsLineType } from '../chartCurves';
 import type { LineChartProps } from '../types';
 import {
   resolveCssColor,
@@ -18,11 +19,15 @@ import {
   getReferenceLineStrokeWidth,
   REFERENCE_LINE_STROKE,
   computeYDomain,
+  computeXTimeDomainMs,
+  resolveChartInset,
+  effectiveShowXAxis,
+  effectiveShowYAxis,
 } from '../utils';
 
 type MergedDataPoint = {
   timestamp: number;
-  [key: string]: number;
+  [key: string]: number | null;
 };
 
 function mergeLineData(lines: LineChartProps['lines']): MergedDataPoint[] {
@@ -54,7 +59,7 @@ function mergeLineData(lines: LineChartProps['lines']): MergedDataPoint[] {
 
 type TooltipEntry = {
   name: string;
-  value: number;
+  value: number | null;
   color: string;
 };
 
@@ -92,7 +97,12 @@ const CustomTooltip = ({
           key={entry.name}
           style={{ margin: '2px 0', color: entry.color, fontWeight: 600 }}
         >
-          {entry.name}: {formatYLabel ? formatYLabel(entry.value) : entry.value}
+          {entry.name}:{' '}
+          {entry.value == null
+            ? '—'
+            : formatYLabel
+              ? formatYLabel(entry.value)
+              : entry.value}
         </p>
       ))}
     </div>
@@ -106,8 +116,6 @@ export const LineChartRecharts = (props: LineChartProps) => {
     lines,
     width,
     height,
-    showXAxis = true,
-    showYAxis = true,
     showGrid = true,
     showTooltip = true,
     showCursor = true,
@@ -121,9 +129,19 @@ export const LineChartRecharts = (props: LineChartProps) => {
     referenceLines,
     markers,
     valueLabels,
+    inset,
+    onActiveIndexChange,
+    chartAccessibilityLabel,
+    getPointA11yLabel,
+    xAxis: xAxisConfig,
+    yAxis: yAxisConfig,
   } = props;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const lastActiveIndexRef = useRef<number | null>(null);
+
+  const showXAxisEff = effectiveShowXAxis(props);
+  const showYAxisEff = effectiveShowYAxis(props);
 
   const mergedData = useMemo(() => mergeLineData(lines), [lines]);
   const valueLabelEntries = useMemo(
@@ -133,8 +151,14 @@ export const LineChartRecharts = (props: LineChartProps) => {
   );
   const yDomain = useMemo(
     () => computeYDomain(props),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- lines/referenceLines/valueLabels mirror computeYDomain inputs
-    [lines, referenceLines, valueLabels],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular inputs for computeYDomain
+    [lines, referenceLines, valueLabels, yAxisConfig?.domain],
+  );
+
+  const xDomainMs = useMemo(
+    () => computeXTimeDomainMs(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- xAxis.domain via props
+    [lines, xAxisConfig?.domain],
   );
 
   const resolvedColors = useMemo(() => {
@@ -170,10 +194,22 @@ export const LineChartRecharts = (props: LineChartProps) => {
         const entry = mergedData[state.activeTooltipIndex];
         if (entry && onPointHover) {
           const lineId = lines[0]?.id ?? '';
+          const raw = entry[lineId] as number | null | undefined;
           onPointHover(
-            { timestamp: entry.timestamp, value: entry[lineId] as number },
+            { timestamp: entry.timestamp, value: raw ?? null },
             lineId,
           );
+        }
+
+        if (entry && lines[0]) {
+          const idx = lines[0].data.findIndex(
+            (p) => p.timestamp === entry.timestamp,
+          );
+          const nextIdx = idx >= 0 ? idx : null;
+          if (nextIdx !== lastActiveIndexRef.current) {
+            lastActiveIndexRef.current = nextIdx;
+            onActiveIndexChange?.(nextIdx);
+          }
         }
 
         if (markers && entry) {
@@ -190,14 +226,23 @@ export const LineChartRecharts = (props: LineChartProps) => {
         }
       }
     },
-    [onPointHover, onMarkerHover, mergedData, lines, markers],
+    [
+      onPointHover,
+      onMarkerHover,
+      mergedData,
+      lines,
+      markers,
+      onActiveIndexChange,
+    ],
   );
 
   const handleMouseLeave = useCallback(() => {
     setActiveIndex(null);
+    lastActiveIndexRef.current = null;
+    onActiveIndexChange?.(null);
     onPointHover?.(null, '');
     onMarkerHover?.(null);
-  }, [onPointHover, onMarkerHover]);
+  }, [onPointHover, onMarkerHover, onActiveIndexChange]);
 
   const cursorFraction = useMemo((): number | null => {
     if (!dimAfterCursor || activeIndex == null || mergedData.length < 2)
@@ -209,23 +254,56 @@ export const LineChartRecharts = (props: LineChartProps) => {
     return (mergedData[activeIndex].timestamp - xMin) / range;
   }, [dimAfterCursor, activeIndex, mergedData]);
 
-  const hasNoAxes = !showXAxis && !showYAxis;
-  const chartMargin = hasNoAxes
-    ? { top: 16, right: 40, left: 16, bottom: 24 }
-    : { top: 8, right: 8, left: 8, bottom: 8 };
+  const hasNoAxes = !showXAxisEff && !showYAxisEff;
+  const chartMargin = resolveChartInset(
+    inset,
+    hasNoAxes
+      ? { top: 16, right: 40, left: 16, bottom: 24 }
+      : { top: 8, right: 8, left: 8, bottom: 8 },
+  );
+
+  const a11yPoint =
+    activeIndex != null &&
+    mergedData[activeIndex] &&
+    lines[0] &&
+    getPointA11yLabel
+      ? getPointA11yLabel(
+          {
+            timestamp: mergedData[activeIndex].timestamp,
+            value:
+              (mergedData[activeIndex][lines[0].id] as number | null) ?? null,
+          },
+          lines[0].id,
+        )
+      : null;
 
   return (
-    <div className={className}>
+    <div
+      className={className}
+      role={chartAccessibilityLabel ? 'img' : undefined}
+      aria-label={chartAccessibilityLabel}
+    >
+      {a11yPoint ? <span className='sr-only'>{a11yPoint}</span> : null}
       <ComposedChart
         width={width}
         height={height}
         data={mergedData}
         margin={chartMargin}
         onMouseMove={
-          onPointHover || dimAfterCursor ? handleMouseMove : undefined
+          onPointHover ||
+          dimAfterCursor ||
+          onActiveIndexChange ||
+          Boolean(markers?.length)
+            ? handleMouseMove
+            : undefined
         }
         onMouseLeave={
-          onPointHover || dimAfterCursor ? handleMouseLeave : undefined
+          onPointHover ||
+          dimAfterCursor ||
+          onActiveIndexChange ||
+          Boolean(markers?.length)
+            ? handleMouseLeave
+            : undefined
         }
       >
         <defs>
@@ -303,25 +381,27 @@ export const LineChartRecharts = (props: LineChartProps) => {
         <XAxis
           dataKey='timestamp'
           type='number'
-          domain={['dataMin', 'dataMax']}
+          domain={[xDomainMs[0], xDomainMs[1]]}
           tickFormatter={formatXLabel}
           stroke='var(--text-muted)'
-          tick={showXAxis ? { fontSize: 11 } : false}
+          tick={showXAxisEff ? { fontSize: 11 } : false}
           tickLine={false}
-          axisLine={showXAxis ? { stroke: 'var(--border-muted)' } : false}
-          hide={!showXAxis}
+          axisLine={showXAxisEff ? { stroke: 'var(--border-muted)' } : false}
+          hide={!showXAxisEff}
+          tickCount={xAxisConfig?.tickCount}
         />
 
         <YAxis
           domain={yDomain}
           tickFormatter={formatYLabel}
           stroke='var(--text-muted)'
-          tick={showYAxis ? { fontSize: 11 } : false}
+          tick={showYAxisEff ? { fontSize: 11 } : false}
           tickLine={false}
           axisLine={false}
-          width={showYAxis ? 60 : 0}
-          hide={!showYAxis}
+          width={showYAxisEff ? 60 : 0}
+          hide={!showYAxisEff}
           allowDataOverflow
+          tickCount={yAxisConfig?.tickCount}
         />
 
         {(showTooltip || showCursor) && (
@@ -339,31 +419,57 @@ export const LineChartRecharts = (props: LineChartProps) => {
           />
         )}
 
-        {referenceLines?.map((rl, i) => (
-          <ReferenceLine
-            key={`ref-${i}`}
-            y={rl.value}
-            stroke={REFERENCE_LINE_STROKE}
-            strokeDasharray={getRefLineStrokeDasharray(rl.style)}
-            strokeWidth={getReferenceLineStrokeWidth(rl.style)}
-            label={
-              rl.label
-                ? {
-                    value: rl.label,
-                    position:
-                      rl.labelPosition === 'left'
-                        ? 'insideLeft'
-                        : rl.labelPosition === 'right'
-                          ? 'insideRight'
-                          : 'insideBottomLeft',
-                    fill: REFERENCE_LINE_STROKE,
-                    fontSize: 12,
-                    dy: 14,
-                  }
-                : undefined
-            }
-          />
-        ))}
+        {referenceLines?.map((rl, i) =>
+          (rl.axis ?? 'y') === 'x' ? (
+            <ReferenceLine
+              key={`ref-x-${i}`}
+              x={rl.value}
+              stroke={REFERENCE_LINE_STROKE}
+              strokeDasharray={getRefLineStrokeDasharray(rl.style)}
+              strokeWidth={getReferenceLineStrokeWidth(rl.style)}
+              label={
+                rl.label
+                  ? {
+                      value: rl.label,
+                      position:
+                        rl.labelPosition === 'left'
+                          ? 'insideLeft'
+                          : rl.labelPosition === 'right'
+                            ? 'insideRight'
+                            : 'insideBottomLeft',
+                      fill: REFERENCE_LINE_STROKE,
+                      fontSize: 12,
+                      dy: 14,
+                    }
+                  : undefined
+              }
+            />
+          ) : (
+            <ReferenceLine
+              key={`ref-y-${i}`}
+              y={rl.value}
+              stroke={REFERENCE_LINE_STROKE}
+              strokeDasharray={getRefLineStrokeDasharray(rl.style)}
+              strokeWidth={getReferenceLineStrokeWidth(rl.style)}
+              label={
+                rl.label
+                  ? {
+                      value: rl.label,
+                      position:
+                        rl.labelPosition === 'left'
+                          ? 'insideLeft'
+                          : rl.labelPosition === 'right'
+                            ? 'insideRight'
+                            : 'insideBottomLeft',
+                      fill: REFERENCE_LINE_STROKE,
+                      fontSize: 12,
+                      dy: 14,
+                    }
+                  : undefined
+              }
+            />
+          ),
+        )}
 
         {valueLabelEntries.map((vl) => (
           <ReferenceDot
@@ -390,11 +496,13 @@ export const LineChartRecharts = (props: LineChartProps) => {
             cursorFraction != null && line.showGradient
               ? `url(#recharts-split-fill-${line.id})`
               : `url(#recharts-grad-${line.id})`;
+          const lineType = getRechartsLineType(line.curve);
+          const connectNulls = line.connectNulls ?? false;
 
           return line.showGradient ? (
             <Area
               key={`area-${line.id}`}
-              type='natural'
+              type={lineType}
               dataKey={line.id}
               stroke={strokeColor}
               strokeWidth={line.width ?? 2}
@@ -403,17 +511,19 @@ export const LineChartRecharts = (props: LineChartProps) => {
               dot={false}
               activeDot={{ r: 4, strokeWidth: 0 }}
               isAnimationActive={false}
+              connectNulls={connectNulls}
             />
           ) : (
             <Line
               key={`line-${line.id}`}
-              type='natural'
+              type={lineType}
               dataKey={line.id}
               stroke={strokeColor}
               strokeWidth={line.width ?? 2}
               dot={false}
               activeDot={{ r: 4, strokeWidth: 0 }}
               isAnimationActive={false}
+              connectNulls={connectNulls}
             />
           );
         })}
@@ -423,7 +533,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
           lines.map((ln) => {
             const entry = mergedData[activeIndex];
             if (!entry) return null;
-            const val = entry[ln.id] as number | undefined;
+            const val = entry[ln.id] as number | null | undefined;
             if (val == null) return null;
             const label = formatYLabel ? formatYLabel(val) : String(val);
             return (

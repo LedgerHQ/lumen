@@ -1,4 +1,4 @@
-import { useMemo, useId, useState } from 'react';
+import { useMemo, useId, useState, useRef } from 'react';
 import {
   VictoryChart,
   VictoryLine,
@@ -9,6 +9,7 @@ import {
   VictoryScatter,
   VictoryLabel,
 } from 'victory';
+import { getVictoryInterpolation } from '../chartCurves';
 import type { LineChartProps } from '../types';
 import {
   resolveCssColor,
@@ -17,35 +18,20 @@ import {
   getReferenceLineStrokeWidth,
   REFERENCE_LINE_STROKE,
   computeYDomain,
+  computeXTimeDomainMs,
+  resolveChartInset,
+  effectiveShowXAxis,
+  effectiveShowYAxis,
+  lineDataRuns,
 } from '../utils';
 
 const DIM_COLOR = 'rgba(128, 128, 128, 0.4)';
-
-function computeXExtent(lines: LineChartProps['lines']): {
-  xMin: number;
-  xMax: number;
-} {
-  let xMin = Infinity;
-  let xMax = -Infinity;
-  for (const line of lines) {
-    for (const d of line.data) {
-      if (d.timestamp < xMin) xMin = d.timestamp;
-      if (d.timestamp > xMax) xMax = d.timestamp;
-    }
-  }
-  if (!Number.isFinite(xMin) || !Number.isFinite(xMax)) {
-    return { xMin: 0, xMax: 1 };
-  }
-  return { xMin, xMax };
-}
 
 export const LineChartVictory = (props: LineChartProps) => {
   const {
     lines,
     width,
     height,
-    showXAxis = true,
-    showYAxis = true,
     showGrid = true,
     showTooltip = true,
     showCursor = true,
@@ -59,11 +45,21 @@ export const LineChartVictory = (props: LineChartProps) => {
     referenceLines,
     markers,
     valueLabels,
+    inset,
+    onActiveIndexChange,
+    chartAccessibilityLabel,
+    getPointA11yLabel,
+    xAxis: xAxisConfig,
+    yAxis: yAxisConfig,
   } = props;
 
   const gradientId = useId();
+  const lastActiveIndexRef = useRef<number | null>(null);
   const [cursorX, setCursorX] = useState<number | null>(null);
   const [cursorY, setCursorY] = useState<number | null>(null);
+
+  const showXAxisEff = effectiveShowXAxis(props);
+  const showYAxisEff = effectiveShowYAxis(props);
 
   const resolvedColors = useMemo(() => {
     const map: Record<string, string> = {};
@@ -77,10 +73,13 @@ export const LineChartVictory = (props: LineChartProps) => {
     () =>
       lines.map((line) => ({
         id: line.id,
-        data: line.data.map((pt) => ({ x: pt.timestamp, y: pt.value })),
+        runs: lineDataRuns(line.data, line.connectNulls).map((run) =>
+          run.map((pt) => ({ x: pt.timestamp, y: pt.value })),
+        ),
         color: resolvedColors[line.id],
         width: line.width ?? 2,
         showGradient: line.showGradient ?? false,
+        curve: line.curve,
       })),
     [lines, resolvedColors],
   );
@@ -93,18 +92,27 @@ export const LineChartVictory = (props: LineChartProps) => {
   const yDomain = useMemo(
     () => computeYDomain(props),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror computeYDomain inputs
-    [lines, referenceLines, valueLabels],
+    [lines, referenceLines, valueLabels, yAxisConfig?.domain],
   );
 
-  const { xMin, xMax } = useMemo(() => computeXExtent(lines), [lines]);
+  const xDomainMs = useMemo(
+    () => computeXTimeDomainMs(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- xAxis.domain via props
+    [lines, xAxisConfig?.domain],
+  );
+  const xMin = xDomainMs[0];
+  const xMax = xDomainMs[1];
 
-  const hasNoAxes = !showXAxis && !showYAxis;
+  const hasNoAxes = !showXAxisEff && !showYAxisEff;
   const padding = useMemo(
     () =>
-      hasNoAxes
-        ? { top: 16, right: 40, bottom: 24, left: 16 }
-        : { top: 16, right: 16, bottom: 40, left: 60 },
-    [hasNoAxes],
+      resolveChartInset(
+        inset,
+        hasNoAxes
+          ? { top: 16, right: 40, bottom: 24, left: 16 }
+          : { top: 16, right: 16, bottom: 40, left: 60 },
+      ),
+    [inset, hasNoAxes],
   );
 
   const innerWidth = width - padding.left - padding.right;
@@ -148,8 +156,20 @@ export const LineChartVictory = (props: LineChartProps) => {
   const clipBeforeId = `${gradientId}-clip-before`;
   const clipAfterId = `${gradientId}-clip-after`;
 
+  const a11yLive = useMemo(() => {
+    if (cursorX == null || !lines[0] || !getPointA11yLabel) return null;
+    const pt = lines[0].data.find((p) => p.timestamp === cursorX);
+    if (!pt) return null;
+    return getPointA11yLabel(pt, lines[0].id);
+  }, [cursorX, lines, getPointA11yLabel]);
+
   return (
-    <div className={className}>
+    <div
+      className={className}
+      role={chartAccessibilityLabel ? 'img' : undefined}
+      aria-label={chartAccessibilityLabel}
+    >
+      {a11yLive ? <span className='sr-only'>{a11yLive}</span> : null}
       <svg style={{ height: 0, width: 0, position: 'absolute' }}>
         <defs>
           {victoryData
@@ -175,16 +195,22 @@ export const LineChartVictory = (props: LineChartProps) => {
         width={width}
         height={height}
         padding={padding}
-        domain={{ y: yDomain }}
+        domain={{
+          x: [new Date(xMin), new Date(xMax)],
+          y: yDomain,
+        }}
         containerComponent={
           showTooltip || showCursor ? (
             <VictoryVoronoiContainer
               voronoiDimension='x'
               labels={({ datum }: { datum: { x: number; y: number } }) => {
                 if (!showTooltip) return ' ';
-                const yLabel = formatYLabel
-                  ? formatYLabel(datum.y)
-                  : String(datum.y);
+                const yLabel =
+                  datum.y == null || Number.isNaN(datum.y)
+                    ? '—'
+                    : formatYLabel
+                      ? formatYLabel(datum.y)
+                      : String(datum.y);
                 const xLabel = formatXLabel
                   ? formatXLabel(datum.x)
                   : String(datum.x);
@@ -208,19 +234,36 @@ export const LineChartVictory = (props: LineChartProps) => {
               }
               onActivated={(points: Array<{ x: number; y: number }>) => {
                 if (points.length > 0) {
-                  setCursorX(points[0].x);
-                  setCursorY(points[0].y);
+                  const ts = points[0].x;
+                  const primaryPt = lines[0]?.data.find(
+                    (p) => p.timestamp === ts,
+                  );
+                  setCursorX(ts);
+                  setCursorY(
+                    primaryPt && primaryPt.value != null
+                      ? primaryPt.value
+                      : null,
+                  );
                   onPointHover?.(
-                    { timestamp: points[0].x, value: points[0].y },
+                    { timestamp: ts, value: primaryPt?.value ?? null },
                     lines[0]?.id ?? '',
                   );
+
+                  if (lines[0] && onActiveIndexChange) {
+                    const idx = lines[0].data.findIndex(
+                      (p) => p.timestamp === ts,
+                    );
+                    const nextIdx = idx >= 0 ? idx : null;
+                    if (nextIdx !== lastActiveIndexRef.current) {
+                      lastActiveIndexRef.current = nextIdx;
+                      onActiveIndexChange(nextIdx);
+                    }
+                  }
 
                   if (markers) {
                     const totalRange = xMax - xMin;
                     const hit = markers.find(
-                      (m) =>
-                        Math.abs(m.timestamp - points[0].x) <
-                        totalRange * 0.015,
+                      (m) => Math.abs(m.timestamp - ts) < totalRange * 0.015,
                     );
                     onMarkerHover?.(hit ?? null);
                   }
@@ -229,6 +272,8 @@ export const LineChartVictory = (props: LineChartProps) => {
               onDeactivated={() => {
                 setCursorX(null);
                 setCursorY(null);
+                lastActiveIndexRef.current = null;
+                onActiveIndexChange?.(null);
                 onPointHover?.(null, '');
                 onMarkerHover?.(null);
               }}
@@ -257,13 +302,13 @@ export const LineChartVictory = (props: LineChartProps) => {
           </defs>
         )}
 
-        {showXAxis ? (
+        {showXAxisEff ? (
           <VictoryAxis
             animate={false}
             scale='time'
             tickFormat={formatXLabel}
             style={axisStyle}
-            tickCount={6}
+            tickCount={xAxisConfig?.tickCount ?? 6}
           />
         ) : (
           <VictoryAxis
@@ -276,13 +321,13 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         )}
 
-        {showYAxis ? (
+        {showYAxisEff ? (
           <VictoryAxis
             animate={false}
             dependentAxis
             tickFormat={formatYLabel}
             style={dependentAxisStyle}
-            tickCount={5}
+            tickCount={yAxisConfig?.tickCount ?? 5}
           />
         ) : (
           <VictoryAxis
@@ -296,47 +341,89 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         )}
 
-        {referenceLines?.map((rl, i) => (
-          <VictoryLine
-            key={`ref-${i}`}
-            animate={false}
-            data={[
-              { x: xMin, y: rl.value },
-              { x: xMax, y: rl.value },
-            ]}
-            style={{
-              data: {
-                stroke: REFERENCE_LINE_STROKE,
-                strokeWidth: getReferenceLineStrokeWidth(rl.style),
-                strokeDasharray: getRefLineStrokeDasharray(rl.style),
-              },
-            }}
-            labels={rl.label ? [rl.label] : undefined}
-            labelComponent={
-              <VictoryLabel
-                dy={16}
-                dx={
-                  rl.labelPosition === 'right'
-                    ? 0
-                    : rl.labelPosition === 'left'
-                      ? 10
-                      : 0
-                }
-                style={{
-                  fill: REFERENCE_LINE_STROKE,
-                  fontSize: 12,
-                }}
-                textAnchor={
-                  rl.labelPosition === 'right'
-                    ? 'end'
-                    : rl.labelPosition === 'left'
-                      ? 'start'
-                      : 'middle'
-                }
-              />
-            }
-          />
-        ))}
+        {referenceLines?.map((rl, i) =>
+          (rl.axis ?? 'y') === 'x' ? (
+            <VictoryLine
+              key={`ref-x-${i}`}
+              animate={false}
+              data={[
+                { x: rl.value, y: yDomain[0] },
+                { x: rl.value, y: yDomain[1] },
+              ]}
+              style={{
+                data: {
+                  stroke: REFERENCE_LINE_STROKE,
+                  strokeWidth: getReferenceLineStrokeWidth(rl.style),
+                  strokeDasharray: getRefLineStrokeDasharray(rl.style),
+                },
+              }}
+              labels={rl.label ? [rl.label] : undefined}
+              labelComponent={
+                <VictoryLabel
+                  dy={16}
+                  dx={
+                    rl.labelPosition === 'right'
+                      ? 0
+                      : rl.labelPosition === 'left'
+                        ? 10
+                        : 0
+                  }
+                  style={{
+                    fill: REFERENCE_LINE_STROKE,
+                    fontSize: 12,
+                  }}
+                  textAnchor={
+                    rl.labelPosition === 'right'
+                      ? 'end'
+                      : rl.labelPosition === 'left'
+                        ? 'start'
+                        : 'middle'
+                  }
+                />
+              }
+            />
+          ) : (
+            <VictoryLine
+              key={`ref-y-${i}`}
+              animate={false}
+              data={[
+                { x: xMin, y: rl.value },
+                { x: xMax, y: rl.value },
+              ]}
+              style={{
+                data: {
+                  stroke: REFERENCE_LINE_STROKE,
+                  strokeWidth: getReferenceLineStrokeWidth(rl.style),
+                  strokeDasharray: getRefLineStrokeDasharray(rl.style),
+                },
+              }}
+              labels={rl.label ? [rl.label] : undefined}
+              labelComponent={
+                <VictoryLabel
+                  dy={16}
+                  dx={
+                    rl.labelPosition === 'right'
+                      ? 0
+                      : rl.labelPosition === 'left'
+                        ? 10
+                        : 0
+                  }
+                  style={{
+                    fill: REFERENCE_LINE_STROKE,
+                    fontSize: 12,
+                  }}
+                  textAnchor={
+                    rl.labelPosition === 'right'
+                      ? 'end'
+                      : rl.labelPosition === 'left'
+                        ? 'start'
+                        : 'middle'
+                  }
+                />
+              }
+            />
+          ),
+        )}
 
         {valueLabelEntries.length > 0 && (
           <VictoryScatter
@@ -368,81 +455,95 @@ export const LineChartVictory = (props: LineChartProps) => {
         )}
 
         {victoryData.map((d) => {
+          const interp = getVictoryInterpolation(d.curve);
           if (isDimming) {
             return (
               <g key={d.id}>
                 <g clipPath={`url(#${clipBeforeId})`}>
-                  {d.showGradient ? (
-                    <VictoryArea
-                      animate={false}
-                      data={d.data}
-                      interpolation='natural'
-                      style={{
-                        data: {
-                          fill: `url(#${gradientId}-${d.id})`,
-                          stroke: d.color,
-                          strokeWidth: d.width,
-                        },
-                      }}
-                    />
-                  ) : (
-                    <VictoryLine
-                      animate={false}
-                      data={d.data}
-                      interpolation='natural'
-                      style={{
-                        data: {
-                          stroke: d.color,
-                          strokeWidth: d.width,
-                        },
-                      }}
-                    />
+                  {d.runs.map((run, ri) =>
+                    d.showGradient ? (
+                      <VictoryArea
+                        key={`${d.id}-b-${ri}`}
+                        animate={false}
+                        data={run}
+                        interpolation={interp}
+                        style={{
+                          data: {
+                            fill: `url(#${gradientId}-${d.id})`,
+                            stroke: d.color,
+                            strokeWidth: d.width,
+                          },
+                        }}
+                      />
+                    ) : (
+                      <VictoryLine
+                        key={`${d.id}-b-${ri}`}
+                        animate={false}
+                        data={run}
+                        interpolation={interp}
+                        style={{
+                          data: {
+                            stroke: d.color,
+                            strokeWidth: d.width,
+                          },
+                        }}
+                      />
+                    ),
                   )}
                 </g>
                 <g clipPath={`url(#${clipAfterId})`}>
-                  <VictoryLine
-                    animate={false}
-                    data={d.data}
-                    interpolation='natural'
-                    style={{
-                      data: {
-                        stroke: DIM_COLOR,
-                        strokeWidth: d.width,
-                      },
-                    }}
-                  />
+                  {d.runs.map((run, ri) => (
+                    <VictoryLine
+                      key={`${d.id}-dim-${ri}`}
+                      animate={false}
+                      data={run}
+                      interpolation={interp}
+                      style={{
+                        data: {
+                          stroke: DIM_COLOR,
+                          strokeWidth: d.width,
+                        },
+                      }}
+                    />
+                  ))}
                 </g>
               </g>
             );
           }
 
-          return d.showGradient ? (
-            <VictoryArea
-              key={`area-${d.id}`}
-              animate={false}
-              data={d.data}
-              interpolation='natural'
-              style={{
-                data: {
-                  fill: `url(#${gradientId}-${d.id})`,
-                  stroke: d.color,
-                  strokeWidth: d.width,
-                },
-              }}
-            />
-          ) : (
-            <VictoryLine
-              key={`line-${d.id}`}
-              animate={false}
-              data={d.data}
-              interpolation='natural'
-              style={{
-                data: {
-                  stroke: d.color,
-                  strokeWidth: d.width,
-                },
-              }}
-            />
+          return (
+            <g key={d.id}>
+              {d.runs.map((run, ri) =>
+                d.showGradient ? (
+                  <VictoryArea
+                    key={`${d.id}-a-${ri}`}
+                    animate={false}
+                    data={run}
+                    interpolation={interp}
+                    style={{
+                      data: {
+                        fill: `url(#${gradientId}-${d.id})`,
+                        stroke: d.color,
+                        strokeWidth: d.width,
+                      },
+                    }}
+                  />
+                ) : (
+                  <VictoryLine
+                    key={`${d.id}-l-${ri}`}
+                    animate={false}
+                    data={run}
+                    interpolation={interp}
+                    style={{
+                      data: {
+                        stroke: d.color,
+                        strokeWidth: d.width,
+                      },
+                    }}
+                  />
+                ),
+              )}
+            </g>
           );
         })}
 

@@ -1,5 +1,4 @@
 import { AxisBottom, AxisLeft } from '@visx/axis';
-import { curveNatural } from '@visx/curve';
 import { localPoint } from '@visx/event';
 import { LinearGradient } from '@visx/gradient';
 import { GridRows, GridColumns } from '@visx/grid';
@@ -7,8 +6,8 @@ import { Group } from '@visx/group';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { LinePath, AreaClosed } from '@visx/shape';
 import { useTooltip, TooltipWithBounds } from '@visx/tooltip';
-import { bisector, extent } from 'd3-array';
 import { useMemo, useCallback, useId, useRef } from 'react';
+import { getVisxCurve } from '../chartCurves';
 import type { LineChartProps, DataPoint } from '../types';
 import {
   resolveCssColor,
@@ -17,11 +16,15 @@ import {
   getReferenceLineStrokeWidth,
   REFERENCE_LINE_STROKE,
   computeYDomain,
+  computeXTimeDomainMs,
+  resolveChartInset,
+  effectiveShowXAxis,
+  effectiveShowYAxis,
+  lineDataRuns,
+  nearestDefinedPointByTime,
 } from '../utils';
 
 const getTimestamp = (d: DataPoint): Date => new Date(d.timestamp);
-const getValue = (d: DataPoint): number => d.value;
-const bisectTimestamp = bisector<DataPoint, number>((d) => d.timestamp).left;
 
 type TooltipData = {
   lineId: string;
@@ -36,8 +39,6 @@ export const LineChartVisx = (props: LineChartProps) => {
     lines,
     width,
     height,
-    showXAxis = true,
-    showYAxis = true,
     showGrid = true,
     showTooltip: showTooltipProp = true,
     showCursor = true,
@@ -51,18 +52,31 @@ export const LineChartVisx = (props: LineChartProps) => {
     referenceLines,
     markers,
     valueLabels,
+    inset,
+    onActiveIndexChange,
+    chartAccessibilityLabel,
+    getPointA11yLabel,
+    xAxis: xAxisConfig,
+    yAxis: yAxisConfig,
   } = props;
 
   const uid = useId();
   const lastSnapTsRef = useRef<number | null>(null);
+  const lastActiveIndexRef = useRef<number | null>(null);
 
-  const hasNoAxes = !showXAxis && !showYAxis;
+  const showXAxisEff = effectiveShowXAxis(props);
+  const showYAxisEff = effectiveShowYAxis(props);
+
+  const hasNoAxes = !showXAxisEff && !showYAxisEff;
   const margin = useMemo(
     () =>
-      hasNoAxes
-        ? { top: 16, right: 40, bottom: 24, left: 16 }
-        : { top: 16, right: 16, bottom: 40, left: 60 },
-    [hasNoAxes],
+      resolveChartInset(
+        inset,
+        hasNoAxes
+          ? { top: 16, right: 40, bottom: 24, left: 16 }
+          : { top: 16, right: 16, bottom: 40, left: 60 },
+      ),
+    [inset, hasNoAxes],
   );
 
   const resolvedColors = useMemo(() => {
@@ -76,16 +90,16 @@ export const LineChartVisx = (props: LineChartProps) => {
   const innerWidth = Math.max(0, width - margin.left - margin.right);
   const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 
-  const allPoints = useMemo(() => lines.flatMap((l) => l.data), [lines]);
+  const xDomainMs = useMemo(
+    () => computeXTimeDomainMs(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- xAxis.domain drives domain
+    [lines, xAxisConfig?.domain],
+  );
 
-  const xDomain = useMemo((): [Date, Date] => {
-    if (allPoints.length === 0) {
-      const n = Date.now();
-      return [new Date(n), new Date(n)];
-    }
-    const tsExtent = extent(allPoints, (d) => d.timestamp) as [number, number];
-    return [new Date(tsExtent[0]), new Date(tsExtent[1])];
-  }, [allPoints]);
+  const xDomain = useMemo(
+    (): [Date, Date] => [new Date(xDomainMs[0]), new Date(xDomainMs[1])],
+    [xDomainMs],
+  );
 
   const xScale = useMemo(
     () =>
@@ -99,8 +113,11 @@ export const LineChartVisx = (props: LineChartProps) => {
   const yDomain = useMemo(
     () => computeYDomain(props),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps mirror computeYDomain inputs
-    [lines, referenceLines, valueLabels],
+    [lines, referenceLines, valueLabels, yAxisConfig?.domain],
   );
+
+  const xTickCount = xAxisConfig?.tickCount ?? 6;
+  const yTickCount = yAxisConfig?.tickCount ?? 5;
 
   const yScale = useMemo(
     () =>
@@ -130,12 +147,8 @@ export const LineChartVisx = (props: LineChartProps) => {
       const tooltipEntries: TooltipData[] = [];
 
       for (const line of lines) {
-        const idx = bisectTimestamp(line.data, xMs, 1);
-        const d0 = line.data[idx - 1];
-        const d1 = line.data[idx];
-        if (!d0) continue;
-
-        const closest = d1 && xMs - d0.timestamp > d1.timestamp - xMs ? d1 : d0;
+        const closest = nearestDefinedPointByTime(line.data, xMs);
+        if (!closest) continue;
 
         tooltipEntries.push({
           lineId: line.id,
@@ -149,13 +162,28 @@ export const LineChartVisx = (props: LineChartProps) => {
         const snapTs = primaryPoint.timestamp;
         if (snapTs !== lastSnapTsRef.current) {
           lastSnapTsRef.current = snapTs;
+          const py = primaryPoint.value;
           showTooltip({
             tooltipData: tooltipEntries,
             tooltipLeft: xScale(new Date(snapTs)) + margin.left,
-            tooltipTop: yScale(primaryPoint.value) + margin.top,
+            tooltipTop:
+              py != null
+                ? yScale(py) + margin.top
+                : margin.top + innerHeight / 2,
           });
         }
         onPointHover?.(primaryPoint, tooltipEntries[0].lineId);
+
+        if (lines[0] && onActiveIndexChange) {
+          const idx = lines[0].data.findIndex(
+            (p) => p.timestamp === primaryPoint.timestamp,
+          );
+          const nextIdx = idx >= 0 ? idx : null;
+          if (nextIdx !== lastActiveIndexRef.current) {
+            lastActiveIndexRef.current = nextIdx;
+            onActiveIndexChange(nextIdx);
+          }
+        }
       }
 
       const mouseY = coords.y - margin.top;
@@ -185,18 +213,22 @@ export const LineChartVisx = (props: LineChartProps) => {
       showTooltip,
       onPointHover,
       onMarkerHover,
+      onActiveIndexChange,
       margin.left,
       margin.top,
+      innerHeight,
       markers,
     ],
   );
 
   const handleMouseLeave = useCallback(() => {
     lastSnapTsRef.current = null;
+    lastActiveIndexRef.current = null;
     hideTooltip();
+    onActiveIndexChange?.(null);
     onPointHover?.(null, '');
     onMarkerHover?.(null);
-  }, [hideTooltip, onPointHover, onMarkerHover]);
+  }, [hideTooltip, onPointHover, onMarkerHover, onActiveIndexChange]);
 
   const lineLayers = useMemo(() => {
     const cursorXPx =
@@ -205,8 +237,12 @@ export const LineChartVisx = (props: LineChartProps) => {
         : null;
 
     return lines.map((line) => {
-      const xAccessor = (d: DataPoint): number => xScale(getTimestamp(d)) ?? 0;
-      const yAccessor = (d: DataPoint): number => yScale(getValue(d)) ?? 0;
+      const runs = lineDataRuns(line.data, line.connectNulls);
+      const curve = getVisxCurve(line.curve);
+      const xAccessor = (d: DataPoint & { value: number }): number =>
+        xScale(getTimestamp(d)) ?? 0;
+      const yAccessor = (d: DataPoint & { value: number }): number =>
+        yScale(d.value);
       const color = resolvedColors[line.id];
       const sw = line.width ?? 2;
 
@@ -215,43 +251,50 @@ export const LineChartVisx = (props: LineChartProps) => {
           <g key={line.id}>
             <g clipPath={`url(#${uid}-clip-before)`}>
               {line.showGradient && (
-                <>
-                  <LinearGradient
-                    id={`${uid}-grad-${line.id}`}
-                    from={color}
-                    fromOpacity={0.3}
-                    to={color}
-                    toOpacity={0}
-                  />
-                  <AreaClosed
-                    data={line.data}
+                <LinearGradient
+                  id={`${uid}-grad-${line.id}`}
+                  from={color}
+                  fromOpacity={0.3}
+                  to={color}
+                  toOpacity={0}
+                />
+              )}
+              {runs.map((run, ri) => (
+                <g key={`${line.id}-b-${ri}`}>
+                  {line.showGradient && (
+                    <AreaClosed
+                      data={run}
+                      x={xAccessor}
+                      y={yAccessor}
+                      yScale={yScale}
+                      curve={curve}
+                      fill={`url(#${uid}-grad-${line.id})`}
+                      stroke='none'
+                    />
+                  )}
+                  <LinePath
+                    data={run}
                     x={xAccessor}
                     y={yAccessor}
-                    yScale={yScale}
-                    curve={curveNatural}
-                    fill={`url(#${uid}-grad-${line.id})`}
-                    stroke='none'
+                    curve={curve}
+                    stroke={color}
+                    strokeWidth={sw}
                   />
-                </>
-              )}
-              <LinePath
-                data={line.data}
-                x={xAccessor}
-                y={yAccessor}
-                curve={curveNatural}
-                stroke={color}
-                strokeWidth={sw}
-              />
+                </g>
+              ))}
             </g>
             <g clipPath={`url(#${uid}-clip-after)`}>
-              <LinePath
-                data={line.data}
-                x={xAccessor}
-                y={yAccessor}
-                curve={curveNatural}
-                stroke={DIM_COLOR}
-                strokeWidth={sw}
-              />
+              {runs.map((run, ri) => (
+                <LinePath
+                  key={`${line.id}-dim-${ri}`}
+                  data={run}
+                  x={xAccessor}
+                  y={yAccessor}
+                  curve={curve}
+                  stroke={DIM_COLOR}
+                  strokeWidth={sw}
+                />
+              ))}
             </g>
           </g>
         );
@@ -260,33 +303,37 @@ export const LineChartVisx = (props: LineChartProps) => {
       return (
         <g key={`area-${line.id}`}>
           {line.showGradient && (
-            <>
-              <LinearGradient
-                id={`${uid}-grad-${line.id}`}
-                from={color}
-                fromOpacity={0.3}
-                to={color}
-                toOpacity={0}
-              />
-              <AreaClosed
-                data={line.data}
+            <LinearGradient
+              id={`${uid}-grad-${line.id}`}
+              from={color}
+              fromOpacity={0.3}
+              to={color}
+              toOpacity={0}
+            />
+          )}
+          {runs.map((run, ri) => (
+            <g key={`${line.id}-s-${ri}`}>
+              {line.showGradient && (
+                <AreaClosed
+                  data={run}
+                  x={xAccessor}
+                  y={yAccessor}
+                  yScale={yScale}
+                  curve={curve}
+                  fill={`url(#${uid}-grad-${line.id})`}
+                  stroke='none'
+                />
+              )}
+              <LinePath
+                data={run}
                 x={xAccessor}
                 y={yAccessor}
-                yScale={yScale}
-                curve={curveNatural}
-                fill={`url(#${uid}-grad-${line.id})`}
-                stroke='none'
+                curve={curve}
+                stroke={color}
+                strokeWidth={sw}
               />
-            </>
-          )}
-          <LinePath
-            data={line.data}
-            x={xAccessor}
-            y={yAccessor}
-            curve={curveNatural}
-            stroke={color}
-            strokeWidth={sw}
-          />
+            </g>
+          ))}
         </g>
       );
     });
@@ -324,10 +371,21 @@ export const LineChartVisx = (props: LineChartProps) => {
       </defs>
     ) : null;
 
+  const a11yLive =
+    tooltipData?.[0] && lines[0] && getPointA11yLabel
+      ? getPointA11yLabel(tooltipData[0].point, lines[0].id)
+      : null;
+
   if (width < 10 || height < 10) return null;
 
   return (
-    <div className={className} style={{ position: 'relative' }}>
+    <div
+      className={className}
+      style={{ position: 'relative' }}
+      role={chartAccessibilityLabel ? 'img' : undefined}
+      aria-label={chartAccessibilityLabel}
+    >
+      {a11yLive ? <span className='sr-only'>{a11yLive}</span> : null}
       <svg width={width} height={height}>
         <Group left={margin.left} top={margin.top}>
           {showGrid && (
@@ -349,15 +407,37 @@ export const LineChartVisx = (props: LineChartProps) => {
             </>
           )}
 
-          {referenceLines?.map((rl, i) => {
-            const y = yScale(rl.value);
-            return (
-              <g key={`ref-${i}`}>
+          {referenceLines?.map((rl, i) =>
+            (rl.axis ?? 'y') === 'x' ? (
+              <g key={`ref-x-${i}`}>
+                <line
+                  x1={xScale(new Date(rl.value))}
+                  y1={0}
+                  x2={xScale(new Date(rl.value))}
+                  y2={innerHeight}
+                  stroke={REFERENCE_LINE_STROKE}
+                  strokeWidth={getReferenceLineStrokeWidth(rl.style)}
+                  strokeDasharray={getRefLineStrokeDasharray(rl.style)}
+                />
+                {rl.label && (
+                  <text
+                    x={xScale(new Date(rl.value)) + 4}
+                    y={12}
+                    fill={REFERENCE_LINE_STROKE}
+                    fontSize={12}
+                    textAnchor='start'
+                  >
+                    {rl.label}
+                  </text>
+                )}
+              </g>
+            ) : (
+              <g key={`ref-y-${i}`}>
                 <line
                   x1={0}
-                  y1={y}
+                  y1={yScale(rl.value)}
                   x2={innerWidth}
-                  y2={y}
+                  y2={yScale(rl.value)}
                   stroke={REFERENCE_LINE_STROKE}
                   strokeWidth={getReferenceLineStrokeWidth(rl.style)}
                   strokeDasharray={getRefLineStrokeDasharray(rl.style)}
@@ -371,7 +451,7 @@ export const LineChartVisx = (props: LineChartProps) => {
                           ? innerWidth - 4
                           : innerWidth / 2
                     }
-                    y={y + 16}
+                    y={yScale(rl.value) + 16}
                     fill={REFERENCE_LINE_STROKE}
                     fontSize={12}
                     textAnchor={
@@ -386,8 +466,8 @@ export const LineChartVisx = (props: LineChartProps) => {
                   </text>
                 )}
               </g>
-            );
-          })}
+            ),
+          )}
 
           {valueLabelEntries.map((vl) => {
             const cx = xScale(new Date(vl.timestamp));
@@ -426,10 +506,10 @@ export const LineChartVisx = (props: LineChartProps) => {
 
           {tooltipData?.map((entry) => {
             const cx = xScale(new Date(entry.point.timestamp));
-            const cy = yScale(entry.point.value);
-            const label = formatYLabel
-              ? formatYLabel(entry.point.value)
-              : String(entry.point.value);
+            const val = entry.point.value;
+            if (val == null) return null;
+            const cy = yScale(val);
+            const label = formatYLabel ? formatYLabel(val) : String(val);
             return (
               <g key={entry.lineId} pointerEvents='none'>
                 <circle
@@ -456,11 +536,11 @@ export const LineChartVisx = (props: LineChartProps) => {
             );
           })}
 
-          {showXAxis && (
+          {showXAxisEff && (
             <AxisBottom
               top={innerHeight}
               scale={xScale}
-              numTicks={6}
+              numTicks={xTickCount}
               tickFormat={(val) =>
                 formatXLabel
                   ? formatXLabel((val as Date).getTime())
@@ -476,10 +556,10 @@ export const LineChartVisx = (props: LineChartProps) => {
             />
           )}
 
-          {showYAxis && (
+          {showYAxisEff && (
             <AxisLeft
               scale={yScale}
-              numTicks={5}
+              numTicks={yTickCount}
               tickFormat={(val) =>
                 formatYLabel ? formatYLabel(val as number) : String(val)
               }
@@ -541,9 +621,11 @@ export const LineChartVisx = (props: LineChartProps) => {
                 {entry.lineId}
               </span>
               :{' '}
-              {formatYLabel
-                ? formatYLabel(entry.point.value)
-                : entry.point.value}
+              {entry.point.value == null
+                ? '—'
+                : formatYLabel
+                  ? formatYLabel(entry.point.value)
+                  : entry.point.value}
             </div>
           ))}
           <div style={{ opacity: 0.6, marginTop: 2 }}>

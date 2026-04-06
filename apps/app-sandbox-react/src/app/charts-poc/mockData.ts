@@ -79,7 +79,8 @@ export const ethHourly: DataPoint[] = generatePriceSeries(
 export const portfolioDaily: DataPoint[] = btcDaily.map((pt, i) => ({
   timestamp: pt.timestamp,
   value:
-    Math.round((pt.value * 1.5 + (ethDaily[i]?.value ?? 0) * 10) * 100) / 100,
+    Math.round(((pt.value ?? 0) * 1.5 + (ethDaily[i]?.value ?? 0) * 10) * 100) /
+    100,
 }));
 
 export function formatCurrency(value: number): string {
@@ -135,10 +136,20 @@ export const highDensityBtc: LineConfig[] = [
   },
 ];
 
-function findMinMax(data: DataPoint[]): { min: DataPoint; max: DataPoint } {
-  let min = data[0];
-  let max = data[0];
-  for (const pt of data) {
+function findMinMax(data: DataPoint[]): {
+  min: DataPoint & { value: number };
+  max: DataPoint & { value: number };
+} {
+  const numeric = data.filter(
+    (p): p is DataPoint & { value: number } => p.value != null,
+  );
+  if (numeric.length === 0) {
+    const fallback = { timestamp: 0, value: 0 };
+    return { min: fallback, max: fallback };
+  }
+  let min = numeric[0];
+  let max = numeric[0];
+  for (const pt of numeric) {
     if (pt.value < min.value) min = pt;
     if (pt.value > max.value) max = pt;
   }
@@ -159,7 +170,9 @@ export const walletLines: LineConfig[] = [
   },
 ];
 
-const allValues = walletBtcData.map((pt) => pt.value);
+const allValues = walletBtcData
+  .map((pt) => pt.value)
+  .filter((v): v is number => v != null);
 const dataMin = Math.min(...allValues);
 const dataMax = Math.max(...allValues);
 const dataRange = dataMax - dataMin;
@@ -219,7 +232,7 @@ export const walletMarkers: MarkerConfig[] = MARKER_LABELS.map(
     const pt = walletBtcData[idx];
     return {
       timestamp: pt.timestamp,
-      value: pt.value,
+      value: pt.value ?? 0,
       color: '#E87A2C',
       radius: variant === 'filled' ? 4 : 5,
       variant,
