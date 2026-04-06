@@ -273,8 +273,6 @@ export const TileSecondaryAction = ({
     return null;
   }
 
-  const Icon = icon;
-
   return (
     <InteractiveIcon
       className={cn(
@@ -283,13 +281,13 @@ export const TileSecondaryAction = ({
       )}
       data-secondary-button-container
       iconType='stroked'
+      icon={icon}
+      size={24}
       onClick={handleClick}
       aria-label={ariaLabel}
       ref={ref}
       {...props}
-    >
-      <Icon size={24} />
-    </InteractiveIcon>
+    />
   );
 };
 TileSecondaryAction.displayName = 'TileSecondaryAction';

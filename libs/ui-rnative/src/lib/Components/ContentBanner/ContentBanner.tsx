@@ -209,14 +209,14 @@ export const ContentBanner = ({
         <View style={styles.closeButton}>
           <InteractiveIcon
             iconType='stroked'
+            icon={Close}
+            size={16}
             testID='content-banner-close-button'
             onPress={() => onClose()}
             accessibilityLabel={
               closeAccessibilityLabel || t('components.banner.closeAriaLabel')
             }
-          >
-            <Close size={16} />
-          </InteractiveIcon>
+          />
         </View>
       )}
     </Box>

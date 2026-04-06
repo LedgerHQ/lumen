@@ -143,6 +143,8 @@ export const MediaCard = ({
           type='button'
           iconType='stroked'
           appearance='white'
+          icon={Close}
+          size={20}
           aria-label={closeAriaLabel || t('common.closeAriaLabel')}
           className='absolute top-12 right-12 z-10'
           onClick={(e) => {
@@ -152,9 +154,7 @@ export const MediaCard = ({
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
-        >
-          <Close size={20} />
-        </InteractiveIcon>
+        />
       )}
     </div>
   );

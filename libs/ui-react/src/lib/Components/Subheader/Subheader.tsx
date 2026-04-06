@@ -102,12 +102,12 @@ export const SubheaderInfo = ({
       <InteractiveIcon
         ref={ref}
         iconType={iconType}
+        icon={Information}
+        size={16}
         className={className}
         aria-label='More information'
         {...props}
-      >
-        <Information size={16} />
-      </InteractiveIcon>
+      />
     </span>
   );
 };
