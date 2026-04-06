@@ -206,11 +206,11 @@ export function resolveChartInset(
 }
 
 export function effectiveShowXAxis(props: LineChartProps): boolean {
-  return props.xAxis?.show ?? props.showXAxis ?? true;
+  return props.xAxis?.show ?? true;
 }
 
 export function effectiveShowYAxis(props: LineChartProps): boolean {
-  return props.yAxis?.show ?? props.showYAxis ?? true;
+  return props.yAxis?.show ?? true;
 }
 
 /**

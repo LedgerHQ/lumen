@@ -63,7 +63,7 @@ export type MarkerConfig = {
   label?: string;
 };
 
-/** Optional axis overrides; `show` wins over top-level `showXAxis` / `showYAxis` when set. */
+/** Per-axis options. Omit `show` or set `show: true` to display the axis (default). */
 export type ChartAxisConfig = {
   show?: boolean;
   /** x: [minTs, maxTs] ms; y: [min, max] in value space */
@@ -82,14 +82,11 @@ export type LineChartProps = {
     bottom: number;
     left: number;
   }>;
-  showXAxis?: boolean;
-  showYAxis?: boolean;
   xAxis?: ChartAxisConfig;
   yAxis?: ChartAxisConfig;
   formatXLabel?: (timestamp: number) => string;
   formatYLabel?: (value: number) => string;
   showGrid?: boolean;
-  interactive?: boolean;
   showTooltip?: boolean;
   showCursor?: boolean;
   showCursorLabel?: boolean;

@@ -73,8 +73,8 @@ export const ChartsPocPage = ({
       width: CHART_WIDTH,
       height: CHART_HEIGHT,
       showGrid: false,
-      showXAxis: false,
-      showYAxis: false,
+      xAxis: { show: false },
+      yAxis: { show: false },
       showTooltip: false,
       showCursor: walletShowHoverCursor,
       showCursorLabel: walletShowCursorLabel,
@@ -170,8 +170,8 @@ export const ChartsPocPage = ({
 
       {/* Chart */}
       <div
-        className='rounded-lg pt-24 px-16 pb-16 mb-48'
-        style={{ backgroundColor: '#1A1A2E', maxWidth: CHART_WIDTH + 32 }}
+        className='rounded-lg pt-24 px-16 pb-16 mb-48 bg-surface'
+        style={{ maxWidth: CHART_WIDTH + 32 }}
       >
         <div className='flex flex-col gap-4 mb-12 min-h-64 text-white'>
           <span className='body-4 opacity-60'>

@@ -248,8 +248,8 @@ export const walletVariant: Pick<
   | 'valueLabels'
   | 'markers'
   | 'showGrid'
-  | 'showXAxis'
-  | 'showYAxis'
+  | 'xAxis'
+  | 'yAxis'
   | 'showTooltip'
   | 'showCursor'
   | 'formatXLabel'
@@ -260,8 +260,8 @@ export const walletVariant: Pick<
   valueLabels: walletValueLabels,
   markers: walletMarkers,
   showGrid: false,
-  showXAxis: false,
-  showYAxis: false,
+  xAxis: { show: false },
+  yAxis: { show: false },
   showTooltip: false,
   showCursor: false,
   formatXLabel: formatDate,
