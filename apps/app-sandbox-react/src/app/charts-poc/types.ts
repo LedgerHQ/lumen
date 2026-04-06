@@ -72,6 +72,8 @@ export type ChartAxisConfig = {
   showGrid?: boolean;
   /** Optional custom tick values for this axis. */
   ticks?: number[];
+  /** Optional axis tick label formatter (axis only, not tooltip/value labels). */
+  tickFormatter?: (value: number) => string;
   /** x: [minTs, maxTs] ms; y: [min, max] in value space */
   domain?: [number, number];
   tickCount?: number;

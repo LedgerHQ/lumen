@@ -65,6 +65,8 @@ export const LineChartVictory = (props: LineChartProps) => {
   const showCursorLabelEff = showCursorLabel && enableScrubbing;
   const dimAfterCursorEff = enableScrubbing;
   const gridVisibility = resolveGridVisibility(props);
+  const xAxisTickFormatter = xAxisConfig?.tickFormatter ?? formatXLabel;
+  const yAxisTickFormatter = yAxisConfig?.tickFormatter ?? formatYLabel;
 
   const gradientId = useId();
   const lastActiveIndexRef = useRef<number | null>(null);
@@ -354,7 +356,7 @@ export const LineChartVictory = (props: LineChartProps) => {
         {showXAxisEff ? (
           <VictoryAxis
             animate={false}
-            tickFormat={formatXLabel}
+            tickFormat={xAxisTickFormatter}
             style={axisStyle}
             tickValues={xTicks}
             tickCount={xAxisConfig?.tickCount ?? 6}
@@ -375,7 +377,7 @@ export const LineChartVictory = (props: LineChartProps) => {
           <VictoryAxis
             animate={false}
             dependentAxis
-            tickFormat={formatYLabel}
+            tickFormat={yAxisTickFormatter}
             style={dependentAxisStyle}
             tickValues={yTicks}
             tickCount={yAxisConfig?.tickCount ?? 5}

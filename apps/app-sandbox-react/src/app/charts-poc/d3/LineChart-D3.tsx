@@ -57,6 +57,8 @@ export const LineChartD3 = (props: LineChartProps) => {
   const showCursorLabelEff = showCursorLabel && enableScrubbing;
   const dimAfterCursorEff = enableScrubbing;
   const gridVisibility = resolveGridVisibility(props);
+  const xAxisTickFormatter = xAxisConfig?.tickFormatter ?? formatXLabel;
+  const yAxisTickFormatter = yAxisConfig?.tickFormatter ?? formatYLabel;
 
   const uid = useId();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -568,8 +570,8 @@ export const LineChartD3 = (props: LineChartProps) => {
                   fontSize={11}
                   textAnchor='middle'
                 >
-                  {formatXLabel
-                    ? formatXLabel(tick.getTime())
+                  {xAxisTickFormatter
+                    ? xAxisTickFormatter(tick.getTime())
                     : tick.toLocaleDateString()}
                 </text>
               ))}
@@ -588,7 +590,7 @@ export const LineChartD3 = (props: LineChartProps) => {
                   textAnchor='end'
                   dominantBaseline='middle'
                 >
-                  {formatYLabel ? formatYLabel(tick) : String(tick)}
+                  {yAxisTickFormatter ? yAxisTickFormatter(tick) : String(tick)}
                 </text>
               ))}
             </g>

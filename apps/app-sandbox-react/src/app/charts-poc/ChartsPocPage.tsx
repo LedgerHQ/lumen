@@ -56,6 +56,29 @@ const resolveTickCountFromInput = (input: string, fallback: number): number => {
   return Math.max(2, count || fallback);
 };
 
+const buildAxisLabelFormatter = (
+  ticks: number[] | undefined,
+  labels: number[],
+  fallback: (value: number) => string,
+): ((value: number) => string) => {
+  if (!ticks || ticks.length === 0 || labels.length !== ticks.length) {
+    return fallback;
+  }
+  return (value: number): string => {
+    let closestIndex = 0;
+    let closestDiff = Infinity;
+    for (let i = 0; i < ticks.length; i++) {
+      const diff = Math.abs(ticks[i] - value);
+      if (diff < closestDiff) {
+        closestDiff = diff;
+        closestIndex = i;
+      }
+    }
+    const label = labels[closestIndex];
+    return Number.isInteger(label) ? String(label) : label.toFixed(2);
+  };
+};
+
 export const ChartsPocPage = ({
   colorScheme,
   onColorSchemeChange,
@@ -228,20 +251,45 @@ export const ChartsPocPage = ({
     walletShowValueLabels,
   ]);
 
+  const xAxisLegendValues = useMemo(
+    () => parseNumericList(walletXAxisDataInput || defaultXAxisDataInput),
+    [walletXAxisDataInput, defaultXAxisDataInput],
+  );
+  const yAxisLegendValues = useMemo(
+    () => parseNumericList(walletYAxisDataInput || defaultYAxisDataInput),
+    [walletYAxisDataInput, defaultYAxisDataInput],
+  );
+  const xAxisTickFormatter = useMemo(
+    () =>
+      buildAxisLabelFormatter(customXAxisTicks, xAxisLegendValues, formatDate),
+    [customXAxisTicks, xAxisLegendValues],
+  );
+  const yAxisTickFormatter = useMemo(
+    () =>
+      buildAxisLabelFormatter(
+        customYAxisTicks,
+        yAxisLegendValues,
+        formatCurrency,
+      ),
+    [customYAxisTicks, yAxisLegendValues],
+  );
+
   const chartProps: LineChartProps = useMemo(
     () => ({
       lines,
       width: CHART_WIDTH,
       height: CHART_HEIGHT,
       xAxis: {
-        show: false,
+        show: true,
         showGrid: walletShowXGrid,
         ticks: customXAxisTicks,
+        tickFormatter: xAxisTickFormatter,
       },
       yAxis: {
-        show: false,
+        show: true,
         showGrid: walletShowYGrid,
         ticks: customYAxisTicks,
+        tickFormatter: yAxisTickFormatter,
       },
       enableScrubbing: walletEnableScrubbing,
       showTooltip: false,
@@ -269,6 +317,8 @@ export const ChartsPocPage = ({
       walletShowYGrid,
       customXAxisTicks,
       customYAxisTicks,
+      xAxisTickFormatter,
+      yAxisTickFormatter,
       walletShowHoverCursor,
       walletShowCursorLabel,
       handlePointHover,
@@ -578,7 +628,7 @@ const WalletControls = ({
         </div>
         <label className='flex flex-col gap-6'>
           <span className='body-4 text-muted'>
-            X data (indices, 1-based, comma-separated)
+            X axis labels (comma-separated)
           </span>
           <input
             value={xAxisDataInput}
@@ -589,7 +639,7 @@ const WalletControls = ({
         </label>
         <label className='flex flex-col gap-6'>
           <span className='body-4 text-muted'>
-            Y data (values, comma-separated)
+            Y axis labels (comma-separated)
           </span>
           <input
             value={yAxisDataInput}

@@ -72,6 +72,8 @@ export const LineChartVisx = (props: LineChartProps) => {
   const showCursorLabelEff = showCursorLabel && enableScrubbing;
   const dimAfterCursorEff = enableScrubbing;
   const gridVisibility = resolveGridVisibility(props);
+  const xAxisTickFormatter = xAxisConfig?.tickFormatter ?? formatXLabel;
+  const yAxisTickFormatter = yAxisConfig?.tickFormatter ?? formatYLabel;
 
   const uid = useId();
   const lastSnapTsRef = useRef<number | null>(null);
@@ -584,8 +586,8 @@ export const LineChartVisx = (props: LineChartProps) => {
               numTicks={xTickCount}
               tickValues={xTickValues}
               tickFormat={(val) =>
-                formatXLabel
-                  ? formatXLabel((val as Date).getTime())
+                xAxisTickFormatter
+                  ? xAxisTickFormatter((val as Date).getTime())
                   : (val as Date).toLocaleDateString()
               }
               stroke='var(--border-muted)'
@@ -604,7 +606,9 @@ export const LineChartVisx = (props: LineChartProps) => {
               numTicks={yTickCount}
               tickValues={yTickValues}
               tickFormat={(val) =>
-                formatYLabel ? formatYLabel(val as number) : String(val)
+                yAxisTickFormatter
+                  ? yAxisTickFormatter(val as number)
+                  : String(val)
               }
               stroke='transparent'
               tickStroke='transparent'

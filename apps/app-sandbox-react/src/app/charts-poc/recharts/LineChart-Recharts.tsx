@@ -148,6 +148,8 @@ export const LineChartRecharts = (props: LineChartProps) => {
   const showCursorLabelEff = showCursorLabel && enableScrubbing;
   const dimAfterCursorEff = enableScrubbing;
   const gridVisibility = resolveGridVisibility(props);
+  const xAxisTickFormatter = xAxisConfig?.tickFormatter ?? formatXLabel;
+  const yAxisTickFormatter = yAxisConfig?.tickFormatter ?? formatYLabel;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const lastActiveIndexRef = useRef<number | null>(null);
@@ -452,7 +454,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
           type='number'
           domain={[xDomainMs[0], xDomainMs[1]]}
           ticks={xTicks}
-          tickFormatter={formatXLabel}
+          tickFormatter={xAxisTickFormatter}
           stroke='var(--text-muted)'
           tick={showXAxisEff ? { fontSize: 11 } : false}
           tickLine={false}
@@ -464,7 +466,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
         <YAxis
           domain={yDomain}
           ticks={yTicks}
-          tickFormatter={formatYLabel}
+          tickFormatter={yAxisTickFormatter}
           stroke='var(--text-muted)'
           tick={showYAxisEff ? { fontSize: 11 } : false}
           tickLine={false}
