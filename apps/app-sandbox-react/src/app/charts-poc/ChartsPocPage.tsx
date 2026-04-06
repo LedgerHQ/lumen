@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   IconButton,
   SegmentedControl,
   SegmentedControlButton,
@@ -21,6 +22,7 @@ import {
 import { PerfBenchmark } from './PerfBenchmark';
 import { LineChartRecharts } from './recharts';
 import type { DataPoint, LineChartProps, MarkerConfig } from './types';
+import { getReferenceLineStyleCaption } from './utils';
 import { LineChartVictory } from './victory';
 import { LineChartVisx } from './visx';
 
@@ -36,8 +38,8 @@ export const ChartsPocPage = ({
   const [activeLib, setActiveLib] = useState<LibKey>('recharts');
 
   const [walletGradient, setWalletGradient] = useState(false);
-  const [walletRefLineCount, setWalletRefLineCount] = useState(
-    walletReferenceLines.length,
+  const [refLinesEnabled, setRefLinesEnabled] = useState<boolean[]>(() =>
+    walletReferenceLines.map(() => true),
   );
   const [walletShowValueLabels, setWalletShowValueLabels] = useState(true);
   const [walletShowMarkers, setWalletShowMarkers] = useState(true);
@@ -60,6 +62,11 @@ export const ChartsPocPage = ({
     [walletGradient],
   );
 
+  const visibleReferenceLines = useMemo(
+    () => walletReferenceLines.filter((_, i) => refLinesEnabled[i]),
+    [refLinesEnabled],
+  );
+
   const chartProps: LineChartProps = useMemo(
     () => ({
       lines,
@@ -77,15 +84,13 @@ export const ChartsPocPage = ({
       formatXLabel: formatDate,
       formatYLabel: formatCurrency,
       referenceLines:
-        walletRefLineCount > 0
-          ? walletReferenceLines.slice(0, walletRefLineCount)
-          : undefined,
+        visibleReferenceLines.length > 0 ? visibleReferenceLines : undefined,
       valueLabels: walletShowValueLabels ? walletValueLabels : undefined,
       markers: walletShowMarkers ? walletMarkers : undefined,
     }),
     [
       lines,
-      walletRefLineCount,
+      visibleReferenceLines,
       walletShowValueLabels,
       walletShowMarkers,
       walletShowHoverCursor,
@@ -143,9 +148,14 @@ export const ChartsPocPage = ({
       <WalletControls
         gradient={walletGradient}
         onGradientChange={setWalletGradient}
-        refLineCount={walletRefLineCount}
-        onRefLineCountChange={setWalletRefLineCount}
-        maxRefLines={walletReferenceLines.length}
+        refLinesEnabled={refLinesEnabled}
+        onRefLineCheckedChange={(index, checked) => {
+          setRefLinesEnabled((prev) => {
+            const next = [...prev];
+            next[index] = checked;
+            return next;
+          });
+        }}
         showValueLabels={walletShowValueLabels}
         onShowValueLabelsChange={setWalletShowValueLabels}
         showMarkers={walletShowMarkers}
@@ -242,9 +252,8 @@ const SwitchControl = ({
 const WalletControls = ({
   gradient,
   onGradientChange,
-  refLineCount,
-  onRefLineCountChange,
-  maxRefLines,
+  refLinesEnabled,
+  onRefLineCheckedChange,
   showValueLabels,
   onShowValueLabelsChange,
   showMarkers,
@@ -258,9 +267,8 @@ const WalletControls = ({
 }: {
   gradient: boolean;
   onGradientChange: (v: boolean) => void;
-  refLineCount: number;
-  onRefLineCountChange: (v: number) => void;
-  maxRefLines: number;
+  refLinesEnabled: boolean[];
+  onRefLineCheckedChange: (index: number, checked: boolean) => void;
   showValueLabels: boolean;
   onShowValueLabelsChange: (v: boolean) => void;
   showMarkers: boolean;
@@ -315,27 +323,28 @@ const WalletControls = ({
       </div>
     </fieldset>
 
-    <fieldset className='border border-muted rounded-md px-16 py-12'>
-      <legend className='body-4 text-muted px-4'>
-        Reference Lines ({refLineCount})
-      </legend>
-      <div className='flex items-center gap-8'>
-        <span className='body-4 text-muted'>0</span>
-        <input
-          type='range'
-          min={0}
-          max={maxRefLines}
-          value={refLineCount}
-          onChange={(e) => onRefLineCountChange(Number(e.target.value))}
-          className='w-[120px] accent-accent'
-        />
-        <span className='body-4 text-muted'>{maxRefLines}</span>
-      </div>
-      <div className='mt-8 flex gap-12 body-4 text-muted'>
-        {walletReferenceLines.slice(0, refLineCount).map((rl, i) => (
-          <span key={i} style={{ color: rl.color }}>
-            {rl.style} @ {rl.label}
-          </span>
+    <fieldset className='border border-muted rounded-md px-16 py-12 max-w-400'>
+      <legend className='body-4 text-muted px-4'>Reference lines</legend>
+      <div className='flex flex-col gap-12'>
+        {walletReferenceLines.map((rl, i) => (
+          <label
+            key={`ref-${i}`}
+            className='flex items-start gap-12 cursor-pointer'
+          >
+            <Checkbox
+              className='mt-2 shrink-0'
+              checked={refLinesEnabled[i] ?? false}
+              onCheckedChange={(checked) => onRefLineCheckedChange(i, checked)}
+            />
+            <span className='flex flex-col gap-4 min-w-0'>
+              <span className='body-3 text-base'>
+                {rl.domain ?? `Level ${i + 1}`}
+              </span>
+              <span className='body-4 text-muted'>
+                {getReferenceLineStyleCaption(rl.style)} · {rl.label}
+              </span>
+            </span>
+          </label>
         ))}
       </div>
     </fieldset>

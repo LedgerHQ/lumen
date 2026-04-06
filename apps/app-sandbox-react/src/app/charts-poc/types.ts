@@ -11,11 +11,17 @@ export type LineConfig = {
   showGradient?: boolean;
 };
 
+export type ReferenceLineStyle = 'solid' | 'dashed' | 'dotted' | 'border';
+
 export type ReferenceLineConfig = {
   value: number;
+  /** Short domain meaning for controls (e.g. “Mid-range”, “Round level”) */
+  domain?: string;
   label?: string;
   labelPosition?: 'left' | 'right' | 'center';
-  style?: 'solid' | 'dashed' | 'dotted';
+  /** plain ≈ solid, dash, dot, border = thicker emphasis */
+  style?: ReferenceLineStyle;
+  /** Optional override; charts POC defaults to neutral grey */
   color?: string;
 };
 

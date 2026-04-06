@@ -1,4 +1,9 @@
-import type { DataPoint, LineChartProps, ValueLabelConfig } from './types';
+import type {
+  DataPoint,
+  LineChartProps,
+  ReferenceLineStyle,
+  ValueLabelConfig,
+} from './types';
 
 export function resolveCssColor(cssVar: string): string {
   if (!cssVar.startsWith('var(')) return cssVar;
@@ -48,16 +53,43 @@ export function resolveValueLabels(
   );
 }
 
+/** Neutral grey for horizontal reference lines on dark chart backgrounds */
+export const REFERENCE_LINE_STROKE = 'rgba(255, 255, 255, 0.42)';
+
 export function getRefLineStrokeDasharray(
-  style?: 'solid' | 'dashed' | 'dotted',
+  style?: ReferenceLineStyle,
 ): string {
   switch (style) {
     case 'dotted':
       return '2 4';
     case 'dashed':
       return '6 4';
+    case 'border':
+      return 'none';
     default:
       return 'none';
+  }
+}
+
+export function getReferenceLineStrokeWidth(
+  style?: ReferenceLineStyle,
+): number {
+  return style === 'border' ? 2 : 1;
+}
+
+/** Labels for UI / legend */
+export function getReferenceLineStyleCaption(
+  style?: ReferenceLineStyle,
+): string {
+  switch (style) {
+    case 'dashed':
+      return 'Dashed';
+    case 'dotted':
+      return 'Dotted';
+    case 'border':
+      return 'Border (thick)';
+    default:
+      return 'Plain';
   }
 }
 

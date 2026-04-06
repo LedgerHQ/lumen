@@ -15,6 +15,8 @@ import {
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
+  getReferenceLineStrokeWidth,
+  REFERENCE_LINE_STROKE,
   computeYDomain,
 } from '../utils';
 
@@ -341,9 +343,9 @@ export const LineChartRecharts = (props: LineChartProps) => {
           <ReferenceLine
             key={`ref-${i}`}
             y={rl.value}
-            stroke={rl.color ?? 'var(--text-muted)'}
+            stroke={REFERENCE_LINE_STROKE}
             strokeDasharray={getRefLineStrokeDasharray(rl.style)}
-            strokeWidth={1}
+            strokeWidth={getReferenceLineStrokeWidth(rl.style)}
             label={
               rl.label
                 ? {
@@ -354,7 +356,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
                         : rl.labelPosition === 'right'
                           ? 'insideRight'
                           : 'insideBottomLeft',
-                    fill: rl.color ?? 'var(--text-muted)',
+                    fill: REFERENCE_LINE_STROKE,
                     fontSize: 12,
                     dy: 14,
                   }

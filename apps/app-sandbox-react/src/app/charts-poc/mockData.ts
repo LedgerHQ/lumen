@@ -166,25 +166,32 @@ const dataRange = dataMax - dataMin;
 
 export const walletReferenceLines: ReferenceLineConfig[] = [
   {
+    domain: 'Psychological round level',
     value: btcThreshold,
     label: formatCurrency(btcThreshold),
     labelPosition: 'center',
-    style: 'dotted',
-    color: 'rgba(255, 255, 255, 0.3)',
+    style: 'solid',
   },
   {
+    domain: 'Mid-range (50th percentile)',
     value: dataMin + dataRange * 0.5,
     label: formatCurrency(dataMin + dataRange * 0.5),
     labelPosition: 'right',
-    style: 'solid',
-    color: 'rgba(74, 222, 128, 0.4)',
+    style: 'dashed',
   },
   {
+    domain: 'Near period high',
     value: dataMax - dataRange * 0.1,
     label: formatCurrency(dataMax - dataRange * 0.1),
     labelPosition: 'left',
-    style: 'dashed',
-    color: 'rgba(244, 114, 182, 0.4)',
+    style: 'dotted',
+  },
+  {
+    domain: 'Support band (emphasis)',
+    value: dataMin + dataRange * 0.25,
+    label: formatCurrency(dataMin + dataRange * 0.25),
+    labelPosition: 'center',
+    style: 'border',
   },
 ];
 

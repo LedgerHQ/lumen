@@ -14,6 +14,8 @@ import {
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
+  getReferenceLineStrokeWidth,
+  REFERENCE_LINE_STROKE,
   computeYDomain,
 } from '../utils';
 
@@ -304,8 +306,8 @@ export const LineChartVictory = (props: LineChartProps) => {
             ]}
             style={{
               data: {
-                stroke: rl.color ?? 'var(--text-muted)',
-                strokeWidth: 1,
+                stroke: REFERENCE_LINE_STROKE,
+                strokeWidth: getReferenceLineStrokeWidth(rl.style),
                 strokeDasharray: getRefLineStrokeDasharray(rl.style),
               },
             }}
@@ -321,7 +323,7 @@ export const LineChartVictory = (props: LineChartProps) => {
                       : 0
                 }
                 style={{
-                  fill: rl.color ?? 'var(--text-muted)',
+                  fill: REFERENCE_LINE_STROKE,
                   fontSize: 12,
                 }}
                 textAnchor={

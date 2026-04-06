@@ -14,6 +14,8 @@ import {
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
+  getReferenceLineStrokeWidth,
+  REFERENCE_LINE_STROKE,
   computeYDomain,
 } from '../utils';
 
@@ -356,8 +358,8 @@ export const LineChartVisx = (props: LineChartProps) => {
                   y1={y}
                   x2={innerWidth}
                   y2={y}
-                  stroke={rl.color ?? 'var(--text-muted)'}
-                  strokeWidth={1}
+                  stroke={REFERENCE_LINE_STROKE}
+                  strokeWidth={getReferenceLineStrokeWidth(rl.style)}
                   strokeDasharray={getRefLineStrokeDasharray(rl.style)}
                 />
                 {rl.label && (
@@ -370,7 +372,7 @@ export const LineChartVisx = (props: LineChartProps) => {
                           : innerWidth / 2
                     }
                     y={y + 16}
-                    fill={rl.color ?? 'var(--text-muted)'}
+                    fill={REFERENCE_LINE_STROKE}
                     fontSize={12}
                     textAnchor={
                       rl.labelPosition === 'left'
