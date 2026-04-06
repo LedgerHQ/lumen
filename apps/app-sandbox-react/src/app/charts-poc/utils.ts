@@ -39,6 +39,36 @@ export const GRID_LINE_STROKE = 'rgba(148, 163, 184, 0.35)';
 export const GRID_LINE_STROKE_DASHARRAY = '1 4';
 export const GRID_LINE_STROKE_WIDTH = 1;
 
+export function buildEvenlySpacedTicks(
+  domain: [number, number],
+  tickCount: number,
+): number[] {
+  const start = domain[0];
+  const end = domain[1];
+  if (!Number.isFinite(start) || !Number.isFinite(end)) return [];
+  if (start === end) return [start];
+  const safeCount = Math.max(2, Math.floor(tickCount));
+  const step = (end - start) / (safeCount - 1);
+  const ticks: number[] = [];
+  for (let i = 0; i < safeCount; i++) {
+    ticks.push(start + step * i);
+  }
+  return ticks;
+}
+
+export function ensureDomainBoundaryTicks(
+  ticks: number[] | undefined,
+  domain: [number, number],
+): number[] {
+  const start = domain[0];
+  const end = domain[1];
+  const base = ticks ?? [];
+  const merged = [...base, start, end].filter((v) => Number.isFinite(v));
+  const unique = Array.from(new Set(merged)).sort((a, b) => a - b);
+  if (unique.length === 0) return [start, end];
+  return unique;
+}
+
 export type ResolvedValueLabel = {
   timestamp: number;
   value: number;

@@ -4,11 +4,15 @@ import { useMemo, useCallback, useId, useState, useRef } from 'react';
 import { getD3Curve } from '../chartCurves';
 import type { LineChartProps, DataPoint } from '../types';
 import {
+  buildEvenlySpacedTicks,
+  ensureDomainBoundaryTicks,
   getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
   getRefLineStrokeDasharray,
   getReferenceLineStrokeWidth,
+  GRID_LINE_STROKE,
+  GRID_LINE_STROKE_DASHARRAY,
   REFERENCE_LINE_STROKE,
   computeYDomain,
   computeXTimeDomainMs,
@@ -156,10 +160,23 @@ export const LineChartD3 = (props: LineChartProps) => {
     });
   }, [innerHeight, lines, resolvedColors, xScale, yScale]);
 
-  const xTickCount = xAxisConfig?.tickCount ?? 6;
-  const yTickCount = yAxisConfig?.tickCount ?? 5;
-  const xTicks = useMemo(() => xScale.ticks(xTickCount), [xScale, xTickCount]);
-  const yTicks = useMemo(() => yScale.ticks(yTickCount), [yScale, yTickCount]);
+  const xTicks = useMemo(() => {
+    const ticksMs = ensureDomainBoundaryTicks(
+      xAxisConfig?.ticks ??
+        buildEvenlySpacedTicks(xDomainMs, xAxisConfig?.tickCount ?? 6),
+      xDomainMs,
+    );
+    return ticksMs.map((tick) => new Date(tick));
+  }, [xAxisConfig?.ticks, xAxisConfig?.tickCount, xDomainMs]);
+  const yTicks = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        yAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(yDomain, yAxisConfig?.tickCount ?? 5),
+        yDomain,
+      ),
+    [yAxisConfig?.ticks, yAxisConfig?.tickCount, yDomain],
+  );
 
   const handleMouseMove = useCallback(
     (event: React.MouseEvent<SVGRectElement>) => {
@@ -326,9 +343,8 @@ export const LineChartD3 = (props: LineChartProps) => {
                     y1={yScale(tick)}
                     x2={innerWidth}
                     y2={yScale(tick)}
-                    stroke='var(--border-muted)'
-                    strokeOpacity={0.5}
-                    strokeDasharray='4 4'
+                    stroke={GRID_LINE_STROKE}
+                    strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
                   />
                 ))}
               {gridVisibility.x &&
@@ -339,9 +355,8 @@ export const LineChartD3 = (props: LineChartProps) => {
                     y1={0}
                     x2={xScale(tick)}
                     y2={innerHeight}
-                    stroke='var(--border-muted)'
-                    strokeOpacity={0.5}
-                    strokeDasharray='4 4'
+                    stroke={GRID_LINE_STROKE}
+                    strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
                   />
                 ))}
             </>

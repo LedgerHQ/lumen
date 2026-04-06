@@ -23,13 +23,37 @@ import {
 import { PerfBenchmark } from './PerfBenchmark';
 import { LineChartRecharts } from './recharts';
 import type { DataPoint, LineChartProps, MarkerConfig } from './types';
-import { getReferenceLineStyleCaption } from './utils';
+import {
+  buildEvenlySpacedTicks,
+  computeYDomain,
+  ensureDomainBoundaryTicks,
+  getReferenceLineStyleCaption,
+} from './utils';
 import { LineChartVictory } from './victory';
 import { LineChartVisx } from './visx';
 
 type ChartsPocPageProps = {
   colorScheme: 'light' | 'dark';
   onColorSchemeChange: (scheme: 'light' | 'dark') => void;
+};
+
+const parseNumericList = (input: string): number[] =>
+  input
+    .split(',')
+    .map((part) => Number(part.trim()))
+    .filter((value) => Number.isFinite(value));
+
+const buildDefaultXAxisIndexInput = (totalPoints: number): string => {
+  if (totalPoints <= 0) return '';
+  const marks = [0, 0.2, 0.4, 0.6, 0.8, 1].map(
+    (ratio) => Math.round(ratio * (totalPoints - 1)) + 1,
+  );
+  return Array.from(new Set(marks)).join(', ');
+};
+
+const resolveTickCountFromInput = (input: string, fallback: number): number => {
+  const count = parseNumericList(input).length;
+  return Math.max(2, count || fallback);
 };
 
 export const ChartsPocPage = ({
@@ -45,10 +69,18 @@ export const ChartsPocPage = ({
   const [walletShowValueLabels, setWalletShowValueLabels] = useState(true);
   const [walletShowMarkers, setWalletShowMarkers] = useState(true);
   const [walletEnableScrubbing, setWalletEnableScrubbing] = useState(true);
+  const [walletShowXGrid, setWalletShowXGrid] = useState(true);
+  const [walletShowYGrid, setWalletShowYGrid] = useState(true);
   const [walletShowHoverCursor, setWalletShowHoverCursor] = useState(true);
   const [walletShowCursorLabel, setWalletShowCursorLabel] = useState(true);
   const [walletUseMultipleSeries, setWalletUseMultipleSeries] = useState(false);
   const [walletUseSeriesLabels, setWalletUseSeriesLabels] = useState(true);
+  const [walletUseCustomXAxisData, setWalletUseCustomXAxisData] =
+    useState(true);
+  const [walletUseCustomYAxisData, setWalletUseCustomYAxisData] =
+    useState(true);
+  const [walletXAxisDataInput, setWalletXAxisDataInput] = useState('');
+  const [walletYAxisDataInput, setWalletYAxisDataInput] = useState('');
   const [hoveredPoint, setHoveredPoint] = useState<DataPoint | null>(null);
   const [hoveredMarker, setHoveredMarker] = useState<MarkerConfig | null>(null);
 
@@ -68,13 +100,29 @@ export const ChartsPocPage = ({
   }, [walletEnableScrubbing, walletShowHoverCursor]);
 
   const lines = useMemo(() => {
+    const btcData = walletLines[0]?.data ?? [];
+    const btcBase = btcData[0]?.value ?? 0;
+    const ethBase = ethDaily[0]?.value ?? 1;
+    const ethComparableData: DataPoint[] = btcData.map((btcPoint, i) => {
+      const ethValue = ethDaily[i]?.value;
+      if (ethValue == null) {
+        return { timestamp: btcPoint.timestamp, value: null };
+      }
+      // Keep ETH-like movement while normalizing around BTC range for readability.
+      const normalized = (ethValue / ethBase) * btcBase * 0.94;
+      return {
+        timestamp: btcPoint.timestamp,
+        value: Math.round(normalized * 100) / 100,
+      };
+    });
+
     const series = walletUseMultipleSeries
       ? [
           ...walletLines,
           {
             id: 'eth',
             label: 'Ethereum',
-            data: ethDaily,
+            data: ethComparableData,
             color: 'var(--color-crypto-ethereum)',
             width: 2,
             showGradient: false,
@@ -89,18 +137,112 @@ export const ChartsPocPage = ({
     }));
   }, [walletUseMultipleSeries, walletGradient, walletUseSeriesLabels]);
 
+  const defaultXAxisDataInput = useMemo(
+    () => buildDefaultXAxisIndexInput(lines[0]?.data.length ?? 0),
+    [lines],
+  );
+
+  const defaultYAxisTicks = useMemo(() => {
+    const numericValues = lines
+      .flatMap((line) => line.data.map((point) => point.value))
+      .filter((value): value is number => value != null);
+    if (numericValues.length === 0) return [] as number[];
+    const min = Math.min(...numericValues);
+    const max = Math.max(...numericValues);
+    if (min === max) return [min];
+    const step = (max - min) / 4;
+    return [min, min + step, min + 2 * step, min + 3 * step, max].map(
+      (v) => Math.round(v * 100) / 100,
+    );
+  }, [lines]);
+
+  const defaultYAxisDataInput = useMemo(
+    () => defaultYAxisTicks.map((tick) => String(Math.round(tick))).join(', '),
+    [defaultYAxisTicks],
+  );
+
+  useEffect(() => {
+    if (!walletXAxisDataInput) {
+      setWalletXAxisDataInput(defaultXAxisDataInput);
+    }
+  }, [walletXAxisDataInput, defaultXAxisDataInput]);
+
+  useEffect(() => {
+    if (!walletYAxisDataInput) {
+      setWalletYAxisDataInput(defaultYAxisDataInput);
+    }
+  }, [walletYAxisDataInput, defaultYAxisDataInput]);
+
   const visibleReferenceLines = useMemo(
     () => walletReferenceLines.filter((_, i) => refLinesEnabled[i]),
     [refLinesEnabled],
   );
+
+  const customXAxisTicks = useMemo(() => {
+    if (!walletUseCustomXAxisData) return undefined;
+    const primaryData = lines[0]?.data;
+    if (!primaryData || primaryData.length === 0) return undefined;
+    const xDomain: [number, number] = [
+      primaryData[0].timestamp,
+      primaryData[primaryData.length - 1].timestamp,
+    ];
+    const tickCount = resolveTickCountFromInput(
+      walletXAxisDataInput || defaultXAxisDataInput,
+      6,
+    );
+    return ensureDomainBoundaryTicks(
+      buildEvenlySpacedTicks(xDomain, tickCount),
+      xDomain,
+    );
+  }, [
+    walletUseCustomXAxisData,
+    lines,
+    walletXAxisDataInput,
+    defaultXAxisDataInput,
+  ]);
+
+  const customYAxisTicks = useMemo(() => {
+    if (!walletUseCustomYAxisData) return undefined;
+    const yDomain = computeYDomain({
+      lines,
+      width: CHART_WIDTH,
+      height: CHART_HEIGHT,
+      referenceLines:
+        visibleReferenceLines.length > 0 ? visibleReferenceLines : undefined,
+      valueLabels: walletShowValueLabels ? walletValueLabels : undefined,
+    });
+    const tickCount = resolveTickCountFromInput(
+      walletYAxisDataInput || defaultYAxisDataInput,
+      5,
+    );
+    return ensureDomainBoundaryTicks(
+      buildEvenlySpacedTicks(yDomain, tickCount),
+      yDomain,
+    );
+  }, [
+    walletUseCustomYAxisData,
+    walletYAxisDataInput,
+    defaultYAxisDataInput,
+    lines,
+    visibleReferenceLines,
+    walletShowValueLabels,
+  ]);
 
   const chartProps: LineChartProps = useMemo(
     () => ({
       lines,
       width: CHART_WIDTH,
       height: CHART_HEIGHT,
-      xAxis: { show: false, showGrid: false },
-      yAxis: { show: false, showGrid: false },
+      xAxis: {
+        show: false,
+        showGrid: walletShowXGrid,
+        ticks: customXAxisTicks,
+      },
+      yAxis: {
+        show: false,
+        showGrid: walletShowYGrid,
+        ticks: customYAxisTicks,
+      },
       enableScrubbing: walletEnableScrubbing,
       showTooltip: false,
       showCursor: walletShowHoverCursor,
@@ -123,6 +265,10 @@ export const ChartsPocPage = ({
       walletShowValueLabels,
       walletShowMarkers,
       walletEnableScrubbing,
+      walletShowXGrid,
+      walletShowYGrid,
+      customXAxisTicks,
+      customYAxisTicks,
       walletShowHoverCursor,
       walletShowCursorLabel,
       handlePointHover,
@@ -179,6 +325,18 @@ export const ChartsPocPage = ({
         onGradientChange={setWalletGradient}
         enableScrubbing={walletEnableScrubbing}
         onEnableScrubbingChange={setWalletEnableScrubbing}
+        showXGrid={walletShowXGrid}
+        onShowXGridChange={setWalletShowXGrid}
+        showYGrid={walletShowYGrid}
+        onShowYGridChange={setWalletShowYGrid}
+        useCustomXAxisData={walletUseCustomXAxisData}
+        onUseCustomXAxisDataChange={setWalletUseCustomXAxisData}
+        useCustomYAxisData={walletUseCustomYAxisData}
+        onUseCustomYAxisDataChange={setWalletUseCustomYAxisData}
+        xAxisDataInput={walletXAxisDataInput}
+        onXAxisDataInputChange={setWalletXAxisDataInput}
+        yAxisDataInput={walletYAxisDataInput}
+        onYAxisDataInputChange={setWalletYAxisDataInput}
         useMultipleSeries={walletUseMultipleSeries}
         onUseMultipleSeriesChange={setWalletUseMultipleSeries}
         useSeriesLabels={walletUseSeriesLabels}
@@ -312,6 +470,18 @@ const WalletControls = ({
   onGradientChange,
   enableScrubbing,
   onEnableScrubbingChange,
+  showXGrid,
+  onShowXGridChange,
+  showYGrid,
+  onShowYGridChange,
+  useCustomXAxisData,
+  onUseCustomXAxisDataChange,
+  useCustomYAxisData,
+  onUseCustomYAxisDataChange,
+  xAxisDataInput,
+  onXAxisDataInputChange,
+  yAxisDataInput,
+  onYAxisDataInputChange,
   useMultipleSeries,
   onUseMultipleSeriesChange,
   useSeriesLabels,
@@ -331,6 +501,18 @@ const WalletControls = ({
   onGradientChange: (v: boolean) => void;
   enableScrubbing: boolean;
   onEnableScrubbingChange: (v: boolean) => void;
+  showXGrid: boolean;
+  onShowXGridChange: (v: boolean) => void;
+  showYGrid: boolean;
+  onShowYGridChange: (v: boolean) => void;
+  useCustomXAxisData: boolean;
+  onUseCustomXAxisDataChange: (v: boolean) => void;
+  useCustomYAxisData: boolean;
+  onUseCustomYAxisDataChange: (v: boolean) => void;
+  xAxisDataInput: string;
+  onXAxisDataInputChange: (v: string) => void;
+  yAxisDataInput: string;
+  onYAxisDataInputChange: (v: string) => void;
   useMultipleSeries: boolean;
   onUseMultipleSeriesChange: (v: boolean) => void;
   useSeriesLabels: boolean;
@@ -360,6 +542,62 @@ const WalletControls = ({
           selected={enableScrubbing}
           onChange={onEnableScrubbingChange}
         />
+      </div>
+    </fieldset>
+
+    <fieldset className='border border-muted rounded-md px-16 py-12'>
+      <legend className='body-4 text-muted px-4'>Grid</legend>
+      <div className='flex gap-16 flex-wrap'>
+        <SwitchControl
+          label='Show X grid'
+          selected={showXGrid}
+          onChange={onShowXGridChange}
+        />
+        <SwitchControl
+          label='Show Y grid'
+          selected={showYGrid}
+          onChange={onShowYGridChange}
+        />
+      </div>
+    </fieldset>
+
+    <fieldset className='border border-muted rounded-md px-16 py-12 min-w-400'>
+      <legend className='body-4 text-muted px-4'>Axis data</legend>
+      <div className='flex flex-col gap-12'>
+        <div className='flex gap-16 flex-wrap'>
+          <SwitchControl
+            label='Custom X axis data'
+            selected={useCustomXAxisData}
+            onChange={onUseCustomXAxisDataChange}
+          />
+          <SwitchControl
+            label='Custom Y axis data'
+            selected={useCustomYAxisData}
+            onChange={onUseCustomYAxisDataChange}
+          />
+        </div>
+        <label className='flex flex-col gap-6'>
+          <span className='body-4 text-muted'>
+            X data (indices, 1-based, comma-separated)
+          </span>
+          <input
+            value={xAxisDataInput}
+            onChange={(event) => onXAxisDataInputChange(event.target.value)}
+            className='bg-base border border-muted rounded-md px-8 py-6 body-4 text-base'
+            disabled={!useCustomXAxisData}
+          />
+        </label>
+        <label className='flex flex-col gap-6'>
+          <span className='body-4 text-muted'>
+            Y data (values, comma-separated)
+          </span>
+          <input
+            value={yAxisDataInput}
+            onChange={(event) => onYAxisDataInputChange(event.target.value)}
+            className='bg-base border border-muted rounded-md px-8 py-6 body-4 text-base'
+            disabled={!useCustomYAxisData}
+          />
+        </label>
       </div>
     </fieldset>
 

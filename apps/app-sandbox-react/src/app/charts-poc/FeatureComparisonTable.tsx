@@ -1,20 +1,229 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 type FeatureEntry = {
   feature: string;
-  recharts: string;
-  victory: string;
-  visx: string;
-  d3: string;
+  recharts: ReactNode;
+  victory: ReactNode;
+  visx: ReactNode;
+  d3: ReactNode;
   details: {
-    recharts: string;
-    victory: string;
-    visx: string;
-    d3: string;
+    recharts: ReactNode;
+    victory: ReactNode;
+    visx: ReactNode;
+    d3: ReactNode;
   };
 };
 
+type DriverScore = {
+  label: string;
+  rating: number;
+  weight: number;
+  note: string;
+};
+
+const ScoreDetails = ({
+  drivers,
+  total,
+}: {
+  drivers: DriverScore[];
+  total: string;
+}) => (
+  <div className='body-4 text-muted'>
+    <p className='mb-6'>Method: ADR driver rating (1-5) x weight.</p>
+    <ul className='list-disc pl-16 space-y-4'>
+      {drivers.map((driver) => (
+        <li key={driver.label}>
+          {driver.label}: {driver.rating}/5 x {driver.weight} ={' '}
+          {driver.rating * driver.weight}. {driver.note}
+        </li>
+      ))}
+    </ul>
+    <p className='mt-8 text-base'>Total: {total}</p>
+  </div>
+);
+
 const FEATURE_MATRIX: FeatureEntry[] = [
+  {
+    feature: 'ADR weighted score (max 95)',
+    recharts: '65 / 95',
+    victory: '70 / 95',
+    visx: '61 / 95',
+    d3: '68 / 95',
+    details: {
+      recharts: (
+        <ScoreDetails
+          total='65 / 95'
+          drivers={[
+            {
+              label: 'Ecosystem + Community',
+              rating: 5,
+              weight: 3,
+              note: 'Largest adoption and active release cadence.',
+            },
+            {
+              label: 'Effort Required',
+              rating: 5,
+              weight: 5,
+              note: 'Fastest path to a production-ready web chart.',
+            },
+            {
+              label: 'Performances',
+              rating: 3,
+              weight: 3,
+              note: 'Acceptable runtime but heavier package footprint.',
+            },
+            {
+              label: 'Feature Support / Extensibility',
+              rating: 3,
+              weight: 4,
+              note: 'Strong built-ins, less flexible for custom layouts.',
+            },
+            {
+              label: 'API consistency across technos',
+              rating: 1,
+              weight: 1,
+              note: 'No native equivalent API.',
+            },
+            {
+              label: 'Compatibility (RN)',
+              rating: 1,
+              weight: 3,
+              note: 'Web-only.',
+            },
+          ]}
+        />
+      ),
+      victory: (
+        <ScoreDetails
+          total='70 / 95'
+          drivers={[
+            {
+              label: 'Ecosystem + Community',
+              rating: 4,
+              weight: 3,
+              note: 'Good adoption and stable long-term maintenance.',
+            },
+            {
+              label: 'Effort Required',
+              rating: 3,
+              weight: 5,
+              note: 'Moderate complexity and integration work.',
+            },
+            {
+              label: 'Performances',
+              rating: 4,
+              weight: 3,
+              note: 'Strong runtime profile, especially on native side.',
+            },
+            {
+              label: 'Feature Support / Extensibility',
+              rating: 4,
+              weight: 4,
+              note: 'Rich primitives with good composition options.',
+            },
+            {
+              label: 'API consistency across technos',
+              rating: 3,
+              weight: 1,
+              note: 'Shared concepts, but web and RN are not fully reusable.',
+            },
+            {
+              label: 'Compatibility (RN)',
+              rating: 4,
+              weight: 3,
+              note: 'Native support exists but stack validation is needed.',
+            },
+          ]}
+        />
+      ),
+      visx: (
+        <ScoreDetails
+          total='61 / 95'
+          drivers={[
+            {
+              label: 'Ecosystem + Community',
+              rating: 3,
+              weight: 3,
+              note: 'Smaller community, but reputable and stable.',
+            },
+            {
+              label: 'Effort Required',
+              rating: 3,
+              weight: 5,
+              note: 'Low-level work remains, but AI reduces boilerplate cost.',
+            },
+            {
+              label: 'Performances',
+              rating: 4,
+              weight: 3,
+              note: 'Modular imports and strong tree-shaking.',
+            },
+            {
+              label: 'Feature Support / Extensibility',
+              rating: 5,
+              weight: 4,
+              note: 'Maximum control for custom behavior and rendering.',
+            },
+            {
+              label: 'API consistency across technos',
+              rating: 2,
+              weight: 1,
+              note: 'Patterns transfer, API does not.',
+            },
+            {
+              label: 'Compatibility (RN)',
+              rating: 1,
+              weight: 3,
+              note: 'No out-of-the-box native implementation.',
+            },
+          ]}
+        />
+      ),
+      d3: (
+        <ScoreDetails
+          total='68 / 95'
+          drivers={[
+            {
+              label: 'Ecosystem + Community',
+              rating: 5,
+              weight: 3,
+              note: 'Largest data-viz ecosystem with broad support.',
+            },
+            {
+              label: 'Effort Required',
+              rating: 2,
+              weight: 5,
+              note: 'Still high ownership cost, but AI shortens build time.',
+            },
+            {
+              label: 'Performances',
+              rating: 5,
+              weight: 3,
+              note: 'Efficient low-level control with lean modular packages.',
+            },
+            {
+              label: 'Feature Support / Extensibility',
+              rating: 5,
+              weight: 4,
+              note: 'No abstraction ceiling for advanced requirements.',
+            },
+            {
+              label: 'API consistency across technos',
+              rating: 2,
+              weight: 1,
+              note: 'Shared math model only, not shared component API.',
+            },
+            {
+              label: 'Compatibility (RN)',
+              rating: 2,
+              weight: 3,
+              note: 'Portable core logic, custom renderer still required.',
+            },
+          ]}
+        />
+      ),
+    },
+  },
   {
     feature: 'Level',
     recharts: 'High',
@@ -269,7 +478,9 @@ export const FeatureComparisonTable = () => (
   <>
     <h2 className='heading-3 mb-16'>Feature Comparison</h2>
     <p className='text-muted mb-16 body-3'>
-      Click any row to expand detailed notes for each library.
+      Click any row to expand detailed notes for each library, including ADR
+      weighted scoring. Updated assumptions: Victory web/RN is only partially
+      reusable, and AI assistance reduces effort for low-level abstractions.
     </p>
     <div className='rounded-lg overflow-hidden border border-muted max-w-[960px]'>
       <table className='w-full border-collapse'>

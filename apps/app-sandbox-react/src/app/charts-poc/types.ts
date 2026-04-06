@@ -70,6 +70,8 @@ export type ChartAxisConfig = {
   show?: boolean;
   /** Controls grid lines for this axis (same style as other axis). */
   showGrid?: boolean;
+  /** Optional custom tick values for this axis. */
+  ticks?: number[];
   /** x: [minTs, maxTs] ms; y: [min, max] in value space */
   domain?: [number, number];
   tickCount?: number;

@@ -10,6 +10,8 @@ import { useMemo, useCallback, useId, useRef } from 'react';
 import { getVisxCurve } from '../chartCurves';
 import type { LineChartProps, DataPoint } from '../types';
 import {
+  buildEvenlySpacedTicks,
+  ensureDomainBoundaryTicks,
   getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
@@ -129,6 +131,28 @@ export const LineChartVisx = (props: LineChartProps) => {
 
   const xTickCount = xAxisConfig?.tickCount ?? 6;
   const yTickCount = yAxisConfig?.tickCount ?? 5;
+  const xTickValuesMs = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        xAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(xDomainMs, xAxisConfig?.tickCount ?? 6),
+        xDomainMs,
+      ),
+    [xAxisConfig?.ticks, xAxisConfig?.tickCount, xDomainMs],
+  );
+  const yTickValues = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        yAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(yDomain, yAxisConfig?.tickCount ?? 5),
+        yDomain,
+      ),
+    [yAxisConfig?.ticks, yAxisConfig?.tickCount, yDomain],
+  );
+  const xTickValues = useMemo(
+    () => xTickValuesMs.map((tick) => new Date(tick)),
+    [xTickValuesMs],
+  );
 
   const yScale = useMemo(
     () =>
@@ -406,6 +430,7 @@ export const LineChartVisx = (props: LineChartProps) => {
                 <GridRows
                   scale={yScale}
                   width={innerWidth}
+                  tickValues={yTickValues}
                   stroke={GRID_LINE_STROKE}
                   strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
                 />
@@ -414,6 +439,7 @@ export const LineChartVisx = (props: LineChartProps) => {
                 <GridColumns
                   scale={xScale}
                   height={innerHeight}
+                  tickValues={xTickValues}
                   stroke={GRID_LINE_STROKE}
                   strokeDasharray={GRID_LINE_STROKE_DASHARRAY}
                 />
@@ -556,6 +582,7 @@ export const LineChartVisx = (props: LineChartProps) => {
               top={innerHeight}
               scale={xScale}
               numTicks={xTickCount}
+              tickValues={xTickValues}
               tickFormat={(val) =>
                 formatXLabel
                   ? formatXLabel((val as Date).getTime())
@@ -575,6 +602,7 @@ export const LineChartVisx = (props: LineChartProps) => {
             <AxisLeft
               scale={yScale}
               numTicks={yTickCount}
+              tickValues={yTickValues}
               tickFormat={(val) =>
                 formatYLabel ? formatYLabel(val as number) : String(val)
               }

@@ -13,6 +13,8 @@ import {
 import { getRechartsLineType } from '../chartCurves';
 import type { LineChartProps, LineConfig } from '../types';
 import {
+  buildEvenlySpacedTicks,
+  ensureDomainBoundaryTicks,
   getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
@@ -169,6 +171,52 @@ export const LineChartRecharts = (props: LineChartProps) => {
     () => computeXTimeDomainMs(props),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- xAxis.domain via props
     [lines, xAxisConfig?.domain],
+  );
+
+  const xTicks = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        xAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(xDomainMs, xAxisConfig?.tickCount ?? 6),
+        xDomainMs,
+      ),
+    [xAxisConfig?.ticks, xAxisConfig?.tickCount, xDomainMs],
+  );
+
+  const yTicks = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        yAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(yDomain, yAxisConfig?.tickCount ?? 5),
+        yDomain,
+      ),
+    [yAxisConfig?.ticks, yAxisConfig?.tickCount, yDomain],
+  );
+
+  const verticalGridCoordinatesGenerator = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Recharts grid callback shape is not exported with stable typing
+    ({ offset }: any): number[] => {
+      if (!offset) return [];
+      const count = Math.max(2, xTicks.length);
+      const start = offset.left;
+      const end = offset.left + offset.width;
+      const step = count > 1 ? (end - start) / (count - 1) : 0;
+      return Array.from({ length: count }, (_, i) => start + i * step);
+    },
+    [xTicks.length],
+  );
+
+  const horizontalGridCoordinatesGenerator = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Recharts grid callback shape is not exported with stable typing
+    ({ offset }: any): number[] => {
+      if (!offset) return [];
+      const count = Math.max(2, yTicks.length);
+      const start = offset.top;
+      const end = offset.top + offset.height;
+      const step = count > 1 ? (end - start) / (count - 1) : 0;
+      return Array.from({ length: count }, (_, i) => start + i * step);
+    },
+    [yTicks.length],
   );
 
   const resolvedColors = useMemo(() => {
@@ -390,6 +438,12 @@ export const LineChartRecharts = (props: LineChartProps) => {
             stroke={GRID_LINE_STROKE}
             vertical={gridVisibility.x}
             horizontal={gridVisibility.y}
+            verticalCoordinatesGenerator={
+              gridVisibility.x ? verticalGridCoordinatesGenerator : undefined
+            }
+            horizontalCoordinatesGenerator={
+              gridVisibility.y ? horizontalGridCoordinatesGenerator : undefined
+            }
           />
         )}
 
@@ -397,6 +451,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
           dataKey='timestamp'
           type='number'
           domain={[xDomainMs[0], xDomainMs[1]]}
+          ticks={xTicks}
           tickFormatter={formatXLabel}
           stroke='var(--text-muted)'
           tick={showXAxisEff ? { fontSize: 11 } : false}
@@ -408,6 +463,7 @@ export const LineChartRecharts = (props: LineChartProps) => {
 
         <YAxis
           domain={yDomain}
+          ticks={yTicks}
           tickFormatter={formatYLabel}
           stroke='var(--text-muted)'
           tick={showYAxisEff ? { fontSize: 11 } : false}

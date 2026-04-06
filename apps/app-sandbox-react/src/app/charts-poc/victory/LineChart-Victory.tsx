@@ -12,6 +12,8 @@ import {
 import { getVictoryInterpolation } from '../chartCurves';
 import type { LineChartProps } from '../types';
 import {
+  buildEvenlySpacedTicks,
+  ensureDomainBoundaryTicks,
   getSeriesLabel,
   resolveCssColor,
   resolveValueLabels,
@@ -117,6 +119,24 @@ export const LineChartVictory = (props: LineChartProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- xAxis.domain via props
     [lines, xAxisConfig?.domain],
   );
+  const xTicks = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        xAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(xDomainMs, xAxisConfig?.tickCount ?? 6),
+        xDomainMs,
+      ),
+    [xAxisConfig?.ticks, xAxisConfig?.tickCount, xDomainMs],
+  );
+  const yTicks = useMemo(
+    () =>
+      ensureDomainBoundaryTicks(
+        yAxisConfig?.ticks ??
+          buildEvenlySpacedTicks(yDomain, yAxisConfig?.tickCount ?? 5),
+        yDomain,
+      ),
+    [yAxisConfig?.ticks, yAxisConfig?.tickCount, yDomain],
+  );
   const xMin = xDomainMs[0];
   const xMax = xDomainMs[1];
 
@@ -221,7 +241,7 @@ export const LineChartVictory = (props: LineChartProps) => {
         height={height}
         padding={padding}
         domain={{
-          x: [new Date(xMin), new Date(xMax)],
+          x: [xMin, xMax],
           y: yDomain,
         }}
         containerComponent={
@@ -334,18 +354,19 @@ export const LineChartVictory = (props: LineChartProps) => {
         {showXAxisEff ? (
           <VictoryAxis
             animate={false}
-            scale='time'
             tickFormat={formatXLabel}
             style={axisStyle}
+            tickValues={xTicks}
             tickCount={xAxisConfig?.tickCount ?? 6}
           />
         ) : (
           <VictoryAxis
             animate={false}
+            tickValues={xTicks}
             style={{
               axis: { stroke: 'transparent' },
               tickLabels: { fill: 'transparent' },
-              grid: { stroke: 'transparent' },
+              grid: axisStyle.grid,
             }}
           />
         )}
@@ -356,16 +377,18 @@ export const LineChartVictory = (props: LineChartProps) => {
             dependentAxis
             tickFormat={formatYLabel}
             style={dependentAxisStyle}
+            tickValues={yTicks}
             tickCount={yAxisConfig?.tickCount ?? 5}
           />
         ) : (
           <VictoryAxis
             animate={false}
             dependentAxis
+            tickValues={yTicks}
             style={{
               axis: { stroke: 'transparent' },
               tickLabels: { fill: 'transparent' },
-              grid: { stroke: 'transparent' },
+              grid: dependentAxisStyle.grid,
             }}
           />
         )}
