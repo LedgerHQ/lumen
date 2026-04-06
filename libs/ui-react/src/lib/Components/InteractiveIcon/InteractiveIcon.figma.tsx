@@ -20,27 +20,29 @@ const sharedProps = {
   }),
 };
 
-const example = (props: InteractiveIconProps) => (
+const example = (
+  props: Omit<InteractiveIconProps, 'icon'> & { icon?: any },
+) => (
   <InteractiveIcon
     iconType={props.iconType}
     appearance={props.appearance}
+    icon={props.icon}
+    size={props.size}
     disabled={props.disabled}
     aria-label='Interactive icon'
-  >
-    {props.children}
-  </InteractiveIcon>
+  />
 );
 
 figma.connect(InteractiveIcon, URL, {
   variant: { appearance: 'filled' },
   imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
-  props: { ...sharedProps, children: figma.instance('icon-filled') },
+  props: { ...sharedProps, icon: figma.instance('icon-filled') },
   example,
 });
 
 figma.connect(InteractiveIcon, URL, {
   variant: { appearance: 'stroked' },
   imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
-  props: { ...sharedProps, children: figma.instance('icon-stroked') },
+  props: { ...sharedProps, icon: figma.instance('icon-stroked') },
   example,
 });
