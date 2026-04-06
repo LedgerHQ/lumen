@@ -6,19 +6,17 @@ export const InteractiveIcons = () => {
     <>
       <InteractiveIcon
         iconType='filled'
-        aria-label='Go to Ledger Shop'
+        icon={ExternalLink}
+        accessibilityLabel='Go to Ledger Shop'
         hitSlopType='compact-vertical'
-      >
-        <ExternalLink />
-      </InteractiveIcon>
+      />
 
       <InteractiveIcon
         iconType='stroked'
-        aria-label='Go to Ledger Shop'
+        icon={Settings}
+        accessibilityLabel='Go to Ledger Shop'
         hitSlopType='compact-vertical'
-      >
-        <Settings />
-      </InteractiveIcon>
+      />
     </>
   );
 };
