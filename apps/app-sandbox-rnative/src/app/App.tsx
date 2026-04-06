@@ -49,6 +49,7 @@ import {
   ContentBanners,
   MediaCards,
   Tooltips,
+  Charts,
   ListItems,
   Gradients,
   ExampleTabBar,
@@ -159,6 +160,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Cards'>
                   <Cards />
+                </SandboxBlock>
+                <SandboxBlock title='Charts'>
+                  <Charts />
                 </SandboxBlock>
                 <SandboxBlock title='Checkboxes'>
                   <Checkboxes />
