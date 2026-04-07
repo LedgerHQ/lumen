@@ -116,6 +116,15 @@ jobs:
 
       - run: npx nx affected -t test --passWithNoTests --coverage
 
+      - name: Fix lcov paths to be relative to workspace root
+        run: |
+          for lib in ui-react utils-shared design-core; do
+            lcov="libs/$lib/test-output/vitest/coverage/lcov.info"
+            [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov"
+          done
+          lcov="libs/ui-rnative/test-output/jest/coverage/lcov.info"
+          [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/ui-rnative/|" "$lcov"
+
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
         with:
