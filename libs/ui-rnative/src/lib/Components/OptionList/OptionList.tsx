@@ -22,7 +22,7 @@ import type {
   OptionListItemContentProps,
   OptionListItemContentRowProps,
 } from './types';
-import { useOptionListItems } from './useOptionListItems';
+import { useOptionListItems } from './useOptionList/useOptionListItems';
 
 const [OptionListProvider, useOptionListContext] =
   createSafeContext<OptionListContextValue>('OptionList');
