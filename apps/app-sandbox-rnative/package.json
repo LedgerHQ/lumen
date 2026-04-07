@@ -14,15 +14,17 @@
     "@ledgerhq/lumen-design-core": "*",
     "@ledgerhq/lumen-ui-rnative": "*",
     "@sbaiahmed1/react-native-blur": "^4.5.5",
+    "@shopify/react-native-skia": "^2.6.2",
     "expo": "~53.0.0",
     "expo-haptics": "~14.1.4",
-    "react": "19.2.4",
+    "react": "19.0.0",
     "react-native": "0.79.7",
     "react-native-gesture-handler": "^2.28.0",
     "react-native-reanimated": "^4.1.0",
     "react-native-safe-area-context": "^5.6.0",
     "react-native-svg": "~15.13.0",
-    "react-native-worklets": "0.5.2"
+    "react-native-worklets": "0.5.2",
+    "victory-native": "^41.20.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -33,7 +35,7 @@
     "@react-native/metro-config": "0.79.7",
     "@react-native/typescript-config": "0.79.7",
     "@types/jest": "^29.5.13",
-    "@types/react": "19.2.4",
+    "@types/react": "19.0.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8"
   },

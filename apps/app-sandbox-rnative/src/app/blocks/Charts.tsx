@@ -1,6 +1,17 @@
-import { Box, Checkbox, Text } from '@ledgerhq/lumen-ui-rnative';
+import {
+  Box,
+  Checkbox,
+  SegmentedControl,
+  SegmentedControlButton,
+  Text,
+} from '@ledgerhq/lumen-ui-rnative';
 import { useMemo, useState } from 'react';
-import { LineChartD3RNative, type DataPoint } from '../charts';
+import {
+  LineChartD3RNative,
+  LineChartVictoryNativeXL,
+  type DataPoint,
+  type LineChartProps,
+} from '../charts';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -34,7 +45,10 @@ type ChartsProps = {
   onScrubbingChange?: (isScrubbing: boolean) => void;
 };
 
+type ChartLib = 'd3' | 'victoryNativeXL';
+
 export const Charts = ({ onScrubbingChange }: ChartsProps) => {
+  const [activeLib, setActiveLib] = useState<ChartLib>('d3');
   const [showGradient, setShowGradient] = useState<boolean>(true);
   const [activePointLabel, setActivePointLabel] = useState<string>(
     'Press and hold the chart to scrub',
@@ -47,11 +61,76 @@ export const Charts = ({ onScrubbingChange }: ChartsProps) => {
   }, []);
 
   const seriesA = useMemo(() => createSeriesA(startTs), [startTs]);
+  const chartProps: LineChartProps = useMemo(
+    () => ({
+      width: 340,
+      height: 220,
+      series: [
+        {
+          id: 'btc',
+          label: 'BTC',
+          data: seriesA,
+          color: '#E87A2C',
+          showGradient,
+          curve: 'natural',
+          connectNulls: true,
+        },
+      ],
+      xAxis: { tickCount: 4, showGrid: false },
+      yAxis: { tickCount: 5, showGrid: true },
+      formatXLabel: formatShortDate,
+      formatYLabel: (v) => `${Math.round(v)}`,
+      referenceLines: [
+        { axis: 'y', value: 80, style: 'dashed' },
+        { axis: 'x', value: startTs + DAY_MS * 9, style: 'dotted' },
+      ],
+      markers: [
+        {
+          timestamp: startTs + DAY_MS * 12,
+          value: 84,
+          label: 'Buy',
+          color: '#22C55E',
+          variant: 'outlined',
+        },
+      ],
+      valueLabels: [
+        { type: 'max', label: 'Peak' },
+        { type: 'min', label: 'Low' },
+      ],
+      enableScrubbing: true,
+      showTooltip: true,
+      showCursor: true,
+      showCursorLabel: true,
+      onScrubbingChange,
+      chartAccessibilityLabel: 'Asset prices over the last 14 days',
+      onPointHover: (point, lineId) => {
+        if (!point || point.value == null) {
+          setActivePointLabel('Press and hold the chart to scrub');
+          return;
+        }
+        setActivePointLabel(
+          `${lineId.toUpperCase()} ${formatShortDate(point.timestamp)}: ${point.value}`,
+        );
+      },
+    }),
+    [onScrubbingChange, seriesA, showGradient, startTs],
+  );
+
   return (
     <Box lx={{ gap: 's12' }}>
       <Text typography='body3' lx={{ color: 'muted' }}>
-        Same LineChart API as web D3 chart, with press interactions on RN.
+        Shared API between D3 and Victory Native XL, same controls as web POC.
       </Text>
+      <SegmentedControl
+        selectedValue={activeLib}
+        onSelectedChange={(value) => setActiveLib(value as ChartLib)}
+        accessibilityLabel='Chart renderer'
+      >
+        <SegmentedControlButton value='d3'>D3</SegmentedControlButton>
+        <SegmentedControlButton value='victoryNativeXL'>
+          Victory Native XL
+        </SegmentedControlButton>
+      </SegmentedControl>
       <Checkbox
         aria-valuetext='toggle gradient'
         label='Enable gradient'
@@ -59,57 +138,11 @@ export const Charts = ({ onScrubbingChange }: ChartsProps) => {
         onCheckedChange={setShowGradient}
       />
 
-      <LineChartD3RNative
-        width={340}
-        height={220}
-        series={[
-          {
-            id: 'btc',
-            label: 'BTC',
-            data: seriesA,
-            color: '#E87A2C',
-            showGradient,
-            curve: 'natural',
-            connectNulls: true,
-          },
-        ]}
-        xAxis={{ tickCount: 4, showGrid: false }}
-        yAxis={{ tickCount: 5, showGrid: true }}
-        formatXLabel={formatShortDate}
-        formatYLabel={(v) => `${Math.round(v)}`}
-        referenceLines={[
-          { axis: 'y', value: 80, style: 'dashed' },
-          { axis: 'x', value: startTs + DAY_MS * 9, style: 'dotted' },
-        ]}
-        markers={[
-          {
-            timestamp: startTs + DAY_MS * 12,
-            value: 84,
-            label: 'Buy',
-            color: '#22C55E',
-            variant: 'outlined',
-          },
-        ]}
-        valueLabels={[
-          { type: 'max', label: 'Peak' },
-          { type: 'min', label: 'Low' },
-        ]}
-        enableScrubbing
-        showTooltip
-        showCursor
-        showCursorLabel
-        onScrubbingChange={onScrubbingChange}
-        chartAccessibilityLabel='Asset prices over the last 14 days'
-        onPointHover={(point, lineId) => {
-          if (!point || point.value == null) {
-            setActivePointLabel('Press and hold the chart to scrub');
-            return;
-          }
-          setActivePointLabel(
-            `${lineId.toUpperCase()} ${formatShortDate(point.timestamp)}: ${point.value}`,
-          );
-        }}
-      />
+      {activeLib === 'd3' ? (
+        <LineChartD3RNative {...chartProps} />
+      ) : (
+        <LineChartVictoryNativeXL {...chartProps} />
+      )}
 
       <Text typography='body3' lx={{ color: 'muted' }}>
         {activePointLabel}
