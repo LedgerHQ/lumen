@@ -25,4 +25,5 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   coverageDirectory: 'test-output/jest/coverage',
+  coverageReporters: ['lcov'],
 } as Config;
