@@ -9,6 +9,7 @@ const config: StorybookConfig = {
     '../src/lib/**/*.mdx',
     '../src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
+    '../../../apps/app-sandbox-rnative/src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
     getAbsolutePath('@storybook/addon-themes'),

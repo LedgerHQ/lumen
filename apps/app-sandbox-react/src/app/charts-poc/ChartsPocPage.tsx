@@ -8,9 +8,11 @@ import { Moon, Sun } from '@ledgerhq/lumen-ui-react/symbols';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { CHART_HEIGHT, CHART_WIDTH, LIB_LABELS } from './constants';
 import type { LibKey } from './constants';
-import { LineChartD3 } from './d3';
+import { BarChartD3, LineChartD3 } from './d3';
 import { FeatureComparisonTable } from './FeatureComparisonTable';
 import {
+  barChartData,
+  barChartSeries,
   formatCurrency,
   formatDate,
   ethDaily,
@@ -20,10 +22,15 @@ import {
   walletMarkers,
 } from './mockData';
 import { PerfBenchmark } from './PerfBenchmark';
-import { LineChartRecharts } from './recharts';
-import type { DataPoint, LineChartProps, MarkerConfig } from './types';
-import { LineChartVictory } from './victory';
-import { LineChartVisx } from './visx';
+import { BarChartRecharts, LineChartRecharts } from './recharts';
+import type {
+  BarChartProps,
+  DataPoint,
+  LineChartProps,
+  MarkerConfig,
+} from './types';
+import { BarChartVictory, LineChartVictory } from './victory';
+import { BarChartVisx, LineChartVisx } from './visx';
 
 type ChartsPocPageProps = {
   colorScheme: 'light' | 'dark';
@@ -158,12 +165,41 @@ export const ChartsPocPage = ({
     ],
   );
 
-  const ChartComponent = {
+  const LineChartComponent = {
     recharts: LineChartRecharts,
     victory: LineChartVictory,
     visx: LineChartVisx,
     d3: LineChartD3,
   }[activeLib];
+
+  const BarChartComponent = {
+    recharts: BarChartRecharts,
+    victory: BarChartVictory,
+    visx: BarChartVisx,
+    d3: BarChartD3,
+  }[activeLib];
+
+  const [barLayout, setBarLayout] = useState<'grouped' | 'stacked'>('grouped');
+  const [barShowGrid, setBarShowGrid] = useState(true);
+  const [barShowTooltip, setBarShowTooltip] = useState(true);
+  const [barShowXLabels, setBarShowXLabels] = useState(true);
+  const [barShowYLabels, setBarShowYLabels] = useState(true);
+
+  const barChartProps: BarChartProps = useMemo(
+    () => ({
+      data: barChartData,
+      series: barChartSeries,
+      width: CHART_WIDTH,
+      height: CHART_HEIGHT,
+      layout: barLayout,
+      formatYLabel: formatCurrency,
+      showGrid: barShowGrid,
+      showTooltip: barShowTooltip,
+      showXLabels: barShowXLabels,
+      showYLabels: barShowYLabels,
+    }),
+    [barLayout, barShowGrid, barShowTooltip, barShowXLabels, barShowYLabels],
+  );
 
   const isDark = colorScheme === 'dark';
 
@@ -281,7 +317,7 @@ export const ChartsPocPage = ({
           )}
         </div>
 
-        <ChartComponent {...chartProps} />
+        <LineChartComponent {...chartProps} />
 
         <div className='mt-12 flex flex-wrap items-center justify-between gap-8'>
           <span className='body-4 text-white/50'>
@@ -298,6 +334,84 @@ export const ChartsPocPage = ({
                   style={{ backgroundColor: line.color }}
                 />
                 {line.label ?? line.id}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bar Chart Section */}
+      <h2 className='heading-3 mb-16'>Bar Chart</h2>
+      <p className='text-muted mb-24 max-w-[700px] body-2'>
+        Monthly trading volume across crypto assets. Toggle between grouped and
+        stacked layouts.
+      </p>
+
+      <div className='flex gap-32 mb-24 flex-wrap items-start'>
+        <fieldset className='border border-muted rounded-md px-16 py-12'>
+          <legend className='body-4 text-muted px-4'>Layout</legend>
+          <SegmentedControl
+            selectedValue={barLayout}
+            onSelectedChange={(v) => setBarLayout(v as 'grouped' | 'stacked')}
+            tabLayout='fit'
+          >
+            <SegmentedControlButton value='grouped'>
+              Grouped
+            </SegmentedControlButton>
+            <SegmentedControlButton value='stacked'>
+              Stacked
+            </SegmentedControlButton>
+          </SegmentedControl>
+        </fieldset>
+
+        <fieldset className='border border-muted rounded-md px-16 py-12'>
+          <legend className='body-4 text-muted px-4'>Display</legend>
+          <div className='flex gap-16 flex-wrap'>
+            <SwitchControl
+              label='Grid'
+              selected={barShowGrid}
+              onChange={setBarShowGrid}
+            />
+            <SwitchControl
+              label='Tooltip'
+              selected={barShowTooltip}
+              onChange={setBarShowTooltip}
+            />
+            <SwitchControl
+              label='X labels'
+              selected={barShowXLabels}
+              onChange={setBarShowXLabels}
+            />
+            <SwitchControl
+              label='Y labels'
+              selected={barShowYLabels}
+              onChange={setBarShowYLabels}
+            />
+          </div>
+        </fieldset>
+      </div>
+
+      <div
+        className='rounded-lg pt-24 px-16 pb-16 mb-48 bg-surface'
+        style={{ maxWidth: CHART_WIDTH + 32 }}
+      >
+        <BarChartComponent {...barChartProps} />
+
+        <div className='mt-12 flex flex-wrap items-center justify-between gap-8'>
+          <span className='body-4 text-white/50'>
+            Rendered with <strong>{LIB_LABELS[activeLib]}</strong>
+          </span>
+          <div className='flex flex-wrap items-center gap-12'>
+            {barChartSeries.map((s) => (
+              <span
+                key={`bar-legend-${s.id}`}
+                className='body-4 text-white/60 flex items-center gap-6'
+              >
+                <span
+                  className='inline-block h-8 w-8 rounded-full'
+                  style={{ backgroundColor: s.color }}
+                />
+                {s.label ?? s.id}
               </span>
             ))}
           </div>

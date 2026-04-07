@@ -1,4 +1,6 @@
 import type {
+  BarDataPoint,
+  BarSeriesConfig,
   DataPoint,
   LineConfig,
   LineChartProps,
@@ -245,6 +247,40 @@ export const walletMarkers: MarkerConfig[] = MARKER_LABELS.map(
     };
   },
 );
+
+/* ─── Bar Chart mock data ─── */
+
+const barRand = seededRandom(999);
+
+export const barChartData: BarDataPoint[] = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+].map((month) => ({
+  category: month,
+  values: {
+    btc: Math.round(30_000 + barRand() * 40_000),
+    eth: Math.round(10_000 + barRand() * 20_000),
+    sol: Math.round(2_000 + barRand() * 8_000),
+  },
+}));
+
+export const barChartSeries: BarSeriesConfig[] = [
+  { id: 'btc', label: 'Bitcoin', color: '#E87A2C' },
+  { id: 'eth', label: 'Ethereum', color: '#627EEA' },
+  { id: 'sol', label: 'Solana', color: '#9945FF' },
+];
+
+/* ─── Wallet variant ─── */
 
 export const walletVariant: Pick<
   LineChartProps,

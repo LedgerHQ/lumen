@@ -9,6 +9,7 @@ const config: StorybookConfig = {
     '../src/lib/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
+    '../../../apps/app-sandbox-react/src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
 
   addons: [

@@ -89,6 +89,35 @@ export type ChartGridConfig =
       y?: boolean;
     };
 
+/* ─── Bar Chart ─── */
+
+export type BarDataPoint = {
+  category: string;
+  values: Record<string, number>;
+};
+
+export type BarSeriesConfig = {
+  id: string;
+  label?: string;
+  color: string;
+};
+
+export type BarChartProps = {
+  data: BarDataPoint[];
+  series: BarSeriesConfig[];
+  width: number;
+  height: number;
+  layout?: 'grouped' | 'stacked';
+  formatYLabel?: (value: number) => string;
+  showGrid?: boolean;
+  showTooltip?: boolean;
+  showXLabels?: boolean;
+  showYLabels?: boolean;
+  className?: string;
+};
+
+/* ─── Line Chart ─── */
+
 export type LineChartProps = {
   /**
    * Primary API used in this POC. Multiple series are supported by default.
