@@ -21,43 +21,43 @@ import {
   AmountDisplays,
   AmountInputs,
   Animations,
+  Avatars,
+  Banners,
   BottomSheetDynamicSize,
   BottomSheetFlatLists,
   BottomSheetsButton,
   Buttons,
-  Checkboxes,
+  CardButtons,
   Cards,
+  Checkboxes,
+  ContentBanners,
   Dividers,
   DotSymbols,
   MediaImages,
+  ExampleTabBar,
+  Gradients,
   IconButtons,
+  InteractiveIcons,
+  OptionLists,
   Links,
+  ListItems,
+  MediaBanners,
+  MediaCards,
   NavBars,
+  PageIndicators,
   SegmentedControls,
   Selects,
   Skeletons,
   Spots,
   Steppers,
+  Subheaders,
   Switches,
   Tags,
   TextInputs,
   Tiles,
   ToggleLocaleSwitch,
   ToggleThemeSwitch,
-  InteractiveIcons,
-  Banners,
-  CardButtons,
-  ContentBanners,
-  MediaCards,
   Tooltips,
-  ListItems,
-  Gradients,
-  ExampleTabBar,
-  Subheaders,
-  Avatars,
-  PageIndicators,
-  MediaBanners,
-  MediaButtons,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -203,6 +203,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />
+                </SandboxBlock>
+                <SandboxBlock title='OptionLists'>
+                  <OptionLists />
                 </SandboxBlock>
                 <SandboxBlock title='PageIndicators'>
                   <PageIndicators />
