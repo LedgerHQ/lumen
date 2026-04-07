@@ -33,5 +33,7 @@ jobs:
           path: libs
 
       - uses: SonarSource/sonarqube-scan-action@v7
+        with:
+          args: -Dsonar.verbose=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
