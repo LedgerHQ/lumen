@@ -9,6 +9,7 @@ on:
 permissions:
   actions: read # Required for reading workflow runs and status checks
   contents: read
+  id-token: write # Required for SonarCloud OIDC authentication
 
 concurrency:
   group: pr-checks-${{ github.ref }}
