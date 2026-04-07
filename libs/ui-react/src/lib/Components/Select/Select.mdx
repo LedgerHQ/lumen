@@ -360,6 +360,12 @@ function MyComponent() {
 
 Drop `SelectSearch` inside `SelectContent`, above `SelectList`. The `items` prop on `Select` must still list every option; search filters the list automatically using a case-insensitive label match. Override via the root `filter` prop when you need custom matching, or pass `filter={null}` to disable filtering entirely (useful when filtering is handled externally via `filteredItems`).
 
+> **Tip:** Add `autoFocusSearch` to `SelectContent` to move focus into the search input as soon as the dropdown opens — useful when filtering is the primary interaction.
+>
+> ```tsx
+> <SelectContent autoFocusSearch>
+> ```
+
 ```tsx
 import {
   Select,

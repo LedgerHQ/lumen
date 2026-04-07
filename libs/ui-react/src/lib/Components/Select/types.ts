@@ -188,6 +188,11 @@ export type SelectContentProps = {
    * Extra class names to apply to the content element.
    */
   className?: string;
+  /**
+   * When true, the search input receives focus automatically when the dropdown opens.
+   * @default false
+   */
+  autoFocusSearch?: boolean;
 } & ComponentPropsWithRef<'div'>;
 
 export type SelectListProps = {

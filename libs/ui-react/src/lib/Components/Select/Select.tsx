@@ -217,6 +217,7 @@ const SelectContent = ({
   side = 'bottom',
   sideOffset = 8,
   align = 'start',
+  autoFocusSearch = false,
   ...props
 }: SelectContentProps) => (
   <Combobox.Portal data-slot='select-portal'>
@@ -229,7 +230,7 @@ const SelectContent = ({
       <Combobox.Popup
         ref={ref}
         data-slot='select-content'
-        initialFocus={false}
+        initialFocus={autoFocusSearch ? undefined : false}
         className={cn(contentStyles({ side }), className)}
         {...props}
       >
