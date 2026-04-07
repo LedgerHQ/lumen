@@ -9,6 +9,7 @@ import { useMemo, useState } from 'react';
 import {
   LineChartD3RNative,
   LineChartVictoryNativeXL,
+  PerfBenchmark,
   type DataPoint,
   type LineChartProps,
 } from '../charts';
@@ -147,6 +148,8 @@ export const Charts = ({ onScrubbingChange }: ChartsProps) => {
       <Text typography='body3' lx={{ color: 'muted' }}>
         {activePointLabel}
       </Text>
+
+      <PerfBenchmark />
     </Box>
   );
 };
