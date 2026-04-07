@@ -269,7 +269,7 @@ const SelectList = ({
               data-slot='select-group'
             >
               {groupIndex > 0 && <SelectSeparator />}
-              <SelectLabel>{group.label}</SelectLabel>
+              {group.label && <SelectLabel>{group.label}</SelectLabel>}
               <Combobox.Collection>{renderItem}</Combobox.Collection>
             </Combobox.Group>
           )
@@ -290,7 +290,7 @@ const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
 SelectLabel.displayName = 'SelectLabel';
 
 const itemStyles = cn(
-  'flex w-full min-w-0 cursor-pointer items-center gap-12 bg-base-transparent select-none',
+  'group/item flex w-full min-w-0 cursor-pointer items-center gap-12 bg-base-transparent select-none',
   'rounded-sm p-8',
   'body-2 text-base',
   'outline-hidden',
@@ -366,7 +366,7 @@ const SelectItemDescription = ({
     data-slot='select-item-description'
     className={cn(
       'truncate body-3 text-muted',
-      'data-disabled:text-disabled',
+      'group-data-disabled/item:text-disabled',
       className,
     )}
     {...props}
