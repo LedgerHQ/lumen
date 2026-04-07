@@ -123,6 +123,8 @@ export type LineChartProps = {
    * during pointer interaction (scrubber-neutral contract).
    */
   onActiveIndexChange?: (index: number | null) => void;
+  /** Fired when press scrubbing starts/ends. */
+  onScrubbingChange?: (isScrubbing: boolean) => void;
   /** Root accessible name for the chart SVG / graphic. */
   chartAccessibilityLabel?: string;
   /** Optional description for the point under the cursor (e.g. screen readers). */

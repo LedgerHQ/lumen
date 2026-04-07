@@ -27,7 +27,9 @@ import {
   computeXTimeDomainMs,
   resolveChartInset,
   effectiveShowXAxis,
+  effectiveShowXAxisLabels,
   effectiveShowYAxis,
+  effectiveShowYAxisLabels,
   lineDataRuns,
   resolveGridVisibility,
   resolveSeries,
@@ -75,6 +77,8 @@ export const LineChartVictory = (props: LineChartProps) => {
 
   const showXAxisEff = effectiveShowXAxis(props);
   const showYAxisEff = effectiveShowYAxis(props);
+  const showXAxisLabelsEff = effectiveShowXAxisLabels(props);
+  const showYAxisLabelsEff = effectiveShowYAxisLabels(props);
 
   const resolvedColors = useMemo(() => {
     const map: Record<string, string> = {};
@@ -189,14 +193,22 @@ export const LineChartVictory = (props: LineChartProps) => {
     : { stroke: 'transparent' };
 
   const axisStyle = {
-    axis: { stroke: 'var(--border-muted)' },
-    tickLabels: { fontSize: 11, fill: 'var(--text-muted)', padding: 5 },
+    axis: { stroke: showXAxisLabelsEff ? 'var(--border-muted)' : 'transparent' },
+    tickLabels: {
+      fontSize: 11,
+      fill: showXAxisLabelsEff ? 'var(--text-muted)' : 'transparent',
+      padding: 5,
+    },
     grid: gridStyleX,
   };
 
   const dependentAxisStyle = {
     axis: { stroke: 'transparent' },
-    tickLabels: { fontSize: 11, fill: 'var(--text-muted)', padding: 5 },
+    tickLabels: {
+      fontSize: 11,
+      fill: showYAxisLabelsEff ? 'var(--text-muted)' : 'transparent',
+      padding: 5,
+    },
     grid: gridStyleY,
   };
 
@@ -356,7 +368,9 @@ export const LineChartVictory = (props: LineChartProps) => {
         {showXAxisEff ? (
           <VictoryAxis
             animate={false}
-            tickFormat={xAxisTickFormatter}
+            tickFormat={
+              showXAxisLabelsEff ? xAxisTickFormatter : (): string => ''
+            }
             style={axisStyle}
             tickValues={xTicks}
             tickCount={xAxisConfig?.tickCount ?? 6}
@@ -377,7 +391,9 @@ export const LineChartVictory = (props: LineChartProps) => {
           <VictoryAxis
             animate={false}
             dependentAxis
-            tickFormat={yAxisTickFormatter}
+            tickFormat={
+              showYAxisLabelsEff ? yAxisTickFormatter : (): string => ''
+            }
             style={dependentAxisStyle}
             tickValues={yTicks}
             tickCount={yAxisConfig?.tickCount ?? 5}

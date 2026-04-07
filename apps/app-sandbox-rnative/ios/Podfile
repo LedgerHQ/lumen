@@ -50,5 +50,41 @@ target 'iosproject' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # Xcode 26.x can promote some Pods include warnings to errors.
+    # Relax those flags for Pods targets while keeping app target warnings intact.
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_config|
+        build_config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+        build_config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
+
+        %w[OTHER_CFLAGS OTHER_CPLUSPLUSFLAGS WARNING_CFLAGS].each do |key|
+          flags = build_config.build_settings[key]
+          next if flags.nil?
+
+          flags = [flags] unless flags.is_a?(Array)
+          build_config.build_settings[key] = flags.map do |flag|
+            flag
+              .to_s
+              .gsub('-Werror=non-modular-include-in-framework-module', '-Wno-non-modular-include-in-framework-module')
+          end
+        end
+
+        # Work around fmt + Xcode 26.x consteval compilation failures in Pods.
+        if target.name == 'fmt'
+          build_config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'gnu++17'
+
+          cxx_flags = build_config.build_settings['OTHER_CPLUSPLUSFLAGS']
+          cxx_flags = [cxx_flags] unless cxx_flags.is_a?(Array)
+          cxx_flags = [] if cxx_flags.nil?
+
+          unless cxx_flags.any? { |flag| flag.to_s.include?('FMT_USE_CONSTEXPR=0') }
+            cxx_flags << '-DFMT_USE_CONSTEXPR=0'
+          end
+
+          build_config.build_settings['OTHER_CPLUSPLUSFLAGS'] = cxx_flags
+        end
+      end
+    end
   end
 end

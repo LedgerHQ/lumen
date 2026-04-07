@@ -256,17 +256,17 @@ const FEATURE_MATRIX: FeatureEntry[] = [
   },
   {
     feature: 'POC LOC (approx.)',
-    recharts: '~750',
-    victory: '~820',
-    visx: '~870',
-    d3: '~860',
+    recharts: '~840',
+    victory: '~890',
+    visx: '~930',
+    d3: '~900',
     details: {
       recharts:
-        'Counts `LineChart-Recharts.tsx` (~576 LOC) plus attributed shared code: ~130 LOC from `utils.ts` (domains, inset, axis visibility, reference lines, value labels, `resolveCssColor`), ~18 LOC for `getRechartsLineType` in `chartCurves.ts`, and ~28 LOC as one-fourth of `types.ts` (~112 LOC) since all four charts share the same props contract. Recharts does not import `lineDataRuns` or `nearestDefinedPointByTime`.',
+        'Counts `LineChart-Recharts.tsx` (~653 LOC) plus attributed shared code: ~130 LOC from `utils.ts` (domains, inset, axis visibility, reference lines, value labels, `resolveCssColor`), ~18 LOC for `getRechartsLineType` in `chartCurves.ts`, and ~34 LOC as one-fourth of `types.ts` (~136 LOC) since all four charts share the same props contract. Recharts does not import `lineDataRuns` or `nearestDefinedPointByTime`.',
       victory:
-        'Counts `LineChart-Victory.tsx` (~622 LOC) plus ~156 LOC from `utils.ts` (same base helpers as Recharts plus `lineDataRuns` for null-gap segments), ~18 LOC for `getVictoryInterpolation`, and ~28 LOC prorated `types.ts`.',
-      visx: 'Counts `LineChart-Visx.tsx` (~640 LOC) plus ~186 LOC from `utils.ts` (same as Victory plus `nearestDefinedPointByTime` and the `d3-array` bisector wiring used for snapping), ~18 LOC for `getVisxCurve`, and ~28 LOC prorated `types.ts`.',
-      d3: 'Counts `LineChart-D3.tsx` (~632 LOC) plus the same ~186 LOC `utils.ts` slice as visx, ~18 LOC for `getD3Curve`, and ~28 LOC prorated `types.ts`. Totals are rounded; shared files are not duplicated in the repo but are counted here so implementations can be compared fairly.',
+        'Counts `LineChart-Victory.tsx` (~680 LOC) plus ~156 LOC from `utils.ts` (same base helpers as Recharts plus `lineDataRuns` for null-gap segments), ~18 LOC for `getVictoryInterpolation`, and ~34 LOC prorated `types.ts`.',
+      visx: 'Counts `LineChart-Visx.tsx` (~687 LOC) plus ~186 LOC from `utils.ts` (same as Victory plus `nearestDefinedPointByTime` and the `d3-array` bisector wiring used for snapping), ~18 LOC for `getVisxCurve`, and ~34 LOC prorated `types.ts`.',
+      d3: 'Counts `LineChart-D3.tsx` (~666 LOC) plus the same ~186 LOC `utils.ts` slice as visx, ~18 LOC for `getD3Curve`, and ~34 LOC prorated `types.ts`. Totals are rounded; shared files are not duplicated in the repo but are counted here so implementations can be compared fairly.',
     },
   },
   {
@@ -397,11 +397,11 @@ const FEATURE_MATRIX: FeatureEntry[] = [
     d3: 'Highest',
     details: {
       recharts:
-        'Fastest path to a working chart. In this POC, the main file is ~576 LOC including the custom tooltip. Data format requires merging multiple lines into a flat array (one quirk), but otherwise it is mostly declarative JSX configuration. Ideal for the ADR\'s "Effort Required" driver (weight: 5).',
+        'Fastest path to a working chart. In this POC, the main file is ~653 LOC including the custom tooltip. Data format requires merging multiple lines into a flat array (one quirk), but otherwise it is mostly declarative JSX configuration. Ideal for the ADR\'s "Effort Required" driver (weight: 5).',
       victory:
-        'Moderate effort. In this POC, ~622 LOC in the main file. Composing VictoryChart + VictoryLine + VictoryAxis is straightforward. The main friction point was the cursor implementation -- VictoryVoronoiContainer does not natively expose a cursor line, requiring a workaround with onActivated + a separate VictoryLine.',
-      visx: 'Most effort. In this POC, ~640 LOC in the main file. You must manually create scales, wire mouse events, compute nearest points with bisectors, manage tooltip state, and render SVG elements. However, this effort yields the most maintainable long-term architecture because every piece is explicit and replaceable.',
-      d3: 'Highest effort. Similar main-file size to visx (~632 LOC) but without convenience components like <LinePath>, <AreaClosed>, <LinearGradient>, or useTooltip. Every SVG element, gradient definition, and interaction handler is written from scratch. The upside: zero dependency on any React charting library -- only D3 math utilities.',
+        'Moderate effort. In this POC, ~680 LOC in the main file. Composing VictoryChart + VictoryLine + VictoryAxis is straightforward. The main friction point was the cursor implementation -- VictoryVoronoiContainer does not natively expose a cursor line, requiring a workaround with onActivated + a separate VictoryLine.',
+      visx: 'Most effort. In this POC, ~687 LOC in the main file. You must manually create scales, wire mouse events, compute nearest points with bisectors, manage tooltip state, and render SVG elements. However, this effort yields the most maintainable long-term architecture because every piece is explicit and replaceable.',
+      d3: 'Highest effort. Similar main-file size to visx (~666 LOC) but without convenience components like <LinePath>, <AreaClosed>, <LinearGradient>, or useTooltip. Every SVG element, gradient definition, and interaction handler is written from scratch. The upside: zero dependency on any React charting library -- only D3 math utilities.',
     },
   },
   {

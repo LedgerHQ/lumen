@@ -18,7 +18,9 @@ import {
   computeXTimeDomainMs,
   resolveChartInset,
   effectiveShowXAxis,
+  effectiveShowXAxisLabels,
   effectiveShowYAxis,
+  effectiveShowYAxisLabels,
   lineDataRuns,
   nearestDefinedPointByTime,
   resolveGridVisibility,
@@ -67,6 +69,8 @@ export const LineChartD3 = (props: LineChartProps) => {
 
   const showXAxisEff = effectiveShowXAxis(props);
   const showYAxisEff = effectiveShowYAxis(props);
+  const showXAxisLabelsEff = effectiveShowXAxisLabels(props);
+  const showYAxisLabelsEff = effectiveShowYAxisLabels(props);
 
   const [tooltip, setTooltip] = useState<{
     entries: Array<{
@@ -192,6 +196,7 @@ export const LineChartD3 = (props: LineChartProps) => {
 
       const entries: Array<{
         lineId: string;
+        lineLabel: string;
         point: DataPoint;
         color: string;
       }> = [];
@@ -554,31 +559,34 @@ export const LineChartD3 = (props: LineChartProps) => {
 
           {showXAxisEff && (
             <g transform={`translate(0,${innerHeight})`}>
-              <line
-                x1={0}
-                y1={0}
-                x2={innerWidth}
-                y2={0}
-                stroke='var(--border-muted)'
-              />
-              {xTicks.map((tick) => (
-                <text
-                  key={tick.getTime()}
-                  x={xScale(tick)}
-                  y={20}
-                  fill='var(--text-muted)'
-                  fontSize={11}
-                  textAnchor='middle'
-                >
-                  {xAxisTickFormatter
-                    ? xAxisTickFormatter(tick.getTime())
-                    : tick.toLocaleDateString()}
-                </text>
-              ))}
+              {showXAxisLabelsEff && (
+                <line
+                  x1={0}
+                  y1={0}
+                  x2={innerWidth}
+                  y2={0}
+                  stroke='var(--border-muted)'
+                />
+              )}
+              {showXAxisLabelsEff &&
+                xTicks.map((tick) => (
+                  <text
+                    key={tick.getTime()}
+                    x={xScale(tick)}
+                    y={20}
+                    fill='var(--text-muted)'
+                    fontSize={11}
+                    textAnchor='middle'
+                  >
+                    {xAxisTickFormatter
+                      ? xAxisTickFormatter(tick.getTime())
+                      : tick.toLocaleDateString()}
+                  </text>
+                ))}
             </g>
           )}
 
-          {showYAxisEff && (
+          {showYAxisEff && showYAxisLabelsEff && (
             <g>
               {yTicks.map((tick) => (
                 <text

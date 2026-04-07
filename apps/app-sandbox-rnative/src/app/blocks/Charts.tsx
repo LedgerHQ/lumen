@@ -1,4 +1,4 @@
-import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Checkbox, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo, useState } from 'react';
 import { LineChartD3RNative, type DataPoint } from '../charts';
 
@@ -9,22 +9,17 @@ const createSeriesA = (startTs: number): DataPoint[] => {
     { timestamp: startTs + DAY_MS * 0, value: 58 },
     { timestamp: startTs + DAY_MS * 1, value: 64 },
     { timestamp: startTs + DAY_MS * 2, value: 61 },
-    { timestamp: startTs + DAY_MS * 3, value: null },
+    { timestamp: startTs + DAY_MS * 3, value: 66 },
     { timestamp: startTs + DAY_MS * 4, value: 72 },
     { timestamp: startTs + DAY_MS * 5, value: 69 },
     { timestamp: startTs + DAY_MS * 6, value: 75 },
-  ];
-};
-
-const createSeriesB = (startTs: number): DataPoint[] => {
-  return [
-    { timestamp: startTs + DAY_MS * 0, value: 42 },
-    { timestamp: startTs + DAY_MS * 1, value: 48 },
-    { timestamp: startTs + DAY_MS * 2, value: 45 },
-    { timestamp: startTs + DAY_MS * 3, value: 50 },
-    { timestamp: startTs + DAY_MS * 4, value: 53 },
-    { timestamp: startTs + DAY_MS * 5, value: 49 },
-    { timestamp: startTs + DAY_MS * 6, value: 56 },
+    { timestamp: startTs + DAY_MS * 7, value: 73 },
+    { timestamp: startTs + DAY_MS * 8, value: 78 },
+    { timestamp: startTs + DAY_MS * 9, value: 76 },
+    { timestamp: startTs + DAY_MS * 10, value: 81 },
+    { timestamp: startTs + DAY_MS * 11, value: 79 },
+    { timestamp: startTs + DAY_MS * 12, value: 84 },
+    { timestamp: startTs + DAY_MS * 13, value: 82 },
   ];
 };
 
@@ -35,25 +30,34 @@ const formatShortDate = (timestamp: number): string => {
   });
 };
 
-export const Charts = () => {
+type ChartsProps = {
+  onScrubbingChange?: (isScrubbing: boolean) => void;
+};
+
+export const Charts = ({ onScrubbingChange }: ChartsProps) => {
+  const [showGradient, setShowGradient] = useState<boolean>(true);
   const [activePointLabel, setActivePointLabel] = useState<string>(
-    'Tap the chart to scrub',
+    'Press and hold the chart to scrub',
   );
 
   const startTs = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return today.getTime() - DAY_MS * 6;
+    return today.getTime() - DAY_MS * 13;
   }, []);
 
   const seriesA = useMemo(() => createSeriesA(startTs), [startTs]);
-  const seriesB = useMemo(() => createSeriesB(startTs), [startTs]);
-
   return (
     <Box lx={{ gap: 's12' }}>
       <Text typography='body3' lx={{ color: 'muted' }}>
         Same LineChart API as web D3 chart, with press interactions on RN.
       </Text>
+      <Checkbox
+        aria-valuetext='toggle gradient'
+        label='Enable gradient'
+        checked={showGradient}
+        onCheckedChange={setShowGradient}
+      />
 
       <LineChartD3RNative
         width={340}
@@ -63,16 +67,10 @@ export const Charts = () => {
             id: 'btc',
             label: 'BTC',
             data: seriesA,
-            color: '#4EA8FF',
-            showGradient: true,
+            color: '#E87A2C',
+            showGradient,
             curve: 'natural',
-          },
-          {
-            id: 'eth',
-            label: 'ETH',
-            data: seriesB,
-            color: '#9E7CFF',
-            curve: 'stepAfter',
+            connectNulls: true,
           },
         ]}
         xAxis={{ tickCount: 4, showGrid: false }}
@@ -80,13 +78,13 @@ export const Charts = () => {
         formatXLabel={formatShortDate}
         formatYLabel={(v) => `${Math.round(v)}`}
         referenceLines={[
-          { axis: 'y', value: 70, style: 'dashed' },
-          { axis: 'x', value: startTs + DAY_MS * 4, style: 'dotted' },
+          { axis: 'y', value: 80, style: 'dashed' },
+          { axis: 'x', value: startTs + DAY_MS * 9, style: 'dotted' },
         ]}
         markers={[
           {
-            timestamp: startTs + DAY_MS * 4,
-            value: 72,
+            timestamp: startTs + DAY_MS * 12,
+            value: 84,
             label: 'Buy',
             color: '#22C55E',
             variant: 'outlined',
@@ -100,10 +98,11 @@ export const Charts = () => {
         showTooltip
         showCursor
         showCursorLabel
-        chartAccessibilityLabel='Asset prices over the last 7 days'
+        onScrubbingChange={onScrubbingChange}
+        chartAccessibilityLabel='Asset prices over the last 14 days'
         onPointHover={(point, lineId) => {
           if (!point || point.value == null) {
-            setActivePointLabel('Tap the chart to scrub');
+            setActivePointLabel('Press and hold the chart to scrub');
             return;
           }
           setActivePointLabel(

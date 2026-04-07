@@ -70,6 +70,8 @@ export type ChartAxisConfig = {
   show?: boolean;
   /** Controls grid lines for this axis (same style as other axis). */
   showGrid?: boolean;
+  /** Controls axis tick labels (scale legends) for this axis. */
+  showLabels?: boolean;
   /** Optional custom tick values for this axis. */
   ticks?: number[];
   /** Optional axis tick label formatter (axis only, not tooltip/value labels). */

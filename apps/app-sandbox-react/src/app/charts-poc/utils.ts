@@ -265,6 +265,14 @@ export function effectiveShowYAxis(props: LineChartProps): boolean {
   return props.yAxis?.show ?? true;
 }
 
+export function effectiveShowXAxisLabels(props: LineChartProps): boolean {
+  return effectiveShowXAxis(props) && (props.xAxis?.showLabels ?? true);
+}
+
+export function effectiveShowYAxisLabels(props: LineChartProps): boolean {
+  return effectiveShowYAxis(props) && (props.yAxis?.showLabels ?? true);
+}
+
 function normalizeLegacyGrid(showGrid: ChartGridConfig | undefined): {
   x: boolean;
   y: boolean;

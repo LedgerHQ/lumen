@@ -24,7 +24,9 @@ import {
   computeXTimeDomainMs,
   resolveChartInset,
   effectiveShowXAxis,
+  effectiveShowXAxisLabels,
   effectiveShowYAxis,
+  effectiveShowYAxisLabels,
   lineDataRuns,
   nearestDefinedPointByTime,
   resolveGridVisibility,
@@ -81,6 +83,8 @@ export const LineChartVisx = (props: LineChartProps) => {
 
   const showXAxisEff = effectiveShowXAxis(props);
   const showYAxisEff = effectiveShowYAxis(props);
+  const showXAxisLabelsEff = effectiveShowXAxisLabels(props);
+  const showYAxisLabelsEff = effectiveShowYAxisLabels(props);
 
   const hasNoAxes = !showXAxisEff && !showYAxisEff;
   const margin = useMemo(
@@ -586,14 +590,18 @@ export const LineChartVisx = (props: LineChartProps) => {
               numTicks={xTickCount}
               tickValues={xTickValues}
               tickFormat={(val) =>
-                xAxisTickFormatter
-                  ? xAxisTickFormatter((val as Date).getTime())
-                  : (val as Date).toLocaleDateString()
+                showXAxisLabelsEff
+                  ? xAxisTickFormatter
+                    ? xAxisTickFormatter((val as Date).getTime())
+                    : (val as Date).toLocaleDateString()
+                  : ''
               }
-              stroke='var(--border-muted)'
+              stroke={
+                showXAxisLabelsEff ? 'var(--border-muted)' : 'transparent'
+              }
               tickStroke='transparent'
               tickLabelProps={{
-                fill: 'var(--text-muted)',
+                fill: showXAxisLabelsEff ? 'var(--text-muted)' : 'transparent',
                 fontSize: 11,
                 textAnchor: 'middle',
               }}
@@ -606,14 +614,16 @@ export const LineChartVisx = (props: LineChartProps) => {
               numTicks={yTickCount}
               tickValues={yTickValues}
               tickFormat={(val) =>
-                yAxisTickFormatter
-                  ? yAxisTickFormatter(val as number)
-                  : String(val)
+                showYAxisLabelsEff
+                  ? yAxisTickFormatter
+                    ? yAxisTickFormatter(val as number)
+                    : String(val)
+                  : ''
               }
               stroke='transparent'
               tickStroke='transparent'
               tickLabelProps={{
-                fill: 'var(--text-muted)',
+                fill: showYAxisLabelsEff ? 'var(--text-muted)' : 'transparent',
                 fontSize: 11,
                 textAnchor: 'end',
                 dx: -4,

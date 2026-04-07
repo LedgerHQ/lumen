@@ -1,7 +1,13 @@
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { area, line } from 'd3-shape';
-import { useCallback, useMemo, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  PanResponder,
+  StyleSheet,
+  Text,
+  View,
+  type GestureResponderEvent,
+} from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -9,7 +15,6 @@ import Svg, {
   Line,
   LinearGradient,
   Path,
-  Rect,
   Stop,
   Text as SvgText,
 } from 'react-native-svg';
@@ -43,11 +48,10 @@ type TooltipEntry = {
   color: string;
 };
 
-type SvgPressEvent = {
-  nativeEvent: {
-    locationX: number;
-    locationY: number;
-  };
+type SnapPoint = {
+  timestamp: number;
+  value: number;
+  sourceIndex: number;
 };
 
 const clamp = (value: number, min: number, max: number): number => {
@@ -76,6 +80,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
     markers,
     inset,
     onActiveIndexChange,
+    onScrubbingChange,
     chartAccessibilityLabel,
     xAxis: xAxisConfig,
     yAxis: yAxisConfig,
@@ -87,6 +92,8 @@ export const LineChartD3RNative = (props: LineChartProps) => {
   const showXAxisEff = effectiveShowXAxis(props);
   const showYAxisEff = effectiveShowYAxis(props);
   const gridVisibility = resolveGridVisibility(props);
+  const activeSnapIndexRef = useRef<number | null>(null);
+  const isScrubbingRef = useRef<boolean>(false);
 
   const [tooltip, setTooltip] = useState<{
     entries: TooltipEntry[];
@@ -126,6 +133,21 @@ export const LineChartD3RNative = (props: LineChartProps) => {
   );
 
   const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
+  const primarySnapPoints = useMemo((): SnapPoint[] => {
+    const primary = lines[0];
+    if (!primary) return [];
+
+    return primary.data
+      .map((point, index) => {
+        if (point.value == null) return null;
+        return {
+          timestamp: point.timestamp,
+          value: point.value,
+          sourceIndex: index,
+        };
+      })
+      .filter((point): point is SnapPoint => point != null);
+  }, [lines]);
 
   const linePaths = useMemo(() => {
     return lines.map((lineConfig) => {
@@ -175,13 +197,53 @@ export const LineChartD3RNative = (props: LineChartProps) => {
     [yAxisConfig?.tickCount, yAxisConfig?.ticks, yDomain],
   );
 
-  const updateFromPress = useCallback(
-    (xPx: number, yPx: number): void => {
-      const clampedXPx = clamp(xPx, 0, innerWidth);
-      const clampedYPx = clamp(yPx, 0, innerHeight);
-      const xDate = xScale.invert(clampedXPx);
-      const xMs = xDate.getTime();
+  const clearScrubbing = useCallback((): void => {
+    activeSnapIndexRef.current = null;
+    setTooltip(null);
+    onPointHover?.(null, '');
+    onMarkerHover?.(null);
+    onActiveIndexChange?.(null);
+  }, [onActiveIndexChange, onMarkerHover, onPointHover]);
 
+  const setScrubbingState = useCallback(
+    (isScrubbing: boolean): void => {
+      if (isScrubbingRef.current === isScrubbing) return;
+      isScrubbingRef.current = isScrubbing;
+      onScrubbingChange?.(isScrubbing);
+    },
+    [onScrubbingChange],
+  );
+
+  const findNearestSnapIndex = useCallback(
+    (xPx: number): number | null => {
+      if (primarySnapPoints.length === 0) return null;
+      const clampedXPx = clamp(xPx, 0, innerWidth);
+      const targetMs = xScale.invert(clampedXPx).getTime();
+
+      let bestIndex = 0;
+      let bestDistance = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < primarySnapPoints.length; i++) {
+        const distance = Math.abs(primarySnapPoints[i].timestamp - targetMs);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestIndex = i;
+        }
+      }
+
+      return bestIndex;
+    },
+    [innerWidth, primarySnapPoints, xScale],
+  );
+
+  const updateFromSnapIndex = useCallback(
+    (snapIndex: number): void => {
+      const snapPoint = primarySnapPoints[snapIndex];
+      if (!snapPoint) {
+        clearScrubbing();
+        return;
+      }
+
+      const xMs = snapPoint.timestamp;
       const entries: TooltipEntry[] = [];
       for (const lineConfig of lines) {
         const closest = nearestDefinedPointByTime(lineConfig.data, xMs);
@@ -195,41 +257,31 @@ export const LineChartD3RNative = (props: LineChartProps) => {
       }
 
       if (entries.length === 0) {
-        setTooltip(null);
-        onPointHover?.(null, '');
-        onMarkerHover?.(null);
-        onActiveIndexChange?.(null);
+        clearScrubbing();
         return;
       }
 
-      const primary = entries[0].point;
-      const value = primary.value;
+      const primaryLineId = lines[0]?.id ?? entries[0].lineId;
       setTooltip({
         entries,
-        left: xScale(new Date(primary.timestamp)) + margin.left,
-        top:
-          value != null
-            ? yScale(value) + margin.top
-            : margin.top + innerHeight / 2,
+        left: xScale(new Date(snapPoint.timestamp)) + margin.left,
+        top: yScale(snapPoint.value) + margin.top,
       });
-      onPointHover?.(primary, entries[0].lineId);
-
-      if (lines[0] && onActiveIndexChange) {
-        const idx = lines[0].data.findIndex(
-          (p) => p.timestamp === primary.timestamp,
-        );
-        onActiveIndexChange(idx >= 0 ? idx : null);
-      }
+      onPointHover?.(
+        { timestamp: snapPoint.timestamp, value: snapPoint.value },
+        primaryLineId,
+      );
+      onActiveIndexChange?.(snapPoint.sourceIndex);
 
       let hitMarker: MarkerConfig | null = null;
       if (markers) {
+        const snapX = xScale(new Date(snapPoint.timestamp));
+        const snapY = yScale(snapPoint.value);
         const hitRadius = 14;
         for (const marker of markers) {
           const markerX = xScale(new Date(marker.timestamp));
           const markerY = yScale(marker.value);
-          const dist = Math.sqrt(
-            (clampedXPx - markerX) ** 2 + (clampedYPx - markerY) ** 2,
-          );
+          const dist = Math.sqrt((snapX - markerX) ** 2 + (snapY - markerY) ** 2);
           if (dist <= hitRadius) {
             hitMarker = marker;
             break;
@@ -239,8 +291,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
       onMarkerHover?.(hitMarker);
     },
     [
-      innerHeight,
-      innerWidth,
+      clearScrubbing,
       lines,
       margin.left,
       margin.top,
@@ -248,18 +299,92 @@ export const LineChartD3RNative = (props: LineChartProps) => {
       onActiveIndexChange,
       onMarkerHover,
       onPointHover,
+      primarySnapPoints,
       xScale,
       yScale,
     ],
   );
 
-  const handlePress = useCallback(
-    (event: SvgPressEvent): void => {
+  const handleScrubStart = useCallback(
+    (event: GestureResponderEvent): void => {
       if (!enableScrubbing) return;
-      updateFromPress(event.nativeEvent.locationX, event.nativeEvent.locationY);
+      event.stopPropagation();
+      setScrubbingState(true);
+      const chartXPx = event.nativeEvent.locationX - margin.left;
+      const nextIndex = findNearestSnapIndex(chartXPx);
+      if (nextIndex == null) {
+        clearScrubbing();
+        return;
+      }
+      activeSnapIndexRef.current = nextIndex;
+      updateFromSnapIndex(nextIndex);
     },
-    [enableScrubbing, updateFromPress],
+    [
+      clearScrubbing,
+      enableScrubbing,
+      findNearestSnapIndex,
+      margin.left,
+      setScrubbingState,
+      updateFromSnapIndex,
+    ],
   );
+
+  const handleScrubMove = useCallback(
+    (event: GestureResponderEvent): void => {
+      if (!enableScrubbing || activeSnapIndexRef.current == null) return;
+      event.stopPropagation();
+      const chartXPx = event.nativeEvent.locationX - margin.left;
+      const nextIndex = findNearestSnapIndex(chartXPx);
+      if (nextIndex == null || nextIndex === activeSnapIndexRef.current) return;
+      activeSnapIndexRef.current = nextIndex;
+      updateFromSnapIndex(nextIndex);
+    },
+    [enableScrubbing, findNearestSnapIndex, margin.left, updateFromSnapIndex],
+  );
+
+  const handleScrubEnd = useCallback((): void => {
+    if (!enableScrubbing) return;
+    setScrubbingState(false);
+    clearScrubbing();
+  }, [clearScrubbing, enableScrubbing, setScrubbingState]);
+
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => enableScrubbing,
+        onStartShouldSetPanResponderCapture: () => enableScrubbing,
+        onMoveShouldSetPanResponder: () => enableScrubbing,
+        onMoveShouldSetPanResponderCapture: () => enableScrubbing,
+        onPanResponderTerminationRequest: () => false,
+        onShouldBlockNativeResponder: () => true,
+        onPanResponderGrant: (event) => {
+          handleScrubStart(event);
+        },
+        onPanResponderMove: (event) => {
+          handleScrubMove(event);
+        },
+        onPanResponderRelease: () => {
+          handleScrubEnd();
+        },
+        onPanResponderTerminate: () => {
+          handleScrubEnd();
+        },
+      }),
+    [enableScrubbing, handleScrubEnd, handleScrubMove, handleScrubStart],
+  );
+
+  useEffect(() => {
+    if (!enableScrubbing) {
+      setScrubbingState(false);
+      clearScrubbing();
+    }
+  }, [clearScrubbing, enableScrubbing, setScrubbingState]);
+
+  useEffect(() => {
+    return () => {
+      setScrubbingState(false);
+    };
+  }, [setScrubbingState]);
 
   if (width < 10 || height < 10) return null;
 
@@ -505,16 +630,32 @@ export const LineChartD3RNative = (props: LineChartProps) => {
             );
           })}
 
-          <Rect
-            x={0}
-            y={0}
-            width={innerWidth}
-            height={innerHeight}
-            fill='transparent'
-            onPress={handlePress}
-          />
         </G>
       </Svg>
+
+      {enableScrubbing && innerWidth > 0 && innerHeight > 0 && (
+        <View
+          style={[
+            styles.interactionLayer,
+            {
+              left: 0,
+              top: 0,
+              width,
+              height,
+            },
+          ]}
+          onTouchStart={(event) => {
+            event.stopPropagation();
+          }}
+          onTouchMove={(event) => {
+            event.stopPropagation();
+          }}
+          onTouchEnd={(event) => {
+            event.stopPropagation();
+          }}
+          {...panResponder.panHandlers}
+        />
+      )}
 
       {showTooltipEff && tooltip && (
         <View
@@ -556,6 +697,9 @@ export const LineChartD3RNative = (props: LineChartProps) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
+  },
+  interactionLayer: {
+    position: 'absolute',
   },
   tooltip: {
     position: 'absolute',

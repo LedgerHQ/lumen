@@ -91,6 +91,7 @@ const AppContent = ({
   const { theme } = useTheme();
   const bottomSheetFlatListsRef = useBottomSheetRef();
   const bottomSheetDynamicSizeRef = useBottomSheetRef();
+  const [isChartScrubbing, setIsChartScrubbing] = useState<boolean>(false);
   return (
     <SafeAreaView
       style={{
@@ -110,6 +111,7 @@ const AppContent = ({
           <BottomSheetModalProvider>
             <ScrollView
               contentInsetAdjustmentBehavior='automatic'
+              scrollEnabled={!isChartScrubbing}
               style={{
                 height: '100%',
                 backgroundColor: theme.colors.bg.canvas,
@@ -162,7 +164,7 @@ const AppContent = ({
                   <Cards />
                 </SandboxBlock>
                 <SandboxBlock title='Charts'>
-                  <Charts />
+                  <Charts onScrubbingChange={setIsChartScrubbing} />
                 </SandboxBlock>
                 <SandboxBlock title='Checkboxes'>
                   <Checkboxes />

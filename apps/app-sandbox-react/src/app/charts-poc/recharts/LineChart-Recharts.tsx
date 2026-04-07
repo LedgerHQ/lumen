@@ -27,7 +27,9 @@ import {
   GRID_LINE_STROKE_DASHARRAY,
   resolveChartInset,
   effectiveShowXAxis,
+  effectiveShowXAxisLabels,
   effectiveShowYAxis,
+  effectiveShowYAxisLabels,
   resolveGridVisibility,
   resolveSeries,
 } from '../utils';
@@ -156,6 +158,8 @@ export const LineChartRecharts = (props: LineChartProps) => {
 
   const showXAxisEff = effectiveShowXAxis(props);
   const showYAxisEff = effectiveShowYAxis(props);
+  const showXAxisLabelsEff = effectiveShowXAxisLabels(props);
+  const showYAxisLabelsEff = effectiveShowYAxisLabels(props);
 
   const mergedData = useMemo(() => mergeLineData(lines), [lines]);
   const valueLabelEntries = useMemo(
@@ -456,9 +460,11 @@ export const LineChartRecharts = (props: LineChartProps) => {
           ticks={xTicks}
           tickFormatter={xAxisTickFormatter}
           stroke='var(--text-muted)'
-          tick={showXAxisEff ? { fontSize: 11 } : false}
+          tick={showXAxisLabelsEff ? { fontSize: 11 } : false}
           tickLine={false}
-          axisLine={showXAxisEff ? { stroke: 'var(--border-muted)' } : false}
+          axisLine={
+            showXAxisLabelsEff ? { stroke: 'var(--border-muted)' } : false
+          }
           hide={!showXAxisEff}
           tickCount={xAxisConfig?.tickCount}
         />
@@ -468,10 +474,10 @@ export const LineChartRecharts = (props: LineChartProps) => {
           ticks={yTicks}
           tickFormatter={yAxisTickFormatter}
           stroke='var(--text-muted)'
-          tick={showYAxisEff ? { fontSize: 11 } : false}
+          tick={showYAxisLabelsEff ? { fontSize: 11 } : false}
           tickLine={false}
           axisLine={false}
-          width={showYAxisEff ? 60 : 0}
+          width={showYAxisLabelsEff ? 60 : 0}
           hide={!showYAxisEff}
           allowDataOverflow
           tickCount={yAxisConfig?.tickCount}
