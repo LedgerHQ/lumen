@@ -21,6 +21,7 @@ export * from './MediaButton';
 export * from './MediaCard';
 export * from './MediaImage';
 export * from './NavBar';
+export * from './OptionList';
 export * from './PageIndicator';
 export * from './SearchInput';
 export * from './SegmentedControl';
