@@ -1,0 +1,291 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as OptionListStories from './OptionList.stories';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+
+<Meta title='Selection/OptionList' of={OptionListStories} />
+
+# OptionList
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+OptionList is a data-driven, composable selection list designed to be embedded inside a `BottomSheet`, a new screen, or any container. Unlike `Select`, it does not manage its own trigger or modal — consumers compose it within their own layout.
+
+It handles **selection state**, **automatic grouping** (via a `group` field on items), and exposes a `renderItem` callback for full control over item rendering.
+
+## Anatomy
+
+<Canvas of={OptionListStories.Base} />
+
+- **OptionList**: Root component managing selection state and item processing
+- **OptionListContent**: Iterates items, renders group labels and separators automatically, calls `renderItem`
+- **OptionListItem**: Pressable item with selection check mark
+- **OptionListItemLeading**: Slot for leading visuals (icons, avatars)
+- **OptionListItemContent**: Flex column for title + description
+- **OptionListItemContentRow**: Horizontal row for placing elements side-by-side (e.g. title + tag)
+- **OptionListItemTitle**: Styled title text
+- **OptionListItemDescription**: Styled description text
+
+## Properties
+
+### Grouped items
+
+Items with a `group` field are automatically grouped with labels and separators:
+
+<Canvas of={OptionListStories.WithGroups} />
+
+### Complex item layout
+
+Use `OptionListItemContentRow` to place a `Tag` next to the title:
+
+<Canvas of={OptionListStories.WithContentRow} />
+
+### Disabled items
+
+Individual items can be disabled:
+
+<Canvas of={OptionListStories.WithDisabledItems} />
+
+### Groups + complex layout
+
+Combining grouping with rich item content:
+
+<Canvas of={OptionListStories.GroupedWithContentRow} />
+
+### Standalone (no BottomSheet)
+
+OptionList can be rendered inline without a BottomSheet:
+
+<Canvas of={OptionListStories.Standalone} />
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic usage
+
+```tsx
+import {
+  OptionList,
+  OptionListContent,
+  OptionListItem,
+  OptionListItemContent,
+  OptionListItemTitle,
+} from '@ledgerhq/lumen-ui-rnative';
+
+const items = [
+  { value: 'a', label: 'Option A' },
+  { value: 'b', label: 'Option B' },
+];
+
+function MyList() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <OptionList items={items} value={value} onValueChange={setValue}>
+      <OptionListContent
+        renderItem={(item) => (
+          <OptionListItem value={item.value}>
+            <OptionListItemContent>
+              <OptionListItemTitle>{item.label}</OptionListItemTitle>
+            </OptionListItemContent>
+          </OptionListItem>
+        )}
+      />
+    </OptionList>
+  );
+}
+```
+
+## Inside a BottomSheet
+
+```tsx
+import {
+  OptionList, OptionListContent, OptionListItem,
+  OptionListItemContent, OptionListItemTitle,
+  BottomSheet, BottomSheetHeader, BottomSheetView,
+  TriggerButton, useBottomSheetRef,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function CurrencyPicker() {
+  const [value, setValue] = useState<string | null>(null);
+  const ref = useBottomSheetRef();
+
+  return (
+    <>
+      <TriggerButton onPress={() => ref.current?.present()}>
+        {value ?? 'Pick'}
+      </TriggerButton>
+      <BottomSheet
+        ref={ref}
+        enableDynamicSizing
+        snapPoints={null}
+        onClose={() => ref.current?.dismiss()}
+      >
+        <BottomSheetView>
+          <BottomSheetHeader title='Pick an option' />
+          <OptionList
+            items={items}
+            value={value}
+            onValueChange={(v) => { setValue(v); ref.current?.dismiss(); }}
+          >
+            <OptionListContent
+              renderItem={(item) => (
+                <OptionListItem value={item.value}>
+                  <OptionListItemContent>
+                    <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                  </OptionListItemContent>
+                </OptionListItem>
+              )}
+            />
+          </OptionList>
+        </BottomSheetView>
+      </BottomSheet>
+    </>
+  );
+}
+```
+
+## Grouping
+
+Add a `group` field to items — labels and separators are rendered automatically:
+
+```tsx
+const items = [
+  { value: 'btc', label: 'Bitcoin', group: 'Crypto' },
+  { value: 'eth', label: 'Ethereum', group: 'Crypto' },
+  { value: 'usd', label: 'US Dollar', group: 'Fiat' },
+];
+```
+
+## Custom item layout with meta
+
+Use `meta` for arbitrary data, and sub-components for layout:
+
+```tsx
+const items = [
+  { value: 'eth', label: 'Ethereum', meta: { ticker: 'ETH', tag: 'ERC-20' } },
+];
+
+<OptionListContent
+  renderItem={(item) => {
+    const meta = item.meta as { ticker: string; tag: string };
+    return (
+      <OptionListItem value={item.value}>
+        <OptionListItemLeading>
+          <Spot appearance='icon' icon={Wallet} />
+        </OptionListItemLeading>
+        <OptionListItemContent>
+          <OptionListItemContentRow>
+            <OptionListItemTitle>{item.label}</OptionListItemTitle>
+            <Tag label={meta.tag} appearance='gray' size='sm' />
+          </OptionListItemContentRow>
+          <OptionListItemDescription>{meta.ticker}</OptionListItemDescription>
+        </OptionListItemContent>
+      </OptionListItem>
+    );
+  }}
+/>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+
+<DoVsDontRow>
+<DoBlockItem
+title='Pass items as a flat array'
+description='Use the group field for grouping — the component handles labels and separators automatically.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<OptionList
+  items={[
+    { value: 'a', label: 'A', group: 'Group 1' },
+    { value: 'b', label: 'B', group: 'Group 2' },
+  ]}
+  value={value}
+  onValueChange={setValue}
+>
+  <OptionListContent renderItem={...} />
+</OptionList>
+```
+
+</DoBlockItem>
+<DontBlockItem
+title="Don't manually render group labels or separators"
+description='OptionListContent handles group rendering internally based on item data.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<OptionList
+  items={items}
+  value={value}
+  onValueChange={setValue}
+>
+  <Text>Group 1</Text>
+  <OptionListContent renderItem={...} />
+  <Divider />
+  <Text>Group 2</Text>
+  <OptionListContent renderItem={...} />
+</OptionList>
+```
+
+</DontBlockItem>
+</DoVsDontRow>
+
+<DoVsDontRow>
+<DoBlockItem
+title='Compose OptionList inside your own container'
+description='OptionList is display-only — wrap it in a BottomSheet, screen, or any layout.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<BottomSheet ref={ref}>
+  <BottomSheetView>
+    <OptionList items={items} value={value} onValueChange={setValue}>
+      <OptionListContent renderItem={...} />
+    </OptionList>
+  </BottomSheetView>
+</BottomSheet>
+```
+
+</DoBlockItem>
+<DontBlockItem
+title="Don't expect OptionList to handle its own trigger or modal"
+description='Unlike Select, OptionList has no built-in trigger. Consumers manage the container.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<OptionList
+  items={items}
+  value={value}
+  onValueChange={setValue}
+  trigger={<Button>Open</Button>}
+>
+  <OptionListContent renderItem={...} />
+</OptionList>
+```
+
+</DontBlockItem>
+</DoVsDontRow>
+
+</div>
+
+</Tab>
+</CustomTabs>
