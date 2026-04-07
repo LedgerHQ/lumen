@@ -28,9 +28,18 @@ const ITERATIONS = 5;
 const HOVER_STEPS = 30;
 /** Daily samples; with 1-day interval this equals the number of points in the series. */
 const DATA_POINTS_LIGHT = 90;
+const DATA_POINTS_MEDIUM = 500;
 const DATA_POINTS_HEAVY = 2000;
 
-type BenchmarkPreset = 'light' | 'heavy';
+type BenchmarkPreset = 'light' | 'medium' | 'heavy';
+
+const PRESETS: BenchmarkPreset[] = ['light', 'medium', 'heavy'];
+
+const PRESET_POINTS: Record<BenchmarkPreset, number> = {
+  light: DATA_POINTS_LIGHT,
+  medium: DATA_POINTS_MEDIUM,
+  heavy: DATA_POINTS_HEAVY,
+};
 
 type BenchmarkResult = {
   mountMs: number;
@@ -39,10 +48,7 @@ type BenchmarkResult = {
   memoryKb: number | null;
 };
 
-type LibBenchmarkResults = {
-  light?: BenchmarkResult;
-  heavy?: BenchmarkResult;
-};
+type LibBenchmarkResults = Partial<Record<BenchmarkPreset, BenchmarkResult>>;
 
 type AllResults = Partial<Record<LibKey, LibBenchmarkResults>>;
 
@@ -222,8 +228,9 @@ function buildTaskQueue(): BenchmarkTask[] {
   const libs: LibKey[] = ['recharts', 'victory', 'visx', 'd3'];
   const q: BenchmarkTask[] = [];
   for (const lib of libs) {
-    q.push({ lib, preset: 'light' });
-    q.push({ lib, preset: 'heavy' });
+    for (const preset of PRESETS) {
+      q.push({ lib, preset });
+    }
   }
   return q;
 }
@@ -269,8 +276,7 @@ export const PerfBenchmark = () => {
   const libs: LibKey[] = ['recharts', 'victory', 'visx', 'd3'];
 
   const statusLabel =
-    currentTask &&
-    `${LIB_LABELS[currentTask.lib]} (${currentTask.preset === 'light' ? 'light' : 'heavy'})`;
+    currentTask && `${LIB_LABELS[currentTask.lib]} (${currentTask.preset})`;
 
   return (
     <div className='mt-48'>
@@ -287,14 +293,15 @@ export const PerfBenchmark = () => {
         </Button>
       </div>
       <p className='text-muted body-3 mb-16'>
-        Each library runs twice:{' '}
+        Each library runs three presets:{' '}
         <span className='font-semibold text-base'>light</span> (
-        {DATA_POINTS_LIGHT.toLocaleString()} points) and{' '}
+        {DATA_POINTS_LIGHT.toLocaleString()} pts),{' '}
+        <span className='font-semibold text-base'>medium</span> (
+        {DATA_POINTS_MEDIUM.toLocaleString()} pts) and{' '}
         <span className='font-semibold text-base'>heavy</span> (
-        {DATA_POINTS_HEAVY.toLocaleString()} points). {ITERATIONS} iterations
-        per metric; charts offscreen at {CHART_WIDTH}×{CHART_HEIGHT}. Memory
-        uses Chrome’s <code className='text-base'>performance.memory</code>{' '}
-        only.
+        {DATA_POINTS_HEAVY.toLocaleString()} pts). {ITERATIONS} iterations per
+        metric; charts offscreen at {CHART_WIDTH}×{CHART_HEIGHT}. Memory uses
+        Chrome’s <code className='text-base'>performance.memory</code> only.
       </p>
       <p className='text-muted body-4 mb-16'>
         <span className='font-semibold text-base'>Memory delta:</span> KB change
@@ -319,7 +326,7 @@ export const PerfBenchmark = () => {
                 >
                   <div>{LIB_LABELS[lib]}</div>
                   <div className='body-4 font-normal text-muted mt-4'>
-                    light / heavy
+                    {PRESETS.map((p) => `${PRESET_POINTS[p]} pts`).join(' / ')}
                   </div>
                 </th>
               ))}
@@ -372,11 +379,7 @@ export const PerfBenchmark = () => {
         <BenchmarkHarness
           key={`${currentTask.lib}-${currentTask.preset}`}
           lib={currentTask.lib}
-          dataPointCount={
-            currentTask.preset === 'light'
-              ? DATA_POINTS_LIGHT
-              : DATA_POINTS_HEAVY
-          }
+          dataPointCount={PRESET_POINTS[currentTask.preset]}
           onComplete={(result) =>
             handleComplete(currentTask.lib, currentTask.preset, result)
           }
@@ -407,31 +410,32 @@ function BenchmarkRow({
   currentTask: BenchmarkTask | null;
   lowerIsBetter?: boolean;
 }) {
-  const pairs = libs.map((lib) => {
-    const lr = results[lib];
-    const light = lr?.light ? getValue(lr.light) : null;
-    const heavy = lr?.heavy ? getValue(lr.heavy) : null;
-    return { light, heavy };
-  });
-
   const numericForBest = (v: number | null): v is number =>
     v != null && Number.isFinite(v);
 
-  const lightVals = pairs.map((p) => p.light).filter(numericForBest);
-  const heavyVals = pairs.map((p) => p.heavy).filter(numericForBest);
+  const presetData = PRESETS.map((preset) => {
+    const vals = libs.map((lib) => {
+      const r = results[lib]?.[preset];
+      return r ? getValue(r) : null;
+    });
+    const numeric = vals.filter(numericForBest);
+    const best =
+      numeric.length > 1
+        ? lowerIsBetter
+          ? Math.min(...numeric)
+          : Math.max(...numeric)
+        : null;
+    return { preset, vals, best };
+  });
 
-  const bestLight =
-    lightVals.length > 0
-      ? lowerIsBetter
-        ? Math.min(...lightVals)
-        : Math.max(...lightVals)
-      : null;
-  const bestHeavy =
-    heavyVals.length > 0
-      ? lowerIsBetter
-        ? Math.min(...heavyVals)
-        : Math.max(...heavyVals)
-      : null;
+  const formatVal = (v: number | null): string =>
+    v != null && Number.isFinite(v) ? `${v.toFixed(2)} ${unit}` : '—';
+
+  const PRESET_SHORT: Record<BenchmarkPreset, string> = {
+    light: 'L',
+    medium: 'M',
+    heavy: 'H',
+  };
 
   return (
     <tr className='border-t border-muted'>
@@ -441,63 +445,40 @@ function BenchmarkRow({
           <div className='body-4 text-muted mt-4 max-w-320'>{description}</div>
         ) : null}
       </td>
-      {libs.map((lib, i) => {
-        const { light, heavy } = pairs[i];
+      {libs.map((lib, libIdx) => {
         const lr = results[lib];
-        const measuringLight =
-          running && currentTask?.lib === lib && currentTask.preset === 'light';
-        const measuringHeavy =
-          running && currentTask?.lib === lib && currentTask.preset === 'heavy';
-
-        const isLightBest =
-          light != null &&
-          bestLight != null &&
-          light === bestLight &&
-          lightVals.length > 1;
-        const isHeavyBest =
-          heavy != null &&
-          bestHeavy != null &&
-          heavy === bestHeavy &&
-          heavyVals.length > 1;
-
-        const formatVal = (v: number | null): string =>
-          v != null && Number.isFinite(v) ? `${v.toFixed(2)} ${unit}` : '—';
-
         return (
           <td key={lib} className='px-16 py-10 body-3 text-muted align-top'>
             <div className='flex flex-col gap-4'>
-              <div>
-                <span className='body-4 text-muted mr-8'>L</span>
-                {measuringLight ? (
-                  <span className='animate-pulse'>measuring…</span>
-                ) : light != null ? (
-                  <span
-                    className={isLightBest ? 'text-accent font-semibold' : ''}
-                  >
-                    {formatVal(light)}
-                  </span>
-                ) : lr?.light ? (
-                  <span className='opacity-40'>n/a</span>
-                ) : (
-                  <span className='opacity-20'>—</span>
-                )}
-              </div>
-              <div>
-                <span className='body-4 text-muted mr-8'>H</span>
-                {measuringHeavy ? (
-                  <span className='animate-pulse'>measuring…</span>
-                ) : heavy != null ? (
-                  <span
-                    className={isHeavyBest ? 'text-accent font-semibold' : ''}
-                  >
-                    {formatVal(heavy)}
-                  </span>
-                ) : lr?.heavy ? (
-                  <span className='opacity-40'>n/a</span>
-                ) : (
-                  <span className='opacity-20'>—</span>
-                )}
-              </div>
+              {presetData.map(({ preset, vals, best }) => {
+                const value = vals[libIdx];
+                const isMeasuring =
+                  running &&
+                  currentTask?.lib === lib &&
+                  currentTask.preset === preset;
+                const isBest = value != null && best != null && value === best;
+
+                return (
+                  <div key={preset}>
+                    <span className='body-4 text-muted mr-8'>
+                      {PRESET_SHORT[preset]}
+                    </span>
+                    {isMeasuring ? (
+                      <span className='animate-pulse'>measuring…</span>
+                    ) : value != null ? (
+                      <span
+                        className={isBest ? 'text-active font-semibold' : ''}
+                      >
+                        {formatVal(value)}
+                      </span>
+                    ) : lr?.[preset] ? (
+                      <span className='opacity-40'>n/a</span>
+                    ) : (
+                      <span className='opacity-20'>—</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </td>
         );

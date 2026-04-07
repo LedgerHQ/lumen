@@ -1,5 +1,4 @@
 import {
-  Checkbox,
   IconButton,
   SegmentedControl,
   SegmentedControlButton,
@@ -23,7 +22,6 @@ import {
 import { PerfBenchmark } from './PerfBenchmark';
 import { LineChartRecharts } from './recharts';
 import type { DataPoint, LineChartProps, MarkerConfig } from './types';
-import { getReferenceLineStyleCaption } from './utils';
 import { LineChartVictory } from './victory';
 import { LineChartVisx } from './visx';
 
@@ -39,9 +37,7 @@ export const ChartsPocPage = ({
   const [activeLib, setActiveLib] = useState<LibKey>('recharts');
 
   const [walletGradient, setWalletGradient] = useState(false);
-  const [refLinesEnabled, setRefLinesEnabled] = useState<boolean[]>(() =>
-    walletReferenceLines.map(() => true),
-  );
+  const [walletShowRefLines, setWalletShowRefLines] = useState(true);
   const [walletShowValueLabels, setWalletShowValueLabels] = useState(true);
   const [walletShowMarkers, setWalletShowMarkers] = useState(true);
   const [walletEnableScrubbing, setWalletEnableScrubbing] = useState(true);
@@ -110,8 +106,8 @@ export const ChartsPocPage = ({
   }, [walletUseMultipleSeries, walletGradient, walletUseSeriesLabels]);
 
   const visibleReferenceLines = useMemo(
-    () => walletReferenceLines.filter((_, i) => refLinesEnabled[i]),
-    [refLinesEnabled],
+    () => (walletShowRefLines ? walletReferenceLines : []),
+    [walletShowRefLines],
   );
 
   const chartProps: LineChartProps = useMemo(
@@ -223,14 +219,8 @@ export const ChartsPocPage = ({
         onUseMultipleSeriesChange={setWalletUseMultipleSeries}
         useSeriesLabels={walletUseSeriesLabels}
         onUseSeriesLabelsChange={setWalletUseSeriesLabels}
-        refLinesEnabled={refLinesEnabled}
-        onRefLineCheckedChange={(index, checked) => {
-          setRefLinesEnabled((prev) => {
-            const next = [...prev];
-            next[index] = checked;
-            return next;
-          });
-        }}
+        showRefLines={walletShowRefLines}
+        onShowRefLinesChange={setWalletShowRefLines}
         showValueLabels={walletShowValueLabels}
         onShowValueLabelsChange={setWalletShowValueLabels}
         showMarkers={walletShowMarkers}
@@ -364,8 +354,8 @@ const WalletControls = ({
   onUseMultipleSeriesChange,
   useSeriesLabels,
   onUseSeriesLabelsChange,
-  refLinesEnabled,
-  onRefLineCheckedChange,
+  showRefLines,
+  onShowRefLinesChange,
   showValueLabels,
   onShowValueLabelsChange,
   showMarkers,
@@ -391,8 +381,8 @@ const WalletControls = ({
   onUseMultipleSeriesChange: (v: boolean) => void;
   useSeriesLabels: boolean;
   onUseSeriesLabelsChange: (v: boolean) => void;
-  refLinesEnabled: boolean[];
-  onRefLineCheckedChange: (index: number, checked: boolean) => void;
+  showRefLines: boolean;
+  onShowRefLinesChange: (v: boolean) => void;
   showValueLabels: boolean;
   onShowValueLabelsChange: (v: boolean) => void;
   showMarkers: boolean;
@@ -486,31 +476,11 @@ const WalletControls = ({
           selected={showMarkers}
           onChange={onShowMarkersChange}
         />
-      </div>
-    </fieldset>
-
-    <fieldset className='border border-muted rounded-md px-16 py-12'>
-      <legend className='body-4 text-muted px-4'>Reference lines</legend>
-      <div className='flex flex-wrap items-center gap-12'>
-        {walletReferenceLines.map((rl, i) => (
-          <label
-            key={`ref-${i}`}
-            className='flex items-center gap-8 cursor-pointer'
-          >
-            <Checkbox
-              className='shrink-0'
-              checked={refLinesEnabled[i] ?? false}
-              onCheckedChange={(checked) => onRefLineCheckedChange(i, checked)}
-            />
-            <span className='body-4 text-base whitespace-nowrap'>
-              <span>{rl.domain ?? `Level ${i + 1}`}</span>
-              <span className='text-muted'>
-                {' '}
-                ({getReferenceLineStyleCaption(rl.style)} · {rl.label})
-              </span>
-            </span>
-          </label>
-        ))}
+        <SwitchControl
+          label='Reference lines'
+          selected={showRefLines}
+          onChange={onShowRefLinesChange}
+        />
       </div>
     </fieldset>
   </div>

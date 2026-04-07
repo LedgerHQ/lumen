@@ -46,9 +46,9 @@ const FEATURE_MATRIX: FeatureEntry[] = [
   {
     feature: 'ADR weighted score (max 95)',
     recharts: '65 / 95',
-    victory: '70 / 95',
-    visx: '61 / 95',
-    d3: '68 / 95',
+    victory: '64 / 95',
+    visx: '64 / 95',
+    d3: '69 / 95',
     details: {
       recharts: (
         <ScoreDetails
@@ -70,7 +70,7 @@ const FEATURE_MATRIX: FeatureEntry[] = [
               label: 'Performances',
               rating: 3,
               weight: 3,
-              note: 'Acceptable runtime but heavier package footprint.',
+              note: 'Best mount scaling at heavy (1.6ms), but slowest hover (6–8ms) and slowest data-change (9–55ms). Heavier package footprint.',
             },
             {
               label: 'Feature Support / Extensibility',
@@ -95,7 +95,7 @@ const FEATURE_MATRIX: FeatureEntry[] = [
       ),
       victory: (
         <ScoreDetails
-          total='70 / 95'
+          total='64 / 95'
           drivers={[
             {
               label: 'Ecosystem + Community',
@@ -111,9 +111,9 @@ const FEATURE_MATRIX: FeatureEntry[] = [
             },
             {
               label: 'Performances',
-              rating: 4,
+              rating: 2,
               weight: 3,
-              note: 'Strong runtime profile, especially on native side.',
+              note: 'Slowest mount (6–34ms) and data-change (7–51ms) across all presets. Hover is competitive.',
             },
             {
               label: 'Feature Support / Extensibility',
@@ -138,7 +138,7 @@ const FEATURE_MATRIX: FeatureEntry[] = [
       ),
       visx: (
         <ScoreDetails
-          total='61 / 95'
+          total='64 / 95'
           drivers={[
             {
               label: 'Ecosystem + Community',
@@ -154,9 +154,9 @@ const FEATURE_MATRIX: FeatureEntry[] = [
             },
             {
               label: 'Performances',
-              rating: 4,
+              rating: 5,
               weight: 3,
-              note: 'Modular imports and strong tree-shaking.',
+              note: 'Fastest mount at light (0.6ms), fastest data-change across all presets (1–6ms), competitive hover. Best overall runtime profile.',
             },
             {
               label: 'Feature Support / Extensibility',
@@ -181,7 +181,7 @@ const FEATURE_MATRIX: FeatureEntry[] = [
       ),
       d3: (
         <ScoreDetails
-          total='68 / 95'
+          total='69 / 95'
           drivers={[
             {
               label: 'Ecosystem + Community',
@@ -199,7 +199,7 @@ const FEATURE_MATRIX: FeatureEntry[] = [
               label: 'Performances',
               rating: 5,
               weight: 3,
-              note: 'Efficient low-level control with lean modular packages.',
+              note: 'Best hover (4.7ms stable), near-best data-change (1.5–8ms), good mount. Lean modular packages with efficient low-level control.',
             },
             {
               label: 'Feature Support / Extensibility',
@@ -209,9 +209,9 @@ const FEATURE_MATRIX: FeatureEntry[] = [
             },
             {
               label: 'API consistency across technos',
-              rating: 2,
+              rating: 3,
               weight: 1,
-              note: 'Shared math model only, not shared component API.',
+              note: 'Shared props contract (LineChartProps), shared utils and D3 math. Only rendering primitives (DOM SVG vs react-native-svg) and gesture layer differ by platform necessity.',
             },
             {
               label: 'Compatibility (RN)',

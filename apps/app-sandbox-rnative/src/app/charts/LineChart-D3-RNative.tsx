@@ -1,4 +1,4 @@
-import { scaleLinear, scaleTime } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { area, line } from 'd3-shape';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -64,7 +64,6 @@ const DEFAULT_TOOLTIP_BACKGROUND = '#0f172a';
 const DEFAULT_TOOLTIP_BORDER = '#334155';
 
 export const LineChartD3RNative = (props: LineChartProps) => {
-  const lines = resolveSeries(props);
   const {
     width,
     height,
@@ -84,7 +83,12 @@ export const LineChartD3RNative = (props: LineChartProps) => {
     chartAccessibilityLabel,
     xAxis: xAxisConfig,
     yAxis: yAxisConfig,
+    series,
+    lines: linesConfig,
   } = props;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+  const lines = useMemo(() => resolveSeries(props), [series, linesConfig]);
 
   const showTooltipEff = showTooltipProp && enableScrubbing;
   const showCursorEff = showCursor && enableScrubbing;
@@ -116,37 +120,48 @@ export const LineChartD3RNative = (props: LineChartProps) => {
   const innerWidth = Math.max(0, width - margin.left - margin.right);
   const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 
-  const xDomainMs = useMemo(() => computeXTimeDomainMs(props), [props]);
-  const xDomainDates = useMemo(
-    (): [Date, Date] => [new Date(xDomainMs[0]), new Date(xDomainMs[1])],
-    [xDomainMs],
-  );
-  const xScale = useMemo(
-    () => scaleTime().domain(xDomainDates).range([0, innerWidth]),
-    [xDomainDates, innerWidth],
+  const xDomainMs = useMemo(
+    () => computeXTimeDomainMs(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+    [lines, xAxisConfig?.domain],
   );
 
-  const yDomain = useMemo(() => computeYDomain(props), [props]);
+  const xScale = useMemo(
+    () => scaleLinear().domain(xDomainMs).range([0, innerWidth]),
+    [xDomainMs, innerWidth],
+  );
+
+  const yDomain = useMemo(
+    () => computeYDomain(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+    [lines, yAxisConfig?.domain, referenceLines, props.valueLabels],
+  );
   const yScale = useMemo(
     () => scaleLinear().domain(yDomain).range([innerHeight, 0]),
     [yDomain, innerHeight],
   );
 
-  const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
+  const valueLabelEntries = useMemo(
+    () => resolveValueLabels(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+    [lines, props.valueLabels, formatYLabel],
+  );
   const primarySnapPoints = useMemo((): SnapPoint[] => {
     const primary = lines[0];
     if (!primary) return [];
 
-    return primary.data
-      .map((point, index) => {
-        if (point.value == null) return null;
-        return {
+    const result: SnapPoint[] = [];
+    for (let i = 0; i < primary.data.length; i++) {
+      const point = primary.data[i];
+      if (point.value != null) {
+        result.push({
           timestamp: point.timestamp,
           value: point.value,
-          sourceIndex: index,
-        };
-      })
-      .filter((point): point is SnapPoint => point != null);
+          sourceIndex: i,
+        });
+      }
+    }
+    return result;
   }, [lines]);
 
   const linePaths = useMemo(() => {
@@ -154,11 +169,11 @@ export const LineChartD3RNative = (props: LineChartProps) => {
       const curve = getD3Curve(lineConfig.curve);
       const runs = lineDataRuns(lineConfig.data, lineConfig.connectNulls);
       const lineGenerator = line<DataPoint & { value: number }>()
-        .x((d) => xScale(new Date(d.timestamp)))
+        .x((d) => xScale(d.timestamp))
         .y((d) => yScale(d.value))
         .curve(curve);
       const areaGenerator = area<DataPoint & { value: number }>()
-        .x((d) => xScale(new Date(d.timestamp)))
+        .x((d) => xScale(d.timestamp))
         .y0(innerHeight)
         .y1((d) => yScale(d.value))
         .curve(curve);
@@ -179,12 +194,11 @@ export const LineChartD3RNative = (props: LineChartProps) => {
   }, [innerHeight, lines, xScale, yScale]);
 
   const xTicks = useMemo(() => {
-    const ticksMs = ensureDomainBoundaryTicks(
+    return ensureDomainBoundaryTicks(
       xAxisConfig?.ticks ??
         buildEvenlySpacedTicks(xDomainMs, xAxisConfig?.tickCount ?? 6),
       xDomainMs,
     );
-    return ticksMs.map((tick) => new Date(tick));
   }, [xAxisConfig?.tickCount, xAxisConfig?.ticks, xDomainMs]);
 
   const yTicks = useMemo(
@@ -218,7 +232,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
     (xPx: number): number | null => {
       if (primarySnapPoints.length === 0) return null;
       const clampedXPx = clamp(xPx, 0, innerWidth);
-      const targetMs = xScale.invert(clampedXPx).getTime();
+      const targetMs = xScale.invert(clampedXPx);
 
       let bestIndex = 0;
       let bestDistance = Number.POSITIVE_INFINITY;
@@ -264,7 +278,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
       const primaryLineId = lines[0]?.id ?? entries[0].lineId;
       setTooltip({
         entries,
-        left: xScale(new Date(snapPoint.timestamp)) + margin.left,
+        left: xScale(snapPoint.timestamp) + margin.left,
         top: yScale(snapPoint.value) + margin.top,
       });
       onPointHover?.(
@@ -275,13 +289,15 @@ export const LineChartD3RNative = (props: LineChartProps) => {
 
       let hitMarker: MarkerConfig | null = null;
       if (markers) {
-        const snapX = xScale(new Date(snapPoint.timestamp));
+        const snapX = xScale(snapPoint.timestamp);
         const snapY = yScale(snapPoint.value);
         const hitRadius = 14;
         for (const marker of markers) {
-          const markerX = xScale(new Date(marker.timestamp));
+          const markerX = xScale(marker.timestamp);
           const markerY = yScale(marker.value);
-          const dist = Math.sqrt((snapX - markerX) ** 2 + (snapY - markerY) ** 2);
+          const dist = Math.sqrt(
+            (snapX - markerX) ** 2 + (snapY - markerY) ** 2,
+          );
           if (dist <= hitRadius) {
             hitMarker = marker;
             break;
@@ -439,7 +455,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
               {gridVisibility.x &&
                 xTicks.map((tick) => (
                   <Line
-                    key={`grid-x-${tick.getTime()}`}
+                    key={`grid-x-${tick}`}
                     x1={xScale(tick)}
                     y1={0}
                     x2={xScale(tick)}
@@ -455,9 +471,9 @@ export const LineChartD3RNative = (props: LineChartProps) => {
             (referenceLine.axis ?? 'y') === 'x' ? (
               <G key={`ref-x-${i}`}>
                 <Line
-                  x1={xScale(new Date(referenceLine.value))}
+                  x1={xScale(referenceLine.value)}
                   y1={0}
-                  x2={xScale(new Date(referenceLine.value))}
+                  x2={xScale(referenceLine.value)}
                   y2={innerHeight}
                   stroke={referenceLine.color ?? REFERENCE_LINE_STROKE}
                   strokeWidth={getReferenceLineStrokeWidth(referenceLine.style)}
@@ -484,7 +500,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
           )}
 
           {valueLabelEntries.map((valueLabel) => {
-            const cx = xScale(new Date(valueLabel.timestamp));
+            const cx = xScale(valueLabel.timestamp);
             const cy = yScale(valueLabel.value);
             const dy = valueLabel.placement === 'above' ? -10 : 16;
             return (
@@ -539,7 +555,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
           {tooltip?.entries.map((entry) => {
             const value = entry.point.value;
             if (value == null) return null;
-            const cx = xScale(new Date(entry.point.timestamp));
+            const cx = xScale(entry.point.timestamp);
             const cy = yScale(value);
             const label = `${entry.lineLabel}: ${
               formatYLabel ? formatYLabel(value) : value
@@ -581,7 +597,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
               />
               {xTicks.map((tick) => (
                 <SvgText
-                  key={tick.getTime()}
+                  key={tick}
                   x={xScale(tick)}
                   y={18}
                   fill={DEFAULT_AXIS_COLOR}
@@ -589,8 +605,8 @@ export const LineChartD3RNative = (props: LineChartProps) => {
                   textAnchor='middle'
                 >
                   {formatXLabel
-                    ? formatXLabel(tick.getTime())
-                    : tick.toLocaleDateString()}
+                    ? formatXLabel(tick)
+                    : new Date(tick).toLocaleDateString()}
                 </SvgText>
               ))}
             </G>
@@ -620,7 +636,7 @@ export const LineChartD3RNative = (props: LineChartProps) => {
             return (
               <Circle
                 key={`marker-${index}`}
-                cx={xScale(new Date(marker.timestamp))}
+                cx={xScale(marker.timestamp)}
                 cy={yScale(marker.value)}
                 r={marker.radius ?? 4}
                 fill={isOutlined ? 'transparent' : markerColor}
@@ -629,7 +645,6 @@ export const LineChartD3RNative = (props: LineChartProps) => {
               />
             );
           })}
-
         </G>
       </Svg>
 

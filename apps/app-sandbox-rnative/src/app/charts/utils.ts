@@ -160,36 +160,45 @@ export const nearestDefinedPointByTime = (
 const Y_PADDING_FACTOR = 0.05;
 
 export const computeYDomain = (props: LineChartProps): [number, number] => {
-  const lines = resolveSeries(props);
   if (props.yAxis?.domain) {
     return props.yAxis.domain;
   }
 
-  const allValues = lines.flatMap((line) =>
-    line.data.map((point) => point.value).filter((v): v is number => v != null),
-  );
+  const lines = resolveSeries(props);
+  let rawMin = Number.POSITIVE_INFINITY;
+  let rawMax = Number.NEGATIVE_INFINITY;
 
-  const horizontalRefValues = (props.referenceLines ?? [])
-    .filter((referenceLine) => (referenceLine.axis ?? 'y') === 'y')
-    .map((referenceLine) => referenceLine.value);
-
-  const valueLabelValues = (props.valueLabels ?? [])
-    .filter(
-      (valueLabel) => valueLabel.type === 'custom' && valueLabel.value != null,
-    )
-    .map((valueLabel) => valueLabel.value as number);
-
-  const combined = [...allValues, ...horizontalRefValues, ...valueLabelValues];
-  if (combined.length === 0) {
-    return [0, 1];
+  for (const line of lines) {
+    for (const point of line.data) {
+      if (point.value != null) {
+        if (point.value < rawMin) rawMin = point.value;
+        if (point.value > rawMax) rawMax = point.value;
+      }
+    }
   }
 
-  let rawMin = combined[0];
-  let rawMax = combined[0];
-  for (let i = 1; i < combined.length; i++) {
-    const value = combined[i];
-    if (value < rawMin) rawMin = value;
-    if (value > rawMax) rawMax = value;
+  const refLines = props.referenceLines;
+  if (refLines) {
+    for (const rl of refLines) {
+      if ((rl.axis ?? 'y') === 'y') {
+        if (rl.value < rawMin) rawMin = rl.value;
+        if (rl.value > rawMax) rawMax = rl.value;
+      }
+    }
+  }
+
+  const vls = props.valueLabels;
+  if (vls) {
+    for (const vl of vls) {
+      if (vl.type === 'custom' && vl.value != null) {
+        if (vl.value < rawMin) rawMin = vl.value;
+        if (vl.value > rawMax) rawMax = vl.value;
+      }
+    }
+  }
+
+  if (!Number.isFinite(rawMin) || !Number.isFinite(rawMax)) {
+    return [0, 1];
   }
 
   const range = rawMax - rawMin || 1;
@@ -201,23 +210,24 @@ export const computeYDomain = (props: LineChartProps): [number, number] => {
 export const computeXTimeDomainMs = (
   props: LineChartProps,
 ): [number, number] => {
-  const lines = resolveSeries(props);
   if (props.xAxis?.domain) {
     return props.xAxis.domain;
   }
 
-  const allPoints = lines.flatMap((line) => line.data);
-  if (allPoints.length === 0) {
-    const now = Date.now();
-    return [now, now];
+  const lines = resolveSeries(props);
+  let min = Number.POSITIVE_INFINITY;
+  let max = Number.NEGATIVE_INFINITY;
+
+  for (const line of lines) {
+    for (const point of line.data) {
+      if (point.timestamp < min) min = point.timestamp;
+      if (point.timestamp > max) max = point.timestamp;
+    }
   }
 
-  let min = allPoints[0].timestamp;
-  let max = allPoints[0].timestamp;
-  for (let i = 1; i < allPoints.length; i++) {
-    const timestamp = allPoints[i].timestamp;
-    if (timestamp < min) min = timestamp;
-    if (timestamp > max) max = timestamp;
+  if (!Number.isFinite(min) || !Number.isFinite(max)) {
+    const now = Date.now();
+    return [now, now];
   }
   return [min, max];
 };
@@ -282,11 +292,13 @@ export const lineDataRuns = (
   data: DataPoint[],
   connectNulls: boolean | undefined,
 ): Array<Array<DataPoint & { value: number }>> => {
-  const shouldConnectNulls = connectNulls ?? false;
-  if (shouldConnectNulls) {
-    const defined = data.filter(
-      (datum): datum is DataPoint & { value: number } => datum.value != null,
-    );
+  if (connectNulls) {
+    const defined: Array<DataPoint & { value: number }> = [];
+    for (const datum of data) {
+      if (datum.value != null) {
+        defined.push(datum as DataPoint & { value: number });
+      }
+    }
     return defined.length ? [defined] : [];
   }
 
@@ -299,7 +311,7 @@ export const lineDataRuns = (
         run = [];
       }
     } else {
-      run.push({ ...datum, value: datum.value });
+      run.push(datum as DataPoint & { value: number });
     }
   }
   if (run.length) runs.push(run);

@@ -85,7 +85,6 @@ const clamp = (value: number, min: number, max: number): number => {
 };
 
 export const LineChartVictoryNativeXL = (props: LineChartProps) => {
-  const lines = resolveSeries(props);
   const {
     width,
     height,
@@ -104,7 +103,13 @@ export const LineChartVictoryNativeXL = (props: LineChartProps) => {
     yAxis: yAxisConfig,
     referenceLines,
     markers,
+    series,
+    lines: linesConfig,
+    inset,
   } = props;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+  const lines = useMemo(() => resolveSeries(props), [series, linesConfig]);
 
   const showTooltipEff = showTooltipProp && enableScrubbing;
   const showCursorEff = showCursor && enableScrubbing;
@@ -117,27 +122,34 @@ export const LineChartVictoryNativeXL = (props: LineChartProps) => {
   const margin = useMemo(
     () =>
       resolveChartInset(
-        props.inset,
+        inset,
         hasNoAxes
           ? { top: 16, right: 24, bottom: 16, left: 16 }
           : { top: 16, right: 16, bottom: 36, left: 52 },
       ),
-    [props.inset, hasNoAxes],
+    [inset, hasNoAxes],
   );
 
   const innerWidth = Math.max(0, width - margin.left - margin.right);
   const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 
-  const xDomainMs = useMemo(() => computeXTimeDomainMs(props), [props]);
-  const yDomain = useMemo(() => computeYDomain(props), [props]);
+  const xDomainMs = useMemo(
+    () => computeXTimeDomainMs(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+    [lines, xAxisConfig?.domain],
+  );
+  const yDomain = useMemo(
+    () => computeYDomain(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+    [lines, yAxisConfig?.domain, referenceLines, props.valueLabels],
+  );
 
   const xTicks = useMemo(() => {
-    const ticksMs = ensureDomainBoundaryTicks(
+    return ensureDomainBoundaryTicks(
       xAxisConfig?.ticks ??
         buildEvenlySpacedTicks(xDomainMs, xAxisConfig?.tickCount ?? 6),
       xDomainMs,
     );
-    return ticksMs;
   }, [xAxisConfig?.tickCount, xAxisConfig?.ticks, xDomainMs]);
 
   const yTicks = useMemo(
@@ -150,7 +162,11 @@ export const LineChartVictoryNativeXL = (props: LineChartProps) => {
     [yAxisConfig?.tickCount, yAxisConfig?.ticks, yDomain],
   );
 
-  const valueLabelEntries = useMemo(() => resolveValueLabels(props), [props]);
+  const valueLabelEntries = useMemo(
+    () => resolveValueLabels(props),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- granular deps for perf
+    [lines, props.valueLabels, formatYLabel],
+  );
   const scrubbingRef = useRef<boolean>(false);
   const activeSnapTimestampRef = useRef<number | null>(null);
   const lastActiveIndexRef = useRef<number | null>(null);
@@ -158,37 +174,60 @@ export const LineChartVictoryNativeXL = (props: LineChartProps) => {
   const [activeEntries, setActiveEntries] = useState<TooltipEntry[]>([]);
 
   const chartData = useMemo((): Array<Record<string, number | null>> => {
+    if (lines.length === 1) {
+      const singleLine = lines[0];
+      const result: Array<Record<string, number | null>> = new Array(
+        singleLine.data.length,
+      );
+      for (let i = 0; i < singleLine.data.length; i++) {
+        const point = singleLine.data[i];
+        result[i] = { x: point.timestamp, [singleLine.id]: point.value };
+      }
+      return result;
+    }
+
     const timestampSet = new Set<number>();
     const valueMapByLine = new Map<string, Map<number, number | null>>();
-    for (const line of lines) {
+    for (const lineItem of lines) {
       const valueMap = new Map<number, number | null>();
-      for (const point of line.data) {
+      for (const point of lineItem.data) {
         timestampSet.add(point.timestamp);
         valueMap.set(point.timestamp, point.value);
       }
-      valueMapByLine.set(line.id, valueMap);
+      valueMapByLine.set(lineItem.id, valueMap);
     }
 
     const timestamps = Array.from(timestampSet).sort((a, b) => a - b);
-    return timestamps.map((timestamp) => {
-      const row: Record<string, number | null> = { x: timestamp };
-      for (const line of lines) {
-        row[line.id] = valueMapByLine.get(line.id)?.get(timestamp) ?? null;
+    const result: Array<Record<string, number | null>> = new Array(
+      timestamps.length,
+    );
+    for (let i = 0; i < timestamps.length; i++) {
+      const ts = timestamps[i];
+      const row: Record<string, number | null> = { x: ts };
+      for (const lineItem of lines) {
+        row[lineItem.id] =
+          valueMapByLine.get(lineItem.id)?.get(ts) ?? null;
       }
-      return row;
-    });
+      result[i] = row;
+    }
+    return result;
   }, [lines]);
 
-  const yKeys = useMemo(() => lines.map((line) => line.id), [lines]);
+  const yKeys = useMemo(
+    () => lines.map((lineItem) => lineItem.id),
+    [lines],
+  );
   const primarySnapPoints = useMemo((): SnapPoint[] => {
     const primary = lines[0];
     if (!primary) return [];
 
-    return primary.data
-      .filter((point) => point.value != null)
-      .map((point) => ({
-        timestamp: point.timestamp,
-      }));
+    const result: SnapPoint[] = [];
+    for (const point of primary.data) {
+      if (point.value != null) {
+        result.push({ timestamp: point.timestamp });
+      }
+    }
+    return result;
   }, [lines]);
 
   const clearInteraction = useCallback((): void => {

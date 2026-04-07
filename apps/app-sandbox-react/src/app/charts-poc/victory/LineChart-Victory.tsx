@@ -246,6 +246,26 @@ export const LineChartVictory = (props: LineChartProps) => {
                 <stop offset='100%' stopColor={d.color} stopOpacity={0} />
               </linearGradient>
             ))}
+          {isDimming && (
+            <>
+              <clipPath id={clipBeforeId}>
+                <rect
+                  x={padding.left}
+                  y={padding.top}
+                  width={clipBeforeW}
+                  height={innerHeight}
+                />
+              </clipPath>
+              <clipPath id={clipAfterId}>
+                <rect
+                  x={clipAfterX}
+                  y={padding.top}
+                  width={clipAfterW}
+                  height={innerHeight}
+                />
+              </clipPath>
+            </>
+          )}
         </defs>
       </svg>
 
@@ -344,27 +364,6 @@ export const LineChartVictory = (props: LineChartProps) => {
           ) : undefined
         }
       >
-        {isDimming && (
-          <defs>
-            <clipPath id={clipBeforeId}>
-              <rect
-                x={padding.left}
-                y={padding.top}
-                width={clipBeforeW}
-                height={innerHeight}
-              />
-            </clipPath>
-            <clipPath id={clipAfterId}>
-              <rect
-                x={clipAfterX}
-                y={padding.top}
-                width={clipAfterW}
-                height={innerHeight}
-              />
-            </clipPath>
-          </defs>
-        )}
-
         {showXAxisEff ? (
           <VictoryAxis
             animate={false}
@@ -524,72 +523,20 @@ export const LineChartVictory = (props: LineChartProps) => {
           />
         )}
 
-        {victoryData.map((d) => {
+        {victoryData.flatMap((d) => {
           const interp = getVictoryInterpolation(d.curve);
           if (isDimming) {
-            return (
-              <g key={d.id}>
-                <g clipPath={`url(#${clipBeforeId})`}>
-                  {d.runs.map((run, ri) =>
-                    d.showGradient ? (
-                      <VictoryArea
-                        key={`${d.id}-b-${ri}`}
-                        animate={false}
-                        data={run}
-                        interpolation={interp}
-                        style={{
-                          data: {
-                            fill: `url(#${gradientId}-${d.id})`,
-                            stroke: d.color,
-                            strokeWidth: d.width,
-                          },
-                        }}
-                      />
-                    ) : (
-                      <VictoryLine
-                        key={`${d.id}-b-${ri}`}
-                        animate={false}
-                        data={run}
-                        interpolation={interp}
-                        style={{
-                          data: {
-                            stroke: d.color,
-                            strokeWidth: d.width,
-                          },
-                        }}
-                      />
-                    ),
-                  )}
-                </g>
-                <g clipPath={`url(#${clipAfterId})`}>
-                  {d.runs.map((run, ri) => (
-                    <VictoryLine
-                      key={`${d.id}-dim-${ri}`}
-                      animate={false}
-                      data={run}
-                      interpolation={interp}
-                      style={{
-                        data: {
-                          stroke: DIM_COLOR,
-                          strokeWidth: d.width,
-                        },
-                      }}
-                    />
-                  ))}
-                </g>
-              </g>
-            );
-          }
-
-          return (
-            <g key={d.id}>
-              {d.runs.map((run, ri) =>
+            return [
+              ...d.runs.map((run, ri) =>
                 d.showGradient ? (
                   <VictoryArea
-                    key={`${d.id}-a-${ri}`}
+                    key={`${d.id}-b-${ri}`}
                     animate={false}
                     data={run}
                     interpolation={interp}
+                    groupComponent={
+                      <g clipPath={`url(#${clipBeforeId})`} />
+                    }
                     style={{
                       data: {
                         fill: `url(#${gradientId}-${d.id})`,
@@ -600,10 +547,13 @@ export const LineChartVictory = (props: LineChartProps) => {
                   />
                 ) : (
                   <VictoryLine
-                    key={`${d.id}-l-${ri}`}
+                    key={`${d.id}-b-${ri}`}
                     animate={false}
                     data={run}
                     interpolation={interp}
+                    groupComponent={
+                      <g clipPath={`url(#${clipBeforeId})`} />
+                    }
                     style={{
                       data: {
                         stroke: d.color,
@@ -612,8 +562,56 @@ export const LineChartVictory = (props: LineChartProps) => {
                     }}
                   />
                 ),
-              )}
-            </g>
+              ),
+              ...d.runs.map((run, ri) => (
+                <VictoryLine
+                  key={`${d.id}-dim-${ri}`}
+                  animate={false}
+                  data={run}
+                  interpolation={interp}
+                  groupComponent={
+                    <g clipPath={`url(#${clipAfterId})`} />
+                  }
+                  style={{
+                    data: {
+                      stroke: DIM_COLOR,
+                      strokeWidth: d.width,
+                    },
+                  }}
+                />
+              )),
+            ];
+          }
+
+          return d.runs.map((run, ri) =>
+            d.showGradient ? (
+              <VictoryArea
+                key={`${d.id}-a-${ri}`}
+                animate={false}
+                data={run}
+                interpolation={interp}
+                style={{
+                  data: {
+                    fill: `url(#${gradientId}-${d.id})`,
+                    stroke: d.color,
+                    strokeWidth: d.width,
+                  },
+                }}
+              />
+            ) : (
+              <VictoryLine
+                key={`${d.id}-l-${ri}`}
+                animate={false}
+                data={run}
+                interpolation={interp}
+                style={{
+                  data: {
+                    stroke: d.color,
+                    strokeWidth: d.width,
+                  },
+                }}
+              />
+            ),
           );
         })}
 

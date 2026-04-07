@@ -27,22 +27,26 @@ const CHART_MAP: Record<RNLibKey, ComponentType<LineChartProps>> = {
 
 const ITERATIONS = 5;
 const DATA_POINTS_LIGHT = 90;
+const DATA_POINTS_MEDIUM = 500;
 const DATA_POINTS_HEAVY = 2000;
 const CHART_WIDTH = 320;
 const CHART_HEIGHT = 200;
 const DAY_MS = 86_400_000;
 
-type BenchmarkPreset = 'light' | 'heavy';
+type BenchmarkPreset = 'light' | 'medium' | 'heavy';
+
+const PRESET_POINTS: Record<BenchmarkPreset, number> = {
+  light: DATA_POINTS_LIGHT,
+  medium: DATA_POINTS_MEDIUM,
+  heavy: DATA_POINTS_HEAVY,
+};
 
 type BenchmarkResult = {
   mountMs: number;
   dataChangeMs: number;
 };
 
-type LibBenchmarkResults = {
-  light?: BenchmarkResult;
-  heavy?: BenchmarkResult;
-};
+type LibBenchmarkResults = Partial<Record<BenchmarkPreset, BenchmarkResult>>;
 
 type AllResults = Partial<Record<RNLibKey, LibBenchmarkResults>>;
 
@@ -206,12 +210,15 @@ const BenchmarkHarness = ({
   );
 };
 
-const buildTaskQueue = (): BenchmarkTask[] => {
+const PRESETS: BenchmarkPreset[] = ['light', 'medium', 'heavy'];
+
+const buildTaskQueue = (presets: BenchmarkPreset[]): BenchmarkTask[] => {
   const libs: RNLibKey[] = ['d3', 'victoryNativeXL'];
   const q: BenchmarkTask[] = [];
   for (const lib of libs) {
-    q.push({ lib, preset: 'light' });
-    q.push({ lib, preset: 'heavy' });
+    for (const preset of presets) {
+      q.push({ lib, preset });
+    }
   }
   return q;
 };
@@ -246,10 +253,10 @@ export const PerfBenchmark = () => {
     [],
   );
 
-  const startBenchmark = useCallback(() => {
+  const startBenchmark = useCallback((presets: BenchmarkPreset[]) => {
     setResults({});
     setRunning(true);
-    queueRef.current = buildTaskQueue();
+    queueRef.current = buildTaskQueue(presets);
     const first = queueRef.current.shift();
     setCurrentTask(first ?? null);
     if (!first) setRunning(false);
@@ -266,20 +273,31 @@ export const PerfBenchmark = () => {
       <Text typography='body2SemiBold'>Performance Benchmark</Text>
 
       <Text typography='body4' lx={{ color: 'muted' }}>
-        Each library runs twice: light ({DATA_POINTS_LIGHT} pts) and heavy (
-        {DATA_POINTS_HEAVY} pts). {ITERATIONS} iterations per metric; charts
-        rendered offscreen at {CHART_WIDTH}x{CHART_HEIGHT}.
+        Each library runs three presets: light ({DATA_POINTS_LIGHT} pts), medium
+        ({DATA_POINTS_MEDIUM} pts) and heavy ({DATA_POINTS_HEAVY} pts).{' '}
+        {ITERATIONS} iterations per metric; charts rendered offscreen at{' '}
+        {CHART_WIDTH}x{CHART_HEIGHT}.
       </Text>
 
-      <Button
-        appearance='accent'
-        size='sm'
-        onPress={startBenchmark}
-        disabled={running}
-        loading={running}
-      >
-        {running ? `Running ${statusLabel}…` : 'Run Benchmark'}
-      </Button>
+      <Box lx={{ flexDirection: 'row', gap: 's8' }}>
+        <Button
+          appearance='accent'
+          size='sm'
+          onPress={() => startBenchmark(PRESETS)}
+          disabled={running}
+          loading={running}
+        >
+          {running ? `Running ${statusLabel}…` : 'Run Benchmark'}
+        </Button>
+        <Button
+          appearance='neutral'
+          size='sm'
+          onPress={() => startBenchmark(['medium'])}
+          disabled={running}
+        >
+          Run 500 pts only
+        </Button>
+      </Box>
 
       <Box lx={{ gap: 's8' }}>
         <HeaderRow libs={libs} />
@@ -309,11 +327,7 @@ export const PerfBenchmark = () => {
         <BenchmarkHarness
           key={`${currentTask.lib}-${currentTask.preset}`}
           lib={currentTask.lib}
-          dataPointCount={
-            currentTask.preset === 'light'
-              ? DATA_POINTS_LIGHT
-              : DATA_POINTS_HEAVY
-          }
+          dataPointCount={PRESET_POINTS[currentTask.preset]}
           onComplete={(result) =>
             handleComplete(currentTask.lib, currentTask.preset, result)
           }
@@ -361,23 +375,18 @@ const MetricRow = ({
   running: boolean;
   currentTask: BenchmarkTask | null;
 }) => {
-  const pairs = libs.map((lib) => {
-    const lr = results[lib];
-    const light = lr?.light ? getValue(lr.light) : null;
-    const heavy = lr?.heavy ? getValue(lr.heavy) : null;
-    return { light, heavy };
+  const valsByPreset = PRESETS.map((preset) => {
+    const vals = libs.map((lib) => {
+      const lr = results[lib];
+      const r = lr?.[preset];
+      return r ? getValue(r) : null;
+    });
+    const numeric = vals.filter(
+      (v): v is number => v != null && Number.isFinite(v),
+    );
+    const best = numeric.length > 1 ? Math.min(...numeric) : null;
+    return { preset, vals, best };
   });
-
-  const numericVals = (v: number | null): v is number =>
-    v != null && Number.isFinite(v);
-
-  const lightVals = pairs.map((p) => p.light).filter(numericVals);
-  const heavyVals = pairs.map((p) => p.heavy).filter(numericVals);
-
-  const bestLight =
-    lightVals.length > 1 ? Math.min(...lightVals) : null;
-  const bestHeavy =
-    heavyVals.length > 1 ? Math.min(...heavyVals) : null;
 
   return (
     <Box
@@ -394,46 +403,36 @@ const MetricRow = ({
           {description}
         </Text>
       </Box>
-      {libs.map((lib, i) => {
-        const { light, heavy } = pairs[i];
-        const measuringLight =
-          running && currentTask?.lib === lib && currentTask.preset === 'light';
-        const measuringHeavy =
-          running && currentTask?.lib === lib && currentTask.preset === 'heavy';
+      {libs.map((lib, libIdx) => (
+        <Box key={lib} lx={{ flex: 1 }}>
+          <Text typography='body4SemiBold' lx={{ color: 'base' }}>
+            {LIB_LABELS[lib]}
+          </Text>
+          {valsByPreset.map(({ preset, vals, best }) => {
+            const value = vals[libIdx];
+            const isMeasuring =
+              running &&
+              currentTask?.lib === lib &&
+              currentTask.preset === preset;
+            const isBest = value != null && best != null && value === best;
 
-        const isLightBest = light != null && bestLight != null && light === bestLight;
-        const isHeavyBest = heavy != null && bestHeavy != null && heavy === bestHeavy;
-
-        return (
-          <Box key={lib} lx={{ flex: 1 }}>
-            <Text typography='body4SemiBold' lx={{ color: 'base' }}>
-              {LIB_LABELS[lib]}
-            </Text>
-            <Text
-              typography='body4'
-              lx={{ color: isLightBest ? 'active' : 'muted' }}
-            >
-              {DATA_POINTS_LIGHT} pts:{' '}
-              {measuringLight
-                ? 'measuring…'
-                : light != null
-                  ? formatVal(light, unit)
-                  : '—'}
-            </Text>
-            <Text
-              typography='body4'
-              lx={{ color: isHeavyBest ? 'active' : 'muted' }}
-            >
-              {DATA_POINTS_HEAVY} pts:{' '}
-              {measuringHeavy
-                ? 'measuring…'
-                : heavy != null
-                  ? formatVal(heavy, unit)
-                  : '—'}
-            </Text>
-          </Box>
-        );
-      })}
+            return (
+              <Text
+                key={preset}
+                typography='body4'
+                lx={{ color: isBest ? 'active' : 'muted' }}
+              >
+                {PRESET_POINTS[preset]} pts:{' '}
+                {isMeasuring
+                  ? 'measuring…'
+                  : value != null
+                    ? formatVal(value, unit)
+                    : '—'}
+              </Text>
+            );
+          })}
+        </Box>
+      ))}
     </Box>
   );
 };
