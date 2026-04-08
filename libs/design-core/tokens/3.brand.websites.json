@@ -307,6 +307,24 @@
         }
       }
     },
+    "base-inverted": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.border.base-inverted.default}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "STROKE_COLOR"
+            ],
+            "codeSyntax": {
+              "WEB": "var(--background-base-inverted);"
+            }
+          }
+        }
+      }
+    },
     "base-transparent": {
       "default": {
         "$type": "color",

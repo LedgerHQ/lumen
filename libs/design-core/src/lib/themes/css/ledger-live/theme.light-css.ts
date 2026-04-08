@@ -158,6 +158,7 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-border-base': 'var(--color-light-grey-950)',
     '--color-border-base-hover': 'var(--color-light-grey-900)',
     '--color-border-base-pressed': 'var(--color-light-grey-800)',
+    '--color-border-base-inverted': 'var(--color-light-grey-050)',
     '--color-border-disabled': 'var(--color-light-grey-300)',
     '--color-border-muted': 'var(--color-light-grey-600)',
     '--color-border-muted-hover': 'var(--color-light-grey-700)',
@@ -374,6 +375,7 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-base': 'var(--color-background-base)',
     '--background-base-hover': 'var(--color-background-base-hover)',
     '--background-base-pressed': 'var(--color-background-base-pressed)',
+    '--background-base-inverted': 'var(--color-border-base-inverted)',
     '--background-base-transparent': 'var(--color-background-base-transparent)',
     '--background-base-transparent-hover':
       'var(--color-background-base-transparent-hover)',
