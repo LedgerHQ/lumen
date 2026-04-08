@@ -39,8 +39,8 @@ alwaysApply: true
 # Width, Height, and Size Utilities
 
 - Do not use arbitrary size values (e.g., `w-[108px]`, `h-[90px]`)
-- Only use size tokens that exist in `libs/design-core/src/themes/primitives.ts`
-- Source of truth: `libs/design-core/src/themes/primitives.ts` (see `--size-*` tokens)
+- Only use size tokens that exist in `libs/design-core/src/lib/themes/primitives.ts`
+- Source of truth: `libs/design-core/src/lib/themes/primitives.ts` (see `--size-*` tokens)
 
 ## Available Size Tokens
 
@@ -54,7 +54,7 @@ Sizes available for width, height, max-width, max-height, min-width, min-height 
 
 Before using width/height utilities:
 
-1. Check `libs/design-core/src/themes/primitives.ts` for `--size-*` tokens
+1. Check `libs/design-core/src/lib/themes/primitives.ts` for `--size-*` tokens
 2. Or use VSCode IntelliSense with Tailwind CSS extension
 3. If uncertain, use the Tailwind CSS IntelliSense autocomplete
 
