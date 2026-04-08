@@ -6,7 +6,6 @@
   --color-background-success-strong: #47883a;
   --color-background-native: #f7f7f7;
   --color-text-native: #007aff;
-  --utility-is-dark: false; /** Theme toggle for illustrations (design utility) */
   --color-background-canvas: var(--color-light-grey-050);
   --color-background-canvas-muted: var(--color-light-grey-100);
   --color-background-canvas-sheet: var(--color-light-grey-050);
@@ -142,7 +141,6 @@
   --color-border-base: var(--color-light-grey-950);
   --color-border-base-hover: var(--color-light-grey-900);
   --color-border-base-pressed: var(--color-light-grey-800);
-  --color-border-base-inverted: var(--color-light-grey-050);
   --color-border-disabled: var(--color-light-grey-300);
   --color-border-muted: var(--color-light-grey-600);
   --color-border-muted-hover: var(--color-light-grey-700);
@@ -368,7 +366,6 @@
   --background-base: var(--color-background-base-default);
   --background-base-hover: var(--color-background-base-hover);
   --background-base-pressed: var(--color-background-base-pressed);
-  --background-base-inverted: var(--color-border-base-inverted-default);
   --background-base-transparent: var(
     --color-background-base-transparent-default
   );
