@@ -501,11 +501,11 @@ export const TableInfoIcon = ({
     <InteractiveIcon
       {...props}
       iconType='filled'
+      icon={Information}
+      size={20}
       className={className}
       ref={ref}
-    >
-      <Information size={20} />
-    </InteractiveIcon>
+    />
   );
 };
 TableInfoIcon.displayName = 'TableInfoIcon';

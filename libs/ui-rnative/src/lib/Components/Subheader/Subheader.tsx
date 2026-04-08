@@ -133,12 +133,12 @@ export const SubheaderInfo = ({
   return (
     <InteractiveIcon
       iconType={iconType}
+      icon={Information}
+      size={16}
       accessibilityLabel='More information'
       style={style}
       {...props}
-    >
-      <Information size={16} />
-    </InteractiveIcon>
+    />
   );
 };
 

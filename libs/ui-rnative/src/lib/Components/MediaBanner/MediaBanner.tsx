@@ -96,14 +96,14 @@ export function MediaBanner({
             testID='media-banner-close-button'
             iconType='stroked'
             appearance='white'
+            icon={Close}
+            size={16}
             onPress={onClose}
             accessibilityLabel={
               closeAccessibilityLabel ||
               translate('components.banner.closeAriaLabel')
             }
-          >
-            <Close size={16} />
-          </InteractiveIcon>
+          />
         </Box>
       )}
     </Pressable>

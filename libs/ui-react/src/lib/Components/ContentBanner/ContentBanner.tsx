@@ -115,12 +115,12 @@ export const ContentBanner = ({
         <InteractiveIcon
           type='button'
           iconType='stroked'
+          icon={Close}
+          size={16}
           className='absolute top-8 right-8'
           onClick={() => onClose()}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
-        >
-          <Close size={16} />
-        </InteractiveIcon>
+        />
       )}
     </div>
   );
