@@ -4,21 +4,34 @@ import '@testing-library/jest-dom';
 import {
   Select,
   SelectContent,
+  SelectEmptyState,
   SelectItem,
   SelectItemText,
+  SelectList,
+  SelectSearch,
   SelectTrigger,
   SelectTriggerButton,
 } from './Select';
 
+const options = [
+  { value: 'opt1', label: 'Option 1' },
+  { value: 'opt2', label: 'Option 2' },
+  { value: 'opt3', label: 'Option 3' },
+];
+
 describe('Select', () => {
   it('renders with floating label', () => {
     render(
-      <Select>
+      <Select items={options}>
         <SelectTrigger label='Choose an option' />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -28,12 +41,16 @@ describe('Select', () => {
 
   it('renders without label when not provided', () => {
     render(
-      <Select>
-        <SelectTrigger label='Choose an option' />
+      <Select items={options}>
+        <SelectTrigger />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -43,12 +60,16 @@ describe('Select', () => {
 
   it('can be disabled', () => {
     render(
-      <Select disabled>
+      <Select items={options} disabled>
         <SelectTrigger label='Choose an option' />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -59,15 +80,16 @@ describe('Select', () => {
 
   it('works with default value', () => {
     render(
-      <Select defaultValue='option2'>
+      <Select items={options} defaultValue='opt2'>
         <SelectTrigger label='Choose an option' />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
-          <SelectItem value='option2'>
-            <SelectItemText>Option 2</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -79,12 +101,16 @@ describe('Select', () => {
     const handleChange = vi.fn();
 
     render(
-      <Select onValueChange={handleChange}>
+      <Select items={options} onValueChange={handleChange}>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -92,20 +118,21 @@ describe('Select', () => {
     fireEvent.click(screen.getByRole('combobox'));
     fireEvent.click(screen.getByText('Option 1'));
 
-    expect(handleChange).toHaveBeenCalledWith('option1');
+    expect(handleChange).toHaveBeenCalledWith('opt1');
   });
 
   it('reflects controlled value changes', () => {
     const { rerender } = render(
-      <Select value='option1'>
+      <Select items={options} value='opt1'>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
-          <SelectItem value='option2'>
-            <SelectItemText>Option 2</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -113,15 +140,16 @@ describe('Select', () => {
     expect(screen.getByText('Option 1')).toBeInTheDocument();
 
     rerender(
-      <Select value='option2'>
+      <Select items={options} value='opt2'>
         <SelectTrigger label='Label' />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
-          <SelectItem value='option2'>
-            <SelectItemText>Option 2</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -133,14 +161,18 @@ describe('Select', () => {
 describe('SelectTrigger render prop', () => {
   it('renders custom trigger via render prop', () => {
     render(
-      <Select>
+      <Select items={options}>
         <SelectTrigger
           render={() => <button data-testid='custom-trigger'>Custom</button>}
         />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -156,40 +188,48 @@ describe('SelectTrigger render prop', () => {
     ));
 
     render(
-      <Select defaultValue='option1'>
+      <Select items={options} defaultValue='opt1'>
         <SelectTrigger render={renderSpy} />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
 
     expect(renderSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        selectedValue: 'option1',
+        selectedValue: 'opt1',
         selectedContent: expect.anything(),
       }),
     );
   });
 
-  it('provides empty string as selectedValue when nothing is selected', () => {
+  it('provides null as selectedValue when nothing is selected', () => {
     const renderSpy = vi.fn(() => <button>Trigger</button>);
 
     render(
-      <Select>
+      <Select items={options}>
         <SelectTrigger render={renderSpy} />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
 
     expect(renderSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ selectedValue: '' }),
+      expect.objectContaining({ selectedValue: null }),
     );
   });
 });
@@ -197,16 +237,20 @@ describe('SelectTrigger render prop', () => {
 describe('SelectTriggerButton', () => {
   it('renders the label when no value is selected', () => {
     render(
-      <Select>
+      <Select items={options}>
         <SelectTrigger
           render={(renderProps) => (
             <SelectTriggerButton {...renderProps} label='Pick one' />
           )}
         />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
@@ -216,21 +260,337 @@ describe('SelectTriggerButton', () => {
 
   it('renders selected content when a value is selected', () => {
     render(
-      <Select defaultValue='option1'>
+      <Select items={options} defaultValue='opt1'>
         <SelectTrigger
           render={(renderProps) => (
             <SelectTriggerButton {...renderProps} label='Pick one' />
           )}
         />
         <SelectContent>
-          <SelectItem value='option1'>
-            <SelectItemText>Option 1</SelectItemText>
-          </SelectItem>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
         </SelectContent>
       </Select>,
     );
 
     expect(screen.getByText('Option 1')).toBeInTheDocument();
     expect(screen.queryByText('Pick one')).not.toBeInTheDocument();
+  });
+});
+
+const groupedOptions = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
+];
+
+describe('Grouped items', () => {
+  it('renders group headers when items have a group field', () => {
+    render(
+      <Select items={groupedOptions}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    expect(screen.getByText('Fruits')).toBeInTheDocument();
+    expect(screen.getByText('Vegetables')).toBeInTheDocument();
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Carrot')).toBeInTheDocument();
+  });
+
+  it('filters items within groups and hides empty groups', () => {
+    render(
+      <Select items={groupedOptions}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'Apple' } });
+
+    expect(screen.getByText('Fruits')).toBeInTheDocument();
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.queryByText('Banana')).not.toBeInTheDocument();
+    expect(screen.queryByText('Vegetables')).not.toBeInTheDocument();
+    expect(screen.queryByText('Carrot')).not.toBeInTheDocument();
+  });
+
+  it('selects an item from a group', () => {
+    const handleChange = vi.fn();
+
+    render(
+      <Select items={groupedOptions} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Carrot'));
+
+    expect(handleChange).toHaveBeenCalledWith('carrot');
+  });
+});
+
+describe('SelectSearch', () => {
+  it('renders a search input with the given placeholder', () => {
+    render(
+      <Select items={options}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Find option' />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByPlaceholderText('Find option')).toBeInTheDocument();
+  });
+
+  it('uses default placeholder when none is provided', () => {
+    render(
+      <Select items={options}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
+  });
+
+  it('filters items when typing in search', () => {
+    render(
+      <Select items={options}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    expect(screen.getByText('Option 1')).toBeInTheDocument();
+    expect(screen.getByText('Option 2')).toBeInTheDocument();
+    expect(screen.getByText('Option 3')).toBeInTheDocument();
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'Option 1' } });
+
+    expect(screen.getByText('Option 1')).toBeInTheDocument();
+    expect(screen.queryByText('Option 2')).not.toBeInTheDocument();
+    expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
+  });
+
+  it('shows all items when filter={null} disables filtering', () => {
+    render(
+      <Select items={options} filter={null}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'Option 1' } });
+
+    expect(screen.getByText('Option 1')).toBeInTheDocument();
+    expect(screen.getByText('Option 2')).toBeInTheDocument();
+    expect(screen.getByText('Option 3')).toBeInTheDocument();
+  });
+});
+
+describe('SelectEmptyState', () => {
+  it('renders title and description when search yields no results', () => {
+    render(
+      <Select items={options}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectSearch placeholder='Search' />
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+          <SelectEmptyState
+            title='No results found'
+            description='Try a different query'
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    fireEvent.change(searchInput, { target: { value: 'zzz' } });
+
+    expect(screen.getByText('No results found')).toBeInTheDocument();
+    expect(screen.getByText('Try a different query')).toBeInTheDocument();
+  });
+});
+
+describe('Disabled items', () => {
+  const optionsWithDisabled = [
+    { value: 'opt1', label: 'Option 1' },
+    { value: 'opt2', label: 'Option 2', disabled: true },
+    { value: 'opt3', label: 'Option 3' },
+  ];
+
+  it('renders disabled items with data-disabled attribute', () => {
+    render(
+      <Select items={optionsWithDisabled}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const disabledItem = screen
+      .getByText('Option 2')
+      .closest('[data-slot="select-item"]');
+    expect(disabledItem).toHaveAttribute('data-disabled', '');
+  });
+
+  it('does not call onValueChange when clicking a disabled item', () => {
+    const handleChange = vi.fn();
+
+    render(
+      <Select items={optionsWithDisabled} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Option 2'));
+
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
+  it('still allows selecting non-disabled items', () => {
+    const handleChange = vi.fn();
+
+    render(
+      <Select items={optionsWithDisabled} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Option 3'));
+
+    expect(handleChange).toHaveBeenCalledWith('opt3');
   });
 });

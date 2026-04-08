@@ -9,6 +9,7 @@ on:
 permissions:
   actions: read # Required for reading workflow runs and status checks
   contents: read
+  id-token: write # Required for SonarCloud OIDC authentication
 
 concurrency:
   group: pr-checks-${{ github.ref }}
@@ -113,4 +114,33 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
 
-      - run: npx nx affected -t test --passWithNoTests
+      - run: npx nx affected -t test --passWithNoTests --coverage
+
+      - name: Fix lcov paths to be relative to workspace root
+        run: |
+          for lib in ui-react utils-shared design-core; do
+            lcov="libs/$lib/test-output/vitest/coverage/lcov.info"
+            [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
+          done
+          lcov="libs/ui-rnative/test-output/jest/coverage/lcov.info"
+          [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/ui-rnative/|" "$lcov" || true
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            libs/ui-react/test-output/vitest/coverage/lcov.info
+            libs/ui-rnative/test-output/jest/coverage/lcov.info
+            libs/utils-shared/test-output/vitest/coverage/lcov.info
+            libs/design-core/test-output/vitest/coverage/lcov.info
+          if-no-files-found: warn
+
+  sonar:
+    name: Sonar scan
+    needs: unit-testing
+    if: ${{ !cancelled() && needs.unit-testing.result == 'success' }}
+    uses: ./.github/workflows/scan-sonar-called.yml
+    with:
+      should_download_coverage: true
+    secrets: inherit

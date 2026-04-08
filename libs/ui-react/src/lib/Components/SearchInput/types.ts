@@ -3,7 +3,7 @@ import { BaseInputProps } from '../BaseInput/types';
 
 export type SearchInputProps = Omit<
   BaseInputProps,
-  'prefix' | 'label' | 'labelClassName' | 'containerClassName'
+  'prefix' | 'label' | 'labelClassName'
 > & {
   /**
    * The visual appearance of the search input
