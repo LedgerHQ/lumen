@@ -25,7 +25,7 @@ export type DotSymbolProps = {
   pin?: DotSymbolPin;
   /**
    * The size of the dot indicator in pixels.
-   * @default 16
+   * @default 20
    */
   size?: DotSymbolSize;
   /**

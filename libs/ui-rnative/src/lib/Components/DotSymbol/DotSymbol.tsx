@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { MediaImageSize } from '../MediaImage';
@@ -45,15 +45,13 @@ export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
   72: 24,
 } as const;
 
-const pinAxisMap: Record<
-  DotSymbolPin,
-  [vertical: string, horizontal: string]
-> = {
-  'top-start': ['top', 'left'],
-  'top-end': ['top', 'right'],
-  'bottom-start': ['bottom', 'left'],
-  'bottom-end': ['bottom', 'right'],
-};
+const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
+  {
+    'top-start': ['top', 'left'],
+    'top-end': ['top', 'right'],
+    'bottom-start': ['bottom', 'left'],
+    'bottom-end': ['bottom', 'right'],
+  };
 
 const getPinOffset = (
   pin: DotSymbolPin,
@@ -120,7 +118,7 @@ export const DotSymbol = ({
   src,
   alt,
   pin = 'bottom-end',
-  size = 16,
+  size = 20,
   shape = 'circle',
   lx = {},
   style,

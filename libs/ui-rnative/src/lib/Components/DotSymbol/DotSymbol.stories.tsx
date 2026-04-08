@@ -3,7 +3,7 @@ import { CoinAlert } from '../../Symbols';
 import { MediaImage } from '../MediaImage';
 import { Spot } from '../Spot';
 import { Box } from '../Utility';
-import { DotSymbol, mediaImageDotSizeMap, spotDotSizeMap } from './DotSymbol';
+import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
 
 const meta = {
   component: DotSymbol,
@@ -30,72 +30,41 @@ export const Base: Story = {
     src: dotSrc,
     alt: 'Ethereum network',
     pin: 'bottom-end',
-    size: mediaImageDotSizeMap[48],
+    size: 20,
     shape: 'circle',
     children: <MediaImage src={parentSrc} alt='Cardano' shape='circle' />,
   },
 };
 
 export const PinShowcase: Story = {
+  args: { src: dotSrc, alt: 'Pin showcase' },
   render: () => (
     <Box lx={{ flexDirection: 'column', alignItems: 'center', gap: 's24' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-end'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='top-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='top-end'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-start'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-start'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='top-start'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='top-start'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
       </Box>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-end'
-          size={spotDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-end'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='top-end'
-          size={spotDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='top-end'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-start'
-          size={spotDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-start'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='top-start'
-          size={spotDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='top-start'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
       </Box>
@@ -104,24 +73,15 @@ export const PinShowcase: Story = {
 };
 
 export const ShapeShowcase: Story = {
+  args: { src: dotSrc, alt: 'Shape showcase' },
   render: () => (
     <Box lx={{ flexDirection: 'column', alignItems: 'center', gap: 's48' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's48' }}>
-        <DotSymbol
-          shape='square'
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+        <DotSymbol shape='square' src={dotSrc} pin='bottom-end'>
+          <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          shape='circle'
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+        <DotSymbol shape='circle' src={dotSrc} pin='bottom-end'>
+          <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
       </Box>
     </Box>
@@ -129,6 +89,7 @@ export const ShapeShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: { src: dotSrc, alt: 'Size showcase' },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's40' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's24' }}>

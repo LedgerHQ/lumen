@@ -6,7 +6,7 @@ import { SpotSize } from '../Spot';
 import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
-  'absolute z-10 box-content overflow-hidden border-white dark:border-black,
+  'absolute z-10 box-content overflow-hidden border-white dark:border-black',
   {
     variants: {
       size: {
@@ -104,7 +104,7 @@ export const DotSymbol = ({
   src,
   alt,
   pin = 'bottom-end',
-  size = 16,
+  size = 20,
   shape = 'circle',
   className,
   ref,

@@ -17,17 +17,6 @@ const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   56: 'lg',
 };
 
-export const mediaImageDotSizeMap: Record<MediaImageSize, number> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-} as const;
-
 const useStyles = ({
   size,
   shape,

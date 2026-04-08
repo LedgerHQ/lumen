@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CoinAlert } from '../../Symbols';
 import { MediaImage } from '../MediaImage';
 import { Spot } from '../Spot';
-import { DotSymbol, mediaImageDotSizeMap, spotDotSizeMap } from './DotSymbol';
+import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
 
 const meta = {
   component: DotSymbol,
@@ -42,42 +42,30 @@ export const PinShowcase: Story = {
   render: () => (
     <div className='flex flex-col items-center gap-24'>
       <div className='flex items-center gap-32'>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-end'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol src={dotSrc} pin='top-end' size={mediaImageDotSizeMap[48]}>
+        <DotSymbol src={dotSrc} pin='top-end'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-start'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-start'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
-        <DotSymbol src={dotSrc} pin='top-start' size={mediaImageDotSizeMap[48]}>
+        <DotSymbol src={dotSrc} pin='top-start'>
           <MediaImage src={parentSrc} shape='circle' />
         </DotSymbol>
       </div>
       <div className='flex items-center gap-32'>
-        <DotSymbol src={dotSrc} pin='bottom-end' size={spotDotSizeMap[48]}>
+        <DotSymbol src={dotSrc} pin='bottom-end'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
-        <DotSymbol src={dotSrc} pin='top-end' size={mediaImageDotSizeMap[48]}>
+        <DotSymbol src={dotSrc} pin='top-end'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-start'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-start'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
-        <DotSymbol src={dotSrc} pin='top-start' size={mediaImageDotSizeMap[48]}>
+        <DotSymbol src={dotSrc} pin='top-start'>
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
       </div>
@@ -90,37 +78,19 @@ export const ShapeShowcase: Story = {
   render: () => (
     <div className='flex flex-col items-center gap-48 body-2'>
       <div className='inline-flex items-center gap-48'>
-        <DotSymbol
-          shape='square'
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol shape='square' src={dotSrc} pin='bottom-end'>
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          shape='square'
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol shape='square' src={dotSrc} pin='bottom-end'>
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
       </div>
 
       <div className='inline-flex items-center gap-48'>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-end'>
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
-        >
+        <DotSymbol src={dotSrc} pin='bottom-end'>
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
       </div>
