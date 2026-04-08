@@ -73,5 +73,3 @@ export const Button = ({
     </BaseButton>
   );
 };
-
-Button.displayName = 'Button';

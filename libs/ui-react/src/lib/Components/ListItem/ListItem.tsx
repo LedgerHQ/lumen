@@ -68,8 +68,6 @@ export const ListItem = ({ ref, ...props }: ListItemProps) => {
   );
 };
 
-ListItem.displayName = 'ListItem';
-
 /**
  * Container for the leading (left) part of the list item.
  * Contains the visual element (Spot, Avatar, Icon) and the content (title + description).
@@ -91,8 +89,6 @@ export const ListItemLeading = ({
   );
 };
 
-ListItemLeading.displayName = 'ListItemLeading';
-
 /**
  * Container for the text content (title and description) within the leading area.
  */
@@ -112,8 +108,6 @@ export const ListItemContent = ({
     </div>
   );
 };
-
-ListItemContent.displayName = 'ListItemContent';
 
 /**
  * Horizontal row container within ListItemContent to place a title or description
@@ -135,8 +129,6 @@ export const ListItemContentRow = ({
     </div>
   );
 };
-
-ListItemContentRow.displayName = 'ListItemContentRow';
 
 /**
  * The main title of the list item.
@@ -171,8 +163,6 @@ export const ListItemTitle = ({
     </div>
   );
 };
-
-ListItemTitle.displayName = 'ListItemTitle';
 
 /**
  * Optional description text below the title.
@@ -209,8 +199,6 @@ export const ListItemDescription = ({
   );
 };
 
-ListItemDescription.displayName = 'ListItemDescription';
-
 /**
  * Container for the trailing (right) content of the list item.
  * Used for icons, switches, values, tags, chevrons, etc.
@@ -242,5 +230,3 @@ export const ListItemTrailing = ({
     </ListItemTrailingProvider>
   );
 };
-
-ListItemTrailing.displayName = 'ListItemTrailing';

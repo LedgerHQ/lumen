@@ -41,5 +41,3 @@ export const Divider = ({
     />
   );
 };
-
-Divider.displayName = 'Divider';

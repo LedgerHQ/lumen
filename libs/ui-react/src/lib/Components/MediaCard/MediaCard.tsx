@@ -68,8 +68,6 @@ export const MediaCardTitle = ({
   );
 };
 
-MediaCardTitle.displayName = 'MediaCardTitle';
-
 /**
  * A media card component for displaying a full-bleed background image with
  * composable content and a close button, using gradient overlays to ensure
@@ -159,5 +157,3 @@ export const MediaCard = ({
     </div>
   );
 };
-
-MediaCard.displayName = 'MediaCard';

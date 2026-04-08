@@ -178,7 +178,6 @@ const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
 
   return <SelectInputTrigger {...props} disabled={disabled} />;
 };
-SelectTrigger.displayName = 'SelectTrigger';
 
 const contentStyles = cva(
   [
@@ -239,7 +238,6 @@ const SelectContent = ({
     </Combobox.Positioner>
   </Combobox.Portal>
 );
-SelectContent.displayName = 'SelectContent';
 
 const SelectList = ({
   ref,
@@ -278,7 +276,6 @@ const SelectList = ({
     </Combobox.List>
   );
 };
-SelectList.displayName = 'SelectList';
 
 const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
   <Combobox.GroupLabel
@@ -288,7 +285,6 @@ const SelectLabel = ({ ref, className, ...props }: SelectLabelProps) => (
     {...props}
   />
 );
-SelectLabel.displayName = 'SelectLabel';
 
 const itemStyles = cn(
   'group/item flex w-full min-w-0 cursor-pointer items-center gap-12 bg-base-transparent select-none',
@@ -318,7 +314,6 @@ const SelectItem = ({
     </Combobox.ItemIndicator>
   </Combobox.Item>
 );
-SelectItem.displayName = 'SelectItem';
 
 const SelectSeparator = ({
   ref,
@@ -327,7 +322,6 @@ const SelectSeparator = ({
 }: SelectSeparatorProps) => (
   <Divider ref={ref} className={cn('mx-8 my-4 w-auto', className)} {...props} />
 );
-SelectSeparator.displayName = 'SelectSeparator';
 
 const SelectItemText = ({ ref, className, ...props }: SelectItemTextProps) => (
   <span
@@ -337,7 +331,6 @@ const SelectItemText = ({ ref, className, ...props }: SelectItemTextProps) => (
     {...props}
   />
 );
-SelectItemText.displayName = 'SelectItemText';
 
 const SelectItemContent = ({
   ref,
@@ -354,7 +347,6 @@ const SelectItemContent = ({
     {children}
   </div>
 );
-SelectItemContent.displayName = 'SelectItemContent';
 
 const SelectItemDescription = ({
   ref,
@@ -375,7 +367,6 @@ const SelectItemDescription = ({
     {children}
   </div>
 );
-SelectItemDescription.displayName = 'SelectItemDescription';
 
 const SelectSearch = ({
   className,
@@ -411,7 +402,6 @@ const SelectSearch = ({
     />
   );
 };
-SelectSearch.displayName = 'SelectSearch';
 
 const SelectEmptyState = ({
   ref,
@@ -434,7 +424,6 @@ const SelectEmptyState = ({
     {description && <span className='body-2 text-muted'>{description}</span>}
   </Combobox.Empty>
 );
-SelectEmptyState.displayName = 'SelectEmptyState';
 
 const SelectTriggerButton = ({
   selectedValue,

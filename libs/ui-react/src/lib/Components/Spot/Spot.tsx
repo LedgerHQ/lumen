@@ -150,4 +150,3 @@ export const Spot = (props: SpotProps) => {
     </div>
   );
 };
-Spot.displayName = 'Spot';

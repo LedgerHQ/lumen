@@ -111,5 +111,3 @@ export const TileButton = ({
     </Comp>
   );
 };
-
-TileButton.displayName = 'TileButton';

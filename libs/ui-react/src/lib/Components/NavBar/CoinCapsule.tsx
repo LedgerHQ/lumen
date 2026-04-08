@@ -29,4 +29,3 @@ export const CoinCapsule = ({
     </div>
   );
 };
-CoinCapsule.displayName = 'CoinCapsule';

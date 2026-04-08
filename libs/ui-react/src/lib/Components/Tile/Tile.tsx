@@ -119,7 +119,6 @@ export const Tile = ({
     </DisabledProvider>
   );
 };
-Tile.displayName = 'Tile';
 
 /**
  * A container for grouping TileTitle and TileDescription with consistent spacing.
@@ -139,7 +138,6 @@ export const TileContent = ({
     </div>
   );
 };
-TileContent.displayName = 'TileContent';
 
 /**
  * The primary text label for a Tile. Automatically inherits the disabled state from the parent Tile.
@@ -167,7 +165,6 @@ export const TileTitle = ({
     </div>
   );
 };
-TileTitle.displayName = 'TileTitle';
 
 /**
  * The secondary text label for a Tile. Automatically inherits the disabled state from the parent Tile.
@@ -195,7 +192,6 @@ export const TileDescription = ({
     </div>
   );
 };
-TileDescription.displayName = 'TileDescription';
 
 /**
  * A container for trailing content inside TileContent.
@@ -228,7 +224,6 @@ export const TileTrailingContent = ({
     </div>
   );
 };
-TileTrailingContent.displayName = 'TileTrailingContent';
 
 /**
  * A self-contained secondary action button for a Tile. Renders an InteractiveIcon that appears
@@ -290,4 +285,3 @@ export const TileSecondaryAction = ({
     />
   );
 };
-TileSecondaryAction.displayName = 'TileSecondaryAction';

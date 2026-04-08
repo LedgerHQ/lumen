@@ -236,5 +236,3 @@ export const BaseInput = ({
     </div>
   );
 };
-
-BaseInput.displayName = 'BaseInput';

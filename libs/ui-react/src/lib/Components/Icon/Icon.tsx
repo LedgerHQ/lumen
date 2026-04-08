@@ -44,5 +44,3 @@ export const Icon = ({
     children,
   );
 };
-
-Icon.displayName = 'Icon';

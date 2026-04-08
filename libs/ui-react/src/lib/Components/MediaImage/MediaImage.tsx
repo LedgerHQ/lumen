@@ -90,5 +90,3 @@ export const MediaImage = ({
     </div>
   );
 };
-
-MediaImage.displayName = 'MediaImage';

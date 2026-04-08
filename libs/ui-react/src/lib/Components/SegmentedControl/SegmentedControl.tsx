@@ -104,8 +104,6 @@ export function SegmentedControlButton({
   );
 }
 
-SegmentedControlButton.displayName = 'SegmentedControlButton';
-
 export function SegmentedControl({
   selectedValue,
   onSelectedChange,
@@ -163,5 +161,3 @@ export function SegmentedControl({
     </SegmentedControlContextProvider>
   );
 }
-
-SegmentedControl.displayName = 'SegmentedControl';

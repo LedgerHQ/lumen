@@ -148,7 +148,6 @@ const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
     />
   );
 };
-DialogOverlay.displayName = 'DialogOverlay';
 
 /**
  * The content container that displays the dialog information.
@@ -249,7 +248,6 @@ export const DialogBody = ({
     </div>
   );
 };
-DialogBody.displayName = 'DialogBody';
 
 /**
  * A sticky region inside the dialog body.
@@ -285,7 +283,6 @@ export const DialogBodyStickyContent = ({
     </div>
   );
 };
-DialogBodyStickyContent.displayName = 'DialogBodyStickyContent';
 
 /**
  * The fixed footer area of the dialog.
@@ -324,6 +321,5 @@ export const DialogFooter = ({
     </div>
   );
 };
-DialogFooter.displayName = 'DialogFooter';
 
 export { DialogHeader };
