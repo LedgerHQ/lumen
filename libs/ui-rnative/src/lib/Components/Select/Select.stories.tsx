@@ -16,6 +16,7 @@ import {
 
 const meta: Meta<typeof Select> = {
   component: Select,
+  tags: ['deprecated'],
   subcomponents: {
     SelectTrigger,
     SelectValue,
