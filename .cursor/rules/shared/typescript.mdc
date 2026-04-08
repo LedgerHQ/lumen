@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: TypeScript conventions: explicit return types for module-level functions
+globs:
 alwaysApply: true
 ---
 

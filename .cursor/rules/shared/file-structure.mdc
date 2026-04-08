@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: File and folder naming conventions for components and utilities
+globs:
 alwaysApply: true
 ---
 
