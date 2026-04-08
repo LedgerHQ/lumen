@@ -57,7 +57,7 @@ const [BottomSheetProvider, useBottomSheetContext] =
     'BottomSheet',
   );
 
-const BottomSheet = ({
+export const BottomSheet = ({
   onOpen,
   onClose,
   onDismiss,
@@ -200,4 +200,4 @@ const BottomSheet = ({
   );
 };
 
-export { BottomSheet, useBottomSheetContext };
+export { useBottomSheetContext };
