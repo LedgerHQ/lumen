@@ -3,13 +3,26 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui-react/src",
   "projectType": "library",
-  "tags": ["scope:react", "type:ui"],
+  "tags": [
+    "scope:react",
+    "type:ui"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "libs/ui-react/dist"
+      }
+    },
+    "bundle-analyze": {
+      "executor": "nx:run-commands",
+      "outputPath": "libs/ui-react/dist",
+      "options": {
+        "command": "ANALYZE=true npx vite build",
+        "cwd": "libs/ui-react"
       }
     }
   }
