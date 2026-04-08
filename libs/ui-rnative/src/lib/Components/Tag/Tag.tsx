@@ -161,5 +161,3 @@ export const Tag = ({
     </Box>
   );
 };
-
-Tag.displayName = 'Tag';

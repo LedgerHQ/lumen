@@ -62,5 +62,3 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
     [disabled],
   );
 };
-
-AddressInput.displayName = 'AddressInput';

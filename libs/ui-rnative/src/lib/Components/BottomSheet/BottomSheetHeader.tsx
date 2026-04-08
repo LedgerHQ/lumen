@@ -174,4 +174,3 @@ export const BottomSheetHeader = ({
     </Box>
   );
 };
-BottomSheetHeader.displayName = 'BottomSheetHeader';

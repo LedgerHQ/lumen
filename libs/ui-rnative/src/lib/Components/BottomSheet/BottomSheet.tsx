@@ -199,6 +199,5 @@ const BottomSheet = ({
     </GorhomBottomSheetModal>
   );
 };
-BottomSheet.displayName = 'BottomSheet';
 
 export { BottomSheet, useBottomSheetContext };

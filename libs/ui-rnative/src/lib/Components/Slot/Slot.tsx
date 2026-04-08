@@ -41,8 +41,6 @@ const SlotPressable = ({
   });
 };
 
-SlotPressable.displayName = 'SlotPressable';
-
 const SlotView = ({
   ref,
   ...props
@@ -63,8 +61,6 @@ const SlotView = ({
     ref: ref ? composeRefs(ref, (children as any).ref) : (children as any).ref,
   });
 };
-
-SlotView.displayName = 'SlotView';
 
 const SlotText = ({
   ref,
@@ -87,8 +83,6 @@ const SlotText = ({
   });
 };
 
-SlotText.displayName = 'SlotText';
-
 type SlotImageSlotProps = ImageProps & {
   children?: React.ReactNode;
 } & ComponentPropsWithRef<typeof Image>;
@@ -110,8 +104,6 @@ const SlotImage = ({ ref, ...props }: SlotImageSlotProps) => {
     ref: ref ? composeRefs(ref, (children as any).ref) : (children as any).ref,
   });
 };
-
-SlotImage.displayName = 'SlotImage';
 
 function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   return (node: T) =>

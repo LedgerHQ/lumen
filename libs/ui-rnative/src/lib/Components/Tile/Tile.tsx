@@ -152,8 +152,6 @@ export const Tile = ({
   );
 };
 
-Tile.displayName = 'Tile';
-
 const TilePressableContent = ({
   appearance,
   disabled,
@@ -209,7 +207,6 @@ export const TileContent = ({ children, lx, style }: TileContentProps) => {
     </Box>
   );
 };
-TileContent.displayName = 'TileContent';
 
 const useTitleStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(
@@ -267,7 +264,6 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
     </Box>
   );
 };
-TileTitle.displayName = 'TileTitle';
 
 const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(
@@ -337,7 +333,6 @@ export const TileDescription = ({
     </Box>
   );
 };
-TileDescription.displayName = 'TileDescription';
 
 const useTrailingContentStyles = () => {
   return useStyleSheet(
@@ -386,4 +381,3 @@ export const TileTrailingContent = ({
     </Box>
   );
 };
-TileTrailingContent.displayName = 'TileTrailingContent';

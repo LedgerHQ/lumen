@@ -336,5 +336,3 @@ const useFloatingLabelStyles = ({
 
   return { label, animatedStyle };
 };
-
-BaseInput.displayName = 'BaseInput';

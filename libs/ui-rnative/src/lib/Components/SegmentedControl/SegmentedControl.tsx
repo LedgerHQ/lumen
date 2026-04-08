@@ -76,8 +76,6 @@ export function SegmentedControlButton({
   );
 }
 
-SegmentedControlButton.displayName = 'SegmentedControlButton';
-
 function useButtonStyles({
   selected,
   disabled,
@@ -183,8 +181,6 @@ export function SegmentedControl({
     </SegmentedControlContextProvider>
   );
 }
-
-SegmentedControl.displayName = 'SegmentedControl';
 
 function useRootStyles({
   disabled,

@@ -113,5 +113,3 @@ export const MediaImage = ({
     </Box>
   );
 };
-
-MediaImage.displayName = 'MediaImage';

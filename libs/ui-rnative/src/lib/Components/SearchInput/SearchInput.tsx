@@ -51,5 +51,3 @@ const useAppearanceStyles = (appearance: 'plain' | 'transparent') => {
     [appearance],
   );
 };
-
-SearchInput.displayName = 'SearchInput';

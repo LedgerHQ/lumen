@@ -224,5 +224,3 @@ const TriggerButtonContent = ({
     </View>
   );
 };
-
-TriggerButton.displayName = 'TriggerButton';

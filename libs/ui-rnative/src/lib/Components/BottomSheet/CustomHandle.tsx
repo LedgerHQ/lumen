@@ -37,4 +37,3 @@ export const CustomHandle = ({
     </View>
   );
 };
-CustomHandle.displayName = 'CustomHandle';

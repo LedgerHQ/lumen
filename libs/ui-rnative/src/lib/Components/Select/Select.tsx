@@ -125,7 +125,6 @@ export const Select = ({
     </SelectContextProvider>
   );
 };
-Select.displayName = 'Select';
 
 export const SelectTrigger = ({
   children,
@@ -283,8 +282,6 @@ const useTriggerStyles = ({
   );
 };
 
-SelectTrigger.displayName = 'SelectTrigger';
-
 /**
  * Displays the current selected value
  */
@@ -321,7 +318,6 @@ export const SelectValue = () => {
     </Text>
   );
 };
-SelectValue.displayName = 'SelectValue';
 
 /**
  * Container for select items. This component collects all items
@@ -378,7 +374,6 @@ export const SelectContent = ({ children }: SelectContentProps) => {
 
   return null;
 };
-SelectContent.displayName = 'SelectContent';
 
 export const SelectGroup = ({
   children,
@@ -402,7 +397,6 @@ export const SelectGroup = ({
     </Box>
   );
 };
-SelectGroup.displayName = 'SelectGroup';
 
 export const SelectLabel = ({
   children,
@@ -432,7 +426,6 @@ export const SelectLabel = ({
     </Text>
   );
 };
-SelectLabel.displayName = 'SelectLabel';
 
 /**
  * Individual select item. Note: The actual rendering happens in GlobalSelectBottomSheet.
@@ -443,7 +436,6 @@ export const SelectItem = (_props: SelectItemProps) => {
   // The actual items are rendered in GlobalSelectBottomSheet
   return null;
 };
-SelectItem.displayName = 'SelectItem';
 
 export const SelectItemText = ({
   children,
@@ -469,11 +461,9 @@ export const SelectItemText = ({
     </Text>
   );
 };
-SelectItemText.displayName = 'SelectItemText';
 
 export const SelectSeparator = (_props: SelectSeparatorProps) => {
   // This component doesn't render anything - it's used for structure
   // The actual separators are rendered in GlobalSelectBottomSheet
   return null;
 };
-SelectSeparator.displayName = 'SelectSeparator';

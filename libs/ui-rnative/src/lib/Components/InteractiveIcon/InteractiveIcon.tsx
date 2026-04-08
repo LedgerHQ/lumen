@@ -155,4 +155,3 @@ const InteractiveIconContent = ({
     </View>
   );
 };
-InteractiveIcon.displayName = 'InteractiveIcon';

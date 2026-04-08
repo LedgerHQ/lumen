@@ -67,5 +67,3 @@ export const Icon = ({
     </Svg>
   );
 };
-
-Icon.displayName = 'Icon';

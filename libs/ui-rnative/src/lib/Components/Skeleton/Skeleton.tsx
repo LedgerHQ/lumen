@@ -15,7 +15,6 @@ const BaseSkeleton = ({ lx, ...props }: SkeletonProps) => {
     />
   );
 };
-BaseSkeleton.displayName = 'BaseSkeleton';
 
 const ListItemSkeleton = ({ lx, ...props }: SkeletonProps) => {
   return (
@@ -49,7 +48,6 @@ const ListItemSkeleton = ({ lx, ...props }: SkeletonProps) => {
     </Box>
   );
 };
-ListItemSkeleton.displayName = 'ListItemSkeleton';
 
 const TileSkeleton = ({ lx, ...props }: SkeletonProps) => {
   return (
@@ -92,7 +90,6 @@ const TileSkeleton = ({ lx, ...props }: SkeletonProps) => {
     </Box>
   );
 };
-TileSkeleton.displayName = 'TileSkeleton';
 
 const componentsMap = {
   'list-item': ListItemSkeleton,
@@ -132,6 +129,5 @@ const Skeleton = ({ lx, component, ...props }: SkeletonProps) => {
     </Pulse>
   );
 };
-Skeleton.displayName = 'Skeleton';
 
 export { Skeleton };

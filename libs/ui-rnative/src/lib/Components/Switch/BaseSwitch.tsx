@@ -88,7 +88,6 @@ const BaseSwitchRoot = ({
     </BaseSwitchProvider>
   );
 };
-BaseSwitchRoot.displayName = ROOT_COMPONENT_NAME;
 
 const THUMB_TRANSLATE: Record<Size, number> = {
   sm: 8,
@@ -246,7 +245,5 @@ const useStyles = ({
     [checked, disabled, size],
   );
 };
-
-BaseSwitchThumb.displayName = THUMB_COMPONENT_NAME;
 
 export { BaseSwitchRoot, BaseSwitchThumb };

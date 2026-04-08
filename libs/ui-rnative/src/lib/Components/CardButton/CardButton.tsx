@@ -206,5 +206,3 @@ const CardButtonContent = ({
     </View>
   );
 };
-
-CardButton.displayName = 'CardButton';
