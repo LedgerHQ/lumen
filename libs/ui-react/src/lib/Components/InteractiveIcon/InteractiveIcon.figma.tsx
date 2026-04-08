@@ -20,9 +20,7 @@ const sharedProps = {
   }),
 };
 
-const example = (
-  props: Omit<InteractiveIconProps, 'icon'> & { icon?: any },
-) => (
+const example = (props: Omit<InteractiveIconProps, 'icon'> & { icon: any }) => (
   <InteractiveIcon
     iconType={props.iconType}
     appearance={props.appearance}
