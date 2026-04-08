@@ -18,7 +18,7 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 ## Introduction
 
-The Select component provides a dropdown interface for choosing from a list of options. Built on Radix UI primitives, it offers excellent accessibility, keyboard navigation, and a modern floating label design that matches our BaseInput component.
+The Select component provides a dropdown interface for choosing from a list of options. Built on Base UI's [Combobox](https://base-ui.com/docs/combobox), it offers excellent accessibility, keyboard navigation, and a modern floating label design that matches our BaseInput component.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6397-463&m=dev).
 
@@ -31,11 +31,10 @@ The Select component provides a dropdown interface for choosing from a list of o
 - **Value**: The currently selected value
 - **Icon**: Chevron down/up indicator
 - **Content**: The dropdown container with options. Its minimum width matches the trigger width, so the dropdown is never narrower than the trigger.
+- **Search** *(optional)*: A search field at the top of the dropdown that filters items by label. Uses `SearchInput` internally.
 - **Items**: Individual selectable options
 - **Groups**: Optional grouping of related items with labels
 - **Separators**: Visual dividers between groups
-- **Scroll Up Button**: Button to scroll up the content
-- **Scroll Down Button**: Button to scroll down the content
 
 ## Properties
 
@@ -46,9 +45,37 @@ The Select component provides a dropdown interface for choosing from a list of o
 
 ### With Groups and Separators
 
-Organize related options using groups with labels and separators for better user experience.
+Organize related options using groups by adding a `group` field to your items. The component automatically groups items by that value, rendering group headers, separators between groups, and per-group collection iteration internally. The item render function stays the same as a flat list.
+
+> **Note:** Items render in the order you pass them. Groups appear in the order they are first found in the array. Items without a `group` are collected together where the first ungrouped item appears.
 
 <Canvas of={SelectStories.WithGroups} />
+
+### With Groups and Search
+
+Search works seamlessly with grouped items. The filter is applied to individual items within each group, and empty groups are automatically hidden.
+
+<Canvas of={SelectStories.WithGroupsAndSearch} />
+
+### With Search
+
+Add `SelectSearch` inside `SelectContent` (above `SelectList`) to enable type-to-filter. A default case-insensitive label filter is applied automatically; pass a custom `filter` to `Select` to override, or `null` to disable filtering entirely.
+
+> View search variant in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=14490-34214&m=dev).
+
+<Canvas of={SelectStories.WithSearch} />
+
+### Custom Filter
+
+By default, `SelectSearch` filters items using a case-insensitive match on the `label` field. Pass a custom `filter` function to `Select` to match on additional fields stored in `meta` like tickers, codes, or descriptions.
+
+<Canvas of={SelectStories.WithCustomFilter} />
+
+### Controlled Search
+
+Use `searchValue` and `onSearchValueChange` to take full control of the search field. Combined with `filteredItems`, this pattern is ideal for async or remote data sources where the server handles filtering. Pass your API results via `filteredItems` — the component skips its internal filter and renders your array directly.
+
+<Canvas of={SelectStories.ControlledSearch} />
 
 ### Long Lists
 
@@ -85,7 +112,7 @@ The Select component integrates seamlessly with HTML forms.
 By default, `SelectTrigger` renders an input-style trigger with a floating label. When you need a different look, pass a `render` prop to replace the default trigger entirely.
 
 The `render` function receives two props:
-- **`selectedValue`**: the currently selected value (empty string if nothing is selected)
+- **`selectedValue`**: the currently selected value (`null` if nothing is selected)
 - **`selectedContent`**: a ReactNode that renders the selected item's text
 
 ### Trigger Variants
@@ -108,15 +135,15 @@ The `render` function receives two props:
 
 ## Overview
 
-This component is built on top of [radix-ui/react-select](https://www.radix-ui.com/docs/primitives/components/select), which provides a robust foundation using Radix UI primitives. We've customized it to match our design system while maintaining all the accessibility and functionality features.
+This component is built on top of [Base UI](https://base-ui.com/), which provides a robust foundation using unstyled, accessible primitives. We've customized it to match our design system while maintaining all the accessibility and functionality features.
 
 ```bash
-npm install @ledgerhq/lumen-ui-react @radix-ui/react-select
+npm install @ledgerhq/lumen-ui-react @base-ui/react
 ```
 
 > **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
 
-The `@radix-ui/react-select` dependency provides accessible, unstyled select functionality with proper keyboard navigation, focus management, and screen reader support.
+The `@base-ui/react` dependency provides accessible, unstyled select functionality with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
 
@@ -128,25 +155,30 @@ import {
   SelectContent,
   SelectItem,
   SelectItemText,
+  SelectList,
   SelectTrigger,
 } from '@ledgerhq/lumen-ui-react';
 
+const options = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3' },
+];
+
 function MyComponent() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string | null>(null);
 
   return (
-    <Select value={value} onValueChange={setValue}>
+    <Select items={options} value={value} onValueChange={setValue}>
       <SelectTrigger label='Label' />
       <SelectContent>
-        <SelectItem value='option1'>
-          <SelectItemText>Option 1</SelectItemText>
-        </SelectItem>
-        <SelectItem value='option2'>
-          <SelectItemText>Option 2</SelectItemText>
-        </SelectItem>
-        <SelectItem value='option3'>
-          <SelectItemText>Option 3</SelectItemText>
-        </SelectItem>
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        />
       </SelectContent>
     </Select>
   );
@@ -163,35 +195,38 @@ import {
   SelectContent,
   SelectItem,
   SelectItemText,
+  SelectList,
   SelectTrigger,
 } from '@ledgerhq/lumen-ui-react';
 import { Tag } from '@ledgerhq/lumen-ui-react';
 
+const planOptions = [
+  { value: 'premium', label: 'Premium Plan', description: 'Best for professionals' },
+  { value: 'basic', label: 'Basic Plan', description: 'Perfect for starters' },
+  { value: 'new-feature', label: 'New Feature' },
+];
+
 function MyComponent() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string | null>(null);
 
   return (
-    <Select value={value} onValueChange={setValue}>
+    <Select items={planOptions} value={value} onValueChange={setValue}>
       <SelectTrigger label='Label' />
       <SelectContent>
-        <SelectItem
-          value='option1'
-          className='flex flex-col items-start justify-start gap-2'
-        >
-          <SelectItemText>Premium Plan</SelectItemText>
-          <div className='body-4 text-muted'>Best for professionals</div>
-        </SelectItem>
-        <SelectItem
-          value='option2'
-          className='flex flex-col items-start justify-start gap-2'
-        >
-          <SelectItemText>Basic Plan</SelectItemText>
-          <div className='body-4 text-muted'>Perfect for starters</div>
-        </SelectItem>
-        <SelectItem value='option3' className='flex items-center gap-8'>
-          <SelectItemText>New Feature</SelectItemText>
-          <Tag label='new' appearance='accent' size='sm' />
-        </SelectItem>
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem
+              key={item.value}
+              value={item.value}
+              className='flex flex-col items-start justify-start gap-2'
+            >
+              <SelectItemText>{item.label}</SelectItemText>
+              {item.description && (
+                <div className='body-4 text-muted'>{item.description}</div>
+              )}
+            </SelectItem>
+          )}
+        />
       </SelectContent>
     </Select>
   );
@@ -237,61 +272,261 @@ function MyComponent() {
 
 ### With Groups
 
+Add a `group` field to your items. The component groups them automatically, rendering headers, separators, and per-group collection iteration. The item render function is identical to a flat list.
+
 ```tsx
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectItemText,
-  SelectLabel,
-  SelectSeparator,
+  SelectList,
   SelectTrigger,
 } from '@ledgerhq/lumen-ui-react';
 
+const produceItems = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
+];
+
 function MyComponent() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string | null>(null);
 
   return (
-    <Select value={value} onValueChange={setValue}>
+    <Select items={produceItems} value={value} onValueChange={setValue}>
       <SelectTrigger label='Category' />
       <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value='apple'>
-            <SelectItemText>Apple</SelectItemText>
-          </SelectItem>
-          <SelectItem value='banana'>
-            <SelectItemText>Banana</SelectItemText>
-          </SelectItem>
-        </SelectGroup>
-        <SelectSeparator />
-        <SelectGroup>
-          <SelectLabel>Vegetables</SelectLabel>
-          <SelectItem value='carrot'>
-            <SelectItemText>Carrot</SelectItemText>
-          </SelectItem>
-          <SelectItem value='broccoli'>
-            <SelectItemText>Broccoli</SelectItemText>
-          </SelectItem>
-        </SelectGroup>
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        />
       </SelectContent>
     </Select>
   );
 }
 ```
 
+### With Groups and Search
+
+Combine `SelectSearch` with grouped items. The filter applies per-item within each group and empty groups are hidden automatically.
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectEmptyState,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectSearch,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+
+const produceItems = [
+  { value: 'apple', label: 'Apple', group: 'Fruits' },
+  { value: 'banana', label: 'Banana', group: 'Fruits' },
+  { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
+  { value: 'broccoli', label: 'Broccoli', group: 'Vegetables' },
+];
+
+function MyComponent() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <Select items={produceItems} value={value} onValueChange={setValue}>
+      <SelectTrigger label='Category' />
+      <SelectContent>
+        <SelectSearch placeholder='Search produce' />
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        />
+        <SelectEmptyState title='No results found' description='Try a different search term' />
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+### With Search
+
+Drop `SelectSearch` inside `SelectContent`, above `SelectList`. The `items` prop on `Select` must still list every option; search filters the list automatically using a case-insensitive label match. Override via the root `filter` prop when you need custom matching, or pass `filter={null}` to disable filtering entirely (useful when filtering is handled externally via `filteredItems`).
+
+> **Tip:** Add `autoFocusSearch` to `SelectContent` to move focus into the search input as soon as the dropdown opens — useful when filtering is the primary interaction.
+>
+> ```tsx
+> <SelectContent autoFocusSearch>
+> ```
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectSearch,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+
+const countryOptions = [
+  { value: 'us', label: 'United States' },
+  { value: 'ca', label: 'Canada' },
+  { value: 'mx', label: 'Mexico' },
+];
+
+function MyComponent() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <Select items={countryOptions} value={value} onValueChange={setValue}>
+      <SelectTrigger label='Country' />
+      <SelectContent>
+        <SelectSearch placeholder='Search countries' />
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        />
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+### Custom Filter
+
+The default search matches items by `label` only. When your items carry additional searchable fields in `meta` (e.g. ticker symbols, codes, descriptions), provide a custom `filter` function to `Select`. The function receives each item and the current query, and returns `true` to keep the item visible.
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectEmptyState,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectSearch,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+
+const tokenOptions = [
+  { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC' } },
+  { value: 'eth', label: 'Ethereum', meta: { ticker: 'ETH' } },
+  { value: 'sol', label: 'Solana', meta: { ticker: 'SOL' } },
+];
+
+function MyComponent() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <Select
+      items={tokenOptions}
+      value={value}
+      onValueChange={setValue}
+      filter={(item, query) => {
+        const q = query.toLowerCase();
+        return (
+          item.label.toLowerCase().includes(q) ||
+          ((item.meta?.ticker as string) ?? '').toLowerCase().includes(q)
+        );
+      }}
+    >
+      <SelectTrigger label='Token' />
+      <SelectContent>
+        <SelectSearch placeholder='Search by name or ticker' />
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+              <span className='body-3 text-muted'>{item.meta?.ticker as string}</span>
+            </SelectItem>
+          )}
+        />
+        <SelectEmptyState title='No results found' description='Try a different search term' />
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+### Async Search
+
+When items are loaded from a remote source, use `filteredItems` and `onSearchValueChange` to control filtering externally. Pass `filteredItems` with the server results — when provided, the component skips internal filtering and uses your array directly. Listen to `onSearchValueChange` to trigger API calls.
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectEmptyState,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectSearch,
+  SelectTrigger,
+} from '@ledgerhq/lumen-ui-react';
+import type { SelectItemData } from '@ledgerhq/lumen-ui-react';
+
+function AsyncSelect() {
+  const [value, setValue] = useState<string | null>(null);
+  const [filteredItems, setFilteredItems] = useState<SelectItemData[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearchValueChange = async (query: string) => {
+    setLoading(true);
+    const results = await fetchUsersFromApi(query);
+    setFilteredItems(results);
+    setLoading(false);
+  };
+
+  return (
+    <Select
+      items={allUsers}
+      filteredItems={filteredItems}
+      onSearchValueChange={handleSearchValueChange}
+      value={value}
+      onValueChange={setValue}
+    >
+      <SelectTrigger label='Assign reviewer' />
+      <SelectContent>
+        <SelectSearch placeholder='Search users…' />
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        />
+        <SelectEmptyState title={loading ? 'Loading…' : 'No results found'} description={loading ? undefined : 'Try a different search term'} />
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+> **Tip:** Consider debouncing `onSearchValueChange` to avoid excessive API calls while the user is typing.
+
 ### Controlled vs Uncontrolled
 
-The Select component supports both controlled and uncontrolled usage patterns:
+The Select component supports both controlled and uncontrolled usage patterns. `onValueChange` receives `string | null` (`null` when the selection is cleared).
 
 ```tsx
 // Controlled
-const [value, setValue] = useState('option1');
-<Select value={value} onValueChange={setValue}>
+const [value, setValue] = useState<string | null>(null);
+<Select items={options} value={value} onValueChange={setValue}>
 
 // Uncontrolled
-<Select defaultValue='option1' onValueChange={(value) => console.log(value)}>
+<Select items={options} defaultValue='option1' onValueChange={(value) => console.log(value)}>
 ```
 
 ### Custom Trigger with `render`
@@ -309,14 +544,20 @@ import {
   SelectContent,
   SelectItem,
   SelectItemText,
+  SelectList,
   SelectTrigger,
 } from '@ledgerhq/lumen-ui-react';
 
+const accountOptions = [
+  { value: 'all', label: 'All accounts' },
+  { value: 'checking', label: 'Checking' },
+];
+
 function MyComponent() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string | null>(null);
 
   return (
-    <Select value={value} onValueChange={setValue}>
+    <Select items={accountOptions} value={value} onValueChange={setValue}>
       <SelectTrigger
         render={(renderProps) => (
           <SelectTriggerButton
@@ -328,12 +569,13 @@ function MyComponent() {
         )}
       />
       <SelectContent>
-        <SelectItem value='all'>
-          <SelectItemText>All accounts</SelectItemText>
-        </SelectItem>
-        <SelectItem value='checking'>
-          <SelectItemText>Checking</SelectItemText>
-        </SelectItem>
+        <SelectList
+          renderItem={(item) => (
+            <SelectItem key={item.value} value={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+            </SelectItem>
+          )}
+        />
       </SelectContent>
     </Select>
   );
@@ -365,67 +607,28 @@ When none of the presets fit, write your own render function. Use `selectedValue
 The Select component integrates seamlessly with HTML forms:
 
 ```tsx
+const categoryOptions = [
+  { value: 'tech', label: 'Technology' },
+  { value: 'design', label: 'Design' },
+  { value: 'business', label: 'Business' },
+];
+
 <form onSubmit={handleSubmit}>
-  <Select name='category' required>
+  <Select items={categoryOptions} name='category' required>
     <SelectTrigger label='Category' />
     <SelectContent>
-      <SelectItem value='tech'>
-        <SelectItemText>Technology</SelectItemText>
-      </SelectItem>
-      <SelectItem value='design'>
-        <SelectItemText>Design</SelectItemText>
-      </SelectItem>
-      <SelectItem value='business'>
-        <SelectItemText>Business</SelectItemText>
-      </SelectItem>
+      <SelectList
+        renderItem={(item) => (
+          <SelectItem key={item.value} value={item.value}>
+            <SelectItemText>{item.label}</SelectItemText>
+          </SelectItem>
+        )}
+      />
     </SelectContent>
   </Select>
   <button type='submit'>Submit</button>
 </form>
 ```
-
-### With Scroll Buttons
-
-The scroll buttons are automatically included in `SelectContent` to indicate when there's more content available. They appear when the list is scrollable:
-
-```tsx
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectItemText,
-  SelectTrigger,
-} from '@ledgerhq/lumen-ui-react';
-
-function MyComponent() {
-  const [value, setValue] = useState('');
-
-  const countries = [
-    'United States',
-    'Canada',
-    'Mexico',
-    'Brazil',
-    'Argentina',
-    // ... more items
-  ];
-
-  return (
-    <Select value={value} onValueChange={setValue}>
-      <SelectTrigger label='Country' />
-      <SelectContent>
-        {/* Scroll buttons are automatically included in SelectContent */}
-        {countries.map((country) => (
-          <SelectItem key={country} value={country.toLowerCase()}>
-            <SelectItemText>{country}</SelectItemText>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
-```
-
-> **Note:** `SelectScrollUpButton` and `SelectScrollDownButton` are automatically rendered inside `SelectContent`.
 
 ## Do's and Don'ts
 
@@ -433,17 +636,21 @@ function MyComponent() {
   <DoVsDontRow>
     <DoBlockItem
       title='Use proper component composition'
-      description='Use all required sub-components: SelectTrigger, SelectContent, SelectItem, and SelectItemText'
+      description='Use all required sub-components: SelectTrigger, SelectContent, SelectList, SelectItem, and SelectItemText'
     >
 
 {/* prettier-ignore */}
 ```tsx
-<Select value={value} onValueChange={setValue}>
+<Select items={options} value={value} onValueChange={setValue}>
   <SelectTrigger label='Category' />
   <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
+    <SelectList
+      renderItem={(item) => (
+        <SelectItem key={item.value} value={item.value}>
+          <SelectItemText>{item.label}</SelectItemText>
+        </SelectItem>
+      )}
+    />
   </SelectContent>
 </Select>
 ```
@@ -451,12 +658,12 @@ function MyComponent() {
     </DoBlockItem>
     <DontBlockItem
       title="Don't skip required components"
-      description='All sub-components are required. Do not skip SelectItemText or use raw text in SelectItem'
+      description='All sub-components are required. Do not skip SelectList or SelectItemText'
     >
 
 {/* prettier-ignore */}
 ```tsx
-<Select value={value} onValueChange={setValue}>
+<Select items={options} value={value} onValueChange={setValue}>
   <SelectTrigger label='Category' />
   <SelectContent>
     <SelectItem value='option1'>
@@ -478,15 +685,19 @@ function MyComponent() {
 
 {/* prettier-ignore */}
 ```tsx
-<Select value={value} onValueChange={setValue}>
+<Select items={options} value={value} onValueChange={setValue}>
   <SelectTrigger 
     label='Category' 
     labelClassName='font-semibold'
   />
   <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
+    <SelectList
+      renderItem={(item) => (
+        <SelectItem key={item.value} value={item.value}>
+          <SelectItemText>{item.label}</SelectItemText>
+        </SelectItem>
+      )}
+    />
   </SelectContent>
 </Select>
 ```
@@ -499,15 +710,19 @@ function MyComponent() {
 
 {/* prettier-ignore */}
 ```tsx
-<Select value={value} onValueChange={setValue}>
+<Select items={options} value={value} onValueChange={setValue}>
   <SelectTrigger 
     label='Category' 
     className='font-semibold'
   />
   <SelectContent>
-    <SelectItem value='option1'>
-      <SelectItemText>Option 1</SelectItemText>
-    </SelectItem>
+    <SelectList
+      renderItem={(item) => (
+        <SelectItem key={item.value} value={item.value}>
+          <SelectItemText>{item.label}</SelectItemText>
+        </SelectItem>
+      )}
+    />
   </SelectContent>
 </Select>
 ```
