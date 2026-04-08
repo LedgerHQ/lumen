@@ -6,9 +6,7 @@ alwaysApply: false
 ---
 
 - Use the figma mcp server
-- You can see our custom tailwind plugins in here(libs/design-core/src/presets/allBrands.ts)
-- all `-default` prefixes are removed via code syntax so please omit them from the tailwind utility
-- These rules apply only when extracting from Figma. For always-applied rules see `/.cursor/rules/design-system.mdc`.
+- These rules apply only when extracting from Figma. For the full design token reference see `/.cursor/rules/react/tailwind-guidelines.mdc`.
 
 - Token → Tailwind mapping (Figma-only):
 - Combine the Tailwind prefix for the CSS property with the unique part of the token name. Use ONLY the unique part after the last hyphen of the CSS variable name.
