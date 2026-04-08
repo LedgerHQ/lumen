@@ -66,7 +66,7 @@ export type InteractiveIconProps = {
   icon: ComponentType<Omit<IconProps, 'children'>>;
   /**
    * The size of the icon in pixels.
-   * @default 20
+   * @default 24
    */
   size?: IconSize;
   /**

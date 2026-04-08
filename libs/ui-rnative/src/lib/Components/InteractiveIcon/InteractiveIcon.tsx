@@ -92,7 +92,7 @@ const useStyles = ({
 export const InteractiveIcon = ({
   iconType,
   icon,
-  size = 20,
+  size = 24,
   disabled: disabledProp = false,
   hitSlop: hitSlopProp,
   hitSlopType = 'comfortable',

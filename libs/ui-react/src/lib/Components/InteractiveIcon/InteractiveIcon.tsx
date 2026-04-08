@@ -58,7 +58,7 @@ export const InteractiveIcon = ({
   className,
   iconType,
   icon: Icon,
-  size = 20,
+  size = 24,
   appearance = 'muted',
   disabled: disabledProp = false,
   ...props
