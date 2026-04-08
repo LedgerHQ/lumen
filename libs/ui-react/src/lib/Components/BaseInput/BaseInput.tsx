@@ -214,11 +214,11 @@ export const BaseInput = ({
         {showClearButton && (
           <InteractiveIcon
             iconType='filled'
+            icon={DeleteCircleFill}
+            size={20}
             onClick={handleClear}
             aria-label={t('components.baseInput.clearInputAriaLabel')}
-          >
-            <DeleteCircleFill size={20} />
-          </InteractiveIcon>
+          />
         )}
 
         {!showClearButton && suffix}

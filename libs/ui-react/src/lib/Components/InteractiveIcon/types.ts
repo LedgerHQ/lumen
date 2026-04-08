@@ -1,4 +1,5 @@
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ComponentType } from 'react';
+import { IconProps, IconSize } from '../Icon';
 
 export type InteractiveIconProps = {
   /**
@@ -12,16 +13,20 @@ export type InteractiveIconProps = {
    */
   iconType: 'filled' | 'stroked';
   /**
-   * The visual style of the icon button.
-   * - 'muted': with muted background
-   * - 'white': with white background
-   * - 'base': with base background
+   * The color appearance of the icon.
+   * - 'muted': Subdued color for secondary actions.
+   * - 'white': White color for use on dark backgrounds.
+   * - 'base': Default high-contrast color.
    * @default 'muted'
    */
   appearance?: 'muted' | 'white' | 'base';
   /**
-   * The icon component to display inside the button.
-   * Should be a single icon element from the design system.
+   * The icon component to render.
    */
-  children: ReactNode;
-} & Omit<ComponentPropsWithRef<'button'>, 'disabled'>;
+  icon: ComponentType<Omit<IconProps, 'children'>>;
+  /**
+   * The size of the icon in pixels.
+   * @default 24
+   */
+  size?: IconSize;
+} & Omit<ComponentPropsWithRef<'button'>, 'disabled' | 'children'>;
