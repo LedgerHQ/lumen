@@ -125,10 +125,19 @@ export const ListItemContentRow = ({
   className,
   ...props
 }: ListItemContentRowProps) => {
+  const { isInTrailing } = useListItemTrailingContext({
+    consumerName: 'ListItemContentRow',
+    contextRequired: false,
+  });
+
   return (
     <div
       ref={ref}
-      className={cn('flex min-w-0 items-center gap-8', className)}
+      className={cn(
+        'flex min-w-0 items-center gap-8',
+        isInTrailing && 'justify-end',
+        className,
+      )}
       {...props}
     >
       {children}
