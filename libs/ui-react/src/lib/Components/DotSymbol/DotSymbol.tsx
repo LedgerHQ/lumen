@@ -6,7 +6,7 @@ import { SpotSize } from '../Spot';
 import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
-  'absolute z-10 box-content overflow-hidden border-base',
+  'absolute z-10 box-content overflow-hidden border-white dark:border-black,
   {
     variants: {
       size: {
