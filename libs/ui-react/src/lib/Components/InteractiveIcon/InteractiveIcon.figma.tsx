@@ -25,7 +25,6 @@ const example = (props: Omit<InteractiveIconProps, 'icon'> & { icon: any }) => (
     iconType={props.iconType}
     appearance={props.appearance}
     icon={props.icon}
-    size={props.size}
     disabled={props.disabled}
     aria-label='Interactive icon'
   />
