@@ -192,7 +192,7 @@ export const ListItemContent = ({
         flex: isInTrailing ? 0 : 1,
         minWidth: 0,
         gap: t.spacings.s4,
-        alignItems: isInTrailing ? 'flex-end' : 'flex-start',
+        alignItems: isInTrailing ? 'flex-end' : 'stretch',
       },
     }),
     [isInTrailing],
@@ -273,7 +273,9 @@ export const ListItemTitle = ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
+          flex: 1,
           minWidth: 0,
+          flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         } as const,
@@ -323,7 +325,9 @@ export const ListItemDescription = ({
       description: StyleSheet.flatten([
         t.typographies.body3,
         {
+          flex: 1,
           minWidth: 0,
+          flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
         } as const,
