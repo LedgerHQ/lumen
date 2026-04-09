@@ -192,6 +192,7 @@ export const ledgerLiveDarkColorTokens = {
     baseTransparentPressed: primitiveColorTokens.dark.grey['950-20'],
     disabled: primitiveColorTokens.dark.grey['200'],
     disabledStrong: primitiveColorTokens.dark.grey['300'],
+    surfaceDisabled: primitiveColorTokens.dark.grey['100'], // Added missing token from CSS
     muted: primitiveColorTokens.dark.grey['200'],
     mutedHover: primitiveColorTokens.dark.grey['300'],
     mutedPressed: primitiveColorTokens.dark.grey['400'],
@@ -228,7 +229,11 @@ export const ledgerLiveDarkColorTokens = {
     gradient100: primitiveColorTokens.dark.grey['050'],
     gradient80: primitiveColorTokens.dark.grey['050-80'],
     gradient70: primitiveColorTokens.dark.grey['050-70'],
+    gradient40: primitiveColorTokens.dark.grey['050-40'], // Added missing token from CSS
+    gradient30: primitiveColorTokens.dark.grey['050-30'], // Added missing token from CSS
     gradient0: primitiveColorTokens.dark.grey['050-0'],
+    gradientOverlay80: primitiveColorTokens.dark.grey['050-80'], // Added missing token from CSS
+    gradientOverlay0: primitiveColorTokens.dark.grey['050-0'],   // Added missing token from CSS
   },
   text: {
     black: primitiveColorTokens.dark.constant['950'],
@@ -266,6 +271,7 @@ export const ledgerLiveDarkColorTokens = {
     base: primitiveColorTokens.dark.grey['950'],
     baseHover: primitiveColorTokens.dark.grey['900'],
     basePressed: primitiveColorTokens.dark.grey['800'],
+    baseInverted: primitiveColorTokens.dark.grey['050'], // Added missing token from CSS
     disabled: primitiveColorTokens.dark.grey['300'],
     muted: primitiveColorTokens.dark.grey['500'],
     mutedHover: primitiveColorTokens.dark.grey['600'],

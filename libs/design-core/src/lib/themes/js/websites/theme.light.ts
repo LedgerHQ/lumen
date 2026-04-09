@@ -192,6 +192,7 @@ export const websitesLightColorTokens = {
     baseTransparentPressed: primitiveColorTokens.light.grey['950-10'],
     disabled: primitiveColorTokens.light.grey['200'],
     disabledStrong: primitiveColorTokens.light.grey['300'],
+    surfaceDisabled: primitiveColorTokens.light.grey['100'], // Added missing token from CSS
     muted: primitiveColorTokens.light.grey['200'],
     mutedHover: primitiveColorTokens.light.grey['300'],
     mutedPressed: primitiveColorTokens.light.grey['400'],
@@ -228,7 +229,11 @@ export const websitesLightColorTokens = {
     gradient100: primitiveColorTokens.light.grey['950'],
     gradient80: primitiveColorTokens.light.grey['950-80'],
     gradient70: primitiveColorTokens.light.grey['950-70'],
+    gradient40: primitiveColorTokens.light.grey['050-40'], // Added missing token from CSS (uses light grey 050)
+    gradient30: primitiveColorTokens.light.grey['050-30'], // Added missing token from CSS (uses light grey 050)
     gradient0: primitiveColorTokens.light.grey['950-0'],
+    gradientOverlay80: primitiveColorTokens.light.grey['950-80'], // Added missing token from CSS
+    gradientOverlay0: primitiveColorTokens.light.grey['950-0'],   // Added missing token from CSS
   },
   text: {
     black: primitiveColorTokens.light.constant['950'],
@@ -266,6 +271,7 @@ export const websitesLightColorTokens = {
     base: primitiveColorTokens.light.grey['950'],
     baseHover: primitiveColorTokens.light.grey['900'],
     basePressed: primitiveColorTokens.light.grey['800'],
+    baseInverted: primitiveColorTokens.light.grey['050'], // Added missing token from CSS
     disabled: primitiveColorTokens.light.grey['300'],
     muted: primitiveColorTokens.light.grey['600'],
     mutedHover: primitiveColorTokens.light.grey['700'],
