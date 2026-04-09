@@ -148,5 +148,3 @@ const TileButtonContent: FC<TileButtonContentProps> = ({
     </View>
   );
 };
-
-TileButton.displayName = 'TileButton';

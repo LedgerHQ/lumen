@@ -94,5 +94,3 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
     [disabled],
   );
 };
-
-Checkbox.displayName = 'Checkbox';

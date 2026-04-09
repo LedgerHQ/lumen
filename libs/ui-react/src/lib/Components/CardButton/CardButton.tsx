@@ -94,4 +94,3 @@ export const CardButton = ({
     </button>
   );
 };
-CardButton.displayName = 'CardButton';

@@ -13,7 +13,7 @@ import { Spinner } from '../Spinner';
 import { SpotProps, SpotSize } from './types';
 
 const spotVariants = cva(
-  'flex items-center justify-center rounded-full bg-muted-transparent',
+  'flex shrink-0 items-center justify-center rounded-full bg-muted-transparent',
   {
     variants: {
       appearance: {
@@ -150,4 +150,3 @@ export const Spot = (props: SpotProps) => {
     </div>
   );
 };
-Spot.displayName = 'Spot';

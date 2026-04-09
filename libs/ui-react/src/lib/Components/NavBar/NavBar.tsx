@@ -31,7 +31,6 @@ export const NavBarCoinCapsule = ({
     <CoinCapsule ref={ref} ticker={ticker} icon={icon} className={className} />
   </div>
 );
-NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
 
 /**
  * Back button component for the NavBar. Displays an arrow left icon button.
@@ -60,7 +59,6 @@ export const NavBarBackButton = ({
     />
   );
 };
-NavBarBackButton.displayName = 'NavBarBackButton';
 
 /**
  * Title component for the NavBar. Displays the navigation title text.
@@ -93,7 +91,6 @@ export const NavBarTitle = ({
     </Component>
   );
 };
-NavBarTitle.displayName = 'NavBarTitle';
 
 /**
  * Trailing container for the NavBar. Used to place elements on the right side of the navbar.
@@ -122,7 +119,6 @@ export const NavBarTrailing = ({
     </div>
   );
 };
-NavBarTrailing.displayName = 'NavBarTrailing';
 
 /**
  * A navigation bar component for displaying page headers with optional back button, title, and trailing elements.
@@ -170,4 +166,3 @@ export const NavBar = ({ ref, children, className, ...props }: NavBarProps) => {
     </nav>
   );
 };
-NavBar.displayName = 'NavBar';

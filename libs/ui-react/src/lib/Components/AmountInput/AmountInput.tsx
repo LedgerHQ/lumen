@@ -171,5 +171,3 @@ export const AmountInput = ({
     </div>
   );
 };
-
-AmountInput.displayName = 'AmountInput';

@@ -6,11 +6,13 @@ import { Settings, Plus } from '../../Symbols';
 import { InteractiveIcon } from './InteractiveIcon';
 
 describe('InteractiveIcon Component', () => {
-  it('should render correctly with children icon', () => {
+  it('should render correctly with icon prop', () => {
     render(
-      <InteractiveIcon iconType='filled' aria-label='Settings'>
-        <Settings size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon
+        iconType='filled'
+        icon={Settings}
+        aria-label='Settings'
+      />,
     );
     const buttonElement = screen.getByRole('button', { name: /settings/i });
     expect(buttonElement).toBeInTheDocument();
@@ -18,9 +20,7 @@ describe('InteractiveIcon Component', () => {
 
   it('should render with filled iconType variant', () => {
     render(
-      <InteractiveIcon iconType='filled' aria-label='Add item'>
-        <Plus size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon iconType='filled' icon={Plus} aria-label='Add item' />,
     );
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toHaveClass('inline-flex');
@@ -29,9 +29,11 @@ describe('InteractiveIcon Component', () => {
 
   it('should render with stroked iconType variant', () => {
     render(
-      <InteractiveIcon iconType='stroked' aria-label='Settings'>
-        <Settings size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon
+        iconType='stroked'
+        icon={Settings}
+        aria-label='Settings'
+      />,
     );
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toHaveClass('bg-base-transparent');
@@ -40,9 +42,11 @@ describe('InteractiveIcon Component', () => {
 
   it('should have correct aria-label for accessibility', () => {
     render(
-      <InteractiveIcon iconType='filled' aria-label='Open menu'>
-        <Settings size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon
+        iconType='filled'
+        icon={Settings}
+        aria-label='Open menu'
+      />,
     );
     const buttonElement = screen.getByRole('button', { name: /open menu/i });
     expect(buttonElement).toBeInTheDocument();
@@ -50,9 +54,12 @@ describe('InteractiveIcon Component', () => {
 
   it('should be disabled when the disabled prop is true', () => {
     render(
-      <InteractiveIcon iconType='filled' aria-label='Disabled button' disabled>
-        <Settings size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon
+        iconType='filled'
+        icon={Settings}
+        aria-label='Disabled button'
+        disabled
+      />,
     );
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeDisabled();
@@ -63,11 +70,10 @@ describe('InteractiveIcon Component', () => {
     render(
       <InteractiveIcon
         iconType='filled'
+        icon={Plus}
         aria-label='Clickable'
         onClick={handleClick}
-      >
-        <Plus size={20} />
-      </InteractiveIcon>,
+      />,
     );
 
     const buttonElement = screen.getByRole('button');
@@ -81,12 +87,11 @@ describe('InteractiveIcon Component', () => {
     render(
       <InteractiveIcon
         iconType='filled'
+        icon={Settings}
         aria-label='Disabled'
         onClick={handleClick}
         disabled
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
 
     const buttonElement = screen.getByRole('button');
@@ -97,9 +102,12 @@ describe('InteractiveIcon Component', () => {
 
   it('should apply custom className', () => {
     render(
-      <InteractiveIcon iconType='filled' aria-label='Custom' className='mt-2'>
-        <Settings size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon
+        iconType='filled'
+        icon={Settings}
+        aria-label='Custom'
+        className='mt-2'
+      />,
     );
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toHaveClass('mt-2');
@@ -108,10 +116,26 @@ describe('InteractiveIcon Component', () => {
   it('should forward ref correctly', () => {
     const ref = vi.fn();
     render(
-      <InteractiveIcon iconType='stroked' aria-label='Ref test' ref={ref}>
-        <Plus size={20} />
-      </InteractiveIcon>,
+      <InteractiveIcon
+        iconType='stroked'
+        icon={Plus}
+        aria-label='Ref test'
+        ref={ref}
+      />,
     );
     expect(ref).toHaveBeenCalled();
+  });
+
+  it('should render with custom size', () => {
+    render(
+      <InteractiveIcon
+        iconType='filled'
+        icon={Settings}
+        size={24}
+        aria-label='Custom size'
+      />,
+    );
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement).toBeInTheDocument();
   });
 });

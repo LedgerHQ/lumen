@@ -94,7 +94,6 @@ export const TableRoot = ({
     </TableProvider>
   );
 };
-TableRoot.displayName = 'TableRoot';
 
 export const Table = ({ children, className, ref, ...props }: TableProps) => {
   return (
@@ -107,7 +106,6 @@ export const Table = ({ children, className, ref, ...props }: TableProps) => {
     </table>
   );
 };
-Table.displayName = 'Table';
 
 /**
  * Table head component. Wraps the HTML `<thead>` element.
@@ -124,7 +122,6 @@ export const TableHeader = ({
     </thead>
   );
 };
-TableHeader.displayName = 'TableHeader';
 
 /**
  * Table body component. Wraps the HTML `<tbody>` element.
@@ -141,7 +138,6 @@ export const TableBody = ({
     </tbody>
   );
 };
-TableBody.displayName = 'TableBody';
 
 /**
  * Table row component for body rows. Wraps the HTML `<tr>` element.
@@ -170,7 +166,6 @@ export const TableRow = ({
     </tr>
   );
 };
-TableRow.displayName = 'TableRow';
 
 const headerRowVariants = cva('sticky top-0', {
   variants: {
@@ -204,7 +199,6 @@ export const TableHeaderRow = ({
     </tr>
   );
 };
-TableHeaderRow.displayName = 'TableHeaderRow';
 
 /**
  * Table Group Header row component. Wraps the HTML `<tr> + <td>` element with header sub-section for a table.
@@ -235,7 +229,6 @@ export const TableGroupHeaderRow = ({
     </tr>
   );
 };
-TableGroupHeaderRow.displayName = 'TableGroupHeaderRow';
 
 const cellVariants = {
   root: cva(
@@ -283,7 +276,6 @@ export const TableCell = ({
     </td>
   );
 };
-TableCell.displayName = 'TableCell';
 
 const cellContentVariants = cva('flex items-center gap-12 truncate', {
   variants: {
@@ -320,7 +312,6 @@ export const TableCellContent = ({
     </div>
   );
 };
-TableCellContent.displayName = 'TableCellContent';
 
 const headerCellVariants = {
   root: cva('group h-40 truncate p-12 body-3 text-base', {
@@ -381,7 +372,6 @@ export const TableHeaderCell = ({
     </th>
   );
 };
-TableHeaderCell.displayName = 'TableHeaderCell';
 
 /**
  * Action bar component for table controls. Positioned above the table.
@@ -412,7 +402,6 @@ export const TableActionBar = ({
     </div>
   );
 };
-TableActionBar.displayName = 'TableActionBar';
 
 /**
  * Leading section of the action bar. Contains left-aligned actions.
@@ -433,7 +422,6 @@ export const TableActionBarLeading = ({
     </div>
   );
 };
-TableActionBarLeading.displayName = 'TableActionBarLeading';
 
 /**
  * Trailing section of the action bar. Contains right-aligned actions.
@@ -454,7 +442,6 @@ export const TableActionBarTrailing = ({
     </div>
   );
 };
-TableActionBarTrailing.displayName = 'TableActionBarTrailing';
 
 /**
  * Loading row component displayed at the bottom of the table during infinite scroll loading.
@@ -486,7 +473,6 @@ export const TableLoadingRow = ({
     </div>
   );
 };
-TableLoadingRow.displayName = 'TableLoadingRow';
 
 /**
  * Clickable sort control for table header columns.
@@ -501,14 +487,13 @@ export const TableInfoIcon = ({
     <InteractiveIcon
       {...props}
       iconType='filled'
+      icon={Information}
+      size={20}
       className={className}
       ref={ref}
-    >
-      <Information size={20} />
-    </InteractiveIcon>
+    />
   );
 };
-TableInfoIcon.displayName = 'TableInfoIcon';
 
 const sortControlIconMap = {
   asc: ChevronAscending,
@@ -585,4 +570,3 @@ export const TableSortButton = ({
     </button>
   );
 };
-TableSortButton.displayName = 'TableSortButton';

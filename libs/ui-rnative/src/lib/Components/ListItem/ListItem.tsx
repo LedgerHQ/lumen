@@ -113,8 +113,6 @@ export const ListItem = ({
   );
 };
 
-ListItem.displayName = 'ListItem';
-
 /**
  * Internal component to handle pressed state styling
  */
@@ -169,8 +167,6 @@ export const ListItemLeading = ({
   );
 };
 
-ListItemLeading.displayName = 'ListItemLeading';
-
 /**
  * Container for the text content (title and description) within the leading area.
  */
@@ -192,7 +188,7 @@ export const ListItemContent = ({
         flex: isInTrailing ? 0 : 1,
         minWidth: 0,
         gap: t.spacings.s4,
-        alignItems: isInTrailing ? 'flex-end' : 'flex-start',
+        alignItems: isInTrailing ? 'flex-end' : 'stretch',
       },
     }),
     [isInTrailing],
@@ -209,8 +205,6 @@ export const ListItemContent = ({
     </Box>
   );
 };
-
-ListItemContent.displayName = 'ListItemContent';
 
 /**
  * Horizontal row container within ListItemContent to place a title or description
@@ -247,8 +241,6 @@ export const ListItemContentRow = ({
   );
 };
 
-ListItemContentRow.displayName = 'ListItemContentRow';
-
 /**
  * The main title of the list item.
  */
@@ -273,7 +265,9 @@ export const ListItemTitle = ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
+          flex: 1,
           minWidth: 0,
+          flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         } as const,
@@ -295,8 +289,6 @@ export const ListItemTitle = ({
     </Text>
   );
 };
-
-ListItemTitle.displayName = 'ListItemTitle';
 
 /**
  * Optional description text below the title.
@@ -323,7 +315,9 @@ export const ListItemDescription = ({
       description: StyleSheet.flatten([
         t.typographies.body3,
         {
+          flex: 1,
           minWidth: 0,
+          flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
         } as const,
@@ -345,8 +339,6 @@ export const ListItemDescription = ({
     </Text>
   );
 };
-
-ListItemDescription.displayName = 'ListItemDescription';
 
 /**
  * Container for the trailing (right) content of the list item.
@@ -382,5 +374,3 @@ export const ListItemTrailing = ({
     </ListItemTrailingProvider>
   );
 };
-
-ListItemTrailing.displayName = 'ListItemTrailing';

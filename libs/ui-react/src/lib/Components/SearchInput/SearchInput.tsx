@@ -116,5 +116,3 @@ export const SearchInput = ({
     />
   );
 };
-
-SearchInput.displayName = 'SearchInput';

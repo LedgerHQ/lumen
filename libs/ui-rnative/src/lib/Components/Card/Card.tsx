@@ -210,7 +210,6 @@ export const Card = ({
     </CardProvider>
   );
 };
-Card.displayName = 'Card';
 
 const CardInner = ({
   outlined,
@@ -304,7 +303,6 @@ export const CardHeader = ({
     </Box>
   );
 };
-CardHeader.displayName = 'CardHeader';
 
 const CardHeaderInner = ({
   pressed,
@@ -352,7 +350,6 @@ export const CardLeading = ({
     </Box>
   );
 };
-CardLeading.displayName = 'CardLeading';
 
 /**
  * Flex column wrapper for CardContentTitle and CardContentDescription.
@@ -398,7 +395,6 @@ export const CardContent = ({
     </Box>
   );
 };
-CardContent.displayName = 'CardContent';
 
 /**
  * Horizontal row wrapper for placing a CardContentTitle or CardContentDescription
@@ -444,7 +440,6 @@ export const CardContentRow = ({
     </Box>
   );
 };
-CardContentRow.displayName = 'CardContentRow';
 
 /**
  * Primary text of the card. Inherits the disabled state from the parent Card via context.
@@ -511,7 +506,6 @@ export const CardContentTitle = ({
     </Box>
   );
 };
-CardContentTitle.displayName = 'CardContentTitle';
 
 /**
  * Secondary text of the card. Inherits the disabled state from the parent Card via context.
@@ -578,7 +572,6 @@ export const CardContentDescription = ({
     </Box>
   );
 };
-CardContentDescription.displayName = 'CardContentDescription';
 
 /**
  * Trailing content container in the header. Used for Button, Tag, or right-aligned CardContent.
@@ -615,7 +608,6 @@ export const CardTrailing = ({
     </CardContentAlignProvider>
   );
 };
-CardTrailing.displayName = 'CardTrailing';
 
 const useCardFooterAnimation = ({
   footerExpanded,
@@ -709,7 +701,6 @@ export const CardFooter = ({
     </Animated.View>
   );
 };
-CardFooter.displayName = 'CardFooter';
 
 /**
  * Horizontal row container for action buttons inside CardFooter.
@@ -743,4 +734,3 @@ export const CardFooterActions = ({
     </Box>
   );
 };
-CardFooterActions.displayName = 'CardFooterActions';

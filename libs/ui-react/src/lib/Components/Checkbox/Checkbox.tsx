@@ -81,5 +81,3 @@ export const Checkbox = ({
     </CheckboxPrimitive.Root>
   );
 };
-
-Checkbox.displayName = CheckboxPrimitive.Root.displayName;

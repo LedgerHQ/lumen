@@ -62,5 +62,3 @@ export const Switch = ({
     </Pressable>
   );
 };
-
-Switch.displayName = 'Switch';

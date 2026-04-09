@@ -17,81 +17,77 @@ const logger = {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distPath = join(__dirname, 'dist', 'assets');
 
-// Find the main JS bundle file
 const files = readdirSync(distPath);
-const jsFile = files.find(
-  (file) => file.startsWith('index-') && file.endsWith('.js'),
+const mapFile = files.find(
+  (file) => file.startsWith('index-') && file.endsWith('.js.map'),
 );
 
-if (!jsFile) {
-  logger.error('❌ Error: Could not find bundled JS file in dist/assets');
+if (!mapFile) {
+  logger.error(
+    '❌ Error: Could not find source map file in dist/assets. Ensure sourcemap is enabled in vite config.',
+  );
   process.exit(1);
 }
 
-const bundlePath = join(distPath, jsFile);
-const bundleContent = readFileSync(bundlePath, 'utf-8');
+const mapPath = join(distPath, mapFile);
+const sourceMap = JSON.parse(readFileSync(mapPath, 'utf-8'));
+const sources = sourceMap.sources;
 
-logger.info(`Verifying tree-shaking for bundle: ${jsFile}`);
+logger.info(`Verifying tree-shaking from source map: ${mapFile}`);
+logger.info(`Source map contains ${sources.length} modules`);
 
-// Positive checks - these SHOULD be in the bundle
-const requiredPatterns = [
-  {
-    name: 'Button component',
-    pattern: /["']Button["']/,
-  },
-  {
-    name: 'Incognito symbol',
-    pattern: /["']Incognito["']/,
-  },
+/**
+ * Check whether any source path matches a given substring.
+ */
+const hasSource = (pathFragment) =>
+  sources.some((source) => source.includes(pathFragment));
+
+// Modules that SHOULD be in the bundle (used in main.treeshaking.tsx)
+const requiredModules = [
+  { name: 'Button component', path: 'Components/Button/' },
+  { name: 'Incognito symbol', path: 'Symbols/Icons/Incognito' },
 ];
 
-// Negative checks - these SHOULD NOT be in the bundle
-// Using a subset of other components and symbols to verify tree-shaking
-// Simplified patterns that work with minified code
-const excludedPatterns = [
-  // Other components
-  { name: 'Switch component', pattern: /["']Switch["']/ },
-  { name: 'Checkbox component', pattern: /["']Checkbox["']/ },
-  { name: 'TextInput component', pattern: /["']TextInput["']/ },
-  { name: 'Select component', pattern: /["']Select["']/ },
-  { name: 'Dialog component', pattern: /["']Dialog["']/ },
-  { name: 'Tooltip component', pattern: /["']Tooltip["']/ },
-  { name: 'AmountInput component', pattern: /["']AmountInput["']/ },
-  { name: 'AddressInput component', pattern: /["']AddressInput["']/ },
-  { name: 'ListItem component', pattern: /["']ListItem["']/ },
-  { name: 'Tag component', pattern: /["']Tag["']/ },
-  // Other symbols that should not be included
-  { name: 'Airplane symbol', pattern: /["']Airplane["']/ },
-  { name: 'Android symbol', pattern: /["']Android["']/ },
-  { name: 'Apple symbol', pattern: /["']Apple["']/ },
-  { name: 'Calendar symbol', pattern: /["']Calendar["']/ },
-  { name: 'Cart symbol', pattern: /["']Cart["']/ },
-  { name: 'Wallet symbol', pattern: /["']Wallet["']/ },
-  { name: 'Settings symbol', pattern: /["']Settings["']/ },
-  { name: 'Github symbol', pattern: /["']Github["']/ },
-  { name: 'Twitter symbol', pattern: /["']Twitter["']/ },
-  { name: 'Discord symbol', pattern: /["']Discord["']/ },
-  { name: 'Facebook symbol', pattern: /["']Facebook["']/ },
+// Modules that SHOULD NOT be in the bundle (tree-shaken away)
+const excludedModules = [
+  // Components
+  { name: 'Switch component', path: 'Components/Switch/' },
+  { name: 'Checkbox component', path: 'Components/Checkbox/' },
+  { name: 'TextInput component', path: 'Components/TextInput/' },
+  { name: 'Select component', path: 'Components/Select/' },
+  { name: 'Dialog component', path: 'Components/Dialog/' },
+  { name: 'AmountInput component', path: 'Components/AmountInput/' },
+  { name: 'AddressInput component', path: 'Components/AddressInput/' },
+  { name: 'ListItem component', path: 'Components/ListItem/' },
+  { name: 'Tag component', path: 'Components/Tag/' },
+  // Symbols
+  { name: 'Airplane symbol', path: 'Symbols/Icons/Airplane' },
+  { name: 'Android symbol', path: 'Symbols/Icons/Android' },
+  { name: 'Apple symbol', path: 'Symbols/Icons/Apple' },
+  { name: 'Calendar symbol', path: 'Symbols/Icons/Calendar' },
+  { name: 'Cart symbol', path: 'Symbols/Icons/Cart' },
+  { name: 'Wallet symbol', path: 'Symbols/Icons/Wallet' },
+  { name: 'Settings symbol', path: 'Symbols/Icons/Settings' },
+  { name: 'Github symbol', path: 'Symbols/Icons/Github' },
+  { name: 'Twitter symbol', path: 'Symbols/Icons/Twitter' },
+  { name: 'Discord symbol', path: 'Symbols/Icons/Discord' },
+  { name: 'Facebook symbol', path: 'Symbols/Icons/Facebook' },
 ];
 
 let hasErrors = false;
 
-// Check required patterns
-for (const { name, pattern } of requiredPatterns) {
-  const found = pattern.test(bundleContent);
-  if (!found) {
-    logger.error(`❌ ${name} NOT FOUND - this is required!`);
+for (const { name, path } of requiredModules) {
+  if (!hasSource(path)) {
+    logger.error(`❌ ${name} NOT FOUND in source map - this is required!`);
     hasErrors = true;
   }
 }
 
-// Check excluded patterns
 const foundUnwanted = [];
-for (const { name, pattern } of excludedPatterns) {
-  const found = pattern.test(bundleContent);
-  if (found) {
+for (const { name, path } of excludedModules) {
+  if (hasSource(path)) {
     foundUnwanted.push(name);
-    logger.error(`  ✗ ${name} found in bundle (should be tree-shaken)`);
+    logger.error(`  ✗ ${name} found in source map (should be tree-shaken)`);
     hasErrors = true;
   }
 }
@@ -100,7 +96,6 @@ if (foundUnwanted.length === 0) {
   logger.info('No unwanted components/symbols found');
 }
 
-// Summary
 if (hasErrors) {
   logger.error(' FAILED: Tree-shaking verification failed');
   if (foundUnwanted.length > 0) {

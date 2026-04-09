@@ -14,9 +14,9 @@ export default defineConfig(() => ({
     emptyOutDir: true,
     reportCompressedSize: true,
     minify: true,
+    sourcemap: true,
     rollupOptions: {
       output: {
-        // Output a single bundle file for easier verification
         manualChunks: undefined,
         inlineDynamicImports: true,
       },

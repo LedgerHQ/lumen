@@ -138,5 +138,3 @@ export const BaseButton = ({
     </Comp>
   );
 };
-
-BaseButton.displayName = 'BaseButton';

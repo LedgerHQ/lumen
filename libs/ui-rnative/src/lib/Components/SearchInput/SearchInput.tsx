@@ -22,7 +22,14 @@ export const SearchInput = ({
   return (
     <BaseInput
       ref={ref}
-      prefix={<SearchIcon size={20} accessible={false} disabled={disabled} />}
+      prefix={
+        <SearchIcon
+          size={20}
+          accessible={false}
+          disabled={disabled}
+          color='muted'
+        />
+      }
       style={style}
       containerStyle={[containerStyle, styles.container]}
       inputStyle={[inputStyle, styles.input]}
@@ -44,5 +51,3 @@ const useAppearanceStyles = (appearance: 'plain' | 'transparent') => {
     [appearance],
   );
 };
-
-SearchInput.displayName = 'SearchInput';

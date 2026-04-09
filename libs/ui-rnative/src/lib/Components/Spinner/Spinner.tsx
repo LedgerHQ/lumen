@@ -53,5 +53,3 @@ export const Spinner = ({
     </Box>
   );
 };
-
-Spinner.displayName = 'Spinner';

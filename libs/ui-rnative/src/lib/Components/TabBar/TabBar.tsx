@@ -226,8 +226,6 @@ export function TabBarItem({
   );
 }
 
-TabBarItem.displayName = 'TabBarItem';
-
 /**
  * A horizontal tab bar with animated pill background and icon transitions.
  * Provides smooth animations for active state changes and press interactions.

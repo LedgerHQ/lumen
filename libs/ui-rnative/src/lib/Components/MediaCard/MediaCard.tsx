@@ -76,8 +76,6 @@ export const MediaCardTitle = ({
   );
 };
 
-MediaCardTitle.displayName = 'MediaCardTitle';
-
 const GradientOverlays = () => {
   const styles = useStyles();
 
@@ -176,15 +174,15 @@ export const MediaCard = ({
             <InteractiveIcon
               iconType='stroked'
               appearance='white'
+              icon={Close}
+              size={20}
               style={styles.closeButton}
               onPress={onClose}
               accessibilityLabel={
                 closeAccessibilityLabel || t('common.closeAriaLabel')
               }
               testID='media-card-close-button'
-            >
-              <Close size={20} />
-            </InteractiveIcon>
+            />
           )}
 
           {pressed && (
@@ -199,5 +197,3 @@ export const MediaCard = ({
     </Pressable>
   );
 };
-
-MediaCard.displayName = 'MediaCard';

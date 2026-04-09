@@ -102,16 +102,15 @@ export const SubheaderInfo = ({
       <InteractiveIcon
         ref={ref}
         iconType={iconType}
+        icon={Information}
+        size={16}
         className={className}
         aria-label='More information'
         {...props}
-      >
-        <Information size={16} />
-      </InteractiveIcon>
+      />
     </span>
   );
 };
-SubheaderInfo.displayName = 'SubheaderInfo';
 
 /**
  * ShowMore component for the Subheader. Displays a static chevron right icon to indicate expandable content.

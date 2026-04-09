@@ -252,6 +252,7 @@ Below is a complete list of all available Lumen components. Click any component 
 - [Avatar](https://ldls.vercel.app/?path=/docs/communication-avatar--docs) - User avatar with image, initials, or placeholder
 - [Banner](https://ldls.vercel.app/?path=/docs/communication-banner--docs) - Alert and notification banners
 - [Button](https://ldls.vercel.app/?path=/docs/action-button--docs) - Primary action button component
+- [Card](https://ldls.vercel.app/?path=/docs/containment-card--docs) - Content container card
 - [CardButton](https://ldls.vercel.app/?path=/docs/action-cardbutton--docs) - Card-style interactive button
 - [Checkbox](https://ldls.vercel.app/?path=/docs/selection-checkbox--docs) - Checkbox input for selections
 - [ContentBanner](https://ldls.vercel.app/?path=/docs/communication-contentbanner--docs) - Rich content banner with image support
@@ -263,10 +264,15 @@ Below is a complete list of all available Lumen components. Click any component 
 - [InteractiveIcon](https://ldls.vercel.app/?path=/docs/action-interactiveicon--docs) - Interactive icon with states
 - [Link](https://ldls.vercel.app/?path=/docs/action-link--docs) - Hyperlink component
 - [ListItem](https://ldls.vercel.app/?path=/docs/containment-listitem--docs) - List item with flexible composition
+- [MediaBanner](https://ldls.vercel.app/?path=/docs/communication-mediabanner--docs) - Rich media banner with image and content
+- [MediaCard](https://ldls.vercel.app/?path=/docs/communication-mediacard--docs) - Card with media content
+- [MediaImage](https://ldls.vercel.app/?path=/docs/communication-mediaimage--docs) - Image display component with loading states
 - [Menu](https://ldls.vercel.app/?path=/docs/selection-menu--docs) - Dropdown menu component
 - [NavBar](https://ldls.vercel.app/?path=/docs/navigation-navbar--docs) - Top navigation bar
 - [PageIndicator](https://ldls.vercel.app/?path=/docs/communication-pageindicator--docs) - Step and page progress indicator
+- [Popover](https://ldls.vercel.app/?path=/docs/containment-popover--docs) - Popover overlay component
 - [SearchInput](https://ldls.vercel.app/?path=/docs/input-searchinput--docs) - Search input field
+- [SegmentedControl](https://ldls.vercel.app/?path=/docs/navigation-segmentedcontrol--docs) - Segmented control for toggling between views
 - [Select](https://ldls.vercel.app/?path=/docs/selection-select--docs) - Dropdown select component
 - [SideBar](https://ldls.vercel.app/?path=/docs/navigation-sidebar--docs) - Side navigation panel
 - [Skeleton](https://ldls.vercel.app/?path=/docs/communication-skeleton--docs) - Loading placeholder skeleton

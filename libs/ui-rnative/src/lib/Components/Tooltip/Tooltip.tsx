@@ -68,7 +68,6 @@ export const Tooltip = ({ children, onOpenChange }: TooltipProps) => {
     </TooltipContextProvider>
   );
 };
-Tooltip.displayName = 'Tooltip';
 
 /**
  * The trigger element that opens the tooltip when pressed.
@@ -114,7 +113,6 @@ export const TooltipTrigger = ({
     </Comp>
   );
 };
-TooltipTrigger.displayName = 'TooltipTrigger';
 
 export const TooltipContent = ({ title, content }: TooltipContentProps) => {
   const { setContentData } = useTooltipSafeContext({
@@ -131,4 +129,3 @@ export const TooltipContent = ({ title, content }: TooltipContentProps) => {
 
   return null;
 };
-TooltipContent.displayName = 'TooltipContent';

@@ -87,4 +87,3 @@ export const Switch = ({
     </SwitchPrimitive.Root>
   );
 };
-Switch.displayName = 'Switch';

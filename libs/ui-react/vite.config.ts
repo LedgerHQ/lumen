@@ -1,8 +1,23 @@
 /// <reference types='vitest' />
 import * as path from 'path';
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+
+const registerVisualizer = () => {
+  const isAnalyze = process.env['ANALYZE'] === 'true';
+  if (!isAnalyze) {
+    return undefined;
+  }
+
+  return visualizer({
+    filename: path.join(__dirname, 'dist/bundle-stats.html'),
+    open: true,
+    gzipSize: true,
+    brotliSize: true,
+  });
+};
 
 export default defineConfig(() => ({
   root: __dirname,
@@ -13,6 +28,7 @@ export default defineConfig(() => ({
       entryRoot: 'src',
       tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
     }),
+    registerVisualizer(),
   ],
   resolve: {
     preserveSymlinks: false,

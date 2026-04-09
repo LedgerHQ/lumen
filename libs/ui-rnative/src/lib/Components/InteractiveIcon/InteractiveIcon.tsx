@@ -1,9 +1,8 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { Children, isValidElement, PropsWithChildren } from 'react';
+import { ComponentType } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
-import { InjectStylesIntoChildren } from '../../utils/components/InjectStylesIntoChildren';
 import { IconProps, IconSize } from '../Icon';
 import { Pressable } from '../Utility';
 import { HIT_SLOP_MAP, InteractiveIconProps } from './types';
@@ -77,8 +76,7 @@ const useStyles = ({
  *
  * @component
  *
- * @warning Always provide an `aria-label` prop to ensure screen reader accessibility, as the component contains only an icon without visible text.
- * @warning The icon size should be controlled by the icon component itself, not through styles. Use the appropriate size prop on the icon component (e.g., `size={20}`).
+ * @warning Always provide an `accessibilityLabel` prop to ensure screen reader accessibility, as the component contains only an icon without visible text.
  * @warning The `style` prop should only be used for layout adjustments like margins or positioning. Do not use it to modify the component's core appearance (colors, padding, etc).
  *
  * @example
@@ -86,18 +84,15 @@ const useStyles = ({
  * import { DeleteCircleFill, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * // Filled interactive icon for destructive actions
- * <InteractiveIcon iconType="filled" accessibilityLabel="Delete item" onPress={handleDelete}>
- *   <DeleteCircleFill size={20} />
- * </InteractiveIcon>
+ * <InteractiveIcon iconType="filled" icon={DeleteCircleFill} size={20} accessibilityLabel="Delete item" onPress={handleDelete} />
  *
  * // Stroked interactive icon for secondary actions
- * <InteractiveIcon iconType="stroked" accessibilityLabel="Open settings" onPress={handleSettings}>
- *   <Settings size={20} />
- * </InteractiveIcon>
+ * <InteractiveIcon iconType="stroked" icon={Settings} size={20} accessibilityLabel="Open settings" onPress={handleSettings} />
  */
 export const InteractiveIcon = ({
   iconType,
-  children,
+  icon,
+  size = 24,
   disabled: disabledProp = false,
   hitSlop: hitSlopProp,
   hitSlopType = 'comfortable',
@@ -110,14 +105,8 @@ export const InteractiveIcon = ({
     consumerName: 'InteractiveIcon',
     mergeWith: { disabled: disabledProp },
   });
-  const child = Children.only(children);
 
-  let iconSize: IconSize = 20;
-  if (isValidElement<IconProps>(child) && 'size' in child.props) {
-    iconSize = child.props.size ?? 20;
-  }
-
-  const resolvedHitSlop = hitSlopProp ?? HIT_SLOP_MAP[hitSlopType]?.[iconSize];
+  const resolvedHitSlop = hitSlopProp ?? HIT_SLOP_MAP[hitSlopType]?.[size];
 
   return (
     <Pressable
@@ -135,9 +124,9 @@ export const InteractiveIcon = ({
           appearance={appearance}
           pressed={pressed}
           disabled={disabled}
-        >
-          {children}
-        </InteractiveIconContent>
+          icon={icon}
+          size={size}
+        />
       )}
     </Pressable>
   );
@@ -148,21 +137,21 @@ const InteractiveIconContent = ({
   appearance,
   pressed,
   disabled,
-  children,
-}: PropsWithChildren<{
+  icon: Icon,
+  size,
+}: {
   iconType: IconType;
   appearance: Appearance;
   pressed: boolean;
   disabled: boolean;
-}>) => {
+  icon: ComponentType<Omit<IconProps, 'children'>>;
+  size: IconSize;
+}) => {
   const styles = useStyles({ iconType, appearance, pressed, disabled });
 
   return (
     <View style={styles.container}>
-      <InjectStylesIntoChildren style={styles.icon}>
-        {children}
-      </InjectStylesIntoChildren>
+      <Icon size={size} style={styles.icon} />
     </View>
   );
 };
-InteractiveIcon.displayName = 'InteractiveIcon';

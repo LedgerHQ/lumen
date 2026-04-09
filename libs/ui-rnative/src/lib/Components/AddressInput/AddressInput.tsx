@@ -33,11 +33,11 @@ export const AddressInput = ({
     (onQrCodeClick && (
       <InteractiveIcon
         iconType='stroked'
+        icon={QrCode}
+        size={20}
         onPress={onQrCodeClick}
         accessibilityLabel={t('components.addressInput.qrCodeAriaLabel')}
-      >
-        <QrCode size={20} />
-      </InteractiveIcon>
+      />
     ));
 
   return (
@@ -62,5 +62,3 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
     [disabled],
   );
 };
-
-AddressInput.displayName = 'AddressInput';

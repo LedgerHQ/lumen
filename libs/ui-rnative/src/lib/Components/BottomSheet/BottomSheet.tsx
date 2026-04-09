@@ -57,7 +57,7 @@ const [BottomSheetProvider, useBottomSheetContext] =
     'BottomSheet',
   );
 
-const BottomSheet = ({
+export const BottomSheet = ({
   onOpen,
   onClose,
   onDismiss,
@@ -199,6 +199,5 @@ const BottomSheet = ({
     </GorhomBottomSheetModal>
   );
 };
-BottomSheet.displayName = 'BottomSheet';
 
-export { BottomSheet, useBottomSheetContext };
+export { useBottomSheetContext };

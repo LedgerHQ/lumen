@@ -45,6 +45,12 @@ const addPxUnitToNumber = (
 const filterPrimitives = (token: TransformedToken) =>
   !token.filePath.includes('1.primitives.value.json');
 
+const filterUtilityTokens = (token: TransformedToken): boolean =>
+  token.path[0] !== 'utility';
+
+const filterTokens = (token: TransformedToken): boolean =>
+  filterPrimitives(token) && filterUtilityTokens(token);
+
 StyleDictionary.registerFormat({
   name: 'javascript/custom-nested-object',
   format: function ({ dictionary, platform }) {
@@ -150,7 +156,7 @@ function getSDTypographyConfigForBreakpoint(breakpoint: string) {
           {
             destination: `typographies/typography.${breakpoint}.css`,
             format: 'css/variables',
-            filter: filterPrimitives,
+            filter: filterTokens,
             options: {
               outputReferences: true,
             },
@@ -169,7 +175,7 @@ function getSDTypographyConfigForBreakpoint(breakpoint: string) {
           {
             destination: `typographies/typography.${breakpoint}-css.ts`,
             format: 'javascript/custom-nested-object',
-            filter: filterPrimitives,
+            filter: filterTokens,
           },
         ],
         options: {
@@ -201,7 +207,7 @@ function getSDThemeConfig(brand: string, theme: string) {
             options: {
               outputReferences: true,
             },
-            filter: filterPrimitives,
+            filter: filterTokens,
           },
         ],
         actions: ['remove-default-suffix', 'prettier'],
@@ -213,7 +219,7 @@ function getSDThemeConfig(brand: string, theme: string) {
           {
             destination: `theme.${theme.toLowerCase()}-css.ts`,
             format: 'javascript/custom-nested-object',
-            filter: filterPrimitives,
+            filter: filterTokens,
           },
         ],
         actions: ['remove-default-suffix', 'prettier'],

@@ -127,7 +127,6 @@ export const SideBar = ({
     </SideBarProvider>
   );
 };
-SideBar.displayName = 'SideBar';
 
 /**
  * Container for the leading (top) section of the sidebar.
@@ -149,7 +148,6 @@ export const SideBarLeading = ({
     </div>
   );
 };
-SideBarLeading.displayName = 'SideBarLeading';
 
 /**
  * Container for the trailing (bottom) section of the sidebar.
@@ -172,7 +170,6 @@ export const SideBarTrailing = ({
     </div>
   );
 };
-SideBarTrailing.displayName = 'SideBarTrailing';
 
 /**
  * A navigation item within the sidebar.
@@ -263,7 +260,6 @@ export const SideBarItem = ({
     </Tooltip>
   );
 };
-SideBarItem.displayName = 'SideBarItem';
 
 /**
  * Collapse toggle button for the sidebar.
@@ -322,4 +318,3 @@ export const SideBarCollapseToggle = ({
     </Tooltip>
   );
 };
-SideBarCollapseToggle.displayName = 'SideBarCollapseToggle';

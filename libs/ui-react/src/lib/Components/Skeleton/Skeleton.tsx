@@ -14,7 +14,6 @@ const BaseSkeleton = ({ className, ref, ...props }: BaseSkeletonProps) => {
     />
   );
 };
-BaseSkeleton.displayName = 'BaseSkeleton';
 
 const ListItemSkeleton = ({ className, ref, ...props }: BaseSkeletonProps) => {
   return (
@@ -32,7 +31,6 @@ const ListItemSkeleton = ({ className, ref, ...props }: BaseSkeletonProps) => {
     </div>
   );
 };
-ListItemSkeleton.displayName = 'ListItemSkeleton';
 
 const TileSkeleton = ({ className, ref, ...props }: BaseSkeletonProps) => {
   return (
@@ -53,7 +51,6 @@ const TileSkeleton = ({ className, ref, ...props }: BaseSkeletonProps) => {
     </div>
   );
 };
-TileSkeleton.displayName = 'TileSkeleton';
 
 const TableSkeleton = ({ className, ref, ...props }: BaseSkeletonProps) => {
   return (
@@ -113,6 +110,5 @@ const Skeleton = ({ className, component, ref, ...props }: SkeletonProps) => {
     />
   );
 };
-Skeleton.displayName = 'Skeleton';
 
 export { Skeleton };

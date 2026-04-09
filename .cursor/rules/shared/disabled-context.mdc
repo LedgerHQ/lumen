@@ -1,18 +1,8 @@
 ---
-description:
+description: Shared disabled context pattern for component state inheritance
 globs:
 alwaysApply: true
 ---
-
-
-# class-variance-authority (cva)
-- Use cva at the top of the file to compose classnames when there is variants composition
-- Use cva at the top of the file when there are lots of classnames to declare for a given element
-- Otherwise, when there are only few classnames, just set them inline in the JSX part of the component
-
-# Props drill
-- Properties of a component should be always be props drilled to the top-level element to avoid any misleading.
-- In case of an exception such as passing a nested ref or nested classname, you should consider having different properties names
 
 # Shared disabled context
 Source of truth: `libs/utils-shared/src/lib/context/disabledContext.tsx`

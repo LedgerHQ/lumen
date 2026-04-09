@@ -97,8 +97,6 @@ export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
   );
 }
 
-NavBarTitle.displayName = 'NavBarTitle';
-
 export function NavBarDescription({
   children,
   style,
@@ -121,8 +119,6 @@ export function NavBarDescription({
   );
 }
 
-NavBarDescription.displayName = 'NavBarDescription';
-
 export function NavBarCoinCapsule({
   ticker,
   icon,
@@ -134,8 +130,6 @@ export function NavBarCoinCapsule({
     </Box>
   );
 }
-
-NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
 
 export function NavBarBackButton({
   accessibilityLabel,
@@ -229,8 +223,6 @@ export function NavBar({ appearance, children, ...props }: NavBarProps) {
     </NavBarProvider>
   );
 }
-
-NavBar.displayName = 'NavBar';
 
 type StyleParams = {
   appearance: NavBarAppearance;

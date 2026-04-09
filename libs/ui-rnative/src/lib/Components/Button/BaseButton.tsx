@@ -232,5 +232,3 @@ const BaseButtonContent = ({
     </View>
   );
 };
-
-BaseButton.displayName = 'BaseButton';

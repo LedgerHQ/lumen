@@ -46,8 +46,6 @@ export const ContentBannerContent = ({
   );
 };
 
-ContentBannerContent.displayName = 'ContentBannerContent';
-
 /**
  * The main title of the content banner.
  */
@@ -91,8 +89,6 @@ export const ContentBannerTitle = ({
   );
 };
 
-ContentBannerTitle.displayName = 'ContentBannerTitle';
-
 /**
  * Optional description text below the title.
  */
@@ -135,8 +131,6 @@ export const ContentBannerDescription = ({
     </Box>
   );
 };
-
-ContentBannerDescription.displayName = 'ContentBannerDescription';
 
 /**
  * A content banner component for displaying a composable banner with an optional
@@ -209,18 +203,16 @@ export const ContentBanner = ({
         <View style={styles.closeButton}>
           <InteractiveIcon
             iconType='stroked'
+            icon={Close}
+            size={16}
             testID='content-banner-close-button'
             onPress={() => onClose()}
             accessibilityLabel={
               closeAccessibilityLabel || t('components.banner.closeAriaLabel')
             }
-          >
-            <Close size={16} />
-          </InteractiveIcon>
+          />
         </View>
       )}
     </Box>
   );
 };
-
-ContentBanner.displayName = 'ContentBanner';

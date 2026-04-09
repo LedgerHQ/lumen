@@ -84,12 +84,12 @@ export const AddressInput = ({
     (onQrCodeClick && (
       <InteractiveIcon
         iconType='filled'
+        icon={QrCodeIcon}
+        size={20}
         onClick={onQrCodeClick}
         aria-label={t('components.addressInput.qrCodeAriaLabel')}
         className='group-has-disabled:text-disabled'
-      >
-        <QrCodeIcon size={20} />
-      </InteractiveIcon>
+      />
     ));
 
   return (
@@ -101,5 +101,3 @@ export const AddressInput = ({
     />
   );
 };
-
-AddressInput.displayName = 'AddressInput';

@@ -249,5 +249,3 @@ const useStyles = ({
     [hasValue, isEditable, isInvalid],
   );
 };
-
-AmountInput.displayName = 'AmountInput';

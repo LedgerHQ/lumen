@@ -199,5 +199,3 @@ const LinkContent = ({
     </View>
   );
 };
-
-Link.displayName = 'Link';

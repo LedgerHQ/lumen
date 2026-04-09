@@ -61,21 +61,19 @@ export const MediaBanner = ({
           type='button'
           iconType='stroked'
           appearance='white'
+          icon={Close}
+          size={16}
           className='absolute top-8 right-8'
           onClick={(e) => {
             e.stopPropagation();
             onClose();
           }}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
-        >
-          <Close size={16} />
-        </InteractiveIcon>
+        />
       )}
     </div>
   );
 };
-
-MediaBanner.displayName = 'MediaBanner';
 
 /**
  * The title of the MediaBanner. Clamps at 1 line.
@@ -97,8 +95,6 @@ export const MediaBannerTitle = ({
   );
 };
 
-MediaBannerTitle.displayName = 'MediaBannerTitle';
-
 /**
  * The description of the MediaBanner. Clamps at 2 lines.
  */
@@ -118,5 +114,3 @@ export const MediaBannerDescription = ({
     </div>
   );
 };
-
-MediaBannerDescription.displayName = 'MediaBannerDescription';
