@@ -143,13 +143,13 @@ export const BaseInput = ({
               {showClearButton ? (
                 <InteractiveIcon
                   iconType='stroked'
+                  icon={DeleteCircleFill}
+                  size={20}
                   onPress={handleClear}
                   accessibilityLabel={t(
                     'components.baseInput.clearInputAriaLabel',
                   )}
-                >
-                  <DeleteCircleFill size={20} />
-                </InteractiveIcon>
+                />
               ) : (
                 suffix
               )}

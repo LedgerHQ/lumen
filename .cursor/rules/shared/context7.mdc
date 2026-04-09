@@ -18,6 +18,6 @@ Context7 provides up-to-date documentation for libraries and frameworks. Use it 
 
 **Do NOT use Context7 for:**
 
-- Internal codebase questions (use `codebase_search` instead)
+- Internal codebase questions (use the search tools instead)
 - Project-specific patterns or conventions
 - Questions about our design system tokens
