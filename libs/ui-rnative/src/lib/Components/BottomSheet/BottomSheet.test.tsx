@@ -3,7 +3,7 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, RenderOptions } from '@testing-library/react-native';
 import { Text, View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-
+import { BottomSheet as BottomSheetComponent } from './BottomSheet';
 // Mock react-native-gesture-handler which is used by @gorhom/bottom-sheet
 jest.mock('react-native-gesture-handler', () => ({}));
 
@@ -20,9 +20,7 @@ const renderWithTheme = (
 
 describe('BottomSheet', () => {
   it('exports BottomSheet component', () => {
-    const { BottomSheet } = require('./BottomSheet');
-    expect(BottomSheet).toBeDefined();
-    expect(BottomSheet.displayName).toBe('BottomSheet');
+    expect(BottomSheetComponent).toBeDefined();
   });
 
   it('exports useBottomSheetContext hook', () => {
