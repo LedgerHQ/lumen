@@ -233,7 +233,7 @@ export const ledgerLiveLightColorTokens = {
     gradient30: primitiveColorTokens.light.grey['050-30'], // Added missing token from CSS (uses light grey 050)
     gradient0: primitiveColorTokens.light.grey['950-0'],
     gradientOverlay80: primitiveColorTokens.light.grey['950-80'], // Added missing token from CSS
-    gradientOverlay0: primitiveColorTokens.light.grey['950-0'],   // Added missing token from CSS
+    gradientOverlay0: primitiveColorTokens.light.grey['950-0'], // Added missing token from CSS
   },
   text: {
     black: primitiveColorTokens.light.constant['950'],

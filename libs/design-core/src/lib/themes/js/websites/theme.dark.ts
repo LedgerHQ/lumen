@@ -233,7 +233,7 @@ export const websitesDarkColorTokens = {
     gradient30: primitiveColorTokens.dark.grey['050-30'], // Added missing token from CSS
     gradient0: primitiveColorTokens.dark.grey['050-0'],
     gradientOverlay80: primitiveColorTokens.dark.grey['050-80'], // Added missing token from CSS
-    gradientOverlay0: primitiveColorTokens.dark.grey['050-0'],   // Added missing token from CSS
+    gradientOverlay0: primitiveColorTokens.dark.grey['050-0'], // Added missing token from CSS
   },
   text: {
     black: primitiveColorTokens.dark.constant['950'],
