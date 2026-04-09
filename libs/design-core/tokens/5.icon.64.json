@@ -2,7 +2,7 @@
   "icon": {
     "icon-width": {
       "$type": "number",
-      "$value": "{icon-width.48}",
+      "$value": "{icon-width.64}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -16,7 +16,7 @@
     },
     "icon-height": {
       "$type": "number",
-      "$value": "{icon-height.48}",
+      "$value": "{icon-height.64}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -30,7 +30,7 @@
     },
     "icon-border-width": {
       "$type": "number",
-      "$value": "{icon-border-width.48}",
+      "$value": "{icon-border-width.64}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -58,7 +58,7 @@
     },
     "icon-radius-square": {
       "$type": "number",
-      "$value": "{border-radius.md}",
+      "$value": "{border-radius.lg}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -72,7 +72,7 @@
     },
     "icon-font-size": {
       "$type": "number",
-      "$value": "{font.size.24}",
+      "$value": "{font.size.32}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -86,7 +86,7 @@
     },
     "spinner-border-width": {
       "$type": "number",
-      "$value": "{spinner-border-width.48}",
+      "$value": "{spinner-border-width.64}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -102,7 +102,7 @@
   "icon-multiple": {
     "icon-multiple-network-spacing": {
       "$type": "number",
-      "$value": -4,
+      "$value": -5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -116,7 +116,7 @@
     },
     "icon-multiple-coin-spacing": {
       "$type": "number",
-      "$value": -11.5,
+      "$value": -13.5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -130,7 +130,7 @@
     },
     "icon-multiple-radius": {
       "$type": "number",
-      "$value": 16,
+      "$value": 20,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -146,7 +146,7 @@
   "payment": {
     "payment-radius": {
       "$type": "number",
-      "$value": 4,
+      "$value": 5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -162,7 +162,7 @@
   "dot-symbol": {
     "dot-symbol-width": {
       "$type": "number",
-      "$value": "{icon-width.20}",
+      "$value": "{icon-width.24}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -176,7 +176,7 @@
     },
     "dot-symbol-height": {
       "$type": "number",
-      "$value": "{icon-height.20}",
+      "$value": "{icon-height.24}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -190,7 +190,7 @@
     },
     "dot-symbol-radius-square": {
       "$type": "number",
-      "$value": 6,
+      "$value": "{border-radius.sm}",
       "$description": "",
       "$extensions": {
         "com.figma": {
