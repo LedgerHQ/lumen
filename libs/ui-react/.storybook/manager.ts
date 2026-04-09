@@ -51,7 +51,7 @@ const renderFlagBadge = (tag: FlagTag): ReactNode => {
         display: 'inline-flex',
         alignItems: 'center',
         height: 16,
-        padding: '0 6px',
+        padding: '2px 6px',
         borderRadius: 999,
         border: `1px solid ${styles.border}`,
         background: styles.background,
@@ -86,7 +86,7 @@ const renderLabelWithFlags = (
       style: {
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 6,
+        gap: 10,
         minWidth: 0,
       },
     },
