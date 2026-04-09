@@ -15,7 +15,7 @@ const useStyles = () =>
       root: {
         position: 'relative',
         width: t.sizes.full,
-        height: CARD_HEIGHT,
+        minHeight: CARD_HEIGHT,
         borderRadius: t.borderRadius.md,
         overflow: 'hidden',
         flexDirection: 'column',
