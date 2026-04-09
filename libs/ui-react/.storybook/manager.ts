@@ -86,7 +86,7 @@ const renderLabelWithFlags = (
       style: {
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 10,
+        gap: 6,
         minWidth: 0,
       },
     },
