@@ -29,7 +29,7 @@ const useRootStyles = ({ pressed }: { pressed: boolean }) => {
         {
           flexDirection: 'row',
           alignItems: 'center',
-          height: t.sizes.s64,
+          minHeight: t.sizes.s64,
           width: t.sizes.full,
           gap: t.spacings.s16,
           borderRadius: t.borderRadius.md,
@@ -265,11 +265,11 @@ export const ListItemTitle = ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
-          flex: 1,
           minWidth: 0,
           flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
+          ...(!isInTrailing && { flex: 1 }),
         } as const,
       ]),
     }),
@@ -315,11 +315,11 @@ export const ListItemDescription = ({
       description: StyleSheet.flatten([
         t.typographies.body3,
         {
-          flex: 1,
           minWidth: 0,
           flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
+          ...(!isInTrailing && { flex: 1 }),
         } as const,
       ]),
     }),
