@@ -8,7 +8,7 @@ import {
 export type OptionListItemData = {
   /** Unique string identifier for this item, used for selection tracking. */
   value: string;
-  /** Display text. Also the field matched against by the default search filter. */
+  /** Display text. */
   label: string;
   /** When true, the item cannot be selected or focused. */
   disabled?: boolean;
@@ -21,7 +21,7 @@ export type OptionListItemData = {
   /**
    * Arbitrary data attached to this item.
    * Use it to carry extra fields (icons, tickers, IDs, etc.)
-   * that your render function or custom filter needs.
+   * that your render function needs.
    */
   meta?: Record<string, unknown>;
 };
@@ -52,16 +52,6 @@ export type OptionListProps = {
   onValueChange?: (value: string | null) => void;
   /** When true, prevents interaction with the entire list. */
   disabled?: boolean;
-  /**
-   * Custom filter function applied to each item.
-   * Prepared for future search integration.
-   */
-  filter?: (item: OptionListItemData, inputValue: string) => boolean;
-  /**
-   * Pre-filtered items that override the default filtering.
-   * Prepared for future search integration.
-   */
-  filteredItems?: OptionListItemData[];
   children: ReactNode;
 };
 
@@ -99,4 +89,11 @@ export type OptionListItemContentProps = {
 
 export type OptionListItemLeadingProps = {
   children: ReactNode;
+} & Omit<StyledViewProps, 'children'>;
+
+export type OptionListEmptyStateProps = {
+  /** Heading displayed when the list is empty. */
+  title: string;
+  /** Optional secondary text displayed below the title. */
+  description?: string;
 } & Omit<StyledViewProps, 'children'>;

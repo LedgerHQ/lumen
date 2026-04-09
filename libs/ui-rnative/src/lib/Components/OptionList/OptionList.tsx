@@ -21,6 +21,7 @@ import type {
   OptionListItemDescriptionProps,
   OptionListItemContentProps,
   OptionListItemContentRowProps,
+  OptionListEmptyStateProps,
 } from './types';
 import { useOptionListItems } from './useOptionList/useOptionListItems';
 
@@ -33,8 +34,6 @@ export const OptionList = ({
   defaultValue,
   onValueChange,
   disabled: disabledProp,
-  filter,
-  filteredItems,
   children,
 }: OptionListProps) => {
   const disabled = useDisabledContext({
@@ -50,11 +49,7 @@ export const OptionList = ({
     },
   );
 
-  const { isGrouped, groups, flatItems } = useOptionListItems({
-    items,
-    filter,
-    filteredItems,
-  });
+  const { isGrouped, groups, flatItems } = useOptionListItems({ items });
 
   return (
     <DisabledProvider value={{ disabled }}>
@@ -385,3 +380,53 @@ const OptionListLabel = ({ children }: { children: string }) => (
 );
 
 OptionListLabel.displayName = 'OptionListLabel';
+
+export const OptionListEmptyState = ({
+  title,
+  description,
+  lx,
+  style,
+  ref,
+  ...props
+}: OptionListEmptyStateProps) => {
+  const { flatItems } = useOptionListContext({
+    consumerName: 'OptionListEmptyState',
+    contextRequired: true,
+  });
+
+  const styles = useStyleSheet(
+    (t) => ({
+      container: {
+        width: '100%',
+        alignItems: 'center',
+        gap: t.spacings.s8,
+        paddingVertical: t.spacings.s24,
+      },
+      title: StyleSheet.flatten([
+        t.typographies.heading4SemiBold,
+        { color: t.colors.text.base },
+      ]),
+      description: StyleSheet.flatten([
+        t.typographies.body2,
+        { color: t.colors.text.muted },
+      ]),
+    }),
+    [],
+  );
+
+  if (flatItems.length > 0) return null;
+
+  return (
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
+      {...props}
+    >
+      <Text style={styles.title}>{title}</Text>
+      {description && <Text style={styles.description}>{description}</Text>}
+    </Box>
+  );
+};
+
+OptionListEmptyState.displayName = 'OptionListEmptyState';

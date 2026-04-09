@@ -13,13 +13,6 @@ const groupByField = (items: OptionListItemData[]): OptionListItemGroup[] =>
 const hasGroups = (items: OptionListItemData[]): boolean =>
   items.some((item) => item.group != null);
 
-const resolveItems = (
-  items: OptionListItemData[],
-  filter?: (item: OptionListItemData, inputValue: string) => boolean,
-  filteredItems?: OptionListItemData[],
-): OptionListItemData[] =>
-  filteredItems ?? (filter ? items.filter((item) => filter(item, '')) : items);
-
 const toResult = (items: OptionListItemData[]): UseOptionListItemsResult => {
   const isGrouped = hasGroups(items);
   return isGrouped
@@ -29,8 +22,6 @@ const toResult = (items: OptionListItemData[]): UseOptionListItemsResult => {
 
 type UseOptionListItemsParams = {
   items: OptionListItemData[];
-  filter?: (item: OptionListItemData, inputValue: string) => boolean;
-  filteredItems?: OptionListItemData[];
 };
 
 type UseOptionListItemsResult = {
@@ -41,10 +32,5 @@ type UseOptionListItemsResult = {
 
 export const useOptionListItems = ({
   items,
-  filter,
-  filteredItems,
 }: UseOptionListItemsParams): UseOptionListItemsResult =>
-  useMemo(
-    () => toResult(resolveItems(items, filter, filteredItems)),
-    [items, filter, filteredItems],
-  );
+  useMemo(() => toResult(items), [items]);

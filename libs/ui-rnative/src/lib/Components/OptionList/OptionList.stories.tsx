@@ -16,6 +16,7 @@ import { Box, Text } from '../Utility';
 import {
   OptionList,
   OptionListContent,
+  OptionListEmptyState,
   OptionListItem,
   OptionListItemLeading,
   OptionListItemContent,
@@ -483,6 +484,48 @@ export const GroupedWithContentRow: Story = {
               />
             </OptionList>
           </BottomSheetScrollView>
+        </BottomSheet>
+      </>
+    );
+  },
+};
+
+export const EmptyState: Story = {
+  render: () => {
+    const bottomSheetRef = useBottomSheetRef();
+
+    return (
+      <>
+        <TriggerButton
+          appearance='gray'
+          onPress={() => bottomSheetRef.current?.present()}
+        >
+          Select currency
+        </TriggerButton>
+        <BottomSheet
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          snapPoints={null}
+          onClose={() => bottomSheetRef.current?.dismiss()}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader title='Select currency' />
+            <OptionList items={[]} value={null}>
+              <OptionListContent
+                renderItem={(item) => (
+                  <OptionListItem value={item.value}>
+                    <OptionListItemContent>
+                      <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                    </OptionListItemContent>
+                  </OptionListItem>
+                )}
+              />
+              <OptionListEmptyState
+                title='No options available'
+                description='There are no items to display'
+              />
+            </OptionList>
+          </BottomSheetView>
         </BottomSheet>
       </>
     );
