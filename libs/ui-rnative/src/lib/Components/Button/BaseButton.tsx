@@ -121,7 +121,7 @@ const useStyles = ({
           typography,
           {
             color: disabled ? t.colors.text.disabled : textColors[appearance],
-            textAlign: 'left',
+            textAlign: 'center',
           },
         ]),
         icon: {
