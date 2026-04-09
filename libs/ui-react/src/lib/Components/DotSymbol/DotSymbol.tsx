@@ -121,16 +121,14 @@ export const DotSymbol = ({
     <div
       ref={ref}
       className={cn('relative inline-flex w-fit', className)}
-      role='img'
-      aria-label={alt}
       {...rest}
     >
       <div className='inline-flex'>{children}</div>
       <div className={dotVariants({ size, shape, pin })} style={style}>
         {!error && (
           <img
+            alt={alt}
             src={src}
-            alt=''
             aria-hidden='true'
             onError={() => setError(true)}
           />

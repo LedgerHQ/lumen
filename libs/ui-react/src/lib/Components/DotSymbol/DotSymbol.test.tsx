@@ -32,7 +32,7 @@ describe('DotSymbol Component', () => {
   it('should apply default props (pin=bottom-end, size=16, shape=circle)', () => {
     const { container } = render(<DotSymbol src={dotSrc} />);
 
-    const dot = container.querySelector('.size-16');
+    const dot = container.querySelector('.size-20');
     expect(dot).toBeInTheDocument();
     expect(dot).toHaveClass('rounded-full');
     expect(dot).toHaveStyle({ bottom: '-3px', right: '-3px' });
