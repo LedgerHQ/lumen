@@ -76,6 +76,7 @@ const useStyles = ({
           backgroundColor: t.colors.bg.mutedTransparent,
           width: spotSize,
           height: spotSize,
+          flexShrink: 0,
         },
         icon: {
           color: contentColor,
