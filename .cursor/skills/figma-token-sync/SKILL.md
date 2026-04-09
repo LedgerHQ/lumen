@@ -250,6 +250,15 @@ for file in libs/design-core/src/lib/themes/js/*/theme*.ts; do
     echo "$file: $(grep -c "Added missing token" "$file") new tokens"
   fi
 done
+
+# Verify no linting errors were introduced
+echo "=== CHECKING FOR LINTING ISSUES IN THEME FILES ==="
+npx nx lint @ledgerhq/lumen-design-core --max-warnings=0
+if [ $? -eq 0 ]; then
+  echo "✅ All theme files pass linting"
+else
+  echo "❌ Linting errors found - run 'npx nx lint @ledgerhq/lumen-design-core --fix' to auto-fix"
+fi
 ```
 
 ### Step 2: Token Count Validation
@@ -320,6 +329,12 @@ done
 ```bash
 # Type check (must pass)
 npx tsc --noEmit --project libs/design-core/tsconfig.json
+
+# Lint validation (must pass) - CRITICAL for code quality
+npx nx lint @ledgerhq/lumen-design-core
+
+# Auto-fix linting issues if possible
+npx nx lint @ledgerhq/lumen-design-core --fix
 
 # Build validation  
 npx nx build @ledgerhq/lumen-design-core
@@ -414,6 +429,7 @@ After completing a token sync, document what was changed:
   - [ ] gradient40, gradient30, gradientOverlay80, gradientOverlay0 exist in all theme files
 - [ ] Token count validation: CSS vs JS counts are consistent
 - [ ] Type checking passed: `npx tsc --noEmit --project libs/design-core/tsconfig.json`
+- [ ] Lint validation passed: `npx nx lint @ledgerhq/lumen-design-core`
 - [ ] Build validation: `npx nx build @ledgerhq/lumen-design-core`
 - [ ] Tests passed: `npx nx test @ledgerhq/lumen-design-core`
 
@@ -451,6 +467,7 @@ After completing a token sync, document what was changed:
    
 3. **Technical Validation**:
    - ✅ **No type errors** in design-core
+   - ✅ **Lint validation passes** - code follows project standards
    - ✅ **Build succeeds** without errors
    - ✅ **Tests pass** for design-core
    
