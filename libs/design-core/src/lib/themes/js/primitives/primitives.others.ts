@@ -135,12 +135,10 @@ export const primitiveLayoutTokens = {
     full: 10000,
   },
   stroke: {
-    s05: 0.5,
     s1: 1,
     s2: 2,
   },
   borderWidth: {
-    s05: 0.5,
     s1: 1,
     s2: 2,
   },

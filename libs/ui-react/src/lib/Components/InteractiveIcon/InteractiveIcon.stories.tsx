@@ -20,13 +20,13 @@ const meta: Meta<typeof InteractiveIcon> = {
     },
   },
   argTypes: {
-    children: {
+    icon: {
       control: 'select',
       options: ['Settings', 'PenEdit', 'DeleteCircleFill'],
       mapping: {
-        Settings: <Settings />,
-        PenEdit: <PenEdit />,
-        DeleteCircleFill: <DeleteCircleFill />,
+        Settings,
+        PenEdit,
+        DeleteCircleFill,
       },
     },
   },
@@ -38,16 +38,14 @@ type Story = StoryObj<typeof InteractiveIcon>;
 export const Filled: Story = {
   args: {
     iconType: 'filled',
-    children: <DeleteCircleFill />,
+    icon: DeleteCircleFill,
     'aria-label': 'Delete',
   },
   parameters: {
     docs: {
       source: {
         code: `
-<InteractiveIcon iconType="filled" aria-label="Delete">
-  <DeleteCircleFill />
-</InteractiveIcon>
+<InteractiveIcon iconType="filled" icon={DeleteCircleFill} aria-label="Delete" />
 `,
       },
     },
@@ -57,16 +55,14 @@ export const Filled: Story = {
 export const Stroked: Story = {
   args: {
     iconType: 'stroked',
-    children: <MoreVertical />,
+    icon: MoreVertical,
     'aria-label': 'More actions',
   },
   parameters: {
     docs: {
       source: {
         code: `
-<InteractiveIcon iconType="stroked" aria-label="More actions">
-  <MoreVertical />
-</InteractiveIcon>
+<InteractiveIcon iconType="stroked" icon={MoreVertical} aria-label="More actions" />
 `,
       },
     },
@@ -79,15 +75,19 @@ export const IconTypeShowcase: Story = {
       <div className='flex gap-16 p-8'>
         <div className='flex flex-col items-center gap-4'>
           <span className='text-muted'>Filled</span>
-          <InteractiveIcon iconType='filled' aria-label='Delete'>
-            <DeleteCircleFill />
-          </InteractiveIcon>
+          <InteractiveIcon
+            iconType='filled'
+            icon={DeleteCircleFill}
+            aria-label='Delete'
+          />
         </div>
         <div className='flex flex-col items-center gap-4'>
           <span className='text-muted'>Stroked</span>
-          <InteractiveIcon iconType='stroked' aria-label='More actions'>
-            <MoreVertical />
-          </InteractiveIcon>
+          <InteractiveIcon
+            iconType='stroked'
+            icon={MoreVertical}
+            aria-label='More actions'
+          />
         </div>
       </div>
     );
@@ -102,9 +102,12 @@ export const SizesShowcase: Story = {
         {iconSizes.map((size) => (
           <div className='flex items-center gap-16' key={size}>
             <div className='flex w-56 justify-center'>
-              <InteractiveIcon key={size} iconType='stroked' aria-label='More'>
-                <MoreVertical size={size} />
-              </InteractiveIcon>
+              <InteractiveIcon
+                iconType='stroked'
+                icon={MoreVertical}
+                size={size}
+                aria-label='More'
+              />
             </div>
             <div>{size}px</div>
           </div>
@@ -120,31 +123,37 @@ export const StatesShowcase: Story = {
       <div className='flex gap-16 bg-base p-8'>
         <div className='flex flex-col items-center gap-4'>
           <span className='text-muted'>Filled enabled</span>
-          <InteractiveIcon iconType='filled' aria-label='Delete'>
-            <DeleteCircleFill />
-          </InteractiveIcon>
+          <InteractiveIcon
+            iconType='filled'
+            icon={DeleteCircleFill}
+            aria-label='Delete'
+          />
         </div>
         <div className='flex flex-col items-center gap-4'>
           <span className='text-muted'>Stroked enabled</span>
-          <InteractiveIcon iconType='stroked' aria-label='More actions'>
-            <MoreVertical />
-          </InteractiveIcon>
+          <InteractiveIcon
+            iconType='stroked'
+            icon={MoreVertical}
+            aria-label='More actions'
+          />
         </div>
         <div className='flex flex-col items-center gap-4'>
           <span className='text-muted'>Filled disabled</span>
-          <InteractiveIcon iconType='filled' aria-label='Delete' disabled>
-            <DeleteCircleFill />
-          </InteractiveIcon>
+          <InteractiveIcon
+            iconType='filled'
+            icon={DeleteCircleFill}
+            aria-label='Delete'
+            disabled
+          />
         </div>
         <div className='flex flex-col items-center gap-4'>
           <span className='text-muted'>Stroked disabled</span>
           <InteractiveIcon
             iconType='stroked'
+            icon={MoreVertical}
             aria-label='More actions'
             disabled
-          >
-            <MoreVertical />
-          </InteractiveIcon>
+          />
         </div>
       </div>
     );

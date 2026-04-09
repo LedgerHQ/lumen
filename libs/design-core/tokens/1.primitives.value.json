@@ -8319,18 +8319,6 @@
           "codeSyntax": {}
         }
       }
-    },
-    "0,5": {
-      "$type": "number",
-      "$value": 0.5,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": true,
-          "scopes": [],
-          "codeSyntax": {}
-        }
-      }
     }
   },
   "font": {

@@ -1,3 +1,9 @@
+---
+description: Storybook story conventions: layout, naming, and export patterns
+globs: *.stories.tsx
+alwaysApply: false
+---
+
 # Storybook Story Guidelines
 
 When creating or modifying Storybook stories, follow these conventions strictly:
@@ -31,21 +37,21 @@ To maintain consistency across our Storybook documentation, follow these naming 
 
 The default, most basic usage of the component.
 
-- ✅ Use: `Base`
-- ❌ Do not use: `Default`, `Primary`, `Basic`
+- Use: `Base`
+- Do not use: `Default`, `Primary`, `Basic`
 
 #### 2. Showcase Stories
 
 Showcase stories demonstrate variations of a single property.
 
-- ✅ Use the pattern: `{Property}Showcase`
-- ❌ Do not use: `States`, `AllStates`, `StatesShowcase`
+- Use the pattern: `{Property}Showcase`
+- Do not use: `States`, `AllStates`, `StatesShowcase`
 
 #### 3. Feature-Specific Stories
 
 Stories highlighting specific features.
 
-- ✅ Use: `With{Feature}` (e.g., `WithIcon`, `WithTooltip`)
+- Use: `With{Feature}` (e.g., `WithIcon`, `WithTooltip`)
 
 ## General Principles
 

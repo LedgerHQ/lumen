@@ -1739,22 +1739,6 @@
           }
         }
       },
-      "base-inverted": {
-        "default": {
-          "$type": "color",
-          "$value": "{color.light.grey.050}",
-          "$description": "",
-          "$extensions": {
-            "com.figma": {
-              "hiddenFromPublishing": true,
-              "scopes": [],
-              "codeSyntax": {
-                "WEB": "var(--color-border-base-inverted);"
-              }
-            }
-          }
-        }
-      },
       "disabled": {
         "default": {
           "$type": "color",

@@ -1,18 +1,18 @@
 ---
-description: Always-applied design system rules (typography, colors, spacing)
-globs:
-alwaysApply: true
+description: Tailwind design system token usage: typography, colors, spacing, sizes, shadows, gradients
+globs: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts
+alwaysApply: false
 ---
 
 - Use the figma mcp server when working from Figma, but these rules always apply even without it.
-- You can see our custom Tailwind plugins in `libs/design-core/src/presets/allBrands.ts`.
+- You can see our custom Tailwind plugins in `libs/design-core/src/lib/presets/allBrands.ts`.
 - All `-default` suffixes are removed via code syntax, so omit them from Tailwind utilities.
 
 # Typography Utilities Guidelines
 
 - Do not use Tailwind Typography utilities (e.g., `font-bold`, `text-sm`, etc.).
 - Use our custom typography utilities from the design system.
-- Source of truth: `libs/design-core/src/utils/create-custom-plugin.ts` (see `createTypographyPlugin`).
+- Source of truth: `libs/design-core/src/lib/utils/createCustomPlugin.ts` (see `createTypographyPlugin`).
 - Available utility classes include:
   - `.responsive-display-1` to `.responsive-display-4`
   - `.heading-0`, `.heading-0-semi-bold` through `.heading-4`, `.heading-4-semi-bold`
@@ -54,7 +54,7 @@ Sizes available for width, height, max-width, max-height, min-width, min-height 
 
 Before using width/height utilities:
 
-1. Check `libs/design-core/src/lib/themes/primitives.ts` for `--size-*` tokens
+1. Check `libs/design-core/src/lib/themes/primitives.css` for `--size-*` tokens
 2. Or use VSCode IntelliSense with Tailwind CSS extension
 3. If uncertain, use the Tailwind CSS IntelliSense autocomplete
 
