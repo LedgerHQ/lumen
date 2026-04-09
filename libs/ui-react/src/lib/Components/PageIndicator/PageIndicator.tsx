@@ -142,5 +142,3 @@ export const PageIndicator = ({
     </div>
   );
 };
-
-PageIndicator.displayName = 'PageIndicator';

@@ -116,5 +116,3 @@ export const Stepper = ({
     </div>
   );
 };
-
-Stepper.displayName = 'Stepper';

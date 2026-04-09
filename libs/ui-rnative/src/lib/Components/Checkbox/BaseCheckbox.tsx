@@ -50,7 +50,6 @@ const BaseCheckboxRoot = ({
     </BaseCheckboxProvider>
   );
 };
-BaseCheckboxRoot.displayName = ROOT_COMPONENT_NAME;
 
 const BaseCheckboxTrigger = ({
   asChild,
@@ -95,7 +94,6 @@ const BaseCheckboxTrigger = ({
     />
   );
 };
-BaseCheckboxTrigger.displayName = TRIGGER_COMPONENT_NAME;
 
 type BaseCheckboxIndicatorProps = ForceMountable & SlottableViewProps;
 const BaseCheckboxIndicator = ({
@@ -184,7 +182,5 @@ const useStyles = ({
     [checked, disabled],
   );
 };
-
-BaseCheckboxIndicator.displayName = INDICATOR_COMPONENT_NAME;
 
 export { BaseCheckboxIndicator, BaseCheckboxRoot, type BaseCheckboxRootProps };

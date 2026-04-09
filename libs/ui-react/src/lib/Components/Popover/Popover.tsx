@@ -115,7 +115,6 @@ const PopoverTrigger = <Payload,>({
     {...props}
   />
 );
-PopoverTrigger.displayName = 'PopoverTrigger';
 
 /**
  * The content panel of the popover. Internally renders the Portal,

@@ -150,7 +150,6 @@ const DialogHeaderComponent = ({
     </div>
   );
 };
-DialogHeaderComponent.displayName = 'DialogHeaderComponent';
 
 export const DialogHeader = ({
   ref,
@@ -180,4 +179,3 @@ export const DialogHeader = ({
     </>
   );
 };
-DialogHeader.displayName = 'DialogHeader';

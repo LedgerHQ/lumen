@@ -63,6 +63,7 @@ const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
     </div>
   );
 });
+DigitStrip.displayName = 'DigitStrip';
 
 const DigitStripList = memo(({ items, type, animate }: DigitStripListProps) => {
   return items.map((item, index) => {
@@ -80,6 +81,7 @@ const DigitStripList = memo(({ items, type, animate }: DigitStripListProps) => {
     );
   });
 });
+DigitStripList.displayName = 'DigitStripList';
 
 /**
  * AmountDisplay - Renders formatted monetary amounts with flexible currency positioning and decimal formatting.
@@ -183,5 +185,3 @@ export const AmountDisplay = ({
     </div>
   );
 };
-
-AmountDisplay.displayName = 'AmountDisplay';

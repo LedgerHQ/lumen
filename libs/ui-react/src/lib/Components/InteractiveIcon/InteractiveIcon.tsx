@@ -82,4 +82,3 @@ export const InteractiveIcon = ({
     </button>
   );
 };
-InteractiveIcon.displayName = 'InteractiveIcon';

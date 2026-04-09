@@ -85,7 +85,6 @@ export const DataTableRoot = <TData extends RowData>({
     </DataTableProvider>
   );
 };
-DataTableRoot.displayName = 'DataTableRoot';
 
 /**
  * Internal component that auto-renders the table header groups
@@ -141,7 +140,6 @@ const DataTableHeader = ({
     </TableHeader>
   );
 };
-DataTableHeader.displayName = 'DataTableHeader';
 
 /**
  * Renders the full table (header + body) from the TanStack table instance
@@ -182,7 +180,6 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
     </TableRoot>
   );
 };
-DataTable.displayName = 'DataTable';
 
 /**
  * Internal component that auto-renders the table body rows
@@ -202,7 +199,6 @@ const DataTableBody = ({ className, ref, ...props }: DataTableBodyProps) => {
     </TableBody>
   );
 };
-DataTableBody.displayName = 'DataTableBody';
 
 type RowGroup<TData> = {
   key: string;
@@ -268,7 +264,6 @@ const DataTableGroupedBody = ({
     </TableBody>
   );
 };
-DataTableGroupedBody.displayName = 'DataTableGroupedBody';
 
 /**
  * Leaf component that renders a single data row (click handling + cells).
@@ -301,7 +296,6 @@ const DataTableRow = ({ row }: { row: Row<RowData> }) => {
     </TableRow>
   );
 };
-DataTableRow.displayName = 'DataTableRow';
 
 /**
  * A search input that connects to the TanStack table's `globalFilter` state
@@ -332,4 +326,3 @@ export const DataTableGlobalSearchInput = ({
     />
   );
 };
-DataTableGlobalSearchInput.displayName = 'DataTableGlobalSearchInput';

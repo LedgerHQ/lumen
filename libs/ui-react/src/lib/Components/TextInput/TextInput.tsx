@@ -58,5 +58,3 @@ import { TextInputProps } from './types';
 export const TextInput = ({ ref, ...props }: TextInputProps) => {
   return <BaseInput ref={ref} {...props} />;
 };
-
-TextInput.displayName = 'TextInput';

@@ -65,5 +65,3 @@ export const Tag = ({
     </div>
   );
 };
-
-Tag.displayName = 'Tag';

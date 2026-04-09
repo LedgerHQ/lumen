@@ -198,5 +198,3 @@ export const Banner = ({
     </Box>
   );
 };
-
-Banner.displayName = 'Banner';

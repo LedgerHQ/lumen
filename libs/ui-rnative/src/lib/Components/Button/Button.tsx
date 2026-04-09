@@ -25,4 +25,3 @@ import { ButtonProps } from './types';
 export const Button = (props: ButtonProps) => {
   return <BaseButton {...props} />;
 };
-Button.displayName = 'Button';

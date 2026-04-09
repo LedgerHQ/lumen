@@ -105,5 +105,3 @@ export const TriggerButton = ({
     </Comp>
   );
 };
-
-TriggerButton.displayName = 'TriggerButton';

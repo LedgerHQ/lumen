@@ -185,5 +185,3 @@ export const Stepper = ({
     </Box>
   );
 };
-
-Stepper.displayName = 'Stepper';

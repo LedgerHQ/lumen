@@ -216,8 +216,6 @@ export const PageIndicator = ({
   );
 };
 
-PageIndicator.displayName = 'PageIndicator';
-
 const useDotStyles = () =>
   useStyleSheet(
     (t) => ({

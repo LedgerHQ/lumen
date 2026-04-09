@@ -13,8 +13,6 @@ export function CoinCapsule({ ticker, icon }: CoinCapsuleProps) {
   );
 }
 
-CoinCapsule.displayName = 'CoinCapsule';
-
 const useStyles = () =>
   useStyleSheet(
     (t) => ({

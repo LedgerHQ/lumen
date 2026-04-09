@@ -76,8 +76,6 @@ export const MediaCardTitle = ({
   );
 };
 
-MediaCardTitle.displayName = 'MediaCardTitle';
-
 const GradientOverlays = () => {
   const styles = useStyles();
 
@@ -199,5 +197,3 @@ export const MediaCard = ({
     </Pressable>
   );
 };
-
-MediaCard.displayName = 'MediaCard';

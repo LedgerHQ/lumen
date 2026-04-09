@@ -29,8 +29,6 @@ export const ContentBannerContent = ({
   );
 };
 
-ContentBannerContent.displayName = 'ContentBannerContent';
-
 /**
  * The main title of the content banner.
  */
@@ -51,8 +49,6 @@ export const ContentBannerTitle = ({
   );
 };
 
-ContentBannerTitle.displayName = 'ContentBannerTitle';
-
 /**
  * Optional description text below the title.
  */
@@ -72,8 +68,6 @@ export const ContentBannerDescription = ({
     </div>
   );
 };
-
-ContentBannerDescription.displayName = 'ContentBannerDescription';
 
 /**
  * A content banner component for displaying a composable banner with an optional
@@ -125,5 +119,3 @@ export const ContentBanner = ({
     </div>
   );
 };
-
-ContentBanner.displayName = 'ContentBanner';

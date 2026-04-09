@@ -111,7 +111,6 @@ export const SubheaderInfo = ({
     </span>
   );
 };
-SubheaderInfo.displayName = 'SubheaderInfo';
 
 /**
  * ShowMore component for the Subheader. Displays a static chevron right icon to indicate expandable content.

@@ -173,6 +173,7 @@ const DigitStrip = memo(
     );
   },
 );
+DigitStrip.displayName = 'DigitStrip';
 
 const DigitStripList = memo(
   ({ items, textStyle, animate, type }: DigitStripListProps) => {
@@ -197,6 +198,7 @@ const DigitStripList = memo(
     });
   },
 );
+DigitStripList.displayName = 'DigitStripList';
 
 /**
  * AmountDisplay - Renders formatted monetary amounts with flexible currency positioning and decimal formatting.
@@ -311,5 +313,3 @@ export const AmountDisplay = ({
     </Box>
   );
 };
-
-AmountDisplay.displayName = 'AmountDisplay';
