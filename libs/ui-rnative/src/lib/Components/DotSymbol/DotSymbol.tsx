@@ -88,7 +88,7 @@ const useStyles = ({
           height: sizeValue,
           borderRadius: radius,
           borderWidth: 1,
-          borderColor: t.colors.border.base,
+          borderColor: t.colors.border.baseInverted,
           overflow: 'hidden' as const,
           ...pinOffset,
         },

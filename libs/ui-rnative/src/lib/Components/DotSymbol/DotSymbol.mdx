@@ -1,8 +1,11 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as DotSymbolStories from './DotSymbol.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 
 <Meta title='Communication/DotSymbol' of={DotSymbolStories} />
 
+<CustomTabs>
+  <Tab label="Overview">
 # DotSymbol
 
 ## Introduction
@@ -47,3 +50,5 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 - Always provide a meaningful `alt` prop on the DotSymbol so the indicator image is announced by screen readers.
 - The child element should carry its own accessibility label independently.
+</Tab>
+</CustomTabs>
