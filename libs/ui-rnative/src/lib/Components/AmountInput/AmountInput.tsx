@@ -130,7 +130,10 @@ export const AmountInput = ({
   };
 
   const CurrencyText = currencyText ? (
-    <Animated.Text style={[styles.currency, animatedCurrencyStyle]}>
+    <Animated.Text
+      style={[styles.currency, animatedCurrencyStyle]}
+      allowFontScaling={false}
+    >
       {currencyText}
     </Animated.Text>
   ) : null;
@@ -169,7 +172,10 @@ export const AmountInput = ({
         {currencyPosition === 'left' && CurrencyText}
 
         {/** display text that mirrors the hidden input's value */}
-        <Animated.Text style={[styles.displayText, animatedInputStyle, style]}>
+        <Animated.Text
+          style={[styles.displayText, animatedInputStyle, style]}
+          allowFontScaling={false}
+        >
           {inputValue || '0'}
         </Animated.Text>
 

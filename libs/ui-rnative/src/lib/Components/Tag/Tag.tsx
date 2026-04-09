@@ -39,15 +39,13 @@ const useStyles = ({
 
       const sizeStyles: Record<
         Size,
-        { height: number; paddingHorizontal: number; paddingVertical: number }
+        { paddingHorizontal: number; paddingVertical: number }
       > = {
         md: {
-          height: t.sizes.s24,
           paddingHorizontal: t.spacings.s8,
           paddingVertical: t.spacings.s4,
         },
         sm: {
-          height: t.sizes.s20,
           paddingHorizontal: t.spacings.s4,
           paddingVertical: t.spacings.s2,
         },
