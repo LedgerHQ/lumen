@@ -6,7 +6,7 @@ import { SpotSize } from '../Spot';
 import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
-  'absolute z-10 box-content overflow-hidden border-base-inverted',
+  'absolute z-10 box-content overflow-hidden border-base-inverted bg-muted',
   {
     variants: {
       size: {
@@ -106,6 +106,7 @@ export const DotSymbol = ({
   pin = 'bottom-end',
   size = 20,
   shape = 'circle',
+  imgLoading = 'eager',
   className,
   ref,
   ...rest
@@ -129,6 +130,7 @@ export const DotSymbol = ({
           <img
             alt={alt}
             src={src}
+            loading={imgLoading}
             aria-hidden='true'
             onError={() => setError(true)}
           />

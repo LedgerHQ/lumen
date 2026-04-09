@@ -33,6 +33,14 @@ export type DotSymbolProps = {
    */
   shape?: 'square' | 'circle';
   /**
+   * Loading strategy for the image.
+   * - `eager`: Load immediately (default browser behavior)
+   * - `lazy`: Defer loading until near viewport
+   * @optional
+   * @default eager (browser default: eager)
+   */
+  imgLoading?: 'eager' | 'lazy';
+  /**
    * Additional custom CSS classes to apply to the wrapper.
    */
   className?: string;

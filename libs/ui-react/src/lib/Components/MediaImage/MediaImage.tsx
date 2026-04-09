@@ -5,7 +5,7 @@ import { MediaImageProps } from './types';
 
 const mediaImageVariants = {
   root: cva(
-    'relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-muted-transparent',
+    'relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-muted',
     {
       variants: {
         size: {

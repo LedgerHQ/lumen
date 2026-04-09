@@ -35,7 +35,7 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   40: 16,
   48: 20,
   56: 24,
-} as const;
+};
 
 export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
   32: 12,
@@ -43,7 +43,7 @@ export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
   48: 20,
   56: 24,
   72: 24,
-} as const;
+};
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
   {
@@ -82,19 +82,20 @@ const useStyles = ({
 
       return {
         dot: {
-          position: 'absolute' as const,
+          position: 'absolute',
           zIndex: 10,
           width: sizeValue,
           height: sizeValue,
           borderRadius: radius,
           borderWidth: 1,
+          backgroundColor: t.colors.bg.muted,
           borderColor: t.colors.border.baseInverted,
-          overflow: 'hidden' as const,
+          overflow: 'hidden',
           ...pinOffset,
         },
         image: {
-          width: '100%' as const,
-          height: '100%' as const,
+          width: '100%',
+          height: '100%',
         },
       };
     },
