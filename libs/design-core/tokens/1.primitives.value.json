@@ -7211,6 +7211,18 @@
           "codeSyntax": {}
         }
       }
+    },
+    "64": {
+      "$type": "number",
+      "$value": 64,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
     }
   },
   "icon-height": {
@@ -7301,6 +7313,18 @@
     "56": {
       "$type": "number",
       "$value": 56,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "64": {
+      "$type": "number",
+      "$value": 64,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -7531,6 +7555,18 @@
           "codeSyntax": {}
         }
       }
+    },
+    "64": {
+      "$type": "number",
+      "$value": 3,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
     }
   },
   "spinner-border-width": {
@@ -7621,6 +7657,18 @@
     "56": {
       "$type": "number",
       "$value": 3.799999952316284,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "64": {
+      "$type": "number",
+      "$value": 4,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -8311,6 +8359,18 @@
     "4": {
       "$type": "number",
       "$value": 4,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "0,5": {
+      "$type": "number",
+      "$value": 0.5,
       "$description": "",
       "$extensions": {
         "com.figma": {

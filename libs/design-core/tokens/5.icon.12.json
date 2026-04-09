@@ -159,8 +159,36 @@
       }
     }
   },
-  "sub-network": {
-    "sub-network-radius": {
+  "dot-symbol": {
+    "dot-symbol-width": {
+      "$type": "number",
+      "$value": 0,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "dot-symbol-height": {
+      "$type": "number",
+      "$value": 0,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "dot-symbol-radius-square": {
       "$type": "number",
       "$value": 0,
       "$description": "",
@@ -174,65 +202,7 @@
         }
       }
     },
-    "sub-network-width": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "sub-network-height": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "sub-network-path": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "sub-network-path-radius": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    }
-  },
-  "transaction-type": {
-    "transaction-type-radius": {
+    "dot-symbol-radius-circle": {
       "$type": "number",
       "$value": "{border-radius.full}",
       "$description": "",
@@ -246,91 +216,7 @@
         }
       }
     },
-    "transaction-type-bg-width": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-bg-height": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-path": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-path-radius": {
-      "$type": "number",
-      "$value": "{border-radius.full}",
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-icon-heigth": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-icon-width": {
-      "$type": "number",
-      "$value": 0,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-icon-border-width": {
+    "dot-symbol-border-path": {
       "$type": "number",
       "$value": 0,
       "$description": "",
@@ -344,7 +230,49 @@
         }
       }
     },
-    "transaction-type-spinner-border-width": {
+    "dot-symbol-spinner-border-width": {
+      "$type": "number",
+      "$value": 0,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "STROKE_FLOAT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "dot-symbol-icon-heigth": {
+      "$type": "number",
+      "$value": 0,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "dot-symbol-icon-width": {
+      "$type": "number",
+      "$value": 0,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "dot-symbol-icon-border-width": {
       "$type": "number",
       "$value": 0,
       "$description": "",

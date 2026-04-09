@@ -364,7 +364,7 @@ export const primitiveColorTokens = {
       '800': '#f2e2ff',
       '900': '#f6ecff',
       '950': '#fbf5ff',
-      '050': '#1f122d',
+      '050': '#251a31', // Updated from CSS: --color-dark-purple-050
     },
     orange: {
       '100': '#9e3300',
