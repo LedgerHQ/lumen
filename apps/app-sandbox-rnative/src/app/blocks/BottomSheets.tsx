@@ -35,7 +35,7 @@ export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
       <BottomSheetHeader
         spacing
         title='Virtual List'
-        appearance='expanded'
+        density='expanded'
         description='This bottom sheet contains a virtualized list'
       />
       <BottomSheetFlatList

@@ -50,7 +50,7 @@ export const NavBars = () => {
           borderRadius: 'lg',
         }}
       >
-        <NavBar appearance='expanded'>
+        <NavBar density='expanded'>
           <NavBarBackButton />
           <NavBarContent>
             <NavBarTitle>
