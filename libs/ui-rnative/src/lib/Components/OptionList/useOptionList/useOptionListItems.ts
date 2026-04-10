@@ -1,14 +1,19 @@
 import { useMemo } from 'react';
 import type { OptionListItemData, OptionListItemGroup } from '../types';
 
-const groupByField = (items: OptionListItemData[]): OptionListItemGroup[] =>
-  Array.from(
-    items.reduce<Map<string, OptionListItemData[]>>((acc, item) => {
-      const key = item.group ?? '';
-      return acc.set(key, [...(acc.get(key) ?? []), item]);
-    }, new Map()),
-    ([label, items]) => ({ label, items }),
-  );
+const groupByField = (items: OptionListItemData[]): OptionListItemGroup[] => {
+  const order: string[] = [];
+  const map: Record<string, OptionListItemData[]> = {};
+  for (const item of items) {
+    const key = item.group ?? '';
+    if (!map[key]) {
+      order.push(key);
+      map[key] = [];
+    }
+    map[key].push(item);
+  }
+  return order.map((label) => ({ label, items: map[label] }));
+};
 
 const hasGroups = (items: OptionListItemData[]): boolean =>
   items.some((item) => item.group != null);
