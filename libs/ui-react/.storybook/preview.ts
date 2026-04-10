@@ -31,6 +31,9 @@ const preview: Preview = {
   },
 
   parameters: {
+    docs: {
+      codePanel: true,
+    },
     backgrounds: {
       options: {
         dark: { name: 'Dark', value: '#191919' },

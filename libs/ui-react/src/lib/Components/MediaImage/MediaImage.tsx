@@ -1,11 +1,11 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
-import { MediaImageProps, MediaImageSize } from './types';
+import { MediaImageProps } from './types';
 
 const mediaImageVariants = {
   root: cva(
-    'relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-muted-transparent',
+    'relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-muted',
     {
       variants: {
         size: {
@@ -26,17 +26,6 @@ const mediaImageVariants = {
     },
   ),
 };
-
-export const mediaImageDotSizeMap: Record<MediaImageSize, number> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-} as const;
 
 /**
  * A generic media image component that displays an image with optional shape variants.
