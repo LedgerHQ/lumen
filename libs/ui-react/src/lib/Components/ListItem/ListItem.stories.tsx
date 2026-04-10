@@ -186,7 +186,7 @@ export const VariantsShowcase: Story = {
           </ListItemTrailing>
         </ListItem>
 
-        <ListItem>
+        <ListItem onClick={() => {}}>
           <ListItemLeading>
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
@@ -199,7 +199,7 @@ export const VariantsShowcase: Story = {
           </ListItemTrailing>
         </ListItem>
 
-        <ListItem>
+        <ListItem onClick={() => {}}>
           <ListItemLeading>
             <Wallet size={24} />
             <ListItemContent>
@@ -278,7 +278,7 @@ export const DisabledState: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem {...args}>
+      <ListItem {...args} onClick={() => {}}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
@@ -320,12 +320,68 @@ export const DisabledState: Story = {
   ),
 };
 
+export const Density: Story = {
+  render: () => (
+    <div className='flex max-w-320 flex-col gap-4'>
+      <ListItem density='compact' onClick={() => {}}>
+        <ListItemLeading>
+          <Spot size={32} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Compact with icon</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} className='text-muted' />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='compact'>
+        <ListItemLeading>
+          <Spot size={32} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Compact with value</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <div className='body-2-semi-bold'>$3,000</div>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded' onClick={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Expanded with icon</ListItemTitle>
+            <ListItemDescription>Additional information</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} className='text-muted' />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded'>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Expanded with value</ListItemTitle>
+            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <div className='body-2-semi-bold'>$3,000</div>
+        </ListItemTrailing>
+      </ListItem>
+    </div>
+  ),
+};
+
 export const ResponsiveLayout: Story = {
   render: () => (
     <div className='grid w-400 grid-cols-1 gap-4 border border-muted-subtle p-16'>
       <div className='body-4-semi-bold text-muted'>Container: 320px wide</div>
       <div>
-        <ListItem>
+        <ListItem onClick={() => {}}>
           <ListItemLeading>
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
@@ -338,7 +394,7 @@ export const ResponsiveLayout: Story = {
           </ListItemTrailing>
         </ListItem>
 
-        <ListItem>
+        <ListItem onClick={() => {}}>
           <ListItemLeading>
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
