@@ -94,7 +94,7 @@ export const OptionListContent = ({
             {groupIndex > 0 && (
               <Divider lx={{ marginVertical: 's4', marginHorizontal: 's8' }} />
             )}
-            <OptionListLabel>{group.label}</OptionListLabel>
+            {group.label && <OptionListLabel>{group.label}</OptionListLabel>}
             {group.items.map((item) => (
               <Fragment key={item.value}>{renderItemWithState(item)}</Fragment>
             ))}
