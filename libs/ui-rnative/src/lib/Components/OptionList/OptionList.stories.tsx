@@ -23,6 +23,7 @@ import {
   OptionListItemTitle,
   OptionListItemDescription,
   OptionListItemContentRow,
+  OptionListTrigger,
 } from './OptionList';
 import type { OptionListItemData } from './types';
 
@@ -37,6 +38,7 @@ const meta = {
     OptionListItemTitle,
     OptionListItemDescription,
     OptionListItemContentRow,
+    OptionListTrigger,
   },
   decorators: [
     (Story) => (
@@ -523,6 +525,66 @@ export const EmptyState: Story = {
               <OptionListEmptyState
                 title='No options available'
                 description='There are no items to display'
+              />
+            </OptionList>
+          </BottomSheetView>
+        </BottomSheet>
+      </>
+    );
+  },
+};
+
+export const WithInputTrigger: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+    const bottomSheetRef = useBottomSheetRef();
+    const selected = CURRENCIES.find((c) => c.value === value);
+
+    return (
+      <>
+        <OptionListTrigger
+          label='Currency'
+          onPress={() => bottomSheetRef.current?.present()}
+        >
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
+        <BottomSheet
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          snapPoints={null}
+          onClose={() => bottomSheetRef.current?.dismiss()}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader title='Select currency' />
+            <OptionList
+              items={CURRENCIES}
+              value={value}
+              onValueChange={(v) => {
+                setValue(v);
+                bottomSheetRef.current?.dismiss();
+              }}
+            >
+              <OptionListContent
+                renderItem={(item) => {
+                  const ticker = (item.meta as { ticker: string }).ticker;
+                  return (
+                    <OptionListItem value={item.value}>
+                      <OptionListItemLeading>
+                        <CryptoIcon
+                          ledgerId={item.meta?.ledgerId ?? ''}
+                          ticker={ticker}
+                          size='32px'
+                        />
+                      </OptionListItemLeading>
+                      <OptionListItemContent>
+                        <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                        <OptionListItemDescription>
+                          {ticker}
+                        </OptionListItemDescription>
+                      </OptionListItemContent>
+                    </OptionListItem>
+                  );
+                }}
               />
             </OptionList>
           </BottomSheetView>

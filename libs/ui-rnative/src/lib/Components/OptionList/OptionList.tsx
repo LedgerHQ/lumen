@@ -6,7 +6,7 @@ import {
 import { Fragment } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { Check } from '../../Symbols';
+import { Check, ChevronDown } from '../../Symbols';
 import { useControllableState } from '../../utils/useControllableState';
 import { Divider } from '../Divider';
 import { Box, Pressable, Text } from '../Utility';
@@ -22,6 +22,7 @@ import type {
   OptionListItemContentProps,
   OptionListItemContentRowProps,
   OptionListEmptyStateProps,
+  OptionListTriggerProps,
 } from './types';
 import { useOptionListItems } from './useOptionList/useOptionListItems';
 
@@ -408,5 +409,107 @@ export const OptionListEmptyState = ({
       <Text style={styles.title}>{title}</Text>
       {description && <Text style={styles.description}>{description}</Text>}
     </Box>
+  );
+};
+
+const useTriggerStyles = ({
+  disabled,
+  hasValue,
+  hasLabel,
+}: {
+  disabled: boolean;
+  hasValue: boolean;
+  hasLabel: boolean;
+}) =>
+  useStyleSheet(
+    (t) => ({
+      trigger: StyleSheet.flatten([
+        {
+          position: 'relative',
+          width: t.sizes.full,
+          height: t.sizes.s48,
+          backgroundColor: t.colors.bg.muted,
+          borderRadius: t.borderRadius.sm,
+          paddingHorizontal: t.spacings.s16,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        },
+        disabled && { opacity: 0.5 },
+      ]),
+      label: StyleSheet.flatten([
+        t.typographies.body2,
+        {
+          position: 'absolute',
+          left: t.spacings.s16,
+          color: t.colors.text.muted,
+          width: '100%',
+        },
+        hasValue
+          ? { top: t.spacings.s6, ...t.typographies.body4 }
+          : { top: t.spacings.s14, ...t.typographies.body2 },
+        disabled && { color: t.colors.text.disabled },
+      ]),
+      contentWrapper: StyleSheet.flatten([
+        { flex: 1 },
+        hasLabel &&
+          hasValue && {
+            paddingTop: t.spacings.s16,
+            paddingBottom: t.spacings.s2,
+          },
+        hasLabel && !hasValue && { paddingVertical: 0 },
+      ]),
+      chevron: StyleSheet.flatten([
+        {
+          flexShrink: 0,
+          color: t.colors.text.muted,
+          marginLeft: t.spacings.s8,
+        },
+        disabled && { color: t.colors.text.disabled },
+      ]),
+    }),
+    [disabled, hasValue, hasLabel],
+  );
+
+export const OptionListTrigger = ({
+  label,
+  onPress,
+  disabled: disabledProp,
+  children,
+  lx,
+  style,
+  ref,
+  ...props
+}: OptionListTriggerProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'OptionListTrigger',
+    mergeWith: { disabled: disabledProp },
+  });
+
+  const hasValue = children != null && children !== false;
+  const styles = useTriggerStyles({
+    disabled,
+    hasValue,
+    hasLabel: !!label,
+  });
+
+  return (
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={[styles.trigger, style]}
+      disabled={disabled}
+      onPress={onPress}
+      accessibilityRole='button'
+      {...props}
+    >
+      {label && (
+        <Text style={styles.label} numberOfLines={1}>
+          {label}
+        </Text>
+      )}
+      <View style={styles.contentWrapper}>{children}</View>
+      <ChevronDown size={20} style={styles.chevron} />
+    </Pressable>
   );
 };

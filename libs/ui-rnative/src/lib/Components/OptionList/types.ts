@@ -61,7 +61,7 @@ export type OptionListContentProps = {
     item: OptionListItemData,
     state: { selected: boolean; disabled: boolean },
   ) => ReactNode;
-} & StyledViewProps;
+} & Omit<StyledViewProps, 'children'>;
 
 export type OptionListItemProps = {
   /** The value associated with this item, used for selection matching. */
@@ -97,3 +97,14 @@ export type OptionListEmptyStateProps = {
   /** Optional secondary text displayed below the title. */
   description?: string;
 } & Omit<StyledViewProps, 'children'>;
+
+export type OptionListTriggerProps = {
+  /** Floating label shown above the selected value. */
+  label?: string;
+  /** Called when the trigger is pressed. Use to open a BottomSheet or navigate. */
+  onPress: () => void;
+  /** Content to display as the selected value. */
+  children?: ReactNode;
+  /** Whether the trigger is disabled. Merges with OptionList disabled context. */
+  disabled?: boolean;
+} & Omit<StyledPressableProps, 'children' | 'disabled' | 'onPress'>;
