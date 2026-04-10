@@ -2,4 +2,9 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-- feat(ui-react)!: rename `appearance` to `density` on `DialogHeader`
+- BREAKING_CHANGE(DialogHeader): rename `appearance` to `density` on `DialogHeader`
+
+  ```diff
+  - <DialogHeader appearance="default" />
+  + <DialogHeader density="default" />
+  ```
