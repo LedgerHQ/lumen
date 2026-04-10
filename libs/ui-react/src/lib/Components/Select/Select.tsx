@@ -181,7 +181,7 @@ const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
 
 const contentStyles = cva(
   [
-    'group/select-content relative z-select flex max-h-(--available-height) w-(--anchor-width) flex-col overflow-hidden',
+    'group/select-content relative flex max-h-(--available-height) w-(--anchor-width) flex-col overflow-hidden',
     'rounded-sm bg-surface',
     'shadow-md',
   ],
@@ -222,6 +222,7 @@ const SelectContent = ({
   <Combobox.Portal data-slot='select-portal'>
     <Combobox.Positioner
       data-slot='select-positioner'
+      className='pointer-events-auto z-select'
       side={side}
       sideOffset={sideOffset}
       align={align}
