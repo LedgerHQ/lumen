@@ -87,12 +87,12 @@ describe('OptionList', () => {
   it('marks the selected item with accessibilityState', () => {
     const { getAllByRole } = renderOptionList({ value: 'a' });
 
-    const buttons = getAllByRole('button');
-    const selectedButton = buttons.find(
-      (b) => b.props.accessibilityState?.selected === true,
+    const items = getAllByRole('radio');
+    const selectedItem = items.find(
+      (i) => i.props.accessibilityState?.selected === true,
     );
 
-    expect(selectedButton).toBeTruthy();
+    expect(selectedItem).toBeTruthy();
   });
 
   it('updates selection on press (uncontrolled)', () => {
