@@ -12,7 +12,7 @@ export type MediaImageProps = {
   src?: string;
   /**
    * The shape of the media image.
-   * @default 'squared'
+   * @default 'square'
    */
   shape?: MediaImageShape;
   /**

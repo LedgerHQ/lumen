@@ -28,6 +28,7 @@ import {
   Checkboxes,
   Cards,
   Dividers,
+  DotSymbols,
   MediaImages,
   IconButtons,
   Links,
@@ -168,6 +169,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Dividers'>
                   <Dividers />
+                </SandboxBlock>
+                <SandboxBlock title='DotSymbols'>
+                  <DotSymbols />
                 </SandboxBlock>
                 <SandboxBlock title='MediaImages'>
                   <MediaImages />

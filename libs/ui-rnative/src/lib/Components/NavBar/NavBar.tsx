@@ -288,9 +288,6 @@ const useStyles = ({ appearance }: StyleParams) => {
         ]),
         contentContainer: StyleSheet.flatten([
           {
-            flex: 1,
-          },
-          {
             ...(appearance === 'compact' && {
               paddingHorizontal: t.spacings.s48,
               alignItems: 'center',

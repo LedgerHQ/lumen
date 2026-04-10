@@ -1,0 +1,54 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DotSymbolStories from './DotSymbol.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Communication/DotSymbol' of={DotSymbolStories} />
+
+<CustomTabs>
+  <Tab label="Overview">
+# DotSymbol
+
+## Introduction
+
+DotSymbol positions a small image indicator at a configurable corner of a child element such as MediaImage or Spot. It is commonly used to show a network badge or secondary icon overlapping a primary symbol.
+
+## Anatomy
+
+<Canvas of={DotSymbolStories.Base} />
+
+- **Wrapper**: Relative container that preserves the child's layout
+- **Child**: The primary element (e.g. MediaImage, Spot)
+- **Dot**: Absolutely-positioned image indicator with border and configurable shape
+
+## Properties
+
+### Overview
+
+<Canvas of={DotSymbolStories.Base} />
+<Controls of={DotSymbolStories.Base} />
+
+### Pin
+
+Four corner placements are available: `bottom-end` (default), `top-end`, `bottom-start`, and `top-start`.
+
+<Canvas of={DotSymbolStories.PinShowcase} />
+
+### Shapes
+
+<Canvas of={DotSymbolStories.ShapeShowcase} />
+
+- **circle** (default): Fully rounded dot
+- **square**: Rounded corners that scale with size
+
+### Sizes
+
+The dot size is driven by the parent MediaImage or Spot size via the mapping helpers `mediaImageDotSizeMap` and `spotDotSizeMap`.
+
+<Canvas of={DotSymbolStories.SizeShowcase} />
+
+## Accessibility
+
+- Always provide a meaningful `alt` prop on the DotSymbol so the indicator image is announced by screen readers.
+- The child element should carry its own accessibility label independently.
+</Tab>
+</CustomTabs>

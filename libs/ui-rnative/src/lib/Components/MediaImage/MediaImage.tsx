@@ -17,17 +17,6 @@ const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   56: 'lg',
 };
 
-export const mediaImageDotSizeMap: Record<MediaImageSize, number> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-} as const;
-
 const useStyles = ({
   size,
   shape,
@@ -48,14 +37,14 @@ const useStyles = ({
           width: sizeValue,
           height: sizeValue,
           borderRadius: radius,
-          overflow: 'hidden' as const,
-          alignItems: 'center' as const,
-          justifyContent: 'center' as const,
-          backgroundColor: t.colors.bg.mutedTransparent,
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: t.colors.bg.muted,
         },
         image: {
-          width: '100%' as const,
-          height: '100%' as const,
+          width: '100%',
+          height: '100%',
         },
       };
     },
