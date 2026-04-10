@@ -20,6 +20,11 @@ export type ListItemProps = {
    */
   children: React.ReactNode;
   /**
+   * The density of the list item.
+   * @default 'expanded'
+   */
+  density?: 'compact' | 'expanded';
+  /**
    * Whether the list item is disabled.
    */
   disabled?: boolean;

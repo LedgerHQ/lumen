@@ -22,14 +22,20 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
     isInTrailing: false,
   });
 
-const useRootStyles = ({ pressed }: { pressed: boolean }) => {
+const useRootStyles = ({
+  pressed,
+  density,
+}: {
+  pressed: boolean;
+  density: 'compact' | 'expanded';
+}) => {
   return useStyleSheet(
     (t) => ({
       container: StyleSheet.flatten([
         {
           flexDirection: 'row',
           alignItems: 'center',
-          height: t.sizes.s64,
+          height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
           width: t.sizes.full,
           gap: t.spacings.s16,
           borderRadius: t.borderRadius.md,
@@ -42,7 +48,7 @@ const useRootStyles = ({ pressed }: { pressed: boolean }) => {
         },
       ]),
     }),
-    [pressed],
+    [pressed, density],
   );
 };
 
@@ -86,6 +92,8 @@ export const ListItem = ({
   lx = {},
   style,
   disabled: disabledProp = false,
+  density = 'expanded',
+  onPress,
   ref,
   ...pressableProps
 }: ListItemProps) => {
@@ -101,12 +109,15 @@ export const ListItem = ({
         lx={lx}
         style={style}
         disabled={disabled}
+        onPress={onPress}
         accessibilityRole='button'
         accessibilityState={{ disabled }}
         {...pressableProps}
       >
         {({ pressed }) => (
-          <ListItemInner pressed={pressed}>{children}</ListItemInner>
+          <ListItemInner pressed={pressed && !!onPress} density={density}>
+            {children}
+          </ListItemInner>
         )}
       </Pressable>
     </DisabledProvider>
@@ -118,12 +129,14 @@ export const ListItem = ({
  */
 const ListItemInner = ({
   pressed,
+  density,
   children,
 }: {
   pressed: boolean;
+  density: 'compact' | 'expanded';
   children: ReactNode;
 }) => {
-  const styles = useRootStyles({ pressed });
+  const styles = useRootStyles({ pressed, density });
   return (
     <View style={styles.container} testID='list-item-content'>
       {children}
