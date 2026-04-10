@@ -165,7 +165,7 @@ export const OptionListItem = ({
         style={style}
         onPress={() => onValueChange(value)}
         disabled={disabled}
-        accessibilityRole='button'
+        accessibilityRole='radio'
         accessibilityState={{ disabled, selected }}
         {...props}
       >
