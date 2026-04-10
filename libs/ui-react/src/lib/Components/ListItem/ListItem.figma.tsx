@@ -81,6 +81,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       chevron: figma.boolean('show-chevron', {
         true: (
           <ListItemTrailing>
@@ -91,7 +95,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -169,6 +173,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       value: figma.string('value'),
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
@@ -176,7 +184,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -257,6 +265,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       value: figma.string('value'),
       subvalue: figma.string('subvalue'),
       chevron: figma.boolean('show-chevron', {
@@ -265,7 +277,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -349,6 +361,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       trailingIcon: figma.instance('trailing-icon'),
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
@@ -356,7 +372,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -437,13 +453,17 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
         false: undefined,
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -525,9 +545,13 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -608,9 +632,13 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
