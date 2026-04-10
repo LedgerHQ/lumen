@@ -7,10 +7,9 @@ import {
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
 
+import { Density } from '@ledgerhq/lumen-utils-shared';
 import { PropsWithChildren, ReactNode, Ref } from 'react';
 import { StyledViewProps } from '../../../styles';
-
-export type Density = 'compact' | 'expanded';
 export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.

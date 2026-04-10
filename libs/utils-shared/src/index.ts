@@ -1,3 +1,4 @@
+export * from './lib/density';
 export * from './lib/string/string';
 export * from './lib/inputFormatter';
 export * from './lib/context';

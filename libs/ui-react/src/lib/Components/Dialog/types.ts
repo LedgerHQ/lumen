@@ -1,6 +1,5 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
-
-export type Density = 'compact' | 'expanded';
 
 export type DialogHeight = 'fit' | 'fixed';
 

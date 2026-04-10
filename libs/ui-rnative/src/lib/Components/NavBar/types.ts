@@ -1,6 +1,5 @@
+import { Density } from '@ledgerhq/lumen-utils-shared';
 import { ReactElement, ReactNode } from 'react';
-
-export type Density = 'compact' | 'expanded';
 import { StyledViewProps } from '../../../styles';
 import { IconButtonProps } from '../IconButton';
 

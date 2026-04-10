@@ -1,4 +1,4 @@
-import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import { createSafeContext, Density } from '@ledgerhq/lumen-utils-shared';
 import { Children, isValidElement, ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
@@ -8,7 +8,6 @@ import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
 import { CoinCapsule } from './CoinCapsule';
 import {
-  Density,
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
   NavBarContentProps,
