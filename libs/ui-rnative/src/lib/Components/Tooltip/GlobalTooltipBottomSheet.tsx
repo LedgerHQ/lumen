@@ -63,7 +63,7 @@ export const GlobalTooltipBottomSheet: React.FC = () => {
         {(currentTooltip?.title || currentTooltip?.content) && (
           <BottomSheetHeader
             title={currentTooltip.title}
-            appearance='expanded'
+            density='expanded'
             description={currentTooltip.content}
           />
         )}

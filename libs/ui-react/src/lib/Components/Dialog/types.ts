@@ -1,5 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
+export type Density = 'compact' | 'expanded';
+
 export type DialogHeight = 'fit' | 'fixed';
 
 export type DialogProps = {
@@ -101,10 +103,10 @@ export type DialogContentProps = {
 
 export type DialogHeaderProps = {
   /**
-   * The appearance variant of the header.
+   * The density variant of the header.
    * @default 'compact'
    */
-  appearance?: 'compact' | 'expanded';
+  density?: Density;
   /**
    * The main title to display in the header.
    */

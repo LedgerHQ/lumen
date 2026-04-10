@@ -144,7 +144,7 @@ function MyComponent() {
         <BottomSheetView>
           <BottomSheetHeader
             title="Welcome"
-            appearance="compact"
+            density="compact"
             description="Get started with our platform"
           />
           <Text typography='body2' lx={{ color: 'base' }}>Your content here</Text>
@@ -263,7 +263,7 @@ import {
 
 // Use spacing prop on header when using list components
 <BottomSheet ref={ref} snapPoints="full">
-  <BottomSheetHeader spacing title="List" appearance="compact" />
+  <BottomSheetHeader spacing title="List" density="compact" />
   <BottomSheetFlatList data={data} renderItem={renderItem} />
 </BottomSheet>
 ```
@@ -288,7 +288,7 @@ import {
 ```tsx
 <BottomSheet ref={bottomSheetRef} snapPoints='full'>
   <BottomSheetScrollView>
-    <BottomSheetHeader title='Title' appearance='compact' />
+    <BottomSheetHeader title='Title' density='compact' />
     <Text typography='body2' lx={{ color: 'base' }}>Content</Text>
   </BottomSheetScrollView>
 </BottomSheet>
@@ -304,7 +304,7 @@ import {
 ```tsx
 <BottomSheet ref={bottomSheetRef} snapPoints='full'>
   <ScrollView>
-    <BottomSheetHeader title='Title' appearance='compact' />
+    <BottomSheetHeader title='Title' density='compact' />
     <Text typography='body2' lx={{ color: 'base' }}>Content</Text>
   </ScrollView>
 </BottomSheet>

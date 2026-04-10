@@ -10,7 +10,7 @@ import { DialogHeaderProps } from '../types';
 
 const dialogHeaderVariants = cva('flex px-24 text-base', {
   variants: {
-    appearance: {
+    density: {
       compact: 'mb-12 h-64 min-h-64 flex-row items-center gap-12',
       expanded: 'flex-col gap-16 pb-12 pt-10',
     },
@@ -94,7 +94,7 @@ const DialogDescription: FC<
 const DialogHeaderComponent = ({
   ref,
   className,
-  appearance = 'compact',
+  density = 'compact',
   title,
   description,
   onClose,
@@ -104,10 +104,10 @@ const DialogHeaderComponent = ({
   return (
     <div
       ref={ref}
-      className={dialogHeaderVariants({ appearance, className })}
+      className={dialogHeaderVariants({ density, className })}
       {...props}
     >
-      {appearance === 'compact' && (
+      {density === 'compact' && (
         <>
           {onBack && <BackButton onBack={onBack} />}
           <div
@@ -129,7 +129,7 @@ const DialogHeaderComponent = ({
           <CloseButton onClose={onClose} />
         </>
       )}
-      {appearance === 'expanded' && (
+      {density === 'expanded' && (
         <>
           <div className='flex h-40 flex-row items-center'>
             {onBack && <BackButton onBack={onBack} />}
@@ -155,7 +155,7 @@ export const DialogHeader = ({
   ref,
   title = '',
   description,
-  appearance = 'compact',
+  density = 'compact',
   ...props
 }: DialogHeaderProps) => {
   return (
@@ -164,7 +164,7 @@ export const DialogHeader = ({
         ref={ref}
         title={title}
         description={description}
-        appearance={appearance}
+        density={density}
         {...props}
       />
       {/* Accessibility Note: Even though the visible header/description are

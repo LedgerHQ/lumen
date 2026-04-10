@@ -1,16 +1,16 @@
 import { ReactElement, ReactNode } from 'react';
+
+export type Density = 'compact' | 'expanded';
 import { StyledViewProps } from '../../../styles';
 import { IconButtonProps } from '../IconButton';
 
-export type NavBarAppearance = 'compact' | 'expanded';
-
 export type NavBarProps = {
   /**
-   * Controls the appearance/layout of the NavBar.
+   * Controls the density/layout of the NavBar.
    * - 'compact': Content displayed vertically, centered with standard spacing
    * - 'expanded': Content displayed vertically, left-aligned with increased spacing
    */
-  appearance: NavBarAppearance;
+  density: Density;
 } & StyledViewProps;
 
 export type NavBarBackButtonProps = {

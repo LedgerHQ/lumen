@@ -8,7 +8,7 @@ import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
 import { CoinCapsule } from './CoinCapsule';
 import {
-  NavBarAppearance,
+  Density,
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
   NavBarContentProps,
@@ -25,7 +25,7 @@ type Slots = {
 };
 
 const [NavBarProvider, useNavBarContext] = createSafeContext<{
-  appearance: NavBarAppearance;
+  density: Density;
 }>('NavBar');
 
 function extractSlots(children: ReactNode): Slots {
@@ -64,11 +64,11 @@ export function NavBarContent({
   style,
   ...props
 }: NavBarContentProps) {
-  const { appearance } = useNavBarContext({
+  const { density } = useNavBarContext({
     consumerName: 'NavBarContent',
     contextRequired: true,
   });
-  const styles = useStyles({ appearance });
+  const styles = useStyles({ density });
 
   return (
     <Box style={[styles.content, style]} {...props}>
@@ -80,15 +80,15 @@ export function NavBarContent({
 NavBarContent.displayName = 'NavBarContent';
 
 export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
-  const { appearance } = useNavBarContext({
+  const { density } = useNavBarContext({
     consumerName: 'NavBarTitle',
     contextRequired: true,
   });
-  const styles = useStyles({ appearance });
+  const styles = useStyles({ density });
 
   return (
     <Text
-      numberOfLines={appearance === 'compact' ? 1 : 2}
+      numberOfLines={density === 'compact' ? 1 : 2}
       style={[styles.title, style]}
       {...props}
     >
@@ -102,15 +102,15 @@ export function NavBarDescription({
   style,
   ...props
 }: NavBarDescriptionProps) {
-  const { appearance } = useNavBarContext({
+  const { density } = useNavBarContext({
     consumerName: 'NavBarDescription',
     contextRequired: true,
   });
-  const styles = useStyles({ appearance });
+  const styles = useStyles({ density });
 
   return (
     <Text
-      numberOfLines={appearance === 'compact' ? 1 : 3}
+      numberOfLines={density === 'compact' ? 1 : 3}
       style={[styles.description, style]}
       {...props}
     >
@@ -193,14 +193,14 @@ NavBarTrailing.displayName = 'NavBarTrailing';
 /**
  * NavBar component for top navigation
  */
-export function NavBar({ appearance, children, ...props }: NavBarProps) {
-  const styles = useStyles({ appearance });
+export function NavBar({ density, children, ...props }: NavBarProps) {
+  const styles = useStyles({ density });
   const slots = extractSlots(children);
 
   return (
-    <NavBarProvider value={{ appearance }}>
+    <NavBarProvider value={{ density }}>
       <Box style={styles.container} {...props}>
-        {appearance === 'expanded' ? (
+        {density === 'expanded' ? (
           <>
             <Box style={styles.topRow}>
               <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
@@ -225,10 +225,10 @@ export function NavBar({ appearance, children, ...props }: NavBarProps) {
 }
 
 type StyleParams = {
-  appearance: NavBarAppearance;
+  density: Density;
 };
 
-const useStyles = ({ appearance }: StyleParams) => {
+const useStyles = ({ density }: StyleParams) => {
   return useStyleSheet(
     (t) => {
       return {
@@ -244,7 +244,7 @@ const useStyles = ({ appearance }: StyleParams) => {
             paddingVertical: t.spacings.s8,
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               alignItems: 'flex-start',
               flexDirection: 'column',
             }),
@@ -261,7 +261,7 @@ const useStyles = ({ appearance }: StyleParams) => {
             paddingVertical: t.spacings.s8,
           },
           {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               position: 'absolute',
               left: t.spacings.s4,
               zIndex: 1,
@@ -274,28 +274,31 @@ const useStyles = ({ appearance }: StyleParams) => {
             flexShrink: 0,
           },
           {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               position: 'absolute',
               right: t.spacings.s4,
               zIndex: 1,
             }),
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               marginLeft: 'auto',
             }),
           },
         ]),
         contentContainer: StyleSheet.flatten([
           {
-            ...(appearance === 'compact' && {
+            flex: 1,
+          },
+          {
+            ...(density === 'compact' && {
               paddingHorizontal: t.spacings.s48,
               alignItems: 'center',
               justifyContent: 'center',
             }),
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               paddingHorizontal: t.spacings.s12,
               paddingBottom: t.spacings.s12,
               width: '100%',
@@ -307,31 +310,31 @@ const useStyles = ({ appearance }: StyleParams) => {
             flexDirection: 'column',
           },
           {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               alignItems: 'center',
               justifyContent: 'center',
             }),
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               gap: t.spacings.s8,
             }),
           },
         ]),
         title: {
-          ...(appearance === 'expanded'
+          ...(density === 'expanded'
             ? t.typographies.heading3SemiBold
             : t.typographies.heading4SemiBold),
           color: t.colors.text.base,
-          textAlign: appearance === 'expanded' ? 'left' : 'center',
+          textAlign: density === 'expanded' ? 'left' : 'center',
         },
         description: {
           ...t.typographies.body2,
           color: t.colors.text.muted,
-          textAlign: appearance === 'expanded' ? 'left' : 'center',
+          textAlign: density === 'expanded' ? 'left' : 'center',
         },
       };
     },
-    [appearance],
+    [density],
   );
 };
