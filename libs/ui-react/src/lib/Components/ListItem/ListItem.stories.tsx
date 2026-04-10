@@ -1,3 +1,4 @@
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Settings, Wallet, ChevronRight } from '../../Symbols';
@@ -325,9 +326,9 @@ export const Density: Story = {
     <div className='flex max-w-320 flex-col gap-4'>
       <ListItem density='compact' onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={32} appearance='icon' icon={Settings} />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
           <ListItemContent>
-            <ListItemTitle>Compact with icon</ListItemTitle>
+            <ListItemTitle>Compact with crypto icon</ListItemTitle>
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
@@ -349,9 +350,9 @@ export const Density: Story = {
 
       <ListItem density='expanded' onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
           <ListItemContent>
-            <ListItemTitle>Expanded with icon</ListItemTitle>
+            <ListItemTitle>Expanded with crypto icon</ListItemTitle>
             <ListItemDescription>Additional information</ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
