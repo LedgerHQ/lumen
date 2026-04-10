@@ -594,6 +594,37 @@ export const WithInputTrigger: Story = {
   },
 };
 
+export const WithDefaultValue: Story = {
+  render: () => (
+    <Box lx={{ width: 's320' }}>
+      <OptionList items={CURRENCIES} defaultValue='eth'>
+        <OptionListContent
+          renderItem={(item) => {
+            const meta = item.meta as { ticker: string; ledgerId: string };
+            return (
+              <OptionListItem value={item.value}>
+                <OptionListItemLeading>
+                  <CryptoIcon
+                    ledgerId={meta.ledgerId}
+                    ticker={meta.ticker}
+                    size='32px'
+                  />
+                </OptionListItemLeading>
+                <OptionListItemContent>
+                  <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                  <OptionListItemDescription>
+                    {meta.ticker}
+                  </OptionListItemDescription>
+                </OptionListItemContent>
+              </OptionListItem>
+            );
+          }}
+        />
+      </OptionList>
+    </Box>
+  ),
+};
+
 export const Standalone: Story = {
   render: () => {
     const [value, setValue] = useState<string | null>(null);
