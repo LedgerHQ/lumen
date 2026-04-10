@@ -17,6 +17,7 @@ import {
   Wallet,
 } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
+import { Alert } from 'react-native';
 
 export const ListItems = () => {
   const [selected, setSelected] = useState(false);
@@ -110,7 +111,7 @@ export const ListItems = () => {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem>
+      <ListItem onPress={() => Alert.alert('Pressed')}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
@@ -123,7 +124,7 @@ export const ListItems = () => {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem>
+      <ListItem onPress={() => Alert.alert('Pressed')}>
         <ListItemLeading>
           <Wallet size={24} />
           <ListItemContent>
