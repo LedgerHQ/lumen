@@ -169,6 +169,10 @@ const items = [
 ];
 ```
 
+## Controlled vs uncontrolled
+
+Use `value` + `onValueChange` (controlled) when OptionList is inside a BottomSheet — the sheet unmounts children on dismiss, so internal state is lost. Use `defaultValue` (uncontrolled) only when the component stays mounted (e.g. inline in a screen).
+
 ## Custom item layout with meta
 
 Use `meta` for arbitrary data, and sub-components for layout:
