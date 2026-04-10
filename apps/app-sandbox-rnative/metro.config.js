@@ -12,7 +12,8 @@ const reactPath = require.resolve('react', { paths: [appNodeModules] });
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
 
-config.watchFolders = [monorepoRoot];
+const defaultWatchFolders = config.watchFolders ?? [];
+config.watchFolders = [...new Set([...defaultWatchFolders, monorepoRoot])];
 
 config.resolver.nodeModulesPaths = [
   appNodeModules,

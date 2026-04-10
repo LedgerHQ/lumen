@@ -1,5 +1,22 @@
 {
-  "name": "iosproject",
-  "displayName": "app-sandbox-rnative"
+  "expo": {
+    "name": "Lumen Sandbox",
+    "slug": "app-sandbox-rnative",
+    "version": "0.0.1",
+    "orientation": "default",
+    "userInterfaceStyle": "automatic",
+    "scheme": "lumen-sandbox",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ledger.lumen"
+    },
+    "android": {
+      "package": "com.ledger.lumen"
+    }
+  }
 }
-
