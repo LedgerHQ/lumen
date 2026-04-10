@@ -88,7 +88,7 @@ export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
       <BottomSheetView>
         <BottomSheetHeader
           title='Dynamic Sizing'
-          appearance='compact'
+          density='compact'
           description='This bottom sheet adapts to its content height'
         />
       </BottomSheetView>

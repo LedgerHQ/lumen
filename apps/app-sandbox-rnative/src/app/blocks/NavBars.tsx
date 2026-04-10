@@ -28,7 +28,7 @@ export const NavBars = () => {
           borderRadius: 'lg',
         }}
       >
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarBackButton />
           <NavBarTrailing>
             <IconButton
@@ -73,7 +73,7 @@ export const NavBars = () => {
           borderRadius: 'lg',
         }}
       >
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarBackButton />
           <NavBarTrailing>
             <IconButton
