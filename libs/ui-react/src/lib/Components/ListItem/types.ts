@@ -20,6 +20,11 @@ export type ListItemProps = {
    */
   children: ReactNode;
   /**
+   * The density of the list item.
+   * @default 'expanded'
+   */
+  density?: 'compact' | 'expanded';
+  /**
    * custom classname
    */
   className?: string;

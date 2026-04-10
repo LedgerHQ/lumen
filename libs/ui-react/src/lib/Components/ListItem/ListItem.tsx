@@ -4,20 +4,37 @@ import {
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import {
-  ListItemContentProps,
-  ListItemDescriptionProps,
-  ListItemLeadingProps,
   ListItemProps,
-  ListItemTitleProps,
-  ListItemTrailingProps,
+  ListItemContentProps,
+  ListItemLeadingProps,
   ListItemContentRowProps,
+  ListItemTitleProps,
+  ListItemDescriptionProps,
+  ListItemTrailingProps,
 } from './types';
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
   createSafeContext<{ isInTrailing: boolean }>('ListItemTrailing', {
     isInTrailing: false,
   });
+
+const listItemVariants = cva(
+  [
+    'flex w-full items-center gap-16 px-8 py-12',
+    'rounded-md bg-base-transparent text-base transition-colors',
+    'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
+  ],
+  {
+    variants: {
+      density: {
+        compact: 'h-40',
+        expanded: 'h-64',
+      },
+    },
+  },
+);
 
 /**
  * A flexible list item component that provides a composable structure for displaying
@@ -41,8 +58,14 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  *   </ListItemTrailing>
  * </ListItem>
  */
-export const ListItem = ({ ref, ...props }: ListItemProps) => {
-  const { children, className, disabled: disabledProp, ...buttonProps } = props;
+export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
+  const {
+    children,
+    className,
+    disabled: disabledProp,
+    density = 'expanded',
+    ...buttonProps
+  } = props;
   const disabled = useDisabledContext({
     consumerName: 'ListItem',
     mergeWith: { disabled: disabledProp },
@@ -53,11 +76,12 @@ export const ListItem = ({ ref, ...props }: ListItemProps) => {
       <button
         ref={ref}
         type='button'
+        onClick={onClick}
         disabled={disabled}
         className={cn(
-          'flex h-64 w-full cursor-pointer items-center gap-16 rounded-md bg-base-transparent px-8 py-12 text-base transition-colors',
-          'hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
-          'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
+          listItemVariants({ density }),
+          onClick &&
+            'cursor-pointer hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
           className,
         )}
         {...buttonProps}
