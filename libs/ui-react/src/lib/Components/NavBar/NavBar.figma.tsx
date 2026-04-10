@@ -24,7 +24,7 @@ figma.connect(
         false: undefined,
       }),
       title: figma.string('title'),
-      coinCapsule: figma.enum('appearance', {
+      coinCapsule: figma.enum('density', {
         'with-asset': (
           <NavBarCoinCapsule
             ticker='Bitcoin'
