@@ -68,8 +68,6 @@ export const OptionList = ({
   );
 };
 
-OptionList.displayName = 'OptionList';
-
 export const OptionListContent = ({
   renderItem,
   lx,
@@ -114,8 +112,6 @@ export const OptionListContent = ({
     </Box>
   );
 };
-
-OptionListContent.displayName = 'OptionListContent';
 
 const useItemStyles = () => {
   return useStyleSheet(
@@ -189,8 +185,6 @@ export const OptionListItem = ({
   );
 };
 
-OptionListItem.displayName = 'OptionListItem';
-
 export const OptionListItemTitle = ({
   children,
   lx,
@@ -227,8 +221,6 @@ export const OptionListItemTitle = ({
     </Text>
   );
 };
-
-OptionListItemTitle.displayName = 'OptionListItemTitle';
 
 export const OptionListItemDescription = ({
   children,
@@ -267,8 +259,6 @@ export const OptionListItemDescription = ({
   );
 };
 
-OptionListItemDescription.displayName = 'OptionListItemDescription';
-
 export const OptionListItemContent = ({
   children,
   lx,
@@ -298,8 +288,6 @@ export const OptionListItemContent = ({
     </Box>
   );
 };
-
-OptionListItemContent.displayName = 'OptionListItemContent';
 
 export const OptionListItemContentRow = ({
   children,
@@ -332,8 +320,6 @@ export const OptionListItemContentRow = ({
   );
 };
 
-OptionListItemContentRow.displayName = 'OptionListItemContentRow';
-
 export const OptionListItemLeading = ({
   children,
   lx,
@@ -364,8 +350,6 @@ export const OptionListItemLeading = ({
   );
 };
 
-OptionListItemLeading.displayName = 'OptionListItemLeading';
-
 const OptionListLabel = ({ children }: { children: string }) => (
   <Text
     lx={{
@@ -378,8 +362,6 @@ const OptionListLabel = ({ children }: { children: string }) => (
     {children}
   </Text>
 );
-
-OptionListLabel.displayName = 'OptionListLabel';
 
 export const OptionListEmptyState = ({
   title,
@@ -428,5 +410,3 @@ export const OptionListEmptyState = ({
     </Box>
   );
 };
-
-OptionListEmptyState.displayName = 'OptionListEmptyState';
