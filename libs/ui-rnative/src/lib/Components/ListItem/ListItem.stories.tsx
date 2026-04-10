@@ -1,3 +1,4 @@
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { Settings, ChevronRight, Wallet } from '../../Symbols';
@@ -180,7 +181,7 @@ export const VariantsShowcase: Story = {
           </ListItemTrailing>
         </ListItem>
 
-        <ListItem>
+        <ListItem onPress={() => {}}>
           <ListItemLeading>
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
@@ -193,7 +194,7 @@ export const VariantsShowcase: Story = {
           </ListItemTrailing>
         </ListItem>
 
-        <ListItem>
+        <ListItem onPress={() => {}}>
           <ListItemLeading>
             <Wallet size={24} />
             <ListItemContent>
@@ -272,7 +273,7 @@ export const DisabledState: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem {...args}>
+      <ListItem {...args} onPress={() => {}}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
@@ -334,6 +335,62 @@ export const DisabledState: Story = {
   },
 };
 
+export const Density: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
+      <ListItem density='compact' onPress={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+          <ListItemContent>
+            <ListItemTitle>Compact with icon</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='compact'>
+        <ListItemLeading>
+          <Spot size={32} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Compact with value</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemTitle>$3,000</ListItemTitle>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded' onPress={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
+          <ListItemContent>
+            <ListItemTitle>Expanded with icon</ListItemTitle>
+            <ListItemDescription>Additional information</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded'>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Expanded with value</ListItemTitle>
+            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemTitle>$3,000</ListItemTitle>
+        </ListItemTrailing>
+      </ListItem>
+    </Box>
+  ),
+};
+
 export const ResponsiveLayout: Story = {
   render: () => (
     <Box
@@ -345,7 +402,7 @@ export const ResponsiveLayout: Story = {
       }}
     >
       <Box lx={{ flexDirection: 'column' }}>
-        <ListItem>
+        <ListItem onPress={() => {}}>
           <ListItemLeading>
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
@@ -358,7 +415,7 @@ export const ResponsiveLayout: Story = {
           </ListItemTrailing>
         </ListItem>
 
-        <ListItem>
+        <ListItem onPress={() => {}}>
           <ListItemLeading>
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
