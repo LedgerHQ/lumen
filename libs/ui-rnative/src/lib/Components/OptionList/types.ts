@@ -91,6 +91,10 @@ export type OptionListItemLeadingProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
+export type OptionListLabelProps = {
+  children: ReactNode;
+} & Omit<StyledTextProps, 'children'>;
+
 export type OptionListEmptyStateProps = {
   /** Heading displayed when the list is empty. */
   title: string;

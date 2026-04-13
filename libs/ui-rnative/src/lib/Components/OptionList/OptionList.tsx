@@ -23,6 +23,7 @@ import type {
   OptionListItemContentRowProps,
   OptionListEmptyStateProps,
   OptionListTriggerProps,
+  OptionListLabelProps,
 } from './types';
 import { useOptionListItems } from './useOptionList/useOptionListItems';
 
@@ -351,7 +352,7 @@ export const OptionListItemLeading = ({
   );
 };
 
-const OptionListLabel = ({ children }: { children: string }) => (
+const OptionListLabel = ({ children }: OptionListLabelProps) => (
   <Text
     lx={{
       color: 'muted',
