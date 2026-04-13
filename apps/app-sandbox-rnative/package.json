@@ -34,7 +34,6 @@
     "@react-native/metro-config": "0.79.7",
     "@react-native/typescript-config": "0.79.7",
     "@types/jest": "^29.5.13",
-    "@types/react": "~19.0.10",
     "babel-preset-expo": "~13.0.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8"
