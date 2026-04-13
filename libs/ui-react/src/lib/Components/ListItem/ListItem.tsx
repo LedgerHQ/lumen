@@ -2,6 +2,7 @@ import {
   cn,
   createSafeContext,
   DisabledProvider,
+  getButtonA11yProps,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
@@ -24,13 +25,20 @@ const listItemVariants = cva(
   [
     'flex w-full items-center gap-16 px-8 py-12',
     'rounded-md bg-base-transparent text-base transition-colors',
-    'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
   ],
   {
     variants: {
       density: {
         compact: 'h-40',
         expanded: 'h-64',
+      },
+      interactive: {
+        true: [
+          'cursor-pointer hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
+          'focus-visible:outline-2 focus-visible:outline-focus',
+          'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
+        ],
+        false: '',
       },
     },
   },
@@ -73,21 +81,17 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <button
+      <div
         ref={ref}
-        type='button'
-        onClick={onClick}
-        disabled={disabled}
+        {...getButtonA11yProps({ onClick, disabled })}
         className={cn(
-          listItemVariants({ density }),
-          onClick &&
-            'cursor-pointer hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
+          listItemVariants({ density, interactive: !!onClick }),
           className,
         )}
         {...buttonProps}
       >
         {children}
-      </button>
+      </div>
     </DisabledProvider>
   );
 };

@@ -1,7 +1,7 @@
 import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type {
-  ButtonHTMLAttributes,
   ComponentPropsWithRef,
+  MouseEventHandler,
   ReactNode,
 } from 'react';
 
@@ -36,8 +36,8 @@ export type ListItemProps = {
   /**
    * Callback function when the list item is pressed.
    */
-  onClick?: ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
-} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 /**
  * Props for the ListItemLeading component
