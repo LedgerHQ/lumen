@@ -76,7 +76,7 @@ import {
   NavBarTitle,
 } from '@ledgerhq/lumen-ui-rnative';
 
-<NavBar appearance='compact'>
+<NavBar density='compact'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
   <NavBarContent>
     <NavBarTitle>Page Title</NavBarTitle>
@@ -95,7 +95,7 @@ import {
   NavBarDescription,
 } from '@ledgerhq/lumen-ui-rnative';
 
-<NavBar appearance='expanded'>
+<NavBar density='expanded'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
   <NavBarContent>
     <NavBarTitle>Account Details</NavBarTitle>
@@ -110,7 +110,7 @@ import {
 import { MoreHorizontal } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { IconButton } from '@ledgerhq/lumen-ui-rnative';
 
-<NavBar appearance='compact'>
+<NavBar density='compact'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
   <NavBarContent>
     <NavBarTitle>Settings</NavBarTitle>
@@ -131,7 +131,7 @@ import { IconButton } from '@ledgerhq/lumen-ui-rnative';
 import Icon from '@ledgerhq/crypto-icons/native';
 import { NavBarCoinCapsule } from '@ledgerhq/lumen-ui-rnative';
 
-<NavBar appearance='compact'>
+<NavBar density='compact'>
   <NavBarBackButton onPress={() => navigation.goBack()} />
   <NavBarContent>
     <NavBarCoinCapsule
@@ -163,7 +163,7 @@ function App() {
     <Stack.Navigator
       screenOptions={{
         header: ({ navigation, route }) => (
-          <NavBar appearance='compact'>
+          <NavBar density='compact'>
             <NavBarBackButton onPress={() => navigation.goBack()} />
             <NavBarContent>
               <NavBarTitle>{route.name}</NavBarTitle>
@@ -201,7 +201,7 @@ export default function Layout() {
     <Stack
       screenOptions={{
         header: ({ route }) => (
-          <NavBar appearance='compact'>
+          <NavBar density='compact'>
             <NavBarBackButton onPress={() => router.back()} />
             <NavBarContent>
               <NavBarTitle>{route.name}</NavBarTitle>
@@ -236,7 +236,7 @@ export default function DetailsScreen() {
       <Stack.Screen
         options={{
           header: () => (
-            <NavBar appearance='expanded'>
+            <NavBar density='expanded'>
               <NavBarBackButton onPress={() => router.back()} />
               <NavBarContent>
                 <NavBarTitle>Details</NavBarTitle>

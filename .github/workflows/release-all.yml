@@ -24,14 +24,22 @@ jobs:
     name: Release and Publish
     runs-on: public-ledgerhq-shared-small
     permissions:
-      contents: write # Required for creating Git tags, version commits, and GitHub releases
+      contents: read
       id-token: write # Required for OIDC token generation to authenticate with JFrog Artifactory registry
     steps:
+      - name: Create GitHub App token
+        id: release-app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.LUMEN_RELEASE_APP_ID }}
+          private-key: ${{ secrets.LUMEN_RELEASE_APP_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: true # required to create commits and tags
+          token: ${{ steps.release-app-token.outputs.token }}
 
       - name: Setup git user
         uses: LedgerHQ/ledger-live/tools/actions/composites/setup-git-user@develop # internal action. branch is fine.
@@ -51,7 +59,7 @@ jobs:
       - name: Release
         id: release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.release-app-token.outputs.token }}
         run: npx nx release --verbose --skip-publish
 
       - name: Print Environment Info
@@ -73,4 +81,6 @@ jobs:
 
       - name: Publish
         id: publish
+        env:
+          GITHUB_TOKEN: ${{ steps.release-app-token.outputs.token }}
         run: npx nx release publish --verbose

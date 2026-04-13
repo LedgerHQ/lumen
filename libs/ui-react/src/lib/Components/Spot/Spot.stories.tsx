@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Settings, Plus, Heart, Star } from '../../Symbols';
+import { Settings, Plus, Heart, Star, CoinAlert } from '../../Symbols';
+import { DotSymbol, spotDotSizeMap } from '../DotSymbol';
 import { IconSize } from '../Icon';
 import { Spot } from './Spot';
 import { SpotAppearance } from './types';
@@ -95,39 +96,6 @@ export const AppearanceShowcase: Story = {
   },
 };
 
-export const IconVariants: Story = {
-  render: () => {
-    const icons = [
-      { name: 'Settings', component: Settings },
-      { name: 'Plus', component: Plus },
-      { name: 'Heart', component: Heart },
-      { name: 'Star', component: Star },
-    ];
-
-    return (
-      <div className='flex gap-8 p-8'>
-        {icons.map(({ name, component: Icon }) => (
-          <Spot key={name} appearance='icon' icon={Icon} />
-        ))}
-      </div>
-    );
-  },
-};
-
-export const NumberVariants: Story = {
-  render: () => {
-    const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
-
-    return (
-      <div className='flex flex-wrap gap-8 p-8'>
-        {numbers.map((num) => (
-          <Spot key={num} appearance='number' number={num} />
-        ))}
-      </div>
-    );
-  },
-};
-
 export const SizesShowcase: Story = {
   render: () => {
     const sizes = [32, 40, 48, 56, 72] as const;
@@ -136,7 +104,7 @@ export const SizesShowcase: Story = {
       <div className='flex flex-col gap-32 p-16'>
         {sizes.map((size) => (
           <div key={size} className='flex flex-col gap-16'>
-            <h3 className='heading-5-semi-bold'>{size}px</h3>
+            <h3 className='body-2-semi-bold'>{size}px</h3>
             <div className='flex gap-12'>
               <Spot appearance='icon' icon={Settings} size={size} />
               <Spot appearance='info' size={size} />
@@ -175,6 +143,22 @@ export const StatesShowcase: Story = {
             </div>
           </div>
         </div>
+      </div>
+    );
+  },
+};
+
+export const WithDotSymbol: Story = {
+  render: () => {
+    return (
+      <div className='flex flex-col gap-32 p-16'>
+        <DotSymbol
+          src='https://crypto-icons.ledger.com/BTC.png'
+          pin='bottom-end'
+          size={spotDotSizeMap[48]}
+        >
+          <Spot appearance='icon' icon={CoinAlert} />
+        </DotSymbol>
       </div>
     );
   },

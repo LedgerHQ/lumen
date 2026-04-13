@@ -9,16 +9,16 @@ import { Box, Text } from '../Utility';
 import { useBottomSheetContext } from './BottomSheet';
 import { BottomSheetHeaderProps } from './types';
 
-type Appearance = NonNullable<BottomSheetHeaderProps['appearance']>;
+type DensityValue = NonNullable<BottomSheetHeaderProps['density']>;
 
 const Z_INDEX_DIALOG_CONTENT = 1000;
 
 const useStyles = ({
-  appearance,
+  density,
   spacing,
   hidden,
 }: {
-  appearance: Appearance;
+  density: DensityValue;
   spacing: boolean;
   hidden: boolean;
 }) => {
@@ -42,7 +42,7 @@ const useStyles = ({
           justifyContent: 'space-between',
           gap: t.spacings.s16,
         },
-        appearance === 'expanded' && {
+        density === 'expanded' && {
           marginBottom: t.spacings.s16,
         },
         hidden && {
@@ -53,7 +53,7 @@ const useStyles = ({
         {
           flex: 1,
         },
-        appearance === 'expanded' && {
+        density === 'expanded' && {
           gap: t.spacings.s4,
           flex: 0,
         },
@@ -62,10 +62,10 @@ const useStyles = ({
         {
           color: t.colors.text.base,
         },
-        appearance === 'expanded' && {
+        density === 'expanded' && {
           ...t.typographies.heading3SemiBold,
         },
-        appearance === 'compact' && {
+        density === 'compact' && {
           textAlign: 'center',
           ...t.typographies.heading5SemiBold,
         },
@@ -74,7 +74,7 @@ const useStyles = ({
         t.typographies.body2,
         {
           color: t.colors.text.muted,
-          textAlign: appearance === 'compact' ? 'center' : 'left',
+          textAlign: density === 'compact' ? 'center' : 'left',
         },
       ]),
       iconPlaceholder: {
@@ -82,7 +82,7 @@ const useStyles = ({
         height: t.sizes.s32,
       },
     }),
-    [appearance, spacing, hidden],
+    [density, spacing, hidden],
   );
 };
 
@@ -91,7 +91,7 @@ export const BottomSheetHeader = ({
   style,
   title,
   description,
-  appearance = 'compact',
+  density = 'compact',
   spacing = false,
   ...props
 }: BottomSheetHeaderProps) => {
@@ -110,9 +110,9 @@ export const BottomSheetHeader = ({
   const hasIcons = Boolean(onBack || !hideCloseButton);
 
   const styles = useStyles({
-    appearance,
+    density,
     spacing,
-    hidden: !hasIcons && appearance !== 'compact',
+    hidden: !hasIcons && density !== 'compact',
   });
 
   if (!title && !description && !onBack && hideCloseButton) {
@@ -154,7 +154,7 @@ export const BottomSheetHeader = ({
             />
           )}
         </Box>
-        {appearance === 'compact' && titleComponent}
+        {density === 'compact' && titleComponent}
         <Box style={styles.iconPlaceholder}>
           {!hideCloseButton && (
             <IconButton
@@ -170,7 +170,7 @@ export const BottomSheetHeader = ({
           )}
         </Box>
       </Box>
-      {appearance === 'expanded' && titleComponent}
+      {density === 'expanded' && titleComponent}
     </Box>
   );
 };

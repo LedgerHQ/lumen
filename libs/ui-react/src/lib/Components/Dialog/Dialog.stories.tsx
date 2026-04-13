@@ -76,7 +76,7 @@ export const Base: Story = {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader
-          appearance='compact'
+          density='compact'
           title='Sheet Title'
           description='Additional information'
         />
@@ -106,7 +106,7 @@ export const Base: Story = {
   </DialogTrigger>
   <DialogContent>
     <DialogHeader
-      appearance="compact"
+      density="compact"
       title="Sheet Title"
       description="Additional information"
     />
@@ -140,7 +140,7 @@ export const Controlled: Story = {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
-            appearance='compact'
+            density='compact'
             title='Controlled Dialog'
             description='State is managed externally'
             onClose={() => setOpen(false)}
@@ -174,7 +174,7 @@ const [open, setOpen] = useState(false);
   </DialogTrigger>
   <DialogContent>
     <DialogHeader
-      appearance="compact"
+      density="compact"
       title="Controlled Dialog"
       description="State is managed externally"
       onClose={() => setOpen(false)}
@@ -208,7 +208,7 @@ export const HeightLayouts: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Fit Height'
               description='Content-fit height'
             />
@@ -227,7 +227,7 @@ export const HeightLayouts: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Fixed Height'
               description='Always 560px'
             />
@@ -246,7 +246,7 @@ export const HeightLayouts: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Scrollable Content'
               description='Fixed height with scroll'
             />
@@ -282,7 +282,7 @@ export const WithFooter: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Scrollable Content'
               description='With fixed footer'
             />
@@ -302,7 +302,7 @@ export const WithFooter: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Scrollable Content'
               description='With fixed footer'
             />
@@ -332,7 +332,7 @@ export const HeaderVariants: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Sheet Title'
               description='Additional information'
             />
@@ -348,7 +348,7 @@ export const HeaderVariants: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='expanded'
+              density='expanded'
               title='Sheet Title'
               description='Additional information'
             />
@@ -364,7 +364,7 @@ export const HeaderVariants: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='compact'
+              density='compact'
               title='Sheet Title'
               description='Additional information'
               onBack={() => console.log('Back clicked')}
@@ -381,7 +381,7 @@ export const HeaderVariants: Story = {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader
-              appearance='expanded'
+              density='expanded'
               title='Sheet Title'
               description='Additional information'
               onBack={() => console.log('Back clicked')}
@@ -404,7 +404,7 @@ export const HeaderVariants: Story = {
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="compact" title="Sheet Title" description="Additional information" />
+    <DialogHeader density="compact" title="Sheet Title" description="Additional information" />
     <DialogBody>
       Content here
     </DialogBody>
@@ -417,7 +417,7 @@ export const HeaderVariants: Story = {
     <Button appearance="base">Open Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="expanded" title="Sheet Title" description="Additional information" />
+    <DialogHeader density="expanded" title="Sheet Title" description="Additional information" />
     <DialogBody>
       Content here
     </DialogBody>
@@ -431,7 +431,7 @@ export const HeaderVariants: Story = {
   </DialogTrigger>
   <DialogContent>
     <DialogHeader 
-      appearance="compact" 
+      density="compact" 
       title="Sheet Title" 
       onBack={() => console.log('Back clicked')}
     />
@@ -465,7 +465,7 @@ export const WithMultiSteps: Story = {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
-            appearance='expanded'
+            density='expanded'
             title={step === 1 ? 'Step 1' : 'Step 2'}
             onClose={() => setOpen(false)}
             onBack={step > 1 ? () => setStep(step - 1) : undefined}
@@ -513,7 +513,7 @@ const handleOpenChange = (isOpen: boolean) => {
   </DialogTrigger>
   <DialogContent>
     <DialogHeader
-      appearance="expanded"
+      density="expanded"
       title={step === 1 ? 'Step 1' : 'Step 2'}
       onClose={() => setOpen(false)}
       onBack={step > 1 ? () => setStep(step - 1) : undefined}
@@ -552,7 +552,7 @@ export const WithListsContent: Story = {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
-            appearance='expanded'
+            density='expanded'
             title='Browse Options'
             description='Description content is fixed to the top of the dialog'
             onBack={() => console.log('Back clicked')}
@@ -606,7 +606,7 @@ export const WithStickyBodyContent: Story = {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader
-          appearance='expanded'
+          density='expanded'
           title='Browse Options'
           description='Search stays visible while the list scrolls'
         />
@@ -641,7 +641,7 @@ export const WithScrollbar: Story = {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader
-          appearance='compact'
+          density='compact'
           title='Custom Scrollbar'
           description='Fixed height with styled scrollbar'
         />
@@ -674,7 +674,7 @@ export const InfoStateVariants: Story = {
             <Button appearance='base'>Error</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader appearance='compact' className='relative' />
+            <DialogHeader density='compact' className='relative' />
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
@@ -705,7 +705,7 @@ export const InfoStateVariants: Story = {
             <Button appearance='base'>Success</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader appearance='compact' className='relative' />
+            <DialogHeader density='compact' className='relative' />
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
@@ -743,7 +743,7 @@ export const InfoStateVariants: Story = {
     <Button appearance="base">Open Error Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="compact" className="relative" />
+    <DialogHeader density="compact" className="relative" />
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error" />
@@ -771,7 +771,7 @@ export const InfoStateVariants: Story = {
     <Button appearance="base">Open Success Dialog</Button>
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader appearance="compact" className="relative" />
+    <DialogHeader density="compact" className="relative" />
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success" />
