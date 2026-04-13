@@ -1,3 +1,4 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type {
   ButtonHTMLAttributes,
   ComponentPropsWithRef,
@@ -23,7 +24,7 @@ export type ListItemProps = {
    * The density of the list item.
    * @default 'expanded'
    */
-  density?: 'compact' | 'expanded';
+  density?: Density;
   /**
    * custom classname
    */

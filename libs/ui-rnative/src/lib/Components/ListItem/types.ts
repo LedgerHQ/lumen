@@ -1,3 +1,4 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import {
   StyledPressableProps,
   StyledTextProps,
@@ -23,7 +24,7 @@ export type ListItemProps = {
    * The density of the list item.
    * @default 'expanded'
    */
-  density?: 'compact' | 'expanded';
+  density?: Density;
   /**
    * Whether the list item is disabled.
    */
