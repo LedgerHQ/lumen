@@ -3,7 +3,7 @@ import {
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { ElementRef, ReactNode, Ref } from 'react';
+import { Children, ElementRef, isValidElement, ReactNode, Ref } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
@@ -22,7 +22,13 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
     isInTrailing: false,
   });
 
-const useRootStyles = ({ pressed }: { pressed: boolean }) => {
+const useRootStyles = ({
+  pressed,
+  hasLeading,
+}: {
+  pressed: boolean;
+  hasLeading: boolean;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: StyleSheet.flatten([
@@ -35,14 +41,14 @@ const useRootStyles = ({ pressed }: { pressed: boolean }) => {
           borderRadius: t.borderRadius.md,
           backgroundColor: 'transparent',
           paddingHorizontal: t.spacings.s8,
-          paddingVertical: t.spacings.s12,
+          paddingVertical: hasLeading ? t.spacings.s8 : t.spacings.s12,
         },
         pressed && {
           backgroundColor: t.colors.bg.baseTransparentPressed,
         },
       ]),
     }),
-    [pressed],
+    [pressed, hasLeading],
   );
 };
 
@@ -123,7 +129,12 @@ const ListItemInner = ({
   pressed: boolean;
   children: ReactNode;
 }) => {
-  const styles = useRootStyles({ pressed });
+  const hasLeading = Children.toArray(children).some(
+    (child) => isValidElement(child) && child.type === ListItemLeading,
+  );
+
+  const styles = useRootStyles({ pressed, hasLeading });
+
   return (
     <View style={styles.container} testID='list-item-content'>
       {children}
