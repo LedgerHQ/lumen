@@ -16,7 +16,7 @@ import {
   ListItemContentRow,
 } from './ListItem';
 
-const meta: Meta<typeof ListItem> = {
+const meta = {
   component: ListItem,
   title: 'Containment/ListItem',
   subcomponents: {
@@ -48,7 +48,7 @@ const meta: Meta<typeof ListItem> = {
       description: 'The function to be called when the list item is pressed',
     },
   },
-};
+} satisfies Meta<typeof ListItem>;
 
 export default meta;
 type Story = StoryObj<typeof ListItem>;
@@ -98,7 +98,6 @@ export const VariantsShowcase: Story = {
             <Spot size={48} appearance='icon' icon={Settings} />
             <ListItemContent>
               <ListItemTitle>Simple composition</ListItemTitle>
-              <ListItemDescription>With description</ListItemDescription>
             </ListItemContent>
           </ListItemLeading>
         </ListItem>

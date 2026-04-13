@@ -1,18 +1,19 @@
 import {
   createSafeContext,
+  Density,
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { ElementRef, ReactNode, Ref } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
 import {
+  ListItemProps,
   ListItemContentProps,
   ListItemContentRowProps,
   ListItemDescriptionProps,
   ListItemLeadingProps,
-  ListItemProps,
   ListItemTitleProps,
   ListItemTrailingProps,
 } from './types';
@@ -27,7 +28,7 @@ const useRootStyles = ({
   density,
 }: {
   pressed: boolean;
-  density: 'compact' | 'expanded';
+  density: Density;
 }) => {
   return useStyleSheet(
     (t) => ({
@@ -94,32 +95,48 @@ export const ListItem = ({
   disabled: disabledProp = false,
   density = 'expanded',
   onPress,
+  onLongPress,
   ref,
-  ...pressableProps
+  ...props
 }: ListItemProps) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItem',
     mergeWith: { disabled: disabledProp },
   });
 
+  const isInteractive = !!onPress || !!onLongPress;
+
+  if (isInteractive) {
+    return (
+      <DisabledProvider value={{ disabled }}>
+        <Pressable
+          ref={ref}
+          lx={lx}
+          style={style as ViewStyle}
+          disabled={disabled}
+          onPress={onPress}
+          onLongPress={onLongPress}
+          accessibilityRole='button'
+          accessibilityState={{ disabled }}
+          {...props}
+        >
+          {({ pressed }) => (
+            <ListItemInner pressed={pressed} density={density}>
+              {children}
+            </ListItemInner>
+          )}
+        </Pressable>
+      </DisabledProvider>
+    );
+  }
+
   return (
     <DisabledProvider value={{ disabled }}>
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={style}
-        disabled={disabled}
-        onPress={onPress}
-        accessibilityRole='button'
-        accessibilityState={{ disabled }}
-        {...pressableProps}
-      >
-        {({ pressed }) => (
-          <ListItemInner pressed={pressed && !!onPress} density={density}>
-            {children}
-          </ListItemInner>
-        )}
-      </Pressable>
+      <Box ref={ref} lx={lx} style={style} {...props}>
+        <ListItemInner pressed={false} density={density}>
+          {children}
+        </ListItemInner>
+      </Box>
     </DisabledProvider>
   );
 };
@@ -133,7 +150,7 @@ const ListItemInner = ({
   children,
 }: {
   pressed: boolean;
-  density: 'compact' | 'expanded';
+  density: Density;
   children: ReactNode;
 }) => {
   const styles = useRootStyles({ pressed, density });
@@ -153,7 +170,7 @@ export const ListItemLeading = ({
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemLeadingProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
     (t) => ({
@@ -173,7 +190,7 @@ export const ListItemLeading = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.leading, style])}
-      {...viewProps}
+      {...props}
     >
       {children}
     </Box>
@@ -188,7 +205,7 @@ export const ListItemContent = ({
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemContentProps & { ref?: Ref<View> }) => {
   const { isInTrailing } = useListItemTrailingContext({
     consumerName: 'ListItemContent',
@@ -212,7 +229,7 @@ export const ListItemContent = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.content, style])}
-      {...viewProps}
+      {...props}
     >
       {children}
     </Box>
@@ -228,7 +245,7 @@ export const ListItemContentRow = ({
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemContentRowProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
     (t) => ({
@@ -247,7 +264,7 @@ export const ListItemContentRow = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.row, style])}
-      {...viewProps}
+      {...props}
     >
       {children}
     </Box>
@@ -262,7 +279,7 @@ export const ListItemTitle = ({
   lx = {},
   style,
   ref,
-  ...textProps
+  ...props
 }: ListItemTitleProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemTitle',
@@ -296,7 +313,7 @@ export const ListItemTitle = ({
       numberOfLines={1}
       ellipsizeMode='tail'
       allowFontScaling={false}
-      {...textProps}
+      {...props}
     >
       {children}
     </Text>
@@ -312,7 +329,7 @@ export const ListItemDescription = ({
   lx = {},
   style,
   ref,
-  ...textProps
+  ...props
 }: ListItemDescriptionProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
@@ -346,7 +363,7 @@ export const ListItemDescription = ({
       numberOfLines={1}
       ellipsizeMode='tail'
       allowFontScaling={false}
-      {...textProps}
+      {...props}
     >
       {children}
     </Text>
@@ -362,7 +379,7 @@ export const ListItemTrailing = ({
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemTrailingProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
     () => ({
@@ -380,7 +397,7 @@ export const ListItemTrailing = ({
         ref={ref}
         lx={lx}
         style={StyleSheet.flatten([styles.trailing, style])}
-        {...viewProps}
+        {...props}
       >
         {children}
       </Box>
