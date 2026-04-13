@@ -49,7 +49,7 @@ const meta = {
             padding: 's24',
             alignItems: 'flex-start',
             width: 's320',
-            height: 's320',
+            height: 's480',
           }}
         >
           <Story />
@@ -103,22 +103,12 @@ export const Base: Story = {
 
     return (
       <>
-        <TriggerButton
-          appearance='gray'
+        <OptionListTrigger
+          label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
-          icon={
-            selected?.meta ? (
-              <CryptoIcon
-                ledgerId={selected.meta.ledgerId}
-                ticker={selected.meta.ticker}
-                size='32px'
-              />
-            ) : undefined
-          }
-          iconType='rounded'
         >
-          {selected?.label ?? 'Select currency'}
-        </TriggerButton>
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -182,12 +172,12 @@ export const WithGroups: Story = {
 
     return (
       <>
-        <TriggerButton
-          appearance='gray'
+        <OptionListTrigger
+          label='Food'
           onPress={() => bottomSheetRef.current?.present()}
         >
-          {selected?.label ?? 'Pick a food'}
-        </TriggerButton>
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -252,22 +242,12 @@ export const WithContentRow: Story = {
 
     return (
       <>
-        <TriggerButton
-          appearance='gray'
+        <OptionListTrigger
+          label='Network'
           onPress={() => bottomSheetRef.current?.present()}
-          icon={
-            selected?.meta ? (
-              <CryptoIcon
-                ledgerId={selected.meta.ledgerId}
-                ticker={selected.meta.ticker}
-                size='32px'
-              />
-            ) : undefined
-          }
-          iconType='rounded'
         >
-          {selected?.label ?? 'Select network'}
-        </TriggerButton>
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -350,12 +330,12 @@ export const WithDisabledItems: Story = {
 
     return (
       <>
-        <TriggerButton
-          appearance='gray'
+        <OptionListTrigger
+          label='Account'
           onPress={() => bottomSheetRef.current?.present()}
         >
-          {selected?.label ?? 'Select account'}
-        </TriggerButton>
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -438,22 +418,12 @@ export const GroupedWithContentRow: Story = {
 
     return (
       <>
-        <TriggerButton
-          appearance='gray'
+        <OptionListTrigger
+          label='Network'
           onPress={() => bottomSheetRef.current?.present()}
-          icon={
-            selected?.meta ? (
-              <CryptoIcon
-                ledgerId={selected.meta.ledgerId}
-                ticker={selected.meta.ticker}
-                size='32px'
-              />
-            ) : undefined
-          }
-          iconType='rounded'
         >
-          {selected?.label ?? 'Select network'}
-        </TriggerButton>
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -513,12 +483,10 @@ export const EmptyState: Story = {
 
     return (
       <>
-        <TriggerButton
-          appearance='gray'
+        <OptionListTrigger
+          label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
-        >
-          Select currency
-        </TriggerButton>
+        />
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -549,34 +517,168 @@ export const EmptyState: Story = {
   },
 };
 
-export const WithInputTrigger: Story = {
+const SIMPLE_OPTIONS: OptionListItemData[] = [
+  { value: 'all', label: 'All accounts' },
+  { value: 'savings', label: 'Savings' },
+  { value: 'checking', label: 'Checking' },
+];
+
+const SETTINGS_OPTIONS: OptionListItemData[] = [
+  { value: 'general', label: 'General' },
+  { value: 'security', label: 'Security' },
+  { value: 'notifications', label: 'Notifications' },
+];
+
+const appearances = ['gray', 'transparent', 'no-background'] as const;
+
+const SimpleOptionListSheet = ({
+  sheetRef,
+  items,
+  title,
+  value,
+  onValueChange,
+}: {
+  sheetRef: ReturnType<typeof useBottomSheetRef>;
+  items: OptionListItemData[];
+  title: string;
+  value: string | null;
+  onValueChange: (v: string | null) => void;
+}) => (
+  <BottomSheet
+    ref={sheetRef}
+    enableDynamicSizing
+    snapPoints={null}
+    onClose={() => sheetRef.current?.dismiss()}
+  >
+    <BottomSheetView>
+      <BottomSheetHeader title={title} />
+      <OptionList
+        items={items}
+        value={value}
+        onValueChange={(v) => {
+          onValueChange(v);
+          sheetRef.current?.dismiss();
+        }}
+      >
+        <OptionListContent
+          renderItem={(item) => (
+            <OptionListItem value={item.value}>
+              <OptionListItemContent>
+                <OptionListItemText>{item.label}</OptionListItemText>
+              </OptionListItemContent>
+            </OptionListItem>
+          )}
+        />
+      </OptionList>
+    </BottomSheetView>
+  </BottomSheet>
+);
+
+export const TriggerShowcase: Story = {
   render: () => {
-    const [value, setValue] = useState<string | null>(null);
-    const bottomSheetRef = useBottomSheetRef();
-    const selected = CURRENCIES.find((c) => c.value === value);
+    const [buttonValue, setButtonValue] = useState<string | null>(null);
+    const [iconValue, setIconValue] = useState<string | null>(null);
+    const [cryptoValue, setCryptoValue] = useState<string | null>(null);
+    const [appearanceValues, setAppearanceValues] = useState<
+      Record<string, string | null>
+    >({});
+    const buttonRef = useBottomSheetRef();
+    const iconRef = useBottomSheetRef();
+    const cryptoRef = useBottomSheetRef();
+    const appearanceRefs = {
+      gray: useBottomSheetRef(),
+      transparent: useBottomSheetRef(),
+      'no-background': useBottomSheetRef(),
+    };
+
+    const selectedButton = SIMPLE_OPTIONS.find((o) => o.value === buttonValue);
+    const selectedIcon = SETTINGS_OPTIONS.find((o) => o.value === iconValue);
+    const selectedCrypto = CURRENCIES.find((c) => c.value === cryptoValue);
 
     return (
-      <>
-        <OptionListTrigger
-          label='Currency'
-          onPress={() => bottomSheetRef.current?.present()}
+      <Box lx={{ gap: 's16', alignItems: 'flex-start' }}>
+        <TriggerButton
+          appearance='gray'
+          onPress={() => buttonRef.current?.present()}
         >
-          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+          {selectedButton?.label ?? 'All accounts'}
+        </TriggerButton>
+
+        <TriggerButton appearance='gray' disabled>
+          Disabled
+        </TriggerButton>
+
+        <TriggerButton
+          appearance='gray'
+          onPress={() => iconRef.current?.present()}
+          icon={<Settings size={20} />}
+          iconType='flat'
+        >
+          {selectedIcon?.label ?? 'Settings'}
+        </TriggerButton>
+
+        <TriggerButton
+          appearance='gray'
+          onPress={() => cryptoRef.current?.present()}
+          icon={
+            selectedCrypto?.meta ? (
+              <CryptoIcon
+                ledgerId={selectedCrypto.meta.ledgerId}
+                ticker={selectedCrypto.meta.ticker}
+                size='32px'
+              />
+            ) : undefined
+          }
+          iconType='rounded'
+        >
+          {selectedCrypto?.label ?? 'Network'}
+        </TriggerButton>
+
+        <Box lx={{ flexDirection: 'row', gap: 's16' }}>
+          {appearances.map((appearance) => {
+            const selected = SIMPLE_OPTIONS.find(
+              (o) => o.value === appearanceValues[appearance],
+            );
+            return (
+              <TriggerButton
+                key={appearance}
+                appearance={appearance}
+                onPress={() => appearanceRefs[appearance].current?.present()}
+              >
+                {selected?.label ?? appearance}
+              </TriggerButton>
+            );
+          })}
+        </Box>
+
+        <SimpleOptionListSheet
+          sheetRef={buttonRef}
+          items={SIMPLE_OPTIONS}
+          title='All accounts'
+          value={buttonValue}
+          onValueChange={setButtonValue}
+        />
+        <SimpleOptionListSheet
+          sheetRef={iconRef}
+          items={SETTINGS_OPTIONS}
+          title='Settings'
+          value={iconValue}
+          onValueChange={setIconValue}
+        />
         <BottomSheet
-          ref={bottomSheetRef}
+          ref={cryptoRef}
           enableDynamicSizing
           snapPoints={null}
-          onClose={() => bottomSheetRef.current?.dismiss()}
+          onClose={() => cryptoRef.current?.dismiss()}
         >
           <BottomSheetView>
-            <BottomSheetHeader title='Select currency' />
+            <BottomSheetHeader title='Select network' />
             <OptionList
               items={CURRENCIES}
-              value={value}
+              value={cryptoValue}
               onValueChange={(v) => {
-                setValue(v);
-                bottomSheetRef.current?.dismiss();
+                setCryptoValue(v);
+                cryptoRef.current?.dismiss();
               }}
             >
               <OptionListContent
@@ -604,7 +706,19 @@ export const WithInputTrigger: Story = {
             </OptionList>
           </BottomSheetView>
         </BottomSheet>
-      </>
+        {appearances.map((appearance) => (
+          <SimpleOptionListSheet
+            key={appearance}
+            sheetRef={appearanceRefs[appearance]}
+            items={SIMPLE_OPTIONS}
+            title={appearance}
+            value={appearanceValues[appearance] ?? null}
+            onValueChange={(v) =>
+              setAppearanceValues((prev) => ({ ...prev, [appearance]: v }))
+            }
+          />
+        ))}
+      </Box>
     );
   },
 };
@@ -638,40 +752,4 @@ export const WithDefaultValue: Story = {
       </OptionList>
     </Box>
   ),
-};
-
-export const Standalone: Story = {
-  render: () => {
-    const [value, setValue] = useState<string | null>(null);
-
-    return (
-      <Box lx={{ width: 's320' }}>
-        <Text lx={{ marginBottom: 's12' }}>Selected: {value ?? 'none'}</Text>
-        <OptionList items={CURRENCIES} value={value} onValueChange={setValue}>
-          <OptionListContent
-            renderItem={(item) => {
-              const meta = item.meta as { ticker: string; ledgerId: string };
-              return (
-                <OptionListItem value={item.value}>
-                  <OptionListItemLeading>
-                    <CryptoIcon
-                      ledgerId={meta.ledgerId}
-                      ticker={meta.ticker}
-                      size='32px'
-                    />
-                  </OptionListItemLeading>
-                  <OptionListItemContent>
-                    <OptionListItemText>{item.label}</OptionListItemText>
-                    <OptionListItemDescription>
-                      {meta.ticker}
-                    </OptionListItemDescription>
-                  </OptionListItemContent>
-                </OptionListItem>
-              );
-            }}
-          />
-        </OptionList>
-      </Box>
-    );
-  },
 };

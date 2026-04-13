@@ -26,6 +26,7 @@ It handles **selection state**, **automatic grouping** (via a `group` field on i
 <Canvas of={OptionListStories.Base} />
 
 - **OptionList**: Root component managing selection state and item processing
+- **OptionListTrigger**: Input-style trigger with floating label and chevron — displays the selected value and opens a BottomSheet on press
 - **OptionListContent**: Iterates items, renders group labels and separators automatically, calls `renderItem`
 - **OptionListItem**: Pressable item with selection check mark
 - **OptionListItemLeading**: Slot for leading visuals (icons, avatars)
@@ -60,11 +61,11 @@ Combining grouping with rich item content:
 
 <Canvas of={OptionListStories.GroupedWithContentRow} />
 
-### Standalone (no BottomSheet)
+### Trigger showcase
 
-OptionList can be rendered inline without a BottomSheet:
+OptionList can be opened from any trigger. `TriggerButton` supports multiple appearances (`gray`, `transparent`, `no-background`), optional icons (`flat` / `rounded`), and disabled state:
 
-<Canvas of={OptionListStories.Standalone} />
+<Canvas of={OptionListStories.TriggerShowcase} />
 
 </Tab>
 <Tab label="Implementation">
@@ -110,23 +111,29 @@ function MyList() {
 
 ## Inside a BottomSheet
 
+Use `OptionListTrigger` as the input-style trigger — it provides a floating label that animates up when a value is selected, and a chevron indicator. Pass children only when a value is selected so the label stays centered when empty.
+
 ```tsx
 import {
   OptionList, OptionListContent, OptionListItem,
-  OptionListItemContent, OptionListItemText,
+  OptionListItemContent, OptionListItemText, OptionListTrigger,
   BottomSheet, BottomSheetHeader, BottomSheetView,
-  TriggerButton, useBottomSheetRef,
+  useBottomSheetRef, Text,
 } from '@ledgerhq/lumen-ui-rnative';
 
 function CurrencyPicker() {
   const [value, setValue] = useState<string | null>(null);
   const ref = useBottomSheetRef();
+  const selected = items.find((i) => i.value === value);
 
   return (
     <>
-      <TriggerButton onPress={() => ref.current?.present()}>
-        {value ?? 'Pick'}
-      </TriggerButton>
+      <OptionListTrigger
+        label='Currency'
+        onPress={() => ref.current?.present()}
+      >
+        {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+      </OptionListTrigger>
       <BottomSheet
         ref={ref}
         enableDynamicSizing
@@ -134,7 +141,7 @@ function CurrencyPicker() {
         onClose={() => ref.current?.dismiss()}
       >
         <BottomSheetView>
-          <BottomSheetHeader title='Pick an option' />
+          <BottomSheetHeader title='Pick a currency' />
           <OptionList
             items={items}
             value={value}
@@ -270,8 +277,8 @@ description='OptionList is display-only — wrap it in a BottomSheet, screen, or
 
 </DoBlockItem>
 <DontBlockItem
-title="Don't expect OptionList to handle its own trigger or modal"
-description='Unlike Select, OptionList has no built-in trigger. Consumers manage the container.'
+title="Don't expect OptionList to manage the BottomSheet"
+description='Use OptionListTrigger to open the sheet yourself — OptionList only handles selection state, not the container.'
 >
 
 {/* prettier-ignore */}
