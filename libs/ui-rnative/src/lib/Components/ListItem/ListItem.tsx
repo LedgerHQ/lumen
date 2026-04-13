@@ -29,7 +29,7 @@ const useRootStyles = ({ pressed }: { pressed: boolean }) => {
         {
           flexDirection: 'row',
           alignItems: 'center',
-          minHeight: t.sizes.s64,
+          height: t.sizes.s64,
           width: t.sizes.full,
           gap: t.spacings.s16,
           borderRadius: t.borderRadius.md,
@@ -283,6 +283,7 @@ export const ListItemTitle = ({
       style={StyleSheet.flatten([styles.title, style])}
       numberOfLines={1}
       ellipsizeMode='tail'
+      allowFontScaling={false}
       {...textProps}
     >
       {children}
@@ -333,6 +334,7 @@ export const ListItemDescription = ({
       style={StyleSheet.flatten([styles.description, style])}
       numberOfLines={1}
       ellipsizeMode='tail'
+      allowFontScaling={false}
       {...textProps}
     >
       {children}
