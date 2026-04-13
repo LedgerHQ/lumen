@@ -17,7 +17,7 @@ import type {
   OptionListContentProps,
   OptionListItemProps,
   OptionListItemLeadingProps,
-  OptionListItemTitleProps,
+  OptionListItemTextProps,
   OptionListItemDescriptionProps,
   OptionListItemContentProps,
   OptionListItemContentRowProps,
@@ -83,10 +83,7 @@ export const OptionListContent = ({
   });
 
   const renderItemWithState = (item: OptionListItemData) =>
-    renderItem(item, {
-      selected: selectedValue === item.value,
-      disabled: item.disabled ?? false,
-    });
+    renderItem(item, selectedValue === item.value);
 
   if (isGrouped) {
     return (
@@ -187,21 +184,21 @@ export const OptionListItem = ({
   );
 };
 
-export const OptionListItemTitle = ({
+export const OptionListItemText = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: OptionListItemTitleProps) => {
+}: OptionListItemTextProps) => {
   const disabled = useDisabledContext({
-    consumerName: 'OptionListItemTitle',
+    consumerName: 'OptionListItemText',
     contextRequired: false,
   });
 
   const styles = useStyleSheet(
     (t) => ({
-      title: StyleSheet.flatten([
+      text: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
@@ -215,7 +212,7 @@ export const OptionListItemTitle = ({
     <Text
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.title, style])}
+      style={StyleSheet.flatten([styles.text, style])}
       numberOfLines={1}
       {...props}
     >

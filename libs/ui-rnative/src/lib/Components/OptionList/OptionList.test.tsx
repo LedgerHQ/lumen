@@ -8,7 +8,7 @@ import {
   OptionListContent,
   OptionListItem,
   OptionListItemContent,
-  OptionListItemTitle,
+  OptionListItemText,
   OptionListItemDescription,
 } from './OptionList';
 import type { OptionListItemData } from './types';
@@ -57,7 +57,7 @@ const renderOptionList = ({
           renderItem={(item) => (
             <OptionListItem value={item.value} disabled={item.disabled}>
               <OptionListItemContent>
-                <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                <OptionListItemText>{item.label}</OptionListItemText>
               </OptionListItemContent>
             </OptionListItem>
           )}
@@ -130,15 +130,11 @@ describe('OptionList', () => {
     expect(getByText('Carrot')).toBeTruthy();
   });
 
-  it('passes selected and disabled state to renderItem', () => {
+  it('passes selected state to renderItem', () => {
     const renderItem = jest.fn(
-      (
-        item: OptionListItemData,
-        state: { selected: boolean; disabled: boolean },
-      ) => (
+      (item: OptionListItemData, selected: boolean) => (
         <Text testID={`item-${item.value}`}>
-          {item.label} {state.selected ? 'selected' : ''}{' '}
-          {state.disabled ? 'disabled' : ''}
+          {item.label} {selected ? 'selected' : ''}
         </Text>
       ),
     );
@@ -159,11 +155,11 @@ describe('OptionList', () => {
 
     expect(renderItem).toHaveBeenCalledWith(
       expect.objectContaining({ value: 'a' }),
-      { selected: true, disabled: false },
+      true,
     );
     expect(renderItem).toHaveBeenCalledWith(
       expect.objectContaining({ value: 'b' }),
-      { selected: false, disabled: true },
+      false,
     );
   });
 
@@ -175,7 +171,7 @@ describe('OptionList', () => {
             renderItem={(item) => (
               <OptionListItem value={item.value}>
                 <OptionListItemContent>
-                  <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                  <OptionListItemText>{item.label}</OptionListItemText>
                   <OptionListItemDescription>
                     Description for {item.label}
                   </OptionListItemDescription>

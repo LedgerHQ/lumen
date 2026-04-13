@@ -31,7 +31,7 @@ It handles **selection state**, **automatic grouping** (via a `group` field on i
 - **OptionListItemLeading**: Slot for leading visuals (icons, avatars)
 - **OptionListItemContent**: Flex column for title + description
 - **OptionListItemContentRow**: Horizontal row for placing elements side-by-side (e.g. title + tag)
-- **OptionListItemTitle**: Styled title text
+- **OptionListItemText**: Styled title text
 - **OptionListItemDescription**: Styled description text
 
 ## Properties
@@ -81,7 +81,7 @@ import {
   OptionListContent,
   OptionListItem,
   OptionListItemContent,
-  OptionListItemTitle,
+  OptionListItemText,
 } from '@ledgerhq/lumen-ui-rnative';
 
 const items = [
@@ -98,7 +98,7 @@ function MyList() {
         renderItem={(item) => (
           <OptionListItem value={item.value}>
             <OptionListItemContent>
-              <OptionListItemTitle>{item.label}</OptionListItemTitle>
+              <OptionListItemText>{item.label}</OptionListItemText>
             </OptionListItemContent>
           </OptionListItem>
         )}
@@ -113,7 +113,7 @@ function MyList() {
 ```tsx
 import {
   OptionList, OptionListContent, OptionListItem,
-  OptionListItemContent, OptionListItemTitle,
+  OptionListItemContent, OptionListItemText,
   BottomSheet, BottomSheetHeader, BottomSheetView,
   TriggerButton, useBottomSheetRef,
 } from '@ledgerhq/lumen-ui-rnative';
@@ -144,7 +144,7 @@ function CurrencyPicker() {
               renderItem={(item) => (
                 <OptionListItem value={item.value}>
                   <OptionListItemContent>
-                    <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                    <OptionListItemText>{item.label}</OptionListItemText>
                   </OptionListItemContent>
                 </OptionListItem>
               )}
@@ -192,7 +192,7 @@ const items = [
         </OptionListItemLeading>
         <OptionListItemContent>
           <OptionListItemContentRow>
-            <OptionListItemTitle>{item.label}</OptionListItemTitle>
+            <OptionListItemText>{item.label}</OptionListItemText>
             <Tag label={meta.tag} appearance='gray' size='sm' />
           </OptionListItemContentRow>
           <OptionListItemDescription>{meta.ticker}</OptionListItemDescription>

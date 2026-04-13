@@ -10,6 +10,8 @@ export type OptionListItemData = {
   value: string;
   /** Display text. */
   label: string;
+  /** Secondary text displayed below the label inside the item. */
+  description?: string;
   /** When true, the item cannot be selected or focused. */
   disabled?: boolean;
   /**
@@ -57,10 +59,7 @@ export type OptionListProps = {
 
 export type OptionListContentProps = {
   /** Render function called for each item. Receives the item data and selection/disabled state. */
-  renderItem: (
-    item: OptionListItemData,
-    state: { selected: boolean; disabled: boolean },
-  ) => ReactNode;
+  renderItem: (item: OptionListItemData, selected: boolean) => ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
 export type OptionListItemProps = {
@@ -71,7 +70,7 @@ export type OptionListItemProps = {
   children: ReactNode;
 } & Omit<StyledPressableProps, 'children' | 'disabled'>;
 
-export type OptionListItemTitleProps = {
+export type OptionListItemTextProps = {
   children: ReactNode;
 } & Omit<StyledTextProps, 'children'>;
 

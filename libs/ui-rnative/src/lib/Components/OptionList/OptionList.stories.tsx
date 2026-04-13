@@ -20,10 +20,10 @@ import {
   OptionListItem,
   OptionListItemLeading,
   OptionListItemContent,
-  OptionListItemTitle,
   OptionListItemDescription,
   OptionListItemContentRow,
   OptionListTrigger,
+  OptionListItemText,
 } from './OptionList';
 import type { OptionListItemData } from './types';
 
@@ -35,7 +35,7 @@ const meta = {
     OptionListItem,
     OptionListItemLeading,
     OptionListItemContent,
-    OptionListItemTitle,
+    OptionListItemText,
     OptionListItemDescription,
     OptionListItemContentRow,
     OptionListTrigger,
@@ -148,7 +148,7 @@ export const Base: Story = {
                         />
                       </OptionListItemLeading>
                       <OptionListItemContent>
-                        <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                        <OptionListItemText>{item.label}</OptionListItemText>
                         <OptionListItemDescription>
                           {ticker}
                         </OptionListItemDescription>
@@ -208,7 +208,7 @@ export const WithGroups: Story = {
                 renderItem={(item) => (
                   <OptionListItem value={item.value}>
                     <OptionListItemContent>
-                      <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                      <OptionListItemText>{item.label}</OptionListItemText>
                     </OptionListItemContent>
                   </OptionListItem>
                 )}
@@ -302,9 +302,7 @@ export const WithContentRow: Story = {
                       </OptionListItemLeading>
                       <OptionListItemContent>
                         <OptionListItemContentRow>
-                          <OptionListItemTitle>
-                            {item.label}
-                          </OptionListItemTitle>
+                          <OptionListItemText>{item.label}</OptionListItemText>
                           <Tag label={meta.tag} appearance='gray' size='sm' />
                         </OptionListItemContentRow>
                         <OptionListItemDescription>
@@ -324,10 +322,24 @@ export const WithContentRow: Story = {
 };
 
 const ACCOUNTS: OptionListItemData[] = [
-  { value: 'savings', label: 'Savings Account' },
-  { value: 'checking', label: 'Checking Account', disabled: true },
+  {
+    value: 'savings',
+    label: 'Savings Account',
+    description: 'High-yield savings',
+  },
+  {
+    value: 'checking',
+    label: 'Checking Account',
+    description: 'Primary checking',
+    disabled: true,
+  },
   { value: 'investment', label: 'Investment Account' },
-  { value: 'retirement', label: 'Retirement Fund', disabled: true },
+  {
+    value: 'retirement',
+    label: 'Retirement Fund',
+    description: 'Long-term growth',
+    disabled: true,
+  },
 ];
 
 export const WithDisabledItems: Story = {
@@ -367,7 +379,12 @@ export const WithDisabledItems: Story = {
                       <Spot appearance='icon' icon={Settings} />
                     </OptionListItemLeading>
                     <OptionListItemContent>
-                      <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                      <OptionListItemText>{item.label}</OptionListItemText>
+                      {item.description && (
+                        <OptionListItemDescription>
+                          {item.description}
+                        </OptionListItemDescription>
+                      )}
                     </OptionListItemContent>
                   </OptionListItem>
                 )}
@@ -471,9 +488,7 @@ export const GroupedWithContentRow: Story = {
                       </OptionListItemLeading>
                       <OptionListItemContent>
                         <OptionListItemContentRow>
-                          <OptionListItemTitle>
-                            {item.label}
-                          </OptionListItemTitle>
+                          <OptionListItemText>{item.label}</OptionListItemText>
                           <Tag label={meta.tag} appearance='gray' size='sm' />
                         </OptionListItemContentRow>
                         <OptionListItemDescription>
@@ -517,7 +532,7 @@ export const EmptyState: Story = {
                 renderItem={(item) => (
                   <OptionListItem value={item.value}>
                     <OptionListItemContent>
-                      <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                      <OptionListItemText>{item.label}</OptionListItemText>
                     </OptionListItemContent>
                   </OptionListItem>
                 )}
@@ -577,7 +592,7 @@ export const WithInputTrigger: Story = {
                         />
                       </OptionListItemLeading>
                       <OptionListItemContent>
-                        <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                        <OptionListItemText>{item.label}</OptionListItemText>
                         <OptionListItemDescription>
                           {ticker}
                         </OptionListItemDescription>
@@ -611,7 +626,7 @@ export const WithDefaultValue: Story = {
                   />
                 </OptionListItemLeading>
                 <OptionListItemContent>
-                  <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                  <OptionListItemText>{item.label}</OptionListItemText>
                   <OptionListItemDescription>
                     {meta.ticker}
                   </OptionListItemDescription>
@@ -646,7 +661,7 @@ export const Standalone: Story = {
                     />
                   </OptionListItemLeading>
                   <OptionListItemContent>
-                    <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                    <OptionListItemText>{item.label}</OptionListItemText>
                     <OptionListItemDescription>
                       {meta.ticker}
                     </OptionListItemDescription>
