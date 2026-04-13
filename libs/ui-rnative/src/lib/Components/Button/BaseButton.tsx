@@ -35,6 +35,7 @@ const useStyles = ({
   size,
   disabled,
   pressed,
+  hasIcon,
   iconOnly,
   isFull,
 }: {
@@ -42,6 +43,7 @@ const useStyles = ({
   size: Size;
   disabled: boolean;
   pressed: boolean;
+  hasIcon: boolean;
   iconOnly: boolean;
   isFull: boolean;
 }) => {
@@ -121,7 +123,7 @@ const useStyles = ({
           typography,
           {
             color: disabled ? t.colors.text.disabled : textColors[appearance],
-            textAlign: 'center',
+            textAlign: hasIcon ? 'left' : 'center',
           },
         ]),
         icon: {
@@ -212,6 +214,7 @@ const BaseButtonContent = ({
     size,
     disabled,
     pressed,
+    hasIcon: !!IconProp,
     iconOnly,
     isFull,
   });
