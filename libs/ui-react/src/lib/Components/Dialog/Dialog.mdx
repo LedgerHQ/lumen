@@ -165,7 +165,7 @@ function MyComponent() {
         <Button>Open Dialog</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader appearance='compact' title='Dialog Title' />
+        <DialogHeader density='compact' title='Dialog Title' />
         <DialogBody>Content here</DialogBody>
         <DialogFooter>
           <DialogClose asChild>
@@ -189,7 +189,7 @@ Use expanded `DialogHeader` for bigger dialogs:
 <Dialog>
   <DialogTrigger>Open Expanded</DialogTrigger>
   <DialogContent className='w-[800px]'>
-    <DialogHeader appearance='expanded' title='Expanded Dialog' />
+    <DialogHeader density='expanded' title='Expanded Dialog' />
     <DialogBody>Expanded content here</DialogBody>
   </DialogContent>
 </Dialog>
@@ -202,7 +202,7 @@ Use expanded `DialogHeader` for bigger dialogs:
   <DialogTrigger>Open</DialogTrigger>
   <DialogContent>
     <DialogHeader
-      appearance='compact'
+      density='compact'
       title='Title'
       onBack={() => console.log('Back')}
     />
@@ -319,7 +319,7 @@ function MyControlledDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader
-          appearance='compact'
+          density='compact'
           title='Controlled Dialog'
           onClose={() => setOpen(false)}
         />

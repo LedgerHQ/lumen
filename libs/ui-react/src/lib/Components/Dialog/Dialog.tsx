@@ -55,7 +55,7 @@ const dialogContentVariants = cva(
  *       </DialogTrigger>
  *       <DialogContent>
  *         <DialogHeader
- *           appearance='compact'
+ *           density='compact'
  *           title='Dialog Title'
  *           description='Dialog Description'
  *           onBack={() => {}}

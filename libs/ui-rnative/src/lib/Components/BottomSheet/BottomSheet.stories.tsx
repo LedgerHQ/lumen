@@ -129,7 +129,7 @@ export const Base: Story = {
           <BottomSheetView>
             <BottomSheetHeader
               title='Title'
-              appearance='compact'
+              density='compact'
               description='Description'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -179,7 +179,7 @@ export const TitleExpanded: Story = {
           <BottomSheetView>
             <BottomSheetHeader
               title='Expanded title'
-              appearance='expanded'
+              density='expanded'
               description='Expanded description.'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -224,7 +224,7 @@ export const DynamicSizingWithoutSnapPoints: Story = {
           <BottomSheetScrollView>
             <BottomSheetHeader
               title='Dynamic Sizing'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet adapts to its content height'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -266,7 +266,7 @@ export const DynamicSizingWithSnapPoints: Story = {
           <BottomSheetScrollView>
             <BottomSheetHeader
               title='Dynamic Sizing'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet adapts to its content height and has snap points'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -311,7 +311,7 @@ export const PreventClose: Story = {
           <BottomSheetView>
             <BottomSheetHeader
               title='Hidden Close Button'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet cannot be closed by dragging or button'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -355,7 +355,7 @@ export const ScrollView: Story = {
           <BottomSheetScrollView>
             <BottomSheetHeader
               title='Scrollable Content'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet contains a scrollable view'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -411,7 +411,7 @@ export const VirtualList: Story = {
           <BottomSheetHeader
             spacing
             title='Virtual List'
-            appearance='compact'
+            density='compact'
             description='This bottom sheet contains a virtualized list'
           />
           <BottomSheetFlatList
@@ -491,7 +491,7 @@ export const StickyHeaderContent: Story = {
           <BottomSheetHeader
             spacing
             title='BottomSheetFlatList'
-            appearance='compact'
+            density='compact'
             description='The search input is rendered as a sticky list header'
           />
           <BottomSheetFlatList
@@ -543,7 +543,7 @@ export const StickyHeaderContent: Story = {
             <BottomSheetHeader
               spacing
               title='BottomSheetScrollView'
-              appearance='compact'
+              density='compact'
               description='The search input is rendered as a sticky list header'
             />
             {data.map((item) => (
@@ -613,7 +613,7 @@ export const VirtualizedList: Story = {
           <BottomSheetHeader
             spacing
             title='Virtualized List'
-            appearance='compact'
+            density='compact'
             description='This bottom sheet uses a VirtualizedList with custom getItem/getItemCount'
           />
           <BottomSheetVirtualizedList

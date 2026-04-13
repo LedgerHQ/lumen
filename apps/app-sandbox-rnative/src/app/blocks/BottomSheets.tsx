@@ -35,7 +35,7 @@ export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
       <BottomSheetHeader
         spacing
         title='Virtual List'
-        appearance='expanded'
+        density='expanded'
         description='This bottom sheet contains a virtualized list'
       />
       <BottomSheetFlatList
@@ -88,7 +88,7 @@ export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
       <BottomSheetView>
         <BottomSheetHeader
           title='Dynamic Sizing'
-          appearance='compact'
+          density='compact'
           description='This bottom sheet adapts to its content height'
         />
       </BottomSheetView>

@@ -10,7 +10,7 @@ describe('DialogHeader', () => {
     render(
       <Dialog open>
         <DialogHeader
-          appearance='compact'
+          density='compact'
           title='Test Title'
           description='Test Desc'
           onClose={() => {
@@ -29,7 +29,7 @@ describe('DialogHeader', () => {
     const onClose = vi.fn();
     render(
       <Dialog open>
-        <DialogHeader appearance='compact' onClose={onClose} />
+        <DialogHeader density='compact' onClose={onClose} />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -43,7 +43,7 @@ describe('DialogHeader', () => {
     const onClose = vi.fn();
     render(
       <Dialog open>
-        <DialogHeader appearance='compact' onClose={onClose} onBack={onBack} />
+        <DialogHeader density='compact' onClose={onClose} onBack={onBack} />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -58,7 +58,7 @@ describe('DialogHeader', () => {
     render(
       <Dialog open>
         <DialogHeader
-          appearance='expanded'
+          density='expanded'
           title='Test Title'
           description='Test Desc'
           onClose={() => {
@@ -77,7 +77,7 @@ describe('DialogHeader', () => {
     const onClose = vi.fn();
     render(
       <Dialog open>
-        <DialogHeader appearance='expanded' onClose={onClose} />
+        <DialogHeader density='expanded' onClose={onClose} />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -91,7 +91,7 @@ describe('DialogHeader', () => {
     const onClose = vi.fn();
     render(
       <Dialog open>
-        <DialogHeader appearance='expanded' onClose={onClose} onBack={onBack} />
+        <DialogHeader density='expanded' onClose={onClose} onBack={onBack} />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -105,7 +105,7 @@ describe('DialogHeader', () => {
   it('renders close button without onClose prop', () => {
     render(
       <Dialog open>
-        <DialogHeader appearance='compact' title='Test Title' />
+        <DialogHeader density='compact' title='Test Title' />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -115,7 +115,7 @@ describe('DialogHeader', () => {
   it('renders close button in expanded appearance without onClose prop', () => {
     render(
       <Dialog open>
-        <DialogHeader appearance='expanded' title='Test Title' />
+        <DialogHeader density='expanded' title='Test Title' />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');
@@ -126,7 +126,7 @@ describe('DialogHeader', () => {
     const onOpenChange = vi.fn();
     render(
       <Dialog open onOpenChange={onOpenChange}>
-        <DialogHeader appearance='compact' title='Test Title' />
+        <DialogHeader density='compact' title='Test Title' />
       </Dialog>,
     );
     const buttons = screen.getAllByRole('button');

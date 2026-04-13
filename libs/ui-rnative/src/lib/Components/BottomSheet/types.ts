@@ -7,6 +7,7 @@ import {
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
 
+import { Density } from '@ledgerhq/lumen-utils-shared';
 import { PropsWithChildren, ReactNode, Ref } from 'react';
 import { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
@@ -134,10 +135,10 @@ export type BottomSheetProps = PropsWithChildren & {
 
 export type BottomSheetHeaderProps = {
   /**
-   * The appearance of the header.
+   * The density of the header.
    * @default 'compact'
    */
-  appearance?: 'compact' | 'expanded';
+  density?: Density;
   /**
    * The title of the header.
    */
