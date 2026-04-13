@@ -131,13 +131,7 @@ export const ListItem = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <Box
-        ref={ref}
-        lx={lx}
-        style={style}
-        accessibilityState={disabled ? { disabled } : undefined}
-        {...props}
-      >
+      <Box ref={ref} lx={lx} style={style} {...props}>
         <ListItemInner pressed={false} density={density}>
           {children}
         </ListItemInner>
