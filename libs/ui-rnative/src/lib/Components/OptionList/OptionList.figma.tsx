@@ -5,7 +5,8 @@ import {
   OptionListEmptyState,
   OptionListItem,
   OptionListItemContent,
-  OptionListItemTitle,
+  OptionListItemDescription,
+  OptionListItemText,
 } from './OptionList';
 
 figma.connect(
@@ -13,7 +14,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=15941-6709',
   {
     imports: [
-      "import { OptionList, OptionListContent, OptionListItem, OptionListItemContent, OptionListItemTitle, OptionListEmptyState } from '@ledgerhq/lumen-ui-rnative'",
+      "import { OptionList, OptionListContent, OptionListItem, OptionListItemContent, OptionListItemText, OptionListItemDescription, OptionListEmptyState } from '@ledgerhq/lumen-ui-rnative'",
     ],
     example: () => (
       <OptionList items={[]} value={''} onValueChange={() => {}}>
@@ -21,7 +22,10 @@ figma.connect(
           renderItem={(item) => (
             <OptionListItem value={item.value}>
               <OptionListItemContent>
-                <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                <OptionListItemText>{item.label}</OptionListItemText>
+                <OptionListItemDescription>
+                  {item.description}
+                </OptionListItemDescription>
               </OptionListItemContent>
             </OptionListItem>
           )}

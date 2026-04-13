@@ -6,7 +6,7 @@ import {
   OptionListItem,
   OptionListItemLeading,
   OptionListItemContent,
-  OptionListItemTitle,
+  OptionListItemText,
   OptionListItemDescription,
   OptionListItemContentRow,
   OptionListItemData,
@@ -87,7 +87,7 @@ const CurrencySelectExample = () => {
                       />
                     </OptionListItemLeading>
                     <OptionListItemContent>
-                      <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                      <OptionListItemText>{item.label}</OptionListItemText>
                       <OptionListItemDescription>
                         {meta.ticker}
                       </OptionListItemDescription>
@@ -144,7 +144,7 @@ const GroupedSelectExample = () => {
               renderItem={(item) => (
                 <OptionListItem value={item.value}>
                   <OptionListItemContent>
-                    <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                    <OptionListItemText>{item.label}</OptionListItemText>
                   </OptionListItemContent>
                 </OptionListItem>
               )}
@@ -236,7 +236,7 @@ const NetworkSelectExample = () => {
                     </OptionListItemLeading>
                     <OptionListItemContent>
                       <OptionListItemContentRow>
-                        <OptionListItemTitle>{item.label}</OptionListItemTitle>
+                        <OptionListItemText>{item.label}</OptionListItemText>
                         <Tag label={meta.tag} appearance='gray' size='sm' />
                       </OptionListItemContentRow>
                       <OptionListItemDescription>
