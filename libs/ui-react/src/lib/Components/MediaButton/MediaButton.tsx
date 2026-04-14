@@ -67,6 +67,7 @@ export const MediaButton = ({
   asChild = false,
   icon,
   iconType = 'flat',
+  hideChevron = false,
   children,
   ...props
 }: MediaButtonProps) => {
@@ -100,7 +101,7 @@ export const MediaButton = ({
         ) : (
           <span className='line-clamp-1 text-left'>{children}</span>
         )}
-        <ChevronDown size={20} />
+        {!hideChevron && <ChevronDown size={20} />}
       </span>
     </Comp>
   );

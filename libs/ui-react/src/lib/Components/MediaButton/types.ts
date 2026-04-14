@@ -27,6 +27,11 @@ export type MediaButtonProps = {
    */
   iconType?: 'flat' | 'rounded';
   /**
+   * When true, hides the trailing chevron indicator.
+   * @default false
+   */
+  hideChevron?: boolean;
+  /**
    * The label content of the media button.
    */
   children: ReactNode;

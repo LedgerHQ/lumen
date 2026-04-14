@@ -156,6 +156,7 @@ export const MediaButton = ({
   disabled = false,
   icon,
   iconType = 'flat',
+  hideChevron = false,
   children: label,
   ref,
   ...props
@@ -180,6 +181,7 @@ export const MediaButton = ({
           pressed={pressed}
           iconType={effectiveIconType}
           icon={icon}
+          hideChevron={hideChevron}
         >
           {label}
         </MediaButtonContent>
@@ -195,6 +197,7 @@ type MediaButtonContentProps = PropsWithChildren<{
   pressed: boolean;
   iconType: IconType;
   icon?: MediaButtonProps['icon'];
+  hideChevron: boolean;
 }>;
 
 const MediaButtonContent = ({
@@ -204,6 +207,7 @@ const MediaButtonContent = ({
   pressed,
   iconType,
   icon,
+  hideChevron,
   children,
 }: MediaButtonContentProps) => {
   const styles = useStyles({ appearance, size, disabled, pressed, iconType });
@@ -215,11 +219,13 @@ const MediaButtonContent = ({
         <Text style={styles.label} numberOfLines={1} ellipsizeMode='tail'>
           {children}
         </Text>
-        <ChevronDown
-          size={20}
-          style={styles.chevron}
-          testID='button-trigger-chevron'
-        />
+        {!hideChevron && (
+          <ChevronDown
+            size={20}
+            style={styles.chevron}
+            testID='button-trigger-chevron'
+          />
+        )}
       </View>
     </View>
   );
