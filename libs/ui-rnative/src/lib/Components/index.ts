@@ -3,6 +3,7 @@ export * from './AmountDisplay';
 export * from './AmountInput';
 export * from './Avatar';
 export * from './Banner';
+export * from './Badge';
 export * from './BottomSheet';
 export * from './Button';
 export * from './TriggerButton';

@@ -21,4 +21,9 @@ export type BadgeProps = {
    * @default base
    */
   appearance?: 'base' | 'red';
+  /**
+   * Whether the badge should show a disabled appearance.
+   * @default false
+   */
+  disabled?: boolean;
 } & StyledViewProps;
