@@ -1,5 +1,7 @@
 import { StyledViewProps } from '../../../styles';
 
+export type BadgePin = 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+
 export type BadgeProps = {
   /**
    * The size of the badge.

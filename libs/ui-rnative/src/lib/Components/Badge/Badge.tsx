@@ -23,11 +23,12 @@ export function Badge({
     disabled,
   });
 
-  const cappedMax = Math.min(max ?? 0, 99);
+  const cappedMax = Math.min(max > 0 ? max : 99, 99);
+  const shouldHideValue = size === 'xs' || value <= 0;
 
   return (
     <Box lx={lx} style={[styles.container, style]}>
-      {size !== 'xs' && (
+      {!shouldHideValue && (
         <Text style={styles.text} allowFontScaling={false}>
           {value <= cappedMax ? value : `${cappedMax}+`}
         </Text>
@@ -50,10 +51,12 @@ const useStyles = ({
       const sizeMap = {
         md: {
           minWidth: t.sizes.s24,
+          minHeight: t.sizes.s24,
           paddingHorizontal: t.spacings.s8,
           paddingVertical: t.spacings.s2,
         },
         sm: {
+          minHeight: t.sizes.s16,
           minWidth: t.sizes.s16,
           paddingHorizontal: t.spacings.s4,
         },

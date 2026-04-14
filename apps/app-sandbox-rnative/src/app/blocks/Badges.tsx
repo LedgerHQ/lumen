@@ -7,6 +7,7 @@ export function Badges() {
         <Badge value={1} size='md' />
         <Badge value={100} size='md' />
         <Badge value={100} max={34} size='md' />
+        <Badge value={0} size='md' />
         <Badge value={1} appearance='red' size='md' />
         <Badge value={32} size='md' disabled />
       </Box>
@@ -14,6 +15,7 @@ export function Badges() {
         <Badge value={1} size='sm' />
         <Badge value={100} size='sm' />
         <Badge value={100} max={34} size='sm' />
+        <Badge value={0} size='sm' />
         <Badge value={1} appearance='red' size='sm' />
         <Badge value={32} size='sm' disabled />
       </Box>
@@ -21,6 +23,7 @@ export function Badges() {
         <Badge value={1} size='xs' />
         <Badge value={100} size='xs' />
         <Badge value={100} max={34} size='xs' />
+        <Badge value={0} size='xs' />
         <Badge value={1} appearance='red' size='xs' />
         <Badge value={32} size='xs' disabled />
       </Box>
