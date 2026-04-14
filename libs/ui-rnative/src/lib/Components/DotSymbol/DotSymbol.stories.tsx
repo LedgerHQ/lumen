@@ -11,7 +11,7 @@ import { MediaImage } from '../MediaImage';
 import { Spinner } from '../Spinner';
 import { Spot } from '../Spot';
 import { Box } from '../Utility';
-import { DotSymbol, iconDotSizeMap, mediaImageDotSizeMap } from './DotSymbol';
+import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
 
 const meta = {
   component: DotSymbol,
@@ -103,27 +103,6 @@ export const SizeShowcase: Story = {
       <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's24' }}>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[20]}
-          pin='bottom-end'
-        >
-          <MediaImage src={parentSrc} size={20} shape='circle' />
-        </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          size={mediaImageDotSizeMap[24]}
-          pin='bottom-end'
-        >
-          <MediaImage src={parentSrc} size={24} shape='circle' />
-        </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
-          size={mediaImageDotSizeMap[32]}
-          pin='bottom-end'
-        >
-          <MediaImage src={parentSrc} size={32} shape='circle' />
-        </DotSymbol>
-        <DotSymbol
-          src={dotSrc}
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
         >
@@ -145,30 +124,6 @@ export const SizeShowcase: Story = {
         </DotSymbol>
       </Box>
       <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's24' }}>
-        <DotSymbol
-          shape='square'
-          src={dotSrc}
-          size={mediaImageDotSizeMap[20]}
-          pin='bottom-end'
-        >
-          <MediaImage src={parentSrc} size={20} shape='circle' />
-        </DotSymbol>
-        <DotSymbol
-          shape='square'
-          src={dotSrc}
-          size={mediaImageDotSizeMap[24]}
-          pin='bottom-end'
-        >
-          <MediaImage src={parentSrc} size={24} shape='circle' />
-        </DotSymbol>
-        <DotSymbol
-          shape='square'
-          src={dotSrc}
-          size={mediaImageDotSizeMap[32]}
-          pin='bottom-end'
-        >
-          <MediaImage src={parentSrc} size={32} shape='circle' />
-        </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
@@ -204,7 +159,7 @@ export const IconVariant: Story = {
     appearance: 'success',
     icon: ArrowDown,
     pin: 'bottom-end',
-    size: iconDotSizeMap[48],
+    size: mediaImageDotSizeMap[48],
     children: (
       <MediaImage src={parentSrc} alt='Cardano' size={48} shape='circle' />
     ),
@@ -219,7 +174,7 @@ export const IconAppearanceShowcase: Story = {
         type='icon'
         appearance='success'
         icon={ArrowDown}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
@@ -228,7 +183,7 @@ export const IconAppearanceShowcase: Story = {
         type='icon'
         appearance='muted'
         icon={ArrowUp}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
@@ -237,7 +192,7 @@ export const IconAppearanceShowcase: Story = {
         type='icon'
         appearance='error'
         icon={Close}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
@@ -254,7 +209,7 @@ export const IconSizeShowcase: Story = {
         type='icon'
         appearance='muted'
         icon={Link}
-        size={iconDotSizeMap[40]}
+        size={mediaImageDotSizeMap[40]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={40} shape='circle' />
@@ -263,7 +218,7 @@ export const IconSizeShowcase: Story = {
         type='icon'
         appearance='success'
         icon={Star}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
@@ -272,7 +227,7 @@ export const IconSizeShowcase: Story = {
         type='icon'
         appearance='success'
         icon={ArrowDown}
-        size={iconDotSizeMap[56]}
+        size={mediaImageDotSizeMap[56]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={56} shape='circle' />
@@ -281,7 +236,7 @@ export const IconSizeShowcase: Story = {
         type='icon'
         appearance='muted'
         icon={Spinner}
-        size={iconDotSizeMap[64]}
+        size={mediaImageDotSizeMap[64]}
         pin='bottom-end'
       >
         <MediaImage src={parentSrc} size={64} shape='circle' />

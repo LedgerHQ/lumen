@@ -1,7 +1,7 @@
 import {
   Box,
   DotSymbol,
-  iconDotSizeMap,
+  mediaImageDotSizeMap,
   MediaImage,
   Spot,
 } from '@ledgerhq/lumen-ui-rnative';
@@ -50,7 +50,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         pin='top-end'
-        size={12}
+        size={20}
       >
         <Spot appearance='icon' icon={ExternalLink} size={48} />
       </DotSymbol>
@@ -74,7 +74,7 @@ export const DotSymbols = () => {
         type='icon'
         appearance='success'
         icon={ArrowDown}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage
@@ -89,7 +89,7 @@ export const DotSymbols = () => {
         type='icon'
         appearance='muted'
         icon={ArrowUp}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage
@@ -104,7 +104,7 @@ export const DotSymbols = () => {
         type='icon'
         appearance='error'
         icon={Close}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         pin='bottom-end'
       >
         <MediaImage
@@ -120,7 +120,7 @@ export const DotSymbols = () => {
         type='icon'
         appearance='muted'
         icon={Link}
-        size={iconDotSizeMap[40]}
+        size={mediaImageDotSizeMap[40]}
         pin='bottom-end'
       >
         <MediaImage
@@ -135,7 +135,7 @@ export const DotSymbols = () => {
         type='icon'
         appearance='success'
         icon={ArrowDown}
-        size={iconDotSizeMap[64]}
+        size={mediaImageDotSizeMap[64]}
         pin='top-end'
       >
         <MediaImage
@@ -151,7 +151,7 @@ export const DotSymbols = () => {
         type='icon'
         appearance='success'
         icon={ArrowDown}
-        size={iconDotSizeMap[48]}
+        size={mediaImageDotSizeMap[48]}
         shape='square'
         pin='bottom-end'
       >
