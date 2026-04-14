@@ -1,7 +1,4 @@
-/**
- * @format
- */
-
+import 'intl-pluralrules';
 import { registerRootComponent } from 'expo';
 
 import App from './App';
