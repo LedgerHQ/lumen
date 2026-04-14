@@ -12,7 +12,7 @@ export function Badge({
   style,
 }: BadgeProps) {
   const disabled = useDisabledContext({
-    consumerName: 'CardButton',
+    consumerName: 'Badge',
     mergeWith: { disabled: disabledProp },
   });
 
@@ -20,7 +20,9 @@ export function Badge({
 
   return (
     <Box lx={lx} style={[styles.container, style]}>
-      <Text>{value}</Text>
+      {size !== 'xs' && (
+        <Text style={styles.text}>{value <= 99 ? value : '99+'}</Text>
+      )}
     </Box>
   );
 }
@@ -50,20 +52,29 @@ const useStyles = ({
         },
       };
 
+      const textMap = {
+        md: { ...t.typographies.body2SemiBold },
+        sm: { ...t.typographies.body4SemiBold },
+        xs: {},
+      };
+
       const bgColorMap = {
-        base: t.colors.bg.interactive,
-        red: t.colors.bg.errorStrong,
+        base: { backgroundColor: t.colors.bg.interactive },
+        red: { backgroundColor: t.colors.bg.errorStrong },
       };
 
       return {
         container: {
+          ...(disabled
+            ? { backgroundColor: t.colors.bg.disabled }
+            : { ...bgColorMap[appearance] }),
           ...sizeMap[size],
-          backgroundColor: disabled
-            ? t.colors.bg.disabled
-            : bgColorMap[appearance],
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: t.borderRadius.full,
+        },
+        text: {
+          ...textMap[size],
         },
       };
     },

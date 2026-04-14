@@ -3,7 +3,7 @@ import { StyledViewProps } from '../../../styles';
 export type BadgeProps = {
   /**
    * The amount to be displayed on the badge.
-   * If higher than `max`, the displayed value will be `max` appended with a plus sign.
+   * If higher than 99, the displayed value will be "99+".
    */
   value: number;
   /**
@@ -11,11 +11,6 @@ export type BadgeProps = {
    * Note that in `xs` size the value you provide isn't shown.
    */
   size: 'md' | 'sm' | 'xs';
-  /**
-   * The max amount to display.
-   * If `value` is higher than `max`, the displayed value will be `max` appended with a plus sign.
-   */
-  max?: number;
   /**
    * The appearance of the badge.
    * @default base
