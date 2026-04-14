@@ -1,6 +1,5 @@
+import { ReactNode } from 'react';
 import { StyledViewProps } from '../../../styles';
-
-export type BadgePin = 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
 
 export type BadgeProps = {
   /**
@@ -34,4 +33,9 @@ export type BadgeProps = {
    * @default false
    */
   disabled?: boolean;
-} & StyledViewProps;
+  /**
+   * Can be used as a wrapper to any component in case you wish to overlay a badge on top of it.
+   * If provided, it'll pin the badge to the top-right of the child component passed.
+   */
+  children?: ReactNode;
+} & Omit<StyledViewProps, 'children'>;

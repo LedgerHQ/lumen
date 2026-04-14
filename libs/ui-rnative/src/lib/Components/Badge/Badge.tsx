@@ -11,6 +11,7 @@ export function Badge({
   disabled: disabledProp = false,
   lx,
   style,
+  children,
 }: BadgeProps) {
   const disabled = useDisabledContext({
     consumerName: 'Badge',
@@ -21,18 +22,22 @@ export function Badge({
     size,
     appearance,
     disabled,
+    pinned: !!children,
   });
 
   const cappedMax = Math.min(max > 0 ? max : 99, 99);
   const shouldHideValue = size === 'xs' || value <= 0;
 
   return (
-    <Box lx={lx} style={[styles.container, style]}>
-      {!shouldHideValue && (
-        <Text style={styles.text} allowFontScaling={false}>
-          {value <= cappedMax ? value : `${cappedMax}+`}
-        </Text>
-      )}
+    <Box>
+      <Box lx={lx} style={[styles.container, style]}>
+        {!shouldHideValue && (
+          <Text style={styles.text} allowFontScaling={false}>
+            {value <= cappedMax ? value : `${cappedMax}+`}
+          </Text>
+        )}
+      </Box>
+      {children}
     </Box>
   );
 }
@@ -41,10 +46,12 @@ const useStyles = ({
   size,
   appearance = 'base',
   disabled = false,
+  pinned,
 }: {
   size: BadgeProps['size'];
   appearance: BadgeProps['appearance'];
   disabled: boolean;
+  pinned: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -87,6 +94,12 @@ const useStyles = ({
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: t.borderRadius.full,
+          ...(pinned && {
+            position: 'absolute',
+            top: t.spacings.s0,
+            right: t.spacings.s0,
+            zIndex: 1,
+          }),
           ...sizeMap[size],
           ...(disabled
             ? { backgroundColor: t.colors.bg.disabled }
