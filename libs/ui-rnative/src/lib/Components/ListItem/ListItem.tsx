@@ -42,7 +42,6 @@ const useRootStyles = ({
           borderRadius: t.borderRadius.md,
           backgroundColor: 'transparent',
           paddingHorizontal: t.spacings.s8,
-          paddingVertical: t.spacings.s12,
         },
         pressed && {
           backgroundColor: t.colors.bg.baseTransparentPressed,
@@ -132,7 +131,13 @@ export const ListItem = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <Box ref={ref} lx={lx} style={style} {...props}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={style}
+        accessibilityState={disabled ? { disabled } : undefined}
+        {...props}
+      >
         <ListItemInner pressed={false} density={density}>
           {children}
         </ListItemInner>
