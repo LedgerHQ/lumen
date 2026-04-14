@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { ArrowDown } from '../../Symbols';
 
 import { DotSymbol } from './DotSymbol';
 
@@ -139,5 +140,68 @@ describe('DotSymbol Component', () => {
 
   it('should have correct displayName', () => {
     expect(DotSymbol.displayName).toBe('DotSymbol');
+  });
+
+  describe('Icon variant', () => {
+    it('should render an icon instead of an image', () => {
+      const { container } = render(
+        <DotSymbol type='icon' appearance='success' icon={ArrowDown}>
+          <span data-testid='child'>Child</span>
+        </DotSymbol>,
+      );
+
+      expect(container.querySelector('svg')).toBeInTheDocument();
+      expect(container.querySelector('img')).not.toBeInTheDocument();
+      expect(screen.getByTestId('child')).toBeInTheDocument();
+    });
+
+    it.each([
+      {
+        appearance: 'success' as const,
+        expectedClass: 'bg-success-strong',
+      },
+      {
+        appearance: 'muted' as const,
+        expectedClass: 'bg-muted-strong',
+      },
+      {
+        appearance: 'error' as const,
+        expectedClass: 'bg-error-strong',
+      },
+    ])(
+      'should apply $expectedClass for $appearance appearance',
+      ({ appearance, expectedClass }) => {
+        const { container } = render(
+          <DotSymbol type='icon' appearance={appearance} icon={ArrowDown} />,
+        );
+
+        const dot = container.querySelector(`.${expectedClass}`);
+        expect(dot).toBeInTheDocument();
+      },
+    );
+
+    it('should not apply bg-muted class in icon mode', () => {
+      const { container } = render(
+        <DotSymbol type='icon' appearance='success' icon={ArrowDown} />,
+      );
+
+      const dot = container.querySelector('.bg-muted');
+      expect(dot).not.toBeInTheDocument();
+    });
+
+    it('should apply correct pin offset for icon variant', () => {
+      const { container } = render(
+        <DotSymbol
+          type='icon'
+          appearance='muted'
+          icon={ArrowDown}
+          size={16}
+          pin='top-end'
+        />,
+      );
+
+      const dot = container.querySelector('.size-16');
+      expect(dot).toHaveStyle({ top: '-3px', right: '-3px' });
+    });
   });
 });

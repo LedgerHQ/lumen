@@ -1,6 +1,6 @@
 import { StyledViewProps } from '../../../styles';
 
-export type MediaImageSize = 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56;
+export type MediaImageSize = 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56 | 64;
 
 export type MediaImageShape = 'square' | 'circle';
 

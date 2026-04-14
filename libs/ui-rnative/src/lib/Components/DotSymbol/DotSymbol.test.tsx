@@ -2,6 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, waitFor } from '@testing-library/react-native';
 import { Text } from 'react-native';
+import { ArrowDown } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { DotSymbol } from './DotSymbol';
 
@@ -115,5 +116,74 @@ describe('DotSymbol Component', () => {
 
   it('should have correct displayName', () => {
     expect(DotSymbol.displayName).toBe('DotSymbol');
+  });
+
+  describe('Icon variant', () => {
+    it('should render an icon instead of an image', () => {
+      const { queryByTestId } = render(
+        <TestWrapper>
+          <DotSymbol type='icon' appearance='success' icon={ArrowDown}>
+            <Text>Child</Text>
+          </DotSymbol>
+        </TestWrapper>,
+      );
+
+      expect(queryByTestId('dot-symbol-img')).toBeNull();
+    });
+
+    it.each([
+      { appearance: 'success' as const, tokenKey: 'successStrong' },
+      { appearance: 'muted' as const, tokenKey: 'mutedStrong' },
+      { appearance: 'error' as const, tokenKey: 'errorStrong' },
+    ])(
+      'should apply $tokenKey background for $appearance appearance',
+      ({ appearance, tokenKey }) => {
+        const { toJSON } = render(
+          <TestWrapper>
+            <DotSymbol
+              testID='icon-dot'
+              type='icon'
+              appearance={appearance}
+              icon={ArrowDown}
+            />
+          </TestWrapper>,
+        );
+
+        const colors = ledgerLiveThemes.dark.colors.bg;
+        const expectedColor = colors[tokenKey as keyof typeof colors];
+
+        const json = toJSON();
+        const findDotWithBg = (node: any): boolean => {
+          if (!node) return false;
+          if (node.props?.style) {
+            const style = Array.isArray(node.props.style)
+              ? Object.assign({}, ...node.props.style.flat())
+              : node.props.style;
+            if (style.backgroundColor === expectedColor) return true;
+          }
+          if (node.children) {
+            return node.children.some((child: any) => findDotWithBg(child));
+          }
+          return false;
+        };
+
+        expect(findDotWithBg(json)).toBe(true);
+      },
+    );
+
+    it('should pass additional props in icon mode', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <DotSymbol
+            testID='icon-dot'
+            type='icon'
+            appearance='success'
+            icon={ArrowDown}
+          />
+        </TestWrapper>,
+      );
+
+      expect(getByTestId('icon-dot')).toBeTruthy();
+    });
   });
 });

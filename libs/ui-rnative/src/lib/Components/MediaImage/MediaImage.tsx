@@ -15,6 +15,7 @@ const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   40: 'md',
   48: 'md',
   56: 'lg',
+  64: 'lg',
 };
 
 const useStyles = ({
