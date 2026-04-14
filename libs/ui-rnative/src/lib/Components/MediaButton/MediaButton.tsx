@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
 import { Pressable } from '../Utility';
-import type { TriggerButtonProps } from './types';
+import type { MediaButtonProps } from './types';
 
-type Appearance = NonNullable<TriggerButtonProps['appearance']>;
-type Size = NonNullable<TriggerButtonProps['size']>;
+type Appearance = NonNullable<MediaButtonProps['appearance']>;
+type Size = NonNullable<MediaButtonProps['size']>;
 type IconType = 'flat' | 'rounded' | 'none';
 
 const useStyles = ({
@@ -129,7 +129,7 @@ const useStyles = ({
 };
 
 /**
- * Trigger button for select/dropdown components. Displays a label with an optional
+ * Media button for select/dropdown components. Displays a label with an optional
  * leading icon and a trailing chevron indicator.
  *
  * This component is intended to be used exclusively as the trigger inside a Select or
@@ -139,16 +139,16 @@ const useStyles = ({
  * @see {@link https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6389-45680 Figma}
  *
  * @example
- * import { TriggerButton } from '@ledgerhq/lumen-ui-rnative';
+ * import { MediaButton } from '@ledgerhq/lumen-ui-rnative';
  * import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <TriggerButton icon={<Settings size={20} />} iconType="flat">
+ * <MediaButton icon={<Settings size={20} />} iconType="flat">
  *   Network
- * </TriggerButton>
+ * </MediaButton>
  *
- * <TriggerButton>All accounts</TriggerButton>
+ * <MediaButton>All accounts</MediaButton>
  */
-export const TriggerButton = ({
+export const MediaButton = ({
   lx,
   style,
   appearance = 'gray',
@@ -159,7 +159,7 @@ export const TriggerButton = ({
   children: label,
   ref,
   ...props
-}: TriggerButtonProps) => {
+}: MediaButtonProps) => {
   const effectiveIconType: IconType = icon ? iconType : 'none';
 
   return (
@@ -173,7 +173,7 @@ export const TriggerButton = ({
       {...props}
     >
       {({ pressed }) => (
-        <TriggerButtonContent
+        <MediaButtonContent
           appearance={appearance}
           size={size}
           disabled={disabled}
@@ -182,22 +182,22 @@ export const TriggerButton = ({
           icon={icon}
         >
           {label}
-        </TriggerButtonContent>
+        </MediaButtonContent>
       )}
     </Pressable>
   );
 };
 
-type TriggerButtonContentProps = PropsWithChildren<{
+type MediaButtonContentProps = PropsWithChildren<{
   appearance: Appearance;
   size: Size;
   disabled: boolean;
   pressed: boolean;
   iconType: IconType;
-  icon?: TriggerButtonProps['icon'];
+  icon?: MediaButtonProps['icon'];
 }>;
 
-const TriggerButtonContent = ({
+const MediaButtonContent = ({
   appearance,
   size,
   disabled,
@@ -205,7 +205,7 @@ const TriggerButtonContent = ({
   iconType,
   icon,
   children,
-}: TriggerButtonContentProps) => {
+}: MediaButtonContentProps) => {
   const styles = useStyles({ appearance, size, disabled, pressed, iconType });
 
   return (

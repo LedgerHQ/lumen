@@ -10,7 +10,7 @@ import {
   SelectList,
   SelectSearch,
   SelectTrigger,
-  SelectTriggerButton,
+  SelectMediaButton,
 } from './Select';
 
 const options = [
@@ -234,13 +234,13 @@ describe('SelectTrigger render prop', () => {
   });
 });
 
-describe('SelectTriggerButton', () => {
+describe('SelectMediaButton', () => {
   it('renders the label when no value is selected', () => {
     render(
       <Select items={options}>
         <SelectTrigger
           render={(renderProps) => (
-            <SelectTriggerButton {...renderProps} label='Pick one' />
+            <SelectMediaButton {...renderProps} label='Pick one' />
           )}
         />
         <SelectContent>
@@ -263,7 +263,7 @@ describe('SelectTriggerButton', () => {
       <Select items={options} defaultValue='opt1'>
         <SelectTrigger
           render={(renderProps) => (
-            <SelectTriggerButton {...renderProps} label='Pick one' />
+            <SelectMediaButton {...renderProps} label='Pick one' />
           )}
         />
         <SelectContent>

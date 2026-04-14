@@ -6,7 +6,7 @@ import { View, ViewStyle } from 'react-native';
 
 import { Settings } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { TriggerButton } from './TriggerButton';
+import { MediaButton } from './MediaButton';
 
 const renderWithProvider = (component: React.ReactElement) => {
   return render(
@@ -16,11 +16,11 @@ const renderWithProvider = (component: React.ReactElement) => {
   );
 };
 
-describe('TriggerButton', () => {
+describe('MediaButton', () => {
   describe('Rendering', () => {
     it('should render with label text and correct accessibility role', () => {
       renderWithProvider(
-        <TriggerButton testID='trigger'>All accounts</TriggerButton>,
+        <MediaButton testID='trigger'>All accounts</MediaButton>,
       );
       const trigger = screen.getByTestId('trigger');
       expect(trigger).toBeTruthy();
@@ -29,7 +29,7 @@ describe('TriggerButton', () => {
     });
 
     it('should always render a chevron icon', () => {
-      renderWithProvider(<TriggerButton testID='trigger'>Label</TriggerButton>);
+      renderWithProvider(<MediaButton testID='trigger'>Label</MediaButton>);
       expect(screen.getByTestId('button-trigger-chevron')).toBeTruthy();
     });
 
@@ -37,9 +37,9 @@ describe('TriggerButton', () => {
       'should render without errors for appearance "%s"',
       (appearance) => {
         renderWithProvider(
-          <TriggerButton testID='trigger' appearance={appearance}>
+          <MediaButton testID='trigger' appearance={appearance}>
             Label
-          </TriggerButton>,
+          </MediaButton>,
         );
         expect(screen.getByTestId('trigger')).toBeTruthy();
       },
@@ -49,9 +49,9 @@ describe('TriggerButton', () => {
       'should render without errors for size "%s"',
       (size) => {
         renderWithProvider(
-          <TriggerButton testID='trigger' size={size}>
+          <MediaButton testID='trigger' size={size}>
             Label
-          </TriggerButton>,
+          </MediaButton>,
         );
         expect(screen.getByTestId('trigger')).toBeTruthy();
       },
@@ -61,13 +61,13 @@ describe('TriggerButton', () => {
   describe('Icons', () => {
     it('should render with a flat interface icon', () => {
       renderWithProvider(
-        <TriggerButton
+        <MediaButton
           testID='trigger'
           icon={<Settings size={20} testID='icon' />}
           iconType='flat'
         >
           Network
-        </TriggerButton>,
+        </MediaButton>,
       );
       expect(screen.getByTestId('icon')).toBeTruthy();
       expect(screen.getByText('Network')).toBeTruthy();
@@ -75,13 +75,13 @@ describe('TriggerButton', () => {
 
     it('should render with a rounded icon', () => {
       renderWithProvider(
-        <TriggerButton
+        <MediaButton
           testID='trigger'
           icon={<View testID='crypto-icon' />}
           iconType='rounded'
         >
           Bitcoin
-        </TriggerButton>,
+        </MediaButton>,
       );
       expect(screen.getByTestId('crypto-icon')).toBeTruthy();
       expect(screen.getByText('Bitcoin')).toBeTruthy();
@@ -91,9 +91,9 @@ describe('TriggerButton', () => {
   describe('States', () => {
     it('should be disabled when disabled prop is true', () => {
       renderWithProvider(
-        <TriggerButton testID='trigger' disabled>
+        <MediaButton testID='trigger' disabled>
           Label
-        </TriggerButton>,
+        </MediaButton>,
       );
       const trigger = screen.getByTestId('trigger');
       expect(trigger.props.accessibilityState.disabled).toBe(true);
@@ -104,9 +104,9 @@ describe('TriggerButton', () => {
     it('should call onPress when pressed', () => {
       const handlePress = jest.fn();
       renderWithProvider(
-        <TriggerButton testID='trigger' onPress={handlePress}>
+        <MediaButton testID='trigger' onPress={handlePress}>
           Press me
-        </TriggerButton>,
+        </MediaButton>,
       );
 
       fireEvent.press(screen.getByTestId('trigger'));
@@ -116,9 +116,9 @@ describe('TriggerButton', () => {
     it('should not call onPress when disabled', () => {
       const handlePress = jest.fn();
       renderWithProvider(
-        <TriggerButton testID='trigger' onPress={handlePress} disabled>
+        <MediaButton testID='trigger' onPress={handlePress} disabled>
           Disabled
-        </TriggerButton>,
+        </MediaButton>,
       );
 
       fireEvent.press(screen.getByTestId('trigger'));
@@ -130,9 +130,9 @@ describe('TriggerButton', () => {
     it('should forward ref', () => {
       const ref = createRef<View>();
       renderWithProvider(
-        <TriggerButton ref={ref} testID='trigger'>
+        <MediaButton ref={ref} testID='trigger'>
           Label
-        </TriggerButton>,
+        </MediaButton>,
       );
       expect(ref.current).toBeTruthy();
     });
@@ -142,13 +142,13 @@ describe('TriggerButton', () => {
     it('should apply custom style and lx props', () => {
       const customStyle: ViewStyle = { marginTop: 16 };
       renderWithProvider(
-        <TriggerButton
+        <MediaButton
           testID='trigger'
           style={customStyle}
           lx={{ padding: 's8' }}
         >
           Styled
-        </TriggerButton>,
+        </MediaButton>,
       );
       const trigger = screen.getByTestId('trigger');
       expect(trigger.props.style).toBeDefined();
