@@ -1,0 +1,68 @@
+{
+  "name": "@ledgerhq/lumen-ui-rnative-visualization",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "keywords": [
+    "react-native",
+    "ui",
+    "visualization",
+    "charts",
+    "design-system",
+    "mobile"
+  ],
+  "type": "module",
+  "react-native": "./src/index.ts",
+  "main": "./dist/module/index.js",
+  "module": "./dist/module/index.js",
+  "types": "./dist/typescript/src/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "react-native": "./src/index.ts",
+      "types": "./dist/typescript/src/index.d.ts",
+      "import": "./dist/module/index.js",
+      "default": "./dist/module/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "!**/*.tsbuildinfo"
+  ],
+  "devDependencies": {
+    "@types/react": "^19.0.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^19.0.0",
+    "@ledgerhq/lumen-design-core": "0.1.10",
+    "react": "^19.0.0",
+    "react-native": "~0.79.7",
+    "react-native-svg": "^15.0.0"
+  },
+  "nx": {
+    "tags": [
+      "scope:react-native",
+      "type:ui"
+    ]
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "dist",
+    "targets": [
+      [
+        "module",
+        {
+          "esm": true,
+          "configFile": "./babel.config.bob.cjs"
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.lib.json"
+        }
+      ]
+    ]
+  }
+}
