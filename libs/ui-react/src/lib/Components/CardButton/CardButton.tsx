@@ -68,10 +68,10 @@ export const CardButton = ({
     <button
       ref={ref}
       className={cn(
-        className,
         buttonVariants({
           appearance,
         }),
+        className,
       )}
       disabled={disabled}
       {...props}
