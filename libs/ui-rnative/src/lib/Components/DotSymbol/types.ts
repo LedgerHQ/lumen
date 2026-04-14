@@ -3,8 +3,7 @@ import { StyleProp, TextStyle } from 'react-native';
 import { StyledViewProps } from '../../../styles';
 import { IconSize } from '../Icon';
 
-export type DotSymbolSize = 8 | 10 | 12 | 16 | 20 | 24;
-export type DotSymbolIconSize = 16 | 20 | 24;
+export type DotSymbolSize = 16 | 20 | 24;
 
 export type DotSymbolPin =
   | 'top-start'
@@ -28,11 +27,6 @@ type DotSymbolImageContent = {
    * Alternative text for the dot image.
    */
   alt?: string;
-  /**
-   * The size of the dot indicator in pixels.
-   * @default 20
-   */
-  size?: DotSymbolSize;
   icon?: never;
   appearance?: never;
 };
@@ -50,11 +44,6 @@ type DotSymbolIconContent = {
    * Icon component to render inside the dot.
    */
   icon: ComponentType<{ size?: IconSize; style?: StyleProp<TextStyle> }>;
-  /**
-   * The size of the dot indicator in pixels.
-   * @default 20
-   */
-  size?: DotSymbolIconSize;
   src?: never;
   alt?: never;
 };
@@ -65,6 +54,11 @@ export type DotSymbolProps = {
    * @default 'bottom-end'
    */
   pin?: DotSymbolPin;
+  /**
+   * The size of the dot indicator in pixels.
+   * @default 20
+   */
+  size?: DotSymbolSize;
   /**
    * The shape of the dot indicator.
    * @default 'circle'

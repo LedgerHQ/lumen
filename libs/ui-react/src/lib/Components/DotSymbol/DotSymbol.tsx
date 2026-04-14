@@ -2,23 +2,13 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useMemo, useState } from 'react';
 import { IconSize } from '../Icon';
-import { MediaImageSize } from '../MediaImage';
-import { SpotSize } from '../Spot';
-import {
-  DotSymbolIconSize,
-  DotSymbolPin,
-  DotSymbolProps,
-  DotSymbolImageSize,
-} from './types';
+import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
   'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted bg-muted',
   {
     variants: {
       size: {
-        8: 'size-8 border',
-        10: 'size-10 border',
-        12: 'size-12 border',
         16: 'size-16 border',
         20: 'size-20 border',
         24: 'size-24 border',
@@ -40,9 +30,6 @@ const dotVariants = cva(
       },
     },
     compoundVariants: [
-      { size: 8, shape: 'square', className: 'rounded-[2px]' },
-      { size: 10, shape: 'square', className: 'rounded-[3px]' },
-      { size: 12, shape: 'square', className: 'rounded-[4px]' },
       { size: 16, shape: 'square', className: 'rounded-[5px]' },
       { size: 20, shape: 'square', className: 'rounded-[6px]' },
       { size: 24, shape: 'square', className: 'rounded-[8px]' },
@@ -51,48 +38,31 @@ const dotVariants = cva(
   },
 );
 
-const dotIconSizeMap: Record<DotSymbolIconSize, IconSize> = {
+const dotIconSizeMap: Record<DotSymbolSize, IconSize> = {
   16: 12,
   20: 12,
   24: 16,
 };
 
-const offsetBySize: Record<DotSymbolImageSize, number> = {
-  8: -2,
-  10: -2,
-  12: -2,
+const offsetBySize: Record<DotSymbolSize, number> = {
   16: -3,
   20: -3,
   24: -3,
 };
 
-export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolImageSize> =
-  {
-    12: 8,
-    16: 8,
-    20: 8,
-    24: 10,
-    32: 12,
-    40: 16,
-    48: 20,
-    56: 24,
-    64: 24,
-  } as const;
-
-export const spotDotSizeMap: Record<SpotSize, DotSymbolImageSize> = {
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-  72: 24,
-} as const;
-
-export const iconDotSizeMap = {
+export const mediaImageDotSizeMap = {
   40: 16,
   48: 20,
   56: 24,
   64: 24,
-} as const satisfies Record<number, DotSymbolImageSize>;
+} as const satisfies Record<number, DotSymbolSize>;
+
+export const spotDotSizeMap = {
+  40: 16,
+  48: 20,
+  56: 24,
+  72: 24,
+} as const satisfies Record<number, DotSymbolSize>;
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
   {
@@ -104,7 +74,7 @@ const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
 
 const getPinOffset = (
   pin: DotSymbolPin,
-  size: DotSymbolImageSize,
+  size: DotSymbolSize,
 ): Record<string, number> => {
   const [v, h] = pinAxisMap[pin];
   const offset = offsetBySize[size];

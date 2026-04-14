@@ -1,8 +1,7 @@
 import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
 import type { IconSize } from '../Icon';
 
-export type DotSymbolImageSize = 8 | 10 | 12 | 16 | 20 | 24;
-export type DotSymbolIconSize = 16 | 20 | 24;
+export type DotSymbolSize = 16 | 20 | 24;
 
 export type DotSymbolPin =
   | 'top-start'
@@ -33,11 +32,6 @@ type DotSymbolImageContent = {
    * @default eager (browser default: eager)
    */
   imgLoading?: 'eager' | 'lazy';
-  /**
-   * The size of the dot indicator in pixels.
-   * @default 20
-   */
-  size?: DotSymbolImageSize;
   icon?: never;
   appearance?: never;
 };
@@ -55,11 +49,6 @@ type DotSymbolIconContent = {
    * Icon component to render inside the dot.
    */
   icon: ComponentType<{ size?: IconSize; className?: string }>;
-  /**
-   * The size of the dot indicator in pixels.
-   * @default 20
-   */
-  size?: DotSymbolIconSize;
   src?: never;
   alt?: never;
   imgLoading?: never;
@@ -71,6 +60,11 @@ export type DotSymbolProps = {
    * @default 'bottom-end'
    */
   pin?: DotSymbolPin;
+  /**
+   * The size of the dot indicator in pixels.
+   * @default 20
+   */
+  size?: DotSymbolSize;
   /**
    * The shape of the dot indicator.
    * @default 'circle'

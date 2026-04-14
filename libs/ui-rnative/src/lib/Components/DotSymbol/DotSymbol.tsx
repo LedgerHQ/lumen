@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { IconSize } from '../Icon';
-import { MediaImageSize } from '../MediaImage';
-import { SpotSize } from '../Spot';
 import { Box } from '../Utility';
 import {
   DotSymbolAppearance,
-  DotSymbolIconSize,
   DotSymbolPin,
   DotSymbolProps,
   DotSymbolSize,
@@ -16,55 +13,35 @@ import {
 type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
 
 const shapeRadiusMap: Record<DotSymbolSize, BorderRadiusKey> = {
-  8: 'xs',
-  10: 'xs',
-  12: 'xs',
   16: 'sm',
   20: 'sm',
   24: 'md',
 };
 
 const offsetBySize: Record<DotSymbolSize, number> = {
-  8: -2,
-  10: -2,
-  12: -2,
   16: -3,
   20: -3,
   24: -3,
 };
 
-const dotIconSizeMap: Record<DotSymbolIconSize, IconSize> = {
+const dotIconSizeMap: Record<DotSymbolSize, IconSize> = {
   16: 12,
   20: 12,
   24: 16,
 };
 
-export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
+export const mediaImageDotSizeMap = {
   40: 16,
   48: 20,
   56: 24,
   64: 24,
-};
+} as const satisfies Record<number, DotSymbolSize>;
 
-export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
-  32: 12,
+export const spotDotSizeMap = {
   40: 16,
   48: 20,
   56: 24,
   72: 24,
-};
-
-export const iconDotSizeMap = {
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-  64: 24,
 } as const satisfies Record<number, DotSymbolSize>;
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
