@@ -6,6 +6,7 @@ import { BadgeProps } from './types';
 export function Badge({
   value,
   size,
+  max = 99,
   appearance = 'base',
   disabled: disabledProp = false,
   lx,
@@ -22,11 +23,13 @@ export function Badge({
     disabled,
   });
 
+  const cappedMax = Math.min(max ?? 0, 99);
+
   return (
     <Box lx={lx} style={[styles.container, style]}>
       {size !== 'xs' && (
         <Text style={styles.text} allowFontScaling={false}>
-          {value <= 99 ? value : '99+'}
+          {value <= cappedMax ? value : `${cappedMax}+`}
         </Text>
       )}
     </Box>
