@@ -265,11 +265,11 @@ export const ListItemTitle = ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
-          flex: 1,
           minWidth: 0,
           flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
+          ...(!isInTrailing && { flex: 1 }),
         } as const,
       ]),
     }),
@@ -283,6 +283,7 @@ export const ListItemTitle = ({
       style={StyleSheet.flatten([styles.title, style])}
       numberOfLines={1}
       ellipsizeMode='tail'
+      allowFontScaling={false}
       {...textProps}
     >
       {children}
@@ -315,11 +316,11 @@ export const ListItemDescription = ({
       description: StyleSheet.flatten([
         t.typographies.body3,
         {
-          flex: 1,
           minWidth: 0,
           flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
+          ...(!isInTrailing && { flex: 1 }),
         } as const,
       ]),
     }),
@@ -333,6 +334,7 @@ export const ListItemDescription = ({
       style={StyleSheet.flatten([styles.description, style])}
       numberOfLines={1}
       ellipsizeMode='tail'
+      allowFontScaling={false}
       {...textProps}
     >
       {children}

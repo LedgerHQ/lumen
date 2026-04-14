@@ -472,6 +472,7 @@ export const CardContentTitle = ({
       asText: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
+          flexShrink: 1,
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
           textAlign: align === 'right' ? 'right' : 'left',
         },
@@ -538,6 +539,7 @@ export const CardContentDescription = ({
       asText: StyleSheet.flatten([
         t.typographies.body3,
         {
+          flexShrink: 1,
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
           textAlign: align === 'right' ? 'right' : 'left',
         },

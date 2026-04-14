@@ -42,7 +42,7 @@ export function MediaBanner({
         borderRadius: t.borderRadius.md,
         overflow: 'hidden',
         flexDirection: 'row',
-        height: t.sizes.s72,
+        minHeight: t.sizes.s72,
       },
       contentWrapper: {
         flex: 1,

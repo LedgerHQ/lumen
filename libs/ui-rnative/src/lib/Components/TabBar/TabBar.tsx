@@ -299,7 +299,7 @@ const useStyles = () =>
   useStyleSheet(
     (t) => ({
       container: {
-        height: TAB_BAR_HEIGHT,
+        minHeight: TAB_BAR_HEIGHT,
         flexDirection: 'row',
         justifyContent: 'center',
         padding: t.spacings.s4,
@@ -310,7 +310,7 @@ const useStyles = () =>
       },
       blur: {
         ...StyleSheet.absoluteFillObject,
-        height: TAB_BAR_HEIGHT + t.sizes.s16,
+        bottom: -t.sizes.s16,
         zIndex: -1,
       },
       fallbackBackground: {

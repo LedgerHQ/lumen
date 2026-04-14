@@ -151,7 +151,11 @@ export const Spot = (props: SpotProps) => {
         return <Icon size={calculatedIconSize} style={styles.icon} />;
       }
       case 'number': {
-        return <Text style={styles.numberText}>{props.number}</Text>;
+        return (
+          <Text style={styles.numberText} allowFontScaling={false}>
+            {props.number}
+          </Text>
+        );
       }
       case 'bluetooth':
         return (
