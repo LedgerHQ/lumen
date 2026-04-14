@@ -5,7 +5,6 @@ import { IconSize } from '../Icon';
 import { MediaImageSize } from '../MediaImage';
 import { SpotSize } from '../Spot';
 import {
-  DotSymbolAppearance,
   DotSymbolIconSize,
   DotSymbolPin,
   DotSymbolProps,
@@ -13,7 +12,7 @@ import {
 } from './types';
 
 const dotVariants = cva(
-  'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted',
+  'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted bg-muted',
   {
     variants: {
       size: {
@@ -35,14 +34,10 @@ const dotVariants = cva(
         'bottom-end': '',
       },
       appearance: {
-        image: 'bg-muted',
         success: 'bg-success-strong',
         muted: 'bg-muted-strong',
         error: 'bg-error-strong',
       },
-    },
-    defaultVariants: {
-      appearance: 'image',
     },
     compoundVariants: [
       { size: 8, shape: 'square', className: 'rounded-[2px]' },
@@ -93,7 +88,6 @@ export const spotDotSizeMap: Record<SpotSize, DotSymbolImageSize> = {
 } as const;
 
 export const iconDotSizeMap = {
-  32: 12,
   40: 16,
   48: 20,
   56: 24,
@@ -148,9 +142,6 @@ export const DotSymbol = (props: DotSymbolProps) => {
   } = props;
 
   const isIcon = props.type === 'icon';
-  const dotAppearance: DotSymbolAppearance | 'image' = isIcon
-    ? props.appearance
-    : 'image';
 
   const style = useMemo(() => getPinOffset(pin, size), [pin, size]);
   const [error, setError] = useState(false);
@@ -189,12 +180,14 @@ export const DotSymbol = (props: DotSymbolProps) => {
     >
       <div className='inline-flex'>{children}</div>
       <div
-        className={dotVariants({
-          size,
-          shape,
-          pin,
-          appearance: dotAppearance,
-        })}
+        className={cn(
+          dotVariants({
+            size,
+            shape,
+            pin,
+            appearance: isIcon ? props.appearance : undefined,
+          }),
+        )}
         style={style}
       >
         {renderDotContent()}
