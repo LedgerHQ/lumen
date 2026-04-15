@@ -16,7 +16,6 @@ figma.connect(
         sm: 'sm',
         md: 'md',
       }),
-      hideChevron: figma.boolean('hide-chevron'),
       icon: figma.instance('leading-content'),
       children: figma.string('label'),
     },
@@ -25,7 +24,6 @@ figma.connect(
         appearance={props.appearance}
         size={props.size}
         icon={props.icon}
-        hideChevron={props.hideChevron}
       >
         {props.children}
       </MediaButton>
