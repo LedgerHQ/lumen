@@ -74,8 +74,8 @@ export const InteractiveIcon = ({
       ref={ref}
       disabled={disabled}
       className={cn(
-        className,
         buttonVariants({ disabled, iconType, appearance }),
+        className,
       )}
     >
       <Icon size={size} />

@@ -83,7 +83,7 @@ export const Banner = ({
   return (
     <div
       ref={ref}
-      className={cn(className, bannerVariants.root({ appearance }))}
+      className={cn(bannerVariants.root({ appearance }), className)}
       {...props}
     >
       <div className='flex shrink-0 items-start py-4'>{icon}</div>

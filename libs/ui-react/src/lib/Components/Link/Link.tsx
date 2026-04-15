@@ -108,13 +108,13 @@ export const Link = ({
     <Comp
       ref={ref}
       className={cn(
-        className,
         linkVariants({
           appearance,
           size,
           underline,
           disabled,
         }),
+        className,
       )}
       aria-disabled={disabled || undefined}
       target={isExternal && !asChild ? '_blank' : undefined}

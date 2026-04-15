@@ -137,12 +137,12 @@ export const Spot = (props: SpotProps) => {
     <div
       ref={ref}
       className={cn(
-        className,
         spotVariants({
           disabled,
           appearance,
           size,
         }),
+        className,
       )}
       {...rest}
     >
