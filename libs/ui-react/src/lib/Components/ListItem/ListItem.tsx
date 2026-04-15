@@ -33,14 +33,22 @@ const listItemVariants = cva(
         expanded: 'h-64',
       },
       interactive: {
-        true: [
-          'cursor-pointer hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
-          'focus-visible:outline-2 focus-visible:outline-focus',
-          'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
-        ],
+        true: '',
+        false: '',
+      },
+      disabled: {
+        true: 'cursor-default bg-base-transparent text-disabled',
         false: '',
       },
     },
+    compoundVariants: [
+      {
+        interactive: true,
+        disabled: false,
+        className:
+          'cursor-pointer hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
+      },
+    ],
   },
 );
 
