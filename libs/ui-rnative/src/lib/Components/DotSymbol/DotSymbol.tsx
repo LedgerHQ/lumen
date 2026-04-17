@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import {
+  Image,
+  ImageStyle,
+  StyleProp,
+  StyleSheet,
+  TextStyle,
+} from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { IconSize } from '../Icon';
 import { Box } from '../Utility';
@@ -121,6 +127,42 @@ const useStyles = ({
   );
 };
 
+const DotContent = ({
+  isIcon,
+  dotProps,
+  error,
+  onImageError,
+  styles,
+}: {
+  isIcon: boolean;
+  dotProps: DotSymbolProps;
+  error: boolean;
+  onImageError: () => void;
+  styles: { image: ImageStyle; icon: StyleProp<TextStyle> };
+}) => {
+  if (isIcon) {
+    const { icon: Icon, size: iconSize = 20 } = dotProps as Extract<
+      DotSymbolProps,
+      { type: 'icon' }
+    >;
+    return <Icon size={dotIconSizeMap[iconSize]} style={styles.icon} />;
+  }
+
+  if (error) return null;
+
+  const { src } = dotProps as Extract<DotSymbolProps, { type?: 'image' }>;
+
+  return (
+    <Image
+      source={{ uri: src }}
+      style={styles.image}
+      accessible={false}
+      onError={onImageError}
+      testID='dot-symbol-img'
+    />
+  );
+};
+
 /**
  * A wrapper component that positions a small indicator at a configurable
  * corner of a child element like MediaImage or Spot.
@@ -171,25 +213,6 @@ export const DotSymbol = (props: DotSymbolProps) => {
     setError(false);
   }, [imgSrc]);
 
-  const renderDotContent = () => {
-    if (isIcon) {
-      const { icon: Icon, size: iconSize = 20 } = props;
-      return <Icon size={dotIconSizeMap[iconSize]} style={styles.icon} />;
-    }
-
-    if (error) return null;
-
-    return (
-      <Image
-        source={{ uri: props.src }}
-        style={styles.image}
-        accessible={false}
-        onError={() => setError(true)}
-        testID='dot-symbol-img'
-      />
-    );
-  };
-
   return (
     <Box
       ref={ref}
@@ -203,7 +226,15 @@ export const DotSymbol = (props: DotSymbolProps) => {
       {...rest}
     >
       {children}
-      <Box style={styles.dot}>{renderDotContent()}</Box>
+      <Box style={styles.dot}>
+        <DotContent
+          isIcon={isIcon}
+          dotProps={props}
+          error={error}
+          onImageError={() => setError(true)}
+          styles={{ image: styles.image, icon: styles.icon }}
+        />
+      </Box>
     </Box>
   );
 };
