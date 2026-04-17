@@ -14,8 +14,7 @@
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.js",
-    "src/**/*.test.tsx",
-    "src/**/*.test.js"
+    "src/**/*.test.tsx"
   ],
   "include": [
     "src/**/*.stories.ts",
