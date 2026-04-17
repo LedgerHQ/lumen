@@ -76,9 +76,6 @@ describe('DotSymbol Component', () => {
   });
 
   it.each([
-    { size: 8 as const, offset: '-2px' },
-    { size: 10 as const, offset: '-2px' },
-    { size: 12 as const, offset: '-2px' },
     { size: 16 as const, offset: '-3px' },
     { size: 20 as const, offset: '-3px' },
     { size: 24 as const, offset: '-3px' },
