@@ -189,7 +189,10 @@ export const DotSymbol = (props: DotSymbolProps) => {
     <Box
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([{ position: 'relative' }, style])}
+      style={StyleSheet.flatten([
+        { position: 'relative', alignSelf: 'flex-start' },
+        style,
+      ])}
       accessibilityRole='image'
       accessibilityLabel={!isIcon ? props.alt : undefined}
       {...rest}

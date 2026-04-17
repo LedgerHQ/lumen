@@ -21,7 +21,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         pin='bottom-end'
-        size={20}
+        size={mediaImageDotSizeMap[48]}
       >
         <MediaImage
           src='https://crypto-icons.ledger.com/USDC.png'
@@ -35,7 +35,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/BTC.png'
         alt='Bitcoin'
         pin='bottom-end'
-        size={16}
+        size={mediaImageDotSizeMap[40]}
         shape='square'
       >
         <MediaImage
@@ -59,7 +59,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/BTC.png'
         alt='Bitcoin'
         pin='bottom-start'
-        size={24}
+        size={mediaImageDotSizeMap[56]}
       >
         <MediaImage
           src='https://crypto-icons.ledger.com/USDC.png'
