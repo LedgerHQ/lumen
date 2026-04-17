@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Settings } from '../../Symbols';
 import { Button } from '../Button';
+import { MediaButton } from '../MediaButton';
 import {
   Select,
   SelectTrigger,
@@ -15,7 +16,6 @@ import {
   SelectItemContent,
   SelectItemDescription,
   SelectEmptyState,
-  SelectMediaButton,
 } from './Select';
 import type { SelectItemData } from './types';
 
@@ -490,8 +490,10 @@ export const TriggerShowcase: Story = {
           onValueChange={setButtonValue}
         >
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectMediaButton {...renderProps} label='All accounts' />
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton>
+                {selectedValue ? selectedContent : 'All accounts'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-128'>
@@ -507,8 +509,10 @@ export const TriggerShowcase: Story = {
 
         <Select items={accountOptions} disabled>
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectMediaButton {...renderProps} label='Disabled' />
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton>
+                {selectedValue ? selectedContent : 'Disabled'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-208'>
@@ -528,13 +532,10 @@ export const TriggerShowcase: Story = {
           onValueChange={setIconValue}
         >
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectMediaButton
-                {...renderProps}
-                label='Settings'
-                icon={<Settings size={20} />}
-                iconType='flat'
-              />
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton icon={<Settings size={20} />} iconType='flat'>
+                {selectedValue ? selectedContent : 'Settings'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-208'>
@@ -554,10 +555,8 @@ export const TriggerShowcase: Story = {
           onValueChange={setCryptoValue}
         >
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectMediaButton
-                {...renderProps}
-                label='Network'
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton
                 icon={
                   selectedCrypto ? (
                     <CryptoIcon
@@ -568,7 +567,9 @@ export const TriggerShowcase: Story = {
                   ) : undefined
                 }
                 iconType='rounded'
-              />
+              >
+                {selectedValue ? selectedContent : 'Network'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-208'>
@@ -595,12 +596,10 @@ export const TriggerShowcase: Story = {
           {appearances.map((appearance) => (
             <Select key={appearance} items={appearanceOptions}>
               <SelectTrigger
-                render={(renderProps) => (
-                  <SelectMediaButton
-                    {...renderProps}
-                    label={appearance}
-                    appearance={appearance}
-                  />
+                render={({ selectedValue, selectedContent }) => (
+                  <MediaButton appearance={appearance}>
+                    {selectedValue ? selectedContent : appearance}
+                  </MediaButton>
                 )}
               />
               <SelectContent className='w-208'>
