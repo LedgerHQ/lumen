@@ -1,4 +1,4 @@
-import type { Series } from '../internals';
+import type { Series } from '../../../utils';
 
 type LineChartProps = {
   series: Series[];
