@@ -1,13 +1,13 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import * as TriggerButtonStories from './TriggerButton.stories';
+import * as MediaButtonStories from './MediaButton.stories';
 
-<Meta title='Components/TriggerButton' of={TriggerButtonStories} />
+<Meta title='Components/MediaButton' of={MediaButtonStories} />
 
-# TriggerButton
+# MediaButton
 
 ## Introduction
 
-A specialized trigger button designed exclusively for select and dropdown patterns. It displays a label with an optional leading icon and a permanent trailing chevron indicator.
+A specialized media button designed exclusively for select and dropdown patterns. It displays a label with an optional leading icon and a permanent trailing chevron indicator.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6389-45680&m=dev).
 
@@ -15,18 +15,18 @@ A specialized trigger button designed exclusively for select and dropdown patter
 
 ## Properties
 
-<Canvas of={TriggerButtonStories.Base} />
-<Controls of={TriggerButtonStories.Base} />
+<Canvas of={MediaButtonStories.Base} />
+<Controls of={MediaButtonStories.Base} />
 
 ## Appearance
 
 Three appearances are available: `gray` (default), `transparent`, and `no-background`.
 
-<Canvas of={TriggerButtonStories.AllAppearancesWithIcons} />
+<Canvas of={MediaButtonStories.AllAppearancesWithIcons} />
 
 ## Sizes
 
-<Canvas of={TriggerButtonStories.SizeShowcase} />
+<Canvas of={MediaButtonStories.SizeShowcase} />
 
 ## Icon Types
 
@@ -35,4 +35,4 @@ The `iconType` prop controls the padding scheme based on the leading icon's shap
 - **`flat`**: Standard padding for interface icons (line icons without background).
 - **`rounded`**: Tighter left padding for circular icons with their own background (e.g., crypto icons).
 
-<Canvas of={TriggerButtonStories.IconTypeShowcase} />
+<Canvas of={MediaButtonStories.IconTypeShowcase} />
