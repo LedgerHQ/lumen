@@ -81,6 +81,45 @@ const getPinOffset = (
   return { [v]: offset, [h]: offset };
 };
 
+const DotContent = ({
+  isIcon,
+  dotProps,
+  error,
+  onImageError,
+}: {
+  isIcon: boolean;
+  dotProps: DotSymbolProps;
+  error: boolean;
+  onImageError: () => void;
+}) => {
+  if (isIcon) {
+    const { icon: Icon, size: iconSize = 20 } = dotProps as Extract<
+      DotSymbolProps,
+      { type: 'icon' }
+    >;
+    return (
+      <Icon size={dotIconSizeMap[iconSize]} className='text-on-interactive' />
+    );
+  }
+
+  if (error) return null;
+
+  const { alt, src, imgLoading } = dotProps as Extract<
+    DotSymbolProps,
+    { type?: 'image' }
+  >;
+
+  return (
+    <img
+      alt={alt}
+      src={src}
+      loading={imgLoading ?? 'eager'}
+      aria-hidden='true'
+      onError={onImageError}
+    />
+  );
+};
+
 /**
  * A wrapper component that positions a small indicator at a configurable
  * corner of a child element like MediaImage or Spot.
@@ -127,27 +166,6 @@ export const DotSymbol = (props: DotSymbolProps) => {
     setError(false);
   }, [imgSrc]);
 
-  const renderDotContent = () => {
-    if (isIcon) {
-      const { icon: Icon, size: iconSize = 20 } = props;
-      return (
-        <Icon size={dotIconSizeMap[iconSize]} className='text-on-interactive' />
-      );
-    }
-
-    if (error) return null;
-
-    return (
-      <img
-        alt={props.alt}
-        src={props.src}
-        loading={props.imgLoading ?? 'eager'}
-        aria-hidden='true'
-        onError={() => setError(true)}
-      />
-    );
-  };
-
   return (
     <div
       ref={ref}
@@ -166,7 +184,12 @@ export const DotSymbol = (props: DotSymbolProps) => {
         )}
         style={style}
       >
-        {renderDotContent()}
+        <DotContent
+          isIcon={isIcon}
+          dotProps={props}
+          error={error}
+          onImageError={() => setError(true)}
+        />
       </div>
     </div>
   );
