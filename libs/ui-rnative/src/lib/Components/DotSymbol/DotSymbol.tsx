@@ -193,7 +193,7 @@ export const DotSymbol = (props: DotSymbolProps) => {
         { position: 'relative', alignSelf: 'flex-start' },
         style,
       ])}
-      accessibilityRole='image'
+      accessibilityRole={!isIcon ? 'image' : undefined}
       accessibilityLabel={!isIcon ? props.alt : undefined}
       {...rest}
     >
