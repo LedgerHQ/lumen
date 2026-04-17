@@ -108,6 +108,12 @@ export const DotSymbol = (props: DotSymbolProps) => {
     shape = 'circle',
     className,
     ref,
+    type: _type,
+    src: _src,
+    alt: _alt,
+    imgLoading: _imgLoading,
+    icon: _icon,
+    appearance: _appearance,
     ...rest
   } = props;
 

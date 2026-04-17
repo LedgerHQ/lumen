@@ -149,6 +149,11 @@ export const DotSymbol = (props: DotSymbolProps) => {
     lx = {},
     style,
     ref,
+    type: _type,
+    src: _src,
+    alt: _alt,
+    icon: _icon,
+    appearance: _appearance,
     ...rest
   } = props;
 
