@@ -287,9 +287,6 @@ const useStyles = ({ density }: StyleParams) => {
         ]),
         contentContainer: StyleSheet.flatten([
           {
-            flex: 1,
-          },
-          {
             ...(density === 'compact' && {
               paddingHorizontal: t.spacings.s48,
               alignItems: 'center',
