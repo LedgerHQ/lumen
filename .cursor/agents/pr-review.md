@@ -5,6 +5,7 @@ description: >-
   Works with local branches (diffed against origin/main) or remote PRs when a GitHub link is provided.
   Use when the user asks to review a PR, review code changes, check a branch, do a local code review,
   or provides a GitHub PR URL.
+readonly: true
 ---
 
 # PR Review
@@ -24,7 +25,7 @@ git log origin/main...HEAD --oneline
 
 ### Remote PR (GitHub link)
 
-1. If the user provides a GitHub PR URL, use the `gh` CLI to fetch the diff and metadata:
+1. If a GitHub PR URL is provided, use the `gh` CLI to fetch the diff and metadata:
 
 ```bash
 gh pr view <PR_NUMBER> --json title,body,baseRefName,headRefName,files
@@ -46,11 +47,11 @@ For each file or logical group of changes, evaluate against the criteria below. 
 
 ### Severity Scale
 
-- **10/10 Critical** -- Bugs, crashes, data loss, security vulnerabilities. Must fix before merge.
-- **8-9/10 Major** -- Wrong abstraction, missing error handling, broken accessibility, type unsafety that compiles but fails at runtime.
-- **6-7/10 Moderate** -- Performance flaws, code smells, inconsistency with codebase patterns, missing tests for important paths.
-- **4-5/10 Minor** -- Naming inconsistencies, suboptimal patterns, missing JSDoc on public API, style deviations.
-- **1-3/10 Nit** -- Cosmetic issues, optional improvements, personal preference.
+- **10/10 Critical** — Bugs, crashes, data loss, security vulnerabilities. Must fix before merge.
+- **8-9/10 Major** — Wrong abstraction, missing error handling, broken accessibility, type unsafety that compiles but fails at runtime.
+- **6-7/10 Moderate** — Performance flaws, code smells, inconsistency with codebase patterns, missing tests for important paths.
+- **4-5/10 Minor** — Naming inconsistencies, suboptimal patterns, missing JSDoc on public API, style deviations.
+- **1-3/10 Nit** — Cosmetic issues, optional improvements, personal preference.
 
 ### Review Criteria
 
@@ -69,7 +70,7 @@ For each file or logical group of changes, evaluate against the criteria below. 
 
 #### 3. Codebase Consistency
 
-Cross-reference with existing patterns in the repo. Look for:
+Cross-reference with existing patterns in the repo:
 
 - **Props drilling**: Props must be drilled to the top-level element. Nested refs/classNames use different prop names.
 - **cva usage**: Use `cva` at file top when there are variants; inline classNames when few.
@@ -162,7 +163,7 @@ Cross-reference with existing patterns in the repo. Look for:
 
 ## Version Plan Check
 
-If the PR includes changes to production code (files under `libs/*/src/` - verify that a version-plan file exists in `.nx/version-plans/`.
+If the PR includes changes to production code (files under `libs/*/src/`), verify that a version-plan file exists in `.nx/version-plans/`.
 
 ```bash
 git diff origin/main...HEAD --name-only -- .nx/version-plans/
@@ -219,12 +220,12 @@ Component Completeness:
 
 ## Output
 
-If the review is short (fewer than ~15 findings), output directly in chat.
-If it is long, write the full review to a temp file at `.cursor/tmp/pr-review-[branch-name].md` and tell the user the path.
+If the review is short (fewer than ~15 findings), return the review directly.
+If it is long, write the full review to `.cursor/tmp/pr-review-[branch-name].md` and report the path.
 
 ### Format
 
-The review is a **flat, scored list** -- one item per finding, sorted by severity (highest first). No nested headings per file; each item is self-contained.
+The review is a **flat, scored list** — one item per finding, sorted by severity (highest first). No nested headings per file; each item is self-contained.
 
 ```markdown
 # PR Review: [branch-name]
@@ -248,11 +249,11 @@ The review is a **flat, scored list** -- one item per finding, sorted by severit
 
 ### Details
 
-**1. [Finding title]** -- 9/10 Type Safety -- `types.ts:42`
+**1. [Finding title]** — 9/10 Type Safety — `types.ts:42`
 [Description of the issue in 1-3 sentences]
 > **Fix**: [Concrete code suggestion or action]
 
-**2. [Finding title]** -- 7/10 Consistency -- `Menu.tsx:26`
+**2. [Finding title]** — 7/10 Consistency — `Menu.tsx:26`
 [Description]
 > **Fix**: [Suggestion]
 
