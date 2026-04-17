@@ -23,7 +23,7 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
 
 const listItemVariants = cva(
   [
-    'flex w-full items-center gap-16 px-8 py-12',
+    'flex w-full items-center gap-16 px-8',
     'rounded-md bg-base-transparent text-base transition-colors',
   ],
   {

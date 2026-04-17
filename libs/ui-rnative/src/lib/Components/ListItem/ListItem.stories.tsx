@@ -5,7 +5,7 @@ import { Settings, ChevronRight, Wallet } from '../../Symbols';
 import { Spot } from '../Spot';
 import { Switch } from '../Switch/Switch';
 import { Tag } from '../Tag/Tag';
-import { Box } from '../Utility';
+import { Box, Text } from '../Utility';
 import {
   ListItem,
   ListItemLeading,
@@ -87,167 +87,145 @@ export const Base: Story = {
   },
 };
 
-export const VariantsShowcase: Story = {
+export const DensityShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
+      <ListItem density='compact' onPress={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+          <ListItemContent>
+            <ListItemTitle>Compact with icon</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='compact'>
+        <ListItemLeading>
+          <Spot size={32} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Compact with value</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemTitle>$3,000</ListItemTitle>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded' onPress={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
+          <ListItemContent>
+            <ListItemTitle>Expanded with icon</ListItemTitle>
+            <ListItemDescription>Additional information</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded'>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Expanded with value</ListItemTitle>
+            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemTitle>$3,000</ListItemTitle>
+        </ListItemTrailing>
+      </ListItem>
+    </Box>
+  ),
+};
+
+export const InteractiveShowcase: Story = {
   render: () => {
     const [selected, setSelected] = useState(false);
 
     return (
-      <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Settings} />
-            <ListItemContent>
-              <ListItemTitle>Simple composition</ListItemTitle>
-            </ListItemContent>
-          </ListItemLeading>
-        </ListItem>
+      <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's16' }}>
+        <Box lx={{ flexDirection: 'column', gap: 's8' }}>
+          <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
+            Info
+          </Text>
+          <ListItem>
+            <ListItemLeading>
+              <Spot size={48} appearance='icon' icon={Settings} />
+              <ListItemContent>
+                <ListItemTitle>Display only</ListItemTitle>
+                <ListItemDescription>No press feedback</ListItemDescription>
+              </ListItemContent>
+            </ListItemLeading>
+            <ListItemTrailing>
+              <ListItemContent>
+                <ListItemTitle>42.10</ListItemTitle>
+                <ListItemDescription>USD</ListItemDescription>
+              </ListItemContent>
+            </ListItemTrailing>
+          </ListItem>
 
-        <ListItem onPress={() => setSelected(!selected)}>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemTitle>Switch Variant</ListItemTitle>
-              <ListItemDescription>With description</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <Switch checked={selected} onCheckedChange={setSelected} />
-          </ListItemTrailing>
-        </ListItem>
+          <ListItem>
+            <ListItemLeading>
+              <Spot size={48} appearance='icon' icon={Wallet} />
+              <ListItemContent>
+                <ListItemTitle>Static item</ListItemTitle>
+                <ListItemDescription>Not pressable</ListItemDescription>
+              </ListItemContent>
+            </ListItemLeading>
+            <ListItemTrailing>
+              <Tag size='sm' label='New' appearance='accent' />
+            </ListItemTrailing>
+          </ListItem>
+        </Box>
 
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemTitle>Content Variant</ListItemTitle>
-              <ListItemDescription>With description</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ListItemContent>
-              <ListItemTitle>42.10</ListItemTitle>
-              <ListItemDescription>USD</ListItemDescription>
-            </ListItemContent>
-          </ListItemTrailing>
-        </ListItem>
+        <Box lx={{ flexDirection: 'column', gap: 's8' }}>
+          <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
+            Interactive
+          </Text>
+          <ListItem onPress={() => {}}>
+            <ListItemLeading>
+              <Spot size={48} appearance='icon' icon={Settings} />
+              <ListItemContent>
+                <ListItemTitle>Navigation</ListItemTitle>
+                <ListItemDescription>Press feedback styles</ListItemDescription>
+              </ListItemContent>
+            </ListItemLeading>
+            <ListItemTrailing>
+              <ChevronRight size={24} />
+            </ListItemTrailing>
+          </ListItem>
 
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemTitle>Content Variant</ListItemTitle>
-              <ListItemDescription>Custom style</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ListItemContent>
-              <ListItemTitle>USD</ListItemTitle>
-              <ListItemDescription lx={{ color: 'error' }}>
-                -7.53%
-              </ListItemDescription>
-            </ListItemContent>
-          </ListItemTrailing>
-        </ListItem>
+          <ListItem onPress={() => setSelected(!selected)}>
+            <ListItemLeading>
+              <Spot size={48} appearance='icon' icon={Wallet} />
+              <ListItemContent>
+                <ListItemTitle>Toggle</ListItemTitle>
+                <ListItemDescription>Press to toggle</ListItemDescription>
+              </ListItemContent>
+            </ListItemLeading>
+            <ListItemTrailing>
+              <Switch checked={selected} onCheckedChange={setSelected} />
+            </ListItemTrailing>
+          </ListItem>
 
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemTitle>Content Variant</ListItemTitle>
-              <ListItemDescription>Custom style</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ListItemContent>
-              <ListItemTitle>USD</ListItemTitle>
-              <ListItemDescription lx={{ color: 'success' }}>
-                +7.53%
-              </ListItemDescription>
-            </ListItemContent>
-          </ListItemTrailing>
-        </ListItem>
-
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Settings} />
-            <ListItemContent>
-              <ListItemTitle>Tag Variant</ListItemTitle>
-              <ListItemDescription>With description</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <Tag size='sm' label='New' appearance='accent' />
-          </ListItemTrailing>
-        </ListItem>
-
-        <ListItem onPress={() => {}}>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Settings} />
-            <ListItemContent>
-              <ListItemTitle>Icon Variant</ListItemTitle>
-              <ListItemDescription>With description</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ChevronRight size={24} />
-          </ListItemTrailing>
-        </ListItem>
-
-        <ListItem onPress={() => {}}>
-          <ListItemLeading>
-            <Wallet size={24} />
-            <ListItemContent>
-              <ListItemTitle>Icon without Spot</ListItemTitle>
-              <ListItemDescription>With icon</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ChevronRight size={24} />
-          </ListItemTrailing>
-        </ListItem>
-
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemContentRow>
-                <ListItemTitle>Complex 1</ListItemTitle>
-                <Tag size='sm' label='New' appearance='base' />
-              </ListItemContentRow>
-              <ListItemContentRow>
-                <ListItemDescription>With description</ListItemDescription>
-                <Tag size='sm' label='Custom Tag' appearance='gray' />
-              </ListItemContentRow>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ListItemContent>
-              <ListItemTitle>42.10</ListItemTitle>
-              <ListItemDescription>USD</ListItemDescription>
-            </ListItemContent>
-          </ListItemTrailing>
-        </ListItem>
-
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemTitle>Complex 2</ListItemTitle>
-              <ListItemDescription>With description</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ListItemContent>
-              <ListItemContentRow>
-                <Tag size='sm' label='New' appearance='base' />
-                <ListItemTitle>1200.12</ListItemTitle>
-              </ListItemContentRow>
-              <ListItemContentRow>
-                <Tag size='sm' label='BTC' appearance='gray' />
-              </ListItemContentRow>
-            </ListItemContent>
-          </ListItemTrailing>
-        </ListItem>
+          <ListItem onPress={() => {}}>
+            <ListItemLeading>
+              <Wallet size={24} />
+              <ListItemContent>
+                <ListItemTitle>Icon without Spot</ListItemTitle>
+                <ListItemDescription>With icon</ListItemDescription>
+              </ListItemContent>
+            </ListItemLeading>
+            <ListItemTrailing>
+              <ChevronRight size={24} />
+            </ListItemTrailing>
+          </ListItem>
+        </Box>
       </Box>
     );
   },
@@ -334,14 +312,15 @@ export const DisabledState: Story = {
   },
 };
 
-export const Density: Story = {
+export const ResponsiveLayout: Story = {
   render: () => (
-    <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
-      <ListItem density='compact' onPress={() => {}}>
+    <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
+      <ListItem onPress={() => {}}>
         <ListItemLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+          <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
-            <ListItemTitle>Compact with icon</ListItemTitle>
+            <ListItemTitle>Fit content</ListItemTitle>
+            <ListItemDescription>Short</ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
@@ -349,24 +328,17 @@ export const Density: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem density='compact'>
+      <ListItem lx={{ width: 's320' }} onPress={() => {}}>
         <ListItemLeading>
-          <Spot size={32} appearance='icon' icon={Wallet} />
+          <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
-            <ListItemTitle>Compact with value</ListItemTitle>
-          </ListItemContent>
-        </ListItemLeading>
-        <ListItemTrailing>
-          <ListItemTitle>$3,000</ListItemTitle>
-        </ListItemTrailing>
-      </ListItem>
-
-      <ListItem density='expanded' onPress={() => {}}>
-        <ListItemLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
-          <ListItemContent>
-            <ListItemTitle>Expanded with icon</ListItemTitle>
-            <ListItemDescription>Additional information</ListItemDescription>
+            <ListItemTitle>
+              Defined width (320px) with a long title that truncates
+            </ListItemTitle>
+            <ListItemDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos.
+            </ListItemDescription>
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
@@ -374,91 +346,170 @@ export const Density: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem density='expanded'>
+      <ListItem lx={{ width: 's320' }}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Wallet} />
           <ListItemContent>
-            <ListItemTitle>Expanded with value</ListItemTitle>
-            <ListItemDescription>With description</ListItemDescription>
+            <ListItemContentRow>
+              <ListItemTitle>
+                Defined width (320px) with ContentRow
+              </ListItemTitle>
+              <Tag size='sm' label='New' appearance='base' />
+            </ListItemContentRow>
+            <ListItemContentRow>
+              <ListItemDescription>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Quisquam, quos.
+              </ListItemDescription>
+              <Tag size='sm' label='Custom Tag' appearance='gray' />
+            </ListItemContentRow>
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
-          <ListItemTitle>$3,000</ListItemTitle>
+          <ListItemContent>
+            <ListItemTitle>42.10</ListItemTitle>
+            <ListItemDescription>USD</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem lx={{ width: 'full' }} onPress={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Full width (fills parent)</ListItemTitle>
+            <ListItemDescription>
+              Stretches to container width
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
         </ListItemTrailing>
       </ListItem>
     </Box>
   ),
 };
 
-export const ResponsiveLayout: Story = {
+export const CompositionShowcase: Story = {
   render: () => (
-    <Box
-      lx={{
-        width: 's400',
-        borderWidth: 's1',
-        borderColor: 'mutedSubtle',
-        padding: 's16',
-      }}
-    >
-      <Box lx={{ flexDirection: 'column' }}>
-        <ListItem onPress={() => {}}>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Settings} />
-            <ListItemContent>
-              <ListItemTitle>Short Title</ListItemTitle>
-              <ListItemDescription>Short description</ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ChevronRight size={24} />
-          </ListItemTrailing>
-        </ListItem>
+    <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Simple composition</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
 
-        <ListItem onPress={() => {}}>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Settings} />
-            <ListItemContent>
-              <ListItemTitle>
-                Long Title that should truncate appropriately
-              </ListItemTitle>
-              <ListItemDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, quos.
-              </ListItemDescription>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ChevronRight size={24} />
-          </ListItemTrailing>
-        </ListItem>
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Content Variant</ListItemTitle>
+            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>42.10</ListItemTitle>
+            <ListItemDescription>USD</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
 
-        <ListItem>
-          <ListItemLeading>
-            <Spot size={48} appearance='icon' icon={Wallet} />
-            <ListItemContent>
-              <ListItemContentRow>
-                <ListItemTitle>
-                  Long Title that should truncate appropriately
-                </ListItemTitle>
-                <Tag size='sm' label='New' appearance='base' />
-              </ListItemContentRow>
-              <ListItemContentRow>
-                <ListItemDescription>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Quisquam, quos.
-                </ListItemDescription>
-                <Tag size='sm' label='Custom Tag' appearance='gray' />
-              </ListItemContentRow>
-            </ListItemContent>
-          </ListItemLeading>
-          <ListItemTrailing>
-            <ListItemContent>
-              <ListItemTitle>42.10</ListItemTitle>
-              <ListItemDescription>USD</ListItemDescription>
-            </ListItemContent>
-          </ListItemTrailing>
-        </ListItem>
-      </Box>
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Content Variant</ListItemTitle>
+            <ListItemDescription>Custom style</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>USD</ListItemTitle>
+            <ListItemDescription lx={{ color: 'error' }}>
+              -7.53%
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Content Variant</ListItemTitle>
+            <ListItemDescription>Custom style</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>USD</ListItemTitle>
+            <ListItemDescription lx={{ color: 'success' }}>
+              +7.53%
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Tag Variant</ListItemTitle>
+            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <Tag size='sm' label='New' appearance='accent' />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemContentRow>
+              <ListItemTitle>Complex 1</ListItemTitle>
+              <Tag size='sm' label='New' appearance='base' />
+            </ListItemContentRow>
+            <ListItemContentRow>
+              <ListItemDescription>With description</ListItemDescription>
+              <Tag size='sm' label='Custom Tag' appearance='gray' />
+            </ListItemContentRow>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>42.10</ListItemTitle>
+            <ListItemDescription>USD</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Complex 2</ListItemTitle>
+            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemContentRow>
+              <Tag size='sm' label='New' appearance='base' />
+              <ListItemTitle>1200.12</ListItemTitle>
+            </ListItemContentRow>
+            <ListItemContentRow>
+              <Tag size='sm' label='BTC' appearance='gray' />
+            </ListItemContentRow>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
     </Box>
   ),
 };

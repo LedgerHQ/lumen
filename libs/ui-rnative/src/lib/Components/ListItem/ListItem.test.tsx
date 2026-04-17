@@ -91,6 +91,24 @@ describe('ListItem', () => {
     });
   });
 
+  describe('onLongPress', () => {
+    it('triggers onLongPress on long press', () => {
+      const onLongPress = jest.fn();
+      renderListItem({ onLongPress });
+
+      fireEvent(screen.getByTestId('list-item'), 'longPress');
+      expect(onLongPress).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not trigger onLongPress when disabled', () => {
+      const onLongPress = jest.fn();
+      renderListItem({ onLongPress, disabled: true });
+
+      fireEvent(screen.getByTestId('list-item'), 'longPress');
+      expect(onLongPress).not.toHaveBeenCalled();
+    });
+  });
+
   describe('disabled', () => {
     it('sets disabled accessibility state', () => {
       renderListItem({ disabled: true });

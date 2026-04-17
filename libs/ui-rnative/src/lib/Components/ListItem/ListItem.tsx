@@ -1,6 +1,6 @@
 import {
   createSafeContext,
-  Density,
+  type Density,
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
@@ -135,7 +135,7 @@ export const ListItem = ({
         ref={ref}
         lx={lx}
         style={style}
-        accessibilityState={disabled ? { disabled } : undefined}
+        accessibilityState={{ disabled }}
         {...props}
       >
         <ListItemInner pressed={false} density={density}>
