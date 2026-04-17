@@ -117,7 +117,7 @@ The `render` function receives two props:
 
 ### Trigger Variants
 
-`SelectTriggerButton` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `TriggerButton` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
+`SelectMediaButton` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `MediaButton` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
 
 <Canvas of={SelectStories.TriggerShowcase} />
 
@@ -533,14 +533,14 @@ const [value, setValue] = useState<string | null>(null);
 
 The `SelectTrigger` component accepts an optional `render` prop that replaces the default input-style trigger. The function receives `{ selectedValue, selectedContent }` and must return a single root element.
 
-#### Using `SelectTriggerButton`
+#### Using `SelectMediaButton`
 
-`SelectTriggerButton` is a ready-made preset for button-style triggers. It accepts all `TriggerButton` props (`appearance`, `size`, `icon`, `iconType`) plus a required `label`.
+`SelectMediaButton` is a ready-made preset for button-style triggers. It accepts all `MediaButton` props (`appearance`, `size`, `icon`, `iconType`) plus a required `label`.
 
 ```tsx
 import {
   Select,
-  SelectTriggerButton,
+  SelectMediaButton,
   SelectContent,
   SelectItem,
   SelectItemText,
@@ -560,7 +560,7 @@ function MyComponent() {
     <Select items={accountOptions} value={value} onValueChange={setValue}>
       <SelectTrigger
         render={(renderProps) => (
-          <SelectTriggerButton
+          <SelectMediaButton
             {...renderProps}
             label='All accounts'
             icon={<Settings size={20} />}
@@ -741,7 +741,7 @@ const categoryOptions = [
 ```tsx
 <SelectTrigger
   render={(renderProps) => (
-    <SelectTriggerButton
+    <SelectMediaButton
       {...renderProps}
       label='All accounts'
     />
@@ -761,7 +761,7 @@ const categoryOptions = [
   label='Category'
   className='bg-accent'
   render={(renderProps) => (
-    <SelectTriggerButton
+    <SelectMediaButton
       {...renderProps}
       label='All accounts'
     />

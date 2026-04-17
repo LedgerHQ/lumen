@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
 import { StyledPressableProps } from '../../../styles';
 
-export type TriggerButtonProps = {
+export type MediaButtonProps = {
   /**
-   * The visual style of the trigger button.
+   * The visual style of the media button.
    * @default 'gray'
    */
   appearance?: 'gray' | 'transparent' | 'no-background';
   /**
-   * The size variant of the trigger button.
+   * The size variant of the media button.
    * @default 'md'
    */
   size?: 'sm' | 'md';
@@ -27,12 +27,17 @@ export type TriggerButtonProps = {
    */
   iconType?: 'flat' | 'rounded';
   /**
-   * Whether the trigger button is disabled.
+   * When true, hides the trailing chevron indicator.
+   * @default false
+   */
+  hideChevron?: boolean;
+  /**
+   * Whether the media button is disabled.
    * @default false
    */
   disabled?: boolean;
   /**
-   * The label content of the trigger button.
+   * The label content of the media button.
    */
   children: ReactNode;
 } & Omit<StyledPressableProps, 'children'>;

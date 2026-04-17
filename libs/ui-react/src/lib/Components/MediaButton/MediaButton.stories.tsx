@@ -2,10 +2,10 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactNode } from 'react';
 import { Settings, Star } from '../../Symbols';
-import { TriggerButton } from './TriggerButton';
-import type { TriggerButtonProps } from './types';
+import { MediaButton } from './MediaButton';
+import type { MediaButtonProps } from './types';
 
-type Size = NonNullable<TriggerButtonProps['size']>;
+type Size = NonNullable<MediaButtonProps['size']>;
 
 const cryptoIconSizes = {
   sm: '24px',
@@ -35,9 +35,9 @@ const resolveIcon = (
   }
 };
 
-const meta: Meta<typeof TriggerButton> = {
-  component: TriggerButton,
-  title: 'Action/TriggerButton',
+const meta: Meta<typeof MediaButton> = {
+  component: MediaButton,
+  title: 'Action/MediaButton',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -65,7 +65,7 @@ const meta: Meta<typeof TriggerButton> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TriggerButton>;
+type Story = StoryObj<typeof MediaButton>;
 
 export const Base: Story = {
   args: {
@@ -75,14 +75,14 @@ export const Base: Story = {
   render: ({ icon, size, iconType, ...args }) => {
     const resolved = resolveIcon(icon as string, size);
     return (
-      <TriggerButton
+      <MediaButton
         {...args}
         size={size}
         icon={resolved.node}
         iconType={resolved.type ?? iconType}
       >
         {args.children}
-      </TriggerButton>
+      </MediaButton>
     );
   },
 };
@@ -90,12 +90,12 @@ export const Base: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
-      <TriggerButton size='sm' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton size='sm' icon={<Star size={20} />} iconType='flat'>
         Small
-      </TriggerButton>
-      <TriggerButton size='md' icon={<Star size={20} />} iconType='flat'>
+      </MediaButton>
+      <MediaButton size='md' icon={<Star size={20} />} iconType='flat'>
         Medium
-      </TriggerButton>
+      </MediaButton>
     </div>
   ),
 };
@@ -104,42 +104,42 @@ export const IconTypeShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
       <div className='flex items-center gap-16'>
-        <TriggerButton
+        <MediaButton
           icon={<Settings size={20} />}
           iconType='flat'
           appearance='gray'
         >
           Flat icon (md)
-        </TriggerButton>
-        <TriggerButton
+        </MediaButton>
+        <MediaButton
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />}
           iconType='rounded'
           appearance='gray'
         >
           Rounded icon (md)
-        </TriggerButton>
-        <TriggerButton appearance='gray'>No icon (md)</TriggerButton>
+        </MediaButton>
+        <MediaButton appearance='gray'>No icon (md)</MediaButton>
       </div>
       <div className='flex items-center gap-16'>
-        <TriggerButton
+        <MediaButton
           icon={<Settings size={20} />}
           iconType='flat'
           appearance='gray'
           size='sm'
         >
           Flat icon (sm)
-        </TriggerButton>
-        <TriggerButton
+        </MediaButton>
+        <MediaButton
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
           iconType='rounded'
           appearance='gray'
           size='sm'
         >
           Rounded icon (sm)
-        </TriggerButton>
-        <TriggerButton appearance='gray' size='sm'>
+        </MediaButton>
+        <MediaButton appearance='gray' size='sm'>
           No icon (sm)
-        </TriggerButton>
+        </MediaButton>
       </div>
     </div>
   ),
@@ -152,21 +152,21 @@ export const AllAppearancesWithIcons: Story = {
       <div className='flex flex-col gap-16 p-16'>
         {appearances.map((appearance) => (
           <div key={appearance} className='flex items-center gap-16'>
-            <TriggerButton appearance={appearance}>{appearance}</TriggerButton>
-            <TriggerButton
+            <MediaButton appearance={appearance}>{appearance}</MediaButton>
+            <MediaButton
               appearance={appearance}
               icon={<Settings size={20} />}
               iconType='flat'
             >
               {appearance}
-            </TriggerButton>
-            <TriggerButton
+            </MediaButton>
+            <MediaButton
               appearance={appearance}
               icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />}
               iconType='rounded'
             >
               {appearance}
-            </TriggerButton>
+            </MediaButton>
           </div>
         ))}
       </div>

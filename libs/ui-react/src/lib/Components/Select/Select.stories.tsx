@@ -15,7 +15,7 @@ import {
   SelectItemContent,
   SelectItemDescription,
   SelectEmptyState,
-  SelectTriggerButton,
+  SelectMediaButton,
 } from './Select';
 import type { SelectItemData } from './types';
 
@@ -491,7 +491,7 @@ export const TriggerShowcase: Story = {
         >
           <SelectTrigger
             render={(renderProps) => (
-              <SelectTriggerButton {...renderProps} label='All accounts' />
+              <SelectMediaButton {...renderProps} label='All accounts' />
             )}
           />
           <SelectContent className='w-128'>
@@ -508,7 +508,7 @@ export const TriggerShowcase: Story = {
         <Select items={accountOptions} disabled>
           <SelectTrigger
             render={(renderProps) => (
-              <SelectTriggerButton {...renderProps} label='Disabled' />
+              <SelectMediaButton {...renderProps} label='Disabled' />
             )}
           />
           <SelectContent className='w-208'>
@@ -529,7 +529,7 @@ export const TriggerShowcase: Story = {
         >
           <SelectTrigger
             render={(renderProps) => (
-              <SelectTriggerButton
+              <SelectMediaButton
                 {...renderProps}
                 label='Settings'
                 icon={<Settings size={20} />}
@@ -555,7 +555,7 @@ export const TriggerShowcase: Story = {
         >
           <SelectTrigger
             render={(renderProps) => (
-              <SelectTriggerButton
+              <SelectMediaButton
                 {...renderProps}
                 label='Network'
                 icon={
@@ -596,7 +596,7 @@ export const TriggerShowcase: Story = {
             <Select key={appearance} items={appearanceOptions}>
               <SelectTrigger
                 render={(renderProps) => (
-                  <SelectTriggerButton
+                  <SelectMediaButton
                     {...renderProps}
                     label={appearance}
                     appearance={appearance}

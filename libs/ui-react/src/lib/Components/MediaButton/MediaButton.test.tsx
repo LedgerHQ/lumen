@@ -3,30 +3,30 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { Settings } from '../../Symbols';
-import { TriggerButton } from './TriggerButton';
+import { MediaButton } from './MediaButton';
 
-describe('TriggerButton', () => {
+describe('MediaButton', () => {
   it('should render with label text', () => {
-    render(<TriggerButton>All accounts</TriggerButton>);
+    render(<MediaButton>All accounts</MediaButton>);
     expect(
       screen.getByRole('button', { name: /all accounts/i }),
     ).toBeInTheDocument();
   });
 
   it('should always render a chevron icon', () => {
-    const { container } = render(<TriggerButton>Label</TriggerButton>);
+    const { container } = render(<MediaButton>Label</MediaButton>);
     const svg = container.querySelector('svg');
     expect(svg).toBeInTheDocument();
   });
 
   it('should render with a flat interface icon', () => {
     const { container } = render(
-      <TriggerButton
+      <MediaButton
         icon={<Settings size={20} data-testid='icon' />}
         iconType='flat'
       >
         Network
-      </TriggerButton>,
+      </MediaButton>,
     );
     expect(screen.getByTestId('icon')).toBeInTheDocument();
     expect(container.querySelectorAll('svg').length).toBeGreaterThanOrEqual(2);
@@ -34,12 +34,12 @@ describe('TriggerButton', () => {
 
   it('should render with a rounded icon', () => {
     render(
-      <TriggerButton
+      <MediaButton
         icon={<span data-testid='crypto-icon'>BTC</span>}
         iconType='rounded'
       >
         Bitcoin
-      </TriggerButton>,
+      </MediaButton>,
     );
     expect(screen.getByTestId('crypto-icon')).toBeInTheDocument();
     expect(
@@ -48,13 +48,13 @@ describe('TriggerButton', () => {
   });
 
   it('should be disabled when the disabled prop is true', () => {
-    render(<TriggerButton disabled>Label</TriggerButton>);
+    render(<MediaButton disabled>Label</MediaButton>);
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
   it('should call onClick handler when clicked', () => {
     const handleClick = vi.fn();
-    render(<TriggerButton onClick={handleClick}>Label</TriggerButton>);
+    render(<MediaButton onClick={handleClick}>Label</MediaButton>);
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -62,9 +62,9 @@ describe('TriggerButton', () => {
   it('should not call onClick handler when disabled', () => {
     const handleClick = vi.fn();
     render(
-      <TriggerButton onClick={handleClick} disabled>
+      <MediaButton onClick={handleClick} disabled>
         Label
-      </TriggerButton>,
+      </MediaButton>,
     );
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).not.toHaveBeenCalled();
@@ -72,12 +72,12 @@ describe('TriggerButton', () => {
 
   it('should forward ref to the button element', () => {
     const ref = vi.fn();
-    render(<TriggerButton ref={ref}>Label</TriggerButton>);
+    render(<MediaButton ref={ref}>Label</MediaButton>);
     expect(ref).toHaveBeenCalledWith(expect.any(HTMLButtonElement));
   });
 
   it('should apply custom className', () => {
-    render(<TriggerButton className='ml-16'>Label</TriggerButton>);
+    render(<MediaButton className='ml-16'>Label</MediaButton>);
     expect(screen.getByRole('button')).toHaveClass('ml-16');
   });
 });

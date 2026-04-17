@@ -57,6 +57,7 @@ import {
   Avatars,
   PageIndicators,
   MediaBanners,
+  MediaButtons,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -193,6 +194,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='MediaBanners'>
                   <MediaBanners />
+                </SandboxBlock>
+                <SandboxBlock title='MediaButtons'>
+                  <MediaButtons />
                 </SandboxBlock>
                 <SandboxBlock title='MediaCards'>
                   <MediaCards />
