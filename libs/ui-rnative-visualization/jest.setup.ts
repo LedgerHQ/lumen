@@ -1,9 +1,11 @@
+import { ReactNode } from 'react';
+
 jest.mock('react-native-svg', () => {
   const mockReact = jest.requireActual<typeof import('react')>('react');
 
   const createMockComponent = (name: string) => {
     const Component = ({ children, ...props }: Record<string, unknown>) =>
-      mockReact.createElement(name, props, children as React.ReactNode);
+      mockReact.createElement(name, props, children as ReactNode);
     Component.displayName = name;
     return Component;
   };
