@@ -13,5 +13,4 @@ export type {
   SelectItemProps,
   SelectSeparatorProps,
   SelectEmptyStateProps,
-  SelectMediaButtonProps,
 } from './types';
