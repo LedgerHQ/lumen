@@ -6,13 +6,6 @@ import type {
 } from 'react';
 
 /**
- * Context value for passing state to sub-components
- */
-export type ListItemContextValue = {
-  disabled?: boolean;
-};
-
-/**
  * Props for the ListItem root component
  */
 export type ListItemProps = {
