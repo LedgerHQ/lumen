@@ -78,7 +78,7 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
   const {
     children,
     className,
-    disabled: disabledProp,
+    disabled: disabledProp = false,
     density = 'expanded',
     ...buttonProps
   } = props;
@@ -93,7 +93,11 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
         ref={ref}
         {...getButtonA11yProps({ onClick, disabled })}
         className={cn(
-          listItemVariants({ density, interactive: !!onClick }),
+          listItemVariants({
+            density,
+            interactive: !!onClick,
+            disabled,
+          }),
           className,
         )}
         {...buttonProps}

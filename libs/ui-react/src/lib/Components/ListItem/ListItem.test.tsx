@@ -54,7 +54,7 @@ describe('ListItem', () => {
         </ListItemLeading>
       </ListItem>,
     );
-    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 
   it('applies custom className', () => {
@@ -100,9 +100,12 @@ describe('ListItem', () => {
   });
 
   describe('disabled', () => {
-    it('sets disabled attribute on the button', () => {
-      renderListItem({ disabled: true });
-      expect(screen.getByTestId('list-item')).toBeDisabled();
+    it('sets aria-disabled on the interactive element', () => {
+      renderListItem({ onClick: vi.fn(), disabled: true });
+      expect(screen.getByTestId('list-item')).toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
     });
 
     it('does not trigger onClick when disabled', () => {
