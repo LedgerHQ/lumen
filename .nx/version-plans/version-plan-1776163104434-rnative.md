@@ -12,7 +12,7 @@ The `TriggerButton` component has been renamed to `MediaButton`. If you make use
 
 - <TriggerButton size='sm' icon={<Star size={20} />} iconType='flat'>
 -   Small
-- </MediaButton>
+- </TriggerButton>
 + <MediaButton size='sm' icon={<Star size={20} />} iconType='flat'>
 +   Small
 + </MediaButton>
