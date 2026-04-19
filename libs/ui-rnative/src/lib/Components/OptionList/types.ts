@@ -5,7 +5,9 @@ import {
   StyledViewProps,
 } from '../../../styles';
 
-export type OptionListItemData = {
+export type MetaShape = Record<string, unknown>;
+
+export type OptionListItemData<TMeta extends MetaShape = MetaShape> = {
   /** Unique string identifier for this item, used for selection tracking. */
   value: string;
   /** Display text. */
@@ -25,7 +27,7 @@ export type OptionListItemData = {
    * Use it to carry extra fields (icons, tickers, IDs, etc.)
    * that your render function needs.
    */
-  meta?: Record<string, unknown>;
+  meta?: TMeta;
 };
 
 /** Internal type -- used by sub-components to read shared state from context. */
@@ -38,14 +40,14 @@ export type OptionListContextValue = {
 };
 
 /** Internal type -- consumers never construct this directly. */
-export type OptionListItemGroup = {
+export type OptionListItemGroup<TMeta extends MetaShape = MetaShape> = {
   label: string;
-  items: OptionListItemData[];
+  items: OptionListItemData<TMeta>[];
 };
 
-export type OptionListProps = {
+export type OptionListProps<TMeta extends MetaShape = MetaShape> = {
   /** Flat array of items. Use the `group` field on each item for automatic grouping. */
-  items: OptionListItemData[];
+  items: OptionListItemData<TMeta>[];
   /** The controlled selected value. */
   value?: string | null;
   /** The default selected value (uncontrolled). */
@@ -57,9 +59,9 @@ export type OptionListProps = {
   children: ReactNode;
 };
 
-export type OptionListContentProps = {
+export type OptionListContentProps<TMeta extends MetaShape = MetaShape> = {
   /** Render function called for each item. Receives the item data and selection/disabled state. */
-  renderItem: (item: OptionListItemData, selected: boolean) => ReactNode;
+  renderItem: (item: OptionListItemData<TMeta>, selected: boolean) => ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
 export type OptionListItemProps = {

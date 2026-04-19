@@ -3,7 +3,7 @@ import {
   useDisabledContext,
   DisabledProvider,
 } from '@ledgerhq/lumen-utils-shared';
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Check, ChevronDown } from '../../Symbols';
@@ -11,6 +11,7 @@ import { useControllableState } from '../../utils/useControllableState';
 import { Divider } from '../Divider';
 import { Box, Pressable, Text } from '../Utility';
 import type {
+  MetaShape,
   OptionListContextValue,
   OptionListItemData,
   OptionListProps,
@@ -30,14 +31,14 @@ import { useOptionListItems } from './useOptionList/useOptionListItems';
 const [OptionListProvider, useOptionListContext] =
   createSafeContext<OptionListContextValue>('OptionList');
 
-export const OptionList = ({
+export const OptionList = <TMeta extends MetaShape = MetaShape>({
   items,
   value,
   defaultValue,
   onValueChange,
   disabled: disabledProp,
   children,
-}: OptionListProps) => {
+}: OptionListProps<TMeta>) => {
   const disabled = useDisabledContext({
     consumerName: 'OptionList',
     mergeWith: { disabled: disabledProp },
@@ -70,20 +71,20 @@ export const OptionList = ({
   );
 };
 
-export const OptionListContent = ({
+export const OptionListContent = <TMeta extends MetaShape = MetaShape>({
   renderItem,
   lx,
   style,
   ref,
   ...props
-}: OptionListContentProps) => {
+}: OptionListContentProps<TMeta>) => {
   const { selectedValue, isGrouped, groups, flatItems } = useOptionListContext({
     consumerName: 'OptionListContent',
     contextRequired: true,
   });
 
   const renderItemWithState = (item: OptionListItemData) =>
-    renderItem(item, selectedValue === item.value);
+    renderItem(item as OptionListItemData<TMeta>, selectedValue === item.value);
 
   if (isGrouped) {
     return (
@@ -112,7 +113,13 @@ export const OptionListContent = ({
   );
 };
 
-const useItemStyles = () => {
+const useItemStyles = ({
+  disabled,
+  pressed,
+}: {
+  disabled: boolean;
+  pressed: boolean;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: {
@@ -122,16 +129,13 @@ const useItemStyles = () => {
         padding: t.spacings.s8,
         gap: t.spacings.s12,
         borderRadius: t.borderRadius.md,
-        backgroundColor: t.colors.bg.baseTransparent,
-      },
-      containerPressed: {
-        backgroundColor: t.colors.bg.baseTransparentPressed,
-      },
-      containerDisabled: {
-        opacity: 0.5,
+        backgroundColor: pressed
+          ? t.colors.bg.baseTransparentPressed
+          : t.colors.bg.baseTransparent,
+        opacity: disabled ? 0.5 : 1,
       },
     }),
-    [],
+    [disabled, pressed],
   );
 };
 
@@ -153,7 +157,6 @@ export const OptionListItem = ({
     mergeWith: { disabled: disabledProp },
   });
   const selected = selectedValue === value;
-  const styles = useItemStyles();
 
   return (
     <DisabledProvider value={{ disabled }}>
@@ -168,19 +171,35 @@ export const OptionListItem = ({
         {...props}
       >
         {({ pressed }) => (
-          <View
-            style={[
-              styles.container,
-              pressed && styles.containerPressed,
-              disabled && styles.containerDisabled,
-            ]}
-          >
+          <OptionListItemInner pressed={pressed} selected={selected}>
             {children}
-            {selected && <Check size={24} color='active' />}
-          </View>
+          </OptionListItemInner>
         )}
       </Pressable>
     </DisabledProvider>
+  );
+};
+
+const OptionListItemInner = ({
+  pressed,
+  selected,
+  children,
+}: {
+  pressed: boolean;
+  selected: boolean;
+  children: ReactNode;
+}) => {
+  const disabled = useDisabledContext({
+    consumerName: 'OptionListItemInner',
+    contextRequired: false,
+  });
+  const styles = useItemStyles({ disabled, pressed });
+
+  return (
+    <View style={styles.container}>
+      {children}
+      {selected && <Check size={24} color='active' />}
+    </View>
   );
 };
 

@@ -1,9 +1,15 @@
 import { useMemo } from 'react';
-import type { OptionListItemData, OptionListItemGroup } from '../types';
+import type {
+  MetaShape,
+  OptionListItemData,
+  OptionListItemGroup,
+} from '../types';
 
-const groupByField = (items: OptionListItemData[]): OptionListItemGroup[] => {
+const groupByField = <TMeta extends MetaShape = MetaShape>(
+  items: OptionListItemData<TMeta>[],
+): OptionListItemGroup<TMeta>[] => {
   const order: string[] = [];
-  const map: Record<string, OptionListItemData[]> = {};
+  const map: Record<string, OptionListItemData<TMeta>[]> = {};
   for (const item of items) {
     const key = item.group ?? '';
     if (!map[key]) {
@@ -18,24 +24,26 @@ const groupByField = (items: OptionListItemData[]): OptionListItemGroup[] => {
 const hasGroups = (items: OptionListItemData[]): boolean =>
   items.some((item) => item.group != null);
 
-const toResult = (items: OptionListItemData[]): UseOptionListItemsResult => {
+const toResult = <TMeta extends MetaShape = MetaShape>(
+  items: OptionListItemData<TMeta>[],
+): UseOptionListItemsResult<TMeta> => {
   const isGrouped = hasGroups(items);
   return isGrouped
     ? { isGrouped: true, groups: groupByField(items), flatItems: [] }
     : { isGrouped: false, groups: [], flatItems: items };
 };
 
-type UseOptionListItemsParams = {
-  items: OptionListItemData[];
+type UseOptionListItemsParams<TMeta extends MetaShape = MetaShape> = {
+  items: OptionListItemData<TMeta>[];
 };
 
-type UseOptionListItemsResult = {
+type UseOptionListItemsResult<TMeta extends MetaShape = MetaShape> = {
   isGrouped: boolean;
-  groups: OptionListItemGroup[];
-  flatItems: OptionListItemData[];
+  groups: OptionListItemGroup<TMeta>[];
+  flatItems: OptionListItemData<TMeta>[];
 };
 
-export const useOptionListItems = ({
+export const useOptionListItems = <TMeta extends MetaShape = MetaShape>({
   items,
-}: UseOptionListItemsParams): UseOptionListItemsResult =>
+}: UseOptionListItemsParams<TMeta>): UseOptionListItemsResult<TMeta> =>
   useMemo(() => toResult(items), [items]);
