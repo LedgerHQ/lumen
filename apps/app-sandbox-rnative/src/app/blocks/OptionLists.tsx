@@ -1,6 +1,6 @@
 import CryptoIconNative from '@ledgerhq/crypto-icons/native';
 import {
-  TriggerButton,
+  MediaButton,
   OptionList,
   OptionListContent,
   OptionListItem,
@@ -19,7 +19,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { useState } from 'react';
 
-const CURRENCIES: OptionListItemData[] = [
+const CURRENCIES: OptionListItemData<{ ticker: string; icon: string }>[] = [
   {
     value: 'btc',
     label: 'Bitcoin',
@@ -43,7 +43,7 @@ const CurrencySelectExample = () => {
 
   return (
     <Box>
-      <TriggerButton
+      <MediaButton
         icon={
           selectedMeta ? (
             <CryptoIconNative
@@ -57,7 +57,7 @@ const CurrencySelectExample = () => {
         onPress={() => bottomSheetRef.current?.present()}
       >
         {selected?.label ?? 'Currency'}
-      </TriggerButton>
+      </MediaButton>
       <BottomSheet
         ref={bottomSheetRef}
         enableDynamicSizing
@@ -103,7 +103,7 @@ const CurrencySelectExample = () => {
   );
 };
 
-const FOODS: OptionListItemData[] = [
+const FOODS: OptionListItemData<{ group: string }>[] = [
   { value: 'apple', label: 'Apple', group: 'Fruits' },
   { value: 'banana', label: 'Banana', group: 'Fruits' },
   { value: 'orange', label: 'Orange', group: 'Fruits' },
@@ -118,12 +118,12 @@ const GroupedSelectExample = () => {
 
   return (
     <Box>
-      <TriggerButton
+      <MediaButton
         appearance='gray'
         onPress={() => bottomSheetRef.current?.present()}
       >
         {value ?? 'Pick a food'}
-      </TriggerButton>
+      </MediaButton>
       <BottomSheet
         ref={bottomSheetRef}
         enableDynamicSizing
@@ -156,7 +156,11 @@ const GroupedSelectExample = () => {
   );
 };
 
-const NETWORKS: OptionListItemData[] = [
+const NETWORKS: OptionListItemData<{
+  ticker: string;
+  icon: string;
+  tag: string;
+}>[] = [
   {
     value: 'ethereum',
     label: 'Ethereum',
@@ -187,7 +191,7 @@ const NetworkSelectExample = () => {
 
   return (
     <Box>
-      <TriggerButton
+      <MediaButton
         icon={
           selected?.meta ? (
             <CryptoIconNative
@@ -201,7 +205,7 @@ const NetworkSelectExample = () => {
         onPress={() => bottomSheetRef.current?.present()}
       >
         {selected?.label ?? 'Select network'}
-      </TriggerButton>
+      </MediaButton>
       <BottomSheet
         ref={bottomSheetRef}
         enableDynamicSizing

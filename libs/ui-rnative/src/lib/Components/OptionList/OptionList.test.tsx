@@ -242,9 +242,11 @@ describe('OptionList', () => {
 
   describe('OptionListItemContentRow', () => {
     it('renders children in a row layout', () => {
+      const singleItem: OptionListItemData[] = [{ value: 'a', label: 'Alpha' }];
+
       const { getByText } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
+          <OptionList items={singleItem} value={null}>
             <OptionListContent
               renderItem={(item) => (
                 <OptionListItem value={item.value}>
