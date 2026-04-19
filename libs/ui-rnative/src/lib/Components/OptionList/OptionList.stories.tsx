@@ -9,9 +9,9 @@ import {
   BottomSheetView,
 } from '../BottomSheet/Scrollables';
 import { useBottomSheetRef } from '../BottomSheet/useBottomSheetRef';
+import { MediaButton } from '../MediaButton';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
-import { TriggerButton } from '../TriggerButton';
 import { Box, Text } from '../Utility';
 import {
   OptionList,
@@ -597,27 +597,27 @@ export const TriggerShowcase: Story = {
 
     return (
       <Box lx={{ gap: 's16', alignItems: 'flex-start' }}>
-        <TriggerButton
+        <MediaButton
           appearance='gray'
           onPress={() => buttonRef.current?.present()}
         >
           {selectedButton?.label ?? 'All accounts'}
-        </TriggerButton>
+        </MediaButton>
 
-        <TriggerButton appearance='gray' disabled>
+        <MediaButton appearance='gray' disabled>
           Disabled
-        </TriggerButton>
+        </MediaButton>
 
-        <TriggerButton
+        <MediaButton
           appearance='gray'
           onPress={() => iconRef.current?.present()}
           icon={<Settings size={20} />}
           iconType='flat'
         >
           {selectedIcon?.label ?? 'Settings'}
-        </TriggerButton>
+        </MediaButton>
 
-        <TriggerButton
+        <MediaButton
           appearance='gray'
           onPress={() => cryptoRef.current?.present()}
           icon={
@@ -632,7 +632,7 @@ export const TriggerShowcase: Story = {
           iconType='rounded'
         >
           {selectedCrypto?.label ?? 'Network'}
-        </TriggerButton>
+        </MediaButton>
 
         <Box lx={{ flexDirection: 'row', gap: 's16' }}>
           {appearances.map((appearance) => {
@@ -640,13 +640,13 @@ export const TriggerShowcase: Story = {
               (o) => o.value === appearanceValues[appearance],
             );
             return (
-              <TriggerButton
+              <MediaButton
                 key={appearance}
                 appearance={appearance}
                 onPress={() => appearanceRefs[appearance].current?.present()}
               >
                 {selected?.label ?? appearance}
-              </TriggerButton>
+              </MediaButton>
             );
           })}
         </Box>
