@@ -42,6 +42,7 @@ import {
   Links,
   ListItems,
   MediaBanners,
+  MediaButtons,
   MediaCards,
   NavBars,
   PageIndicators,
