@@ -1,5 +1,5 @@
 ---
-'@ledgerhq/lumen-ui-react': minor
+'@ledgerhq/lumen-ui-react': patch
 ---
 
 feat(DotIcon): introduce new DotIcon component
