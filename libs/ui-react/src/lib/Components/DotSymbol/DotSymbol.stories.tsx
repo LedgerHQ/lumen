@@ -93,15 +93,6 @@ export const ShapeShowcase: Story = {
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
       </div>
-
-      <div className='inline-flex items-center gap-48'>
-        <DotSymbol src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} size={48} shape='circle' />
-        </DotSymbol>
-        <DotSymbol src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} size={48} shape='circle' />
-        </DotSymbol>
-      </div>
     </div>
   ),
 };
@@ -182,6 +173,7 @@ export const IconVariant: Story = {
   args: {
     type: 'icon',
     appearance: 'success',
+    shape: 'circle',
     icon: ArrowDown,
     pin: 'bottom-end',
     size: mediaImageDotSizeMap[48],
