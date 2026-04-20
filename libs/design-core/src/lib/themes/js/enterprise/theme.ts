@@ -27,3 +27,5 @@ export const enterpriseThemes = {
   dark: enterpriseDarkTheme,
   light: enterpriseLightTheme,
 };
+
+export type EnterpriseThemes = typeof enterpriseThemes;
