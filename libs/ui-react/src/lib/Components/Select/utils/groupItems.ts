@@ -1,13 +1,15 @@
-import type { SelectItemData, SelectItemGroup } from '../types';
+import type { MetaShape, SelectItemData, SelectItemGroup } from '../types';
 
 /**
  * Groups a flat list of items by their `group` field, preserving
  * the insertion order of the first occurrence of each group key.
  * Items without a `group` value are collected under an empty-string key.
  */
-export function groupItemsByKey(items: SelectItemData[]): SelectItemGroup[] {
+export function groupItemsByKey<TMeta extends MetaShape = MetaShape>(
+  items: SelectItemData<TMeta>[],
+): SelectItemGroup<TMeta>[] {
   const order: string[] = [];
-  const map: Record<string, SelectItemData[]> = {};
+  const map: Record<string, SelectItemData<TMeta>[]> = {};
   for (const item of items) {
     const key = item.group ?? '';
     if (!map[key]) {

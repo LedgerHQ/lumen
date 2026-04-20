@@ -1,21 +1,21 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
-import type { SelectItemData, SelectItemGroup } from '../types';
+import type { MetaShape, SelectItemData, SelectItemGroup } from '../types';
 import { defaultLabelFilter, groupItemsByKey } from '../utils';
 
-type UseSelectItemsParams = {
-  items: SelectItemData[];
-  filter?: null | ((item: SelectItemData, query: string) => boolean);
-  filteredItems?: SelectItemData[];
+type UseSelectItemsParams<TMeta extends MetaShape = MetaShape> = {
+  items: SelectItemData<TMeta>[];
+  filter?: null | ((item: SelectItemData<TMeta>, query: string) => boolean);
+  filteredItems?: SelectItemData<TMeta>[];
   searchValue?: string;
   defaultSearchValue?: string;
   onSearchValueChange?: (value: string) => void;
 };
 
-type UseSelectItemsReturn = {
+type UseSelectItemsReturn<TMeta extends MetaShape = MetaShape> = {
   isGrouped: boolean;
-  groupedItems: SelectItemGroup[] | null;
-  filteredItemsForRoot: SelectItemData[] | SelectItemGroup[];
+  groupedItems: SelectItemGroup<TMeta>[] | null;
+  filteredItemsForRoot: SelectItemData<TMeta>[] | SelectItemGroup<TMeta>[];
   resolvedSearchValue: string;
   searchMounted: boolean;
   registerSearch: () => () => void;
@@ -32,14 +32,14 @@ type UseSelectItemsReturn = {
  *   the internal filter entirely.
  * - Supports controlled and uncontrolled `searchValue` via `useControllableState`.
  */
-export function useSelectItems({
+export function useSelectItems<TMeta extends MetaShape = MetaShape>({
   items,
   filter,
   filteredItems: filteredItemsProp,
   searchValue: searchValueProp,
   defaultSearchValue,
   onSearchValueChange: onSearchValueChangeProp,
-}: UseSelectItemsParams): UseSelectItemsReturn {
+}: UseSelectItemsParams<TMeta>): UseSelectItemsReturn<TMeta> {
   const [searchMounted, setSearchMounted] = useState(false);
   const [searchValue, setSearchValue] = useControllableState<string>({
     prop: searchValueProp,
@@ -76,8 +76,8 @@ export function useSelectItems({
   );
 
   const internalFilteredItems = useMemo(():
-    | SelectItemData[]
-    | SelectItemGroup[] => {
+    | SelectItemData<TMeta>[]
+    | SelectItemGroup<TMeta>[] => {
     if (!filterFn || !searchValue.trim()) return groupedItems ?? items;
 
     if (groupedItems) {
@@ -93,8 +93,8 @@ export function useSelectItems({
   }, [groupedItems, items, searchValue, filterFn]);
 
   const externalGroupedItems = useMemo(():
-    | SelectItemData[]
-    | SelectItemGroup[]
+    | SelectItemData<TMeta>[]
+    | SelectItemGroup<TMeta>[]
     | null => {
     if (!filteredItemsProp) return null;
     return isGrouped ? groupItemsByKey(filteredItemsProp) : filteredItemsProp;

@@ -8,6 +8,7 @@ import { Divider } from '../Divider';
 import { SearchInput } from '../SearchInput';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
+  MetaShape,
   SelectItemGroup,
   SelectProps,
   SelectTriggerProps,
@@ -32,7 +33,7 @@ import { useSelectItems } from './useSelectItems';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const resolveValue = (v: any): string | null => v?.value ?? v ?? null;
 
-function Select({
+function Select<TMeta extends MetaShape = MetaShape>({
   value,
   defaultValue,
   onValueChange,
@@ -49,7 +50,7 @@ function Select({
   name,
   required,
   children,
-}: SelectProps) {
+}: SelectProps<TMeta>) {
   const disabled = useDisabledContext({
     consumerName: 'Select',
     mergeWith: { disabled: disabledProp },
@@ -265,12 +266,12 @@ const SelectContent = ({
   </Combobox.Portal>
 );
 
-const SelectList = ({
+const SelectList = <TMeta extends MetaShape = MetaShape>({
   ref,
   className,
   renderItem,
   ...props
-}: SelectListProps) => {
+}: SelectListProps<TMeta>) => {
   const { isGrouped } = useSelectContext({
     consumerName: 'SelectList',
     contextRequired: true,
@@ -287,7 +288,7 @@ const SelectList = ({
       {...props}
     >
       {isGrouped
-        ? (group: SelectItemGroup, groupIndex: number) => (
+        ? (group: SelectItemGroup<TMeta>, groupIndex: number) => (
             <Combobox.Group
               key={group.label}
               items={group.items}

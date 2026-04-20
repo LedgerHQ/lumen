@@ -1,7 +1,9 @@
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 import type { SearchInputProps } from '../SearchInput/types';
 
-export type SelectItemData<Meta = Record<string, unknown>> = {
+export type MetaShape = Record<string, unknown>;
+
+export type SelectItemData<TMeta extends MetaShape = MetaShape> = {
   /** Unique string identifier for this item, used for selection tracking. */
   value: string;
   /** Display text used in the trigger. Also the field matched against by the default search filter. */
@@ -20,19 +22,19 @@ export type SelectItemData<Meta = Record<string, unknown>> = {
    */
   group?: string;
   /**
-   * Optional bag of arbitrary data attached to this item.
+   * Arbitrary data attached to this item.
    * Use it to carry extra fields (icons, tickers, IDs, etc.)
    * that your render function or custom filter needs.
    */
-  meta?: Meta;
+  meta?: TMeta;
 };
 
 /** @internal A named group of select items, used to represent a resolved group with its header label and child items. */
-export type SelectItemGroup = {
+export type SelectItemGroup<TMeta extends MetaShape = MetaShape> = {
   /** The displayed group name, matching the `group` field on each child item. */
   label: string;
   /** The items belonging to this group. */
-  items: SelectItemData[];
+  items: SelectItemData<TMeta>[];
 };
 
 export type SelectTriggerRenderProps = {
@@ -46,7 +48,7 @@ export type SelectTriggerRenderProps = {
   selectedContent: ReactNode;
 };
 
-export type SelectProps = {
+export type SelectProps<TMeta extends MetaShape = MetaShape> = {
   /**
    * The children of the select.
    */
@@ -62,7 +64,7 @@ export type SelectProps = {
    * them by that value, rendering group headers, separators, and per-group
    * collection iteration internally.
    */
-  items: SelectItemData[];
+  items: SelectItemData<TMeta>[];
   /**
    * Filter function used to match items against a search query.
    * When `SelectSearch` is rendered inside the content, a default case-insensitive
@@ -73,13 +75,13 @@ export type SelectProps = {
    * items within each group. Empty groups are automatically hidden.
    * @default undefined
    */
-  filter?: null | ((item: SelectItemData, query: string) => boolean);
+  filter?: null | ((item: SelectItemData<TMeta>, query: string) => boolean);
   /**
    * Pre-filtered items to display in the list. When provided, the component uses
    * these items directly instead of filtering `items` internally. Use alongside
    * `onSearchValueChange` for async/remote search where the server handles filtering.
    */
-  filteredItems?: SelectItemData[];
+  filteredItems?: SelectItemData<TMeta>[];
   /**
    * The controlled search input value.
    * Should be used in conjunction with `onSearchValueChange`.
@@ -194,7 +196,7 @@ export type SelectContentProps = {
   autoFocusSearch?: boolean;
 } & ComponentPropsWithRef<'div'>;
 
-export type SelectListProps = {
+export type SelectListProps<TMeta extends MetaShape = MetaShape> = {
   /**
    * A render function that receives each item and its index, returning a ReactNode.
    *
@@ -203,7 +205,7 @@ export type SelectListProps = {
    * is handled automatically by `SelectList`.
    * @example renderItem={(item) => <SelectItem value={item.value}>{item.label}</SelectItem>}
    */
-  renderItem: (item: SelectItemData, index: number) => ReactNode;
+  renderItem: (item: SelectItemData<TMeta>, index: number) => ReactNode;
   /**
    * Extra class names to apply to the list element.
    */
