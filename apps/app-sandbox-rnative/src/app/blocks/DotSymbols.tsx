@@ -1,4 +1,10 @@
-import { Box, DotSymbol, MediaImage, Spot } from '@ledgerhq/lumen-ui-rnative';
+import {
+  Box,
+  DotSymbol,
+  mediaImageDotSizeMap,
+  MediaImage,
+  Spot,
+} from '@ledgerhq/lumen-ui-rnative';
 import { ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 export const DotSymbols = () => {
@@ -8,7 +14,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         pin='bottom-end'
-        size={20}
+        size={mediaImageDotSizeMap[48]}
       >
         <MediaImage
           src='https://crypto-icons.ledger.com/USDC.png'
@@ -22,7 +28,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/BTC.png'
         alt='Bitcoin'
         pin='bottom-end'
-        size={16}
+        size={mediaImageDotSizeMap[40]}
         shape='square'
       >
         <MediaImage
@@ -37,7 +43,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         pin='top-end'
-        size={12}
+        size={mediaImageDotSizeMap[48]}
       >
         <Spot appearance='icon' icon={ExternalLink} size={48} />
       </DotSymbol>
@@ -46,12 +52,26 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/BTC.png'
         alt='Bitcoin'
         pin='bottom-start'
-        size={24}
+        size={mediaImageDotSizeMap[56]}
       >
         <MediaImage
           src='https://crypto-icons.ledger.com/USDC.png'
           alt='USDC'
           size={56}
+          shape='circle'
+        />
+      </DotSymbol>
+
+      <DotSymbol
+        src='https://crypto-icons.ledger.com/ETH.png'
+        alt='Ethereum'
+        pin='bottom-end'
+        size={mediaImageDotSizeMap[64]}
+      >
+        <MediaImage
+          src='https://crypto-icons.ledger.com/USDC.png'
+          alt='USDC'
+          size={64}
           shape='circle'
         />
       </DotSymbol>
