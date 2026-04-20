@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import { Rect, Svg, Text as SvgText } from 'react-native-svg';
-import type { Series } from '../internals';
+import type { Series } from '../../utils';
 
 type LineChartProps = {
   series: Series[];

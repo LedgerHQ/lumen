@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 jest.mock('react-native-svg', () => {
   const mockReact = jest.requireActual<typeof import('react')>('react');

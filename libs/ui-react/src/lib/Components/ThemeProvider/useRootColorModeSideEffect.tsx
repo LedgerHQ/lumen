@@ -13,6 +13,7 @@ const subscribeToSystemColorScheme = (callback: () => void): (() => void) => {
   return () => mediaQuery.removeEventListener('change', callback);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noopSubscribe = (): (() => void) => () => {};
 
 /**
