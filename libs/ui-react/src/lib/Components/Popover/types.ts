@@ -2,7 +2,7 @@ import type {
   PopoverRootChangeEventDetails,
   Popover as PopoverNamespace,
 } from '@base-ui/react/popover';
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactNode, RefObject } from 'react';
 
 type PopoverHandle<Payload> = PopoverNamespace.Handle<Payload>;
 
@@ -129,6 +129,17 @@ export type PopoverContentProps = {
    * @default 'fit'
    */
   width?: PopoverWidth;
+
+  /**
+   * Determines the element to focus when the popover is opened.
+   *
+   * - `false`: Do not move focus.
+   * - `true`: Move focus based on the default behavior (first tabbable element or popup).
+   * - `RefObject`: Move focus to the ref element.
+   *
+   * @default false
+   */
+  initialFocus?: boolean | RefObject<HTMLElement | null>;
 
   /**
    * Additional CSS class names to apply to the popup panel.
