@@ -1,15 +1,9 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type {
-  ButtonHTMLAttributes,
   ComponentPropsWithRef,
+  MouseEventHandler,
   ReactNode,
 } from 'react';
-
-/**
- * Context value for passing state to sub-components
- */
-export type ListItemContextValue = {
-  disabled?: boolean;
-};
 
 /**
  * Props for the ListItem root component
@@ -19,6 +13,11 @@ export type ListItemProps = {
    * The content of the list item (ListItemLeading, ListItemTrailing)
    */
   children: ReactNode;
+  /**
+   * The density of the list item.
+   * @default 'expanded'
+   */
+  density?: Density;
   /**
    * custom classname
    */
@@ -30,8 +29,8 @@ export type ListItemProps = {
   /**
    * Callback function when the list item is pressed.
    */
-  onClick?: ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
-} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 /**
  * Props for the ListItemLeading component

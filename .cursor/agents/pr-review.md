@@ -1,10 +1,12 @@
 ---
-name: pr-review
-description: >-
   Review a PR for code quality, consistency, performance, type safety, and completeness.
   Works with local branches (diffed against origin/main) or remote PRs when a GitHub link is provided.
   Use when the user asks to review a PR, review code changes, check a branch, do a local code review,
   or provides a GitHub PR URL.
+name: pr-review
+model: claude-4.6-opus-max-thinking
+description: Review current branch or remote pull-request
+readonly: true
 ---
 
 # PR Review
@@ -24,7 +26,7 @@ git log origin/main...HEAD --oneline
 
 ### Remote PR (GitHub link)
 
-1. If the user provides a GitHub PR URL, use the `gh` CLI to fetch the diff and metadata:
+1. If a GitHub PR URL is provided, use the `gh` CLI to fetch the diff and metadata:
 
 ```bash
 gh pr view <PR_NUMBER> --json title,body,baseRefName,headRefName,files
@@ -42,15 +44,18 @@ Then continue with the same review process below.
 
 ## Review Process
 
-For each file or logical group of changes, evaluate against the criteria below. Produce findings with a severity score.
+For each file or logical group of changes, evaluate against the criteria below. 
+You can have N numbers of feedbacks.
+The severity score of each feedback is based on 10.
+
 
 ### Severity Scale
 
-- **10/10 Critical** -- Bugs, crashes, data loss, security vulnerabilities. Must fix before merge.
-- **8-9/10 Major** -- Wrong abstraction, missing error handling, broken accessibility, type unsafety that compiles but fails at runtime.
-- **6-7/10 Moderate** -- Performance flaws, code smells, inconsistency with codebase patterns, missing tests for important paths.
-- **4-5/10 Minor** -- Naming inconsistencies, suboptimal patterns, missing JSDoc on public API, style deviations.
-- **1-3/10 Nit** -- Cosmetic issues, optional improvements, personal preference.
+- **10/10 Critical** — Bugs, crashes, data loss, security vulnerabilities. Must fix before merge.
+- **8-9/10 Major** — Wrong abstraction, missing error handling, broken accessibility, type unsafety that compiles but fails at runtime.
+- **6-7/10 Moderate** — Performance flaws, code smells, inconsistency with codebase patterns, missing tests for important paths.
+- **4-5/10 Minor** — Naming inconsistencies, suboptimal patterns, missing JSDoc on public API, style deviations.
+- **1-3/10 Nit** — Cosmetic issues, optional improvements, personal preference.
 
 ### Review Criteria
 
@@ -69,7 +74,7 @@ For each file or logical group of changes, evaluate against the criteria below. 
 
 #### 3. Codebase Consistency
 
-Cross-reference with existing patterns in the repo. Look for:
+Cross-reference with existing patterns in the repo:
 
 - **Props drilling**: Props must be drilled to the top-level element. Nested refs/classNames use different prop names.
 - **cva usage**: Use `cva` at file top when there are variants; inline classNames when few.
@@ -162,7 +167,7 @@ Cross-reference with existing patterns in the repo. Look for:
 
 ## Version Plan Check
 
-If the PR includes changes to production code (files under `libs/*/src/` - verify that a version-plan file exists in `.nx/version-plans/`.
+If the PR includes changes to production code (files under `libs/*/src/`), verify that a version-plan file exists in `.nx/version-plans/`.
 
 ```bash
 git diff origin/main...HEAD --name-only -- .nx/version-plans/
@@ -170,7 +175,7 @@ git diff origin/main...HEAD --name-only -- .nx/version-plans/
 
 - If no version-plan is present and production code was changed, flag this as a **Major (8/10)** finding under category `Release`.
 - Changes that are **docs-only**, **tests-only**, **stories-only**, **CI/config-only**, or **.figma files only** do not require a version plan.
-- If a version-plan exists, verify it references the correct package(s) and uses an appropriate bump type (`patch` / `minor` / `major`) for the nature of the change.
+- If a version-plan exists, verify it references the correct package(s) and uses an appropriate bump type (`patch` / `minor` / `major`) for the nature of the change. Not that for now we are only releasing new version on `patch` because we are agreed to make breaking changes as its on alpha.
 
 ---
 
@@ -219,17 +224,18 @@ Component Completeness:
 
 ## Output
 
-If the review is short (fewer than ~15 findings), output directly in chat.
-If it is long, write the full review to a temp file at `.cursor/tmp/pr-review-[branch-name].md` and tell the user the path.
+If the review is short (fewer than ~15 findings), return the review directly.
+If it is long, write the full review to `.cursor/tmp/pr-review-[branch-name].md` and report the path.
 
 ### Format
 
-The review is a **flat, scored list** -- one item per finding, sorted by severity (highest first). No nested headings per file; each item is self-contained.
+The review is a **flat, scored list** — one item per finding, sorted by severity (highest first). No nested headings per file; each item is self-contained.
 
 ```markdown
 # PR Review: [branch-name]
 
 ## Summary
+List all findings
 [1-3 sentence overview of the PR's purpose and scope]
 
 **Files changed**: X | **Added**: +X | **Removed**: -X
@@ -240,36 +246,23 @@ The review is a **flat, scored list** -- one item per finding, sorted by severit
 
 ## Findings
 
-| # | Severity | Category | File | Finding |
-|---|----------|----------|------|---------|
-| 1 | 9/10 | Type Safety | `types.ts` | Uses `any` for payload type |
-| 2 | 7/10 | Consistency | `Menu.tsx` | Raw Tailwind color `text-gray-500` instead of `text-muted` |
-| 3 | ... | ... | ... | ... |
+| # | Severity | Category | File | Finding | File |
+|---|----------|----------|------|---------|------|
+| 1 | 9/10 | Type Safety | `types.ts` | Uses `any` for payload type | <filepath>.tsx:28 |
+| 2 | 7/10 | Consistency | `Menu.tsx` | Raw Tailwind color `text-gray-500` instead of `text-muted` | <filepath>.tsx:28 |
+| 3 | ... | ... | ... | ... | ... |
 
 ### Details
 
-**1. [Finding title]** -- 9/10 Type Safety -- `types.ts:42`
+**1. [Finding title]** — 9/10 Type Safety — `types.ts:42`
 [Description of the issue in 1-3 sentences]
 > **Fix**: [Concrete code suggestion or action]
 
-**2. [Finding title]** -- 7/10 Consistency -- `Menu.tsx:26`
+**2. [Finding title]** — 7/10 Consistency — `Menu.tsx:26`
 [Description]
 > **Fix**: [Suggestion]
 
 ...
-
-## Verdict
-
-| Severity | Count |
-|----------|-------|
-| Critical (10) | X |
-| Major (8-9) | X |
-| Moderate (6-7) | X |
-| Minor (4-5) | X |
-| Nit (1-3) | X |
-
-**Recommendation**: [Approve | Approve with comments | Request changes]
-```
 
 ### Key rules for output
 

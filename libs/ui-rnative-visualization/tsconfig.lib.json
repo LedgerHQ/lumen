@@ -1,0 +1,39 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/typescript",
+    "emitDeclarationOnly": true,
+    "types": ["node"],
+    "jsx": "react-jsx",
+    "tsBuildInfoFile": "dist/typescript/tsconfig.lib.tsbuildinfo"
+  },
+  "exclude": [
+    "out-tsc",
+    "dist",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.test.js",
+    "src/**/*.test.jsx",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.js",
+    "src/**/*.stories.jsx",
+    "src/**/*.mdx",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs",
+    "jest.config.ts"
+  ],
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.json"
+  ],
+  "references": [
+    {
+      "path": "../design-core/tsconfig.lib.json"
+    }
+  ]
+}

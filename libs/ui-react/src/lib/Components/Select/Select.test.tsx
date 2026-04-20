@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { expect, describe, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { MediaButton } from '../MediaButton';
 import {
   Select,
   SelectContent,
@@ -10,7 +11,6 @@ import {
   SelectList,
   SelectSearch,
   SelectTrigger,
-  SelectMediaButton,
 } from './Select';
 
 const options = [
@@ -234,13 +234,15 @@ describe('SelectTrigger render prop', () => {
   });
 });
 
-describe('SelectMediaButton', () => {
+describe('MediaButton as trigger', () => {
   it('renders the label when no value is selected', () => {
     render(
       <Select items={options}>
         <SelectTrigger
-          render={(renderProps) => (
-            <SelectMediaButton {...renderProps} label='Pick one' />
+          render={({ selectedValue, selectedContent }) => (
+            <MediaButton>
+              {selectedValue ? selectedContent : 'Pick one'}
+            </MediaButton>
           )}
         />
         <SelectContent>
@@ -262,8 +264,10 @@ describe('SelectMediaButton', () => {
     render(
       <Select items={options} defaultValue='opt1'>
         <SelectTrigger
-          render={(renderProps) => (
-            <SelectMediaButton {...renderProps} label='Pick one' />
+          render={({ selectedValue, selectedContent }) => (
+            <MediaButton>
+              {selectedValue ? selectedContent : 'Pick one'}
+            </MediaButton>
           )}
         />
         <SelectContent>

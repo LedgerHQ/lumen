@@ -16,6 +16,9 @@ body:
         - label: "@ledgerhq/lumen-design-core (design tokens)"
         - label: "@ledgerhq/lumen-ui-react (React UI kit)"
         - label: "@ledgerhq/lumen-ui-rnative (React Native UI kit)"
+        - label: "@ledgerhq/lumen-ui-react-visualization (React charts)"
+        - label: "@ledgerhq/lumen-ui-rnative-visualization (React Native charts)"
+        - label: "@ledgerhq/lumen-utils-shared (shared utilities)"
     validations:
       required: true
 

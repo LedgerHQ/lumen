@@ -2,22 +2,55 @@ import {
   cn,
   createSafeContext,
   DisabledProvider,
+  getButtonA11yProps,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import {
-  ListItemContentProps,
-  ListItemDescriptionProps,
-  ListItemLeadingProps,
   ListItemProps,
-  ListItemTitleProps,
-  ListItemTrailingProps,
+  ListItemContentProps,
+  ListItemLeadingProps,
   ListItemContentRowProps,
+  ListItemTitleProps,
+  ListItemDescriptionProps,
+  ListItemTrailingProps,
 } from './types';
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
   createSafeContext<{ isInTrailing: boolean }>('ListItemTrailing', {
     isInTrailing: false,
   });
+
+const listItemVariants = cva(
+  [
+    'flex w-full items-center gap-16 px-8',
+    'rounded-md bg-base-transparent text-base transition-colors',
+  ],
+  {
+    variants: {
+      density: {
+        compact: 'h-40',
+        expanded: 'h-64',
+      },
+      interactive: {
+        true: '',
+        false: '',
+      },
+      disabled: {
+        true: 'cursor-default bg-base-transparent text-disabled',
+        false: '',
+      },
+    },
+    compoundVariants: [
+      {
+        interactive: true,
+        disabled: false,
+        className:
+          'cursor-pointer hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
+      },
+    ],
+  },
+);
 
 /**
  * A flexible list item component that provides a composable structure for displaying
@@ -41,8 +74,14 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  *   </ListItemTrailing>
  * </ListItem>
  */
-export const ListItem = ({ ref, ...props }: ListItemProps) => {
-  const { children, className, disabled: disabledProp, ...buttonProps } = props;
+export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
+  const {
+    children,
+    className,
+    disabled: disabledProp = false,
+    density = 'expanded',
+    ...buttonProps
+  } = props;
   const disabled = useDisabledContext({
     consumerName: 'ListItem',
     mergeWith: { disabled: disabledProp },
@@ -50,20 +89,21 @@ export const ListItem = ({ ref, ...props }: ListItemProps) => {
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <button
+      <div
         ref={ref}
-        type='button'
-        disabled={disabled}
+        {...getButtonA11yProps({ onClick, disabled })}
         className={cn(
-          'flex h-64 w-full cursor-pointer items-center gap-16 rounded-md bg-base-transparent px-8 py-12 text-base transition-colors',
-          'hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
-          'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
+          listItemVariants({
+            density,
+            interactive: !!onClick,
+            disabled,
+          }),
           className,
         )}
         {...buttonProps}
       >
         {children}
-      </button>
+      </div>
     </DisabledProvider>
   );
 };
@@ -161,7 +201,7 @@ export const ListItemTitle = ({
     <div
       ref={ref}
       className={cn(
-        'min-w-0 flex-1 truncate body-2-semi-bold',
+        'min-w-0 truncate body-2-semi-bold',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
@@ -196,7 +236,7 @@ export const ListItemDescription = ({
     <div
       ref={ref}
       className={cn(
-        'min-w-0 flex-1 items-center truncate body-3 text-muted',
+        'min-w-0 items-center truncate body-3 text-muted',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
