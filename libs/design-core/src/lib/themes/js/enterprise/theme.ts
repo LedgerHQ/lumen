@@ -29,3 +29,5 @@ export const enterpriseThemes = {
 };
 
 export type EnterpriseThemes = typeof enterpriseThemes;
+export type EnterpriseDarkTheme = typeof enterpriseDarkTheme;
+export type EnterpriseLightTheme = typeof enterpriseLightTheme;

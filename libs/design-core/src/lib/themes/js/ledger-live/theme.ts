@@ -28,4 +28,6 @@ export const ledgerLiveThemes = {
   light: ledgerLiveLightTheme,
 };
 
+export type LedgerLiveDarkTheme = typeof ledgerLiveDarkTheme;
+export type LedgerLiveLightTheme = typeof ledgerLiveLightTheme;
 export type LedgerLiveThemes = typeof ledgerLiveThemes;

@@ -29,3 +29,5 @@ export const websitesThemes = {
 };
 
 export type WebsitesThemes = typeof websitesThemes;
+export type WebsitesDarkTheme = typeof websitesDarkTheme;
+export type WebsitesLightTheme = typeof websitesLightTheme;
