@@ -2,6 +2,7 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Settings, Wallet, ChevronRight } from '../../Symbols';
+import { MediaImage } from '../MediaImage/MediaImage';
 import { Spot } from '../Spot/Spot';
 import { Switch } from '../Switch';
 import { Tag } from '../Tag/Tag';
@@ -334,14 +335,24 @@ export const ResponsiveLayout: Story = {
               <ListItemTitle>
                 Defined width (320px) with ContentRow
               </ListItemTitle>
-              <Tag size='sm' label='New' appearance='base' />
+              <Tag
+                size='sm'
+                label='New'
+                appearance='base'
+                className='shrink-0'
+              />
             </ListItemContentRow>
             <ListItemContentRow>
               <ListItemDescription>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quisquam, quos.
               </ListItemDescription>
-              <Tag size='sm' label='Custom Tag' appearance='gray' />
+              <Tag
+                size='sm'
+                label='Custom Tag'
+                appearance='gray'
+                className='shrink-0'
+              />
             </ListItemContentRow>
           </ListItemContent>
         </ListItemLeading>
@@ -379,7 +390,23 @@ export const CompositionShowcase: Story = {
           <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Simple composition</ListItemTitle>
-            <ListItemDescription>With description</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Crypto icon</ListItemTitle>
+            <ListItemContentRow>
+              <ListItemDescription>Inline with description</ListItemDescription>
+              <MediaImage
+                src='https://crypto-icons.ledger.com/ALGO.png'
+                alt='Algorand'
+                size={20}
+              />
+            </ListItemContentRow>
           </ListItemContent>
         </ListItemLeading>
       </ListItem>

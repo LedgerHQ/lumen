@@ -2,6 +2,7 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { Settings, ChevronRight, Wallet } from '../../Symbols';
+import { MediaImage } from '../MediaImage';
 import { Spot } from '../Spot';
 import { Switch } from '../Switch/Switch';
 import { Tag } from '../Tag/Tag';
@@ -324,7 +325,7 @@ export const DisabledState: Story = {
 export const ResponsiveLayout: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
-      <ListItem onPress={() => {}}>
+      <ListItem lx={{ alignSelf: 'flex-start' }} onPress={() => {}}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
@@ -408,6 +409,23 @@ export const CompositionShowcase: Story = {
           <Spot size={48} appearance='icon' icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Simple composition</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+
+      <ListItem>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Crypto icon</ListItemTitle>
+            <ListItemContentRow>
+              <ListItemDescription>Inline with description</ListItemDescription>
+              <MediaImage
+                src='https://crypto-icons.ledger.com/ALGO.png'
+                alt='Algorand'
+                size={20}
+              />
+            </ListItemContentRow>
           </ListItemContent>
         </ListItemLeading>
       </ListItem>
