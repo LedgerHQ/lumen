@@ -1,7 +1,7 @@
 import type { ComponentType, ReactNode } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
-import { StyledViewProps } from '../../../styles';
-import { IconSize } from '../Icon';
+import type { StyleProp, TextStyle } from 'react-native';
+import type { StyledViewProps } from '../../../styles';
+import type { IconSize } from '../Icon';
 
 export type DotIconSize = 16 | 20 | 24;
 

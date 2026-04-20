@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { IconSize } from '../Icon';
+import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
-import {
+import type {
   DotIconAppearance,
   DotIconPin,
   DotIconProps,

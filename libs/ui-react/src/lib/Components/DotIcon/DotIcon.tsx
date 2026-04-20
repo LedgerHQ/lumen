@@ -1,8 +1,8 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
-import { IconSize } from '../Icon';
-import { DotIconPin, DotIconProps, DotIconSize } from './types';
+import type { IconSize } from '../Icon';
+import type { DotIconPin, DotIconProps, DotIconSize } from './types';
 
 const dotVariants = cva(
   'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted',
