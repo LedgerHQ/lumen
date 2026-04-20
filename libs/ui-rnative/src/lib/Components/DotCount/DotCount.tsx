@@ -1,9 +1,9 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
-import { BadgeProps } from './types';
+import { DotCountProps } from './types';
 
-export function Badge({
+export function DotCount({
   value,
   size,
   max = 99,
@@ -12,9 +12,9 @@ export function Badge({
   lx,
   style,
   children,
-}: BadgeProps) {
+}: DotCountProps) {
   const disabled = useDisabledContext({
-    consumerName: 'Badge',
+    consumerName: 'DotCount',
     mergeWith: { disabled: disabledProp },
   });
 
@@ -26,12 +26,11 @@ export function Badge({
   });
 
   const cappedMax = Math.min(max > 0 ? max : 99, 99);
-  const shouldHideValue = size === 'xs' || value <= 0;
 
   return (
     <Box>
       <Box lx={lx} style={[styles.container, style]}>
-        {!shouldHideValue && (
+        {value > 0 && (
           <Text style={styles.text} allowFontScaling={false}>
             {value <= cappedMax ? value : `${cappedMax}+`}
           </Text>
@@ -48,8 +47,8 @@ const useStyles = ({
   disabled = false,
   pinned,
 }: {
-  size: BadgeProps['size'];
-  appearance: BadgeProps['appearance'];
+  size: DotCountProps['size'];
+  appearance: DotCountProps['appearance'];
   disabled: boolean;
   pinned: boolean;
 }) => {
@@ -67,10 +66,6 @@ const useStyles = ({
           minWidth: t.sizes.s16,
           paddingHorizontal: t.spacings.s4,
         },
-        xs: {
-          height: t.sizes.s8,
-          aspectRatio: 1,
-        },
       };
 
       const bgColorMap = {
@@ -81,7 +76,6 @@ const useStyles = ({
       const textMap = {
         md: { ...t.typographies.body2SemiBold },
         sm: { ...t.typographies.body4SemiBold },
-        xs: {},
       };
 
       const textColorMap = {

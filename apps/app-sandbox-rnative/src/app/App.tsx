@@ -57,7 +57,8 @@ import {
   Avatars,
   PageIndicators,
   MediaBanners,
-  Badges,
+  DotCounts,
+  DotIndicators,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -145,9 +146,6 @@ const AppContent = ({
                 <SandboxBlock title='Banners'>
                   <Banners />
                 </SandboxBlock>
-                <SandboxBlock title='Badges'>
-                  <Badges />
-                </SandboxBlock>
                 <SandboxBlock title='BottomSheets'>
                   <BottomSheetsButton
                     onPress={() => bottomSheetFlatListsRef.current?.present()}
@@ -173,6 +171,12 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Dividers'>
                   <Dividers />
+                </SandboxBlock>
+                <SandboxBlock title='DotCounts'>
+                  <DotCounts />
+                </SandboxBlock>
+                <SandboxBlock title='DotIndicators'>
+                  <DotIndicators />
                 </SandboxBlock>
                 <SandboxBlock title='DotSymbols'>
                   <DotSymbols />

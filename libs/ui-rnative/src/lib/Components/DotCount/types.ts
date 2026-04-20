@@ -1,13 +1,11 @@
 import { ReactNode } from 'react';
 import { StyledViewProps } from '../../../styles';
 
-export type BadgeProps = {
+export type DotCountProps = {
   /**
-   * The size of the badge.
-   *
-   * Note that in `xs` size, the value you provide isn't shown.
+   * The size of the dot count badge.
    */
-  size: 'md' | 'sm' | 'xs';
+  size: 'md' | 'sm';
   /**
    * The amount to be displayed on the badge.
    *
