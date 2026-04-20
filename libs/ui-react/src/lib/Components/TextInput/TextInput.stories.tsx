@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
+import { useState } from 'react';
 import { InformationFill, SparksFill } from '../../Symbols';
 import { Button } from '../Button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';

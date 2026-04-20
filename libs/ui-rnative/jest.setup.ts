@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 
 // Fix for RN 0.79+ Animated API issues in test environment
 // The Animated module tries to connect to native views which don't exist in Jest

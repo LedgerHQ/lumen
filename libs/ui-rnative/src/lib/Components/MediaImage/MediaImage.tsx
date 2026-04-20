@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box } from '../Utility';
-import { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
+import type { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
 
 type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
 

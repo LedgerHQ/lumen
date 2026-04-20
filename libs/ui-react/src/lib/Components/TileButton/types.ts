@@ -4,7 +4,7 @@ import type {
   MouseEventHandler,
   ReactNode,
 } from 'react';
-import { IconSize } from '../Icon/types';
+import type { IconSize } from '../Icon/types';
 
 export type TileButtonProps = {
   /**

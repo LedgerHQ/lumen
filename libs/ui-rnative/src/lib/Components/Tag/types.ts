@@ -1,6 +1,6 @@
-import { ComponentType } from 'react';
-import { StyledViewProps } from '../../../styles';
-import { IconProps } from '../Icon';
+import type { ComponentType } from 'react';
+import type { StyledViewProps } from '../../../styles';
+import type { IconProps } from '../Icon';
 
 export type TagProps = {
   /**

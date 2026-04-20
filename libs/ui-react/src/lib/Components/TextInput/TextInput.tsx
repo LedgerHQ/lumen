@@ -1,5 +1,5 @@
 import { BaseInput } from '../BaseInput';
-import { TextInputProps } from './types';
+import type { TextInputProps } from './types';
 
 /**
  * A customizable input component with floating label, automatic clear button, error states, and focus/hover effects.

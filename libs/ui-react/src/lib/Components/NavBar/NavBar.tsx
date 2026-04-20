@@ -3,7 +3,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { CoinCapsule } from './CoinCapsule';
-import {
+import type {
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
   NavBarProps,

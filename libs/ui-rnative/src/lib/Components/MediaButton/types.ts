@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { StyledPressableProps } from '../../../styles';
+import type { ReactNode } from 'react';
+import type { StyledPressableProps } from '../../../styles';
 
 export type MediaButtonProps = {
   /**

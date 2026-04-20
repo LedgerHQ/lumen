@@ -2,7 +2,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { QrCode as QrCodeIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { AddressInputProps } from './types';
+import type { AddressInputProps } from './types';
 
 /**
  * A customizable address field input component for cryptocurrency addresses with fixed "To:" prefix, QR code scanner, automatic clear button, error states, and focus/hover effects.

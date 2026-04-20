@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { InteractiveIcon } from './InteractiveIcon';
-import { InteractiveIconProps } from './types';
+import type { InteractiveIconProps } from './types';
 
 const URL =
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6975-2571';

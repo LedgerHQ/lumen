@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useContext, useRef } from 'react';
+import type { FC, ReactNode } from 'react';
+import { createContext, useContext, useRef } from 'react';
 import { shallowEqual } from '../shallowEqual';
 
 export function createSafeContext<ContextValue extends object>(

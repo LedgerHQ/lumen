@@ -4,16 +4,17 @@ import {
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { ElementRef, ReactNode, Ref } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import type { ElementRef, ReactNode, Ref } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
-import {
-  ListItemProps,
+import type {
   ListItemContentProps,
   ListItemContentRowProps,
   ListItemDescriptionProps,
   ListItemLeadingProps,
+  ListItemProps,
   ListItemTitleProps,
   ListItemTrailingProps,
 } from './types';

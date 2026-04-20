@@ -1,12 +1,12 @@
 import { cn, useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import {
+import type {
   AmountDisplayProps,
   DigitStripListProps,
   DigitStripProps,
-  DIGITS,
 } from './types';
+import { DIGITS } from './types';
 
 const INTEGER_DIGIT_WIDTHS = {
   0: 25,

@@ -1,5 +1,5 @@
-import { ComponentPropsWithRef, ReactNode } from 'react';
-import { Breakpoints } from '../../../types';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { Breakpoints } from '../../../types';
 
 export type TableRootProps = {
   /**

@@ -1,12 +1,14 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import {
-  flexRender,
+import type {
   Row,
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
-import { ChangeEvent, Fragment, ReactNode, useCallback } from 'react';
-import { SearchInput, SearchInputProps } from '../SearchInput';
+import { flexRender } from '@tanstack/react-table';
+import type { ChangeEvent, ReactNode } from 'react';
+import { Fragment, useCallback } from 'react';
+import type { SearchInputProps } from '../SearchInput';
+import { SearchInput } from '../SearchInput';
 
 import {
   TableRoot,
@@ -21,7 +23,7 @@ import {
   TableGroupHeaderRow,
   TableLoadingRow,
 } from '../Table';
-import {
+import type {
   DataTableBodyProps,
   DataTableHeaderProps,
   DataTableProps,

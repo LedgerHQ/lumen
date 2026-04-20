@@ -1,4 +1,4 @@
-import { ElementType, ComponentPropsWithRef, ElementRef } from 'react';
+import type { ElementType, ComponentPropsWithRef, ElementRef } from 'react';
 import type { Pressable, View } from 'react-native';
 
 type ComponentPropsWithAsChild<T extends ElementType<any>> =

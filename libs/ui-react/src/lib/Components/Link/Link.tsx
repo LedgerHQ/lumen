@@ -2,8 +2,8 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ExternalLink } from '../../Symbols';
-import { IconSize } from '../Icon/types';
-import { LinkProps } from './types';
+import type { IconSize } from '../Icon/types';
+import type { LinkProps } from './types';
 
 const linkVariants = cva(
   'inline-flex w-fit max-w-full items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus',

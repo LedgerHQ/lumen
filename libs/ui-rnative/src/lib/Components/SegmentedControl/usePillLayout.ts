@@ -1,13 +1,13 @@
+import type { ReactNode } from 'react';
 import React, {
   Children,
   isValidElement,
-  ReactNode,
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from 'react';
-import { LayoutChangeEvent } from 'react-native';
+import type { LayoutChangeEvent } from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,

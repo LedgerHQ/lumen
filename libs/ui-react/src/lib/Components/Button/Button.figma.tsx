@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { Button } from './Button';
-import { ButtonProps } from './types';
+import type { ButtonProps } from './types';
 
 figma.connect(
   Button,

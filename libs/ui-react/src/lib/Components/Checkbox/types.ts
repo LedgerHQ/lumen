@@ -1,4 +1,4 @@
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import type * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import type { ComponentPropsWithRef } from 'react';
 
 export type CheckboxProps = {

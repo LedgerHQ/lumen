@@ -1,4 +1,4 @@
-import { LumenStyleSheetTheme, LumenTheme } from '../types';
+import type { LumenStyleSheetTheme, LumenTheme } from '../types';
 import { resolveFontWeights } from './resolvers/resolveFontWeights';
 import { resolveNegativeSpacing } from './resolvers/resolveNegativeSpacing';
 

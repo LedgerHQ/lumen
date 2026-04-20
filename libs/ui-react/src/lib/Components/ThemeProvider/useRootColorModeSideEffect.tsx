@@ -1,8 +1,6 @@
 import { useLayoutEffect, useSyncExternalStore } from 'react';
-import { COLOR_SCHEMES, ColorSchemeName } from './ThemeProvider.types';
-
-export const LIGHT_MODE = 'light';
-export const DARK_MODE = 'dark';
+import type { ColorSchemeName } from './ThemeProvider.types';
+import { COLOR_SCHEMES } from './ThemeProvider.types';
 
 const getSystemColorScheme = (): 'light' | 'dark' =>
   window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -44,7 +42,7 @@ export const useRootColorModeSideEffect = (
 ): void => {
   useLayoutEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove(LIGHT_MODE, DARK_MODE);
+    root.classList.remove(COLOR_SCHEMES.light, COLOR_SCHEMES.dark);
     root.classList.add(resolvedColorScheme);
   }, [resolvedColorScheme]);
 };

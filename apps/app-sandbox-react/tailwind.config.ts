@@ -1,5 +1,5 @@
 import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
-import { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 /** @type {import('tailwindcss').Config} */
 export default {

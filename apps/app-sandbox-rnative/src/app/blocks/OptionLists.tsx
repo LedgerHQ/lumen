@@ -1,4 +1,5 @@
 import CryptoIconNative from '@ledgerhq/crypto-icons/native';
+import type { OptionListItemData } from '@ledgerhq/lumen-ui-rnative';
 import {
   MediaButton,
   OptionList,
@@ -9,7 +10,6 @@ import {
   OptionListItemText,
   OptionListItemDescription,
   OptionListItemContentRow,
-  OptionListItemData,
   Tag,
   Box,
   useBottomSheetRef,

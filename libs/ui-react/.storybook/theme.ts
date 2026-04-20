@@ -1,4 +1,4 @@
-import { ThemeVars } from 'storybook/theming';
+import type { ThemeVars } from 'storybook/theming';
 import { create } from 'storybook/theming/create';
 import logoUrl from './lumen.svg';
 

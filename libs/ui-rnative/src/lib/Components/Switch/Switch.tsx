@@ -3,7 +3,7 @@ import { useControllableState } from '../../utils';
 import { Pressable } from '../Utility';
 import { BaseSwitchThumb, BaseSwitchRoot } from './BaseSwitch';
 
-import { SwitchProps } from './types';
+import type { SwitchProps } from './types';
 
 /**
  * The switch follows the design system tokens and supports checked, unchecked,

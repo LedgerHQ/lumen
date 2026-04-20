@@ -1,4 +1,4 @@
-import { PrimitiveTypographyTokens } from '../types';
+import type { PrimitiveTypographyTokens } from '../types';
 
 export const primitiveTypographyTokens = {
   fontFamily: {

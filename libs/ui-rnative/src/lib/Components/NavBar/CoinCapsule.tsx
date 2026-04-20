@@ -1,6 +1,6 @@
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
-import { CoinCapsuleProps } from './types';
+import type { CoinCapsuleProps } from './types';
 
 export function CoinCapsule({ ticker, icon }: CoinCapsuleProps) {
   const styles = useStyles();

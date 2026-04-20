@@ -5,9 +5,9 @@ import {
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
-import { ViewStyle } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import {
+import type {
   BottomSheetViewProps,
   BottomSheetFlatListProps,
   BottomSheetSectionListProps,

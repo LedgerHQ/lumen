@@ -4,7 +4,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
 import { Box } from '../Utility';
-import { AvatarProps } from './types';
+import type { AvatarProps } from './types';
 
 type Size = NonNullable<AvatarProps['size']>;
 

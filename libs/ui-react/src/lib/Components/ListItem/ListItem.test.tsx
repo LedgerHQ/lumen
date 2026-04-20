@@ -11,7 +11,7 @@ import {
   ListItemDescription,
   ListItemTrailing,
 } from './ListItem';
-import { ListItemProps } from './types';
+import type { ListItemProps } from './types';
 
 const renderListItem = (props: Partial<ListItemProps> = {}) =>
   render(

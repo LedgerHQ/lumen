@@ -1,4 +1,5 @@
-import { Children, ComponentType, isValidElement, ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
+import { Children, isValidElement } from 'react';
 
 /**
  * Recursively extracts text content from React children.

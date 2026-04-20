@@ -5,14 +5,16 @@ import {
   getButtonA11yProps,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
+
 import { cva } from 'class-variance-authority';
-import {
-  ListItemProps,
+
+import type {
   ListItemContentProps,
+  ListItemDescriptionProps,
   ListItemLeadingProps,
+  ListItemProps,
   ListItemContentRowProps,
   ListItemTitleProps,
-  ListItemDescriptionProps,
   ListItemTrailingProps,
 } from './types';
 

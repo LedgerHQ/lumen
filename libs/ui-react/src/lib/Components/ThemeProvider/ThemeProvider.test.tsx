@@ -1,6 +1,6 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, renderHook } from '@testing-library/react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
