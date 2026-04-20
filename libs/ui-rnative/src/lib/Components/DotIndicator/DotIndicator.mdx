@@ -1,0 +1,66 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DotIndicatorStories from './DotIndicator.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Communication/DotIndicator' of={DotIndicatorStories} />
+
+# DotIndicator
+
+<CustomTabs>
+  <Tab label="Overview">
+
+    ## Introduction
+
+    DotIndicator is a small colored dot used to signal status or draw attention without displaying a number. It supports two appearances (`base` and `red`) and can be pinned to the top-right of a child element.
+
+    > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=16470-25597).
+
+    ## Properties
+
+    <Canvas of={DotIndicatorStories.Base} />
+    <Controls of={DotIndicatorStories.Base} />
+
+    ## Appearances
+
+    Two color schemes are available:
+
+    - **base** (default) - neutral dot for general-purpose indicators.
+    - **red** - high-visibility dot, typically used for unread or alert states.
+
+    <Canvas of={DotIndicatorStories.AppearanceShowcase} />
+
+  </Tab>
+  <Tab label="Implementation">
+
+    ## Setup
+
+    Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+    ## Basic Usage
+
+    ```tsx
+    import { DotIndicator } from '@ledgerhq/lumen-ui-rnative';
+
+    function MyComponent() {
+      return <DotIndicator appearance="red" />;
+    }
+    ```
+
+    ### Pinned to a child
+
+    ```tsx
+    <DotIndicator appearance="red">
+      <Button size="sm">Submit</Button>
+    </DotIndicator>
+    ```
+
+    ### Accessibility
+
+    Pass `accessibilityLabel` to provide screen reader context:
+
+    ```tsx
+    <DotIndicator accessibilityLabel="New notifications" />
+    ```
+
+  </Tab>
+</CustomTabs>
