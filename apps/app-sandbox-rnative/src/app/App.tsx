@@ -32,6 +32,7 @@ import {
   Checkboxes,
   ContentBanners,
   Dividers,
+  DotIcons,
   DotSymbols,
   MediaImages,
   ExampleTabBar,
@@ -171,6 +172,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Dividers'>
                   <Dividers />
+                </SandboxBlock>
+                <SandboxBlock title='DotIcons'>
+                  <DotIcons />
                 </SandboxBlock>
                 <SandboxBlock title='DotSymbols'>
                   <DotSymbols />

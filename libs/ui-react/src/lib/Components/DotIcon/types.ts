@@ -1,45 +1,40 @@
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
+import type { IconSize } from '../Icon';
 
-export type DotSymbolSize = 8 | 10 | 12 | 16 | 20 | 24;
+export type DotIconSize = 16 | 20 | 24;
 
-export type DotSymbolPin =
+export type DotIconPin =
   | 'top-start'
   | 'top-end'
   | 'bottom-start'
   | 'bottom-end';
 
-export type DotSymbolProps = {
+export type DotIconAppearance = 'success' | 'muted' | 'error';
+
+export type DotIconProps = {
   /**
-   * Image source URL for the dot indicator.
+   * Icon component to render inside the dot.
    */
-  src: string;
+  icon: ComponentType<{ size?: IconSize; className?: string }>;
   /**
-   * Alternative text for the dot image.
+   * Semantic color of the dot background.
    */
-  alt?: string;
+  appearance: DotIconAppearance;
   /**
    * Corner placement of the dot indicator.
    * @default 'bottom-end'
    */
-  pin?: DotSymbolPin;
+  pin?: DotIconPin;
   /**
    * The size of the dot indicator in pixels.
    * @default 20
    */
-  size?: DotSymbolSize;
+  size?: DotIconSize;
   /**
    * The shape of the dot indicator.
    * @default 'circle'
    */
   shape?: 'square' | 'circle';
-  /**
-   * Loading strategy for the image.
-   * - `eager`: Load immediately (default browser behavior)
-   * - `lazy`: Defer loading until near viewport
-   * @optional
-   * @default eager (browser default: eager)
-   */
-  imgLoading?: 'eager' | 'lazy';
   /**
    * Additional custom CSS classes to apply to the wrapper.
    */
