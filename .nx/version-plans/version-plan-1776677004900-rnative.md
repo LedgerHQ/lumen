@@ -13,7 +13,3 @@ background (`success`, `muted`, `error`) pinned at a corner of its children
   <MediaImage src='https://example.com/usdc.png' alt='USDC' size={48} />
 </DotIcon>
 ```
-
-Two helper maps are exported alongside the component to align the dot size with the parent element: `mediaImageDotIconSizeMap` and `spotDotIconSizeMap`.
-
-`DotSymbol` is unchanged and remains image-only.
