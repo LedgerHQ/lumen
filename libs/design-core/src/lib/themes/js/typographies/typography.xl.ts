@@ -1,4 +1,4 @@
-import { TypographyTokens } from '../types';
+import type { TypographyTokens } from '../types';
 import { typographyMdTokens } from './typography.md';
 
 export const typographyXlTokens = {

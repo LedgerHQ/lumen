@@ -68,6 +68,7 @@ const preview: Preview = {
           'Containment',
           ['Dialog', 'ListItem', 'Tile'],
           'Selection',
+          'Visualization',
         ],
       },
     },

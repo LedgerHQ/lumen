@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ComponentType } from 'react';
-import { IconSize } from '../Icon/types';
+import type { IconSize } from '../Icon/types';
 
 export type TagProps = {
   /**

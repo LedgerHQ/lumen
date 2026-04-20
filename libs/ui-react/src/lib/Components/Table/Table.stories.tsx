@@ -23,7 +23,7 @@ import {
   TableLoadingRow,
   TableInfoIcon,
 } from './Table';
-import { TableSortValue } from './types';
+import type { TableSortValue } from './types';
 
 const smallData = [
   { name: 'Bitcoin', symbol: 'BTC', price: '$43,250.00', change: '+2.5%' },

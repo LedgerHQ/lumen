@@ -1,29 +1,43 @@
+import type {
+  LedgerLiveDarkTheme,
+  LedgerLiveLightTheme,
+} from '@ledgerhq/lumen-design-core';
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import { I18nProvider } from '../../../i18n';
-import { COLOR_SCHEMES, ThemeProviderProps } from './ThemeProvider.types';
-import { useRootColorModeSideEffect } from './useRootColorModeSideEffect';
+import type { ThemeProviderProps } from './ThemeProvider.types';
+import { COLOR_SCHEMES } from './ThemeProvider.types';
+import {
+  useResolvedColorScheme,
+  useRootColorModeSideEffect,
+} from './useRootColorModeSideEffect';
 
 type ThemeProviderState = {
-  locale: ThemeProviderProps['locale'];
+  theme?: LedgerLiveDarkTheme | LedgerLiveLightTheme;
+  colorScheme: 'light' | 'dark';
 };
 
-const [ThemeProviderContext] =
+const [ThemeProviderContext, useThemeContext] =
   createSafeContext<ThemeProviderState>('ThemeProvider');
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({
+  themes,
   children,
   colorScheme = COLOR_SCHEMES.system,
   locale,
 }) => {
-  useRootColorModeSideEffect({ colorScheme });
+  const resolvedColorScheme = useResolvedColorScheme(colorScheme);
+  useRootColorModeSideEffect(resolvedColorScheme);
+
+  const resolvedTheme = themes?.[resolvedColorScheme];
 
   const value = useMemo(
     () => ({
-      colorScheme,
-      locale,
+      theme: resolvedTheme,
+      colorScheme: resolvedColorScheme,
     }),
-    [colorScheme, locale],
+    [resolvedTheme, resolvedColorScheme],
   );
 
   return (
@@ -31,4 +45,13 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({
       <I18nProvider locale={locale}>{children}</I18nProvider>
     </ThemeProviderContext>
   );
+};
+
+export const useTheme = () => {
+  const theme = useThemeContext({
+    consumerName: 'useTheme',
+    contextRequired: true,
+  });
+
+  return theme;
 };

@@ -1,7 +1,5 @@
-import {
-  BottomSheetModal as GorhomBottomSheetModal,
-  SNAP_POINT_TYPE,
-} from '@gorhom/bottom-sheet';
+import type { SNAP_POINT_TYPE } from '@gorhom/bottom-sheet';
+import { BottomSheetModal as GorhomBottomSheetModal } from '@gorhom/bottom-sheet';
 import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
@@ -9,7 +7,7 @@ import { useStyleSheet } from '../../../styles';
 import { RuntimeConstants } from '../../utils';
 import { CustomBackdrop } from './CustomBackdrop';
 import { CustomHandle } from './CustomHandle';
-import { BottomSheetProps } from './types';
+import type { BottomSheetProps } from './types';
 
 const OFFSET_TOP = 25;
 const FULL_HEIGHT = RuntimeConstants.insetDimensions.height;

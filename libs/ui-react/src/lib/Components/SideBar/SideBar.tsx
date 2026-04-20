@@ -9,7 +9,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ExpandRight, ExpandLeft } from '../../Symbols';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
-import {
+import type {
   SideBarContextValue,
   SideBarProps,
   SideBarLeadingProps,

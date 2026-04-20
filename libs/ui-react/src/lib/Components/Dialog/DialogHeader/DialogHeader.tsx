@@ -1,12 +1,12 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useCommonTranslation } from '../../../../i18n';
 import { ArrowLeft, Close } from '../../../Symbols';
 import { IconButton } from '../../IconButton';
 import { DialogClose } from '../Dialog';
-import { DialogHeaderProps } from '../types';
+import type { DialogHeaderProps } from '../types';
 
 const dialogHeaderVariants = cva('flex px-24 text-base', {
   variants: {

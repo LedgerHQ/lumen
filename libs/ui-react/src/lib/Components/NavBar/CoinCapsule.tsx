@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { CoinCapsuleProps } from './types';
+import type { CoinCapsuleProps } from './types';
 
 /**
  * @internal

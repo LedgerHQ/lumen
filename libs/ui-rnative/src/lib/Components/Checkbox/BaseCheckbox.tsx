@@ -1,19 +1,15 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { useCallback } from 'react';
-import {
-  GestureResponderEvent,
-  Pressable,
-  View,
-  StyleSheet,
-} from 'react-native';
+import type { GestureResponderEvent } from 'react-native';
+import { Pressable, View, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import {
+import type {
   ForceMountable,
   SlottablePressableProps,
   SlottableViewProps,
 } from '../../types';
 import { SlotPressable, SlotView } from '../Slot';
-import { CheckboxProps } from './types';
+import type { CheckboxProps } from './types';
 
 const ROOT_COMPONENT_NAME = 'BaseCheckbox';
 const TRIGGER_COMPONENT_NAME = 'BaseCheckboxTrigger';

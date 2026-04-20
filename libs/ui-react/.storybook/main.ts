@@ -8,6 +8,7 @@ const config: StorybookConfig = {
   stories: [
     '../src/lib/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../../ui-react-visualization/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
   ],
 

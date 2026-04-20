@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import * as Icons from '../../Symbols';
 import { SearchInput } from '../SearchInput/SearchInput';
-import { IconSize } from './types';
+import type { IconSize } from './types';
 
 const meta: Meta = {
   title: 'Symbols/Interface Icons',

@@ -1,6 +1,6 @@
 import type * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import type { ComponentPropsWithRef } from 'react';
-import { BaseButtonProps } from '../Button/types';
+import type { BaseButtonProps } from '../Button/types';
 
 export type IconButtonProps = {
   /**

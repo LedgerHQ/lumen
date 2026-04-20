@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { StyledViewProps } from '../../../styles';
+import type { StyledViewProps } from '../../../styles';
 
 export type DotSymbolSize = 8 | 10 | 12 | 16 | 20 | 24;
 

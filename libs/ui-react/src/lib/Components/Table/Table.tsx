@@ -9,7 +9,7 @@ import {
 } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spot } from '../Spot';
-import {
+import type {
   TableBodyProps,
   TableCellProps,
   TableHeaderCellProps,

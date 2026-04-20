@@ -1,6 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render, RenderOptions } from '@testing-library/react-native';
+import type { RenderOptions } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { Text, View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { BottomSheet as BottomSheetComponent } from './BottomSheet';

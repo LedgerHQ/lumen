@@ -1,9 +1,9 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { DialogHeader } from './DialogHeader/DialogHeader';
-import {
+import type {
   DialogBodyProps,
   DialogBodyStickyContentProps,
   DialogContentProps,

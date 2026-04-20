@@ -1,7 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, userEvent } from '@testing-library/react-native';
 import { useState } from 'react';
-import { ColorSchemeName, Pressable, Text, View } from 'react-native';
+import type { ColorSchemeName } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { LumenStyleSheetProvider } from './LumenStyleSheetProvider';
 

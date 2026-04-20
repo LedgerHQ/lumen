@@ -1,5 +1,5 @@
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -10,11 +10,11 @@ import {
   DeleteCircleFill,
   Close,
 } from '../../Symbols';
-import { IconProps } from '../Icon';
+import type { IconProps } from '../Icon';
 import { IconButton } from '../IconButton';
 import { Box } from '../Utility';
 import { Wrap } from '../Wrap';
-import { BannerProps } from './types';
+import type { BannerProps } from './types';
 
 type Appearance = NonNullable<BannerProps['appearance']>;
 

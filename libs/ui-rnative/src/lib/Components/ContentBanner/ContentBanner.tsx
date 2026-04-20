@@ -5,7 +5,7 @@ import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Text } from '../Utility';
-import {
+import type {
   ContentBannerContentProps,
   ContentBannerDescriptionProps,
   ContentBannerProps,

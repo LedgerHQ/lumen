@@ -1,7 +1,7 @@
-import { Row, RowData, Table } from '@tanstack/react-table';
-import { ComponentPropsWithRef, ReactNode } from 'react';
-import { Breakpoints } from '../../../types';
-import { TableRootProps } from '../Table/types';
+import type { Row, RowData, Table } from '@tanstack/react-table';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { Breakpoints } from '../../../types';
+import type { TableRootProps } from '../Table/types';
 
 /**
  * Lumen-specific column metadata that extends TanStack's ColumnMeta.

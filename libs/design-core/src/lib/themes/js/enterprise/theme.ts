@@ -1,7 +1,7 @@
 import { primitiveMotionTokens } from '../primitives/primitives.motion';
 import { primitiveLayoutTokens } from '../primitives/primitives.others';
 import { primitiveShadowTokens } from '../primitives/primitives.shadows';
-import { ThemeCoreTokens } from '../types';
+import type { ThemeCoreTokens } from '../types';
 import { typographyTokens } from '../typographies';
 import { enterpriseDarkColorTokens } from './theme.dark';
 import { enterpriseLightColorTokens } from './theme.light';
@@ -27,3 +27,7 @@ export const enterpriseThemes = {
   dark: enterpriseDarkTheme,
   light: enterpriseLightTheme,
 };
+
+export type EnterpriseThemes = typeof enterpriseThemes;
+export type EnterpriseDarkTheme = typeof enterpriseDarkTheme;
+export type EnterpriseLightTheme = typeof enterpriseLightTheme;

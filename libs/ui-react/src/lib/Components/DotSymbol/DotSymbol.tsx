@@ -1,9 +1,9 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useMemo, useState } from 'react';
-import { MediaImageSize } from '../MediaImage';
-import { SpotSize } from '../Spot';
-import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
+import type { MediaImageSize } from '../MediaImage';
+import type { SpotSize } from '../Spot';
+import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
   'absolute z-10 box-content overflow-hidden border-base-inverted bg-muted',

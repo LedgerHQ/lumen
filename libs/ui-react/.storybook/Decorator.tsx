@@ -1,9 +1,8 @@
+import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import type { Decorator } from '@storybook/react-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  ColorSchemeName,
-  ThemeProvider,
-} from '../src/lib/Components/ThemeProvider';
+import type { ColorSchemeName } from '../src/lib/Components/ThemeProvider';
+import { ThemeProvider } from '../src/lib/Components/ThemeProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -25,7 +24,10 @@ const createThemeDecorator = (
 
     return (
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider colorScheme={context.globals.mode as ColorSchemeName}>
+        <ThemeProvider
+          themes={ledgerLiveThemes}
+          colorScheme={context.globals.mode as ColorSchemeName}
+        >
           <Story />
         </ThemeProvider>
       </QueryClientProvider>

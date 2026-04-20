@@ -1,8 +1,8 @@
 import { useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo, useEffect } from 'react';
 import { Text, View } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
-  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -13,12 +13,12 @@ import { Pulse } from '../../Animations/Pulse';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
-import {
+import type {
   AmountDisplayProps,
   DigitStripListProps,
   DigitStripProps,
-  DIGITS,
 } from './types';
+import { DIGITS } from './types';
 
 const INTEGER_DIGIT_WIDTHS = {
   0: 25,

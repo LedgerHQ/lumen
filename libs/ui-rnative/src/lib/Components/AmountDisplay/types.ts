@@ -1,6 +1,6 @@
 import type { FormattedValue, SplitChar } from '@ledgerhq/lumen-utils-shared';
-import { ViewProps, TextStyle } from 'react-native';
-import { StyledViewProps } from '../../../styles';
+import type { ViewProps, TextStyle } from 'react-native';
+import type { StyledViewProps } from '../../../styles';
 
 export type { FormattedValue };
 

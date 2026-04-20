@@ -1,5 +1,5 @@
-import { TextInputProps, ViewStyle } from 'react-native';
-import { BoxProps } from '../Utility';
+import type { TextInputProps, ViewStyle } from 'react-native';
+import type { BoxProps } from '../Utility';
 
 export type AmountInputProps = Omit<
   TextInputProps,

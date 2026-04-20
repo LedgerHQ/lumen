@@ -1,10 +1,7 @@
 import i18next, { type i18n as I18nInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import {
-  DEFAULT_LANGUAGE,
-  I18N_DEFAULT_NAMESPACE,
-  SupportedLocale,
-} from './languages';
+import type { SupportedLocale } from './languages';
+import { DEFAULT_LANGUAGE, I18N_DEFAULT_NAMESPACE } from './languages';
 
 import de from './locales/de.json';
 import en from './locales/en.json';

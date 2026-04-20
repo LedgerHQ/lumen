@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { Button } from '../Button/Button';

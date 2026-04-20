@@ -1,5 +1,5 @@
 import type { Density } from '@ledgerhq/lumen-utils-shared';
-import {
+import type {
   StyledPressableProps,
   StyledTextProps,
   StyledViewProps,
