@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [labeled, synchronize, reopened]
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: chromatic-${{ github.ref }}
@@ -15,6 +18,10 @@ concurrency:
 jobs:
   chromatic:
     name: Run Chromatic
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
+        contains(github.event.pull_request.labels.*.name, 'chromatic'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
