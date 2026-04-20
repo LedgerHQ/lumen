@@ -64,6 +64,6 @@ const useStyles = ({
         },
       };
     },
-    [appearance],
+    [appearance, disabled, pinned],
   );
 };

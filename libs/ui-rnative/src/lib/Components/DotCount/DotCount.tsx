@@ -107,6 +107,6 @@ const useStyles = ({
         },
       };
     },
-    [size, appearance],
+    [size, appearance, disabled, pinned],
   );
 };
