@@ -330,7 +330,8 @@ export const WithDefaultValue: Story = {
 
 const descriptionOptions = [
   { value: 'option1', label: 'Option 1', description: 'this is a description' },
-  { value: 'option2', label: 'Option 2', description: 'this is a description' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3', description: 'this is a description' },
 ];
 
 export const WithDescription: Story = {
@@ -345,9 +346,11 @@ export const WithDescription: Story = {
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemContent>
                     <SelectItemText>{item.label}</SelectItemText>
-                    <SelectItemDescription>
-                      {item.description}
-                    </SelectItemDescription>
+                    {item.description && (
+                      <SelectItemDescription>
+                        {item.description}
+                      </SelectItemDescription>
+                    )}
                   </SelectItemContent>
                 </SelectItem>
               )}
