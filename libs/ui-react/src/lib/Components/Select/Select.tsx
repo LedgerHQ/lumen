@@ -24,6 +24,14 @@ import type {
 } from './types';
 import { useSelectItems } from './useSelectItems';
 
+/**
+ * base-ui's Combobox calls onValueChange with either a string (click on
+ * Combobox.Item) or a full SelectItemData object (keyboard selection, which
+ * resolves from the `items` array). This normalizes both to a plain string.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const resolveValue = (v: any): string | null => v?.value ?? v ?? null;
+
 function Select({
   value,
   defaultValue,
@@ -62,6 +70,7 @@ function Select({
     groupedItems,
     filteredItemsForRoot,
     resolvedSearchValue,
+    searchMounted,
     registerSearch,
     handleSearchValueChange,
   } = useSelectItems({
@@ -82,7 +91,8 @@ function Select({
       inputValue={resolvedSearchValue}
       onInputValueChange={handleSearchValueChange}
       value={selectedValue}
-      onValueChange={setSelectedValue}
+      onValueChange={(val) => setSelectedValue(resolveValue(val))}
+      isItemEqualToValue={(a, b) => resolveValue(a) === resolveValue(b)}
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
@@ -90,7 +100,9 @@ function Select({
       required={required}
       disabled={disabled}
     >
-      <SelectProvider value={{ selectedValue, registerSearch, isGrouped }}>
+      <SelectProvider
+        value={{ selectedValue, registerSearch, isGrouped, searchMounted }}
+      >
         {children}
       </SelectProvider>
     </Combobox.Root>
@@ -207,6 +219,20 @@ const contentStyles = cva(
   },
 );
 
+/**
+ * Renders a visually-hidden Combobox.Input so the popup receives keyboard
+ * navigation (Arrow/Enter) even when no SelectSearch is present.
+ * Unmounts itself once SelectSearch mounts to avoid duplicate inputs.
+ */
+const SelectFallbackInput = () => {
+  const { searchMounted } = useSelectContext({
+    consumerName: 'SelectFallbackInput',
+    contextRequired: true,
+  });
+  if (searchMounted) return null;
+  return <Combobox.Input aria-hidden tabIndex={-1} className='sr-only' />;
+};
+
 const SelectContent = ({
   ref,
   className,
@@ -232,6 +258,7 @@ const SelectContent = ({
         className={cn(contentStyles({ side }), className)}
         {...props}
       >
+        <SelectFallbackInput />
         {children}
       </Combobox.Popup>
     </Combobox.Positioner>

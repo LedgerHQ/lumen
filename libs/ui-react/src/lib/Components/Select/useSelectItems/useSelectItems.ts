@@ -17,6 +17,7 @@ type UseSelectItemsReturn = {
   groupedItems: SelectItemGroup[] | null;
   filteredItemsForRoot: SelectItemData[] | SelectItemGroup[];
   resolvedSearchValue: string;
+  searchMounted: boolean;
   registerSearch: () => () => void;
   handleSearchValueChange: (val: string) => void;
 };
@@ -106,6 +107,7 @@ export function useSelectItems({
     groupedItems,
     filteredItemsForRoot,
     resolvedSearchValue: searchValue,
+    searchMounted,
     registerSearch,
     handleSearchValueChange,
   };

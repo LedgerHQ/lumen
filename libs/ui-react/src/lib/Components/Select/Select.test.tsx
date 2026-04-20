@@ -121,6 +121,53 @@ describe('Select', () => {
     expect(handleChange).toHaveBeenCalledWith('opt1');
   });
 
+  it('normalizes object values to strings in onValueChange', () => {
+    const handleChange = vi.fn();
+    const { rerender } = render(
+      <Select items={options} onValueChange={handleChange}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Option 1'));
+
+    expect(handleChange).toHaveBeenCalledWith('opt1');
+    expect(typeof handleChange.mock.calls[0][0]).toBe('string');
+
+    handleChange.mockClear();
+
+    rerender(
+      <Select items={options} onValueChange={handleChange} value={null}>
+        <SelectTrigger label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem key={item.value} value={item.value}>
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByText('Option 2'));
+
+    expect(handleChange).toHaveBeenCalledWith('opt2');
+    expect(typeof handleChange.mock.calls[0][0]).toBe('string');
+  });
+
   it('reflects controlled value changes', () => {
     const { rerender } = render(
       <Select items={options} value='opt1'>
