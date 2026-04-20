@@ -5,7 +5,6 @@ import { useLayoutEffect } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check } from '../../Symbols';
 import { Divider } from '../Divider';
-import { MediaButton } from '../MediaButton';
 import { SearchInput } from '../SearchInput';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
@@ -22,7 +21,6 @@ import type {
   SelectItemDescriptionProps,
   SelectSeparatorProps,
   SelectEmptyStateProps,
-  SelectMediaButtonProps,
 } from './types';
 import { useSelectItems } from './useSelectItems';
 
@@ -426,17 +424,6 @@ const SelectEmptyState = ({
   </Combobox.Empty>
 );
 
-const SelectMediaButton = ({
-  selectedValue,
-  selectedContent,
-  label,
-  ...props
-}: SelectMediaButtonProps) => (
-  <MediaButton {...props}>
-    {selectedValue ? selectedContent : label}
-  </MediaButton>
-);
-
 export {
   Select,
   SelectTrigger,
@@ -449,5 +436,4 @@ export {
   SelectItem,
   SelectSeparator,
   SelectEmptyState,
-  SelectMediaButton,
 };

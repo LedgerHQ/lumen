@@ -1,5 +1,4 @@
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
-import type { MediaButtonProps } from '../MediaButton';
 import type { SearchInputProps } from '../SearchInput/types';
 
 export type SelectItemData<Meta = Record<string, unknown>> = {
@@ -144,9 +143,9 @@ export type SelectTriggerProps = {
   /**
    * Render function that replaces the default input-style trigger.
    * When provided, the trigger delegates rendering to this function.
-   * Can be a preset component (e.g. `SelectMediaButton`) or a custom render function.
+   * Use any component (e.g. `MediaButton`) or a custom render function.
    *
-   * @example render={(props) => <SelectMediaButton {...props} label="Label" />}
+   * @example render={({ selectedValue, selectedContent }) => <MediaButton>{selectedValue ? selectedContent : 'Label'}</MediaButton>}
    * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
    */
   render?: (props: SelectTriggerRenderProps) => ReactElement;
@@ -309,12 +308,3 @@ export type SelectItemDescriptionProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
-
-export type SelectMediaButtonProps = SelectTriggerRenderProps &
-  Omit<MediaButtonProps, 'children'> & {
-    /**
-     * The label displayed when no value is selected.
-     * Once a value is selected, it is replaced by the selected item's content.
-     */
-    label: string;
-  };
