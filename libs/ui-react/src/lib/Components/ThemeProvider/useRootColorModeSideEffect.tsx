@@ -1,42 +1,49 @@
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useSyncExternalStore } from 'react';
 import { COLOR_SCHEMES, ColorSchemeName } from './ThemeProvider.types';
 
 export const LIGHT_MODE = 'light';
 export const DARK_MODE = 'dark';
-export const SYSTEM_MODE = 'system';
+
+const getSystemColorScheme = (): 'light' | 'dark' =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+const subscribeToSystemColorScheme = (callback: () => void): (() => void) => {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  mediaQuery.addEventListener('change', callback);
+  return () => mediaQuery.removeEventListener('change', callback);
+};
+
+const noopSubscribe = (): (() => void) => () => {};
+
+/**
+ * Returns the resolved color scheme ('light' | 'dark'), handling 'system' by
+ * subscribing to `prefers-color-scheme` changes.
+ *
+ * When colorScheme is explicit ('light' | 'dark'), the media-query listener
+ * is skipped entirely to avoid unnecessary subscriptions and re-renders.
+ */
+export const useResolvedColorScheme = (
+  colorScheme: ColorSchemeName,
+): 'light' | 'dark' => {
+  const isSystem = colorScheme === COLOR_SCHEMES.system;
+
+  return useSyncExternalStore(
+    isSystem ? subscribeToSystemColorScheme : noopSubscribe,
+    isSystem ? getSystemColorScheme : () => colorScheme as 'light' | 'dark',
+    () => 'light' as const,
+  );
+};
 
 /**
  * Updates the root element className when the theme mode changes.
- * This allows the design-system theme config to be applied
+ * This allows the design-system theme config to be applied.
  */
-export const useRootColorModeSideEffect = ({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) => {
+export const useRootColorModeSideEffect = (
+  resolvedColorScheme: 'light' | 'dark',
+): void => {
   useLayoutEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove(LIGHT_MODE, DARK_MODE);
-
-    if (colorScheme === COLOR_SCHEMES.system) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-      const applySystemTheme = () => {
-        root.classList.remove(LIGHT_MODE, DARK_MODE);
-        root.classList.add(mediaQuery.matches ? DARK_MODE : LIGHT_MODE);
-      };
-
-      applySystemTheme();
-      mediaQuery.addEventListener('change', applySystemTheme);
-
-      return () => {
-        mediaQuery.removeEventListener('change', applySystemTheme);
-      };
-    }
-
-    root.classList.add(colorScheme);
-    return () => {
-      // return empty
-    };
-  }, [colorScheme]);
+    root.classList.add(resolvedColorScheme);
+  }, [resolvedColorScheme]);
 };
