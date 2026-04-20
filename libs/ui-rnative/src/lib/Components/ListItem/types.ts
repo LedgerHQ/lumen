@@ -1,15 +1,9 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import {
   StyledPressableProps,
   StyledTextProps,
   StyledViewProps,
 } from '../../../styles';
-
-/**
- * Context value for passing state to sub-components
- */
-export type ListItemContextValue = {
-  disabled?: boolean;
-};
 
 /**
  * Props for the ListItem root component
@@ -20,6 +14,11 @@ export type ListItemProps = {
    */
   children: React.ReactNode;
   /**
+   * The density of the list item.
+   * @default 'expanded'
+   */
+  density?: Density;
+  /**
    * Whether the list item is disabled.
    */
   disabled?: boolean;
@@ -27,7 +26,11 @@ export type ListItemProps = {
    * Callback function when the list item is pressed.
    */
   onPress?: StyledPressableProps['onPress'];
-} & Omit<StyledPressableProps, 'disabled' | 'children'>;
+  /**
+   * Callback function when the list item is long pressed.
+   */
+  onLongPress?: StyledPressableProps['onLongPress'];
+} & Omit<StyledViewProps, 'disabled' | 'children'>;
 
 /**
  * Props for the ListItemLeading component
