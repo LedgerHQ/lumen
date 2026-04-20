@@ -154,11 +154,7 @@ describe('DotIcon Component', () => {
 
   it('should apply custom className to the wrapper', () => {
     const { container } = render(
-      <DotIcon
-        appearance='success'
-        icon={ArrowDown}
-        className='mt-16'
-      />,
+      <DotIcon appearance='success' icon={ArrowDown} className='mt-16' />,
     );
 
     expect(container.firstChild).toHaveClass('mt-16');
