@@ -7,7 +7,7 @@ import * as DotSymbolStories from './DotSymbol.stories';
 
 ## Introduction
 
-DotSymbol positions a small indicator at a configurable corner of a child element such as MediaImage or Spot. It supports two content modes: **image** (default) renders an image from a URL, and **icon** renders an SVG icon with a semantic background color.
+DotSymbol positions a small image indicator at a configurable corner of a child element such as MediaImage or Spot. It is commonly used to show a network badge or secondary icon overlapping a primary symbol.
 
 ## Anatomy
 
@@ -15,7 +15,7 @@ DotSymbol positions a small indicator at a configurable corner of a child elemen
 
 - **Wrapper**: Relative container that preserves the child's layout
 - **Child**: The primary element (e.g. MediaImage, Spot)
-- **Dot**: Absolutely-positioned indicator with border and configurable shape
+- **Dot**: Absolutely-positioned image indicator with border and configurable shape
 
 ## Properties
 
@@ -43,21 +43,7 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 <Canvas of={DotSymbolStories.SizeShowcase} />
 
-### Icon variant
-
-Set `type="icon"` to render an SVG icon with a semantic background. The `appearance` prop controls the background color (`success`, `muted`, or `error`), and the `icon` prop accepts an icon component. The icon size is handled internally by the component.
-
-<Canvas of={DotSymbolStories.IconVariant} />
-
-#### Appearances
-
-<Canvas of={DotSymbolStories.IconAppearanceShowcase} />
-
-#### Icon sizes
-
-<Canvas of={DotSymbolStories.IconSizeShowcase} />
-
 ## Accessibility
 
-- For the image variant, provide a meaningful `alt` prop so the indicator image is announced by screen readers.
+- Always provide a meaningful `alt` prop on the DotSymbol so the indicator image is announced by screen readers.
 - The child element should carry its own accessibility label independently.

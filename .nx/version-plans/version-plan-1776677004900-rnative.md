@@ -1,20 +1,19 @@
 ---
-'@ledgerhq/lumen-ui-rnative': patch
+'@ledgerhq/lumen-ui-rnative': minor
 ---
 
-feat(DotSymbol): add `icon` variant and restrict sizes
+feat(DotIcon): introduce new DotIcon component
 
-The `DotSymbol` component now supports an `icon` variant in addition to the existing `image` variant. Use the new `type="icon"` prop together with `icon` and `appearance` to render an icon on a semantic background (`success`, `muted`, `error`).
+Adds a new `DotIcon` component that renders a small icon badge with a semantic
+background (`success`, `muted`, `error`) pinned at a corner of its children
+(e.g. `MediaImage`, `Spot`). Supported sizes: 16, 20, 24.
 
 ```tsx
-<DotSymbol
-  type='icon'
-  appearance='success'
-  icon={ArrowDown}
-  pin='bottom-end'
->
+<DotIcon appearance='success' icon={ArrowDown} pin='bottom-end'>
   <MediaImage src='https://example.com/usdc.png' alt='USDC' size={48} />
-</DotSymbol>
+</DotIcon>
 ```
 
-BREAKING_CHANGE(DotSymbol): `DotSymbolSize` no longer accepts `8 | 10 | 12`. Allowed values are now `16 | 20 | 24`. 
+Two helper maps are exported alongside the component to align the dot size with the parent element: `mediaImageDotIconSizeMap` and `spotDotIconSizeMap`.
+
+`DotSymbol` is unchanged and remains image-only.

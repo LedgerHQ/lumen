@@ -1,9 +1,7 @@
-import type { ComponentType, ReactNode } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
+import type { ReactNode } from 'react';
 import { StyledViewProps } from '../../../styles';
-import { IconSize } from '../Icon';
 
-export type DotSymbolSize = 16 | 20 | 24;
+export type DotSymbolSize = 8 | 10 | 12 | 16 | 20 | 24;
 
 export type DotSymbolPin =
   | 'top-start'
@@ -11,14 +9,7 @@ export type DotSymbolPin =
   | 'bottom-start'
   | 'bottom-end';
 
-export type DotSymbolAppearance = 'success' | 'muted' | 'error';
-
-type DotSymbolImageContent = {
-  /**
-   * Discriminant for the image variant.
-   * @default 'image'
-   */
-  type?: 'image';
+export type DotSymbolProps = {
   /**
    * Image source URL for the dot indicator.
    */
@@ -27,28 +18,6 @@ type DotSymbolImageContent = {
    * Alternative text for the dot image.
    */
   alt?: string;
-  icon?: never;
-  appearance?: never;
-};
-
-type DotSymbolIconContent = {
-  /**
-   * Discriminant for the icon variant.
-   */
-  type: 'icon';
-  /**
-   * Semantic color of the dot background.
-   */
-  appearance: DotSymbolAppearance;
-  /**
-   * Icon component to render inside the dot.
-   */
-  icon: ComponentType<{ size?: IconSize; style?: StyleProp<TextStyle> }>;
-  src?: never;
-  alt?: never;
-};
-
-export type DotSymbolProps = {
   /**
    * Corner placement of the dot indicator.
    * @default 'bottom-end'
@@ -68,5 +37,4 @@ export type DotSymbolProps = {
    * The wrapped component (e.g. MediaImage or Spot).
    */
   children?: ReactNode;
-} & (DotSymbolImageContent | DotSymbolIconContent) &
-  Omit<StyledViewProps, 'children'>;
+} & Omit<StyledViewProps, 'children'>;

@@ -10,6 +10,7 @@ export * from './CardButton';
 export * from './ContentBanner';
 export * from './Checkbox';
 export * from './Divider';
+export * from './DotIcon';
 export * from './DotSymbol';
 export * from './Icon';
 export * from './IconButton';

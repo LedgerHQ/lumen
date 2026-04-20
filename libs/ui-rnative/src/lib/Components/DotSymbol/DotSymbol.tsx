@@ -1,54 +1,50 @@
 import { useEffect, useState } from 'react';
-import {
-  Image,
-  ImageStyle,
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-} from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { IconSize } from '../Icon';
+import { MediaImageSize } from '../MediaImage';
+import { SpotSize } from '../Spot';
 import { Box } from '../Utility';
-import {
-  DotSymbolAppearance,
-  DotSymbolPin,
-  DotSymbolProps,
-  DotSymbolSize,
-} from './types';
+import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
 
 const shapeRadiusMap: Record<DotSymbolSize, BorderRadiusKey> = {
+  8: 'xs',
+  10: 'xs',
+  12: 'xs',
   16: 'sm',
   20: 'sm',
   24: 'md',
 };
 
 const offsetBySize: Record<DotSymbolSize, number> = {
+  8: -2,
+  10: -2,
+  12: -2,
   16: -3,
   20: -3,
   24: -3,
 };
 
-const dotIconSizeMap: Record<DotSymbolSize, IconSize> = {
-  16: 12,
-  20: 12,
-  24: 16,
-};
-
-export const mediaImageDotSizeMap = {
+export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
+  12: 8,
+  16: 8,
+  20: 8,
+  24: 10,
+  32: 12,
   40: 16,
   48: 20,
   56: 24,
   64: 24,
-} as const satisfies Record<number, DotSymbolSize>;
+};
 
-export const spotDotSizeMap = {
+export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
+  32: 12,
   40: 16,
   48: 20,
   56: 24,
   72: 24,
-} as const satisfies Record<number, DotSymbolSize>;
+};
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
   {
@@ -67,25 +63,14 @@ const getPinOffset = (
   return { [v]: offset, [h]: offset };
 };
 
-const appearanceBgMap: Record<
-  DotSymbolAppearance,
-  'successStrong' | 'mutedStrong' | 'errorStrong'
-> = {
-  success: 'successStrong',
-  muted: 'mutedStrong',
-  error: 'errorStrong',
-};
-
 const useStyles = ({
   size,
   shape,
   pin,
-  appearance,
 }: {
   size: DotSymbolSize;
   shape: 'square' | 'circle';
   pin: DotSymbolPin;
-  appearance?: DotSymbolAppearance;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -95,9 +80,6 @@ const useStyles = ({
           ? t.borderRadius.full
           : t.borderRadius[shapeRadiusMap[size]];
       const pinOffset = getPinOffset(pin, size);
-      const bgColor = appearance
-        ? t.colors.bg[appearanceBgMap[appearance]]
-        : t.colors.bg.muted;
 
       return {
         dot: {
@@ -107,69 +89,24 @@ const useStyles = ({
           height: sizeValue,
           borderRadius: radius,
           borderWidth: 1,
-          backgroundColor: bgColor,
+          backgroundColor: t.colors.bg.muted,
           borderColor: t.colors.border.baseInverted,
           overflow: 'hidden',
-          alignItems: 'center',
-          justifyContent: 'center',
           ...pinOffset,
         },
         image: {
           width: '100%',
           height: '100%',
         },
-        icon: {
-          color: t.colors.text.onInteractive,
-        },
       };
     },
-    [size, shape, pin, appearance],
-  );
-};
-
-const DotContent = ({
-  isIcon,
-  dotProps,
-  error,
-  onImageError,
-  styles,
-}: {
-  isIcon: boolean;
-  dotProps: DotSymbolProps;
-  error: boolean;
-  onImageError: () => void;
-  styles: { image: ImageStyle; icon: StyleProp<TextStyle> };
-}) => {
-  if (isIcon) {
-    const { icon: Icon, size: iconSize = 20 } = dotProps as Extract<
-      DotSymbolProps,
-      { type: 'icon' }
-    >;
-    return <Icon size={dotIconSizeMap[iconSize]} style={styles.icon} />;
-  }
-
-  if (error) return null;
-
-  const { src } = dotProps as Extract<DotSymbolProps, { type?: 'image' }>;
-
-  return (
-    <Image
-      source={{ uri: src }}
-      style={styles.image}
-      accessible={false}
-      onError={onImageError}
-      testID='dot-symbol-img'
-    />
+    [size, shape, pin],
   );
 };
 
 /**
- * A wrapper component that positions a small indicator at a configurable
+ * A wrapper component that positions a small image indicator at a configurable
  * corner of a child element like MediaImage or Spot.
- *
- * Supports two content modes:
- * - **image** (default): renders an image from a URL
- * - **icon**: renders an SVG icon with a semantic background color
  *
  * @example
  * import { DotSymbol } from '@ledgerhq/lumen-ui-rnative';
@@ -177,63 +114,46 @@ const DotContent = ({
  * <DotSymbol src="https://example.com/eth.png" alt="Ethereum" pin="bottom-end">
  *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
  * </DotSymbol>
- *
- * <DotSymbol type="icon" appearance="success" icon={ArrowDown} pin="bottom-end">
- *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
- * </DotSymbol>
  */
-export const DotSymbol = (props: DotSymbolProps) => {
-  const {
-    children,
-    pin = 'bottom-end',
-    size = 20,
-    shape = 'circle',
-    lx = {},
-    style,
-    ref,
-    type: _type,
-    src: _src,
-    alt: _alt,
-    icon: _icon,
-    appearance: _appearance,
-    ...rest
-  } = props;
-
-  const isIcon = props.type === 'icon';
-  const styles = useStyles({
-    size,
-    shape,
-    pin,
-    appearance: isIcon ? props.appearance : undefined,
-  });
+export const DotSymbol = ({
+  children,
+  src,
+  alt,
+  pin = 'bottom-end',
+  size = 20,
+  shape = 'circle',
+  lx = {},
+  style,
+  ref,
+  ...rest
+}: DotSymbolProps) => {
+  const styles = useStyles({ size, shape, pin });
   const [error, setError] = useState(false);
-  const imgSrc = !isIcon ? props.src : undefined;
 
   useEffect(() => {
     setError(false);
-  }, [imgSrc]);
+  }, [src]);
 
   return (
     <Box
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([
-        { position: 'relative', alignSelf: 'flex-start' },
-        style,
-      ])}
-      accessibilityRole={!isIcon ? 'image' : undefined}
-      accessibilityLabel={!isIcon ? props.alt : undefined}
+      style={StyleSheet.flatten([{ position: 'relative' }, style])}
+      accessibilityRole='image'
+      accessibilityLabel={alt}
       {...rest}
     >
       {children}
       <Box style={styles.dot}>
-        <DotContent
-          isIcon={isIcon}
-          dotProps={props}
-          error={error}
-          onImageError={() => setError(true)}
-          styles={{ image: styles.image, icon: styles.icon }}
-        />
+        {!error && (
+          <Image
+            source={{ uri: src }}
+            style={styles.image}
+            accessible={false}
+            onError={() => setError(true)}
+            testID='dot-symbol-img'
+          />
+        )}
       </Box>
     </Box>
   );

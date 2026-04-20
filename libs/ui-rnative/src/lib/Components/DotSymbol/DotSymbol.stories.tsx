@@ -1,14 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import {
-  ArrowDown,
-  ArrowUp,
-  Close,
-  CoinAlert,
-  Link,
-  Star,
-} from '../../Symbols';
+import { CoinAlert } from '../../Symbols';
 import { MediaImage } from '../MediaImage';
-import { Spinner } from '../Spinner';
 import { Spot } from '../Spot';
 import { Box } from '../Utility';
 import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
@@ -103,6 +95,27 @@ export const SizeShowcase: Story = {
       <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's24' }}>
         <DotSymbol
           src={dotSrc}
+          size={mediaImageDotSizeMap[20]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={20} shape='circle' />
+        </DotSymbol>
+        <DotSymbol
+          src={dotSrc}
+          size={mediaImageDotSizeMap[24]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={24} shape='circle' />
+        </DotSymbol>
+        <DotSymbol
+          src={dotSrc}
+          size={mediaImageDotSizeMap[32]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={32} shape='circle' />
+        </DotSymbol>
+        <DotSymbol
+          src={dotSrc}
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
         >
@@ -127,6 +140,30 @@ export const SizeShowcase: Story = {
         <DotSymbol
           shape='square'
           src={dotSrc}
+          size={mediaImageDotSizeMap[20]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={20} shape='circle' />
+        </DotSymbol>
+        <DotSymbol
+          shape='square'
+          src={dotSrc}
+          size={mediaImageDotSizeMap[24]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={24} shape='circle' />
+        </DotSymbol>
+        <DotSymbol
+          shape='square'
+          src={dotSrc}
+          size={mediaImageDotSizeMap[32]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={32} shape='circle' />
+        </DotSymbol>
+        <DotSymbol
+          shape='square'
+          src={dotSrc}
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
         >
@@ -149,98 +186,6 @@ export const SizeShowcase: Story = {
           <MediaImage src={parentSrc} size={56} shape='circle' />
         </DotSymbol>
       </Box>
-    </Box>
-  ),
-};
-
-export const IconVariant: Story = {
-  args: {
-    type: 'icon',
-    appearance: 'success',
-    icon: ArrowDown,
-    pin: 'bottom-end',
-    size: mediaImageDotSizeMap[48],
-    children: (
-      <MediaImage src={parentSrc} alt='Cardano' size={48} shape='circle' />
-    ),
-  },
-};
-
-export const IconAppearanceShowcase: Story = {
-  args: { type: 'icon', appearance: 'success', icon: ArrowDown },
-  render: () => (
-    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
-      <DotSymbol
-        type='icon'
-        appearance='success'
-        icon={ArrowDown}
-        size={mediaImageDotSizeMap[48]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
-      </DotSymbol>
-      <DotSymbol
-        type='icon'
-        appearance='muted'
-        icon={ArrowUp}
-        size={mediaImageDotSizeMap[48]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
-      </DotSymbol>
-      <DotSymbol
-        type='icon'
-        appearance='error'
-        icon={Close}
-        size={mediaImageDotSizeMap[48]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
-      </DotSymbol>
-    </Box>
-  ),
-};
-
-export const IconSizeShowcase: Story = {
-  args: { type: 'icon', appearance: 'muted', icon: Link },
-  render: () => (
-    <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's24' }}>
-      <DotSymbol
-        type='icon'
-        appearance='muted'
-        icon={Link}
-        size={mediaImageDotSizeMap[40]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={40} shape='circle' />
-      </DotSymbol>
-      <DotSymbol
-        type='icon'
-        appearance='success'
-        icon={Star}
-        size={mediaImageDotSizeMap[48]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
-      </DotSymbol>
-      <DotSymbol
-        type='icon'
-        appearance='success'
-        icon={ArrowDown}
-        size={mediaImageDotSizeMap[56]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={56} shape='circle' />
-      </DotSymbol>
-      <DotSymbol
-        type='icon'
-        appearance='muted'
-        icon={Spinner}
-        size={mediaImageDotSizeMap[64]}
-        pin='bottom-end'
-      >
-        <MediaImage src={parentSrc} size={64} shape='circle' />
-      </DotSymbol>
     </Box>
   ),
 };

@@ -1,36 +1,35 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { ArrowDown } from '../../Symbols';
 
-import { DotSymbol } from './DotSymbol';
+import { DotIcon } from './DotIcon';
 
-describe('DotSymbol Component', () => {
-  const dotSrc = 'https://crypto-icons.ledger.com/BTC.png';
-
-  it('should render children and dot image', () => {
+describe('DotIcon Component', () => {
+  it('should render children and an icon', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} alt='Bitcoin'>
+      <DotIcon appearance='success' icon={ArrowDown}>
         <span data-testid='child'>Child</span>
-      </DotSymbol>,
+      </DotIcon>,
     );
 
     expect(screen.getByTestId('child')).toBeInTheDocument();
-
-    const img = container.querySelector('img');
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute('src', dotSrc);
-    expect(img).toHaveAttribute('alt', 'Bitcoin');
+    expect(container.querySelector('svg')).toBeInTheDocument();
+    expect(container.querySelector('img')).not.toBeInTheDocument();
   });
 
   it('should render without children', () => {
-    const { container } = render(<DotSymbol src={dotSrc} />);
+    const { container } = render(
+      <DotIcon appearance='success' icon={ArrowDown} />,
+    );
 
-    const img = container.querySelector('img');
-    expect(img).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it('should apply default props (pin=bottom-end, size=16, shape=circle)', () => {
-    const { container } = render(<DotSymbol src={dotSrc} />);
+  it('should apply default props (pin=bottom-end, size=20, shape=circle)', () => {
+    const { container } = render(
+      <DotIcon appearance='success' icon={ArrowDown} />,
+    );
 
     const dot = container.querySelector('.size-20');
     expect(dot).toBeInTheDocument();
@@ -40,7 +39,12 @@ describe('DotSymbol Component', () => {
 
   it('should apply bottom-end pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin='bottom-end' size={16} />,
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        pin='bottom-end'
+        size={16}
+      />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -49,7 +53,7 @@ describe('DotSymbol Component', () => {
 
   it('should apply top-end pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin='top-end' size={16} />,
+      <DotIcon appearance='success' icon={ArrowDown} pin='top-end' size={16} />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -58,7 +62,12 @@ describe('DotSymbol Component', () => {
 
   it('should apply bottom-start pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin='bottom-start' size={16} />,
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        pin='bottom-start'
+        size={16}
+      />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -67,7 +76,12 @@ describe('DotSymbol Component', () => {
 
   it('should apply top-start pin offset', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} pin='top-start' size={16} />,
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        pin='top-start'
+        size={16}
+      />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -75,15 +89,17 @@ describe('DotSymbol Component', () => {
   });
 
   it.each([
-    { size: 8 as const, offset: '-2px' },
-    { size: 10 as const, offset: '-2px' },
-    { size: 12 as const, offset: '-2px' },
     { size: 16 as const, offset: '-3px' },
     { size: 20 as const, offset: '-3px' },
     { size: 24 as const, offset: '-3px' },
   ])('should apply correct offset for size $size', ({ size, offset }) => {
     const { container } = render(
-      <DotSymbol src={dotSrc} size={size} pin='bottom-end' />,
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        size={size}
+        pin='bottom-end'
+      />,
     );
 
     const dot = container.querySelector(`.size-${size}`);
@@ -93,7 +109,12 @@ describe('DotSymbol Component', () => {
 
   it('should apply square shape class', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} shape='square' size={16} />,
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        shape='square'
+        size={16}
+      />,
     );
 
     const dot = container.querySelector('.size-16');
@@ -103,21 +124,50 @@ describe('DotSymbol Component', () => {
 
   it('should apply circle shape class', () => {
     const { container } = render(
-      <DotSymbol src={dotSrc} shape='circle' size={16} />,
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        shape='circle'
+        size={16}
+      />,
     );
 
     const dot = container.querySelector('.size-16');
     expect(dot).toHaveClass('rounded-full');
   });
 
+  it.each([
+    { appearance: 'success' as const, expectedClass: 'bg-success-strong' },
+    { appearance: 'muted' as const, expectedClass: 'bg-muted-strong' },
+    { appearance: 'error' as const, expectedClass: 'bg-error-strong' },
+  ])(
+    'should apply $expectedClass for $appearance appearance',
+    ({ appearance, expectedClass }) => {
+      const { container } = render(
+        <DotIcon appearance={appearance} icon={ArrowDown} />,
+      );
+
+      const dot = container.querySelector(`.${expectedClass}`);
+      expect(dot).toBeInTheDocument();
+    },
+  );
+
   it('should apply custom className to the wrapper', () => {
-    const { container } = render(<DotSymbol src={dotSrc} className='mt-16' />);
+    const { container } = render(
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        className='mt-16'
+      />,
+    );
 
     expect(container.firstChild).toHaveClass('mt-16');
   });
 
   it('should keep the relative inline-flex layout on the wrapper', () => {
-    const { container } = render(<DotSymbol src={dotSrc} />);
+    const { container } = render(
+      <DotIcon appearance='success' icon={ArrowDown} />,
+    );
 
     expect(container.firstChild).toHaveClass('relative');
     expect(container.firstChild).toHaveClass('inline-flex');
@@ -125,19 +175,26 @@ describe('DotSymbol Component', () => {
 
   it('should forward ref correctly', () => {
     const ref = vi.fn();
-    render(<DotSymbol src={dotSrc} ref={ref} />);
+    render(<DotIcon appearance='success' icon={ArrowDown} ref={ref} />);
 
     expect(ref).toHaveBeenCalled();
   });
 
   it('should pass additional HTML attributes', () => {
-    render(<DotSymbol src={dotSrc} data-testid='dot' id='dot-symbol' />);
+    render(
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        data-testid='dot'
+        id='dot-icon'
+      />,
+    );
 
     const el = screen.getByTestId('dot');
-    expect(el).toHaveAttribute('id', 'dot-symbol');
+    expect(el).toHaveAttribute('id', 'dot-icon');
   });
 
   it('should have correct displayName', () => {
-    expect(DotSymbol.displayName).toBe('DotSymbol');
+    expect(DotIcon.displayName).toBe('DotIcon');
   });
 });

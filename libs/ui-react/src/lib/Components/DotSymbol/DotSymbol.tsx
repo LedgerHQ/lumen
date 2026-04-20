@@ -1,14 +1,18 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useMemo, useState } from 'react';
-import { IconSize } from '../Icon';
+import { MediaImageSize } from '../MediaImage';
+import { SpotSize } from '../Spot';
 import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotVariants = cva(
-  'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted bg-muted',
+  'absolute z-10 box-content overflow-hidden border-base-inverted bg-muted',
   {
     variants: {
       size: {
+        8: 'size-8 border',
+        10: 'size-10 border',
+        12: 'size-12 border',
         16: 'size-16 border',
         20: 'size-20 border',
         24: 'size-24 border',
@@ -23,13 +27,14 @@ const dotVariants = cva(
         'bottom-start': '',
         'bottom-end': '',
       },
-      appearance: {
-        success: 'bg-success-strong',
-        muted: 'bg-muted-strong',
-        error: 'bg-error-strong',
-      },
     },
     compoundVariants: [
+      /**
+       * Rounded radius by size & shape
+       */
+      { size: 8, shape: 'square', className: 'rounded-[2px]' },
+      { size: 10, shape: 'square', className: 'rounded-[3px]' },
+      { size: 12, shape: 'square', className: 'rounded-[4px]' },
       { size: 16, shape: 'square', className: 'rounded-[5px]' },
       { size: 20, shape: 'square', className: 'rounded-[6px]' },
       { size: 24, shape: 'square', className: 'rounded-[8px]' },
@@ -38,31 +43,34 @@ const dotVariants = cva(
   },
 );
 
-const dotIconSizeMap: Record<DotSymbolSize, IconSize> = {
-  16: 12,
-  20: 12,
-  24: 16,
-};
-
 const offsetBySize: Record<DotSymbolSize, number> = {
+  8: -2,
+  10: -2,
+  12: -2,
   16: -3,
   20: -3,
   24: -3,
 };
 
-export const mediaImageDotSizeMap = {
+export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
+  12: 8,
+  16: 8,
+  20: 8,
+  24: 10,
+  32: 12,
   40: 16,
   48: 20,
   56: 24,
   64: 24,
-} as const satisfies Record<number, DotSymbolSize>;
+} as const;
 
-export const spotDotSizeMap = {
+export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
+  32: 12,
   40: 16,
   48: 20,
   56: 24,
   72: 24,
-} as const satisfies Record<number, DotSymbolSize>;
+} as const;
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
   {
@@ -81,52 +89,9 @@ const getPinOffset = (
   return { [v]: offset, [h]: offset };
 };
 
-const DotContent = ({
-  isIcon,
-  dotProps,
-  error,
-  onImageError,
-}: {
-  isIcon: boolean;
-  dotProps: DotSymbolProps;
-  error: boolean;
-  onImageError: () => void;
-}) => {
-  if (isIcon) {
-    const { icon: Icon, size: iconSize = 20 } = dotProps as Extract<
-      DotSymbolProps,
-      { type: 'icon' }
-    >;
-    return (
-      <Icon size={dotIconSizeMap[iconSize]} className='text-on-interactive' />
-    );
-  }
-
-  if (error) return null;
-
-  const { alt, src, imgLoading } = dotProps as Extract<
-    DotSymbolProps,
-    { type?: 'image' }
-  >;
-
-  return (
-    <img
-      alt={alt}
-      src={src}
-      loading={imgLoading ?? 'eager'}
-      aria-hidden='true'
-      onError={onImageError}
-    />
-  );
-};
-
 /**
- * A wrapper component that positions a small indicator at a configurable
+ * A wrapper component that positions a small image indicator at a configurable
  * corner of a child element like MediaImage or Spot.
- *
- * Supports two content modes:
- * - **image** (default): renders an image from a URL
- * - **icon**: renders an SVG icon with a semantic background color
  *
  * @example
  * import { DotSymbol } from '@ledgerhq/lumen-ui-react';
@@ -134,37 +99,25 @@ const DotContent = ({
  * <DotSymbol src="https://example.com/eth.png" alt="Ethereum" pin="bottom-end">
  *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
  * </DotSymbol>
- *
- * <DotSymbol type="icon" appearance="success" icon={ArrowDown} pin="bottom-end">
- *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
- * </DotSymbol>
  */
-export const DotSymbol = (props: DotSymbolProps) => {
-  const {
-    children,
-    pin = 'bottom-end',
-    size = 20,
-    shape = 'circle',
-    className,
-    ref,
-    type: _type,
-    src: _src,
-    alt: _alt,
-    imgLoading: _imgLoading,
-    icon: _icon,
-    appearance: _appearance,
-    ...rest
-  } = props;
-
-  const isIcon = props.type === 'icon';
-
+export const DotSymbol = ({
+  children,
+  src,
+  alt,
+  pin = 'bottom-end',
+  size = 20,
+  shape = 'circle',
+  imgLoading = 'eager',
+  className,
+  ref,
+  ...rest
+}: DotSymbolProps) => {
   const style = useMemo(() => getPinOffset(pin, size), [pin, size]);
   const [error, setError] = useState(false);
-  const imgSrc = !isIcon ? props.src : undefined;
 
   useEffect(() => {
     setError(false);
-  }, [imgSrc]);
+  }, [src]);
 
   return (
     <div
@@ -173,23 +126,16 @@ export const DotSymbol = (props: DotSymbolProps) => {
       {...rest}
     >
       <div className='inline-flex'>{children}</div>
-      <div
-        className={cn(
-          dotVariants({
-            size,
-            shape,
-            pin,
-            appearance: isIcon ? props.appearance : undefined,
-          }),
+      <div className={dotVariants({ size, shape, pin })} style={style}>
+        {!error && (
+          <img
+            alt={alt}
+            src={src}
+            loading={imgLoading}
+            aria-hidden='true'
+            onError={() => setError(true)}
+          />
         )}
-        style={style}
-      >
-        <DotContent
-          isIcon={isIcon}
-          dotProps={props}
-          error={error}
-          onImageError={() => setError(true)}
-        />
       </div>
     </div>
   );
