@@ -61,11 +61,7 @@ describe('DotIcon Component', () => {
     it('should pass additional props', () => {
       const { getByTestId } = render(
         <TestWrapper>
-          <DotIcon
-            testID='custom-dot'
-            appearance='success'
-            icon={ArrowDown}
-          />
+          <DotIcon testID='custom-dot' appearance='success' icon={ArrowDown} />
         </TestWrapper>,
       );
 
@@ -81,11 +77,7 @@ describe('DotIcon Component', () => {
     ])('should render with $appearance appearance', ({ appearance }) => {
       const { getByTestId } = render(
         <TestWrapper>
-          <DotIcon
-            testID='dot-icon'
-            appearance={appearance}
-            icon={ArrowDown}
-          />
+          <DotIcon testID='dot-icon' appearance={appearance} icon={ArrowDown} />
         </TestWrapper>,
       );
 
