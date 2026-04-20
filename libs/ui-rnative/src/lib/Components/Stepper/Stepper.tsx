@@ -15,7 +15,7 @@ import { useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Box } from '../Utility/Box';
 import { Text } from '../Utility/Text';
-import { StepperProps } from './types';
+import type { StepperProps } from './types';
 
 const SIZE = 48;
 const STROKE_WIDTH = 4;

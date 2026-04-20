@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { MediaImageSize } from '../MediaImage';
-import { SpotSize } from '../Spot';
+import type { MediaImageSize } from '../MediaImage';
+import type { SpotSize } from '../Spot';
 import { Box } from '../Utility';
-import { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
+import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
 

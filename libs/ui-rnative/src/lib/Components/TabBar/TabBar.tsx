@@ -1,19 +1,14 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
+import type { ReactNode } from 'react';
 import {
   Children,
   isValidElement,
-  ReactNode,
   useCallback,
   useEffect,
   useRef,
 } from 'react';
-import {
-  LayoutChangeEvent,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import type { LayoutChangeEvent } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -27,7 +22,7 @@ import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Placeholder } from '../../Symbols';
 import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
-import { TabBarItemProps, TabBarProps } from './types';
+import type { TabBarItemProps, TabBarProps } from './types';
 
 export const TAB_BAR_HEIGHT = 60;
 const PILL_INSET = 4;

@@ -1,9 +1,9 @@
-import {
+import type {
   LedgerLiveDarkTheme,
   LedgerLiveLightTheme,
   TypographyTokens,
 } from '@ledgerhq/lumen-design-core';
-import { AddEntriesNegative } from './utility.types';
+import type { AddEntriesNegative } from './utility.types';
 
 /**
  * Typography tokens without responsive display (not applicable for React Native)

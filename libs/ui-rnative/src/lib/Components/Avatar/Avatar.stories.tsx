@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View, Text, Pressable, Linking } from 'react-native';
 
 import { Box } from '../Utility';

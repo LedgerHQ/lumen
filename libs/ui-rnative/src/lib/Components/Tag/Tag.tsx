@@ -1,9 +1,9 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, Text } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { IconSize } from '../Icon';
+import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
-import { TagProps } from './types';
+import type { TagProps } from './types';
 
 type Appearance = NonNullable<TagProps['appearance']>;
 type Size = NonNullable<TagProps['size']>;

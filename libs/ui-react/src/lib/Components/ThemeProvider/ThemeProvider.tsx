@@ -1,11 +1,13 @@
-import {
+import type {
   LedgerLiveDarkTheme,
   LedgerLiveLightTheme,
 } from '@ledgerhq/lumen-design-core';
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import { I18nProvider } from '../../../i18n';
-import { COLOR_SCHEMES, ThemeProviderProps } from './ThemeProvider.types';
+import type { ThemeProviderProps } from './ThemeProvider.types';
+import { COLOR_SCHEMES } from './ThemeProvider.types';
 import {
   useResolvedColorScheme,
   useRootColorModeSideEffect,

@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { PressableProps } from 'react-native';
+import type { ReactNode } from 'react';
+import type { PressableProps } from 'react-native';
 
 export type TooltipProps = {
   /**

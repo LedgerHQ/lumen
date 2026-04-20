@@ -3,8 +3,10 @@ import {
   DisabledProvider,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
-import { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
-import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
+import type { ReactNode, Ref } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import type { LayoutChangeEvent, ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,7 +17,7 @@ import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { ChevronDown, ChevronUp } from '../../Symbols';
 import { Box, Text, Pressable } from '../Utility';
 
-import {
+import type {
   CardContentAlignContextValue,
   CardContentDescriptionProps,
   CardContentProps,

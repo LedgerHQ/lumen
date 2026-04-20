@@ -1,11 +1,5 @@
-import {
-  ReactNode,
-  FC,
-  Children,
-  ReactElement,
-  isValidElement,
-  useState,
-} from 'react';
+import type { ReactNode, FC, ReactElement } from 'react';
+import { Children, isValidElement, useState } from 'react';
 import {
   SegmentedControl,
   SegmentedControlButton,

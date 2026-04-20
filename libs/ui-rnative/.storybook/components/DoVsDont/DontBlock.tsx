@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { Box, Text } from '../../../src/lib/Components/Utility';
 
 type DontBlockItemProps = {

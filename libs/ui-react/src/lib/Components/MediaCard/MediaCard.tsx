@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { Close } from '../../Symbols/Icons/Close';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { MediaCardProps, MediaCardTitleProps } from './types';
+import type { MediaCardProps, MediaCardTitleProps } from './types';
 
 const mediaCardVariants = {
   root: cva(

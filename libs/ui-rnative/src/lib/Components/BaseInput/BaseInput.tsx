@@ -18,7 +18,8 @@ import Animated, {
   cancelAnimation,
 } from 'react-native-reanimated';
 import { useCommonTranslation } from '../../../i18n';
-import { LumenStyleSheetTheme, useStyleSheet, useTheme } from '../../../styles';
+import type { LumenStyleSheetTheme } from '../../../styles';
+import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
 import { RuntimeConstants } from '../../utils';

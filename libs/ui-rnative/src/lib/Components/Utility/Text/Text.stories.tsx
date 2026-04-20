@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Text } from './Text';
-import { TextProps } from './types';
+import type { TextProps } from './types';
 
 const meta: Meta<TextProps> = {
   component: Text,

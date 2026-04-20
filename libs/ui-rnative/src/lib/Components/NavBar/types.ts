@@ -1,7 +1,7 @@
-import { Density } from '@ledgerhq/lumen-utils-shared';
-import { ReactElement, ReactNode } from 'react';
-import { StyledViewProps } from '../../../styles';
-import { IconButtonProps } from '../IconButton';
+import type { Density } from '@ledgerhq/lumen-utils-shared';
+import type { ReactElement, ReactNode } from 'react';
+import type { StyledViewProps } from '../../../styles';
+import type { IconButtonProps } from '../IconButton';
 
 export type NavBarProps = {
   /**

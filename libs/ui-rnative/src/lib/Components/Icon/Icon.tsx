@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { Svg } from 'react-native-svg';
 import { useResolveTextStyle, useTheme } from '../../../styles';
-import { TextProps } from '../Utility';
-import { IconProps, IconSize } from './types';
+import type { TextProps } from '../Utility';
+import type { IconProps, IconSize } from './types';
 
 const iconSizeMap = {
   12: 's12',

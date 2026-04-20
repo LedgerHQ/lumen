@@ -3,18 +3,12 @@ import {
   useDisabledContext,
   useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
-import {
-  useRef,
-  useId,
-  useState,
-  useCallback,
-  ChangeEvent,
-  PointerEvent,
-} from 'react';
+import type { ChangeEvent, PointerEvent } from 'react';
+import { useRef, useId, useState, useCallback } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { DeleteCircleFill } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { BaseInputProps } from './types';
+import type { BaseInputProps } from './types';
 
 const baseContainerStyles = cn(
   'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',

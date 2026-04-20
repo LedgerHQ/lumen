@@ -2,7 +2,7 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { Search as SearchIcon } from '../../Symbols';
 import { BaseInput } from '../BaseInput';
-import { SearchInputProps } from './types';
+import type { SearchInputProps } from './types';
 
 const containerVariants = cva('', {
   variants: {

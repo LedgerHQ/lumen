@@ -1,5 +1,5 @@
 import { Box, Switch, Text } from '@ledgerhq/lumen-ui-rnative';
-import { ColorSchemeName } from 'react-native';
+import type { ColorSchemeName } from 'react-native';
 
 export const ToggleThemeSwitch = ({
   colorScheme,

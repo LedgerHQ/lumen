@@ -1,5 +1,5 @@
-import { LedgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { PropsWithChildren } from 'react';
+import type { LedgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import type { PropsWithChildren } from 'react';
 import { type SupportedLocale } from '../../../i18n';
 
 export const COLOR_SCHEMES = {

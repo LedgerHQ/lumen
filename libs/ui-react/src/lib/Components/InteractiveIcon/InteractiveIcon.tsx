@@ -1,6 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { InteractiveIconProps } from './types';
+import type { InteractiveIconProps } from './types';
 
 const buttonVariants = cva(
   [

@@ -7,7 +7,7 @@ import { ArrowLeft, Close } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
 import { useBottomSheetContext } from './BottomSheet';
-import { BottomSheetHeaderProps } from './types';
+import type { BottomSheetHeaderProps } from './types';
 
 type DensityValue = NonNullable<BottomSheetHeaderProps['density']>;
 

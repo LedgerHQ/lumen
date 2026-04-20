@@ -3,7 +3,7 @@ import { useStyleSheet } from '../../../styles';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable, Text } from '../Utility';
-import {
+import type {
   SubheaderCountProps,
   SubheaderDescriptionProps,
   SubheaderInfoProps,

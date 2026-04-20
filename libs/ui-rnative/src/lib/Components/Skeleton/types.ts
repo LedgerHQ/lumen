@@ -1,4 +1,4 @@
-import { StyledViewProps } from '../../../styles';
+import type { StyledViewProps } from '../../../styles';
 
 export type SkeletonProps = {
   /**

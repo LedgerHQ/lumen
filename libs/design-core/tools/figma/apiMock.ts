@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import { URL } from 'node:url';
 import path from 'path';
-import { GetLocalVariablesResponse } from '@figma/rest-api-spec';
+import type { GetLocalVariablesResponse } from '@figma/rest-api-spec';
 const __dirname = new URL('.', import.meta.url).pathname;
 
 async function getMocksFromFileSystem(

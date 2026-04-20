@@ -5,7 +5,7 @@ import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { LinearGradient, Pressable, Text } from '../Utility';
-import { MediaCardProps, MediaCardTitleProps } from './types';
+import type { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
 

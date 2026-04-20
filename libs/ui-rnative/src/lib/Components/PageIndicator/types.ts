@@ -1,4 +1,4 @@
-import { BoxProps } from '../Utility';
+import type { BoxProps } from '../Utility';
 
 export type PageIndicatorProps = {
   /**

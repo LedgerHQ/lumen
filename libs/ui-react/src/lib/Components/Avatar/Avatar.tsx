@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
-import { AvatarProps } from './types';
+import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(

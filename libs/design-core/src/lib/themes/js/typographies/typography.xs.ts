@@ -1,5 +1,5 @@
 import { primitiveTypographyTokens } from '../primitives/primitive.typographies';
-import { TypographyTokens } from '../types';
+import type { TypographyTokens } from '../types';
 
 export const typographyXsTokens = {
   responsive: {

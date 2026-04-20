@@ -1,21 +1,17 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import type { SupportedLocale } from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheetModalProvider,
   Box,
   GlobalSelectBottomSheet,
   GlobalTooltipBottomSheet,
-  SupportedLocale,
   ThemeProvider,
   useBottomSheetRef,
 } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { useState } from 'react';
-import {
-  ColorSchemeName,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+import type { ColorSchemeName } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   AmountDisplays,

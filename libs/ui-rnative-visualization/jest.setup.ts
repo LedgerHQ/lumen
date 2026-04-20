@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { type ReactNode } from 'react';
 
 jest.mock('react-native-svg', () => {

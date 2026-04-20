@@ -1,5 +1,5 @@
 import { Box } from '../Utility';
-import { DividerProps } from './types';
+import type { DividerProps } from './types';
 
 /**
  * A simple divider component for separating content sections.

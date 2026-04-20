@@ -1,9 +1,10 @@
 import Svg, { Path } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
-import { LumenTextStyle, useResolveTextStyle, useTheme } from '../../../styles';
+import type { LumenTextStyle } from '../../../styles';
+import { useResolveTextStyle, useTheme } from '../../../styles';
 import { Spin } from '../../Animations/Spin';
 import { Box } from '../Utility';
-import { SpinnerProps } from './types';
+import type { SpinnerProps } from './types';
 
 /**
  * A basic spinner component for loading states.

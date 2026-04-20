@@ -1,4 +1,4 @@
-import { StyledViewProps } from '../../../styles';
+import type { StyledViewProps } from '../../../styles';
 
 export type MediaImageSize = 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56;
 

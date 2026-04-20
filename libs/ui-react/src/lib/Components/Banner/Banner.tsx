@@ -9,7 +9,7 @@ import {
   Close,
 } from '../../Symbols';
 import { IconButton } from '../IconButton';
-import { BannerProps } from './types';
+import type { BannerProps } from './types';
 
 const iconMap = {
   info: <InformationFill className='text-base' />,

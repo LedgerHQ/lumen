@@ -14,10 +14,10 @@ import Animated, {
 import { useStyleSheet } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 
-import { SlottablePressableProps, SlottableViewProps } from '../../types';
+import type { SlottablePressableProps, SlottableViewProps } from '../../types';
 import { SlotPressable, SlotView } from '../Slot';
 
-import { SwitchProps } from './types';
+import type { SwitchProps } from './types';
 
 const ROOT_COMPONENT_NAME = 'BaseSwitch';
 const THUMB_COMPONENT_NAME = 'BaseSwitchThumb';
