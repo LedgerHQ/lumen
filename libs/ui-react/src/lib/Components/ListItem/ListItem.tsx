@@ -201,7 +201,7 @@ export const ListItemTitle = ({
     <div
       ref={ref}
       className={cn(
-        'min-w-0 flex-1 truncate body-2-semi-bold',
+        'min-w-0 truncate body-2-semi-bold',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
@@ -236,7 +236,7 @@ export const ListItemDescription = ({
     <div
       ref={ref}
       className={cn(
-        'min-w-0 flex-1 items-center truncate body-3 text-muted',
+        'min-w-0 items-center truncate body-3 text-muted',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,

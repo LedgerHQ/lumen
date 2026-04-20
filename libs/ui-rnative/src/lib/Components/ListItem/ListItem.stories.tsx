@@ -56,15 +56,22 @@ type Story = StoryObj<typeof ListItem>;
 
 export const Base: Story = {
   args: {
+    density: 'expanded',
     lx: { maxWidth: 's320' },
   },
   render: (args) => (
     <ListItem {...args}>
       <ListItemLeading>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot
+          appearance='icon'
+          icon={Settings}
+          size={args.density === 'compact' ? 32 : 48}
+        />
         <ListItemContent>
           <ListItemTitle>Item with Icon and Description</ListItemTitle>
-          <ListItemDescription>Additional information</ListItemDescription>
+          {args.density === 'expanded' && (
+            <ListItemDescription>Additional information</ListItemDescription>
+          )}
         </ListItemContent>
       </ListItemLeading>
     </ListItem>
@@ -75,10 +82,12 @@ export const Base: Story = {
         code: `
 <ListItem>
   <ListItemLeading>
-    <Spot appearance="icon" icon={Settings} />
+    <Spot appearance="icon" icon={Settings} size={density === 'compact' ? 32 : 48} />
     <ListItemContent>
       <ListItemTitle>Item with Icon and Description</ListItemTitle>
-      <ListItemDescription>Additional information</ListItemDescription>
+      {density === 'expanded' && (
+        <ListItemDescription>Additional information</ListItemDescription>
+      )}
     </ListItemContent>
   </ListItemLeading>
 </ListItem>
