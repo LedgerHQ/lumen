@@ -9,6 +9,7 @@ export function DotIndicator({
   lx,
   style,
   children,
+  accessibilityLabel,
 }: DotIndicatorProps) {
   const disabled = useDisabledContext({
     consumerName: 'DotIndicator',
@@ -23,7 +24,12 @@ export function DotIndicator({
 
   return (
     <Box>
-      <Box lx={lx} style={[styles.container, style]} />
+      <Box
+        lx={lx}
+        style={[styles.container, style]}
+        accessibilityRole='image'
+        accessibilityLabel={accessibilityLabel}
+      />
       {children}
     </Box>
   );
