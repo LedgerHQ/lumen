@@ -18,8 +18,8 @@ export const ColorSwatch = ({
           <>
             <div
               className={cn(
-                className,
                 'h-64 rounded-lg border border-muted p-16',
+                className,
               )}
             >
               <div className={cn('heading-5', textClassName)}>Aa</div>

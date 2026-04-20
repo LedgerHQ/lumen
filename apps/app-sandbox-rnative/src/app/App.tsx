@@ -21,42 +21,44 @@ import {
   AmountDisplays,
   AmountInputs,
   Animations,
+  Avatars,
+  Banners,
   BottomSheetDynamicSize,
   BottomSheetFlatLists,
   BottomSheetsButton,
   Buttons,
-  Checkboxes,
+  CardButtons,
   Cards,
+  Checkboxes,
+  ContentBanners,
   Dividers,
   DotSymbols,
   MediaImages,
+  ExampleTabBar,
+  Gradients,
   IconButtons,
+  InteractiveIcons,
+  OptionLists,
   Links,
+  ListItems,
+  MediaBanners,
+  MediaButtons,
+  MediaCards,
   NavBars,
+  PageIndicators,
   SegmentedControls,
   Selects,
   Skeletons,
   Spots,
   Steppers,
+  Subheaders,
   Switches,
   Tags,
   TextInputs,
   Tiles,
   ToggleLocaleSwitch,
   ToggleThemeSwitch,
-  InteractiveIcons,
-  Banners,
-  CardButtons,
-  ContentBanners,
-  MediaCards,
   Tooltips,
-  ListItems,
-  Gradients,
-  ExampleTabBar,
-  Subheaders,
-  Avatars,
-  PageIndicators,
-  MediaBanners,
   DotCounts,
   DotIndicators,
 } from './blocks';
@@ -202,11 +204,17 @@ const AppContent = ({
                 <SandboxBlock title='MediaBanners'>
                   <MediaBanners />
                 </SandboxBlock>
+                <SandboxBlock title='MediaButtons'>
+                  <MediaButtons />
+                </SandboxBlock>
                 <SandboxBlock title='MediaCards'>
                   <MediaCards />
                 </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />
+                </SandboxBlock>
+                <SandboxBlock title='OptionLists'>
+                  <OptionLists />
                 </SandboxBlock>
                 <SandboxBlock title='PageIndicators'>
                   <PageIndicators />

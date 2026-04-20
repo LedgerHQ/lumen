@@ -56,7 +56,7 @@ export const Tag = ({
 
   return (
     <div
-      className={cn(className, tagVariants({ appearance, size, disabled }))}
+      className={cn(tagVariants({ appearance, size, disabled }), className)}
       ref={ref}
       {...props}
     >

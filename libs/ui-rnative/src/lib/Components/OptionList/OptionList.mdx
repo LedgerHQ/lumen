@@ -1,0 +1,304 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as OptionListStories from './OptionList.stories';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+
+<Meta title='Selection/OptionList' of={OptionListStories} />
+
+# OptionList
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+OptionList is a data-driven, composable selection list designed to be embedded inside a `BottomSheet`, a new screen, or any container. Unlike `Select`, it does not manage its own trigger or modal — consumers compose it within their own layout.
+
+It handles **selection state**, **automatic grouping** (via a `group` field on items), and exposes a `renderItem` callback for full control over item rendering.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=15941-6709&m=dev).
+
+## Anatomy
+
+<Canvas of={OptionListStories.Base} />
+
+- **OptionList**: Root component managing selection state and item processing
+- **OptionListTrigger**: Input-style trigger with floating label and chevron — displays the selected value and opens a BottomSheet on press
+- **OptionListContent**: Iterates items, renders group labels and separators automatically, calls `renderItem`
+- **OptionListItem**: Pressable item with selection check mark
+- **OptionListItemLeading**: Slot for leading visuals (icons, avatars)
+- **OptionListItemContent**: Flex column for title + description
+- **OptionListItemContentRow**: Horizontal row for placing elements side-by-side (e.g. title + tag)
+- **OptionListItemText**: Styled title text
+- **OptionListItemDescription**: Styled description text
+
+## Properties
+
+### Grouped items
+
+Items with a `group` field are automatically grouped with labels and separators:
+
+<Canvas of={OptionListStories.WithGroups} />
+
+### Complex item layout
+
+Use `OptionListItemContentRow` to place a `Tag` next to the title:
+
+<Canvas of={OptionListStories.WithContentRow} />
+
+### Disabled items
+
+Individual items can be disabled:
+
+<Canvas of={OptionListStories.WithDisabledItems} />
+
+### Groups + complex layout
+
+Combining grouping with rich item content:
+
+<Canvas of={OptionListStories.GroupedWithContentRow} />
+
+### Trigger showcase
+
+OptionList can be opened from any trigger. `MediaButton` supports multiple appearances (`gray`, `transparent`, `no-background`), optional icons (`flat` / `rounded`), and disabled state:
+
+<Canvas of={OptionListStories.TriggerShowcase} />
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic usage
+
+```tsx
+import {
+  OptionList,
+  OptionListContent,
+  OptionListItem,
+  OptionListItemContent,
+  OptionListItemText,
+} from '@ledgerhq/lumen-ui-rnative';
+
+const items = [
+  { value: 'a', label: 'Option A' },
+  { value: 'b', label: 'Option B' },
+];
+
+function MyList() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <OptionList items={items} value={value} onValueChange={setValue}>
+      <OptionListContent
+        renderItem={(item) => (
+          <OptionListItem value={item.value}>
+            <OptionListItemContent>
+              <OptionListItemText>{item.label}</OptionListItemText>
+            </OptionListItemContent>
+          </OptionListItem>
+        )}
+      />
+    </OptionList>
+  );
+}
+```
+
+## Inside a BottomSheet
+
+Use `OptionListTrigger` as the input-style trigger — it provides a floating label that animates up when a value is selected, and a chevron indicator. Pass children only when a value is selected so the label stays centered when empty.
+
+```tsx
+import {
+  OptionList, OptionListContent, OptionListItem,
+  OptionListItemContent, OptionListItemText, OptionListTrigger,
+  BottomSheet, BottomSheetHeader, BottomSheetView,
+  useBottomSheetRef, Text,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function CurrencyPicker() {
+  const [value, setValue] = useState<string | null>(null);
+  const ref = useBottomSheetRef();
+  const selected = items.find((i) => i.value === value);
+
+  return (
+    <>
+      <OptionListTrigger
+        label='Currency'
+        onPress={() => ref.current?.present()}
+      >
+        {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+      </OptionListTrigger>
+      <BottomSheet
+        ref={ref}
+        enableDynamicSizing
+        snapPoints={null}
+        onClose={() => ref.current?.dismiss()}
+      >
+        <BottomSheetView>
+          <BottomSheetHeader title='Pick a currency' />
+          <OptionList
+            items={items}
+            value={value}
+            onValueChange={(v) => { setValue(v); ref.current?.dismiss(); }}
+          >
+            <OptionListContent
+              renderItem={(item) => (
+                <OptionListItem value={item.value}>
+                  <OptionListItemContent>
+                    <OptionListItemText>{item.label}</OptionListItemText>
+                  </OptionListItemContent>
+                </OptionListItem>
+              )}
+            />
+          </OptionList>
+        </BottomSheetView>
+      </BottomSheet>
+    </>
+  );
+}
+```
+
+## Grouping
+
+Add a `group` field to items — labels and separators are rendered automatically:
+
+```tsx
+const items = [
+  { value: 'btc', label: 'Bitcoin', group: 'Crypto' },
+  { value: 'eth', label: 'Ethereum', group: 'Crypto' },
+  { value: 'usd', label: 'US Dollar', group: 'Fiat' },
+];
+```
+
+## Controlled vs uncontrolled
+
+Use `value` + `onValueChange` (controlled) when OptionList is inside a BottomSheet — the sheet unmounts children on dismiss, so internal state is lost. Use `defaultValue` (uncontrolled) only when the component stays mounted (e.g. inline in a screen).
+
+## Custom item layout with meta
+
+Use `meta` for arbitrary data, and sub-components for layout:
+
+```tsx
+const items = [
+  { value: 'eth', label: 'Ethereum', meta: { ticker: 'ETH', tag: 'ERC-20' } },
+];
+
+<OptionListContent
+  renderItem={(item) => {
+    const meta = item.meta as { ticker: string; tag: string };
+    return (
+      <OptionListItem value={item.value}>
+        <OptionListItemLeading>
+          <Spot appearance='icon' icon={Wallet} />
+        </OptionListItemLeading>
+        <OptionListItemContent>
+          <OptionListItemContentRow>
+            <OptionListItemText>{item.label}</OptionListItemText>
+            <Tag label={meta.tag} appearance='gray' size='sm' />
+          </OptionListItemContentRow>
+          <OptionListItemDescription>{meta.ticker}</OptionListItemDescription>
+        </OptionListItemContent>
+      </OptionListItem>
+    );
+  }}
+/>
+```
+
+## Do's and Don'ts
+
+<div className='flex flex-col gap-24'>
+
+<DoVsDontRow>
+<DoBlockItem
+title='Pass items as a flat array'
+description='Use the group field for grouping — the component handles labels and separators automatically.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<OptionList
+  items={[
+    { value: 'a', label: 'A', group: 'Group 1' },
+    { value: 'b', label: 'B', group: 'Group 2' },
+  ]}
+  value={value}
+  onValueChange={setValue}
+>
+  <OptionListContent renderItem={...} />
+</OptionList>
+```
+
+</DoBlockItem>
+<DontBlockItem
+title="Don't manually render group labels or separators"
+description='OptionListContent handles group rendering internally based on item data.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<OptionList
+  items={items}
+  value={value}
+  onValueChange={setValue}
+>
+  <Text>Group 1</Text>
+  <OptionListContent renderItem={...} />
+  <Divider />
+  <Text>Group 2</Text>
+  <OptionListContent renderItem={...} />
+</OptionList>
+```
+
+</DontBlockItem>
+</DoVsDontRow>
+
+<DoVsDontRow>
+<DoBlockItem
+title='Compose OptionList inside your own container'
+description='OptionList is display-only — wrap it in a BottomSheet, screen, or any layout.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<BottomSheet ref={ref}>
+  <BottomSheetView>
+    <OptionList items={items} value={value} onValueChange={setValue}>
+      <OptionListContent renderItem={...} />
+    </OptionList>
+  </BottomSheetView>
+</BottomSheet>
+```
+
+</DoBlockItem>
+<DontBlockItem
+title="Don't expect OptionList to manage the BottomSheet"
+description='Use OptionListTrigger to open the sheet yourself — OptionList only handles selection state, not the container.'
+>
+
+{/* prettier-ignore */}
+```tsx
+<OptionList
+  items={items}
+  value={value}
+  onValueChange={setValue}
+  trigger={<Button>Open</Button>}
+>
+  <OptionListContent renderItem={...} />
+</OptionList>
+```
+
+</DontBlockItem>
+</DoVsDontRow>
+
+</div>
+
+</Tab>
+</CustomTabs>

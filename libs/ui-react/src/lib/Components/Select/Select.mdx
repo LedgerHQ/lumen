@@ -117,7 +117,7 @@ The `render` function receives two props:
 
 ### Trigger Variants
 
-`SelectTriggerButton` is a built-in preset that renders a compact button-style trigger. It shows a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `TriggerButton` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
+Use `MediaButton` directly for a compact button-style trigger. Show a label when nothing is selected, and the selected item's text once a value is picked. It supports icons, crypto icons, all `MediaButton` appearances, and you can also build a fully custom trigger from scratch using the `render` function directly.
 
 <Canvas of={SelectStories.TriggerShowcase} />
 
@@ -533,20 +533,20 @@ const [value, setValue] = useState<string | null>(null);
 
 The `SelectTrigger` component accepts an optional `render` prop that replaces the default input-style trigger. The function receives `{ selectedValue, selectedContent }` and must return a single root element.
 
-#### Using `SelectTriggerButton`
+#### Using `MediaButton`
 
-`SelectTriggerButton` is a ready-made preset for button-style triggers. It accepts all `TriggerButton` props (`appearance`, `size`, `icon`, `iconType`) plus a required `label`.
+Use `MediaButton` directly as a button-style trigger. It accepts props like `appearance`, `size`, `icon`, and `iconType`.
 
 ```tsx
 import {
   Select,
-  SelectTriggerButton,
   SelectContent,
   SelectItem,
   SelectItemText,
   SelectList,
   SelectTrigger,
 } from '@ledgerhq/lumen-ui-react';
+import { MediaButton } from '@ledgerhq/lumen-ui-react';
 
 const accountOptions = [
   { value: 'all', label: 'All accounts' },
@@ -559,13 +559,10 @@ function MyComponent() {
   return (
     <Select items={accountOptions} value={value} onValueChange={setValue}>
       <SelectTrigger
-        render={(renderProps) => (
-          <SelectTriggerButton
-            {...renderProps}
-            label='All accounts'
-            icon={<Settings size={20} />}
-            iconType='flat'
-          />
+        render={({ selectedValue, selectedContent }) => (
+          <MediaButton icon={<Settings size={20} />} iconType='flat'>
+            {selectedValue ? selectedContent : 'All accounts'}
+          </MediaButton>
         )}
       />
       <SelectContent>
@@ -740,11 +737,10 @@ const categoryOptions = [
 {/* prettier-ignore */}
 ```tsx
 <SelectTrigger
-  render={(renderProps) => (
-    <SelectTriggerButton
-      {...renderProps}
-      label='All accounts'
-    />
+  render={({ selectedValue, selectedContent }) => (
+    <MediaButton>
+      {selectedValue ? selectedContent : 'All accounts'}
+    </MediaButton>
   )}
 />
 ```
@@ -760,11 +756,10 @@ const categoryOptions = [
 <SelectTrigger
   label='Category'
   className='bg-accent'
-  render={(renderProps) => (
-    <SelectTriggerButton
-      {...renderProps}
-      label='All accounts'
-    />
+  render={({ selectedValue, selectedContent }) => (
+    <MediaButton>
+      {selectedValue ? selectedContent : 'All accounts'}
+    </MediaButton>
   )}
 />
 ```

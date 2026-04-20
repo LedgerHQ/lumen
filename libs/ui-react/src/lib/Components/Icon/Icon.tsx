@@ -38,7 +38,7 @@ export const Icon = ({
       'aria-hidden': 'true',
       xmlns,
       viewBox,
-      className: cn(className, iconVariants({ size }), 'inline-block'),
+      className: cn(iconVariants({ size }), 'inline-block', className),
       ...props,
     },
     children,

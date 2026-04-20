@@ -76,7 +76,7 @@ export const Switch = ({
   return (
     <SwitchPrimitive.Root
       ref={ref}
-      className={cn(className, switchVariants({ size }))}
+      className={cn(switchVariants({ size }), className)}
       checked={selected}
       defaultChecked={defaultSelected}
       onCheckedChange={onChange}

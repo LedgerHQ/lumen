@@ -6,7 +6,6 @@ import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check } from '../../Symbols';
 import { Divider } from '../Divider';
 import { SearchInput } from '../SearchInput';
-import { TriggerButton } from '../TriggerButton';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
   SelectItemGroup,
@@ -22,7 +21,6 @@ import type {
   SelectItemDescriptionProps,
   SelectSeparatorProps,
   SelectEmptyStateProps,
-  SelectTriggerButtonProps,
 } from './types';
 import { useSelectItems } from './useSelectItems';
 
@@ -426,17 +424,6 @@ const SelectEmptyState = ({
   </Combobox.Empty>
 );
 
-const SelectTriggerButton = ({
-  selectedValue,
-  selectedContent,
-  label,
-  ...props
-}: SelectTriggerButtonProps) => (
-  <TriggerButton {...props}>
-    {selectedValue ? selectedContent : label}
-  </TriggerButton>
-);
-
 export {
   Select,
   SelectTrigger,
@@ -449,5 +436,4 @@ export {
   SelectItem,
   SelectSeparator,
   SelectEmptyState,
-  SelectTriggerButton,
 };
