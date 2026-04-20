@@ -52,7 +52,7 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
     },
   );
 
-  const { isGrouped, groups, flatItems } = useOptionListItems({ items });
+  const { isGrouped, groups, flatItems } = useOptionListItems<TMeta>({ items });
 
   return (
     <DisabledProvider value={{ disabled }}>
