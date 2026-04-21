@@ -30,6 +30,7 @@ export function DotIndicator({
         style={styles.container}
         accessibilityRole='image'
         accessibilityLabel={accessibilityLabel}
+        pointerEvents='none'
       />
       {children}
     </Box>

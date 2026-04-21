@@ -5,7 +5,7 @@ import { DotCountProps } from './types';
 
 export function DotCount({
   value,
-  size,
+  size = 'md',
   max = 99,
   appearance = 'base',
   disabled: disabledProp = false,
@@ -31,7 +31,7 @@ export function DotCount({
 
   return (
     <Box ref={ref} lx={lx} style={style} {...props}>
-      <Box style={styles.container}>
+      <Box style={styles.container} pointerEvents='none'>
         {value > 0 && (
           <Text style={styles.text} allowFontScaling={false}>
             {value <= cappedMax ? value : `${cappedMax}+`}
@@ -49,7 +49,7 @@ const useStyles = ({
   disabled = false,
   pinned,
 }: {
-  size: DotCountProps['size'];
+  size: NonNullable<DotCountProps['size']>;
   appearance: DotCountProps['appearance'];
   disabled: boolean;
   pinned: boolean;
