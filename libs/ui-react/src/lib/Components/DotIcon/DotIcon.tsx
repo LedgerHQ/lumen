@@ -65,9 +65,11 @@ const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
   'bottom-end': ['bottom', 'right'],
 };
 
+const DOT_OFFSET = -3;
+
 const getPinOffset = (pin: DotIconPin): Record<string, number> => {
   const [v, h] = pinAxisMap[pin];
-  return { [v]: -3, [h]: -3 };
+  return { [v]: DOT_OFFSET, [h]: DOT_OFFSET };
 };
 
 /**
