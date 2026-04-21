@@ -44,6 +44,7 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: { value: 5 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotCount value={5} size='md' />
@@ -53,6 +54,7 @@ export const SizeShowcase: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: { value: 3 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotCount value={3} size='md' appearance='base' />
@@ -63,6 +65,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const OverflowShowcase: Story = {
+  args: { value: 100 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotCount value={100} size='md' />
