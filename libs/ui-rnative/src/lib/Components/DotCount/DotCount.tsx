@@ -12,6 +12,8 @@ export function DotCount({
   lx,
   style,
   children,
+  ref,
+  ...props
 }: DotCountProps) {
   const disabled = useDisabledContext({
     consumerName: 'DotCount',
@@ -25,11 +27,11 @@ export function DotCount({
     pinned: !!children,
   });
 
-  const cappedMax = Math.min(max > 0 ? max : 99, 99);
+  const cappedMax = Math.max(1, Math.min(max, 99));
 
   return (
-    <Box>
-      <Box lx={lx} style={[styles.container, style]}>
+    <Box ref={ref} lx={lx} style={style} {...props}>
+      <Box style={styles.container}>
         {value > 0 && (
           <Text style={styles.text} allowFontScaling={false}>
             {value <= cappedMax ? value : `${cappedMax}+`}
