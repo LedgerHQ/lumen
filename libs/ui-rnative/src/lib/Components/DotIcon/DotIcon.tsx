@@ -145,9 +145,11 @@ export const DotIcon = ({
       style={StyleSheet.flatten([{ position: 'relative' }, style])}
       {...rest}
     >
-      {children}
-      <Box style={styles.dot}>
-        <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+        {children}
+        <Box style={styles.dot}>
+          <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+        </Box>
       </Box>
     </Box>
   );

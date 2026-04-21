@@ -143,17 +143,19 @@ export const DotSymbol = ({
       accessibilityLabel={alt}
       {...rest}
     >
-      {children}
-      <Box style={styles.dot}>
-        {!error && (
-          <Image
-            source={{ uri: src }}
-            style={styles.image}
-            accessible={false}
-            onError={() => setError(true)}
-            testID='dot-symbol-img'
-          />
-        )}
+      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+        {children}
+        <Box style={styles.dot}>
+          {!error && (
+            <Image
+              source={{ uri: src }}
+              style={styles.image}
+              accessible={false}
+              onError={() => setError(true)}
+              testID='dot-symbol-img'
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   );

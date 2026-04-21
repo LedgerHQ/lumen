@@ -3,13 +3,9 @@ import {
   DotIcon,
   mediaImageDotIconSizeMap,
   MediaImage,
+  Spinner,
 } from '@ledgerhq/lumen-ui-rnative';
-import {
-  ArrowDown,
-  ArrowUp,
-  Close,
-  Link,
-} from '@ledgerhq/lumen-ui-rnative/symbols';
+import { ArrowDown, ArrowUp, Link } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 export const DotIcons = () => {
   return (
@@ -42,10 +38,23 @@ export const DotIcons = () => {
           shape='circle'
         />
       </DotIcon>
+      <DotIcon
+        appearance='muted'
+        icon={ArrowUp}
+        size={mediaImageDotIconSizeMap[48]}
+        pin='bottom-end'
+      >
+        <MediaImage
+          src='https://crypto-icons.ledger.com/ETH.png'
+          alt='Ethereum'
+          size={48}
+          shape='circle'
+        />
+      </DotIcon>
 
       <DotIcon
         appearance='error'
-        icon={Close}
+        icon={Spinner}
         size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
       >
