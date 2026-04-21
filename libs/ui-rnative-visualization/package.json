@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-rnative-visualization",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "Apache-2.0",
   "sideEffects": false,
   "keywords": [
@@ -35,7 +35,7 @@
   },
   "peerDependencies": {
     "@types/react": "^19.0.0",
-    "@ledgerhq/lumen-design-core": "0.1.10",
+    "@ledgerhq/lumen-design-core": "0.1.11",
     "react": "^19.0.0",
     "react-native": "~0.79.7",
     "react-native-svg": "^15.0.0"
