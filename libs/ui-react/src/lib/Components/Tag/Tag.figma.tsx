@@ -13,6 +13,7 @@ figma.connect(
         base: 'base',
         gray: 'gray',
         accent: 'accent',
+        'accent-subtle': 'accent-subtle',
         success: 'success',
         error: 'error',
         warning: 'warning',
