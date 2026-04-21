@@ -38,19 +38,6 @@ export const DotIcons = () => {
           shape='circle'
         />
       </DotIcon>
-      <DotIcon
-        appearance='muted'
-        icon={ArrowUp}
-        size={mediaImageDotIconSizeMap[48]}
-        pin='bottom-end'
-      >
-        <MediaImage
-          src='https://crypto-icons.ledger.com/ETH.png'
-          alt='Ethereum'
-          size={48}
-          shape='circle'
-        />
-      </DotIcon>
 
       <DotIcon
         appearance='error'

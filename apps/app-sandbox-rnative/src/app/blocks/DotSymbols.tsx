@@ -4,6 +4,7 @@ import {
   mediaImageDotSizeMap,
   MediaImage,
   Spot,
+  spotDotIconSizeMap,
 } from '@ledgerhq/lumen-ui-rnative';
 import { ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
@@ -43,7 +44,7 @@ export const DotSymbols = () => {
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         pin='top-end'
-        size={mediaImageDotSizeMap[48]}
+        size={spotDotIconSizeMap[48]}
       >
         <Spot appearance='icon' icon={ExternalLink} size={48} />
       </DotSymbol>

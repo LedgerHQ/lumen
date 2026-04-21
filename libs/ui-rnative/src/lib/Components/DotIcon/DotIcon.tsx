@@ -17,12 +17,6 @@ const shapeRadiusMap: Record<DotIconSize, BorderRadiusKey> = {
   24: 'md',
 };
 
-const offsetBySize: Record<DotIconSize, number> = {
-  16: -3,
-  20: -3,
-  24: -3,
-};
-
 const dotIconSizeMap: Record<DotIconSize, IconSize> = {
   16: 12,
   20: 12,
@@ -50,13 +44,9 @@ const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
   'bottom-end': ['bottom', 'right'],
 };
 
-const getPinOffset = (
-  pin: DotIconPin,
-  size: DotIconSize,
-): Record<string, number> => {
+const getPinOffset = (pin: DotIconPin): Record<string, number> => {
   const [v, h] = pinAxisMap[pin];
-  const offset = offsetBySize[size];
-  return { [v]: offset, [h]: offset };
+  return { [v]: -3, [h]: -3 };
 };
 
 const appearanceBgMap: Record<
@@ -86,7 +76,7 @@ const useStyles = ({
         shape === 'circle'
           ? t.borderRadius.full
           : t.borderRadius[shapeRadiusMap[size]];
-      const pinOffset = getPinOffset(pin, size);
+      const pinOffset = getPinOffset(pin);
 
       return {
         dot: {
