@@ -139,7 +139,7 @@ export const DotIcon = ({
     >
       <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
         {children}
-        <Box style={styles.dot}>
+        <Box testID='dot-icon-dot' style={styles.dot}>
           <Icon size={dotIconSizeMap[size]} style={styles.icon} />
         </Box>
       </Box>

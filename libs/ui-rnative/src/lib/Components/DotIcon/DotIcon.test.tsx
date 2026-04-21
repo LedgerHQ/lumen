@@ -2,7 +2,8 @@ import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render } from '@testing-library/react-native';
 import { createRef } from 'react';
-import { Text, View } from 'react-native';
+import type { View } from 'react-native';
+import { Text } from 'react-native';
 import { ArrowDown } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { DotIcon } from './DotIcon';
@@ -14,9 +15,6 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
     {children}
   </ThemeProvider>
 );
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getDotView = (root: any) => root.props.children.props.children[1];
 
 describe('DotIcon Component', () => {
   describe('Rendering', () => {
@@ -68,7 +66,7 @@ describe('DotIcon Component', () => {
           </TestWrapper>,
         );
 
-        const dotView = getDotView(getByTestId('dot-icon'));
+        const dotView = getByTestId('dot-icon-dot');
         expect(dotView.props.style.backgroundColor).toBe(expectedColor);
       },
     );
@@ -93,7 +91,7 @@ describe('DotIcon Component', () => {
           </TestWrapper>,
         );
 
-        const dotView = getDotView(getByTestId('dot-icon'));
+        const dotView = getByTestId('dot-icon-dot');
         expect(dotView.props.style.width).toBe(expectedSize);
         expect(dotView.props.style.height).toBe(expectedSize);
       },
@@ -134,7 +132,7 @@ describe('DotIcon Component', () => {
         </TestWrapper>,
       );
 
-      const dotView = getDotView(getByTestId('dot-icon'));
+      const dotView = getByTestId('dot-icon-dot');
       expect(dotView.props.style[verticalKey]).toBe(-3);
       expect(dotView.props.style[horizontalKey]).toBe(-3);
     });
@@ -153,7 +151,7 @@ describe('DotIcon Component', () => {
         </TestWrapper>,
       );
 
-      const dotView = getDotView(getByTestId('dot-icon'));
+      const dotView = getByTestId('dot-icon-dot');
       expect(dotView.props.style.borderRadius).toBe(borderRadius.full);
     });
 
@@ -176,7 +174,7 @@ describe('DotIcon Component', () => {
           </TestWrapper>,
         );
 
-        const dotView = getDotView(getByTestId('dot-icon'));
+        const dotView = getByTestId('dot-icon-dot');
         expect(dotView.props.style.borderRadius).toBe(expectedRadius);
       },
     );
