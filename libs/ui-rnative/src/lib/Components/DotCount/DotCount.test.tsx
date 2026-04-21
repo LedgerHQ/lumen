@@ -137,4 +137,14 @@ describe('DotCount', () => {
 
     expect(getByText('5')).toBeTruthy();
   });
+
+  it('should default size to md when omitted', () => {
+    const { getByText } = render(
+      <TestWrapper>
+        <DotCount value={5} />
+      </TestWrapper>,
+    );
+
+    expect(getByText('5')).toBeTruthy();
+  });
 });

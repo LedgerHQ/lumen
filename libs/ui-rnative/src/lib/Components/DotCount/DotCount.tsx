@@ -45,12 +45,12 @@ export function DotCount({
 
 const useStyles = ({
   size,
-  appearance = 'base',
-  disabled = false,
+  appearance,
+  disabled,
   pinned,
 }: {
   size: NonNullable<DotCountProps['size']>;
-  appearance: DotCountProps['appearance'];
+  appearance: NonNullable<DotCountProps['appearance']>;
   disabled: boolean;
   pinned: boolean;
 }) => {

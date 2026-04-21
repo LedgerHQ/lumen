@@ -38,11 +38,11 @@ export function DotIndicator({
 }
 
 const useStyles = ({
-  appearance = 'base',
-  disabled = false,
+  appearance,
+  disabled,
   pinned,
 }: {
-  appearance: DotIndicatorProps['appearance'];
+  appearance: NonNullable<DotIndicatorProps['appearance']>;
   disabled: boolean;
   pinned: boolean;
 }) => {
