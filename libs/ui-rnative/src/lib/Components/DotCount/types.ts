@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { StyledViewProps } from '../../../styles';
+import type { ReactNode } from 'react';
+import type { StyledViewProps } from '../../../styles';
 
 export type DotCountProps = {
   /**

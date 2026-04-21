@@ -1,7 +1,7 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Box } from '../Utility';
-import { DotIndicatorProps } from './types';
+import type { DotIndicatorProps } from './types';
 
 export function DotIndicator({
   appearance = 'base',

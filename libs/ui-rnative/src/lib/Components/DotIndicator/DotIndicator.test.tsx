@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render } from '@testing-library/react-native';
 import { createRef } from 'react';
-import { Text, View } from 'react-native';
+import { Text, type View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { DotIndicator } from './DotIndicator';
 

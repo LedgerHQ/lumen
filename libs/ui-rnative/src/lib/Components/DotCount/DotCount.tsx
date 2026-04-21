@@ -1,7 +1,7 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
-import { DotCountProps } from './types';
+import type { DotCountProps } from './types';
 
 export function DotCount({
   value,
