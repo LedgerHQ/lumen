@@ -1,6 +1,24 @@
 import type { MetaShape, SelectItemData, SelectItemGroup } from '../types';
 
 /**
+ * base-ui's Combobox calls onValueChange with either a string (click on
+ * Combobox.Item) or a full SelectItemData object (keyboard selection, which
+ * resolves from the `items` array). This normalizes both to a plain string.
+ */
+export const resolveValue = (v: unknown): string | null => {
+  if (typeof v === 'string') return v;
+  if (
+    typeof v === 'object' &&
+    v !== null &&
+    'value' in v &&
+    typeof (v as Record<string, unknown>).value === 'string'
+  ) {
+    return (v as Record<string, unknown>).value as string;
+  }
+  return null;
+};
+
+/**
  * Groups a flat list of items by their `group` field, preserving
  * the insertion order of the first occurrence of each group key.
  * Items without a `group` value are collected under an empty-string key.

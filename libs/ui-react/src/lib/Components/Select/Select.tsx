@@ -24,14 +24,7 @@ import type {
   SelectEmptyStateProps,
 } from './types';
 import { useSelectItems } from './useSelectItems';
-
-/**
- * base-ui's Combobox calls onValueChange with either a string (click on
- * Combobox.Item) or a full SelectItemData object (keyboard selection, which
- * resolves from the `items` array). This normalizes both to a plain string.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resolveValue = (v: any): string | null => v?.value ?? v ?? null;
+import { resolveValue } from './utils';
 
 function Select<TMeta extends MetaShape = MetaShape>({
   value,

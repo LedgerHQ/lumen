@@ -22,7 +22,7 @@ export type SelectItemData<TMeta extends MetaShape = MetaShape> = {
    */
   group?: string;
   /**
-   * Arbitrary data attached to this item.
+   * Optional bag of arbitrary data attached to this item.
    * Use it to carry extra fields (icons, tickers, IDs, etc.)
    * that your render function or custom filter needs.
    */
