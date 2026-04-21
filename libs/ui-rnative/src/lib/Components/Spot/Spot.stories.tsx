@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Settings, Plus, Heart, Star } from '../../Symbols';
-import { IconProps } from '../Icon';
+import type { IconProps } from '../Icon';
 import { Box, Text } from '../Utility';
 import { Spot } from './Spot';
-import { SpotProps } from './types';
+import type { SpotProps } from './types';
 
 const meta: Meta<typeof Spot> = {
   component: Spot,

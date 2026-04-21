@@ -1,9 +1,9 @@
 import { Linking, StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ExternalLink } from '../../Symbols';
-import { IconSize } from '../Icon';
+import type { IconSize } from '../Icon';
 import { Pressable } from '../Utility';
-import { LinkProps } from './types';
+import type { LinkProps } from './types';
 
 const iconSizeMap: Record<Size, IconSize> = {
   sm: 16,

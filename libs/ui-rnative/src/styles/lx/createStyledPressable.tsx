@@ -7,7 +7,7 @@ import type {
 } from 'react-native';
 import { useHapticFeedbackWithPressIn } from '../../lib/Haptics';
 import type { HapticFeedback } from '../../lib/Haptics/types';
-import { StyledPressableProps, PressableStyleItem } from '../types';
+import type { StyledPressableProps, PressableStyleItem } from '../types';
 import { areLxPropsEqual } from './areLxPropsEqual';
 import { useResolveViewStyle } from './resolveStyle';
 

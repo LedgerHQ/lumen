@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { FormattedValue, SplitChar } from './types';
+import type { FormattedValue, SplitChar } from './types';
 
 export const useSplitText = (
   value: FormattedValue,

@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
-import { MediaImageProps } from './types';
+import type { MediaImageProps } from './types';
 
 const mediaImageVariants = {
   root: cva(

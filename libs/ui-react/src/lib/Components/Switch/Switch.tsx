@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cva } from 'class-variance-authority';
-import { SwitchProps } from './types';
+import type { SwitchProps } from './types';
 
 const switchVariants = cva(
   cn(

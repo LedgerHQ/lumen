@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { SearchInput } from './SearchInput';
-import { SearchInputProps } from './types';
+import type { SearchInputProps } from './types';
 
 const meta: Meta<typeof SearchInput> = {
   component: SearchInput,

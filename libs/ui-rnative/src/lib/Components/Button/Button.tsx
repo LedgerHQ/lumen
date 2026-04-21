@@ -1,5 +1,5 @@
 import { BaseButton } from './BaseButton';
-import { ButtonProps } from './types';
+import type { ButtonProps } from './types';
 
 /**
  * A customizable button component that supports various appearances, sizes, full-width mode, loading states, and optional icons.

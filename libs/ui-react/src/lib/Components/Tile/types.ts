@@ -6,7 +6,7 @@ import type {
   ReactNode,
   Ref,
 } from 'react';
-import { IconProps } from '../Icon';
+import type { IconProps } from '../Icon';
 
 export type TileContextValue = {
   disabled: boolean;

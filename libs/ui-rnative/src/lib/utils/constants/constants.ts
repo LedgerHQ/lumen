@@ -1,10 +1,8 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { Dimensions, Platform } from 'react-native';
 
-import {
-  EdgeInsets,
-  initialWindowMetrics,
-} from 'react-native-safe-area-context';
+import type { EdgeInsets } from 'react-native-safe-area-context';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 const edgeInsets =
   initialWindowMetrics?.insets ??

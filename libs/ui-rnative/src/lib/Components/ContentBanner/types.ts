@@ -1,4 +1,4 @@
-import { StyledTextProps, StyledViewProps } from '../../../styles';
+import type { StyledTextProps, StyledViewProps } from '../../../styles';
 
 /**
  * Props for the ContentBanner root component

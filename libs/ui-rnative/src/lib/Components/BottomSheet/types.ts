@@ -1,4 +1,4 @@
-import {
+import type {
   BottomSheetModal as GorhomBottomSheetModal,
   BottomSheetView as GorhomBottomSheetView,
   BottomSheetFlatList as GorhomBottomSheetFlatList,
@@ -7,9 +7,9 @@ import {
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
 
-import { Density } from '@ledgerhq/lumen-utils-shared';
-import { PropsWithChildren, ReactNode, Ref } from 'react';
-import { StyledViewProps } from '../../../styles';
+import type { Density } from '@ledgerhq/lumen-utils-shared';
+import type { PropsWithChildren, ReactNode, Ref } from 'react';
+import type { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.

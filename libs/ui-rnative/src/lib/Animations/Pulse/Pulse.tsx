@@ -7,9 +7,9 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { TimingTokens } from '../types';
+import type { TimingTokens } from '../types';
 import { useTimingConfig } from '../useTimingConfig';
-import { PulseProps } from './types';
+import type { PulseProps } from './types';
 
 const MIN_OPACITY = 0.35;
 

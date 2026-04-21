@@ -1,10 +1,10 @@
-import {
+import type {
   TextStyle,
-  type StyleProp,
-  type TextInputProps,
-  type ViewStyle,
+  ViewStyle,
+  StyleProp,
+  TextInputProps,
 } from 'react-native';
-import { BoxProps } from '../Utility';
+import type { BoxProps } from '../Utility';
 
 export type BaseInputProps = {
   /**

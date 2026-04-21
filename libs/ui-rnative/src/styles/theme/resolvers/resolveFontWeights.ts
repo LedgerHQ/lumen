@@ -1,5 +1,5 @@
 import { RuntimeConstants } from '../../../lib/utils';
-import { LumenTypographyTokens } from '../../types';
+import type { LumenTypographyTokens } from '../../types';
 
 export const FONT_WEIGHT_SUFFIX_MAP = {
   '100': 'Thin',

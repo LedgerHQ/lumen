@@ -1,4 +1,4 @@
-import { PrimitiveColorTokens } from '../types';
+import type { PrimitiveColorTokens } from '../types';
 
 export const primitiveColorTokens = {
   light: {

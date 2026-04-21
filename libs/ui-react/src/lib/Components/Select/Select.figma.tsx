@@ -7,7 +7,7 @@ import {
   SelectList,
   SelectTrigger,
 } from './Select';
-import { SelectItemData } from './types';
+import type { SelectItemData } from './types';
 
 const figmaSelectItems = [
   { value: 'option1', label: 'Option 1' },

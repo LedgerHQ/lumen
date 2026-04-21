@@ -118,12 +118,14 @@ jobs:
 
       - name: Fix lcov paths to be relative to workspace root
         run: |
-          for lib in ui-react utils-shared design-core; do
+          for lib in ui-react ui-react-visualization utils-shared design-core; do
             lcov="libs/$lib/test-output/vitest/coverage/lcov.info"
             [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
           done
-          lcov="libs/ui-rnative/test-output/jest/coverage/lcov.info"
-          [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/ui-rnative/|" "$lcov" || true
+          for lib in ui-rnative ui-rnative-visualization; do
+            lcov="libs/$lib/test-output/jest/coverage/lcov.info"
+            [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
+          done
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
@@ -132,6 +134,8 @@ jobs:
           path: |
             libs/ui-react/test-output/vitest/coverage/lcov.info
             libs/ui-rnative/test-output/jest/coverage/lcov.info
+            libs/ui-react-visualization/test-output/vitest/coverage/lcov.info
+            libs/ui-rnative-visualization/test-output/jest/coverage/lcov.info
             libs/utils-shared/test-output/vitest/coverage/lcov.info
             libs/design-core/test-output/vitest/coverage/lcov.info
           if-no-files-found: warn

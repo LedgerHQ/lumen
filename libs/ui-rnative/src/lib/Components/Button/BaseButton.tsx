@@ -1,11 +1,11 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { IconSize } from '../Icon';
+import type { IconSize } from '../Icon';
 import { Spinner } from '../Spinner';
 import { Pressable } from '../Utility';
-import { BaseButtonProps } from './types';
+import type { BaseButtonProps } from './types';
 
 type Appearance = NonNullable<BaseButtonProps['appearance']>;
 type Size = NonNullable<BaseButtonProps['size']>;

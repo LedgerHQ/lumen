@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check } from '../../Symbols/Icons/Check';
-import { CheckboxProps } from './types';
+import type { CheckboxProps } from './types';
 
 const checkboxStyles = cn(
   'size-20 shrink-0 cursor-pointer rounded-xs transition-colors',

@@ -1,4 +1,4 @@
-import { PrimitiveGradientTokens } from '../types';
+import type { PrimitiveGradientTokens } from '../types';
 import { extractCryptoGradients } from '../utils/extractCryptoGradients';
 
 export const primitiveGradientTokens = {

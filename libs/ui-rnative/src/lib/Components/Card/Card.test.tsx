@@ -16,7 +16,7 @@ import {
   CardFooter,
   CardFooterActions,
 } from './Card';
-import { CardProps } from './types';
+import type { CardProps } from './types';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>

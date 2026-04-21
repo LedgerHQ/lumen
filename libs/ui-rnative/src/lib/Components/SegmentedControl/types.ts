@@ -1,7 +1,7 @@
-import { ComponentType, ReactNode } from 'react';
-import { LumenTextStyle, StyledPressableProps } from '../../../styles';
-import { IconSize } from '../Icon';
-import { BoxProps } from '../Utility';
+import type { ComponentType, ReactNode } from 'react';
+import type { LumenTextStyle, StyledPressableProps } from '../../../styles';
+import type { IconSize } from '../Icon';
+import type { BoxProps } from '../Utility';
 
 export type SegmentedControlProps = {
   /**

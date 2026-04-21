@@ -1,3 +1,4 @@
+import type { BottomSheetProps } from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheet,
   BottomSheetHeader,
@@ -7,7 +8,6 @@ import {
   BottomSheetScrollView,
   BottomSheetView,
   Text,
-  BottomSheetProps,
 } from '@ledgerhq/lumen-ui-rnative';
 
 export const BottomSheetsButton = ({ onPress }: any) => {

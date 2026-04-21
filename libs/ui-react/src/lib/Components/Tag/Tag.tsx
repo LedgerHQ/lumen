@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { IconSize } from '../Icon/types';
-import { TagProps } from './types';
+import type { IconSize } from '../Icon/types';
+import type { TagProps } from './types';
 
 const tagVariants = cva(
   'inline-flex items-center justify-center gap-4 truncate rounded-xs',

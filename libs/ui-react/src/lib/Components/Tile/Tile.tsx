@@ -6,7 +6,7 @@ import {
 import { cva } from 'class-variance-authority';
 import { useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
-import {
+import type {
   TileContentProps,
   TileDescriptionProps,
   TileProps,

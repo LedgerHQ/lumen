@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { ChevronRight } from '../../Symbols';
-import { CardButtonProps } from './types';
+import type { CardButtonProps } from './types';
 
 const buttonVariants = cva(
   'group inline-flex h-fit w-full cursor-pointer items-center gap-12 rounded-sm p-12 transition-colors focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-default disabled:text-disabled',

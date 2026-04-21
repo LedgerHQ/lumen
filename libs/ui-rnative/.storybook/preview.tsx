@@ -72,6 +72,7 @@ const preview: Preview = {
           'Navigation',
           'Utility',
           'Animations',
+          'Visualization',
         ],
       },
     },

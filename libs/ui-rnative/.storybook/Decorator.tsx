@@ -3,14 +3,12 @@ import {
   ledgerLiveThemes,
   websitesThemes,
 } from '@ledgerhq/lumen-design-core';
-import {
-  DocsContainer,
-  DocsContainerProps,
-} from '@storybook/addon-docs/blocks';
+import type { DocsContainerProps } from '@storybook/addon-docs/blocks';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 import type { Decorator } from '@storybook/react-native-web-vite';
-import { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
-import { ColorSchemeName } from 'react-native';
+import type { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider, ThemeProvider } from '../src/lib/Components';
 

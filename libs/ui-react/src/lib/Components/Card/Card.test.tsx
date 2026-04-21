@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardFooterActions,
 } from './Card';
-import { CardProps } from './types';
+import type { CardProps } from './types';
 
 const renderCard = (props: Partial<CardProps> = {}) =>
   render(

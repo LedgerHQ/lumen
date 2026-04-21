@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { createElement } from 'react';
-import { IconProps } from './types';
+import type { IconProps } from './types';
 
 const iconVariants = cva('inline-block shrink-0', {
   variants: {

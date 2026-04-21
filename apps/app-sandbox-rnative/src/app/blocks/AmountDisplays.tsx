@@ -1,8 +1,5 @@
-import {
-  AmountDisplay,
-  IconButton,
-  FormattedValue,
-} from '@ledgerhq/lumen-ui-rnative';
+import type { FormattedValue } from '@ledgerhq/lumen-ui-rnative';
+import { AmountDisplay, IconButton } from '@ledgerhq/lumen-ui-rnative';
 import { useStyleSheet, useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useEffect, useState } from 'react';

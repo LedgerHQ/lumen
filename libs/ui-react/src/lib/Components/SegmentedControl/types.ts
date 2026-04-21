@@ -1,6 +1,5 @@
-import { ComponentType, ReactNode } from 'react';
-import type { ComponentPropsWithoutRef } from 'react';
-import { IconSize } from '../Icon/types';
+import type { ComponentType, ReactNode, ComponentPropsWithoutRef } from 'react';
+import type { IconSize } from '../Icon/types';
 
 export type SegmentedControlProps = {
   /**

@@ -5,7 +5,7 @@ import { useStyleSheet, useTheme } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, LinearGradient, Pressable, Text } from '../Utility';
-import {
+import type {
   MediaBannerDescriptionProps,
   MediaBannerProps,
   MediaBannerTitleProps,

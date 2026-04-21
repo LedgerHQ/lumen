@@ -1,5 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { LayoutChangeEvent } from 'react-native';
+import type { LayoutChangeEvent } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
 import type { LumenTextStyle, LumenTypographyTokenName } from '../../../styles';

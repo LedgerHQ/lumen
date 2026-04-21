@@ -1,6 +1,7 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { useState, useRef, useMemo, ReactNode } from 'react';
-import { SelectData } from './types';
+import type { ReactNode } from 'react';
+import { useState, useRef, useMemo } from 'react';
+import type { SelectData } from './types';
 
 type GlobalSelectBottomSheetContextValue = {
   currentSelect: SelectData | null;

@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { TimingTokens } from '../types';
+import type { ReactNode } from 'react';
+import type { TimingTokens } from '../types';
 
 export type PulseProps = {
   /**

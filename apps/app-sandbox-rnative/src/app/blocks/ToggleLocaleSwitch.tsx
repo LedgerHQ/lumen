@@ -1,4 +1,5 @@
-import { Box, Switch, SupportedLocale, Text } from '@ledgerhq/lumen-ui-rnative';
+import type { SupportedLocale } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Switch, Text } from '@ledgerhq/lumen-ui-rnative';
 
 export const ToggleLocaleSwitch = ({
   locale,

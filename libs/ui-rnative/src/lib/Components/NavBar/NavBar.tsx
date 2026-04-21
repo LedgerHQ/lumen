@@ -1,5 +1,7 @@
-import { createSafeContext, Density } from '@ledgerhq/lumen-utils-shared';
-import { Children, isValidElement, ReactNode } from 'react';
+import type { Density } from '@ledgerhq/lumen-utils-shared';
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import type { ReactNode } from 'react';
+import { Children, isValidElement } from 'react';
 import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -7,7 +9,7 @@ import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
 import { CoinCapsule } from './CoinCapsule';
-import {
+import type {
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
   NavBarContentProps,

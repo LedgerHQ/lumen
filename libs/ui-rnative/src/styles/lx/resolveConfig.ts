@@ -1,4 +1,4 @@
-import { LumenTextStyle, LumenViewStyle } from '../types';
+import type { LumenTextStyle, LumenViewStyle } from '../types';
 
 /**
  * Configuration for each style prop

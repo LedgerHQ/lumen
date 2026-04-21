@@ -13,7 +13,7 @@ import {
   ListItemDescription,
   ListItemTrailing,
 } from './ListItem';
-import { ListItemProps } from './types';
+import type { ListItemProps } from './types';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
