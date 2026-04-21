@@ -213,20 +213,6 @@ const contentStyles = cva(
   },
 );
 
-/**
- * Renders a visually-hidden Combobox.Input so the popup receives keyboard
- * navigation (Arrow/Enter) even when no SelectSearch is present.
- * Unmounts itself once SelectSearch mounts to avoid duplicate inputs.
- */
-const SelectFallbackInput = () => {
-  const { searchMounted } = useSelectContext({
-    consumerName: 'SelectFallbackInput',
-    contextRequired: true,
-  });
-  if (searchMounted) return null;
-  return <Combobox.Input aria-hidden tabIndex={-1} className='sr-only' />;
-};
-
 const SelectContent = ({
   ref,
   className,
@@ -234,7 +220,7 @@ const SelectContent = ({
   side = 'bottom',
   sideOffset = 8,
   align = 'start',
-  autoFocusSearch = false,
+  initialFocus = true,
   ...props
 }: SelectContentProps) => (
   <Combobox.Portal data-slot='select-portal'>
@@ -248,11 +234,10 @@ const SelectContent = ({
       <Combobox.Popup
         ref={ref}
         data-slot='select-content'
-        initialFocus={autoFocusSearch ? undefined : false}
+        initialFocus={initialFocus}
         className={cn(contentStyles({ side }), className)}
         {...props}
       >
-        <SelectFallbackInput />
         {children}
       </Combobox.Popup>
     </Combobox.Positioner>
@@ -275,7 +260,7 @@ const SelectList = <TMeta extends MetaShape = MetaShape>({
       ref={ref}
       data-slot='select-list'
       className={cn(
-        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8 group-data-empty/select-content:p-0',
+        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8 group-data-empty/select-content:p-0 focus:ring-0 focus:outline-hidden',
         className,
       )}
       {...props}

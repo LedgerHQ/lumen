@@ -1,4 +1,9 @@
-import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ReactElement,
+  ReactNode,
+  RefObject,
+} from 'react';
 import type { SearchInputProps } from '../SearchInput/types';
 
 export type MetaShape = Record<string, unknown>;
@@ -190,10 +195,15 @@ export type SelectContentProps = {
    */
   className?: string;
   /**
-   * When true, the search input receives focus automatically when the dropdown opens.
-   * @default false
+   * Determines the element to focus when the popover is opened.
+   *
+   * - `false`: Do not move focus.
+   * - `true`: Move focus based on the default behavior (first tabbable element of the select content).
+   * - `RefObject`: Move focus to the ref element.
+   *
+   * @default true
    */
-  autoFocusSearch?: boolean;
+  initialFocus?: boolean | RefObject<HTMLElement | null>;
 } & ComponentPropsWithRef<'div'>;
 
 export type SelectListProps<TMeta extends MetaShape = MetaShape> = {
