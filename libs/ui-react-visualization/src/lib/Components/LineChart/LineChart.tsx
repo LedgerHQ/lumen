@@ -65,14 +65,8 @@ export function LineChart({
       inset={inset}
       axisPadding={axisPadding}
     >
-      {showXAxis && xAxisVisualProps.showGrid && (
-        <XAxis {...xAxisVisualProps} showLine={false} showTickMark={false} />
-      )}
-      {showYAxis && yAxisVisualProps.showGrid && (
-        <YAxis {...yAxisVisualProps} showLine={false} showTickMark={false} />
-      )}
-      {showXAxis && <XAxis {...xAxisVisualProps} showGrid={false} />}
-      {showYAxis && <YAxis {...yAxisVisualProps} showGrid={false} />}
+      {showXAxis && <XAxis {...xAxisVisualProps} />}
+      {showYAxis && <YAxis {...yAxisVisualProps} />}
       {series?.map((s) => (
         <Line
           key={s.id}
