@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
+import type { LumenStyleSheetTheme } from '../../../styles';
 import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
 import type {
@@ -9,7 +10,7 @@ import type {
   DotIconSize,
 } from './types';
 
-type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
+type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
 
 const shapeRadiusMap: Record<DotIconSize, BorderRadiusKey> = {
   16: 'sm',
