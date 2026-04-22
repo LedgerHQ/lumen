@@ -40,6 +40,12 @@
   ],
   "references": [
     {
+      "path": "../utils-shared/tsconfig.lib.json"
+    },
+    {
+      "path": "../ui-react/tsconfig.lib.json"
+    },
+    {
       "path": "../design-core/tsconfig.lib.json"
     }
   ]
