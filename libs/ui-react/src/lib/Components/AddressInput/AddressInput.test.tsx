@@ -184,11 +184,12 @@ describe('AddressInput', () => {
     expect(handleClear).toHaveBeenCalled();
   });
 
-  it('displays error message when provided', () => {
+  it('displays helper text when provided with error status', () => {
     render(
       <AddressInput
         placeholder='Enter address or ENS'
-        errorMessage='Invalid address format'
+        helperText='Invalid address format'
+        status='error'
         aria-invalid={true}
       />,
     );

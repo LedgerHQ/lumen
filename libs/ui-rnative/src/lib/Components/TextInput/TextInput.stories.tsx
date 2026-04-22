@@ -70,7 +70,32 @@ export const WithError: Story = {
   render: (args) => <TextInputStory {...args} initialValue='ab' />,
   args: {
     label: 'Username',
-    errorMessage: 'Username must be at least 3 characters',
+    helperText: 'Username must be at least 3 characters',
+    status: 'error',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithSuccess: Story = {
+  render: (args) =>
+    <TextInputStory {...args} initialValue='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27' />,
+  args: {
+    label: 'Address',
+    helperText: 'Address verified',
+    status: 'success',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithNeutralHint: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Address',
+    helperText: 'Enter your ETH address',
     editable: true,
     hideClearButton: false,
     keyboardType: 'default',

@@ -82,11 +82,12 @@ describe('SearchInput', () => {
     expect(handleClear).toHaveBeenCalled();
   });
 
-  it('displays error message when provided', () => {
+  it('displays helper text when provided with error status', () => {
     render(
       <SearchInput
         placeholder='Search'
-        errorMessage='Search failed'
+        helperText='Search failed'
+        status='error'
         aria-invalid={true}
       />,
     );

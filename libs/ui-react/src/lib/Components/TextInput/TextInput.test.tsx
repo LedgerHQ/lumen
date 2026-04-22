@@ -77,13 +77,14 @@ describe('Input Component', () => {
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
   });
 
-  it('should set aria-describedby and show error message', () => {
-    const errorMessage = 'This field is required';
+  it('should set aria-describedby and show helper text for error status', () => {
+    const helperText = 'This field is required';
     render(
       <TextInput
         label='Email'
         id='test-input'
-        errorMessage={errorMessage}
+        helperText={helperText}
+        status='error'
         {...createControlledProps()}
       />,
     );
@@ -91,34 +92,67 @@ describe('Input Component', () => {
     const inputElement = screen.getByRole('textbox');
     expect(inputElement).toHaveAttribute(
       'aria-describedby',
-      'test-input-error',
+      'test-input-helper',
     );
     expect(inputElement).toHaveAttribute('aria-invalid', 'true');
 
-    const errorElement = screen.getByText(errorMessage);
+    const errorElement = screen.getByText(helperText);
     expect(errorElement).toBeInTheDocument();
     expect(errorElement.parentElement).toHaveAttribute(
       'id',
-      'test-input-error',
+      'test-input-helper',
     );
     expect(errorElement.parentElement).toHaveAttribute('role', 'alert');
   });
 
-  it('should show error message with icon', () => {
-    const errorMessage = 'This field is required';
+  it('should show error helper with icon', () => {
+    const helperText = 'This field is required';
     render(
       <TextInput
         label='Email'
-        errorMessage={errorMessage}
+        helperText={helperText}
+        status='error'
         {...createControlledProps()}
       />,
     );
 
-    const messageElement = screen.getByText(errorMessage);
+    const messageElement = screen.getByText(helperText);
     expect(messageElement).toBeInTheDocument();
 
     const errorIcon = document.querySelector('svg.text-error');
     expect(errorIcon).toBeInTheDocument();
+  });
+
+  it('should show neutral helper without alert role', () => {
+    const helperText = 'Enter your ETH address';
+    render(
+      <TextInput
+        label='Address'
+        id='addr'
+        helperText={helperText}
+        {...createControlledProps()}
+      />,
+    );
+
+    const inputElement = screen.getByRole('textbox');
+    expect(inputElement).toHaveAttribute('aria-describedby', 'addr-helper');
+    expect(screen.getByText(helperText)).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
+  it('should show success helper with icon', () => {
+    const helperText = 'Address verified';
+    render(
+      <TextInput
+        label='Address'
+        helperText={helperText}
+        status='success'
+        {...createControlledProps()}
+      />,
+    );
+
+    expect(screen.getByText(helperText)).toBeInTheDocument();
+    expect(document.querySelector('svg.text-success')).toBeInTheDocument();
   });
 
   it('should accept all standard HTML input props', () => {

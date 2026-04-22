@@ -3,19 +3,34 @@ import {
   useDisabledContext,
   useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import type { ChangeEvent, PointerEvent } from 'react';
 import { useRef, useId, useState, useCallback } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import { DeleteCircleFill } from '../../Symbols';
+import { CheckmarkCircleFill, DeleteCircleFill } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type { BaseInputProps } from './types';
 
-const baseContainerStyles = cn(
-  'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',
-  'focus-within:ring-2 focus-within:ring-active hover:bg-muted-hover',
-  'has-disabled:cursor-not-allowed has-disabled:bg-disabled has-disabled:text-disabled',
-  'has-invalid:border-error has-invalid:ring-1 has-invalid:ring-error',
-  'has-[input[aria-invalid="true"]]:border-error has-[input[aria-invalid="true"]]:ring-1 has-[input[aria-invalid="true"]]:ring-error',
+const containerVariants = cva(
+  [
+    'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',
+    'focus-within:ring-2 focus-within:ring-active hover:bg-muted-hover',
+    'has-disabled:cursor-not-allowed has-disabled:bg-disabled has-disabled:text-disabled',
+    'has-invalid:ring-1 has-invalid:ring-error has-invalid:focus-within:ring-2 has-invalid:focus-within:ring-error',
+    'has-[input[aria-invalid="true"]]:ring-1 has-[input[aria-invalid="true"]]:ring-error has-[input[aria-invalid="true"]]:focus-within:ring-2 has-[input[aria-invalid="true"]]:focus-within:ring-error',
+  ],
+  {
+    variants: {
+      status: {
+        default: '',
+        success:
+          'ring-1 ring-success focus-within:ring-2 focus-within:ring-success',
+      },
+    },
+    defaultVariants: {
+      status: 'default',
+    },
+  },
 );
 
 const baseInputStyles = cn(
@@ -34,6 +49,41 @@ const baseLabelStyles = cn(
   'peer-focus:top-6 peer-focus:translate-y-0 peer-focus:body-4',
   'w-[calc(100%-var(--size-56))] truncate',
 );
+
+const labelVariants = cva(baseLabelStyles, {
+  variants: {
+    status: {
+      none: '',
+      error: '',
+      success: '',
+    },
+    invalid: {
+      true: '',
+      false: '',
+    },
+  },
+  compoundVariants: [
+    { status: 'error', class: 'text-error' },
+    { status: 'none', invalid: true, class: 'text-error' },
+  ],
+  defaultVariants: {
+    status: 'none',
+    invalid: false,
+  },
+});
+
+const helperVariants = cva('mt-8 flex items-center gap-2 body-3', {
+  variants: {
+    status: {
+      neutral: 'text-muted',
+      error: 'text-error',
+      success: 'text-success',
+    },
+  },
+  defaultVariants: {
+    status: 'neutral',
+  },
+});
 
 /**
  * Base input component with floating label, error state styling, and clear button functionality.
@@ -64,7 +114,8 @@ export const BaseInput = ({
   label,
   id,
   disabled: disabledProp,
-  errorMessage,
+  helperText,
+  status,
   suffix,
   prefix,
   onClear,
@@ -83,12 +134,8 @@ export const BaseInput = ({
   const reactId = useId();
   const inputId = id || `input-${reactId}`;
 
-  // Handle aria-invalid properly - use provided value or derive from errorMessage
-  const ariaInvalid = ariaInvalidProp
-    ? ariaInvalidProp
-    : errorMessage
-      ? true
-      : undefined;
+  const ariaInvalid =
+    ariaInvalidProp ?? (status === 'error' ? true : undefined);
 
   const isControlled = props.value !== undefined;
 
@@ -120,7 +167,8 @@ export const BaseInput = ({
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
-  const errorId = `${inputId}-error`;
+  const helperId = `${inputId}-helper`;
+  const showHelper = !!helperText && helperText.length > 0;
 
   const handleClear = () => {
     if (!inputRef.current) return;
@@ -150,7 +198,12 @@ export const BaseInput = ({
   return (
     <div className={className}>
       <div
-        className={cn(baseContainerStyles, containerClassName)}
+        className={cn(
+          containerVariants({
+            status: status === 'success' ? 'success' : 'default',
+          }),
+          containerClassName,
+        )}
         onPointerDown={(event: PointerEvent<HTMLDivElement>) => {
           const target = event.target as Element;
           if (target.closest('input, button, a')) return;
@@ -182,7 +235,7 @@ export const BaseInput = ({
           disabled={disabled}
           placeholder=' '
           aria-invalid={ariaInvalid}
-          aria-describedby={errorMessage ? errorId : undefined}
+          aria-describedby={showHelper ? helperId : undefined}
           className={cn(
             baseInputStyles,
             label && 'pt-12 body-2',
@@ -196,8 +249,10 @@ export const BaseInput = ({
           <label
             htmlFor={inputId}
             className={cn(
-              baseLabelStyles,
-              errorMessage && 'text-error',
+              labelVariants({
+                status: status ?? 'none',
+                invalid: ariaInvalid === true,
+              }),
               labelClassName,
             )}
           >
@@ -217,14 +272,19 @@ export const BaseInput = ({
 
         {!showClearButton && suffix}
       </div>
-      {errorMessage && (
+      {showHelper && (
         <div
-          id={errorId}
-          className='mt-8 flex items-center gap-2 body-3 text-error'
-          role='alert'
+          id={helperId}
+          className={helperVariants({ status: status ?? 'neutral' })}
+          role={status === 'error' ? 'alert' : undefined}
         >
-          <DeleteCircleFill size={16} className='text-error' />
-          <span>{errorMessage}</span>
+          {status === 'error' && (
+            <DeleteCircleFill size={16} className='text-error' />
+          )}
+          {status === 'success' && (
+            <CheckmarkCircleFill size={16} className='text-success' />
+          )}
+          <span>{helperText}</span>
         </div>
       )}
     </div>

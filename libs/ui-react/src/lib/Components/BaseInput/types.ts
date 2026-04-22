@@ -1,17 +1,25 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
+export type BaseInputStatus = 'error' | 'success';
+
 export type BaseInputProps = {
   /**
    * The label text that floats above the input when focused or filled.
    */
   label?: string;
   /**
-   * An optional error message displayed below the input
+   * Optional text shown below the input (hint, error, or success copy).
+   * Pair with `status` for error/success styling and icons; omit `status` for a neutral hint.
    */
-  errorMessage?: string;
+  helperText?: string;
   /**
-   * Indicates whether the input value is invalid
-   * @default false
+   * Visual state for border, label, helper text, and helper icon.
+   * Omit when `helperText` is a neutral hint.
+   */
+  status?: BaseInputStatus;
+  /**
+   * Indicates whether the input value is invalid.
+   * Defaults to true when `status` is `'error'`.
    */
   'aria-invalid'?: boolean;
   /**

@@ -21,6 +21,7 @@ import { useCommonTranslation } from '../../../i18n';
 import type { LumenStyleSheetTheme } from '../../../styles';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
+import { CheckmarkCircleFill } from '../../Symbols/Icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
 import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -34,7 +35,8 @@ export const BaseInput = ({
   inputStyle,
   labelStyle,
   label,
-  errorMessage,
+  helperText,
+  status,
   hideClearButton,
   onChangeText: onChangeTextProp,
   editable,
@@ -87,7 +89,7 @@ export const BaseInput = ({
   };
 
   const styles = useStyles({
-    hasError: !!errorMessage,
+    status,
     isFocused,
     isEditable: !disabled,
     hasLabel: !!label,
@@ -97,7 +99,7 @@ export const BaseInput = ({
     hasContent,
     isFocused,
     showClearButton,
-    hasError: !!errorMessage,
+    status,
     isEditable: !disabled,
   });
 
@@ -158,10 +160,22 @@ export const BaseInput = ({
           )}
         </Pressable>
 
-        {errorMessage && (
-          <View style={styles.errorContainer}>
-            <DeleteCircleFill size={16} color='error' />
-            <Text style={styles.errorText}>{errorMessage}</Text>
+        {!!helperText && helperText.length > 0 && (
+          <View style={styles.helperContainer}>
+            {status === 'error' && <DeleteCircleFill size={16} color='error' />}
+            {status === 'success' && (
+              <CheckmarkCircleFill size={16} color='success' />
+            )}
+            <Text
+              style={[
+                styles.helperText,
+                status === 'error' && styles.helperTextError,
+                status === 'success' && styles.helperTextSuccess,
+                !status && styles.helperTextNeutral,
+              ]}
+            >
+              {helperText}
+            </Text>
           </View>
         )}
       </Box>
@@ -170,18 +184,25 @@ export const BaseInput = ({
 };
 
 const useStyles = ({
-  hasError,
+  status,
   isFocused,
   isEditable,
   hasLabel,
 }: {
-  hasError: boolean;
+  status: 'error' | 'success' | undefined;
   isFocused: boolean;
   isEditable: boolean;
   hasLabel: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
+      const hasStatusBorder = status === 'error' || status === 'success';
+      const statusBorderColors = {
+        error: t.colors.border.error,
+        success: t.colors.border.success,
+      } as const;
+      const statusBorderColor = status ? statusBorderColors[status] : undefined;
+
       return {
         container: StyleSheet.flatten([
           {
@@ -198,15 +219,16 @@ const useStyles = ({
             borderColor: 'transparent',
             overflow: 'hidden',
           },
-          hasError && {
-            borderWidth: 1,
-            borderColor: t.colors.border.error,
-          },
+          hasStatusBorder &&
+            statusBorderColor && {
+              borderWidth: isFocused ? t.borderWidth.s2 : t.borderWidth.s1,
+              borderColor: statusBorderColor,
+            },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
           },
           isFocused &&
-            !hasError &&
+            !hasStatusBorder &&
             isEditable && { borderColor: t.colors.border.active },
         ]),
         input: StyleSheet.flatten([
@@ -233,15 +255,24 @@ const useStyles = ({
             color: t.colors.text.disabled,
           },
         ]),
-        errorContainer: {
+        helperContainer: {
           marginTop: t.spacings.s8,
           flexDirection: 'row',
           alignItems: 'center',
           gap: t.spacings.s2,
         },
-        errorText: {
-          color: t.colors.text.error,
+        helperText: {
           ...t.typographies.body3,
+          flex: 1,
+        },
+        helperTextError: {
+          color: t.colors.text.error,
+        },
+        helperTextSuccess: {
+          color: t.colors.text.success,
+        },
+        helperTextNeutral: {
+          color: t.colors.text.muted,
         },
         suffixContainer: {
           minWidth: t.sizes.s20,
@@ -250,7 +281,7 @@ const useStyles = ({
         },
       };
     },
-    [hasError, isFocused, isEditable, hasLabel],
+    [status, isFocused, isEditable, hasLabel],
   );
 };
 
@@ -296,13 +327,13 @@ const useFloatingLabelStyles = ({
   isFocused,
   hasContent,
   showClearButton,
-  hasError,
+  status,
   isEditable,
 }: {
   isFocused: boolean;
   hasContent: boolean;
   showClearButton: boolean;
-  hasError: boolean;
+  status: 'error' | 'success' | undefined;
   isEditable: boolean;
 }) => {
   const { theme } = useTheme();
@@ -320,15 +351,15 @@ const useFloatingLabelStyles = ({
           showClearButton && {
             width: '92%',
           },
+        status === 'error' && {
+          color: t.colors.text.error,
+        },
         !isEditable && {
           color: t.colors.text.disabled,
         },
-        hasError && {
-          color: t.colors.text.error,
-        },
       ]),
     }),
-    [hasContent, showClearButton, hasError, isEditable],
+    [hasContent, showClearButton, status, isEditable],
   );
 
   const { animatedStyle } = useAnimatedFloatingLabel({

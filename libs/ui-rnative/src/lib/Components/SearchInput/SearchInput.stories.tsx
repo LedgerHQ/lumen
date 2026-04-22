@@ -75,7 +75,8 @@ export const WithError: Story = {
   ),
   args: {
     placeholder: 'Search products',
-    errorMessage: 'Search term is invalid',
+    helperText: 'Search term is invalid',
+    status: 'error',
     editable: true,
     hideClearButton: false,
   },
