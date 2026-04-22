@@ -43,7 +43,7 @@ function Select<TMeta extends MetaShape = MetaShape>({
   name,
   required,
   children,
-}: Readonly<SelectProps<TMeta>>) {
+}: SelectProps<TMeta>) {
   const disabled = useDisabledContext({
     consumerName: 'Select',
     mergeWith: { disabled: disabledProp },
