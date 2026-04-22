@@ -5,15 +5,15 @@ import type { MetaShape, SelectItemData, SelectItemGroup } from '../types';
  * Combobox.Item) or a full SelectItemData object (keyboard selection, which
  * resolves from the `items` array). This normalizes both to a plain string.
  */
-export const resolveValue = (v: unknown): string | null => {
-  if (typeof v === 'string') return v;
+export const resolveValue = (value: unknown): string | null => {
+  if (typeof value === 'string') return value;
   if (
-    typeof v === 'object' &&
-    v !== null &&
-    'value' in v &&
-    typeof (v as Record<string, unknown>).value === 'string'
+    typeof value === 'object' &&
+    value !== null &&
+    'value' in value &&
+    typeof (value as Record<string, unknown>).value === 'string'
   ) {
-    return (v as Record<string, unknown>).value as string;
+    return (value as Record<string, unknown>).value as string;
   }
   return null;
 };
