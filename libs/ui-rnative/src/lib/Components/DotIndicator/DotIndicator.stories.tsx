@@ -16,6 +16,10 @@ const meta = {
     },
   },
   argTypes: {
+    size: {
+      control: 'radio',
+      options: ['sm', 'md', 'lg'],
+    },
     appearance: {
       control: 'radio',
       options: ['base', 'negative'],
@@ -30,6 +34,16 @@ export const Base: Story = {
   args: {
     appearance: 'base',
   },
+};
+
+export const SizeShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
+      <DotIndicator size='sm' />
+      <DotIndicator size='md' />
+      <DotIndicator size='lg' />
+    </Box>
+  ),
 };
 
 export const AppearanceShowcase: Story = {

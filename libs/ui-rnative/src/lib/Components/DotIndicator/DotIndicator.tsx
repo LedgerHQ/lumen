@@ -5,6 +5,7 @@ import { Box } from '../Utility';
 import type { DotIndicatorProps } from './types';
 
 export function DotIndicator({
+  size = 'md',
   appearance = 'base',
   disabled: disabledProp = false,
   lx = {},
@@ -20,6 +21,7 @@ export function DotIndicator({
   });
 
   const styles = useStyles({
+    size,
     appearance,
     disabled,
     pinned: !!children,
@@ -47,16 +49,24 @@ export function DotIndicator({
 }
 
 const useStyles = ({
+  size,
   appearance,
   disabled,
   pinned,
 }: {
+  size: NonNullable<DotIndicatorProps['size']>;
   appearance: NonNullable<DotIndicatorProps['appearance']>;
   disabled: boolean;
   pinned: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
+      const sizeMap = {
+        sm: t.sizes.s10,
+        md: t.sizes.s12,
+        lg: t.sizes.s16,
+      };
+
       const bgColorMap = {
         base: { backgroundColor: t.colors.bg.interactive },
         negative: { backgroundColor: t.colors.bg.errorStrong },
@@ -64,7 +74,7 @@ const useStyles = ({
 
       return {
         container: {
-          height: t.sizes.s8,
+          height: sizeMap[size],
           aspectRatio: 1,
           alignItems: 'center',
           justifyContent: 'center',
@@ -81,6 +91,6 @@ const useStyles = ({
         },
       };
     },
-    [appearance, disabled, pinned],
+    [size, appearance, disabled, pinned],
   );
 };
