@@ -11,11 +11,15 @@ type Point = [x: number, y: number];
 
 /**
  * Project series data into scaled [x, y] pixel coordinates, skipping nulls.
+ *
+ * When `xData` contains numeric values, those values are fed into the scale
+ * instead of the array index so the points honour a numeric X domain.
  */
 export const toScaledPoints = (
   data: Array<number | null>,
   xScale: ChartScaleFunction,
   yScale: NumericScale,
+  xData?: ReadonlyArray<string | number>,
 ): Point[] | null => {
   const pts: Point[] = [];
 
@@ -23,9 +27,12 @@ export const toScaledPoints = (
     const value = data[i];
     if (value === null) continue;
 
+    const xInput =
+      xData && typeof xData[i] === 'number' ? (xData[i] as number) : i;
+
     const x = isCategoricalScale(xScale)
-      ? (xScale(i) ?? 0) + xScale.bandwidth() / 2
-      : xScale(i);
+      ? (xScale(xInput) ?? 0) + xScale.bandwidth() / 2
+      : xScale(xInput);
     const y = yScale(value);
 
     pts.push([x as number, y]);

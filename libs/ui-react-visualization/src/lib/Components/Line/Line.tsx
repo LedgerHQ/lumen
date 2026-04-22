@@ -15,11 +15,12 @@ export function Line({
   showArea = false,
   areaType: _areaType = 'gradient',
 }: LineProps) {
-  const { getXScale, getYScale, drawingArea, seriesMap } =
+  const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
 
   const xScale = getXScale();
   const yScale = getYScale();
+  const xAxisConfig = getXAxisConfig();
 
   const gradientId = useId();
   const seriesData = seriesMap.get(seriesId);
@@ -28,9 +29,9 @@ export function Line({
   const points = useMemo(
     () =>
       seriesData?.data && xScale && yScale && isNumericScale(yScale)
-        ? toScaledPoints(seriesData.data, xScale, yScale)
+        ? toScaledPoints(seriesData.data, xScale, yScale, xAxisConfig?.data)
         : null,
-    [seriesData, xScale, yScale],
+    [seriesData, xScale, yScale, xAxisConfig],
   );
 
   const linePath = useMemo(

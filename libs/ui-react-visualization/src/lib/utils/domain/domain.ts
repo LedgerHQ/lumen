@@ -16,10 +16,14 @@ export const computeXDomain = (
   if (axisData && axisData.length > 0) {
     if (typeof axisData[0] === 'number') {
       const nums = axisData as number[];
-      autoBounds = {
-        min: Math.min(...nums),
-        max: Math.max(...nums),
-      };
+      let min = nums[0];
+      let max = nums[0];
+      for (let i = 1; i < nums.length; i += 1) {
+        const value = nums[i];
+        if (value < min) min = value;
+        if (value > max) max = value;
+      }
+      autoBounds = { min, max };
     } else {
       autoBounds = { min: 0, max: axisData.length - 1 };
     }
@@ -42,21 +46,27 @@ export const computeYDomain = (
   series: Series[],
   axisConfig?: Partial<AxisConfigProps>,
 ): AxisBounds => {
-  const allValues: number[] = [];
+  let min = 0;
+  let max = 0;
+  let hasValue = false;
 
   for (const s of series) {
     if (!s.data) continue;
     for (const v of s.data) {
       if (v !== null && v !== undefined) {
-        allValues.push(v);
+        if (!hasValue) {
+          min = v;
+          max = v;
+          hasValue = true;
+        } else {
+          if (v < min) min = v;
+          if (v > max) max = v;
+        }
       }
     }
   }
 
-  const autoBounds: AxisBounds =
-    allValues.length > 0
-      ? { min: Math.min(...allValues), max: Math.max(...allValues) }
-      : { min: 0, max: 1 };
+  const autoBounds: AxisBounds = hasValue ? { min, max } : { min: 0, max: 1 };
 
   return applyDomainOverride(autoBounds, axisConfig?.domain);
 };

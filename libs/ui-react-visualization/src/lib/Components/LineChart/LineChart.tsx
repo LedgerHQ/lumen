@@ -49,11 +49,22 @@ export function LineChart({
 
   const axisPadding: Partial<ChartInset> | undefined = useMemo(() => {
     if (!showXAxis && !showYAxis) return undefined;
+    const xAxisPosition =
+      xAxisVisualProps.position === 'top' ? 'top' : 'bottom';
+    const yAxisPosition =
+      yAxisVisualProps.position === 'end' ? 'right' : 'left';
     return {
-      bottom: showXAxis ? DEFAULT_AXIS_HEIGHT : 0,
-      left: showYAxis ? DEFAULT_AXIS_WIDTH : 0,
+      top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
+      bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
+      left: showYAxis && yAxisPosition === 'left' ? DEFAULT_AXIS_WIDTH : 0,
+      right: showYAxis && yAxisPosition === 'right' ? DEFAULT_AXIS_WIDTH : 0,
     };
-  }, [showXAxis, showYAxis]);
+  }, [
+    showXAxis,
+    showYAxis,
+    xAxisVisualProps.position,
+    yAxisVisualProps.position,
+  ]);
 
   return (
     <CartesianChart

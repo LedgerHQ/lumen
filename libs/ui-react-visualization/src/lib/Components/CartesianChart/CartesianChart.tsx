@@ -64,7 +64,12 @@ export function CartesianChart({
   }, []);
 
   useEffect(() => {
-    if (!needsMeasurement || !containerRef.current) return;
+    if (
+      !needsMeasurement ||
+      !containerRef.current ||
+      typeof ResizeObserver === 'undefined'
+    )
+      return;
 
     const observer = new ResizeObserver(handleResize);
     observer.observe(containerRef.current);
