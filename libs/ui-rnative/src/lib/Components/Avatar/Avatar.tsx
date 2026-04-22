@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
+import { DotIndicator } from '../DotIndicator';
 import { Box } from '../Utility';
 import type { AvatarProps } from './types';
 
@@ -23,12 +24,6 @@ const useStyles = ({ size }: { size: Size }) => {
         lg: { size: t.sizes.s72, padding: t.spacings.s4 },
       };
 
-      const notificationsMap = {
-        sm: t.sizes.s10,
-        md: t.sizes.s12,
-        lg: t.sizes.s16,
-      };
-
       return {
         root: {
           position: 'relative',
@@ -39,16 +34,6 @@ const useStyles = ({ size }: { size: Size }) => {
           alignItems: 'center',
           justifyContent: 'center',
           padding: sizeMap[size].padding,
-        },
-        notification: {
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: notificationsMap[size],
-          height: notificationsMap[size],
-          borderRadius: 9999,
-          backgroundColor: t.colors.bg.errorStrong,
-          zIndex: 1,
         },
         image: {
           width: '100%',
@@ -103,7 +88,7 @@ export const Avatar = ({
     setError(false);
   }, [src]);
 
-  return (
+  const avatarContent = (
     <Box
       ref={ref}
       lx={lx}
@@ -112,9 +97,6 @@ export const Avatar = ({
       accessibilityLabel={accessibilityLabel}
       {...props}
     >
-      {showNotification && (
-        <View style={styles.notification} accessible={false} />
-      )}
       {shouldFallback ? (
         <User
           size={fallbackSizes[size]}
@@ -132,4 +114,14 @@ export const Avatar = ({
       )}
     </Box>
   );
+
+  if (showNotification) {
+    return (
+      <DotIndicator size={size} appearance='negative'>
+        {avatarContent}
+      </DotIndicator>
+    );
+  }
+
+  return avatarContent;
 };

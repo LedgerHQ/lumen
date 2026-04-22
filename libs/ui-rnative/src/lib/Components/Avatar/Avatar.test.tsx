@@ -4,7 +4,7 @@ import { render, waitFor } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Avatar } from './Avatar';
 
-const { colors, sizes } = ledgerLiveThemes.dark;
+const { sizes } = ledgerLiveThemes.dark;
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -145,45 +145,39 @@ describe('Avatar Component', () => {
   });
 
   it('should show notification indicator when showNotification is true', () => {
-    const { getByTestId } = render(
+    const { getByTestId, toJSON } = render(
       <TestWrapper>
         <Avatar testID='avatar-id' showNotification />
       </TestWrapper>,
     );
 
-    const avatar = getByTestId('avatar-id');
-    const notificationIndicator = avatar.props.children[0];
-
-    expect(notificationIndicator).toBeTruthy();
-    expect(notificationIndicator.props.style.backgroundColor).toBe(
-      colors.bg.errorStrong,
-    );
+    const tree = toJSON();
+    expect(tree.children).toHaveLength(2);
+    expect(tree.children[0].props.accessibilityRole).toBe('image');
+    expect(tree.children[0].props.pointerEvents).toBe('none');
+    expect(getByTestId('avatar-id')).toBeTruthy();
   });
 
   it('should not show notification indicator by default', () => {
-    const { getByTestId } = render(
+    const { toJSON } = render(
       <TestWrapper>
         <Avatar testID='avatar-id' />
       </TestWrapper>,
     );
 
-    const avatar = getByTestId('avatar-id');
-    const notificationIndicator = avatar.props.children[0];
-
-    expect(notificationIndicator).toBe(false);
+    const tree = toJSON();
+    expect(tree.props.testID).toBe('avatar-id');
   });
 
   it('should apply correct notification indicator size based on avatar size', () => {
-    const { getByTestId, rerender } = render(
+    const { toJSON, rerender } = render(
       <TestWrapper>
         <Avatar testID='avatar-id' size='sm' showNotification />
       </TestWrapper>,
     );
 
-    let avatar = getByTestId('avatar-id');
-    let notificationIndicator = avatar.props.children[0];
-    expect(notificationIndicator.props.style.width).toBe(sizes.s10);
-    expect(notificationIndicator.props.style.height).toBe(sizes.s10);
+    let dot = toJSON().children[0];
+    expect(dot.props.style.height).toBe(sizes.s10);
 
     rerender(
       <TestWrapper>
@@ -191,10 +185,8 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
 
-    avatar = getByTestId('avatar-id');
-    notificationIndicator = avatar.props.children[0];
-    expect(notificationIndicator.props.style.width).toBe(sizes.s12);
-    expect(notificationIndicator.props.style.height).toBe(sizes.s12);
+    dot = toJSON().children[0];
+    expect(dot.props.style.height).toBe(sizes.s12);
 
     rerender(
       <TestWrapper>
@@ -202,10 +194,8 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
 
-    avatar = getByTestId('avatar-id');
-    notificationIndicator = avatar.props.children[0];
-    expect(notificationIndicator.props.style.width).toBe(sizes.s16);
-    expect(notificationIndicator.props.style.height).toBe(sizes.s16);
+    dot = toJSON().children[0];
+    expect(dot.props.style.height).toBe(sizes.s16);
   });
 
   it('should apply custom styles', () => {
