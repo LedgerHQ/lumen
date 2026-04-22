@@ -106,7 +106,8 @@ export const Error: Story = {
   args: {
     placeholder: 'Search text',
     defaultValue: 'Invalid search',
-    errorMessage: 'Search term is invalid',
+    helperText: 'Search term is invalid',
+    status: 'error',
     'aria-invalid': true,
     className: 'max-w-md',
   },
@@ -116,7 +117,8 @@ export const Error: Story = {
         code: `<SearchInput 
   placeholder="Search text"
   defaultValue="Invalid search"
-  errorMessage="Search term is invalid"
+  helperText="Search term is invalid"
+  status="error"
   aria-invalid={true}
   className="max-w-md"
 />`,

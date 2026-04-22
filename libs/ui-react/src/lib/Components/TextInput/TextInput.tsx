@@ -8,7 +8,7 @@ import type { TextInputProps } from './types';
  * - **Automatic clear button** appears when input has content
  * - **Floating label** with smooth CSS-only animations
  * - **Suffix elements** for icons, buttons, or custom content
- * - **Error state styling** with aria-invalid and errorMessage support
+ * - **Helper text** with optional `status` (`error` | `success`) for border, label, and icon styling
  * - **Container-based spacing** with padding and gap for clean layout
  * - **Flexible styling** via className
  *
@@ -27,13 +27,14 @@ import type { TextInputProps } from './types';
  * // Basic input with automatic clear button
  * <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
  *
- * // Input with error state
+ * // Input with error helper
  * <TextInput
  *   label="Email"
  *   value={email}
  *   onChange={(e) => setEmail(e.target.value)}
  *   aria-invalid={!isValid}
- *   errorMessage="Please enter a valid email address"
+ *   helperText="Please enter a valid email address"
+ *   status="error"
  * />
  *
  * // Input with suffix element

@@ -119,7 +119,8 @@ export const WithError: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     value: 'invalid-address',
-    errorMessage: 'Invalid address format',
+    helperText: 'Invalid address format',
+    status: 'error',
     prefix: 'To:',
     editable: true,
     hideClearButton: false,
