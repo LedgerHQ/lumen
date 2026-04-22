@@ -58,11 +58,13 @@ export function DotCounts() {
         <SegmentedControlButton value='preview'>
           <>
             Preview
-            <DotCount
-              value={3}
-              size='sm'
-              style={{ marginLeft: 8, marginBottom: -3 }}
-            />
+            <Box>
+              <DotCount
+                value={3}
+                size='sm'
+                style={{ marginLeft: 8, marginBottom: -3 }}
+              />
+            </Box>
           </>
         </SegmentedControlButton>
         <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
