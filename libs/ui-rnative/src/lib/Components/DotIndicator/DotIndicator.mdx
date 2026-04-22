@@ -11,7 +11,7 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 
     ## Introduction
 
-    DotIndicator is a small colored dot used to signal status or draw attention without displaying a number. It supports two appearances (`base` and `red`) and can be pinned to the top-right of a child element.
+    DotIndicator is a small colored dot used to signal status or draw attention without displaying a number. It supports two appearances (`base` and `negative`) and can be pinned to the top-right of a child element.
 
     > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=16470-25597).
 
@@ -25,9 +25,15 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
     Two color schemes are available:
 
     - **base** (default) - neutral dot for general-purpose indicators.
-    - **red** - high-visibility dot, typically used for unread or alert states.
+    - **negative** - high-visibility dot, typically used for unread or alert states.
 
     <Canvas of={DotIndicatorStories.AppearanceShowcase} />
+
+    ## With Children
+
+    When wrapping a child element, the dot pins itself to the top-right corner.
+
+    <Canvas of={DotIndicatorStories.WithChildren} />
 
   </Tab>
   <Tab label="Implementation">
@@ -42,14 +48,14 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
     import { DotIndicator } from '@ledgerhq/lumen-ui-rnative';
 
     function MyComponent() {
-      return <DotIndicator appearance="red" />;
+      return <DotIndicator appearance="negative" />;
     }
     ```
 
     ### Pinned to a child
 
     ```tsx
-    <DotIndicator appearance="red">
+    <DotIndicator appearance="negative">
       <Button size="sm">Submit</Button>
     </DotIndicator>
     ```

@@ -77,10 +77,10 @@ describe('DotIndicator', () => {
     expect(ref.current).toBeTruthy();
   });
 
-  it('should render with red appearance', () => {
+  it('should render with negative appearance', () => {
     const { toJSON } = render(
       <TestWrapper>
-        <DotIndicator appearance='red' />
+        <DotIndicator appearance='negative' />
       </TestWrapper>,
     );
 

@@ -17,7 +17,7 @@ export function DotCounts() {
         <DotCount value={100} size='md' />
         <DotCount value={100} max={34} size='md' />
         <DotCount value={0} size='md' />
-        <DotCount value={1} appearance='red' size='md' />
+        <DotCount value={1} appearance='negative' size='md' />
         <DotCount value={32} size='md' disabled />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
@@ -25,7 +25,7 @@ export function DotCounts() {
         <DotCount value={100} size='sm' />
         <DotCount value={100} max={34} size='sm' />
         <DotCount value={0} size='sm' />
-        <DotCount value={1} appearance='red' size='sm' />
+        <DotCount value={1} appearance='negative' size='sm' />
         <DotCount value={32} size='sm' disabled />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>

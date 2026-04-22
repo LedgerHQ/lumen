@@ -1,4 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
 import type { DotCountProps } from './types';
@@ -9,7 +10,7 @@ export function DotCount({
   max = 99,
   appearance = 'base',
   disabled: disabledProp = false,
-  lx,
+  lx = {},
   style,
   children,
   ref,
@@ -30,8 +31,20 @@ export function DotCount({
   const cappedMax = Math.max(1, Math.min(max, 99));
 
   return (
-    <Box ref={ref} lx={lx} style={style} {...props}>
-      <Box style={styles.container} pointerEvents='none'>
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([
+        children ? { position: 'relative' } : undefined,
+        style,
+      ])}
+      {...props}
+    >
+      <Box
+        style={styles.container}
+        accessibilityRole='image'
+        pointerEvents='none'
+      >
         {value > 0 && (
           <Text style={styles.text} allowFontScaling={false}>
             {value <= cappedMax ? value : `${cappedMax}+`}
@@ -72,7 +85,7 @@ const useStyles = ({
 
       const bgColorMap = {
         base: { backgroundColor: t.colors.bg.interactive },
-        red: { backgroundColor: t.colors.bg.errorStrong },
+        negative: { backgroundColor: t.colors.bg.errorStrong },
       };
 
       const textMap = {
@@ -82,7 +95,7 @@ const useStyles = ({
 
       const textColorMap = {
         base: { color: t.colors.text.onInteractive },
-        red: { color: t.colors.text.onErrorStrong },
+        negative: { color: t.colors.text.onErrorStrong },
       };
 
       return {

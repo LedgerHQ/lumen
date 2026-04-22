@@ -6,7 +6,7 @@ export type DotIndicatorProps = {
    * The appearance of the dot indicator.
    * @default base
    */
-  appearance?: 'base' | 'red';
+  appearance?: 'base' | 'negative';
   /**
    * Whether the dot indicator should show a disabled appearance.
    * @default false

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { Button } from '../Button/Button';
 import { Box } from '../Utility/Box';
 import { DotIndicator } from './DotIndicator';
 
@@ -17,7 +18,7 @@ const meta = {
   argTypes: {
     appearance: {
       control: 'radio',
-      options: ['base', 'red'],
+      options: ['base', 'negative'],
     },
   },
 } satisfies Meta<typeof DotIndicator>;
@@ -35,8 +36,18 @@ export const AppearanceShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotIndicator appearance='base' />
-      <DotIndicator appearance='red' />
+      <DotIndicator appearance='negative' />
       <DotIndicator disabled />
+    </Box>
+  ),
+};
+
+export const WithChildren: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
+      <DotIndicator appearance='negative'>
+        <Button size='sm'>Submit</Button>
+      </DotIndicator>
     </Box>
   ),
 };

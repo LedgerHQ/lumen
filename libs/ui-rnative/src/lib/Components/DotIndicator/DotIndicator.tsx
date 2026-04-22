@@ -1,4 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box } from '../Utility';
 import type { DotIndicatorProps } from './types';
@@ -6,7 +7,7 @@ import type { DotIndicatorProps } from './types';
 export function DotIndicator({
   appearance = 'base',
   disabled: disabledProp = false,
-  lx,
+  lx = {},
   style,
   children,
   accessibilityLabel,
@@ -25,7 +26,15 @@ export function DotIndicator({
   });
 
   return (
-    <Box ref={ref} lx={lx} style={style} {...props}>
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([
+        children ? { position: 'relative' } : undefined,
+        style,
+      ])}
+      {...props}
+    >
       <Box
         style={styles.container}
         accessibilityRole='image'
@@ -50,7 +59,7 @@ const useStyles = ({
     (t) => {
       const bgColorMap = {
         base: { backgroundColor: t.colors.bg.interactive },
-        red: { backgroundColor: t.colors.bg.errorStrong },
+        negative: { backgroundColor: t.colors.bg.errorStrong },
       };
 
       return {
