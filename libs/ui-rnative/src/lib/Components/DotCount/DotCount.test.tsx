@@ -138,7 +138,7 @@ describe('DotCount', () => {
     expect(getByText('5')).toBeTruthy();
   });
 
-  it('should default size to lg when omitted', () => {
+  it('should default size to md when omitted', () => {
     const { getByText } = render(
       <TestWrapper>
         <DotCount value={5} />

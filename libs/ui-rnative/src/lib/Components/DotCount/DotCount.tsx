@@ -6,7 +6,7 @@ import type { DotCountProps } from './types';
 
 export function DotCount({
   value,
-  size = 'lg',
+  size = 'md',
   max = 99,
   appearance = 'base',
   disabled: disabledProp = false,
