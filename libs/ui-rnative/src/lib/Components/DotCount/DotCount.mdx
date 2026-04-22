@@ -11,7 +11,7 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 
     ## Introduction
 
-    DotCount displays a numeric count inside a colored pill. It supports two sizes (`md` and `sm`), two appearances (`base` and `negative`), and can be pinned to the top-right of a child element.
+    DotCount displays a numeric count inside a colored pill. It supports two sizes (`lg` and `md`), two appearances (`base` and `negative`), and can be pinned to the top-right of a child element.
 
     > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=38-998).
 
@@ -24,8 +24,8 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 
     DotCount comes in two sizes:
 
-    - **md** (default) - standard pill size, suitable for most use cases.
-    - **sm** - compact pill, ideal for tight layouts or smaller containers.
+    - **lg** (default) - standard pill size, suitable for most use cases.
+    - **md** - compact pill, ideal for tight layouts or smaller containers.
 
     <Canvas of={DotCountStories.SizeShowcase} />
 
@@ -63,14 +63,14 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
     import { DotCount } from '@ledgerhq/lumen-ui-rnative';
 
     function MyComponent() {
-      return <DotCount value={5} size="md" />;
+      return <DotCount value={5} size="lg" />;
     }
     ```
 
     ### Pinned to a child
 
     ```tsx
-    <DotCount value={3} size="sm">
+    <DotCount value={3} size="md">
       <Avatar src="..." size="md" />
     </DotCount>
     ```
@@ -78,7 +78,7 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
     ### Custom max
 
     ```tsx
-    <DotCount value={150} max={50} size="md" />
+    <DotCount value={150} max={50} size="lg" />
     {/* Renders "50+" */}
     ```
 

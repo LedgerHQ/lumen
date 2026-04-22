@@ -5,7 +5,7 @@ import { Box } from '../Utility';
 import type { DotIndicatorProps } from './types';
 
 export function DotIndicator({
-  size = 'md',
+  size = 'sm',
   appearance = 'base',
   disabled: disabledProp = false,
   lx = {},
@@ -62,9 +62,9 @@ const useStyles = ({
   return useStyleSheet(
     (t) => {
       const sizeMap = {
-        sm: t.sizes.s10,
-        md: t.sizes.s12,
-        lg: t.sizes.s16,
+        xs: t.sizes.s10,
+        sm: t.sizes.s12,
+        md: t.sizes.s16,
       };
 
       const bgColorMap = {

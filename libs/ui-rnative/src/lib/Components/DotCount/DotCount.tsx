@@ -6,7 +6,7 @@ import type { DotCountProps } from './types';
 
 export function DotCount({
   value,
-  size = 'md',
+  size = 'lg',
   max = 99,
   appearance = 'base',
   disabled: disabledProp = false,
@@ -70,13 +70,13 @@ const useStyles = ({
   return useStyleSheet(
     (t) => {
       const sizeMap = {
-        md: {
+        lg: {
           minWidth: t.sizes.s24,
           minHeight: t.sizes.s24,
           paddingHorizontal: t.spacings.s8,
           paddingVertical: t.spacings.s2,
         },
-        sm: {
+        md: {
           minHeight: t.sizes.s16,
           minWidth: t.sizes.s16,
           paddingHorizontal: t.spacings.s4,
@@ -89,8 +89,8 @@ const useStyles = ({
       };
 
       const textMap = {
-        md: { ...t.typographies.body2SemiBold },
-        sm: { ...t.typographies.body4SemiBold },
+        lg: { ...t.typographies.body2SemiBold },
+        md: { ...t.typographies.body4SemiBold },
       };
 
       const textColorMap = {

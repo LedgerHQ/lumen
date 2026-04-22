@@ -4,9 +4,9 @@ import type { StyledViewProps } from '../../../styles';
 export type DotCountProps = {
   /**
    * The size of the dot count.
-   * @default md
+   * @default lg
    */
-  size?: 'md' | 'sm';
+  size?: 'lg' | 'md';
   /**
    * The amount to be displayed.
    *

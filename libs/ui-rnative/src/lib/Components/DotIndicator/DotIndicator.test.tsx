@@ -77,20 +77,20 @@ describe('DotIndicator', () => {
     expect(ref.current).toBeTruthy();
   });
 
-  it('should render in sm size', () => {
+  it('should render in xs size', () => {
     const { toJSON } = render(
       <TestWrapper>
-        <DotIndicator size='sm' />
+        <DotIndicator size='xs' />
       </TestWrapper>,
     );
 
     expect(toJSON()).toBeTruthy();
   });
 
-  it('should render in lg size', () => {
+  it('should render in md size', () => {
     const { toJSON } = render(
       <TestWrapper>
-        <DotIndicator size='lg' />
+        <DotIndicator size='md' />
       </TestWrapper>,
     );
 

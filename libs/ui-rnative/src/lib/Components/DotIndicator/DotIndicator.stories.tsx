@@ -18,7 +18,7 @@ const meta = {
   argTypes: {
     size: {
       control: 'radio',
-      options: ['sm', 'md', 'lg'],
+      options: ['xs', 'sm', 'md'],
     },
     appearance: {
       control: 'radio',
@@ -39,9 +39,9 @@ export const Base: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
+      <DotIndicator size='xs' />
       <DotIndicator size='sm' />
       <DotIndicator size='md' />
-      <DotIndicator size='lg' />
     </Box>
   ),
 };

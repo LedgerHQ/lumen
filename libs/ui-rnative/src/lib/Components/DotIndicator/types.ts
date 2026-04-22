@@ -4,9 +4,9 @@ import type { StyledViewProps } from '../../../styles';
 export type DotIndicatorProps = {
   /**
    * The size of the dot indicator.
-   * @default md
+   * @default sm
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md';
   /**
    * The appearance of the dot indicator.
    * @default base

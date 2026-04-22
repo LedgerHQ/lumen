@@ -15,6 +15,15 @@ const fallbackSizes = {
   lg: 32,
 } as const;
 
+const dotSizeMap: Record<
+  Size,
+  NonNullable<React.ComponentProps<typeof DotIndicator>['size']>
+> = {
+  sm: 'xs',
+  md: 'sm',
+  lg: 'md',
+};
+
 const useStyles = ({ size }: { size: Size }) => {
   return useStyleSheet(
     (t) => {
@@ -117,7 +126,7 @@ export const Avatar = ({
 
   if (showNotification) {
     return (
-      <DotIndicator size={size} appearance='negative'>
+      <DotIndicator size={dotSizeMap[size]} appearance='negative'>
         {avatarContent}
       </DotIndicator>
     );

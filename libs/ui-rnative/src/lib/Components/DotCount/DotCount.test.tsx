@@ -16,7 +16,7 @@ describe('DotCount', () => {
   it('should render the value', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={5} size='md' />
+        <DotCount value={5} size='lg' />
       </TestWrapper>,
     );
 
@@ -26,7 +26,7 @@ describe('DotCount', () => {
   it('should hide text when value is 0', () => {
     const { queryByText } = render(
       <TestWrapper>
-        <DotCount value={0} size='md' />
+        <DotCount value={0} size='lg' />
       </TestWrapper>,
     );
 
@@ -36,7 +36,7 @@ describe('DotCount', () => {
   it('should cap value at max and show overflow indicator', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={100} max={50} size='md' />
+        <DotCount value={100} max={50} size='lg' />
       </TestWrapper>,
     );
 
@@ -46,7 +46,7 @@ describe('DotCount', () => {
   it('should default max to 99', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={150} size='md' />
+        <DotCount value={150} size='lg' />
       </TestWrapper>,
     );
 
@@ -56,7 +56,7 @@ describe('DotCount', () => {
   it('should clamp max to 1 when given zero or negative', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={5} max={0} size='md' />
+        <DotCount value={5} max={0} size='lg' />
       </TestWrapper>,
     );
 
@@ -66,7 +66,7 @@ describe('DotCount', () => {
   it('should render children alongside the count', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={3} size='sm'>
+        <DotCount value={3} size='md'>
           <Text>Child</Text>
         </DotCount>
       </TestWrapper>,
@@ -79,7 +79,7 @@ describe('DotCount', () => {
   it('should forward testID to the outer wrapper', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <DotCount testID='dot-count' value={3} size='md' />
+        <DotCount testID='dot-count' value={3} size='lg' />
       </TestWrapper>,
     );
 
@@ -89,7 +89,7 @@ describe('DotCount', () => {
   it('should forward pointerEvents to the outer wrapper', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <DotCount testID='dot-count' value={3} size='md' pointerEvents='none' />
+        <DotCount testID='dot-count' value={3} size='lg' pointerEvents='none' />
       </TestWrapper>,
     );
 
@@ -101,7 +101,7 @@ describe('DotCount', () => {
 
     render(
       <TestWrapper>
-        <DotCount ref={ref} value={3} size='md' />
+        <DotCount ref={ref} value={3} size='lg' />
       </TestWrapper>,
     );
 
@@ -111,7 +111,7 @@ describe('DotCount', () => {
   it('should render with negative appearance', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={5} size='md' appearance='negative' />
+        <DotCount value={5} size='lg' appearance='negative' />
       </TestWrapper>,
     );
 
@@ -121,24 +121,24 @@ describe('DotCount', () => {
   it('should render with disabled state', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={5} size='md' disabled />
+        <DotCount value={5} size='lg' disabled />
       </TestWrapper>,
     );
 
     expect(getByText('5')).toBeTruthy();
   });
 
-  it('should render in sm size', () => {
+  it('should render in md size', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={5} size='sm' />
+        <DotCount value={5} size='md' />
       </TestWrapper>,
     );
 
     expect(getByText('5')).toBeTruthy();
   });
 
-  it('should default size to md when omitted', () => {
+  it('should default size to lg when omitted', () => {
     const { getByText } = render(
       <TestWrapper>
         <DotCount value={5} />

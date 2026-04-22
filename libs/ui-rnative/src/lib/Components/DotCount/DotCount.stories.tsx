@@ -19,7 +19,7 @@ const meta = {
   argTypes: {
     size: {
       control: 'radio',
-      options: ['md', 'sm'],
+      options: ['lg', 'md'],
     },
     appearance: {
       control: 'radio',
@@ -40,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   args: {
     value: 3,
-    size: 'md',
+    size: 'lg',
     appearance: 'base',
   },
 };
@@ -49,8 +49,8 @@ export const SizeShowcase: Story = {
   args: { value: 5 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
+      <DotCount value={5} size='lg' />
       <DotCount value={5} size='md' />
-      <DotCount value={5} size='sm' />
     </Box>
   ),
 };
@@ -59,9 +59,9 @@ export const AppearanceShowcase: Story = {
   args: { value: 3 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
-      <DotCount value={3} size='md' appearance='base' />
-      <DotCount value={3} size='md' appearance='negative' />
-      <DotCount value={3} size='md' disabled />
+      <DotCount value={3} size='lg' appearance='base' />
+      <DotCount value={3} size='lg' appearance='negative' />
+      <DotCount value={3} size='lg' disabled />
     </Box>
   ),
 };
@@ -70,9 +70,9 @@ export const OverflowShowcase: Story = {
   args: { value: 100 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
-      <DotCount value={100} size='md' />
-      <DotCount value={100} max={50} size='md' />
-      <DotCount value={0} size='md' />
+      <DotCount value={100} size='lg' />
+      <DotCount value={100} max={50} size='lg' />
+      <DotCount value={0} size='lg' />
     </Box>
   ),
 };
@@ -81,7 +81,7 @@ export const WithChildren: Story = {
   args: { value: 5 },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
-      <DotCount value={5} size='sm'>
+      <DotCount value={5} size='md'>
         <MediaImage
           src='https://crypto-icons.ledger.com/BTC.png'
           alt='Bitcoin'
@@ -89,7 +89,7 @@ export const WithChildren: Story = {
           shape='circle'
         />
       </DotCount>
-      <DotCount value={100} size='sm'>
+      <DotCount value={100} size='md'>
         <Avatar
           src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop'
           size='md'
