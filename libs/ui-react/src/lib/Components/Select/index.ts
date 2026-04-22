@@ -1,5 +1,6 @@
 export * from './Select';
 export type {
+  MetaShape,
   SelectItemData,
   SelectProps,
   SelectTriggerProps,
