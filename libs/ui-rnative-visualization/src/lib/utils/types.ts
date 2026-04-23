@@ -65,6 +65,11 @@ type AxisVisualProps = {
    */
   showGrid?: boolean;
   /**
+   * Appearance of the grid lines.
+   * @default 'dashed'
+   */
+  gridLineStyle?: 'solid' | 'dashed';
+  /**
    * Whether to render the axis baseline.
    * @default false
    */

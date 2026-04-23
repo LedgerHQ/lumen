@@ -48,10 +48,7 @@ const Section = ({
       </Text>
       <Box
         lx={{
-          backgroundColor: 'bg.card',
-          borderRadius: 'r12',
           padding: 's16',
-          overflow: 'hidden',
         }}
       >
         {children}
@@ -78,6 +75,7 @@ export const LineCharts = () => {
           height={200}
           showXAxis
           xAxis={{
+            gridLineStyle: 'solid',
             showLine: true,
             showGrid: true,
           }}

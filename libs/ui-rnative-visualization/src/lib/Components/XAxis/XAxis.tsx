@@ -14,6 +14,7 @@ const FONT_SIZE = 11;
 export const DEFAULT_AXIS_HEIGHT = 28;
 
 export function XAxis({
+  gridLineStyle = 'dashed',
   position = 'bottom',
   showGrid = false,
   showLine = false,
@@ -62,7 +63,7 @@ export function XAxis({
             y2={drawingArea.y + drawingArea.height}
             stroke={gridStroke}
             strokeWidth={STROKE_WIDTH}
-            strokeDasharray='2 2'
+            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
           />
         ))}
 
