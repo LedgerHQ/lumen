@@ -33,8 +33,12 @@ export const Base: Story = {
     pin: 'bottom-end',
     size: mediaImageDotSizeMap[48],
     shape: 'circle',
-    children: <MediaImage src={parentSrc} alt='Cardano' shape='circle' />,
   },
+  render: (args) => (
+    <DotSymbol {...args}>
+      <MediaImage src={parentSrc} alt='Cardano' shape={args.shape} />
+    </DotSymbol>
+  ),
 };
 
 export const PinShowcase: Story = {
