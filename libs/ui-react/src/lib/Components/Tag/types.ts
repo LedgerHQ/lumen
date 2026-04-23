@@ -6,7 +6,14 @@ export type TagProps = {
    * The appearance of the tag.
    * @default accent
    */
-  appearance?: 'base' | 'gray' | 'accent' | 'success' | 'error' | 'warning';
+  appearance?:
+    | 'base'
+    | 'gray'
+    | 'accent'
+    | 'accent-subtle'
+    | 'success'
+    | 'error'
+    | 'warning';
   /**
    * The size of the tag.
    * @default md

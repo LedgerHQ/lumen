@@ -1,0 +1,57 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DotIconStories from './DotIcon.stories';
+
+<Meta title='Communication/DotIcon' of={DotIconStories} />
+
+# DotIcon
+
+## Introduction
+
+DotIcon positions a small icon indicator at a configurable corner of a child element such as MediaImage or Spot. The dot background uses a semantic color (`success`, `muted`, or `error`) to convey meaning at a glance.
+> View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6159-1866).
+
+
+## Anatomy
+
+<Canvas of={DotIconStories.Base} />
+
+- **Wrapper**: Relative container that preserves the child's layout
+- **Child**: The primary element (e.g. MediaImage, Spot)
+- **Dot**: Absolutely-positioned indicator with a semantic background and an icon inside
+
+## Properties
+
+### Overview
+
+<Canvas of={DotIconStories.Base} />
+<Controls of={DotIconStories.Base} />
+
+### Pin
+
+Four corner placements are available: `bottom-end` (default), `top-end`, `bottom-start`, and `top-start`.
+
+<Canvas of={DotIconStories.PinShowcase} />
+
+### Shapes
+
+<Canvas of={DotIconStories.ShapeShowcase} />
+
+- **circle** (default): Fully rounded dot
+- **square**: Rounded corners that scale with size
+
+### Appearances
+
+The `appearance` prop controls the semantic background color of the dot: `success`, `muted`, or `error`.
+
+<Canvas of={DotIconStories.AppearanceShowcase} />
+
+### Sizes
+
+The dot size is driven by the parent MediaImage or Spot size via the mapping helpers `mediaImageDotIconSizeMap` and `spotDotIconSizeMap`. Allowed sizes are `16`, `20`, and `24`. The icon size is handled internally by the component.
+
+<Canvas of={DotIconStories.SizeShowcase} />
+
+## Accessibility
+
+- The icon is purely decorative; the child element should carry its own accessibility label.
+- Pair semantic appearances with meaningful icons so the state can be understood without relying on color alone.

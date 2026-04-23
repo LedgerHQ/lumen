@@ -9,6 +9,7 @@ export * from './Buttons';
 export * from './Checkboxes';
 export * from './Cards';
 export * from './Dividers';
+export * from './DotIcons';
 export * from './DotSymbols';
 export * from './MediaButtons';
 export * from './MediaImages';

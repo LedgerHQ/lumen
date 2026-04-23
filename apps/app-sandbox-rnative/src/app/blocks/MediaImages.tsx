@@ -27,6 +27,12 @@ export const MediaImages = () => {
         size={24}
         shape='circle'
       />
+      <MediaImage
+        src='https://crypto-icons.ledger.com/ETH.png'
+        alt='Ethereum'
+        size={64}
+        shape='circle'
+      />
     </Box>
   );
 };
