@@ -41,6 +41,7 @@ export function DotIndicator({
         style={styles.container}
         accessibilityRole='image'
         accessibilityLabel={accessibilityLabel}
+        accessible={!!accessibilityLabel}
         pointerEvents='none'
       />
       {children}

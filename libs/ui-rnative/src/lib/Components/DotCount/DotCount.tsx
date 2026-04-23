@@ -13,6 +13,7 @@ export function DotCount({
   lx = {},
   style,
   children,
+  accessibilityLabel,
   ref,
   ...props
 }: DotCountProps) {
@@ -43,6 +44,8 @@ export function DotCount({
       <Box
         style={styles.container}
         accessibilityRole='image'
+        accessibilityLabel={accessibilityLabel}
+        accessible={!!accessibilityLabel}
         pointerEvents='none'
       >
         {value > 0 && (

@@ -79,6 +79,7 @@ export const Avatar = ({
   alt = 'avatar',
   size = 'md',
   showNotification = false,
+  testID,
   ref,
   ...props
 }: AvatarProps) => {
@@ -104,6 +105,7 @@ export const Avatar = ({
       style={StyleSheet.flatten([styles.root, style])}
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
+      testID={showNotification ? undefined : testID}
       {...props}
     >
       {shouldFallback ? (
@@ -126,7 +128,7 @@ export const Avatar = ({
 
   if (showNotification) {
     return (
-      <DotIndicator size={dotSizeMap[size]} appearance='red'>
+      <DotIndicator size={dotSizeMap[size]} appearance='red' testID={testID}>
         {avatarContent}
       </DotIndicator>
     );
