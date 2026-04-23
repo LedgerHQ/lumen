@@ -92,8 +92,8 @@ describe('SearchInput', () => {
       />,
     );
 
-    const errorMessage = screen.getByText('Search failed');
-    expect(errorMessage).toBeInTheDocument();
+    const helperTextEl = screen.getByText('Search failed');
+    expect(helperTextEl).toBeInTheDocument();
 
     // The role="alert" is on the error container, not the text span
     const errorContainer = screen.getByRole('alert');

@@ -79,8 +79,12 @@ export const WithError: Story = {
 };
 
 export const WithSuccess: Story = {
-  render: (args) =>
-    <TextInputStory {...args} initialValue='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27' />,
+  render: (args) => (
+    <TextInputStory
+      {...args}
+      initialValue='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27'
+    />
+  ),
   args: {
     label: 'Address',
     helperText: 'Address verified',

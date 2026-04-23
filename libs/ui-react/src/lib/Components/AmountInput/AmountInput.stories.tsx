@@ -110,7 +110,7 @@ export const LargeAmountDisplay: Story = {
     // Check if value exceeds max length (6 digits)
     const digitCount = value.replace(/\D/g, '').length;
     const hasError = digitCount > 3;
-    const errorMessage = hasError ? 'Insufficient balance' : '';
+    const balanceErrorText = hasError ? 'Insufficient balance' : '';
 
     return (
       <div className='relative h-128 w-[359px] rounded-lg'>
@@ -131,7 +131,7 @@ export const LargeAmountDisplay: Story = {
           </div>
 
           {hasError && (
-            <div className='mt-8 text-center text-error'>{errorMessage}</div>
+            <div className='mt-8 text-center text-error'>{balanceErrorText}</div>
           )}
         </div>
         <IconButton

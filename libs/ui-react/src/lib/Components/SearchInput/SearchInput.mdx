@@ -54,7 +54,7 @@ Appears automatically when input has content. Use `hideClearButton` to hide it o
 
 ### Error State
 
-Supports `aria-invalid` and `errorMessage` props for error handling with proper ARIA labeling.
+Supports `aria-invalid`, `helperText`, and `status` for error handling with proper ARIA labeling.
 
 <Canvas of={SearchInputStories.Error} />
 
@@ -195,7 +195,8 @@ function MyComponent() {
   value={query}
   onChange={(e) => setQuery(e.target.value)}
   aria-invalid={hasError}
-  errorMessage={hasError ? 'Search failed' : undefined}
+  helperText={hasError ? 'Search failed' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 
@@ -316,7 +317,8 @@ function MyComponent() {
   value={query}
   onChange={handleChange}
   aria-invalid={hasError}
-  errorMessage={hasError ? 'Search failed' : undefined}
+  helperText={hasError ? 'Search failed' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 
@@ -332,7 +334,8 @@ function MyComponent() {
   placeholder='Search users'
   value={query}
   onChange={handleChange}
-  errorMessage={hasError ? 'Search failed' : undefined}
+  helperText={hasError ? 'Search failed' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 
