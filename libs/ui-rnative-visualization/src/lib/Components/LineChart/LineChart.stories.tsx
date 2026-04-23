@@ -1,8 +1,7 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { View } from 'react-native';
+import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 
-import { View, type ColorSchemeName } from 'react-native';
 import { LineChart } from './LineChart';
 
 const meta = {
@@ -10,16 +9,13 @@ const meta = {
   title: 'Visualization/LineChart',
   tags: ['experimental'],
   decorators: [
-    (Story, data) => {
+    (Story, context) => {
       return (
-        <ThemeProvider
-          themes={ledgerLiveThemes}
-          colorScheme={data.globals.mode as ColorSchemeName}
-        >
+        <StoryDecorator context={context}>
           <View style={{ width: 600, padding: 16 }}>
             <Story />
           </View>
-        </ThemeProvider>
+        </StoryDecorator>
       );
     },
   ],
