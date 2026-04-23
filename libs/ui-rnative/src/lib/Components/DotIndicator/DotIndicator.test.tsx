@@ -97,10 +97,10 @@ describe('DotIndicator', () => {
     expect(toJSON()).toBeTruthy();
   });
 
-  it('should render with negative appearance', () => {
+  it('should render with red appearance', () => {
     const { toJSON } = render(
       <TestWrapper>
-        <DotIndicator appearance='negative' />
+        <DotIndicator appearance='red' />
       </TestWrapper>,
     );
 

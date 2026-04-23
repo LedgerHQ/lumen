@@ -22,7 +22,7 @@ const meta = {
     },
     appearance: {
       control: 'radio',
-      options: ['base', 'negative'],
+      options: ['base', 'red'],
     },
   },
 } satisfies Meta<typeof DotIndicator>;
@@ -50,7 +50,7 @@ export const AppearanceShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotIndicator appearance='base' />
-      <DotIndicator appearance='negative' />
+      <DotIndicator appearance='red' />
       <DotIndicator disabled />
     </Box>
   ),
@@ -59,7 +59,7 @@ export const AppearanceShowcase: Story = {
 export const WithChildren: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
-      <DotIndicator appearance='negative'>
+      <DotIndicator appearance='red'>
         <Button size='sm'>Submit</Button>
       </DotIndicator>
     </Box>

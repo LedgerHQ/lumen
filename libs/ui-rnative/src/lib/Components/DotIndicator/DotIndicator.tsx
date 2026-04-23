@@ -69,7 +69,7 @@ const useStyles = ({
 
       const bgColorMap = {
         base: { backgroundColor: t.colors.bg.interactive },
-        negative: { backgroundColor: t.colors.bg.errorStrong },
+        red: { backgroundColor: t.colors.bg.errorStrong },
       };
 
       return {

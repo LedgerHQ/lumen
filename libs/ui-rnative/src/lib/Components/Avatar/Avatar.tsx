@@ -126,7 +126,7 @@ export const Avatar = ({
 
   if (showNotification) {
     return (
-      <DotIndicator size={dotSizeMap[size]} appearance='negative'>
+      <DotIndicator size={dotSizeMap[size]} appearance='red'>
         {avatarContent}
       </DotIndicator>
     );

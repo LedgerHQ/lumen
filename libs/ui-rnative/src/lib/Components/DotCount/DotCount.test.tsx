@@ -108,10 +108,10 @@ describe('DotCount', () => {
     expect(ref.current).toBeTruthy();
   });
 
-  it('should render with negative appearance', () => {
+  it('should render with red appearance', () => {
     const { getByText } = render(
       <TestWrapper>
-        <DotCount value={5} size='lg' appearance='negative' />
+        <DotCount value={5} size='lg' appearance='red' />
       </TestWrapper>,
     );
 

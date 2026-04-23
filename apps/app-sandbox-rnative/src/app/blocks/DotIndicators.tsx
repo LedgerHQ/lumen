@@ -10,11 +10,11 @@ export function DotIndicators() {
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
         <DotIndicator />
-        <DotIndicator appearance='negative' />
+        <DotIndicator appearance='red' />
         <DotIndicator disabled />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
-        <DotIndicator appearance='negative'>
+        <DotIndicator appearance='red'>
           <Button size='sm' disabled>
             Submit
           </Button>

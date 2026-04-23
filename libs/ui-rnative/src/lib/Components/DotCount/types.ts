@@ -26,7 +26,7 @@ export type DotCountProps = {
    * The appearance of the dot count.
    * @default base
    */
-  appearance?: 'base' | 'negative';
+  appearance?: 'base' | 'red';
   /**
    * Whether the dot count should show a disabled appearance.
    * @default false

@@ -85,7 +85,7 @@ const useStyles = ({
 
       const bgColorMap = {
         base: { backgroundColor: t.colors.bg.interactive },
-        negative: { backgroundColor: t.colors.bg.errorStrong },
+        red: { backgroundColor: t.colors.bg.errorStrong },
       };
 
       const textMap = {
@@ -95,7 +95,7 @@ const useStyles = ({
 
       const textColorMap = {
         base: { color: t.colors.text.onInteractive },
-        negative: { color: t.colors.text.onErrorStrong },
+        red: { color: t.colors.text.onErrorStrong },
       };
 
       return {

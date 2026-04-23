@@ -23,7 +23,7 @@ const meta = {
     },
     appearance: {
       control: 'radio',
-      options: ['base', 'negative'],
+      options: ['base', 'red'],
     },
     value: {
       control: 'number',
@@ -60,7 +60,7 @@ export const AppearanceShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotCount value={3} size='lg' appearance='base' />
-      <DotCount value={3} size='lg' appearance='negative' />
+      <DotCount value={3} size='lg' appearance='red' />
       <DotCount value={3} size='lg' disabled />
     </Box>
   ),
