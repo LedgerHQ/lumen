@@ -48,7 +48,10 @@ export function LineChart({
   };
 
   const axisPadding: Partial<ChartInset> | undefined = useMemo(() => {
-    if (!showXAxis && !showYAxis) return undefined;
+    if (!showXAxis && !showYAxis) {
+      return undefined;
+    }
+
     const xAxisPosition =
       xAxisVisualProps.position === 'top' ? 'top' : 'bottom';
     const yAxisPosition =
