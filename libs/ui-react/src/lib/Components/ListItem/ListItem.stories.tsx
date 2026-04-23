@@ -382,6 +382,89 @@ export const ResponsiveLayout: Story = {
   ),
 };
 
+/**
+ * Demonstrates two common leading-icon patterns for asset lists:
+ * - **Network icon**: `CryptoIcon` from `@ledgerhq/crypto-icons` used as the
+ *   primary `ListItemLeading` element to represent a blockchain / coin.
+ * - **Media icon**: `MediaImage` used as the primary `ListItemLeading` element
+ *   to show a remote logo or image (e.g. protocol or app icon).
+ */
+export const WithNetworkAndMediaIcon: Story = {
+  render: () => (
+    <div className='flex max-w-320 flex-col gap-4'>
+      <div className='body-4-semi-bold text-muted pb-4'>Network icon (CryptoIcon)</div>
+      <ListItem density='expanded' onClick={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
+          <ListItemContent>
+            <ListItemTitle>Bitcoin</ListItemTitle>
+            <ListItemDescription>BTC · Layer 1</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>$43,250.00</ListItemTitle>
+            <ListItemDescription className='text-success'>+2.5%</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded' onClick={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='ethereum' ticker='ETH' size='48px' />
+          <ListItemContent>
+            <ListItemTitle>Ethereum</ListItemTitle>
+            <ListItemDescription>ETH · Layer 1</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>$2,650.00</ListItemTitle>
+            <ListItemDescription className='text-error'>-0.5%</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <div className='body-4-semi-bold text-muted pb-4 pt-16'>Media icon (MediaImage)</div>
+      <ListItem density='expanded' onClick={() => {}}>
+        <ListItemLeading>
+          <MediaImage
+            src='https://crypto-icons.ledger.com/ALGO.png'
+            alt='Algorand'
+            size={48}
+          />
+          <ListItemContent>
+            <ListItemTitle>Algorand</ListItemTitle>
+            <ListItemDescription>ALGO · Layer 1</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>$0.18</ListItemTitle>
+            <ListItemDescription className='text-success'>+1.2%</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='compact' onClick={() => {}}>
+        <ListItemLeading>
+          <MediaImage
+            src='https://crypto-icons.ledger.com/MATIC.png'
+            alt='Polygon'
+            size={32}
+          />
+          <ListItemContent>
+            <ListItemTitle>Polygon</ListItemTitle>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} className='text-muted' />
+        </ListItemTrailing>
+      </ListItem>
+    </div>
+  ),
+};
+
 export const CompositionShowcase: Story = {
   render: () => (
     <div className='flex max-w-320 flex-col gap-4'>
