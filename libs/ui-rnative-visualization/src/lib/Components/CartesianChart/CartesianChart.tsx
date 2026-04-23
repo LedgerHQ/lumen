@@ -84,7 +84,7 @@ export function CartesianChart({
   });
 
   const svgContent = resolvedWidth > 0 && (
-    <Svg width={resolvedWidth} height={height}>
+    <Svg width={resolvedWidth} height={height} style={{ overflow: 'visible' }}>
       <CartesianChartProvider value={contextValue}>
         {children}
       </CartesianChartProvider>
