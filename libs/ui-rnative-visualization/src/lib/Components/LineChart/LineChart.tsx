@@ -1,38 +1,92 @@
-import { View } from 'react-native';
-import { Rect, Svg, Text as SvgText } from 'react-native-svg';
-import type { Series } from '../../utils';
+import { useMemo } from 'react';
 
-type LineChartProps = {
-  series: Series[];
-  width?: number;
-  height?: number;
-};
+import type { AxisConfigProps, ChartInset } from '../../utils/types';
+import { CartesianChart } from '../CartesianChart';
+import { Line } from '../Line';
+import { DEFAULT_AXIS_HEIGHT, XAxis } from '../XAxis';
+import { DEFAULT_AXIS_WIDTH, YAxis } from '../YAxis';
+
+import type { LineChartProps } from './types';
 
 export function LineChart({
-  series: _series,
-  width = 400,
-  height = 300,
+  series,
+  showArea = false,
+  areaType = 'gradient',
+  showXAxis = false,
+  showYAxis = false,
+  xAxis,
+  yAxis,
+  width,
+  height = 160,
+  inset,
+  children,
 }: LineChartProps) {
+  const {
+    scaleType: xScaleType,
+    data: xData,
+    domain: xDomain,
+    ...xAxisVisualProps
+  } = xAxis ?? {};
+
+  const {
+    scaleType: yScaleType,
+    data: yData,
+    domain: yDomain,
+    ...yAxisVisualProps
+  } = yAxis ?? {};
+
+  const xAxisConfig: Partial<AxisConfigProps> = {
+    scaleType: xScaleType,
+    data: xData,
+    domain: xDomain,
+  };
+
+  const yAxisConfig: Partial<AxisConfigProps> = {
+    scaleType: yScaleType,
+    data: yData,
+    domain: yDomain,
+  };
+
+  const axisPadding: Partial<ChartInset> | undefined = useMemo(() => {
+    if (!showXAxis && !showYAxis) return undefined;
+    const xAxisPosition =
+      xAxisVisualProps.position === 'top' ? 'top' : 'bottom';
+    const yAxisPosition =
+      yAxisVisualProps.position === 'end' ? 'right' : 'left';
+    return {
+      top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
+      bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
+      left: showYAxis && yAxisPosition === 'left' ? DEFAULT_AXIS_WIDTH : 0,
+      right: showYAxis && yAxisPosition === 'right' ? DEFAULT_AXIS_WIDTH : 0,
+    };
+  }, [
+    showXAxis,
+    showYAxis,
+    xAxisVisualProps.position,
+    yAxisVisualProps.position,
+  ]);
+
   return (
-    <View
-      testID='line-chart'
-      accessibilityRole='image'
-      accessibilityLabel='Line chart'
+    <CartesianChart
+      series={series ?? []}
+      xAxis={xAxisConfig}
+      yAxis={yAxisConfig}
+      width={width}
+      height={height}
+      inset={inset}
+      axisPadding={axisPadding}
     >
-      <Svg width={width} height={height}>
-        <Rect width={width} height={height} rx={8} fill='#F3F0FA' />
-        <SvgText
-          x={width / 2}
-          y={height / 2}
-          textAnchor='middle'
-          alignmentBaseline='central'
-          fill='#7e4ea5'
-          fontSize={14}
-          fontFamily='Inter'
-        >
-          LineChart placeholder
-        </SvgText>
-      </Svg>
-    </View>
+      {showXAxis && <XAxis {...xAxisVisualProps} />}
+      {showYAxis && <YAxis {...yAxisVisualProps} />}
+      {series?.map((s) => (
+        <Line
+          key={s.id}
+          seriesId={s.id}
+          showArea={showArea}
+          areaType={areaType}
+        />
+      ))}
+      {children}
+    </CartesianChart>
   );
 }
