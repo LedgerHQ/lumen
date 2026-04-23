@@ -63,7 +63,7 @@ export function TextInputs() {
         value={team}
         status='success'
         onChangeText={setTeam}
-        helperText='passowrd must be at least 8 characters'
+        helperText='password must be at least 8 characters'
       />
       <TextInput
         label='A very long label that should really be truncated at different breakpoints'
