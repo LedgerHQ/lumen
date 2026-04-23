@@ -1,5 +1,6 @@
 export {
   DotIcon,
+  dotIconSizeMap,
   mediaImageDotIconSizeMap,
   spotDotIconSizeMap,
 } from './DotIcon';

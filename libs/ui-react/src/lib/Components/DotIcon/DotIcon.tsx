@@ -1,6 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
+import type { IconSize } from '../Icon';
 import type { DotIconPin, DotIconProps, DotIconSize } from './types';
 
 const dotVariants = cva(
@@ -50,6 +51,12 @@ export const spotDotIconSizeMap = {
   56: 24,
   72: 24,
 } as const satisfies Record<number, DotIconSize>;
+
+export const dotIconSizeMap: Record<DotIconSize, IconSize> = {
+  16: 12,
+  20: 12,
+  24: 16,
+};
 
 const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
   'top-start': ['top', 'left'],
@@ -101,7 +108,7 @@ export const DotIcon = ({
         className={cn(dotVariants({ size, shape, pin, appearance }))}
         style={style}
       >
-        <Icon size={size} className='text-on-interactive' />
+        <Icon size={dotIconSizeMap[size]} className='text-on-interactive' />
       </div>
     </div>
   );
