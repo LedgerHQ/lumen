@@ -14,7 +14,7 @@ import {
 } from './useRootColorModeSideEffect';
 
 type ThemeProviderState = {
-  theme?: LedgerLiveDarkTheme | LedgerLiveLightTheme;
+  theme: LedgerLiveDarkTheme | LedgerLiveLightTheme;
   colorScheme: 'light' | 'dark';
 };
 
@@ -41,7 +41,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({
   );
 
   return (
-    <ThemeProviderContext value={value}>
+    <ThemeProviderContext value={value as ThemeProviderState}>
       <I18nProvider locale={locale}>{children}</I18nProvider>
     </ThemeProviderContext>
   );

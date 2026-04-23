@@ -73,6 +73,7 @@ export const sharedConfig = defineConfig(
       /**
        * Others
        */
+      'default-param-last': 'error',
       'no-unused-vars': 'off',
       'no-restricted-imports': [
         'error',
