@@ -35,6 +35,7 @@ import {
   Gradients,
   IconButtons,
   InteractiveIcons,
+  LineCharts,
   OptionLists,
   Links,
   ListItems,
@@ -186,6 +187,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='InteractiveIcons'>
                   <InteractiveIcons />
+                </SandboxBlock>
+                <SandboxBlock title='Line Charts'>
+                  <LineCharts />
                 </SandboxBlock>
                 <SandboxBlock title='Link'>
                   <Links />
