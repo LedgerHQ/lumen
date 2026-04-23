@@ -194,8 +194,8 @@ describe('AddressInput', () => {
       />,
     );
 
-    const errorMessage = screen.getByText('Invalid address format');
-    expect(errorMessage).toBeInTheDocument();
+    const helperTextEl = screen.getByText('Invalid address format');
+    expect(helperTextEl).toBeInTheDocument();
 
     // The role="alert" is on the error container, not the text span
     const errorContainer = screen.getByRole('alert');

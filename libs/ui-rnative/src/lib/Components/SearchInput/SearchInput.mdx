@@ -67,15 +67,15 @@ Alternatively, use `editable={false}` to prevent editing without applying the mu
 
 ### Error State
 
-The search component supports error handling through `errorMessage` which displays an error message below the input with error styling including a red border and text color.
+The search component supports error handling through `helperText` and `status` (`'error'` \| `'success'`), which show copy below the input with matching border and text styling.
 
 <Canvas of={SearchInputStories.WithError} />
 
-The error message will be automatically:
+Helper text (including when `status` is `'error'` or `'success'`) is automatically:
 
 - Connected to the input
-- Displayed with a warning icon
-- Styled in the error color
+- Displayed with a status icon when applicable
+- Styled for the current `status`
 - Announced by screen readers
 
 ## Controlled vs Uncontrolled
@@ -232,13 +232,14 @@ function MyComponent() {
       placeholder='Search products'
       value={query}
       onChangeText={handleSearch}
-      errorMessage={error}
+      helperText={error || undefined}
+      status={error ? 'error' : undefined}
     />
   );
 }
 ```
 
-> **Note:** Error messages are optional. Use `errorMessage` to display an error message below the search input.
+> **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the search input.
 
 ### With Custom Styling
 

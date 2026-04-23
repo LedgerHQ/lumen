@@ -27,7 +27,7 @@ AddressInput is designed specifically where users need to enter wallet addresses
 - **Customizable prefix label** - defaults to "To:" but can be overridden via prefix prop
 - **Conditional QR code scanner** - Appears only when onQrCodeClick handler is provided, using consistent InteractiveIcon styling
 - **Smart clear button** - Appears automatically when content is entered
-- **Error handling** - Supports error states and error messages
+- **Error handling** - Supports validation feedback via `helperText` and `status`
 
 <Canvas of={AddressInputStories.Default} />
 
@@ -178,7 +178,8 @@ React.useEffect(() => {
 <AddressInput
   value={address}
   onChange={(e) => setAddress(e.target.value)}
-  errorMessage={error}
+  helperText={error || undefined}
+  status={error ? 'error' : undefined}
   aria-invalid={!!error}
 />;
 ```
@@ -256,7 +257,8 @@ const handleQrScan = () => {
     placeholder='Enter address or ENS'
     value={recipientAddress}
     onChange={(e) => setRecipientAddress(e.target.value)}
-    errorMessage={addressError}
+    helperText={addressError || undefined}
+    status={addressError ? 'error' : undefined}
     aria-invalid={!!addressError}
     className='max-w-md'
   />
@@ -459,7 +461,8 @@ The component includes comprehensive test coverage for:
   value={address}
   onChange={handleChange}
   aria-invalid={hasError}
-  errorMessage={hasError ? 'Invalid address' : undefined}
+  helperText={hasError ? 'Invalid address' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 
@@ -475,7 +478,8 @@ The component includes comprehensive test coverage for:
   placeholder='Enter address or ENS'
   value={address}
   onChange={handleChange}
-  errorMessage={hasError ? 'Invalid address' : undefined}
+  helperText={hasError ? 'Invalid address' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 

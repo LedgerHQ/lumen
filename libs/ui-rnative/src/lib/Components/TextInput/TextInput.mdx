@@ -54,15 +54,15 @@ Use `onClear` to extend the default clear behavior with custom logic.
 
 ### Error State
 
-The input supports error handling through `errorMessage` which displays an error message below the input with error styling including a red border and text color.
+The input supports error handling through `helperText` and `status` (`'error'` \| `'success'`), which show copy below the input with matching border and text styling.
 
 <Canvas of={TextInputStories.WithError} />
 
-The error message will be automatically:
+Helper text (including when `status` is `'error'` or `'success'`) is automatically:
 
 - Connected to the input
-- Displayed with a warning icon
-- Styled in the error color
+- Displayed with a status icon when applicable
+- Styled for the current `status`
 - Announced by screen readers
 
 ### Disabled State
@@ -221,13 +221,14 @@ function MyComponent() {
       label='Username'
       value={value}
       onChangeText={handleChange}
-      errorMessage={error}
+      helperText={error || undefined}
+      status={error ? 'error' : undefined}
     />
   );
 }
 ```
 
-> **Note:** Error messages are optional. Use `errorMessage` to display an error message below the input.
+> **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
 
 ### With Custom Styling
 

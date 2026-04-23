@@ -55,15 +55,15 @@ Use `hideClearButton` to prevent the clear button from appearing.
 
 ### Error State
 
-The input supports error handling through `errorMessage` which displays an error message below the input with error styling including a red border and text color.
+The input supports error handling through `helperText` and `status` (`'error'` \| `'success'`), which show copy below the input with matching border and text styling.
 
 <Canvas of={AddressInputStories.WithError} />
 
-The error message will be automatically:
+Helper text (including when `status` is `'error'` or `'success'`) is automatically:
 
 - Connected to the input
-- Displayed with a warning icon
-- Styled in the error color
+- Displayed with a status icon when applicable
+- Styled for the current `status`
 - Announced by screen readers
 
 ### Disabled State
@@ -244,7 +244,8 @@ function MyComponent() {
       placeholder='Enter address or ENS'
       value={address}
       onChangeText={setAddress}
-      errorMessage={error}
+      helperText={error || undefined}
+      status={error ? 'error' : undefined}
       onClear={() => {
         // Default clearing happens automatically
         // Add your custom logic here
@@ -289,14 +290,15 @@ function MyComponent() {
       placeholder='Enter address or ENS'
       value={address}
       onChangeText={handleChange}
-      errorMessage={error}
+      helperText={error || undefined}
+      status={error ? 'error' : undefined}
       onQrCodeClick={() => openQrScanner()}
     />
   );
 }
 ```
 
-> **Note:** Error messages are optional. Use `errorMessage` to display an error message below the input.
+> **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
 
 ### With Custom Styling
 
@@ -387,7 +389,8 @@ function MyComponent() {
       value={address}
       onChangeText={setAddress}
       onQrCodeClick={handleQrScan}
-      errorMessage={error}
+      helperText={error || undefined}
+      status={error ? 'error' : undefined}
     />
   );
 }
@@ -412,7 +415,8 @@ function TransactionForm() {
         placeholder='Enter address or ENS'
         value={recipientAddress}
         onChangeText={setRecipientAddress}
-        errorMessage={addressError}
+        helperText={addressError || undefined}
+        status={addressError ? 'error' : undefined}
         onQrCodeClick={() => openQrScanner()}
         style={{ maxWidth: 320 }}
       />
