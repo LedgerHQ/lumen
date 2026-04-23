@@ -1,3 +1,4 @@
+import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
 
 import { buildTicksData } from '../../utils/ticks/ticks';
@@ -11,6 +12,7 @@ const TICK_LABEL_OFFSET = 6;
 export const DEFAULT_AXIS_HEIGHT = 28;
 
 export function XAxis({
+  gridLineStyle = 'dashed',
   position = 'bottom',
   showGrid = false,
   showLine = false,
@@ -18,6 +20,7 @@ export function XAxis({
   ticks: ticksProp,
   tickLabelFormatter,
 }: XAxisProps) {
+  const { theme } = useTheme();
   const { getXScale, getXAxisConfig, drawingArea } = useCartesianChartContext();
 
   const xScale = getXScale();
@@ -51,9 +54,9 @@ export function XAxis({
             y1={drawingArea.y}
             x2={tick.position}
             y2={drawingArea.y + drawingArea.height}
-            style={{ stroke: 'var(--border-muted-subtle)' }}
+            style={{ stroke: theme.colors.border.mutedSubtle }}
             strokeWidth={STROKE_WIDTH}
-            strokeDasharray='2 2'
+            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
           />
         ))}
 
@@ -63,7 +66,7 @@ export function XAxis({
           y1={axisY}
           x2={drawingArea.x + drawingArea.width}
           y2={axisY}
-          style={{ stroke: 'var(--border-muted)' }}
+          style={{ stroke: theme.colors.border.muted }}
           strokeWidth={STROKE_WIDTH}
           shapeRendering='crispEdges'
           strokeLinecap='square'
@@ -78,7 +81,7 @@ export function XAxis({
             y1={axisY}
             x2={tick.position}
             y2={axisY + tickDirection * TICK_MARK_SIZE}
-            style={{ stroke: 'var(--border-muted)' }}
+            style={{ stroke: theme.colors.border.muted }}
             strokeWidth={STROKE_WIDTH}
           />
         ))}
@@ -90,9 +93,9 @@ export function XAxis({
           y={labelY}
           textAnchor='middle'
           dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
-          style={{ fill: 'var(--text-muted)' }}
-          fontSize={11}
-          fontFamily='Inter, system-ui, sans-serif'
+          style={{ fill: theme.colors.text.muted }}
+          fontSize={theme.typographies.xs.body.body4.fontSize}
+          fontFamily={theme.typographies.xs.body.body1.fontFamily}
         >
           {tick.label}
         </text>
