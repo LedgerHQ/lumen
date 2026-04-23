@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
+import type { LumenStyleSheetTheme } from '../../../styles';
 import { Box } from '../Utility';
 import type { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
 
-type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
+type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
 
 const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   12: 'xs',
@@ -15,6 +16,7 @@ const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   40: 'md',
   48: 'md',
   56: 'lg',
+  64: 'lg',
 };
 
 const useStyles = ({

@@ -12,6 +12,7 @@ export * from './Checkbox';
 export * from './DataTable';
 export * from './Dialog';
 export * from './Divider';
+export * from './DotIcon';
 export * from './DotSymbol';
 export * from './IconButton';
 export * from './InteractiveIcon';
