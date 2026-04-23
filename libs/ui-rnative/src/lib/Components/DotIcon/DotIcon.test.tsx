@@ -156,9 +156,9 @@ describe('DotIcon Component', () => {
     });
 
     it.each([
-      { size: 16 as const, expectedRadius: borderRadius.sm },
-      { size: 20 as const, expectedRadius: borderRadius.sm },
-      { size: 24 as const, expectedRadius: borderRadius.md },
+      { size: 16 as const, expectedRadius: 5 },
+      { size: 20 as const, expectedRadius: 6 },
+      { size: 24 as const, expectedRadius: 8 },
     ])(
       'should apply correct border radius for square shape at size $size',
       ({ size, expectedRadius }) => {

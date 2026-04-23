@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import type { LumenStyleSheetTheme } from '../../../styles';
 import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
 import type {
@@ -10,18 +9,16 @@ import type {
   DotIconSize,
 } from './types';
 
-type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
-
-const shapeRadiusMap: Record<DotIconSize, BorderRadiusKey> = {
-  16: 'sm',
-  20: 'sm',
-  24: 'md',
-};
-
 const dotIconSizeMap: Record<DotIconSize, IconSize> = {
   16: 12,
   20: 12,
   24: 16,
+};
+
+const dotSquareRadiusMap: Record<DotIconSize, number> = {
+  16: 5,
+  20: 6,
+  24: 8,
 };
 
 export const mediaImageDotIconSizeMap = {
@@ -76,9 +73,7 @@ const useStyles = ({
     (t) => {
       const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
       const radius =
-        shape === 'circle'
-          ? t.borderRadius.full
-          : t.borderRadius[shapeRadiusMap[size]];
+        shape === 'circle' ? t.borderRadius.full : dotSquareRadiusMap[size];
       const pinOffset = getPinOffset(pin);
 
       return {

@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import type { LumenStyleSheetTheme } from '../../../styles';
 import type { MediaImageSize } from '../MediaImage';
 import type { SpotSize } from '../Spot';
 import { Box } from '../Utility';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
-type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
-
-const shapeRadiusMap: Record<DotSymbolSize, BorderRadiusKey> = {
-  8: 'xs',
-  10: 'xs',
-  12: 'xs',
-  16: 'sm',
-  20: 'sm',
-  24: 'md',
+const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
+  8: 2,
+  10: 3,
+  12: 4,
+  16: 5,
+  20: 6,
+  24: 8,
 };
 
 const offsetBySize: Record<DotSymbolSize, number> = {
@@ -77,9 +74,7 @@ const useStyles = ({
     (t) => {
       const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
       const radius =
-        shape === 'circle'
-          ? t.borderRadius.full
-          : t.borderRadius[shapeRadiusMap[size]];
+        shape === 'circle' ? t.borderRadius.full : dotSquareRadiusMap[size];
       const pinOffset = getPinOffset(pin, size);
 
       return {

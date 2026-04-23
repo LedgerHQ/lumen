@@ -82,7 +82,6 @@ export const DotIcons = () => {
         />
       </DotIcon>
 
-      {/* Square shape */}
       <DotIcon
         appearance='success'
         icon={ArrowDown}
