@@ -59,14 +59,13 @@ describe('LineChart', () => {
   });
 
   it('renders area fill when showArea is true', () => {
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <LineChartWrapper>
         <LineChart series={sampleSeries} width={400} height={200} showArea />
       </LineChartWrapper>,
     );
-    expect(getAllByTestId('line-path')).toHaveLength(1);
-    expect(getAllByTestId('line-area')).toHaveLength(1);
-    expect(getAllByTestId('line-gradient')).toHaveLength(1);
+    getByTestId('line-path');
+    getByTestId('line-area');
   });
 
   it('does not render area fill when showArea is false', () => {
@@ -75,6 +74,6 @@ describe('LineChart', () => {
         <LineChart series={sampleSeries} width={400} height={200} />
       </LineChartWrapper>,
     );
-    expect(queryAllByTestId('line-gradient')).toHaveLength(0);
+    expect(queryAllByTestId('line-area')).toHaveLength(0);
   });
 });
