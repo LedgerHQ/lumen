@@ -33,6 +33,12 @@
   ],
   "references": [
     {
+      "path": "../utils-shared/tsconfig.lib.json"
+    },
+    {
+      "path": "../ui-rnative/tsconfig.lib.json"
+    },
+    {
       "path": "../design-core/tsconfig.lib.json"
     }
   ]

@@ -1,19 +1,9 @@
-import { describe, it, expect, jest } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
+import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
 
 import { LineChart } from './LineChart';
-
-jest.mock('@ledgerhq/lumen-ui-rnative/styles', () => ({
-  useTheme: () => ({
-    theme: {
-      colors: {
-        border: { muted: '#666', mutedSubtle: '#ccc' },
-        text: { muted: '#999' },
-      },
-    },
-    colorScheme: 'light',
-  }),
-}));
 
 const sampleSeries = [
   {
@@ -23,50 +13,68 @@ const sampleSeries = [
   },
 ];
 
+const LineChartWrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+      {children}
+    </ThemeProvider>
+  );
+};
+
 describe('LineChart', () => {
   it('renders the chart container', () => {
-    const { getByRole } = render(
-      <LineChart series={sampleSeries} width={400} height={200} />,
+    const { getByTestId } = render(
+      <LineChartWrapper>
+        <LineChart series={sampleSeries} width={400} height={200} />
+      </LineChartWrapper>,
     );
-    expect(getByRole('image')).toBeTruthy();
+    getByTestId('chart-container');
   });
 
   it('renders an Svg element', () => {
-    const { UNSAFE_getByType } = render(
-      <LineChart series={sampleSeries} width={400} height={200} />,
+    const { getByTestId } = render(
+      <LineChartWrapper>
+        <LineChart series={sampleSeries} width={400} height={200} />
+      </LineChartWrapper>,
     );
-    const svg = UNSAFE_getByType('Svg' as any);
-    expect(svg).toBeTruthy();
+    getByTestId('chart-svg');
   });
 
   it('renders a Path for each series', () => {
-    const { UNSAFE_getAllByType } = render(
-      <LineChart series={sampleSeries} width={400} height={200} />,
+    const { getAllByTestId } = render(
+      <LineChartWrapper>
+        <LineChart series={sampleSeries} width={400} height={200} />
+      </LineChartWrapper>,
     );
-    const paths = UNSAFE_getAllByType('Path' as any);
-    expect(paths.length).toBe(1);
+    expect(getAllByTestId('line-path')).toHaveLength(1);
   });
 
   it('renders with no series', () => {
-    const { getByRole } = render(<LineChart width={400} height={200} />);
-    expect(getByRole('image')).toBeTruthy();
+    const { getByTestId } = render(
+      <LineChartWrapper>
+        <LineChart width={400} height={200} />
+      </LineChartWrapper>,
+    );
+    getByTestId('chart-container');
   });
 
   it('renders area fill when showArea is true', () => {
-    const { UNSAFE_getAllByType } = render(
-      <LineChart series={sampleSeries} width={400} height={200} showArea />,
+    const { getAllByTestId } = render(
+      <LineChartWrapper>
+        <LineChart series={sampleSeries} width={400} height={200} showArea />
+      </LineChartWrapper>,
     );
-    const paths = UNSAFE_getAllByType('Path' as any);
-    expect(paths.length).toBe(2);
-    const gradients = UNSAFE_getAllByType('LinearGradient' as any);
-    expect(gradients.length).toBe(1);
+    expect(getAllByTestId('line-path')).toHaveLength(1);
+    expect(getAllByTestId('line-area')).toHaveLength(1);
+    expect(getAllByTestId('line-gradient')).toHaveLength(1);
   });
 
   it('does not render area fill when showArea is false', () => {
-    const { UNSAFE_queryAllByType } = render(
-      <LineChart series={sampleSeries} width={400} height={200} />,
+    const { queryAllByTestId } = render(
+      <LineChartWrapper>
+        <LineChart series={sampleSeries} width={400} height={200} />
+      </LineChartWrapper>,
     );
-    const gradients = UNSAFE_queryAllByType('LinearGradient' as any);
-    expect(gradients.length).toBe(0);
+    expect(queryAllByTestId('line-gradient')).toHaveLength(0);
   });
 });

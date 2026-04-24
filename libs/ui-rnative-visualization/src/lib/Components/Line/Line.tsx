@@ -57,7 +57,7 @@ export function Line({
       {showArea && areaPath && resolvedStroke && (
         <>
           <Defs>
-            <LinearGradient id={gradientId} x1='0' y1='0' x2='0' y2='1'>
+            <LinearGradient testID='line-gradient' id={gradientId} x1='0' y1='0' x2='0' y2='1'>
               <Stop
                 offset='0%'
                 stopColor={resolvedStroke}
@@ -66,10 +66,11 @@ export function Line({
               <Stop offset='100%' stopColor={resolvedStroke} stopOpacity={0} />
             </LinearGradient>
           </Defs>
-          <Path d={areaPath} fill={`url(#${gradientId})`} stroke='none' />
+          <Path testID='line-area' d={areaPath} fill={`url(#${gradientId})`} stroke='none' />
         </>
       )}
       <Path
+        testID='line-path'
         d={linePath}
         fill='none'
         stroke={resolvedStroke}
