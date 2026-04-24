@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 
 import type { AxisConfigProps, ChartInset } from '../../utils/types';
+import { DEFAULT_AXIS_HEIGHT, XAxis } from '../Axis/XAxis';
+import { DEFAULT_AXIS_WIDTH, YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { Line } from '../Line';
-import { DEFAULT_AXIS_HEIGHT, XAxis } from '../XAxis';
-import { DEFAULT_AXIS_WIDTH, YAxis } from '../YAxis';
 
 import type { LineChartProps } from './types';
 
@@ -53,17 +53,19 @@ export function LineChart({
       xAxisVisualProps.position === 'top' ? 'top' : 'bottom';
     const yAxisPosition =
       yAxisVisualProps.position === 'end' ? 'right' : 'left';
+    const yAxisWidth = yAxisVisualProps.width ?? DEFAULT_AXIS_WIDTH;
     return {
       top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
       bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
-      left: showYAxis && yAxisPosition === 'left' ? DEFAULT_AXIS_WIDTH : 0,
-      right: showYAxis && yAxisPosition === 'right' ? DEFAULT_AXIS_WIDTH : 0,
+      left: showYAxis && yAxisPosition === 'left' ? yAxisWidth : 0,
+      right: showYAxis && yAxisPosition === 'right' ? yAxisWidth : 0,
     };
   }, [
     showXAxis,
     showYAxis,
     xAxisVisualProps.position,
     yAxisVisualProps.position,
+    yAxisVisualProps.width,
   ]);
 
   return (
