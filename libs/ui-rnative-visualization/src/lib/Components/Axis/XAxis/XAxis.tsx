@@ -1,4 +1,4 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 

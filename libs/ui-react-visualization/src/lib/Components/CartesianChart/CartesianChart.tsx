@@ -113,7 +113,11 @@ export function CartesianChart({
 
   if (needsMeasurement) {
     return (
-      <div ref={containerRef} data-testid='chart-container' style={{ width, height }}>
+      <div
+        ref={containerRef}
+        data-testid='chart-container'
+        style={{ width, height }}
+      >
         {measuredWidth !== undefined && svgContent}
       </div>
     );
