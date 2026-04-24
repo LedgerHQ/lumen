@@ -1,0 +1,130 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { StyleSheet } from 'react-native';
+import { useStyleSheet } from '../../../styles';
+import { Box, Text } from '../Utility';
+import type { DotCountProps } from './types';
+
+export function DotCount({
+  value,
+  size = 'md',
+  max = 99,
+  appearance = 'base',
+  disabled: disabledProp = false,
+  lx = {},
+  style,
+  children,
+  accessibilityLabel,
+  ref,
+  ...props
+}: DotCountProps) {
+  const disabled = useDisabledContext({
+    consumerName: 'DotCount',
+    mergeWith: { disabled: disabledProp },
+  });
+
+  const styles = useStyles({
+    size,
+    appearance,
+    disabled,
+    pinned: !!children,
+  });
+
+  const cappedMax = Math.max(1, Math.min(max, 99));
+
+  return (
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([
+        children ? { position: 'relative' } : undefined,
+        style,
+      ])}
+      {...props}
+    >
+      <Box
+        style={styles.container}
+        accessibilityRole='image'
+        accessibilityLabel={accessibilityLabel}
+        accessible={!!accessibilityLabel}
+        pointerEvents='none'
+      >
+        {value > 0 && (
+          <Text style={styles.text} allowFontScaling={false}>
+            {value <= cappedMax ? value : `${cappedMax}+`}
+          </Text>
+        )}
+      </Box>
+      {children}
+    </Box>
+  );
+}
+
+const useStyles = ({
+  size,
+  appearance,
+  disabled,
+  pinned,
+}: {
+  size: NonNullable<DotCountProps['size']>;
+  appearance: NonNullable<DotCountProps['appearance']>;
+  disabled: boolean;
+  pinned: boolean;
+}) => {
+  return useStyleSheet(
+    (t) => {
+      const sizeMap = {
+        lg: {
+          minWidth: t.sizes.s24,
+          minHeight: t.sizes.s24,
+          paddingHorizontal: t.spacings.s8,
+          paddingVertical: t.spacings.s2,
+        },
+        md: {
+          minHeight: t.sizes.s16,
+          minWidth: t.sizes.s16,
+          paddingHorizontal: t.spacings.s4,
+        },
+      };
+
+      const bgColorMap = {
+        base: { backgroundColor: t.colors.bg.interactive },
+        red: { backgroundColor: t.colors.bg.errorStrong },
+      };
+
+      const textMap = {
+        lg: { ...t.typographies.body2SemiBold },
+        md: { ...t.typographies.body4SemiBold },
+      };
+
+      const textColorMap = {
+        base: { color: t.colors.text.onInteractive },
+        red: { color: t.colors.text.onErrorStrong },
+      };
+
+      return {
+        container: {
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: t.borderRadius.full,
+          ...(pinned && {
+            position: 'absolute',
+            top: t.spacings.s0,
+            right: t.spacings.s0,
+            zIndex: 1,
+          }),
+          ...sizeMap[size],
+          ...(disabled
+            ? { backgroundColor: t.colors.bg.disabled }
+            : { ...bgColorMap[appearance] }),
+        },
+        text: {
+          ...textMap[size],
+          ...(disabled
+            ? { color: t.colors.text.disabled }
+            : { ...textColorMap[appearance] }),
+        },
+      };
+    },
+    [size, appearance, disabled, pinned],
+  );
+};

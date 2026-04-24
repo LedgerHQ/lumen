@@ -4,6 +4,8 @@ export * from './AmountInput';
 export * from './Avatar';
 export * from './Banner';
 export * from './BottomSheet';
+export * from './DotCount';
+export * from './DotIndicator';
 export * from './Button';
 export * from './Card';
 export * from './CardButton';
