@@ -2,8 +2,8 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import { buildTicksData } from '../../utils/ticks/ticks';
-import { useCartesianChartContext } from '../CartesianChart/context';
+import { buildTicksData } from '../../../utils/ticks/ticks';
+import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { XAxisProps } from './types';
 

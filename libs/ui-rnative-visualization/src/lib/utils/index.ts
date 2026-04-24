@@ -8,6 +8,4 @@ export type {
   DrawingArea,
   NumericScale,
   Series,
-  YAxisVisualProps,
-  XAxisVisualProps,
 } from './types';
