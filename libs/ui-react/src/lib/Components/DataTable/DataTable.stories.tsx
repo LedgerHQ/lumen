@@ -811,9 +811,13 @@ export const WithActionBarAndSelectTrigger: Story = {
       null,
     );
 
-    const filteredData = selectedCategory
-      ? largeData.filter((d) => d.category === selectedCategory)
-      : largeData;
+    const filteredData = useMemo(
+      () =>
+        selectedCategory
+          ? largeData.filter((d) => d.category === selectedCategory)
+          : largeData,
+      [selectedCategory],
+    );
 
     const table = useLumenDataTable({
       data: filteredData,

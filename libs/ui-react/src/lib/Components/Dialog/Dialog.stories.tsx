@@ -730,6 +730,37 @@ export const InfoStateVariants: Story = {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button appearance='base'>Muted</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader density='compact' className='relative' />
+            <DialogBody>
+              <div className='flex flex-col items-center gap-24 overflow-hidden'>
+                <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
+                <Spot appearance='info' size={72} />
+                <div className='flex flex-col items-center gap-12 text-center'>
+                  <h3 className='heading-4-semi-bold text-base'>Title</h3>
+                  <p className='body-2 text-muted'>Description</p>
+                </div>
+              </div>
+            </DialogBody>
+            <DialogFooter className='gap-8'>
+              <DialogClose asChild>
+                <Button appearance='base' size='lg' isFull>
+                  Confirm
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button appearance='no-background' size='lg' isFull>
+                  Cancel
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   },
@@ -780,7 +811,7 @@ export const InfoStateVariants: Story = {
           <h3 className="heading-4-semi-bold text-base">Title</h3>
           <p className="body-2 text-muted">Description</p>
         </div>
-    </div>
+      </div>
     </DialogBody>
     <DialogFooter className="gap-8">
       <DialogClose asChild>
@@ -792,49 +823,37 @@ export const InfoStateVariants: Story = {
     </DialogFooter>
   </DialogContent>
 </Dialog>
+
+// Muted state (uncontrolled)
+<Dialog>
+  <DialogTrigger asChild>
+    <Button appearance="base">Open Muted Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader density="compact" className="relative" />
+    <DialogBody>
+      <div className="flex flex-col items-center gap-24 overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted" />
+        <Spot appearance="info" size={72} />
+        <div className="flex flex-col items-center gap-12 text-center">
+          <h3 className="heading-4-semi-bold text-base">Title</h3>
+          <p className="body-2 text-muted">Description</p>
+        </div>
+      </div>
+    </DialogBody>
+    <DialogFooter className="gap-8">
+      <DialogClose asChild>
+        <Button appearance="base" size="lg" isFull>Confirm</Button>
+      </DialogClose>
+      <DialogClose asChild>
+        <Button appearance="no-background" size="lg" isFull>Cancel</Button>
+      </DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
         `,
       },
     },
   },
 };
 
-/**
- * A dialog with a `bg-gradient-muted` overlay inside the body — useful for
- * neutral info states or confirmations that don't carry an error / success
- * semantic. The gradient is applied via an absolutely-positioned `div` so the
- * content stays in normal flow on top of it.
- */
-export const WithGradientMuted: Story = {
-  render: () => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button appearance='base'>Open muted dialog</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader density='compact' className='relative' />
-        <DialogBody>
-          <div className='flex flex-col items-center gap-24 overflow-hidden'>
-            <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
-            <Spot appearance='info' size={72} />
-            <div className='flex flex-col items-center gap-12 text-center'>
-              <h3 className='heading-4-semi-bold text-base'>Title</h3>
-              <p className='body-2 text-muted'>Description</p>
-            </div>
-          </div>
-        </DialogBody>
-        <DialogFooter className='gap-8'>
-          <DialogClose asChild>
-            <Button appearance='base' size='lg' isFull>
-              Confirm
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button appearance='no-background' size='lg' isFull>
-              Cancel
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  ),
-};

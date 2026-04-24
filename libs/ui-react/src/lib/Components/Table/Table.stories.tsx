@@ -1,6 +1,6 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { MediaImage } from '../MediaImage/MediaImage';
 import { Button } from '../Button/Button';
@@ -491,9 +491,13 @@ export const WithActionBarAndSelectTrigger: Story = {
       null,
     );
 
-    const filteredData = selectedCategory
-      ? categorizedData.filter((d) => d.category === selectedCategory)
-      : categorizedData;
+    const filteredData = useMemo(
+      () =>
+        selectedCategory
+          ? categorizedData.filter((d) => d.category === selectedCategory)
+          : categorizedData,
+      [selectedCategory],
+    );
 
     return (
       <div className='w-3xl text-base'>
