@@ -9,23 +9,28 @@ import type { CartesianChartProps } from './types';
 
 const DEFAULT_HEIGHT = 160;
 const DEFAULT_INSET: ChartInset = {
-  top: 8,
-  right: 0,
+  top: 5,
+  right: 20,
   bottom: 0,
-  left: 0,
+  left: 20,
 };
 const ZERO_PADDING: ChartInset = { top: 0, right: 0, bottom: 0, left: 0 };
 
 const resolveInset = (inset: CartesianChartProps['inset']): ChartInset => {
   if (inset === undefined) return DEFAULT_INSET;
   if (typeof inset === 'number') {
-    return { top: inset, right: inset, bottom: inset, left: inset };
+    return {
+      top: inset + DEFAULT_INSET.top,
+      right: inset + DEFAULT_INSET.right,
+      bottom: inset + DEFAULT_INSET.bottom,
+      left: inset + DEFAULT_INSET.left,
+    };
   }
   return {
-    top: inset.top ?? DEFAULT_INSET.top,
-    right: inset.right ?? DEFAULT_INSET.right,
-    bottom: inset.bottom ?? DEFAULT_INSET.bottom,
-    left: inset.left ?? DEFAULT_INSET.left,
+    top: (inset.top ?? 0) + DEFAULT_INSET.top,
+    right: (inset.right ?? 0) + DEFAULT_INSET.right,
+    bottom: (inset.bottom ?? 0) + DEFAULT_INSET.bottom,
+    left: (inset.left ?? 0) + DEFAULT_INSET.left,
   };
 };
 
@@ -95,7 +100,11 @@ export function CartesianChart({
     return (
       <View
         onLayout={handleLayout}
-        style={{ height }}
+        style={{
+          height,
+          marginLeft: -20,
+          marginRight: -20,
+        }}
         accessibilityRole='image'
         accessibilityLabel={ariaLabel}
       >
@@ -108,7 +117,12 @@ export function CartesianChart({
     <View
       accessibilityRole='image'
       accessibilityLabel={ariaLabel}
-      style={{ width: resolvedWidth, height }}
+      style={{
+        width: resolvedWidth,
+        height,
+        marginLeft: -20,
+        marginRight: -20,
+      }}
     >
       {svgContent}
     </View>
