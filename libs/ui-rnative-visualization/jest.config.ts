@@ -6,6 +6,9 @@ const transformIncludePatterns = [
   'react-native-svg',
   '(jest-)?react-native',
   '@react-native(-community)?',
+  'd3-.*',
+  'internmap',
+  '@sbaiahmed1/react-native-blur',
 ];
 
 export default {

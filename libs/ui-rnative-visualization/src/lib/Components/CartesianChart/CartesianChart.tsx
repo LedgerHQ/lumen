@@ -89,7 +89,12 @@ export function CartesianChart({
   });
 
   const svgContent = resolvedWidth > 0 && (
-    <Svg width={resolvedWidth} height={height} style={{ overflow: 'visible' }}>
+    <Svg
+      testID='chart-svg'
+      width={resolvedWidth}
+      height={height}
+      style={{ overflow: 'visible' }}
+    >
       <CartesianChartProvider value={contextValue}>
         {children}
       </CartesianChartProvider>
@@ -99,6 +104,7 @@ export function CartesianChart({
   if (needsMeasurement) {
     return (
       <View
+        testID='chart-container'
         onLayout={handleLayout}
         style={{
           height,
@@ -115,6 +121,7 @@ export function CartesianChart({
 
   return (
     <View
+      testID='chart-container'
       accessibilityRole='image'
       accessibilityLabel={ariaLabel}
       style={{
