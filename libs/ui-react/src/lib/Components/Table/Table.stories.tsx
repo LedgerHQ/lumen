@@ -566,9 +566,13 @@ export const WithActionBarAndSelectTrigger: Story = {
       null,
     );
 
-    const filteredData = selectedCategory
-      ? categorizedData.filter((d) => d.category === selectedCategory)
-      : categorizedData;
+    const filteredData = useMemo(
+      () =>
+        selectedCategory
+          ? categorizedData.filter((d) => d.category === selectedCategory)
+          : categorizedData,
+      [selectedCategory],
+    );
 
     return (
       <div className='w-3xl text-base'>
