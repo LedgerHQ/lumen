@@ -46,7 +46,7 @@ const resolveAxisPadding = (
   };
 };
 
-export function CartesianChart({
+export const CartesianChart = ({
   series,
   xAxis,
   yAxis,
@@ -56,7 +56,7 @@ export function CartesianChart({
   axisPadding,
   ariaLabel = 'Chart',
   children,
-}: CartesianChartProps) {
+}: CartesianChartProps) => {
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
   const needsMeasurement = width === undefined;
@@ -134,4 +134,4 @@ export function CartesianChart({
       {svgContent}
     </View>
   );
-}
+};

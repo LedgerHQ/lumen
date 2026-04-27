@@ -13,7 +13,7 @@ const TICK_LABEL_OFFSET = 6;
 const FONT_SIZE = 11;
 export const DEFAULT_AXIS_HEIGHT = 28;
 
-export function XAxis({
+export const XAxis = ({
   gridLineStyle = 'dashed',
   position = 'bottom',
   showGrid = false,
@@ -21,7 +21,7 @@ export function XAxis({
   showTickMark = false,
   ticks: ticksProp,
   tickLabelFormatter,
-}: XAxisProps) {
+}: XAxisProps) => {
   const { getXScale, getXAxisConfig, drawingArea } = useCartesianChartContext();
   const { theme } = useTheme();
 
@@ -108,4 +108,4 @@ export function XAxis({
       ))}
     </G>
   );
-}
+};

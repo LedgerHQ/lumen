@@ -13,14 +13,14 @@ const TICK_LABEL_OFFSET = 6;
 const FONT_SIZE = 11;
 export const DEFAULT_AXIS_WIDTH = 40;
 
-export function YAxis({
+export const YAxis = ({
   position = 'start',
   showGrid = false,
   showLine = false,
   showTickMark = false,
   ticks: ticksProp,
   tickLabelFormatter,
-}: YAxisProps) {
+}: YAxisProps) => {
   const { getYScale, getYAxisConfig, drawingArea } = useCartesianChartContext();
   const { theme } = useTheme();
 
@@ -107,4 +107,4 @@ export function YAxis({
       ))}
     </G>
   );
-}
+};

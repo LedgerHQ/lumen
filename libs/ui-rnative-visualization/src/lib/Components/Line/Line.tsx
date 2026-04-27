@@ -10,12 +10,12 @@ import { buildAreaPath, buildLinePath, toScaledPoints } from './utils';
 const STROKE_WIDTH = 2;
 const AREA_GRADIENT_OPACITY = 0.2;
 
-export function Line({
+export const Line = ({
   seriesId,
   stroke,
   showArea = false,
   areaType: _areaType = 'gradient',
-}: LineProps) {
+}: LineProps) => {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
 
@@ -85,4 +85,4 @@ export function Line({
       />
     </>
   );
-}
+};
