@@ -180,7 +180,6 @@ React.useEffect(() => {
   onChange={(e) => setAddress(e.target.value)}
   helperText={error || undefined}
   status={error ? 'error' : undefined}
-  aria-invalid={!!error}
 />;
 ```
 
@@ -259,7 +258,6 @@ const handleQrScan = () => {
     onChange={(e) => setRecipientAddress(e.target.value)}
     helperText={addressError || undefined}
     status={addressError ? 'error' : undefined}
-    aria-invalid={!!addressError}
     className='max-w-md'
   />
   {/* Other transaction fields */}
@@ -450,8 +448,8 @@ The component includes comprehensive test coverage for:
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Use aria-invalid for errors'
-      description='Use aria-invalid to control the error state styling'
+      title='Use status for errors'
+      description='status drives visual styling and automatically sets aria-invalid on the input for accessibility'
     >
 
 {/* prettier-ignore */}
@@ -460,7 +458,6 @@ The component includes comprehensive test coverage for:
   placeholder='Enter address or ENS'
   value={address}
   onChange={handleChange}
-  aria-invalid={hasError}
   helperText={hasError ? 'Invalid address' : undefined}
   status={hasError ? 'error' : undefined}
 />
@@ -468,8 +465,8 @@ The component includes comprehensive test coverage for:
 
     </DoBlockItem>
     <DontBlockItem
-      title="Don't omit aria-invalid"
-      description='Always provide aria-invalid when showing error messages for proper accessibility'
+      title="Don't rely on aria-invalid for styling"
+      description='aria-invalid is for screen readers only — it no longer drives the error ring on the container'
     >
 
 {/* prettier-ignore */}
@@ -478,8 +475,7 @@ The component includes comprehensive test coverage for:
   placeholder='Enter address or ENS'
   value={address}
   onChange={handleChange}
-  helperText={hasError ? 'Invalid address' : undefined}
-  status={hasError ? 'error' : undefined}
+  aria-invalid={hasError}
 />
 ```
 

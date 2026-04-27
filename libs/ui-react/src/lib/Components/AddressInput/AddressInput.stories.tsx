@@ -116,7 +116,6 @@ export const Error: Story = {
     defaultValue: 'invalid-address-format',
     helperText: 'Invalid address format',
     status: 'error',
-    'aria-invalid': true,
     className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
   },
@@ -128,7 +127,6 @@ export const Error: Story = {
   defaultValue="invalid-address-format"
   helperText="Invalid address format"
   status="error"
-  aria-invalid={true}
   className="max-w-md"
 />`,
       },
@@ -182,7 +180,6 @@ export const Controlled: Story = {
           }}
           helperText={error || undefined}
           status={error ? 'error' : undefined}
-          aria-invalid={!!error}
           className='max-w-md'
         />
 

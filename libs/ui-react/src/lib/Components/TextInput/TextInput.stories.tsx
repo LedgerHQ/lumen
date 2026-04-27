@@ -62,7 +62,6 @@ export const Default: Story = {
     label: 'Label',
     type: 'text',
     disabled: false,
-    'aria-invalid': false,
     value: '',
     onClear: undefined,
     suffix: undefined,
@@ -241,7 +240,6 @@ export const WithError: Story = {
           type='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          aria-invalid={!isValidEmail}
           helperText={
             !isValidEmail ? 'Please enter a valid email address' : undefined
           }
@@ -501,7 +499,6 @@ export const Interactive: Story = {
               value={formData.username}
               onChange={handleChange('username')}
               onClear={handleClear('username')}
-              aria-invalid={!!errors.username}
               helperText={errors.username}
               status={errors.username ? 'error' : undefined}
               suffix={<InformationFill size={20} className='text-muted' />}
@@ -513,7 +510,6 @@ export const Interactive: Story = {
               value={formData.email}
               onChange={handleChange('email')}
               onClear={handleClear('email')}
-              aria-invalid={!!errors.email}
               helperText={errors.email}
               status={errors.email ? 'error' : undefined}
             />
@@ -524,7 +520,6 @@ export const Interactive: Story = {
               value={formData.password}
               onChange={handleChange('password')}
               onClear={handleClear('password')}
-              aria-invalid={!!errors.password}
               helperText={errors.password}
               status={errors.password ? 'error' : undefined}
             />
@@ -535,7 +530,6 @@ export const Interactive: Story = {
               value={formData.confirmPassword}
               onChange={handleChange('confirmPassword')}
               onClear={handleClear('confirmPassword')}
-              aria-invalid={!!errors.confirmPassword}
               helperText={errors.confirmPassword}
               status={errors.confirmPassword ? 'error' : undefined}
             />

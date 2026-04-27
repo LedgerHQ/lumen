@@ -108,7 +108,6 @@ export const Error: Story = {
     defaultValue: 'Invalid search',
     helperText: 'Search term is invalid',
     status: 'error',
-    'aria-invalid': true,
     className: 'max-w-md',
   },
   parameters: {
@@ -119,7 +118,6 @@ export const Error: Story = {
   defaultValue="Invalid search"
   helperText="Search term is invalid"
   status="error"
-  aria-invalid={true}
   className="max-w-md"
 />`,
       },
