@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { act, render, screen } from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { CheckmarkCircleFill } from '../../Symbols/Icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
@@ -11,22 +11,18 @@ const { colors } = ledgerLiveThemes.dark;
 
 const renderWithProvider = (
   component: ReactElement,
-): Promise<ReturnType<typeof render>> => {
-  let rendered: ReturnType<typeof render> | undefined;
-
-  return act(async () => {
-    rendered = render(
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-        {component}
-      </ThemeProvider>,
-    );
-  }).then(() => rendered as ReturnType<typeof render>);
+): ReturnType<typeof render> => {
+  return render(
+    <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
+      {component}
+    </ThemeProvider>,
+  );
 };
 
 describe('TextInput', () => {
   describe('Helper text', () => {
-    it('renders neutral helper text without feedback icons', async () => {
-      await renderWithProvider(
+    it('renders neutral helper text without feedback icons', () => {
+      renderWithProvider(
         <TextInput label='Address' helperText='Enter your ETH address' />,
       );
 
@@ -42,8 +38,8 @@ describe('TextInput', () => {
       expect(screen.UNSAFE_queryByType(CheckmarkCircleFill)).toBeNull();
     });
 
-    it('renders error helper text with an error icon', async () => {
-      await renderWithProvider(
+    it('renders error helper text with an error icon', () => {
+      renderWithProvider(
         <TextInput
           label='Address'
           helperText='Invalid address format'
@@ -62,8 +58,8 @@ describe('TextInput', () => {
       expect(screen.UNSAFE_queryByType(CheckmarkCircleFill)).toBeNull();
     });
 
-    it('renders success helper text with a success icon', async () => {
-      await renderWithProvider(
+    it('renders success helper text with a success icon', () => {
+      renderWithProvider(
         <TextInput
           label='Address'
           helperText='Address verified'
