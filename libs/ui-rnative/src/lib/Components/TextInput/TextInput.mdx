@@ -34,6 +34,10 @@ The label text automatically floats above the input when content is entered, pro
 
 <Canvas of={TextInputStories.WithContent} />
 
+### Label and placeholder
+
+<Canvas of={TextInputStories.WithLabelAndPlaceholder} />
+
 ### Clear Button
 
 A clear button (×) appears **automatically** when input has content.
@@ -57,13 +61,6 @@ Use `onClear` to extend the default clear behavior with custom logic.
 The input supports error handling through `helperText` and `status` (`'error'` \| `'success'`), which show copy below the input with matching border and text styling.
 
 <Canvas of={TextInputStories.WithError} />
-
-Helper text (including when `status` is `'error'` or `'success'`) is automatically:
-
-- Connected to the input
-- Displayed with a status icon when applicable
-- Styled for the current `status`
-- Announced by screen readers
 
 ### Disabled State
 

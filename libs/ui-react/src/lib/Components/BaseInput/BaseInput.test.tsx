@@ -89,6 +89,38 @@ describe('BaseInput', () => {
     );
   });
 
+  it('defaults to a single-space placeholder when there is no label and no placeholder prop (placeholder-shown + legacy behavior)', () => {
+    render(
+      <BaseInput
+        id='addr'
+        prefix={
+          <span className='body-1' aria-hidden={true}>
+            To:
+          </span>
+        }
+        {...createProps()}
+      />,
+    );
+    expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', ' ');
+  });
+
+  it('supports label and placeholder together without using the placeholder-only label position', () => {
+    render(
+      <BaseInput
+        id='username'
+        label='Username'
+        placeholder='jane.doe'
+        {...createProps()}
+      />,
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('placeholder', 'jane.doe');
+
+    const label = screen.getByText('Username');
+    expect(label.className).toContain('peer-placeholder-shown:top-6');
+  });
+
   it('does not add helper semantics when helperText is omitted', () => {
     render(
       <BaseInput

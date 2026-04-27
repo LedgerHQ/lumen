@@ -66,6 +66,17 @@ export const WithContent: Story = {
   },
 };
 
+export const WithLabelAndPlaceholder: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Phone',
+    placeholder: '+1 (555) 000-0000',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'phone-pad',
+  },
+};
+
 export const WithError: Story = {
   render: (args) => <TextInputStory {...args} initialValue='ab' />,
   args: {

@@ -1,5 +1,6 @@
 import {
   cn,
+  resolveBaseInputPlaceholder,
   useDisabledContext,
   useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
@@ -122,6 +123,7 @@ export const BaseInput = ({
   hideClearButton = false,
   'aria-invalid': ariaInvalidProp,
   onChange: onChangeProp,
+  placeholder: placeholderProp,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -164,6 +166,12 @@ export const BaseInput = ({
   const hasContent = isControlled
     ? !!props.value && props.value.toString().length > 0
     : uncontrolledValue.length > 0;
+
+  const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
+    resolveBaseInputPlaceholder({
+      label,
+      placeholder: placeholderProp,
+    });
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
@@ -233,7 +241,7 @@ export const BaseInput = ({
           ref={composedRef}
           id={inputId}
           disabled={disabled}
-          placeholder=' '
+          placeholder={inputPlaceholder}
           aria-invalid={ariaInvalid}
           aria-describedby={showHelper ? helperId : undefined}
           className={cn(
@@ -253,6 +261,10 @@ export const BaseInput = ({
                 status: status ?? 'none',
                 invalid: ariaInvalid === true,
               }),
+              // With a real placeholder, :placeholder-shown stays true when empty; override so the
+              // label stays in the floated slot instead of centering on top of the placeholder.
+              labelStaysFloatedWithPlaceholder &&
+                'peer-placeholder-shown:top-6 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:body-4',
               labelClassName,
             )}
           >

@@ -31,6 +31,7 @@ export function TextInputs() {
           ])
         }
       />
+      <TextInput label='Email' placeholder='name@example.com' />
       <TextInput
         label='Password'
         secureTextEntry={!showPassword}

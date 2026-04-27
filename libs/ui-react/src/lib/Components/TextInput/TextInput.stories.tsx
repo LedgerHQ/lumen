@@ -108,6 +108,36 @@ export const WithContent: Story = {
   },
 };
 
+/**
+ * `label` and `placeholder` together (empty field shows floated label and hint text).
+ */
+export const WithLabelAndPlaceholder: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <TextInput
+        label='Phone'
+        placeholder='+1 (555) 000-0000'
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className='max-w-md'
+      />
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextInput
+  label="Phone"
+  placeholder="+1 (555) 000-0000"
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+/>`,
+      },
+    },
+  },
+};
+
 export const ExtendedClearBehavior: Story = {
   render: () => {
     return (
