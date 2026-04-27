@@ -1,0 +1,94 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DotCountStories from './DotCount.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Communication/DotCount' of={DotCountStories} />
+
+# DotCount
+
+<CustomTabs>
+  <Tab label="Overview">
+
+    ## Introduction
+
+    DotCount displays a numeric count inside a colored pill. It supports two sizes (`lg` and `md`), two appearances (`base` and `red`), and can be pinned to the top-right of a child element.
+
+    > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=38-998).
+
+    ## Properties
+
+    <Canvas of={DotCountStories.Base} />
+    <Controls of={DotCountStories.Base} />
+
+    ## Sizes
+
+    DotCount comes in two sizes:
+
+    - **lg** - large pill size for prominent counters.
+    - **md** (default) - standard pill size, suitable for most use cases.
+
+    <Canvas of={DotCountStories.SizeShowcase} />
+
+    ## Appearances
+
+    Two color schemes are available:
+
+    - **base** (default) - neutral tone for general-purpose counters.
+    - **red** - attention-grabbing, typically used for unread counts or alerts.
+
+    <Canvas of={DotCountStories.AppearanceShowcase} />
+
+    ## Overflow & Max
+
+    When `value` exceeds `max`, the display shows `[max]+`. Values of `0` or below hide the text. If you need a DotCount-like component but without the count, consider the DotIndicator instead.
+
+    <Canvas of={DotCountStories.OverflowShowcase} />
+
+    ## With Children
+
+    When wrapping a child element, the count pill pins itself to the top-right corner.
+
+    <Canvas of={DotCountStories.WithChildren} />
+
+  </Tab>
+  <Tab label="Implementation">
+
+    ## Setup
+
+    Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config).
+
+    ## Basic Usage
+
+    ```tsx
+    import { DotCount } from '@ledgerhq/lumen-ui-react';
+
+    function MyComponent() {
+      return <DotCount value={5} size="lg" />;
+    }
+    ```
+
+    ### Pinned to a child
+
+    ```tsx
+    <DotCount value={3} size="md">
+      <Avatar src="..." size="md" />
+    </DotCount>
+    ```
+
+    ### Custom max
+
+    ```tsx
+    <DotCount value={150} max={50} size="lg" />
+    {/* Renders "50+" */}
+    ```
+
+    ### Accessibility
+
+    Pass `aria-label` to provide screen reader context:
+
+    ```tsx
+    <DotCount value={3} aria-label="3 notifications" />
+    ```
+
+  </Tab>
+</CustomTabs>
