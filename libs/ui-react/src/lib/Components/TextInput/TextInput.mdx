@@ -55,10 +55,8 @@ Use `onClear` to extend the default clear behavior with custom logic:
 
 The input supports error handling through:
 
-- `aria-invalid`: Indicates the value failed validation (defaults to true when `status` is `'error'`)
+- `status`: Set to `'error'` or `'success'` for border, label, and helper styling; omit for a neutral hint. Setting `status='error'` automatically sets `aria-invalid={true}` on the input for screen readers.
 - `helperText`: Optional copy shown below the input (pair with `status` for error or success styling)
-- `status`: Set to `'error'` or `'success'` for border, label, and helper styling; omit for a neutral hint
-- Error styling includes a red ring and text color
 
 <Canvas of={TextInputStories.WithError} />
 
@@ -125,7 +123,7 @@ The Input component follows accessibility best practices:
 - Labels are properly associated with inputs using htmlFor
 - Error messages are linked to inputs using aria-describedby
 - Clear button has an accessible label
-- Error states are communicated through aria-invalid
+- Error states are driven by `status='error'`, which automatically sets `aria-invalid={true}` on the input for screen readers
 
 </Tab>
 <Tab label="Implementation">
@@ -264,7 +262,6 @@ function MyComponent() {
       label='Username'
       value={value}
       onChange={handleChange}
-      aria-invalid={error}
       helperText={error ? 'Must be at least 3 characters' : undefined}
       status={error ? 'error' : undefined}
     />
@@ -272,7 +269,7 @@ function MyComponent() {
 }
 ```
 
-> **Note:** Helper text is optional. Use `helperText` with `status="error"` (and `aria-invalid` when invalid) to show validation feedback below the input.
+> **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
 
 ## Do's and Don'ts
 
@@ -348,8 +345,8 @@ function MyComponent() {
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Use aria-invalid for errors'
-      description='Use aria-invalid to control the error state styling'
+      title='Use status for errors'
+      description='status drives visual styling and automatically sets aria-invalid on the input for accessibility'
     >
 
 {/* prettier-ignore */}
@@ -357,7 +354,6 @@ function MyComponent() {
 <TextInput
   value={value}
   onChange={handleChange}
-  aria-invalid={hasError}
   helperText={hasError ? 'Invalid input' : undefined}
   status={hasError ? 'error' : undefined}
 />
@@ -365,8 +361,8 @@ function MyComponent() {
 
     </DoBlockItem>
     <DontBlockItem
-      title="Don't omit aria-invalid"
-      description='Avoid omitting aria-invalid'
+      title="Don't rely on aria-invalid for styling"
+      description='aria-invalid is for screen readers only — it no longer drives the error ring on the container'
     >
 
 {/* prettier-ignore */}
@@ -374,8 +370,7 @@ function MyComponent() {
 <TextInput 
   value={value}
   onChange={handleChange}
-  helperText={hasError ? 'Invalid input' : undefined}
-  status={hasError ? 'error' : undefined}
+  aria-invalid={hasError}
 />
 ```
 

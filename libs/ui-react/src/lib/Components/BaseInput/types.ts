@@ -18,8 +18,9 @@ export type BaseInputProps = {
    */
   status?: BaseInputStatus;
   /**
-   * Indicates whether the input value is invalid.
-   * Defaults to true when `status` is `'error'`.
+   * Overrides the accessibility invalid state on the input element.
+   * Automatically set to `true` when `status` is `'error'` — only pass this
+   * explicitly when you need to decouple the accessibility state from the visual state.
    */
   'aria-invalid'?: boolean;
   /**

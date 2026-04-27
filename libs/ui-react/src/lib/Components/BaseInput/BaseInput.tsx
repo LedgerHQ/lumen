@@ -17,13 +17,12 @@ const containerVariants = cva(
     'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',
     'focus-within:ring-2 focus-within:ring-active hover:bg-muted-hover',
     'has-disabled:cursor-not-allowed has-disabled:bg-disabled has-disabled:text-disabled',
-    'has-invalid:ring-1 has-invalid:ring-error has-invalid:focus-within:ring-2 has-invalid:focus-within:ring-error',
-    'has-[input[aria-invalid="true"]]:ring-1 has-[input[aria-invalid="true"]]:ring-error has-[input[aria-invalid="true"]]:focus-within:ring-2 has-[input[aria-invalid="true"]]:focus-within:ring-error',
   ],
   {
     variants: {
       status: {
         default: '',
+        error: 'ring-1 ring-error focus-within:ring-2 focus-within:ring-error',
         success:
           'ring-1 ring-success focus-within:ring-2 focus-within:ring-success',
       },
@@ -55,21 +54,12 @@ const labelVariants = cva(baseLabelStyles, {
   variants: {
     status: {
       none: '',
-      error: '',
+      error: 'text-error',
       success: '',
     },
-    invalid: {
-      true: '',
-      false: '',
-    },
   },
-  compoundVariants: [
-    { status: 'error', class: 'text-error' },
-    { status: 'none', invalid: true, class: 'text-error' },
-  ],
   defaultVariants: {
     status: 'none',
-    invalid: false,
   },
 });
 
@@ -208,7 +198,7 @@ export const BaseInput = ({
       <div
         className={cn(
           containerVariants({
-            status: status === 'success' ? 'success' : 'default',
+            status: status ?? 'default',
           }),
           containerClassName,
         )}
@@ -259,7 +249,6 @@ export const BaseInput = ({
             className={cn(
               labelVariants({
                 status: status ?? 'none',
-                invalid: ariaInvalid === true,
               }),
               // With a real placeholder, :placeholder-shown stays true when empty; override so the
               // label stays in the floated slot instead of centering on top of the placeholder.
