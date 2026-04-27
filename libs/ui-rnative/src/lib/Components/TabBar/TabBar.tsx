@@ -19,6 +19,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
+import { triggerHapticFeedback } from '../../Haptics';
 import { Placeholder } from '../../Symbols';
 import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
@@ -59,6 +60,7 @@ const useTabBarItemAnimations = ({ isActive }: { isActive: boolean }) => {
   };
 
   const onPressOut = () => {
+    triggerHapticFeedback('light');
     pressProgress.value = withSequence(
       withTiming(0.95, { duration: 0 }),
       withTiming(1, pressOutTimingConfig),
