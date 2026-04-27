@@ -2,7 +2,7 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { DotIndicatorProps } from './types';
 
-const dotIndicatorVariants = cva('rounded-full pointer-events-none', {
+const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
   variants: {
     size: {
       xs: 'size-10',
@@ -45,7 +45,7 @@ export function DotIndicator({
   return (
     <div
       ref={ref}
-      className={cn(pinned && 'relative', className)}
+      className={cn(pinned && 'relative inline-flex', className)}
       {...props}
     >
       <div
@@ -54,7 +54,7 @@ export function DotIndicator({
         aria-hidden={!ariaLabel || undefined}
         className={cn(
           dotIndicatorVariants({ size, appearance, disabled }),
-          pinned && 'absolute top-0 right-0 z-[1]',
+          pinned && 'absolute top-0 right-0 z-1',
         )}
       />
       {children}

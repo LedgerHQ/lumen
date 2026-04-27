@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import type { DotCountProps } from './types';
 
 const dotCountVariants = cva(
-  'flex items-center justify-center rounded-full pointer-events-none',
+  'pointer-events-none flex items-center justify-center rounded-full',
   {
     variants: {
       size: {
@@ -72,7 +72,7 @@ export function DotCount({
   return (
     <div
       ref={ref}
-      className={cn(pinned && 'relative', className)}
+      className={cn(pinned && 'relative inline-flex w-fit', className)}
       {...props}
     >
       <div
@@ -81,7 +81,7 @@ export function DotCount({
         aria-hidden={!ariaLabel || undefined}
         className={cn(
           dotCountVariants({ size, appearance, disabled }),
-          pinned && 'absolute top-0 right-0 z-[1]',
+          pinned && 'absolute top-0 right-0 z-1',
         )}
       >
         {value > 0 && (
