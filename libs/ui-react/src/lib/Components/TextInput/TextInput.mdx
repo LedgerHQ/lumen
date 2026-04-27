@@ -62,12 +62,6 @@ The input supports error handling through:
 
 <Canvas of={TextInputStories.WithError} />
 
-Helper text (including when `status` is `'error'` or `'success'`) is automatically:
-
-- Connected to the input using aria-describedby
-- Displayed with a status icon when applicable
-- Styled for the current `status`
-- Announced by screen readers
 
 ### Custom Right Element
 
@@ -79,9 +73,37 @@ You can add: Tooltips, Action buttons, Custom icons, Any interactive element
 
 > **Important note:** The clear button automatically appears when input has content and will take priority over your `suffix`. Use `hideClearButton` to prevent this if you need persistent right-side content.
 
+### Label and placeholder
+
+<Canvas of={TextInputStories.WithLabelAndPlaceholder} />
+
 ### Interactive in a Form
 
 <Canvas of={TextInputStories.Interactive} />
+
+## Controlled vs Uncontrolled
+
+The Input component supports both controlled and uncontrolled usage:
+
+### Uncontrolled (with defaultValue)
+
+<Canvas of={TextInputStories.UncontrolledInputExample} />
+
+### Controlled (with value and onChange)
+
+<Canvas of={TextInputStories.ControlledInputExample} />
+
+## Best Practices
+
+**Labels**: Always provide clear, descriptive labels
+
+**Error Messages**: Make error messages helpful and actionable
+
+**Validation**: Validate on blur or submit, not on every keystroke
+
+**Clear Button**: Use for optional fields where clearing is helpful
+
+**Types**: Use the appropriate input type for the data being collected
 
 ## Input Types
 
@@ -104,38 +126,6 @@ The Input component follows accessibility best practices:
 - Error messages are linked to inputs using aria-describedby
 - Clear button has an accessible label
 - Error states are communicated through aria-invalid
-
-## Controlled vs Uncontrolled
-
-The Input component supports both controlled and uncontrolled usage:
-
-### Uncontrolled (with defaultValue)
-
-<Canvas of={TextInputStories.UncontrolledInputExample} />
-
-### Controlled (with value and onChange)
-
-<Canvas of={TextInputStories.ControlledInputExample} />
-
-## Label vs Placeholder
-
-> ⚠️ **Important:** Do not combine `label` and `placeholder` props together. They will visually overlap and create a poor user experience.
-
-The Input component uses **floating labels** that animate from inside the input field. Using both label and placeholder simultaneously will cause them to overlap and interfere with each other.
-
-## Best Practices
-
-**Labels**: Always provide clear, descriptive labels
-
-**Error Messages**: Make error messages helpful and actionable
-
-**Validation**: Validate on blur or submit, not on every keystroke
-
-**Clear Button**: Use for optional fields where clearing is helpful
-
-**Types**: Use the appropriate input type for the data being collected
-
-**Label vs Placeholder**: Choose one approach - don't mix floating labels with placeholders
 
 </Tab>
 <Tab label="Implementation">
@@ -284,12 +274,6 @@ function MyComponent() {
 
 > **Note:** Helper text is optional. Use `helperText` with `status="error"` (and `aria-invalid` when invalid) to show validation feedback below the input.
 
-## ⚠️ Label vs Placeholder
-
-**Important:** Do not combine `label` and `placeholder` props together. They will visually overlap and create a poor user experience.
-
-The Input component uses floating labels that animate from inside the input field. Using both simultaneously causes visual conflicts.
-
 ## Do's and Don'ts
 
 <div className='flex flex-col gap-24'>
@@ -401,41 +385,31 @@ The Input component uses floating labels that animate from inside the input fiel
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Use either label or placeholder, not both'
-      description='Choose one approach - use floating label for better UX, or placeholder as an alternative. They serve the same purpose'
+      title='Always provide labels'
+      description='Use the label prop to provide clear, descriptive labels for inputs'
     >
 
 {/* prettier-ignore */}
 ```tsx
-// Use floating label (recommended)
-<TextInput 
+<TextInput
   label='Email Address'
   value={value}
-  onChange={(e) => setValue(e.target.value)} 
-/>
-
-// OR use placeholder (alternative)
-<TextInput 
-  placeholder='Enter your email address'
-  value={value}
-  onChange={(e) => setValue(e.target.value)} 
+  onChange={(e) => setValue(e.target.value)}
 />
 ```
 
     </DoBlockItem>
     <DontBlockItem
-      title="Don't combine label and placeholder"
-      description='They will visually overlap and create a poor user experience. The floating label animates from inside the input field'
+      title="Don't use placeholder as label replacement"
+      description='Placeholder text disappears when typing - use the label prop instead'
     >
 
 {/* prettier-ignore */}
 ```tsx
-// DON'T DO THIS - causes visual overlap
-<TextInput 
-  label='Email Address'
-  placeholder='Enter your email address'
+<TextInput
+  placeholder='Enter your email'
   value={value}
-  onChange={(e) => setValue(e.target.value)} 
+  onChange={(e) => setValue(e.target.value)}
 />
 ```
 

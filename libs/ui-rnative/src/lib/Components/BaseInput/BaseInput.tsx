@@ -1,5 +1,6 @@
 import {
   DisabledProvider,
+  resolveBaseInputPlaceholder,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import {
@@ -44,6 +45,7 @@ export const BaseInput = ({
   prefix,
   suffix,
   ref,
+  placeholder: placeholderProp,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -66,6 +68,12 @@ export const BaseInput = ({
   const hasContent = isControlled
     ? !!props.value && props.value.length > 0
     : uncontrolledValue.length > 0;
+
+  const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
+    resolveBaseInputPlaceholder({
+      label,
+      placeholder: placeholderProp,
+    });
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
@@ -101,6 +109,7 @@ export const BaseInput = ({
     showClearButton,
     status,
     isEditable: !disabled,
+    labelStaysFloatedWithPlaceholder,
   });
 
   return (
@@ -116,6 +125,7 @@ export const BaseInput = ({
           <TextInput
             ref={inputRef}
             value={value}
+            placeholder={inputPlaceholder}
             style={StyleSheet.flatten([styles.input, inputStyle])}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -239,16 +249,16 @@ const useStyles = ({
             color: t.colors.text.base,
             backgroundColor: t.colors.bg.muted,
             outline: 'none',
-            ...t.typographies.body2,
-            paddingTop: t.spacings.s12,
-            paddingBottom: t.spacings.s12,
+            ...t.typographies.body1,
+            paddingTop: t.spacings.s4,
+            paddingBottom: t.spacings.s2,
           },
           hasLabel && {
             paddingTop: t.spacings.s20,
             paddingBottom: t.spacings.s4,
             paddingHorizontal: 0,
           },
-          RuntimeConstants.isIOS && hasLabel && { lineHeight: 0 },
+          RuntimeConstants.isIOS && { lineHeight: 0 },
           RuntimeConstants.isAndroid && { includeFontPadding: false },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
@@ -329,12 +339,14 @@ const useFloatingLabelStyles = ({
   showClearButton,
   status,
   isEditable,
+  labelStaysFloatedWithPlaceholder,
 }: {
   isFocused: boolean;
   hasContent: boolean;
   showClearButton: boolean;
   status: 'error' | 'success' | undefined;
   isEditable: boolean;
+  labelStaysFloatedWithPlaceholder: boolean;
 }) => {
   const { theme } = useTheme();
 
@@ -364,7 +376,8 @@ const useFloatingLabelStyles = ({
 
   const { animatedStyle } = useAnimatedFloatingLabel({
     theme,
-    isFloatingLabel: isFocused || hasContent,
+    isFloatingLabel:
+      isFocused || hasContent || labelStaysFloatedWithPlaceholder,
   });
 
   return { label, animatedStyle };
