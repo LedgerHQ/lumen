@@ -10,7 +10,6 @@ import type { YAxisProps } from './types';
 const STROKE_WIDTH = 1;
 const TICK_MARK_SIZE = 4;
 const TICK_LABEL_OFFSET = 6;
-const FONT_SIZE = 11;
 export const DEFAULT_AXIS_WIDTH = 40;
 
 export const YAxis = ({
@@ -40,12 +39,12 @@ export const YAxis = ({
     return null;
   }
 
-  const axisX =
-    position === 'start' ? drawingArea.x : drawingArea.x + drawingArea.width;
-
-  const tickDirection = position === 'start' ? -1 : 1;
+  const isStart = position === 'start';
+  const axisX = isStart ? drawingArea.x : drawingArea.x + drawingArea.width;
+  const tickDirection = isStart ? -1 : 1;
   const labelX = axisX + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
-  const labelDy = FONT_SIZE * 0.35;
+  const fontSize = theme.typographies.body4.fontSize;
+  const labelDy = fontSize * 0.35;
 
   const gridStroke = theme.colors.border.mutedSubtle;
   const lineStroke = theme.colors.border.muted;

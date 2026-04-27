@@ -5,8 +5,8 @@ import { describe, expect, it } from 'vitest';
 
 import { CartesianChart } from '../../CartesianChart';
 
-import { XAxis } from './XAxis';
 import type { XAxisProps } from './types';
+import { XAxis } from './XAxis';
 
 const sampleSeries = [
   { id: 'test', stroke: '#000', data: [10, 20, 30, 40, 50] },

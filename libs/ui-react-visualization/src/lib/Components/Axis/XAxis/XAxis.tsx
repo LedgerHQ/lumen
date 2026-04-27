@@ -38,10 +38,9 @@ export function XAxis({
     return null;
   }
 
-  const axisY =
-    position === 'top' ? drawingArea.y : drawingArea.y + drawingArea.height;
-
-  const tickDirection = position === 'top' ? -1 : 1;
+  const isTop = position === 'top';
+  const axisY = isTop ? drawingArea.y : drawingArea.y + drawingArea.height;
+  const tickDirection = isTop ? -1 : 1;
   const labelY = axisY + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
 
   return (

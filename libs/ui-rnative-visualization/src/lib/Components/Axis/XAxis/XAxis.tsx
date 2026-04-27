@@ -10,7 +10,6 @@ import type { XAxisProps } from './types';
 const STROKE_WIDTH = 1;
 const TICK_MARK_SIZE = 4;
 const TICK_LABEL_OFFSET = 6;
-const FONT_SIZE = 11;
 export const DEFAULT_AXIS_HEIGHT = 28;
 
 export const XAxis = ({
@@ -40,12 +39,13 @@ export const XAxis = ({
     return null;
   }
 
-  const axisY =
-    position === 'top' ? drawingArea.y : drawingArea.y + drawingArea.height;
+  const isTop = position === 'top';
+  const axisY = isTop ? drawingArea.y : drawingArea.y + drawingArea.height;
 
-  const tickDirection = position === 'top' ? -1 : 1;
+  const fontSize = theme.typographies.body4.fontSize;
+  const tickDirection = isTop ? -1 : 1;
   const labelY = axisY + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
-  const labelDy = position === 'top' ? 0 : FONT_SIZE * 0.8;
+  const labelDy = isTop ? 0 : fontSize * 0.8;
 
   const gridStroke = theme.colors.border.mutedSubtle;
   const lineStroke = theme.colors.border.muted;
@@ -100,7 +100,7 @@ export const XAxis = ({
           dy={labelDy}
           textAnchor='middle'
           fill={textFill}
-          fontSize={theme.typographies.body4.fontSize}
+          fontSize={fontSize}
           fontFamily={theme.fontFamilies.sans}
         >
           {tick.label}

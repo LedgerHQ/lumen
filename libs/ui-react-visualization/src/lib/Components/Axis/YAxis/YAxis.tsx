@@ -38,10 +38,9 @@ export function YAxis({
     return null;
   }
 
-  const axisX =
-    position === 'start' ? drawingArea.x : drawingArea.x + drawingArea.width;
-
-  const tickDirection = position === 'start' ? -1 : 1;
+  const isStart = position === 'start';
+  const axisX = isStart ? drawingArea.x : drawingArea.x + drawingArea.width;
+  const tickDirection = isStart ? -1 : 1;
   const labelX = axisX + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
 
   return (
