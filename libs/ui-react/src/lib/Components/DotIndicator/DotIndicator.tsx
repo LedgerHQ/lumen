@@ -45,7 +45,7 @@ export function DotIndicator({
   return (
     <div
       ref={ref}
-      className={cn(pinned && 'relative inline-flex', className)}
+      className={cn(pinned && 'relative inline-flex w-fit', className)}
       {...props}
     >
       <div
