@@ -8,7 +8,7 @@ import { Line } from '../Line';
 
 import type { LineChartProps } from './types';
 
-export function LineChart({
+export const LineChart = ({
   series,
   showArea = false,
   areaType = 'gradient',
@@ -20,7 +20,7 @@ export function LineChart({
   height = 160,
   inset,
   children,
-}: LineChartProps) {
+}: LineChartProps) => {
   const {
     scaleType: xScaleType,
     data: xData,
@@ -91,4 +91,4 @@ export function LineChart({
       {children}
     </CartesianChart>
   );
-}
+};
