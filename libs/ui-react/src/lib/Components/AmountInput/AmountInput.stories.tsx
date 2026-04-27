@@ -131,7 +131,9 @@ export const LargeAmountDisplay: Story = {
           </div>
 
           {hasError && (
-            <div className='mt-8 text-center text-error'>{balanceErrorText}</div>
+            <div className='mt-8 text-center text-error'>
+              {balanceErrorText}
+            </div>
           )}
         </div>
         <IconButton
