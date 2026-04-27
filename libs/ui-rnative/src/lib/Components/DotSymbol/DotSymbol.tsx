@@ -6,15 +6,13 @@ import type { SpotSize } from '../Spot';
 import { Box } from '../Utility';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
-type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
-
-const shapeRadiusMap: Record<DotSymbolSize, BorderRadiusKey> = {
-  8: 'xs',
-  10: 'xs',
-  12: 'xs',
-  16: 'sm',
-  20: 'sm',
-  24: 'md',
+const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
+  8: 2,
+  10: 3,
+  12: 4,
+  16: 5,
+  20: 6,
+  24: 8,
 };
 
 const offsetBySize: Record<DotSymbolSize, number> = {
@@ -35,6 +33,7 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   40: 16,
   48: 20,
   56: 24,
+  64: 24,
 };
 
 export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
@@ -75,9 +74,7 @@ const useStyles = ({
     (t) => {
       const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
       const radius =
-        shape === 'circle'
-          ? t.borderRadius.full
-          : t.borderRadius[shapeRadiusMap[size]];
+        shape === 'circle' ? t.borderRadius.full : dotSquareRadiusMap[size];
       const pinOffset = getPinOffset(pin, size);
 
       return {
@@ -142,17 +139,19 @@ export const DotSymbol = ({
       accessibilityLabel={alt}
       {...rest}
     >
-      {children}
-      <Box style={styles.dot}>
-        {!error && (
-          <Image
-            source={{ uri: src }}
-            style={styles.image}
-            accessible={false}
-            onError={() => setError(true)}
-            testID='dot-symbol-img'
-          />
-        )}
+      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+        {children}
+        <Box style={styles.dot}>
+          {!error && (
+            <Image
+              source={{ uri: src }}
+              style={styles.image}
+              accessible={false}
+              onError={() => setError(true)}
+              testID='dot-symbol-img'
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   );

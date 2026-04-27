@@ -8,6 +8,7 @@ import { Divider } from '../Divider';
 import { SearchInput } from '../SearchInput';
 import { SelectProvider, useSelectContext } from './SelectContext';
 import type {
+  MetaShape,
   SelectItemGroup,
   SelectProps,
   SelectTriggerProps,
@@ -23,8 +24,9 @@ import type {
   SelectEmptyStateProps,
 } from './types';
 import { useSelectItems } from './useSelectItems';
+import { resolveValue } from './utils';
 
-function Select({
+function Select<TMeta extends MetaShape = MetaShape>({
   value,
   defaultValue,
   onValueChange,
@@ -41,7 +43,7 @@ function Select({
   name,
   required,
   children,
-}: SelectProps) {
+}: Readonly<SelectProps<TMeta>>) {
   const disabled = useDisabledContext({
     consumerName: 'Select',
     mergeWith: { disabled: disabledProp },
@@ -62,6 +64,7 @@ function Select({
     groupedItems,
     filteredItemsForRoot,
     resolvedSearchValue,
+    searchMounted,
     registerSearch,
     handleSearchValueChange,
   } = useSelectItems({
@@ -82,7 +85,8 @@ function Select({
       inputValue={resolvedSearchValue}
       onInputValueChange={handleSearchValueChange}
       value={selectedValue}
-      onValueChange={setSelectedValue}
+      onValueChange={(val) => setSelectedValue(resolveValue(val))}
+      isItemEqualToValue={(a, b) => resolveValue(a) === resolveValue(b)}
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
@@ -90,7 +94,9 @@ function Select({
       required={required}
       disabled={disabled}
     >
-      <SelectProvider value={{ selectedValue, registerSearch, isGrouped }}>
+      <SelectProvider
+        value={{ selectedValue, registerSearch, isGrouped, searchMounted }}
+      >
         {children}
       </SelectProvider>
     </Combobox.Root>
@@ -214,7 +220,7 @@ const SelectContent = ({
   side = 'bottom',
   sideOffset = 8,
   align = 'start',
-  autoFocusSearch = false,
+  initialFocus = true,
   ...props
 }: SelectContentProps) => (
   <Combobox.Portal data-slot='select-portal'>
@@ -228,7 +234,7 @@ const SelectContent = ({
       <Combobox.Popup
         ref={ref}
         data-slot='select-content'
-        initialFocus={autoFocusSearch ? undefined : false}
+        initialFocus={initialFocus}
         className={cn(contentStyles({ side }), className)}
         {...props}
       >
@@ -238,12 +244,12 @@ const SelectContent = ({
   </Combobox.Portal>
 );
 
-const SelectList = ({
+const SelectList = <TMeta extends MetaShape = MetaShape>({
   ref,
   className,
   renderItem,
   ...props
-}: SelectListProps) => {
+}: SelectListProps<TMeta>) => {
   const { isGrouped } = useSelectContext({
     consumerName: 'SelectList',
     contextRequired: true,
@@ -254,13 +260,13 @@ const SelectList = ({
       ref={ref}
       data-slot='select-list'
       className={cn(
-        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8 group-data-empty/select-content:p-0',
+        'min-h-0 min-w-(--anchor-width) flex-1 overflow-y-auto p-8 group-data-empty/select-content:p-0 focus:ring-0 focus:outline-hidden',
         className,
       )}
       {...props}
     >
       {isGrouped
-        ? (group: SelectItemGroup, groupIndex: number) => (
+        ? (group: SelectItemGroup<TMeta>, groupIndex: number) => (
             <Combobox.Group
               key={group.label}
               items={group.items}

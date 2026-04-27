@@ -28,6 +28,7 @@ import {
   Checkboxes,
   ContentBanners,
   Dividers,
+  DotIcons,
   DotSymbols,
   MediaImages,
   ExampleTabBar,
@@ -55,6 +56,8 @@ import {
   ToggleLocaleSwitch,
   ToggleThemeSwitch,
   Tooltips,
+  DotCounts,
+  DotIndicators,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -168,11 +171,17 @@ const AppContent = ({
                 <SandboxBlock title='Dividers'>
                   <Dividers />
                 </SandboxBlock>
+                <SandboxBlock title='DotCounts'>
+                  <DotCounts />
+                </SandboxBlock>
+                <SandboxBlock title='DotIcons'>
+                  <DotIcons />
+                </SandboxBlock>
+                <SandboxBlock title='DotIndicators'>
+                  <DotIndicators />
+                </SandboxBlock>
                 <SandboxBlock title='DotSymbols'>
                   <DotSymbols />
-                </SandboxBlock>
-                <SandboxBlock title='MediaImages'>
-                  <MediaImages />
                 </SandboxBlock>
                 <SandboxBlock title='Gradients'>
                   <Gradients />
@@ -197,6 +206,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='MediaCards'>
                   <MediaCards />
+                </SandboxBlock>
+                <SandboxBlock title='MediaImages'>
+                  <MediaImages />
                 </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />

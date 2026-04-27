@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { useCommonTranslation } from '../../../i18n';
 import type { LumenTextStyle } from '../../../styles';
@@ -24,17 +25,20 @@ export const Spinner = ({
   lx = {},
   size = 16,
   color,
+  style,
   ref,
   ...props
 }: SpinnerProps) => {
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
   const resolvedColorStyle = useResolveTextStyle({ color } as LumenTextStyle);
+  const flatStyle = StyleSheet.flatten(style);
+  const styleColor = flatStyle?.color;
   const strokeColor =
-    resolvedColorStyle?.color ?? color ?? theme.colors.text.base;
+    resolvedColorStyle?.color ?? color ?? styleColor ?? theme.colors.text.base;
 
   return (
-    <Box ref={ref} lx={{ flexShrink: 0, ...lx }} {...props}>
+    <Box ref={ref} lx={{ flexShrink: 0, ...lx }} style={style} {...props}>
       <Spin>
         <Svg
           width={size}

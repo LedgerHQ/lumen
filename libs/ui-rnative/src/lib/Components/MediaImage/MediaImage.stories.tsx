@@ -41,6 +41,7 @@ export const SizeShowcase: Story = {
       <MediaImage src={exampleSrc} alt='Size 40' size={40} />
       <MediaImage src={exampleSrc} alt='Size 48' size={48} />
       <MediaImage src={exampleSrc} alt='Size 56' size={56} />
+      <MediaImage src={exampleSrc} alt='Size 64' size={64} />
     </Box>
   ),
 };

@@ -33,8 +33,12 @@ export const Base: Story = {
     pin: 'bottom-end',
     size: mediaImageDotSizeMap[48],
     shape: 'circle',
-    children: <MediaImage src={parentSrc} alt='Cardano' shape='circle' />,
   },
+  render: (args) => (
+    <DotSymbol {...args}>
+      <MediaImage src={parentSrc} alt='Cardano' shape={args.shape} />
+    </DotSymbol>
+  ),
 };
 
 export const PinShowcase: Story = {
@@ -145,6 +149,13 @@ export const SizeShowcase: Story = {
         >
           <MediaImage src={parentSrc} size={56} shape='circle' />
         </DotSymbol>
+        <DotSymbol
+          src={dotSrc}
+          size={mediaImageDotSizeMap[64]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={64} shape='circle' />
+        </DotSymbol>
       </div>
       <div className='inline-flex items-end gap-24 body-2'>
         <DotSymbol
@@ -153,7 +164,7 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[20]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={20} shape='circle' />
+          <MediaImage src={parentSrc} size={20} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -161,7 +172,7 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[24]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={24} shape='circle' />
+          <MediaImage src={parentSrc} size={24} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -169,7 +180,7 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[32]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={32} shape='circle' />
+          <MediaImage src={parentSrc} size={32} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -177,7 +188,7 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={40} shape='circle' />
+          <MediaImage src={parentSrc} size={40} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -185,7 +196,7 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[48]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+          <MediaImage src={parentSrc} size={48} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -193,7 +204,15 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[56]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={56} shape='circle' />
+          <MediaImage src={parentSrc} size={56} shape='square' />
+        </DotSymbol>
+        <DotSymbol
+          shape='square'
+          src={dotSrc}
+          size={mediaImageDotSizeMap[64]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={64} shape='square' />
         </DotSymbol>
       </div>
     </div>
