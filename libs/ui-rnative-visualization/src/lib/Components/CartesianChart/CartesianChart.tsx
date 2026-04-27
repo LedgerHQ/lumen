@@ -14,10 +14,24 @@ const DEFAULT_INSET: ChartInset = {
   bottom: 0,
   left: 20,
 };
-const ZERO_PADDING: ChartInset = { top: 0, right: 0, bottom: 0, left: 0 };
+
+const DEFAULT_NEGATIVE_MARGIN = {
+  marginLeft: -20,
+  marginRight: -20,
+};
+
+const ZERO_PADDING: ChartInset = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+};
 
 const resolveInset = (inset: CartesianChartProps['inset']): ChartInset => {
-  if (inset === undefined) return DEFAULT_INSET;
+  if (inset === undefined) {
+    return DEFAULT_INSET;
+  }
+
   if (typeof inset === 'number') {
     return {
       top: inset + DEFAULT_INSET.top,
@@ -37,7 +51,10 @@ const resolveInset = (inset: CartesianChartProps['inset']): ChartInset => {
 const resolveAxisPadding = (
   padding: CartesianChartProps['axisPadding'],
 ): ChartInset => {
-  if (padding === undefined) return ZERO_PADDING;
+  if (padding === undefined) {
+    return ZERO_PADDING;
+  }
+
   return {
     top: padding.top ?? 0,
     right: padding.right ?? 0,
@@ -108,8 +125,7 @@ export const CartesianChart = ({
         onLayout={handleLayout}
         style={{
           height,
-          marginLeft: -20,
-          marginRight: -20,
+          ...DEFAULT_NEGATIVE_MARGIN,
         }}
         accessibilityRole='image'
         accessibilityLabel={ariaLabel}
