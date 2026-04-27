@@ -100,8 +100,8 @@ export const XAxis = ({
           dy={labelDy}
           textAnchor='middle'
           fill={textFill}
-          fontSize={FONT_SIZE}
-          fontFamily='Inter'
+          fontSize={theme.typographies.body4.fontSize}
+          fontFamily={theme.fontFamilies.sans}
         >
           {tick.label}
         </SvgText>

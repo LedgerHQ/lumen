@@ -18,6 +18,7 @@ export const YAxis = ({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  gridLineStyle = 'dashed',
   ticks: ticksProp,
   tickLabelFormatter,
 }: YAxisProps) => {
@@ -62,7 +63,7 @@ export const YAxis = ({
             y2={tick.position}
             stroke={gridStroke}
             strokeWidth={STROKE_WIDTH}
-            strokeDasharray='2 2'
+            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
           />
         ))}
 
@@ -99,8 +100,8 @@ export const YAxis = ({
           dy={labelDy}
           textAnchor={position === 'start' ? 'end' : 'start'}
           fill={textFill}
-          fontSize={FONT_SIZE}
-          fontFamily='Inter'
+          fontSize={theme.typographies.body4.fontSize}
+          fontFamily={theme.fontFamilies.sans}
         >
           {tick.label}
         </SvgText>

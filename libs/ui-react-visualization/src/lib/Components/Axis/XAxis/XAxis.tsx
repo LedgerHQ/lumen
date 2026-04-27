@@ -87,18 +87,21 @@ export function XAxis({
         ))}
 
       {ticksData.map((tick, i) => (
-        <text
-          key={`label-${tick.value}-${i}`}
-          x={tick.position}
-          y={labelY}
-          textAnchor='middle'
-          dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
-          style={{ fill: theme.colors.text.muted }}
-          fontSize={theme.typographies.xs.body.body4.fontSize}
-          fontFamily={theme.typographies.xs.body.body1.fontFamily}
-        >
-          {tick.label}
-        </text>
+        <>
+          {' '}
+          <text
+            key={`label-${tick.value}-${i}`}
+            x={tick.position}
+            y={labelY}
+            textAnchor='middle'
+            dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
+            style={{ fill: theme.colors.text.muted }}
+            fontSize={theme.typographies.xs.body.body4.fontSize}
+            fontFamily={theme.fontFamilies.sans}
+          >
+            {tick.label}
+          </text>
+        </>
       ))}
     </g>
   );

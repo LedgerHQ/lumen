@@ -95,7 +95,7 @@ export function YAxis({
           dominantBaseline='central'
           style={{ fill: theme.colors.text.muted }}
           fontSize={theme.typographies.xs.body.body4.fontSize}
-          fontFamily={theme.typographies.xs.body.body1.fontFamily}
+          fontFamily={theme.fontFamilies.sans}
         >
           {tick.label}
         </text>
