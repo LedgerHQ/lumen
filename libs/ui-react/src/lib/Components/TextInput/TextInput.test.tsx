@@ -23,7 +23,7 @@ describe('Input Component', () => {
     expect(inputElement).toHaveAttribute('placeholder', ' ');
   });
 
-  it('should render with error state when aria-invalid is true', () => {
+  it('should forward aria-invalid to the input when passed explicitly', () => {
     render(
       <TextInput
         label='Email'

@@ -27,12 +27,11 @@ import type { TextInputProps } from './types';
  * // Basic input with automatic clear button
  * <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
  *
- * // Input with error helper
+ * // Input with error helper (aria-invalid is auto-set when status="error")
  * <TextInput
  *   label="Email"
  *   value={email}
  *   onChange={(e) => setEmail(e.target.value)}
- *   aria-invalid={!isValid}
  *   helperText="Please enter a valid email address"
  *   status="error"
  * />
