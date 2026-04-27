@@ -21,9 +21,7 @@ describe('DotIndicator', () => {
 
   it('should apply aria-label to the dot', () => {
     render(<DotIndicator aria-label='New notifications' />);
-    expect(
-      screen.getByRole('img', { name: 'New notifications' }),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText('New notifications')).toBeInTheDocument();
   });
 
   it('should forward data-testid to the outer wrapper', () => {

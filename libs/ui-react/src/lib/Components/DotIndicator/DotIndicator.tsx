@@ -49,7 +49,6 @@ export function DotIndicator({
       {...props}
     >
       <div
-        role='img'
         aria-label={ariaLabel}
         aria-hidden={!ariaLabel || undefined}
         className={cn(
