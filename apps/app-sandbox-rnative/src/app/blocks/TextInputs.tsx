@@ -62,9 +62,13 @@ export function TextInputs() {
       <TextInput
         label='Team'
         value={team}
-        status='success'
+        status={isTeamValid && team !== undefined ? 'success' : undefined}
         onChangeText={setTeam}
-        helperText='password must be at least 8 characters'
+        helperText={
+          isTeamValid && team !== undefined
+            ? 'Team matches "lumen"!'
+            : undefined
+        }
       />
       <TextInput
         label='A very long label that should really be truncated at different breakpoints'
