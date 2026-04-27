@@ -190,7 +190,6 @@ describe('AddressInput', () => {
         placeholder='Enter address or ENS'
         helperText='Invalid address format'
         status='error'
-        aria-invalid={true}
       />,
     );
 

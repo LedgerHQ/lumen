@@ -56,12 +56,11 @@ const inputVariants = cva('', {
  * // Basic search with automatic clear button
  * <SearchInput placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
  *
- * // Search with error state
+ * // Search with error state (aria-invalid is auto-set when status="error")
  * <SearchInput
  *   placeholder="Search products"
  *   value={searchTerm}
  *   onChange={(e) => setSearchTerm(e.target.value)}
- *   aria-invalid={!isValid}
  *   helperText="Search failed. Please try again."
  *   status="error"
  * />

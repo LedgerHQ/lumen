@@ -88,7 +88,6 @@ describe('SearchInput', () => {
         placeholder='Search'
         helperText='Search failed'
         status='error'
-        aria-invalid={true}
       />,
     );
 

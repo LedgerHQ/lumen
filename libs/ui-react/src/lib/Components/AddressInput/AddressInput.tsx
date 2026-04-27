@@ -27,11 +27,10 @@ import type { AddressInputProps } from './types';
  * // Basic address field with automatic clear button
  * <AddressInput value={address} onChange={(e) => setAddress(e.target.value)} />
  *
- * // Address field with error state
+ * // Address field with error state (aria-invalid is auto-set when status="error")
  * <AddressInput
  *   value={invalidAddress}
  *   onChange={(e) => setInvalidAddress(e.target.value)}
- *   aria-invalid={!isValid}
  *   helperText="Please enter a valid address or ENS name"
  *   status="error"
  * />
