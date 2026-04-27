@@ -1,6 +1,6 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
-import type { StoryContext } from '@storybook/react-vite';
+import type { StoryContext } from '@storybook/react-native-web-vite';
 import React from 'react';
 import type { ColorSchemeName } from 'react-native';
 
