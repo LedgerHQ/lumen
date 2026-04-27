@@ -55,8 +55,8 @@ Use `onClear` to extend the default clear behavior with custom logic:
 
 The input supports error handling through:
 
-- `status`: Set to `'error'` or `'success'` for border, label, and helper styling; omit for a neutral hint. Setting `status='error'` automatically sets `aria-invalid={true}` on the input for screen readers.
-- `helperText`: Optional copy shown below the input (pair with `status` for error or success styling)
+- `status`: Set to `'error'` or `'success'` to style the input state; `'error'` updates the border, label, and helper text styling, while `'success'` updates the border and helper/icon styling. Omit for a neutral hint. Setting `status='error'` automatically sets `aria-invalid={true}` on the input for screen readers.
+- `helperText`: Optional copy shown below the input (pair with `status` for error or success messaging and state styling)
 
 <Canvas of={TextInputStories.WithError} />
 
