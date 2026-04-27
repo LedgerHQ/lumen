@@ -2,10 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Avatar } from '../Avatar';
 import { MediaImage } from '../MediaImage';
-import {
-  SegmentedControl,
-  SegmentedControlButton,
-} from '../SegmentedControl';
+import { SegmentedControl, SegmentedControlButton } from '../SegmentedControl';
 import { DotCount } from './DotCount';
 
 const meta = {
@@ -118,9 +115,7 @@ export const WithChildren: Story = {
             </span>
           </SegmentedControlButton>
           <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
-          <SegmentedControlButton value='blame'>
-            Blame
-          </SegmentedControlButton>
+          <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
         </SegmentedControl>
       </div>
     );
