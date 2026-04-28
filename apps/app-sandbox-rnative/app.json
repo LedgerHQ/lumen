@@ -4,6 +4,7 @@
     "slug": "app-sandbox-rnative",
     "version": "0.0.1",
     "orientation": "default",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "scheme": "lumen-sandbox",
     "splash": {
