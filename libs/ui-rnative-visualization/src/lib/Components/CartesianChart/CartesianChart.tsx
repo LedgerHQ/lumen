@@ -9,9 +9,9 @@ import type { CartesianChartProps } from './types';
 
 const DEFAULT_HEIGHT = 160;
 const DEFAULT_INSET: ChartInset = {
-  top: 5,
+  top: 30,
   right: 20,
-  bottom: 0,
+  bottom: 30,
   left: 20,
 };
 
