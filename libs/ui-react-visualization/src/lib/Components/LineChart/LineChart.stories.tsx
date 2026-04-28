@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
+import { Point } from '../Point/Point';
 import { LineChart } from './LineChart';
 
 const meta: Meta<typeof LineChart> = {
@@ -236,4 +237,25 @@ export const WithAreaMultipleSeries: Story = {
       domain: { min: 0, max: 100 },
     },
   },
+};
+
+export const WithPoints: Story = {
+  render: () => (
+    <LineChart series={sampleSeries} height={250} showArea>
+      <Point
+        dataX={9}
+        dataY={4}
+        label='$4.00'
+        color='#C24244'
+        labelPosition='bottom'
+      />
+      <Point
+        dataX={4}
+        dataY={98}
+        label='$98.00'
+        color='#47883A'
+        labelPosition='top'
+      />
+    </LineChart>
+  ),
 };

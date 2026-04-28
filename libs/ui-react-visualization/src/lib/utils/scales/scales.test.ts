@@ -6,6 +6,7 @@ import {
   isBandScaleType,
   isCategoricalScale,
   isNumericScale,
+  projectPoint,
 } from './scales';
 
 describe('getNumericScale', () => {
@@ -129,5 +130,40 @@ describe('isCategoricalScale / isNumericScale', () => {
   it('should identify a categorical scale', () => {
     expect(isCategoricalScale(bandScale)).toBe(true);
     expect(isNumericScale(bandScale)).toBe(false);
+  });
+});
+
+describe('projectPoint', () => {
+  it('should project data coordinates to pixel coordinates with linear scales', () => {
+    const xScale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 10 },
+      range: { min: 0, max: 400 },
+    });
+    const yScale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 100 },
+      range: { min: 200, max: 0 },
+    });
+    const result = projectPoint(5, 50, xScale, yScale);
+    expect(result.x).toBe(200);
+    expect(result.y).toBe(100);
+  });
+
+  it('should center on band for categorical x-scale', () => {
+    const xScale = getCategoricalScale({
+      domain: { min: 0, max: 3 },
+      range: { min: 0, max: 400 },
+      padding: 0,
+    });
+    const yScale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 100 },
+      range: { min: 200, max: 0 },
+    });
+    const result = projectPoint(1, 50, xScale, yScale);
+    const expectedX = (xScale(1) ?? 0) + xScale.bandwidth() / 2;
+    expect(result.x).toBe(expectedX);
+    expect(result.y).toBe(100);
   });
 });
