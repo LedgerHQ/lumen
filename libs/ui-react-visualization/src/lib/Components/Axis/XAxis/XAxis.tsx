@@ -1,8 +1,8 @@
 import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
 
-import { buildTicksData } from '../../utils/ticks/ticks';
-import { useCartesianChartContext } from '../CartesianChart/context';
+import { buildTicksData } from '../../../utils/ticks/ticks';
+import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { XAxisProps } from './types';
 
@@ -38,10 +38,9 @@ export function XAxis({
     return null;
   }
 
-  const axisY =
-    position === 'top' ? drawingArea.y : drawingArea.y + drawingArea.height;
-
-  const tickDirection = position === 'top' ? -1 : 1;
+  const isTop = position === 'top';
+  const axisY = isTop ? drawingArea.y : drawingArea.y + drawingArea.height;
+  const tickDirection = isTop ? -1 : 1;
   const labelY = axisY + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
 
   return (
@@ -87,18 +86,21 @@ export function XAxis({
         ))}
 
       {ticksData.map((tick, i) => (
-        <text
-          key={`label-${tick.value}-${i}`}
-          x={tick.position}
-          y={labelY}
-          textAnchor='middle'
-          dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
-          style={{ fill: theme.colors.text.muted }}
-          fontSize={theme.typographies.xs.body.body4.fontSize}
-          fontFamily={theme.typographies.xs.body.body1.fontFamily}
-        >
-          {tick.label}
-        </text>
+        <>
+          {' '}
+          <text
+            key={`label-${tick.value}-${i}`}
+            x={tick.position}
+            y={labelY}
+            textAnchor='middle'
+            dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
+            style={{ fill: theme.colors.text.muted }}
+            fontSize={theme.typographies.xs.body.body4.fontSize}
+            fontFamily={theme.fontFamilies.sans}
+          >
+            {tick.label}
+          </text>
+        </>
       ))}
     </g>
   );

@@ -1,3 +1,4 @@
+import { primitiveTypographyTokens } from '../primitives/primitive.typographies';
 import { primitiveMotionTokens } from '../primitives/primitives.motion';
 import { primitiveLayoutTokens } from '../primitives/primitives.others';
 import { primitiveShadowTokens } from '../primitives/primitives.shadows';
@@ -8,6 +9,7 @@ import { ledgerLiveLightColorTokens } from './theme.light';
 
 export const ledgerLiveCoreTokens = {
   ...primitiveLayoutTokens,
+  fontFamilies: primitiveTypographyTokens.fontFamily,
   shadows: primitiveShadowTokens,
   typographies: typographyTokens,
   motion: primitiveMotionTokens,

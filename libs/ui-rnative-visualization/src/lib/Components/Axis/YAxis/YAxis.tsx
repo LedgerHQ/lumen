@@ -1,8 +1,9 @@
-import { useTheme } from '@ledgerhq/lumen-ui-react';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
+import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import { buildTicksData } from '../../utils/ticks/ticks';
-import { useCartesianChartContext } from '../CartesianChart/context';
+import { buildTicksData } from '../../../utils/ticks/ticks';
+import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { YAxisProps } from './types';
 
@@ -11,17 +12,17 @@ const TICK_MARK_SIZE = 4;
 const TICK_LABEL_OFFSET = 6;
 export const DEFAULT_AXIS_WIDTH = 40;
 
-export function YAxis({
-  gridLineStyle = 'dashed',
+export const YAxis = ({
   position = 'start',
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  gridLineStyle = 'dashed',
   ticks: ticksProp,
   tickLabelFormatter,
-}: YAxisProps) {
-  const { theme } = useTheme();
+}: YAxisProps) => {
   const { getYScale, getYAxisConfig, drawingArea } = useCartesianChartContext();
+  const { theme } = useTheme();
 
   const yScale = getYScale();
   const yAxisConfig = getYAxisConfig();
@@ -38,68 +39,72 @@ export function YAxis({
     return null;
   }
 
-  const axisX =
-    position === 'start' ? drawingArea.x : drawingArea.x + drawingArea.width;
-
-  const tickDirection = position === 'start' ? -1 : 1;
+  const isStart = position === 'start';
+  const axisX = isStart ? drawingArea.x : drawingArea.x + drawingArea.width;
+  const tickDirection = isStart ? -1 : 1;
   const labelX = axisX + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
+  const fontSize = theme.typographies.body4.fontSize;
+  const labelDy = fontSize * 0.35;
+
+  const gridStroke = theme.colors.border.mutedSubtle;
+  const lineStroke = theme.colors.border.muted;
+  const textFill = theme.colors.text.muted;
 
   return (
-    <g data-testid='y-axis'>
+    <G>
       {showGrid &&
         ticksData.map((tick, i) => (
-          <line
+          <SvgLine
             key={`grid-${tick.value}-${i}`}
             x1={drawingArea.x}
             y1={tick.position}
             x2={drawingArea.x + drawingArea.width}
             y2={tick.position}
-            style={{ stroke: theme.colors.border.mutedSubtle }}
+            stroke={gridStroke}
             strokeWidth={STROKE_WIDTH}
             strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
           />
         ))}
 
       {showLine && (
-        <line
+        <SvgLine
           x1={axisX}
           y1={drawingArea.y}
           x2={axisX}
           y2={drawingArea.y + drawingArea.height}
-          style={{ stroke: theme.colors.border.muted }}
+          stroke={lineStroke}
           strokeWidth={STROKE_WIDTH}
-          shapeRendering='crispEdges'
           strokeLinecap='square'
         />
       )}
 
       {showTickMark &&
         ticksData.map((tick, i) => (
-          <line
+          <SvgLine
             key={`tick-${tick.value}-${i}`}
             x1={axisX}
             y1={tick.position}
             x2={axisX + tickDirection * TICK_MARK_SIZE}
             y2={tick.position}
-            style={{ stroke: theme.colors.border.muted }}
+            stroke={lineStroke}
             strokeWidth={STROKE_WIDTH}
           />
         ))}
 
       {ticksData.map((tick, i) => (
-        <text
+        <SvgText
           key={`label-${tick.value}-${i}`}
           x={labelX}
           y={tick.position}
+          dy={labelDy}
           textAnchor={position === 'start' ? 'end' : 'start'}
-          dominantBaseline='central'
-          style={{ fill: theme.colors.text.muted }}
-          fontSize={theme.typographies.xs.body.body4.fontSize}
-          fontFamily={theme.typographies.xs.body.body1.fontFamily}
+          fill={textFill}
+          fontSize={theme.typographies.body4.fontSize}
+          fontFamily={theme.fontFamilies.sans}
         >
           {tick.label}
-        </text>
+        </SvgText>
       ))}
-    </g>
+    </G>
   );
-}
+};
