@@ -1,12 +1,6 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
 import type { ReactNode } from 'react';
-import {
-  Children,
-  isValidElement,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react';
+import { Children, isValidElement, useEffect, useMemo, useRef } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -52,8 +46,9 @@ const useTabBarItemAnimations = ({ isActive }: { isActive: boolean }) => {
       50,
       withTiming(isActive ? 1 : 0, activeTimingConfig),
     );
-    return () => cancelAnimation(activeProgress);
   }, [isActive, activeProgress, activeTimingConfig]);
+
+  useEffect(() => () => cancelAnimation(activeProgress), [activeProgress]);
 
   const onPressIn = () => {
     pressProgress.value = withTiming(0.9, pressInTimingConfig);
@@ -114,7 +109,7 @@ const useTabBarPillLayout = ({
     easing: 'easeInOut',
   });
 
-  const getActiveIndex = useCallback((): number => {
+  const activeIndex = useMemo(() => {
     return Children.toArray(children).findIndex((child) => {
       if (isValidElement<TabBarItemProps>(child)) {
         return child.props.value === active;
@@ -122,6 +117,9 @@ const useTabBarPillLayout = ({
       return false;
     });
   }, [active, children]);
+
+  const activeIndexRef = useRef(activeIndex);
+  activeIndexRef.current = activeIndex;
 
   const onLayout = (e: LayoutChangeEvent): void => {
     const { width, height } = e.nativeEvent.layout;
@@ -133,7 +131,7 @@ const useTabBarPillLayout = ({
 
     if (!hasLayoutRef.current) {
       hasLayoutRef.current = true;
-      const index = getActiveIndex();
+      const index = activeIndexRef.current;
       if (index >= 0) {
         pillProgress.value = index * slotWidth;
       }
@@ -142,14 +140,15 @@ const useTabBarPillLayout = ({
 
   useEffect(() => {
     if (!hasLayoutRef.current) return;
-    const index = getActiveIndex();
-
-    if (index >= 0 && itemWidth.value > 0) {
-      pillProgress.value = withTiming(index * itemWidth.value, timingConfig);
+    if (activeIndex >= 0 && itemWidth.value > 0) {
+      pillProgress.value = withTiming(
+        activeIndex * itemWidth.value,
+        timingConfig,
+      );
     }
+  }, [activeIndex, itemWidth, pillProgress, timingConfig]);
 
-    return () => cancelAnimation(pillProgress);
-  }, [itemWidth, pillProgress, getActiveIndex, timingConfig]);
+  useEffect(() => () => cancelAnimation(pillProgress), [pillProgress]);
 
   const animatedPillStyle = useAnimatedStyle(
     () => ({
