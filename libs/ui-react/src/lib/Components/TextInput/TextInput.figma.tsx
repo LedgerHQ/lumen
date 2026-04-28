@@ -17,6 +17,12 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      status: figma.enum('state', {
+        error: 'error',
+        'error-focus': 'error',
+        success: 'success',
+        'success-focus': 'success',
+      }),
       helperText: figma.nestedProps('.status', {
         label: figma.string('label'),
       }),
@@ -28,7 +34,7 @@ figma.connect(
         placeholder={props.placeholder}
         value={props.value}
         helperText={props.helperText.label}
-        status='error'
+        status={props.status}
       />
     ),
   },
