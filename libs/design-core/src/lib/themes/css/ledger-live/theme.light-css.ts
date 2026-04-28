@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const tokens: Record<string, Record<string, string>> = {
+export const tokens = {
   ':root': {
     '--color-background-canvas': 'var(--color-light-grey-050)',
     '--color-background-canvas-muted': 'var(--color-light-grey-100)',
@@ -498,4 +498,4 @@ export const tokens: Record<string, Record<string, string>> = {
     '--border-width-focus': 'var(--stroke-2)',
     '--border-width-stepper': 'var(--stroke-4)',
   },
-};
+} as const satisfies Record<string, Record<string, string>>;

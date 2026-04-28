@@ -61,14 +61,22 @@
   --color-background-active-websites-hover: var(--color-dark-orange-500);
   --color-background-active-websites-pressed: var(--color-dark-orange-600);
   --color-background-active-subtle-ledger-live: var(--color-dark-purple-050);
-  --color-background-active-subtle-ledger-live-hover: var(--color-dark-purple-100);
-  --color-background-active-subtle-ledger-live-pressed: var(--color-dark-purple-200);
+  --color-background-active-subtle-ledger-live-hover: var(
+    --color-dark-purple-100
+  );
+  --color-background-active-subtle-ledger-live-pressed: var(
+    --color-dark-purple-200
+  );
   --color-background-active-subtle-enterprise: var(--color-dark-blue-050);
   --color-background-active-subtle-enterprise-hover: var(--color-dark-blue-100);
-  --color-background-active-subtle-enterprise-pressed: var(--color-dark-blue-200);
+  --color-background-active-subtle-enterprise-pressed: var(
+    --color-dark-blue-200
+  );
   --color-background-active-subtle-website: var(--color-dark-orange-050);
   --color-background-active-subtle-website-hover: var(--color-dark-orange-100);
-  --color-background-active-subtle-website-pressed: var(--color-dark-orange-200);
+  --color-background-active-subtle-website-pressed: var(
+    --color-dark-orange-200
+  );
   --color-background-error: var(--color-dark-red-600-15);
   --color-background-error-hover: var(--color-dark-red-600-30);
   --color-background-error-pressed: var(--color-dark-red-600-40);
@@ -214,7 +222,9 @@
   --color-crypto-ethereum: var(--color-dark-crypto-ethereum);
   --color-crypto-ethereum-0: var(--color-dark-crypto-ethereum-0);
   --color-crypto-ethereum-classic: var(--color-dark-crypto-ethereum-classic);
-  --color-crypto-ethereum-classic-0: var(--color-dark-crypto-ethereum-classic-0);
+  --color-crypto-ethereum-classic-0: var(
+    --color-dark-crypto-ethereum-classic-0
+  );
   --color-crypto-flr: var(--color-dark-crypto-flr);
   --color-crypto-flr-0: var(--color-dark-crypto-flr-0);
   --color-crypto-ftm: var(--color-dark-crypto-ftm);
@@ -322,37 +332,65 @@
   --background-canvas: var(--color-background-canvas-default);
   --background-canvas-muted: var(--color-background-canvas-muted);
   --background-canvas-sheet: var(--color-background-canvas-sheet);
-  --background-canvas-sheet-transparent: var(--color-background-canvas-sheet-transparent);
+  --background-canvas-sheet-transparent: var(
+    --color-background-canvas-sheet-transparent
+  );
   --background-canvas-overlay: var(--color-background-canvas-overlay);
-  --background-canvas-overlay-subtle: var(--color-background-canvas-overlay-subtle);
+  --background-canvas-overlay-subtle: var(
+    --color-background-canvas-overlay-subtle
+  );
   --background-white: var(--color-background-white-default);
   --background-black: var(--color-background-black-default);
   --background-surface: var(--color-background-surface-default);
   --background-surface-hover: var(--color-background-surface-hover);
   --background-surface-pressed: var(--color-background-surface-pressed);
   --background-surface-disabled: var(--color-background-surface-disabled);
-  --background-surface-transparent: var(--color-background-surface-transparent-default);
-  --background-surface-transparent-hover: var(--color-background-surface-transparent-hover);
-  --background-surface-transparent-pressed: var(--color-background-surface-transparent-pressed);
-  --background-surface-transparent-disabled: var(--color-background-surface-transparent-disabled);
+  --background-surface-transparent: var(
+    --color-background-surface-transparent-default
+  );
+  --background-surface-transparent-hover: var(
+    --color-background-surface-transparent-hover
+  );
+  --background-surface-transparent-pressed: var(
+    --color-background-surface-transparent-pressed
+  );
+  --background-surface-transparent-disabled: var(
+    --color-background-surface-transparent-disabled
+  );
   --background-base: var(--color-background-base-default);
   --background-base-hover: var(--color-background-base-hover);
   --background-base-pressed: var(--color-background-base-pressed);
-  --background-base-transparent: var(--color-background-base-transparent-default);
-  --background-base-transparent-hover: var(--color-background-base-transparent-hover);
-  --background-base-transparent-pressed: var(--color-background-base-transparent-pressed);
+  --background-base-transparent: var(
+    --color-background-base-transparent-default
+  );
+  --background-base-transparent-hover: var(
+    --color-background-base-transparent-hover
+  );
+  --background-base-transparent-pressed: var(
+    --color-background-base-transparent-pressed
+  );
   --background-disabled: var(--color-background-disabled-default);
   --background-disabled-strong: var(--color-background-disabled-strong-default);
   --background-muted: var(--color-background-muted-default);
   --background-muted-hover: var(--color-background-muted-hover);
   --background-muted-pressed: var(--color-background-muted-pressed);
-  --background-muted-transparent: var(--color-background-muted-transparent-default);
-  --background-muted-transparent-hover: var(--color-background-muted-transparent-hover);
-  --background-muted-transparent-pressed: var(--color-background-muted-transparent-pressed);
-  --background-muted-transparent-disabled: var(--color-background-muted-transparent-disabled);
+  --background-muted-transparent: var(
+    --color-background-muted-transparent-default
+  );
+  --background-muted-transparent-hover: var(
+    --color-background-muted-transparent-hover
+  );
+  --background-muted-transparent-pressed: var(
+    --color-background-muted-transparent-pressed
+  );
+  --background-muted-transparent-disabled: var(
+    --color-background-muted-transparent-disabled
+  );
   --background-muted-strong: var(--color-background-muted-strong-default);
   --background-muted-strong-hover: var(--color-background-muted-strong-hover);
-  --background-muted-strong-pressed: var(--color-background-muted-strong-pressed);
+  --background-muted-strong-pressed: var(
+    --color-background-muted-strong-pressed
+  );
   --background-accent: var(--color-background-accent-websites-default);
   --background-accent-hover: var(--color-background-accent-websites-hover);
   --background-accent-pressed: var(--color-background-accent-websites-pressed);
@@ -363,18 +401,28 @@
   --background-error-hover: var(--color-background-error-hover);
   --background-error-pressed: var(--color-background-error-pressed);
   --background-error-strong: var(--color-background-error-strong-default);
-  --background-error-transparent: var(--color-background-error-transparent-default);
+  --background-error-transparent: var(
+    --color-background-error-transparent-default
+  );
   --background-warning: var(--color-background-warning-default);
   --background-warning-strong: var(--color-background-warning-strong-default);
   --background-success: var(--color-background-success-default);
   --background-success-strong: var(--color-background-success-strong-default);
-  --background-success-transparent: var(--color-background-success-transparent-default);
+  --background-success-transparent: var(
+    --color-background-success-transparent-default
+  );
   --background-active: var(--color-background-accent-websites-default);
   --background-active-hover: var(--color-background-accent-websites-hover);
   --background-active-pressed: var(--color-background-accent-websites-pressed);
-  --background-active-subtle: var(--color-background-active-subtle-website-default);
-  --background-active-subtle-hover: var(--color-background-active-subtle-website-hover);
-  --background-active-subtle-pressed: var(--color-background-active-subtle-website-pressed);
+  --background-active-subtle: var(
+    --color-background-active-subtle-website-default
+  );
+  --background-active-subtle-hover: var(
+    --color-background-active-subtle-website-hover
+  );
+  --background-active-subtle-pressed: var(
+    --color-background-active-subtle-website-pressed
+  );
   --background-gradient-100: var(--color-background-gradient-100);
   --background-gradient-80: var(--color-background-gradient-80);
   --background-gradient-70: var(--color-background-gradient-70);
