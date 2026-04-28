@@ -72,7 +72,7 @@
     },
     "icon-font-size": {
       "$type": "number",
-      "$value": "{font.size.32}",
+      "$value": "{font.size.28}",
       "$description": "",
       "$extensions": {
         "com.figma": {
