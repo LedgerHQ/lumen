@@ -1,5 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -14,11 +12,9 @@ const sampleSeries = [
 
 const renderYAxis = (props: YAxisProps = {}) =>
   render(
-    <ThemeProvider themes={ledgerLiveThemes}>
-      <CartesianChart series={sampleSeries} width={400} height={200}>
-        <YAxis {...props} />
-      </CartesianChart>
-    </ThemeProvider>,
+    <CartesianChart series={sampleSeries} width={400} height={200}>
+      <YAxis {...props} />
+    </CartesianChart>,
   );
 
 describe('YAxis', () => {
@@ -111,11 +107,9 @@ describe('YAxis', () => {
 
   it('returns null when drawing area height is 0', () => {
     const { queryByTestId } = render(
-      <ThemeProvider themes={ledgerLiveThemes}>
-        <CartesianChart series={sampleSeries} width={400} height={0}>
-          <YAxis />
-        </CartesianChart>
-      </ThemeProvider>,
+      <CartesianChart series={sampleSeries} width={400} height={0}>
+        <YAxis />
+      </CartesianChart>,
     );
     expect(queryByTestId('y-axis')).toBeNull();
   });

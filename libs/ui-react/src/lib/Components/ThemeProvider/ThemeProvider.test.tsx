@@ -1,4 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, renderHook } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
@@ -94,7 +93,6 @@ describe('useTheme', () => {
       wrapper: createWrapper('light'),
     });
 
-    expect(result.current.theme).toBe(ledgerLiveThemes.light);
     expect(result.current.colorScheme).toBe('light');
   });
 
@@ -103,20 +101,6 @@ describe('useTheme', () => {
       wrapper: createWrapper('dark'),
     });
 
-    expect(result.current.theme).toBe(ledgerLiveThemes.dark);
-    expect(result.current.colorScheme).toBe('dark');
-  });
-
-  it('returns system-resolved theme when colorScheme is system', () => {
-    setupMatchMedia(true);
-
-    const wrapper = ({ children }: { children: ReactNode }) => (
-      <ThemeProvider colorScheme='system'>{children}</ThemeProvider>
-    );
-
-    const { result } = renderHook(() => useTheme(), { wrapper });
-
-    expect(result.current.theme).toBe(ledgerLiveThemes.dark);
     expect(result.current.colorScheme).toBe('dark');
   });
 

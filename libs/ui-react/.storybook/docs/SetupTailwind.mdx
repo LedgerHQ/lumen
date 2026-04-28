@@ -435,6 +435,23 @@ All design tokens automatically support dark mode:
 
 ---
 
+## 🔧 Edge Case: Tokens Outside Tailwind (`cssVar`)
+
+For contexts where class names don't work (SVG attributes, canvas, third-party libs), use the type-safe `cssVar()` utility:
+
+```tsx
+import { cssVar } from '@ledgerhq/lumen-design-core';
+
+<line
+  style={{ stroke: cssVar('var(--border-muted)') }}
+  strokeWidth={cssVar('var(--stroke-1)')}
+/>
+```
+
+Typos and invalid tokens are caught at compile time. Web-only — React Native should use `useTheme()` instead.
+
+---
+
 ## 🤖 AI Assistant Support
 
 Lumen includes AI rules to help assistants (Cursor, Claude, VS Code Copilot, etc.) suggest correct patterns.
