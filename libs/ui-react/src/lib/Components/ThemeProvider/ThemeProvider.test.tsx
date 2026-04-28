@@ -35,7 +35,7 @@ afterEach(() => {
 describe('ThemeProvider', () => {
   it('applies light class when theme is light', () => {
     render(
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+      <ThemeProvider colorScheme='light'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -46,7 +46,7 @@ describe('ThemeProvider', () => {
 
   it('applies dark class when theme is dark', () => {
     render(
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark'>
+      <ThemeProvider colorScheme='dark'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -59,7 +59,7 @@ describe('ThemeProvider', () => {
     setupMatchMedia(true);
 
     render(
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='system'>
+      <ThemeProvider colorScheme='system'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -72,7 +72,7 @@ describe('ThemeProvider', () => {
     setupMatchMedia(false);
 
     render(
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='system'>
+      <ThemeProvider colorScheme='system'>
         <div data-testid='child' />
       </ThemeProvider>,
     );
@@ -86,9 +86,7 @@ describe('useTheme', () => {
   const createWrapper =
     (colorScheme: 'light' | 'dark') =>
     ({ children }: { children: ReactNode }) => (
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme={colorScheme}>
-        {children}
-      </ThemeProvider>
+      <ThemeProvider colorScheme={colorScheme}>{children}</ThemeProvider>
     );
 
   it('returns the light theme when colorScheme is light', () => {
@@ -113,9 +111,7 @@ describe('useTheme', () => {
     setupMatchMedia(true);
 
     const wrapper = ({ children }: { children: ReactNode }) => (
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='system'>
-        {children}
-      </ThemeProvider>
+      <ThemeProvider colorScheme='system'>{children}</ThemeProvider>
     );
 
     const { result } = renderHook(() => useTheme(), { wrapper });
