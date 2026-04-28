@@ -65,3 +65,24 @@ export const isNumericScale = (
 ): scale is NumericScale => {
   return !isCategoricalScale(scale);
 };
+
+/**
+ * Projects a single data-space coordinate pair to pixel-space
+ * using the provided x and y scale functions.
+ *
+ * For categorical (band) scales the point is anchored at the center of the band.
+ */
+export const projectPoint = (
+  dataX: number,
+  dataY: number,
+  xScale: ChartScaleFunction,
+  yScale: ChartScaleFunction,
+): { x: number; y: number } => {
+  const x = isCategoricalScale(xScale)
+    ? (xScale(dataX) ?? 0) + xScale.bandwidth() / 2
+    : xScale(dataX);
+  const y = isCategoricalScale(yScale)
+    ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
+    : (yScale as NumericScale)(dataY);
+  return { x: x as number, y };
+};
