@@ -4,6 +4,8 @@ import {
   NavBar,
   NavBarBackButton,
   NavBarCoinCapsule,
+  NavBarDescription,
+  NavBarLeading,
   NavBarTitle,
   NavBarTrailing,
 } from './NavBar';
@@ -37,7 +39,9 @@ NavBar is a navigation component that provides a consistent header for pages wit
 
 - **NavBar**: The root container that provides horizontal layout with proper spacing
 - **NavBarBackButton**: An icon button with arrow-left icon for back navigation
+- **NavBarLeading**: Container for the main content area (title + optional description side-by-side). Mirrors `NavBarTrailing` on the left side
 - **NavBarTitle**: The page title text, automatically truncates when content overflows
+- **NavBarDescription**: Secondary descriptive text displayed next to the title inside `NavBarLeading`
 - **NavBarCoinCapsule**: A pill-shaped container for displaying cryptocurrency icon and ticker (e.g., for asset detail pages)
 - **NavBarTrailing**: Container for right-aligned action elements like IconButtons
 
@@ -60,6 +64,13 @@ NavBar can be used without trailing elements:
 Multiple action buttons can be placed in the trailing area:
 
 <Canvas of={NavBarStories.WithMultipleTrailingActions} />
+
+### With Description
+
+Use `NavBarLeading` to group a title and description side-by-side with a 16px gap.
+Pass `className="flex-none"` to `NavBarTitle` so it does not expand and push the description away.
+
+<Canvas of={NavBarStories.WithDescription} />
 
 ### With Coin Capsule
 
@@ -108,6 +119,43 @@ function MyPage() {
     <NavBar>
       <NavBarBackButton onClick={() => navigate(-1)} />
       <NavBarTitle>Page Title</NavBarTitle>
+      <NavBarTrailing>
+        <IconButton
+          appearance='gray'
+          size='sm'
+          icon={Settings}
+          aria-label='Settings'
+        />
+      </NavBarTrailing>
+    </NavBar>
+  );
+}
+```
+
+### With Description
+
+Use `NavBarLeading` to place a title and description next to each other with a 16px gap.
+`NavBarLeading` owns the `flex-1` stretching, so pass `className="flex-none"` to `NavBarTitle` inside it:
+
+```tsx
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarDescription,
+  NavBarLeading,
+  NavBarTitle,
+  NavBarTrailing,
+  IconButton,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyPage() {
+  return (
+    <NavBar>
+      <NavBarBackButton onClick={() => navigate(-1)} />
+      <NavBarLeading>
+        <NavBarTitle className='flex-none'>Page Title</NavBarTitle>
+        <NavBarDescription>Subtitle text</NavBarDescription>
+      </NavBarLeading>
       <NavBarTrailing>
         <IconButton
           appearance='gray'

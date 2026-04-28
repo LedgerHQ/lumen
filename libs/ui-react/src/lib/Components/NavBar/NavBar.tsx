@@ -6,6 +6,8 @@ import { CoinCapsule } from './CoinCapsule';
 import type {
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
+  NavBarDescriptionProps,
+  NavBarLeadingProps,
   NavBarProps,
   NavBarTitleProps,
   NavBarTrailingProps,
@@ -89,6 +91,54 @@ export const NavBarTitle = ({
     >
       {children}
     </Component>
+  );
+};
+
+/**
+ * Description component for the NavBar. Displays descriptive text below the title row.
+ * @example
+ * <NavBarDescription>Page Description</NavBarDescription
+ */
+export const NavBarDescription = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarDescriptionProps) => {
+  return (
+    <div ref={ref} className={cn('body-1 text-muted', className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+/**
+ * Leading container for the NavBar. Used to group the title and an optional description
+ *
+ * When NavBarTitle is placed inside NavBarLeading alongside NavBarDescription, pass
+ * `className="flex-none"` to NavBarTitle so it does not expand and push the description away.
+ *
+ * @example
+ * <NavBarLeading>
+ *   <NavBarTitle className="flex-none">Page Title</NavBarTitle>
+ *   <NavBarDescription>Subtitle text</NavBarDescription>
+ * </NavBarLeading>
+ */
+export const NavBarLeading = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarLeadingProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('flex min-w-0 flex-1 items-center gap-16', className)}
+      data-slot='navbar-leading'
+      {...props}
+    >
+      {children}
+    </div>
   );
 };
 

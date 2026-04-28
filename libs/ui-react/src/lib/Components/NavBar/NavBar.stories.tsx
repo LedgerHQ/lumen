@@ -6,6 +6,8 @@ import {
   NavBar,
   NavBarBackButton,
   NavBarCoinCapsule,
+  NavBarDescription,
+  NavBarLeading,
   NavBarTitle,
   NavBarTrailing,
 } from './NavBar';
@@ -23,6 +25,8 @@ const meta: Meta<typeof NavBar> = {
   subcomponents: {
     NavBarBackButton,
     NavBarTitle,
+    NavBarDescription,
+    NavBarLeading,
     NavBarTrailing,
     NavBarCoinCapsule,
   },
@@ -87,6 +91,33 @@ export const Base: StoryObj<PlaygroundArgs> = {
       </NavBarTrailing>
     </NavBar>
   ),
+};
+
+export const WithDescription: Story = {
+  render: () => (
+    <NavBar>
+      <NavBarBackButton onClick={() => console.log('Back clicked')} />
+      <NavBarLeading>
+        <NavBarTitle className='flex-none'>Page Title</NavBarTitle>
+        <NavBarDescription>Page Description</NavBarDescription>
+      </NavBarLeading>
+    </NavBar>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavBar>
+  <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarLeading>
+    <NavBarTitle className="flex-none">Page Title</NavBarTitle>
+    <NavBarDescription>Page Description</NavBarDescription>
+  </NavBarLeading>
+</NavBar>
+        `,
+      },
+    },
+  },
 };
 
 export const WithoutTrailing: Story = {
