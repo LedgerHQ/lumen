@@ -392,7 +392,9 @@ export const ResponsiveLayout: Story = {
 export const WithNetworkAndMediaIcon: Story = {
   render: () => (
     <div className='flex max-w-320 flex-col gap-4'>
-      <div className='body-4-semi-bold text-muted pb-4'>Network icon (CryptoIcon)</div>
+      <div className='pb-4 body-4-semi-bold text-muted'>
+        Network icon (CryptoIcon)
+      </div>
       <ListItem density='expanded' onClick={() => {}}>
         <ListItemLeading>
           <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -404,7 +406,9 @@ export const WithNetworkAndMediaIcon: Story = {
         <ListItemTrailing>
           <ListItemContent>
             <ListItemTitle>$43,250.00</ListItemTitle>
-            <ListItemDescription className='text-success'>+2.5%</ListItemDescription>
+            <ListItemDescription className='text-success'>
+              +2.5%
+            </ListItemDescription>
           </ListItemContent>
         </ListItemTrailing>
       </ListItem>
@@ -420,12 +424,16 @@ export const WithNetworkAndMediaIcon: Story = {
         <ListItemTrailing>
           <ListItemContent>
             <ListItemTitle>$2,650.00</ListItemTitle>
-            <ListItemDescription className='text-error'>-0.5%</ListItemDescription>
+            <ListItemDescription className='text-error'>
+              -0.5%
+            </ListItemDescription>
           </ListItemContent>
         </ListItemTrailing>
       </ListItem>
 
-      <div className='body-4-semi-bold text-muted pb-4 pt-16'>Media icon (MediaImage)</div>
+      <div className='pt-16 pb-4 body-4-semi-bold text-muted'>
+        Media icon (MediaImage)
+      </div>
       <ListItem density='expanded' onClick={() => {}}>
         <ListItemLeading>
           <MediaImage
@@ -441,7 +449,9 @@ export const WithNetworkAndMediaIcon: Story = {
         <ListItemTrailing>
           <ListItemContent>
             <ListItemTitle>$0.18</ListItemTitle>
-            <ListItemDescription className='text-success'>+1.2%</ListItemDescription>
+            <ListItemDescription className='text-success'>
+              +1.2%
+            </ListItemDescription>
           </ListItemContent>
         </ListItemTrailing>
       </ListItem>

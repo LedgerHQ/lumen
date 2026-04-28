@@ -856,4 +856,3 @@ export const InfoStateVariants: Story = {
     },
   },
 };
-

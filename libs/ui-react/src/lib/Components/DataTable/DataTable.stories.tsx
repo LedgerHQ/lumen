@@ -801,9 +801,9 @@ export const WithInfiniteLoading: Story = {
   },
 };
 
-const categoryOptions = [
-  ...new Set(largeData.map((d) => d.category)),
-].map((c) => ({ value: c, label: c }));
+const categoryOptions = [...new Set(largeData.map((d) => d.category))].map(
+  (c) => ({ value: c, label: c }),
+);
 
 export const WithActionBarAndSelectTrigger: Story = {
   render: (args) => {

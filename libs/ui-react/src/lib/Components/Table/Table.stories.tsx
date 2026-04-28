@@ -2,9 +2,10 @@ import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
-import { MediaImage } from '../MediaImage/MediaImage';
 import { Button } from '../Button/Button';
 import { MediaButton } from '../MediaButton';
+import { MediaImage } from '../MediaImage/MediaImage';
+import { SearchInput } from '../SearchInput/SearchInput';
 import {
   Select,
   SelectContent,
@@ -13,7 +14,6 @@ import {
   SelectList,
   SelectTrigger,
 } from '../Select';
-import { SearchInput } from '../SearchInput/SearchInput';
 import { Spot } from '../Spot';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
@@ -470,15 +470,69 @@ export const WithGroupHeader: Story = {
 };
 
 const categorizedData = [
-  { name: 'Bitcoin', symbol: 'BTC', price: '$43,250.00', change: '+2.5%', category: 'Layer 1' },
-  { name: 'Ethereum', symbol: 'ETH', price: '$2,650.00', change: '+1.8%', category: 'Layer 1' },
-  { name: 'Solana', symbol: 'SOL', price: '$98.50', change: '-0.5%', category: 'Layer 1' },
-  { name: 'Arbitrum', symbol: 'ARB', price: '$1.20', change: '+0.9%', category: 'Layer 2' },
-  { name: 'Optimism', symbol: 'OP', price: '$3.40', change: '+1.4%', category: 'Layer 2' },
-  { name: 'Polygon', symbol: 'MATIC', price: '$0.85', change: '-0.3%', category: 'Layer 2' },
-  { name: 'Uniswap', symbol: 'UNI', price: '$12.00', change: '+0.3%', category: 'DeFi' },
-  { name: 'Aave', symbol: 'AAVE', price: '$100.00', change: '+0.4%', category: 'DeFi' },
-  { name: 'Chainlink', symbol: 'LINK', price: '$15.00', change: '+0.2%', category: 'DeFi' },
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    price: '$43,250.00',
+    change: '+2.5%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    price: '$2,650.00',
+    change: '+1.8%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    price: '$98.50',
+    change: '-0.5%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Arbitrum',
+    symbol: 'ARB',
+    price: '$1.20',
+    change: '+0.9%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Optimism',
+    symbol: 'OP',
+    price: '$3.40',
+    change: '+1.4%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Polygon',
+    symbol: 'MATIC',
+    price: '$0.85',
+    change: '-0.3%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Uniswap',
+    symbol: 'UNI',
+    price: '$12.00',
+    change: '+0.3%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Aave',
+    symbol: 'AAVE',
+    price: '$100.00',
+    change: '+0.4%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Chainlink',
+    symbol: 'LINK',
+    price: '$15.00',
+    change: '+0.2%',
+    category: 'DeFi',
+  },
 ];
 
 const categoryFilterOptions = [
