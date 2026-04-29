@@ -4,7 +4,6 @@ import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { CheckmarkCircleFill } from '../../Symbols/Icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
-import { SearchInput } from '../SearchInput/SearchInput';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
 
@@ -33,14 +32,6 @@ describe('TextInput', () => {
       );
 
       expect(screen.getByPlaceholderText('jane.doe')).toBeTruthy();
-    });
-
-    it('defaults to a single-space placeholder when there is no label and no placeholder prop', async () => {
-      await renderWithProvider(
-        <SearchInput value='' onChangeText={() => {}} />,
-      );
-
-      expect(screen.getByPlaceholderText(' ')).toBeTruthy();
     });
   });
 

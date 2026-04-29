@@ -53,26 +53,26 @@ const baseLabelStyles = cn(
 const labelVariants = cva(baseLabelStyles, {
   variants: {
     status: {
-      none: '',
+      default: '',
       error: 'text-error',
       success: '',
     },
   },
   defaultVariants: {
-    status: 'none',
+    status: 'default',
   },
 });
 
 const helperVariants = cva('mt-8 flex items-center gap-2 body-3', {
   variants: {
     status: {
-      neutral: 'text-muted',
+      default: 'text-muted',
       error: 'text-error',
       success: 'text-success',
     },
   },
   defaultVariants: {
-    status: 'neutral',
+    status: 'default',
   },
 });
 
@@ -248,7 +248,7 @@ export const BaseInput = ({
             htmlFor={inputId}
             className={cn(
               labelVariants({
-                status: status ?? 'none',
+                status: status ?? 'default',
               }),
               // With a real placeholder, :placeholder-shown stays true when empty; override so the
               // label stays in the floated slot instead of centering on top of the placeholder.
@@ -276,7 +276,7 @@ export const BaseInput = ({
       {showHelper && (
         <div
           id={helperId}
-          className={helperVariants({ status: status ?? 'neutral' })}
+          className={helperVariants({ status: status ?? 'default' })}
           role={status === 'error' ? 'alert' : undefined}
         >
           {status === 'error' && (
