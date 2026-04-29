@@ -46,10 +46,17 @@ export function Point({
     return null;
   }
 
+  const fontSize = theme.typographies.xs.body.body4.fontSize;
   const resolvedLabel = resolveLabel(label, dataX);
   const hasLabel = labelComponent != null || resolvedLabel != null;
   const renderArrow = showArrow && hasLabel;
-  const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
+  const labelY = computeLabelY(
+    pixel.y,
+    radius,
+    labelPosition,
+    renderArrow,
+    fontSize,
+  );
 
   return (
     <g
