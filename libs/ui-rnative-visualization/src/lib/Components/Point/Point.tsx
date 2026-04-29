@@ -11,7 +11,6 @@ import {
   computeLabelY,
   DEFAULT_SIZE,
   isWithinBounds,
-  LABEL_FONT_SIZE,
   resolveLabel,
   STROKE_WIDTH,
 } from './utils';
@@ -24,10 +23,10 @@ export const Point = ({
   labelComponent,
   labelPosition = 'top',
   hidePoint = false,
-  showArrow = true,
+  showLabelArrow = true,
   size = DEFAULT_SIZE,
   onPress,
-}: PointProps) => {
+}: Readonly<PointProps>) => {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
   const { theme } = useTheme();
 
@@ -50,7 +49,7 @@ export const Point = ({
 
   const resolvedLabel = resolveLabel(label, dataX);
   const hasLabel = labelComponent != null || resolvedLabel != null;
-  const renderArrow = showArrow && hasLabel;
+  const renderArrow = showLabelArrow && hasLabel;
   const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
 
   return (
@@ -73,7 +72,14 @@ export const Point = ({
           fill={textColor}
         />
       )}
-      {labelComponent}
+      {labelComponent && (
+        <G
+          testID='point-label-wrapper'
+          transform={`translate(${pixel.x}, ${labelY})`}
+        >
+          {labelComponent}
+        </G>
+      )}
       {!labelComponent && resolvedLabel != null && (
         <SvgText
           testID='point-label'
@@ -81,9 +87,9 @@ export const Point = ({
           y={labelY}
           textAnchor='middle'
           fill={textColor}
-          fontSize={LABEL_FONT_SIZE}
-          fontWeight='500'
-          fontFamily='Inter'
+          fontSize={theme.typographies.body4.fontSize}
+          fontWeight={theme.typographies.body4.fontWeight}
+          fontFamily={theme.fontFamilies.sans}
         >
           {resolvedLabel}
         </SvgText>

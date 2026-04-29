@@ -21,8 +21,9 @@ export type PointProps = {
    */
   label?: string | ((dataIndex: number) => string);
   /**
-   * Custom component rendered instead of the default text label.
-   * Positioned at the same coordinates as the label would be.
+   * Custom SVG element rendered instead of the default text label.
+   * Automatically translated so that `(0, 0)` is the label anchor point
+   * (horizontally centered on the point, vertically offset like the built-in label).
    */
   labelComponent?: ReactNode;
   /**
@@ -45,7 +46,7 @@ export type PointProps = {
    * When `true`, an arrow is displayed pointing from the point to the label.
    * @default true
    */
-  showArrow?: boolean;
+  showLabelArrow?: boolean;
   /**
    * Called when the point is pressed.
    */

@@ -92,6 +92,21 @@ describe('Point', () => {
     expect(queryByTestId('point-label')).toBeNull();
   });
 
+  it('wraps labelComponent in a positioned group', () => {
+    const { getByTestId } = renderInChart(
+      <Point
+        dataX={2}
+        dataY={30}
+        labelComponent={<SvgText testID='custom-label'>Custom</SvgText>}
+      />,
+    );
+    const labelWrapper = getByTestId('point-label-wrapper');
+    expect(labelWrapper).toBeTruthy();
+    expect(labelWrapper.props.transform).toMatch(
+      /^translate\(\d+(\.\d+)?, \d+(\.\d+)?\)$/,
+    );
+  });
+
   it('hides the circle when hidePoint is true but shows label', () => {
     const { queryByTestId, getByTestId } = renderInChart(
       <Point dataX={2} dataY={30} hidePoint label='Still here' />,
@@ -129,7 +144,7 @@ describe('Point', () => {
 
   it('does not render arrow when showArrow is false', () => {
     const { queryByTestId } = renderInChart(
-      <Point dataX={2} dataY={30} label='Peak' showArrow={false} />,
+      <Point dataX={2} dataY={30} label='Peak' showLabelArrow={false} />,
     );
     expect(queryByTestId('point-arrow')).toBeNull();
   });
