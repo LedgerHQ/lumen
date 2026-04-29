@@ -25,7 +25,7 @@ export function Point({
   showArrow = true,
   size = DEFAULT_SIZE,
   onClick,
-}: PointProps) {
+}: Readonly<PointProps>) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
 
   const xScale = getXScale();
