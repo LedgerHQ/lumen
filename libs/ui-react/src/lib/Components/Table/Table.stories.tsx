@@ -136,7 +136,7 @@ export const Base: Story = {
                           shape='circle'
                           size={40}
                           src={'https://crypto-icons.ledger.com/ADA.png'}
-                          alt='Android'
+                          alt='Cardano'
                         />
                       </DotIcon>
                     }
