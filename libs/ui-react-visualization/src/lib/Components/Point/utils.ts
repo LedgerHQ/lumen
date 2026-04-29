@@ -3,6 +3,7 @@ export const STROKE_WIDTH = 2;
 export const ARROW_WIDTH = 6;
 export const ARROW_HEIGHT = 4;
 export const GAP = 4;
+export const LABEL_FONT_SIZE = 10;
 
 export const isWithinBounds = (
   px: number,
@@ -58,11 +59,10 @@ export const computeLabelY = (
   radius: number,
   labelPosition: 'top' | 'bottom',
   renderArrow: boolean,
-  fontSize: number,
 ): number => {
   const arrowOffset = renderArrow ? ARROW_HEIGHT + GAP : GAP;
 
   return labelPosition === 'top'
     ? pixelY - radius - arrowOffset - GAP
-    : pixelY + radius + arrowOffset + GAP + fontSize;
+    : pixelY + radius + arrowOffset + GAP + LABEL_FONT_SIZE;
 };

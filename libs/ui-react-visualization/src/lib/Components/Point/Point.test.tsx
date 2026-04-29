@@ -1,5 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
@@ -10,10 +8,6 @@ import { CartesianChart } from '../CartesianChart';
 import { Point } from './Point';
 
 const sampleSeries = [{ id: 's1', stroke: '#000', data: [10, 20, 30, 40, 50] }];
-
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <ThemeProvider themes={ledgerLiveThemes}>{children}</ThemeProvider>
-);
 
 const renderInChart = (
   pointElement: ReactNode,
@@ -30,17 +24,15 @@ const renderInChart = (
   } = {},
 ) =>
   render(
-    <Wrapper>
-      <CartesianChart
-        series={sampleSeries}
-        width={width}
-        height={height}
-        xAxis={xAxis}
-        yAxis={yAxis}
-      >
-        {pointElement}
-      </CartesianChart>
-    </Wrapper>,
+    <CartesianChart
+      series={sampleSeries}
+      width={width}
+      height={height}
+      xAxis={xAxis}
+      yAxis={yAxis}
+    >
+      {pointElement}
+    </CartesianChart>,
   );
 
 describe('Point', () => {
@@ -56,7 +48,7 @@ describe('Point', () => {
       <Point dataX={2} dataY={30} color='#FF0000' size={16} />,
     );
     const circle = getByTestId('point-circle');
-    expect(circle.getAttribute('fill')).toBe('#FF0000');
+    expect(circle.style.fill).toBe('#FF0000');
     expect(circle.getAttribute('r')).toBe('8');
   });
 
@@ -147,12 +139,12 @@ describe('Point', () => {
     expect(queryByTestId('point-arrow')).toBeNull();
   });
 
-  it('calls onClick when the point is clicked', () => {
+  it('calls onClick when the point is clicked', async () => {
     const onClick = vi.fn();
     const { getByTestId } = renderInChart(
       <Point dataX={2} dataY={30} onClick={onClick} />,
     );
-    userEvent.click(getByTestId('point-group'));
+    await userEvent.click(getByTestId('point-group'));
     expect(onClick).toHaveBeenCalled();
   });
 
