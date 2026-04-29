@@ -22,7 +22,7 @@ export function Point({
   labelComponent,
   labelPosition = 'top',
   hidePoint = false,
-  showArrow = true,
+  showLabelArrow = true,
   size = DEFAULT_SIZE,
   onClick,
 }: Readonly<PointProps>) {
@@ -45,7 +45,7 @@ export function Point({
 
   const resolvedLabel = resolveLabel(label, dataX);
   const hasLabel = labelComponent != null || resolvedLabel != null;
-  const renderArrow = showArrow && hasLabel;
+  const renderArrow = showLabelArrow && hasLabel;
   const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
 
   return (
