@@ -12,7 +12,9 @@
   --color-background-canvas-sheet-transparent: var(--color-light-grey-050-0);
   --color-background-canvas-overlay: var(--color-light-grey-950-60);
   --color-background-canvas-overlay-subtle: var(--color-light-grey-950-10);
+  --color-background-canvas-overlay-chart: var(--color-light-grey-050-60);
   --color-background-white: var(--color-light-constant-050);
+  --color-background-grey: var(--color-light-constant-200);
   --color-background-black: var(--color-light-constant-950);
   --color-background-surface: var(--color-light-grey-100);
   --color-background-surface-hover: var(--color-light-grey-200);
@@ -20,8 +22,12 @@
   --color-background-surface-disabled: var(--color-light-grey-100);
   --color-background-surface-transparent: var(--color-light-grey-950-3);
   --color-background-surface-transparent-hover: var(--color-light-grey-950-5);
-  --color-background-surface-transparent-pressed: var(--color-light-grey-950-10);
-  --color-background-surface-transparent-disabled: var(--color-light-grey-950-3);
+  --color-background-surface-transparent-pressed: var(
+    --color-light-grey-950-10
+  );
+  --color-background-surface-transparent-disabled: var(
+    --color-light-grey-950-3
+  );
   --color-background-base: var(--color-light-grey-050);
   --color-background-base-hover: var(--color-light-grey-100);
   --color-background-base-pressed: var(--color-light-grey-200);
@@ -33,6 +39,7 @@
   --color-background-muted: var(--color-light-grey-200);
   --color-background-muted-hover: var(--color-light-grey-300);
   --color-background-muted-pressed: var(--color-light-grey-400);
+  --color-background-muted-transparent-chart: var(--color-light-grey-200-0);
   --color-background-muted-strong: var(--color-light-grey-600);
   --color-background-muted-strong-hover: var(--color-light-grey-700);
   --color-background-muted-strong-pressed: var(--color-light-grey-800);
@@ -62,14 +69,24 @@
   --color-background-active-websites-hover: var(--color-light-orange-700);
   --color-background-active-websites-pressed: var(--color-light-orange-800);
   --color-background-active-subtle-ledger-live: var(--color-light-purple-050);
-  --color-background-active-subtle-ledger-live-hover: var(--color-light-purple-100);
-  --color-background-active-subtle-ledger-live-pressed: var(--color-light-purple-200);
+  --color-background-active-subtle-ledger-live-hover: var(
+    --color-light-purple-100
+  );
+  --color-background-active-subtle-ledger-live-pressed: var(
+    --color-light-purple-200
+  );
   --color-background-active-subtle-enterprise: var(--color-light-blue-050);
-  --color-background-active-subtle-enterprise-hover: var(--color-light-blue-100);
-  --color-background-active-subtle-enterprise-pressed: var(--color-light-blue-200);
+  --color-background-active-subtle-enterprise-hover: var(
+    --color-light-blue-100
+  );
+  --color-background-active-subtle-enterprise-pressed: var(
+    --color-light-blue-200
+  );
   --color-background-active-subtle-website: var(--color-light-orange-050);
   --color-background-active-subtle-website-hover: var(--color-light-orange-100);
-  --color-background-active-subtle-website-pressed: var(--color-light-orange-200);
+  --color-background-active-subtle-website-pressed: var(
+    --color-light-orange-200
+  );
   --color-background-error: var(--color-light-red-600-10);
   --color-background-error-hover: var(--color-light-red-600-20);
   --color-background-error-pressed: var(--color-light-red-600-30);
@@ -132,9 +149,11 @@
   --color-border-muted: var(--color-light-grey-600);
   --color-border-muted-hover: var(--color-light-grey-700);
   --color-border-muted-pressed: var(--color-light-grey-800);
+  --color-border-muted-transparent: var(--color-light-grey-600-0);
   --color-border-muted-subtle: var(--color-light-grey-300);
   --color-border-muted-subtle-hover: var(--color-light-grey-400);
   --color-border-muted-subtle-pressed: var(--color-light-grey-500);
+  --color-border-muted-subtle-transparent: var(--color-light-grey-300-50);
   --color-border-active-ledger-live: var(--color-light-purple-600);
   --color-border-active-ledger-live-hover: var(--color-light-purple-700);
   --color-border-active-ledger-live-pressed: var(--color-light-purple-800);
@@ -150,8 +169,10 @@
   --color-border-error: var(--color-light-red-600);
   --color-border-error-hover: var(--color-light-red-700);
   --color-border-error-pressed: var(--color-light-red-800);
+  --color-border-error-transparent: var(--color-light-red-600-50);
   --color-border-warning: var(--color-light-yellow-600);
   --color-border-success: var(--color-light-green-600);
+  --color-border-success-transparent: var(--color-light-green-600-50);
   --color-border-icon: var(--color-light-grey-950-5);
   --color-crypto-aion: var(--color-light-crypto-aion);
   --color-crypto-aion-0: var(--color-light-crypto-aion-0);
@@ -214,7 +235,9 @@
   --color-crypto-ethereum: var(--color-light-crypto-ethereum);
   --color-crypto-ethereum-0: var(--color-light-crypto-ethereum-0);
   --color-crypto-ethereum-classic: var(--color-light-crypto-ethereum-classic);
-  --color-crypto-ethereum-classic-0: var(--color-light-crypto-ethereum-classic-0);
+  --color-crypto-ethereum-classic-0: var(
+    --color-light-crypto-ethereum-classic-0
+  );
   --color-crypto-flr: var(--color-light-crypto-flr);
   --color-crypto-flr-0: var(--color-light-crypto-flr-0);
   --color-crypto-ftm: var(--color-light-crypto-ftm);
@@ -323,40 +346,77 @@
   --background-canvas: var(--color-background-canvas-default);
   --background-canvas-muted: var(--color-background-canvas-muted);
   --background-canvas-sheet: var(--color-background-canvas-sheet);
-  --background-canvas-sheet-transparent: var(--color-background-canvas-sheet-transparent);
+  --background-canvas-sheet-transparent: var(
+    --color-background-canvas-sheet-transparent
+  );
   --background-canvas-overlay: var(--color-background-canvas-overlay);
-  --background-canvas-overlay-subtle: var(--color-background-canvas-overlay-subtle);
+  --background-canvas-overlay-subtle: var(
+    --color-background-canvas-overlay-subtle
+  );
+  --background-canvas-overlay-chart: var(
+    --color-background-canvas-overlay-chart
+  );
   --background-white: var(--color-background-white-default);
+  --background-grey: var(--color-background-grey-default);
   --background-black: var(--color-background-black-default);
   --background-surface: var(--color-background-surface-default);
   --background-surface-hover: var(--color-background-surface-hover);
   --background-surface-pressed: var(--color-background-surface-pressed);
   --background-surface-disabled: var(--color-background-surface-disabled);
-  --background-surface-transparent: var(--color-background-surface-transparent-default);
-  --background-surface-transparent-hover: var(--color-background-surface-transparent-hover);
-  --background-surface-transparent-pressed: var(--color-background-surface-transparent-pressed);
-  --background-surface-transparent-disabled: var(--color-background-surface-transparent-disabled);
+  --background-surface-transparent: var(
+    --color-background-surface-transparent-default
+  );
+  --background-surface-transparent-hover: var(
+    --color-background-surface-transparent-hover
+  );
+  --background-surface-transparent-pressed: var(
+    --color-background-surface-transparent-pressed
+  );
+  --background-surface-transparent-disabled: var(
+    --color-background-surface-transparent-disabled
+  );
   --background-base: var(--color-background-base-default);
   --background-base-hover: var(--color-background-base-hover);
   --background-base-pressed: var(--color-background-base-pressed);
-  --background-base-transparent: var(--color-background-base-transparent-default);
-  --background-base-transparent-hover: var(--color-background-base-transparent-hover);
-  --background-base-transparent-pressed: var(--color-background-base-transparent-pressed);
+  --background-base-transparent: var(
+    --color-background-base-transparent-default
+  );
+  --background-base-transparent-hover: var(
+    --color-background-base-transparent-hover
+  );
+  --background-base-transparent-pressed: var(
+    --color-background-base-transparent-pressed
+  );
   --background-disabled: var(--color-background-disabled-default);
   --background-disabled-strong: var(--color-background-disabled-strong-default);
   --background-muted: var(--color-background-muted-default);
   --background-muted-hover: var(--color-background-muted-hover);
   --background-muted-pressed: var(--color-background-muted-pressed);
-  --background-muted-transparent: var(--color-background-muted-transparent-default);
-  --background-muted-transparent-hover: var(--color-background-muted-transparent-hover);
-  --background-muted-transparent-pressed: var(--color-background-muted-transparent-pressed);
-  --background-muted-transparent-disabled: var(--color-background-muted-transparent-disabled);
+  --background-muted-transparent-chart: var(
+    --color-background-muted-transparent-chart-default
+  );
+  --background-muted-transparent: var(
+    --color-background-muted-transparent-default
+  );
+  --background-muted-transparent-hover: var(
+    --color-background-muted-transparent-hover
+  );
+  --background-muted-transparent-pressed: var(
+    --color-background-muted-transparent-pressed
+  );
+  --background-muted-transparent-disabled: var(
+    --color-background-muted-transparent-disabled
+  );
   --background-muted-strong: var(--color-background-muted-strong-default);
   --background-muted-strong-hover: var(--color-background-muted-strong-hover);
-  --background-muted-strong-pressed: var(--color-background-muted-strong-pressed);
+  --background-muted-strong-pressed: var(
+    --color-background-muted-strong-pressed
+  );
   --background-accent: var(--color-background-accent-enterprise-default);
   --background-accent-hover: var(--color-background-accent-enterprise-hover);
-  --background-accent-pressed: var(--color-background-accent-enterprise-pressed);
+  --background-accent-pressed: var(
+    --color-background-accent-enterprise-pressed
+  );
   --background-interactive: var(--color-background-interactive-default);
   --background-interactive-hover: var(--color-background-interactive-hover);
   --background-interactive-pressed: var(--color-background-interactive-pressed);
@@ -364,17 +424,29 @@
   --background-error-hover: var(--color-background-error-hover);
   --background-error-pressed: var(--color-background-error-pressed);
   --background-error-strong: var(--color-background-error-strong-default);
-  --background-error-transparent: var(--color-background-error-transparent-default);
+  --background-error-transparent: var(
+    --color-background-error-transparent-default
+  );
   --background-warning: var(--color-background-warning-default);
   --background-warning-strong: var(--color-background-warning-strong-default);
   --background-success: var(--color-background-success-default);
-  --background-success-transparent: var(--color-background-success-transparent-default);
+  --background-success-transparent: var(
+    --color-background-success-transparent-default
+  );
   --background-active: var(--color-background-accent-enterprise-default);
   --background-active-hover: var(--color-background-accent-enterprise-hover);
-  --background-active-pressed: var(--color-background-accent-enterprise-pressed);
-  --background-active-subtle: var(--color-background-active-subtle-enterprise-default);
-  --background-active-subtle-hover: var(--color-background-active-subtle-enterprise-hover);
-  --background-active-subtle-pressed: var(--color-background-active-subtle-enterprise-pressed);
+  --background-active-pressed: var(
+    --color-background-accent-enterprise-pressed
+  );
+  --background-active-subtle: var(
+    --color-background-active-subtle-enterprise-default
+  );
+  --background-active-subtle-hover: var(
+    --color-background-active-subtle-enterprise-hover
+  );
+  --background-active-subtle-pressed: var(
+    --color-background-active-subtle-enterprise-pressed
+  );
   --background-gradient-100: var(--color-background-gradient-100);
   --background-gradient-80: var(--color-background-gradient-80);
   --background-gradient-70: var(--color-background-gradient-70);
@@ -418,14 +490,20 @@
   --border-muted: var(--color-border-muted-default);
   --border-muted-hover: var(--color-border-muted-hover);
   --border-muted-pressed: var(--color-border-muted-pressed);
+  --border-muted-transparent: var(--color-border-muted-transparent-default);
   --border-muted-subtle: var(--color-border-muted-subtle-default);
   --border-muted-subtle-hover: var(--color-border-muted-subtle-hover);
   --border-muted-subtle-pressed: var(--color-border-muted-subtle-pressed);
+  --border-muted-subtle-transparent: var(
+    --color-border-muted-subtle-transparent-default
+  );
   --border-error: var(--color-border-error-default);
   --border-error-hover: var(--color-border-error-hover);
   --border-error-pressed: var(--color-border-error-pressed);
+  --border-error-transparent: var(--color-border-error-transparent-default);
   --border-warning: var(--color-border-warning-default);
   --border-success: var(--color-border-success-default);
+  --border-success-transparent: var(--color-border-success-transparent-default);
   --border-active: var(--color-border-active-enterprise-default);
   --border-active-hover: var(--color-border-active-enterprise-pressed);
   --border-active-pressed: var(--color-border-active-enterprise-pressed);

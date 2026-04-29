@@ -388,6 +388,42 @@
             }
           }
         },
+        "200-0%": {
+          "$type": "color",
+          "$value": "#f1f1f100",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300-50%": {
+          "$type": "color",
+          "$value": "#e8e8e880",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600-0%": {
+          "$type": "color",
+          "$value": "#76767600",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "950-0%": {
           "$type": "color",
           "$value": "#00000000",
@@ -1091,6 +1127,18 @@
               "codeSyntax": {}
             }
           }
+        },
+        "600-50%": {
+          "$type": "color",
+          "$value": "#47883a80",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
         }
       },
       "yellow": {
@@ -1447,6 +1495,18 @@
         "600-30%": {
           "$type": "color",
           "$value": "#c242444d",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600-50%": {
+          "$type": "color",
+          "$value": "#c2424480",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -3770,6 +3830,42 @@
             }
           }
         },
+        "200-0%": {
+          "$type": "color",
+          "$value": "#1f1f1f00",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300-50%": {
+          "$type": "color",
+          "$value": "#3c3c3c80",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500-0%": {
+          "$type": "color",
+          "$value": "#71707000",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "950-0%": {
           "$type": "color",
           "$value": "#ffffff00",
@@ -4485,6 +4581,18 @@
               "codeSyntax": {}
             }
           }
+        },
+        "600-50%": {
+          "$type": "color",
+          "$value": "#6ec85c80",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
         }
       },
       "yellow": {
@@ -4841,6 +4949,18 @@
         "600-40%": {
           "$type": "color",
           "$value": "#f8727466",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600-50%": {
+          "$type": "color",
+          "$value": "#f8727480",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -8368,7 +8488,7 @@
         }
       }
     },
-    "0,5": {
+    "05": {
       "$type": "number",
       "$value": 0.5,
       "$description": "",
