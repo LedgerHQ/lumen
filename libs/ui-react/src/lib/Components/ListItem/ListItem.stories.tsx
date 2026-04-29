@@ -382,19 +382,9 @@ export const ResponsiveLayout: Story = {
   ),
 };
 
-/**
- * Demonstrates two common leading-icon patterns for asset lists:
- * - **Network icon**: `CryptoIcon` from `@ledgerhq/crypto-icons` used as the
- *   primary `ListItemLeading` element to represent a blockchain / coin.
- * - **Media icon**: `MediaImage` used as the primary `ListItemLeading` element
- *   to show a remote logo or image (e.g. protocol or app icon).
- */
-export const WithNetworkAndMediaIcon: Story = {
+export const CompositionShowcase: Story = {
   render: () => (
     <div className='flex max-w-320 flex-col gap-4'>
-      <div className='pb-4 body-4-semi-bold text-muted'>
-        Network icon (CryptoIcon)
-      </div>
       <ListItem density='expanded' onClick={() => {}}>
         <ListItemLeading>
           <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
@@ -431,53 +421,6 @@ export const WithNetworkAndMediaIcon: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <div className='pt-16 pb-4 body-4-semi-bold text-muted'>
-        Media icon (MediaImage)
-      </div>
-      <ListItem density='expanded' onClick={() => {}}>
-        <ListItemLeading>
-          <MediaImage
-            src='https://crypto-icons.ledger.com/ALGO.png'
-            alt='Algorand'
-            size={48}
-          />
-          <ListItemContent>
-            <ListItemTitle>Algorand</ListItemTitle>
-            <ListItemDescription>ALGO · Layer 1</ListItemDescription>
-          </ListItemContent>
-        </ListItemLeading>
-        <ListItemTrailing>
-          <ListItemContent>
-            <ListItemTitle>$0.18</ListItemTitle>
-            <ListItemDescription className='text-success'>
-              +1.2%
-            </ListItemDescription>
-          </ListItemContent>
-        </ListItemTrailing>
-      </ListItem>
-
-      <ListItem density='compact' onClick={() => {}}>
-        <ListItemLeading>
-          <MediaImage
-            src='https://crypto-icons.ledger.com/MATIC.png'
-            alt='Polygon'
-            size={32}
-          />
-          <ListItemContent>
-            <ListItemTitle>Polygon</ListItemTitle>
-          </ListItemContent>
-        </ListItemLeading>
-        <ListItemTrailing>
-          <ChevronRight size={24} className='text-muted' />
-        </ListItemTrailing>
-      </ListItem>
-    </div>
-  ),
-};
-
-export const CompositionShowcase: Story = {
-  render: () => (
-    <div className='flex max-w-320 flex-col gap-4'>
       <ListItem>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />
