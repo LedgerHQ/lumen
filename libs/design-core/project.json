@@ -56,7 +56,7 @@
     "generate-symbols-react": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx libs/design-core/automations/generate-symbols.mts --templatePath libs/ui-react/src/utils/icon-template.ts --outputPath libs/ui-react/src/lib/Symbols"
+        "command": "npx tsx libs/design-core/automations/generate-symbols.ts --templatePath libs/ui-react/src/utils/icon-template.ts --outputPath libs/ui-react/src/lib/Symbols"
       },
       "dependsOn": [
         "^build"
@@ -65,7 +65,7 @@
     "generate-symbols-react-native": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx libs/design-core/automations/generate-symbols.mts --templatePath libs/ui-rnative/src/utils/icon-template.ts --outputPath libs/ui-rnative/src/lib/Symbols --isReactNative true"
+        "command": "npx tsx libs/design-core/automations/generate-symbols.ts --templatePath libs/ui-rnative/src/utils/icon-template.ts --outputPath libs/ui-rnative/src/lib/Symbols --isReactNative true"
       },
       "dependsOn": [
         "^build"
