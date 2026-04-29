@@ -662,13 +662,6 @@ export const WithActionBar: Story = {
   ),
 };
 
-/**
- * Demonstrates two leading-content patterns for `TableCellContent`:
- * - **Network icon**: `CryptoIcon` from `@ledgerhq/crypto-icons` as the
- *   `leadingContent` prop — the standard pattern for blockchain / coin rows.
- * - **Media icon**: `MediaImage` as the `leadingContent` prop — for remote
- *   logo images (e.g. protocol or dApp icons).
- */
 export const WithNetworkAndMediaIcon: Story = {
   render: (args) => (
     <div className='w-3xl text-base'>

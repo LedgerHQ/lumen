@@ -805,95 +805,6 @@ const categoryOptions = [...new Set(largeData.map((d) => d.category))].map(
   (c) => ({ value: c, label: c }),
 );
 
-export const WithActionBarAndSelectTrigger: Story = {
-  render: (args) => {
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(
-      null,
-    );
-
-    const filteredData = useMemo(
-      () =>
-        selectedCategory
-          ? largeData.filter((d) => d.category === selectedCategory)
-          : largeData,
-      [selectedCategory],
-    );
-
-    const table = useLumenDataTable({
-      data: filteredData,
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Asset',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
-          ),
-          meta: { className: 'w-224' },
-        },
-        {
-          accessorKey: 'price',
-          header: 'Price',
-          enableSorting: false,
-          meta: { align: 'end' },
-        },
-        {
-          accessorKey: 'change',
-          header: 'Performance',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
-          ),
-          meta: { align: 'end', className: 'w-144' },
-        },
-      ],
-    });
-
-    return (
-      <DataTableRoot {...args} table={table}>
-        <TableActionBar>
-          <TableActionBarLeading>
-            <DataTableGlobalSearchInput placeholder='Search assets...' />
-          </TableActionBarLeading>
-          <TableActionBarTrailing>
-            <Select
-              items={categoryOptions}
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}
-            >
-              <SelectTrigger
-                render={({ selectedValue, selectedContent }) => (
-                  <MediaButton>
-                    {selectedValue ? selectedContent : 'All categories'}
-                  </MediaButton>
-                )}
-              />
-              <SelectContent>
-                <SelectList
-                  renderItem={(item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      <SelectItemText>{item.label}</SelectItemText>
-                    </SelectItem>
-                  )}
-                />
-              </SelectContent>
-            </Select>
-          </TableActionBarTrailing>
-        </TableActionBar>
-        <DataTable className='max-h-400' />
-      </DataTableRoot>
-    );
-  },
-};
-
 export const WithServerSideState: Story = {
   render: (args) => {
     const fetchApiBackend = async (...args: any) => {
@@ -1167,13 +1078,7 @@ export const WithServerSideFilters: Story = {
   },
 };
 
-/**
- * Multiple simultaneous column filters: global text search combined with two
- * independent Select filters (category and performance direction). All filters
- * use TanStack's client-side `columnFilters` state; each Select updates a
- * different column's filter entry.
- */
-export const WithMultipleFilters: Story = {
+export const WithClientSideFilters: Story = {
   render: (args) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [globalFilter, setGlobalFilter] = useState('');
