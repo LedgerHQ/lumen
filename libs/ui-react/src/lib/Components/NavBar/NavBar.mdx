@@ -68,7 +68,6 @@ Multiple action buttons can be placed in the trailing area:
 ### With Description
 
 Use `NavBarLeading` to group a title and description side-by-side with a 16px gap.
-Pass `className="flex-none"` to `NavBarTitle` so it does not expand and push the description away.
 
 <Canvas of={NavBarStories.WithDescription} />
 
@@ -135,8 +134,6 @@ function MyPage() {
 ### With Description
 
 Use `NavBarLeading` to place a title and description next to each other with a 16px gap.
-`NavBarLeading` owns the `flex-1` stretching, so pass `className="flex-none"` to `NavBarTitle` inside it:
-
 ```tsx
 import {
   NavBar,
@@ -153,7 +150,7 @@ function MyPage() {
     <NavBar>
       <NavBarBackButton onClick={() => navigate(-1)} />
       <NavBarLeading>
-        <NavBarTitle className='flex-none'>Page Title</NavBarTitle>
+        <NavBarTitle>Page Title</NavBarTitle>
         <NavBarDescription>Subtitle text</NavBarDescription>
       </NavBarLeading>
       <NavBarTrailing>

@@ -63,7 +63,9 @@ export const Base: StoryObj<PlaygroundArgs> = {
         code: `
         <NavBar>
         <NavBarBackButton onClick={() => navigate(-1)} />
-        <NavBarTitle>Page Title</NavBarTitle>
+        <NavBarLeading>
+          <NavBarTitle>Page Title</NavBarTitle>
+        </NavBarLeading>
         <NavBarTrailing>
           <IconButton
             appearance="gray"
@@ -80,7 +82,9 @@ export const Base: StoryObj<PlaygroundArgs> = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      <NavBarTitle>Page Title</NavBarTitle>
+      <NavBarLeading>
+        <NavBarTitle>Page Title</NavBarTitle>
+      </NavBarLeading>
       <NavBarTrailing>
         <IconButton
           appearance='gray'
@@ -98,7 +102,7 @@ export const WithDescription: Story = {
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
       <NavBarLeading>
-        <NavBarTitle className='flex-none'>Page Title</NavBarTitle>
+        <NavBarTitle>Page Title</NavBarTitle>
         <NavBarDescription>Page Description</NavBarDescription>
       </NavBarLeading>
     </NavBar>
@@ -110,7 +114,7 @@ export const WithDescription: Story = {
 <NavBar>
   <NavBarBackButton onClick={() => navigate(-1)} />
   <NavBarLeading>
-    <NavBarTitle className="flex-none">Page Title</NavBarTitle>
+    <NavBarTitle>Page Title</NavBarTitle>
     <NavBarDescription>Page Description</NavBarDescription>
   </NavBarLeading>
 </NavBar>
@@ -124,7 +128,9 @@ export const WithoutTrailing: Story = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      <NavBarTitle>Settings</NavBarTitle>
+      <NavBarLeading>
+        <NavBarTitle>Settings</NavBarTitle>
+      </NavBarLeading>
     </NavBar>
   ),
   parameters: {
@@ -180,7 +186,9 @@ export const WithMultipleTrailingActions: Story = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      <NavBarTitle>Account Details</NavBarTitle>
+      <NavBarLeading>
+        <NavBarTitle>Account Details</NavBarTitle>
+      </NavBarLeading>
       <NavBarTrailing>
         <IconButton
           appearance='no-background'
@@ -203,7 +211,9 @@ export const WithMultipleTrailingActions: Story = {
         code: `
 <NavBar>
   <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarLeading>
   <NavBarTitle>Account Details</NavBarTitle>
+  </NavBarLeading>
   <NavBarTrailing>
     <IconButton
       appearance="no-background"

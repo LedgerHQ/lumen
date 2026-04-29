@@ -84,7 +84,7 @@ export const NavBarTitle = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={ref as any}
       className={cn(
-        'min-w-0 flex-1 truncate heading-4-semi-bold text-base',
+        'min-w-0 truncate heading-4-semi-bold text-base',
         className,
       )}
       data-slot='navbar-title'
@@ -106,7 +106,11 @@ export const NavBarDescription = ({
   ...props
 }: NavBarDescriptionProps) => {
   return (
-    <div ref={ref} className={cn('body-1 text-muted', className)} {...props}>
+    <div
+      ref={ref}
+      className={cn('min-w-0 flex-1 truncate body-1 text-muted', className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -115,12 +119,9 @@ export const NavBarDescription = ({
 /**
  * Leading container for the NavBar. Used to group the title and an optional description
  *
- * When NavBarTitle is placed inside NavBarLeading alongside NavBarDescription, pass
- * `className="flex-none"` to NavBarTitle so it does not expand and push the description away.
- *
  * @example
  * <NavBarLeading>
- *   <NavBarTitle className="flex-none">Page Title</NavBarTitle>
+ *   <NavBarTitle>Page Title</NavBarTitle>
  *   <NavBarDescription>Subtitle text</NavBarDescription>
  * </NavBarLeading>
  */
