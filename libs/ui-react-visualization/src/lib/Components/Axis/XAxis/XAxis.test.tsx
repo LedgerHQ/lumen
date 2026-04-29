@@ -1,5 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -14,11 +12,9 @@ const sampleSeries = [
 
 const renderXAxis = (props: XAxisProps = {}) =>
   render(
-    <ThemeProvider themes={ledgerLiveThemes}>
-      <CartesianChart series={sampleSeries} width={400} height={200}>
-        <XAxis {...props} />
-      </CartesianChart>
-    </ThemeProvider>,
+    <CartesianChart series={sampleSeries} width={400} height={200}>
+      <XAxis {...props} />
+    </CartesianChart>,
   );
 
 describe('XAxis', () => {
@@ -108,11 +104,9 @@ describe('XAxis', () => {
 
   it('returns null when drawing area width is 0', () => {
     const { queryByTestId } = render(
-      <ThemeProvider themes={ledgerLiveThemes}>
-        <CartesianChart series={sampleSeries} width={0} height={200}>
-          <XAxis />
-        </CartesianChart>
-      </ThemeProvider>,
+      <CartesianChart series={sampleSeries} width={0} height={200}>
+        <XAxis />
+      </CartesianChart>,
     );
     expect(queryByTestId('x-axis')).toBeNull();
   });
