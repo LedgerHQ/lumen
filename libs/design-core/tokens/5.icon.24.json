@@ -72,7 +72,7 @@
     },
     "icon-font-size": {
       "$type": "number",
-      "$value": "{font.size.12}",
+      "$value": "{font.size.14}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -162,7 +162,7 @@
   "dot-symbol": {
     "dot-symbol-width": {
       "$type": "number",
-      "$value": "{size.10}",
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -176,7 +176,7 @@
     },
     "dot-symbol-height": {
       "$type": "number",
-      "$value": "{size.10}",
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -190,7 +190,7 @@
     },
     "dot-symbol-radius-square": {
       "$type": "number",
-      "$value": 3,
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -218,7 +218,7 @@
     },
     "dot-symbol-border-path": {
       "$type": "number",
-      "$value": "{stroke.0,5}",
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -232,7 +232,7 @@
     },
     "dot-symbol-spinner-border-width": {
       "$type": "number",
-      "$value": 0.800000011920929,
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -246,7 +246,7 @@
     },
     "dot-symbol-icon-heigth": {
       "$type": "number",
-      "$value": 8,
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -260,7 +260,7 @@
     },
     "dot-symbol-icon-width": {
       "$type": "number",
-      "$value": 8,
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -274,7 +274,7 @@
     },
     "dot-symbol-icon-border-width": {
       "$type": "number",
-      "$value": 0.6000000238418579,
+      "$value": 0,
       "$description": "",
       "$extensions": {
         "com.figma": {

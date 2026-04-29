@@ -37,16 +37,8 @@ export const ClockFill = createIcon(
     <Path
       fill='currentColor'
       fillRule='evenodd'
-      d='M1.5 8c0-3.596 2.91-6.5 6.5-6.5a6.5 6.5 0 1 1 0 13c-3.596 0-6.5-2.91-6.5-6.5'
+      d='M8 1.5a6.5 6.5 0 1 1 0 13c-3.596 0-6.5-2.91-6.5-6.5 0-3.596 2.91-6.5 6.5-6.5m0 2.116a.65.65 0 0 0-.65.65V8c0 .359.291.65.65.65h3.1a.65.65 0 0 0 0-1.3H8.65V4.267a.65.65 0 0 0-.65-.65'
       clipRule='evenodd'
-    />
-    <Path fill='currentColor' d='M11.1 8H8zM8 8V4.267z' />
-    <Path
-      stroke='#fff'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth={1.3}
-      d='M11.1 8H8V4.267'
     />
   </Svg>,
 );
