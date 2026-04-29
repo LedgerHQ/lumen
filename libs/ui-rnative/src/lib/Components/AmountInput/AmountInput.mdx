@@ -400,8 +400,8 @@ const [hasError, setHasError] = useState(false);
   value={value}
   onChangeText={setValue}
   currencyText='USD'
-  showValidationError={hasError}
-  validationHint='Invalid amount'
+  status={hasError ? 'error' : undefined}
+  helperText={hasError ? 'Invalid amount' : undefined}
 />
 ```
 
