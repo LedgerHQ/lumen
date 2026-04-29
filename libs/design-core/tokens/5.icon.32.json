@@ -218,7 +218,7 @@
     },
     "dot-symbol-border-path": {
       "$type": "number",
-      "$value": "{stroke.0,5}",
+      "$value": "{stroke.05}",
       "$description": "",
       "$extensions": {
         "com.figma": {
