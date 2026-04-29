@@ -81,6 +81,6 @@ export const projectPoint = (
     : xScale(dataX);
   const y = isCategoricalScale(yScale)
     ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
-    : (yScale as NumericScale)(dataY);
-  return { x: x as number, y };
+    : yScale(dataY);
+  return { x: x, y };
 };
