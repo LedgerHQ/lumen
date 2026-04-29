@@ -1,5 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -15,11 +13,7 @@ const sampleSeries = [
 ];
 
 const LineChartWrapper = (props: LineChartProps) => {
-  return (
-    <ThemeProvider themes={ledgerLiveThemes}>
-      <LineChart {...props} />
-    </ThemeProvider>
-  );
+  return <LineChart {...props} />;
 };
 
 describe('LineChart', () => {
