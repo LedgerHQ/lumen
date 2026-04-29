@@ -1,4 +1,4 @@
-import { useTheme } from '@ledgerhq/lumen-ui-react';
+import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
 import { projectPoint } from '../../utils/scales/scales';
@@ -27,15 +27,12 @@ export function Point({
   onClick,
 }: PointProps) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
-  const { theme } = useTheme();
 
   const xScale = getXScale();
   const yScale = getYScale();
 
   const radius = size / 2;
-  const fill = color ?? theme.colors.bg.mutedStrong;
-  const stroke = theme.colors.bg.canvas;
-  const textColor = theme.colors.text.base;
+  const fill = color ?? cssVar('var(--background-muted-strong)');
 
   const pixel = useMemo(() => {
     if (!xScale || !yScale) return undefined;
@@ -46,17 +43,10 @@ export function Point({
     return null;
   }
 
-  const fontSize = theme.typographies.xs.body.body4.fontSize;
   const resolvedLabel = resolveLabel(label, dataX);
   const hasLabel = labelComponent != null || resolvedLabel != null;
   const renderArrow = showArrow && hasLabel;
-  const labelY = computeLabelY(
-    pixel.y,
-    radius,
-    labelPosition,
-    renderArrow,
-    fontSize,
-  );
+  const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
 
   return (
     <g
@@ -70,8 +60,10 @@ export function Point({
           cx={pixel.x}
           cy={pixel.y}
           r={radius}
-          fill={fill}
-          stroke={stroke}
+          style={{
+            fill,
+            stroke: cssVar('var(--background-canvas)'),
+          }}
           strokeWidth={STROKE_WIDTH}
         />
       )}
@@ -79,7 +71,7 @@ export function Point({
         <polygon
           data-testid='point-arrow'
           points={buildArrowPoints(pixel.x, pixel.y, radius, labelPosition)}
-          fill={textColor}
+          style={{ fill: cssVar('var(--text-base)') }}
         />
       )}
       {labelComponent && (
@@ -92,10 +84,12 @@ export function Point({
           y={labelY}
           textAnchor='middle'
           dominantBaseline='auto'
-          fill={textColor}
-          fontSize={theme.typographies.xs.body.body4.fontSize}
-          fontWeight={theme.typographies.xs.body.body4.fontWeight}
-          fontFamily={theme.fontFamilies.sans}
+          style={{
+            fill: cssVar('var(--text-base)'),
+            fontSize: cssVar('var(--font-style-body-4-size)'),
+            fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
+            fontFamily: cssVar('var(--font-family-font)'),
+          }}
         >
           {resolvedLabel}
         </text>
