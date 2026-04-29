@@ -64,7 +64,9 @@ StyleDictionary.registerFormat({
       mainKey = `@media (min-width: theme("screens.${currentBreakpoint}"))`;
     }
 
-    const output = { [mainKey]: {} };
+    const output: Record<string, Record<string, string | number>> = {
+      [mainKey]: {},
+    };
 
     dictionary.allTokens.forEach((token: TransformedToken) => {
       const tokenName = sanitizeTokenName(token.name).replace(/ /g, '-');

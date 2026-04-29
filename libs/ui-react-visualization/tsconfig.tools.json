@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "noEmit": true,
     "outDir": "out-tsc/storybook",
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -24,7 +25,9 @@
     "src/**/*.stories.tsx",
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx",
-    "src/**/*.mdx"
+    "src/**/*.mdx",
+    "jest.config.ts",
+    "vitest.config.ts",
   ],
   "references": [
     {

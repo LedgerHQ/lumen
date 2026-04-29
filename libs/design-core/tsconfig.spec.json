@@ -20,8 +20,10 @@
   "include": [
     "vite.config.ts",
     "vitest.config.ts",
-    "jest.config.ts",
     "eslint.config.mjs",
+    "automations/**/*.test.ts",
+    "automations/**/*.test.tsx",
+    "tools/**/*.test.tsx",
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/**/*.test.js",

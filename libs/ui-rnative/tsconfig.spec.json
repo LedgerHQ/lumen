@@ -1,9 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
     "outDir": "./out-tsc/vitest",
     "types": [
       "node",
+      "jest",
     ],
     "module": "ESNext",
     "lib": [
@@ -17,7 +20,10 @@
     "src/**/*.test.tsx",
     "src/**/*.test.js",
     "src/**/*.test.jsx",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "jest.config.ts",
+    "jest.setup.ts",
+    "eslint.config.mjs",
   ],
   "references": [
     {

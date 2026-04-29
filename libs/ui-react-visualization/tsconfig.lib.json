@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "emitDeclarationOnly": false,
-    "types": ["node", "vite/client"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "rootDir": "src",
     "jsx": "react-jsx",
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo"
@@ -16,9 +19,7 @@
     "**/*.test.js",
     "**/*.test.jsx",
     "vite.config.ts",
-    "vite.config.mts",
     "vitest.config.ts",
-    "vitest.config.mts",
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/**/*.test.js",

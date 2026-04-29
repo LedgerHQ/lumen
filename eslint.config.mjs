@@ -40,6 +40,10 @@ export const sharedConfig = defineConfig(
       'import/no-unused-modules': 'error',
       'import/no-mutable-exports': 'error',
       'import/no-duplicates': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': ['error', {
+  ignoreConditionalTests: true,
+  ignorePrimitives: { string: true }, // optional, based on preference
+}],
       "@typescript-eslint/consistent-type-imports": "error",
       'import/order': [
         'error',

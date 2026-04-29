@@ -1,6 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
     "outDir": "./out-tsc/vitest",
     "types": [
       "node"
@@ -13,6 +15,9 @@
     "jsx": "react-jsx"
   },
   "include": [
+    "jest.config.ts",
+    "jest.setup.ts",
+    "eslint.config.mjs",
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/**/*.test.js",

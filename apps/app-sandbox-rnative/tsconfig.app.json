@@ -2,14 +2,21 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["node", "react-native"],
+    "types": [
+      "node",
+      "react-native"
+    ],
     "rootDir": "src",
     "jsx": "react-jsx",
-    "lib": ["dom"],
+    "lib": [
+      "dom"
+    ],
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "baseUrl": "."
   },
-  "files": ["../../node_modules/@nx/react-native/typings/svg.d.ts"],
+  "files": [
+    "../../node_modules/@nx/react-native/typings/svg.d.ts"
+  ],
   "exclude": [
     "out-tsc",
     "dist",
@@ -19,7 +26,12 @@
     "src/**/*.test.jsx",
     "src/test-setup.ts"
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx"
+  ],
   "references": [
     {
       "path": "../../libs/ui-rnative/tsconfig.lib.json"
