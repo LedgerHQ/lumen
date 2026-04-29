@@ -257,6 +257,7 @@ const useStyles = ({
             paddingTop: t.spacings.s20,
             paddingBottom: t.spacings.s4,
             paddingHorizontal: 0,
+            ...t.typographies.body2,
           },
           RuntimeConstants.isIOS && { lineHeight: 0 },
           RuntimeConstants.isAndroid && { includeFontPadding: false },
