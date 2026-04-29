@@ -17,7 +17,6 @@ export const sharedConfig = defineConfig(
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   ...storybook.configs['flat/recommended'],
-  
   {
     plugins: {
       import: importPlugin,
