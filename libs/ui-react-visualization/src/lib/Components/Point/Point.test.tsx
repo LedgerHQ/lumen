@@ -120,7 +120,7 @@ describe('Point', () => {
     expect(circle).toBeTruthy();
   });
 
-  it('renders arrow when label is present and showArrow is true', () => {
+  it('renders arrow when label is present and showLabelArrow is true', () => {
     const { getByTestId } = renderInChart(
       <Point dataX={2} dataY={30} label='Peak' />,
     );
@@ -132,9 +132,9 @@ describe('Point', () => {
     expect(queryByTestId('point-arrow')).toBeNull();
   });
 
-  it('does not render arrow when showArrow is false', () => {
+  it('does not render arrow when showLabelArrow is false', () => {
     const { queryByTestId } = renderInChart(
-      <Point dataX={2} dataY={30} label='Peak' showArrow={false} />,
+      <Point dataX={2} dataY={30} label='Peak' showLabelArrow={false} />,
     );
     expect(queryByTestId('point-arrow')).toBeNull();
   });

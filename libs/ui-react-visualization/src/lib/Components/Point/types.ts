@@ -45,7 +45,7 @@ export type PointProps = {
    * When `true`, an arrow is displayed pointing from the point to the label.
    * @default true
    */
-  showArrow?: boolean;
+  showLabelArrow?: boolean;
   /**
    * Called when the point is clicked.
    */
