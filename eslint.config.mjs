@@ -38,7 +38,7 @@ export const sharedConfig = defineConfig(
       'import/no-mutable-exports': 'error',
       'import/no-duplicates': 'error',
 
-      "@typescript-eslint/consistent-type-imports": "error",
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/array-type': ['error', { default: 'array' }],
       'import/order': [
         'error',
