@@ -75,7 +75,9 @@ export function Point({
           fill={textColor}
         />
       )}
-      {labelComponent}
+      {labelComponent && (
+        <g transform={`translate(${pixel.x},${labelY})`}>{labelComponent}</g>
+      )}
       {!labelComponent && resolvedLabel != null && (
         <text
           data-testid='point-label'
