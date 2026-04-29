@@ -5,29 +5,46 @@ import { CartesianChartProvider, useBuildChartContext } from './context';
 import type { CartesianChartProps } from './types';
 
 const DEFAULT_HEIGHT = 160;
-const DEFAULT_INSET: ChartInset = {
+
+/**
+ * Internal buffer that prevents SVG content (labels, points, ticks) from being
+ * clipped at the edge of the container. Compensated by negative margins on the
+ * wrapper so the chart's visual footprint stays unchanged.
+ */
+const OVERFLOW_BUFFER: ChartInset = {
   top: 30,
   right: 20,
   bottom: 30,
   left: 20,
 };
+const OVERFLOW_NEGATIVE_MARGIN = {
+  marginTop: -OVERFLOW_BUFFER.top,
+  marginRight: -OVERFLOW_BUFFER.right,
+  marginBottom: -OVERFLOW_BUFFER.bottom,
+  marginLeft: -OVERFLOW_BUFFER.left,
+};
 const ZERO_PADDING: ChartInset = { top: 0, right: 0, bottom: 0, left: 0 };
 
 const resolveInset = (inset: CartesianChartProps['inset']): ChartInset => {
-  if (inset === undefined) return DEFAULT_INSET;
-  if (typeof inset === 'number') {
-    return {
-      top: inset + DEFAULT_INSET.top,
-      right: inset + DEFAULT_INSET.right,
-      bottom: inset + DEFAULT_INSET.bottom,
-      left: inset + DEFAULT_INSET.left,
+  let consumer: ChartInset;
+  if (inset === undefined) {
+    consumer = ZERO_PADDING;
+  } else if (typeof inset === 'number') {
+    consumer = { top: inset, right: inset, bottom: inset, left: inset };
+  } else {
+    consumer = {
+      top: inset.top ?? 0,
+      right: inset.right ?? 0,
+      bottom: inset.bottom ?? 0,
+      left: inset.left ?? 0,
     };
   }
+
   return {
-    top: (inset.top ?? 0) + DEFAULT_INSET.top,
-    right: (inset.right ?? 0) + DEFAULT_INSET.right,
-    bottom: (inset.bottom ?? 0) + DEFAULT_INSET.bottom,
-    left: (inset.left ?? 0) + DEFAULT_INSET.left,
+    top: consumer.top + OVERFLOW_BUFFER.top,
+    right: consumer.right + OVERFLOW_BUFFER.right,
+    bottom: consumer.bottom + OVERFLOW_BUFFER.bottom,
+    left: consumer.left + OVERFLOW_BUFFER.left,
   };
 };
 
@@ -124,7 +141,7 @@ export function CartesianChart({
         style={{
           width,
           height,
-          margin: `${-DEFAULT_INSET.top}px ${-DEFAULT_INSET.right}px`,
+          ...OVERFLOW_NEGATIVE_MARGIN,
         }}
       >
         {measuredWidth !== undefined && svgContent}
@@ -138,7 +155,7 @@ export function CartesianChart({
       style={{
         width: resolvedWidth,
         height,
-        margin: `${-DEFAULT_INSET.top}px ${-DEFAULT_INSET.right}px`,
+        ...OVERFLOW_NEGATIVE_MARGIN,
       }}
     >
       {svgContent}
