@@ -2,7 +2,10 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import { buildTicksData } from '../../../utils/ticks/ticks';
+import {
+  buildTicksData,
+  isTickOnXAxisDomainEdge,
+} from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { XAxisProps } from './types';
@@ -54,18 +57,20 @@ export const XAxis = ({
   return (
     <G>
       {showGrid &&
-        ticksData.map((tick, i) => (
-          <SvgLine
-            key={`grid-${tick.value}-${i}`}
-            x1={tick.position}
-            y1={drawingArea.y}
-            x2={tick.position}
-            y2={drawingArea.y + drawingArea.height}
-            stroke={gridStroke}
-            strokeWidth={STROKE_WIDTH}
-            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
-          />
-        ))}
+        ticksData
+          .filter((tick) => isTickOnXAxisDomainEdge(tick, drawingArea))
+          .map((tick, i) => (
+            <SvgLine
+              key={`grid-${tick.value}-${i}`}
+              x1={tick.position}
+              y1={drawingArea.y}
+              x2={tick.position}
+              y2={drawingArea.y + drawingArea.height}
+              stroke={gridStroke}
+              strokeWidth={STROKE_WIDTH}
+              strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
+            />
+          ))}
 
       {showLine && (
         <SvgLine

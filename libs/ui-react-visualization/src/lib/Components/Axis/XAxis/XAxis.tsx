@@ -1,7 +1,10 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
-import { buildTicksData } from '../../../utils/ticks/ticks';
+import {
+  buildTicksData,
+  isTickOnXAxisDomainEdge,
+} from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { XAxisProps } from './types';
@@ -44,18 +47,20 @@ export function XAxis({
   return (
     <g data-testid='x-axis'>
       {showGrid &&
-        ticksData.map((tick, i) => (
-          <line
-            key={`grid-${tick.value}-${i}`}
-            x1={tick.position}
-            y1={drawingArea.y}
-            x2={tick.position}
-            y2={drawingArea.y + drawingArea.height}
-            style={{ stroke: cssVar('var(--border-muted-subtle)') }}
-            strokeWidth={cssVar('var(--stroke-1)')}
-            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
-          />
-        ))}
+        ticksData
+          .filter((tick) => isTickOnXAxisDomainEdge(tick, drawingArea))
+          .map((tick, i) => (
+            <line
+              key={`grid-${tick.value}-${i}`}
+              x1={tick.position}
+              y1={drawingArea.y}
+              x2={tick.position}
+              y2={drawingArea.y + drawingArea.height}
+              style={{ stroke: cssVar('var(--border-muted-subtle)') }}
+              strokeWidth={cssVar('var(--stroke-1)')}
+              strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
+            />
+          ))}
 
       {showLine && (
         <line

@@ -48,7 +48,7 @@ describe('YAxis', () => {
   it('renders grid lines when showGrid is true', () => {
     const { getByTestId } = renderYAxis({
       showGrid: true,
-      ticks: [10, 30, 50],
+      ticks: [20, 30, 40],
     });
     const axis = getByTestId('y-axis');
     expect(axis.querySelectorAll('line')).toHaveLength(3);
@@ -68,7 +68,7 @@ describe('YAxis', () => {
       showGrid: true,
       showLine: true,
       showTickMark: true,
-      ticks: [10, 30],
+      ticks: [20, 40],
     });
     const axis = getByTestId('y-axis');
     // 2 grid lines + 1 axis line + 2 tick marks = 5
@@ -76,7 +76,7 @@ describe('YAxis', () => {
   });
 
   it('uses dashed grid lines by default', () => {
-    const { getByTestId } = renderYAxis({ showGrid: true, ticks: [10] });
+    const { getByTestId } = renderYAxis({ showGrid: true, ticks: [30] });
     const axis = getByTestId('y-axis');
     const line = axis.querySelector('line');
     expect(line?.getAttribute('stroke-dasharray')).toBe('3 3');
@@ -86,7 +86,7 @@ describe('YAxis', () => {
     const { getByTestId } = renderYAxis({
       showGrid: true,
       gridLineStyle: 'solid',
-      ticks: [10],
+      ticks: [30],
     });
     const axis = getByTestId('y-axis');
     const line = axis.querySelector('line');
