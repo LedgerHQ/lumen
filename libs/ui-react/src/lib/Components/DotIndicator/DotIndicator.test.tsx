@@ -45,6 +45,11 @@ describe('DotIndicator', () => {
     expect(container.firstChild).toBeInTheDocument();
   });
 
+  it('should render in lg size', () => {
+    const { container } = render(<DotIndicator size='lg' />);
+    expect(container.firstChild).toBeInTheDocument();
+  });
+
   it('should render with red appearance', () => {
     const { container } = render(<DotIndicator appearance='red' />);
     expect(container.firstChild).toBeInTheDocument();

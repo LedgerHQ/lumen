@@ -18,7 +18,7 @@ const meta = {
   argTypes: {
     size: {
       control: 'radio',
-      options: ['xs', 'sm', 'md'],
+      options: ['xs', 'sm', 'md', 'lg'],
     },
     appearance: {
       control: 'radio',
@@ -42,6 +42,7 @@ export const SizeShowcase: Story = {
       <DotIndicator size='xs' />
       <DotIndicator size='sm' />
       <DotIndicator size='md' />
+      <DotIndicator size='lg' />
     </div>
   ),
 };
