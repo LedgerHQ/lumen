@@ -1,6 +1,7 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -89,6 +90,21 @@ describe('Point', () => {
     expect(queryByTestId('point-label')).toBeNull();
   });
 
+  it('wraps labelComponent in a positioned group', () => {
+    const { getByTestId } = renderInChart(
+      <Point
+        dataX={2}
+        dataY={30}
+        labelComponent={<text data-testid='custom-label'>Custom</text>}
+      />,
+    );
+    const wrapper = getByTestId('custom-label').parentElement;
+    expect(wrapper?.tagName.toLowerCase()).toBe('g');
+    expect(wrapper?.getAttribute('transform')).toMatch(
+      /^translate\(\d+(\.\d+)?,\d+(\.\d+)?\)$/,
+    );
+  });
+
   it('hides the circle when hidePoint is true but shows label', () => {
     const { queryByTestId, getByTestId } = renderInChart(
       <Point dataX={2} dataY={30} hidePoint label='Still here' />,
@@ -136,7 +152,7 @@ describe('Point', () => {
     const { getByTestId } = renderInChart(
       <Point dataX={2} dataY={30} onClick={onClick} />,
     );
-    fireEvent.click(getByTestId('point-group'));
+    userEvent.click(getByTestId('point-group'));
     expect(onClick).toHaveBeenCalled();
   });
 
