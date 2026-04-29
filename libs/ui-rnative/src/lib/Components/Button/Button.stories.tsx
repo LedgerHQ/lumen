@@ -108,7 +108,7 @@ export const Loading: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{ name: string; appearance: ButtonAppearance }> = [
+    const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
       { name: 'Base', appearance: 'base' },
       { name: 'Gray', appearance: 'gray' },

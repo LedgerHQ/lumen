@@ -177,10 +177,10 @@ export const NaturalWidth: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{
+    const appearances: {
       name: string;
       appearance: CardButtonAppearance;
-    }> = [
+    }[] = [
       { name: 'Base', appearance: 'base' },
       { name: 'Outline', appearance: 'outline' },
     ];

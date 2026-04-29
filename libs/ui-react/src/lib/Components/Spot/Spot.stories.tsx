@@ -60,12 +60,12 @@ export const Base: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{
+    const appearances: {
       name: string;
       appearance: SpotAppearance;
       icon?: React.ComponentType<{ size?: IconSize; className?: string }>;
       number?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-    }> = [
+    }[] = [
       { name: 'Icon', appearance: 'icon', icon: Settings },
       { name: 'Bluetooth', appearance: 'bluetooth' },
       { name: 'Check', appearance: 'check' },
