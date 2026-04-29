@@ -1,5 +1,4 @@
 import nx from '@nx/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
 import storybook from 'eslint-plugin-storybook';
 import { defineConfig } from 'eslint/config';
 import importPlugin from 'eslint-plugin-import';
@@ -25,9 +24,6 @@ export const sharedConfig = defineConfig(
     },
   },
   defineGlobalRules({
-    languageOptions: {
-      parser: tsParser,
-    },
     rules: {
       /**
        * React
@@ -40,7 +36,9 @@ export const sharedConfig = defineConfig(
       'import/no-unused-modules': 'error',
       'import/no-mutable-exports': 'error',
       'import/no-duplicates': 'error',
-      "@typescript-eslint/consistent-type-imports": "error",
+
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/array-type': ['error', { default: 'array' }],
       'import/order': [
         'error',
         {

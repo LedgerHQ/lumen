@@ -27,7 +27,7 @@ export type Series = {
   /**
    * Numeric data points; `null` entries represent gaps.
    */
-  data?: Array<number | null>;
+  data?: (number | null)[];
   /**
    * Human-readable label used in legends and tooltips.
    */
