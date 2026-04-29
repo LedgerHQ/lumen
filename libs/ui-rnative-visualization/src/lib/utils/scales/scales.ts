@@ -8,6 +8,10 @@ import type {
   NumericScale,
 } from '../types';
 
+/**
+ * Creates a numeric scale with `.nice()` applied so the domain
+ * extends to clean rounded boundaries (e.g. `[4, 98]` → `[0, 100]`).
+ */
 export const getNumericScale = ({
   scaleType,
   domain,

@@ -54,6 +54,9 @@ export type AxisConfigProps = {
    * Fixed domain bounds or a function that adjusts the computed bounds.
    * A partial object overrides only the specified bound(s).
    * A function receives the auto-computed bounds and returns adjusted ones.
+   *
+   * The final domain is always rounded to nice boundaries via d3's `.nice()`,
+   * ensuring tick marks land on clean values (e.g. `[4, 98]` becomes `[0, 100]`).
    */
   domain?: Partial<AxisBounds> | ((bounds: AxisBounds) => AxisBounds);
 };
