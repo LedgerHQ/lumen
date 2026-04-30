@@ -15,7 +15,7 @@ import { Box } from '../Utility';
 
 ## Introduction
 
-The Avatar component displays a circular user profile image with automatic fallback to a User icon when the image is unavailable or fails to load. It supports an optional notification indicator and three size variants. This React Native implementation ensures consistent behavior across mobile platforms while maintaining design system coherence.
+The Avatar component displays a circular user profile image with automatic fallback to a User icon when the image is unavailable or fails to load. It supports an optional notification indicator and four size variants. This React Native implementation ensures consistent behavior across mobile platforms while maintaining design system coherence.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
 
@@ -36,7 +36,7 @@ The Avatar component displays a circular user profile image with automatic fallb
 
 ### Size
 
-Avatars come in three different sizes:
+Avatars come in four different sizes:
 
 <Canvas of={AvatarStories.SizeShowcase} />
 
@@ -137,6 +137,7 @@ function MyComponent() {
       <Avatar src="https://example.com/photo.jpg" size="sm" />
       <Avatar src="https://example.com/photo.jpg" size="md" />
       <Avatar src="https://example.com/photo.jpg" size="lg" />
+      <Avatar src="https://example.com/photo.jpg" size="xl" />
     </Box>
   );
 }

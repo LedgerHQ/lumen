@@ -6,7 +6,7 @@ export type DotIndicatorProps = {
    * The size of the dot indicator.
    * @default sm
    */
-  size?: 'xs' | 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   /**
    * The appearance of the dot indicator.
    * @default base
