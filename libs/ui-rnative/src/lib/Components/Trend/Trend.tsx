@@ -1,20 +1,20 @@
 import type { LumenTextStyle } from '../../../styles';
 import { useStyleSheet } from '../../../styles';
-import { TriangleDown, TriangleUp } from '../../Symbols';
+import { Minus, TriangleDown, TriangleUp } from '../../Symbols';
 import type { IconSize } from '../Icon';
 import { Box, Text } from '../Utility';
 import type { TrendProps } from './types';
 
-type TrendVariant = 'positive' | 'negative';
+type TrendVariant = 'positive' | 'negative' | 'neutral';
 
 export function Trend({ value, size = 'md', lx = {}, ...props }: TrendProps) {
-  // TODO: potentially handle neutral as well
-  const variant = value > 0 ? 'positive' : 'negative';
+  const variant = value === 0 ? 'neutral' : value > 0 ? 'positive' : 'negative';
   const styles = useStyles({ size, variant });
 
   const Icon = {
     positive: TriangleUp,
     negative: TriangleDown,
+    neutral: Minus,
   }[variant];
 
   const iconSize = (
@@ -28,6 +28,7 @@ export function Trend({ value, size = 'md', lx = {}, ...props }: TrendProps) {
     {
       positive: 'success',
       negative: 'error',
+      neutral: 'muted',
     } as const
   )[variant] as LumenTextStyle['color'];
 
@@ -50,6 +51,7 @@ const useStyles = ({
     const color = {
       positive: t.colors.text.success,
       negative: t.colors.text.error,
+      neutral: t.colors.text.muted,
     }[variant];
 
     const sizeMap = {
@@ -60,9 +62,11 @@ const useStyles = ({
     return {
       container: {
         flexDirection: 'row',
+        alignItems: 'center',
+        gap: t.spacings.s2,
       },
       text: {
-        sizeMap,
+        ...sizeMap,
         color,
       },
     };
