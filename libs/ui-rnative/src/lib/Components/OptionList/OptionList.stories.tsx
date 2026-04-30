@@ -132,9 +132,9 @@ export const Base: Story = {
                     <OptionListItem value={item.value}>
                       <OptionListItemLeading>
                         <CryptoIcon
-                          ledgerId={item.meta?.ledgerId ?? ''}
+                          ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
-                          size='32px'
+                          size={32}
                         />
                       </OptionListItemLeading>
                       <OptionListItemContent>
@@ -277,7 +277,7 @@ export const WithContentRow: Story = {
                         <CryptoIcon
                           ledgerId={meta.ledgerId}
                           ticker={meta.ticker}
-                          size='32px'
+                          size={32}
                         />
                       </OptionListItemLeading>
                       <OptionListItemContent>
@@ -453,7 +453,7 @@ export const GroupedWithContentRow: Story = {
                         <CryptoIcon
                           ledgerId={meta.ledgerId}
                           ticker={meta.ticker}
-                          size='32px'
+                          size={32}
                         />
                       </OptionListItemLeading>
                       <OptionListItemContent>
@@ -623,9 +623,9 @@ export const TriggerShowcase: Story = {
           icon={
             selectedCrypto?.meta ? (
               <CryptoIcon
-                ledgerId={selectedCrypto.meta.ledgerId}
-                ticker={selectedCrypto.meta.ticker}
-                size='32px'
+                ledgerId={selectedCrypto.meta.ledgerId as string}
+                ticker={selectedCrypto.meta.ticker as string}
+                size={32}
               />
             ) : undefined
           }
@@ -688,9 +688,9 @@ export const TriggerShowcase: Story = {
                     <OptionListItem value={item.value}>
                       <OptionListItemLeading>
                         <CryptoIcon
-                          ledgerId={item.meta?.ledgerId ?? ''}
+                          ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
-                          size='32px'
+                          size={32}
                         />
                       </OptionListItemLeading>
                       <OptionListItemContent>
@@ -736,7 +736,7 @@ export const WithDefaultValue: Story = {
                   <CryptoIcon
                     ledgerId={meta.ledgerId}
                     ticker={meta.ticker}
-                    size='32px'
+                    size={32}
                   />
                 </OptionListItemLeading>
                 <OptionListItemContent>

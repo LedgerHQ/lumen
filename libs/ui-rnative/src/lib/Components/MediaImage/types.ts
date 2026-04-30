@@ -24,4 +24,16 @@ export type MediaImageProps = {
    * Alternative text for the image, used for accessibility.
    */
   alt?: string;
+  /**
+   * Text used to derive a single-letter fallback when no `src` is provided or the image fails to load.
+   * The first character is displayed, uppercased.
+   * @optional
+   */
+  fallback?: string;
+  /**
+   * When true, displays a pulsing skeleton placeholder instead of the image or fallback.
+   * @optional
+   * @default false
+   */
+  loading?: boolean;
 } & Omit<StyledViewProps, 'children'>;

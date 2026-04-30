@@ -64,13 +64,13 @@ figma.connect(
       }),
       leading: figma.enum('leading', {
         spot: <Spot appearance='icon' icon={Wallet} />,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         provider: (
           <CryptoIcon
             ledgerId='ethereum'
             ticker='ETH'
-            size='48px'
-            overridesRadius='16px'
+            size={48}
+            shape='square'
           />
         ),
         'interface-icon': <Wallet size={20} />,

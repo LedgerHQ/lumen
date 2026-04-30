@@ -28,7 +28,7 @@ figma.connect(
         'with-asset': (
           <NavBarCoinCapsule
             ticker='Bitcoin'
-            icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+            icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
           />
         ),
       }),

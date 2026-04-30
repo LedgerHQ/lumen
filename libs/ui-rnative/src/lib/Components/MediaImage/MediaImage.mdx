@@ -14,7 +14,7 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 ## Introduction
 
-MediaImage displays an image with consistent sizing and shape. When the image fails to load or no source is provided, a background placeholder is shown automatically. This React Native implementation ensures consistent behavior across mobile platforms.
+MediaImage displays an image with consistent sizing and shape. When the image fails to load or no source is provided, it falls back to a single-letter initial (via `fallback`) or a muted background placeholder. While data is loading, a `loading` prop triggers a pulsing skeleton overlay. This React Native implementation ensures consistent behavior across mobile platforms.
 
 > View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6159-1866).
 
@@ -22,9 +22,11 @@ MediaImage displays an image with consistent sizing and shape. When the image fa
 
 <Canvas of={MediaImageStories.Base} />
 
-- **Container**: Sized wrapper with rounded corners and overflow clipping
+- **Container**: Sized wrapper with rounded corners, overflow clipping, and a subtle 1px inset outline
 - **Image**: Fills the container using React Native's `Image` component
-- **Fallback**: Background placeholder shown on missing or broken source
+- **Fallback letter**: Single uppercased character shown when `fallback` is set and no image is available
+- **Fallback placeholder**: Muted background shown when neither a valid image nor `fallback` is available
+- **Loading skeleton**: Pulsing overlay shown while `loading` is `true`, regardless of `src`
 
 ## Properties
 
@@ -35,7 +37,7 @@ MediaImage displays an image with consistent sizing and shape. When the image fa
 
 ### Sizes
 
-Eight sizes are available (12, 16, 20, 24, 32, 40, 48, 56). Border radius scales with size.
+Nine sizes are available (12, 16, 20, 24, 32, 40, 48, 56, 64). Border radius scales with size.
 
 <Canvas of={MediaImageStories.SizeShowcase} />
 
@@ -46,10 +48,25 @@ Eight sizes are available (12, 16, 20, 24, 32, 40, 48, 56). Border radius scales
 - **square** (default): Rounded corners that scale with size
 - **circle**: Fully rounded
 
+### Fallback
+
+When no `src` is provided or the image fails to load, the component degrades gracefully:
+
+- If `fallback` is set, the first character is displayed uppercased at a size-appropriate font size.
+- If `fallback` is not set, a muted background placeholder is shown.
+
+<Canvas of={MediaImageStories.FallbackShowcase} />
+
+### Loading state
+
+When `loading` is `true`, a pulsing skeleton overlay (using the `Pulse` animation component) covers the entire component regardless of whether a `src` is provided.
+
+<Canvas of={MediaImageStories.LoadingShowcase} />
+
 ## Accessibility
 
 - The root element uses `accessibilityRole="image"` with `accessibilityLabel` derived from `alt`.
-- The inner `Image` is marked `accessible={false}` to avoid duplicate announcements.
+- The inner `Image` and fallback elements are marked `accessible={false}` to avoid duplicate announcements.
 - Always provide a meaningful `alt` prop so screen readers can announce the image.
 
 </Tab>
@@ -73,6 +90,22 @@ function MyComponent() {
 
 ```tsx
 <MediaImage src='https://example.com/icon.png' alt='Ethereum' size={48} shape='circle' />
+```
+
+### With Fallback Letter
+
+When no `src` is available or the image fails to load, pass a `fallback` string to show its first letter as a placeholder:
+
+```tsx
+<MediaImage fallback='Bitcoin' alt='Bitcoin' size={48} />
+```
+
+### Loading State
+
+Show a pulsing skeleton while image data is being fetched:
+
+```tsx
+<MediaImage loading alt='Loading…' size={48} />
 ```
 
 ### Custom Styling

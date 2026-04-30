@@ -1,0 +1,10 @@
+{
+  "codeConnect": {
+    "include": [
+      "libs/ui-react/src/lib/Components/CryptoIcon/**/*.{tsx,jsx}",
+      "libs/ui-react/src/lib/Components/Icon/Icon.figma.tsx"
+    ],
+    "label": "React",
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA"
+  }
+}

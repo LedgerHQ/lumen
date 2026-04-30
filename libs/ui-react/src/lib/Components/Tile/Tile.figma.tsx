@@ -41,7 +41,7 @@ figma.connect(
         disabled: true,
       }),
       leadingContent: figma.enum('leading-icon', {
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -90,7 +90,7 @@ figma.connect(
         disabled: true,
       }),
       leadingContent: figma.enum('leading-icon', {
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),

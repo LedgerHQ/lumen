@@ -102,7 +102,7 @@ export const DensityShowcase: Story = {
     <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
       <ListItem density='compact' onPress={() => {}}>
         <ListItemLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
           <ListItemContent>
             <ListItemTitle>Compact with icon</ListItemTitle>
           </ListItemContent>
@@ -126,7 +126,7 @@ export const DensityShowcase: Story = {
 
       <ListItem density='expanded' onPress={() => {}}>
         <ListItemLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
           <ListItemContent>
             <ListItemTitle>Expanded with icon</ListItemTitle>
             <ListItemDescription>Additional information</ListItemDescription>
