@@ -85,7 +85,7 @@ export const ColorSection = ({
   category = 'background',
 }: {
   title?: string;
-  tokens: Array<{ name: string; className: string; textClassName?: string }>;
+  tokens: { name: string; className: string; textClassName?: string }[];
   category?: 'background' | 'text' | 'border';
 }) => (
   <div className='mb-32'>

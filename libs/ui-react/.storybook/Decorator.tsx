@@ -1,4 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import type { Decorator } from '@storybook/react-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ColorSchemeName } from '../src/lib/Components/ThemeProvider';
@@ -24,10 +23,7 @@ const createThemeDecorator = (
 
     return (
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider
-          themes={ledgerLiveThemes}
-          colorScheme={context.globals.mode as ColorSchemeName}
-        >
+        <ThemeProvider colorScheme={context.globals.mode as ColorSchemeName}>
           <Story />
         </ThemeProvider>
       </QueryClientProvider>

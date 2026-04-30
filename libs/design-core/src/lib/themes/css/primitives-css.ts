@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const tokens: Record<string, Record<string, string | number>> = {
+export const tokens = {
   ':root': {
     '--color-light-constant-100': '#fafafa',
     '--color-light-constant-200': '#f1f1f1',
@@ -746,4 +746,4 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--backdrop-blur-lg': '16px',
     '--backdrop-blur-xl': '24px',
   },
-};
+} as const satisfies Record<string, Record<string, string | number>>;

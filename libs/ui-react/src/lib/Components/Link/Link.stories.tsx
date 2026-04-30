@@ -135,7 +135,7 @@ export const ExternalLinkWithIcon: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{ name: string; appearance: LinkAppearance }> = [
+    const appearances: { name: string; appearance: LinkAppearance }[] = [
       { name: 'Base', appearance: 'base' },
       { name: 'Accent', appearance: 'accent' },
     ];

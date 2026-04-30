@@ -1,4 +1,3 @@
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { Button, ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { useState } from 'react';
 
@@ -8,7 +7,7 @@ export function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
 
   return (
-    <ThemeProvider themes={ledgerLiveThemes} colorScheme='system'>
+    <ThemeProvider colorScheme='system'>
       <div className='flex h-screen w-screen flex-col items-center justify-center bg-muted'>
         <Button
           onClick={() =>

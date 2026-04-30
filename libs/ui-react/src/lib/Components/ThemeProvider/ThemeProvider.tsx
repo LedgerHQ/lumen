@@ -22,7 +22,6 @@ const [ThemeProviderContext, useThemeContext] =
   createSafeContext<ThemeProviderState>('ThemeProvider');
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({
-  themes,
   children,
   colorScheme = COLOR_SCHEMES.system,
   locale,
@@ -30,14 +29,11 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({
   const resolvedColorScheme = useResolvedColorScheme(colorScheme);
   useRootColorModeSideEffect(resolvedColorScheme);
 
-  const resolvedTheme = themes?.[resolvedColorScheme];
-
   const value = useMemo(
     () => ({
-      theme: resolvedTheme,
       colorScheme: resolvedColorScheme,
     }),
-    [resolvedTheme, resolvedColorScheme],
+    [resolvedColorScheme],
   );
 
   return (

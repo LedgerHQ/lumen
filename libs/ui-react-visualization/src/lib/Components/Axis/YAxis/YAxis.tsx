@@ -1,4 +1,4 @@
-import { useTheme } from '@ledgerhq/lumen-ui-react';
+import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
 import { buildTicksData } from '../../../utils/ticks/ticks';
@@ -6,7 +6,6 @@ import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { YAxisProps } from './types';
 
-const STROKE_WIDTH = 1;
 const TICK_MARK_SIZE = 4;
 const TICK_LABEL_OFFSET = 6;
 export const DEFAULT_AXIS_WIDTH = 40;
@@ -20,7 +19,6 @@ export function YAxis({
   ticks: ticksProp,
   tickLabelFormatter,
 }: YAxisProps) {
-  const { theme } = useTheme();
   const { getYScale, getYAxisConfig, drawingArea } = useCartesianChartContext();
 
   const yScale = getYScale();
@@ -53,8 +51,8 @@ export function YAxis({
             y1={tick.position}
             x2={drawingArea.x + drawingArea.width}
             y2={tick.position}
-            style={{ stroke: theme.colors.border.mutedSubtle }}
-            strokeWidth={STROKE_WIDTH}
+            style={{ stroke: cssVar('var(--border-muted-subtle)') }}
+            strokeWidth={cssVar('var(--stroke-1)')}
             strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
           />
         ))}
@@ -65,8 +63,8 @@ export function YAxis({
           y1={drawingArea.y}
           x2={axisX}
           y2={drawingArea.y + drawingArea.height}
-          style={{ stroke: theme.colors.border.muted }}
-          strokeWidth={STROKE_WIDTH}
+          style={{ stroke: cssVar('var(--border-muted)') }}
+          strokeWidth={cssVar('var(--stroke-1)')}
           shapeRendering='crispEdges'
           strokeLinecap='square'
         />
@@ -80,8 +78,8 @@ export function YAxis({
             y1={tick.position}
             x2={axisX + tickDirection * TICK_MARK_SIZE}
             y2={tick.position}
-            style={{ stroke: theme.colors.border.muted }}
-            strokeWidth={STROKE_WIDTH}
+            style={{ stroke: cssVar('var(--border-muted)') }}
+            strokeWidth={cssVar('var(--stroke-1)')}
           />
         ))}
 
@@ -92,9 +90,11 @@ export function YAxis({
           y={tick.position}
           textAnchor={position === 'start' ? 'end' : 'start'}
           dominantBaseline='central'
-          style={{ fill: theme.colors.text.muted }}
-          fontSize={theme.typographies.xs.body.body4.fontSize}
-          fontFamily={theme.fontFamilies.sans}
+          style={{
+            fill: cssVar('var(--text-muted)'),
+            fontSize: cssVar('var(--font-style-body-4-size)'),
+            fontFamily: cssVar('var(--font-family-font)'),
+          }}
         >
           {tick.label}
         </text>

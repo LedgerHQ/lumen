@@ -1,3 +1,4 @@
+import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useId, useMemo } from 'react';
 
 import { isNumericScale } from '../../utils/scales/scales';
@@ -6,7 +7,6 @@ import { useCartesianChartContext } from '../CartesianChart/context';
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
 
-const STROKE_WIDTH = 2;
 const AREA_GRADIENT_OPACITY = 0.2;
 
 export function Line({
@@ -85,7 +85,7 @@ export function Line({
         d={linePath}
         fill='none'
         stroke={resolvedStroke}
-        strokeWidth={STROKE_WIDTH}
+        strokeWidth={cssVar('var(--stroke-2)')}
         strokeLinecap='round'
         strokeLinejoin='round'
       />
