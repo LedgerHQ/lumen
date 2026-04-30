@@ -385,6 +385,42 @@ export const ResponsiveLayout: Story = {
 export const CompositionShowcase: Story = {
   render: () => (
     <div className='flex max-w-320 flex-col gap-4'>
+      <ListItem density='expanded' onClick={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />
+          <ListItemContent>
+            <ListItemTitle>Bitcoin</ListItemTitle>
+            <ListItemDescription>BTC · Layer 1</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>$43,250.00</ListItemTitle>
+            <ListItemDescription className='text-success'>
+              +2.5%
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem density='expanded' onClick={() => {}}>
+        <ListItemLeading>
+          <CryptoIcon ledgerId='ethereum' ticker='ETH' size='48px' />
+          <ListItemContent>
+            <ListItemTitle>Ethereum</ListItemTitle>
+            <ListItemDescription>ETH · Layer 1</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>$2,650.00</ListItemTitle>
+            <ListItemDescription className='text-error'>
+              -0.5%
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
       <ListItem>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />

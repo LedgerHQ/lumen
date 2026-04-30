@@ -676,7 +676,7 @@ export const InfoStateVariants: Story = {
           <DialogContent>
             <DialogHeader density='compact' className='relative' />
             <DialogBody>
-              <div className='flex flex-col items-center gap-24 overflow-hidden'>
+              <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
                 <Spot appearance='error' size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
@@ -707,7 +707,7 @@ export const InfoStateVariants: Story = {
           <DialogContent>
             <DialogHeader density='compact' className='relative' />
             <DialogBody>
-              <div className='flex flex-col items-center gap-24 overflow-hidden'>
+              <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
                 <Spot appearance='check' size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
@@ -730,6 +730,37 @@ export const InfoStateVariants: Story = {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button appearance='base'>Muted</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader density='compact' className='relative' />
+            <DialogBody>
+              <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
+                <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
+                <Spot appearance='info' size={72} />
+                <div className='flex flex-col items-center gap-12 text-center'>
+                  <h3 className='heading-4-semi-bold text-base'>Title</h3>
+                  <p className='body-2 text-muted'>Description</p>
+                </div>
+              </div>
+            </DialogBody>
+            <DialogFooter className='gap-8'>
+              <DialogClose asChild>
+                <Button appearance='base' size='lg' isFull>
+                  Confirm
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button appearance='no-background' size='lg' isFull>
+                  Cancel
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   },
@@ -745,7 +776,7 @@ export const InfoStateVariants: Story = {
   <DialogContent>
     <DialogHeader density="compact" className="relative" />
     <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
+      <div className="relative flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error" />
         <Spot appearance="error" size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
@@ -773,14 +804,14 @@ export const InfoStateVariants: Story = {
   <DialogContent>
     <DialogHeader density="compact" className="relative" />
     <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
+      <div className="relative flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success" />
         <Spot appearance="check" size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
           <h3 className="heading-4-semi-bold text-base">Title</h3>
           <p className="body-2 text-muted">Description</p>
         </div>
-    </div>
+      </div>
     </DialogBody>
     <DialogFooter className="gap-8">
       <DialogClose asChild>
@@ -788,6 +819,34 @@ export const InfoStateVariants: Story = {
       </DialogClose>
       <DialogClose asChild>
         <Button appearance="no-background" size="lg" isFull>Label</Button>
+      </DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+// Muted state (uncontrolled)
+<Dialog>
+  <DialogTrigger asChild>
+    <Button appearance="base">Open Muted Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader density="compact" className="relative" />
+    <DialogBody>
+      <div className="relative flex flex-col items-center gap-24 overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted" />
+        <Spot appearance="info" size={72} />
+        <div className="flex flex-col items-center gap-12 text-center">
+          <h3 className="heading-4-semi-bold text-base">Title</h3>
+          <p className="body-2 text-muted">Description</p>
+        </div>
+      </div>
+    </DialogBody>
+    <DialogFooter className="gap-8">
+      <DialogClose asChild>
+        <Button appearance="base" size="lg" isFull>Confirm</Button>
+      </DialogClose>
+      <DialogClose asChild>
+        <Button appearance="no-background" size="lg" isFull>Cancel</Button>
       </DialogClose>
     </DialogFooter>
   </DialogContent>

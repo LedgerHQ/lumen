@@ -1,10 +1,20 @@
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Android, ArrowDown } from '../../Symbols';
 import { Button } from '../Button/Button';
 import { DotIcon } from '../DotIcon/DotIcon';
+import { MediaButton } from '../MediaButton';
 import { MediaImage } from '../MediaImage';
 import { SearchInput } from '../SearchInput/SearchInput';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+} from '../Select';
 import { Spot } from '../Spot';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
@@ -486,6 +496,156 @@ export const WithGroupHeader: Story = {
   ),
 };
 
+const categorizedData = [
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    price: '$43,250.00',
+    change: '+2.5%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    price: '$2,650.00',
+    change: '+1.8%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    price: '$98.50',
+    change: '-0.5%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Arbitrum',
+    symbol: 'ARB',
+    price: '$1.20',
+    change: '+0.9%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Optimism',
+    symbol: 'OP',
+    price: '$3.40',
+    change: '+1.4%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Polygon',
+    symbol: 'MATIC',
+    price: '$0.85',
+    change: '-0.3%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Uniswap',
+    symbol: 'UNI',
+    price: '$12.00',
+    change: '+0.3%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Aave',
+    symbol: 'AAVE',
+    price: '$100.00',
+    change: '+0.4%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Chainlink',
+    symbol: 'LINK',
+    price: '$15.00',
+    change: '+0.2%',
+    category: 'DeFi',
+  },
+];
+
+const categoryFilterOptions = [
+  { value: '__all__', label: 'All categories' },
+  ...new Set(categorizedData.map((d) => d.category)),
+].map((c) => (typeof c === 'string' ? { value: c, label: c } : c));
+
+export const WithActionBarAndSelectTrigger: Story = {
+  render: (args) => {
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+      null,
+    );
+
+    const filteredData = useMemo(
+      () =>
+        selectedCategory
+          ? categorizedData.filter((d) => d.category === selectedCategory)
+          : categorizedData,
+      [selectedCategory],
+    );
+
+    return (
+      <div className='w-3xl text-base'>
+        <TableActionBar>
+          <TableActionBarLeading>
+            <SearchInput placeholder='Search assets...' />
+          </TableActionBarLeading>
+          <TableActionBarTrailing>
+            <Select
+              items={categoryFilterOptions}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setSelectedCategory(val === '__all__' ? null : val)
+              }
+            >
+              <SelectTrigger
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
+                )}
+              />
+              <SelectContent>
+                <SelectList
+                  renderItem={(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                />
+              </SelectContent>
+            </Select>
+          </TableActionBarTrailing>
+        </TableActionBar>
+
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell>Symbol</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {filteredData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellContent
+                      title={row.name}
+                      description={row.symbol}
+                      leadingContent={<Spot appearance='icon' icon={Android} />}
+                    />
+                  </TableCell>
+                  <TableCell>{row.symbol}</TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+      </div>
+    );
+  },
+};
+
 export const WithActionBar: Story = {
   render: (args) => (
     <div className='w-3xl text-base'>
@@ -525,6 +685,91 @@ export const WithActionBar: Story = {
                 <TableCell align='end'>{row.change}</TableCell>
               </TableRow>
             ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </div>
+  ),
+};
+
+export const WithNetworkAndMediaIcon: Story = {
+  render: (args) => (
+    <div className='w-3xl text-base'>
+      <TableRoot {...args}>
+        <Table>
+          <TableHeader>
+            <TableHeaderRow>
+              <TableHeaderCell>Asset</TableHeaderCell>
+              <TableHeaderCell>Icon type</TableHeaderCell>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell align='end'>Change</TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <TableCellContent
+                  title='Bitcoin'
+                  description='BTC'
+                  leadingContent={
+                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='40px' />
+                  }
+                />
+              </TableCell>
+              <TableCell>Network icon (CryptoIcon)</TableCell>
+              <TableCell align='end'>$43,250.00</TableCell>
+              <TableCell align='end'>+2.5%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <TableCellContent
+                  title='Ethereum'
+                  description='ETH'
+                  leadingContent={
+                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size='40px' />
+                  }
+                />
+              </TableCell>
+              <TableCell>Network icon (CryptoIcon)</TableCell>
+              <TableCell align='end'>$2,650.00</TableCell>
+              <TableCell align='end'>+1.8%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <TableCellContent
+                  title='Algorand'
+                  description='ALGO'
+                  leadingContent={
+                    <MediaImage
+                      src='https://crypto-icons.ledger.com/ALGO.png'
+                      alt='Algorand'
+                      size={40}
+                    />
+                  }
+                />
+              </TableCell>
+              <TableCell>Media icon (MediaImage)</TableCell>
+              <TableCell align='end'>$0.18</TableCell>
+              <TableCell align='end'>+1.2%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <TableCellContent
+                  title='Polygon'
+                  description='MATIC'
+                  leadingContent={
+                    <MediaImage
+                      src='https://crypto-icons.ledger.com/MATIC.png'
+                      alt='Polygon'
+                      size={40}
+                    />
+                  }
+                />
+              </TableCell>
+              <TableCell>Media icon (MediaImage)</TableCell>
+              <TableCell align='end'>$0.85</TableCell>
+              <TableCell align='end'>-0.3%</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableRoot>

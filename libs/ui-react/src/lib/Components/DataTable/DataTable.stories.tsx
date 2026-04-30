@@ -1,9 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import type { SortingState } from '@tanstack/react-table';
+import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { Button } from '../Button/Button';
+import { MediaButton } from '../MediaButton';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+} from '../Select';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
 import {
@@ -792,6 +801,14 @@ export const WithInfiniteLoading: Story = {
   },
 };
 
+const categoryOptions = [
+  { value: '__all__', label: 'All categories' },
+  ...[...new Set(largeData.map((d) => d.category))].map((c) => ({
+    value: c,
+    label: c,
+  })),
+];
+
 export const WithServerSideState: Story = {
   render: (args) => {
     const fetchApiBackend = async (...args: any) => {
@@ -851,6 +868,331 @@ export const WithServerSideState: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+/**
+ * Client-side column filtering powered by TanStack's built-in `columnFilters` state
+ * and `getFilteredRowModel`. The Select updates `columnFilters` via
+ * `onColumnFiltersChange`; TanStack handles matching rows automatically.
+ * Combine with `DataTableGlobalSearchInput` for full-text + column filtering.
+ */
+export const WithClientSideColumnFilter: Story = {
+  render: (args) => {
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const selectedCategory =
+      (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
+
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'category',
+          header: 'Category',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      state: { columnFilters },
+      onColumnFiltersChange: setColumnFilters,
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <TableActionBar>
+          <TableActionBarLeading>
+            <DataTableGlobalSearchInput placeholder='Search assets...' />
+          </TableActionBarLeading>
+          <TableActionBarTrailing>
+            <Select
+              items={categoryOptions}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setColumnFilters(
+                  val === '__all__' ? [] : [{ id: 'category', value: val }],
+                )
+              }
+            >
+              <SelectTrigger
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
+                )}
+              />
+              <SelectContent>
+                <SelectList
+                  renderItem={(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                />
+              </SelectContent>
+            </Select>
+          </TableActionBarTrailing>
+        </TableActionBar>
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+/**
+ * Server-side filtering with `manualFiltering: true`. Filter state is owned by
+ * the component and synced to the backend via `onColumnFiltersChange` and
+ * `onGlobalFilterChange`. In this demo the "API call" is simulated locally, but
+ * the pattern is identical to a real fetch: change a filter → callback fires →
+ * you refetch with the new params → pass fresh data back as `data`.
+ */
+export const WithServerSideFilters: Story = {
+  render: (args) => {
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [globalFilter, setGlobalFilter] = useState('');
+    const selectedCategory =
+      (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
+
+    // Simulates the data returned by the server after applying the filters.
+    // In a real implementation this would be the result of an API call triggered
+    // by onColumnFiltersChange / onGlobalFilterChange callbacks.
+    const serverData = useMemo(() => {
+      let result = largeData;
+      if (selectedCategory)
+        result = result.filter((d) => d.category === selectedCategory);
+      if (globalFilter) {
+        const q = globalFilter.toLowerCase();
+        result = result.filter(
+          (d) =>
+            d.name.toLowerCase().includes(q) ||
+            d.symbol.toLowerCase().includes(q),
+        );
+      }
+      return result;
+    }, [selectedCategory, globalFilter]);
+
+    const table = useLumenDataTable({
+      data: serverData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'category',
+          header: 'Category',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      state: { columnFilters, globalFilter },
+      onColumnFiltersChange: setColumnFilters,
+      onGlobalFilterChange: setGlobalFilter,
+      manualFiltering: true,
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <TableActionBar>
+          <TableActionBarLeading>
+            <DataTableGlobalSearchInput placeholder='Search assets...' />
+          </TableActionBarLeading>
+          <TableActionBarTrailing>
+            <Select
+              items={categoryOptions}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setColumnFilters(
+                  val === '__all__' ? [] : [{ id: 'category', value: val }],
+                )
+              }
+            >
+              <SelectTrigger
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
+                )}
+              />
+              <SelectContent>
+                <SelectList
+                  renderItem={(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                />
+              </SelectContent>
+            </Select>
+          </TableActionBarTrailing>
+        </TableActionBar>
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithClientSideFilters: Story = {
+  render: (args) => {
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [globalFilter, setGlobalFilter] = useState('');
+
+    const selectedCategory =
+      (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
+    const selectedDirection =
+      (columnFilters.find((f) => f.id === 'change')?.value as string) ?? null;
+
+    const updateFilter = (id: string, value: string | null) => {
+      setColumnFilters((prev) => {
+        const without = prev.filter((f) => f.id !== id);
+        return value ? [...without, { id, value }] : without;
+      });
+    };
+
+    const directionOptions = [
+      { value: '__all__', label: 'All performance' },
+      { value: 'up', label: 'Gainers' },
+      { value: 'down', label: 'Losers' },
+    ];
+
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'category',
+          header: 'Category',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          filterFn: (row, _colId, filterValue) =>
+            filterValue === 'up'
+              ? row.original.change.startsWith('+')
+              : row.original.change.startsWith('-'),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      state: { columnFilters, globalFilter },
+      onColumnFiltersChange: setColumnFilters,
+      onGlobalFilterChange: setGlobalFilter,
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <TableActionBar>
+          <TableActionBarLeading>
+            <DataTableGlobalSearchInput placeholder='Search assets...' />
+          </TableActionBarLeading>
+          <TableActionBarTrailing>
+            <Select
+              items={categoryOptions}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                updateFilter('category', val === '__all__' ? null : val)
+              }
+            >
+              <SelectTrigger
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
+                )}
+              />
+              <SelectContent>
+                <SelectList
+                  renderItem={(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                />
+              </SelectContent>
+            </Select>
+            <Select
+              items={directionOptions}
+              value={selectedDirection ?? '__all__'}
+              onValueChange={(val) =>
+                updateFilter('change', val === '__all__' ? null : val)
+              }
+            >
+              <SelectTrigger
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
+                )}
+              />
+              <SelectContent>
+                <SelectList
+                  renderItem={(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                />
+              </SelectContent>
+            </Select>
+          </TableActionBarTrailing>
+        </TableActionBar>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );
