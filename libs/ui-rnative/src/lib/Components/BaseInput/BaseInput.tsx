@@ -170,7 +170,7 @@ export const BaseInput = ({
           )}
         </Pressable>
 
-        {!!helperText && helperText.length > 0 && (
+        {!!helperText && (
           <View style={styles.helperContainer}>
             {status === 'error' && <DeleteCircleFill size={16} color='error' />}
             {status === 'success' && (

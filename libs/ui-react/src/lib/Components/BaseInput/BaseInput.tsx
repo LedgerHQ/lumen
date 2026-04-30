@@ -171,7 +171,7 @@ export const BaseInput = ({
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
   const helperId = `${inputId}-helper`;
-  const showHelper = !!helperText && helperText.length > 0;
+  const showHelper = !!helperText;
 
   const handleClear = () => {
     if (!inputRef.current) return;
