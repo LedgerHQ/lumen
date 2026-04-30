@@ -4,6 +4,9 @@ export function Trends() {
   return (
     <Box lx={{ gap: 's24' }}>
       <Trend value={0.24} size='md' />
+      <Trend value={0.24} size='sm' />
+      <Trend value={-1.33} size='md' />
+      <Trend value={-1.33} size='sm' />
     </Box>
   );
 }
