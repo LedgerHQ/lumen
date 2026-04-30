@@ -129,7 +129,7 @@ export const SubheaderShowMore = ({
       )}
       {...props}
     >
-      <ChevronRight size={20} />
+      <ChevronRight size={24} />
     </span>
   );
 };
