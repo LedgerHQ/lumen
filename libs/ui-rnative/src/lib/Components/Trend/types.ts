@@ -1,3 +1,5 @@
+import type { BoxProps } from '../Utility';
+
 export type TrendProps = {
   /**
    * The value to display in the trend. This value affects the appearance of the component in terms of color and icon.
@@ -9,4 +11,4 @@ export type TrendProps = {
    * @default md
    */
   size?: 'sm' | 'md';
-};
+} & Omit<BoxProps, 'children'>;
