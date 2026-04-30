@@ -38,7 +38,7 @@ const inputVariants = cva('', {
  * - **Automatic clear button** appears when input has content
  * - **No label support** - uses placeholder text for optimal search UX
  * - **Suffix elements** for icons, buttons, or custom content
- * - **Error state styling** with aria-invalid and errorMessage support
+ * - **Helper text** with optional `status` for validation feedback
  * - **Flexible styling** via className prop
  *
  * ## Clear Button Behavior
@@ -56,13 +56,13 @@ const inputVariants = cva('', {
  * // Basic search with automatic clear button
  * <SearchInput placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
  *
- * // Search with error state
+ * // Search with error state (aria-invalid is auto-set when status="error")
  * <SearchInput
  *   placeholder="Search products"
  *   value={searchTerm}
  *   onChange={(e) => setSearchTerm(e.target.value)}
- *   aria-invalid={!isValid}
- *   errorMessage="Search failed. Please try again."
+ *   helperText="Search failed. Please try again."
+ *   status="error"
  * />
  *
  * // Search with suffix element

@@ -31,6 +31,7 @@ export function TextInputs() {
           ])
         }
       />
+      <TextInput label='Email' placeholder='name@example.com' />
       <TextInput
         label='Password'
         secureTextEntry={!showPassword}
@@ -50,9 +51,22 @@ export function TextInputs() {
         label='Team'
         value={team}
         onChangeText={setTeam}
-        errorMessage={
+        helperText={
           !isTeamValid && team !== undefined
             ? 'Team must match "lumen"!'
+            : undefined
+        }
+        status={!isTeamValid && team !== undefined ? 'error' : undefined}
+      />
+
+      <TextInput
+        label='Team'
+        value={team}
+        status={isTeamValid && team !== undefined ? 'success' : undefined}
+        onChangeText={setTeam}
+        helperText={
+          isTeamValid && team !== undefined
+            ? 'Team matches "lumen"!'
             : undefined
         }
       />

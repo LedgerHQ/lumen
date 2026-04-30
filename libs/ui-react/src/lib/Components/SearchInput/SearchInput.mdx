@@ -54,7 +54,7 @@ Appears automatically when input has content. Use `hideClearButton` to hide it o
 
 ### Error State
 
-Supports `aria-invalid` and `errorMessage` props for error handling with proper ARIA labeling.
+Supports `helperText` and `status` for error handling. Setting `status='error'` drives the visual error styling and automatically sets `aria-invalid={true}` on the input for screen readers.
 
 <Canvas of={SearchInputStories.Error} />
 
@@ -194,8 +194,8 @@ function MyComponent() {
   placeholder='Search users'
   value={query}
   onChange={(e) => setQuery(e.target.value)}
-  aria-invalid={hasError}
-  errorMessage={hasError ? 'Search failed' : undefined}
+  helperText={hasError ? 'Search failed' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 
@@ -305,8 +305,8 @@ function MyComponent() {
 
   <DoVsDontRow>
     <DoBlockItem
-      title='Use aria-invalid for errors'
-      description='Use aria-invalid to control the error state styling'
+      title='Use status for errors'
+      description='status drives visual styling and automatically sets aria-invalid on the input for accessibility'
     >
 
 {/* prettier-ignore */}
@@ -315,15 +315,15 @@ function MyComponent() {
   placeholder='Search users'
   value={query}
   onChange={handleChange}
-  aria-invalid={hasError}
-  errorMessage={hasError ? 'Search failed' : undefined}
+  helperText={hasError ? 'Search failed' : undefined}
+  status={hasError ? 'error' : undefined}
 />
 ```
 
     </DoBlockItem>
     <DontBlockItem
-      title="Don't omit aria-invalid"
-      description='Always provide aria-invalid when showing error messages for proper accessibility'
+      title="Don't rely on aria-invalid for styling"
+      description='aria-invalid is for screen readers only — it no longer drives the error ring on the container'
     >
 
 {/* prettier-ignore */}
@@ -332,7 +332,7 @@ function MyComponent() {
   placeholder='Search users'
   value={query}
   onChange={handleChange}
-  errorMessage={hasError ? 'Search failed' : undefined}
+  aria-invalid={hasError}
 />
 ```
 

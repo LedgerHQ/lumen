@@ -34,6 +34,10 @@ The label text automatically floats above the input when content is entered, pro
 
 <Canvas of={TextInputStories.WithContent} />
 
+### Label and placeholder
+
+<Canvas of={TextInputStories.WithLabelAndPlaceholder} />
+
 ### Clear Button
 
 A clear button (×) appears **automatically** when input has content.
@@ -54,16 +58,9 @@ Use `onClear` to extend the default clear behavior with custom logic.
 
 ### Error State
 
-The input supports error handling through `errorMessage` which displays an error message below the input with error styling including a red border and text color.
+The input supports error handling through `helperText` and `status` (`'error'` \| `'success'`), which show copy below the input with matching border and text styling.
 
 <Canvas of={TextInputStories.WithError} />
-
-The error message will be automatically:
-
-- Connected to the input
-- Displayed with a warning icon
-- Styled in the error color
-- Announced by screen readers
 
 ### Disabled State
 
@@ -221,13 +218,14 @@ function MyComponent() {
       label='Username'
       value={value}
       onChangeText={handleChange}
-      errorMessage={error}
+      helperText={error || undefined}
+      status={error ? 'error' : undefined}
     />
   );
 }
 ```
 
-> **Note:** Error messages are optional. Use `errorMessage` to display an error message below the input.
+> **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
 
 ### With Custom Styling
 

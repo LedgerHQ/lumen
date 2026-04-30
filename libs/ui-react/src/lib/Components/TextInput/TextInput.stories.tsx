@@ -62,7 +62,6 @@ export const Default: Story = {
     label: 'Label',
     type: 'text',
     disabled: false,
-    'aria-invalid': false,
     value: '',
     onClear: undefined,
     suffix: undefined,
@@ -101,6 +100,36 @@ export const WithContent: Story = {
         code: `<TextInput 
   label="Label"
   value="Initial content"
+  onChange={(e) => setValue(e.target.value)}
+/>`,
+      },
+    },
+  },
+};
+
+/**
+ * `label` and `placeholder` together (empty field shows floated label and hint text).
+ */
+export const WithLabelAndPlaceholder: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <TextInput
+        label='Phone'
+        placeholder='+1 (555) 000-0000'
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className='max-w-md'
+      />
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextInput
+  label="Phone"
+  placeholder="+1 (555) 000-0000"
+  value={value}
   onChange={(e) => setValue(e.target.value)}
 />`,
       },
@@ -211,15 +240,56 @@ export const WithError: Story = {
           type='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          aria-invalid={!isValidEmail}
-          errorMessage={
+          helperText={
             !isValidEmail ? 'Please enter a valid email address' : undefined
           }
+          status={!isValidEmail ? 'error' : undefined}
         />
         <div className='mt-12 body-3 text-muted'>
           Try typing a valid email address or clicking the clear button to
           remove the error state
         </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Success feedback below the input.
+ */
+export const WithSuccess: Story = {
+  render: () => (
+    <div className='max-w-md'>
+      <TextInput
+        label='Address'
+        value='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27'
+        onChange={() => {
+          console.log('onChange');
+        }}
+        helperText='Address verified'
+        status='success'
+      />
+    </div>
+  ),
+};
+
+/**
+ * Neutral hint (no status): muted helper text without an icon.
+ */
+export const WithNeutralHint: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Address'
+          placeholder='0x…'
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue(e.target.value)
+          }
+          helperText='Enter your ETH address'
+        />
       </div>
     );
   },
@@ -429,8 +499,8 @@ export const Interactive: Story = {
               value={formData.username}
               onChange={handleChange('username')}
               onClear={handleClear('username')}
-              aria-invalid={!!errors.username}
-              errorMessage={errors.username}
+              helperText={errors.username}
+              status={errors.username ? 'error' : undefined}
               suffix={<InformationFill size={20} className='text-muted' />}
             />
 
@@ -440,8 +510,8 @@ export const Interactive: Story = {
               value={formData.email}
               onChange={handleChange('email')}
               onClear={handleClear('email')}
-              aria-invalid={!!errors.email}
-              errorMessage={errors.email}
+              helperText={errors.email}
+              status={errors.email ? 'error' : undefined}
             />
 
             <TextInput
@@ -450,8 +520,8 @@ export const Interactive: Story = {
               value={formData.password}
               onChange={handleChange('password')}
               onClear={handleClear('password')}
-              aria-invalid={!!errors.password}
-              errorMessage={errors.password}
+              helperText={errors.password}
+              status={errors.password ? 'error' : undefined}
             />
 
             <TextInput
@@ -460,8 +530,8 @@ export const Interactive: Story = {
               value={formData.confirmPassword}
               onChange={handleChange('confirmPassword')}
               onClear={handleClear('confirmPassword')}
-              aria-invalid={!!errors.confirmPassword}
-              errorMessage={errors.confirmPassword}
+              helperText={errors.confirmPassword}
+              status={errors.confirmPassword ? 'error' : undefined}
             />
           </div>
 

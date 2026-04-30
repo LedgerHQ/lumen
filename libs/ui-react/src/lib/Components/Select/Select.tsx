@@ -376,7 +376,8 @@ const SelectItemDescription = ({
 const SelectSearch = ({
   className,
   placeholder = 'Search',
-  errorMessage,
+  helperText,
+  status,
   'aria-invalid': ariaInvalid,
   suffix,
   onClear,
@@ -395,7 +396,8 @@ const SelectSearch = ({
         <SearchInput
           {...comboboxProps}
           aria-invalid={ariaInvalid}
-          errorMessage={errorMessage}
+          helperText={helperText}
+          status={status}
           suffix={suffix}
           onClear={onClear}
           hideClearButton={hideClearButton}

@@ -8,7 +8,7 @@ import { type TextInputProps } from './types';
  * - **Automatic clear button** appears when input has content
  * - **Floating label** with smooth animations
  * - **Suffix elements** for icons, buttons, or custom content
- * - **Error state styling** with errorMessage support
+ * - **Helper text** with optional `status` (`error` | `success`) for border and helper feedback styling
  * - **Container-based spacing** with padding and gap for clean layout
  * - **Flexible styling** via style props
  * - **React Native TextInput** with proper mobile behavior
@@ -28,12 +28,13 @@ import { type TextInputProps } from './types';
  * // Basic input with automatic clear button
  * <TextInput label="Title" value={title} onChangeText={setTitle} />
  *
- * // Input with error state
+ * // Input with error helper
  * <TextInput
  *   label="Email"
  *   value={email}
  *   onChangeText={setEmail}
- *   errorMessage="Please enter a valid email address"
+ *   helperText="Please enter a valid email address"
+ *   status="error"
  * />
  *
  * // Input with suffix element

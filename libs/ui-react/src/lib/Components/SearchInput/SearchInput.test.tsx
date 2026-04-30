@@ -82,17 +82,17 @@ describe('SearchInput', () => {
     expect(handleClear).toHaveBeenCalled();
   });
 
-  it('displays error message when provided', () => {
+  it('displays helper text when provided with error status', () => {
     render(
       <SearchInput
         placeholder='Search'
-        errorMessage='Search failed'
-        aria-invalid={true}
+        helperText='Search failed'
+        status='error'
       />,
     );
 
-    const errorMessage = screen.getByText('Search failed');
-    expect(errorMessage).toBeInTheDocument();
+    const helperTextEl = screen.getByText('Search failed');
+    expect(helperTextEl).toBeInTheDocument();
 
     // The role="alert" is on the error container, not the text span
     const errorContainer = screen.getByRole('alert');
