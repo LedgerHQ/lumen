@@ -111,7 +111,7 @@ export const WithCoinCapsule: Story = {
       <NavBarContent>
         <NavBarCoinCapsule
           ticker='BTC'
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
         />
       </NavBarContent>
       <NavBarTrailing>

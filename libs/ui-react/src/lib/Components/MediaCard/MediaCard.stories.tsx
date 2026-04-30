@@ -172,7 +172,7 @@ export const CompositionShowcase: Story = {
   onClick={() => {}}
   onClose={() => {}}
 >
-  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="32px" />
+  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size={32} />
   <MediaCardTitle>With crypto icon</MediaCardTitle>
 </MediaCard>`.trim(),
       },
@@ -197,7 +197,7 @@ export const CompositionShowcase: Story = {
       </MediaCard>
 
       <MediaCard {...baseArgs}>
-        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
         <MediaCardTitle>With crypto icon</MediaCardTitle>
       </MediaCard>
     </div>
