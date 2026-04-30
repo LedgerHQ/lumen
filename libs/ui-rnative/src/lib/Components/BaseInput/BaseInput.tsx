@@ -176,16 +176,7 @@ export const BaseInput = ({
             {status === 'success' && (
               <CheckmarkCircleFill size={16} color='success' />
             )}
-            <Text
-              style={[
-                styles.helperText,
-                status === 'error' && styles.helperTextError,
-                status === 'success' && styles.helperTextSuccess,
-                !status && styles.helperTextNeutral,
-              ]}
-            >
-              {helperText}
-            </Text>
+            <Text style={styles.helperText}>{helperText}</Text>
           </View>
         )}
       </Box>
@@ -275,15 +266,11 @@ const useStyles = ({
         helperText: {
           ...t.typographies.body3,
           flex: 1,
-        },
-        helperTextError: {
-          color: t.colors.text.error,
-        },
-        helperTextSuccess: {
-          color: t.colors.text.success,
-        },
-        helperTextNeutral: {
-          color: t.colors.text.muted,
+          color: {
+            error: t.colors.text.error,
+            success: t.colors.text.success,
+            default: t.colors.text.muted,
+          }[status ?? 'default'],
         },
         suffixContainer: {
           minWidth: t.sizes.s20,
