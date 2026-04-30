@@ -8,8 +8,8 @@ import type { MediaButtonProps } from './types';
 type Size = NonNullable<MediaButtonProps['size']>;
 
 const cryptoIconSizes = {
-  sm: '24px',
-  md: '32px',
+  sm: 24,
+  md: 32,
 } as const;
 
 const resolveIcon = (
