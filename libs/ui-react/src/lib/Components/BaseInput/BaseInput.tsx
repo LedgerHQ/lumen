@@ -57,9 +57,14 @@ const labelVariants = cva(baseLabelStyles, {
       error: 'text-error',
       success: '',
     },
+    floated: {
+      true: 'peer-placeholder-shown:top-6 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:body-4',
+      false: '',
+    },
   },
   defaultVariants: {
     status: 'default',
+    floated: false,
   },
 });
 
@@ -196,12 +201,7 @@ export const BaseInput = ({
   return (
     <div className={className}>
       <div
-        className={cn(
-          containerVariants({
-            status: status ?? 'default',
-          }),
-          containerClassName,
-        )}
+        className={cn(containerVariants({ status }), containerClassName)}
         onPointerDown={(event: PointerEvent<HTMLDivElement>) => {
           const target = event.target as Element;
           if (target.closest('input, button, a')) return;
@@ -248,12 +248,9 @@ export const BaseInput = ({
             htmlFor={inputId}
             className={cn(
               labelVariants({
-                status: status ?? 'default',
+                status,
+                floated: labelStaysFloatedWithPlaceholder,
               }),
-              // With a real placeholder, :placeholder-shown stays true when empty; override so the
-              // label stays in the floated slot instead of centering on top of the placeholder.
-              labelStaysFloatedWithPlaceholder &&
-                'peer-placeholder-shown:top-6 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:body-4',
               labelClassName,
             )}
           >
@@ -276,7 +273,7 @@ export const BaseInput = ({
       {showHelper && (
         <div
           id={helperId}
-          className={helperVariants({ status: status ?? 'default' })}
+          className={helperVariants({ status })}
           role={status === 'error' ? 'alert' : undefined}
         >
           {status === 'error' && (
