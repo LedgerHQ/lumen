@@ -19,9 +19,7 @@ figma.connect(
       }),
       status: figma.enum('state', {
         error: 'error',
-        'error-focus': 'error',
         success: 'success',
-        'success-focus': 'success',
       }),
       helperText: figma.nestedProps('.status', {
         label: figma.string('label'),
