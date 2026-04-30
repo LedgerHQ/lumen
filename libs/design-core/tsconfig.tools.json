@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "outDir": "out-tsc/storybook",
+    "outDir": "out-tsc/tools",
     "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "preserve",
@@ -19,18 +19,9 @@
     "src/**/*.test.jsx"
   ],
   "include": [
-    "src/**/*.stories.ts",
-    "src/**/*.stories.js",
-    "src/**/*.stories.jsx",
-    "src/**/*.stories.tsx",
-    "src/**/*.mdx",
-    "src/**/*.figma.ts",
-    "src/**/*.figma.js",
-    "src/**/*.figma.jsx",
-    "src/**/*.figma.tsx",
-    ".storybook/**/*.js",
-    ".storybook/**/*.ts",
-    ".storybook/**/*.tsx",
+    "automations/**/*.ts",
+    "tools/**/*.ts",
+    "vitest.config.ts",
   ],
   "references": [
     {

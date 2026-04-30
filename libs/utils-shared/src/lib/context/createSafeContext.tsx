@@ -41,7 +41,7 @@ export function createSafeContext<ContextValue extends object>(
       );
     }
 
-    return (defaultContext || {}) as ContextValue;
+    return (defaultContext ?? {}) as ContextValue;
   }
 
   return [Provider, useSafeContext] as const;

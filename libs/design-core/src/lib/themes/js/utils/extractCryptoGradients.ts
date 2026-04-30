@@ -19,14 +19,14 @@ export const extractCryptoGradients = (mode: 'dark' | 'light') => {
         ...acc,
         [colorKey]: [
           {
-            color: cryptoColors[colorKey as CryptoColorKey],
+            color: cryptoColors[colorKey],
           },
           {
-            color: cryptoTransparentColors[colorKey as CryptoColorKey],
+            color: cryptoTransparentColors[colorKey],
           },
         ],
       };
     },
-    {} as any,
+    {} as { [key in CryptoColorKey]: { color: string }[] },
   );
 };

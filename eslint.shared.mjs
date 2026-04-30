@@ -31,6 +31,13 @@ const globalIgnorePatterns = [
   '**/vitest.config.*.timestamp*',
 ];
 
+const tsParserOptions = {
+  parserOptions: {
+    projectService: true,
+    tsconfigRootDir: import.meta.dirname,
+  },
+};
+
 export const definedGlobalIgnores = globalIgnores(globalIgnorePatterns);
 
 /**
@@ -40,6 +47,10 @@ export const definedGlobalIgnores = globalIgnores(globalIgnorePatterns);
  */
 export const defineGlobalRules = (config) => ({
   name: 'all-files-rules',
+  languageOptions: {
+    ...config.languageOptions,
+    ...tsParserOptions,
+  },
   ...config,
   files: allFilePatterns,
   ignores: globalIgnorePatterns,
@@ -54,6 +65,10 @@ export const defineGlobalRules = (config) => ({
 export const defineProdRules = (config) => ({
   name: 'production-files-only-rules',
   ...config,
+  languageOptions: {
+    ...config.languageOptions,
+    ...tsParserOptions,
+  },
   files: [...prodFilePatterns, ...(config.files ?? [])],
   ignores: [
     ...devFilePatterns,
@@ -70,6 +85,10 @@ export const defineProdRules = (config) => ({
 export const defineDevRules = (config) => ({
   name: 'development-files-only-rules',
   ...config,
+  languageOptions: {
+    ...config.languageOptions,
+    ...tsParserOptions,
+  },
   files: [...devFilePatterns, ...(config.files ?? [])],
   ignores: [
     ...globalIgnorePatterns,
