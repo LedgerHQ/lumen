@@ -35,7 +35,7 @@ export function Trend({ value, size = 'md', lx = {}, ...props }: TrendProps) {
   return (
     <Box lx={lx} style={styles.container} {...props}>
       <Icon size={iconSize} color={iconColor} />
-      <Text style={styles.text}>{value}%</Text>
+      <Text style={styles.text}>{value.toFixed(2)}%</Text>
     </Box>
   );
 }
