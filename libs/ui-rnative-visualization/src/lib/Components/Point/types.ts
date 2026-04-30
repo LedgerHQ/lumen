@@ -1,5 +1,13 @@
-import type { ReactNode } from 'react';
+import type { ComponentType } from 'react';
 import type { GestureResponderEvent } from 'react-native';
+
+export type PointLabelProps = {
+  x: number;
+  y: number;
+  children: string;
+};
+
+export type PointLabelComponent = ComponentType<PointLabelProps>;
 
 export type PointProps = {
   /**
@@ -21,11 +29,12 @@ export type PointProps = {
    */
   label?: string | ((dataIndex: number) => string);
   /**
-   * Custom SVG element rendered instead of the default text label.
-   * Automatically translated so that `(0, 0)` is the label anchor point
-   * (horizontally centered on the point, vertically offset like the built-in label).
+   * Custom component rendered instead of the default `PointLabel`.
+   * Receives pixel coordinates (`x`, `y`) and the resolved label as
+   * `children`. Use `PointLabel` inside your component to retain
+   * theme styling while customising layout or appearance.
    */
-  labelComponent?: ReactNode;
+  LabelComponent?: PointLabelComponent;
   /**
    * Placement of the label relative to the point.
    * @default 'top'

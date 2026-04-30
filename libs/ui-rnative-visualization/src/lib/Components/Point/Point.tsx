@@ -5,7 +5,7 @@ import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
-import type { PointProps } from './types';
+import type { PointLabelProps, PointProps } from './types';
 import {
   buildArrowPoints,
   computeLabelY,
@@ -15,18 +15,36 @@ import {
   STROKE_WIDTH,
 } from './utils';
 
-export const Point = ({
+export function PointLabel({ x, y, children }: PointLabelProps) {
+  const { theme } = useTheme();
+
+  return (
+    <SvgText
+      x={x}
+      y={y}
+      textAnchor='middle'
+      fill={theme.colors.text.base}
+      fontSize={theme.typographies.body4.fontSize}
+      fontWeight={theme.typographies.body4.fontWeight}
+      fontFamily={theme.fontFamilies.sans}
+    >
+      {children}
+    </SvgText>
+  );
+}
+
+export function Point({
   dataX,
   dataY,
   color,
   label,
-  labelComponent,
+  LabelComponent,
   labelPosition = 'top',
   hidePoint = false,
   showLabelArrow = true,
   size = DEFAULT_SIZE,
   onPress,
-}: Readonly<PointProps>) => {
+}: Readonly<PointProps>) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
   const { theme } = useTheme();
 
@@ -35,8 +53,6 @@ export const Point = ({
 
   const radius = size / 2;
   const fill = color ?? theme.colors.bg.mutedStrong;
-  const stroke = theme.colors.bg.canvas;
-  const textColor = theme.colors.text.base;
 
   const pixel = useMemo(() => {
     if (!xScale || !yScale) return undefined;
@@ -48,9 +64,11 @@ export const Point = ({
   }
 
   const resolvedLabel = resolveLabel(label, dataX);
-  const hasLabel = labelComponent != null || resolvedLabel != null;
+  const hasLabel = resolvedLabel != null;
   const renderArrow = showLabelArrow && hasLabel;
   const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
+
+  const Label = LabelComponent ?? PointLabel;
 
   return (
     <G testID='point-group' onPress={onPress}>
@@ -61,7 +79,7 @@ export const Point = ({
           cy={pixel.y}
           r={radius}
           fill={fill}
-          stroke={stroke}
+          stroke={theme.colors.bg.canvas}
           strokeWidth={STROKE_WIDTH}
         />
       )}
@@ -69,31 +87,14 @@ export const Point = ({
         <Polygon
           testID='point-arrow'
           points={buildArrowPoints(pixel.x, pixel.y, radius, labelPosition)}
-          fill={textColor}
+          fill={theme.colors.text.base}
         />
       )}
-      {labelComponent && (
-        <G
-          testID='point-label-wrapper'
-          transform={`translate(${pixel.x}, ${labelY})`}
-        >
-          {labelComponent}
-        </G>
-      )}
-      {!labelComponent && resolvedLabel != null && (
-        <SvgText
-          testID='point-label'
-          x={pixel.x}
-          y={labelY}
-          textAnchor='middle'
-          fill={textColor}
-          fontSize={theme.typographies.body4.fontSize}
-          fontWeight={theme.typographies.body4.fontWeight}
-          fontFamily={theme.fontFamilies.sans}
-        >
+      {resolvedLabel != null && (
+        <Label x={pixel.x} y={labelY}>
           {resolvedLabel}
-        </SvgText>
+        </Label>
       )}
     </G>
   );
-};
+}

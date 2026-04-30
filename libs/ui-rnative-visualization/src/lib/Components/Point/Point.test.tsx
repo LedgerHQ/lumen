@@ -63,56 +63,51 @@ describe('Point', () => {
   });
 
   it('renders a string label', () => {
-    const { getByTestId } = renderInChart(
+    const { getByText } = renderInChart(
       <Point dataX={2} dataY={30} label='Peak' />,
     );
-    const label = getByTestId('point-label');
-    expect(label).toBeTruthy();
-    expect(label.props.children).toBe('Peak');
+    expect(getByText('Peak')).toBeTruthy();
   });
 
   it('renders a label via function', () => {
-    const { getByTestId } = renderInChart(
+    const { getByText } = renderInChart(
       <Point dataX={2} dataY={30} label={(i) => `#${i}`} />,
     );
-    const label = getByTestId('point-label');
-    expect(label.props.children).toBe('#2');
+    expect(getByText('#2')).toBeTruthy();
   });
 
-  it('renders labelComponent when provided', () => {
-    const { getByTestId, queryByTestId } = renderInChart(
-      <Point
-        dataX={2}
-        dataY={30}
-        label='ignored'
-        labelComponent={<SvgText testID='custom-label'>Custom</SvgText>}
-      />,
+  it('renders custom LabelComponent', () => {
+    const CustomLabel = ({ x, y, children }: { x: number; y: number; children: string }) => (
+      <SvgText testID='custom-label' x={x} y={y}>
+        {children}
+      </SvgText>
     );
-    expect(getByTestId('custom-label')).toBeTruthy();
-    expect(queryByTestId('point-label')).toBeNull();
-  });
 
-  it('wraps labelComponent in a positioned group', () => {
     const { getByTestId } = renderInChart(
-      <Point
-        dataX={2}
-        dataY={30}
-        labelComponent={<SvgText testID='custom-label'>Custom</SvgText>}
-      />,
+      <Point dataX={2} dataY={30} label='Peak' LabelComponent={CustomLabel} />,
     );
-    const labelWrapper = getByTestId('point-label-wrapper');
-    expect(labelWrapper).toBeTruthy();
-    expect(labelWrapper.props.transform).toMatch(
-      /^translate\(\d+(\.\d+)?, \d+(\.\d+)?\)$/,
+
+    expect(getByTestId('custom-label')).toBeTruthy();
+  });
+
+  it('does not render LabelComponent when label is absent', () => {
+    const CustomLabel = ({ children }: { x: number; y: number; children: string }) => (
+      <SvgText testID='custom-label'>{children}</SvgText>
     );
+
+    const { queryByTestId } = renderInChart(
+      <Point dataX={2} dataY={30} LabelComponent={CustomLabel} />,
+    );
+
+    expect(queryByTestId('custom-label')).toBeNull();
   });
 
   it('hides the circle when hidePoint is true but shows label', () => {
-    const { queryByTestId, getByTestId } = renderInChart(
+    const { queryByTestId, getByText } = renderInChart(
       <Point dataX={2} dataY={30} hidePoint label='Still here' />,
     );
     expect(queryByTestId('point-circle')).toBeNull();
-    expect(getByTestId('point-label')).toBeTruthy();
+    expect(getByText('Still here')).toBeTruthy();
   });
 
   it('returns null when point is outside drawing area', () => {
