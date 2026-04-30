@@ -16,10 +16,10 @@ type Point = [x: number, y: number];
  * instead of the array index so the points honour a numeric X domain.
  */
 export const toScaledPoints = (
-  data: Array<number | null>,
+  data: (number | null)[],
   xScale: ChartScaleFunction,
   yScale: NumericScale,
-  xData?: ReadonlyArray<string | number>,
+  xData?: readonly (string | number)[],
 ): Point[] | null => {
   const pts: Point[] = [];
 

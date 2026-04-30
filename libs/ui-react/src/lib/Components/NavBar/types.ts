@@ -27,6 +27,17 @@ export type NavBarBackButtonProps = {
   className?: string;
 } & ComponentPropsWithRef<'button'>;
 
+export type NavBarDescriptionProps = {
+  /**
+   * The description text to display.
+   */
+  children: ReactNode;
+  /**
+   * Additional custom CSS classes to apply.
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
 export type NavBarTitleProps = {
   /**
    * The title text to display.
@@ -43,6 +54,17 @@ export type NavBarTitleProps = {
    */
   className?: string;
 } & ComponentPropsWithRef<'h1'>;
+
+export type NavBarLeadingProps = {
+  /**
+   * The leading content, typically NavBarTitle and optionally NavBarDescription.
+   */
+  children: ReactNode;
+  /**
+   * Additional custom CSS classes to apply.
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
 
 export type NavBarTrailingProps = {
   /**

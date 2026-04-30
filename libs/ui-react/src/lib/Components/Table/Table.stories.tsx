@@ -1,10 +1,10 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback, useMemo, useState } from 'react';
-import { Android } from '../../Symbols';
+import { useCallback, useState } from 'react';
+import { Android, ArrowDown } from '../../Symbols';
 import { Button } from '../Button/Button';
-import { MediaButton } from '../MediaButton';
-import { MediaImage } from '../MediaImage/MediaImage';
+import { DotIcon } from '../DotIcon/DotIcon';
+import { MediaImage } from '../MediaImage';
 import { SearchInput } from '../SearchInput/SearchInput';
 import {
   Select,
@@ -134,7 +134,21 @@ export const Base: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={
+                      <DotIcon
+                        appearance='success'
+                        size={16}
+                        pin='top-end'
+                        icon={ArrowDown}
+                      >
+                        <MediaImage
+                          shape='circle'
+                          size={40}
+                          src={'https://crypto-icons.ledger.com/ADA.png'}
+                          alt='Cardano'
+                        />
+                      </DotIcon>
+                    }
                   />
                 </TableCell>
                 <TableCell>{row.symbol}</TableCell>
@@ -215,7 +229,9 @@ export const ResponsiveLayout: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={
+                      <Spot size={40} appearance='icon' icon={Android} />
+                    }
                   />
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
@@ -257,7 +273,9 @@ export const WithClickableRow: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={
+                      <Spot size={40} appearance='icon' icon={Android} />
+                    }
                   />
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
@@ -315,7 +333,9 @@ export const WithInfiniteLoading: Story = {
                     <TableCellContent
                       title={row.name}
                       description={row.symbol}
-                      leadingContent={<Spot appearance='icon' icon={Android} />}
+                      leadingContent={
+                        <Spot size={40} appearance='icon' icon={Android} />
+                      }
                     />
                   </TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
@@ -395,7 +415,9 @@ export const WithCustomHeader: Story = {
                     <TableCellContent
                       title={row.name}
                       description={row.symbol}
-                      leadingContent={<Spot appearance='icon' icon={Android} />}
+                      leadingContent={
+                        <Spot size={40} appearance='icon' icon={Android} />
+                      }
                     />
                   </TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
@@ -441,7 +463,9 @@ export const WithGroupHeader: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={
+                      <Spot size={40} appearance='icon' icon={Android} />
+                    }
                   />
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
@@ -455,7 +479,9 @@ export const WithGroupHeader: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={
+                      <Spot size={40} appearance='icon' icon={Android} />
+                    }
                   />
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
@@ -648,7 +674,9 @@ export const WithActionBar: Story = {
                   <TableCellContent
                     title={row.name}
                     description={row.symbol}
-                    leadingContent={<Spot appearance='icon' icon={Android} />}
+                    leadingContent={
+                      <Spot size={40} appearance='icon' icon={Android} />
+                    }
                   />
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>

@@ -6,6 +6,8 @@ import { CoinCapsule } from './CoinCapsule';
 import type {
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
+  NavBarDescriptionProps,
+  NavBarLeadingProps,
   NavBarProps,
   NavBarTitleProps,
   NavBarTrailingProps,
@@ -82,13 +84,62 @@ export const NavBarTitle = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={ref as any}
       className={cn(
-        'min-w-0 flex-1 truncate heading-4-semi-bold text-base',
+        'min-w-0 truncate heading-4-semi-bold text-base',
         className,
       )}
       data-slot='navbar-title'
     >
       {children}
     </Component>
+  );
+};
+
+/**
+ * Description component for the NavBar. Displays descriptive text below the title row.
+ * @example
+ * <NavBarDescription>Page Description</NavBarDescription
+ */
+export const NavBarDescription = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarDescriptionProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('min-w-0 flex-1 truncate body-1 text-muted', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * Leading container for the NavBar. Used to group the title and an optional description
+ *
+ * @example
+ * <NavBarLeading>
+ *   <NavBarTitle>Page Title</NavBarTitle>
+ *   <NavBarDescription>Subtitle text</NavBarDescription>
+ * </NavBarLeading>
+ */
+export const NavBarLeading = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarLeadingProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('flex min-w-0 flex-1 items-center gap-16', className)}
+      data-slot='navbar-leading'
+      {...props}
+    >
+      {children}
+    </div>
   );
 };
 

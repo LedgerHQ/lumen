@@ -277,7 +277,7 @@ export const TableCell = ({
   );
 };
 
-const cellContentVariants = cva('flex items-center gap-12 truncate', {
+const cellContentVariants = cva('flex min-w-0 items-center gap-12', {
   variants: {
     align: {
       start: 'text-start',
@@ -304,7 +304,7 @@ export const TableCellContent = ({
       className={cellContentVariants({ align, className })}
       {...props}
     >
-      <div>{leadingContent}</div>
+      <div className='shrink-0'>{leadingContent}</div>
       <div className='flex flex-col gap-4 truncate'>
         <div className='truncate body-2 text-base'>{title}</div>
         <div className='truncate body-3 text-muted'>{description}</div>
