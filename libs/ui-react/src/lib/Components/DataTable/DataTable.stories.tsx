@@ -858,9 +858,13 @@ export const WithInfiniteLoading: Story = {
   },
 };
 
-const categoryOptions = [...new Set(largeData.map((d) => d.category))].map(
-  (c) => ({ value: c, label: c }),
-);
+const categoryOptions = [
+  { value: '__all__', label: 'All categories' },
+  ...[...new Set(largeData.map((d) => d.category))].map((c) => ({
+    value: c,
+    label: c,
+  })),
+];
 
 export const WithServerSideState: Story = {
   render: (args) => {
@@ -986,20 +990,16 @@ export const WithClientSideColumnFilter: Story = {
           <TableActionBarTrailing>
             <Select
               items={categoryOptions}
-              value={selectedCategory}
-              onValueChange={(val) => {
-                if (val) {
-                  setColumnFilters([{ id: 'category', value: val }]);
-                } else {
-                  setColumnFilters([]);
-                }
-              }}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setColumnFilters(
+                  val === '__all__' ? [] : [{ id: 'category', value: val }],
+                )
+              }
             >
               <SelectTrigger
-                render={({ selectedValue, selectedContent }) => (
-                  <MediaButton>
-                    {selectedValue ? selectedContent : 'All categories'}
-                  </MediaButton>
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
               <SelectContent>
@@ -1101,20 +1101,16 @@ export const WithServerSideFilters: Story = {
           <TableActionBarTrailing>
             <Select
               items={categoryOptions}
-              value={selectedCategory}
-              onValueChange={(val) => {
-                if (val) {
-                  setColumnFilters([{ id: 'category', value: val }]);
-                } else {
-                  setColumnFilters([]);
-                }
-              }}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setColumnFilters(
+                  val === '__all__' ? [] : [{ id: 'category', value: val }],
+                )
+              }
             >
               <SelectTrigger
-                render={({ selectedValue, selectedContent }) => (
-                  <MediaButton>
-                    {selectedValue ? selectedContent : 'All categories'}
-                  </MediaButton>
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
               <SelectContent>
@@ -1153,6 +1149,7 @@ export const WithClientSideFilters: Story = {
     };
 
     const directionOptions = [
+      { value: '__all__', label: 'All performance' },
       { value: 'up', label: 'Gainers' },
       { value: 'down', label: 'Losers' },
     ];
@@ -1209,14 +1206,14 @@ export const WithClientSideFilters: Story = {
           <TableActionBarTrailing>
             <Select
               items={categoryOptions}
-              value={selectedCategory}
-              onValueChange={(val) => updateFilter('category', val)}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                updateFilter('category', val === '__all__' ? null : val)
+              }
             >
               <SelectTrigger
-                render={({ selectedValue, selectedContent }) => (
-                  <MediaButton>
-                    {selectedValue ? selectedContent : 'All categories'}
-                  </MediaButton>
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
               <SelectContent>
@@ -1231,14 +1228,14 @@ export const WithClientSideFilters: Story = {
             </Select>
             <Select
               items={directionOptions}
-              value={selectedDirection}
-              onValueChange={(val) => updateFilter('change', val)}
+              value={selectedDirection ?? '__all__'}
+              onValueChange={(val) =>
+                updateFilter('change', val === '__all__' ? null : val)
+              }
             >
               <SelectTrigger
-                render={({ selectedValue, selectedContent }) => (
-                  <MediaButton>
-                    {selectedValue ? selectedContent : 'All performance'}
-                  </MediaButton>
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
               <SelectContent>
