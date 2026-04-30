@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
+import { Point, PointLabel } from '../Point/Point';
 import { LineChart } from './LineChart';
 
 const meta: Meta<typeof LineChart> = {
@@ -236,4 +237,100 @@ export const WithAreaMultipleSeries: Story = {
       domain: { min: 0, max: 100 },
     },
   },
+};
+
+export const WithPoints: Story = {
+  render: () => (
+    <LineChart series={sampleSeries} height={250} showArea>
+      <Point
+        dataX={9}
+        dataY={4}
+        label='$4.00'
+        color='#C24244'
+        labelPosition='bottom'
+      />
+      <Point
+        dataX={4}
+        dataY={98}
+        label='$98.00'
+        color='#47883A'
+        labelPosition='top'
+      />
+    </LineChart>
+  ),
+};
+
+export const WithCustomLabelComponent: Story = {
+  render: () => (
+    <LineChart series={sampleSeries} height={250} showArea>
+      <Point
+        dataX={9}
+        dataY={4}
+        label='$4.00'
+        color='#C24244'
+        labelPosition='bottom'
+        LabelComponent={({ children, ...props }) => (
+          <PointLabel {...props}>{children}</PointLabel>
+        )}
+      />
+      <Point
+        dataX={4}
+        dataY={98}
+        label='$98'
+        color='#47883A'
+        labelPosition='top'
+        showLabelArrow={false}
+        LabelComponent={({ x, y, children }) => (
+          <g>
+            <rect
+              x={x - 28}
+              y={y - 14}
+              width={56}
+              height={20}
+              rx={4}
+              fill='#47883A'
+            />
+            <PointLabel
+              x={x}
+              y={y}
+              style={{ fill: '#fff', fontSize: 11, fontWeight: 500 }}
+            >
+              {children}
+            </PointLabel>
+          </g>
+        )}
+      />
+      <Point
+        dataX={12}
+        dataY={21}
+        label='Low'
+        color='#C24244'
+        labelPosition='bottom'
+        showLabelArrow={false}
+        LabelComponent={({ x, y, children }) => (
+          <g>
+            <rect
+              x={x - 24}
+              y={y}
+              width={48}
+              height={22}
+              rx={6}
+              fill='#C24244'
+            />
+            <polygon
+              points={`${x - 4},${y} ${x},${y - 5} ${x + 4},${y}`}
+              fill='#C24244'
+            />
+            <PointLabel
+              x={x}
+              y={y + 14}
+              style={{ fill: '#fff', fontSize: 11, fontWeight: 600 }}
+            >
+              {children}
+            </PointLabel>
+          </g>
+        )}
+      />
+    </LineChart>
+  ),
 };
