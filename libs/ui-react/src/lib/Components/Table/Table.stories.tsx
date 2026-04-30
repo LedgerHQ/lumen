@@ -1,9 +1,10 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Android, ArrowDown } from '../../Symbols';
 import { Button } from '../Button/Button';
 import { DotIcon } from '../DotIcon/DotIcon';
+import { MediaButton } from '../MediaButton';
 import { MediaImage } from '../MediaImage';
 import { SearchInput } from '../SearchInput/SearchInput';
 import {
