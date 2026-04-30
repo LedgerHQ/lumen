@@ -54,7 +54,7 @@ export const spotDotIconSizeMap = {
 
 export const dotIconSizeMap: Record<DotIconSize, IconSize> = {
   16: 12,
-  20: 12,
+  20: 16,
   24: 16,
 };
 
