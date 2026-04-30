@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
-import type { PointProps } from './types';
+import type { PointLabelProps, PointProps } from './types';
 import {
   buildArrowPoints,
   computeLabelY,
@@ -14,12 +14,34 @@ import {
   STROKE_WIDTH,
 } from './utils';
 
+export function PointLabel({
+  style,
+  textAnchor = 'middle',
+  dominantBaseline = 'auto',
+  ...props
+}: PointLabelProps) {
+  return (
+    <text
+      textAnchor={textAnchor}
+      dominantBaseline={dominantBaseline}
+      style={{
+        fill: cssVar('var(--text-base)'),
+        fontSize: cssVar('var(--font-style-body-4-size)'),
+        fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
+        fontFamily: cssVar('var(--font-family-font)'),
+        ...style,
+      }}
+      {...props}
+    />
+  );
+}
+
 export function Point({
   dataX,
   dataY,
   color,
   label,
-  labelComponent,
+  LabelComponent,
   labelPosition = 'top',
   hidePoint = false,
   showLabelArrow = true,
@@ -44,9 +66,11 @@ export function Point({
   }
 
   const resolvedLabel = resolveLabel(label, dataX);
-  const hasLabel = labelComponent != null || resolvedLabel != null;
+  const hasLabel = resolvedLabel != null;
   const renderArrow = showLabelArrow && hasLabel;
   const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
+
+  const Label = LabelComponent ?? PointLabel;
 
   return (
     <g
@@ -74,25 +98,10 @@ export function Point({
           style={{ fill: cssVar('var(--text-base)') }}
         />
       )}
-      {labelComponent && (
-        <g transform={`translate(${pixel.x},${labelY})`}>{labelComponent}</g>
-      )}
-      {!labelComponent && resolvedLabel != null && (
-        <text
-          data-testid='point-label'
-          x={pixel.x}
-          y={labelY}
-          textAnchor='middle'
-          dominantBaseline='auto'
-          style={{
-            fill: cssVar('var(--text-base)'),
-            fontSize: cssVar('var(--font-style-body-4-size)'),
-            fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-            fontFamily: cssVar('var(--font-family-font)'),
-          }}
-        >
+      {resolvedLabel != null && (
+        <Label x={pixel.x} y={labelY}>
           {resolvedLabel}
-        </text>
+        </Label>
       )}
     </g>
   );
