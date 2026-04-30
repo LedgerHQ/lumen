@@ -91,5 +91,5 @@ export const projectPoint = (
   const y = isCategoricalScale(yScale)
     ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
     : yScale(dataY);
-  return { x: x as number, y };
+  return { x: x, y };
 };
