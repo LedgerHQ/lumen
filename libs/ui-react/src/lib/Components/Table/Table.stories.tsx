@@ -563,8 +563,9 @@ const categorizedData = [
 ];
 
 const categoryFilterOptions = [
+  { value: '__all__', label: 'All categories' },
   ...new Set(categorizedData.map((d) => d.category)),
-].map((c) => ({ value: c, label: c }));
+].map((c) => (typeof c === 'string' ? { value: c, label: c } : c));
 
 export const WithActionBarAndSelectTrigger: Story = {
   render: (args) => {
@@ -589,14 +590,14 @@ export const WithActionBarAndSelectTrigger: Story = {
           <TableActionBarTrailing>
             <Select
               items={categoryFilterOptions}
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setSelectedCategory(val === '__all__' ? null : val)
+              }
             >
               <SelectTrigger
-                render={({ selectedValue, selectedContent }) => (
-                  <MediaButton>
-                    {selectedValue ? selectedContent : 'All categories'}
-                  </MediaButton>
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
               <SelectContent>

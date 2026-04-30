@@ -676,7 +676,7 @@ export const InfoStateVariants: Story = {
           <DialogContent>
             <DialogHeader density='compact' className='relative' />
             <DialogBody>
-              <div className='flex flex-col items-center gap-24 overflow-hidden'>
+              <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
                 <Spot appearance='error' size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
@@ -707,7 +707,7 @@ export const InfoStateVariants: Story = {
           <DialogContent>
             <DialogHeader density='compact' className='relative' />
             <DialogBody>
-              <div className='flex flex-col items-center gap-24 overflow-hidden'>
+              <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
                 <Spot appearance='check' size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
@@ -738,7 +738,7 @@ export const InfoStateVariants: Story = {
           <DialogContent>
             <DialogHeader density='compact' className='relative' />
             <DialogBody>
-              <div className='flex flex-col items-center gap-24 overflow-hidden'>
+              <div className='relative flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
                 <Spot appearance='info' size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
@@ -776,7 +776,7 @@ export const InfoStateVariants: Story = {
   <DialogContent>
     <DialogHeader density="compact" className="relative" />
     <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
+      <div className="relative flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error" />
         <Spot appearance="error" size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
@@ -804,7 +804,7 @@ export const InfoStateVariants: Story = {
   <DialogContent>
     <DialogHeader density="compact" className="relative" />
     <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
+      <div className="relative flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success" />
         <Spot appearance="check" size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
@@ -832,7 +832,7 @@ export const InfoStateVariants: Story = {
   <DialogContent>
     <DialogHeader density="compact" className="relative" />
     <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
+      <div className="relative flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted" />
         <Spot appearance="info" size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
