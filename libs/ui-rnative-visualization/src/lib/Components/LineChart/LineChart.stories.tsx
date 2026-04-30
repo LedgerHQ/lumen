@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { useCallback } from 'react';
 import { View } from 'react-native';
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 
+import { Point } from '../Point/Point';
 import { LineChart } from './LineChart';
 
 const meta = {
@@ -296,5 +298,43 @@ export const WithAreaMultipleSeries: Story = {
       showLine: true,
       domain: { min: 0, max: 100 },
     },
+  },
+};
+
+export const WithPoints: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  render: () => {
+    const data = [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58];
+    const minPrice = Math.min(...data);
+    const maxPrice = Math.max(...data);
+
+    const minPriceIndex = data.indexOf(minPrice);
+    const maxPriceIndex = data.indexOf(maxPrice);
+
+    const formatPrice = useCallback((price: number) => {
+      return `$${price.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
+    }, []);
+    return (
+      <LineChart showArea series={sampleSeries}>
+        <Point
+          dataX={minPriceIndex}
+          dataY={minPrice}
+          label={formatPrice(minPrice)}
+          labelPosition='bottom'
+        />
+        <Point
+          dataX={maxPriceIndex}
+          dataY={maxPrice}
+          label={formatPrice(maxPrice)}
+          labelPosition='top'
+        />
+      </LineChart>
+    );
   },
 };
