@@ -77,7 +77,15 @@ describe('Point', () => {
   });
 
   it('renders custom LabelComponent', () => {
-    const CustomLabel = ({ x, y, children }: { x: number; y: number; children: string }) => (
+    const CustomLabel = ({
+      x,
+      y,
+      children,
+    }: {
+      x: number;
+      y: number;
+      children: string;
+    }) => (
       <SvgText testID='custom-label' x={x} y={y}>
         {children}
       </SvgText>
@@ -91,9 +99,13 @@ describe('Point', () => {
   });
 
   it('does not render LabelComponent when label is absent', () => {
-    const CustomLabel = ({ children }: { x: number; y: number; children: string }) => (
-      <SvgText testID='custom-label'>{children}</SvgText>
-    );
+    const CustomLabel = ({
+      children,
+    }: {
+      x: number;
+      y: number;
+      children: string;
+    }) => <SvgText testID='custom-label'>{children}</SvgText>;
 
     const { queryByTestId } = renderInChart(
       <Point dataX={2} dataY={30} LabelComponent={CustomLabel} />,
