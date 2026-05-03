@@ -19,7 +19,7 @@ export function PointLabel({
   textAnchor = 'middle',
   dominantBaseline = 'auto',
   ...props
-}: PointLabelProps) {
+}: Readonly<PointLabelProps>) {
   return (
     <text
       textAnchor={textAnchor}
