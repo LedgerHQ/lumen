@@ -155,6 +155,37 @@ describe('Point', () => {
     );
     expect(queryByTestId('point-arrow')).toBeNull();
   });
+
+  it('renders label below the point when labelPosition is bottom', () => {
+    const topSpy = jest.fn(
+      ({ y }: { x: number; y: number; children: string }) => (
+        <SvgText>{y}</SvgText>
+      ),
+    );
+    const bottomSpy = jest.fn(
+      ({ y }: { x: number; y: number; children: string }) => (
+        <SvgText>{y}</SvgText>
+      ),
+    );
+
+    renderInChart(
+      <Point dataX={2} dataY={30} label='T' LabelComponent={topSpy} />,
+    );
+    renderInChart(
+      <Point
+        dataX={2}
+        dataY={30}
+        label='B'
+        labelPosition='bottom'
+        LabelComponent={bottomSpy}
+      />,
+    );
+
+    const topY = topSpy.mock.calls[0][0].y;
+    const bottomY = bottomSpy.mock.calls[0][0].y;
+    expect(bottomY).toBeGreaterThan(topY);
+  });
+
   it('calls onPress when the point is pressed', () => {
     const onPress = jest.fn();
     const { getByTestId } = renderInChart(

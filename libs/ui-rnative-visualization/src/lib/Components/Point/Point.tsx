@@ -15,21 +15,21 @@ import {
   STROKE_WIDTH,
 } from './utils';
 
-export function PointLabel({ x, y, children }: PointLabelProps) {
+export function PointLabel({
+  textAnchor = 'middle',
+  ...props
+}: Readonly<PointLabelProps>) {
   const { theme } = useTheme();
 
   return (
     <SvgText
-      x={x}
-      y={y}
-      textAnchor='middle'
+      textAnchor={textAnchor}
       fill={theme.colors.text.base}
       fontSize={theme.typographies.body4.fontSize}
       fontWeight={theme.typographies.body4.fontWeight}
       fontFamily={theme.fontFamilies.sans}
-    >
-      {children}
-    </SvgText>
+      {...props}
+    />
   );
 }
 

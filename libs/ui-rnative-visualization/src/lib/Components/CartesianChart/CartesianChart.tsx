@@ -21,7 +21,7 @@ export function CartesianChart({
   axisPadding,
   ariaLabel = 'Chart',
   children,
-}: CartesianChartProps) {
+}: Readonly<CartesianChartProps>) {
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
   const needsMeasurement = width === undefined;

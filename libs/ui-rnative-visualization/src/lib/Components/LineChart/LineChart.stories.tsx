@@ -1,9 +1,11 @@
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useCallback } from 'react';
 import { View } from 'react-native';
+import { G } from 'react-native-svg';
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 
-import { Point } from '../Point/Point';
+import { Point, PointLabel } from '../Point/Point';
 import { LineChart } from './LineChart';
 
 const meta = {
@@ -333,6 +335,52 @@ export const WithPoints: Story = {
           dataY={maxPrice}
           label={formatPrice(maxPrice)}
           labelPosition='top'
+        />
+      </LineChart>
+    );
+  },
+};
+
+export const WithCustomLabelComponent: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  render: () => {
+    const { theme } = useTheme();
+    return (
+      <LineChart
+        series={sampleSeries}
+        height={250}
+        inset={{ top: 15 }}
+        showArea
+      >
+        <Point
+          dataX={9}
+          dataY={4}
+          label='$4.00'
+          color={theme.colors.bg.errorStrong}
+          labelPosition='bottom'
+          LabelComponent={({ children, ...props }) => (
+            <PointLabel {...props}>{children}</PointLabel>
+          )}
+        />
+        <Point
+          dataX={4}
+          dataY={98}
+          label='$98.00'
+          color={theme.colors.bg.successStrong}
+          labelPosition='top'
+          LabelComponent={({ x, y, children }) => (
+            <G>
+              <PointLabel x={x} y={y - 16}>
+                {children}
+              </PointLabel>
+              <PointLabel x={x} y={y} fontSize={10}>
+                +5.2%
+              </PointLabel>
+            </G>
+          )}
         />
       </LineChart>
     );

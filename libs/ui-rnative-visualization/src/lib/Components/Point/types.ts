@@ -1,11 +1,12 @@
 import type { ComponentType } from 'react';
 import type { GestureResponderEvent } from 'react-native';
+import type { TextProps } from 'react-native-svg';
 
 export type PointLabelProps = {
   x: number;
   y: number;
   children: string;
-};
+} & Omit<TextProps, 'x' | 'y' | 'children'>;
 
 export type PointLabelComponent = ComponentType<PointLabelProps>;
 
