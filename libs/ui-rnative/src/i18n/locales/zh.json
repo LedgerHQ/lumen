@@ -31,6 +31,11 @@
     },
     "stepper": {
       "progressAriaLabel": "第 {{currentStep}} 步，共 {{totalSteps}} 步"
+    },
+    "trend": {
+      "positiveAriaLabel": "上升 {{value}}",
+      "negativeAriaLabel": "下降 {{value}}",
+      "neutralAriaLabel": "无变化，{{value}}"
     }
   }
 }
