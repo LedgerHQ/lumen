@@ -1,5 +1,6 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
+import { useCommonTranslation } from '../../../i18n';
 import type { LumenTextStyle } from '../../../styles';
 import { useStyleSheet } from '../../../styles';
 import { Minus, TriangleDown, TriangleUp } from '../../Symbols';
@@ -22,6 +23,7 @@ export function Trend({
     consumerName: 'Trend',
     mergeWith: { disabled: disabledProp },
   });
+  const { t } = useCommonTranslation();
 
   const styles = useStyles({ size, variant, disabled });
 
@@ -46,8 +48,20 @@ export function Trend({
     } as const
   )[variant] as LumenTextStyle['color'];
 
+  const formattedValue = `${Math.abs(value).toFixed(2)}%`;
+  const accessibilityLabel = t(`components.trend.${variant}AriaLabel`, {
+    value: formattedValue,
+  });
+
   return (
-    <Box lx={lx} style={styles.container} {...props}>
+    <Box
+      accessible
+      accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled }}
+      lx={lx}
+      style={styles.container}
+      {...props}
+    >
       <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
       <Text style={styles.text}>{value.toFixed(2)}%</Text>
     </Box>

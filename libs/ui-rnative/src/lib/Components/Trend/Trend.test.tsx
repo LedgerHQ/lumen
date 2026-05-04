@@ -95,4 +95,31 @@ describe('Trend Component', () => {
     expect(getByText('-10.00%')).toBeTruthy();
     expect(getByText('0.00%')).toBeTruthy();
   });
+
+  it('should expose positive accessibility label', () => {
+    const { getByLabelText } = render(
+      <TestWrapper>
+        <Trend value={5.5} />
+      </TestWrapper>,
+    );
+    expect(getByLabelText('Trending up by 5.50%')).toBeTruthy();
+  });
+
+  it('should expose negative accessibility label with absolute value', () => {
+    const { getByLabelText } = render(
+      <TestWrapper>
+        <Trend value={-3.2} />
+      </TestWrapper>,
+    );
+    expect(getByLabelText('Trending down by 3.20%')).toBeTruthy();
+  });
+
+  it('should expose neutral accessibility label', () => {
+    const { getByLabelText } = render(
+      <TestWrapper>
+        <Trend value={0} />
+      </TestWrapper>,
+    );
+    expect(getByLabelText('No change, 0.00%')).toBeTruthy();
+  });
 });
