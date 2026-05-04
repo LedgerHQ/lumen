@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import type { CartesianChartProps } from './types';
 import {
@@ -18,9 +19,12 @@ export function CartesianChart({
   inset,
   axisPadding,
   ariaLabel = 'Chart',
+  enableScrubbing = false,
+  onScrubberPositionChange,
   children,
 }: CartesianChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(
     typeof width === 'number' ? width : undefined,
   );
@@ -69,15 +73,31 @@ export function CartesianChart({
 
   const svgContent = (
     <svg
+      ref={svgRef}
       data-testid='chart-svg'
       width={resolvedWidth}
       height={height}
       role='img'
       aria-label={ariaLabel || 'Chart'}
-      style={{ display: 'block', overflow: 'visible' }}
+      tabIndex={enableScrubbing ? 0 : undefined}
+      style={{
+        display: 'block',
+        overflow: 'visible',
+        outline: enableScrubbing ? 'none' : undefined,
+      }}
     >
       <CartesianChartProvider value={contextValue}>
-        {children}
+        {enableScrubbing ? (
+          <ScrubberProvider
+            svgRef={svgRef}
+            enableScrubbing={enableScrubbing}
+            onScrubberPositionChange={onScrubberPositionChange}
+          >
+            {children}
+          </ScrubberProvider>
+        ) : (
+          children
+        )}
       </CartesianChartProvider>
     </svg>
   );
