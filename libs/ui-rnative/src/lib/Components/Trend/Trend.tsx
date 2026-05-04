@@ -49,21 +49,20 @@ export function Trend({
   )[variant] as LumenTextStyle['color'];
 
   const formattedValue = `${Math.abs(value).toFixed(2)}%`;
-  const accessibilityLabel = t(`components.trend.${variant}AriaLabel`, {
-    value: formattedValue,
-  });
 
   return (
     <Box
       accessible
-      accessibilityLabel={accessibilityLabel}
+      accessibilityLabel={t(`components.trend.${variant}AriaLabel`, {
+        value: formattedValue,
+      })}
       accessibilityState={{ disabled }}
       lx={lx}
       style={styles.container}
       {...props}
     >
       <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
-      <Text style={styles.text}>{value.toFixed(2)}%</Text>
+      <Text style={styles.text}>{formattedValue}</Text>
     </Box>
   );
 }
