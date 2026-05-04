@@ -76,30 +76,33 @@ const useStyles = ({
   variant: TrendVariant;
   disabled: boolean;
 }) =>
-  useStyleSheet((t) => {
-    const color = {
-      positive: t.colors.text.success,
-      negative: t.colors.text.error,
-      neutral: t.colors.text.muted,
-    }[variant];
+  useStyleSheet(
+    (t) => {
+      const color = {
+        positive: t.colors.text.success,
+        negative: t.colors.text.error,
+        neutral: t.colors.text.muted,
+      }[variant];
 
-    const sizeMap = {
-      sm: t.typographies.body3,
-      md: t.typographies.body2,
-    }[size];
+      const sizeMap = {
+        sm: t.typographies.body3,
+        md: t.typographies.body2,
+      }[size];
 
-    return {
-      container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: t.spacings.s2,
-      },
-      text: StyleSheet.flatten([
-        {
-          ...sizeMap,
-          color,
+      return {
+        container: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: t.spacings.s2,
         },
-        disabled && { color: t.colors.text.disabled },
-      ]),
-    };
-  }, []);
+        text: StyleSheet.flatten([
+          {
+            ...sizeMap,
+            color,
+          },
+          disabled && { color: t.colors.text.disabled },
+        ]),
+      };
+    },
+    [size, variant, disabled],
+  );
