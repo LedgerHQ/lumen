@@ -117,7 +117,7 @@ export type TableCellContentProps = {
    */
   leadingContent?: ReactNode;
   /**
-   * The title of the cell
+   * The title of the cell.
    */
   title?: ReactNode;
   /**
