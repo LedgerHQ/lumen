@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
 import { LineChart } from './LineChart';
 
-const meta: Meta<typeof LineChart> = {
+const meta = {
   component: LineChart,
   title: 'Visualization/LineChart',
   tags: ['experimental'],
@@ -18,7 +18,7 @@ const meta: Meta<typeof LineChart> = {
       );
     },
   ],
-};
+} satisfies Meta<typeof LineChart>;
 
 export default meta;
 type Story = StoryObj<typeof LineChart>;
@@ -46,7 +46,7 @@ const multiSeries = [
   },
 ];
 
-export const Basic: Story = {
+export const Base: Story = {
   args: {
     series: sampleSeries,
     height: 250,
