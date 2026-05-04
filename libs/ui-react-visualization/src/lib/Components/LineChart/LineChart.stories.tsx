@@ -1,8 +1,6 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
-import { Point, PointLabel } from '../Point/Point';
 import { LineChart } from './LineChart';
 
 const meta = {
@@ -238,59 +236,4 @@ export const WithAreaMultipleSeries: Story = {
       domain: { min: 0, max: 100 },
     },
   },
-};
-
-export const WithPoints: Story = {
-  render: () => (
-    <LineChart series={sampleSeries} height={250} showArea>
-      <Point
-        dataX={9}
-        dataY={4}
-        label='$4.00'
-        color={cssVar('var(--background-error-strong)')}
-        labelPosition='bottom'
-      />
-      <Point
-        dataX={4}
-        dataY={98}
-        label='$98.00'
-        color={cssVar('var(--background-success-strong)')}
-        labelPosition='top'
-      />
-    </LineChart>
-  ),
-};
-
-export const WithCustomLabelComponent: Story = {
-  render: () => (
-    <LineChart series={sampleSeries} height={250} inset={{ top: 15 }} showArea>
-      <Point
-        dataX={9}
-        dataY={4}
-        label='$4.00'
-        color={cssVar('var(--background-error-strong)')}
-        labelPosition='bottom'
-        LabelComponent={({ children, ...props }) => (
-          <PointLabel {...props}>{children}</PointLabel>
-        )}
-      />
-      <Point
-        dataX={4}
-        dataY={98}
-        label='$98.00'
-        color={cssVar('var(--background-success-strong)')}
-        labelPosition='top'
-        LabelComponent={({ x, y, children }) => (
-          <g>
-            <PointLabel x={x} y={y - 16}>
-              {children}
-            </PointLabel>
-            <PointLabel x={x} y={y} style={{ fontSize: 10 }}>
-              +5.2%
-            </PointLabel>
-          </g>
-        )}
-      />
-    </LineChart>
-  ),
 };
