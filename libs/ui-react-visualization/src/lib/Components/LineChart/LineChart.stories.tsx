@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef, useState } from 'react';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
+import { Scrubber } from '../Scrubber/Scrubber';
 import { LineChart } from './LineChart';
 
 const meta = {
@@ -236,4 +238,68 @@ export const WithAreaMultipleSeries: Story = {
       domain: { min: 0, max: 100 },
     },
   },
+};
+
+const initialRealData = [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58];
+
+const RealDataChart = () => {
+  const [priceData, setPriceData] = useState(initialRealData);
+  const lastDataPointTimeRef = useRef(Date.now());
+
+  const intervalSeconds = 3600 / initialRealData.length;
+  const maxPercentChange =
+    Math.abs(initialRealData[initialRealData.length - 1] - initialRealData[0]) *
+    0.05;
+
+  useEffect(() => {
+    const priceUpdateInterval = setInterval(
+      () => {
+        setPriceData((currentData) => {
+          const newData = [...currentData];
+          const lastPrice = newData[newData.length - 1];
+
+          const priceChange = (Math.random() - 0.5) * maxPercentChange;
+          const newPrice = Math.round((lastPrice + priceChange) * 100) / 100;
+
+          const currentTime = Date.now();
+          const timeSinceLastPoint =
+            (currentTime - lastDataPointTimeRef.current) / 1000;
+
+          if (timeSinceLastPoint >= intervalSeconds) {
+            lastDataPointTimeRef.current = currentTime;
+            newData.shift();
+            newData.push(newPrice);
+          } else {
+            newData[newData.length - 1] = newPrice;
+          }
+
+          return newData;
+        });
+      },
+      2000 + Math.random() * 1000,
+    );
+
+    return () => clearInterval(priceUpdateInterval);
+  }, [intervalSeconds, maxPercentChange]);
+
+  return (
+    <LineChart
+      enableScrubbing
+      showArea
+      height={250}
+      series={[
+        {
+          id: 'prices',
+          data: priceData,
+          stroke: '#7B61FF',
+        },
+      ]}
+    >
+      <Scrubber />
+    </LineChart>
+  );
+};
+
+export const WithRealData: Story = {
+  render: () => <RealDataChart />,
 };
