@@ -167,7 +167,7 @@ export const TableRow = ({
   );
 };
 
-const headerRowVariants = cva('sticky top-0 z-10', {
+const headerRowVariants = cva('sticky top-0 z-table-header', {
   variants: {
     appearance: {
       'no-background': 'bg-canvas',

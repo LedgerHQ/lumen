@@ -28,6 +28,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
   );
 
   const zIndex = {
+    'table-header': '20',
     'dialog-overlay': '90',
     'dialog-content': '100',
     select: '120',
