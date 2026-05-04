@@ -19,6 +19,17 @@ export type PointProps = {
   dataY: number;
   /**
    * Fill color of the point circle.
+   * Defaults to `var(--background-muted-strong)`.
+   *
+   * Use the `cssVar` helper from `@ledgerhq/lumen-design-core` to
+   * resolve a design-token CSS variable at runtime:
+   *
+   * @example
+   * ```tsx
+   * import { cssVar } from '@ledgerhq/lumen-design-core';
+   *
+   * <Point dataX={0} dataY={42} color={cssVar('var(--background-error-strong)')} />
+   * ```
    */
   color?: string;
   /**
