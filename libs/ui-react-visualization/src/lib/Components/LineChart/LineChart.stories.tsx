@@ -46,7 +46,7 @@ const multiSeries = [
   },
 ];
 
-export const Basic: Story = {
+export const Base: Story = {
   args: {
     series: sampleSeries,
     height: 250,
