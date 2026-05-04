@@ -21,6 +21,18 @@ export type PointProps = {
   dataY: number;
   /**
    * Fill color of the point circle.
+   * Defaults to `theme.colors.bg.mutedStrong`.
+   *
+   * Use the `useTheme` hook from `@ledgerhq/lumen-ui-rnative` to
+   * access design-token colors at runtime:
+   *
+   * @example
+   * ```tsx
+   * import { useTheme } from '@ledgerhq/lumen-ui-rnative';
+   *
+   * const { theme } = useTheme();
+   * <Point dataX={0} dataY={42} color={theme.colors.bg.errorStrong} />
+   * ```
    */
   color?: string;
   /**

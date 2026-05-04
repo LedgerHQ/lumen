@@ -1,11 +1,7 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useCallback } from 'react';
 import { View } from 'react-native';
-import { G } from 'react-native-svg';
-import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 
-import { Point, PointLabel } from '../Point/Point';
+import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from './LineChart';
 
 const meta = {
@@ -300,89 +296,5 @@ export const WithAreaMultipleSeries: Story = {
       showLine: true,
       domain: { min: 0, max: 100 },
     },
-  },
-};
-
-export const WithPoints: Story = {
-  parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
-  },
-  render: () => {
-    const data = [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58];
-    const minPrice = Math.min(...data);
-    const maxPrice = Math.max(...data);
-
-    const minPriceIndex = data.indexOf(minPrice);
-    const maxPriceIndex = data.indexOf(maxPrice);
-
-    const formatPrice = useCallback((price: number) => {
-      return `$${price.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`;
-    }, []);
-    return (
-      <LineChart showArea series={sampleSeries}>
-        <Point
-          dataX={minPriceIndex}
-          dataY={minPrice}
-          label={formatPrice(minPrice)}
-          labelPosition='bottom'
-        />
-        <Point
-          dataX={maxPriceIndex}
-          dataY={maxPrice}
-          label={formatPrice(maxPrice)}
-          labelPosition='top'
-        />
-      </LineChart>
-    );
-  },
-};
-
-export const WithCustomLabelComponent: Story = {
-  parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
-  },
-  render: () => {
-    const { theme } = useTheme();
-    return (
-      <LineChart
-        series={sampleSeries}
-        height={250}
-        inset={{ top: 15 }}
-        showArea
-      >
-        <Point
-          dataX={9}
-          dataY={4}
-          label='$4.00'
-          color={theme.colors.bg.errorStrong}
-          labelPosition='bottom'
-          LabelComponent={({ children, ...props }) => (
-            <PointLabel {...props}>{children}</PointLabel>
-          )}
-        />
-        <Point
-          dataX={4}
-          dataY={98}
-          label='$98.00'
-          color={theme.colors.bg.successStrong}
-          labelPosition='top'
-          LabelComponent={({ x, y, children }) => (
-            <G>
-              <PointLabel x={x} y={y - 16}>
-                {children}
-              </PointLabel>
-              <PointLabel x={x} y={y} fontSize={10}>
-                +5.2%
-              </PointLabel>
-            </G>
-          )}
-        />
-      </LineChart>
-    );
   },
 };

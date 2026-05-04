@@ -1,3 +1,5 @@
+import type { DrawingArea } from '../../utils/types';
+
 export const DEFAULT_SIZE = 10;
 export const STROKE_WIDTH = 2;
 export const LABEL_FONT_SIZE = 10;
@@ -8,7 +10,7 @@ export const GAP = 4;
 export const isWithinBounds = (
   px: number,
   py: number,
-  area: { x: number; y: number; width: number; height: number },
+  area: DrawingArea,
 ): boolean =>
   px >= area.x &&
   px <= area.x + area.width &&
