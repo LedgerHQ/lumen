@@ -48,8 +48,8 @@ export type ScrubberProps = {
    */
   hideOverlay?: boolean;
   /**
-   * Hides the beacon dots on each series at the scrubbed data index.
-   * @default false
+   * Shows the beacon dots on each series at the scrubbed data index.
+   * @default true
    */
-  hideBeacons?: boolean;
+  showBeacons?: boolean;
 };

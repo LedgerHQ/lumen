@@ -60,7 +60,7 @@ export function Scrubber({
   label,
   hideLine = false,
   hideOverlay = false,
-  hideBeacons = false,
+  showBeacons = false,
 }: ScrubberProps) {
   const lineGradientId = useId();
   const { scrubberPosition } = useScrubberContext();
@@ -73,7 +73,7 @@ export function Scrubber({
   }, [scrubberPosition, getXScale]);
 
   const beacons = useMemo(() => {
-    if (scrubberPosition === undefined || hideBeacons) return [];
+    if (scrubberPosition === undefined || !showBeacons) return [];
     return series
       .map((s) => {
         const seriesData = seriesMap.get(s.id)?.data;
@@ -84,7 +84,7 @@ export function Scrubber({
       .filter(
         (b): b is { id: string; stroke: string; pixelY: number } => b !== null,
       );
-  }, [scrubberPosition, hideBeacons, series, seriesMap, getYScale]);
+  }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
 
   const resolvedLabel = useMemo(() => {
     if (scrubberPosition === undefined || !label) return undefined;
@@ -144,12 +144,13 @@ export function Scrubber({
       {!hideOverlay && (
         <rect
           data-testid='scrubber-overlay'
-          x={pixelX}
+          x={pixelX + 0.5}
           y={drawY - BEACON_RADIUS}
           width={Math.max(0, drawX + drawWidth - (pixelX - BEACON_RADIUS))}
           height={drawHeight + BEACON_RADIUS}
-          fill={cssVar('var(--background-canvas)')}
+          fill={cssVar('var(--background-base)')}
           opacity={0.7}
+          filter='blur(0.2)'
         />
       )}
 
@@ -170,7 +171,7 @@ export function Scrubber({
         </text>
       )}
 
-      {!hideBeacons &&
+      {showBeacons &&
         beacons.map((beacon) => (
           <circle
             key={beacon.id}
