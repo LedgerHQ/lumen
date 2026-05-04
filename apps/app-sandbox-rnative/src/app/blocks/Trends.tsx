@@ -15,6 +15,10 @@ export function Trends() {
         <Trend value={0} size='sm' />
         <Trend value={0} size='md' />
       </Box>
+      <Box lx={{ gap: 's16', flexDirection: 'row' }}>
+        <Trend value={6.1} size='sm' disabled />
+        <Trend value={6.1} size='md' disabled />
+      </Box>
     </Box>
   );
 }

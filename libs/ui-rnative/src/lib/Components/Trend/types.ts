@@ -11,4 +11,10 @@ export type TrendProps = {
    * @default md
    */
   size?: 'sm' | 'md';
+  /**
+   * When `true`, shows a muted appearance on the trend, regardless of value.
+   *
+   * @default false
+   */
+  disabled?: boolean;
 } & Omit<BoxProps, 'children'>;

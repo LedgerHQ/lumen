@@ -1,3 +1,5 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { StyleSheet } from 'react-native';
 import type { LumenTextStyle } from '../../../styles';
 import { useStyleSheet } from '../../../styles';
 import { Minus, TriangleDown, TriangleUp } from '../../Symbols';
@@ -7,9 +9,21 @@ import type { TrendProps } from './types';
 
 type TrendVariant = 'positive' | 'negative' | 'neutral';
 
-export function Trend({ value, size = 'md', lx = {}, ...props }: TrendProps) {
+export function Trend({
+  value,
+  size = 'md',
+  lx = {},
+  disabled: disabledProp = false,
+  ...props
+}: TrendProps) {
   const variant = value === 0 ? 'neutral' : value > 0 ? 'positive' : 'negative';
-  const styles = useStyles({ size, variant });
+
+  const disabled = useDisabledContext({
+    consumerName: 'Trend',
+    mergeWith: { disabled: disabledProp },
+  });
+
+  const styles = useStyles({ size, variant, disabled });
 
   const Icon = {
     positive: TriangleUp,
@@ -34,7 +48,7 @@ export function Trend({ value, size = 'md', lx = {}, ...props }: TrendProps) {
 
   return (
     <Box lx={lx} style={styles.container} {...props}>
-      <Icon size={iconSize} color={iconColor} />
+      <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
       <Text style={styles.text}>{value.toFixed(2)}%</Text>
     </Box>
   );
@@ -43,9 +57,11 @@ export function Trend({ value, size = 'md', lx = {}, ...props }: TrendProps) {
 const useStyles = ({
   size,
   variant,
+  disabled,
 }: {
   size: NonNullable<TrendProps['size']>;
   variant: TrendVariant;
+  disabled: boolean;
 }) =>
   useStyleSheet((t) => {
     const color = {
@@ -65,9 +81,12 @@ const useStyles = ({
         alignItems: 'center',
         gap: t.spacings.s2,
       },
-      text: {
-        ...sizeMap,
-        color,
-      },
+      text: StyleSheet.flatten([
+        {
+          ...sizeMap,
+          color,
+        },
+        disabled && { color: t.colors.text.disabled },
+      ]),
     };
   }, []);
