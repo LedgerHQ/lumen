@@ -1,0 +1,106 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TrendStories from './Trend.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Communication/Trend' of={TrendStories} />
+
+# 📈 Trend
+
+<CustomTabs>
+<Tab label="Overview">
+
+## Introduction
+
+A compact indicator used to communicate directional change in a numeric value, typically a percentage. It combines an icon and a formatted label to convey whether a value has gone up, down, or stayed flat.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=892-5393).
+
+## Anatomy
+
+- **Icon:** A directional triangle (up or down) or a minus symbol that visually reinforces the direction of change at a glance.
+- **Value:** The numeric percentage formatted to exactly two decimal places, ensuring consistent alignment across lists and tables.
+
+## Properties
+
+### Overview
+
+<Canvas of={TrendStories.Base} />
+<Controls of={TrendStories.Base} />
+
+### Variants
+
+The variant is derived automatically from the `value` prop. No manual selection needed! This ensures the color and icon always stay in sync with the actual data.
+
+- **Positive** - value greater than 0: green color, triangle up icon
+- **Negative** - value less than 0: red color, triangle down icon
+- **Neutral** - value equal to 0: muted color, minus icon
+
+<Canvas of={TrendStories.VariantShowcase} />
+
+---
+
+### Size
+
+Two sizes are available to accommodate different layout densities. Use `md` in most contexts and `sm` when space is constrained, such as inside a table cell or a compact list item.
+
+- **md** (default) - standard body text and icon sizes
+- **sm** - smaller text and icon, suitable for dense UIs
+
+<Canvas of={TrendStories.SizeShowcase} />
+
+---
+
+### Disabled
+
+When `disabled` is `true`, the icon and text both render in a muted, non-interactive style regardless of the underlying value. Use this when the data is unavailable, loading, or the surrounding context is non-interactive.
+
+<Canvas of={TrendStories.DisabledShowcase} />
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+Pass any numeric value - the component handles color, icon, and formatting automatically.
+
+```tsx
+import { Trend } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return <Trend value={5.25} />;
+}
+```
+
+### Sizes
+
+Choose `sm` for dense layouts like tables or compact list rows, and `md` for standard content areas.
+
+```tsx
+<Trend value={3.14} size='md' />
+<Trend value={3.14} size='sm' />
+```
+
+### Disabled State
+
+Wrap or pass `disabled` when the value is unavailable or the parent context is non-interactive. The component style updates automatically - no extra styling needed.
+
+```tsx
+<Trend value={5.25} disabled />
+```
+
+### Layout Adjustments
+
+Use `lx` for layout only - not for overriding colors or typography. The component's visual appearance is controlled exclusively via props.
+
+```tsx
+<Trend value={-1.5} lx={{ marginTop: 's4' }} />
+```
+
+</Tab>
+</CustomTabs>
