@@ -167,7 +167,7 @@ export const TableRow = ({
   );
 };
 
-const headerRowVariants = cva('sticky top-0', {
+const headerRowVariants = cva('sticky top-0 z-table-header', {
   variants: {
     appearance: {
       'no-background': 'bg-canvas',
@@ -305,8 +305,8 @@ export const TableCellContent = ({
       {...props}
     >
       <div className='shrink-0'>{leadingContent}</div>
-      <div className='flex flex-col gap-4 truncate'>
-        <div className='truncate body-2 text-base'>{title}</div>
+      <div className='flex min-w-0 flex-col gap-4'>
+        <div className='shrink-0 body-2 text-base'>{title}</div>
         <div className='truncate body-3 text-muted'>{description}</div>
       </div>
     </div>
