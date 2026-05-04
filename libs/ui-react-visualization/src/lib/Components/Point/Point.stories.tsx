@@ -33,7 +33,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Point>;
 
-export const Default: Story = {
+export const Base: Story = {
   render: () => (
     <LineChart series={sampleSeries} height={250} showArea>
       <Point
