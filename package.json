@@ -127,7 +127,6 @@
     "rollup-plugin-visualizer": "^7.0.1",
     "storybook": "10.2.14",
     "style-dictionary": "^4.3.3",
-    "styled-components": "^6.3.8",
     "swc-loader": "0.1.15",
     "tailwindcss": "^4.1.17",
     "ts-jest": "29.4.6",
