@@ -41,7 +41,7 @@ const initializeI18n = (): I18nInstance => {
     ]),
   );
 
-  Object.keys(localeResources).forEach(locale =>
+  Object.keys(localeResources).forEach((locale) =>
     loadedLocales.add(locale as SupportedLocale),
   );
 
