@@ -92,5 +92,7 @@ export const switchLanguage = async (
   locale: SupportedLocale,
 ): Promise<void> => {
   await loadLocale(locale);
-  await i18n.changeLanguage(locale);
+  if (i18n.language !== locale) {
+    await i18n.changeLanguage(locale);
+  }
 };
