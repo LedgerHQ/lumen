@@ -270,6 +270,12 @@ When working on a single component, publish only its directory:
 figma connect publish --dir libs/ui-react/src/lib/Components/YourComponent/
 ```
 
+#### Publish Symbol Library (Icons & CryptoIcons)
+To publish Code Connect for the Symbol Library (Icons and CryptoIcons), use the dedicated config:
+```bash
+npx figma connect publish --config libs/ui-react/figma.symbol-lib.config.json
+```
+
 #### Remove Broken Connections
 If a component connection is broken, unpublish it by node URL, and label, specified in figma.config.json:
 ```bash

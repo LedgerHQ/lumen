@@ -1,4 +1,4 @@
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { MoreHorizontal, Settings } from '../../Symbols';
 import { IconButton } from '../IconButton';
@@ -111,7 +111,7 @@ export const WithCoinCapsule: Story = {
       <NavBarContent>
         <NavBarCoinCapsule
           ticker='BTC'
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
         />
       </NavBarContent>
       <NavBarTrailing>

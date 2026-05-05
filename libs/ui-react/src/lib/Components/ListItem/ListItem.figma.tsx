@@ -57,10 +57,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -70,7 +70,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -149,10 +149,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -162,7 +162,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -241,10 +241,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -254,7 +254,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -337,10 +337,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -350,7 +350,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -429,10 +429,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -442,7 +442,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -521,10 +521,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -534,7 +534,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -608,10 +608,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -621,7 +621,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),

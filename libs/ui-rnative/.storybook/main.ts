@@ -32,7 +32,16 @@ const config: StorybookConfig = {
       '@sbaiahmed1/react-native-blur': fileURLToPath(
         new URL('./mocks/blur.tsx', import.meta.url),
       ),
+      '@ledgerhq/lumen-ui-rnative': fileURLToPath(
+        new URL('../src/index.ts', import.meta.url),
+      ),
     };
+
+    config.optimizeDeps = config.optimizeDeps || {};
+    config.optimizeDeps.exclude = [
+      ...(config.optimizeDeps.exclude ?? []),
+      '@ledgerhq/lumen-ui-rnative',
+    ];
 
     return mergeConfig(config, {
       plugins: [nxViteTsPaths()],

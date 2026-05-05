@@ -3,6 +3,10 @@
     "include": [
       "libs/ui-react/src/lib/Components/**/*.{tsx,jsx}"
     ],
+    "exclude": [
+      "libs/ui-react/src/lib/Components/CryptoIcon/**",
+      "libs/ui-react/src/lib/Components/Icon/Icon.figma.tsx"
+    ],
     "label": "React",
     "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7"
   }

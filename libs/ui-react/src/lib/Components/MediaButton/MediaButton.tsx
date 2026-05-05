@@ -51,7 +51,7 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
  * </MediaButton>
  *
  * // With rounded crypto icon
- * <MediaButton icon={<CryptoIcon ledgerId="bitcoin" size="32px" />} iconType="rounded">
+ * <MediaButton icon={<CryptoIcon ledgerId="bitcoin" size={32} />} iconType="rounded">
  *   Bitcoin
  * </MediaButton>
  *
