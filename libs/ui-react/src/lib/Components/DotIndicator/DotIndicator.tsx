@@ -7,7 +7,8 @@ const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
     size: {
       xs: 'size-10',
       sm: 'size-12',
-      md: 'size-16',
+      md: 'size-14',
+      lg: 'size-16',
     },
     appearance: {
       base: 'bg-interactive',

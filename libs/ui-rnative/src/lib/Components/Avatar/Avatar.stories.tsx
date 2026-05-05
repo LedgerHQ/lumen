@@ -77,6 +77,15 @@ export const SizeShowcase: Story = {
         />
         <Text style={{ marginTop: 4 }}>lg</Text>
       </View>
+      <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
+        <Avatar
+          src={exampleSrc}
+          alt='avatar'
+          size='xl'
+          showNotification={false}
+        />
+        <Text style={{ marginTop: 4 }}>xl</Text>
+      </View>
     </Box>
   ),
 };

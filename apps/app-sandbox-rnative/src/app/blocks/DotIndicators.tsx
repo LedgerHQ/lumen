@@ -7,6 +7,7 @@ export function DotIndicators() {
         <DotIndicator size='xs' />
         <DotIndicator size='sm' />
         <DotIndicator size='md' />
+        <DotIndicator size='lg' />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
         <DotIndicator />

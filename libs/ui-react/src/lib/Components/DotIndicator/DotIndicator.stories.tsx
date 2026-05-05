@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Settings } from '../../Symbols/Icons/Settings';
+import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button';
+import { IconButton } from '../IconButton/IconButton';
 import { DotIndicator } from './DotIndicator';
 
 const meta = {
@@ -18,7 +21,7 @@ const meta = {
   argTypes: {
     size: {
       control: 'radio',
-      options: ['xs', 'sm', 'md'],
+      options: ['xs', 'sm', 'md', 'lg'],
     },
     appearance: {
       control: 'radio',
@@ -42,6 +45,7 @@ export const SizeShowcase: Story = {
       <DotIndicator size='xs' />
       <DotIndicator size='sm' />
       <DotIndicator size='md' />
+      <DotIndicator size='lg' />
     </div>
   ),
 };
@@ -61,6 +65,12 @@ export const WithChildren: Story = {
     <div className='flex items-center gap-12'>
       <DotIndicator appearance='red'>
         <Button size='sm'>Submit</Button>
+      </DotIndicator>
+      <DotIndicator appearance='red'>
+        <Avatar size='md' />
+      </DotIndicator>
+      <DotIndicator appearance='red'>
+        <IconButton aria-label='Settings' icon={Settings} />
       </DotIndicator>
     </div>
   ),

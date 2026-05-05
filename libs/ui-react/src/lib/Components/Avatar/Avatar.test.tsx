@@ -44,21 +44,28 @@ describe('Avatar Component', () => {
     const { container } = render(<Avatar src={validSrc} />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-48');
+    expect(wrapper).toHaveClass('size-40');
   });
 
   it('should render with sm size when specified', () => {
     const { container } = render(<Avatar src={validSrc} size='sm' />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-40');
+    expect(wrapper).toHaveClass('size-32');
   });
 
   it('should render with lg size when specified', () => {
     const { container } = render(<Avatar src={validSrc} size='lg' />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-72');
+    expect(wrapper).toHaveClass('size-48');
+  });
+
+  it('should render with xl size when specified', () => {
+    const { container } = render(<Avatar src={validSrc} size='xl' />);
+
+    const wrapper = container.firstChild;
+    expect(wrapper).toHaveClass('size-64');
   });
 
   it('should not show notification indicator by default', () => {
@@ -154,5 +161,13 @@ describe('Avatar Component', () => {
     const svg = container.querySelector('svg');
     expect(svg).toHaveClass('icon-w-32');
     expect(svg).toHaveClass('icon-h-32');
+  });
+
+  it('should render correct fallback icon size for xl', () => {
+    const { container } = render(<Avatar src='' size='xl' />);
+
+    const svg = container.querySelector('svg');
+    expect(svg).toHaveClass('icon-w-40');
+    expect(svg).toHaveClass('icon-h-40');
   });
 });

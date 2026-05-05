@@ -65,7 +65,8 @@ const useStyles = ({
       const sizeMap = {
         xs: t.sizes.s10,
         sm: t.sizes.s12,
-        md: t.sizes.s16,
+        md: t.sizes.s14,
+        lg: t.sizes.s16,
       };
 
       const bgColorMap = {

@@ -97,6 +97,16 @@ describe('DotIndicator', () => {
     expect(toJSON()).toBeTruthy();
   });
 
+  it('should render in lg size', () => {
+    const { toJSON } = render(
+      <TestWrapper>
+        <DotIndicator size='lg' />
+      </TestWrapper>,
+    );
+
+    expect(toJSON()).toBeTruthy();
+  });
+
   it('should render with red appearance', () => {
     const { toJSON } = render(
       <TestWrapper>
