@@ -22,6 +22,7 @@ export function Trend({
   size = 'md',
   lx = {},
   disabled: disabledProp = false,
+  style,
   ...props
 }: TrendProps) {
   const variant = getVariant(value);
@@ -67,7 +68,7 @@ export function Trend({
       })}
       accessibilityState={{ disabled }}
       lx={lx}
-      style={styles.container}
+      style={[styles.container, style]}
       {...props}
     >
       <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
