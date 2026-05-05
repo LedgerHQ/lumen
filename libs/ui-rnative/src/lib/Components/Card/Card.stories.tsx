@@ -1,4 +1,4 @@
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { Wallet } from '../../Symbols';
