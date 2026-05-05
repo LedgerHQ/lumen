@@ -10,6 +10,13 @@ import type { TrendProps } from './types';
 
 type TrendVariant = 'positive' | 'negative' | 'neutral';
 
+function getVariant(value: number): TrendVariant {
+  if (value === 0) {
+    return 'neutral';
+  }
+  return value > 0 ? 'positive' : 'negative';
+}
+
 export function Trend({
   value,
   size = 'md',
@@ -17,7 +24,7 @@ export function Trend({
   disabled: disabledProp = false,
   ...props
 }: TrendProps) {
-  const variant = value === 0 ? 'neutral' : value > 0 ? 'positive' : 'negative';
+  const variant = getVariant(value);
 
   const disabled = useDisabledContext({
     consumerName: 'Trend',
