@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "User avatar",
-      "notificationAriaLabel": "Has notification"
+      "notificationAriaLabel": "Has notification",
+      "fallbackIconAriaLabel": "Fallback Icon"
     },
     "baseInput": {
       "clearInputAriaLabel": "Clear input"
@@ -36,6 +37,9 @@
       "navigationAriaLabel": "Sidebar navigation",
       "collapseAriaLabel": "Collapse sidebar",
       "expandAriaLabel": "Expand sidebar"
+    },
+    "stepper": {
+      "progressAriaLabel": "Step {{currentStep}} of {{totalSteps}}"
     },
     "table": {
       "ascAriaLabel": "Sort ascending",

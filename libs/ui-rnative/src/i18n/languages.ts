@@ -2,6 +2,9 @@
  * Mapping from languages to their respective infos.
  */
 export const Languages = {
+  ar: {
+    id: 'ar',
+  },
   de: {
     id: 'de',
   },
