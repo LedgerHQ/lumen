@@ -7,7 +7,7 @@ import { useCartesianChartContext } from '../CartesianChart/context';
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
 
-const AREA_GRADIENT_OPACITY = 0.2;
+const AREA_GRADIENT_OPACITY = 0.15;
 
 export function Line({
   seriesId,

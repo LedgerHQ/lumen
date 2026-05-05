@@ -20,7 +20,7 @@ export type ScrubberProviderProps = {
   /**
    * Ref to the root SVG element where event listeners will be attached.
    */
-  svgRef: RefObject<SVGSVGElement>;
+  svgRef: RefObject<SVGSVGElement | null>;
   /**
    * Whether scrubbing is enabled.
    */
@@ -49,7 +49,7 @@ export type ScrubberProps = {
   hideOverlay?: boolean;
   /**
    * Shows the beacon dots on each series at the scrubbed data index.
-   * @default true
+   * @default false
    */
   showBeacons?: boolean;
 };

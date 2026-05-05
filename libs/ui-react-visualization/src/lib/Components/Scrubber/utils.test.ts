@@ -8,7 +8,6 @@ import { getDataIndexFromPosition } from './utils';
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {
-    // 4 bands (0,1,2,3), no padding, range 0-400 → each band is 100px wide
     const scale = getCategoricalScale({
       domain: { min: 0, max: 3 },
       range: { min: 0, max: 400 },
@@ -16,21 +15,19 @@ describe('getDataIndexFromPosition', () => {
     });
 
     it('returns 0 for a position at the center of the first band', () => {
-      const bandwidth = scale.bandwidth(); // 100
-      const center0 = (scale(0) ?? 0) + bandwidth / 2; // 50
+      const bandwidth = scale.bandwidth();
+      const center0 = (scale(0) ?? 0) + bandwidth / 2;
       expect(getDataIndexFromPosition(center0, scale, undefined, 4)).toBe(0);
     });
 
     it('returns 1 for a position at the center of the second band', () => {
       const bandwidth = scale.bandwidth();
-      const center1 = (scale(1) ?? 0) + bandwidth / 2; // 150
+      const center1 = (scale(1) ?? 0) + bandwidth / 2;
       expect(getDataIndexFromPosition(center1, scale, undefined, 4)).toBe(1);
     });
 
     it('returns the nearest band for a position between bands', () => {
-      // Between band 1 center (150) and band 2 center (250), at 190 → closer to 1
       expect(getDataIndexFromPosition(190, scale, undefined, 4)).toBe(1);
-      // At 210 → closer to 2
       expect(getDataIndexFromPosition(210, scale, undefined, 4)).toBe(2);
     });
 
@@ -40,7 +37,6 @@ describe('getDataIndexFromPosition', () => {
   });
 
   describe('with a numeric (linear) scale and no axisData', () => {
-    // Domain 0-4, range 0-400 → each unit = 100px
     const scale = getNumericScale({
       scaleType: 'linear',
       domain: { min: 0, max: 4 },
@@ -65,7 +61,6 @@ describe('getDataIndexFromPosition', () => {
   });
 
   describe('with a numeric scale and numeric axisData', () => {
-    // axisData = [10, 20, 30], mapped to pixels via scale
     const scale = getNumericScale({
       scaleType: 'linear',
       domain: { min: 10, max: 30 },
@@ -74,17 +69,14 @@ describe('getDataIndexFromPosition', () => {
     const axisConfig = { data: [10, 20, 30] as number[] };
 
     it('returns 0 for pixel closest to first data point', () => {
-      // scale(10) = 0
       expect(getDataIndexFromPosition(10, scale, axisConfig, 3)).toBe(0);
     });
 
     it('returns 1 for pixel closest to middle data point', () => {
-      // scale(20) = 100
       expect(getDataIndexFromPosition(100, scale, axisConfig, 3)).toBe(1);
     });
 
     it('returns 2 for pixel closest to last data point', () => {
-      // scale(30) = 200
       expect(getDataIndexFromPosition(195, scale, axisConfig, 3)).toBe(2);
     });
   });

@@ -56,7 +56,10 @@ export function YAxis({
               y1={tick.position}
               x2={drawingArea.x + drawingArea.width}
               y2={tick.position}
-              style={{ stroke: cssVar('var(--border-muted-subtle)') }}
+              style={{
+                stroke: cssVar('var(--border-muted-subtle)'),
+                opacity: 0.5,
+              }}
               strokeWidth={cssVar('var(--stroke-1)')}
               strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
             />

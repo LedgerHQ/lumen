@@ -92,23 +92,23 @@ describe('Scrubber', () => {
     expect(queryByTestId('scrubber-overlay')).toBeNull();
   });
 
-  it('renders one beacon per series by default', () => {
-    const { getByTestId, getAllByTestId } = renderScrubber();
-    activateScrubber(getByTestId('chart-svg'));
-    expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
-  });
-
-  it('hides beacons when hideBeacons is true', () => {
-    const { getByTestId, queryAllByTestId } = renderScrubber({
-      scrubberProps: { hideBeacons: true },
-    });
+  it('does not render beacons by default', () => {
+    const { getByTestId, queryAllByTestId } = renderScrubber();
     activateScrubber(getByTestId('chart-svg'));
     expect(queryAllByTestId(/scrubber-beacon-/)).toHaveLength(0);
   });
 
+  it('renders one beacon per series when showBeacons is true', () => {
+    const { getByTestId, getAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
+  });
+
   it('renders the label when a label function is provided', () => {
     const { getByTestId, getByText } = renderScrubber({
-      scrubberProps: { label: (i) => `Index ${i}` },
+      scrubberProps: { label: (i: number) => `Index ${i}` },
     });
     activateScrubber(getByTestId('chart-svg'));
     expect(getByTestId('scrubber-label')).toBeTruthy();

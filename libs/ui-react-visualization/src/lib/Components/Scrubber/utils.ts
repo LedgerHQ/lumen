@@ -1,5 +1,10 @@
-import { isCategoricalScale, isNumericScale } from '../../utils/scales/scales';
+import {
+  getPointOnScale,
+  isCategoricalScale,
+  isNumericScale,
+} from '../../utils/scales/scales';
 import type { AxisConfigProps, ChartScaleFunction } from '../../utils/types';
+import type { useCartesianChartContext } from '../CartesianChart/context';
 
 /**
  * Converts a pixel position along the x-axis into the nearest data index.
@@ -38,7 +43,6 @@ export const getDataIndexFromPosition = (
     const axisData = axisConfig?.data;
 
     if (axisData && axisData.length > 0 && typeof axisData[0] === 'number') {
-      // Numeric axis data: find the data point whose pixel position is closest
       let closestIndex = 0;
       let closestDistance = Infinity;
       for (let i = 0; i < axisData.length; i++) {
@@ -54,7 +58,6 @@ export const getDataIndexFromPosition = (
       return closestIndex;
     }
 
-    // Continuous scale with no explicit data: invert pixel to data index
     const inverted = scale.invert(pixelX);
     return Math.max(
       0,
@@ -63,4 +66,36 @@ export const getDataIndexFromPosition = (
   }
 
   return 0;
+};
+
+/**
+ * Resolves the pixel y-coordinate for a given series data point at a data index.
+ * Returns undefined when the value is null/missing or the scale is unavailable.
+ */
+export const resolvePixelY = (
+  dataIndex: number,
+  seriesData: (number | null)[] | undefined,
+  getYScale: ReturnType<typeof useCartesianChartContext>['getYScale'],
+): number | undefined => {
+  const yScale = getYScale();
+  if (!yScale || !isNumericScale(yScale)) return undefined;
+  if (!seriesData) return undefined;
+
+  const value = seriesData[dataIndex];
+  if (value === null || value === undefined) return undefined;
+
+  return yScale(value) as number;
+};
+
+/**
+ * Resolves the pixel x-coordinate for a given data index using the x-scale.
+ * Returns undefined when the scale is unavailable or the value cannot be mapped.
+ */
+export const resolvePixelX = (
+  dataIndex: number,
+  getXScale: ReturnType<typeof useCartesianChartContext>['getXScale'],
+): number | undefined => {
+  const scale = getXScale();
+  if (!scale) return undefined;
+  return getPointOnScale(dataIndex, scale);
 };

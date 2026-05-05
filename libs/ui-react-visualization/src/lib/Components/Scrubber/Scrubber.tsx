@@ -1,46 +1,15 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useId, useMemo } from 'react';
 
-import { getPointOnScale, isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useScrubberContext } from './context';
 import type { ScrubberProps } from './types';
+import { resolvePixelX, resolvePixelY } from './utils';
 
 const BEACON_RADIUS = 5;
 const BEACON_STROKE_WIDTH = 2;
 const LABEL_OFFSET_Y = 12;
-
-/**
- * Resolves the pixel y-coordinate for a given series data point at a data index.
- * Returns undefined when the value is null/missing or the scale is unavailable.
- */
-function resolvePixelY(
-  dataIndex: number,
-  seriesData: (number | null)[] | undefined,
-  getYScale: ReturnType<typeof useCartesianChartContext>['getYScale'],
-): number | undefined {
-  const yScale = getYScale();
-  if (!yScale || !isNumericScale(yScale)) return undefined;
-  if (!seriesData) return undefined;
-
-  const value = seriesData[dataIndex];
-  if (value === null || value === undefined) return undefined;
-
-  return yScale(value) as number;
-}
-
-/**
- * Resolves the pixel x-coordinate for a given data index using the x-scale.
- * Returns undefined when the scale is unavailable or the value cannot be mapped.
- */
-function resolvePixelX(
-  dataIndex: number,
-  getXScale: ReturnType<typeof useCartesianChartContext>['getXScale'],
-): number | undefined {
-  const scale = getXScale();
-  if (!scale) return undefined;
-  return getPointOnScale(dataIndex, scale);
-}
+const OVERLAY_OFFSET = 2;
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
@@ -118,14 +87,14 @@ export function Scrubber({
               <stop
                 offset='0%'
                 stopColor={cssVar('var(--border-muted)')}
-                stopOpacity={0}
+                stopOpacity={0.1}
               />
               <stop offset='30%' stopColor={cssVar('var(--border-muted)')} />
               <stop offset='70%' stopColor={cssVar('var(--border-muted)')} />
               <stop
                 offset='100%'
                 stopColor={cssVar('var(--border-muted)')}
-                stopOpacity={0}
+                stopOpacity={0.1}
               />
             </linearGradient>
           </defs>
@@ -136,7 +105,7 @@ export function Scrubber({
             x2={pixelX}
             y2={drawY + drawHeight}
             stroke={`url(#${lineGradientId})`}
-            strokeWidth={1}
+            strokeWidth={2}
           />
         </>
       )}
@@ -144,13 +113,12 @@ export function Scrubber({
       {!hideOverlay && (
         <rect
           data-testid='scrubber-overlay'
-          x={pixelX + 0.5}
-          y={drawY - BEACON_RADIUS}
-          width={Math.max(0, drawX + drawWidth - (pixelX - BEACON_RADIUS))}
-          height={drawHeight + BEACON_RADIUS}
+          x={pixelX + 1}
+          y={drawY - OVERLAY_OFFSET}
+          width={Math.max(0, drawX + drawWidth - pixelX - 0.5 + OVERLAY_OFFSET)}
+          height={drawHeight + OVERLAY_OFFSET * 2}
           fill={cssVar('var(--background-base)')}
-          opacity={0.7}
-          filter='blur(0.2)'
+          opacity={0.6}
         />
       )}
 
