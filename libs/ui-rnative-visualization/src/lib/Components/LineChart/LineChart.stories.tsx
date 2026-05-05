@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View } from 'react-native';
-import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 
+import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from './LineChart';
 
 const meta = {

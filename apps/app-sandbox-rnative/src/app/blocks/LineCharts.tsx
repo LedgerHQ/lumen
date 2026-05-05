@@ -1,6 +1,6 @@
 import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
-import { LineChart } from '@ledgerhq/lumen-ui-rnative-visualization';
+import { LineChart, Point } from '@ledgerhq/lumen-ui-rnative-visualization';
 
 const sampleSeries = [
   {
@@ -56,6 +56,62 @@ const Section = ({
     </Box>
   );
 };
+
+const PointMinMax = () => {
+  const data = sampleSeries[0].data;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const minIdx = data.indexOf(min);
+  const maxIdx = data.indexOf(max);
+
+  return (
+    <LineChart series={sampleSeries} width={320} height={200} showArea>
+      <Point dataX={maxIdx} dataY={max} color='#47883A' label={`$${max}`} />
+      <Point
+        dataX={minIdx}
+        dataY={min}
+        color='#C24244'
+        label={`$${min}`}
+        labelPosition='bottom'
+      />
+    </LineChart>
+  );
+};
+
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+  'Jan',
+  'Feb',
+];
+
+const PointLabelFunction = () => (
+  <LineChart series={sampleSeries} width={320} height={200}>
+    <Point
+      dataX={4}
+      dataY={98}
+      color='#47883A'
+      label={(i) => `${months[i]}: $${sampleSeries[0].data[i]}`}
+    />
+    <Point
+      dataX={9}
+      dataY={4}
+      color='#C24244'
+      label={(i) => `${months[i]}: $${sampleSeries[0].data[i]}`}
+      labelPosition='bottom'
+    />
+  </LineChart>
+);
 
 export const LineCharts = () => {
   return (
@@ -182,6 +238,61 @@ export const LineCharts = () => {
             domain: { min: 0, max: 100 },
           }}
         />
+      </Section>
+
+      <Section title='Point – min/max highlights'>
+        <PointMinMax />
+      </Section>
+
+      <Section title='Point – all data points'>
+        <LineChart series={sampleSeries} width={320} height={200} showArea>
+          {sampleSeries[0].data.map((value, i) => (
+            <Point key={i} dataX={i} dataY={value} size={8} />
+          ))}
+        </LineChart>
+      </Section>
+
+      <Section title='Point – label function'>
+        <PointLabelFunction />
+      </Section>
+
+      <Section title='Point – hidden point (label only)'>
+        <LineChart series={sampleSeries} width={320} height={200} showArea>
+          <Point dataX={4} dataY={98} hidePoint label='Peak' />
+          <Point
+            dataX={9}
+            dataY={4}
+            hidePoint
+            label='Low'
+            labelPosition='bottom'
+          />
+        </LineChart>
+      </Section>
+
+      <Section title='Point – with axes'>
+        <LineChart
+          series={sampleSeries}
+          width={320}
+          height={220}
+          showArea
+          showXAxis
+          showYAxis
+          xAxis={{ showLine: true, showGrid: true }}
+          yAxis={{
+            showLine: true,
+            showGrid: true,
+            tickLabelFormatter: (v) => `$${v}`,
+          }}
+        >
+          <Point dataX={4} dataY={98} color='#47883A' label='$98' />
+          <Point
+            dataX={9}
+            dataY={4}
+            color='#C24244'
+            label='$4'
+            labelPosition='bottom'
+          />
+        </LineChart>
       </Section>
     </Box>
   );

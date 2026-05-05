@@ -26,8 +26,10 @@ export type CartesianChartProps = {
    */
   height?: number;
   /**
-   * Padding between the SVG edge and the drawing area.
-   * A number applies uniformly; a partial object overrides individual sides.
+   * Extra padding between the SVG edge and the drawing area, added on top of
+   * a built-in overflow buffer that prevents content (labels, points, ticks)
+   * from being clipped. A number applies uniformly; a partial object sets
+   * individual sides (unset sides default to `0`).
    */
   inset?: number | Partial<ChartInset>;
   /**
