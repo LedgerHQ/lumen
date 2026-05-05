@@ -31,11 +31,6 @@
     },
     "stepper": {
       "progressAriaLabel": "Шаг {{currentStep}} из {{totalSteps}}"
-    },
-    "trend": {
-      "positiveAriaLabel": "Рост на {{value}}",
-      "negativeAriaLabel": "Снижение на {{value}}",
-      "neutralAriaLabel": "Без изменений, {{value}}"
     }
   }
 }

@@ -31,11 +31,6 @@
     },
     "stepper": {
       "progressAriaLabel": "Schritt {{currentStep}} von {{totalSteps}}"
-    },
-    "trend": {
-      "positiveAriaLabel": "Aufwärtstrend um {{value}}",
-      "negativeAriaLabel": "Abwärtstrend um {{value}}",
-      "neutralAriaLabel": "Keine Veränderung, {{value}}"
     }
   }
 }

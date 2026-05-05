@@ -31,11 +31,6 @@
     },
     "stepper": {
       "progressAriaLabel": "{{totalSteps}} adımdan {{currentStep}}. adım"
-    },
-    "trend": {
-      "positiveAriaLabel": "{{value}} yükseliş eğilimi",
-      "negativeAriaLabel": "{{value}} düşüş eğilimi",
-      "neutralAriaLabel": "Değişiklik yok, {{value}}"
     }
   }
 }

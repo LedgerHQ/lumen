@@ -31,11 +31,6 @@
     },
     "stepper": {
       "progressAriaLabel": "ขั้นตอนที่ {{currentStep}} จาก {{totalSteps}}"
-    },
-    "trend": {
-      "positiveAriaLabel": "แนวโน้มเพิ่มขึ้น {{value}}",
-      "negativeAriaLabel": "แนวโน้มลดลง {{value}}",
-      "neutralAriaLabel": "ไม่มีการเปลี่ยนแปลง, {{value}}"
     }
   }
 }
