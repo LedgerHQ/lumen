@@ -4,6 +4,15 @@
 
 BREAKING_CHANGE(ui-react): update Avatar + DotIndicator sizes
 
-Avatar sizes have been updated and a new `xl` variant (64px) added. `sm` is now 32px, `md` 40px, and `lg` 48px — down from 40px, 48px, and 72px respectively. The notification dot scales with the avatar size.
+- <Avatar size="sm" />   {/* was 40px */}
++ <Avatar size="md" />   {/* now 40px */}
 
-DotIndicator gains a new `lg` size (16px). The existing `md` shrinks from 16px to 14px — if you relied on `md` for a 16px dot, switch to `lg`.
+- <Avatar size="md" />   {/* was 48px */}
++ <Avatar size="lg" />   {/* now 48px */}
+
+- <Avatar size="lg" />   {/* was 72px — no 72px token anymore */}
++ <Avatar size="xl" />   {/* 64px — closest larger row; confirm with design if you need 72px */}
+
+
+- <DotIndicator size="md" />
++ <DotIndicator size="lg" />
