@@ -8,6 +8,10 @@ import type {
   NumericScale,
 } from '../types';
 
+/**
+ * Creates a numeric scale with `.nice()` applied so the domain
+ * extends to clean rounded boundaries (e.g. `[4, 98]` → `[0, 100]`).
+ */
 export const getNumericScale = ({
   scaleType,
   domain,
@@ -18,7 +22,10 @@ export const getNumericScale = ({
   range: AxisBounds;
 }): NumericScale => {
   const scale = scaleType === 'log' ? scaleLog() : scaleLinear();
-  return scale.domain([domain.min, domain.max]).range([range.min, range.max]);
+  return scale
+    .domain([domain.min, domain.max])
+    .nice()
+    .range([range.min, range.max]);
 };
 
 export const getCategoricalScale = ({
@@ -64,4 +71,23 @@ export const isNumericScale = (
   scale: ChartScaleFunction,
 ): scale is NumericScale => {
   return !isCategoricalScale(scale);
+};
+
+/**
+ * Projects a single data-space coordinate pair into pixel-space.
+ * Handles centering for categorical (band) scales.
+ */
+export const projectPoint = (
+  dataX: number,
+  dataY: number,
+  xScale: ChartScaleFunction,
+  yScale: ChartScaleFunction,
+): { x: number; y: number } => {
+  const x = isCategoricalScale(xScale)
+    ? (xScale(dataX) ?? 0) + xScale.bandwidth() / 2
+    : xScale(dataX);
+  const y = isCategoricalScale(yScale)
+    ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
+    : yScale(dataY);
+  return { x: x, y };
 };

@@ -1,5 +1,9 @@
 import { isCategoricalScale, isNumericScale } from '../scales/scales';
-import type { AxisConfigProps, ChartScaleFunction } from '../types';
+import type {
+  AxisConfigProps,
+  ChartScaleFunction,
+  DrawingArea,
+} from '../types';
 
 export const APPROXIMATE_TICK_COUNT = 5;
 
@@ -79,4 +83,26 @@ export const buildTicksData = (
     value: tick,
     label: getTickLabel(tick, axisData, formatter),
   }));
+};
+
+/**
+ * Excludes the X grid line at the Y-axis origin (left edge)
+ * to prevent overlap with the Y-axis solid line.
+ */
+export const isTickOnXAxisDomainEdge = (
+  tick: TickData,
+  drawingArea: DrawingArea,
+): boolean => {
+  return tick.position !== drawingArea.x;
+};
+
+/**
+ * Excludes the Y grid line at the X-axis origin (bottom edge)
+ * to prevent overlap with the X-axis solid line.
+ */
+export const isTickOnYAxisDomainEdge = (
+  tick: TickData,
+  drawingArea: DrawingArea,
+): boolean => {
+  return tick.position !== drawingArea.y + drawingArea.height;
 };

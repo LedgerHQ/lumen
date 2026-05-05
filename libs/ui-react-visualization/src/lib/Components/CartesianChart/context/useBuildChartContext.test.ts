@@ -177,8 +177,8 @@ describe('useBuildChartContext', () => {
       ),
     );
     const domain = result.current.getYScale()!.domain();
-    expect(domain[0]).toBe(5);
-    expect(domain[1]).toBe(35);
+    expect(domain[0]).toBe(0);
+    expect(domain[1]).toBe(40);
   });
 
   it('inverts Y range for SVG coordinates', () => {

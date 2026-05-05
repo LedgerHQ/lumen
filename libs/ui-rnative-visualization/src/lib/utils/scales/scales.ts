@@ -8,6 +8,10 @@ import type {
   NumericScale,
 } from '../types';
 
+/**
+ * Creates a numeric scale with `.nice()` applied so the domain
+ * extends to clean rounded boundaries (e.g. `[4, 98]` → `[0, 100]`).
+ */
 export const getNumericScale = ({
   scaleType,
   domain,
@@ -18,7 +22,10 @@ export const getNumericScale = ({
   range: AxisBounds;
 }): NumericScale => {
   const scale = scaleType === 'log' ? scaleLog() : scaleLinear();
-  return scale.domain([domain.min, domain.max]).range([range.min, range.max]);
+  return scale
+    .domain([domain.min, domain.max])
+    .nice()
+    .range([range.min, range.max]);
 };
 
 export const getCategoricalScale = ({

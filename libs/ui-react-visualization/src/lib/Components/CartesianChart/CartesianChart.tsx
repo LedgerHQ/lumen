@@ -1,42 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { ChartInset } from '../../utils/types';
 
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import type { CartesianChartProps } from './types';
-
-const DEFAULT_HEIGHT = 160;
-const DEFAULT_INSET: ChartInset = {
-  top: 8,
-  right: 0,
-  bottom: 0,
-  left: 0,
-};
-const ZERO_PADDING: ChartInset = { top: 0, right: 0, bottom: 0, left: 0 };
-
-const resolveInset = (inset: CartesianChartProps['inset']): ChartInset => {
-  if (inset === undefined) return DEFAULT_INSET;
-  if (typeof inset === 'number') {
-    return { top: inset, right: inset, bottom: inset, left: inset };
-  }
-  return {
-    top: inset.top ?? DEFAULT_INSET.top,
-    right: inset.right ?? DEFAULT_INSET.right,
-    bottom: inset.bottom ?? DEFAULT_INSET.bottom,
-    left: inset.left ?? DEFAULT_INSET.left,
-  };
-};
-
-const resolveAxisPadding = (
-  padding: CartesianChartProps['axisPadding'],
-): ChartInset => {
-  if (padding === undefined) return ZERO_PADDING;
-  return {
-    top: padding.top ?? 0,
-    right: padding.right ?? 0,
-    bottom: padding.bottom ?? 0,
-    left: padding.left ?? 0,
-  };
-};
+import {
+  DEFAULT_HEIGHT,
+  OVERFLOW_NEGATIVE_MARGIN,
+  resolveAxisPadding,
+  resolveInset,
+} from './utils';
 
 export function CartesianChart({
   series,
@@ -116,12 +87,27 @@ export function CartesianChart({
       <div
         ref={containerRef}
         data-testid='chart-container'
-        style={{ width, height }}
+        style={{
+          width,
+          height,
+          ...OVERFLOW_NEGATIVE_MARGIN,
+        }}
       >
         {measuredWidth !== undefined && svgContent}
       </div>
     );
   }
 
-  return svgContent;
+  return (
+    <div
+      data-testid='chart-container'
+      style={{
+        width: resolvedWidth,
+        height,
+        ...OVERFLOW_NEGATIVE_MARGIN,
+      }}
+    >
+      {svgContent}
+    </div>
+  );
 }
