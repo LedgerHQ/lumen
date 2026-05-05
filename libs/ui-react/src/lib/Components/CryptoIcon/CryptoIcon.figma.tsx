@@ -9,7 +9,7 @@ figma.connect(
     props: {
       ticker: figma.string('asset'),
     },
-    example: (props: { ticker: any }) => (
+    example: (props: { ticker: string }) => (
       <CryptoIcon ticker={props.ticker} size={48} ledgerId={props.ticker} />
     ),
   },

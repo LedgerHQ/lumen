@@ -35,6 +35,29 @@ describe('MediaImage Component', () => {
     expect(img).not.toBeInTheDocument();
   });
 
+  it('should render single-letter fallback (uppercased) when fallback is provided and src is missing', () => {
+    const { container } = render(<MediaImage fallback='bitcoin' alt='BTC' />);
+
+    expect(container.querySelector('img')).not.toBeInTheDocument();
+
+    const fallback = screen.getByText('B');
+    expect(fallback).toBeInTheDocument();
+    expect(fallback).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('should render single-letter fallback when fallback is provided and src is empty string', () => {
+    render(<MediaImage src='' fallback='ethereum' alt='ETH' />);
+
+    expect(screen.getByText('E')).toBeInTheDocument();
+  });
+
+  it('should size the fallback letter according to the size prop', () => {
+    render(<MediaImage fallback='cardano' alt='ADA' size={32} />);
+
+    const fallback = screen.getByText('C');
+    expect(fallback).toHaveStyle({ fontSize: '16px' });
+  });
+
   it('should render fallback when image fails to load', () => {
     const { container } = render(
       <MediaImage src='https://broken-link.com/404.png' alt='Broken' />,
@@ -46,6 +69,22 @@ describe('MediaImage Component', () => {
     const fallback = container.querySelector('span[aria-hidden="true"]');
     expect(fallback).toBeInTheDocument();
     expect(container.querySelector('img')).not.toBeInTheDocument();
+  });
+
+  it('should render single-letter fallback when image fails to load and fallback is provided', () => {
+    const { container } = render(
+      <MediaImage
+        src='https://broken-link.com/404.png'
+        fallback='solana'
+        alt='SOL'
+      />,
+    );
+
+    const img = screen.getByAltText('');
+    fireEvent.error(img);
+
+    expect(container.querySelector('img')).not.toBeInTheDocument();
+    expect(screen.getByText('S')).toBeInTheDocument();
   });
 
   it('should reset error state when src changes', () => {
@@ -114,5 +153,41 @@ describe('MediaImage Component', () => {
 
     const el = screen.getByTestId('media');
     expect(el).toHaveAttribute('id', 'mi');
+  });
+
+  describe('loading state', () => {
+    it('should render the skeleton overlay when loading is true', () => {
+      render(<MediaImage src={validSrc} alt='Test' loading />);
+
+      expect(screen.getByTestId('skeleton')).toBeInTheDocument();
+    });
+
+    it('should hide the image when loading is true even if src is valid', () => {
+      const { container } = render(
+        <MediaImage src={validSrc} alt='Test' loading />,
+      );
+
+      expect(container.querySelector('img')).not.toBeInTheDocument();
+    });
+
+    it('should hide the fallback letter when loading is true', () => {
+      render(<MediaImage fallback='bitcoin' alt='BTC' loading />);
+
+      expect(screen.queryByText('B')).not.toBeInTheDocument();
+      expect(screen.getByTestId('skeleton')).toBeInTheDocument();
+    });
+
+    it('should hide the empty fallback placeholder when loading is true', () => {
+      const { container } = render(<MediaImage alt='Empty' loading />);
+
+      expect(container.querySelector('span[aria-hidden="true"]')).toBeNull();
+      expect(screen.getByTestId('skeleton')).toBeInTheDocument();
+    });
+
+    it('should not render the skeleton when loading is false (default)', () => {
+      render(<MediaImage src={validSrc} alt='Test' />);
+
+      expect(screen.queryByTestId('skeleton')).not.toBeInTheDocument();
+    });
   });
 });

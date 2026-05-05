@@ -4,19 +4,24 @@ const CRYPTO_ICONS_URL = 'https://crypto-icons-storybook.pages.dev';
 
 const meta: Meta = {
   title: 'Symbols/Crypto Icons',
-  parameters: {
-    layout: 'fullscreen',
-  },
 };
 
 export default meta;
 
 export const CryptoIcons: StoryObj = {
   render: () => (
-    <iframe
-      src={CRYPTO_ICONS_URL}
-      title='Crypto Icons'
-      style={{ width: '100%', height: '100vh', border: 'none' }}
-    />
+    <div className='flex flex-col items-center gap-4 p-16 text-center'>
+      <p className='body-3 text-muted'>
+        Browse the full set of crypto icons in the dedicated Storybook.
+      </p>
+      <a
+        href={CRYPTO_ICONS_URL}
+        target='_blank'
+        rel='noreferrer'
+        className='body-3-semi-bold text-interactive hover:text-interactive-hover'
+      >
+        Open Crypto Icons Storybook ↗
+      </a>
+    </div>
   ),
 };
