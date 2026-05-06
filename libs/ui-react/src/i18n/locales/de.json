@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Benutzer-Avatar",
-      "notificationAriaLabel": "Hat Benachrichtigung"
+      "notificationAriaLabel": "Hat Benachrichtigung",
+      "fallbackIconAriaLabel": "Fallback-Icon"
     },
     "baseInput": {
       "clearInputAriaLabel": "Eingabe löschen"
@@ -33,9 +34,12 @@
       "goBackAriaLabel": "Zurück"
     },
     "sideBar": {
-      "navigationAriaLabel": "Seitennavigation",
-      "collapseAriaLabel": "Seitenleiste einklappen",
-      "expandAriaLabel": "Seitenleiste ausklappen"
+      "navigationAriaLabel": "Seitenleistennavigation",
+      "collapseAriaLabel": "Seitenleiste ausblenden",
+      "expandAriaLabel": "Seitenleiste anzeigen"
+    },
+    "stepper": {
+      "progressAriaLabel": "Schritt {{currentStep}} von {{totalSteps}}"
     }
   }
 }

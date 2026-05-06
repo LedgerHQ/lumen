@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "用户头像",
-      "notificationAriaLabel": "有通知"
+      "notificationAriaLabel": "有通知",
+      "fallbackIconAriaLabel": "备用图标"
     },
     "baseInput": {
       "clearInputAriaLabel": "清空输入框"
@@ -30,7 +31,7 @@
       "opensInNewTabAriaLabel": "（在新选项卡中打开）"
     },
     "stepper": {
-      "progressAriaLabel": "第 {{currentStep}} 步，共 {{totalSteps}} 步"
+      "progressAriaLabel": "第 {{currentStep}} / {{totalSteps}} 步"
     }
   }
 }

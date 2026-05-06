@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Avatar de l'utilisateur",
-      "notificationAriaLabel": "A une notification"
+      "notificationAriaLabel": "A une notification",
+      "fallbackIconAriaLabel": "Icône par défaut"
     },
     "baseInput": {
       "clearInputAriaLabel": "Effacer la saisie"
@@ -33,9 +34,12 @@
       "goBackAriaLabel": "Retour"
     },
     "sideBar": {
-      "navigationAriaLabel": "Navigation latérale",
+      "navigationAriaLabel": "Menu de navigation latéral",
       "collapseAriaLabel": "Réduire la barre latérale",
       "expandAriaLabel": "Développer la barre latérale"
+    },
+    "stepper": {
+      "progressAriaLabel": "Étape {{currentStep}} sur {{totalSteps}}"
     },
     "table": {
       "ascAriaLabel": "Trier par ordre croissant",
