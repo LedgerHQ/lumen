@@ -46,4 +46,15 @@ export type CartesianChartProps = {
    * SVG content rendered inside the chart's context provider.
    */
   children?: ReactNode;
+  /**
+   * Enables scrubbing (pan gesture) interactions on the chart.
+   * When true, add a `<Scrubber>` as a child to visualise the interaction.
+   * @default false
+   */
+  enableScrubbing?: boolean;
+  /**
+   * Callback fired whenever the scrubber moves to a new data index or is cleared.
+   * Receives `undefined` when the scrubber leaves the chart.
+   */
+  onScrubberPositionChange?: (index: number | undefined) => void;
 };
