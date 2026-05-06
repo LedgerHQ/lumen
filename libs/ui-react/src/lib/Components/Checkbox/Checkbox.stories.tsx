@@ -82,13 +82,13 @@ export const FormExample: Story = {
         <div className='space-y-8'>
           <div className='flex items-center space-x-8'>
             <Checkbox id='weekly' name='newsletter' value='weekly' />
-            <label htmlFor='weekly' className='cursor-pointer body-2'>
+            <label htmlFor='weekly' className='cursor-pointer body-3'>
               Weekly newsletter
             </label>
           </div>
           <div className='flex items-center space-x-8'>
             <Checkbox id='monthly' name='newsletter' value='monthly' />
-            <label htmlFor='monthly' className='cursor-pointer body-2'>
+            <label htmlFor='monthly' className='cursor-pointer body-3'>
               Monthly newsletter
             </label>
           </div>
@@ -99,7 +99,7 @@ export const FormExample: Story = {
               value='product-updates'
               defaultChecked
             />
-            <label htmlFor='product-updates' className='cursor-pointer body-2'>
+            <label htmlFor='product-updates' className='cursor-pointer body-3'>
               Product updates
             </label>
           </div>
@@ -107,7 +107,7 @@ export const FormExample: Story = {
       </div>
       <div className='flex items-center space-x-8'>
         <Checkbox id='terms' name='terms' required />
-        <label htmlFor='terms' className='cursor-pointer body-2'>
+        <label htmlFor='terms' className='cursor-pointer body-3'>
           I agree to the{' '}
           <a href='#' onClick={(e) => e.preventDefault()} className='underline'>
             terms and conditions
