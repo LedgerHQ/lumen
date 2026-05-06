@@ -39,20 +39,12 @@ describe('Avatar Component', () => {
         <Avatar testID='avatar-id' size='sm' />
       </TestWrapper>,
     );
-    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s32);
-    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s32);
-
-    rerender(
-      <TestWrapper>
-        <Avatar testID='avatar-id' size='md' />
-      </TestWrapper>,
-    );
     expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s40);
     expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s40);
 
     rerender(
       <TestWrapper>
-        <Avatar testID='avatar-id' size='lg' />
+        <Avatar testID='avatar-id' size='md' />
       </TestWrapper>,
     );
     expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s48);
@@ -60,11 +52,19 @@ describe('Avatar Component', () => {
 
     rerender(
       <TestWrapper>
+        <Avatar testID='avatar-id' size='lg' />
+      </TestWrapper>,
+    );
+    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s56);
+    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s56);
+
+    rerender(
+      <TestWrapper>
         <Avatar testID='avatar-id' size='xl' />
       </TestWrapper>,
     );
-    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s64);
-    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s64);
+    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s72);
+    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s72);
   });
 
   it('should render fallback icon when no src is provided', () => {

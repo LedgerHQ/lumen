@@ -30,10 +30,10 @@ const useStyles = ({ size }: { size: Size }) => {
   return useStyleSheet(
     (t) => {
       const sizeMap = {
-        sm: { size: t.sizes.s32, padding: t.spacings.s4 },
-        md: { size: t.sizes.s40, padding: t.spacings.s4 },
-        lg: { size: t.sizes.s48, padding: t.spacings.s4 },
-        xl: { size: t.sizes.s64, padding: t.spacings.s4 },
+        sm: { size: t.sizes.s40, padding: t.spacings.s4 },
+        md: { size: t.sizes.s48, padding: t.spacings.s4 },
+        lg: { size: t.sizes.s56, padding: t.spacings.s4 },
+        xl: { size: t.sizes.s72, padding: t.spacings.s4 },
       };
 
       return {
