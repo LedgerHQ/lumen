@@ -931,12 +931,6 @@ export const WithServerSideState: Story = {
   },
 };
 
-/**
- * Client-side column filtering powered by TanStack's built-in `columnFilters` state
- * and `getFilteredRowModel`. The Select updates `columnFilters` via
- * `onColumnFiltersChange`; TanStack handles matching rows automatically.
- * Combine with `DataTableGlobalSearchInput` for full-text + column filtering.
- */
 export const WithClientSideColumnFilter: Story = {
   render: (args) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -1002,7 +996,7 @@ export const WithClientSideColumnFilter: Story = {
                   <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
-              <SelectContent>
+              <SelectContent className='w-208'>
                 <SelectList
                   renderItem={(item) => (
                     <SelectItem key={item.value} value={item.value}>
@@ -1020,13 +1014,6 @@ export const WithClientSideColumnFilter: Story = {
   },
 };
 
-/**
- * Server-side filtering with `manualFiltering: true`. Filter state is owned by
- * the component and synced to the backend via `onColumnFiltersChange` and
- * `onGlobalFilterChange`. In this demo the "API call" is simulated locally, but
- * the pattern is identical to a real fetch: change a filter → callback fires →
- * you refetch with the new params → pass fresh data back as `data`.
- */
 export const WithServerSideFilters: Story = {
   render: (args) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -1113,132 +1100,7 @@ export const WithServerSideFilters: Story = {
                   <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
-              <SelectContent>
-                <SelectList
-                  renderItem={(item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      <SelectItemText>{item.label}</SelectItemText>
-                    </SelectItem>
-                  )}
-                />
-              </SelectContent>
-            </Select>
-          </TableActionBarTrailing>
-        </TableActionBar>
-        <DataTable className='max-h-400' />
-      </DataTableRoot>
-    );
-  },
-};
-
-export const WithClientSideFilters: Story = {
-  render: (args) => {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [globalFilter, setGlobalFilter] = useState('');
-
-    const selectedCategory =
-      (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
-    const selectedDirection =
-      (columnFilters.find((f) => f.id === 'change')?.value as string) ?? null;
-
-    const updateFilter = (id: string, value: string | null) => {
-      setColumnFilters((prev) => {
-        const without = prev.filter((f) => f.id !== id);
-        return value ? [...without, { id, value }] : without;
-      });
-    };
-
-    const directionOptions = [
-      { value: '__all__', label: 'All performance' },
-      { value: 'up', label: 'Gainers' },
-      { value: 'down', label: 'Losers' },
-    ];
-
-    const table = useLumenDataTable({
-      data: largeData,
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Asset',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
-          ),
-          meta: { className: 'w-224' },
-        },
-        {
-          accessorKey: 'category',
-          header: 'Category',
-          enableSorting: false,
-        },
-        {
-          accessorKey: 'price',
-          header: 'Price',
-          enableSorting: false,
-          meta: { align: 'end' },
-        },
-        {
-          accessorKey: 'change',
-          header: 'Performance',
-          enableSorting: false,
-          filterFn: (row, _colId, filterValue) =>
-            filterValue === 'up'
-              ? row.original.change.startsWith('+')
-              : row.original.change.startsWith('-'),
-          meta: { align: 'end', className: 'w-144' },
-        },
-      ],
-      state: { columnFilters, globalFilter },
-      onColumnFiltersChange: setColumnFilters,
-      onGlobalFilterChange: setGlobalFilter,
-    });
-
-    return (
-      <DataTableRoot {...args} table={table}>
-        <TableActionBar>
-          <TableActionBarLeading>
-            <DataTableGlobalSearchInput placeholder='Search assets...' />
-          </TableActionBarLeading>
-          <TableActionBarTrailing>
-            <Select
-              items={categoryOptions}
-              value={selectedCategory ?? '__all__'}
-              onValueChange={(val) =>
-                updateFilter('category', val === '__all__' ? null : val)
-              }
-            >
-              <SelectTrigger
-                render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
-                )}
-              />
-              <SelectContent>
-                <SelectList
-                  renderItem={(item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      <SelectItemText>{item.label}</SelectItemText>
-                    </SelectItem>
-                  )}
-                />
-              </SelectContent>
-            </Select>
-            <Select
-              items={directionOptions}
-              value={selectedDirection ?? '__all__'}
-              onValueChange={(val) =>
-                updateFilter('change', val === '__all__' ? null : val)
-              }
-            >
-              <SelectTrigger
-                render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
-                )}
-              />
-              <SelectContent>
+              <SelectContent className='w-208'>
                 <SelectList
                   renderItem={(item) => (
                     <SelectItem key={item.value} value={item.value}>

@@ -647,7 +647,7 @@ export const WithActionBarAndSelectTrigger: Story = {
                   <MediaButton>{selectedContent}</MediaButton>
                 )}
               />
-              <SelectContent>
+              <SelectContent className='w-208'>
                 <SelectList
                   renderItem={(item) => (
                     <SelectItem key={item.value} value={item.value}>
