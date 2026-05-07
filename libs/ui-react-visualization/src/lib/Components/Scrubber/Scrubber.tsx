@@ -107,7 +107,7 @@ export function Scrubber({
             x2={pixelX}
             y2={drawY + drawHeight}
             stroke={`url(#${lineGradientId})`}
-            strokeWidth={2}
+            strokeWidth={cssVar('var(--stroke-1)')}
           />
         </>
       )}
@@ -115,7 +115,7 @@ export function Scrubber({
       {!hideOverlay && (
         <rect
           data-testid='scrubber-overlay'
-          x={pixelX + 1}
+          x={pixelX + 0.5}
           y={drawY - OVERLAY_OFFSET}
           width={Math.max(0, drawX + drawWidth - pixelX - 0.5 + OVERLAY_OFFSET)}
           height={drawHeight + OVERLAY_OFFSET * 2}
