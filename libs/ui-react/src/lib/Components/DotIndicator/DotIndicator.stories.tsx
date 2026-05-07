@@ -66,9 +66,7 @@ export const WithChildren: Story = {
       <DotIndicator appearance='red'>
         <Button size='sm'>Submit</Button>
       </DotIndicator>
-      <DotIndicator appearance='red'>
-        <Avatar size='md' />
-      </DotIndicator>
+      <Avatar size='md' showNotification />
       <DotIndicator appearance='red'>
         <IconButton aria-label='Settings' icon={Settings} />
       </DotIndicator>
