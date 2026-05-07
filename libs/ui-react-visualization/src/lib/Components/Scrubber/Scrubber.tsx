@@ -88,14 +88,14 @@ export function Scrubber({
             >
               <stop
                 offset='0%'
-                stopColor={cssVar('var(--border-muted)')}
+                stopColor={cssVar('var(--border-base)')}
                 stopOpacity={0.1}
               />
-              <stop offset='30%' stopColor={cssVar('var(--border-muted)')} />
-              <stop offset='70%' stopColor={cssVar('var(--border-muted)')} />
+              <stop offset='20%' stopColor={cssVar('var(--border-base)')} />
+              <stop offset='80%' stopColor={cssVar('var(--border-base)')} />
               <stop
                 offset='100%'
-                stopColor={cssVar('var(--border-muted)')}
+                stopColor={cssVar('var(--border-base)')}
                 stopOpacity={0.1}
               />
             </linearGradient>
@@ -120,7 +120,7 @@ export function Scrubber({
           width={Math.max(0, drawX + drawWidth - pixelX - 0.5 + OVERLAY_OFFSET)}
           height={drawHeight + OVERLAY_OFFSET * 2}
           fill={cssVar('var(--background-base)')}
-          opacity={0.6}
+          opacity={0.8}
         />
       )}
 

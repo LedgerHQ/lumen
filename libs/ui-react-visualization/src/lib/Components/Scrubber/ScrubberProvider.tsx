@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { ScrubberContextProvider } from './context';
@@ -15,6 +15,8 @@ export function ScrubberProvider({
   const [scrubberPosition, setScrubberPosition] = useState<number | undefined>(
     undefined,
   );
+  const scrubberPositionRef = useRef(scrubberPosition);
+  scrubberPositionRef.current = scrubberPosition;
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
@@ -40,7 +42,7 @@ export function ScrubberProvider({
         dataLength,
       );
 
-      if (index !== scrubberPosition) {
+      if (index !== scrubberPositionRef.current) {
         setScrubberPositionAndNotify(index);
       }
     },
@@ -49,7 +51,6 @@ export function ScrubberProvider({
       getXScale,
       getXAxisConfig,
       dataLength,
-      scrubberPosition,
       setScrubberPositionAndNotify,
     ],
   );
@@ -96,7 +97,7 @@ export function ScrubberProvider({
       if (!enableScrubbing || dataLength <= 0) return;
 
       const maxIndex = dataLength - 1;
-      const current = scrubberPosition ?? maxIndex;
+      const current = scrubberPositionRef.current ?? maxIndex;
       const step = event.shiftKey
         ? Math.min(10, Math.max(1, Math.floor(maxIndex * 0.1)))
         : 1;
@@ -128,22 +129,15 @@ export function ScrubberProvider({
           return;
       }
 
-      if (next !== scrubberPosition) {
-        setScrubberPositionAndNotify(next);
-      }
+      setScrubberPositionAndNotify(next);
     },
-    [
-      enableScrubbing,
-      dataLength,
-      scrubberPosition,
-      setScrubberPositionAndNotify,
-    ],
+    [enableScrubbing, dataLength, setScrubberPositionAndNotify],
   );
 
   const handleBlur = useCallback(() => {
-    if (!enableScrubbing || scrubberPosition === undefined) return;
+    if (!enableScrubbing || scrubberPositionRef.current === undefined) return;
     clearPosition();
-  }, [enableScrubbing, scrubberPosition, clearPosition]);
+  }, [enableScrubbing, clearPosition]);
 
   useEffect(() => {
     const svg = svgRef.current;
