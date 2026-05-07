@@ -57,6 +57,10 @@ export type SegmentedControlButtonProps = {
    */
   icon?: IconComponent;
   /**
+   * Optional content shown to the right of the label (e.g. DotCount badge).
+   */
+  trailingContent?: ReactNode;
+  /**
    * Optional callback when the button is pressed (in addition to onSelectedChange on the parent).
    */
   onPress?: () => void;
