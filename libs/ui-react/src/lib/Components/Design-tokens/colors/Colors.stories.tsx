@@ -59,6 +59,11 @@ export const Background: Story = {
             className: 'bg-canvas-overlay-subtle',
             textClassName: 'text-base',
           },
+          {
+            name: 'Canvas Overlay Chart',
+            className: 'bg-canvas-overlay-chart',
+            textClassName: 'text-base',
+          },
         ]}
       />
 
@@ -138,6 +143,11 @@ export const Background: Story = {
           {
             name: 'Muted Transparent Disabled',
             className: 'bg-muted-transparent-disabled',
+            textClassName: 'text-base',
+          },
+          {
+            name: 'Muted Transparent 0',
+            className: 'bg-muted-transparent-0',
             textClassName: 'text-base',
           },
         ]}
@@ -221,6 +231,11 @@ export const Background: Story = {
             textClassName: 'text-base',
           },
           {
+            name: 'Error Transparent 0',
+            className: 'bg-error-transparent-0',
+            textClassName: 'text-base',
+          },
+          {
             name: 'Warning',
             className: 'bg-warning',
             textClassName: 'text-base',
@@ -243,6 +258,11 @@ export const Background: Story = {
           {
             name: 'Success Transparent',
             className: 'bg-success-transparent',
+            textClassName: 'text-base',
+          },
+          {
+            name: 'Success Transparent 0',
+            className: 'bg-success-transparent-0',
             textClassName: 'text-base',
           },
         ]}
@@ -342,6 +362,7 @@ export const Background: Story = {
         tokens={[
           { name: 'White', className: 'bg-white', textClassName: 'text-base' },
           { name: 'Black', className: 'bg-black', textClassName: 'text-base' },
+          { name: 'Grey', className: 'bg-grey', textClassName: 'text-base' },
           {
             name: 'Disabled',
             className: 'bg-disabled',
@@ -548,6 +569,14 @@ export const Border: Story = {
             name: 'Muted Subtle',
             className: 'bg-base border-muted-subtle',
           },
+          {
+            name: 'Muted Transparent 0',
+            className: 'bg-base border-muted-transparent-0',
+          },
+          {
+            name: 'Muted Subtle Transparent',
+            className: 'bg-base border-muted-subtle-transparent',
+          },
         ]}
       />
 
@@ -555,8 +584,16 @@ export const Border: Story = {
         category='border'
         tokens={[
           { name: 'Error', className: 'bg-base border-error' },
+          {
+            name: 'Error Transparent',
+            className: 'bg-base border-error-transparent',
+          },
           { name: 'Warning', className: 'bg-base border-warning' },
           { name: 'Success', className: 'bg-base border-success' },
+          {
+            name: 'Success Transparent',
+            className: 'bg-base border-success-transparent',
+          },
         ]}
       />
 
