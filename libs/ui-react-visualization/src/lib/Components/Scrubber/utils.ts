@@ -6,6 +6,38 @@ import {
 import type { AxisConfigProps, ChartScaleFunction } from '../../utils/types';
 import type { useCartesianChartContext } from '../CartesianChart/context';
 
+export const BEACON_RADIUS = 5;
+export const BEACON_STROKE_WIDTH = 2;
+export const LABEL_OFFSET_Y = 12;
+export const OVERLAY_OFFSET = 2;
+
+/**
+ * Returns the index of the item whose pixel position is closest to `pixelX`.
+ * `getPixelPosition` maps each index to its pixel coordinate (or undefined if
+ * the value cannot be projected).
+ */
+const findClosestIndex = (
+  length: number,
+  pixelX: number,
+  getPixelPosition: (index: number) => number | undefined,
+): number => {
+  let closestIndex = 0;
+  let closestDistance = Infinity;
+
+  for (let i = 0; i < length; i++) {
+    const pos = getPixelPosition(i);
+    if (pos === undefined) continue;
+
+    const distance = Math.abs(pixelX - pos);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = i;
+    }
+  }
+
+  return closestIndex;
+};
+
 /**
  * Converts a pixel position along the x-axis into the nearest data index.
  *
@@ -22,40 +54,21 @@ export const getDataIndexFromPosition = (
   if (isCategoricalScale(scale)) {
     const domain = scale.domain();
     const bandwidth = scale.bandwidth();
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-
-    for (let i = 0; i < domain.length; i++) {
+    return findClosestIndex(domain.length, pixelX, (i) => {
       const pos = scale(domain[i]);
-      if (pos !== undefined) {
-        const center = pos + bandwidth / 2;
-        const distance = Math.abs(pixelX - center);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = i;
-        }
-      }
-    }
-    return closestIndex;
+      return pos !== undefined ? pos + bandwidth / 2 : undefined;
+    });
   }
 
   if (isNumericScale(scale)) {
     const axisData = axisConfig?.data;
 
     if (axisData && axisData.length > 0 && typeof axisData[0] === 'number') {
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-      for (let i = 0; i < axisData.length; i++) {
-        const pos = scale(axisData[i] as number);
-        if (pos !== undefined) {
-          const distance = Math.abs(pixelX - (pos as number));
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = i;
-          }
-        }
-      }
-      return closestIndex;
+      return findClosestIndex(
+        axisData.length,
+        pixelX,
+        (i) => scale(axisData[i] as number) as number | undefined,
+      );
     }
 
     const inverted = scale.invert(pixelX);

@@ -4,12 +4,14 @@ import { useId, useMemo } from 'react';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useScrubberContext } from './context';
 import type { ScrubberProps } from './types';
-import { resolvePixelX, resolvePixelY } from './utils';
-
-const BEACON_RADIUS = 5;
-const BEACON_STROKE_WIDTH = 2;
-const LABEL_OFFSET_Y = 12;
-const OVERLAY_OFFSET = 2;
+import {
+  BEACON_RADIUS,
+  BEACON_STROKE_WIDTH,
+  LABEL_OFFSET_Y,
+  OVERLAY_OFFSET,
+  resolvePixelX,
+  resolvePixelY,
+} from './utils';
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
@@ -30,7 +32,7 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
-}: ScrubberProps) {
+}: Readonly<ScrubberProps>) {
   const lineGradientId = useId();
   const { scrubberPosition } = useScrubberContext();
   const { getXScale, getYScale, drawingArea, series, seriesMap } =

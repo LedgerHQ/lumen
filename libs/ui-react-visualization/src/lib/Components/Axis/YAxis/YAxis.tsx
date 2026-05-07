@@ -14,7 +14,7 @@ const TICK_LABEL_OFFSET = 6;
 export const DEFAULT_AXIS_WIDTH = 40;
 
 export function YAxis({
-  gridLineStyle = 'dashed',
+  gridLineStyle = 'solid',
   position = 'start',
   showGrid = false,
   showLine = false,
@@ -57,8 +57,7 @@ export function YAxis({
               x2={drawingArea.x + drawingArea.width}
               y2={tick.position}
               style={{
-                stroke: cssVar('var(--border-muted-subtle)'),
-                opacity: 0.5,
+                stroke: cssVar('var(--border-muted-subtle-transparent)'),
               }}
               strokeWidth={cssVar('var(--stroke-1)')}
               strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}

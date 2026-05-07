@@ -22,7 +22,7 @@ const meta = {
     (Story, context) => (
       // TODO: remove the stale decorator
       <StoryDecorator context={context}>
-        <div className='w-full h-full bg-base p-16'>
+        <div className='size-full bg-base p-16'>
           <Story />
         </div>
       </StoryDecorator>
@@ -76,9 +76,7 @@ export const Base: Story = {
     <div className='flex flex-col gap-40 p-16'>
       <div className='flex flex-col gap-10'>
         <h1 className='heading-1-semi-bold text-base'>Single Series</h1>
-        <p className='body-1-medium text-base'>
-          This is a single-series chart with a line.
-        </p>
+        <p className='text-base'>This is a single-series chart with a line.</p>
       </div>
       <LineChart
         series={singleSeries}
@@ -136,7 +134,7 @@ export const MultiSeries: Story = {
     <div className='flex flex-col gap-40 p-16'>
       <div className='flex flex-col gap-10'>
         <h1 className='heading-1-semi-bold text-base'>Multi Series</h1>
-        <p className='body-1-medium text-base'>
+        <p className='text-base'>
           This is a multi-series chart with two lines.
         </p>
       </div>
@@ -279,7 +277,7 @@ function BitcoinChartStory(props: ScrubberProps) {
     <div className='flex flex-col items-start gap-40 p-16'>
       <div className='inline-flex flex-col items-start gap-24'>
         <h1 className='heading-1-semi-bold text-base'>Bitcoin Price</h1>
-        <p className='body-1-medium text-base'>
+        <p className='text-base'>
           {chartData.dates[displayIndex]} —{' '}
           {formatBtcPrice(chartData.prices[displayIndex])}
         </p>
@@ -315,7 +313,7 @@ function BitcoinChartStory(props: ScrubberProps) {
           </Button>
         </div>
       </div>
-      <div className='w-full h-full bg-base p-16'>
+      <div className='size-full bg-base p-16'>
         <LineChart
           series={series}
           height={400}
@@ -370,6 +368,99 @@ function BitcoinChartStory(props: ScrubberProps) {
 
 export const BitcoinChart: Story = {
   render: (args: ScrubberProps) => <BitcoinChartStory {...args} />,
+  args: {},
+};
+
+/**
+ * Minimal reproduction of the bug, isolated from the real chart.
+ *
+ * Open the browser console, then click each button and compare the logs.
+ *
+ * - "Simulate hover" mimics what the internal event handlers did — they
+ *   manually called BOTH setState AND the external prop callback.
+ *
+ * - "Bug: jump via context" mimics what happened when a child component
+ *   called context.onScrubberPositionChange — it only called setState,
+ *   so the app never found out.
+ *
+ * - "Fix: jump via context" mimics the fix — the context setter is a
+ *   wrapper that calls BOTH, just like the internal handlers.
+ */
+function BugReproduction() {
+  const [position, setPosition] = useState<number | undefined>(undefined);
+
+  // This is the external prop — how the app observes scrubber changes.
+  // In real code: <LineChart onScrubberPositionChange={onPropCallback}>
+  const onPropCallback = (index: number | undefined): void => {
+    console.log('[APP] onScrubberPositionChange prop fired ->', index);
+  };
+
+  // --- BUGGY context value: raw setter, no external notification ---
+  const buggyContextSetter = (index: number | undefined): void => {
+    console.log('[PROVIDER] setState ->', index);
+    setPosition(index);
+    // BUG: onPropCallback is never called here!
+  };
+
+  // --- FIXED context value: wrapper that does both ---
+  const fixedContextSetter = (index: number | undefined): void => {
+    console.log('[PROVIDER] setState ->', index);
+    setPosition(index);
+    onPropCallback(index);
+  };
+
+  return (
+    <div className='flex flex-col gap-24 p-16'>
+      <p>Current position: {position ?? 'none'}</p>
+
+      <div className='flex gap-8'>
+        <Button
+          size='sm'
+          appearance='gray'
+          onClick={() => {
+            console.log('--- Simulating hover (internal handler) ---');
+            console.log('[PROVIDER] setState ->', 3);
+            setPosition(3);
+            onPropCallback(3);
+          }}
+        >
+          Simulate hover (internal handler)
+        </Button>
+
+        <Button
+          size='sm'
+          appearance='red'
+          onClick={() => {
+            console.log(
+              '--- BUG: child calls context.onScrubberPositionChange ---',
+            );
+            buggyContextSetter(5);
+            // Check the console: [APP] never fires!
+          }}
+        >
+          Bug: jump via context
+        </Button>
+
+        <Button
+          size='sm'
+          appearance='accent'
+          onClick={() => {
+            console.log(
+              '--- FIX: child calls context.onScrubberPositionChange ---',
+            );
+            fixedContextSetter(5);
+            // Check the console: [APP] fires too!
+          }}
+        >
+          Fix: jump via context
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export const ContextVsProp: Story = {
+  render: () => <BugReproduction />,
   args: {},
 };
 

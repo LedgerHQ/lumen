@@ -10,10 +10,22 @@ export function ScrubberProvider({
   svgRef,
   enableScrubbing,
   onScrubberPositionChange,
-}: ScrubberProviderProps) {
+}: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
   const [scrubberPosition, setScrubberPosition] = useState<number | undefined>(
     undefined,
+  );
+
+  const setScrubberPositionAndNotify = useCallback(
+    (index: number | undefined) => {
+      const clamped =
+        index !== undefined
+          ? Math.max(0, Math.min(index, dataLength - 1))
+          : undefined;
+      setScrubberPosition(clamped);
+      onScrubberPositionChange?.(clamped);
+    },
+    [dataLength, onScrubberPositionChange],
   );
 
   const updatePosition = useCallback(
@@ -29,8 +41,7 @@ export function ScrubberProvider({
       );
 
       if (index !== scrubberPosition) {
-        setScrubberPosition(index);
-        onScrubberPositionChange?.(index);
+        setScrubberPositionAndNotify(index);
       }
     },
     [
@@ -39,15 +50,14 @@ export function ScrubberProvider({
       getXAxisConfig,
       dataLength,
       scrubberPosition,
-      onScrubberPositionChange,
+      setScrubberPositionAndNotify,
     ],
   );
 
   const clearPosition = useCallback(() => {
     if (!enableScrubbing) return;
-    setScrubberPosition(undefined);
-    onScrubberPositionChange?.(undefined);
-  }, [enableScrubbing, onScrubberPositionChange]);
+    setScrubberPositionAndNotify(undefined);
+  }, [enableScrubbing, setScrubberPositionAndNotify]);
 
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
@@ -83,7 +93,7 @@ export function ScrubberProvider({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (!enableScrubbing) return;
+      if (!enableScrubbing || dataLength <= 0) return;
 
       const maxIndex = dataLength - 1;
       const current = scrubberPosition ?? maxIndex;
@@ -119,11 +129,15 @@ export function ScrubberProvider({
       }
 
       if (next !== scrubberPosition) {
-        setScrubberPosition(next);
-        onScrubberPositionChange?.(next);
+        setScrubberPositionAndNotify(next);
       }
     },
-    [enableScrubbing, dataLength, scrubberPosition, onScrubberPositionChange],
+    [
+      enableScrubbing,
+      dataLength,
+      scrubberPosition,
+      setScrubberPositionAndNotify,
+    ],
   );
 
   const handleBlur = useCallback(() => {
@@ -169,9 +183,9 @@ export function ScrubberProvider({
     () => ({
       enableScrubbing,
       scrubberPosition,
-      onScrubberPositionChange: setScrubberPosition,
+      onScrubberPositionChange: setScrubberPositionAndNotify,
     }),
-    [enableScrubbing, scrubberPosition],
+    [enableScrubbing, scrubberPosition, setScrubberPositionAndNotify],
   );
 
   return (
