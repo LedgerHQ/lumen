@@ -1,5 +1,4 @@
 import {
-  Avatar,
   DotCount,
   Box,
   InteractiveIcon,
@@ -35,14 +34,6 @@ export function DotCounts() {
             alt='Bitcoin'
             size={40}
             shape='circle'
-          />
-        </DotCount>
-        <DotCount value={100} size='md'>
-          <Avatar
-            src={
-              'https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            }
-            size='md'
           />
         </DotCount>
         <DotCount value={6} size='lg' disabled>

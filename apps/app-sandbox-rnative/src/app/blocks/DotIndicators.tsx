@@ -1,4 +1,4 @@
-import { Button, DotIndicator, Box } from '@ledgerhq/lumen-ui-rnative';
+import { Button, DotIndicator, Box, Avatar } from '@ledgerhq/lumen-ui-rnative';
 
 export function DotIndicators() {
   return (
@@ -15,6 +15,7 @@ export function DotIndicators() {
         <DotIndicator disabled />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
+        <Avatar size='md' showNotification />
         <DotIndicator appearance='red'>
           <Button size='sm' disabled>
             Submit
