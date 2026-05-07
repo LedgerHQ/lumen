@@ -3,6 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   getCategoricalScale,
   getNumericScale,
+  getPointOnScale,
   isBandScaleType,
   isCategoricalScale,
   isNumericScale,
@@ -130,6 +131,27 @@ describe('isCategoricalScale / isNumericScale', () => {
   it('should identify a categorical scale', () => {
     expect(isCategoricalScale(bandScale)).toBe(true);
     expect(isNumericScale(bandScale)).toBe(false);
+  });
+});
+
+describe('getPointOnScale', () => {
+  it('returns the center of a band for categorical scales', () => {
+    const scale = getCategoricalScale({
+      domain: { min: 0, max: 3 },
+      range: { min: 0, max: 400 },
+      padding: 0,
+    });
+    const expected = (scale(0) ?? 0) + scale.bandwidth() / 2;
+    expect(getPointOnScale(0, scale)).toBe(expected);
+  });
+
+  it('returns the direct scale value for numeric scales', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 4 },
+      range: { min: 0, max: 400 },
+    });
+    expect(getPointOnScale(2, scale)).toBe(scale(2));
   });
 });
 

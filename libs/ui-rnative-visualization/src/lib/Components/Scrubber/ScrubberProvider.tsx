@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue } from 'react-native-reanimated';
@@ -17,7 +17,7 @@ import { getDataIndexFromPosition } from './utils';
  * gesture-capture `View` overlay). `CartesianChart` handles this positioning
  * automatically when `enableScrubbing` is true.
  *
- * Activation requires a 150 ms long press before panning begins. This prevents
+ * Activation requires a 50 ms long press before panning begins. This prevents
  * accidental scrubbing when the user is scrolling a parent `ScrollView` or
  * `FlatList`. The `isScrubbing` shared value gates the pan via manual activation
  * so scroll and scrub gestures never compete.
@@ -28,7 +28,7 @@ export function ScrubberProvider({
   height,
   enableScrubbing,
   onScrubberPositionChange,
-}: ScrubberProviderProps) {
+}: Readonly<ScrubberProviderProps>) {
   const [scrubberPosition, setScrubberPosition] = useState<
     number | undefined
   >();
@@ -37,11 +37,18 @@ export function ScrubberProvider({
 
   const isScrubbing = useSharedValue(false);
 
+  const setScrubberPositionAndNotify = useCallback(
+    (index: number | undefined) => {
+      setScrubberPosition(index);
+      onScrubberPositionChange?.(index);
+    },
+    [onScrubberPositionChange],
+  );
+
   const handlePositionChange = useCallback(
     (pixelX: number | null) => {
       if (pixelX === null) {
-        setScrubberPosition(undefined);
-        onScrubberPositionChange?.(undefined);
+        setScrubberPositionAndNotify(undefined);
         return;
       }
 
@@ -55,14 +62,13 @@ export function ScrubberProvider({
         axisConfig,
         dataLength,
       );
-      setScrubberPosition(index);
-      onScrubberPositionChange?.(index);
+      setScrubberPositionAndNotify(index);
     },
-    [getXScale, getXAxisConfig, dataLength, onScrubberPositionChange],
+    [getXScale, getXAxisConfig, dataLength, setScrubberPositionAndNotify],
   );
 
   const longPress = Gesture.LongPress()
-    .minDuration(100)
+    .minDuration(50)
     .onStart((e) => {
       isScrubbing.value = true;
       scheduleOnRN(handlePositionChange, e.x);
@@ -87,13 +93,14 @@ export function ScrubberProvider({
 
   const composed = Gesture.Simultaneous(longPress, pan);
 
-  const contextValue = {
-    enableScrubbing,
-    scrubberPosition,
-    onScrubberPositionChange: handlePositionChange as (
-      index: number | undefined,
-    ) => void,
-  };
+  const contextValue = useMemo(
+    () => ({
+      enableScrubbing,
+      scrubberPosition,
+      onScrubberPositionChange: setScrubberPositionAndNotify,
+    }),
+    [enableScrubbing, scrubberPosition, setScrubberPositionAndNotify],
+  );
 
   return (
     <ScrubberContextProvider value={contextValue}>

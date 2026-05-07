@@ -74,6 +74,21 @@ export const isNumericScale = (
 };
 
 /**
+ * Returns the pixel coordinate at the center of the given data index on the scale.
+ * For band (categorical) scales, centers on the bandwidth.
+ * For numeric scales, calls the scale directly.
+ */
+export const getPointOnScale = (
+  dataIndex: number,
+  scale: ChartScaleFunction,
+): number => {
+  if (isCategoricalScale(scale)) {
+    return (scale(dataIndex) ?? 0) + scale.bandwidth() / 2;
+  }
+  return scale(dataIndex) as number;
+};
+
+/**
  * Projects a single data-space coordinate pair to pixel-space
  * using the provided x and y scale functions.
  *
@@ -84,12 +99,7 @@ export const projectPoint = (
   dataY: number,
   xScale: ChartScaleFunction,
   yScale: ChartScaleFunction,
-): { x: number; y: number } => {
-  const x = isCategoricalScale(xScale)
-    ? (xScale(dataX) ?? 0) + xScale.bandwidth() / 2
-    : xScale(dataX);
-  const y = isCategoricalScale(yScale)
-    ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
-    : yScale(dataY);
-  return { x: x, y };
-};
+): { x: number; y: number } => ({
+  x: getPointOnScale(dataX, xScale),
+  y: getPointOnScale(dataY, yScale),
+});
