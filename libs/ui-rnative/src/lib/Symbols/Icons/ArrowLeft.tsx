@@ -39,7 +39,7 @@ export const ArrowLeft = createIcon(
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M3.333 8h9.334M3.333 8l3.334-3.333M3.333 8l3.334 3.333'
+      d='M3.333 8h9.334m-6 3.333L3.333 8l3.334-3.333'
     />
   </Svg>,
 );

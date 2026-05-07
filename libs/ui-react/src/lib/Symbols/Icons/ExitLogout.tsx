@@ -38,7 +38,7 @@ export const ExitLogout = createIcon(
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M7.333 8H14m0 0-2.333 2.333M14 8l-2.333-2.333M8 2H4c-1.107 0-2 .893-2 2v8c0 1.1.893 2 2 2h4'
+      d='M7.333 8H14m-2.333-2.333L14 8l-2.333 2.333M8 2H4c-1.107 0-2 .893-2 2v8c0 1.1.893 2 2 2h4'
     />
   </svg>,
 );

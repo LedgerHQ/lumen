@@ -44,28 +44,28 @@ describe('Avatar Component', () => {
     const { container } = render(<Avatar src={validSrc} />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-40');
+    expect(wrapper).toHaveClass('size-48');
   });
 
   it('should render with sm size when specified', () => {
     const { container } = render(<Avatar src={validSrc} size='sm' />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-32');
+    expect(wrapper).toHaveClass('size-40');
   });
 
   it('should render with lg size when specified', () => {
     const { container } = render(<Avatar src={validSrc} size='lg' />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-48');
+    expect(wrapper).toHaveClass('size-56');
   });
 
   it('should render with xl size when specified', () => {
     const { container } = render(<Avatar src={validSrc} size='xl' />);
 
     const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('size-64');
+    expect(wrapper).toHaveClass('size-72');
   });
 
   it('should not show notification indicator by default', () => {

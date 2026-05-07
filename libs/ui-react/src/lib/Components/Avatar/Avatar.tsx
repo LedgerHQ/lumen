@@ -10,10 +10,10 @@ const avatarVariants = {
     {
       variants: {
         size: {
-          sm: 'size-32 p-4',
-          md: 'size-40 p-4',
-          lg: 'size-48 p-4',
-          xl: 'size-64 p-4',
+          sm: 'size-40 p-4',
+          md: 'size-48 p-4',
+          lg: 'size-56 p-4',
+          xl: 'size-72 p-4',
         },
       },
       defaultVariants: {
