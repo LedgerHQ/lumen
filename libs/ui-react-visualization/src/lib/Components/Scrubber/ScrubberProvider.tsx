@@ -30,6 +30,18 @@ export function ScrubberProvider({
     [dataLength, onScrubberPositionChange],
   );
 
+  const setScrubberPositionAndNotify = useCallback(
+    (index: number | undefined) => {
+      const clamped =
+        index !== undefined
+          ? Math.max(0, Math.min(index, dataLength - 1))
+          : undefined;
+      setScrubberPosition(clamped);
+      onScrubberPositionChange?.(clamped);
+    },
+    [dataLength, onScrubberPositionChange],
+  );
+
   const updatePosition = useCallback(
     (pixelX: number) => {
       const scale = getXScale();
