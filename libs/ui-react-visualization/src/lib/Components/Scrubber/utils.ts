@@ -56,7 +56,7 @@ export const getDataIndexFromPosition = (
     const bandwidth = scale.bandwidth();
     return findClosestIndex(domain.length, pixelX, (i) => {
       const pos = scale(domain[i]);
-      return pos !== undefined ? pos + bandwidth / 2 : undefined;
+      return pos === undefined ? undefined : pos + bandwidth / 2;
     });
   }
 

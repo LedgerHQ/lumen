@@ -1,10 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   getCategoricalScale,
   getNumericScale,
 } from '../../utils/scales/scales';
-import { getDataIndexFromPosition } from './utils';
+import {
+  getDataIndexFromPosition,
+  resolvePixelX,
+  resolvePixelY,
+} from './utils';
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {
@@ -79,5 +83,56 @@ describe('getDataIndexFromPosition', () => {
     it('returns 2 for pixel closest to last data point', () => {
       expect(getDataIndexFromPosition(195, scale, axisConfig, 3)).toBe(2);
     });
+  });
+});
+
+describe('resolvePixelY', () => {
+  const numericScale = getNumericScale({
+    scaleType: 'linear',
+    domain: { min: 0, max: 100 },
+    range: { min: 0, max: 200 },
+  });
+
+  const getYScale = vi.fn(() => numericScale);
+
+  it('returns a pixel value for a valid data point', () => {
+    const result = resolvePixelY(1, [10, 50, 90], getYScale);
+    expect(typeof result).toBe('number');
+  });
+
+  it('returns undefined when getYScale returns undefined', () => {
+    const noScale = vi.fn(() => undefined);
+    expect(resolvePixelY(0, [10], noScale)).toBeUndefined();
+  });
+
+  it('returns undefined when seriesData is undefined', () => {
+    expect(resolvePixelY(0, undefined, getYScale)).toBeUndefined();
+  });
+
+  it('returns undefined when the value at dataIndex is null', () => {
+    expect(resolvePixelY(1, [10, null, 30], getYScale)).toBeUndefined();
+  });
+
+  it('returns undefined when the value at dataIndex is out of bounds', () => {
+    expect(resolvePixelY(5, [10, 20], getYScale)).toBeUndefined();
+  });
+});
+
+describe('resolvePixelX', () => {
+  const numericScale = getNumericScale({
+    scaleType: 'linear',
+    domain: { min: 0, max: 4 },
+    range: { min: 0, max: 400 },
+  });
+
+  it('returns a pixel value when a scale is available', () => {
+    const getXScale = vi.fn(() => numericScale);
+    const result = resolvePixelX(2, getXScale);
+    expect(typeof result).toBe('number');
+  });
+
+  it('returns undefined when getXScale returns undefined', () => {
+    const noScale = vi.fn(() => undefined);
+    expect(resolvePixelX(0, noScale)).toBeUndefined();
   });
 });

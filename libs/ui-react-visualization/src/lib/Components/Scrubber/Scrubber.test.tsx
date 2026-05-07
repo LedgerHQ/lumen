@@ -141,4 +141,42 @@ describe('Scrubber', () => {
     expect(x1).toBeGreaterThanOrEqual(0);
     expect(x1).toBeLessThanOrEqual(400);
   });
+
+  it('skips beacon for a series with null at the scrubbed index', () => {
+    const seriesWithNull = [
+      { id: 's1', stroke: '#7B61FF', data: [10, 20, 30, 40, 50] },
+      { id: 's2', stroke: '#44D7B6', data: [50, null, 30, 20, 10] },
+    ];
+
+    const result = render(
+      <CartesianChart
+        series={seriesWithNull}
+        width={400}
+        height={200}
+        enableScrubbing
+      >
+        <Scrubber showBeacons />
+      </CartesianChart>,
+    );
+
+    const svg = result.getByTestId('chart-svg');
+    vi.spyOn(svg, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      right: 400,
+      bottom: 200,
+      width: 400,
+      height: 200,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
+
+    act(() => {
+      fireEvent.mouseMove(svg, { clientX: 100, clientY: 100 });
+    });
+
+    const beacons = result.queryAllByTestId(/scrubber-beacon-/);
+    expect(beacons.length).toBeLessThanOrEqual(1);
+  });
 });
