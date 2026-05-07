@@ -24,6 +24,7 @@ SegmentedControl is a tab bar-style component for switching between mutually exc
 - **Segments**: Individual options the user can select.
 - **Selected state**: The active segment (sliding pill + semi-bold label).
 - **Optional icon**: Icon to the left of the label (from Symbols).
+- **Optional trailing content**: Any node (e.g. `DotCount`) rendered to the right of the label.
 - **Appearance**: Use `appearance="background"` (default) for a surface background, or `appearance="no-background"` for a transparent container.
 
 ## Properties
@@ -38,6 +39,12 @@ You can use segments with text only (Base), or add an icon to each button (WithI
 <Canvas of={SegmentedControlStories.Base} />
 
 <Canvas of={SegmentedControlStories.WithIcons} />
+
+### With trailing content
+
+Use `trailingContent` to render content (e.g. `DotCount`) to the right of the label.
+
+<Canvas of={SegmentedControlStories.WithTrailingContent} />
 
 ## Responsive Layout
 
@@ -79,6 +86,33 @@ export default function Example() {
 }
 ```
 
+## With trailing content
+
+Pass any node via `trailingContent` to render it to the right of the label. Use it for badges like `DotCount` to surface counts per segment.
+
+```tsx
+import { SegmentedControl, SegmentedControlButton, DotCount } from '@ledgerhq/lumen-ui-react';
+
+function Example() {
+  const [state, setState] = React.useState('tokens');
+  return (
+    <SegmentedControl
+      selectedValue={state}
+      onSelectedChange={setState}
+      aria-label='Asset section'
+    >
+      <SegmentedControlButton value='tokens' trailingContent={<DotCount value={3} />}>
+        Tokens
+      </SegmentedControlButton>
+      <SegmentedControlButton value='nfts' trailingContent={<DotCount value={12} />}>
+        NFTs
+      </SegmentedControlButton>
+      <SegmentedControlButton value='activity'>Activity</SegmentedControlButton>
+    </SegmentedControl>
+  );
+}
+```
+
 ## With icons
 
 Pass an icon from symbols to each button for a left-positioned icon. Use icons on all segments or none for consistency.
@@ -111,10 +145,6 @@ function Example() {
   );
 }
 ```
-
-<div className='flex flex-col gap-24'>
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

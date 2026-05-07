@@ -50,4 +50,8 @@ export type SegmentedControlButtonProps = {
    * Optional icon shown to the left of the label (from Symbols).
    */
   icon?: IconComponent;
+  /**
+   * Optional content shown to the right of the label (e.g. DotCount badge).
+   */
+  trailingContent?: ReactNode;
 } & Omit<ComponentPropsWithoutRef<'button'>, 'children'>;
