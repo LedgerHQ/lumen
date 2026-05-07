@@ -49,7 +49,7 @@ export const YAxis = ({
   const fontSize = theme.typographies.body4.fontSize;
   const labelDy = fontSize * 0.35;
 
-  const gridStroke = theme.colors.border.mutedSubtle;
+  const gridStroke = theme.colors.border.mutedSubtleTransparent;
   const lineStroke = theme.colors.border.muted;
   const textFill = theme.colors.text.muted;
 

@@ -42,7 +42,7 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
-}: ScrubberProps) {
+}: Readonly<ScrubberProps>) {
   const { theme } = useTheme();
   const { scrubberPosition } = useScrubberContext();
   const { getXScale, getYScale, drawingArea, series, seriesMap } =
@@ -84,7 +84,7 @@ export function Scrubber({
   } = drawingArea;
 
   const lineGradientId = `scrubber-line-gradient-${scrubberPosition}`;
-  const borderMutedColor = theme.colors.border.muted;
+  const borderMutedColor = theme.colors.border.base;
   const backgroundBaseColor = theme.colors.bg.base;
   const textBaseColor = theme.colors.text.base;
   const bgCanvasColor = theme.colors.bg.canvas;
@@ -107,8 +107,8 @@ export function Scrubber({
                 stopColor={borderMutedColor}
                 stopOpacity={0.1}
               />
-              <Stop offset='30%' stopColor={borderMutedColor} stopOpacity={1} />
-              <Stop offset='70%' stopColor={borderMutedColor} stopOpacity={1} />
+              <Stop offset='20%' stopColor={borderMutedColor} stopOpacity={1} />
+              <Stop offset='80%' stopColor={borderMutedColor} stopOpacity={1} />
               <Stop
                 offset='100%'
                 stopColor={borderMutedColor}
@@ -123,7 +123,7 @@ export function Scrubber({
             x2={pixelX}
             y2={drawY + drawHeight}
             stroke={`url(#${lineGradientId})`}
-            strokeWidth={2}
+            strokeWidth={0.5}
           />
         </>
       )}
@@ -136,7 +136,7 @@ export function Scrubber({
           width={Math.max(0, drawX + drawWidth - pixelX - 0.5 + OVERLAY_OFFSET)}
           height={drawHeight + OVERLAY_OFFSET * 2}
           fill={backgroundBaseColor}
-          opacity={0.6}
+          opacity={0.8}
         />
       )}
 
