@@ -28,21 +28,23 @@ import {
   Checkboxes,
   ContentBanners,
   Dividers,
+  DotCounts,
   DotIcons,
+  DotIndicators,
   DotSymbols,
-  MediaImages,
   ExampleTabBar,
   Gradients,
   IconButtons,
   InteractiveIcons,
   LineCharts,
-  OptionLists,
   Links,
   ListItems,
   MediaBanners,
   MediaButtons,
   MediaCards,
+  MediaImages,
   NavBars,
+  OptionLists,
   PageIndicators,
   SegmentedControls,
   Selects,
@@ -57,8 +59,7 @@ import {
   ToggleLocaleSwitch,
   ToggleThemeSwitch,
   Tooltips,
-  DotCounts,
-  DotIndicators,
+  Trends,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -267,6 +268,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='Tooltips'>
                   <Tooltips />
+                </SandboxBlock>
+                <SandboxBlock title='Trends'>
+                  <Trends />
                 </SandboxBlock>
               </Box>
             </ScrollView>

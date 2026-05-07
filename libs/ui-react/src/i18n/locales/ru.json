@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Аватар пользователя",
-      "notificationAriaLabel": "Есть уведомление"
+      "notificationAriaLabel": "Есть уведомление",
+      "fallbackIconAriaLabel": "Стандартная иконка"
     },
     "baseInput": {
       "clearInputAriaLabel": "Очистить поле"
@@ -33,9 +34,12 @@
       "goBackAriaLabel": "Назад"
     },
     "sideBar": {
-      "navigationAriaLabel": "Боковая навигация",
-      "collapseAriaLabel": "Свернуть боковую панель",
-      "expandAriaLabel": "Развернуть боковую панель"
+      "navigationAriaLabel": "Боковое меню",
+      "collapseAriaLabel": "Скрыть боковое меню",
+      "expandAriaLabel": "Показать боковое меню"
+    },
+    "stepper": {
+      "progressAriaLabel": "Шаг {{currentStep}} из {{totalSteps}}"
     }
   }
 }

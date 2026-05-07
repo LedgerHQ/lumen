@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Kullanıcı avatarı",
-      "notificationAriaLabel": "Bildirim var"
+      "notificationAriaLabel": "Bildirim var",
+      "fallbackIconAriaLabel": "Yedek simge"
     },
     "baseInput": {
       "clearInputAriaLabel": "Girdiyi temizle"
@@ -30,7 +31,7 @@
       "opensInNewTabAriaLabel": "(yeni sekmede açılır)"
     },
     "stepper": {
-      "progressAriaLabel": "{{totalSteps}} adımdan {{currentStep}}. adım"
+      "progressAriaLabel": "Adım {{totalSteps}} / {{currentStep}}"
     }
   }
 }

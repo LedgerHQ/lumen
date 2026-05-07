@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Avatar do usuário",
-      "notificationAriaLabel": "Tem notificação"
+      "notificationAriaLabel": "Tem notificação",
+      "fallbackIconAriaLabel": "Ícone fallback"
     },
     "baseInput": {
       "clearInputAriaLabel": "Limpar input"
@@ -33,9 +34,12 @@
       "goBackAriaLabel": "Voltar"
     },
     "sideBar": {
-      "navigationAriaLabel": "Navegação lateral",
+      "navigationAriaLabel": "Barra de navegação lateral",
       "collapseAriaLabel": "Recolher barra lateral",
       "expandAriaLabel": "Expandir barra lateral"
+    },
+    "stepper": {
+      "progressAriaLabel": "Passo {{currentStep}} de {{totalSteps}}"
     }
   }
 }

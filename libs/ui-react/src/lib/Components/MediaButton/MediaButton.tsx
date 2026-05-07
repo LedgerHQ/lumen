@@ -94,7 +94,9 @@ export const MediaButton = ({
       disabled={disabled}
       {...props}
     >
-      {icon && <span className='shrink-0'>{icon}</span>}
+      {icon && (
+        <span className='inline-flex shrink-0 items-center'>{icon}</span>
+      )}
       <span className='flex items-center gap-2'>
         {asChild ? (
           <Slottable>{children}</Slottable>

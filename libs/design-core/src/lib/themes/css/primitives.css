@@ -35,6 +35,9 @@
   --color-light-grey-075-0: rgba(253, 253, 253, 0);
   --color-light-grey-075: #fdfdfd;
   --color-light-grey-100-0: rgba(250, 250, 250, 0);
+  --color-light-grey-200-0: rgba(241, 241, 241, 0);
+  --color-light-grey-300-50: rgba(232, 232, 232, 0.5);
+  --color-light-grey-600-0: rgba(118, 118, 118, 0);
   --color-light-grey-950-0: rgba(0, 0, 0, 0);
   --color-light-grey-950-3: rgba(0, 0, 0, 0.03);
   --color-light-grey-950-5: rgba(0, 0, 0, 0.05);
@@ -93,6 +96,7 @@
   --color-light-green-050: #f4fbf2;
   --color-light-green-600-0: rgba(71, 136, 58, 0);
   --color-light-green-600-10: rgba(71, 136, 58, 0.1);
+  --color-light-green-600-50: rgba(71, 136, 58, 0.5);
   --color-light-yellow-100: #fff3d5;
   --color-light-yellow-200: #ffe7ac;
   --color-light-yellow-300: #ffd373;
@@ -123,6 +127,7 @@
   --color-light-red-600-10: rgba(194, 66, 68, 0.1);
   --color-light-red-600-20: rgba(194, 66, 68, 0.2);
   --color-light-red-600-30: rgba(194, 66, 68, 0.3);
+  --color-light-red-600-50: rgba(194, 66, 68, 0.5);
   --color-light-crypto-aion: #212529;
   --color-light-crypto-aion-0: rgba(33, 37, 41, 0);
   --color-light-crypto-algorand: #000000;
@@ -315,6 +320,9 @@
   --color-dark-grey-075-0: rgba(16, 16, 16, 0);
   --color-dark-grey-075: #101010;
   --color-dark-grey-100-0: rgba(21, 21, 21, 0);
+  --color-dark-grey-200-0: rgba(31, 31, 31, 0);
+  --color-dark-grey-300-50: rgba(60, 60, 60, 0.5);
+  --color-dark-grey-500-0: rgba(113, 112, 112, 0);
   --color-dark-grey-950-0: rgba(255, 255, 255, 0);
   --color-dark-grey-950-3: rgba(255, 255, 255, 0.03);
   --color-dark-grey-950-5: rgba(255, 255, 255, 0.05);
@@ -374,6 +382,7 @@
   --color-dark-green-600-0: rgba(110, 200, 92, 0);
   --color-dark-green-600-10: rgba(110, 200, 92, 0.1);
   --color-dark-green-600-15: rgba(110, 200, 92, 0.15);
+  --color-dark-green-600-50: rgba(110, 200, 92, 0.5);
   --color-dark-yellow-100: #63420f;
   --color-dark-yellow-200: #885a14;
   --color-dark-yellow-300: #ae731a;
@@ -404,6 +413,7 @@
   --color-dark-red-600-15: rgba(248, 114, 116, 0.15);
   --color-dark-red-600-30: rgba(248, 114, 116, 0.3);
   --color-dark-red-600-40: rgba(248, 114, 116, 0.4);
+  --color-dark-red-600-50: rgba(248, 114, 116, 0.5);
   --color-dark-crypto-aion: #212529;
   --color-dark-crypto-aion-0: rgba(33, 37, 41, 0);
   --color-dark-crypto-algorand: #000000;
