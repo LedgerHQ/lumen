@@ -55,17 +55,11 @@ export function DotCounts() {
         tabLayout='fit'
         accessibilityLabel='Fit layout'
       >
-        <SegmentedControlButton value='preview'>
-          <>
-            Preview
-            <Box>
-              <DotCount
-                value={3}
-                size='md'
-                style={{ marginLeft: 8, marginBottom: -3 }}
-              />
-            </Box>
-          </>
+        <SegmentedControlButton
+          value='preview'
+          trailingContent={<DotCount value={3} size='md' />}
+        >
+          Preview
         </SegmentedControlButton>
         <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
         <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
