@@ -63,7 +63,7 @@ export const DataTableRoot = <TData extends RowData>({
   groupBy,
   renderGroupHeader,
   hideHeader = false,
-  stickyHeader = false,
+  stickyHeader = true,
   children,
   className,
   ref,

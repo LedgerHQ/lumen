@@ -75,7 +75,7 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    * visible while scrolling. Sticks to the nearest scrolling ancestor:
    * the table container when the table itself scrolls, or the page when
    * the table is used inside a scrollable page.
-   * @default false
+   * @default true
    */
   stickyHeader?: boolean;
   /**
