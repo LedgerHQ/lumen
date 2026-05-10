@@ -8,7 +8,10 @@ import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
   LABEL_OFFSET_Y,
+  OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
+  OVERLAY_OPACITY,
+  LINE_GRADIENT_EDGE_OPACITY,
   resolvePixelX,
   resolvePixelY,
 } from './utils';
@@ -73,6 +76,14 @@ export function Scrubber({
     height: drawHeight,
   } = drawingArea;
 
+  const overlayX = pixelX + OVERLAY_LINE_INSET;
+  const overlayY = drawY - OVERLAY_OFFSET;
+  const overlayWidth = Math.max(
+    0,
+    drawX + drawWidth - pixelX - OVERLAY_LINE_INSET + OVERLAY_OFFSET,
+  );
+  const overlayHeight = drawHeight + OVERLAY_OFFSET * 2;
+
   return (
     <g data-testid='scrubber'>
       {!hideLine && (
@@ -89,14 +100,14 @@ export function Scrubber({
               <stop
                 offset='0%'
                 stopColor={cssVar('var(--border-base)')}
-                stopOpacity={0.1}
+                stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
               />
               <stop offset='20%' stopColor={cssVar('var(--border-base)')} />
               <stop offset='80%' stopColor={cssVar('var(--border-base)')} />
               <stop
                 offset='100%'
                 stopColor={cssVar('var(--border-base)')}
-                stopOpacity={0.1}
+                stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
               />
             </linearGradient>
           </defs>
@@ -115,12 +126,12 @@ export function Scrubber({
       {!hideOverlay && (
         <rect
           data-testid='scrubber-overlay'
-          x={pixelX + 0.5}
-          y={drawY - OVERLAY_OFFSET}
-          width={Math.max(0, drawX + drawWidth - pixelX - 0.5 + OVERLAY_OFFSET)}
-          height={drawHeight + OVERLAY_OFFSET * 2}
+          x={overlayX}
+          y={overlayY}
+          width={overlayWidth}
+          height={overlayHeight}
           fill={cssVar('var(--background-base)')}
-          opacity={0.8}
+          opacity={OVERLAY_OPACITY}
         />
       )}
 

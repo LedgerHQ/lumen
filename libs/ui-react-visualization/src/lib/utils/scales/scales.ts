@@ -96,12 +96,7 @@ export const projectPoint = (
   dataY: number,
   xScale: ChartScaleFunction,
   yScale: ChartScaleFunction,
-): { x: number; y: number } => {
-  const x = isCategoricalScale(xScale)
-    ? (xScale(dataX) ?? 0) + xScale.bandwidth() / 2
-    : xScale(dataX);
-  const y = isCategoricalScale(yScale)
-    ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
-    : yScale(dataY);
-  return { x: x, y };
-};
+): { x: number; y: number } => ({
+  x: getPointOnScale(dataX, xScale),
+  y: getPointOnScale(dataY, yScale),
+});
