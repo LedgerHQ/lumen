@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
-import { Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
 import { CartesianChart } from '../CartesianChart';
 import { useScrubberContext } from './context';
@@ -83,8 +83,22 @@ describe('ScrubberProvider', () => {
     );
   });
 
-  it('calls onScrubberPositionChange when position changes to undefined', () => {
+  it('calls onScrubberPositionChange when position is updated via context', () => {
     const onScrubberPositionChange = jest.fn();
+
+    const ContextTrigger = () => {
+      const { onScrubberPositionChange: updatePosition } = useScrubberContext();
+      return (
+        <>
+          <Pressable testID='set-position' onPress={() => updatePosition(2)} />
+          <Pressable
+            testID='clear-position'
+            onPress={() => updatePosition(undefined)}
+          />
+        </>
+      );
+    };
+
     const { getByTestId } = render(
       <Wrapper>
         <CartesianChart series={sampleSeries} width={400} height={200}>
@@ -94,11 +108,48 @@ describe('ScrubberProvider', () => {
             enableScrubbing={true}
             onScrubberPositionChange={onScrubberPositionChange}
           >
-            <ContextConsumer />
+            <ContextTrigger />
           </ScrubberProvider>
         </CartesianChart>
       </Wrapper>,
     );
-    expect(getByTestId('context-output')).toBeTruthy();
+
+    fireEvent.press(getByTestId('set-position'));
+    expect(onScrubberPositionChange).toHaveBeenCalledWith(2);
+
+    fireEvent.press(getByTestId('clear-position'));
+    expect(onScrubberPositionChange).toHaveBeenCalledWith(undefined);
+    expect(onScrubberPositionChange).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not fire onScrubberPositionChange when the index is unchanged', () => {
+    const onScrubberPositionChange = jest.fn();
+
+    const ContextTrigger = () => {
+      const { onScrubberPositionChange: updatePosition } = useScrubberContext();
+      return (
+        <Pressable testID='set-position' onPress={() => updatePosition(2)} />
+      );
+    };
+
+    const { getByTestId } = render(
+      <Wrapper>
+        <CartesianChart series={sampleSeries} width={400} height={200}>
+          <ScrubberProvider
+            width={400}
+            height={200}
+            enableScrubbing={true}
+            onScrubberPositionChange={onScrubberPositionChange}
+          >
+            <ContextTrigger />
+          </ScrubberProvider>
+        </CartesianChart>
+      </Wrapper>,
+    );
+
+    fireEvent.press(getByTestId('set-position'));
+    fireEvent.press(getByTestId('set-position'));
+    fireEvent.press(getByTestId('set-position'));
+    expect(onScrubberPositionChange).toHaveBeenCalledTimes(1);
   });
 });

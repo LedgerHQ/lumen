@@ -8,6 +8,11 @@ import type { useCartesianChartContext } from '../CartesianChart/context';
 
 export { getPointOnScale };
 
+export const BEACON_RADIUS = 5;
+export const BEACON_STROKE_WIDTH = 2;
+export const LABEL_OFFSET_Y = 12;
+export const OVERLAY_OFFSET = 2;
+
 /**
  * Returns the index of the element in `pixelPositions` closest to `targetPixel`.
  * Skips `undefined` entries. Returns `0` when the array is empty.
@@ -30,11 +35,6 @@ const findClosestIndex = (
   }
   return closestIndex;
 };
-
-export const BEACON_RADIUS = 5;
-export const BEACON_STROKE_WIDTH = 2;
-export const LABEL_OFFSET_Y = 12;
-export const OVERLAY_OFFSET = 2;
 
 /**
  * Converts a pixel position along the x-axis into the nearest data index.

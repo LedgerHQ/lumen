@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue } from 'react-native-reanimated';
@@ -32,6 +32,7 @@ export function ScrubberProvider({
   const [scrubberPosition, setScrubberPosition] = useState<
     number | undefined
   >();
+  const lastPositionRef = useRef<number | undefined>(undefined);
 
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
 
@@ -39,6 +40,8 @@ export function ScrubberProvider({
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
+      if (index === lastPositionRef.current) return;
+      lastPositionRef.current = index;
       setScrubberPosition(index);
       onScrubberPositionChange?.(index);
     },
@@ -67,12 +70,20 @@ export function ScrubberProvider({
     [getXScale, getXAxisConfig, dataLength, setScrubberPositionAndNotify],
   );
 
+  const resetScrubber = (): void => {
+    'worklet';
+    isScrubbing.value = false;
+    scheduleOnRN(handlePositionChange, null);
+  };
+
   const longPress = Gesture.LongPress()
     .minDuration(50)
     .onStart((e) => {
       isScrubbing.value = true;
       scheduleOnRN(handlePositionChange, e.x);
-    });
+    })
+    .onEnd(resetScrubber)
+    .onFinalize(resetScrubber);
 
   const pan = Gesture.Pan()
     .manualActivation(true)
@@ -82,14 +93,8 @@ export function ScrubberProvider({
     .onUpdate((e) => {
       scheduleOnRN(handlePositionChange, e.x);
     })
-    .onEnd(() => {
-      isScrubbing.value = false;
-      scheduleOnRN(handlePositionChange, null);
-    })
-    .onFinalize(() => {
-      isScrubbing.value = false;
-      scheduleOnRN(handlePositionChange, null);
-    });
+    .onEnd(resetScrubber)
+    .onFinalize(resetScrubber);
 
   const composed = Gesture.Simultaneous(longPress, pan);
 
