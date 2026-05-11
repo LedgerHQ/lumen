@@ -1,13 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
+import { BASE_TEXT_STYLE, PADDING_X } from './constants';
 import type { ChartTooltipItemProps } from './types';
-
-const PADDING_X = 8;
-
-const BASE_TEXT_STYLE = {
-  fontSize: cssVar('var(--font-style-body-4-size)'),
-  fontFamily: cssVar('var(--font-family-font)'),
-} as const;
 
 export function ChartTooltipItem({
   title,

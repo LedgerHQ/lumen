@@ -26,6 +26,11 @@ export type ChartTooltipItemProps = {
 
 export type ChartTooltipProps = {
   /**
+   * Optional header rendered at the top of the tooltip card.
+   * Accepts a static value or a callback receiving the active data index.
+   */
+  title?: ReactNode | ((index: number) => ReactNode);
+  /**
    * Produces tooltip rows from the active data index.
    * Each returned item is rendered as a `<ChartTooltipItem>`.
    * Return an empty array to suppress the tooltip at a given index.

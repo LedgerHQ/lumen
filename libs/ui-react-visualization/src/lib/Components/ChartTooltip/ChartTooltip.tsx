@@ -4,15 +4,19 @@ import { useCartesianChartContext } from '../CartesianChart/context';
 import { useScrubberContext } from '../Scrubber/context';
 import { resolvePixelX } from '../Scrubber/utils';
 import { ChartTooltipItem } from './ChartTooltipItem';
+import {
+  BASE_TEXT_STYLE,
+  BORDER_RADIUS,
+  DEFAULT_OFFSET,
+  DEFAULT_TOOLTIP_WIDTH,
+  PADDING_X,
+  PADDING_Y,
+  ROW_GAP,
+  ROW_HEIGHT,
+  TITLE_GAP,
+  TOOLTIP_TRANSITION,
+} from './constants';
 import type { ChartTooltipItemData, ChartTooltipProps } from './types';
-
-const DEFAULT_OFFSET = 10;
-const DEFAULT_TOOLTIP_WIDTH = 120;
-const PADDING_Y = 8;
-const ROW_HEIGHT = 16;
-const ROW_GAP = 6;
-const BORDER_RADIUS = 4;
-const TOOLTIP_TRANSITION = 'opacity 0.15s ease-out 0.05s';
 
 /**
  * Renders a structured tooltip anchored to the scrubber line.
@@ -27,11 +31,15 @@ const TOOLTIP_TRANSITION = 'opacity 0.15s ease-out 0.05s';
  * ```tsx
  * <LineChart series={series} enableScrubbing>
  *   <Scrubber />
- *   <ChartTooltip items={(i) => [{ title: 'Index', value: i }]} />
+ *   <ChartTooltip
+ *     title={(i) => `${count[i]} Transactions`}
+ *     items={(i) => [{ title: 'Index', value: i }]}
+ *   />
  * </LineChart>
  * ```
  */
 export function ChartTooltip({
+  title,
   items,
   offset = DEFAULT_OFFSET,
   side = 'auto',
@@ -54,6 +62,10 @@ export function ChartTooltip({
 
   if (pixelX === undefined || resolvedItems.length === 0) return hiddenTooltip;
 
+  const resolvedTitle =
+    typeof title === 'function' ? title(scrubberPosition) : title;
+  const hasTitle = resolvedTitle !== undefined && resolvedTitle !== null;
+
   const shouldFlip =
     side === 'left' ||
     (side === 'auto' &&
@@ -64,20 +76,19 @@ export function ChartTooltip({
     shouldFlip ? pixelX - offset - tooltipWidth : pixelX + offset,
   );
 
+  const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
+
   const tooltipHeight =
     PADDING_Y * 2 +
+    titleBlockHeight +
     resolvedItems.length * ROW_HEIGHT +
     (resolvedItems.length - 1) * ROW_GAP;
 
-  const ariaLabel = resolvedItems
-    .map((item) => `${String(item.title)}: ${String(item.value)}`)
-    .join(', ');
+  const itemsBaseY = drawingArea.y + PADDING_Y + titleBlockHeight;
 
   return (
     <g
       data-testid='chart-tooltip'
-      role='tooltip'
-      aria-label={ariaLabel}
       style={{
         opacity: 1,
         transition: TOOLTIP_TRANSITION,
@@ -92,18 +103,27 @@ export function ChartTooltip({
         rx={BORDER_RADIUS}
         fill={cssVar('var(--background-muted)')}
       />
+      {hasTitle && (
+        <text
+          x={tooltipX + PADDING_X}
+          y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
+          dominantBaseline='middle'
+          style={{
+            ...BASE_TEXT_STYLE,
+            fill: cssVar('var(--text-base)'),
+            fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
+          }}
+        >
+          {resolvedTitle}
+        </text>
+      )}
       {resolvedItems.map((item, i) => (
         <ChartTooltipItem
           key={`${String(item.title)}-${i}`}
           title={item.title}
           value={item.value}
           x={tooltipX}
-          y={
-            drawingArea.y +
-            PADDING_Y +
-            i * (ROW_HEIGHT + ROW_GAP) +
-            ROW_HEIGHT / 2
-          }
+          y={itemsBaseY + i * (ROW_HEIGHT + ROW_GAP) + ROW_HEIGHT / 2}
           width={tooltipWidth}
         />
       ))}

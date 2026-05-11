@@ -65,6 +65,22 @@ export const Base: Story = {
   ),
 };
 
+export const WithTitle: Story = {
+  render: () => (
+    <LineChart series={sampleSeries} height={250} enableScrubbing showArea>
+      <Scrubber />
+      <ChartTooltip
+        title={(i) => `${sampleSeries[0].data[i]} Transactions`}
+        tooltipWidth={160}
+        items={(i) => [
+          { title: 'Date', value: dates[i] },
+          { title: 'Price', value: `$${sampleSeries[0].data[i]}` },
+        ]}
+      />
+    </LineChart>
+  ),
+};
+
 export const TooltipOnPoints: Story = {
   render: () => (
     <LineChart series={sampleSeries} height={250} enableScrubbing showArea>
