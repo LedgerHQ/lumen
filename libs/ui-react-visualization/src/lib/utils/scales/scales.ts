@@ -74,6 +74,20 @@ export const isNumericScale = (
 };
 
 /**
+ * Converts a single data-space value to pixel-space on a given scale.
+ * For band scales the result is centered within the band.
+ */
+export const getPointOnScale = (
+  value: number,
+  scale: ChartScaleFunction,
+): number => {
+  if (isCategoricalScale(scale)) {
+    return (scale(value) ?? 0) + scale.bandwidth() / 2;
+  }
+  return scale(value) as number;
+};
+
+/**
  * Projects a single data-space coordinate pair into pixel-space.
  * Handles centering for categorical (band) scales.
  */
@@ -82,12 +96,7 @@ export const projectPoint = (
   dataY: number,
   xScale: ChartScaleFunction,
   yScale: ChartScaleFunction,
-): { x: number; y: number } => {
-  const x = isCategoricalScale(xScale)
-    ? (xScale(dataX) ?? 0) + xScale.bandwidth() / 2
-    : xScale(dataX);
-  const y = isCategoricalScale(yScale)
-    ? (yScale(dataY) ?? 0) + yScale.bandwidth() / 2
-    : yScale(dataY);
-  return { x: x, y };
-};
+): { x: number; y: number } => ({
+  x: getPointOnScale(dataX, xScale),
+  y: getPointOnScale(dataY, yScale),
+});

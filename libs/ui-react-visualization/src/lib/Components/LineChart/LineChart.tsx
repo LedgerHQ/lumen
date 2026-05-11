@@ -19,6 +19,8 @@ export function LineChart({
   width = '100%',
   height = 160,
   inset,
+  enableScrubbing,
+  onScrubberPositionChange,
   children,
 }: LineChartProps) {
   const {
@@ -78,6 +80,8 @@ export function LineChart({
       height={height}
       inset={inset}
       axisPadding={axisPadding}
+      enableScrubbing={enableScrubbing}
+      onScrubberPositionChange={onScrubberPositionChange}
     >
       {showXAxis && <XAxis {...xAxisVisualProps} />}
       {showYAxis && <YAxis {...yAxisVisualProps} />}

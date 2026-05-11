@@ -14,7 +14,7 @@ const TICK_LABEL_OFFSET = 6;
 export const DEFAULT_AXIS_HEIGHT = 28;
 
 export function XAxis({
-  gridLineStyle = 'dashed',
+  gridLineStyle = 'solid',
   position = 'bottom',
   showGrid = false,
   showLine = false,
@@ -56,7 +56,9 @@ export function XAxis({
               y1={drawingArea.y}
               x2={tick.position}
               y2={drawingArea.y + drawingArea.height}
-              style={{ stroke: cssVar('var(--border-muted-subtle)') }}
+              style={{
+                stroke: cssVar('var(--border-muted-subtle-transparent)'),
+              }}
               strokeWidth={cssVar('var(--stroke-1)')}
               strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
             />

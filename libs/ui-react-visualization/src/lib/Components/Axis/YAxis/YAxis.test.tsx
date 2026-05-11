@@ -71,26 +71,25 @@ describe('YAxis', () => {
       ticks: [20, 40],
     });
     const axis = getByTestId('y-axis');
-    // 2 grid lines + 1 axis line + 2 tick marks = 5
     expect(axis.querySelectorAll('line')).toHaveLength(5);
   });
 
-  it('uses dashed grid lines by default', () => {
+  it('uses solid grid lines by default', () => {
     const { getByTestId } = renderYAxis({ showGrid: true, ticks: [30] });
     const axis = getByTestId('y-axis');
     const line = axis.querySelector('line');
-    expect(line?.getAttribute('stroke-dasharray')).toBe('3 3');
+    expect(line?.getAttribute('stroke-dasharray')).toBeNull();
   });
 
-  it('uses solid grid lines when gridLineStyle is solid', () => {
+  it('uses dashed grid lines when gridLineStyle is dashed', () => {
     const { getByTestId } = renderYAxis({
       showGrid: true,
-      gridLineStyle: 'solid',
+      gridLineStyle: 'dashed',
       ticks: [30],
     });
     const axis = getByTestId('y-axis');
     const line = axis.querySelector('line');
-    expect(line?.getAttribute('stroke-dasharray')).toBeNull();
+    expect(line?.getAttribute('stroke-dasharray')).toBe('3 3');
   });
 
   it('applies tickLabelFormatter', () => {
