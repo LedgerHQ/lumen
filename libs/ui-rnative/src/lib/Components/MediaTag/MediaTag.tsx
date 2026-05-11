@@ -38,6 +38,26 @@ const useStyles = ({
         warning: t.colors.text.warning,
       };
 
+      const sizeStyles: Record<
+        Size,
+        {
+          paddingLeft: number;
+          paddingRight: number;
+          paddingVertical: number;
+        }
+      > = {
+        md: {
+          paddingLeft: t.spacings.s4,
+          paddingRight: t.spacings.s8,
+          paddingVertical: t.spacings.s4,
+        },
+        sm: {
+          paddingLeft: t.spacings.s4,
+          paddingRight: t.spacings.s4,
+          paddingVertical: t.spacings.s2,
+        },
+      };
+
       const textTypography =
         size === 'md' ? t.typographies.body3 : t.typographies.body4;
 
@@ -50,9 +70,7 @@ const useStyles = ({
             gap: t.spacings.s4,
             borderRadius: t.borderRadius.xs,
             backgroundColor: bgColors[appearance],
-            paddingHorizontal: t.spacings.s4,
-            paddingVertical: t.spacings.s4,
-            ...(size === 'md' && { paddingRight: t.spacings.s8 }),
+            ...sizeStyles[size],
           },
           disabled && {
             backgroundColor: t.colors.bg.disabled,
