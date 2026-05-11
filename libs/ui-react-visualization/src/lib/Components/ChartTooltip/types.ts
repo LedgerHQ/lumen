@@ -5,9 +5,7 @@ export type ChartTooltipItemData = {
   value: ReactNode;
 };
 
-export type ChartTooltipItemProps = {
-  title: ReactNode;
-  value: ReactNode;
+export type ChartTooltipItemProps = ChartTooltipItemData & {
   /**
    * X position in SVG coordinate space.
    * @default 0
