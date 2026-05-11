@@ -14,6 +14,9 @@ export const OVERLAY_LINE_INSET = 0.5;
 export const OVERLAY_OPACITY = 0.8;
 export const LINE_GRADIENT_EDGE_OPACITY = 0.1;
 
+const isNumberArray = (arr: string[] | number[]): arr is number[] =>
+  typeof arr[0] === 'number';
+
 /**
  * Returns the index of the item whose pixel position is closest to `pixelX`.
  * `getPixelPosition` maps each index to its pixel coordinate (or undefined if
@@ -66,11 +69,9 @@ export const getDataIndexFromPosition = (
   if (isNumericScale(scale)) {
     const axisData = axisConfig?.data;
 
-    if (axisData && axisData.length > 0 && typeof axisData[0] === 'number') {
-      return findClosestIndex(
-        axisData.length,
-        pixelX,
-        (i) => scale(axisData[i] as number) as number | undefined,
+    if (axisData && axisData.length > 0 && isNumberArray(axisData)) {
+      return findClosestIndex(axisData.length, pixelX, (i) =>
+        scale(axisData[i]),
       );
     }
 
