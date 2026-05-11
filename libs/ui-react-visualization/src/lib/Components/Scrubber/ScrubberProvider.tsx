@@ -33,7 +33,7 @@ export function ScrubberProvider({
   const updatePosition = useCallback(
     (pixelX: number) => {
       const scale = getXScale();
-      if (!scale || !enableScrubbing) return;
+      if (!scale || !enableScrubbing || dataLength <= 0) return;
 
       const index = getDataIndexFromPosition(
         pixelX,
