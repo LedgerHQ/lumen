@@ -21,6 +21,7 @@ export function SegmentedControlButton({
   value,
   children,
   icon: Icon,
+  trailingContent,
   onPress,
   ...props
 }: SegmentedControlButtonProps) {
@@ -71,6 +72,7 @@ export function SegmentedControlButton({
         >
           {children}
         </Text>
+        {trailingContent}
       </Box>
     </Pressable>
   );

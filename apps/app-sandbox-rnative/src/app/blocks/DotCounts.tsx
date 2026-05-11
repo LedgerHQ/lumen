@@ -1,5 +1,4 @@
 import {
-  Avatar,
   DotCount,
   Box,
   InteractiveIcon,
@@ -37,14 +36,6 @@ export function DotCounts() {
             shape='circle'
           />
         </DotCount>
-        <DotCount value={100} size='md'>
-          <Avatar
-            src={
-              'https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            }
-            size='md'
-          />
-        </DotCount>
         <DotCount value={6} size='lg' disabled>
           <InteractiveIcon size={48} icon={Coins} iconType='stroked' disabled />
         </DotCount>
@@ -55,17 +46,11 @@ export function DotCounts() {
         tabLayout='fit'
         accessibilityLabel='Fit layout'
       >
-        <SegmentedControlButton value='preview'>
-          <>
-            Preview
-            <Box>
-              <DotCount
-                value={3}
-                size='md'
-                style={{ marginLeft: 8, marginBottom: -3 }}
-              />
-            </Box>
-          </>
+        <SegmentedControlButton
+          value='preview'
+          trailingContent={<DotCount value={3} size='md' />}
+        >
+          Preview
         </SegmentedControlButton>
         <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
         <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
