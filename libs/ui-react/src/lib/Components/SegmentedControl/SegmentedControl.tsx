@@ -99,7 +99,7 @@ export function SegmentedControlButton({
     >
       <span className='inline-flex min-w-0 items-center justify-center gap-8'>
         {Icon && <Icon size={16} className='shrink-0' />}
-        <span className='truncate'>{children}</span>
+        <span className='min-w-0 truncate'>{children}</span>
         {trailingContent}
       </span>
     </button>
