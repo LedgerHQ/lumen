@@ -6,32 +6,9 @@ import {
 } from '../../utils/scales/scales';
 import {
   getDataIndexFromPosition,
-  getPointOnScale,
   resolvePixelX,
   resolvePixelY,
 } from './utils';
-
-describe('getPointOnScale', () => {
-  it('returns the center of a band for categorical scales', () => {
-    const scale = getCategoricalScale({
-      domain: { min: 0, max: 3 },
-      range: { min: 0, max: 400 },
-      padding: 0,
-    });
-    const bandwidth = scale.bandwidth();
-    const expected = (scale(0) ?? 0) + bandwidth / 2;
-    expect(getPointOnScale(0, scale)).toBe(expected);
-  });
-
-  it('returns the direct scale value for numeric scales', () => {
-    const scale = getNumericScale({
-      scaleType: 'linear',
-      domain: { min: 0, max: 4 },
-      range: { min: 0, max: 400 },
-    });
-    expect(getPointOnScale(2, scale)).toBe(scale(2));
-  });
-});
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {
@@ -135,6 +112,36 @@ describe('resolvePixelX', () => {
     const getXScale = () => scale;
     const expected = (scale(1) ?? 0) + scale.bandwidth() / 2;
     expect(resolvePixelX(1, getXScale)).toBe(expected);
+  });
+
+  it('uses numeric axisConfig.data values instead of the index', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 10, max: 30 },
+      range: { min: 0, max: 200 },
+    });
+    const getXScale = () => scale;
+    const axisConfig = { data: [10, 20, 30] as number[] };
+
+    const atIndex = resolvePixelX(1, getXScale);
+    const atAxisValue = resolvePixelX(1, getXScale, axisConfig);
+
+    expect(atAxisValue).not.toBe(atIndex);
+    expect(atAxisValue).toBe(scale(20));
+  });
+
+  it('falls back to index when axisConfig.data is strings', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 4 },
+      range: { min: 0, max: 400 },
+    });
+    const getXScale = () => scale;
+    const axisConfig = { data: ['a', 'b', 'c'] as string[] };
+
+    expect(resolvePixelX(2, getXScale, axisConfig)).toBe(
+      resolvePixelX(2, getXScale),
+    );
   });
 });
 
