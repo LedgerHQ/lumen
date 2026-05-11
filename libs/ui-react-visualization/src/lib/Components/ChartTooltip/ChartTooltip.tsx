@@ -5,7 +5,6 @@ import { useScrubberContext } from '../Scrubber/context';
 import { resolvePixelX } from '../Scrubber/utils';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
-  BASE_TEXT_STYLE,
   BORDER_RADIUS,
   DEFAULT_OFFSET,
   DEFAULT_TOOLTIP_WIDTH,
@@ -17,6 +16,15 @@ import {
   TOOLTIP_TRANSITION,
 } from './constants';
 import type { ChartTooltipItemData, ChartTooltipProps } from './types';
+
+const HIDDEN_TOOLTIP = (
+  <g
+    data-testid='chart-tooltip'
+    role='tooltip'
+    aria-hidden='true'
+    style={{ opacity: 0, pointerEvents: 'none', transition: 'none' }}
+  />
+);
 
 /**
  * Renders a structured tooltip anchored to the scrubber line.
@@ -46,21 +54,14 @@ export function ChartTooltip({
   tooltipWidth = DEFAULT_TOOLTIP_WIDTH,
 }: ChartTooltipProps) {
   const { scrubberPosition } = useScrubberContext();
-  const { getXScale, drawingArea } = useCartesianChartContext();
+  const { getXScale, getXAxisConfig, drawingArea } = useCartesianChartContext();
 
-  const hiddenTooltip = (
-    <g
-      data-testid='chart-tooltip'
-      style={{ opacity: 0, pointerEvents: 'none', transition: 'none' }}
-    />
-  );
+  if (scrubberPosition === undefined) return HIDDEN_TOOLTIP;
 
-  if (scrubberPosition === undefined) return hiddenTooltip;
-
-  const pixelX = resolvePixelX(scrubberPosition, getXScale);
+  const pixelX = resolvePixelX(scrubberPosition, getXScale, getXAxisConfig());
   const resolvedItems: ChartTooltipItemData[] = items(scrubberPosition);
 
-  if (pixelX === undefined || resolvedItems.length === 0) return hiddenTooltip;
+  if (pixelX === undefined || resolvedItems.length === 0) return HIDDEN_TOOLTIP;
 
   const resolvedTitle =
     typeof title === 'function' ? title(scrubberPosition) : title;
@@ -89,6 +90,7 @@ export function ChartTooltip({
   return (
     <g
       data-testid='chart-tooltip'
+      role='tooltip'
       style={{
         opacity: 1,
         transition: TOOLTIP_TRANSITION,
@@ -105,11 +107,13 @@ export function ChartTooltip({
       />
       {hasTitle && (
         <text
+          data-testid='chart-tooltip-title'
           x={tooltipX + PADDING_X}
           y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
           dominantBaseline='middle'
           style={{
-            ...BASE_TEXT_STYLE,
+            fontSize: cssVar('var(--font-style-body-4-size)'),
+            fontFamily: cssVar('var(--font-family-font)'),
             fill: cssVar('var(--text-base)'),
             fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
           }}
@@ -119,7 +123,7 @@ export function ChartTooltip({
       )}
       {resolvedItems.map((item, i) => (
         <ChartTooltipItem
-          key={`${String(item.title)}-${i}`}
+          key={i}
           title={item.title}
           value={item.value}
           x={tooltipX}

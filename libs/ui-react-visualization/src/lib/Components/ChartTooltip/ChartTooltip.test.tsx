@@ -223,4 +223,94 @@ describe('ChartTooltip', () => {
     const calledIndices = items.mock.calls.map((args) => args[0]);
     expect(new Set(calledIndices).size).toBeGreaterThan(1);
   });
+
+  describe('title prop', () => {
+    it('renders a static string title', () => {
+      const { getByTestId, getByText } = renderTooltip({
+        tooltipProps: {
+          title: 'My Title',
+          items: () => [{ title: 'T', value: 'V' }],
+        },
+      });
+      moveScrubber(getByTestId('chart-svg'), 200);
+      expect(getByText('My Title')).toBeTruthy();
+    });
+
+    it('renders the title returned by a callback', () => {
+      const { getByTestId, getByText } = renderTooltip({
+        tooltipProps: {
+          title: (i) => `Index ${i}`,
+          items: () => [{ title: 'T', value: 'V' }],
+        },
+      });
+      moveScrubber(getByTestId('chart-svg'), 200);
+      expect(getByText(/^Index \d+$/)).toBeTruthy();
+    });
+
+    it('passes the active data index to the title callback', () => {
+      const title = vi.fn().mockReturnValue('Title');
+      const { getByTestId } = renderTooltip({
+        tooltipProps: {
+          title,
+          items: () => [{ title: 'T', value: 'V' }],
+        },
+      });
+      moveScrubber(getByTestId('chart-svg'), 200);
+      expect(title).toHaveBeenCalledWith(expect.any(Number));
+    });
+
+    it('does not render a title element when title is undefined', () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: () => [{ title: 'T', value: 'V' }] },
+      });
+      moveScrubber(getByTestId('chart-svg'), 200);
+      const tooltip = getByTestId('chart-tooltip');
+      expect(
+        tooltip.querySelector('[data-testid="chart-tooltip-title"]'),
+      ).toBeNull();
+    });
+
+    it('does not render a title element when title callback returns null', () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: {
+          title: () => null,
+          items: () => [{ title: 'T', value: 'V' }],
+        },
+      });
+      moveScrubber(getByTestId('chart-svg'), 200);
+      const tooltip = getByTestId('chart-tooltip');
+      expect(
+        tooltip.querySelector('[data-testid="chart-tooltip-title"]'),
+      ).toBeNull();
+    });
+
+    it('increases the tooltip rect height when a title is present', () => {
+      const withTitle = renderTooltip({
+        tooltipProps: {
+          title: 'Title',
+          items: () => [{ title: 'T', value: 'V' }],
+        },
+      });
+      moveScrubber(withTitle.getByTestId('chart-svg'), 200);
+      const heightWith = parseFloat(
+        withTitle
+          .getByTestId('chart-tooltip')
+          .querySelector('rect')
+          ?.getAttribute('height') ?? '0',
+      );
+
+      const withoutTitle = renderTooltip({
+        tooltipProps: { items: () => [{ title: 'T', value: 'V' }] },
+      });
+      moveScrubber(withoutTitle.getByTestId('chart-svg'), 200);
+      const heightWithout = parseFloat(
+        withoutTitle
+          .getByTestId('chart-tooltip')
+          .querySelector('rect')
+          ?.getAttribute('height') ?? '0',
+      );
+
+      expect(heightWith).toBeGreaterThan(heightWithout);
+    });
+  });
 });

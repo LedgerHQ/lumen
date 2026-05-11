@@ -1,6 +1,6 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
-import { BASE_TEXT_STYLE, PADDING_X } from './constants';
+import { PADDING_X } from './constants';
 import type { ChartTooltipItemProps } from './types';
 
 export function ChartTooltipItem({
@@ -17,7 +17,8 @@ export function ChartTooltipItem({
         y={y}
         dominantBaseline='middle'
         style={{
-          ...BASE_TEXT_STYLE,
+          fontSize: cssVar('var(--font-style-body-4-size)'),
+          fontFamily: cssVar('var(--font-family-font)'),
           fill: cssVar('var(--text-muted)'),
         }}
       >
@@ -29,7 +30,8 @@ export function ChartTooltipItem({
         dominantBaseline='middle'
         textAnchor='end'
         style={{
-          ...BASE_TEXT_STYLE,
+          fontSize: cssVar('var(--font-style-body-4-size)'),
+          fontFamily: cssVar('var(--font-family-font)'),
           fill: cssVar('var(--text-base)'),
           fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
         }}

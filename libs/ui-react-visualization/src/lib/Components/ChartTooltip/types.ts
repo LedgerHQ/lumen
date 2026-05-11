@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 
 export type ChartTooltipItemData = {
+  /** Label displayed on the left side of the row. */
   title: ReactNode;
+  /** Value displayed on the right side of the row. */
   value: ReactNode;
 };
 
