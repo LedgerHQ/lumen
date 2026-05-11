@@ -45,9 +45,7 @@ describe('TextInput', () => {
 
       expect(helperText).toBeTruthy();
       expect(helperText.props.style).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ color: colors.text.muted }),
-        ]),
+        expect.objectContaining({ color: colors.text.muted }),
       );
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
       expect(screen.UNSAFE_queryByType(CheckmarkCircleFill)).toBeNull();
@@ -65,9 +63,7 @@ describe('TextInput', () => {
       const helperText = screen.getByText('Invalid address format');
 
       expect(helperText.props.style).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ color: colors.text.error }),
-        ]),
+        expect.objectContaining({ color: colors.text.error }),
       );
       expect(screen.UNSAFE_getByType(DeleteCircleFill)).toBeTruthy();
       expect(screen.UNSAFE_queryByType(CheckmarkCircleFill)).toBeNull();
@@ -85,9 +81,7 @@ describe('TextInput', () => {
       const helperText = screen.getByText('Address verified');
 
       expect(helperText.props.style).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ color: colors.text.success }),
-        ]),
+        expect.objectContaining({ color: colors.text.success }),
       );
       expect(screen.UNSAFE_getByType(CheckmarkCircleFill)).toBeTruthy();
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
