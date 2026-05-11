@@ -40,12 +40,16 @@ export function ScrubberProvider({
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
-      if (index === lastPositionRef.current) return;
-      lastPositionRef.current = index;
-      setScrubberPosition(index);
-      onScrubberPositionChange?.(index);
+      const clamped =
+        index === undefined
+          ? undefined
+          : Math.max(0, Math.min(index, dataLength - 1));
+      if (clamped === lastPositionRef.current) return;
+      lastPositionRef.current = clamped;
+      setScrubberPosition(clamped);
+      onScrubberPositionChange?.(clamped);
     },
-    [onScrubberPositionChange],
+    [dataLength, onScrubberPositionChange],
   );
 
   const handlePositionChange = useCallback(
@@ -56,7 +60,7 @@ export function ScrubberProvider({
       }
 
       const scale = getXScale();
-      if (!scale) return;
+      if (!scale || dataLength <= 0) return;
 
       const axisConfig = getXAxisConfig();
       const index = getDataIndexFromPosition(

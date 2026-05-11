@@ -6,33 +6,41 @@ import {
 import type { AxisConfigProps, ChartScaleFunction } from '../../utils/types';
 import type { useCartesianChartContext } from '../CartesianChart/context';
 
-export { getPointOnScale };
-
 export const BEACON_RADIUS = 5;
 export const BEACON_STROKE_WIDTH = 2;
 export const LABEL_OFFSET_Y = 12;
 export const OVERLAY_OFFSET = 2;
+export const OVERLAY_LINE_INSET = 0.5;
+export const OVERLAY_OPACITY = 0.8;
+export const LINE_GRADIENT_EDGE_OPACITY = 0.1;
+
+const isNumberArray = (arr: string[] | number[]): arr is number[] =>
+  typeof arr[0] === 'number';
 
 /**
- * Returns the index of the element in `pixelPositions` closest to `targetPixel`.
- * Skips `undefined` entries. Returns `0` when the array is empty.
+ * Returns the index of the item whose pixel position is closest to `pixelX`.
+ * `getPixelPosition` maps each index to its pixel coordinate (or undefined if
+ * the value cannot be projected).
  */
 const findClosestIndex = (
-  targetPixel: number,
-  pixelPositions: (number | undefined)[],
+  length: number,
+  pixelX: number,
+  getPixelPosition: (index: number) => number | undefined,
 ): number => {
   let closestIndex = 0;
   let closestDistance = Infinity;
-  for (let i = 0; i < pixelPositions.length; i++) {
-    const pos = pixelPositions[i];
-    if (pos !== undefined) {
-      const distance = Math.abs(targetPixel - pos);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = i;
-      }
+
+  for (let i = 0; i < length; i++) {
+    const pos = getPixelPosition(i);
+    if (pos === undefined) continue;
+
+    const distance = Math.abs(pixelX - pos);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = i;
     }
   }
+
   return closestIndex;
 };
 
@@ -52,21 +60,19 @@ export const getDataIndexFromPosition = (
   if (isCategoricalScale(scale)) {
     const domain = scale.domain();
     const bandwidth = scale.bandwidth();
-    const centers = domain.map((d) => {
-      const pos = scale(d);
-      return pos !== undefined ? pos + bandwidth / 2 : undefined;
+    return findClosestIndex(domain.length, pixelX, (i) => {
+      const pos = scale(domain[i]);
+      return pos === undefined ? undefined : pos + bandwidth / 2;
     });
-    return findClosestIndex(pixelX, centers);
   }
 
   if (isNumericScale(scale)) {
     const axisData = axisConfig?.data;
 
-    if (axisData && axisData.length > 0 && typeof axisData[0] === 'number') {
-      const positions = axisData.map(
-        (d) => scale(d as number) as number | undefined,
+    if (axisData && axisData.length > 0 && isNumberArray(axisData)) {
+      return findClosestIndex(axisData.length, pixelX, (i) =>
+        scale(axisData[i]),
       );
-      return findClosestIndex(pixelX, positions);
     }
 
     const inverted = scale.invert(pixelX);
@@ -100,13 +106,18 @@ export const resolvePixelY = (
 
 /**
  * Resolves the pixel x-coordinate for a given data index using the x-scale.
+ * When numeric x-axis data is provided, the corresponding axis value is used;
+ * otherwise the data index is used as the x input.
  * Returns undefined when the scale is unavailable or the value cannot be mapped.
  */
 export const resolvePixelX = (
   dataIndex: number,
   getXScale: ReturnType<typeof useCartesianChartContext>['getXScale'],
+  axisConfig?: AxisConfigProps,
 ): number | undefined => {
   const scale = getXScale();
   if (!scale) return undefined;
-  return getPointOnScale(dataIndex, scale);
+  const axisValue = axisConfig?.data?.[dataIndex];
+  const xValue = typeof axisValue === 'number' ? axisValue : dataIndex;
+  return getPointOnScale(xValue, scale);
 };

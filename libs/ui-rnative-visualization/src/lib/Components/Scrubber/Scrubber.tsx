@@ -1,5 +1,5 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import {
   Circle,
   Defs,
@@ -18,7 +18,10 @@ import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
   LABEL_OFFSET_Y,
+  LINE_GRADIENT_EDGE_OPACITY,
+  OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
+  OVERLAY_OPACITY,
   resolvePixelX,
   resolvePixelY,
 } from './utils';
@@ -43,15 +46,22 @@ export function Scrubber({
   hideOverlay = false,
   showBeacons = false,
 }: Readonly<ScrubberProps>) {
+  const lineGradientId = useId();
   const { theme } = useTheme();
   const { scrubberPosition } = useScrubberContext();
-  const { getXScale, getYScale, drawingArea, series, seriesMap } =
-    useCartesianChartContext();
+  const {
+    getXScale,
+    getXAxisConfig,
+    getYScale,
+    drawingArea,
+    series,
+    seriesMap,
+  } = useCartesianChartContext();
 
   const pixelX = useMemo(() => {
     if (scrubberPosition === undefined) return undefined;
-    return resolvePixelX(scrubberPosition, getXScale);
-  }, [scrubberPosition, getXScale]);
+    return resolvePixelX(scrubberPosition, getXScale, getXAxisConfig());
+  }, [scrubberPosition, getXScale, getXAxisConfig]);
 
   const beacons = useMemo(() => {
     if (scrubberPosition === undefined || !showBeacons) return [];
@@ -83,7 +93,14 @@ export function Scrubber({
     height: drawHeight,
   } = drawingArea;
 
-  const lineGradientId = `scrubber-line-gradient-${scrubberPosition}`;
+  const overlayX = pixelX + OVERLAY_LINE_INSET;
+  const overlayY = drawY - OVERLAY_OFFSET;
+  const overlayWidth = Math.max(
+    0,
+    drawX + drawWidth - pixelX - OVERLAY_LINE_INSET + OVERLAY_OFFSET,
+  );
+  const overlayHeight = drawHeight + OVERLAY_OFFSET * 2;
+
   const borderMutedColor = theme.colors.border.base;
   const backgroundBaseColor = theme.colors.bg.base;
   const textBaseColor = theme.colors.text.base;
@@ -105,14 +122,14 @@ export function Scrubber({
               <Stop
                 offset='0%'
                 stopColor={borderMutedColor}
-                stopOpacity={0.1}
+                stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
               />
               <Stop offset='20%' stopColor={borderMutedColor} stopOpacity={1} />
               <Stop offset='80%' stopColor={borderMutedColor} stopOpacity={1} />
               <Stop
                 offset='100%'
                 stopColor={borderMutedColor}
-                stopOpacity={0.1}
+                stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
               />
             </LinearGradient>
           </Defs>
@@ -123,7 +140,7 @@ export function Scrubber({
             x2={pixelX}
             y2={drawY + drawHeight}
             stroke={`url(#${lineGradientId})`}
-            strokeWidth={0.5}
+            strokeWidth={OVERLAY_LINE_INSET}
           />
         </>
       )}
@@ -131,12 +148,12 @@ export function Scrubber({
       {!hideOverlay && (
         <Rect
           testID='scrubber-overlay'
-          x={pixelX + 0.5}
-          y={drawY - OVERLAY_OFFSET}
-          width={Math.max(0, drawX + drawWidth - pixelX - 0.5 + OVERLAY_OFFSET)}
-          height={drawHeight + OVERLAY_OFFSET * 2}
+          x={overlayX}
+          y={overlayY}
+          width={overlayWidth}
+          height={overlayHeight}
           fill={backgroundBaseColor}
-          opacity={0.8}
+          opacity={OVERLAY_OPACITY}
         />
       )}
 
@@ -155,18 +172,19 @@ export function Scrubber({
         </SvgText>
       )}
 
-      {beacons.map((beacon) => (
-        <Circle
-          key={beacon.id}
-          testID={`scrubber-beacon-${beacon.id}`}
-          cx={pixelX}
-          cy={beacon.pixelY}
-          r={BEACON_RADIUS}
-          fill={beacon.stroke}
-          stroke={bgCanvasColor}
-          strokeWidth={BEACON_STROKE_WIDTH}
-        />
-      ))}
+      {showBeacons &&
+        beacons.map((beacon) => (
+          <Circle
+            key={beacon.id}
+            testID={`scrubber-beacon-${beacon.id}`}
+            cx={pixelX}
+            cy={beacon.pixelY}
+            r={BEACON_RADIUS}
+            fill={beacon.stroke}
+            stroke={bgCanvasColor}
+            strokeWidth={BEACON_STROKE_WIDTH}
+          />
+        ))}
     </G>
   );
 }

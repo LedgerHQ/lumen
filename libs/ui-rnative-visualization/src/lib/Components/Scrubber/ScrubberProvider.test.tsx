@@ -152,4 +152,65 @@ describe('ScrubberProvider', () => {
     fireEvent.press(getByTestId('set-position'));
     expect(onScrubberPositionChange).toHaveBeenCalledTimes(1);
   });
+
+  it('clamps out-of-range index set via context', () => {
+    const onScrubberPositionChange = jest.fn();
+
+    const ContextTrigger = () => {
+      const { onScrubberPositionChange: updatePosition } = useScrubberContext();
+      return (
+        <Pressable testID='set-position' onPress={() => updatePosition(999)} />
+      );
+    };
+
+    const { getByTestId } = render(
+      <Wrapper>
+        <CartesianChart series={sampleSeries} width={400} height={200}>
+          <ScrubberProvider
+            width={400}
+            height={200}
+            enableScrubbing={true}
+            onScrubberPositionChange={onScrubberPositionChange}
+          >
+            <ContextTrigger />
+          </ScrubberProvider>
+        </CartesianChart>
+      </Wrapper>,
+    );
+
+    fireEvent.press(getByTestId('set-position'));
+    expect(onScrubberPositionChange).toHaveBeenCalledWith(
+      sampleSeries[0].data.length - 1,
+    );
+  });
+
+  it('does not fire callback when dataLength is 0', () => {
+    const onScrubberPositionChange = jest.fn();
+    const emptySeries = [{ id: 's1', stroke: '#7B61FF', data: [] as number[] }];
+
+    const ContextTrigger = () => {
+      const { onScrubberPositionChange: updatePosition } = useScrubberContext();
+      return (
+        <Pressable testID='set-position' onPress={() => updatePosition(0)} />
+      );
+    };
+
+    const { getByTestId } = render(
+      <Wrapper>
+        <CartesianChart series={emptySeries} width={400} height={200}>
+          <ScrubberProvider
+            width={400}
+            height={200}
+            enableScrubbing={true}
+            onScrubberPositionChange={onScrubberPositionChange}
+          >
+            <ContextTrigger />
+          </ScrubberProvider>
+        </CartesianChart>
+      </Wrapper>,
+    );
+
+    fireEvent.press(getByTestId('set-position'));
+    expect(onScrubberPositionChange).toHaveBeenCalledWith(0);
+  });
 });
