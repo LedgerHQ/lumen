@@ -167,11 +167,15 @@ export const TableRow = ({
   );
 };
 
-const headerRowVariants = cva('sticky top-0 z-table-header', {
+const headerRowVariants = cva('', {
   variants: {
     appearance: {
       'no-background': 'bg-canvas',
       plain: 'bg-surface',
+    },
+    stickyHeader: {
+      true: 'sticky top-0 z-table-header',
+      false: '',
     },
   },
 });
@@ -182,6 +186,7 @@ const headerRowVariants = cva('sticky top-0 z-table-header', {
 export const TableHeaderRow = ({
   children,
   className,
+  stickyHeader = true,
   ref,
   ...props
 }: TableHeaderRowProps) => {
@@ -192,7 +197,7 @@ export const TableHeaderRow = ({
   return (
     <tr
       ref={ref}
-      className={headerRowVariants({ appearance, className })}
+      className={headerRowVariants({ appearance, stickyHeader, className })}
       {...props}
     >
       {children}

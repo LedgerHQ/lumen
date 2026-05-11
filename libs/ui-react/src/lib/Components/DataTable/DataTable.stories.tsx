@@ -571,6 +571,63 @@ export const WithCustomHeader: Story = {
   },
 };
 
+export const WithoutStickyHeader: Story = {
+  args: {
+    appearance: 'no-background',
+    stickyHeader: false,
+  },
+  render: (args) => {
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
 export const WithSorting: Story = {
   render: (args) => {
     const [sorting, setSorting] = useState<SortingState>([

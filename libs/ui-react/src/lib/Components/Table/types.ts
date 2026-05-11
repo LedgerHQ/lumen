@@ -139,6 +139,13 @@ export type TableHeaderRowProps = {
    * Custom classname
    */
   className?: string;
+  /**
+   * When true, applies sticky positioning to the header row so it stays
+   * visible while scrolling. Sticks to the nearest scrolling ancestor
+   * (the table container or the page when used inside a scrollable page).
+   * @default true
+   */
+  stickyHeader?: boolean;
 } & ComponentPropsWithRef<'tr'>;
 
 export type TableGroupHeaderRowProps = {

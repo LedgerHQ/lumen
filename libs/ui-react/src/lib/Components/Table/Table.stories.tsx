@@ -341,6 +341,54 @@ export const WithInfiniteLoading: Story = {
   },
 };
 
+export const WithoutStickyHeader: Story = {
+  args: {
+    appearance: 'no-background',
+  },
+  render: (args) => (
+    <div className='w-3xl text-base'>
+      <TableRoot {...args} className='h-320'>
+        <Table>
+          <TableHeader>
+            <TableHeaderRow stickyHeader={false}>
+              <TableHeaderCell className='w-224'>Asset</TableHeaderCell>
+              <TableHeaderCell>Symbol</TableHeaderCell>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+              <TableHeaderCell className='w-144' align='end'>
+                Performance
+              </TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            {largeData.map((row) => (
+              <TableRow key={row.symbol}>
+                <TableCell className='w-224'>
+                  <TableCellContent
+                    title={row.name}
+                    description={row.symbol}
+                    leadingContent={
+                      <Spot size={40} appearance='icon' icon={Android} />
+                    }
+                  />
+                </TableCell>
+                <TableCell>{row.symbol}</TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell className='w-144' align='end'>
+                  <TableCellContent
+                    align='end'
+                    title={row.price}
+                    description={row.change}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </div>
+  ),
+};
+
 export const WithCustomHeader: Story = {
   render: (args) => {
     const [nameSortDirection, setNameSortDirection] =
