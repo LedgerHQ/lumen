@@ -29,22 +29,19 @@ git diff main...HEAD --name-only -- .nx/version-plans/
 - Files under `libs/design-core/` → `'@ledgerhq/lumen-design-core'`
 - Files under `libs/utils-shared/` → `'@ledgerhq/lumen-utils-shared'`
 
-Pick the bump type based on the change:
-- `patch` — bug fixes, small tweaks
-- `minor` — new features, new components, new props
-- `major` — breaking changes
+Always use `patch` as the bump type — never `minor`, never `major` — regardless of the change (feature, fix, breaking change, etc.). See `.cursor/rules/shared/release-plan.mdc`.
 
-Write the file as `.nx/version-plans/version-plan-<timestamp>.md` with this format:
+Create **one file per affected package** — never group multiple packages in the same file. If N packages are affected, create N files named `.nx/version-plans/version-plan-<timestamp>-<pkg>.md`, each with a single-package frontmatter:
 
 ```markdown
 ---
-'@ledgerhq/lumen-ui-rnative': minor
+'@ledgerhq/lumen-ui-rnative': patch
 ---
 
 feat(Select): add render prop and SelectButtonTrigger
 ```
 
-The description line should match the PR title / commit message style. If multiple packages are affected, list them all in the frontmatter.
+The description line should match the PR title / commit message style.
 
 ## Step 2: Create a commit if needed
 

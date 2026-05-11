@@ -13,7 +13,7 @@ import type { AddressInputProps } from './types';
  * - **Automatic clear button** appears when input has content
  * - **Conditional QR code scanner** appears only when onQrCodeClick handler is provided
  * - **ENS and address support** optimized for cryptocurrency address entry
- * - **Error state styling** with aria-invalid and errorMessage support
+ * - **Helper text** with optional `status` for validation feedback
  * - **Flexible styling** via className prop
  *
  * ## Clear Button Behavior
@@ -27,12 +27,12 @@ import type { AddressInputProps } from './types';
  * // Basic address field with automatic clear button
  * <AddressInput value={address} onChange={(e) => setAddress(e.target.value)} />
  *
- * // Address field with error state
+ * // Address field with error state (aria-invalid is auto-set when status="error")
  * <AddressInput
  *   value={invalidAddress}
  *   onChange={(e) => setInvalidAddress(e.target.value)}
- *   aria-invalid={!isValid}
- *   errorMessage="Please enter a valid address or ENS name"
+ *   helperText="Please enter a valid address or ENS name"
+ *   status="error"
  * />
  *
  * // Address field with QR scanner
