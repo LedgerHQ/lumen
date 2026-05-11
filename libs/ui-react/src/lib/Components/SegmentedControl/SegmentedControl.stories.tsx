@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Coins, TransferHorizontal, Nft } from '../../Symbols';
-import { DotCount } from '../DotCount/DotCount';
+import { DotCount } from '../DotCount';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
