@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Coins, Nft, TransferHorizontal, Settings } from '../../Symbols';
+import { Coins, TransferHorizontal, Nft } from '../../Symbols';
 import { DotCount } from '../DotCount/DotCount';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
@@ -66,11 +66,8 @@ export const WithIcons: Story = {
         <SegmentedControlButton value='nfts' icon={Nft}>
           NFTs
         </SegmentedControlButton>
-        <SegmentedControlButton value='activity' icon={TransferHorizontal}>
-          Activity
-        </SegmentedControlButton>
-        <SegmentedControlButton value='settings' icon={Settings}>
-          Settings
+        <SegmentedControlButton value='trade' icon={TransferHorizontal}>
+          Trade
         </SegmentedControlButton>
       </SegmentedControl>
     );
@@ -162,9 +159,7 @@ export const WithTrailingContent: Story = {
         >
           NFTs
         </SegmentedControlButton>
-        <SegmentedControlButton value='activity'>
-          Activity
-        </SegmentedControlButton>
+        <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
       </SegmentedControl>
     );
   },
