@@ -1,10 +1,16 @@
-import type { ReactNode } from 'react';
+import type { ReactElement } from 'react';
+
+/**
+ * Valid content for an SVG `<text>` element: a plain string,
+ * a number, or a `<tspan>` element.
+ */
+export type SvgTextContent = string | number | ReactElement<SVGTSpanElement>;
 
 export type ChartTooltipItemData = {
   /** Label displayed on the left side of the row. */
-  title: ReactNode;
+  title: SvgTextContent;
   /** Value displayed on the right side of the row. */
-  value: ReactNode;
+  value: SvgTextContent;
 };
 
 export type ChartTooltipItemProps = ChartTooltipItemData & {
@@ -28,8 +34,12 @@ export type ChartTooltipProps = {
   /**
    * Optional header rendered at the top of the tooltip card.
    * Accepts a static value or a callback receiving the active data index.
+   * A callback may return `null` or `undefined` to suppress the title for a
+   * specific data index without unmounting the tooltip.
    */
-  title?: ReactNode | ((index: number) => ReactNode);
+  title?:
+    | SvgTextContent
+    | ((index: number) => SvgTextContent | null | undefined);
   /**
    * Produces tooltip rows from the active data index.
    * Each returned item is rendered as a `<ChartTooltipItem>`.

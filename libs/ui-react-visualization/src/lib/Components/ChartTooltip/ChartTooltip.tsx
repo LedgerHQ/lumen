@@ -52,7 +52,7 @@ export function ChartTooltip({
   offset = DEFAULT_OFFSET,
   side = 'auto',
   tooltipWidth = DEFAULT_TOOLTIP_WIDTH,
-}: ChartTooltipProps) {
+}: Readonly<ChartTooltipProps>) {
   const { scrubberPosition } = useScrubberContext();
   const { getXScale, getXAxisConfig, drawingArea } = useCartesianChartContext();
 
