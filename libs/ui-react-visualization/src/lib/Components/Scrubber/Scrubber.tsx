@@ -38,13 +38,19 @@ export function Scrubber({
 }: Readonly<ScrubberProps>) {
   const lineGradientId = useId();
   const { scrubberPosition } = useScrubberContext();
-  const { getXScale, getYScale, drawingArea, series, seriesMap } =
-    useCartesianChartContext();
+  const {
+    getXScale,
+    getXAxisConfig,
+    getYScale,
+    drawingArea,
+    series,
+    seriesMap,
+  } = useCartesianChartContext();
 
   const pixelX = useMemo(() => {
     if (scrubberPosition === undefined) return undefined;
-    return resolvePixelX(scrubberPosition, getXScale);
-  }, [scrubberPosition, getXScale]);
+    return resolvePixelX(scrubberPosition, getXScale, getXAxisConfig());
+  }, [scrubberPosition, getXScale, getXAxisConfig]);
 
   const beacons = useMemo(() => {
     if (scrubberPosition === undefined || !showBeacons) return [];

@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 
 export type ScrubberContextValue = {
   /**
@@ -16,7 +16,7 @@ export type ScrubberContextValue = {
 };
 
 export type ScrubberProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Ref to the root SVG element where event listeners will be attached.
    */

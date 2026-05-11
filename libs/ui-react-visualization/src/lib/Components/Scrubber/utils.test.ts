@@ -135,4 +135,29 @@ describe('resolvePixelX', () => {
     const noScale = vi.fn(() => undefined);
     expect(resolvePixelX(0, noScale)).toBeUndefined();
   });
+
+  it('uses numeric axisConfig.data values instead of the index', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 10, max: 30 },
+      range: { min: 0, max: 200 },
+    });
+    const getXScale = vi.fn(() => scale);
+    const axisConfig = { data: [10, 20, 30] as number[] };
+
+    const atIndex = resolvePixelX(1, getXScale);
+    const atAxisValue = resolvePixelX(1, getXScale, axisConfig);
+
+    expect(atAxisValue).not.toBe(atIndex);
+    expect(atAxisValue).toBe(scale(20));
+  });
+
+  it('falls back to index when axisConfig.data is strings', () => {
+    const getXScale = vi.fn(() => numericScale);
+    const axisConfig = { data: ['a', 'b', 'c'] as string[] };
+
+    expect(resolvePixelX(2, getXScale, axisConfig)).toBe(
+      resolvePixelX(2, getXScale),
+    );
+  });
 });
