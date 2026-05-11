@@ -4,7 +4,7 @@ import { PADDING_X } from './constants';
 import type { ChartTooltipItemProps } from './types';
 
 export function ChartTooltipItem({
-  title,
+  label,
   value,
   x = 0,
   y = 0,
@@ -22,7 +22,7 @@ export function ChartTooltipItem({
           fill: cssVar('var(--text-muted)'),
         }}
       >
-        {title}
+        {label}
       </text>
       <text
         x={x + width - PADDING_X}

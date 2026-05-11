@@ -57,8 +57,8 @@ export const Base: Story = {
       <Scrubber />
       <ChartTooltip
         items={(i) => [
-          { title: 'Date', value: dates[i] },
-          { title: 'Price', value: `$${sampleSeries[0].data[i]}` },
+          { label: 'Date', value: dates[i] },
+          { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
         ]}
       />
     </LineChart>
@@ -73,8 +73,8 @@ export const WithTitle: Story = {
         title={(i) => `${sampleSeries[0].data[i]} Transactions`}
         tooltipWidth={160}
         items={(i) => [
-          { title: 'Date', value: dates[i] },
-          { title: 'Price', value: `$${sampleSeries[0].data[i]}` },
+          { label: 'Date', value: dates[i] },
+          { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
         ]}
       />
     </LineChart>
@@ -91,8 +91,8 @@ export const TooltipOnPoints: Story = {
         items={(i) => {
           if (!annotatedIndices.has(i)) return [];
           return [
-            { title: 'Date', value: dates[i] },
-            { title: 'Price', value: `$${sampleSeries[0].data[i]}` },
+            { label: 'Date', value: dates[i] },
+            { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
           ];
         }}
       />

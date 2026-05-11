@@ -41,7 +41,7 @@ const HIDDEN_TOOLTIP = (
  *   <Scrubber />
  *   <ChartTooltip
  *     title={(i) => `${count[i]} Transactions`}
- *     items={(i) => [{ title: 'Index', value: i }]}
+ *     items={(i) => [{ label: 'Index', value: i }]}
  *   />
  * </LineChart>
  * ```
@@ -124,7 +124,7 @@ export function ChartTooltip({
       {resolvedItems.map((item, i) => (
         <ChartTooltipItem
           key={i}
-          title={item.title}
+          label={item.label}
           value={item.value}
           x={tooltipX}
           y={itemsBaseY + i * (ROW_HEIGHT + ROW_GAP) + ROW_HEIGHT / 2}

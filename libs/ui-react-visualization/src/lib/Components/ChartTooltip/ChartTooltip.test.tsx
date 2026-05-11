@@ -53,7 +53,7 @@ const moveScrubber = (svg: Element, clientX: number) => {
 describe('ChartTooltip', () => {
   it('is hidden when no scrubber position is active', () => {
     const { getByTestId } = renderTooltip({
-      tooltipProps: { items: () => [{ title: 'Date', value: 'Jan' }] },
+      tooltipProps: { items: () => [{ label: 'Date', value: 'Jan' }] },
     });
     expect(getByTestId('chart-tooltip').style.opacity).toBe('0');
   });
@@ -68,7 +68,7 @@ describe('ChartTooltip', () => {
 
   it('is visible when scrubber is active and items are provided', () => {
     const { getByTestId } = renderTooltip({
-      tooltipProps: { items: () => [{ title: 'Date', value: 'Jan' }] },
+      tooltipProps: { items: () => [{ label: 'Date', value: 'Jan' }] },
     });
     moveScrubber(getByTestId('chart-svg'), 200);
     expect(getByTestId('chart-tooltip').style.opacity).toBe('1');
@@ -76,7 +76,7 @@ describe('ChartTooltip', () => {
 
   it('renders item title and value text', () => {
     const { getByTestId, getByText } = renderTooltip({
-      tooltipProps: { items: () => [{ title: 'Date', value: 'Jan' }] },
+      tooltipProps: { items: () => [{ label: 'Date', value: 'Jan' }] },
     });
     moveScrubber(getByTestId('chart-svg'), 200);
     expect(getByText('Date')).toBeTruthy();
@@ -87,8 +87,8 @@ describe('ChartTooltip', () => {
     const { getByTestId, getByText } = renderTooltip({
       tooltipProps: {
         items: () => [
-          { title: 'Date', value: 'Jan' },
-          { title: 'Price', value: '$10' },
+          { label: 'Date', value: 'Jan' },
+          { label: 'Price', value: '$10' },
         ],
       },
     });
@@ -100,7 +100,7 @@ describe('ChartTooltip', () => {
   });
 
   it('passes the active data index to the items callback', () => {
-    const items = vi.fn().mockReturnValue([{ title: 'i', value: '0' }]);
+    const items = vi.fn().mockReturnValue([{ label: 'i', value: '0' }]);
     const { getByTestId } = renderTooltip({ tooltipProps: { items } });
     moveScrubber(getByTestId('chart-svg'), 200);
     expect(items).toHaveBeenCalledWith(expect.any(Number));
@@ -109,7 +109,7 @@ describe('ChartTooltip', () => {
   it('suppresses the tooltip for specific indices when items returns empty', () => {
     const { getByTestId } = renderTooltip({
       tooltipProps: {
-        items: (i) => (i === 0 ? [{ title: 'T', value: 'V' }] : []),
+        items: (i) => (i === 0 ? [{ label: 'T', value: 'V' }] : []),
       },
     });
     const svg = getByTestId('chart-svg');
@@ -119,7 +119,7 @@ describe('ChartTooltip', () => {
 
   it('hides the tooltip on mouseleave', () => {
     const { getByTestId } = renderTooltip({
-      tooltipProps: { items: () => [{ title: 'T', value: 'V' }] },
+      tooltipProps: { items: () => [{ label: 'T', value: 'V' }] },
     });
     const svg = getByTestId('chart-svg');
     moveScrubber(svg, 200);
@@ -132,7 +132,7 @@ describe('ChartTooltip', () => {
 
   it('positions the tooltip to the right of the scrubber by default', () => {
     const { getByTestId } = renderTooltip({
-      tooltipProps: { items: () => [{ title: 'T', value: 'V' }] },
+      tooltipProps: { items: () => [{ label: 'T', value: 'V' }] },
     });
     moveScrubber(getByTestId('chart-svg'), 0); // far left — no overflow
     const rect = getByTestId('chart-tooltip').querySelector('rect');
@@ -145,7 +145,7 @@ describe('ChartTooltip', () => {
       tooltipProps: {
         side: 'left',
         tooltipWidth: 120,
-        items: () => [{ title: 'T', value: 'V' }],
+        items: () => [{ label: 'T', value: 'V' }],
       },
     });
     // Move to the center so there's room on both sides
@@ -161,7 +161,7 @@ describe('ChartTooltip', () => {
       tooltipProps: {
         tooltipWidth: 120,
         offset: 10,
-        items: () => [{ title: 'T', value: 'V' }],
+        items: () => [{ label: 'T', value: 'V' }],
       },
     });
     // Move to the far right so pixelX + 10 + 120 > 400
@@ -178,7 +178,7 @@ describe('ChartTooltip', () => {
         side: 'right',
         tooltipWidth: 120,
         offset: 10,
-        items: () => [{ title: 'T', value: 'V' }],
+        items: () => [{ label: 'T', value: 'V' }],
       },
     });
     moveScrubber(getByTestId('chart-svg'), 380);
@@ -192,7 +192,7 @@ describe('ChartTooltip', () => {
     const { getByTestId } = renderTooltip({
       tooltipProps: {
         offset: 30,
-        items: () => [{ title: 'T', value: 'V' }],
+        items: () => [{ label: 'T', value: 'V' }],
       },
     });
     moveScrubber(getByTestId('chart-svg'), 0);
@@ -206,7 +206,7 @@ describe('ChartTooltip', () => {
     const { getByTestId } = renderTooltip({
       tooltipProps: {
         tooltipWidth,
-        items: () => [{ title: 'T', value: 'V' }],
+        items: () => [{ label: 'T', value: 'V' }],
       },
     });
     moveScrubber(getByTestId('chart-svg'), 100);
@@ -215,7 +215,7 @@ describe('ChartTooltip', () => {
   });
 
   it('calls items with different indices as the scrubber moves to different positions', () => {
-    const items = vi.fn().mockReturnValue([{ title: 'T', value: 'V' }]);
+    const items = vi.fn().mockReturnValue([{ label: 'T', value: 'V' }]);
     const { getByTestId } = renderTooltip({ tooltipProps: { items } });
     const svg = getByTestId('chart-svg');
     moveScrubber(svg, 50);
@@ -229,7 +229,7 @@ describe('ChartTooltip', () => {
       const { getByTestId, getByText } = renderTooltip({
         tooltipProps: {
           title: 'My Title',
-          items: () => [{ title: 'T', value: 'V' }],
+          items: () => [{ label: 'T', value: 'V' }],
         },
       });
       moveScrubber(getByTestId('chart-svg'), 200);
@@ -240,7 +240,7 @@ describe('ChartTooltip', () => {
       const { getByTestId, getByText } = renderTooltip({
         tooltipProps: {
           title: (i) => `Index ${i}`,
-          items: () => [{ title: 'T', value: 'V' }],
+          items: () => [{ label: 'T', value: 'V' }],
         },
       });
       moveScrubber(getByTestId('chart-svg'), 200);
@@ -252,7 +252,7 @@ describe('ChartTooltip', () => {
       const { getByTestId } = renderTooltip({
         tooltipProps: {
           title,
-          items: () => [{ title: 'T', value: 'V' }],
+          items: () => [{ label: 'T', value: 'V' }],
         },
       });
       moveScrubber(getByTestId('chart-svg'), 200);
@@ -261,7 +261,7 @@ describe('ChartTooltip', () => {
 
     it('does not render a title element when title is undefined', () => {
       const { getByTestId } = renderTooltip({
-        tooltipProps: { items: () => [{ title: 'T', value: 'V' }] },
+        tooltipProps: { items: () => [{ label: 'T', value: 'V' }] },
       });
       moveScrubber(getByTestId('chart-svg'), 200);
       const tooltip = getByTestId('chart-tooltip');
@@ -274,7 +274,7 @@ describe('ChartTooltip', () => {
       const { getByTestId } = renderTooltip({
         tooltipProps: {
           title: () => null,
-          items: () => [{ title: 'T', value: 'V' }],
+          items: () => [{ label: 'T', value: 'V' }],
         },
       });
       moveScrubber(getByTestId('chart-svg'), 200);
@@ -288,7 +288,7 @@ describe('ChartTooltip', () => {
       const withTitle = renderTooltip({
         tooltipProps: {
           title: 'Title',
-          items: () => [{ title: 'T', value: 'V' }],
+          items: () => [{ label: 'T', value: 'V' }],
         },
       });
       moveScrubber(withTitle.getByTestId('chart-svg'), 200);
@@ -299,8 +299,10 @@ describe('ChartTooltip', () => {
           ?.getAttribute('height') ?? '0',
       );
 
+      withTitle.unmount();
+
       const withoutTitle = renderTooltip({
-        tooltipProps: { items: () => [{ title: 'T', value: 'V' }] },
+        tooltipProps: { items: () => [{ label: 'T', value: 'V' }] },
       });
       moveScrubber(withoutTitle.getByTestId('chart-svg'), 200);
       const heightWithout = parseFloat(
