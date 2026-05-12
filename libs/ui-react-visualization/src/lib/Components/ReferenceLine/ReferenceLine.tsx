@@ -1,7 +1,6 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { memo } from 'react';
 
-import { getPointOnScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
 import { DEFAULT_STROKE, DASH_ARRAY, STROKE_WIDTH } from './constants';
@@ -9,7 +8,7 @@ import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
-  isPixelWithinDrawingArea,
+  resolvePixel,
 } from './utils';
 
 const labelStyle = {
@@ -38,12 +37,8 @@ export const ReferenceLine = memo(
     const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
 
     if (dataY !== undefined) {
-      const yScale = getYScale();
-      if (!yScale) return null;
-
-      const yPixel = getPointOnScale(dataY, yScale);
-      if (!Number.isFinite(yPixel)) return null;
-      if (!isPixelWithinDrawingArea(yPixel, 'y', drawingArea)) return null;
+      const yPixel = resolvePixel(dataY, getYScale(), 'y', drawingArea);
+      if (yPixel === undefined) return null;
 
       const labelCoords = label
         ? computeHorizontalLabelCoordinates(
@@ -89,12 +84,8 @@ export const ReferenceLine = memo(
     }
 
     if (dataX !== undefined) {
-      const xScale = getXScale();
-      if (!xScale) return null;
-
-      const xPixel = getPointOnScale(dataX, xScale);
-      if (!Number.isFinite(xPixel)) return null;
-      if (!isPixelWithinDrawingArea(xPixel, 'x', drawingArea)) return null;
+      const xPixel = resolvePixel(dataX, getXScale(), 'x', drawingArea);
+      if (xPixel === undefined) return null;
 
       const labelCoords = label
         ? computeVerticalLabelCoordinates(

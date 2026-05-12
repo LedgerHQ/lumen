@@ -1,4 +1,5 @@
-import type { DrawingArea } from '../../utils/types';
+import { getPointOnScale } from '../../utils/scales/scales';
+import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
 
 import type {
   HorizontalLabelPosition,
@@ -20,6 +21,24 @@ export const isPixelWithinDrawingArea = (
     return pixel >= drawingArea.x && pixel <= drawingArea.x + drawingArea.width;
   }
   return pixel >= drawingArea.y && pixel <= drawingArea.y + drawingArea.height;
+};
+
+/**
+ * Converts a data-space value to a validated pixel coordinate.
+ * Returns `undefined` if the scale is missing, the result is not finite,
+ * or the pixel falls outside the drawing area.
+ */
+export const resolvePixel = (
+  dataValue: number,
+  scale: ChartScaleFunction | undefined,
+  axis: 'x' | 'y',
+  drawingArea: DrawingArea,
+): number | undefined => {
+  if (!scale) return undefined;
+  const p = getPointOnScale(dataValue, scale);
+  if (!Number.isFinite(p)) return undefined;
+  if (!isPixelWithinDrawingArea(p, axis, drawingArea)) return undefined;
+  return p;
 };
 
 type LabelCoordinates = {
