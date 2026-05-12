@@ -385,7 +385,7 @@ const [hasError, setHasError] = useState(false);
     </DoBlockItem>
     <DontBlockItem
       title="Don't use custom error props"
-      description='Use isInvalid prop, not error or errorMessage props'
+      description='Use the isInvalid prop for error styling. AmountInput does not accept ad-hoc validation props.'
     >
 
 {/* prettier-ignore */}
@@ -400,8 +400,8 @@ const [hasError, setHasError] = useState(false);
   value={value}
   onChangeText={setValue}
   currencyText='USD'
-  error={true}
-  errorMessage='Invalid amount'
+  status={hasError ? 'error' : undefined}
+  helperText={hasError ? 'Invalid amount' : undefined}
 />
 ```
 

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Coins, Nft, TransferHorizontal, Settings } from '../../Symbols';
+import { Coins, TransferHorizontal, Nft } from '../../Symbols';
+import { DotCount } from '../DotCount';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
@@ -65,11 +66,8 @@ export const WithIcons: Story = {
         <SegmentedControlButton value='nfts' icon={Nft}>
           NFTs
         </SegmentedControlButton>
-        <SegmentedControlButton value='activity' icon={TransferHorizontal}>
-          Activity
-        </SegmentedControlButton>
-        <SegmentedControlButton value='settings' icon={Settings}>
-          Settings
+        <SegmentedControlButton value='trade' icon={TransferHorizontal}>
+          Trade
         </SegmentedControlButton>
       </SegmentedControl>
     );
@@ -135,4 +133,34 @@ export const Disabled: Story = {
       <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
     </SegmentedControl>
   ),
+};
+
+export const WithTrailingContent: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: (args) => {
+    const [state, setState] = useState('tokens');
+
+    return (
+      <SegmentedControl
+        {...args}
+        selectedValue={state}
+        onSelectedChange={setState}
+        aria-label='Asset section'
+      >
+        <SegmentedControlButton
+          value='tokens'
+          trailingContent={<DotCount value={3} />}
+        >
+          Tokens
+        </SegmentedControlButton>
+        <SegmentedControlButton
+          value='nfts'
+          trailingContent={<DotCount value={12} />}
+        >
+          NFTs
+        </SegmentedControlButton>
+        <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
+      </SegmentedControl>
+    );
+  },
 };

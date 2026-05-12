@@ -114,8 +114,8 @@ export const Error: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     defaultValue: 'invalid-address-format',
-    errorMessage: 'Invalid address format',
-    'aria-invalid': true,
+    helperText: 'Invalid address format',
+    status: 'error',
     className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
   },
@@ -125,8 +125,8 @@ export const Error: Story = {
         code: `<AddressInput 
   placeholder="Enter address or ENS"
   defaultValue="invalid-address-format"
-  errorMessage="Invalid address format"
-  aria-invalid={true}
+  helperText="Invalid address format"
+  status="error"
   className="max-w-md"
 />`,
       },
@@ -178,8 +178,8 @@ export const Controlled: Story = {
             setError(''); // Clear error state
             console.log('Address cleared');
           }}
-          errorMessage={error}
-          aria-invalid={!!error}
+          helperText={error || undefined}
+          status={error ? 'error' : undefined}
           className='max-w-md'
         />
 

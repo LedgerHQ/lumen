@@ -1,0 +1,63 @@
+---
+description: Nx version plans must always use `patch` bump type, regardless of change
+globs:
+alwaysApply: true
+---
+
+# Release plan bump type
+
+When generating an Nx version plan in `.nx/version-plans/`, the bump type
+in the frontmatter MUST always be `patch` — never `minor`, never `major` —
+regardless of the nature of the change (new feature, new component, new prop,
+breaking change, refactor, fix, etc.).
+
+```markdown
+---
+'@ledgerhq/lumen-ui-rnative': patch
+---
+
+feat(Select): add render prop and SelectButtonTrigger
+```
+
+- Do not infer `minor` from `feat(...)` commits.
+- Do not infer `major` from breaking changes.
+
+## One package per file
+
+Each release plan file MUST list a single package in its frontmatter — never
+group multiple packages in the same file. If a change affects N packages,
+create N separate `version-plan-<timestamp>-<pkg>.md` files, one per package.
+
+```markdown
+---
+'@ledgerhq/lumen-ui-react': patch
+---
+
+feat(Select): add render prop and SelectButtonTrigger
+```
+
+```markdown
+---
+'@ledgerhq/lumen-ui-rnative': patch
+---
+
+feat(Select): add render prop and SelectButtonTrigger
+```
+
+Do NOT do this:
+
+```markdown
+---
+'@ledgerhq/lumen-ui-react': patch
+'@ledgerhq/lumen-ui-rnative': patch
+---
+```
+
+This applies to all packages, including but not limited to:
+
+- `@ledgerhq/lumen-ui-react`
+- `@ledgerhq/lumen-ui-rnative`
+- `@ledgerhq/lumen-ui-react-visualization`
+- `@ledgerhq/lumen-ui-rnative-visualization`
+- `@ledgerhq/lumen-design-core`
+- `@ledgerhq/lumen-utils-shared`

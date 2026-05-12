@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Avatar } from '../Avatar';
 import { MediaImage } from '../MediaImage';
 import { SegmentedControl, SegmentedControlButton } from '../SegmentedControl';
 import { DotCount } from './DotCount';
@@ -86,19 +85,13 @@ export const WithChildren: Story = {
 
     return (
       <div className='flex flex-col gap-24'>
-        <div className='flex items-center gap-12'>
+        <div className='flex items-center justify-center gap-12'>
           <DotCount value={5} size='md'>
             <MediaImage
               src='https://crypto-icons.ledger.com/BTC.png'
               alt='Bitcoin'
               size={40}
               shape='circle'
-            />
-          </DotCount>
-          <DotCount value={100} size='md'>
-            <Avatar
-              src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop'
-              size='md'
             />
           </DotCount>
         </div>
@@ -108,11 +101,11 @@ export const WithChildren: Story = {
           tabLayout='fit'
           aria-label='Fit layout'
         >
-          <SegmentedControlButton value='preview'>
-            <span className='flex items-center gap-6'>
-              Preview
-              <DotCount value={3} size='md' />
-            </span>
+          <SegmentedControlButton
+            value='preview'
+            trailingContent={<DotCount value={3} size='md' />}
+          >
+            Preview
           </SegmentedControlButton>
           <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
           <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>

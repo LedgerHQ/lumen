@@ -276,7 +276,8 @@ export type SelectSearchProps = Pick<
   SearchInputProps,
   | 'placeholder'
   | 'className'
-  | 'errorMessage'
+  | 'helperText'
+  | 'status'
   | 'aria-invalid'
   | 'suffix'
   | 'onClear'

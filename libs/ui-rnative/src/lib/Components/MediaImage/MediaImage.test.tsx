@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render, waitFor } from '@testing-library/react-native';
+import { act, render, waitFor } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { MediaImage } from './MediaImage';
 
@@ -89,7 +89,9 @@ describe('MediaImage Component', () => {
     );
 
     const img = getByTestId('media-image-img');
-    img.props.onError();
+    act(() => {
+      img.props.onError();
+    });
 
     rerender(
       <TestWrapper>
@@ -140,7 +142,9 @@ describe('MediaImage Component', () => {
     );
 
     const img = getByTestId('media-image-img');
-    img.props.onError();
+    act(() => {
+      img.props.onError();
+    });
 
     rerender(
       <TestWrapper>
