@@ -53,13 +53,12 @@ export const getDataIndexFromPosition = (
   dataLength: number,
 ): number => {
   if (isCategoricalScale(scale)) {
-    const domain = scale.domain();
     const step = scale.step();
     const [rangeStart] = scale.range();
     const offset =
       rangeStart + scale.paddingOuter() * step + scale.bandwidth() / 2;
     const index = Math.round((pixelX - offset) / step);
-    return Math.max(0, Math.min(index, domain.length - 1));
+    return Math.max(0, Math.min(index, dataLength - 1));
   }
 
   if (isNumericScale(scale)) {
