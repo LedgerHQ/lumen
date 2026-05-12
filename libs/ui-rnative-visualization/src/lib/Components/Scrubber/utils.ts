@@ -52,7 +52,15 @@ export const getDataIndexFromPosition = (
   axisConfig: Partial<AxisConfigProps> | undefined,
   dataLength: number,
 ): number => {
+  if (dataLength <= 0) return 0;
+
   if (isCategoricalScale(scale)) {
+    const axisData = axisConfig?.data;
+    if (axisData && axisData.length > 0 && isNumberArray(axisData)) {
+      return findClosestIndex(dataLength, pixelX, (i) =>
+        getPointOnScale(axisData[i], scale),
+      );
+    }
     const step = scale.step();
     const [rangeStart] = scale.range();
     const offset =
