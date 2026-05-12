@@ -56,14 +56,9 @@ export const MediaTags = () => {
           appearance='base'
           label='small'
           size='sm'
-          icon={
-            <CryptoIcon
-              ledgerId='bitcoin'
-              ticker='BTC'
-              // @ts-expect-error size does not include 12, but renders fine... keep to match figma
-              size={12}
-            />
-          }
+          // Figma mock uses 12px size for CryptoIcon, but size is type-restricted
+          // to sizes > 16. Chose to cast to 16 to make typecheck happy.
+          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={12 as 16} />}
         />
       </Box>
     </Box>
