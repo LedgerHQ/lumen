@@ -1,0 +1,128 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MediaTagStories from './MediaTag.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { Box } from '../Utility/Box';
+
+<Meta title='Components/MediaTag' of={MediaTagStories} />
+
+# MediaTag
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaTag is a compact label used to categorize, classify, or highlight information alongside a required media element such as an image or crypto icon. Like [Tag](/docs/communication-tag--docs), it supports multiple appearances and sizes, but is designed for cases where the icon is richer than a Symbol.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=16793-36383&m=dev).
+
+## Anatomy
+
+<Canvas of={MediaTagStories.Base} />
+
+- **Label:** The text content of the tag.
+- **Icon:** A required media element (image, crypto icon, etc.) displayed before the label.
+
+## Properties
+
+<Canvas of={MediaTagStories.Base} />
+<Controls of={MediaTagStories.Base} />
+
+### Appearance
+
+<Canvas of={MediaTagStories.AppearanceShowcase} />
+
+---
+
+### Size
+
+MediaTags come in two different sizes:
+
+- **md** (default)
+- **sm**
+
+<Canvas of={MediaTagStories.SizeShowcase} />
+
+### Truncation
+
+When a MediaTag's label exceeds the available space, the text is automatically truncated with an ellipsis.
+
+<Canvas of={MediaTagStories.TruncateShowcase} />
+
+### Accessibility
+
+To be implemented:
+
+- **Color contrast**
+- **Text zoom**
+- **Touch targets**
+- **Screen reader support**
+- **Semantic labeling**
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { MediaTag, MediaImage } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <MediaTag
+      size="md"
+      appearance="accent"
+      label="Ethereum"
+      icon={
+        <MediaImage
+          src="https://crypto-icons.ledger.com/ETH.png"
+          alt="Ethereum"
+          size={16}
+          shape="square"
+        />
+      }
+    />
+  );
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using the `lx` prop for layout adjustments:
+
+```tsx
+<MediaTag
+  size="md"
+  appearance="accent"
+  label="Custom MediaTag"
+  icon={myIcon}
+  lx={{ marginTop: 's4' }}
+/>
+```
+
+### With Crypto Icons
+
+The MediaTag accepts any `ReactNode` as its icon, including crypto icons:
+
+```tsx
+import { MediaTag } from '@ledgerhq/lumen-ui-rnative';
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
+
+function MyComponent() {
+  return (
+    <MediaTag
+      label="Bitcoin"
+      icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={16} />}
+    />
+  );
+}
+```
+
+</Tab>
+</CustomTabs>
