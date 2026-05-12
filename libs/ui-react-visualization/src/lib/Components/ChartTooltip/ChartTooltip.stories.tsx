@@ -40,7 +40,7 @@ const meta = {
   decorators: [
     (Story, context) => (
       <StoryDecorator context={context}>
-        <div style={{ width: 600, padding: 16 }}>
+        <div className='bg-base' style={{ width: 600, padding: 16 }}>
           <Story />
         </div>
       </StoryDecorator>
