@@ -211,6 +211,6 @@ describe('ScrubberProvider', () => {
     );
 
     fireEvent.press(getByTestId('set-position'));
-    expect(onScrubberPositionChange).toHaveBeenCalledWith(0);
+    expect(onScrubberPositionChange).not.toHaveBeenCalled();
   });
 });

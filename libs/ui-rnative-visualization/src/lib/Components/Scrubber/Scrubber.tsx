@@ -12,8 +12,6 @@ import {
 } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useScrubberContext } from './context';
-import type { ScrubberProps } from './types';
 import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
@@ -22,9 +20,10 @@ import {
   OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
   OVERLAY_OPACITY,
-  resolvePixelX,
-  resolvePixelY,
-} from './utils';
+} from './constants';
+import { useScrubberContext } from './context';
+import type { ScrubberProps } from './types';
+import { resolvePixelX, resolvePixelY } from './utils';
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay

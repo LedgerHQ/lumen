@@ -41,7 +41,7 @@ export function ScrubberProvider({
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
       const clamped =
-        index === undefined
+        index === undefined || dataLength <= 0
           ? undefined
           : Math.max(0, Math.min(index, dataLength - 1));
       if (clamped === lastPositionRef.current) return;
@@ -74,33 +74,38 @@ export function ScrubberProvider({
     [getXScale, getXAxisConfig, dataLength, setScrubberPositionAndNotify],
   );
 
-  const resetScrubber = (): void => {
+  const resetScrubber = useCallback((): void => {
     'worklet';
     isScrubbing.value = false;
     scheduleOnRN(handlePositionChange, null);
-  };
+  }, [isScrubbing, handlePositionChange]);
 
-  const longPress = Gesture.LongPress()
-    .minDuration(50)
-    .onStart((e) => {
-      isScrubbing.value = true;
-      scheduleOnRN(handlePositionChange, e.x);
-    })
-    .onEnd(resetScrubber)
-    .onFinalize(resetScrubber);
+  const composed = useMemo(() => {
+    const longPress = Gesture.LongPress()
+      .minDuration(50)
+      .onStart((e) => {
+        'worklet';
+        isScrubbing.value = true;
+        scheduleOnRN(handlePositionChange, e.x);
+      })
+      .onEnd(resetScrubber)
+      .onFinalize(resetScrubber);
 
-  const pan = Gesture.Pan()
-    .manualActivation(true)
-    .onTouchesMove((_, manager) => {
-      if (isScrubbing.value) manager.activate();
-    })
-    .onUpdate((e) => {
-      scheduleOnRN(handlePositionChange, e.x);
-    })
-    .onEnd(resetScrubber)
-    .onFinalize(resetScrubber);
+    const pan = Gesture.Pan()
+      .manualActivation(true)
+      .onTouchesMove((_, manager) => {
+        'worklet';
+        if (isScrubbing.value) manager.activate();
+      })
+      .onUpdate((e) => {
+        'worklet';
+        scheduleOnRN(handlePositionChange, e.x);
+      })
+      .onEnd(resetScrubber)
+      .onFinalize(resetScrubber);
 
-  const composed = Gesture.Simultaneous(longPress, pan);
+    return Gesture.Simultaneous(longPress, pan);
+  }, [isScrubbing, handlePositionChange, resetScrubber]);
 
   const contextValue = useMemo(
     () => ({
