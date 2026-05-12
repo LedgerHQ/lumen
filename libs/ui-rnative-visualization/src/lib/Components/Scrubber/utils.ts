@@ -3,8 +3,11 @@ import {
   isCategoricalScale,
   isNumericScale,
 } from '../../utils/scales/scales';
-import type { AxisConfigProps, ChartScaleFunction } from '../../utils/types';
-import type { useCartesianChartContext } from '../CartesianChart/context';
+import type {
+  AxisConfigProps,
+  CartesianChartContextValue,
+  ChartScaleFunction,
+} from '../../utils/types';
 
 const isNumberArray = (arr: string[] | number[]): arr is number[] =>
   typeof arr[0] === 'number';
@@ -85,7 +88,7 @@ export const getDataIndexFromPosition = (
 export const resolvePixelY = (
   dataIndex: number,
   seriesData: (number | null)[] | undefined,
-  getYScale: ReturnType<typeof useCartesianChartContext>['getYScale'],
+  getYScale: CartesianChartContextValue['getYScale'],
 ): number | undefined => {
   const yScale = getYScale();
   if (!yScale || !isNumericScale(yScale)) return undefined;
@@ -105,7 +108,7 @@ export const resolvePixelY = (
  */
 export const resolvePixelX = (
   dataIndex: number,
-  getXScale: ReturnType<typeof useCartesianChartContext>['getXScale'],
+  getXScale: CartesianChartContextValue['getXScale'],
   axisConfig?: AxisConfigProps,
 ): number | undefined => {
   const scale = getXScale();
