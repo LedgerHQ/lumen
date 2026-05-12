@@ -124,6 +124,13 @@ describe('ReferenceLine', () => {
       });
       expect(getByTestId('reference-line-line')).toBeTruthy();
     });
+
+    it('does not render when dataX is outside band scale domain', () => {
+      const { queryByTestId } = renderInChart(<ReferenceLine dataX={999} />, {
+        xAxis: { scaleType: 'band' },
+      });
+      expect(queryByTestId('reference-line')).toBeNull();
+    });
   });
 
   describe('label offsets', () => {

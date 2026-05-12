@@ -1,4 +1,4 @@
-import { getPointOnScale } from '../../utils/scales/scales';
+import { getPointOnScale, isCategoricalScale } from '../../utils/scales/scales';
 import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
 
 import type {
@@ -35,6 +35,8 @@ export const resolvePixel = (
   drawingArea: DrawingArea,
 ): number | undefined => {
   if (!scale) return undefined;
+  if (isCategoricalScale(scale) && scale(dataValue) === undefined)
+    return undefined;
   const p = getPointOnScale(dataValue, scale);
   if (!Number.isFinite(p)) return undefined;
   if (!isPixelWithinDrawingArea(p, axis, drawingArea)) return undefined;

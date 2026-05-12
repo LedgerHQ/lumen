@@ -18,8 +18,8 @@ const labelStyle = {
   fontFamily: cssVar('var(--font-family-font)'),
 };
 
-export const ReferenceLine = memo(
-  ({
+export const ReferenceLine = memo((props: Readonly<ReferenceLineProps>) => {
+  const {
     label,
     labelDx = 0,
     labelDy = 0,
@@ -28,110 +28,107 @@ export const ReferenceLine = memo(
     stroke = DEFAULT_STROKE,
     lineStyle = 'dashed',
     opacity = 1,
-    dataY,
-    dataX,
-    labelPosition,
-  }: Readonly<ReferenceLineProps>) => {
-    const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
+  } = props;
 
-    const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
+  const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
 
-    if (dataY !== undefined) {
-      const yPixel = resolvePixel(dataY, getYScale(), 'y', drawingArea);
-      if (yPixel === undefined) return null;
+  const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
 
-      const labelCoords = label
-        ? computeHorizontalLabelCoordinates(
-            yPixel,
-            labelPosition ?? 'right',
-            drawingArea,
-            labelDx,
-            labelDy,
-            labelHorizontalAlignment,
-            labelVerticalAlignment,
-          )
-        : null;
+  if (props.dataY !== undefined) {
+    const yPixel = resolvePixel(props.dataY, getYScale(), 'y', drawingArea);
+    if (yPixel === undefined) return null;
 
-      return (
-        <g data-testid='reference-line'>
-          <line
-            data-testid='reference-line-line'
-            x1={drawingArea.x}
-            y1={yPixel}
-            x2={drawingArea.x + drawingArea.width}
-            y2={yPixel}
-            stroke={stroke}
-            strokeWidth={STROKE_WIDTH}
-            strokeDasharray={dashArray}
-            strokeLinecap='round'
+    const labelCoords = label
+      ? computeHorizontalLabelCoordinates(
+          yPixel,
+          props.labelPosition ?? 'right',
+          drawingArea,
+          labelDx,
+          labelDy,
+          labelHorizontalAlignment,
+          labelVerticalAlignment,
+        )
+      : null;
+
+    return (
+      <g data-testid='reference-line'>
+        <line
+          data-testid='reference-line-line'
+          x1={drawingArea.x}
+          y1={yPixel}
+          x2={drawingArea.x + drawingArea.width}
+          y2={yPixel}
+          stroke={stroke}
+          strokeWidth={STROKE_WIDTH}
+          strokeDasharray={dashArray}
+          strokeLinecap='round'
+          opacity={opacity}
+        />
+        {labelCoords && (
+          <text
+            data-testid='reference-line-label'
+            x={labelCoords.x}
+            y={labelCoords.y}
+            textAnchor={labelCoords.textAnchor}
+            dominantBaseline={labelCoords.dominantBaseline}
+            style={labelStyle}
             opacity={opacity}
-          />
-          {labelCoords && (
-            <text
-              data-testid='reference-line-label'
-              x={labelCoords.x}
-              y={labelCoords.y}
-              textAnchor={labelCoords.textAnchor}
-              dominantBaseline={labelCoords.dominantBaseline}
-              style={labelStyle}
-              opacity={opacity}
-            >
-              {label}
-            </text>
-          )}
-        </g>
-      );
-    }
+          >
+            {label}
+          </text>
+        )}
+      </g>
+    );
+  }
 
-    if (dataX !== undefined) {
-      const xPixel = resolvePixel(dataX, getXScale(), 'x', drawingArea);
-      if (xPixel === undefined) return null;
+  if (props.dataX !== undefined) {
+    const xPixel = resolvePixel(props.dataX, getXScale(), 'x', drawingArea);
+    if (xPixel === undefined) return null;
 
-      const labelCoords = label
-        ? computeVerticalLabelCoordinates(
-            xPixel,
-            labelPosition ?? 'top',
-            drawingArea,
-            labelDx,
-            labelDy,
-            labelHorizontalAlignment,
-            labelVerticalAlignment,
-          )
-        : null;
+    const labelCoords = label
+      ? computeVerticalLabelCoordinates(
+          xPixel,
+          props.labelPosition ?? 'top',
+          drawingArea,
+          labelDx,
+          labelDy,
+          labelHorizontalAlignment,
+          labelVerticalAlignment,
+        )
+      : null;
 
-      return (
-        <g data-testid='reference-line'>
-          <line
-            data-testid='reference-line-line'
-            x1={xPixel}
-            y1={drawingArea.y}
-            x2={xPixel}
-            y2={drawingArea.y + drawingArea.height}
-            stroke={stroke}
-            strokeWidth={STROKE_WIDTH}
-            strokeDasharray={dashArray}
-            strokeLinecap='round'
+    return (
+      <g data-testid='reference-line'>
+        <line
+          data-testid='reference-line-line'
+          x1={xPixel}
+          y1={drawingArea.y}
+          x2={xPixel}
+          y2={drawingArea.y + drawingArea.height}
+          stroke={stroke}
+          strokeWidth={STROKE_WIDTH}
+          strokeDasharray={dashArray}
+          strokeLinecap='round'
+          opacity={opacity}
+        />
+        {labelCoords && (
+          <text
+            data-testid='reference-line-label'
+            x={labelCoords.x}
+            y={labelCoords.y}
+            textAnchor={labelCoords.textAnchor}
+            dominantBaseline={labelCoords.dominantBaseline}
+            style={labelStyle}
             opacity={opacity}
-          />
-          {labelCoords && (
-            <text
-              data-testid='reference-line-label'
-              x={labelCoords.x}
-              y={labelCoords.y}
-              textAnchor={labelCoords.textAnchor}
-              dominantBaseline={labelCoords.dominantBaseline}
-              style={labelStyle}
-              opacity={opacity}
-            >
-              {label}
-            </text>
-          )}
-        </g>
-      );
-    }
+          >
+            {label}
+          </text>
+        )}
+      </g>
+    );
+  }
 
-    return null;
-  },
-);
+  return null;
+});
 
 ReferenceLine.displayName = 'ReferenceLine';
