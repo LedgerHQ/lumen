@@ -7,7 +7,6 @@ import { Pressable, Text } from 'react-native';
 
 import { CartesianChart } from '../CartesianChart';
 import { useScrubberContext } from './context';
-import { ScrubberProvider } from './ScrubberProvider';
 
 const sampleSeries = [
   { id: 's1', stroke: '#7B61FF', data: [10, 20, 30, 40, 50] },
@@ -32,10 +31,13 @@ describe('ScrubberProvider', () => {
   it('renders children', () => {
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider width={400} height={200} enableScrubbing={true}>
-            <Text testID='child'>hello</Text>
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+        >
+          <Text testID='child'>hello</Text>
         </CartesianChart>
       </Wrapper>,
     );
@@ -45,10 +47,13 @@ describe('ScrubberProvider', () => {
   it('renders the long-press + pan gesture overlay when enableScrubbing is true', () => {
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider width={400} height={200} enableScrubbing={true}>
-            <Text>child</Text>
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+        >
+          <Text>child</Text>
         </CartesianChart>
       </Wrapper>,
     );
@@ -58,10 +63,13 @@ describe('ScrubberProvider', () => {
   it('does not render the gesture overlay when enableScrubbing is false', () => {
     const { queryByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider width={400} height={200} enableScrubbing={false}>
-            <Text>child</Text>
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={false}
+        >
+          <Text>child</Text>
         </CartesianChart>
       </Wrapper>,
     );
@@ -71,10 +79,13 @@ describe('ScrubberProvider', () => {
   it('provides initial scrubberPosition as undefined via context', () => {
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider width={400} height={200} enableScrubbing={true}>
-            <ContextConsumer />
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+        >
+          <ContextConsumer />
         </CartesianChart>
       </Wrapper>,
     );
@@ -101,15 +112,14 @@ describe('ScrubberProvider', () => {
 
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider
-            width={400}
-            height={200}
-            enableScrubbing={true}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            <ContextTrigger />
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+          onScrubberPositionChange={onScrubberPositionChange}
+        >
+          <ContextTrigger />
         </CartesianChart>
       </Wrapper>,
     );
@@ -134,15 +144,14 @@ describe('ScrubberProvider', () => {
 
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider
-            width={400}
-            height={200}
-            enableScrubbing={true}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            <ContextTrigger />
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+          onScrubberPositionChange={onScrubberPositionChange}
+        >
+          <ContextTrigger />
         </CartesianChart>
       </Wrapper>,
     );
@@ -165,15 +174,14 @@ describe('ScrubberProvider', () => {
 
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={sampleSeries} width={400} height={200}>
-          <ScrubberProvider
-            width={400}
-            height={200}
-            enableScrubbing={true}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            <ContextTrigger />
-          </ScrubberProvider>
+        <CartesianChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+          onScrubberPositionChange={onScrubberPositionChange}
+        >
+          <ContextTrigger />
         </CartesianChart>
       </Wrapper>,
     );
@@ -197,15 +205,14 @@ describe('ScrubberProvider', () => {
 
     const { getByTestId } = render(
       <Wrapper>
-        <CartesianChart series={emptySeries} width={400} height={200}>
-          <ScrubberProvider
-            width={400}
-            height={200}
-            enableScrubbing={true}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            <ContextTrigger />
-          </ScrubberProvider>
+        <CartesianChart
+          series={emptySeries}
+          width={400}
+          height={200}
+          enableScrubbing={true}
+          onScrubberPositionChange={onScrubberPositionChange}
+        >
+          <ContextTrigger />
         </CartesianChart>
       </Wrapper>,
     );
