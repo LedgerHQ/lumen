@@ -20,7 +20,7 @@ export const Tags = () => {
     <Box style={styles.container}>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <Tag appearance={app} label={app} icon={ExternalLink} />
+          <Tag key={app} appearance={app} label={app} icon={ExternalLink} />
         ))}
         <Tag label='disabled' icon={ExternalLink} disabled />
       </Box>

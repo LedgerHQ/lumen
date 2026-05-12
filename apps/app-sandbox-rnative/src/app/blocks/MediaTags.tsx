@@ -35,15 +35,15 @@ export const MediaTags = () => {
     <Box style={styles.container}>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <MediaTag appearance={app} label={app} icon={icons[0]} />
+          <MediaTag key={app} appearance={app} label={app} icon={icons[0]} />
         ))}
         <MediaTag label='disabled' icon={icons[0]} disabled />
       </Box>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <MediaTag appearance={app} label={app} icon={icons[1]} />
+          <MediaTag key={app} appearance={app} label={app} icon={icons[1]} />
         ))}
-        <MediaTag label='disabled' icon={icons[0]} disabled />
+        <MediaTag label='disabled' icon={icons[1]} disabled />
       </Box>
       <Box style={styles.block}>
         <MediaTag
