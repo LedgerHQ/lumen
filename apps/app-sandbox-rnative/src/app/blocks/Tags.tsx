@@ -20,13 +20,13 @@ export const Tags = () => {
     <Box style={styles.container}>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <Tag appearance={app} label='Accent' icon={ExternalLink} />
+          <Tag appearance={app} label={app} icon={ExternalLink} />
         ))}
-        <Tag label='Disabled' icon={ExternalLink} disabled />
+        <Tag label='disabled' icon={ExternalLink} disabled />
       </Box>
       <Box style={styles.block}>
-        <Tag appearance='base' label='Base' size='md' />
-        <Tag appearance='base' label='Base' size='sm' />
+        <Tag appearance='base' label='medium' size='md' />
+        <Tag appearance='base' label='small' size='sm' />
       </Box>
     </Box>
   );

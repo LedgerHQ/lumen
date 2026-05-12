@@ -35,26 +35,26 @@ export const MediaTags = () => {
     <Box style={styles.container}>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <MediaTag appearance={app} label='Accent' icon={icons[0]} />
+          <MediaTag appearance={app} label={app} icon={icons[0]} />
         ))}
-        <MediaTag label='Disabled' icon={icons[0]} disabled />
+        <MediaTag label='disabled' icon={icons[0]} disabled />
       </Box>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <MediaTag appearance={app} label='Accent' icon={icons[1]} />
+          <MediaTag appearance={app} label={app} icon={icons[1]} />
         ))}
-        <MediaTag label='Disabled' icon={icons[0]} disabled />
+        <MediaTag label='disabled' icon={icons[0]} disabled />
       </Box>
       <Box style={styles.block}>
         <MediaTag
           appearance='base'
-          label='Base'
+          label='medium'
           size='md'
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={16} />}
         />
         <MediaTag
           appearance='base'
-          label='Base'
+          label='small'
           size='sm'
           icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={12} />}
         />
