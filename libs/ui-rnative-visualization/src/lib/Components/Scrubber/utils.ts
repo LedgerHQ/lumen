@@ -101,7 +101,7 @@ export const resolvePixelY = (
  * Resolves the pixel x-coordinate for a given data index using the x-scale.
  * When numeric x-axis data is provided, the corresponding axis value is used;
  * otherwise the data index is used as the x input.
- * Returns undefined when the scale is unavailable or the value cannot be mapped.
+ * Returns undefined only when the scale is unavailable.
  */
 export const resolvePixelX = (
   dataIndex: number,

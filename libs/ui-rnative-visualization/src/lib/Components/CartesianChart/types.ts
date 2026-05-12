@@ -54,7 +54,7 @@ export type CartesianChartProps = {
   enableScrubbing?: boolean;
   /**
    * Callback fired whenever the scrubber moves to a new data index or is cleared.
-   * Receives `undefined` when the scrubber leaves the chart.
+   * Receives `undefined` when the scrub gesture ends or the scrubber position is otherwise cleared.
    */
   onScrubberPositionChange?: (index: number | undefined) => void;
 };
