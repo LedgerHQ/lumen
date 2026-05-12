@@ -26,6 +26,19 @@ const HIDDEN_TOOLTIP = (
   />
 );
 
+const TOOLTIP_GROUP_STYLE = {
+  opacity: 1,
+  transition: TOOLTIP_TRANSITION,
+  pointerEvents: 'none' as const,
+};
+
+const TITLE_STYLE = {
+  fontSize: cssVar('var(--font-style-body-4-size)'),
+  fontFamily: cssVar('var(--font-family-font)'),
+  fill: cssVar('var(--text-base)'),
+  fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
+};
+
 /**
  * Renders a structured tooltip anchored to the scrubber line.
  *
@@ -59,9 +72,10 @@ export function ChartTooltip({
   if (scrubberPosition === undefined) return HIDDEN_TOOLTIP;
 
   const pixelX = resolvePixelX(scrubberPosition, getXScale, getXAxisConfig());
-  const resolvedItems: ChartTooltipItemData[] = items(scrubberPosition);
+  if (pixelX === undefined) return HIDDEN_TOOLTIP;
 
-  if (pixelX === undefined || resolvedItems.length === 0) return HIDDEN_TOOLTIP;
+  const resolvedItems: ChartTooltipItemData[] = items(scrubberPosition);
+  if (resolvedItems.length === 0) return HIDDEN_TOOLTIP;
 
   const resolvedTitle =
     typeof title === 'function' ? title(scrubberPosition) : title;
@@ -88,15 +102,7 @@ export function ChartTooltip({
   const itemsBaseY = drawingArea.y + PADDING_Y + titleBlockHeight;
 
   return (
-    <g
-      data-testid='chart-tooltip'
-      role='tooltip'
-      style={{
-        opacity: 1,
-        transition: TOOLTIP_TRANSITION,
-        pointerEvents: 'none',
-      }}
-    >
+    <g data-testid='chart-tooltip' role='tooltip' style={TOOLTIP_GROUP_STYLE}>
       <rect
         x={tooltipX}
         y={drawingArea.y}
@@ -111,12 +117,7 @@ export function ChartTooltip({
           x={tooltipX + PADDING_X}
           y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
           dominantBaseline='middle'
-          style={{
-            fontSize: cssVar('var(--font-style-body-4-size)'),
-            fontFamily: cssVar('var(--font-family-font)'),
-            fill: cssVar('var(--text-base)'),
-            fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-          }}
+          style={TITLE_STYLE}
         >
           {resolvedTitle}
         </text>

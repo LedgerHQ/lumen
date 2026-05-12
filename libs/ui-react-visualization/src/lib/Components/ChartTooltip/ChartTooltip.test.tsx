@@ -134,7 +134,7 @@ describe('ChartTooltip', () => {
     const { getByTestId } = renderTooltip({
       tooltipProps: { items: () => [{ label: 'T', value: 'V' }] },
     });
-    moveScrubber(getByTestId('chart-svg'), 0); // far left — no overflow
+    moveScrubber(getByTestId('chart-svg'), 0);
     const rect = getByTestId('chart-tooltip').querySelector('rect');
     const x = parseFloat(rect?.getAttribute('x') ?? '0');
     expect(x).toBeGreaterThan(0);
