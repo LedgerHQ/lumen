@@ -1,6 +1,7 @@
 import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
+  ChartTooltip,
   LineChart,
   Point,
   Scrubber,
@@ -371,6 +372,53 @@ export const LineCharts = () => {
           }}
         >
           <Scrubber showBeacons />
+        </LineChart>
+      </Section>
+
+      <Section title='Tooltip – on annotated points'>
+        <LineChart
+          series={sampleSeries}
+          width={320}
+          height={200}
+          showArea
+          enableScrubbing
+        >
+          <Scrubber />
+          <Point dataX={4} dataY={98} color='#47883A' label='ATH' />
+          <Point
+            dataX={9}
+            dataY={4}
+            color='#C24244'
+            label='Low'
+            labelPosition='bottom'
+          />
+          <ChartTooltip
+            items={(i) => {
+              if (i !== 4 && i !== 9) return [];
+              return [
+                { label: 'Month', value: months[i] },
+                { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
+              ];
+            }}
+          />
+        </LineChart>
+      </Section>
+
+      <Section title='Tooltip – always visible'>
+        <LineChart
+          series={sampleSeries}
+          width={320}
+          height={200}
+          showArea
+          enableScrubbing
+        >
+          <Scrubber />
+          <ChartTooltip
+            title={(i) => months[i]}
+            items={(i) => [
+              { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
+            ]}
+          />
         </LineChart>
       </Section>
 
