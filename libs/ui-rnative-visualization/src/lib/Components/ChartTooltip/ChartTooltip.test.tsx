@@ -123,6 +123,74 @@ describe('ChartTooltip', () => {
     expect(queryByTestId('chart-tooltip')).toBeNull();
   });
 
+  describe('flip-side and positioning logic', () => {
+    const defaultItems = (): ChartTooltipItemData[] => [
+      { label: 'Date', value: 'Jan' },
+    ];
+
+    const scrubberAt = (position: number): ScrubberContextValue => ({
+      enableScrubbing: true,
+      scrubberPosition: position,
+      onScrubberPositionChange: () => undefined,
+    });
+
+    it("side='auto' places tooltip to the right when scrubber is mid-chart", () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems },
+        scrubberContext: scrubberAt(2),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(210);
+    });
+
+    it("side='auto' flips tooltip left when right side would overflow (index 3)", () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems },
+        scrubberContext: scrubberAt(3),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(160);
+    });
+
+    it("side='auto' flips at the rightmost scrubber position (index 4)", () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems },
+        scrubberContext: scrubberAt(4),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(250);
+    });
+
+    it("side='left' always flips to the left regardless of scrubber position", () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems, side: 'left' },
+        scrubberContext: scrubberAt(2),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(70);
+    });
+
+    it("side='right' never flips even at the rightmost position (index 4)", () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems, side: 'right' },
+        scrubberContext: scrubberAt(4),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(390);
+    });
+
+    it('custom offset shifts the no-flip tooltip position', () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems, offset: 20 },
+        scrubberContext: scrubberAt(2),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(220);
+    });
+
+    it('wider tooltipWidth can trigger a flip that the default width would not', () => {
+      const { getByTestId } = renderTooltip({
+        tooltipProps: { items: defaultItems, tooltipWidth: 200 },
+        scrubberContext: scrubberAt(2),
+      });
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(20);
+    });
+  });
+
   describe('title prop', () => {
     it('renders a static string title', () => {
       const { getByTestId, getByText } = renderTooltip({
