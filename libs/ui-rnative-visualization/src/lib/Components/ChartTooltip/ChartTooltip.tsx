@@ -79,10 +79,12 @@ export function ChartTooltip({
     (side === 'auto' &&
       pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width);
 
-  const tooltipX = Math.max(
+  const preferredTooltipX = shouldFlip ? pixelX - offset - tooltipWidth : pixelX + offset;
+  const maxTooltipX = Math.max(
     drawingArea.x,
-    shouldFlip ? pixelX - offset - tooltipWidth : pixelX + offset,
+    drawingArea.x + drawingArea.width - tooltipWidth,
   );
+  const tooltipX = Math.min(maxTooltipX, Math.max(drawingArea.x, preferredTooltipX));
 
   const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
 
