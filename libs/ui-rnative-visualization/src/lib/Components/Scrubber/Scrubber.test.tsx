@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
-import type { ReactNode } from 'react';
+import type { ReactNode, ComponentProps } from 'react';
 
 import { CartesianChart } from '../CartesianChart';
 import { ScrubberContextProvider } from './context';
@@ -30,7 +30,7 @@ const renderScrubber = ({
   scrubberProps = {},
   scrubberContext = activeScrubberContext,
 }: {
-  scrubberProps?: React.ComponentProps<typeof Scrubber>;
+  scrubberProps?: ComponentProps<typeof Scrubber>;
   scrubberContext?: ScrubberContextValue;
 } = {}) =>
   render(
