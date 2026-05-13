@@ -125,7 +125,7 @@ export function ChartTooltip({
       )}
       {resolvedItems.map((item: ChartTooltipItemData, i: number) => (
         <ChartTooltipItem
-          key={i}
+          key={`${item.label}-${item.value}`}
           label={item.label}
           value={item.value}
           x={tooltipX}
