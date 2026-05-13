@@ -114,6 +114,7 @@ export function ChartTooltip({
           testID='chart-tooltip-title'
           x={tooltipX + PADDING_X}
           y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
+          alignmentBaseline='central'
           fill={theme.colors.text.base}
           fontSize={theme.typographies.body4.fontSize}
           fontWeight={theme.typographies.body4.fontWeight}

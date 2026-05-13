@@ -19,6 +19,7 @@ export function ChartTooltipItem({
         x={x + PADDING_X}
         y={y}
         textAnchor='start'
+        alignmentBaseline='central'
         fill={theme.colors.text.muted}
         fontSize={theme.typographies.body4.fontSize}
         fontFamily={theme.fontFamilies.sans}
@@ -29,6 +30,7 @@ export function ChartTooltipItem({
         x={x + width - PADDING_X}
         y={y}
         textAnchor='end'
+        alignmentBaseline='central'
         fill={theme.colors.text.base}
         fontSize={theme.typographies.body4.fontSize}
         fontWeight={theme.typographies.body4.fontWeight}
