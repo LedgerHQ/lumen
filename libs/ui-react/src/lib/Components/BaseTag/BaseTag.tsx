@@ -32,7 +32,7 @@ const baseTagVariants = cva(
       { variant: 'tag', size: 'md', class: 'px-8 py-4' },
       { variant: 'tag', size: 'sm', class: 'px-4 py-2' },
       { variant: 'media', size: 'md', class: 'py-4 pr-8 pl-4' },
-      { variant: 'media', size: 'sm', class: 'py-2 pr-4 pl-4' },
+      { variant: 'media', size: 'sm', class: 'px-4 py-2' },
     ],
     defaultVariants: {
       appearance: 'accent',
