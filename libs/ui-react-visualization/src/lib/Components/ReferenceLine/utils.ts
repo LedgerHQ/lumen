@@ -1,5 +1,9 @@
 import { getPointOnScale, isCategoricalScale } from '../../utils/scales/scales';
-import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
+import type {
+  AxisConfigProps,
+  ChartScaleFunction,
+  DrawingArea,
+} from '../../utils/types';
 
 import type {
   HorizontalLabelPosition,
@@ -41,6 +45,25 @@ export const resolvePixel = (
   if (!Number.isFinite(p)) return undefined;
   if (!isPixelWithinDrawingArea(p, axis, drawingArea)) return undefined;
   return p;
+};
+
+/**
+ * Translates a data index into the value the axis scale expects.
+ * When the axis config contains numeric `data`, the index is mapped to the
+ * corresponding value — returns `undefined` if the index is out of bounds.
+ * When there is no numeric axis data the index is used directly.
+ */
+export const resolveDataValue = (
+  index: number,
+  axisConfig?: AxisConfigProps,
+): number | undefined => {
+  const data = axisConfig?.data;
+  if (!data || data.length === 0) return index;
+
+  if (index < 0 || index >= data.length) return undefined;
+
+  const axisValue = data[index];
+  return typeof axisValue === 'number' ? axisValue : index;
 };
 
 type LabelCoordinates = {

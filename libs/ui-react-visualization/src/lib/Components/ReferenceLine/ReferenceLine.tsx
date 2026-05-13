@@ -7,6 +7,7 @@ import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
+  resolveDataValue,
   resolvePixel,
 } from './utils';
 
@@ -28,12 +29,15 @@ export function ReferenceLine({
   opacity = 1,
   ...props
 }: Readonly<ReferenceLineProps>) {
-  const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
+  const { getXScale, getYScale, getXAxisConfig, getYAxisConfig, drawingArea } =
+    useCartesianChartContext();
 
   const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
 
   if (props.dataY !== undefined) {
-    const yPixel = resolvePixel(props.dataY, getYScale(), 'y', drawingArea);
+    const yValue = resolveDataValue(props.dataY, getYAxisConfig());
+    if (yValue === undefined) return null;
+    const yPixel = resolvePixel(yValue, getYScale(), 'y', drawingArea);
     if (yPixel === undefined) return null;
 
     const labelCoords = label
@@ -80,7 +84,9 @@ export function ReferenceLine({
   }
 
   if (props.dataX !== undefined) {
-    const xPixel = resolvePixel(props.dataX, getXScale(), 'x', drawingArea);
+    const xValue = resolveDataValue(props.dataX, getXAxisConfig());
+    if (xValue === undefined) return null;
+    const xPixel = resolvePixel(xValue, getXScale(), 'x', drawingArea);
     if (xPixel === undefined) return null;
 
     const labelCoords = label

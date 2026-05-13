@@ -131,6 +131,24 @@ describe('ReferenceLine', () => {
       });
       expect(queryByTestId('reference-line')).toBeNull();
     });
+
+    it('resolves dataX through numeric xAxis.data', () => {
+      const numericXData = [100, 200, 300, 400, 500];
+      const { getByTestId: getWithData } = renderInChart(
+        <ReferenceLine dataX={2} />,
+        { xAxis: { data: numericXData } },
+      );
+      const lineWithData = getWithData('reference-line-line');
+      const x1WithData = Number(lineWithData.getAttribute('x1'));
+
+      const { getByTestId: getWithoutData } = renderInChart(
+        <ReferenceLine dataX={300} />,
+      );
+      const lineWithoutData = getWithoutData('reference-line-line');
+      const x1WithoutData = Number(lineWithoutData.getAttribute('x1'));
+
+      expect(x1WithData).toBeCloseTo(x1WithoutData, 0);
+    });
   });
 
   describe('label offsets', () => {

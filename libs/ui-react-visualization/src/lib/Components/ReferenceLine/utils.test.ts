@@ -6,6 +6,7 @@ import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
   isPixelWithinDrawingArea,
+  resolveDataValue,
 } from './utils';
 
 const drawingArea: DrawingArea = { x: 20, y: 10, width: 360, height: 180 };
@@ -253,5 +254,28 @@ describe('computeVerticalLabelCoordinates', () => {
       'right',
     );
     expect(result.textAnchor).toBe('end');
+  });
+});
+
+describe('resolveDataValue', () => {
+  it('returns the axis value when data contains numbers', () => {
+    expect(resolveDataValue(2, { data: [100, 200, 300, 400] })).toBe(300);
+  });
+
+  it('returns the index when data contains strings', () => {
+    expect(resolveDataValue(2, { data: ['a', 'b', 'c', 'd'] })).toBe(2);
+  });
+
+  it('returns the index when no axis config is provided', () => {
+    expect(resolveDataValue(5)).toBe(5);
+    expect(resolveDataValue(5, undefined)).toBe(5);
+  });
+
+  it('returns the index when axis config has no data', () => {
+    expect(resolveDataValue(3, {})).toBe(3);
+  });
+
+  it('returns undefined when index is out of bounds in numeric data', () => {
+    expect(resolveDataValue(10, { data: [1, 2, 3] })).toBeUndefined();
   });
 });
