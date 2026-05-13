@@ -1,5 +1,4 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { memo } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 
@@ -18,18 +17,17 @@ const labelStyle = {
   fontFamily: cssVar('var(--font-family-font)'),
 };
 
-export const ReferenceLine = memo((props: Readonly<ReferenceLineProps>) => {
-  const {
-    label,
-    labelDx = 0,
-    labelDy = 0,
-    labelHorizontalAlignment,
-    labelVerticalAlignment,
-    stroke = DEFAULT_STROKE,
-    lineStyle = 'dashed',
-    opacity = 1,
-  } = props;
-
+export function ReferenceLine({
+  label,
+  labelDx = 0,
+  labelDy = 0,
+  labelHorizontalAlignment,
+  labelVerticalAlignment,
+  stroke = DEFAULT_STROKE,
+  lineStyle = 'dashed',
+  opacity = 1,
+  ...props
+}: Readonly<ReferenceLineProps>) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
 
   const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
@@ -129,6 +127,4 @@ export const ReferenceLine = memo((props: Readonly<ReferenceLineProps>) => {
   }
 
   return null;
-});
-
-ReferenceLine.displayName = 'ReferenceLine';
+}
