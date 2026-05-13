@@ -29,6 +29,7 @@ const useBaseTagStyles = ({
         success: t.colors.bg.success,
         error: t.colors.bg.error,
         warning: t.colors.bg.warning,
+        white: t.colors.bg.white,
       };
 
       const textColors: Record<Appearance, string> = {
@@ -39,6 +40,7 @@ const useBaseTagStyles = ({
         success: t.colors.text.success,
         error: t.colors.text.error,
         warning: t.colors.text.warning,
+        white: t.colors.text.black,
       };
 
       const tagPadding = {

@@ -29,6 +29,7 @@ export const MediaTags = () => {
     'success',
     'error',
     'warning',
+    'white',
   ];
 
   return (

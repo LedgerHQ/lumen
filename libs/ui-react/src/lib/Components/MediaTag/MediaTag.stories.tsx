@@ -34,6 +34,7 @@ const meta: Meta<typeof MediaTag> = {
         'success',
         'error',
         'warning',
+        'white',
       ],
     },
     size: {
@@ -81,6 +82,7 @@ export const AppearanceShowcase: Story = {
         label='Warning'
         leadingContent={ETH_ICON}
       />
+      <MediaTag appearance='white' label='White' leadingContent={ETH_ICON} />
       <MediaTag label='Disabled' leadingContent={ETH_ICON} disabled />
     </div>
   ),

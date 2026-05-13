@@ -13,7 +13,8 @@ export type TagProps = {
     | 'accent-subtle'
     | 'success'
     | 'error'
-    | 'warning';
+    | 'warning'
+    | 'white';
   /**
    * The icon of the tag.
    */
