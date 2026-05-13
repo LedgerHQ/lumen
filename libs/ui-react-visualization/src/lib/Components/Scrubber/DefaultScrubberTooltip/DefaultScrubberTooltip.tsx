@@ -159,7 +159,7 @@ export function DefaultScrubberTooltip({
       )}
       {resolvedItems.map((item, i) => (
         <ChartTooltipItem
-          key={`${item.label}-${item.value}`}
+          key={`${item.label}-${item.value}-${i}`}
           label={item.label}
           value={item.value}
           x={tooltipX}
