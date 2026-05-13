@@ -98,14 +98,13 @@ export function DefaultScrubberTooltip({
     return null;
   }
 
-  const contentWidth = widths
-    ? Math.max(
-        hasTitle ? widths.title : 0,
-        ...widths.labels.map(
-          (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
-        ),
+  const titleWidth = widths && hasTitle ? widths.title : 0;
+  const rowWidths = widths
+    ? widths.labels.map(
+        (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
       )
-    : 0;
+    : [];
+  const contentWidth = Math.max(titleWidth, ...rowWidths);
 
   const fitWidth = contentWidth + PADDING_X * 2;
   const tooltipWidth = Math.max(fitWidth, minWidth);
@@ -160,7 +159,7 @@ export function DefaultScrubberTooltip({
       )}
       {resolvedItems.map((item, i) => (
         <ChartTooltipItem
-          key={i}
+          key={`${item.label}-${item.value}`}
           label={item.label}
           value={item.value}
           x={tooltipX}
