@@ -140,22 +140,6 @@ describe('ChartTooltip', () => {
     expect(x).toBeGreaterThan(0);
   });
 
-  it('forces the tooltip to the left when side="left"', () => {
-    const { getByTestId } = renderTooltip({
-      tooltipProps: {
-        side: 'left',
-        tooltipWidth: 120,
-        items: () => [{ label: 'T', value: 'V' }],
-      },
-    });
-    // Move to the center so there's room on both sides
-    moveScrubber(getByTestId('chart-svg'), 200);
-    const rect = getByTestId('chart-tooltip').querySelector('rect');
-    const rectX = parseFloat(rect?.getAttribute('x') ?? '0');
-    // rect should be left of center (200 - offset - tooltipWidth)
-    expect(rectX).toBeLessThan(200);
-  });
-
   it('auto-flips the tooltip to the left when it would overflow the right edge', () => {
     const { getByTestId } = renderTooltip({
       tooltipProps: {
@@ -170,22 +154,6 @@ describe('ChartTooltip', () => {
     const rectX = parseFloat(rect?.getAttribute('x') ?? '0');
     // Flipped: rect left edge should be < scrubber pixel position
     expect(rectX).toBeLessThan(380);
-  });
-
-  it('does not flip when side="right" even near the right edge', () => {
-    const { getByTestId } = renderTooltip({
-      tooltipProps: {
-        side: 'right',
-        tooltipWidth: 120,
-        offset: 10,
-        items: () => [{ label: 'T', value: 'V' }],
-      },
-    });
-    moveScrubber(getByTestId('chart-svg'), 380);
-    const rect = getByTestId('chart-tooltip').querySelector('rect');
-    const rectX = parseFloat(rect?.getAttribute('x') ?? '0');
-    // Not flipped: rect should be to the right of the scrubber line
-    expect(rectX).toBeGreaterThan(300);
   });
 
   it('applies a custom offset to position the tooltip', () => {

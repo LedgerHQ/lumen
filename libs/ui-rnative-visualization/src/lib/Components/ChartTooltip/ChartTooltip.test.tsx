@@ -2,7 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { CartesianChart } from '../CartesianChart';
 import { ScrubberContextProvider } from '../Scrubber/context';
@@ -38,7 +38,7 @@ const renderTooltip = ({
   width = 400,
   height = 200,
 }: {
-  tooltipProps?: React.ComponentProps<typeof ChartTooltip>;
+  tooltipProps?: ComponentProps<typeof ChartTooltip>;
   scrubberContext?: ScrubberContextValue;
   width?: number;
   height?: number;
@@ -123,7 +123,7 @@ describe('ChartTooltip', () => {
     expect(queryByTestId('chart-tooltip')).toBeNull();
   });
 
-  describe('flip-side and positioning logic', () => {
+  describe('positioning logic', () => {
     const defaultItems = (): ChartTooltipItemData[] => [
       { label: 'Date', value: 'Jan' },
     ];
@@ -134,7 +134,7 @@ describe('ChartTooltip', () => {
       onScrubberPositionChange: () => undefined,
     });
 
-    it("side='auto' places tooltip to the right when scrubber is mid-chart", () => {
+    it('places tooltip to the right of the scrubber when mid-chart', () => {
       const { getByTestId } = renderTooltip({
         tooltipProps: { items: defaultItems },
         scrubberContext: scrubberAt(2),
@@ -142,7 +142,7 @@ describe('ChartTooltip', () => {
       expect(getByTestId('chart-tooltip-rect').props.x).toBe(210);
     });
 
-    it("side='auto' flips tooltip left when right side would overflow (index 3)", () => {
+    it('flips tooltip left when right side would overflow (index 3)', () => {
       const { getByTestId } = renderTooltip({
         tooltipProps: { items: defaultItems },
         scrubberContext: scrubberAt(3),
@@ -150,28 +150,12 @@ describe('ChartTooltip', () => {
       expect(getByTestId('chart-tooltip-rect').props.x).toBe(160);
     });
 
-    it("side='auto' flips at the rightmost scrubber position (index 4)", () => {
+    it('flips at the rightmost scrubber position (index 4)', () => {
       const { getByTestId } = renderTooltip({
         tooltipProps: { items: defaultItems },
         scrubberContext: scrubberAt(4),
       });
       expect(getByTestId('chart-tooltip-rect').props.x).toBe(250);
-    });
-
-    it("side='left' always flips to the left regardless of scrubber position", () => {
-      const { getByTestId } = renderTooltip({
-        tooltipProps: { items: defaultItems, side: 'left' },
-        scrubberContext: scrubberAt(2),
-      });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(70);
-    });
-
-    it("side='right' never flips even at the rightmost position (index 4)", () => {
-      const { getByTestId } = renderTooltip({
-        tooltipProps: { items: defaultItems, side: 'right' },
-        scrubberContext: scrubberAt(4),
-      });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(390);
     });
 
     it('custom offset shifts the no-flip tooltip position', () => {

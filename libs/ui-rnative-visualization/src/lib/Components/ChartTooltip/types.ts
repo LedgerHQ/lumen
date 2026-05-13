@@ -45,12 +45,6 @@ export type ChartTooltipProps = {
    */
   offset?: number;
   /**
-   * Which side of the scrubber line the tooltip appears on.
-   * `'auto'` flips to the left when the right side would overflow.
-   * @default 'auto'
-   */
-  side?: 'auto' | 'left' | 'right';
-  /**
    * Fixed width of the tooltip box in pixels.
    * Used for flip-side detection and for right-aligning value text.
    * @default 120

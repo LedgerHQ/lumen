@@ -63,7 +63,6 @@ export function ChartTooltip({
   title,
   items,
   offset = DEFAULT_OFFSET,
-  side = 'auto',
   tooltipWidth = DEFAULT_TOOLTIP_WIDTH,
 }: Readonly<ChartTooltipProps>) {
   const { scrubberPosition } = useScrubberContext();
@@ -82,9 +81,7 @@ export function ChartTooltip({
   const hasTitle = resolvedTitle !== undefined && resolvedTitle !== null;
 
   const shouldFlip =
-    side === 'left' ||
-    (side === 'auto' &&
-      pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width);
+    pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width;
 
   const tooltipX = Math.max(
     drawingArea.x,

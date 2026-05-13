@@ -42,7 +42,6 @@ export function ChartTooltip({
   title,
   items,
   offset = DEFAULT_OFFSET,
-  side = 'auto',
   tooltipWidth = DEFAULT_TOOLTIP_WIDTH,
 }: Readonly<ChartTooltipProps>) {
   const { theme } = useTheme();
@@ -75,16 +74,19 @@ export function ChartTooltip({
   const hasTitle = resolvedTitle !== undefined && resolvedTitle !== null;
 
   const shouldFlip =
-    side === 'left' ||
-    (side === 'auto' &&
-      pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width);
+    pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width;
 
-  const preferredTooltipX = shouldFlip ? pixelX - offset - tooltipWidth : pixelX + offset;
+  const preferredTooltipX = shouldFlip
+    ? pixelX - offset - tooltipWidth
+    : pixelX + offset;
   const maxTooltipX = Math.max(
     drawingArea.x,
     drawingArea.x + drawingArea.width - tooltipWidth,
   );
-  const tooltipX = Math.min(maxTooltipX, Math.max(drawingArea.x, preferredTooltipX));
+  const tooltipX = Math.min(
+    maxTooltipX,
+    Math.max(drawingArea.x, preferredTooltipX),
+  );
 
   const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
 
@@ -120,7 +122,7 @@ export function ChartTooltip({
           {String(resolvedTitle)}
         </SvgText>
       )}
-      {resolvedItems.map((item, i) => (
+      {resolvedItems.map((item: ChartTooltipItemData, i: number) => (
         <ChartTooltipItem
           key={i}
           label={item.label}
