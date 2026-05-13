@@ -17,7 +17,7 @@ describe('MediaTag Component', () => {
     renderWithProvider(
       <MediaTag
         label='Bitcoin'
-        icon={<Text testID='media-icon'>bitcoin-icon</Text>}
+        leadingContent={<Text testID='media-icon'>bitcoin-icon</Text>}
       />,
     );
     expect(screen.getByText('Bitcoin')).toBeTruthy();

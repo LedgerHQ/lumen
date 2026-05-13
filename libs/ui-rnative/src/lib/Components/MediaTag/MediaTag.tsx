@@ -18,19 +18,19 @@ import type { MediaTagProps } from './types';
  * // MediaTag with image
  * <MediaTag
  *   label='Ethereum'
- *   icon={<MediaImage src='https://crypto-icons.ledger.com/ETH.png' alt='Ethereum' size={16} shape='square' />}
+ *   leadingContent={<MediaImage src='https://crypto-icons.ledger.com/ETH.png' alt='Ethereum' size={16} shape='square' />}
  * />
  *
  * // Small MediaTag
- * <MediaTag label='Bitcoin' size='sm' icon={myIcon} />
+ * <MediaTag label='Bitcoin' size='sm' leadingContent={myIcon} />
  */
-export const MediaTag = ({ icon, ...props }: MediaTagProps) => {
+export const MediaTag = ({ leadingContent, ...props }: MediaTagProps) => {
   return (
     <BaseTag
       {...props}
       variant='media'
       consumerName='MediaTag'
-      renderIcon={() => icon}
+      renderIcon={() => leadingContent}
     />
   );
 };

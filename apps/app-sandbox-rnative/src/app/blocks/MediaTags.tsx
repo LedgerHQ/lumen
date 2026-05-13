@@ -35,30 +35,44 @@ export const MediaTags = () => {
     <Box style={styles.container}>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <MediaTag key={app} appearance={app} label={app} icon={icons[0]} />
+          <MediaTag
+            key={app}
+            appearance={app}
+            label={app}
+            leadingContent={icons[0]}
+          />
         ))}
-        <MediaTag label='disabled' icon={icons[0]} disabled />
+        <MediaTag label='disabled' leadingContent={icons[0]} disabled />
       </Box>
       <Box style={styles.block}>
         {appearances.map((app) => (
-          <MediaTag key={app} appearance={app} label={app} icon={icons[1]} />
+          <MediaTag
+            key={app}
+            appearance={app}
+            label={app}
+            leadingContent={icons[1]}
+          />
         ))}
-        <MediaTag label='disabled' icon={icons[1]} disabled />
+        <MediaTag label='disabled' leadingContent={icons[1]} disabled />
       </Box>
       <Box style={styles.block}>
         <MediaTag
           appearance='base'
           label='medium'
           size='md'
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={16} />}
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={16} />
+          }
         />
         <MediaTag
           appearance='base'
           label='small'
           size='sm'
           // Figma mock uses 12px size for CryptoIcon, but size is type-restricted
-          // to sizes > 16. Chose to cast to 16 to make typecheck happy.
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={12 as 16} />}
+          // to sizes > 16. Chose to cast type to 16 to make typecheck happy.
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={12 as 16} />
+          }
         />
       </Box>
     </Box>

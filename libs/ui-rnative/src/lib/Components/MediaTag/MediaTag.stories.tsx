@@ -48,24 +48,32 @@ export const Base: Story = {
     appearance: 'accent',
     size: 'md',
   },
-  render: (args) => <MediaTag {...args} icon={ETH_ICON} />,
+  render: (args) => <MediaTag {...args} leadingContent={ETH_ICON} />,
 };
 
 export const AppearanceShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's4' }}>
-      <MediaTag appearance='base' label='Base' icon={ETH_ICON} />
-      <MediaTag appearance='gray' label='Gray' icon={ETH_ICON} />
-      <MediaTag appearance='accent' label='Accent' icon={ETH_ICON} />
+      <MediaTag appearance='base' label='Base' leadingContent={ETH_ICON} />
+      <MediaTag appearance='gray' label='Gray' leadingContent={ETH_ICON} />
+      <MediaTag appearance='accent' label='Accent' leadingContent={ETH_ICON} />
       <MediaTag
         appearance='accent-subtle'
         label='Accent subtle'
-        icon={ETH_ICON}
+        leadingContent={ETH_ICON}
       />
-      <MediaTag appearance='success' label='Success' icon={ETH_ICON} />
-      <MediaTag appearance='error' label='Error' icon={ETH_ICON} />
-      <MediaTag appearance='warning' label='Warning' icon={ETH_ICON} />
-      <MediaTag label='Disabled' icon={ETH_ICON} disabled />
+      <MediaTag
+        appearance='success'
+        label='Success'
+        leadingContent={ETH_ICON}
+      />
+      <MediaTag appearance='error' label='Error' leadingContent={ETH_ICON} />
+      <MediaTag
+        appearance='warning'
+        label='Warning'
+        leadingContent={ETH_ICON}
+      />
+      <MediaTag label='Disabled' leadingContent={ETH_ICON} disabled />
     </Box>
   ),
 };
@@ -73,11 +81,11 @@ export const AppearanceShowcase: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
-      <MediaTag size='md' label='Medium' icon={ETH_ICON} />
+      <MediaTag size='md' label='Medium' leadingContent={ETH_ICON} />
       <MediaTag
         size='sm'
         label='Small'
-        icon={
+        leadingContent={
           <MediaImage
             src='https://crypto-icons.ledger.com/ETH.png'
             alt='Ethereum'
@@ -93,7 +101,10 @@ export const SizeShowcase: Story = {
 export const TruncateShowcase: Story = {
   render: () => (
     <Box lx={{ width: 's176' }}>
-      <MediaTag label='Very long text that truncates' icon={ETH_ICON} />
+      <MediaTag
+        label='Very long text that truncates'
+        leadingContent={ETH_ICON}
+      />
     </Box>
   ),
 };

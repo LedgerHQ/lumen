@@ -23,7 +23,7 @@ MediaTag is a compact label used to categorize, classify, or highlight informati
 <Canvas of={MediaTagStories.Base} />
 
 - **Label:** The text content of the tag.
-- **Icon:** A required media element (image, crypto icon, etc.) displayed before the label.
+- **Leading content:** A required media element (image, crypto icon, etc.) displayed before the label. Passed via the `leadingContent` prop.
 
 ## Properties
 
@@ -40,10 +40,10 @@ MediaTag is a compact label used to categorize, classify, or highlight informati
 
 MediaTags come in two different sizes:
 
-- **md** (default) — the `icon` media should be rendered at **16px**.
-- **sm** — the `icon` media should be rendered at **12px**.
+- **md** (default) — the `leadingContent` media should be rendered at **16px**.
+- **sm** — the `leadingContent` media should be rendered at **12px**.
 
-The MediaTag does not resize its `icon`; consumers are responsible for passing a media element sized to match the tag's `size`.
+The MediaTag does not resize its `leadingContent`; consumers are responsible for passing a media element sized to match the tag's `size`.
 
 <Canvas of={MediaTagStories.SizeShowcase} />
 
@@ -85,7 +85,7 @@ function MyComponent() {
         size="md"
         appearance="accent"
         label="Ethereum"
-        icon={
+        leadingContent={
           <MediaImage
             src="https://crypto-icons.ledger.com/ETH.png"
             alt="Ethereum"
@@ -100,7 +100,7 @@ function MyComponent() {
         size="sm"
         appearance="accent"
         label="Ethereum"
-        icon={
+        leadingContent={
           <MediaImage
             src="https://crypto-icons.ledger.com/ETH.png"
             alt="Ethereum"
@@ -123,14 +123,14 @@ While the component comes with predefined styles, you can extend them using the 
   size="md"
   appearance="accent"
   label="Custom MediaTag"
-  icon={myIcon}
+  leadingContent={myIcon}
   lx={{ marginTop: 's4' }}
 />
 ```
 
 ### With Crypto Icons
 
-The MediaTag accepts any `ReactNode` as its icon, including crypto icons. Use **16px** for `md` and **12px** for `sm`:
+The MediaTag accepts any `ReactNode` as its `leadingContent`, including crypto icons. Use **16px** for `md` and **12px** for `sm`:
 
 ```tsx
 import { MediaTag } from '@ledgerhq/lumen-ui-rnative';
@@ -139,18 +139,18 @@ import CryptoIcon from '@ledgerhq/crypto-icons/native';
 function MyComponent() {
   return (
     <>
-      {/* md → icon size 16 */}
+      {/* md → leadingContent size 16 */}
       <MediaTag
         size="md"
         label="Bitcoin"
-        icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={16} />}
+        leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={16} />}
       />
 
-      {/* sm → icon size 12 */}
+      {/* sm → leadingContent size 12 */}
       <MediaTag
         size="sm"
         label="Bitcoin"
-        icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={12} />}
+        leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={12} />}
       />
     </>
   );
