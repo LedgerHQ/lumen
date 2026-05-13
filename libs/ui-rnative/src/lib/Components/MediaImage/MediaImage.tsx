@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import type { LumenStyleSheetTheme } from '../../../styles';
+import { RuntimeConstants } from '../../utils';
 import { Skeleton } from '../Skeleton';
 import { Box, Text } from '../Utility';
 import type { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
@@ -119,7 +120,10 @@ export const MediaImage = ({
       {loading && <Skeleton style={StyleSheet.absoluteFillObject} />}
       {!loading && shouldFallback && fallback && (
         <Text
-          style={{ fontSize: fontSizeMap[size], lineHeight: 0 }}
+          style={{
+            fontSize: fontSizeMap[size],
+            ...(RuntimeConstants.isIOS && { lineHeight: 0 }),
+          }}
           lx={{ color: 'base' }}
           accessible={false}
         >
