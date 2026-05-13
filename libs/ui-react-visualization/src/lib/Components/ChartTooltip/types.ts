@@ -57,7 +57,7 @@ export type ChartTooltipProps = {
   /**
    * Fixed width of the tooltip box in pixels.
    * Used for flip-side detection and for right-aligning value text.
-   * @default 120
+   * @default 80
    */
   tooltipWidth?: number;
 };

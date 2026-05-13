@@ -144,7 +144,7 @@ describe('ChartTooltip', () => {
 
     it('flips tooltip left when right side would overflow (index 3)', () => {
       const { getByTestId } = renderTooltip({
-        tooltipProps: { items: defaultItems },
+        tooltipProps: { items: defaultItems, tooltipWidth: 120 },
         scrubberContext: scrubberAt(3),
       });
       expect(getByTestId('chart-tooltip-rect').props.x).toBe(160);
@@ -152,7 +152,7 @@ describe('ChartTooltip', () => {
 
     it('flips at the rightmost scrubber position (index 4)', () => {
       const { getByTestId } = renderTooltip({
-        tooltipProps: { items: defaultItems },
+        tooltipProps: { items: defaultItems, tooltipWidth: 120 },
         scrubberContext: scrubberAt(4),
       });
       expect(getByTestId('chart-tooltip-rect').props.x).toBe(250);
