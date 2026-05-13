@@ -1,8 +1,6 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
-import { useCartesianChartContext } from '../CartesianChart/context';
-import { useScrubberContext } from '../Scrubber/context';
-import { resolvePixelX } from '../Scrubber/utils';
+import type { ChartTooltipItemData, ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
   BORDER_RADIUS,
@@ -15,16 +13,6 @@ import {
   TITLE_GAP,
   TOOLTIP_TRANSITION,
 } from './constants';
-import type { ChartTooltipItemData, ChartTooltipProps } from './types';
-
-const HIDDEN_TOOLTIP = (
-  <g
-    data-testid='chart-tooltip'
-    role='tooltip'
-    aria-hidden='true'
-    style={{ opacity: 0, pointerEvents: 'none', transition: 'none' }}
-  />
-);
 
 const TOOLTIP_GROUP_STYLE = {
   opacity: 1,
@@ -40,51 +28,29 @@ const TITLE_STYLE = {
 };
 
 /**
- * Renders a structured tooltip anchored to the scrubber line.
+ * Default structured tooltip anchored to the scrubber line.
  *
- * Visible at every scrubber position by default. To limit which positions
- * show a tooltip, return an empty array from `items` for unwanted indices.
- *
- * Must be used as a child of `LineChart` (or `CartesianChart`) with
- * `enableScrubbing` enabled.
- *
- * @example
- * ```tsx
- * <LineChart series={series} enableScrubbing>
- *   <Scrubber />
- *   <ChartTooltip
- *     title={(i) => `${count[i]} Transactions`}
- *     items={(i) => [{ label: 'Index', value: i }]}
- *   />
- * </LineChart>
- * ```
+ * Use with {@link ScrubberProps.tooltip}. Layout options belong on the object
+ * returned from the `tooltip` callback (`offset`, `tooltipWidth`).
+ * To hide at specific indices, return `{ items: [] }` from the `tooltip` callback.
  */
-export function ChartTooltip({
+export function DefaultScrubberTooltip({
+  pixelX,
+  drawingArea,
   title,
   items,
   offset = DEFAULT_OFFSET,
-  side = 'auto',
   tooltipWidth = DEFAULT_TOOLTIP_WIDTH,
-}: Readonly<ChartTooltipProps>) {
-  const { scrubberPosition } = useScrubberContext();
-  const { getXScale, getXAxisConfig, drawingArea } = useCartesianChartContext();
+}: Readonly<ScrubberTooltipProps>) {
+  const resolvedItems: ChartTooltipItemData[] = items;
+  if (resolvedItems.length === 0) {
+    return null;
+  }
 
-  if (scrubberPosition === undefined) return HIDDEN_TOOLTIP;
-
-  const pixelX = resolvePixelX(scrubberPosition, getXScale, getXAxisConfig());
-  if (pixelX === undefined) return HIDDEN_TOOLTIP;
-
-  const resolvedItems: ChartTooltipItemData[] = items(scrubberPosition);
-  if (resolvedItems.length === 0) return HIDDEN_TOOLTIP;
-
-  const resolvedTitle =
-    typeof title === 'function' ? title(scrubberPosition) : title;
-  const hasTitle = resolvedTitle !== undefined && resolvedTitle !== null;
+  const hasTitle = title !== undefined && title !== null;
 
   const shouldFlip =
-    side === 'left' ||
-    (side === 'auto' &&
-      pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width);
+    pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width;
 
   const tooltipX = Math.max(
     drawingArea.x,
@@ -119,7 +85,7 @@ export function ChartTooltip({
           dominantBaseline='middle'
           style={TITLE_STYLE}
         >
-          {resolvedTitle}
+          {title}
         </text>
       )}
       {resolvedItems.map((item, i) => (

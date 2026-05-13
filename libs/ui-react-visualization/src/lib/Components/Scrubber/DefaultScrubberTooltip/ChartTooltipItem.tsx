@@ -1,7 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
+import type { ChartTooltipItemProps } from '../types';
 import { PADDING_X } from './constants';
-import type { ChartTooltipItemProps } from './types';
 
 export function ChartTooltipItem({
   label,

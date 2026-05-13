@@ -1,4 +1,6 @@
-import type { ReactNode, RefObject } from 'react';
+import type { ReactElement, ReactNode, RefObject, SVGProps } from 'react';
+
+import type { DrawingArea } from '../../utils/types';
 
 export type ScrubberContextValue = {
   /**
@@ -31,6 +33,84 @@ export type ScrubberProviderProps = {
   onScrubberPositionChange?: (index: number | undefined) => void;
 };
 
+/**
+ * Valid content for an SVG `<text>` element: a plain string,
+ * a number, or a `<tspan>` element.
+ */
+export type SvgTextContent =
+  | string
+  | number
+  | ReactElement<SVGProps<SVGTSpanElement>, 'tspan'>;
+
+export type ChartTooltipItemData = {
+  /** Label displayed on the left side of the row. */
+  label: SvgTextContent;
+  /** Value displayed on the right side of the row. */
+  value: SvgTextContent;
+};
+
+export type ChartTooltipItemProps = ChartTooltipItemData & {
+  /**
+   * X position in SVG coordinate space.
+   * @default 0
+   */
+  x?: number;
+  /**
+   * Y midline position in SVG coordinate space.
+   * @default 0
+   */
+  y?: number;
+  /**
+   * Width allocated to this row, used to right-align the value text.
+   */
+  width: number;
+};
+
+export type ScrubberTooltipProps = {
+  pixelX: number;
+  drawingArea: DrawingArea;
+  dataIndex: number;
+  title?: SvgTextContent | null;
+  items: ChartTooltipItemData[];
+  /**
+   * Horizontal gap in pixels between the scrubber line and the tooltip box.
+   * @default 10
+   */
+  offset?: number;
+  /**
+   * Fixed width of the tooltip box in pixels.
+   * @default 120
+   */
+  tooltipWidth?: number;
+};
+
+/**
+ * Return value of the `tooltip` callback on {@link ScrubberProps}.
+ */
+export type ScrubberTooltipContent = {
+  /**
+   * Optional header. Static value or callback per data index.
+   * A callback may return `null` or `undefined` to suppress the title.
+   */
+  title?:
+    | SvgTextContent
+    | ((index: number) => SvgTextContent | null | undefined);
+  /**
+   * Tooltip rows for this index. Return an empty array to hide the tooltip.
+   */
+  items: ChartTooltipItemData[];
+  /**
+   * Horizontal gap in pixels between the scrubber line and the tooltip box.
+   * @default 10
+   */
+  offset?: number;
+  /**
+   * Fixed width of the tooltip box in pixels.
+   * @default 120
+   */
+  tooltipWidth?: number;
+};
+
 export type ScrubberProps = {
   /**
    * Formats a label string shown above the reference line for a given data index.
@@ -52,4 +132,10 @@ export type ScrubberProps = {
    * @default false
    */
   showBeacons?: boolean;
+  /**
+   * Produces tooltip content for the active data index. When set, {@link DefaultScrubberTooltip}
+   * is rendered. Optional `offset` and `tooltipWidth` on the returned object tune layout.
+   * Return `{ items: [] }` to hide the tooltip at an index.
+   */
+  tooltip?: (dataIndex: number) => ScrubberTooltipContent;
 };

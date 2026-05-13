@@ -407,3 +407,96 @@ export const WithAxes: Story = {
   ),
   args: {},
 };
+
+const tooltipSampleSeries = [
+  {
+    id: 'prices',
+    stroke: '#7B61FF',
+    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
+  },
+];
+
+const tooltipDates = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+  'Jan',
+  'Feb',
+];
+
+const tooltipAnnotatedIndices = new Set([4, 9]);
+
+export const TooltipBase: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(i) => ({
+          items: [
+            { label: 'Date', value: tooltipDates[i] },
+            { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+export const TooltipWithTitle: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(i) => ({
+          title: `${tooltipSampleSeries[0].data[i]} Transactions`,
+          items: [
+            { label: 'Date', value: tooltipDates[i] },
+            { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+export const TooltipOnPoints: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(i) => {
+          if (!tooltipAnnotatedIndices.has(i)) return { items: [] };
+          return {
+            items: [
+              { label: 'Date', value: tooltipDates[i] },
+              { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },
+            ],
+          };
+        }}
+      />
+      <Point dataX={4} dataY={98} label='ATH' />
+      <Point dataX={9} dataY={4} label='Low' labelPosition='bottom' />
+    </LineChart>
+  ),
+};
