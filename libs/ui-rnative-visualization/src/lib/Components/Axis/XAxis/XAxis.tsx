@@ -50,7 +50,7 @@ export const XAxis = ({
   const labelY = axisY + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
   const labelDy = isTop ? 0 : fontSize * 0.8;
 
-  const gridStroke = theme.colors.border.mutedSubtle;
+  const gridStroke = theme.colors.border.mutedSubtleTransparent;
   const lineStroke = theme.colors.border.muted;
   const textFill = theme.colors.text.muted;
 

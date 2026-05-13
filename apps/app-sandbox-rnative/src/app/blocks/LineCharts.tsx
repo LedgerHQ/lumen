@@ -1,6 +1,11 @@
 import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
-import { LineChart, Point } from '@ledgerhq/lumen-ui-rnative-visualization';
+import {
+  LineChart,
+  Point,
+  Scrubber,
+} from '@ledgerhq/lumen-ui-rnative-visualization';
+import { useState } from 'react';
 
 const sampleSeries = [
   {
@@ -112,6 +117,36 @@ const PointLabelFunction = () => (
     />
   </LineChart>
 );
+
+const ScrubberWithLabel = () => {
+  const { theme } = useTheme();
+  const [activeIndex, setActiveIndex] = useState<number | undefined>();
+  const displayIndex = activeIndex ?? sampleSeries[0].data.length - 1;
+
+  return (
+    <Box lx={{ gap: 's24' }}>
+      <Text
+        style={{
+          fontSize: 16,
+          fontWeight: '700',
+          color: theme.colors.text.base,
+        }}
+      >
+        {months[displayIndex]} — ${sampleSeries[0].data[displayIndex]}
+      </Text>
+      <LineChart
+        series={sampleSeries}
+        width={320}
+        height={200}
+        showArea
+        enableScrubbing
+        onScrubberPositionChange={setActiveIndex}
+      >
+        <Scrubber label={(i) => months[i] ?? ''} />
+      </LineChart>
+    </Box>
+  );
+};
 
 export const LineCharts = () => {
   return (
@@ -292,6 +327,71 @@ export const LineCharts = () => {
             label='$4'
             labelPosition='bottom'
           />
+        </LineChart>
+      </Section>
+
+      <Section title='Scrubber – basic'>
+        <LineChart
+          series={sampleSeries}
+          width={320}
+          height={200}
+          showArea
+          enableScrubbing
+          showYAxis
+          yAxis={{
+            domain: (bounds) => ({
+              min: bounds.min - 10,
+              max: bounds.max * 1.2,
+            }),
+          }}
+        >
+          <Scrubber />
+        </LineChart>
+      </Section>
+
+      <Section title='Scrubber – with label'>
+        <ScrubberWithLabel />
+      </Section>
+
+      <Section title='Scrubber – multi-series with beacons'>
+        <LineChart
+          series={multiSeries}
+          width={320}
+          height={200}
+          enableScrubbing
+          showYAxis
+          yAxis={{
+            domain: (bounds) => ({
+              min: bounds.min - 10,
+              max: bounds.max,
+            }),
+            position: 'end',
+            showGrid: true,
+            tickLabelFormatter: (v) => `$${v}`,
+          }}
+        >
+          <Scrubber showBeacons />
+        </LineChart>
+      </Section>
+
+      <Section title='Scrubber – with axes'>
+        <LineChart
+          series={sampleSeries}
+          width={320}
+          height={220}
+          showArea
+          showYAxis
+          enableScrubbing
+          yAxis={{
+            domain: (bounds) => ({
+              min: bounds.min - 10,
+              max: bounds.max,
+            }),
+            showGrid: true,
+            tickLabelFormatter: (v) => `$${v}`,
+          }}
+        >
+          <Scrubber />
         </LineChart>
       </Section>
     </Box>

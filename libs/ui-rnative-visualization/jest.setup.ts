@@ -126,6 +126,44 @@ jest.mock('@gorhom/bottom-sheet', () => {
   };
 });
 
+// Mock react-native-gesture-handler
+jest.mock('react-native-gesture-handler', () => {
+  const mockReact = jest.requireActual<typeof import('react')>('react');
+  const mockRN =
+    jest.requireActual<typeof import('react-native')>('react-native');
+
+  const makePanGesture = () => {
+    const gesture: Record<string, (...args: any[]) => any> = {};
+    const chainable = new Proxy(gesture, {
+      get(target, prop) {
+        if (prop in target) return target[prop as string];
+        return (..._args: any[]) => chainable;
+      },
+    });
+    return chainable;
+  };
+
+  return {
+    __esModule: true,
+    GestureDetector: ({ children }: any) =>
+      mockReact.createElement(mockRN.View, {}, children),
+    Gesture: {
+      Pan: makePanGesture,
+      Tap: makePanGesture,
+      LongPress: makePanGesture,
+      Fling: makePanGesture,
+      Simultaneous: makePanGesture,
+      Exclusive: makePanGesture,
+      Race: makePanGesture,
+    },
+    State: {},
+    GestureHandlerRootView: ({ children }: any) =>
+      mockReact.createElement(mockRN.View, {}, children),
+    ScrollView: mockRN.ScrollView,
+    FlatList: mockRN.FlatList,
+  };
+});
+
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => {
   const mockRN =
@@ -189,3 +227,10 @@ jest.mock('react-native-reanimated', () => {
 
   return Reanimated;
 });
+
+jest.mock('react-native-worklets', () => ({
+  __esModule: true,
+  scheduleOnRN: (fn: any, ...args: any[]) => fn(...args),
+  scheduleOnUI: (fn: any, ...args: any[]) => fn(...args),
+  scheduleOnRuntime: (fn: any, ...args: any[]) => fn(...args),
+}));
