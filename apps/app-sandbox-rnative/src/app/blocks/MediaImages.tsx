@@ -33,6 +33,14 @@ export const MediaImages = () => {
         size={64}
         shape='circle'
       />
+      <MediaImage fallback='Bitcoin' size={48} shape='square' />
+      <MediaImage
+        src='https://crypto-icons.ledger.com/INVALID.png'
+        alt='Ethereum'
+        fallback='Ethereum'
+        size={48}
+        shape='circle'
+      />
     </Box>
   );
 };
