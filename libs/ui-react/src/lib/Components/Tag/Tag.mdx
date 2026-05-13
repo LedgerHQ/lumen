@@ -11,21 +11,25 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 <Meta title='Components/Tag' of={TagStories} />
 
-# 🏷️ Tag
+# Tag
 
 <CustomTabs>
   <Tab label="Overview">
 
-View in Figma: [link](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=722-5547&m=dev)
+## Introduction
+
+Tags are compact labels used to categorize, highlight status, or surface metadata. They provide quick visual context without drawing focus away from primary content.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=722-5547&m=dev).
 
 ## Anatomy
+
+<Canvas of={TagStories.Default} />
 
 - **Label:** The text content of the tag.
 - **Icon (optional):** An optional icon displayed before the label.
 
 ## Properties
-
-### Overview
 
 <Canvas of={TagStories.Default} />
 <Controls of={TagStories.Default} />
@@ -56,15 +60,6 @@ Tags can be displayed with or without an icon.
 When a tag's label exceeds the available space, the text is automatically truncated with an ellipsis.
 
 <Canvas of={TagStories.TruncateShowcase} />
-
-### Accessibility
-
-To be implemented:
-
-- **Color contrast**
-- **Text zoom**
-- **Keyboard navigation**
-- **Semantic labeling**
 
 </Tab>
 <Tab label="Implementation">
@@ -110,38 +105,6 @@ function MyComponent() {
   return <Tag size='md' appearance='success' icon={Check} label='Success' />;
 }
 ```
-
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use label for text content'
-      description='Pass icon as a component reference for proper sizing'
-    >
-
-```tsx
-import { Plus } from '@ledgerhq/lumen-ui-react/symbols';
-<Tag icon={Plus} label='Add Item' />;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't include icon in label"
-      description='Avoid including icon elements directly in label text'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Tag label='<Plus /> Add Item' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>
