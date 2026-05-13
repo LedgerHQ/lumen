@@ -164,7 +164,7 @@ describe('DefaultScrubberTooltip', () => {
     const { getByTestId } = renderScrubberTooltip({
       scrubberProps: {
         tooltip: () => ({
-          tooltipWidth: 120,
+          minWidth: 120,
           offset: 10,
           items: [{ label: 'T', value: 'V' }],
         }),
@@ -191,19 +191,21 @@ describe('DefaultScrubberTooltip', () => {
     expect(rectX).toBeGreaterThanOrEqual(30);
   });
 
-  it('applies tooltipWidth from tooltip content to the rendered rect width', () => {
-    const tooltipWidth = 180;
+  it('honors minWidth from tooltip content as a minimum rect width', () => {
+    const minWidth = 180;
     const { getByTestId } = renderScrubberTooltip({
       scrubberProps: {
         tooltip: () => ({
-          tooltipWidth,
+          minWidth,
           items: [{ label: 'T', value: 'V' }],
         }),
       },
     });
     moveScrubber(getByTestId('chart-svg'), 100);
     const rect = getByTestId('chart-tooltip').querySelector('rect');
-    expect(parseFloat(rect?.getAttribute('width') ?? '0')).toBe(tooltipWidth);
+    expect(
+      parseFloat(rect?.getAttribute('width') ?? '0'),
+    ).toBeGreaterThanOrEqual(minWidth);
   });
 
   it('calls tooltip with different indices as the scrubber moves', () => {

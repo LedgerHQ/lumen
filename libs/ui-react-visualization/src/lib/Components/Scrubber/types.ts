@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode, RefObject, SVGProps } from 'react';
+import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
 import type { DrawingArea } from '../../utils/types';
 
@@ -64,6 +64,16 @@ export type ChartTooltipItemProps = ChartTooltipItemData & {
    * Width allocated to this row, used to right-align the value text.
    */
   width: number;
+  /**
+   * Optional ref forwarded to the label `<text>` element. Useful to measure
+   * the label's natural width via `getBBox` for auto-fit layouts.
+   */
+  labelRef?: Ref<SVGTextElement>;
+  /**
+   * Optional ref forwarded to the value `<text>` element. Useful to measure
+   * the value's natural width via `getBBox` for auto-fit layouts.
+   */
+  valueRef?: Ref<SVGTextElement>;
 };
 
 export type ScrubberTooltipProps = {
@@ -78,10 +88,12 @@ export type ScrubberTooltipProps = {
    */
   offset?: number;
   /**
-   * Fixed width of the tooltip box in pixels.
-   * @default 120
+   * Minimum width in pixels. The tooltip auto-fits to the rendered content
+   * but never collapses below this floor; raise it to avoid jitter when
+   * value length changes between indices.
+   * @default 80
    */
-  tooltipWidth?: number;
+  minWidth?: number;
 };
 
 /**
@@ -105,10 +117,12 @@ export type ScrubberTooltipContent = {
    */
   offset?: number;
   /**
-   * Fixed width of the tooltip box in pixels.
-   * @default 120
+   * Minimum width in pixels. The tooltip auto-fits to the rendered content
+   * but never collapses below this floor; raise it to avoid jitter when
+   * value length changes between indices.
+   * @default 80
    */
-  tooltipWidth?: number;
+  minWidth?: number;
 };
 
 export type ScrubberProps = {
@@ -134,7 +148,7 @@ export type ScrubberProps = {
   showBeacons?: boolean;
   /**
    * Produces tooltip content for the active data index. When set, {@link DefaultScrubberTooltip}
-   * is rendered. Optional `offset` and `tooltipWidth` on the returned object tune layout.
+   * is rendered. Optional `offset` and `minWidth` on the returned object tune layout.
    * Return `{ items: [] }` to hide the tooltip at an index.
    */
   tooltip?: (dataIndex: number) => ScrubberTooltipContent;

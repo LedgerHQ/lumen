@@ -1,11 +1,13 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
+import { useEffect, useRef, useState } from 'react';
 
 import type { ChartTooltipItemData, ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
   BORDER_RADIUS,
   DEFAULT_OFFSET,
-  DEFAULT_TOOLTIP_WIDTH,
+  DEFAULT_TOOLTIP_MIN_WIDTH,
+  LABEL_VALUE_GAP,
   PADDING_X,
   PADDING_Y,
   ROW_GAP,
@@ -14,12 +16,6 @@ import {
   TOOLTIP_TRANSITION,
 } from './constants';
 
-const TOOLTIP_GROUP_STYLE = {
-  opacity: 1,
-  transition: TOOLTIP_TRANSITION,
-  pointerEvents: 'none' as const,
-};
-
 const TITLE_STYLE = {
   fontSize: cssVar('var(--font-style-body-4-size)'),
   fontFamily: cssVar('var(--font-family-font)'),
@@ -27,12 +23,29 @@ const TITLE_STYLE = {
   fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
 };
 
+type Widths = {
+  title: number;
+  labels: number[];
+  values: number[];
+};
+
+const safeGetBBoxWidth = (el: SVGGraphicsElement | null): number => {
+  if (!el || typeof el.getBBox !== 'function') return 0;
+  try {
+    return el.getBBox().width;
+  } catch {
+    return 0;
+  }
+};
+
 /**
  * Default structured tooltip anchored to the scrubber line.
  *
- * Use with {@link ScrubberProps.tooltip}. Layout options belong on the object
- * returned from the `tooltip` callback (`offset`, `tooltipWidth`).
- * To hide at specific indices, return `{ items: [] }` from the `tooltip` callback.
+ * The tooltip auto-fits its width to the rendered content via `getBBox`,
+ * with `minWidth` acting as an optional minimum width override. Use with
+ * {@link ScrubberProps.tooltip}; layout options (`offset`, `minWidth`) belong
+ * on the object returned from the `tooltip` callback. Return `{ items: [] }`
+ * from the callback to hide the tooltip at a given index.
  */
 export function DefaultScrubberTooltip({
   pixelX,
@@ -40,14 +53,62 @@ export function DefaultScrubberTooltip({
   title,
   items,
   offset = DEFAULT_OFFSET,
-  tooltipWidth = DEFAULT_TOOLTIP_WIDTH,
+  minWidth = DEFAULT_TOOLTIP_MIN_WIDTH,
 }: Readonly<ScrubberTooltipProps>) {
   const resolvedItems: ChartTooltipItemData[] = items;
+  const hasTitle = title !== undefined && title !== null;
+
+  const titleRef = useRef<SVGTextElement | null>(null);
+  const labelRefs = useRef<(SVGTextElement | null)[]>([]);
+  const valueRefs = useRef<(SVGTextElement | null)[]>([]);
+
+  const [widths, setWidths] = useState<Widths | null>(null);
+
+  useEffect(() => {
+    if (resolvedItems.length === 0) return;
+
+    const measure = (): void => {
+      const measuredTitle = hasTitle ? safeGetBBoxWidth(titleRef.current) : 0;
+      const measuredLabels = resolvedItems.map((_, i) =>
+        safeGetBBoxWidth(labelRefs.current[i]),
+      );
+      const measuredValues = resolvedItems.map((_, i) =>
+        safeGetBBoxWidth(valueRefs.current[i]),
+      );
+      setWidths({
+        title: measuredTitle,
+        labels: measuredLabels,
+        values: measuredValues,
+      });
+    };
+
+    measure();
+
+    if (typeof ResizeObserver === 'undefined') return;
+
+    const observer = new ResizeObserver(measure);
+    if (titleRef.current) observer.observe(titleRef.current);
+    labelRefs.current.forEach((el) => el && observer.observe(el));
+    valueRefs.current.forEach((el) => el && observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [resolvedItems, title, hasTitle]);
+
   if (resolvedItems.length === 0) {
     return null;
   }
 
-  const hasTitle = title !== undefined && title !== null;
+  const contentWidth = widths
+    ? Math.max(
+        hasTitle ? widths.title : 0,
+        ...widths.labels.map(
+          (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
+        ),
+      )
+    : 0;
+
+  const fitWidth = contentWidth + PADDING_X * 2;
+  const tooltipWidth = Math.max(fitWidth, minWidth);
 
   const shouldFlip =
     pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width;
@@ -68,7 +129,15 @@ export function DefaultScrubberTooltip({
   const itemsBaseY = drawingArea.y + PADDING_Y + titleBlockHeight;
 
   return (
-    <g data-testid='chart-tooltip' role='tooltip' style={TOOLTIP_GROUP_STYLE}>
+    <g
+      data-testid='chart-tooltip'
+      role='tooltip'
+      style={{
+        opacity: widths === null ? 0 : 1,
+        transition: TOOLTIP_TRANSITION,
+        pointerEvents: 'none',
+      }}
+    >
       <rect
         x={tooltipX}
         y={drawingArea.y}
@@ -79,6 +148,7 @@ export function DefaultScrubberTooltip({
       />
       {hasTitle && (
         <text
+          ref={titleRef}
           data-testid='chart-tooltip-title'
           x={tooltipX + PADDING_X}
           y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
@@ -96,6 +166,12 @@ export function DefaultScrubberTooltip({
           x={tooltipX}
           y={itemsBaseY + i * (ROW_HEIGHT + ROW_GAP) + ROW_HEIGHT / 2}
           width={tooltipWidth}
+          labelRef={(el) => {
+            labelRefs.current[i] = el;
+          }}
+          valueRef={(el) => {
+            valueRefs.current[i] = el;
+          }}
         />
       ))}
     </g>
