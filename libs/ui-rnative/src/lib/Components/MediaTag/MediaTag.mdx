@@ -40,8 +40,10 @@ MediaTag is a compact label used to categorize, classify, or highlight informati
 
 MediaTags come in two different sizes:
 
-- **md** (default)
-- **sm**
+- **md** (default) — the `icon` media should be rendered at **16px**.
+- **sm** — the `icon` media should be rendered at **12px**.
+
+The MediaTag does not resize its `icon`; consumers are responsible for passing a media element sized to match the tag's `size`.
 
 <Canvas of={MediaTagStories.SizeShowcase} />
 
@@ -70,24 +72,44 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 ### Basic Usage
 
+Match the media element size to the MediaTag `size`: **16px** for `md`, **12px** for `sm`.
+
 ```tsx
 import { MediaTag, MediaImage } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
   return (
-    <MediaTag
-      size="md"
-      appearance="accent"
-      label="Ethereum"
-      icon={
-        <MediaImage
-          src="https://crypto-icons.ledger.com/ETH.png"
-          alt="Ethereum"
-          size={16}
-          shape="square"
-        />
-      }
-    />
+    <>
+      {/* md → image size 16 */}
+      <MediaTag
+        size="md"
+        appearance="accent"
+        label="Ethereum"
+        icon={
+          <MediaImage
+            src="https://crypto-icons.ledger.com/ETH.png"
+            alt="Ethereum"
+            size={16}
+            shape="square"
+          />
+        }
+      />
+
+      {/* sm → image size 12 */}
+      <MediaTag
+        size="sm"
+        appearance="accent"
+        label="Ethereum"
+        icon={
+          <MediaImage
+            src="https://crypto-icons.ledger.com/ETH.png"
+            alt="Ethereum"
+            size={12}
+            shape="square"
+          />
+        }
+      />
+    </>
   );
 }
 ```
@@ -108,7 +130,7 @@ While the component comes with predefined styles, you can extend them using the 
 
 ### With Crypto Icons
 
-The MediaTag accepts any `ReactNode` as its icon, including crypto icons:
+The MediaTag accepts any `ReactNode` as its icon, including crypto icons. Use **16px** for `md` and **12px** for `sm`:
 
 ```tsx
 import { MediaTag } from '@ledgerhq/lumen-ui-rnative';
@@ -116,10 +138,21 @@ import CryptoIcon from '@ledgerhq/crypto-icons/native';
 
 function MyComponent() {
   return (
-    <MediaTag
-      label="Bitcoin"
-      icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={16} />}
-    />
+    <>
+      {/* md → icon size 16 */}
+      <MediaTag
+        size="md"
+        label="Bitcoin"
+        icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={16} />}
+      />
+
+      {/* sm → icon size 12 */}
+      <MediaTag
+        size="sm"
+        label="Bitcoin"
+        icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={12} />}
+      />
+    </>
   );
 }
 ```
