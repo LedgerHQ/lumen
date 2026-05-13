@@ -119,7 +119,7 @@ export const MediaImage = ({
       {loading && <Skeleton style={StyleSheet.absoluteFillObject} />}
       {!loading && shouldFallback && fallback && (
         <Text
-          style={{ fontSize: fontSizeMap[size] }}
+          style={{ fontSize: fontSizeMap[size], lineHeight: 0 }}
           lx={{ color: 'base' }}
           accessible={false}
         >
