@@ -1,5 +1,5 @@
+import { BaseTag } from '../BaseTag';
 import type { IconSize } from '../Icon';
-import { BaseTag } from './BaseTag';
 import type { TagProps } from './types';
 
 type Size = NonNullable<TagProps['size']>;

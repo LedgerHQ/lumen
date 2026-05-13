@@ -1,4 +1,4 @@
-import { BaseTag } from '../Tag/BaseTag';
+import { BaseTag } from '../BaseTag';
 import type { MediaTagProps } from './types';
 
 /**

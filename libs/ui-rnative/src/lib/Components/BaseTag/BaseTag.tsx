@@ -1,14 +1,12 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import type { ReactNode } from 'react';
-import type { StyleProp, TextStyle } from 'react-native';
 import { StyleSheet, Text } from 'react-native';
 import { useStyleSheet } from '../../../styles';
+import type { TagProps } from '../Tag/types';
 import { Box } from '../Utility';
-import type { TagProps } from './types';
+import type { BaseTagProps, BaseTagVariant } from './types';
 
 type Appearance = NonNullable<TagProps['appearance']>;
 type Size = NonNullable<TagProps['size']>;
-type Variant = 'tag' | 'media';
 
 const useBaseTagStyles = ({
   appearance,
@@ -19,7 +17,7 @@ const useBaseTagStyles = ({
   appearance: Appearance;
   size: Size;
   disabled: boolean;
-  variant: Variant;
+  variant: BaseTagVariant;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -110,12 +108,6 @@ const useBaseTagStyles = ({
     },
     [appearance, size, disabled, variant],
   );
-};
-
-export type BaseTagProps = Omit<TagProps, 'icon'> & {
-  variant: Variant;
-  consumerName: string;
-  renderIcon?: (style: StyleProp<TextStyle>) => ReactNode;
 };
 
 export const BaseTag = ({
