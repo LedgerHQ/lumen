@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-rnative-visualization",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "license": "Apache-2.0",
   "sideEffects": false,
   "keywords": [
@@ -44,11 +44,14 @@
   },
   "peerDependencies": {
     "@types/react": "^19.0.0",
-    "@ledgerhq/lumen-design-core": "0.1.13",
-    "@ledgerhq/lumen-ui-rnative": "0.1.31",
+    "@ledgerhq/lumen-design-core": "0.1.14",
+    "@ledgerhq/lumen-ui-rnative": "0.1.33",
     "react": "^19.0.0",
     "react-native": "~0.79.7",
-    "react-native-svg": "^15.0.0"
+    "react-native-svg": "^15.0.0",
+    "react-native-gesture-handler": ">=2.0.0",
+    "react-native-reanimated": ">=4.0.0",
+    "react-native-worklets": ">=0.5.0"
   },
   "nx": {
     "tags": [

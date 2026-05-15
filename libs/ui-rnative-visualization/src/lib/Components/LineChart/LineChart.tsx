@@ -20,6 +20,8 @@ export const LineChart = ({
   height = 160,
   inset,
   children,
+  enableScrubbing = false,
+  onScrubberPositionChange,
 }: LineChartProps) => {
   const {
     scaleType: xScaleType,
@@ -77,6 +79,8 @@ export const LineChart = ({
       height={height}
       inset={inset}
       axisPadding={axisPadding}
+      enableScrubbing={enableScrubbing}
+      onScrubberPositionChange={onScrubberPositionChange}
     >
       {showXAxis && <XAxis {...xAxisVisualProps} />}
       {showYAxis && <YAxis {...yAxisVisualProps} />}

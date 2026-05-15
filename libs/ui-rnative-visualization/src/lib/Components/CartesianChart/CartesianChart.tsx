@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Svg } from 'react-native-svg';
 
+import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import type { CartesianChartProps } from './types';
 import {
@@ -21,6 +22,8 @@ export function CartesianChart({
   axisPadding,
   ariaLabel = 'Chart',
   children,
+  enableScrubbing = false,
+  onScrubberPositionChange,
 }: Readonly<CartesianChartProps>) {
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
@@ -53,17 +56,32 @@ export function CartesianChart({
     axisPadding: resolvedAxisPadding,
   });
 
-  const svgContent = resolvedWidth > 0 && (
+  const svg = resolvedWidth > 0 && (
     <Svg
       testID='chart-svg'
       width={resolvedWidth}
       height={height}
       style={{ overflow: 'visible' }}
     >
-      <CartesianChartProvider value={contextValue}>
-        {children}
-      </CartesianChartProvider>
+      {children}
     </Svg>
+  );
+
+  const svgContent = resolvedWidth > 0 && (
+    <CartesianChartProvider value={contextValue}>
+      {enableScrubbing ? (
+        <ScrubberProvider
+          width={resolvedWidth}
+          height={height}
+          enableScrubbing={enableScrubbing}
+          onScrubberPositionChange={onScrubberPositionChange}
+        >
+          {svg}
+        </ScrubberProvider>
+      ) : (
+        svg
+      )}
+    </CartesianChartProvider>
   );
 
   if (needsMeasurement) {
