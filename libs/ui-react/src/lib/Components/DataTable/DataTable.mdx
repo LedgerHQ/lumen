@@ -79,6 +79,20 @@ No external state management is needed for the basic case. For controlled filter
 
 <Canvas of={DataTableStories.WithGlobalFilter} />
 
+## Column Filters (Client-Side)
+
+Use `state.columnFilters` and `onColumnFiltersChange` on `useLumenDataTable` to drive column-specific filtering from external UI controls such as a `Select`.  
+TanStack handles the filtering client-side automatically — no `manualFiltering` flag needed.
+
+<Canvas of={DataTableStories.WithClientSideColumnFilter} />
+
+## Column Filters (Server-Side)
+
+Use `state.columnFilters` and `onColumnFiltersChange` on `useLumenDataTable` to drive column-specific filtering from external UI controls such as a `Select`.  
+Set `manualFiltering: true` and wire the state callbacks to your API:
+
+<Canvas of={DataTableStories.WithServerSideFilters} />
+
 ## Infinite Loading
 
 Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.  
@@ -155,6 +169,10 @@ const table = useLumenDataTable({
 In this mode the table renders whatever data you provide as-is. You are responsible for sending state changes back to your API and updating data accordingly.
 
 <Canvas of={DataTableStories.WithServerSideState} />
+
+The story below shows a complete example with a search input and a category filter both wired to a simulated async backend. Notice the loading indicator while the "request" is in flight — this is the key visual difference from client-side filtering.
+
+<Canvas of={DataTableStories.WithServerSideFilters} />
 
 ## Column Meta
 
