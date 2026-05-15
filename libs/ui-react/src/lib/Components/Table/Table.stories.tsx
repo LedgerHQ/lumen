@@ -6,6 +6,7 @@ import { Button } from '../Button/Button';
 import { DotIcon } from '../DotIcon/DotIcon';
 import { MediaButton } from '../MediaButton';
 import { MediaImage } from '../MediaImage';
+import { SearchInput } from '../SearchInput';
 import {
   Select,
   SelectContent,
@@ -485,7 +486,7 @@ export const WithGroupHeader: Story = {
     <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
-          <SearchInput placeholder='Search assets...' />
+          <SearchInput className='w-320' placeholder='Search assets...' />
         </TableActionBarLeading>
         <TableActionBarTrailing>
           <Button appearance='base' size='md'>
@@ -614,7 +615,31 @@ const categoryFilterOptions = [
   ...new Set(categorizedData.map((d) => d.category)),
 ].map((c) => (typeof c === 'string' ? { value: c, label: c } : c));
 
-export const WithActionBarAndSelectTrigger: Story = {
+const cryptoIconLedgerIds: Record<string, string> = {
+  BTC: 'bitcoin',
+  ETH: 'ethereum',
+};
+
+const renderLeadingIcon = (name: string, symbol: string) => {
+  const ledgerId = cryptoIconLedgerIds[symbol];
+  if (ledgerId) {
+    return <CryptoIcon ledgerId={ledgerId} ticker={symbol} size={40} />;
+  }
+  return (
+    <MediaImage
+      src={`https://crypto-icons.ledger.com/${symbol}.png`}
+      alt={name}
+      size={40}
+    />
+  );
+};
+
+const getIconTypeLabel = (symbol: string): string =>
+  symbol in cryptoIconLedgerIds
+    ? 'Network icon (CryptoIcon)'
+    : 'Media icon (MediaImage)';
+
+export const WithNetworkIconsAndActionBar: Story = {
   render: (args) => {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
       null,
@@ -632,7 +657,7 @@ export const WithActionBarAndSelectTrigger: Story = {
       <div className='w-3xl text-base'>
         <TableActionBar>
           <TableActionBarLeading>
-            <SearchInput placeholder='Search assets...' />
+            <SearchInput className='w-320' placeholder='Search assets...' />
           </TableActionBarLeading>
           <TableActionBarTrailing>
             <Select
@@ -657,6 +682,9 @@ export const WithActionBarAndSelectTrigger: Story = {
                 />
               </SelectContent>
             </Select>
+            <Button appearance='base' size='md'>
+              Export
+            </Button>
           </TableActionBarTrailing>
         </TableActionBar>
 
@@ -665,7 +693,7 @@ export const WithActionBarAndSelectTrigger: Story = {
             <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>Asset</TableHeaderCell>
-                <TableHeaderCell>Symbol</TableHeaderCell>
+                <TableHeaderCell>Icon type</TableHeaderCell>
                 <TableHeaderCell align='end'>Price</TableHeaderCell>
                 <TableHeaderCell align='end'>Change</TableHeaderCell>
               </TableHeaderRow>
@@ -677,10 +705,10 @@ export const WithActionBarAndSelectTrigger: Story = {
                     <TableCellContent
                       title={row.name}
                       description={row.symbol}
-                      leadingContent={<Spot appearance='icon' icon={Android} />}
+                      leadingContent={renderLeadingIcon(row.name, row.symbol)}
                     />
                   </TableCell>
-                  <TableCell>{row.symbol}</TableCell>
+                  <TableCell>{getIconTypeLabel(row.symbol)}</TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
                   <TableCell align='end'>{row.change}</TableCell>
                 </TableRow>
@@ -691,135 +719,4 @@ export const WithActionBarAndSelectTrigger: Story = {
       </div>
     );
   },
-};
-
-export const WithActionBar: Story = {
-  render: (args) => (
-    <div className='w-3xl text-base'>
-      <TableActionBar>
-        <TableActionBarLeading>
-          <SearchInput placeholder='Search assets...' />
-        </TableActionBarLeading>
-        <TableActionBarTrailing>
-          <Button appearance='base' size='md'>
-            Export
-          </Button>
-        </TableActionBarTrailing>
-      </TableActionBar>
-
-      <TableRoot {...args}>
-        <Table>
-          <TableHeader>
-            <TableHeaderRow>
-              <TableHeaderCell>Asset</TableHeaderCell>
-              <TableHeaderCell align='end'>Price</TableHeaderCell>
-              <TableHeaderCell align='end'>Change</TableHeaderCell>
-            </TableHeaderRow>
-          </TableHeader>
-          <TableBody>
-            {smallData.map((row) => (
-              <TableRow key={row.symbol}>
-                <TableCell>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
-                </TableCell>
-                <TableCell align='end'>{row.price}</TableCell>
-                <TableCell align='end'>{row.change}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableRoot>
-    </div>
-  ),
-};
-
-export const WithNetworkAndMediaIcon: Story = {
-  render: (args) => (
-    <div className='w-3xl text-base'>
-      <TableRoot {...args}>
-        <Table>
-          <TableHeader>
-            <TableHeaderRow>
-              <TableHeaderCell>Asset</TableHeaderCell>
-              <TableHeaderCell>Icon type</TableHeaderCell>
-              <TableHeaderCell align='end'>Price</TableHeaderCell>
-              <TableHeaderCell align='end'>Change</TableHeaderCell>
-            </TableHeaderRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <TableCellContent
-                  title='Bitcoin'
-                  description='BTC'
-                  leadingContent={
-                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='40px' />
-                  }
-                />
-              </TableCell>
-              <TableCell>Network icon (CryptoIcon)</TableCell>
-              <TableCell align='end'>$43,250.00</TableCell>
-              <TableCell align='end'>+2.5%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <TableCellContent
-                  title='Ethereum'
-                  description='ETH'
-                  leadingContent={
-                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size='40px' />
-                  }
-                />
-              </TableCell>
-              <TableCell>Network icon (CryptoIcon)</TableCell>
-              <TableCell align='end'>$2,650.00</TableCell>
-              <TableCell align='end'>+1.8%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <TableCellContent
-                  title='Algorand'
-                  description='ALGO'
-                  leadingContent={
-                    <MediaImage
-                      src='https://crypto-icons.ledger.com/ALGO.png'
-                      alt='Algorand'
-                      size={40}
-                    />
-                  }
-                />
-              </TableCell>
-              <TableCell>Media icon (MediaImage)</TableCell>
-              <TableCell align='end'>$0.18</TableCell>
-              <TableCell align='end'>+1.2%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <TableCellContent
-                  title='Polygon'
-                  description='MATIC'
-                  leadingContent={
-                    <MediaImage
-                      src='https://crypto-icons.ledger.com/MATIC.png'
-                      alt='Polygon'
-                      size={40}
-                    />
-                  }
-                />
-              </TableCell>
-              <TableCell>Media icon (MediaImage)</TableCell>
-              <TableCell align='end'>$0.85</TableCell>
-              <TableCell align='end'>-0.3%</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableRoot>
-    </div>
-  ),
 };
