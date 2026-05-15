@@ -22,12 +22,14 @@ import {
   OVERLAY_OPACITY,
 } from './constants';
 import { useScrubberContext } from './context';
+import { DefaultScrubberTooltip } from './DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { resolvePixelX, resolvePixelY } from './utils';
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
- * rect, per-series beacon dots, and an optional formatted label above the line.
+ * rect, per-series beacon dots, optional label above the line, and an optional
+ * tooltip when {@link ScrubberProps.tooltip} is set, using {@link DefaultScrubberTooltip}.
  *
  * Must be used as a child of `LineChart` (or `CartesianChart`) with
  * `enableScrubbing` enabled. Renders nothing when no scrubber position is active.
@@ -38,12 +40,24 @@ import { resolvePixelX, resolvePixelY } from './utils';
  *   <Scrubber label={(i) => data[i].date} />
  * </LineChart>
  * ```
+ *
+ * @example Tooltip
+ * ```tsx
+ * <Scrubber
+ *   tooltip={(i) => ({
+ *     title: `${counts[i]} Transactions`,
+ *     items: [{ label: 'Index', value: String(i) }],
+ *     tooltipWidth: 160,
+ *   })}
+ * />
+ * ```
  */
 export function Scrubber({
   label,
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  tooltip,
 }: Readonly<ScrubberProps>) {
   const lineGradientId = useId();
   const { theme } = useTheme();
@@ -80,6 +94,28 @@ export function Scrubber({
     if (scrubberPosition === undefined || !label) return undefined;
     return label(scrubberPosition);
   }, [scrubberPosition, label]);
+
+  const tooltipPayload = useMemo(() => {
+    if (scrubberPosition === undefined || !tooltip) {
+      return undefined;
+    }
+
+    const content = tooltip(scrubberPosition);
+
+    if (content.items.length === 0) return undefined;
+
+    const resolvedTitle =
+      typeof content.title === 'function'
+        ? content.title(scrubberPosition)
+        : content.title;
+
+    return {
+      items: content.items,
+      resolvedTitle,
+      offset: content.offset,
+      tooltipWidth: content.tooltipWidth,
+    };
+  }, [scrubberPosition, tooltip]);
 
   if (scrubberPosition === undefined || pixelX === undefined) {
     return null;
@@ -184,6 +220,18 @@ export function Scrubber({
             strokeWidth={BEACON_STROKE_WIDTH}
           />
         ))}
+
+      {tooltipPayload !== undefined && (
+        <DefaultScrubberTooltip
+          pixelX={pixelX}
+          drawingArea={drawingArea}
+          dataIndex={scrubberPosition}
+          title={tooltipPayload.resolvedTitle}
+          items={tooltipPayload.items}
+          offset={tooltipPayload.offset}
+          tooltipWidth={tooltipPayload.tooltipWidth}
+        />
+      )}
     </G>
   );
 }

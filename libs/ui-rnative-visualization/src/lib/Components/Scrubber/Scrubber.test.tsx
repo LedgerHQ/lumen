@@ -107,4 +107,18 @@ describe('Scrubber', () => {
     const { queryByTestId } = renderScrubber();
     expect(queryByTestId('scrubber-label')).toBeNull();
   });
+
+  it('renders chart tooltip when tooltip prop is set', () => {
+    const { getByTestId } = renderScrubber({
+      scrubberProps: {
+        tooltip: () => ({ items: [{ label: 'L', value: 'V' }] }),
+      },
+    });
+    expect(getByTestId('chart-tooltip')).toBeTruthy();
+  });
+
+  it('does not render chart tooltip when tooltip prop is not set', () => {
+    const { queryByTestId } = renderScrubber();
+    expect(queryByTestId('chart-tooltip')).toBeNull();
+  });
 });
