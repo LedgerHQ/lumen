@@ -22,6 +22,7 @@ import {
   OptionListItemContent,
   OptionListItemDescription,
   OptionListItemContentRow,
+  OptionListSearch,
   OptionListTrigger,
   OptionListItemText,
 } from './OptionList';
@@ -38,6 +39,7 @@ const meta = {
     OptionListItemText,
     OptionListItemDescription,
     OptionListItemContentRow,
+    OptionListSearch,
     OptionListTrigger,
   },
   decorators: [
@@ -469,6 +471,120 @@ export const GroupedWithContentRow: Story = {
                   );
                 }}
               />
+            </OptionList>
+          </BottomSheetScrollView>
+        </BottomSheet>
+      </>
+    );
+  },
+};
+
+export const WithSearch: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+    const bottomSheetRef = useBottomSheetRef();
+    const selected = CURRENCIES.find((c) => c.value === value);
+
+    return (
+      <>
+        <OptionListTrigger
+          label='Currency'
+          onPress={() => bottomSheetRef.current?.present()}
+        >
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
+        <BottomSheet
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          snapPoints={null}
+          onClose={() => bottomSheetRef.current?.dismiss()}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader title='Select currency' />
+            <OptionList
+              items={CURRENCIES}
+              value={value}
+              onValueChange={(v) => {
+                setValue(v);
+                bottomSheetRef.current?.dismiss();
+              }}
+            >
+              <OptionListSearch placeholder='Search currencies' />
+              <OptionListContent
+                renderItem={(item) => {
+                  const ticker = (item.meta as { ticker: string }).ticker;
+                  return (
+                    <OptionListItem value={item.value}>
+                      <OptionListItemLeading>
+                        <CryptoIcon
+                          ledgerId={(item.meta?.ledgerId as string) ?? ''}
+                          ticker={ticker}
+                          size={32}
+                        />
+                      </OptionListItemLeading>
+                      <OptionListItemContent>
+                        <OptionListItemText>{item.label}</OptionListItemText>
+                        <OptionListItemDescription>
+                          {ticker}
+                        </OptionListItemDescription>
+                      </OptionListItemContent>
+                    </OptionListItem>
+                  );
+                }}
+              />
+              <OptionListEmptyState
+                title='No currencies found'
+                description='Try a different search term'
+              />
+            </OptionList>
+          </BottomSheetView>
+        </BottomSheet>
+      </>
+    );
+  },
+};
+
+export const WithSearchAndGroups: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>(null);
+    const bottomSheetRef = useBottomSheetRef();
+    const selected = GROUPED_NETWORKS.find((n) => n.value === value);
+
+    return (
+      <>
+        <OptionListTrigger
+          label='Network'
+          onPress={() => bottomSheetRef.current?.present()}
+        >
+          {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
+        </OptionListTrigger>
+        <BottomSheet
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          snapPoints={null}
+          onClose={() => bottomSheetRef.current?.dismiss()}
+        >
+          <BottomSheetScrollView>
+            <BottomSheetHeader title='Select network' />
+            <OptionList
+              items={GROUPED_NETWORKS}
+              value={value}
+              onValueChange={(v) => {
+                setValue(v);
+                bottomSheetRef.current?.dismiss();
+              }}
+            >
+              <OptionListSearch placeholder='Search networks' />
+              <OptionListContent
+                renderItem={(item) => (
+                  <OptionListItem value={item.value}>
+                    <OptionListItemContent>
+                      <OptionListItemText>{item.label}</OptionListItemText>
+                    </OptionListItemContent>
+                  </OptionListItem>
+                )}
+              />
+              <OptionListEmptyState title='No networks found' />
             </OptionList>
           </BottomSheetScrollView>
         </BottomSheet>
