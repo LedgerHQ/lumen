@@ -13,7 +13,8 @@ export type TagProps = {
     | 'accent-subtle'
     | 'success'
     | 'error'
-    | 'warning';
+    | 'warning'
+    | 'white';
   /**
    * The size of the tag.
    * @default md

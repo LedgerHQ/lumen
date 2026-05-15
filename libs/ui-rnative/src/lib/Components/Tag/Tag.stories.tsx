@@ -17,6 +17,7 @@ const meta: Meta<typeof Tag> = {
         'success',
         'error',
         'warning',
+        'white',
       ],
     },
     size: {
@@ -59,6 +60,7 @@ export const AppearanceShowcase: Story = {
         <Tag appearance='success' label='Success' />
         <Tag appearance='error' label='Error' />
         <Tag appearance='warning' label='Warning' />
+        <Tag appearance='white' label='White' />
         <Tag label='Disabled' disabled />
       </Box>
       <Box lx={{ flexDirection: 'row', gap: 's4' }}>
@@ -69,6 +71,7 @@ export const AppearanceShowcase: Story = {
         <Tag appearance='success' label='Success' icon={Check} />
         <Tag appearance='error' label='Error' icon={Check} />
         <Tag appearance='warning' label='Warning' icon={Check} />
+        <Tag appearance='white' label='White' icon={Check} />
         <Tag label='Disabled' icon={Check} disabled />
       </Box>
     </Box>

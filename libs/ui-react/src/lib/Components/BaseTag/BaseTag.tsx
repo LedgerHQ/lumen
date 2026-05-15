@@ -14,6 +14,7 @@ const baseTagVariants = cva(
         success: 'bg-success text-success',
         error: 'bg-error text-error',
         warning: 'bg-warning text-warning',
+        white: 'bg-white text-black',
       },
       size: {
         md: 'body-3',

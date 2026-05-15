@@ -38,6 +38,7 @@ export const Showcase: Story = {
         <Tag appearance='success' label='Success' />
         <Tag appearance='error' label='Error' />
         <Tag appearance='warning' label='Warning' />
+        <Tag appearance='white' label='White' />
         <Tag label='Disabled' disabled />
       </div>
       <div className='flex gap-4'>
@@ -48,6 +49,7 @@ export const Showcase: Story = {
         <Tag appearance='success' label='Success' icon={Check} />
         <Tag appearance='error' label='Error' icon={Check} />
         <Tag appearance='warning' label='Warning' icon={Check} />
+        <Tag appearance='white' label='White' icon={Check} />
         <Tag label='Disabled' icon={Check} disabled />
       </div>
     </div>

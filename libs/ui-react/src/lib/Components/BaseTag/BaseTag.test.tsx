@@ -52,6 +52,7 @@ describe('BaseTag', () => {
       ['success', 'bg-success'],
       ['error', 'bg-error'],
       ['warning', 'bg-warning'],
+      ['white', 'bg-white'],
     ];
 
     it.each(cases)(
