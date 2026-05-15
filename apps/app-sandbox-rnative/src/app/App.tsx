@@ -43,6 +43,7 @@ import {
   MediaButtons,
   MediaCards,
   MediaImages,
+  MediaTags,
   NavBars,
   OptionLists,
   PageIndicators,
@@ -214,6 +215,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='MediaImages'>
                   <MediaImages />
+                </SandboxBlock>
+                <SandboxBlock title='MediaTags'>
+                  <MediaTags />
                 </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />
