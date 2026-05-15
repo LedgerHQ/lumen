@@ -1,5 +1,5 @@
-import { describe, it, expect } from '@jest/globals';
-import { renderHook } from '@testing-library/react-native';
+import { describe, it, expect, jest } from '@jest/globals';
+import { renderHook, act } from '@testing-library/react-native';
 import type { OptionListItemData } from '../types';
 import { useOptionListItems } from './useOptionListItems';
 
@@ -68,6 +68,193 @@ describe('useOptionListItems', () => {
 
       expect(result.current.groups[0].label).toBe('Vegetables');
       expect(result.current.groups[1].label).toBe('Fruits');
+    });
+  });
+
+  describe('filtering (search not mounted)', () => {
+    it('returns all items when search has not been registered', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth] }),
+      );
+
+      act(() => {
+        result.current.handleSearchValueChange('btc');
+      });
+
+      expect(result.current.flatItems).toEqual([btc, eth]);
+    });
+  });
+
+  describe('filtering (search mounted)', () => {
+    it('applies the default label filter after registerSearch is called', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth] }),
+      );
+
+      act(() => {
+        result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('bitcoin');
+      });
+
+      expect(result.current.flatItems).toEqual([btc]);
+    });
+
+    it('default filter is case-insensitive', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth] }),
+      );
+
+      act(() => {
+        result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('ETH');
+      });
+
+      expect(result.current.flatItems).toEqual([eth]);
+    });
+
+    it('restores all items when registerSearch cleanup runs', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth] }),
+      );
+
+      let cleanup: () => void = () => {};
+      act(() => {
+        cleanup = result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('bitcoin');
+      });
+      expect(result.current.flatItems).toEqual([btc]);
+
+      act(() => {
+        cleanup();
+      });
+
+      expect(result.current.flatItems).toEqual([btc, eth]);
+    });
+
+    it('filters within groups and removes empty groups', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [apple, banana, carrot, spinach] }),
+      );
+
+      act(() => {
+        result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('apple');
+      });
+
+      expect(result.current.groups).toEqual([
+        { label: 'Fruits', items: [apple] },
+      ]);
+    });
+
+    it('uses a custom filter when provided', () => {
+      const customFilter = (item: OptionListItemData, query: string): boolean =>
+        item.value.startsWith(query);
+
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth], filter: customFilter }),
+      );
+
+      act(() => {
+        result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('et');
+      });
+
+      expect(result.current.flatItems).toEqual([eth]);
+    });
+
+    it('disables filtering when filter is null', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth], filter: null }),
+      );
+
+      act(() => {
+        result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('bitcoin');
+      });
+
+      expect(result.current.flatItems).toEqual([btc, eth]);
+    });
+
+    it('returns all items when the query is whitespace-only', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth] }),
+      );
+
+      act(() => {
+        result.current.registerSearch();
+      });
+      act(() => {
+        result.current.handleSearchValueChange('   ');
+      });
+
+      expect(result.current.flatItems).toEqual([btc, eth]);
+    });
+  });
+
+  describe('external filteredItems', () => {
+    it('uses filteredItems instead of internal filtering', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({
+          items: [btc, eth],
+          filteredItems: [eth],
+        }),
+      );
+
+      expect(result.current.flatItems).toEqual([eth]);
+    });
+
+    it('groups filteredItems when items are grouped', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({
+          items: [apple, banana, carrot],
+          filteredItems: [apple, carrot],
+        }),
+      );
+
+      expect(result.current.isGrouped).toBe(true);
+      expect(result.current.groups).toEqual([
+        { label: 'Fruits', items: [apple] },
+        { label: 'Vegetables', items: [carrot] },
+      ]);
+    });
+  });
+
+  describe('searchValue', () => {
+    it('calls onSearchValueChange with the new value', () => {
+      const onSearchValueChange = jest.fn();
+      const { result } = renderHook(() =>
+        useOptionListItems({ items: [btc, eth], onSearchValueChange }),
+      );
+
+      act(() => {
+        result.current.handleSearchValueChange('test');
+      });
+
+      expect(onSearchValueChange).toHaveBeenCalledWith('test');
+      expect(result.current.resolvedSearchValue).toBe('test');
+    });
+
+    it('uses defaultSearchValue as the initial uncontrolled value', () => {
+      const { result } = renderHook(() =>
+        useOptionListItems({
+          items: [btc, eth],
+          defaultSearchValue: 'default',
+        }),
+      );
+
+      expect(result.current.resolvedSearchValue).toBe('default');
     });
   });
 });

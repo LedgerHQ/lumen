@@ -36,6 +36,7 @@ It handles **selection state**, **automatic grouping** (via a `group` field on i
 - **OptionListItemContentRow**: Horizontal row for placing elements side-by-side (e.g. title + tag)
 - **OptionListItemText**: Styled title text
 - **OptionListItemDescription**: Styled description text
+- **OptionListSearch**: Search input that filters items by label (default) or via a custom `filter` function
 
 ## Properties
 
@@ -62,6 +63,16 @@ Individual items can be disabled:
 Combining grouping with rich item content:
 
 <Canvas of={OptionListStories.GroupedWithContentRow} />
+
+### Search
+
+Drop `OptionListSearch` inside the list to enable case-insensitive filtering on item labels. Pair with `OptionListEmptyState` to handle no-match scenarios. Pass a custom `filter` to match against meta (or anything else), or `filter={null}` to disable filtering. Use `filteredItems` + `onSearchValueChange` for async/server-side search.
+
+<Canvas of={OptionListStories.WithSearch} />
+
+Search works within grouped items too. Empty groups are hidden automatically:
+
+<Canvas of={OptionListStories.WithSearchAndGroups} />
 
 ### Trigger showcase
 
