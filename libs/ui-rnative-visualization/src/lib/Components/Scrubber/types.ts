@@ -59,6 +59,28 @@ export type ChartTooltipItemProps = ChartTooltipItemData & {
    * Width allocated to this row, used to right-align the value text.
    */
   width: number;
+  /**
+   * Optional callback ref forwarded to the label `<Text>` element.
+   * Useful to measure the label's natural width via `getBBox` for auto-fit layouts.
+   */
+  labelRef?: (el: SvgBBoxElement | null) => void;
+  /**
+   * Optional callback ref forwarded to the value `<Text>` element.
+   * Useful to measure the value's natural width via `getBBox` for auto-fit layouts.
+   */
+  valueRef?: (el: SvgBBoxElement | null) => void;
+};
+
+/**
+ * Minimal interface for an SVG element that supports `getBBox`.
+ * Handles both react-native-svg (returns `Rect | undefined`) and web DOM SVG
+ * (returns `DOMRect` synchronously or a Promise on native bridge).
+ */
+export type SvgBBoxElement = {
+  getBBox: () =>
+    | { width: number }
+    | undefined
+    | Promise<{ width: number } | undefined>;
 };
 
 export type ScrubberTooltipProps = {
@@ -73,11 +95,12 @@ export type ScrubberTooltipProps = {
    */
   offset?: number;
   /**
-   * Fixed width of the tooltip box in pixels.
-   * Used for flip-side detection and for right-aligning value text.
+   * Minimum width in pixels. The tooltip auto-fits to the rendered content
+   * but never collapses below this floor; raise it to avoid jitter when
+   * value length changes between indices.
    * @default 80
    */
-  tooltipWidth?: number;
+  minWidth?: number;
 };
 
 /**
@@ -102,11 +125,12 @@ export type ScrubberTooltipContent = {
    */
   offset?: number;
   /**
-   * Fixed width of the tooltip box in pixels.
-   * Used for flip-side detection and for right-aligning value text.
+   * Minimum width in pixels. The tooltip auto-fits to the rendered content
+   * but never collapses below this floor; raise it to avoid jitter when
+   * value length changes between indices.
    * @default 80
    */
-  tooltipWidth?: number;
+  minWidth?: number;
 };
 
 export type ScrubberProps = {
@@ -132,7 +156,7 @@ export type ScrubberProps = {
   showBeacons?: boolean;
   /**
    * Produces tooltip content for the active data index. When set, {@link DefaultScrubberTooltip}
-   * is rendered. Optional `offset` and `tooltipWidth` on the returned object tune layout.
+   * is rendered. Optional `offset` and `minWidth` on the returned object tune layout.
    * Return `{ items: [] }` to hide the tooltip at an index.
    */
   tooltip?: (dataIndex: number) => ScrubberTooltipContent;

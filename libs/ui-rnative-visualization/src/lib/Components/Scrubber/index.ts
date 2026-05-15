@@ -11,4 +11,5 @@ export type {
   ScrubberProps,
   ScrubberTooltipContent,
   ScrubberTooltipProps,
+  SvgBBoxElement,
 } from './types';

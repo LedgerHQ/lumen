@@ -154,7 +154,7 @@ describe('DefaultScrubberTooltip', () => {
     it('flips tooltip left when right side would overflow (index 3)', () => {
       const { getByTestId } = renderTooltip({
         scrubberProps: {
-          tooltip: () => ({ ...defaultTooltip(), tooltipWidth: 120 }),
+          tooltip: () => ({ ...defaultTooltip(), minWidth: 120 }),
         },
         scrubberContext: scrubberAt(3),
       });
@@ -164,7 +164,7 @@ describe('DefaultScrubberTooltip', () => {
     it('flips at the rightmost scrubber position (index 4)', () => {
       const { getByTestId } = renderTooltip({
         scrubberProps: {
-          tooltip: () => ({ ...defaultTooltip(), tooltipWidth: 120 }),
+          tooltip: () => ({ ...defaultTooltip(), minWidth: 120 }),
         },
         scrubberContext: scrubberAt(4),
       });
@@ -181,10 +181,10 @@ describe('DefaultScrubberTooltip', () => {
       expect(getByTestId('chart-tooltip-rect').props.x).toBe(220);
     });
 
-    it('wider tooltipWidth can trigger a flip that the default width would not', () => {
+    it('wider minWidth can trigger a flip that the default width would not', () => {
       const { getByTestId } = renderTooltip({
         scrubberProps: {
-          tooltip: () => ({ ...defaultTooltip(), tooltipWidth: 200 }),
+          tooltip: () => ({ ...defaultTooltip(), minWidth: 200 }),
         },
         scrubberContext: scrubberAt(2),
       });

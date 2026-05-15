@@ -10,12 +10,15 @@ export function ChartTooltipItem({
   x = 0,
   y = 0,
   width,
+  labelRef,
+  valueRef,
 }: Readonly<ChartTooltipItemProps>) {
   const { theme } = useTheme();
 
   return (
     <G>
       <SvgText
+        ref={labelRef}
         x={x + PADDING_X}
         y={y}
         textAnchor='start'
@@ -27,6 +30,7 @@ export function ChartTooltipItem({
         {String(label)}
       </SvgText>
       <SvgText
+        ref={valueRef}
         x={x + width - PADDING_X}
         y={y}
         textAnchor='end'

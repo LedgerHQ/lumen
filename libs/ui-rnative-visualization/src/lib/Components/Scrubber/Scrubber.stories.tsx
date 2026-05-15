@@ -180,7 +180,6 @@ export const TooltipWithTitle: Story = {
       <Scrubber
         tooltip={(i) => ({
           title: `${tooltipSampleSeries[0].data[i]} Transactions`,
-          tooltipWidth: 160,
           items: [
             { label: 'Date', value: tooltipDates[i] },
             { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },

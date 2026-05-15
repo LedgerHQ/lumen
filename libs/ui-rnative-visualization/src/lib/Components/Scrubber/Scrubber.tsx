@@ -47,7 +47,7 @@ import { resolvePixelX, resolvePixelY } from './utils';
  *   tooltip={(i) => ({
  *     title: `${counts[i]} Transactions`,
  *     items: [{ label: 'Index', value: String(i) }],
- *     tooltipWidth: 160,
+ *     minWidth: 160,
  *   })}
  * />
  * ```
@@ -113,7 +113,7 @@ export function Scrubber({
       items: content.items,
       resolvedTitle,
       offset: content.offset,
-      tooltipWidth: content.tooltipWidth,
+      minWidth: content.minWidth,
     };
   }, [scrubberPosition, tooltip]);
 
@@ -229,7 +229,7 @@ export function Scrubber({
           title={tooltipPayload.resolvedTitle}
           items={tooltipPayload.items}
           offset={tooltipPayload.offset}
-          tooltipWidth={tooltipPayload.tooltipWidth}
+          minWidth={tooltipPayload.minWidth}
         />
       )}
     </G>
