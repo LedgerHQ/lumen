@@ -170,10 +170,6 @@ In this mode the table renders whatever data you provide as-is. You are responsi
 
 <Canvas of={DataTableStories.WithServerSideState} />
 
-The story below shows a complete example with a search input and a category filter both wired to a simulated async backend. Notice the loading indicator while the "request" is in flight — this is the key visual difference from client-side filtering.
-
-<Canvas of={DataTableStories.WithServerSideFilters} />
-
 ## Column Meta
 
 Each column definition accepts a meta object with Lumen-specific properties that control layout and rendering. These extend TanStack's [ColumnMeta](https://tanstack.com/table/latest/docs/api/core/column-def#meta) via module augmentation, so they are fully typed.
