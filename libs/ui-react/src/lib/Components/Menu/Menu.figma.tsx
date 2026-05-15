@@ -12,7 +12,7 @@ import {
 // Menu Item Component
 figma.connect(
   MenuItem,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7897-7037',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7983-5431',
   {
     props: {
       children: figma.boolean('show-description', {
