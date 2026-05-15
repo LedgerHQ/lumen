@@ -1,18 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { Button } from '../Button/Button';
-import { MediaButton } from '../MediaButton';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectItemText,
-  SelectList,
-  SelectTrigger,
-} from '../Select';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
 import {
@@ -858,14 +849,6 @@ export const WithInfiniteLoading: Story = {
   },
 };
 
-const categoryOptions = [
-  { value: '__all__', label: 'All categories' },
-  ...[...new Set(largeData.map((d) => d.category))].map((c) => ({
-    value: c,
-    label: c,
-  })),
-];
-
 export const WithServerSideState: Story = {
   render: (args) => {
     const fetchApiBackend = async (...args: any) => {
@@ -925,190 +908,6 @@ export const WithServerSideState: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
-      </DataTableRoot>
-    );
-  },
-};
-
-export const WithClientSideColumnFilter: Story = {
-  render: (args) => {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const selectedCategory =
-      (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
-
-    const table = useLumenDataTable({
-      data: largeData,
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Asset',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
-          ),
-          meta: { className: 'w-224' },
-        },
-        {
-          accessorKey: 'category',
-          header: 'Category',
-          enableSorting: false,
-        },
-        {
-          accessorKey: 'price',
-          header: 'Price',
-          enableSorting: false,
-          meta: { align: 'end' },
-        },
-        {
-          accessorKey: 'change',
-          header: 'Performance',
-          enableSorting: false,
-          meta: { align: 'end', className: 'w-144' },
-        },
-      ],
-      state: { columnFilters },
-      onColumnFiltersChange: setColumnFilters,
-    });
-
-    return (
-      <DataTableRoot {...args} table={table}>
-        <TableActionBar>
-          <TableActionBarLeading>
-            <DataTableGlobalSearchInput placeholder='Search assets...' />
-          </TableActionBarLeading>
-          <TableActionBarTrailing>
-            <Select
-              items={categoryOptions}
-              value={selectedCategory ?? '__all__'}
-              onValueChange={(val) =>
-                setColumnFilters(
-                  val === '__all__' ? [] : [{ id: 'category', value: val }],
-                )
-              }
-            >
-              <SelectTrigger
-                render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
-                )}
-              />
-              <SelectContent className='w-208'>
-                <SelectList
-                  renderItem={(item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      <SelectItemText>{item.label}</SelectItemText>
-                    </SelectItem>
-                  )}
-                />
-              </SelectContent>
-            </Select>
-          </TableActionBarTrailing>
-        </TableActionBar>
-        <DataTable className='max-h-400' />
-      </DataTableRoot>
-    );
-  },
-};
-
-export const WithServerSideFilters: Story = {
-  render: (args) => {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [globalFilter, setGlobalFilter] = useState('');
-    const selectedCategory =
-      (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
-
-    const serverData = useMemo(() => {
-      let result = largeData;
-      if (selectedCategory)
-        result = result.filter((d) => d.category === selectedCategory);
-      if (globalFilter) {
-        const q = globalFilter.toLowerCase();
-        result = result.filter(
-          (d) =>
-            d.name.toLowerCase().includes(q) ||
-            d.symbol.toLowerCase().includes(q),
-        );
-      }
-      return result;
-    }, [selectedCategory, globalFilter]);
-
-    const table = useLumenDataTable({
-      data: serverData,
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Asset',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
-          ),
-          meta: { className: 'w-224' },
-        },
-        {
-          accessorKey: 'category',
-          header: 'Category',
-          enableSorting: false,
-        },
-        {
-          accessorKey: 'price',
-          header: 'Price',
-          enableSorting: false,
-          meta: { align: 'end' },
-        },
-        {
-          accessorKey: 'change',
-          header: 'Performance',
-          enableSorting: false,
-          meta: { align: 'end', className: 'w-144' },
-        },
-      ],
-      state: { columnFilters, globalFilter },
-      onColumnFiltersChange: setColumnFilters,
-      onGlobalFilterChange: setGlobalFilter,
-      manualFiltering: true,
-    });
-
-    return (
-      <DataTableRoot {...args} table={table}>
-        <TableActionBar>
-          <TableActionBarLeading>
-            <DataTableGlobalSearchInput placeholder='Search assets...' />
-          </TableActionBarLeading>
-          <TableActionBarTrailing>
-            <Select
-              items={categoryOptions}
-              value={selectedCategory ?? '__all__'}
-              onValueChange={(val) =>
-                setColumnFilters(
-                  val === '__all__' ? [] : [{ id: 'category', value: val }],
-                )
-              }
-            >
-              <SelectTrigger
-                render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
-                )}
-              />
-              <SelectContent className='w-208'>
-                <SelectList
-                  renderItem={(item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      <SelectItemText>{item.label}</SelectItemText>
-                    </SelectItem>
-                  )}
-                />
-              </SelectContent>
-            </Select>
-          </TableActionBarTrailing>
-        </TableActionBar>
         <DataTable className='max-h-400' />
       </DataTableRoot>
     );

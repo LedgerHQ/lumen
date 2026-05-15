@@ -79,20 +79,6 @@ No external state management is needed for the basic case. For controlled filter
 
 <Canvas of={DataTableStories.WithGlobalFilter} />
 
-## Column Filters (Client-Side)
-
-Use `state.columnFilters` and `onColumnFiltersChange` on `useLumenDataTable` to drive column-specific filtering from external UI controls such as a `Select`.  
-TanStack handles the filtering client-side automatically — no `manualFiltering` flag needed.
-
-<Canvas of={DataTableStories.WithClientSideColumnFilter} />
-
-## Column Filters (Server-Side)
-
-Use `state.columnFilters` and `onColumnFiltersChange` on `useLumenDataTable` to drive column-specific filtering from external UI controls such as a `Select`.  
-Set `manualFiltering: true` and wire the state callbacks to your API:
-
-<Canvas of={DataTableStories.WithServerSideFilters} />
-
 ## Infinite Loading
 
 Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.  
@@ -149,20 +135,41 @@ All other TanStack Table options (columns, data, state, onSortingChange, etc.) a
 
 ## Client-Side vs Server-Side
 
-By default, sorting, filtering, and pagination are processed client-side in the browser.
-
-To delegate processing to your backend, pass the manual flags and wire the state callbacks to your API:
+By default, sorting, filtering, and pagination are processed client-side in the browser. Use `state.columnFilters` and `onColumnFiltersChange` to drive column-specific filters from external UI controls such as a `Select` — TanStack applies them automatically against the full dataset:
 
 ```tsx
+const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
 const table = useLumenDataTable({
-  data: serverData,
+  data,
+  columns,
+  state: { columnFilters },
+  onColumnFiltersChange: setColumnFilters,
+});
+
+// Drive from any external control, e.g. a Select:
+// setColumnFilters([{ id: 'category', value: 'DeFi' }]);
+// Clear with: setColumnFilters([])
+```
+
+To delegate processing to your backend instead, pass the manual flags and wire the state callbacks to your data source. Set `manualFiltering: true` to tell TanStack not to filter the data itself — your data source is responsible for returning the already-filtered rows:
+
+```tsx
+const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+const [globalFilter, setGlobalFilter] = useState('');
+
+const data = useMyApi({ columnFilters, globalFilter });
+
+const table = useLumenDataTable({
+  data,
   columns,
   manualSorting: true,
   manualFiltering: true,
   manualPagination: true,
   onSortingChange: (sorting) => fetchFromApi({ sorting }),
+  onColumnFiltersChange: setColumnFilters,
   onGlobalFilterChange: (filter) => fetchFromApi({ filter }),
-  state: { sorting, globalFilter },
+  state: { sorting, columnFilters, globalFilter },
 });
 ```
 
