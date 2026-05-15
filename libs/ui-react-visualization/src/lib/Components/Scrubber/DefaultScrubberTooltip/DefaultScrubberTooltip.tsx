@@ -1,41 +1,30 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { useEffect, useRef, useState } from 'react';
 
-import type { ChartTooltipItemData, ScrubberTooltipProps } from '../types';
+import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
   BORDER_RADIUS,
   DEFAULT_OFFSET,
   DEFAULT_TOOLTIP_MIN_WIDTH,
-  LABEL_VALUE_GAP,
   PADDING_X,
   PADDING_Y,
   ROW_GAP,
   ROW_HEIGHT,
-  TITLE_GAP,
   TOOLTIP_TRANSITION,
 } from './constants';
+import {
+  computeItemsBaseY,
+  computeTooltipHeight,
+  computeTooltipWidth,
+  computeTooltipX,
+  useTooltipMeasurement,
+} from './utils';
 
 const TITLE_STYLE = {
   fontSize: cssVar('var(--font-style-body-4-size)'),
   fontFamily: cssVar('var(--font-family-font)'),
   fill: cssVar('var(--text-base)'),
   fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-};
-
-type Widths = {
-  title: number;
-  labels: number[];
-  values: number[];
-};
-
-const safeGetBBoxWidth = (el: SVGGraphicsElement | null): number => {
-  if (!el || typeof el.getBBox !== 'function') return 0;
-  try {
-    return el.getBBox().width;
-  } catch {
-    return 0;
-  }
 };
 
 /**
@@ -55,77 +44,22 @@ export function DefaultScrubberTooltip({
   offset = DEFAULT_OFFSET,
   minWidth = DEFAULT_TOOLTIP_MIN_WIDTH,
 }: Readonly<ScrubberTooltipProps>) {
-  const resolvedItems: ChartTooltipItemData[] = items;
   const hasTitle = title !== undefined && title !== null;
 
-  const titleRef = useRef<SVGTextElement | null>(null);
-  const labelRefs = useRef<(SVGTextElement | null)[]>([]);
-  const valueRefs = useRef<(SVGTextElement | null)[]>([]);
+  const { widths, titleRef, labelRefs, valueRefs } = useTooltipMeasurement(
+    items,
+    hasTitle,
+    title,
+  );
 
-  const [widths, setWidths] = useState<Widths | null>(null);
-
-  useEffect(() => {
-    if (resolvedItems.length === 0) return;
-
-    const measure = (): void => {
-      const measuredTitle = hasTitle ? safeGetBBoxWidth(titleRef.current) : 0;
-      const measuredLabels = resolvedItems.map((_, i) =>
-        safeGetBBoxWidth(labelRefs.current[i]),
-      );
-      const measuredValues = resolvedItems.map((_, i) =>
-        safeGetBBoxWidth(valueRefs.current[i]),
-      );
-      setWidths({
-        title: measuredTitle,
-        labels: measuredLabels,
-        values: measuredValues,
-      });
-    };
-
-    measure();
-
-    if (typeof ResizeObserver === 'undefined') return;
-
-    const observer = new ResizeObserver(measure);
-    if (titleRef.current) observer.observe(titleRef.current);
-    labelRefs.current.forEach((el) => el && observer.observe(el));
-    valueRefs.current.forEach((el) => el && observer.observe(el));
-
-    return () => observer.disconnect();
-  }, [resolvedItems, title, hasTitle]);
-
-  if (resolvedItems.length === 0) {
+  if (items.length === 0) {
     return null;
   }
 
-  const titleWidth = widths && hasTitle ? widths.title : 0;
-  const rowWidths = widths
-    ? widths.labels.map(
-        (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
-      )
-    : [];
-  const contentWidth = Math.max(titleWidth, ...rowWidths);
-
-  const fitWidth = contentWidth + PADDING_X * 2;
-  const tooltipWidth = Math.max(fitWidth, minWidth);
-
-  const shouldFlip =
-    pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width;
-
-  const tooltipX = Math.max(
-    drawingArea.x,
-    shouldFlip ? pixelX - offset - tooltipWidth : pixelX + offset,
-  );
-
-  const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
-
-  const tooltipHeight =
-    PADDING_Y * 2 +
-    titleBlockHeight +
-    resolvedItems.length * ROW_HEIGHT +
-    (resolvedItems.length - 1) * ROW_GAP;
-
-  const itemsBaseY = drawingArea.y + PADDING_Y + titleBlockHeight;
+  const tooltipWidth = computeTooltipWidth(widths, hasTitle, minWidth);
+  const tooltipX = computeTooltipX(pixelX, offset, tooltipWidth, drawingArea);
+  const tooltipHeight = computeTooltipHeight(items.length, hasTitle);
+  const itemsBaseY = computeItemsBaseY(drawingArea.y, hasTitle);
 
   return (
     <g
@@ -157,7 +91,7 @@ export function DefaultScrubberTooltip({
           {title}
         </text>
       )}
-      {resolvedItems.map((item, i) => (
+      {items.map((item, i) => (
         <ChartTooltipItem
           key={`${item.label}-${item.value}-${i}`}
           label={item.label}
