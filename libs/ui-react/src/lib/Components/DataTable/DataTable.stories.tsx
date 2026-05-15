@@ -1021,9 +1021,6 @@ export const WithServerSideFilters: Story = {
     const selectedCategory =
       (columnFilters.find((f) => f.id === 'category')?.value as string) ?? null;
 
-    // Simulates the data returned by the server after applying the filters.
-    // In a real implementation this would be the result of an API call triggered
-    // by onColumnFiltersChange / onGlobalFilterChange callbacks.
     const serverData = useMemo(() => {
       let result = largeData;
       if (selectedCategory)
