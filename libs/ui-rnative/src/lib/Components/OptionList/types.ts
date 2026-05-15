@@ -4,6 +4,7 @@ import type {
   StyledTextProps,
   StyledViewProps,
 } from '../../../styles';
+import type { SearchInputProps } from '../SearchInput';
 
 export type MetaShape = Record<string, unknown>;
 
@@ -37,6 +38,9 @@ export type OptionListContextValue = {
   isGrouped: boolean;
   groups: OptionListItemGroup[];
   flatItems: OptionListItemData[];
+  resolvedSearchValue: string;
+  registerSearch: () => () => void;
+  handleSearchValueChange: (value: string) => void;
 };
 
 /** Internal type -- consumers never construct this directly. */
@@ -56,6 +60,38 @@ export type OptionListProps<TMeta extends MetaShape = MetaShape> = {
   onValueChange?: (value: string | null) => void;
   /** When true, prevents interaction with the entire list. */
   disabled?: boolean;
+  /**
+   * Filter function used to match items against a search query.
+   * When `OptionListSearch` is rendered inside the list, a default case-insensitive
+   * label filter is applied automatically. Pass a custom function to override it,
+   * or `null` to disable filtering entirely.
+   *
+   * When items include a `group` field, the filter is applied to individual
+   * items within each group. Empty groups are automatically hidden.
+   * @default undefined
+   */
+  filter?: null | ((item: OptionListItemData<TMeta>, query: string) => boolean);
+  /**
+   * Pre-filtered items to display in the list. When provided, the component uses
+   * these items directly instead of filtering `items` internally. Use alongside
+   * `onSearchValueChange` for async/remote search where the server handles filtering.
+   */
+  filteredItems?: OptionListItemData<TMeta>[];
+  /**
+   * The controlled search input value.
+   * Should be used in conjunction with `onSearchValueChange`.
+   */
+  searchValue?: string;
+  /**
+   * The search input value when initially rendered (uncontrolled).
+   * @default ''
+   */
+  defaultSearchValue?: string;
+  /**
+   * Callback fired when the search input value changes.
+   * Use to trigger async fetches or track the current query externally.
+   */
+  onSearchValueChange?: (value: string) => void;
   children: ReactNode;
 };
 
@@ -102,6 +138,11 @@ export type OptionListEmptyStateProps = {
   /** Optional secondary text displayed below the title. */
   description?: string;
 } & Omit<StyledViewProps, 'children'>;
+
+export type OptionListSearchProps = Omit<
+  SearchInputProps,
+  'value' | 'onChangeText' | 'defaultValue'
+>;
 
 export type OptionListTriggerProps = {
   /** Floating label shown above the selected value. */
