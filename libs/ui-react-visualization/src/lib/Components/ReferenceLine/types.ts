@@ -58,10 +58,9 @@ export type VerticalLabelPosition = 'top' | 'middle' | 'bottom';
 
 export type HorizontalReferenceLineProps = ReferenceLineBaseProps & {
   /**
-   * Data index along the Y axis. When `yAxis.data` contains numeric values,
-   * the index is mapped to the corresponding axis value automatically.
-   * The horizontal line is drawn at this position spanning the full width
-   * of the drawing area.
+   * Y-axis value in data space where the horizontal line is drawn.
+   * The horizontal line is rendered at this Y position spanning the full
+   * width of the drawing area.
    */
   dataY: number;
   /**
