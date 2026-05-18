@@ -83,12 +83,7 @@ export type SvgBBoxElement = {
     | Promise<{ width: number } | undefined>;
 };
 
-export type ScrubberTooltipProps = {
-  pixelX: number;
-  drawingArea: DrawingArea;
-  dataIndex: number;
-  title?: string | number | null;
-  items: ChartTooltipItemData[];
+export type ScrubberTooltipLayoutProps = {
   /**
    * Horizontal gap in pixels between the scrubber line and the tooltip box.
    * @default 10
@@ -103,10 +98,37 @@ export type ScrubberTooltipProps = {
   minWidth?: number;
 };
 
+export type ScrubberTooltipProps = ScrubberTooltipLayoutProps & {
+  /**
+   * Horizontal pixel position of the scrubber line within the SVG coordinate
+   * space. Used to place the tooltip left or right of the line.
+   */
+  pixelX: number;
+  /**
+   * Bounding box of the chart's drawing area (x, y, width, height). Used to
+   * constrain the tooltip so it never overflows the chart boundaries.
+   */
+  drawingArea: DrawingArea;
+  /**
+   * Zero-based index of the data point currently under the scrubber. Maps
+   * directly to the series data arrays so consumers can look up values.
+   */
+  dataIndex: number;
+  /**
+   * Optional title displayed at the top of the tooltip. Pass `null` or omit
+   * to render the tooltip without a title row.
+   */
+  title?: string | number | null;
+  /**
+   * List of label/value pairs rendered as rows inside the tooltip body.
+   */
+  items: ChartTooltipItemData[];
+};
+
 /**
  * Return value of the `tooltip` callback on {@link ScrubberProps}.
  */
-export type ScrubberTooltipContent = {
+export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
   /**
    * Optional header. Static value or callback per data index.
    * A callback may return `null` or `undefined` to suppress the title.
@@ -119,18 +141,6 @@ export type ScrubberTooltipContent = {
    * Tooltip rows for this index. Return an empty array to hide the tooltip.
    */
   items: ChartTooltipItemData[];
-  /**
-   * Horizontal gap in pixels between the scrubber line and the tooltip box.
-   * @default 10
-   */
-  offset?: number;
-  /**
-   * Minimum width in pixels. The tooltip auto-fits to the rendered content
-   * but never collapses below this floor; raise it to avoid jitter when
-   * value length changes between indices.
-   * @default 80
-   */
-  minWidth?: number;
 };
 
 export type ScrubberProps = {

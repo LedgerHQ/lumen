@@ -149,7 +149,7 @@ const tooltipDates = [
 
 const tooltipAnnotatedIndices = new Set([4, 9]);
 
-export const TooltipBase: Story = {
+export const WithBaseTooltip: Story = {
   render: () => (
     <LineChart
       series={tooltipSampleSeries}
@@ -158,10 +158,13 @@ export const TooltipBase: Story = {
       showArea
     >
       <Scrubber
-        tooltip={(i) => ({
+        tooltip={(dataIndex) => ({
           items: [
-            { label: 'Date', value: tooltipDates[i] },
-            { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },
+            { label: 'Date', value: tooltipDates[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+            },
           ],
         })}
       />
@@ -169,7 +172,7 @@ export const TooltipBase: Story = {
   ),
 };
 
-export const TooltipWithTitle: Story = {
+export const WithTooltipTitle: Story = {
   render: () => (
     <LineChart
       series={tooltipSampleSeries}
@@ -178,11 +181,14 @@ export const TooltipWithTitle: Story = {
       showArea
     >
       <Scrubber
-        tooltip={(i) => ({
-          title: `${tooltipSampleSeries[0].data[i]} Transactions`,
+        tooltip={(dataIndex) => ({
+          title: `${tooltipSampleSeries[0].data[dataIndex]} Transactions`,
           items: [
-            { label: 'Date', value: tooltipDates[i] },
-            { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },
+            { label: 'Date', value: tooltipDates[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+            },
           ],
         })}
       />
@@ -190,7 +196,7 @@ export const TooltipWithTitle: Story = {
   ),
 };
 
-export const TooltipOnPoints: Story = {
+export const WithTooltipOnPoints: Story = {
   render: () => (
     <LineChart
       series={tooltipSampleSeries}
@@ -199,12 +205,15 @@ export const TooltipOnPoints: Story = {
       showArea
     >
       <Scrubber
-        tooltip={(i) => {
-          if (!tooltipAnnotatedIndices.has(i)) return { items: [] };
+        tooltip={(dataIndex) => {
+          if (!tooltipAnnotatedIndices.has(dataIndex)) return { items: [] };
           return {
             items: [
-              { label: 'Date', value: tooltipDates[i] },
-              { label: 'Price', value: `$${tooltipSampleSeries[0].data[i]}` },
+              { label: 'Date', value: tooltipDates[dataIndex] },
+              {
+                label: 'Price',
+                value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+              },
             ],
           };
         }}
