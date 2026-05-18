@@ -7,7 +7,7 @@ import { Box } from '../Utility/Box';
 
 <Meta title='Components/Tag' of={TagStories} />
 
-# 🏷️ Tag
+# Tag
 
 <CustomTabs>
   <Tab label="Overview">
@@ -53,16 +53,6 @@ When a tag's label exceeds the available space, the text is automatically trunca
 
 <Canvas of={TagStories.TruncateShowcase} />
 
-### Accessibility
-
-To be implemented:
-
-- **Color contrast**
-- **Text zoom**
-- **Touch targets**
-- **Screen reader support**
-- **Semantic labeling**
-
 </Tab>
 <Tab label="Implementation">
 
@@ -105,74 +95,6 @@ function MyComponent() {
   return <Tag size="md" appearance="success" icon={Check} label="Success" />;
 }
 ```
-
-
-## Do's and Don'ts
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use standard size variants'
-      description='Use the size prop with predefined variants (sm, md)'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Check } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Tag size="sm" icon={Check} label="Success" />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use custom sizes"
-      description='Avoid using style prop to override standard sizes'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Check } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Tag style={{ height: 52 }} icon={Check} label="Success" />
-```
-
-    </DontBlockItem>
-</DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide proper accessibility props'
-      description='Use accessible and accessibilityRole props for screen reader support'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Tag
-  label="Important"
-  accessible={true}
-  accessibilityRole="text"
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit accessibility props"
-      description='Avoid creating tags without accessibility support for screen readers'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Tag
-  label="Important"
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

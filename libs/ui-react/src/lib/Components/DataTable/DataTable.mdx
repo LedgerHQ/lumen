@@ -135,20 +135,42 @@ All other TanStack Table options (columns, data, state, onSortingChange, etc.) a
 
 ## Client-Side vs Server-Side
 
-By default, sorting, filtering, and pagination are processed client-side in the browser.
-
-To delegate processing to your backend, pass the manual flags and wire the state callbacks to your API:
+By default, sorting, filtering, and pagination are processed client-side in the browser. Use `state.columnFilters` and `onColumnFiltersChange` to drive column-specific filters from external UI controls such as a `Select` — TanStack applies them automatically against the full dataset:
 
 ```tsx
+const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
 const table = useLumenDataTable({
-  data: serverData,
+  data,
+  columns,
+  state: { columnFilters },
+  onColumnFiltersChange: setColumnFilters,
+});
+
+// Drive from any external control, e.g. a Select:
+// setColumnFilters([{ id: 'category', value: 'DeFi' }]);
+// Clear with: setColumnFilters([])
+```
+
+To delegate processing to your backend instead, pass the manual flags and wire the state callbacks to your data source. Set `manualFiltering: true` to tell TanStack not to filter the data itself — your data source is responsible for returning the already-filtered rows:
+
+```tsx
+const [sorting, setSorting] = useState<SortingState>([]);
+const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+const [globalFilter, setGlobalFilter] = useState('');
+
+const data = useMyApi({ sorting, columnFilters, globalFilter });
+
+const table = useLumenDataTable({
+  data,
   columns,
   manualSorting: true,
   manualFiltering: true,
   manualPagination: true,
-  onSortingChange: (sorting) => fetchFromApi({ sorting }),
-  onGlobalFilterChange: (filter) => fetchFromApi({ filter }),
-  state: { sorting, globalFilter },
+  onSortingChange: setSorting,
+  onColumnFiltersChange: setColumnFilters,
+  onGlobalFilterChange: setGlobalFilter,
+  state: { sorting, columnFilters, globalFilter },
 });
 ```
 
