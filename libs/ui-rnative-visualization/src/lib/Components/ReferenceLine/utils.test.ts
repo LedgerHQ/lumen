@@ -6,6 +6,7 @@ import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
   isPixelWithinDrawingArea,
+  resolveDataValue,
 } from './utils';
 
 const drawingArea: DrawingArea = { x: 20, y: 10, width: 360, height: 180 };
@@ -56,6 +57,36 @@ describe('isPixelWithinDrawingArea', () => {
   });
 });
 
+describe('resolveDataValue', () => {
+  it('returns the index when no axis config is provided', () => {
+    expect(resolveDataValue(2)).toBe(2);
+  });
+
+  it('returns the index when axis config has no data', () => {
+    expect(resolveDataValue(2, { scaleType: 'linear' })).toBe(2);
+  });
+
+  it('returns the index when axis config data is empty', () => {
+    expect(resolveDataValue(2, { data: [] })).toBe(2);
+  });
+
+  it('maps index to numeric axis value', () => {
+    expect(resolveDataValue(1, { data: [100, 200, 300] })).toBe(200);
+  });
+
+  it('returns undefined when index is out of bounds (negative)', () => {
+    expect(resolveDataValue(-1, { data: [100, 200, 300] })).toBeUndefined();
+  });
+
+  it('returns undefined when index is out of bounds (too large)', () => {
+    expect(resolveDataValue(5, { data: [100, 200, 300] })).toBeUndefined();
+  });
+
+  it('returns the index when axis data contains non-numeric values', () => {
+    expect(resolveDataValue(1, { data: ['a', 'b', 'c'] })).toBe(1);
+  });
+});
+
 describe('computeHorizontalLabelCoordinates', () => {
   const yPixel = 100;
 
@@ -64,8 +95,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(380);
     expect(result.y).toBe(100);
@@ -78,8 +107,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'left',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(20);
     expect(result.textAnchor).toBe('start');
@@ -90,8 +117,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'center',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(200);
     expect(result.textAnchor).toBe('middle');
@@ -102,8 +127,7 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      -8,
-      0,
+      { dx: -8 },
     );
     expect(result.x).toBe(372);
   });
@@ -113,8 +137,7 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      -4,
+      { dy: -4 },
     );
     expect(result.y).toBe(96);
   });
@@ -124,8 +147,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
     );
     expect(result.dominantBaseline).toBe('auto');
   });
@@ -135,10 +156,7 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
-      undefined,
-      'top',
+      { verticalAlignment: 'top' },
     );
     expect(result.dominantBaseline).toBe('hanging');
   });
@@ -148,10 +166,7 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
-      undefined,
-      'middle',
+      { verticalAlignment: 'middle' },
     );
     expect(result.dominantBaseline).toBe('central');
   });
@@ -165,8 +180,6 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'top',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(150);
     expect(result.y).toBe(10);
@@ -179,8 +192,6 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'bottom',
       drawingArea,
-      0,
-      0,
     );
     expect(result.y).toBe(190);
     expect(result.dominantBaseline).toBe('auto');
@@ -191,8 +202,6 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'middle',
       drawingArea,
-      0,
-      0,
     );
     expect(result.y).toBe(100);
     expect(result.dominantBaseline).toBe('central');
@@ -203,8 +212,7 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'top',
       drawingArea,
-      4,
-      0,
+      { dx: 4 },
     );
     expect(result.x).toBe(154);
   });
@@ -214,8 +222,7 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'top',
       drawingArea,
-      0,
-      6,
+      { dy: 6 },
     );
     expect(result.y).toBe(16);
   });
@@ -225,8 +232,6 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'top',
       drawingArea,
-      0,
-      0,
     );
     expect(result.textAnchor).toBe('middle');
   });
@@ -236,9 +241,7 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'top',
       drawingArea,
-      0,
-      0,
-      'left',
+      { horizontalAlignment: 'left' },
     );
     expect(result.textAnchor).toBe('start');
   });
@@ -248,9 +251,7 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'top',
       drawingArea,
-      0,
-      0,
-      'right',
+      { horizontalAlignment: 'right' },
     );
     expect(result.textAnchor).toBe('end');
   });

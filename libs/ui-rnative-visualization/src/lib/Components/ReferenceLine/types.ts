@@ -58,8 +58,9 @@ export type VerticalLabelPosition = 'top' | 'middle' | 'bottom';
 
 export type HorizontalReferenceLineProps = ReferenceLineBaseProps & {
   /**
-   * Y-value in data space. The horizontal line is drawn at this value
-   * spanning the full width of the drawing area.
+   * Y-axis value in data space where the horizontal line is drawn.
+   * The horizontal line is rendered at this Y position spanning the full
+   * width of the drawing area.
    */
   dataY: number;
   /**
@@ -72,8 +73,10 @@ export type HorizontalReferenceLineProps = ReferenceLineBaseProps & {
 
 export type VerticalReferenceLineProps = ReferenceLineBaseProps & {
   /**
-   * X-value in data space (index or explicit value). The vertical line
-   * is drawn at this value spanning the full height of the drawing area.
+   * Data index along the X axis. When `xAxis.data` contains numeric values,
+   * the index is mapped to the corresponding axis value automatically.
+   * The vertical line is drawn at this position spanning the full height
+   * of the drawing area.
    */
   dataX: number;
   /**
