@@ -1,7 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
+import type { ChartTooltipItemProps } from '../types';
 import { PADDING_X } from './constants';
-import type { ChartTooltipItemProps } from './types';
 
 export function ChartTooltipItem({
   label,
@@ -9,10 +9,13 @@ export function ChartTooltipItem({
   x = 0,
   y = 0,
   width,
+  labelRef,
+  valueRef,
 }: Readonly<ChartTooltipItemProps>) {
   return (
     <g>
       <text
+        ref={labelRef}
         x={x + PADDING_X}
         y={y}
         dominantBaseline='middle'
@@ -25,6 +28,7 @@ export function ChartTooltipItem({
         {label}
       </text>
       <text
+        ref={valueRef}
         x={x + width - PADDING_X}
         y={y}
         dominantBaseline='middle'

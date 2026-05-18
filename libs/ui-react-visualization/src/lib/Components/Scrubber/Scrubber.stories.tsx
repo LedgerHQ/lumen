@@ -407,3 +407,105 @@ export const WithAxes: Story = {
   ),
   args: {},
 };
+
+const tooltipSampleSeries = [
+  {
+    id: 'prices',
+    stroke: '#7B61FF',
+    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
+  },
+];
+
+const tooltipDates = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+  'Jan',
+  'Feb',
+];
+
+const tooltipAnnotatedIndices = new Set([4, 9]);
+
+export const WithBaseTooltip: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          items: [
+            { label: 'Date', value: tooltipDates[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+            },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithTooltipTitle: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          title: `${tooltipSampleSeries[0].data[dataIndex]} Transactions`,
+          items: [
+            { label: 'Date', value: tooltipDates[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+            },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithTooltipOnPoints: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => {
+          if (!tooltipAnnotatedIndices.has(dataIndex)) return { items: [] };
+          return {
+            items: [
+              { label: 'Date', value: tooltipDates[dataIndex] },
+              {
+                label: 'Price',
+                value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+              },
+            ],
+          };
+        }}
+      />
+      <Point dataX={4} dataY={98} label='ATH' />
+      <Point dataX={9} dataY={4} label='Low' labelPosition='bottom' />
+    </LineChart>
+  ),
+};

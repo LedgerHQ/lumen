@@ -179,4 +179,17 @@ describe('Scrubber', () => {
     const beacons = result.queryAllByTestId(/scrubber-beacon-/);
     expect(beacons.length).toBeLessThanOrEqual(1);
   });
+
+  it('renders chart tooltip when tooltip is set', () => {
+    const { getByTestId, queryByTestId } = renderScrubber({
+      scrubberProps: {
+        tooltip: () => ({
+          items: [{ label: 'L', value: 'V' }],
+        }),
+      },
+    });
+    expect(queryByTestId('chart-tooltip')).toBeNull();
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getByTestId('chart-tooltip')).toBeTruthy();
+  });
 });
