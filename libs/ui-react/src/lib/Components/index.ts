@@ -8,6 +8,7 @@ export * from './Button';
 export * from './Card';
 export * from './CardButton';
 export * from './ContentBanner';
+export * from './DescriptionItem';
 export * from './Checkbox';
 export * from './DataTable';
 export * from './Dialog';
