@@ -92,8 +92,8 @@ export const resolvePixel = (
 
   const p = getPointOnScale(dataValue, scale);
 
-  if (!Number.isFinite(p)) return undefined;
-  if (!isPixelWithinDrawingArea(p, axis, drawingArea)) return undefined;
+  if (!Number.isFinite(p) || !isPixelWithinDrawingArea(p, axis, drawingArea))
+    return undefined;
   return p;
 };
 
