@@ -77,10 +77,24 @@ export type ChartTooltipItemProps = ChartTooltipItemData & {
 };
 
 export type ScrubberTooltipProps = {
+  /**
+   * Horizontal pixel position of the scrubber line within the SVG coordinate
+   * space. Used to place the tooltip left or right of the line.
+   */
   pixelX: number;
+  /**
+   * Bounding box of the chart's drawing area (x, y, width, height). Used to
+   * constrain the tooltip so it never overflows the chart boundaries.
+   */
   drawingArea: DrawingArea;
-  dataIndex: number;
+  /**
+   * Optional title displayed at the top of the tooltip. Pass `null` or omit
+   * to render the tooltip without a title row.
+   */
   title?: SvgTextContent | null;
+  /**
+   * List of label/value pairs rendered as rows inside the tooltip body.
+   */
   items: ChartTooltipItemData[];
   /**
    * Horizontal gap in pixels between the scrubber line and the tooltip box.
