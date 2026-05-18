@@ -26,8 +26,8 @@ const hasGroups = (items: OptionListItemData[]): boolean =>
   items.some((item) => item.group != null);
 
 /**
- * Case-insensitive substring match on `item.label`.
- * Returns `true` for empty/whitespace-only queries so all items are shown.
+ * Case-insensitive label substring match.
+ * Empty query matches everything.
  */
 export const defaultLabelFilter = (
   item: OptionListItemData,
@@ -57,16 +57,7 @@ type UseOptionListItemsResult<TMeta extends MetaShape = MetaShape> = {
   handleSearchValueChange: (val: string) => void;
 };
 
-/**
- * Manages item grouping, filtering, and search-mount lifecycle for OptionList.
- *
- * - Automatically groups items when any item has a `group` field.
- * - Applies the default case-insensitive label filter when `OptionListSearch`
- *   is mounted and no custom `filter` is provided.
- * - Allows external/async filtering via `filteredItems`, bypassing
- *   the internal filter entirely.
- * - Supports controlled and uncontrolled `searchValue` via `useControllableState`.
- */
+/** Grouping, filtering, and search-mount state for OptionList. */
 export const useOptionListItems = <TMeta extends MetaShape = MetaShape>({
   items,
   filter,
