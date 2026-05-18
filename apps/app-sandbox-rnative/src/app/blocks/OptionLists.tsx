@@ -4,12 +4,14 @@ import {
   MediaButton,
   OptionList,
   OptionListContent,
+  OptionListEmptyState,
   OptionListItem,
   OptionListItemLeading,
   OptionListItemContent,
   OptionListItemText,
   OptionListItemDescription,
   OptionListItemContentRow,
+  OptionListSearch,
   Tag,
   Box,
   useBottomSheetRef,
@@ -258,12 +260,131 @@ const NetworkSelectExample = () => {
   );
 };
 
+const SEARCHABLE_CURRENCIES: OptionListItemData<{
+  ticker: string;
+  icon: string;
+}>[] = [
+  { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC', icon: 'bitcoin' } },
+  {
+    value: 'eth',
+    label: 'Ethereum',
+    meta: { ticker: 'ETH', icon: 'ethereum' },
+  },
+  {
+    value: 'sol',
+    label: 'Solana',
+    meta: { ticker: 'SOL', icon: 'solana' },
+  },
+  {
+    value: 'ada',
+    label: 'Cardano',
+    meta: { ticker: 'ADA', icon: 'cardano' },
+  },
+  {
+    value: 'dot',
+    label: 'Polkadot',
+    meta: { ticker: 'DOT', icon: 'polkadot' },
+  },
+  {
+    value: 'matic',
+    label: 'Polygon',
+    meta: { ticker: 'MATIC', icon: 'polygon' },
+  },
+  {
+    value: 'xrp',
+    label: 'XRP',
+    meta: { ticker: 'XRP', icon: 'ripple' },
+  },
+  {
+    value: 'doge',
+    label: 'Dogecoin',
+    meta: { ticker: 'DOGE', icon: 'dogecoin' },
+  },
+];
+
+const SearchableSelectExample = () => {
+  const [value, setValue] = useState<string | null>(null);
+  const bottomSheetRef = useBottomSheetRef();
+
+  const selected = SEARCHABLE_CURRENCIES.find((c) => c.value === value);
+  const selectedMeta = selected?.meta as
+    | { ticker: string; icon: string }
+    | undefined;
+
+  return (
+    <Box>
+      <MediaButton
+        icon={
+          selectedMeta ? (
+            <CryptoIconNative
+              ledgerId={selectedMeta.icon}
+              ticker={selectedMeta.ticker}
+              size={32}
+            />
+          ) : undefined
+        }
+        appearance='gray'
+        onPress={() => bottomSheetRef.current?.present()}
+      >
+        {selected?.label ?? 'Search currency'}
+      </MediaButton>
+      <BottomSheet
+        ref={bottomSheetRef}
+        enableDynamicSizing
+        snapPoints={null}
+        onClose={() => bottomSheetRef.current?.dismiss()}
+      >
+        <BottomSheetView>
+          <BottomSheetHeader title='Select currency' />
+          <OptionList
+            items={SEARCHABLE_CURRENCIES}
+            value={value}
+            onValueChange={(v) => {
+              setValue(v);
+              bottomSheetRef.current?.dismiss();
+            }}
+          >
+            <OptionListSearch placeholder='Search currencies' />
+            <OptionListContent
+              renderItem={(item) => {
+                const meta = item.meta as { ticker: string; icon: string };
+                return (
+                  <OptionListItem value={item.value}>
+                    <OptionListItemLeading>
+                      <CryptoIconNative
+                        ledgerId={meta.icon}
+                        ticker={meta.ticker}
+                        size={32}
+                      />
+                    </OptionListItemLeading>
+                    <OptionListItemContent>
+                      <OptionListItemText>{item.label}</OptionListItemText>
+                      <OptionListItemDescription>
+                        {meta.ticker}
+                      </OptionListItemDescription>
+                    </OptionListItemContent>
+                  </OptionListItem>
+                );
+              }}
+            />
+            <OptionListEmptyState
+              title='No currencies found'
+              description='Try a different search term'
+            />
+          </OptionList>
+        </BottomSheetView>
+      </BottomSheet>
+    </Box>
+  );
+};
+
 export const OptionLists = () => {
   return (
     <Box lx={{ gap: 's16', alignItems: 'flex-start' }}>
       <CurrencySelectExample />
       <GroupedSelectExample />
       <NetworkSelectExample />
+      <SearchableSelectExample />
     </Box>
   );
 };

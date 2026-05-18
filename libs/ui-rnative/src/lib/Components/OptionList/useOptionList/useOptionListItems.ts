@@ -25,7 +25,6 @@ const groupByField = <TMeta extends MetaShape = MetaShape>(
 const hasGroups = (items: OptionListItemData[]): boolean =>
   items.some((item) => item.group != null);
 
-/** Case-insensitive label substring match. */
 export const defaultLabelFilter = (
   item: OptionListItemData,
   query: string,
@@ -48,7 +47,6 @@ type UseOptionListItemsResult<TMeta extends MetaShape = MetaShape> = {
   handleSearchValueChange: (val: string) => void;
 };
 
-/** Grouping, filtering, and search state for OptionList. */
 export const useOptionListItems = <TMeta extends MetaShape = MetaShape>({
   items,
   filter,
