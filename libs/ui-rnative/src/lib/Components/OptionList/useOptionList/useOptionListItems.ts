@@ -85,11 +85,8 @@ export const useOptionListItems = <TMeta extends MetaShape = MetaShape>({
     [setSearchValue],
   );
 
-  const filterFn = searchMounted
-    ? filter === undefined
-      ? defaultLabelFilter
-      : filter
-    : null;
+  const activeFilter = filter === undefined ? defaultLabelFilter : filter;
+  const filterFn = searchMounted ? activeFilter : null;
 
   const isGrouped = useMemo(() => hasGroups(items), [items]);
 
