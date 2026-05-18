@@ -71,70 +71,17 @@ describe('useOptionListItems', () => {
     });
   });
 
-  describe('filtering (search not mounted)', () => {
-    it('returns all items when search has not been registered', () => {
+  describe('filtering', () => {
+    it('applies the default case-insensitive label filter', () => {
       const { result } = renderHook(() =>
         useOptionListItems({ items: [btc, eth] }),
       );
 
       act(() => {
-        result.current.handleSearchValueChange('btc');
-      });
-
-      expect(result.current.flatItems).toEqual([btc, eth]);
-    });
-  });
-
-  describe('filtering (search mounted)', () => {
-    it('applies the default label filter after registerSearch is called', () => {
-      const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth] }),
-      );
-
-      act(() => {
-        result.current.registerSearch();
-      });
-      act(() => {
-        result.current.handleSearchValueChange('bitcoin');
+        result.current.handleSearchValueChange('BITCOIN');
       });
 
       expect(result.current.flatItems).toEqual([btc]);
-    });
-
-    it('default filter is case-insensitive', () => {
-      const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth] }),
-      );
-
-      act(() => {
-        result.current.registerSearch();
-      });
-      act(() => {
-        result.current.handleSearchValueChange('ETH');
-      });
-
-      expect(result.current.flatItems).toEqual([eth]);
-    });
-
-    it('restores all items when registerSearch cleanup runs', () => {
-      const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth] }),
-      );
-
-      let cleanup: () => void = () => {};
-      act(() => {
-        cleanup = result.current.registerSearch();
-      });
-      act(() => {
-        result.current.handleSearchValueChange('bitcoin');
-      });
-      expect(result.current.flatItems).toEqual([btc]);
-
-      act(() => {
-        cleanup();
-      });
-
-      expect(result.current.flatItems).toEqual([btc, eth]);
     });
 
     it('filters within groups and removes empty groups', () => {
@@ -142,9 +89,6 @@ describe('useOptionListItems', () => {
         useOptionListItems({ items: [apple, banana, carrot, spinach] }),
       );
 
-      act(() => {
-        result.current.registerSearch();
-      });
       act(() => {
         result.current.handleSearchValueChange('apple');
       });
@@ -163,9 +107,6 @@ describe('useOptionListItems', () => {
       );
 
       act(() => {
-        result.current.registerSearch();
-      });
-      act(() => {
         result.current.handleSearchValueChange('et');
       });
 
@@ -178,9 +119,6 @@ describe('useOptionListItems', () => {
       );
 
       act(() => {
-        result.current.registerSearch();
-      });
-      act(() => {
         result.current.handleSearchValueChange('bitcoin');
       });
 
@@ -192,9 +130,6 @@ describe('useOptionListItems', () => {
         useOptionListItems({ items: [btc, eth] }),
       );
 
-      act(() => {
-        result.current.registerSearch();
-      });
       act(() => {
         result.current.handleSearchValueChange('   ');
       });
