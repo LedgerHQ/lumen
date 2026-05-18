@@ -1,40 +1,24 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
-import { useEffect, useRef, useState } from 'react';
 import { G, Rect, Text as SvgText } from 'react-native-svg';
 
-import type {
-  ChartTooltipItemData,
-  ScrubberTooltipProps,
-  SvgBBoxElement,
-} from '../types';
+import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
   BORDER_RADIUS,
   DEFAULT_OFFSET,
   DEFAULT_TOOLTIP_MIN_WIDTH,
-  LABEL_VALUE_GAP,
   PADDING_X,
   PADDING_Y,
   ROW_GAP,
   ROW_HEIGHT,
-  TITLE_GAP,
 } from './constants';
-
-type Widths = {
-  title: number;
-  labels: number[];
-  values: number[];
-};
-
-const safeGetBBoxWidth = async (el: SvgBBoxElement | null): Promise<number> => {
-  if (!el) return 0;
-  try {
-    const result = await el.getBBox();
-    return result?.width ?? 0;
-  } catch {
-    return 0;
-  }
-};
+import {
+  computeItemsBaseY,
+  computeTooltipHeight,
+  computeTooltipWidth,
+  computeTooltipX,
+  useTooltipMeasurement,
+} from './utils';
 
 /**
  * Default structured tooltip anchored to the scrubber line.
@@ -55,90 +39,22 @@ export function DefaultScrubberTooltip({
 }: Readonly<ScrubberTooltipProps>) {
   const { theme } = useTheme();
 
-  const resolvedItems: ChartTooltipItemData[] = items;
   const hasTitle = title !== undefined && title !== null;
 
-  const titleRef = useRef<SvgBBoxElement | null>(null);
-  const labelRefs = useRef<(SvgBBoxElement | null)[]>([]);
-  const valueRefs = useRef<(SvgBBoxElement | null)[]>([]);
+  const { widths, titleRef, labelRefs, valueRefs } = useTooltipMeasurement(
+    items,
+    hasTitle,
+    title,
+  );
 
-  const [widths, setWidths] = useState<Widths | null>(null);
-
-  useEffect(() => {
-    if (resolvedItems.length === 0) return;
-
-    let cancelled = false;
-
-    const measure = async (): Promise<void> => {
-      await new Promise<void>((resolve) =>
-        requestAnimationFrame(() => resolve()),
-      );
-      if (cancelled) return;
-
-      const measuredTitle = hasTitle
-        ? await safeGetBBoxWidth(titleRef.current)
-        : 0;
-      const measuredLabels = await Promise.all(
-        resolvedItems.map((_, i) => safeGetBBoxWidth(labelRefs.current[i])),
-      );
-      const measuredValues = await Promise.all(
-        resolvedItems.map((_, i) => safeGetBBoxWidth(valueRefs.current[i])),
-      );
-
-      if (!cancelled) {
-        setWidths({
-          title: measuredTitle,
-          labels: measuredLabels,
-          values: measuredValues,
-        });
-      }
-    };
-
-    void measure();
-    return () => {
-      cancelled = true;
-    };
-  }, [resolvedItems, title, hasTitle]);
-
-  if (resolvedItems.length === 0) {
+  if (items.length === 0) {
     return null;
   }
 
-  const titleWidth = widths && hasTitle ? widths.title : 0;
-  const rowWidths = widths
-    ? widths.labels.map(
-        (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
-      )
-    : [];
-  const contentWidth = Math.max(titleWidth, ...rowWidths);
-
-  const fitWidth = contentWidth + PADDING_X * 2;
-  const tooltipWidth = Math.max(fitWidth, minWidth);
-
-  const shouldFlip =
-    pixelX + offset + tooltipWidth > drawingArea.x + drawingArea.width;
-
-  const preferredTooltipX = shouldFlip
-    ? pixelX - offset - tooltipWidth
-    : pixelX + offset;
-  const maxTooltipX = Math.max(
-    drawingArea.x,
-    drawingArea.x + drawingArea.width - tooltipWidth,
-  );
-  const tooltipX = Math.min(
-    maxTooltipX,
-    Math.max(drawingArea.x, preferredTooltipX),
-  );
-
-  const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
-
-  const tooltipHeight =
-    PADDING_Y * 2 +
-    titleBlockHeight +
-    resolvedItems.length * ROW_HEIGHT +
-    (resolvedItems.length - 1) * ROW_GAP;
-
-  const itemsBaseY = drawingArea.y + PADDING_Y + titleBlockHeight;
+  const tooltipWidth = computeTooltipWidth(widths, hasTitle, minWidth);
+  const tooltipX = computeTooltipX(pixelX, offset, tooltipWidth, drawingArea);
+  const tooltipHeight = computeTooltipHeight(items.length, hasTitle);
+  const itemsBaseY = computeItemsBaseY(drawingArea.y, hasTitle);
 
   return (
     <G testID='chart-tooltip' opacity={widths === null ? 0 : 1}>
@@ -154,7 +70,7 @@ export function DefaultScrubberTooltip({
       {hasTitle && (
         <SvgText
           ref={(el) => {
-            titleRef.current = el as unknown as SvgBBoxElement | null;
+            titleRef.current = el as unknown as (typeof titleRef)['current'];
           }}
           testID='chart-tooltip-title'
           x={tooltipX + PADDING_X}
@@ -168,9 +84,9 @@ export function DefaultScrubberTooltip({
           {String(title)}
         </SvgText>
       )}
-      {resolvedItems.map((item, i) => (
+      {items.map((item, i) => (
         <ChartTooltipItem
-          key={`${item.label}-${item.value}`}
+          key={`${item.label}-${item.value}-${i}`}
           label={item.label}
           value={item.value}
           x={tooltipX}
