@@ -155,10 +155,11 @@ const table = useLumenDataTable({
 To delegate processing to your backend instead, pass the manual flags and wire the state callbacks to your data source. Set `manualFiltering: true` to tell TanStack not to filter the data itself — your data source is responsible for returning the already-filtered rows:
 
 ```tsx
+const [sorting, setSorting] = useState<SortingState>([]);
 const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 const [globalFilter, setGlobalFilter] = useState('');
 
-const data = useMyApi({ columnFilters, globalFilter });
+const data = useMyApi({ sorting, columnFilters, globalFilter });
 
 const table = useLumenDataTable({
   data,
@@ -166,9 +167,9 @@ const table = useLumenDataTable({
   manualSorting: true,
   manualFiltering: true,
   manualPagination: true,
-  onSortingChange: (sorting) => fetchFromApi({ sorting }),
+  onSortingChange: setSorting,
   onColumnFiltersChange: setColumnFilters,
-  onGlobalFilterChange: (filter) => fetchFromApi({ filter }),
+  onGlobalFilterChange: setGlobalFilter,
   state: { sorting, columnFilters, globalFilter },
 });
 ```
