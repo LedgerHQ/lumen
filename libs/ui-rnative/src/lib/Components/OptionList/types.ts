@@ -39,7 +39,6 @@ export type OptionListContextValue = {
   groups: OptionListItemGroup[];
   flatItems: OptionListItemData[];
   resolvedSearchValue: string;
-  registerSearch: () => () => void;
   handleSearchValueChange: (value: string) => void;
 };
 

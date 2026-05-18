@@ -3,7 +3,7 @@ import {
   useDisabledContext,
   DisabledProvider,
 } from '@ledgerhq/lumen-utils-shared';
-import { Fragment, useEffect, type ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Check, ChevronDown } from '../../Symbols';
@@ -64,7 +64,6 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
     groups,
     flatItems,
     resolvedSearchValue,
-    registerSearch,
     handleSearchValueChange,
   } = useOptionListItems<TMeta>({
     items,
@@ -85,7 +84,6 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
           groups,
           flatItems,
           resolvedSearchValue,
-          registerSearch,
           handleSearchValueChange,
         }}
       >
@@ -406,13 +404,12 @@ const OptionListLabel = ({ children }: OptionListLabelProps) => (
 );
 
 export const OptionListSearch = ({ ref, ...props }: OptionListSearchProps) => {
-  const { registerSearch, resolvedSearchValue, handleSearchValueChange } =
-    useOptionListContext({
+  const { resolvedSearchValue, handleSearchValueChange } = useOptionListContext(
+    {
       consumerName: 'OptionListSearch',
       contextRequired: true,
-    });
-
-  useEffect(() => registerSearch(), [registerSearch]);
+    },
+  );
 
   return (
     <SearchInput
