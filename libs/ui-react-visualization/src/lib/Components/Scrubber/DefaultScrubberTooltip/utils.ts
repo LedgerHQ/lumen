@@ -46,8 +46,8 @@ export const computeTooltipWidth = (
   const titleWidth = widths && hasTitle ? widths.title : 0;
   const rowWidths = widths
     ? widths.labels.map(
-      (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
-    )
+        (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
+      )
     : [];
   const contentWidth = Math.max(titleWidth, ...rowWidths);
   const fitWidth = contentWidth + PADDING_X * 2;
@@ -116,7 +116,7 @@ export function useTooltipMeasurement(
   const valueRefs = useRef<(SVGTextElement | null)[]>([]);
   const observerRef = useRef<ResizeObserver | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const measureFnRef = useRef<() => void>(() => { });
+  const measureFnRef = useRef<() => void>(() => {});
 
   const [widths, setWidths] = useState<Widths | null>(null);
 
