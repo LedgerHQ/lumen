@@ -45,10 +45,12 @@ export function ReferenceLine({
           yPixel,
           props.labelPosition ?? 'right',
           drawingArea,
-          labelDx,
-          labelDy,
-          labelHorizontalAlignment,
-          labelVerticalAlignment,
+          {
+            dx: labelDx,
+            dy: labelDy,
+            horizontalAlignment: labelHorizontalAlignment,
+            verticalAlignment: labelVerticalAlignment,
+          },
         )
       : null;
 
@@ -94,10 +96,12 @@ export function ReferenceLine({
           xPixel,
           props.labelPosition ?? 'top',
           drawingArea,
-          labelDx,
-          labelDy,
-          labelHorizontalAlignment,
-          labelVerticalAlignment,
+          {
+            dx: labelDx,
+            dy: labelDy,
+            horizontalAlignment: labelHorizontalAlignment,
+            verticalAlignment: labelVerticalAlignment,
+          },
         )
       : null;
 

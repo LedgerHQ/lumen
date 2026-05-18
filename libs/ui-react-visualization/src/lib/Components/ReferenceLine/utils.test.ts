@@ -65,8 +65,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(380);
     expect(result.y).toBe(100);
@@ -79,8 +77,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'left',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(20);
     expect(result.textAnchor).toBe('start');
@@ -91,31 +87,27 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'center',
       drawingArea,
-      0,
-      0,
     );
     expect(result.x).toBe(200);
     expect(result.textAnchor).toBe('middle');
   });
 
-  it('applies labelDx offset', () => {
+  it('applies dx offset', () => {
     const result = computeHorizontalLabelCoordinates(
       yPixel,
       'right',
       drawingArea,
-      -8,
-      0,
+      { dx: -8 },
     );
     expect(result.x).toBe(372);
   });
 
-  it('applies labelDy offset', () => {
+  it('applies dy offset', () => {
     const result = computeHorizontalLabelCoordinates(
       yPixel,
       'right',
       drawingArea,
-      0,
-      -4,
+      { dy: -4 },
     );
     expect(result.y).toBe(96);
   });
@@ -125,8 +117,6 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
     );
     expect(result.dominantBaseline).toBe('auto');
   });
@@ -136,10 +126,7 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
-      undefined,
-      'top',
+      { verticalAlignment: 'top' },
     );
     expect(result.dominantBaseline).toBe('hanging');
   });
@@ -149,10 +136,7 @@ describe('computeHorizontalLabelCoordinates', () => {
       yPixel,
       'right',
       drawingArea,
-      0,
-      0,
-      undefined,
-      'middle',
+      { verticalAlignment: 'middle' },
     );
     expect(result.dominantBaseline).toBe('central');
   });
@@ -162,13 +146,7 @@ describe('computeVerticalLabelCoordinates', () => {
   const xPixel = 150;
 
   it('positions label at the top with dominant-baseline hanging', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
-      drawingArea,
-      0,
-      0,
-    );
+    const result = computeVerticalLabelCoordinates(xPixel, 'top', drawingArea);
     expect(result.x).toBe(150);
     expect(result.y).toBe(10);
     expect(result.textAnchor).toBe('middle');
@@ -180,8 +158,6 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'bottom',
       drawingArea,
-      0,
-      0,
     );
     expect(result.y).toBe(190);
     expect(result.dominantBaseline).toBe('auto');
@@ -192,67 +168,41 @@ describe('computeVerticalLabelCoordinates', () => {
       xPixel,
       'middle',
       drawingArea,
-      0,
-      0,
     );
     expect(result.y).toBe(100);
     expect(result.dominantBaseline).toBe('central');
   });
 
-  it('applies labelDx offset', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
-      drawingArea,
-      4,
-      0,
-    );
+  it('applies dx offset', () => {
+    const result = computeVerticalLabelCoordinates(xPixel, 'top', drawingArea, {
+      dx: 4,
+    });
     expect(result.x).toBe(154);
   });
 
-  it('applies labelDy offset', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
-      drawingArea,
-      0,
-      6,
-    );
+  it('applies dy offset', () => {
+    const result = computeVerticalLabelCoordinates(xPixel, 'top', drawingArea, {
+      dy: 6,
+    });
     expect(result.y).toBe(16);
   });
 
   it('defaults textAnchor to middle (horizontalAlignment=center)', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
-      drawingArea,
-      0,
-      0,
-    );
+    const result = computeVerticalLabelCoordinates(xPixel, 'top', drawingArea);
     expect(result.textAnchor).toBe('middle');
   });
 
   it('overrides textAnchor with horizontalAlignment=left', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
-      drawingArea,
-      0,
-      0,
-      'left',
-    );
+    const result = computeVerticalLabelCoordinates(xPixel, 'top', drawingArea, {
+      horizontalAlignment: 'left',
+    });
     expect(result.textAnchor).toBe('start');
   });
 
   it('overrides textAnchor with horizontalAlignment=right', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
-      drawingArea,
-      0,
-      0,
-      'right',
-    );
+    const result = computeVerticalLabelCoordinates(xPixel, 'top', drawingArea, {
+      horizontalAlignment: 'right',
+    });
     expect(result.textAnchor).toBe('end');
   });
 });

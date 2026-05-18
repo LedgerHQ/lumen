@@ -53,7 +53,7 @@ export const VerticalLine: Story = {
       <ReferenceLine
         dataX={7}
         label='Midpoint'
-        labelDx={8}
+        labelDx={4}
         labelHorizontalAlignment='left'
         labelPosition='top'
       />
@@ -77,7 +77,6 @@ export const Combined: Story = {
         labelDy={-4}
         labelVerticalAlignment='bottom'
         stroke={cssVar('var(--border-error)')}
-        lineStyle='solid'
       />
       <ReferenceLine
         dataX={4}
