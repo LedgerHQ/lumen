@@ -61,6 +61,7 @@ describe('BaseTag Component', () => {
       ['success', colors.bg.success],
       ['error', colors.bg.error],
       ['warning', colors.bg.warning],
+      ['white', colors.bg.white],
     ];
 
     it.each(cases)(

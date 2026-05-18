@@ -158,7 +158,7 @@ figma.connect(
 // Menu with Checkboxes and Radio
 figma.connect(
   Menu,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10211-1993',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7983-5431',
   {
     example: () => (
       <Menu>

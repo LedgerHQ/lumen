@@ -16,6 +16,7 @@ figma.connect(
         success: 'success',
         error: 'error',
         warning: 'warning',
+        white: 'white',
       }),
       size: figma.enum('size', {
         md: 'md',

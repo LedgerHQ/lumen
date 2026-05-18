@@ -14,6 +14,7 @@ export const Tags = () => {
     'success',
     'error',
     'warning',
+    'white',
   ];
 
   return (
