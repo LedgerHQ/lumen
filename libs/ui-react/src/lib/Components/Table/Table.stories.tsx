@@ -620,20 +620,6 @@ const cryptoIconLedgerIds: Record<string, string> = {
   ETH: 'ethereum',
 };
 
-const renderLeadingIcon = (name: string, symbol: string) => {
-  const ledgerId = cryptoIconLedgerIds[symbol];
-  if (ledgerId) {
-    return <CryptoIcon ledgerId={ledgerId} ticker={symbol} size={40} />;
-  }
-  return (
-    <MediaImage
-      src={`https://crypto-icons.ledger.com/${symbol}.png`}
-      alt={name}
-      size={40}
-    />
-  );
-};
-
 const getIconTypeLabel = (symbol: string): string =>
   symbol in cryptoIconLedgerIds
     ? 'Network icon (CryptoIcon)'
@@ -705,7 +691,13 @@ export const WithNetworkIconsAndActionBar: Story = {
                     <TableCellContent
                       title={row.name}
                       description={row.symbol}
-                      leadingContent={renderLeadingIcon(row.name, row.symbol)}
+                      leadingContent={
+                        <CryptoIcon
+                          ledgerId={cryptoIconLedgerIds[row.symbol]}
+                          ticker={row.symbol}
+                          size={40}
+                        />
+                      }
                     />
                   </TableCell>
                   <TableCell>{getIconTypeLabel(row.symbol)}</TableCell>
