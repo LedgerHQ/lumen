@@ -107,6 +107,31 @@ export const computeItemsBaseY = (
   return drawingAreaY + PADDING_Y + titleBlockHeight;
 };
 
+const waitForAnimationFrame = (): Promise<void> =>
+  new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+/**
+ * Reads the rendered widths of all tooltip text elements via async `getBBox`.
+ * Defers until the next animation frame so layout has settled.
+ */
+export const measureWidths = async (
+  items: ChartTooltipItemData[],
+  hasTitle: boolean,
+  titleRef: RefObject<SvgBBoxElement | null>,
+  labelRefs: RefObject<(SvgBBoxElement | null)[]>,
+  valueRefs: RefObject<(SvgBBoxElement | null)[]>,
+): Promise<Widths> => {
+  await waitForAnimationFrame();
+  const title = hasTitle ? await safeGetBBoxWidth(titleRef.current) : 0;
+  const labels = await Promise.all(
+    items.map((_, i) => safeGetBBoxWidth(labelRefs.current[i])),
+  );
+  const values = await Promise.all(
+    items.map((_, i) => safeGetBBoxWidth(valueRefs.current[i])),
+  );
+  return { title, labels, values };
+};
+
 /**
  * Manages SVG text measurement for the tooltip via async `getBBox`.
  *
@@ -130,32 +155,12 @@ export function useTooltipMeasurement(
 
     let cancelled = false;
 
-    const measure = async (): Promise<void> => {
-      await new Promise<void>((resolve) =>
-        requestAnimationFrame(() => resolve()),
-      );
-      if (cancelled) return;
+    void measureWidths(items, hasTitle, titleRef, labelRefs, valueRefs).then(
+      (result) => {
+        if (!cancelled) setWidths(result);
+      },
+    );
 
-      const measuredTitle = hasTitle
-        ? await safeGetBBoxWidth(titleRef.current)
-        : 0;
-      const measuredLabels = await Promise.all(
-        items.map((_, i) => safeGetBBoxWidth(labelRefs.current[i])),
-      );
-      const measuredValues = await Promise.all(
-        items.map((_, i) => safeGetBBoxWidth(valueRefs.current[i])),
-      );
-
-      if (!cancelled) {
-        setWidths({
-          title: measuredTitle,
-          labels: measuredLabels,
-          values: measuredValues,
-        });
-      }
-    };
-
-    void measure();
     return () => {
       cancelled = true;
     };
