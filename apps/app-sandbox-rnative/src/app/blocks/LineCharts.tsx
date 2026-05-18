@@ -3,6 +3,7 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
   LineChart,
   Point,
+  ReferenceLine,
   Scrubber,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
 import { useEffect, useState } from 'react';
@@ -26,6 +27,7 @@ export const LineCharts = () => (
     <ScrubberWithLabel />
     <ScrubberMultiSeriesWithBeacons />
     <ScrubberWithAxes />
+    <ReferenceLineBasic />
     <RandomAutoUpdate />
   </Box>
 );
@@ -403,6 +405,29 @@ const ScrubberWithAxes = () => (
     </LineChart>
   </Section>
 );
+
+const ReferenceLineBasic = () => {
+  return (
+    <Section title='Reference line'>
+      <LineChart series={sampleSeries} width={320} height={200}>
+        <ReferenceLine
+          dataY={98}
+          labelDy={-4}
+          label='Peak'
+          labelPosition='right'
+          labelVerticalAlignment='bottom'
+        />
+        <ReferenceLine
+          dataY={4}
+          labelDy={-4}
+          label='Low'
+          labelPosition='left'
+          labelVerticalAlignment='top'
+        />
+      </LineChart>
+    </Section>
+  );
+};
 
 const RANDOM_SERIES_LENGTH = 14;
 
