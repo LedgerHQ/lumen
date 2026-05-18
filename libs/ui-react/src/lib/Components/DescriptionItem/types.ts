@@ -11,7 +11,7 @@ export type DescriptionItemProps = {
    */
   children: ReactNode;
   /**
-   * The size of the description item. Inherited from DescriptionList if not set.
+   * The size of the description item.
    * @default 'md'
    */
   size?: DescriptionItemSize;

@@ -23,7 +23,6 @@ const [DescriptionItemSizeProvider, useDescriptionItemSizeContext] =
  * Composed with DescriptionItemLeading / DescriptionItemLabel (key side)
  * and DescriptionItemTrailing / DescriptionItemValue (value side).
  *
- * Inherits size from a parent DescriptionList when available.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/containment-descriptionitem--docs Storybook}
  *
