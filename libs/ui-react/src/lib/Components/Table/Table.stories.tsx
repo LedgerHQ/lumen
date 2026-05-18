@@ -1,10 +1,20 @@
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Android, ArrowDown } from '../../Symbols';
 import { Button } from '../Button/Button';
 import { DotIcon } from '../DotIcon/DotIcon';
+import { MediaButton } from '../MediaButton';
 import { MediaImage } from '../MediaImage';
-import { SearchInput } from '../SearchInput/SearchInput';
+import { SearchInput } from '../SearchInput';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+} from '../Select';
 import { Spot } from '../Spot';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
@@ -476,7 +486,7 @@ export const WithGroupHeader: Story = {
     <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
-          <SearchInput placeholder='Search assets...' />
+          <SearchInput className='w-320' placeholder='Search assets...' />
         </TableActionBarLeading>
         <TableActionBarTrailing>
           <Button appearance='base' size='md'>
@@ -534,48 +544,171 @@ export const WithGroupHeader: Story = {
   ),
 };
 
-export const WithActionBar: Story = {
-  render: (args) => (
-    <div className='w-3xl text-base'>
-      <TableActionBar>
-        <TableActionBarLeading>
-          <SearchInput placeholder='Search assets...' />
-        </TableActionBarLeading>
-        <TableActionBarTrailing>
-          <Button appearance='base' size='md'>
-            Export
-          </Button>
-        </TableActionBarTrailing>
-      </TableActionBar>
+const categorizedData = [
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    price: '$43,250.00',
+    change: '+2.5%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    price: '$2,650.00',
+    change: '+1.8%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    price: '$98.50',
+    change: '-0.5%',
+    category: 'Layer 1',
+  },
+  {
+    name: 'Arbitrum',
+    symbol: 'ARB',
+    price: '$1.20',
+    change: '+0.9%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Optimism',
+    symbol: 'OP',
+    price: '$3.40',
+    change: '+1.4%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Polygon',
+    symbol: 'MATIC',
+    price: '$0.85',
+    change: '-0.3%',
+    category: 'Layer 2',
+  },
+  {
+    name: 'Uniswap',
+    symbol: 'UNI',
+    price: '$12.00',
+    change: '+0.3%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Aave',
+    symbol: 'AAVE',
+    price: '$100.00',
+    change: '+0.4%',
+    category: 'DeFi',
+  },
+  {
+    name: 'Chainlink',
+    symbol: 'LINK',
+    price: '$15.00',
+    change: '+0.2%',
+    category: 'DeFi',
+  },
+];
 
-      <TableRoot {...args}>
-        <Table>
-          <TableHeader>
-            <TableHeaderRow>
-              <TableHeaderCell>Asset</TableHeaderCell>
-              <TableHeaderCell align='end'>Price</TableHeaderCell>
-              <TableHeaderCell align='end'>Change</TableHeaderCell>
-            </TableHeaderRow>
-          </TableHeader>
-          <TableBody>
-            {smallData.map((row) => (
-              <TableRow key={row.symbol}>
-                <TableCell>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
-                </TableCell>
-                <TableCell align='end'>{row.price}</TableCell>
-                <TableCell align='end'>{row.change}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableRoot>
-    </div>
-  ),
+const categoryFilterOptions = [
+  { value: '__all__', label: 'All categories' },
+  ...new Set(categorizedData.map((d) => d.category)),
+].map((c) => (typeof c === 'string' ? { value: c, label: c } : c));
+
+const cryptoIconLedgerIds: Record<string, string> = {
+  BTC: 'bitcoin',
+  ETH: 'ethereum',
+};
+
+const getIconTypeLabel = (symbol: string): string =>
+  symbol in cryptoIconLedgerIds
+    ? 'Network icon (CryptoIcon)'
+    : 'Media icon (MediaImage)';
+
+export const WithNetworkIconsAndActionBar: Story = {
+  render: (args) => {
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+      null,
+    );
+
+    const filteredData = useMemo(
+      () =>
+        selectedCategory
+          ? categorizedData.filter((d) => d.category === selectedCategory)
+          : categorizedData,
+      [selectedCategory],
+    );
+
+    return (
+      <div className='w-3xl text-base'>
+        <TableActionBar>
+          <TableActionBarLeading>
+            <SearchInput className='w-320' placeholder='Search assets...' />
+          </TableActionBarLeading>
+          <TableActionBarTrailing>
+            <Select
+              items={categoryFilterOptions}
+              value={selectedCategory ?? '__all__'}
+              onValueChange={(val) =>
+                setSelectedCategory(val === '__all__' ? null : val)
+              }
+            >
+              <SelectTrigger
+                render={({ selectedContent }) => (
+                  <MediaButton>{selectedContent}</MediaButton>
+                )}
+              />
+              <SelectContent className='w-208'>
+                <SelectList
+                  renderItem={(item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                    </SelectItem>
+                  )}
+                />
+              </SelectContent>
+            </Select>
+            <Button appearance='base' size='md'>
+              Export
+            </Button>
+          </TableActionBarTrailing>
+        </TableActionBar>
+
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell>Icon type</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {filteredData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellContent
+                      title={row.name}
+                      description={row.symbol}
+                      leadingContent={
+                        <CryptoIcon
+                          ledgerId={cryptoIconLedgerIds[row.symbol]}
+                          ticker={row.symbol}
+                          size={40}
+                        />
+                      }
+                    />
+                  </TableCell>
+                  <TableCell>{getIconTypeLabel(row.symbol)}</TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+      </div>
+    );
+  },
 };
