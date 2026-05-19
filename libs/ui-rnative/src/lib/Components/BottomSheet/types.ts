@@ -5,10 +5,11 @@ import type {
   BottomSheetSectionList as GorhomBottomSheetSectionList,
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
+  BottomSheetBackgroundProps,
 } from '@gorhom/bottom-sheet';
-
 import type { Density } from '@ledgerhq/lumen-utils-shared';
-import type { PropsWithChildren, ReactNode, Ref } from 'react';
+import type { FC, PropsWithChildren, ReactNode, Ref } from 'react';
+
 import type { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
   /**
@@ -131,7 +132,16 @@ export type BottomSheetProps = PropsWithChildren & {
    * @default true
    */
   enableBlurKeyboardOnGesture?: boolean;
+  /**
+   * Custom background component rendered behind the sheet content and handle.
+   * Use to render gradients or other effects that should span the full sheet area,
+   * including the handle strip. When provided, the default sheet background is removed.
+   * @default undefined
+   */
+  backgroundComponent?: FC<BottomSheetBackgroundProps> | null;
 };
+
+export type { BottomSheetBackgroundProps };
 
 export type BottomSheetHeaderProps = {
   /**

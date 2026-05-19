@@ -25,7 +25,13 @@ const MAX_DYNAMIC_CONTENT_SIZE = {
   fullWithOffset: FULL_WITH_OFFSET,
 };
 
-const useStyles = ({ shadow }: { shadow: boolean }) => {
+const useStyles = ({
+  shadow,
+  hasCustomBackground,
+}: {
+  shadow: boolean;
+  hasCustomBackground: boolean;
+}) => {
   return useStyleSheet(
     (t) => ({
       root: StyleSheet.flatten([
@@ -35,7 +41,10 @@ const useStyles = ({ shadow }: { shadow: boolean }) => {
           flex: 1,
           borderTopLeftRadius: t.borderRadius.xl,
           borderTopRightRadius: t.borderRadius.xl,
-          backgroundColor: t.colors.bg.canvasSheet,
+          backgroundColor: hasCustomBackground
+            ? 'transparent'
+            : t.colors.bg.canvasSheet,
+          overflow: 'hidden',
         },
         shadow && {
           boxShadow: t.shadows.lg,
@@ -46,7 +55,7 @@ const useStyles = ({ shadow }: { shadow: boolean }) => {
         backgroundColor: t.colors.bg.canvasSheet,
       },
     }),
-    [shadow],
+    [shadow, hasCustomBackground],
   );
 };
 
@@ -74,6 +83,7 @@ export const BottomSheet = ({
   onBackdropPress,
   onChange,
   snapPoints = 'fullWithOffset',
+  backgroundComponent,
   ref,
   ...props
 }: BottomSheetProps) => {
@@ -82,7 +92,10 @@ export const BottomSheet = ({
   const mergedRefs = useMergedRef<GorhomBottomSheetModal>(ref, innerRef);
   const [isOpen, setIsOpen] = useState(false);
 
-  const styles = useStyles({ shadow: hideBackdrop && isOpen });
+  const styles = useStyles({
+    shadow: hideBackdrop && isOpen,
+    hasCustomBackground: Boolean(backgroundComponent),
+  });
 
   /**
    * Match the snap points to the preset or the custom snap points array
@@ -163,7 +176,8 @@ export const BottomSheet = ({
       {...props}
       ref={mergedRefs}
       style={styles.root}
-      backgroundStyle={styles.background}
+      backgroundStyle={backgroundComponent ? undefined : styles.background}
+      backgroundComponent={backgroundComponent}
       onChange={handleChange}
       onAnimate={handleAnimate}
       /**

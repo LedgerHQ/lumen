@@ -1,4 +1,7 @@
-import type { BottomSheetProps } from '@ledgerhq/lumen-ui-rnative';
+import type {
+  BottomSheetBackgroundProps,
+  BottomSheetProps,
+} from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheet,
   BottomSheetHeader,
@@ -68,6 +71,29 @@ export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
   );
 };
 
+const GradientBackground = ({
+  style,
+  pointerEvents,
+}: BottomSheetBackgroundProps) => (
+  <Box
+    pointerEvents={pointerEvents}
+    style={style}
+    lx={{ backgroundColor: 'canvasSheet' }}
+  >
+    <LinearGradient
+      direction='to-bottom'
+      stops={[{ color: 'accent' }, { color: 'accent', opacity: 0 }]}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 256,
+      }}
+    />
+  </Box>
+);
+
 export const BottomSheetWithGradient = ({
   ref,
   ...props
@@ -80,25 +106,15 @@ export const BottomSheetWithGradient = ({
       enableDynamicSizing
       maxDynamicContentSize='full'
       backdropPressBehavior='close'
+      backgroundComponent={GradientBackground}
     >
       <BottomSheetView>
-        <LinearGradient
-          direction='to-bottom'
-          stops={[{ color: 'accent' }, { color: 'accent', opacity: 0 }]}
-          style={{
-            position: 'absolute',
-            top: -64,
-            left: 0,
-            right: 0,
-            height: 256,
-          }}
-        />
         <BottomSheetHeader
-          title='Gradient is behind the header'
+          title='Gradient reaches the handle'
           density='compact'
-          description='This is the original issue.'
+          description='Gradient spans the full sheet.'
         />
-        <Box lx={{ padding: 's16', gap: 's12' }}>
+        <Box lx={{ paddingHorizontal: 's16', gap: 's12' }}>
           <Text typography='body2' lx={{ color: 'base' }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
             eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
