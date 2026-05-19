@@ -184,6 +184,41 @@ describe('BottomSheet', () => {
       expect(element.props['data-detached']).toBe('true');
     });
 
+    it('uses default background style when no backgroundComponent is provided', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      const element = getByTestId('bottom-sheet');
+      expect(element.props['data-has-background-component']).toBe('false');
+      expect(element.props['data-has-background-style']).toBe('true');
+    });
+
+    it('forwards backgroundComponent and skips default background style', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const CustomBackground = () => (
+        <View testID='custom-bg'>
+          <Text>BG</Text>
+        </View>
+      );
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet
+          backgroundComponent={CustomBackground}
+          testID='bottom-sheet'
+        >
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      const element = getByTestId('bottom-sheet');
+      expect(element.props['data-has-background-component']).toBe('true');
+      expect(element.props['data-has-background-style']).toBe('false');
+      expect(getByTestId('custom-bg')).toBeTruthy();
+    });
+
     it('respects enableHandlePanningGesture prop', () => {
       const { BottomSheet } = require('./BottomSheet');
       const { getByTestId } = renderWithTheme(
