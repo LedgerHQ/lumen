@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { useRevealClip } from '../CartesianChart/RevealClip';
 
 import type { PointLabelProps, PointProps } from './types';
 import {
@@ -49,6 +50,7 @@ export function Point({
   onClick,
 }: Readonly<PointProps>) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
+  const clipPath = useRevealClip();
 
   const xScale = getXScale();
   const yScale = getYScale();
@@ -75,6 +77,7 @@ export function Point({
   return (
     <g
       data-testid='point-group'
+      clipPath={clipPath}
       onClick={onClick}
       style={onClick ? { cursor: 'pointer' } : undefined}
     >

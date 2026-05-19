@@ -3,6 +3,7 @@ import { useId, useMemo } from 'react';
 
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { useRevealClip } from '../CartesianChart/RevealClip';
 
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
@@ -17,6 +18,7 @@ export function Line({
 }: LineProps) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
+  const clipPath = useRevealClip();
 
   const xScale = getXScale();
   const yScale = getYScale();
@@ -52,7 +54,7 @@ export function Line({
   }
 
   return (
-    <>
+    <g clipPath={clipPath}>
       {showArea && areaPath && resolvedStroke && (
         <>
           <defs>
@@ -89,6 +91,6 @@ export function Line({
         strokeLinecap='round'
         strokeLinejoin='round'
       />
-    </>
+    </g>
   );
 }
