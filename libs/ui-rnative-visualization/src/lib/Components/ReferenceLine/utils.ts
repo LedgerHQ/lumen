@@ -23,16 +23,6 @@ const DY_RATIO: Record<LabelCoordinates['dominantBaseline'], number> = {
   hanging: 0.8,
 };
 
-/**
- * Converts a `dominantBaseline` value to a `dy` pixel offset.
- * react-native-svg doesn't support `dominantBaseline`, so we emulate it
- * with a font-relative `dy` shift — same approach used by Axis components.
- */
-export const dominantBaselineToDy = (
-  baseline: LabelCoordinates['dominantBaseline'],
-  fontSize: number,
-): number => fontSize * DY_RATIO[baseline];
-
 type ResolvePixelParams = {
   dataValue: number;
   scale: ChartScaleFunction | undefined;
@@ -71,6 +61,16 @@ const positionRatio: Record<LabelPosition, number> = {
   center: 0.5,
   end: 1,
 };
+
+/**
+ * Converts a `dominantBaseline` value to a `dy` pixel offset.
+ * react-native-svg doesn't support `dominantBaseline`, so we emulate it
+ * with a font-relative `dy` shift — same approach used by Axis components.
+ */
+export const dominantBaselineToDy = (
+  baseline: LabelCoordinates['dominantBaseline'],
+  fontSize: number,
+): number => fontSize * DY_RATIO[baseline];
 
 /**
  * Checks whether a pixel coordinate falls within the drawing area
