@@ -7,6 +7,7 @@ import {
   BottomSheetFlatList,
   BottomSheetScrollView,
   BottomSheetView,
+  LinearGradient,
   Text,
 } from '@ledgerhq/lumen-ui-rnative';
 
@@ -63,6 +64,49 @@ export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
           );
         }}
       />
+    </BottomSheet>
+  );
+};
+
+export const BottomSheetWithGradient = ({
+  ref,
+  ...props
+}: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={null}
+      enableDynamicSizing
+      maxDynamicContentSize='full'
+      backdropPressBehavior='close'
+    >
+      <BottomSheetView>
+        <LinearGradient
+          direction='to-bottom'
+          stops={[{ color: 'accent' }, { color: 'accent', opacity: 0 }]}
+          style={{
+            position: 'absolute',
+            top: -64,
+            left: 0,
+            right: 0,
+            height: 256,
+          }}
+        />
+        <BottomSheetHeader
+          title='Gradient is behind the header'
+          density='compact'
+          description='This is the original issue.'
+        />
+        <Box lx={{ padding: 's16', gap: 's12' }}>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+            turpis efficitur sit amet.
+          </Text>
+        </Box>
+      </BottomSheetView>
     </BottomSheet>
   );
 };
