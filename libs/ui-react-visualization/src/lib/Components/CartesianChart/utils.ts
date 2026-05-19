@@ -9,10 +9,10 @@ export const DEFAULT_HEIGHT = 160;
  * wrapper so the chart's visual footprint stays unchanged.
  */
 export const OVERFLOW_BUFFER: ChartInset = {
-  top: 30,
-  right: 20,
-  bottom: 30,
-  left: 20,
+  top: 50,
+  right: 50,
+  bottom: 50,
+  left: 50,
 };
 export const OVERFLOW_NEGATIVE_MARGIN = {
   marginTop: -OVERFLOW_BUFFER.top,
