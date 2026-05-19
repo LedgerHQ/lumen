@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo } from 'react';
+import { useEffect, useId } from 'react';
 import {
   useAnimatedProps,
   useSharedValue,
@@ -47,8 +47,5 @@ export const useComputeDataFingerprint = ({
 }: {
   series: Series[];
 }): string => {
-  return useMemo(
-    () => series.map((s) => s.data?.join(',') ?? '').join('|'),
-    [series],
-  );
+  return series.map((s) => s.data?.join(',') ?? '').join('|');
 };

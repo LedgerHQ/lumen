@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { OVERFLOW_BUFFER } from '../utils';
 
 import { RevealClipContext } from './context';
@@ -25,14 +26,19 @@ export function RevealClipDefs({
     drawingArea,
   });
 
+  const contextValue = useMemo(
+    () => ({
+      clipPathAttr: `url(#${clipId})`,
+    }),
+    [clipId],
+  );
+
   if (isDisabled) {
     return <>{children}</>;
   }
 
-  const clipPathAttr = `url(#${clipId})`;
-
   return (
-    <RevealClipContext.Provider key={dataFingerprint} value={{ clipPathAttr }}>
+    <RevealClipContext.Provider key={dataFingerprint} value={contextValue}>
       <defs>
         <clipPath id={clipId}>
           <rect

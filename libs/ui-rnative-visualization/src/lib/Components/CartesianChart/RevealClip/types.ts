@@ -4,7 +4,7 @@ import type { DrawingArea, Series } from '../../../utils';
 
 export type EnterTransitionConfig = {
   /**
-   * Duration in seconds. @default 0.6
+   * Duration in seconds. @default 0.8
    */
   duration?: number;
   /**
@@ -27,7 +27,7 @@ export type RevealClipDefsProps = {
   animate?: boolean;
   /**
    * Transition configuration.
-   * @default { enter: { duration: 0.6 } }
+   * @default { enter: { duration: 0.8 } }
    */
   transitions?: { enter?: EnterTransitionConfig };
   /**

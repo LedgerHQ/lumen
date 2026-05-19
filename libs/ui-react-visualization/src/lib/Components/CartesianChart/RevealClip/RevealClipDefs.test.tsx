@@ -90,13 +90,9 @@ describe('RevealClipDefs', () => {
     expect(consumer!.getAttribute('clip-path')).toBeNull();
   });
 
-  it('falls back to default animation when transitions.enter is null', () => {
+  it('falls back to default animation when transitions.enter is not defined', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs
-        drawingArea={drawingArea}
-        series={series}
-        transitions={{ enter: null }}
-      >
+      <RevealClipDefs drawingArea={drawingArea} series={series}>
         <rect data-testid='child' />
       </RevealClipDefs>,
     );

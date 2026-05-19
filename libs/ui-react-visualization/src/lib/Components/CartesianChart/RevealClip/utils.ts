@@ -21,13 +21,16 @@ export const useRevealClipAnimation = ({
   drawingArea,
 }: RevealClipAnimationConfig): RevealClipAnimationResult => {
   const clipId = useId();
-  const animationName = `reveal-clip-${clipId.replace(/:/g, '')}`;
+  const animationName = `reveal-clip-${clipId.replaceAll(':', '')}`;
 
-  return {
-    clipId,
-    animationStyle: `${animationName} ${duration}s ${easing} forwards`,
-    keyframe: `@keyframes ${animationName} { from { width: 0; } to { width: ${drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right}px; } }`,
-  };
+  return useMemo(
+    () => ({
+      clipId,
+      animationStyle: `${animationName} ${duration}s ${easing} forwards`,
+      keyframe: `@keyframes ${animationName} { from { width: 0; } to { width: ${drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right}px; } }`,
+    }),
+    [clipId, animationName, duration, easing, drawingArea.width],
+  );
 };
 
 export const useComputeDataFingerprint = ({
@@ -35,8 +38,5 @@ export const useComputeDataFingerprint = ({
 }: {
   series: Series[];
 }): string => {
-  return useMemo(
-    () => series.map((s) => s.data?.join(',') ?? '').join('|'),
-    [series],
-  );
+  return series.map((s) => s.data?.join(',') ?? '').join('|');
 };
