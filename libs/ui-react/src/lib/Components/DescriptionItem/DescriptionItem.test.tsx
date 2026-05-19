@@ -28,7 +28,6 @@ describe('DescriptionItem', () => {
   });
 
   it('forwards extra props to the root div', () => {
-    render(<BaseItem />);
     render(
       <DescriptionItem data-testid='description-item'>
         <DescriptionItemLeading>

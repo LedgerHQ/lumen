@@ -27,6 +27,7 @@ import {
   Cards,
   Checkboxes,
   ContentBanners,
+  DescriptionLists,
   Dividers,
   DotCounts,
   DotIcons,
@@ -170,6 +171,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='ContentBanners'>
                   <ContentBanners />
+                </SandboxBlock>
+                <SandboxBlock title='Description lists'>
+                  <DescriptionLists />
                 </SandboxBlock>
                 <SandboxBlock title='Dividers'>
                   <Dividers />
