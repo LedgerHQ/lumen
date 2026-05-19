@@ -12,7 +12,7 @@ const useStyles = () => {
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
-        backgroundColor: t.colors.bg.canvasSheet,
+        backgroundColor: 'transparent',
       },
       handle: {
         height: t.spacings.s4,
