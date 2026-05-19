@@ -82,7 +82,10 @@ const GradientBackground = ({
   >
     <LinearGradient
       direction='to-bottom'
-      stops={[{ color: 'accent' }, { color: 'accent', opacity: 0 }]}
+      stops={[
+        { color: 'accent', opacity: 0.3 },
+        { color: 'activeSubtle', opacity: 0 },
+      ]}
       style={{
         position: 'absolute',
         top: 0,
@@ -114,7 +117,7 @@ export const BottomSheetWithGradient = ({
           density='compact'
           description='Gradient spans the full sheet.'
         />
-        <Box lx={{ paddingHorizontal: 's16', gap: 's12' }}>
+        <Box lx={{ paddingHorizontal: 's4', gap: 's12' }}>
           <Text typography='body2' lx={{ color: 'base' }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
             eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
@@ -145,13 +148,12 @@ export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
       maxDynamicContentSize='full'
       backdropPressBehavior='close'
     >
-      <BottomSheetView>
-        <BottomSheetHeader
-          title='Dynamic Sizing'
-          density='compact'
-          description='This bottom sheet adapts to its content height'
-        />
-      </BottomSheetView>
+      <BottomSheetHeader
+        spacing
+        title='Dynamic Sizing'
+        density='compact'
+        description='This bottom sheet adapts to its content height'
+      />
       <BottomSheetScrollView>
         <Box lx={{ flexDirection: 'column', gap: 's12' }}>
           {data.map((item) => (
