@@ -74,6 +74,14 @@ Search works within grouped items too. Empty groups are hidden automatically:
 
 <Canvas of={OptionListStories.WithSearchAndGroups} />
 
+Pass a custom `filter` to match against fields beyond the label. Here, the query also matches each item's ticker via `meta`:
+
+<Canvas of={OptionListStories.WithCustomSearchFilter} />
+
+Drive the search input from the outside with `searchValue` + `onSearchValueChange`. This is useful for syncing search state with other UI or kicking off async fetches:
+
+<Canvas of={OptionListStories.WithControlledSearch} />
+
 ### Trigger showcase
 
 OptionList can be opened from any trigger. `MediaButton` supports multiple appearances (`gray`, `transparent`, `no-background`), optional icons (`flat` / `rounded`), and disabled state:
