@@ -56,20 +56,20 @@ describe('ReferenceLine', () => {
       expect(queryByTestId('reference-line')).toBeNull();
     });
 
-    it('renders label with textAnchor end when labelPosition is right', () => {
+    it('renders label with textAnchor start when labelPosition is end', () => {
       const { getByTestId } = renderInChart(
-        <ReferenceLine dataY={30} label='Target' labelPosition='right' />,
-      );
-      const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('end');
-    });
-
-    it('renders label with textAnchor start when labelPosition is left', () => {
-      const { getByTestId } = renderInChart(
-        <ReferenceLine dataY={30} label='Target' labelPosition='left' />,
+        <ReferenceLine dataY={30} label='Target' labelPosition='end' />,
       );
       const label = getByTestId('reference-line-label');
       expect(label.getAttribute('text-anchor')).toBe('start');
+    });
+
+    it('renders label with textAnchor end when labelPosition is start', () => {
+      const { getByTestId } = renderInChart(
+        <ReferenceLine dataY={30} label='Target' labelPosition='start' />,
+      );
+      const label = getByTestId('reference-line-label');
+      expect(label.getAttribute('text-anchor')).toBe('end');
     });
 
     it('renders label with textAnchor middle when labelPosition is center', () => {
@@ -80,12 +80,12 @@ describe('ReferenceLine', () => {
       expect(label.getAttribute('text-anchor')).toBe('middle');
     });
 
-    it('defaults labelPosition to right', () => {
+    it('defaults labelPosition to end', () => {
       const { getByTestId } = renderInChart(
         <ReferenceLine dataY={30} label='Target' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('end');
+      expect(label.getAttribute('text-anchor')).toBe('start');
     });
   });
 
@@ -110,7 +110,7 @@ describe('ReferenceLine', () => {
       expect(queryByTestId('reference-line')).toBeNull();
     });
 
-    it('defaults labelPosition to top with dominant-baseline hanging', () => {
+    it('defaults labelPosition to end with dominant-baseline hanging', () => {
       const { getByTestId } = renderInChart(
         <ReferenceLine dataX={2} label='Event' />,
       );
@@ -236,32 +236,36 @@ describe('ReferenceLine', () => {
   });
 
   describe('label alignment overrides', () => {
-    it('applies labelHorizontalAlignment=left on vertical line', () => {
+    it('applies labelHorizontalAlignment=start on vertical line', () => {
       const { getByTestId } = renderInChart(
         <ReferenceLine
           dataX={2}
           label='Test'
-          labelHorizontalAlignment='left'
+          labelHorizontalAlignment='start'
         />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('start');
+      expect(label.getAttribute('text-anchor')).toBe('end');
     });
 
-    it('applies labelVerticalAlignment=top on horizontal line', () => {
-      const { getByTestId } = renderInChart(
-        <ReferenceLine dataY={30} label='Test' labelVerticalAlignment='top' />,
-      );
-      const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('dominant-baseline')).toBe('hanging');
-    });
-
-    it('applies labelVerticalAlignment=middle on horizontal line', () => {
+    it('applies labelVerticalAlignment=start on horizontal line', () => {
       const { getByTestId } = renderInChart(
         <ReferenceLine
           dataY={30}
           label='Test'
-          labelVerticalAlignment='middle'
+          labelVerticalAlignment='start'
+        />,
+      );
+      const label = getByTestId('reference-line-label');
+      expect(label.getAttribute('dominant-baseline')).toBe('auto');
+    });
+
+    it('applies labelVerticalAlignment=center on horizontal line', () => {
+      const { getByTestId } = renderInChart(
+        <ReferenceLine
+          dataY={30}
+          label='Test'
+          labelVerticalAlignment='center'
         />,
       );
       const label = getByTestId('reference-line-label');

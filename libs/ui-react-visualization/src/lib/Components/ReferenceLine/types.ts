@@ -1,5 +1,5 @@
-export type TextHorizontalAlignment = 'left' | 'center' | 'right';
-export type TextVerticalAlignment = 'top' | 'middle' | 'bottom';
+export type LabelAlignment = 'start' | 'center' | 'end';
+export type LabelPosition = 'start' | 'center' | 'end';
 
 export type ReferenceLineBaseProps = {
   /**
@@ -17,23 +17,28 @@ export type ReferenceLineBaseProps = {
    */
   labelDy?: number;
   /**
-   * Controls how the label text anchors horizontally relative to its position.
-   * - `'left'`: text starts at the position (extends right)
+   * Position of the label along the line.
+   * @default 'end'
+   */
+  labelPosition?: LabelPosition;
+  /**
+   * Controls the direction the label text extends from its position.
+   * - `'start'`: text extends toward the start of the axis (left)
    * - `'center'`: text is centered on the position
-   * - `'right'`: text ends at the position (extends left)
+   * - `'end'`: text extends toward the end of the axis (right)
    *
    * Defaults: `'center'` for vertical lines, inferred from `labelPosition` for horizontal lines.
    */
-  labelHorizontalAlignment?: TextHorizontalAlignment;
+  labelHorizontalAlignment?: LabelAlignment;
   /**
-   * Controls how the label text anchors vertically relative to its position.
-   * - `'top'`: text hangs below the position
-   * - `'middle'`: text is vertically centered on the position
-   * - `'bottom'`: text sits above the position
+   * Controls the direction the label text extends from its position.
+   * - `'start'`: text extends toward the start of the axis (up)
+   * - `'center'`: text is vertically centered on the position
+   * - `'end'`: text extends toward the end of the axis (down)
    *
-   * Defaults: `'bottom'` for horizontal lines, inferred from `labelPosition` for vertical lines.
+   * Defaults: `'end'` for horizontal lines, inferred from `labelPosition` for vertical lines.
    */
-  labelVerticalAlignment?: TextVerticalAlignment;
+  labelVerticalAlignment?: LabelAlignment;
   /**
    * Line color.
    * @default cssVar('var(--border-muted)')
@@ -53,9 +58,6 @@ export type ReferenceLineBaseProps = {
   opacity?: number;
 };
 
-export type HorizontalLabelPosition = 'left' | 'center' | 'right';
-export type VerticalLabelPosition = 'top' | 'middle' | 'bottom';
-
 export type HorizontalReferenceLineProps = ReferenceLineBaseProps & {
   /**
    * Y-axis value in data space where the horizontal line is drawn.
@@ -63,11 +65,6 @@ export type HorizontalReferenceLineProps = ReferenceLineBaseProps & {
    * width of the drawing area.
    */
   dataY: number;
-  /**
-   * Position of the label along the horizontal line.
-   * @default 'right'
-   */
-  labelPosition?: HorizontalLabelPosition;
   dataX?: never;
 };
 
@@ -79,11 +76,6 @@ export type VerticalReferenceLineProps = ReferenceLineBaseProps & {
    * of the drawing area.
    */
   dataX: number;
-  /**
-   * Position of the label along the vertical line.
-   * @default 'top'
-   */
-  labelPosition?: VerticalLabelPosition;
   dataY?: never;
 };
 

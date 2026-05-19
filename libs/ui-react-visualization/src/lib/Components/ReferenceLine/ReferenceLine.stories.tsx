@@ -41,7 +41,8 @@ export const HorizontalLine: Story = {
         dataY={50}
         label='Target'
         labelDy={-4}
-        labelVerticalAlignment='bottom'
+        labelVerticalAlignment='start'
+        labelHorizontalAlignment='start'
       />
     </LineChart>
   ),
@@ -54,8 +55,9 @@ export const VerticalLine: Story = {
         dataX={7}
         label='Midpoint'
         labelDx={4}
-        labelHorizontalAlignment='left'
-        labelPosition='top'
+        labelHorizontalAlignment='end'
+        labelVerticalAlignment='end'
+        labelPosition='start'
       />
     </LineChart>
   ),
@@ -68,14 +70,14 @@ export const Combined: Story = {
         dataY={98}
         label='ATH'
         labelDy={4}
-        labelVerticalAlignment='top'
+        labelVerticalAlignment='start'
         stroke={cssVar('var(--border-success)')}
       />
       <ReferenceLine
         dataY={4}
         label='Low'
         labelDy={-4}
-        labelVerticalAlignment='bottom'
+        labelVerticalAlignment='end'
         stroke={cssVar('var(--border-error)')}
       />
       <ReferenceLine
@@ -83,8 +85,8 @@ export const Combined: Story = {
         label='Peak'
         labelDx={8}
         labelDy={8}
-        labelHorizontalAlignment='left'
-        labelPosition='top'
+        labelHorizontalAlignment='end'
+        labelPosition='start'
         opacity={0.6}
       />
     </LineChart>
