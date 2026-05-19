@@ -71,4 +71,9 @@ export type LineChartProps = {
    * Receives `undefined` when the scrub gesture ends or the scrubber position is otherwise cleared.
    */
   onScrubberPositionChange?: (index: number | undefined) => void;
+  /**
+   * Whether to animate the chart on mount and data changes.
+   * @default true
+   */
+  animate?: boolean;
 };

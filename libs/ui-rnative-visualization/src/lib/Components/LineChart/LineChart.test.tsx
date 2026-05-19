@@ -76,4 +76,27 @@ describe('LineChart', () => {
     );
     expect(queryAllByTestId('line-area')).toHaveLength(0);
   });
+
+  it('renders with animate true by default', () => {
+    const { getByTestId } = render(
+      <LineChartWrapper>
+        <LineChart series={sampleSeries} width={400} height={200} />
+      </LineChartWrapper>,
+    );
+    getByTestId('chart-svg');
+  });
+
+  it('renders with animate false', () => {
+    const { getByTestId } = render(
+      <LineChartWrapper>
+        <LineChart
+          series={sampleSeries}
+          width={400}
+          height={200}
+          animate={false}
+        />
+      </LineChartWrapper>,
+    );
+    getByTestId('chart-svg');
+  });
 });
