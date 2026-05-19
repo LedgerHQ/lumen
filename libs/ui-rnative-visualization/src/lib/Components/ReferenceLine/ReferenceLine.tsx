@@ -8,7 +8,6 @@ import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
-  resolveDataValue,
   resolvePixel,
 } from './utils';
 
@@ -18,6 +17,7 @@ export function ReferenceLine({
   labelDy = 0,
   labelHorizontalAlignment,
   labelVerticalAlignment,
+  labelPosition = 'end',
   stroke,
   lineStyle = 'dashed',
   opacity = 1,
@@ -31,23 +31,25 @@ export function ReferenceLine({
   const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
 
   if (props.dataY !== undefined) {
-    const yValue = resolveDataValue(props.dataY, getYAxisConfig());
-    if (yValue === undefined) return null;
-    const yPixel = resolvePixel(yValue, getYScale(), 'y', drawingArea);
+    const yPixel = resolvePixel({
+      dataValue: props.dataY,
+      scale: getYScale(),
+      axis: 'y',
+      drawingArea,
+      axisConfig: getYAxisConfig(),
+    });
     if (yPixel === undefined) return null;
 
     const labelCoords = label
-      ? computeHorizontalLabelCoordinates(
-          yPixel,
-          props.labelPosition ?? 'right',
+      ? computeHorizontalLabelCoordinates({
+          pixel: yPixel,
+          labelPosition,
           drawingArea,
-          {
-            dx: labelDx,
-            dy: labelDy,
-            horizontalAlignment: labelHorizontalAlignment,
-            verticalAlignment: labelVerticalAlignment,
-          },
-        )
+          dx: labelDx,
+          dy: labelDy,
+          horizontalAlignment: labelHorizontalAlignment,
+          verticalAlignment: labelVerticalAlignment,
+        })
       : null;
 
     return (
@@ -86,23 +88,25 @@ export function ReferenceLine({
   }
 
   if (props.dataX !== undefined) {
-    const xValue = resolveDataValue(props.dataX, getXAxisConfig());
-    if (xValue === undefined) return null;
-    const xPixel = resolvePixel(xValue, getXScale(), 'x', drawingArea);
+    const xPixel = resolvePixel({
+      dataValue: props.dataX,
+      scale: getXScale(),
+      axis: 'x',
+      drawingArea,
+      axisConfig: getXAxisConfig(),
+    });
     if (xPixel === undefined) return null;
 
     const labelCoords = label
-      ? computeVerticalLabelCoordinates(
-          xPixel,
-          props.labelPosition ?? 'top',
+      ? computeVerticalLabelCoordinates({
+          pixel: xPixel,
+          labelPosition,
           drawingArea,
-          {
-            dx: labelDx,
-            dy: labelDy,
-            horizontalAlignment: labelHorizontalAlignment,
-            verticalAlignment: labelVerticalAlignment,
-          },
-        )
+          dx: labelDx,
+          dy: labelDy,
+          horizontalAlignment: labelHorizontalAlignment,
+          verticalAlignment: labelVerticalAlignment,
+        })
       : null;
 
     return (

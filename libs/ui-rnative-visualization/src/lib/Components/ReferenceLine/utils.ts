@@ -5,15 +5,10 @@ import type {
   DrawingArea,
 } from '../../utils/types';
 
-import type {
-  HorizontalLabelPosition,
-  TextHorizontalAlignment,
-  TextVerticalAlignment,
-  VerticalLabelPosition,
-} from './types';
+import type { LabelAlignment, LabelPosition } from './types';
 
-const DEFAULT_H_ALIGN: TextHorizontalAlignment = 'center';
-const DEFAULT_V_ALIGN: TextVerticalAlignment = 'bottom';
+const DEFAULT_H_ALIGN: LabelAlignment = 'center';
+const DEFAULT_V_ALIGN: LabelAlignment = 'end';
 
 type LabelCoordinates = {
   x: number;
@@ -22,41 +17,43 @@ type LabelCoordinates = {
   dominantBaseline: 'hanging' | 'central' | 'auto';
 };
 
-export type LabelOptions = {
-  dx?: number;
-  dy?: number;
-  horizontalAlignment?: TextHorizontalAlignment;
-  verticalAlignment?: TextVerticalAlignment;
+type ResolvePixelParams = {
+  dataValue: number;
+  scale: ChartScaleFunction | undefined;
+  axis: 'x' | 'y';
+  drawingArea: DrawingArea;
+  axisConfig?: AxisConfigProps;
 };
 
-const textAnchorMap: Record<
-  TextHorizontalAlignment,
-  LabelCoordinates['textAnchor']
-> = {
-  left: 'start',
+type LabelParams = {
+  pixel: number;
+  labelPosition: LabelPosition;
+  drawingArea: DrawingArea;
+  dx?: number;
+  dy?: number;
+  horizontalAlignment?: LabelAlignment;
+  verticalAlignment?: LabelAlignment;
+};
+
+const textAnchorMap: Record<LabelAlignment, LabelCoordinates['textAnchor']> = {
+  start: 'end',
   center: 'middle',
-  right: 'end',
+  end: 'start',
 };
 
 const dominantBaselineMap: Record<
-  TextVerticalAlignment,
+  LabelAlignment,
   LabelCoordinates['dominantBaseline']
 > = {
-  top: 'hanging',
-  middle: 'central',
-  bottom: 'auto',
+  start: 'auto',
+  center: 'central',
+  end: 'hanging',
 };
 
-const horizontalRatio: Record<HorizontalLabelPosition, number> = {
-  left: 0,
+const positionRatio: Record<LabelPosition, number> = {
+  start: 0,
   center: 0.5,
-  right: 1,
-};
-
-const verticalRatio: Record<VerticalLabelPosition, number> = {
-  top: 0,
-  middle: 0.5,
-  bottom: 1,
+  end: 1,
 };
 
 /**
@@ -75,35 +72,12 @@ export const isPixelWithinDrawingArea = (
 };
 
 /**
- * Converts a data-space value to a validated pixel coordinate.
- * Returns `undefined` if the scale is missing, the result is not finite,
- * or the pixel falls outside the drawing area.
- */
-export const resolvePixel = (
-  dataValue: number,
-  scale: ChartScaleFunction | undefined,
-  axis: 'x' | 'y',
-  drawingArea: DrawingArea,
-): number | undefined => {
-  if (!scale) return undefined;
-
-  if (isCategoricalScale(scale) && scale(dataValue) === undefined)
-    return undefined;
-
-  const p = getPointOnScale(dataValue, scale);
-
-  if (!Number.isFinite(p) || !isPixelWithinDrawingArea(p, axis, drawingArea))
-    return undefined;
-  return p;
-};
-
-/**
  * Translates a data index into the value the axis scale expects.
  * When the axis config contains numeric `data`, the index is mapped to the
  * corresponding value — returns `undefined` if the index is out of bounds.
  * When there is no numeric axis data the index is used directly.
  */
-export const resolveDataValue = (
+const resolveDataValue = (
   index: number,
   axisConfig?: AxisConfigProps,
 ): number | undefined => {
@@ -117,41 +91,69 @@ export const resolveDataValue = (
 };
 
 /**
+ * Resolves a data-space value to a validated pixel coordinate.
+ * When `axisConfig` is provided, the data value is first translated
+ * through the axis data array before being projected onto the scale.
+ * Returns `undefined` if the value is out of bounds, the scale is missing,
+ * the result is not finite, or the pixel falls outside the drawing area.
+ */
+export const resolvePixel = ({
+  dataValue,
+  scale,
+  axis,
+  drawingArea,
+  axisConfig,
+}: ResolvePixelParams): number | undefined => {
+  const resolved = resolveDataValue(dataValue, axisConfig);
+  if (resolved === undefined) return undefined;
+
+  if (!scale) return undefined;
+
+  if (isCategoricalScale(scale) && scale(resolved) === undefined)
+    return undefined;
+
+  const p = getPointOnScale(resolved, scale);
+
+  if (!Number.isFinite(p) || !isPixelWithinDrawingArea(p, axis, drawingArea)) {
+    return undefined;
+  }
+  return p;
+};
+
+/**
  * Computes the label pixel coordinates and text alignment attributes
  * for a horizontal reference line.
  */
-export const computeHorizontalLabelCoordinates = (
-  yPixel: number,
-  labelPosition: HorizontalLabelPosition,
-  drawingArea: DrawingArea,
-  options?: LabelOptions,
-): LabelCoordinates => ({
-  x:
-    drawingArea.x +
-    drawingArea.width * horizontalRatio[labelPosition] +
-    (options?.dx ?? 0),
-  y: yPixel + (options?.dy ?? 0),
-  textAnchor: textAnchorMap[options?.horizontalAlignment ?? labelPosition],
-  dominantBaseline:
-    dominantBaselineMap[options?.verticalAlignment ?? DEFAULT_V_ALIGN],
+export const computeHorizontalLabelCoordinates = ({
+  pixel,
+  labelPosition,
+  drawingArea,
+  dx = 0,
+  dy = 0,
+  horizontalAlignment,
+  verticalAlignment,
+}: LabelParams): LabelCoordinates => ({
+  x: drawingArea.x + drawingArea.width * positionRatio[labelPosition] + dx,
+  y: pixel + dy,
+  textAnchor: textAnchorMap[horizontalAlignment ?? labelPosition],
+  dominantBaseline: dominantBaselineMap[verticalAlignment ?? DEFAULT_V_ALIGN],
 });
 
 /**
  * Computes the label pixel coordinates and text alignment attributes
  * for a vertical reference line.
  */
-export const computeVerticalLabelCoordinates = (
-  xPixel: number,
-  labelPosition: VerticalLabelPosition,
-  drawingArea: DrawingArea,
-  options?: LabelOptions,
-): LabelCoordinates => ({
-  x: xPixel + (options?.dx ?? 0),
-  y:
-    drawingArea.y +
-    drawingArea.height * verticalRatio[labelPosition] +
-    (options?.dy ?? 0),
-  textAnchor: textAnchorMap[options?.horizontalAlignment ?? DEFAULT_H_ALIGN],
-  dominantBaseline:
-    dominantBaselineMap[options?.verticalAlignment ?? labelPosition],
+export const computeVerticalLabelCoordinates = ({
+  pixel,
+  labelPosition,
+  drawingArea,
+  dx = 0,
+  dy = 0,
+  horizontalAlignment,
+  verticalAlignment,
+}: LabelParams): LabelCoordinates => ({
+  x: pixel + dx,
+  y: drawingArea.y + drawingArea.height * positionRatio[labelPosition] + dy,
+  textAnchor: textAnchorMap[horizontalAlignment ?? DEFAULT_H_ALIGN],
+  dominantBaseline: dominantBaselineMap[verticalAlignment ?? labelPosition],
 });

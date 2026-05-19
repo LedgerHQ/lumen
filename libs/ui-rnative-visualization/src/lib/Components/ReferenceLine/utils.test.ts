@@ -1,15 +1,22 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { getNumericScale } from '../../utils/scales/scales';
 import type { DrawingArea } from '../../utils/types';
 
 import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
   isPixelWithinDrawingArea,
-  resolveDataValue,
+  resolvePixel,
 } from './utils';
 
 const drawingArea: DrawingArea = { x: 20, y: 10, width: 360, height: 180 };
+
+const linearScale = getNumericScale({
+  scaleType: 'linear',
+  domain: { min: 0, max: 100 },
+  range: { min: drawingArea.x, max: drawingArea.x + drawingArea.width },
+});
 
 describe('isPixelWithinDrawingArea', () => {
   describe('x axis', () => {
@@ -57,202 +64,252 @@ describe('isPixelWithinDrawingArea', () => {
   });
 });
 
-describe('resolveDataValue', () => {
-  it('returns the index when no axis config is provided', () => {
-    expect(resolveDataValue(2)).toBe(2);
-  });
-
-  it('returns the index when axis config has no data', () => {
-    expect(resolveDataValue(2, { scaleType: 'linear' })).toBe(2);
-  });
-
-  it('returns the index when axis config data is empty', () => {
-    expect(resolveDataValue(2, { data: [] })).toBe(2);
-  });
-
-  it('maps index to numeric axis value', () => {
-    expect(resolveDataValue(1, { data: [100, 200, 300] })).toBe(200);
-  });
-
-  it('returns undefined when index is out of bounds (negative)', () => {
-    expect(resolveDataValue(-1, { data: [100, 200, 300] })).toBeUndefined();
-  });
-
-  it('returns undefined when index is out of bounds (too large)', () => {
-    expect(resolveDataValue(5, { data: [100, 200, 300] })).toBeUndefined();
-  });
-
-  it('returns the index when axis data contains non-numeric values', () => {
-    expect(resolveDataValue(1, { data: ['a', 'b', 'c'] })).toBe(1);
-  });
-});
-
 describe('computeHorizontalLabelCoordinates', () => {
-  const yPixel = 100;
+  const pixel = 100;
 
-  it('positions label at the right edge with textAnchor end', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'right',
+  it('positions label at the end (right edge) with textAnchor start', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
       drawingArea,
-    );
+    });
     expect(result.x).toBe(380);
     expect(result.y).toBe(100);
-    expect(result.textAnchor).toBe('end');
-    expect(result.dominantBaseline).toBe('auto');
+    expect(result.textAnchor).toBe('start');
+    expect(result.dominantBaseline).toBe('hanging');
   });
 
-  it('positions label at the left edge with textAnchor start', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'left',
+  it('positions label at the start (left edge) with textAnchor end', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-    );
+    });
     expect(result.x).toBe(20);
-    expect(result.textAnchor).toBe('start');
+    expect(result.textAnchor).toBe('end');
   });
 
   it('positions label at center with textAnchor middle', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'center',
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'center',
       drawingArea,
-    );
+    });
     expect(result.x).toBe(200);
     expect(result.textAnchor).toBe('middle');
   });
 
-  it('applies labelDx offset', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'right',
+  it('applies dx offset', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
       drawingArea,
-      { dx: -8 },
-    );
+      dx: -8,
+    });
     expect(result.x).toBe(372);
   });
 
-  it('applies labelDy offset', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'right',
+  it('applies dy offset', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
       drawingArea,
-      { dy: -4 },
-    );
+      dy: -4,
+    });
     expect(result.y).toBe(96);
   });
 
-  it('defaults dominantBaseline to auto (verticalAlignment=bottom)', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'right',
+  it('defaults dominantBaseline to hanging (verticalAlignment=end)', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
       drawingArea,
-    );
-    expect(result.dominantBaseline).toBe('auto');
-  });
-
-  it('overrides dominantBaseline with verticalAlignment=top', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'right',
-      drawingArea,
-      { verticalAlignment: 'top' },
-    );
+    });
     expect(result.dominantBaseline).toBe('hanging');
   });
 
-  it('overrides dominantBaseline with verticalAlignment=middle', () => {
-    const result = computeHorizontalLabelCoordinates(
-      yPixel,
-      'right',
+  it('overrides dominantBaseline with verticalAlignment=start', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
       drawingArea,
-      { verticalAlignment: 'middle' },
-    );
+      verticalAlignment: 'start',
+    });
+    expect(result.dominantBaseline).toBe('auto');
+  });
+
+  it('overrides dominantBaseline with verticalAlignment=center', () => {
+    const result = computeHorizontalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
+      drawingArea,
+      verticalAlignment: 'center',
+    });
     expect(result.dominantBaseline).toBe('central');
   });
 });
 
 describe('computeVerticalLabelCoordinates', () => {
-  const xPixel = 150;
+  const pixel = 150;
 
-  it('positions label at the top with dominant-baseline hanging', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
+  it('positions label at start (top) with dominant-baseline auto', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-    );
+    });
     expect(result.x).toBe(150);
     expect(result.y).toBe(10);
     expect(result.textAnchor).toBe('middle');
-    expect(result.dominantBaseline).toBe('hanging');
-  });
-
-  it('positions label at the bottom with dominant-baseline auto', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'bottom',
-      drawingArea,
-    );
-    expect(result.y).toBe(190);
     expect(result.dominantBaseline).toBe('auto');
   });
 
-  it('positions label at the middle with dominant-baseline central', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'middle',
+  it('positions label at end (bottom) with dominant-baseline hanging', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'end',
       drawingArea,
-    );
+    });
+    expect(result.y).toBe(190);
+    expect(result.dominantBaseline).toBe('hanging');
+  });
+
+  it('positions label at center with dominant-baseline central', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'center',
+      drawingArea,
+    });
     expect(result.y).toBe(100);
     expect(result.dominantBaseline).toBe('central');
   });
 
-  it('applies labelDx offset', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
+  it('applies dx offset', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-      { dx: 4 },
-    );
+      dx: 4,
+    });
     expect(result.x).toBe(154);
   });
 
-  it('applies labelDy offset', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
+  it('applies dy offset', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-      { dy: 6 },
-    );
+      dy: 6,
+    });
     expect(result.y).toBe(16);
   });
 
   it('defaults textAnchor to middle (horizontalAlignment=center)', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-    );
+    });
     expect(result.textAnchor).toBe('middle');
   });
 
-  it('overrides textAnchor with horizontalAlignment=left', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
+  it('overrides textAnchor with horizontalAlignment=start', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-      { horizontalAlignment: 'left' },
-    );
-    expect(result.textAnchor).toBe('start');
+      horizontalAlignment: 'start',
+    });
+    expect(result.textAnchor).toBe('end');
   });
 
-  it('overrides textAnchor with horizontalAlignment=right', () => {
-    const result = computeVerticalLabelCoordinates(
-      xPixel,
-      'top',
+  it('overrides textAnchor with horizontalAlignment=end', () => {
+    const result = computeVerticalLabelCoordinates({
+      pixel,
+      labelPosition: 'start',
       drawingArea,
-      { horizontalAlignment: 'right' },
-    );
-    expect(result.textAnchor).toBe('end');
+      horizontalAlignment: 'end',
+    });
+    expect(result.textAnchor).toBe('start');
+  });
+});
+
+describe('resolvePixel', () => {
+  it('returns a pixel value for a data value within bounds', () => {
+    const result = resolvePixel({
+      dataValue: 50,
+      scale: linearScale,
+      axis: 'x',
+      drawingArea,
+    });
+    expect(typeof result).toBe('number');
+  });
+
+  it('returns undefined when scale is missing', () => {
+    expect(
+      resolvePixel({
+        dataValue: 50,
+        scale: undefined,
+        axis: 'x',
+        drawingArea,
+      }),
+    ).toBeUndefined();
+  });
+
+  it('returns undefined when pixel falls outside drawing area', () => {
+    expect(
+      resolvePixel({
+        dataValue: 200,
+        scale: linearScale,
+        axis: 'x',
+        drawingArea,
+      }),
+    ).toBeUndefined();
+  });
+
+  it('resolves data index through numeric axisConfig.data', () => {
+    const atIndex = resolvePixel({
+      dataValue: 50,
+      scale: linearScale,
+      axis: 'x',
+      drawingArea,
+    });
+    const throughData = resolvePixel({
+      dataValue: 1,
+      scale: linearScale,
+      axis: 'x',
+      drawingArea,
+      axisConfig: { data: [0, 50, 100] },
+    });
+    expect(throughData).toBe(atIndex);
+  });
+
+  it('uses index directly when axisConfig.data contains strings', () => {
+    const withoutConfig = resolvePixel({
+      dataValue: 2,
+      scale: linearScale,
+      axis: 'x',
+      drawingArea,
+    });
+    const withStringData = resolvePixel({
+      dataValue: 2,
+      scale: linearScale,
+      axis: 'x',
+      drawingArea,
+      axisConfig: { data: ['a', 'b', 'c'] },
+    });
+    expect(withStringData).toBe(withoutConfig);
+  });
+
+  it('returns undefined when data index is out of bounds', () => {
+    expect(
+      resolvePixel({
+        dataValue: 10,
+        scale: linearScale,
+        axis: 'x',
+        drawingArea,
+        axisConfig: { data: [1, 2, 3] },
+      }),
+    ).toBeUndefined();
   });
 });
