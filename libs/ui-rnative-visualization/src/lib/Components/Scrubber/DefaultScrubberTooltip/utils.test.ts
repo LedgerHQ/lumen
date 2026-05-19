@@ -70,7 +70,8 @@ describe('computeTooltipWidth', () => {
   it('ignores title width when hasTitle is false', () => {
     const widths = { title: 300, labels: [10], values: [10] };
     const rowFit = 10 + LABEL_VALUE_GAP + 10 + PADDING_X * 2;
-    expect(computeTooltipWidth(widths, false, 80)).toBe(rowFit);
+    expect(computeTooltipWidth(widths, false, 40)).toBe(rowFit);
+    expect(computeTooltipWidth(widths, false, 80)).toBe(80);
   });
 
   it('uses the widest row when multiple items are present', () => {
@@ -97,7 +98,7 @@ describe('computeTooltipX', () => {
   });
 
   it('clamps to drawingArea.x when flipped position is negative', () => {
-    expect(computeTooltipX(5, 10, 200, drawingArea)).toBe(0);
+    expect(computeTooltipX(195, 10, 200, drawingArea)).toBe(0);
   });
 
   it('clamps the right-side position to not overflow the right edge', () => {
