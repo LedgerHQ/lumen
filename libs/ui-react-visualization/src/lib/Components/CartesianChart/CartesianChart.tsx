@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
+import { RevealClipDefs } from './RevealClip';
 import type { CartesianChartProps } from './types';
 import {
   DEFAULT_HEIGHT,
@@ -21,6 +22,7 @@ export function CartesianChart({
   ariaLabel = 'Chart',
   enableScrubbing = false,
   onScrubberPositionChange,
+  animate = true,
   children,
 }: CartesianChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -71,63 +73,48 @@ export function CartesianChart({
     axisPadding: resolvedAxisPadding,
   });
 
-  const svgContent = (
-    <svg
-      ref={svgRef}
-      data-testid='chart-svg'
-      width={resolvedWidth}
-      height={height}
-      role='img'
-      aria-label={ariaLabel || 'Chart'}
-      tabIndex={enableScrubbing ? 0 : undefined}
-      style={{
-        display: 'block',
-        overflow: 'visible',
-        outline: enableScrubbing ? 'none' : undefined,
-      }}
-    >
-      <CartesianChartProvider value={contextValue}>
-        {enableScrubbing ? (
-          <ScrubberProvider
-            svgRef={svgRef}
-            enableScrubbing={enableScrubbing}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            {children}
-          </ScrubberProvider>
-        ) : (
-          children
-        )}
-      </CartesianChartProvider>
-    </svg>
-  );
-
-  if (needsMeasurement) {
-    return (
-      <div
-        ref={containerRef}
-        data-testid='chart-container'
-        style={{
-          width,
-          height,
-          ...OVERFLOW_NEGATIVE_MARGIN,
-        }}
-      >
-        {measuredWidth !== undefined && svgContent}
-      </div>
-    );
-  }
-
   return (
     <div
+      ref={needsMeasurement ? containerRef : undefined}
       data-testid='chart-container'
       style={{
-        width: resolvedWidth,
+        width: needsMeasurement ? width : resolvedWidth,
         height,
         ...OVERFLOW_NEGATIVE_MARGIN,
       }}
     >
-      {svgContent}
+      {resolvedWidth > 0 && (
+        <svg
+          ref={svgRef}
+          data-testid='chart-svg'
+          width={resolvedWidth}
+          height={height}
+          role='img'
+          aria-label={ariaLabel || 'Chart'}
+          tabIndex={enableScrubbing ? 0 : undefined}
+          style={{
+            display: 'block',
+            overflow: 'visible',
+            outline: enableScrubbing ? 'none' : undefined,
+          }}
+        >
+          <CartesianChartProvider value={contextValue}>
+            <ScrubberProvider
+              svgRef={svgRef}
+              enableScrubbing={enableScrubbing}
+              onScrubberPositionChange={onScrubberPositionChange}
+            >
+              <RevealClipDefs
+                drawingArea={contextValue.drawingArea}
+                series={series}
+                animate={animate}
+              >
+                {children}
+              </RevealClipDefs>
+            </ScrubberProvider>
+          </CartesianChartProvider>
+        </svg>
+      )}
     </div>
   );
 }
