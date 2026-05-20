@@ -14,9 +14,7 @@ const meta = {
   decorators: [
     (Story, context) => (
       <StoryDecorator context={context}>
-        <View style={{ width: 600, padding: 16 }}>
-          <Story />
-        </View>
+        <Story />
       </StoryDecorator>
     ),
   ],

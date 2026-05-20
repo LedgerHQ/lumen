@@ -78,4 +78,25 @@ describe('LineChart', () => {
     );
     expect(queryAllByTestId('line-gradient')).toHaveLength(0);
   });
+
+  it('renders clip-path animation wrapper by default', () => {
+    const { container } = render(
+      <LineChartWrapper series={sampleSeries} width={400} height={200} />,
+    );
+    const clipPathEl = container.querySelector('clipPath');
+    expect(clipPathEl).not.toBeNull();
+  });
+
+  it('does not render clip-path when animate is false', () => {
+    const { container } = render(
+      <LineChartWrapper
+        series={sampleSeries}
+        width={400}
+        height={200}
+        animate={false}
+      />,
+    );
+    const clipPathEl = container.querySelector('clipPath');
+    expect(clipPathEl).toBeNull();
+  });
 });

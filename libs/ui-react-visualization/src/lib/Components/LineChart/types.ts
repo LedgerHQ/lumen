@@ -72,4 +72,9 @@ export type LineChartProps = {
    * Receives `undefined` when the scrubber leaves the chart.
    */
   onScrubberPositionChange?: (index: number | undefined) => void;
+  /**
+   * Whether to animate the chart on mount and data changes.
+   * @default true
+   */
+  animate?: boolean;
 };

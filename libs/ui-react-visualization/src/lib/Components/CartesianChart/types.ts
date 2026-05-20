@@ -59,4 +59,10 @@ export type CartesianChartProps = {
    * Receives `undefined` when the scrubber leaves the chart.
    */
   onScrubberPositionChange?: (index: number | undefined) => void;
+  /**
+   * Whether to animate the chart on mount and data changes.
+   * Duration is 0.8 seconds and easing is linear.
+   * @default true
+   */
+  animate?: boolean;
 };

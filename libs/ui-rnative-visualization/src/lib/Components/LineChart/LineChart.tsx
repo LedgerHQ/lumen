@@ -22,6 +22,7 @@ export const LineChart = ({
   children,
   enableScrubbing = false,
   onScrubberPositionChange,
+  animate,
 }: LineChartProps) => {
   const {
     scaleType: xScaleType,
@@ -81,6 +82,7 @@ export const LineChart = ({
       axisPadding={axisPadding}
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
+      animate={animate}
     >
       {showXAxis && <XAxis {...xAxisVisualProps} />}
       {showYAxis && <YAxis {...yAxisVisualProps} />}

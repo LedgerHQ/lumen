@@ -1,0 +1,59 @@
+import { useMemo } from 'react';
+import Animated from 'react-native-reanimated';
+import { ClipPath, Defs, Rect } from 'react-native-svg';
+
+import { OVERFLOW_BUFFER } from '../utils';
+
+import { RevealClipContext } from './context';
+import type { RevealClipDefsProps } from './types';
+import { useComputeDataFingerprint, useRevealClipAnimation } from './utils';
+
+const DEFAULT_DURATION_IN_SECONDS = 0.8;
+
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
+
+export function RevealClipDefs({
+  children,
+  drawingArea,
+  series,
+  animate = true,
+  transitions,
+}: RevealClipDefsProps) {
+  const isDisabled = !animate;
+  const durationMs =
+    (transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS) * 1000;
+
+  const dataFingerprint = useComputeDataFingerprint({ series });
+  const { clipId, animatedRectProps } = useRevealClipAnimation({
+    durationMs,
+    drawingArea,
+    dataFingerprint,
+  });
+
+  const contextValue = useMemo(
+    () => ({ clipPathAttr: `url(#${clipId})` }),
+    [clipId],
+  );
+
+  if (isDisabled) {
+    return children;
+  }
+
+  return (
+    <RevealClipContext.Provider key={dataFingerprint} value={contextValue}>
+      <Defs>
+        <ClipPath id={clipId}>
+          <AnimatedRect
+            x={drawingArea.x - OVERFLOW_BUFFER.left}
+            y={drawingArea.y - OVERFLOW_BUFFER.top}
+            height={
+              drawingArea.height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom
+            }
+            animatedProps={animatedRectProps}
+          />
+        </ClipPath>
+      </Defs>
+      {children}
+    </RevealClipContext.Provider>
+  );
+}

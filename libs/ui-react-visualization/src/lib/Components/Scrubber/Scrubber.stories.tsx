@@ -20,11 +20,8 @@ const meta = {
   tags: ['experimental'],
   decorators: [
     (Story, context) => (
-      // TODO: remove the stale decorator
       <StoryDecorator context={context}>
-        <div className='size-full bg-base p-16'>
-          <Story />
-        </div>
+        <Story />
       </StoryDecorator>
     ),
   ],
