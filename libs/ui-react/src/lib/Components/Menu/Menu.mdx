@@ -20,7 +20,7 @@ import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/Com
 
 The Menu component provides a dropdown menu triggered by clicking a button or trigger element. It offers contextual actions and options to users in a clean, organized interface.
 
-Built on top of [Radix UI Menu](https://www.radix-ui.com/primitives/docs/components/dropdown-menu) primitives, it provides excellent accessibility, keyboard navigation, and customization options.
+Built on top of [Base UI Menu](https://base-ui.com/react/components/menu) primitives, it provides excellent accessibility, keyboard navigation, and customization options.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=7966-3068&m=dev).
 
@@ -153,12 +153,12 @@ Full-featured menu with all components:
 ## Installation
 
 ```bash
-npm install @ledgerhq/lumen-ui-react @radix-ui/react-dropdown-menu
+npm install @ledgerhq/lumen-ui-react @base-ui/react
 ```
 
 > **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
 
-The Radix UI dependency provides accessible menu behavior with proper keyboard navigation, focus management, and screen reader support.
+The Base UI dependency provides accessible menu behavior with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
 
@@ -174,9 +174,7 @@ import { Button } from '@ledgerhq/lumen-ui-react';
 function MyComponent() {
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>Open Menu</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>Open Menu</Button>} />
       <MenuContent>
         <MenuItem>Edit</MenuItem>
         <MenuItem>Delete</MenuItem>
@@ -208,9 +206,7 @@ function MyComponent() {
 
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>View</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>View</Button>} />
       <MenuContent>
         <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
           Show Panel
@@ -234,6 +230,7 @@ import {
   Menu,
   MenuTrigger,
   MenuContent,
+  MenuGroup,
   MenuRadioGroup,
   MenuRadioItem,
   MenuLabel,
@@ -246,16 +243,16 @@ function MyComponent() {
 
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>Position</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>Position</Button>} />
       <MenuContent>
-        <MenuLabel>Panel Position</MenuLabel>
-        <MenuRadioGroup value={position} onValueChange={setPosition}>
-          <MenuRadioItem value='top'>Top</MenuRadioItem>
-          <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
-          <MenuRadioItem value='right'>Right</MenuRadioItem>
-        </MenuRadioGroup>
+        <MenuGroup>
+          <MenuLabel>Panel Position</MenuLabel>
+          <MenuRadioGroup value={position} onValueChange={setPosition}>
+            <MenuRadioItem value='top'>Top</MenuRadioItem>
+            <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
+            <MenuRadioItem value='right'>Right</MenuRadioItem>
+          </MenuRadioGroup>
+        </MenuGroup>
       </MenuContent>
     </Menu>
   );
@@ -279,9 +276,7 @@ import { Button } from '@ledgerhq/lumen-ui-react';
 function MyComponent() {
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>Options</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>Options</Button>} />
       <MenuContent>
         <MenuItem>New File</MenuItem>
         <MenuSub>
@@ -315,13 +310,10 @@ import { Button } from '@ledgerhq/lumen-ui-react';
 function MyComponent() {
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>Account</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>Account</Button>} />
       <MenuContent className='w-56'>
-        <MenuLabel>My Account</MenuLabel>
-        <MenuSeparator />
         <MenuGroup>
+          <MenuLabel>My Account</MenuLabel>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Billing</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -358,9 +350,7 @@ import { Button } from '@ledgerhq/lumen-ui-react';
 function MyComponent() {
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>Options</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>Options</Button>} />
       <MenuContent side='top' sideOffset={8}>
         <MenuItem>Edit</MenuItem>
         <MenuItem>Delete</MenuItem>
@@ -388,9 +378,7 @@ import { Button } from '@ledgerhq/lumen-ui-react';
 function MyComponent() {
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <Button>Options</Button>
-      </MenuTrigger>
+      <MenuTrigger render={<Button>Options</Button>} />
       <MenuContent align='start' alignOffset={0}>
         <MenuItem>Edit</MenuItem>
         <MenuItem>Delete</MenuItem>
@@ -414,12 +402,16 @@ You can also use `alignOffset` to fine-tune the position with a pixel offset.
   >
     ```tsx
     <MenuContent>
-      <MenuLabel>Account</MenuLabel>
-      <MenuItem>Profile</MenuItem>
-      <MenuItem>Settings</MenuItem>
+      <MenuGroup>
+        <MenuLabel>Account</MenuLabel>
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>Settings</MenuItem>
+      </MenuGroup>
       <MenuSeparator />
-      <MenuLabel>Actions</MenuLabel>
-      <MenuItem>Share</MenuItem>
+      <MenuGroup>
+        <MenuLabel>Actions</MenuLabel>
+        <MenuItem>Share</MenuItem>
+      </MenuGroup>
     </MenuContent>
     ```
   </DoBlockItem>
@@ -524,7 +516,7 @@ You can also use `alignOffset` to fine-tune the position with a pixel offset.
 ## Performance Considerations
 
 - Menu content is only rendered when open (Portal-based)
-- Use `asChild` on trigger to avoid wrapper divs
+- Use `render` on trigger to compose a custom element without an extra wrapper
 - Memoize expensive menu item content when needed
 - For very long lists, consider virtualization or search
 

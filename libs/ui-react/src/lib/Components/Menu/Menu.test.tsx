@@ -15,7 +15,7 @@ describe('Menu', () => {
   it('renders trigger element', () => {
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuItem>Item 1</MenuItem>
         </MenuContent>
@@ -29,7 +29,7 @@ describe('Menu', () => {
     const user = userEvent.setup();
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuItem>Item 1</MenuItem>
         </MenuContent>
@@ -42,13 +42,29 @@ describe('Menu', () => {
     expect(screen.getByText('Item 1')).toBeInTheDocument();
   });
 
+  it('opens menu when trigger uses render prop', async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu>
+        <MenuTrigger render={<button type='button'>Custom trigger</button>} />
+        <MenuContent>
+          <MenuItem>Item 1</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Custom trigger' }));
+
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+  });
+
   it('calls onSelect when menu item is clicked', async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();
 
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuItem onSelect={onSelect}>Item 1</MenuItem>
         </MenuContent>
@@ -67,7 +83,7 @@ describe('Menu', () => {
 
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuCheckboxItem checked={false} onCheckedChange={onCheckedChange}>
             Checkbox Item
@@ -88,7 +104,7 @@ describe('Menu', () => {
 
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuRadioGroup value='option1' onValueChange={onValueChange}>
             <MenuRadioItem value='option1'>Option 1</MenuRadioItem>
@@ -110,7 +126,7 @@ describe('Menu', () => {
 
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuItem disabled onSelect={onSelect}>
             Disabled Item

@@ -78,7 +78,6 @@ export default defineConfig(() => ({
         '@radix-ui/react-slot',
         '@radix-ui/react-switch',
         '@radix-ui/react-tooltip',
-        '@radix-ui/react-dropdown-menu',
         '@tanstack/react-table',
         '@base-ui/react',
       ],

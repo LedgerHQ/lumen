@@ -1,10 +1,10 @@
+import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 import {
   cn,
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import type { ComponentProps, ComponentRef, Ref } from 'react';
+import { cva } from 'class-variance-authority';
 import { Check, ChevronRight } from '../../Symbols';
 import { Divider } from '../Divider';
 import type {
@@ -20,13 +20,39 @@ import type {
   MenuSubContentProps,
   MenuGroupProps,
   MenuRadioGroupProps,
+  MenuSubProps,
 } from './types';
 
-const contentStyles = cn(
-  'z-menu min-w-160 overflow-hidden rounded-sm bg-muted p-8',
-  'shadow-sm',
-  'data-[state=open]:animate-fade-in',
-  'data-[state=closed]:animate-fade-out',
+const contentStyles = cva(
+  [
+    'min-w-160 overflow-hidden rounded-sm bg-muted p-8',
+    'shadow-sm outline-none',
+  ],
+  {
+    variants: {
+      side: {
+        top: [
+          'data-open:animate-slide-in-from-bottom',
+          'data-closed:animate-slide-out-to-bottom',
+        ],
+        bottom: [
+          'data-open:animate-slide-in-from-top',
+          'data-closed:animate-slide-out-to-top',
+        ],
+        left: [
+          'data-open:animate-slide-in-from-right',
+          'data-closed:animate-slide-out-to-right',
+        ],
+        right: [
+          'data-open:animate-slide-in-from-left',
+          'data-closed:animate-slide-out-to-left',
+        ],
+      },
+    },
+    defaultVariants: {
+      side: 'bottom',
+    },
+  },
 );
 
 const itemStyles = cn(
@@ -34,7 +60,7 @@ const itemStyles = cn(
   'h-44 rounded-sm px-8 outline-hidden',
   'body-2-semi-bold text-base',
   'transition-colors',
-  'focus:bg-base-transparent-hover',
+  'data-highlighted:bg-base-transparent-hover',
   'active:bg-base-transparent-pressed',
   'data-disabled:pointer-events-none data-disabled:text-disabled',
 );
@@ -43,101 +69,118 @@ const labelStyles = cn('px-8 py-4 body-3-semi-bold text-muted');
 
 const subTriggerStyles = cn(
   itemStyles,
-  'data-[state=open]:bg-base-transparent-hover',
+  'data-popup-open:bg-base-transparent-hover',
 );
 
 function Menu({ ...props }: MenuProps) {
-  return <DropdownMenuPrimitive.Root data-slot='menu' {...props} />;
+  return <MenuPrimitive.Root data-slot='menu' {...props} />;
 }
 
-const MenuTrigger = ({ ref, ...props }: MenuTriggerProps) => (
-  <DropdownMenuPrimitive.Trigger
+const MenuTrigger = ({
+  ref,
+  render,
+  className,
+  ...props
+}: MenuTriggerProps) => (
+  <MenuPrimitive.Trigger
     ref={ref}
     data-slot='menu-trigger'
+    render={render}
+    className={cn('data-popup-open:z-menu', className)}
     {...props}
   />
 );
 
 function MenuGroup({ ...props }: MenuGroupProps) {
-  return <DropdownMenuPrimitive.Group data-slot='menu-group' {...props} />;
+  return <MenuPrimitive.Group data-slot='menu-group' {...props} />;
 }
 
-function MenuPortal({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
-  return <DropdownMenuPrimitive.Portal {...props} />;
-}
-
-function MenuSub({
-  ...props
-}: ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
-  return <DropdownMenuPrimitive.Sub {...props} />;
-}
-
-function MenuRadioGroup({ ...props }: MenuRadioGroupProps) {
+function MenuSub({ onOpenChange, ...props }: MenuSubProps) {
   return (
-    <DropdownMenuPrimitive.RadioGroup data-slot='menu-radio-group' {...props} />
+    <MenuPrimitive.SubmenuRoot
+      onOpenChange={(open) => onOpenChange?.(open)}
+      {...props}
+    />
+  );
+}
+
+function MenuRadioGroup({ onValueChange, ...props }: MenuRadioGroupProps) {
+  return (
+    <MenuPrimitive.RadioGroup
+      data-slot='menu-radio-group'
+      onValueChange={(value) => onValueChange?.(String(value))}
+      {...props}
+    />
   );
 }
 
 const MenuSubTrigger = ({
   ref,
   className,
-  inset,
   children,
   ...props
 }: MenuSubTriggerProps) => (
-  <DropdownMenuPrimitive.SubTrigger
+  <MenuPrimitive.SubmenuTrigger
     ref={ref}
     data-slot='menu-sub-trigger'
-    className={cn(subTriggerStyles, inset && 'pl-32', className)}
+    className={cn(subTriggerStyles, className)}
     {...props}
   >
     {children}
     <ChevronRight size={20} className='ml-auto text-muted' />
-  </DropdownMenuPrimitive.SubTrigger>
+  </MenuPrimitive.SubmenuTrigger>
 );
 
-const MenuSubContent = ({ ref, className, ...props }: MenuSubContentProps) => (
-  <DropdownMenuPrimitive.SubContent
-    ref={ref}
-    data-slot='menu-sub-content'
-    className={cn(contentStyles, className)}
-    {...props}
-  />
+const MenuSubContent = ({ className, children }: MenuSubContentProps) => (
+  <MenuPrimitive.Portal>
+    <MenuPrimitive.Positioner className='z-menu' side='right' sideOffset={4}>
+      <MenuPrimitive.Popup
+        data-slot='menu-sub-content'
+        className={cn(contentStyles({ side: 'right' }), className)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </MenuPrimitive.Popup>
+    </MenuPrimitive.Positioner>
+  </MenuPrimitive.Portal>
 );
 
 const MenuContent = ({
-  ref,
-  className,
+  side = 'bottom',
   sideOffset = 4,
   align = 'start',
-  ...props
+  alignOffset,
+  sticky = true,
+  className,
+  children,
 }: MenuContentProps) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Content
-      ref={ref}
-      data-slot='menu-content'
+  <MenuPrimitive.Portal>
+    <MenuPrimitive.Positioner
+      className='z-menu'
+      side={side}
       sideOffset={sideOffset}
-      className={cn(contentStyles, className)}
-      /**
-       * Prevent propagation of the click event to the parent element
-       */
-      onClick={(e) => {
-        e.stopPropagation();
-        props.onClick?.(e);
-      }}
       align={align}
-      {...props}
-    />
-  </DropdownMenuPrimitive.Portal>
+      alignOffset={alignOffset}
+      sticky={sticky}
+    >
+      <MenuPrimitive.Popup
+        data-slot='menu-content'
+        className={cn(contentStyles({ side }), className)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </MenuPrimitive.Popup>
+    </MenuPrimitive.Positioner>
+  </MenuPrimitive.Portal>
 );
 
 const MenuItem = ({
   ref,
   className,
-  inset,
   disabled: disabledProp,
+  onSelect,
+  label,
+  closeOnClick = true,
   ...props
 }: MenuItemProps) => {
   const disabled = useDisabledContext({
@@ -147,11 +190,14 @@ const MenuItem = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <DropdownMenuPrimitive.Item
+      <MenuPrimitive.Item
         ref={ref}
         data-slot='menu-item'
-        className={cn(itemStyles, inset && 'pl-32', className)}
+        label={label}
         disabled={disabled}
+        closeOnClick={closeOnClick}
+        className={cn(itemStyles, className)}
+        onClick={(e) => onSelect?.(e.nativeEvent)}
         {...props}
       />
     </DisabledProvider>
@@ -163,7 +209,11 @@ const MenuCheckboxItem = ({
   className,
   children,
   checked,
+  defaultChecked,
+  onCheckedChange,
   disabled: disabledProp,
+  label,
+  closeOnClick,
   ...props
 }: MenuCheckboxItemProps) => {
   const disabled = useDisabledContext({
@@ -173,21 +223,25 @@ const MenuCheckboxItem = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <DropdownMenuPrimitive.CheckboxItem
+      <MenuPrimitive.CheckboxItem
         ref={ref}
         data-slot='menu-checkbox-item'
-        className={cn(itemStyles, className)}
+        label={label}
         checked={checked}
+        defaultChecked={defaultChecked}
         disabled={disabled}
+        closeOnClick={closeOnClick ?? false}
+        className={cn(itemStyles, className)}
+        onCheckedChange={(nextChecked) => onCheckedChange?.(nextChecked)}
         {...props}
       >
         {children}
         <span className='ml-auto flex size-24 items-center justify-center'>
-          <DropdownMenuPrimitive.ItemIndicator>
+          <MenuPrimitive.CheckboxItemIndicator>
             <Check disabled={disabled} size={24} className='text-active' />
-          </DropdownMenuPrimitive.ItemIndicator>
+          </MenuPrimitive.CheckboxItemIndicator>
         </span>
-      </DropdownMenuPrimitive.CheckboxItem>
+      </MenuPrimitive.CheckboxItem>
     </DisabledProvider>
   );
 };
@@ -197,6 +251,8 @@ const MenuRadioItem = ({
   className,
   children,
   disabled: disabledProp,
+  value,
+  label,
   ...props
 }: MenuRadioItemProps) => {
   const disabled = useDisabledContext({
@@ -206,36 +262,31 @@ const MenuRadioItem = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <DropdownMenuPrimitive.RadioItem
+      <MenuPrimitive.RadioItem
         ref={ref}
         data-slot='menu-radio-item'
+        value={value}
+        label={label}
         disabled={disabled}
         className={cn(itemStyles, className)}
         {...props}
       >
         {children}
         <span className='ml-auto flex size-24 items-center justify-center'>
-          <DropdownMenuPrimitive.ItemIndicator>
+          <MenuPrimitive.RadioItemIndicator>
             <Check disabled={disabled} size={24} className='text-active' />
-          </DropdownMenuPrimitive.ItemIndicator>
+          </MenuPrimitive.RadioItemIndicator>
         </span>
-      </DropdownMenuPrimitive.RadioItem>
+      </MenuPrimitive.RadioItem>
     </DisabledProvider>
   );
 };
 
-const MenuLabel = ({
-  ref,
-  className,
-  inset,
-  ...props
-}: MenuLabelProps & {
-  ref?: Ref<ComponentRef<typeof DropdownMenuPrimitive.Label>>;
-}) => (
-  <DropdownMenuPrimitive.Label
+const MenuLabel = ({ ref, className, ...props }: MenuLabelProps) => (
+  <MenuPrimitive.GroupLabel
     ref={ref}
     data-slot='menu-label'
-    className={cn(labelStyles, inset && 'pl-32', className)}
+    className={cn(labelStyles, className)}
     {...props}
   />
 );
@@ -254,7 +305,6 @@ export {
   MenuLabel,
   MenuSeparator,
   MenuGroup,
-  MenuPortal,
   MenuSub,
   MenuSubContent,
   MenuSubTrigger,

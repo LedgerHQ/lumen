@@ -1,11 +1,11 @@
+import type { Menu as MenuNamespace } from '@base-ui/react/menu';
 import type {
   ComponentPropsWithRef,
   ComponentPropsWithoutRef,
   ReactNode,
 } from 'react';
 
-type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
-type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>;
+type MenuRootChangeEventDetails = MenuNamespace.Root.ChangeEventDetails;
 
 /**
  * Props for the Menu root component.
@@ -34,17 +34,12 @@ export type MenuProps = {
    * Event handler called when the open state changes.
    *
    * @param open - The new open state
+   * @param eventDetails - Additional details about the event that caused the change
    */
-  onOpenChange?: (open: boolean) => void;
-
-  /**
-   * The modality of the dropdown menu.
-   * When set to `true`, interaction with outside elements will be disabled
-   * and only menu content will be visible to screen readers.
-   *
-   * @default true
-   */
-  modal?: boolean;
+  onOpenChange?: (
+    open: boolean,
+    eventDetails: MenuRootChangeEventDetails,
+  ) => void;
 };
 
 /**
@@ -55,13 +50,14 @@ export type MenuProps = {
  */
 export type MenuTriggerProps = {
   /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
+   * Render prop that replaces the default button-style trigger.
+   * Replaces Radix `asChild` — merge trigger props onto your component.
    *
-   * Use this when you need to trigger the menu from a custom component.
+   * @example render={<IconButton icon={MoreVertical} aria-label="Open Menu" />}
+   * @example render={(props) => <IconButton {...props} icon={MoreVertical} aria-label="Open Menu" />}
    */
-  asChild?: boolean;
-} & ComponentPropsWithRef<'button'>;
+  render?: MenuNamespace.Trigger.Props['render'];
+} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
  * Props for the Menu content component.
@@ -70,58 +66,17 @@ export type MenuTriggerProps = {
  */
 export type MenuContentProps = {
   /**
-   * Additional CSS class names to apply to the content.
+   * Additional CSS class names to apply to the popup.
    */
   className?: string;
 
   /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
+   * The content to display inside the menu popup.
    */
-  asChild?: boolean;
-
-  /**
-   * When `true`, keyboard navigation will loop from last item to first, and vice versa.
-   *
-   * @default false
-   */
-  loop?: boolean;
-
-  /**
-   * Event handler called when focus moves back after closing.
-   * Can be prevented by calling `event.preventDefault`.
-   */
-  onCloseAutoFocus?: (event: Event) => void;
-
-  /**
-   * Event handler called when the escape key is down.
-   * Can be prevented by calling `event.preventDefault`.
-   */
-  onEscapeKeyDown?: (event: KeyboardEvent) => void;
-
-  /**
-   * Event handler called when a pointer event occurs outside the bounds of the component.
-   * Can be prevented by calling `event.preventDefault`.
-   */
-  onPointerDownOutside?: (event: PointerDownOutsideEvent) => void;
-
-  /**
-   * Event handler called when focus moves outside the bounds of the component.
-   * Can be prevented by calling `event.preventDefault`.
-   */
-  onFocusOutside?: (event: FocusOutsideEvent) => void;
-
-  /**
-   * Event handler called when an interaction (pointer or focus) happens outside the bounds of the component.
-   * Can be prevented by calling `event.preventDefault`.
-   */
-  onInteractOutside?: (
-    event: PointerDownOutsideEvent | FocusOutsideEvent,
-  ) => void;
+  children?: ReactNode;
 
   /**
    * The preferred side of the trigger to render against when open.
-   * Will be reversed when collisions occur and `avoidCollisions` is enabled.
    *
    * @default 'bottom'
    */
@@ -130,13 +85,12 @@ export type MenuContentProps = {
   /**
    * The distance in pixels from the trigger.
    *
-   * @default 0
+   * @default 4
    */
   sideOffset?: number;
 
   /**
    * The preferred alignment against the trigger.
-   * May change when collisions occur.
    *
    * @default 'start'
    */
@@ -144,50 +98,17 @@ export type MenuContentProps = {
 
   /**
    * An offset in pixels from the "start" or "end" alignment options.
-   *
-   * @default 0
    */
   alignOffset?: number;
 
   /**
-   * When `true`, overrides the side and align preferences to prevent collisions with boundary edges.
+   * Whether to maintain the popup in the viewport after the anchor element
+   * has been scrolled out of view.
    *
    * @default true
    */
-  avoidCollisions?: boolean;
-
-  /**
-   * The element used as the collision boundary.
-   *
-   * @default []
-   */
-  collisionBoundary?: Element | null | (Element | null)[];
-
-  /**
-   * The distance in pixels from the boundary edges where collision detection should occur.
-   *
-   * @default 0
-   */
-  collisionPadding?:
-    | number
-    | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>;
-
-  /**
-   * The sticky behavior on the align axis.
-   * "partial" will keep the content in the boundary as long as the trigger is at least partially in the boundary,
-   * whilst "always" will keep the content in the boundary regardless.
-   *
-   * @default 'partial'
-   */
-  sticky?: 'partial' | 'always';
-
-  /**
-   * Whether to hide the content when the trigger becomes fully occluded.
-   *
-   * @default false
-   */
-  hideWhenDetached?: boolean;
-} & ComponentPropsWithRef<'div'>;
+  sticky?: boolean;
+};
 
 /**
  * Props for a Menu item component.
@@ -199,17 +120,6 @@ export type MenuItemProps = {
    * Additional CSS class names to apply to the item.
    */
   className?: string;
-
-  /**
-   * When `true`, the item will have left padding for alignment with labeled items.
-   */
-  inset?: boolean;
-
-  /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
-   */
-  asChild?: boolean;
 
   /**
    * When `true`, prevents the user from interacting with the item.
@@ -229,7 +139,14 @@ export type MenuItemProps = {
    * By default, the typeahead behavior will use the `.textContent` of the item.
    * Use this when the content is complex, or you have non-textual content inside.
    */
-  textValue?: string;
+  label?: string;
+
+  /**
+   * Whether the menu closes when this item is clicked.
+   *
+   * @default true
+   */
+  closeOnClick?: boolean;
 } & ComponentPropsWithRef<'div'>;
 
 /**
@@ -242,7 +159,15 @@ export type MenuCheckboxItemProps = {
    * The controlled checked state of the item.
    * Must be used in conjunction with `onCheckedChange`.
    */
-  checked?: boolean | 'indeterminate';
+  checked?: boolean;
+
+  /**
+   * The checked state of the item when it is initially rendered.
+   * Use when you do not need to control its checked state.
+   *
+   * @default false
+   */
+  defaultChecked?: boolean;
 
   /**
    * Event handler called when the checked state changes.
@@ -278,17 +203,6 @@ export type MenuLabelProps = {
    * Additional CSS class names to apply to the label.
    */
   className?: string;
-
-  /**
-   * When `true`, the label will have left padding for alignment with items.
-   */
-  inset?: boolean;
-
-  /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
-   */
-  asChild?: boolean;
 } & ComponentPropsWithRef<'div'>;
 
 /**
@@ -301,12 +215,6 @@ export type MenuSeparatorProps = {
    * Additional CSS class names to apply to the separator.
    */
   className?: string;
-
-  /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
-   */
-  asChild?: boolean;
 } & ComponentPropsWithRef<'div'>;
 
 /**
@@ -314,13 +222,7 @@ export type MenuSeparatorProps = {
  *
  * Used to group multiple items together.
  */
-export type MenuGroupProps = {
-  /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
-   */
-  asChild?: boolean;
-} & ComponentPropsWithoutRef<'div'>;
+export type MenuGroupProps = ComponentPropsWithoutRef<'div'>;
 
 /**
  * Props for a Menu radio group component.
@@ -340,12 +242,6 @@ export type MenuRadioGroupProps = {
    * @param value - The value of the radio item that was selected
    */
   onValueChange?: (value: string) => void;
-
-  /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
-   */
-  asChild?: boolean;
 } & ComponentPropsWithoutRef<'div'>;
 
 /**
@@ -391,17 +287,6 @@ export type MenuSubTriggerProps = {
   className?: string;
 
   /**
-   * When `true`, the sub trigger will have left padding for alignment with labeled items.
-   */
-  inset?: boolean;
-
-  /**
-   * Change the default rendered element for the one passed as a child,
-   * merging their props and behavior.
-   */
-  asChild?: boolean;
-
-  /**
    * When `true`, prevents the user from interacting with the item.
    *
    * @default false
@@ -413,7 +298,7 @@ export type MenuSubTriggerProps = {
    * By default, the typeahead behavior will use the `.textContent` of the item.
    * Use this when the content is complex, or you have non-textual content inside.
    */
-  textValue?: string;
+  label?: string;
 } & ComponentPropsWithRef<'div'>;
 
 /**
@@ -427,14 +312,9 @@ export type MenuSubContentProps = {
    * Additional CSS class names to apply to the sub content.
    */
   className?: string;
-} & Omit<
-  MenuContentProps,
-  | 'side'
-  | 'sideOffset'
-  | 'align'
-  | 'onCloseAutoFocus'
-  | 'onEscapeKeyDown'
-  | 'onPointerDownOutside'
-  | 'onFocusOutside'
-  | 'onInteractOutside'
->;
+
+  /**
+   * The content to display inside the submenu popup.
+   */
+  children?: ReactNode;
+};

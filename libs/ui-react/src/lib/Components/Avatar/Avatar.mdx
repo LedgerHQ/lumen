@@ -159,16 +159,21 @@ import { Menu, MenuTrigger, MenuContent, MenuItem } from '@ledgerhq/lumen-ui-rea
 function UserMenu() {
   return (
     <Menu>
-      <MenuTrigger asChild>
-        <button className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover">
-          <Avatar 
-            src="https://example.com/photo.jpg"
-            size="md" 
-            alt="User menu" 
-            showNotification 
-          />
-        </button>
-      </MenuTrigger>
+      <MenuTrigger
+        render={
+          <button
+            type="button"
+            className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover"
+          >
+            <Avatar
+              src="https://example.com/photo.jpg"
+              size="md"
+              alt="User menu"
+              showNotification
+            />
+          </button>
+        }
+      />
       <MenuContent>
         <MenuItem>Profile</MenuItem>
         <MenuItem>Settings</MenuItem>
