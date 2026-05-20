@@ -95,13 +95,8 @@ function MenuGroup({ ...props }: MenuGroupProps) {
   return <MenuPrimitive.Group data-slot='menu-group' {...props} />;
 }
 
-function MenuSub({ onOpenChange, ...props }: MenuSubProps) {
-  return (
-    <MenuPrimitive.SubmenuRoot
-      onOpenChange={(open) => onOpenChange?.(open)}
-      {...props}
-    />
-  );
+function MenuSub({ ...props }: MenuSubProps) {
+  return <MenuPrimitive.SubmenuRoot {...props} />;
 }
 
 function MenuRadioGroup({ onValueChange, ...props }: MenuRadioGroupProps) {
@@ -178,7 +173,7 @@ const MenuItem = ({
   ref,
   className,
   disabled: disabledProp,
-  onSelect,
+  onClick,
   label,
   closeOnClick = true,
   ...props
@@ -197,7 +192,7 @@ const MenuItem = ({
         disabled={disabled}
         closeOnClick={closeOnClick}
         className={cn(itemStyles, className)}
-        onClick={(e) => onSelect?.(e.nativeEvent)}
+        onClick={onClick}
         {...props}
       />
     </DisabledProvider>
@@ -251,8 +246,6 @@ const MenuRadioItem = ({
   className,
   children,
   disabled: disabledProp,
-  value,
-  label,
   ...props
 }: MenuRadioItemProps) => {
   const disabled = useDisabledContext({
@@ -265,8 +258,6 @@ const MenuRadioItem = ({
       <MenuPrimitive.RadioItem
         ref={ref}
         data-slot='menu-radio-item'
-        value={value}
-        label={label}
         disabled={disabled}
         className={cn(itemStyles, className)}
         {...props}

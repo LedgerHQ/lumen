@@ -4,6 +4,7 @@ import {
   MenuTrigger,
   MenuContent,
   MenuItem,
+  MenuGroup,
   MenuLabel,
   MenuSeparator,
   MenuCheckboxItem,
@@ -61,8 +62,10 @@ figma.connect(
             true: (
               <>
                 <MenuSeparator />
-                <MenuLabel>Section 2</MenuLabel>
-                <MenuItem>Item 3</MenuItem>
+                <MenuGroup>
+                  <MenuLabel>Section 2</MenuLabel>
+                  <MenuItem>Item 3</MenuItem>
+                </MenuGroup>
               </>
             ),
             false: (
@@ -74,10 +77,10 @@ figma.connect(
           }),
           false: figma.boolean('show-section-title', {
             true: (
-              <>
+              <MenuGroup>
                 <MenuLabel>Section 2</MenuLabel>
                 <MenuItem>Item 3</MenuItem>
-              </>
+              </MenuGroup>
             ),
             false: <MenuItem>Item 3</MenuItem>,
           }),
@@ -90,8 +93,10 @@ figma.connect(
             true: (
               <>
                 <MenuSeparator />
-                <MenuLabel>Section 3</MenuLabel>
-                <MenuItem>Item 4</MenuItem>
+                <MenuGroup>
+                  <MenuLabel>Section 3</MenuLabel>
+                  <MenuItem>Item 4</MenuItem>
+                </MenuGroup>
               </>
             ),
             false: (
@@ -103,10 +108,10 @@ figma.connect(
           }),
           false: figma.boolean('show-section-title', {
             true: (
-              <>
+              <MenuGroup>
                 <MenuLabel>Section 3</MenuLabel>
                 <MenuItem>Item 4</MenuItem>
-              </>
+              </MenuGroup>
             ),
             false: <MenuItem>Item 4</MenuItem>,
           }),
@@ -119,8 +124,10 @@ figma.connect(
             true: (
               <>
                 <MenuSeparator />
-                <MenuLabel>Section 4</MenuLabel>
-                <MenuItem>Item 5</MenuItem>
+                <MenuGroup>
+                  <MenuLabel>Section 4</MenuLabel>
+                  <MenuItem>Item 5</MenuItem>
+                </MenuGroup>
               </>
             ),
             false: (
@@ -132,10 +139,10 @@ figma.connect(
           }),
           false: figma.boolean('show-section-title', {
             true: (
-              <>
+              <MenuGroup>
                 <MenuLabel>Section 4</MenuLabel>
                 <MenuItem>Item 5</MenuItem>
-              </>
+              </MenuGroup>
             ),
             false: <MenuItem>Item 5</MenuItem>,
           }),
@@ -162,7 +169,7 @@ figma.connect(
   {
     example: () => (
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent className='w-64'>
           <MenuCheckboxItem checked>Item 1</MenuCheckboxItem>
           <MenuItem>Item 2</MenuItem>

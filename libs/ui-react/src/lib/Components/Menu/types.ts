@@ -51,12 +51,12 @@ export type MenuProps = {
 export type MenuTriggerProps = {
   /**
    * Render prop that replaces the default button-style trigger.
-   * Replaces Radix `asChild` — merge trigger props onto your component.
+   * Merges menu trigger behavior onto your component without an extra wrapper element.
    *
    * @example render={<IconButton icon={MoreVertical} aria-label="Open Menu" />}
    * @example render={(props) => <IconButton {...props} icon={MoreVertical} aria-label="Open Menu" />}
    */
-  render?: MenuNamespace.Trigger.Props['render'];
+  render: MenuNamespace.Trigger.Props['render'];
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
@@ -98,6 +98,7 @@ export type MenuContentProps = {
 
   /**
    * An offset in pixels from the "start" or "end" alignment options.
+   * @default 0
    */
   alignOffset?: number;
 
@@ -127,12 +128,6 @@ export type MenuItemProps = {
    * @default false
    */
   disabled?: boolean;
-
-  /**
-   * Event handler called when the user selects an item (via mouse or keyboard).
-   * Calling `event.preventDefault` in this handler will prevent the dropdown menu from closing when selecting that item.
-   */
-  onSelect?: (event: Event) => void;
 
   /**
    * Optional text used for typeahead purposes.
@@ -175,7 +170,7 @@ export type MenuCheckboxItemProps = {
    * @param checked - The new checked state
    */
   onCheckedChange?: (checked: boolean) => void;
-} & Omit<MenuItemProps, 'onSelect'>;
+} & MenuItemProps;
 
 /**
  * Props for a Menu radio item component.
@@ -190,7 +185,7 @@ export type MenuRadioItemProps = {
    * @required
    */
   value: string;
-} & Omit<MenuItemProps, 'onSelect'>;
+} & MenuItemProps;
 
 /**
  * Props for a Menu label component.
