@@ -87,9 +87,7 @@ export function ScrubberProvider({
         'worklet';
         isScrubbing.value = true;
         scheduleOnRN(handlePositionChange, e.x);
-      })
-      .onEnd(resetScrubber)
-      .onFinalize(resetScrubber);
+      });
 
     const pan = Gesture.Pan()
       .manualActivation(true)

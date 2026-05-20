@@ -1,6 +1,8 @@
-import { render } from '@testing-library/react';
-import type { ReactNode } from 'react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from '@jest/globals';
+import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
+import { render } from '@testing-library/react-native';
+import React from 'react';
 
 import { CartesianChart } from '../CartesianChart';
 
@@ -8,8 +10,14 @@ import { ReferenceLine } from './ReferenceLine';
 
 const sampleSeries = [{ id: 's1', stroke: '#000', data: [10, 20, 30, 40, 50] }];
 
+const Wrapper = ({ children }: { children: React.ReactNode }) => (
+  <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+    {children}
+  </ThemeProvider>
+);
+
 const renderInChart = (
-  children: ReactNode,
+  children: React.ReactNode,
   {
     width = 400,
     height = 200,
@@ -23,15 +31,17 @@ const renderInChart = (
   } = {},
 ) =>
   render(
-    <CartesianChart
-      series={sampleSeries}
-      width={width}
-      height={height}
-      xAxis={xAxis}
-      yAxis={yAxis}
-    >
-      {children}
-    </CartesianChart>,
+    <Wrapper>
+      <CartesianChart
+        series={sampleSeries}
+        width={width}
+        height={height}
+        xAxis={xAxis}
+        yAxis={yAxis}
+      >
+        {children}
+      </CartesianChart>
+    </Wrapper>,
   );
 
 describe('ReferenceLine', () => {
@@ -40,15 +50,13 @@ describe('ReferenceLine', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataY={30} />);
       const line = getByTestId('reference-line-line');
       expect(line).toBeTruthy();
-      expect(line.getAttribute('y1')).toBe(line.getAttribute('y2'));
+      expect(line.props.y1).toBe(line.props.y2);
     });
 
     it('spans the full width of the drawing area', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataY={30} />);
       const line = getByTestId('reference-line-line');
-      const x1 = Number(line.getAttribute('x1'));
-      const x2 = Number(line.getAttribute('x2'));
-      expect(x2).toBeGreaterThan(x1);
+      expect(line.props.x2).toBeGreaterThan(line.props.x1);
     });
 
     it('does not render when dataY is outside domain bounds', () => {
@@ -61,7 +69,7 @@ describe('ReferenceLine', () => {
         <ReferenceLine dataY={30} label='Target' labelPosition='end' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('start');
+      expect(label.props.textAnchor).toBe('start');
     });
 
     it('renders label with textAnchor end when labelPosition is start', () => {
@@ -69,7 +77,7 @@ describe('ReferenceLine', () => {
         <ReferenceLine dataY={30} label='Target' labelPosition='start' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('end');
+      expect(label.props.textAnchor).toBe('end');
     });
 
     it('renders label with textAnchor middle when labelPosition is center', () => {
@@ -77,7 +85,7 @@ describe('ReferenceLine', () => {
         <ReferenceLine dataY={30} label='Target' labelPosition='center' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('middle');
+      expect(label.props.textAnchor).toBe('middle');
     });
 
     it('defaults labelPosition to end', () => {
@@ -85,7 +93,7 @@ describe('ReferenceLine', () => {
         <ReferenceLine dataY={30} label='Target' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('start');
+      expect(label.props.textAnchor).toBe('start');
     });
   });
 
@@ -94,15 +102,13 @@ describe('ReferenceLine', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataX={2} />);
       const line = getByTestId('reference-line-line');
       expect(line).toBeTruthy();
-      expect(line.getAttribute('x1')).toBe(line.getAttribute('x2'));
+      expect(line.props.x1).toBe(line.props.x2);
     });
 
     it('spans the full height of the drawing area', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataX={2} />);
       const line = getByTestId('reference-line-line');
-      const y1 = Number(line.getAttribute('y1'));
-      const y2 = Number(line.getAttribute('y2'));
-      expect(y2).toBeGreaterThan(y1);
+      expect(line.props.y2).toBeGreaterThan(line.props.y1);
     });
 
     it('does not render when dataX is outside domain bounds', () => {
@@ -110,12 +116,12 @@ describe('ReferenceLine', () => {
       expect(queryByTestId('reference-line')).toBeNull();
     });
 
-    it('defaults labelPosition to end with dominant-baseline hanging', () => {
+    it('defaults labelPosition to end with dy offset for hanging baseline', () => {
       const { getByTestId } = renderInChart(
         <ReferenceLine dataX={2} label='Event' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('dominant-baseline')).toBe('hanging');
+      expect(label.props.dy).toBe(8);
     });
 
     it('works with band (categorical) x-axis scale', () => {
@@ -134,20 +140,25 @@ describe('ReferenceLine', () => {
 
     it('resolves dataX through numeric xAxis.data', () => {
       const numericXData = [100, 200, 300, 400, 500];
-      const { getByTestId: getWithData } = renderInChart(
+      const { getByTestId: getIdx0 } = renderInChart(
+        <ReferenceLine dataX={0} />,
+        { xAxis: { data: numericXData } },
+      );
+      const { getByTestId: getIdx2 } = renderInChart(
         <ReferenceLine dataX={2} />,
         { xAxis: { data: numericXData } },
       );
-      const lineWithData = getWithData('reference-line-line');
-      const x1WithData = Number(lineWithData.getAttribute('x1'));
+      const x1Idx0 = getIdx0('reference-line-line').props.x1;
+      const x1Idx2 = getIdx2('reference-line-line').props.x1;
 
-      const { getByTestId: getWithoutData } = renderInChart(
-        <ReferenceLine dataX={300} />,
-      );
-      const lineWithoutData = getWithoutData('reference-line-line');
-      const x1WithoutData = Number(lineWithoutData.getAttribute('x1'));
+      expect(x1Idx2).toBeGreaterThan(x1Idx0);
+    });
 
-      expect(x1WithData).toBeCloseTo(x1WithoutData, 0);
+    it('does not render when dataX index is out of bounds for xAxis.data', () => {
+      const { queryByTestId } = renderInChart(<ReferenceLine dataX={10} />, {
+        xAxis: { data: [100, 200, 300] },
+      });
+      expect(queryByTestId('reference-line')).toBeNull();
     });
   });
 
@@ -156,17 +167,13 @@ describe('ReferenceLine', () => {
       const { getByTestId, unmount } = renderInChart(
         <ReferenceLine dataY={30} label='A' />,
       );
-      const xWithoutOffset = Number(
-        getByTestId('reference-line-label').getAttribute('x'),
-      );
+      const xWithoutOffset = getByTestId('reference-line-label').props.x;
       unmount();
 
       const { getByTestId: getWithOffset } = renderInChart(
         <ReferenceLine dataY={30} label='A' labelDx={10} />,
       );
-      const xWithOffset = Number(
-        getWithOffset('reference-line-label').getAttribute('x'),
-      );
+      const xWithOffset = getWithOffset('reference-line-label').props.x;
       expect(xWithOffset).toBe(xWithoutOffset + 10);
     });
 
@@ -174,17 +181,13 @@ describe('ReferenceLine', () => {
       const { getByTestId, unmount } = renderInChart(
         <ReferenceLine dataY={30} label='A' />,
       );
-      const yWithoutOffset = Number(
-        getByTestId('reference-line-label').getAttribute('y'),
-      );
+      const yWithoutOffset = getByTestId('reference-line-label').props.y;
       unmount();
 
       const { getByTestId: getWithOffset } = renderInChart(
         <ReferenceLine dataY={30} label='A' labelDy={-4} />,
       );
-      const yWithOffset = Number(
-        getWithOffset('reference-line-label').getAttribute('y'),
-      );
+      const yWithOffset = getWithOffset('reference-line-label').props.y;
       expect(yWithOffset).toBe(yWithoutOffset - 4);
     });
   });
@@ -193,7 +196,7 @@ describe('ReferenceLine', () => {
     it('uses dashed line style by default', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataY={30} />);
       const line = getByTestId('reference-line-line');
-      expect(line.getAttribute('stroke-dasharray')).toBe('0.1 6');
+      expect(line.props.strokeDasharray).toBe('0.1 6');
     });
 
     it('removes dasharray when lineStyle is solid', () => {
@@ -201,7 +204,7 @@ describe('ReferenceLine', () => {
         <ReferenceLine dataY={30} lineStyle='solid' />,
       );
       const line = getByTestId('reference-line-line');
-      expect(line.getAttribute('stroke-dasharray')).toBeNull();
+      expect(line.props.strokeDasharray).toBeUndefined();
     });
 
     it('applies custom stroke color', () => {
@@ -209,13 +212,13 @@ describe('ReferenceLine', () => {
         <ReferenceLine dataY={30} stroke='#FF0000' />,
       );
       const line = getByTestId('reference-line-line');
-      expect(line.getAttribute('stroke')).toBe('#FF0000');
+      expect(line.props.stroke).toBe('#FF0000');
     });
 
     it('has round linecap', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataY={30} />);
       const line = getByTestId('reference-line-line');
-      expect(line.getAttribute('stroke-linecap')).toBe('round');
+      expect(line.props.strokeLinecap).toBe('round');
     });
   });
 
@@ -229,7 +232,7 @@ describe('ReferenceLine', () => {
         />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('text-anchor')).toBe('end');
+      expect(label.props.textAnchor).toBe('end');
     });
 
     it('applies labelVerticalAlignment=start on horizontal line', () => {
@@ -241,7 +244,7 @@ describe('ReferenceLine', () => {
         />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('dominant-baseline')).toBe('auto');
+      expect(label.props.dy).toBe(0);
     });
 
     it('applies labelVerticalAlignment=center on horizontal line', () => {
@@ -253,7 +256,7 @@ describe('ReferenceLine', () => {
         />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.getAttribute('dominant-baseline')).toBe('central');
+      expect(label.props.dy).toBe(3.5);
     });
   });
 

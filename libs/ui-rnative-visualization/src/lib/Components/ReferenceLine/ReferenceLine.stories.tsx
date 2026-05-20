@@ -1,7 +1,8 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
+import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { View } from 'react-native';
 
-import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
+import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from '../LineChart';
 
 import { ReferenceLine } from './ReferenceLine';
@@ -22,9 +23,9 @@ const meta = {
     (Story, context) => {
       return (
         <StoryDecorator context={context}>
-          <div style={{ width: 600, padding: 16 }}>
+          <View style={{ width: 600, padding: 16 }}>
             <Story />
-          </div>
+          </View>
         </StoryDecorator>
       );
     },
@@ -35,6 +36,10 @@ export default meta;
 type Story = StoryObj<typeof ReferenceLine>;
 
 export const HorizontalLine: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
   render: () => (
     <LineChart series={sampleSeries} height={250} showArea>
       <ReferenceLine
@@ -49,6 +54,10 @@ export const HorizontalLine: Story = {
 };
 
 export const VerticalLine: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
   render: () => (
     <LineChart series={sampleSeries} height={250} showArea>
       <ReferenceLine
@@ -64,30 +73,37 @@ export const VerticalLine: Story = {
 };
 
 export const Combined: Story = {
-  render: () => (
-    <LineChart series={sampleSeries} height={250} showArea>
-      <ReferenceLine
-        dataY={98}
-        label='ATH'
-        labelDy={4}
-        labelVerticalAlignment='start'
-        stroke={cssVar('var(--border-success)')}
-      />
-      <ReferenceLine
-        dataY={4}
-        label='Low'
-        labelDy={-4}
-        labelVerticalAlignment='end'
-        stroke={cssVar('var(--border-error)')}
-      />
-      <ReferenceLine
-        dataX={4}
-        label='Peak'
-        labelDx={8}
-        labelDy={8}
-        labelHorizontalAlignment='end'
-        labelPosition='start'
-      />
-    </LineChart>
-  ),
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  render: () => {
+    const { theme } = useTheme();
+    return (
+      <LineChart series={sampleSeries} height={250} showArea>
+        <ReferenceLine
+          dataY={98}
+          label='ATH'
+          labelDy={4}
+          labelVerticalAlignment='start'
+          stroke={theme.colors.border.success}
+        />
+        <ReferenceLine
+          dataY={4}
+          label='Low'
+          labelDy={-4}
+          labelVerticalAlignment='end'
+          stroke={theme.colors.border.error}
+        />
+        <ReferenceLine
+          dataX={4}
+          label='Peak'
+          labelDx={8}
+          labelDy={8}
+          labelHorizontalAlignment='end'
+          labelPosition='start'
+        />
+      </LineChart>
+    );
+  },
 };

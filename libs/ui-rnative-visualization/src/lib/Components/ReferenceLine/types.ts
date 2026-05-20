@@ -41,7 +41,7 @@ export type ReferenceLineBaseProps = {
   labelVerticalAlignment?: LabelAlignment;
   /**
    * Line color.
-   * @default cssVar('var(--border-muted)')
+   * @default theme.colors.border.muted
    */
   stroke?: string;
   /**
