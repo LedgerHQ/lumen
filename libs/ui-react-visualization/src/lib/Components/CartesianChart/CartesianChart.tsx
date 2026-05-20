@@ -23,6 +23,7 @@ export function CartesianChart({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
+  magnetRadius,
   children,
 }: CartesianChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -103,6 +104,7 @@ export function CartesianChart({
               svgRef={svgRef}
               enableScrubbing={enableScrubbing}
               onScrubberPositionChange={onScrubberPositionChange}
+              magnetRadius={magnetRadius}
             >
               <RevealClipDefs
                 drawingArea={contextValue.drawingArea}

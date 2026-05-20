@@ -77,4 +77,11 @@ export type LineChartProps = {
    * @default true
    */
   animate?: boolean;
+  /**
+   * Pixel radius within which the scrubber magnetically snaps to registered
+   * magnetic `<Point>` components. Requires `enableScrubbing` to be `true`.
+   * Set to `0` to disable magnetisation.
+   * @default 10
+   */
+  magnetRadius?: number;
 };

@@ -121,3 +121,33 @@ export const resolvePixelX = (
   const xValue = typeof axisValue === 'number' ? axisValue : dataIndex;
   return getPointOnScale(xValue, scale);
 };
+
+/**
+ * Given a resolved data index and the raw pixel position, checks whether any
+ * magnetic point is within `magnetRadius` pixels of `pixelX`. If so, returns
+ * the closest magnetic index; otherwise returns the original `resolvedIndex`.
+ */
+export const applyMagnetisation = (
+  resolvedIndex: number,
+  pixelX: number,
+  magneticIndices: ReadonlySet<number>,
+  magnetRadius: number,
+  getPixelForIndex: (index: number) => number | undefined,
+): number => {
+  if (magnetRadius <= 0 || magneticIndices.size === 0) return resolvedIndex;
+
+  let closestMagneticIndex = resolvedIndex;
+  let closestDistance = Infinity;
+
+  for (const magnetIndex of magneticIndices) {
+    const magnetPixelX = getPixelForIndex(magnetIndex);
+    if (magnetPixelX === undefined) continue;
+    const distance = Math.abs(pixelX - magnetPixelX);
+    if (distance <= magnetRadius && distance < closestDistance) {
+      closestDistance = distance;
+      closestMagneticIndex = magnetIndex;
+    }
+  }
+
+  return closestMagneticIndex;
+};

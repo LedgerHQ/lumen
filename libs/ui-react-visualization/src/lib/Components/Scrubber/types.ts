@@ -31,6 +31,12 @@ export type ScrubberProviderProps = {
    * Optional external callback fired whenever the scrubber position changes.
    */
   onScrubberPositionChange?: (index: number | undefined) => void;
+  /**
+   * Pixel radius within which the scrubber magnetically snaps to registered
+   * magnetic points. Set to `0` to disable magnetisation.
+   * @default 10
+   */
+  magnetRadius?: number;
 };
 
 /**

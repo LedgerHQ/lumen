@@ -1,9 +1,10 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useRevealClip } from '../CartesianChart/RevealClip';
+import { useMagneticPointsContext } from './pointContext';
 
 import type { PointLabelProps, PointProps } from './types';
 import {
@@ -48,9 +49,17 @@ export function Point({
   showLabelArrow = true,
   size = DEFAULT_SIZE,
   onClick,
+  magnetic = false,
 }: Readonly<PointProps>) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
   const clipPath = useRevealClip();
+  const { register, unregister } = useMagneticPointsContext();
+
+  useEffect(() => {
+    if (!magnetic) return;
+    register(dataX);
+    return () => unregister(dataX);
+  }, [magnetic, dataX, register, unregister]);
 
   const xScale = getXScale();
   const yScale = getYScale();
