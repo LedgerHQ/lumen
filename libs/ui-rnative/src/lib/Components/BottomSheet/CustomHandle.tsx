@@ -18,7 +18,7 @@ const useStyles = () => {
         height: t.spacings.s4,
         width: t.sizes.s36,
         borderRadius: t.borderRadius.full,
-        backgroundColor: t.colors.bg.mutedTransparent,
+        backgroundColor: t.colors.bg.mutedTransparentPressed,
       },
     }),
     [],
