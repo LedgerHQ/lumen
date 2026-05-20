@@ -215,22 +215,6 @@ describe('ReferenceLine', () => {
       expect(line.props.stroke).toBe('#FF0000');
     });
 
-    it('applies custom opacity', () => {
-      const { getByTestId } = renderInChart(
-        <ReferenceLine dataY={30} opacity={0.5} />,
-      );
-      const line = getByTestId('reference-line-line');
-      expect(line.props.opacity).toBe(0.5);
-    });
-
-    it('applies opacity to label as well', () => {
-      const { getByTestId } = renderInChart(
-        <ReferenceLine dataY={30} label='Test' opacity={0.5} />,
-      );
-      const label = getByTestId('reference-line-label');
-      expect(label.props.opacity).toBe(0.5);
-    });
-
     it('has round linecap', () => {
       const { getByTestId } = renderInChart(<ReferenceLine dataY={30} />);
       const line = getByTestId('reference-line-line');

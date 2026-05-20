@@ -51,11 +51,6 @@ export type ReferenceLineBaseProps = {
    * @default 'dashed'
    */
   lineStyle?: 'solid' | 'dashed';
-  /**
-   * Opacity applied to the line and label.
-   * @default 1
-   */
-  opacity?: number;
 };
 
 export type HorizontalReferenceLineProps = ReferenceLineBaseProps & {

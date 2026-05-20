@@ -102,7 +102,6 @@ export const Combined: Story = {
           labelDy={8}
           labelHorizontalAlignment='end'
           labelPosition='start'
-          opacity={0.6}
         />
       </LineChart>
     );

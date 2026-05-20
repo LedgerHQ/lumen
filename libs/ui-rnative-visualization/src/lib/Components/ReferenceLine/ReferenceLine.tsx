@@ -21,7 +21,6 @@ export function ReferenceLine({
   labelPosition = 'end',
   stroke,
   lineStyle = 'dashed',
-  opacity = 1,
   ...props
 }: Readonly<ReferenceLineProps>) {
   const { getXScale, getYScale, getXAxisConfig, getYAxisConfig, drawingArea } =
@@ -69,7 +68,6 @@ export function ReferenceLine({
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
-          opacity={opacity}
         />
         {labelCoords && (
           <SvgText
@@ -82,7 +80,6 @@ export function ReferenceLine({
             fontSize={fontSize}
             fontWeight={theme.typographies.body4.fontWeight}
             fontFamily={theme.fontFamilies.sans}
-            opacity={opacity}
           >
             {label}
           </SvgText>
@@ -128,7 +125,6 @@ export function ReferenceLine({
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
-          opacity={opacity}
         />
         {labelCoords && (
           <SvgText
@@ -141,7 +137,6 @@ export function ReferenceLine({
             fontSize={fontSize}
             fontWeight={theme.typographies.body4.fontWeight}
             fontFamily={theme.fontFamilies.sans}
-            opacity={opacity}
           >
             {label}
           </SvgText>
