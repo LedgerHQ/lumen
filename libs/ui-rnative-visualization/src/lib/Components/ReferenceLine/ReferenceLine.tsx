@@ -8,6 +8,7 @@ import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
+  dominantBaselineToDy,
   resolvePixel,
 } from './utils';
 
@@ -29,6 +30,7 @@ export function ReferenceLine({
 
   const resolvedStroke = stroke ?? theme.colors.border.muted;
   const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
+  const fontSize = theme.typographies.body4.fontSize;
 
   if (props.dataY !== undefined) {
     const yPixel = resolvePixel({
@@ -51,6 +53,9 @@ export function ReferenceLine({
           verticalAlignment: labelVerticalAlignment,
         })
       : null;
+    const baselineDy = labelCoords
+      ? dominantBaselineToDy(labelCoords.dominantBaseline, fontSize)
+      : 0;
 
     return (
       <G testID='reference-line'>
@@ -71,11 +76,10 @@ export function ReferenceLine({
             testID='reference-line-label'
             x={labelCoords.x}
             y={labelCoords.y}
+            dy={baselineDy}
             textAnchor={labelCoords.textAnchor}
-            // @ts-expect-error valid SVG attr, missing from react-native-svg types
-            dominantBaseline={labelCoords.dominantBaseline}
             fill={theme.colors.text.muted}
-            fontSize={theme.typographies.body4.fontSize}
+            fontSize={fontSize}
             fontWeight={theme.typographies.body4.fontWeight}
             fontFamily={theme.fontFamilies.sans}
             opacity={opacity}
@@ -108,6 +112,9 @@ export function ReferenceLine({
           verticalAlignment: labelVerticalAlignment,
         })
       : null;
+    const baselineDy = labelCoords
+      ? dominantBaselineToDy(labelCoords.dominantBaseline, fontSize)
+      : 0;
 
     return (
       <G testID='reference-line'>
@@ -128,11 +135,10 @@ export function ReferenceLine({
             testID='reference-line-label'
             x={labelCoords.x}
             y={labelCoords.y}
+            dy={baselineDy}
             textAnchor={labelCoords.textAnchor}
-            // @ts-expect-error valid SVG attr, missing from react-native-svg types
-            dominantBaseline={labelCoords.dominantBaseline}
             fill={theme.colors.text.muted}
-            fontSize={theme.typographies.body4.fontSize}
+            fontSize={fontSize}
             fontWeight={theme.typographies.body4.fontWeight}
             fontFamily={theme.fontFamilies.sans}
             opacity={opacity}

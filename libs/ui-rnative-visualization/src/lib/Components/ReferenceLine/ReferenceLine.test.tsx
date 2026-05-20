@@ -116,12 +116,12 @@ describe('ReferenceLine', () => {
       expect(queryByTestId('reference-line')).toBeNull();
     });
 
-    it('defaults labelPosition to end with dominant-baseline hanging', () => {
+    it('defaults labelPosition to end with dy offset for hanging baseline', () => {
       const { getByTestId } = renderInChart(
         <ReferenceLine dataX={2} label='Event' />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.props.dominantBaseline).toBe('hanging');
+      expect(label.props.dy).toBe(8);
     });
 
     it('works with band (categorical) x-axis scale', () => {
@@ -260,7 +260,7 @@ describe('ReferenceLine', () => {
         />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.props.dominantBaseline).toBe('auto');
+      expect(label.props.dy).toBe(0);
     });
 
     it('applies labelVerticalAlignment=center on horizontal line', () => {
@@ -272,7 +272,7 @@ describe('ReferenceLine', () => {
         />,
       );
       const label = getByTestId('reference-line-label');
-      expect(label.props.dominantBaseline).toBe('central');
+      expect(label.props.dy).toBe(3.5);
     });
   });
 

@@ -6,6 +6,7 @@ import type { DrawingArea } from '../../utils/types';
 import {
   computeHorizontalLabelCoordinates,
   computeVerticalLabelCoordinates,
+  dominantBaselineToDy,
   isPixelWithinDrawingArea,
   resolvePixel,
 } from './utils';
@@ -311,5 +312,21 @@ describe('resolvePixel', () => {
         axisConfig: { data: [1, 2, 3] },
       }),
     ).toBeUndefined();
+  });
+});
+
+describe('dominantBaselineToDy', () => {
+  const fontSize = 10;
+
+  it('returns 0 for auto (text above anchor)', () => {
+    expect(dominantBaselineToDy('auto', fontSize)).toBe(0);
+  });
+
+  it('returns fontSize * 0.35 for central (vertically centered)', () => {
+    expect(dominantBaselineToDy('central', fontSize)).toBe(3.5);
+  });
+
+  it('returns fontSize * 0.8 for hanging (text below anchor)', () => {
+    expect(dominantBaselineToDy('hanging', fontSize)).toBe(8);
   });
 });

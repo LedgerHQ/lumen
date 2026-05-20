@@ -6,6 +6,7 @@ import {
   ReferenceLine,
   Scrubber,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
+import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
 export const LineCharts = () => (
@@ -62,7 +63,7 @@ const Section = ({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const { theme } = useTheme();
   return (
@@ -414,15 +415,15 @@ const ReferenceLineBasic = () => {
           dataY={98}
           labelDy={-4}
           label='Peak'
-          labelPosition='right'
-          labelVerticalAlignment='bottom'
+          labelPosition='end'
+          labelVerticalAlignment='end'
         />
         <ReferenceLine
           dataY={4}
           labelDy={-4}
           label='Low'
-          labelPosition='left'
-          labelVerticalAlignment='top'
+          labelPosition='start'
+          labelVerticalAlignment='start'
         />
       </LineChart>
     </Section>
