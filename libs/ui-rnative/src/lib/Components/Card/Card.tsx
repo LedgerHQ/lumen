@@ -3,7 +3,7 @@ import {
   DisabledProvider,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
-import type { ReactNode, Ref } from 'react';
+import type { ComponentRef, ReactNode, Ref } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
 import type { LayoutChangeEvent, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
@@ -486,7 +486,7 @@ export const CardContentTitle = ({
   if (isTextChildren(children)) {
     return (
       <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
+        ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
         numberOfLines={1}
@@ -553,7 +553,7 @@ export const CardContentDescription = ({
   if (isTextChildren(children)) {
     return (
       <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
+        ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
         numberOfLines={1}

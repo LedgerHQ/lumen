@@ -4,7 +4,7 @@ import {
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import type { ElementRef, ReactNode, Ref } from 'react';
+import type { ComponentRef, ReactNode, Ref } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -286,7 +286,7 @@ export const ListItemTitle = ({
   style,
   ref,
   ...props
-}: ListItemTitleProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
+}: ListItemTitleProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemTitle',
     contextRequired: true,
@@ -336,7 +336,7 @@ export const ListItemDescription = ({
   style,
   ref,
   ...props
-}: ListItemDescriptionProps & { ref?: Ref<ElementRef<typeof Text>> }) => {
+}: ListItemDescriptionProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,

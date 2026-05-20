@@ -8,14 +8,20 @@ import type {
   BottomSheetBackgroundProps,
 } from '@gorhom/bottom-sheet';
 import type { Density } from '@ledgerhq/lumen-utils-shared';
-import type { FC, PropsWithChildren, ReactNode, Ref } from 'react';
+import type {
+  ComponentRef,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  Ref,
+} from 'react';
 
 import type { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.
    */
-  ref?: Ref<React.ElementRef<typeof GorhomBottomSheetModal>>;
+  ref?: Ref<ComponentRef<typeof GorhomBottomSheetModal>>;
   /**
    * Used to locate this view in end-to-end tests.
    */
@@ -139,6 +145,11 @@ export type BottomSheetProps = PropsWithChildren & {
    * @default undefined
    */
   backgroundComponent?: FC<BottomSheetBackgroundProps> | null;
+  /**
+   * If true, the drag handle (grabber) at the top of the sheet is hidden.
+   * @default false
+   */
+  hideHandle?: boolean;
 };
 
 export type { BottomSheetBackgroundProps };
