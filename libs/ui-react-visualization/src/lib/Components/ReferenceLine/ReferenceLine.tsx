@@ -26,7 +26,6 @@ export function ReferenceLine({
   labelPosition = 'end',
   stroke = DEFAULT_STROKE,
   lineStyle = 'dashed',
-  opacity = 1,
   ...props
 }: Readonly<ReferenceLineProps>) {
   const { getXScale, getYScale, getXAxisConfig, getYAxisConfig, drawingArea } =
@@ -68,7 +67,6 @@ export function ReferenceLine({
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
-          opacity={opacity}
         />
         {labelCoords && (
           <text
@@ -78,7 +76,6 @@ export function ReferenceLine({
             textAnchor={labelCoords.textAnchor}
             dominantBaseline={labelCoords.dominantBaseline}
             style={labelStyle}
-            opacity={opacity}
           >
             {label}
           </text>
@@ -121,7 +118,6 @@ export function ReferenceLine({
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
-          opacity={opacity}
         />
         {labelCoords && (
           <text
@@ -131,7 +127,6 @@ export function ReferenceLine({
             textAnchor={labelCoords.textAnchor}
             dominantBaseline={labelCoords.dominantBaseline}
             style={labelStyle}
-            opacity={opacity}
           >
             {label}
           </text>
