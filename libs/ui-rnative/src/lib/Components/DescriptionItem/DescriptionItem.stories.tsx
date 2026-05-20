@@ -27,6 +27,16 @@ const meta: Meta<typeof DescriptionItem> = {
     DescriptionItemTrailing,
     DescriptionItemValue,
   },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      source: {
+        language: 'tsx',
+        format: true,
+        type: 'code',
+      },
+    },
+  },
   decorators: [
     (Story) => (
       <Container>
@@ -40,8 +50,11 @@ export default meta;
 type Story = StoryObj<typeof DescriptionItem>;
 
 export const Base: Story = {
-  render: () => (
-    <DescriptionItem size='md'>
+  args: {
+    size: 'md',
+  },
+  render: (args) => (
+    <DescriptionItem {...args}>
       <DescriptionItemLeading>
         <DescriptionItemLabel>Fees</DescriptionItemLabel>
       </DescriptionItemLeading>
@@ -53,9 +66,12 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
-  render: () => (
+  args: {
+    size: 'md',
+  },
+  render: ({ size }) => (
     <View style={{ gap: 16 }}>
-      <DescriptionItem size='md'>
+      <DescriptionItem size={size}>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
         </DescriptionItemLeading>
@@ -64,30 +80,12 @@ export const SizeShowcase: Story = {
         </DescriptionItemTrailing>
       </DescriptionItem>
 
-      <DescriptionItem size='md'>
+      <DescriptionItem size={size}>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <Tag size='md' label='Ethereum' appearance='base' />
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem size='sm'>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>Network</DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>Ethereum</DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem size='sm'>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>Network</DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <Tag size='sm' label='Ethereum' appearance='base' />
+          <Tag size={size} label='Ethereum' appearance='base' />
         </DescriptionItemTrailing>
       </DescriptionItem>
     </View>

@@ -172,7 +172,7 @@ const AppContent = ({
                 <SandboxBlock title='ContentBanners'>
                   <ContentBanners />
                 </SandboxBlock>
-                <SandboxBlock title='Description lists'>
+                <SandboxBlock title='DescriptionLists'>
                   <DescriptionLists />
                 </SandboxBlock>
                 <SandboxBlock title='Dividers'>

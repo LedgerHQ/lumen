@@ -2,9 +2,6 @@ import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type DescriptionItemSize = 'sm' | 'md';
 
-/**
- * Props for the DescriptionItem root component
- */
 export type DescriptionItemProps = {
   /**
    * The content of the description item (DescriptionItemLeading, DescriptionItemTrailing).
@@ -21,9 +18,6 @@ export type DescriptionItemProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
-/**
- * Props for the DescriptionItemLeading component
- */
 export type DescriptionItemLeadingProps = {
   /**
    * The leading content (DescriptionItemLabel + optional info icon sibling).
@@ -35,9 +29,6 @@ export type DescriptionItemLeadingProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
-/**
- * Props for the DescriptionItemLabel component
- */
 export type DescriptionItemLabelProps = {
   /**
    * The label text or custom content.
@@ -49,9 +40,6 @@ export type DescriptionItemLabelProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
-/**
- * Props for the DescriptionItemTrailing component
- */
 export type DescriptionItemTrailingProps = {
   /**
    * The trailing content (DescriptionItemValue, Tag, Link, etc.).
@@ -63,9 +51,6 @@ export type DescriptionItemTrailingProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
-/**
- * Props for the DescriptionItemValue component
- */
 export type DescriptionItemValueProps = {
   /**
    * The value text or custom content.
