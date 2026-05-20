@@ -197,6 +197,30 @@ describe('BottomSheet', () => {
       expect(element.props['data-has-background-style']).toBe('true');
     });
 
+    it('renders the default handle when hideHandle is not set', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId, queryByTestId } = renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      expect(getByTestId('bottom-sheet-handle')).toBeTruthy();
+      expect(queryByTestId('bottom-sheet-handle-hidden')).toBeNull();
+    });
+
+    it('renders the hidden handle placeholder when hideHandle is true', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId, queryByTestId } = renderWithTheme(
+        <BottomSheet hideHandle testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      expect(getByTestId('bottom-sheet-handle-hidden')).toBeTruthy();
+      expect(queryByTestId('bottom-sheet-handle')).toBeNull();
+    });
+
     it('forwards backgroundComponent and skips default background style', () => {
       const { BottomSheet } = require('./BottomSheet');
       const CustomBackground = () => (

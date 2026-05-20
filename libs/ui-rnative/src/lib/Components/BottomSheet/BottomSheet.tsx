@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { RuntimeConstants } from '../../utils';
 import { CustomBackdrop } from './CustomBackdrop';
-import { CustomHandle } from './CustomHandle';
+import { CustomHandle, HiddenHandle } from './CustomHandle';
 import type { BottomSheetProps } from './types';
 
 const OFFSET_TOP = 25;
@@ -84,6 +84,7 @@ export const BottomSheet = ({
   onChange,
   snapPoints = 'fullWithOffset',
   backgroundComponent,
+  hideHandle = false,
   ref,
   ...props
 }: BottomSheetProps) => {
@@ -202,7 +203,7 @@ export const BottomSheet = ({
       /**
        * Components
        */
-      handleComponent={CustomHandle}
+      handleComponent={hideHandle ? HiddenHandle : CustomHandle}
       backdropComponent={hideBackdrop ? undefined : renderBackdrop}
     >
       <BottomSheetProvider value={{ onBack, hideCloseButton }}>

@@ -87,10 +87,6 @@ const GradientBackground = ({
         { color: 'activeSubtle', opacity: 0 },
       ]}
       style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
         height: 256,
       }}
     />
