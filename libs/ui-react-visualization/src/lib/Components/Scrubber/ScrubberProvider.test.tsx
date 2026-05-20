@@ -1,9 +1,20 @@
 import { fireEvent, render, act } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CartesianChart } from '../CartesianChart';
 import { useScrubberContext } from './context';
+
+beforeEach(() => {
+  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+    cb(0);
+    return 0;
+  });
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 const sampleSeries = [{ id: 's1', stroke: '#000', data: [10, 20, 30, 40, 50] }];
 
