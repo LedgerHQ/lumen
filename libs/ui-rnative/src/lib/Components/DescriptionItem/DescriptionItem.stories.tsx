@@ -69,9 +69,9 @@ export const SizeShowcase: Story = {
   args: {
     size: 'md',
   },
-  render: ({ size }) => (
+  render: () => (
     <View style={{ gap: 16 }}>
-      <DescriptionItem size={size}>
+      <DescriptionItem size='md'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
         </DescriptionItemLeading>
@@ -80,12 +80,30 @@ export const SizeShowcase: Story = {
         </DescriptionItemTrailing>
       </DescriptionItem>
 
-      <DescriptionItem size={size}>
+      <DescriptionItem size='md'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <Tag size={size} label='Ethereum' appearance='base' />
+          <Tag size='md' label='Ethereum' appearance='base' />
+        </DescriptionItemTrailing>
+      </DescriptionItem>
+      <br />
+      <DescriptionItem size='sm'>
+        <DescriptionItemLeading>
+          <DescriptionItemLabel>Network</DescriptionItemLabel>
+        </DescriptionItemLeading>
+        <DescriptionItemTrailing>
+          <DescriptionItemValue>Ethereum</DescriptionItemValue>
+        </DescriptionItemTrailing>
+      </DescriptionItem>
+
+      <DescriptionItem size='sm'>
+        <DescriptionItemLeading>
+          <DescriptionItemLabel>Network</DescriptionItemLabel>
+        </DescriptionItemLeading>
+        <DescriptionItemTrailing>
+          <Tag size='sm' label='Ethereum' appearance='base' />
         </DescriptionItemTrailing>
       </DescriptionItem>
     </View>
