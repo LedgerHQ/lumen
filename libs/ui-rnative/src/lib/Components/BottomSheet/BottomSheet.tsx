@@ -41,9 +41,6 @@ const useStyles = ({
           flex: 1,
           borderTopLeftRadius: t.borderRadius.xl,
           borderTopRightRadius: t.borderRadius.xl,
-          backgroundColor: hasCustomBackground
-            ? 'transparent'
-            : t.colors.bg.canvasSheet,
           overflow: 'hidden',
         },
         shadow && {
