@@ -1,4 +1,4 @@
-import type { DrawingArea } from '../../utils/types';
+import type { AxisConfigProps, DrawingArea } from '../../utils/types';
 
 export const DEFAULT_SIZE = 10;
 export const STROKE_WIDTH = 2;
@@ -51,6 +51,17 @@ export const resolveLabel = (
 ): string | undefined => {
   const resolved = typeof label === 'function' ? label(dataX) : label;
   return resolved === '' ? undefined : resolved;
+};
+
+export const resolveDataXToIndex = (
+  dataX: number,
+  axisConfig: AxisConfigProps | undefined,
+): number => {
+  const axisData = axisConfig?.data;
+  if (!axisData) return dataX;
+  const index = axisData.findIndex((d) => d === dataX);
+  if (index === -1) return dataX;
+  return index;
 };
 
 /**

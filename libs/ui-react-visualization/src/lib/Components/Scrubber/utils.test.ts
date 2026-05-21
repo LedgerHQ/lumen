@@ -167,9 +167,7 @@ describe('applyMagnetisation', () => {
   const getPixelForIndex = (index: number): number | undefined => index * 100;
 
   it('returns resolvedIndex when magneticIndices is empty', () => {
-    expect(
-      applyMagnetisation(2, 200, new Set(), 30, getPixelForIndex),
-    ).toBe(2);
+    expect(applyMagnetisation(2, 200, new Set(), 30, getPixelForIndex)).toBe(2);
   });
 
   it('returns resolvedIndex when no magnetic point is within radius', () => {
@@ -181,7 +179,6 @@ describe('applyMagnetisation', () => {
 
   it('snaps to a magnetic point within radius', () => {
     const magneticIndices = new Set([3]);
-    // pixelX=280, magnetic point at index 3 = pixel 300, distance = 20 <= 30
     expect(
       applyMagnetisation(2, 280, magneticIndices, 30, getPixelForIndex),
     ).toBe(3);
@@ -189,7 +186,6 @@ describe('applyMagnetisation', () => {
 
   it('snaps to the closest magnetic point when multiple are within radius', () => {
     const magneticIndices = new Set([1, 2]);
-    // pixelX=170, index 1 = pixel 100 (dist 70), index 2 = pixel 200 (dist 30)
     expect(
       applyMagnetisation(1, 170, magneticIndices, 40, getPixelForIndex),
     ).toBe(2);
@@ -204,7 +200,6 @@ describe('applyMagnetisation', () => {
 
   it('snaps at the exact boundary of magnetRadius', () => {
     const magneticIndices = new Set([3]);
-    // pixelX=270, magnetic at pixel 300, distance = 30 === magnetRadius
     expect(
       applyMagnetisation(2, 270, magneticIndices, 30, getPixelForIndex),
     ).toBe(3);
@@ -212,7 +207,6 @@ describe('applyMagnetisation', () => {
 
   it('does not snap when distance exceeds magnetRadius by 1', () => {
     const magneticIndices = new Set([3]);
-    // pixelX=269, magnetic at pixel 300, distance = 31 > 30
     expect(
       applyMagnetisation(2, 269, magneticIndices, 30, getPixelForIndex),
     ).toBe(2);

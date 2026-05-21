@@ -69,7 +69,7 @@ export type CartesianChartProps = {
    * Pixel radius within which the scrubber magnetically snaps to registered
    * magnetic `<Point>` components. Requires `enableScrubbing` to be `true`.
    * Set to `0` to disable magnetisation.
-   * @default 10
+   * @default 6
    */
   magnetRadius?: number;
 };

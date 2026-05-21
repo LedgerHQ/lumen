@@ -12,6 +12,7 @@ import {
   computeLabelY,
   DEFAULT_SIZE,
   isWithinBounds,
+  resolveDataXToIndex,
   resolveLabel,
   STROKE_WIDTH,
 } from './utils';
@@ -51,15 +52,17 @@ export function Point({
   onClick,
   magnetic = false,
 }: Readonly<PointProps>) {
-  const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
+  const { getXScale, getYScale, getXAxisConfig, drawingArea } =
+    useCartesianChartContext();
   const clipPath = useRevealClip();
   const { register, unregister } = useMagneticPointsContext();
 
   useEffect(() => {
     if (!magnetic) return;
-    register(dataX);
-    return () => unregister(dataX);
-  }, [magnetic, dataX, register, unregister]);
+    const index = resolveDataXToIndex(dataX, getXAxisConfig());
+    register(index);
+    return () => unregister(index);
+  }, [magnetic, dataX, getXAxisConfig, register, unregister]);
 
   const xScale = getXScale();
   const yScale = getYScale();
