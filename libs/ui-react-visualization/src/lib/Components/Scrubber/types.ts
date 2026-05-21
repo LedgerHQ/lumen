@@ -34,7 +34,7 @@ export type ScrubberProviderProps = {
   /**
    * Pixel radius within which the scrubber magnetically snaps to registered
    * magnetic points. Set to `0` to disable magnetisation.
-   * @default 10
+   * @default 6
    */
   magnetRadius?: number;
 };
