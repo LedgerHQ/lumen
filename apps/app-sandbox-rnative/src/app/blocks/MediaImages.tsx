@@ -10,6 +10,13 @@ export const MediaImages = () => {
         shape='square'
       />
       <MediaImage
+        loading={true}
+        src='https://crypto-icons.ledger.com/BTC.png'
+        alt='Bitcoin'
+        size={48}
+        shape='square'
+      />
+      <MediaImage
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         size={24}

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { StyledViewProps } from '../../../styles';
 import type { TimingTokens } from '../types';
 
 export type PulseProps = {
@@ -15,4 +16,4 @@ export type PulseProps = {
    * Whether the pulse animation should play
    */
   animate?: boolean;
-};
+} & StyledViewProps;
