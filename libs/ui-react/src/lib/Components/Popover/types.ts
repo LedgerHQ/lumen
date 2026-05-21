@@ -88,7 +88,7 @@ export type PopoverTriggerProps<Payload = unknown> = {
    * @example render={<Button {...props} label="Label" />}
    * @example render={(props) => <Button {...props} label="Label" />}
    */
-  render?: PopoverNamespace.Trigger.Props['render'];
+  render: PopoverNamespace.Trigger.Props['render'];
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**
