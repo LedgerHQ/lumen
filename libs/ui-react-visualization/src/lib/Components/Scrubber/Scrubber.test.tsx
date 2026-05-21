@@ -6,14 +6,11 @@ import { CartesianChart } from '../CartesianChart';
 import { Scrubber } from './Scrubber';
 
 beforeEach(() => {
-  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-    cb(0);
-    return 0;
-  });
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 
 const sampleSeries = [
@@ -60,6 +57,7 @@ const renderScrubber = ({
 const activateScrubber = (svg: Element, clientX = 200) => {
   act(() => {
     fireEvent.mouseMove(svg, { clientX, clientY: 100 });
+    vi.advanceTimersByTime(16);
   });
 };
 
@@ -170,6 +168,7 @@ describe('Scrubber', () => {
 
     act(() => {
       fireEvent.mouseMove(svg, { clientX: 100, clientY: 100 });
+      vi.advanceTimersByTime(16);
     });
 
     const beacons = result.queryAllByTestId(/scrubber-beacon-/);

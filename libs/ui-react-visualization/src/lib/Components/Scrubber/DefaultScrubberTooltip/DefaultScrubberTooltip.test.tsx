@@ -6,14 +6,11 @@ import { Scrubber } from '../Scrubber';
 import type { ScrubberProps } from '../types';
 
 beforeEach(() => {
-  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-    cb(0);
-    return 0;
-  });
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 
 const sampleSeries = [
@@ -63,6 +60,7 @@ const renderScrubberTooltip = ({
 const moveScrubber = (svg: Element, clientX: number) => {
   act(() => {
     fireEvent.mouseMove(svg, { clientX, clientY: 100 });
+    vi.advanceTimersByTime(16);
   });
 };
 

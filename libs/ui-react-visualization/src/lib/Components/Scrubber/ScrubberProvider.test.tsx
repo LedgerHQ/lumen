@@ -6,14 +6,11 @@ import { CartesianChart } from '../CartesianChart';
 import { useScrubberContext } from './context';
 
 beforeEach(() => {
-  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-    cb(0);
-    return 0;
-  });
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 
 const sampleSeries = [{ id: 's1', stroke: '#000', data: [10, 20, 30, 40, 50] }];
@@ -84,6 +81,7 @@ const renderWithScrubbing = ({
 const activateScrubber = (svg: Element, clientX = 200): void => {
   act(() => {
     fireEvent.mouseMove(svg, { clientX, clientY: 100 });
+    vi.advanceTimersByTime(16);
   });
 };
 
@@ -297,6 +295,7 @@ describe('ScrubberProvider', () => {
       fireEvent.touchStart(svg, {
         touches: [{ clientX: 200, clientY: 100 }],
       });
+      vi.advanceTimersByTime(16);
     });
 
     expect(onChange).toHaveBeenCalled();
@@ -314,6 +313,7 @@ describe('ScrubberProvider', () => {
       fireEvent.touchStart(svg, {
         touches: [{ clientX: 100, clientY: 100 }],
       });
+      vi.advanceTimersByTime(16);
     });
 
     onChange.mockClear();
@@ -322,6 +322,7 @@ describe('ScrubberProvider', () => {
       fireEvent.touchMove(svg, {
         touches: [{ clientX: 300, clientY: 100 }],
       });
+      vi.advanceTimersByTime(16);
     });
 
     expect(onChange).toHaveBeenCalled();
@@ -338,6 +339,7 @@ describe('ScrubberProvider', () => {
       fireEvent.touchStart(svg, {
         touches: [{ clientX: 200, clientY: 100 }],
       });
+      vi.advanceTimersByTime(16);
     });
     act(() => {
       fireEvent.touchEnd(svg);
@@ -405,5 +407,27 @@ describe('ScrubberProvider', () => {
     });
 
     expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('coalesces rapid mousemove events into a single position update per frame', () => {
+    const onChange = vi.fn();
+    const { getByTestId } = renderWithScrubbing({
+      onScrubberPositionChange: onChange,
+    });
+    const svg = getByTestId('chart-svg');
+
+    act(() => {
+      fireEvent.mouseMove(svg, { clientX: 50, clientY: 100 });
+      fireEvent.mouseMove(svg, { clientX: 150, clientY: 100 });
+      fireEvent.mouseMove(svg, { clientX: 350, clientY: 100 });
+    });
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    act(() => {
+      vi.advanceTimersByTime(16);
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 });
