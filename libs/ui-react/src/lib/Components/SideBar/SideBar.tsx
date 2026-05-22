@@ -50,7 +50,7 @@ const sideBarVariants = {
     {
       variants: {
         active: {
-          true: 'bg-muted-transparent text-base body-2-semi-bold hover:bg-muted-transparent-hover active:bg-muted-transparent-pressed',
+          true: 'bg-surface-transparent text-base body-2-semi-bold hover:bg-surface-transparent-hover active:bg-surface-transparent-pressed',
           false:
             'bg-base-transparent text-muted body-2 hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
         },
