@@ -315,7 +315,7 @@ describe('SideBar Component', () => {
       const homeButton = screen.getByText('Home').closest('button');
       const walletButton = screen.getByText('Wallet').closest('button');
 
-      expect(homeButton).toHaveClass('bg-muted-transparent');
+      expect(homeButton).toHaveClass('bg-surface-transparent');
       expect(walletButton).toHaveClass('bg-base-transparent');
     });
 
@@ -609,7 +609,7 @@ describe('SideBar Component', () => {
       const walletButton = screen.getByText('Wallet').closest('button');
 
       expect(homeButton).toHaveClass('bg-base-transparent');
-      expect(walletButton).toHaveClass('bg-muted-transparent');
+      expect(walletButton).toHaveClass('bg-surface-transparent');
     });
 
     it('should respect controlled active state', () => {
@@ -635,7 +635,7 @@ describe('SideBar Component', () => {
       const homeButton = screen.getByText('Home').closest('button');
       const walletButton = screen.getByText('Wallet').closest('button');
 
-      expect(homeButton).toHaveClass('bg-muted-transparent');
+      expect(homeButton).toHaveClass('bg-surface-transparent');
       expect(walletButton).toHaveClass('bg-base-transparent');
 
       rerender(
@@ -658,7 +658,7 @@ describe('SideBar Component', () => {
       );
 
       expect(homeButton).toHaveClass('bg-base-transparent');
-      expect(walletButton).toHaveClass('bg-muted-transparent');
+      expect(walletButton).toHaveClass('bg-surface-transparent');
     });
   });
 });
