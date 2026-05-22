@@ -21,6 +21,7 @@ import {
   Banners,
   BottomSheetDynamicSize,
   BottomSheetFlatLists,
+  BottomSheetWithGradient,
   BottomSheetsButton,
   Buttons,
   CardButtons,
@@ -95,6 +96,7 @@ const AppContent = ({
   const { theme } = useTheme();
   const bottomSheetFlatListsRef = useBottomSheetRef();
   const bottomSheetDynamicSizeRef = useBottomSheetRef();
+  const bottomSheetGradientBugRef = useBottomSheetRef();
   return (
     <SafeAreaView
       style={{
@@ -154,6 +156,9 @@ const AppContent = ({
                   />
                   <BottomSheetsButton
                     onPress={() => bottomSheetDynamicSizeRef.current?.present()}
+                  />
+                  <BottomSheetsButton
+                    onPress={() => bottomSheetGradientBugRef.current?.present()}
                   />
                 </SandboxBlock>
                 <SandboxBlock title='Buttons'>
@@ -280,6 +285,7 @@ const AppContent = ({
             </ScrollView>
             <BottomSheetFlatLists ref={bottomSheetFlatListsRef} />
             <BottomSheetDynamicSize ref={bottomSheetDynamicSizeRef} />
+            <BottomSheetWithGradient ref={bottomSheetGradientBugRef} />
             <GlobalTooltipBottomSheet />
             <GlobalSelectBottomSheet />
           </BottomSheetModalProvider>

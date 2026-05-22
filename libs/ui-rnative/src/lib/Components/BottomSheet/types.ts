@@ -5,16 +5,23 @@ import type {
   BottomSheetSectionList as GorhomBottomSheetSectionList,
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
+  BottomSheetBackgroundProps,
 } from '@gorhom/bottom-sheet';
-
 import type { Density } from '@ledgerhq/lumen-utils-shared';
-import type { PropsWithChildren, ReactNode, Ref } from 'react';
+import type {
+  ComponentRef,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  Ref,
+} from 'react';
+
 import type { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.
    */
-  ref?: Ref<React.ElementRef<typeof GorhomBottomSheetModal>>;
+  ref?: Ref<ComponentRef<typeof GorhomBottomSheetModal>>;
   /**
    * Used to locate this view in end-to-end tests.
    */
@@ -131,7 +138,21 @@ export type BottomSheetProps = PropsWithChildren & {
    * @default true
    */
   enableBlurKeyboardOnGesture?: boolean;
+  /**
+   * Custom background component rendered behind the sheet content and handle.
+   * Use to render gradients or other effects that should span the full sheet area,
+   * including the handle strip. When provided, the default sheet background is removed.
+   * @default undefined
+   */
+  backgroundComponent?: FC<BottomSheetBackgroundProps> | null;
+  /**
+   * If true, the drag handle (grabber) at the top of the sheet is hidden.
+   * @default false
+   */
+  hideHandle?: boolean;
 };
+
+export type { BottomSheetBackgroundProps };
 
 export type BottomSheetHeaderProps = {
   /**

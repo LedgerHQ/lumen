@@ -77,7 +77,23 @@ jest.mock('@gorhom/bottom-sheet', () => {
         props.enableHandlePanningGesture,
       ),
       'data-on-dismiss': props.onDismiss ? 'true' : 'false',
-      children: props.children,
+      'data-has-background-component': props.backgroundComponent
+        ? 'true'
+        : 'false',
+      'data-has-background-style': props.backgroundStyle ? 'true' : 'false',
+      'data-has-handle-component': props.handleComponent ? 'true' : 'false',
+      children: [
+        props.backgroundComponent
+          ? mockReact.createElement(props.backgroundComponent, {
+              key: 'bg',
+              style: {},
+            })
+          : null,
+        props.handleComponent
+          ? mockReact.createElement(props.handleComponent, { key: 'handle' })
+          : null,
+        props.children,
+      ],
     } as any);
   });
 

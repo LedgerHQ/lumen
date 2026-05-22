@@ -1,5 +1,5 @@
 import type { BottomSheetVariables } from '@gorhom/bottom-sheet/lib/typescript/types';
-import type { Ref } from 'react';
+import type { ComponentRef, Ref } from 'react';
 import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
@@ -12,13 +12,13 @@ const useStyles = () => {
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
-        backgroundColor: t.colors.bg.canvasSheet,
+        backgroundColor: 'transparent',
       },
       handle: {
         height: t.spacings.s4,
         width: t.sizes.s36,
         borderRadius: t.borderRadius.full,
-        backgroundColor: t.colors.bg.mutedPressed,
+        backgroundColor: t.colors.bg.mutedTransparentPressed,
       },
     }),
     [],
@@ -28,12 +28,33 @@ const useStyles = () => {
 export const CustomHandle = ({
   ref,
   ...props
-}: BottomSheetVariables & { ref?: Ref<React.ElementRef<typeof View>> }) => {
+}: BottomSheetVariables & { ref?: Ref<ComponentRef<typeof View>> }) => {
   const styles = useStyles();
 
   return (
-    <View {...props} ref={ref} style={styles.container}>
+    <View
+      {...props}
+      ref={ref}
+      style={styles.container}
+      testID='bottom-sheet-handle'
+    >
       <View style={styles.handle} />
     </View>
+  );
+};
+
+export const HiddenHandle = ({
+  ref,
+  ...props
+}: BottomSheetVariables & { ref?: Ref<ComponentRef<typeof View>> }) => {
+  const styles = useStyles();
+
+  return (
+    <View
+      {...props}
+      ref={ref}
+      style={styles.container}
+      testID='bottom-sheet-handle-hidden'
+    />
   );
 };

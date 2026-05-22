@@ -28,7 +28,7 @@ const useStyles = ({
         {
           position: 'relative',
           zIndex: Z_INDEX_DIALOG_CONTENT,
-          backgroundColor: t.colors.bg.canvasSheet,
+          backgroundColor: 'transparent',
           paddingBottom: t.spacings.s12,
         },
         spacing && {

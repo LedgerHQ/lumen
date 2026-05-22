@@ -1,4 +1,7 @@
-import type { BottomSheetProps } from '@ledgerhq/lumen-ui-rnative';
+import type {
+  BottomSheetBackgroundProps,
+  BottomSheetProps,
+} from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheet,
   BottomSheetHeader,
@@ -7,6 +10,7 @@ import {
   BottomSheetFlatList,
   BottomSheetScrollView,
   BottomSheetView,
+  LinearGradient,
   Text,
 } from '@ledgerhq/lumen-ui-rnative';
 
@@ -67,6 +71,61 @@ export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
   );
 };
 
+const GradientBackground = ({
+  style,
+  pointerEvents,
+}: BottomSheetBackgroundProps) => (
+  <Box
+    pointerEvents={pointerEvents}
+    style={style}
+    lx={{ backgroundColor: 'canvasSheet' }}
+  >
+    <LinearGradient
+      direction='to-bottom'
+      stops={[
+        { color: 'accent', opacity: 0.3 },
+        { color: 'activeSubtle', opacity: 0 },
+      ]}
+      style={{
+        height: 256,
+      }}
+    />
+  </Box>
+);
+
+export const BottomSheetWithGradient = ({
+  ref,
+  ...props
+}: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={null}
+      enableDynamicSizing
+      maxDynamicContentSize='full'
+      backdropPressBehavior='close'
+      backgroundComponent={GradientBackground}
+    >
+      <BottomSheetView>
+        <BottomSheetHeader
+          title='Gradient reaches the handle'
+          density='compact'
+          description='Gradient spans the full sheet.'
+        />
+        <Box lx={{ paddingHorizontal: 's4', gap: 's12' }}>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+            turpis efficitur sit amet.
+          </Text>
+        </Box>
+      </BottomSheetView>
+    </BottomSheet>
+  );
+};
+
 export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
   const data = Array.from(
     new Array(20).fill(0).map((_, i) => ({
@@ -85,13 +144,12 @@ export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
       maxDynamicContentSize='full'
       backdropPressBehavior='close'
     >
-      <BottomSheetView>
-        <BottomSheetHeader
-          title='Dynamic Sizing'
-          density='compact'
-          description='This bottom sheet adapts to its content height'
-        />
-      </BottomSheetView>
+      <BottomSheetHeader
+        spacing
+        title='Dynamic Sizing'
+        density='compact'
+        description='This bottom sheet adapts to its content height'
+      />
       <BottomSheetScrollView>
         <Box lx={{ flexDirection: 'column', gap: 's12' }}>
           {data.map((item) => (
