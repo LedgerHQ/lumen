@@ -1,0 +1,152 @@
+name: Publish Sandbox Packages
+
+on:
+  pull_request:
+    types: [labeled, synchronize]
+
+concurrency:
+  group: sandbox-publish-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  NX_NO_CLOUD: true
+  NPM_REGISTRY: jfrog.ledgerlabs.net/artifactory/api/npm/lumen-npm-sandbox-green
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write # Required for OIDC token generation to authenticate with JFrog Artifactory registry
+
+jobs:
+  publish-sandbox:
+    name: Publish to Sandbox
+    if: contains(github.event.pull_request.labels.*.name, 'publish-dev-package')
+    runs-on: public-ledgerhq-shared-small
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+        with:
+          node-version: '22.14.0'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Derive appropriate SHAs for nx affected commands
+        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
+
+      - name: Build all libraries
+        run: npx nx run-many -t build --projects='libs/*'
+
+      - name: Determine affected libraries
+        id: affected
+        run: |
+          AFFECTED=$(npx nx show projects --affected --projects='libs/*' 2>/dev/null || true)
+          if [ -z "$AFFECTED" ]; then
+            echo "No affected libraries found"
+            echo "has_affected=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_affected=true" >> "$GITHUB_OUTPUT"
+          echo "projects<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$AFFECTED" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Login to JFrog sandbox registry
+        if: steps.affected.outputs.has_affected == 'true'
+        id: jfrog-login
+        uses: LedgerHQ/actions-security/actions/jfrog-login@actions/jfrog-login-1 # internal action. branch is fine
+
+      - name: Setup npm config for sandbox registry
+        if: steps.affected.outputs.has_affected == 'true'
+        env:
+          NPM_REGISTRY_TOKEN: ${{ steps.jfrog-login.outputs.oidc-token }}
+        run: |
+          cat << EOF | tee .npmrc
+          enable-pre-post-scripts=true
+          registry=https://${NPM_REGISTRY}/
+          //${NPM_REGISTRY}/:_authToken=${NPM_REGISTRY_TOKEN}
+          EOF
+
+      - name: Patch versions and publish affected packages
+        if: steps.affected.outputs.has_affected == 'true'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          SHORT_SHA="${HEAD_SHA:0:7}"
+          COMMENT_FILE="${RUNNER_TEMP}/sandbox-comment.md"
+          TABLE_ROWS=""
+
+          while IFS= read -r PROJECT; do
+            [ -z "$PROJECT" ] && continue
+
+            for lib_dir in libs/*/; do
+              PKG_JSON="${lib_dir}package.json"
+              [ -f "$PKG_JSON" ] || continue
+              PKG_NAME=$(node -p "require('./${PKG_JSON}').name")
+
+              if [ "$PKG_NAME" = "$PROJECT" ]; then
+                CURRENT_VERSION=$(node -p "require('./${PKG_JSON}').version")
+                SANDBOX_VERSION="${CURRENT_VERSION}-pr.${PR_NUMBER}.${SHORT_SHA}"
+
+                node -e "
+                  const fs = require('fs');
+                  const pkg = JSON.parse(fs.readFileSync('${PKG_JSON}', 'utf8'));
+                  pkg.version = '${SANDBOX_VERSION}';
+                  fs.writeFileSync('${PKG_JSON}', JSON.stringify(pkg, null, 2) + '\n');
+                "
+
+                echo "::group::Publishing ${PKG_NAME}@${SANDBOX_VERSION}"
+                npm publish "${lib_dir}" --tag "pr-${PR_NUMBER}"
+                echo "::endgroup::"
+
+                TABLE_ROWS="${TABLE_ROWS}| ${PKG_NAME} | \`${SANDBOX_VERSION}\` | \`npm i ${PKG_NAME}@${SANDBOX_VERSION} --registry=https://${NPM_REGISTRY}/\` |"$'\n'
+                break
+              fi
+            done
+          done <<< "${{ steps.affected.outputs.projects }}"
+
+          cat > "$COMMENT_FILE" << COMMENT_EOF
+          <!-- sandbox-publish-comment -->
+          ### 📦 Sandbox packages published
+
+          | Package | Version | Install |
+          |---------|---------|---------|
+          ${TABLE_ROWS}
+          > **Registry:** \`https://${NPM_REGISTRY}/\`
+          > **Commit:** \`${HEAD_SHA}\`
+          COMMENT_EOF
+
+      - name: Post or update PR comment
+        if: steps.affected.outputs.has_affected == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          COMMENT_FILE="${RUNNER_TEMP}/sandbox-comment.md"
+          MARKER="<!-- sandbox-publish-comment -->"
+
+          EXISTING_COMMENT_ID=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --jq ".[] | select(.body | startswith(\"${MARKER}\")) | .id" \
+            2>/dev/null || true)
+
+          if [ -n "$EXISTING_COMMENT_ID" ]; then
+            gh api \
+              --method PATCH \
+              "repos/${{ github.repository }}/issues/comments/${EXISTING_COMMENT_ID}" \
+              -F body=@"$COMMENT_FILE"
+          else
+            gh api \
+              --method POST \
+              "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+              -F body=@"$COMMENT_FILE"
+          fi
