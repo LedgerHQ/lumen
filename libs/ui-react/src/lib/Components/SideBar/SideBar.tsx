@@ -24,7 +24,7 @@ const [SideBarProvider, useSideBarContext] =
 const sideBarVariants = {
   root: cva(
     [
-      'flex h-full flex-col justify-between gap-16 overflow-y-auto rounded-xl bg-muted-transparent p-16',
+      'flex h-full flex-col justify-between gap-16 overflow-y-auto rounded-xl bg-surface-transparent p-16',
       'transition-[width] duration-300 ease-in-out',
       'scrollbar-none',
     ],
@@ -50,7 +50,7 @@ const sideBarVariants = {
     {
       variants: {
         active: {
-          true: 'bg-surface-transparent text-base body-2-semi-bold hover:bg-surface-transparent-hover active:bg-surface-transparent-pressed',
+          true: 'bg-muted-transparent text-base body-2-semi-bold hover:bg-muted-transparent-hover active:bg-muted-transparent-pressed',
           false:
             'bg-base-transparent text-muted body-2 hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
         },
