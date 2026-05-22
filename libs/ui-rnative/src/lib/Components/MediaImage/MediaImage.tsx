@@ -66,6 +66,10 @@ const useStyles = ({
           width: '100%',
           height: '100%',
         },
+        skeleton: {
+          width: '100%',
+          height: '100%',
+        },
       };
     },
     [size, shape],
@@ -117,7 +121,7 @@ export const MediaImage = ({
       accessibilityLabel={alt}
       {...props}
     >
-      {loading && <Skeleton style={StyleSheet.absoluteFillObject} />}
+      {loading && <Skeleton style={styles.skeleton} />}
       {!loading && shouldFallback && fallback && (
         <Text
           style={{
