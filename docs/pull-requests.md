@@ -7,7 +7,7 @@ Publish dev packages from a PR to test bug fixes or new features without releasi
 ### How it works
 
 1. Add the `publish-dev-package` label to your PR
-2. The CI builds all affected libraries and publishes them to the JFrog sandbox registry
+2. The CI builds the affected libraries and publishes them to the JFrog sandbox registry
 3. Each new commit pushed to the PR re-publishes with an updated version
 4. A sticky comment on the PR shows the exact install commands
 5. Remove the label to stop publishing on subsequent commits

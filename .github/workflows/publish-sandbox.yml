@@ -20,7 +20,9 @@ permissions:
 jobs:
   publish-sandbox:
     name: Publish to Sandbox
-    if: contains(github.event.pull_request.labels.*.name, 'publish-dev-package')
+    if: >
+      contains(github.event.pull_request.labels.*.name, 'publish-dev-package') &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: public-ledgerhq-shared-small
     steps:
       - name: Checkout repository
@@ -42,8 +44,8 @@ jobs:
       - name: Derive appropriate SHAs for nx affected commands
         uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
 
-      - name: Build all libraries
-        run: npx nx run-many -t build --projects='libs/*'
+      - name: Build affected libraries
+        run: npx nx affected -t build --projects='libs/*'
 
       - name: Determine affected libraries
         id: affected
@@ -114,16 +116,16 @@ jobs:
             done
           done <<< "${{ steps.affected.outputs.projects }}"
 
-          cat > "$COMMENT_FILE" << COMMENT_EOF
-          <!-- sandbox-publish-comment -->
-          ### 📦 Sandbox packages published
-
-          | Package | Version | Install |
-          |---------|---------|---------|
-          ${TABLE_ROWS}
-          > **Registry:** \`https://${NPM_REGISTRY}/\`
-          > **Commit:** \`${HEAD_SHA}\`
-          COMMENT_EOF
+          {
+            echo '<!-- sandbox-publish-comment -->'
+            echo '### 📦 Sandbox packages published'
+            echo ''
+            echo '| Package | Version | Install |'
+            echo '|---------|---------|---------|'
+            printf '%s' "$TABLE_ROWS"
+            echo "> **Registry:** \`https://${NPM_REGISTRY}/\`"
+            echo "> **Commit:** \`${HEAD_SHA}\`"
+          } > "$COMMENT_FILE"
 
       - name: Post or update PR comment
         if: steps.affected.outputs.has_affected == 'true'

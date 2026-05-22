@@ -69,7 +69,7 @@ export const Button = ({
       className={cn(buttonVariants({ size }), 'gap-8', className)}
       {...props}
     >
-      {children}
+      a{children}
     </BaseButton>
   );
 };
