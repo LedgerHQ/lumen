@@ -5,6 +5,7 @@ import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useRevealClip } from '../CartesianChart/RevealClip';
+import { useMagneticPointsContext } from './pointContext';
 
 import type { PointLabelProps, PointProps } from './types';
 import {
@@ -14,6 +15,7 @@ import {
   isWithinBounds,
   resolveLabel,
   STROKE_WIDTH,
+  useMagneticRegistration,
 } from './utils';
 
 export function PointLabel({
@@ -45,9 +47,14 @@ export function Point({
   showLabelArrow = true,
   size = DEFAULT_SIZE,
   onPress,
+  magnetic = false,
 }: Readonly<PointProps>) {
-  const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
+  const { getXScale, getYScale, getXAxisConfig, drawingArea } =
+    useCartesianChartContext();
   const clipPath = useRevealClip();
+  const magneticContext = useMagneticPointsContext();
+
+  useMagneticRegistration(magnetic, dataX, getXAxisConfig, magneticContext);
   const { theme } = useTheme();
 
   const xScale = getXScale();

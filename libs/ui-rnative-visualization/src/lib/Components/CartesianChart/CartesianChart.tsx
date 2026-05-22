@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Svg } from 'react-native-svg';
 
+import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealClipDefs } from './RevealClip';
@@ -26,6 +27,7 @@ export function CartesianChart({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
+  magnetRadius,
 }: Readonly<CartesianChartProps>) {
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
@@ -71,27 +73,30 @@ export function CartesianChart({
     >
       {resolvedWidth > 0 && (
         <CartesianChartProvider value={contextValue}>
-          <ScrubberProvider
-            width={resolvedWidth}
-            height={height}
-            enableScrubbing={enableScrubbing}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            <Svg
-              testID='chart-svg'
+          <MagneticPointsProvider>
+            <ScrubberProvider
               width={resolvedWidth}
               height={height}
-              style={{ overflow: 'visible' }}
+              enableScrubbing={enableScrubbing}
+              onScrubberPositionChange={onScrubberPositionChange}
+              magnetRadius={magnetRadius}
             >
-              <RevealClipDefs
-                drawingArea={contextValue.drawingArea}
-                series={series}
-                animate={animate}
+              <Svg
+                testID='chart-svg'
+                width={resolvedWidth}
+                height={height}
+                style={{ overflow: 'visible' }}
               >
-                {children}
-              </RevealClipDefs>
-            </Svg>
-          </ScrubberProvider>
+                <RevealClipDefs
+                  drawingArea={contextValue.drawingArea}
+                  series={series}
+                  animate={animate}
+                >
+                  {children}
+                </RevealClipDefs>
+              </Svg>
+            </ScrubberProvider>
+          </MagneticPointsProvider>
         </CartesianChartProvider>
       )}
     </View>

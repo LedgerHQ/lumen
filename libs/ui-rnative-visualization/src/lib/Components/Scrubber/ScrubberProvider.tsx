@@ -5,9 +5,14 @@ import Animated, { useSharedValue } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberProviderProps } from './types';
-import { getDataIndexFromPosition } from './utils';
+import {
+  applyMagnetisation,
+  getDataIndexFromPosition,
+  resolvePixelX,
+} from './utils';
 
 const LONG_PRESS_MIN_DURATION_MS = 50;
 
@@ -30,12 +35,14 @@ export function ScrubberProvider({
   height,
   enableScrubbing,
   onScrubberPositionChange,
+  magnetRadius = 6,
 }: Readonly<ScrubberProviderProps>) {
   const [scrubberPosition, setScrubberPosition] = useState<
     number | undefined
   >();
 
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
+  const { getMagneticPoints } = useMagneticPointsContext();
 
   // All values touched by the gesture's JS-thread callback live in a single
   // ref. Reading via `latest.current` keeps the callbacks reference-stable
@@ -69,6 +76,13 @@ export function ScrubberProvider({
     [],
   );
 
+  const getPixelForIndex = useCallback(
+    (index: number): number | undefined => {
+      return resolvePixelX(index, getXScale, getXAxisConfig());
+    },
+    [getXScale, getXAxisConfig],
+  );
+
   const handlePositionChange = useCallback(
     (pixelX: number | null) => {
       if (pixelX === null) {
@@ -78,15 +92,33 @@ export function ScrubberProvider({
       const ref = latest.current;
       const scale = ref.getXScale();
       if (!scale || ref.dataLength <= 0) return;
-      const index = getDataIndexFromPosition(
+
+      let index = getDataIndexFromPosition(
         pixelX,
         scale,
         ref.getXAxisConfig(),
         ref.dataLength,
       );
+
+      const magneticPoints = getMagneticPoints();
+      if (magneticPoints.size > 0 && magnetRadius > 0) {
+        index = applyMagnetisation(
+          index,
+          pixelX,
+          magneticPoints,
+          magnetRadius,
+          getPixelForIndex,
+        );
+      }
+
       setScrubberPositionAndNotify(index);
     },
-    [setScrubberPositionAndNotify],
+    [
+      getMagneticPoints,
+      magnetRadius,
+      getPixelForIndex,
+      setScrubberPositionAndNotify,
+    ],
   );
 
   const isScrubbing = useSharedValue(false);

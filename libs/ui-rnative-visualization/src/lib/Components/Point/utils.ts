@@ -1,4 +1,7 @@
-import type { DrawingArea } from '../../utils/types';
+import { useEffect } from 'react';
+
+import type { AxisConfigProps, DrawingArea } from '../../utils/types';
+import type { MagneticPointsContextValue } from './pointContext/magneticPointsContext';
 
 export const DEFAULT_SIZE = 10;
 export const STROKE_WIDTH = 2;
@@ -51,6 +54,35 @@ export const resolveLabel = (
 ): string | undefined => {
   const resolved = typeof label === 'function' ? label(dataX) : label;
   return resolved === '' ? undefined : resolved;
+};
+
+export const resolveDataXToIndex = (
+  dataX: number,
+  axisConfig: AxisConfigProps | undefined,
+): number => {
+  const axisData = axisConfig?.data;
+  if (!axisData) return dataX;
+  const index = (axisData as number[]).indexOf(dataX);
+  if (index === -1) return dataX;
+  return index;
+};
+
+/**
+ * Registers/unregisters a data index as a magnetic snap target
+ * when the Point has `magnetic` enabled.
+ */
+export const useMagneticRegistration = (
+  magnetic: boolean,
+  dataX: number,
+  getXAxisConfig: () => AxisConfigProps | undefined,
+  { register, unregister }: MagneticPointsContextValue,
+): void => {
+  useEffect(() => {
+    if (!magnetic) return;
+    const index = resolveDataXToIndex(dataX, getXAxisConfig());
+    register(index);
+    return () => unregister(index);
+  }, [magnetic, dataX, getXAxisConfig, register, unregister]);
 };
 
 /**

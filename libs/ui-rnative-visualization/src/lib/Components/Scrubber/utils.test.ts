@@ -5,6 +5,7 @@ import {
   getNumericScale,
 } from '../../utils/scales/scales';
 import {
+  applyMagnetisation,
   getDataIndexFromPosition,
   resolvePixelX,
   resolvePixelY,
@@ -168,5 +169,62 @@ describe('resolvePixelY', () => {
   it('returns the correct pixel y for a valid data point', () => {
     const result = resolvePixelY(0, [50], getYScale);
     expect(result).toBe(scale(50));
+  });
+});
+
+describe('applyMagnetisation', () => {
+  const getPixelForIndex = (index: number): number | undefined => index * 100;
+
+  it('returns resolvedIndex when magneticIndices is empty', () => {
+    expect(applyMagnetisation(2, 200, new Set(), 30, getPixelForIndex)).toBe(2);
+  });
+
+  it('returns resolvedIndex when no magnetic point is within radius', () => {
+    const magneticIndices = new Set([0, 4]);
+    expect(
+      applyMagnetisation(2, 200, magneticIndices, 30, getPixelForIndex),
+    ).toBe(2);
+  });
+
+  it('snaps to a magnetic point within radius', () => {
+    const magneticIndices = new Set([3]);
+    expect(
+      applyMagnetisation(2, 280, magneticIndices, 30, getPixelForIndex),
+    ).toBe(3);
+  });
+
+  it('snaps to the closest magnetic point when multiple are within radius', () => {
+    const magneticIndices = new Set([1, 2]);
+    expect(
+      applyMagnetisation(1, 170, magneticIndices, 40, getPixelForIndex),
+    ).toBe(2);
+  });
+
+  it('does not snap when magnetRadius is 0', () => {
+    const magneticIndices = new Set([2]);
+    expect(
+      applyMagnetisation(1, 200, magneticIndices, 0, getPixelForIndex),
+    ).toBe(1);
+  });
+
+  it('snaps at the exact boundary of magnetRadius', () => {
+    const magneticIndices = new Set([3]);
+    expect(
+      applyMagnetisation(2, 270, magneticIndices, 30, getPixelForIndex),
+    ).toBe(3);
+  });
+
+  it('does not snap when distance exceeds magnetRadius by 1', () => {
+    const magneticIndices = new Set([3]);
+    expect(
+      applyMagnetisation(2, 269, magneticIndices, 30, getPixelForIndex),
+    ).toBe(2);
+  });
+
+  it('handles getPixelForIndex returning undefined', () => {
+    const getPixel = (index: number): number | undefined =>
+      index === 5 ? undefined : index * 100;
+    const magneticIndices = new Set([5]);
+    expect(applyMagnetisation(2, 200, magneticIndices, 30, getPixel)).toBe(2);
   });
 });
