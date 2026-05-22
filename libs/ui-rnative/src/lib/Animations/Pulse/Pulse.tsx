@@ -18,7 +18,7 @@ const TIMING_DEFAULTS: TimingTokens = {
   easing: 'linear',
 };
 export const Pulse = memo(
-  ({ children, timing, animate, style, lx = {} }: PulseProps) => {
+  ({ children, timing, animate, style, lx = {}, ...props }: PulseProps) => {
     const sv = useSharedValue<number>(1);
     const resolvedLxStyle = useResolveViewStyle(lx, style);
 
@@ -47,6 +47,7 @@ export const Pulse = memo(
 
     return (
       <Animated.View
+        {...props}
         collapsable={false}
         style={[resolvedLxStyle, animatedStyle]}
       >
