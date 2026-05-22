@@ -109,7 +109,7 @@ export const computeItemsBaseY = (
 export function useTooltipMeasurement(
   items: ChartTooltipItemData[],
   hasTitle: boolean,
-  title: SvgTextContent | null | undefined,
+  title: SvgTextContent | undefined,
 ): UseTooltipMeasurementReturn {
   const titleRef = useRef<SVGTextElement | null>(null);
   const labelRefs = useRef<(SVGTextElement | null)[]>([]);

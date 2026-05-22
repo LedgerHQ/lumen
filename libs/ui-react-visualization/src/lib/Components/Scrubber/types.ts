@@ -108,10 +108,10 @@ export type ScrubberTooltipProps = ScrubberTooltipLayoutProps & {
    */
   dataIndex: number;
   /**
-   * Optional title displayed at the top of the tooltip. Pass `null` or omit
-   * to render the tooltip without a title row.
+   * Optional title displayed at the top of the tooltip. Omit to render
+   * the tooltip without a title row.
    */
-  title?: SvgTextContent | null;
+  title?: SvgTextContent;
   /**
    * List of label/value pairs rendered as rows inside the tooltip body.
    */
@@ -124,11 +124,9 @@ export type ScrubberTooltipProps = ScrubberTooltipLayoutProps & {
 export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
   /**
    * Optional header. Static value or callback per data index.
-   * A callback may return `null` or `undefined` to suppress the title.
+   * A callback may return `undefined` to suppress the title.
    */
-  title?:
-    | SvgTextContent
-    | ((index: number) => SvgTextContent | null | undefined);
+  title?: SvgTextContent | ((index: number) => SvgTextContent | undefined);
   /**
    * Tooltip rows for this index. Return an empty array to hide the tooltip.
    */

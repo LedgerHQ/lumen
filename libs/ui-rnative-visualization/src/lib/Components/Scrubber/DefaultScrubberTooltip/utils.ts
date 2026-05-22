@@ -142,7 +142,7 @@ export const measureWidths = async (
 export function useTooltipMeasurement(
   items: ChartTooltipItemData[],
   hasTitle: boolean,
-  title: string | number | null | undefined,
+  title: string | number | undefined,
 ): UseTooltipMeasurementReturn {
   const titleRef = useRef<SvgBBoxElement | null>(null);
   const labelRefs = useRef<(SvgBBoxElement | null)[]>([]);

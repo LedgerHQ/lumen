@@ -44,7 +44,7 @@ export function DefaultScrubberTooltip({
   offset = DEFAULT_OFFSET,
   minWidth = DEFAULT_TOOLTIP_MIN_WIDTH,
 }: Readonly<ScrubberTooltipProps>) {
-  const hasTitle = title !== undefined && title !== null;
+  const hasTitle = title !== undefined;
 
   const { widths, titleRef, labelRefs, valueRefs } = useTooltipMeasurement(
     items,

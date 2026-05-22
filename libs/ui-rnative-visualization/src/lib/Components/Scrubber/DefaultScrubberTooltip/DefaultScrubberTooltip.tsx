@@ -39,7 +39,7 @@ export function DefaultScrubberTooltip({
 }: Readonly<ScrubberTooltipProps>) {
   const { theme } = useTheme();
 
-  const hasTitle = title !== undefined && title !== null;
+  const hasTitle = title !== undefined;
 
   const { widths, titleRef, labelRefs, valueRefs } = useTooltipMeasurement(
     items,

@@ -244,11 +244,11 @@ describe('DefaultScrubberTooltip', () => {
       expect(queryByTestId('chart-tooltip-title')).toBeNull();
     });
 
-    it('does not render a title element when title callback returns null', () => {
+    it('does not render a title element when title callback returns undefined', () => {
       const { queryByTestId } = renderTooltip({
         scrubberProps: {
           tooltip: () => ({
-            title: () => null,
+            title: () => undefined,
             items: [{ label: 'T', value: 'V' }],
           }),
         },

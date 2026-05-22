@@ -276,11 +276,11 @@ describe('DefaultScrubberTooltip', () => {
       ).toBeNull();
     });
 
-    it('does not render a title element when title callback returns null', () => {
+    it('does not render a title element when title callback returns undefined', () => {
       const { getByTestId } = renderScrubberTooltip({
         scrubberProps: {
           tooltip: () => ({
-            title: () => null,
+            title: () => undefined,
             items: [{ label: 'T', value: 'V' }],
           }),
         },
