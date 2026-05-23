@@ -1,20 +1,19 @@
-import { useMemo } from 'react';
-import Animated from 'react-native-reanimated';
-import { ClipPath, Defs, Rect } from 'react-native-svg';
+import { useEffect } from 'react';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
-import { OVERFLOW_BUFFER } from '../utils';
-
-import { RevealClipContext } from './context';
 import type { RevealClipDefsProps } from './types';
-import { useComputeDataFingerprint, useRevealClipAnimation } from './utils';
+import { useComputeDataFingerprint } from './utils';
 
 const DEFAULT_DURATION_IN_SECONDS = 0.8;
 
-const AnimatedRect = Animated.createAnimatedComponent(Rect);
-
 export function RevealClipDefs({
   children,
-  drawingArea,
+  width,
+  height,
   series,
   animate = true,
   transitions,
@@ -24,36 +23,30 @@ export function RevealClipDefs({
     (transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS) * 1000;
 
   const dataFingerprint = useComputeDataFingerprint({ series });
-  const { clipId, animatedRectProps } = useRevealClipAnimation({
-    durationMs,
-    drawingArea,
-    dataFingerprint,
-  });
+  const animatedWidth = useSharedValue(isDisabled ? width : 0);
 
-  const contextValue = useMemo(
-    () => ({ clipPathAttr: `url(#${clipId})` }),
-    [clipId],
-  );
+  useEffect(() => {
+    if (isDisabled) {
+      animatedWidth.value = width;
+      return;
+    }
+    animatedWidth.value = 0;
+    animatedWidth.value = withTiming(width, { duration: durationMs });
+  }, [width, durationMs, animatedWidth, dataFingerprint, isDisabled]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    width: animatedWidth.value,
+    height,
+    overflow: 'hidden' as const,
+  }));
 
   if (isDisabled) {
-    return children;
+    return <>{children}</>;
   }
 
   return (
-    <RevealClipContext.Provider key={dataFingerprint} value={contextValue}>
-      <Defs>
-        <ClipPath id={clipId}>
-          <AnimatedRect
-            x={drawingArea.x - OVERFLOW_BUFFER.left}
-            y={drawingArea.y - OVERFLOW_BUFFER.top}
-            height={
-              drawingArea.height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom
-            }
-            animatedProps={animatedRectProps}
-          />
-        </ClipPath>
-      </Defs>
+    <Animated.View key={dataFingerprint} style={animatedStyle}>
       {children}
-    </RevealClipContext.Provider>
+    </Animated.View>
   );
 }

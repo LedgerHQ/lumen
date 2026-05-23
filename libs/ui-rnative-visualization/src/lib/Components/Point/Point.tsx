@@ -4,7 +4,6 @@ import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useRevealClip } from '../CartesianChart/RevealClip';
 
 import type { PointLabelProps, PointProps } from './types';
 import {
@@ -47,7 +46,6 @@ export function Point({
   onPress,
 }: Readonly<PointProps>) {
   const { getXScale, getYScale, drawingArea } = useCartesianChartContext();
-  const clipPath = useRevealClip();
   const { theme } = useTheme();
 
   const xScale = getXScale();
@@ -73,7 +71,7 @@ export function Point({
   const Label = LabelComponent ?? PointLabel;
 
   return (
-    <G testID='point-group' clipPath={clipPath} onPress={onPress}>
+    <G testID='point-group' onPress={onPress}>
       {!hidePoint && (
         <Circle
           testID='point-circle'

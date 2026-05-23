@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { DrawingArea, Series } from '../../../utils';
+import type { Series } from '../../../utils';
 
 export type EnterTransitionConfig = {
   /**
@@ -17,9 +17,13 @@ export type EnterTransitionConfig = {
 export type RevealClipDefsProps = {
   children: ReactNode;
   /**
-   * The drawing area whose bounds define the clip rectangle.
+   * The total width of the chart SVG to reveal.
    */
-  drawingArea: DrawingArea;
+  width: number;
+  /**
+   * The total height of the chart SVG.
+   */
+  height: number;
   /**
    * Whether to animate the chart.
    * @default true

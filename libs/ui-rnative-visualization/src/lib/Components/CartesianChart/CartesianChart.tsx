@@ -78,20 +78,21 @@ export function CartesianChart({
             enableScrubbing={enableScrubbing}
             onScrubberPositionChange={onScrubberPositionChange}
           >
-            <Svg
-              testID='chart-svg'
+            <RevealClipDefs
               width={resolvedWidth}
               height={height}
-              style={{ overflow: 'visible' }}
+              series={series}
+              animate={animate}
             >
-              <RevealClipDefs
-                drawingArea={contextValue.drawingArea}
-                series={series}
-                animate={animate}
+              <Svg
+                testID='chart-svg'
+                width={resolvedWidth}
+                height={height}
+                style={{ overflow: 'visible' }}
               >
                 {children}
-              </RevealClipDefs>
-            </Svg>
+              </Svg>
+            </RevealClipDefs>
           </ScrubberProvider>
         </CartesianChartProvider>
       )}
