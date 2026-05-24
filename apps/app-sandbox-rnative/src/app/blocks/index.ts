@@ -28,6 +28,7 @@ export * from './MediaTags';
 export * from './NavBars';
 export * from './OptionLists';
 export * from './PageIndicators';
+export * from './RevealClipExperiments';
 export * from './SegmentedControls';
 export * from './Selects';
 export * from './Skeletons';

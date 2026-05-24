@@ -47,6 +47,7 @@ import {
   NavBars,
   OptionLists,
   PageIndicators,
+  RevealClipExperiments,
   SegmentedControls,
   Selects,
   Skeletons,
@@ -227,6 +228,9 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='PageIndicators'>
                   <PageIndicators />
+                </SandboxBlock>
+                <SandboxBlock title='RevealClip Experiments'>
+                  <RevealClipExperiments />
                 </SandboxBlock>
                 <SandboxBlock title='SegmentedControl'>
                   <SegmentedControls />
