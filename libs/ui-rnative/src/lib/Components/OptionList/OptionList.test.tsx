@@ -13,6 +13,7 @@ import {
   OptionListItemText,
   OptionListItemDescription,
   OptionListEmptyState,
+  OptionListSearch,
   OptionListTrigger,
 } from './OptionList';
 import type { OptionListItemData } from './types';
@@ -318,6 +319,148 @@ describe('OptionList', () => {
       );
 
       expect(queryByText('No results')).toBeNull();
+    });
+  });
+
+  describe('OptionListSearch', () => {
+    const renderSearchable = ({
+      items = ITEMS,
+      filter,
+      filteredItems,
+      searchValue,
+      onSearchValueChange,
+    }: {
+      items?: OptionListItemData[];
+      filter?: null | ((item: OptionListItemData, query: string) => boolean);
+      filteredItems?: OptionListItemData[];
+      searchValue?: string;
+      onSearchValueChange?: (v: string) => void;
+    } = {}) =>
+      render(
+        <TestWrapper>
+          <OptionList
+            items={items}
+            filter={filter}
+            filteredItems={filteredItems}
+            searchValue={searchValue}
+            onSearchValueChange={onSearchValueChange}
+          >
+            <OptionListSearch placeholder='Search' />
+            <OptionListContent
+              renderItem={(item) => (
+                <OptionListItem value={item.value}>
+                  <OptionListItemContent>
+                    <OptionListItemText>{item.label}</OptionListItemText>
+                  </OptionListItemContent>
+                </OptionListItem>
+              )}
+            />
+            <OptionListEmptyState title='No results' />
+          </OptionList>
+        </TestWrapper>,
+      );
+
+    it('renders the search input', () => {
+      const { getByPlaceholderText } = renderSearchable();
+
+      expect(getByPlaceholderText('Search')).toBeTruthy();
+    });
+
+    it('filters items with the default label filter', () => {
+      const { getByPlaceholderText, getByText, queryByText } =
+        renderSearchable();
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'alp');
+
+      expect(getByText('Alpha')).toBeTruthy();
+      expect(queryByText('Beta')).toBeNull();
+      expect(queryByText('Gamma')).toBeNull();
+    });
+
+    it('default filter is case-insensitive', () => {
+      const { getByPlaceholderText, getByText, queryByText } =
+        renderSearchable();
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'BETA');
+
+      expect(getByText('Beta')).toBeTruthy();
+      expect(queryByText('Alpha')).toBeNull();
+    });
+
+    it('uses a custom filter when provided', () => {
+      const filter = (item: OptionListItemData, query: string): boolean =>
+        item.value.startsWith(query);
+
+      const { getByPlaceholderText, getByText, queryByText } = renderSearchable(
+        { filter },
+      );
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'b');
+
+      expect(getByText('Beta')).toBeTruthy();
+      expect(queryByText('Alpha')).toBeNull();
+      expect(queryByText('Gamma')).toBeNull();
+    });
+
+    it('disables filtering when filter is null', () => {
+      const { getByPlaceholderText, getByText } = renderSearchable({
+        filter: null,
+      });
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'alpha');
+
+      expect(getByText('Alpha')).toBeTruthy();
+      expect(getByText('Beta')).toBeTruthy();
+      expect(getByText('Gamma')).toBeTruthy();
+    });
+
+    it('filters within groups and hides empty groups', () => {
+      const { getByPlaceholderText, getByText, queryByText } = renderSearchable(
+        { items: GROUPED_ITEMS },
+      );
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'apple');
+
+      expect(getByText('Fruits')).toBeTruthy();
+      expect(getByText('Apple')).toBeTruthy();
+      expect(queryByText('Banana')).toBeNull();
+      expect(queryByText('Vegetables')).toBeNull();
+      expect(queryByText('Carrot')).toBeNull();
+    });
+
+    it('renders empty state when no item matches', () => {
+      const { getByPlaceholderText, getByText, queryByText } =
+        renderSearchable();
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'zzz');
+
+      expect(getByText('No results')).toBeTruthy();
+      expect(queryByText('Alpha')).toBeNull();
+    });
+
+    it('fires onSearchValueChange with the typed query', () => {
+      const onSearchValueChange = jest.fn();
+      const { getByPlaceholderText } = renderSearchable({
+        onSearchValueChange,
+      });
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'be');
+
+      expect(onSearchValueChange).toHaveBeenCalledWith('be');
+    });
+
+    it('uses filteredItems instead of the internal filter when provided', () => {
+      const { getByPlaceholderText, getByText, queryByText } = renderSearchable(
+        {
+          filteredItems: [{ value: 'b', label: 'Beta' }],
+        },
+      );
+
+      fireEvent.changeText(getByPlaceholderText('Search'), 'alpha');
+
+      expect(getByText('Beta')).toBeTruthy();
+      expect(queryByText('Alpha')).toBeNull();
+      expect(queryByText('Gamma')).toBeNull();
     });
   });
 

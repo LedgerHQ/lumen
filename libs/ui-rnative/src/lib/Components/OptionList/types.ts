@@ -4,6 +4,7 @@ import type {
   StyledTextProps,
   StyledViewProps,
 } from '../../../styles';
+import type { SearchInputProps } from '../SearchInput';
 
 export type MetaShape = Record<string, unknown>;
 
@@ -37,6 +38,8 @@ export type OptionListContextValue = {
   isGrouped: boolean;
   groups: OptionListItemGroup[];
   flatItems: OptionListItemData[];
+  resolvedSearchValue: string;
+  handleSearchValueChange: (value: string) => void;
 };
 
 /** Internal type -- consumers never construct this directly. */
@@ -46,16 +49,49 @@ export type OptionListItemGroup<TMeta extends MetaShape = MetaShape> = {
 };
 
 export type OptionListProps<TMeta extends MetaShape = MetaShape> = {
-  /** Flat array of items. Use the `group` field on each item for automatic grouping. */
+  /**
+   * Flat array of items.
+   * Use the `group` field on each item for automatic grouping.
+   */
   items: OptionListItemData<TMeta>[];
-  /** The controlled selected value. */
+  /**
+   * The controlled selected value.
+   */
   value?: string | null;
-  /** The default selected value (uncontrolled). */
+  /**
+   * The default selected value (uncontrolled)
+   */
   defaultValue?: string | null;
-  /** Called when the selected value changes. */
+  /**
+   * Called when the selected value changes.
+   */
   onValueChange?: (value: string | null) => void;
-  /** When true, prevents interaction with the entire list. */
+  /**
+   * When true, prevents interaction with the entire list.
+   */
   disabled?: boolean;
+  /**
+   * Custom item/query matcher.
+   * Defaults to case-insensitive label match; `null` disables filtering.
+   */
+  filter?: null | ((item: OptionListItemData<TMeta>, query: string) => boolean);
+  /**
+   * Pre-filtered items for async/remote search.
+   * Bypasses internal filtering.
+   */
+  filteredItems?: OptionListItemData<TMeta>[];
+  /**
+   * Controlled search input value.
+   */
+  searchValue?: string;
+  /**
+   * Initial uncontrolled search value.
+   */
+  defaultSearchValue?: string;
+  /**
+   * Fired when search input changes.
+   */
+  onSearchValueChange?: (value: string) => void;
   children: ReactNode;
 };
 
@@ -102,6 +138,11 @@ export type OptionListEmptyStateProps = {
   /** Optional secondary text displayed below the title. */
   description?: string;
 } & Omit<StyledViewProps, 'children'>;
+
+export type OptionListSearchProps = Omit<
+  SearchInputProps,
+  'value' | 'onChangeText' | 'defaultValue'
+>;
 
 export type OptionListTriggerProps = {
   /** Floating label shown above the selected value. */

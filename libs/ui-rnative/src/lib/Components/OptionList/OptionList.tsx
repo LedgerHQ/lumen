@@ -9,6 +9,7 @@ import { useStyleSheet } from '../../../styles';
 import { Check, ChevronDown } from '../../Symbols';
 import { useControllableState } from '../../utils/useControllableState';
 import { Divider } from '../Divider';
+import { SearchInput } from '../SearchInput';
 import { Box, Pressable, Text } from '../Utility';
 import type {
   MetaShape,
@@ -23,6 +24,7 @@ import type {
   OptionListItemContentProps,
   OptionListItemContentRowProps,
   OptionListEmptyStateProps,
+  OptionListSearchProps,
   OptionListTriggerProps,
   OptionListLabelProps,
 } from './types';
@@ -37,6 +39,11 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
   defaultValue,
   onValueChange,
   disabled: disabledProp,
+  filter,
+  filteredItems,
+  searchValue,
+  defaultSearchValue,
+  onSearchValueChange,
   children,
 }: OptionListProps<TMeta>) => {
   const disabled = useDisabledContext({
@@ -52,7 +59,20 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
     },
   );
 
-  const { isGrouped, groups, flatItems } = useOptionListItems<TMeta>({ items });
+  const {
+    isGrouped,
+    groups,
+    flatItems,
+    resolvedSearchValue,
+    handleSearchValueChange,
+  } = useOptionListItems<TMeta>({
+    items,
+    filter,
+    filteredItems,
+    searchValue,
+    defaultSearchValue,
+    onSearchValueChange,
+  });
 
   return (
     <DisabledProvider value={{ disabled }}>
@@ -63,6 +83,8 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
           isGrouped,
           groups,
           flatItems,
+          resolvedSearchValue,
+          handleSearchValueChange,
         }}
       >
         {children}
@@ -381,6 +403,25 @@ const OptionListLabel = ({ children }: OptionListLabelProps) => (
   </Text>
 );
 
+export const OptionListSearch = ({ ref, ...props }: OptionListSearchProps) => {
+  const { resolvedSearchValue, handleSearchValueChange } = useOptionListContext(
+    {
+      consumerName: 'OptionListSearch',
+      contextRequired: true,
+    },
+  );
+
+  return (
+    <SearchInput
+      ref={ref}
+      value={resolvedSearchValue}
+      onChangeText={handleSearchValueChange}
+      lx={{ paddingBottom: 's8' }}
+      {...props}
+    />
+  );
+};
+
 export const OptionListEmptyState = ({
   title,
   description,
@@ -389,10 +430,13 @@ export const OptionListEmptyState = ({
   ref,
   ...props
 }: OptionListEmptyStateProps) => {
-  const { flatItems } = useOptionListContext({
+  const { isGrouped, groups, flatItems } = useOptionListContext({
     consumerName: 'OptionListEmptyState',
     contextRequired: true,
   });
+  const visibleCount = isGrouped
+    ? groups.reduce((acc, g) => acc + g.items.length, 0)
+    : flatItems.length;
 
   const styles = useStyleSheet(
     (t) => ({
@@ -414,7 +458,9 @@ export const OptionListEmptyState = ({
     [],
   );
 
-  if (flatItems.length > 0) return null;
+  if (visibleCount > 0) {
+    return null;
+  }
 
   return (
     <Box
