@@ -103,11 +103,6 @@ export type ScrubberTooltipProps = ScrubberTooltipLayoutProps & {
    */
   drawingArea: DrawingArea;
   /**
-   * Zero-based index of the data point currently under the scrubber. Maps
-   * directly to the series data arrays so consumers can look up values.
-   */
-  dataIndex: number;
-  /**
    * Optional title displayed at the top of the tooltip. Omit to render
    * the tooltip without a title row.
    */

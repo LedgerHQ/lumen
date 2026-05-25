@@ -211,7 +211,6 @@ export function Scrubber({
         <DefaultScrubberTooltip
           pixelX={pixelX}
           drawingArea={drawingArea}
-          dataIndex={scrubberPosition}
           title={tooltipPayload.resolvedTitle}
           items={tooltipPayload.items}
           offset={tooltipPayload.offset}
