@@ -2,7 +2,7 @@ import { BlurView } from '@sbaiahmed1/react-native-blur';
 import type { ReactNode } from 'react';
 import { Children, isValidElement, useEffect, useMemo, useRef } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -15,6 +15,7 @@ import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { triggerHapticFeedback } from '../../Haptics';
 import { Placeholder } from '../../Symbols';
+import { RuntimeConstants } from '../../utils';
 import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
 import type { TabBarItemProps, TabBarProps } from './types';
@@ -268,7 +269,7 @@ export function TabBar({
         {...props}
       >
         {children}
-        {Platform.OS === 'android' ? (
+        {RuntimeConstants.isAndroid ? (
           <View style={styles.fallbackBackground} />
         ) : (
           <BlurView

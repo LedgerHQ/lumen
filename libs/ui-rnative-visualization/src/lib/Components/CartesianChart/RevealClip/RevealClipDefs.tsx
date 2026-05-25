@@ -1,4 +1,6 @@
+import { RuntimeConstants } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
+
 import Animated from 'react-native-reanimated';
 import { ClipPath, Defs, Rect } from 'react-native-svg';
 
@@ -19,7 +21,11 @@ export function RevealClipDefs({
   animate = true,
   transitions,
 }: RevealClipDefsProps) {
-  const isDisabled = !animate;
+  /**
+   * Disable reveal animation on Android devices due to issues with SVG clip-path animation support.
+   * On Android, the animation does not render correctly, so we opt out for a consistent user experience.
+   */
+  const isDisabled = !animate || RuntimeConstants.isAndroid;
   const durationMs =
     (transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS) * 1000;
 
