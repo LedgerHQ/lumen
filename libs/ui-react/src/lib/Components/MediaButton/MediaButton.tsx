@@ -90,7 +90,6 @@ export const MediaButton = ({
         triggerVariants({ size, iconType: effectiveIconType }),
         className,
       )}
-      data-disabled={disabled || undefined}
       disabled={disabled}
       {...props}
     >

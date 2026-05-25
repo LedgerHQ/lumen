@@ -115,7 +115,6 @@ export const DotIcon = ({
       <div
         ref={ref}
         className={cn('relative inline-flex w-fit', className)}
-        data-disabled={disabled || undefined}
         {...rest}
       >
         <div className='inline-flex'>{children}</div>
