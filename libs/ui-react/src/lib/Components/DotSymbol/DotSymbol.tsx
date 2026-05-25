@@ -31,10 +31,6 @@ const dotVariants = cva(
         'bottom-start': '',
         'bottom-end': '',
       },
-      disabled: {
-        true: 'opacity-30',
-        false: '',
-      },
     },
     compoundVariants: [
       /**
@@ -133,17 +129,18 @@ export const DotSymbol = ({
   }, [src]);
 
   return (
-    <DisabledProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled: false }}>
       <div
         ref={ref}
-        className={cn('relative inline-flex w-fit', className)}
+        className={cn(
+          'relative inline-flex w-fit',
+          disabled && 'opacity-30',
+          className,
+        )}
         {...rest}
       >
         <div className='inline-flex'>{children}</div>
-        <div
-          className={dotVariants({ size, shape, pin, disabled })}
-          style={style}
-        >
+        <div className={dotVariants({ size, shape, pin })} style={style}>
           {!error && (
             <img
               alt={alt}

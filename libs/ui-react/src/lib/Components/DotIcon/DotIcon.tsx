@@ -32,10 +32,6 @@ const dotVariants = cva(
         muted: 'bg-muted-strong',
         error: 'bg-error-strong',
       },
-      disabled: {
-        true: 'opacity-30',
-        false: '',
-      },
     },
     compoundVariants: [
       { size: 16, shape: 'square', className: 'rounded-[5px]' },
@@ -111,17 +107,19 @@ export const DotIcon = ({
   });
 
   return (
-    <DisabledProvider value={{ disabled }}>
+    <DisabledProvider value={{ disabled: false }}>
       <div
         ref={ref}
-        className={cn('relative inline-flex w-fit', className)}
+        className={cn(
+          'relative inline-flex w-fit',
+          disabled && 'opacity-30',
+          className,
+        )}
         {...rest}
       >
         <div className='inline-flex'>{children}</div>
         <div
-          className={cn(
-            dotVariants({ size, shape, pin, appearance, disabled }),
-          )}
+          className={cn(dotVariants({ size, shape, pin, appearance }))}
           style={style}
         >
           <Icon size={dotIconSizeMap[size]} className='text-on-interactive' />
