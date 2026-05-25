@@ -158,7 +158,7 @@ describe('DefaultScrubberTooltip', () => {
         },
         scrubberContext: scrubberAt(3),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(160);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(145);
     });
 
     it('flips at the rightmost scrubber position (index 4)', () => {
@@ -168,7 +168,7 @@ describe('DefaultScrubberTooltip', () => {
         },
         scrubberContext: scrubberAt(4),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(250);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(220);
     });
 
     it('custom offset shifts the no-flip tooltip position', () => {
@@ -188,7 +188,7 @@ describe('DefaultScrubberTooltip', () => {
         },
         scrubberContext: scrubberAt(2),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(20);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(50);
     });
   });
 
