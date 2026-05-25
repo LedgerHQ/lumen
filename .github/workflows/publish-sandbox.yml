@@ -2,7 +2,7 @@ name: Publish Sandbox Packages
 
 on:
   pull_request:
-    types: [labeled, synchronize]
+    types: [labeled, synchronize, closed]
 
 concurrency:
   group: sandbox-publish-${{ github.event.pull_request.number }}
@@ -10,17 +10,39 @@ concurrency:
 
 env:
   NX_NO_CLOUD: true
-  NPM_REGISTRY: jfrog.ledgerlabs.net/artifactory/api/npm/lumen-npm-sandbox-green
 
 permissions:
-  contents: read
+  contents: write # Required to create/delete the sandbox pre-release and its tag
   pull-requests: write
-  id-token: write # Required for OIDC token generation to authenticate with JFrog Artifactory registry
 
 jobs:
+  cleanup-sandbox:
+    name: Cleanup sandbox release
+    if: >
+      github.event.action == 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete sandbox release and tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          TAG="sandbox-pr-${PR_NUMBER}"
+          if gh release view "${TAG}" --repo "${REPO}" >/dev/null 2>&1; then
+            gh release delete "${TAG}" \
+              --repo "${REPO}" \
+              --cleanup-tag --yes
+            echo "Deleted sandbox release ${TAG}"
+          else
+            echo "No sandbox release found for ${TAG}, nothing to clean up"
+          fi
+
   publish-sandbox:
     name: Publish to Sandbox
     if: >
+      github.event.action != 'closed' &&
       contains(github.event.pull_request.labels.*.name, 'publish-dev-package') &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: public-ledgerhq-shared-small
@@ -44,9 +66,6 @@ jobs:
       - name: Derive appropriate SHAs for nx affected commands
         uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
 
-      - name: Build affected libraries
-        run: npx nx affected -t build --projects='libs/*'
-
       - name: Determine affected libraries
         id: affected
         run: |
@@ -60,31 +79,26 @@ jobs:
           echo "projects<<EOF" >> "$GITHUB_OUTPUT"
           echo "$AFFECTED" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
+          PROJECTS_CSV=$(echo "$AFFECTED" | paste -sd, -)
+          echo "projects_csv=${PROJECTS_CSV}" >> "$GITHUB_OUTPUT"
 
-      - name: Login to JFrog sandbox registry
+      - name: Build affected libraries
         if: steps.affected.outputs.has_affected == 'true'
-        id: jfrog-login
-        uses: LedgerHQ/actions-security/actions/jfrog-login@actions/jfrog-login-1 # internal action. branch is fine
+        run: npx nx run-many -t build --projects="${{ steps.affected.outputs.projects_csv }}"
 
-      - name: Setup npm config for sandbox registry
+      - name: Patch versions and pack affected packages
         if: steps.affected.outputs.has_affected == 'true'
-        env:
-          NPM_REGISTRY_TOKEN: ${{ steps.jfrog-login.outputs.oidc-token }}
-        run: |
-          cat << EOF | tee .npmrc
-          enable-pre-post-scripts=true
-          registry=https://${NPM_REGISTRY}/
-          //${NPM_REGISTRY}/:_authToken=${NPM_REGISTRY_TOKEN}
-          EOF
-
-      - name: Patch versions and publish affected packages
-        if: steps.affected.outputs.has_affected == 'true'
+        id: pack
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
         run: |
           SHORT_SHA="${HEAD_SHA:0:7}"
+          TAG="sandbox-pr-${PR_NUMBER}"
+          TARBALL_DIR="${RUNNER_TEMP}/sandbox-tarballs"
           COMMENT_FILE="${RUNNER_TEMP}/sandbox-comment.md"
+          mkdir -p "${TARBALL_DIR}"
           TABLE_ROWS=""
 
           while IFS= read -r PROJECT; do
@@ -106,11 +120,13 @@ jobs:
                   fs.writeFileSync('${PKG_JSON}', JSON.stringify(pkg, null, 2) + '\n');
                 "
 
-                echo "::group::Publishing ${PKG_NAME}@${SANDBOX_VERSION}"
-                npm publish "${lib_dir}" --tag "pr-${PR_NUMBER}"
+                echo "::group::Packing ${PKG_NAME}@${SANDBOX_VERSION}"
+                TARBALL_FILENAME=$(npm pack "${lib_dir}" --pack-destination "${TARBALL_DIR}" --json \
+                  | node -e "process.stdout.write(JSON.parse(require('fs').readFileSync(0,'utf8'))[0].filename)")
                 echo "::endgroup::"
 
-                TABLE_ROWS="${TABLE_ROWS}| ${PKG_NAME} | \`${SANDBOX_VERSION}\` | \`npm i ${PKG_NAME}@${SANDBOX_VERSION} --registry=https://${NPM_REGISTRY}/\` |"$'\n'
+                TARBALL_URL="https://github.com/${REPO}/releases/download/${TAG}/${TARBALL_FILENAME}"
+                TABLE_ROWS="${TABLE_ROWS}| \`${PKG_NAME}\` | \`${SANDBOX_VERSION}\` | \`npm i ${TARBALL_URL}\` |"$'\n'
                 break
               fi
             done
@@ -120,35 +136,71 @@ jobs:
             echo '<!-- sandbox-publish-comment -->'
             echo '### 📦 Sandbox packages published'
             echo ''
+            echo 'Tarballs are hosted as assets on a per-PR GitHub pre-release and are deleted automatically when this PR is closed.'
+            echo ''
             echo '| Package | Version | Install |'
             echo '|---------|---------|---------|'
             printf '%s' "$TABLE_ROWS"
-            echo "> **Registry:** \`https://${NPM_REGISTRY}/\`"
+            echo ''
+            echo "> **Release:** [\`${TAG}\`](https://github.com/${REPO}/releases/tag/${TAG})"
             echo "> **Commit:** \`${HEAD_SHA}\`"
           } > "$COMMENT_FILE"
+
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "tarball_dir=${TARBALL_DIR}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish tarballs to GitHub pre-release
+        if: steps.affected.outputs.has_affected == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ steps.pack.outputs.tag }}
+          TARBALL_DIR: ${{ steps.pack.outputs.tarball_dir }}
+          SHORT_SHA: ${{ steps.pack.outputs.short_sha }}
+        run: |
+          if gh release view "${TAG}" --repo "${REPO}" >/dev/null 2>&1; then
+            gh release delete "${TAG}" \
+              --repo "${REPO}" \
+              --cleanup-tag --yes
+          fi
+
+          gh release create "${TAG}" \
+            --repo "${REPO}" \
+            --target "${HEAD_SHA}" \
+            --title "Sandbox build for PR #${PR_NUMBER} (${SHORT_SHA})" \
+            --notes "Automated sandbox build for PR #${PR_NUMBER} at commit ${HEAD_SHA}. This pre-release is replaced on every push and deleted when the PR is closed." \
+            --prerelease
+
+          gh release upload "${TAG}" "${TARBALL_DIR}"/*.tgz \
+            --repo "${REPO}" \
+            --clobber
 
       - name: Post or update PR comment
         if: steps.affected.outputs.has_affected == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
         run: |
           COMMENT_FILE="${RUNNER_TEMP}/sandbox-comment.md"
           MARKER="<!-- sandbox-publish-comment -->"
 
           EXISTING_COMMENT_ID=$(gh api \
-            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            "repos/${REPO}/issues/${PR_NUMBER}/comments" \
             --jq ".[] | select(.body | startswith(\"${MARKER}\")) | .id" \
             2>/dev/null || true)
 
           if [ -n "$EXISTING_COMMENT_ID" ]; then
             gh api \
               --method PATCH \
-              "repos/${{ github.repository }}/issues/comments/${EXISTING_COMMENT_ID}" \
+              "repos/${REPO}/issues/comments/${EXISTING_COMMENT_ID}" \
               -F body=@"$COMMENT_FILE"
           else
             gh api \
               --method POST \
-              "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+              "repos/${REPO}/issues/${PR_NUMBER}/comments" \
               -F body=@"$COMMENT_FILE"
           fi
