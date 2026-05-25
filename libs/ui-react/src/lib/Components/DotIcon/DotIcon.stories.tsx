@@ -120,6 +120,41 @@ export const AppearanceShowcase: Story = {
   ),
 };
 
+export const DisabledShowcase: Story = {
+  args: { appearance: 'success', icon: ArrowDown },
+  render: () => (
+    <div className='flex items-center gap-32'>
+      <DotIcon
+        appearance='success'
+        icon={ArrowDown}
+        size={mediaImageDotIconSizeMap[48]}
+        pin='bottom-end'
+        disabled
+      >
+        <MediaImage src={parentSrc} size={48} shape='circle' />
+      </DotIcon>
+      <DotIcon
+        appearance='muted'
+        icon={ArrowUp}
+        size={mediaImageDotIconSizeMap[48]}
+        pin='bottom-end'
+        disabled
+      >
+        <MediaImage src={parentSrc} size={48} shape='circle' />
+      </DotIcon>
+      <DotIcon
+        appearance='error'
+        icon={Close}
+        size={mediaImageDotIconSizeMap[48]}
+        pin='bottom-end'
+        disabled
+      >
+        <MediaImage src={parentSrc} size={48} shape='circle' />
+      </DotIcon>
+    </div>
+  ),
+};
+
 export const SizeShowcase: Story = {
   args: { appearance: 'muted', icon: Link },
   render: () => (
