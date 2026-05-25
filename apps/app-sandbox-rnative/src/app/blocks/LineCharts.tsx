@@ -30,6 +30,8 @@ export const LineCharts = () => (
     <ScrubberWithAxes />
     <ReferenceLineBasic />
     <RandomAutoUpdate />
+    <LineChartTooltipOnPoints />
+    <LineChartTooltipAlwaysVisible />
   </Box>
 );
 
@@ -424,6 +426,66 @@ const ReferenceLineBasic = () => {
           label='Low'
           labelPosition='start'
           labelVerticalAlignment='start'
+        />
+      </LineChart>
+    </Section>
+  );
+};
+
+const annotatedPoints = [
+  { dataX: 4, dataY: 98, color: '#47883A', label: 'ATH' },
+  {
+    dataX: 9,
+    dataY: 4,
+    color: '#C24244',
+    label: 'Low',
+    labelPosition: 'bottom' as const,
+  },
+];
+
+const LineChartTooltipOnPoints = () => (
+  <Section title='Tooltip – on annotated points'>
+    <LineChart
+      series={sampleSeries}
+      width={320}
+      height={200}
+      showArea
+      enableScrubbing
+    >
+      <Scrubber
+        tooltip={(i) => {
+          const point = annotatedPoints.find((p) => p.dataX === i);
+          if (!point) return { items: [] };
+          return {
+            items: [
+              { label: 'Month', value: months[i] },
+              { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
+            ],
+          };
+        }}
+      />
+      {annotatedPoints.map((point) => (
+        <Point key={point.dataX} {...point} />
+      ))}
+    </LineChart>
+  </Section>
+);
+
+const LineChartTooltipAlwaysVisible = () => {
+  return (
+    <Section title='Tooltip – always visible'>
+      <LineChart
+        series={sampleSeries}
+        width={320}
+        height={200}
+        showArea
+        enableScrubbing
+      >
+        <Scrubber
+          tooltip={(i) => ({
+            title: months[i],
+            items: [{ label: 'Price', value: `$${sampleSeries[0].data[i]}` }],
+          })}
         />
       </LineChart>
     </Section>
