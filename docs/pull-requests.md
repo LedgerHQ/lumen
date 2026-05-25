@@ -1,20 +1,22 @@
 # Pull Requests
 
-## Sandbox Package Publishing
+## Dev Package Publishing
 
-Publish dev packages from a PR to test bug fixes or new features without releasing to production.
+Publish dev packages from a PR to test bug fixes or new features without releasing to production. Tarballs are hosted as assets on a per-PR GitHub pre-release, so any reviewer can install them with a single `npm install <url>` command.
 
 ### How it works
 
 1. Add the `publish-dev-package` label to your PR
-2. The CI builds the affected libraries and publishes them to the JFrog sandbox registry
-3. Each new commit pushed to the PR re-publishes with an updated version
-4. A sticky comment on the PR shows the exact install commands
-5. Remove the label to stop publishing on subsequent commits
+2. The CI builds the affected libraries and runs `npm pack` on each one
+3. The resulting `.tgz` tarballs are uploaded as assets on a per-PR GitHub pre-release tagged `dev-pr-<PR_NUMBER>`
+4. A sticky comment on the PR shows the exact install commands for every affected package
+5. Each new commit pushed to the PR replaces the release with fresh tarballs and updates the comment
+6. Remove the label to stop publishing on subsequent commits
+7. When the PR is closed (merged or not), the pre-release and its git tag are deleted automatically
 
 ### Version format
 
-Published packages use a prerelease suffix based on the PR number and commit hash:
+Each tarball is stamped with a prerelease suffix based on the PR number and commit hash:
 
 ```
 <current-version>-pr.<PR_NUMBER>.<SHORT_SHA>
@@ -30,24 +32,29 @@ Each commit produces a unique version. The PR number stays constant so consumers
 
 ### How to consume
 
-1. Open the PR on GitHub and look for the **Sandbox packages published** comment
+1. Open the PR on GitHub and look for the **📦 Dev packages published** comment
 2. Copy the install command from the comment table, for example:
 
 ```bash
-npm install @ledgerhq/lumen-ui-react@0.1.33-pr.42.a1b2c3d \
-  --registry=https://jfrog.ledgerlabs.net/artifactory/api/npm/lumen-npm-sandbox-green/
+npm install https://github.com/LedgerHQ/ldls/releases/download/dev-pr-42/ledgerhq-lumen-ui-react-0.1.33-pr.42.a1b2c3d.tgz
 ```
 
-You can also use the npm dist-tag `pr-<PR_NUMBER>` to always get the latest version from a PR:
+`npm` accepts a tarball URL anywhere it accepts a version specifier, so you can also add it directly to a consumer's `package.json`:
 
-```bash
-npm install @ledgerhq/lumen-ui-react@pr-42 \
-  --registry=https://jfrog.ledgerlabs.net/artifactory/api/npm/lumen-npm-sandbox-green/
+```json
+{
+  "dependencies": {
+    "@ledgerhq/lumen-ui-react": "https://github.com/LedgerHQ/ldls/releases/download/dev-pr-42/ledgerhq-lumen-ui-react-0.1.33-pr.42.a1b2c3d.tgz"
+  }
+}
 ```
+
+The install URL is **immutable per commit** — pushing a new commit creates a new URL. Always copy the latest one from the PR comment to make sure you're installing the most recent build.
 
 ### Important notes
 
-- Sandbox packages are for **testing only**, not for production use
-- Packages are published to the `lumen-npm-sandbox-green` registry, **not** the prod registry
-- Only affected libraries (those with changes in the PR) are published
-- The workflow requires Ledger internal CI runners and JFrog OIDC authentication
+- Dev packages are for **testing only**, not for production use
+- Tarballs are hosted on GitHub Releases (no JFrog or external registry needed) and inherit the visibility of this repository
+- Only affected libraries (those with changes in the PR) are packed and published
+- The release is marked as a **pre-release** so it never shows up as "Latest" and does not appear in the main releases list view
+- Both the release and its git tag are wiped when the PR is closed, leaving no trace in the repo's history

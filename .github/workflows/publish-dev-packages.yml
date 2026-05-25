@@ -1,46 +1,46 @@
-name: Publish Sandbox Packages
+name: Publish Dev Packages
 
 on:
   pull_request:
     types: [labeled, synchronize, closed]
 
 concurrency:
-  group: sandbox-publish-${{ github.event.pull_request.number }}
+  group: dev-packages-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 env:
   NX_NO_CLOUD: true
 
 permissions:
-  contents: write # Required to create/delete the sandbox pre-release and its tag
+  contents: write # Required to create/delete the dev packages pre-release and its tag
   pull-requests: write
 
 jobs:
-  cleanup-sandbox:
-    name: Cleanup sandbox release
+  cleanup-dev-packages:
+    name: Cleanup dev packages release
     if: >
       github.event.action == 'closed' &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - name: Delete sandbox release and tag
+      - name: Delete dev packages release and tag
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPO: ${{ github.repository }}
         run: |
-          TAG="sandbox-pr-${PR_NUMBER}"
+          TAG="dev-pr-${PR_NUMBER}"
           if gh release view "${TAG}" --repo "${REPO}" >/dev/null 2>&1; then
             gh release delete "${TAG}" \
               --repo "${REPO}" \
               --cleanup-tag --yes
-            echo "Deleted sandbox release ${TAG}"
+            echo "Deleted dev packages release ${TAG}"
           else
-            echo "No sandbox release found for ${TAG}, nothing to clean up"
+            echo "No dev packages release found for ${TAG}, nothing to clean up"
           fi
 
-  publish-sandbox:
-    name: Publish to Sandbox
+  publish-dev-packages:
+    name: Publish Dev Packages
     if: >
       github.event.action != 'closed' &&
       contains(github.event.pull_request.labels.*.name, 'publish-dev-package') &&
@@ -95,9 +95,9 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           SHORT_SHA="${HEAD_SHA:0:7}"
-          TAG="sandbox-pr-${PR_NUMBER}"
-          TARBALL_DIR="${RUNNER_TEMP}/sandbox-tarballs"
-          COMMENT_FILE="${RUNNER_TEMP}/sandbox-comment.md"
+          TAG="dev-pr-${PR_NUMBER}"
+          TARBALL_DIR="${RUNNER_TEMP}/dev-package-tarballs"
+          COMMENT_FILE="${RUNNER_TEMP}/dev-packages-comment.md"
           mkdir -p "${TARBALL_DIR}"
           TABLE_ROWS=""
 
@@ -111,30 +111,30 @@ jobs:
 
               if [ "$PKG_NAME" = "$PROJECT" ]; then
                 CURRENT_VERSION=$(node -p "require('./${PKG_JSON}').version")
-                SANDBOX_VERSION="${CURRENT_VERSION}-pr.${PR_NUMBER}.${SHORT_SHA}"
+                DEV_VERSION="${CURRENT_VERSION}-pr.${PR_NUMBER}.${SHORT_SHA}"
 
                 node -e "
                   const fs = require('fs');
                   const pkg = JSON.parse(fs.readFileSync('${PKG_JSON}', 'utf8'));
-                  pkg.version = '${SANDBOX_VERSION}';
+                  pkg.version = '${DEV_VERSION}';
                   fs.writeFileSync('${PKG_JSON}', JSON.stringify(pkg, null, 2) + '\n');
                 "
 
-                echo "::group::Packing ${PKG_NAME}@${SANDBOX_VERSION}"
+                echo "::group::Packing ${PKG_NAME}@${DEV_VERSION}"
                 TARBALL_FILENAME=$(npm pack "${lib_dir}" --pack-destination "${TARBALL_DIR}" --json \
                   | node -e "process.stdout.write(JSON.parse(require('fs').readFileSync(0,'utf8'))[0].filename)")
                 echo "::endgroup::"
 
                 TARBALL_URL="https://github.com/${REPO}/releases/download/${TAG}/${TARBALL_FILENAME}"
-                TABLE_ROWS="${TABLE_ROWS}| \`${PKG_NAME}\` | \`${SANDBOX_VERSION}\` | \`npm i ${TARBALL_URL}\` |"$'\n'
+                TABLE_ROWS="${TABLE_ROWS}| \`${PKG_NAME}\` | \`${DEV_VERSION}\` | \`npm i ${TARBALL_URL}\` |"$'\n'
                 break
               fi
             done
           done <<< "${{ steps.affected.outputs.projects }}"
 
           {
-            echo '<!-- sandbox-publish-comment -->'
-            echo '### 📦 Sandbox packages published'
+            echo '<!-- dev-packages-comment -->'
+            echo '### 📦 Dev packages published'
             echo ''
             echo 'Tarballs are hosted as assets on a per-PR GitHub pre-release and are deleted automatically when this PR is closed.'
             echo ''
@@ -170,8 +170,8 @@ jobs:
           gh release create "${TAG}" \
             --repo "${REPO}" \
             --target "${HEAD_SHA}" \
-            --title "Sandbox build for PR #${PR_NUMBER} (${SHORT_SHA})" \
-            --notes "Automated sandbox build for PR #${PR_NUMBER} at commit ${HEAD_SHA}. This pre-release is replaced on every push and deleted when the PR is closed." \
+            --title "Dev packages for PR #${PR_NUMBER} (${SHORT_SHA})" \
+            --notes "Automated dev packages build for PR #${PR_NUMBER} at commit ${HEAD_SHA}. This pre-release is replaced on every push and deleted when the PR is closed." \
             --prerelease
 
           gh release upload "${TAG}" "${TARBALL_DIR}"/*.tgz \
@@ -185,8 +185,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPO: ${{ github.repository }}
         run: |
-          COMMENT_FILE="${RUNNER_TEMP}/sandbox-comment.md"
-          MARKER="<!-- sandbox-publish-comment -->"
+          COMMENT_FILE="${RUNNER_TEMP}/dev-packages-comment.md"
+          MARKER="<!-- dev-packages-comment -->"
 
           EXISTING_COMMENT_ID=$(gh api \
             "repos/${REPO}/issues/${PR_NUMBER}/comments" \
