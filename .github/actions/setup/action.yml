@@ -1,0 +1,55 @@
+name: Setup
+description: >-
+  Set up Node.js, install workspace dependencies, restore the Nx local cache
+  and derive `nx affected` SHAs. Assumes the repository has already been
+  checked out (local composite actions cannot include `actions/checkout`).
+
+inputs:
+  node-version:
+    description: Node.js version to install. Defaults to the workspace-wide pinned version.
+    required: false
+    default: '22.14.0'
+  install:
+    description: Whether to run `npm ci --legacy-peer-deps`.
+    required: false
+    default: 'true'
+  cache-nx:
+    description: Whether to restore/save the local Nx cache (`.nx/cache`).
+    required: false
+    default: 'true'
+  set-shas:
+    description: Whether to derive base/head SHAs for `nx affected`.
+    required: false
+    default: 'true'
+  cache-key-prefix:
+    description: Optional prefix appended to the Nx cache key (useful when callers want isolated caches).
+    required: false
+    default: 'nx'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+
+    - name: Install dependencies
+      if: ${{ inputs.install == 'true' }}
+      shell: bash
+      run: npm ci --legacy-peer-deps
+
+    - name: Restore Nx cache
+      if: ${{ inputs.cache-nx == 'true' }}
+      uses: actions/cache@v4
+      with:
+        path: .nx/cache
+        key: ${{ inputs.cache-key-prefix }}-${{ runner.os }}-${{ github.sha }}
+        restore-keys: |
+          ${{ inputs.cache-key-prefix }}-${{ runner.os }}-
+
+    - name: Derive Nx affected SHAs
+      if: ${{ inputs.set-shas == 'true' }}
+      uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4

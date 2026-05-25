@@ -44,17 +44,13 @@ jobs:
       - name: Setup git user
         uses: LedgerHQ/ledger-live/tools/actions/composites/setup-git-user@develop # internal action. branch is fine.
 
-      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #v4.3.0
+      - uses: ./.github/actions/setup
         with:
-          node-version: '22.14.0'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          set-shas: 'false'
 
-      - name: Install dependencies
+      - name: Audit npm signatures
         id: install-dependencies
-        run: |
-          npm ci --legacy-peer-deps
-          npm audit signatures
+        run: npm audit signatures
 
       - name: Release
         id: release
