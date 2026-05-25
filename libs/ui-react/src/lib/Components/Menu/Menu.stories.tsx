@@ -74,6 +74,29 @@ export const Base: Story = {
   ),
 };
 
+export const OpenByDefault: Story = {
+  name: 'Open by Default',
+  render: () => (
+    <Menu defaultOpen>
+      <MenuTrigger
+        render={
+          <IconButton
+            icon={MoreVertical}
+            aria-label='Open Menu'
+            appearance='gray'
+          />
+        }
+      />
+      <MenuContent className='w-208'>
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>Billing</MenuItem>
+        <MenuItem>Team</MenuItem>
+        <MenuItem>Subscription</MenuItem>
+      </MenuContent>
+    </Menu>
+  ),
+};
+
 export const WithGroups: Story = {
   name: 'With Groups and Labels',
   render: () => (
