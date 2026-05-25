@@ -130,7 +130,7 @@ export type CardTrailingProps = {
 
 export type CardFooterProps = {
   /**
-   * The footer content (DescriptionList, Button, etc.).
+   * The footer content (DescriptionItem, Button, etc.).
    */
   children: ReactNode;
   /**

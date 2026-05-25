@@ -1,0 +1,134 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DescriptionItemStories from './DescriptionItem.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Containment/DescriptionItem' of={DescriptionItemStories} />
+
+# DescriptionItem
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10311-11837&m=dev).
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+DescriptionItem is a compound component for displaying key-value rows — typically used inside a summary panel, transaction detail, or settings screen. It composes a leading label side and a trailing value side, with the trailing always taking priority over the leading when space is constrained.
+
+## Anatomy
+
+<Canvas of={DescriptionItemStories.Base} />
+
+- **DescriptionItem**: Root row container. Accepts an optional `size` prop (`md` | `sm`).
+- **DescriptionItemLeading**: Left section holding the label and any optional sibling (e.g. a tooltip icon).
+- **DescriptionItemLabel**: Muted text label. Wraps to a second line before truncating.
+- **DescriptionItemTrailing**: Right section holding the value or any inline element (Tag, Link, etc.). Never shrinks — always has layout priority.
+- **DescriptionItemValue**: Semi-bold value text. Truncates to a single line.
+
+## Properties
+
+<Canvas of={DescriptionItemStories.Base} />
+<Controls of={DescriptionItemStories.Base} />
+
+### Trailing variants
+
+The trailing section accepts any content — a plain value, a `Tag`, multiple `Tag`s, or a custom element. Use `DescriptionItemValue` for plain text; place other components directly in `DescriptionItemTrailing`.
+
+<Canvas of={DescriptionItemStories.TrailingVariants} />
+
+### Size
+
+Two sizes are available — `md` (default) and `sm`. 
+
+- The size of `DescriptionItemValue` is inherited from the parent `DescriptionItem`.
+- The size of the additional trailing content (e.g. `Tag`) needs to be set explicitly.
+
+<Canvas of={DescriptionItemStories.SizeShowcase} />
+
+
+
+### With info tooltip
+
+Pair a `Tooltip` with an info icon inside `DescriptionItemLeading` to surface additional context without cluttering the label.
+
+<Canvas of={DescriptionItemStories.WithInfoIcon} />
+
+### Truncation
+
+The label can wrap to two lines before truncating. The trailing value truncates after one line. When both sides have long content, the trailing always gets layout priority.
+
+<Canvas of={DescriptionItemStories.TruncationBehavior} />
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import {
+  DescriptionItem,
+  DescriptionItemLabel,
+  DescriptionItemLeading,
+  DescriptionItemTrailing,
+  DescriptionItemValue,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <DescriptionItem size='md'>
+      <DescriptionItemLeading>
+        <DescriptionItemLabel>Fees</DescriptionItemLabel>
+      </DescriptionItemLeading>
+      <DescriptionItemTrailing>
+        <DescriptionItemValue>0.001 BTC</DescriptionItemValue>
+      </DescriptionItemTrailing>
+    </DescriptionItem>
+  );
+}
+```
+
+### With info tooltip
+
+Use a `Tooltip` alongside the label to add contextual information:
+
+```tsx
+import {
+  DescriptionItem,
+  DescriptionItemLabel,
+  DescriptionItemLeading,
+  DescriptionItemTrailing,
+  DescriptionItemValue,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@ledgerhq/lumen-ui-react';
+import { Information } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <DescriptionItem>
+      <DescriptionItemLeading>
+        <DescriptionItemLabel>Fees</DescriptionItemLabel>
+        <Tooltip>
+          <TooltipTrigger>
+            <Information size={16} className='shrink-0 text-muted' />
+          </TooltipTrigger>
+          <TooltipContent>Network fee paid to miners</TooltipContent>
+        </Tooltip>
+      </DescriptionItemLeading>
+      <DescriptionItemTrailing>
+        <DescriptionItemValue>0.001 BTC</DescriptionItemValue>
+      </DescriptionItemTrailing>
+    </DescriptionItem>
+  );
+}
+```
+
+</Tab>
+</CustomTabs>

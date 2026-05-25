@@ -9,6 +9,7 @@ export * from './CardButtons';
 export * from './Cards';
 export * from './Checkboxes';
 export * from './ContentBanners';
+export * from './DescriptionLists';
 export * from './Dividers';
 export * from './DotCounts';
 export * from './DotIcons';
