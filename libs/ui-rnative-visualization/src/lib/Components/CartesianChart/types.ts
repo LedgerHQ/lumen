@@ -43,7 +43,24 @@ export type CartesianChartProps = {
    */
   ariaLabel?: string;
   /**
-   * SVG content rendered inside the chart's context provider.
+   * SVG content rendered in the always-visible "chrome" layer of the chart —
+   * axes, grid, reference lines, scrubber visuals, and any other element that
+   * should never be clipped by the reveal animation.
+   *
+   * Use this slot for components like `<XAxis>`, `<YAxis>`, `<ReferenceLine>`,
+   * and `<Scrubber>` that frame or annotate the chart.
+   */
+  decorations?: ReactNode;
+  /**
+   * SVG content rendered in the animated "data" layer of the chart —
+   * lines, points, and anything else that should be progressively revealed
+   * when the chart mounts or when its data changes.
+   *
+   * Use this slot for `<Line>`, `<Point>`, or any other data-driven SVG.
+   *
+   * If `decorations` is omitted (legacy usage), `children` is rendered in the
+   * chrome layer instead and no reveal animation is applied — preserving
+   * backwards compatibility with consumers that pass mixed content here.
    */
   children?: ReactNode;
   /**

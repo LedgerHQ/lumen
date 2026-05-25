@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { View, type LayoutChangeEvent } from 'react-native';
+import { StyleSheet, View, type LayoutChangeEvent } from 'react-native';
 import { Svg } from 'react-native-svg';
 
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
@@ -13,6 +13,13 @@ import {
   resolveInset,
 } from './utils';
 
+const styles = StyleSheet.create({
+  decorationsLayer: {
+    ...StyleSheet.absoluteFillObject,
+    overflow: 'visible',
+  },
+});
+
 export function CartesianChart({
   series,
   xAxis,
@@ -22,6 +29,7 @@ export function CartesianChart({
   inset,
   axisPadding,
   ariaLabel = 'Chart',
+  decorations,
   children,
   enableScrubbing = false,
   onScrubberPositionChange,
@@ -58,6 +66,14 @@ export function CartesianChart({
     axisPadding: resolvedAxisPadding,
   });
 
+  // Backwards compatibility: when only `children` is provided (no `decorations`),
+  // render `children` in the chrome layer with no reveal animation. This
+  // preserves the behavior of older consumers that pass mixed content as
+  // children directly to `<CartesianChart>`.
+  const usingLegacyChildrenOnly = decorations === undefined;
+  const chromeContent = usingLegacyChildrenOnly ? children : decorations;
+  const dataContent = usingLegacyChildrenOnly ? null : children;
+
   return (
     <View
       testID='chart-container'
@@ -82,16 +98,27 @@ export function CartesianChart({
               testID='chart-svg'
               width={resolvedWidth}
               height={height}
-              style={{ overflow: 'visible' }}
+              style={styles.decorationsLayer}
             >
+              {chromeContent}
+            </Svg>
+            {dataContent != null && (
               <RevealClipDefs
-                drawingArea={contextValue.drawingArea}
+                width={resolvedWidth}
+                height={height}
                 series={series}
                 animate={animate}
               >
-                {children}
+                <Svg
+                  testID='chart-data-svg'
+                  width={resolvedWidth}
+                  height={height}
+                  style={{ overflow: 'visible' }}
+                >
+                  {dataContent}
+                </Svg>
               </RevealClipDefs>
-            </Svg>
+            )}
           </ScrubberProvider>
         </CartesianChartProvider>
       )}

@@ -1,12 +1,46 @@
-import { useMemo } from 'react';
+import {
+  Children,
+  isValidElement,
+  useMemo,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 
 import type { AxisConfigProps, ChartInset } from '../../utils/types';
 import { DEFAULT_AXIS_HEIGHT, XAxis } from '../Axis/XAxis';
 import { DEFAULT_AXIS_WIDTH, YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { Line } from '../Line';
+import { Point } from '../Point';
 
 import type { LineChartProps } from './types';
+
+/**
+ * Components that should be rendered in the animated "data" layer of
+ * `<CartesianChart>`, where they're progressively revealed by the reveal
+ * animation. Anything else is routed to the always-visible "decorations" layer.
+ */
+const DATA_LAYER_COMPONENTS: ReadonlyArray<React.ElementType> = [Line, Point];
+
+const isDataChild = (child: ReactNode): child is ReactElement => {
+  if (!isValidElement(child)) return false;
+  return DATA_LAYER_COMPONENTS.includes(child.type as React.ElementType);
+};
+
+const splitChildrenByLayer = (
+  children: ReactNode,
+): { decorations: ReactNode[]; data: ReactNode[] } => {
+  const decorations: ReactNode[] = [];
+  const data: ReactNode[] = [];
+  Children.forEach(children, (child) => {
+    if (isDataChild(child)) {
+      data.push(child);
+    } else if (child != null && child !== false) {
+      decorations.push(child);
+    }
+  });
+  return { decorations, data };
+};
 
 export const LineChart = ({
   series,
@@ -71,6 +105,11 @@ export const LineChart = ({
     yAxisVisualProps.width,
   ]);
 
+  const { decorations: childDecorations, data: childData } = useMemo(
+    () => splitChildrenByLayer(children),
+    [children],
+  );
+
   return (
     <CartesianChart
       series={series ?? []}
@@ -83,9 +122,14 @@ export const LineChart = ({
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
       animate={animate}
+      decorations={
+        <>
+          {showXAxis && <XAxis {...xAxisVisualProps} />}
+          {showYAxis && <YAxis {...yAxisVisualProps} />}
+          {childDecorations}
+        </>
+      }
     >
-      {showXAxis && <XAxis {...xAxisVisualProps} />}
-      {showYAxis && <YAxis {...yAxisVisualProps} />}
       {series?.map((s) => (
         <Line
           key={s.id}
@@ -94,7 +138,7 @@ export const LineChart = ({
           areaType={areaType}
         />
       ))}
-      {children}
+      {childData}
     </CartesianChart>
   );
 };
