@@ -433,13 +433,12 @@ const ReferenceLineBasic = () => {
 };
 
 const annotatedPoints = [
-  { dataX: 4, dataY: 98, color: '#47883A', label: 'ATH' },
+  { dataX: 2, dataY: 98, color: '#47883A', label: 'ATH' },
   {
-    dataX: 9,
-    dataY: 4,
+    dataX: 7,
+    dataY: 20,
     color: '#C24244',
     label: 'Low',
-    labelPosition: 'bottom' as const,
   },
 ];
 
