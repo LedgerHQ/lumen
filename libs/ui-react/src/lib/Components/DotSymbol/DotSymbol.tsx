@@ -1,4 +1,8 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useMemo, useState } from 'react';
 import type { MediaImageSize } from '../MediaImage';
@@ -26,6 +30,10 @@ const dotVariants = cva(
         'top-end': '',
         'bottom-start': '',
         'bottom-end': '',
+      },
+      disabled: {
+        true: 'opacity-30',
+        false: '',
       },
     },
     compoundVariants: [
@@ -109,35 +117,46 @@ export const DotSymbol = ({
   shape = 'circle',
   imgLoading = 'eager',
   className,
+  disabled: disabledProp = false,
   ref,
   ...rest
 }: DotSymbolProps) => {
   const style = useMemo(() => getPinOffset(pin, size), [pin, size]);
   const [error, setError] = useState(false);
+  const disabled = useDisabledContext({
+    consumerName: 'DotSymbol',
+    mergeWith: { disabled: disabledProp },
+  });
 
   useEffect(() => {
     setError(false);
   }, [src]);
 
   return (
-    <div
-      ref={ref}
-      className={cn('relative inline-flex w-fit', className)}
-      {...rest}
-    >
-      <div className='inline-flex'>{children}</div>
-      <div className={dotVariants({ size, shape, pin })} style={style}>
-        {!error && (
-          <img
-            alt={alt}
-            src={src}
-            loading={imgLoading}
-            aria-hidden='true'
-            onError={() => setError(true)}
-          />
-        )}
+    <DisabledProvider value={{ disabled }}>
+      <div
+        ref={ref}
+        className={cn('relative inline-flex w-fit', className)}
+        data-disabled={disabled || undefined}
+        {...rest}
+      >
+        <div className='inline-flex'>{children}</div>
+        <div
+          className={dotVariants({ size, shape, pin, disabled })}
+          style={style}
+        >
+          {!error && (
+            <img
+              alt={alt}
+              src={src}
+              loading={imgLoading}
+              aria-hidden='true'
+              onError={() => setError(true)}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </DisabledProvider>
   );
 };
 
