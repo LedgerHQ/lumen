@@ -94,7 +94,6 @@ export const MediaImage = ({
       )}
       role='img'
       aria-label={alt}
-      data-disabled={disabled || undefined}
       {...props}
     >
       {loading && <Skeleton className='absolute inset-0' />}
