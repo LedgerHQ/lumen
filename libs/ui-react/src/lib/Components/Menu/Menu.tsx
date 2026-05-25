@@ -32,20 +32,20 @@ const contentStyles = cva(
     variants: {
       side: {
         top: [
-          'data-open:animate-slide-in-from-bottom',
-          'data-closed:animate-slide-out-to-bottom',
-        ],
-        bottom: [
           'data-open:animate-slide-in-from-top',
           'data-closed:animate-slide-out-to-top',
         ],
-        left: [
-          'data-open:animate-slide-in-from-right',
-          'data-closed:animate-slide-out-to-right',
+        bottom: [
+          'data-open:animate-slide-in-from-bottom',
+          'data-closed:animate-slide-out-to-bottom',
         ],
-        right: [
+        left: [
           'data-open:animate-slide-in-from-left',
           'data-closed:animate-slide-out-to-left',
+        ],
+        right: [
+          'data-open:animate-slide-in-from-right',
+          'data-closed:animate-slide-out-to-right',
         ],
       },
     },
@@ -73,7 +73,7 @@ const subTriggerStyles = cn(
 );
 
 function Menu({ ...props }: MenuProps) {
-  return <MenuPrimitive.Root data-slot='menu' {...props} />;
+  return <MenuPrimitive.Root {...props} />;
 }
 
 const MenuTrigger = ({
@@ -227,7 +227,7 @@ const MenuCheckboxItem = ({
         disabled={disabled}
         closeOnClick={closeOnClick ?? false}
         className={cn(itemStyles, className)}
-        onCheckedChange={(nextChecked) => onCheckedChange?.(nextChecked)}
+        onCheckedChange={onCheckedChange}
         {...props}
       >
         {children}

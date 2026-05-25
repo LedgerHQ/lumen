@@ -170,7 +170,14 @@ export type MenuCheckboxItemProps = {
    * @param checked - The new checked state
    */
   onCheckedChange?: (checked: boolean) => void;
-} & MenuItemProps;
+
+  /**
+   * Whether the menu closes when this item is clicked.
+   *
+   * @default false
+   */
+  closeOnClick?: boolean;
+} & Omit<MenuItemProps, 'closeOnClick'>;
 
 /**
  * Props for a Menu radio item component.
