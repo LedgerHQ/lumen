@@ -6,9 +6,9 @@ description: >-
 
 inputs:
   node-version:
-    description: Node.js version to install. Defaults to the workspace-wide pinned version.
+    description: Node.js version to install. Defaults to the version pinned in `.prototools`.
     required: false
-    default: '22.14.0'
+    default: '22.13.1'
   install:
     description: Whether to run `npm ci --legacy-peer-deps`.
     required: false
@@ -43,7 +43,7 @@ runs:
 
     - name: Restore Nx cache
       if: ${{ inputs.cache-nx == 'true' }}
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: .nx/cache
         key: ${{ inputs.cache-key-prefix }}-${{ runner.os }}-${{ github.sha }}
