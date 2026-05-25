@@ -45,13 +45,13 @@ export type MenuProps = {
 /**
  * Props for the Menu trigger component.
  *
- * The button that toggles the dropdown menu.
- * By default renders a button element.
+ * The element that toggles the dropdown menu.
+ * Requires the `render` prop to compose trigger behavior onto your component.
  */
 export type MenuTriggerProps = {
   /**
-   * Render prop that replaces the default button-style trigger.
-   * Merges menu trigger behavior onto your component without an extra wrapper element.
+   * Render prop that composes menu trigger behavior onto your component
+   * without an extra wrapper element.
    *
    * @example render={<IconButton icon={MoreVertical} aria-label="Open Menu" />}
    * @example render={(props) => <IconButton {...props} icon={MoreVertical} aria-label="Open Menu" />}
