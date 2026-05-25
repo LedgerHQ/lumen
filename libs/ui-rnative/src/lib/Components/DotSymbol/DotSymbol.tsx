@@ -1,3 +1,7 @@
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -118,6 +122,7 @@ export const DotSymbol = ({
   pin = 'bottom-end',
   size = 20,
   shape = 'circle',
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
@@ -125,35 +130,46 @@ export const DotSymbol = ({
 }: DotSymbolProps) => {
   const styles = useStyles({ size, shape, pin });
   const [error, setError] = useState(false);
+  const disabled = useDisabledContext({
+    consumerName: 'DotSymbol',
+    mergeWith: { disabled: disabledProp },
+  });
 
   useEffect(() => {
     setError(false);
   }, [src]);
 
   return (
-    <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([{ position: 'relative' }, style])}
-      accessibilityRole='image'
-      accessibilityLabel={alt}
-      {...rest}
-    >
-      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
-        {children}
-        <Box style={styles.dot}>
-          {!error && (
-            <Image
-              source={{ uri: src }}
-              style={styles.image}
-              accessible={false}
-              onError={() => setError(true)}
-              testID='dot-symbol-img'
-            />
-          )}
+    <DisabledProvider value={{ disabled: false }}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={StyleSheet.flatten([
+          { position: 'relative' },
+          disabled && { opacity: 0.3 },
+          style,
+        ])}
+        accessibilityRole='image'
+        accessibilityLabel={alt}
+        accessibilityState={{ disabled }}
+        {...rest}
+      >
+        <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+          {children}
+          <Box style={styles.dot}>
+            {!error && (
+              <Image
+                source={{ uri: src }}
+                style={styles.image}
+                accessible={false}
+                onError={() => setError(true)}
+                testID='dot-symbol-img'
+              />
+            )}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </DisabledProvider>
   );
 };
 

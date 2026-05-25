@@ -1,3 +1,7 @@
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import type { IconSize } from '../Icon';
@@ -119,27 +123,39 @@ export const DotIcon = ({
   pin = 'bottom-end',
   size = 20,
   shape = 'circle',
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
   ...rest
 }: DotIconProps) => {
   const styles = useStyles({ size, shape, pin, appearance });
+  const disabled = useDisabledContext({
+    consumerName: 'DotIcon',
+    mergeWith: { disabled: disabledProp },
+  });
 
   return (
-    <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([{ position: 'relative' }, style])}
-      {...rest}
-    >
-      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
-        {children}
-        <Box testID='dot-icon-dot' style={styles.dot}>
-          <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+    <DisabledProvider value={{ disabled: false }}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={StyleSheet.flatten([
+          { position: 'relative' },
+          disabled && { opacity: 0.3 },
+          style,
+        ])}
+        accessibilityState={{ disabled }}
+        {...rest}
+      >
+        <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+          {children}
+          <Box testID='dot-icon-dot' style={styles.dot}>
+            <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </DisabledProvider>
   );
 };
 
