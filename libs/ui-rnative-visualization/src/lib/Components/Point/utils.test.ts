@@ -2,14 +2,11 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
 
 import type { AxisConfigProps } from '../../utils/types';
+import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
 import {
-  ARROW_HEIGHT,
-  ARROW_WIDTH,
   buildArrowPoints,
   computeLabelY,
-  GAP,
   isWithinBounds,
-  LABEL_FONT_SIZE,
   resolveLabel,
   useMagneticRegistration,
 } from './utils';
@@ -165,7 +162,7 @@ describe('useMagneticRegistration', () => {
     expect(ctx.register).toHaveBeenCalledWith(1);
   });
 
-  it('falls back to dataX when axis data does not contain the value', () => {
+  it('does not register when axis data exists but does not contain the value', () => {
     const ctx = makeContext();
     const getXAxisConfig = (): AxisConfigProps => ({
       scaleType: 'band',
@@ -174,13 +171,14 @@ describe('useMagneticRegistration', () => {
 
     renderHook(() => useMagneticRegistration(true, 999, getXAxisConfig, ctx));
 
-    expect(ctx.register).toHaveBeenCalledWith(999);
+    expect(ctx.register).not.toHaveBeenCalled();
   });
 
   it('re-registers when dataX changes', () => {
     const ctx = makeContext();
     const { rerender } = renderHook(
-      ({ dataX }) => useMagneticRegistration(true, dataX, noAxisConfig, ctx),
+      ({ dataX }: { dataX: number }) =>
+        useMagneticRegistration(true, dataX, noAxisConfig, ctx),
       { initialProps: { dataX: 2 } },
     );
 
@@ -195,7 +193,8 @@ describe('useMagneticRegistration', () => {
   it('unregisters and stops when magnetic switches to false', () => {
     const ctx = makeContext();
     const { rerender } = renderHook(
-      ({ magnetic }) => useMagneticRegistration(magnetic, 3, noAxisConfig, ctx),
+      ({ magnetic }: { magnetic: boolean }) =>
+        useMagneticRegistration(magnetic, 3, noAxisConfig, ctx),
       { initialProps: { magnetic: true } },
     );
 
