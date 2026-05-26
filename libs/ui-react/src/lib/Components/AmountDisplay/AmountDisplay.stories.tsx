@@ -116,6 +116,18 @@ export const Base: Story = {
   },
 };
 
+export const Sizes: Story = {
+  args: {
+    value: 1234.56,
+  },
+  render: (props) => (
+    <div className='flex flex-col place-items-center gap-24'>
+      <AmountDisplay {...props} size='md' />
+      <AmountDisplay {...props} size='sm' />
+    </div>
+  ),
+};
+
 export const AnimationShowcase: Story = {
   args: {
     value: 1234.56,
