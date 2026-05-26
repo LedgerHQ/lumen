@@ -2,12 +2,12 @@ import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
 import type { CoinCapsuleProps } from './types';
 
-export function CoinCapsule({ ticker, icon }: CoinCapsuleProps) {
+export function CoinCapsule({ ticker, leadingContent }: CoinCapsuleProps) {
   const styles = useStyles();
 
   return (
     <Box style={styles.container}>
-      {icon}
+      {leadingContent}
       <Text style={styles.text}>{ticker}</Text>
     </Box>
   );

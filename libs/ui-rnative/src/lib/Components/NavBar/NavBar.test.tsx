@@ -69,7 +69,7 @@ describe('NavBar', () => {
       renderWithProvider(
         <NavBar testID='navbar' density='compact'>
           <NavBarContent>
-            <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+            <NavBarCoinCapsule ticker='BTC' leadingContent={<MockIcon />} />
           </NavBarContent>
         </NavBar>,
       );
@@ -256,7 +256,7 @@ describe('NavBar', () => {
       renderWithProvider(
         <NavBar density='compact'>
           <NavBarContent>
-            <NavBarCoinCapsule ticker='ETH' icon={<MockIcon />} />
+            <NavBarCoinCapsule ticker='ETH' leadingContent={<MockIcon />} />
           </NavBarContent>
         </NavBar>,
       );

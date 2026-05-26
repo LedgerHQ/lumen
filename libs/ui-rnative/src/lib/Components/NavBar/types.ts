@@ -57,9 +57,9 @@ export type CoinCapsuleProps = {
    */
   ticker: string;
   /**
-   * The icon element to display (typically a crypto coin icon).
+   * The leading content, typically a crypto coin icon.
    */
-  icon: ReactElement;
+  leadingContent: ReactElement;
 } & Omit<StyledViewProps, 'children'>;
 
 /**
