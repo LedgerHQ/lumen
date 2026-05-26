@@ -1,33 +1,34 @@
 <style>
-  body {
-    background-color: #fff;
+  body,
+  .sbdocs-preview,
+  .sb-preparing-story,
+  .sb-preparing-docs {
+    background-color: #fff !important;
   }
 
-  .dark body {
-    background-color: #000;
+  .dark body,
+  .dark .sbdocs-preview,
+  .dark .sb-preparing-story,
+  .dark .sb-preparing-docs {
+    background-color: #1c1c1c !important;
   }
 
-  .sbdocs-preview {
-    background-color: #f2f2f2;
-  }
+  .dark {
 
-  .dark .sbdocs-preview {
-    background-color: #000;
-  }
+    /* Change link color to purple */
+    .css-x28zkw :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) .css-x28zkw :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
+      color: rgb(126, 78, 165) !important;
+      text-decoration: underline !important;
+      cursor: pointer !important;
+    }
 
-  /* Change link color to purple */
-  .css-x28zkw :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
-    color: rgb(126, 78, 165) !important;
-    text-decoration: underline !important;
-    cursor: pointer !important;
-  }
+    .css-x28zkw :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)):hover .css-x28zkw :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)):hover {
+      color: rgb(66, 30, 94) !important;
+    }
 
-  .css-x28zkw :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)):hover {
-    color: rgb(66, 30, 94) !important;
-  }
-
-  /* Remove border bottom from h2 */
-  .css-x28zkw :where(h2:not(.sb-anchor, .sb-unstyled, .sb-unstyled h2)) {
-    border-bottom: none !important;
+    /* Remove border bottom from h2 */
+    .css-x28zkw :where(h2:not(.sb-anchor, .sb-unstyled, .sb-unstyled h2)) .css-x28zkw :where(h2:not(.sb-anchor, .sb-unstyled, .sb-unstyled h2)) {
+      border-bottom: none !important;
+    }
   }
 </style>

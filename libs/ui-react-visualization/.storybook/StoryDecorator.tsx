@@ -1,15 +1,14 @@
 import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
-import type { StoryContext } from '@storybook/react-vite';
 import React from 'react';
+import { useDarkMode } from 'storybook-dark-mode';
 
 export const StoryDecorator = ({
   children,
-  context,
 }: {
   children: React.ReactNode;
-  context: StoryContext;
+  context?: unknown;
 }) => {
-  return (
-    <ThemeProvider colorScheme={context.globals.mode}>{children}</ThemeProvider>
-  );
+  const colorScheme = useDarkMode() ? 'dark' : 'light';
+
+  return <ThemeProvider colorScheme={colorScheme}>{children}</ThemeProvider>;
 };

@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import type { ReactNode } from 'react';
 import { addons } from 'storybook/manager-api';
-import theme from './theme';
+import { lightTheme } from './theme';
 
 type SidebarEntryWithTags = {
   type?: string;
@@ -96,7 +96,7 @@ const renderLabelWithFlags = (
 };
 
 addons.setConfig({
-  theme,
+  theme: lightTheme,
   sidebar: {
     renderLabel: (item) =>
       renderLabelWithFlags(item as { name: string } & SidebarEntryWithTags),

@@ -48,6 +48,7 @@ export const CustomTabs = ({ children }: CustomTabsProps) => {
       >
         <Box>
           <SegmentedControl
+            tabLayout='fit'
             selectedValue={activeLabel}
             onSelectedChange={(value) => setActiveLabel(value)}
           >
@@ -74,5 +75,5 @@ export const CustomTabs = ({ children }: CustomTabsProps) => {
 };
 
 export const Tab = ({ children }: TabProps) => {
-  return <Box>{children}</Box>;
+  return children;
 };
