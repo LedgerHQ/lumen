@@ -64,8 +64,8 @@ describe('MediaButton', () => {
       renderWithProvider(
         <MediaButton
           testID='trigger'
-          icon={<Settings size={20} testID='icon' />}
-          iconType='flat'
+          leadingContent={<Settings size={20} testID='icon' />}
+          leadingContentShape='flat'
         >
           Network
         </MediaButton>,
@@ -78,8 +78,8 @@ describe('MediaButton', () => {
       renderWithProvider(
         <MediaButton
           testID='trigger'
-          icon={<View testID='crypto-icon' />}
-          iconType='rounded'
+          leadingContent={<View testID='crypto-icon' />}
+          leadingContentShape='rounded'
         >
           Bitcoin
         </MediaButton>,

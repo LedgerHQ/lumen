@@ -46,7 +46,7 @@ const CurrencySelectExample = () => {
   return (
     <Box>
       <MediaButton
-        icon={
+        leadingContent={
           selectedMeta ? (
             <CryptoIconNative
               ledgerId={selectedMeta.icon}
@@ -194,7 +194,7 @@ const NetworkSelectExample = () => {
   return (
     <Box>
       <MediaButton
-        icon={
+        leadingContent={
           selected?.meta ? (
             <CryptoIconNative
               ledgerId={selected.meta.icon}
@@ -314,7 +314,7 @@ const SearchableSelectExample = () => {
   return (
     <Box>
       <MediaButton
-        icon={
+        leadingContent={
           selectedMeta ? (
             <CryptoIconNative
               ledgerId={selectedMeta.icon}
