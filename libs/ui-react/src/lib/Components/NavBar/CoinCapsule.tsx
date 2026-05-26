@@ -10,7 +10,7 @@ import type { CoinCapsuleProps } from './types';
 export const CoinCapsule = ({
   ref,
   ticker,
-  icon,
+  leadingContent,
   className,
 }: CoinCapsuleProps) => {
   return (
@@ -23,7 +23,7 @@ export const CoinCapsule = ({
       data-slot='coin-capsule'
     >
       <span className='flex size-24 shrink-0 items-center justify-center'>
-        {icon}
+        {leadingContent}
       </span>
       <span className='body-1 text-base select-none'>{ticker}</span>
     </div>

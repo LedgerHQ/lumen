@@ -26,11 +26,16 @@ import type {
 export const NavBarCoinCapsule = ({
   ref,
   ticker,
-  icon,
+  leadingContent,
   className,
 }: NavBarCoinCapsuleProps) => (
   <div className='flex flex-1 items-center' data-slot='navbar-coin-capsule'>
-    <CoinCapsule ref={ref} ticker={ticker} icon={icon} className={className} />
+    <CoinCapsule
+      ref={ref}
+      ticker={ticker}
+      leadingContent={leadingContent}
+      className={className}
+    />
   </div>
 );
 
