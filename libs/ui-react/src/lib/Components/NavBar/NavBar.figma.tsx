@@ -29,7 +29,7 @@ figma.connect(
           <NavBarCoinCapsule
             ticker='Bitcoin'
             leadingContent={
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
             }
           />
         ),

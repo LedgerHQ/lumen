@@ -568,7 +568,7 @@ export const TriggerShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(selectedCrypto.meta?.ledgerId as string) ?? ''}
                       ticker={(selectedCrypto.meta?.ticker as string) ?? ''}
-                      size='32px'
+                      size={32}
                     />
                   ) : undefined
                 }
@@ -589,7 +589,7 @@ export const TriggerShowcase: Story = {
                   <CryptoIcon
                     ledgerId={(crypto.meta?.ledgerId as string) ?? ''}
                     ticker={(crypto.meta?.ticker as string) ?? ''}
-                    size='24px'
+                    size={24}
                   />
                   <SelectItemText>{crypto.label}</SelectItemText>
                 </SelectItem>
@@ -744,7 +744,7 @@ export const LeadingContentShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(item.meta?.ledgerId as string) ?? ''}
                       ticker={(item.meta?.ticker as string) ?? ''}
-                      size='24px'
+                      size={24}
                     />
                     <SelectItemText>{item.label}</SelectItemText>
                   </SelectItem>
@@ -769,7 +769,7 @@ export const LeadingContentShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(item.meta?.ledgerId as string) ?? ''}
                       ticker={(item.meta?.ticker as string) ?? ''}
-                      size='32px'
+                      size={32}
                     />
                     <SelectItemContent>
                       <SelectItemText>{item.label}</SelectItemText>

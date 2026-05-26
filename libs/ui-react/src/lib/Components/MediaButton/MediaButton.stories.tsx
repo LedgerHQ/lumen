@@ -8,8 +8,8 @@ import type { MediaButtonProps } from './types';
 type Size = NonNullable<MediaButtonProps['size']>;
 
 const cryptoIconSizes = {
-  sm: '24px',
-  md: '32px',
+  sm: 24,
+  md: 32,
 } as const;
 
 const resolveIcon = (
@@ -121,7 +121,7 @@ export const IconTypeShowcase: Story = {
         </MediaButton>
         <MediaButton
           leadingContent={
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
           }
           leadingContentShape='rounded'
           appearance='gray'
@@ -141,7 +141,7 @@ export const IconTypeShowcase: Story = {
         </MediaButton>
         <MediaButton
           leadingContent={
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
           }
           leadingContentShape='rounded'
           appearance='gray'
@@ -175,7 +175,7 @@ export const AllAppearancesWithIcons: Story = {
             <MediaButton
               appearance={appearance}
               leadingContent={
-                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
               }
               leadingContentShape='rounded'
             >

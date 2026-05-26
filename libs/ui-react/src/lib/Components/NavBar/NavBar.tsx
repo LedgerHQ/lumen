@@ -21,7 +21,7 @@ import type {
  * import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing } from '@ledgerhq/lumen-ui-react';
  * import { CryptoIcon } from '@ledgerhq/crypto-icons';
  *
- * <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />} />
+ * <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
  */
 export const NavBarCoinCapsule = ({
   ref,
@@ -204,7 +204,7 @@ export const NavBarTrailing = ({
  *
  * <NavBar>
  *   <NavBarBackButton onClick={handleBack} />
- *   <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />} />
+ *   <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
  *   <NavBarTrailing>
  *     <IconButton icon={MoreHorizontal} aria-label="More options" />
  *   </NavBarTrailing>
