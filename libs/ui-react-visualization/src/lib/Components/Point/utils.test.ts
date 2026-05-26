@@ -162,7 +162,7 @@ describe('useMagneticRegistration', () => {
     expect(ctx.register).toHaveBeenCalledWith(1);
   });
 
-  it('falls back to dataX when axis data does not contain the value', () => {
+  it('does not register when axis data exists but does not contain the value', () => {
     const ctx = makeContext();
     const getXAxisConfig = (): AxisConfigProps => ({
       scaleType: 'band',
@@ -171,7 +171,7 @@ describe('useMagneticRegistration', () => {
 
     renderHook(() => useMagneticRegistration(true, 999, getXAxisConfig, ctx));
 
-    expect(ctx.register).toHaveBeenCalledWith(999);
+    expect(ctx.register).not.toHaveBeenCalled();
   });
 
   it('re-registers when dataX changes', () => {
