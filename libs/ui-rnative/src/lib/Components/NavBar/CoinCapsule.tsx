@@ -20,6 +20,7 @@ const useStyles = () =>
         flexDirection: 'row',
         gap: t.spacings.s8,
         padding: t.spacings.s8,
+        paddingRight: t.spacings.s12,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: t.borderRadius.full,
