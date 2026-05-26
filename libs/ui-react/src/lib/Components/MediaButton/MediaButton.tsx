@@ -46,12 +46,12 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
  * import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
  *
  * // With flat interface icon
- * <MediaButton icon={<Settings size={20} />} iconType="flat">
+ * <MediaButton leadingContent={<Settings size={20} />} leadingContentShape="flat">
  *   Network
  * </MediaButton>
  *
  * // With rounded crypto icon
- * <MediaButton icon={<CryptoIcon ledgerId="bitcoin" size={32} />} iconType="rounded">
+ * <MediaButton leadingContent={<CryptoIcon ledgerId="bitcoin" size="32px" />} leadingContentShape="rounded">
  *   Bitcoin
  * </MediaButton>
  *
