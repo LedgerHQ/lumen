@@ -3,7 +3,7 @@ import type { CoinCapsuleProps } from './types';
 
 /**
  * @internal
- * Internal component for displaying a cryptocurrency coin capsule with icon and ticker.
+ * Internal component for displaying a cryptocurrency coin capsule with leading content and ticker.
  * This component is not exported publicly. Use NavBarCoinCapsule instead for NavBar usage.
  * Kept as a separate component for potential future extraction as a standalone component.
  */

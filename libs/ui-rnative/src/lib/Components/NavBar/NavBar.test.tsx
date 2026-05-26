@@ -252,7 +252,7 @@ describe('NavBar', () => {
   });
 
   describe('NavBarCoinCapsule', () => {
-    it('should render ticker and icon', () => {
+    it('should render ticker and leading content', () => {
       renderWithProvider(
         <NavBar density='compact'>
           <NavBarContent>

@@ -15,7 +15,7 @@ import type {
 
 /**
  * A coin capsule component for displaying cryptocurrency information within the NavBar.
- * Shows an icon and ticker symbol in a pill-shaped container.
+ * Shows leading content (e.g., an icon) and ticker symbol in a pill-shaped container.
  *
  * @example
  * import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing } from '@ledgerhq/lumen-ui-react';

@@ -140,7 +140,7 @@ describe('NavBar', () => {
 });
 
 describe('NavBarCoinCapsule', () => {
-  it('renders ticker and icon correctly', () => {
+  it('renders ticker and leading content correctly', () => {
     const MockIcon = () => <svg data-testid='coin-icon' />;
     render(<NavBarCoinCapsule ticker='BTC' leadingContent={<MockIcon />} />);
 
