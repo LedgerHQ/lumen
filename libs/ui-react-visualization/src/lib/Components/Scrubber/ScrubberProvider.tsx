@@ -40,22 +40,17 @@ export function ScrubberProvider({
     [dataLength, onScrubberPositionChange],
   );
 
-  const getPixelForIndex = useCallback(
-    (index: number) => {
-      return resolvePixelX(index, getXScale, getXAxisConfig());
-    },
-    [getXScale, getXAxisConfig],
-  );
-
   const updatePosition = useCallback(
     (pixelX: number) => {
       const scale = getXScale();
       if (!scale || !enableScrubbing || dataLength <= 0) return;
 
+      const axisConfig = getXAxisConfig();
+
       let index = getDataIndexFromPosition(
         pixelX,
         scale,
-        getXAxisConfig(),
+        axisConfig,
         dataLength,
       );
 
@@ -66,7 +61,7 @@ export function ScrubberProvider({
           pixelX,
           magneticPoints,
           magnetRadius,
-          getPixelForIndex,
+          (i) => resolvePixelX(i, getXScale, axisConfig),
         );
       }
 
@@ -81,7 +76,6 @@ export function ScrubberProvider({
       dataLength,
       getMagneticPoints,
       magnetRadius,
-      getPixelForIndex,
       setScrubberPositionAndNotify,
     ],
   );

@@ -1,14 +1,8 @@
 import { useEffect } from 'react';
 
 import type { AxisConfigProps, DrawingArea } from '../../utils/types';
+import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
 import type { MagneticPointsContextValue } from './pointContext/magneticPointsContext';
-
-export const DEFAULT_SIZE = 10;
-export const STROKE_WIDTH = 2;
-export const ARROW_WIDTH = 6;
-export const ARROW_HEIGHT = 4;
-export const GAP = 4;
-export const LABEL_FONT_SIZE = 10;
 
 export const isWithinBounds = (
   px: number,
@@ -59,11 +53,11 @@ export const resolveLabel = (
 export const resolveDataXToIndex = (
   dataX: number,
   axisConfig: AxisConfigProps | undefined,
-): number => {
+): number | undefined => {
   const axisData = axisConfig?.data;
   if (!axisData) return dataX;
   const index = (axisData as number[]).indexOf(dataX);
-  if (index === -1) return dataX;
+  if (index === -1) return undefined;
   return index;
 };
 
@@ -80,6 +74,7 @@ export const useMagneticRegistration = (
   useEffect(() => {
     if (!magnetic) return;
     const index = resolveDataXToIndex(dataX, getXAxisConfig());
+    if (index === undefined) return;
     register(index);
     return () => unregister(index);
   }, [magnetic, dataX, getXAxisConfig, register, unregister]);

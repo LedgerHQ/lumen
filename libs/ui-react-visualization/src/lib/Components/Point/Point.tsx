@@ -4,16 +4,15 @@ import { useMemo } from 'react';
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useRevealClip } from '../CartesianChart/RevealClip';
+import { DEFAULT_SIZE, STROKE_WIDTH } from './constants';
 import { useMagneticPointsContext } from './pointContext';
 
 import type { PointLabelProps, PointProps } from './types';
 import {
   buildArrowPoints,
   computeLabelY,
-  DEFAULT_SIZE,
   isWithinBounds,
   resolveLabel,
-  STROKE_WIDTH,
   useMagneticRegistration,
 } from './utils';
 
