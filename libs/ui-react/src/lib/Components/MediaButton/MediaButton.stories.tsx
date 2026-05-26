@@ -8,8 +8,8 @@ import type { MediaButtonProps } from './types';
 type Size = NonNullable<MediaButtonProps['size']>;
 
 const cryptoIconSizes = {
-  sm: 24,
-  md: 32,
+  sm: '24px',
+  md: '32px',
 } as const;
 
 const resolveIcon = (
@@ -50,11 +50,11 @@ const meta: Meta<typeof MediaButton> = {
     },
   },
   argTypes: {
-    icon: {
+    leadingContent: {
       control: 'select',
       options: ['None', 'Settings (flat)', 'Bitcoin (rounded)'],
     },
-    iconType: {
+    leadingContentShape: {
       control: 'select',
       options: ['flat', 'rounded'],
     },
@@ -72,14 +72,14 @@ export const Base: Story = {
     children: 'All accounts',
     appearance: 'gray',
   },
-  render: ({ icon, size, iconType, ...args }) => {
-    const resolved = resolveIcon(icon as string, size);
+  render: ({ leadingContent, size, leadingContentShape, ...args }) => {
+    const resolved = resolveIcon(leadingContent as string, size);
     return (
       <MediaButton
         {...args}
         size={size}
-        icon={resolved.node}
-        iconType={resolved.type ?? iconType}
+        leadingContent={resolved.node}
+        leadingContentShape={resolved.type ?? leadingContentShape}
       >
         {args.children}
       </MediaButton>
@@ -90,10 +90,18 @@ export const Base: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
-      <MediaButton size='sm' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton
+        size='sm'
+        leadingContent={<Star size={20} />}
+        leadingContentShape='flat'
+      >
         Small
       </MediaButton>
-      <MediaButton size='md' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton
+        size='md'
+        leadingContent={<Star size={20} />}
+        leadingContentShape='flat'
+      >
         Medium
       </MediaButton>
     </div>
@@ -105,15 +113,17 @@ export const IconTypeShowcase: Story = {
     <div className='flex flex-col gap-16'>
       <div className='flex items-center gap-16'>
         <MediaButton
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
           appearance='gray'
         >
           Flat icon (md)
         </MediaButton>
         <MediaButton
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />}
-          iconType='rounded'
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+          }
+          leadingContentShape='rounded'
           appearance='gray'
         >
           Rounded icon (md)
@@ -122,16 +132,18 @@ export const IconTypeShowcase: Story = {
       </div>
       <div className='flex items-center gap-16'>
         <MediaButton
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
           appearance='gray'
           size='sm'
         >
           Flat icon (sm)
         </MediaButton>
         <MediaButton
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
-          iconType='rounded'
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />
+          }
+          leadingContentShape='rounded'
           appearance='gray'
           size='sm'
         >
@@ -155,15 +167,17 @@ export const AllAppearancesWithIcons: Story = {
             <MediaButton appearance={appearance}>{appearance}</MediaButton>
             <MediaButton
               appearance={appearance}
-              icon={<Settings size={20} />}
-              iconType='flat'
+              leadingContent={<Settings size={20} />}
+              leadingContentShape='flat'
             >
               {appearance}
             </MediaButton>
             <MediaButton
               appearance={appearance}
-              icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />}
-              iconType='rounded'
+              leadingContent={
+                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+              }
+              leadingContentShape='rounded'
             >
               {appearance}
             </MediaButton>

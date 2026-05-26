@@ -22,8 +22,8 @@ describe('MediaButton', () => {
   it('should render with a flat interface icon', () => {
     const { container } = render(
       <MediaButton
-        icon={<Settings size={20} data-testid='icon' />}
-        iconType='flat'
+        leadingContent={<Settings size={20} data-testid='icon' />}
+        leadingContentShape='flat'
       >
         Network
       </MediaButton>,
@@ -35,8 +35,8 @@ describe('MediaButton', () => {
   it('should render with a rounded icon', () => {
     render(
       <MediaButton
-        icon={<span data-testid='crypto-icon'>BTC</span>}
-        iconType='rounded'
+        leadingContent={<span data-testid='crypto-icon'>BTC</span>}
+        leadingContentShape='rounded'
       >
         Bitcoin
       </MediaButton>,

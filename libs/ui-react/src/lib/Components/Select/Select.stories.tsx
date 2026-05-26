@@ -536,7 +536,10 @@ export const TriggerShowcase: Story = {
         >
           <SelectTrigger
             render={({ selectedValue, selectedContent }) => (
-              <MediaButton icon={<Settings size={20} />} iconType='flat'>
+              <MediaButton
+                leadingContent={<Settings size={20} />}
+                leadingContentShape='flat'
+              >
                 {selectedValue ? selectedContent : 'Settings'}
               </MediaButton>
             )}
@@ -560,16 +563,16 @@ export const TriggerShowcase: Story = {
           <SelectTrigger
             render={({ selectedValue, selectedContent }) => (
               <MediaButton
-                icon={
+                leadingContent={
                   selectedCrypto ? (
                     <CryptoIcon
                       ledgerId={(selectedCrypto.meta?.ledgerId as string) ?? ''}
                       ticker={(selectedCrypto.meta?.ticker as string) ?? ''}
-                      size={32}
+                      size='32px'
                     />
                   ) : undefined
                 }
-                iconType='rounded'
+                leadingContentShape='rounded'
               >
                 {selectedValue ? selectedContent : 'Network'}
               </MediaButton>
@@ -586,7 +589,7 @@ export const TriggerShowcase: Story = {
                   <CryptoIcon
                     ledgerId={(crypto.meta?.ledgerId as string) ?? ''}
                     ticker={(crypto.meta?.ticker as string) ?? ''}
-                    size={24}
+                    size='24px'
                   />
                   <SelectItemText>{crypto.label}</SelectItemText>
                 </SelectItem>
@@ -741,7 +744,7 @@ export const LeadingContentShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(item.meta?.ledgerId as string) ?? ''}
                       ticker={(item.meta?.ticker as string) ?? ''}
-                      size={24}
+                      size='24px'
                     />
                     <SelectItemText>{item.label}</SelectItemText>
                   </SelectItem>
@@ -766,7 +769,7 @@ export const LeadingContentShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(item.meta?.ledgerId as string) ?? ''}
                       ticker={(item.meta?.ticker as string) ?? ''}
-                      size={32}
+                      size='32px'
                     />
                     <SelectItemContent>
                       <SelectItemText>{item.label}</SelectItemText>

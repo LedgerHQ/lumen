@@ -23,7 +23,7 @@ figma.connect(
       <MediaButton
         appearance={props.appearance}
         size={props.size}
-        icon={props.icon}
+        leadingContent={props.icon}
       >
         {props.children}
       </MediaButton>

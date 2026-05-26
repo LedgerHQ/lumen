@@ -11,23 +11,23 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
       sm: '',
       md: '',
     },
-    iconType: {
+    leadingContentShape: {
       flat: '',
       rounded: '',
       none: '',
     },
   },
   compoundVariants: [
-    { size: 'md', iconType: 'flat', class: 'px-16 py-12' },
-    { size: 'md', iconType: 'rounded', class: 'py-8 pr-16 pl-8' },
-    { size: 'md', iconType: 'none', class: 'px-16 py-14' },
-    { size: 'sm', iconType: 'flat', class: 'px-12 py-10' },
-    { size: 'sm', iconType: 'rounded', class: 'py-8 pr-10 pl-8' },
-    { size: 'sm', iconType: 'none', class: 'px-12 py-10' },
+    { size: 'md', leadingContentShape: 'flat', class: 'px-16 py-12' },
+    { size: 'md', leadingContentShape: 'rounded', class: 'py-8 pr-16 pl-8' },
+    { size: 'md', leadingContentShape: 'none', class: 'px-16 py-14' },
+    { size: 'sm', leadingContentShape: 'flat', class: 'px-12 py-10' },
+    { size: 'sm', leadingContentShape: 'rounded', class: 'py-8 pr-10 pl-8' },
+    { size: 'sm', leadingContentShape: 'none', class: 'px-12 py-10' },
   ],
   defaultVariants: {
     size: 'md',
-    iconType: 'none',
+    leadingContentShape: 'none',
   },
 });
 
@@ -65,8 +65,8 @@ export const MediaButton = ({
   size = 'md',
   disabled: disabledProp = false,
   asChild = false,
-  icon,
-  iconType = 'flat',
+  leadingContent,
+  leadingContentShape = 'flat',
   hideChevron = false,
   children,
   ...props
@@ -75,7 +75,10 @@ export const MediaButton = ({
     consumerName: 'MediaButton',
     mergeWith: { disabled: disabledProp },
   });
-  const effectiveIconType = icon ? iconType : 'none';
+  const effectiveLeadingContentShape = leadingContent
+    ? leadingContentShape
+    : 'none';
+
   const Comp = asChild ? Slot : 'button';
 
   return (
@@ -87,15 +90,20 @@ export const MediaButton = ({
           disabled,
           loading: false,
         }),
-        triggerVariants({ size, iconType: effectiveIconType }),
+        triggerVariants({
+          size,
+          leadingContentShape: effectiveLeadingContentShape,
+        }),
         className,
       )}
       data-disabled={disabled || undefined}
       disabled={disabled}
       {...props}
     >
-      {icon && (
-        <span className='inline-flex shrink-0 items-center'>{icon}</span>
+      {leadingContent && (
+        <span className='inline-flex shrink-0 items-center'>
+          {leadingContent}
+        </span>
       )}
       <span className='flex items-center gap-2'>
         {asChild ? (
