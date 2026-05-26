@@ -41,7 +41,7 @@ const btcFormatter = (value: number): FormattedValue => {
   };
 };
 
-const meta: Meta<typeof AmountDisplay> = {
+const meta = {
   component: AmountDisplay,
   title: 'Communication/AmountDisplay',
   args: {
@@ -78,6 +78,12 @@ const meta: Meta<typeof AmountDisplay> = {
         type: 'boolean',
       },
     },
+    size: {
+      control: {
+        type: 'select',
+      },
+      options: ['sm', 'md'],
+    },
   },
   parameters: {
     layout: 'centered',
@@ -90,7 +96,7 @@ const meta: Meta<typeof AmountDisplay> = {
       },
     },
   },
-};
+} satisfies Meta<typeof AmountDisplay>;
 
 export default meta;
 type Story = StoryObj<typeof AmountDisplay>;

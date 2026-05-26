@@ -3,41 +3,82 @@ import { memo } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import type {
   AmountDisplayProps,
+  AmountDisplaySize,
   DigitStripListProps,
   DigitStripProps,
+  SizeConfig,
 } from './types';
 import { DIGITS } from './types';
 
-const INTEGER_DIGIT_WIDTHS = {
-  0: 25,
-  1: 15.5,
-  2: 23.5,
-  3: 24.5,
-  4: 25.5,
-  5: 23.5,
-  6: 25,
-  7: 22,
-  8: 24.5,
-  9: 24.5,
+const SIZE_CONFIG: Record<AmountDisplaySize, SizeConfig> = {
+  md: {
+    integer: {
+      className: 'heading-1-semi-bold',
+      widths: {
+        0: 25,
+        1: 15.5,
+        2: 23.5,
+        3: 24.5,
+        4: 25.5,
+        5: 23.5,
+        6: 25,
+        7: 22,
+        8: 24.5,
+        9: 24.5,
+      },
+    },
+    decimal: {
+      className: 'heading-2-semi-bold',
+      widths: {
+        0: 17.5,
+        1: 11,
+        2: 16.5,
+        3: 17,
+        4: 18,
+        5: 16,
+        6: 17.5,
+        7: 15,
+        8: 17,
+        9: 17,
+      },
+    },
+  },
+  sm: {
+    integer: {
+      className: 'heading-2-semi-bold',
+      widths: {
+        0: 17.5,
+        1: 11,
+        2: 16.5,
+        3: 17,
+        4: 18,
+        5: 16,
+        6: 17.5,
+        7: 15,
+        8: 17,
+        9: 17,
+      },
+    },
+    decimal: {
+      className: 'heading-4-semi-bold',
+      widths: {
+        0: 13,
+        1: 8.5,
+        2: 12.5,
+        3: 12.5,
+        4: 13,
+        5: 12,
+        6: 12.5,
+        7: 11.5,
+        8: 12.5,
+        9: 12.5,
+      },
+    },
+  },
 };
 
-const DECIMAL_DIGIT_WIDTHS = {
-  0: 17.5,
-  1: 11,
-  2: 16.5,
-  3: 17,
-  4: 18,
-  5: 16,
-  6: 17.5,
-  7: 15,
-  8: 17,
-  9: 17,
-};
-
-const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
-  const width = (
-    type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
-  )[value];
+const DigitStrip = memo(({ value, animate, widths }: DigitStripProps) => {
+  const width = widths[value];
 
   return (
     <div
@@ -65,22 +106,24 @@ const DigitStrip = memo(({ value, animate, type }: DigitStripProps) => {
 });
 DigitStrip.displayName = 'DigitStrip';
 
-const DigitStripList = memo(({ items, type, animate }: DigitStripListProps) => {
-  return items.map((item, index) => {
-    const key = items.length - index;
-    if (item.type === 'separator') {
-      return <span key={key}>{item.value}</span>;
-    }
-    return (
-      <DigitStrip
-        key={key}
-        value={Number(item.value) as DigitStripProps['value']}
-        animate={animate}
-        type={type}
-      />
-    );
-  });
-});
+const DigitStripList = memo(
+  ({ items, widths, animate }: DigitStripListProps) => {
+    return items.map((item, index) => {
+      const key = items.length - index;
+      if (item.type === 'separator') {
+        return <span key={key}>{item.value}</span>;
+      }
+      return (
+        <DigitStrip
+          key={key}
+          value={Number(item.value) as DigitStripProps['value']}
+          animate={animate}
+          widths={widths}
+        />
+      );
+    });
+  },
+);
 DigitStripList.displayName = 'DigitStripList';
 
 /**
@@ -116,15 +159,16 @@ DigitStripList.displayName = 'DigitStripList';
  * <AmountDisplay value={1234.56} formatter={usdFormatter} hidden={true} />
  * ```
  */
-export const AmountDisplay = ({
+export function AmountDisplay({
   value,
   formatter,
   hidden = false,
   loading = false,
   animate = true,
+  size = 'md',
   className,
   ...props
-}: AmountDisplayProps) => {
+}: AmountDisplayProps) {
   const parts = formatter(value);
   const splitDigits = useSplitText(parts);
   const { t } = useCommonTranslation();
@@ -133,6 +177,7 @@ export const AmountDisplay = ({
     hidden,
     t('components.amountDisplay.amountHiddenAriaLabel'),
   );
+  const config = SIZE_CONFIG[size];
 
   return (
     <div
@@ -147,7 +192,7 @@ export const AmountDisplay = ({
     >
       <div className='flex items-baseline'>
         <span
-          className='inline-flex heading-1-semi-bold text-base'
+          className={cn('inline-flex text-base', config.integer.className)}
           aria-hidden='true'
         >
           {parts.currencyPosition === 'start' && (
@@ -159,12 +204,12 @@ export const AmountDisplay = ({
             <DigitStripList
               items={splitDigits.integerPart}
               animate={animate}
-              type='integer'
+              widths={config.integer.widths}
             />
           )}
         </span>
         <span
-          className='inline-flex heading-2-semi-bold text-muted'
+          className={cn('inline-flex text-muted', config.decimal.className)}
           aria-hidden='true'
         >
           {!hidden && parts.decimalPart && (
@@ -174,7 +219,7 @@ export const AmountDisplay = ({
             <DigitStripList
               items={splitDigits.decimalPart}
               animate={animate}
-              type='decimal'
+              widths={config.decimal.widths}
             />
           )}
           {parts.currencyPosition === 'end' && (
@@ -184,4 +229,4 @@ export const AmountDisplay = ({
       </div>
     </div>
   );
-};
+}
