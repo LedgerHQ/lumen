@@ -30,23 +30,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+          set-shas: 'false'
 
       - name: Build ui-react library
         env:
           NX_NO_CLOUD: true
-        run: npx nx build @ledgerhq/lumen-ui-react --skip-nx-cache
+        run: npx nx build @ledgerhq/lumen-ui-react
 
       - name: Build Storybook
         env:
           NX_NO_CLOUD: true
           NODE_OPTIONS: '--max-old-space-size=6144'
-        run: npx nx run-many --target=build:storybook --parallel=3 --no-cloud --webpack-stats-json
+        run: npx nx run-many --target=build:storybook --parallel=3 --webpack-stats-json
 
       - name: Run Chromatic (ui-react)
         uses: chromaui/action@a8ce9c58f59be5cc7090cadfc8f130fb08fcf0c3 # v15.1.0
