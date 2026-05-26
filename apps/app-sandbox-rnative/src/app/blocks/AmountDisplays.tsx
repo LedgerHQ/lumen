@@ -71,6 +71,11 @@ export function AmountDisplays() {
           <Text style={styles.sectionDescription}>With hide button</Text>
         </View>
         <View style={styles.sectionContainer}>
+          <AmountDisplay value={1234.56} formatter={eurFormatter} size='md' />
+          <AmountDisplay value={1234.56} formatter={eurFormatter} size='sm' />
+          <Text style={styles.sectionDescription}>Sizes</Text>
+        </View>
+        <View style={styles.sectionContainer}>
           <AmountDisplay
             value={1234.56}
             formatter={eurFormatter}

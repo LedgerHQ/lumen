@@ -4,15 +4,19 @@ import type { StyledViewProps } from '../../../styles';
 
 export type { FormattedValue };
 
-export const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+export const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-type IntegerDigit = (typeof DIGITS)[number];
+type Digit = (typeof DIGITS)[number];
+
+export type AmountDisplaySize = 'sm' | 'md';
+
+export type DigitWidths = Record<Digit, number>;
 
 export type DigitStripProps = {
-  value: IntegerDigit;
+  value: Digit;
   animate: boolean;
   textStyle: TextStyle & { lineHeight: number };
-  type: 'integer' | 'decimal';
+  widths: DigitWidths;
 };
 
 export type DigitStripListProps = {
@@ -48,4 +52,9 @@ export type AmountDisplayProps = ViewProps & {
    * @default true
    */
   animate?: boolean;
+  /**
+   * The size variant of the amount display.
+   * @default 'md'
+   */
+  size?: AmountDisplaySize;
 } & Omit<StyledViewProps, 'children'>;
