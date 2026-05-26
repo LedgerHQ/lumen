@@ -2,14 +2,11 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { AxisConfigProps } from '../../utils/types';
+import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
 import {
-  ARROW_HEIGHT,
-  ARROW_WIDTH,
   buildArrowPoints,
   computeLabelY,
-  GAP,
   isWithinBounds,
-  LABEL_FONT_SIZE,
   resolveLabel,
   useMagneticRegistration,
 } from './utils';
