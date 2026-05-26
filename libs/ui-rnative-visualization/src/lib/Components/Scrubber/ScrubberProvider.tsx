@@ -76,13 +76,6 @@ export function ScrubberProvider({
     [],
   );
 
-  const getPixelForIndex = useCallback(
-    (index: number): number | undefined => {
-      return resolvePixelX(index, getXScale, getXAxisConfig());
-    },
-    [getXScale, getXAxisConfig],
-  );
-
   const handlePositionChange = useCallback(
     (pixelX: number | null) => {
       if (pixelX === null) {
@@ -93,10 +86,12 @@ export function ScrubberProvider({
       const scale = ref.getXScale();
       if (!scale || ref.dataLength <= 0) return;
 
+      const xAxisConfig = ref.getXAxisConfig();
+
       let index = getDataIndexFromPosition(
         pixelX,
         scale,
-        ref.getXAxisConfig(),
+        xAxisConfig,
         ref.dataLength,
       );
 
@@ -107,18 +102,13 @@ export function ScrubberProvider({
           pixelX,
           magneticPoints,
           magnetRadius,
-          getPixelForIndex,
+          (i) => resolvePixelX(i, getXScale, xAxisConfig),
         );
       }
 
       setScrubberPositionAndNotify(index);
     },
-    [
-      getMagneticPoints,
-      magnetRadius,
-      getPixelForIndex,
-      setScrubberPositionAndNotify,
-    ],
+    [getMagneticPoints, magnetRadius, setScrubberPositionAndNotify, getXScale],
   );
 
   const isScrubbing = useSharedValue(false);
