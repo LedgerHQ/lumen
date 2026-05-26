@@ -1,5 +1,5 @@
 import type { Density } from '@ledgerhq/lumen-utils-shared';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { StyledViewProps } from '../../../styles';
 import type { IconButtonProps } from '../IconButton';
 
@@ -59,7 +59,7 @@ export type CoinCapsuleProps = {
   /**
    * The leading content, typically a crypto coin icon.
    */
-  leadingContent: ReactElement;
+  leadingContent: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
 /**
