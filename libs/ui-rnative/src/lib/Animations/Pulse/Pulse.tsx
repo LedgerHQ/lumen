@@ -41,9 +41,12 @@ export const Pulse = memo(
       };
     }, [sv, animate, timingConfig]);
 
-    const animatedStyle = useAnimatedStyle(() => ({
-      opacity: sv.value,
-    }));
+    const animatedStyle = useAnimatedStyle(
+      () => ({
+        opacity: sv.value,
+      }),
+      [sv],
+    );
 
     return (
       <Animated.View
