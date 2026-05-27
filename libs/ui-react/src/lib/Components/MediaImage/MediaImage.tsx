@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '../Skeleton';
@@ -36,6 +36,10 @@ const mediaImageVariants = {
           square: '',
           circle: 'rounded-full',
         },
+        disabled: {
+          true: 'opacity-30',
+          false: '',
+        },
       },
     },
   ),
@@ -67,10 +71,15 @@ export const MediaImage = ({
   imgLoading = 'eager',
   fallback,
   loading = false,
+  disabled: disabledProp = false,
   ...props
 }: MediaImageProps) => {
   const [error, setError] = useState(false);
   const shouldFallback = !src || error;
+  const disabled = useDisabledContext({
+    consumerName: 'MediaImage',
+    mergeWith: { disabled: disabledProp },
+  });
 
   useEffect(() => {
     setError(false);
@@ -79,7 +88,10 @@ export const MediaImage = ({
   return (
     <div
       ref={ref}
-      className={cn(mediaImageVariants.root({ size, shape }), className)}
+      className={cn(
+        mediaImageVariants.root({ size, shape, disabled }),
+        className,
+      )}
       role='img'
       aria-label={alt}
       {...props}

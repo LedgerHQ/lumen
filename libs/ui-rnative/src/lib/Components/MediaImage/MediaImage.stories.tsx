@@ -86,3 +86,21 @@ export const LoadingShowcase: Story = {
     </Box>
   ),
 };
+
+export const DisabledShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's16' }}>
+      <MediaImage src={exampleSrc} alt='Cardano' size={32} disabled />
+      <MediaImage src={exampleSrc} alt='Cardano' size={48} disabled />
+      <MediaImage
+        src={exampleSrc}
+        alt='Cardano'
+        size={48}
+        shape='circle'
+        disabled
+      />
+      <MediaImage fallback='Bitcoin' alt='Bitcoin' size={48} disabled />
+      <MediaImage alt='Empty' size={48} disabled />
+    </Box>
+  ),
+};

@@ -1,5 +1,9 @@
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import type { MediaImageSize } from '../MediaImage';
 import type { SpotSize } from '../Spot';
@@ -65,10 +69,12 @@ const useStyles = ({
   size,
   shape,
   pin,
+  disabled,
 }: {
   size: DotSymbolSize;
   shape: 'square' | 'circle';
   pin: DotSymbolPin;
+  disabled: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -78,6 +84,10 @@ const useStyles = ({
       const pinOffset = getPinOffset(pin, size);
 
       return {
+        root: {
+          position: 'relative',
+          ...(disabled && { opacity: 0.3 }),
+        },
         dot: {
           position: 'absolute',
           zIndex: 10,
@@ -96,7 +106,7 @@ const useStyles = ({
         },
       };
     },
-    [size, shape, pin],
+    [size, shape, pin, disabled],
   );
 };
 
@@ -118,42 +128,50 @@ export const DotSymbol = ({
   pin = 'bottom-end',
   size = 20,
   shape = 'circle',
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
   ...rest
 }: DotSymbolProps) => {
-  const styles = useStyles({ size, shape, pin });
   const [error, setError] = useState(false);
+  const disabled = useDisabledContext({
+    consumerName: 'DotSymbol',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ size, shape, pin, disabled });
 
   useEffect(() => {
     setError(false);
   }, [src]);
 
   return (
-    <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([{ position: 'relative' }, style])}
-      accessibilityRole='image'
-      accessibilityLabel={alt}
-      {...rest}
-    >
-      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
-        {children}
-        <Box style={styles.dot}>
-          {!error && (
-            <Image
-              source={{ uri: src }}
-              style={styles.image}
-              accessible={false}
-              onError={() => setError(true)}
-              testID='dot-symbol-img'
-            />
-          )}
+    <DisabledProvider value={{ disabled: false }}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={[styles.root, style]}
+        accessibilityRole='image'
+        accessibilityLabel={alt}
+        accessibilityState={{ disabled }}
+        {...rest}
+      >
+        <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+          {children}
+          <Box style={styles.dot}>
+            {!error && (
+              <Image
+                source={{ uri: src }}
+                style={styles.image}
+                accessible={false}
+                onError={() => setError(true)}
+                testID='dot-symbol-img'
+              />
+            )}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </DisabledProvider>
   );
 };
 

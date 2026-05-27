@@ -40,6 +40,12 @@ export type DotIconProps = {
    */
   className?: string;
   /**
+   * Shows a disabled appearance.
+   * @optional
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * The wrapped component (e.g. MediaImage or Spot).
    */
   children?: ReactNode;

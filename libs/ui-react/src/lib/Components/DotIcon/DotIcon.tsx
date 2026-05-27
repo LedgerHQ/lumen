@@ -1,8 +1,21 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 import type { IconSize } from '../Icon';
 import type { DotIconPin, DotIconProps, DotIconSize } from './types';
+
+const rootVariants = cva('relative inline-flex w-fit', {
+  variants: {
+    disabled: {
+      true: 'opacity-30',
+      false: '',
+    },
+  },
+});
 
 const dotVariants = cva(
   'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted',
@@ -92,25 +105,32 @@ export const DotIcon = ({
   size = 20,
   shape = 'circle',
   className,
+  disabled: disabledProp = false,
   ref,
   ...rest
 }: DotIconProps) => {
   const style = useMemo(() => getPinOffset(pin), [pin]);
+  const disabled = useDisabledContext({
+    consumerName: 'DotIcon',
+    mergeWith: { disabled: disabledProp },
+  });
 
   return (
-    <div
-      ref={ref}
-      className={cn('relative inline-flex w-fit', className)}
-      {...rest}
-    >
-      <div className='inline-flex'>{children}</div>
+    <DisabledProvider value={{ disabled: false }}>
       <div
-        className={cn(dotVariants({ size, shape, pin, appearance }))}
-        style={style}
+        ref={ref}
+        className={cn(rootVariants({ disabled, className }))}
+        {...rest}
       >
-        <Icon size={dotIconSizeMap[size]} className='text-on-interactive' />
+        <div className='inline-flex'>{children}</div>
+        <div
+          className={cn(dotVariants({ size, shape, pin, appearance }))}
+          style={style}
+        >
+          <Icon size={dotIconSizeMap[size]} className='text-on-interactive' />
+        </div>
       </div>
-    </div>
+    </DisabledProvider>
   );
 };
 

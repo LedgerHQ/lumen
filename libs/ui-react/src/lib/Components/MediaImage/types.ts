@@ -45,6 +45,12 @@ export type MediaImageProps = {
    */
   loading?: boolean;
   /**
+   * Shows a disabled appearance.
+   * @optional
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    * @optional
    */
