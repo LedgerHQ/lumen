@@ -1,39 +1,7 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ReactNode } from 'react';
 import { Settings, Star } from '../../Symbols';
 import { MediaButton } from './MediaButton';
-import type { MediaButtonProps } from './types';
-
-type Size = NonNullable<MediaButtonProps['size']>;
-
-const cryptoIconSizes = {
-  sm: 24,
-  md: 32,
-} as const;
-
-const resolveIcon = (
-  iconKey: string | undefined,
-  size: Size = 'md',
-): { node?: ReactNode; type?: 'flat' | 'rounded' } => {
-  switch (iconKey) {
-    case 'Settings (flat)':
-      return { node: <Settings size={20} />, type: 'flat' };
-    case 'Bitcoin (rounded)':
-      return {
-        node: (
-          <CryptoIcon
-            ledgerId='bitcoin'
-            ticker='BTC'
-            size={cryptoIconSizes[size]}
-          />
-        ),
-        type: 'rounded',
-      };
-    default:
-      return {};
-  }
-};
 
 const meta: Meta<typeof MediaButton> = {
   component: MediaButton,
@@ -50,10 +18,6 @@ const meta: Meta<typeof MediaButton> = {
     },
   },
   argTypes: {
-    leadingContent: {
-      control: 'select',
-      options: ['None', 'Settings (flat)', 'Bitcoin (rounded)'],
-    },
     leadingContentShape: {
       control: 'select',
       options: ['flat', 'rounded'],
@@ -71,20 +35,13 @@ export const Base: Story = {
   args: {
     children: 'All accounts',
     appearance: 'gray',
+    leadingContentShape: 'flat',
   },
-  render: ({ leadingContent, size, leadingContentShape, ...args }) => {
-    const resolved = resolveIcon(leadingContent as string, size);
-    return (
-      <MediaButton
-        {...args}
-        size={size}
-        leadingContent={resolved.node}
-        leadingContentShape={resolved.type ?? leadingContentShape}
-      >
-        {args.children}
-      </MediaButton>
-    );
-  },
+  render: (args) => (
+    <MediaButton {...args} leadingContent={<Settings size={20} />}>
+      {args.children}
+    </MediaButton>
+  ),
 };
 
 export const SizeShowcase: Story = {
@@ -108,7 +65,7 @@ export const SizeShowcase: Story = {
   ),
 };
 
-export const IconTypeShowcase: Story = {
+export const LeadingContentShapeShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
       <div className='flex items-center gap-16'>
@@ -157,7 +114,7 @@ export const IconTypeShowcase: Story = {
   ),
 };
 
-export const AllAppearancesWithIcons: Story = {
+export const AllAppearancesWithLeadingShowcase: Story = {
   render: () => {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
     return (

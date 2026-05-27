@@ -62,7 +62,7 @@ export const SizeShowcase: Story = {
   ),
 };
 
-export const IconTypeShowcase: Story = {
+export const LeadingContentShapeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
