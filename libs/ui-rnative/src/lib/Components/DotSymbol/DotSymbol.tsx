@@ -3,7 +3,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import type { MediaImageSize } from '../MediaImage';
 import type { SpotSize } from '../Spot';
@@ -69,10 +69,12 @@ const useStyles = ({
   size,
   shape,
   pin,
+  disabled,
 }: {
   size: DotSymbolSize;
   shape: 'square' | 'circle';
   pin: DotSymbolPin;
+  disabled: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -82,6 +84,10 @@ const useStyles = ({
       const pinOffset = getPinOffset(pin, size);
 
       return {
+        root: {
+          position: 'relative',
+          ...(disabled && { opacity: 0.3 }),
+        },
         dot: {
           position: 'absolute',
           zIndex: 10,
@@ -100,7 +106,7 @@ const useStyles = ({
         },
       };
     },
-    [size, shape, pin],
+    [size, shape, pin, disabled],
   );
 };
 
@@ -128,12 +134,12 @@ export const DotSymbol = ({
   ref,
   ...rest
 }: DotSymbolProps) => {
-  const styles = useStyles({ size, shape, pin });
   const [error, setError] = useState(false);
   const disabled = useDisabledContext({
     consumerName: 'DotSymbol',
     mergeWith: { disabled: disabledProp },
   });
+  const styles = useStyles({ size, shape, pin, disabled });
 
   useEffect(() => {
     setError(false);
@@ -144,11 +150,7 @@ export const DotSymbol = ({
       <Box
         ref={ref}
         lx={lx}
-        style={StyleSheet.flatten([
-          { position: 'relative' },
-          disabled && { opacity: 0.3 },
-          style,
-        ])}
+        style={[styles.root, style]}
         accessibilityRole='image'
         accessibilityLabel={alt}
         accessibilityState={{ disabled }}
