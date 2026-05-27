@@ -1,15 +1,19 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as DotIconStories from './DotIcon.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 
 <Meta title='Communication/DotIcon' of={DotIconStories} />
 
 # DotIcon
 
+<CustomTabs>
+  <Tab label="Overview">
+
 ## Introduction
 
 DotIcon positions a small icon indicator at a configurable corner of a child element such as MediaImage or Spot. The dot background uses a semantic color (`success`, `muted`, or `error`) to convey meaning at a glance.
-> View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6159-1866).
 
+> View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6159-1866).
 
 ## Anatomy
 
@@ -55,3 +59,86 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 - The icon is purely decorative; the child element should carry its own accessibility label.
 - Pair semantic appearances with meaningful icons so the state can be understood without relying on color alone.
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import { DotIcon, MediaImage } from '@ledgerhq/lumen-ui-react';
+import { ArrowDown } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <DotIcon appearance='success' icon={ArrowDown}>
+      <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+    </DotIcon>
+  );
+}
+```
+
+### Pin Placement
+
+Position the dot at any of the four corners of the child:
+
+```tsx
+<DotIcon appearance='success' icon={ArrowDown} pin='top-end'>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotIcon>
+```
+
+### Shapes
+
+Use `shape='square'` to match a square child element:
+
+```tsx
+<DotIcon appearance='muted' icon={ArrowDown} shape='square'>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} shape='square' />
+</DotIcon>
+```
+
+### Appearances
+
+Pick a semantic color via `appearance`:
+
+```tsx
+<DotIcon appearance='success' icon={ArrowDown}>...</DotIcon>
+<DotIcon appearance='muted' icon={ArrowUp}>...</DotIcon>
+<DotIcon appearance='error' icon={Close}>...</DotIcon>
+```
+
+### Sizing
+
+The dot size is driven by the parent's size via the mapping helpers:
+
+```tsx
+import { DotIcon, mediaImageDotIconSizeMap, MediaImage } from '@ledgerhq/lumen-ui-react';
+
+<DotIcon
+  appearance='success'
+  icon={ArrowDown}
+  size={mediaImageDotIconSizeMap[48]}
+>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotIcon>;
+```
+
+### Disabled State
+
+When `disabled` is `true`, the wrapper is dimmed and the disabled state is propagated to the child via context:
+
+```tsx
+<DotIcon appearance='success' icon={ArrowDown} disabled>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotIcon>
+```
+
+</Tab>
+</CustomTabs>

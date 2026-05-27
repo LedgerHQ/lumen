@@ -1,9 +1,13 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as DotSymbolStories from './DotSymbol.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 
 <Meta title='Communication/DotSymbol' of={DotSymbolStories} />
 
 # DotSymbol
+
+<CustomTabs>
+  <Tab label="Overview">
 
 ## Introduction
 
@@ -49,3 +53,75 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 - Always provide a meaningful `alt` prop on the DotSymbol so the indicator image is announced by screen readers.
 - The child element should carry its own accessibility label independently.
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+```tsx
+import { DotSymbol, MediaImage } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <DotSymbol src='https://example.com/btc.png' alt='Bitcoin network'>
+      <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+    </DotSymbol>
+  );
+}
+```
+
+### Pin Placement
+
+Position the dot at any of the four corners of the child:
+
+```tsx
+<DotSymbol src='https://example.com/btc.png' alt='Bitcoin' pin='top-end'>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotSymbol>
+```
+
+### Shapes
+
+Use `shape='square'` to match a square child element:
+
+```tsx
+<DotSymbol src='https://example.com/btc.png' alt='Bitcoin' shape='square'>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} shape='square' />
+</DotSymbol>
+```
+
+### Sizing
+
+The dot size is driven by the parent's size via the mapping helpers:
+
+```tsx
+import { DotSymbol, mediaImageDotSizeMap, MediaImage } from '@ledgerhq/lumen-ui-react';
+
+<DotSymbol
+  src='https://example.com/btc.png'
+  alt='Bitcoin'
+  size={mediaImageDotSizeMap[48]}
+>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotSymbol>;
+```
+
+### Disabled State
+
+When `disabled` is `true`, the wrapper is dimmed and the disabled state is propagated to the child via context:
+
+```tsx
+<DotSymbol src='https://example.com/btc.png' alt='Bitcoin' disabled>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotSymbol>
+```
+
+</Tab>
+</CustomTabs>
