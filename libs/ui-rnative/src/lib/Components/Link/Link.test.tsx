@@ -7,7 +7,7 @@ import { Linking } from 'react-native';
 import { Information } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Link } from './Link';
-import { LinkProps } from './types';
+import type { LinkProps } from './types';
 
 // Mock Linking module - use spyOn after import to handle RN 0.79+ module structure
 const mockOpenURL = jest.fn(() => Promise.resolve());

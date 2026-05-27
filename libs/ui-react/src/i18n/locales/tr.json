@@ -11,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Kullanıcı avatarı",
-      "notificationAriaLabel": "Bildirim var"
+      "notificationAriaLabel": "Bildirim var",
+      "fallbackIconAriaLabel": "Yedek simge"
     },
     "baseInput": {
       "clearInputAriaLabel": "Girdiyi temizle"
@@ -33,9 +34,12 @@
       "goBackAriaLabel": "Geri dön"
     },
     "sideBar": {
-      "navigationAriaLabel": "Kenar çubuğu gezintisi",
+      "navigationAriaLabel": "Kenar çubuğu menüsü",
       "collapseAriaLabel": "Kenar çubuğunu daralt",
       "expandAriaLabel": "Kenar çubuğunu genişlet"
+    },
+    "stepper": {
+      "progressAriaLabel": "Adım {{totalSteps}} / {{currentStep}}"
     }
   }
 }

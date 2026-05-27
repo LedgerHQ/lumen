@@ -1,6 +1,5 @@
-import { ComponentType, ReactNode } from 'react';
-import type { ComponentPropsWithoutRef } from 'react';
-import { IconSize } from '../Icon/types';
+import type { ComponentType, ReactNode, ComponentPropsWithoutRef } from 'react';
+import type { IconSize } from '../Icon/types';
 
 export type SegmentedControlProps = {
   /**
@@ -51,4 +50,8 @@ export type SegmentedControlButtonProps = {
    * Optional icon shown to the left of the label (from Symbols).
    */
   icon?: IconComponent;
+  /**
+   * Optional content shown to the right of the label (e.g. DotCount badge).
+   */
+  trailingContent?: ReactNode;
 } & Omit<ComponentPropsWithoutRef<'button'>, 'children'>;

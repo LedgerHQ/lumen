@@ -1,11 +1,12 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 
-import { IconProps, IconSize } from '../Icon';
+import type { IconProps, IconSize } from '../Icon';
 import { Pressable } from '../Utility';
-import { HIT_SLOP_MAP, InteractiveIconProps } from './types';
+import type { InteractiveIconProps } from './types';
+import { HIT_SLOP_MAP } from './types';
 
 type IconType = InteractiveIconProps['iconType'];
 type Appearance = NonNullable<InteractiveIconProps['appearance']>;

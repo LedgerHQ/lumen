@@ -9,7 +9,7 @@ import { useCommonTranslation } from '../../../i18n';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ExpandRight, ExpandLeft } from '../../Symbols';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
-import {
+import type {
   SideBarContextValue,
   SideBarProps,
   SideBarLeadingProps,
@@ -24,7 +24,7 @@ const [SideBarProvider, useSideBarContext] =
 const sideBarVariants = {
   root: cva(
     [
-      'flex h-full flex-col justify-between gap-16 overflow-y-auto rounded-xl bg-muted-transparent p-16',
+      'flex h-full flex-col justify-between gap-16 overflow-y-auto rounded-xl bg-surface-transparent p-16',
       'transition-[width] duration-300 ease-in-out',
       'scrollbar-none',
     ],

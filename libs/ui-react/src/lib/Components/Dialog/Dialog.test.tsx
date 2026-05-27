@@ -239,7 +239,7 @@ describe('Dialog', () => {
           <Button>Open Dialog</Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader appearance='compact' title='Test Title' />
+          <DialogHeader density='compact' title='Test Title' />
           <DialogBody>
             <p>Content</p>
           </DialogBody>

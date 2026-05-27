@@ -19,7 +19,7 @@ figma.connect(
     ],
     props: {
       dialogHeader: figma.nestedProps('.dialog-header', {
-        appearance: figma.enum('appearance', {
+        density: figma.enum('appearance', {
           compact: 'compact',
           expanded: 'expanded',
         }),
@@ -54,7 +54,7 @@ figma.connect(
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
-            appearance={props.dialogHeader.appearance}
+            density={props.dialogHeader.density}
             title={props.dialogHeader.title}
             description={props.dialogHeader.description}
             onBack={props.dialogHeader.onBack}

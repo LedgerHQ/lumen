@@ -4,7 +4,7 @@
  * Copyright 2013 gerard-figma
  */
 
-import { VariableCodeSyntax, VariableScope } from '@figma/rest-api-spec';
+import type { VariableCodeSyntax, VariableScope } from '@figma/rest-api-spec';
 
 export type Token = {
   $type: 'color' | 'number' | 'string' | 'boolean';

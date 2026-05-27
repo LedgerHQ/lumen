@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { InteractiveIconProps } from '../InteractiveIcon';
+import type { InteractiveIconProps } from '../InteractiveIcon';
 
 export type SubheaderProps = {
   /**

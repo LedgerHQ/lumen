@@ -1,11 +1,6 @@
-import {
-  cloneElement,
-  isValidElement,
-  memo,
-  PropsWithChildren,
-  ReactElement,
-} from 'react';
-import { ImageStyle, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { PropsWithChildren, ReactElement } from 'react';
+import { cloneElement, isValidElement, memo } from 'react';
+import type { ImageStyle, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 type StyleValue = ViewStyle | TextStyle | ImageStyle;
 

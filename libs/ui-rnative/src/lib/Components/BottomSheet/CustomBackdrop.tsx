@@ -1,6 +1,6 @@
 import { BottomSheetBackdrop as GorhomBottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { useStyleSheet } from '../../../styles';
-import { BottomSheetProps } from './types';
+import type { BottomSheetProps } from './types';
 
 type BackDropProps = React.ComponentProps<typeof GorhomBottomSheetBackdrop> & {
   backdropPressBehavior?: BottomSheetProps['backdropPressBehavior'];

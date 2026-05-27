@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { IconButton } from './IconButton';
-import { IconButtonProps } from './types';
+import type { IconButtonProps } from './types';
 
 figma.connect(
   IconButton,

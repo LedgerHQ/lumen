@@ -109,7 +109,7 @@ StyleDictionary.registerFormat({
  * Do not edit directly, this file was auto-generated.
  */
 
-export const tokens: ${tokensType} = ${JSON.stringify(output, null, 2)};`;
+export const tokens = ${JSON.stringify(output, null, 2)} as const satisfies ${tokensType};`;
   },
 });
 

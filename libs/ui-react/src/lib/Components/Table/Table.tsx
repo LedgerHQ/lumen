@@ -9,7 +9,7 @@ import {
 } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spot } from '../Spot';
-import {
+import type {
   TableBodyProps,
   TableCellProps,
   TableHeaderCellProps,
@@ -167,11 +167,15 @@ export const TableRow = ({
   );
 };
 
-const headerRowVariants = cva('sticky top-0', {
+const headerRowVariants = cva('', {
   variants: {
     appearance: {
       'no-background': 'bg-canvas',
       plain: 'bg-surface',
+    },
+    stickyHeader: {
+      true: 'sticky top-0 z-table-header',
+      false: '',
     },
   },
 });
@@ -182,6 +186,7 @@ const headerRowVariants = cva('sticky top-0', {
 export const TableHeaderRow = ({
   children,
   className,
+  stickyHeader = true,
   ref,
   ...props
 }: TableHeaderRowProps) => {
@@ -192,7 +197,7 @@ export const TableHeaderRow = ({
   return (
     <tr
       ref={ref}
-      className={headerRowVariants({ appearance, className })}
+      className={headerRowVariants({ appearance, stickyHeader, className })}
       {...props}
     >
       {children}
@@ -277,7 +282,7 @@ export const TableCell = ({
   );
 };
 
-const cellContentVariants = cva('flex items-center gap-12 truncate', {
+const cellContentVariants = cva('flex min-w-0 items-center gap-12', {
   variants: {
     align: {
       start: 'text-start',
@@ -304,9 +309,9 @@ export const TableCellContent = ({
       className={cellContentVariants({ align, className })}
       {...props}
     >
-      <div>{leadingContent}</div>
-      <div className='flex flex-col gap-4 truncate'>
-        <div className='truncate body-2 text-base'>{title}</div>
+      <div className='shrink-0'>{leadingContent}</div>
+      <div className='flex min-w-0 flex-col gap-4'>
+        <div className='shrink-0 body-2 text-base'>{title}</div>
         <div className='truncate body-3 text-muted'>{description}</div>
       </div>
     </div>

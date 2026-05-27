@@ -1,5 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { LayoutChangeEvent } from 'react-native';
+import type { LayoutChangeEvent } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
 import type { LumenTextStyle, LumenTypographyTokenName } from '../../../styles';
@@ -21,6 +21,7 @@ export function SegmentedControlButton({
   value,
   children,
   icon: Icon,
+  trailingContent,
   onPress,
   ...props
 }: SegmentedControlButtonProps) {
@@ -71,6 +72,7 @@ export function SegmentedControlButton({
         >
           {children}
         </Text>
+        {trailingContent}
       </Box>
     </Pressable>
   );

@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { DividerProps } from './types';
+import type { DividerProps } from './types';
 
 /**
  * A simple divider component for separating content sections.

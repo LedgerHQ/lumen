@@ -5,12 +5,25 @@ export type { FormattedValue };
 
 export const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
-type IntegerDigit = (typeof DIGITS)[number];
+type Digit = (typeof DIGITS)[number];
+
+export type AmountDisplaySize = 'sm' | 'md';
+
+type DigitType = 'integer' | 'decimal';
+
+export type DigitWidths = Record<Digit, number>;
+
+export type PartConfig = {
+  className: string;
+  widths: DigitWidths;
+};
+
+export type SizeConfig = Record<DigitType, PartConfig>;
 
 export type DigitStripProps = {
-  value: IntegerDigit;
+  value: Digit;
   animate: boolean;
-  type: 'integer' | 'decimal';
+  widths: DigitWidths;
 };
 
 export type DigitStripListProps = {
@@ -46,4 +59,9 @@ export type AmountDisplayProps = {
    * @default true
    */
   animate?: boolean;
+  /**
+   * The size variant of the amount display.
+   * @default 'md'
+   */
+  size?: AmountDisplaySize;
 } & ComponentPropsWithRef<'div'>;

@@ -15,7 +15,7 @@ import { useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Box } from '../Utility/Box';
 import { Text } from '../Utility/Text';
-import { StepperProps } from './types';
+import type { StepperProps } from './types';
 
 const SIZE = 48;
 const STROKE_WIDTH = 4;
@@ -168,15 +168,27 @@ export const Stepper = ({
         }}
       >
         {label ? (
-          <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+          <Text
+            typography='body2SemiBold'
+            lx={{ color: 'base' }}
+            maxFontSizeMultiplier={1.4}
+          >
             {label}
           </Text>
         ) : (
           <>
-            <Text typography='body1SemiBold' lx={{ color: 'base' }}>
+            <Text
+              typography='body1SemiBold'
+              lx={{ color: 'base' }}
+              maxFontSizeMultiplier={1.4}
+            >
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </Text>
-            <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+            <Text
+              typography='body2SemiBold'
+              lx={{ color: 'muted' }}
+              maxFontSizeMultiplier={1.4}
+            >
               /{totalSteps}
             </Text>
           </>

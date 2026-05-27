@@ -1,11 +1,5 @@
-import {
-  ReactNode,
-  FC,
-  Children,
-  ReactElement,
-  isValidElement,
-  useState,
-} from 'react';
+import type { ReactNode, FC, ReactElement } from 'react';
+import { Children, isValidElement, useState } from 'react';
 import {
   SegmentedControl,
   SegmentedControlButton,
@@ -38,6 +32,7 @@ export const CustomTabs: FC<CustomTabsProps> = ({ children }) => {
     <div>
       <div className='sticky top-0 z-10 bg-canvas py-12'>
         <SegmentedControl
+          tabLayout='fit'
           selectedValue={activeLabel}
           onSelectedChange={(value) => setActiveLabel(value)}
         >

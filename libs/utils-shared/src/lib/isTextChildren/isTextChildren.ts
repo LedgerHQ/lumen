@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 const isStringOrNumber = (element: ReactNode) =>
   typeof element === 'string' || typeof element === 'number';

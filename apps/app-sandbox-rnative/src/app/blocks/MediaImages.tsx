@@ -10,6 +10,13 @@ export const MediaImages = () => {
         shape='square'
       />
       <MediaImage
+        loading={true}
+        src='https://crypto-icons.ledger.com/BTC.png'
+        alt='Bitcoin'
+        size={48}
+        shape='square'
+      />
+      <MediaImage
         src='https://crypto-icons.ledger.com/ETH.png'
         alt='Ethereum'
         size={24}
@@ -25,6 +32,20 @@ export const MediaImages = () => {
         src='https://crypto-icons.ledger.com/USDC.png'
         alt='USDC'
         size={24}
+        shape='circle'
+      />
+      <MediaImage
+        src='https://crypto-icons.ledger.com/ETH.png'
+        alt='Ethereum'
+        size={64}
+        shape='circle'
+      />
+      <MediaImage fallback='Bitcoin' size={48} shape='square' />
+      <MediaImage
+        src='https://crypto-icons.ledger.com/INVALID.png'
+        alt='Ethereum'
+        fallback='Ethereum'
+        size={48}
         shape='circle'
       />
     </Box>

@@ -7,7 +7,7 @@ import {
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 import { ChevronDown, ChevronUp } from '../../Symbols';
-import {
+import type {
   CardContentAlignContextValue,
   CardContentDescriptionProps,
   CardContentProps,

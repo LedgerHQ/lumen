@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import {
+import type {
   SubheaderCountProps,
   SubheaderDescriptionProps,
   SubheaderInfoProps,
@@ -129,7 +129,7 @@ export const SubheaderShowMore = ({
       )}
       {...props}
     >
-      <ChevronRight size={20} />
+      <ChevronRight size={24} />
     </span>
   );
 };

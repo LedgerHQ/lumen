@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ComponentType } from 'react';
-import { IconProps, IconSize } from '../Icon';
+import type { IconProps, IconSize } from '../Icon';
 
 export type InteractiveIconProps = {
   /**

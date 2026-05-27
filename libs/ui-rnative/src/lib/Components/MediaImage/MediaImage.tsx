@@ -1,10 +1,14 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { Box } from '../Utility';
-import { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
+import type { LumenStyleSheetTheme } from '../../../styles';
+import { RuntimeConstants } from '../../utils';
+import { Skeleton } from '../Skeleton';
+import { Box, Text } from '../Utility';
+import type { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
 
-type BorderRadiusKey = 'xs' | 'sm' | 'md' | 'lg' | 'full';
+type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
 
 const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   12: 'xs',
@@ -15,25 +19,29 @@ const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   40: 'md',
   48: 'md',
   56: 'lg',
+  64: 'lg',
 };
 
-export const mediaImageDotSizeMap: Record<MediaImageSize, number> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
-  40: 16,
-  48: 20,
+export const fontSizeMap: Record<MediaImageSize, number> = {
+  12: 10,
+  16: 10,
+  20: 12,
+  24: 14,
+  32: 16,
+  40: 18,
+  48: 24,
   56: 24,
-} as const;
+  64: 24,
+};
 
 const useStyles = ({
   size,
   shape,
+  disabled,
 }: {
   size: MediaImageSize;
   shape: MediaImageShape;
+  disabled: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -48,18 +56,27 @@ const useStyles = ({
           width: sizeValue,
           height: sizeValue,
           borderRadius: radius,
-          overflow: 'hidden' as const,
-          alignItems: 'center' as const,
-          justifyContent: 'center' as const,
-          backgroundColor: t.colors.bg.mutedTransparent,
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: t.colors.bg.muted,
+          outlineColor: t.colors.border.icon,
+          outlineWidth: 1,
+          outlineOffset: -1,
+          outlineStyle: 'solid',
+          ...(disabled && { opacity: 0.3 }),
         },
         image: {
-          width: '100%' as const,
-          height: '100%' as const,
+          width: '100%',
+          height: '100%',
+        },
+        skeleton: {
+          width: '100%',
+          height: '100%',
         },
       };
     },
-    [size, shape],
+    [size, shape, disabled],
   );
 };
 
@@ -67,18 +84,26 @@ const useStyles = ({
  * A generic media image component that displays an image with optional shape variants.
  * Supports square and circular appearances with consistent sizing.
  *
- * When the image fails to load or no src is provided, displays a background placeholder.
+ * When the image fails to load or no src is provided, displays a fallback letter (if `fallback`
+ * is provided) or a muted background placeholder.
+ *
+ * While `loading` is true, a pulsing skeleton overlay is shown regardless of `src`.
  *
  * @example
  * import { MediaImage } from '@ledgerhq/lumen-ui-rnative';
  *
  * <MediaImage src="https://example.com/icon.png" alt="Bitcoin" size={32} />
+ * <MediaImage fallback="Bitcoin" size={32} />
+ * <MediaImage loading size={32} />
  */
 export const MediaImage = ({
   src,
   alt,
   size = 48,
   shape = 'square',
+  fallback,
+  loading = false,
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
@@ -86,7 +111,11 @@ export const MediaImage = ({
 }: MediaImageProps) => {
   const [error, setError] = useState(false);
   const shouldFallback = !src || error;
-  const styles = useStyles({ size, shape });
+  const disabled = useDisabledContext({
+    consumerName: 'MediaImage',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ size, shape, disabled });
 
   useEffect(() => {
     setError(false);
@@ -99,9 +128,23 @@ export const MediaImage = ({
       style={StyleSheet.flatten([styles.root, style])}
       accessibilityRole='image'
       accessibilityLabel={alt}
+      accessibilityState={{ disabled }}
       {...props}
     >
-      {!shouldFallback && (
+      {loading && <Skeleton style={styles.skeleton} />}
+      {!loading && shouldFallback && fallback && (
+        <Text
+          style={{
+            fontSize: fontSizeMap[size],
+            ...(RuntimeConstants.isIOS && { lineHeight: 0 }),
+          }}
+          lx={{ color: 'base' }}
+          accessible={false}
+        >
+          {fallback[0]?.toUpperCase()}
+        </Text>
+      )}
+      {!loading && !shouldFallback && (
         <Image
           source={{ uri: src }}
           style={styles.image}

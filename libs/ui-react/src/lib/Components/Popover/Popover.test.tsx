@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useRef } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { Button } from '../Button/Button';
 import {
@@ -222,6 +223,99 @@ describe('Popover', () => {
     await user.click(screen.getByText('Open Popover'));
 
     expect(onOpenChange).toHaveBeenCalledWith(true, expect.any(Object));
+  });
+
+  describe('initialFocus', () => {
+    it('does not move focus into the popup by default', async () => {
+      const user = userEvent.setup();
+      render(
+        <Popover>
+          <PopoverTrigger
+            render={<Button appearance='gray'>Open Popover</Button>}
+          />
+          <PopoverContent>
+            <button>Inside</button>
+          </PopoverContent>
+        </Popover>,
+      );
+
+      const trigger = screen.getByRole('button', { name: 'Open Popover' });
+      await user.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByText('Inside')).toBeInTheDocument();
+      });
+      expect(trigger).toHaveFocus();
+    });
+
+    it('keeps focus on the trigger when initialFocus={false}', async () => {
+      const user = userEvent.setup();
+      render(
+        <Popover>
+          <PopoverTrigger
+            render={<Button appearance='gray'>Open Popover</Button>}
+          />
+          <PopoverContent initialFocus={false}>
+            <button>Inside</button>
+          </PopoverContent>
+        </Popover>,
+      );
+
+      const trigger = screen.getByRole('button', { name: 'Open Popover' });
+      await user.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByText('Inside')).toBeInTheDocument();
+      });
+      expect(trigger).toHaveFocus();
+    });
+
+    it('moves focus to the first tabbable element when initialFocus={true}', async () => {
+      const user = userEvent.setup();
+      render(
+        <Popover>
+          <PopoverTrigger
+            render={<Button appearance='gray'>Open Popover</Button>}
+          />
+          <PopoverContent initialFocus>
+            <button>First</button>
+            <button>Second</button>
+          </PopoverContent>
+        </Popover>,
+      );
+
+      await user.click(screen.getByText('Open Popover'));
+
+      await waitFor(() => {
+        expect(screen.getByText('First')).toHaveFocus();
+      });
+    });
+
+    it('moves focus to the element passed via a ref', async () => {
+      const user = userEvent.setup();
+
+      const Wrapper = () => {
+        const targetRef = useRef<HTMLButtonElement>(null);
+        return (
+          <Popover>
+            <PopoverTrigger
+              render={<Button appearance='gray'>Open Popover</Button>}
+            />
+            <PopoverContent initialFocus={targetRef}>
+              <button>First</button>
+              <button ref={targetRef}>Target</button>
+            </PopoverContent>
+          </Popover>
+        );
+      };
+
+      render(<Wrapper />);
+      await user.click(screen.getByText('Open Popover'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Target')).toHaveFocus();
+      });
+    });
   });
 
   it('supports detached trigger with createPopoverHandle', async () => {

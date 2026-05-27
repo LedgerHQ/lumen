@@ -1,10 +1,12 @@
-import {
+import type {
   TextStyle,
-  type StyleProp,
-  type TextInputProps,
-  type ViewStyle,
+  ViewStyle,
+  StyleProp,
+  TextInputProps,
 } from 'react-native';
-import { BoxProps } from '../Utility';
+import type { BoxProps } from '../Utility';
+
+export type BaseInputStatus = 'error' | 'success';
 
 export type BaseInputProps = {
   /**
@@ -35,9 +37,15 @@ export type BaseInputProps = {
    */
   labelStyle?: StyleProp<TextStyle>;
   /**
-   * An optional error message displayed below the input.
+   * Optional text shown below the input (hint, error, or success copy).
+   * Pair with `status` for error/success styling and icons; omit `status` for a neutral hint.
    */
-  errorMessage?: string;
+  helperText?: string;
+  /**
+   * Visual state for border, helper text, helper icon, and the label in error state.
+   * Omit when `helperText` is a neutral hint.
+   */
+  status?: BaseInputStatus;
   /**
    * Custom content to render after the input (right side in LTR).
    * @example suffix={<Icon />}

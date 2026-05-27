@@ -1,6 +1,6 @@
 import { BaseButton } from '../Button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
-import { IconButtonProps } from './types';
+import type { IconButtonProps } from './types';
 
 export const IconButton = ({
   ref,

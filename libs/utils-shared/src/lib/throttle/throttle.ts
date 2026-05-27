@@ -1,4 +1,5 @@
-import { debounce, DebouncedFunction } from '../debounce';
+import type { DebouncedFunction } from '../debounce';
+import { debounce } from '../debounce';
 
 export type ThrottleOptions = {
   /**

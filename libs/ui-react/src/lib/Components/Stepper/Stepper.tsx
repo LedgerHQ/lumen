@@ -3,7 +3,7 @@ import {
   getStepperCalculations,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { StepperProps } from './types';
+import type { StepperProps } from './types';
 
 const SIZE = 48;
 const STROKE_WIDTH = 4;

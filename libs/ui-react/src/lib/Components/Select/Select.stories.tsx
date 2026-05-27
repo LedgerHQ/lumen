@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Settings } from '../../Symbols';
 import { Button } from '../Button';
+import { MediaButton } from '../MediaButton';
 import {
   Select,
   SelectTrigger,
@@ -15,7 +16,6 @@ import {
   SelectItemContent,
   SelectItemDescription,
   SelectEmptyState,
-  SelectTriggerButton,
 } from './Select';
 import type { SelectItemData } from './types';
 
@@ -330,7 +330,8 @@ export const WithDefaultValue: Story = {
 
 const descriptionOptions = [
   { value: 'option1', label: 'Option 1', description: 'this is a description' },
-  { value: 'option2', label: 'Option 2', description: 'this is a description' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3', description: 'this is a description' },
 ];
 
 export const WithDescription: Story = {
@@ -345,9 +346,11 @@ export const WithDescription: Story = {
                 <SelectItem key={item.value} value={item.value}>
                   <SelectItemContent>
                     <SelectItemText>{item.label}</SelectItemText>
-                    <SelectItemDescription>
-                      {item.description}
-                    </SelectItemDescription>
+                    {item.description && (
+                      <SelectItemDescription>
+                        {item.description}
+                      </SelectItemDescription>
+                    )}
                   </SelectItemContent>
                 </SelectItem>
               )}
@@ -490,8 +493,10 @@ export const TriggerShowcase: Story = {
           onValueChange={setButtonValue}
         >
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectTriggerButton {...renderProps} label='All accounts' />
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton>
+                {selectedValue ? selectedContent : 'All accounts'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-128'>
@@ -507,8 +512,10 @@ export const TriggerShowcase: Story = {
 
         <Select items={accountOptions} disabled>
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectTriggerButton {...renderProps} label='Disabled' />
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton>
+                {selectedValue ? selectedContent : 'Disabled'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-208'>
@@ -528,13 +535,13 @@ export const TriggerShowcase: Story = {
           onValueChange={setIconValue}
         >
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectTriggerButton
-                {...renderProps}
-                label='Settings'
-                icon={<Settings size={20} />}
-                iconType='flat'
-              />
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton
+                leadingContent={<Settings size={20} />}
+                leadingContentShape='flat'
+              >
+                {selectedValue ? selectedContent : 'Settings'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-208'>
@@ -554,21 +561,21 @@ export const TriggerShowcase: Story = {
           onValueChange={setCryptoValue}
         >
           <SelectTrigger
-            render={(renderProps) => (
-              <SelectTriggerButton
-                {...renderProps}
-                label='Network'
-                icon={
+            render={({ selectedValue, selectedContent }) => (
+              <MediaButton
+                leadingContent={
                   selectedCrypto ? (
                     <CryptoIcon
                       ledgerId={(selectedCrypto.meta?.ledgerId as string) ?? ''}
                       ticker={(selectedCrypto.meta?.ticker as string) ?? ''}
-                      size='32px'
+                      size={32}
                     />
                   ) : undefined
                 }
-                iconType='rounded'
-              />
+                leadingContentShape='rounded'
+              >
+                {selectedValue ? selectedContent : 'Network'}
+              </MediaButton>
             )}
           />
           <SelectContent className='w-208'>
@@ -582,7 +589,7 @@ export const TriggerShowcase: Story = {
                   <CryptoIcon
                     ledgerId={(crypto.meta?.ledgerId as string) ?? ''}
                     ticker={(crypto.meta?.ticker as string) ?? ''}
-                    size='24px'
+                    size={24}
                   />
                   <SelectItemText>{crypto.label}</SelectItemText>
                 </SelectItem>
@@ -595,12 +602,10 @@ export const TriggerShowcase: Story = {
           {appearances.map((appearance) => (
             <Select key={appearance} items={appearanceOptions}>
               <SelectTrigger
-                render={(renderProps) => (
-                  <SelectTriggerButton
-                    {...renderProps}
-                    label={appearance}
-                    appearance={appearance}
-                  />
+                render={({ selectedValue, selectedContent }) => (
+                  <MediaButton appearance={appearance}>
+                    {selectedValue ? selectedContent : appearance}
+                  </MediaButton>
                 )}
               />
               <SelectContent className='w-208'>
@@ -739,7 +744,7 @@ export const LeadingContentShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(item.meta?.ledgerId as string) ?? ''}
                       ticker={(item.meta?.ticker as string) ?? ''}
-                      size='24px'
+                      size={24}
                     />
                     <SelectItemText>{item.label}</SelectItemText>
                   </SelectItem>
@@ -764,7 +769,7 @@ export const LeadingContentShowcase: Story = {
                     <CryptoIcon
                       ledgerId={(item.meta?.ledgerId as string) ?? ''}
                       ticker={(item.meta?.ticker as string) ?? ''}
-                      size='32px'
+                      size={32}
                     />
                     <SelectItemContent>
                       <SelectItemText>{item.label}</SelectItemText>

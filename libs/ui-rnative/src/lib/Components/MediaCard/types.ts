@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { StyledPressableProps, StyledTextProps } from '../../../styles';
+import type { StyledPressableProps, StyledTextProps } from '../../../styles';
 
 /**
  * Props for the MediaCard root component

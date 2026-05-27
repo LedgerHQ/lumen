@@ -3,8 +3,10 @@ import {
   DisabledProvider,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
-import { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
-import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
+import type { ComponentRef, ReactNode, Ref } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import type { LayoutChangeEvent, ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,7 +17,7 @@ import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { ChevronDown, ChevronUp } from '../../Symbols';
 import { Box, Text, Pressable } from '../Utility';
 
-import {
+import type {
   CardContentAlignContextValue,
   CardContentDescriptionProps,
   CardContentProps,
@@ -472,6 +474,7 @@ export const CardContentTitle = ({
       asText: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
+          flexShrink: 1,
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
           textAlign: align === 'right' ? 'right' : 'left',
         },
@@ -483,7 +486,7 @@ export const CardContentTitle = ({
   if (isTextChildren(children)) {
     return (
       <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
+        ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
         numberOfLines={1}
@@ -538,6 +541,7 @@ export const CardContentDescription = ({
       asText: StyleSheet.flatten([
         t.typographies.body3,
         {
+          flexShrink: 1,
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
           textAlign: align === 'right' ? 'right' : 'left',
         },
@@ -549,7 +553,7 @@ export const CardContentDescription = ({
   if (isTextChildren(children)) {
     return (
       <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
+        ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
         numberOfLines={1}

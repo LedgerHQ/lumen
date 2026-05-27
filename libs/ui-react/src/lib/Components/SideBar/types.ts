@@ -4,7 +4,7 @@ import type {
   MouseEventHandler,
   ReactNode,
 } from 'react';
-import { IconSize } from '../Icon/types';
+import type { IconSize } from '../Icon/types';
 
 /**
  * Context value for passing state to SideBar sub-components

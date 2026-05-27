@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { renderHook } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { useLumenDataTable } from './useLumenDataTable';

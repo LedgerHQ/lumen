@@ -1,7 +1,7 @@
+import type { ReactNode } from 'react';
 import {
   Children,
   isValidElement,
-  ReactNode,
   useEffect,
   useLayoutEffect,
   useMemo,

@@ -1,9 +1,9 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { DialogHeader } from './DialogHeader/DialogHeader';
-import {
+import type {
   DialogBodyProps,
   DialogBodyStickyContentProps,
   DialogContentProps,
@@ -55,7 +55,7 @@ const dialogContentVariants = cva(
  *       </DialogTrigger>
  *       <DialogContent>
  *         <DialogHeader
- *           appearance='compact'
+ *           density='compact'
  *           title='Dialog Title'
  *           description='Dialog Description'
  *           onBack={() => {}}
@@ -141,8 +141,8 @@ const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
       ref={ref}
       data-slot='dialog-overlay'
       className={cn(
-        className,
         'fixed inset-0 z-dialog-overlay bg-canvas-overlay backdrop-blur-sm data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in',
+        className,
       )}
       {...props}
     />
@@ -239,8 +239,8 @@ export const DialogBody = ({
       className={cn(
         '-mb-24 flex min-h-0 grow flex-col overflow-y-auto px-24 pb-24',
         height === 'fit' ? 'basis-auto' : 'basis-0',
-        className,
         scrollbarWidth === 'auto' ? 'scrollbar-custom' : 'scrollbar-none',
+        className,
       )}
       {...props}
     >

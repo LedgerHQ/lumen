@@ -1,67 +1,46 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { cva } from 'class-variance-authority';
-import { IconSize } from '../Icon/types';
-import { TagProps } from './types';
+import { BaseTag } from '../BaseTag';
+import type { IconSize } from '../Icon/types';
+import type { TagProps } from './types';
 
-const tagVariants = cva(
-  'inline-flex items-center justify-center gap-4 truncate rounded-xs',
-  {
-    variants: {
-      appearance: {
-        base: 'bg-muted-transparent text-base',
-        gray: 'bg-muted-transparent text-muted',
-        accent: 'bg-accent text-on-accent',
-        success: 'bg-success text-success',
-        error: 'bg-error text-error',
-        warning: 'bg-warning text-warning',
-      },
-      size: {
-        md: 'px-8 py-4 body-3',
-        sm: 'px-4 py-2 body-4',
-      },
-      disabled: {
-        true: 'bg-disabled text-disabled',
-        false: '',
-      },
-    },
-    defaultVariants: {
-      appearance: 'accent',
-      size: 'md',
-      disabled: false,
-    },
-  },
-);
+type Size = NonNullable<TagProps['size']>;
 
-export const Tag = ({
-  ref,
-  className,
-  appearance,
-  size,
-  icon,
-  label,
-  disabled: disabledProp,
-  ...props
-}: TagProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'Tag',
-    mergeWith: { disabled: disabledProp },
-  });
-  const iconSizeMap: { [key: string]: IconSize } = {
-    md: 16,
-    sm: 12,
-  };
+const iconSizeMap: Record<Size, IconSize> = {
+  md: 16,
+  sm: 12,
+};
 
-  const calculatedIconSize = size ? iconSizeMap[size] : 16;
+/**
+ * A compact label used to categorize, classify, or highlight information with optional icon support.
+ *
+ * The appearance determines the color scheme used.
+ *
+ * @see {@link https://ldls.vercel.app/?path=/docs/communication-tag-overview--docs Storybook}
+ *
+ * @example
+ * import { Tag } from '@ledgerhq/lumen-ui-react';
+ *
+ * // Basic tag
+ * <Tag label="Label" appearance="accent" />
+ *
+ * // Tag with icon
+ * <Tag label="Success" appearance="success" icon={Check} />
+ *
+ * // Small tag
+ * <Tag label="Small" size="sm" />
+ */
+export const Tag = ({ icon, size = 'md', ...props }: TagProps) => {
   const IconComponent = icon;
+  const iconSize = iconSizeMap[size];
 
   return (
-    <div
-      className={cn(className, tagVariants({ appearance, size, disabled }))}
-      ref={ref}
+    <BaseTag
       {...props}
-    >
-      {IconComponent && <IconComponent size={calculatedIconSize} />}
-      <span className='truncate'>{label}</span>
-    </div>
+      size={size}
+      variant='tag'
+      consumerName='Tag'
+      leadingContent={
+        IconComponent ? <IconComponent size={iconSize} /> : undefined
+      }
+    />
   );
 };

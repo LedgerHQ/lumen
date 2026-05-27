@@ -8,10 +8,13 @@ export function Avatars() {
     <Box lx={{ flexDirection: 'row', gap: 's8', flexWrap: 'wrap' }}>
       <Avatar size='sm' />
       <Avatar src={exampleSrc} size='sm' />
-      <Avatar />
-      <Avatar src={exampleSrc} showNotification />
+      <Avatar size='md' />
+      <Avatar src={exampleSrc} size='md' />
       <Avatar size='lg' />
       <Avatar src={exampleSrc} size='lg' />
+      <Avatar size='xl' />
+      <Avatar src={exampleSrc} size='xl' />
+      <Avatar src={exampleSrc} showNotification />
     </Box>
   );
 }

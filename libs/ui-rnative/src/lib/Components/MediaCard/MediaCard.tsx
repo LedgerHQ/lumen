@@ -5,7 +5,7 @@ import { useStyleSheet } from '../../../styles';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { LinearGradient, Pressable, Text } from '../Utility';
-import { MediaCardProps, MediaCardTitleProps } from './types';
+import type { MediaCardProps, MediaCardTitleProps } from './types';
 
 const CARD_HEIGHT = 164;
 
@@ -15,7 +15,7 @@ const useStyles = () =>
       root: {
         position: 'relative',
         width: t.sizes.full,
-        height: CARD_HEIGHT,
+        minHeight: CARD_HEIGHT,
         borderRadius: t.borderRadius.md,
         overflow: 'hidden',
         flexDirection: 'column',

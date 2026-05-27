@@ -4,7 +4,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { ComponentProps, ComponentRef, Ref } from 'react';
+import type { ComponentProps, ComponentRef, Ref } from 'react';
 import { Check, ChevronRight } from '../../Symbols';
 import { Divider } from '../Divider';
 import type {

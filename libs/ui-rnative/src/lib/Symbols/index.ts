@@ -139,6 +139,7 @@ export { LedgerLogo } from './Icons/LedgerLogo';
 export { Legal } from './Icons/Legal';
 export { LifeRing } from './Icons/LifeRing';
 export { LifeRingFill } from './Icons/LifeRingFill';
+export { Lightbulb } from './Icons/Lightbulb';
 export { Link } from './Icons/Link';
 export { Linkedin } from './Icons/Linkedin';
 export { Linux } from './Icons/Linux';

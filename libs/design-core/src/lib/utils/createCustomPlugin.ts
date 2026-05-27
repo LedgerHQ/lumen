@@ -330,17 +330,17 @@ export function createGradientPlugin(
       },
       '.bg-gradient-error': {
         background:
-          'radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-error-strong) 0%, var(--background-error-transparent) 100%)',
+          'radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-error-strong) 0%, var(--background-error-transparent-0) 100%)',
         opacity: '0.3',
       },
       '.bg-gradient-success': {
         background:
-          'radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-success-strong) 0%, var(--background-success-transparent) 100%)',
+          'radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-success-strong) 0%, var(--background-success-transparent-0) 100%)',
         opacity: '0.3',
       },
       '.bg-gradient-muted': {
         background:
-          'radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-muted-strong) 0%, var(--background-muted-transparent) 100%)',
+          'radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-muted-strong) 0%, var(--background-muted-transparent-0) 100%)',
         opacity: '0.3',
       },
     };

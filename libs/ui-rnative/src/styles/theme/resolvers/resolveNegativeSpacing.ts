@@ -1,5 +1,5 @@
-import { LumenTheme } from '../../types';
-import { AddEntriesNegative } from '../../types/utility.types';
+import type { LumenTheme } from '../../types';
+import type { AddEntriesNegative } from '../../types/utility.types';
 
 export const resolveNegativeSpacing = <
   Input extends LumenTheme['spacings'],

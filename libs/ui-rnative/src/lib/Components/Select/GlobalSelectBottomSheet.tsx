@@ -121,7 +121,7 @@ export const GlobalSelectBottomSheet: React.FC = () => {
             {currentSelect.label && (
               <BottomSheetHeader
                 title={currentSelect.label}
-                appearance='compact'
+                density='compact'
               />
             )}
             <Box lx={{ gap: 's4' }}>

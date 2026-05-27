@@ -12,8 +12,12 @@
     "source.fixAll.eslint": "always"
   },
   "eslint.workingDirectories": [
-    "./libs/ui-rnative",
     "./libs/ui-react",
+    "./libs/ui-rnative",
+    "./libs/ui-react-visualization",
+    "./libs/ui-rnative-visualization",
+    "./libs/utils-shared",
+    "./libs/design-core",
     "./apps/app-sandbox-react",
     "./apps/app-sandbox-rnative"
   ],

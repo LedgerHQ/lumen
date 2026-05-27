@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const tokens: Record<string, Record<string, string>> = {
+export const tokens = {
   ':root': {
     '--color-background-canvas': 'var(--color-light-grey-050)',
     '--color-background-canvas-muted': 'var(--color-light-grey-100)',
@@ -12,7 +12,9 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-canvas-overlay': 'var(--color-light-grey-950-60)',
     '--color-background-canvas-overlay-subtle':
       'var(--color-light-grey-950-10)',
+    '--color-background-canvas-overlay-chart': 'var(--color-light-grey-050-60)',
     '--color-background-white': 'var(--color-light-constant-050)',
+    '--color-background-grey': 'var(--color-light-constant-200)',
     '--color-background-black': 'var(--color-light-constant-950)',
     '--color-background-surface': 'var(--color-light-grey-100)',
     '--color-background-surface-hover': 'var(--color-light-grey-200)',
@@ -38,9 +40,6 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-muted': 'var(--color-light-grey-200)',
     '--color-background-muted-hover': 'var(--color-light-grey-300)',
     '--color-background-muted-pressed': 'var(--color-light-grey-400)',
-    '--color-background-muted-strong': 'var(--color-light-grey-600)',
-    '--color-background-muted-strong-hover': 'var(--color-light-grey-700)',
-    '--color-background-muted-strong-pressed': 'var(--color-light-grey-800)',
     '--color-background-muted-transparent': 'var(--color-light-grey-950-5)',
     '--color-background-muted-transparent-hover':
       'var(--color-light-grey-950-10)',
@@ -48,6 +47,10 @@ export const tokens: Record<string, Record<string, string>> = {
       'var(--color-light-grey-950-20)',
     '--color-background-muted-transparent-disabled':
       'var(--color-light-grey-950-5)',
+    '--color-background-muted-transparent-0': 'var(--color-light-grey-200-0)',
+    '--color-background-muted-strong': 'var(--color-light-grey-600)',
+    '--color-background-muted-strong-hover': 'var(--color-light-grey-700)',
+    '--color-background-muted-strong-pressed': 'var(--color-light-grey-800)',
     '--color-background-accent-ledger-live': 'var(--color-light-purple-600)',
     '--color-background-accent-ledger-live-hover':
       'var(--color-light-purple-700)',
@@ -98,12 +101,13 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-background-error-hover': 'var(--color-light-red-600-20)',
     '--color-background-error-pressed': 'var(--color-light-red-600-30)',
     '--color-background-error-strong': 'var(--color-light-red-600)',
-    '--color-background-error-transparent': 'var(--color-light-red-600-0)',
+    '--color-background-error-transparent-0': 'var(--color-light-red-600-0)',
     '--color-background-warning': 'var(--color-light-yellow-600-10)',
     '--color-background-warning-strong': 'var(--color-light-yellow-600)',
     '--color-background-success': 'var(--color-light-green-600-10)',
-    '--color-background-success-strong': '#47883a',
-    '--color-background-success-transparent': 'var(--color-light-green-600-0)',
+    '--color-background-success-strong': 'var(--color-light-green-600)',
+    '--color-background-success-transparent-0':
+      'var(--color-light-green-600-0)',
     '--color-background-native': '#f7f7f7',
     '--color-background-gradient-100': 'var(--color-light-grey-050)',
     '--color-background-gradient-80': 'var(--color-light-grey-050-80)',
@@ -158,13 +162,16 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-border-base': 'var(--color-light-grey-950)',
     '--color-border-base-hover': 'var(--color-light-grey-900)',
     '--color-border-base-pressed': 'var(--color-light-grey-800)',
+    '--color-border-base-inverted': 'var(--color-light-grey-050)',
     '--color-border-disabled': 'var(--color-light-grey-300)',
     '--color-border-muted': 'var(--color-light-grey-600)',
     '--color-border-muted-hover': 'var(--color-light-grey-700)',
     '--color-border-muted-pressed': 'var(--color-light-grey-800)',
+    '--color-border-muted-transparent-0': 'var(--color-light-grey-600-0)',
     '--color-border-muted-subtle': 'var(--color-light-grey-300)',
     '--color-border-muted-subtle-hover': 'var(--color-light-grey-400)',
     '--color-border-muted-subtle-pressed': 'var(--color-light-grey-500)',
+    '--color-border-muted-subtle-transparent': 'var(--color-light-grey-300-50)',
     '--color-border-active-ledger-live': 'var(--color-light-purple-600)',
     '--color-border-active-ledger-live-hover': 'var(--color-light-purple-700)',
     '--color-border-active-ledger-live-pressed':
@@ -181,8 +188,10 @@ export const tokens: Record<string, Record<string, string>> = {
     '--color-border-error': 'var(--color-light-red-600)',
     '--color-border-error-hover': 'var(--color-light-red-700)',
     '--color-border-error-pressed': 'var(--color-light-red-800)',
+    '--color-border-error-transparent': 'var(--color-light-red-600-50)',
     '--color-border-warning': 'var(--color-light-yellow-600)',
     '--color-border-success': 'var(--color-light-green-600)',
+    '--color-border-success-transparent': 'var(--color-light-green-600-50)',
     '--color-border-icon': 'var(--color-light-grey-950-5)',
     '--color-crypto-aion': 'var(--color-light-crypto-aion)',
     '--color-crypto-aion-0': 'var(--color-light-crypto-aion-0)',
@@ -357,7 +366,10 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-canvas-overlay': 'var(--color-background-canvas-overlay)',
     '--background-canvas-overlay-subtle':
       'var(--color-background-canvas-overlay-subtle)',
+    '--background-canvas-overlay-chart':
+      'var(--color-background-canvas-overlay-chart)',
     '--background-white': 'var(--color-background-white)',
+    '--background-grey': 'var(--color-background-grey)',
     '--background-black': 'var(--color-background-black)',
     '--background-surface': 'var(--color-background-surface)',
     '--background-surface-hover': 'var(--color-background-surface-hover)',
@@ -384,6 +396,8 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-muted': 'var(--color-background-muted)',
     '--background-muted-hover': 'var(--color-background-muted-hover)',
     '--background-muted-pressed': 'var(--color-background-muted-pressed)',
+    '--background-muted-transparent-0':
+      'var(--color-background-muted-transparent-0)',
     '--background-muted-transparent':
       'var(--color-background-muted-transparent)',
     '--background-muted-transparent-hover':
@@ -411,14 +425,14 @@ export const tokens: Record<string, Record<string, string>> = {
     '--background-error-hover': 'var(--color-background-error-hover)',
     '--background-error-pressed': 'var(--color-background-error-pressed)',
     '--background-error-strong': 'var(--color-background-error-strong)',
-    '--background-error-transparent':
-      'var(--color-background-error-transparent)',
+    '--background-error-transparent-0':
+      'var(--color-background-error-transparent-0)',
     '--background-warning': 'var(--color-background-warning)',
     '--background-warning-strong': 'var(--color-background-warning-strong)',
     '--background-success': 'var(--color-background-success)',
     '--background-success-strong': 'var(--color-background-success-strong)',
-    '--background-success-transparent':
-      'var(--color-background-success-transparent)',
+    '--background-success-transparent-0':
+      'var(--color-background-success-transparent-0)',
     '--background-active': 'var(--color-background-accent-websites)',
     '--background-active-hover':
       'var(--color-background-accent-websites-hover)',
@@ -474,17 +488,23 @@ export const tokens: Record<string, Record<string, string>> = {
     '--border-base': 'var(--color-border-base)',
     '--border-base-hover': 'var(--color-border-base-hover)',
     '--border-base-pressed': 'var(--color-border-base-pressed)',
+    '--border-base-inverted': 'var(--color-border-base-inverted)',
     '--border-muted': 'var(--color-border-muted)',
     '--border-muted-hover': 'var(--color-border-muted-hover)',
     '--border-muted-pressed': 'var(--color-border-muted-pressed)',
+    '--border-muted-transparent-0': 'var(--color-border-muted-transparent-0)',
     '--border-muted-subtle': 'var(--color-border-muted-subtle)',
     '--border-muted-subtle-hover': 'var(--color-border-muted-subtle-hover)',
     '--border-muted-subtle-pressed': 'var(--color-border-muted-subtle-pressed)',
+    '--border-muted-subtle-transparent':
+      'var(--color-border-muted-subtle-transparent)',
     '--border-error': 'var(--color-border-error)',
     '--border-error-hover': 'var(--color-border-error-hover)',
     '--border-error-pressed': 'var(--color-border-error-pressed)',
+    '--border-error-transparent': 'var(--color-border-error-transparent)',
     '--border-warning': 'var(--color-border-warning)',
     '--border-success': 'var(--color-border-success)',
+    '--border-success-transparent': 'var(--color-border-success-transparent)',
     '--border-active': 'var(--color-border-active-websites)',
     '--border-active-hover': 'var(--color-border-active-websites-hover)',
     '--border-active-pressed': 'var(--color-border-active-websites-pressed)',
@@ -495,4 +515,4 @@ export const tokens: Record<string, Record<string, string>> = {
     '--border-width-focus': 'var(--stroke-2)',
     '--border-width-stepper': 'var(--stroke-4)',
   },
-};
+} as const satisfies Record<string, Record<string, string>>;

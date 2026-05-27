@@ -34,18 +34,22 @@ export const Showcase: Story = {
         <Tag appearance='base' label='Base' />
         <Tag appearance='gray' label='Gray' />
         <Tag appearance='accent' label='Accent' />
+        <Tag appearance='accent-subtle' label='Accent subtle' />
         <Tag appearance='success' label='Success' />
         <Tag appearance='error' label='Error' />
         <Tag appearance='warning' label='Warning' />
+        <Tag appearance='white' label='White' />
         <Tag label='Disabled' disabled />
       </div>
       <div className='flex gap-4'>
         <Tag appearance='base' label='Base' icon={Check} />
         <Tag appearance='gray' label='Gray' icon={Check} />
         <Tag appearance='accent' label='Accent' icon={Check} />
+        <Tag appearance='accent-subtle' label='Accent subtle' icon={Check} />
         <Tag appearance='success' label='Success' icon={Check} />
         <Tag appearance='error' label='Error' icon={Check} />
         <Tag appearance='warning' label='Warning' icon={Check} />
+        <Tag appearance='white' label='White' icon={Check} />
         <Tag label='Disabled' icon={Check} disabled />
       </div>
     </div>

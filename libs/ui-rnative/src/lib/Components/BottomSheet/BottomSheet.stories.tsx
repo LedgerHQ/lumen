@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { FC } from 'react';
 import { useState } from 'react';
 import { Button } from '../Button';
 import { SearchInput } from '../SearchInput';
-import { Box, Text } from '../Utility';
+import { Spot } from '../Spot';
+import { Box, RadialGradient, Text } from '../Utility';
 import { BottomSheet } from './BottomSheet';
 import { BottomSheetHeader } from './BottomSheetHeader';
 import {
@@ -11,6 +13,7 @@ import {
   BottomSheetView,
   BottomSheetVirtualizedList,
 } from './Scrollables';
+import type { BottomSheetBackgroundProps } from './types';
 import { useBottomSheetRef } from './useBottomSheetRef';
 
 const meta = {
@@ -129,7 +132,7 @@ export const Base: Story = {
           <BottomSheetView>
             <BottomSheetHeader
               title='Title'
-              appearance='compact'
+              density='compact'
               description='Description'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -179,7 +182,7 @@ export const TitleExpanded: Story = {
           <BottomSheetView>
             <BottomSheetHeader
               title='Expanded title'
-              appearance='expanded'
+              density='expanded'
               description='Expanded description.'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -224,7 +227,7 @@ export const DynamicSizingWithoutSnapPoints: Story = {
           <BottomSheetScrollView>
             <BottomSheetHeader
               title='Dynamic Sizing'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet adapts to its content height'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -266,7 +269,7 @@ export const DynamicSizingWithSnapPoints: Story = {
           <BottomSheetScrollView>
             <BottomSheetHeader
               title='Dynamic Sizing'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet adapts to its content height and has snap points'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -311,7 +314,7 @@ export const PreventClose: Story = {
           <BottomSheetView>
             <BottomSheetHeader
               title='Hidden Close Button'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet cannot be closed by dragging or button'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -355,7 +358,7 @@ export const ScrollView: Story = {
           <BottomSheetScrollView>
             <BottomSheetHeader
               title='Scrollable Content'
-              appearance='compact'
+              density='compact'
               description='This bottom sheet contains a scrollable view'
             />
             <Box lx={{ flexDirection: 'column', gap: 's12' }}>
@@ -411,7 +414,7 @@ export const VirtualList: Story = {
           <BottomSheetHeader
             spacing
             title='Virtual List'
-            appearance='compact'
+            density='compact'
             description='This bottom sheet contains a virtualized list'
           />
           <BottomSheetFlatList
@@ -491,7 +494,7 @@ export const StickyHeaderContent: Story = {
           <BottomSheetHeader
             spacing
             title='BottomSheetFlatList'
-            appearance='compact'
+            density='compact'
             description='The search input is rendered as a sticky list header'
           />
           <BottomSheetFlatList
@@ -543,7 +546,7 @@ export const StickyHeaderContent: Story = {
             <BottomSheetHeader
               spacing
               title='BottomSheetScrollView'
-              appearance='compact'
+              density='compact'
               description='The search input is rendered as a sticky list header'
             />
             {data.map((item) => (
@@ -613,7 +616,7 @@ export const VirtualizedList: Story = {
           <BottomSheetHeader
             spacing
             title='Virtualized List'
-            appearance='compact'
+            density='compact'
             description='This bottom sheet uses a VirtualizedList with custom getItem/getItemCount'
           />
           <BottomSheetVirtualizedList
@@ -649,6 +652,176 @@ export const VirtualizedList: Story = {
               );
             }}
           />
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
+type StrongBackgroundColor = 'errorStrong' | 'successStrong' | 'mutedStrong';
+
+const createGradientBackground =
+  (color: StrongBackgroundColor): FC<BottomSheetBackgroundProps> =>
+  ({ style }) => (
+    <Box
+      style={style}
+      lx={{ backgroundColor: 'canvasSheet', overflow: 'hidden' }}
+    >
+      <RadialGradient
+        center={{ x: 0.5, y: 0 }}
+        stops={[
+          { color, offset: 0, opacity: 0.3 },
+          { color, offset: 1, opacity: 0 },
+        ]}
+        lx={{
+          position: 'absolute',
+          top: 's0',
+          left: 's0',
+          right: 's0',
+          height: 's320',
+        }}
+      />
+    </Box>
+  );
+
+const ErrorBackground = createGradientBackground('errorStrong');
+const SuccessBackground = createGradientBackground('successStrong');
+const MutedBackground = createGradientBackground('mutedStrong');
+
+export const InfoStateVariants: Story = {
+  args: {
+    snapPoints: 'full',
+    hideCloseButton: false,
+    onBack: undefined,
+    onClose: undefined,
+    enableHandlePanningGesture: true,
+    enablePanDownToClose: true,
+    enableBlurKeyboardOnGesture: true,
+    enableDynamicSizing: false,
+    detached: false,
+    backdropPressBehavior: 'close',
+    hideHandle: true,
+  },
+  render: (args) => {
+    const errorBottomSheetRef = useBottomSheetRef();
+    const successBottomSheetRef = useBottomSheetRef();
+    const mutedBottomSheetRef = useBottomSheetRef();
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+          gap: 's12',
+        }}
+      >
+        <Button
+          size='sm'
+          onPress={() => errorBottomSheetRef.current?.present()}
+        >
+          Error
+        </Button>
+        <Button
+          size='sm'
+          onPress={() => successBottomSheetRef.current?.present()}
+        >
+          Success
+        </Button>
+        <Button
+          size='sm'
+          onPress={() => mutedBottomSheetRef.current?.present()}
+        >
+          Muted
+        </Button>
+
+        <BottomSheet
+          {...args}
+          ref={errorBottomSheetRef}
+          backgroundComponent={ErrorBackground}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader density='compact' />
+            <Box lx={{ alignItems: 'center', gap: 's24' }}>
+              <Spot appearance='error' size={72} />
+              <Box lx={{ alignItems: 'center', gap: 's12' }}>
+                <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
+                  Title
+                </Text>
+                <Text
+                  typography='body2'
+                  lx={{ color: 'muted', textAlign: 'center' }}
+                >
+                  Description
+                </Text>
+              </Box>
+            </Box>
+            <Box lx={{ marginTop: 's24' }}>
+              <Button appearance='base' size='lg' isFull>
+                Label
+              </Button>
+            </Box>
+          </BottomSheetView>
+        </BottomSheet>
+
+        <BottomSheet
+          {...args}
+          ref={successBottomSheetRef}
+          backgroundComponent={SuccessBackground}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader density='compact' />
+            <Box lx={{ alignItems: 'center', gap: 's24' }}>
+              <Spot appearance='check' size={72} />
+              <Box lx={{ alignItems: 'center', gap: 's12' }}>
+                <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
+                  Title
+                </Text>
+                <Text
+                  typography='body2'
+                  lx={{ color: 'muted', textAlign: 'center' }}
+                >
+                  Description
+                </Text>
+              </Box>
+            </Box>
+            <Box lx={{ marginTop: 's24' }}>
+              <Button appearance='base' size='lg' isFull>
+                Label
+              </Button>
+            </Box>
+          </BottomSheetView>
+        </BottomSheet>
+
+        <BottomSheet
+          {...args}
+          ref={mutedBottomSheetRef}
+          backgroundComponent={MutedBackground}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader density='compact' />
+            <Box lx={{ alignItems: 'center', gap: 's24' }}>
+              <Spot appearance='info' size={72} />
+              <Box lx={{ alignItems: 'center', gap: 's12' }}>
+                <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
+                  Title
+                </Text>
+                <Text
+                  typography='body2'
+                  lx={{ color: 'muted', textAlign: 'center' }}
+                >
+                  Description
+                </Text>
+              </Box>
+            </Box>
+            <Box lx={{ marginTop: 's24' }}>
+              <Button appearance='base' size='lg' isFull>
+                Label
+              </Button>
+            </Box>
+          </BottomSheetView>
         </BottomSheet>
       </Box>
     );

@@ -1,6 +1,6 @@
-import { StyleProp, ViewStyle } from 'react-native';
-import { StyledPressableProps } from '../../../styles';
-import { IconSize } from '../Icon';
+import type { StyleProp, ViewStyle } from 'react-native';
+import type { StyledPressableProps } from '../../../styles';
+import type { IconSize } from '../Icon';
 
 export type CardButtonProps = {
   /**

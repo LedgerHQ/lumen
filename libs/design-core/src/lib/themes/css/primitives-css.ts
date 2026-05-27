@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const tokens: Record<string, Record<string, string | number>> = {
+export const tokens = {
   ':root': {
     '--color-light-constant-100': '#fafafa',
     '--color-light-constant-200': '#f1f1f1',
@@ -36,6 +36,9 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-light-grey-075-0': '#fdfdfd00',
     '--color-light-grey-075': '#fdfdfd',
     '--color-light-grey-100-0': '#fafafa00',
+    '--color-light-grey-200-0': '#f1f1f100',
+    '--color-light-grey-300-50': '#e8e8e880',
+    '--color-light-grey-600-0': '#76767600',
     '--color-light-grey-950-0': '#00000000',
     '--color-light-grey-950-3': '#00000008',
     '--color-light-grey-950-5': '#0000000d',
@@ -94,6 +97,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-light-green-050': '#f4fbf2',
     '--color-light-green-600-0': '#47883a00',
     '--color-light-green-600-10': '#47883a1a',
+    '--color-light-green-600-50': '#47883a80',
     '--color-light-yellow-100': '#fff3d5',
     '--color-light-yellow-200': '#ffe7ac',
     '--color-light-yellow-300': '#ffd373',
@@ -124,6 +128,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-light-red-600-10': '#c242441a',
     '--color-light-red-600-20': '#c2424433',
     '--color-light-red-600-30': '#c242444d',
+    '--color-light-red-600-50': '#c2424480',
     '--color-light-crypto-aion': '#212529',
     '--color-light-crypto-aion-0': '#21252900',
     '--color-light-crypto-algorand': '#000000',
@@ -316,6 +321,9 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-dark-grey-075-0': '#10101000',
     '--color-dark-grey-075': '#101010',
     '--color-dark-grey-100-0': '#15151500',
+    '--color-dark-grey-200-0': '#1f1f1f00',
+    '--color-dark-grey-300-50': '#3c3c3c80',
+    '--color-dark-grey-500-0': '#71707000',
     '--color-dark-grey-950-0': '#ffffff00',
     '--color-dark-grey-950-3': '#ffffff08',
     '--color-dark-grey-950-5': '#ffffff0d',
@@ -375,6 +383,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-dark-green-600-0': '#6ec85c00',
     '--color-dark-green-600-10': '#6ec85c1a',
     '--color-dark-green-600-15': '#6ec85c26',
+    '--color-dark-green-600-50': '#6ec85c80',
     '--color-dark-yellow-100': '#63420f',
     '--color-dark-yellow-200': '#885a14',
     '--color-dark-yellow-300': '#ae731a',
@@ -405,6 +414,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--color-dark-red-600-15': '#f8727426',
     '--color-dark-red-600-30': '#f872744d',
     '--color-dark-red-600-40': '#f8727466',
+    '--color-dark-red-600-50': '#f8727480',
     '--color-dark-crypto-aion': '#212529',
     '--color-dark-crypto-aion-0': '#21252900',
     '--color-dark-crypto-algorand': '#000000',
@@ -597,6 +607,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--icon-width-40': '40px',
     '--icon-width-48': '48px',
     '--icon-width-56': '56px',
+    '--icon-width-64': '64px',
     '--icon-height-12': '12px',
     '--icon-height-16': '16px',
     '--icon-height-20': '20px',
@@ -605,6 +616,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--icon-height-40': '40px',
     '--icon-height-48': '48px',
     '--icon-height-56': '56px',
+    '--icon-height-64': '64px',
     '--spot-width-32': '32px',
     '--spot-width-40': '40px',
     '--spot-width-48': '48px',
@@ -623,6 +635,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--icon-border-width-40': '2.200000047683716px',
     '--icon-border-width-48': '2.5px',
     '--icon-border-width-56': '2.799999952316284px',
+    '--icon-border-width-64': '3px',
     '--spinner-border-width-12': '1.2000000476837158px',
     '--spinner-border-width-16': '1.600000023841858px',
     '--spinner-border-width-20': '2px',
@@ -631,6 +644,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--spinner-border-width-40': '3.200000047683716px',
     '--spinner-border-width-48': '3.5999999046325684px',
     '--spinner-border-width-56': '3.799999952316284px',
+    '--spinner-border-width-64': '4px',
     '--size-0': '0px',
     '--size-1': '1px',
     '--size-2': '2px',
@@ -680,6 +694,7 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--stroke-1': '1px',
     '--stroke-2': '2px',
     '--stroke-4': '4px',
+    '--stroke-05': '0.5px',
     '--font-weight-bold': '700',
     '--font-weight-semi-bold': '600',
     '--font-weight-medium': '500',
@@ -741,4 +756,4 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--backdrop-blur-lg': '16px',
     '--backdrop-blur-xl': '24px',
   },
-};
+} as const satisfies Record<string, Record<string, string | number>>;

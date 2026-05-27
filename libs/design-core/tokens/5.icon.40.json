@@ -159,22 +159,8 @@
       }
     }
   },
-  "sub-network": {
-    "sub-network-radius": {
-      "$type": "number",
-      "$value": "{border-radius.xs}",
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "sub-network-width": {
+  "dot-symbol": {
+    "dot-symbol-width": {
       "$type": "number",
       "$value": "{icon-width.16}",
       "$description": "",
@@ -188,7 +174,7 @@
         }
       }
     },
-    "sub-network-height": {
+    "dot-symbol-height": {
       "$type": "number",
       "$value": "{icon-height.16}",
       "$description": "",
@@ -202,23 +188,9 @@
         }
       }
     },
-    "sub-network-path": {
+    "dot-symbol-radius-square": {
       "$type": "number",
-      "$value": "{size.20}",
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "sub-network-path-radius": {
-      "$type": "number",
-      "$value": 6,
+      "$value": 5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -229,10 +201,8 @@
           "codeSyntax": {}
         }
       }
-    }
-  },
-  "transaction-type": {
-    "transaction-type-radius": {
+    },
+    "dot-symbol-radius-circle": {
       "$type": "number",
       "$value": "{border-radius.full}",
       "$description": "",
@@ -246,63 +216,35 @@
         }
       }
     },
-    "transaction-type-bg-width": {
+    "dot-symbol-border-path": {
       "$type": "number",
-      "$value": "{icon-width.16}",
+      "$value": "{stroke.1}",
       "$description": "",
       "$extensions": {
         "com.figma": {
           "hiddenFromPublishing": false,
           "scopes": [
-            "WIDTH_HEIGHT"
+            "STROKE_FLOAT"
           ],
           "codeSyntax": {}
         }
       }
     },
-    "transaction-type-bg-height": {
+    "dot-symbol-spinner-border-width": {
       "$type": "number",
-      "$value": "{icon-height.16}",
+      "$value": "{spinner-border-width.12}",
       "$description": "",
       "$extensions": {
         "com.figma": {
           "hiddenFromPublishing": false,
           "scopes": [
-            "WIDTH_HEIGHT"
+            "STROKE_FLOAT"
           ],
           "codeSyntax": {}
         }
       }
     },
-    "transaction-type-path": {
-      "$type": "number",
-      "$value": "{size.20}",
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-path-radius": {
-      "$type": "number",
-      "$value": "{border-radius.full}",
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-icon-heigth": {
+    "dot-symbol-icon-heigth": {
       "$type": "number",
       "$value": "{icon-width.12}",
       "$description": "",
@@ -316,7 +258,7 @@
         }
       }
     },
-    "transaction-type-icon-width": {
+    "dot-symbol-icon-width": {
       "$type": "number",
       "$value": "{icon-height.12}",
       "$description": "",
@@ -330,23 +272,9 @@
         }
       }
     },
-    "transaction-type-icon-border-width": {
+    "dot-symbol-icon-border-width": {
       "$type": "number",
       "$value": "{icon-border-width.12}",
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "STROKE_FLOAT"
-          ],
-          "codeSyntax": {}
-        }
-      }
-    },
-    "transaction-type-spinner-border-width": {
-      "$type": "number",
-      "$value": "{spinner-border-width.12}",
       "$description": "",
       "$extensions": {
         "com.figma": {

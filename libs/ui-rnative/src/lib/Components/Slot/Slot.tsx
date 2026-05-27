@@ -1,11 +1,10 @@
-import {
+import type {
   ComponentRef,
-  isValidElement,
-  cloneElement,
   ComponentPropsWithoutRef,
   ComponentPropsWithRef,
 } from 'react';
-import {
+import { isValidElement, cloneElement } from 'react';
+import type {
   View,
   Pressable,
   Text,
@@ -15,10 +14,10 @@ import {
   TextProps,
   ImageProps,
   StyleProp,
-  StyleSheet,
   PressableStateCallbackType,
   ImageStyle as RNImageStyle,
 } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const SlotPressable = ({
   ref,

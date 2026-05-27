@@ -29,17 +29,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
+      - uses: ./.github/actions/setup
 
       - run: npx nx run-many --targets=build-deps --all
       - run: npx nx affected -t lint typecheck
@@ -54,17 +44,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
+      - uses: ./.github/actions/setup
 
       - run: npx nx affected -t build
 
@@ -78,17 +58,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
+      - uses: ./.github/actions/setup
 
       - run: npx nx affected -t test:tree-shaking
 
@@ -102,28 +72,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
+      - uses: ./.github/actions/setup
 
       - run: npx nx affected -t test --passWithNoTests --coverage
 
       - name: Fix lcov paths to be relative to workspace root
         run: |
-          for lib in ui-react utils-shared design-core; do
+          for lib in ui-react ui-react-visualization utils-shared design-core; do
             lcov="libs/$lib/test-output/vitest/coverage/lcov.info"
             [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
           done
-          lcov="libs/ui-rnative/test-output/jest/coverage/lcov.info"
-          [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/ui-rnative/|" "$lcov" || true
+          for lib in ui-rnative ui-rnative-visualization; do
+            lcov="libs/$lib/test-output/jest/coverage/lcov.info"
+            [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
+          done
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
@@ -132,6 +94,8 @@ jobs:
           path: |
             libs/ui-react/test-output/vitest/coverage/lcov.info
             libs/ui-rnative/test-output/jest/coverage/lcov.info
+            libs/ui-react-visualization/test-output/vitest/coverage/lcov.info
+            libs/ui-rnative-visualization/test-output/jest/coverage/lcov.info
             libs/utils-shared/test-output/vitest/coverage/lcov.info
             libs/design-core/test-output/vitest/coverage/lcov.info
           if-no-files-found: warn

@@ -1,7 +1,8 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { LumenTypographyTokens, useStyleSheet } from '../../../styles';
+import type { LumenTypographyTokens } from '../../../styles';
+import { useStyleSheet } from '../../../styles';
 import {
   BluetoothCircleFill,
   CheckmarkCircleFill,
@@ -9,10 +10,11 @@ import {
   InformationFill,
   WarningFill,
 } from '../../Symbols';
-import { IconSize } from '../Icon/types';
-import { Spinner, SpinnerProps } from '../Spinner';
+import type { IconSize } from '../Icon/types';
+import type { SpinnerProps } from '../Spinner';
+import { Spinner } from '../Spinner';
 import { Box } from '../Utility';
-import { SpotAppearance, SpotProps, SpotSize } from './types';
+import type { SpotAppearance, SpotProps, SpotSize } from './types';
 
 const BLUETOOTH_COLOR = '#0082FC';
 
@@ -76,6 +78,7 @@ const useStyles = ({
           backgroundColor: t.colors.bg.mutedTransparent,
           width: spotSize,
           height: spotSize,
+          flexShrink: 0,
         },
         icon: {
           color: contentColor,
@@ -150,7 +153,11 @@ export const Spot = (props: SpotProps) => {
         return <Icon size={calculatedIconSize} style={styles.icon} />;
       }
       case 'number': {
-        return <Text style={styles.numberText}>{props.number}</Text>;
+        return (
+          <Text style={styles.numberText} allowFontScaling={false}>
+            {props.number}
+          </Text>
+        );
       }
       case 'bluetooth':
         return (

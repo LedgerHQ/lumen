@@ -184,17 +184,17 @@ describe('AddressInput', () => {
     expect(handleClear).toHaveBeenCalled();
   });
 
-  it('displays error message when provided', () => {
+  it('displays helper text when provided with error status', () => {
     render(
       <AddressInput
         placeholder='Enter address or ENS'
-        errorMessage='Invalid address format'
-        aria-invalid={true}
+        helperText='Invalid address format'
+        status='error'
       />,
     );
 
-    const errorMessage = screen.getByText('Invalid address format');
-    expect(errorMessage).toBeInTheDocument();
+    const helperTextEl = screen.getByText('Invalid address format');
+    expect(helperTextEl).toBeInTheDocument();
 
     // The role="alert" is on the error container, not the text span
     const errorContainer = screen.getByRole('alert');

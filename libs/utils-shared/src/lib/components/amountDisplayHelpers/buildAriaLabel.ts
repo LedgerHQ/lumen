@@ -1,4 +1,4 @@
-import { FormattedValue } from './types';
+import type { FormattedValue } from './types';
 
 export const buildAriaLabel = (
   parts: FormattedValue,

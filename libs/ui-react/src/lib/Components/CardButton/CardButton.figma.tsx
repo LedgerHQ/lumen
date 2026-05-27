@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { CardButton } from './CardButton';
-import { CardButtonProps } from './types';
+import type { CardButtonProps } from './types';
 
 figma.connect(
   CardButton,

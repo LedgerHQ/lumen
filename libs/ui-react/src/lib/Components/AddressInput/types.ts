@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { BaseInputProps } from '../BaseInput/types';
+import type { BaseInputProps } from '../BaseInput/types';
 
 export type AddressInputProps = {
   /**

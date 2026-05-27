@@ -1,8 +1,8 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cva } from 'class-variance-authority';
-import { ComponentProps } from 'react';
-import {
+import type { ComponentProps } from 'react';
+import type {
   TooltipContentProps,
   TooltipProps,
   TooltipTriggerProps,

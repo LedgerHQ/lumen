@@ -1,9 +1,7 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { useMemo } from 'react';
-import {
-  ColorSchemeName,
-  useColorScheme as useReactNativeColorScheme,
-} from 'react-native';
+import type { ColorSchemeName } from 'react-native';
+import { useColorScheme as useReactNativeColorScheme } from 'react-native';
 import { createStylesheetTheme } from '../theme/createStylesheetTheme';
 import { type LumenStyleSheetTheme } from '../types';
 import { COLOR_SCHEMES, type LumenStyleSheetProviderProps } from './types';

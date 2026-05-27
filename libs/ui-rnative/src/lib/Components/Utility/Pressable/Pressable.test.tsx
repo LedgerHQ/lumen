@@ -2,7 +2,8 @@ import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { createRef } from 'react';
-import { Text, View, ViewStyle } from 'react-native';
+import type { View, ViewStyle } from 'react-native';
+import { Text } from 'react-native';
 
 import { ThemeProvider } from '../../ThemeProvider/ThemeProvider';
 import { Pressable } from './Pressable';

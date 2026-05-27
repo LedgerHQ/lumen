@@ -4,14 +4,14 @@
  * Copyright 2013 gerard-figma
  */
 
-import {
+import type {
   GetLocalVariablesResponse,
   LocalVariable,
   LocalVariableCollection,
   RGB,
   RGBA,
 } from '@figma/rest-api-spec';
-import {
+import type {
   LocalVariableCollectionMode,
   Token,
   TokenFileContent,

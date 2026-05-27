@@ -127,6 +127,7 @@ const PopoverContent = ({
   sideOffset = 8,
   align = 'start',
   width = 'fit',
+  initialFocus = false,
   className,
   children,
 }: PopoverContentProps) => {
@@ -152,6 +153,7 @@ const PopoverContent = ({
       >
         <PopoverPrimitive.Popup
           data-slot='popover-content'
+          initialFocus={initialFocus}
           className={cn(popoverContentStyles({ width, side }), className)}
         >
           {children}

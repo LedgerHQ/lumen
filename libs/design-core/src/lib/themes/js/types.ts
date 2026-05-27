@@ -177,6 +177,7 @@ export type ThemeColorTokens = {
 };
 
 export type ThemeCoreTokens = PrimitiveOtherTokens & {
+  fontFamilies: PrimitiveTypographyTokens['fontFamily'];
   shadows: PrimitiveShadowTokens;
   typographies: TypographyTokensByBreakpoint;
   motion: PrimitiveMotionTokens;

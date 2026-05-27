@@ -1,13 +1,13 @@
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
-import { CoinCapsuleProps } from './types';
+import type { CoinCapsuleProps } from './types';
 
-export function CoinCapsule({ ticker, icon }: CoinCapsuleProps) {
+export function CoinCapsule({ ticker, leadingContent }: CoinCapsuleProps) {
   const styles = useStyles();
 
   return (
     <Box style={styles.container}>
-      {icon}
+      {leadingContent}
       <Text style={styles.text}>{ticker}</Text>
     </Box>
   );
@@ -20,6 +20,7 @@ const useStyles = () =>
         flexDirection: 'row',
         gap: t.spacings.s8,
         padding: t.spacings.s8,
+        paddingRight: t.spacings.s12,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: t.borderRadius.full,

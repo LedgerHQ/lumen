@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { Button } from '../Button/Button';
@@ -559,6 +559,63 @@ export const WithCustomHeader: Story = {
               </Tooltip>
             ),
           },
+        },
+      ],
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithoutStickyHeader: Story = {
+  args: {
+    appearance: 'no-background',
+    stickyHeader: false,
+  },
+  render: (args) => {
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
         },
       ],
     });

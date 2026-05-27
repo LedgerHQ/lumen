@@ -18,21 +18,27 @@ The Lumen Design System is structured as a monorepo using Nx, with the following
 ```sh
 lumen
   ├──libs/
-  │    ├── ui-react/       # React components
-  │    │                   # name: @ledgerhq/lumen-ui-react
+  │    ├── ui-react/                  # React components
+  │    │                              # name: @ledgerhq/lumen-ui-react
   │    │
-  │    ├── ui-rnative/     # React Native components
-  │    │                   # name: @ledgerhq/lumen-ui-rnative
+  │    ├── ui-rnative/                # React Native components
+  │    │                              # name: @ledgerhq/lumen-ui-rnative
+  │    │       
+  │    ├── ui-react-visualization/    # React visualization components
+  │    │                              # name: @ledgerhq/lumen-ui-react-visualization
   │    │
-  │    ├── design-core/    # Design tokens and themes
-  │    │                   # name: @ledgerhq/lumen-design-core
+  │    ├── ui-rnative-visualization/  # React Native components
+  │    │                              # name: @ledgerhq/lumen-ui-rnative-visualization
   │    │
-  │    └── utils-shared/   # Shared utilities
-  │                        # name: @ledgerhq/lumen-utils-shared
+  │    ├── design-core/               # Design tokens and themes
+  │    │                              # name: @ledgerhq/lumen-design-core
+  │    │
+  │    └── utils-shared/              # Shared utilities
+  │                                   # name: @ledgerhq/lumen-utils-shared
   │
   └──apps/
-       ├── app-sandbox-rnative   # Demo React-Native application
-       └── app-sandbox-react     # Demo React application
+       ├── app-sandbox-rnative        # Demo React-Native application
+       └── app-sandbox-react          # Demo React application
 ```
 
 - NXJS libraries are prefixed by `@ledgerhq/lumen-*` - defined in the project.json
@@ -262,6 +268,12 @@ figma connect publish --dry-run --dir libs/ui-react/src/lib/Components/YourCompo
 When working on a single component, publish only its directory:
 ```bash
 figma connect publish --dir libs/ui-react/src/lib/Components/YourComponent/
+```
+
+#### Publish Symbol Library (Icons & CryptoIcons)
+To publish Code Connect for the Symbol Library (Icons and CryptoIcons), use the dedicated config:
+```bash
+npx figma connect publish --config libs/ui-react/figma.symbol-lib.config.json
 ```
 
 #### Remove Broken Connections

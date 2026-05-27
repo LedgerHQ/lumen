@@ -1,4 +1,4 @@
-import plugin from 'tailwindcss/plugin.js';
+import type plugin from 'tailwindcss/plugin.js';
 
 export const createSpotUtilities = (
   theme: Parameters<Parameters<typeof plugin>[0]>[0]['theme'],

@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { Tag } from './Tag';
-import { TagProps } from './types';
+import type { TagProps } from './types';
 
 figma.connect(
   Tag,
@@ -13,6 +13,7 @@ figma.connect(
         base: 'base',
         gray: 'gray',
         accent: 'accent',
+        'accent-subtle': 'accent-subtle',
         success: 'success',
         error: 'error',
         warning: 'warning',

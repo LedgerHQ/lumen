@@ -1,4 +1,5 @@
-import { Ref, useMemo, type RefCallback } from 'react';
+import type { RefCallback, Ref } from 'react';
+import { useMemo } from 'react';
 
 type PossibleRef<T> = Ref<T> | undefined;
 type RefCleanup = void | (() => void);

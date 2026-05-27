@@ -1,7 +1,7 @@
-import { ComponentType, ReactNode } from 'react';
-import { LumenTextStyle, StyledPressableProps } from '../../../styles';
-import { IconSize } from '../Icon';
-import { BoxProps } from '../Utility';
+import type { ComponentType, ReactNode } from 'react';
+import type { LumenTextStyle, StyledPressableProps } from '../../../styles';
+import type { IconSize } from '../Icon';
+import type { BoxProps } from '../Utility';
 
 export type SegmentedControlProps = {
   /**
@@ -56,6 +56,10 @@ export type SegmentedControlButtonProps = {
    * Optional icon shown to the left of the label (from Symbols).
    */
   icon?: IconComponent;
+  /**
+   * Optional content shown to the right of the label (e.g. DotCount badge).
+   */
+  trailingContent?: ReactNode;
   /**
    * Optional callback when the button is pressed (in addition to onSelectedChange on the parent).
    */

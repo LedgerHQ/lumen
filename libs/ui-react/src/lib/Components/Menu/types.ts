@@ -161,7 +161,7 @@ export type MenuContentProps = {
    *
    * @default []
    */
-  collisionBoundary?: Element | null | Array<Element | null>;
+  collisionBoundary?: Element | null | (Element | null)[];
 
   /**
    * The distance in pixels from the boundary edges where collision detection should occur.

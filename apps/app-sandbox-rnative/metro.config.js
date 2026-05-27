@@ -1,28 +1,32 @@
 const path = require('path');
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
 
-// Get the monorepo root (two levels up from this app)
 const monorepoRoot = path.resolve(__dirname, '../..');
+const appNodeModules = path.resolve(__dirname, 'node_modules');
 
-/**
- * Metro configuration for monorepo
- * https://reactnative.dev/docs/metro
- *
- * @type {import('@react-native/metro-config').MetroConfig}
- */
-const config = {
-  // Watch all files in the monorepo (including libs)
-  watchFolders: [monorepoRoot],
+// pin react to the app's local node_modules (19.0.0) instead of
+// the monorepo root (19.2.4) which is incompatible with RN 0.79's renderer
+// TODO: once we bump react native, we may refactor this back
+const reactPath = require.resolve('react', { paths: [appNodeModules] });
 
-  resolver: {
-    // Resolve node_modules from both the app and the monorepo root
-    nodeModulesPaths: [
-      path.resolve(__dirname, 'node_modules'),
-      path.resolve(monorepoRoot, 'node_modules'),
-    ],
-    // Enable package exports resolution for ESM packages (tailwind-merge, clsx, etc.)
-    unstable_enablePackageExports: true,
-  },
+/** @type {import('expo/metro-config').MetroConfig} */
+const config = getDefaultConfig(__dirname);
+
+const defaultWatchFolders = config.watchFolders ?? [];
+config.watchFolders = [...new Set([...defaultWatchFolders, monorepoRoot])];
+
+config.resolver.nodeModulesPaths = [
+  appNodeModules,
+  path.resolve(monorepoRoot, 'node_modules'),
+];
+
+config.resolver.unstable_enablePackageExports = true;
+
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === 'react') {
+    return { filePath: reactPath, type: 'sourceFile' };
+  }
+  return context.resolveRequest(context, moduleName, platform);
 };
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = config;

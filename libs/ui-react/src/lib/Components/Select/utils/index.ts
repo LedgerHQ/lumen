@@ -1,1 +1,5 @@
-export { groupItemsByKey, defaultLabelFilter } from './groupItems';
+export {
+  resolveValue,
+  groupItemsByKey,
+  defaultLabelFilter,
+} from './groupItems';

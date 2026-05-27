@@ -10,7 +10,7 @@ import Animated, {
 import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Box } from '../Utility';
-import { PageIndicatorProps } from './types';
+import type { PageIndicatorProps } from './types';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const MAX_VISIBLE_DOTS = 4;

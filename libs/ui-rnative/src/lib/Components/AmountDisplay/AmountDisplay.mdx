@@ -39,6 +39,12 @@ The AmountDisplay component renders formatted monetary amounts with flexible cur
 <Canvas of={AmountDisplayStories.Base} />
 <Controls of={AmountDisplayStories.Base} />
 
+### Size
+
+The `size` prop controls the typographic scale of the amount display. Use `md` (default) for primary amounts and `sm` for secondary or contextual amounts.
+
+<Canvas of={AmountDisplayStories.Sizes} />
+
 ### Privacy
 
 The `hidden` prop allows you to toggle amount visibility for privacy-sensitive applications. When set to `true`, the component displays bullet points (••••) instead of the actual amount, while keeping the currency symbol visible. The example below demonstrates toggling amount visibility with a button.

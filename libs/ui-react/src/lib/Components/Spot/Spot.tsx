@@ -8,12 +8,12 @@ import {
   InformationFill,
   WarningFill,
 } from '../../Symbols';
-import { IconSize } from '../Icon/types';
+import type { IconSize } from '../Icon/types';
 import { Spinner } from '../Spinner';
-import { SpotProps, SpotSize } from './types';
+import type { SpotProps, SpotSize } from './types';
 
 const spotVariants = cva(
-  'flex items-center justify-center rounded-full bg-muted-transparent',
+  'flex shrink-0 items-center justify-center rounded-full bg-muted-transparent',
   {
     variants: {
       appearance: {
@@ -137,12 +137,12 @@ export const Spot = (props: SpotProps) => {
     <div
       ref={ref}
       className={cn(
-        className,
         spotVariants({
           disabled,
           appearance,
           size,
         }),
+        className,
       )}
       {...rest}
     >

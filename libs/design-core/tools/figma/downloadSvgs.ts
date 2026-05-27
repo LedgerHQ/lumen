@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { SvgData } from './getSvgs.js';
+import type { SvgData } from './getSvgs.js';
 
 /**
  * This file is based on `figma-api-exporter`: https://github.com/slawomirkolodziej/figma-api-exporter/blob/master/src/downloadSvgs.ts

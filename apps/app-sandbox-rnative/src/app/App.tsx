@@ -1,61 +1,68 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import type { SupportedLocale } from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheetModalProvider,
   Box,
   GlobalSelectBottomSheet,
   GlobalTooltipBottomSheet,
-  SupportedLocale,
   ThemeProvider,
   useBottomSheetRef,
 } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { useState } from 'react';
-import {
-  ColorSchemeName,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+import type { ColorSchemeName } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   AmountDisplays,
   AmountInputs,
   Animations,
+  Avatars,
+  Banners,
   BottomSheetDynamicSize,
   BottomSheetFlatLists,
+  BottomSheetWithGradient,
   BottomSheetsButton,
   Buttons,
-  Checkboxes,
+  CardButtons,
   Cards,
+  Checkboxes,
+  ContentBanners,
+  DescriptionLists,
   Dividers,
-  MediaImages,
+  DotCounts,
+  DotIcons,
+  DotIndicators,
+  DotSymbols,
+  ExampleTabBar,
+  Gradients,
   IconButtons,
+  InteractiveIcons,
+  LineCharts,
   Links,
+  ListItems,
+  MediaBanners,
+  MediaButtons,
+  MediaCards,
+  MediaImages,
+  MediaTags,
   NavBars,
+  OptionLists,
+  PageIndicators,
   SegmentedControls,
   Selects,
   Skeletons,
   Spots,
   Steppers,
+  Subheaders,
   Switches,
   Tags,
   TextInputs,
   Tiles,
   ToggleLocaleSwitch,
   ToggleThemeSwitch,
-  InteractiveIcons,
-  Banners,
-  CardButtons,
-  ContentBanners,
-  MediaCards,
   Tooltips,
-  ListItems,
-  Gradients,
-  ExampleTabBar,
-  Subheaders,
-  Avatars,
-  PageIndicators,
-  MediaBanners,
+  Trends,
 } from './blocks';
 import { SandboxBlock } from './SandboxBlock';
 import { SandboxProvider } from './SandboxContext';
@@ -90,6 +97,7 @@ const AppContent = ({
   const { theme } = useTheme();
   const bottomSheetFlatListsRef = useBottomSheetRef();
   const bottomSheetDynamicSizeRef = useBottomSheetRef();
+  const bottomSheetGradientBugRef = useBottomSheetRef();
   return (
     <SafeAreaView
       style={{
@@ -150,6 +158,9 @@ const AppContent = ({
                   <BottomSheetsButton
                     onPress={() => bottomSheetDynamicSizeRef.current?.present()}
                   />
+                  <BottomSheetsButton
+                    onPress={() => bottomSheetGradientBugRef.current?.present()}
+                  />
                 </SandboxBlock>
                 <SandboxBlock title='Buttons'>
                   <Buttons />
@@ -166,11 +177,23 @@ const AppContent = ({
                 <SandboxBlock title='ContentBanners'>
                   <ContentBanners />
                 </SandboxBlock>
+                <SandboxBlock title='DescriptionLists'>
+                  <DescriptionLists />
+                </SandboxBlock>
                 <SandboxBlock title='Dividers'>
                   <Dividers />
                 </SandboxBlock>
-                <SandboxBlock title='MediaImages'>
-                  <MediaImages />
+                <SandboxBlock title='DotCounts'>
+                  <DotCounts />
+                </SandboxBlock>
+                <SandboxBlock title='DotIcons'>
+                  <DotIcons />
+                </SandboxBlock>
+                <SandboxBlock title='DotIndicators'>
+                  <DotIndicators />
+                </SandboxBlock>
+                <SandboxBlock title='DotSymbols'>
+                  <DotSymbols />
                 </SandboxBlock>
                 <SandboxBlock title='Gradients'>
                   <Gradients />
@@ -181,6 +204,9 @@ const AppContent = ({
                 <SandboxBlock title='InteractiveIcons'>
                   <InteractiveIcons />
                 </SandboxBlock>
+                <SandboxBlock title='Line Charts'>
+                  <LineCharts />
+                </SandboxBlock>
                 <SandboxBlock title='Link'>
                   <Links />
                 </SandboxBlock>
@@ -190,11 +216,23 @@ const AppContent = ({
                 <SandboxBlock title='MediaBanners'>
                   <MediaBanners />
                 </SandboxBlock>
+                <SandboxBlock title='MediaButtons'>
+                  <MediaButtons />
+                </SandboxBlock>
                 <SandboxBlock title='MediaCards'>
                   <MediaCards />
                 </SandboxBlock>
+                <SandboxBlock title='MediaImages'>
+                  <MediaImages />
+                </SandboxBlock>
+                <SandboxBlock title='MediaTags'>
+                  <MediaTags />
+                </SandboxBlock>
                 <SandboxBlock title='NavBars'>
                   <NavBars />
+                </SandboxBlock>
+                <SandboxBlock title='OptionLists'>
+                  <OptionLists />
                 </SandboxBlock>
                 <SandboxBlock title='PageIndicators'>
                   <PageIndicators />
@@ -244,10 +282,14 @@ const AppContent = ({
                 <SandboxBlock title='Tooltips'>
                   <Tooltips />
                 </SandboxBlock>
+                <SandboxBlock title='Trends'>
+                  <Trends />
+                </SandboxBlock>
               </Box>
             </ScrollView>
             <BottomSheetFlatLists ref={bottomSheetFlatListsRef} />
             <BottomSheetDynamicSize ref={bottomSheetDynamicSizeRef} />
+            <BottomSheetWithGradient ref={bottomSheetGradientBugRef} />
             <GlobalTooltipBottomSheet />
             <GlobalSelectBottomSheet />
           </BottomSheetModalProvider>

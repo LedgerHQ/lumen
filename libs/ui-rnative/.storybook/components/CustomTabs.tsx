@@ -1,4 +1,5 @@
-import { Children, ReactElement, isValidElement, useState } from 'react';
+import type { ReactElement } from 'react';
+import { Children, isValidElement, useState } from 'react';
 import {
   SegmentedControl,
   SegmentedControlButton,

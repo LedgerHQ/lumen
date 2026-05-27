@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
-import { AvatarProps } from './types';
+import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(
@@ -12,7 +12,8 @@ const avatarVariants = {
         size: {
           sm: 'size-40 p-4',
           md: 'size-48 p-4',
-          lg: 'size-72 p-4',
+          lg: 'size-56 p-4',
+          xl: 'size-72 p-4',
         },
       },
       defaultVariants: {
@@ -25,7 +26,8 @@ const avatarVariants = {
       size: {
         sm: 'size-10',
         md: 'size-12',
-        lg: 'size-16',
+        lg: 'size-14',
+        xl: 'size-16',
       },
     },
   }),
@@ -35,6 +37,7 @@ const fallbackSizes = {
   sm: 16,
   md: 24,
   lg: 32,
+  xl: 40,
 } as const;
 
 /**

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { type SupportedLocale } from '../../../i18n';
 
 export const COLOR_SCHEMES = {
@@ -7,8 +7,7 @@ export const COLOR_SCHEMES = {
   system: 'system',
 } as const;
 
-export type ColorSchemeName =
-  (typeof COLOR_SCHEMES)[keyof typeof COLOR_SCHEMES];
+export type ColorSchemeName = keyof typeof COLOR_SCHEMES;
 
 export type ThemeProviderProps = PropsWithChildren & {
   /**

@@ -1,10 +1,7 @@
 import i18next, { type i18n as I18nInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import {
-  DEFAULT_LANGUAGE,
-  I18N_DEFAULT_NAMESPACE,
-  SupportedLocale,
-} from './languages';
+import type { SupportedLocale } from './languages';
+import { DEFAULT_LANGUAGE, I18N_DEFAULT_NAMESPACE } from './languages';
 
 import de from './locales/de.json';
 import en from './locales/en.json';
@@ -37,10 +34,21 @@ const loadedLocales = new Set<SupportedLocale>();
 const initializeI18n = (): I18nInstance => {
   const instance = i18next.createInstance();
 
+  const resources = Object.fromEntries(
+    Object.entries(localeResources).map(([locale, translations]) => [
+      locale,
+      { [I18N_DEFAULT_NAMESPACE]: translations },
+    ]),
+  );
+
+  Object.keys(localeResources).forEach((locale) =>
+    loadedLocales.add(locale as SupportedLocale),
+  );
+
   instance
     .use(initReactI18next)
     .init({
-      resources: {},
+      resources,
       lng: DEFAULT_LANGUAGE,
       defaultNS: I18N_DEFAULT_NAMESPACE,
       fallbackLng: DEFAULT_LANGUAGE,

@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const tokens: Record<string, Record<string, string | number>> = {
+export const tokens = {
   ':root': {
     '--font-style-responsive-display-1-size': 'var(--font-size-64)',
     '--font-style-responsive-display-1-weight': 'var(--font-weight-bold)',
@@ -80,4 +80,4 @@ export const tokens: Record<string, Record<string, string | number>> = {
     '--font-style-body-4-line-height': 'var(--font-line-height-10)',
     '--font-style-body-4-letter-spacing': 'var(--font-letter-spacing-10)',
   },
-};
+} as const satisfies Record<string, Record<string, string | number>>;

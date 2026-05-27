@@ -35,7 +35,7 @@ ListItems are flexible interactive elements designed for lists. They use a compo
 
 <Canvas of={ListItemStories.Base} />
 
-- **ListItem**: Root interactive container (button)
+- **ListItem**: Root container (div or button based on interactivity)
 - **ListItemLeading**: Left section containing visual element and content
 - **ListItemContent**: Container for title and description
 - **ListItemContentRow**: Horizontal row within ListItemContent for placing a title or description alongside inline elements like Tag
@@ -45,16 +45,18 @@ ListItems are flexible interactive elements designed for lists. They use a compo
 
 ## Properties
 
-### Overview
-
 <Canvas of={ListItemStories.Base} />
 <Controls of={ListItemStories.Base} />
 
-### Trailing Content Variants
+### Density
 
-ListItems follow composite component pattern to allow for maximum flexibility over layout and content through composable sub-components.
+<Canvas of={ListItemStories.DensityShowcase} />
 
-<Canvas of={ListItemStories.VariantsShowcase} />
+### Interactivity
+
+The ListItem can be interactive or non-interactive. By default, the ListItem is non-interactive. To make it interactive, you need to pass a `onClick` prop.
+
+<Canvas of={ListItemStories.InteractiveShowcase} />
 
 ### Disabled State
 
@@ -62,11 +64,17 @@ When disabled, the ListItem becomes non-interactive. The disabled state is autom
 
 <Canvas of={ListItemStories.DisabledState} />
 
-## Responsive Layout
+### Responsive Layout
 
 ListItems adapt to their container width, truncating long titles and descriptions as needed.
 
 <Canvas of={ListItemStories.ResponsiveLayout} />
+
+### Composition
+
+ListItems follow a composite component pattern to allow for maximum flexibility over layout and content through composable sub-components.
+
+<Canvas of={ListItemStories.CompositionShowcase} />
 
 > **Key behaviors:**
 >

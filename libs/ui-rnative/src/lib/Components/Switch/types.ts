@@ -1,4 +1,4 @@
-import { StyledPressableProps } from '../../../styles';
+import type { StyledPressableProps } from '../../../styles';
 
 export type SwitchProps = {
   /**

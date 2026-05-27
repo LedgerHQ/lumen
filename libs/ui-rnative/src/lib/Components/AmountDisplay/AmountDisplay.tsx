@@ -1,52 +1,81 @@
 import { useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo, useEffect } from 'react';
 import { Text, View } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
-  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { useCommonTranslation } from '../../../i18n';
+import type { LumenTypographyTokenName } from '../../../styles';
 import { useStyleSheet } from '../../../styles';
 import { Pulse } from '../../Animations/Pulse';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { RuntimeConstants } from '../../utils';
 import { Box } from '../Utility';
-import {
+import type {
   AmountDisplayProps,
+  AmountDisplaySize,
   DigitStripListProps,
   DigitStripProps,
-  DIGITS,
+  DigitWidths,
 } from './types';
+import { DIGITS } from './types';
 
-const INTEGER_DIGIT_WIDTHS = {
-  0: 25,
-  1: 15.5,
-  2: 23.5,
-  3: 24.5,
-  4: 25.5,
-  5: 23.5,
-  6: 25,
-  7: 22,
-  8: 24.5,
-  9: 24.5,
+const TYPOGRAPHY_WIDTHS = {
+  heading1SemiBold: {
+    0: 25,
+    1: 15.5,
+    2: 23.5,
+    3: 24.5,
+    4: 25.5,
+    5: 23.5,
+    6: 25,
+    7: 22,
+    8: 24.5,
+    9: 24.5,
+  },
+  heading2SemiBold: {
+    0: 17.5,
+    1: 11,
+    2: 16.5,
+    3: 17,
+    4: 18,
+    5: 16,
+    6: 17.5,
+    7: 15,
+    8: 17,
+    9: 17,
+  },
+  heading4SemiBold: {
+    0: 13,
+    1: 8.5,
+    2: 12.5,
+    3: 12.5,
+    4: 13,
+    5: 12,
+    6: 12.5,
+    7: 11.5,
+    8: 12.5,
+    9: 12.5,
+  },
+} as const satisfies Partial<Record<LumenTypographyTokenName, DigitWidths>>;
+
+type MeasuredTypography = keyof typeof TYPOGRAPHY_WIDTHS;
+
+type SizeTypographyConfig = {
+  integer: MeasuredTypography;
+  decimal: MeasuredTypography;
 };
 
-const DECIMAL_DIGIT_WIDTHS = {
-  0: 17.5,
-  1: 11,
-  2: 16.5,
-  3: 17,
-  4: 18,
-  5: 16,
-  6: 17.5,
-  7: 15,
-  8: 17,
-  9: 17,
+const SIZE_TYPOGRAPHY: Record<AmountDisplaySize, SizeTypographyConfig> = {
+  md: { integer: 'heading1SemiBold', decimal: 'heading2SemiBold' },
+  sm: { integer: 'heading2SemiBold', decimal: 'heading4SemiBold' },
 };
 
-const useStyles = () => {
+const useStyles = (size: AmountDisplaySize) => {
+  const typography = SIZE_TYPOGRAPHY[size];
   return useStyleSheet(
     (t) => ({
       container: {
@@ -61,19 +90,19 @@ const useStyles = () => {
         paddingBottom: t.spacings.s2,
       },
       integerText: {
-        ...t.typographies.heading1SemiBold,
+        ...t.typographies[typography.integer],
         color: t.colors.text.base,
       },
       decimalText: {
-        ...t.typographies.heading2SemiBold,
+        ...t.typographies[typography.decimal],
         color: t.colors.text.muted,
       },
       currencyStartText: {
-        ...t.typographies.heading1SemiBold,
+        ...t.typographies[typography.integer],
         color: t.colors.text.base,
       },
       currencyEndText: {
-        ...t.typographies.heading2SemiBold,
+        ...t.typographies[typography.decimal],
         color: t.colors.text.muted,
       },
       spacingStart: {
@@ -83,7 +112,7 @@ const useStyles = () => {
         marginLeft: t.spacings.s4,
       },
     }),
-    [],
+    [typography],
   );
 };
 
@@ -136,10 +165,8 @@ const useAnimatedDigitStrip = ({
 };
 
 const DigitStrip = memo(
-  ({ value, textStyle, animate, type }: DigitStripProps) => {
-    const targetWidth = (
-      type === 'integer' ? INTEGER_DIGIT_WIDTHS : DECIMAL_DIGIT_WIDTHS
-    )[value];
+  ({ value, textStyle, animate, widths }: DigitStripProps) => {
+    const targetWidth = widths[value];
     const lineHeight = textStyle.lineHeight;
     const width = useSharedValue<number>(targetWidth);
     const { animatedStyle } = useAnimatedDigitStrip({
@@ -176,7 +203,7 @@ const DigitStrip = memo(
 DigitStrip.displayName = 'DigitStrip';
 
 const DigitStripList = memo(
-  ({ items, textStyle, animate, type }: DigitStripListProps) => {
+  ({ items, textStyle, animate, widths }: DigitStripListProps) => {
     return items.map((item, index) => {
       const key = items.length - index;
       if (item.type === 'separator') {
@@ -192,7 +219,7 @@ const DigitStripList = memo(
           value={Number(item.value) as DigitStripProps['value']}
           animate={animate}
           textStyle={textStyle}
-          type={type}
+          widths={widths}
         />
       );
     });
@@ -233,15 +260,16 @@ DigitStripList.displayName = 'DigitStripList';
  * <AmountDisplay value={1234.56} formatter={usdFormatter} hidden={true} />
  * ```
  */
-export const AmountDisplay = ({
+export function AmountDisplay({
   value,
   formatter,
   hidden = false,
   loading = false,
   animate = true,
+  size = 'md',
   ...props
-}: AmountDisplayProps) => {
-  const styles = useStyles();
+}: AmountDisplayProps) {
+  const styles = useStyles(size);
   const { t } = useCommonTranslation();
   const parts = formatter(value);
   const splitDigits = useSplitText(parts);
@@ -250,6 +278,9 @@ export const AmountDisplay = ({
     hidden,
     t('components.amountDisplay.amountHiddenAriaLabel'),
   );
+  const typography = SIZE_TYPOGRAPHY[size];
+  const integerWidths = TYPOGRAPHY_WIDTHS[typography.integer];
+  const decimalWidths = TYPOGRAPHY_WIDTHS[typography.decimal];
 
   return (
     <Box
@@ -281,7 +312,7 @@ export const AmountDisplay = ({
                 items={splitDigits.integerPart}
                 textStyle={styles.integerText}
                 animate={animate}
-                type='integer'
+                widths={integerWidths}
               />
             )}
           </View>
@@ -296,7 +327,7 @@ export const AmountDisplay = ({
                 items={splitDigits.decimalPart}
                 textStyle={styles.decimalText}
                 animate={animate}
-                type='decimal'
+                widths={decimalWidths}
               />
             )}
             {parts.currencyPosition === 'end' && (
@@ -312,4 +343,4 @@ export const AmountDisplay = ({
       </Pulse>
     </Box>
   );
-};
+}

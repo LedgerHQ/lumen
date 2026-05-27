@@ -29,11 +29,11 @@ export const resolveGradientColor = (
 export const processGradientStops = (
   stops: GradientStop[],
   bgColors: BackgroundColors,
-): Array<{
+): {
   color: string;
   offset: number;
   opacity: number;
-}> => {
+}[] => {
   const stopCount = stops.length;
 
   return stops.map((stop, index) => {

@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { PageIndicatorProps } from './types';
+import type { PageIndicatorProps } from './types';
 
 const MAX_VISIBLE_DOTS = 4;
 const DOT_SIZE_PX = 6;

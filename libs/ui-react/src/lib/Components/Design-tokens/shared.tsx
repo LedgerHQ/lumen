@@ -18,8 +18,8 @@ export const ColorSwatch = ({
           <>
             <div
               className={cn(
-                className,
                 'h-64 rounded-lg border border-muted p-16',
+                className,
               )}
             >
               <div className={cn('heading-5', textClassName)}>Aa</div>
@@ -85,7 +85,7 @@ export const ColorSection = ({
   category = 'background',
 }: {
   title?: string;
-  tokens: Array<{ name: string; className: string; textClassName?: string }>;
+  tokens: { name: string; className: string; textClassName?: string }[];
   category?: 'background' | 'text' | 'border';
 }) => (
   <div className='mb-32'>

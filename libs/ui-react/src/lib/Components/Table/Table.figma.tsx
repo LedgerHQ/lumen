@@ -48,7 +48,7 @@ figma.connect(
               <TableCell>
                 <TableCellContent
                   leadingContent={
-                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
                   }
                   title='Bitcoin'
                   description='BTC'
@@ -62,7 +62,7 @@ figma.connect(
               <TableCell>
                 <TableCellContent
                   leadingContent={
-                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size='32px' />
+                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size={32} />
                   }
                   title='Ethereum'
                   description='ETH'

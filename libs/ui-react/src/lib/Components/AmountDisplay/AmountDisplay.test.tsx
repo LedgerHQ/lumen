@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { AmountDisplay } from './AmountDisplay';
-import { FormattedValue } from './types';
+import type { FormattedValue } from './types';
 
 describe('AmountDisplay', () => {
   const createFormatter =

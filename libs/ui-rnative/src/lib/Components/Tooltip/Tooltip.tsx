@@ -3,8 +3,8 @@ import { Pressable } from 'react-native';
 import { useControllableState } from '../../utils';
 import { SlotPressable } from '../Slot';
 import { useTooltipActions } from './GlobalTooltipContext';
+import type { TooltipContentData } from './TooltipContext';
 import {
-  TooltipContentData,
   TooltipContextProvider,
   useTooltipSafeContext,
 } from './TooltipContext';

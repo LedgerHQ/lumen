@@ -3,7 +3,7 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { AmountDisplay } from './AmountDisplay';
-import { FormattedValue } from './types';
+import type { FormattedValue } from './types';
 
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>

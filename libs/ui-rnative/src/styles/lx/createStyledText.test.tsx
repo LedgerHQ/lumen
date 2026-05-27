@@ -1,7 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react-native';
 import { createRef } from 'react';
-import { Text, TextProps } from 'react-native';
+import type { TextProps } from 'react-native';
+import { Text } from 'react-native';
 import { LumenStyleSheetProvider } from '../provider/LumenStyleSheetProvider';
 import { createStyledText } from './createStyledText';
 

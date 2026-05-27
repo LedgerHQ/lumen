@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { AddressInput } from './AddressInput';
-import { AddressInputProps } from './types';
+import type { AddressInputProps } from './types';
 
 const meta: Meta<typeof AddressInput> = {
   component: AddressInput,
@@ -119,7 +119,8 @@ export const WithError: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     value: 'invalid-address',
-    errorMessage: 'Invalid address format',
+    helperText: 'Invalid address format',
+    status: 'error',
     prefix: 'To:',
     editable: true,
     hideClearButton: false,

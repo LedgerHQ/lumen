@@ -1,4 +1,4 @@
-import { PrimitiveShadowTokens } from '../types';
+import type { PrimitiveShadowTokens } from '../types';
 import { primitiveColorTokens } from './primitive.colors';
 
 const defaultColor = primitiveColorTokens.dark.grey['050-10'];

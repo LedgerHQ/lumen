@@ -1,2 +1,2 @@
-export { MediaImage, mediaImageDotSizeMap } from './MediaImage';
+export { MediaImage } from './MediaImage';
 export * from './types';

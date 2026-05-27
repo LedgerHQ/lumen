@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
-import { PressableProps } from 'react-native';
-import {
+import type { ReactNode } from 'react';
+import type { PressableProps } from 'react-native';
+import type {
   StyledViewProps,
   StyledPressableProps,
   StyledTextProps,
 } from '../../../styles';
-import { BoxProps } from '../Utility';
+import type { BoxProps } from '../Utility';
 
 export type SelectProps = {
   /**

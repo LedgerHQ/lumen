@@ -1,5 +1,6 @@
 import {
   DisabledProvider,
+  resolveBaseInputPlaceholder,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import {
@@ -18,8 +19,10 @@ import Animated, {
   cancelAnimation,
 } from 'react-native-reanimated';
 import { useCommonTranslation } from '../../../i18n';
-import { LumenStyleSheetTheme, useStyleSheet, useTheme } from '../../../styles';
+import type { LumenStyleSheetTheme } from '../../../styles';
+import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
+import { CheckmarkCircleFill } from '../../Symbols/Icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
 import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -33,7 +36,8 @@ export const BaseInput = ({
   inputStyle,
   labelStyle,
   label,
-  errorMessage,
+  helperText,
+  status,
   hideClearButton,
   onChangeText: onChangeTextProp,
   editable,
@@ -41,6 +45,7 @@ export const BaseInput = ({
   prefix,
   suffix,
   ref,
+  placeholder: placeholderProp,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -64,6 +69,12 @@ export const BaseInput = ({
     ? !!props.value && props.value.length > 0
     : uncontrolledValue.length > 0;
 
+  const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
+    resolveBaseInputPlaceholder({
+      label,
+      placeholder: placeholderProp,
+    });
+
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
   const handleChangeText = useCallback(
@@ -86,7 +97,7 @@ export const BaseInput = ({
   };
 
   const styles = useStyles({
-    hasError: !!errorMessage,
+    status,
     isFocused,
     isEditable: !disabled,
     hasLabel: !!label,
@@ -96,8 +107,9 @@ export const BaseInput = ({
     hasContent,
     isFocused,
     showClearButton,
-    hasError: !!errorMessage,
+    status,
     isEditable: !disabled,
+    labelStaysFloatedWithPlaceholder,
   });
 
   return (
@@ -113,6 +125,7 @@ export const BaseInput = ({
           <TextInput
             ref={inputRef}
             value={value}
+            placeholder={inputPlaceholder}
             style={StyleSheet.flatten([styles.input, inputStyle])}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -157,10 +170,13 @@ export const BaseInput = ({
           )}
         </Pressable>
 
-        {errorMessage && (
-          <View style={styles.errorContainer}>
-            <DeleteCircleFill size={16} color='error' />
-            <Text style={styles.errorText}>{errorMessage}</Text>
+        {!!helperText && (
+          <View style={styles.helperContainer}>
+            {status === 'error' && <DeleteCircleFill size={16} color='error' />}
+            {status === 'success' && (
+              <CheckmarkCircleFill size={16} color='success' />
+            )}
+            <Text style={styles.helperText}>{helperText}</Text>
           </View>
         )}
       </Box>
@@ -169,24 +185,31 @@ export const BaseInput = ({
 };
 
 const useStyles = ({
-  hasError,
+  status,
   isFocused,
   isEditable,
   hasLabel,
 }: {
-  hasError: boolean;
+  status: 'error' | 'success' | undefined;
   isFocused: boolean;
   isEditable: boolean;
   hasLabel: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
+      const hasStatusBorder = status === 'error' || status === 'success';
+      const statusBorderColors = {
+        error: t.colors.border.error,
+        success: t.colors.border.success,
+      } as const;
+      const statusBorderColor = status ? statusBorderColors[status] : undefined;
+
       return {
         container: StyleSheet.flatten([
           {
             position: 'relative',
             flexDirection: 'row',
-            height: t.sizes.s48,
+            minHeight: t.sizes.s48,
             width: t.sizes.full,
             alignItems: 'center',
             gap: t.spacings.s8,
@@ -197,26 +220,29 @@ const useStyles = ({
             borderColor: 'transparent',
             overflow: 'hidden',
           },
-          hasError && {
-            borderWidth: 1,
-            borderColor: t.colors.border.error,
-          },
+          hasStatusBorder &&
+            statusBorderColor && {
+              borderWidth: isFocused ? t.borderWidth.s2 : t.borderWidth.s1,
+              borderColor: statusBorderColor,
+            },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
           },
           isFocused &&
-            !hasError &&
+            !hasStatusBorder &&
             isEditable && { borderColor: t.colors.border.active },
         ]),
         input: StyleSheet.flatten([
           {
             position: 'relative',
             flex: 1,
-            height: t.sizes.full,
             width: t.sizes.full,
             color: t.colors.text.base,
             backgroundColor: t.colors.bg.muted,
             outline: 'none',
+            ...t.typographies.body1,
+            paddingTop: t.spacings.s4,
+            paddingBottom: t.spacings.s2,
           },
           hasLabel && {
             paddingTop: t.spacings.s20,
@@ -224,22 +250,27 @@ const useStyles = ({
             paddingHorizontal: 0,
             ...t.typographies.body2,
           },
-          RuntimeConstants.isIOS && hasLabel && { lineHeight: 0 },
+          RuntimeConstants.isIOS && { lineHeight: 0 },
           RuntimeConstants.isAndroid && { includeFontPadding: false },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
             color: t.colors.text.disabled,
           },
         ]),
-        errorContainer: {
+        helperContainer: {
           marginTop: t.spacings.s8,
           flexDirection: 'row',
           alignItems: 'center',
           gap: t.spacings.s2,
         },
-        errorText: {
-          color: t.colors.text.error,
+        helperText: {
           ...t.typographies.body3,
+          flex: 1,
+          color: {
+            error: t.colors.text.error,
+            success: t.colors.text.success,
+            default: t.colors.text.muted,
+          }[status ?? 'default'],
         },
         suffixContainer: {
           minWidth: t.sizes.s20,
@@ -248,7 +279,7 @@ const useStyles = ({
         },
       };
     },
-    [hasError, isFocused, isEditable, hasLabel],
+    [status, isFocused, isEditable, hasLabel],
   );
 };
 
@@ -294,14 +325,16 @@ const useFloatingLabelStyles = ({
   isFocused,
   hasContent,
   showClearButton,
-  hasError,
+  status,
   isEditable,
+  labelStaysFloatedWithPlaceholder,
 }: {
   isFocused: boolean;
   hasContent: boolean;
   showClearButton: boolean;
-  hasError: boolean;
+  status: 'error' | 'success' | undefined;
   isEditable: boolean;
+  labelStaysFloatedWithPlaceholder: boolean;
 }) => {
   const { theme } = useTheme();
 
@@ -318,20 +351,21 @@ const useFloatingLabelStyles = ({
           showClearButton && {
             width: '92%',
           },
+        status === 'error' && {
+          color: t.colors.text.error,
+        },
         !isEditable && {
           color: t.colors.text.disabled,
         },
-        hasError && {
-          color: t.colors.text.error,
-        },
       ]),
     }),
-    [hasContent, showClearButton, hasError, isEditable],
+    [hasContent, showClearButton, status, isEditable],
   );
 
   const { animatedStyle } = useAnimatedFloatingLabel({
     theme,
-    isFloatingLabel: isFocused || hasContent,
+    isFloatingLabel:
+      isFocused || hasContent || labelStaysFloatedWithPlaceholder,
   });
 
   return { label, animatedStyle };

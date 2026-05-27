@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { Close } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import {
+import type {
   MediaBannerDescriptionProps,
   MediaBannerProps,
   MediaBannerTitleProps,

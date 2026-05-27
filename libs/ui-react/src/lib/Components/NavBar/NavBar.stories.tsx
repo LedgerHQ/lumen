@@ -6,6 +6,8 @@ import {
   NavBar,
   NavBarBackButton,
   NavBarCoinCapsule,
+  NavBarDescription,
+  NavBarLeading,
   NavBarTitle,
   NavBarTrailing,
 } from './NavBar';
@@ -23,6 +25,8 @@ const meta: Meta<typeof NavBar> = {
   subcomponents: {
     NavBarBackButton,
     NavBarTitle,
+    NavBarDescription,
+    NavBarLeading,
     NavBarTrailing,
     NavBarCoinCapsule,
   },
@@ -59,7 +63,9 @@ export const Base: StoryObj<PlaygroundArgs> = {
         code: `
         <NavBar>
         <NavBarBackButton onClick={() => navigate(-1)} />
-        <NavBarTitle>Page Title</NavBarTitle>
+        <NavBarLeading>
+          <NavBarTitle>Page Title</NavBarTitle>
+        </NavBarLeading>
         <NavBarTrailing>
           <IconButton
             appearance="gray"
@@ -76,7 +82,9 @@ export const Base: StoryObj<PlaygroundArgs> = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      <NavBarTitle>Page Title</NavBarTitle>
+      <NavBarLeading>
+        <NavBarTitle>Page Title</NavBarTitle>
+      </NavBarLeading>
       <NavBarTrailing>
         <IconButton
           appearance='gray'
@@ -89,11 +97,40 @@ export const Base: StoryObj<PlaygroundArgs> = {
   ),
 };
 
+export const WithDescription: Story = {
+  render: () => (
+    <NavBar>
+      <NavBarBackButton onClick={() => console.log('Back clicked')} />
+      <NavBarLeading>
+        <NavBarTitle>Page Title</NavBarTitle>
+        <NavBarDescription>Page Description</NavBarDescription>
+      </NavBarLeading>
+    </NavBar>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavBar>
+  <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarLeading>
+    <NavBarTitle>Page Title</NavBarTitle>
+    <NavBarDescription>Page Description</NavBarDescription>
+  </NavBarLeading>
+</NavBar>
+        `,
+      },
+    },
+  },
+};
+
 export const WithoutTrailing: Story = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      <NavBarTitle>Settings</NavBarTitle>
+      <NavBarLeading>
+        <NavBarTitle>Settings</NavBarTitle>
+      </NavBarLeading>
     </NavBar>
   ),
   parameters: {
@@ -149,7 +186,9 @@ export const WithMultipleTrailingActions: Story = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      <NavBarTitle>Account Details</NavBarTitle>
+      <NavBarLeading>
+        <NavBarTitle>Account Details</NavBarTitle>
+      </NavBarLeading>
       <NavBarTrailing>
         <IconButton
           appearance='no-background'
@@ -172,7 +211,9 @@ export const WithMultipleTrailingActions: Story = {
         code: `
 <NavBar>
   <NavBarBackButton onClick={() => navigate(-1)} />
+  <NavBarLeading>
   <NavBarTitle>Account Details</NavBarTitle>
+  </NavBarLeading>
   <NavBarTrailing>
     <IconButton
       appearance="no-background"
@@ -201,7 +242,9 @@ export const WithCoinCapsule: Story = {
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
       <NavBarCoinCapsule
         ticker='BTC'
-        icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+        leadingContent={
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+        }
       />
       <NavBarTrailing>
         <IconButton
@@ -222,7 +265,7 @@ import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing, IconButton
 
 <NavBar>
   <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />} />
+  <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
   <NavBarTrailing>
     <IconButton
       appearance="gray"

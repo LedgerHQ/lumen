@@ -11,6 +11,7 @@ figma.connect(
         sm: 'sm',
         md: 'md',
         lg: 'lg',
+        xl: 'xl',
       }),
       showNotification: figma.boolean('show-notification', {
         true: true,

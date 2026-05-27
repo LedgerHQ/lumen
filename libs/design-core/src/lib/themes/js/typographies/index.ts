@@ -1,4 +1,4 @@
-import { TypographyTokensByBreakpoint } from '../types';
+import type { TypographyTokensByBreakpoint } from '../types';
 import { typographyLgTokens } from './typography.lg';
 import { typographyMdTokens } from './typography.md';
 import { typographySmTokens } from './typography.sm';

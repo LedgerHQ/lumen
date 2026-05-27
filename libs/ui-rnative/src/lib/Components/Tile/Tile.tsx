@@ -3,11 +3,11 @@ import {
   isTextChildren,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
-import {
+import type {
   TileContentProps,
   TileDescriptionProps,
   TileProps,

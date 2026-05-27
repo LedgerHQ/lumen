@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ListItem,
   ListItemContent,
@@ -105,8 +106,8 @@ export const Error: Story = {
   args: {
     placeholder: 'Search text',
     defaultValue: 'Invalid search',
-    errorMessage: 'Search term is invalid',
-    'aria-invalid': true,
+    helperText: 'Search term is invalid',
+    status: 'error',
     className: 'max-w-md',
   },
   parameters: {
@@ -115,8 +116,8 @@ export const Error: Story = {
         code: `<SearchInput 
   placeholder="Search text"
   defaultValue="Invalid search"
-  errorMessage="Search term is invalid"
-  aria-invalid={true}
+  helperText="Search term is invalid"
+  status="error"
   className="max-w-md"
 />`,
       },

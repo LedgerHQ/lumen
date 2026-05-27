@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-default-export */
-import { Template } from '@svgr/babel-plugin-transform-svg-component';
+import type { Template } from '@svgr/babel-plugin-transform-svg-component';
 
 const template: Template = (variables, { tpl }) => {
   const componentName = variables.componentName;

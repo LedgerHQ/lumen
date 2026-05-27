@@ -1,4 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import type { ReactNode } from 'react';
 import {
   useState,
   useEffect,
@@ -6,7 +7,6 @@ import {
   useId,
   Children,
   isValidElement,
-  ReactNode,
 } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';

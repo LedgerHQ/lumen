@@ -1,5 +1,6 @@
 import { throttle } from '@ledgerhq/lumen-utils-shared';
-import { UIEvent, useEffect, useMemo, useRef } from 'react';
+import type { UIEvent } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import {
   TABLE_CELL_HEIGHT,
   TABLE_SCROLL_BOTTOM_THRESHOLD_IN_ROW,

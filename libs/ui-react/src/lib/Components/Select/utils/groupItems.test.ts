@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import type { SelectItemData } from '../types';
-import { defaultLabelFilter, groupItemsByKey } from './groupItems';
+import {
+  defaultLabelFilter,
+  groupItemsByKey,
+  resolveValue,
+} from './groupItems';
 
 describe('groupItemsByKey', () => {
   it('groups items by their group field', () => {
@@ -57,6 +61,40 @@ describe('groupItemsByKey', () => {
 
   it('returns an empty array for an empty input', () => {
     expect(groupItemsByKey([])).toEqual([]);
+  });
+});
+
+describe('resolveValue', () => {
+  it('returns the string as-is', () => {
+    expect(resolveValue('fr')).toBe('fr');
+  });
+
+  it('extracts .value from a SelectItemData object', () => {
+    expect(resolveValue({ value: 'fr', label: 'France' })).toBe('fr');
+  });
+
+  it('returns null for null', () => {
+    expect(resolveValue(null)).toBeNull();
+  });
+
+  it('returns null for undefined', () => {
+    expect(resolveValue(undefined)).toBeNull();
+  });
+
+  it('returns null for a number', () => {
+    expect(resolveValue(42)).toBeNull();
+  });
+
+  it('returns null for an object without a value field', () => {
+    expect(resolveValue({ label: 'France' })).toBeNull();
+  });
+
+  it('returns null for an object with a non-string value field', () => {
+    expect(resolveValue({ value: 123 })).toBeNull();
+  });
+
+  it('returns empty string for empty string input', () => {
+    expect(resolveValue('')).toBe('');
   });
 });
 

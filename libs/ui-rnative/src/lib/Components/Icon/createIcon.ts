@@ -1,9 +1,9 @@
 import { toPascalCase, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { createElement } from 'react';
-import { SvgProps } from 'react-native-svg';
+import type { SvgProps } from 'react-native-svg';
 import { useTheme } from '../../../styles';
 import { Icon } from './Icon';
-import { IconProps } from './types';
+import type { IconProps } from './types';
 
 /**
  * Create an Icon component for React Native

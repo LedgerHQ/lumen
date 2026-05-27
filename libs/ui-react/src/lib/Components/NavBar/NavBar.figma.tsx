@@ -24,11 +24,13 @@ figma.connect(
         false: undefined,
       }),
       title: figma.string('title'),
-      coinCapsule: figma.enum('appearance', {
+      coinCapsule: figma.enum('density', {
         'with-asset': (
           <NavBarCoinCapsule
             ticker='Bitcoin'
-            icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+            leadingContent={
+              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+            }
           />
         ),
       }),

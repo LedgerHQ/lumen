@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-import { FormattedValue } from './types';
+import type { FormattedValue } from './types';
 import { useSplitText } from './useSplitText';
 
 const createValue = (

@@ -1,4 +1,4 @@
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { Button } from '../Button';
@@ -121,7 +121,7 @@ export const CompositionShowcase: Story = {
       </MediaCard>
 
       <MediaCard {...baseArgs}>
-        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
         <MediaCardTitle>With crypto icon</MediaCardTitle>
       </MediaCard>
     </Box>
@@ -143,7 +143,7 @@ export const CompositionShowcase: Story = {
 
 {/* With crypto icon */}
 <MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
-  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size="32px" />
+  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size={32} />
   <MediaCardTitle>With crypto icon</MediaCardTitle>
 </MediaCard>`,
       },

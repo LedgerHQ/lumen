@@ -57,10 +57,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -70,7 +70,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -80,6 +80,10 @@ figma.connect(
       }),
       disabled: figma.enum('state', {
         disabled: true,
+      }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
       }),
       chevron: figma.boolean('show-chevron', {
         true: (
@@ -91,7 +95,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -145,10 +149,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -158,7 +162,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -169,6 +173,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       value: figma.string('value'),
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
@@ -176,7 +184,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -233,10 +241,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -246,7 +254,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -257,6 +265,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       value: figma.string('value'),
       subvalue: figma.string('subvalue'),
       chevron: figma.boolean('show-chevron', {
@@ -265,7 +277,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -325,10 +337,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -338,7 +350,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -349,6 +361,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       trailingIcon: figma.instance('trailing-icon'),
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
@@ -356,7 +372,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -413,10 +429,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -426,7 +442,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -437,13 +453,17 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
         false: undefined,
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -501,10 +521,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -514,7 +534,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -525,9 +545,13 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -584,10 +608,10 @@ figma.connect(
             true: (
               <ListItemContentRow>
                 <ListItemDescription>Description</ListItemDescription>
-                <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />
+                <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
               </ListItemContentRow>
             ),
-            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size='20px' />,
+            false: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
           }),
           false: figma.boolean('show-description', {
             true: <ListItemDescription>Description</ListItemDescription>,
@@ -597,7 +621,7 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'no-icon': undefined,
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='48px' />,
+        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         spot: <Spot size={48} appearance='icon' icon={Settings} />,
         'interface-icon': <Placeholder size={24} />,
       }),
@@ -608,9 +632,13 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      density: figma.enum('density', {
+        compact: 'compact',
+        expanded: 'expanded',
+      }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled}>
+      <ListItem disabled={props.disabled} density={props.density}>
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}

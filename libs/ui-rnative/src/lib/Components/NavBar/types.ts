@@ -1,16 +1,15 @@
-import { ReactElement, ReactNode } from 'react';
-import { StyledViewProps } from '../../../styles';
-import { IconButtonProps } from '../IconButton';
-
-export type NavBarAppearance = 'compact' | 'expanded';
+import type { Density } from '@ledgerhq/lumen-utils-shared';
+import type { ReactNode } from 'react';
+import type { StyledViewProps } from '../../../styles';
+import type { IconButtonProps } from '../IconButton';
 
 export type NavBarProps = {
   /**
-   * Controls the appearance/layout of the NavBar.
+   * Controls the density/layout of the NavBar.
    * - 'compact': Content displayed vertically, centered with standard spacing
    * - 'expanded': Content displayed vertically, left-aligned with increased spacing
    */
-  appearance: NavBarAppearance;
+  density: Density;
 } & StyledViewProps;
 
 export type NavBarBackButtonProps = {
@@ -58,9 +57,9 @@ export type CoinCapsuleProps = {
    */
   ticker: string;
   /**
-   * The icon element to display (typically a crypto coin icon).
+   * The leading content, typically a crypto coin icon.
    */
-  icon: ReactElement;
+  leadingContent: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
 /**
