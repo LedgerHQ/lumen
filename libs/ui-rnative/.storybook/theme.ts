@@ -1,22 +1,44 @@
+import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import type { ThemeVars } from 'storybook/theming';
 import { create } from 'storybook/theming/create';
-import logoUrl from './docs/lumen.svg';
+import darkLogoUrl from './docs/lumen.dark.svg';
+import lightLogoUrl from './docs/lumen.light.svg';
 
-const theme: ThemeVars = create({
+const light = ledgerLiveThemes.light.colors;
+const dark = ledgerLiveThemes.dark.colors;
+
+export const lightTheme: ThemeVars = create({
   base: 'light',
   brandTarget: '_self',
-  brandImage: logoUrl,
-  appBg: '#fafafa',
-  appContentBg: '#ffffff',
+  brandImage: lightLogoUrl,
+  appBg: light.bg.surface,
+  appPreviewBg: light.bg.muted,
+  appContentBg: light.bg.surface,
   appBorderRadius: 8,
 
-  textColor: '#1a1a1a',
-  textInverseColor: '#ffffff',
+  textColor: light.text.mutedPressed,
+  textInverseColor: light.text.onInteractive,
 
-  colorPrimary: '#2563eb',
-  colorSecondary: '#7e4ea5',
-  barBg: '#f8fafc',
-  barHoverColor: '#d4a0ff',
+  colorPrimary: light.bg.accent,
+  colorSecondary: light.bg.accentPressed,
+  barBg: light.bg.surface,
+  barHoverColor: light.bg.accentHover,
 });
 
-export default theme;
+export const darkTheme: ThemeVars = create({
+  base: 'dark',
+  brandTarget: '_self',
+  brandImage: darkLogoUrl,
+  appBg: dark.bg.surface,
+  appPreviewBg: dark.bg.muted,
+  appContentBg: dark.bg.surface,
+  appBorderRadius: 8,
+
+  textColor: dark.text.mutedPressed,
+  textInverseColor: dark.text.onInteractive,
+
+  colorPrimary: dark.bg.accent,
+  colorSecondary: dark.bg.accentPressed,
+  barBg: dark.bg.surface,
+  barHoverColor: dark.bg.accentHover,
+});

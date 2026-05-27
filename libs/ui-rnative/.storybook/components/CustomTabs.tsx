@@ -41,13 +41,13 @@ export const CustomTabs = ({ children }: CustomTabsProps) => {
           alignItems: 'flex-start' as any,
           position: 'sticky' as any,
           width: 'full',
-          backgroundColor: 'canvas',
           top: 's0',
           zIndex: 10,
         }}
       >
         <Box>
           <SegmentedControl
+            tabLayout='fit'
             selectedValue={activeLabel}
             onSelectedChange={(value) => setActiveLabel(value)}
           >
@@ -74,5 +74,5 @@ export const CustomTabs = ({ children }: CustomTabsProps) => {
 };
 
 export const Tab = ({ children }: TabProps) => {
-  return <Box>{children}</Box>;
+  return children;
 };

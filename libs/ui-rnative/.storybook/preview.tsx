@@ -1,11 +1,11 @@
 import type { Preview } from '@storybook/react-native-web-vite';
 
 import {
+  WithProvidersDocsContainer,
   withBrandDecorator,
-  withModeDecorator,
   withProvidersDecorator,
-  withProvidersDocsContainer,
 } from './Decorator';
+import { darkTheme, lightTheme } from './theme';
 import './font.css';
 
 const preview: Preview = {
@@ -22,30 +22,17 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
-    mode: {
-      name: 'Mode',
-      description: 'Color scheme for components',
-      defaultValue: 'light',
-      toolbar: {
-        icon: 'sun',
-        title: 'Mode',
-        items: ['light', 'dark'],
-        dynamicTitle: true,
-      },
-    },
   },
 
   parameters: {
-    backgrounds: {
-      options: {
-        dark: { name: 'Dark', value: '#000000' },
-        light: { name: 'Light', value: '#fafafa' },
-      },
+    darkMode: {
+      light: lightTheme,
+      dark: darkTheme,
+      classTarget: 'html',
+      stylePreview: true,
+      darkClass: 'dark',
+      lightClass: 'light',
     },
-    initialGlobals: {
-      backgrounds: { value: 'light' },
-    },
-
     options: {
       storySort: {
         order: [
@@ -78,7 +65,7 @@ const preview: Preview = {
     },
     tags: ['autodocs'],
     docs: {
-      container: withProvidersDocsContainer,
+      container: WithProvidersDocsContainer,
     },
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
@@ -89,7 +76,7 @@ const preview: Preview = {
     },
   },
 
-  decorators: [withBrandDecorator, withModeDecorator, withProvidersDecorator],
+  decorators: [withBrandDecorator, withProvidersDecorator],
 };
 
 export default preview;

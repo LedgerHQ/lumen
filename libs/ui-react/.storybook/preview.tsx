@@ -1,7 +1,36 @@
+import type { DocsContainerProps } from '@storybook/addon-docs/blocks';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 import type { Preview } from '@storybook/react-vite';
-import { withBrandDecorator } from './Decorator';
+import type { PropsWithChildren } from 'react';
+import { useEffect, useState } from 'react';
+import { addons } from 'storybook/preview-api';
+import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
+import { withStorybookProviders } from './Decorator';
+import { darkTheme, lightTheme } from './theme';
 import '../src/styles.css';
 import './font.css';
+
+const channel = addons.getChannel();
+
+const ThemedDocsContainer = ({
+  children,
+  ...props
+}: PropsWithChildren<DocsContainerProps>) => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    channel.on(DARK_MODE_EVENT_NAME, setIsDark);
+    return () => {
+      channel.off(DARK_MODE_EVENT_NAME, setIsDark);
+    };
+  }, []);
+
+  return (
+    <DocsContainer {...props} theme={isDark ? darkTheme : lightTheme}>
+      {children}
+    </DocsContainer>
+  );
+};
 
 const preview: Preview = {
   globalTypes: {
@@ -17,33 +46,21 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
-    mode: {
-      name: 'Mode',
-      description: 'Color scheme for components',
-      defaultValue: 'light',
-      toolbar: {
-        icon: 'sun',
-        title: 'Mode',
-        items: ['light', 'dark'],
-        dynamicTitle: true,
-      },
-    },
   },
 
   parameters: {
+    darkMode: {
+      light: lightTheme,
+      dark: darkTheme,
+      classTarget: 'html',
+      stylePreview: true,
+      darkClass: 'dark',
+      lightClass: 'light',
+    },
     docs: {
       codePanel: true,
+      container: ThemedDocsContainer,
     },
-    backgrounds: {
-      options: {
-        dark: { name: 'Dark', value: '#000000' },
-        light: { name: 'Light', value: '#fafafa' },
-      },
-    },
-    initialGlobals: {
-      backgrounds: { value: 'light' },
-    },
-
     options: {
       storySort: {
         order: [
@@ -81,7 +98,7 @@ const preview: Preview = {
     },
   },
 
-  decorators: [withBrandDecorator],
+  decorators: [withStorybookProviders],
 };
 
 export default preview;

@@ -16,6 +16,7 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-themes'),
     getAbsolutePath('@storybook/addon-docs'),
     getAbsolutePath('@chromatic-com/storybook'),
+    getAbsolutePath('storybook-dark-mode'),
   ],
 
   framework: {

@@ -7,12 +7,19 @@ import type { DocsContainerProps } from '@storybook/addon-docs/blocks';
 import { DocsContainer } from '@storybook/addon-docs/blocks';
 import type { Decorator } from '@storybook/react-native-web-vite';
 import type { PropsWithChildren, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { addons } from 'storybook/preview-api';
+import { DARK_MODE_EVENT_NAME, useDarkMode } from 'storybook-dark-mode';
 import { BottomSheetModalProvider, ThemeProvider } from '../src/lib/Components';
+import { darkTheme, lightTheme } from './theme';
 
 type BrandThemes = typeof ledgerLiveThemes;
+
+const BRAND_CLASSES = ['ledger-live', 'enterprise', 'websites'] as const;
+const DEFAULT_BRAND = 'ledger-live';
 
 const mappingThemes: Record<string, BrandThemes> = {
   'ledger-live': ledgerLiveThemes,
@@ -20,13 +27,8 @@ const mappingThemes: Record<string, BrandThemes> = {
   websites: websitesThemes as unknown as BrandThemes,
 };
 
-const getThemeFromGlobals = (
-  mode?: ColorSchemeName | string,
-  brand?: string,
-): { mode: ColorSchemeName; theme: BrandThemes } => ({
-  mode: (mode as ColorSchemeName) ?? 'light',
-  theme: mappingThemes[brand ?? 'ledger-live'] ?? mappingThemes['ledger-live'],
-});
+const getThemeFromBrand = (brand?: string): BrandThemes =>
+  mappingThemes[brand ?? DEFAULT_BRAND] ?? mappingThemes[DEFAULT_BRAND];
 
 type StorybookProvidersProps = PropsWithChildren<{
   mode: ColorSchemeName;
@@ -47,73 +49,86 @@ const StorybookProviders = ({
   </ThemeProvider>
 );
 
-const createThemeDecorator = (
-  globalName: string,
-  themeClasses: string[],
-): Decorator => {
-  return (Story, context) => {
-    const selectedValue = context.globals[globalName] as string | undefined;
+const BrandClassManager = ({ brand }: { brand: string }) => {
+  useEffect(() => {
     const htmlElement = document.documentElement;
+    htmlElement.classList.remove(...BRAND_CLASSES);
+    htmlElement.classList.add(brand);
+  }, [brand]);
 
-    htmlElement.classList.remove(...themeClasses);
-
-    if (selectedValue) {
-      htmlElement.classList.add(selectedValue);
-    }
-
-    return <Story />;
-  };
+  return null;
 };
 
-export const withBrandDecorator = createThemeDecorator('brand', [
-  'ledger-live',
-  'enterprise',
-  'websites',
-]);
+export const withBrandDecorator: Decorator = (Story, context) => {
+  const brand = (context.globals.brand as string) || DEFAULT_BRAND;
 
-export const withModeDecorator = createThemeDecorator('mode', [
-  'light',
-  'dark',
-]);
-
-export const withProvidersDecorator: Decorator = (Story, context) => {
-  const { mode, theme } = getThemeFromGlobals(
-    context.globals.mode,
-    context.globals.brand,
+  return (
+    <>
+      <BrandClassManager brand={brand} />
+      <Story />
+    </>
   );
+};
+
+const ProvidersDecorator = ({
+  children,
+  brand,
+}: PropsWithChildren<{ brand?: string }>) => {
+  const isDark = useDarkMode();
+  const mode: ColorSchemeName = isDark ? 'dark' : 'light';
+  const theme = getThemeFromBrand(brand);
 
   return (
     <StorybookProviders mode={mode} theme={theme}>
-      <Story />
+      {children}
     </StorybookProviders>
   );
 };
+
+export const withProvidersDecorator: Decorator = (Story, context) => (
+  <ProvidersDecorator brand={context.globals.brand as string | undefined}>
+    <Story />
+  </ProvidersDecorator>
+);
+
+const channel = addons.getChannel();
 
 type DocsContainerContext = {
   store: {
     globals: {
       globals: {
-        mode?: ColorSchemeName;
         brand?: string;
       };
     };
   };
 };
 
-export const withProvidersDocsContainer = ({
+export const WithProvidersDocsContainer = ({
   children,
   context,
   ...rest
 }: PropsWithChildren<DocsContainerProps>): ReactNode => {
+  const [isDark, setIsDark] = useState(false);
   const docsContext = context as unknown as DocsContainerContext;
-  const { mode, theme } = getThemeFromGlobals(
-    docsContext.store?.globals?.globals?.mode,
-    docsContext.store?.globals?.globals?.brand,
-  );
+  const brand = docsContext.store?.globals?.globals?.brand;
+
+  useEffect(() => {
+    channel.on(DARK_MODE_EVENT_NAME, setIsDark);
+    return () => {
+      channel.off(DARK_MODE_EVENT_NAME, setIsDark);
+    };
+  }, []);
 
   return (
-    <DocsContainer context={context} {...rest}>
-      <StorybookProviders mode={mode} theme={theme}>
+    <DocsContainer
+      context={context}
+      {...rest}
+      theme={isDark ? darkTheme : lightTheme}
+    >
+      <StorybookProviders
+        mode={isDark ? 'dark' : 'light'}
+        theme={getThemeFromBrand(brand)}
+      >
         {children}
       </StorybookProviders>
     </DocsContainer>

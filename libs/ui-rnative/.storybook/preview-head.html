@@ -1,27 +1,62 @@
 <style>
-  body {
-    background-color: #ffffff;
+  body,
+  .sbdocs-preview,
+  .sb-preparing-story,
+  .sb-preparing-docs {
+    background-color: #fff !important;
   }
 
-  .dark body {
-    background-color: #191919;
+  .dark body,
+  .dark .sbdocs-preview,
+  .dark .sb-preparing-story,
+  .dark .sb-preparing-docs {
+    background-color: #000 !important;
   }
 
-  .sbdocs-preview {
-    background-color: #ffffff;
-  }
-
-  .dark .sbdocs-preview {
-    background-color: #000;
-  }
-
-  .sbdocs-a {
+  /* Change link color to purple (exclude heading auto-anchors) */
+  .sbdocs-content :where(a:not(.sb-anchor,
+      .sb-unstyled,
+      .sb-unstyled a,
+      [aria-hidden='true'])) {
     color: rgb(126, 78, 165) !important;
     text-decoration: underline !important;
-    cursor: pointer;
+    cursor: pointer !important;
   }
 
-  .sbdocs-a:hover {
-    text-decoration: underline;
+  .sbdocs-content :where(a:not(.sb-anchor,
+      .sb-unstyled,
+      .sb-unstyled a,
+      [aria-hidden='true'])):hover {
+    color: rgb(66, 30, 94) !important;
+  }
+
+  /* Remove border bottom from h2 */
+  .sbdocs-content :where(h2:not(.sb-unstyled, .sb-unstyled h2)) {
+    border-bottom: none !important;
+  }
+
+  /*
+   * Storybook auto-generates a heading anchor (<a aria-hidden="true">)
+   * inside every MDX heading with `float: left; margin-left: -24px`.
+   * That float occupies layout space even when its <svg> is
+   * `visibility: hidden`, which pushes heading text a few pixels to the
+   * right. Take it out of normal flow so the heading sits flush, and
+   * silence the default focus ring that appears after a dark-mode toggle.
+   */
+  .sbdocs-content :is(h1, h2, h3, h4, h5, h6) {
+    position: relative;
+  }
+
+  .sbdocs-content :is(h1, h2, h3, h4, h5, h6)>a[aria-hidden='true'] {
+    position: absolute;
+    left: -24px;
+    padding: 0;
+    float: none;
+    outline: none;
+  }
+
+  .sbdocs-content :is(h1, h2, h3, h4, h5, h6)>a[aria-hidden='true']:focus,
+  .sbdocs-content :is(h1, h2, h3, h4, h5, h6)>a[aria-hidden='true']:focus-visible {
+    outline: none;
   }
 </style>

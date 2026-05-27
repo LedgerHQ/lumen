@@ -16,8 +16,8 @@
     "invariant": "^2.2.4",
     "react-native-gesture-handler": "^2.28.0",
     "react-native-reanimated": "4.1.0",
-    "react-native-worklets": "0.5.2",
     "react-native-safe-area-context": "^5.6.0",
+    "react-native-worklets": "0.5.2",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
@@ -126,6 +126,7 @@
     "rollup": "4.50.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "storybook": "10.2.14",
+    "storybook-dark-mode": "^5.0.0",
     "style-dictionary": "^4.3.3",
     "swc-loader": "0.1.15",
     "tailwindcss": "^4.1.17",
