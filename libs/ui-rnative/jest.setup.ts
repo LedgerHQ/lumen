@@ -138,9 +138,9 @@ jest.mock('react-native-reanimated', () => {
     ScrollView: AnimatedScrollView,
     createAnimatedComponent: (component: any) => component,
     useSharedValue: (value: any) => ({ value }),
-    useAnimatedStyle: (_cb: any) => {
-      return {};
-    },
+    // Evaluate the callback so consumers see real interpolated values during
+    // render. Tests that need to assert on animated styles depend on this.
+    useAnimatedStyle: (cb: any) => cb(),
     withTiming: (value: any) => value,
     withSpring: (value: any) => value,
     withDecay: (value: any) => value,
@@ -150,6 +150,13 @@ jest.mock('react-native-reanimated', () => {
     cancelAnimation: () => {
       return;
     },
+    interpolate: (value: number, _input: number[], output: number[]) =>
+      output[0] + (output[1] - output[0]) * value,
+    interpolateColor: (
+      value: number,
+      _input: number[],
+      output: string[],
+    ): string => (value >= 0.5 ? output[1] : output[0]),
     useAnimatedProps: (_cb: any) => {
       return {};
     },

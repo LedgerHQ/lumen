@@ -15,6 +15,12 @@ const renderWithProvider = (component: React.ReactElement) => {
   );
 };
 
+const wrapWithProvider = (component: React.ReactElement) => (
+  <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
+    {component}
+  </ThemeProvider>
+);
+
 describe('PageIndicator Component', () => {
   describe('Rendering', () => {
     it('should render with required props', () => {
@@ -158,6 +164,78 @@ describe('PageIndicator Component', () => {
         />,
       );
       expect(screen.getByTestId('page-indicator')).toBeTruthy();
+    });
+  });
+
+  describe('Re-rendering', () => {
+    // Regression: dot/strip styles must update when currentPage changes.
+    // One bug has produced the same broken-on-update symptom:
+    //   1. Wrapping in Animated.createAnimatedComponent(Box) — Box flattens
+    //      style arrays via StyleSheet.flatten, which snapshots reanimated
+    //      animated styles and stops updates.
+    // Initial render looked correct in both cases — only re-render exposed
+    // the issue, which is what the tests below exercise.
+    it('updates the rendered tree when currentPage changes', () => {
+      const { rerender } = renderWithProvider(
+        <PageIndicator
+          testID='page-indicator'
+          currentPage={1}
+          totalPages={5}
+        />,
+      );
+      const treeBefore = JSON.stringify(screen.toJSON());
+
+      rerender(
+        wrapWithProvider(
+          <PageIndicator
+            testID='page-indicator'
+            currentPage={3}
+            totalPages={5}
+          />,
+        ),
+      );
+      const treeAfter = JSON.stringify(screen.toJSON());
+
+      expect(treeAfter).not.toEqual(treeBefore);
+    });
+
+    it('updates the active dot style when currentPage changes', () => {
+      type Node = {
+        type: string;
+        props: { style?: unknown };
+        children: Node[] | null;
+      };
+      const getDotStyles = (): unknown[] => {
+        const root = screen.toJSON() as Node | null;
+        if (!root?.children) throw new Error('Expected container children');
+        const viewport = root.children[0];
+        if (!viewport?.children) throw new Error('Expected viewport children');
+        const strip = viewport.children[0];
+        if (!strip?.children) throw new Error('Expected strip children');
+        return strip.children.map((dot) => dot.props.style);
+      };
+
+      const { rerender } = renderWithProvider(
+        <PageIndicator
+          testID='page-indicator'
+          currentPage={1}
+          totalPages={5}
+        />,
+      );
+      const stylesBefore = JSON.stringify(getDotStyles());
+
+      rerender(
+        wrapWithProvider(
+          <PageIndicator
+            testID='page-indicator'
+            currentPage={3}
+            totalPages={5}
+          />,
+        ),
+      );
+      const stylesAfter = JSON.stringify(getDotStyles());
+
+      expect(stylesAfter).not.toEqual(stylesBefore);
     });
   });
 

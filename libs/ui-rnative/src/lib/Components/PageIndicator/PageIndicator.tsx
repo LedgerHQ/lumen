@@ -12,7 +12,6 @@ import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { Box } from '../Utility';
 import type { PageIndicatorProps } from './types';
 
-const AnimatedBox = Animated.createAnimatedComponent(Box);
 const MAX_VISIBLE_DOTS = 4;
 
 const useDotAnimation = ({
@@ -33,13 +32,19 @@ const useDotAnimation = ({
 
   useEffect(() => {
     colorProgress.value = withTiming(isActive ? 1 : 0, timingConfig);
-    return () => cancelAnimation(colorProgress);
   }, [isActive, colorProgress, timingConfig]);
 
   useEffect(() => {
+    return () => cancelAnimation(colorProgress);
+  }, [colorProgress]);
+
+  useEffect(() => {
     shrinkProgress.value = withTiming(isShrunk ? 1 : 0, timingConfig);
-    return () => cancelAnimation(shrinkProgress);
   }, [isShrunk, shrinkProgress, timingConfig]);
+
+  useEffect(() => {
+    return () => cancelAnimation(shrinkProgress);
+  }, [shrinkProgress]);
 
   const animatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
@@ -102,8 +107,11 @@ const useStripAnimation = ({
 
   useEffect(() => {
     translateX.value = withTiming(-offset * dotWidth, timingConfig);
+  }, [offset, dotWidth, translateX, timingConfig]);
+
+  useEffect(() => {
     return () => cancelAnimation(translateX);
-  }, [currentPage, totalPages, offset, dotWidth, translateX, timingConfig]);
+  }, [translateX]);
 
   const stripAnimatedStyle = useAnimatedStyle(
     () => ({
@@ -157,7 +165,7 @@ const PageIndicatorDot = ({
   const styles = useDotStyles();
   const { animatedStyle } = useDotAnimation({ isActive, isShrunk });
 
-  return <AnimatedBox style={[styles.dot, animatedStyle]} />;
+  return <Animated.View style={[styles.dot, animatedStyle]} />;
 };
 
 /**
@@ -202,7 +210,7 @@ export const PageIndicator = ({
       {...props}
     >
       <Box style={[styles.viewport, { width: viewportWidth }]}>
-        <AnimatedBox style={[styles.strip, stripAnimatedStyle]}>
+        <Animated.View style={[styles.strip, stripAnimatedStyle]}>
           {dotIndexes.map((index) => (
             <PageIndicatorDot
               key={index}
@@ -210,7 +218,7 @@ export const PageIndicator = ({
               isShrunk={isShrunk(index)}
             />
           ))}
-        </AnimatedBox>
+        </Animated.View>
       </Box>
     </Box>
   );
