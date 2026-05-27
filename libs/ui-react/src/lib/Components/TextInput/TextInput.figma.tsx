@@ -1,7 +1,5 @@
-import React from 'react';
-import { TextInput } from './TextInput';
-
 import figma from '@figma/code-connect';
+import { TextInput } from './TextInput';
 
 figma.connect(
   TextInput,
@@ -19,9 +17,13 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
-      errorMessage: figma.nestedProps('.status', {
-        label: figma.string('label')
-      })
+      status: figma.enum('state', {
+        error: 'error',
+        success: 'success',
+      }),
+      helperText: figma.nestedProps('.status', {
+        label: figma.string('label'),
+      }),
     },
     example: (props) => (
       <TextInput
@@ -29,7 +31,8 @@ figma.connect(
         label={props.label}
         placeholder={props.placeholder}
         value={props.value}
-        errorMessage={props.errorMessage.label}
+        helperText={props.helperText.label}
+        status={props.status}
       />
     ),
   },

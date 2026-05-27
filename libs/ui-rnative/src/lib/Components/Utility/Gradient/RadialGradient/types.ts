@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import { StyledViewProps } from '../../../../../styles';
-import { GradientStop } from '../gradient.types';
+import type { ReactNode } from 'react';
+import type { StyledViewProps } from '../../../../../styles';
+import type { GradientStop } from '../gradient.types';
 export type RadialGradientCenter = {
   /**
    * Horizontal position (0 = left, 1 = right)

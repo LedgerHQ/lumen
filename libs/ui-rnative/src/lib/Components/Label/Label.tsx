@@ -1,7 +1,7 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import { Text } from '../Utility';
-import { LabelProps } from './types';
+import type { LabelProps } from './types';
 
 const useStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(
@@ -51,5 +51,3 @@ export const Label = ({
     </Text>
   );
 };
-
-Label.displayName = 'Label';

@@ -1,8 +1,5 @@
-import {
-  AmountDisplay,
-  IconButton,
-  FormattedValue,
-} from '@ledgerhq/lumen-ui-rnative';
+import type { FormattedValue } from '@ledgerhq/lumen-ui-rnative';
+import { AmountDisplay, IconButton } from '@ledgerhq/lumen-ui-rnative';
 import { useStyleSheet, useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useEffect, useState } from 'react';
@@ -72,6 +69,11 @@ export function AmountDisplays() {
             />
           </View>
           <Text style={styles.sectionDescription}>With hide button</Text>
+        </View>
+        <View style={styles.sectionContainer}>
+          <AmountDisplay value={1234.56} formatter={eurFormatter} size='md' />
+          <AmountDisplay value={1234.56} formatter={eurFormatter} size='sm' />
+          <Text style={styles.sectionDescription}>Sizes</Text>
         </View>
         <View style={styles.sectionContainer}>
           <AmountDisplay

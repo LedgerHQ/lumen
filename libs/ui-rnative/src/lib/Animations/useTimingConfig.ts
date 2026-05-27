@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Easing } from 'react-native-reanimated';
 import { useTheme } from '../../styles';
-import { TimingConfig, TimingTokens } from './types';
+import type { TimingConfig, TimingTokens } from './types';
 
 export const useTimingConfig = ({
   duration,

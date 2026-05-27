@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "关闭"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "扫描二维码"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "用户头像",
-      "notificationAriaLabel": "有通知"
+      "notificationAriaLabel": "有通知",
+      "fallbackIconAriaLabel": "备用图标"
     },
     "baseInput": {
       "clearInputAriaLabel": "清空输入框"
@@ -31,8 +35,11 @@
     },
     "sideBar": {
       "navigationAriaLabel": "侧边栏导航",
-      "collapseAriaLabel": "收起侧边栏",
+      "collapseAriaLabel": "折叠侧边栏",
       "expandAriaLabel": "展开侧边栏"
+    },
+    "stepper": {
+      "progressAriaLabel": "第 {{currentStep}} / {{totalSteps}} 步"
     }
   }
 }

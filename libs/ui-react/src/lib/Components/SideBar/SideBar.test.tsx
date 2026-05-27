@@ -17,10 +17,6 @@ import {
   SideBarCollapseToggle,
 } from './SideBar';
 
-vi.mock('i18next', () => ({
-  t: (key: string) => key,
-}));
-
 describe('SideBar Component', () => {
   describe('Basic Rendering', () => {
     it('should render correctly with composite API', () => {

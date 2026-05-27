@@ -9,7 +9,7 @@ import {
   Close,
 } from '../../Symbols';
 import { IconButton } from '../IconButton';
-import { BannerProps } from './types';
+import type { BannerProps } from './types';
 
 const iconMap = {
   info: <InformationFill className='text-base' />,
@@ -83,7 +83,7 @@ export const Banner = ({
   return (
     <div
       ref={ref}
-      className={cn(className, bannerVariants.root({ appearance }))}
+      className={cn(bannerVariants.root({ appearance }), className)}
       {...props}
     >
       <div className='flex shrink-0 items-start py-4'>{icon}</div>

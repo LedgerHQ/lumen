@@ -1,17 +1,9 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type {
-  ButtonHTMLAttributes,
   ComponentPropsWithRef,
-  ComponentType,
+  MouseEventHandler,
   ReactNode,
 } from 'react';
-import { DiscriminatedSpotProps } from '../Spot';
-
-/**
- * Context value for passing state to sub-components
- */
-export type ListItemContextValue = {
-  disabled?: boolean;
-};
 
 /**
  * Props for the ListItem root component
@@ -21,6 +13,11 @@ export type ListItemProps = {
    * The content of the list item (ListItemLeading, ListItemTrailing)
    */
   children: ReactNode;
+  /**
+   * The density of the list item.
+   * @default 'expanded'
+   */
+  density?: Density;
   /**
    * custom classname
    */
@@ -32,8 +29,8 @@ export type ListItemProps = {
   /**
    * Callback function when the list item is pressed.
    */
-  onClick?: ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
-} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 /**
  * Props for the ListItemLeading component
@@ -55,6 +52,20 @@ export type ListItemLeadingProps = {
 export type ListItemContentProps = {
   /**
    * The content (ListItemTitle, ListItemDescription)
+   */
+  children: ReactNode;
+  /**
+   * custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+/**
+ * Props for the ListItemContentRow component
+ */
+export type ListItemContentRowProps = {
+  /**
+   * The row content (ListItemTitle or ListItemDescription alongside inline elements like Tag)
    */
   children: ReactNode;
   /**
@@ -99,41 +110,6 @@ export type ListItemTrailingProps = {
    * The trailing content (icons, switches, values, etc.)
    */
   children: ReactNode;
-  /**
-   * custom classname
-   */
-  className?: string;
-} & ComponentPropsWithRef<'div'>;
-
-/**
- * Props for ListItemSpot when appearance is 'icon'
- */
-export type ListItemSpotProps = DiscriminatedSpotProps &
-  ComponentPropsWithRef<'div'>;
-
-/**
- * Props for the ListItemTruncate component
- * Used to truncate text that should when ListItemDescription or ListItemTitle contain custom content
- */
-export type ListItemTruncateProps = {
-  /**
-   * The content to truncate
-   */
-  children: ReactNode;
-  /**
-   * custom classname
-   */
-  className?: string;
-} & ComponentPropsWithRef<'div'>;
-
-/**
- * Props for the ListItemIcon component
- */
-export type ListItemIconProps = {
-  /**
-   * The icon component to render
-   */
-  icon: ComponentType<any>;
   /**
    * custom classname
    */

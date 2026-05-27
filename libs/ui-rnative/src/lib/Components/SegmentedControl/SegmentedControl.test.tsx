@@ -1,7 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, fireEvent } from '@testing-library/react-native';
-import React from 'react';
+import { DotCount } from '../DotCount';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
@@ -53,5 +53,31 @@ describe('SegmentedControl', () => {
     fireEvent.press(getByText('Receive'));
 
     expect(onSelectedChange).toHaveBeenCalledWith('receive');
+  });
+
+  it('renders trailingContent inside segment buttons', () => {
+    const { getByLabelText } = render(
+      <TestWrapper>
+        <SegmentedControl
+          selectedValue='tokens'
+          onSelectedChange={() => {
+            /* empty */
+          }}
+          accessibilityLabel='Asset section'
+        >
+          <SegmentedControlButton
+            value='tokens'
+            trailingContent={
+              <DotCount value={3} accessibilityLabel='3 tokens' />
+            }
+          >
+            Tokens
+          </SegmentedControlButton>
+          <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
+        </SegmentedControl>
+      </TestWrapper>,
+    );
+
+    expect(getByLabelText('3 tokens')).toBeTruthy();
   });
 });

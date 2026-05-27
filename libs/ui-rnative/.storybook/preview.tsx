@@ -38,7 +38,7 @@ const preview: Preview = {
   parameters: {
     backgrounds: {
       options: {
-        dark: { name: 'Dark', value: '#191919' },
+        dark: { name: 'Dark', value: '#000000' },
         light: { name: 'Light', value: '#fafafa' },
       },
     },
@@ -59,6 +59,7 @@ const preview: Preview = {
             'Button',
             'CardButton',
             'IconButton',
+            'MediaButton',
             'TileButton',
             'Link',
             'InteractiveIcon',
@@ -71,6 +72,7 @@ const preview: Preview = {
           'Navigation',
           'Utility',
           'Animations',
+          'Visualization',
         ],
       },
     },

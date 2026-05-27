@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React, { useState } from 'react';
-import { Coins, Nft, TransferHorizontal, Settings } from '../../Symbols';
+import { useState } from 'react';
+import { Coins, TransferHorizontal, Nft } from '../../Symbols';
+import { DotCount } from '../DotCount';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
@@ -13,26 +14,16 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
-  argTypes: {
-    onSelectedChange: {
-      action: 'change',
-    },
-    disabled: {
-      control: 'boolean',
-    },
-    appearance: {
-      options: ['background', 'no-background'],
-      control: 'radio',
-    },
-    selectedValue: {
-      control: 'text',
-    },
-    children: {
-      control: false,
-    },
-  },
+  decorators: [
+    (Story) => (
+      <div className='flex w-320 justify-center'>
+        <Story />
+      </div>
+    ),
+  ],
   args: {
     appearance: 'background',
+    tabLayout: 'fixed',
   },
 } satisfies Meta<typeof SegmentedControl>;
 
@@ -45,19 +36,15 @@ export const Base: Story = {
     const [state, setState] = useState('send');
 
     return (
-      <div className='w-256'>
-        <SegmentedControl
-          {...args}
-          selectedValue={state}
-          onSelectedChange={setState}
-        >
-          <SegmentedControlButton value='send'>Send</SegmentedControlButton>
-          <SegmentedControlButton value='receive'>
-            Receive
-          </SegmentedControlButton>
-          <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
-        </SegmentedControl>
-      </div>
+      <SegmentedControl
+        {...args}
+        selectedValue={state}
+        onSelectedChange={setState}
+      >
+        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+      </SegmentedControl>
     );
   },
 };
@@ -79,13 +66,53 @@ export const WithIcons: Story = {
         <SegmentedControlButton value='nfts' icon={Nft}>
           NFTs
         </SegmentedControlButton>
-        <SegmentedControlButton value='activity' icon={TransferHorizontal}>
-          Activity
-        </SegmentedControlButton>
-        <SegmentedControlButton value='settings' icon={Settings}>
-          Settings
+        <SegmentedControlButton value='trade' icon={TransferHorizontal}>
+          Trade
         </SegmentedControlButton>
       </SegmentedControl>
+    );
+  },
+};
+
+export const TabLayoutShowcase: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: (args) => {
+    const [fitState, setFitState] = useState('send');
+    const [fixedState, setFixedState] = useState('send');
+
+    return (
+      <div className='flex flex-col gap-24'>
+        <div>
+          <p className='mb-8 body-2 text-muted'>Fit</p>
+          <SegmentedControl
+            {...args}
+            tabLayout='fit'
+            selectedValue={fitState}
+            onSelectedChange={setFitState}
+          >
+            <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+            <SegmentedControlButton value='receive'>
+              Receive
+            </SegmentedControlButton>
+            <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+          </SegmentedControl>
+        </div>
+        <div>
+          <p className='mb-8 body-2 text-muted'>Fixed</p>
+          <SegmentedControl
+            {...args}
+            tabLayout='fixed'
+            selectedValue={fixedState}
+            onSelectedChange={setFixedState}
+          >
+            <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+            <SegmentedControlButton value='receive'>
+              Receive
+            </SegmentedControlButton>
+            <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+          </SegmentedControl>
+        </div>
+      </div>
     );
   },
 };
@@ -93,19 +120,47 @@ export const WithIcons: Story = {
 export const Disabled: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => (
-    <div className='w-256'>
+    <SegmentedControl
+      {...args}
+      selectedValue='receive'
+      onSelectedChange={() => {
+        /* empty */
+      }}
+      disabled
+    >
+      <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+      <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
+      <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+    </SegmentedControl>
+  ),
+};
+
+export const WithTrailingContent: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: (args) => {
+    const [state, setState] = useState('tokens');
+
+    return (
       <SegmentedControl
         {...args}
-        selectedValue='receive'
-        onSelectedChange={() => {
-          /* empty */
-        }}
-        disabled
+        selectedValue={state}
+        onSelectedChange={setState}
+        aria-label='Asset section'
       >
-        <SegmentedControlButton value='send'>Send</SegmentedControlButton>
-        <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
-        <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+        <SegmentedControlButton
+          value='tokens'
+          trailingContent={<DotCount value={3} />}
+        >
+          Tokens
+        </SegmentedControlButton>
+        <SegmentedControlButton
+          value='nfts'
+          trailingContent={<DotCount value={12} />}
+        >
+          NFTs
+        </SegmentedControlButton>
+        <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
       </SegmentedControl>
-    </div>
-  ),
+    );
+  },
 };

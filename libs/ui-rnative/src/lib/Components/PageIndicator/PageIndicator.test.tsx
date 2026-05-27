@@ -1,8 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
-import React from 'react';
 
+import type { ComponentRef } from 'react';
+import { createRef } from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { PageIndicator } from './PageIndicator';
 
@@ -162,7 +163,7 @@ describe('PageIndicator Component', () => {
 
   describe('Props', () => {
     it('should accept ref prop', () => {
-      const ref = React.createRef<React.ElementRef<typeof PageIndicator>>();
+      const ref = createRef<ComponentRef<typeof PageIndicator>>();
       renderWithProvider(
         <PageIndicator
           ref={ref}

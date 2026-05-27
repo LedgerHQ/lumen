@@ -5,9 +5,9 @@ import {
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
-import { ViewStyle } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import {
+import type {
   BottomSheetViewProps,
   BottomSheetFlatListProps,
   BottomSheetSectionListProps,
@@ -44,7 +44,6 @@ export const BottomSheetView = ({
     </GorhomBottomSheetView>
   );
 };
-BottomSheetView.displayName = 'BottomSheetView';
 
 export const BottomSheetFlatList = ({
   children,
@@ -64,7 +63,6 @@ export const BottomSheetFlatList = ({
     </GorhomBottomSheetFlatList>
   );
 };
-BottomSheetFlatList.displayName = 'BottomSheetFlatList';
 
 export const BottomSheetSectionList = ({
   children,
@@ -84,7 +82,6 @@ export const BottomSheetSectionList = ({
     </GorhomBottomSheetSectionList>
   );
 };
-BottomSheetSectionList.displayName = 'BottomSheetSectionList';
 
 export const BottomSheetScrollView = ({
   children,
@@ -104,7 +101,6 @@ export const BottomSheetScrollView = ({
     </GorhomBottomSheetScrollView>
   );
 };
-BottomSheetScrollView.displayName = 'BottomSheetScrollView';
 
 export const BottomSheetVirtualizedList = ({
   children,
@@ -124,4 +120,3 @@ export const BottomSheetVirtualizedList = ({
     </GorhomBottomSheetVirtualizedList>
   );
 };
-BottomSheetVirtualizedList.displayName = 'BottomSheetVirtualizedList';

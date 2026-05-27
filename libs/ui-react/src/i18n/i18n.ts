@@ -1,10 +1,7 @@
 import i18next, { type i18n as I18nInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import {
-  DEFAULT_LANGUAGE,
-  I18N_DEFAULT_NAMESPACE,
-  SupportedLocale,
-} from './languages';
+import type { SupportedLocale } from './languages';
+import { DEFAULT_LANGUAGE, I18N_DEFAULT_NAMESPACE } from './languages';
 
 const loadedLocales = new Set<SupportedLocale>();
 
@@ -26,6 +23,7 @@ const initializeI18n = (): I18nInstance => {
       },
     })
     .catch((error: unknown) => {
+      // eslint-disable-next-line no-console
       console.error('Failed to initialize i18next:', error);
     });
 
@@ -54,6 +52,7 @@ export const loadLocale = async (locale: SupportedLocale): Promise<void> => {
 
     loadedLocales.add(locale);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to load locale ${locale}`, error);
     throw error;
   }

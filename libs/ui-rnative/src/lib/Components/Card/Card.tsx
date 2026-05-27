@@ -3,8 +3,10 @@ import {
   DisabledProvider,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
-import React, { ReactNode, Ref, useCallback, useEffect, useMemo } from 'react';
-import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native';
+import type { ComponentRef, ReactNode, Ref } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import type { LayoutChangeEvent, ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,8 +15,9 @@ import Animated, {
 import { useStyleSheet } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { ChevronDown, ChevronUp } from '../../Symbols';
-import { Box, Pressable, Text } from '../Utility';
-import {
+import { Box, Text, Pressable } from '../Utility';
+
+import type {
   CardContentAlignContextValue,
   CardContentDescriptionProps,
   CardContentProps,
@@ -209,7 +212,6 @@ export const Card = ({
     </CardProvider>
   );
 };
-Card.displayName = 'Card';
 
 const CardInner = ({
   outlined,
@@ -303,7 +305,6 @@ export const CardHeader = ({
     </Box>
   );
 };
-CardHeader.displayName = 'CardHeader';
 
 const CardHeaderInner = ({
   pressed,
@@ -351,7 +352,6 @@ export const CardLeading = ({
     </Box>
   );
 };
-CardLeading.displayName = 'CardLeading';
 
 /**
  * Flex column wrapper for CardContentTitle and CardContentDescription.
@@ -375,11 +375,11 @@ export const CardContent = ({
     (t) => ({
       container: StyleSheet.flatten([
         {
-          flexDirection: 'column' as const,
+          flexDirection: 'column',
           gap: t.spacings.s4,
         },
         isTrailing
-          ? { flexShrink: 1, minWidth: 0, alignItems: 'flex-end' as const }
+          ? { flexShrink: 1, minWidth: 0, alignItems: 'flex-end' }
           : { flex: 1, minWidth: 0 },
       ]),
     }),
@@ -397,7 +397,6 @@ export const CardContent = ({
     </Box>
   );
 };
-CardContent.displayName = 'CardContent';
 
 /**
  * Horizontal row wrapper for placing a CardContentTitle or CardContentDescription
@@ -443,7 +442,6 @@ export const CardContentRow = ({
     </Box>
   );
 };
-CardContentRow.displayName = 'CardContentRow';
 
 /**
  * Primary text of the card. Inherits the disabled state from the parent Card via context.
@@ -476,6 +474,7 @@ export const CardContentTitle = ({
       asText: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
+          flexShrink: 1,
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
           textAlign: align === 'right' ? 'right' : 'left',
         },
@@ -487,7 +486,7 @@ export const CardContentTitle = ({
   if (isTextChildren(children)) {
     return (
       <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
+        ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
         numberOfLines={1}
@@ -510,7 +509,6 @@ export const CardContentTitle = ({
     </Box>
   );
 };
-CardContentTitle.displayName = 'CardContentTitle';
 
 /**
  * Secondary text of the card. Inherits the disabled state from the parent Card via context.
@@ -543,6 +541,7 @@ export const CardContentDescription = ({
       asText: StyleSheet.flatten([
         t.typographies.body3,
         {
+          flexShrink: 1,
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
           textAlign: align === 'right' ? 'right' : 'left',
         },
@@ -554,7 +553,7 @@ export const CardContentDescription = ({
   if (isTextChildren(children)) {
     return (
       <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
+        ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
         numberOfLines={1}
@@ -577,7 +576,6 @@ export const CardContentDescription = ({
     </Box>
   );
 };
-CardContentDescription.displayName = 'CardContentDescription';
 
 /**
  * Trailing content container in the header. Used for Button, Tag, or right-aligned CardContent.
@@ -614,7 +612,6 @@ export const CardTrailing = ({
     </CardContentAlignProvider>
   );
 };
-CardTrailing.displayName = 'CardTrailing';
 
 const useCardFooterAnimation = ({
   footerExpanded,
@@ -708,7 +705,6 @@ export const CardFooter = ({
     </Animated.View>
   );
 };
-CardFooter.displayName = 'CardFooter';
 
 /**
  * Horizontal row container for action buttons inside CardFooter.
@@ -742,4 +738,3 @@ export const CardFooterActions = ({
     </Box>
   );
 };
-CardFooterActions.displayName = 'CardFooterActions';

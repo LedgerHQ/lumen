@@ -1,5 +1,5 @@
-import { BaseInputProps } from '../BaseInput';
-import { BoxProps } from '../Utility';
+import type { BaseInputProps } from '../BaseInput';
+import type { BoxProps } from '../Utility';
 
 export type AddressInputProps = Omit<BaseInputProps, 'prefix' | 'label'> & {
   /**

@@ -45,7 +45,7 @@ const SpacingShowcase = () => (
           <div
             className={`${widthClass} rounded-md border border-muted-subtle bg-[repeating-linear-gradient(45deg,var(--border-muted-subtle)_2px,var(--border-muted-subtle)_4px,transparent_4px,transparent_12px)]`}
           >
-            <div className='size-56 rounded-sm bg-accent body-2 text-muted'></div>
+            <div className='size-56 rounded-sm bg-accent body-2 text-muted' />
           </div>
         </div>
       ))}

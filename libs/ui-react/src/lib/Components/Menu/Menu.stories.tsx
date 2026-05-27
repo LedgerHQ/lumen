@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { useState } from 'react';
 import { MoreVertical } from '../../Symbols/Icons/MoreVertical';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton';
@@ -103,9 +103,9 @@ export const WithGroups: Story = {
 
 export const WithCheckboxItems: Story = {
   render: () => {
-    const [showPanel, setShowPanel] = React.useState(false);
-    const [showActivityBar, setShowActivityBar] = React.useState(true);
-    const [showStatusBar, setShowStatusBar] = React.useState(true);
+    const [showPanel, setShowPanel] = useState(false);
+    const [showActivityBar, setShowActivityBar] = useState(true);
+    const [showStatusBar, setShowStatusBar] = useState(true);
 
     return (
       <Menu>
@@ -139,7 +139,7 @@ export const WithCheckboxItems: Story = {
 
 export const WithRadioItems: Story = {
   render: () => {
-    const [position, setPosition] = React.useState('bottom');
+    const [position, setPosition] = useState('bottom');
 
     return (
       <Menu>
@@ -268,9 +268,9 @@ export const PositionShowcase: Story = {
 
 export const CompleteExample: Story = {
   render: () => {
-    const [showPanel, setShowPanel] = React.useState(false);
-    const [showActivityBar, setShowActivityBar] = React.useState(true);
-    const [position, setPosition] = React.useState('bottom');
+    const [showPanel, setShowPanel] = useState(false);
+    const [showActivityBar, setShowActivityBar] = useState(true);
+    const [position, setPosition] = useState('bottom');
 
     return (
       <Menu>

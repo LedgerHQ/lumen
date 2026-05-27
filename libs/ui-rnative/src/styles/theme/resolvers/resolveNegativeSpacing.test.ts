@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import type { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { resolveNegativeSpacing } from './resolveNegativeSpacing';
 
 describe('resolveNegativeSpacing', () => {

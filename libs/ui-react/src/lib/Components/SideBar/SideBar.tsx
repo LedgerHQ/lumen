@@ -4,12 +4,12 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { t } from 'i18next';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
+import { useCommonTranslation } from '../../../i18n';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ExpandRight, ExpandLeft } from '../../Symbols';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
-import {
+import type {
   SideBarContextValue,
   SideBarProps,
   SideBarLeadingProps,
@@ -24,7 +24,7 @@ const [SideBarProvider, useSideBarContext] =
 const sideBarVariants = {
   root: cva(
     [
-      'flex h-full flex-col justify-between gap-16 overflow-y-auto rounded-xl bg-muted-transparent p-16',
+      'flex h-full flex-col justify-between gap-16 overflow-y-auto rounded-xl bg-surface-transparent p-16',
       'transition-[width] duration-300 ease-in-out',
       'scrollbar-none',
     ],
@@ -99,6 +99,7 @@ export const SideBar = ({
   className,
   ...props
 }: SideBarProps) => {
+  const { t } = useCommonTranslation();
   const [collapsed, setCollapsed] = useControllableState({
     prop: controlledCollapsed,
     defaultProp: defaultCollapsed,
@@ -126,7 +127,6 @@ export const SideBar = ({
     </SideBarProvider>
   );
 };
-SideBar.displayName = 'SideBar';
 
 /**
  * Container for the leading (top) section of the sidebar.
@@ -148,7 +148,6 @@ export const SideBarLeading = ({
     </div>
   );
 };
-SideBarLeading.displayName = 'SideBarLeading';
 
 /**
  * Container for the trailing (bottom) section of the sidebar.
@@ -171,7 +170,6 @@ export const SideBarTrailing = ({
     </div>
   );
 };
-SideBarTrailing.displayName = 'SideBarTrailing';
 
 /**
  * A navigation item within the sidebar.
@@ -231,7 +229,7 @@ export const SideBarItem = ({
 
   const content = (
     <>
-      <IconComponent size={20} className='shrink-0' />
+      <IconComponent size={20} />
       {label != null && <span className='translate-x-8 truncate'>{label}</span>}
     </>
   );
@@ -262,7 +260,6 @@ export const SideBarItem = ({
     </Tooltip>
   );
 };
-SideBarItem.displayName = 'SideBarItem';
 
 /**
  * Collapse toggle button for the sidebar.
@@ -275,8 +272,10 @@ SideBarItem.displayName = 'SideBarItem';
  */
 export const SideBarCollapseToggle = ({
   className,
+  tooltipContent: tooltipContentProp,
   ...props
 }: SideBarCollapseToggleProps) => {
+  const { t } = useCommonTranslation();
   const { collapsed, setCollapsed } = useSideBarContext({
     consumerName: 'SideBarCollapseToggle',
     contextRequired: true,
@@ -303,10 +302,19 @@ export const SideBarCollapseToggle = ({
       }
       {...props}
     >
-      <Icon size={20} className='shrink-0' />
+      <Icon size={20} />
     </button>
   );
 
-  return buttonContent;
+  const tooltipContent =
+    tooltipContentProp ?? t('components.sideBar.collapseAriaLabel');
+
+  return (
+    <Tooltip open={collapsed ? undefined : false}>
+      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+      <TooltipContent side='right' sideOffset={8}>
+        {tooltipContent}
+      </TooltipContent>
+    </Tooltip>
+  );
 };
-SideBarCollapseToggle.displayName = 'SideBarCollapseToggle';

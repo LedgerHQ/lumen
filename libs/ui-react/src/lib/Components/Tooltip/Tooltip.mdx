@@ -10,7 +10,7 @@ import {
 } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
-<Meta title='Components/Tooltip' of={TooltipStories} />
+<Meta title='Communication/Tooltip' of={TooltipStories} />
 
 # 💬 Tooltip
 
@@ -58,9 +58,9 @@ The tooltip has a default 200ms delay before showing, which can be customized:
 
 <Canvas of={TooltipStories.CustomDelay} />
 
-### Content
+### Content (long text)
 
-Tooltips animate smoothly regardless of content length:
+Tooltips animate smoothly regardless of content length. Use a max-width token on `TooltipContent` when copy may wrap:
 
 <Canvas of={TooltipStories.LongContent} />
 

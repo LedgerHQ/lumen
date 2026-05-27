@@ -6,9 +6,9 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
-import { TimingTokens } from '../types';
+import type { TimingTokens } from '../types';
 import { useTimingConfig } from '../useTimingConfig';
-import { SpinProps } from './types';
+import type { SpinProps } from './types';
 
 const TIMING_DEFAULTS: TimingTokens = {
   duration: 1000,
@@ -35,6 +35,10 @@ export const Spin = memo(({ children, timing }: SpinProps) => {
     [sv],
   );
 
-  return <Animated.View style={animatedStyle}>{children}</Animated.View>;
+  return (
+    <Animated.View style={[{ alignSelf: 'flex-start' }, animatedStyle]}>
+      {children}
+    </Animated.View>
+  );
 });
 Spin.displayName = 'Spin';

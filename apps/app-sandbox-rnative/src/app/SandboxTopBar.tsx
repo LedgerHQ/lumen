@@ -1,6 +1,6 @@
 import { Box, IconButton, Text } from '@ledgerhq/lumen-ui-rnative';
 import { ArrowLeft, Moon, Sun } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { ColorSchemeName } from 'react-native';
+import type { ColorSchemeName } from 'react-native';
 import { useSandboxContext } from './SandboxContext';
 
 export const SandboxTopBar = ({

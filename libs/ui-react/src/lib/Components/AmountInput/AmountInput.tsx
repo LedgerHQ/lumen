@@ -5,14 +5,8 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { AmountInputProps } from './types';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { AmountInputProps } from './types';
 
 const inputStyles = cva(
   [
@@ -177,5 +171,3 @@ export const AmountInput = ({
     </div>
   );
 };
-
-AmountInput.displayName = 'AmountInput';

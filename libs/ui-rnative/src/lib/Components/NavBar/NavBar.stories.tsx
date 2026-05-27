@@ -1,4 +1,4 @@
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { MoreHorizontal, Settings } from '../../Symbols';
 import { IconButton } from '../IconButton';
@@ -35,10 +35,10 @@ const meta: Meta<typeof NavBar> = {
     },
   },
   argTypes: {
-    appearance: {
+    density: {
       control: 'select',
       options: ['compact', 'expanded'],
-      description: 'Controls the appearance/layout of the NavBar',
+      description: 'Controls the density/layout of the NavBar',
     },
   },
 };
@@ -48,7 +48,7 @@ type Story = StoryObj<typeof NavBar>;
 
 export const Base: Story = {
   args: {
-    appearance: 'compact',
+    density: 'compact',
     lx: {
       width: 's480',
     },
@@ -74,7 +74,7 @@ export const Base: Story = {
 
 export const Expanded: Story = {
   args: {
-    appearance: 'expanded',
+    density: 'expanded',
     lx: {
       width: 's480',
     },
@@ -100,7 +100,7 @@ export const Expanded: Story = {
 
 export const WithCoinCapsule: Story = {
   args: {
-    appearance: 'compact',
+    density: 'compact',
     lx: {
       width: 's480',
     },
@@ -111,7 +111,9 @@ export const WithCoinCapsule: Story = {
       <NavBarContent>
         <NavBarCoinCapsule
           ticker='BTC'
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size='24px' />}
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+          }
         />
       </NavBarContent>
       <NavBarTrailing>
@@ -128,7 +130,7 @@ export const WithCoinCapsule: Story = {
 
 export const WithMultipleTrailingActions: Story = {
   args: {
-    appearance: 'compact',
+    density: 'compact',
     lx: {
       width: 's480',
     },

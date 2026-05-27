@@ -31,14 +31,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+          set-shas: 'false'
 
       - name: Export Design Tokens from Figma
         run: npx nx run @ledgerhq/lumen-design-core:figma-export
@@ -62,14 +57,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+          set-shas: 'false'
 
       - name: Download SVGs from Figma
         run: npx nx run @ledgerhq/lumen-design-core:figma-download-svgs
@@ -95,14 +85,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+          set-shas: 'false'
 
       - name: Download design tokens artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -117,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: processed-design-tokens
-          path: libs/design-core/src/themes/
+          path: libs/design-core/src/lib/themes/
 
   generate-symbols-react:
     name: Generate React Symbol Components
@@ -130,14 +115,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+          set-shas: 'false'
 
       - name: Download SVG artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -168,14 +148,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+          set-shas: 'false'
 
       - name: Download SVG artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -220,7 +195,7 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: processed-design-tokens
-          path: libs/design-core/src/themes/
+          path: libs/design-core/src/lib/themes/
 
       - name: Download SVG symbols artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0

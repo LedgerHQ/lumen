@@ -5,7 +5,7 @@ import { LumenStyleSheetProvider } from '../../../styles';
 
 import { GlobalSelectProvider } from '../Select/GlobalSelectContext';
 import { GlobalTooltipProvider } from '../Tooltip/GlobalTooltipContext';
-import { ThemeProviderProps } from './types';
+import type { ThemeProviderProps } from './types';
 
 const [ThemeContextProvider] = createSafeContext('ThemeProvider');
 

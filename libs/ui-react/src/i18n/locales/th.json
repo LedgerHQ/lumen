@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "ปิด"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "สแกน QR Code"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "อวาตาร์ผู้ใช้",
-      "notificationAriaLabel": "มีการแจ้งเตือน"
+      "notificationAriaLabel": "มีการแจ้งเตือน",
+      "fallbackIconAriaLabel": "ไอคอนสำรอง"
     },
     "baseInput": {
       "clearInputAriaLabel": "ล้างอินพุต"
@@ -30,9 +34,12 @@
       "goBackAriaLabel": "ย้อนกลับ"
     },
     "sideBar": {
-      "navigationAriaLabel": "การนำทางแถบด้านข้าง",
-      "collapseAriaLabel": "ย่อแถบด้านข้าง",
-      "expandAriaLabel": "ขยายแถบด้านข้าง"
+      "navigationAriaLabel": "เมนูนำทางด้านข้าง",
+      "collapseAriaLabel": "ซ่อนแถบด้านข้าง",
+      "expandAriaLabel": "เปิดแถบด้านข้าง"
+    },
+    "stepper": {
+      "progressAriaLabel": "ขั้นตอนที่ {{currentStep}} จาก {{totalSteps}}"
     }
   }
 }

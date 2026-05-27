@@ -27,7 +27,8 @@ export const AmountInput = ({
   style,
   currencyText,
   currencyPosition = 'left',
-  editable: editableProp = true,
+  editable,
+  disabled: disabledProp = false,
   maxIntegerLength = 9,
   maxDecimalLength = 9,
   allowDecimals = true,
@@ -43,7 +44,7 @@ export const AmountInput = ({
   const [isFocused, setIsFocused] = useState(false);
   const disabled = useDisabledContext({
     consumerName: 'AmountInput',
-    mergeWith: { disabled: !editableProp },
+    mergeWith: { disabled: disabledProp },
   });
 
   const translateX = useSharedValue(0);
@@ -129,7 +130,10 @@ export const AmountInput = ({
   };
 
   const CurrencyText = currencyText ? (
-    <Animated.Text style={[styles.currency, animatedCurrencyStyle]}>
+    <Animated.Text
+      style={[styles.currency, animatedCurrencyStyle]}
+      allowFontScaling={false}
+    >
       {currencyText}
     </Animated.Text>
   ) : null;
@@ -146,7 +150,7 @@ export const AmountInput = ({
       <TextInput
         ref={inputRef}
         keyboardType='decimal-pad'
-        editable={!disabled}
+        editable={editable !== false && !disabled}
         value={inputValue}
         onChangeText={handleChangeText}
         onFocus={(e) => {
@@ -168,7 +172,10 @@ export const AmountInput = ({
         {currencyPosition === 'left' && CurrencyText}
 
         {/** display text that mirrors the hidden input's value */}
-        <Animated.Text style={[styles.displayText, animatedInputStyle, style]}>
+        <Animated.Text
+          style={[styles.displayText, animatedInputStyle, style]}
+          allowFontScaling={false}
+        >
           {inputValue || '0'}
         </Animated.Text>
 
@@ -248,5 +255,3 @@ const useStyles = ({
     [hasValue, isEditable, isInvalid],
   );
 };
-
-AmountInput.displayName = 'AmountInput';

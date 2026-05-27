@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "닫기"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "QR 코드 스캔"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "사용자 아바타",
-      "notificationAriaLabel": "알림 있음"
+      "notificationAriaLabel": "알림 있음",
+      "fallbackIconAriaLabel": "대체 아이콘"
     },
     "baseInput": {
       "clearInputAriaLabel": "입력 값 지우기"
@@ -33,6 +37,9 @@
       "navigationAriaLabel": "사이드바 탐색",
       "collapseAriaLabel": "사이드바 접기",
       "expandAriaLabel": "사이드바 펼치기"
+    },
+    "stepper": {
+      "progressAriaLabel": "{{totalSteps}} 중 {{currentStep}} 단계"
     }
   }
 }

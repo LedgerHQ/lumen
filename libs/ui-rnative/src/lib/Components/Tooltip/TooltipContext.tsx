@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export type TooltipContentData = {
   title?: string;

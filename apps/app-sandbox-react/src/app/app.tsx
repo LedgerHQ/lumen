@@ -1,8 +1,10 @@
 import { Button, ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { useState } from 'react';
 
+type ColorScheme = 'light' | 'dark';
+
 export function App() {
-  const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
 
   return (
     <ThemeProvider colorScheme='system'>

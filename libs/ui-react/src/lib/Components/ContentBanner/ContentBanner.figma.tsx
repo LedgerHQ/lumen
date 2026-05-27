@@ -1,15 +1,14 @@
-import React from 'react';
+import figma from '@figma/code-connect';
+
+import { Placeholder, Wallet } from '../../Symbols';
+import { Spot } from '../Spot';
+import { Stepper } from '../Stepper';
 import {
   ContentBanner,
   ContentBannerContent,
   ContentBannerTitle,
   ContentBannerDescription,
 } from './ContentBanner';
-
-import { Spot } from '../Spot';
-import { Placeholder, Wallet } from '../../Symbols';
-import figma from '@figma/code-connect';
-import { Stepper } from '../Stepper';
 
 figma.connect(
   ContentBanner,
@@ -22,16 +21,13 @@ figma.connect(
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leadingElement: figma.enum('type', {
+      leadingElement: figma.enum('leading-content', {
         spot: <Spot appearance='icon' icon={Placeholder} size={48} />,
         stepper: <Stepper currentStep={1} totalSteps={4} />,
       }),
     },
     example: (props) => (
-      <ContentBanner
-        onClose={() => {}}
-        closeAriaLabel='Close content banner'
-      >
+      <ContentBanner onClose={() => {}} closeAriaLabel='Close content banner'>
         {props.leadingElement}
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
@@ -55,7 +51,7 @@ figma.connect(
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leadingElement: figma.enum('type', {
+      leadingElement: figma.enum('leading-content', {
         spot: <Spot appearance='icon' icon={Wallet} size={48} />,
         stepper: <Stepper currentStep={1} totalSteps={4} />,
       }),

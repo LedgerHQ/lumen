@@ -4,6 +4,7 @@ export type SegmentedControlContextValue = {
   selectedValue: string;
   onSelectedChange: (value: string) => void;
   disabled: boolean;
+  tabLayout: 'fit' | 'fixed';
 };
 
 const [SegmentedControlContextProvider, _useSegmentedControlSafeContext] =

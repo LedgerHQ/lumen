@@ -1,12 +1,8 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
-import React, { useCallback, useEffect, useRef } from 'react';
-import {
-  LayoutChangeEvent,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import type { ReactNode } from 'react';
+import { Children, isValidElement, useEffect, useMemo, useRef } from 'react';
+import type { LayoutChangeEvent } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -17,10 +13,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
+import { triggerHapticFeedback } from '../../Haptics';
 import { Placeholder } from '../../Symbols';
+import { RuntimeConstants } from '../../utils';
 import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
-import { TabBarItemProps, TabBarProps } from './types';
+import type { TabBarItemProps, TabBarProps } from './types';
 
 export const TAB_BAR_HEIGHT = 60;
 const PILL_INSET = 4;
@@ -49,14 +47,16 @@ const useTabBarItemAnimations = ({ isActive }: { isActive: boolean }) => {
       50,
       withTiming(isActive ? 1 : 0, activeTimingConfig),
     );
-    return () => cancelAnimation(activeProgress);
   }, [isActive, activeProgress, activeTimingConfig]);
+
+  useEffect(() => () => cancelAnimation(activeProgress), [activeProgress]);
 
   const onPressIn = () => {
     pressProgress.value = withTiming(0.9, pressInTimingConfig);
   };
 
   const onPressOut = () => {
+    triggerHapticFeedback('light');
     pressProgress.value = withSequence(
       withTiming(0.95, { duration: 0 }),
       withTiming(1, pressOutTimingConfig),
@@ -98,7 +98,7 @@ const useTabBarPillLayout = ({
   children,
 }: {
   active: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const pillProgress = useSharedValue(0);
   const itemWidth = useSharedValue(0);
@@ -110,18 +110,21 @@ const useTabBarPillLayout = ({
     easing: 'easeInOut',
   });
 
-  const getActiveIndex = useCallback((): number => {
-    return React.Children.toArray(children).findIndex((child) => {
-      if (React.isValidElement<TabBarItemProps>(child)) {
+  const activeIndex = useMemo(() => {
+    return Children.toArray(children).findIndex((child) => {
+      if (isValidElement<TabBarItemProps>(child)) {
         return child.props.value === active;
       }
       return false;
     });
   }, [active, children]);
 
+  const activeIndexRef = useRef(activeIndex);
+  activeIndexRef.current = activeIndex;
+
   const onLayout = (e: LayoutChangeEvent): void => {
     const { width, height } = e.nativeEvent.layout;
-    const count = React.Children.count(children);
+    const count = Children.count(children);
     const slotWidth = (width - PILL_INSET * 2) / count;
 
     itemWidth.value = slotWidth;
@@ -129,7 +132,7 @@ const useTabBarPillLayout = ({
 
     if (!hasLayoutRef.current) {
       hasLayoutRef.current = true;
-      const index = getActiveIndex();
+      const index = activeIndexRef.current;
       if (index >= 0) {
         pillProgress.value = index * slotWidth;
       }
@@ -138,14 +141,15 @@ const useTabBarPillLayout = ({
 
   useEffect(() => {
     if (!hasLayoutRef.current) return;
-    const index = getActiveIndex();
-
-    if (index >= 0 && itemWidth.value > 0) {
-      pillProgress.value = withTiming(index * itemWidth.value, timingConfig);
+    if (activeIndex >= 0 && itemWidth.value > 0) {
+      pillProgress.value = withTiming(
+        activeIndex * itemWidth.value,
+        timingConfig,
+      );
     }
+  }, [activeIndex, itemWidth, pillProgress, timingConfig]);
 
-    return () => cancelAnimation(pillProgress);
-  }, [itemWidth, pillProgress, getActiveIndex, timingConfig]);
+  useEffect(() => () => cancelAnimation(pillProgress), [pillProgress]);
 
   const animatedPillStyle = useAnimatedStyle(
     () => ({
@@ -219,8 +223,6 @@ export function TabBarItem({
   );
 }
 
-TabBarItem.displayName = 'TabBarItem';
-
 /**
  * A horizontal tab bar with animated pill background and icon transitions.
  * Provides smooth animations for active state changes and press interactions.
@@ -267,7 +269,7 @@ export function TabBar({
         {...props}
       >
         {children}
-        {Platform.OS === 'android' ? (
+        {RuntimeConstants.isAndroid ? (
           <View style={styles.fallbackBackground} />
         ) : (
           <BlurView
@@ -294,7 +296,7 @@ const useStyles = () =>
   useStyleSheet(
     (t) => ({
       container: {
-        height: TAB_BAR_HEIGHT,
+        minHeight: TAB_BAR_HEIGHT,
         flexDirection: 'row',
         justifyContent: 'center',
         padding: t.spacings.s4,
@@ -305,7 +307,7 @@ const useStyles = () =>
       },
       blur: {
         ...StyleSheet.absoluteFillObject,
-        height: TAB_BAR_HEIGHT + t.sizes.s16,
+        bottom: -t.sizes.s16,
         zIndex: -1,
       },
       fallbackBackground: {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { InformationFill, QrCode } from '../../Symbols';
 import { AddressInput } from './AddressInput';
 
@@ -114,8 +114,8 @@ export const Error: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     defaultValue: 'invalid-address-format',
-    errorMessage: 'Invalid address format',
-    'aria-invalid': true,
+    helperText: 'Invalid address format',
+    status: 'error',
     className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
   },
@@ -125,8 +125,8 @@ export const Error: Story = {
         code: `<AddressInput 
   placeholder="Enter address or ENS"
   defaultValue="invalid-address-format"
-  errorMessage="Invalid address format"
-  aria-invalid={true}
+  helperText="Invalid address format"
+  status="error"
   className="max-w-md"
 />`,
       },
@@ -139,11 +139,11 @@ export const Error: Story = {
  */
 export const Controlled: Story = {
   render: () => {
-    const [address, setAddress] = React.useState('');
-    const [error, setError] = React.useState('');
+    const [address, setAddress] = useState('');
+    const [error, setError] = useState('');
 
     // Simulate address validation
-    React.useEffect(() => {
+    useEffect(() => {
       if (address.length > 0) {
         const isValidAddress =
           address.startsWith('0x') && address.length === 42;
@@ -178,8 +178,8 @@ export const Controlled: Story = {
             setError(''); // Clear error state
             console.log('Address cleared');
           }}
-          errorMessage={error}
-          aria-invalid={!!error}
+          helperText={error || undefined}
+          status={error ? 'error' : undefined}
           className='max-w-md'
         />
 

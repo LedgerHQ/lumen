@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from 'react';
-import {
+import type {
   PressableProps,
   PressableStateCallbackType,
   TextProps as RNTextProps,
@@ -10,8 +10,8 @@ import {
   Pressable as RNPressable,
 } from 'react-native';
 import type { ImpactFeedbackStyle } from '../../lib/Haptics';
-import { LumenTextStyle, LumenViewStyle } from './lx.types';
-import { LumenTypographyTokenName } from './theme.types';
+import type { LumenTextStyle, LumenViewStyle } from './lx.types';
+import type { LumenTypographyTokenName } from './theme.types';
 
 type StyleFn = (state: PressableStateCallbackType) => ViewStyle;
 export type PressableStyleItem =

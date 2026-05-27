@@ -4,7 +4,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import * as React from 'react';
+import type { ComponentProps, ComponentRef, Ref } from 'react';
 import { Check, ChevronRight } from '../../Symbols';
 import { Divider } from '../Divider';
 import type {
@@ -57,7 +57,6 @@ const MenuTrigger = ({ ref, ...props }: MenuTriggerProps) => (
     {...props}
   />
 );
-MenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
 
 function MenuGroup({ ...props }: MenuGroupProps) {
   return <DropdownMenuPrimitive.Group data-slot='menu-group' {...props} />;
@@ -65,13 +64,13 @@ function MenuGroup({ ...props }: MenuGroupProps) {
 
 function MenuPortal({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
+}: ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
   return <DropdownMenuPrimitive.Portal {...props} />;
 }
 
 function MenuSub({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
+}: ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub {...props} />;
 }
 
@@ -98,7 +97,6 @@ const MenuSubTrigger = ({
     <ChevronRight size={20} className='ml-auto text-muted' />
   </DropdownMenuPrimitive.SubTrigger>
 );
-MenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
 
 const MenuSubContent = ({ ref, className, ...props }: MenuSubContentProps) => (
   <DropdownMenuPrimitive.SubContent
@@ -108,7 +106,6 @@ const MenuSubContent = ({ ref, className, ...props }: MenuSubContentProps) => (
     {...props}
   />
 );
-MenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
 
 const MenuContent = ({
   ref,
@@ -135,7 +132,6 @@ const MenuContent = ({
     />
   </DropdownMenuPrimitive.Portal>
 );
-MenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
 const MenuItem = ({
   ref,
@@ -161,7 +157,6 @@ const MenuItem = ({
     </DisabledProvider>
   );
 };
-MenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 const MenuCheckboxItem = ({
   ref,
@@ -196,7 +191,6 @@ const MenuCheckboxItem = ({
     </DisabledProvider>
   );
 };
-MenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
 
 const MenuRadioItem = ({
   ref,
@@ -229,7 +223,6 @@ const MenuRadioItem = ({
     </DisabledProvider>
   );
 };
-MenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
 
 const MenuLabel = ({
   ref,
@@ -237,7 +230,7 @@ const MenuLabel = ({
   inset,
   ...props
 }: MenuLabelProps & {
-  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Label>>;
+  ref?: Ref<ComponentRef<typeof DropdownMenuPrimitive.Label>>;
 }) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
@@ -246,12 +239,10 @@ const MenuLabel = ({
     {...props}
   />
 );
-MenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
 const MenuSeparator = ({ ref, className, ...props }: MenuSeparatorProps) => (
   <Divider ref={ref} className={cn('mx-8 my-4 w-auto', className)} {...props} />
 );
-MenuSeparator.displayName = 'MenuSeparator';
 
 export {
   Menu,

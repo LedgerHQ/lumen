@@ -1,0 +1,154 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MediaBannerStories from './MediaBanner.stories';
+import {
+  MediaBanner,
+  MediaBannerTitle,
+  MediaBannerDescription,
+} from './MediaBanner';
+import {
+  CustomTabs,
+  Tab,
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/MediaBanner' of={MediaBannerStories} />
+
+# 🖼️ MediaBanner
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaBanner is a promotional banner component that displays a background image alongside a title and description. It is designed for marketing or informational content and supports an optional close action for dismissibility.
+
+## Anatomy
+
+<Canvas of={MediaBannerStories.Base} />
+
+- **MediaBanner**: Root container with surface background, rounded corners, and a fixed height
+- **MediaBannerTitle**: The main label of the banner (clamps at 1 line)
+- **MediaBannerDescription**: Additional context below the title (clamps at 2 lines)
+- **Image**: Background image displayed on the right side with a gradient overlay
+- **Close button**: Optional InteractiveIcon rendered in the top-right corner via the `onClose` prop
+
+## Properties
+
+### Overview
+
+<Canvas of={MediaBannerStories.Base} />
+<Controls of={MediaBannerStories.Base} />
+
+### Truncation
+
+Title clamps at 1 line and description clamps at 2 lines when content overflows.
+
+<Canvas of={MediaBannerStories.Truncation} />
+
+### Broken Image
+
+When the `imageUrl` fails to load, the broken image is hidden while the gradient overlay and image space are preserved. The banner remains functional and visually consistent.
+
+<Canvas of={MediaBannerStories.WithBrokenImage} />
+
+### Dismissible
+
+When `onClose` is provided, a close button (InteractiveIcon) is rendered in the top-right corner of the banner.
+
+<Canvas of={MediaBannerStories.WithClose} />
+
+## Accessibility
+
+- The close button includes an auto-translated `aria-label`
+- The close button uses `InteractiveIcon` with proper focus states
+- All sub-components forward refs and spread HTML attributes for ARIA support
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+
+## Basic Usage
+
+MediaBanner uses a composite component pattern with `MediaBannerTitle` and `MediaBannerDescription`:
+
+```tsx
+import {
+  MediaBanner,
+  MediaBannerTitle,
+  MediaBannerDescription,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <MediaBanner imageUrl='https://example.com/promo.jpg'>
+      <MediaBannerTitle>Firmware Update</MediaBannerTitle>
+      <MediaBannerDescription>
+        Keep your Nano updated!
+      </MediaBannerDescription>
+    </MediaBanner>
+  );
+}
+```
+
+### With Close Button
+
+Add an `onClose` callback to make the banner dismissible:
+
+```tsx
+import {
+  MediaBanner,
+  MediaBannerTitle,
+  MediaBannerDescription,
+} from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function DismissibleBanner() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
+  return (
+    <MediaBanner
+      imageUrl='https://example.com/promo.jpg'
+      onClose={() => setIsVisible(false)}
+    >
+      <MediaBannerTitle>
+        Earn Up to 12% APY With Staking Now!
+      </MediaBannerTitle>
+      <MediaBannerDescription>
+        Put your idle crypto to work. Start staking SOL, ETH, ATOM and more
+        directly from Ledger Live
+      </MediaBannerDescription>
+    </MediaBanner>
+  );
+}
+```
+
+### Custom Styling
+
+Use `className` for layout purposes only, such as margins or maximum width:
+
+```tsx
+<MediaBanner
+  imageUrl='https://example.com/promo.jpg'
+  className='max-w-md mt-16'
+>
+  <MediaBannerTitle>Constrained Width</MediaBannerTitle>
+  <MediaBannerDescription>
+    This banner has a maximum width applied.
+  </MediaBannerDescription>
+</MediaBanner>
+```
+
+<CommonRulesDoAndDont />
+
+</Tab>
+</CustomTabs>

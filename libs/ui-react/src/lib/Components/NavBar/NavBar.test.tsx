@@ -140,9 +140,9 @@ describe('NavBar', () => {
 });
 
 describe('NavBarCoinCapsule', () => {
-  it('renders ticker and icon correctly', () => {
+  it('renders ticker and leading content correctly', () => {
     const MockIcon = () => <svg data-testid='coin-icon' />;
-    render(<NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />);
+    render(<NavBarCoinCapsule ticker='BTC' leadingContent={<MockIcon />} />);
 
     expect(screen.getByText('BTC')).toBeInTheDocument();
     expect(screen.getByTestId('coin-icon')).toBeInTheDocument();
@@ -153,7 +153,7 @@ describe('NavBarCoinCapsule', () => {
     render(
       <NavBarCoinCapsule
         ticker='ETH'
-        icon={<MockIcon />}
+        leadingContent={<MockIcon />}
         className='bg-accent'
       />,
     );
@@ -166,14 +166,14 @@ describe('NavBarCoinCapsule', () => {
   it('renders different tickers', () => {
     const MockIcon = () => <svg />;
     const { rerender } = render(
-      <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />,
+      <NavBarCoinCapsule ticker='BTC' leadingContent={<MockIcon />} />,
     );
     expect(screen.getByText('BTC')).toBeInTheDocument();
 
-    rerender(<NavBarCoinCapsule ticker='ETH' icon={<MockIcon />} />);
+    rerender(<NavBarCoinCapsule ticker='ETH' leadingContent={<MockIcon />} />);
     expect(screen.getByText('ETH')).toBeInTheDocument();
 
-    rerender(<NavBarCoinCapsule ticker='USDT' icon={<MockIcon />} />);
+    rerender(<NavBarCoinCapsule ticker='USDT' leadingContent={<MockIcon />} />);
     expect(screen.getByText('USDT')).toBeInTheDocument();
   });
 });
@@ -184,7 +184,7 @@ describe('NavBar with NavBarCoinCapsule', () => {
     render(
       <NavBar>
         <NavBarBackButton onClick={vi.fn()} />
-        <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+        <NavBarCoinCapsule ticker='BTC' leadingContent={<MockIcon />} />
         <NavBarTrailing>
           <button>More</button>
         </NavBarTrailing>

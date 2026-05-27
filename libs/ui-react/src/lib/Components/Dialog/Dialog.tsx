@@ -1,9 +1,9 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
-import * as React from 'react';
+import type { ComponentProps } from 'react';
 import { DialogHeader } from './DialogHeader/DialogHeader';
-import {
+import type {
   DialogBodyProps,
   DialogBodyStickyContentProps,
   DialogContentProps,
@@ -27,12 +27,12 @@ const dialogContentVariants = cva(
   {
     variants: {
       height: {
-        hug: 'max-h-560',
+        fit: 'max-h-560',
         fixed: 'h-560',
       },
     },
     defaultVariants: {
-      height: 'hug',
+      height: 'fit',
     },
   },
 );
@@ -55,7 +55,7 @@ const dialogContentVariants = cva(
  *       </DialogTrigger>
  *       <DialogContent>
  *         <DialogHeader
- *           appearance='compact'
+ *           density='compact'
  *           title='Dialog Title'
  *           description='Dialog Description'
  *           onBack={() => {}}
@@ -69,7 +69,7 @@ const dialogContentVariants = cva(
  *   );
  * }
  */
-export function Dialog({ height = 'hug', ...props }: DialogProps) {
+export function Dialog({ height = 'fit', ...props }: DialogProps) {
   return (
     <DialogContextProvider value={{ height }}>
       <DialogPrimitive.Root data-slot='dialog' {...props} />
@@ -116,7 +116,7 @@ export { DialogClose } from './DialogClose/DialogClose';
  */
 function DialogPortal({
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+}: ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot='dialog-portal' {...props} />;
 }
 
@@ -141,14 +141,13 @@ const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
       ref={ref}
       data-slot='dialog-overlay'
       className={cn(
-        className,
         'fixed inset-0 z-dialog-overlay bg-canvas-overlay backdrop-blur-sm data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in',
+        className,
       )}
       {...props}
     />
   );
 };
-DialogOverlay.displayName = 'DialogOverlay';
 
 /**
  * The content container that displays the dialog information.
@@ -239,9 +238,9 @@ export const DialogBody = ({
       style={style}
       className={cn(
         '-mb-24 flex min-h-0 grow flex-col overflow-y-auto px-24 pb-24',
-        height === 'hug' ? 'basis-auto' : 'basis-0',
-        className,
+        height === 'fit' ? 'basis-auto' : 'basis-0',
         scrollbarWidth === 'auto' ? 'scrollbar-custom' : 'scrollbar-none',
+        className,
       )}
       {...props}
     >
@@ -249,7 +248,6 @@ export const DialogBody = ({
     </div>
   );
 };
-DialogBody.displayName = 'DialogBody';
 
 /**
  * A sticky region inside the dialog body.
@@ -285,7 +283,6 @@ export const DialogBodyStickyContent = ({
     </div>
   );
 };
-DialogBodyStickyContent.displayName = 'DialogBodyStickyContent';
 
 /**
  * The fixed footer area of the dialog.
@@ -324,6 +321,5 @@ export const DialogFooter = ({
     </div>
   );
 };
-DialogFooter.displayName = 'DialogFooter';
 
 export { DialogHeader };

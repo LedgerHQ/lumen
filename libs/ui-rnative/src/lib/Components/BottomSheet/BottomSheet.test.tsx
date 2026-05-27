@@ -1,10 +1,10 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render, RenderOptions } from '@testing-library/react-native';
-import React from 'react';
+import type { RenderOptions } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { Text, View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-
+import { BottomSheet as BottomSheetComponent } from './BottomSheet';
 // Mock react-native-gesture-handler which is used by @gorhom/bottom-sheet
 jest.mock('react-native-gesture-handler', () => ({}));
 
@@ -21,9 +21,7 @@ const renderWithTheme = (
 
 describe('BottomSheet', () => {
   it('exports BottomSheet component', () => {
-    const { BottomSheet } = require('./BottomSheet');
-    expect(BottomSheet).toBeDefined();
-    expect(BottomSheet.displayName).toBe('BottomSheet');
+    expect(BottomSheetComponent).toBeDefined();
   });
 
   it('exports useBottomSheetContext hook', () => {
@@ -184,6 +182,65 @@ describe('BottomSheet', () => {
 
       const element = getByTestId('bottom-sheet');
       expect(element.props['data-detached']).toBe('true');
+    });
+
+    it('uses default background style when no backgroundComponent is provided', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      const element = getByTestId('bottom-sheet');
+      expect(element.props['data-has-background-component']).toBe('false');
+      expect(element.props['data-has-background-style']).toBe('true');
+    });
+
+    it('renders the default handle when hideHandle is not set', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId, queryByTestId } = renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      expect(getByTestId('bottom-sheet-handle')).toBeTruthy();
+      expect(queryByTestId('bottom-sheet-handle-hidden')).toBeNull();
+    });
+
+    it('renders the hidden handle placeholder when hideHandle is true', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId, queryByTestId } = renderWithTheme(
+        <BottomSheet hideHandle testID='bottom-sheet'>
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      expect(getByTestId('bottom-sheet-handle-hidden')).toBeTruthy();
+      expect(queryByTestId('bottom-sheet-handle')).toBeNull();
+    });
+
+    it('forwards backgroundComponent and skips default background style', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const CustomBackground = () => (
+        <View testID='custom-bg'>
+          <Text>BG</Text>
+        </View>
+      );
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet
+          backgroundComponent={CustomBackground}
+          testID='bottom-sheet'
+        >
+          <Text>Content</Text>
+        </BottomSheet>,
+      );
+
+      const element = getByTestId('bottom-sheet');
+      expect(element.props['data-has-background-component']).toBe('true');
+      expect(element.props['data-has-background-style']).toBe('false');
+      expect(getByTestId('custom-bg')).toBeTruthy();
     });
 
     it('respects enableHandlePanningGesture prop', () => {

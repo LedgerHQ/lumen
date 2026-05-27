@@ -16,33 +16,6 @@ const meta: Meta<typeof TextInput> = {
       },
     },
   },
-  argTypes: {
-    label: {
-      control: 'text',
-      description: 'Floating label text',
-    },
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text when input is empty',
-    },
-    errorMessage: {
-      control: 'text',
-      description: 'Error message to display below input',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-    hideClearButton: {
-      control: 'boolean',
-      description: 'Hide the clear button',
-    },
-    keyboardType: {
-      control: 'select',
-      options: ['default', 'email-address', 'numeric', 'phone-pad', 'url'],
-      description: 'Keyboard type for input',
-    },
-  },
 };
 
 export default meta;
@@ -93,11 +66,51 @@ export const WithContent: Story = {
   },
 };
 
+export const WithLabelAndPlaceholder: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Phone',
+    placeholder: '+1 (555) 000-0000',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'phone-pad',
+  },
+};
+
 export const WithError: Story = {
   render: (args) => <TextInputStory {...args} initialValue='ab' />,
   args: {
     label: 'Username',
-    errorMessage: 'Username must be at least 3 characters',
+    helperText: 'Username must be at least 3 characters',
+    status: 'error',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithSuccess: Story = {
+  render: (args) => (
+    <TextInputStory
+      {...args}
+      initialValue='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27'
+    />
+  ),
+  args: {
+    label: 'Address',
+    helperText: 'Address verified',
+    status: 'success',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithNeutralHint: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Address',
+    helperText: 'Enter your ETH address',
     editable: true,
     hideClearButton: false,
     keyboardType: 'default',
@@ -108,7 +121,7 @@ export const DisabledTextInput: Story = {
   render: (args) => <TextInputStory {...args} initialValue='johndoe' />,
   args: {
     label: 'Username',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
     keyboardType: 'default',
   },

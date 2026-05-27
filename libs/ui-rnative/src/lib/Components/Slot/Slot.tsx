@@ -1,11 +1,10 @@
-import {
+import type {
   ComponentRef,
-  isValidElement,
-  cloneElement,
   ComponentPropsWithoutRef,
   ComponentPropsWithRef,
 } from 'react';
-import {
+import { isValidElement, cloneElement } from 'react';
+import type {
   View,
   Pressable,
   Text,
@@ -15,10 +14,10 @@ import {
   TextProps,
   ImageProps,
   StyleProp,
-  StyleSheet,
   PressableStateCallbackType,
   ImageStyle as RNImageStyle,
 } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const SlotPressable = ({
   ref,
@@ -27,6 +26,7 @@ const SlotPressable = ({
   const { children, ...pressableSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.Pressable - Invalid asChild element', children);
     return null;
   }
@@ -40,8 +40,6 @@ const SlotPressable = ({
   });
 };
 
-SlotPressable.displayName = 'SlotPressable';
-
 const SlotView = ({
   ref,
   ...props
@@ -49,6 +47,7 @@ const SlotView = ({
   const { children, ...viewSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.View - Invalid asChild element', children);
     return null;
   }
@@ -62,8 +61,6 @@ const SlotView = ({
   });
 };
 
-SlotView.displayName = 'SlotView';
-
 const SlotText = ({
   ref,
   ...props
@@ -71,6 +68,7 @@ const SlotText = ({
   const { children, ...textSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.Text - Invalid asChild element', children);
     return null;
   }
@@ -84,8 +82,6 @@ const SlotText = ({
   });
 };
 
-SlotText.displayName = 'SlotText';
-
 type SlotImageSlotProps = ImageProps & {
   children?: React.ReactNode;
 } & ComponentPropsWithRef<typeof Image>;
@@ -94,6 +90,7 @@ const SlotImage = ({ ref, ...props }: SlotImageSlotProps) => {
   const { children, ...imageSlotProps } = props;
 
   if (!isValidElement(children)) {
+    // eslint-disable-next-line no-console
     console.error('Slot.Image - Invalid asChild element', children);
     return null;
   }
@@ -106,8 +103,6 @@ const SlotImage = ({ ref, ...props }: SlotImageSlotProps) => {
     ref: ref ? composeRefs(ref, (children as any).ref) : (children as any).ref,
   });
 };
-
-SlotImage.displayName = 'SlotImage';
 
 function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   return (node: T) =>

@@ -1,7 +1,7 @@
-import { Row, RowData, Table } from '@tanstack/react-table';
-import { ComponentPropsWithRef, ReactNode } from 'react';
-import { Breakpoints } from '../../../types';
-import { TableRootProps } from '../Table/types';
+import type { Row, RowData, Table } from '@tanstack/react-table';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { Breakpoints } from '../../../types';
+import type { TableRootProps } from '../Table/types';
 
 /**
  * Lumen-specific column metadata that extends TanStack's ColumnMeta.
@@ -70,6 +70,14 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    * @default false
    */
   hideHeader?: boolean;
+  /**
+   * When true, applies sticky positioning to the header so it stays
+   * visible while scrolling. Sticks to the nearest scrolling ancestor:
+   * the table container when the table itself scrolls, or the page when
+   * the table is used inside a scrollable page.
+   * @default true
+   */
+  stickyHeader?: boolean;
   /**
    * Callback fired when a row is clicked.
    * Return the data of the given row from the callback function.

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState } from 'react';
 import { Settings, Plus, ExternalLink } from '../../Symbols';
 import { Button } from './Button';
 
@@ -102,7 +102,7 @@ export const Loading: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{ name: string; appearance: ButtonAppearance }> = [
+    const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
       { name: 'Base', appearance: 'base' },
       { name: 'Gray', appearance: 'gray' },
@@ -199,7 +199,7 @@ export const LabelTruncate: Story = {
 
 export const InteractiveLoadingStates: Story = {
   render: () => {
-    const [states, setStates] = React.useState<
+    const [states, setStates] = useState<
       Record<'text' | 'withIcon', 'idle' | 'loading' | 'red'>
     >({
       text: 'idle',

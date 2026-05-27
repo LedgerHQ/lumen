@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   BottomSheet,
   BottomSheetHeader,
@@ -63,7 +63,7 @@ export const GlobalTooltipBottomSheet: React.FC = () => {
         {(currentTooltip?.title || currentTooltip?.content) && (
           <BottomSheetHeader
             title={currentTooltip.title}
-            appearance='expanded'
+            density='expanded'
             description={currentTooltip.content}
           />
         )}

@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { useCommonTranslation } from '../../../i18n';
-import { SpinnerProps } from './types';
+import type { SpinnerProps } from './types';
 
 /**
  * A basic spinner component for loading states.

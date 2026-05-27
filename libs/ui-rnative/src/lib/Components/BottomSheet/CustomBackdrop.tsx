@@ -1,7 +1,6 @@
 import { BottomSheetBackdrop as GorhomBottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import React from 'react';
 import { useStyleSheet } from '../../../styles';
-import { BottomSheetProps } from './types';
+import type { BottomSheetProps } from './types';
 
 type BackDropProps = React.ComponentProps<typeof GorhomBottomSheetBackdrop> & {
   backdropPressBehavior?: BottomSheetProps['backdropPressBehavior'];
@@ -35,10 +34,8 @@ export const CustomBackdrop = ({
       disappearsOnIndex={-1}
       pressBehavior={backdropPressBehavior}
       onPress={() => {
-        console.log('onPress');
         onPress?.();
       }}
     />
   );
 };
-CustomBackdrop.displayName = 'CustomBackdrop';

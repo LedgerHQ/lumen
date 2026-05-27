@@ -1,4 +1,5 @@
-import { PropsWithChildren, useEffect } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { i18n, switchLanguage } from './i18n';
 import { DEFAULT_LANGUAGE, type SupportedLocale } from './languages';

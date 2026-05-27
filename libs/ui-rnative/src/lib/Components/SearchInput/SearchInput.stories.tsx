@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { SearchInput } from './SearchInput';
-import { SearchInputProps } from './types';
+import type { SearchInputProps } from './types';
 
 const meta: Meta<typeof SearchInput> = {
   component: SearchInput,
@@ -17,24 +17,6 @@ const meta: Meta<typeof SearchInput> = {
         format: true,
         type: 'code',
       },
-    },
-  },
-  argTypes: {
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text when input is empty',
-    },
-    errorMessage: {
-      control: 'text',
-      description: 'Error message to display below input',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-    hideClearButton: {
-      control: 'boolean',
-      description: 'Hide the clear button',
     },
   },
 };
@@ -93,7 +75,8 @@ export const WithError: Story = {
   ),
   args: {
     placeholder: 'Search products',
-    errorMessage: 'Search term is invalid',
+    helperText: 'Search term is invalid',
+    status: 'error',
     editable: true,
     hideClearButton: false,
   },
@@ -105,7 +88,7 @@ export const DisabledSearchInput: Story = {
   ),
   args: {
     placeholder: 'Search products',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
   },
 };

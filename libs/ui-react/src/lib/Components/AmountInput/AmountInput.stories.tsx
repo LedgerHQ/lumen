@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import { useState } from 'react';
 import { TransferVertical } from '../../Symbols/Icons/TransferVertical';
 import { IconButton } from '../IconButton';
 import { AmountInput } from './AmountInput';
@@ -101,8 +101,8 @@ export const LargeAmountDisplay: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => {
-    const [isEth, setIsEth] = React.useState(true);
-    const [value, setValue] = React.useState('');
+    const [isEth, setIsEth] = useState(true);
+    const [value, setValue] = useState('');
 
     const currentCurrency = isEth ? 'ETH' : '$';
     const convertedValue = isEth ? '$0' : '0 ETH';
@@ -110,7 +110,7 @@ export const LargeAmountDisplay: Story = {
     // Check if value exceeds max length (6 digits)
     const digitCount = value.replace(/\D/g, '').length;
     const hasError = digitCount > 3;
-    const errorMessage = hasError ? 'Insufficient balance' : '';
+    const balanceErrorText = hasError ? 'Insufficient balance' : '';
 
     return (
       <div className='relative h-128 w-[359px] rounded-lg'>
@@ -131,7 +131,9 @@ export const LargeAmountDisplay: Story = {
           </div>
 
           {hasError && (
-            <div className='mt-8 text-center text-error'>{errorMessage}</div>
+            <div className='mt-8 text-center text-error'>
+              {balanceErrorText}
+            </div>
           )}
         </div>
         <IconButton

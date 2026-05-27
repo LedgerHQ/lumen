@@ -1,0 +1,38 @@
+name: "Scan Sonar - Called"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
+      should_download_coverage:
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  scan-sonar:
+    name: "Sonar Cloud"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          fetch-depth: 0
+
+      - name: Download unit test coverage
+        if: ${{ inputs.should_download_coverage }}
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: coverage
+          path: libs
+
+      - uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

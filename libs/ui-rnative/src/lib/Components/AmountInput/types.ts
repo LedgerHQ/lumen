@@ -1,5 +1,5 @@
-import { TextInputProps, ViewStyle } from 'react-native';
-import { BoxProps } from '../Utility';
+import type { TextInputProps, ViewStyle } from 'react-native';
+import type { BoxProps } from '../Utility';
 
 export type AmountInputProps = Omit<
   TextInputProps,
@@ -39,6 +39,13 @@ export type AmountInputProps = Omit<
    * @default true
    */
   allowDecimals?: boolean;
+  /**
+   * Whether the input is disabled.
+   * When true, the input is not editable and displays a muted visual style.
+   * This differs from `editable={false}` which only prevents interaction.
+   * @default false
+   */
+  disabled?: boolean;
   /**
    * Additional style
    */

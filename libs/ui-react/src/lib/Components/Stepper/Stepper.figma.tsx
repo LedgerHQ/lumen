@@ -1,7 +1,5 @@
-import React from 'react';
-import { Stepper } from './Stepper';
-
 import figma from '@figma/code-connect';
+import { Stepper } from './Stepper';
 
 figma.connect(
   Stepper,

@@ -1,5 +1,5 @@
-import { ComponentPropsWithRef, ReactNode } from 'react';
-import { Breakpoints } from '../../../types';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { Breakpoints } from '../../../types';
 
 export type TableRootProps = {
   /**
@@ -117,7 +117,7 @@ export type TableCellContentProps = {
    */
   leadingContent?: ReactNode;
   /**
-   * The title of the cell
+   * The title of the cell.
    */
   title?: ReactNode;
   /**
@@ -139,6 +139,13 @@ export type TableHeaderRowProps = {
    * Custom classname
    */
   className?: string;
+  /**
+   * When true, applies sticky positioning to the header row so it stays
+   * visible while scrolling. Sticks to the nearest scrolling ancestor
+   * (the table container or the page when used inside a scrollable page).
+   * @default true
+   */
+  stickyHeader?: boolean;
 } & ComponentPropsWithRef<'tr'>;
 
 export type TableGroupHeaderRowProps = {

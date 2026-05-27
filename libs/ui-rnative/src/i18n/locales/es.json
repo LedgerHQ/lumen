@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "Cerrar"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "Escanear código QR"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Avatar de usuario",
-      "notificationAriaLabel": "Tiene notificación"
+      "notificationAriaLabel": "Tiene notificación",
+      "fallbackIconAriaLabel": "Ícono alternativo"
     },
     "baseInput": {
       "clearInputAriaLabel": "Borrar entrada"

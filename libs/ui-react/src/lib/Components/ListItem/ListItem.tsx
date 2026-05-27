@@ -2,25 +2,57 @@ import {
   cn,
   createSafeContext,
   DisabledProvider,
+  getButtonA11yProps,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { Spot } from '../Spot/Spot';
-import {
+
+import { cva } from 'class-variance-authority';
+
+import type {
   ListItemContentProps,
   ListItemDescriptionProps,
-  ListItemIconProps,
   ListItemLeadingProps,
   ListItemProps,
-  ListItemSpotProps,
+  ListItemContentRowProps,
   ListItemTitleProps,
   ListItemTrailingProps,
-  ListItemTruncateProps,
 } from './types';
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
   createSafeContext<{ isInTrailing: boolean }>('ListItemTrailing', {
     isInTrailing: false,
   });
+
+const listItemVariants = cva(
+  [
+    'flex w-full items-center gap-16 px-8',
+    'rounded-md bg-base-transparent text-base transition-colors',
+  ],
+  {
+    variants: {
+      density: {
+        compact: 'h-40',
+        expanded: 'h-64',
+      },
+      interactive: {
+        true: '',
+        false: '',
+      },
+      disabled: {
+        true: 'cursor-default bg-base-transparent text-disabled',
+        false: '',
+      },
+    },
+    compoundVariants: [
+      {
+        interactive: true,
+        disabled: false,
+        className:
+          'cursor-pointer hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
+      },
+    ],
+  },
+);
 
 /**
  * A flexible list item component that provides a composable structure for displaying
@@ -33,7 +65,7 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  *
  * <ListItem onClick={() => console.log('Clicked!')}>
  *   <ListItemLeading>
- *     <ListItemSpot appearance="icon" icon={Wallet} />
+ *     <Spot size={48} appearance="icon" icon={Wallet} />
  *     <ListItemContent>
  *       <ListItemTitle>Balance</ListItemTitle>
  *       <ListItemDescription>Optional description</ListItemDescription>
@@ -44,8 +76,14 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
  *   </ListItemTrailing>
  * </ListItem>
  */
-export const ListItem = ({ ref, ...props }: ListItemProps) => {
-  const { children, className, disabled: disabledProp, ...buttonProps } = props;
+export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
+  const {
+    children,
+    className,
+    disabled: disabledProp = false,
+    density = 'expanded',
+    ...buttonProps
+  } = props;
   const disabled = useDisabledContext({
     consumerName: 'ListItem',
     mergeWith: { disabled: disabledProp },
@@ -53,46 +91,45 @@ export const ListItem = ({ ref, ...props }: ListItemProps) => {
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <button
+      <div
         ref={ref}
-        type='button'
-        disabled={disabled}
+        {...getButtonA11yProps({ onClick, disabled })}
         className={cn(
-          'flex h-64 w-full cursor-pointer items-center gap-16 rounded-md bg-base-transparent px-8 py-12 text-base transition-colors',
-          'hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
-          'disabled:cursor-default disabled:bg-base-transparent disabled:text-disabled',
+          listItemVariants({
+            density,
+            interactive: !!onClick,
+            disabled,
+          }),
           className,
         )}
         {...buttonProps}
       >
         {children}
-      </button>
+      </div>
     </DisabledProvider>
   );
 };
 
-ListItem.displayName = 'ListItem';
-
 /**
  * Container for the leading (left) part of the list item.
- * Contains the visual element (ListItemSpot, Avatar, Icon) and the content (title + description).
+ * Contains the visual element (Spot, Avatar, Icon) and the content (title + description).
  */
 export const ListItemLeading = ({
   ref,
   children,
   className,
+  ...props
 }: ListItemLeadingProps) => {
   return (
     <div
       ref={ref}
       className={cn('flex min-w-0 flex-1 items-center gap-12', className)}
+      {...props}
     >
       {children}
     </div>
   );
 };
-
-ListItemLeading.displayName = 'ListItemLeading';
 
 /**
  * Container for the text content (title and description) within the leading area.
@@ -101,18 +138,48 @@ export const ListItemContent = ({
   ref,
   children,
   className,
+  ...props
 }: ListItemContentProps) => {
   return (
     <div
       ref={ref}
       className={cn('flex min-w-0 flex-1 flex-col gap-4', className)}
+      {...props}
     >
       {children}
     </div>
   );
 };
 
-ListItemContent.displayName = 'ListItemContent';
+/**
+ * Horizontal row container within ListItemContent to place a title or description
+ * alongside additional inline content (e.g. Tag) while preserving text truncation.
+ */
+export const ListItemContentRow = ({
+  ref,
+  children,
+  className,
+  ...props
+}: ListItemContentRowProps) => {
+  const { isInTrailing } = useListItemTrailingContext({
+    consumerName: 'ListItemContentRow',
+    contextRequired: false,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'flex min-w-0 items-center gap-8',
+        isInTrailing && 'justify-end',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 
 /**
  * The main title of the list item.
@@ -121,6 +188,7 @@ export const ListItemTitle = ({
   ref,
   children,
   className,
+  ...props
 }: ListItemTitleProps) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemTitle',
@@ -135,27 +203,27 @@ export const ListItemTitle = ({
     <div
       ref={ref}
       className={cn(
-        'w-full truncate body-2-semi-bold',
+        'min-w-0 truncate body-2-semi-bold',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
       )}
+      {...props}
     >
       {children}
     </div>
   );
 };
 
-ListItemTitle.displayName = 'ListItemTitle';
-
 /**
- * Optional description text below the title. Can include inline elements like Tag.
+ * Optional description text below the title.
  * Automatically applies disabled styling when the parent ListItem is disabled.
  */
 export const ListItemDescription = ({
   ref,
   children,
   className,
+  ...props
 }: ListItemDescriptionProps) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
@@ -170,18 +238,17 @@ export const ListItemDescription = ({
     <div
       ref={ref}
       className={cn(
-        'w-full items-center truncate body-3 text-muted',
+        'min-w-0 items-center truncate body-3 text-muted',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
       )}
+      {...props}
     >
       {children}
     </div>
   );
 };
-
-ListItemDescription.displayName = 'ListItemDescription';
 
 /**
  * Container for the trailing (right) content of the list item.
@@ -191,6 +258,7 @@ export const ListItemTrailing = ({
   ref,
   children,
   className,
+  ...props
 }: ListItemTrailingProps) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemTrailing',
@@ -206,62 +274,10 @@ export const ListItemTrailing = ({
           disabled && 'text-disabled',
           className,
         )}
+        {...props}
       >
         {children}
       </div>
     </ListItemTrailingProvider>
   );
 };
-
-ListItemTrailing.displayName = 'ListItemTrailing';
-
-/**
- * Spot adapter for ListItem. Automatically inherits disabled state from parent ListItem.
- */
-export const ListItemSpot = (props: ListItemSpotProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemSpot',
-    contextRequired: true,
-  });
-
-  return <Spot {...props} size={48} disabled={disabled} />;
-};
-
-ListItemSpot.displayName = 'ListItemSpot';
-
-/**
- * Icon adapter for ListItem. Automatically applies disabled styling from parent ListItem.
- * Fixed at size 24 for consistent list item appearance.
- */
-export const ListItemIcon = ({
-  ref,
-  icon: Icon,
-  className,
-  ...props
-}: ListItemIconProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemIcon',
-    contextRequired: true,
-  });
-
-  return (
-    <div
-      ref={ref}
-      className={cn('shrink-0', disabled && 'text-disabled', className)}
-      {...props}
-    >
-      <Icon size={24} />
-    </div>
-  );
-};
-
-ListItemIcon.displayName = 'ListItemIcon';
-
-export const ListItemTruncate = ({
-  children,
-  className,
-}: ListItemTruncateProps) => {
-  return <div className={cn('min-w-0 truncate', className)}>{children}</div>;
-};
-
-ListItemTruncate.displayName = 'ListItemTruncate';

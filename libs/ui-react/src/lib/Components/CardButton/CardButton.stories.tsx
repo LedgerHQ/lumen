@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 import { Settings, Plus, Coins, CreditCard, Bank } from '../../Symbols';
 import { CardButton } from './CardButton';
 
@@ -178,10 +177,10 @@ export const NaturalWidth: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{
+    const appearances: {
       name: string;
       appearance: CardButtonAppearance;
-    }> = [
+    }[] = [
       { name: 'Base', appearance: 'base' },
       { name: 'Outline', appearance: 'outline' },
     ];

@@ -15,7 +15,6 @@ const BaseSkeleton = ({ lx, ...props }: SkeletonProps) => {
     />
   );
 };
-BaseSkeleton.displayName = 'BaseSkeleton';
 
 const ListItemSkeleton = ({ lx, ...props }: SkeletonProps) => {
   return (
@@ -49,7 +48,6 @@ const ListItemSkeleton = ({ lx, ...props }: SkeletonProps) => {
     </Box>
   );
 };
-ListItemSkeleton.displayName = 'ListItemSkeleton';
 
 const TileSkeleton = ({ lx, ...props }: SkeletonProps) => {
   return (
@@ -92,7 +90,6 @@ const TileSkeleton = ({ lx, ...props }: SkeletonProps) => {
     </Box>
   );
 };
-TileSkeleton.displayName = 'TileSkeleton';
 
 const componentsMap = {
   'list-item': ListItemSkeleton,
@@ -113,25 +110,28 @@ const componentsMap = {
  * // Tile variant
  * <Skeleton component='tile' />
  */
-const Skeleton = ({ lx, component, ...props }: SkeletonProps) => {
+const Skeleton = ({ lx, component, style, ...props }: SkeletonProps) => {
   /**
    * Check if the component is a valid pre-built variant and return the corresponding component.
    */
   if (component && componentsMap[component]) {
     const Component = componentsMap[component];
     return (
-      <Pulse animate>
-        <Component {...props} lx={lx} />
+      <Pulse animate style={style} lx={lx}>
+        <Component {...props} />
       </Pulse>
     );
   }
 
   return (
-    <Pulse animate>
-      <BaseSkeleton testID='skeleton' lx={lx} {...props} />
+    <Pulse animate style={style} lx={lx}>
+      <BaseSkeleton
+        testID='skeleton'
+        lx={{ width: 'full', height: 'full' }}
+        {...props}
+      />
     </Pulse>
   );
 };
-Skeleton.displayName = 'Skeleton';
 
 export { Skeleton };

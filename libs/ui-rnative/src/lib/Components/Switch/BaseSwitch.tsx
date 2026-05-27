@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -14,10 +14,10 @@ import Animated, {
 import { useStyleSheet } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 
-import { SlottablePressableProps, SlottableViewProps } from '../../types';
+import type { SlottablePressableProps, SlottableViewProps } from '../../types';
 import { SlotPressable, SlotView } from '../Slot';
 
-import { SwitchProps } from './types';
+import type { SwitchProps } from './types';
 
 const ROOT_COMPONENT_NAME = 'BaseSwitch';
 const THUMB_COMPONENT_NAME = 'BaseSwitchThumb';
@@ -88,7 +88,6 @@ const BaseSwitchRoot = ({
     </BaseSwitchProvider>
   );
 };
-BaseSwitchRoot.displayName = ROOT_COMPONENT_NAME;
 
 const THUMB_TRANSLATE: Record<Size, number> = {
   sm: 8,
@@ -246,7 +245,5 @@ const useStyles = ({
     [checked, disabled, size],
   );
 };
-
-BaseSwitchThumb.displayName = THUMB_COMPONENT_NAME;
 
 export { BaseSwitchRoot, BaseSwitchThumb };

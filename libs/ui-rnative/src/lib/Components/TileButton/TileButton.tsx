@@ -2,12 +2,12 @@ import {
   isTextChildren,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
-import { IconSize } from '../Icon';
+import type { IconSize } from '../Icon';
 import { Pressable, Text } from '../Utility';
-import { TileButtonProps } from './types';
+import type { TileButtonProps } from './types';
 
 const ICON_SIZE: IconSize = 20;
 
@@ -148,5 +148,3 @@ const TileButtonContent: FC<TileButtonContentProps> = ({
     </View>
   );
 };
-
-TileButton.displayName = 'TileButton';

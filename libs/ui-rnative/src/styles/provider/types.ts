@@ -1,6 +1,6 @@
-import { PropsWithChildren } from 'react';
-import { ColorSchemeName } from 'react-native';
-import { LumenThemes } from '../types';
+import type { PropsWithChildren } from 'react';
+import type { ColorSchemeName } from 'react-native';
+import type { LumenThemes } from '../types';
 
 export const COLOR_SCHEMES = {
   light: 'light',

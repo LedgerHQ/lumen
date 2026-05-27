@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 import { Settings, Information } from '../../Symbols';
 import { Link } from './Link';
 
@@ -136,7 +135,7 @@ export const ExternalLinkWithIcon: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{ name: string; appearance: LinkAppearance }> = [
+    const appearances: { name: string; appearance: LinkAppearance }[] = [
       { name: 'Base', appearance: 'base' },
       { name: 'Accent', appearance: 'accent' },
     ];

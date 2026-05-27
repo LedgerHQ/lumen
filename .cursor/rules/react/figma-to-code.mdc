@@ -1,0 +1,74 @@
+---
+description: When Asked to implement or update a component using a figma Link
+keywords: figma, mcp, figma.com, design, extract, implement from figma
+globs:
+alwaysApply: false
+---
+
+- Use the figma mcp server
+- These rules apply only when extracting from Figma. For the full design token reference see `/.cursor/rules/react/tailwind-guidelines.mdc`.
+
+- Token → Tailwind mapping (Figma-only):
+- Combine the Tailwind prefix for the CSS property with the unique part of the token name. Use ONLY the unique part after the last hyphen of the CSS variable name.
+- Background Colors:
+  Figma shows: background-color: var(--background-base);
+  The prefix for background-color is bg-.
+  The unique part of --background-base is base.
+  Result: You write `bg-base` not `bg-background-base`
+- Text Colors:
+  Figma shows: color: var(--text-on-accent);
+  The prefix for color is: text-
+  The unique part of --text-on-accent is: on-accent
+  Result: You write `text-on-accent`, not `text-text-on-accent`.
+- Border Colors:
+  Figma shows: border-color: var(--border-muted);
+  The prefix for border-color is: border-
+  The unique part of --border-muted is: muted
+  Result: You write `border-muted`, not `border-border-muted`.
+- Spacing:
+  Figma shows: padding: var(--spacing-4);
+  The prefix for padding is: p-
+  The unique part of --spacing-4 is: 4
+  Result: You write `p-4`, not `p-spacing-4`.
+- Border Radius: - rounded does not exist.
+  Figma shows: border-radius: var(--radius-lg);
+  The prefix for border-radius is: rounded-
+  The unique part of --radius-lg is: lg
+  Result: You write `rounded-lg`, not `rounded-radius-lg`.
+- Border width: - we use the primitive values for this one using code syntax.
+  Figma shows: border-width: var(--border-width);
+  The prefix for border-width is: border-
+  Result: You write `border`, not `border-width`.
+
+        Figma shows: border-width: var(--border-width-active);
+        The prefix for border-width is: border-
+        Result: You write `border-2`, not `border-width-active`.
+
+- Typography Styles:
+  Figma shows: a comment with the style name, like /_ body/3 _/.
+  No prefix is needed — use directly the name of the font style.
+  Transform: replace `/` with `-` (so `body/3` becomes `body-3`).
+  Result: You write the single class `body-3`.
+
+- Drop Shadow Styles:
+  Figma shows: a comment with the style name, like /_ box-shadow/sm _/.
+  The prefix for box-shadow is: shadow-
+  Transform: replace `/` with `-` and use only the unique part after the last hyphen (so `box-shadow/sm` becomes `sm`).
+  Result: You write `shadow-sm`, not `shadow-box-shadow-sm`.
+  Available values: `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`.
+
+## When Figma Sizes Don't Match Design Tokens
+
+If Figma specifies a size not in our token system (e.g., 108px or 90px):
+
+1. **Use the closest available token** (e.g., 112px instead of 108px, 96px instead of 90px)
+2. **Document the deviation** in code comments
+3. **Consider requesting the token be added** to Figma if it's frequently needed
+
+```tsx
+// ✅ Do - Use closest token and document
+<Tile
+  className='w-112' // Using 112px (closest to Figma's 108px)
+  size='md'
+/>
+```

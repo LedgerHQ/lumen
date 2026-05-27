@@ -2,8 +2,8 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ExternalLink } from '../../Symbols';
-import { IconSize } from '../Icon/types';
-import { LinkProps } from './types';
+import type { IconSize } from '../Icon/types';
+import type { LinkProps } from './types';
 
 const linkVariants = cva(
   'inline-flex w-fit max-w-full items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus',
@@ -108,13 +108,13 @@ export const Link = ({
     <Comp
       ref={ref}
       className={cn(
-        className,
         linkVariants({
           appearance,
           size,
           underline,
           disabled,
         }),
+        className,
       )}
       aria-disabled={disabled || undefined}
       target={isExternal && !asChild ? '_blank' : undefined}
@@ -125,17 +125,11 @@ export const Link = ({
         children
       ) : (
         <>
-          {IconComponent && (
-            <IconComponent size={calculatedIconSize} className='shrink-0' />
-          )}
+          {IconComponent && <IconComponent size={calculatedIconSize} />}
           <span className='min-w-0 truncate'>{children}</span>
           {isExternal && (
             <>
-              <ExternalLink
-                size={calculatedIconSize}
-                className='shrink-0'
-                aria-hidden='true'
-              />
+              <ExternalLink size={calculatedIconSize} aria-hidden='true' />
               <span className='sr-only'>(opens in a new tab)</span>
             </>
           )}
@@ -144,4 +138,3 @@ export const Link = ({
     </Comp>
   );
 };
-Link.displayName = 'Link';

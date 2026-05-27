@@ -1,5 +1,7 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { Children, isValidElement } from 'react';
 import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -7,8 +9,7 @@ import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { Box, Text } from '../Utility';
 import { CoinCapsule } from './CoinCapsule';
-import {
-  NavBarAppearance,
+import type {
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
   NavBarContentProps,
@@ -25,7 +26,7 @@ type Slots = {
 };
 
 const [NavBarProvider, useNavBarContext] = createSafeContext<{
-  appearance: NavBarAppearance;
+  density: Density;
 }>('NavBar');
 
 function extractSlots(children: ReactNode): Slots {
@@ -35,8 +36,8 @@ function extractSlots(children: ReactNode): Slots {
     trailing: null,
   };
 
-  React.Children.forEach(children, (child) => {
-    if (!React.isValidElement(child)) {
+  Children.forEach(children, (child) => {
+    if (!isValidElement(child)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,11 +65,11 @@ export function NavBarContent({
   style,
   ...props
 }: NavBarContentProps) {
-  const { appearance } = useNavBarContext({
+  const { density } = useNavBarContext({
     consumerName: 'NavBarContent',
     contextRequired: true,
   });
-  const styles = useStyles({ appearance });
+  const styles = useStyles({ density });
 
   return (
     <Box style={[styles.content, style]} {...props}>
@@ -80,15 +81,15 @@ export function NavBarContent({
 NavBarContent.displayName = 'NavBarContent';
 
 export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
-  const { appearance } = useNavBarContext({
+  const { density } = useNavBarContext({
     consumerName: 'NavBarTitle',
     contextRequired: true,
   });
-  const styles = useStyles({ appearance });
+  const styles = useStyles({ density });
 
   return (
     <Text
-      numberOfLines={appearance === 'compact' ? 1 : 2}
+      numberOfLines={density === 'compact' ? 1 : 2}
       style={[styles.title, style]}
       {...props}
     >
@@ -97,22 +98,20 @@ export function NavBarTitle({ children, style, ...props }: NavBarTitleProps) {
   );
 }
 
-NavBarTitle.displayName = 'NavBarTitle';
-
 export function NavBarDescription({
   children,
   style,
   ...props
 }: NavBarDescriptionProps) {
-  const { appearance } = useNavBarContext({
+  const { density } = useNavBarContext({
     consumerName: 'NavBarDescription',
     contextRequired: true,
   });
-  const styles = useStyles({ appearance });
+  const styles = useStyles({ density });
 
   return (
     <Text
-      numberOfLines={appearance === 'compact' ? 1 : 3}
+      numberOfLines={density === 'compact' ? 1 : 3}
       style={[styles.description, style]}
       {...props}
     >
@@ -121,21 +120,17 @@ export function NavBarDescription({
   );
 }
 
-NavBarDescription.displayName = 'NavBarDescription';
-
 export function NavBarCoinCapsule({
   ticker,
-  icon,
+  leadingContent,
   ...props
 }: NavBarCoinCapsuleProps) {
   return (
     <Box {...props}>
-      <CoinCapsule ticker={ticker} icon={icon} />
+      <CoinCapsule ticker={ticker} leadingContent={leadingContent} />
     </Box>
   );
 }
-
-NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
 
 export function NavBarBackButton({
   accessibilityLabel,
@@ -199,14 +194,14 @@ NavBarTrailing.displayName = 'NavBarTrailing';
 /**
  * NavBar component for top navigation
  */
-export function NavBar({ appearance, children, ...props }: NavBarProps) {
-  const styles = useStyles({ appearance });
+export function NavBar({ density, children, ...props }: NavBarProps) {
+  const styles = useStyles({ density });
   const slots = extractSlots(children);
 
   return (
-    <NavBarProvider value={{ appearance }}>
+    <NavBarProvider value={{ density }}>
       <Box style={styles.container} {...props}>
-        {appearance === 'expanded' ? (
+        {density === 'expanded' ? (
           <>
             <Box style={styles.topRow}>
               <Box style={styles.backButtonContainer}>{slots.backButton}</Box>
@@ -230,13 +225,11 @@ export function NavBar({ appearance, children, ...props }: NavBarProps) {
   );
 }
 
-NavBar.displayName = 'NavBar';
-
 type StyleParams = {
-  appearance: NavBarAppearance;
+  density: Density;
 };
 
-const useStyles = ({ appearance }: StyleParams) => {
+const useStyles = ({ density }: StyleParams) => {
   return useStyleSheet(
     (t) => {
       return {
@@ -252,7 +245,7 @@ const useStyles = ({ appearance }: StyleParams) => {
             paddingVertical: t.spacings.s8,
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               alignItems: 'flex-start',
               flexDirection: 'column',
             }),
@@ -269,7 +262,7 @@ const useStyles = ({ appearance }: StyleParams) => {
             paddingVertical: t.spacings.s8,
           },
           {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               position: 'absolute',
               left: t.spacings.s4,
               zIndex: 1,
@@ -282,31 +275,28 @@ const useStyles = ({ appearance }: StyleParams) => {
             flexShrink: 0,
           },
           {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               position: 'absolute',
               right: t.spacings.s4,
               zIndex: 1,
             }),
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               marginLeft: 'auto',
             }),
           },
         ]),
         contentContainer: StyleSheet.flatten([
           {
-            flex: 1,
-          },
-          {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               paddingHorizontal: t.spacings.s48,
               alignItems: 'center',
               justifyContent: 'center',
             }),
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               paddingHorizontal: t.spacings.s12,
               paddingBottom: t.spacings.s12,
               width: '100%',
@@ -318,31 +308,31 @@ const useStyles = ({ appearance }: StyleParams) => {
             flexDirection: 'column',
           },
           {
-            ...(appearance === 'compact' && {
+            ...(density === 'compact' && {
               alignItems: 'center',
               justifyContent: 'center',
             }),
           },
           {
-            ...(appearance === 'expanded' && {
+            ...(density === 'expanded' && {
               gap: t.spacings.s8,
             }),
           },
         ]),
         title: {
-          ...(appearance === 'expanded'
+          ...(density === 'expanded'
             ? t.typographies.heading3SemiBold
             : t.typographies.heading4SemiBold),
           color: t.colors.text.base,
-          textAlign: appearance === 'expanded' ? 'left' : 'center',
+          textAlign: density === 'expanded' ? 'left' : 'center',
         },
         description: {
           ...t.typographies.body2,
           color: t.colors.text.muted,
-          textAlign: appearance === 'expanded' ? 'left' : 'center',
+          textAlign: density === 'expanded' ? 'left' : 'center',
         },
       };
     },
-    [appearance],
+    [density],
   );
 };

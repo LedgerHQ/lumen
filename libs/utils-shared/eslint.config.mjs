@@ -1,7 +1,7 @@
-import baseConfig from '../../eslint.config.mjs';
+import { prodConfig } from '../../eslint.config.mjs';
 
 export default [
-  ...baseConfig,
+  ...prodConfig,
   {
     files: ['**/*.json'],
     rules: {

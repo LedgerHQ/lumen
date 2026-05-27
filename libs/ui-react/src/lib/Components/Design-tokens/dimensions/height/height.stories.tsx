@@ -43,9 +43,7 @@ const HeightShowcase = () => (
         { name: '0px', class: 'h-0', token: 'h-0' },
       ].map(({ name, class: heightClass, token }) => (
         <div key={name}>
-          <div
-            className={`${heightClass} mb-12 w-24 rounded-xs bg-accent`}
-          ></div>
+          <div className={`${heightClass} mb-12 w-24 rounded-xs bg-accent`} />
           <div className='w-48 body-2 text-base'>{name}</div>
           <div className='body-4 text-muted'>{token}</div>
         </div>

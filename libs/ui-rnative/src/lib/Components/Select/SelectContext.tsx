@@ -1,6 +1,6 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { ReactNode } from 'react';
-import { SelectContentItem } from './types';
+import type { ReactNode } from 'react';
+import type { SelectContentItem } from './types';
 
 export type SelectContextValue = {
   selectId: string;

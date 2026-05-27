@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "閉じる"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "QRコードをスキャン"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "ユーザーアバター",
-      "notificationAriaLabel": "通知あり"
+      "notificationAriaLabel": "通知あり",
+      "fallbackIconAriaLabel": "フォールバックアイコン"
     },
     "baseInput": {
       "clearInputAriaLabel": "インプットを削除"
@@ -27,7 +31,7 @@
       "opensInNewTabAriaLabel": "（新しいタブで開く）"
     },
     "stepper": {
-      "progressAriaLabel": "ステップ {{currentStep}}/{{totalSteps}}"
+      "progressAriaLabel": "ステップ{{currentStep}}/{{totalSteps}}"
     }
   }
 }

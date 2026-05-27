@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "閉じる"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "QRコードをスキャン"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "ユーザーアバター",
-      "notificationAriaLabel": "通知あり"
+      "notificationAriaLabel": "通知あり",
+      "fallbackIconAriaLabel": "フォールバックアイコン"
     },
     "baseInput": {
       "clearInputAriaLabel": "インプットを削除"
@@ -31,8 +35,11 @@
     },
     "sideBar": {
       "navigationAriaLabel": "サイドバーナビゲーション",
-      "collapseAriaLabel": "サイドバーを折りたたむ",
-      "expandAriaLabel": "サイドバーを展開する"
+      "collapseAriaLabel": "サイドバーを閉じる",
+      "expandAriaLabel": "サイドバーを開く"
+    },
+    "stepper": {
+      "progressAriaLabel": "ステップ{{currentStep}}/{{totalSteps}}"
     }
   }
 }

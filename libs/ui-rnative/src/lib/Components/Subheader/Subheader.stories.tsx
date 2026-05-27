@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
-import React from 'react';
 import { View, Text } from 'react-native';
 import { Link } from '../Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';

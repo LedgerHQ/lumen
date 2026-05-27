@@ -1,7 +1,5 @@
-import React from 'react';
-import { SearchInput } from './SearchInput';
-
 import figma from '@figma/code-connect';
+import { SearchInput } from './SearchInput';
 
 figma.connect(
   SearchInput,

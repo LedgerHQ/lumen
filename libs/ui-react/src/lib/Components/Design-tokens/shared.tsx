@@ -18,8 +18,8 @@ export const ColorSwatch = ({
           <>
             <div
               className={cn(
-                className,
                 'h-64 rounded-lg border border-muted p-16',
+                className,
               )}
             >
               <div className={cn('heading-5', textClassName)}>Aa</div>
@@ -36,7 +36,7 @@ export const ColorSwatch = ({
                 'h-64 rounded-lg border-2 p-16',
                 className.replace('bg-base', ''),
               )}
-            ></div>
+            />
             <div className='mt-8 body-1-semi-bold text-base'>{name}</div>
             <div className='body-3 text-muted'>
               {className.replace('bg-base ', '')}
@@ -51,7 +51,7 @@ export const ColorSwatch = ({
                 'flex h-64 flex-col justify-between rounded-lg border border-muted-subtle p-16',
                 className,
               )}
-            ></div>
+            />
             <div className={cn('mt-8 body-1-semi-bold', textClassName)}>
               {name}
             </div>
@@ -85,7 +85,7 @@ export const ColorSection = ({
   category = 'background',
 }: {
   title?: string;
-  tokens: Array<{ name: string; className: string; textClassName?: string }>;
+  tokens: { name: string; className: string; textClassName?: string }[];
   category?: 'background' | 'text' | 'border';
 }) => (
   <div className='mb-32'>

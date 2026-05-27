@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cva } from 'class-variance-authority';
-import { SwitchProps } from './types';
+import type { SwitchProps } from './types';
 
 const switchVariants = cva(
   cn(
@@ -76,7 +76,7 @@ export const Switch = ({
   return (
     <SwitchPrimitive.Root
       ref={ref}
-      className={cn(className, switchVariants({ size }))}
+      className={cn(switchVariants({ size }), className)}
       checked={selected}
       defaultChecked={defaultSelected}
       onCheckedChange={onChange}
@@ -87,4 +87,3 @@ export const Switch = ({
     </SwitchPrimitive.Root>
   );
 };
-Switch.displayName = 'Switch';

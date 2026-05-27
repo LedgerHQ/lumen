@@ -1,7 +1,7 @@
-import { ComponentType, ReactNode } from 'react';
-import { StyledViewProps } from '../../../styles';
-import { IconSize } from '../Icon';
-import { BoxProps } from '../Utility';
+import type { ComponentType, ReactNode } from 'react';
+import type { StyledViewProps } from '../../../styles';
+import type { IconSize } from '../Icon';
+import type { BoxProps } from '../Utility';
 
 type IconComponent = ComponentType<{
   size?: IconSize;

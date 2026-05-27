@@ -1,5 +1,5 @@
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
@@ -10,11 +10,11 @@ import {
   DeleteCircleFill,
   Close,
 } from '../../Symbols';
-import { IconProps } from '../Icon';
+import type { IconProps } from '../Icon';
 import { IconButton } from '../IconButton';
 import { Box } from '../Utility';
 import { Wrap } from '../Wrap';
-import { BannerProps } from './types';
+import type { BannerProps } from './types';
 
 type Appearance = NonNullable<BannerProps['appearance']>;
 
@@ -51,15 +51,18 @@ const useStyles = ({ appearance }: { appearance: Appearance }) => {
         iconWrapper: {
           flexShrink: 0,
           flexDirection: 'row',
-          alignItems: 'flex-start',
-          paddingVertical: t.spacings.s4,
+          alignItems: 'center',
+        },
+        iconSpacer: {
+          ...t.typographies.body1SemiBold,
+          width: 0,
+          overflow: 'hidden',
         },
         contentWrapper: {
           marginRight: t.spacings.s8,
           flex: 1,
           flexDirection: 'column',
           gap: t.spacings.s8,
-          paddingVertical: t.spacings.s4,
         },
         textWrapper: {
           flexDirection: 'column',
@@ -154,6 +157,7 @@ export const Banner = ({
       {...props}
     >
       <View style={styles.iconWrapper}>
+        <Text style={styles.iconSpacer} />
         <IconComponent lx={{ color: iconColor }} />
       </View>
       <View style={styles.contentWrapper}>
@@ -168,7 +172,9 @@ export const Banner = ({
               <Wrap
                 if={isTextChildren(description)}
                 with={(children) => (
-                  <Text style={styles.description}>{children}</Text>
+                  <Text style={styles.description} numberOfLines={5}>
+                    {children}
+                  </Text>
                 )}
               >
                 {description}
@@ -198,5 +204,3 @@ export const Banner = ({
     </Box>
   );
 };
-
-Banner.displayName = 'Banner';

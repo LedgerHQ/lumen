@@ -1,8 +1,6 @@
-import React from 'react';
-import { Spot } from './Spot';
-import { SpotAppearance } from './types';
-
 import figma from '@figma/code-connect';
+import { Spot } from './Spot';
+import type { SpotAppearance } from './types';
 
 figma.connect(
   Spot,

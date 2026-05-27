@@ -1,16 +1,36 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
+import {
+  cn,
+  resolveBaseInputPlaceholder,
+  useDisabledContext,
+  useMergedRef,
+} from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
+import type { ChangeEvent, PointerEvent } from 'react';
+import { useRef, useId, useState, useCallback } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import { DeleteCircleFill } from '../../Symbols';
+import { CheckmarkCircleFill, DeleteCircleFill } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { BaseInputProps } from './types';
+import type { BaseInputProps } from './types';
 
-const baseContainerStyles = cn(
-  'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',
-  'focus-within:ring-2 focus-within:ring-active hover:bg-muted-hover',
-  'has-disabled:cursor-not-allowed has-disabled:bg-disabled has-disabled:text-disabled',
-  'has-invalid:border-error has-invalid:ring-1 has-invalid:ring-error',
-  'has-[input[aria-invalid="true"]]:border-error has-[input[aria-invalid="true"]]:ring-1 has-[input[aria-invalid="true"]]:ring-error',
+const containerVariants = cva(
+  [
+    'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',
+    'focus-within:ring-2 focus-within:ring-active hover:bg-muted-hover',
+    'has-disabled:cursor-not-allowed has-disabled:bg-disabled has-disabled:text-disabled',
+  ],
+  {
+    variants: {
+      status: {
+        default: '',
+        error: 'ring-1 ring-error focus-within:ring-2 focus-within:ring-error',
+        success:
+          'ring-1 ring-success focus-within:ring-2 focus-within:ring-success',
+      },
+    },
+    defaultVariants: {
+      status: 'default',
+    },
+  },
 );
 
 const baseInputStyles = cn(
@@ -29,6 +49,37 @@ const baseLabelStyles = cn(
   'peer-focus:top-6 peer-focus:translate-y-0 peer-focus:body-4',
   'w-[calc(100%-var(--size-56))] truncate',
 );
+
+const labelVariants = cva(baseLabelStyles, {
+  variants: {
+    status: {
+      default: '',
+      error: 'text-error',
+      success: '',
+    },
+    floated: {
+      true: 'peer-placeholder-shown:top-6 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:body-4',
+      false: '',
+    },
+  },
+  defaultVariants: {
+    status: 'default',
+    floated: false,
+  },
+});
+
+const helperVariants = cva('mt-8 flex items-center gap-2 body-3', {
+  variants: {
+    status: {
+      default: 'text-muted',
+      error: 'text-error',
+      success: 'text-success',
+    },
+  },
+  defaultVariants: {
+    status: 'default',
+  },
+});
 
 /**
  * Base input component with floating label, error state styling, and clear button functionality.
@@ -59,13 +110,15 @@ export const BaseInput = ({
   label,
   id,
   disabled: disabledProp,
-  errorMessage,
+  helperText,
+  status,
   suffix,
   prefix,
   onClear,
   hideClearButton = false,
   'aria-invalid': ariaInvalidProp,
   onChange: onChangeProp,
+  placeholder: placeholderProp,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -73,17 +126,13 @@ export const BaseInput = ({
     mergeWith: { disabled: disabledProp },
   });
   const { t } = useCommonTranslation();
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const reactId = React.useId();
+  const reactId = useId();
   const inputId = id || `input-${reactId}`;
 
-  // Handle aria-invalid properly - use provided value or derive from errorMessage
-  const ariaInvalid = ariaInvalidProp
-    ? ariaInvalidProp
-    : errorMessage
-      ? true
-      : undefined;
+  const ariaInvalid =
+    ariaInvalidProp ?? (status === 'error' ? true : undefined);
 
   const isControlled = props.value !== undefined;
 
@@ -93,12 +142,12 @@ export const BaseInput = ({
   // 2. When clearing the input, DOM value changes but React doesn't re-render
   //    to recalculate hasContent, causing clear button to stay visible
   // This state is only for UI reactivity (clear button visibility), not controlling the input
-  const [uncontrolledValue, setUncontrolledValue] = React.useState(
+  const [uncontrolledValue, setUncontrolledValue] = useState(
     props.defaultValue?.toString() || '',
   );
 
-  const handleInput = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
       // Track uncontrolled input value changes
       if (!isControlled) {
         setUncontrolledValue(e.target.value);
@@ -113,9 +162,16 @@ export const BaseInput = ({
     ? !!props.value && props.value.toString().length > 0
     : uncontrolledValue.length > 0;
 
+  const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
+    resolveBaseInputPlaceholder({
+      label,
+      placeholder: placeholderProp,
+    });
+
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
-  const errorId = `${inputId}-error`;
+  const helperId = `${inputId}-helper`;
+  const showHelper = !!helperText;
 
   const handleClear = () => {
     if (!inputRef.current) return;
@@ -140,25 +196,13 @@ export const BaseInput = ({
     onClear?.();
   };
 
-  /** TODO: move to utils-shared */
-  function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
-    return (node: T) => {
-      refs.forEach((ref) => {
-        if (!ref) return;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else {
-          (ref as React.MutableRefObject<T | null>).current = node;
-        }
-      });
-    };
-  }
+  const composedRef = useMergedRef(ref, inputRef);
 
   return (
     <div className={className}>
       <div
-        className={cn(baseContainerStyles, containerClassName)}
-        onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => {
+        className={cn(containerVariants({ status }), containerClassName)}
+        onPointerDown={(event: PointerEvent<HTMLDivElement>) => {
           const target = event.target as Element;
           if (target.closest('input, button, a')) return;
 
@@ -184,12 +228,12 @@ export const BaseInput = ({
         {prefix}
 
         <input
-          ref={composeRefs(ref, inputRef)}
+          ref={composedRef}
           id={inputId}
           disabled={disabled}
-          placeholder=' '
+          placeholder={inputPlaceholder}
           aria-invalid={ariaInvalid}
-          aria-describedby={errorMessage ? errorId : undefined}
+          aria-describedby={showHelper ? helperId : undefined}
           className={cn(
             baseInputStyles,
             label && 'pt-12 body-2',
@@ -203,8 +247,10 @@ export const BaseInput = ({
           <label
             htmlFor={inputId}
             className={cn(
-              baseLabelStyles,
-              errorMessage && 'text-error',
+              labelVariants({
+                status,
+                floated: labelStaysFloatedWithPlaceholder,
+              }),
               labelClassName,
             )}
           >
@@ -215,27 +261,30 @@ export const BaseInput = ({
         {showClearButton && (
           <InteractiveIcon
             iconType='filled'
+            icon={DeleteCircleFill}
+            size={20}
             onClick={handleClear}
             aria-label={t('components.baseInput.clearInputAriaLabel')}
-          >
-            <DeleteCircleFill size={20} />
-          </InteractiveIcon>
+          />
         )}
 
         {!showClearButton && suffix}
       </div>
-      {errorMessage && (
+      {showHelper && (
         <div
-          id={errorId}
-          className='mt-8 flex items-center gap-2 body-3 text-error'
-          role='alert'
+          id={helperId}
+          className={helperVariants({ status })}
+          role={status === 'error' ? 'alert' : undefined}
         >
-          <DeleteCircleFill size={16} className='shrink-0 text-error' />
-          <span>{errorMessage}</span>
+          {status === 'error' && (
+            <DeleteCircleFill size={16} className='text-error' />
+          )}
+          {status === 'success' && (
+            <CheckmarkCircleFill size={16} className='text-success' />
+          )}
+          <span>{helperText}</span>
         </div>
       )}
     </div>
   );
 };
-
-BaseInput.displayName = 'BaseInput';

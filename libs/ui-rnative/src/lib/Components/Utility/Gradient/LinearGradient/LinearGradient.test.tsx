@@ -1,8 +1,9 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
-import React, { createRef } from 'react';
-import { Text, View } from 'react-native';
+import { createRef } from 'react';
+import type { View } from 'react-native';
+import { Text } from 'react-native';
 
 import { ThemeProvider } from '../../../ThemeProvider/ThemeProvider';
 import { LinearGradient } from './LinearGradient';

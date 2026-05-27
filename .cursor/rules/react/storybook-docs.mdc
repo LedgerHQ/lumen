@@ -1,0 +1,261 @@
+---
+description: MDX documentation structure, Do's and Don'ts patterns, and table guidelines for Storybook docs
+globs: *.mdx
+alwaysApply: false
+---
+
+# Documentation Guidelines
+
+## MDX Documentation Structure
+
+Component documentation MUST use the two-tab structure with Overview and Implementation tabs.
+
+### Overview Tab
+
+**Intent**: Provide designers and developers with a comprehensive understanding of the component's purpose, behavior, and usage patterns.
+
+**Include**:
+
+- Introduction and Figma link
+- Anatomy with visual breakdown
+- Properties (appearance, size, states, etc.)
+- Responsive behavior
+- Accessibility considerations
+- Interactive examples
+
+### Implementation Tab
+
+**Intent**: Give developers practical, copy-paste ready code examples and integration patterns.
+
+**Include**:
+
+- Installation instructions
+- Basic usage examples
+- Advanced patterns (icons, routing, custom styling)
+- Do's and Don'ts section
+- Performance considerations
+
+### Do's and Don'ts Section
+
+**ALWAYS** use `DoVsDontRow` with `DoBlockItem` and `DontBlockItem` for side-by-side comparisons:
+
+```tsx
+import {
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/DoVsDont/CommonRulesDoAndDont.mdx';
+```
+
+**Structure:**
+
+- Group related DO/DON'T pairs in a `<div className='flex flex-col gap-24'>` container
+- Use `DoVsDontRow` to display DO and DON'T side-by-side
+- Each `DoBlockItem` and `DontBlockItem` should include:
+  - `title`: Brief heading (use "Don't" prefix for don'ts)
+  - `description`: Explanation of why it's correct/incorrect
+  - Code snippet in ```tsx block with proper formatting
+
+**Usage Pattern:**
+
+````tsx
+<div className='flex flex-col gap-24'>
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use the correct prop'
+      description='This ensures proper behavior'
+    >
+      ```tsx
+      <Component prop='value' />
+      ```
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use wrong prop"
+      description='This breaks the component'
+    >
+      ```tsx
+      <Component wrongProp='value' />
+      ```
+    </DontBlockItem>
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem title='Another correct usage' description='Why this works'>
+      ```tsx
+      <Component anotherProp='value' />
+      ```
+    </DoBlockItem>
+    <DontBlockItem title="Don't do this either" description='Why this fails'>
+      ```tsx
+      <Component badProp='value' />
+      ```
+    </DontBlockItem>
+  </DoVsDontRow>
+</div>
+````
+
+**Key Points:**
+
+- Always wrap code in ```tsx blocks with blank lines before and after
+- Indent the closing `</DoBlockItem>` and `</DontBlockItem>` tags properly
+- Add blank line after each `</DoVsDontRow>` except the last one in the section
+- Group related comparisons together in sections with headings (e.g., "### Icon Usage")
+
+See `Button.mdx` for complete examples.
+
+## Do's and Don'ts Best Practices
+
+When creating Do's and Don'ts sections, follow these critical rules:
+
+### Use Same Examples in Do and Don't Blocks
+
+**CRITICAL**: Always use the **same example code** in both the Do and Don't blocks within the same row. Only change what makes it wrong in the Don't block.
+
+### Code Block Formatting
+
+- Use `{/* prettier-ignore */}` before code blocks in both Don't and Do blocks to prevent code from going on one line (always keep multi-line for readability, making it easy to detect what not to do)
+- Include necessary imports in code examples when showing component usage
+- Use consistent variable names across examples (e.g., `value`, `setValue`, `hasError`)
+
+### Writing Effective Do's and Don'ts
+
+1. **Be Specific**: Focus on one concept per row
+2. **Show Real Examples**: Use realistic, practical code examples
+3. **Explain Why**: Include descriptions that explain why something is correct/incorrect
+4. **Check Component API**: Always verify which props are actually available before documenting them
+5. **Consistent Formatting**: Use the same code structure, variable names, and formatting in both Do and Don't blocks
+
+### Verification Checklist
+
+Before finalizing Do's and Don'ts sections:
+
+- [ ] Both Do and Don't blocks use the same base example (only changing what's wrong)
+- [ ] All code examples include necessary imports
+- [ ] Props mentioned actually exist on the component (check TypeScript types)
+- [ ] Descriptions explain why something is correct/incorrect
+- [ ] Code examples are realistic and practical
+- [ ] Formatting is consistent (use `{/* prettier-ignore */}` for both blocks)
+- [ ] Variable names are consistent across examples
+
+See `Button.mdx`, `SearchInput.mdx`, `AddressInput.mdx`, `Banner.mdx`, `ListItem.mdx`, and `Tile.mdx` for reference implementations.
+
+### Required Structure
+
+```tsx
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ComponentStories from './Component.stories';
+import { Component } from './Component';
+import {
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Components/Component' of={ComponentStories} />
+
+# Component Name
+
+<CustomTabs>
+  <Tab label='Overview '>
+    ## Introduction
+    {/* Component description and Figma link */}
+
+    ## Anatomy
+    {/* Visual breakdown with Canvas */}
+
+    ## Properties
+    {/* Showcase stories for appearance, size, states, etc. */}
+
+    ## Responsive Layout
+    {/* Layout examples */}
+
+    ## Accessibility
+    {/* Accessibility guidelines */}
+  </Tab>
+
+  <Tab label='Implementation '>
+    ## Installation
+    {/* npm install command and peer dependencies */}
+
+    ## Basic Usage
+    {/* Simple code example */}
+
+    ## Advanced Patterns
+    {/* Icons, routing, custom styling */}
+
+    ## Do's and Don'ts
+    {/* Use DoVsDontRow with DoBlockItem/DontBlockItem - see section above */}
+
+    ## Performance Considerations
+    {/* Performance tips if applicable */}
+  </Tab>
+</CustomTabs>
+```
+
+**Example**: See `Button.mdx` in ui-react or ui-rnative for reference implementation
+
+# Table Documentation Guidelines
+
+When writing tables in documentation, follow this structure:
+
+## Table Container
+
+```jsx
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>{/* table content */}</table>
+</div>
+```
+
+## Table Structure
+
+- **Container**: Use `my-24 overflow-hidden rounded-lg` for spacing and rounded corners
+- **Table**: Use `w-full` for full width
+- **Header**: Use `border-b border-muted bg-muted` for the thead row
+- **Header cells**: Use `p-12 text-left text-on-accent body-2` for th elements
+- **Body**: Use `bg-canvas` for tbody
+- **Body rows**: Use `border-b border-muted` for all rows except the last one
+- **Body cells**:
+  - First column (utilities/classes): Use `text-accent p-12`
+  - Other columns: Use `p-12 text-muted`
+
+## Example Structure
+
+```jsx
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>
+          Tailwind class (utilities)
+        </th>
+        <th className='p-12 text-left text-on-accent body-2'>styles</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>h-1</td>
+        <td className='p-12 text-muted'>height: var(--size-1); /* 1px */</td>
+      </tr>
+      {/* More rows... */}
+      <tr>
+        <td className='text-accent p-12'>h-256</td>
+        <td className='p-12 text-muted'>
+          height: var(--size-256); /* 256px */
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+## Key Points
+
+- Always use design system typography classes (`body-3`, `body-4`)
+- Use design system colors (`text-accent`, `text-muted`, `text-on-accent`, `bg-muted`, `bg-canvas`)
+- Use design system spacing (`p-12`, `my-24`)
+- Use design system borders (`border-muted`)
+- Last row should not have `border-b` class
+- First column typically shows utility classes and uses `text-accent`
+- Other columns show values/descriptions and use `text-muted`

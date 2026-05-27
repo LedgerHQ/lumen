@@ -1,4 +1,5 @@
-import React from 'react';
+import figma from '@figma/code-connect';
+import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import {
   TableRoot,
   Table,
@@ -9,11 +10,8 @@ import {
   TableRow,
   TableCell,
   TableCellContent,
-  TableSortButton
+  TableSortButton,
 } from './Table';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   TableRoot,
@@ -36,10 +34,7 @@ figma.connect(
           <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell>
-                <TableSortButton
-                  sortDirection='asc'
-                  onToggleSort={() => {}}
-                >
+                <TableSortButton sortDirection='asc' onToggleSort={() => {}}>
                   Name
                 </TableSortButton>
               </TableHeaderCell>
@@ -53,7 +48,7 @@ figma.connect(
               <TableCell>
                 <TableCellContent
                   leadingContent={
-                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size='32px' />
+                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
                   }
                   title='Bitcoin'
                   description='BTC'
@@ -67,7 +62,7 @@ figma.connect(
               <TableCell>
                 <TableCellContent
                   leadingContent={
-                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size='32px' />
+                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size={32} />
                   }
                   title='Ethereum'
                   description='ETH'

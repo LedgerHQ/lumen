@@ -1,8 +1,9 @@
 import { mkdirSync } from 'fs';
 import { dirname } from 'path';
 import { config } from 'dotenv';
-import { downloadSvgs } from '../src/figma/downloadSvgs.js';
-import { getSvgs } from '../src/figma/getSvgs.js';
+import { downloadSvgs } from '../tools/figma/downloadSvgs.js';
+import { getSvgs } from '../tools/figma/getSvgs.js';
+import { automationConfig } from './automation.config.js';
 
 config({ path: '../../../../.env' });
 
@@ -23,7 +24,7 @@ const figmaDownloadSvgs = async () => {
 
   console.log(`🔎 Found ${svgsData.svgs.length} icons`);
 
-  const saveDirectory = './symbols/icons';
+  const saveDirectory = automationConfig.symbolsOutputPath;
   mkdirSync(dirname(saveDirectory), { recursive: true });
 
   await downloadSvgs({

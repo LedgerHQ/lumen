@@ -1,12 +1,14 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import {
-  flexRender,
+import type {
   Row,
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
-import { ChangeEvent, Fragment, ReactNode, useCallback } from 'react';
-import { SearchInput, SearchInputProps } from '../SearchInput';
+import { flexRender } from '@tanstack/react-table';
+import type { ChangeEvent, ReactNode } from 'react';
+import { Fragment, useCallback } from 'react';
+import type { SearchInputProps } from '../SearchInput';
+import { SearchInput } from '../SearchInput';
 
 import {
   TableRoot,
@@ -21,7 +23,7 @@ import {
   TableGroupHeaderRow,
   TableLoadingRow,
 } from '../Table';
-import {
+import type {
   DataTableBodyProps,
   DataTableHeaderProps,
   DataTableProps,
@@ -35,6 +37,7 @@ const [DataTableProvider, useDataTableContext] = createSafeContext<{
   paginationMode: DataTableRootProps['paginationMode'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   hideHeader: DataTableRootProps['hideHeader'];
+  stickyHeader: DataTableRootProps['stickyHeader'];
   onRowClick?: (row: Row<any>) => void;
   groupBy?: (row: Row<any>) => string;
   renderGroupHeader?: (info: { row: Row<any>; count: number }) => ReactNode;
@@ -60,6 +63,7 @@ export const DataTableRoot = <TData extends RowData>({
   groupBy,
   renderGroupHeader,
   hideHeader = false,
+  stickyHeader = true,
   children,
   className,
   ref,
@@ -69,6 +73,7 @@ export const DataTableRoot = <TData extends RowData>({
     <DataTableProvider
       value={{
         hideHeader,
+        stickyHeader,
         paginationMode,
         table,
         appearance,
@@ -85,7 +90,6 @@ export const DataTableRoot = <TData extends RowData>({
     </DataTableProvider>
   );
 };
-DataTableRoot.displayName = 'DataTableRoot';
 
 /**
  * Internal component that auto-renders the table header groups
@@ -96,7 +100,7 @@ const DataTableHeader = ({
   ref,
   ...props
 }: DataTableHeaderProps) => {
-  const { table } = useDataTableContext({
+  const { table, stickyHeader } = useDataTableContext({
     consumerName: 'DataTableHeader',
     contextRequired: true,
   });
@@ -104,7 +108,7 @@ const DataTableHeader = ({
   return (
     <TableHeader ref={ref} className={className} {...props}>
       {table.getHeaderGroups().map((headerGroup) => (
-        <TableHeaderRow key={headerGroup.id}>
+        <TableHeaderRow key={headerGroup.id} stickyHeader={stickyHeader}>
           {headerGroup.headers.map((header) => {
             const meta = header.column.columnDef.meta;
 
@@ -141,7 +145,6 @@ const DataTableHeader = ({
     </TableHeader>
   );
 };
-DataTableHeader.displayName = 'DataTableHeader';
 
 /**
  * Renders the full table (header + body) from the TanStack table instance
@@ -182,7 +185,6 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
     </TableRoot>
   );
 };
-DataTable.displayName = 'DataTable';
 
 /**
  * Internal component that auto-renders the table body rows
@@ -202,7 +204,6 @@ const DataTableBody = ({ className, ref, ...props }: DataTableBodyProps) => {
     </TableBody>
   );
 };
-DataTableBody.displayName = 'DataTableBody';
 
 type RowGroup<TData> = {
   key: string;
@@ -268,7 +269,6 @@ const DataTableGroupedBody = ({
     </TableBody>
   );
 };
-DataTableGroupedBody.displayName = 'DataTableGroupedBody';
 
 /**
  * Leaf component that renders a single data row (click handling + cells).
@@ -301,7 +301,6 @@ const DataTableRow = ({ row }: { row: Row<RowData> }) => {
     </TableRow>
   );
 };
-DataTableRow.displayName = 'DataTableRow';
 
 /**
  * A search input that connects to the TanStack table's `globalFilter` state
@@ -332,4 +331,3 @@ export const DataTableGlobalSearchInput = ({
     />
   );
 };
-DataTableGlobalSearchInput.displayName = 'DataTableGlobalSearchInput';

@@ -1,5 +1,6 @@
 import { memo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import type { View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { StyledViewProps } from '../types';
 import { areLxPropsEqual } from './areLxPropsEqual';
 import { useResolveViewStyle } from './resolveStyle';

@@ -1,7 +1,6 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import React from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
   NavBar,
@@ -27,7 +26,7 @@ describe('NavBar', () => {
   describe('Rendering', () => {
     it('should render with title', () => {
       renderWithProvider(
-        <NavBar testID='navbar' appearance='compact'>
+        <NavBar testID='navbar' density='compact'>
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
           </NavBarContent>
@@ -40,7 +39,7 @@ describe('NavBar', () => {
 
     it('should render with title and description', () => {
       renderWithProvider(
-        <NavBar testID='navbar' appearance='expanded'>
+        <NavBar testID='navbar' density='expanded'>
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
             <NavBarDescription>Test Description</NavBarDescription>
@@ -55,7 +54,7 @@ describe('NavBar', () => {
     it('should render with back button', () => {
       const onPress = jest.fn();
       renderWithProvider(
-        <NavBar testID='navbar' appearance='compact'>
+        <NavBar testID='navbar' density='compact'>
           <NavBarBackButton onPress={onPress} />
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
@@ -68,9 +67,9 @@ describe('NavBar', () => {
 
     it('should render with coin capsule', () => {
       renderWithProvider(
-        <NavBar testID='navbar' appearance='compact'>
+        <NavBar testID='navbar' density='compact'>
           <NavBarContent>
-            <NavBarCoinCapsule ticker='BTC' icon={<MockIcon />} />
+            <NavBarCoinCapsule ticker='BTC' leadingContent={<MockIcon />} />
           </NavBarContent>
         </NavBar>,
       );
@@ -81,7 +80,7 @@ describe('NavBar', () => {
     it('should render with all components', () => {
       const onPress = jest.fn();
       renderWithProvider(
-        <NavBar testID='navbar' appearance='expanded'>
+        <NavBar testID='navbar' density='expanded'>
           <NavBarBackButton onPress={onPress} />
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
@@ -96,12 +95,12 @@ describe('NavBar', () => {
     });
   });
 
-  describe('Appearances', () => {
+  describe('Density', () => {
     it.each(['compact', 'expanded'] as const)(
-      'should render with %s appearance',
-      (appearance) => {
+      'should render with %s density',
+      (density) => {
         renderWithProvider(
-          <NavBar testID='navbar' appearance={appearance}>
+          <NavBar testID='navbar' density={density}>
             <NavBarContent>
               <NavBarTitle>Test Title</NavBarTitle>
             </NavBarContent>
@@ -116,7 +115,7 @@ describe('NavBar', () => {
   describe('NavBarTitle', () => {
     it('should truncate to 1 line in compact mode', () => {
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarContent>
             <NavBarTitle testID='title'>Very long title text</NavBarTitle>
           </NavBarContent>
@@ -129,7 +128,7 @@ describe('NavBar', () => {
 
     it('should truncate to 2 lines in expanded mode', () => {
       renderWithProvider(
-        <NavBar appearance='expanded'>
+        <NavBar density='expanded'>
           <NavBarContent>
             <NavBarTitle testID='title'>Very long title text</NavBarTitle>
           </NavBarContent>
@@ -143,7 +142,7 @@ describe('NavBar', () => {
     it('should accept custom style prop', () => {
       const customStyle = { opacity: 0.5 };
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarContent>
             <NavBarTitle testID='title' style={customStyle}>
               Test
@@ -165,7 +164,7 @@ describe('NavBar', () => {
   describe('NavBarDescription', () => {
     it('should truncate to 1 line in compact mode', () => {
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarContent>
             <NavBarTitle>Title</NavBarTitle>
             <NavBarDescription testID='description'>
@@ -181,7 +180,7 @@ describe('NavBar', () => {
 
     it('should truncate to 3 lines in expanded mode', () => {
       renderWithProvider(
-        <NavBar appearance='expanded'>
+        <NavBar density='expanded'>
           <NavBarContent>
             <NavBarTitle>Title</NavBarTitle>
             <NavBarDescription testID='description'>
@@ -198,7 +197,7 @@ describe('NavBar', () => {
     it('should accept custom style prop', () => {
       const customStyle = { opacity: 0.7 };
       renderWithProvider(
-        <NavBar appearance='expanded'>
+        <NavBar density='expanded'>
           <NavBarContent>
             <NavBarTitle>Title</NavBarTitle>
             <NavBarDescription testID='description' style={customStyle}>
@@ -222,7 +221,7 @@ describe('NavBar', () => {
     it('should call onPress when pressed', () => {
       const handlePress = jest.fn();
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarBackButton onPress={handlePress} />
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
@@ -237,7 +236,7 @@ describe('NavBar', () => {
     it('should accept custom accessibilityLabel', () => {
       const handlePress = jest.fn();
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarBackButton
             onPress={handlePress}
             accessibilityLabel='Navigate back'
@@ -253,11 +252,11 @@ describe('NavBar', () => {
   });
 
   describe('NavBarCoinCapsule', () => {
-    it('should render ticker and icon', () => {
+    it('should render ticker and leading content', () => {
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarContent>
-            <NavBarCoinCapsule ticker='ETH' icon={<MockIcon />} />
+            <NavBarCoinCapsule ticker='ETH' leadingContent={<MockIcon />} />
           </NavBarContent>
         </NavBar>,
       );
@@ -269,7 +268,7 @@ describe('NavBar', () => {
   describe('NavBarTrailing', () => {
     it('should render trailing content in compact mode', () => {
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarBackButton />
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
@@ -285,7 +284,7 @@ describe('NavBar', () => {
 
     it('should render trailing content in expanded mode', () => {
       renderWithProvider(
-        <NavBar appearance='expanded'>
+        <NavBar density='expanded'>
           <NavBarBackButton />
           <NavBarContent>
             <NavBarTitle>Test Title</NavBarTitle>
@@ -302,7 +301,7 @@ describe('NavBar', () => {
     it('should accept custom style prop', () => {
       const customStyle = { opacity: 0.8 };
       renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarContent>
             <NavBarTitle>Title</NavBarTitle>
           </NavBarContent>
@@ -325,7 +324,7 @@ describe('NavBar', () => {
   describe('NavBarContent', () => {
     it('should render content in both compact and expanded modes', () => {
       const { rerender } = renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarContent>
             <NavBarTitle>Title</NavBarTitle>
             <NavBarDescription>Description</NavBarDescription>
@@ -338,7 +337,7 @@ describe('NavBar', () => {
 
       rerender(
         <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-          <NavBar appearance='expanded'>
+          <NavBar density='expanded'>
             <NavBarContent>
               <NavBarTitle>Title</NavBarTitle>
               <NavBarDescription>Description</NavBarDescription>
@@ -354,7 +353,7 @@ describe('NavBar', () => {
     it('should render back button in all modes', () => {
       const onPress = jest.fn();
       const { rerender } = renderWithProvider(
-        <NavBar appearance='compact'>
+        <NavBar density='compact'>
           <NavBarBackButton onPress={onPress} />
           <NavBarContent>
             <NavBarTitle>Title</NavBarTitle>
@@ -366,7 +365,7 @@ describe('NavBar', () => {
 
       rerender(
         <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-          <NavBar appearance='expanded'>
+          <NavBar density='expanded'>
             <NavBarBackButton onPress={onPress} />
             <NavBarContent>
               <NavBarTitle>Title</NavBarTitle>

@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
 import { Settings, Plus, Heart, Star } from '../../Symbols';
-import { IconProps } from '../Icon';
+import type { IconProps } from '../Icon';
 import { Box, Text } from '../Utility';
 import { Spot } from './Spot';
-import { SpotProps } from './types';
+import type { SpotProps } from './types';
 
 const meta: Meta<typeof Spot> = {
   component: Spot,
@@ -86,12 +85,12 @@ export const Base: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => {
-    const appearances: Array<{
+    const appearances: {
       name: string;
       appearance: SpotProps['appearance'];
       icon?: React.ComponentType<IconProps>;
       number?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-    }> = [
+    }[] = [
       { name: 'Icon', appearance: 'icon', icon: Settings },
       { name: 'Bluetooth', appearance: 'bluetooth' },
       { name: 'Check', appearance: 'check' },

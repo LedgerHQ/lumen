@@ -47,7 +47,7 @@ const WidthShowcase = () => (
             <div className='w-48 body-2 text-base'>{name}</div>
             <div className='body-4 text-muted'>{token}</div>
           </div>
-          <div className={`${widthClass} h-24 rounded-xs bg-accent`}></div>
+          <div className={`${widthClass} h-24 rounded-xs bg-accent`} />
         </div>
       ))}
     </div>

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
 import { Settings, Plus, User, Apps, ChevronRight } from '../../Symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';

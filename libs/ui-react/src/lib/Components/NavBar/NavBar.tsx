@@ -1,12 +1,13 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { ArrowLeft } from '../../Symbols';
 import { IconButton } from '../IconButton';
 import { CoinCapsule } from './CoinCapsule';
-import {
+import type {
   NavBarBackButtonProps,
   NavBarCoinCapsuleProps,
+  NavBarDescriptionProps,
+  NavBarLeadingProps,
   NavBarProps,
   NavBarTitleProps,
   NavBarTrailingProps,
@@ -14,25 +15,29 @@ import {
 
 /**
  * A coin capsule component for displaying cryptocurrency information within the NavBar.
- * Shows an icon and ticker symbol in a pill-shaped container.
+ * Shows leading content (e.g., an icon) and ticker symbol in a pill-shaped container.
  *
  * @example
  * import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing } from '@ledgerhq/lumen-ui-react';
  * import { CryptoIcon } from '@ledgerhq/crypto-icons';
  *
- * <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />} />
+ * <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
  */
 export const NavBarCoinCapsule = ({
   ref,
   ticker,
-  icon,
+  leadingContent,
   className,
 }: NavBarCoinCapsuleProps) => (
   <div className='flex flex-1 items-center' data-slot='navbar-coin-capsule'>
-    <CoinCapsule ref={ref} ticker={ticker} icon={icon} className={className} />
+    <CoinCapsule
+      ref={ref}
+      ticker={ticker}
+      leadingContent={leadingContent}
+      className={className}
+    />
   </div>
 );
-NavBarCoinCapsule.displayName = 'NavBarCoinCapsule';
 
 /**
  * Back button component for the NavBar. Displays an arrow left icon button.
@@ -61,7 +66,6 @@ export const NavBarBackButton = ({
     />
   );
 };
-NavBarBackButton.displayName = 'NavBarBackButton';
 
 /**
  * Title component for the NavBar. Displays the navigation title text.
@@ -85,7 +89,7 @@ export const NavBarTitle = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={ref as any}
       className={cn(
-        'min-w-0 flex-1 truncate heading-4-semi-bold text-base',
+        'min-w-0 truncate heading-4-semi-bold text-base',
         className,
       )}
       data-slot='navbar-title'
@@ -94,7 +98,55 @@ export const NavBarTitle = ({
     </Component>
   );
 };
-NavBarTitle.displayName = 'NavBarTitle';
+
+/**
+ * Description component for the NavBar. Displays descriptive text below the title row.
+ * @example
+ * <NavBarDescription>Page Description</NavBarDescription
+ */
+export const NavBarDescription = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarDescriptionProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('min-w-0 flex-1 truncate body-1 text-muted', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * Leading container for the NavBar. Used to group the title and an optional description
+ *
+ * @example
+ * <NavBarLeading>
+ *   <NavBarTitle>Page Title</NavBarTitle>
+ *   <NavBarDescription>Subtitle text</NavBarDescription>
+ * </NavBarLeading>
+ */
+export const NavBarLeading = ({
+  ref,
+  children,
+  className,
+  ...props
+}: NavBarLeadingProps) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('flex min-w-0 flex-1 items-center gap-16', className)}
+      data-slot='navbar-leading'
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 
 /**
  * Trailing container for the NavBar. Used to place elements on the right side of the navbar.
@@ -123,7 +175,6 @@ export const NavBarTrailing = ({
     </div>
   );
 };
-NavBarTrailing.displayName = 'NavBarTrailing';
 
 /**
  * A navigation bar component for displaying page headers with optional back button, title, and trailing elements.
@@ -153,7 +204,7 @@ NavBarTrailing.displayName = 'NavBarTrailing';
  *
  * <NavBar>
  *   <NavBarBackButton onClick={handleBack} />
- *   <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size="24px" />} />
+ *   <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
  *   <NavBarTrailing>
  *     <IconButton icon={MoreHorizontal} aria-label="More options" />
  *   </NavBarTrailing>
@@ -171,4 +222,3 @@ export const NavBar = ({ ref, children, className, ...props }: NavBarProps) => {
     </nav>
   );
 };
-NavBar.displayName = 'NavBar';

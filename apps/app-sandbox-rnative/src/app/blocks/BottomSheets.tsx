@@ -1,3 +1,7 @@
+import type {
+  BottomSheetBackgroundProps,
+  BottomSheetProps,
+} from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheet,
   BottomSheetHeader,
@@ -6,9 +10,9 @@ import {
   BottomSheetFlatList,
   BottomSheetScrollView,
   BottomSheetView,
+  LinearGradient,
   Text,
 } from '@ledgerhq/lumen-ui-rnative';
-import { forwardRef } from 'react';
 
 export const BottomSheetsButton = ({ onPress }: any) => {
   return (
@@ -18,9 +22,7 @@ export const BottomSheetsButton = ({ onPress }: any) => {
   );
 };
 
-export const BottomSheetFlatLists = forwardRef<
-  React.ElementRef<typeof BottomSheet>
->((props, ref) => {
+export const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
   const data = Array.from({ length: 100 }, (_, i) => ({
     id: i.toString(),
     title: `Item ${i + 1}`,
@@ -37,13 +39,13 @@ export const BottomSheetFlatLists = forwardRef<
       <BottomSheetHeader
         spacing
         title='Virtual List'
-        appearance='expanded'
+        density='expanded'
         description='This bottom sheet contains a virtualized list'
       />
       <BottomSheetFlatList
         data={data}
-        keyExtractor={(item) => (item as any).id}
-        renderItem={({ item }) => {
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }: { item: any }) => {
           const typedItem = item as any;
           return (
             <Box
@@ -67,11 +69,64 @@ export const BottomSheetFlatLists = forwardRef<
       />
     </BottomSheet>
   );
-});
+};
 
-export const BottomSheetDynamicSize = forwardRef<
-  React.ElementRef<typeof BottomSheet>
->((props, ref) => {
+const GradientBackground = ({
+  style,
+  pointerEvents,
+}: BottomSheetBackgroundProps) => (
+  <Box
+    pointerEvents={pointerEvents}
+    style={style}
+    lx={{ backgroundColor: 'canvasSheet' }}
+  >
+    <LinearGradient
+      direction='to-bottom'
+      stops={[
+        { color: 'accent', opacity: 0.3 },
+        { color: 'activeSubtle', opacity: 0 },
+      ]}
+      style={{
+        height: 256,
+      }}
+    />
+  </Box>
+);
+
+export const BottomSheetWithGradient = ({
+  ref,
+  ...props
+}: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={null}
+      enableDynamicSizing
+      maxDynamicContentSize='full'
+      backdropPressBehavior='close'
+      backgroundComponent={GradientBackground}
+    >
+      <BottomSheetView>
+        <BottomSheetHeader
+          title='Gradient reaches the handle'
+          density='compact'
+          description='Gradient spans the full sheet.'
+        />
+        <Box lx={{ paddingHorizontal: 's4', gap: 's12' }}>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+            turpis efficitur sit amet.
+          </Text>
+        </Box>
+      </BottomSheetView>
+    </BottomSheet>
+  );
+};
+
+export const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
   const data = Array.from(
     new Array(20).fill(0).map((_, i) => ({
       id: i.toString(),
@@ -89,13 +144,12 @@ export const BottomSheetDynamicSize = forwardRef<
       maxDynamicContentSize='full'
       backdropPressBehavior='close'
     >
-      <BottomSheetView>
-        <BottomSheetHeader
-          title='Dynamic Sizing'
-          appearance='compact'
-          description='This bottom sheet adapts to its content height'
-        />
-      </BottomSheetView>
+      <BottomSheetHeader
+        spacing
+        title='Dynamic Sizing'
+        density='compact'
+        description='This bottom sheet adapts to its content height'
+      />
       <BottomSheetScrollView>
         <Box lx={{ flexDirection: 'column', gap: 's12' }}>
           {data.map((item) => (
@@ -121,4 +175,4 @@ export const BottomSheetDynamicSize = forwardRef<
       </BottomSheetScrollView>
     </BottomSheet>
   );
-});
+};

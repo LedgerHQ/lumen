@@ -1,0 +1,21 @@
+{
+  "name": "@ledgerhq/lumen-ui-react-visualization",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui-react-visualization/src",
+  "projectType": "library",
+  "tags": [
+    "scope:react",
+    "type:ui"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "libs/ui-react-visualization/dist"
+      }
+    }
+  }
+}

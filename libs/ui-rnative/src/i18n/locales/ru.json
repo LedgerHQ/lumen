@@ -1,4 +1,7 @@
 {
+  "common": {
+    "closeAriaLabel": "Закрыть"
+  },
   "components": {
     "addressInput": {
       "qrCodeAriaLabel": "Сканировать QR-код"
@@ -8,7 +11,8 @@
     },
     "avatar": {
       "defaultAlt": "Аватар пользователя",
-      "notificationAriaLabel": "Есть уведомление"
+      "notificationAriaLabel": "Есть уведомление",
+      "fallbackIconAriaLabel": "Стандартная иконка"
     },
     "baseInput": {
       "clearInputAriaLabel": "Очистить поле"

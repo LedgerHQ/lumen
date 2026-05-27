@@ -1,19 +1,34 @@
 /// <reference types='vitest' />
 import * as path from 'path';
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+
+const registerVisualizer = () => {
+  const isAnalyze = process.env['ANALYZE'] === 'true';
+  if (!isAnalyze) {
+    return undefined;
+  }
+
+  return visualizer({
+    filename: path.join(__dirname, 'dist/bundle-stats.html'),
+    open: true,
+    gzipSize: true,
+    brotliSize: true,
+  });
+};
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/libs/ui-react',
   plugins: [
-    //tailwindcss(),
     react(),
     dts({
       entryRoot: 'src',
       tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
     }),
+    registerVisualizer(),
   ],
   resolve: {
     preserveSymlinks: false,
@@ -62,10 +77,10 @@ export default defineConfig(() => ({
         '@radix-ui/react-dialog',
         '@radix-ui/react-slot',
         '@radix-ui/react-switch',
-        '@radix-ui/react-select',
         '@radix-ui/react-tooltip',
         '@radix-ui/react-dropdown-menu',
         '@tanstack/react-table',
+        '@base-ui/react',
       ],
       preserveEntrySignatures: 'strict' as const,
       output: {
@@ -84,6 +99,7 @@ export default defineConfig(() => ({
     coverage: {
       reportsDirectory: './test-output/vitest/coverage',
       provider: 'v8' as const,
+      reporter: ['lcov'],
     },
     setupFiles: ['./src/test-setup.ts'],
   },

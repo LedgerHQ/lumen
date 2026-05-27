@@ -3,8 +3,8 @@ import * as os from 'os';
 import path from 'path';
 import { toPascalCase } from '@ledgerhq/lumen-utils-shared';
 import { transform } from '@svgr/core';
-import { findFilesByExtension } from '../src/utils/fsUtils.js';
-import { parseCliArgs } from '../src/utils/parseCliArgs.js';
+import { findFilesByExtension } from '../tools/utils/fsUtils.js';
+import { parseCliArgs } from '../tools/utils/parseCliArgs.js';
 
 const params = parseCliArgs(process.argv.slice(2));
 

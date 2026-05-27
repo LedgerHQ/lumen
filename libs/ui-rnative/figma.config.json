@@ -1,0 +1,9 @@
+{
+  "codeConnect": {
+    "include": [
+      "libs/ui-rnative/src/lib/Components/**/*.{tsx,jsx}"
+    ],
+    "label": "React Native",
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7"
+  }
+}

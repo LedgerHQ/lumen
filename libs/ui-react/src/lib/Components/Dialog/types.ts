@@ -1,6 +1,7 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-export type DialogHeight = 'hug' | 'fixed';
+export type DialogHeight = 'fit' | 'fixed';
 
 export type DialogProps = {
   /**
@@ -24,9 +25,9 @@ export type DialogProps = {
   defaultOpen?: boolean;
   /**
    * The height behavior of the dialog.
-   * - `hug`: Content-fit height up to max 560px (default)
+   * - `fit`: Content-fit height up to max 560px (default)
    * - `fixed`: Always exactly 560px height
-   * @default 'hug'
+   * @default 'fit'
    */
   height?: DialogHeight;
   /**
@@ -101,10 +102,10 @@ export type DialogContentProps = {
 
 export type DialogHeaderProps = {
   /**
-   * The appearance variant of the header.
+   * The density variant of the header.
    * @default 'compact'
    */
-  appearance?: 'compact' | 'expanded';
+  density?: Density;
   /**
    * The main title to display in the header.
    */

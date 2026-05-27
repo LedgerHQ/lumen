@@ -7,21 +7,21 @@
     "run-ios": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx react-native run-ios",
+        "command": "npx expo run:ios",
         "cwd": "apps/app-sandbox-rnative"
       }
     },
     "run-android": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx react-native run-android",
+        "command": "npx expo run:android",
         "cwd": "apps/app-sandbox-rnative"
       }
     },
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx react-native start --reset-cache",
+        "command": "npx expo start",
         "cwd": "apps/app-sandbox-rnative"
       }
     }

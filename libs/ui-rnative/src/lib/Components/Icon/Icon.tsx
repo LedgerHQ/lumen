@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { Svg } from 'react-native-svg';
 import { useResolveTextStyle, useTheme } from '../../../styles';
-import { TextProps } from '../Utility';
-import { IconProps, IconSize } from './types';
+import type { TextProps } from '../Utility';
+import type { IconProps, IconSize } from './types';
 
 const iconSizeMap = {
   12: 's12',
@@ -60,12 +60,10 @@ export const Icon = ({
       viewBox={viewBox}
       color={styles.color}
       fill='none'
-      style={{ pointerEvents: 'none' }}
+      style={{ pointerEvents: 'none', flexShrink: 0 }}
       {...props}
     >
       {children}
     </Svg>
   );
 };
-
-Icon.displayName = 'Icon';

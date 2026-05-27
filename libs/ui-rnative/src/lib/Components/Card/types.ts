@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import { GestureResponderEvent } from 'react-native';
-import { StyledTextProps, StyledViewProps } from '../../../styles';
+import type { ReactNode } from 'react';
+import type { GestureResponderEvent } from 'react-native';
+import type { StyledTextProps, StyledViewProps } from '../../../styles';
 
 export type CardType = 'interactive' | 'expandable' | 'info';
 

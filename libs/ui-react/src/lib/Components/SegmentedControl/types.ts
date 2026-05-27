@@ -1,6 +1,5 @@
-import { ComponentType, ReactNode } from 'react';
-import type { ComponentPropsWithoutRef } from 'react';
-import { IconSize } from '../Icon/types';
+import type { ComponentType, ReactNode, ComponentPropsWithoutRef } from 'react';
+import type { IconSize } from '../Icon/types';
 
 export type SegmentedControlProps = {
   /**
@@ -20,6 +19,13 @@ export type SegmentedControlProps = {
    * @default 'background'
    */
   appearance?: 'background' | 'no-background';
+  /**
+   * Controls how tab widths are calculated.
+   * - "fit": each tab sizes to its content
+   * - "fixed": all tabs share equal width, filling the container
+   * @default 'fixed'
+   */
+  tabLayout?: 'fit' | 'fixed';
   /**
    * Segment buttons (SegmentedControlButton).
    */
@@ -44,4 +50,8 @@ export type SegmentedControlButtonProps = {
    * Optional icon shown to the left of the label (from Symbols).
    */
   icon?: IconComponent;
+  /**
+   * Optional content shown to the right of the label (e.g. DotCount badge).
+   */
+  trailingContent?: ReactNode;
 } & Omit<ComponentPropsWithoutRef<'button'>, 'children'>;

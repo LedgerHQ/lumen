@@ -1,7 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { ChevronRight } from '../../Symbols';
-import { CardButtonProps } from './types';
+import type { CardButtonProps } from './types';
 
 const buttonVariants = cva(
   'group inline-flex h-fit w-full cursor-pointer items-center gap-12 rounded-sm p-12 transition-colors focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-default disabled:text-disabled',
@@ -68,15 +68,15 @@ export const CardButton = ({
     <button
       ref={ref}
       className={cn(
-        className,
         buttonVariants({
           appearance,
         }),
+        className,
       )}
       disabled={disabled}
       {...props}
     >
-      {IconComponent && <IconComponent size={24} className='shrink-0' />}
+      {IconComponent && <IconComponent size={24} />}
       <div className='flex min-w-0 flex-1 flex-col gap-4 text-left'>
         <div className='min-w-0 truncate body-2-semi-bold'>{title}</div>
         {description && (
@@ -88,10 +88,9 @@ export const CardButton = ({
       {!hideChevron && (
         <ChevronRight
           size={24}
-          className='shrink-0 text-muted group-disabled:text-disabled'
+          className='text-muted group-disabled:text-disabled'
         />
       )}
     </button>
   );
 };
-CardButton.displayName = 'CardButton';

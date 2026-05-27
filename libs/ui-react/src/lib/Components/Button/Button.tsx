@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { BaseButton } from './BaseButton';
-import { ButtonProps } from './types';
+import type { ButtonProps } from './types';
 
 const buttonVariants = cva('', {
   variants: {
@@ -73,5 +73,3 @@ export const Button = ({
     </BaseButton>
   );
 };
-
-Button.displayName = 'Button';

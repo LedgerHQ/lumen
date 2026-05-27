@@ -1,8 +1,6 @@
-import React from 'react';
-import { Banner } from './Banner';
-import { Button } from '../Button/Button';
-
 import figma from '@figma/code-connect';
+import { Button } from '../Button/Button';
+import { Banner } from './Banner';
 
 figma.connect(
   Banner,
@@ -12,7 +10,7 @@ figma.connect(
       "import { Banner } from '@ledgerhq/lumen-ui-react'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
-    variant: {'show-close': true},
+    variant: { 'show-close': true },
     props: {
       appearance: figma.enum('appearance', {
         info: 'info',
@@ -69,7 +67,7 @@ figma.connect(
       "import { Banner } from '@ledgerhq/lumen-ui-react'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
-    variant: {'show-close': false},
+    variant: { 'show-close': false },
     props: {
       appearance: figma.enum('appearance', {
         info: 'info',

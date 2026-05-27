@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Text, TextStyle } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
-import { StyledTextProps } from '../types';
+import type { StyledTextProps } from '../types';
 import { areLxPropsEqual } from './areLxPropsEqual';
 import { useResolveTextStyle } from './resolveStyle';
 

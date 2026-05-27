@@ -1,9 +1,8 @@
+import type { TableOptions, Table } from '@tanstack/react-table';
 import {
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
-  TableOptions,
-  Table,
   useReactTable,
 } from '@tanstack/react-table';
 import '../types';

@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import { StyledTextProps, StyledViewProps } from '../../../styles';
-import { InteractiveIconProps } from '../InteractiveIcon';
+import type { ReactNode } from 'react';
+import type { StyledTextProps, StyledViewProps } from '../../../styles';
+import type { InteractiveIconProps } from '../InteractiveIcon';
 
 export type SubheaderProps = {
   /**
@@ -41,7 +41,7 @@ export type SubheaderCountProps = {
 
 export type SubheaderInfoProps = Omit<
   InteractiveIconProps,
-  'children' | 'iconType'
+  'icon' | 'size' | 'iconType'
 > & {
   /**
    * The visual style of the icon button.

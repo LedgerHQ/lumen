@@ -1,5 +1,5 @@
 import { BaseButton } from './BaseButton';
-import { ButtonProps } from './types';
+import type { ButtonProps } from './types';
 
 /**
  * A customizable button component that supports various appearances, sizes, full-width mode, loading states, and optional icons.
@@ -25,4 +25,3 @@ import { ButtonProps } from './types';
 export const Button = (props: ButtonProps) => {
   return <BaseButton {...props} />;
 };
-Button.displayName = 'Button';

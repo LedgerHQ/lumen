@@ -15,15 +15,14 @@ const renderWithProvider = (component: React.ReactElement) => {
 };
 
 describe('InteractiveIcon Component', () => {
-  it('should render correctly with children icon', () => {
+  it('should render correctly with icon prop', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Settings}
         accessibilityLabel='Settings'
         testID='icon-button'
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
     const buttonElement = screen.getByTestId('icon-button');
     expect(buttonElement).toBeTruthy();
@@ -33,11 +32,10 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Plus}
         accessibilityLabel='Add item'
         testID='filled-icon'
-      >
-        <Plus size={20} />
-      </InteractiveIcon>,
+      />,
     );
     const buttonElement = screen.getByTestId('filled-icon');
     expect(buttonElement).toBeTruthy();
@@ -48,11 +46,10 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='stroked'
+        icon={Settings}
         accessibilityLabel='Settings'
         testID='stroked-icon'
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
     const buttonElement = screen.getByTestId('stroked-icon');
     expect(buttonElement).toBeTruthy();
@@ -63,11 +60,10 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Settings}
         accessibilityLabel='Open menu'
         testID='menu-icon'
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
     const buttonElement = screen.getByTestId('menu-icon');
     expect(buttonElement.props.accessibilityLabel).toBe('Open menu');
@@ -77,12 +73,11 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Settings}
         accessibilityLabel='Disabled button'
         disabled
         testID='disabled-icon'
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
     const buttonElement = screen.getByTestId('disabled-icon');
     expect(buttonElement.props.accessibilityState.disabled).toBe(true);
@@ -93,12 +88,11 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Plus}
         accessibilityLabel='Pressable'
         onPress={handlePress}
         testID='pressable-icon'
-      >
-        <Plus size={20} />
-      </InteractiveIcon>,
+      />,
     );
 
     const buttonElement = screen.getByTestId('pressable-icon');
@@ -112,13 +106,12 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Settings}
         accessibilityLabel='Disabled'
         onPress={handlePress}
         disabled
         testID='disabled-pressable'
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
 
     const buttonElement = screen.getByTestId('disabled-pressable');
@@ -132,12 +125,11 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='stroked'
+        icon={Plus}
         accessibilityLabel='Long pressable'
         onLongPress={handleLongPress}
         testID='long-pressable-icon'
-      >
-        <Plus size={20} />
-      </InteractiveIcon>,
+      />,
     );
 
     const buttonElement = screen.getByTestId('long-pressable-icon');
@@ -151,15 +143,27 @@ describe('InteractiveIcon Component', () => {
     renderWithProvider(
       <InteractiveIcon
         iconType='filled'
+        icon={Settings}
         accessibilityLabel='Custom'
         style={customStyle}
         testID='custom-icon'
-      >
-        <Settings size={20} />
-      </InteractiveIcon>,
+      />,
     );
     const buttonElement = screen.getByTestId('custom-icon');
-    // Style is merged as an array [resolvedStyle, customStyle]
     expect(buttonElement.props.style).toMatchObject(customStyle);
+  });
+
+  it('should render with custom size', () => {
+    renderWithProvider(
+      <InteractiveIcon
+        iconType='filled'
+        icon={Settings}
+        size={24}
+        accessibilityLabel='Custom size'
+        testID='custom-size-icon'
+      />,
+    );
+    const buttonElement = screen.getByTestId('custom-size-icon');
+    expect(buttonElement).toBeTruthy();
   });
 });

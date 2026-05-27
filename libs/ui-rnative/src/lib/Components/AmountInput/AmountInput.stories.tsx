@@ -16,41 +16,6 @@ const meta: Meta<typeof AmountInput> = {
       },
     },
   },
-  argTypes: {
-    currencyText: {
-      control: 'text',
-      description: 'Currency text to display (e.g. USD, EUR, $)',
-    },
-    currencyPosition: {
-      control: 'radio',
-      options: ['left', 'right'],
-      description: 'Position of the currency text',
-    },
-    allowDecimals: {
-      control: 'boolean',
-      description: 'Whether to allow decimal values',
-    },
-    thousandsSeparator: {
-      control: 'boolean',
-      description: 'Whether to display thousands separator',
-    },
-    maxIntegerLength: {
-      control: 'number',
-      description: 'Maximum digits for integer part',
-    },
-    maxDecimalLength: {
-      control: 'number',
-      description: 'Maximum digits for decimal part',
-    },
-    isInvalid: {
-      control: 'boolean',
-      description: 'Whether the input is in error state',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-  },
 };
 
 export default meta;
@@ -190,7 +155,7 @@ export const DisabledAmountInput: Story = {
     allowDecimals: true,
     thousandsSeparator: true,
     isInvalid: false,
-    editable: false,
+    disabled: true,
   },
 };
 

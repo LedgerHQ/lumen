@@ -1,7 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { renderHook } from '@testing-library/react-native';
-import React from 'react';
 import type { BoxShadowValue } from 'react-native';
 import { LumenStyleSheetProvider } from '../provider/LumenStyleSheetProvider';
 import { useResolveViewStyle, useResolveTextStyle } from './resolveStyle';

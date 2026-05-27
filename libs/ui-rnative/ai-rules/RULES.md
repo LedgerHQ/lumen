@@ -38,6 +38,9 @@ Below is a complete list of all available Lumen React Native components. Click a
 - [Avatar](https://ldls.vercel.app/?path=/docs/communication-avatar--docs) - User avatar with image, initials, or placeholder
 - [Banner](https://ldls.vercel.app/?path=/docs/communication-banner--docs) - Alert and notification banners
 - [ContentBanner](https://ldls.vercel.app/?path=/docs/communication-contentbanner--docs) - Rich content banner with image support
+- [MediaBanner](https://ldls.vercel.app/?path=/docs/communication-mediabanner--docs) - Rich media banner with image and content
+- [MediaCard](https://ldls.vercel.app/?path=/docs/communication-mediacard--docs) - Card with media content
+- [MediaImage](https://ldls.vercel.app/?path=/docs/communication-mediaimage--docs) - Image display component with loading states
 - [PageIndicator](https://ldls.vercel.app/?path=/docs/communication-pageindicator--docs) - Step and page progress indicator
 - [Skeleton](https://ldls.vercel.app/?path=/docs/communication-skeleton--docs) - Loading placeholder skeleton
 - [Spinner](https://ldls.vercel.app/?path=/docs/communication-spinner--docs) - Loading spinner indicator
@@ -47,6 +50,7 @@ Below is a complete list of all available Lumen React Native components. Click a
 - [Tag](https://ldls.vercel.app/?path=/docs/communication-tag--docs) - Label and tag component
 - [Tooltip](https://ldls.vercel.app/?path=/docs/communication-tooltip--docs) - Tooltip overlay component
 - [BottomSheet](https://ldls.vercel.app/?path=/docs/containment-bottomsheet--docs) - Bottom sheet modal component
+- [Card](https://ldls.vercel.app/?path=/docs/containment-card--docs) - Content container card
 - [ListItem](https://ldls.vercel.app/?path=/docs/containment-listitem--docs) - List item with flexible composition
 - [Tile](https://ldls.vercel.app/?path=/docs/containment-tile--docs) - Content container tile
 - [AddressInput](https://ldls.vercel.app/?path=/docs/input-addressinput--docs) - Input field for cryptocurrency addresses
@@ -55,6 +59,7 @@ Below is a complete list of all available Lumen React Native components. Click a
 - [TextInput](https://ldls.vercel.app/?path=/docs/input-textinput--docs) - Text input field
 - [Divider](https://ldls.vercel.app/?path=/docs/layout-divider--docs) - Visual separator line
 - [NavBar](https://ldls.vercel.app/?path=/docs/navigation-navbar--docs) - Top navigation bar
+- [SegmentedControl](https://ldls.vercel.app/?path=/docs/navigation-segmentedcontrol--docs) - Segmented control for toggling between views
 - [TabBar](https://ldls.vercel.app/?path=/docs/navigation-tabbar--docs) - Bottom tab navigation bar
 - [Checkbox](https://ldls.vercel.app/?path=/docs/selection-checkbox--docs) - Checkbox input for selections
 - [Select](https://ldls.vercel.app/?path=/docs/selection-select--docs) - Dropdown select component

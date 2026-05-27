@@ -1,30 +1,56 @@
 import {
   Box,
+  DotCount,
   SegmentedControl,
   SegmentedControlButton,
+  Text,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Code, Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
-import React from 'react';
+import { useState } from 'react';
 
 export const SegmentedControls = () => {
-  const [state, setState] = React.useState('preview');
-  const [stateWithIcons, setStateWithIcons] = React.useState('preview');
+  const [fitState, setFitState] = useState('preview');
+  const [fixedState, setFixedState] = useState('preview');
+  const [iconsState, setIconsState] = useState('preview');
+  const [trailingState, setTrailingState] = useState('preview');
 
   return (
     <Box lx={{ gap: 's24', width: 'full' }}>
+      <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+        Fit
+      </Text>
       <SegmentedControl
-        selectedValue={state}
-        onSelectedChange={setState}
-        accessibilityLabel='File view'
+        selectedValue={fitState}
+        onSelectedChange={setFitState}
+        tabLayout='fit'
+        accessibilityLabel='Fit layout'
       >
         <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
         <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
         <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
       </SegmentedControl>
 
+      <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+        Fixed
+      </Text>
       <SegmentedControl
-        selectedValue={stateWithIcons}
-        onSelectedChange={setStateWithIcons}
+        selectedValue={fixedState}
+        onSelectedChange={setFixedState}
+        tabLayout='fixed'
+        accessibilityLabel='Fixed layout'
+      >
+        <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
+        <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
+        <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
+      </SegmentedControl>
+
+      <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+        With Icons (fit)
+      </Text>
+      <SegmentedControl
+        selectedValue={iconsState}
+        onSelectedChange={setIconsState}
+        tabLayout='fit'
         accessibilityLabel='File view with icons'
       >
         <SegmentedControlButton value='preview' icon={Eye}>
@@ -34,6 +60,31 @@ export const SegmentedControls = () => {
           Raw
         </SegmentedControlButton>
         <SegmentedControlButton value='blame' icon={EyeCross}>
+          Blame
+        </SegmentedControlButton>
+      </SegmentedControl>
+
+      <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+        With trailing content (fit)
+      </Text>
+      <SegmentedControl
+        selectedValue={trailingState}
+        onSelectedChange={setTrailingState}
+        tabLayout='fit'
+        accessibilityLabel='With trailing content'
+      >
+        <SegmentedControlButton
+          value='preview'
+          trailingContent={<DotCount value={3} size='md' />}
+        >
+          Preview
+        </SegmentedControlButton>
+        <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
+
+        <SegmentedControlButton
+          value='blame'
+          trailingContent={<DotCount value={100} size='md' />}
+        >
           Blame
         </SegmentedControlButton>
       </SegmentedControl>

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
+import { useState } from 'react';
 import { InformationFill, SparksFill } from '../../Symbols';
 import { Button } from '../Button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';
@@ -45,7 +46,7 @@ type Story = StoryObj<typeof TextInput>;
  */
 export const Default: Story = {
   render: (args) => {
-    const [value, setValue] = React.useState(args.value || '');
+    const [value, setValue] = useState(args.value || '');
 
     return (
       <TextInput
@@ -61,7 +62,6 @@ export const Default: Story = {
     label: 'Label',
     type: 'text',
     disabled: false,
-    'aria-invalid': false,
     value: '',
     onClear: undefined,
     suffix: undefined,
@@ -84,7 +84,7 @@ export const Default: Story = {
  */
 export const WithContent: Story = {
   render: () => {
-    const [value, setValue] = React.useState('Initial content');
+    const [value, setValue] = useState('Initial content');
     return (
       <TextInput
         label='Label'
@@ -100,6 +100,36 @@ export const WithContent: Story = {
         code: `<TextInput 
   label="Label"
   value="Initial content"
+  onChange={(e) => setValue(e.target.value)}
+/>`,
+      },
+    },
+  },
+};
+
+/**
+ * `label` and `placeholder` together (empty field shows floated label and hint text).
+ */
+export const WithLabelAndPlaceholder: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <TextInput
+        label='Phone'
+        placeholder='+1 (555) 000-0000'
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className='max-w-md'
+      />
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextInput
+  label="Phone"
+  placeholder="+1 (555) 000-0000"
+  value={value}
   onChange={(e) => setValue(e.target.value)}
 />`,
       },
@@ -136,9 +166,7 @@ export const ExtendedClearBehavior: Story = {
 
 // Separate components to avoid state interference
 export const ControlledInputExample = () => {
-  const [value, setValue] = React.useState(
-    'Type here to see default clear button',
-  );
+  const [value, setValue] = useState('Type here to see default clear button');
   return (
     <TextInput
       label='Controlled Input (Default Clear)'
@@ -166,7 +194,7 @@ export const UncontrolledInputExample = () => {
  */
 export const HiddenClearButton: Story = {
   render: () => {
-    const [value, setValue] = React.useState('Content with no clear button');
+    const [value, setValue] = useState('Content with no clear button');
     return (
       <div className='max-w-md space-y-16'>
         <TextInput
@@ -200,7 +228,7 @@ export const HiddenClearButton: Story = {
  */
 export const WithError: Story = {
   render: () => {
-    const [email, setEmail] = React.useState('invalid.email');
+    const [email, setEmail] = useState('invalid.email');
     // Consider empty input as valid to allow clearing
     const isValidEmail =
       email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -212,10 +240,10 @@ export const WithError: Story = {
           type='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          aria-invalid={!isValidEmail}
-          errorMessage={
+          helperText={
             !isValidEmail ? 'Please enter a valid email address' : undefined
           }
+          status={!isValidEmail ? 'error' : undefined}
         />
         <div className='mt-12 body-3 text-muted'>
           Try typing a valid email address or clicking the clear button to
@@ -227,11 +255,52 @@ export const WithError: Story = {
 };
 
 /**
+ * Success feedback below the input.
+ */
+export const WithSuccess: Story = {
+  render: () => (
+    <div className='max-w-md'>
+      <TextInput
+        label='Address'
+        value='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27'
+        onChange={() => {
+          console.log('onChange');
+        }}
+        helperText='Address verified'
+        status='success'
+      />
+    </div>
+  ),
+};
+
+/**
+ * Neutral hint (no status): muted helper text without an icon.
+ */
+export const WithNeutralHint: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Address'
+          placeholder='0x…'
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue(e.target.value)
+          }
+          helperText='Enter your ETH address'
+        />
+      </div>
+    );
+  },
+};
+
+/**
  * Disabled input state.
  */
 export const Disabled: Story = {
   render: () => {
-    const [value] = React.useState('Disabled content');
+    const [value] = useState('Disabled content');
     return (
       <TextInput
         label='Label'
@@ -293,7 +362,7 @@ const GeneratePasswordButton = () => (
 
 export const WithCustomElement: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = useState('');
     return (
       <div className='max-w-4xl'>
         <div className='grid grid-cols-1 gap-16 md:grid-cols-2'>
@@ -338,17 +407,17 @@ export const WithCustomElement: Story = {
  */
 export const Interactive: Story = {
   render: () => {
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = useState({
       username: '',
       email: '',
       password: '',
       confirmPassword: '',
     });
-    const [errors, setErrors] = React.useState<Record<string, string>>({});
-    const [isSubmitted, setIsSubmitted] = React.useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange =
-      (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      (field: string) => (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setFormData((prev) => ({ ...prev, [field]: value }));
 
@@ -393,7 +462,7 @@ export const Interactive: Story = {
       return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
       e.preventDefault();
       if (validateForm()) {
         setIsSubmitted(true);
@@ -430,8 +499,8 @@ export const Interactive: Story = {
               value={formData.username}
               onChange={handleChange('username')}
               onClear={handleClear('username')}
-              aria-invalid={!!errors.username}
-              errorMessage={errors.username}
+              helperText={errors.username}
+              status={errors.username ? 'error' : undefined}
               suffix={<InformationFill size={20} className='text-muted' />}
             />
 
@@ -441,8 +510,8 @@ export const Interactive: Story = {
               value={formData.email}
               onChange={handleChange('email')}
               onClear={handleClear('email')}
-              aria-invalid={!!errors.email}
-              errorMessage={errors.email}
+              helperText={errors.email}
+              status={errors.email ? 'error' : undefined}
             />
 
             <TextInput
@@ -451,8 +520,8 @@ export const Interactive: Story = {
               value={formData.password}
               onChange={handleChange('password')}
               onClear={handleClear('password')}
-              aria-invalid={!!errors.password}
-              errorMessage={errors.password}
+              helperText={errors.password}
+              status={errors.password ? 'error' : undefined}
             />
 
             <TextInput
@@ -461,8 +530,8 @@ export const Interactive: Story = {
               value={formData.confirmPassword}
               onChange={handleChange('confirmPassword')}
               onClear={handleClear('confirmPassword')}
-              aria-invalid={!!errors.confirmPassword}
-              errorMessage={errors.confirmPassword}
+              helperText={errors.confirmPassword}
+              status={errors.confirmPassword ? 'error' : undefined}
             />
           </div>
 

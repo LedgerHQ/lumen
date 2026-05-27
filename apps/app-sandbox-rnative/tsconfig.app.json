@@ -25,6 +25,9 @@
       "path": "../../libs/ui-rnative/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/ui-rnative-visualization/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/design-core/tsconfig.lib.json"
     }
   ]

@@ -48,18 +48,16 @@ InteractiveIcons come in two visual styles, each optimized for specific use case
 
 ### Icon Sizes
 
-InteractiveIcons support various icon sizes to accommodate different use cases and screen densities:
+InteractiveIcons support various icon sizes via the `size` prop:
 
 <Canvas of={InteractiveIconStories.SizesShowcase} />
 
 Common sizes include:
 
 - **16px**: Compact actions in dense interfaces
-- **20px**: Standard size for most interactive icons
+- **20px**: Standard size for most interactive icons (default)
 - **24px**: Prominent actions in toolbars
 - **40px**: Large touch targets for mobile interfaces
-
-> **⚠️ Important**: Icon sizes are controlled by the icon component itself, not through CSS classes. Always use the `size` prop on your icon component (e.g., `<Settings size={20} />`) to ensure proper scaling and visual consistency.
 
 ### Icon States
 
@@ -76,9 +74,12 @@ InteractiveIcons require special attention for accessibility since they contain 
 **Always provide an `aria-label` prop** that clearly describes the action:
 
 ```tsx
-<InteractiveIcon iconType='filled' aria-label='Delete item'>
-  <DeleteCircleFill size={20} />
-</InteractiveIcon>
+<InteractiveIcon
+  iconType='filled'
+  icon={DeleteCircleFill}
+  size={20}
+  aria-label='Delete item'
+/>
 ```
 
 ### Keyboard Navigation
@@ -112,20 +113,20 @@ function MyComponent() {
       {/* Stroked interactive icon */}
       <InteractiveIcon
         iconType='stroked'
+        icon={Settings}
+        size={20}
         aria-label='Open settings'
         onClick={handleSettings}
-      >
-        <Settings size={20} />
-      </InteractiveIcon>
+      />
 
       {/* Filled interactive icon */}
       <InteractiveIcon
         iconType='filled'
+        icon={DeleteCircleFill}
+        size={20}
         aria-label='Delete item'
         onClick={handleDelete}
-      >
-        <DeleteCircleFill size={20} />
-      </InteractiveIcon>
+      />
     </div>
   );
 }
@@ -144,15 +145,11 @@ function LikeButton({ isSelected, onToggle }) {
   return (
     <InteractiveIcon
       iconType={isSelected ? 'filled' : 'stroked'}
+      icon={isSelected ? CheckmarkCircleFill : CheckmarkCircle}
+      size={20}
       aria-label={isSelected ? 'Deselect' : 'Select'}
       onClick={onToggle}
-    >
-      {isSelected ? (
-        <CheckmarkCircleFill size={20} />
-      ) : (
-        <CheckmarkCircle size={20} />
-      )}
-    </InteractiveIcon>
+    />
   );
 }
 ```
@@ -167,24 +164,16 @@ function SizeExamples() {
   return (
     <div className='flex items-center gap-4'>
       {/* Compact size for dense interfaces */}
-      <InteractiveIcon iconType='stroked' aria-label='Settings'>
-        <Settings size={16} />
-      </InteractiveIcon>
+      <InteractiveIcon iconType='stroked' icon={Settings} size={16} aria-label='Settings' />
 
-      {/* Standard size */}
-      <InteractiveIcon iconType='stroked' aria-label='Settings'>
-        <Settings size={20} />
-      </InteractiveIcon>
+      {/* Standard size (default) */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={20} aria-label='Settings' />
 
       {/* Prominent size */}
-      <InteractiveIcon iconType='stroked' aria-label='Settings'>
-        <Settings size={24} />
-      </InteractiveIcon>
+      <InteractiveIcon iconType='stroked' icon={Settings} size={24} aria-label='Settings' />
 
       {/* Large touch target for mobile */}
-      <InteractiveIcon iconType='stroked' aria-label='Settings'>
-        <Settings size={40} />
-      </InteractiveIcon>
+      <InteractiveIcon iconType='stroked' icon={Settings} size={40} aria-label='Settings' />
     </div>
   );
 }
@@ -204,9 +193,12 @@ The following guidelines are based on our design system principles and accessibi
 ```tsx
 import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
 
-<InteractiveIcon iconType='filled' aria-label='Delete'>
-  <DeleteCircleFill size={20} />
-</InteractiveIcon>;
+<InteractiveIcon
+  iconType='filled'
+  icon={DeleteCircleFill}
+  size={20}
+  aria-label='Delete'
+/>;
 ```
 
     </DoBlockItem>
@@ -219,9 +211,12 @@ import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
 ```tsx
 import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
 
-<InteractiveIcon iconType='stroked' aria-label='Delete'>
-  <DeleteCircleFill size={20} />
-</InteractiveIcon>
+<InteractiveIcon
+  iconType='stroked'
+  icon={DeleteCircleFill}
+  size={20}
+  aria-label='Delete'
+/>
 ```
 
     </DontBlockItem>
@@ -235,9 +230,12 @@ import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
     >
 
 ```tsx
-<InteractiveIcon iconType='stroked' aria-label='Download PDF document'>
-  <Download size={20} />
-</InteractiveIcon>
+<InteractiveIcon
+  iconType='stroked'
+  icon={Download}
+  size={20}
+  aria-label='Download PDF document'
+/>
 ```
 
     </DoBlockItem>
@@ -248,44 +246,11 @@ import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
 
 {/* prettier-ignore */}
 ```tsx
-<InteractiveIcon iconType='stroked'>
-  <Settings size={20} />
-</InteractiveIcon>
-
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Only render icon components'
-      description='Always render icon components as children'
-    >
-
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<InteractiveIcon iconType='stroked' aria-label='More actions'>
-  <MoreVertical size={20} />
-</InteractiveIcon>;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't render arbitrary content"
-      description='Do not render text or arbitrary content as children'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<InteractiveIcon iconType='stroked' aria-label='More actions'>
-  Settings
-</InteractiveIcon>
-
+<InteractiveIcon
+  iconType='stroked'
+  icon={Settings}
+  size={20}
+/>
 ```
 
     </DontBlockItem>

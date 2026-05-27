@@ -1,4 +1,4 @@
-import * as SwitchPrimitive from '@radix-ui/react-switch';
+import type * as SwitchPrimitive from '@radix-ui/react-switch';
 import type { ComponentPropsWithRef } from 'react';
 
 export type SwitchProps = {

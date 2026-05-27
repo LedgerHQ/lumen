@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import React from 'react';
+import { useState } from 'react';
 import { Button } from '../Button';
 import { Box, Text } from '../Utility';
 import { Banner } from './Banner';
@@ -437,7 +437,7 @@ export const ResponsiveLayout: Story = {
 
 export const InteractiveDismiss: Story = {
   render: (args) => {
-    const [visible, setVisible] = React.useState(true);
+    const [visible, setVisible] = useState(true);
 
     if (!visible) return <Text typography='body2'>Banner dismissed</Text>;
 
@@ -456,7 +456,7 @@ export const InteractiveDismiss: Story = {
 
 export const InteractiveActions: Story = {
   render: (args) => {
-    const [state, setState] = React.useState('idle');
+    const [state, setState] = useState('idle');
 
     const handleAccept = () => {
       setState('success');

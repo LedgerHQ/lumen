@@ -1,12 +1,12 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import React, { createRef } from 'react';
-import {
-  Pressable,
+import { createRef } from 'react';
+import type {
   PressableProps,
   PressableStateCallbackType,
   View,
 } from 'react-native';
+import { Pressable } from 'react-native';
 import { LumenStyleSheetProvider } from '../provider/LumenStyleSheetProvider';
 import { createStyledPressable } from './createStyledPressable';
 

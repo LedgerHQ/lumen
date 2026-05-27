@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { AddressInput } from './AddressInput';
-import { AddressInputProps } from './types';
+import type { AddressInputProps } from './types';
 
 const meta: Meta<typeof AddressInput> = {
   component: AddressInput,
@@ -14,28 +14,6 @@ const meta: Meta<typeof AddressInput> = {
         format: true,
         type: 'code',
       },
-    },
-  },
-  argTypes: {
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text when input is empty',
-    },
-    prefix: {
-      control: 'text',
-      description: 'Custom prefix text (default: "To:")',
-    },
-    errorMessage: {
-      control: 'text',
-      description: 'Error message to display below input',
-    },
-    editable: {
-      control: 'boolean',
-      description: 'Whether the input is editable',
-    },
-    hideClearButton: {
-      control: 'boolean',
-      description: 'Hide the clear button',
     },
   },
 };
@@ -141,7 +119,8 @@ export const WithError: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     value: 'invalid-address',
-    errorMessage: 'Invalid address format',
+    helperText: 'Invalid address format',
+    status: 'error',
     prefix: 'To:',
     editable: true,
     hideClearButton: false,
@@ -154,7 +133,7 @@ export const DisabledAddressInput: Story = {
     placeholder: 'Enter address or ENS',
     value: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
     prefix: 'To:',
-    editable: false,
+    disabled: true,
     hideClearButton: false,
   },
 };

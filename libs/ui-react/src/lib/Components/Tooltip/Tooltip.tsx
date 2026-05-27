@@ -1,15 +1,15 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cva } from 'class-variance-authority';
-import React from 'react';
-import {
+import type { ComponentProps } from 'react';
+import type {
   TooltipContentProps,
   TooltipProps,
   TooltipTriggerProps,
 } from './types';
 
 const tooltipContentVariants = cva(
-  'z-tooltip w-fit rounded-xs bg-interactive px-8 py-4 body-3 text-balance text-on-interactive select-none',
+  'z-tooltip w-fit rounded-xs bg-interactive px-8 py-4 body-3 text-on-interactive select-none',
   {
     variants: {
       side: {
@@ -54,7 +54,7 @@ export const TooltipProvider = ({
    */
   delayDuration = 200,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Provider>) => {
+}: ComponentProps<typeof TooltipPrimitive.Provider>) => {
   return (
     <TooltipPrimitive.Provider
       data-slot='tooltip-provider'

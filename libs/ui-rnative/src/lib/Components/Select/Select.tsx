@@ -1,5 +1,13 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import React, { useState, useEffect, useCallback, useId } from 'react';
+import type { ReactNode } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useId,
+  Children,
+  isValidElement,
+} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { ChevronDown } from '../../Symbols';
@@ -117,7 +125,6 @@ export const Select = ({
     </SelectContextProvider>
   );
 };
-Select.displayName = 'Select';
 
 export const SelectTrigger = ({
   children,
@@ -275,8 +282,6 @@ const useTriggerStyles = ({
   );
 };
 
-SelectTrigger.displayName = 'SelectTrigger';
-
 /**
  * Displays the current selected value
  */
@@ -313,7 +318,6 @@ export const SelectValue = () => {
     </Text>
   );
 };
-SelectValue.displayName = 'SelectValue';
 
 /**
  * Container for select items. This component collects all items
@@ -328,9 +332,9 @@ export const SelectContent = ({ children }: SelectContentProps) => {
   useEffect(() => {
     const items: SelectContentItem[] = [];
 
-    const extractItems = (child: React.ReactNode): void => {
-      React.Children.forEach(child, (element) => {
-        if (!React.isValidElement(element)) return;
+    const extractItems = (child: ReactNode): void => {
+      Children.forEach(child, (element) => {
+        if (!isValidElement(element)) return;
 
         if (element.type === SelectItem) {
           const props = element.props as SelectItemProps;
@@ -344,12 +348,10 @@ export const SelectContent = ({ children }: SelectContentProps) => {
             disabled: props.disabled,
           });
         } else if (element.type === SelectGroup) {
-          extractItems(
-            (element.props as { children?: React.ReactNode }).children,
-          );
+          extractItems((element.props as { children?: ReactNode }).children);
         } else if (element.type === SelectLabel) {
           const labelText = extractTextFromChildren(
-            (element.props as { children?: React.ReactNode }).children,
+            (element.props as { children?: ReactNode }).children,
             SelectItemText,
           );
           items.push({
@@ -360,12 +362,8 @@ export const SelectContent = ({ children }: SelectContentProps) => {
           items.push({
             type: 'separator',
           });
-        } else if (
-          (element.props as { children?: React.ReactNode })?.children
-        ) {
-          extractItems(
-            (element.props as { children?: React.ReactNode }).children,
-          );
+        } else if ((element.props as { children?: ReactNode })?.children) {
+          extractItems((element.props as { children?: ReactNode }).children);
         }
       });
     };
@@ -376,7 +374,6 @@ export const SelectContent = ({ children }: SelectContentProps) => {
 
   return null;
 };
-SelectContent.displayName = 'SelectContent';
 
 export const SelectGroup = ({
   children,
@@ -400,7 +397,6 @@ export const SelectGroup = ({
     </Box>
   );
 };
-SelectGroup.displayName = 'SelectGroup';
 
 export const SelectLabel = ({
   children,
@@ -430,7 +426,6 @@ export const SelectLabel = ({
     </Text>
   );
 };
-SelectLabel.displayName = 'SelectLabel';
 
 /**
  * Individual select item. Note: The actual rendering happens in GlobalSelectBottomSheet.
@@ -441,7 +436,6 @@ export const SelectItem = (_props: SelectItemProps) => {
   // The actual items are rendered in GlobalSelectBottomSheet
   return null;
 };
-SelectItem.displayName = 'SelectItem';
 
 export const SelectItemText = ({
   children,
@@ -467,11 +461,9 @@ export const SelectItemText = ({
     </Text>
   );
 };
-SelectItemText.displayName = 'SelectItemText';
 
 export const SelectSeparator = (_props: SelectSeparatorProps) => {
   // This component doesn't render anything - it's used for structure
   // The actual separators are rendered in GlobalSelectBottomSheet
   return null;
 };
-SelectSeparator.displayName = 'SelectSeparator';

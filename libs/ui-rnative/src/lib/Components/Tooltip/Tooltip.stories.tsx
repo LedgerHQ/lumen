@@ -116,9 +116,11 @@ export const WithMultipleTooltips: Story = {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <InteractiveIcon iconType='filled' accessibilityLabel='Info'>
-              <Information />
-            </InteractiveIcon>
+            <InteractiveIcon
+              iconType='filled'
+              icon={Information}
+              accessibilityLabel='Info'
+            />
           </TooltipTrigger>
           <TooltipContent
             title='Third'

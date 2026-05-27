@@ -1,0 +1,44 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "out-tsc/storybook",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ]
+  },
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.js",
+    "src/**/*.test.tsx",
+    "src/**/*.test.jsx"
+  ],
+  "include": [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.js",
+    "src/**/*.stories.jsx",
+    "src/**/*.stories.tsx",
+    "src/**/*.mdx",
+    "src/**/*.figma.ts",
+    "src/**/*.figma.js",
+    "src/**/*.figma.jsx",
+    "src/**/*.figma.tsx",
+    ".storybook/**/*.js",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ],
+  "files": [
+    "../../node_modules/@nx/react/typings/styled-jsx.d.ts",
+    "../../node_modules/@nx/react/typings/cssmodule.d.ts",
+    "../../node_modules/@nx/react/typings/image.d.ts"
+  ]
+}

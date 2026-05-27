@@ -1,0 +1,178 @@
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
+import { useEffect, useState } from 'react';
+import { Image } from 'react-native';
+import { useStyleSheet } from '../../../styles';
+import type { MediaImageSize } from '../MediaImage';
+import type { SpotSize } from '../Spot';
+import { Box } from '../Utility';
+import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
+
+const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
+  8: 2,
+  10: 3,
+  12: 4,
+  16: 5,
+  20: 6,
+  24: 8,
+};
+
+const offsetBySize: Record<DotSymbolSize, number> = {
+  8: -2,
+  10: -2,
+  12: -2,
+  16: -3,
+  20: -3,
+  24: -3,
+};
+
+export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
+  12: 8,
+  16: 8,
+  20: 8,
+  24: 10,
+  32: 12,
+  40: 16,
+  48: 20,
+  56: 24,
+  64: 24,
+};
+
+export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
+  32: 12,
+  40: 16,
+  48: 20,
+  56: 24,
+  72: 24,
+};
+
+const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
+  {
+    'top-start': ['top', 'left'],
+    'top-end': ['top', 'right'],
+    'bottom-start': ['bottom', 'left'],
+    'bottom-end': ['bottom', 'right'],
+  };
+
+const getPinOffset = (
+  pin: DotSymbolPin,
+  size: DotSymbolSize,
+): Record<string, number> => {
+  const [v, h] = pinAxisMap[pin];
+  const offset = offsetBySize[size];
+  return { [v]: offset, [h]: offset };
+};
+
+const useStyles = ({
+  size,
+  shape,
+  pin,
+  disabled,
+}: {
+  size: DotSymbolSize;
+  shape: 'square' | 'circle';
+  pin: DotSymbolPin;
+  disabled: boolean;
+}) => {
+  return useStyleSheet(
+    (t) => {
+      const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
+      const radius =
+        shape === 'circle' ? t.borderRadius.full : dotSquareRadiusMap[size];
+      const pinOffset = getPinOffset(pin, size);
+
+      return {
+        root: {
+          position: 'relative',
+          ...(disabled && { opacity: 0.3 }),
+        },
+        dot: {
+          position: 'absolute',
+          zIndex: 10,
+          width: sizeValue,
+          height: sizeValue,
+          borderRadius: radius,
+          borderWidth: 1,
+          backgroundColor: t.colors.bg.muted,
+          borderColor: t.colors.border.baseInverted,
+          overflow: 'hidden',
+          ...pinOffset,
+        },
+        image: {
+          width: '100%',
+          height: '100%',
+        },
+      };
+    },
+    [size, shape, pin, disabled],
+  );
+};
+
+/**
+ * A wrapper component that positions a small image indicator at a configurable
+ * corner of a child element like MediaImage or Spot.
+ *
+ * @example
+ * import { DotSymbol } from '@ledgerhq/lumen-ui-rnative';
+ *
+ * <DotSymbol src="https://example.com/eth.png" alt="Ethereum" pin="bottom-end">
+ *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
+ * </DotSymbol>
+ */
+export const DotSymbol = ({
+  children,
+  src,
+  alt,
+  pin = 'bottom-end',
+  size = 20,
+  shape = 'circle',
+  disabled: disabledProp = false,
+  lx = {},
+  style,
+  ref,
+  ...rest
+}: DotSymbolProps) => {
+  const [error, setError] = useState(false);
+  const disabled = useDisabledContext({
+    consumerName: 'DotSymbol',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ size, shape, pin, disabled });
+
+  useEffect(() => {
+    setError(false);
+  }, [src]);
+
+  return (
+    <DisabledProvider value={{ disabled: false }}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={[styles.root, style]}
+        accessibilityRole='image'
+        accessibilityLabel={alt}
+        accessibilityState={{ disabled }}
+        {...rest}
+      >
+        <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+          {children}
+          <Box style={styles.dot}>
+            {!error && (
+              <Image
+                source={{ uri: src }}
+                style={styles.image}
+                accessible={false}
+                onError={() => setError(true)}
+                testID='dot-symbol-img'
+              />
+            )}
+          </Box>
+        </Box>
+      </Box>
+    </DisabledProvider>
+  );
+};
+
+DotSymbol.displayName = 'DotSymbol';

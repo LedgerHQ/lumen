@@ -1,7 +1,6 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, fireEvent, screen } from '@testing-library/react-native';
-import React from 'react';
 import { Text as RNText } from 'react-native';
 
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -17,7 +16,7 @@ import {
   CardFooter,
   CardFooterActions,
 } from './Card';
-import { CardProps } from './types';
+import type { CardProps } from './types';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>

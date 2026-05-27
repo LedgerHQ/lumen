@@ -1,4 +1,5 @@
-import React from 'react';
+import figma from '@figma/code-connect';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 import {
   Subheader,
   SubheaderRow,
@@ -8,13 +9,10 @@ import {
   SubheaderInfo,
   SubheaderShowMore,
 } from './Subheader';
-import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
-
-import figma from '@figma/code-connect';
 
 figma.connect(
   Subheader,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=16477-1522',
   {
     imports: [
       "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderInfo, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
@@ -36,11 +34,7 @@ figma.connect(
         false: undefined,
       }),
       descriptionBlock: figma.boolean('show-description', {
-        true: (
-          <SubheaderDescription>
-            Description
-          </SubheaderDescription>
-        ),
+        true: <SubheaderDescription>Description</SubheaderDescription>,
         false: undefined,
       }),
     },
@@ -58,7 +52,7 @@ figma.connect(
 
 figma.connect(
   Subheader,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10438-1354',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=16477-1522&',
   {
     imports: [
       "import { SubheaderShowMore, SubheaderCount } from '@ledgerhq/lumen-ui-react'",
@@ -72,11 +66,7 @@ figma.connect(
         false: undefined,
       }),
       descriptionBlock: figma.boolean('show-description', {
-        true: (
-          <SubheaderDescription>
-            Description
-          </SubheaderDescription>
-        ),
+        true: <SubheaderDescription>Description</SubheaderDescription>,
         false: undefined,
       }),
     },

@@ -1,7 +1,5 @@
-import React from 'react';
-import { AddressInput } from './AddressInput';
-
 import figma from '@figma/code-connect';
+import { AddressInput } from './AddressInput';
 
 const openQrScanner = () => {};
 
@@ -12,17 +10,21 @@ figma.connect(
     imports: ["import { AddressInput } from '@ledgerhq/lumen-ui-react'"],
     props: {
       placeholder: figma.enum('input-state', {
-        placeholder: figma.string('placeholder')
+        placeholder: figma.string('placeholder'),
       }),
       value: figma.enum('input-state', {
-        'input-address': figma.string('value')
+        'input-address': figma.string('value'),
       }),
       disabled: figma.enum('state', {
         disabled: true,
       }),
-      errorMessage: figma.nestedProps('.status', {
-        label: figma.string('label')
-      })
+      status: figma.enum('state', {
+        error: 'error',
+        success: 'success',
+      }),
+      helperText: figma.nestedProps('.status', {
+        label: figma.string('label'),
+      }),
     },
     example: (props) => (
       <AddressInput
@@ -30,7 +32,8 @@ figma.connect(
         value={props.value}
         placeholder={props.placeholder}
         onQrCodeClick={() => openQrScanner}
-        errorMessage={props.errorMessage.label}
+        helperText={props.helperText.label}
+        status={props.status}
       />
     ),
   },

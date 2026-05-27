@@ -158,7 +158,7 @@ export const CryptoGradients: Story = {
                   borderRadius: 'md',
                 }}
                 stops={gradient}
-              ></LinearGradient>
+              />
               <Text typography='body4' lx={{ color: 'base' }}>
                 {key}
               </Text>

@@ -1,11 +1,4 @@
-import React from 'react';
-import {
-  SideBar,
-  SideBarLeading,
-  SideBarTrailing,
-  SideBarItem,
-  SideBarCollapseToggle,
-} from './SideBar';
+import figma from '@figma/code-connect';
 import {
   Home,
   HomeFill,
@@ -13,8 +6,13 @@ import {
   SettingsAlt,
   SettingsAlt2,
 } from '../../Symbols';
-
-import figma from '@figma/code-connect';
+import {
+  SideBar,
+  SideBarLeading,
+  SideBarTrailing,
+  SideBarItem,
+  SideBarCollapseToggle,
+} from './SideBar';
 
 figma.connect(
   SideBar,

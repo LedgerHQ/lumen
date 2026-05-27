@@ -4,7 +4,7 @@ import { useStyleSheet } from '../../../styles';
 import { ChevronRight } from '../../Symbols';
 import { Pressable } from '../Utility';
 
-import { CardButtonProps } from './types';
+import type { CardButtonProps } from './types';
 
 type Appearance = NonNullable<CardButtonProps['appearance']>;
 
@@ -206,5 +206,3 @@ const CardButtonContent = ({
     </View>
   );
 };
-
-CardButton.displayName = 'CardButton';

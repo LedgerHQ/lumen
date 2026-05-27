@@ -25,6 +25,7 @@ SegmentedControl is a tab barâ€“style component for switching between mutually e
 - **Segments**: Individual options the user can select.
 - **Selected state**: The active segment (sliding pill + semi-bold label).
 - **Optional icon**: Icon to the left of the label (from Symbols).
+- **Optional trailing content**: Any node (e.g. `DotCount`) rendered to the right of the label.
 - **Appearance**: Use `appearance="background"` (default) for a surface background, or `appearance="no-background"` for a transparent container.
 
 ## Properties
@@ -39,6 +40,12 @@ You can use segments with text only (Base), or add an icon to each button (WithI
 <Canvas of={SegmentedControlStories.Base} />
 
 <Canvas of={SegmentedControlStories.WithIcons} />
+
+### With trailing content
+
+Use `trailingContent` to render content (e.g. `DotCount`) to the right of the label.
+
+<Canvas of={SegmentedControlStories.WithTrailingContent} />
 
 ## Responsive Layout
 
@@ -61,7 +68,6 @@ Use the library as part of `@ledgerhq/lumen-ui-rnative`. See the [Setup Guide â†
 Control selected value in state at the top level and pass it to SegmentedControl. Buttons use value to identify themselves; selected state is derived from context.
 
 ```tsx
-import React from 'react';
 import { SegmentedControl, SegmentedControlButton } from '@ledgerhq/lumen-ui-rnative';
 
 export default function Example() {
@@ -76,6 +82,33 @@ export default function Example() {
       <SegmentedControlButton value='send'>Send</SegmentedControlButton>
       <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
       <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+    </SegmentedControl>
+  );
+}
+```
+
+## With trailing content
+
+Pass any node via `trailingContent` to render it to the right of the label. Use it for badges like `DotCount` to surface counts per segment.
+
+```tsx
+import { SegmentedControl, SegmentedControlButton, DotCount } from '@ledgerhq/lumen-ui-rnative';
+
+function Example() {
+  const [state, setState] = React.useState('tokens');
+  return (
+    <SegmentedControl
+      selectedValue={state}
+      onSelectedChange={setState}
+      accessibilityLabel='Asset section'
+    >
+      <SegmentedControlButton value='tokens' trailingContent={<DotCount value={3} />}>
+        Tokens
+      </SegmentedControlButton>
+      <SegmentedControlButton value='nfts' trailingContent={<DotCount value={12} />}>
+        NFTs
+      </SegmentedControlButton>
+      <SegmentedControlButton value='activity'>Activity</SegmentedControlButton>
     </SegmentedControl>
   );
 }
@@ -113,10 +146,6 @@ function Example() {
   );
 }
 ```
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

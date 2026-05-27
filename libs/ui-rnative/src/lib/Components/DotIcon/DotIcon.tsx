@@ -1,0 +1,163 @@
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
+import { useStyleSheet } from '../../../styles';
+import type { IconSize } from '../Icon';
+import { Box } from '../Utility';
+import type {
+  DotIconAppearance,
+  DotIconPin,
+  DotIconProps,
+  DotIconSize,
+} from './types';
+
+const dotIconSizeMap: Record<DotIconSize, IconSize> = {
+  16: 12,
+  20: 16,
+  24: 16,
+};
+
+const dotSquareRadiusMap: Record<DotIconSize, number> = {
+  16: 5,
+  20: 6,
+  24: 8,
+};
+
+export const mediaImageDotIconSizeMap = {
+  40: 16,
+  48: 20,
+  56: 24,
+  64: 24,
+} as const satisfies Record<number, DotIconSize>;
+
+export const spotDotIconSizeMap = {
+  40: 16,
+  48: 20,
+  56: 24,
+  72: 24,
+} as const satisfies Record<number, DotIconSize>;
+
+const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
+  'top-start': ['top', 'left'],
+  'top-end': ['top', 'right'],
+  'bottom-start': ['bottom', 'left'],
+  'bottom-end': ['bottom', 'right'],
+};
+
+const DOT_OFFSET = -3;
+
+const getPinOffset = (pin: DotIconPin): Record<string, number> => {
+  const [v, h] = pinAxisMap[pin];
+  return { [v]: DOT_OFFSET, [h]: DOT_OFFSET };
+};
+
+const appearanceBgMap: Record<
+  DotIconAppearance,
+  'successStrong' | 'mutedStrong' | 'errorStrong'
+> = {
+  success: 'successStrong',
+  muted: 'mutedStrong',
+  error: 'errorStrong',
+};
+
+const useStyles = ({
+  size,
+  shape,
+  pin,
+  appearance,
+  disabled,
+}: {
+  size: DotIconSize;
+  shape: 'square' | 'circle';
+  pin: DotIconPin;
+  appearance: DotIconAppearance;
+  disabled: boolean;
+}) => {
+  return useStyleSheet(
+    (t) => {
+      const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
+      const radius =
+        shape === 'circle' ? t.borderRadius.full : dotSquareRadiusMap[size];
+      const pinOffset = getPinOffset(pin);
+
+      return {
+        root: {
+          position: 'relative',
+          ...(disabled && { opacity: 0.3 }),
+        },
+        dot: {
+          position: 'absolute',
+          zIndex: 10,
+          width: sizeValue,
+          height: sizeValue,
+          borderRadius: radius,
+          borderWidth: 1,
+          backgroundColor: t.colors.bg[appearanceBgMap[appearance]],
+          borderColor: t.colors.border.baseInverted,
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...pinOffset,
+        },
+        icon: {
+          color: t.colors.text.onInteractive,
+        },
+      };
+    },
+    [size, shape, pin, appearance, disabled],
+  );
+};
+
+/**
+ * A wrapper component that positions a small icon indicator at a configurable
+ * corner of a child element like MediaImage or Spot. The dot background uses a
+ * semantic color (`success`, `muted`, or `error`).
+ *
+ * @example
+ * import { DotIcon } from '@ledgerhq/lumen-ui-rnative';
+ *
+ * <DotIcon appearance="success" icon={ArrowDown} pin="bottom-end">
+ *   <MediaImage src="https://example.com/usdc.png" alt="USDC" size={48} />
+ * </DotIcon>
+ */
+export const DotIcon = ({
+  children,
+  icon: Icon,
+  appearance,
+  pin = 'bottom-end',
+  size = 20,
+  shape = 'circle',
+  disabled: disabledProp = false,
+  lx = {},
+  style,
+  ref,
+  ...rest
+}: DotIconProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'DotIcon',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ size, shape, pin, appearance, disabled });
+
+  return (
+    <DisabledProvider value={{ disabled: false }}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={[styles.root, style]}
+        accessibilityState={{ disabled }}
+        {...rest}
+      >
+        <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+          {children}
+          <Box testID='dot-icon-dot' style={styles.dot}>
+            <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+          </Box>
+        </Box>
+      </Box>
+    </DisabledProvider>
+  );
+};
+
+DotIcon.displayName = 'DotIcon';

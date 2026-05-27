@@ -1,15 +1,25 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { InteractiveIconProps } from './types';
+import type { InteractiveIconProps } from './types';
 
 const buttonVariants = cva(
-  'inline-flex size-fit items-center justify-center rounded-full text-muted transition-colors hover:text-muted-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:text-muted-pressed disabled:text-disabled',
+  [
+    'inline-flex size-fit items-center justify-center rounded-full',
+    'transition-colors',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+    'disabled:text-disabled',
+  ],
   {
     variants: {
       iconType: {
         filled: '',
         stroked:
           'bg-base-transparent hover:bg-base-transparent-hover active:bg-base-transparent-pressed disabled:bg-disabled',
+      },
+      appearance: {
+        muted: 'text-muted hover:text-muted-hover active:text-muted-pressed',
+        white: 'text-white hover:text-white-hover active:text-white-pressed',
+        base: 'text-base hover:text-base-hover active:text-base-pressed',
       },
       disabled: {
         true: 'cursor-default',
@@ -31,7 +41,6 @@ const buttonVariants = cva(
  * @component
  *
  * @warning Always provide an `aria-label` prop to ensure screen reader accessibility, as the component contains only an icon without visible text.
- * @warning The icon size should be controlled by the icon component itself, not through CSS. Use the appropriate size prop on the icon component (e.g., `size={20}`).
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning. Do not use it to modify the component's core appearance (colors, padding, etc).
  *
  * @example
@@ -39,19 +48,18 @@ const buttonVariants = cva(
  * import { DeleteCircleFill, Settings } from '@ledgerhq/lumen-ui-react/symbols';
  *
  * // Filled interactive icon for destructive actions
- * <InteractiveIcon iconType="filled" aria-label="Delete item" onClick={handleDelete}>
- *   <DeleteCircleFill size={20} />
- * </InteractiveIcon>
+ * <InteractiveIcon iconType="filled" icon={DeleteCircleFill} size={20} aria-label="Delete item" onClick={handleDelete} />
  *
  * // Stroked interactive icon for secondary actions
- * <InteractiveIcon iconType="stroked" aria-label="Open settings" onClick={handleSettings}>
- *   <Settings size={20} />
- * </InteractiveIcon>
+ * <InteractiveIcon iconType="stroked" icon={Settings} size={20} aria-label="Open settings" onClick={handleSettings} />
  */
 export const InteractiveIcon = ({
   ref,
   className,
   iconType,
+  icon: Icon,
+  size = 24,
+  appearance = 'muted',
   disabled: disabledProp = false,
   ...props
 }: InteractiveIconProps) => {
@@ -65,8 +73,12 @@ export const InteractiveIcon = ({
       {...props}
       ref={ref}
       disabled={disabled}
-      className={cn(className, buttonVariants({ disabled, iconType }))}
-    />
+      className={cn(
+        buttonVariants({ disabled, iconType, appearance }),
+        className,
+      )}
+    >
+      <Icon size={size} />
+    </button>
   );
 };
-InteractiveIcon.displayName = 'InteractiveIcon';

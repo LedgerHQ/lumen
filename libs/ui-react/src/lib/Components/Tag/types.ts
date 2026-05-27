@@ -1,12 +1,20 @@
 import type { ComponentPropsWithRef, ComponentType } from 'react';
-import { IconSize } from '../Icon/types';
+import type { IconSize } from '../Icon/types';
 
 export type TagProps = {
   /**
    * The appearance of the tag.
    * @default accent
    */
-  appearance?: 'base' | 'gray' | 'accent' | 'success' | 'error' | 'warning';
+  appearance?:
+    | 'base'
+    | 'gray'
+    | 'accent'
+    | 'accent-subtle'
+    | 'success'
+    | 'error'
+    | 'warning'
+    | 'white';
   /**
    * The size of the tag.
    * @default md

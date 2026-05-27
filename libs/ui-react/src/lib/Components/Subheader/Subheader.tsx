@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import {
+import type {
   SubheaderCountProps,
   SubheaderDescriptionProps,
   SubheaderInfoProps,
@@ -102,16 +102,15 @@ export const SubheaderInfo = ({
       <InteractiveIcon
         ref={ref}
         iconType={iconType}
+        icon={Information}
+        size={16}
         className={className}
         aria-label='More information'
         {...props}
-      >
-        <Information size={16} />
-      </InteractiveIcon>
+      />
     </span>
   );
 };
-SubheaderInfo.displayName = 'SubheaderInfo';
 
 /**
  * ShowMore component for the Subheader. Displays a static chevron right icon to indicate expandable content.
@@ -130,7 +129,7 @@ export const SubheaderShowMore = ({
       )}
       {...props}
     >
-      <ChevronRight size={20} />
+      <ChevronRight size={24} />
     </span>
   );
 };

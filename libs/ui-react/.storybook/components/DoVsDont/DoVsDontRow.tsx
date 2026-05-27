@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
 
 type DoVsDontRowProps = {
   children: React.ReactNode;

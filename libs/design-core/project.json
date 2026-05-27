@@ -3,7 +3,10 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/design-core/src",
   "projectType": "library",
-  "tags": ["scope:shared", "type:util"],
+  "tags": [
+    "scope:shared",
+    "type:util"
+  ],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
@@ -15,14 +18,14 @@
     "figma-export": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx ./src/figma/exportDesignTokens.ts",
+        "command": "npx tsx ./tools/figma/exportDesignTokens.ts",
         "cwd": "libs/design-core"
       }
     },
     "code-syntax": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx ./src/figma/updateCodeSyntax.ts",
+        "command": "npx tsx ./tools/figma/updateCodeSyntax.ts",
         "cwd": "libs/design-core"
       }
     },
@@ -39,7 +42,9 @@
         "command": "npx tsx ./automations/designTokensEtl.ts",
         "cwd": "libs/design-core"
       },
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     },
     "figma-download-svgs": {
       "executor": "nx:run-commands",
@@ -53,14 +58,18 @@
       "options": {
         "command": "npx tsx libs/design-core/automations/generate-symbols.mts --templatePath libs/ui-react/src/utils/icon-template.ts --outputPath libs/ui-react/src/lib/Symbols"
       },
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "generate-symbols-react-native": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx tsx libs/design-core/automations/generate-symbols.mts --templatePath libs/ui-rnative/src/utils/icon-template.ts --outputPath libs/ui-rnative/src/lib/Symbols --isReactNative true"
       },
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     }
   }
 }

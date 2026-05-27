@@ -6,7 +6,7 @@ import { Label } from '../Label';
 import { Box } from '../Utility';
 import { BaseCheckboxIndicator, BaseCheckboxRoot } from './BaseCheckbox';
 
-import { CheckboxProps } from './types';
+import type { CheckboxProps } from './types';
 
 /**
  * The checkbox follows the design system tokens and supports checked, unchecked,
@@ -94,5 +94,3 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
     [disabled],
   );
 };
-
-Checkbox.displayName = 'Checkbox';

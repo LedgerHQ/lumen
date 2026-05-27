@@ -1,24 +1,22 @@
 import {
   createSafeContext,
+  type Density,
   DisabledProvider,
-  isTextChildren,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import React, { Ref } from 'react';
+import type { ComponentRef, ReactNode, Ref } from 'react';
+import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import { useStyleSheet, useTheme } from '../../../styles';
-import { Spot } from '../Spot';
+import { useStyleSheet } from '../../../styles';
 import { Box, Pressable, Text } from '../Utility';
-import {
+import type {
   ListItemContentProps,
+  ListItemContentRowProps,
   ListItemDescriptionProps,
-  ListItemIconProps,
   ListItemLeadingProps,
   ListItemProps,
-  ListItemSpotProps,
   ListItemTitleProps,
   ListItemTrailingProps,
-  ListItemTruncateProps,
 } from './types';
 
 const [ListItemTrailingProvider, useListItemTrailingContext] =
@@ -26,27 +24,32 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
     isInTrailing: false,
   });
 
-const useRootStyles = ({ pressed }: { pressed: boolean }) => {
+const useRootStyles = ({
+  pressed,
+  density,
+}: {
+  pressed: boolean;
+  density: Density;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: StyleSheet.flatten([
         {
           flexDirection: 'row',
           alignItems: 'center',
-          height: t.sizes.s64,
+          height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
           width: t.sizes.full,
           gap: t.spacings.s16,
           borderRadius: t.borderRadius.md,
           backgroundColor: 'transparent',
           paddingHorizontal: t.spacings.s8,
-          paddingVertical: t.spacings.s12,
         },
         pressed && {
           backgroundColor: t.colors.bg.baseTransparentPressed,
         },
       ]),
     }),
-    [pressed],
+    [pressed, density],
   );
 };
 
@@ -64,17 +67,17 @@ const useRootStyles = ({ pressed }: { pressed: boolean }) => {
  * import {
  *   ListItem,
  *   ListItemLeading,
- *   ListItemSpot,
  *   ListItemContent,
  *   ListItemTitle,
  *   ListItemDescription,
  *   ListItemTrailing,
+ *   Spot,
  * } from '@ledgerhq/lumen-ui-rnative';
  * import { Wallet, ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <ListItem onPress={() => console.log('Clicked!')}>
  *   <ListItemLeading>
- *     <ListItemSpot appearance="icon" icon={Wallet} />
+ *     <Spot size={48} appearance="icon" icon={Wallet} />
  *     <ListItemContent>
  *       <ListItemTitle>Balance</ListItemTitle>
  *       <ListItemDescription>Optional description</ListItemDescription>
@@ -90,46 +93,73 @@ export const ListItem = ({
   lx = {},
   style,
   disabled: disabledProp = false,
+  density = 'expanded',
+  onPress,
+  onLongPress,
   ref,
-  ...pressableProps
+  ...props
 }: ListItemProps) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItem',
     mergeWith: { disabled: disabledProp },
   });
 
+  const isInteractive = !!onPress || !!onLongPress;
+
+  if (isInteractive) {
+    return (
+      <DisabledProvider value={{ disabled }}>
+        <Pressable
+          ref={ref}
+          lx={lx}
+          style={style as ViewStyle}
+          disabled={disabled}
+          onPress={onPress}
+          onLongPress={onLongPress}
+          accessibilityRole='button'
+          accessibilityState={{ disabled }}
+          {...props}
+        >
+          {({ pressed }) => (
+            <ListItemInner pressed={pressed} density={density}>
+              {children}
+            </ListItemInner>
+          )}
+        </Pressable>
+      </DisabledProvider>
+    );
+  }
+
   return (
     <DisabledProvider value={{ disabled }}>
-      <Pressable
+      <Box
         ref={ref}
         lx={lx}
         style={style}
-        disabled={disabled}
-        accessibilityRole='button'
         accessibilityState={{ disabled }}
-        {...pressableProps}
+        {...props}
       >
-        {({ pressed }) => (
-          <ListItemInner pressed={pressed}>{children}</ListItemInner>
-        )}
-      </Pressable>
+        <ListItemInner pressed={false} density={density}>
+          {children}
+        </ListItemInner>
+      </Box>
     </DisabledProvider>
   );
 };
-
-ListItem.displayName = 'ListItem';
 
 /**
  * Internal component to handle pressed state styling
  */
 const ListItemInner = ({
   pressed,
+  density,
   children,
 }: {
   pressed: boolean;
-  children: React.ReactNode;
+  density: Density;
+  children: ReactNode;
 }) => {
-  const styles = useRootStyles({ pressed });
+  const styles = useRootStyles({ pressed, density });
   return (
     <View style={styles.container} testID='list-item-content'>
       {children}
@@ -139,14 +169,14 @@ const ListItemInner = ({
 
 /**
  * Container for the leading (left) part of the list item.
- * Contains the visual element (ListItemSpot, Avatar, Icon) and the content (title + description).
+ * Contains the visual element (Spot, Avatar, Icon) and the content (title + description).
  */
 export const ListItemLeading = ({
   children,
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemLeadingProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
     (t) => ({
@@ -166,14 +196,12 @@ export const ListItemLeading = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.leading, style])}
-      {...viewProps}
+      {...props}
     >
       {children}
     </Box>
   );
 };
-
-ListItemLeading.displayName = 'ListItemLeading';
 
 /**
  * Container for the text content (title and description) within the leading area.
@@ -183,7 +211,7 @@ export const ListItemContent = ({
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemContentProps & { ref?: Ref<View> }) => {
   const { isInTrailing } = useListItemTrailingContext({
     consumerName: 'ListItemContent',
@@ -195,8 +223,8 @@ export const ListItemContent = ({
       content: {
         flex: isInTrailing ? 0 : 1,
         minWidth: 0,
-        flexDirection: 'column',
         gap: t.spacings.s4,
+        alignItems: isInTrailing ? 'flex-end' : 'stretch',
       },
     }),
     [isInTrailing],
@@ -207,26 +235,58 @@ export const ListItemContent = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.content, style])}
-      {...viewProps}
+      {...props}
     >
       {children}
     </Box>
   );
 };
 
-ListItemContent.displayName = 'ListItemContent';
+/**
+ * Horizontal row container within ListItemContent to place a title or description
+ * alongside additional inline content (e.g. Tag) while preserving text truncation.
+ */
+export const ListItemContentRow = ({
+  children,
+  lx = {},
+  style,
+  ref,
+  ...props
+}: ListItemContentRowProps & { ref?: Ref<View> }) => {
+  const styles = useStyleSheet(
+    (t) => ({
+      row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        minWidth: 0,
+        gap: t.spacings.s8,
+      },
+    }),
+    [],
+  );
+
+  return (
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.row, style])}
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+};
 
 /**
- * The main title of the list item. Can contain text directly or
- * ListItemTruncate + Tag for more complex layouts.
+ * The main title of the list item.
  */
 export const ListItemTitle = ({
   children,
   lx = {},
   style,
   ref,
-  ...viewProps
-}: ListItemTitleProps & { ref?: Ref<View> }) => {
+  ...props
+}: ListItemTitleProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemTitle',
     contextRequired: true,
@@ -237,65 +297,37 @@ export const ListItemTitle = ({
   });
 
   const styles = useStyleSheet(
-    (t) => {
-      const { boxStyle } = StyleSheet.create({
-        boxStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: t.spacings.s4,
-          width: '100%',
+    (t) => ({
+      title: StyleSheet.flatten([
+        t.typographies.body2SemiBold,
+        {
+          minWidth: 0,
+          flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
-          justifyContent: isInTrailing ? 'flex-end' : 'flex-start',
-        } as const,
-      });
-
-      return {
-        asBox: boxStyle,
-        asText: StyleSheet.flatten([
-          t.typographies.body2SemiBold,
-          {
-            ...boxStyle,
-            color: disabled ? t.colors.text.disabled : t.colors.text.base,
-          },
-        ]),
-      };
-    },
-    [disabled],
+          color: disabled ? t.colors.text.disabled : t.colors.text.base,
+        },
+      ]),
+    }),
+    [disabled, isInTrailing],
   );
 
-  // If children is a string, render it directly as Text with truncation
-  if (isTextChildren(children)) {
-    return (
-      <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
-        lx={lx}
-        style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-    );
-  }
-
-  // Otherwise, render as a row container for ListItemTruncate + Tag
   return (
-    <Box
+    <Text
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.asBox, style])}
-      {...viewProps}
+      style={StyleSheet.flatten([styles.title, style])}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      allowFontScaling={false}
+      {...props}
     >
       {children}
-    </Box>
+    </Text>
   );
 };
 
-ListItemTitle.displayName = 'ListItemTitle';
-
 /**
- * Optional description below the title. Can contain text directly or
- * ListItemTruncate + Tag for more complex layouts.
+ * Optional description text below the title.
  * Automatically applies disabled styling when the parent ListItem is disabled.
  */
 export const ListItemDescription = ({
@@ -303,8 +335,8 @@ export const ListItemDescription = ({
   lx = {},
   style,
   ref,
-  ...viewProps
-}: ListItemDescriptionProps & { ref?: Ref<View> }) => {
+  ...props
+}: ListItemDescriptionProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
   const disabled = useDisabledContext({
     consumerName: 'ListItemDescription',
     contextRequired: true,
@@ -315,61 +347,34 @@ export const ListItemDescription = ({
   });
 
   const styles = useStyleSheet(
-    (t) => {
-      const { boxStyle } = StyleSheet.create({
-        boxStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: t.spacings.s4,
-          width: '100%',
+    (t) => ({
+      description: StyleSheet.flatten([
+        t.typographies.body3,
+        {
+          minWidth: 0,
+          flexShrink: 1,
           textAlign: isInTrailing ? 'right' : 'left',
-          justifyContent: isInTrailing ? 'flex-end' : 'flex-start',
-        } as const,
-      });
-
-      return {
-        asBox: boxStyle,
-        asText: StyleSheet.flatten([
-          t.typographies.body3,
-          {
-            ...boxStyle,
-            color: disabled ? t.colors.text.disabled : t.colors.text.muted,
-          },
-        ]),
-      };
-    },
+          color: disabled ? t.colors.text.disabled : t.colors.text.muted,
+        },
+      ]),
+    }),
     [disabled, isInTrailing],
   );
 
-  // If children is a string, render it directly as Text with truncation
-  if (isTextChildren(children)) {
-    return (
-      <Text
-        ref={ref as Ref<React.ElementRef<typeof Text>>}
-        lx={lx}
-        style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-    );
-  }
-
-  // Otherwise, render as a row container for ListItemTruncate + Tag
   return (
-    <Box
+    <Text
       ref={ref}
       lx={lx}
-      style={StyleSheet.flatten([styles.asBox, style])}
-      {...viewProps}
+      style={StyleSheet.flatten([styles.description, style])}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      allowFontScaling={false}
+      {...props}
     >
       {children}
-    </Box>
+    </Text>
   );
 };
-
-ListItemDescription.displayName = 'ListItemDescription';
 
 /**
  * Container for the trailing (right) content of the list item.
@@ -380,13 +385,12 @@ export const ListItemTrailing = ({
   lx = {},
   style,
   ref,
-  ...viewProps
+  ...props
 }: ListItemTrailingProps & { ref?: Ref<View> }) => {
   const styles = useStyleSheet(
     () => ({
       trailing: {
         flexShrink: 0,
-        flexDirection: 'row',
         alignItems: 'center',
       },
     }),
@@ -399,118 +403,10 @@ export const ListItemTrailing = ({
         ref={ref}
         lx={lx}
         style={StyleSheet.flatten([styles.trailing, style])}
-        {...viewProps}
+        {...props}
       >
         {children}
       </Box>
     </ListItemTrailingProvider>
   );
 };
-
-ListItemTrailing.displayName = 'ListItemTrailing';
-
-/**
- * Spot adapter for ListItem. Automatically inherits disabled state from parent ListItem.
- * Fixed at size 48 for consistent list item appearance.
- */
-export const ListItemSpot = (props: ListItemSpotProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemSpot',
-    contextRequired: true,
-  });
-
-  return <Spot {...props} size={48} disabled={disabled} />;
-};
-
-ListItemSpot.displayName = 'ListItemSpot';
-
-/**
- * Icon adapter for ListItem. Automatically inherits disabled state from parent ListItem.
- * Fixed at size 24 for consistent list item appearance.
- */
-export const ListItemIcon = ({
-  icon: Icon,
-  color,
-  lx = {},
-  style,
-  ...viewProps
-}: ListItemIconProps) => {
-  const { theme } = useTheme();
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemIcon',
-    contextRequired: true,
-  });
-
-  return (
-    <Box
-      lx={lx}
-      style={StyleSheet.flatten([{ flexShrink: 0 }, style])}
-      {...viewProps}
-    >
-      <Icon
-        size={24}
-        style={{
-          color: disabled
-            ? theme.colors.text.disabled
-            : (color ?? theme.colors.text.base),
-        }}
-      />
-    </Box>
-  );
-};
-
-ListItemIcon.displayName = 'ListItemIcon';
-
-/**
- * Text wrapper that truncates when space is limited.
- * Use inside ListItemTitle or ListItemDescription when combining text with a Tag.
- * Set variant='title' for title styling or variant='description' (default) for description styling.
- */
-export const ListItemTruncate = ({
-  children,
-  variant = 'description',
-  lx = {},
-  style,
-  ref,
-  ...textProps
-}: ListItemTruncateProps & { ref?: Ref<React.ElementRef<typeof Text>> }) => {
-  const disabled = useDisabledContext({
-    consumerName: 'ListItemTruncate',
-    contextRequired: true,
-  });
-
-  const styles = useStyleSheet(
-    (t) => ({
-      truncate: StyleSheet.flatten([
-        variant === 'title'
-          ? t.typographies.body2SemiBold
-          : t.typographies.body3,
-        {
-          color: disabled
-            ? t.colors.text.disabled
-            : variant === 'title'
-              ? t.colors.text.base
-              : t.colors.text.muted,
-          minWidth: 0,
-          flexShrink: 1,
-        },
-      ]),
-    }),
-    [disabled, variant],
-  );
-
-  return (
-    <Text
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.truncate, style])}
-      numberOfLines={1}
-      ellipsizeMode='tail'
-      {...textProps}
-    >
-      {children}
-    </Text>
-  );
-};
-
-ListItemTruncate.displayName = 'ListItemTruncate';

@@ -1,5 +1,5 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { DialogCloseProps } from '../types';
+import type { DialogCloseProps } from '../types';
 
 /**
  * A button that closes the dialog when interacted with.

@@ -1,5 +1,6 @@
 import { getObjectPath } from '@ledgerhq/lumen-utils-shared';
-import { type ViewStyle, type TextStyle, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import type {
   LumenStyleSheetTheme,
@@ -46,7 +47,7 @@ const resolveStyle = <T extends ViewStyle | TextStyle>(
  */
 export const useResolveViewStyle = (
   lx: LumenViewStyle,
-  bareStyle?: ViewStyle,
+  bareStyle?: StyleProp<ViewStyle>,
 ): ViewStyle => {
   const { theme } = useTheme();
   const resolvedStyle = resolveStyle<ViewStyle>(theme, lx, VIEW_PROP_CONFIG);
@@ -58,7 +59,7 @@ export const useResolveViewStyle = (
  */
 export const useResolveTextStyle = (
   lx: LumenTextStyle,
-  bareStyle?: TextStyle,
+  bareStyle?: StyleProp<TextStyle>,
 ): TextStyle => {
   const { theme } = useTheme();
   const resolvedStyle = resolveStyle<TextStyle>(theme, lx, TEXT_PROP_CONFIG);

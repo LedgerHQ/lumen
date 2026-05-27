@@ -3,9 +3,10 @@ import {
   toPascalCase,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { createElement, SVGProps } from 'react';
+import type { SVGProps } from 'react';
+import { createElement } from 'react';
 import { Icon } from './Icon';
-import { IconProps } from './types';
+import type { IconProps } from './types';
 
 /**
  * Create an Icon component
@@ -43,4 +44,5 @@ const createIcon = (
   return Component;
 };
 
+// eslint-disable-next-line import/no-default-export
 export default createIcon;

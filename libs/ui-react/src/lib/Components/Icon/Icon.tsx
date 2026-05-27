@@ -1,9 +1,9 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { createElement } from 'react';
-import { IconProps } from './types';
+import type { IconProps } from './types';
 
-const iconVariants = cva('inline-block', {
+const iconVariants = cva('inline-block shrink-0', {
   variants: {
     size: {
       12: 'icon-w-12 icon-h-12 icon-stroke-12',
@@ -38,11 +38,9 @@ export const Icon = ({
       'aria-hidden': 'true',
       xmlns,
       viewBox,
-      className: cn(className, iconVariants({ size }), 'inline-block'),
+      className: cn(iconVariants({ size }), 'inline-block', className),
       ...props,
     },
     children,
   );
 };
-
-Icon.displayName = 'Icon';

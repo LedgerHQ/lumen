@@ -1,3 +1,4 @@
+export * from './lib/density';
 export * from './lib/string/string';
 export * from './lib/inputFormatter';
 export * from './lib/context';
@@ -10,3 +11,4 @@ export * from './lib/throttle';
 export * from './lib/debounce';
 export * from './lib/a11y';
 export * from './lib/shallowEqual';
+export * from './lib/resolveBaseInputPlaceholder';

@@ -1,8 +1,9 @@
-import { render } from '@testing-library/react';
+import { render, renderHook } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
-import { ThemeProvider } from './ThemeProvider';
+import { ThemeProvider, useTheme } from './ThemeProvider';
 
 const root = document.documentElement;
 
@@ -77,5 +78,35 @@ describe('ThemeProvider', () => {
 
     expect(root).toHaveClass('light');
     expect(root).not.toHaveClass('dark');
+  });
+});
+
+describe('useTheme', () => {
+  const createWrapper =
+    (colorScheme: 'light' | 'dark') =>
+    ({ children }: { children: ReactNode }) => (
+      <ThemeProvider colorScheme={colorScheme}>{children}</ThemeProvider>
+    );
+
+  it('returns the light theme when colorScheme is light', () => {
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: createWrapper('light'),
+    });
+
+    expect(result.current.colorScheme).toBe('light');
+  });
+
+  it('returns the dark theme when colorScheme is dark', () => {
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: createWrapper('dark'),
+    });
+
+    expect(result.current.colorScheme).toBe('dark');
+  });
+
+  it('throws when used outside ThemeProvider', () => {
+    expect(() => renderHook(() => useTheme())).toThrow(
+      'useTheme must be used within ThemeProvider',
+    );
   });
 });

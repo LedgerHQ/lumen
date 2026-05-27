@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
+import { Children, isValidElement } from 'react';
 
 /**
  * Recursively extracts text content from React children.
@@ -7,14 +8,14 @@ import React, { ReactNode } from 'react';
  */
 export function extractTextFromChildren(
   children: ReactNode,
-  textComponentType?: React.ComponentType<any>,
+  textComponentType?: ComponentType<any>,
 ): string {
   let text = '';
 
-  React.Children.forEach(children, (child) => {
+  Children.forEach(children, (child) => {
     if (typeof child === 'string' || typeof child === 'number') {
       text += child;
-    } else if (React.isValidElement(child)) {
+    } else if (isValidElement(child)) {
       if (
         (textComponentType && child.type === textComponentType) ||
         (child.props as { children?: ReactNode })?.children

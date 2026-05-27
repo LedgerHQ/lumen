@@ -3,7 +3,7 @@ import { useStyleSheet } from '../../../styles';
 import { ChevronRight, Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable, Text } from '../Utility';
-import {
+import type {
   SubheaderCountProps,
   SubheaderDescriptionProps,
   SubheaderInfoProps,
@@ -133,12 +133,12 @@ export const SubheaderInfo = ({
   return (
     <InteractiveIcon
       iconType={iconType}
+      icon={Information}
+      size={16}
       accessibilityLabel='More information'
       style={style}
       {...props}
-    >
-      <Information size={16} />
-    </InteractiveIcon>
+    />
   );
 };
 
@@ -167,7 +167,7 @@ export const SubheaderShowMore = ({
 
   return (
     <Box lx={lx} style={[styles.container, style]} {...props}>
-      <ChevronRight size={20} style={styles.icon} />
+      <ChevronRight size={24} style={styles.icon} />
     </Box>
   );
 };

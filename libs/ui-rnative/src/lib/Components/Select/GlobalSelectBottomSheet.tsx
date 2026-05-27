@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Pressable } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Check } from '../../Symbols';
@@ -121,7 +121,7 @@ export const GlobalSelectBottomSheet: React.FC = () => {
             {currentSelect.label && (
               <BottomSheetHeader
                 title={currentSelect.label}
-                appearance='compact'
+                density='compact'
               />
             )}
             <Box lx={{ gap: 's4' }}>

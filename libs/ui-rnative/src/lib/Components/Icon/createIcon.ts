@@ -1,9 +1,9 @@
 import { toPascalCase, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import React from 'react';
-import { SvgProps } from 'react-native-svg';
+import { createElement } from 'react';
+import type { SvgProps } from 'react-native-svg';
 import { useTheme } from '../../../styles';
 import { Icon } from './Icon';
-import { IconProps } from './types';
+import type { IconProps } from './types';
 
 /**
  * Create an Icon component for React Native
@@ -22,7 +22,7 @@ const createIcon = (
       mergeWith: { disabled },
     });
 
-    return React.createElement(Icon, {
+    return createElement(Icon, {
       viewBox: iconJsx.props.viewBox,
       ...props,
       style: [
@@ -38,4 +38,5 @@ const createIcon = (
   return Component;
 };
 
+// eslint-disable-next-line import/no-default-export
 export default createIcon;
