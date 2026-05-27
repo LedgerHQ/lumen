@@ -9,6 +9,15 @@ import type { MediaImageSize } from '../MediaImage';
 import type { SpotSize } from '../Spot';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
+const rootVariants = cva('relative inline-flex w-fit', {
+  variants: {
+    disabled: {
+      true: 'opacity-30',
+      false: '',
+    },
+  },
+});
+
 const dotVariants = cva(
   'absolute z-10 box-content overflow-hidden border-base-inverted bg-muted',
   {
@@ -132,11 +141,7 @@ export const DotSymbol = ({
     <DisabledProvider value={{ disabled: false }}>
       <div
         ref={ref}
-        className={cn(
-          'relative inline-flex w-fit',
-          disabled && 'opacity-30',
-          className,
-        )}
+        className={cn(rootVariants({ disabled, className }))}
         {...rest}
       >
         <div className='inline-flex'>{children}</div>

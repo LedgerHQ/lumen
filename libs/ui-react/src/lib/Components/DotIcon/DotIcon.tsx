@@ -8,6 +8,15 @@ import { useMemo } from 'react';
 import type { IconSize } from '../Icon';
 import type { DotIconPin, DotIconProps, DotIconSize } from './types';
 
+const rootVariants = cva('relative inline-flex w-fit', {
+  variants: {
+    disabled: {
+      true: 'opacity-30',
+      false: '',
+    },
+  },
+});
+
 const dotVariants = cva(
   'absolute z-10 box-content flex items-center justify-center overflow-hidden border-base-inverted',
   {
@@ -110,11 +119,7 @@ export const DotIcon = ({
     <DisabledProvider value={{ disabled: false }}>
       <div
         ref={ref}
-        className={cn(
-          'relative inline-flex w-fit',
-          disabled && 'opacity-30',
-          className,
-        )}
+        className={cn(rootVariants({ disabled, className }))}
         {...rest}
       >
         <div className='inline-flex'>{children}</div>
