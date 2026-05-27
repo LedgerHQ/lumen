@@ -3,14 +3,14 @@ import type { CoinCapsuleProps } from './types';
 
 /**
  * @internal
- * Internal component for displaying a cryptocurrency coin capsule with icon and ticker.
+ * Internal component for displaying a cryptocurrency coin capsule with leading content and ticker.
  * This component is not exported publicly. Use NavBarCoinCapsule instead for NavBar usage.
  * Kept as a separate component for potential future extraction as a standalone component.
  */
 export const CoinCapsule = ({
   ref,
   ticker,
-  icon,
+  leadingContent,
   className,
 }: CoinCapsuleProps) => {
   return (
@@ -23,7 +23,7 @@ export const CoinCapsule = ({
       data-slot='coin-capsule'
     >
       <span className='flex size-24 shrink-0 items-center justify-center'>
-        {icon}
+        {leadingContent}
       </span>
       <span className='body-1 text-base select-none'>{ticker}</span>
     </div>

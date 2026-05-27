@@ -88,7 +88,9 @@ export const NavBars = () => {
           <NavBarContent>
             <NavBarCoinCapsule
               ticker='BTC'
-              icon={<Icon ledgerId='bitcoin' ticker='BTC' size={24} />}
+              leadingContent={
+                <Icon ledgerId='bitcoin' ticker='BTC' size={24} />
+              }
             />
           </NavBarContent>
         </NavBar>

@@ -16,14 +16,14 @@ figma.connect(
         sm: 'sm',
         md: 'md',
       }),
-      icon: figma.instance('leading-content'),
+      leadingContent: figma.instance('leading-content'),
       children: figma.string('label'),
     },
     example: (props) => (
       <MediaButton
         appearance={props.appearance}
         size={props.size}
-        icon={props.icon}
+        leadingContent={props.leadingContent}
       >
         {props.children}
       </MediaButton>

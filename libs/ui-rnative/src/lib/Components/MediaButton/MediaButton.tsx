@@ -7,20 +7,20 @@ import type { MediaButtonProps } from './types';
 
 type Appearance = NonNullable<MediaButtonProps['appearance']>;
 type Size = NonNullable<MediaButtonProps['size']>;
-type IconType = 'flat' | 'rounded' | 'none';
+type LeadingContentShape = 'flat' | 'rounded' | 'none';
 
 const useStyles = ({
   appearance,
   size,
   disabled,
   pressed,
-  iconType,
+  leadingContentShape,
 }: {
   appearance: Appearance;
   size: Size;
   disabled: boolean;
   pressed: boolean;
-  iconType: IconType;
+  leadingContentShape: LeadingContentShape;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -45,7 +45,10 @@ const useStyles = ({
         paddingRight: number;
       };
 
-      const paddingMap: Record<Size, Record<IconType, PaddingStyle>> = {
+      const paddingMap: Record<
+        Size,
+        Record<LeadingContentShape, PaddingStyle>
+      > = {
         md: {
           flat: {
             paddingTop: t.spacings.s12,
@@ -97,7 +100,7 @@ const useStyles = ({
             backgroundColor: bgColors[appearance],
             gap: t.spacings.s8,
           },
-          paddingMap[size][iconType],
+          paddingMap[size][leadingContentShape],
           pressed && { backgroundColor: pressedBgColors[appearance] },
           disabled && { backgroundColor: t.colors.bg.disabled },
           appearance === 'no-background' &&
@@ -115,7 +118,7 @@ const useStyles = ({
           alignItems: 'center',
           gap: t.spacings.s2,
         },
-        icon: {
+        leadingContent: {
           flexShrink: 0,
         },
         chevron: {
@@ -124,13 +127,13 @@ const useStyles = ({
         },
       };
     },
-    [appearance, size, disabled, pressed, iconType],
+    [appearance, size, disabled, pressed, leadingContentShape],
   );
 };
 
 /**
  * Media button for select/dropdown components. Displays a label with an optional
- * leading icon and a trailing chevron indicator.
+ * leading content and a trailing chevron indicator.
  *
  * This component is intended to be used exclusively as the trigger inside a Select or
  * dropdown pattern. It should not be used as a standalone action button — use `Button`
@@ -142,7 +145,7 @@ const useStyles = ({
  * import { MediaButton } from '@ledgerhq/lumen-ui-rnative';
  * import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <MediaButton icon={<Settings size={20} />} iconType="flat">
+ * <MediaButton leadingContent={<Settings size={20} />} leadingContentShape="flat">
  *   Network
  * </MediaButton>
  *
@@ -154,14 +157,16 @@ export const MediaButton = ({
   appearance = 'gray',
   size = 'md',
   disabled = false,
-  icon,
-  iconType = 'flat',
+  leadingContent,
+  leadingContentShape = 'flat',
   hideChevron = false,
   children: label,
   ref,
   ...props
 }: MediaButtonProps) => {
-  const effectiveIconType: IconType = icon ? iconType : 'none';
+  const effectiveLeadingContentShape: LeadingContentShape = leadingContent
+    ? leadingContentShape
+    : 'none';
 
   return (
     <Pressable
@@ -179,8 +184,8 @@ export const MediaButton = ({
           size={size}
           disabled={disabled}
           pressed={pressed}
-          iconType={effectiveIconType}
-          icon={icon}
+          leadingContent={leadingContent}
+          leadingContentShape={effectiveLeadingContentShape}
           hideChevron={hideChevron}
         >
           {label}
@@ -195,8 +200,8 @@ type MediaButtonContentProps = PropsWithChildren<{
   size: Size;
   disabled: boolean;
   pressed: boolean;
-  iconType: IconType;
-  icon?: MediaButtonProps['icon'];
+  leadingContent?: MediaButtonProps['leadingContent'];
+  leadingContentShape: LeadingContentShape;
   hideChevron: boolean;
 }>;
 
@@ -205,16 +210,24 @@ const MediaButtonContent = ({
   size,
   disabled,
   pressed,
-  iconType,
-  icon,
+  leadingContent,
+  leadingContentShape,
   hideChevron,
   children,
 }: MediaButtonContentProps) => {
-  const styles = useStyles({ appearance, size, disabled, pressed, iconType });
+  const styles = useStyles({
+    appearance,
+    size,
+    disabled,
+    pressed,
+    leadingContentShape,
+  });
 
   return (
     <View style={styles.container} testID='button-trigger-content'>
-      {icon && <View style={styles.icon}>{icon}</View>}
+      {leadingContent && (
+        <View style={styles.leadingContent}>{leadingContent}</View>
+      )}
       <View style={styles.labelWrapper}>
         <Text style={styles.label} numberOfLines={1} ellipsizeMode='tail'>
           {children}

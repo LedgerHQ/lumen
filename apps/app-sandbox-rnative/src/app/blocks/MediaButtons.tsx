@@ -5,17 +5,25 @@ export const MediaButtons = () => {
   return (
     <Box lx={{ gap: 's16' }}>
       <Box lx={{ gap: 's16', flexDirection: 'row' }}>
-        <MediaButton size='sm' icon={<Star size={20} />} iconType='flat'>
+        <MediaButton
+          size='sm'
+          leadingContent={<Star size={20} />}
+          leadingContentShape='flat'
+        >
           Small
         </MediaButton>
-        <MediaButton size='md' icon={<Star size={20} />} iconType='flat'>
+        <MediaButton
+          size='md'
+          leadingContent={<Star size={20} />}
+          leadingContentShape='flat'
+        >
           Medium
         </MediaButton>
       </Box>
       <Box lx={{ gap: 's16', flexDirection: 'row' }}>
         <MediaButton
           size='sm'
-          icon={
+          leadingContent={
             <MediaImage
               src='https://crypto-icons.ledger.com/BTC.png'
               alt='BTC'
@@ -23,14 +31,14 @@ export const MediaButtons = () => {
               shape='circle'
             />
           }
-          iconType='rounded'
+          leadingContentShape='rounded'
           hideChevron
         >
           Small
         </MediaButton>
         <MediaButton
           size='md'
-          icon={
+          leadingContent={
             <MediaImage
               src='https://crypto-icons.ledger.com/BTC.png'
               alt='BTC'
@@ -38,7 +46,7 @@ export const MediaButtons = () => {
               shape='circle'
             />
           }
-          iconType='rounded'
+          leadingContentShape='rounded'
           hideChevron
         >
           Medium

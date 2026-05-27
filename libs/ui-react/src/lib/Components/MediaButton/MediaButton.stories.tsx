@@ -1,39 +1,7 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ReactNode } from 'react';
 import { Settings, Star } from '../../Symbols';
 import { MediaButton } from './MediaButton';
-import type { MediaButtonProps } from './types';
-
-type Size = NonNullable<MediaButtonProps['size']>;
-
-const cryptoIconSizes = {
-  sm: 24,
-  md: 32,
-} as const;
-
-const resolveIcon = (
-  iconKey: string | undefined,
-  size: Size = 'md',
-): { node?: ReactNode; type?: 'flat' | 'rounded' } => {
-  switch (iconKey) {
-    case 'Settings (flat)':
-      return { node: <Settings size={20} />, type: 'flat' };
-    case 'Bitcoin (rounded)':
-      return {
-        node: (
-          <CryptoIcon
-            ledgerId='bitcoin'
-            ticker='BTC'
-            size={cryptoIconSizes[size]}
-          />
-        ),
-        type: 'rounded',
-      };
-    default:
-      return {};
-  }
-};
 
 const meta: Meta<typeof MediaButton> = {
   component: MediaButton,
@@ -50,11 +18,7 @@ const meta: Meta<typeof MediaButton> = {
     },
   },
   argTypes: {
-    icon: {
-      control: 'select',
-      options: ['None', 'Settings (flat)', 'Bitcoin (rounded)'],
-    },
-    iconType: {
+    leadingContentShape: {
       control: 'select',
       options: ['flat', 'rounded'],
     },
@@ -71,49 +35,52 @@ export const Base: Story = {
   args: {
     children: 'All accounts',
     appearance: 'gray',
+    leadingContentShape: 'flat',
   },
-  render: ({ icon, size, iconType, ...args }) => {
-    const resolved = resolveIcon(icon as string, size);
-    return (
-      <MediaButton
-        {...args}
-        size={size}
-        icon={resolved.node}
-        iconType={resolved.type ?? iconType}
-      >
-        {args.children}
-      </MediaButton>
-    );
-  },
+  render: (args) => (
+    <MediaButton {...args} leadingContent={<Settings size={20} />}>
+      {args.children}
+    </MediaButton>
+  ),
 };
 
 export const SizeShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
-      <MediaButton size='sm' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton
+        size='sm'
+        leadingContent={<Star size={20} />}
+        leadingContentShape='flat'
+      >
         Small
       </MediaButton>
-      <MediaButton size='md' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton
+        size='md'
+        leadingContent={<Star size={20} />}
+        leadingContentShape='flat'
+      >
         Medium
       </MediaButton>
     </div>
   ),
 };
 
-export const IconTypeShowcase: Story = {
+export const LeadingContentShapeShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
       <div className='flex items-center gap-16'>
         <MediaButton
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
           appearance='gray'
         >
           Flat icon (md)
         </MediaButton>
         <MediaButton
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />}
-          iconType='rounded'
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+          }
+          leadingContentShape='rounded'
           appearance='gray'
         >
           Rounded icon (md)
@@ -122,16 +89,18 @@ export const IconTypeShowcase: Story = {
       </div>
       <div className='flex items-center gap-16'>
         <MediaButton
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
           appearance='gray'
           size='sm'
         >
           Flat icon (sm)
         </MediaButton>
         <MediaButton
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
-          iconType='rounded'
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+          }
+          leadingContentShape='rounded'
           appearance='gray'
           size='sm'
         >
@@ -145,7 +114,7 @@ export const IconTypeShowcase: Story = {
   ),
 };
 
-export const AllAppearancesWithIcons: Story = {
+export const AllAppearancesWithLeadingShowcase: Story = {
   render: () => {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
     return (
@@ -155,15 +124,17 @@ export const AllAppearancesWithIcons: Story = {
             <MediaButton appearance={appearance}>{appearance}</MediaButton>
             <MediaButton
               appearance={appearance}
-              icon={<Settings size={20} />}
-              iconType='flat'
+              leadingContent={<Settings size={20} />}
+              leadingContentShape='flat'
             >
               {appearance}
             </MediaButton>
             <MediaButton
               appearance={appearance}
-              icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />}
-              iconType='rounded'
+              leadingContent={
+                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+              }
+              leadingContentShape='rounded'
             >
               {appearance}
             </MediaButton>

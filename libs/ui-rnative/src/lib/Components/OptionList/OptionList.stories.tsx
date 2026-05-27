@@ -865,8 +865,8 @@ export const TriggerShowcase: Story = {
         <MediaButton
           appearance='gray'
           onPress={() => iconRef.current?.present()}
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
         >
           {selectedIcon?.label ?? 'Settings'}
         </MediaButton>
@@ -874,7 +874,7 @@ export const TriggerShowcase: Story = {
         <MediaButton
           appearance='gray'
           onPress={() => cryptoRef.current?.present()}
-          icon={
+          leadingContent={
             selectedCrypto?.meta ? (
               <CryptoIcon
                 ledgerId={selectedCrypto.meta.ledgerId as string}
@@ -883,7 +883,7 @@ export const TriggerShowcase: Story = {
               />
             ) : undefined
           }
-          iconType='rounded'
+          leadingContentShape='rounded'
         >
           {selectedCrypto?.label ?? 'Network'}
         </MediaButton>

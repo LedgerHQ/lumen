@@ -242,7 +242,9 @@ export const WithCoinCapsule: Story = {
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
       <NavBarCoinCapsule
         ticker='BTC'
-        icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
+        leadingContent={
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+        }
       />
       <NavBarTrailing>
         <IconButton
@@ -263,7 +265,7 @@ import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing, IconButton
 
 <NavBar>
   <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
+  <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
   <NavBarTrailing>
     <IconButton
       appearance="gray"

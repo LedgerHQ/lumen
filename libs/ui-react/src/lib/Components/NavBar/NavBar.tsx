@@ -15,22 +15,27 @@ import type {
 
 /**
  * A coin capsule component for displaying cryptocurrency information within the NavBar.
- * Shows an icon and ticker symbol in a pill-shaped container.
+ * Shows leading content (e.g., an icon) and ticker symbol in a pill-shaped container.
  *
  * @example
  * import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing } from '@ledgerhq/lumen-ui-react';
  * import { CryptoIcon } from '@ledgerhq/crypto-icons';
  *
- * <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
+ * <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
  */
 export const NavBarCoinCapsule = ({
   ref,
   ticker,
-  icon,
+  leadingContent,
   className,
 }: NavBarCoinCapsuleProps) => (
   <div className='flex flex-1 items-center' data-slot='navbar-coin-capsule'>
-    <CoinCapsule ref={ref} ticker={ticker} icon={icon} className={className} />
+    <CoinCapsule
+      ref={ref}
+      ticker={ticker}
+      leadingContent={leadingContent}
+      className={className}
+    />
   </div>
 );
 
@@ -199,7 +204,7 @@ export const NavBarTrailing = ({
  *
  * <NavBar>
  *   <NavBarBackButton onClick={handleBack} />
- *   <NavBarCoinCapsule ticker="BTC" icon={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
+ *   <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
  *   <NavBarTrailing>
  *     <IconButton icon={MoreHorizontal} aria-label="More options" />
  *   </NavBarTrailing>

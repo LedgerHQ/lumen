@@ -535,7 +535,7 @@ The `SelectTrigger` component accepts an optional `render` prop that replaces th
 
 #### Using `MediaButton`
 
-Use `MediaButton` directly as a button-style trigger. It accepts props like `appearance`, `size`, `icon`, and `iconType`.
+Use `MediaButton` directly as a button-style trigger. It accepts props like `appearance`, `size`, `leadingContent`, and `leadingContentShape`.
 
 ```tsx
 import {
@@ -560,7 +560,7 @@ function MyComponent() {
     <Select items={accountOptions} value={value} onValueChange={setValue}>
       <SelectTrigger
         render={({ selectedValue, selectedContent }) => (
-          <MediaButton icon={<Settings size={20} />} iconType='flat'>
+          <MediaButton leadingContent={<Settings size={20} />} leadingContentShape='flat'>
             {selectedValue ? selectedContent : 'All accounts'}
           </MediaButton>
         )}

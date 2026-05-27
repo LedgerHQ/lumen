@@ -122,12 +122,12 @@ export function NavBarDescription({
 
 export function NavBarCoinCapsule({
   ticker,
-  icon,
+  leadingContent,
   ...props
 }: NavBarCoinCapsuleProps) {
   return (
     <Box {...props}>
-      <CoinCapsule ticker={ticker} icon={icon} />
+      <CoinCapsule ticker={ticker} leadingContent={leadingContent} />
     </Box>
   );
 }

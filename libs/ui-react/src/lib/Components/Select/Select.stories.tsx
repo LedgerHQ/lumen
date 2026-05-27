@@ -536,7 +536,10 @@ export const TriggerShowcase: Story = {
         >
           <SelectTrigger
             render={({ selectedValue, selectedContent }) => (
-              <MediaButton icon={<Settings size={20} />} iconType='flat'>
+              <MediaButton
+                leadingContent={<Settings size={20} />}
+                leadingContentShape='flat'
+              >
                 {selectedValue ? selectedContent : 'Settings'}
               </MediaButton>
             )}
@@ -560,7 +563,7 @@ export const TriggerShowcase: Story = {
           <SelectTrigger
             render={({ selectedValue, selectedContent }) => (
               <MediaButton
-                icon={
+                leadingContent={
                   selectedCrypto ? (
                     <CryptoIcon
                       ledgerId={(selectedCrypto.meta?.ledgerId as string) ?? ''}
@@ -569,7 +572,7 @@ export const TriggerShowcase: Story = {
                     />
                   ) : undefined
                 }
-                iconType='rounded'
+                leadingContentShape='rounded'
               >
                 {selectedValue ? selectedContent : 'Network'}
               </MediaButton>

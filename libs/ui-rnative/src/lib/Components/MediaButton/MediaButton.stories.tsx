@@ -44,30 +44,40 @@ export const Base: Story = {
 export const SizeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
-      <MediaButton size='sm' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton
+        size='sm'
+        leadingContent={<Star size={20} />}
+        leadingContentShape='flat'
+      >
         Small
       </MediaButton>
-      <MediaButton size='md' icon={<Star size={20} />} iconType='flat'>
+      <MediaButton
+        size='md'
+        leadingContent={<Star size={20} />}
+        leadingContentShape='flat'
+      >
         Medium
       </MediaButton>
     </Box>
   ),
 };
 
-export const IconTypeShowcase: Story = {
+export const LeadingContentShapeShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
         <MediaButton
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
           appearance='gray'
         >
           Flat icon (md)
         </MediaButton>
         <MediaButton
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />}
-          iconType='rounded'
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+          }
+          leadingContentShape='rounded'
           appearance='gray'
         >
           Rounded icon (md)
@@ -76,16 +86,18 @@ export const IconTypeShowcase: Story = {
       </Box>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
         <MediaButton
-          icon={<Settings size={20} />}
-          iconType='flat'
+          leadingContent={<Settings size={20} />}
+          leadingContentShape='flat'
           appearance='gray'
           size='sm'
         >
           Flat icon (sm)
         </MediaButton>
         <MediaButton
-          icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />}
-          iconType='rounded'
+          leadingContent={
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+          }
+          leadingContentShape='rounded'
           appearance='gray'
           size='sm'
         >
@@ -112,15 +124,17 @@ export const AppearanceShowcase: Story = {
             <MediaButton appearance={appearance}>{appearance}</MediaButton>
             <MediaButton
               appearance={appearance}
-              icon={<Settings size={20} />}
-              iconType='flat'
+              leadingContent={<Settings size={20} />}
+              leadingContentShape='flat'
             >
               {appearance}
             </MediaButton>
             <MediaButton
               appearance={appearance}
-              icon={<CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />}
-              iconType='rounded'
+              leadingContent={
+                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+              }
+              leadingContentShape='rounded'
             >
               {appearance}
             </MediaButton>

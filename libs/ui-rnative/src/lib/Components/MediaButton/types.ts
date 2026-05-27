@@ -13,19 +13,19 @@ export type MediaButtonProps = {
    */
   size?: 'sm' | 'md';
   /**
-   * An optional pre-rendered icon element to display as leading content.
-   * Consumer is responsible for sizing the icon.
+   * An optional leading content, usually a pre-rendered icon.
+   * Consumer is responsible for sizing the icon (typically 20px).
    */
-  icon?: ReactNode;
+  leadingContent?: ReactNode;
   /**
-   * Determines the padding scheme when an icon is present.
+   * Determines the padding scheme when `leadingContent` is present.
    * - `'flat'`: Standard padding for line/interface icons.
    * - `'rounded'`: Tighter left padding for circular icons with their own background (e.g., crypto icons).
    *
-   * Only relevant when `icon` is provided.
+   * Only relevant when `leadingContent` is provided.
    * @default 'flat'
    */
-  iconType?: 'flat' | 'rounded';
+  leadingContentShape?: 'flat' | 'rounded';
   /**
    * When true, hides the trailing chevron indicator.
    * @default false
