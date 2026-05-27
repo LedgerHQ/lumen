@@ -11,8 +11,9 @@ export const lightTheme: ThemeVars = create({
   base: 'light',
   brandTarget: '_self',
   brandImage: lightLogoUrl,
-  appBg: light.bg.canvasMuted,
-  appContentBg: light.bg.canvasMuted,
+  appBg: light.bg.surface,
+  appPreviewBg: light.bg.muted,
+  appContentBg: light.bg.surface,
   appBorderRadius: 8,
 
   textColor: light.text.mutedPressed,
@@ -28,8 +29,9 @@ export const darkTheme: ThemeVars = create({
   base: 'dark',
   brandTarget: '_self',
   brandImage: darkLogoUrl,
-  appBg: dark.bg.canvasSheet,
-  appContentBg: dark.bg.canvasSheet,
+  appBg: dark.bg.surface,
+  appPreviewBg: dark.bg.muted,
+  appContentBg: dark.bg.surface,
   appBorderRadius: 8,
 
   textColor: dark.text.mutedPressed,

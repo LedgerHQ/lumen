@@ -41,7 +41,6 @@ export const CustomTabs = ({ children }: CustomTabsProps) => {
           alignItems: 'flex-start' as any,
           position: 'sticky' as any,
           width: 'full',
-          backgroundColor: 'canvas',
           top: 's0',
           zIndex: 10,
         }}

@@ -1,5 +1,6 @@
 import type { Decorator } from '@storybook/react-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useDarkMode } from 'storybook-dark-mode';
 import { ThemeProvider } from '../src/lib/Components/ThemeProvider';
@@ -11,10 +12,13 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
 });
 
-const ThemeDecorator: React.FC<{
+const ThemeDecorator = ({
+  brandClass,
+  children,
+}: {
   brandClass: string;
-  children: React.ReactNode;
-}> = ({ brandClass, children }) => {
+  children: ReactNode;
+}) => {
   const colorScheme = useDarkMode() ? 'dark' : 'light';
 
   useEffect(() => {
