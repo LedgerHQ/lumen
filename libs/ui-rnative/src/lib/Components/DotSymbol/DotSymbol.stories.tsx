@@ -92,6 +92,23 @@ export const ShapeShowcase: Story = {
   ),
 };
 
+export const DisabledShowcase: Story = {
+  args: { src: dotSrc, alt: 'Disabled showcase' },
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
+      <DotSymbol src={dotSrc} pin='bottom-end' disabled>
+        <MediaImage src={parentSrc} size={48} shape='circle' />
+      </DotSymbol>
+      <DotSymbol src={dotSrc} pin='bottom-end' shape='square' disabled>
+        <MediaImage src={parentSrc} size={48} shape='square' />
+      </DotSymbol>
+      <DotSymbol src={dotSrc} pin='bottom-end' disabled>
+        <Spot appearance='icon' icon={CoinAlert} />
+      </DotSymbol>
+    </Box>
+  ),
+};
+
 export const SizeShowcase: Story = {
   args: { src: dotSrc, alt: 'Size showcase' },
   render: () => (

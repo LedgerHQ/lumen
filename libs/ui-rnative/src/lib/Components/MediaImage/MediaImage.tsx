@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -36,9 +37,11 @@ export const fontSizeMap: Record<MediaImageSize, number> = {
 const useStyles = ({
   size,
   shape,
+  disabled,
 }: {
   size: MediaImageSize;
   shape: MediaImageShape;
+  disabled: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -61,6 +64,7 @@ const useStyles = ({
           outlineWidth: 1,
           outlineOffset: -1,
           outlineStyle: 'solid',
+          ...(disabled && { opacity: 0.3 }),
         },
         image: {
           width: '100%',
@@ -72,7 +76,7 @@ const useStyles = ({
         },
       };
     },
-    [size, shape],
+    [size, shape, disabled],
   );
 };
 
@@ -99,6 +103,7 @@ export const MediaImage = ({
   shape = 'square',
   fallback,
   loading = false,
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
@@ -106,7 +111,11 @@ export const MediaImage = ({
 }: MediaImageProps) => {
   const [error, setError] = useState(false);
   const shouldFallback = !src || error;
-  const styles = useStyles({ size, shape });
+  const disabled = useDisabledContext({
+    consumerName: 'MediaImage',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ size, shape, disabled });
 
   useEffect(() => {
     setError(false);
@@ -119,6 +128,7 @@ export const MediaImage = ({
       style={StyleSheet.flatten([styles.root, style])}
       accessibilityRole='image'
       accessibilityLabel={alt}
+      accessibilityState={{ disabled }}
       {...props}
     >
       {loading && <Skeleton style={styles.skeleton} />}

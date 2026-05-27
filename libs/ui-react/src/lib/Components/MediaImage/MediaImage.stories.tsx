@@ -89,3 +89,24 @@ export const LoadingShowcase: Story = {
     </div>
   ),
 };
+
+export const DisabledShowcase: Story = {
+  args: { alt: 'Disabled showcase' },
+  render: () => (
+    <div className='flex flex-col gap-24'>
+      <div className='inline-flex items-end gap-16'>
+        <MediaImage src={exampleSrc} alt='Cardano' size={32} disabled />
+        <MediaImage src={exampleSrc} alt='Cardano' size={48} disabled />
+        <MediaImage
+          src={exampleSrc}
+          alt='Cardano'
+          size={48}
+          shape='circle'
+          disabled
+        />
+        <MediaImage fallback='Bitcoin' alt='Bitcoin' size={48} disabled />
+        <MediaImage alt='Empty' size={48} disabled />
+      </div>
+    </div>
+  ),
+};

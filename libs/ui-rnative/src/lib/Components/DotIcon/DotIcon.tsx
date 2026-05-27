@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import {
+  DisabledProvider,
+  useDisabledContext,
+} from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
 import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
@@ -63,11 +66,13 @@ const useStyles = ({
   shape,
   pin,
   appearance,
+  disabled,
 }: {
   size: DotIconSize;
   shape: 'square' | 'circle';
   pin: DotIconPin;
   appearance: DotIconAppearance;
+  disabled: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -77,6 +82,10 @@ const useStyles = ({
       const pinOffset = getPinOffset(pin);
 
       return {
+        root: {
+          position: 'relative',
+          ...(disabled && { opacity: 0.3 }),
+        },
         dot: {
           position: 'absolute',
           zIndex: 10,
@@ -96,7 +105,7 @@ const useStyles = ({
         },
       };
     },
-    [size, shape, pin, appearance],
+    [size, shape, pin, appearance, disabled],
   );
 };
 
@@ -119,27 +128,35 @@ export const DotIcon = ({
   pin = 'bottom-end',
   size = 20,
   shape = 'circle',
+  disabled: disabledProp = false,
   lx = {},
   style,
   ref,
   ...rest
 }: DotIconProps) => {
-  const styles = useStyles({ size, shape, pin, appearance });
+  const disabled = useDisabledContext({
+    consumerName: 'DotIcon',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ size, shape, pin, appearance, disabled });
 
   return (
-    <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([{ position: 'relative' }, style])}
-      {...rest}
-    >
-      <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
-        {children}
-        <Box testID='dot-icon-dot' style={styles.dot}>
-          <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+    <DisabledProvider value={{ disabled: false }}>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={[styles.root, style]}
+        accessibilityState={{ disabled }}
+        {...rest}
+      >
+        <Box style={{ alignSelf: 'flex-start', position: 'relative' }}>
+          {children}
+          <Box testID='dot-icon-dot' style={styles.dot}>
+            <Icon size={dotIconSizeMap[size]} style={styles.icon} />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </DisabledProvider>
   );
 };
 

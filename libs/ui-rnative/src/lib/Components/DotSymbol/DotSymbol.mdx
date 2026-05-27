@@ -4,13 +4,16 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 
 <Meta title='Communication/DotSymbol' of={DotSymbolStories} />
 
+# DotSymbol
+
 <CustomTabs>
   <Tab label="Overview">
-# DotSymbol
 
 ## Introduction
 
 DotSymbol positions a small image indicator at a configurable corner of a child element such as MediaImage or Spot. It is commonly used to show a network badge or secondary icon overlapping a primary symbol.
+
+> View in [Figma](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=8602-380&m=dev).
 
 ## Anatomy
 
@@ -46,9 +49,83 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 <Canvas of={DotSymbolStories.SizeShowcase} />
 
+### Disabled
+
+Only set `disabled` on `DotSymbol`. The state is propagated to the child via context. Passing it to both stacks the opacity overlay.
+
+<Canvas of={DotSymbolStories.DisabledShowcase} />
+
 ## Accessibility
 
 - Always provide a meaningful `alt` prop on the DotSymbol so the indicator image is announced by screen readers.
 - The child element should carry its own accessibility label independently.
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { DotSymbol, MediaImage } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <DotSymbol src='https://example.com/btc.png' alt='Bitcoin network'>
+      <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+    </DotSymbol>
+  );
+}
+```
+
+### Pin Placement
+
+Position the dot at any of the four corners of the child:
+
+```tsx
+<DotSymbol src='https://example.com/btc.png' alt='Bitcoin' pin='top-end'>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotSymbol>
+```
+
+### Shapes
+
+Use `shape='square'` to match a square child element:
+
+```tsx
+<DotSymbol src='https://example.com/btc.png' alt='Bitcoin' shape='square'>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} shape='square' />
+</DotSymbol>
+```
+
+### Sizing
+
+The dot size is driven by the parent's size via the mapping helpers:
+
+```tsx
+import { DotSymbol, mediaImageDotSizeMap, MediaImage } from '@ledgerhq/lumen-ui-rnative';
+
+<DotSymbol
+  src='https://example.com/btc.png'
+  alt='Bitcoin'
+  size={mediaImageDotSizeMap[48]}
+>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotSymbol>;
+```
+
+### Disabled State
+
+Only set `disabled` on `DotSymbol`. The state is propagated to the child via context. Passing it to both stacks the opacity overlay.
+
+```tsx
+<DotSymbol src='https://example.com/btc.png' alt='Bitcoin' disabled>
+  <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
+</DotSymbol>
+```
+
 </Tab>
 </CustomTabs>

@@ -36,4 +36,10 @@ export type MediaImageProps = {
    * @default false
    */
   loading?: boolean;
+  /**
+   * Shows a disabled appearance.
+   * @optional
+   * @default false
+   */
+  disabled?: boolean;
 } & Omit<StyledViewProps, 'children'>;
