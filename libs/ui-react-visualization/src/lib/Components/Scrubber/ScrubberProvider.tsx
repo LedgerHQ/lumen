@@ -15,7 +15,7 @@ export function ScrubberProvider({
   svgRef,
   enableScrubbing,
   onScrubberPositionChange,
-  magnetRadius = 6,
+  magnetRadius = 8,
 }: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
   const { getMagneticPoints } = useMagneticPointsContext();
