@@ -96,18 +96,6 @@ describe('Scrubber', () => {
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
   });
 
-  it('renders a label when a label function is provided', () => {
-    const { getByTestId } = renderScrubber({
-      scrubberProps: { label: (i: number) => `Index ${i}` },
-    });
-    expect(getByTestId('scrubber-label')).toBeTruthy();
-  });
-
-  it('does not render a label when no label function is provided', () => {
-    const { queryByTestId } = renderScrubber();
-    expect(queryByTestId('scrubber-label')).toBeNull();
-  });
-
   it('renders chart tooltip when tooltip prop is set', () => {
     const { getByTestId } = renderScrubber({
       scrubberProps: {

@@ -1,5 +1,5 @@
 import type { RefObject } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { DrawingArea } from '../../../utils/types';
 import type { ChartTooltipItemData, SvgBBoxElement } from '../types';
@@ -133,11 +133,36 @@ export const measureWidths = async (
 };
 
 /**
+ * Builds a stable string signature for the tooltip's content shape (labels,
+ * title, and item count). Used as the sole dependency of the measurement
+ * effect so re-measurement only happens when something that can change the
+ * tooltip's natural width actually changes — typically once per shape change,
+ * not on every scrub frame as value strings update.
+ */
+const computeShapeSignature = (
+  items: ChartTooltipItemData[],
+  hasTitle: boolean,
+  title: string | number | undefined,
+): string => {
+  let labels = '';
+  for (let i = 0; i < items.length; i++) {
+    if (i > 0) labels += '\u001F';
+    labels += String(items[i].label);
+  }
+  return `${hasTitle ? '1' : '0'}|${labels}|${title ?? ''}`;
+};
+
+/**
  * Manages SVG text measurement for the tooltip via async `getBBox`.
  *
- * Uses `requestAnimationFrame` to defer measurement until after layout,
- * with a cancellation flag to prevent stale state updates when items change
- * rapidly.
+ * Uses `requestAnimationFrame` to defer measurement until after layout, with a
+ * cancellation flag to prevent stale state updates when items change rapidly.
+ *
+ * The effect's dependency is a shape signature (labels + title + count) rather
+ * than the raw `items` reference, so high-frequency value updates during a
+ * scrub do not trigger a fresh measurement chain. Value-width auto-fit is
+ * handled by `minWidth`; consumers that need pixel-perfect value fitting
+ * should set a `minWidth` large enough to cover the widest value.
  */
 export function useTooltipMeasurement(
   items: ChartTooltipItemData[],
@@ -150,21 +175,55 @@ export function useTooltipMeasurement(
 
   const [widths, setWidths] = useState<Widths | null>(null);
 
+  const shapeKey = computeShapeSignature(items, hasTitle, title);
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
+  const hasTitleRef = useRef(hasTitle);
+  hasTitleRef.current = hasTitle;
+
   useEffect(() => {
-    if (items.length === 0) return;
+    if (itemsRef.current.length === 0) return;
 
     let cancelled = false;
 
-    void measureWidths(items, hasTitle, titleRef, labelRefs, valueRefs).then(
-      (result) => {
-        if (!cancelled) setWidths(result);
-      },
-    );
+    void measureWidths(
+      itemsRef.current,
+      hasTitleRef.current,
+      titleRef,
+      labelRefs,
+      valueRefs,
+    ).then((result) => {
+      if (!cancelled) setWidths(result);
+    });
 
     return () => {
       cancelled = true;
     };
-  }, [items, title, hasTitle]);
+  }, [shapeKey]);
 
   return { widths, titleRef, labelRefs, valueRefs };
 }
+
+type RefSetter = (el: SvgBBoxElement | null) => void;
+
+/**
+ * Builds stable per-index ref-callback arrays that mutate the given refs in
+ * place. Recomputed only when `length` changes, so the same callback identity
+ * is passed to each `ChartTooltipItem` across scrub frames. This unlocks
+ * `React.memo` on `ChartTooltipItem` and avoids the per-frame detach /
+ * re-attach dance of inline arrow ref callbacks.
+ */
+export const useBuildRefSetters = (
+  refs: { current: (SvgBBoxElement | null)[] },
+  length: number,
+): RefSetter[] => {
+  return useMemo(() => {
+    const setters: RefSetter[] = new Array(length);
+    for (let i = 0; i < length; i++) {
+      setters[i] = (el) => {
+        refs.current[i] = el;
+      };
+    }
+    return setters;
+  }, [refs, length]);
+};

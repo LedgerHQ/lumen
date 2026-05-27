@@ -1,5 +1,5 @@
 import type { RefObject } from 'react';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import type { DrawingArea } from '../../../utils/types';
 import type { ChartTooltipItemData, SvgTextContent } from '../types';
@@ -100,11 +100,43 @@ export const computeItemsBaseY = (
 };
 
 /**
+ * Builds a stable string signature for the tooltip's content shape (labels,
+ * title, and item count). Used as the sole dependency of the measurement
+ * effect so re-measurement and observer re-binding only happen when something
+ * that can change the tooltip's natural width actually changes — typically
+ * once per shape change, not on every scrub frame as value strings update.
+ */
+const computeShapeSignature = (
+  items: ChartTooltipItemData[],
+  hasTitle: boolean,
+  title: SvgTextContent | undefined,
+): string => {
+  let labels = '';
+  for (let i = 0; i < items.length; i++) {
+    if (i > 0) labels += '\u001F';
+    const label = items[i].label;
+    labels +=
+      typeof label === 'string' || typeof label === 'number'
+        ? String(label)
+        : '';
+  }
+  const titleKey =
+    typeof title === 'string' || typeof title === 'number' ? String(title) : '';
+  return `${hasTitle ? '1' : '0'}|${labels}|${titleKey}`;
+};
+
+/**
  * Manages SVG text measurement for the tooltip via `getBBox`.
  *
- * A single `ResizeObserver` is created on mount and reused for the
- * component's entire lifetime, avoiding the cost of tearing down and
- * recreating an observer on every scrubber movement.
+ * A single `ResizeObserver` is created on mount and reused for the component's
+ * entire lifetime, avoiding the cost of tearing down and recreating an observer
+ * on every scrubber movement.
+ *
+ * The re-measure / re-observe effect's dependency is a shape signature (labels
+ * + title + count) rather than the raw `items` reference, so high-frequency
+ * value updates during a scrub do not trigger a fresh measurement or
+ * disconnect / re-observe cycle. The `ResizeObserver` still picks up real
+ * geometry changes (e.g. value strings widening past the current rect).
  */
 export function useTooltipMeasurement(
   items: ChartTooltipItemData[],
@@ -143,11 +175,16 @@ export function useTooltipMeasurement(
     return () => observerRef.current?.disconnect();
   }, []);
 
-  useLayoutEffect(() => {
-    if (items.length === 0) return;
+  const shapeKey = computeShapeSignature(items, hasTitle, title);
+  const itemsLengthRef = useRef(items.length);
+  itemsLengthRef.current = items.length;
 
-    labelRefs.current.length = items.length;
-    valueRefs.current.length = items.length;
+  useLayoutEffect(() => {
+    const length = itemsLengthRef.current;
+    if (length === 0) return;
+
+    labelRefs.current.length = length;
+    valueRefs.current.length = length;
 
     measureFnRef.current();
 
@@ -157,7 +194,31 @@ export function useTooltipMeasurement(
     if (titleRef.current) observer.observe(titleRef.current);
     labelRefs.current.forEach((el) => el && observer.observe(el));
     valueRefs.current.forEach((el) => el && observer.observe(el));
-  }, [items, title, hasTitle]);
+  }, [shapeKey]);
 
   return { widths, titleRef, labelRefs, valueRefs };
 }
+
+type SvgTextRefSetter = (el: SVGTextElement | null) => void;
+
+/**
+ * Builds stable per-index ref-callback arrays that mutate the given refs in
+ * place. Recomputed only when `length` changes, so the same callback identity
+ * is passed to each `ChartTooltipItem` across scrub frames. This unlocks
+ * `React.memo` on `ChartTooltipItem` and avoids the per-frame detach /
+ * re-attach dance of inline arrow ref callbacks.
+ */
+export const useBuildRefSetters = (
+  refs: RefObject<(SVGTextElement | null)[]>,
+  length: number,
+): SvgTextRefSetter[] => {
+  return useMemo(() => {
+    const setters: SvgTextRefSetter[] = new Array(length);
+    for (let i = 0; i < length; i++) {
+      setters[i] = (el) => {
+        refs.current[i] = el;
+      };
+    }
+    return setters;
+  }, [refs, length]);
+};

@@ -8,21 +8,19 @@ import {
   LinearGradient,
   Rect,
   Stop,
-  Text as SvgText,
 } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
-  LABEL_OFFSET_Y,
   LINE_GRADIENT_EDGE_OPACITY,
   OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
   OVERLAY_OPACITY,
 } from './constants';
 import { useScrubberContext } from './context';
-import { DefaultScrubberTooltip } from './DefaultScrubberTooltip';
+import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { resolvePixelX, resolvePixelY } from './utils';
 
@@ -53,7 +51,6 @@ import { resolvePixelX, resolvePixelY } from './utils';
  * ```
  */
 export function Scrubber({
-  label,
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
@@ -89,11 +86,6 @@ export function Scrubber({
         (b): b is { id: string; stroke: string; pixelY: number } => b !== null,
       );
   }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
-
-  const resolvedLabel = useMemo(() => {
-    if (scrubberPosition === undefined || !label) return undefined;
-    return label(scrubberPosition);
-  }, [scrubberPosition, label]);
 
   const tooltipPayload = useMemo(() => {
     if (scrubberPosition === undefined || !tooltip) {
@@ -138,7 +130,6 @@ export function Scrubber({
 
   const borderMutedColor = theme.colors.border.base;
   const backgroundBaseColor = theme.colors.bg.base;
-  const textBaseColor = theme.colors.text.base;
   const bgCanvasColor = theme.colors.bg.canvas;
 
   return (
@@ -190,21 +181,6 @@ export function Scrubber({
           fill={backgroundBaseColor}
           opacity={OVERLAY_OPACITY}
         />
-      )}
-
-      {resolvedLabel !== undefined && (
-        <SvgText
-          testID='scrubber-label'
-          x={pixelX}
-          y={drawY - LABEL_OFFSET_Y}
-          textAnchor='middle'
-          fill={textBaseColor}
-          fontSize={theme.typographies.body4.fontSize}
-          fontWeight={theme.typographies.body4.fontWeight}
-          fontFamily={theme.fontFamilies.sans}
-        >
-          {resolvedLabel}
-        </SvgText>
       )}
 
       {showBeacons &&

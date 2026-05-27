@@ -17,6 +17,7 @@ import {
   computeTooltipHeight,
   computeTooltipWidth,
   computeTooltipX,
+  useBuildRefSetters,
   useTooltipMeasurement,
 } from './utils';
 
@@ -51,6 +52,9 @@ export function DefaultScrubberTooltip({
     hasTitle,
     title,
   );
+
+  const labelRefSetters = useBuildRefSetters(labelRefs, items.length);
+  const valueRefSetters = useBuildRefSetters(valueRefs, items.length);
 
   if (items.length === 0) {
     return null;
@@ -93,18 +97,14 @@ export function DefaultScrubberTooltip({
       )}
       {items.map((item, i) => (
         <ChartTooltipItem
-          key={`${item.label}-${item.value}-${i}`}
+          key={i}
           label={item.label}
           value={item.value}
           x={tooltipX}
           y={itemsBaseY + i * (ROW_HEIGHT + ROW_GAP) + ROW_HEIGHT / 2}
           width={tooltipWidth}
-          labelRef={(el) => {
-            labelRefs.current[i] = el;
-          }}
-          valueRef={(el) => {
-            valueRefs.current[i] = el;
-          }}
+          labelRef={labelRefSetters[i]}
+          valueRef={valueRefSetters[i]}
         />
       ))}
     </g>

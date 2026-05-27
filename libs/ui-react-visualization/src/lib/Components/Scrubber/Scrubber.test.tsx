@@ -106,21 +106,6 @@ describe('Scrubber', () => {
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
   });
 
-  it('renders the label when a label function is provided', () => {
-    const { getByTestId, getByText } = renderScrubber({
-      scrubberProps: { label: (i: number) => `Index ${i}` },
-    });
-    activateScrubber(getByTestId('chart-svg'));
-    expect(getByTestId('scrubber-label')).toBeTruthy();
-    expect(getByText(/^Index \d+$/)).toBeTruthy();
-  });
-
-  it('does not render a label when no label function is provided', () => {
-    const { getByTestId, queryByTestId } = renderScrubber();
-    activateScrubber(getByTestId('chart-svg'));
-    expect(queryByTestId('scrubber-label')).toBeNull();
-  });
-
   it('hides the scrubber group on mouseleave', () => {
     const { getByTestId, queryByTestId } = renderScrubber();
     const svg = getByTestId('chart-svg');

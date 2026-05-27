@@ -30,7 +30,6 @@ export function CartesianChart({
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
   const needsMeasurement = width === undefined;
-
   const handleLayout = useCallback(
     (e: LayoutChangeEvent) => {
       if (needsMeasurement) {

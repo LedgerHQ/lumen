@@ -43,9 +43,13 @@ export type SvgTextContent =
   | ReactElement<SVGProps<SVGTSpanElement>, 'tspan'>;
 
 export type ChartTooltipItemData = {
-  /** Label displayed on the left side of the row. */
+  /**
+   * Label displayed on the left side of the row.
+   */
   label: SvgTextContent;
-  /** Value displayed on the right side of the row. */
+  /**
+   * Value displayed on the right side of the row.
+   */
   value: SvgTextContent;
 };
 
@@ -129,11 +133,6 @@ export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
 };
 
 export type ScrubberProps = {
-  /**
-   * Formats a label string shown above the reference line for a given data index.
-   * When omitted, no label is rendered.
-   */
-  label?: (dataIndex: number) => string;
   /**
    * Hides the vertical reference line.
    * @default false

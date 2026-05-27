@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
-import { Text, View } from 'react-native';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from '../LineChart';
@@ -23,21 +21,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof Scrubber>;
-
-const dates = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
 
 const singleSeries = [
   {
@@ -71,34 +54,10 @@ export const Base: Story = {
   args: {},
 };
 
-export const WithLabel: Story = {
-  render: (args: ScrubberProps) => {
-    const [activeIndex, setActiveIndex] = useState<number | undefined>();
-    const displayIndex = activeIndex ?? singleSeries[0].data.length - 1;
-    return (
-      <View>
-        <Text style={{ marginBottom: 8, fontSize: 14 }}>
-          {dates[displayIndex]} — ${singleSeries[0].data[displayIndex]}
-        </Text>
-        <LineChart
-          series={singleSeries}
-          height={200}
-          showArea
-          enableScrubbing
-          onScrubberPositionChange={setActiveIndex}
-        >
-          <Scrubber {...args} label={(i: number) => dates[i] ?? ''} />
-        </LineChart>
-      </View>
-    );
-  },
-  args: {},
-};
-
 export const MultiSeries: Story = {
   render: (args: ScrubberProps) => (
     <LineChart series={multiSeries} height={200} enableScrubbing>
-      <Scrubber {...args} label={(i: number) => dates[i] ?? ''} showBeacons />
+      <Scrubber {...args} showBeacons />
     </LineChart>
   ),
   args: {},

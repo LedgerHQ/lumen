@@ -152,7 +152,7 @@ export const MultiSeries: Story = {
           tickLabelFormatter: (v) => `$${v}`,
         }}
       >
-        <Scrubber {...args} label={(i: number) => dates[i] ?? ''} showBeacons />
+        <Scrubber {...args} showBeacons />
       </LineChart>
     </div>
   ),
