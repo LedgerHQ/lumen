@@ -79,6 +79,12 @@ const meta: Meta<typeof AmountDisplay> = {
         type: 'boolean',
       },
     },
+    size: {
+      control: {
+        type: 'select',
+      },
+      options: ['sm', 'md'],
+    },
   },
   parameters: {
     layout: 'centered',
@@ -107,6 +113,18 @@ export const Base: Story = {
       },
     },
   },
+};
+
+export const Sizes: Story = {
+  args: {
+    value: 1234.56,
+  },
+  render: (props) => (
+    <View style={{ alignItems: 'center', gap: 24 }}>
+      <AmountDisplay {...props} size='md' />
+      <AmountDisplay {...props} size='sm' />
+    </View>
+  ),
 };
 
 export const WithHideButton: Story = {

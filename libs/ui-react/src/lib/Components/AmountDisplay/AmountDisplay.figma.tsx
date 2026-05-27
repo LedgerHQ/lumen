@@ -14,11 +14,16 @@ figma.connect(
         true: true,
         false: false,
       }),
+      size: figma.enum('size', {
+        md: 'md',
+        sm: 'sm',
+      }),
     },
     example: (props) => (
       <AmountDisplay
         value={2258.93}
         hidden={props.hidden}
+        size={props.size}
         formatter={() => {
           return {
             integerPart: '2568',
