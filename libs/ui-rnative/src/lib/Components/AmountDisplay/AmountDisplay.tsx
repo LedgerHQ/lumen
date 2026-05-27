@@ -8,8 +8,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useCommonTranslation } from '../../../i18n';
-import { useStyleSheet } from '../../../styles';
 import type { LumenTypographyTokenName } from '../../../styles';
+import { useStyleSheet } from '../../../styles';
 import { Pulse } from '../../Animations/Pulse';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { RuntimeConstants } from '../../utils';
@@ -23,7 +23,7 @@ import type {
 } from './types';
 import { DIGITS } from './types';
 
-const TYPOGRAPHY_WIDTHS: Record<string, DigitWidths> = {
+const TYPOGRAPHY_WIDTHS = {
   heading1SemiBold: {
     0: 25,
     1: 15.5,
@@ -60,11 +60,13 @@ const TYPOGRAPHY_WIDTHS: Record<string, DigitWidths> = {
     8: 12.5,
     9: 12.5,
   },
-};
+} as const satisfies Partial<Record<LumenTypographyTokenName, DigitWidths>>;
+
+type MeasuredTypography = keyof typeof TYPOGRAPHY_WIDTHS;
 
 type SizeTypographyConfig = {
-  integer: LumenTypographyTokenName;
-  decimal: LumenTypographyTokenName;
+  integer: MeasuredTypography;
+  decimal: MeasuredTypography;
 };
 
 const SIZE_TYPOGRAPHY: Record<AmountDisplaySize, SizeTypographyConfig> = {
@@ -258,7 +260,7 @@ DigitStripList.displayName = 'DigitStripList';
  * <AmountDisplay value={1234.56} formatter={usdFormatter} hidden={true} />
  * ```
  */
-export const AmountDisplay = ({
+export function AmountDisplay({
   value,
   formatter,
   hidden = false,
@@ -266,7 +268,7 @@ export const AmountDisplay = ({
   animate = true,
   size = 'md',
   ...props
-}: AmountDisplayProps) => {
+}: AmountDisplayProps) {
   const styles = useStyles(size);
   const { t } = useCommonTranslation();
   const parts = formatter(value);
@@ -341,4 +343,4 @@ export const AmountDisplay = ({
       </Pulse>
     </Box>
   );
-};
+}
