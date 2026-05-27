@@ -49,6 +49,12 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 <Canvas of={DotSymbolStories.SizeShowcase} />
 
+### Disabled
+
+<Canvas of={DotSymbolStories.DisabledShowcase} />
+
+Only set `disabled` on `DotSymbol`. The state is propagated to the child via context. Passing it to both stacks the opacity overlay.
+
 ## Accessibility
 
 - Always provide a meaningful `alt` prop on the DotSymbol so the indicator image is announced by screen readers.
@@ -115,7 +121,7 @@ import { DotSymbol, mediaImageDotSizeMap, MediaImage } from '@ledgerhq/lumen-ui-
 
 ### Disabled State
 
-When `disabled` is `true`, the wrapper is dimmed and the disabled state is propagated to the child via context:
+Only set `disabled` on `DotSymbol`. The state is propagated to the child via context. Passing it to both stacks the opacity overlay.
 
 ```tsx
 <DotSymbol src='https://example.com/btc.png' alt='Bitcoin' disabled>

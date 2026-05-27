@@ -55,6 +55,12 @@ The dot size is driven by the parent MediaImage or Spot size via the mapping hel
 
 <Canvas of={DotIconStories.SizeShowcase} />
 
+### Disabled
+
+<Canvas of={DotIconStories.DisabledShowcase} />
+
+Only set `disabled` on `DotIcon`. The state is propagated to the child via context. Passing it to both stacks the opacity overlay.
+
 ## Accessibility
 
 - The icon is purely decorative; the child element should carry its own accessibility label.
@@ -130,7 +136,7 @@ import { DotIcon, mediaImageDotIconSizeMap, MediaImage } from '@ledgerhq/lumen-u
 
 ### Disabled State
 
-When `disabled` is `true`, the wrapper is dimmed and the disabled state is propagated to the child via context:
+Only set `disabled` on `DotIcon`. The state is propagated to the child via context. Passing it to both stacks the opacity overlay.
 
 ```tsx
 <DotIcon appearance='success' icon={ArrowDown} disabled>
