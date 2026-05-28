@@ -7343,6 +7343,18 @@
           "codeSyntax": {}
         }
       }
+    },
+    "72": {
+      "$type": "number",
+      "$value": 72,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
     }
   },
   "icon-height": {
@@ -7445,6 +7457,18 @@
     "64": {
       "$type": "number",
       "$value": 64,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "72": {
+      "$type": "number",
+      "$value": 72,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -7687,6 +7711,18 @@
           "codeSyntax": {}
         }
       }
+    },
+    "72": {
+      "$type": "number",
+      "$value": 3.200000047683716,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [],
+          "codeSyntax": {}
+        }
+      }
     }
   },
   "spinner-border-width": {
@@ -7794,6 +7830,20 @@
         "com.figma": {
           "hiddenFromPublishing": true,
           "scopes": [],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "72": {
+      "$type": "number",
+      "$value": 4.199999809265137,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": true,
+          "scopes": [
+            "ALL_SCOPES"
+          ],
           "codeSyntax": {}
         }
       }
