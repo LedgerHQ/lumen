@@ -88,10 +88,18 @@ export const OpenByDefault: Story = {
         }
       />
       <MenuContent className='w-208'>
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>Billing</MenuItem>
-        <MenuItem>Team</MenuItem>
-        <MenuItem>Subscription</MenuItem>
+        <MenuGroup>
+          <MenuLabel>My Account</MenuLabel>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>Billing</MenuItem>
+          <MenuItem>Settings</MenuItem>
+        </MenuGroup>
+        <MenuSeparator />
+        <MenuGroup>
+          <MenuLabel>Team</MenuLabel>
+          <MenuItem>Invite Users</MenuItem>
+          <MenuItem>Team Settings</MenuItem>
+        </MenuGroup>
       </MenuContent>
     </Menu>
   ),

@@ -1,56 +1,39 @@
 ---
-
-## '@ledgerhq/lumen-ui-react': patch
+'@ledgerhq/lumen-ui-react': patch
+---
 
 refactor(Menu): migrate from Radix UI to Base UI
 
 ## Migration guide (Radix → Base UI Menu)
 
-Use this section when upgrading consumer code. Search the codebase for `Menu`, `MenuTrigger`, `MenuContent`, `MenuPortal`, `asChild`, `onSelect`, `textValue`, and `inset`.
+### Dependency
 
-### Quick reference
+Add the new peer dependency:
 
+```bash
+npm install @base-ui/react
+```
 
-| Old (Radix)                                          | New (Base UI)                                                   |
-| ---------------------------------------------------- | --------------------------------------------------------------- |
-| `<MenuTrigger asChild><Button /></MenuTrigger>`      | `<MenuTrigger render={<Button />} />`                           |
-| `<MenuTrigger>Open</MenuTrigger>`                    | `<MenuTrigger render={<button type="button">Open</button>} />`  |
-| `onSelect={(e) => { ... }}` on `MenuItem`            | `onClick={(e) => { ... }}` on `MenuItem`                        |
-| `e.preventDefault()` in `onSelect` to keep menu open | `closeOnClick={false}` on the item                              |
-| `textValue="..."` on items                           | `label="..."` on items                                          |
-| `inset` on `MenuItem`, `MenuLabel`, `MenuSubTrigger` | Removed — use layout/grouping instead                           |
-| `asChild` on any Menu part                           | Removed — use `render` on `MenuTrigger` only                    |
-| `<MenuPortal><MenuContent /></MenuPortal>`           | `<MenuContent />` (portal is internal)                          |
-| `modal` on `Menu`                                    | Removed                                                         |
-| `checked="indeterminate"` on `MenuCheckboxItem`      | Removed — `checked` is `boolean` only                           |
-| `onOpenChange={(open) => ...}`                       | `onOpenChange={(open, eventDetails) => ...}` (2nd arg optional) |
-| `data-[state=open]` / `data-[state=closed]` CSS      | `data-open` / `data-closed`                                     |
-| `data-[state=open]` on sub trigger CSS               | `data-popup-open`                                               |
-| `focus:` item highlight CSS                          | `data-highlighted:` item highlight CSS                          |
-
-
-### Removed exports
-
-- `MenuPortal` — no longer exported; `MenuContent` renders its own portal.
+`@radix-ui/react-dropdown-menu` is no longer used by `@ledgerhq/lumen-ui-react`.
 
 ### Removed props (delete from consumer code)
 
-`**Menu`:** `modal`
+**`Menu`:** `modal`
 
-`**MenuTrigger`:** `asChild`, `children` (use `render` instead)
+**`MenuTrigger`:** `asChild`, `children` (use `render` instead)
 
-`**MenuContent`:** `asChild`, `loop`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onPointerDownOutside`, `onFocusOutside`, `onInteractOutside`, `avoidCollisions`, `collisionBoundary`, `collisionPadding`, `hideWhenDetached`, `ref`
+**`MenuContent`:** `asChild`, `loop`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onPointerDownOutside`, `onFocusOutside`, `onInteractOutside`, `avoidCollisions`, `collisionBoundary`, `collisionPadding`, `hideWhenDetached`, `ref`
 
-`**MenuItem` / `MenuCheckboxItem` / `MenuRadioItem` / `MenuSubTrigger`:** `asChild`, `inset`, `onSelect`, `textValue`
+**`MenuItem` / `MenuCheckboxItem` / `MenuRadioItem` / `MenuSubTrigger`:** `asChild`, `inset`, `onSelect`, `textValue`
 
-`**MenuLabel` / `MenuSeparator` / `MenuGroup` / `MenuRadioGroup`:** `asChild`
+**`MenuLabel` / `MenuSeparator` / `MenuGroup` / `MenuRadioGroup`:** `asChild`
 
-`**MenuCheckboxItem`:** `checked="indeterminate"`
+**`MenuCheckboxItem`:** `checked="indeterminate"`
 
 ### Changed defaults
 
-- `MenuContent.sideOffset`: `0` → `4`
-- `MenuContent.sticky`: `'partial' \| 'always'` → `boolean` (default `true`)
+- `MenuContent.sideOffset`: documented default `0` → `4` (runtime default was already `4` in the previous implementation)
+- `MenuContent.sticky`: `'partial' | 'always'` → `boolean` (default `true`)
 - `MenuCheckboxItem.closeOnClick`: implicit → defaults to `false` (regular `MenuItem` defaults to `true`)
 
 ---
@@ -130,21 +113,7 @@ Checkbox items stay open by default (`closeOnClick` defaults to `false`).
 <MenuItem label="Export as PDF">Export <Badge>New</Badge></MenuItem>
 ```
 
-### 4. MenuPortal — remove wrapper
-
-```tsx
-// Before
-<MenuPortal>
-  <MenuContent>...</MenuContent>
-</MenuPortal>
-
-// After
-<MenuContent>...</MenuContent>
-```
-
-Remove `MenuPortal` from imports.
-
-### 5. Controlled open state — optional 2nd callback arg
+### 4. Controlled open state — optional 2nd callback arg
 
 ```tsx
 // Before
@@ -154,35 +123,36 @@ Remove `MenuPortal` from imports.
 <Menu open={open} onOpenChange={(open) => setOpen(open)}>
 ```
 
-### 6. Full before/after example
+### 5. Full before/after example
 
 ```tsx
 // Before
 import {
   Menu,
   MenuTrigger,
-  MenuPortal,
   MenuContent,
   MenuItem,
   MenuCheckboxItem,
   MenuSeparator,
   MenuLabel,
+  MenuGroup,
 } from '@ledgerhq/lumen-ui-react';
 
-<Menu modal={false}>
+<Menu>
   <MenuTrigger asChild>
-    <Button>Account</Button>
+    <Button appearance="gray">Account</Button>
   </MenuTrigger>
-  <MenuPortal>
-    <MenuContent sideOffset={4} onPointerDownOutside={handleOutside}>
-      <MenuLabel inset>My Account</MenuLabel>
-      <MenuSeparator />
-      <MenuItem inset onSelect={handleProfile}>Profile</MenuItem>
-      <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
-        Show Panel
-      </MenuCheckboxItem>
-    </MenuContent>
-  </MenuPortal>
+  <MenuContent className="w-208">
+    <MenuGroup>
+      <MenuLabel>My Account</MenuLabel>
+      <MenuItem onSelect={handleProfile}>Profile</MenuItem>
+      <MenuItem>Billing</MenuItem>
+    </MenuGroup>
+    <MenuSeparator />
+    <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
+      Show Panel
+    </MenuCheckboxItem>
+  </MenuContent>
 </Menu>
 
 // After
@@ -194,14 +164,18 @@ import {
   MenuCheckboxItem,
   MenuSeparator,
   MenuLabel,
+  MenuGroup,
 } from '@ledgerhq/lumen-ui-react';
 
 <Menu>
-  <MenuTrigger render={<Button>Account</Button>} />
-  <MenuContent sideOffset={4}>
-    <MenuLabel>My Account</MenuLabel>
+  <MenuTrigger render={<Button appearance="gray">Account</Button>} />
+  <MenuContent className="w-208">
+    <MenuGroup>
+      <MenuLabel>My Account</MenuLabel>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
+      <MenuItem>Billing</MenuItem>
+    </MenuGroup>
     <MenuSeparator />
-    <MenuItem onClick={handleProfile}>Profile</MenuItem>
     <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
       Show Panel
     </MenuCheckboxItem>
@@ -211,12 +185,11 @@ import {
 
 ### AI migration checklist
 
-1. Find all `Menu*` imports; remove `MenuPortal`.
-2. Replace every `<MenuTrigger asChild>` with `<MenuTrigger render={...} />`.
-3. Replace plain-text `<MenuTrigger>` with `render={<button type="button">...</button>}`.
-4. Rename `onSelect` → `onClick` on menu items.
-5. Replace `e.preventDefault()` keep-open pattern with `closeOnClick={false}`.
-6. Rename `textValue` → `label` on items.
-7. Remove `inset`, `asChild`, `modal`, and all removed `MenuContent` event/collision props.
-8. Remove `<MenuPortal>` wrappers.
-
+1. Replace every `<MenuTrigger asChild>` with `<MenuTrigger render={...} />`.
+2. Replace plain-text `<MenuTrigger>` with `render={<button type="button">...</button>}`.
+3. Rename `onSelect` → `onClick` on menu items.
+4. Replace `e.preventDefault()` keep-open pattern with `closeOnClick={false}`.
+5. Rename `textValue` → `label` on items.
+6. Remove `inset`, `asChild`, `modal`, and all removed `MenuContent` event/collision props.
+7. Install `@base-ui/react` peer dependency.
+8. Uninstall `@radix-ui/react-dropdown-menu` if it was added only for Menu.

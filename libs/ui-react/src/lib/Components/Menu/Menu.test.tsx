@@ -106,7 +106,7 @@ describe('Menu', () => {
 
     fireEvent.click(screen.getByText('Checkbox Item'));
 
-    expect(onCheckedChange).toHaveBeenCalledWith(true);
+    expect(onCheckedChange).toHaveBeenCalledWith(true, expect.any(Object));
   });
 
   it('handles radio items', async () => {
