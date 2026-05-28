@@ -120,6 +120,7 @@ describe('computeLabelY', () => {
 const makeContext = () => ({
   register: jest.fn(),
   unregister: jest.fn(),
+  version: 0,
   getMagneticPoints: () => new Set<number>(),
 });
 
