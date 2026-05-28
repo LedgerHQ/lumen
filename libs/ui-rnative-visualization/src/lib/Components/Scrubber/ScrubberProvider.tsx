@@ -63,13 +63,13 @@ export function ScrubberProvider({
   latest.current.onChange = onScrubberPositionChange;
 
   const sortedMagnets = useMemo(() => {
-    void version;
     const magneticIndices = getMagneticPoints();
     return buildSortedMagnets({
       magneticIndices,
       getPixelForIndex: (index) =>
         resolvePixelX(index, getXScale, getXAxisConfig()),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version, getXScale, getXAxisConfig, getMagneticPoints]);
 
   const setScrubberPositionAndNotify = useCallback(
