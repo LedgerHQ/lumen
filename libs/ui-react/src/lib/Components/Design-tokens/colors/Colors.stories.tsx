@@ -550,6 +550,10 @@ export const Border: Story = {
             name: 'Base Pressed',
             className: 'bg-base border-base-pressed',
           },
+          {
+            name: 'Base Transparent 0',
+            className: 'bg-base border-base-transparent-0',
+          },
         ]}
       />
 
@@ -568,10 +572,6 @@ export const Border: Story = {
           {
             name: 'Muted Subtle',
             className: 'bg-base border-muted-subtle',
-          },
-          {
-            name: 'Muted Transparent 0',
-            className: 'bg-base border-muted-transparent-0',
           },
           {
             name: 'Muted Subtle Transparent',

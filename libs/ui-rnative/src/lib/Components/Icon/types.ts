@@ -3,7 +3,7 @@ import type { Svg, SvgProps } from 'react-native-svg';
 import type { LumenTextStyle } from '../../../styles';
 import type { TextProps } from '../Utility';
 
-export type IconSize = 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56;
+export type IconSize = 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56 | 72;
 
 export type IconProps = {
   /**
