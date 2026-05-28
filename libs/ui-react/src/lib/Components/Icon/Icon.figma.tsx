@@ -6,6 +6,7 @@ figma.connect(
   'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA?node-id=5625%3A429',
   {
     imports: ["import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'"],
-    example: () => <Placeholder size={24} />,
+    // @ts-expect-error — placeholder value, replace with a valid IconSize
+    example: () => <Placeholder size='put correct size' />,
   },
 );
