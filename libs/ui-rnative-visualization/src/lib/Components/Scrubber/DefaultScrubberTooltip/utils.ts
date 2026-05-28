@@ -107,29 +107,41 @@ export const computeItemsBaseY = (
   return drawingAreaY + PADDING_Y + titleBlockHeight;
 };
 
-const waitForAnimationFrame = (): Promise<void> =>
-  new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+const waitForAnimationFrame = (): {
+  promise: Promise<void>;
+  cancel: () => void;
+} => {
+  let id: number;
+  const promise = new Promise<void>((resolve) => {
+    id = requestAnimationFrame(() => resolve());
+  });
+  return { promise, cancel: () => cancelAnimationFrame(id) };
+};
 
 /**
  * Reads the rendered widths of all tooltip text elements via async `getBBox`.
  * Defers until the next animation frame so layout has settled.
+ * Returns a cancel function so callers can abort the pending RAF.
  */
-export const measureWidths = async (
+export const measureWidths = (
   items: ChartTooltipItemData[],
   hasTitle: boolean,
   titleRef: RefObject<SvgBBoxElement | null>,
   labelRefs: RefObject<(SvgBBoxElement | null)[]>,
   valueRefs: RefObject<(SvgBBoxElement | null)[]>,
-): Promise<Widths> => {
-  await waitForAnimationFrame();
-  const title = hasTitle ? await safeGetBBoxWidth(titleRef.current) : 0;
-  const labels = await Promise.all(
-    items.map((_, i) => safeGetBBoxWidth(labelRefs.current[i])),
-  );
-  const values = await Promise.all(
-    items.map((_, i) => safeGetBBoxWidth(valueRefs.current[i])),
-  );
-  return { title, labels, values };
+): { promise: Promise<Widths>; cancel: () => void } => {
+  const raf = waitForAnimationFrame();
+  const promise = raf.promise.then(async () => {
+    const title = hasTitle ? await safeGetBBoxWidth(titleRef.current) : 0;
+    const labels = await Promise.all(
+      items.map((_, i) => safeGetBBoxWidth(labelRefs.current[i])),
+    );
+    const values = await Promise.all(
+      items.map((_, i) => safeGetBBoxWidth(valueRefs.current[i])),
+    );
+    return { title, labels, values };
+  });
+  return { promise, cancel: raf.cancel };
 };
 
 /**
@@ -186,18 +198,20 @@ export function useTooltipMeasurement(
 
     let cancelled = false;
 
-    void measureWidths(
+    const { promise, cancel } = measureWidths(
       itemsRef.current,
       hasTitleRef.current,
       titleRef,
       labelRefs,
       valueRefs,
-    ).then((result) => {
+    );
+    void promise.then((result) => {
       if (!cancelled) setWidths(result);
     });
 
     return () => {
       cancelled = true;
+      cancel();
     };
   }, [shapeKey]);
 
