@@ -121,7 +121,7 @@
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.21.0",
     "react-router-dom": "6.30.3",
-    "react-test-renderer": "19.1.4",
+    "react-test-renderer": "19.1.0",
     "rollup": "4.50.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "storybook": "10.2.14",
