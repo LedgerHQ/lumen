@@ -5,7 +5,7 @@ import {
   getNumericScale,
 } from '../../utils/scales/scales';
 import {
-  applyMagnetisation,
+  applyMagnetization,
   buildSortedMagnets,
   getDataIndexFromPosition,
   resolvePixelX,
@@ -206,36 +206,36 @@ describe('buildSortedMagnets', () => {
   });
 });
 
-describe('applyMagnetisation', () => {
+describe('applyMagnetization', () => {
   const toMagnets = (...indices: number[]): MagnetEntry[] =>
     indices.map((i) => ({ index: i, pixelX: i * 100 }));
 
   it('returns resolvedIndex when sortedMagnets is empty', () => {
-    expect(applyMagnetisation(2, 200, [], 30)).toBe(2);
+    expect(applyMagnetization(2, 200, [], 30)).toBe(2);
   });
 
   it('returns resolvedIndex when no magnetic point is within radius', () => {
-    expect(applyMagnetisation(2, 200, toMagnets(0, 4), 30)).toBe(2);
+    expect(applyMagnetization(2, 200, toMagnets(0, 4), 30)).toBe(2);
   });
 
   it('snaps to a magnetic point within radius', () => {
-    expect(applyMagnetisation(2, 280, toMagnets(3), 30)).toBe(3);
+    expect(applyMagnetization(2, 280, toMagnets(3), 30)).toBe(3);
   });
 
   it('snaps to the closest magnetic point when multiple are within radius', () => {
-    expect(applyMagnetisation(1, 170, toMagnets(1, 2), 40)).toBe(2);
+    expect(applyMagnetization(1, 170, toMagnets(1, 2), 40)).toBe(2);
   });
 
   it('does not snap when magnetRadius is 0', () => {
-    expect(applyMagnetisation(1, 200, toMagnets(2), 0)).toBe(1);
+    expect(applyMagnetization(1, 200, toMagnets(2), 0)).toBe(1);
   });
 
   it('snaps at the exact boundary of magnetRadius', () => {
-    expect(applyMagnetisation(2, 270, toMagnets(3), 30)).toBe(3);
+    expect(applyMagnetization(2, 270, toMagnets(3), 30)).toBe(3);
   });
 
   it('does not snap when distance exceeds magnetRadius by 1', () => {
-    expect(applyMagnetisation(2, 269, toMagnets(3), 30)).toBe(2);
+    expect(applyMagnetization(2, 269, toMagnets(3), 30)).toBe(2);
   });
 
   it('early-exits when all remaining magnets are beyond radius', () => {
@@ -244,6 +244,6 @@ describe('applyMagnetisation', () => {
       { index: 20, pixelX: 600 },
       { index: 30, pixelX: 700 },
     ];
-    expect(applyMagnetisation(0, 50, magnets, 20)).toBe(0);
+    expect(applyMagnetization(0, 50, magnets, 20)).toBe(0);
   });
 });

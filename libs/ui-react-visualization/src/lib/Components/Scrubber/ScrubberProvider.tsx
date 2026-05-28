@@ -5,7 +5,7 @@ import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
 import {
-  applyMagnetisation,
+  applyMagnetization,
   buildSortedMagnets,
   getDataIndexFromPosition,
   resolvePixelX,
@@ -66,7 +66,7 @@ export function ScrubberProvider({
       );
 
       if (magnetRadius > 0) {
-        index = applyMagnetisation(index, pixelX, sortedMagnets, magnetRadius);
+        index = applyMagnetization(index, pixelX, sortedMagnets, magnetRadius);
       }
 
       if (index !== scrubberPositionRef.current) {

@@ -22,7 +22,7 @@ export type MagnetEntry = {
 /**
  * Resolves each magnetic index to its pixel position and returns them sorted
  * by `pixelX` ascending. Indices that cannot be projected are filtered out.
- * The sorted output enables early-exit in {@link applyMagnetisation}.
+ * The sorted output enables early-exit in {@link applyMagnetization}.
  */
 export const buildSortedMagnets = ({
   magneticIndices,
@@ -158,7 +158,7 @@ export const resolvePixelX = (
  * magnetic point is within `magnetRadius` pixels of `pixelX`. If so, returns
  * the closest magnetic index; otherwise returns the original `resolvedIndex`.
  */
-export const applyMagnetisation = (
+export const applyMagnetization = (
   resolvedIndex: number,
   pixelX: number,
   sortedMagnets: readonly MagnetEntry[],
