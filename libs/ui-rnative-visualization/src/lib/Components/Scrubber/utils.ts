@@ -9,7 +9,7 @@ import type {
   ChartScaleFunction,
 } from '../../utils/types';
 
-type MagnetEntry = {
+export type MagnetEntry = {
   index: number;
   pixelX: number;
 };
