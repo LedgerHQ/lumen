@@ -130,6 +130,11 @@ export const resolvePixelX = (
   return getPointOnScale(xValue, scale);
 };
 
+/**
+ * Resolves each magnetic index to its pixel position and returns them sorted
+ * by `pixelX` ascending. Indices that cannot be projected are filtered out.
+ * The sorted output enables early-exit in {@link applyMagnetisation}.
+ */
 export const buildSortedMagnets = ({
   magneticIndices,
   getPixelForIndex,
