@@ -12,6 +12,7 @@ import {
   applyMagnetisation,
   getDataIndexFromPosition,
   resolvePixelX,
+  buildSortedMagnets,
 } from './utils';
 
 const LONG_PRESS_MIN_DURATION_MS = 50;
@@ -42,7 +43,7 @@ export function ScrubberProvider({
   >();
 
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
-  const { getMagneticPoints } = useMagneticPointsContext();
+  const { getMagneticPoints, version } = useMagneticPointsContext();
 
   // All values touched by the gesture's JS-thread callback live in a single
   // ref. Reading via `latest.current` keeps the callbacks reference-stable
@@ -60,6 +61,16 @@ export function ScrubberProvider({
   latest.current.getXAxisConfig = getXAxisConfig;
   latest.current.dataLength = dataLength;
   latest.current.onChange = onScrubberPositionChange;
+
+  const sortedMagnets = useMemo(() => {
+    void version;
+    const magneticIndices = getMagneticPoints();
+    return buildSortedMagnets({
+      magneticIndices,
+      getPixelForIndex: (index) =>
+        resolvePixelX(index, getXScale, getXAxisConfig()),
+    });
+  }, [version, getXScale, getXAxisConfig, getMagneticPoints]);
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
@@ -95,20 +106,13 @@ export function ScrubberProvider({
         ref.dataLength,
       );
 
-      const magneticPoints = getMagneticPoints();
-      if (magneticPoints.size > 0 && magnetRadius > 0) {
-        index = applyMagnetisation(
-          index,
-          pixelX,
-          magneticPoints,
-          magnetRadius,
-          (i) => resolvePixelX(i, getXScale, xAxisConfig),
-        );
+      if (magnetRadius > 0) {
+        index = applyMagnetisation(index, pixelX, sortedMagnets, magnetRadius);
       }
 
       setScrubberPositionAndNotify(index);
     },
-    [getMagneticPoints, magnetRadius, setScrubberPositionAndNotify, getXScale],
+    [magnetRadius, setScrubberPositionAndNotify, sortedMagnets],
   );
 
   const isScrubbing = useSharedValue(false);

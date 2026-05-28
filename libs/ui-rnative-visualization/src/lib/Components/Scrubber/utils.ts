@@ -9,6 +9,11 @@ import type {
   ChartScaleFunction,
 } from '../../utils/types';
 
+type MagnetEntry = {
+  index: number;
+  pixelX: number;
+};
+
 const isNumberArray = (arr: string[] | number[]): arr is number[] =>
   typeof arr[0] === 'number';
 
@@ -125,6 +130,27 @@ export const resolvePixelX = (
   return getPointOnScale(xValue, scale);
 };
 
+export const buildSortedMagnets = ({
+  magneticIndices,
+  getPixelForIndex,
+}: {
+  magneticIndices: ReadonlySet<number>;
+  getPixelForIndex: (index: number) => number | undefined;
+}): MagnetEntry[] => {
+  if (magneticIndices.size === 0) return [];
+
+  const magnets: MagnetEntry[] = [];
+
+  for (const index of magneticIndices) {
+    const pixelX = getPixelForIndex(index);
+    if (pixelX !== undefined) magnets.push({ index, pixelX });
+  }
+
+  magnets.sort((a, b) => a.pixelX - b.pixelX);
+
+  return magnets;
+};
+
 /**
  * Given a resolved data index and the raw pixel position, checks whether any
  * magnetic point is within `magnetRadius` pixels of `pixelX`. If so, returns
@@ -133,22 +159,25 @@ export const resolvePixelX = (
 export const applyMagnetisation = (
   resolvedIndex: number,
   pixelX: number,
-  magneticIndices: ReadonlySet<number>,
+  sortedMagnets: readonly MagnetEntry[],
   magnetRadius: number,
-  getPixelForIndex: (index: number) => number | undefined,
 ): number => {
-  if (magnetRadius <= 0 || magneticIndices.size === 0) return resolvedIndex;
+  if (magnetRadius <= 0 || sortedMagnets.length === 0) return resolvedIndex;
 
   let closestMagneticIndex = resolvedIndex;
   let closestDistance = Infinity;
 
-  for (const magnetIndex of magneticIndices) {
-    const magnetPixelX = getPixelForIndex(magnetIndex);
-    if (magnetPixelX === undefined) continue;
-    const distance = Math.abs(pixelX - magnetPixelX);
-    if (distance <= magnetRadius && distance < closestDistance) {
-      closestDistance = distance;
-      closestMagneticIndex = magnetIndex;
+  for (const magnet of sortedMagnets) {
+    const distance = magnet.pixelX - pixelX;
+
+    if (distance > magnetRadius) break;
+    if (distance < -magnetRadius) continue;
+
+    const absDistance = Math.abs(distance);
+
+    if (absDistance < closestDistance) {
+      closestDistance = absDistance;
+      closestMagneticIndex = magnet.index;
     }
   }
 
