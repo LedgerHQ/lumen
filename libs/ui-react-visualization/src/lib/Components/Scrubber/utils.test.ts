@@ -6,10 +6,12 @@ import {
 } from '../../utils/scales/scales';
 import {
   applyMagnetisation,
+  buildSortedMagnets,
   getDataIndexFromPosition,
   resolvePixelX,
   resolvePixelY,
 } from './utils';
+import type { MagnetEntry } from './utils';
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {
@@ -163,59 +165,85 @@ describe('resolvePixelX', () => {
   });
 });
 
-describe('applyMagnetisation', () => {
-  const getPixelForIndex = (index: number): number | undefined => index * 100;
+describe('buildSortedMagnets', () => {
+  it('returns an empty array when the set is empty', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set(),
+      getPixelForIndex: () => 0,
+    });
+    expect(result).toEqual([]);
+  });
 
-  it('returns resolvedIndex when magneticIndices is empty', () => {
-    expect(applyMagnetisation(2, 200, new Set(), 30, getPixelForIndex)).toBe(2);
+  it('returns entries sorted by pixelX', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set([3, 1, 2]),
+      getPixelForIndex: (i) => i * 50,
+    });
+    expect(result).toEqual([
+      { index: 1, pixelX: 50 },
+      { index: 2, pixelX: 100 },
+      { index: 3, pixelX: 150 },
+    ]);
+  });
+
+  it('filters out indices where getPixelForIndex returns undefined', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set([0, 1, 2]),
+      getPixelForIndex: (i) => (i === 1 ? undefined : i * 100),
+    });
+    expect(result).toEqual([
+      { index: 0, pixelX: 0 },
+      { index: 2, pixelX: 200 },
+    ]);
+  });
+
+  it('returns an empty array when all indices resolve to undefined', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set([0, 1]),
+      getPixelForIndex: () => undefined,
+    });
+    expect(result).toEqual([]);
+  });
+});
+
+describe('applyMagnetisation', () => {
+  const toMagnets = (...indices: number[]): MagnetEntry[] =>
+    indices.map((i) => ({ index: i, pixelX: i * 100 }));
+
+  it('returns resolvedIndex when sortedMagnets is empty', () => {
+    expect(applyMagnetisation(2, 200, [], 30)).toBe(2);
   });
 
   it('returns resolvedIndex when no magnetic point is within radius', () => {
-    const magneticIndices = new Set([0, 4]);
-    expect(
-      applyMagnetisation(2, 200, magneticIndices, 30, getPixelForIndex),
-    ).toBe(2);
+    expect(applyMagnetisation(2, 200, toMagnets(0, 4), 30)).toBe(2);
   });
 
   it('snaps to a magnetic point within radius', () => {
-    const magneticIndices = new Set([3]);
-    expect(
-      applyMagnetisation(2, 280, magneticIndices, 30, getPixelForIndex),
-    ).toBe(3);
+    expect(applyMagnetisation(2, 280, toMagnets(3), 30)).toBe(3);
   });
 
   it('snaps to the closest magnetic point when multiple are within radius', () => {
-    const magneticIndices = new Set([1, 2]);
-    expect(
-      applyMagnetisation(1, 170, magneticIndices, 40, getPixelForIndex),
-    ).toBe(2);
+    expect(applyMagnetisation(1, 170, toMagnets(1, 2), 40)).toBe(2);
   });
 
   it('does not snap when magnetRadius is 0', () => {
-    const magneticIndices = new Set([2]);
-    expect(
-      applyMagnetisation(1, 200, magneticIndices, 0, getPixelForIndex),
-    ).toBe(1);
+    expect(applyMagnetisation(1, 200, toMagnets(2), 0)).toBe(1);
   });
 
   it('snaps at the exact boundary of magnetRadius', () => {
-    const magneticIndices = new Set([3]);
-    expect(
-      applyMagnetisation(2, 270, magneticIndices, 30, getPixelForIndex),
-    ).toBe(3);
+    expect(applyMagnetisation(2, 270, toMagnets(3), 30)).toBe(3);
   });
 
   it('does not snap when distance exceeds magnetRadius by 1', () => {
-    const magneticIndices = new Set([3]);
-    expect(
-      applyMagnetisation(2, 269, magneticIndices, 30, getPixelForIndex),
-    ).toBe(2);
+    expect(applyMagnetisation(2, 269, toMagnets(3), 30)).toBe(2);
   });
 
-  it('handles getPixelForIndex returning undefined', () => {
-    const getPixel = (index: number): number | undefined =>
-      index === 5 ? undefined : index * 100;
-    const magneticIndices = new Set([5]);
-    expect(applyMagnetisation(2, 200, magneticIndices, 30, getPixel)).toBe(2);
+  it('early-exits when all remaining magnets are beyond radius', () => {
+    const magnets: MagnetEntry[] = [
+      { index: 10, pixelX: 500 },
+      { index: 20, pixelX: 600 },
+      { index: 30, pixelX: 700 },
+    ];
+    expect(applyMagnetisation(0, 50, magnets, 20)).toBe(0);
   });
 });

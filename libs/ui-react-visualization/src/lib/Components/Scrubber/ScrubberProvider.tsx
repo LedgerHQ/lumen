@@ -6,6 +6,7 @@ import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
 import {
   applyMagnetisation,
+  buildSortedMagnets,
   getDataIndexFromPosition,
   resolvePixelX,
 } from './utils';
@@ -18,7 +19,7 @@ export function ScrubberProvider({
   magnetRadius = 8,
 }: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
-  const { getMagneticPoints } = useMagneticPointsContext();
+  const { getMagneticPoints, version } = useMagneticPointsContext();
   const [scrubberPosition, setScrubberPosition] = useState<number | undefined>(
     undefined,
   );
@@ -27,6 +28,15 @@ export function ScrubberProvider({
 
   const pendingPixelXRef = useRef<number | null>(null);
   const rafIdRef = useRef(0);
+  const sortedMagnets = useMemo(() => {
+    const magneticIndices = getMagneticPoints();
+    return buildSortedMagnets({
+      magneticIndices,
+      getPixelForIndex: (index) =>
+        resolvePixelX(index, getXScale, getXAxisConfig()),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version, getMagneticPoints, getXScale, getXAxisConfig]);
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
@@ -54,15 +64,8 @@ export function ScrubberProvider({
         dataLength,
       );
 
-      const magneticPoints = getMagneticPoints();
-      if (magneticPoints.size > 0 && magnetRadius > 0) {
-        index = applyMagnetisation(
-          index,
-          pixelX,
-          magneticPoints,
-          magnetRadius,
-          (i) => resolvePixelX(i, getXScale, axisConfig),
-        );
+      if (magnetRadius > 0) {
+        index = applyMagnetisation(index, pixelX, sortedMagnets, magnetRadius);
       }
 
       if (index !== scrubberPositionRef.current) {
@@ -74,7 +77,7 @@ export function ScrubberProvider({
       getXScale,
       getXAxisConfig,
       dataLength,
-      getMagneticPoints,
+      sortedMagnets,
       magnetRadius,
       setScrubberPositionAndNotify,
     ],

@@ -90,4 +90,73 @@ describe('MagneticPointsProvider', () => {
 
     expect(result.current.getMagneticPoints().size).toBe(0);
   });
+
+  describe('version counter', () => {
+    it('starts at 0', () => {
+      const { result } = renderHook(() => useMagneticPointsContext(), {
+        wrapper,
+      });
+      expect(result.current.version).toBe(0);
+    });
+
+    it('increments on register', () => {
+      const { result } = renderHook(() => useMagneticPointsContext(), {
+        wrapper,
+      });
+
+      act(() => {
+        result.current.register(1);
+      });
+
+      expect(result.current.version).toBe(1);
+    });
+
+    it('increments on unregister', () => {
+      const { result } = renderHook(() => useMagneticPointsContext(), {
+        wrapper,
+      });
+
+      act(() => {
+        result.current.register(1);
+      });
+
+      act(() => {
+        result.current.unregister(1);
+      });
+
+      expect(result.current.version).toBe(2);
+    });
+
+    it('does not increment on duplicate register', () => {
+      const { result } = renderHook(() => useMagneticPointsContext(), {
+        wrapper,
+      });
+
+      act(() => {
+        result.current.register(5);
+      });
+
+      const versionAfterFirst = result.current.version;
+
+      act(() => {
+        result.current.register(5);
+      });
+
+      expect(result.current.version).toBe(versionAfterFirst);
+    });
+
+    it('does not increment when unregistering a non-existent point', () => {
+      const { result } = renderHook(() => useMagneticPointsContext(), {
+        wrapper,
+      });
+
+      const versionBefore = result.current.version;
+
+      act(() => {
+        result.current.unregister(99);
+      });
+
+      expect(result.current.version).toBe(versionBefore);
+    });
+  });
 });
