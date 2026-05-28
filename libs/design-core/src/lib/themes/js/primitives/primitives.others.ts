@@ -37,6 +37,7 @@ export const primitiveLayoutTokens = {
       s40: 40,
       s48: 48,
       s56: 56,
+      s72: 72,
     },
     height: {
       s12: 12,
@@ -47,6 +48,7 @@ export const primitiveLayoutTokens = {
       s40: 40,
       s48: 48,
       s56: 56,
+      s72: 72,
     },
     borderWidth: {
       s12: 1,
@@ -57,6 +59,7 @@ export const primitiveLayoutTokens = {
       s40: 2.200000047683716,
       s48: 2.5,
       s56: 2.799999952316284,
+      s72: 3.200000047683716,
     },
   },
   spot: {
@@ -83,6 +86,7 @@ export const primitiveLayoutTokens = {
       s40: 3.200000047683716,
       s48: 3.5999999046325684,
       s56: 3.799999952316284,
+      s72: 4.199999809265137,
     },
   },
   sizes: {
