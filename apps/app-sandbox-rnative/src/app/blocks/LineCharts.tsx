@@ -25,7 +25,6 @@ export const LineCharts = () => (
     <PointHiddenPoint />
     <PointWithAxes />
     <ScrubberBasic />
-    <ScrubberWithLabel />
     <ScrubberMultiSeriesWithBeacons />
     <ScrubberWithAxes />
     <ReferenceLineBasic />
@@ -329,37 +328,6 @@ const ScrubberBasic = () => (
     </LineChart>
   </Section>
 );
-
-const ScrubberWithLabel = () => {
-  const { theme } = useTheme();
-  const [activeIndex, setActiveIndex] = useState<number | undefined>();
-  const displayIndex = activeIndex ?? sampleSeries[0].data.length - 1;
-
-  return (
-    <Section title='Scrubber – with label'>
-      <Box lx={{ gap: 's24' }}>
-        <Text
-          style={{
-            fontSize: 16,
-            color: theme.colors.text.base,
-          }}
-        >
-          {months[displayIndex]} — ${sampleSeries[0].data[displayIndex]}
-        </Text>
-        <LineChart
-          series={sampleSeries}
-          width={400}
-          height={200}
-          showArea
-          enableScrubbing
-          onScrubberPositionChange={setActiveIndex}
-        >
-          <Scrubber label={(i) => months[i] ?? ''} />
-        </LineChart>
-      </Box>
-    </Section>
-  );
-};
 
 const ScrubberMultiSeriesWithBeacons = () => (
   <Section title='Scrubber – multi-series with beacons'>

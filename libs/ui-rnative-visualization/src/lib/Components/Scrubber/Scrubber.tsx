@@ -8,26 +8,26 @@ import {
   LinearGradient,
   Rect,
   Stop,
-  Text as SvgText,
 } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
-  LABEL_OFFSET_Y,
   LINE_GRADIENT_EDGE_OPACITY,
   OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
   OVERLAY_OPACITY,
 } from './constants';
 import { useScrubberContext } from './context';
+import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { resolvePixelX, resolvePixelY } from './utils';
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
- * rect, per-series beacon dots, and an optional formatted label above the line.
+ * rect, per-series beacon dots, optional label above the line, and an optional
+ * tooltip when {@link ScrubberProps.tooltip} is set, using {@link DefaultScrubberTooltip}.
  *
  * Must be used as a child of `LineChart` (or `CartesianChart`) with
  * `enableScrubbing` enabled. Renders nothing when no scrubber position is active.
@@ -38,12 +38,23 @@ import { resolvePixelX, resolvePixelY } from './utils';
  *   <Scrubber label={(i) => data[i].date} />
  * </LineChart>
  * ```
+ *
+ * @example Tooltip
+ * ```tsx
+ * <Scrubber
+ *   tooltip={(i) => ({
+ *     title: `${counts[i]} Transactions`,
+ *     items: [{ label: 'Index', value: String(i) }],
+ *     minWidth: 160,
+ *   })}
+ * />
+ * ```
  */
 export function Scrubber({
-  label,
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  tooltip,
 }: Readonly<ScrubberProps>) {
   const lineGradientId = useId();
   const { theme } = useTheme();
@@ -76,10 +87,27 @@ export function Scrubber({
       );
   }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
 
-  const resolvedLabel = useMemo(() => {
-    if (scrubberPosition === undefined || !label) return undefined;
-    return label(scrubberPosition);
-  }, [scrubberPosition, label]);
+  const tooltipPayload = useMemo(() => {
+    if (scrubberPosition === undefined || !tooltip) {
+      return undefined;
+    }
+
+    const content = tooltip(scrubberPosition);
+
+    if (content.items.length === 0) return undefined;
+
+    const resolvedTitle =
+      typeof content.title === 'function'
+        ? content.title(scrubberPosition)
+        : content.title;
+
+    return {
+      items: content.items,
+      resolvedTitle,
+      offset: content.offset,
+      minWidth: content.minWidth,
+    };
+  }, [scrubberPosition, tooltip]);
 
   if (scrubberPosition === undefined || pixelX === undefined) {
     return null;
@@ -102,7 +130,6 @@ export function Scrubber({
 
   const borderMutedColor = theme.colors.border.base;
   const backgroundBaseColor = theme.colors.bg.base;
-  const textBaseColor = theme.colors.text.base;
   const bgCanvasColor = theme.colors.bg.canvas;
 
   return (
@@ -156,21 +183,6 @@ export function Scrubber({
         />
       )}
 
-      {resolvedLabel !== undefined && (
-        <SvgText
-          testID='scrubber-label'
-          x={pixelX}
-          y={drawY - LABEL_OFFSET_Y}
-          textAnchor='middle'
-          fill={textBaseColor}
-          fontSize={theme.typographies.body4.fontSize}
-          fontWeight={theme.typographies.body4.fontWeight}
-          fontFamily={theme.fontFamilies.sans}
-        >
-          {resolvedLabel}
-        </SvgText>
-      )}
-
       {showBeacons &&
         beacons.map((beacon) => (
           <Circle
@@ -184,6 +196,17 @@ export function Scrubber({
             strokeWidth={BEACON_STROKE_WIDTH}
           />
         ))}
+
+      {tooltipPayload !== undefined && (
+        <DefaultScrubberTooltip
+          pixelX={pixelX}
+          drawingArea={drawingArea}
+          title={tooltipPayload.resolvedTitle}
+          items={tooltipPayload.items}
+          offset={tooltipPayload.offset}
+          minWidth={tooltipPayload.minWidth}
+        />
+      )}
     </G>
   );
 }

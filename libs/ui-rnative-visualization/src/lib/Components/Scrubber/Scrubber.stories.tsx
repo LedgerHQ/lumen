@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
-import { Text, View } from 'react-native';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from '../LineChart';
+import { Point } from '../Point';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -22,21 +21,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof Scrubber>;
-
-const dates = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
 
 const singleSeries = [
   {
@@ -70,34 +54,10 @@ export const Base: Story = {
   args: {},
 };
 
-export const WithLabel: Story = {
-  render: (args: ScrubberProps) => {
-    const [activeIndex, setActiveIndex] = useState<number | undefined>();
-    const displayIndex = activeIndex ?? singleSeries[0].data.length - 1;
-    return (
-      <View>
-        <Text style={{ marginBottom: 8, fontSize: 14 }}>
-          {dates[displayIndex]} — ${singleSeries[0].data[displayIndex]}
-        </Text>
-        <LineChart
-          series={singleSeries}
-          height={200}
-          showArea
-          enableScrubbing
-          onScrubberPositionChange={setActiveIndex}
-        >
-          <Scrubber {...args} label={(i: number) => dates[i] ?? ''} />
-        </LineChart>
-      </View>
-    );
-  },
-  args: {},
-};
-
 export const MultiSeries: Story = {
   render: (args: ScrubberProps) => (
     <LineChart series={multiSeries} height={200} enableScrubbing>
-      <Scrubber {...args} label={(i: number) => dates[i] ?? ''} showBeacons />
+      <Scrubber {...args} showBeacons />
     </LineChart>
   ),
   args: {},
@@ -119,4 +79,106 @@ export const HiddenOverlay: Story = {
     </LineChart>
   ),
   args: {},
+};
+
+const tooltipSampleSeries = [
+  {
+    id: 'prices',
+    stroke: '#7B61FF',
+    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
+  },
+];
+
+const tooltipDates = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+  'Jan',
+  'Feb',
+];
+
+const tooltipAnnotatedIndices = new Set([4, 9]);
+
+export const WithBaseTooltip: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          items: [
+            { label: 'Date', value: tooltipDates[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+            },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithTooltipTitle: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          title: `${tooltipSampleSeries[0].data[dataIndex]} Transactions`,
+          items: [
+            { label: 'Date', value: tooltipDates[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+            },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithTooltipOnPoints: Story = {
+  render: () => (
+    <LineChart
+      series={tooltipSampleSeries}
+      height={250}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => {
+          if (!tooltipAnnotatedIndices.has(dataIndex)) return { items: [] };
+          return {
+            items: [
+              { label: 'Date', value: tooltipDates[dataIndex] },
+              {
+                label: 'Price',
+                value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+              },
+            ],
+          };
+        }}
+      />
+      <Point dataX={4} dataY={98} label='ATH' />
+      <Point dataX={9} dataY={4} label='Low' labelPosition='bottom' />
+    </LineChart>
+  ),
 };

@@ -1,4 +1,5 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
+import { G, Rect, Text as SvgText } from 'react-native-svg';
 
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
@@ -10,7 +11,6 @@ import {
   PADDING_Y,
   ROW_GAP,
   ROW_HEIGHT,
-  TOOLTIP_TRANSITION,
 } from './constants';
 import {
   computeItemsBaseY,
@@ -20,13 +20,6 @@ import {
   useBuildRefSetters,
   useTooltipMeasurement,
 } from './utils';
-
-const TITLE_STYLE = {
-  fontSize: cssVar('var(--font-style-body-4-size)'),
-  fontFamily: cssVar('var(--font-family-font)'),
-  fill: cssVar('var(--text-base)'),
-  fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-};
 
 /**
  * Default structured tooltip anchored to the scrubber line.
@@ -45,6 +38,8 @@ export function DefaultScrubberTooltip({
   offset = DEFAULT_OFFSET,
   minWidth = DEFAULT_TOOLTIP_MIN_WIDTH,
 }: Readonly<ScrubberTooltipProps>) {
+  const { theme } = useTheme();
+
   const hasTitle = title !== undefined;
 
   const { widths, titleRef, labelRefs, valueRefs } = useTooltipMeasurement(
@@ -66,34 +61,32 @@ export function DefaultScrubberTooltip({
   const itemsBaseY = computeItemsBaseY(drawingArea.y, hasTitle);
 
   return (
-    <g
-      data-testid='chart-tooltip'
-      role='tooltip'
-      style={{
-        opacity: widths === null ? 0 : 1,
-        transition: TOOLTIP_TRANSITION,
-        pointerEvents: 'none',
-      }}
-    >
-      <rect
+    <G testID='chart-tooltip' opacity={widths === null ? 0 : 1}>
+      <Rect
+        testID='chart-tooltip-rect'
         x={tooltipX}
         y={drawingArea.y}
         width={tooltipWidth}
         height={tooltipHeight}
         rx={BORDER_RADIUS}
-        fill={cssVar('var(--background-muted)')}
+        fill={theme.colors.bg.muted}
       />
       {hasTitle && (
-        <text
-          ref={titleRef}
-          data-testid='chart-tooltip-title'
+        <SvgText
+          ref={(el) => {
+            titleRef.current = el as unknown as (typeof titleRef)['current'];
+          }}
+          testID='chart-tooltip-title'
           x={tooltipX + PADDING_X}
           y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
-          dominantBaseline='middle'
-          style={TITLE_STYLE}
+          alignmentBaseline='central'
+          fill={theme.colors.text.base}
+          fontSize={theme.typographies.body4.fontSize}
+          fontWeight={theme.typographies.body4.fontWeight}
+          fontFamily={theme.fontFamilies.sans}
         >
-          {title}
-        </text>
+          {String(title)}
+        </SvgText>
       )}
       {items.map((item, i) => (
         <ChartTooltipItem
@@ -107,6 +100,6 @@ export function DefaultScrubberTooltip({
           valueRef={valueRefSetters[i]}
         />
       ))}
-    </g>
+    </G>
   );
 }

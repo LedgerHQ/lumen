@@ -9,6 +9,8 @@ import { ScrubberContextProvider } from './context';
 import type { ScrubberProviderProps } from './types';
 import { getDataIndexFromPosition } from './utils';
 
+const LONG_PRESS_MIN_DURATION_MS = 50;
+
 /**
  * Provides scrubbing interaction for a chart.
  *
@@ -32,24 +34,39 @@ export function ScrubberProvider({
   const [scrubberPosition, setScrubberPosition] = useState<
     number | undefined
   >();
-  const lastPositionRef = useRef<number | undefined>(undefined);
 
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
 
-  const isScrubbing = useSharedValue(false);
+  // All values touched by the gesture's JS-thread callback live in a single
+  // ref. Reading via `latest.current` keeps the callbacks reference-stable
+  // across data, scale, and prop updates, which in turn keeps `composed` and
+  // the gesture surface JSX stable so re-rendering the provider on each
+  // index change never tears down the GestureDetector or the View tree.
+  const latest = useRef({
+    getXScale,
+    getXAxisConfig,
+    dataLength,
+    onChange: onScrubberPositionChange,
+    lastIndex: undefined as number | undefined,
+  });
+  latest.current.getXScale = getXScale;
+  latest.current.getXAxisConfig = getXAxisConfig;
+  latest.current.dataLength = dataLength;
+  latest.current.onChange = onScrubberPositionChange;
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
+      const ref = latest.current;
       const clamped =
-        index === undefined || dataLength <= 0
+        index === undefined || ref.dataLength <= 0
           ? undefined
-          : Math.max(0, Math.min(index, dataLength - 1));
-      if (clamped === lastPositionRef.current) return;
-      lastPositionRef.current = clamped;
+          : Math.max(0, Math.min(index, ref.dataLength - 1));
+      if (clamped === ref.lastIndex) return;
+      ref.lastIndex = clamped;
       setScrubberPosition(clamped);
-      onScrubberPositionChange?.(clamped);
+      ref.onChange?.(clamped);
     },
-    [dataLength, onScrubberPositionChange],
+    [],
   );
 
   const handlePositionChange = useCallback(
@@ -58,21 +75,21 @@ export function ScrubberProvider({
         setScrubberPositionAndNotify(undefined);
         return;
       }
-
-      const scale = getXScale();
-      if (!scale || dataLength <= 0) return;
-
-      const axisConfig = getXAxisConfig();
+      const ref = latest.current;
+      const scale = ref.getXScale();
+      if (!scale || ref.dataLength <= 0) return;
       const index = getDataIndexFromPosition(
         pixelX,
         scale,
-        axisConfig,
-        dataLength,
+        ref.getXAxisConfig(),
+        ref.dataLength,
       );
       setScrubberPositionAndNotify(index);
     },
-    [getXScale, getXAxisConfig, dataLength, setScrubberPositionAndNotify],
+    [setScrubberPositionAndNotify],
   );
+
+  const isScrubbing = useSharedValue(false);
 
   const resetScrubber = useCallback((): void => {
     'worklet';
@@ -82,7 +99,7 @@ export function ScrubberProvider({
 
   const composed = useMemo(() => {
     const longPress = Gesture.LongPress()
-      .minDuration(50)
+      .minDuration(LONG_PRESS_MIN_DURATION_MS)
       .onStart((e) => {
         'worklet';
         isScrubbing.value = true;
@@ -105,17 +122,12 @@ export function ScrubberProvider({
     return Gesture.Simultaneous(longPress, pan);
   }, [isScrubbing, handlePositionChange, resetScrubber]);
 
-  const contextValue = useMemo(
-    () => ({
-      enableScrubbing,
-      scrubberPosition,
-      onScrubberPositionChange: setScrubberPositionAndNotify,
-    }),
-    [enableScrubbing, scrubberPosition, setScrubberPositionAndNotify],
-  );
-
-  return (
-    <ScrubberContextProvider value={contextValue}>
+  // Memoizing the surface lets React's element-identity bailout skip
+  // reconciling the View / GestureDetector / chart `children` subtree when
+  // only `scrubberPosition` changes. The Scrubber consumer still updates via
+  // context as expected.
+  const surface = useMemo(
+    () => (
       <View style={{ width, height }}>
         {children}
         {enableScrubbing && (
@@ -127,6 +139,22 @@ export function ScrubberProvider({
           </GestureDetector>
         )}
       </View>
+    ),
+    [width, height, children, enableScrubbing, composed],
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      enableScrubbing,
+      scrubberPosition,
+      onScrubberPositionChange: setScrubberPositionAndNotify,
+    }),
+    [enableScrubbing, scrubberPosition, setScrubberPositionAndNotify],
+  );
+
+  return (
+    <ScrubberContextProvider value={contextValue}>
+      {surface}
     </ScrubberContextProvider>
   );
 }

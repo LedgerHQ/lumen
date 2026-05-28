@@ -3,12 +3,11 @@ import { useId, useMemo } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useScrubberContext } from './context';
-import { DefaultScrubberTooltip } from './DefaultScrubberTooltip';
+import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
-  LABEL_OFFSET_Y,
   OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
   OVERLAY_OPACITY,
@@ -44,7 +43,6 @@ import {
  * ```
  */
 export function Scrubber({
-  label,
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
@@ -79,11 +77,6 @@ export function Scrubber({
         (b): b is { id: string; stroke: string; pixelY: number } => b !== null,
       );
   }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
-
-  const resolvedLabel = useMemo(() => {
-    if (scrubberPosition === undefined || !label) return undefined;
-    return label(scrubberPosition);
-  }, [scrubberPosition, label]);
 
   const tooltipPayload = useMemo(() => {
     if (scrubberPosition === undefined || !tooltip) {
@@ -177,23 +170,6 @@ export function Scrubber({
         />
       )}
 
-      {resolvedLabel !== undefined && (
-        <text
-          data-testid='scrubber-label'
-          x={pixelX}
-          y={drawY - LABEL_OFFSET_Y}
-          textAnchor='middle'
-          style={{
-            fill: cssVar('var(--text-base)'),
-            fontSize: cssVar('var(--font-style-body-4-size)'),
-            fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-            fontFamily: cssVar('var(--font-family-font)'),
-          }}
-        >
-          {resolvedLabel}
-        </text>
-      )}
-
       {showBeacons &&
         beacons.map((beacon) => (
           <circle
@@ -211,7 +187,6 @@ export function Scrubber({
         <DefaultScrubberTooltip
           pixelX={pixelX}
           drawingArea={drawingArea}
-          dataIndex={scrubberPosition}
           title={tooltipPayload.resolvedTitle}
           items={tooltipPayload.items}
           offset={tooltipPayload.offset}

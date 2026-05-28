@@ -43,9 +43,13 @@ export type SvgTextContent =
   | ReactElement<SVGProps<SVGTSpanElement>, 'tspan'>;
 
 export type ChartTooltipItemData = {
-  /** Label displayed on the left side of the row. */
+  /**
+   * Label displayed on the left side of the row.
+   */
   label: SvgTextContent;
-  /** Value displayed on the right side of the row. */
+  /**
+   * Value displayed on the right side of the row.
+   */
   value: SvgTextContent;
 };
 
@@ -103,15 +107,10 @@ export type ScrubberTooltipProps = ScrubberTooltipLayoutProps & {
    */
   drawingArea: DrawingArea;
   /**
-   * Zero-based index of the data point currently under the scrubber. Maps
-   * directly to the series data arrays so consumers can look up values.
+   * Optional title displayed at the top of the tooltip. Omit to render
+   * the tooltip without a title row.
    */
-  dataIndex: number;
-  /**
-   * Optional title displayed at the top of the tooltip. Pass `null` or omit
-   * to render the tooltip without a title row.
-   */
-  title?: SvgTextContent | null;
+  title?: SvgTextContent;
   /**
    * List of label/value pairs rendered as rows inside the tooltip body.
    */
@@ -124,11 +123,9 @@ export type ScrubberTooltipProps = ScrubberTooltipLayoutProps & {
 export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
   /**
    * Optional header. Static value or callback per data index.
-   * A callback may return `null` or `undefined` to suppress the title.
+   * A callback may return `undefined` to suppress the title.
    */
-  title?:
-    | SvgTextContent
-    | ((index: number) => SvgTextContent | null | undefined);
+  title?: SvgTextContent | ((index: number) => SvgTextContent | undefined);
   /**
    * Tooltip rows for this index. Return an empty array to hide the tooltip.
    */
@@ -136,11 +133,6 @@ export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
 };
 
 export type ScrubberProps = {
-  /**
-   * Formats a label string shown above the reference line for a given data index.
-   * When omitted, no label is rendered.
-   */
-  label?: (dataIndex: number) => string;
   /**
    * Hides the vertical reference line.
    * @default false
