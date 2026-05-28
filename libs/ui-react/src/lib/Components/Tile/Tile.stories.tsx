@@ -87,9 +87,7 @@ export const Base: Story = {
   onClick={() => console.log('tile clicked')}
   secondaryAction={
     <Menu>
-      <MenuTrigger asChild>
-        <TileSecondaryAction icon={MoreVertical} onClick={() => console.log('secondary action clicked')} />
-      </MenuTrigger>
+      <MenuTrigger render={<TileSecondaryAction icon={MoreVertical} onClick={() => console.log('secondary action clicked')} />} />
     </Menu>
   }
   >

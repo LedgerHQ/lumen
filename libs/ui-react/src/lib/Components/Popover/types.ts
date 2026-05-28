@@ -67,7 +67,9 @@ export type PopoverProps<Payload = unknown> = {
 
 /**
  * Props for the PopoverTrigger component.
- * Use the `render` prop to compose with a custom component.
+ *
+ * The element that toggles the popover.
+ * Requires the `render` prop to compose trigger behavior onto your component.
  */
 export type PopoverTriggerProps<Payload = unknown> = {
   /**
@@ -83,12 +85,13 @@ export type PopoverTriggerProps<Payload = unknown> = {
   payload?: Payload;
 
   /**
-   * Render function that replaces the default button-style trigger.
+   * Render prop that composes popover trigger behavior onto your component
+   * without an extra wrapper element.
    *
    * @example render={<Button {...props} label="Label" />}
    * @example render={(props) => <Button {...props} label="Label" />}
    */
-  render?: PopoverNamespace.Trigger.Props['render'];
+  render: PopoverNamespace.Trigger.Props['render'];
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
 /**

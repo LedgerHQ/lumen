@@ -94,8 +94,8 @@ const Popover = <Payload,>({
 };
 
 /**
- * A button that opens the popover.
- * Use the `render` prop to compose with a custom component.
+ * The element that toggles the popover.
+ * Requires the `render` prop to compose trigger behavior onto your component.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/components-popover-overview--docs Storybook}
  */

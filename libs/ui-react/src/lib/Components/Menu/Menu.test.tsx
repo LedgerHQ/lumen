@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import {
   Menu,
@@ -11,11 +10,16 @@ import {
   MenuRadioItem,
 } from './Menu';
 
+const openMenu = (trigger: HTMLElement) => {
+  fireEvent.mouseDown(trigger);
+  fireEvent.click(trigger);
+};
+
 describe('Menu', () => {
   it('renders trigger element', () => {
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuItem>Item 1</MenuItem>
         </MenuContent>
@@ -26,48 +30,67 @@ describe('Menu', () => {
   });
 
   it('opens menu on trigger click', async () => {
-    const user = userEvent.setup();
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuItem>Item 1</MenuItem>
         </MenuContent>
       </Menu>,
     );
 
-    const trigger = screen.getByText('Open Menu');
-    await user.click(trigger);
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
 
-    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Item 1')).toBeInTheDocument();
+    });
   });
 
-  it('calls onSelect when menu item is clicked', async () => {
-    const user = userEvent.setup();
-    const onSelect = vi.fn();
-
+  it('opens menu when trigger uses render prop', async () => {
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Custom trigger</button>} />
         <MenuContent>
-          <MenuItem onSelect={onSelect}>Item 1</MenuItem>
+          <MenuItem>Item 1</MenuItem>
         </MenuContent>
       </Menu>,
     );
 
-    await user.click(screen.getByText('Open Menu'));
-    await user.click(screen.getByText('Item 1'));
+    openMenu(screen.getByRole('button', { name: 'Custom trigger' }));
 
-    expect(onSelect).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(screen.getByText('Item 1')).toBeInTheDocument();
+    });
+  });
+
+  it('calls onClick when menu item is clicked', async () => {
+    const onClick = vi.fn();
+
+    render(
+      <Menu>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
+        <MenuContent>
+          <MenuItem onClick={onClick}>Item 1</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Item 1')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Item 1'));
+
+    expect(onClick).toHaveBeenCalled();
   });
 
   it('handles checkbox items', async () => {
-    const user = userEvent.setup();
     const onCheckedChange = vi.fn();
 
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuCheckboxItem checked={false} onCheckedChange={onCheckedChange}>
             Checkbox Item
@@ -76,19 +99,22 @@ describe('Menu', () => {
       </Menu>,
     );
 
-    await user.click(screen.getByText('Open Menu'));
-    await user.click(screen.getByText('Checkbox Item'));
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Checkbox Item')).toBeInTheDocument();
+    });
 
-    expect(onCheckedChange).toHaveBeenCalledWith(true);
+    fireEvent.click(screen.getByText('Checkbox Item'));
+
+    expect(onCheckedChange).toHaveBeenCalledWith(true, expect.any(Object));
   });
 
   it('handles radio items', async () => {
-    const user = userEvent.setup();
     const onValueChange = vi.fn();
 
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
           <MenuRadioGroup value='option1' onValueChange={onValueChange}>
             <MenuRadioItem value='option1'>Option 1</MenuRadioItem>
@@ -98,30 +124,31 @@ describe('Menu', () => {
       </Menu>,
     );
 
-    await user.click(screen.getByText('Open Menu'));
-    await user.click(screen.getByText('Option 2'));
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Option 2')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Option 2'));
 
     expect(onValueChange).toHaveBeenCalledWith('option2');
   });
 
   it('disables menu items when disabled prop is true', async () => {
-    const user = userEvent.setup();
-    const onSelect = vi.fn();
-
     render(
       <Menu>
-        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
         <MenuContent>
-          <MenuItem disabled onSelect={onSelect}>
-            Disabled Item
-          </MenuItem>
+          <MenuItem disabled>Disabled Item</MenuItem>
         </MenuContent>
       </Menu>,
     );
 
-    await user.click(screen.getByText('Open Menu'));
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Disabled Item')).toBeInTheDocument();
+    });
 
-    const disabledItem = screen.getByText('Disabled Item');
-    expect(disabledItem).toHaveAttribute('data-disabled');
+    expect(screen.getByText('Disabled Item')).toHaveAttribute('data-disabled');
   });
 });

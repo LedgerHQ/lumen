@@ -112,11 +112,16 @@ export const InteractiveShowcase: Story = {
   render: () => (
     <div className='inline-flex gap-24'>
       <Menu>
-        <MenuTrigger asChild>
-          <button className='cursor-pointer rounded-full transition-colors hover:bg-muted-hover'>
-            <Avatar size='md' alt='Avatar as trigger' showNotification />
-          </button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <button
+              type='button'
+              className='cursor-pointer rounded-full transition-colors hover:bg-muted-hover'
+            >
+              <Avatar size='md' alt='Avatar as trigger' showNotification />
+            </button>
+          }
+        />
         <MenuContent className='w-208'>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Notifications</MenuItem>

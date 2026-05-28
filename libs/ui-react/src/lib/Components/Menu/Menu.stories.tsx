@@ -54,14 +54,16 @@ export const Base: Story = {
   },
   render: (args) => (
     <Menu {...args}>
-      <MenuTrigger asChild>
-        <IconButton
-          onClick={() => console.log('Menu clicked')}
-          icon={MoreVertical}
-          aria-label='Open Menu'
-          appearance='gray'
-        />
-      </MenuTrigger>
+      <MenuTrigger
+        render={
+          <IconButton
+            onClick={() => console.log('Menu clicked')}
+            icon={MoreVertical}
+            aria-label='Open Menu'
+            appearance='gray'
+          />
+        }
+      />
       <MenuContent className='w-208'>
         <MenuItem>Profile</MenuItem>
         <MenuItem>Billing</MenuItem>
@@ -72,27 +74,60 @@ export const Base: Story = {
   ),
 };
 
+export const OpenByDefault: Story = {
+  name: 'Open by Default',
+  render: () => (
+    <Menu defaultOpen>
+      <MenuTrigger
+        render={
+          <IconButton
+            icon={MoreVertical}
+            aria-label='Open Menu'
+            appearance='gray'
+          />
+        }
+      />
+      <MenuContent className='w-208'>
+        <MenuGroup>
+          <MenuLabel>My Account</MenuLabel>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>Billing</MenuItem>
+          <MenuItem>Settings</MenuItem>
+        </MenuGroup>
+        <MenuSeparator />
+        <MenuGroup>
+          <MenuLabel>Team</MenuLabel>
+          <MenuItem>Invite Users</MenuItem>
+          <MenuItem>Team Settings</MenuItem>
+        </MenuGroup>
+      </MenuContent>
+    </Menu>
+  ),
+};
+
 export const WithGroups: Story = {
   name: 'With Groups and Labels',
   render: () => (
     <Menu>
-      <MenuTrigger asChild>
-        <IconButton
-          icon={MoreVertical}
-          aria-label='Open Menu'
-          appearance='gray'
-        />
-      </MenuTrigger>
+      <MenuTrigger
+        render={
+          <IconButton
+            icon={MoreVertical}
+            aria-label='Open Menu'
+            appearance='gray'
+          />
+        }
+      />
       <MenuContent className='w-208'>
-        <MenuLabel>My Account</MenuLabel>
         <MenuGroup>
+          <MenuLabel>My Account</MenuLabel>
           <MenuItem disabled>Profile</MenuItem>
           <MenuItem>Billing</MenuItem>
           <MenuItem>Settings</MenuItem>
         </MenuGroup>
         <MenuSeparator />
-        <MenuLabel>Team</MenuLabel>
         <MenuGroup>
+          <MenuLabel>Team</MenuLabel>
           <MenuItem>Invite Users</MenuItem>
           <MenuItem>Team Settings</MenuItem>
         </MenuGroup>
@@ -109,28 +144,35 @@ export const WithCheckboxItems: Story = {
 
     return (
       <Menu>
-        <MenuTrigger asChild>
-          <Button size='md' appearance='gray'>
-            View Options
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button size='md' appearance='gray'>
+              View Options
+            </Button>
+          }
+        />
         <MenuContent className='w-208'>
-          <MenuLabel>Appearance</MenuLabel>
-          <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
-            Show Panel
-          </MenuCheckboxItem>
-          <MenuCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
-          >
-            Show Activity Bar
-          </MenuCheckboxItem>
-          <MenuCheckboxItem
-            checked={showStatusBar}
-            onCheckedChange={setShowStatusBar}
-          >
-            Show Status Bar
-          </MenuCheckboxItem>
+          <MenuGroup>
+            <MenuLabel>Appearance</MenuLabel>
+            <MenuCheckboxItem
+              checked={showPanel}
+              onCheckedChange={setShowPanel}
+            >
+              Show Panel
+            </MenuCheckboxItem>
+            <MenuCheckboxItem
+              checked={showActivityBar}
+              onCheckedChange={setShowActivityBar}
+            >
+              Show Activity Bar
+            </MenuCheckboxItem>
+            <MenuCheckboxItem
+              checked={showStatusBar}
+              onCheckedChange={setShowStatusBar}
+            >
+              Show Status Bar
+            </MenuCheckboxItem>
+          </MenuGroup>
         </MenuContent>
       </Menu>
     );
@@ -143,18 +185,22 @@ export const WithRadioItems: Story = {
 
     return (
       <Menu>
-        <MenuTrigger asChild>
-          <Button appearance='gray' size='md'>
-            Panel Position
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Panel Position
+            </Button>
+          }
+        />
         <MenuContent className='w-208'>
-          <MenuLabel>Panel Position</MenuLabel>
-          <MenuRadioGroup value={position} onValueChange={setPosition}>
-            <MenuRadioItem value='top'>Top</MenuRadioItem>
-            <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
-            <MenuRadioItem value='right'>Right</MenuRadioItem>
-          </MenuRadioGroup>
+          <MenuGroup>
+            <MenuLabel>Panel Position</MenuLabel>
+            <MenuRadioGroup value={position} onValueChange={setPosition}>
+              <MenuRadioItem value='top'>Top</MenuRadioItem>
+              <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
+              <MenuRadioItem value='right'>Right</MenuRadioItem>
+            </MenuRadioGroup>
+          </MenuGroup>
         </MenuContent>
       </Menu>
     );
@@ -164,11 +210,13 @@ export const WithRadioItems: Story = {
 export const WithSubmenu: Story = {
   render: () => (
     <Menu>
-      <MenuTrigger asChild>
-        <Button appearance='gray' size='md'>
-          Open Menu
-        </Button>
-      </MenuTrigger>
+      <MenuTrigger
+        render={
+          <Button appearance='gray' size='md'>
+            Open Menu
+          </Button>
+        }
+      />
       <MenuContent className='w-208'>
         <MenuItem>New Tab</MenuItem>
         <MenuItem>New Window</MenuItem>
@@ -192,11 +240,13 @@ export const Disabled: Story = {
   name: 'With Disabled Items',
   render: () => (
     <Menu>
-      <MenuTrigger asChild>
-        <Button appearance='gray' size='md'>
-          Open Menu
-        </Button>
-      </MenuTrigger>
+      <MenuTrigger
+        render={
+          <Button appearance='gray' size='md'>
+            Open Menu
+          </Button>
+        }
+      />
       <MenuContent className='w-208'>
         <MenuItem>New Tab</MenuItem>
         <MenuItem disabled>New Window (disabled)</MenuItem>
@@ -212,11 +262,13 @@ export const PositionShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
       <Menu>
-        <MenuTrigger asChild>
-          <Button appearance='gray' size='md'>
-            Top
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Top
+            </Button>
+          }
+        />
         <MenuContent side='top' className='w-48'>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -225,11 +277,13 @@ export const PositionShowcase: Story = {
       </Menu>
 
       <Menu>
-        <MenuTrigger asChild>
-          <Button appearance='gray' size='md'>
-            Bottom
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Bottom
+            </Button>
+          }
+        />
         <MenuContent side='bottom' className='w-48'>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -238,11 +292,13 @@ export const PositionShowcase: Story = {
       </Menu>
 
       <Menu>
-        <MenuTrigger asChild>
-          <Button appearance='gray' size='md'>
-            Left
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Left
+            </Button>
+          }
+        />
         <MenuContent side='left' className='w-48'>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -251,11 +307,13 @@ export const PositionShowcase: Story = {
       </Menu>
 
       <Menu>
-        <MenuTrigger asChild>
-          <Button appearance='gray' size='md'>
-            Right
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Right
+            </Button>
+          }
+        />
         <MenuContent side='right' className='w-48'>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -274,36 +332,45 @@ export const CompleteExample: Story = {
 
     return (
       <Menu>
-        <MenuTrigger asChild>
-          <Button appearance='gray' size='md'>
-            Settings
-          </Button>
-        </MenuTrigger>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Settings
+            </Button>
+          }
+        />
         <MenuContent className='w-208'>
-          <MenuLabel>My Account</MenuLabel>
           <MenuGroup>
+            <MenuLabel>My Account</MenuLabel>
             <MenuItem>Profile</MenuItem>
             <MenuItem>Billing</MenuItem>
             <MenuItem>Settings</MenuItem>
           </MenuGroup>
           <MenuSeparator />
-          <MenuLabel>Appearance</MenuLabel>
-          <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
-            Show Panel
-          </MenuCheckboxItem>
-          <MenuCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
-          >
-            Show Activity Bar
-          </MenuCheckboxItem>
+          <MenuGroup>
+            <MenuLabel>Appearance</MenuLabel>
+            <MenuCheckboxItem
+              checked={showPanel}
+              onCheckedChange={setShowPanel}
+            >
+              Show Panel
+            </MenuCheckboxItem>
+            <MenuCheckboxItem
+              checked={showActivityBar}
+              onCheckedChange={setShowActivityBar}
+            >
+              Show Activity Bar
+            </MenuCheckboxItem>
+          </MenuGroup>
           <MenuSeparator />
-          <MenuLabel>Position</MenuLabel>
-          <MenuRadioGroup value={position} onValueChange={setPosition}>
-            <MenuRadioItem value='top'>Top</MenuRadioItem>
-            <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
-            <MenuRadioItem value='right'>Right</MenuRadioItem>
-          </MenuRadioGroup>
+          <MenuGroup>
+            <MenuLabel>Position</MenuLabel>
+            <MenuRadioGroup value={position} onValueChange={setPosition}>
+              <MenuRadioItem value='top'>Top</MenuRadioItem>
+              <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
+              <MenuRadioItem value='right'>Right</MenuRadioItem>
+            </MenuRadioGroup>
+          </MenuGroup>
           <MenuSeparator />
           <MenuSub>
             <MenuSubTrigger>More Tools</MenuSubTrigger>
