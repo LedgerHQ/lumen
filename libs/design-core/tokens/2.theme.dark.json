@@ -1783,6 +1783,22 @@
           }
         }
       },
+      "base-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.dark.grey.950-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {
+                "WEB": "var(--color-border-base);"
+              }
+            }
+          }
+        }
+      },
       "base-inverted": {
         "default": {
           "$type": "color",
@@ -1851,22 +1867,6 @@
               "hiddenFromPublishing": true,
               "scopes": [],
               "codeSyntax": {}
-            }
-          }
-        }
-      },
-      "muted-transparent-0": {
-        "default": {
-          "$type": "color",
-          "$value": "{color.dark.grey.500-0%}",
-          "$description": "",
-          "$extensions": {
-            "com.figma": {
-              "hiddenFromPublishing": true,
-              "scopes": [],
-              "codeSyntax": {
-                "WEB": "var(--color-background-base-transparent);"
-              }
             }
           }
         }

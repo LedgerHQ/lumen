@@ -1727,6 +1727,24 @@
         }
       }
     },
+    "base-transparent-0": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.border.base-transparent-0.default}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "STROKE_COLOR"
+            ],
+            "codeSyntax": {
+              "WEB": "var(--border-base);"
+            }
+          }
+        }
+      }
+    },
     "base-inverted": {
       "default": {
         "$type": "color",
@@ -1787,26 +1805,6 @@
               "STROKE_COLOR"
             ],
             "codeSyntax": {}
-          }
-        }
-      }
-    },
-    "muted-transparent-0": {
-      "default": {
-        "$type": "color",
-        "$value": "{color.border.muted-transparent-0.default}",
-        "$description": "",
-        "$extensions": {
-          "com.figma": {
-            "hiddenFromPublishing": false,
-            "scopes": [
-              "ALL_FILLS",
-              "STROKE_COLOR",
-              "EFFECT_COLOR"
-            ],
-            "codeSyntax": {
-              "WEB": "var(--background-base-transparent);"
-            }
           }
         }
       }
