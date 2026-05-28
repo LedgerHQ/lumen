@@ -196,9 +196,7 @@ export const StatesShowcase: Story = {
       <Card {...args} lx={{ width: 's320' }} disabled>
         <CardHeader>
           <CardLeading>
-            <Box lx={{ opacity: 0.3 }}>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
-            </Box>
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
             <CardContent>
               <CardContentTitle>Disabled</CardContentTitle>
               <CardContentDescription>Non-interactive</CardContentDescription>
