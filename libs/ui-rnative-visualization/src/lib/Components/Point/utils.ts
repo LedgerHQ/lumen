@@ -55,7 +55,7 @@ export const resolveDataXToIndex = (
   axisConfig: AxisConfigProps | undefined,
 ): number | undefined => {
   const axisData = axisConfig?.data;
-  if (!axisData) return dataX;
+  if (!axisData || typeof axisData[0] !== 'number') return dataX;
   const index = (axisData as number[]).indexOf(dataX);
   if (index === -1) return undefined;
   return index;
