@@ -35,6 +35,7 @@ export function ScrubberProvider({
       getPixelForIndex: (index) =>
         resolvePixelX(index, getXScale, getXAxisConfig()),
     });
+    // version is needed to re-compute the sorted magnets when the magnetic points change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version, getMagneticPoints, getXScale, getXAxisConfig]);
 
