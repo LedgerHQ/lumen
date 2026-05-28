@@ -157,7 +157,16 @@
       "libs/*"
     ],
     "projectsRelationship": "independent",
-    "versionPlans": true,
+    "versionPlans": {
+      "ignorePatternsForPlanCheck": [
+        "**/*.stories.@(ts|tsx|js|jsx|mdx)",
+        "**/*.test.@(ts|tsx)",
+        "**/*.spec.@(ts|tsx)",
+        "**/*.md",
+        "**/*.mdx",
+        "**/*.figma.@(ts|tsx)"
+      ]
+    },
     "version": {
       "preVersionCommand": "npx nx run-many -t build --projects='libs/*'",
       "updateDependents": "auto"
