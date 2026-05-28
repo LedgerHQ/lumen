@@ -120,6 +120,7 @@ describe('computeLabelY', () => {
 const makeContext = () => ({
   register: vi.fn(),
   unregister: vi.fn(),
+  version: 0,
   getMagneticPoints: () => new Set<number>(),
 });
 
