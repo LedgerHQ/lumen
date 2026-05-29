@@ -1,6 +1,6 @@
+import { getFontSize } from '@ledgerhq/lumen-utils-shared';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { getFontSize } from '@ledgerhq/lumen-utils-shared';
 import { describe, it, expect, vi } from 'vitest';
 import { AmountInput } from './AmountInput';
 
@@ -122,10 +122,7 @@ describe('AmountInput', () => {
 
   it('applies heading-2-semi-bold typography class for sm size', () => {
     render(
-      <AmountInput
-        size='sm'
-        {...createControlledProps({ value: '55 555' })}
-      />,
+      <AmountInput size='sm' {...createControlledProps({ value: '55 555' })} />,
     );
     const input = screen.getByRole('textbox');
     expect(input).toHaveClass('heading-2-semi-bold');
@@ -133,10 +130,7 @@ describe('AmountInput', () => {
 
   it('uses sm font size mapping for sm size', () => {
     render(
-      <AmountInput
-        size='sm'
-        {...createControlledProps({ value: '5' })}
-      />,
+      <AmountInput size='sm' {...createControlledProps({ value: '5' })} />,
     );
     const input = screen.getByRole('textbox');
     expect(input).toHaveStyle({
@@ -164,11 +158,7 @@ describe('AmountInput', () => {
 
   it('applies end alignment', () => {
     const { container } = render(
-      <AmountInput
-        align='end'
-        currencyText='$'
-        {...createControlledProps()}
-      />,
+      <AmountInput align='end' currencyText='$' {...createControlledProps()} />,
     );
     expect(container.firstChild).toHaveClass('justify-end');
   });
