@@ -157,7 +157,23 @@
       "libs/*"
     ],
     "projectsRelationship": "independent",
-    "versionPlans": true,
+    "versionPlans": {
+      "ignorePatternsForPlanCheck": [
+        "**/.eslintrc.json",
+        "**/eslint.config.mjs",
+        "**/*.spec.{js,jsx,ts,tsx}",
+        "**/*.test.{js,jsx,ts,tsx}",
+        "**/*.snap",
+        "**/tsconfig*.json",
+        "**/test-setup.{js,ts}",
+        "**/*.stories.{js,jsx,ts,tsx,mdx}",
+        "**/.storybook/**",
+        "**/jest.config.{js,ts}",
+        "**/*.md",
+        "**/*.mdx",
+        "**/*.figma.@(ts|tsx)"
+      ]
+    },
     "version": {
       "preVersionCommand": "npx nx run-many -t build --projects='libs/*'",
       "updateDependents": "auto"
