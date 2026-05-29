@@ -5,10 +5,10 @@ import type { DotIndicatorProps } from './types';
 const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
   variants: {
     size: {
-      xs: 'size-10',
-      sm: 'size-12',
-      md: 'size-14',
-      lg: 'size-16',
+      sm: 'size-6',
+      md: 'size-8',
+      lg: 'size-10',
+      xl: 'size-12',
     },
     appearance: {
       base: 'bg-interactive',
@@ -20,14 +20,14 @@ const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
     },
   },
   defaultVariants: {
-    size: 'sm',
+    size: 'md',
     appearance: 'base',
     disabled: false,
   },
 });
 
 export function DotIndicator({
-  size = 'sm',
+  size = 'md',
   appearance = 'base',
   disabled: disabledProp = false,
   children,
