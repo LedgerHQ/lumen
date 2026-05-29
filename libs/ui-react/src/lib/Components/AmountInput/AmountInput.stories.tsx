@@ -56,15 +56,17 @@ export const Size: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => (
-    <div className='flex w-560 flex-col items-center gap-24'>
+    <div className='flex w-560 flex-col gap-24'>
       {SIZES.map(({ size, value }) => (
-        <AmountInput
-          key={size}
-          size={size}
-          value={value}
-          currencyText='$'
-          onChange={() => console.log('onChange triggered')}
-        />
+        <div key={size} className='w-full'>
+          <AmountInput
+            size={size}
+            value={value}
+            currencyText='$'
+            onChange={() => console.log('onChange triggered')}
+            align='start'
+          />
+        </div>
       ))}
     </div>
   ),
@@ -78,13 +80,14 @@ export const Alignment: Story = {
   render: () => (
     <div className='flex w-560 flex-col gap-24'>
       {ALIGNMENTS.map((align) => (
-        <AmountInput
-          key={align}
-          align={align}
-          value='1234.56'
-          currencyText='$'
-          onChange={() => console.log('onChange triggered')}
-        />
+        <div key={align} className='w-full'>
+          <AmountInput
+            align={align}
+            value='1234.56'
+            currencyText='$'
+            onChange={() => console.log('onChange triggered')}
+          />
+        </div>
       ))}
     </div>
   ),
