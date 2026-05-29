@@ -13,6 +13,10 @@ export function AmountInputs() {
   const [coinValue, setCoinValue] = useState('0');
   const [isCoin, setIsCoin] = useState(false);
 
+  const [valueSmAlignStart, setValueSmAlignStart] = useState('55 555');
+  const [valueSmAlignEnd, setValueSmAlignEnd] = useState('55 555');
+  const [valueSmNoCurrency, setValueSmNoCurrency] = useState('55 555');
+
   const styles = useStyles();
   const { theme } = useTheme();
 
@@ -51,6 +55,47 @@ export function AmountInputs() {
             maxDecimalLength={2}
           />
           <Text style={styles.sectionDescription}>With error if above $10</Text>
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.sectionContainer}>
+          <View style={styles.alignRow}>
+            <AmountInput
+              value={valueSmAlignStart}
+              onChangeText={setValueSmAlignStart}
+              size='sm'
+              align='start'
+              currencyText='$'
+            />
+          </View>
+          <Text style={styles.sectionDescription}>
+            Size sm, align start (left)
+          </Text>
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.sectionContainer}>
+          <View style={styles.alignRow}>
+            <AmountInput
+              value={valueSmAlignEnd}
+              onChangeText={setValueSmAlignEnd}
+              size='sm'
+              align='end'
+              currencyText='$'
+            />
+          </View>
+          <Text style={styles.sectionDescription}>
+            Size sm, align end (right)
+          </Text>
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.sectionContainer}>
+          <AmountInput
+            value={valueSmNoCurrency}
+            onChangeText={setValueSmNoCurrency}
+            size='sm'
+          />
+          <Text style={styles.sectionDescription}>
+            Size sm, no currency text
+          </Text>
         </View>
         <View style={styles.separator} />
         <View style={styles.sectionContainer}>
@@ -111,6 +156,11 @@ const useStyles = () => {
       },
       sectionContainer: {
         alignItems: 'center',
+        width: '100%',
+      },
+      alignRow: {
+        width: '100%',
+        maxWidth: 320,
       },
       sectionDescription: {
         marginTop: t.spacings.s8,

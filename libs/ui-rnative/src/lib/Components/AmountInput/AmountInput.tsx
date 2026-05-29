@@ -4,7 +4,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Pressable, StyleSheet, TextInput } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -174,26 +174,28 @@ export const AmountInput = ({
         style={styles.hiddenInput}
         {...props}
       />
-      <Pressable
-        onPress={handlePress}
-        style={styles.pressable}
-        accessibilityLabel={props.accessibilityLabel || 'Amount input'}
-      >
-        {currencyPosition === 'left' && CurrencyText}
-
-        {/** display text that mirrors the hidden input's value */}
-        <Animated.Text
-          style={[styles.displayText, animatedInputStyle, style]}
-          allowFontScaling={false}
+      <View style={styles.alignRow}>
+        <Pressable
+          onPress={handlePress}
+          style={styles.pressable}
+          accessibilityLabel={props.accessibilityLabel || 'Amount input'}
         >
-          {inputValue || '0'}
-        </Animated.Text>
+          {currencyPosition === 'left' && CurrencyText}
 
-        {/** custom caret */}
-        <Animated.View style={[styles.caret, animatedCaretStyle]} />
+          {/** display text that mirrors the hidden input's value */}
+          <Animated.Text
+            style={[styles.displayText, animatedInputStyle, style]}
+            allowFontScaling={false}
+          >
+            {inputValue || '0'}
+          </Animated.Text>
 
-        {currencyPosition === 'right' && CurrencyText}
-      </Pressable>
+          {/** custom caret */}
+          <Animated.View style={[styles.caret, animatedCaretStyle]} />
+
+          {currencyPosition === 'right' && CurrencyText}
+        </Pressable>
+      </View>
     </Box>
   );
 };
@@ -206,7 +208,7 @@ const SIZE_TYPOGRAPHY = {
   'heading0SemiBold' | 'heading2SemiBold'
 >;
 
-const ALIGN_JUSTIFY_CONTENT = {
+const ALIGN_ROW_JUSTIFY = {
   center: 'center',
   start: 'flex-start',
   end: 'flex-end',
@@ -244,11 +246,14 @@ const useStyles = ({
           height: t.sizes.full,
           opacity: 0,
         },
+        alignRow: {
+          width: t.sizes.full,
+          flexDirection: 'row',
+          justifyContent: ALIGN_ROW_JUSTIFY[align],
+        },
         pressable: {
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: ALIGN_JUSTIFY_CONTENT[align],
-          width: t.sizes.full,
         },
         displayText: StyleSheet.flatten([
           {
