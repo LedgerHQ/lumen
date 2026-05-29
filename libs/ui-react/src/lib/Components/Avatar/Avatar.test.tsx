@@ -82,6 +82,37 @@ describe('Avatar Component', () => {
     expect(notificationDot).toBeInTheDocument();
   });
 
+  it.each(['sm', 'md'] as const)(
+    'should render the notification indicator on size=%s',
+    (size) => {
+      const { container } = render(
+        <Avatar src={validSrc} size={size} showNotification />,
+      );
+
+      const notificationDot = container.querySelector('.bg-error-strong');
+      expect(notificationDot).toBeInTheDocument();
+    },
+  );
+
+  it.each(['lg', 'xl'] as const)(
+    'should not render the notification indicator on size=%s',
+    (size) => {
+      const { container } = render(
+        <Avatar src={validSrc} size={size} showNotification />,
+      );
+
+      const notificationDot = container.querySelector('.bg-error-strong');
+      expect(notificationDot).not.toBeInTheDocument();
+    },
+  );
+
+  it('should not include notification in aria-label on lg/xl even when showNotification is true', () => {
+    render(<Avatar src={validSrc} size='lg' showNotification />);
+
+    const img = screen.getByRole('img');
+    expect(img).toHaveAttribute('aria-label', 'components.avatar.defaultAlt');
+  });
+
   it('should include notification in aria-label when showNotification is true', () => {
     render(<Avatar src={validSrc} showNotification />);
 
