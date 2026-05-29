@@ -22,7 +22,7 @@ AmountInput is a specialized input component designed for handling numeric value
 
 **⚠️ Important: AmountInput is a controlled component only.** Both `value` and `onChange` props are required.
 
-> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6245-2067&m=dev).
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=17523-37413&m=dev).
 
 ## Anatomy
 
@@ -30,6 +30,18 @@ AmountInput is a specialized input component designed for handling numeric value
 <Controls of={AmountInputStories.Default} />
 
 > **Layout:** The AmountInput component takes the full width of its container by default. You can control the width by wrapping it in a container.
+
+### Size
+
+Use the `size` prop to control typography scale.
+
+<Canvas of={AmountInputStories.Size} />
+
+### Alignment
+
+Use the `align` prop to position the amount within its container. Defaults to `center`. Use `start` or `end` for left- or right-aligned layouts.
+
+<Canvas of={AmountInputStories.Alignment} />
 
 ### Currency Text Position
 

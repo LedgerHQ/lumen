@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { getFontSize } from '@ledgerhq/lumen-utils-shared';
 import { describe, it, expect, vi } from 'vitest';
 import { AmountInput } from './AmountInput';
 
@@ -111,6 +112,88 @@ describe('AmountInput', () => {
 
     rerender(<AmountInput currencyText='€' {...createControlledProps()} />);
     expect(screen.getByText('€')).toBeInTheDocument();
+  });
+
+  it('applies heading-0 typography class for md size', () => {
+    render(<AmountInput {...createControlledProps({ value: '100' })} />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveClass('heading-0');
+  });
+
+  it('applies heading-2-semi-bold typography class for sm size', () => {
+    render(
+      <AmountInput
+        size='sm'
+        {...createControlledProps({ value: '55 555' })}
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveClass('heading-2-semi-bold');
+  });
+
+  it('uses sm font size mapping for sm size', () => {
+    render(
+      <AmountInput
+        size='sm'
+        {...createControlledProps({ value: '5' })}
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveStyle({
+      fontSize: `${getFontSize('5', 'sm')}px`,
+    });
+  });
+
+  it('centers content by default', () => {
+    const { container } = render(
+      <AmountInput currencyText='$' {...createControlledProps()} />,
+    );
+    expect(container.firstChild).toHaveClass('justify-center');
+  });
+
+  it('applies start alignment', () => {
+    const { container } = render(
+      <AmountInput
+        align='start'
+        currencyText='$'
+        {...createControlledProps()}
+      />,
+    );
+    expect(container.firstChild).toHaveClass('justify-start');
+  });
+
+  it('applies end alignment', () => {
+    const { container } = render(
+      <AmountInput
+        align='end'
+        currencyText='$'
+        {...createControlledProps()}
+      />,
+    );
+    expect(container.firstChild).toHaveClass('justify-end');
+  });
+
+  it('uses extra width when currencyText is undefined', () => {
+    const { rerender } = render(
+      <AmountInput {...createControlledProps({ value: '55 555' })} />,
+    );
+    const widthWithoutCurrency = Number.parseInt(
+      screen.getByRole('textbox').style.width,
+      10,
+    );
+
+    rerender(
+      <AmountInput
+        currencyText='$'
+        {...createControlledProps({ value: '55 555' })}
+      />,
+    );
+    const widthWithCurrency = Number.parseInt(
+      screen.getByRole('textbox').style.width,
+      10,
+    );
+
+    expect(widthWithoutCurrency).toBeGreaterThan(widthWithCurrency);
   });
 
   it('maintains input value when currency position changes', () => {

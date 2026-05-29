@@ -13,9 +13,13 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { useStyleSheet } from '../../../styles';
+import { useStyleSheet, useTheme } from '../../../styles';
 import { Box } from '../Utility';
-import { type AmountInputProps } from './types';
+import {
+  type AmountInputAlign,
+  type AmountInputProps,
+  type AmountInputSize,
+} from './types';
 
 /**
  * AmountInput component for handling numeric input with currency display.
@@ -25,6 +29,8 @@ import { type AmountInputProps } from './types';
 export const AmountInput = ({
   lx = {},
   style,
+  size = 'md',
+  align = 'center',
   currencyText,
   currencyPosition = 'left',
   editable,
@@ -48,16 +54,20 @@ export const AmountInput = ({
   });
 
   const translateX = useSharedValue(0);
-  const animatedFontSize = useSharedValue(getFontSize(inputValue));
+  const animatedFontSize = useSharedValue(getFontSize(inputValue, size));
   const caretOpacity = useSharedValue(0);
 
   useImperativeHandle(ref, () => inputRef.current as TextInput, []);
 
+  const { theme } = useTheme();
   const styles = useStyles({
+    size,
+    align,
     hasValue: !!inputValue,
     isEditable: !disabled,
     isInvalid,
   });
+  const caretFixedHeight = size === 'sm' ? theme.sizes.s28 : 0;
 
   const animatedInputStyle = useAnimatedStyle(
     () => ({
@@ -79,13 +89,13 @@ export const AmountInput = ({
   const animatedCaretStyle = useAnimatedStyle(
     () => ({
       opacity: caretOpacity.value,
-      height: animatedFontSize.value,
+      height: size === 'sm' ? caretFixedHeight : animatedFontSize.value,
     }),
-    [caretOpacity, animatedFontSize],
+    [caretOpacity, animatedFontSize, size, caretFixedHeight],
   );
 
   useEffect(() => {
-    const newSize = getFontSize(inputValue);
+    const newSize = getFontSize(inputValue, size);
 
     translateX.value = withSequence(
       withTiming(4, { duration: 0 }),
@@ -99,7 +109,7 @@ export const AmountInput = ({
       duration: 250,
       easing: Easing.bezier(0.4, 0, 0.2, 1),
     });
-  }, [inputValue, animatedFontSize, translateX]);
+  }, [inputValue, size, animatedFontSize, translateX]);
 
   useEffect(() => {
     if (isFocused && !disabled) {
@@ -188,70 +198,98 @@ export const AmountInput = ({
   );
 };
 
+const SIZE_TYPOGRAPHY = {
+  md: 'heading0SemiBold',
+  sm: 'heading2SemiBold',
+} as const satisfies Record<
+  AmountInputSize,
+  'heading0SemiBold' | 'heading2SemiBold'
+>;
+
+const ALIGN_JUSTIFY_CONTENT = {
+  center: 'center',
+  start: 'flex-start',
+  end: 'flex-end',
+} as const satisfies Record<
+  AmountInputAlign,
+  'center' | 'flex-start' | 'flex-end'
+>;
+
 const useStyles = ({
+  size,
+  align,
   hasValue,
   isEditable,
   isInvalid,
 }: {
+  size: AmountInputSize;
+  align: AmountInputAlign;
   hasValue: boolean;
   isEditable: boolean;
   isInvalid: boolean;
 }) => {
   return useStyleSheet(
-    (t) => ({
-      container: {
-        position: 'relative',
-      },
-      hiddenInput: {
-        position: 'absolute',
-        width: t.sizes.full,
-        height: t.sizes.full,
-        opacity: 0,
-      },
-      pressable: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      displayText: StyleSheet.flatten([
-        {
-          height: t.sizes.s56,
-          backgroundColor: 'transparent',
-          color: t.colors.text.base,
-          alignItems: 'flex-start',
-          ...t.typographies.heading0SemiBold,
+    (t) => {
+      const typography = t.typographies[SIZE_TYPOGRAPHY[size]];
+      const displayHeight = size === 'md' ? t.sizes.s56 : t.sizes.s36;
+
+      return {
+        container: {
+          position: 'relative',
+          width: t.sizes.full,
         },
-        !hasValue && {
-          color: t.colors.text.mutedSubtle,
+        hiddenInput: {
+          position: 'absolute',
+          width: t.sizes.full,
+          height: t.sizes.full,
+          opacity: 0,
         },
-        !isEditable && {
-          color: t.colors.text.disabled,
+        pressable: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: ALIGN_JUSTIFY_CONTENT[align],
+          width: t.sizes.full,
         },
-        isInvalid && {
-          color: t.colors.text.error,
+        displayText: StyleSheet.flatten([
+          {
+            height: displayHeight,
+            backgroundColor: 'transparent',
+            color: t.colors.text.base,
+            alignItems: 'flex-start',
+            ...typography,
+          },
+          !hasValue && {
+            color: t.colors.text.mutedSubtle,
+          },
+          !isEditable && {
+            color: t.colors.text.disabled,
+          },
+          isInvalid && {
+            color: t.colors.text.error,
+          },
+        ]),
+        currency: StyleSheet.flatten([
+          {
+            color: t.colors.text.base,
+            ...typography,
+          },
+          !hasValue && {
+            color: t.colors.text.mutedSubtle,
+          },
+          !isEditable && {
+            color: t.colors.text.disabled,
+          },
+          isInvalid && {
+            color: t.colors.text.error,
+          },
+        ]),
+        caret: {
+          marginHorizontal: t.spacings.s2,
+          width: t.sizes.s2,
+          backgroundColor: t.colors.text.active,
         },
-      ]),
-      currency: StyleSheet.flatten([
-        {
-          color: t.colors.text.base,
-          ...t.typographies.heading0SemiBold,
-        },
-        !hasValue && {
-          color: t.colors.text.mutedSubtle,
-        },
-        !isEditable && {
-          color: t.colors.text.disabled,
-        },
-        isInvalid && {
-          color: t.colors.text.error,
-        },
-      ]),
-      caret: {
-        marginHorizontal: t.spacings.s2,
-        width: t.sizes.s2,
-        backgroundColor: t.colors.text.active,
-      },
-    }),
-    [hasValue, isEditable, isInvalid],
+      };
+    },
+    [size, align, hasValue, isEditable, isInvalid],
   );
 };

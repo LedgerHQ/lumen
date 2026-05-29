@@ -1,6 +1,10 @@
 import type { TextInputProps, ViewStyle } from 'react-native';
 import type { BoxProps } from '../Utility';
 
+export type AmountInputSize = 'md' | 'sm';
+
+export type AmountInputAlign = 'center' | 'start' | 'end';
+
 export type AmountInputProps = Omit<
   TextInputProps,
   'value' | 'onChangeText'
@@ -15,6 +19,16 @@ export type AmountInputProps = Omit<
    * @required
    */
   onChangeText: (text: string) => void;
+  /**
+   * Visual size of the amount input.
+   * @default 'md'
+   */
+  size?: AmountInputSize;
+  /**
+   * Horizontal alignment of the amount and currency.
+   * @default 'center'
+   */
+  align?: AmountInputAlign;
   /**
    * The currency text (e.g. USD, EUR)
    */
