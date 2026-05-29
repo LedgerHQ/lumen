@@ -117,7 +117,7 @@ describe('AmountInput', () => {
   it('applies heading-0 typography class for md size', () => {
     render(<AmountInput {...createControlledProps({ value: '100' })} />);
     const input = screen.getByRole('textbox');
-    expect(input).toHaveClass('heading-0');
+    expect(input).toHaveClass('heading-0-semi-bold');
   });
 
   it('applies heading-2-semi-bold typography class for sm size', () => {
