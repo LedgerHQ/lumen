@@ -1,5 +1,9 @@
 import type { ChangeEvent, ComponentPropsWithRef } from 'react';
 
+export type AmountInputSize = 'md' | 'sm';
+
+export type AmountInputAlign = 'center' | 'start' | 'end';
+
 export type AmountInputProps = {
   /**
    * The controlled value of the input
@@ -11,6 +15,16 @@ export type AmountInputProps = {
    * @required
    */
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  /**
+   * Visual size of the amount input.
+   * @default 'md'
+   */
+  size?: AmountInputSize;
+  /**
+   * Horizontal alignment of the amount and currency.
+   * @default 'center'
+   */
+  align?: AmountInputAlign;
   /**
    * The currency text (e.g. USD, EUR)
    */

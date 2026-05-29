@@ -3,6 +3,14 @@ import { useState } from 'react';
 import { TransferVertical } from '../../Symbols/Icons/TransferVertical';
 import { IconButton } from '../IconButton';
 import { AmountInput } from './AmountInput';
+import type { AmountInputAlign, AmountInputSize } from './types';
+
+const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
+
+const SIZES: { size: AmountInputSize; value: string }[] = [
+  { size: 'md', value: '1234.56' },
+  { size: 'sm', value: '55 555' },
+];
 
 const meta = {
   title: 'Input/AmountInput',
@@ -42,6 +50,46 @@ export const WithValue: Story = {
   },
 };
 
+export const Size: Story = {
+  args: {
+    value: '1234.56',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => (
+    <div className='flex w-320 flex-col items-center gap-24'>
+      {SIZES.map(({ size, value }) => (
+        <AmountInput
+          key={size}
+          size={size}
+          value={value}
+          currencyText='$'
+          onChange={() => console.log('onChange triggered')}
+        />
+      ))}
+    </div>
+  ),
+};
+
+export const Alignment: Story = {
+  args: {
+    value: '1234.56',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => (
+    <div className='flex w-320 flex-col gap-24'>
+      {ALIGNMENTS.map((align) => (
+        <AmountInput
+          key={align}
+          align={align}
+          value='1234.56'
+          currencyText='$'
+          onChange={() => console.log('onChange triggered')}
+        />
+      ))}
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     value: '1234.56',
@@ -65,7 +113,7 @@ export const IntegerOnly: Story = {
   args: {
     value: '1234',
     currencyText: '$',
-    allowDecimals: false, // Important: disables decimal input
+    allowDecimals: false,
     onChange: () => console.log('onChange triggered'),
   },
   parameters: {
@@ -113,7 +161,7 @@ export const LargeAmountDisplay: Story = {
     const balanceErrorText = hasError ? 'Insufficient balance' : '';
 
     return (
-      <div className='relative h-128 w-[359px] rounded-lg'>
+      <div className='relative h-128 w-320 rounded-lg'>
         {/* Large amount input */}
         <div className='flex-col items-center justify-center'>
           <AmountInput

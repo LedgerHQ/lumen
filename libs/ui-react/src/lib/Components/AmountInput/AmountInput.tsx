@@ -3,39 +3,114 @@ import {
   getFontSize,
   textFormatter,
   useDisabledContext,
+  useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { AmountInputProps } from './types';
+import type { AmountInputProps, AmountInputSize } from './types';
+
+/** Extra width for empty input (caret + placeholder). */
+const INPUT_WIDTH_PADDING_EMPTY = 33;
+/** Extra width when the input has a value. */
+const INPUT_WIDTH_PADDING_FILLED = 8;
+/** Extra width without currency — md size (heading-0 side bearings). */
+const INPUT_WIDTH_PADDING_NO_CURRENCY_MD = 24;
+/** Extra width without currency — sm size (heading-2 side bearings). */
+const INPUT_WIDTH_PADDING_NO_CURRENCY_SM = 16;
+
+const NO_CURRENCY_WIDTH_PADDING_BY_SIZE = {
+  md: INPUT_WIDTH_PADDING_NO_CURRENCY_MD,
+  sm: INPUT_WIDTH_PADDING_NO_CURRENCY_SM,
+} as const satisfies Record<AmountInputSize, number>;
+
+const getInputWidthPadding = (
+  inputValue: string,
+  currencyText: string | undefined,
+  size: AmountInputSize,
+): number => {
+  const basePadding =
+    inputValue === '' ? INPUT_WIDTH_PADDING_EMPTY : INPUT_WIDTH_PADDING_FILLED;
+
+  if (currencyText) {
+    return basePadding;
+  }
+
+  // Without a currency label, glyphs can extend past measured width (side bearings).
+  return basePadding + NO_CURRENCY_WIDTH_PADDING_BY_SIZE[size];
+};
 
 const inputStyles = cva(
   [
-    'bg-transparent heading-0 caret-active outline-hidden transition-colors',
+    'bg-transparent caret-active outline-hidden transition-colors',
     'text-base placeholder:text-muted-subtle',
     'disabled:cursor-not-allowed disabled:bg-base-transparent disabled:text-disabled',
     'aria-invalid:text-error',
     '[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
-    'h-56',
   ],
   {
     variants: {
+      size: {
+        md: 'heading-0-semi-bold h-56',
+        sm: 'heading-2-semi-bold h-36',
+      },
       isChanging: {
         true: 'animate-translate-from-right',
         false: '',
       },
     },
     defaultVariants: {
+      size: 'md',
       isChanging: false,
     },
   },
 );
 
-const currencyStyles = cn(
-  'cursor-text heading-0',
-  'text-base',
-  'group-has-[input:placeholder-shown]:text-muted-subtle',
-  'group-has-[input:disabled]:cursor-not-allowed group-has-[input:disabled]:text-disabled',
-  'group-has-[input[aria-invalid="true"]]:text-error',
+const currencyStyles = cva(
+  [
+    'cursor-text text-base',
+    'group-has-[input:placeholder-shown]:text-muted-subtle',
+    'group-has-[input:disabled]:cursor-not-allowed group-has-[input:disabled]:text-disabled',
+    'group-has-[input[aria-invalid="true"]]:text-error',
+  ],
+  {
+    variants: {
+      size: {
+        md: 'heading-0',
+        sm: 'heading-2-semi-bold',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  },
+);
+
+const mirrorTextStyles = cva('invisible absolute whitespace-pre', {
+  variants: {
+    size: {
+      md: 'heading-0',
+      sm: 'heading-2-semi-bold',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+const containerStyles = cva(
+  'group relative flex w-full items-center overflow-visible transition-transform',
+  {
+    variants: {
+      align: {
+        center: 'justify-center',
+        start: 'justify-start',
+        end: 'justify-end',
+      },
+    },
+    defaultVariants: {
+      align: 'center',
+    },
+  },
 );
 
 /**
@@ -46,6 +121,8 @@ const currencyStyles = cn(
 export const AmountInput = ({
   ref,
   className,
+  size = 'md',
+  align = 'center',
   currencyText,
   currencyPosition = 'left',
   disabled: disabledProp,
@@ -63,36 +140,28 @@ export const AmountInput = ({
   });
   const spanRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const mergedRef = useMergedRef(ref, inputRef);
   const [inputValue, setInputValue] = useState(value.toString());
   const [isChanging, setIsChanging] = useState(false);
 
   /** Track previous value for animation trigger */
   const prevValueRef = useRef<string>(inputValue);
 
-  /** TODO: move to utils-shared */
-  function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
-    return (node: T) => {
-      refs.forEach((ref) => {
-        if (!ref) return;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else {
-          (ref as React.MutableRefObject<T | null>).current = node;
-        }
-      });
-    };
-  }
-
-  const fontSize = useMemo(() => getFontSize(inputValue) + 'px', [inputValue]);
+  const fontSize = useMemo(
+    () => getFontSize(inputValue, size) + 'px',
+    [inputValue, size],
+  );
 
   // Keep width in sync with hidden span
   useLayoutEffect(() => {
     if (spanRef.current && inputRef.current) {
-      const width = spanRef.current.offsetWidth;
-      const pxToAdd = inputValue === '' ? 33 : 8;
-      inputRef.current.style.width = `${width + pxToAdd}px`;
+      const width = Math.ceil(
+        Math.max(spanRef.current.scrollWidth, spanRef.current.offsetWidth),
+      );
+      const padding = getInputWidthPadding(inputValue, currencyText, size);
+      inputRef.current.style.width = `${width + padding}px`;
     }
-  }, [inputValue]);
+  }, [inputValue, currencyText, size, fontSize]);
 
   useEffect(() => {
     setInputValue(value.toString());
@@ -117,9 +186,11 @@ export const AmountInput = ({
     prevValueRef.current = cleaned;
   };
 
+  const textStyle = { fontSize, letterSpacing: 'normal' as const };
+
   return (
     <div
-      className='group relative flex items-center justify-center transition-transform'
+      className={containerStyles({ align })}
       onPointerDown={() => {
         const input = inputRef.current;
         if (!input) return;
@@ -130,8 +201,8 @@ export const AmountInput = ({
     >
       {currencyText && currencyPosition === 'left' && (
         <span
-          className={cn(currencyStyles, 'shrink-0')}
-          style={{ fontSize, letterSpacing: 'normal' }}
+          className={cn(currencyStyles({ size }), 'shrink-0')}
+          style={textStyle}
         >
           {currencyText}
         </span>
@@ -140,30 +211,30 @@ export const AmountInput = ({
       {/* Hidden span mirrors input value */}
       <span
         ref={spanRef}
-        className={cn('invisible absolute heading-0')}
+        className={mirrorTextStyles({ size })}
         aria-hidden='true'
-        style={{ fontSize, letterSpacing: 'normal' }}
+        style={textStyle}
       >
         {inputValue}
       </span>
 
       <input
-        ref={composeRefs(ref, inputRef)}
+        ref={mergedRef}
         type='text'
         inputMode='decimal'
         disabled={disabled}
         value={inputValue}
         onChange={handleChange}
         onAnimationEnd={() => setIsChanging(false)}
-        className={cn(inputStyles({ isChanging }), className)}
+        className={cn(inputStyles({ size, isChanging }), className)}
         {...props}
-        style={{ fontSize, letterSpacing: 'normal' }}
+        style={textStyle}
       />
 
       {currencyText && currencyPosition === 'right' && (
         <span
-          className={cn(currencyStyles, 'shrink-0')}
-          style={{ fontSize, letterSpacing: 'normal' }}
+          className={cn(currencyStyles({ size }), 'shrink-0')}
+          style={textStyle}
         >
           {currencyText}
         </span>
