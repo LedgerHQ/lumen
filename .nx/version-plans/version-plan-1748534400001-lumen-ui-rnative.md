@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-ui-rnative': patch
 ---
 
-feat(AmountInput): add size prop (md, sm)
+feat(AmountInput): add size (md, sm) and align (start, center, end) props
