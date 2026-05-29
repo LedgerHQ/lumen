@@ -16,7 +16,7 @@ export function DotIndicators() {
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
         <Avatar size='md' showNotification />
-        <DotIndicator appearance='red'>
+        <DotIndicator size='xl' appearance='red'>
           <Button size='sm' disabled>
             Submit
           </Button>
