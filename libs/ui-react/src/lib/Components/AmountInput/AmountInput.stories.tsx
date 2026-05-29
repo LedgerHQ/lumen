@@ -56,7 +56,7 @@ export const Size: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => (
-    <div className='flex w-320 flex-col items-center gap-24'>
+    <div className='flex w-560 flex-col items-center gap-24'>
       {SIZES.map(({ size, value }) => (
         <AmountInput
           key={size}
@@ -76,7 +76,7 @@ export const Alignment: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => (
-    <div className='flex w-320 flex-col gap-24'>
+    <div className='flex w-560 flex-col gap-24'>
       {ALIGNMENTS.map((align) => (
         <AmountInput
           key={align}
@@ -161,7 +161,7 @@ export const LargeAmountDisplay: Story = {
     const balanceErrorText = hasError ? 'Insufficient balance' : '';
 
     return (
-      <div className='relative h-128 w-320 rounded-lg'>
+      <div className='relative h-128 w-560 rounded-lg'>
         {/* Large amount input */}
         <div className='flex-col items-center justify-center'>
           <AmountInput
