@@ -88,7 +88,7 @@ const currencyStyles = cva(
 const mirrorTextStyles = cva('invisible absolute whitespace-pre', {
   variants: {
     size: {
-      md: 'heading-0',
+      md: 'heading-0-semi-bold',
       sm: 'heading-2-semi-bold',
     },
   },
