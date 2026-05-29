@@ -159,9 +159,16 @@
     "projectsRelationship": "independent",
     "versionPlans": {
       "ignorePatternsForPlanCheck": [
-        "**/*.stories.@(ts|tsx|js|jsx|mdx)",
-        "**/*.test.@(ts|tsx)",
-        "**/*.spec.@(ts|tsx)",
+        "**/.eslintrc.json",
+        "**/eslint.config.mjs",
+        "**/*.spec.{js,jsx,ts,tsx}",
+        "**/*.test.{js,jsx,ts,tsx}",
+        "**/*.snap",
+        "**/tsconfig*.json",
+        "**/test-setup.{js,ts}",
+        "**/*.stories.{js,jsx,ts,tsx,mdx}",
+        "**/.storybook/**",
+        "**/jest.config.{js,ts}",
         "**/*.md",
         "**/*.mdx",
         "**/*.figma.@(ts|tsx)"
