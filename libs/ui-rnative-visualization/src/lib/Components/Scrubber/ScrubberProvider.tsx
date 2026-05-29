@@ -107,7 +107,12 @@ export function ScrubberProvider({
       );
 
       if (magnetRadius > 0) {
-        index = applyMagnetisation(index, pixelX, sortedMagnets, magnetRadius);
+        index = applyMagnetisation({
+          resolvedIndex: index,
+          pixelX,
+          sortedMagnets,
+          magnetRadius,
+        });
       }
 
       setScrubberPositionAndNotify(index);

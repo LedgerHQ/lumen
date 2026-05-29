@@ -75,7 +75,8 @@ export type PointProps = {
   onPress?: (event: GestureResponderEvent) => void;
   /**
    * When `true`, the scrubber magnetically snaps to this point within the
-   * chart's `magnetRadius`. Requires `enableScrubbing` to be set on the parent
+   * chart's `magnetRadius`. Requires `enableScrubbing` to be set on the
+   * parent chart.
    * @default false
    */
   magnetic?: boolean;
