@@ -1,8 +1,16 @@
 import { getFontSize } from '@ledgerhq/lumen-utils-shared';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { AmountInput } from './AmountInput';
+
+beforeAll(() => {
+  global.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+});
 
 // Helper to create required controlled props
 const createControlledProps = (overrides = {}) => ({
@@ -114,7 +122,7 @@ describe('AmountInput', () => {
     expect(screen.getByText('€')).toBeInTheDocument();
   });
 
-  it('applies heading-0 typography class for md size', () => {
+  it('applies heading-0-semi-bold typography class for md size', () => {
     render(<AmountInput {...createControlledProps({ value: '100' })} />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveClass('heading-0-semi-bold');
@@ -207,5 +215,127 @@ describe('AmountInput', () => {
       />,
     );
     expect(input).toHaveValue('123.45');
+  });
+
+  it('syncs input when value prop changes externally', () => {
+    const { rerender } = render(<AmountInput value='100' onChange={vi.fn()} />);
+    expect(screen.getByRole('textbox')).toHaveValue('100');
+
+    rerender(<AmountInput value='200' onChange={vi.fn()} />);
+    expect(screen.getByRole('textbox')).toHaveValue('200');
+  });
+
+  it('calls onChange with the cleaned value', async () => {
+    const handleChange = vi.fn();
+    render(
+      <AmountInput
+        value=''
+        onChange={handleChange}
+        thousandsSeparator={false}
+      />,
+    );
+    await userEvent.type(screen.getByRole('textbox'), '5');
+    expect(handleChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: '5' }),
+      }),
+    );
+  });
+
+  it('blocks decimal input when allowDecimals is false', async () => {
+    render(
+      <AmountInput
+        value=''
+        onChange={vi.fn()}
+        allowDecimals={false}
+        thousandsSeparator={false}
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, '12.34');
+    expect(input).toHaveValue('1234');
+  });
+
+  it('limits integer digits with maxIntegerLength', async () => {
+    render(
+      <AmountInput
+        value=''
+        onChange={vi.fn()}
+        maxIntegerLength={3}
+        allowDecimals={false}
+        thousandsSeparator={false}
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, '12345');
+    expect(input).toHaveValue('123');
+  });
+
+  it('limits decimal digits with maxDecimalLength', async () => {
+    render(
+      <AmountInput
+        value=''
+        onChange={vi.fn()}
+        maxDecimalLength={2}
+        thousandsSeparator={false}
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, '1.2345');
+    expect(input).toHaveValue('1.23');
+  });
+
+  it('formats value with thousands separator by default', async () => {
+    render(<AmountInput value='' onChange={vi.fn()} allowDecimals={false} />);
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, '1000');
+    expect(input).toHaveValue('1 000');
+  });
+
+  it('does not format with thousands separator when disabled', async () => {
+    render(
+      <AmountInput
+        value=''
+        onChange={vi.fn()}
+        allowDecimals={false}
+        thousandsSeparator={false}
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, '1000');
+    expect(input).toHaveValue('1000');
+  });
+
+  it('has larger input width when empty than when filled', () => {
+    const { rerender } = render(
+      <AmountInput value='' onChange={vi.fn()} currencyText='$' />,
+    );
+    const emptyWidth = Number.parseInt(
+      screen.getByRole('textbox').style.width,
+      10,
+    );
+
+    rerender(<AmountInput value='1' onChange={vi.fn()} currencyText='$' />);
+    const filledWidth = Number.parseInt(
+      screen.getByRole('textbox').style.width,
+      10,
+    );
+
+    expect(emptyWidth).toBeGreaterThan(filledWidth);
+  });
+
+  it('has inputMode set to decimal', () => {
+    render(<AmountInput {...createControlledProps()} />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('inputmode', 'decimal');
+  });
+
+  it('applies h-36 height class for sm size', () => {
+    render(<AmountInput size='sm' {...createControlledProps()} />);
+    expect(screen.getByRole('textbox')).toHaveClass('h-36');
+  });
+
+  it('applies h-56 height class for md size', () => {
+    render(<AmountInput size='md' {...createControlledProps()} />);
+    expect(screen.getByRole('textbox')).toHaveClass('h-56');
   });
 });
