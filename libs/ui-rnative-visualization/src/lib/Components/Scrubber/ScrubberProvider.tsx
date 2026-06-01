@@ -50,18 +50,6 @@ export function ScrubberProvider({
   // across data, scale, and prop updates, which in turn keeps `composed` and
   // the gesture surface JSX stable so re-rendering the provider on each
   // index change never tears down the GestureDetector or the View tree.
-  const latest = useRef({
-    getXScale,
-    getXAxisConfig,
-    dataLength,
-    onChange: onScrubberPositionChange,
-    lastIndex: undefined as number | undefined,
-  });
-  latest.current.getXScale = getXScale;
-  latest.current.getXAxisConfig = getXAxisConfig;
-  latest.current.dataLength = dataLength;
-  latest.current.onChange = onScrubberPositionChange;
-
   const sortedMagnets = useMemo(() => {
     const magneticIndices = getMagneticPoints();
     return buildSortedMagnets({
@@ -71,6 +59,22 @@ export function ScrubberProvider({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version, getXScale, getXAxisConfig, getMagneticPoints]);
+
+  const latest = useRef({
+    getXScale,
+    getXAxisConfig,
+    dataLength,
+    onChange: onScrubberPositionChange,
+    lastIndex: undefined as number | undefined,
+    magnetRadius,
+    sortedMagnets,
+  });
+  latest.current.getXScale = getXScale;
+  latest.current.getXAxisConfig = getXAxisConfig;
+  latest.current.dataLength = dataLength;
+  latest.current.onChange = onScrubberPositionChange;
+  latest.current.magnetRadius = magnetRadius;
+  latest.current.sortedMagnets = sortedMagnets;
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
@@ -106,18 +110,18 @@ export function ScrubberProvider({
         ref.dataLength,
       );
 
-      if (magnetRadius > 0) {
+      if (ref.magnetRadius > 0) {
         index = applyMagnetisation({
           resolvedIndex: index,
           pixelX,
-          sortedMagnets,
-          magnetRadius,
+          sortedMagnets: ref.sortedMagnets,
+          magnetRadius: ref.magnetRadius,
         });
       }
 
       setScrubberPositionAndNotify(index);
     },
-    [magnetRadius, setScrubberPositionAndNotify, sortedMagnets],
+    [setScrubberPositionAndNotify],
   );
 
   const isScrubbing = useSharedValue(false);
