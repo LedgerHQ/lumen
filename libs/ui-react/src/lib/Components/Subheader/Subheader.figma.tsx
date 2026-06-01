@@ -18,7 +18,7 @@ figma.connect(
       "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderInfo, SubheaderDescription } from '@ledgerhq/lumen-ui-react'",
       "import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react'",
     ],
-    variant: { action: 'none' },
+    variant: { 'leading-action': 'none' },
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
@@ -57,7 +57,7 @@ figma.connect(
     imports: [
       "import { SubheaderShowMore, SubheaderCount } from '@ledgerhq/lumen-ui-react'",
     ],
-    variant: { action: 'show-more' },
+    variant: { 'leading-action': 'show-more' },
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
