@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealClipDefs } from './RevealClip';
@@ -23,6 +24,7 @@ export function CartesianChart({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
+  magnetRadius,
   children,
 }: CartesianChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,19 +101,22 @@ export function CartesianChart({
           }}
         >
           <CartesianChartProvider value={contextValue}>
-            <ScrubberProvider
-              svgRef={svgRef}
-              enableScrubbing={enableScrubbing}
-              onScrubberPositionChange={onScrubberPositionChange}
-            >
-              <RevealClipDefs
-                drawingArea={contextValue.drawingArea}
-                series={series}
-                animate={animate}
+            <MagneticPointsProvider>
+              <ScrubberProvider
+                svgRef={svgRef}
+                enableScrubbing={enableScrubbing}
+                onScrubberPositionChange={onScrubberPositionChange}
+                magnetRadius={magnetRadius}
               >
-                {children}
-              </RevealClipDefs>
-            </ScrubberProvider>
+                <RevealClipDefs
+                  drawingArea={contextValue.drawingArea}
+                  series={series}
+                  animate={animate}
+                >
+                  {children}
+                </RevealClipDefs>
+              </ScrubberProvider>
+            </MagneticPointsProvider>
           </CartesianChartProvider>
         </svg>
       )}

@@ -345,6 +345,7 @@ function BitcoinChartStory(props: ScrubberProps) {
               />
               {localExtrema.map((e) => (
                 <Point
+                  magnetic
                   key={e.index}
                   dataX={e.index}
                   dataY={chartData.prices[e.index]}

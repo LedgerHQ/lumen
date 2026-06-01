@@ -1,22 +1,43 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
-import { getDataIndexFromPosition } from './utils';
+import {
+  applyMagnetization,
+  buildSortedMagnets,
+  getDataIndexFromPosition,
+  resolvePixelX,
+} from './utils';
 
 export function ScrubberProvider({
   children,
   svgRef,
   enableScrubbing,
   onScrubberPositionChange,
+  magnetRadius = 8,
 }: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
+  const { getMagneticPoints, version } = useMagneticPointsContext();
   const [scrubberPosition, setScrubberPosition] = useState<number | undefined>(
     undefined,
   );
   const scrubberPositionRef = useRef(scrubberPosition);
   scrubberPositionRef.current = scrubberPosition;
+
+  const pendingPixelXRef = useRef<number | null>(null);
+  const rafIdRef = useRef(0);
+  const sortedMagnets = useMemo(() => {
+    const magneticIndices = getMagneticPoints();
+    return buildSortedMagnets({
+      magneticIndices,
+      getPixelForIndex: (index) =>
+        resolvePixelX(index, getXScale, getXAxisConfig()),
+    });
+    // version is needed to re-compute the sorted magnets when the magnetic points change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version, getMagneticPoints, getXScale, getXAxisConfig]);
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
@@ -35,12 +56,23 @@ export function ScrubberProvider({
       const scale = getXScale();
       if (!scale || !enableScrubbing || dataLength <= 0) return;
 
-      const index = getDataIndexFromPosition(
+      const axisConfig = getXAxisConfig();
+
+      let index = getDataIndexFromPosition(
         pixelX,
         scale,
-        getXAxisConfig(),
+        axisConfig,
         dataLength,
       );
+
+      if (magnetRadius > 0) {
+        index = applyMagnetization({
+          resolvedIndex: index,
+          pixelX,
+          sortedMagnets,
+          magnetRadius,
+        });
+      }
 
       if (index !== scrubberPositionRef.current) {
         setScrubberPositionAndNotify(index);
@@ -51,8 +83,27 @@ export function ScrubberProvider({
       getXScale,
       getXAxisConfig,
       dataLength,
+      sortedMagnets,
+      magnetRadius,
       setScrubberPositionAndNotify,
     ],
+  );
+
+  const requestUpdate = useCallback(
+    (pixelX: number) => {
+      pendingPixelXRef.current = pixelX;
+      if (!rafIdRef.current) {
+        rafIdRef.current = requestAnimationFrame(() => {
+          rafIdRef.current = 0;
+          const px = pendingPixelXRef.current;
+          if (px !== null) {
+            pendingPixelXRef.current = null;
+            updatePosition(px);
+          }
+        });
+      }
+    },
+    [updatePosition],
   );
 
   const clearPosition = useCallback(() => {
@@ -64,9 +115,9 @@ export function ScrubberProvider({
     (event: MouseEvent) => {
       const target = event.currentTarget as SVGSVGElement;
       const rect = target.getBoundingClientRect();
-      updatePosition(event.clientX - rect.left);
+      requestUpdate(event.clientX - rect.left);
     },
-    [updatePosition],
+    [requestUpdate],
   );
 
   const handleTouchStart = useCallback(
@@ -75,9 +126,9 @@ export function ScrubberProvider({
       const touch = event.touches[0];
       const target = event.currentTarget as SVGSVGElement;
       const rect = target.getBoundingClientRect();
-      updatePosition(touch.clientX - rect.left);
+      requestUpdate(touch.clientX - rect.left);
     },
-    [enableScrubbing, updatePosition],
+    [enableScrubbing, requestUpdate],
   );
 
   const handleTouchMove = useCallback(
@@ -87,9 +138,9 @@ export function ScrubberProvider({
       const touch = event.touches[0];
       const target = event.currentTarget as SVGSVGElement;
       const rect = target.getBoundingClientRect();
-      updatePosition(touch.clientX - rect.left);
+      requestUpdate(touch.clientX - rect.left);
     },
-    [updatePosition],
+    [requestUpdate],
   );
 
   const handleKeyDown = useCallback(
@@ -161,6 +212,8 @@ export function ScrubberProvider({
       svg.removeEventListener('touchcancel', clearPosition);
       svg.removeEventListener('keydown', handleKeyDown);
       svg.removeEventListener('blur', handleBlur);
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = 0;
     };
   }, [
     svgRef,

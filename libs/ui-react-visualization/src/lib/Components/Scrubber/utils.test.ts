@@ -5,10 +5,14 @@ import {
   getNumericScale,
 } from '../../utils/scales/scales';
 import {
+  applyMagnetization,
+  buildSortedMagnets,
   getDataIndexFromPosition,
+  nearestIndex,
   resolvePixelX,
   resolvePixelY,
 } from './utils';
+import type { MagnetEntry } from './utils';
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {
@@ -159,5 +163,162 @@ describe('resolvePixelX', () => {
     expect(resolvePixelX(2, getXScale, axisConfig)).toBe(
       resolvePixelX(2, getXScale),
     );
+  });
+});
+
+describe('buildSortedMagnets', () => {
+  it('returns an empty array when the set is empty', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set(),
+      getPixelForIndex: () => 0,
+    });
+    expect(result).toEqual([]);
+  });
+
+  it('returns entries sorted by pixelX', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set([3, 1, 2]),
+      getPixelForIndex: (i) => i * 50,
+    });
+    expect(result).toEqual([
+      { index: 1, pixelX: 50 },
+      { index: 2, pixelX: 100 },
+      { index: 3, pixelX: 150 },
+    ]);
+  });
+
+  it('filters out indices where getPixelForIndex returns undefined', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set([0, 1, 2]),
+      getPixelForIndex: (i) => (i === 1 ? undefined : i * 100),
+    });
+    expect(result).toEqual([
+      { index: 0, pixelX: 0 },
+      { index: 2, pixelX: 200 },
+    ]);
+  });
+
+  it('returns an empty array when all indices resolve to undefined', () => {
+    const result = buildSortedMagnets({
+      magneticIndices: new Set([0, 1]),
+      getPixelForIndex: () => undefined,
+    });
+    expect(result).toEqual([]);
+  });
+});
+
+describe('nearestIndex', () => {
+  const magnets = (...pixelXs: number[]): MagnetEntry[] =>
+    pixelXs.map((px, i) => ({ index: i, pixelX: px }));
+
+  it('returns -1 for an empty array', () => {
+    expect(nearestIndex([], 100)).toBe(-1);
+  });
+
+  it('returns 0 for a single-element array', () => {
+    expect(nearestIndex(magnets(200), 100)).toBe(0);
+  });
+
+  it('returns the index of the exact match', () => {
+    expect(nearestIndex(magnets(100, 200, 300), 200)).toBe(1);
+  });
+
+  it('returns the closer index when target is between two values', () => {
+    expect(nearestIndex(magnets(100, 200), 160)).toBe(1);
+    expect(nearestIndex(magnets(100, 200), 140)).toBe(0);
+  });
+
+  it('favors the left index when equidistant', () => {
+    expect(nearestIndex(magnets(100, 200), 150)).toBe(0);
+  });
+
+  it('returns the last index when target is beyond all values', () => {
+    expect(nearestIndex(magnets(100, 200), 500)).toBe(1);
+  });
+
+  it('returns the first index when target is before all values', () => {
+    expect(nearestIndex(magnets(100, 200), 0)).toBe(0);
+  });
+});
+
+describe('applyMagnetization', () => {
+  const toMagnets = (...indices: number[]): MagnetEntry[] =>
+    indices.map((i) => ({ index: i, pixelX: i * 100 }));
+
+  it('returns resolvedIndex when sortedMagnets is empty', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 2,
+        pixelX: 200,
+        sortedMagnets: [],
+        magnetRadius: 30,
+      }),
+    ).toBe(2);
+  });
+
+  it('returns resolvedIndex when no magnetic point is within radius', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 2,
+        pixelX: 200,
+        sortedMagnets: toMagnets(0, 4),
+        magnetRadius: 30,
+      }),
+    ).toBe(2);
+  });
+
+  it('snaps to a magnetic point within radius', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 2,
+        pixelX: 280,
+        sortedMagnets: toMagnets(3),
+        magnetRadius: 30,
+      }),
+    ).toBe(3);
+  });
+
+  it('snaps to the closest magnetic point when multiple are within radius', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 1,
+        pixelX: 170,
+        sortedMagnets: toMagnets(1, 2),
+        magnetRadius: 40,
+      }),
+    ).toBe(2);
+  });
+
+  it('does not snap when magnetRadius is 0', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 1,
+        pixelX: 200,
+        sortedMagnets: toMagnets(2),
+        magnetRadius: 0,
+      }),
+    ).toBe(1);
+  });
+
+  it('snaps at the exact boundary of magnetRadius', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 2,
+        pixelX: 270,
+        sortedMagnets: toMagnets(3),
+        magnetRadius: 30,
+      }),
+    ).toBe(3);
+  });
+
+  it('does not snap when distance exceeds magnetRadius by 1', () => {
+    expect(
+      applyMagnetization({
+        resolvedIndex: 2,
+        pixelX: 269,
+        sortedMagnets: toMagnets(3),
+        magnetRadius: 30,
+      }),
+    ).toBe(2);
   });
 });
