@@ -61,8 +61,8 @@ export function CartesianChart({
     typeof width === 'number' ? width : (measuredWidth ?? 0);
 
   // The SVG canvas is enlarged by the overflow buffer on every side so edge
-  // content (labels, points, ticks) is not clipped, then shifted back by the
-  // negative margin so the drawing area still spans the container footprint.
+  // content (labels, points, ticks) is not clipped, then shifted back via
+  // OVERFLOW_OFFSET so the drawing area still spans the container footprint.
   const svgWidth =
     resolvedWidth > 0
       ? resolvedWidth + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right
