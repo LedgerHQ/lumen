@@ -2,7 +2,7 @@
 '@ledgerhq/lumen-ui-rnative': patch
 ---
 
-BREAKING_CHANGE(ui-rnative): update DotIndicator sizes
+BREAKING_CHANGE(DotIndicator): update DotIndicator sizes
 
 The `DotIndicator` size scale has been renamed and rescaled. The previous scale (`xs | sm | md | lg`) has been replaced by (`sm | md | lg | xl`), and the default size is now `md` instead of `sm`. The underlying token sizes have been reduced overall. The names did not simply shift down by one. Old `md` (`s14`) and old `lg` (`s16`) have no equivalent in the new scale.
 
