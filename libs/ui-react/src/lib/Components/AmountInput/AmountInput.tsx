@@ -6,7 +6,14 @@ import {
   useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { AmountInputProps, AmountInputSize } from './types';
 
 /** Extra width for empty input (caret + placeholder). */
@@ -152,8 +159,7 @@ export const AmountInput = ({
     [inputValue, size],
   );
 
-  // Keep width in sync with hidden span
-  useLayoutEffect(() => {
+  const syncInputWidth = useCallback((): void => {
     if (spanRef.current && inputRef.current) {
       const width = Math.ceil(
         Math.max(spanRef.current.scrollWidth, spanRef.current.offsetWidth),
@@ -161,7 +167,18 @@ export const AmountInput = ({
       const padding = getInputWidthPadding(inputValue, currencyText, size);
       inputRef.current.style.width = `${width + padding}px`;
     }
-  }, [inputValue, currencyText, size, fontSize]);
+  }, [inputValue, currencyText, size]);
+
+  useLayoutEffect(syncInputWidth, [syncInputWidth]);
+
+  // Re-sync whenever the mirror span resizes — this catches the font-loading
+  useEffect(() => {
+    const span = spanRef.current;
+    if (!span) return;
+    const observer = new ResizeObserver(syncInputWidth);
+    observer.observe(span);
+    return () => observer.disconnect();
+  }, [syncInputWidth]);
 
   useEffect(() => {
     setInputValue(value.toString());
