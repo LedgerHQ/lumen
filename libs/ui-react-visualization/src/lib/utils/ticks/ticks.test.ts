@@ -44,9 +44,9 @@ describe('getTickValues', () => {
   });
 
   it('should return indices for string axis data', () => {
-    expect(getTickValues(numericScale, undefined, ['Jan', 'Feb', 'Mar'])).toEqual([
-      0, 1, 2,
-    ]);
+    expect(
+      getTickValues(numericScale, undefined, ['Jan', 'Feb', 'Mar']),
+    ).toEqual([0, 1, 2]);
   });
 
   it('should prioritize explicit ticks over axis data', () => {

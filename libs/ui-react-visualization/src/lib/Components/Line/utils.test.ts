@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import { getCategoricalScale, getNumericScale } from '../../utils/scales/scales';
+import {
+  getCategoricalScale,
+  getNumericScale,
+} from '../../utils/scales/scales';
 
 import { toScaledPoints } from './utils';
 
