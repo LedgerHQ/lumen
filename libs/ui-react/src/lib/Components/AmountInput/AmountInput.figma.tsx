@@ -2,8 +2,8 @@ import figma from '@figma/code-connect';
 import { AmountInput } from './AmountInput';
 
 const sizeProp = figma.enum('size', {
-  lg: 'md',
-  md: 'sm',
+  md: 'md',
+  sm: 'sm',
 });
 
 figma.connect(
