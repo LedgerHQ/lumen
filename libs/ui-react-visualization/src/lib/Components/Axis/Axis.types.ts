@@ -1,3 +1,8 @@
+export type AxisBounds = {
+  min: number;
+  max: number;
+};
+
 export type BaseAxisProps = {
   /**
    * Whether to render grid lines at each tick.
@@ -29,4 +34,37 @@ export type BaseAxisProps = {
    * Receives the raw tick value (number or string label) and must return a string.
    */
   tickLabelFormatter?: (value: number | string) => string;
+  /**
+   * Scale algorithm used by this axis.
+   * @default 'linear'
+   */
+  scaleType?: 'linear' | 'log' | 'band';
+  /**
+   * Explicit data values for band scales or category labels.
+   * For band scales, provides the discrete domain. For numeric scales, string values
+   * are used as tick labels at corresponding indices.
+   */
+  data?: string[] | number[];
+  /**
+   * Fixed domain bounds or a function that adjusts the computed bounds.
+   * A partial object overrides only the specified bound(s).
+   * A function receives the auto-computed bounds and returns adjusted ones.
+   *
+   * Applied before {@link BaseAxisProps.nice}. To keep your bounds exactly as
+   * provided, set `nice: false` alongside a full `{ min, max }` override.
+   */
+  domain?: Partial<AxisBounds> | ((bounds: AxisBounds) => AxisBounds);
+  /**
+   * Round the domain outward to clean boundaries via d3's `.nice()`
+   * (e.g. `[4, 98]` becomes `[0, 100]`).
+   *
+   * Defaults to `true`. Set to `false` to keep the domain exactly as provided
+   * so data fills the plot area boundary-to-boundary — typically only useful
+   * when you also pass a full `domain: { min, max }` and don't have overlays
+   * (reference lines, scrubber positions, annotations) that may sit outside
+   * the data range.
+   *
+   * Applied after any {@link BaseAxisProps.domain} override.
+   */
+  nice?: boolean;
 };

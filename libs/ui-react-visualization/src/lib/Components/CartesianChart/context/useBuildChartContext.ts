@@ -11,19 +11,20 @@ import {
   isBandScaleType,
 } from '../../../utils/scales/scales';
 import type {
-  AxisBounds,
-  AxisConfigProps,
   CartesianChartContextValue,
   ChartInset,
   ChartScaleFunction,
   DrawingArea,
   Series,
 } from '../../../utils/types';
+import type { AxisBounds, BaseAxisProps } from '../../Axis';
+import type { XAxisProps } from '../../Axis/XAxis';
+import type { YAxisProps } from '../../Axis/YAxis';
 
 type UseBuildChartContextParams = {
   series: Series[];
-  xAxis?: Partial<AxisConfigProps>;
-  yAxis?: Partial<AxisConfigProps>;
+  xAxis?: XAxisProps;
+  yAxis?: YAxisProps;
   width: number;
   height: number;
   inset: ChartInset;
@@ -45,11 +46,12 @@ export const computeAxisRange = (
 export const buildScale = (
   domain: AxisBounds,
   range: AxisRange,
-  scaleType: AxisConfigProps['scaleType'] = 'linear',
+  scaleType: BaseAxisProps['scaleType'] = 'linear',
+  nice?: boolean,
 ): ChartScaleFunction =>
   isBandScaleType(scaleType)
     ? getCategoricalScale({ domain, range })
-    : getNumericScale({ scaleType, domain, range });
+    : getNumericScale({ scaleType, domain, range, nice });
 
 export const computeDrawingArea = (
   width: number,
@@ -94,8 +96,8 @@ export const useBuildChartContext = ({
     if (drawingArea.width > 0 && drawingArea.height > 0) {
       const xDomain = computeXDomain(series, xAxis);
       const yDomain = computeYDomain(series, yAxis);
-      xScale = buildScale(xDomain, xRange, xAxis?.scaleType);
-      yScale = buildScale(yDomain, yRange, yAxis?.scaleType);
+      xScale = buildScale(xDomain, xRange, xAxis?.scaleType, xAxis?.nice);
+      yScale = buildScale(yDomain, yRange, yAxis?.scaleType, yAxis?.nice);
     }
 
     const dataLength = computeDataLength(series, xAxis);
