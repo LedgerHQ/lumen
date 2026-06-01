@@ -36,6 +36,24 @@ describe('getTickValues', () => {
   it('should return full domain for band scales', () => {
     expect(getTickValues(bandScale)).toEqual([0, 1, 2, 3, 4]);
   });
+
+  it('should return numeric axis data verbatim (no d3-invented intermediate ticks)', () => {
+    expect(getTickValues(numericScale, undefined, [0, 2, 4])).toEqual([
+      0, 2, 4,
+    ]);
+  });
+
+  it('should return indices for string axis data', () => {
+    expect(getTickValues(numericScale, undefined, ['Jan', 'Feb', 'Mar'])).toEqual([
+      0, 1, 2,
+    ]);
+  });
+
+  it('should prioritize explicit ticks over axis data', () => {
+    expect(
+      getTickValues(numericScale, [10, 20], ['Jan', 'Feb', 'Mar']),
+    ).toEqual([10, 20]);
+  });
 });
 
 describe('getTickPosition', () => {
@@ -117,6 +135,25 @@ describe('buildTicksData', () => {
     });
     expect(result[0].label).toBe('Mon');
     expect(result[1].label).toBe('Tue');
+  });
+
+  it('should derive ticks from numeric axis data (Base story regression)', () => {
+    const result = buildTicksData(numericScale, { data: [0, 2, 4] });
+    expect(result.map((t) => t.value)).toEqual([0, 2, 4]);
+    expect(result.map((t) => t.label)).toEqual(['0', '2', '4']);
+  });
+
+  it('should derive ticks from string axis data without intermediate values (Base2 story regression)', () => {
+    const stringScale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 2 },
+      range: { min: 0, max: 500 },
+    });
+    const result = buildTicksData(stringScale, {
+      data: ['Jan', 'Feb', 'Mar'],
+    });
+    expect(result.map((t) => t.value)).toEqual([0, 1, 2]);
+    expect(result.map((t) => t.label)).toEqual(['Jan', 'Feb', 'Mar']);
   });
 
   it('should apply tick formatter', () => {

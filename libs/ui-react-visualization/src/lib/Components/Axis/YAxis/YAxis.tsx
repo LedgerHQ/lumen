@@ -7,11 +7,8 @@ import {
 } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
+import { TICK_MARK_SIZE, TICK_LABEL_OFFSET } from '../Axis.constants';
 import type { YAxisProps } from './types';
-
-const TICK_MARK_SIZE = 4;
-const TICK_LABEL_OFFSET = 6;
-export const DEFAULT_AXIS_WIDTH = 40;
 
 export function YAxis({
   gridLineStyle = 'solid',
