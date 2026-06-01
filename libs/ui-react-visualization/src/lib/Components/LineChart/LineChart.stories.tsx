@@ -50,6 +50,12 @@ export const Base: Story = {
   args: {
     series: sampleSeries,
     height: 250,
+    showXAxis: true,
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+      data: [0, 2, 4],
+    },
   },
 };
 
