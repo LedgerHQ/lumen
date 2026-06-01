@@ -23,6 +23,7 @@ export const LineChart = ({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate,
+  magnetRadius,
 }: LineChartProps) => {
   const {
     scaleType: xScaleType,
@@ -83,6 +84,7 @@ export const LineChart = ({
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
       animate={animate}
+      magnetRadius={magnetRadius}
     >
       {showXAxis && <XAxis {...xAxisVisualProps} />}
       {showYAxis && <YAxis {...yAxisVisualProps} />}

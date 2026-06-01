@@ -5,9 +5,15 @@ import Animated, { useSharedValue } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberProviderProps } from './types';
-import { getDataIndexFromPosition } from './utils';
+import {
+  applyMagnetisation,
+  getDataIndexFromPosition,
+  resolvePixelX,
+  buildSortedMagnets,
+} from './utils';
 
 const LONG_PRESS_MIN_DURATION_MS = 50;
 
@@ -30,29 +36,45 @@ export function ScrubberProvider({
   height,
   enableScrubbing,
   onScrubberPositionChange,
+  magnetRadius = 6,
 }: Readonly<ScrubberProviderProps>) {
   const [scrubberPosition, setScrubberPosition] = useState<
     number | undefined
   >();
 
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
+  const { getMagneticPoints, version } = useMagneticPointsContext();
 
   // All values touched by the gesture's JS-thread callback live in a single
   // ref. Reading via `latest.current` keeps the callbacks reference-stable
   // across data, scale, and prop updates, which in turn keeps `composed` and
   // the gesture surface JSX stable so re-rendering the provider on each
   // index change never tears down the GestureDetector or the View tree.
+  const sortedMagnets = useMemo(() => {
+    const magneticIndices = getMagneticPoints();
+    return buildSortedMagnets({
+      magneticIndices,
+      getPixelForIndex: (index) =>
+        resolvePixelX(index, getXScale, getXAxisConfig()),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version, getXScale, getXAxisConfig, getMagneticPoints]);
+
   const latest = useRef({
     getXScale,
     getXAxisConfig,
     dataLength,
     onChange: onScrubberPositionChange,
     lastIndex: undefined as number | undefined,
+    magnetRadius,
+    sortedMagnets,
   });
   latest.current.getXScale = getXScale;
   latest.current.getXAxisConfig = getXAxisConfig;
   latest.current.dataLength = dataLength;
   latest.current.onChange = onScrubberPositionChange;
+  latest.current.magnetRadius = magnetRadius;
+  latest.current.sortedMagnets = sortedMagnets;
 
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
@@ -78,12 +100,25 @@ export function ScrubberProvider({
       const ref = latest.current;
       const scale = ref.getXScale();
       if (!scale || ref.dataLength <= 0) return;
-      const index = getDataIndexFromPosition(
+
+      const xAxisConfig = ref.getXAxisConfig();
+
+      let index = getDataIndexFromPosition(
         pixelX,
         scale,
-        ref.getXAxisConfig(),
+        xAxisConfig,
         ref.dataLength,
       );
+
+      if (ref.magnetRadius > 0) {
+        index = applyMagnetisation({
+          resolvedIndex: index,
+          pixelX,
+          sortedMagnets: ref.sortedMagnets,
+          magnetRadius: ref.magnetRadius,
+        });
+      }
+
       setScrubberPositionAndNotify(index);
     },
     [setScrubberPositionAndNotify],
