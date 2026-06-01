@@ -7,10 +7,7 @@ import type { AmountInputAlign, AmountInputSize } from './types';
 
 const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
 
-const SIZES: { size: AmountInputSize; value: string }[] = [
-  { size: 'md', value: '1234.56' },
-  { size: 'sm', value: '55 555' },
-];
+const SIZES: AmountInputSize[] = ['md', 'sm'];
 
 const meta = {
   title: 'Input/AmountInput',
@@ -57,14 +54,13 @@ export const Size: Story = {
   },
   render: () => (
     <div className='flex w-560 flex-col gap-24'>
-      {SIZES.map(({ size, value }) => (
+      {SIZES.map((size) => (
         <div key={size} className='w-full'>
           <AmountInput
             size={size}
-            value={value}
+            value='1234.56'
             currencyText='$'
             onChange={() => console.log('onChange triggered')}
-            align='start'
           />
         </div>
       ))}
