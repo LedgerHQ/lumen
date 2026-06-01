@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
-import type { AxisConfigProps, ChartInset, Series } from '../../utils/types';
+import type { ChartInset, Series } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
 
 export type CartesianChartProps = {
   /**
@@ -10,11 +11,11 @@ export type CartesianChartProps = {
   /**
    * Scale and domain configuration for the x-axis.
    */
-  xAxis?: Partial<AxisConfigProps>;
+  xAxis?: Partial<BaseAxisProps>;
   /**
    * Scale and domain configuration for the y-axis.
    */
-  yAxis?: Partial<AxisConfigProps>;
+  yAxis?: Partial<BaseAxisProps>;
   /**
    * Width of the chart in pixels.
    * When omitted, the component auto-measures via `onLayout`.

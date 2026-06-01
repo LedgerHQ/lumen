@@ -4,10 +4,10 @@ import {
   isNumericScale,
 } from '../../utils/scales/scales';
 import type {
-  AxisConfigProps,
   CartesianChartContextValue,
   ChartScaleFunction,
 } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
 
 export type MagnetEntry = {
   index: number;
@@ -54,7 +54,7 @@ const findClosestIndex = (
 export const getDataIndexFromPosition = (
   pixelX: number,
   scale: ChartScaleFunction,
-  axisConfig: Partial<AxisConfigProps> | undefined,
+  axisConfig: Partial<BaseAxisProps> | undefined,
   dataLength: number,
 ): number => {
   if (dataLength <= 0) return 0;
@@ -121,7 +121,7 @@ export const resolvePixelY = (
 export const resolvePixelX = (
   dataIndex: number,
   getXScale: CartesianChartContextValue['getXScale'],
-  axisConfig?: AxisConfigProps,
+  axisConfig?: BaseAxisProps,
 ): number | undefined => {
   const scale = getXScale();
   if (!scale) return undefined;
