@@ -184,6 +184,14 @@ export const SizeShowcase: Story = {
       >
         <MediaImage src={parentSrc} size={64} shape='circle' />
       </DotIcon>
+      <DotIcon
+        appearance='muted'
+        icon={Spinner}
+        size={mediaImageDotIconSizeMap[72]}
+        pin='bottom-end'
+      >
+        <MediaImage src={parentSrc} size={72} shape='circle' />
+      </DotIcon>
     </Box>
   ),
 };

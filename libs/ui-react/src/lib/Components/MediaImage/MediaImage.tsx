@@ -14,6 +14,7 @@ export const fontSizeMap: Record<MediaImageSize, number> = {
   48: 24,
   56: 24,
   64: 24,
+  72: 32,
 };
 
 const mediaImageVariants = {
@@ -31,6 +32,7 @@ const mediaImageVariants = {
           48: 'size-48 rounded-md',
           56: 'size-56 rounded-lg',
           64: 'size-64 rounded-lg',
+          72: 'size-72 rounded-lg',
         },
         shape: {
           square: '',

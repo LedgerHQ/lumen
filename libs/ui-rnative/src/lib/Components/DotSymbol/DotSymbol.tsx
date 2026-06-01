@@ -38,6 +38,7 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   48: 20,
   56: 24,
   64: 24,
+  72: 24,
 };
 
 export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
