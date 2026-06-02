@@ -44,6 +44,12 @@
     "table": {
       "ascAriaLabel": "Sort ascending",
       "descAriaLabel": "Sort descending"
+    },
+    "pagination": {
+      "navigationAriaLabel": "Pagination",
+      "previousPageAriaLabel": "Previous page",
+      "nextPageAriaLabel": "Next page",
+      "pageAriaLabel": "Page {{page}}"
     }
   }
 }
