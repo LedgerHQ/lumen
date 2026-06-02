@@ -1,3 +1,4 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { BaseButton } from '../Button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
 import type { IconButtonProps } from './types';
@@ -17,7 +18,7 @@ export const IconButton = ({
     <BaseButton
       ref={ref}
       icon={icon}
-      className={className}
+      className={cn(className, 'shrink-0')}
       aria-label={ariaLabel}
       {...props}
     />

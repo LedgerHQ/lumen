@@ -1,0 +1,184 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PaginationStories from './Pagination.stories';
+import {
+  CustomTabs,
+  Tab,
+} from '../../../../.storybook/components';
+
+<Meta title='Navigation/Pagination' of={PaginationStories} />
+
+# Pagination
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Pagination provides page navigation for tables and other paginated content. It renders previous and next controls, numbered page buttons, and ellipsis markers when the page count is large.
+
+Use it as a **standalone** component: wire `page`, `totalPages`, and `onPageChange` from your data layer. Pair it with [Table](?path=/docs/components-table--docs) or [DataTable](?path=/docs/data-datatable--docs) by slicing data or using TanStack Table pagination state.
+
+## Anatomy
+
+<Canvas of={PaginationStories.Base} />
+
+The Pagination consists of:
+
+- **Previous control**: `IconButton` with a chevron left icon; disabled on the first page
+- **Page buttons**: circular buttons for each visible page; the active page uses a filled background
+- **Ellipsis**: non-interactive marker when pages are collapsed
+- **Next control**: `IconButton` with a chevron right icon; disabled on the last page
+
+## Properties
+
+<Controls of={PaginationStories.Base} />
+
+### Few pages
+
+When all pages fit in the visible range, every page is shown without ellipsis.
+
+<Canvas of={PaginationStories.FewPages} />
+
+### First and last page
+
+On the first page, the previous control is disabled. On the last page, the next control is disabled.
+
+<Canvas of={PaginationStories.FirstPage} />
+
+<Canvas of={PaginationStories.LastPage} />
+
+### More siblings
+
+Increase `siblingCount` to show more page numbers around the current page.
+
+<Canvas of={PaginationStories.WithMoreSiblings} />
+
+## Accessibility
+
+- Root element is a `<nav>` with an accessible name
+- Previous and next controls expose dedicated `aria-label`s
+- Each page button has an `aria-label` and the active page sets `aria-current="page"`
+- Ellipsis markers are hidden from assistive technology (`aria-hidden`)
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic usage
+
+```tsx
+import { Pagination } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [page, setPage] = useState(1);
+  const totalPages = 10;
+
+  return (
+    <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+  );
+}
+```
+
+### With Table
+
+Slice your dataset by page size and render `Pagination` below the table. Center it in the layout when needed.
+
+```tsx
+import {
+  Pagination,
+  TableRoot,
+  Table,
+  TableHeader,
+  TableHeaderRow,
+  TableHeaderCell,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+const PAGE_SIZE = 5;
+
+function PaginatedTable({ data }) {
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(data.length / PAGE_SIZE);
+  const rows = data.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  return (
+    <div className='flex flex-col gap-16'>
+      <TableRoot>
+        <Table>
+          <TableHeader>
+            <TableHeaderRow>
+              <TableHeaderCell>Name</TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+      <div className='flex justify-center'>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+### With DataTable
+
+Use TanStack Table's pagination row model and sync `Pagination` with `table.getState().pagination`.
+
+```tsx
+import {
+  DataTableRoot,
+  DataTable,
+  Pagination,
+  useLumenDataTable,
+} from '@ledgerhq/lumen-ui-react';
+import { getPaginationRowModel } from '@tanstack/react-table';
+
+const PAGE_SIZE = 5;
+
+function PaginatedDataTable({ data, columns }) {
+  const table = useLumenDataTable({
+    data,
+    columns,
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: { pageSize: PAGE_SIZE },
+    },
+  });
+
+  const { pageIndex } = table.getState().pagination;
+
+  return (
+    <DataTableRoot table={table} paginationMode='pagination' className='flex flex-col gap-16'>
+      <DataTable />
+      <div className='flex justify-center'>
+        <Pagination
+          page={pageIndex + 1}
+          totalPages={table.getPageCount()}
+          onPageChange={(nextPage) => table.setPageIndex(nextPage - 1)}
+        />
+      </div>
+    </DataTableRoot>
+  );
+}
+```
+
+</Tab>
+</CustomTabs>
