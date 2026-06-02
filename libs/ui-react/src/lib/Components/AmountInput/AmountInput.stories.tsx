@@ -160,7 +160,7 @@ export const LargeAmountDisplay: Story = {
     const balanceErrorText = hasError ? 'Insufficient balance' : '';
 
     return (
-      <div className='relative h-128 w-560 rounded-lg'>
+      <div className='relative h-128 w-[359px] rounded-lg'>
         {/* Large amount input */}
         <div className='flex-col items-center justify-center'>
           <AmountInput
