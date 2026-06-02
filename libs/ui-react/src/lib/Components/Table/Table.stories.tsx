@@ -6,6 +6,7 @@ import { Button } from '../Button/Button';
 import { DotIcon } from '../DotIcon/DotIcon';
 import { MediaButton } from '../MediaButton';
 import { MediaImage } from '../MediaImage';
+import { Pagination } from '../Pagination';
 import { SearchInput } from '../SearchInput';
 import {
   Select,
@@ -708,6 +709,57 @@ export const WithNetworkIconsAndActionBar: Story = {
             </TableBody>
           </Table>
         </TableRoot>
+      </div>
+    );
+  },
+};
+
+const TABLE_PAGE_SIZE = 5;
+
+export const WithPagination: Story = {
+  render: (args) => {
+    const [page, setPage] = useState(1);
+    const totalPages = Math.ceil(largeData.length / TABLE_PAGE_SIZE);
+    const paginatedData = largeData.slice(
+      (page - 1) * TABLE_PAGE_SIZE,
+      page * TABLE_PAGE_SIZE,
+    );
+
+    return (
+      <div className='flex w-3xl flex-col gap-16 text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {paginatedData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellContent
+                      title={row.name}
+                      description={row.symbol}
+                      leadingContent={<Spot appearance='icon' icon={Android} />}
+                    />
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+        <div className='flex justify-center'>
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </div>
       </div>
     );
   },
