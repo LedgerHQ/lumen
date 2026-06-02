@@ -1,4 +1,5 @@
-import type { AxisBounds, AxisConfigProps, Series } from '../types';
+import type { AxisBounds, BaseAxisProps } from '../../Components/Axis';
+import type { Series } from '../types';
 
 /**
  * Compute the X domain (index-based) from series data and axis config.
@@ -7,7 +8,7 @@ import type { AxisBounds, AxisConfigProps, Series } from '../types';
  */
 export const computeXDomain = (
   series: Series[],
-  axisConfig?: Partial<AxisConfigProps>,
+  axisConfig?: Partial<BaseAxisProps>,
 ): AxisBounds => {
   const axisData = axisConfig?.data;
 
@@ -44,7 +45,7 @@ export const computeXDomain = (
  */
 export const computeYDomain = (
   series: Series[],
-  axisConfig?: Partial<AxisConfigProps>,
+  axisConfig?: Partial<BaseAxisProps>,
 ): AxisBounds => {
   let min = 0;
   let max = 0;
@@ -76,7 +77,7 @@ export const computeYDomain = (
  */
 export const computeDataLength = (
   series: Series[],
-  axisConfig?: Partial<AxisConfigProps>,
+  axisConfig?: Partial<BaseAxisProps>,
 ): number => {
   if (axisConfig?.data && axisConfig.data.length > 0) {
     return axisConfig.data.length;
@@ -86,7 +87,7 @@ export const computeDataLength = (
 
 const applyDomainOverride = (
   autoBounds: AxisBounds,
-  domainOverride?: AxisConfigProps['domain'],
+  domainOverride?: BaseAxisProps['domain'],
 ): AxisBounds => {
   if (!domainOverride) return autoBounds;
 

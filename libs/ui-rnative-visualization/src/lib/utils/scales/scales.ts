@@ -1,31 +1,37 @@
 import { scaleBand, scaleLinear, scaleLog } from 'd3-scale';
 
+import type { AxisBounds, BaseAxisProps } from '../../Components/Axis';
 import type {
-  AxisBounds,
-  AxisConfigProps,
   CategoricalScale,
   ChartScaleFunction,
   NumericScale,
 } from '../types';
 
 /**
- * Creates a numeric scale with `.nice()` applied so the domain
- * extends to clean rounded boundaries (e.g. `[4, 98]` → `[0, 100]`).
+ * Creates a numeric scale.
+ *
+ * When `nice` is `true` (default), the domain is rounded outward to clean
+ * boundaries via d3's `.nice()` (e.g. `[4, 98]` → `[0, 100]`). Set `nice` to
+ * `false` to keep the domain exactly as provided so data fills the range
+ * boundary-to-boundary.
  */
 export const getNumericScale = ({
   scaleType,
   domain,
   range,
+  nice = true,
 }: {
   scaleType: 'linear' | 'log';
   domain: AxisBounds;
   range: AxisBounds;
+  nice?: boolean;
 }): NumericScale => {
   const scale = scaleType === 'log' ? scaleLog() : scaleLinear();
-  return scale
-    .domain([domain.min, domain.max])
-    .nice()
-    .range([range.min, range.max]);
+  scale.domain([domain.min, domain.max]);
+  if (nice) {
+    scale.nice();
+  }
+  return scale.range([range.min, range.max]);
 };
 
 export const getCategoricalScale = ({
@@ -52,7 +58,7 @@ export const getCategoricalScale = ({
  * Checks if a scale type config value refers to a band (categorical) scale.
  */
 export const isBandScaleType = (
-  scaleType: AxisConfigProps['scaleType'],
+  scaleType: BaseAxisProps['scaleType'],
 ): scaleType is 'band' => scaleType === 'band';
 
 /**

@@ -53,6 +53,25 @@ describe('getNumericScale', () => {
     expect(range[0]).toBe(20);
     expect(range[1]).toBe(400);
   });
+
+  it('rounds the domain outward when nice is true (default)', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 3769 },
+      range: { min: 0, max: 400 },
+    });
+    expect(scale.domain()).toEqual([0, 4000]);
+  });
+
+  it('keeps the domain exact when nice is false', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 3769 },
+      range: { min: 0, max: 400 },
+      nice: false,
+    });
+    expect(scale.domain()).toEqual([0, 3769]);
+  });
 });
 
 describe('getCategoricalScale', () => {
