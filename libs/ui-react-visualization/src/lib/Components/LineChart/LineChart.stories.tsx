@@ -27,7 +27,7 @@ const sampleSeries = [
   {
     id: 'prices',
     stroke: '#7B61FF',
-    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
+    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21],
   },
 ];
 
@@ -50,6 +50,11 @@ export const Base: Story = {
   args: {
     series: sampleSeries,
     height: 250,
+    showXAxis: true,
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+    },
   },
 };
 
@@ -84,8 +89,6 @@ export const WithStringLabels: Story = {
         'Oct',
         'Nov',
         'Dec',
-        'Jan',
-        'Feb',
       ],
       showLine: true,
       showGrid: true,
@@ -101,7 +104,7 @@ export const WithCustomTicks: Story = {
     xAxis: {
       showLine: true,
       showGrid: true,
-      ticks: [0, 3, 6, 9, 13],
+      ticks: [0, 0.5, 1, 2, 3, 6, 12],
     },
   },
 };
@@ -125,8 +128,6 @@ export const WithTickFormatter: Story = {
         'Oct',
         'Nov',
         'Dec',
-        'Jan',
-        'Feb',
       ],
       showLine: true,
       tickLabelFormatter: (value) => `${String(value).slice(0, 1)}`,
@@ -167,9 +168,10 @@ export const CustomDomain: Story = {
     xAxis: {
       showLine: true,
       showGrid: true,
+      domain: (bounds) => ({ min: bounds.min - 2, max: bounds.max + 2 }),
     },
     yAxis: {
-      domain: { min: 0, max: 100 },
+      domain: { min: 0, max: 200 },
     },
   },
 };

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
-import type { AxisConfigProps, DrawingArea } from '../../utils/types';
+import type { DrawingArea } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
 import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
 import type { MagneticPointsContextValue } from './pointContext/magneticPointsContext';
 
@@ -52,7 +53,7 @@ export const resolveLabel = (
 
 export const resolveDataXToIndex = (
   dataX: number,
-  axisConfig: AxisConfigProps | undefined,
+  axisConfig: BaseAxisProps | undefined,
 ): number | undefined => {
   const axisData = axisConfig?.data;
   if (!axisData || typeof axisData[0] !== 'number') return dataX;
@@ -68,7 +69,7 @@ export const resolveDataXToIndex = (
 export const useMagneticRegistration = (
   magnetic: boolean,
   dataX: number,
-  getXAxisConfig: () => AxisConfigProps | undefined,
+  getXAxisConfig: () => BaseAxisProps | undefined,
   { register, unregister }: MagneticPointsContextValue,
 ): void => {
   useEffect(() => {

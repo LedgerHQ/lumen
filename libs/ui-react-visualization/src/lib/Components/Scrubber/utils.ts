@@ -3,7 +3,8 @@ import {
   isCategoricalScale,
   isNumericScale,
 } from '../../utils/scales/scales';
-import type { AxisConfigProps, ChartScaleFunction } from '../../utils/types';
+import type { ChartScaleFunction } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
 import type { useCartesianChartContext } from '../CartesianChart/context';
 
 export const BEACON_RADIUS = 5;
@@ -85,7 +86,7 @@ const findClosestIndex = (
 export const getDataIndexFromPosition = (
   pixelX: number,
   scale: ChartScaleFunction,
-  axisConfig: Partial<AxisConfigProps> | undefined,
+  axisConfig: Partial<BaseAxisProps> | undefined,
   dataLength: number,
 ): number => {
   if (isCategoricalScale(scale)) {
@@ -144,7 +145,7 @@ export const resolvePixelY = (
 export const resolvePixelX = (
   dataIndex: number,
   getXScale: ReturnType<typeof useCartesianChartContext>['getXScale'],
-  axisConfig?: AxisConfigProps,
+  axisConfig?: BaseAxisProps,
 ): number | undefined => {
   const scale = getXScale();
   if (!scale) return undefined;

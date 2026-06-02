@@ -1,9 +1,6 @@
+import type { BaseAxisProps } from '../../Components/Axis';
 import { isCategoricalScale, isNumericScale } from '../scales/scales';
-import type {
-  AxisConfigProps,
-  ChartScaleFunction,
-  DrawingArea,
-} from '../types';
+import type { ChartScaleFunction, DrawingArea } from '../types';
 
 export const APPROXIMATE_TICK_COUNT = 5;
 
@@ -15,13 +12,26 @@ export type TickData = {
 
 /**
  * Resolves which numeric tick values should appear on the axis.
- * Explicit ticks take priority, then scale-specific defaults.
+ *
+ * Priority:
+ * 1. Explicit `ticks` provided by the consumer.
+ * 2. Axis `data` — when provided, ticks come from the data itself (numeric
+ *    values for numeric data, indices for string data) so the rendered ticks
+ *    mirror exactly what the consumer asked for, with no d3-invented
+ *    intermediate values.
+ * 3. Scale-specific defaults (band domain, or `scale.ticks()` for numeric).
  */
 export const getTickValues = (
   scale: ChartScaleFunction,
   explicitTicks?: number[],
+  axisData?: BaseAxisProps['data'],
 ): number[] => {
-  if (explicitTicks) return explicitTicks;
+  if (explicitTicks && explicitTicks.length > 0) return explicitTicks;
+  if (axisData && axisData.length > 0) {
+    return typeof axisData[0] === 'number'
+      ? (axisData as number[])
+      : axisData.map((_, i) => i);
+  }
   if (isCategoricalScale(scale)) return scale.domain();
   if (isNumericScale(scale)) return scale.ticks(APPROXIMATE_TICK_COUNT);
   return [];
@@ -47,7 +57,7 @@ export const getTickPosition = (
  */
 export const getTickLabel = (
   tick: number,
-  axisData: AxisConfigProps['data'],
+  axisData: BaseAxisProps['data'],
   formatter?: (value: number | string) => string,
 ): string => {
   const hasStringLabels =
@@ -71,12 +81,12 @@ export const getTickLabel = (
  */
 export const buildTicksData = (
   scale: ChartScaleFunction,
-  axisConfig?: AxisConfigProps,
+  axisConfig?: BaseAxisProps,
   explicitTicks?: number[],
   formatter?: (value: number | string) => string,
 ): TickData[] => {
-  const tickValues = getTickValues(scale, explicitTicks);
   const axisData = axisConfig?.data;
+  const tickValues = getTickValues(scale, explicitTicks, axisData);
 
   return tickValues.map((tick) => ({
     position: getTickPosition(scale, tick),

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { AxisConfigProps, ChartInset, Series } from '../../utils/types';
+import type { ChartInset, Series } from '../../utils/types';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
 
@@ -35,12 +35,12 @@ export type LineChartProps = {
    * Combined axis configuration and visual props for the x-axis.
    * Includes scale/domain settings as well as visual options like `showGrid` and `showLine`.
    */
-  xAxis?: Partial<AxisConfigProps> & XAxisProps;
+  xAxis?: XAxisProps;
   /**
    * Combined axis configuration and visual props for the y-axis.
    * Includes scale/domain settings as well as visual options like `showGrid` and `showLine`.
    */
-  yAxis?: Partial<AxisConfigProps> & YAxisProps;
+  yAxis?: YAxisProps;
   /**
    * Width of the chart.
    * A number is treated as pixels; a string (e.g. `'100%'`) fills the container.
