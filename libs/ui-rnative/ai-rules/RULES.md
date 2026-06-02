@@ -62,7 +62,6 @@ Below is a complete list of all available Lumen React Native components. Click a
 - [SegmentedControl](https://ldls.vercel.app/?path=/docs/navigation-segmentedcontrol--docs) - Segmented control for toggling between views
 - [TabBar](https://ldls.vercel.app/?path=/docs/navigation-tabbar--docs) - Bottom tab navigation bar
 - [Checkbox](https://ldls.vercel.app/?path=/docs/selection-checkbox--docs) - Checkbox input for selections
-- [Select](https://ldls.vercel.app/?path=/docs/selection-select--docs) - Dropdown select component
 - [Switch](https://ldls.vercel.app/?path=/docs/selection-switch--docs) - Toggle switch component
 
 **Symbols:**
