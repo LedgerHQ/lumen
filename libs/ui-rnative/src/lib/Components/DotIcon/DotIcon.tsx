@@ -29,6 +29,7 @@ export const mediaImageDotIconSizeMap = {
   48: 20,
   56: 24,
   64: 24,
+  72: 24,
 } as const satisfies Record<number, DotIconSize>;
 
 export const spotDotIconSizeMap = {
