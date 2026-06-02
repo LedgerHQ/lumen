@@ -1,6 +1,6 @@
+import type { XAxisProps } from './XAxis';
 import { DEFAULT_AXIS_WIDTH } from './YAxis';
 
-import type { XAxisProps } from './XAxis';
 import type { YAxisProps } from './YAxis';
 
 export const defaultXAxisProps: XAxisProps = {

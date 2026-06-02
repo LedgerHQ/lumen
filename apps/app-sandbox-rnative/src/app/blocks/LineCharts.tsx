@@ -36,6 +36,7 @@ export const LineCharts = () => (
     <ScrubberMultiSeriesWithBeacons />
     <ScrubberWithAxes />
     <ReferenceLineBasic />
+    <ScrubberWithTooltip />
     <RandomAutoUpdate />
     <MagnetizedPoint />
   </Box>
@@ -45,7 +46,7 @@ const sampleSeries = [
   {
     id: 'prices',
     stroke: '#7B61FF',
-    data: [10, 45, 98, 45, 22, 52, 21, 20, 37],
+    data: [10, 45, 98, 45, 22, 52, 21, 20, 3],
   },
 ];
 
@@ -370,6 +371,35 @@ const ScrubberWithAxes = () => (
       }}
     >
       <Scrubber />
+    </LineChart>
+  </Section>
+);
+
+const ScrubberWithTooltip = () => (
+  <Section title='Scrubber – with tooltip'>
+    <LineChart
+      series={sampleSeries}
+      height={220}
+      showArea
+      showYAxis
+      enableScrubbing
+      yAxis={{
+        domain: (bounds) => ({
+          min: bounds.min - 10,
+          max: bounds.max,
+        }),
+        showGrid: true,
+        tickLabelFormatter: (v) => `$${v}`,
+      }}
+    >
+      <Scrubber
+        tooltip={(i) => ({
+          items: [
+            { label: 'Date', value: months[i] },
+            { label: 'Price', value: `$${sampleSeries[0].data[i]}` },
+          ],
+        })}
+      />
     </LineChart>
   </Section>
 );
