@@ -344,7 +344,7 @@ export const buildChartModel = (period: Period): ChartModel => {
     isPositive: data[lastIndex] >= data[0],
     highIndex,
     lowIndex,
-    yDomain: { min: min - 100, max: max + 100 },
+    yDomain: { min: min - 1000, max: max + 1000 },
     xTicks: Array.from({ length: 5 }, (_, i) =>
       Math.round((i / 4) * lastIndex),
     ),

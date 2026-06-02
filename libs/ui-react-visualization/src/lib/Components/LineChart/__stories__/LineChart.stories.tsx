@@ -372,7 +372,7 @@ const InteractiveChartStory = () => {
 
       <LineChart
         series={[{ id: 'price', stroke: lineColor, data }]}
-        width={928}
+        width={728}
         height={340}
         showArea
         enableScrubbing
@@ -382,7 +382,6 @@ const InteractiveChartStory = () => {
         xAxis={{
           ticks: xTicks,
           tickLabelFormatter: createAxisDateFormatter(period, data.length),
-          showTickMark: true,
         }}
         yAxis={{
           domain: yDomain,
@@ -402,6 +401,16 @@ const InteractiveChartStory = () => {
           labelVerticalAlignment='start'
           label='Avg. buy in'
         />
+        {showMarkers &&
+          markers.map((marker) => (
+            <Point
+              key={marker.index}
+              magnetic
+              dataX={marker.index}
+              dataY={data[marker.index]}
+              color={getMarkerColor(marker)}
+            />
+          ))}
 
         <Point
           hidePoint
@@ -417,18 +426,6 @@ const InteractiveChartStory = () => {
           labelPosition='bottom'
           label={formatUsd(data[lowIndex])}
         />
-
-        {showMarkers &&
-          markers.map((marker) => (
-            <Point
-              key={marker.index}
-              magnetic
-              dataX={marker.index}
-              dataY={data[marker.index]}
-              color={getMarkerColor(marker)}
-            />
-          ))}
-
         <Scrubber
           tooltip={(dataIndex) => {
             const marker = markerByIndex.get(dataIndex);
