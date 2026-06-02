@@ -50,7 +50,6 @@ import {
   OptionLists,
   PageIndicators,
   SegmentedControls,
-  Selects,
   Skeletons,
   Spots,
   Steppers,
@@ -239,9 +238,6 @@ const AppContent = ({
                 </SandboxBlock>
                 <SandboxBlock title='SegmentedControl'>
                   <SegmentedControls />
-                </SandboxBlock>
-                <SandboxBlock title='Select'>
-                  <Selects />
                 </SandboxBlock>
                 <SandboxBlock title='Skeletons'>
                   <Skeletons />
