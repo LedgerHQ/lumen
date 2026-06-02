@@ -35,8 +35,8 @@ describe('DotIndicator', () => {
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 
-  it('should render in xs size', () => {
-    const { container } = render(<DotIndicator size='xs' />);
+  it('should render in sm size', () => {
+    const { container } = render(<DotIndicator size='sm' />);
     expect(container.firstChild).toBeInTheDocument();
   });
 
@@ -47,6 +47,11 @@ describe('DotIndicator', () => {
 
   it('should render in lg size', () => {
     const { container } = render(<DotIndicator size='lg' />);
+    expect(container.firstChild).toBeInTheDocument();
+  });
+
+  it('should render in xl size', () => {
+    const { container } = render(<DotIndicator size='xl' />);
     expect(container.firstChild).toBeInTheDocument();
   });
 

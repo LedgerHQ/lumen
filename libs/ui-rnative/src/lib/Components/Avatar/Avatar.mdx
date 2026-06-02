@@ -55,6 +55,8 @@ An optional notification indicator can be displayed to show status or alerts:
 
 - **showNotification**: Boolean prop to toggle the notification dot (default: false)
 
+> The notification dot is only rendered on the `sm` and `md` sizes. It is suppressed on `lg` and `xl` even when `showNotification` is `true`.
+
 <Canvas of={AvatarStories.NotificationShowcase} />
 
 ### As Interactive Trigger

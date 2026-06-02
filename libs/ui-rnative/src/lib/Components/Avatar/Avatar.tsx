@@ -16,14 +16,11 @@ const fallbackSizes = {
   xl: 40,
 } as const;
 
-const dotSizeMap: Record<
-  Size,
-  NonNullable<React.ComponentProps<typeof DotIndicator>['size']>
+const dotSizeMap: Partial<
+  Record<Size, NonNullable<React.ComponentProps<typeof DotIndicator>['size']>>
 > = {
-  sm: 'xs',
-  md: 'sm',
-  lg: 'md',
-  xl: 'lg',
+  sm: 'lg',
+  md: 'xl',
 };
 
 const useStyles = ({ size }: { size: Size }) => {
@@ -81,7 +78,7 @@ export const Avatar = ({
   src,
   alt = 'avatar',
   size = 'md',
-  showNotification = false,
+  showNotification: showNotificationProp = false,
   testID,
   ref,
   ...props
@@ -92,6 +89,10 @@ export const Avatar = ({
   const styles = useStyles({ size });
 
   const resolvedAlt = alt || t('components.avatar.defaultAlt');
+
+  // dot indicator is not visible on larger sizes, regardless of the `showNotification` prop
+  const showNotification =
+    showNotificationProp && (size === 'sm' || size === 'md');
 
   const accessibilityLabel = showNotification
     ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
