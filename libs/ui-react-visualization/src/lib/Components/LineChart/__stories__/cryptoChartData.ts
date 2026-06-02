@@ -134,7 +134,7 @@ const BASE_VALUE = 42156.78;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 /** Fixed "now" so generated dates (and axis labels) stay deterministic. */
-const REFERENCE_DATE = new Date('2026-06-01T00:00:00');
+const REFERENCE_DATE = new Date('2026-06-01T00:00:00Z');
 
 /** Deterministic PRNG (mulberry32) so the story renders identically each time. */
 const createRng = (seed: number): (() => number) => {
@@ -298,13 +298,13 @@ export const getMarkerTooltip = (
     };
   }
 
-  const bought = sumByType(marker.transactions, 'buy');
-  const received = sumByType(marker.transactions, 'sell');
+  const received = sumByType(marker.transactions, 'buy');
+  const sent = sumByType(marker.transactions, 'sell');
   const items: ChartTooltipItemData[] = [];
-  if (bought > 0) items.push({ label: 'Received', value: formatUsd(bought) });
   if (received > 0) {
     items.push({ label: 'Received', value: formatUsd(received) });
   }
+  if (sent > 0) items.push({ label: 'Sent', value: formatUsd(sent) });
 
   return {
     title: `${marker.transactions.length} transactions`,
