@@ -50,6 +50,11 @@
       "previousPageAriaLabel": "Previous page",
       "nextPageAriaLabel": "Next page",
       "pageAriaLabel": "Page {{page}}"
+    },
+    "trend": {
+      "positiveAriaLabel": "Trend up {{value}}",
+      "negativeAriaLabel": "Trend down {{value}}",
+      "neutralAriaLabel": "Neutral trend {{value}}"
     }
   }
 }

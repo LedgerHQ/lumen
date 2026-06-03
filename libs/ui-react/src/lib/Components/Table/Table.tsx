@@ -548,8 +548,8 @@ export const TableSortButton = ({
   const { t } = useCommonTranslation();
   const Icon = sortControlIconMap[sortDirection || 'idle'];
   const ariaLabelMap = {
-    asc: t('table.ascAriaLabel'),
-    desc: t('table.descAriaLabel'),
+    asc: t('components.table.ascAriaLabel'),
+    desc: t('components.table.descAriaLabel'),
   };
 
   return (
