@@ -3,7 +3,6 @@ import type { SupportedLocale } from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheetModalProvider,
   Box,
-  GlobalSelectBottomSheet,
   GlobalTooltipBottomSheet,
   ThemeProvider,
   useBottomSheetRef,
@@ -11,8 +10,9 @@ import {
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { useState } from 'react';
 import type { ColorSchemeName } from 'react-native';
-import { SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { ScrollView, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   AmountDisplays,
   AmountInputs,
@@ -287,7 +287,6 @@ const AppContent = ({
             <BottomSheetDynamicSize ref={bottomSheetDynamicSizeRef} />
             <BottomSheetWithGradient ref={bottomSheetGradientBugRef} />
             <GlobalTooltipBottomSheet />
-            <GlobalSelectBottomSheet />
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </SandboxProvider>
