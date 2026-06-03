@@ -148,7 +148,7 @@ describe('DefaultScrubberTooltip', () => {
         scrubberProps: { tooltip: defaultTooltip },
         scrubberContext: scrubberAt(2),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(210);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(260);
     });
 
     it('flips tooltip left when right side would overflow (index 3)', () => {
@@ -158,7 +158,7 @@ describe('DefaultScrubberTooltip', () => {
         },
         scrubberContext: scrubberAt(3),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(145);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(220);
     });
 
     it('flips at the rightmost scrubber position (index 4)', () => {
@@ -168,7 +168,7 @@ describe('DefaultScrubberTooltip', () => {
         },
         scrubberContext: scrubberAt(4),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(220);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(320);
     });
 
     it('custom offset shifts the no-flip tooltip position', () => {
@@ -178,7 +178,7 @@ describe('DefaultScrubberTooltip', () => {
         },
         scrubberContext: scrubberAt(2),
       });
-      expect(getByTestId('chart-tooltip-rect').props.x).toBe(220);
+      expect(getByTestId('chart-tooltip-rect').props.x).toBe(270);
     });
 
     it('wider minWidth can trigger a flip that the default width would not', () => {

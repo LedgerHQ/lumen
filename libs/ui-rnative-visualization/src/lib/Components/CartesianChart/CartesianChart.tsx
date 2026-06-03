@@ -2,13 +2,15 @@ import { useCallback, useMemo, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Svg } from 'react-native-svg';
 
+import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealClipDefs } from './RevealClip';
 import type { CartesianChartProps } from './types';
 import {
   DEFAULT_HEIGHT,
-  OVERFLOW_NEGATIVE_MARGIN,
+  OVERFLOW_BUFFER,
+  OVERFLOW_OFFSET,
   resolveAxisPadding,
   resolveInset,
 } from './utils';
@@ -26,6 +28,7 @@ export function CartesianChart({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
+  magnetRadius,
 }: Readonly<CartesianChartProps>) {
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
@@ -41,6 +44,15 @@ export function CartesianChart({
 
   const resolvedWidth = width ?? measuredWidth ?? 0;
 
+  // The SVG canvas is enlarged by the overflow buffer on every side so edge
+  // content (labels, points, ticks) is not clipped, then shifted back by
+  // `OVERFLOW_OFFSET` so the drawing area still spans the container footprint.
+  const svgWidth =
+    resolvedWidth > 0
+      ? resolvedWidth + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right
+      : 0;
+  const svgHeight = height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom;
+
   const resolvedInset = useMemo(() => resolveInset(inset), [inset]);
   const resolvedAxisPadding = useMemo(
     () => resolveAxisPadding(axisPadding),
@@ -51,8 +63,8 @@ export function CartesianChart({
     series,
     xAxis,
     yAxis,
-    width: resolvedWidth,
-    height,
+    width: svgWidth,
+    height: svgHeight,
     inset: resolvedInset,
     axisPadding: resolvedAxisPadding,
   });
@@ -66,32 +78,36 @@ export function CartesianChart({
       style={{
         width: needsMeasurement ? undefined : resolvedWidth,
         height,
-        ...OVERFLOW_NEGATIVE_MARGIN,
+        overflow: 'visible',
       }}
     >
       {resolvedWidth > 0 && (
         <CartesianChartProvider value={contextValue}>
-          <ScrubberProvider
-            width={resolvedWidth}
-            height={height}
-            enableScrubbing={enableScrubbing}
-            onScrubberPositionChange={onScrubberPositionChange}
-          >
-            <Svg
-              testID='chart-svg'
-              width={resolvedWidth}
-              height={height}
-              style={{ overflow: 'visible' }}
+          <MagneticPointsProvider>
+            <ScrubberProvider
+              width={svgWidth}
+              height={svgHeight}
+              enableScrubbing={enableScrubbing}
+              onScrubberPositionChange={onScrubberPositionChange}
+              style={OVERFLOW_OFFSET}
+              magnetRadius={magnetRadius}
             >
-              <RevealClipDefs
-                drawingArea={contextValue.drawingArea}
-                series={series}
-                animate={animate}
+              <Svg
+                testID='chart-svg'
+                width={svgWidth}
+                height={svgHeight}
+                style={{ overflow: 'visible' }}
               >
-                {children}
-              </RevealClipDefs>
-            </Svg>
-          </ScrubberProvider>
+                <RevealClipDefs
+                  drawingArea={contextValue.drawingArea}
+                  series={series}
+                  animate={animate}
+                >
+                  {children}
+                </RevealClipDefs>
+              </Svg>
+            </ScrubberProvider>
+          </MagneticPointsProvider>
         </CartesianChartProvider>
       )}
     </View>

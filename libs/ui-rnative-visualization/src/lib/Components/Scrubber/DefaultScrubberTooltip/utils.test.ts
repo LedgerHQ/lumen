@@ -192,7 +192,7 @@ describe('measureWidths', () => {
       titleRef,
       labelRefs,
       valueRefs,
-    );
+    ).promise;
 
     expect(result).toEqual({ title: 50, labels: [30], values: [20] });
     raf.mockRestore();
@@ -212,7 +212,7 @@ describe('measureWidths', () => {
       titleRef,
       labelRefs,
       valueRefs,
-    );
+    ).promise;
 
     expect(result.title).toBe(0);
     raf.mockRestore();
@@ -235,7 +235,7 @@ describe('measureWidths', () => {
       titleRef,
       labelRefs,
       valueRefs,
-    );
+    ).promise;
 
     expect(result.labels).toEqual([10, 20]);
     expect(result.values).toEqual([5, 15]);
@@ -256,7 +256,7 @@ describe('measureWidths', () => {
       titleRef,
       labelRefs,
       valueRefs,
-    );
+    ).promise;
 
     expect(result).toEqual({ title: 0, labels: [0], values: [0] });
     raf.mockRestore();

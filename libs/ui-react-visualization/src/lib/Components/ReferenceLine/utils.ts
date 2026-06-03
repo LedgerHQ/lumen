@@ -1,9 +1,6 @@
 import { getPointOnScale, isCategoricalScale } from '../../utils/scales/scales';
-import type {
-  AxisConfigProps,
-  ChartScaleFunction,
-  DrawingArea,
-} from '../../utils/types';
+import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
 
 import type { LabelAlignment, LabelPosition } from './types';
 
@@ -22,7 +19,7 @@ type ResolvePixelParams = {
   scale: ChartScaleFunction | undefined;
   axis: 'x' | 'y';
   drawingArea: DrawingArea;
-  axisConfig?: AxisConfigProps;
+  axisConfig?: BaseAxisProps;
 };
 
 type LabelParams = {
@@ -79,7 +76,7 @@ export const isPixelWithinDrawingArea = (
  */
 const resolveDataValue = (
   index: number,
-  axisConfig?: AxisConfigProps,
+  axisConfig?: BaseAxisProps,
 ): number | undefined => {
   const data = axisConfig?.data;
   if (!data || data.length === 0) return index;

@@ -1,6 +1,4 @@
 export type {
-  AxisBounds,
-  AxisConfigProps,
   CartesianChartContextValue,
   CategoricalScale,
   ChartInset,

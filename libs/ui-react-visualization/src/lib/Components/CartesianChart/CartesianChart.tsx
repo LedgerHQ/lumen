@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealClipDefs } from './RevealClip';
 import type { CartesianChartProps } from './types';
 import {
   DEFAULT_HEIGHT,
-  OVERFLOW_NEGATIVE_MARGIN,
+  OVERFLOW_BUFFER,
+  OVERFLOW_OFFSET,
   resolveAxisPadding,
   resolveInset,
 } from './utils';
@@ -23,6 +25,7 @@ export function CartesianChart({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
+  magnetRadius,
   children,
 }: CartesianChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,6 +60,15 @@ export function CartesianChart({
   const resolvedWidth =
     typeof width === 'number' ? width : (measuredWidth ?? 0);
 
+  // The SVG canvas is enlarged by the overflow buffer on every side so edge
+  // content (labels, points, ticks) is not clipped, then shifted back via
+  // OVERFLOW_OFFSET so the drawing area still spans the container footprint.
+  const svgWidth =
+    resolvedWidth > 0
+      ? resolvedWidth + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right
+      : 0;
+  const svgHeight = height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom;
+
   const resolvedInset = useMemo(() => resolveInset(inset), [inset]);
   const resolvedAxisPadding = useMemo(
     () => resolveAxisPadding(axisPadding),
@@ -67,8 +79,8 @@ export function CartesianChart({
     series,
     xAxis,
     yAxis,
-    width: resolvedWidth,
-    height,
+    width: svgWidth,
+    height: svgHeight,
     inset: resolvedInset,
     axisPadding: resolvedAxisPadding,
   });
@@ -80,15 +92,15 @@ export function CartesianChart({
       style={{
         width: needsMeasurement ? width : resolvedWidth,
         height,
-        ...OVERFLOW_NEGATIVE_MARGIN,
+        overflow: 'visible',
       }}
     >
       {resolvedWidth > 0 && (
         <svg
           ref={svgRef}
           data-testid='chart-svg'
-          width={resolvedWidth}
-          height={height}
+          width={svgWidth}
+          height={svgHeight}
           role='img'
           aria-label={ariaLabel || 'Chart'}
           tabIndex={enableScrubbing ? 0 : undefined}
@@ -96,22 +108,26 @@ export function CartesianChart({
             display: 'block',
             overflow: 'visible',
             outline: enableScrubbing ? 'none' : undefined,
+            ...OVERFLOW_OFFSET,
           }}
         >
           <CartesianChartProvider value={contextValue}>
-            <ScrubberProvider
-              svgRef={svgRef}
-              enableScrubbing={enableScrubbing}
-              onScrubberPositionChange={onScrubberPositionChange}
-            >
-              <RevealClipDefs
-                drawingArea={contextValue.drawingArea}
-                series={series}
-                animate={animate}
+            <MagneticPointsProvider>
+              <ScrubberProvider
+                svgRef={svgRef}
+                enableScrubbing={enableScrubbing}
+                onScrubberPositionChange={onScrubberPositionChange}
+                magnetRadius={magnetRadius}
               >
-                {children}
-              </RevealClipDefs>
-            </ScrubberProvider>
+                <RevealClipDefs
+                  drawingArea={contextValue.drawingArea}
+                  series={series}
+                  animate={animate}
+                >
+                  {children}
+                </RevealClipDefs>
+              </ScrubberProvider>
+            </MagneticPointsProvider>
           </CartesianChartProvider>
         </svg>
       )}

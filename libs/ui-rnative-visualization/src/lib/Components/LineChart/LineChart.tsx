@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 
-import type { AxisConfigProps, ChartInset } from '../../utils/types';
+import type { ChartInset } from '../../utils/types';
+import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
 import { DEFAULT_AXIS_HEIGHT, XAxis } from '../Axis/XAxis';
-import { DEFAULT_AXIS_WIDTH, YAxis } from '../Axis/YAxis';
+import { YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { Line } from '../Line';
 
@@ -23,52 +24,40 @@ export const LineChart = ({
   enableScrubbing = false,
   onScrubberPositionChange,
   animate,
+  magnetRadius,
 }: LineChartProps) => {
-  const {
-    scaleType: xScaleType,
-    data: xData,
-    domain: xDomain,
-    ...xAxisVisualProps
-  } = xAxis ?? {};
-
-  const {
-    scaleType: yScaleType,
-    data: yData,
-    domain: yDomain,
-    ...yAxisVisualProps
-  } = yAxis ?? {};
-
-  const xAxisConfig: Partial<AxisConfigProps> = {
-    scaleType: xScaleType,
-    data: xData,
-    domain: xDomain,
+  const xAxisConfig = {
+    ...defaultXAxisProps,
+    ...xAxis,
   };
-
-  const yAxisConfig: Partial<AxisConfigProps> = {
-    scaleType: yScaleType,
-    data: yData,
-    domain: yDomain,
+  const yAxisConfig = {
+    ...defaultYAxisProps,
+    ...yAxis,
   };
 
   const axisPadding: Partial<ChartInset> | undefined = useMemo(() => {
-    if (!showXAxis && !showYAxis) return undefined;
-    const xAxisPosition =
-      xAxisVisualProps.position === 'top' ? 'top' : 'bottom';
-    const yAxisPosition =
-      yAxisVisualProps.position === 'end' ? 'right' : 'left';
-    const yAxisWidth = yAxisVisualProps.width ?? DEFAULT_AXIS_WIDTH;
+    if (!showXAxis && !showYAxis) {
+      return undefined;
+    }
+
     return {
-      top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
-      bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
-      left: showYAxis && yAxisPosition === 'left' ? yAxisWidth : 0,
-      right: showYAxis && yAxisPosition === 'right' ? yAxisWidth : 0,
+      top:
+        showXAxis && xAxisConfig.position === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
+      bottom:
+        showXAxis && xAxisConfig.position === 'bottom'
+          ? DEFAULT_AXIS_HEIGHT
+          : 0,
+      left:
+        showYAxis && yAxisConfig.position === 'start' ? yAxisConfig.width : 0,
+      right:
+        showYAxis && yAxisConfig.position === 'end' ? yAxisConfig.width : 0,
     };
   }, [
     showXAxis,
     showYAxis,
-    xAxisVisualProps.position,
-    yAxisVisualProps.position,
-    yAxisVisualProps.width,
+    xAxisConfig?.position,
+    yAxisConfig?.position,
+    yAxisConfig?.width,
   ]);
 
   return (
@@ -83,9 +72,10 @@ export const LineChart = ({
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
       animate={animate}
+      magnetRadius={magnetRadius}
     >
-      {showXAxis && <XAxis {...xAxisVisualProps} />}
-      {showYAxis && <YAxis {...yAxisVisualProps} />}
+      {showXAxis && <XAxis {...xAxisConfig} />}
+      {showYAxis && <YAxis {...yAxisConfig} />}
       {series?.map((s) => (
         <Line
           key={s.id}

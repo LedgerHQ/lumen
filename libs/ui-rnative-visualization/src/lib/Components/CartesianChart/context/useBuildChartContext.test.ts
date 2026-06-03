@@ -221,4 +221,60 @@ describe('useBuildChartContext', () => {
     expect(result.current.drawingArea.width).toBe(400 - 40);
     expect(result.current.drawingArea.height).toBe(200 - 28);
   });
+
+  describe('nice domain prop', () => {
+    // Series of length 3770 → auto X domain is [0, 3769]; `.nice()` rounds it
+    // outward to [0, 4000] (the trailing "dead zone" keeps overlays that sit
+    // outside the data range — e.g. reference lines — from being clipped).
+    const longSeries = makeSeries(Array.from({ length: 3770 }, (_, i) => i));
+
+    it('rounds the X domain by default (.nice())', () => {
+      const { result } = renderHook(() =>
+        useBuildChartContext(hookParams({ series: [longSeries] })),
+      );
+      expect(result.current.getXScale()!.domain()).toEqual([0, 4000]);
+    });
+
+    it('rounds the Y domain by default (.nice())', () => {
+      const { result } = renderHook(() =>
+        useBuildChartContext(
+          hookParams({
+            yAxis: {
+              domain: (bounds: { min: number; max: number }) => ({
+                min: bounds.min - 5,
+                max: bounds.max + 5,
+              }),
+            },
+          }),
+        ),
+      );
+      expect(result.current.getYScale()!.domain()).toEqual([0, 40]);
+    });
+
+    it('opts the X axis out of .nice() when nice is false', () => {
+      const { result } = renderHook(() =>
+        useBuildChartContext(
+          hookParams({ series: [longSeries], xAxis: { nice: false } }),
+        ),
+      );
+      expect(result.current.getXScale()!.domain()).toEqual([0, 3769]);
+    });
+
+    it('opts the Y axis out of .nice() when nice is false', () => {
+      const { result } = renderHook(() =>
+        useBuildChartContext(
+          hookParams({
+            yAxis: {
+              nice: false,
+              domain: (bounds: { min: number; max: number }) => ({
+                min: bounds.min - 5,
+                max: bounds.max + 5,
+              }),
+            },
+          }),
+        ),
+      );
+      expect(result.current.getYScale()!.domain()).toEqual([5, 35]);
+    });
+  });
 });

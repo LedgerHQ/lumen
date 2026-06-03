@@ -19,7 +19,7 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
  * A label that should be used to describe a form field.
  *
  * Either choices fields like checkbox, switch or radio.
- * Or text fields like input, textarea, select, etc.
+ * Or text fields like input, textarea, option list, etc.
  */
 export const Label = ({
   style,

@@ -4,10 +4,10 @@ export function DotIndicators() {
   return (
     <Box lx={{ gap: 's24' }}>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
-        <DotIndicator size='xs' />
         <DotIndicator size='sm' />
         <DotIndicator size='md' />
         <DotIndicator size='lg' />
+        <DotIndicator size='xl' />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
         <DotIndicator />
@@ -16,7 +16,7 @@ export function DotIndicators() {
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
         <Avatar size='md' showNotification />
-        <DotIndicator appearance='red'>
+        <DotIndicator size='xl' appearance='red'>
           <Button size='sm' disabled>
             Submit
           </Button>

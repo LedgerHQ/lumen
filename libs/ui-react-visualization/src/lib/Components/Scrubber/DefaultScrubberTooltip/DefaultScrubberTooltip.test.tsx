@@ -1,9 +1,17 @@
 import { render, act, fireEvent } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CartesianChart } from '../../CartesianChart';
 import { Scrubber } from '../Scrubber';
 import type { ScrubberProps } from '../types';
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 const sampleSeries = [
   { id: 's1', stroke: '#7B61FF', data: [10, 20, 30, 40, 50] },
@@ -52,6 +60,7 @@ const renderScrubberTooltip = ({
 const moveScrubber = (svg: Element, clientX: number) => {
   act(() => {
     fireEvent.mouseMove(svg, { clientX, clientY: 100 });
+    vi.advanceTimersByTime(16);
   });
 };
 

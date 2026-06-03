@@ -2,6 +2,7 @@ import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
+import { DotIndicator } from '../DotIndicator';
 import type { AvatarProps } from './types';
 
 const avatarVariants = {
@@ -21,17 +22,9 @@ const avatarVariants = {
       },
     },
   ),
-  notification: cva('absolute top-0 right-0 rounded-full bg-error-strong', {
-    variants: {
-      size: {
-        sm: 'size-10',
-        md: 'size-12',
-        lg: 'size-14',
-        xl: 'size-16',
-      },
-    },
-  }),
 };
+
+type Size = NonNullable<AvatarProps['size']>;
 
 const fallbackSizes = {
   sm: 16,
@@ -39,6 +32,13 @@ const fallbackSizes = {
   lg: 32,
   xl: 40,
 } as const;
+
+const dotSizeMap: Partial<
+  Record<Size, NonNullable<React.ComponentProps<typeof DotIndicator>['size']>>
+> = {
+  sm: 'lg',
+  md: 'xl',
+};
 
 /**
  * A circular avatar component that displays a user image or fallback icon.
@@ -63,7 +63,7 @@ export const Avatar = ({
   alt,
   size = 'md',
   imgLoading,
-  showNotification = false,
+  showNotification: showNotificationProp = false,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
@@ -71,6 +71,10 @@ export const Avatar = ({
   const shouldFallback = !src || error;
 
   const resolvedAlt = alt || t('components.avatar.defaultAlt');
+
+  // dot indicator is not visible on larger sizes, regardless of the `showNotification` prop
+  const showNotification =
+    showNotificationProp && (size === 'sm' || size === 'md');
 
   const ariaLabel = showNotification
     ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
@@ -80,7 +84,7 @@ export const Avatar = ({
     setError(false);
   }, [src]);
 
-  return (
+  const avatarContent = (
     <div
       ref={ref}
       className={avatarVariants.root({ size, className })}
@@ -88,12 +92,6 @@ export const Avatar = ({
       aria-label={ariaLabel}
       {...props}
     >
-      {showNotification && (
-        <div
-          className={avatarVariants.notification({ size })}
-          aria-hidden='true'
-        />
-      )}
       {shouldFallback ? (
         <User
           size={fallbackSizes[size]}
@@ -112,4 +110,14 @@ export const Avatar = ({
       )}
     </div>
   );
+
+  if (showNotification) {
+    return (
+      <DotIndicator size={dotSizeMap[size]} appearance='red'>
+        {avatarContent}
+      </DotIndicator>
+    );
+  }
+
+  return avatarContent;
 };

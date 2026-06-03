@@ -276,6 +276,7 @@ export const ledgerLiveLightColorTokens = {
     base: primitiveColorTokens.light.grey['950'],
     baseHover: primitiveColorTokens.light.grey['900'],
     basePressed: primitiveColorTokens.light.grey['800'],
+    baseTransparent0: primitiveColorTokens.light.grey['950-0'],
     baseInverted: primitiveColorTokens.light.grey['050'], // Added missing token from CSS
     disabled: primitiveColorTokens.light.grey['300'],
     muted: primitiveColorTokens.light.grey['600'],
@@ -284,7 +285,6 @@ export const ledgerLiveLightColorTokens = {
     mutedSubtle: primitiveColorTokens.light.grey['300'],
     mutedSubtleHover: primitiveColorTokens.light.grey['400'],
     mutedSubtlePressed: primitiveColorTokens.light.grey['500'],
-    mutedTransparent0: primitiveColorTokens.light.grey['600-0'],
     mutedSubtleTransparent: primitiveColorTokens.light.grey['300-50'],
     active: primitiveColorTokens.light.purple['600'],
     activeHover: primitiveColorTokens.light.purple['700'],

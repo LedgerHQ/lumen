@@ -1,6 +1,5 @@
 import type { ScaleBand, ScaleLinear, ScaleLogarithmic } from 'd3-scale';
-
-export type AxisBounds = { min: number; max: number };
+import type { BaseAxisProps } from '../Components/Axis';
 
 export type ChartInset = {
   top: number;
@@ -38,29 +37,6 @@ export type Series = {
   stroke: string;
 };
 
-export type AxisConfigProps = {
-  /**
-   * Scale algorithm used by this axis.
-   * @default 'linear'
-   */
-  scaleType?: 'linear' | 'log' | 'band';
-  /**
-   * Explicit data values for band scales or category labels.
-   * For band scales, provides the discrete domain. For numeric scales, string values
-   * are used as tick labels at corresponding indices.
-   */
-  data?: string[] | number[];
-  /**
-   * Fixed domain bounds or a function that adjusts the computed bounds.
-   * A partial object overrides only the specified bound(s).
-   * A function receives the auto-computed bounds and returns adjusted ones.
-   *
-   * The final domain is always rounded to nice boundaries via d3's `.nice()`,
-   * ensuring tick marks land on clean values (e.g. `[4, 98]` becomes `[0, 100]`).
-   */
-  domain?: Partial<AxisBounds> | ((bounds: AxisBounds) => AxisBounds);
-};
-
 export type NumericScale =
   | ScaleLinear<number, number>
   | ScaleLogarithmic<number, number>;
@@ -89,11 +65,11 @@ export type CartesianChartContextValue = {
   /**
    * Returns the x-axis config. Accepts an optional axis ID for future multi-axis support.
    */
-  getXAxisConfig: (id?: string) => AxisConfigProps | undefined;
+  getXAxisConfig: (id?: string) => BaseAxisProps | undefined;
   /**
    * Returns the y-axis config. Accepts an optional axis ID for future multi-axis support.
    */
-  getYAxisConfig: (id?: string) => AxisConfigProps | undefined;
+  getYAxisConfig: (id?: string) => BaseAxisProps | undefined;
   /**
    * Pixel bounds of the drawable region.
    */

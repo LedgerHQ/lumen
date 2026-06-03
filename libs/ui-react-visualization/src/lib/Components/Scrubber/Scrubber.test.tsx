@@ -1,9 +1,17 @@
 import { render, act, fireEvent } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CartesianChart } from '../CartesianChart';
 import { Scrubber } from './Scrubber';
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 const sampleSeries = [
   { id: 's1', stroke: '#7B61FF', data: [10, 20, 30, 40, 50] },
@@ -49,6 +57,7 @@ const renderScrubber = ({
 const activateScrubber = (svg: Element, clientX = 200) => {
   act(() => {
     fireEvent.mouseMove(svg, { clientX, clientY: 100 });
+    vi.advanceTimersByTime(16);
   });
 };
 
@@ -159,6 +168,7 @@ describe('Scrubber', () => {
 
     act(() => {
       fireEvent.mouseMove(svg, { clientX: 100, clientY: 100 });
+      vi.advanceTimersByTime(16);
     });
 
     const beacons = result.queryAllByTestId(/scrubber-beacon-/);

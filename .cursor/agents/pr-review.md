@@ -4,7 +4,7 @@
   Use when the user asks to review a PR, review code changes, check a branch, do a local code review,
   or provides a GitHub PR URL.
 name: pr-review
-model: claude-4.6-opus-max-thinking
+model: claude-opus-4-8[]
 description: Review current branch or remote pull-request
 readonly: true
 ---
@@ -44,10 +44,23 @@ Then continue with the same review process below.
 
 ## Review Process
 
-For each file or logical group of changes, evaluate against the criteria below. 
-You can have N numbers of feedbacks.
-The severity score of each feedback is based on 10.
+For each file or logical group of changes, evaluate against the criteria below.
 
+### Findings count vs. severity score — they are independent
+
+These are two completely separate concepts. Do not confuse them:
+
+- **Number of findings**: unbounded. A review can have 0, 1, 5, 20, or more findings. There is no cap. Do not stop at 10 findings, and do not pad up to any number.
+- **Severity score (`X/10`)**: a per-finding quality rating from 1 to 10 (see scale below). The `/10` is the rating scale for a single finding — it has nothing to do with how many findings exist.
+
+### No hallucinated findings
+
+Only report issues you can point to in the actual diff or file, with a concrete file and line reference.
+
+- If the code is correct and follows conventions, report **zero findings**. An empty review is a valid, good outcome.
+- Never invent, pad, or manufacture findings to look thorough. Do not raise speculative, hypothetical, or "could maybe" issues that you cannot tie to a specific line.
+- Do not flag style or preference items that already match the codebase conventions.
+- When there are no real findings, state this explicitly and recommend approval (see Output section).
 
 ### Severity Scale
 
@@ -175,7 +188,13 @@ git diff origin/main...HEAD --name-only -- .nx/version-plans/
 
 - If no version-plan is present and production code was changed, flag this as a **Major (8/10)** finding under category `Release`.
 - Changes that are **docs-only**, **tests-only**, **stories-only**, **CI/config-only**, or **.figma files only** do not require a version plan.
-- If a version-plan exists, verify it references the correct package(s) and uses an appropriate bump type (`patch` / `minor` / `major`) for the nature of the change. Not that for now we are only releasing new version on `patch` because we are agreed to make breaking changes as its on alpha.
+- If a version-plan exists, verify it references the correct package(s).
+
+**Bump type is always `patch` — this is a hard project convention.** While the library is in alpha, every version plan uses `patch` regardless of the nature of the change (new feature, new component, new prop, breaking change, refactor, or fix).
+
+- Do **not** apply Semver reasoning. Do not suggest `minor` for `feat(...)` changes, and do not suggest `major` for breaking changes.
+- If a version-plan uses anything other than `patch` (e.g. `minor` or `major`), flag it as a **Moderate (6/10)** finding under category `Release` and recommend changing it to `patch`.
+- **One package per file**: each version-plan file must list a single package in its frontmatter. If a change affects N packages, there must be N separate version-plan files. If a single file groups multiple packages, flag it as a **Moderate (6/10)** finding under category `Release`.
 
 ---
 
@@ -235,7 +254,7 @@ The review is a **flat, scored list** — one item per finding, sorted by severi
 # PR Review: [branch-name]
 
 ## Summary
-List all findings
+
 [1-3 sentence overview of the PR's purpose and scope]
 
 **Files changed**: X | **Added**: +X | **Removed**: -X
@@ -246,19 +265,19 @@ List all findings
 
 ## Findings
 
-| # | Severity | Category | File | Finding | File |
-|---|----------|----------|------|---------|------|
-| 1 | 9/10 | Type Safety | `types.ts` | Uses `any` for payload type | <filepath>.tsx:28 |
-| 2 | 7/10 | Consistency | `Menu.tsx` | Raw Tailwind color `text-gray-500` instead of `text-muted` | <filepath>.tsx:28 |
-| 3 | ... | ... | ... | ... | ... |
+| # | Severity | Category | Finding | Location |
+|---|----------|----------|---------|----------|
+| 1 | 9/10 | Type Safety | Uses `any` for payload type | `libs/ui-react/src/lib/Components/Menu/types.ts:28` |
+| 2 | 7/10 | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/Menu/Menu.tsx:26` |
+| 3 | ... | ... | ... | ... |
 
 ### Details
 
-**1. [Finding title]** — 9/10 Type Safety — `types.ts:42`
+**1. [Finding title]** — 9/10 Type Safety — `libs/ui-react/src/lib/Components/Menu/types.ts:42`
 [Description of the issue in 1-3 sentences]
 > **Fix**: [Concrete code suggestion or action]
 
-**2. [Finding title]** — 7/10 Consistency — `Menu.tsx:26`
+**2. [Finding title]** — 7/10 Consistency — `libs/ui-react/src/lib/Components/Menu/Menu.tsx:26`
 [Description]
 > **Fix**: [Suggestion]
 
@@ -266,11 +285,13 @@ List all findings
 
 ### Key rules for output
 
-- Each finding has exactly one severity score, one category, and one file reference.
+- Each finding has exactly one severity score, one category, and one location (file + line).
+- The number of findings is unbounded and unrelated to the `/10` severity score (see "Findings count vs. severity score").
 - Categories are strictly: `Correctness`, `Type Safety`, `Consistency`, `Performance`, `Abstraction`, `API Quality`, `Clarity`, `Robustness`, `Design Principles`, `Docs Consistency`, `Release`.
-- Include line numbers when possible (`file.tsx:42`).
+- **Location is mandatory and must include the line number** in `repo-relative/path/to/file.ext:lineNumber` form (e.g. `libs/ui-react/src/lib/Components/Menu/Menu.tsx:42`), so the related source code can be opened directly. Use a line range (`:42-50`) when a finding spans multiple lines.
+- Every finding's `Location` in the summary table must match the location shown in its `Details` entry.
 - The summary table comes first for a quick scan; the details section follows for depth.
-- If there are zero findings, say so explicitly and recommend approval.
+- **If there are zero findings, say so explicitly and recommend approval.** Do not invent findings to fill the report — an empty findings list is a valid, good result.
 
 ## Tips
 

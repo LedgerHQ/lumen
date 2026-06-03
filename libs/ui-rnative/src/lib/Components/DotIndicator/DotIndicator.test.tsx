@@ -77,10 +77,10 @@ describe('DotIndicator', () => {
     expect(ref.current).toBeTruthy();
   });
 
-  it('should render in xs size', () => {
+  it('should render in sm size', () => {
     const { toJSON } = render(
       <TestWrapper>
-        <DotIndicator size='xs' />
+        <DotIndicator size='sm' />
       </TestWrapper>,
     );
 
@@ -101,6 +101,16 @@ describe('DotIndicator', () => {
     const { toJSON } = render(
       <TestWrapper>
         <DotIndicator size='lg' />
+      </TestWrapper>,
+    );
+
+    expect(toJSON()).toBeTruthy();
+  });
+
+  it('should render in xl size', () => {
+    const { toJSON } = render(
+      <TestWrapper>
+        <DotIndicator size='xl' />
       </TestWrapper>,
     );
 

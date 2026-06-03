@@ -76,6 +76,42 @@ export const WithXAxis: Story = {
   },
 };
 
+export const XAxisExplicitNumericData: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    series: sampleSeries,
+    width: 400,
+    height: 250,
+    showXAxis: true,
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+      data: [0, 2, 4],
+    },
+  },
+};
+
+export const XAxisStringData: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    series: sampleSeries,
+    width: 400,
+    height: 250,
+    showXAxis: true,
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+      data: ['Jan', 'Feb', 'Mar'],
+    },
+  },
+};
+
 export const WithStringLabels: Story = {
   parameters: {
     layout: 'centered',

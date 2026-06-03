@@ -1,11 +1,9 @@
-import type { DrawingArea } from '../../utils/types';
+import { useEffect } from 'react';
 
-export const DEFAULT_SIZE = 10;
-export const STROKE_WIDTH = 2;
-export const ARROW_WIDTH = 6;
-export const ARROW_HEIGHT = 4;
-export const GAP = 4;
-export const LABEL_FONT_SIZE = 10;
+import type { DrawingArea } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
+import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
+import type { MagneticPointsContextValue } from './pointContext/magneticPointsContext';
 
 export const isWithinBounds = (
   px: number,
@@ -51,6 +49,36 @@ export const resolveLabel = (
 ): string | undefined => {
   const resolved = typeof label === 'function' ? label(dataX) : label;
   return resolved === '' ? undefined : resolved;
+};
+
+export const resolveDataXToIndex = (
+  dataX: number,
+  axisConfig: BaseAxisProps | undefined,
+): number | undefined => {
+  const axisData = axisConfig?.data;
+  if (!axisData || typeof axisData[0] !== 'number') return dataX;
+  const index = (axisData as number[]).indexOf(dataX);
+  if (index === -1) return undefined;
+  return index;
+};
+
+/**
+ * Registers/unregisters a data index as a magnetic snap target
+ * when the Point has `magnetic` enabled.
+ */
+export const useMagneticRegistration = (
+  magnetic: boolean,
+  dataX: number,
+  getXAxisConfig: () => BaseAxisProps | undefined,
+  { register, unregister }: MagneticPointsContextValue,
+): void => {
+  useEffect(() => {
+    if (!magnetic) return;
+    const index = resolveDataXToIndex(dataX, getXAxisConfig());
+    if (index === undefined) return;
+    register(index);
+    return () => unregister(index);
+  }, [magnetic, dataX, getXAxisConfig, register, unregister]);
 };
 
 /**

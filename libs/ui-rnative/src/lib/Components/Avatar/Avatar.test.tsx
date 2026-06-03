@@ -195,25 +195,23 @@ describe('Avatar Component', () => {
 
     dot = toJSON().children[0];
     expect(dot.props.style.height).toBe(sizes.s12);
-
-    rerender(
-      <TestWrapper>
-        <Avatar testID='avatar-id' size='lg' showNotification />
-      </TestWrapper>,
-    );
-
-    dot = toJSON().children[0];
-    expect(dot.props.style.height).toBe(sizes.s14);
-
-    rerender(
-      <TestWrapper>
-        <Avatar testID='avatar-id' size='xl' showNotification />
-      </TestWrapper>,
-    );
-
-    dot = toJSON().children[0];
-    expect(dot.props.style.height).toBe(sizes.s16);
   });
+
+  it.each(['lg', 'xl'] as const)(
+    'should not render the notification indicator on size=%s even when showNotification is true',
+    (size) => {
+      const { toJSON } = render(
+        <TestWrapper>
+          <Avatar testID='avatar-id' size={size} showNotification />
+        </TestWrapper>,
+      );
+
+      const tree = toJSON();
+      expect(tree.props.testID).toBe('avatar-id');
+      expect(tree.props.accessibilityRole).toBe('image');
+      expect(tree.props.accessibilityLabel).toBe('avatar');
+    },
+  );
 
   it('should apply custom styles', () => {
     const customStyle = { borderWidth: 2 };

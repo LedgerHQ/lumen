@@ -276,6 +276,7 @@ export const enterpriseDarkColorTokens = {
     base: primitiveColorTokens.dark.grey['950'],
     baseHover: primitiveColorTokens.dark.grey['900'],
     basePressed: primitiveColorTokens.dark.grey['800'],
+    baseTransparent0: primitiveColorTokens.dark.grey['950-0'],
     baseInverted: primitiveColorTokens.dark.grey['050'], // Added missing token from CSS
     disabled: primitiveColorTokens.dark.grey['300'],
     muted: primitiveColorTokens.dark.grey['500'],
@@ -284,7 +285,6 @@ export const enterpriseDarkColorTokens = {
     mutedSubtle: primitiveColorTokens.dark.grey['300'],
     mutedSubtleHover: primitiveColorTokens.dark.grey['400'],
     mutedSubtlePressed: primitiveColorTokens.dark.grey['500'],
-    mutedTransparent0: primitiveColorTokens.dark.grey['500-0'],
     mutedSubtleTransparent: primitiveColorTokens.dark.grey['300-50'],
     active: primitiveColorTokens.dark.blue['400'],
     activeHover: primitiveColorTokens.dark.blue['500'],
