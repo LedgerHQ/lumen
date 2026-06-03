@@ -36,7 +36,7 @@ export const Pagination = ({
     <nav
       ref={ref}
       aria-label={t('components.pagination.navigationAriaLabel')}
-      className={cn('flex items-center gap-8 overflow-x-auto', className)}
+      className={cn('flex items-center gap-8 overflow-x-auto p-4', className)}
       {...props}
     >
       <IconButton
