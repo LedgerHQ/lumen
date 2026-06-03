@@ -14,6 +14,10 @@ type Point = [x: number, y: number];
  *
  * When `xData` contains numeric values, those values are fed into the scale
  * instead of the array index so the points honour a numeric X domain.
+ *
+ * When `xData` is provided, iteration is capped at `xData.length` so a series
+ * with more points than the axis has labels does not overflow past the right
+ * edge of the chart. The axis is treated as authoritative for the X domain.
  */
 export const toScaledPoints = (
   data: (number | null)[],
@@ -22,8 +26,9 @@ export const toScaledPoints = (
   xData?: readonly (string | number)[],
 ): Point[] | null => {
   const pts: Point[] = [];
+  const limit = xData ? Math.min(data.length, xData.length) : data.length;
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < limit; i++) {
     const value = data[i];
     if (value === null) continue;
 

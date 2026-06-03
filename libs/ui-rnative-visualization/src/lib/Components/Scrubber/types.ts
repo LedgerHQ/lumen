@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import type { DrawingArea } from '../../utils/types';
 
@@ -41,6 +42,12 @@ export type ScrubberProviderProps = {
    * @default 6
    */
   magnetRadius?: number;
+  /**
+   * Optional style applied to the wrapping `View` that holds the chart and the
+   * gesture overlay.Used to offset the(enlarged) SVG group so its drawing area
+   * aligns with the container footprint.
+   */
+  style?: StyleProp<ViewStyle>;
 };
 
 export type ChartTooltipItemData = {

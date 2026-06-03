@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
 
-import type { AxisConfigProps } from '../../utils/types';
+import type { BaseAxisProps } from '../Axis';
 import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
 import {
   buildArrowPoints,
@@ -124,7 +124,7 @@ const makeContext = () => ({
   getMagneticPoints: () => new Set<number>(),
 });
 
-const noAxisConfig = (): AxisConfigProps | undefined => undefined;
+const noAxisConfig = (): BaseAxisProps | undefined => undefined;
 
 describe('useMagneticRegistration', () => {
   it('registers the data index when magnetic is true', () => {
@@ -153,7 +153,7 @@ describe('useMagneticRegistration', () => {
 
   it('resolves dataX through axis config data when provided', () => {
     const ctx = makeContext();
-    const getXAxisConfig = (): AxisConfigProps => ({
+    const getXAxisConfig = (): BaseAxisProps => ({
       scaleType: 'band',
       data: [100, 200, 300],
     });
@@ -165,7 +165,7 @@ describe('useMagneticRegistration', () => {
 
   it('does not register when axis data exists but does not contain the value', () => {
     const ctx = makeContext();
-    const getXAxisConfig = (): AxisConfigProps => ({
+    const getXAxisConfig = (): BaseAxisProps => ({
       scaleType: 'band',
       data: [100, 200, 300],
     });

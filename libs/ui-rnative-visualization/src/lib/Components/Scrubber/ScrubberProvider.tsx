@@ -37,6 +37,7 @@ export function ScrubberProvider({
   enableScrubbing,
   onScrubberPositionChange,
   magnetRadius = 6,
+  style,
 }: Readonly<ScrubberProviderProps>) {
   const [scrubberPosition, setScrubberPosition] = useState<
     number | undefined
@@ -163,7 +164,7 @@ export function ScrubberProvider({
   // context as expected.
   const surface = useMemo(
     () => (
-      <View style={{ width, height }}>
+      <View style={[{ width, height }, style]}>
         {children}
         {enableScrubbing && (
           <GestureDetector gesture={composed}>
@@ -175,7 +176,7 @@ export function ScrubberProvider({
         )}
       </View>
     ),
-    [width, height, children, enableScrubbing, composed],
+    [width, height, style, children, enableScrubbing, composed],
   );
 
   const contextValue = useMemo(
