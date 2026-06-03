@@ -9,6 +9,11 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
+  args: {
+    page: 1,
+    totalPages: 10,
+    onPageChange: () => {},
+  },
   argTypes: {
     page: { control: 'number' },
     totalPages: { control: 'number' },
