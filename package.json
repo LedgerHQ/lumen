@@ -29,7 +29,7 @@
     "@eslint/js": "^9.8.0",
     "@figma/code-connect": "^1.4.7",
     "@figma/rest-api-spec": "^0.28.0",
-    "@ledgerhq/crypto-icons": "^2.0.0",
+    "@ledgerhq/crypto-icons": "^2.0.4",
     "@nx/eslint": "22.5.3",
     "@nx/eslint-plugin": "22.5.3",
     "@nx/jest": "22.5.3",
