@@ -2,7 +2,18 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { AmountInput } from './AmountInput';
-import { type AmountInputProps } from './types';
+import {
+  type AmountInputAlign,
+  type AmountInputProps,
+  type AmountInputSize,
+} from './types';
+
+const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
+
+const SIZES: { size: AmountInputSize; value: string }[] = [
+  { size: 'md', value: '1234.56' },
+  { size: 'sm', value: '55 555' },
+];
 
 const meta: Meta<typeof AmountInput> = {
   component: AmountInput,
@@ -15,6 +26,15 @@ const meta: Meta<typeof AmountInput> = {
         type: 'code',
       },
     },
+  },
+  argTypes: {
+    isInvalid: {
+      control: 'boolean',
+      description: 'Marks the input as invalid for error styling.',
+    },
+  },
+  args: {
+    isInvalid: false,
   },
 };
 
@@ -66,6 +86,53 @@ export const WithValue: Story = {
     isInvalid: false,
     editable: true,
   },
+};
+
+export const Size: Story = {
+  render: () => (
+    <View
+      style={{
+        width: '100%',
+        maxWidth: 320,
+        alignItems: 'center',
+        gap: 24,
+        padding: 24,
+      }}
+    >
+      {SIZES.map(({ size, value }) => (
+        <AmountInput
+          key={size}
+          size={size}
+          value={value}
+          currencyText='$'
+          onChangeText={() => {}}
+        />
+      ))}
+    </View>
+  ),
+};
+
+export const Alignment: Story = {
+  render: () => (
+    <View
+      style={{
+        width: '100%',
+        maxWidth: 320,
+        gap: 24,
+        padding: 24,
+      }}
+    >
+      {ALIGNMENTS.map((align) => (
+        <AmountInput
+          key={align}
+          align={align}
+          value='1234.56'
+          currencyText='$'
+          onChangeText={() => {}}
+        />
+      ))}
+    </View>
+  ),
 };
 
 export const CurrencyPositionLeft: Story = {

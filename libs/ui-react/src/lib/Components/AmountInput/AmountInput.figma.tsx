@@ -3,18 +3,21 @@ import { AmountInput } from './AmountInput';
 
 figma.connect(
   AmountInput,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6245-2067',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=17523-37413',
   {
     imports: ["import { AmountInput } from '@ledgerhq/lumen-ui-react'"],
-    variant: { type: 'fiat' },
     props: {
-      value: figma.string('fiat-amount'),
-      currencyText: figma.enum('fiat', {
+      size: figma.enum('size', {
+        md: 'md',
+        sm: 'sm',
+      }),
+      value: figma.string('amount'),
+      currencyText: figma.enum('currency', {
         $: '$',
         '€': '€',
         '£': '£',
       }),
-      currencyPosition: figma.enum('fiat', {
+      currencyPosition: figma.enum('currency', {
         $: 'left',
         '£': 'left',
         '€': 'right',
@@ -28,6 +31,7 @@ figma.connect(
     },
     example: (props) => (
       <AmountInput
+        size={props.size}
         disabled={props.disabled}
         aria-invalid={props.ariaInvalid}
         value={props.value}
@@ -41,12 +45,16 @@ figma.connect(
 
 figma.connect(
   AmountInput,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6245-2067',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=17523-37413&',
   {
     imports: ["import { AmountInput } from '@ledgerhq/lumen-ui-react'"],
-    variant: { type: 'crypto' },
+    variant: { currency: 'crypto' },
     props: {
-      value: figma.string('crypto-amount'),
+      size: figma.enum('size', {
+        md: 'md',
+        sm: 'sm',
+      }),
+      value: figma.string('amount'),
       currencyText: figma.string('crypto'),
       disabled: figma.enum('state', {
         disabled: true,
@@ -57,6 +65,7 @@ figma.connect(
     },
     example: (props) => (
       <AmountInput
+        size={props.size}
         disabled={props.disabled}
         aria-invalid={props.ariaInvalid}
         value={props.value}

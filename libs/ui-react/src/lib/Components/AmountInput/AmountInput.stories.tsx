@@ -3,6 +3,11 @@ import { useState } from 'react';
 import { TransferVertical } from '../../Symbols/Icons/TransferVertical';
 import { IconButton } from '../IconButton';
 import { AmountInput } from './AmountInput';
+import type { AmountInputAlign, AmountInputSize } from './types';
+
+const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
+
+const SIZES: AmountInputSize[] = ['md', 'sm'];
 
 const meta = {
   title: 'Input/AmountInput',
@@ -42,6 +47,48 @@ export const WithValue: Story = {
   },
 };
 
+export const Size: Story = {
+  args: {
+    value: '1234.56',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => (
+    <div className='flex w-560 flex-col gap-24'>
+      {SIZES.map((size) => (
+        <div key={size} className='w-full'>
+          <AmountInput
+            size={size}
+            value='1234.56'
+            currencyText='$'
+            onChange={() => console.log('onChange triggered')}
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Alignment: Story = {
+  args: {
+    value: '1234.56',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => (
+    <div className='flex w-560 flex-col gap-24'>
+      {ALIGNMENTS.map((align) => (
+        <div key={align} className='w-full'>
+          <AmountInput
+            align={align}
+            value='1234.56'
+            currencyText='$'
+            onChange={() => console.log('onChange triggered')}
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     value: '1234.56',
@@ -65,7 +112,7 @@ export const IntegerOnly: Story = {
   args: {
     value: '1234',
     currencyText: '$',
-    allowDecimals: false, // Important: disables decimal input
+    allowDecimals: false,
     onChange: () => console.log('onChange triggered'),
   },
   parameters: {
