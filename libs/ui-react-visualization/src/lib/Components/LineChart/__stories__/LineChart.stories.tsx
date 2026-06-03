@@ -79,8 +79,119 @@ export const Base: Story = {
 };
 
 export const Interactive: Story = {
-  render: () => <InteractiveChartStory />,
-  args: {},
+  render: () => {
+    const [period, setPeriod] = useState<Period>('1Y');
+    const [scrubberIndex, setScrubberIndex] = useState<number | undefined>();
+    const [showMarkers, setShowMarkers] = useState(true);
+
+    const model = useMemo(() => buildChartModel(period), [period]);
+    const {
+      data,
+      markers,
+      markerByIndex,
+      average,
+      isPositive,
+      highIndex,
+      lowIndex,
+      yDomain,
+      xTicks,
+      yTicks,
+    } = model;
+
+    const activeValue = data[scrubberIndex ?? data.length - 1];
+    const changePercent = ((activeValue - data[0]) / data[0]) * 100;
+    const lineColor = cssVar(
+      isPositive ? 'var(--border-success)' : 'var(--border-error)',
+    );
+
+    return (
+      <div className='flex w-fit flex-col gap-24'>
+        <ChartHeader
+          value={activeValue}
+          changePercent={changePercent}
+          periodLabel={PERIODS[period].label}
+          showMarkers={showMarkers}
+          onToggleMarkers={() => setShowMarkers((value) => !value)}
+        />
+
+        <LineChart
+          series={[{ id: 'price', stroke: lineColor, data }]}
+          width={728}
+          height={340}
+          showArea
+          enableScrubbing
+          inset={{ top: 20, bottom: 8 }}
+          showXAxis
+          showYAxis
+          xAxis={{
+            ticks: xTicks,
+            tickLabelFormatter: createAxisDateFormatter(period, data.length),
+          }}
+          yAxis={{
+            domain: yDomain,
+            ticks: yTicks,
+            showTickMark: false,
+            showGrid: true,
+            // Below is a hack to hide the y-axis. A showLabels prop is coming soon.
+            width: 0,
+            tickLabelFormatter: () => '',
+          }}
+          onScrubberPositionChange={setScrubberIndex}
+        >
+          <ReferenceLine
+            dataY={average}
+            labelDy={-4}
+            labelHorizontalAlignment='start'
+            labelVerticalAlignment='start'
+            label='Avg. buy in'
+          />
+          {showMarkers &&
+            markers.map((marker) => (
+              <Point
+                key={marker.index}
+                magnetic
+                dataX={marker.index}
+                dataY={data[marker.index]}
+                color={getMarkerColor(marker)}
+              />
+            ))}
+
+          <Point
+            hidePoint
+            dataX={highIndex}
+            dataY={data[highIndex]}
+            labelPosition='top'
+            label={formatUsd(data[highIndex])}
+          />
+          <Point
+            hidePoint
+            dataX={lowIndex}
+            dataY={data[lowIndex]}
+            labelPosition='bottom'
+            label={formatUsd(data[lowIndex])}
+          />
+          <Scrubber
+            tooltip={(dataIndex) => {
+              const marker = markerByIndex.get(dataIndex);
+              return marker ? getMarkerTooltip(marker) : { items: [] };
+            }}
+          />
+        </LineChart>
+
+        <SegmentedControl
+          selectedValue={period}
+          onSelectedChange={(value) => setPeriod(value as Period)}
+          tabLayout='fixed'
+        >
+          {(Object.keys(PERIODS) as Period[]).map((key) => (
+            <SegmentedControlButton key={key} value={key}>
+              {key}
+            </SegmentedControlButton>
+          ))}
+        </SegmentedControl>
+      </div>
+    );
+  },
 };
 
 export const WithXAxis: Story = {
@@ -268,30 +379,25 @@ export const WithAreaMultipleSeries: Story = {
   },
 };
 
-const ChartToolbar = ({
-  showMarkers,
-  onToggleMarkers,
-}: {
-  showMarkers: boolean;
-  onToggleMarkers: () => void;
-}) => (
-  <div className='flex justify-end'>
-    <Button appearance='gray' size='sm' onClick={onToggleMarkers}>
-      {showMarkers ? 'Hide transactions' : 'Show transactions'}
-    </Button>
-  </div>
-);
-
 const ChartHeader = ({
   value,
   changePercent,
   periodLabel,
+  showMarkers,
+  onToggleMarkers,
 }: {
   value: number;
   changePercent: number;
   periodLabel: string;
+  showMarkers: boolean;
+  onToggleMarkers: () => void;
 }) => (
   <div className='flex flex-col gap-12'>
+    <div className='flex justify-end'>
+      <Button appearance='gray' size='sm' onClick={onToggleMarkers}>
+        {showMarkers ? 'Hide transactions' : 'Show transactions'}
+      </Button>
+    </div>
     <AmountDisplay value={value} formatter={usdFormatter} animate={false} />
     <div className='flex items-center gap-8'>
       <Trend value={changePercent} />
@@ -311,130 +417,3 @@ const ChartHeader = ({
     </div>
   </div>
 );
-
-const TimeframeSelector = ({
-  period,
-  onPeriodChange,
-}: {
-  period: Period;
-  onPeriodChange: (period: Period) => void;
-}) => (
-  <SegmentedControl
-    selectedValue={period}
-    onSelectedChange={(value) => onPeriodChange(value as Period)}
-    tabLayout='fixed'
-  >
-    {(Object.keys(PERIODS) as Period[]).map((key) => (
-      <SegmentedControlButton key={key} value={key}>
-        {key}
-      </SegmentedControlButton>
-    ))}
-  </SegmentedControl>
-);
-
-const InteractiveChartStory = () => {
-  const [period, setPeriod] = useState<Period>('1Y');
-  const [scrubberIndex, setScrubberIndex] = useState<number | undefined>();
-  const [showMarkers, setShowMarkers] = useState(true);
-
-  const model = useMemo(() => buildChartModel(period), [period]);
-  const {
-    data,
-    markers,
-    markerByIndex,
-    average,
-    isPositive,
-    highIndex,
-    lowIndex,
-    yDomain,
-    xTicks,
-    yTicks,
-  } = model;
-
-  const activeValue = data[scrubberIndex ?? data.length - 1];
-  const changePercent = ((activeValue - data[0]) / data[0]) * 100;
-  const lineColor = cssVar(
-    isPositive ? 'var(--border-success)' : 'var(--border-error)',
-  );
-
-  return (
-    <div className='flex w-fit flex-col gap-24'>
-      <ChartToolbar
-        showMarkers={showMarkers}
-        onToggleMarkers={() => setShowMarkers((value) => !value)}
-      />
-
-      <ChartHeader
-        value={activeValue}
-        changePercent={changePercent}
-        periodLabel={PERIODS[period].label}
-      />
-
-      <LineChart
-        series={[{ id: 'price', stroke: lineColor, data }]}
-        width={728}
-        height={340}
-        showArea
-        enableScrubbing
-        inset={{ top: 20, bottom: 8 }}
-        showXAxis
-        showYAxis
-        xAxis={{
-          ticks: xTicks,
-          tickLabelFormatter: createAxisDateFormatter(period, data.length),
-        }}
-        yAxis={{
-          domain: yDomain,
-          ticks: yTicks,
-          showTickMark: false,
-          showGrid: true,
-          // Below is a hack to hide the y-axis. A showLabels prop is coming soon.
-          width: 0,
-          tickLabelFormatter: () => '',
-        }}
-        onScrubberPositionChange={setScrubberIndex}
-      >
-        <ReferenceLine
-          dataY={average}
-          labelDy={-4}
-          labelHorizontalAlignment='start'
-          labelVerticalAlignment='start'
-          label='Avg. buy in'
-        />
-        {showMarkers &&
-          markers.map((marker) => (
-            <Point
-              key={marker.index}
-              magnetic
-              dataX={marker.index}
-              dataY={data[marker.index]}
-              color={getMarkerColor(marker)}
-            />
-          ))}
-
-        <Point
-          hidePoint
-          dataX={highIndex}
-          dataY={data[highIndex]}
-          labelPosition='top'
-          label={formatUsd(data[highIndex])}
-        />
-        <Point
-          hidePoint
-          dataX={lowIndex}
-          dataY={data[lowIndex]}
-          labelPosition='bottom'
-          label={formatUsd(data[lowIndex])}
-        />
-        <Scrubber
-          tooltip={(dataIndex) => {
-            const marker = markerByIndex.get(dataIndex);
-            return marker ? getMarkerTooltip(marker) : { items: [] };
-          }}
-        />
-      </LineChart>
-
-      <TimeframeSelector period={period} onPeriodChange={setPeriod} />
-    </div>
-  );
-};
