@@ -3,7 +3,7 @@ import type { StyleProp, TextStyle } from 'react-native';
 import type { StyledViewProps } from '../../../styles';
 import type { IconSize } from '../Icon';
 
-export type DotIconSize = 16 | 20 | 24;
+export type DotIconSize = 16 | 20 | 24 | 32;
 
 export type DotIconPin =
   | 'top-start'

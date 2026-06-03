@@ -17,6 +17,7 @@ const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
   16: 5,
   20: 6,
   24: 8,
+  32: 10,
 };
 
 const offsetBySize: Record<DotSymbolSize, number> = {
@@ -26,6 +27,7 @@ const offsetBySize: Record<DotSymbolSize, number> = {
   16: -3,
   20: -3,
   24: -3,
+  32: -3,
 };
 
 export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
@@ -38,7 +40,7 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   48: 20,
   56: 24,
   64: 24,
-  72: 24,
+  72: 32,
 };
 
 export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
@@ -46,7 +48,7 @@ export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
   40: 16,
   48: 20,
   56: 24,
-  72: 24,
+  72: 32,
 };
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =

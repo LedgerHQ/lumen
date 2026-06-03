@@ -29,6 +29,7 @@ const dotVariants = cva(
         16: 'size-16 border',
         20: 'size-20 border',
         24: 'size-24 border',
+        32: 'size-32 border',
       },
       shape: {
         square: '',
@@ -51,6 +52,7 @@ const dotVariants = cva(
       { size: 16, shape: 'square', className: 'rounded-[5px]' },
       { size: 20, shape: 'square', className: 'rounded-[6px]' },
       { size: 24, shape: 'square', className: 'rounded-[8px]' },
+      { size: 32, shape: 'square', className: 'rounded-[10px]' },
       { shape: 'circle', className: 'rounded-full' },
     ],
   },
@@ -63,6 +65,7 @@ const offsetBySize: Record<DotSymbolSize, number> = {
   16: -3,
   20: -3,
   24: -3,
+  32: -3,
 };
 
 export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
@@ -75,7 +78,7 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   48: 20,
   56: 24,
   64: 24,
-  72: 24,
+  72: 32,
 } as const;
 
 export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
@@ -83,7 +86,7 @@ export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
   40: 16,
   48: 20,
   56: 24,
-  72: 24,
+  72: 32,
 } as const;
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =

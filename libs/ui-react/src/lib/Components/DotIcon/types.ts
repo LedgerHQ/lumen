@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
 import type { IconSize } from '../Icon';
 
-export type DotIconSize = 16 | 20 | 24;
+export type DotIconSize = 16 | 20 | 24 | 32;
 
 export type DotIconPin =
   | 'top-start'
