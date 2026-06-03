@@ -30,7 +30,6 @@ export * from './NavBars';
 export * from './OptionLists';
 export * from './PageIndicators';
 export * from './SegmentedControls';
-export * from './Selects';
 export * from './Skeletons';
 export * from './Spots';
 export * from './Steppers';
