@@ -32,15 +32,15 @@ describe('getFontSize', () => {
     });
 
     it('scales down after 6 digits', () => {
-      // 7 digits: 28 - 1 * 1.5 = 26.5
-      expect(getFontSize('1234567', 'sm')).toBe(26.5);
-      // 10 digits: 28 - 4 * 1.5 = 22
-      expect(getFontSize('1234567890', 'sm')).toBe(22);
+      // 7 digits: 28 - 1 * 2 = 26
+      expect(getFontSize('1234567', 'sm')).toBe(26);
+      // 10 digits: 28 - 4 * 2 = 20
+      expect(getFontSize('1234567890', 'sm')).toBe(20);
     });
 
     it('does not go below 12px', () => {
-      // 17 digits: 28 - 11 * 1.5 = 11.5 → clamped to 12
-      expect(getFontSize('12345678901234567', 'sm')).toBe(12);
+      // 15 digits: 28 - 9 * 2 = 10 → clamped to 12
+      expect(getFontSize('123456789012345', 'sm')).toBe(12);
     });
   });
 });

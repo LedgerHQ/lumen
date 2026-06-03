@@ -1,6 +1,6 @@
 const FONT_SIZE_BY_SIZE = {
   md: { max: 48, min: 17, scale: 2, startAt: 0 },
-  sm: { max: 28, min: 12, scale: 1.5, startAt: 6 },
+  sm: { max: 28, min: 12, scale: 2, startAt: 6 },
 } as const;
 
 export type AmountInputFontSizeSize = keyof typeof FONT_SIZE_BY_SIZE;
@@ -9,7 +9,7 @@ export type AmountInputFontSizeSize = keyof typeof FONT_SIZE_BY_SIZE;
  * Calculates the font size based on the number of digits in the input value.
  * Scales from max to min as digit count increases.
  * - md: 48px (heading-0-semi-bold) down to 17px, shrinks from the first digit
- * - sm: 28px (heading-2-semi-bold) down to 14px, shrinks after 6 digits
+ * - sm: 28px (heading-2-semi-bold) down to 12px, shrinks after 6 digits
  */
 export function getFontSize(
   value: string,
