@@ -42,7 +42,6 @@ const getInputWidthPadding = (
     return basePadding;
   }
 
-  // Without a currency label, glyphs can extend past measured width (side bearings).
   return basePadding + NO_CURRENCY_WIDTH_PADDING_BY_SIZE[size];
 };
 
@@ -151,7 +150,6 @@ export const AmountInput = ({
   const [inputValue, setInputValue] = useState(value.toString());
   const [isChanging, setIsChanging] = useState(false);
 
-  /** Track previous value for animation trigger */
   const prevValueRef = useRef<string>(inputValue);
 
   const fontSize = useMemo(
@@ -195,7 +193,6 @@ export const AmountInput = ({
     setInputValue(cleaned);
     onChange({ ...e, target: { ...e.target, value: cleaned } });
 
-    // Trigger animation if value actually changes
     if (cleaned !== prevValueRef.current) {
       setIsChanging(true);
     }
@@ -225,7 +222,6 @@ export const AmountInput = ({
         </span>
       )}
 
-      {/* Hidden span mirrors input value */}
       <span
         ref={spanRef}
         className={mirrorTextStyles({ size })}
