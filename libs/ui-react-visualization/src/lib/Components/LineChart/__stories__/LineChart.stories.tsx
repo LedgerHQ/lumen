@@ -132,7 +132,7 @@ export const Interactive: Story = {
             ticks: yTicks,
             showTickMark: false,
             showGrid: true,
-            // Below is a hack to hide the y-axis. A showLabels prop is coming soon.
+            // Below is a hack to hide the y-axis labels. A showLabels prop is coming soon.
             width: 0,
             tickLabelFormatter: () => '',
           }}
