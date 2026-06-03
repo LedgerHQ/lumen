@@ -356,7 +356,10 @@ export const createAxisDateFormatter = (
   period: Period,
   dataLength: number,
 ): ((value: number | string) => string) => {
-  const format = new Intl.DateTimeFormat('en-US', PERIODS[period].dateFormat);
+  const format = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    ...PERIODS[period].dateFormat,
+  });
   return (value) =>
     format.format(
       indexToDate(
