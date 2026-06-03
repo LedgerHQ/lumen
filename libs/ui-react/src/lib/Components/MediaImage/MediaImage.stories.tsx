@@ -44,6 +44,7 @@ export const SizeShowcase: Story = {
       <MediaImage src={exampleSrc} alt={`Size 48`} size={48} />
       <MediaImage src={exampleSrc} alt={`Size 56`} size={56} />
       <MediaImage src={exampleSrc} alt={`Size 64`} size={64} />
+      <MediaImage src={exampleSrc} alt={`Size 72`} size={72} />
     </div>
   ),
 };
@@ -70,6 +71,7 @@ export const FallbackShowcase: Story = {
       <MediaImage fallback='Bitcoin' alt='Bitcoin' size={48} />
       <MediaImage fallback='Bitcoin' alt='Bitcoin' size={56} />
       <MediaImage fallback='Bitcoin' alt='Bitcoin' size={64} />
+      <MediaImage fallback='Bitcoin' alt='Bitcoin' size={72} />
     </div>
   ),
 };
@@ -86,6 +88,7 @@ export const LoadingShowcase: Story = {
       <MediaImage loading alt='Loading' size={48} />
       <MediaImage loading alt='Loading' size={56} />
       <MediaImage loading alt='Loading' size={64} />
+      <MediaImage loading alt='Loading' size={72} />
     </div>
   ),
 };
