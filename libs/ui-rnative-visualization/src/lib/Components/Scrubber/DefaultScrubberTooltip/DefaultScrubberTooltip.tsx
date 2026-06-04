@@ -4,7 +4,6 @@ import { G, Rect, Text as SvgText } from 'react-native-svg';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
-  BORDER_RADIUS,
   DEFAULT_OFFSET,
   DEFAULT_TOOLTIP_MIN_WIDTH,
   PADDING_X,
@@ -68,7 +67,7 @@ export function DefaultScrubberTooltip({
         y={drawingArea.y}
         width={tooltipWidth}
         height={tooltipHeight}
-        rx={BORDER_RADIUS}
+        rx={theme.borderRadius.sm}
         fill={theme.colors.bg.muted}
       />
       {hasTitle && (
@@ -80,9 +79,9 @@ export function DefaultScrubberTooltip({
           x={tooltipX + PADDING_X}
           y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
           alignmentBaseline='central'
-          fill={theme.colors.text.base}
-          fontSize={theme.typographies.body4.fontSize}
-          fontWeight={theme.typographies.body4.fontWeight}
+          fill={theme.colors.text.muted}
+          fontSize={theme.typographies.body3.fontSize}
+          fontWeight={theme.typographies.body3.fontWeight}
           fontFamily={theme.fontFamilies.sans}
         >
           {String(title)}

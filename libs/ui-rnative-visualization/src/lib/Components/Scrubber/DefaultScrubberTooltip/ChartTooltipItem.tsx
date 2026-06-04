@@ -31,7 +31,7 @@ export const ChartTooltipItem = memo(function ChartTooltipItem({
         textAnchor='start'
         alignmentBaseline='central'
         fill={theme.colors.text.muted}
-        fontSize={theme.typographies.body4.fontSize}
+        fontSize={theme.typographies.body3.fontSize}
         fontFamily={theme.fontFamilies.sans}
       >
         {String(label)}
@@ -43,8 +43,8 @@ export const ChartTooltipItem = memo(function ChartTooltipItem({
         textAnchor='end'
         alignmentBaseline='central'
         fill={theme.colors.text.base}
-        fontSize={theme.typographies.body4.fontSize}
-        fontWeight={theme.typographies.body4.fontWeight}
+        fontSize={theme.typographies.body3SemiBold.fontSize}
+        fontWeight={theme.typographies.body3SemiBold.fontWeight}
         fontFamily={theme.fontFamilies.sans}
       >
         {String(value)}
