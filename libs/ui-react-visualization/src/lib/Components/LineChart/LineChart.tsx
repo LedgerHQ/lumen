@@ -77,11 +77,12 @@ export function LineChart({
   const isTransitionLoading = loading && hasData;
   const isPlaceholder = isInitialLoading || isEmpty;
 
-  const ariaLabel = isEmpty
-    ? emptyLabel
-    : loading
-      ? 'Loading chart'
-      : undefined;
+  let ariaLabel: string | undefined;
+  if (isEmpty) {
+    ariaLabel = emptyLabel;
+  } else if (loading) {
+    ariaLabel = 'Loading chart';
+  }
 
   return (
     <CartesianChart

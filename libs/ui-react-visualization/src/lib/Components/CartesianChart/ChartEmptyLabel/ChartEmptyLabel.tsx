@@ -14,7 +14,7 @@ type ChartEmptyLabelProps = {
  * (which use `cssVar()` inline styles) it is styled with the design system's
  * Tailwind utilities, consistent with the HTML components in `ui-react`.
  */
-export function ChartEmptyLabel({ children }: ChartEmptyLabelProps) {
+export function ChartEmptyLabel({ children }: Readonly<ChartEmptyLabelProps>) {
   return (
     <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
       <span
