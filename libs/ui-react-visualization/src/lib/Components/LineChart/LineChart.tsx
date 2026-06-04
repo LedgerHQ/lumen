@@ -71,7 +71,14 @@ export function LineChart({
     yAxisConfig?.width,
   ]);
 
-  const hasData = (series ?? []).some((s) => (s.data?.length ?? 0) > 0);
+  const hasData = (series ?? []).some((s) => {
+    let validPoints = 0;
+    for (const value of s.data ?? []) {
+      if (value !== null) validPoints++;
+      if (validPoints >= 2) return true;
+    }
+    return false;
+  });
   const isInitialLoading = loading && !hasData;
   const isEmpty = !loading && !hasData;
   const isTransitionLoading = loading && hasData;
