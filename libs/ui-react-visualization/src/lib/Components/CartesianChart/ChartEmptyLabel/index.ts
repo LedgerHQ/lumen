@@ -1,0 +1,1 @@
+export { ChartEmptyLabel } from './ChartEmptyLabel';

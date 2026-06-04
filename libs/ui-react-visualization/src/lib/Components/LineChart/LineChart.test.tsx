@@ -99,4 +99,63 @@ describe('LineChart', () => {
     const clipPathEl = container.querySelector('clipPath');
     expect(clipPathEl).toBeNull();
   });
+
+  describe('loading and empty states', () => {
+    it('renders the shimmering placeholder with no data while loading (state 1)', () => {
+      const { getByTestId, queryByTestId } = render(
+        <LineChartWrapper width={400} height={200} loading />,
+      );
+
+      const emptyState = getByTestId('chart-empty-state');
+      expect(emptyState.querySelector('style')).not.toBeNull();
+      expect(queryByTestId('line-path')).toBeNull();
+      expect(queryByTestId('chart-empty-label')).toBeNull();
+    });
+
+    it('renders the placeholder with the empty label when there is no data and not loading (state 2)', () => {
+      const { getByTestId, queryByTestId } = render(
+        <LineChartWrapper width={400} height={200} emptyLabel='Nothing here' />,
+      );
+
+      const emptyState = getByTestId('chart-empty-state');
+      expect(emptyState.querySelector('style')).toBeNull();
+      expect(getByTestId('chart-empty-label').textContent).toBe('Nothing here');
+      expect(queryByTestId('line-path')).toBeNull();
+    });
+
+    it('defaults the empty label to "No data"', () => {
+      const { getByTestId } = render(
+        <LineChartWrapper width={400} height={200} />,
+      );
+
+      expect(getByTestId('chart-empty-label').textContent).toBe('No data');
+    });
+
+    it('keeps rendering the real line and axes during a transition load (state 3)', () => {
+      const { getByTestId, queryByTestId } = render(
+        <LineChartWrapper
+          series={sampleSeries}
+          width={400}
+          height={200}
+          showXAxis
+          loading
+        />,
+      );
+
+      getByTestId('line-path');
+      getByTestId('x-axis');
+      expect(queryByTestId('chart-empty-state')).toBeNull();
+      expect(queryByTestId('chart-empty-label')).toBeNull();
+    });
+
+    it('renders the normal chart when idle with data (state 4)', () => {
+      const { getByTestId, queryByTestId } = render(
+        <LineChartWrapper series={sampleSeries} width={400} height={200} />,
+      );
+
+      getByTestId('line-path');
+      expect(queryByTestId('chart-empty-state')).toBeNull();
+      expect(queryByTestId('chart-empty-label')).toBeNull();
+    });
+  });
 });

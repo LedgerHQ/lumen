@@ -9,8 +9,11 @@ import {
 import { XAxis } from '../Axis/XAxis';
 import { YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
+import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel';
+import { useShimmerAnimation } from '../CartesianChart/ShimmerAnimation';
 import { Line } from '../Line';
 
+import { LineChartEmptyState } from './LineChartEmptyState';
 import type { LineChartProps } from './types';
 
 export function LineChart({
@@ -28,8 +31,12 @@ export function LineChart({
   onScrubberPositionChange,
   animate,
   magnetRadius,
+  loading = false,
+  emptyLabel = 'No data',
   children,
 }: LineChartProps) {
+  const { animationStyle: shimmerAnimation, keyframe: shimmerKeyframe } =
+    useShimmerAnimation();
   const xAxisConfig = {
     ...defaultXAxisProps,
     ...xAxis,
@@ -64,6 +71,18 @@ export function LineChart({
     yAxisConfig?.width,
   ]);
 
+  const hasData = (series ?? []).some((s) => (s.data?.length ?? 0) > 0);
+  const isInitialLoading = loading && !hasData;
+  const isEmpty = !loading && !hasData;
+  const isTransitionLoading = loading && hasData;
+  const isPlaceholder = isInitialLoading || isEmpty;
+
+  const ariaLabel = isEmpty
+    ? emptyLabel
+    : loading
+      ? 'Loading chart'
+      : undefined;
+
   return (
     <CartesianChart
       series={series ?? []}
@@ -75,21 +94,48 @@ export function LineChart({
       axisPadding={axisPadding}
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
-      animate={animate}
+      animate={isTransitionLoading ? false : animate}
       magnetRadius={magnetRadius}
+      ariaLabel={ariaLabel}
+      ariaBusy={loading}
+      overlay={
+        isEmpty ? <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel> : undefined
+      }
     >
-      {showXAxis && <XAxis {...xAxisConfig} />}
-      {showYAxis && <YAxis {...yAxisConfig} />}
-      {series?.map((s) => (
-        <Line
-          key={s.id}
-          seriesId={s.id}
-          stroke={s.stroke}
-          showArea={showArea}
-          areaType={areaType}
-        />
-      ))}
-      {children}
+      {isPlaceholder ? (
+        <LineChartEmptyState loading={isInitialLoading} />
+      ) : (
+        <>
+          {showXAxis && <XAxis {...xAxisConfig} />}
+          {showYAxis && <YAxis {...yAxisConfig} />}
+          {isTransitionLoading ? (
+            <>
+              <style>{shimmerKeyframe}</style>
+              <g style={{ animation: shimmerAnimation }}>
+                {series?.map((s) => (
+                  <Line
+                    key={s.id}
+                    seriesId={s.id}
+                    stroke={s.stroke}
+                    showArea={showArea}
+                    areaType={areaType}
+                  />
+                ))}
+              </g>
+            </>
+          ) : (
+            series?.map((s) => (
+              <Line
+                key={s.id}
+                seriesId={s.id}
+                showArea={showArea}
+                areaType={areaType}
+              />
+            ))
+          )}
+          {children}
+        </>
+      )}
     </CartesianChart>
   );
 }
