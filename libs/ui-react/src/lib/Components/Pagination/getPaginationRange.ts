@@ -1,19 +1,20 @@
 export type PaginationRangeItem = number | 'ellipsis';
 
 const FIRST_PAGE = 1;
-
 const SIBLING_SIDES = 2;
+const FIXED_PAGE_SLOT_COUNT = 5;
+const BASE_CLUSTER_PAGE_COUNT = 3;
 
 const range = (start: number, end: number): number[] =>
   Array.from({ length: end - start + 1 }, (_, index) => start + index);
 
 /** Max page slots before collapsing */
 const getMaxVisiblePageSlots = (siblingCount: number): number =>
-  siblingCount * SIBLING_SIDES + 5;
+  siblingCount * SIBLING_SIDES + FIXED_PAGE_SLOT_COUNT;
 
 /** Page count in the start or end cluster when collapsed */
 const getCollapsedClusterPageCount = (siblingCount: number): number =>
-  3 + siblingCount * SIBLING_SIDES;
+  BASE_CLUSTER_PAGE_COUNT + siblingCount * SIBLING_SIDES;
 
 /**
  * Builds the list of page numbers and ellipsis markers to display.

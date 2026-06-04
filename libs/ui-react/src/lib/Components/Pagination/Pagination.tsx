@@ -53,7 +53,7 @@ export const Pagination = ({
             <span
               key={`ellipsis-${index}`}
               aria-hidden
-              className='body-2 text-muted'
+              className='inline-flex w-40 items-center justify-center body-2 text-muted'
             >
               …
             </span>
