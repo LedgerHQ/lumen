@@ -53,6 +53,7 @@
     "@react-native/babel-preset": "~0.79.7",
     "@react-native/metro-config": "~0.79.7",
     "@rollup/plugin-url": "^8.0.2",
+    "@storybook/addon-a11y": "^10.4.2",
     "@storybook/addon-docs": "10.2.13",
     "@storybook/addon-ondevice-actions": "10.2.3",
     "@storybook/addon-ondevice-controls": "10.2.3",
