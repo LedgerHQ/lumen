@@ -41,22 +41,16 @@ const magneticPoints = [
 ];
 
 export const Base: Story = {
-  render: () => (
+  args: {
+    dataX: 4,
+    dataY: 98,
+    label: '$98.00',
+    labelPosition: 'top',
+    color: cssVar('var(--background-success-strong)'),
+  },
+  render: (args) => (
     <LineChart series={sampleSeries} height={CHART_HEIGHT} showArea>
-      <Point
-        dataX={9}
-        dataY={4}
-        label='$4.00'
-        color={cssVar('var(--background-error-strong)')}
-        labelPosition='bottom'
-      />
-      <Point
-        dataX={4}
-        dataY={98}
-        label='$98.00'
-        color={cssVar('var(--background-success-strong)')}
-        labelPosition='top'
-      />
+      <Point {...args} />
     </LineChart>
   ),
 };

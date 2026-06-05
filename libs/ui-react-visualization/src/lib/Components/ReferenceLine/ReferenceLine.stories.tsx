@@ -32,15 +32,16 @@ export default meta;
 type Story = StoryObj<typeof ReferenceLine>;
 
 export const HorizontalLine: Story = {
-  render: () => (
+  args: {
+    dataY: 50,
+    label: 'Target',
+    labelDy: -4,
+    labelVerticalAlignment: 'start',
+    labelHorizontalAlignment: 'start',
+  },
+  render: (args) => (
     <LineChart series={sampleSeries} height={CHART_HEIGHT} showArea>
-      <ReferenceLine
-        dataY={50}
-        label='Target'
-        labelDy={-4}
-        labelVerticalAlignment='start'
-        labelHorizontalAlignment='start'
-      />
+      <ReferenceLine {...args} />
     </LineChart>
   ),
 };
@@ -69,16 +70,16 @@ export const WithLabelAndStyling: Story = {
       xAxis={{ showLine: true }}
     >
       <ReferenceLine
-        dataY={80}
-        label='ATH'
+        dataY={75}
+        label='25th percentile'
         labelDy={-4}
         labelVerticalAlignment='start'
         labelHorizontalAlignment='start'
         stroke={cssVar('var(--border-success)')}
       />
       <ReferenceLine
-        dataY={20}
-        label='Low'
+        dataY={25}
+        label='75th percentile'
         labelDy={-4}
         labelVerticalAlignment='start'
         labelHorizontalAlignment='start'
