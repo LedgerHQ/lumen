@@ -9,7 +9,7 @@ import type { Series } from '../../../utils/types';
  * sub-components.
  */
 
-/** Standard chart width (px) shared by every story. */
+/** Standard chart width (CSS length) shared by every story. */
 export const CHART_WIDTH = '100%';
 
 /** Standard chart height (px) shared by every story. */
