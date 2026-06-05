@@ -6,6 +6,8 @@ const config = {
     './src/**/*.{js,jsx,ts,tsx}',
     '.storybook/**/*.{js,jsx,ts,tsx}',
     './lib/**/*.stories.{js,jsx,ts,tsx}',
+    '../ui-react-visualization/src/**/*.{js,jsx,ts,tsx}',
+    '../ui-react-visualization/.storybook/**/*.{js,jsx,ts,tsx}',
   ],
   presets: [allBrandsPreset],
 } satisfies Config;
