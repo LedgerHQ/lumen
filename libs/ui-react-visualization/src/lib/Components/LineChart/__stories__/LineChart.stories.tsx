@@ -7,7 +7,7 @@ import {
   Trend,
 } from '@ledgerhq/lumen-ui-react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { Point } from '../../Point';
@@ -316,6 +316,16 @@ export const Interactive: Story = {
     const [showMarkers, setShowMarkers] = useState(true);
     const [loading, setLoading] = useState(true);
     const [model, setModel] = useState<ChartModel | null>(null);
+    const fetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+      undefined,
+    );
+
+    const scheduleFetch = (callback: () => void, delay: number) => {
+      if (fetchTimeoutRef.current !== undefined) {
+        clearTimeout(fetchTimeoutRef.current);
+      }
+      fetchTimeoutRef.current = setTimeout(callback, delay);
+    };
 
     useEffect(() => {
       setLoading(true);
@@ -323,15 +333,22 @@ export const Interactive: Story = {
       const delay = model
         ? TRANSITION_FETCH_DELAY_IN_MS
         : INITIAL_FETCH_DELAY_IN_MS;
-      const timeout = setTimeout(() => {
+      scheduleFetch(() => {
         setModel(buildChartModel(period));
         setLoading(false);
         setShowMarkers(true);
       }, delay);
-
-      return () => clearTimeout(timeout);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [period]);
+
+    useEffect(
+      () => () => {
+        if (fetchTimeoutRef.current !== undefined) {
+          clearTimeout(fetchTimeoutRef.current);
+        }
+      },
+      [],
+    );
 
     const data = model?.data ?? [];
     const activeValue = data.length
@@ -356,7 +373,7 @@ export const Interactive: Story = {
           onSimulateEmpty={() => {
             setLoading(true);
             setShowMarkers(false);
-            setTimeout(() => {
+            scheduleFetch(() => {
               setModel(null);
               setLoading(false);
             }, INITIAL_FETCH_DELAY_IN_MS);
