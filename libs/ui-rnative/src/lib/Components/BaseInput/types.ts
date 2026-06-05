@@ -33,6 +33,12 @@ export type BaseInputProps = {
    */
   inputStyle?: StyleProp<TextStyle>;
   /**
+   * Additional styles to apply to the typed text value.
+   * Applied after `inputStyle`, so typography overrides such as `fontSize`,
+   * `fontWeight`, and `color` take precedence over the default input styles.
+   */
+  valueStyle?: StyleProp<TextStyle>;
+  /**
    * Additional styles to apply to the label element.
    */
   labelStyle?: StyleProp<TextStyle>;

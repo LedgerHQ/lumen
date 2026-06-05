@@ -87,4 +87,23 @@ describe('TextInput', () => {
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
     });
   });
+
+  describe('Styling', () => {
+    it('applies valueStyle to the typed text', () => {
+      renderWithProvider(
+        <TextInput
+          label='Amount'
+          value='123'
+          onChangeText={() => {}}
+          valueStyle={{ fontSize: 20, fontWeight: '600' }}
+        />,
+      );
+
+      const input = screen.getByDisplayValue('123');
+
+      expect(input.props.style).toEqual(
+        expect.objectContaining({ fontSize: 20, fontWeight: '600' }),
+      );
+    });
+  });
 });

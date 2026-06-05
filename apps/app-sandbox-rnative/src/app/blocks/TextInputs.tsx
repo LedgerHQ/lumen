@@ -6,7 +6,7 @@ import {
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Alert, Platform, Pressable, View } from 'react-native';
 
 export function TextInputs() {
   const [team, setTeam] = useState<string>();
@@ -32,6 +32,10 @@ export function TextInputs() {
         }
       />
       <TextInput label='Email' placeholder='name@example.com' />
+      <TextInput
+        label='Nickname'
+        valueStyle={Platform.OS === 'ios' ? { fontSize: 16 } : undefined}
+      />
       <TextInput
         label='Password'
         secureTextEntry={!showPassword}

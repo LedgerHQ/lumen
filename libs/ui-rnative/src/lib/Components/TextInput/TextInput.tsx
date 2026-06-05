@@ -55,6 +55,14 @@ import { type TextInputProps } from './types';
  *     analytics.track('username_cleared');
  *   }}
  * />
+ *
+ * // Override typed text typography
+ * <TextInput
+ *   label="Amount"
+ *   value={amount}
+ *   onChangeText={setAmount}
+ *   valueStyle={{ fontSize: 20, fontWeight: '600' }}
+ * />
  */
 export const TextInput = (props: TextInputProps) => {
   return <BaseInput {...props} />;

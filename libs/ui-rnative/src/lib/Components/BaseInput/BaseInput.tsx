@@ -34,6 +34,7 @@ export const BaseInput = ({
   style,
   containerStyle,
   inputStyle,
+  valueStyle,
   labelStyle,
   label,
   helperText,
@@ -126,7 +127,7 @@ export const BaseInput = ({
             ref={inputRef}
             value={value}
             placeholder={inputPlaceholder}
-            style={StyleSheet.flatten([styles.input, inputStyle])}
+            style={StyleSheet.flatten([styles.input, inputStyle, valueStyle])}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onChangeText={handleChangeText}
