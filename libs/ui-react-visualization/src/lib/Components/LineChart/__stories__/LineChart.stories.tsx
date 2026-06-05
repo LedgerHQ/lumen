@@ -121,10 +121,10 @@ export const WidthAndHeight: Story = {
 
 const insetExamples = [
   { label: 'inset={0}', inset: 0 },
-  { label: 'inset={24}', inset: 24 },
+  { label: 'inset={15}', inset: 15 },
   {
-    label: 'inset={{ top: 40, right: 16, bottom: 8, left: 16 }}',
-    inset: { top: 40, right: 16, bottom: 8, left: 16 },
+    label: 'inset={{ top: 40, bottom: 20, left: 40, right: 20 }}',
+    inset: { top: 30, bottom: 30, left: 40, right: 40 },
   },
 ];
 
@@ -136,19 +136,19 @@ const insetExamples = [
  */
 export const Inset: Story = {
   render: () => (
-    <div className='flex flex-col gap-24'>
+    <div className='flex flex-wrap gap-24'>
       {insetExamples.map(({ label, inset }) => (
-        <div key={label} className='flex flex-col gap-8'>
-          <span className='body-3 text-muted'>{label}</span>
-          <div className='rounded-md border border-muted'>
+        <div key={label} className='flex w-256 flex-col gap-8'>
+          <div className='border border-muted'>
             <LineChart
               series={sampleSeries}
               width={CHART_WIDTH}
-              height={140}
+              height={150}
               inset={inset}
               showArea
             />
           </div>
+          <span className='body-3 text-muted'>{label}</span>
         </div>
       ))}
     </div>
