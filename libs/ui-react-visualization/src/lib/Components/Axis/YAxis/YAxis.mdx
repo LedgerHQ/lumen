@@ -1,0 +1,74 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as YAxisStories from './YAxis.stories';
+
+<Meta of={YAxisStories} />
+
+# YAxis
+
+The y-axis renders value ticks, labels, an optional baseline and grid along the
+vertical edge of the chart's drawing area. It is also where the **value domain
+and scale** are configured.
+
+## Usage
+
+`YAxis` is not used as a standalone component. Enable it with `showYAxis` and
+configure it through the `yAxis` prop on `LineChart`.
+
+`YAxisProps` extends the shared `BaseAxisProps` and adds `position` (`'start'`
+or `'end'`) and `width`.
+
+## Baseline
+
+`showLine` renders the axis baseline.
+
+<Canvas of={YAxisStories.ShowLine} />
+
+## Grid
+
+`showGrid` draws a horizontal grid line at each tick. `gridLineStyle` toggles
+between dashed and solid.
+
+<Canvas of={YAxisStories.ShowGrid} />
+
+## Labels
+
+`tickLabelFormatter` maps each tick value to its display string.
+
+<Canvas of={YAxisStories.TickLabelFormatter} />
+
+## Domain
+
+The **domain** is the value range mapped onto the axis. There are three ways to
+control it:
+
+- **Auto** (default) — derived from the data extent.
+- **Fixed** — pass `{ min, max }` to pin the range.
+- **Adjusted** — pass a function `(bounds) => bounds` to tweak the computed
+  range (e.g. add headroom).
+
+<Canvas of={YAxisStories.CustomDomain} />
+<Canvas of={YAxisStories.DomainFunction} />
+
+`nice` rounds the domain outward to clean boundaries (applied after any
+`domain` override). Disable it to let data fill the plot area exactly.
+
+<Canvas of={YAxisStories.Nice} />
+
+## Position & width
+
+`position` places the axis on the start (left) or end (right) side. `width`
+reserves horizontal space for the axis and its labels.
+
+<Canvas of={YAxisStories.Position} />
+<Canvas of={YAxisStories.Width} />
+
+## Scale
+
+`scaleType` selects the mapping algorithm. Use `'log'` for data spanning orders
+of magnitude (the domain must stay strictly positive).
+
+<Canvas of={YAxisStories.LogScale} />
+
+## Props
+
+<Controls of={YAxisStories.Base} />

@@ -10,5 +10,9 @@ export const StoryDecorator = ({
 }) => {
   const colorScheme = useDarkMode() ? 'dark' : 'light';
 
-  return <ThemeProvider colorScheme={colorScheme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider colorScheme={colorScheme}>
+      <div className='p-32'>{children}</div>
+    </ThemeProvider>
+  );
 };

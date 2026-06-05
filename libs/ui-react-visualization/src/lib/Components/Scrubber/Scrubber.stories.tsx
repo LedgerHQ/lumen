@@ -3,6 +3,15 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
 import { LineChart } from '../LineChart';
+import {
+  CHART_HEIGHT,
+  CHART_WIDTH,
+  denseData,
+  denseSeries,
+  monthLabels,
+  multiSeries,
+  sampleSeries,
+} from '../LineChart/__stories__/chartStoryFixtures';
 
 import { Point } from '../Point/Point';
 import { Scrubber } from './Scrubber';
@@ -24,151 +33,76 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Scrubber>;
 
-const dates = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+const annotatedIndices = new Set([4, 9]);
 
-const singleSeries = [
-  {
-    id: 'prices',
-    stroke: '#7B61FF',
-    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20],
-  },
-];
+const magneticIndices = [20, 60, 100, 140];
 
-const multiSeries = [
-  {
-    id: 'lineA',
-    label: 'Line A',
-    stroke: '#7B61FF',
-    data: [5, 15, 10, 90, 85, 70, 30, 25, 25, 40, 60, 80],
-  },
-  {
-    id: 'lineB',
-    label: 'Line B',
-    stroke: '#44D7B6',
-    data: [90, 85, 70, 25, 23, 40, 45, 40, 50, 30, 20, 10],
-  },
-];
-
+/**
+ * The simplest setup: `enableScrubbing` on the chart and a bare `<Scrubber>`
+ * child. Hover, touch or use the keyboard to move the scrubber line; the area
+ * past the cursor is dimmed.
+ */
 export const Base: Story = {
   render: (args: ScrubberProps) => (
-    <div className='flex flex-col gap-40 p-16'>
-      <div className='flex flex-col gap-10'>
-        <h1 className='heading-1-semi-bold text-base'>Single Series</h1>
-        <p className='text-base'>This is a single-series chart with a line.</p>
-      </div>
-      <LineChart
-        series={singleSeries}
-        height={400}
-        showArea
-        yAxis={{
-          domain: (bounds) => ({
-            min: bounds.min * 0.8,
-            max: bounds.max * 1.2,
-          }),
-        }}
-        enableScrubbing
-      >
-        <Scrubber {...args} />
-        <Point
-          dataX={1}
-          dataY={22}
-          label='$98.00'
-          showLabelArrow={false}
-          labelPosition='top'
-          color={cssVar('var(--background-success-strong)')}
-        />
-        <Point
-          dataX={2}
-          dataY={29}
-          label='$98.00'
-          showLabelArrow={false}
-          labelPosition='top'
-          color={cssVar('var(--background-error-strong)')}
-        />
-        <Point
-          dataX={3}
-          dataY={45}
-          label='$98.00'
-          showLabelArrow={false}
-          labelPosition='top'
-          color={cssVar('var(--background-success-strong)')}
-        />
-        <Point
-          dataX={5}
-          dataY={45}
-          label='$98.00'
-          showLabelArrow={false}
-          labelPosition='top'
-          color={cssVar('var(--background-error-strong)')}
-        />
-      </LineChart>
-    </div>
+    <LineChart
+      series={sampleSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      showArea
+      enableScrubbing
+    >
+      <Scrubber {...args} />
+    </LineChart>
   ),
   args: {},
 };
 
-export const MultiSeries: Story = {
-  render: (args: ScrubberProps) => (
-    <div className='flex flex-col gap-40 p-16'>
-      <div className='flex flex-col gap-10'>
-        <h1 className='heading-1-semi-bold text-base'>Multi Series</h1>
-        <p className='text-base'>
-          This is a multi-series chart with two lines.
-        </p>
-      </div>
-      <LineChart
-        series={multiSeries}
-        height={400}
-        enableScrubbing
-        inset={{ top: 20 }}
-        showYAxis
-        yAxis={{
-          showLine: false,
-          showGrid: true,
-          position: 'end',
-          domain: (bounds) => ({
-            min: bounds.min * 0.5,
-            max: bounds.max * 1.2,
-          }),
-          tickLabelFormatter: (v) => `$${v}`,
-        }}
-      >
-        <Scrubber {...args} showBeacons />
-      </LineChart>
-    </div>
+/**
+ * Pass a `tooltip` callback to surface the value at the scrubbed index.
+ * This is the most common scrubber configuration.
+ */
+export const WithTooltip: Story = {
+  render: () => (
+    <LineChart
+      series={sampleSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      showArea
+    >
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          title: `${sampleSeries[0].data[dataIndex]} Transactions`,
+          items: [
+            { label: 'Date', value: monthLabels[dataIndex] },
+            {
+              label: 'Price',
+              value: `$${sampleSeries[0].data[dataIndex]}`,
+            },
+          ],
+        })}
+      />
+    </LineChart>
   ),
-  args: {},
 };
 
-export const WithAxes: Story = {
+/**
+ * `showBeacons` draws a dot on every series at the active index. The scrubber
+ * tracks the same index across all series in a multi-line chart.
+ */
+export const WithBeacons: Story = {
   render: (args: ScrubberProps) => (
     <LineChart
-      series={singleSeries}
-      height={400}
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
       enableScrubbing
       inset={{ top: 20 }}
-      showArea
-      showXAxis
       showYAxis
-      xAxis={{
-        data: dates,
-        showGrid: true,
-      }}
       yAxis={{
-        showLine: true,
+        showLine: false,
+        showGrid: true,
+        position: 'end',
         domain: (bounds) => ({
           min: bounds.min * 0.5,
           max: bounds.max * 1.2,
@@ -176,118 +110,74 @@ export const WithAxes: Story = {
         tickLabelFormatter: (v) => `$${v}`,
       }}
     >
-      <Scrubber {...args} />
-      <Point
-        dataX={4}
-        dataY={98}
-        label='$98.00'
-        showLabelArrow={false}
-        labelPosition='top'
-        color={cssVar('var(--background-error-strong)')}
-      />
+      <Scrubber {...args} showBeacons />
     </LineChart>
   ),
   args: {},
 };
 
-const tooltipSampleSeries = [
-  {
-    id: 'prices',
-    stroke: '#7B61FF',
-    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
-  },
-];
-
-const tooltipDates = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-  'Jan',
-  'Feb',
-];
-
-const tooltipAnnotatedIndices = new Set([4, 9]);
-
-export const WithBaseTooltip: Story = {
-  render: () => (
-    <LineChart
-      series={tooltipSampleSeries}
-      height={250}
-      enableScrubbing
-      showArea
-    >
-      <Scrubber
-        tooltip={(dataIndex) => ({
-          items: [
-            { label: 'Date', value: tooltipDates[dataIndex] },
-            {
-              label: 'Price',
-              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
-            },
-          ],
-        })}
-      />
-    </LineChart>
-  ),
-};
-
-export const WithTooltipTitle: Story = {
-  render: () => (
-    <LineChart
-      series={tooltipSampleSeries}
-      height={250}
-      enableScrubbing
-      showArea
-    >
-      <Scrubber
-        tooltip={(dataIndex) => ({
-          title: `${tooltipSampleSeries[0].data[dataIndex]} Transactions`,
-          items: [
-            { label: 'Date', value: tooltipDates[dataIndex] },
-            {
-              label: 'Price',
-              value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
-            },
-          ],
-        })}
-      />
-    </LineChart>
-  ),
-};
-
+/**
+ * Return `{ items: [] }` from the `tooltip` callback to hide the tooltip at an
+ * index — here it only appears on annotated `Point`s.
+ */
 export const WithTooltipOnPoints: Story = {
   render: () => (
     <LineChart
-      series={tooltipSampleSeries}
-      height={250}
+      series={sampleSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
       enableScrubbing
       showArea
     >
+      <Point dataX={4} dataY={98} label='ATH' />
+      <Point dataX={9} dataY={4} label='Low' labelPosition='bottom' />
       <Scrubber
         tooltip={(dataIndex) => {
-          if (!tooltipAnnotatedIndices.has(dataIndex)) return { items: [] };
+          if (!annotatedIndices.has(dataIndex)) return { items: [] };
           return {
             items: [
-              { label: 'Date', value: tooltipDates[dataIndex] },
+              { label: 'Date', value: monthLabels[dataIndex] },
               {
                 label: 'Price',
-                value: `$${tooltipSampleSeries[0].data[dataIndex]}`,
+                value: `$${sampleSeries[0].data[dataIndex]}`,
               },
             ],
           };
         }}
       />
-      <Point dataX={4} dataY={98} label='ATH' />
-      <Point dataX={9} dataY={4} label='Low' labelPosition='bottom' />
+    </LineChart>
+  ),
+};
+
+/**
+ * With `magnetic` `<Point>`s and a `magnetRadius`, the scrubber snaps onto those
+ * points as it nears them. Across a dense series with only a few magnetic
+ * points, scrubbing visibly latches onto them.
+ */
+export const MagneticPoints: Story = {
+  render: () => (
+    <LineChart
+      series={denseSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      showArea
+      enableScrubbing
+      magnetRadius={16}
+    >
+      {magneticIndices.map((index) => (
+        <Point
+          key={index}
+          magnetic
+          dataX={index}
+          dataY={denseData[index]}
+          color={cssVar('var(--background-success-strong)')}
+        />
+      ))}
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          items: [{ label: 'Value', value: `${denseData[dataIndex]}` }],
+        })}
+      />
     </LineChart>
   ),
 };

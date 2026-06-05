@@ -1,0 +1,153 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { DocTable } from '../../../../../../ui-react/.storybook/components';
+import * as LineChartStories from './LineChart.stories';
+
+<Meta of={LineChartStories} />
+
+# LineChart
+
+A flexible line chart for displaying data trends over time. Supports multiple
+series, area fills, axes, annotations and interactive scrubbing.
+
+## Usage
+
+`LineChart` is the entry point for the visualization library. It renders one
+line per series across a single x/y axis pair, drawn as an SVG. It owns the data
+and computes the scales; axes are configured through props (`xAxis` / `yAxis`),
+while points, reference lines and the scrubber compose as children.
+
+Under the hood it maps **data space** (your numbers) into **pixel space** (the
+SVG) through a few coordinated pieces:
+
+- **Series** — your data, one line each.
+- **Drawing area** — the plotted region, derived from `width`/`height` minus
+  `inset` and any axis padding.
+- **Scales & domains** — how data values map onto the drawing area, configured
+  per axis.
+- **Overlays** — `Point`, `ReferenceLine` and `Scrubber` children, positioned in
+  data space and drawn on top of the lines.
+
+## Basics
+
+To define your data, create an array of series objects. Each series should have an `id` and a `data` array (numbers, one per point).
+
+<Canvas of={LineChartStories.Base} />
+
+A `Series` is the core data model:
+
+<DocTable
+  columnWidths={[120]}
+  headers={['Field', 'Description']}
+  rows={[
+    [<code>id</code>, 'Stable, unique identifier for the series.'],
+    [
+      <code>data</code>,
+      <>
+        Array of numbers. Use <code>null</code> for gaps.
+      </>,
+    ],
+    [<code>stroke</code>, 'CSS color applied to the line/area.'],
+    [
+      <code>label</code>,
+      'Optional, human-readable name used in legends and tooltips.',
+    ],
+  ]}
+/>
+
+Add a `label` and `stroke` to give the series identity:
+
+<Canvas of={LineChartStories.Series} />
+
+`series` also accepts multiple entries to draw several lines that share the same
+scales:
+
+<Canvas of={LineChartStories.MultipleSeries} />
+
+## Data
+
+Each series' `data` array defines the y-values, one per index. `null` entries
+render as gaps in the line.
+
+<Canvas of={LineChartStories.MissingData} />
+
+### Scales
+
+Axes use a `linear` scale by default. Switch the algorithm with `scaleType`
+(e.g. `'log'` for data spanning orders of magnitude, or `'band'` for discrete
+categories). See the **XAxis** and **YAxis** pages for the full set of scale and
+domain options.
+
+## Sizing
+
+`width` accepts a number (pixels) or a string like `'100%'` to fill the
+container; `height` is always in pixels.
+
+<Canvas of={LineChartStories.WidthAndHeight} />
+
+`inset` reserves padding between the SVG edge and the drawing area — the region
+where data is actually plotted. A number applies uniformly; a partial object
+overrides individual sides. Use it to leave room for overlays such as point
+labels that would otherwise clip at the edges. In the examples below the border
+outlines the full chart box, so the inset is the gap between it and the line.
+
+<Canvas of={LineChartStories.Inset} />
+
+## Interaction
+
+Charts have built-in scrubbing, enabled with `enableScrubbing`. Listen for
+changes through `onScrubberPositionChange`, and add a `<Scrubber>` child to
+visualise the current position.
+
+<Canvas of={LineChartStories.Scrubbing} />
+
+See the **Scrubber** page for tooltips, beacons and magnetic points.
+
+## Styling
+
+### Area
+
+`showArea` fills the region under each line; `areaType='gradient'` (default)
+fades from the stroke color to transparent.
+
+<Canvas of={LineChartStories.Area} />
+
+### Axes
+
+Toggle axes with `showXAxis` / `showYAxis` and configure them through the
+`xAxis` / `yAxis` props (ticks, grid, formatters, `scaleType`, `domain`,
+`nice`).
+
+<Canvas of={LineChartStories.WithXAxis} />
+<Canvas of={LineChartStories.WithYAxis} />
+
+For the full set of axis options, see the dedicated **XAxis** and **YAxis**
+pages.
+
+### Points
+
+Annotate specific data coordinates by adding `<Point>` children, positioned in
+data space with `dataX` / `dataY`.
+
+<Canvas of={LineChartStories.WithPoint} />
+
+See the **Point** page for labels, colors, sizes and magnetic snapping.
+
+### Reference lines
+
+Highlight a threshold or baseline with a `<ReferenceLine>` child.
+
+<Canvas of={LineChartStories.WithReferenceLine} />
+
+See the **ReferenceLine** page for vertical lines and label alignment.
+
+## Composed example
+
+Putting it all together: a realistic, interactive portfolio chart composing
+axes, a reference line, annotated points, magnetic markers and a scrubber
+tooltip alongside design-system components.
+
+<Canvas of={LineChartStories.Interactive} />
+
+## Props
+
+<Controls of={LineChartStories.Base} />

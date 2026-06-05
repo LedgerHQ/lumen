@@ -1,0 +1,38 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ReferenceLineStories from './ReferenceLine.stories';
+
+<Meta of={ReferenceLineStories} />
+
+# ReferenceLine
+
+`ReferenceLine` draws a horizontal or vertical guide across the chart to mark a
+threshold, target, average or any noteworthy value or position.
+
+## Usage
+
+Render `ReferenceLine` as a child of `LineChart`. The orientation is determined
+by which coordinate you provide:
+
+- `dataY` → a **horizontal** line spanning the full width at that value.
+- `dataX` → a **vertical** line spanning the full height at that index.
+
+## Horizontal
+
+<Canvas of={ReferenceLineStories.HorizontalLine} />
+
+## Vertical
+
+<Canvas of={ReferenceLineStories.VerticalLine} />
+
+## Labels & styling
+
+Position the label along the line with `labelPosition` (`start`, `center`, `end`) and fine-tune it with
+`labelDx` / `labelDy` and the `labelHorizontalAlignment` /
+`labelVerticalAlignment` props. `stroke` sets the color and `lineStyle` toggles
+between `'dashed'` (default) and `'solid'`.
+
+<Canvas of={ReferenceLineStories.WithLabelAndStyling} />
+
+## Props
+
+<Controls of={ReferenceLineStories.HorizontalLine} />

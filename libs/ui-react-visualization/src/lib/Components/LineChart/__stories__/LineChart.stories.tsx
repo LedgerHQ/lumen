@@ -16,6 +16,13 @@ import { Scrubber } from '../../Scrubber';
 
 import { LineChart } from '../LineChart';
 import {
+  CHART_HEIGHT,
+  CHART_WIDTH,
+  monthLabels,
+  multiSeries,
+  sampleSeries,
+} from './chartStoryFixtures';
+import {
   ACTIONS,
   buildChartModel,
   createAxisDateFormatter,
@@ -32,14 +39,14 @@ const meta = {
   title: 'Visualization/LineChart',
   tags: ['experimental'],
   args: {
-    width: 728,
+    series: sampleSeries,
+    width: CHART_WIDTH,
+    height: CHART_HEIGHT,
   },
   decorators: [
     (Story, context) => (
       <StoryDecorator context={context}>
-        <div className='w-fit' style={{ padding: 16 }}>
-          <Story />
-        </div>
+        <Story />
       </StoryDecorator>
     ),
   ],
@@ -48,36 +55,222 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof LineChart>;
 
-const sampleSeries = [
-  {
-    id: 'prices',
-    stroke: '#7B61FF',
-    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
-  },
-];
+/**
+ * The simplest chart: a single `series` rendered with default settings.
+ * No axes, no overlays — just the line.
+ */
+export const Base: Story = {};
 
-const multiSeries = [
-  {
-    id: 'lineA',
-    label: 'Line A',
-    stroke: '#7B61FF',
-    data: [5, 15, 10, 90, 85, 70, 30, 25, 25],
-  },
-  {
-    id: 'lineB',
-    label: 'Line B',
-    stroke: '#44D7B6',
-    data: [90, 85, 70, 25, 23, 40, 45, 40, 50],
-  },
-];
-
-export const Base: Story = {
+/**
+ * A `Series` is the core data model. Each entry has a stable `id`, a `stroke`
+ * color, an optional `label`, and a `data` array of numbers (use `null` for
+ * gaps). Every `series` produces one `<Line>`.
+ */
+export const Series: Story = {
   args: {
-    series: sampleSeries,
-    height: 250,
+    series: [
+      {
+        id: 'prices',
+        label: 'BTC',
+        stroke: '#7B61FF',
+        data: sampleSeries[0].data,
+      },
+    ],
+    showArea: true,
   },
 };
 
+/**
+ * Pass multiple entries in `series` to draw several lines that share the same
+ * x/y scales. Give each a distinct `stroke`.
+ */
+export const MultipleSeries: Story = {
+  args: {
+    series: multiSeries,
+  },
+};
+
+/**
+ * `null` entries in a series' `data` render as gaps in the line, so missing
+ * samples don't get interpolated over.
+ */
+export const MissingData: Story = {
+  args: {
+    series: [
+      {
+        id: 'prices',
+        stroke: '#7B61FF',
+        data: [10, 22, 29, null, null, 45, 22, 52, 21, 4, 68, 20, 21, 58],
+      },
+    ],
+    showArea: true,
+  },
+};
+
+/**
+ * `width` accepts a number (pixels) or a string like `'100%'` to fill the
+ * container. `height` is always in pixels. All docs stories share
+ * `CHART_WIDTH` / `CHART_HEIGHT` for visual consistency.
+ */
+export const WidthAndHeight: Story = {
+  args: {
+    width: CHART_WIDTH,
+    height: 120,
+  },
+};
+
+const insetExamples = [
+  { label: 'inset={0}', inset: 0 },
+  { label: 'inset={15}', inset: 15 },
+  {
+    label: 'inset={{ top: 30, bottom: 30, left: 40, right: 40 }}',
+    inset: { top: 30, bottom: 30, left: 40, right: 40 },
+  },
+];
+
+/**
+ * `inset` reserves padding between the SVG edge (outlined here) and the drawing
+ * area where the line is plotted. A number applies the same padding on every
+ * side; a partial object overrides individual sides. Compare the gap between
+ * the border and the line across the examples.
+ */
+export const Inset: Story = {
+  render: () => (
+    <div className='flex flex-wrap gap-24'>
+      {insetExamples.map(({ label, inset }) => (
+        <div key={label} className='flex w-256 flex-col gap-8'>
+          <div className='border border-muted'>
+            <LineChart
+              series={sampleSeries}
+              width={CHART_WIDTH}
+              height={150}
+              inset={inset}
+              showArea
+            />
+          </div>
+          <span className='body-3 text-muted'>{label}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * Enable hover/touch/keyboard interaction with `enableScrubbing` and render a
+ * `<Scrubber>` child. See the **Scrubber** page for tooltips, beacons and
+ * magnetic points.
+ */
+export const Scrubbing: Story = {
+  args: {
+    showArea: true,
+    enableScrubbing: true,
+  },
+  render: (args) => (
+    <LineChart {...args}>
+      <Scrubber
+        tooltip={(dataIndex) => ({
+          items: [
+            { label: 'Month', value: monthLabels[dataIndex] },
+            { label: 'Price', value: `$${sampleSeries[0].data[dataIndex]}` },
+          ],
+        })}
+      />
+    </LineChart>
+  ),
+};
+
+/**
+ * `showArea` fills the region under each line. `areaType='gradient'` (the
+ * default) fades from the stroke color to transparent.
+ */
+export const Area: Story = {
+  args: {
+    showArea: true,
+  },
+};
+
+/**
+ * Basic x-axis. Toggle it with `showXAxis` and configure it through `xAxis`.
+ * See the **XAxis** page for the full set of options (ticks, labels, scale,
+ * position, grid).
+ */
+export const WithXAxis: Story = {
+  args: {
+    showXAxis: true,
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+    },
+  },
+};
+
+/**
+ * Basic y-axis. Toggle it with `showYAxis` and configure it through `yAxis`.
+ * See the **YAxis** page for the full set of options (domain, scale, width,
+ * position, formatting).
+ */
+export const WithYAxis: Story = {
+  args: {
+    showYAxis: true,
+    yAxis: {
+      showLine: true,
+      tickLabelFormatter: (value) => `$${value}`,
+    },
+  },
+};
+
+/**
+ * Annotate specific data coordinates with `<Point>` children. See the
+ * **Point** page for labels, colors, sizes and magnetic snapping.
+ */
+export const WithPoint: Story = {
+  args: {
+    showArea: true,
+  },
+  render: (args) => (
+    <LineChart {...args}>
+      <Point
+        dataX={4}
+        dataY={98}
+        label='ATH'
+        color={cssVar('var(--background-success-strong)')}
+      />
+      <Point
+        dataX={9}
+        dataY={4}
+        label='Low'
+        labelPosition='bottom'
+        color={cssVar('var(--background-error-strong)')}
+      />
+    </LineChart>
+  ),
+};
+
+/**
+ * Draw a threshold or baseline with `<ReferenceLine>`. See the
+ * **ReferenceLine** page for vertical lines and label alignment.
+ */
+export const WithReferenceLine: Story = {
+  args: {
+    showArea: true,
+  },
+  render: (args) => (
+    <LineChart {...args}>
+      <ReferenceLine
+        dataY={50}
+        label='Target'
+        labelDy={-4}
+        labelVerticalAlignment='start'
+        labelHorizontalAlignment='start'
+      />
+    </LineChart>
+  ),
+};
+
+/**
+ * Putting it all together: a realistic, interactive portfolio chart composing
+ * axes, points, a reference line and a scrubber with design-system components.
+ */
 export const Interactive: Story = {
   render: () => {
     const [period, setPeriod] = useState<Period>('1Y');
@@ -105,7 +298,7 @@ export const Interactive: Story = {
     );
 
     return (
-      <div className='flex w-fit flex-col gap-24'>
+      <div className='flex flex-col gap-24'>
         <ChartHeader
           value={activeValue}
           changePercent={changePercent}
@@ -116,7 +309,7 @@ export const Interactive: Story = {
 
         <LineChart
           series={[{ id: 'price', stroke: lineColor, data }]}
-          width={728}
+          width={CHART_WIDTH}
           height={340}
           showArea
           enableScrubbing
@@ -191,191 +384,6 @@ export const Interactive: Story = {
         </SegmentedControl>
       </div>
     );
-  },
-};
-
-export const WithXAxis: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    xAxis: {
-      showLine: true,
-      showGrid: true,
-    },
-  },
-};
-
-export const WithStringLabels: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    xAxis: {
-      data: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-        'Jan',
-        'Feb',
-      ],
-      showLine: true,
-      showGrid: true,
-    },
-  },
-};
-
-export const WithCustomTicks: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    xAxis: {
-      showLine: true,
-      showGrid: true,
-      ticks: [0, 3, 6, 9, 13],
-    },
-  },
-};
-
-export const WithTickFormatter: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    xAxis: {
-      data: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-        'Jan',
-        'Feb',
-      ],
-      showLine: true,
-      tickLabelFormatter: (value) => `${String(value).slice(0, 1)}`,
-    },
-  },
-};
-
-export const XAxisTop: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    xAxis: {
-      position: 'top',
-      showLine: true,
-      showGrid: true,
-    },
-  },
-};
-
-export const MultipleSeries: Story = {
-  args: {
-    series: multiSeries,
-    height: 300,
-    showXAxis: true,
-    xAxis: {
-      showLine: true,
-      showGrid: true,
-    },
-  },
-};
-
-export const CustomDomain: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    xAxis: {
-      showLine: true,
-      showGrid: true,
-    },
-    yAxis: {
-      domain: { min: 0, max: 100 },
-    },
-  },
-};
-
-export const WithBothAxes: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showXAxis: true,
-    showYAxis: true,
-    xAxis: {
-      showLine: true,
-      showGrid: true,
-    },
-    yAxis: {
-      showLine: true,
-      showGrid: true,
-      tickLabelFormatter: (value) => `$${value}`,
-    },
-  },
-};
-
-export const WithBothAxesMultipleSeries: Story = {
-  args: {
-    series: multiSeries,
-    height: 300,
-    showXAxis: true,
-    showYAxis: true,
-    xAxis: {
-      showLine: true,
-      showGrid: true,
-    },
-    yAxis: {
-      showLine: true,
-      domain: { min: 0, max: 100 },
-    },
-  },
-};
-
-export const WithArea: Story = {
-  args: {
-    series: sampleSeries,
-    height: 250,
-    showArea: true,
-    showXAxis: true,
-    xAxis: {
-      showLine: true,
-    },
-  },
-};
-
-export const WithAreaMultipleSeries: Story = {
-  args: {
-    series: multiSeries,
-    height: 300,
-    showArea: true,
-    showXAxis: true,
-    showYAxis: true,
-    xAxis: {
-      showLine: true,
-    },
-    yAxis: {
-      showLine: true,
-      domain: { min: 0, max: 100 },
-    },
   },
 };
 

@@ -8,6 +8,7 @@ const config: StorybookConfig = {
   stories: [
     '../src/lib/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../../ui-react-visualization/src/**/*.mdx',
     '../../ui-react-visualization/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
   ],
@@ -26,6 +27,13 @@ const config: StorybookConfig = {
   },
   typescript: {
     reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      // Globs are resolved from the Storybook cwd (libs/ui-react). The default
+      // only covers this package, so the visualization components (a sibling
+      // package surfaced via the stories globs above) never get docgen and
+      // their Controls come up empty. Add their sources so props are extracted.
+      include: ['**/*.tsx', '../ui-react-visualization/src/**/*.tsx'],
+    },
   },
 
   refs: {
