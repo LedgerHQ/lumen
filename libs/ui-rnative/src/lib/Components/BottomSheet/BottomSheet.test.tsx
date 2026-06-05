@@ -1,10 +1,11 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import type { RenderOptions } from '@testing-library/react-native';
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import { Text, View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { BottomSheet as BottomSheetComponent } from './BottomSheet';
+import { BottomSheetHeader } from './BottomSheetHeader';
 // Mock react-native-gesture-handler which is used by @gorhom/bottom-sheet
 jest.mock('react-native-gesture-handler', () => ({}));
 
@@ -337,6 +338,36 @@ describe('BottomSheet', () => {
       const element = getByTestId('bottom-sheet');
       expect(element.props['data-on-dismiss']).toBe('true');
       expect(onDismiss).not.toHaveBeenCalled();
+    });
+
+    it('calls onHeaderClosePressed when the header close button is pressed', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const onHeaderClosePressed = jest.fn();
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet
+          onHeaderClosePressed={onHeaderClosePressed}
+          testID='bottom-sheet'
+        >
+          <BottomSheetHeader title='Title' />
+        </BottomSheet>,
+      );
+
+      fireEvent.press(getByTestId('bottom-sheet-header-close-button'));
+
+      expect(onHeaderClosePressed).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not require onHeaderClosePressed to close from the header', () => {
+      const { BottomSheet } = require('./BottomSheet');
+      const { getByTestId } = renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <BottomSheetHeader title='Title' />
+        </BottomSheet>,
+      );
+
+      expect(() =>
+        fireEvent.press(getByTestId('bottom-sheet-header-close-button')),
+      ).not.toThrow();
     });
 
     it('accepts multiple callbacks simultaneously', () => {

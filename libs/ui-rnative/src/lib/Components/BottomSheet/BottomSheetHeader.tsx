@@ -97,14 +97,18 @@ export const BottomSheetHeader = ({
 }: BottomSheetHeaderProps) => {
   const { t } = useCommonTranslation();
   const { close } = useBottomSheet();
-  const { onBack, hideCloseButton } = useBottomSheetContext({
-    consumerName: 'BottomSheetHeader',
-    contextRequired: true,
-  });
+  const { onBack, hideCloseButton, onHeaderClosePressed } =
+    useBottomSheetContext({
+      consumerName: 'BottomSheetHeader',
+      contextRequired: true,
+    });
 
   const handleClose = useCallback(() => {
+    if (onHeaderClosePressed) {
+      onHeaderClosePressed();
+    }
     close();
-  }, [close]);
+  }, [close, onHeaderClosePressed]);
 
   const hasTitleSection = Boolean(title || description);
   const hasIcons = Boolean(onBack || !hideCloseButton);
@@ -115,7 +119,7 @@ export const BottomSheetHeader = ({
     hidden: !hasIcons && density !== 'compact',
   });
 
-  if (!title && !description && !onBack && hideCloseButton) {
+  if (!hasTitleSection && !onBack && hideCloseButton) {
     return null;
   }
 
