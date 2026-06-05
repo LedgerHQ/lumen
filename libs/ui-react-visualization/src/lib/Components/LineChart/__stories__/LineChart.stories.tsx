@@ -123,7 +123,7 @@ const insetExamples = [
   { label: 'inset={0}', inset: 0 },
   { label: 'inset={15}', inset: 15 },
   {
-    label: 'inset={{ top: 40, bottom: 20, left: 40, right: 20 }}',
+    label: 'inset={{ top: 30, bottom: 30, left: 40, right: 40 }}',
     inset: { top: 30, bottom: 30, left: 40, right: 40 },
   },
 ];
