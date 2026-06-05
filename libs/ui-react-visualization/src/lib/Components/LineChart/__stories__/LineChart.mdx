@@ -88,11 +88,8 @@ container; `height` is always in pixels.
 `inset` reserves padding between the SVG edge and the drawing area — the region
 where data is actually plotted. A number applies uniformly; a partial object
 overrides individual sides. Use it to leave room for overlays such as point
-labels that would otherwise clip at the edges.
-
-<Canvas of={LineChartStories.DrawingAreaAndInset} />
-
-A single number applies the same inset on every side:
+labels that would otherwise clip at the edges. In the examples below the border
+outlines the full chart box, so the inset is the gap between it and the line.
 
 <Canvas of={LineChartStories.Inset} />
 
@@ -105,13 +102,6 @@ visualise the current position.
 <Canvas of={LineChartStories.Scrubbing} />
 
 See the **Scrubber** page for tooltips, beacons and magnetic points.
-
-## Animations
-
-Charts animate on mount and on data changes by default. Disable with
-`animate={false}`.
-
-<Canvas of={LineChartStories.Animate} />
 
 ## Styling
 

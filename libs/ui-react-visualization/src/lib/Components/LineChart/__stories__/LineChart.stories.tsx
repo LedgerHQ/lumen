@@ -119,32 +119,40 @@ export const WidthAndHeight: Story = {
   },
 };
 
-/**
- * `inset` carves padding between the SVG edge and the drawing area (where the
- * line is plotted). A number applies uniformly; a partial object overrides
- * individual sides. Useful to leave room for overlays such as point labels.
- */
-export const DrawingAreaAndInset: Story = {
-  args: {
-    showArea: true,
-    inset: { top: 32, bottom: 16, left: 16, right: 16 },
+const insetExamples = [
+  { label: 'inset={0}', inset: 0 },
+  { label: 'inset={24}', inset: 24 },
+  {
+    label: 'inset={{ top: 40, right: 16, bottom: 8, left: 16 }}',
+    inset: { top: 40, right: 16, bottom: 8, left: 16 },
   },
-  render: (args) => (
-    <LineChart {...args}>
-      <Point dataX={4} dataY={98} label='Sits inside the inset' />
-    </LineChart>
-  ),
-};
+];
 
 /**
- * A single `inset` number applies the same padding on every side, pushing the
- * line in uniformly from the edges of the SVG box.
+ * `inset` reserves padding between the SVG edge (outlined here) and the drawing
+ * area where the line is plotted. A number applies the same padding on every
+ * side; a partial object overrides individual sides. Compare the gap between
+ * the border and the line across the examples.
  */
 export const Inset: Story = {
-  args: {
-    showArea: true,
-    inset: 24,
-  },
+  render: () => (
+    <div className='flex flex-col gap-24'>
+      {insetExamples.map(({ label, inset }) => (
+        <div key={label} className='flex flex-col gap-8'>
+          <span className='body-3 text-muted'>{label}</span>
+          <div className='rounded-md border border-muted'>
+            <LineChart
+              series={sampleSeries}
+              width={CHART_WIDTH}
+              height={140}
+              inset={inset}
+              showArea
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 /**
@@ -169,17 +177,6 @@ export const Scrubbing: Story = {
       />
     </LineChart>
   ),
-};
-
-/**
- * Charts animate on mount and on data changes by default. Set `animate={false}`
- * to render statically (useful in tests or dense dashboards).
- */
-export const Animate: Story = {
-  args: {
-    showArea: true,
-    animate: true,
-  },
 };
 
 /**
