@@ -11,10 +11,10 @@ export const DEFAULT_HEIGHT = 160;
  * consumer-provided width/height.
  */
 export const OVERFLOW_BUFFER: ChartInset = {
-  top: 50,
-  right: 50,
-  bottom: 50,
-  left: 50,
+  top: 25,
+  right: 25,
+  bottom: 25,
+  left: 25,
 };
 /**
  * Top/left offset applied to the (enlarged) SVG so its drawing area aligns with

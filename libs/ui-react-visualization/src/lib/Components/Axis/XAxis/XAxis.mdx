@@ -1,0 +1,61 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as XAxisStories from './XAxis.stories';
+
+<Meta of={XAxisStories} />
+
+# XAxis
+
+The x-axis renders ticks, labels, an optional baseline and grid along the
+horizontal edge of the chart's drawing area.
+
+## Usage
+
+`XAxis` is not used as a standalone component. Enable it with `showXAxis` and
+configure it through the `xAxis` prop on `LineChart`.
+
+`XAxisProps` extends the shared `BaseAxisProps` and adds `position` (`'top'` or
+`'bottom'`).
+
+
+## Grid
+
+`showGrid` draws a vertical grid line at each tick. `gridLineStyle` toggles
+between dashed and solid.
+
+<Canvas of={XAxisStories.ShowGrid} />
+
+## Tick marks
+
+`showTickMark` adds a small tick at each label.
+
+<Canvas of={XAxisStories.ShowTickMark} />
+
+## Labels
+
+By default labels are the numeric data index. Supply `data` with string labels
+to show categories instead, or use `tickLabelFormatter` to transform values.
+
+<Canvas of={XAxisStories.StringLabels} />
+<Canvas of={XAxisStories.TickLabelFormatter} />
+
+## Custom ticks
+
+`ticks` pins explicit positions instead of the auto-computed set.
+
+<Canvas of={XAxisStories.CustomTicks} />
+
+## Position
+
+Move the axis above the drawing area with `position='top'`.
+
+<Canvas of={XAxisStories.Position} />
+
+## Scale
+
+`scaleType='band'` spreads discrete categories evenly across the axis.
+
+<Canvas of={XAxisStories.ScaleType} />
+
+## Props
+
+<Controls of={XAxisStories.Base} />

@@ -1,0 +1,56 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PointStories from './Point.stories';
+
+<Meta of={PointStories} />
+
+# Point
+
+`Point` annotates a specific coordinate in **data space** on a `LineChart`. Use
+it to highlight all-time highs, lows, transactions or any noteworthy value.
+
+## Usage
+
+Render `Point` as a child of `LineChart`. Position it with `dataX` (index or
+value) and `dataY` (value).
+
+## Labels
+
+`label` is a string or a function receiving the data index. `labelPosition`
+places it `'top'` (default) or `'bottom'`. `color` accepts any CSS color; use
+the `cssVar` helper to resolve design tokens.
+
+<Canvas of={PointStories.Base} />
+
+## Hidden point
+
+Set `hidePoint` to render only the label — useful for marking a high/low
+without drawing a dot over the line. Pair it with `showLabelArrow={false}` to
+drop the connector arrow as well.
+
+<Canvas of={PointStories.NoPoint} />
+
+## Size
+
+`size` is the circle diameter in pixels.
+
+<Canvas of={PointStories.CustomSize} />
+
+## Custom label component
+
+Provide `LabelComponent` to fully control label rendering. Compose `PointLabel`
+to retain design-token styling.
+
+<Canvas of={PointStories.WithCustomLabelComponent} />
+
+## Magnetic points
+
+Set `magnetic` so the chart's scrubber snaps to this point within the chart's
+`magnetRadius`. Requires `enableScrubbing` on the parent `LineChart`. Across a
+dense series with only a few magnetic points, scrubbing visibly latches onto
+them. See the **Scrubber** page for more on the interaction.
+
+<Canvas of={PointStories.MagneticPoints} />
+
+## Props
+
+<Controls of={PointStories.Base} />
