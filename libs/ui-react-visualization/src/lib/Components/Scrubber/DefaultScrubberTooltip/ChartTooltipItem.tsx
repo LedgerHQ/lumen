@@ -5,16 +5,16 @@ import type { ChartTooltipItemProps } from '../types';
 import { PADDING_X } from './constants';
 
 const LABEL_STYLE = {
-  fontSize: cssVar('var(--font-style-body-4-size)'),
+  fontSize: cssVar('var(--font-style-body-3-size)'),
   fontFamily: cssVar('var(--font-family-font)'),
   fill: cssVar('var(--text-muted)'),
 };
 
 const VALUE_STYLE = {
-  fontSize: cssVar('var(--font-style-body-4-size)'),
+  fontSize: cssVar('var(--font-style-body-3-size)'),
   fontFamily: cssVar('var(--font-family-font)'),
   fill: cssVar('var(--text-base)'),
-  fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
+  fontWeight: cssVar('var(--font-style-body-3-weight-semi-bold)'),
 };
 
 /**
