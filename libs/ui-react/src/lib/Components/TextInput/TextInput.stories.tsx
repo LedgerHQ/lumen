@@ -55,6 +55,7 @@ export const Default: Story = {
         onChange={(e) => setValue(e.target.value)}
         onClear={args.onClear ? () => console.log('Clear') : undefined}
         suffix={args.suffix}
+        inputClassName='body-1'
       />
     );
   },

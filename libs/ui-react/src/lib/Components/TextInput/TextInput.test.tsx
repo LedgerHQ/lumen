@@ -312,6 +312,23 @@ describe('Input Component', () => {
     expect(handleChange).toHaveBeenCalled();
   });
 
+  it('should apply inputClassName to the typed value without affecting the label', () => {
+    render(
+      <TextInput
+        label='Amount'
+        inputClassName='body-1'
+        {...createControlledProps({ value: '123' })}
+      />,
+    );
+
+    const input = screen.getByRole('textbox');
+    const label = screen.getByText('Amount');
+
+    expect(input).toHaveClass('body-1');
+    expect(input).not.toHaveClass('body-2');
+    expect(label).toHaveClass('body-4');
+  });
+
   it('should apply className to container element', () => {
     render(
       <TextInput
