@@ -95,6 +95,15 @@ export type BottomSheetProps = PropsWithChildren & {
    */
   onClose?: () => void;
   /**
+   * Callback function to handle when the close button in the header is pressed.
+   * This is distinct from {@link onClose} and {@link onDismiss}—those will always
+   * also be called after this event if the close button results in a full sheet dismissal.
+   * Use this to react specifically to header close intent (e.g., tracking, custom UI),
+   * but do cleanup/unmount logic in {@link onClose} or {@link onDismiss}.
+   * @default undefined
+   */
+  onHeaderClosePressed?: () => void;
+  /**
    * Callback function to handle the open event.
    * @default undefined
    */

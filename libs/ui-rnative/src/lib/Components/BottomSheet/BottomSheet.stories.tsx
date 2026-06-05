@@ -105,6 +105,7 @@ export const Base: Story = {
     hideCloseButton: false,
     onBack: undefined,
     onClose: undefined,
+    onHeaderClosePressed: undefined,
     enableHandlePanningGesture: true,
     enablePanDownToClose: true,
     enableBlurKeyboardOnGesture: true,
