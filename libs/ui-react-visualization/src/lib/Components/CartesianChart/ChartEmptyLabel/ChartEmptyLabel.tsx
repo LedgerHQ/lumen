@@ -1,18 +1,12 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
-type ChartEmptyLabelProps = {
-  children: ReactNode;
-};
+type ChartEmptyLabelProps = PropsWithChildren;
 
 /**
  * Centred HTML overlay label shown when a chart has no data (and is not
  * loading). Rendered through the `overlay` slot of `CartesianChart` so it shares
  * the chart's positioned container and aligns with the chart footprint. Shared
  * across cartesian charts (LineChart, future BarChart).
- *
- * This is the lib's only HTML (non-SVG) element, so unlike the chart visuals
- * (which use `cssVar()` inline styles) it is styled with the design system's
- * Tailwind utilities, consistent with the HTML components in `ui-react`.
  */
 export function ChartEmptyLabel({ children }: Readonly<ChartEmptyLabelProps>) {
   return (
