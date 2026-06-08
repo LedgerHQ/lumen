@@ -338,4 +338,75 @@ describe('AmountInput', () => {
     render(<AmountInput size='md' {...createControlledProps()} />);
     expect(screen.getByRole('textbox')).toHaveClass('h-56');
   });
+
+  describe('programmatic value formatting', () => {
+    it('formats a raw unformatted string on initial render', () => {
+      render(<AmountInput value='2433.123456789' onChange={vi.fn()} />);
+      expect(screen.getByRole('textbox')).toHaveValue('2 433.123456789');
+    });
+
+    it('formats a number value on initial render', () => {
+      render(<AmountInput value={2433.123456789} onChange={vi.fn()} />);
+      expect(screen.getByRole('textbox')).toHaveValue('2 433.123456789');
+    });
+
+    it('formats an externally set value consistently with what typing produces', async () => {
+      const { rerender } = render(<AmountInput value='' onChange={vi.fn()} />);
+
+      rerender(<AmountInput value='2433.123456789' onChange={vi.fn()} />);
+
+      expect(screen.getByRole('textbox')).toHaveValue('2 433.123456789');
+    });
+
+    it('applies maxDecimalLength to a programmatically set value', () => {
+      render(
+        <AmountInput
+          value='2433.123456789'
+          maxDecimalLength={2}
+          onChange={vi.fn()}
+        />,
+      );
+      expect(screen.getByRole('textbox')).toHaveValue('2 433.12');
+    });
+
+    it('applies maxIntegerLength to a programmatically set value', () => {
+      render(
+        <AmountInput
+          value='1234567890'
+          maxIntegerLength={3}
+          allowDecimals={false}
+          thousandsSeparator={false}
+          onChange={vi.fn()}
+        />,
+      );
+      expect(screen.getByRole('textbox')).toHaveValue('123');
+    });
+
+    it('omits thousands separator when thousandsSeparator is false', () => {
+      render(
+        <AmountInput
+          value='2433.12'
+          thousandsSeparator={false}
+          onChange={vi.fn()}
+        />,
+      );
+      expect(screen.getByRole('textbox')).toHaveValue('2433.12');
+    });
+
+    it('adds thousands grouping when a large number is set via prop update', () => {
+      const { rerender } = render(<AmountInput value='' onChange={vi.fn()} />);
+      rerender(<AmountInput value={1000000} onChange={vi.fn()} />);
+      expect(screen.getByRole('textbox')).toHaveValue('1 000 000');
+    });
+
+    it('re-applies formatting when value prop changes to a new unformatted value', () => {
+      const { rerender } = render(
+        <AmountInput value='1000' onChange={vi.fn()} />,
+      );
+      expect(screen.getByRole('textbox')).toHaveValue('1 000');
+
+      rerender(<AmountInput value='5000000' onChange={vi.fn()} />);
+      expect(screen.getByRole('textbox')).toHaveValue('5 000 000');
+    });
+  });
 });

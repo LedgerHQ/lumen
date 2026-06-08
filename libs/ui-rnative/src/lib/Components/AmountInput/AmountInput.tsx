@@ -46,7 +46,12 @@ export const AmountInput = ({
   ...props
 }: AmountInputProps) => {
   const inputRef = useRef<TextInput>(null);
-  const inputValue = String(value);
+  const inputValue = textFormatter(String(value), {
+    allowDecimals,
+    thousandsSeparator,
+    maxIntegerLength,
+    maxDecimalLength,
+  });
   const [isFocused, setIsFocused] = useState(false);
   const disabled = useDisabledContext({
     consumerName: 'AmountInput',

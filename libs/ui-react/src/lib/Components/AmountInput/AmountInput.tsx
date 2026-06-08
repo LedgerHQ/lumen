@@ -147,7 +147,20 @@ export const AmountInput = ({
   const spanRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const mergedRef = useMergedRef(ref, inputRef);
-  const [inputValue, setInputValue] = useState(value.toString());
+  const formatExternalValue = useCallback(
+    (v: string | number): string =>
+      textFormatter(v.toString(), {
+        allowDecimals,
+        thousandsSeparator,
+        maxIntegerLength,
+        maxDecimalLength,
+      }),
+    [allowDecimals, thousandsSeparator, maxIntegerLength, maxDecimalLength],
+  );
+
+  const [inputValue, setInputValue] = useState(() =>
+    formatExternalValue(value),
+  );
   const [isChanging, setIsChanging] = useState(false);
 
   const prevValueRef = useRef<string>(inputValue);
@@ -179,8 +192,8 @@ export const AmountInput = ({
   }, [syncInputWidth]);
 
   useEffect(() => {
-    setInputValue(value.toString());
-  }, [value]);
+    setInputValue(formatExternalValue(value));
+  }, [value, formatExternalValue]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleaned = textFormatter(e.target.value, {
