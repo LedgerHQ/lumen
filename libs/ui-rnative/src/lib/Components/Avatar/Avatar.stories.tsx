@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View, Text, Pressable, Linking } from 'react-native';
 
-import { useTheme } from '../../../styles';
 import { Box } from '../Utility';
 import { Avatar } from './Avatar';
 
@@ -92,14 +91,9 @@ export const SizeShowcase: Story = {
 };
 
 const AppearanceShowcaseRender = () => {
-  const { theme } = useTheme();
-  const accentBg = { backgroundColor: theme.colors.bg.accent, borderRadius: 8 };
   return (
     <Box lx={{ gap: 's8' }}>
-      <Box
-        lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}
-        style={accentBg}
-      >
+      <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
         <Avatar
           alt='gray fallback'
           size='md'
@@ -113,10 +107,7 @@ const AppearanceShowcaseRender = () => {
           showNotification={false}
         />
       </Box>
-      <Box
-        lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}
-        style={accentBg}
-      >
+      <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
         <Avatar
           src={exampleSrc}
           alt='gray with image'

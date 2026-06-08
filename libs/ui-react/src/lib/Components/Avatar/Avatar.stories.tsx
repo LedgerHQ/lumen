@@ -85,8 +85,8 @@ export const SizeShowcase: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => (
-    <div className='inline-flex flex-col gap-8 body-2'>
-      <div className='inline-flex gap-16 rounded-lg bg-accent p-8'>
+    <div className='inline-flex flex-col gap-8'>
+      <div className='flex items-center justify-end gap-16'>
         <Avatar
           size='md'
           alt='gray fallback'
@@ -100,7 +100,7 @@ export const AppearanceShowcase: Story = {
           showNotification={false}
         />
       </div>
-      <div className='inline-flex gap-16 rounded-lg bg-accent p-8'>
+      <div className='flex items-center justify-end gap-16'>
         <Avatar
           size='md'
           src={exampleSrc}
