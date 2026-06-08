@@ -7,6 +7,7 @@ export type PaginationProps = {
   page: number;
   /**
    * Total number of pages.
+   * If `<= 0`, the component returns `null`.
    */
   totalPages: number;
   /**
