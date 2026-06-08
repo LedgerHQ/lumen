@@ -83,6 +83,43 @@ export const SizeShowcase: Story = {
   ),
 };
 
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <div className='inline-flex flex-col gap-8 body-2'>
+      <div className='inline-flex gap-16 rounded-lg bg-accent p-8'>
+        <Avatar
+          size='md'
+          alt='gray fallback'
+          appearance='gray'
+          showNotification={false}
+        />
+        <Avatar
+          size='md'
+          alt='transparent fallback'
+          appearance='transparent'
+          showNotification={false}
+        />
+      </div>
+      <div className='inline-flex gap-16 rounded-lg bg-accent p-8'>
+        <Avatar
+          size='md'
+          src={exampleSrc}
+          alt='gray with image'
+          appearance='gray'
+          showNotification={false}
+        />
+        <Avatar
+          size='md'
+          src={exampleSrc}
+          alt='transparent with image'
+          appearance='transparent'
+          showNotification={false}
+        />
+      </div>
+    </div>
+  ),
+};
+
 export const FallbackShowcase: Story = {
   args: {
     src: 'https://brokenLink.random',

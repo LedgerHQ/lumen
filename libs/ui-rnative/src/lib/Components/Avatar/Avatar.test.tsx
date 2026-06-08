@@ -4,7 +4,7 @@ import { render, waitFor } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Avatar } from './Avatar';
 
-const { sizes } = ledgerLiveThemes.dark;
+const { sizes, colors } = ledgerLiveThemes.dark;
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -32,6 +32,36 @@ describe('Avatar Component', () => {
     );
     getByLabelText('user profile');
   });
+
+  it('should render with transparent appearance by default', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Avatar testID='avatar-id' />
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('avatar-id').props.style.backgroundColor).toBe(
+      colors.bg.mutedTransparent,
+    );
+  });
+
+  it.each<['transparent' | 'gray', string]>([
+    ['transparent', colors.bg.mutedTransparent],
+    ['gray', colors.bg.muted],
+  ])(
+    'should render with %s appearance when specified',
+    (appearance, expectedColor) => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Avatar testID='avatar-id' appearance={appearance} />
+        </TestWrapper>,
+      );
+
+      expect(getByTestId('avatar-id').props.style.backgroundColor).toBe(
+        expectedColor,
+      );
+    },
+  );
 
   it('should render with different sizes', () => {
     const { getByTestId, rerender } = render(

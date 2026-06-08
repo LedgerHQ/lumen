@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View, Text, Pressable, Linking } from 'react-native';
 
+import { useTheme } from '../../../styles';
 import { Box } from '../Utility';
 import { Avatar } from './Avatar';
 
@@ -88,6 +89,55 @@ export const SizeShowcase: Story = {
       </View>
     </Box>
   ),
+};
+
+const AppearanceShowcaseRender = () => {
+  const { theme } = useTheme();
+  const accentBg = { backgroundColor: theme.colors.bg.accent, borderRadius: 8 };
+  return (
+    <Box lx={{ gap: 's8' }}>
+      <Box
+        lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}
+        style={accentBg}
+      >
+        <Avatar
+          alt='gray fallback'
+          size='md'
+          appearance='gray'
+          showNotification={false}
+        />
+        <Avatar
+          alt='transparent fallback'
+          size='md'
+          appearance='transparent'
+          showNotification={false}
+        />
+      </Box>
+      <Box
+        lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}
+        style={accentBg}
+      >
+        <Avatar
+          src={exampleSrc}
+          alt='gray with image'
+          size='md'
+          appearance='gray'
+          showNotification={false}
+        />
+        <Avatar
+          src={exampleSrc}
+          alt='transparent with image'
+          size='md'
+          appearance='transparent'
+          showNotification={false}
+        />
+      </Box>
+    </Box>
+  );
+};
+
+export const AppearanceShowcase: Story = {
+  render: () => <AppearanceShowcaseRender />,
 };
 
 export const FallbackShowcase: Story = {
