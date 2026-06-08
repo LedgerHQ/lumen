@@ -47,6 +47,7 @@ export const Pagination = ({
       {...props}
     >
       <IconButton
+        type='button'
         icon={ChevronLeft}
         size='sm'
         appearance='gray'
@@ -87,6 +88,7 @@ export const Pagination = ({
         );
       })}
       <IconButton
+        type='button'
         icon={ChevronRight}
         size='sm'
         appearance='gray'

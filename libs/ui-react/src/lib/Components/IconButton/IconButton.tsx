@@ -18,7 +18,7 @@ export const IconButton = ({
     <BaseButton
       ref={ref}
       icon={icon}
-      className={cn(className, 'shrink-0')}
+      className={cn('shrink-0', className)}
       aria-label={ariaLabel}
       {...props}
     />
