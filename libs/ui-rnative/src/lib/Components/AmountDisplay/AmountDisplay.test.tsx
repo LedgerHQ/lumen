@@ -43,6 +43,19 @@ describe('AmountDisplay', () => {
       .map((node: TestNode) => Number(node.props.accessibilityValue?.text));
   };
 
+  const getDigitStripWidths = (): unknown[] => {
+    return screen.root
+      .findAll(
+        (node: TestNode) =>
+          typeof node.type !== 'function' &&
+          node.props.accessibilityValue?.text !== undefined,
+      )
+      .map(
+        (node: TestNode) =>
+          (node.props.style as { width?: unknown } | undefined)?.width,
+      );
+  };
+
   it('renders with basic formatter', () => {
     const formatter = createFormatter();
     render(
@@ -239,5 +252,35 @@ describe('AmountDisplay', () => {
     );
 
     expect(screen.getAllByText(',', hidden)).toHaveLength(2);
+  });
+
+  it('animates the digit strip width when animate is true', () => {
+    const formatter = createFormatter();
+    render(
+      <TestWrapper>
+        <AmountDisplay value={1234.56} formatter={formatter} animate={true} />
+      </TestWrapper>,
+    );
+
+    const widths = getDigitStripWidths();
+    expect(widths.length).toBeGreaterThan(0);
+    widths.forEach((width) => {
+      expect(typeof width).not.toBe('number');
+    });
+  });
+
+  it('uses a static digit strip width when animate is false', () => {
+    const formatter = createFormatter();
+    render(
+      <TestWrapper>
+        <AmountDisplay value={1234.56} formatter={formatter} animate={false} />
+      </TestWrapper>,
+    );
+
+    const widths = getDigitStripWidths();
+    expect(widths.length).toBeGreaterThan(0);
+    widths.forEach((width) => {
+      expect(typeof width).toBe('number');
+    });
   });
 });
