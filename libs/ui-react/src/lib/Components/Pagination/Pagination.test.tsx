@@ -74,6 +74,61 @@ describe('Pagination', () => {
     expect(onPageChange).toHaveBeenCalledWith(3);
   });
 
+  it('should clamp page above totalPages to totalPages', () => {
+    render(<Pagination page={99} totalPages={5} onPageChange={vi.fn()} />);
+
+    expect(screen.getByRole('button', { current: 'page' })).toHaveTextContent(
+      '5',
+    );
+    expect(
+      screen.getByRole('button', {
+        name: 'components.pagination.nextPageAriaLabel',
+      }),
+    ).toBeDisabled();
+  });
+
+  it('should clamp page below 1 to 1', () => {
+    render(<Pagination page={-5} totalPages={5} onPageChange={vi.fn()} />);
+
+    expect(screen.getByRole('button', { current: 'page' })).toHaveTextContent(
+      '1',
+    );
+    expect(
+      screen.getByRole('button', {
+        name: 'components.pagination.previousPageAriaLabel',
+      }),
+    ).toBeDisabled();
+  });
+
+  it('should call onPageChange with clamped prev value when page is above totalPages', () => {
+    const onPageChange = vi.fn();
+
+    render(<Pagination page={99} totalPages={5} onPageChange={onPageChange} />);
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'components.pagination.previousPageAriaLabel',
+      }),
+    );
+
+    expect(onPageChange).toHaveBeenCalledWith(4);
+  });
+
+  it('should treat negative siblingCount as 0', () => {
+    render(
+      <Pagination
+        page={10}
+        totalPages={20}
+        siblingCount={-1}
+        onPageChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByRole('button', { current: 'page' })).toHaveTextContent(
+      '10',
+    );
+  });
+
   it('should return null when totalPages is 0', () => {
     const { container } = render(
       <Pagination page={1} totalPages={0} onPageChange={vi.fn()} />,

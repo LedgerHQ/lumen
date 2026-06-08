@@ -26,11 +26,18 @@ export const Pagination = ({
   ...props
 }: PaginationProps) => {
   const { t } = useCommonTranslation();
-  const items = getPaginationRange(page, totalPages, siblingCount);
 
   if (totalPages <= 0) {
     return null;
   }
+
+  const clampedPage = Math.min(Math.max(page, 1), totalPages);
+  const clampedSiblingCount = Math.max(siblingCount, 0);
+  const items = getPaginationRange(
+    clampedPage,
+    totalPages,
+    clampedSiblingCount,
+  );
 
   return (
     <nav
@@ -43,9 +50,9 @@ export const Pagination = ({
         icon={ChevronLeft}
         size='sm'
         appearance='gray'
-        disabled={page <= 1}
+        disabled={clampedPage <= 1}
         aria-label={t('components.pagination.previousPageAriaLabel')}
-        onClick={() => onPageChange(page - 1)}
+        onClick={() => onPageChange(clampedPage - 1)}
       />
       {items.map((item, index) => {
         if (item === 'ellipsis') {
@@ -60,7 +67,7 @@ export const Pagination = ({
           );
         }
 
-        const isActive = item === page;
+        const isActive = item === clampedPage;
 
         return (
           <Button
@@ -83,9 +90,9 @@ export const Pagination = ({
         icon={ChevronRight}
         size='sm'
         appearance='gray'
-        disabled={page >= totalPages}
+        disabled={clampedPage >= totalPages}
         aria-label={t('components.pagination.nextPageAriaLabel')}
-        onClick={() => onPageChange(page + 1)}
+        onClick={() => onPageChange(clampedPage + 1)}
       />
     </nav>
   );
