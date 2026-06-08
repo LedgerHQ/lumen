@@ -90,6 +90,47 @@ export const SizeShowcase: Story = {
   ),
 };
 
+const AppearanceShowcaseRender = () => {
+  return (
+    <Box lx={{ gap: 's8' }}>
+      <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
+        <Avatar
+          alt='gray fallback'
+          size='md'
+          appearance='gray'
+          showNotification={false}
+        />
+        <Avatar
+          alt='transparent fallback'
+          size='md'
+          appearance='transparent'
+          showNotification={false}
+        />
+      </Box>
+      <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
+        <Avatar
+          src={exampleSrc}
+          alt='gray with image'
+          size='md'
+          appearance='gray'
+          showNotification={false}
+        />
+        <Avatar
+          src={exampleSrc}
+          alt='transparent with image'
+          size='md'
+          appearance='transparent'
+          showNotification={false}
+        />
+      </Box>
+    </Box>
+  );
+};
+
+export const AppearanceShowcase: Story = {
+  render: () => <AppearanceShowcaseRender />,
+};
+
 export const FallbackShowcase: Story = {
   args: {
     src: 'https://brokenLink.random',
