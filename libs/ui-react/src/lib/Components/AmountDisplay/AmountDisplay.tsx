@@ -79,7 +79,7 @@ const DigitStrip = memo(({ value, animate, widths }: DigitStripProps) => {
   return (
     <div
       className={cn(
-        'relative overflow-hidden mask-fade-y',
+        'relative overflow-x-visible overflow-y-clip mask-fade-y mask-no-clip [-webkit-mask-clip:no-clip]',
         animate && 'transition-[width] duration-600',
       )}
       style={{ width: width + 'px' }}
