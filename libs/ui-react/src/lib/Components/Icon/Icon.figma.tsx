@@ -270,7 +270,7 @@ figma.connect(
   {
     imports: ["import { Airplane } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Airplane size='define-icon-size' />,
+    example: () => <Airplane size='<insert-size>' />,
   },
 );
 
@@ -280,7 +280,7 @@ figma.connect(
   {
     imports: ["import { AlarmClock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <AlarmClock size='define-icon-size' />,
+    example: () => <AlarmClock size='<insert-size>' />,
   },
 );
 
@@ -290,7 +290,7 @@ figma.connect(
   {
     imports: ["import { Android } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Android size='define-icon-size' />,
+    example: () => <Android size='<insert-size>' />,
   },
 );
 
@@ -300,7 +300,7 @@ figma.connect(
   {
     imports: ["import { Apple } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Apple size='define-icon-size' />,
+    example: () => <Apple size='<insert-size>' />,
   },
 );
 
@@ -310,7 +310,7 @@ figma.connect(
   {
     imports: ["import { Apps } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Apps size='define-icon-size' />,
+    example: () => <Apps size='<insert-size>' />,
   },
 );
 
@@ -320,7 +320,7 @@ figma.connect(
   {
     imports: ["import { Ar } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Ar size='define-icon-size' />,
+    example: () => <Ar size='<insert-size>' />,
   },
 );
 
@@ -330,7 +330,7 @@ figma.connect(
   {
     imports: ["import { ArrowDown } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ArrowDown size='define-icon-size' />,
+    example: () => <ArrowDown size='<insert-size>' />,
   },
 );
 
@@ -342,7 +342,7 @@ figma.connect(
       "import { ArrowDownRight } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ArrowDownRight size='define-icon-size' />,
+    example: () => <ArrowDownRight size='<insert-size>' />,
   },
 );
 
@@ -352,7 +352,7 @@ figma.connect(
   {
     imports: ["import { ArrowLeft } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ArrowLeft size='define-icon-size' />,
+    example: () => <ArrowLeft size='<insert-size>' />,
   },
 );
 
@@ -362,7 +362,7 @@ figma.connect(
   {
     imports: ["import { ArrowRight } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ArrowRight size='define-icon-size' />,
+    example: () => <ArrowRight size='<insert-size>' />,
   },
 );
 
@@ -372,7 +372,7 @@ figma.connect(
   {
     imports: ["import { ArrowUp } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ArrowUp size='define-icon-size' />,
+    example: () => <ArrowUp size='<insert-size>' />,
   },
 );
 
@@ -384,7 +384,7 @@ figma.connect(
       "import { ArrowUpRight } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ArrowUpRight size='define-icon-size' />,
+    example: () => <ArrowUpRight size='<insert-size>' />,
   },
 );
 
@@ -394,7 +394,7 @@ figma.connect(
   {
     imports: ["import { Asterisk } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Asterisk size='define-icon-size' />,
+    example: () => <Asterisk size='<insert-size>' />,
   },
 );
 
@@ -404,7 +404,7 @@ figma.connect(
   {
     imports: ["import { At } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <At size='define-icon-size' />,
+    example: () => <At size='<insert-size>' />,
   },
 );
 
@@ -414,7 +414,7 @@ figma.connect(
   {
     imports: ["import { AutoLock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <AutoLock size='define-icon-size' />,
+    example: () => <AutoLock size='<insert-size>' />,
   },
 );
 
@@ -424,7 +424,7 @@ figma.connect(
   {
     imports: ["import { Bank } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Bank size='define-icon-size' />,
+    example: () => <Bank size='<insert-size>' />,
   },
 );
 
@@ -434,7 +434,7 @@ figma.connect(
   {
     imports: ["import { BasketPutIn } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <BasketPutIn size='define-icon-size' />,
+    example: () => <BasketPutIn size='<insert-size>' />,
   },
 );
 
@@ -444,7 +444,7 @@ figma.connect(
   {
     imports: ["import { Bell } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Bell size='define-icon-size' />,
+    example: () => <Bell size='<insert-size>' />,
   },
 );
 
@@ -454,7 +454,7 @@ figma.connect(
   {
     imports: ["import { BellFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <BellFill size='define-icon-size' />,
+    example: () => <BellFill size='<insert-size>' />,
   },
 );
 
@@ -466,7 +466,7 @@ figma.connect(
       "import { BitcoinComputer } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <BitcoinComputer size='define-icon-size' />,
+    example: () => <BitcoinComputer size='<insert-size>' />,
   },
 );
 
@@ -478,7 +478,7 @@ figma.connect(
       "import { BitcoinVoucher } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <BitcoinVoucher size='define-icon-size' />,
+    example: () => <BitcoinVoucher size='<insert-size>' />,
   },
 );
 
@@ -488,7 +488,7 @@ figma.connect(
   {
     imports: ["import { Bluetooth } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Bluetooth size='define-icon-size' />,
+    example: () => <Bluetooth size='<insert-size>' />,
   },
 );
 
@@ -500,7 +500,7 @@ figma.connect(
       "import { BluetoothCircleFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <BluetoothCircleFill size='define-icon-size' />,
+    example: () => <BluetoothCircleFill size='<insert-size>' />,
   },
 );
 
@@ -510,7 +510,7 @@ figma.connect(
   {
     imports: ["import { Bolt } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Bolt size='define-icon-size' />,
+    example: () => <Bolt size='<insert-size>' />,
   },
 );
 
@@ -520,7 +520,7 @@ figma.connect(
   {
     imports: ["import { BookOpen } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <BookOpen size='define-icon-size' />,
+    example: () => <BookOpen size='<insert-size>' />,
   },
 );
 
@@ -530,7 +530,7 @@ figma.connect(
   {
     imports: ["import { Bug } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Bug size='define-icon-size' />,
+    example: () => <Bug size='<insert-size>' />,
   },
 );
 
@@ -540,7 +540,7 @@ figma.connect(
   {
     imports: ["import { Bundle } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Bundle size='define-icon-size' />,
+    example: () => <Bundle size='<insert-size>' />,
   },
 );
 
@@ -550,7 +550,7 @@ figma.connect(
   {
     imports: ["import { Calendar } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Calendar size='define-icon-size' />,
+    example: () => <Calendar size='<insert-size>' />,
   },
 );
 
@@ -560,7 +560,7 @@ figma.connect(
   {
     imports: ["import { Cart } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Cart size='define-icon-size' />,
+    example: () => <Cart size='<insert-size>' />,
   },
 );
 
@@ -570,7 +570,7 @@ figma.connect(
   {
     imports: ["import { Chart1 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Chart1 size='define-icon-size' />,
+    example: () => <Chart1 size='<insert-size>' />,
   },
 );
 
@@ -580,7 +580,7 @@ figma.connect(
   {
     imports: ["import { Chart2 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Chart2 size='define-icon-size' />,
+    example: () => <Chart2 size='<insert-size>' />,
   },
 );
 
@@ -590,7 +590,7 @@ figma.connect(
   {
     imports: ["import { Chart3 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Chart3 size='define-icon-size' />,
+    example: () => <Chart3 size='<insert-size>' />,
   },
 );
 
@@ -600,7 +600,7 @@ figma.connect(
   {
     imports: ["import { Chart4 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Chart4 size='define-icon-size' />,
+    example: () => <Chart4 size='<insert-size>' />,
   },
 );
 
@@ -610,7 +610,7 @@ figma.connect(
   {
     imports: ["import { Chart5 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Chart5 size='define-icon-size' />,
+    example: () => <Chart5 size='<insert-size>' />,
   },
 );
 
@@ -620,7 +620,7 @@ figma.connect(
   {
     imports: ["import { Chart5Fill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Chart5Fill size='define-icon-size' />,
+    example: () => <Chart5Fill size='<insert-size>' />,
   },
 );
 
@@ -630,7 +630,7 @@ figma.connect(
   {
     imports: ["import { ChartPie } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChartPie size='define-icon-size' />,
+    example: () => <ChartPie size='<insert-size>' />,
   },
 );
 
@@ -640,7 +640,7 @@ figma.connect(
   {
     imports: ["import { Check } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Check size='define-icon-size' />,
+    example: () => <Check size='<insert-size>' />,
   },
 );
 
@@ -652,7 +652,7 @@ figma.connect(
       "import { CheckmarkCircle } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CheckmarkCircle size='define-icon-size' />,
+    example: () => <CheckmarkCircle size='<insert-size>' />,
   },
 );
 
@@ -664,7 +664,7 @@ figma.connect(
       "import { CheckmarkCircleFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CheckmarkCircleFill size='define-icon-size' />,
+    example: () => <CheckmarkCircleFill size='<insert-size>' />,
   },
 );
 
@@ -676,7 +676,7 @@ figma.connect(
       "import { ChevronAscending } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronAscending size='define-icon-size' />,
+    example: () => <ChevronAscending size='<insert-size>' />,
   },
 );
 
@@ -688,7 +688,7 @@ figma.connect(
       "import { ChevronBigBottom } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronBigBottom size='define-icon-size' />,
+    example: () => <ChevronBigBottom size='<insert-size>' />,
   },
 );
 
@@ -700,7 +700,7 @@ figma.connect(
       "import { ChevronBigLeft } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronBigLeft size='define-icon-size' />,
+    example: () => <ChevronBigLeft size='<insert-size>' />,
   },
 );
 
@@ -712,7 +712,7 @@ figma.connect(
       "import { ChevronBigRight } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronBigRight size='define-icon-size' />,
+    example: () => <ChevronBigRight size='<insert-size>' />,
   },
 );
 
@@ -724,7 +724,7 @@ figma.connect(
       "import { ChevronBigTop } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronBigTop size='define-icon-size' />,
+    example: () => <ChevronBigTop size='<insert-size>' />,
   },
 );
 
@@ -736,7 +736,7 @@ figma.connect(
       "import { ChevronDescending } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronDescending size='define-icon-size' />,
+    example: () => <ChevronDescending size='<insert-size>' />,
   },
 );
 
@@ -746,7 +746,7 @@ figma.connect(
   {
     imports: ["import { ChevronDown } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronDown size='define-icon-size' />,
+    example: () => <ChevronDown size='<insert-size>' />,
   },
 );
 
@@ -756,7 +756,7 @@ figma.connect(
   {
     imports: ["import { ChevronLeft } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronLeft size='define-icon-size' />,
+    example: () => <ChevronLeft size='<insert-size>' />,
   },
 );
 
@@ -768,7 +768,7 @@ figma.connect(
       "import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronRight size='define-icon-size' />,
+    example: () => <ChevronRight size='<insert-size>' />,
   },
 );
 
@@ -778,7 +778,7 @@ figma.connect(
   {
     imports: ["import { ChevronUp } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronUp size='define-icon-size' />,
+    example: () => <ChevronUp size='<insert-size>' />,
   },
 );
 
@@ -790,7 +790,7 @@ figma.connect(
       "import { ChevronUpDown } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ChevronUpDown size='define-icon-size' />,
+    example: () => <ChevronUpDown size='<insert-size>' />,
   },
 );
 
@@ -800,7 +800,7 @@ figma.connect(
   {
     imports: ["import { Circles } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Circles size='define-icon-size' />,
+    example: () => <Circles size='<insert-size>' />,
   },
 );
 
@@ -810,7 +810,7 @@ figma.connect(
   {
     imports: ["import { Clear } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Clear size='define-icon-size' />,
+    example: () => <Clear size='<insert-size>' />,
   },
 );
 
@@ -820,7 +820,7 @@ figma.connect(
   {
     imports: ["import { Clip } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Clip size='define-icon-size' />,
+    example: () => <Clip size='<insert-size>' />,
   },
 );
 
@@ -830,7 +830,7 @@ figma.connect(
   {
     imports: ["import { Clock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Clock size='define-icon-size' />,
+    example: () => <Clock size='<insert-size>' />,
   },
 );
 
@@ -840,7 +840,7 @@ figma.connect(
   {
     imports: ["import { ClockFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ClockFill size='define-icon-size' />,
+    example: () => <ClockFill size='<insert-size>' />,
   },
 );
 
@@ -850,7 +850,7 @@ figma.connect(
   {
     imports: ["import { Close } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Close size='define-icon-size' />,
+    example: () => <Close size='<insert-size>' />,
   },
 );
 
@@ -862,7 +862,7 @@ figma.connect(
       "import { CloudDownload } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CloudDownload size='define-icon-size' />,
+    example: () => <CloudDownload size='<insert-size>' />,
   },
 );
 
@@ -872,7 +872,7 @@ figma.connect(
   {
     imports: ["import { CloudUpload } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CloudUpload size='define-icon-size' />,
+    example: () => <CloudUpload size='<insert-size>' />,
   },
 );
 
@@ -882,7 +882,7 @@ figma.connect(
   {
     imports: ["import { Code } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Code size='define-icon-size' />,
+    example: () => <Code size='<insert-size>' />,
   },
 );
 
@@ -892,7 +892,7 @@ figma.connect(
   {
     imports: ["import { CoinAlert } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinAlert size='define-icon-size' />,
+    example: () => <CoinAlert size='<insert-size>' />,
   },
 );
 
@@ -902,7 +902,7 @@ figma.connect(
   {
     imports: ["import { CoinPercent } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinPercent size='define-icon-size' />,
+    example: () => <CoinPercent size='<insert-size>' />,
   },
 );
 
@@ -912,7 +912,7 @@ figma.connect(
   {
     imports: ["import { Coins } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Coins size='define-icon-size' />,
+    example: () => <Coins size='<insert-size>' />,
   },
 );
 
@@ -924,7 +924,7 @@ figma.connect(
       "import { CoinsAddPlus } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinsAddPlus size='define-icon-size' />,
+    example: () => <CoinsAddPlus size='<insert-size>' />,
   },
 );
 
@@ -934,7 +934,7 @@ figma.connect(
   {
     imports: ["import { CoinsCheck } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinsCheck size='define-icon-size' />,
+    example: () => <CoinsCheck size='<insert-size>' />,
   },
 );
 
@@ -944,7 +944,7 @@ figma.connect(
   {
     imports: ["import { CoinsCross } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinsCross size='define-icon-size' />,
+    example: () => <CoinsCross size='<insert-size>' />,
   },
 );
 
@@ -954,7 +954,7 @@ figma.connect(
   {
     imports: ["import { CoinsCrypto } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinsCrypto size='define-icon-size' />,
+    example: () => <CoinsCrypto size='<insert-size>' />,
   },
 );
 
@@ -964,7 +964,7 @@ figma.connect(
   {
     imports: ["import { CoinsEye } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CoinsEye size='define-icon-size' />,
+    example: () => <CoinsEye size='<insert-size>' />,
   },
 );
 
@@ -976,7 +976,7 @@ figma.connect(
       "import { ColorPalette } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ColorPalette size='define-icon-size' />,
+    example: () => <ColorPalette size='<insert-size>' />,
   },
 );
 
@@ -986,7 +986,7 @@ figma.connect(
   {
     imports: ["import { Compass } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Compass size='define-icon-size' />,
+    example: () => <Compass size='<insert-size>' />,
   },
 );
 
@@ -998,7 +998,7 @@ figma.connect(
       "import { ComputerMobile } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ComputerMobile size='define-icon-size' />,
+    example: () => <ComputerMobile size='<insert-size>' />,
   },
 );
 
@@ -1008,7 +1008,7 @@ figma.connect(
   {
     imports: ["import { Copy } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Copy size='define-icon-size' />,
+    example: () => <Copy size='<insert-size>' />,
   },
 );
 
@@ -1018,7 +1018,7 @@ figma.connect(
   {
     imports: ["import { CreditCard } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CreditCard size='define-icon-size' />,
+    example: () => <CreditCard size='<insert-size>' />,
   },
 );
 
@@ -1030,7 +1030,7 @@ figma.connect(
       "import { CreditCardFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CreditCardFill size='define-icon-size' />,
+    example: () => <CreditCardFill size='<insert-size>' />,
   },
 );
 
@@ -1042,7 +1042,7 @@ figma.connect(
       "import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CryptoBitcoinCoin size='define-icon-size' />,
+    example: () => <CryptoBitcoinCoin size='<insert-size>' />,
   },
 );
 
@@ -1052,7 +1052,7 @@ figma.connect(
   {
     imports: ["import { Csv } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Csv size='define-icon-size' />,
+    example: () => <Csv size='<insert-size>' />,
   },
 );
 
@@ -1062,7 +1062,7 @@ figma.connect(
   {
     imports: ["import { CursorTouch } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CursorTouch size='define-icon-size' />,
+    example: () => <CursorTouch size='<insert-size>' />,
   },
 );
 
@@ -1072,7 +1072,7 @@ figma.connect(
   {
     imports: ["import { CurveDown } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CurveDown size='define-icon-size' />,
+    example: () => <CurveDown size='<insert-size>' />,
   },
 );
 
@@ -1082,7 +1082,7 @@ figma.connect(
   {
     imports: ["import { CurveUp } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <CurveUp size='define-icon-size' />,
+    example: () => <CurveUp size='<insert-size>' />,
   },
 );
 
@@ -1094,7 +1094,7 @@ figma.connect(
       "import { DatabaseLock } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <DatabaseLock size='define-icon-size' />,
+    example: () => <DatabaseLock size='<insert-size>' />,
   },
 );
 
@@ -1104,7 +1104,7 @@ figma.connect(
   {
     imports: ["import { Delete } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Delete size='define-icon-size' />,
+    example: () => <Delete size='<insert-size>' />,
   },
 );
 
@@ -1116,7 +1116,7 @@ figma.connect(
       "import { DeleteCircle } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <DeleteCircle size='define-icon-size' />,
+    example: () => <DeleteCircle size='<insert-size>' />,
   },
 );
 
@@ -1128,7 +1128,7 @@ figma.connect(
       "import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <DeleteCircleFill size='define-icon-size' />,
+    example: () => <DeleteCircleFill size='<insert-size>' />,
   },
 );
 
@@ -1138,7 +1138,7 @@ figma.connect(
   {
     imports: ["import { DeleteStop } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <DeleteStop size='define-icon-size' />,
+    example: () => <DeleteStop size='<insert-size>' />,
   },
 );
 
@@ -1148,7 +1148,7 @@ figma.connect(
   {
     imports: ["import { Desktop } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Desktop size='define-icon-size' />,
+    example: () => <Desktop size='<insert-size>' />,
   },
 );
 
@@ -1158,7 +1158,7 @@ figma.connect(
   {
     imports: ["import { Devices } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Devices size='define-icon-size' />,
+    example: () => <Devices size='<insert-size>' />,
   },
 );
 
@@ -1168,7 +1168,7 @@ figma.connect(
   {
     imports: ["import { Discord } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Discord size='define-icon-size' />,
+    example: () => <Discord size='<insert-size>' />,
   },
 );
 
@@ -1180,7 +1180,7 @@ figma.connect(
       "import { DocumentCode } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <DocumentCode size='define-icon-size' />,
+    example: () => <DocumentCode size='<insert-size>' />,
   },
 );
 
@@ -1190,7 +1190,7 @@ figma.connect(
   {
     imports: ["import { Dollar } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Dollar size='define-icon-size' />,
+    example: () => <Dollar size='<insert-size>' />,
   },
 );
 
@@ -1202,7 +1202,7 @@ figma.connect(
       "import { DollarConvert } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <DollarConvert size='define-icon-size' />,
+    example: () => <DollarConvert size='<insert-size>' />,
   },
 );
 
@@ -1212,7 +1212,7 @@ figma.connect(
   {
     imports: ["import { Download } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Download size='define-icon-size' />,
+    example: () => <Download size='<insert-size>' />,
   },
 );
 
@@ -1222,7 +1222,7 @@ figma.connect(
   {
     imports: ["import { Duplicate } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Duplicate size='define-icon-size' />,
+    example: () => <Duplicate size='<insert-size>' />,
   },
 );
 
@@ -1232,7 +1232,7 @@ figma.connect(
   {
     imports: ["import { Exchange } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Exchange size='define-icon-size' />,
+    example: () => <Exchange size='<insert-size>' />,
   },
 );
 
@@ -1244,7 +1244,7 @@ figma.connect(
       "import { ExchangeFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ExchangeFill size='define-icon-size' />,
+    example: () => <ExchangeFill size='<insert-size>' />,
   },
 );
 
@@ -1254,7 +1254,7 @@ figma.connect(
   {
     imports: ["import { ExitLogout } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ExitLogout size='define-icon-size' />,
+    example: () => <ExitLogout size='<insert-size>' />,
   },
 );
 
@@ -1264,7 +1264,7 @@ figma.connect(
   {
     imports: ["import { Expand } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Expand size='define-icon-size' />,
+    example: () => <Expand size='<insert-size>' />,
   },
 );
 
@@ -1274,7 +1274,7 @@ figma.connect(
   {
     imports: ["import { ExpandLeft } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ExpandLeft size='define-icon-size' />,
+    example: () => <ExpandLeft size='<insert-size>' />,
   },
 );
 
@@ -1284,7 +1284,7 @@ figma.connect(
   {
     imports: ["import { ExpandRight } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ExpandRight size='define-icon-size' />,
+    example: () => <ExpandRight size='<insert-size>' />,
   },
 );
 
@@ -1294,7 +1294,7 @@ figma.connect(
   {
     imports: ["import { Experiment } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Experiment size='define-icon-size' />,
+    example: () => <Experiment size='<insert-size>' />,
   },
 );
 
@@ -1304,7 +1304,7 @@ figma.connect(
   {
     imports: ["import { Experiment2 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Experiment2 size='define-icon-size' />,
+    example: () => <Experiment2 size='<insert-size>' />,
   },
 );
 
@@ -1316,7 +1316,7 @@ figma.connect(
       "import { ExternalLink } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ExternalLink size='define-icon-size' />,
+    example: () => <ExternalLink size='<insert-size>' />,
   },
 );
 
@@ -1326,7 +1326,7 @@ figma.connect(
   {
     imports: ["import { Eye } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Eye size='define-icon-size' />,
+    example: () => <Eye size='<insert-size>' />,
   },
 );
 
@@ -1336,7 +1336,7 @@ figma.connect(
   {
     imports: ["import { EyeCross } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <EyeCross size='define-icon-size' />,
+    example: () => <EyeCross size='<insert-size>' />,
   },
 );
 
@@ -1346,7 +1346,7 @@ figma.connect(
   {
     imports: ["import { Facebook } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Facebook size='define-icon-size' />,
+    example: () => <Facebook size='<insert-size>' />,
   },
 );
 
@@ -1356,7 +1356,7 @@ figma.connect(
   {
     imports: ["import { Feather } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Feather size='define-icon-size' />,
+    example: () => <Feather size='<insert-size>' />,
   },
 );
 
@@ -1368,7 +1368,7 @@ figma.connect(
       "import { FileDownload } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <FileDownload size='define-icon-size' />,
+    example: () => <FileDownload size='<insert-size>' />,
   },
 );
 
@@ -1378,7 +1378,7 @@ figma.connect(
   {
     imports: ["import { FilterSort } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <FilterSort size='define-icon-size' />,
+    example: () => <FilterSort size='<insert-size>' />,
   },
 );
 
@@ -1388,7 +1388,7 @@ figma.connect(
   {
     imports: ["import { Flex } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Flex size='define-icon-size' />,
+    example: () => <Flex size='<insert-size>' />,
   },
 );
 
@@ -1398,7 +1398,7 @@ figma.connect(
   {
     imports: ["import { Folder } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Folder size='define-icon-size' />,
+    example: () => <Folder size='<insert-size>' />,
   },
 );
 
@@ -1408,7 +1408,7 @@ figma.connect(
   {
     imports: ["import { Gift } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Gift size='define-icon-size' />,
+    example: () => <Gift size='<insert-size>' />,
   },
 );
 
@@ -1418,7 +1418,7 @@ figma.connect(
   {
     imports: ["import { Github } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Github size='define-icon-size' />,
+    example: () => <Github size='<insert-size>' />,
   },
 );
 
@@ -1428,7 +1428,7 @@ figma.connect(
   {
     imports: ["import { Globe } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Globe size='define-icon-size' />,
+    example: () => <Globe size='<insert-size>' />,
   },
 );
 
@@ -1438,7 +1438,7 @@ figma.connect(
   {
     imports: ["import { Grid } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Grid size='define-icon-size' />,
+    example: () => <Grid size='<insert-size>' />,
   },
 );
 
@@ -1448,7 +1448,7 @@ figma.connect(
   {
     imports: ["import { Grid2 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Grid2 size='define-icon-size' />,
+    example: () => <Grid2 size='<insert-size>' />,
   },
 );
 
@@ -1458,7 +1458,7 @@ figma.connect(
   {
     imports: ["import { GroupUsers } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <GroupUsers size='define-icon-size' />,
+    example: () => <GroupUsers size='<insert-size>' />,
   },
 );
 
@@ -1470,7 +1470,7 @@ figma.connect(
       "import { GroupUsersAdd } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <GroupUsersAdd size='define-icon-size' />,
+    example: () => <GroupUsersAdd size='<insert-size>' />,
   },
 );
 
@@ -1480,7 +1480,7 @@ figma.connect(
   {
     imports: ["import { HandCard } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <HandCard size='define-icon-size' />,
+    example: () => <HandCard size='<insert-size>' />,
   },
 );
 
@@ -1490,7 +1490,7 @@ figma.connect(
   {
     imports: ["import { HandCoins } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <HandCoins size='define-icon-size' />,
+    example: () => <HandCoins size='<insert-size>' />,
   },
 );
 
@@ -1500,7 +1500,7 @@ figma.connect(
   {
     imports: ["import { HandKey } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <HandKey size='define-icon-size' />,
+    example: () => <HandKey size='<insert-size>' />,
   },
 );
 
@@ -1510,7 +1510,7 @@ figma.connect(
   {
     imports: ["import { HatSchool } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <HatSchool size='define-icon-size' />,
+    example: () => <HatSchool size='<insert-size>' />,
   },
 );
 
@@ -1520,7 +1520,7 @@ figma.connect(
   {
     imports: ["import { Heart } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Heart size='define-icon-size' />,
+    example: () => <Heart size='<insert-size>' />,
   },
 );
 
@@ -1530,7 +1530,7 @@ figma.connect(
   {
     imports: ["import { Home } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Home size='define-icon-size' />,
+    example: () => <Home size='<insert-size>' />,
   },
 );
 
@@ -1540,7 +1540,7 @@ figma.connect(
   {
     imports: ["import { HomeFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <HomeFill size='define-icon-size' />,
+    example: () => <HomeFill size='<insert-size>' />,
   },
 );
 
@@ -1550,7 +1550,7 @@ figma.connect(
   {
     imports: ["import { IdCard } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <IdCard size='define-icon-size' />,
+    example: () => <IdCard size='<insert-size>' />,
   },
 );
 
@@ -1560,7 +1560,7 @@ figma.connect(
   {
     imports: ["import { Incognito } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Incognito size='define-icon-size' />,
+    example: () => <Incognito size='<insert-size>' />,
   },
 );
 
@@ -1570,7 +1570,7 @@ figma.connect(
   {
     imports: ["import { Infinite } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Infinite size='define-icon-size' />,
+    example: () => <Infinite size='<insert-size>' />,
   },
 );
 
@@ -1582,7 +1582,7 @@ figma.connect(
       "import { InfiniteFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <InfiniteFill size='define-icon-size' />,
+    example: () => <InfiniteFill size='<insert-size>' />,
   },
 );
 
@@ -1592,7 +1592,7 @@ figma.connect(
   {
     imports: ["import { Information } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Information size='define-icon-size' />,
+    example: () => <Information size='<insert-size>' />,
   },
 );
 
@@ -1604,7 +1604,7 @@ figma.connect(
       "import { InformationFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <InformationFill size='define-icon-size' />,
+    example: () => <InformationFill size='<insert-size>' />,
   },
 );
 
@@ -1614,7 +1614,7 @@ figma.connect(
   {
     imports: ["import { Instagram } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Instagram size='define-icon-size' />,
+    example: () => <Instagram size='<insert-size>' />,
   },
 );
 
@@ -1624,7 +1624,7 @@ figma.connect(
   {
     imports: ["import { Invoice } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Invoice size='define-icon-size' />,
+    example: () => <Invoice size='<insert-size>' />,
   },
 );
 
@@ -1634,7 +1634,7 @@ figma.connect(
   {
     imports: ["import { Ios } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Ios size='define-icon-size' />,
+    example: () => <Ios size='<insert-size>' />,
   },
 );
 
@@ -1644,7 +1644,7 @@ figma.connect(
   {
     imports: ["import { Label } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Label size='define-icon-size' />,
+    example: () => <Label size='<insert-size>' />,
   },
 );
 
@@ -1654,7 +1654,7 @@ figma.connect(
   {
     imports: ["import { Language } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Language size='define-icon-size' />,
+    example: () => <Language size='<insert-size>' />,
   },
 );
 
@@ -1666,7 +1666,7 @@ figma.connect(
       "import { LedgerDevices } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <LedgerDevices size='define-icon-size' />,
+    example: () => <LedgerDevices size='<insert-size>' />,
   },
 );
 
@@ -1676,7 +1676,7 @@ figma.connect(
   {
     imports: ["import { LedgerLogo } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <LedgerLogo size='define-icon-size' />,
+    example: () => <LedgerLogo size='<insert-size>' />,
   },
 );
 
@@ -1686,7 +1686,7 @@ figma.connect(
   {
     imports: ["import { Legal } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Legal size='define-icon-size' />,
+    example: () => <Legal size='<insert-size>' />,
   },
 );
 
@@ -1696,7 +1696,7 @@ figma.connect(
   {
     imports: ["import { LifeRing } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <LifeRing size='define-icon-size' />,
+    example: () => <LifeRing size='<insert-size>' />,
   },
 );
 
@@ -1708,7 +1708,7 @@ figma.connect(
       "import { LifeRingFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <LifeRingFill size='define-icon-size' />,
+    example: () => <LifeRingFill size='<insert-size>' />,
   },
 );
 
@@ -1718,7 +1718,7 @@ figma.connect(
   {
     imports: ["import { Lightbulb } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Lightbulb size='define-icon-size' />,
+    example: () => <Lightbulb size='<insert-size>' />,
   },
 );
 
@@ -1728,7 +1728,7 @@ figma.connect(
   {
     imports: ["import { Link } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Link size='define-icon-size' />,
+    example: () => <Link size='<insert-size>' />,
   },
 );
 
@@ -1738,7 +1738,7 @@ figma.connect(
   {
     imports: ["import { Linkedin } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Linkedin size='define-icon-size' />,
+    example: () => <Linkedin size='<insert-size>' />,
   },
 );
 
@@ -1748,7 +1748,7 @@ figma.connect(
   {
     imports: ["import { Linux } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Linux size='define-icon-size' />,
+    example: () => <Linux size='<insert-size>' />,
   },
 );
 
@@ -1758,7 +1758,7 @@ figma.connect(
   {
     imports: ["import { ListEye } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ListEye size='define-icon-size' />,
+    example: () => <ListEye size='<insert-size>' />,
   },
 );
 
@@ -1768,7 +1768,7 @@ figma.connect(
   {
     imports: ["import { Lock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Lock size='define-icon-size' />,
+    example: () => <Lock size='<insert-size>' />,
   },
 );
 
@@ -1780,7 +1780,7 @@ figma.connect(
       "import { LockCheckSuccess } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <LockCheckSuccess size='define-icon-size' />,
+    example: () => <LockCheckSuccess size='<insert-size>' />,
   },
 );
 
@@ -1790,7 +1790,7 @@ figma.connect(
   {
     imports: ["import { Macos } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Macos size='define-icon-size' />,
+    example: () => <Macos size='<insert-size>' />,
   },
 );
 
@@ -1800,7 +1800,7 @@ figma.connect(
   {
     imports: ["import { Magnet } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Magnet size='define-icon-size' />,
+    example: () => <Magnet size='<insert-size>' />,
   },
 );
 
@@ -1810,7 +1810,7 @@ figma.connect(
   {
     imports: ["import { Mail } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Mail size='define-icon-size' />,
+    example: () => <Mail size='<insert-size>' />,
   },
 );
 
@@ -1820,7 +1820,7 @@ figma.connect(
   {
     imports: ["import { Mailbox } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Mailbox size='define-icon-size' />,
+    example: () => <Mailbox size='<insert-size>' />,
   },
 );
 
@@ -1830,7 +1830,7 @@ figma.connect(
   {
     imports: ["import { Maths } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Maths size='define-icon-size' />,
+    example: () => <Maths size='<insert-size>' />,
   },
 );
 
@@ -1840,7 +1840,7 @@ figma.connect(
   {
     imports: ["import { Medal1 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Medal1 size='define-icon-size' />,
+    example: () => <Medal1 size='<insert-size>' />,
   },
 );
 
@@ -1850,7 +1850,7 @@ figma.connect(
   {
     imports: ["import { Medal2 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Medal2 size='define-icon-size' />,
+    example: () => <Medal2 size='<insert-size>' />,
   },
 );
 
@@ -1860,7 +1860,7 @@ figma.connect(
   {
     imports: ["import { MenuBurger } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MenuBurger size='define-icon-size' />,
+    example: () => <MenuBurger size='<insert-size>' />,
   },
 );
 
@@ -1870,7 +1870,7 @@ figma.connect(
   {
     imports: ["import { MessageChat } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MessageChat size='define-icon-size' />,
+    example: () => <MessageChat size='<insert-size>' />,
   },
 );
 
@@ -1880,7 +1880,7 @@ figma.connect(
   {
     imports: ["import { Minus } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Minus size='define-icon-size' />,
+    example: () => <Minus size='<insert-size>' />,
   },
 );
 
@@ -1890,7 +1890,7 @@ figma.connect(
   {
     imports: ["import { MinusCircle } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MinusCircle size='define-icon-size' />,
+    example: () => <MinusCircle size='<insert-size>' />,
   },
 );
 
@@ -1902,7 +1902,7 @@ figma.connect(
       "import { MinusCircleFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MinusCircleFill size='define-icon-size' />,
+    example: () => <MinusCircleFill size='<insert-size>' />,
   },
 );
 
@@ -1912,7 +1912,7 @@ figma.connect(
   {
     imports: ["import { Mobile } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Mobile size='define-icon-size' />,
+    example: () => <Mobile size='<insert-size>' />,
   },
 );
 
@@ -1922,7 +1922,7 @@ figma.connect(
   {
     imports: ["import { MobileArrow } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MobileArrow size='define-icon-size' />,
+    example: () => <MobileArrow size='<insert-size>' />,
   },
 );
 
@@ -1934,7 +1934,7 @@ figma.connect(
       "import { MonitorPassword } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MonitorPassword size='define-icon-size' />,
+    example: () => <MonitorPassword size='<insert-size>' />,
   },
 );
 
@@ -1944,7 +1944,7 @@ figma.connect(
   {
     imports: ["import { Moon } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Moon size='define-icon-size' />,
+    example: () => <Moon size='<insert-size>' />,
   },
 );
 
@@ -1956,7 +1956,7 @@ figma.connect(
       "import { MoreHorizontal } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MoreHorizontal size='define-icon-size' />,
+    example: () => <MoreHorizontal size='<insert-size>' />,
   },
 );
 
@@ -1968,7 +1968,7 @@ figma.connect(
       "import { MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <MoreVertical size='define-icon-size' />,
+    example: () => <MoreVertical size='<insert-size>' />,
   },
 );
 
@@ -1978,7 +1978,7 @@ figma.connect(
   {
     imports: ["import { Nano } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Nano size='define-icon-size' />,
+    example: () => <Nano size='<insert-size>' />,
   },
 );
 
@@ -1988,7 +1988,7 @@ figma.connect(
   {
     imports: ["import { NanoGen5 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <NanoGen5 size='define-icon-size' />,
+    example: () => <NanoGen5 size='<insert-size>' />,
   },
 );
 
@@ -2000,7 +2000,7 @@ figma.connect(
       "import { NetworkWarning } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <NetworkWarning size='define-icon-size' />,
+    example: () => <NetworkWarning size='<insert-size>' />,
   },
 );
 
@@ -2010,7 +2010,7 @@ figma.connect(
   {
     imports: ["import { Nfc } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Nfc size='define-icon-size' />,
+    example: () => <Nfc size='<insert-size>' />,
   },
 );
 
@@ -2020,7 +2020,7 @@ figma.connect(
   {
     imports: ["import { Nft } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Nft size='define-icon-size' />,
+    example: () => <Nft size='<insert-size>' />,
   },
 );
 
@@ -2030,7 +2030,7 @@ figma.connect(
   {
     imports: ["import { NftHide } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <NftHide size='define-icon-size' />,
+    example: () => <NftHide size='<insert-size>' />,
   },
 );
 
@@ -2040,7 +2040,7 @@ figma.connect(
   {
     imports: ["import { Note } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Note size='define-icon-size' />,
+    example: () => <Note size='<insert-size>' />,
   },
 );
 
@@ -2050,7 +2050,7 @@ figma.connect(
   {
     imports: ["import { P2p } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <P2p size='define-icon-size' />,
+    example: () => <P2p size='<insert-size>' />,
   },
 );
 
@@ -2060,7 +2060,7 @@ figma.connect(
   {
     imports: ["import { Parachute } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Parachute size='define-icon-size' />,
+    example: () => <Parachute size='<insert-size>' />,
   },
 );
 
@@ -2070,7 +2070,7 @@ figma.connect(
   {
     imports: ["import { Paste } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Paste size='define-icon-size' />,
+    example: () => <Paste size='<insert-size>' />,
   },
 );
 
@@ -2080,7 +2080,7 @@ figma.connect(
   {
     imports: ["import { Pause } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Pause size='define-icon-size' />,
+    example: () => <Pause size='<insert-size>' />,
   },
 );
 
@@ -2090,7 +2090,7 @@ figma.connect(
   {
     imports: ["import { PenEdit } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PenEdit size='define-icon-size' />,
+    example: () => <PenEdit size='<insert-size>' />,
   },
 );
 
@@ -2102,7 +2102,7 @@ figma.connect(
       "import { PenEditWriting } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PenEditWriting size='define-icon-size' />,
+    example: () => <PenEditWriting size='<insert-size>' />,
   },
 );
 
@@ -2112,7 +2112,7 @@ figma.connect(
   {
     imports: ["import { Percentage } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Percentage size='define-icon-size' />,
+    example: () => <Percentage size='<insert-size>' />,
   },
 );
 
@@ -2124,7 +2124,7 @@ figma.connect(
       "import { PictureImage } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PictureImage size='define-icon-size' />,
+    example: () => <PictureImage size='<insert-size>' />,
   },
 );
 
@@ -2134,7 +2134,7 @@ figma.connect(
   {
     imports: ["import { PiggyBank } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PiggyBank size='define-icon-size' />,
+    example: () => <PiggyBank size='<insert-size>' />,
   },
 );
 
@@ -2144,7 +2144,7 @@ figma.connect(
   {
     imports: ["import { PinLocation } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PinLocation size='define-icon-size' />,
+    example: () => <PinLocation size='<insert-size>' />,
   },
 );
 
@@ -2165,7 +2165,7 @@ figma.connect(
       "import { PlaceholderCicleFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PlaceholderCicleFill size='define-icon-size' />,
+    example: () => <PlaceholderCicleFill size='<insert-size>' />,
   },
 );
 
@@ -2175,7 +2175,7 @@ figma.connect(
   {
     imports: ["import { Planet } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Planet size='define-icon-size' />,
+    example: () => <Planet size='<insert-size>' />,
   },
 );
 
@@ -2185,7 +2185,7 @@ figma.connect(
   {
     imports: ["import { Plus } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Plus size='define-icon-size' />,
+    example: () => <Plus size='<insert-size>' />,
   },
 );
 
@@ -2195,7 +2195,7 @@ figma.connect(
   {
     imports: ["import { PlusCircle } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PlusCircle size='define-icon-size' />,
+    example: () => <PlusCircle size='<insert-size>' />,
   },
 );
 
@@ -2207,7 +2207,7 @@ figma.connect(
       "import { PlusCircleFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <PlusCircleFill size='define-icon-size' />,
+    example: () => <PlusCircleFill size='<insert-size>' />,
   },
 );
 
@@ -2217,7 +2217,7 @@ figma.connect(
   {
     imports: ["import { Printer } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Printer size='define-icon-size' />,
+    example: () => <Printer size='<insert-size>' />,
   },
 );
 
@@ -2227,7 +2227,7 @@ figma.connect(
   {
     imports: ["import { QrCode } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <QrCode size='define-icon-size' />,
+    example: () => <QrCode size='<insert-size>' />,
   },
 );
 
@@ -2239,7 +2239,7 @@ figma.connect(
       "import { QrCodeScanner } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <QrCodeScanner size='define-icon-size' />,
+    example: () => <QrCodeScanner size='<insert-size>' />,
   },
 );
 
@@ -2249,7 +2249,7 @@ figma.connect(
   {
     imports: ["import { Question } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Question size='define-icon-size' />,
+    example: () => <Question size='<insert-size>' />,
   },
 );
 
@@ -2259,7 +2259,7 @@ figma.connect(
   {
     imports: ["import { Range } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Range size='define-icon-size' />,
+    example: () => <Range size='<insert-size>' />,
   },
 );
 
@@ -2269,7 +2269,7 @@ figma.connect(
   {
     imports: ["import { RecoveryKey } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <RecoveryKey size='define-icon-size' />,
+    example: () => <RecoveryKey size='<insert-size>' />,
   },
 );
 
@@ -2279,7 +2279,7 @@ figma.connect(
   {
     imports: ["import { Reddit } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Reddit size='define-icon-size' />,
+    example: () => <Reddit size='<insert-size>' />,
   },
 );
 
@@ -2289,7 +2289,7 @@ figma.connect(
   {
     imports: ["import { Reduce } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Reduce size='define-icon-size' />,
+    example: () => <Reduce size='<insert-size>' />,
   },
 );
 
@@ -2299,7 +2299,7 @@ figma.connect(
   {
     imports: ["import { Refresh } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Refresh size='define-icon-size' />,
+    example: () => <Refresh size='<insert-size>' />,
   },
 );
 
@@ -2309,7 +2309,7 @@ figma.connect(
   {
     imports: ["import { RefreshBack } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <RefreshBack size='define-icon-size' />,
+    example: () => <RefreshBack size='<insert-size>' />,
   },
 );
 
@@ -2319,7 +2319,7 @@ figma.connect(
   {
     imports: ["import { Repair } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Repair size='define-icon-size' />,
+    example: () => <Repair size='<insert-size>' />,
   },
 );
 
@@ -2329,7 +2329,7 @@ figma.connect(
   {
     imports: ["import { Screens } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Screens size='define-icon-size' />,
+    example: () => <Screens size='<insert-size>' />,
   },
 );
 
@@ -2339,7 +2339,7 @@ figma.connect(
   {
     imports: ["import { Search } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Search size='define-icon-size' />,
+    example: () => <Search size='<insert-size>' />,
   },
 );
 
@@ -2351,7 +2351,7 @@ figma.connect(
       "import { ServerDatabaseFail } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ServerDatabaseFail size='define-icon-size' />,
+    example: () => <ServerDatabaseFail size='<insert-size>' />,
   },
 );
 
@@ -2361,7 +2361,7 @@ figma.connect(
   {
     imports: ["import { Settings } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Settings size='define-icon-size' />,
+    example: () => <Settings size='<insert-size>' />,
   },
 );
 
@@ -2371,7 +2371,7 @@ figma.connect(
   {
     imports: ["import { SettingsAlt } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SettingsAlt size='define-icon-size' />,
+    example: () => <SettingsAlt size='<insert-size>' />,
   },
 );
 
@@ -2383,7 +2383,7 @@ figma.connect(
       "import { SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SettingsAlt2 size='define-icon-size' />,
+    example: () => <SettingsAlt2 size='<insert-size>' />,
   },
 );
 
@@ -2393,7 +2393,7 @@ figma.connect(
   {
     imports: ["import { Shapes } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Shapes size='define-icon-size' />,
+    example: () => <Shapes size='<insert-size>' />,
   },
 );
 
@@ -2403,7 +2403,7 @@ figma.connect(
   {
     imports: ["import { Share } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Share size='define-icon-size' />,
+    example: () => <Share size='<insert-size>' />,
   },
 );
 
@@ -2413,7 +2413,7 @@ figma.connect(
   {
     imports: ["import { Share2 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Share2 size='define-icon-size' />,
+    example: () => <Share2 size='<insert-size>' />,
   },
 );
 
@@ -2423,7 +2423,7 @@ figma.connect(
   {
     imports: ["import { ShieldCheck } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ShieldCheck size='define-icon-size' />,
+    example: () => <ShieldCheck size='<insert-size>' />,
   },
 );
 
@@ -2433,7 +2433,7 @@ figma.connect(
   {
     imports: ["import { ShieldLock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ShieldLock size='define-icon-size' />,
+    example: () => <ShieldLock size='<insert-size>' />,
   },
 );
 
@@ -2443,7 +2443,7 @@ figma.connect(
   {
     imports: ["import { ShieldMore } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ShieldMore size='define-icon-size' />,
+    example: () => <ShieldMore size='<insert-size>' />,
   },
 );
 
@@ -2453,7 +2453,7 @@ figma.connect(
   {
     imports: ["import { Signature } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Signature size='define-icon-size' />,
+    example: () => <Signature size='<insert-size>' />,
   },
 );
 
@@ -2463,7 +2463,7 @@ figma.connect(
   {
     imports: ["import { Slideshow } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Slideshow size='define-icon-size' />,
+    example: () => <Slideshow size='<insert-size>' />,
   },
 );
 
@@ -2473,7 +2473,7 @@ figma.connect(
   {
     imports: ["import { Snow } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Snow size='define-icon-size' />,
+    example: () => <Snow size='<insert-size>' />,
   },
 );
 
@@ -2483,7 +2483,7 @@ figma.connect(
   {
     imports: ["import { SoftRepair } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SoftRepair size='define-icon-size' />,
+    example: () => <SoftRepair size='<insert-size>' />,
   },
 );
 
@@ -2493,7 +2493,7 @@ figma.connect(
   {
     imports: ["import { Spacerocket } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Spacerocket size='define-icon-size' />,
+    example: () => <Spacerocket size='<insert-size>' />,
   },
 );
 
@@ -2503,7 +2503,7 @@ figma.connect(
   {
     imports: ["import { SparksFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SparksFill size='define-icon-size' />,
+    example: () => <SparksFill size='<insert-size>' />,
   },
 );
 
@@ -2513,7 +2513,7 @@ figma.connect(
   {
     imports: ["import { SpeedFast } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SpeedFast size='define-icon-size' />,
+    example: () => <SpeedFast size='<insert-size>' />,
   },
 );
 
@@ -2523,7 +2523,7 @@ figma.connect(
   {
     imports: ["import { SpeedLow } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SpeedLow size='define-icon-size' />,
+    example: () => <SpeedLow size='<insert-size>' />,
   },
 );
 
@@ -2533,7 +2533,7 @@ figma.connect(
   {
     imports: ["import { SpeedMedium } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <SpeedMedium size='define-icon-size' />,
+    example: () => <SpeedMedium size='<insert-size>' />,
   },
 );
 
@@ -2543,7 +2543,7 @@ figma.connect(
   {
     imports: ["import { Star } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Star size='define-icon-size' />,
+    example: () => <Star size='<insert-size>' />,
   },
 );
 
@@ -2553,7 +2553,7 @@ figma.connect(
   {
     imports: ["import { StarFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <StarFill size='define-icon-size' />,
+    example: () => <StarFill size='<insert-size>' />,
   },
 );
 
@@ -2563,7 +2563,7 @@ figma.connect(
   {
     imports: ["import { StarHalf } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <StarHalf size='define-icon-size' />,
+    example: () => <StarHalf size='<insert-size>' />,
   },
 );
 
@@ -2573,7 +2573,7 @@ figma.connect(
   {
     imports: ["import { Stax } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Stax size='define-icon-size' />,
+    example: () => <Stax size='<insert-size>' />,
   },
 );
 
@@ -2583,7 +2583,7 @@ figma.connect(
   {
     imports: ["import { Sun } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Sun size='define-icon-size' />,
+    example: () => <Sun size='<insert-size>' />,
   },
 );
 
@@ -2593,7 +2593,7 @@ figma.connect(
   {
     imports: ["import { Support } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Support size='define-icon-size' />,
+    example: () => <Support size='<insert-size>' />,
   },
 );
 
@@ -2603,7 +2603,7 @@ figma.connect(
   {
     imports: ["import { Switch } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Switch size='define-icon-size' />,
+    example: () => <Switch size='<insert-size>' />,
   },
 );
 
@@ -2613,7 +2613,7 @@ figma.connect(
   {
     imports: ["import { Switch2 } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Switch2 size='define-icon-size' />,
+    example: () => <Switch2 size='<insert-size>' />,
   },
 );
 
@@ -2623,7 +2623,7 @@ figma.connect(
   {
     imports: ["import { Tablet } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Tablet size='define-icon-size' />,
+    example: () => <Tablet size='<insert-size>' />,
   },
 );
 
@@ -2633,7 +2633,7 @@ figma.connect(
   {
     imports: ["import { Target } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Target size='define-icon-size' />,
+    example: () => <Target size='<insert-size>' />,
   },
 );
 
@@ -2643,7 +2643,7 @@ figma.connect(
   {
     imports: ["import { Telegram } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Telegram size='define-icon-size' />,
+    example: () => <Telegram size='<insert-size>' />,
   },
 );
 
@@ -2653,7 +2653,7 @@ figma.connect(
   {
     imports: ["import { Theme } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Theme size='define-icon-size' />,
+    example: () => <Theme size='<insert-size>' />,
   },
 );
 
@@ -2663,7 +2663,7 @@ figma.connect(
   {
     imports: ["import { ThemeFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <ThemeFill size='define-icon-size' />,
+    example: () => <ThemeFill size='<insert-size>' />,
   },
 );
 
@@ -2673,7 +2673,7 @@ figma.connect(
   {
     imports: ["import { Threads } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Threads size='define-icon-size' />,
+    example: () => <Threads size='<insert-size>' />,
   },
 );
 
@@ -2683,7 +2683,7 @@ figma.connect(
   {
     imports: ["import { Tiktok } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Tiktok size='define-icon-size' />,
+    example: () => <Tiktok size='<insert-size>' />,
   },
 );
 
@@ -2693,7 +2693,7 @@ figma.connect(
   {
     imports: ["import { Tools } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Tools size='define-icon-size' />,
+    example: () => <Tools size='<insert-size>' />,
   },
 );
 
@@ -2705,7 +2705,7 @@ figma.connect(
       "import { TransferHorizontal } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <TransferHorizontal size='define-icon-size' />,
+    example: () => <TransferHorizontal size='<insert-size>' />,
   },
 );
 
@@ -2717,7 +2717,7 @@ figma.connect(
       "import { TransferVertical } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <TransferVertical size='define-icon-size' />,
+    example: () => <TransferVertical size='<insert-size>' />,
   },
 );
 
@@ -2727,7 +2727,7 @@ figma.connect(
   {
     imports: ["import { Trash } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Trash size='define-icon-size' />,
+    example: () => <Trash size='<insert-size>' />,
   },
 );
 
@@ -2739,7 +2739,7 @@ figma.connect(
       "import { TriangleDown } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <TriangleDown size='define-icon-size' />,
+    example: () => <TriangleDown size='<insert-size>' />,
   },
 );
 
@@ -2749,7 +2749,7 @@ figma.connect(
   {
     imports: ["import { TriangleUp } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <TriangleUp size='define-icon-size' />,
+    example: () => <TriangleUp size='<insert-size>' />,
   },
 );
 
@@ -2759,7 +2759,7 @@ figma.connect(
   {
     imports: ["import { Truck } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Truck size='define-icon-size' />,
+    example: () => <Truck size='<insert-size>' />,
   },
 );
 
@@ -2769,7 +2769,7 @@ figma.connect(
   {
     imports: ["import { Twitter } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Twitter size='define-icon-size' />,
+    example: () => <Twitter size='<insert-size>' />,
   },
 );
 
@@ -2779,7 +2779,7 @@ figma.connect(
   {
     imports: ["import { Unlink } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Unlink size='define-icon-size' />,
+    example: () => <Unlink size='<insert-size>' />,
   },
 );
 
@@ -2789,7 +2789,7 @@ figma.connect(
   {
     imports: ["import { Unlock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Unlock size='define-icon-size' />,
+    example: () => <Unlock size='<insert-size>' />,
   },
 );
 
@@ -2799,7 +2799,7 @@ figma.connect(
   {
     imports: ["import { Usb } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Usb size='define-icon-size' />,
+    example: () => <Usb size='<insert-size>' />,
   },
 );
 
@@ -2809,7 +2809,7 @@ figma.connect(
   {
     imports: ["import { UsbC } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UsbC size='define-icon-size' />,
+    example: () => <UsbC size='<insert-size>' />,
   },
 );
 
@@ -2819,7 +2819,7 @@ figma.connect(
   {
     imports: ["import { User } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <User size='define-icon-size' />,
+    example: () => <User size='<insert-size>' />,
   },
 );
 
@@ -2829,7 +2829,7 @@ figma.connect(
   {
     imports: ["import { UserAdd } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserAdd size='define-icon-size' />,
+    example: () => <UserAdd size='<insert-size>' />,
   },
 );
 
@@ -2841,7 +2841,7 @@ figma.connect(
       "import { UserArrowRight } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserArrowRight size='define-icon-size' />,
+    example: () => <UserArrowRight size='<insert-size>' />,
   },
 );
 
@@ -2851,7 +2851,7 @@ figma.connect(
   {
     imports: ["import { UserCheck } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserCheck size='define-icon-size' />,
+    example: () => <UserCheck size='<insert-size>' />,
   },
 );
 
@@ -2861,7 +2861,7 @@ figma.connect(
   {
     imports: ["import { UserCircle } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserCircle size='define-icon-size' />,
+    example: () => <UserCircle size='<insert-size>' />,
   },
 );
 
@@ -2871,7 +2871,7 @@ figma.connect(
   {
     imports: ["import { UserDelete } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserDelete size='define-icon-size' />,
+    example: () => <UserDelete size='<insert-size>' />,
   },
 );
 
@@ -2881,7 +2881,7 @@ figma.connect(
   {
     imports: ["import { UserLock } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserLock size='define-icon-size' />,
+    example: () => <UserLock size='<insert-size>' />,
   },
 );
 
@@ -2891,7 +2891,7 @@ figma.connect(
   {
     imports: ["import { UserShield } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <UserShield size='define-icon-size' />,
+    example: () => <UserShield size='<insert-size>' />,
   },
 );
 
@@ -2901,7 +2901,7 @@ figma.connect(
   {
     imports: ["import { Wallet } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Wallet size='define-icon-size' />,
+    example: () => <Wallet size='<insert-size>' />,
   },
 );
 
@@ -2911,7 +2911,7 @@ figma.connect(
   {
     imports: ["import { WalletInput } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <WalletInput size='define-icon-size' />,
+    example: () => <WalletInput size='<insert-size>' />,
   },
 );
 
@@ -2923,7 +2923,7 @@ figma.connect(
       "import { WalletSearch } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <WalletSearch size='define-icon-size' />,
+    example: () => <WalletSearch size='<insert-size>' />,
   },
 );
 
@@ -2933,7 +2933,7 @@ figma.connect(
   {
     imports: ["import { Warning } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Warning size='define-icon-size' />,
+    example: () => <Warning size='<insert-size>' />,
   },
 );
 
@@ -2943,7 +2943,7 @@ figma.connect(
   {
     imports: ["import { WarningFill } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <WarningFill size='define-icon-size' />,
+    example: () => <WarningFill size='<insert-size>' />,
   },
 );
 
@@ -2953,7 +2953,7 @@ figma.connect(
   {
     imports: ["import { Whatsapp } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Whatsapp size='define-icon-size' />,
+    example: () => <Whatsapp size='<insert-size>' />,
   },
 );
 
@@ -2963,7 +2963,7 @@ figma.connect(
   {
     imports: ["import { Windows } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Windows size='define-icon-size' />,
+    example: () => <Windows size='<insert-size>' />,
   },
 );
 
@@ -2975,7 +2975,7 @@ figma.connect(
       "import { WirelessCharging } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <WirelessCharging size='define-icon-size' />,
+    example: () => <WirelessCharging size='<insert-size>' />,
   },
 );
 
@@ -2985,6 +2985,6 @@ figma.connect(
   {
     imports: ["import { Youtube } from '@ledgerhq/lumen-ui-react/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Youtube size='define-icon-size' />,
+    example: () => <Youtube size='<insert-size>' />,
   },
 );

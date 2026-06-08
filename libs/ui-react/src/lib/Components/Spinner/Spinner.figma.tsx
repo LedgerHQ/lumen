@@ -7,6 +7,6 @@ figma.connect(
   {
     imports: ["import { Spinner } from '@ledgerhq/lumen-ui-react'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: () => <Spinner size='put correct size' />,
+    example: () => <Spinner size='<insert-size>' />,
   },
 );
