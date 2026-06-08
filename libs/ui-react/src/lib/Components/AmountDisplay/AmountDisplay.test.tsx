@@ -210,4 +210,33 @@ describe('AmountDisplay', () => {
 
     expect(screen.getAllByText(',')).toHaveLength(2);
   });
+
+  const getDigitStripWrappers = (container: HTMLElement): HTMLElement[] =>
+    Array.from(container.querySelectorAll<HTMLElement>('.mask-fade-y'));
+
+  it('applies width transition class when animate is true', () => {
+    const formatter = createFormatter();
+    const { container } = render(
+      <AmountDisplay value={1234.56} formatter={formatter} animate={true} />,
+    );
+
+    const wrappers = getDigitStripWrappers(container);
+    expect(wrappers.length).toBeGreaterThan(0);
+    wrappers.forEach((wrapper) => {
+      expect(wrapper).toHaveClass('transition-[width]');
+    });
+  });
+
+  it('does not apply width transition class when animate is false', () => {
+    const formatter = createFormatter();
+    const { container } = render(
+      <AmountDisplay value={1234.56} formatter={formatter} animate={false} />,
+    );
+
+    const wrappers = getDigitStripWrappers(container);
+    expect(wrappers.length).toBeGreaterThan(0);
+    wrappers.forEach((wrapper) => {
+      expect(wrapper).not.toHaveClass('transition-[width]');
+    });
+  });
 });
