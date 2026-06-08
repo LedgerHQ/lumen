@@ -179,7 +179,11 @@ const DigitStrip = memo(
 
     return (
       <Animated.View
-        style={{ height: lineHeight, overflow: 'hidden', width: width }}
+        style={{
+          height: lineHeight,
+          overflow: 'hidden',
+          width: animate ? width : targetWidth,
+        }}
         accessibilityValue={{ text: String(value) }}
       >
         <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
