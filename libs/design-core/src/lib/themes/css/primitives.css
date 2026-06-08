@@ -103,7 +103,7 @@
   --color-light-yellow-400: #ffbd42;
   --color-light-yellow-500: #efa22f;
   --color-light-yellow-600: #d38b20;
-  --color-light-yellow-700: #ae731a;
+  --color-light-yellow-700: #9b6109;
   --color-light-yellow-800: #885a14;
   --color-light-yellow-900: #63420f;
   --color-light-yellow-950: #3e2909;
@@ -698,6 +698,7 @@
   --stroke-2: 2px;
   --stroke-4: 4px;
   --stroke-05: 0.5px;
+  --stroke-1-5: 1.5px;
   --font-weight-bold: 700;
   --font-weight-semi-bold: 600;
   --font-weight-medium: 500;

@@ -59,10 +59,10 @@ export const tokens = {
     '--color-background-accent-enterprise-hover': 'var(--color-dark-blue-500)',
     '--color-background-accent-enterprise-pressed':
       'var(--color-dark-blue-600)',
-    '--color-background-accent-websites': 'var(--color-dark-orange-400)',
-    '--color-background-accent-websites-hover': 'var(--color-dark-orange-500)',
+    '--color-background-accent-websites': 'var(--color-dark-purple-400)',
+    '--color-background-accent-websites-hover': 'var(--color-dark-purple-500)',
     '--color-background-accent-websites-pressed':
-      'var(--color-dark-orange-600)',
+      'var(--color-dark-purple-600)',
     '--color-background-interactive': 'var(--color-dark-grey-950)',
     '--color-background-interactive-hover': 'var(--color-dark-grey-900)',
     '--color-background-interactive-pressed': 'var(--color-dark-grey-800)',
@@ -75,10 +75,10 @@ export const tokens = {
     '--color-background-active-enterprise-hover': 'var(--color-dark-blue-500)',
     '--color-background-active-enterprise-pressed':
       'var(--color-dark-blue-600)',
-    '--color-background-active-websites': 'var(--color-dark-orange-400)',
-    '--color-background-active-websites-hover': 'var(--color-dark-orange-500)',
+    '--color-background-active-websites': 'var(--color-dark-purple-400)',
+    '--color-background-active-websites-hover': 'var(--color-dark-purple-500)',
     '--color-background-active-websites-pressed':
-      'var(--color-dark-orange-600)',
+      'var(--color-dark-purple-600)',
     '--color-background-active-subtle-ledger-live':
       'var(--color-dark-purple-050)',
     '--color-background-active-subtle-ledger-live-hover':
@@ -90,11 +90,11 @@ export const tokens = {
       'var(--color-dark-blue-100)',
     '--color-background-active-subtle-enterprise-pressed':
       'var(--color-dark-blue-200)',
-    '--color-background-active-subtle-website': 'var(--color-dark-orange-050)',
+    '--color-background-active-subtle-website': 'var(--color-dark-purple-050)',
     '--color-background-active-subtle-website-hover':
-      'var(--color-dark-orange-100)',
+      'var(--color-dark-purple-100)',
     '--color-background-active-subtle-website-pressed':
-      'var(--color-dark-orange-200)',
+      'var(--color-dark-purple-200)',
     '--color-background-error': 'var(--color-dark-red-600-15)',
     '--color-background-error-hover': 'var(--color-dark-red-600-30)',
     '--color-background-error-pressed': 'var(--color-dark-red-600-40)',
@@ -129,7 +129,7 @@ export const tokens = {
     '--color-text-muted-subtle': 'var(--color-dark-grey-300)',
     '--color-text-active-ledger-live': 'var(--color-dark-purple-400)',
     '--color-text-active-enterprise': 'var(--color-dark-blue-500)',
-    '--color-text-active-websites': 'var(--color-dark-orange-400)',
+    '--color-text-active-websites': 'var(--color-dark-purple-400)',
     '--color-text-interactive-ledger-live': 'var(--color-dark-purple-400)',
     '--color-text-interactive-ledger-live-hover':
       'var(--color-dark-purple-500)',
@@ -138,15 +138,15 @@ export const tokens = {
     '--color-text-interactive-enterprise': 'var(--color-dark-blue-500)',
     '--color-text-interactive-enterprise-hover': 'var(--color-dark-blue-600)',
     '--color-text-interactive-enterprise-pressed': 'var(--color-dark-blue-700)',
-    '--color-text-interactive-websites': 'var(--color-dark-orange-400)',
-    '--color-text-interactive-websites-hover': 'var(--color-dark-orange-500)',
-    '--color-text-interactive-websites-pressed': 'var(--color-dark-orange-600)',
-    '--color-text-error': 'var(--color-dark-red-700)',
-    '--color-text-warning': 'var(--color-dark-yellow-700)',
+    '--color-text-interactive-websites': 'var(--color-dark-purple-400)',
+    '--color-text-interactive-websites-hover': 'var(--color-dark-purple-500)',
+    '--color-text-interactive-websites-pressed': 'var(--color-dark-purple-600)',
+    '--color-text-error': 'var(--color-dark-red-600)',
+    '--color-text-warning': 'var(--color-dark-yellow-600)',
     '--color-text-success': 'var(--color-dark-green-600)',
     '--color-text-on-accent-ledger-live': 'var(--color-dark-grey-050)',
     '--color-text-on-accent-enterprise': 'var(--color-dark-grey-950)',
-    '--color-text-on-accent-websites': 'var(--color-dark-grey-950)',
+    '--color-text-on-accent-websites': 'var(--color-dark-grey-050)',
     '--color-text-on-interactive': 'var(--color-dark-grey-050)',
     '--color-text-on-error-strong': 'var(--color-dark-grey-050)',
     '--color-text-on-warning-strong': 'var(--color-dark-grey-050)',
