@@ -101,13 +101,13 @@ const Section = ({
 
 const BasicLine = () => (
   <Section title='Basic line'>
-    <LineChart series={sampleSeries} height={150} />
+    <LineChart series={sampleSeries} height={125} />
   </Section>
 );
 
 const WithAreaFill = () => (
   <Section title='With area fill'>
-    <LineChart series={sampleSeries} height={150} showArea />
+    <LineChart series={sampleSeries} height={125} showArea />
   </Section>
 );
 
@@ -115,7 +115,7 @@ const WithXAxis = () => (
   <Section title='With X axis'>
     <LineChart
       series={sampleSeries}
-      height={150}
+      height={125}
       showXAxis
       xAxis={{
         gridLineStyle: 'solid',
@@ -130,7 +130,7 @@ const WithBothAxes = () => (
   <Section title='With both axes'>
     <LineChart
       series={sampleSeries}
-      height={150}
+      height={125}
       showXAxis
       showYAxis
       xAxis={{
@@ -150,7 +150,7 @@ const WithStringLabels = () => (
   <Section title='With string labels'>
     <LineChart
       series={sampleSeries}
-      height={150}
+      height={125}
       showXAxis
       xAxis={{
         data: months,
@@ -164,7 +164,7 @@ const MultipleSeries = () => (
   <Section title='Multiple series'>
     <LineChart
       series={multiSeries}
-      height={150}
+      height={125}
       showXAxis
       showYAxis
       xAxis={{
@@ -183,7 +183,7 @@ const MultipleSeriesWithArea = () => (
   <Section title='Multiple series with area'>
     <LineChart
       series={multiSeries}
-      height={150}
+      height={125}
       showArea
       showXAxis
       showYAxis
@@ -239,7 +239,7 @@ const CustomDomain = () => (
   <Section title='Custom domain (0–1)'>
     <LineChart
       series={sampleSeries}
-      height={150}
+      height={125}
       showXAxis
       showYAxis
       xAxis={{
@@ -264,7 +264,7 @@ const PointMinMax = () => {
 
   return (
     <Section title='Point – min/max highlights'>
-      <LineChart series={sampleSeries} height={150} showArea>
+      <LineChart series={sampleSeries} height={125} showArea>
         <Point dataX={maxIdx} dataY={max} color='#47883A' label={`$${max}`} />
         <Point
           dataX={minIdx}
@@ -280,7 +280,7 @@ const PointMinMax = () => {
 
 const PointAllDataPoints = () => (
   <Section title='Point – all data points'>
-    <LineChart series={sampleSeries} height={150} showArea>
+    <LineChart series={sampleSeries} height={125} showArea>
       {sampleSeries[0].data.map((value, i) => (
         <Point key={i} dataX={i} dataY={value} size={8} />
       ))}
@@ -290,7 +290,7 @@ const PointAllDataPoints = () => (
 
 const PointLabelFunction = () => (
   <Section title='Point – label function'>
-    <LineChart series={sampleSeries} height={150}>
+    <LineChart series={sampleSeries} height={125}>
       <Point
         dataX={2}
         dataY={98}
@@ -310,7 +310,7 @@ const PointLabelFunction = () => (
 
 const PointHiddenPoint = () => (
   <Section title='Point – hidden point (label only)'>
-    <LineChart series={sampleSeries} height={150} showArea>
+    <LineChart series={sampleSeries} height={125} showArea>
       <Point dataX={2} dataY={98} hidePoint label='Peak' />
       <Point
         dataX={0}
@@ -354,7 +354,7 @@ const ScrubberBasic = () => (
   <Section title='Scrubber – basic'>
     <LineChart
       series={sampleSeries}
-      height={150}
+      height={125}
       showArea
       enableScrubbing
       showYAxis
@@ -374,7 +374,7 @@ const ScrubberMultiSeriesWithBeacons = () => (
   <Section title='Scrubber – multi-series with beacons'>
     <LineChart
       series={multiSeries}
-      height={150}
+      height={125}
       enableScrubbing
       showYAxis
       yAxis={{
@@ -446,13 +446,14 @@ const ScrubberWithTooltip = () => (
 const ReferenceLineBasic = () => {
   return (
     <Section title='Reference line'>
-      <LineChart series={sampleSeries} width={320} height={150}>
+      <LineChart series={sampleSeries} width={320} height={125}>
         <ReferenceLine
           dataY={98}
           labelDy={-4}
           label='Peak'
           labelPosition='end'
-          labelVerticalAlignment='end'
+          labelVerticalAlignment='start'
+          labelHorizontalAlignment='start'
         />
         <ReferenceLine
           dataY={4}
@@ -460,6 +461,7 @@ const ReferenceLineBasic = () => {
           label='Low'
           labelPosition='start'
           labelVerticalAlignment='start'
+          labelHorizontalAlignment='end'
         />
       </LineChart>
     </Section>
@@ -491,7 +493,7 @@ const RandomAutoUpdate = () => {
     <Section title='Random series (auto-updates every 3s)'>
       <LineChart
         series={series}
-        height={150}
+        height={125}
         showArea
         showYAxis
         yAxis={{
@@ -573,8 +575,9 @@ const MagnetizedPoint = () => (
   <Section title='Magnetized point'>
     <LineChart
       series={magneticSeries}
-      width={400}
-      height={200}
+      width={300}
+      height={125}
+      inset={10}
       enableScrubbing
       showArea
     >

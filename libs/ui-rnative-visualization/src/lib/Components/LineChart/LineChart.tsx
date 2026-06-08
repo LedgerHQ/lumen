@@ -1,13 +1,20 @@
 import { useMemo } from 'react';
+import Animated from 'react-native-reanimated';
+import { G } from 'react-native-svg';
 
 import type { ChartInset } from '../../utils/types';
 import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
 import { DEFAULT_AXIS_HEIGHT, XAxis } from '../Axis/XAxis';
 import { YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
+import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel';
+import { useShimmerAnimation } from '../CartesianChart/ShimmerAnimation';
 import { Line } from '../Line';
 
+import { LineChartEmptyState } from './LineChartEmptyState';
 import type { LineChartProps } from './types';
+
+const AnimatedG = Animated.createAnimatedComponent(G);
 
 export const LineChart = ({
   series,
@@ -25,7 +32,11 @@ export const LineChart = ({
   onScrubberPositionChange,
   animate,
   magnetRadius,
+  loading = false,
+  emptyLabel = 'No data',
 }: LineChartProps) => {
+  const { animatedProps: transitionShimmerProps } =
+    useShimmerAnimation(loading);
   const xAxisConfig = {
     ...defaultXAxisProps,
     ...xAxis,
@@ -60,6 +71,26 @@ export const LineChart = ({
     yAxisConfig?.width,
   ]);
 
+  const hasData = (series ?? []).some((s) => {
+    let validPoints = 0;
+    for (const value of s.data ?? []) {
+      if (value !== null) validPoints++;
+      if (validPoints >= 2) return true;
+    }
+    return false;
+  });
+  const isInitialLoading = loading && !hasData;
+  const isEmpty = !loading && !hasData;
+  const isTransitionLoading = loading && hasData;
+  const isPlaceholder = isInitialLoading || isEmpty;
+
+  let ariaLabel: string | undefined;
+  if (isEmpty) {
+    ariaLabel = emptyLabel;
+  } else if (loading) {
+    ariaLabel = 'Loading chart';
+  }
+
   return (
     <CartesianChart
       series={series ?? []}
@@ -71,21 +102,45 @@ export const LineChart = ({
       axisPadding={axisPadding}
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
-      animate={animate}
+      animate={isTransitionLoading ? false : animate}
       magnetRadius={magnetRadius}
+      ariaLabel={ariaLabel}
+      ariaBusy={loading}
+      overlay={
+        isEmpty ? <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel> : undefined
+      }
     >
-      {showXAxis && <XAxis {...xAxisConfig} />}
-      {showYAxis && <YAxis {...yAxisConfig} />}
-      {series?.map((s) => (
-        <Line
-          key={s.id}
-          stroke={s.stroke}
-          seriesId={s.id}
-          showArea={showArea}
-          areaType={areaType}
-        />
-      ))}
-      {children}
+      {isPlaceholder ? (
+        <LineChartEmptyState loading={isInitialLoading} />
+      ) : (
+        <>
+          {showXAxis && <XAxis {...xAxisConfig} />}
+          {showYAxis && <YAxis {...yAxisConfig} />}
+          {isTransitionLoading ? (
+            <AnimatedG animatedProps={transitionShimmerProps}>
+              {series?.map((s) => (
+                <Line
+                  key={s.id}
+                  seriesId={s.id}
+                  stroke={s.stroke}
+                  showArea={showArea}
+                  areaType={areaType}
+                />
+              ))}
+            </AnimatedG>
+          ) : (
+            series?.map((s) => (
+              <Line
+                key={s.id}
+                seriesId={s.id}
+                showArea={showArea}
+                areaType={areaType}
+              />
+            ))
+          )}
+          {children}
+        </>
+      )}
     </CartesianChart>
   );
 };

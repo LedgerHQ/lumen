@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from './LineChart';
@@ -332,5 +333,172 @@ export const WithAreaMultipleSeries: Story = {
       showLine: true,
       domain: { min: 0, max: 100 },
     },
+  },
+};
+
+/**
+ * Initial loading: no data yet, so an animated shimmer placeholder line is
+ * shown until a `series` arrives.
+ */
+export const Loading: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    width: 400,
+    height: 250,
+    loading: true,
+  },
+};
+
+/**
+ * Transition loading: the chart already has data (e.g. switching time ranges),
+ * so the existing line is recoloured to muted grey and shimmers until the new
+ * `series` is provided.
+ */
+export const TransitionLoading: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    series: sampleSeries,
+    width: 400,
+    height: 250,
+    loading: true,
+    showXAxis: true,
+    xAxis: {
+      showLine: true,
+    },
+  },
+};
+
+/**
+ * Empty: no data and not loading, so a static placeholder line with a centred
+ * label is shown.
+ */
+export const Empty: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    series: [],
+    width: 400,
+    height: 250,
+  },
+};
+
+export const EmptyCustomLabel: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    series: [],
+    width: 400,
+    height: 250,
+    emptyLabel: 'No transactions yet',
+  },
+};
+
+const INITIAL_FETCH_DELAY_IN_MS = 1200;
+const TRANSITION_FETCH_DELAY_IN_MS = 2000;
+
+/**
+ * Putting it together: simulates fetching data. Use the buttons to reload (with
+ * existing data -> transition shimmer) or simulate an empty result.
+ */
+export const Interactive: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  render: () => {
+    const [loading, setLoading] = useState(true);
+    const [series, setSeries] = useState<typeof sampleSeries | []>([]);
+    const fetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+      undefined,
+    );
+
+    const scheduleFetch = (callback: () => void, delay: number) => {
+      if (fetchTimeoutRef.current !== undefined) {
+        clearTimeout(fetchTimeoutRef.current);
+      }
+      fetchTimeoutRef.current = setTimeout(callback, delay);
+    };
+
+    const fetchData = (hasExistingData: boolean) => {
+      setLoading(true);
+      scheduleFetch(
+        () => {
+          setSeries(sampleSeries);
+          setLoading(false);
+        },
+        hasExistingData
+          ? TRANSITION_FETCH_DELAY_IN_MS
+          : INITIAL_FETCH_DELAY_IN_MS,
+      );
+    };
+
+    const simulateEmpty = () => {
+      setLoading(true);
+      scheduleFetch(() => {
+        setSeries([]);
+        setLoading(false);
+      }, INITIAL_FETCH_DELAY_IN_MS);
+    };
+
+    useEffect(() => {
+      fetchData(false);
+      return () => {
+        if (fetchTimeoutRef.current !== undefined) {
+          clearTimeout(fetchTimeoutRef.current);
+        }
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+      <View style={{ gap: 12 }}>
+        <View
+          style={{ flexDirection: 'row', gap: 8, justifyContent: 'center' }}
+        >
+          <Pressable
+            onPress={() => fetchData(series.length > 0)}
+            style={{
+              backgroundColor: '#E5E5E5',
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderRadius: 8,
+            }}
+          >
+            <Text>Reload</Text>
+          </Pressable>
+          <Pressable
+            onPress={simulateEmpty}
+            style={{
+              backgroundColor: '#E5E5E5',
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderRadius: 8,
+            }}
+          >
+            <Text>Simulate empty</Text>
+          </Pressable>
+        </View>
+
+        <LineChart
+          series={series}
+          width={400}
+          height={250}
+          loading={loading}
+          showArea
+          showXAxis
+          xAxis={{ showLine: true }}
+        />
+      </View>
+    );
   },
 };
