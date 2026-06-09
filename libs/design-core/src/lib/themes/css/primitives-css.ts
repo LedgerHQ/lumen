@@ -699,7 +699,7 @@ export const tokens = {
     '--stroke-2': '2px',
     '--stroke-4': '4px',
     '--stroke-05': '0.5px',
-    '--stroke-1,5': '1.5px',
+    '--stroke-1.5': '1.5px',
     '--font-weight-bold': '700',
     '--font-weight-semi-bold': '600',
     '--font-weight-medium': '500',
