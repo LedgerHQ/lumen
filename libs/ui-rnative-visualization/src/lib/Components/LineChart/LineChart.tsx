@@ -18,7 +18,7 @@ export const LineChart = ({
   xAxis,
   yAxis,
   width,
-  height = 160,
+  height = 228,
   inset,
   children,
   enableScrubbing = false,

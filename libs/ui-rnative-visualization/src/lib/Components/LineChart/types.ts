@@ -48,7 +48,7 @@ export type LineChartProps = {
   width?: number;
   /**
    * Height of the chart in pixels.
-   * @default 160
+   * @default 228
    */
   height?: number;
   /**

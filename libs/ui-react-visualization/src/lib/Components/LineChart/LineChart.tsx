@@ -22,7 +22,7 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = 160,
+  height = 240,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
