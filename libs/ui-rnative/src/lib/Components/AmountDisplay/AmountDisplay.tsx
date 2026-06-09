@@ -192,8 +192,8 @@ const DigitStrip = memo(
         accessibilityValue={{ text: String(value) }}
       >
         <View
+          pointerEvents='none'
           style={{
-            pointerEvents: 'none',
             position: 'absolute',
             top: 0,
             bottom: 0,
