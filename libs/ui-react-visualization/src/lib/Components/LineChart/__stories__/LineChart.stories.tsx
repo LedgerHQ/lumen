@@ -220,6 +220,27 @@ export const WithYAxis: Story = {
 };
 
 /**
+ * Combine y-axis and x-axis with grid lines and tick marks.
+ */
+export const WithBothAxis: Story = {
+  args: {
+    showYAxis: true,
+    showXAxis: true,
+    yAxis: {
+      showGrid: true,
+      showTickMark: true,
+      showLine: true,
+      tickLabelFormatter: (value) => `$${value}`,
+    },
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+      showTickMark: true,
+    },
+  },
+};
+
+/**
  * Annotate specific data coordinates with `<Point>` children. See the
  * **Point** page for labels, colors, sizes and magnetic snapping.
  */

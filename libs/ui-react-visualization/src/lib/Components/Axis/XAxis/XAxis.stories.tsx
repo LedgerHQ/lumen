@@ -49,16 +49,17 @@ type Story = StoryObj<typeof XAxis>;
 export const Base: Story = {
   args: {
     showLine: true,
+    showGrid: true,
   },
 };
 
 /**
- * `showGrid` draws a grid line at each tick. `gridLineStyle` switches between
- * `'dashed'` and `'solid'`.
+ * `gridLineStyle` switches between `'dashed'` and `'solid'`.
  */
-export const ShowGrid: Story = {
+export const GridLineStyle: Story = {
   args: {
     showGrid: true,
+    showLine: true,
     gridLineStyle: 'dashed',
   },
 };
