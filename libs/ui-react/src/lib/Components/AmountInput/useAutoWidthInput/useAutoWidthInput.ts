@@ -64,6 +64,7 @@ export const useAutoWidthInput = ({
   useEffect(() => {
     const span = spanRef.current;
     if (!span) return;
+    if (typeof ResizeObserver === 'undefined') return;
     const observer = new ResizeObserver(syncInputWidth);
     observer.observe(span);
     return () => observer.disconnect();
