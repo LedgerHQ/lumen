@@ -43,7 +43,9 @@ export const useAmountInputValue = ({
   const prevValueRef = useRef<string>(inputValue);
 
   useEffect(() => {
-    setInputValue(format(value));
+    const formatted = format(value);
+    setInputValue(formatted);
+    prevValueRef.current = formatted;
   }, [value, format]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {

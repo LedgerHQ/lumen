@@ -83,4 +83,37 @@ describe('useAmountInputValue', () => {
 
     expect(result.current.isChanging).toBe(true);
   });
+
+  it('does not animate when the value stays the same', () => {
+    const { result, rerender } = renderHook<
+      ReturnType<typeof useAmountInputValue>,
+      { value: string }
+    >(
+      ({ value }) =>
+        useAmountInputValue({
+          value,
+          onChange: vi.fn(),
+          formatOptions: defaultFormatOptions,
+        }),
+      { initialProps: { value: '2000' } },
+    );
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('2 000'));
+    });
+
+    act(() => {
+      result.current.setIsChanging(false);
+    });
+
+    rerender({ value: '1000' });
+
+    expect(result.current.inputValue).toBe('1 000');
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('1 000'));
+    });
+
+    expect(result.current.isChanging).toBe(false);
+  });
 });
