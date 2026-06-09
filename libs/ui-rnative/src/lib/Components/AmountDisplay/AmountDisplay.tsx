@@ -193,6 +193,7 @@ const DigitStrip = memo(
       >
         <View
           style={{
+            pointerEvents: 'none',
             position: 'absolute',
             top: 0,
             bottom: 0,

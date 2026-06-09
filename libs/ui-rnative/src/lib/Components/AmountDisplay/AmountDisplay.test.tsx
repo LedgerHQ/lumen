@@ -31,6 +31,7 @@ describe('AmountDisplay', () => {
       accessibilityValue?: { text?: string };
       [key: string]: unknown;
     };
+    findAll: (predicate: (node: TestNode) => boolean) => TestNode[];
   };
 
   const getDigitStripValues = (): number[] => {
@@ -54,6 +55,19 @@ describe('AmountDisplay', () => {
         (node: TestNode) =>
           (node.props.style as { width?: unknown } | undefined)?.width,
       );
+  };
+
+  const getDigitStripContainers = (): TestNode[] => {
+    return screen.root.findAll(
+      (node: TestNode) =>
+        typeof node.type !== 'function' &&
+        node.props.accessibilityValue?.text !== undefined,
+    );
+  };
+
+  const getStyleOverflow = (node: TestNode): unknown => {
+    const style = node.props.style as { overflow?: unknown } | undefined;
+    return style?.overflow;
   };
 
   it('renders with basic formatter', () => {
@@ -281,6 +295,41 @@ describe('AmountDisplay', () => {
     expect(widths.length).toBeGreaterThan(0);
     widths.forEach((width) => {
       expect(typeof width).toBe('number');
+    });
+  });
+
+  describe('digit strip clipping', () => {
+    it('does not set overflow:hidden on the digit strip container', () => {
+      const formatter = createFormatter();
+      render(
+        <TestWrapper>
+          <AmountDisplay value={1234.56} formatter={formatter} />
+        </TestWrapper>,
+      );
+
+      const containers = getDigitStripContainers();
+      expect(containers.length).toBeGreaterThan(0);
+      containers.forEach((container) => {
+        expect(getStyleOverflow(container)).not.toBe('hidden');
+      });
+    });
+
+    it('clips overflow on an inner wrapper inside each digit strip', () => {
+      const formatter = createFormatter();
+      render(
+        <TestWrapper>
+          <AmountDisplay value={1234.56} formatter={formatter} />
+        </TestWrapper>,
+      );
+
+      const containers = getDigitStripContainers();
+      expect(containers.length).toBeGreaterThan(0);
+      containers.forEach((container) => {
+        const clippingWrapper = container.findAll(
+          (node: TestNode) => getStyleOverflow(node) === 'hidden',
+        );
+        expect(clippingWrapper.length).toBeGreaterThan(0);
+      });
     });
   });
 });
