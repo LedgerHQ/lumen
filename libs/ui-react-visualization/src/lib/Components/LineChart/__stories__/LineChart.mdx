@@ -51,6 +51,10 @@ A `Series` is the core data model:
       <code>label</code>,
       'Optional, human-readable name used in legends and tooltips.',
     ],
+    [
+      <code>curve</code>,
+      'Optional, interpolation used to draw the line between data points.',
+    ],
   ]}
 />
 
@@ -59,9 +63,18 @@ Add a `label` and `stroke` to give the series identity:
 <Canvas of={LineChartStories.Series} />
 
 `series` also accepts multiple entries to draw several lines that share the same
-scales:
+scales. Each line can have a different `stroke`, `curve` and `showArea`:
 
 <Canvas of={LineChartStories.MultipleSeries} />
+
+## Customizing lines
+
+Every line is configured through its own `series` entry, so lines in the same
+chart can be styled independently. Today that means a per-line `stroke` color
+and `curve` — more per-line options (dashes, gradients, custom areas) will land
+here over time.
+
+<Canvas of={LineChartStories.CustomLine} />
 
 ## Data
 

@@ -30,17 +30,56 @@ export const sampleSeries = [
   },
 ] satisfies Series[];
 
+/**
+ * Multi-line dataset for the "customizing a line" example: every series carries
+ * its own Lumen `stroke` color and a different `curve`, demonstrating that each
+ * line can be styled independently. More per-line options will land here over
+ * time (dashes, gradients, custom areas, …).
+ */
+export const curveSeries = [
+  {
+    id: 'top',
+    label: 'Linear',
+    stroke: cssVar('var(--background-success-strong)'),
+    curve: 'linear',
+    data: [15, 28, 32, 44, 46, 36, 40, 45, 48, 38],
+  },
+  {
+    id: 'upperMiddle',
+    label: 'Bump',
+    stroke: cssVar('var(--background-error-strong)'),
+    curve: 'bump',
+    data: [12, 23, 21, 29, 34, 28, 31, 38, 42, 35],
+  },
+  {
+    id: 'lowerMiddle',
+    label: 'Natural',
+    stroke: cssVar('var(--background-warning-strong)'),
+    curve: 'natural',
+    data: [8, 15, 14, 25, 20, 18, 22, 28, 24, 30],
+  },
+  {
+    id: 'bottom',
+    label: 'Step',
+    stroke: cssVar('var(--background-accent)'),
+    curve: 'step',
+    data: [4, 8, 11, 15, 16, 14, 16, 10, 12, 14],
+  },
+] satisfies Series[];
+
 /** Canonical two-series dataset for multi-line examples. */
 export const multiSeries = [
   {
     id: 'lineA',
     label: 'Line A',
+    curve: 'step',
     stroke: STORIES_STROKE_COLOR,
     data: [5, 15, 10, 90, 85, 70, 30, 25, 25, 40, 60, 80, 70, 95],
   },
   {
     id: 'lineB',
     label: 'Line B',
+    curve: 'step',
     stroke: cssVar('var(--background-error-strong)'),
     data: [90, 85, 70, 25, 23, 40, 45, 40, 50, 30, 20, 10, 35, 55],
   },

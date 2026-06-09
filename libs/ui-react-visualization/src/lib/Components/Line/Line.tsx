@@ -17,6 +17,7 @@ export function Line({
   stroke,
   showArea = false,
   areaType: _areaType = 'gradient',
+  curve,
 }: LineProps) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
@@ -30,6 +31,7 @@ export function Line({
   const seriesData = seriesMap.get(seriesId);
   const resolvedStroke =
     (stroke ?? seriesData?.stroke) || LINE_DEFAULT_STROKE_COLOR;
+  const resolvedCurve = curve ?? seriesData?.curve;
 
   const points = useMemo(
     () =>
@@ -40,16 +42,16 @@ export function Line({
   );
 
   const linePath = useMemo(
-    () => (points ? buildLinePath(points) : null),
-    [points],
+    () => (points ? buildLinePath(points, resolvedCurve) : null),
+    [points, resolvedCurve],
   );
 
   const areaPath = useMemo(
     () =>
       showArea && points && drawingArea
-        ? buildAreaPath(points, drawingArea)
+        ? buildAreaPath(points, drawingArea, resolvedCurve)
         : null,
-    [showArea, points, drawingArea],
+    [showArea, points, drawingArea, resolvedCurve],
   );
 
   if (!linePath) {

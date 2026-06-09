@@ -18,6 +18,7 @@ import { LineChart } from '../LineChart';
 import {
   CHART_HEIGHT,
   CHART_WIDTH,
+  curveSeries,
   monthLabels,
   multiSeries,
   sampleSeries,
@@ -88,6 +89,17 @@ export const Series: Story = {
 export const MultipleSeries: Story = {
   args: {
     series: multiSeries,
+  },
+};
+
+/**
+ * Each line can be customized independently through its `series` entry. Today
+ * that means a per-line `stroke` color and `curve`; more options will follow.
+ * Here every line uses a different Lumen color and a different `curve`.
+ */
+export const CustomLine: Story = {
+  args: {
+    series: curveSeries,
   },
 };
 
