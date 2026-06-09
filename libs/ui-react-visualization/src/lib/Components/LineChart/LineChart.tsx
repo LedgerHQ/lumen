@@ -84,6 +84,7 @@ export function LineChart({
         <Line
           key={s.id}
           seriesId={s.id}
+          stroke={s.stroke}
           showArea={showArea}
           areaType={areaType}
         />

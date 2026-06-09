@@ -21,6 +21,7 @@ import {
   monthLabels,
   multiSeries,
   sampleSeries,
+  STORIES_STROKE_COLOR,
 } from './chartStoryFixtures';
 import {
   ACTIONS,
@@ -72,7 +73,7 @@ export const Series: Story = {
       {
         id: 'prices',
         label: 'BTC',
-        stroke: '#7B61FF',
+        stroke: STORIES_STROKE_COLOR,
         data: sampleSeries[0].data,
       },
     ],
@@ -99,7 +100,7 @@ export const MissingData: Story = {
     series: [
       {
         id: 'prices',
-        stroke: '#7B61FF',
+        stroke: STORIES_STROKE_COLOR,
         data: [10, 22, 29, null, null, 45, 22, 52, 21, 4, 68, 20, 21, 58],
       },
     ],

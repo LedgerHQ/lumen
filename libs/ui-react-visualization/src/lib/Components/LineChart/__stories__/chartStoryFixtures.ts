@@ -1,3 +1,4 @@
+import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { Series } from '../../../utils/types';
 
 /**
@@ -15,6 +16,7 @@ export const CHART_WIDTH = '100%';
 /** Standard chart height (px) shared by every story. */
 export const CHART_HEIGHT = 250;
 
+export const STORIES_STROKE_COLOR = cssVar('var(--background-success-strong)');
 /**
  * Canonical single-series dataset reused across stories. Declared with
  * `satisfies` so `data` stays a concrete `number[]` (handy for index lookups
@@ -23,7 +25,7 @@ export const CHART_HEIGHT = 250;
 export const sampleSeries = [
   {
     id: 'prices',
-    stroke: '#7B61FF',
+    stroke: STORIES_STROKE_COLOR,
     data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
   },
 ] satisfies Series[];
@@ -33,13 +35,13 @@ export const multiSeries = [
   {
     id: 'lineA',
     label: 'Line A',
-    stroke: '#7B61FF',
+    stroke: STORIES_STROKE_COLOR,
     data: [5, 15, 10, 90, 85, 70, 30, 25, 25, 40, 60, 80, 70, 95],
   },
   {
     id: 'lineB',
     label: 'Line B',
-    stroke: '#44D7B6',
+    stroke: cssVar('var(--background-error-strong)'),
     data: [90, 85, 70, 25, 23, 40, 45, 40, 50, 30, 20, 10, 35, 55],
   },
 ] satisfies Series[];
@@ -76,7 +78,7 @@ export const denseData = ((): number[] => {
 })();
 
 export const denseSeries = [
-  { id: 'prices', stroke: '#7B61FF', data: denseData },
+  { id: 'prices', stroke: STORIES_STROKE_COLOR, data: denseData },
 ] satisfies Series[];
 
 /** Month labels aligned to the 14-point `sampleSeries`, for axis/scrubber stories. */

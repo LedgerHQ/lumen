@@ -33,8 +33,9 @@ export type Series = {
   label?: string;
   /**
    * CSS color applied to the series line/mark.
+   * @default border-muted
    */
-  stroke: string;
+  stroke?: string;
 };
 
 export type NumericScale =
