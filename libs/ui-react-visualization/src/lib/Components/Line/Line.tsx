@@ -8,7 +8,7 @@ import { useRevealClip } from '../CartesianChart/RevealClip';
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
 
-const AREA_GRADIENT_OPACITY = 0.15;
+const AREA_GRADIENT_OPACITY = 0.25;
 
 export function Line({
   seriesId,

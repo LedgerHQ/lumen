@@ -9,7 +9,7 @@ import type { LineProps } from './types';
 import { buildAreaPath, buildLinePath, toScaledPoints } from './utils';
 
 const STROKE_WIDTH = 2;
-const AREA_GRADIENT_OPACITY = 0.2;
+const AREA_GRADIENT_OPACITY = 0.25;
 
 export const Line = ({
   seriesId,
