@@ -1,13 +1,43 @@
-import { area, curveBumpX, line } from 'd3-shape';
+import {
+  area,
+  curveBumpX,
+  curveLinear,
+  curveMonotoneX,
+  curveNatural,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore,
+  line,
+  type CurveFactory,
+} from 'd3-shape';
 
 import { isCategoricalScale } from '../../utils/scales/scales';
 import type {
   ChartScaleFunction,
+  CurveType,
   DrawingArea,
   NumericScale,
 } from '../../utils/types';
 
 type Point = [x: number, y: number];
+
+/**
+ * Maps the public `CurveType` values to their d3-shape curve factories.
+ */
+const CURVE_FACTORIES: Record<CurveType, CurveFactory> = {
+  bump: curveBumpX,
+  linear: curveLinear,
+  monotone: curveMonotoneX,
+  natural: curveNatural,
+  step: curveStep,
+  stepAfter: curveStepAfter,
+  stepBefore: curveStepBefore,
+};
+
+const DEFAULT_CURVE: CurveType = 'bump';
+
+const getCurveFactory = (curve: CurveType = DEFAULT_CURVE): CurveFactory =>
+  CURVE_FACTORIES[curve] ?? CURVE_FACTORIES[DEFAULT_CURVE];
 
 /**
  * Project series data into scaled [x, y] pixel coordinates, skipping nulls.
@@ -49,12 +79,15 @@ export const toScaledPoints = (
 /**
  * Build the SVG `d` attribute for the line stroke.
  */
-export const buildLinePath = (points: Point[]): string | null => {
+export const buildLinePath = (
+  points: Point[],
+  curve?: CurveType,
+): string | null => {
   return (
     line<Point>()
       .x((d) => d[0])
       .y((d) => d[1])
-      .curve(curveBumpX)(points) ?? null
+      .curve(getCurveFactory(curve))(points) ?? null
   );
 };
 
@@ -64,6 +97,7 @@ export const buildLinePath = (points: Point[]): string | null => {
 export const buildAreaPath = (
   points: Point[],
   drawingArea: DrawingArea,
+  curve?: CurveType,
 ): string | null => {
   const yBottom = drawingArea.y + drawingArea.height;
 
@@ -72,6 +106,6 @@ export const buildAreaPath = (
       .x((d) => d[0])
       .y0(yBottom)
       .y1((d) => d[1])
-      .curve(curveBumpX)(points) ?? null
+      .curve(getCurveFactory(curve))(points) ?? null
   );
 };
