@@ -1,49 +1,14 @@
 import {
   cn,
   getFontSize,
-  textFormatter,
   useDisabledContext,
   useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useMemo } from 'react';
 import type { AmountInputProps, AmountInputSize } from './types';
-
-/** Extra width for empty input (caret + placeholder). */
-const INPUT_WIDTH_PADDING_EMPTY = 33;
-/** Extra width when the input has a value. */
-const INPUT_WIDTH_PADDING_FILLED = 8;
-/** Extra width without currency — md size (heading-0 side bearings). */
-const INPUT_WIDTH_PADDING_NO_CURRENCY_MD = 24;
-/** Extra width without currency — sm size (heading-2 side bearings). */
-const INPUT_WIDTH_PADDING_NO_CURRENCY_SM = 16;
-
-const NO_CURRENCY_WIDTH_PADDING_BY_SIZE = {
-  md: INPUT_WIDTH_PADDING_NO_CURRENCY_MD,
-  sm: INPUT_WIDTH_PADDING_NO_CURRENCY_SM,
-} as const satisfies Record<AmountInputSize, number>;
-
-const getInputWidthPadding = (
-  inputValue: string,
-  currencyText: string | undefined,
-  size: AmountInputSize,
-): number => {
-  const basePadding =
-    inputValue === '' ? INPUT_WIDTH_PADDING_EMPTY : INPUT_WIDTH_PADDING_FILLED;
-
-  if (currencyText) {
-    return basePadding;
-  }
-
-  return basePadding + NO_CURRENCY_WIDTH_PADDING_BY_SIZE[size];
-};
+import { useAmountInputValue } from './useAmountInputValue';
+import { useAutoWidthInput } from './useAutoWidthInput';
 
 const inputStyles = cva(
   [
@@ -119,6 +84,18 @@ const containerStyles = cva(
   },
 );
 
+type CurrencyProps = {
+  size: AmountInputSize;
+  style: React.CSSProperties;
+  children: React.ReactNode;
+};
+
+const Currency = ({ size, style, children }: CurrencyProps) => (
+  <span className={cn(currencyStyles({ size }), 'shrink-0')} style={style}>
+    {children}
+  </span>
+);
+
 /**
  * AmountInput component for handling numeric input with currency display.
  * This is a controlled component - both `value` and `onChange` props are required.
@@ -144,74 +121,31 @@ export const AmountInput = ({
     consumerName: 'AmountInput',
     mergeWith: { disabled: disabledProp },
   });
-  const spanRef = useRef<HTMLSpanElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const mergedRef = useMergedRef(ref, inputRef);
-  const formatExternalValue = useCallback(
-    (v: string | number): string =>
-      textFormatter(v.toString(), {
+
+  const { inputValue, isChanging, setIsChanging, handleChange } =
+    useAmountInputValue({
+      value,
+      onChange,
+      formatOptions: {
         allowDecimals,
         thousandsSeparator,
         maxIntegerLength,
         maxDecimalLength,
-      }),
-    [allowDecimals, thousandsSeparator, maxIntegerLength, maxDecimalLength],
-  );
+      },
+    });
 
-  const [inputValue, setInputValue] = useState(() =>
-    formatExternalValue(value),
-  );
-  const [isChanging, setIsChanging] = useState(false);
+  const { spanRef, inputRef } = useAutoWidthInput({
+    inputValue,
+    currencyText,
+    size,
+  });
 
-  const prevValueRef = useRef<string>(inputValue);
+  const mergedRef = useMergedRef(ref, inputRef);
 
   const fontSize = useMemo(
     () => getFontSize(inputValue, size) + 'px',
     [inputValue, size],
   );
-
-  const syncInputWidth = useCallback((): void => {
-    if (spanRef.current && inputRef.current) {
-      const width = Math.ceil(
-        Math.max(spanRef.current.scrollWidth, spanRef.current.offsetWidth),
-      );
-      const padding = getInputWidthPadding(inputValue, currencyText, size);
-      inputRef.current.style.width = `${width + padding}px`;
-    }
-  }, [inputValue, currencyText, size]);
-
-  useLayoutEffect(syncInputWidth, [syncInputWidth]);
-
-  // Re-sync whenever the mirror span resizes — this catches the font-loading
-  useEffect(() => {
-    const span = spanRef.current;
-    if (!span) return;
-    const observer = new ResizeObserver(syncInputWidth);
-    observer.observe(span);
-    return () => observer.disconnect();
-  }, [syncInputWidth]);
-
-  useEffect(() => {
-    setInputValue(formatExternalValue(value));
-  }, [value, formatExternalValue]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleaned = textFormatter(e.target.value, {
-      allowDecimals,
-      thousandsSeparator,
-      maxIntegerLength,
-      maxDecimalLength,
-    });
-
-    setInputValue(cleaned);
-    onChange({ ...e, target: { ...e.target, value: cleaned } });
-
-    if (cleaned !== prevValueRef.current) {
-      setIsChanging(true);
-    }
-
-    prevValueRef.current = cleaned;
-  };
 
   const textStyle = { fontSize, letterSpacing: 'normal' as const };
 
@@ -227,12 +161,9 @@ export const AmountInput = ({
       }}
     >
       {currencyText && currencyPosition === 'left' && (
-        <span
-          className={cn(currencyStyles({ size }), 'shrink-0')}
-          style={textStyle}
-        >
+        <Currency size={size} style={textStyle}>
           {currencyText}
-        </span>
+        </Currency>
       )}
 
       <span
@@ -258,12 +189,9 @@ export const AmountInput = ({
       />
 
       {currencyText && currencyPosition === 'right' && (
-        <span
-          className={cn(currencyStyles({ size }), 'shrink-0')}
-          style={textStyle}
-        >
+        <Currency size={size} style={textStyle}>
           {currencyText}
-        </span>
+        </Currency>
       )}
     </div>
   );
