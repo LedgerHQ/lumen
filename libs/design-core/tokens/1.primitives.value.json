@@ -8549,18 +8549,6 @@
           "codeSyntax": {}
         }
       }
-    },
-    "1,5": {
-      "$type": "number",
-      "$value": 1.5,
-      "$description": "",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": true,
-          "scopes": [],
-          "codeSyntax": {}
-        }
-      }
     }
   },
   "font": {
