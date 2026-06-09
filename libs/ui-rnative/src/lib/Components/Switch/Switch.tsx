@@ -12,7 +12,7 @@ import { Pressable } from '../Utility';
 
 import type { SwitchProps, SwitchSize } from './types';
 
-export const useSwitchStyles = ({
+const useSwitchStyles = ({
   checked,
   disabled,
   size,
