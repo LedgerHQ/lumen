@@ -1,4 +1,4 @@
-import type { Series } from '../../../../utils/types';
+import type { Series } from '../../../utils/types';
 
 export const computeDataFingerprint = ({
   series,
