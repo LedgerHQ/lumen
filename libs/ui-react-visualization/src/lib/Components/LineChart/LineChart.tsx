@@ -164,7 +164,7 @@ export function LineChart({
       magnetRadius={magnetRadius}
       ariaLabel={ariaLabel}
       ariaBusy={loading}
-      htmlOverlay={
+      overlay={
         status === 'empty' ? (
           <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel>
         ) : undefined

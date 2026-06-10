@@ -23,7 +23,7 @@ export function CartesianChart({
   axisPadding,
   ariaLabel = 'Chart',
   ariaBusy = false,
-  htmlOverlay,
+  overlay: htmlOverlay,
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
