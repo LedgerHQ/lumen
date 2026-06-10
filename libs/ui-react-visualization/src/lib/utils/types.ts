@@ -26,6 +26,8 @@ export type DrawingArea = {
  * - `'monotone'` — smooth curve that preserves monotonicity (`curveMonotoneX`).
  * - `'linear'` — straight segments between points (`curveLinear`).
  * - `'step'` — stepped, piecewise-constant line (`curveStep`).
+ * - `'stepAfter'` — stepped line where changes occur after the x-coordinate (`curveStepAfter`).
+ * - `'stepBefore'` — stepped line where changes occur before the x-coordinate (`curveStepBefore`).
  */
 export type CurveType =
   | 'bump'
