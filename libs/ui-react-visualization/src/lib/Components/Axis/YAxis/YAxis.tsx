@@ -1,9 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
-import {
-  buildTicksData
-} from '../../../utils/ticks/ticks';
+import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import { TICK_MARK_SIZE, TICK_LABEL_OFFSET } from '../Axis.constants';
