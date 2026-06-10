@@ -28,7 +28,7 @@ export const useAmountInputValue = ({
   formatOptions,
 }: UseAmountInputValueArgs): UseAmountInputValueReturn => {
   const format = useCallback(
-    (v: string | number): string => textFormatter(v.toString(), formatOptions),
+    (v: string | number): string => textFormatter(String(v), formatOptions),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       formatOptions.allowDecimals,
