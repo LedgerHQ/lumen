@@ -104,9 +104,26 @@ const DataTableColGroup = () => {
 
   return (
     <colgroup>
-      {table.getVisibleLeafColumns().map((column) => (
-        <col key={column.id} className={column.columnDef.meta?.className} />
-      ))}
+      {table.getVisibleLeafColumns().map((column) => {
+        const meta = column.columnDef.meta;
+
+        return (
+          <col
+            key={column.id}
+            className={cn(
+              meta?.className,
+              meta?.hideBelow &&
+                {
+                  xs: 'hidden xs:table-column',
+                  sm: 'hidden sm:table-column',
+                  md: 'hidden md:table-column',
+                  lg: 'hidden lg:table-column',
+                  xl: 'hidden xl:table-column',
+                }[meta.hideBelow],
+            )}
+          />
+        );
+      })}
     </colgroup>
   );
 };
