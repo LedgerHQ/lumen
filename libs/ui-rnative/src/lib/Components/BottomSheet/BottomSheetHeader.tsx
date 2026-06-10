@@ -119,10 +119,6 @@ export const BottomSheetHeader = ({
     hidden: !hasIcons && density !== 'compact',
   });
 
-  if (!hasTitleSection && !onBack && hideCloseButton) {
-    return null;
-  }
-
   const titleComponent = hasTitleSection ? (
     <Box style={styles.textWrapper}>
       {title && (
