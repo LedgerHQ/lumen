@@ -10,8 +10,8 @@ import type {
   AmountInputProps,
   AmountInputSize,
 } from './types';
-import { useAmountInputAnimations } from './useAmountInputAnimations';
-import { useAmountInputFormatting } from './useAmountInputFormatting';
+import { useAmountInputAnimations } from './useAmountInputAnimations/useAmountInputAnimations';
+import { useAmountInputFormatting } from './useAmountInputFormatting/useAmountInputFormatting';
 
 type CurrencyProps = {
   style: StyleProp<TextStyle>;

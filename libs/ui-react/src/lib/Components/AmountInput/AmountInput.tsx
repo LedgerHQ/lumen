@@ -7,8 +7,8 @@ import {
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 import type { AmountInputProps, AmountInputSize } from './types';
-import { useAmountInputValue } from './useAmountInputValue';
-import { useAutoWidthInput } from './useAutoWidthInput';
+import { useAmountInputValue } from './useAmountInputValue/useAmountInputValue';
+import { useAutoWidthInput } from './useAutoWidthInput/useAutoWidthInput';
 
 const inputStyles = cva(
   [
