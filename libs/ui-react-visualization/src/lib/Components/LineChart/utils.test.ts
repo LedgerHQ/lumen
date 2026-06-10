@@ -4,9 +4,9 @@ import type { Series } from '../../utils/types';
 import { DEFAULT_AXIS_HEIGHT } from '../Axis';
 
 import {
+  canRenderLine,
   computeAxisPadding,
   getChartDisplayState,
-  hasValidSeriesData,
 } from './utils';
 
 const makeSeries = (data: (number | null)[]): Series => ({
@@ -15,34 +15,44 @@ const makeSeries = (data: (number | null)[]): Series => ({
   data,
 });
 
-describe('hasValidSeriesData', () => {
+describe('canRenderLine', () => {
   it('returns false for undefined or empty series', () => {
-    expect(hasValidSeriesData(undefined)).toBe(false);
-    expect(hasValidSeriesData([])).toBe(false);
+    expect(canRenderLine(undefined)).toBe(false);
+    expect(canRenderLine([])).toBe(false);
   });
 
-  it('returns false when no series has at least two non-null points', () => {
-    expect(hasValidSeriesData([makeSeries([1])])).toBe(false);
-    expect(hasValidSeriesData([makeSeries([1, null])])).toBe(false);
-    expect(hasValidSeriesData([makeSeries([null, null])])).toBe(false);
+  it('returns false when no series has at least two finite points', () => {
+    expect(canRenderLine([makeSeries([1])])).toBe(false);
+    expect(canRenderLine([makeSeries([1, null])])).toBe(false);
+    expect(canRenderLine([makeSeries([null, null])])).toBe(false);
   });
 
-  it('returns true once a series has two non-null points', () => {
-    expect(hasValidSeriesData([makeSeries([1, 2])])).toBe(true);
+  it('returns true once a series has two finite points', () => {
+    expect(canRenderLine([makeSeries([1, 2])])).toBe(true);
   });
 
-  it('ignores null gaps when counting valid points', () => {
-    expect(hasValidSeriesData([makeSeries([1, null, 3])])).toBe(true);
+  it('ignores null gaps when counting drawable points', () => {
+    expect(canRenderLine([makeSeries([1, null, 3])])).toBe(true);
+  });
+
+  it('does not count NaN, Infinity, or holes as drawable points', () => {
+    expect(canRenderLine([makeSeries([NaN, NaN])])).toBe(false);
+    expect(canRenderLine([makeSeries([Infinity, -Infinity])])).toBe(false);
+    expect(canRenderLine([makeSeries([NaN, 1])])).toBe(false);
+    expect(
+      canRenderLine([makeSeries([1, undefined as unknown as number, 2])]),
+    ).toBe(true);
+    expect(
+      canRenderLine([makeSeries([1, undefined as unknown as number])]),
+    ).toBe(false);
   });
 
   it('returns true when any series is drawable', () => {
-    expect(hasValidSeriesData([makeSeries([1]), makeSeries([1, 2, 3])])).toBe(
-      true,
-    );
+    expect(canRenderLine([makeSeries([1]), makeSeries([1, 2, 3])])).toBe(true);
   });
 
   it('treats a missing data array as no points', () => {
-    expect(hasValidSeriesData([{ id: 'a', stroke: '#000' }])).toBe(false);
+    expect(canRenderLine([{ id: 'a', stroke: '#000' }])).toBe(false);
   });
 });
 

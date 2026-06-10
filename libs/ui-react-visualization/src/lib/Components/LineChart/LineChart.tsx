@@ -15,9 +15,9 @@ import type {
   LineChartProps,
 } from './types';
 import {
+  canRenderLine,
   computeAxisPadding,
   getChartDisplayState,
-  hasValidSeriesData,
 } from './utils';
 
 const LineChartLines = ({
@@ -138,7 +138,7 @@ export function LineChart({
     [showXAxis, showYAxis, xAxisPosition, yAxisPosition, yAxisWidth],
   );
 
-  const hasData = hasValidSeriesData(series);
+  const hasData = canRenderLine(series);
 
   const { status, ariaLabel } = getChartDisplayState({
     loading,

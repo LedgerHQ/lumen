@@ -4,9 +4,9 @@ import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
 
 /**
- * Minimum number of non-null points a series needs to be drawable as a line.
+ * Minimum number of finite points a series needs to be drawable as a line.
  */
-const MIN_VALID_POINTS = 2;
+const MIN_DRAWABLE_POINTS = 2;
 const LOADING_ARIA_LABEL = 'Loading chart';
 
 type ComputeAxisPaddingParams = {
@@ -23,13 +23,6 @@ type ChartDisplayStateParams = {
   emptyLabel: string;
 };
 
-/**
- * The mutually-exclusive states a chart can be in:
- * - `initial-loading`: loading with no data yet -> animated shimmer placeholder
- * - `empty`: not loading and no data -> static placeholder + empty label
- * - `transition-loading`: loading over existing data -> recoloured shimmer line
- * - `ready`: data present, not loading -> the actual chart
- */
 type ChartStatus = 'initial-loading' | 'empty' | 'transition-loading' | 'ready';
 
 type ChartDisplayState = {
@@ -84,15 +77,16 @@ export const getChartDisplayState = ({
 };
 
 /**
- * Whether any series has enough non-null points to render an actual line.
- * Drives the empty / loading / data states of the chart.
+ * Whether any series has at least {@link MIN_DRAWABLE_POINTS} finite points,
+ * i.e. enough to actually draw a line. Drives the empty / loading / data states
+ * of the chart.
  */
-export const hasValidSeriesData = (series: Series[] | undefined): boolean => {
+export const canRenderLine = (series: Series[] | undefined): boolean => {
   return (series ?? []).some((s) => {
-    let validPoints = 0;
+    let drawablePoints = 0;
     for (const value of s.data ?? []) {
-      if (value !== null) validPoints++;
-      if (validPoints >= MIN_VALID_POINTS) return true;
+      if (Number.isFinite(value)) drawablePoints++;
+      if (drawablePoints >= MIN_DRAWABLE_POINTS) return true;
     }
     return false;
   });
