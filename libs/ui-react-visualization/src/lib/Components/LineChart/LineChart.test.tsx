@@ -51,6 +51,66 @@ describe('LineChart', () => {
     expect(queryByTestId('x-axis')).toBeNull();
   });
 
+  describe('resolves undefined axis overrides back to defaults', () => {
+    const baselineCoord = (
+      props: LineChartProps,
+      axisTestId: 'x-axis' | 'y-axis',
+      coord: 'x1' | 'y1',
+    ): string | null => {
+      const { container } = render(
+        <LineChartWrapper
+          series={sampleSeries}
+          width={400}
+          height={200}
+          {...props}
+        />,
+      );
+      return (
+        container
+          .querySelector(`[data-testid="${axisTestId}"] line`)
+          ?.getAttribute(coord) ?? null
+      );
+    };
+
+    it('treats an undefined x-axis position like the default', () => {
+      const undefinedPosition = baselineCoord(
+        { showXAxis: true, xAxis: { position: undefined, showLine: true } },
+        'x-axis',
+        'y1',
+      );
+      const explicitPosition = baselineCoord(
+        { showXAxis: true, xAxis: { position: 'bottom', showLine: true } },
+        'x-axis',
+        'y1',
+      );
+
+      expect(undefinedPosition).not.toBeNull();
+      expect(undefinedPosition).toBe(explicitPosition);
+    });
+
+    it('treats undefined y-axis position/width like the defaults', () => {
+      const undefinedConfig = baselineCoord(
+        {
+          showYAxis: true,
+          yAxis: { position: undefined, width: undefined, showLine: true },
+        },
+        'y-axis',
+        'x1',
+      );
+      const explicitConfig = baselineCoord(
+        {
+          showYAxis: true,
+          yAxis: { position: 'start', width: 40, showLine: true },
+        },
+        'y-axis',
+        'x1',
+      );
+
+      expect(undefinedConfig).not.toBeNull();
+      expect(undefinedConfig).toBe(explicitConfig);
+    });
+  });
+
   it('renders with no series', () => {
     const { getByTestId } = render(
       <LineChartWrapper width={400} height={200} />,

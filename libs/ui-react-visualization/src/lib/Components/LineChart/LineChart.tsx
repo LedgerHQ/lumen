@@ -116,10 +116,13 @@ export function LineChart({
   const xAxisConfig = {
     ...defaultXAxisProps,
     ...xAxis,
+    position: xAxis?.position ?? defaultXAxisProps.position,
   };
   const yAxisConfig = {
     ...defaultYAxisProps,
     ...yAxis,
+    position: yAxis?.position ?? defaultYAxisProps.position,
+    width: yAxis?.width ?? defaultYAxisProps.width,
   };
 
   const xAxisPosition = xAxisConfig.position;
