@@ -79,6 +79,7 @@ export const LineChart = ({
       {series?.map((s) => (
         <Line
           key={s.id}
+          stroke={s.stroke}
           seriesId={s.id}
           showArea={showArea}
           areaType={areaType}
