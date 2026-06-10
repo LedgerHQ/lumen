@@ -13,6 +13,8 @@ export const SegmentedControls = () => {
   const [fixedState, setFixedState] = useState('preview');
   const [iconsState, setIconsState] = useState('preview');
   const [trailingState, setTrailingState] = useState('preview');
+  const [preSelectedFitState, setPreSelectedFitState] = useState('blame');
+  const [preSelectedFixedState, setPreSelectedFixedState] = useState('blame');
 
   return (
     <Box lx={{ gap: 's24', width: 'full' }}>
@@ -62,6 +64,34 @@ export const SegmentedControls = () => {
         <SegmentedControlButton value='blame' icon={EyeCross}>
           Blame
         </SegmentedControlButton>
+      </SegmentedControl>
+
+      <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+        Pre-selected (fit)
+      </Text>
+      <SegmentedControl
+        selectedValue={preSelectedFitState}
+        onSelectedChange={setPreSelectedFitState}
+        tabLayout='fit'
+        accessibilityLabel='Pre-selected fit layout'
+      >
+        <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
+        <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
+        <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
+      </SegmentedControl>
+
+      <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
+        Pre-selected (fixed)
+      </Text>
+      <SegmentedControl
+        selectedValue={preSelectedFixedState}
+        onSelectedChange={setPreSelectedFixedState}
+        tabLayout='fixed'
+        accessibilityLabel='Pre-selected fixed layout'
+      >
+        <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
+        <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
+        <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
       </SegmentedControl>
 
       <Text typography='body2SemiBold' lx={{ color: 'muted' }}>
