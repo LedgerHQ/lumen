@@ -1,8 +1,8 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
 import { useCartesianChartContext } from '../../CartesianChart/context';
+import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { useRevealClip } from '../../CartesianChart/RevealClip';
-import { useShimmerAnimation } from '../../CartesianChart/ShimmerAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
 import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
@@ -56,7 +56,7 @@ export function LineChartEmptyState({
             transform={buildPlaceholderTransform(drawingArea)}
             vectorEffect='non-scaling-stroke'
             fill='none'
-            stroke={cssVar('var(--border-muted)')}
+            stroke={cssVar('var(--border-muted-subtle)')}
             strokeWidth={cssVar('var(--stroke-2)')}
             strokeLinecap='round'
             strokeLinejoin='round'

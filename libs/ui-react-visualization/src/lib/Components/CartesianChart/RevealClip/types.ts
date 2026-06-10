@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { DrawingArea, Series } from '../../../utils';
+import type { DrawingArea, Series } from '../../../../utils';
 
 export type EnterTransitionConfig = {
   /**

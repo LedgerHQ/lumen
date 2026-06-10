@@ -23,7 +23,7 @@ export function CartesianChart({
   axisPadding,
   ariaLabel = 'Chart',
   ariaBusy = false,
-  overlay,
+  htmlOverlay,
   enableScrubbing = false,
   onScrubberPositionChange,
   animate = true,
@@ -132,7 +132,7 @@ export function CartesianChart({
               </MagneticPointsProvider>
             </CartesianChartProvider>
           </svg>
-          {overlay}
+          {htmlOverlay}
         </>
       )}
     </div>

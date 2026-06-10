@@ -85,13 +85,12 @@ export type LineChartProps = {
    */
   magnetRadius?: number;
   /**
-   * Whether the chart is loading. When there is no data, renders an animated
-   * shimmer placeholder line (initial loading). When data is present (e.g. a
-   * time-range change), the current line is recoloured to a muted grey and
-   * shimmers until the new `series` is provided (transition loading).
+   * Signals that new data is being fetched.
    *
-   * To get the transition behaviour, keep passing the previous `series` while
-   * refetching; clearing it falls back to the initial placeholder.
+   * - **No series**: renders an animated shimmer placeholder line.
+   * - **Series present**: fades the current line to a muted grey and
+   *   animates it until a new `series` is provided.
+   *
    * @default false
    */
   loading?: boolean;
@@ -102,3 +101,22 @@ export type LineChartProps = {
    */
   emptyLabel?: string;
 };
+
+/**
+ * Series-render fields shared by `LineChart` and its internal line
+ * sub-components. Derived from {@link LineChartProps} so the option types stay
+ * in sync; the sub-components receive them already resolved, hence `Required`.
+ */
+type LineSeriesRenderProps = Required<
+  Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
+>;
+
+export type LineChartLinesProps = LineSeriesRenderProps;
+
+export type LineChartContentProps = LineSeriesRenderProps &
+  Required<Pick<LineChartProps, 'showXAxis' | 'showYAxis'>> &
+  Pick<LineChartProps, 'children'> & {
+    xAxisConfig: XAxisProps;
+    yAxisConfig: YAxisProps;
+    isTransitionLoading: boolean;
+  };

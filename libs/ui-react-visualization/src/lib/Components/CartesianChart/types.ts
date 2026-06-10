@@ -55,7 +55,7 @@ export type CartesianChartProps = {
    * SVG, within the same positioned container (so it aligns with the chart
    * footprint). Used for e.g. an empty-state label.
    */
-  overlay?: ReactNode;
+  htmlOverlay?: ReactNode;
   /**
    * SVG content rendered inside the chart's context provider.
    */
