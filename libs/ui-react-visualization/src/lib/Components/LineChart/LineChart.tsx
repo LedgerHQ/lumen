@@ -138,7 +138,7 @@ export function LineChart({
     [showXAxis, showYAxis, xAxisPosition, yAxisPosition, yAxisWidth],
   );
 
-  const hasData = canRenderLine(series);
+  const hasData = canRenderLine(series, xAxisConfig.data);
 
   const { status, ariaLabel } = getChartDisplayState({
     loading,

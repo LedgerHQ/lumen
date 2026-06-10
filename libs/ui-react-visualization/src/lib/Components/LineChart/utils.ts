@@ -1,5 +1,5 @@
 import type { ChartInset, Series } from '../../utils/types';
-import { DEFAULT_AXIS_HEIGHT } from '../Axis';
+import { DEFAULT_AXIS_HEIGHT, DEFAULT_AXIS_WIDTH } from '../Axis';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
 
@@ -45,11 +45,13 @@ export const computeAxisPadding = ({
     return undefined;
   }
 
+  const resolvedYAxisWidth = yAxisWidth ?? DEFAULT_AXIS_WIDTH;
+
   return {
     top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
     bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
-    left: showYAxis && yAxisPosition === 'start' ? yAxisWidth : 0,
-    right: showYAxis && yAxisPosition === 'end' ? yAxisWidth : 0,
+    left: showYAxis && yAxisPosition === 'start' ? resolvedYAxisWidth : 0,
+    right: showYAxis && yAxisPosition === 'end' ? resolvedYAxisWidth : 0,
   };
 };
 
@@ -80,12 +82,22 @@ export const getChartDisplayState = ({
  * Whether any series has at least {@link MIN_DRAWABLE_POINTS} finite points,
  * i.e. enough to actually draw a line. Drives the empty / loading / data states
  * of the chart.
+ *
+ * When `xData` (the x-axis domain) is provided, only the first `xData.length`
+ * points of each series are considered — mirroring the cap in `toScaledPoints`
+ * (Line/utils.ts) — so a series longer than the axis cannot report drawable
+ * points that would never be plotted.
  */
-export const canRenderLine = (series: Series[] | undefined): boolean => {
+export const canRenderLine = (
+  series: Series[] | undefined,
+  xData?: readonly (string | number)[],
+): boolean => {
   return (series ?? []).some((s) => {
+    const data = s.data ?? [];
+    const limit = xData ? Math.min(data.length, xData.length) : data.length;
     let drawablePoints = 0;
-    for (const value of s.data ?? []) {
-      if (Number.isFinite(value)) drawablePoints++;
+    for (let i = 0; i < limit; i++) {
+      if (Number.isFinite(data[i])) drawablePoints++;
       if (drawablePoints >= MIN_DRAWABLE_POINTS) return true;
     }
     return false;

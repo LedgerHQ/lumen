@@ -54,6 +54,23 @@ describe('canRenderLine', () => {
   it('treats a missing data array as no points', () => {
     expect(canRenderLine([{ id: 'a', stroke: '#000' }])).toBe(false);
   });
+
+  it('caps counted points to the x-axis domain length (like toScaledPoints)', () => {
+    expect(canRenderLine([makeSeries([1, 2, 3])], ['Jan'])).toBe(false);
+    expect(canRenderLine([makeSeries([1, 2, 3])], ['Jan', 'Feb'])).toBe(true);
+  });
+
+  it('does not reduce drawable points when xData is longer than the series', () => {
+    expect(canRenderLine([makeSeries([1, 2])], ['a', 'b', 'c', 'd'])).toBe(
+      true,
+    );
+  });
+
+  it('counts only finite points within the capped range', () => {
+    expect(canRenderLine([makeSeries([null, 2, 3])], ['Jan', 'Feb'])).toBe(
+      false,
+    );
+  });
 });
 
 describe('computeAxisPadding', () => {
