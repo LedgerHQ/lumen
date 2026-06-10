@@ -581,7 +581,7 @@
         "websites": {
           "default": {
             "$type": "color",
-            "$value": "{color.dark.orange.400}",
+            "$value": "{color.dark.purple.400}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -595,7 +595,7 @@
           },
           "hover": {
             "$type": "color",
-            "$value": "{color.dark.orange.500}",
+            "$value": "{color.dark.purple.500}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -607,7 +607,7 @@
           },
           "pressed": {
             "$type": "color",
-            "$value": "{color.dark.orange.600}",
+            "$value": "{color.dark.purple.600}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -743,7 +743,7 @@
         "websites": {
           "default": {
             "$type": "color",
-            "$value": "{color.dark.orange.400}",
+            "$value": "{color.dark.purple.400}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -757,7 +757,7 @@
           },
           "hover": {
             "$type": "color",
-            "$value": "{color.dark.orange.500}",
+            "$value": "{color.dark.purple.500}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -769,7 +769,7 @@
           },
           "pressed": {
             "$type": "color",
-            "$value": "{color.dark.orange.600}",
+            "$value": "{color.dark.purple.600}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -865,7 +865,7 @@
         "website": {
           "default": {
             "$type": "color",
-            "$value": "{color.dark.orange.050}",
+            "$value": "{color.dark.purple.050}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -879,7 +879,7 @@
           },
           "hover": {
             "$type": "color",
-            "$value": "{color.dark.orange.100}",
+            "$value": "{color.dark.purple.100}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -891,7 +891,7 @@
           },
           "pressed": {
             "$type": "color",
-            "$value": "{color.dark.orange.200}",
+            "$value": "{color.dark.purple.200}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -1397,7 +1397,7 @@
         "websites": {
           "default": {
             "$type": "color",
-            "$value": "{color.dark.orange.400}",
+            "$value": "{color.dark.purple.400}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -1495,7 +1495,7 @@
         "websites": {
           "default": {
             "$type": "color",
-            "$value": "{color.dark.orange.400}",
+            "$value": "{color.dark.purple.400}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -1509,7 +1509,7 @@
           },
           "hover": {
             "$type": "color",
-            "$value": "{color.dark.orange.500}",
+            "$value": "{color.dark.purple.500}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -1521,7 +1521,7 @@
           },
           "pressed": {
             "$type": "color",
-            "$value": "{color.dark.orange.600}",
+            "$value": "{color.dark.purple.600}",
             "$description": "",
             "$extensions": {
               "com.figma": {
@@ -1536,7 +1536,7 @@
       "error": {
         "default": {
           "$type": "color",
-          "$value": "{color.dark.red.700}",
+          "$value": "{color.dark.red.600}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1552,7 +1552,7 @@
       "warning": {
         "default": {
           "$type": "color",
-          "$value": "{color.dark.yellow.700}",
+          "$value": "{color.dark.yellow.600}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1617,7 +1617,7 @@
         "websites": {
           "default": {
             "$type": "color",
-            "$value": "{color.dark.grey.950}",
+            "$value": "{color.dark.grey.050}",
             "$description": "",
             "$extensions": {
               "com.figma": {
