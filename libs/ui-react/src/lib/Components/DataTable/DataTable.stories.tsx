@@ -472,7 +472,7 @@ export const WithGroupHeader: Story = {
           accessorKey: 'price',
           header: 'Price',
           enableSorting: false,
-          meta: { align: 'end' },
+          meta: { align: 'end', className: 'w-80' },
         },
         {
           accessorKey: 'change',

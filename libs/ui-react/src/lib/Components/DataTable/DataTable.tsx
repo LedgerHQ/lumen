@@ -92,6 +92,26 @@ export const DataTableRoot = <TData extends RowData>({
 };
 
 /**
+ * Internal component that defines column widths via `<colgroup>`.
+ * Ensures `table-fixed` respects `meta.className` width tokens even when
+ * the header is hidden or the first body row is a colSpan group header.
+ */
+const DataTableColGroup = () => {
+  const { table } = useDataTableContext({
+    consumerName: 'DataTableColGroup',
+    contextRequired: true,
+  });
+
+  return (
+    <colgroup>
+      {table.getVisibleLeafColumns().map((column) => (
+        <col key={column.id} className={column.columnDef.meta?.className} />
+      ))}
+    </colgroup>
+  );
+};
+
+/**
  * Internal component that auto-renders the table header groups
  * from the TanStack table instance in context.
  */
@@ -178,6 +198,7 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
       {...props}
     >
       <Table>
+        <DataTableColGroup />
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
