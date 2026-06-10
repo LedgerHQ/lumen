@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import type { SortingState } from '@tanstack/react-table';
+import {
+  getPaginationRowModel,
+  type SortingState,
+} from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../Symbols';
 import { Button } from '../Button/Button';
+import { Pagination } from '../Pagination';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
 import {
@@ -909,6 +913,81 @@ export const WithServerSideState: Story = {
     return (
       <DataTableRoot {...args} table={table}>
         <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+const DATA_TABLE_PAGE_SIZE = 5;
+
+export const WithPagination: Story = {
+  render: (args) => {
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              title={row.original.name}
+              description={row.original.symbol}
+              leadingContent={<Spot appearance='icon' icon={Android} />}
+            />
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellContent
+              align='end'
+              title={row.original.price}
+              description={row.original.change}
+            />
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      getPaginationRowModel: getPaginationRowModel(),
+      initialState: {
+        pagination: {
+          pageSize: DATA_TABLE_PAGE_SIZE,
+        },
+      },
+    });
+
+    const { pageIndex } = table.getState().pagination;
+
+    return (
+      <DataTableRoot
+        {...args}
+        table={table}
+        paginationMode='pagination'
+        className='flex flex-col gap-16'
+      >
+        <DataTable className='max-h-400' />
+        <div className='flex justify-center'>
+          <Pagination
+            page={pageIndex + 1}
+            totalPages={table.getPageCount()}
+            onPageChange={(nextPage) => table.setPageIndex(nextPage - 1)}
+          />
+        </div>
       </DataTableRoot>
     );
   },
