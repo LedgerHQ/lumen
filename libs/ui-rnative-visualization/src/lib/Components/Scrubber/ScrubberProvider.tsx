@@ -4,6 +4,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
@@ -83,7 +84,7 @@ export function ScrubberProvider({
       const clamped =
         index === undefined || ref.dataLength <= 0
           ? undefined
-          : Math.max(0, Math.min(index, ref.dataLength - 1));
+          : clamp(index, 0, ref.dataLength - 1);
       if (clamped === ref.lastIndex) return;
       ref.lastIndex = clamped;
       setScrubberPosition(clamped);

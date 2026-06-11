@@ -48,9 +48,18 @@ export function ChartEmptyLabel({ children }: Readonly<ChartEmptyLabelProps>) {
   const styles = useStyles();
 
   return (
-    <View pointerEvents='none' style={styles.container}>
+    <View
+      pointerEvents='none'
+      accessibilityElementsHidden={true}
+      importantForAccessibility='no-hide-descendants'
+      style={styles.container}
+    >
       <View style={styles.pill}>
-        <Text testID='chart-empty-label' style={styles.label}>
+        <Text
+          testID='chart-empty-label'
+          style={styles.label}
+          accessible={false}
+        >
           {children}
         </Text>
       </View>

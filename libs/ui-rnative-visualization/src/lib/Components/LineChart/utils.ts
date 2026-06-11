@@ -1,3 +1,4 @@
+import { isFiniteNumber } from '../../utils/numbers';
 import type { ChartInset, Series } from '../../utils/types';
 import { DEFAULT_AXIS_HEIGHT } from '../Axis/XAxis';
 import type { XAxisProps } from '../Axis/XAxis';
@@ -98,7 +99,7 @@ export const canRenderLine = (
     const limit = xData ? Math.min(data.length, xData.length) : data.length;
     let drawablePoints = 0;
     for (let i = 0; i < limit; i++) {
-      if (Number.isFinite(data[i])) drawablePoints++;
+      if (isFiniteNumber(data[i])) drawablePoints++;
       if (drawablePoints >= MIN_DRAWABLE_POINTS) return true;
     }
     return false;

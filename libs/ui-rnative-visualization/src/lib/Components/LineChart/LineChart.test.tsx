@@ -270,26 +270,29 @@ describe('LineChart', () => {
     });
 
     it('renders the placeholder with the empty label when there is no data and not loading (state 2)', () => {
-      const { getByTestId, getByText, queryByTestId } = render(
+      const { getByTestId, queryByTestId } = render(
         <LineChartWrapper>
           <LineChart width={400} height={200} emptyLabel='Nothing here' />
         </LineChartWrapper>,
       );
 
       getByTestId('chart-empty-state');
-      getByTestId('chart-empty-label');
-      getByText('Nothing here');
+      expect(
+        getByTestId('chart-empty-label', { includeHiddenElements: true }),
+      ).toHaveTextContent('Nothing here');
       expect(queryByTestId('line-path')).toBeNull();
     });
 
     it('defaults the empty label to "No data"', () => {
-      const { getByText } = render(
+      const { getByTestId } = render(
         <LineChartWrapper>
           <LineChart width={400} height={200} />
         </LineChartWrapper>,
       );
 
-      getByText('No data');
+      expect(
+        getByTestId('chart-empty-label', { includeHiddenElements: true }),
+      ).toHaveTextContent('No data');
     });
 
     it('keeps rendering the real line during a transition load (state 3)', () => {
