@@ -22,7 +22,7 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = 160,
+  height = 240,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
@@ -84,6 +84,7 @@ export function LineChart({
         <Line
           key={s.id}
           seriesId={s.id}
+          stroke={s.stroke}
           showArea={showArea}
           areaType={areaType}
         />

@@ -18,6 +18,26 @@ export type DrawingArea = {
   height: number;
 };
 
+/**
+ * Interpolation used to draw a line (and its area) between data points.
+ * Each value maps to a [d3-shape](https://d3js.org/d3-shape/curve) curve:
+ * - `'bump'` — smooth cubic curve with horizontal tangents (`curveBumpX`).
+ * - `'natural'` — natural cubic spline through every point (`curveNatural`).
+ * - `'monotone'` — smooth curve that preserves monotonicity (`curveMonotoneX`).
+ * - `'linear'` — straight segments between points (`curveLinear`).
+ * - `'step'` — stepped, piecewise-constant line (`curveStep`).
+ * - `'stepAfter'` — stepped line where changes occur after the x-coordinate (`curveStepAfter`).
+ * - `'stepBefore'` — stepped line where changes occur before the x-coordinate (`curveStepBefore`).
+ */
+export type CurveType =
+  | 'bump'
+  | 'natural'
+  | 'monotone'
+  | 'linear'
+  | 'step'
+  | 'stepAfter'
+  | 'stepBefore';
+
 export type Series = {
   /**
    * Unique identifier for the series.
@@ -33,8 +53,14 @@ export type Series = {
   label?: string;
   /**
    * CSS color applied to the series line/mark.
+   * @default border-muted
    */
-  stroke: string;
+  stroke?: string;
+  /**
+   * Interpolation used to draw the line between data points.
+   * @default 'bump'
+   */
+  curve?: CurveType;
 };
 
 export type NumericScale =

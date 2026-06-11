@@ -3,7 +3,10 @@ import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 
-import { DASH_ARRAY, STROKE_WIDTH } from './constants';
+import {
+  REFERENCE_LINE_DASH_ARRAY,
+  REFERENCE_LINE_STROKE_WIDTH,
+} from './constants';
 import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
@@ -28,7 +31,8 @@ export function ReferenceLine({
   const { theme } = useTheme();
 
   const resolvedStroke = stroke ?? theme.colors.border.muted;
-  const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
+  const dashArray =
+    lineStyle === 'dashed' ? REFERENCE_LINE_DASH_ARRAY : undefined;
   const fontSize = theme.typographies.body4.fontSize;
 
   if (props.dataY !== undefined) {
@@ -65,7 +69,7 @@ export function ReferenceLine({
           x2={drawingArea.x + drawingArea.width}
           y2={yPixel}
           stroke={resolvedStroke}
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
         />
@@ -122,7 +126,7 @@ export function ReferenceLine({
           x2={xPixel}
           y2={drawingArea.y + drawingArea.height}
           stroke={resolvedStroke}
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
         />

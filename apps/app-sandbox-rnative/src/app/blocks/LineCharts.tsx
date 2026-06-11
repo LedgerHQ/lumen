@@ -5,6 +5,7 @@ import {
   Point,
   ReferenceLine,
   Scrubber,
+  type Series,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
@@ -26,6 +27,7 @@ export const LineCharts = () => (
     <WithStringLabels />
     <MultipleSeries />
     <MultipleSeriesWithArea />
+    <CustomLines />
     <CustomDomain />
     <PointMinMax />
     <PointAllDataPoints />
@@ -193,6 +195,43 @@ const MultipleSeriesWithArea = () => (
         domain: { min: 0, max: 100 },
       }}
     />
+  </Section>
+);
+
+const customLineSeries = [
+  {
+    id: 'top',
+    label: 'Linear',
+    stroke: '#47883A',
+    curve: 'linear',
+    data: [15, 28, 32, 44, 46, 36, 40, 45, 48, 38],
+  },
+  {
+    id: 'upperMiddle',
+    label: 'Bump',
+    stroke: '#C24244',
+    curve: 'bump',
+    data: [12, 23, 21, 29, 34, 28, 31, 38, 42, 35],
+  },
+  {
+    id: 'lowerMiddle',
+    label: 'Natural',
+    stroke: '#E3A33A',
+    curve: 'natural',
+    data: [8, 15, 14, 25, 20, 18, 22, 28, 24, 30],
+  },
+  {
+    id: 'bottom',
+    label: 'Step',
+    stroke: '#7B61FF',
+    curve: 'step',
+    data: [4, 8, 11, 15, 16, 14, 16, 10, 12, 14],
+  },
+] satisfies Series[];
+
+const CustomLines = () => (
+  <Section title='Custom lines (per-line curve)'>
+    <LineChart series={customLineSeries} height={200} />
   </Section>
 );
 

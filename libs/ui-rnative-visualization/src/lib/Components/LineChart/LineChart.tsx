@@ -18,7 +18,7 @@ export const LineChart = ({
   xAxis,
   yAxis,
   width,
-  height = 160,
+  height = 228,
   inset,
   children,
   enableScrubbing = false,
@@ -79,6 +79,7 @@ export const LineChart = ({
       {series?.map((s) => (
         <Line
           key={s.id}
+          stroke={s.stroke}
           seriesId={s.id}
           showArea={showArea}
           areaType={areaType}

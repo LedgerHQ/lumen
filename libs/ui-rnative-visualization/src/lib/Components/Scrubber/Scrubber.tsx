@@ -80,12 +80,23 @@ export function Scrubber({
         const seriesData = seriesMap.get(s.id)?.data;
         const pixelY = resolvePixelY(scrubberPosition, seriesData, getYScale);
         if (pixelY === undefined) return null;
-        return { id: s.id, stroke: s.stroke, pixelY };
+        return {
+          id: s.id,
+          stroke: s.stroke ?? theme.colors.border.muted,
+          pixelY,
+        };
       })
       .filter(
         (b): b is { id: string; stroke: string; pixelY: number } => b !== null,
       );
-  }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
+  }, [
+    scrubberPosition,
+    showBeacons,
+    series,
+    seriesMap,
+    getYScale,
+    theme.colors.border.muted,
+  ]);
 
   const tooltipPayload = useMemo(() => {
     if (scrubberPosition === undefined || !tooltip) {

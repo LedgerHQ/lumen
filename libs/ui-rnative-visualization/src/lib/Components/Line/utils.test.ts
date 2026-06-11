@@ -5,7 +5,7 @@ import {
   getNumericScale,
 } from '../../utils/scales/scales';
 
-import { toScaledPoints } from './utils';
+import { buildLinePath, toScaledPoints } from './utils';
 
 const xScale = getNumericScale({
   scaleType: 'linear',
@@ -86,5 +86,45 @@ describe('toScaledPoints', () => {
     const xData = ['A', 'B', 'C'];
 
     expect(toScaledPoints(data, xScale, yScale, xData)).toBeNull();
+  });
+});
+
+describe('buildLinePath', () => {
+  const points: [number, number][] = [
+    [0, 100],
+    [50, 20],
+    [100, 60],
+  ];
+
+  it('defaults to the bump curve (cubic beziers)', () => {
+    const path = buildLinePath(points);
+
+    expect(path).not.toBeNull();
+    expect(path).toContain('C');
+  });
+
+  it('draws straight segments for the linear curve', () => {
+    const path = buildLinePath(points, 'linear');
+
+    expect(path).toBe('M0,100L50,20L100,60');
+  });
+
+  it('uses cubic beziers for smooth curves', () => {
+    expect(buildLinePath(points, 'natural')).toContain('C');
+    expect(buildLinePath(points, 'monotone')).toContain('C');
+  });
+
+  it('draws orthogonal segments for the step curve', () => {
+    const path = buildLinePath(points, 'step');
+
+    expect(path).not.toBeNull();
+    expect(path).not.toContain('C');
+    expect(path).toBe('M0,100L25,100L25,20L75,20L75,60L100,60');
+  });
+
+  it('falls back to the default curve for unknown values', () => {
+    const path = buildLinePath(points, 'unknown' as never);
+
+    expect(path).toBe(buildLinePath(points));
   });
 });

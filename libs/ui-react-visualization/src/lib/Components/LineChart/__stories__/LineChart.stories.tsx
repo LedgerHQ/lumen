@@ -18,9 +18,11 @@ import { LineChart } from '../LineChart';
 import {
   CHART_HEIGHT,
   CHART_WIDTH,
+  curveSeries,
   monthLabels,
   multiSeries,
   sampleSeries,
+  STORIES_STROKE_COLOR,
 } from './chartStoryFixtures';
 import {
   ACTIONS,
@@ -72,7 +74,7 @@ export const Series: Story = {
       {
         id: 'prices',
         label: 'BTC',
-        stroke: '#7B61FF',
+        stroke: STORIES_STROKE_COLOR,
         data: sampleSeries[0].data,
       },
     ],
@@ -91,6 +93,17 @@ export const MultipleSeries: Story = {
 };
 
 /**
+ * Each line can be customized independently through its `series` entry. Today
+ * that means a per-line `stroke` color and `curve`; more options will follow.
+ * Here every line uses a different Lumen color and a different `curve`.
+ */
+export const CustomLine: Story = {
+  args: {
+    series: curveSeries,
+  },
+};
+
+/**
  * `null` entries in a series' `data` render as gaps in the line, so missing
  * samples don't get interpolated over.
  */
@@ -99,7 +112,7 @@ export const MissingData: Story = {
     series: [
       {
         id: 'prices',
-        stroke: '#7B61FF',
+        stroke: STORIES_STROKE_COLOR,
         data: [10, 22, 29, null, null, 45, 22, 52, 21, 4, 68, 20, 21, 58],
       },
     ],
@@ -215,6 +228,27 @@ export const WithYAxis: Story = {
     yAxis: {
       showLine: true,
       tickLabelFormatter: (value) => `$${value}`,
+    },
+  },
+};
+
+/**
+ * Combine y-axis and x-axis with grid lines and tick marks.
+ */
+export const WithBothAxis: Story = {
+  args: {
+    showYAxis: true,
+    showXAxis: true,
+    yAxis: {
+      showGrid: true,
+      showTickMark: true,
+      showLine: true,
+      tickLabelFormatter: (value) => `$${value}`,
+    },
+    xAxis: {
+      showLine: true,
+      showGrid: true,
+      showTickMark: true,
     },
   },
 };

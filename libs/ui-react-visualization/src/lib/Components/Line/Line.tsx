@@ -1,20 +1,23 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useId, useMemo } from 'react';
 
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useRevealClip } from '../CartesianChart/RevealClip';
 
+import {
+  LINE_AREA_GRADIENT_OPACITY,
+  LINE_DEFAULT_STROKE_COLOR,
+  LINE_STROKE_WIDTH,
+} from './constants';
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
-
-const AREA_GRADIENT_OPACITY = 0.15;
 
 export function Line({
   seriesId,
   stroke,
   showArea = false,
   areaType: _areaType = 'gradient',
+  curve,
 }: LineProps) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
@@ -26,7 +29,9 @@ export function Line({
 
   const gradientId = useId();
   const seriesData = seriesMap.get(seriesId);
-  const resolvedStroke = stroke ?? seriesData?.stroke;
+  const resolvedStroke =
+    (stroke ?? seriesData?.stroke) || LINE_DEFAULT_STROKE_COLOR;
+  const resolvedCurve = curve ?? seriesData?.curve;
 
   const points = useMemo(
     () =>
@@ -37,16 +42,16 @@ export function Line({
   );
 
   const linePath = useMemo(
-    () => (points ? buildLinePath(points) : null),
-    [points],
+    () => (points ? buildLinePath(points, resolvedCurve) : null),
+    [points, resolvedCurve],
   );
 
   const areaPath = useMemo(
     () =>
       showArea && points && drawingArea
-        ? buildAreaPath(points, drawingArea)
+        ? buildAreaPath(points, drawingArea, resolvedCurve)
         : null,
-    [showArea, points, drawingArea],
+    [showArea, points, drawingArea, resolvedCurve],
   );
 
   if (!linePath) {
@@ -69,7 +74,7 @@ export function Line({
               <stop
                 offset='0%'
                 stopColor={resolvedStroke}
-                stopOpacity={AREA_GRADIENT_OPACITY}
+                stopOpacity={LINE_AREA_GRADIENT_OPACITY}
               />
               <stop offset='100%' stopColor={resolvedStroke} stopOpacity={0} />
             </linearGradient>
@@ -87,7 +92,7 @@ export function Line({
         d={linePath}
         fill='none'
         stroke={resolvedStroke}
-        strokeWidth={cssVar('var(--stroke-2)')}
+        strokeWidth={LINE_STROKE_WIDTH}
         strokeLinecap='round'
         strokeLinejoin='round'
       />
