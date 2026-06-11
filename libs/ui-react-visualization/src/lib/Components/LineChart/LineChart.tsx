@@ -44,7 +44,7 @@ const LineChartTransitionLines = ({
   series,
   showArea,
   areaType,
-}: Readonly<Omit<LineChartLinesProps, 'stroke'>>) => {
+}: Readonly<LineChartLinesProps>) => {
   const { animationStyle, keyframe } = useShimmerAnimation();
 
   return (
