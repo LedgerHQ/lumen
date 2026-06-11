@@ -13,6 +13,12 @@ const renderInChart = (props: LineChartEmptyStateProps) => {
   );
 };
 
+const hasShimmerStyle = (container: HTMLElement): boolean => {
+  return Array.from(container.querySelectorAll('style')).some((styleEl) =>
+    styleEl.textContent?.includes('shimmer-pulse'),
+  );
+};
+
 describe('LineChartEmptyState', () => {
   it('renders the placeholder line', () => {
     const { getByTestId } = renderInChart({});
@@ -21,10 +27,10 @@ describe('LineChartEmptyState', () => {
   });
 
   it('injects a keyframe style and animates the placeholder while loading', () => {
-    const { getByTestId } = renderInChart({ loading: true });
+    const { getByTestId, container } = renderInChart({ loading: true });
 
-    const emptyState = getByTestId('chart-empty-state');
-    expect(emptyState.querySelector('style')).not.toBeNull();
+    getByTestId('chart-empty-state');
+    expect(hasShimmerStyle(container)).toBe(true);
     expect(
       getByTestId('chart-empty-state-line').parentElement?.getAttribute(
         'style',
@@ -33,10 +39,10 @@ describe('LineChartEmptyState', () => {
   });
 
   it('does not animate or inject a style when not loading', () => {
-    const { getByTestId } = renderInChart({});
+    const { getByTestId, container } = renderInChart({});
 
-    const emptyState = getByTestId('chart-empty-state');
-    expect(emptyState.querySelector('style')).toBeNull();
+    getByTestId('chart-empty-state');
+    expect(hasShimmerStyle(container)).toBe(false);
     expect(
       getByTestId('chart-empty-state-line').parentElement?.getAttribute(
         'style',
