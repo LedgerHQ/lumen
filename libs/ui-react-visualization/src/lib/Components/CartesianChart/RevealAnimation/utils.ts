@@ -3,9 +3,12 @@ import type { CSSProperties } from 'react';
 
 import type { DrawingArea, Series } from '../../../utils/types';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import { OVERFLOW_BUFFER } from '../utils';
 >>>>>>> c2e2b03f (refactor(charts): split revealClip in clip-path animation (Line) & fade animation (Point))
+=======
+>>>>>>> 73699c6c (refactor(charts): remove OVERFLOW_BUFFER on web)
 
 /**
  * Duration in seconds of an individual point's opacity fade-in.

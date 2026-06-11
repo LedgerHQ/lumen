@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-
 import { RevealAnimationContext } from './context';
 import type { RevealAnimationProps } from './types';
 import { useRevealAnimation, useDataFingerprint } from './utils';
