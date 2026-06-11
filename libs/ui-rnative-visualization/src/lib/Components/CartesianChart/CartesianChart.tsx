@@ -24,6 +24,8 @@ export function CartesianChart({
   inset,
   axisPadding,
   ariaLabel = 'Chart',
+  ariaBusy = false,
+  overlay,
   children,
   enableScrubbing = false,
   onScrubberPositionChange,
@@ -75,6 +77,7 @@ export function CartesianChart({
       onLayout={needsMeasurement ? handleLayout : undefined}
       accessibilityRole='image'
       accessibilityLabel={ariaLabel}
+      accessibilityState={{ busy: ariaBusy }}
       style={{
         width: needsMeasurement ? undefined : resolvedWidth,
         height,
@@ -82,33 +85,36 @@ export function CartesianChart({
       }}
     >
       {resolvedWidth > 0 && (
-        <CartesianChartProvider value={contextValue}>
-          <MagneticPointsProvider>
-            <ScrubberProvider
-              width={svgWidth}
-              height={svgHeight}
-              enableScrubbing={enableScrubbing}
-              onScrubberPositionChange={onScrubberPositionChange}
-              style={OVERFLOW_OFFSET}
-              magnetRadius={magnetRadius}
-            >
-              <Svg
-                testID='chart-svg'
+        <>
+          <CartesianChartProvider value={contextValue}>
+            <MagneticPointsProvider>
+              <ScrubberProvider
                 width={svgWidth}
                 height={svgHeight}
-                style={{ overflow: 'visible' }}
+                enableScrubbing={enableScrubbing}
+                onScrubberPositionChange={onScrubberPositionChange}
+                style={OVERFLOW_OFFSET}
+                magnetRadius={magnetRadius}
               >
-                <RevealClipDefs
-                  drawingArea={contextValue.drawingArea}
-                  series={series}
-                  animate={animate}
+                <Svg
+                  testID='chart-svg'
+                  width={svgWidth}
+                  height={svgHeight}
+                  style={{ overflow: 'visible' }}
                 >
-                  {children}
-                </RevealClipDefs>
-              </Svg>
-            </ScrubberProvider>
-          </MagneticPointsProvider>
-        </CartesianChartProvider>
+                  <RevealClipDefs
+                    drawingArea={contextValue.drawingArea}
+                    series={series}
+                    animate={animate}
+                  >
+                    {children}
+                  </RevealClipDefs>
+                </Svg>
+              </ScrubberProvider>
+            </MagneticPointsProvider>
+          </CartesianChartProvider>
+          {overlay}
+        </>
       )}
     </View>
   );

@@ -5,7 +5,7 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-import type { DrawingArea, Series } from '../../../utils/types';
+import type { DrawingArea } from '../../../utils/types';
 import { OVERFLOW_BUFFER } from '../utils';
 
 type RevealClipAnimationConfig = {
@@ -40,12 +40,4 @@ export const useRevealClipAnimation = ({
   }));
 
   return { clipId, animatedRectProps };
-};
-
-export const useComputeDataFingerprint = ({
-  series,
-}: {
-  series: Series[];
-}): string => {
-  return series.map((s) => s.data?.join(',') ?? '').join('|');
 };

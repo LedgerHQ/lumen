@@ -11,6 +11,7 @@ import {
   type CurveFactory,
 } from 'd3-shape';
 
+import { isFiniteNumber } from '../../utils/numbers';
 import { isCategoricalScale } from '../../utils/scales/scales';
 import type {
   ChartScaleFunction,
@@ -40,7 +41,8 @@ const getCurveFactory = (curve: CurveType = DEFAULT_CURVE): CurveFactory =>
   CURVE_FACTORIES[curve] ?? CURVE_FACTORIES[DEFAULT_CURVE];
 
 /**
- * Project series data into scaled [x, y] pixel coordinates, skipping nulls.
+ * Project series data into scaled [x, y] pixel coordinates, skipping any
+ * non-finite entries.
  *
  * When `xData` contains numeric values, those values are fed into the scale
  * instead of the array index so the points honour a numeric X domain.
@@ -60,7 +62,7 @@ export const toScaledPoints = (
 
   for (let i = 0; i < limit; i++) {
     const value = data[i];
-    if (value === null) continue;
+    if (!isFiniteNumber(value)) continue;
 
     const xInput =
       xData && typeof xData[i] === 'number' ? (xData[i] as number) : i;
