@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
-import { RevealClipDefs } from './RevealClip';
+import { RevealAnimationProvider } from './RevealAnimation';
 import type { CartesianChartProps } from './types';
 import {
   DEFAULT_HEIGHT,
@@ -121,13 +121,13 @@ export function CartesianChart({
                   onScrubberPositionChange={onScrubberPositionChange}
                   magnetRadius={magnetRadius}
                 >
-                  <RevealClipDefs
+                  <RevealAnimationProvider
                     drawingArea={contextValue.drawingArea}
                     series={series}
                     animate={animate}
                   >
                     {children}
-                  </RevealClipDefs>
+                  </RevealAnimationProvider>
                 </ScrubberProvider>
               </MagneticPointsProvider>
             </CartesianChartProvider>

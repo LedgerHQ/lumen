@@ -1,37 +1,39 @@
 import { useMemo } from 'react';
-import { useDataFingerprint } from '../hooks/useDataFingerprint';
-import { useRevealClipAnimation } from '../hooks/useRevealClipAnimation';
+
 import { OVERFLOW_BUFFER } from '../utils';
 
-import { RevealClipContext } from './context';
-import type { RevealClipDefsProps } from './types';
+import { RevealAnimationContext } from './context';
+import type { RevealAnimationProps } from './types';
+import { useRevealAnimation, useDataFingerprint } from './utils';
 
 const DEFAULT_DURATION_IN_SECONDS = 0.8;
 const DEFAULT_EASING = 'linear';
 
-export function RevealClipDefs({
+export function RevealAnimationProvider({
   children,
   drawingArea,
   series,
   animate = true,
   transitions,
-}: RevealClipDefsProps) {
+}: RevealAnimationProps) {
   const isDisabled = !animate;
   const duration = transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS;
   const easing = transitions?.enter?.easing ?? DEFAULT_EASING;
 
   const dataFingerprint = useDataFingerprint(series);
-  const { clipId, animationStyle, keyframe } = useRevealClipAnimation({
-    duration,
-    easing,
-    drawingArea,
-  });
+  const { clipId, clipPathAttr, clipPathAnimation, fadeAnimation } =
+    useRevealAnimation({
+      duration,
+      easing,
+      drawingArea,
+    });
 
   const contextValue = useMemo(
     () => ({
-      clipPathAttr: `url(#${clipId})`,
+      clipPathAttr,
+      getPointRevealStyle: fadeAnimation.getPointRevealStyle,
     }),
-    [clipId],
+    [clipPathAttr, fadeAnimation],
   );
 
   if (isDisabled) {
@@ -39,7 +41,7 @@ export function RevealClipDefs({
   }
 
   return (
-    <RevealClipContext.Provider key={dataFingerprint} value={contextValue}>
+    <RevealAnimationContext.Provider key={dataFingerprint} value={contextValue}>
       <defs>
         <clipPath id={clipId}>
           <rect
@@ -51,12 +53,12 @@ export function RevealClipDefs({
             width={
               drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right
             }
-            style={{ animation: animationStyle }}
+            style={{ animation: clipPathAnimation.style }}
           />
         </clipPath>
       </defs>
-      <style>{keyframe}</style>
+      <style>{`${clipPathAnimation.keyframe} ${fadeAnimation.keyframe}`}</style>
       {children}
-    </RevealClipContext.Provider>
+    </RevealAnimationContext.Provider>
   );
 }

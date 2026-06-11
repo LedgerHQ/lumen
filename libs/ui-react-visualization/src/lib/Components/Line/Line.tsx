@@ -2,7 +2,7 @@ import { useId, useMemo } from 'react';
 
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useRevealClip } from '../CartesianChart/RevealClip';
+import { usePathReveal } from '../CartesianChart/RevealAnimation';
 
 import {
   LINE_AREA_GRADIENT_OPACITY,
@@ -21,7 +21,7 @@ export function Line({
 }: LineProps) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
-  const clipPath = useRevealClip();
+  const clipPath = usePathReveal();
 
   const xScale = getXScale();
   const yScale = getYScale();
