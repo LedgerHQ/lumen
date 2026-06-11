@@ -101,3 +101,26 @@ export type LineChartProps = {
    */
   emptyLabel?: string;
 };
+
+/**
+ * Series-render fields shared by `LineChart` and its internal line
+ * sub-components. Derived from {@link LineChartProps} so the option types stay
+ * in sync;
+ */
+type LineSeriesRenderProps = Required<
+  Pick<LineChartProps, 'showArea' | 'areaType'>
+> & {
+  series: Series[];
+};
+
+export type LineChartLinesProps = LineSeriesRenderProps & {
+  stroke?: string;
+};
+
+export type LineChartContentProps = LineSeriesRenderProps &
+  Required<Pick<LineChartProps, 'showXAxis' | 'showYAxis'>> &
+  Pick<LineChartProps, 'children'> & {
+    xAxisConfig: XAxisProps;
+    yAxisConfig: YAxisProps;
+    isTransitionLoading: boolean;
+  };

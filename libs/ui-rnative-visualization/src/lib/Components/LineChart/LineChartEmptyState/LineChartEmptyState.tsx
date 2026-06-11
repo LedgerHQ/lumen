@@ -3,8 +3,8 @@ import Animated from 'react-native-reanimated';
 import { G, Line as SvgLine, Path } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../../CartesianChart/context';
+import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { useRevealClip } from '../../CartesianChart/RevealClip';
-import { useShimmerAnimation } from '../../CartesianChart/ShimmerAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
 import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';

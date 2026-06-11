@@ -13,10 +13,6 @@ const HALF_PULSE_DURATION_IN_MS = 1000;
 const MIN_OPACITY = 0.5;
 
 type ShimmerAnimationResult = {
-  /**
-   * Animated `opacity` props to spread on an animated SVG group
-   * (`Animated.createAnimatedComponent(G)`) that should shimmer.
-   */
   animatedProps: ReturnType<typeof useAnimatedProps>;
 };
 
