@@ -107,13 +107,11 @@ export type LineChartProps = {
  * sub-components. Derived from {@link LineChartProps} so the option types stay
  * in sync.
  */
-type LineSeriesRenderProps = Required<
+export type LineChartLinesProps = Required<
   Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
 >;
 
-export type LineChartLinesProps = LineSeriesRenderProps;
-
-export type LineChartContentProps = LineSeriesRenderProps &
+export type LineChartContentProps = LineChartLinesProps &
   Required<Pick<LineChartProps, 'showXAxis' | 'showYAxis'>> &
   Pick<LineChartProps, 'children'> & {
     xAxisConfig: XAxisProps;

@@ -43,7 +43,9 @@ export function ScrubberProvider({
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
       const clamped =
-        index === undefined ? undefined : clamp(index, 0, dataLength - 1);
+        index === undefined || dataLength <= 0
+          ? undefined
+          : clamp(index, 0, dataLength - 1);
       setScrubberPosition(clamped);
       onScrubberPositionChange?.(clamped);
     },
