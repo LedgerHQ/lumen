@@ -108,10 +108,8 @@ export type LineChartProps = {
  * in sync;
  */
 type LineSeriesRenderProps = Required<
-  Pick<LineChartProps, 'showArea' | 'areaType'>
-> & {
-  series: Series[];
-};
+  Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
+>;
 
 export type LineChartLinesProps = LineSeriesRenderProps & {
   stroke?: string;
