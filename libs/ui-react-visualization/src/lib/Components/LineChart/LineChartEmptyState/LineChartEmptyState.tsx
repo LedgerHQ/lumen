@@ -27,42 +27,44 @@ export function LineChartEmptyState({
   }
 
   return (
-    <g data-testid='chart-empty-state'>
+    <>
       {loading && <style>{keyframe}</style>}
-      <g data-testid='chart-empty-state-grid'>
-        {GRID_LINE_RATIOS.map((ratio) => {
-          const y = drawingArea.y + drawingArea.height * ratio;
+      <g data-testid='chart-empty-state'>
+        <g data-testid='chart-empty-state-grid'>
+          {GRID_LINE_RATIOS.map((ratio) => {
+            const y = drawingArea.y + drawingArea.height * ratio;
 
-          return (
-            <line
-              key={ratio}
-              x1={drawingArea.x}
-              y1={y}
-              x2={drawingArea.x + drawingArea.width}
-              y2={y}
-              style={{
-                stroke: cssVar('var(--border-muted-subtle-transparent)'),
-              }}
-              strokeWidth={cssVar('var(--stroke-1)')}
+            return (
+              <line
+                key={ratio}
+                x1={drawingArea.x}
+                y1={y}
+                x2={drawingArea.x + drawingArea.width}
+                y2={y}
+                style={{
+                  stroke: cssVar('var(--border-muted-subtle-transparent)'),
+                }}
+                strokeWidth={cssVar('var(--stroke-1)')}
+              />
+            );
+          })}
+        </g>
+        <g clipPath={clipPath}>
+          <g style={loading ? { animation: animationStyle } : undefined}>
+            <path
+              data-testid='chart-empty-state-line'
+              d={PLACEHOLDER_LINE_PATH}
+              transform={buildPlaceholderTransform(drawingArea)}
+              vectorEffect='non-scaling-stroke'
+              fill='none'
+              stroke={cssVar('var(--border-muted-subtle)')}
+              strokeWidth={cssVar('var(--stroke-2)')}
+              strokeLinecap='round'
+              strokeLinejoin='round'
             />
-          );
-        })}
-      </g>
-      <g clipPath={clipPath}>
-        <g style={loading ? { animation: animationStyle } : undefined}>
-          <path
-            data-testid='chart-empty-state-line'
-            d={PLACEHOLDER_LINE_PATH}
-            transform={buildPlaceholderTransform(drawingArea)}
-            vectorEffect='non-scaling-stroke'
-            fill='none'
-            stroke={cssVar('var(--border-muted-subtle)')}
-            strokeWidth={cssVar('var(--stroke-2)')}
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          />
+          </g>
         </g>
       </g>
-    </g>
+    </>
   );
 }

@@ -16,6 +16,12 @@ const LineChartWrapper = (props: LineChartProps) => {
   return <LineChart {...props} />;
 };
 
+const hasShimmerStyle = (container: HTMLElement): boolean => {
+  return Array.from(container.querySelectorAll('style')).some((styleEl) =>
+    styleEl.textContent?.includes('shimmer-pulse'),
+  );
+};
+
 describe('LineChart', () => {
   it('renders an svg element', () => {
     const { getByTestId } = render(
@@ -162,23 +168,23 @@ describe('LineChart', () => {
 
   describe('loading and empty states', () => {
     it('renders the shimmering placeholder with no data while loading (state 1)', () => {
-      const { getByTestId, queryByTestId } = render(
+      const { getByTestId, queryByTestId, container } = render(
         <LineChartWrapper width={400} height={200} loading />,
       );
 
-      const emptyState = getByTestId('chart-empty-state');
-      expect(emptyState.querySelector('style')).not.toBeNull();
+      getByTestId('chart-empty-state');
+      expect(hasShimmerStyle(container)).toBe(true);
       expect(queryByTestId('line-path')).toBeNull();
       expect(queryByTestId('chart-empty-label')).toBeNull();
     });
 
     it('renders the placeholder with the empty label when there is no data and not loading (state 2)', () => {
-      const { getByTestId, queryByTestId } = render(
+      const { getByTestId, queryByTestId, container } = render(
         <LineChartWrapper width={400} height={200} emptyLabel='Nothing here' />,
       );
 
-      const emptyState = getByTestId('chart-empty-state');
-      expect(emptyState.querySelector('style')).toBeNull();
+      getByTestId('chart-empty-state');
+      expect(hasShimmerStyle(container)).toBe(false);
       expect(getByTestId('chart-empty-label').textContent).toBe('Nothing here');
       expect(queryByTestId('line-path')).toBeNull();
     });
