@@ -105,9 +105,7 @@ export type LineChartProps = {
 /**
  * Series-render fields shared by `LineChart` and its internal line
  * sub-components. Derived from {@link LineChartProps} so the option types stay
- * in sync; `Required` resolves them (the parent passes `series ?? []`) and also
- * strips the optional `undefined` from `series` so sub-components can map over
- * it directly.
+ * in sync.
  */
 type LineSeriesRenderProps = Required<
   Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
