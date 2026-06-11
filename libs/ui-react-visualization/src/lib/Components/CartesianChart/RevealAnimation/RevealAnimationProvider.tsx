@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import { OVERFLOW_BUFFER } from '../utils';
-
 import { RevealAnimationContext } from './context';
 import type { RevealAnimationProps } from './types';
 import { useRevealAnimation, useDataFingerprint } from './utils';
@@ -20,7 +18,7 @@ export function RevealAnimationProvider({
   const duration = transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS;
   const easing = transitions?.enter?.easing ?? DEFAULT_EASING;
 
-  const dataFingerprint = useDataFingerprint(series);
+  const dataFingerprint = useDataFingerprint({ series });
   const { clipId, clipPathAttr, clipPathAnimation, fadeAnimation } =
     useRevealAnimation({
       duration,
@@ -45,14 +43,10 @@ export function RevealAnimationProvider({
       <defs>
         <clipPath id={clipId}>
           <rect
-            x={drawingArea.x - OVERFLOW_BUFFER.left}
-            y={drawingArea.y - OVERFLOW_BUFFER.top}
-            height={
-              drawingArea.height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom
-            }
-            width={
-              drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right
-            }
+            x={drawingArea.x}
+            y={drawingArea.y}
+            height={drawingArea.height}
+            width={drawingArea.width}
             style={{ animation: clipPathAnimation.style }}
           />
         </clipPath>

@@ -2,7 +2,6 @@ import { useId, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
 import type { DrawingArea, Series } from '../../../utils/types';
-import { OVERFLOW_BUFFER } from '../utils';
 
 /**
  * Duration in seconds of an individual point's opacity fade-in.
@@ -95,8 +94,7 @@ const useRevealClipPathAnimation = ({
   drawingArea: DrawingArea;
 }) => {
   const clipAnimationName = `reveal-clip-${clipId.replaceAll(':', '')}`;
-  const fullWidth =
-    drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right;
+  const fullWidth = drawingArea.width;
 
   return useMemo(
     () => ({

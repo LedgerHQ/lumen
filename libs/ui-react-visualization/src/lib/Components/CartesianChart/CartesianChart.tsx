@@ -7,7 +7,6 @@ import { RevealAnimationProvider } from './RevealAnimation';
 import type { CartesianChartProps } from './types';
 import {
   DEFAULT_HEIGHT,
-  OVERFLOW_BUFFER,
   OVERFLOW_OFFSET,
   resolveAxisPadding,
   resolveInset,
@@ -61,12 +60,7 @@ export function CartesianChart({
 
   const resolvedWidth =
     typeof width === 'number' ? width : (measuredWidth ?? 0);
-
-  const svgWidth =
-    resolvedWidth > 0
-      ? resolvedWidth + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right
-      : 0;
-  const svgHeight = height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom;
+  const svgWidth = resolvedWidth > 0 ? resolvedWidth : 0;
 
   const resolvedInset = useMemo(() => resolveInset(inset), [inset]);
   const resolvedAxisPadding = useMemo(
@@ -79,7 +73,7 @@ export function CartesianChart({
     xAxis,
     yAxis,
     width: svgWidth,
-    height: svgHeight,
+    height,
     inset: resolvedInset,
     axisPadding: resolvedAxisPadding,
   });
@@ -101,7 +95,7 @@ export function CartesianChart({
             ref={svgRef}
             data-testid='chart-svg'
             width={svgWidth}
-            height={svgHeight}
+            height={height}
             role='img'
             aria-label={ariaLabel || 'Chart'}
             aria-busy={ariaBusy || undefined}

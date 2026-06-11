@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import type { DrawingArea, Series } from '../../../utils/types';
-import { OVERFLOW_BUFFER } from '../utils';
 
 import { usePathReveal, usePointReveal } from './context';
 import { RevealAnimationProvider } from './RevealAnimationProvider';
@@ -45,18 +44,10 @@ describe('RevealAnimationProvider', () => {
 
     const rect = clipPathEl!.querySelector('rect');
     expect(rect).not.toBeNull();
-    expect(rect!.getAttribute('x')).toBe(
-      `${drawingArea.x - OVERFLOW_BUFFER.left}`,
-    );
-    expect(rect!.getAttribute('y')).toBe(
-      `${drawingArea.y - OVERFLOW_BUFFER.top}`,
-    );
-    expect(rect!.getAttribute('height')).toBe(
-      `${drawingArea.height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom}`,
-    );
-    expect(rect!.getAttribute('width')).toBe(
-      `${drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right}`,
-    );
+    expect(rect!.getAttribute('x')).toBe(`${drawingArea.x}`);
+    expect(rect!.getAttribute('y')).toBe(`${drawingArea.y}`);
+    expect(rect!.getAttribute('height')).toBe(`${drawingArea.height}`);
+    expect(rect!.getAttribute('width')).toBe(`${drawingArea.width}`);
   });
 
   it('provides clip-path to consumers via context', () => {
@@ -120,9 +111,7 @@ describe('RevealAnimationProvider', () => {
     const styleEl = container.querySelector('style');
     expect(styleEl).not.toBeNull();
     expect(styleEl!.textContent).toContain('@keyframes');
-    expect(styleEl!.textContent).toContain(
-      `${drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right}px`,
-    );
+    expect(styleEl!.textContent).toContain(`${drawingArea.width}px`);
   });
 
   it('injects the point fade @keyframes into the style block', () => {
