@@ -74,7 +74,11 @@ describe('RevealAnimationProvider', () => {
 
   it('skips clipPath when animate is false', () => {
     const { container } = renderInSvg(
-      <RevealAnimationProvider drawingArea={drawingArea} series={series} animate={false}>
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
         <ClipConsumer />
       </RevealAnimationProvider>,
     );
@@ -142,7 +146,11 @@ describe('RevealAnimationProvider', () => {
 
   it('does not apply a point reveal style when animate is false', () => {
     const { getByTestId } = renderInSvg(
-      <RevealAnimationProvider drawingArea={drawingArea} series={series} animate={false}>
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
         <PointConsumer />
       </RevealAnimationProvider>,
     );
