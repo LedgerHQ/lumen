@@ -84,4 +84,37 @@ export type LineChartProps = {
    * @default 8
    */
   magnetRadius?: number;
+  /**
+   * Signals that new data is being fetched.
+   *
+   * - **No series**: renders an animated shimmer placeholder line.
+   * - **Series present**: fades the current line to a muted grey and
+   *   animates it until a new `series` is provided.
+   *
+   * @default false
+   */
+  loading?: boolean;
+  /**
+   * Text shown in the centre of the chart when there is no data and the chart
+   * is not loading.
+   * @default 'No data'
+   */
+  emptyLabel?: string;
 };
+
+/**
+ * Series-render fields shared by `LineChart` and its internal line
+ * sub-components. Derived from {@link LineChartProps} so the option types stay
+ * in sync.
+ */
+export type LineChartLinesProps = Required<
+  Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
+>;
+
+export type LineChartContentProps = LineChartLinesProps &
+  Required<Pick<LineChartProps, 'showXAxis' | 'showYAxis'>> &
+  Pick<LineChartProps, 'children'> & {
+    xAxisConfig: XAxisProps;
+    yAxisConfig: YAxisProps;
+    isTransitionLoading: boolean;
+  };

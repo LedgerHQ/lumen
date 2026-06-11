@@ -1,6 +1,6 @@
 import { useId, useMemo } from 'react';
 
-import type { DrawingArea, Series } from '../../../utils/types';
+import type { DrawingArea } from '../../../utils/types';
 import { OVERFLOW_BUFFER } from '../utils';
 
 type RevealClipAnimationConfig = {
@@ -31,12 +31,4 @@ export const useRevealClipAnimation = ({
     }),
     [clipId, animationName, duration, easing, drawingArea.width],
   );
-};
-
-export const useComputeDataFingerprint = ({
-  series,
-}: {
-  series: Series[];
-}): string => {
-  return series.map((s) => s.data?.join(',') ?? '').join('|');
 };

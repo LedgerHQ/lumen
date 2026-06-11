@@ -1,17 +1,98 @@
 import { useMemo } from 'react';
 
-import type { ChartInset } from '../../utils/types';
-import {
-  DEFAULT_AXIS_HEIGHT,
-  defaultXAxisProps,
-  defaultYAxisProps,
-} from '../Axis';
+import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
 import { XAxis } from '../Axis/XAxis';
 import { YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
+import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel/ChartEmptyLabel';
+import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
 import { Line } from '../Line';
 
-import type { LineChartProps } from './types';
+import { LineChartEmptyState } from './LineChartEmptyState';
+import type {
+  LineChartContentProps,
+  LineChartLinesProps,
+  LineChartProps,
+} from './types';
+import {
+  canRenderLine,
+  computeAxisPadding,
+  getChartDisplayState,
+} from './utils';
+
+const LineChartLines = ({
+  series,
+  showArea,
+  areaType,
+}: Readonly<LineChartLinesProps>) => {
+  return (
+    <>
+      {series.map((s) => (
+        <Line
+          key={s.id}
+          seriesId={s.id}
+          stroke={s.stroke}
+          showArea={showArea}
+          areaType={areaType}
+        />
+      ))}
+    </>
+  );
+};
+
+const LineChartTransitionLines = ({
+  series,
+  showArea,
+  areaType,
+}: Readonly<LineChartLinesProps>) => {
+  const { animationStyle, keyframe } = useShimmerAnimation();
+
+  return (
+    <>
+      <style>{keyframe}</style>
+      <g style={{ animation: animationStyle }}>
+        <LineChartLines
+          series={series}
+          showArea={showArea}
+          areaType={areaType}
+        />
+      </g>
+    </>
+  );
+};
+
+const LineChartContent = ({
+  series,
+  showArea,
+  areaType,
+  showXAxis,
+  showYAxis,
+  xAxisConfig,
+  yAxisConfig,
+  isTransitionLoading,
+  children,
+}: Readonly<LineChartContentProps>) => {
+  return (
+    <>
+      {showXAxis && <XAxis {...xAxisConfig} />}
+      {showYAxis && <YAxis {...yAxisConfig} />}
+      {isTransitionLoading ? (
+        <LineChartTransitionLines
+          series={series}
+          showArea={showArea}
+          areaType={areaType}
+        />
+      ) : (
+        <LineChartLines
+          series={series}
+          showArea={showArea}
+          areaType={areaType}
+        />
+      )}
+      {children}
+    </>
+  );
+};
 
 export function LineChart({
   series,
@@ -28,41 +109,48 @@ export function LineChart({
   onScrubberPositionChange,
   animate,
   magnetRadius,
+  loading = false,
+  emptyLabel = 'No data',
   children,
-}: LineChartProps) {
+}: Readonly<LineChartProps>) {
   const xAxisConfig = {
     ...defaultXAxisProps,
     ...xAxis,
+    position: xAxis?.position ?? defaultXAxisProps.position,
   };
   const yAxisConfig = {
     ...defaultYAxisProps,
     ...yAxis,
+    position: yAxis?.position ?? defaultYAxisProps.position,
+    width: yAxis?.width ?? defaultYAxisProps.width,
   };
 
-  const axisPadding: Partial<ChartInset> | undefined = useMemo(() => {
-    if (!showXAxis && !showYAxis) {
-      return undefined;
-    }
+  const xAxisPosition = xAxisConfig.position;
+  const yAxisPosition = yAxisConfig.position;
+  const yAxisWidth = yAxisConfig.width;
 
-    return {
-      top:
-        showXAxis && xAxisConfig.position === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
-      bottom:
-        showXAxis && xAxisConfig.position === 'bottom'
-          ? DEFAULT_AXIS_HEIGHT
-          : 0,
-      left:
-        showYAxis && yAxisConfig.position === 'start' ? yAxisConfig.width : 0,
-      right:
-        showYAxis && yAxisConfig.position === 'end' ? yAxisConfig.width : 0,
-    };
-  }, [
-    showXAxis,
-    showYAxis,
-    xAxisConfig?.position,
-    yAxisConfig?.position,
-    yAxisConfig?.width,
-  ]);
+  const axisPadding = useMemo(
+    () =>
+      computeAxisPadding({
+        showXAxis,
+        showYAxis,
+        xAxisPosition,
+        yAxisPosition,
+        yAxisWidth,
+      }),
+    [showXAxis, showYAxis, xAxisPosition, yAxisPosition, yAxisWidth],
+  );
+
+  const hasData = canRenderLine(series, xAxisConfig.data);
+
+  const { status, ariaLabel } = getChartDisplayState({
+    loading,
+    hasData,
+    emptyLabel,
+  });
+
+  const isTransitionLoading = status === 'transition-loading';
+  const isPlaceholder = status === 'initial-loading' || status === 'empty';
 
   return (
     <CartesianChart
@@ -77,19 +165,30 @@ export function LineChart({
       onScrubberPositionChange={onScrubberPositionChange}
       animate={animate}
       magnetRadius={magnetRadius}
+      ariaLabel={ariaLabel}
+      ariaBusy={loading}
+      overlay={
+        status === 'empty' ? (
+          <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel>
+        ) : undefined
+      }
     >
-      {showXAxis && <XAxis {...xAxisConfig} />}
-      {showYAxis && <YAxis {...yAxisConfig} />}
-      {series?.map((s) => (
-        <Line
-          key={s.id}
-          seriesId={s.id}
-          stroke={s.stroke}
+      {isPlaceholder ? (
+        <LineChartEmptyState loading={status === 'initial-loading'} />
+      ) : (
+        <LineChartContent
+          series={series ?? []}
           showArea={showArea}
           areaType={areaType}
-        />
-      ))}
-      {children}
+          showXAxis={showXAxis}
+          showYAxis={showYAxis}
+          xAxisConfig={xAxisConfig}
+          yAxisConfig={yAxisConfig}
+          isTransitionLoading={isTransitionLoading}
+        >
+          {children}
+        </LineChartContent>
+      )}
     </CartesianChart>
   );
 }

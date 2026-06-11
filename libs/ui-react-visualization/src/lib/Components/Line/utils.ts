@@ -11,6 +11,7 @@ import {
   type CurveFactory,
 } from 'd3-shape';
 
+import { isFiniteNumber } from '../../utils/numbers';
 import { isCategoricalScale } from '../../utils/scales/scales';
 import type {
   ChartScaleFunction,
@@ -60,7 +61,7 @@ export const toScaledPoints = (
 
   for (let i = 0; i < limit; i++) {
     const value = data[i];
-    if (value === null) continue;
+    if (!isFiniteNumber(value)) continue;
 
     const xInput =
       xData && typeof xData[i] === 'number' ? (xData[i] as number) : i;

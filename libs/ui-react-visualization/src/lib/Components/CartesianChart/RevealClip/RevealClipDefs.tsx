@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
+import { useDataFingerprint } from '../hooks/useDataFingerprint';
+import { useRevealClipAnimation } from '../hooks/useRevealClipAnimation';
 import { OVERFLOW_BUFFER } from '../utils';
 
 import { RevealClipContext } from './context';
 import type { RevealClipDefsProps } from './types';
-import { useComputeDataFingerprint, useRevealClipAnimation } from './utils';
 
 const DEFAULT_DURATION_IN_SECONDS = 0.8;
 const DEFAULT_EASING = 'linear';
@@ -19,7 +20,7 @@ export function RevealClipDefs({
   const duration = transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS;
   const easing = transitions?.enter?.easing ?? DEFAULT_EASING;
 
-  const dataFingerprint = useComputeDataFingerprint({ series });
+  const dataFingerprint = useDataFingerprint(series);
   const { clipId, animationStyle, keyframe } = useRevealClipAnimation({
     duration,
     easing,

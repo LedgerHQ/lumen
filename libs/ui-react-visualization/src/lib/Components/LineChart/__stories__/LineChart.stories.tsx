@@ -7,7 +7,7 @@ import {
   Trend,
 } from '@ledgerhq/lumen-ui-react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { Point } from '../../Point';
@@ -32,6 +32,7 @@ import {
   getMarkerColor,
   getMarkerTooltip,
   PERIODS,
+  type ChartModel,
   type Period,
   usdFormatter,
 } from './cryptoChartData';
@@ -203,6 +204,43 @@ export const Area: Story = {
 };
 
 /**
+ * When there is no drawable data and the chart is not `loading`, it renders an
+ * empty placeholder with the `emptyLabel` text centred in the chart.
+ */
+export const Empty: Story = {
+  args: {
+    series: [],
+    emptyLabel: 'No data available',
+  },
+};
+
+/**
+ * `loading` signals that new data is being fetched, with two placeholders:
+ * without a series it shows an animated shimmer line (initial fetch); with a
+ * series it fades the current line to a muted grey and animates it until a new
+ * `series` is provided (refreshing existing data).
+ */
+export const Loading: Story = {
+  render: () => (
+    <div className='flex flex-wrap gap-24'>
+      <div className='flex max-w-400 flex-col gap-8'>
+        <LineChart series={[]} width={CHART_WIDTH} height={150} loading />
+        <span className='body-3 text-muted'>Without data</span>
+      </div>
+      <div className='flex max-w-400 flex-col gap-8'>
+        <LineChart
+          series={sampleSeries}
+          width={CHART_WIDTH}
+          height={150}
+          loading
+        />
+        <span className='body-3 text-muted'>With data</span>
+      </div>
+    </div>
+  ),
+};
+
+/**
  * Basic x-axis. Toggle it with `showXAxis` and configure it through `xAxis`.
  * See the **XAxis** page for the full set of options (ticks, labels, scale,
  * position, grid).
@@ -305,30 +343,60 @@ export const WithReferenceLine: Story = {
  * Putting it all together: a realistic, interactive portfolio chart composing
  * axes, points, a reference line and a scrubber with design-system components.
  */
+const INITIAL_FETCH_DELAY_IN_MS = 1200;
+const TRANSITION_FETCH_DELAY_IN_MS = 2000;
+
 export const Interactive: Story = {
   render: () => {
     const [period, setPeriod] = useState<Period>('1Y');
     const [scrubberIndex, setScrubberIndex] = useState<number | undefined>();
     const [showMarkers, setShowMarkers] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [model, setModel] = useState<ChartModel | null>(null);
+    const fetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+      undefined,
+    );
 
-    const model = useMemo(() => buildChartModel(period), [period]);
-    const {
-      data,
-      markers,
-      markerByIndex,
-      average,
-      isPositive,
-      highIndex,
-      lowIndex,
-      yDomain,
-      xTicks,
-      yTicks,
-    } = model;
+    const scheduleFetch = (callback: () => void, delay: number) => {
+      if (fetchTimeoutRef.current !== undefined) {
+        clearTimeout(fetchTimeoutRef.current);
+      }
+      fetchTimeoutRef.current = setTimeout(callback, delay);
+    };
 
-    const activeValue = data[scrubberIndex ?? data.length - 1];
-    const changePercent = ((activeValue - data[0]) / data[0]) * 100;
+    useEffect(() => {
+      setLoading(true);
+      setShowMarkers(false);
+      const delay = model
+        ? TRANSITION_FETCH_DELAY_IN_MS
+        : INITIAL_FETCH_DELAY_IN_MS;
+      scheduleFetch(() => {
+        setModel(buildChartModel(period));
+        setLoading(false);
+        setShowMarkers(true);
+      }, delay);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [period]);
+
+    useEffect(
+      () => () => {
+        if (fetchTimeoutRef.current !== undefined) {
+          clearTimeout(fetchTimeoutRef.current);
+        }
+      },
+      [],
+    );
+
+    const data = model?.data ?? [];
+    const activeValue = data.length
+      ? (data[scrubberIndex ?? data.length - 1] ?? 0)
+      : 0;
+    const changePercent =
+      data.length && data[0] ? ((activeValue - data[0]) / data[0]) * 100 : 0;
     const lineColor = cssVar(
-      isPositive ? 'var(--border-success)' : 'var(--border-error)',
+      (model?.isPositive ?? true)
+        ? 'var(--border-success)'
+        : 'var(--border-error)',
     );
 
     return (
@@ -339,24 +407,33 @@ export const Interactive: Story = {
           periodLabel={PERIODS[period].label}
           showMarkers={showMarkers}
           onToggleMarkers={() => setShowMarkers((value) => !value)}
+          onSimulateEmpty={() => {
+            setLoading(true);
+            setShowMarkers(false);
+            scheduleFetch(() => {
+              setModel(null);
+              setLoading(false);
+            }, INITIAL_FETCH_DELAY_IN_MS);
+          }}
         />
 
         <LineChart
           series={[{ id: 'price', stroke: lineColor, data }]}
           width={CHART_WIDTH}
           height={340}
+          loading={loading}
           showArea
           enableScrubbing
           inset={{ top: 20, bottom: 8 }}
           showXAxis
           showYAxis
           xAxis={{
-            ticks: xTicks,
+            ticks: model?.xTicks,
             tickLabelFormatter: createAxisDateFormatter(period, data.length),
           }}
           yAxis={{
-            domain: yDomain,
-            ticks: yTicks,
+            domain: model?.yDomain,
+            ticks: model?.yTicks,
             showTickMark: false,
             showGrid: true,
             // Below is a hack to hide the y-axis labels. A showLabels prop is coming soon.
@@ -365,44 +442,48 @@ export const Interactive: Story = {
           }}
           onScrubberPositionChange={setScrubberIndex}
         >
-          <ReferenceLine
-            dataY={average}
-            labelDy={-4}
-            labelHorizontalAlignment='start'
-            labelVerticalAlignment='start'
-            label='Avg. buy in'
-          />
-          {showMarkers &&
-            markers.map((marker) => (
-              <Point
-                key={marker.index}
-                magnetic
-                dataX={marker.index}
-                dataY={data[marker.index]}
-                color={getMarkerColor(marker)}
-              />
-            ))}
+          {model && (
+            <>
+              {showMarkers &&
+                model.markers.map((marker) => (
+                  <Point
+                    key={marker.index}
+                    magnetic
+                    dataX={marker.index}
+                    dataY={data[marker.index]}
+                    color={getMarkerColor(marker)}
+                  />
+                ))}
 
-          <Point
-            hidePoint
-            dataX={highIndex}
-            dataY={data[highIndex]}
-            labelPosition='top'
-            label={formatUsd(data[highIndex])}
-          />
-          <Point
-            hidePoint
-            dataX={lowIndex}
-            dataY={data[lowIndex]}
-            labelPosition='bottom'
-            label={formatUsd(data[lowIndex])}
-          />
-          <Scrubber
-            tooltip={(dataIndex) => {
-              const marker = markerByIndex.get(dataIndex);
-              return marker ? getMarkerTooltip(marker) : { items: [] };
-            }}
-          />
+              <Point
+                hidePoint
+                dataX={model.highIndex}
+                dataY={data[model.highIndex]}
+                labelPosition='top'
+                label={formatUsd(data[model.highIndex])}
+              />
+              <Point
+                hidePoint
+                dataX={model.lowIndex}
+                dataY={data[model.lowIndex]}
+                labelPosition='bottom'
+                label={formatUsd(data[model.lowIndex])}
+              />
+              <ReferenceLine
+                dataY={model.average}
+                labelDy={-4}
+                labelHorizontalAlignment='start'
+                labelVerticalAlignment='start'
+                label='Avg. buy in'
+              />
+              <Scrubber
+                tooltip={(dataIndex) => {
+                  const marker = model.markerByIndex.get(dataIndex);
+                  return marker ? getMarkerTooltip(marker) : { items: [] };
+                }}
+              />
+            </>
+          )}
         </LineChart>
 
         <SegmentedControl
@@ -427,15 +508,20 @@ const ChartHeader = ({
   periodLabel,
   showMarkers,
   onToggleMarkers,
+  onSimulateEmpty,
 }: {
   value: number;
   changePercent: number;
   periodLabel: string;
   showMarkers: boolean;
   onToggleMarkers: () => void;
+  onSimulateEmpty: () => void;
 }) => (
   <div className='flex flex-col gap-12'>
-    <div className='flex justify-end'>
+    <div className='flex justify-end gap-8'>
+      <Button appearance='gray' size='sm' onClick={onSimulateEmpty}>
+        Simulate empty
+      </Button>
       <Button appearance='gray' size='sm' onClick={onToggleMarkers}>
         {showMarkers ? 'Hide transactions' : 'Show transactions'}
       </Button>
