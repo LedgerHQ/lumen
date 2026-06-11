@@ -154,6 +154,24 @@ Highlight a threshold or baseline with a `<ReferenceLine>` child.
 
 See the **ReferenceLine** page for vertical lines and label alignment.
 
+## States
+
+### Empty
+
+When there is no drawable data and the chart is not `loading`, it renders an
+empty placeholder with the `emptyLabel` text centred in the chart.
+
+<Canvas of={LineChartStories.Empty} />
+
+### Loading
+
+`loading` signals that new data is being fetched. The placeholder depends on
+whether data is already on screen: without a series it shows an animated shimmer
+line (initial fetch); with a series it fades the current line to a muted grey
+and animates it until a new `series` is provided (refreshing existing data).
+
+<Canvas of={LineChartStories.Loading} />
+
 ## Composed example
 
 Putting it all together: a realistic, interactive portfolio chart composing

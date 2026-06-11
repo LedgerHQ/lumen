@@ -204,6 +204,43 @@ export const Area: Story = {
 };
 
 /**
+ * When there is no drawable data and the chart is not `loading`, it renders an
+ * empty placeholder with the `emptyLabel` text centred in the chart.
+ */
+export const Empty: Story = {
+  args: {
+    series: [],
+    emptyLabel: 'No data available',
+  },
+};
+
+/**
+ * `loading` signals that new data is being fetched, with two placeholders:
+ * without a series it shows an animated shimmer line (initial fetch); with a
+ * series it fades the current line to a muted grey and animates it until a new
+ * `series` is provided (refreshing existing data).
+ */
+export const Loading: Story = {
+  render: () => (
+    <div className='flex flex-wrap gap-24'>
+      <div className='flex max-w-400 flex-col gap-8'>
+        <LineChart series={[]} width={CHART_WIDTH} height={150} loading />
+        <span className='body-3 text-muted'>Without data</span>
+      </div>
+      <div className='flex max-w-400 flex-col gap-8'>
+        <LineChart
+          series={sampleSeries}
+          width={CHART_WIDTH}
+          height={150}
+          loading
+        />
+        <span className='body-3 text-muted'>With data</span>
+      </div>
+    </div>
+  ),
+};
+
+/**
  * Basic x-axis. Toggle it with `showXAxis` and configure it through `xAxis`.
  * See the **XAxis** page for the full set of options (ticks, labels, scale,
  * position, grid).
