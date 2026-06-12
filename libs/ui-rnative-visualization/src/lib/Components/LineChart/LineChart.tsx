@@ -1,3 +1,4 @@
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
@@ -28,6 +29,7 @@ const LineChartLines = ({
   series,
   showArea,
   areaType,
+  stroke,
 }: Readonly<LineChartLinesProps>) => {
   return (
     <>
@@ -35,7 +37,7 @@ const LineChartLines = ({
         <Line
           key={s.id}
           seriesId={s.id}
-          stroke={s.stroke}
+          stroke={stroke ?? s.stroke}
           showArea={showArea}
           areaType={areaType}
         />
@@ -48,12 +50,18 @@ const LineChartTransitionLines = ({
   series,
   showArea,
   areaType,
-}: Readonly<LineChartLinesProps>) => {
+}: Readonly<Omit<LineChartLinesProps, 'stroke'>>) => {
+  const { theme } = useTheme();
   const { animatedProps } = useShimmerAnimation();
 
   return (
     <AnimatedG animatedProps={animatedProps}>
-      <LineChartLines series={series} showArea={showArea} areaType={areaType} />
+      <LineChartLines
+        series={series}
+        showArea={showArea}
+        areaType={areaType}
+        stroke={theme.colors.border.mutedSubtle}
+      />
     </AnimatedG>
   );
 };

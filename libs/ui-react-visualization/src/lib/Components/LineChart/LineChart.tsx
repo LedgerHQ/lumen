@@ -1,3 +1,4 @@
+import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
 import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
@@ -24,6 +25,7 @@ const LineChartLines = ({
   series,
   showArea,
   areaType,
+  stroke,
 }: Readonly<LineChartLinesProps>) => {
   return (
     <>
@@ -31,7 +33,7 @@ const LineChartLines = ({
         <Line
           key={s.id}
           seriesId={s.id}
-          stroke={s.stroke}
+          stroke={stroke ?? s.stroke}
           showArea={showArea}
           areaType={areaType}
         />
@@ -44,7 +46,7 @@ const LineChartTransitionLines = ({
   series,
   showArea,
   areaType,
-}: Readonly<LineChartLinesProps>) => {
+}: Readonly<Omit<LineChartLinesProps, 'stroke'>>) => {
   const { animationStyle, keyframe } = useShimmerAnimation();
 
   return (
@@ -55,6 +57,7 @@ const LineChartTransitionLines = ({
           series={series}
           showArea={showArea}
           areaType={areaType}
+          stroke={cssVar('var(--border-muted-subtle)')}
         />
       </g>
     </>
