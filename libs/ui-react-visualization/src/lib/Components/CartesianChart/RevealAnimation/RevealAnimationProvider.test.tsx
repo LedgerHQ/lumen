@@ -2,10 +2,9 @@ import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import type { DrawingArea, Series } from '../../../utils/types';
-import { OVERFLOW_BUFFER } from '../utils';
 
-import { useRevealClip } from './context';
-import { RevealClipDefs } from './RevealClipDefs';
+import { usePathReveal, usePointReveal } from './context';
+import { RevealAnimationProvider } from './RevealAnimationProvider';
 
 const drawingArea: DrawingArea = {
   x: 10,
@@ -17,22 +16,27 @@ const drawingArea: DrawingArea = {
 const series: Series[] = [{ id: 'a', stroke: '#000', data: [1, 2, 3] }];
 
 function ClipConsumer() {
-  const clipPath = useRevealClip();
+  const clipPath = usePathReveal();
   return <rect data-testid='consumer' clipPath={clipPath} />;
+}
+
+function PointConsumer() {
+  const style = usePointReveal();
+  return <g data-testid='point-consumer' style={style} />;
 }
 
 const renderInSvg = (ui: React.ReactElement) => render(<svg>{ui}</svg>);
 
-describe('RevealClipDefs', () => {
+describe('RevealAnimationProvider', () => {
   it('renders a clipPath with an animated rect', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{ enter: { duration: 0.5, easing: 'ease-out' } }}
       >
         <rect data-testid='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const clipPathEl = container.querySelector('clipPath');
@@ -40,25 +44,17 @@ describe('RevealClipDefs', () => {
 
     const rect = clipPathEl!.querySelector('rect');
     expect(rect).not.toBeNull();
-    expect(rect!.getAttribute('x')).toBe(
-      `${drawingArea.x - OVERFLOW_BUFFER.left}`,
-    );
-    expect(rect!.getAttribute('y')).toBe(
-      `${drawingArea.y - OVERFLOW_BUFFER.top}`,
-    );
-    expect(rect!.getAttribute('height')).toBe(
-      `${drawingArea.height + OVERFLOW_BUFFER.top + OVERFLOW_BUFFER.bottom}`,
-    );
-    expect(rect!.getAttribute('width')).toBe(
-      `${drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right}`,
-    );
+    expect(rect!.getAttribute('x')).toBe(`${drawingArea.x}`);
+    expect(rect!.getAttribute('y')).toBe(`${drawingArea.y}`);
+    expect(rect!.getAttribute('height')).toBe(`${drawingArea.height}`);
+    expect(rect!.getAttribute('width')).toBe(`${drawingArea.width}`);
   });
 
   it('provides clip-path to consumers via context', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs drawingArea={drawingArea} series={series}>
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
         <ClipConsumer />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const consumer = container.querySelector('[data-testid="consumer"]');
@@ -68,9 +64,9 @@ describe('RevealClipDefs', () => {
 
   it('renders children', () => {
     const { getByTestId } = renderInSvg(
-      <RevealClipDefs drawingArea={drawingArea} series={series}>
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
         <rect data-testid='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     expect(getByTestId('child')).toBeTruthy();
@@ -78,9 +74,13 @@ describe('RevealClipDefs', () => {
 
   it('skips clipPath when animate is false', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs drawingArea={drawingArea} series={series} animate={false}>
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
         <ClipConsumer />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const clipPathEl = container.querySelector('clipPath');
@@ -92,9 +92,9 @@ describe('RevealClipDefs', () => {
 
   it('falls back to default animation when transitions.enter is not defined', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs drawingArea={drawingArea} series={series}>
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
         <rect data-testid='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const clipPathEl = container.querySelector('clipPath');
@@ -103,26 +103,65 @@ describe('RevealClipDefs', () => {
 
   it('injects a @keyframes style block', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{ enter: { duration: 0.8, easing: 'linear' } }}
       >
         <rect />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const styleEl = container.querySelector('style');
     expect(styleEl).not.toBeNull();
     expect(styleEl!.textContent).toContain('@keyframes');
-    expect(styleEl!.textContent).toContain(
-      `${drawingArea.width + OVERFLOW_BUFFER.left + OVERFLOW_BUFFER.right}px`,
+    expect(styleEl!.textContent).toContain(`${drawingArea.width}px`);
+  });
+
+  it('injects the point fade @keyframes into the style block', () => {
+    const { container } = renderInSvg(
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
+        <rect />
+      </RevealAnimationProvider>,
     );
+
+    const styleEl = container.querySelector('style');
+    expect(styleEl!.textContent).toContain('@keyframes reveal-fade-');
+    expect(styleEl!.textContent).toContain('opacity: 0');
+    expect(styleEl!.textContent).toContain('opacity: 1');
+  });
+
+  it('provides an opacity fade-in style to point consumers via context', () => {
+    const { getByTestId } = renderInSvg(
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
+        <PointConsumer />
+      </RevealAnimationProvider>,
+    );
+
+    const consumer = getByTestId('point-consumer');
+    const animation = consumer.style.animation;
+    expect(animation).toContain('reveal-fade-');
+    expect(animation).toContain('both');
+  });
+
+  it('does not apply a point reveal style when animate is false', () => {
+    const { getByTestId } = renderInSvg(
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
+        <PointConsumer />
+      </RevealAnimationProvider>,
+    );
+
+    const consumer = getByTestId('point-consumer');
+    expect(consumer.style.animation).toBe('');
   });
 
   it('applies animation style to the clip rect', () => {
     const { container } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{
@@ -130,7 +169,7 @@ describe('RevealClipDefs', () => {
         }}
       >
         <rect />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const rect = container.querySelector('clipPath rect');

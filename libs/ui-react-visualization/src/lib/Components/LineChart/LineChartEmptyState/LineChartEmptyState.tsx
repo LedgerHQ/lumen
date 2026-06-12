@@ -2,7 +2,7 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
-import { useRevealClip } from '../../CartesianChart/RevealClip';
+import { usePathReveal } from '../../CartesianChart/RevealAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
 import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
@@ -20,7 +20,7 @@ export function LineChartEmptyState({
 }: Readonly<LineChartEmptyStateProps>) {
   const { drawingArea } = useCartesianChartContext();
   const { animationStyle, keyframe } = useShimmerAnimation();
-  const clipPath = useRevealClip();
+  const clipPath = usePathReveal();
 
   if (drawingArea.width <= 0 || drawingArea.height <= 0) {
     return null;
