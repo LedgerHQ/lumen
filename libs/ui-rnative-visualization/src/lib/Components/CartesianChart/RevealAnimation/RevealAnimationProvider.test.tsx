@@ -7,8 +7,8 @@ import { Svg } from 'react-native-svg';
 import type { DrawingArea, Series } from '../../../utils/types';
 import { OVERFLOW_BUFFER } from '../utils';
 
-import { useRevealClip } from './context';
-import { RevealClipDefs } from './RevealClipDefs';
+import { usePathReveal, usePointReveal } from './context';
+import { RevealAnimationProvider } from './RevealAnimationProvider';
 
 const drawingArea: DrawingArea = {
   x: 10,
@@ -20,8 +20,13 @@ const drawingArea: DrawingArea = {
 const series: Series[] = [{ id: 'a', stroke: '#000', data: [1, 2, 3] }];
 
 function ClipConsumer() {
-  const clipPath = useRevealClip();
+  const clipPath = usePathReveal();
   return <Svg testID='consumer' clipPath={clipPath} />;
+}
+
+function PointConsumer() {
+  const pointOpacity = usePointReveal();
+  return <Svg testID='point-consumer' opacity={pointOpacity ? 1 : 0} />;
 }
 
 const renderInSvg = (ui: React.ReactElement) =>
@@ -31,16 +36,16 @@ const renderInSvg = (ui: React.ReactElement) =>
     </ThemeProvider>,
   );
 
-describe('RevealClipDefs', () => {
+describe('RevealAnimationProvider', () => {
   it('renders children', () => {
     const { getByTestId } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{ enter: { duration: 0.5 } }}
       >
         <Svg testID='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     expect(getByTestId('child')).toBeTruthy();
@@ -48,13 +53,13 @@ describe('RevealClipDefs', () => {
 
   it('renders a ClipPath with a Rect when animate is true', () => {
     const { UNSAFE_root } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{ enter: { duration: 0.5 } }}
       >
         <Svg testID='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const clipPaths = UNSAFE_root.findAllByType('ClipPath' as any);
@@ -71,26 +76,45 @@ describe('RevealClipDefs', () => {
     );
   });
 
-  it('provides clipPathAttr to consumers via context', () => {
+  it('provides clipPathAttr to consumers via usePathReveal', () => {
     const { UNSAFE_root } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{ enter: { duration: 0.5 } }}
       >
         <ClipConsumer />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const consumer = UNSAFE_root.findByProps({ testID: 'consumer' });
     expect(consumer.props.clipPath).toMatch(/^url\(#/);
   });
 
+  it('provides a point opacity shared value via usePointReveal', () => {
+    const { UNSAFE_root } = renderInSvg(
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        transitions={{ enter: { duration: 0.5 } }}
+      >
+        <PointConsumer />
+      </RevealAnimationProvider>,
+    );
+
+    const consumer = UNSAFE_root.findByProps({ testID: 'point-consumer' });
+    expect(consumer.props.opacity).toBe(1);
+  });
+
   it('skips ClipPath when animate is false', () => {
     const { UNSAFE_root, getByTestId } = renderInSvg(
-      <RevealClipDefs drawingArea={drawingArea} series={series} animate={false}>
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
         <Svg testID='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     expect(getByTestId('child')).toBeTruthy();
@@ -101,24 +125,43 @@ describe('RevealClipDefs', () => {
 
   it('does not provide clipPathAttr when animate is false', () => {
     const { UNSAFE_root } = renderInSvg(
-      <RevealClipDefs drawingArea={drawingArea} series={series} animate={false}>
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
         <ClipConsumer />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     const consumer = UNSAFE_root.findByProps({ testID: 'consumer' });
     expect(consumer.props.clipPath).toBeUndefined();
   });
 
+  it('does not provide a point opacity value when animate is false', () => {
+    const { UNSAFE_root } = renderInSvg(
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
+        <PointConsumer />
+      </RevealAnimationProvider>,
+    );
+
+    const consumer = UNSAFE_root.findByProps({ testID: 'point-consumer' });
+    expect(consumer.props.opacity).toBe(0);
+  });
+
   it('renders without crashing when transitions.enter is not defined', () => {
     const { UNSAFE_root, getByTestId } = renderInSvg(
-      <RevealClipDefs
+      <RevealAnimationProvider
         drawingArea={drawingArea}
         series={series}
         transitions={{}}
       >
         <Svg testID='child' />
-      </RevealClipDefs>,
+      </RevealAnimationProvider>,
     );
 
     expect(getByTestId('child')).toBeTruthy();

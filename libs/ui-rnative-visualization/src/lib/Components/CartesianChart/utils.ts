@@ -1,7 +1,7 @@
 import type { ChartInset } from '../../utils/types';
 import type { CartesianChartProps } from './types';
 
-export const DEFAULT_HEIGHT = 160;
+export const DEFAULT_HEIGHT = 228;
 
 /**
  * Internal buffer added around the drawing area so SVG content (labels, points,
@@ -30,6 +30,7 @@ export const OVERFLOW_OFFSET = {
   top: -OVERFLOW_BUFFER.top,
   left: -OVERFLOW_BUFFER.left,
 };
+
 export const ZERO_PADDING: ChartInset = {
   top: 0,
   right: 0,

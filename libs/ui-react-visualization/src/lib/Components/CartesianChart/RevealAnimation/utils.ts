@@ -6,7 +6,8 @@ import type { DrawingArea, Series } from '../../../utils/types';
 /**
  * Duration in seconds of an individual point's opacity fade-in.
  */
-const POINT_FADE_DURATION = 0.2;
+const POINT_FADE_DURATION_IN_SECONDS = 0.2;
+const POINT_FADE_IN_AFTER_CLIP_IN_SECONDS = -0.1;
 
 type RevealAnimationConfig = {
   duration: number;
@@ -69,9 +70,12 @@ const useRevealFadeAnimation = ({
     () => ({
       keyframe: `@keyframes ${fadeAnimationName} { from { opacity: 0; } to { opacity: 1; } }`,
       getPointRevealStyle: (): CSSProperties => {
-        const delay = Math.max(0, duration - 0.1);
+        const delay = Math.max(
+          0,
+          duration + POINT_FADE_IN_AFTER_CLIP_IN_SECONDS,
+        );
         return {
-          animation: `${fadeAnimationName} ${POINT_FADE_DURATION}s ${easing} ${delay}s both`,
+          animation: `${fadeAnimationName} ${POINT_FADE_DURATION_IN_SECONDS}s ${easing} ${delay}s both`,
         };
       },
     }),

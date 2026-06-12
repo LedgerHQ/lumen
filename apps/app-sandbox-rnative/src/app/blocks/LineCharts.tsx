@@ -489,6 +489,12 @@ const RandomAutoUpdate = () => {
     return () => clearInterval(id);
   }, []);
 
+  const data = series[0].data;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const minIdx = data.indexOf(min);
+  const maxIdx = data.indexOf(max);
+
   return (
     <Section title='Random series (auto-updates every 3s)'>
       <LineChart
@@ -501,7 +507,16 @@ const RandomAutoUpdate = () => {
           domain: { min: 0, max: 100 },
           tickLabelFormatter: (v) => `$${v}`,
         }}
-      />
+      >
+        <Point dataX={maxIdx} dataY={max} color='#47883A' label={`$${max}`} />
+        <Point
+          dataX={minIdx}
+          dataY={min}
+          color='#C24244'
+          label={`$${min}`}
+          labelPosition='bottom'
+        />
+      </LineChart>
     </Section>
   );
 };

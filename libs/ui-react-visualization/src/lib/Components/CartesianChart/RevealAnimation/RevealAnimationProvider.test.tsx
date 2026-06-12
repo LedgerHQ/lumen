@@ -159,6 +159,47 @@ describe('RevealAnimationProvider', () => {
     expect(consumer.style.animation).toBe('');
   });
 
+  it('injects the point fade @keyframes into the style block', () => {
+    const { container } = renderInSvg(
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
+        <rect />
+      </RevealAnimationProvider>,
+    );
+
+    const styleEl = container.querySelector('style');
+    expect(styleEl!.textContent).toContain('@keyframes reveal-fade-');
+    expect(styleEl!.textContent).toContain('opacity: 0');
+    expect(styleEl!.textContent).toContain('opacity: 1');
+  });
+
+  it('provides an opacity fade-in style to point consumers via context', () => {
+    const { getByTestId } = renderInSvg(
+      <RevealAnimationProvider drawingArea={drawingArea} series={series}>
+        <PointConsumer />
+      </RevealAnimationProvider>,
+    );
+
+    const consumer = getByTestId('point-consumer');
+    const animation = consumer.style.animation;
+    expect(animation).toContain('reveal-fade-');
+    expect(animation).toContain('both');
+  });
+
+  it('does not apply a point reveal style when animate is false', () => {
+    const { getByTestId } = renderInSvg(
+      <RevealAnimationProvider
+        drawingArea={drawingArea}
+        series={series}
+        animate={false}
+      >
+        <PointConsumer />
+      </RevealAnimationProvider>,
+    );
+
+    const consumer = getByTestId('point-consumer');
+    expect(consumer.style.animation).toBe('');
+  });
+
   it('applies animation style to the clip rect', () => {
     const { container } = renderInSvg(
       <RevealAnimationProvider
