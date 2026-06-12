@@ -12,8 +12,8 @@ import { OVERFLOW_BUFFER } from '../utils';
 /**
  * Duration in ms of an individual point's opacity fade-in.
  */
-const POINT_FADE_DURATION_MS = 200;
-const POINT_FADE_IN_AFTER_CLIP_MS = -100;
+const POINT_FADE_DURATION_IN_MS = 200;
+const POINT_FADE_IN_AFTER_CLIP_IN_MS = -100;
 
 type RevealAnimationConfig = {
   durationMs: number;
@@ -61,8 +61,8 @@ export const useRevealAnimation = ({
     );
 
     pointOpacity.value = withDelay(
-      Math.max(durationMs + POINT_FADE_IN_AFTER_CLIP_MS, 0),
-      withTiming(1, { duration: POINT_FADE_DURATION_MS }),
+      Math.max(durationMs + POINT_FADE_IN_AFTER_CLIP_IN_MS, 0),
+      withTiming(1, { duration: POINT_FADE_DURATION_IN_MS }),
     );
   }, [drawingArea.width, durationMs, clipWidth, pointOpacity, dataFingerprint]);
 
