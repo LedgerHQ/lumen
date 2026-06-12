@@ -13,6 +13,7 @@ export function YAxis({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  showLabels = true,
   ticks: ticksProp,
   tickLabelFormatter,
 }: YAxisProps) {
@@ -82,22 +83,23 @@ export function YAxis({
           />
         ))}
 
-      {ticksData.map((tick, i) => (
-        <text
-          key={`label-${tick.value}-${i}`}
-          x={labelX}
-          y={tick.position}
-          textAnchor={position === 'start' ? 'end' : 'start'}
-          dominantBaseline='central'
-          style={{
-            fill: cssVar('var(--text-muted)'),
-            fontSize: cssVar('var(--font-style-body-4-size)'),
-            fontFamily: cssVar('var(--font-family-font)'),
-          }}
-        >
-          {tick.label}
-        </text>
-      ))}
+      {showLabels &&
+        ticksData.map((tick, i) => (
+          <text
+            key={`label-${tick.value}-${i}`}
+            x={labelX}
+            y={tick.position}
+            textAnchor={position === 'start' ? 'end' : 'start'}
+            dominantBaseline='central'
+            style={{
+              fill: cssVar('var(--text-muted)'),
+              fontSize: cssVar('var(--font-style-body-4-size)'),
+              fontFamily: cssVar('var(--font-family-font)'),
+            }}
+          >
+            {tick.label}
+          </text>
+        ))}
     </g>
   );
 }

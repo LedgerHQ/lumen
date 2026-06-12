@@ -13,6 +13,7 @@ export function XAxis({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  showLabels = true,
   ticks: ticksProp,
   tickLabelFormatter,
 }: XAxisProps) {
@@ -82,22 +83,23 @@ export function XAxis({
           />
         ))}
 
-      {ticksData.map((tick, i) => (
-        <text
-          key={`label-${tick.value}-${i}`}
-          x={tick.position}
-          y={labelY}
-          textAnchor='middle'
-          dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
-          style={{
-            fill: cssVar('var(--text-muted)'),
-            fontSize: cssVar('var(--font-style-body-4-size)'),
-            fontFamily: cssVar('var(--font-family-font)'),
-          }}
-        >
-          {tick.label}
-        </text>
-      ))}
+      {showLabels &&
+        ticksData.map((tick, i) => (
+          <text
+            key={`label-${tick.value}-${i}`}
+            x={tick.position}
+            y={labelY}
+            textAnchor='middle'
+            dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
+            style={{
+              fill: cssVar('var(--text-muted)'),
+              fontSize: cssVar('var(--font-style-body-4-size)'),
+              fontFamily: cssVar('var(--font-family-font)'),
+            }}
+          >
+            {tick.label}
+          </text>
+        ))}
     </g>
   );
 }
