@@ -69,7 +69,7 @@ const useRevealFadeAnimation = ({
     () => ({
       keyframe: `@keyframes ${fadeAnimationName} { from { opacity: 0; } to { opacity: 1; } }`,
       getPointRevealStyle: (): CSSProperties => {
-        const delay = duration - 0.1;
+        const delay = Math.max(0, duration - 0.1);
         return {
           animation: `${fadeAnimationName} ${POINT_FADE_DURATION}s ${easing} ${delay}s both`,
         };
