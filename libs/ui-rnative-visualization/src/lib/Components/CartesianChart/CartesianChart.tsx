@@ -5,7 +5,7 @@ import { Svg } from 'react-native-svg';
 import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
-import { RevealClipDefs } from './RevealClip';
+import { RevealAnimationProvider } from './RevealAnimation';
 import type { CartesianChartProps } from './types';
 import {
   DEFAULT_HEIGHT,
@@ -102,13 +102,13 @@ export function CartesianChart({
                   height={svgHeight}
                   style={{ overflow: 'visible' }}
                 >
-                  <RevealClipDefs
+                  <RevealAnimationProvider
                     drawingArea={contextValue.drawingArea}
                     series={series}
                     animate={animate}
                   >
                     {children}
-                  </RevealClipDefs>
+                  </RevealAnimationProvider>
                 </Svg>
               </ScrubberProvider>
             </MagneticPointsProvider>

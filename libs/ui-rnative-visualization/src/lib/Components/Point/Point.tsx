@@ -1,10 +1,11 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
+import Animated from 'react-native-reanimated';
 import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useRevealClip } from '../CartesianChart/RevealClip';
+import { useRevealFadeProps } from '../CartesianChart/RevealAnimation';
 import { DEFAULT_SIZE, STROKE_WIDTH } from './constants';
 import { useMagneticPointsContext } from './pointContext';
 
@@ -16,6 +17,8 @@ import {
   resolveLabel,
   useMagneticRegistration,
 } from './utils';
+
+const AnimatedG = Animated.createAnimatedComponent(G);
 
 export function PointLabel({
   textAnchor = 'middle',
@@ -50,7 +53,7 @@ export function Point({
 }: Readonly<PointProps>) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea } =
     useCartesianChartContext();
-  const clipPath = useRevealClip();
+  const fadeProps = useRevealFadeProps();
   const magneticContext = useMagneticPointsContext();
 
   useMagneticRegistration(magnetic, dataX, getXAxisConfig, magneticContext);
@@ -79,7 +82,7 @@ export function Point({
   const Label = LabelComponent ?? PointLabel;
 
   return (
-    <G testID='point-group' clipPath={clipPath} onPress={onPress}>
+    <AnimatedG testID='point-group' onPress={onPress} animatedProps={fadeProps}>
       {!hidePoint && (
         <Circle
           testID='point-circle'
@@ -103,6 +106,6 @@ export function Point({
           {resolvedLabel}
         </Label>
       )}
-    </G>
+    </AnimatedG>
   );
 }

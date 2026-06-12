@@ -4,7 +4,7 @@ import { Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
 
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useRevealClip } from '../CartesianChart/RevealClip';
+import { usePathReveal } from '../CartesianChart/RevealAnimation';
 
 import { LINE_AREA_GRADIENT_OPACITY, LINE_STROKE_WIDTH } from './constants';
 import type { LineProps } from './types';
@@ -19,7 +19,7 @@ export const Line = ({
 }: LineProps) => {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
-  const clipPath = useRevealClip();
+  const clipPath = usePathReveal();
 
   const xScale = getXScale();
   const yScale = getYScale();

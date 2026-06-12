@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { SharedValue } from 'react-native-reanimated';
 
 import type { DrawingArea, Series } from '../../../utils/types';
 
@@ -14,7 +15,7 @@ export type EnterTransitionConfig = {
   easing?: string;
 };
 
-export type RevealClipDefsProps = {
+export type RevealAnimationProps = {
   children: ReactNode;
   /**
    * The drawing area whose bounds define the clip rectangle.
@@ -35,4 +36,17 @@ export type RevealClipDefsProps = {
    * the animation when data changes.
    */
   series: Series[];
+};
+
+/**
+ * Value shared by the reveal animation provider.
+ *
+ * - `clipPathAttr` drives the left-to-right clip wipe consumed by path-based
+ *   components (e.g. `Line`, `LineChartEmptyState`).
+ * - `pointOpacity` is the shared opacity value for accessory components (e.g.
+ *   `Point`) that must not be clipped, so they fade in after the wipe instead.
+ */
+export type RevealAnimationContextValue = {
+  clipPathAttr: string;
+  pointOpacity: SharedValue<number>;
 };

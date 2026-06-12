@@ -4,7 +4,7 @@ import { G, Line as SvgLine, Path } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
-import { useRevealClip } from '../../CartesianChart/RevealClip';
+import { usePathReveal } from '../../CartesianChart/RevealAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
 import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
@@ -27,7 +27,7 @@ export function LineChartEmptyState({
   const { drawingArea } = useCartesianChartContext();
   const { theme } = useTheme();
   const { animatedProps } = useShimmerAnimation(loading);
-  const clipPath = useRevealClip();
+  const clipPath = usePathReveal();
 
   if (drawingArea.width <= 0 || drawingArea.height <= 0) {
     return null;
