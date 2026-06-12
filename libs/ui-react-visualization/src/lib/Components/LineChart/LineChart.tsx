@@ -26,6 +26,7 @@ const LineChartLines = ({
   series,
   showArea,
   areaType,
+  connectNulls,
   stroke,
 }: Readonly<LineChartLinesProps>) => {
   return (
@@ -37,6 +38,7 @@ const LineChartLines = ({
           stroke={stroke ?? s.stroke}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
         />
       ))}
     </>
@@ -47,6 +49,7 @@ const LineChartTransitionLines = ({
   series,
   showArea,
   areaType,
+  connectNulls,
 }: Readonly<LineChartTransitionLinesProps>) => {
   const { animationStyle, keyframe } = useShimmerAnimation();
 
@@ -58,6 +61,7 @@ const LineChartTransitionLines = ({
           series={series}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
           stroke={cssVar('var(--border-muted-subtle)')}
         />
       </g>
@@ -69,6 +73,7 @@ const LineChartContent = ({
   series,
   showArea,
   areaType,
+  connectNulls,
   showXAxis,
   showYAxis,
   xAxisConfig,
@@ -85,12 +90,14 @@ const LineChartContent = ({
           series={series}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
         />
       ) : (
         <LineChartLines
           series={series}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
         />
       )}
       {children}
@@ -102,6 +109,7 @@ export function LineChart({
   series,
   showArea = false,
   areaType = 'gradient',
+  connectNulls,
   showXAxis = false,
   showYAxis = false,
   xAxis,
@@ -184,6 +192,7 @@ export function LineChart({
           series={series ?? []}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
           showXAxis={showXAxis}
           showYAxis={showYAxis}
           xAxisConfig={xAxisConfig}

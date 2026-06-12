@@ -37,6 +37,13 @@ import {
   usdFormatter,
 } from './cryptoChartData';
 
+const integerFormatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 0,
+});
+
+const formatScrubberValue = (value: number | null): string =>
+  value === null ? '—' : integerFormatter.format(value);
+
 const meta = {
   component: LineChart,
   title: 'Visualization/LineChart',
@@ -105,19 +112,73 @@ export const CustomLine: Story = {
 };
 
 /**
- * `null` entries in a series' `data` render as gaps in the line, so missing
- * samples don't get interpolated over.
+ * Null handling end-to-end. `null` entries in a series' `data` create gaps in
+ * the line (and area) by default, so missing samples are not interpolated over
+ * — see "Unique Visitors". Setting `connectNulls` on a series skips its nulls
+ * and draws a continuous line across the gap instead — see "Page Views".
+ *
+ * `connectNulls` can also be set chart-wide on `<LineChart>` to override every
+ * series at once. Either way, scrubber beacons only land on non-null values, so
+ * the missing index shows no beacon for the broken series.
  */
 export const MissingData: Story = {
-  args: {
-    series: [
-      {
-        id: 'prices',
-        stroke: STORIES_STROKE_COLOR,
-        data: [10, 22, 29, null, null, 45, 22, 52, 21, 4, 68, 20, 21, 58],
-      },
-    ],
-    showArea: true,
+  render: () => {
+    const pages = [
+      'Page A',
+      'Page B',
+      'Page C',
+      'Page D',
+      'Page E',
+      'Page F',
+      'Page G',
+    ];
+    const pageViews = [2400, 1398, null, 3908, 4800, 3800, 4300];
+    const uniqueVisitors = [4000, 3000, null, 2780, 1890, 2390, 3490];
+
+    return (
+      <LineChart
+        width={CHART_WIDTH}
+        height={CHART_HEIGHT}
+        enableScrubbing
+        showArea
+        showXAxis
+        showYAxis
+        series={[
+          {
+            id: 'pageViews',
+            label: 'Page Views',
+            stroke: cssVar('var(--background-success-strong)'),
+            data: pageViews,
+            connectNulls: true,
+          },
+          {
+            id: 'uniqueVisitors',
+            label: 'Unique Visitors',
+            stroke: cssVar('var(--background-accent)'),
+            data: uniqueVisitors,
+          },
+        ]}
+        xAxis={{ data: pages }}
+        yAxis={{ showGrid: true, showLabels: false }}
+      >
+        <Scrubber
+          showBeacons
+          tooltip={(dataIndex) => ({
+            title: pages[dataIndex],
+            items: [
+              {
+                label: 'Page Views',
+                value: formatScrubberValue(pageViews[dataIndex]),
+              },
+              {
+                label: 'Unique Visitors',
+                value: formatScrubberValue(uniqueVisitors[dataIndex]),
+              },
+            ],
+          })}
+        />
+      </LineChart>
+    );
   },
 };
 
@@ -436,9 +497,8 @@ export const Interactive: Story = {
             ticks: model?.yTicks,
             showTickMark: false,
             showGrid: true,
-            // Below is a hack to hide the y-axis labels. A showLabels prop is coming soon.
+            showLabels: false,
             width: 0,
-            tickLabelFormatter: () => '',
           }}
           onScrubberPositionChange={setScrubberIndex}
         >

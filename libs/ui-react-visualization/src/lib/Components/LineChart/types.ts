@@ -22,6 +22,12 @@ export type LineChartProps = {
    */
   areaType?: 'gradient';
   /**
+   * Chart-wide override for null handling. When set, it applies to every line
+   * and overrides any per-series `connectNulls`. When omitted, each series
+   * follows its own `connectNulls` (default `false`, i.e. gaps at nulls).
+   */
+  connectNulls?: boolean;
+  /**
    * Whether to render an x-axis.
    * @default false
    */
@@ -111,9 +117,10 @@ type LineSeriesRenderProps = Required<
   Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
 >;
 
-export type LineChartLinesProps = LineSeriesRenderProps & {
-  stroke?: string;
-};
+export type LineChartLinesProps = LineSeriesRenderProps &
+  Pick<LineChartProps, 'connectNulls'> & {
+    stroke?: string;
+  };
 
 export type LineChartTransitionLinesProps = Omit<LineChartLinesProps, 'stroke'>;
 

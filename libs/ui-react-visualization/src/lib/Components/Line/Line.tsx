@@ -18,6 +18,7 @@ export function Line({
   showArea = false,
   areaType: _areaType = 'gradient',
   curve,
+  connectNulls,
 }: LineProps) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
@@ -32,13 +33,21 @@ export function Line({
   const resolvedStroke =
     (stroke ?? seriesData?.stroke) || LINE_DEFAULT_STROKE_COLOR;
   const resolvedCurve = curve ?? seriesData?.curve;
+  const resolvedConnectNulls =
+    connectNulls ?? seriesData?.connectNulls ?? false;
 
   const points = useMemo(
     () =>
       seriesData?.data && xScale && yScale && isNumericScale(yScale)
-        ? toScaledPoints(seriesData.data, xScale, yScale, xAxisConfig?.data)
+        ? toScaledPoints(
+            seriesData.data,
+            xScale,
+            yScale,
+            xAxisConfig?.data,
+            resolvedConnectNulls,
+          )
         : null,
-    [seriesData, xScale, yScale, xAxisConfig],
+    [seriesData, xScale, yScale, xAxisConfig, resolvedConnectNulls],
   );
 
   const linePath = useMemo(
