@@ -5,12 +5,7 @@ import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealAnimationProvider } from './RevealAnimation';
 import type { CartesianChartProps } from './types';
-import {
-  DEFAULT_HEIGHT,
-  OVERFLOW_OFFSET,
-  resolveAxisPadding,
-  resolveInset,
-} from './utils';
+import { DEFAULT_HEIGHT, resolveAxisPadding, resolveInset } from './utils';
 
 export function CartesianChart({
   series,
@@ -103,8 +98,8 @@ export function CartesianChart({
             style={{
               display: 'block',
               overflow: 'visible',
+              position: 'relative',
               outline: enableScrubbing ? 'none' : undefined,
-              ...OVERFLOW_OFFSET,
             }}
           >
             <CartesianChartProvider value={contextValue}>

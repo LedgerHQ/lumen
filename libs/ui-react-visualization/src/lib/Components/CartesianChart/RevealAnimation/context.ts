@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
 import type { RevealAnimationContextValue } from './types';
@@ -21,5 +21,6 @@ export const usePathReveal = (): string | undefined => {
  * visible.
  */
 export const usePointReveal = (): CSSProperties | undefined => {
-  return useContext(RevealAnimationContext)?.getPointRevealStyle();
+  const ctx = useContext(RevealAnimationContext);
+  return useMemo(() => ctx?.getPointRevealStyle(), [ctx]);
 };
