@@ -68,9 +68,9 @@ export const toScaledPoints = (
 
   for (let i = 0; i < limit; i++) {
     const value = data[i];
-    const isFinite = isFiniteNumber(value);
+    const isFiniteValue = isFiniteNumber(value);
 
-    if (!isFinite && connectNulls) continue;
+    if (!isFiniteValue && connectNulls) continue;
 
     const xInput =
       xData && typeof xData[i] === 'number' ? (xData[i] as number) : i;
@@ -79,12 +79,12 @@ export const toScaledPoints = (
       ? (xScale(xInput) ?? 0) + xScale.bandwidth() / 2
       : xScale(xInput);
 
-    if (!isFinite) {
+    if (!isFiniteValue) {
       pts.push([x as number, null]);
       continue;
     }
 
-    pts.push([x as number, yScale(value as number)]);
+    pts.push([x as number, yScale(value)]);
     finiteCount++;
   }
 
