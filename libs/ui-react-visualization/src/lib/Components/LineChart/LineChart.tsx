@@ -14,6 +14,7 @@ import type {
   LineChartContentProps,
   LineChartLinesProps,
   LineChartProps,
+  LineChartTransitionLinesProps,
 } from './types';
 import {
   canRenderLine,
@@ -46,7 +47,7 @@ const LineChartTransitionLines = ({
   series,
   showArea,
   areaType,
-}: Readonly<Omit<LineChartLinesProps, 'stroke'>>) => {
+}: Readonly<LineChartTransitionLinesProps>) => {
   const { animationStyle, keyframe } = useShimmerAnimation();
 
   return (

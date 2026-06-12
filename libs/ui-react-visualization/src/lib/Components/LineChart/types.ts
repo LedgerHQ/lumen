@@ -115,6 +115,8 @@ export type LineChartLinesProps = LineSeriesRenderProps & {
   stroke?: string;
 };
 
+export type LineChartTransitionLinesProps = Omit<LineChartLinesProps, 'stroke'>;
+
 export type LineChartContentProps = LineChartLinesProps &
   Required<Pick<LineChartProps, 'showXAxis' | 'showYAxis'>> &
   Pick<LineChartProps, 'children'> & {
