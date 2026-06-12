@@ -102,7 +102,7 @@ export const buildLinePath = (
     line<Point>()
       .defined((d) => d[1] !== null)
       .x((d) => d[0])
-      .y((d) => d[1] ?? 0)
+      .y((d) => d[1] as number)
       .curve(getCurveFactory(curve))(points) ?? null
   );
 };
@@ -122,7 +122,7 @@ export const buildAreaPath = (
       .defined((d) => d[1] !== null)
       .x((d) => d[0])
       .y0(yBottom)
-      .y1((d) => d[1] ?? 0)
+      .y1((d) => d[1] as number)
       .curve(getCurveFactory(curve))(points) ?? null
   );
 };
