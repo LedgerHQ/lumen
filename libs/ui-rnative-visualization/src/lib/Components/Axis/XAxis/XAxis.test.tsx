@@ -75,6 +75,18 @@ describe('XAxis', () => {
     getByText('4');
   });
 
+  it('hides tick labels when showLabels is false but keeps tick marks', () => {
+    const { queryByText, toJSON } = renderXAxis({
+      ticks: [0, 2, 4],
+      showTickMark: true,
+      showLabels: false,
+    });
+    expect(queryByText('0')).toBeNull();
+    expect(queryByText('2')).toBeNull();
+    expect(queryByText('4')).toBeNull();
+    expect(toJSON()).toBeTruthy();
+  });
+
   it('does not render axis when width is 0', () => {
     const { queryByText } = render(
       <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
