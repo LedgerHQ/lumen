@@ -319,4 +319,75 @@ describe('LineChart', () => {
       expect(queryByTestId('chart-empty-label')).toBeNull();
     });
   });
+
+  describe('null gaps and connectNulls', () => {
+    const gappedSeries = [
+      {
+        id: 'gapped',
+        stroke: '#000',
+        data: [10, 20, null, 40, 50],
+        curve: 'linear' as const,
+      },
+    ];
+
+    const countMoves = (d: string): number => d.match(/M/g)?.length ?? 0;
+
+    it('breaks the line into segments at null values by default', () => {
+      const { getByTestId } = render(
+        <LineChartWrapper>
+          <LineChart series={gappedSeries} width={400} height={200} />
+        </LineChartWrapper>,
+      );
+
+      const d = getByTestId('line-path').props.d as string;
+      expect(countMoves(d)).toBe(2);
+    });
+
+    it('connects across nulls when connectNulls is set on the chart', () => {
+      const { getByTestId } = render(
+        <LineChartWrapper>
+          <LineChart
+            series={gappedSeries}
+            width={400}
+            height={200}
+            connectNulls
+          />
+        </LineChartWrapper>,
+      );
+
+      const d = getByTestId('line-path').props.d as string;
+      expect(countMoves(d)).toBe(1);
+    });
+
+    it('honours connectNulls set per-series', () => {
+      const { getByTestId } = render(
+        <LineChartWrapper>
+          <LineChart
+            series={[{ ...gappedSeries[0], connectNulls: true }]}
+            width={400}
+            height={200}
+          />
+        </LineChartWrapper>,
+      );
+
+      const d = getByTestId('line-path').props.d as string;
+      expect(countMoves(d)).toBe(1);
+    });
+
+    it('lets the chart-level prop override the per-series value', () => {
+      const { getByTestId } = render(
+        <LineChartWrapper>
+          <LineChart
+            series={[{ ...gappedSeries[0], connectNulls: true }]}
+            width={400}
+            height={200}
+            connectNulls={false}
+          />
+        </LineChartWrapper>,
+      );
+
+      const d = getByTestId('line-path').props.d as string;
+      expect(countMoves(d)).toBe(2);
+    });
+  });
 });

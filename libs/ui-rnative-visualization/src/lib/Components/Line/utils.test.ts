@@ -44,15 +44,27 @@ describe('toScaledPoints', () => {
     expect(points![points!.length - 1][0]).toBe(800);
   });
 
-  it('skips null values without affecting the cap', () => {
+  it('keeps null values as holes by default so the line breaks', () => {
     const data: (number | null)[] = [10, null, 30, 40, 50, 60, 70, 80, 90];
     const xData = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
     const points = toScaledPoints(data, xScale, yScale, xData);
 
     expect(points).not.toBeNull();
-    expect(points).toHaveLength(7);
+    expect(points).toHaveLength(8);
+    expect(points![1][1]).toBeNull();
     expect(points![points!.length - 1][0]).toBe((800 / 7) * 7);
+  });
+
+  it('skips null values when connectNulls is true', () => {
+    const data: (number | null)[] = [10, null, 30, 40, 50, 60, 70, 80, 90];
+    const xData = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+    const points = toScaledPoints(data, xScale, yScale, xData, true);
+
+    expect(points).not.toBeNull();
+    expect(points).toHaveLength(7);
+    expect(points!.every((p) => p[1] !== null)).toBe(true);
   });
 
   it('uses numeric xData values as the x input', () => {
@@ -126,5 +138,27 @@ describe('buildLinePath', () => {
     const path = buildLinePath(points, 'unknown' as never);
 
     expect(path).toBe(buildLinePath(points));
+  });
+
+  it('breaks the path into segments at null holes', () => {
+    const gapped: [number, number | null][] = [
+      [0, 100],
+      [50, 80],
+      [100, null],
+      [150, 60],
+      [200, 40],
+    ];
+
+    const path = buildLinePath(gapped, 'linear');
+
+    expect(path).not.toBeNull();
+    expect(path!.match(/M/g)).toHaveLength(2);
+    expect(path).toBe('M0,100L50,80M150,60L200,40');
+  });
+
+  it('draws a single continuous segment when there are no holes', () => {
+    const path = buildLinePath(points, 'linear');
+
+    expect(path!.match(/M/g)).toHaveLength(1);
   });
 });

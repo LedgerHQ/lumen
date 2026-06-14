@@ -100,6 +100,13 @@ export type LineChartProps = {
    * @default 'No data'
    */
   emptyLabel?: string;
+  /**
+   * Chart-wide override controlling how null values are handled across all lines.
+   * When true, skips null values and draws continuous lines across gaps.
+   * When false, null values create gaps in the lines.
+   * When omitted, each series' own `connectNulls` value is used (defaulting to `false`).
+   */
+  connectNulls?: boolean;
 };
 
 /**
@@ -111,9 +118,10 @@ type LineSeriesRenderProps = Required<
   Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
 >;
 
-export type LineChartLinesProps = LineSeriesRenderProps & {
-  stroke?: string;
-};
+export type LineChartLinesProps = LineSeriesRenderProps &
+  Pick<LineChartProps, 'connectNulls'> & {
+    stroke?: string;
+  };
 
 export type LineChartTransitionLinesProps = Omit<LineChartLinesProps, 'stroke'>;
 
