@@ -50,7 +50,7 @@ const getCurveFactory = (curve: CurveType = DEFAULT_CURVE): CurveFactory =>
  * with more points than the axis has labels does not overflow past the right
  * edge of the chart. The axis is treated as authoritative for the X domain.
  *
- * Non-finite values (e.g. `null`) are handled according to `connectNulls`:
+ * Null values (and other non-finite numbers) are handled according to `connectNulls`:
  * - `false` (default): kept as `[x, null]` holes so the line/area break into
  *   gaps via the generators' `.defined()` check.
  * - `true`: skipped entirely so the line is drawn continuously across gaps.
