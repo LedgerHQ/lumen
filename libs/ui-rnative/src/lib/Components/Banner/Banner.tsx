@@ -13,7 +13,6 @@ import {
 import type { IconProps } from '../Icon';
 import { IconButton } from '../IconButton';
 import { Box } from '../Utility';
-import { Wrap } from '../Wrap';
 import type { BannerProps } from './types';
 
 type Appearance = NonNullable<BannerProps['appearance']>;
@@ -169,16 +168,13 @@ export const Banner = ({
           )}
           {description && (
             <View>
-              <Wrap
-                if={isTextChildren(description)}
-                with={(children) => (
-                  <Text style={styles.description} numberOfLines={5}>
-                    {children}
-                  </Text>
-                )}
-              >
-                {description}
-              </Wrap>
+              {isTextChildren(description) ? (
+                <Text style={styles.description} numberOfLines={5}>
+                  {description}
+                </Text>
+              ) : (
+                description
+              )}
             </View>
           )}
         </View>
