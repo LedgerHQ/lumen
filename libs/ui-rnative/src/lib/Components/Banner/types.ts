@@ -9,7 +9,7 @@ export type BannerProps = {
   /**
    * The main title of the banner.
    */
-  title?: string;
+  title?: ReactNode;
   /**
    * Optional descriptive text.
    */
