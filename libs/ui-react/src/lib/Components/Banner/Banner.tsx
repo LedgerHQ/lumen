@@ -97,7 +97,7 @@ export const Banner = ({
           )}
         </div>
         {(primaryAction || secondaryAction) && (
-          <div className='flex gap-4'>
+          <div className='flex flex-wrap gap-4'>
             {primaryAction}
             {secondaryAction}
           </div>

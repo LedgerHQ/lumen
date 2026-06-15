@@ -81,6 +81,7 @@ const useStyles = ({ appearance }: { appearance: Appearance }) => {
         ]),
         actionsWrapper: {
           flexDirection: 'row',
+          flexWrap: 'wrap',
           gap: t.spacings.s4,
         },
       };
