@@ -17,11 +17,11 @@ export type BannerProps = {
   /**
    * Optional primary action.
    */
-  primaryAction?: React.ReactNode;
+  primaryAction?: ReactNode;
   /**
    * Optional secondary action.
    */
-  secondaryAction?: React.ReactNode;
+  secondaryAction?: ReactNode;
   /**
    * Optional close action.
    */
