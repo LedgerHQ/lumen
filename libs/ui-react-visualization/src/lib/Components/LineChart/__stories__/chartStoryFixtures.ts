@@ -120,6 +120,46 @@ export const denseSeries = [
   { id: 'prices', stroke: STORIES_STROKE_COLOR, data: denseData },
 ] satisfies Series[];
 
+/**
+ * Two-series dataset with a shared `null` index, for the missing-data /
+ * `connectNulls` story: `pageViews` opts into `connectNulls` (bridges the gap)
+ * while `uniqueVisitors` keeps the default (breaks at the null). Declared with
+ * `satisfies` so `data` stays `(number | null)[]` for tooltip index lookups.
+ */
+export const missingDataPages = [
+  'Page A',
+  'Page B',
+  'Page C',
+  'Page D',
+  'Page E',
+  'Page F',
+  'Page G',
+];
+
+export const missingDataSeries = [
+  {
+    id: 'pageViews',
+    label: 'Page Views',
+    stroke: cssVar('var(--background-success-strong)'),
+    data: [2400, 1398, null, 3908, 4800, 3800, 4300],
+    connectNulls: true,
+  },
+  {
+    id: 'uniqueVisitors',
+    label: 'Unique Visitors',
+    stroke: cssVar('var(--background-accent)'),
+    data: [4000, 3000, null, 2780, 1890, 2390, 3490],
+  },
+] satisfies Series[];
+
+/** Formats a (possibly null) scrubber value, rendering an em-dash for gaps. */
+const integerFormatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 0,
+});
+
+export const formatScrubberValue = (value: number | null): string =>
+  value === null ? '—' : integerFormatter.format(value);
+
 /** Month labels aligned to the 14-point `sampleSeries`, for axis/scrubber stories. */
 export const monthLabels = [
   'Jan',

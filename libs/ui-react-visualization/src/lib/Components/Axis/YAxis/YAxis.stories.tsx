@@ -74,6 +74,18 @@ export const TickLabelFormatter: Story = {
 };
 
 /**
+ * `showLabels={false}` hides the tick text while keeping grid lines. Pair it
+ * with `width: 0` to also reclaim the horizontal space the labels would use.
+ */
+export const HideLabels: Story = {
+  args: {
+    showGrid: true,
+    showLabels: false,
+    width: 0,
+  },
+};
+
+/**
  * A fixed `domain` of `{ min, max }` pins the value range mapped onto the axis,
  * independent of the data's own extent.
  */

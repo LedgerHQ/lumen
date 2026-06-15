@@ -90,6 +90,19 @@ export const TickLabelFormatter: Story = {
   },
 };
 
+/**
+ * `showLabels={false}` hides the tick text while keeping grid lines and tick
+ * marks, useful when the values are conveyed elsewhere (e.g. a scrubber tooltip).
+ */
+export const HideLabels: Story = {
+  args: {
+    data: monthLabels,
+    showGrid: true,
+    showTickMark: true,
+    showLabels: false,
+  },
+};
+
 /** `ticks` pins explicit positions instead of the auto-computed set. */
 export const CustomTicks: Story = {
   args: {

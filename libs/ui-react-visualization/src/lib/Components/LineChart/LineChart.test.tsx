@@ -166,6 +166,83 @@ describe('LineChart', () => {
     expect(clipPathEl).toBeNull();
   });
 
+  describe('null gaps and connectNulls', () => {
+    const gappedSeries = [
+      {
+        id: 'gapped',
+        stroke: '#000',
+        data: [10, 20, null, 40, 50],
+      },
+    ];
+
+    const linePathD = (container: HTMLElement): string =>
+      container.querySelector('[data-testid="line-path"]')?.getAttribute('d') ??
+      '';
+
+    it('breaks the line into multiple segments at null values by default', () => {
+      const { container } = render(
+        <LineChartWrapper series={gappedSeries} width={400} height={200} />,
+      );
+
+      expect(linePathD(container).match(/M/g)).toHaveLength(2);
+    });
+
+    it('draws a single continuous segment when connectNulls is true', () => {
+      const { container } = render(
+        <LineChartWrapper
+          series={gappedSeries}
+          width={400}
+          height={200}
+          connectNulls
+        />,
+      );
+
+      expect(linePathD(container).match(/M/g)).toHaveLength(1);
+    });
+
+    it('honours connectNulls per series', () => {
+      const { getAllByTestId } = render(
+        <LineChartWrapper
+          series={[
+            {
+              id: 'connected',
+              stroke: '#000',
+              data: [10, 20, null, 40, 50],
+              connectNulls: true,
+            },
+            { id: 'gapped', stroke: '#111', data: [50, 40, null, 20, 10] },
+          ]}
+          width={400}
+          height={200}
+        />,
+      );
+
+      const paths = getAllByTestId('line-path');
+      expect(paths[0].getAttribute('d')?.match(/M/g)).toHaveLength(1);
+      expect(paths[1].getAttribute('d')?.match(/M/g)).toHaveLength(2);
+    });
+
+    it('lets the chart-level connectNulls override the per-series value', () => {
+      const { container } = render(
+        <LineChartWrapper
+          series={[
+            {
+              id: 'gapped',
+              stroke: '#000',
+              data: [10, 20, null, 40, 50],
+              connectNulls: false,
+            },
+          ]}
+          width={400}
+          height={200}
+          connectNulls
+        />,
+      );
+
+      expect(linePathD(container).match(/M/g)).toHaveLength(1);
+    });
+  });
+
   describe('loading and empty states', () => {
     it('renders the shimmering placeholder with no data while loading (state 1)', () => {
       const { getByTestId, queryByTestId, container } = render(

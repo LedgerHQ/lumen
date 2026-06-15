@@ -101,6 +101,17 @@ describe('XAxis', () => {
     expect(labels[1].textContent).toBe('v4');
   });
 
+  it('hides tick labels when showLabels is false but keeps tick marks', () => {
+    const { getByTestId } = renderXAxis({
+      showLabels: false,
+      showTickMark: true,
+      ticks: [0, 2, 4],
+    });
+    const axis = getByTestId('x-axis');
+    expect(axis.querySelectorAll('text')).toHaveLength(0);
+    expect(axis.querySelectorAll('line')).toHaveLength(3);
+  });
+
   it('returns null when drawing area width is 0', () => {
     const { queryByTestId } = render(
       <CartesianChart series={sampleSeries} width={0} height={200}>

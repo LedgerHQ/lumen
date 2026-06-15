@@ -76,10 +76,11 @@ here over time.
 
 <Canvas of={LineChartStories.CustomLine} />
 
-## Data
+## Missing Data
 
-Each series' `data` array defines the y-values, one per index. `null` entries
-render as gaps in the line.
+By default, null values in data create gaps in a line.
+Use `connectNulls` to skip null values and draw a continuous line.
+Note that scrubber beacons and points are still only shown at non-null data values.
 
 <Canvas of={LineChartStories.MissingData} />
 

@@ -19,6 +19,9 @@ import {
   CHART_HEIGHT,
   CHART_WIDTH,
   curveSeries,
+  formatScrubberValue,
+  missingDataPages,
+  missingDataSeries,
   monthLabels,
   multiSeries,
   sampleSeries,
@@ -105,20 +108,39 @@ export const CustomLine: Story = {
 };
 
 /**
- * `null` entries in a series' `data` render as gaps in the line, so missing
- * samples don't get interpolated over.
+ * Null handling end-to-end. `null` entries in a series' `data` create gaps in
+ * the line (and area) by default, so missing samples are not interpolated over
+ * — see "Unique Visitors". Setting `connectNulls` on a series skips its nulls
+ * and draws a continuous line across the gap instead — see "Page Views".
+ *
+ * `connectNulls` can also be set chart-wide on `<LineChart>` to override every
+ * series at once. Either way, scrubber beacons only land on non-null values, so
+ * the missing index shows no beacon for the broken series.
  */
 export const MissingData: Story = {
   args: {
-    series: [
-      {
-        id: 'prices',
-        stroke: STORIES_STROKE_COLOR,
-        data: [10, 22, 29, null, null, 45, 22, 52, 21, 4, 68, 20, 21, 58],
-      },
-    ],
+    series: missingDataSeries,
+    enableScrubbing: true,
     showArea: true,
+    showXAxis: true,
+    showYAxis: true,
+    xAxis: { data: missingDataPages },
+    yAxis: { showGrid: true, showLabels: false },
   },
+  render: (args) => (
+    <LineChart {...args}>
+      <Scrubber
+        showBeacons
+        tooltip={(dataIndex) => ({
+          title: missingDataPages[dataIndex],
+          items: missingDataSeries.map((series) => ({
+            label: series.label,
+            value: formatScrubberValue(series.data[dataIndex]),
+          })),
+        })}
+      />
+    </LineChart>
+  ),
 };
 
 /**
@@ -223,11 +245,11 @@ export const Empty: Story = {
 export const Loading: Story = {
   render: () => (
     <div className='flex flex-wrap gap-24'>
-      <div className='flex max-w-400 flex-col gap-8'>
+      <div className='flex w-400 flex-col gap-8'>
         <LineChart series={[]} width={CHART_WIDTH} height={150} loading />
         <span className='body-3 text-muted'>Without data</span>
       </div>
-      <div className='flex max-w-400 flex-col gap-8'>
+      <div className='flex w-400 flex-col gap-8'>
         <LineChart
           series={sampleSeries}
           width={CHART_WIDTH}
@@ -436,9 +458,8 @@ export const Interactive: Story = {
             ticks: model?.yTicks,
             showTickMark: false,
             showGrid: true,
-            // Below is a hack to hide the y-axis labels. A showLabels prop is coming soon.
+            showLabels: false,
             width: 0,
-            tickLabelFormatter: () => '',
           }}
           onScrubberPositionChange={setScrubberIndex}
         >
