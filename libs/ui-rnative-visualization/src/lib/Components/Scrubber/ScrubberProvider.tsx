@@ -79,6 +79,15 @@ export function ScrubberProvider({
   latest.current.magnetRadius = magnetRadius;
   latest.current.sortedMagnets = sortedMagnets;
 
+  const handleHapticFeedback = useCallback(
+    (ref: typeof latest.current, clamped: number | undefined) => {
+      if (ref.lastIndex === undefined && clamped !== undefined) {
+        triggerHapticFeedback('light');
+      }
+    },
+    [],
+  );
+
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
       const ref = latest.current;
@@ -88,16 +97,14 @@ export function ScrubberProvider({
           : clamp(index, 0, ref.dataLength - 1);
       if (clamped === ref.lastIndex) return;
 
-      if (ref.lastIndex === undefined && clamped !== undefined) {
-        triggerHapticFeedback('light');
-      }
+      handleHapticFeedback(ref, clamped);
 
       ref.lastIndex = clamped;
 
       setScrubberPosition(clamped);
       ref.onChange?.(clamped);
     },
-    [],
+    [handleHapticFeedback],
   );
 
   const handlePositionChange = useCallback(
