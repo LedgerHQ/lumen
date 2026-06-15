@@ -19,6 +19,9 @@ import {
   CHART_HEIGHT,
   CHART_WIDTH,
   curveSeries,
+  formatScrubberValue,
+  missingDataPages,
+  missingDataSeries,
   monthLabels,
   multiSeries,
   sampleSeries,
@@ -36,13 +39,6 @@ import {
   type Period,
   usdFormatter,
 } from './cryptoChartData';
-
-const integerFormatter = new Intl.NumberFormat('en-US', {
-  maximumFractionDigits: 0,
-});
-
-const formatScrubberValue = (value: number | null): string =>
-  value === null ? '—' : integerFormatter.format(value);
 
 const meta = {
   component: LineChart,
@@ -122,64 +118,29 @@ export const CustomLine: Story = {
  * the missing index shows no beacon for the broken series.
  */
 export const MissingData: Story = {
-  render: () => {
-    const pages = [
-      'Page A',
-      'Page B',
-      'Page C',
-      'Page D',
-      'Page E',
-      'Page F',
-      'Page G',
-    ];
-    const pageViews = [2400, 1398, null, 3908, 4800, 3800, 4300];
-    const uniqueVisitors = [4000, 3000, null, 2780, 1890, 2390, 3490];
-
-    return (
-      <LineChart
-        width={CHART_WIDTH}
-        height={CHART_HEIGHT}
-        enableScrubbing
-        showArea
-        showXAxis
-        showYAxis
-        series={[
-          {
-            id: 'pageViews',
-            label: 'Page Views',
-            stroke: cssVar('var(--background-success-strong)'),
-            data: pageViews,
-            connectNulls: true,
-          },
-          {
-            id: 'uniqueVisitors',
-            label: 'Unique Visitors',
-            stroke: cssVar('var(--background-accent)'),
-            data: uniqueVisitors,
-          },
-        ]}
-        xAxis={{ data: pages }}
-        yAxis={{ showGrid: true, showLabels: false }}
-      >
-        <Scrubber
-          showBeacons
-          tooltip={(dataIndex) => ({
-            title: pages[dataIndex],
-            items: [
-              {
-                label: 'Page Views',
-                value: formatScrubberValue(pageViews[dataIndex]),
-              },
-              {
-                label: 'Unique Visitors',
-                value: formatScrubberValue(uniqueVisitors[dataIndex]),
-              },
-            ],
-          })}
-        />
-      </LineChart>
-    );
+  args: {
+    series: missingDataSeries,
+    enableScrubbing: true,
+    showArea: true,
+    showXAxis: true,
+    showYAxis: true,
+    xAxis: { data: missingDataPages },
+    yAxis: { showGrid: true, showLabels: false },
   },
+  render: (args) => (
+    <LineChart {...args}>
+      <Scrubber
+        showBeacons
+        tooltip={(dataIndex) => ({
+          title: missingDataPages[dataIndex],
+          items: missingDataSeries.map((series) => ({
+            label: series.label,
+            value: formatScrubberValue(series.data[dataIndex]),
+          })),
+        })}
+      />
+    </LineChart>
+  ),
 };
 
 /**
