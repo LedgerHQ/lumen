@@ -29,6 +29,8 @@ export const LineCharts = () => (
     <MultipleSeriesWithArea />
     <CustomLines />
     <CustomDomain />
+    <MissingData />
+    <HiddenAxisLabels />
     <PointMinMax />
     <PointAllDataPoints />
     <PointLabelFunction />
@@ -68,6 +70,32 @@ const multiSeries = [
 ];
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+
+const missingDataPages = [
+  'Page A',
+  'Page B',
+  'Page C',
+  'Page D',
+  'Page E',
+  'Page F',
+  'Page G',
+];
+
+const missingDataSeries = [
+  {
+    id: 'pageViews',
+    label: 'Page Views',
+    stroke: '#44D7B6',
+    connectNulls: true,
+    data: [2400, 1398, null, 3908, 4800, 3800, 4300],
+  },
+  {
+    id: 'uniqueVisitors',
+    label: 'Unique Visitors',
+    stroke: '#7B61FF',
+    data: [4000, 3000, null, 2780, 1890, 2390, 3490],
+  },
+] satisfies Series[];
 
 const Section = ({
   title,
@@ -251,6 +279,45 @@ const CustomDomain = () => (
         showGrid: true,
         domain: { min: 0, max: 100 },
       }}
+    />
+  </Section>
+);
+
+const MissingData = () => (
+  <Section title='Missing data (connectNulls per-series)'>
+    <LineChart
+      series={missingDataSeries}
+      height={200}
+      showArea
+      showXAxis
+      showYAxis
+      enableScrubbing
+      xAxis={{ data: missingDataPages, showLine: true }}
+      yAxis={{ showGrid: true, showLabels: false }}
+    >
+      <Scrubber
+        showBeacons
+        tooltip={(i) => ({
+          title: missingDataPages[i],
+          items: missingDataSeries.map((series) => ({
+            label: series.label,
+            value: series.data[i] == null ? '—' : `${series.data[i]}`,
+          })),
+        })}
+      />
+    </LineChart>
+  </Section>
+);
+
+const HiddenAxisLabels = () => (
+  <Section title='Hidden axis labels (showLabels: false)'>
+    <LineChart
+      series={sampleSeries}
+      height={125}
+      showXAxis
+      showYAxis
+      xAxis={{ showLine: true, showGrid: true, showLabels: false }}
+      yAxis={{ showGrid: true, showLabels: false }}
     />
   </Section>
 );

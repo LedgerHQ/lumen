@@ -62,6 +62,13 @@ export type Series = {
    * @default 'bump'
    */
   curve?: CurveType;
+  /**
+   * When true, skips null values and draws a continuous line across gaps.
+   * When false (default), null values create gaps in the line.
+   * Overridden by the chart-level `connectNulls` prop when that is set.
+   * @default false
+   */
+  connectNulls?: boolean;
 };
 
 export type NumericScale =

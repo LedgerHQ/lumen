@@ -18,6 +18,7 @@ export const XAxis = ({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  showLabels = true,
   ticks: ticksProp,
   tickLabelFormatter,
 }: XAxisProps) => {
@@ -92,20 +93,21 @@ export const XAxis = ({
           />
         ))}
 
-      {ticksData.map((tick, i) => (
-        <SvgText
-          key={`label-${tick.value}-${i}`}
-          x={tick.position}
-          y={labelY}
-          dy={labelDy}
-          textAnchor='middle'
-          fill={textFill}
-          fontSize={fontSize}
-          fontFamily={theme.fontFamilies.sans}
-        >
-          {tick.label}
-        </SvgText>
-      ))}
+      {showLabels &&
+        ticksData.map((tick, i) => (
+          <SvgText
+            key={`label-${tick.value}-${i}`}
+            x={tick.position}
+            y={labelY}
+            dy={labelDy}
+            textAnchor='middle'
+            fill={textFill}
+            fontSize={fontSize}
+            fontFamily={theme.fontFamilies.sans}
+          >
+            {tick.label}
+          </SvgText>
+        ))}
     </G>
   );
 };

@@ -17,6 +17,7 @@ export const YAxis = ({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  showLabels = true,
   gridLineStyle = 'dashed',
   ticks: ticksProp,
   tickLabelFormatter,
@@ -91,20 +92,21 @@ export const YAxis = ({
           />
         ))}
 
-      {ticksData.map((tick, i) => (
-        <SvgText
-          key={`label-${tick.value}-${i}`}
-          x={labelX}
-          y={tick.position}
-          dy={labelDy}
-          textAnchor={position === 'start' ? 'end' : 'start'}
-          fill={textFill}
-          fontSize={theme.typographies.body4.fontSize}
-          fontFamily={theme.fontFamilies.sans}
-        >
-          {tick.label}
-        </SvgText>
-      ))}
+      {showLabels &&
+        ticksData.map((tick, i) => (
+          <SvgText
+            key={`label-${tick.value}-${i}`}
+            x={labelX}
+            y={tick.position}
+            dy={labelDy}
+            textAnchor={position === 'start' ? 'end' : 'start'}
+            fill={textFill}
+            fontSize={theme.typographies.body4.fontSize}
+            fontFamily={theme.fontFamilies.sans}
+          >
+            {tick.label}
+          </SvgText>
+        ))}
     </G>
   );
 };

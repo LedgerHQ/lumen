@@ -31,6 +31,7 @@ const LineChartLines = ({
   showArea,
   areaType,
   stroke,
+  connectNulls,
 }: Readonly<LineChartLinesProps>) => {
   return (
     <>
@@ -41,6 +42,7 @@ const LineChartLines = ({
           stroke={stroke ?? s.stroke}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
         />
       ))}
     </>
@@ -51,6 +53,7 @@ const LineChartTransitionLines = ({
   series,
   showArea,
   areaType,
+  connectNulls,
 }: Readonly<LineChartTransitionLinesProps>) => {
   const { theme } = useTheme();
   const { animatedProps } = useShimmerAnimation();
@@ -62,6 +65,7 @@ const LineChartTransitionLines = ({
         showArea={showArea}
         areaType={areaType}
         stroke={theme.colors.border.mutedSubtle}
+        connectNulls={connectNulls}
       />
     </AnimatedG>
   );
@@ -76,6 +80,7 @@ const LineChartContent = ({
   xAxisConfig,
   yAxisConfig,
   isTransitionLoading,
+  connectNulls,
   children,
 }: Readonly<LineChartContentProps>) => {
   return (
@@ -87,12 +92,14 @@ const LineChartContent = ({
           series={series}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
         />
       ) : (
         <LineChartLines
           series={series}
           showArea={showArea}
           areaType={areaType}
+          connectNulls={connectNulls}
         />
       )}
       {children}
@@ -118,6 +125,7 @@ export const LineChart = ({
   magnetRadius,
   loading = false,
   emptyLabel = 'No data',
+  connectNulls,
 }: Readonly<LineChartProps>) => {
   const xAxisConfig = {
     ...defaultXAxisProps,
@@ -191,6 +199,7 @@ export const LineChart = ({
           xAxisConfig={xAxisConfig}
           yAxisConfig={yAxisConfig}
           isTransitionLoading={isTransitionLoading}
+          connectNulls={connectNulls}
         >
           {children}
         </LineChartContent>

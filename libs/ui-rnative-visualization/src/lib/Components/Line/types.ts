@@ -30,4 +30,11 @@ export type LineProps = {
    * @default 'bump'
    */
   curve?: CurveType;
+  /**
+   * When true, skips null values and draws a continuous line across gaps.
+   * When false, null values create gaps in the line.
+   * When omitted, falls back to the `connectNulls` defined on the series.
+   * @default false
+   */
+  connectNulls?: boolean;
 };

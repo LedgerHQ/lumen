@@ -75,6 +75,18 @@ describe('YAxis', () => {
     getByText('50');
   });
 
+  it('hides tick labels when showLabels is false but keeps tick marks', () => {
+    const { queryByText, toJSON } = renderYAxis({
+      ticks: [10, 30, 50],
+      showTickMark: true,
+      showLabels: false,
+    });
+    expect(queryByText('10')).toBeNull();
+    expect(queryByText('30')).toBeNull();
+    expect(queryByText('50')).toBeNull();
+    expect(toJSON()).toBeTruthy();
+  });
+
   it('does not render axis when height is 0', () => {
     const { queryByText } = render(
       <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
