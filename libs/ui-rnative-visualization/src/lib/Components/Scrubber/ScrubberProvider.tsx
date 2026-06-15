@@ -1,3 +1,4 @@
+import { triggerHapticFeedback } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -86,7 +87,13 @@ export function ScrubberProvider({
           ? undefined
           : clamp(index, 0, ref.dataLength - 1);
       if (clamped === ref.lastIndex) return;
+
+      if (ref.lastIndex === undefined && clamped !== undefined) {
+        triggerHapticFeedback('light');
+      }
+
       ref.lastIndex = clamped;
+
       setScrubberPosition(clamped);
       ref.onChange?.(clamped);
     },
