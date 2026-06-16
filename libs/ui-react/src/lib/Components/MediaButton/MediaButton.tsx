@@ -16,18 +16,90 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
       rounded: '',
       none: '',
     },
+    hasChevron: {
+      true: '',
+      false: '',
+    },
   },
   compoundVariants: [
-    { size: 'md', leadingContentShape: 'flat', class: 'px-16 py-12' },
-    { size: 'md', leadingContentShape: 'rounded', class: 'py-8 pr-16 pl-8' },
-    { size: 'md', leadingContentShape: 'none', class: 'px-16 py-14' },
-    { size: 'sm', leadingContentShape: 'flat', class: 'px-12 py-10' },
-    { size: 'sm', leadingContentShape: 'rounded', class: 'py-8 pr-10 pl-8' },
-    { size: 'sm', leadingContentShape: 'none', class: 'px-12 py-10' },
+    {
+      size: 'md',
+      leadingContentShape: 'flat',
+      hasChevron: true,
+      class: 'py-14 pr-12 pl-16',
+    },
+    {
+      size: 'sm',
+      leadingContentShape: 'flat',
+      hasChevron: true,
+      class: 'py-10 pr-8 pl-12',
+    },
+    {
+      size: 'md',
+      leadingContentShape: 'rounded',
+      hasChevron: true,
+      class: 'py-8 pr-12 pl-8',
+    },
+    {
+      size: 'sm',
+      leadingContentShape: 'rounded',
+      hasChevron: true,
+      class: 'p-8',
+    },
+    {
+      size: 'md',
+      leadingContentShape: 'none',
+      hasChevron: true,
+      class: 'py-14 pr-12 pl-16',
+    },
+    {
+      size: 'sm',
+      leadingContentShape: 'none',
+      hasChevron: true,
+      class: 'py-10 pr-8 pl-12',
+    },
+
+    {
+      size: 'md',
+      leadingContentShape: 'flat',
+      hasChevron: false,
+      class: 'px-16 py-12',
+    },
+    {
+      size: 'sm',
+      leadingContentShape: 'flat',
+      hasChevron: false,
+      class: 'px-12 py-10',
+    },
+    {
+      size: 'md',
+      leadingContentShape: 'rounded',
+      hasChevron: false,
+      class: 'py-8 pr-16 pl-8',
+    },
+    {
+      size: 'sm',
+      leadingContentShape: 'rounded',
+      hasChevron: false,
+      class: 'py-8 pr-10 pl-8',
+    },
+    {
+      size: 'md',
+      leadingContentShape: 'none',
+      hasChevron: false,
+      class: 'px-16 py-14',
+    },
+    {
+      size: 'sm',
+      leadingContentShape: 'none',
+      hasChevron: false,
+      class: 'px-12 py-10',
+    },
   ],
   defaultVariants: {
     size: 'md',
     leadingContentShape: 'none',
+    hasChevron: true,
   },
 });
 
@@ -93,6 +165,7 @@ export const MediaButton = ({
         triggerVariants({
           size,
           leadingContentShape: effectiveLeadingContentShape,
+          hasChevron: !hideChevron,
         }),
         className,
       )}
