@@ -1,4 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react';
+import { memo } from 'react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { Point } from '../Point';
@@ -17,10 +18,10 @@ const buildData = (length: number): number[] =>
   Array.from({ length }, (_, i) => (i % 9) + 1);
 
 let pointRenders = 0;
-const CountingPoint = (props: PointProps) => {
+const CountingPoint = memo((props: PointProps) => {
   pointRenders++;
   return <Point {...props} />;
-};
+});
 
 beforeEach(() => {
   pointRenders = 0;
