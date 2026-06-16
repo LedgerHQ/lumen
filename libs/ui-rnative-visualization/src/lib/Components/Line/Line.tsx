@@ -1,5 +1,5 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
-import { useId, useMemo } from 'react';
+import { useId, useMemo, memo } from 'react';
 import { Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
 
 import { isNumericScale } from '../../utils/scales/scales';
@@ -10,14 +10,14 @@ import { LINE_AREA_GRADIENT_OPACITY, LINE_STROKE_WIDTH } from './constants';
 import type { LineProps } from './types';
 import { buildAreaPath, buildLinePath, toScaledPoints } from './utils';
 
-export const Line = ({
+export const Line = memo(function Line({
   seriesId,
   stroke,
   showArea = false,
   areaType: _areaType = 'gradient',
   curve,
   connectNulls,
-}: LineProps) => {
+}: LineProps) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea, seriesMap } =
     useCartesianChartContext();
   const clipPath = usePathReveal();
@@ -99,4 +99,4 @@ export const Line = ({
       />
     </G>
   );
-};
+});

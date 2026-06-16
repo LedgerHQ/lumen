@@ -2,12 +2,24 @@ import { describe, expect, it } from '@jest/globals';
 import { renderHook, act } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 
-import { useMagneticPointsContext } from './magneticPointsContext';
+import {
+  useMagneticRegistry,
+  useMagneticSnapshot,
+} from './magneticPointsContext';
 import { MagneticPointsProvider } from './MagneticPointsProvider';
 
 const wrapper = ({ children }: { children: ReactNode }) => (
   <MagneticPointsProvider>{children}</MagneticPointsProvider>
 );
+
+/**
+ * Reads both split contexts so the existing assertions (register/unregister/
+ * getMagneticPoints/version) keep working against a single result object.
+ */
+const useMagneticPointsContext = () => ({
+  ...useMagneticRegistry(),
+  ...useMagneticSnapshot(),
+});
 
 describe('MagneticPointsProvider', () => {
   it('starts with an empty set', () => {

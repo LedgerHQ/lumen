@@ -5,8 +5,8 @@ import type { DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useRevealFadeProps } from '../CartesianChart/RevealAnimation';
-import { useMagneticPointsContext } from './pointContext';
-import type { MagneticPointsContextValue } from './pointContext/magneticPointsContext';
+import { useMagneticRegistry } from './pointContext';
+import type { MagneticRegistryValue } from './pointContext/magneticPointsContext';
 import { isWithinBounds, resolveDataXToIndex } from './utils';
 
 type Pixel = { x: number; y: number };
@@ -37,9 +37,9 @@ export const usePointGeometry = ({
 }: UsePointGeometryParams): PointGeometry => {
   const { getXScale, getYScale, getXAxisConfig, drawingArea } =
     useCartesianChartContext();
-  const magneticContext = useMagneticPointsContext();
+  const magneticRegistry = useMagneticRegistry();
 
-  useMagneticRegistration(magnetic, dataX, getXAxisConfig, magneticContext);
+  useMagneticRegistration(magnetic, dataX, getXAxisConfig, magneticRegistry);
 
   const xScale = getXScale();
   const yScale = getYScale();
@@ -65,7 +65,7 @@ export const useMagneticRegistration = (
   magnetic: boolean,
   dataX: number,
   getXAxisConfig: () => BaseAxisProps | undefined,
-  { register, unregister }: MagneticPointsContextValue,
+  { register, unregister }: MagneticRegistryValue,
 ): void => {
   useEffect(() => {
     if (!magnetic) return;

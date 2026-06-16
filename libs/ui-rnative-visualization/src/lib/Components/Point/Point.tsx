@@ -1,4 +1,6 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
+
+import { memo } from 'react';
 import Animated from 'react-native-reanimated';
 import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 
@@ -9,6 +11,7 @@ import type {
   PointMarkerProps,
   PointProps,
 } from './types';
+
 import { usePointGeometry } from './usePointGeometry';
 import { buildArrowPoints, computeLabelGeometry, resolveLabel } from './utils';
 
@@ -62,7 +65,7 @@ function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
   );
 }
 
-export function Point({
+export const Point = memo(function Point({
   dataX,
   dataY,
   color,
@@ -127,4 +130,4 @@ export function Point({
       )}
     </AnimatedG>
   );
-}
+});

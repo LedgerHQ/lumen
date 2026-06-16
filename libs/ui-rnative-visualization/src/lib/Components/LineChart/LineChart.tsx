@@ -127,17 +127,24 @@ export const LineChart = ({
   emptyLabel = 'No data',
   connectNulls,
 }: Readonly<LineChartProps>) => {
-  const xAxisConfig = {
-    ...defaultXAxisProps,
-    ...xAxis,
-    position: xAxis?.position ?? defaultXAxisProps.position,
-  };
-  const yAxisConfig = {
-    ...defaultYAxisProps,
-    ...yAxis,
-    position: yAxis?.position ?? defaultYAxisProps.position,
-    width: yAxis?.width ?? defaultYAxisProps.width,
-  };
+  const xAxisConfig = useMemo(
+    () => ({
+      ...defaultXAxisProps,
+      ...xAxis,
+      position: xAxis?.position ?? defaultXAxisProps.position,
+    }),
+    [xAxis],
+  );
+
+  const yAxisConfig = useMemo(
+    () => ({
+      ...defaultYAxisProps,
+      ...yAxis,
+      position: yAxis?.position ?? defaultYAxisProps.position,
+      width: yAxis?.width ?? defaultYAxisProps.width,
+    }),
+    [yAxis],
+  );
 
   const xAxisPosition = xAxisConfig.position;
   const yAxisPosition = yAxisConfig.position;

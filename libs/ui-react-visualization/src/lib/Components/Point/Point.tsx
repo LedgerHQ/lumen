@@ -64,7 +64,7 @@ function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
   );
 }
 
-export const Line = memo(function Point({
+export const Point = memo(function Point({
   dataX,
   dataY,
   color,
