@@ -8,6 +8,29 @@ export type PointLabelProps = {
 
 export type PointLabelComponent = ComponentType<PointLabelProps>;
 
+/**
+ * Pixel position and styling inputs shared by the point's rendered glyphs. Each
+ * glyph picks the subset it needs and derives its own pixel geometry (e.g.
+ * radius from `size`).
+ */
+type PointGlyphProps = {
+  x: number;
+  y: number;
+  size: number;
+  color?: string;
+  position: 'top' | 'bottom';
+};
+
+export type PointMarkerProps = Pick<
+  PointGlyphProps,
+  'x' | 'y' | 'size' | 'color'
+>;
+
+export type PointArrowProps = Pick<
+  PointGlyphProps,
+  'x' | 'y' | 'size' | 'position'
+>;
+
 export type PointProps = {
   /**
    * X coordinate in data space (index or explicit value).
@@ -77,4 +100,12 @@ export type PointProps = {
    * @default false
    */
   magnetic?: boolean;
+  /**
+   * Keeps the label inside the chart's drawing area near the left/right edges.
+   * When the label would overflow an edge, it is anchored to that edge and
+   * grows inward instead of being clipped. The arrow keeps pointing at the
+   * exact data point. Set to `false` to always centre the label on the point.
+   * @default true
+   */
+  clampLabelToBounds?: boolean;
 };
