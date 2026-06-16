@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useMagneticPointsContext } from '../Point/pointContext';
+import { useMagneticSnapshot } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
 import {
@@ -20,7 +20,7 @@ export function ScrubberProvider({
   magnetRadius = 8,
 }: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
-  const { getMagneticPoints, version } = useMagneticPointsContext();
+  const { getMagneticPoints, version } = useMagneticSnapshot();
   const [scrubberPosition, setScrubberPosition] = useState<number | undefined>(
     undefined,
   );
