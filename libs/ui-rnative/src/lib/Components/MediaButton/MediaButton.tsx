@@ -48,7 +48,7 @@ const useStyles = ({
 
       const paddingMap: Record<
         Size,
-        Record<LeadingContentShape, Partial<PaddingStyle>>
+        Record<LeadingContentShape, PaddingStyle>
       > = {
         md: {
           flat: {
