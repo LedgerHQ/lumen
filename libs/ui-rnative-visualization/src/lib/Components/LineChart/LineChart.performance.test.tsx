@@ -2,10 +2,10 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
-import React from 'react';
+import React, { Profiler } from 'react';
+import type { ProfilerOnRenderCallback } from 'react';
 
 import { Point } from '../Point';
-import type { PointProps } from '../Point';
 
 import { LineChart } from './LineChart';
 
@@ -18,10 +18,18 @@ const POINT_COUNT = 24;
 const buildData = (length: number): number[] =>
   Array.from({ length }, (_, i) => (i % 9) + 1);
 
-let pointRenders = 0;
-const CountingPoint = (props: PointProps) => {
-  pointRenders++;
-  return <Point {...props} />;
+// Counts commits of the Point subtree itself (via React.Profiler) rather than a
+// wrapper's renders. A wrapper counter sits above Point and never re-runs when a
+// context Point consumes updates, so it would silently miss the version-cascade
+// regression this budget guards against.
+let pointMountCommits = 0;
+let pointUpdateCommits = 0;
+const onPointRender: ProfilerOnRenderCallback = (_id, phase) => {
+  if (phase === 'mount') {
+    pointMountCommits++;
+  } else {
+    pointUpdateCommits++;
+  }
 };
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -31,7 +39,8 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 beforeEach(() => {
-  pointRenders = 0;
+  pointMountCommits = 0;
+  pointUpdateCommits = 0;
 });
 
 describe('LineChart performance budgets', () => {
@@ -74,12 +83,19 @@ describe('LineChart performance budgets', () => {
           animate={false}
         >
           {data.map((value, index) => (
-            <CountingPoint key={index} magnetic dataX={index} dataY={value} />
+            <Profiler
+              key={index}
+              id={`point-${index}`}
+              onRender={onPointRender}
+            >
+              <Point magnetic dataX={index} dataY={value} />
+            </Profiler>
           ))}
         </LineChart>
       </Wrapper>,
     );
 
-    expect(pointRenders).toBe(POINT_COUNT);
+    expect(pointMountCommits).toBe(POINT_COUNT);
+    expect(pointUpdateCommits).toBe(0);
   });
 });

@@ -1,9 +1,9 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import { memo } from 'react';
+import { Profiler } from 'react';
+import type { ProfilerOnRenderCallback } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { Point } from '../Point';
-import type { PointProps } from '../Point';
 import { Scrubber } from '../Scrubber';
 
 import { LineChart } from './LineChart';
@@ -17,16 +17,24 @@ const NODES_PER_POINT = 2; // <g> + <circle>
 const buildData = (length: number): number[] =>
   Array.from({ length }, (_, i) => (i % 9) + 1);
 
-let pointRenders = 0;
-const CountingPoint = memo((props: PointProps) => {
-  pointRenders++;
-  return <Point {...props} />;
-});
+// Counts commits of the Point subtree itself (via React.Profiler) rather than a
+// wrapper's renders. A wrapper counter sits above Point and never re-runs when a
+// context Point consumes updates, so it would silently miss the exact re-render
+// regressions (scrubbing, magnetic registration) these budgets guard against.
+let pointMountCommits = 0;
+let pointUpdateCommits = 0;
+
+const onPointRender: ProfilerOnRenderCallback = (_id, phase) => {
+  if (phase === 'mount') {
+    pointMountCommits++;
+  } else {
+    pointUpdateCommits++;
+  }
+};
 
 let didPolyfillRaf = false;
 
 beforeEach(() => {
-  pointRenders = 0;
   didPolyfillRaf = false;
 
   // jsdom only provides requestAnimationFrame when "pretendToBeVisual" is enabled.
@@ -84,12 +92,15 @@ describe('LineChart performance budgets', () => {
         enableScrubbing
       >
         {data.map((value, index) => (
-          <CountingPoint key={index} magnetic dataX={index} dataY={value} />
+          <Profiler key={index} id={`point-${index}`} onRender={onPointRender}>
+            <Point magnetic dataX={index} dataY={value} />
+          </Profiler>
         ))}
       </LineChart>,
     );
 
-    expect(pointRenders).toBe(POINT_COUNT);
+    expect(pointMountCommits).toBe(POINT_COUNT);
+    expect(pointUpdateCommits).toBe(0);
   });
 
   it('does not re-render points while scrubbing', async () => {
@@ -104,7 +115,9 @@ describe('LineChart performance budgets', () => {
         enableScrubbing
       >
         {data.map((value, index) => (
-          <CountingPoint key={index} magnetic dataX={index} dataY={value} />
+          <Profiler key={index} id={`point-${index}`} onRender={onPointRender}>
+            <Point magnetic dataX={index} dataY={value} />
+          </Profiler>
         ))}
         <Scrubber
           tooltip={(index) => ({
@@ -115,7 +128,7 @@ describe('LineChart performance budgets', () => {
     );
 
     const svg = getByTestId('chart-svg');
-    pointRenders = 0;
+    pointUpdateCommits = 0;
 
     const scrub = async (clientX: number) => {
       await act(async () => {
@@ -131,6 +144,6 @@ describe('LineChart performance budgets', () => {
     expect(getByTestId('scrubber')).toBeTruthy();
     await scrub(320);
 
-    expect(pointRenders).toBe(0);
+    expect(pointUpdateCommits).toBe(0);
   });
 });
