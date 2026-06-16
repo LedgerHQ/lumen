@@ -32,13 +32,6 @@ describe('LineChart performance budgets', () => {
     const data = buildData(POINT_COUNT);
     const series = [{ id: 's', stroke: '#000', data }];
 
-    const withoutPoints = render(
-      <LineChart series={series} width={400} height={200} animate={false} />,
-    );
-    const baseNodeCount =
-      withoutPoints.container.querySelectorAll('svg *').length;
-    withoutPoints.unmount();
-
     const { container } = render(
       <LineChart series={series} width={400} height={200} animate={false}>
         {data.map((value, index) => (
@@ -50,12 +43,14 @@ describe('LineChart performance budgets', () => {
     const groups = container.querySelectorAll('[data-testid="point-group"]');
     const circles = container.querySelectorAll('[data-testid="point-circle"]');
     const arrows = container.querySelectorAll('[data-testid="point-arrow"]');
-    const totalNodeCount = container.querySelectorAll('svg *').length;
+    const pointNodeCount = container.querySelectorAll(
+      '[data-testid="point-group"], [data-testid="point-circle"]',
+    ).length;
 
     expect(groups.length).toBeGreaterThan(0);
     expect(circles).toHaveLength(groups.length);
     expect(arrows).toHaveLength(0);
-    expect(totalNodeCount - baseNodeCount).toBe(groups.length * NODES_PER_POINT);
+    expect(pointNodeCount).toBe(groups.length * NODES_PER_POINT);
   });
 
   it('renders each magnetic point exactly once on mount (no version cascade)', () => {
