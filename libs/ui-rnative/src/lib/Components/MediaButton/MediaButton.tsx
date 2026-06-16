@@ -52,7 +52,7 @@ const useStyles = ({
       > = {
         md: {
           flat: {
-            paddingVertical: hideChevron ? t.spacings.s12 : t.spacings.s14,
+            paddingVertical: t.spacings.s12,
             paddingLeft: t.spacings.s16,
             paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
