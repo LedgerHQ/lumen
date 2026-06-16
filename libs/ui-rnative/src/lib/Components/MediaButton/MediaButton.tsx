@@ -15,12 +15,14 @@ const useStyles = ({
   disabled,
   pressed,
   leadingContentShape,
+  hideChevron,
 }: {
   appearance: Appearance;
   size: Size;
   disabled: boolean;
   pressed: boolean;
   leadingContentShape: LeadingContentShape;
+  hideChevron: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -39,54 +41,47 @@ const useStyles = ({
       const textColor = disabled ? t.colors.text.disabled : t.colors.text.base;
 
       type PaddingStyle = {
-        paddingTop: number;
-        paddingBottom: number;
+        paddingVertical: number;
         paddingLeft: number;
         paddingRight: number;
       };
 
       const paddingMap: Record<
         Size,
-        Record<LeadingContentShape, PaddingStyle>
+        Record<LeadingContentShape, Partial<PaddingStyle>>
       > = {
         md: {
           flat: {
-            paddingTop: t.spacings.s12,
-            paddingBottom: t.spacings.s12,
+            paddingVertical: hideChevron ? t.spacings.s12 : t.spacings.s14,
             paddingLeft: t.spacings.s16,
-            paddingRight: t.spacings.s16,
+            paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
           rounded: {
-            paddingTop: t.spacings.s8,
-            paddingBottom: t.spacings.s8,
+            paddingVertical: t.spacings.s8,
             paddingLeft: t.spacings.s8,
-            paddingRight: t.spacings.s16,
+            paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
           none: {
-            paddingTop: t.spacings.s14,
-            paddingBottom: t.spacings.s14,
+            paddingVertical: t.spacings.s14,
             paddingLeft: t.spacings.s16,
-            paddingRight: t.spacings.s16,
+            paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
         },
         sm: {
           flat: {
-            paddingTop: t.spacings.s10,
-            paddingBottom: t.spacings.s10,
+            paddingVertical: t.spacings.s10,
             paddingLeft: t.spacings.s12,
-            paddingRight: t.spacings.s12,
+            paddingRight: hideChevron ? t.spacings.s12 : t.spacings.s8,
           },
           rounded: {
-            paddingTop: t.spacings.s8,
-            paddingBottom: t.spacings.s8,
+            paddingVertical: t.spacings.s8,
             paddingLeft: t.spacings.s8,
-            paddingRight: t.spacings.s10,
+            paddingRight: hideChevron ? t.spacings.s10 : t.spacings.s8,
           },
           none: {
-            paddingTop: t.spacings.s10,
-            paddingBottom: t.spacings.s10,
+            paddingVertical: t.spacings.s10,
             paddingLeft: t.spacings.s12,
-            paddingRight: t.spacings.s12,
+            paddingRight: hideChevron ? t.spacings.s12 : t.spacings.s8,
           },
         },
       };
@@ -127,7 +122,7 @@ const useStyles = ({
         },
       };
     },
-    [appearance, size, disabled, pressed, leadingContentShape],
+    [appearance, size, disabled, pressed, leadingContentShape, hideChevron],
   );
 };
 
@@ -221,6 +216,7 @@ const MediaButtonContent = ({
     disabled,
     pressed,
     leadingContentShape,
+    hideChevron,
   });
 
   return (
