@@ -114,8 +114,8 @@ describe('LineChart performance budgets', () => {
     };
 
     await scrub(80);
+    expect(getByTestId('scrubber')).toBeTruthy();
     await scrub(320);
 
     expect(pointRenders).toBe(0);
-  });
 });
