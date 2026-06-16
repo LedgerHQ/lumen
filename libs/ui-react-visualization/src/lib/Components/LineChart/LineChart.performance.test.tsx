@@ -55,8 +55,7 @@ describe('LineChart performance budgets', () => {
     expect(groups.length).toBeGreaterThan(0);
     expect(circles).toHaveLength(groups.length);
     expect(arrows).toHaveLength(0);
-      groups.length * NODES_PER_POINT,
-    );
+    expect(totalNodeCount - baseNodeCount).toBe(groups.length * NODES_PER_POINT);
   });
 
   it('renders each magnetic point exactly once on mount (no version cascade)', () => {
