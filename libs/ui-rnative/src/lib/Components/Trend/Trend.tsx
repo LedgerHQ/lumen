@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import type { LumenTextStyle } from '../../../styles';
 import { useStyleSheet } from '../../../styles';
-import { Minus, TriangleDown, TriangleUp } from '../../Symbols';
+import { TriangleDown, TriangleUp } from '../../Symbols';
 import type { IconSize } from '../Icon';
 import { Box, Text } from '../Utility';
 import type { TrendProps } from './types';
@@ -16,6 +16,23 @@ function getVariant(value: number): TrendVariant {
   }
   return value > 0 ? 'positive' : 'negative';
 }
+
+const iconMap = {
+  positive: TriangleUp,
+  negative: TriangleDown,
+  neutral: null,
+};
+
+const iconSizeMap: Record<NonNullable<TrendProps['size']>, IconSize> = {
+  md: 16,
+  sm: 12,
+};
+
+const iconColorMap: Record<TrendVariant, LumenTextStyle['color']> = {
+  positive: 'success',
+  negative: 'error',
+  neutral: 'muted',
+};
 
 export function Trend({
   value,
@@ -35,26 +52,9 @@ export function Trend({
 
   const styles = useStyles({ size, variant, disabled });
 
-  const Icon = {
-    positive: TriangleUp,
-    negative: TriangleDown,
-    neutral: Minus,
-  }[variant];
-
-  const iconSize = (
-    {
-      md: 16,
-      sm: 12,
-    } as const
-  )[size] as IconSize;
-
-  const iconColor = (
-    {
-      positive: 'success',
-      negative: 'error',
-      neutral: 'muted',
-    } as const
-  )[variant] as LumenTextStyle['color'];
+  const Icon = iconMap[variant];
+  const iconSize = iconSizeMap[size];
+  const iconColor = iconColorMap[variant];
 
   const absoluteFormattedValue = `${Math.abs(value).toFixed(2)}%`;
   const formattedValue =
@@ -71,7 +71,9 @@ export function Trend({
       style={[styles.container, style]}
       {...props}
     >
-      <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
+      {Icon && (
+        <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
+      )}
       <Text style={styles.text}>{formattedValue}</Text>
     </Box>
   );
