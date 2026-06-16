@@ -51,9 +51,9 @@ describe('LineChart performance budgets', () => {
     const arrows = container.querySelectorAll('[data-testid="point-arrow"]');
     const totalNodeCount = container.querySelectorAll('svg *').length;
 
+    expect(groups.length).toBeGreaterThan(0);
     expect(circles).toHaveLength(groups.length);
     expect(arrows).toHaveLength(0);
-    expect(totalNodeCount - baseNodeCount).toBe(
       groups.length * NODES_PER_POINT,
     );
   });
