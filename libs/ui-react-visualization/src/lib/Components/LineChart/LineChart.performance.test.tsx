@@ -118,4 +118,5 @@ describe('LineChart performance budgets', () => {
     await scrub(320);
 
     expect(pointRenders).toBe(0);
+  });
 });
