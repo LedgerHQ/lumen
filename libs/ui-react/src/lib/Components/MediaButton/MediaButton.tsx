@@ -24,13 +24,13 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
   compoundVariants: [
     {
       size: 'md',
-      leadingContentShape: 'flat',
+      leadingContentShape: ['flat', 'none'],
       hasChevron: true,
       class: 'py-14 pr-12 pl-16',
     },
     {
       size: 'sm',
-      leadingContentShape: 'flat',
+      leadingContentShape: ['flat', 'none'],
       hasChevron: true,
       class: 'py-10 pr-8 pl-12',
     },
@@ -48,26 +48,19 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
     },
     {
       size: 'md',
-      leadingContentShape: 'none',
-      hasChevron: true,
-      class: 'py-14 pr-12 pl-16',
-    },
-    {
-      size: 'sm',
-      leadingContentShape: 'none',
-      hasChevron: true,
-      class: 'py-10 pr-8 pl-12',
-    },
-
-    {
-      size: 'md',
       leadingContentShape: 'flat',
       hasChevron: false,
       class: 'px-16 py-12',
     },
     {
+      size: 'md',
+      leadingContentShape: 'none',
+      hasChevron: false,
+      class: 'px-16 py-14',
+    },
+    {
       size: 'sm',
-      leadingContentShape: 'flat',
+      leadingContentShape: ['flat', 'none'],
       hasChevron: false,
       class: 'px-12 py-10',
     },
@@ -82,18 +75,6 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
       leadingContentShape: 'rounded',
       hasChevron: false,
       class: 'py-8 pr-10 pl-8',
-    },
-    {
-      size: 'md',
-      leadingContentShape: 'none',
-      hasChevron: false,
-      class: 'px-16 py-14',
-    },
-    {
-      size: 'sm',
-      leadingContentShape: 'none',
-      hasChevron: false,
-      class: 'px-12 py-10',
     },
   ],
   defaultVariants: {
