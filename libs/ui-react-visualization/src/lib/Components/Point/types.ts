@@ -9,6 +9,15 @@ export type PointLabelProps = {
 export type PointLabelComponent = ComponentType<PointLabelProps>;
 
 /**
+ * Horizontal alignment strategy for a point's label.
+ *
+ * - `'auto'`: keep the label inside the drawing area, anchoring it to the
+ *   nearest edge when it would overflow.
+ * - `'center'`: always centre the label on the point.
+ */
+export type LabelAlignment = 'center' | 'auto';
+
+/**
  * Pixel position and styling inputs shared by the point's rendered glyphs. Each
  * glyph picks the subset it needs and derives its own pixel geometry (e.g.
  * radius from `size`).
@@ -101,11 +110,12 @@ export type PointProps = {
    */
   magnetic?: boolean;
   /**
-   * Keeps the label inside the chart's drawing area near the left/right edges.
-   * When the label would overflow an edge, it is anchored to that edge and
-   * grows inward instead of being clipped. The arrow keeps pointing at the
-   * exact data point. Set to `false` to always centre the label on the point.
-   * @default true
+   * Horizontal alignment of the label relative to the chart's drawing area.
+   * With `'auto'`, a label that would overflow the left/right edge is anchored
+   * to that edge and grows inward instead of being clipped, while the arrow
+   * keeps pointing at the exact data point. Use `'center'` to always centre the
+   * label on the point.
+   * @default 'auto'
    */
-  clampLabelToBounds?: boolean;
+  labelAlignment?: LabelAlignment;
 };

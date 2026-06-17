@@ -7,6 +7,7 @@ import {
   LABEL_CHAR_WIDTH_RATIO,
   LABEL_FONT_SIZE,
 } from './constants';
+import type { LabelAlignment } from './types';
 
 export type LabelTextAnchor = 'start' | 'middle' | 'end';
 
@@ -77,10 +78,10 @@ export const computeLabelX = (
   pixelX: number,
   label: string,
   area: DrawingArea,
-  clamp: boolean,
+  alignment: LabelAlignment,
   hasArrow: boolean,
 ): { x: number; textAnchor: LabelTextAnchor } => {
-  if (!clamp) {
+  if (alignment === 'center') {
     return { x: pixelX, textAnchor: 'middle' };
   }
 
@@ -127,7 +128,7 @@ export const computeLabelGeometry = ({
   labelPosition,
   showLabelArrow,
   area,
-  clamp,
+  alignment,
 }: {
   text: string;
   pixelX: number;
@@ -136,7 +137,7 @@ export const computeLabelGeometry = ({
   labelPosition: 'top' | 'bottom';
   showLabelArrow: boolean;
   area: DrawingArea;
-  clamp: boolean;
+  alignment: LabelAlignment;
 }): {
   x: number;
   y: number;
@@ -147,7 +148,7 @@ export const computeLabelGeometry = ({
     pixelX,
     text,
     area,
-    clamp,
+    alignment,
     showLabelArrow,
   );
   const y = computeLabelY(pixelY, size / 2, labelPosition, showLabelArrow);

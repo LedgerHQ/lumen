@@ -176,7 +176,7 @@ describe('Point', () => {
     );
   });
 
-  it('centres a long edge label when clampLabelToBounds is false', () => {
+  it("centres a long edge label when labelAlignment is 'center'", () => {
     const labelSpy = vi.fn(({ x, y, children }: PointLabelProps) => (
       <text x={x} y={y}>
         {children}
@@ -188,7 +188,7 @@ describe('Point', () => {
         dataX={0}
         dataY={10}
         label='A long edge label'
-        clampLabelToBounds={false}
+        labelAlignment='center'
         LabelComponent={labelSpy}
       />,
     );

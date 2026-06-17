@@ -120,39 +120,41 @@ describe('computeLabelX', () => {
   const halfArrow = ARROW_WIDTH / 2;
 
   it('centres the label on the point when clamping is disabled', () => {
-    expect(computeLabelX(105, 'A very long label', area, false, true)).toEqual({
+    expect(
+      computeLabelX(105, 'A very long label', area, 'center', true),
+    ).toEqual({
       x: 105,
       textAnchor: 'middle',
     });
   });
 
   it('centres the label on the point when it fits inside the bounds', () => {
-    expect(computeLabelX(200, 'Peak', area, true, true)).toEqual({
+    expect(computeLabelX(200, 'Peak', area, 'auto', true)).toEqual({
       x: 200,
       textAnchor: 'middle',
     });
   });
 
   it('anchors near the left edge, offset by half the arrow width from the point', () => {
-    expect(computeLabelX(105, 'Long label', area, true, true)).toEqual({
+    expect(computeLabelX(105, 'Long label', area, 'auto', true)).toEqual({
       x: 105 - halfArrow,
       textAnchor: 'start',
     });
   });
 
   it('anchors near the right edge, offset by half the arrow width from the point', () => {
-    expect(computeLabelX(295, 'Long label', area, true, true)).toEqual({
+    expect(computeLabelX(295, 'Long label', area, 'auto', true)).toEqual({
       x: 295 + halfArrow,
       textAnchor: 'end',
     });
   });
 
   it('omits the arrow offset when no arrow is rendered', () => {
-    expect(computeLabelX(105, 'Long label', area, true, false)).toEqual({
+    expect(computeLabelX(105, 'Long label', area, 'auto', false)).toEqual({
       x: 105,
       textAnchor: 'start',
     });
-    expect(computeLabelX(295, 'Long label', area, true, false)).toEqual({
+    expect(computeLabelX(295, 'Long label', area, 'auto', false)).toEqual({
       x: 295,
       textAnchor: 'end',
     });

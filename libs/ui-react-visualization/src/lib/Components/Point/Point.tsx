@@ -73,7 +73,7 @@ export function Point({
   size = DEFAULT_SIZE,
   onClick,
   magnetic = false,
-  clampLabelToBounds = true,
+  labelAlignment = 'auto',
 }: Readonly<PointProps>) {
   const { pixel, drawingArea, revealStyle, isVisible } = usePointGeometry({
     dataX,
@@ -96,7 +96,7 @@ export function Point({
         labelPosition,
         showLabelArrow,
         area: drawingArea,
-        clamp: clampLabelToBounds,
+        alignment: labelAlignment,
       })
     : null;
 
