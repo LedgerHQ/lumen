@@ -1,6 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { memo } from 'react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { Point } from '../Point';
 import type { PointProps } from '../Point';
