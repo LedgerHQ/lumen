@@ -23,18 +23,29 @@ const CountingPoint = memo((props: PointProps) => {
   return <Point {...props} />;
 });
 
+let didPolyfillRaf = false;
+
 beforeEach(() => {
   pointRenders = 0;
+  didPolyfillRaf = false;
 
   // jsdom only provides requestAnimationFrame when "pretendToBeVisual" is enabled.
   // Provide a minimal fallback so this test remains deterministic across environments.
   if (typeof globalThis.requestAnimationFrame !== 'function') {
+    didPolyfillRaf = true;
     globalThis.requestAnimationFrame = (cb: FrameRequestCallback) =>
       setTimeout(() => cb(Date.now()), 0) as unknown as number;
     globalThis.cancelAnimationFrame = (id: number) => clearTimeout(id);
   }
 });
 
+afterEach(() => {
+  if (!didPolyfillRaf) return;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  delete (globalThis as any).requestAnimationFrame;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  delete (globalThis as any).cancelAnimationFrame;
+});
 describe('LineChart performance budgets', () => {
   it('emits a bounded SVG node count per point', () => {
     const data = buildData(POINT_COUNT);
