@@ -8,7 +8,7 @@ import {
   LABEL_FONT_SIZE,
 } from './constants';
 
-type LabelTextAnchor = 'start' | 'middle' | 'end';
+export type LabelTextAnchor = 'start' | 'middle' | 'end';
 
 export const isWithinBounds = (
   px: number,
