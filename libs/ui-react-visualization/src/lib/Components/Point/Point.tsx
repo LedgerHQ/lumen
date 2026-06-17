@@ -86,19 +86,19 @@ export function Point({
   }
 
   const labelText = resolveLabel(label, dataX);
-  const labelGeometry =
-    labelText != null
-      ? computeLabelGeometry({
-          text: labelText,
-          pixelX: pixel.x,
-          pixelY: pixel.y,
-          size,
-          labelPosition,
-          showLabelArrow,
-          area: drawingArea,
-          clamp: clampLabelToBounds,
-        })
-      : null;
+  const isLabelVisible = labelText !== undefined;
+  const labelGeometry = isLabelVisible
+    ? computeLabelGeometry({
+        text: labelText,
+        pixelX: pixel.x,
+        pixelY: pixel.y,
+        size,
+        labelPosition,
+        showLabelArrow,
+        area: drawingArea,
+        clamp: clampLabelToBounds,
+      })
+    : null;
 
   const Label = LabelComponent ?? PointLabel;
 
