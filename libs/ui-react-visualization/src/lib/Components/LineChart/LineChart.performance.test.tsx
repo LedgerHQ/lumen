@@ -25,6 +25,14 @@ const CountingPoint = memo((props: PointProps) => {
 
 beforeEach(() => {
   pointRenders = 0;
+
+  // jsdom only provides requestAnimationFrame when "pretendToBeVisual" is enabled.
+  // Provide a minimal fallback so this test remains deterministic across environments.
+  if (typeof globalThis.requestAnimationFrame !== 'function') {
+    globalThis.requestAnimationFrame = (cb: FrameRequestCallback) =>
+      setTimeout(() => cb(Date.now()), 0) as unknown as number;
+    globalThis.cancelAnimationFrame = (id: number) => clearTimeout(id);
+  }
 });
 
 describe('LineChart performance budgets', () => {
