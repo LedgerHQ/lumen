@@ -1,9 +1,15 @@
-import { useEffect } from 'react';
-
 import type { DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
-import { LABEL_FONT_SIZE, ARROW_WIDTH, ARROW_HEIGHT, GAP } from './constants';
-import type { MagneticPointsContextValue } from './pointContext/magneticPointsContext';
+import {
+  ARROW_HEIGHT,
+  ARROW_WIDTH,
+  GAP,
+  LABEL_CHAR_WIDTH_RATIO,
+  LABEL_FONT_SIZE,
+} from './constants';
+import type { LabelAlignment } from './types';
+
+export type LabelTextAnchor = 'start' | 'middle' | 'end';
 
 export const isWithinBounds = (
   px: number,
@@ -63,22 +69,33 @@ export const resolveDataXToIndex = (
 };
 
 /**
- * Registers/unregisters a data index as a magnetic snap target
- * when the Point has `magnetic` enabled.
+ * Computes the label's horizontal placement, keeping it inside the drawing area
+ * near the left/right edges. Centred on the point when it fits; otherwise
+ * anchored to the edge and aligned with the arrow's outer vertex (offset by half
+ * the arrow width from the point, when an arrow is rendered).
  */
-export const useMagneticRegistration = (
-  magnetic: boolean,
-  dataX: number,
-  getXAxisConfig: () => BaseAxisProps | undefined,
-  { register, unregister }: MagneticPointsContextValue,
-): void => {
-  useEffect(() => {
-    if (!magnetic) return;
-    const index = resolveDataXToIndex(dataX, getXAxisConfig());
-    if (index === undefined) return;
-    register(index);
-    return () => unregister(index);
-  }, [magnetic, dataX, getXAxisConfig, register, unregister]);
+export const computeLabelX = (
+  pixelX: number,
+  label: string,
+  area: DrawingArea,
+  alignment: LabelAlignment,
+  hasArrow: boolean,
+): { x: number; textAnchor: LabelTextAnchor } => {
+  if (alignment === 'center') {
+    return { x: pixelX, textAnchor: 'middle' };
+  }
+
+  const halfWidth =
+    (label.length * LABEL_FONT_SIZE * LABEL_CHAR_WIDTH_RATIO) / 2;
+  const arrowOffset = hasArrow ? ARROW_WIDTH / 2 : 0;
+
+  if (pixelX - halfWidth < area.x) {
+    return { x: pixelX - arrowOffset, textAnchor: 'start' };
+  }
+  if (pixelX + halfWidth > area.x + area.width) {
+    return { x: pixelX + arrowOffset, textAnchor: 'end' };
+  }
+  return { x: pixelX, textAnchor: 'middle' };
 };
 
 /**
@@ -95,4 +112,46 @@ export const computeLabelY = (
   return labelPosition === 'top'
     ? pixelY - radius - arrowOffset - GAP
     : pixelY + radius + arrowOffset + GAP + LABEL_FONT_SIZE;
+};
+
+/**
+ * Computes where a point's label and its connector arrow are drawn: the
+ * (optionally clamped) horizontal placement, the vertical baseline, and whether
+ * the arrow is rendered. Label content is resolved separately via
+ * {@link resolveLabel}.
+ */
+export const computeLabelGeometry = ({
+  text,
+  pixelX,
+  pixelY,
+  size,
+  labelPosition,
+  showLabelArrow,
+  area,
+  alignment,
+}: {
+  text: string;
+  pixelX: number;
+  pixelY: number;
+  size: number;
+  labelPosition: 'top' | 'bottom';
+  showLabelArrow: boolean;
+  area: DrawingArea;
+  alignment: LabelAlignment;
+}): {
+  x: number;
+  y: number;
+  textAnchor: LabelTextAnchor;
+  renderArrow: boolean;
+} => {
+  const { x, textAnchor } = computeLabelX(
+    pixelX,
+    text,
+    area,
+    alignment,
+    showLabelArrow,
+  );
+  const y = computeLabelY(pixelY, size / 2, labelPosition, showLabelArrow);
+
+  return { x, y, textAnchor, renderArrow: showLabelArrow };
 };
