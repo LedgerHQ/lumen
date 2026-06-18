@@ -41,12 +41,9 @@ export const processGradientStops = (
 
     // Auto-spread offsets if not provided
     // For n stops: 0, 1/(n-1), 2/(n-1), ..., 1
-    const offset =
-      stop.offset === undefined
-        ? stopCount === 1
-          ? DEFAULT_OFFSET
-          : index / (stopCount - 1)
-        : stop.offset;
+    const autoOffset =
+      stopCount === 1 ? DEFAULT_OFFSET : index / (stopCount - 1);
+    const offset = stop.offset === undefined ? autoOffset : stop.offset;
 
     const opacity = stop.opacity === undefined ? DEFAULT_OPACITY : stop.opacity;
 
