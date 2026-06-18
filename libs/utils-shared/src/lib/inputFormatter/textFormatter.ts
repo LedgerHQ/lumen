@@ -61,7 +61,12 @@ export function textFormatter(
   }
 
   const firstDot = cleaned.indexOf('.');
-  if (firstDot !== -1) {
+  if (firstDot === -1) {
+    // No decimal point, just apply integer length limit
+    if (maxIntegerLength > 0 && cleaned.length > maxIntegerLength) {
+      cleaned = cleaned.slice(0, maxIntegerLength);
+    }
+  } else {
     // Split integer and decimal parts
     let integerPart = cleaned.slice(0, firstDot);
     let decimalPart = cleaned.slice(firstDot + 1).replace(/\./g, '');
@@ -84,11 +89,6 @@ export function textFormatter(
         : hasTrailingDot
           ? `${integerPart}.`
           : integerPart;
-  } else {
-    // No decimal point, just apply integer length limit
-    if (maxIntegerLength > 0 && cleaned.length > maxIntegerLength) {
-      cleaned = cleaned.slice(0, maxIntegerLength);
-    }
   }
 
   return thousandsSeparator ? formatThousands(cleaned) : cleaned;

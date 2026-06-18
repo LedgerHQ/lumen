@@ -95,7 +95,7 @@ const DigitStrip = memo(({ value, animate, widths }: DigitStripProps) => {
         }}
       >
         {DIGITS.map((d, i) => (
-          <span inert={d !== value ? true : false} key={i}>
+          <span inert={d === value ? false : true} key={i}>
             {d}
           </span>
         ))}

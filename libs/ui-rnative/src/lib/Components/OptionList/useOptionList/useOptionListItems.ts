@@ -23,7 +23,7 @@ const groupByField = <TMeta extends MetaShape = MetaShape>(
 };
 
 const hasGroups = (items: OptionListItemData[]): boolean =>
-  items.some((item) => item.group != null);
+  items.some((item) => item.group !== undefined);
 
 export const defaultLabelFilter = (
   item: OptionListItemData,

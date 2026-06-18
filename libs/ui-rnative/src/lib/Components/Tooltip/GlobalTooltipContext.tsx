@@ -1,5 +1,5 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import type { ReactNode } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import { useState, useCallback, useRef, useMemo } from 'react';
 
 export type TooltipData = {
@@ -11,8 +11,8 @@ export type TooltipData = {
 
 type GlobalTooltipBottomSheetContextValue = {
   currentTooltip: TooltipData | null;
-  showTooltipRef: React.MutableRefObject<(data: TooltipData) => void>;
-  hideTooltipRef: React.MutableRefObject<() => void>;
+  showTooltipRef: RefObject<(data: TooltipData) => void>;
+  hideTooltipRef: RefObject<() => void>;
 };
 
 const [GlobalTooltipContextProvider, _useGlobalTooltipSafeContext] =

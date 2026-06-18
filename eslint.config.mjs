@@ -71,7 +71,9 @@ export const sharedConfig = defineConfig(
       /**
        * Others
        */
+      'eqeqeq': ['error', 'always', { null: 'ignore' }],
       'default-param-last': 'error',
+      'no-negated-condition': 'error',
       'no-unused-vars': 'off',
       'no-restricted-imports': [
         'error',
@@ -91,6 +93,16 @@ export const sharedConfig = defineConfig(
               name: 'react-native',
               importNames: ['Animated', 'Easing', 'LayoutAnimation'],
               message: 'Prefer react-native-reanimated for animations.',
+            },
+            {
+              name: 'react',
+              importNames: ['ElementRef'],
+              message: 'ElementRef is deprecated. Use ComponentRef<T> instead.',
+            },
+            {
+              name: 'react',
+              importNames: ['MutableRefObject'],
+              message: 'MutableRefObject is deprecated. Use RefObject instead.',
             },
           ],
         },

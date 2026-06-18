@@ -2,6 +2,7 @@ import type {
   ComponentRef,
   ComponentPropsWithoutRef,
   ComponentPropsWithRef,
+  RefObject,
 } from 'react';
 import { isValidElement, cloneElement } from 'react';
 import type {
@@ -110,7 +111,7 @@ function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
       if (typeof ref === 'function') {
         ref(node);
       } else if (ref != null) {
-        (ref as React.MutableRefObject<T>).current = node;
+        (ref as RefObject<T>).current = node;
       }
     });
 }

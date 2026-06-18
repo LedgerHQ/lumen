@@ -220,7 +220,7 @@ export const DebouncedSearchInput: Story = {
               <div>
                 <p className='mb-8 body-3 text-muted'>
                   Found {filteredResults.length} result
-                  {filteredResults.length !== 1 ? 's' : ''} for "{searchQuery}"
+                  {filteredResults.length === 1 ? '' : 's'} for "{searchQuery}"
                 </p>
                 <div className='space-y-4'>
                   {filteredResults.map((result) => (

@@ -131,13 +131,13 @@ const SelectInputTrigger = ({
     consumerName: 'SelectInputTrigger',
     contextRequired: true,
   });
-  const hasValue = selectedValue != null && selectedValue !== '';
+  const hasValue = selectedValue !== null && selectedValue !== '';
 
   return (
     <Combobox.Trigger
       ref={ref}
       data-slot='select-trigger'
-      data-placeholder={!hasValue ? '' : undefined}
+      data-placeholder={hasValue ? undefined : ''}
       className={cn(triggerStyles, className)}
       {...props}
     >
