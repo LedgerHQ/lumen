@@ -173,6 +173,13 @@ export const SizeShowcase: Story = {
         >
           <MediaImage src={parentSrc} size={64} shape='circle' />
         </DotSymbol>
+        <DotSymbol
+          src={dotSrc}
+          size={mediaImageDotSizeMap[72]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={72} shape='circle' />
+        </DotSymbol>
       </div>
       <div className='inline-flex items-end gap-24 body-2'>
         <DotSymbol
@@ -230,6 +237,14 @@ export const SizeShowcase: Story = {
           pin='bottom-end'
         >
           <MediaImage src={parentSrc} size={64} shape='square' />
+        </DotSymbol>
+        <DotSymbol
+          shape='square'
+          src={dotSrc}
+          size={mediaImageDotSizeMap[72]}
+          pin='bottom-end'
+        >
+          <MediaImage src={parentSrc} size={72} shape='square' />
         </DotSymbol>
       </div>
     </div>

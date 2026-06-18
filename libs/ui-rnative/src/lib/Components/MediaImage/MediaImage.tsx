@@ -20,6 +20,7 @@ const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   48: 'md',
   56: 'lg',
   64: 'lg',
+  72: 'lg',
 };
 
 export const fontSizeMap: Record<MediaImageSize, number> = {
@@ -32,6 +33,7 @@ export const fontSizeMap: Record<MediaImageSize, number> = {
   48: 24,
   56: 24,
   64: 24,
+  72: 32,
 };
 
 const useStyles = ({

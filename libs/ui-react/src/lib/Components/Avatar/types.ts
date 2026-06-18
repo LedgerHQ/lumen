@@ -12,7 +12,14 @@ export type AvatarProps = {
    */
   alt?: string;
   /**
-   * The size variant of the avatar.
+   * The visual appearance of the avatar background: `gray` or `transparent`.
+   * @optional
+   * @default transparent
+   */
+  appearance?: 'gray' | 'transparent';
+
+  /**
+   * The size variant of the avatar: `sm`, `md`, `lg`, `xl`.
    * @optional
    * @default md
    */

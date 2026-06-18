@@ -29,9 +29,19 @@ describe('MediaButton', () => {
       expect(trigger.props.accessibilityRole).toBe('button');
     });
 
-    it('should always render a chevron icon', () => {
+    it('should render a chevron icon by default', () => {
       renderWithProvider(<MediaButton testID='trigger'>Label</MediaButton>);
       expect(screen.getByTestId('button-trigger-chevron')).toBeTruthy();
+    });
+
+    it('should not render a chevron icon when hideChevron is true', () => {
+      renderWithProvider(
+        <MediaButton testID='trigger' hideChevron>
+          Label
+        </MediaButton>,
+      );
+      expect(screen.queryByTestId('button-trigger-chevron')).toBeNull();
+      expect(screen.getByText('Label')).toBeTruthy();
     });
 
     it.each(['gray', 'transparent', 'no-background'] as const)(
@@ -55,6 +65,36 @@ describe('MediaButton', () => {
           </MediaButton>,
         );
         expect(screen.getByTestId('trigger')).toBeTruthy();
+      },
+    );
+
+    const sizeShapeMatrix: ['sm' | 'md', 'flat' | 'rounded' | 'none'][] = [
+      ['sm', 'flat'],
+      ['sm', 'rounded'],
+      ['sm', 'none'],
+      ['md', 'flat'],
+      ['md', 'rounded'],
+      ['md', 'none'],
+    ];
+
+    it.each(sizeShapeMatrix)(
+      'should render with hideChevron for size "%s" and shape "%s"',
+      (size, shape) => {
+        const leadingContent =
+          shape === 'none' ? undefined : <View testID='leading' />;
+        renderWithProvider(
+          <MediaButton
+            testID='trigger'
+            size={size}
+            leadingContent={leadingContent}
+            leadingContentShape={shape === 'none' ? undefined : shape}
+            hideChevron
+          >
+            Label
+          </MediaButton>,
+        );
+        expect(screen.getByTestId('trigger')).toBeTruthy();
+        expect(screen.queryByTestId('button-trigger-chevron')).toBeNull();
       },
     );
   });

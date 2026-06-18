@@ -102,7 +102,7 @@
   "icon-multiple": {
     "icon-multiple-network-spacing": {
       "$type": "number",
-      "$value": -5,
+      "$value": -6,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -116,7 +116,7 @@
     },
     "icon-multiple-coin-spacing": {
       "$type": "number",
-      "$value": -13.5,
+      "$value": -15.5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -130,7 +130,7 @@
     },
     "icon-multiple-radius": {
       "$type": "number",
-      "$value": 20,
+      "$value": 24,
       "$description": "",
       "$extensions": {
         "com.figma": {

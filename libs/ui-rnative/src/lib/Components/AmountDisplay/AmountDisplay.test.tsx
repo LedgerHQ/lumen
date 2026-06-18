@@ -31,6 +31,7 @@ describe('AmountDisplay', () => {
       accessibilityValue?: { text?: string };
       [key: string]: unknown;
     };
+    findAll: (predicate: (node: TestNode) => boolean) => TestNode[];
   };
 
   const getDigitStripValues = (): number[] => {
@@ -41,6 +42,32 @@ describe('AmountDisplay', () => {
           node.props.accessibilityValue?.text !== undefined,
       )
       .map((node: TestNode) => Number(node.props.accessibilityValue?.text));
+  };
+
+  const getDigitStripWidths = (): unknown[] => {
+    return screen.root
+      .findAll(
+        (node: TestNode) =>
+          typeof node.type !== 'function' &&
+          node.props.accessibilityValue?.text !== undefined,
+      )
+      .map(
+        (node: TestNode) =>
+          (node.props.style as { width?: unknown } | undefined)?.width,
+      );
+  };
+
+  const getDigitStripContainers = (): TestNode[] => {
+    return screen.root.findAll(
+      (node: TestNode) =>
+        typeof node.type !== 'function' &&
+        node.props.accessibilityValue?.text !== undefined,
+    );
+  };
+
+  const getStyleOverflow = (node: TestNode): unknown => {
+    const style = node.props.style as { overflow?: unknown } | undefined;
+    return style?.overflow;
   };
 
   it('renders with basic formatter', () => {
@@ -239,5 +266,70 @@ describe('AmountDisplay', () => {
     );
 
     expect(screen.getAllByText(',', hidden)).toHaveLength(2);
+  });
+
+  it('animates the digit strip width when animate is true', () => {
+    const formatter = createFormatter();
+    render(
+      <TestWrapper>
+        <AmountDisplay value={1234.56} formatter={formatter} animate={true} />
+      </TestWrapper>,
+    );
+
+    const widths = getDigitStripWidths();
+    expect(widths.length).toBeGreaterThan(0);
+    widths.forEach((width) => {
+      expect(typeof width).not.toBe('number');
+    });
+  });
+
+  it('uses a static digit strip width when animate is false', () => {
+    const formatter = createFormatter();
+    render(
+      <TestWrapper>
+        <AmountDisplay value={1234.56} formatter={formatter} animate={false} />
+      </TestWrapper>,
+    );
+
+    const widths = getDigitStripWidths();
+    expect(widths.length).toBeGreaterThan(0);
+    widths.forEach((width) => {
+      expect(typeof width).toBe('number');
+    });
+  });
+
+  describe('digit strip clipping', () => {
+    it('does not set overflow:hidden on the digit strip container', () => {
+      const formatter = createFormatter();
+      render(
+        <TestWrapper>
+          <AmountDisplay value={1234.56} formatter={formatter} />
+        </TestWrapper>,
+      );
+
+      const containers = getDigitStripContainers();
+      expect(containers.length).toBeGreaterThan(0);
+      containers.forEach((container) => {
+        expect(getStyleOverflow(container)).not.toBe('hidden');
+      });
+    });
+
+    it('clips overflow on an inner wrapper inside each digit strip', () => {
+      const formatter = createFormatter();
+      render(
+        <TestWrapper>
+          <AmountDisplay value={1234.56} formatter={formatter} />
+        </TestWrapper>,
+      );
+
+      const containers = getDigitStripContainers();
+      expect(containers.length).toBeGreaterThan(0);
+      containers.forEach((container) => {
+        const clippingWrapper = container.findAll(
+          (node: TestNode) => getStyleOverflow(node) === 'hidden',
+        );
+        expect(clippingWrapper.length).toBeGreaterThan(0);
+      });
+    });
   });
 });

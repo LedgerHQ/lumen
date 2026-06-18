@@ -1,3 +1,7 @@
+import type { CurveType } from '../../utils/types';
+
+export type { CurveType };
+
 export type LineProps = {
   /**
    * The ID of the series to render.
@@ -20,4 +24,17 @@ export type LineProps = {
    * @default 'gradient'
    */
   areaType?: 'gradient';
+  /**
+   * Override interpolation used to draw the line between data points.
+   * When omitted, falls back to the `curve` defined on the series.
+   * @default 'bump'
+   */
+  curve?: CurveType;
+  /**
+   * When true, skips null values and draws a continuous line across gaps.
+   * When false, null values create gaps in the line.
+   * When omitted, falls back to the `connectNulls` defined on the series.
+   * @default false
+   */
+  connectNulls?: boolean;
 };

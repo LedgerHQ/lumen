@@ -113,7 +113,6 @@ export const prodConfig = defineConfig(
       ...jsxA11y.flatConfigs.strict.rules,
       'react/display-name': 'error',
       'no-console': 'error',
-      'no-restricted-imports': 'error',
       'import/no-extraneous-dependencies': ['error'],
       'import/no-default-export': 'error',
       /**

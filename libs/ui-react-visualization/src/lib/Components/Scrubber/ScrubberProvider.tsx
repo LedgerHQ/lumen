@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
@@ -42,9 +43,9 @@ export function ScrubberProvider({
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
       const clamped =
-        index === undefined
+        index === undefined || dataLength <= 0
           ? undefined
-          : Math.max(0, Math.min(index, dataLength - 1));
+          : clamp(index, 0, dataLength - 1);
       setScrubberPosition(clamped);
       onScrubberPositionChange?.(clamped);
     },
@@ -150,7 +151,7 @@ export function ScrubberProvider({
       const maxIndex = dataLength - 1;
       const current = scrubberPositionRef.current ?? maxIndex;
       const step = event.shiftKey
-        ? Math.min(10, Math.max(1, Math.floor(maxIndex * 0.1)))
+        ? clamp(Math.floor(maxIndex * 0.1), 1, 10)
         : 1;
 
       let next: number | undefined;
@@ -158,11 +159,11 @@ export function ScrubberProvider({
       switch (event.key) {
         case 'ArrowLeft':
           event.preventDefault();
-          next = Math.max(0, current - step);
+          next = clamp(current - step, 0, maxIndex);
           break;
         case 'ArrowRight':
           event.preventDefault();
-          next = Math.min(maxIndex, current + step);
+          next = clamp(current + step, 0, maxIndex);
           break;
         case 'Home':
           event.preventDefault();

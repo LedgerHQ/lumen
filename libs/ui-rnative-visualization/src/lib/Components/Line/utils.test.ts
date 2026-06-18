@@ -5,7 +5,7 @@ import {
   getNumericScale,
 } from '../../utils/scales/scales';
 
-import { toScaledPoints } from './utils';
+import { buildLinePath, toScaledPoints } from './utils';
 
 const xScale = getNumericScale({
   scaleType: 'linear',
@@ -44,15 +44,27 @@ describe('toScaledPoints', () => {
     expect(points![points!.length - 1][0]).toBe(800);
   });
 
-  it('skips null values without affecting the cap', () => {
+  it('keeps null values as holes by default so the line breaks', () => {
     const data: (number | null)[] = [10, null, 30, 40, 50, 60, 70, 80, 90];
     const xData = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
     const points = toScaledPoints(data, xScale, yScale, xData);
 
     expect(points).not.toBeNull();
-    expect(points).toHaveLength(7);
+    expect(points).toHaveLength(8);
+    expect(points![1][1]).toBeNull();
     expect(points![points!.length - 1][0]).toBe((800 / 7) * 7);
+  });
+
+  it('skips null values when connectNulls is true', () => {
+    const data: (number | null)[] = [10, null, 30, 40, 50, 60, 70, 80, 90];
+    const xData = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+    const points = toScaledPoints(data, xScale, yScale, xData, true);
+
+    expect(points).not.toBeNull();
+    expect(points).toHaveLength(7);
+    expect(points!.every((p) => p[1] !== null)).toBe(true);
   });
 
   it('uses numeric xData values as the x input', () => {
@@ -86,5 +98,67 @@ describe('toScaledPoints', () => {
     const xData = ['A', 'B', 'C'];
 
     expect(toScaledPoints(data, xScale, yScale, xData)).toBeNull();
+  });
+});
+
+describe('buildLinePath', () => {
+  const points: [number, number][] = [
+    [0, 100],
+    [50, 20],
+    [100, 60],
+  ];
+
+  it('defaults to the bump curve (cubic beziers)', () => {
+    const path = buildLinePath(points);
+
+    expect(path).not.toBeNull();
+    expect(path).toContain('C');
+  });
+
+  it('draws straight segments for the linear curve', () => {
+    const path = buildLinePath(points, 'linear');
+
+    expect(path).toBe('M0,100L50,20L100,60');
+  });
+
+  it('uses cubic beziers for smooth curves', () => {
+    expect(buildLinePath(points, 'natural')).toContain('C');
+    expect(buildLinePath(points, 'monotone')).toContain('C');
+  });
+
+  it('draws orthogonal segments for the step curve', () => {
+    const path = buildLinePath(points, 'step');
+
+    expect(path).not.toBeNull();
+    expect(path).not.toContain('C');
+    expect(path).toBe('M0,100L25,100L25,20L75,20L75,60L100,60');
+  });
+
+  it('falls back to the default curve for unknown values', () => {
+    const path = buildLinePath(points, 'unknown' as never);
+
+    expect(path).toBe(buildLinePath(points));
+  });
+
+  it('breaks the path into segments at null holes', () => {
+    const gapped: [number, number | null][] = [
+      [0, 100],
+      [50, 80],
+      [100, null],
+      [150, 60],
+      [200, 40],
+    ];
+
+    const path = buildLinePath(gapped, 'linear');
+
+    expect(path).not.toBeNull();
+    expect(path!.match(/M/g)).toHaveLength(2);
+    expect(path).toBe('M0,100L50,80M150,60L200,40');
+  });
+
+  it('draws a single continuous segment when there are no holes', () => {
+    const path = buildLinePath(points, 'linear');
+
+    expect(path!.match(/M/g)).toHaveLength(1);
   });
 });

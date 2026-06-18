@@ -104,7 +104,7 @@ export const tokens = {
     '--color-light-yellow-400': '#ffbd42',
     '--color-light-yellow-500': '#efa22f',
     '--color-light-yellow-600': '#d38b20',
-    '--color-light-yellow-700': '#ae731a',
+    '--color-light-yellow-700': '#9b6109',
     '--color-light-yellow-800': '#885a14',
     '--color-light-yellow-900': '#63420f',
     '--color-light-yellow-950': '#3e2909',

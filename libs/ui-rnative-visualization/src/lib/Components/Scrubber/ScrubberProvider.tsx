@@ -1,9 +1,11 @@
+import { triggerHapticFeedback } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticPointsContext } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
@@ -77,19 +79,32 @@ export function ScrubberProvider({
   latest.current.magnetRadius = magnetRadius;
   latest.current.sortedMagnets = sortedMagnets;
 
+  const handleHapticFeedback = useCallback(
+    (ref: typeof latest.current, clamped: number | undefined) => {
+      if (ref.lastIndex === undefined && clamped !== undefined) {
+        triggerHapticFeedback('light');
+      }
+    },
+    [],
+  );
+
   const setScrubberPositionAndNotify = useCallback(
     (index: number | undefined) => {
       const ref = latest.current;
       const clamped =
         index === undefined || ref.dataLength <= 0
           ? undefined
-          : Math.max(0, Math.min(index, ref.dataLength - 1));
+          : clamp(index, 0, ref.dataLength - 1);
       if (clamped === ref.lastIndex) return;
+
+      handleHapticFeedback(ref, clamped);
+
       ref.lastIndex = clamped;
+
       setScrubberPosition(clamped);
       ref.onChange?.(clamped);
     },
-    [],
+    [handleHapticFeedback],
   );
 
   const handlePositionChange = useCallback(

@@ -309,7 +309,7 @@ export const TableCellContent = ({
       className={cellContentVariants({ align, className })}
       {...props}
     >
-      <div className='shrink-0'>{leadingContent}</div>
+      {leadingContent && <div className='shrink-0'>{leadingContent}</div>}
       <div className='flex min-w-0 flex-col gap-4'>
         <div className='shrink-0 body-2 text-base'>{title}</div>
         <div className='truncate body-3 text-muted'>{description}</div>
@@ -548,8 +548,8 @@ export const TableSortButton = ({
   const { t } = useCommonTranslation();
   const Icon = sortControlIconMap[sortDirection || 'idle'];
   const ariaLabelMap = {
-    asc: t('table.ascAriaLabel'),
-    desc: t('table.descAriaLabel'),
+    asc: t('components.table.ascAriaLabel'),
+    desc: t('components.table.descAriaLabel'),
   };
 
   return (

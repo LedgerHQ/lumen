@@ -7,9 +7,13 @@ import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(
-    'relative inline-flex items-center justify-center rounded-full bg-muted-transparent transition-colors',
+    'relative inline-flex items-center justify-center rounded-full transition-colors',
     {
       variants: {
+        appearance: {
+          gray: 'bg-muted',
+          transparent: 'bg-muted-transparent',
+        },
         size: {
           sm: 'size-40 p-4',
           md: 'size-48 p-4',
@@ -18,6 +22,7 @@ const avatarVariants = {
         },
       },
       defaultVariants: {
+        appearance: 'transparent',
         size: 'md',
       },
     },
@@ -61,6 +66,7 @@ export const Avatar = ({
   className,
   src,
   alt,
+  appearance = 'transparent',
   size = 'md',
   imgLoading,
   showNotification: showNotificationProp = false,
@@ -87,7 +93,7 @@ export const Avatar = ({
   const avatarContent = (
     <div
       ref={ref}
-      className={avatarVariants.root({ size, className })}
+      className={avatarVariants.root({ appearance, size, className })}
       role='img'
       aria-label={ariaLabel}
       {...props}

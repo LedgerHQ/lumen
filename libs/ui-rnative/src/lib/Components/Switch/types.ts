@@ -1,5 +1,7 @@
 import type { StyledPressableProps } from '../../../styles';
 
+export type SwitchSize = 'sm' | 'md';
+
 export type SwitchProps = {
   /**
    * The disabled state of the switch.
@@ -15,7 +17,7 @@ export type SwitchProps = {
    * The size of the switch.
    * @default 'md'
    */
-  size?: 'sm' | 'md';
+  size?: SwitchSize;
   /**
    * The callback function called when the checked state changes.
    */

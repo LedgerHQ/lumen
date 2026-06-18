@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { projectPoint } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useRevealClip } from '../CartesianChart/RevealClip';
+import { usePointReveal } from '../CartesianChart/RevealAnimation';
 import { DEFAULT_SIZE, STROKE_WIDTH } from './constants';
 import { useMagneticPointsContext } from './pointContext';
 
@@ -53,7 +53,6 @@ export function Point({
 }: Readonly<PointProps>) {
   const { getXScale, getYScale, getXAxisConfig, drawingArea } =
     useCartesianChartContext();
-  const clipPath = useRevealClip();
   const magneticContext = useMagneticPointsContext();
 
   useMagneticRegistration(magnetic, dataX, getXAxisConfig, magneticContext);
@@ -69,6 +68,8 @@ export function Point({
     return projectPoint(dataX, dataY, xScale, yScale);
   }, [dataX, dataY, xScale, yScale]);
 
+  const revealStyle = usePointReveal();
+
   if (!pixel || !isWithinBounds(pixel.x, pixel.y, drawingArea)) {
     return null;
   }
@@ -83,9 +84,11 @@ export function Point({
   return (
     <g
       data-testid='point-group'
-      clipPath={clipPath}
       onClick={onClick}
-      style={onClick ? { cursor: 'pointer' } : undefined}
+      style={{
+        ...revealStyle,
+        ...(onClick ? { cursor: 'pointer' } : undefined),
+      }}
     >
       {!hidePoint && (
         <circle

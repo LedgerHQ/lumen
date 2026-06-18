@@ -3,7 +3,6 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
-  BORDER_RADIUS,
   DEFAULT_OFFSET,
   DEFAULT_TOOLTIP_MIN_WIDTH,
   PADDING_X,
@@ -22,10 +21,10 @@ import {
 } from './utils';
 
 const TITLE_STYLE = {
-  fontSize: cssVar('var(--font-style-body-4-size)'),
+  fontSize: cssVar('var(--font-style-body-3-size)'),
   fontFamily: cssVar('var(--font-family-font)'),
-  fill: cssVar('var(--text-base)'),
-  fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
+  fill: cssVar('var(--text-muted)'),
+  fontWeight: cssVar('var(--font-style-body-3-weight-medium)'),
 };
 
 /**
@@ -80,8 +79,10 @@ export function DefaultScrubberTooltip({
         y={drawingArea.y}
         width={tooltipWidth}
         height={tooltipHeight}
-        rx={BORDER_RADIUS}
         fill={cssVar('var(--background-muted)')}
+        style={{
+          rx: cssVar('var(--border-radius-sm)'),
+        }}
       />
       {hasTitle && (
         <text

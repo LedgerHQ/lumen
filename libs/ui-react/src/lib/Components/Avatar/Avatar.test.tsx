@@ -40,6 +40,28 @@ describe('Avatar Component', () => {
     expect(svg).toBeInTheDocument();
   });
 
+  it('should render with transparent appearance by default', () => {
+    const { container } = render(<Avatar src={validSrc} />);
+
+    const wrapper = container.firstChild;
+    expect(wrapper).toHaveClass('bg-muted-transparent');
+  });
+
+  it.each([
+    ['transparent', 'bg-muted-transparent'],
+    ['gray', 'bg-muted'],
+  ] as const)(
+    'should render with %s appearance when specified',
+    (appearance, expectedClass) => {
+      const { container } = render(
+        <Avatar src={validSrc} appearance={appearance} />,
+      );
+
+      const wrapper = container.firstChild;
+      expect(wrapper).toHaveClass(expectedClass);
+    },
+  );
+
   it('should render with md size by default', () => {
     const { container } = render(<Avatar src={validSrc} />);
 

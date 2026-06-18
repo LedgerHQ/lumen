@@ -48,7 +48,7 @@ export type LineChartProps = {
   width?: number;
   /**
    * Height of the chart in pixels.
-   * @default 160
+   * @default 228
    */
   height?: number;
   /**
@@ -83,4 +83,52 @@ export type LineChartProps = {
    * @default 6
    */
   magnetRadius?: number;
+  /**
+   * Whether the chart is loading. When there is no data, renders an animated
+   * shimmer placeholder line (initial loading). When data is present (e.g. a
+   * time-range change), the current line is recoloured to a muted grey and
+   * shimmers until the new `series` is provided (transition loading).
+   *
+   * To get the transition behaviour, keep passing the previous `series` while
+   * refetching; clearing it falls back to the initial placeholder.
+   * @default false
+   */
+  loading?: boolean;
+  /**
+   * Text shown in the centre of the chart when there is no data and the chart
+   * is not loading.
+   * @default 'No data'
+   */
+  emptyLabel?: string;
+  /**
+   * Chart-wide override controlling how null values are handled across all lines.
+   * When true, skips null values and draws continuous lines across gaps.
+   * When false, null values create gaps in the lines.
+   * When omitted, each series' own `connectNulls` value is used (defaulting to `false`).
+   */
+  connectNulls?: boolean;
 };
+
+/**
+ * Series-render fields shared by `LineChart` and its internal line
+ * sub-components. Derived from {@link LineChartProps} so the option types stay
+ * in sync.
+ */
+type LineSeriesRenderProps = Required<
+  Pick<LineChartProps, 'series' | 'showArea' | 'areaType'>
+>;
+
+export type LineChartLinesProps = LineSeriesRenderProps &
+  Pick<LineChartProps, 'connectNulls'> & {
+    stroke?: string;
+  };
+
+export type LineChartTransitionLinesProps = Omit<LineChartLinesProps, 'stroke'>;
+
+export type LineChartContentProps = LineChartLinesProps &
+  Required<Pick<LineChartProps, 'showXAxis' | 'showYAxis'>> &
+  Pick<LineChartProps, 'children'> & {
+    xAxisConfig: XAxisProps;
+    yAxisConfig: YAxisProps;
+    isTransitionLoading: boolean;
+  };

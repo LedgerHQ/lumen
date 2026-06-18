@@ -1,0 +1,50 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ScrubberStories from './Scrubber.stories';
+
+<Meta of={ScrubberStories} />
+
+# Scrubber
+
+`Scrubber` adds hover, touch and keyboard interaction to a `LineChart`. As the
+user moves across the chart it tracks the nearest data index, draws a vertical
+line, dims the trailing area and can show beacons and a tooltip.
+
+## Usage
+
+Set `enableScrubbing` on the `LineChart` and render a `<Scrubber>` child.
+Without `enableScrubbing` on the parent, the scrubber stays inert.
+
+<Canvas of={ScrubberStories.Base} />
+
+## Tooltips
+
+Pass a `tooltip` callback that receives the active data index and returns
+content (`{ title?, items }`). `offset` and `minWidth` on the returned object
+tune layout. This is the most common scrubber configuration.
+
+<Canvas of={ScrubberStories.WithTooltip} />
+
+## Beacons & multiple series
+
+`showBeacons` draws a dot on every series at the active index. The scrubber
+tracks the same index across all series in a multi-line chart.
+
+<Canvas of={ScrubberStories.WithBeacons} />
+
+## Conditional tooltips
+
+Return `{ items: [] }` from the `tooltip` callback to hide the tooltip at a
+given index — for example, surfacing details only on annotated `Point`s.
+
+<Canvas of={ScrubberStories.WithTooltipOnPoints} />
+
+## Magnetic points
+
+When a `LineChart` has `enableScrubbing`, any `<Point magnetic>` child becomes a
+snap target within the chart's `magnetRadius`. See the **Point** page for more.
+
+<Canvas of={ScrubberStories.MagneticPoints} />
+
+## Props
+
+<Controls of={ScrubberStories.Base} />

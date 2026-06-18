@@ -7,6 +7,7 @@ import { DotIndicator } from '../DotIndicator';
 import { Box } from '../Utility';
 import type { AvatarProps } from './types';
 
+type Appearance = NonNullable<AvatarProps['appearance']>;
 type Size = NonNullable<AvatarProps['size']>;
 
 const fallbackSizes = {
@@ -23,9 +24,20 @@ const dotSizeMap: Partial<
   md: 'xl',
 };
 
-const useStyles = ({ size }: { size: Size }) => {
+const useStyles = ({
+  appearance,
+  size,
+}: {
+  appearance: Appearance;
+  size: Size;
+}) => {
   return useStyleSheet(
     (t) => {
+      const backgroundColors: Record<Appearance, string> = {
+        gray: t.colors.bg.muted,
+        transparent: t.colors.bg.mutedTransparent,
+      };
+
       const sizeMap = {
         sm: { size: t.sizes.s40, padding: t.spacings.s4 },
         md: { size: t.sizes.s48, padding: t.spacings.s4 },
@@ -39,7 +51,7 @@ const useStyles = ({ size }: { size: Size }) => {
           width: sizeMap[size].size,
           height: sizeMap[size].size,
           borderRadius: 9999,
-          backgroundColor: t.colors.bg.muted,
+          backgroundColor: backgroundColors[appearance],
           alignItems: 'center',
           justifyContent: 'center',
           padding: sizeMap[size].padding,
@@ -52,7 +64,7 @@ const useStyles = ({ size }: { size: Size }) => {
         },
       };
     },
-    [size],
+    [appearance, size],
   );
 };
 
@@ -77,6 +89,7 @@ export const Avatar = ({
   style,
   src,
   alt = 'avatar',
+  appearance = 'transparent',
   size = 'md',
   showNotification: showNotificationProp = false,
   testID,
@@ -86,7 +99,7 @@ export const Avatar = ({
   const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
-  const styles = useStyles({ size });
+  const styles = useStyles({ appearance, size });
 
   const resolvedAlt = alt || t('components.avatar.defaultAlt');
 

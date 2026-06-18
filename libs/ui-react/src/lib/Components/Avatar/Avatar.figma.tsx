@@ -7,6 +7,10 @@ figma.connect(
   {
     imports: ["import { Avatar } from '@ledgerhq/lumen-ui-react'"],
     props: {
+      appearance: figma.enum('appearance', {
+        gray: 'gray',
+        transparent: 'transparent',
+      }),
       size: figma.enum('size', {
         sm: 'sm',
         md: 'md',
@@ -21,6 +25,7 @@ figma.connect(
     example: (props) => (
       <Avatar
         src='https://example-image.com'
+        appearance={props.appearance}
         size={props.size}
         alt="John Doe's Avatar"
         imgLoading='eager'

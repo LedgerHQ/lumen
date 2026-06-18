@@ -164,6 +164,12 @@ const useAnimatedDigitStrip = ({
   return { animatedStyle };
 };
 
+// Horizontal breathing room for the clip box so glyphs that are slightly wider
+// than the measured `targetWidth` are not cut on their left/right edges. RN has
+// no per-axis overflow, so we extend the clip box horizontally while keeping the
+// vertical clip tight to `lineHeight`
+const HORIZONTAL_CLIP_PADDING = 8;
+
 const DigitStrip = memo(
   ({ value, textStyle, animate, widths }: DigitStripProps) => {
     const targetWidth = widths[value];
@@ -179,23 +185,39 @@ const DigitStrip = memo(
 
     return (
       <Animated.View
-        style={{ height: lineHeight, overflow: 'hidden', width: width }}
+        style={{
+          height: lineHeight,
+          width: animate ? width : targetWidth,
+        }}
         accessibilityValue={{ text: String(value) }}
       >
-        <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
-          {DIGITS.map((d) => (
-            <Text
-              allowFontScaling={false}
-              key={d}
-              style={[
-                textStyle,
-                RuntimeConstants.isAndroid && { height: lineHeight },
-              ]}
-            >
-              {d}
-            </Text>
-          ))}
-        </Animated.View>
+        <View
+          pointerEvents='none'
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: -HORIZONTAL_CLIP_PADDING,
+            right: -HORIZONTAL_CLIP_PADDING,
+            overflow: 'hidden',
+            alignItems: 'center',
+          }}
+        >
+          <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
+            {DIGITS.map((d) => (
+              <Text
+                allowFontScaling={false}
+                key={d}
+                style={[
+                  textStyle,
+                  RuntimeConstants.isAndroid && { height: lineHeight },
+                ]}
+              >
+                {d}
+              </Text>
+            ))}
+          </Animated.View>
+        </View>
       </Animated.View>
     );
   },

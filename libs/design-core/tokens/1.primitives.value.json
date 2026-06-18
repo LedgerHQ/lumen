@@ -1216,7 +1216,7 @@
         },
         "700": {
           "$type": "color",
-          "$value": "#ae731a",
+          "$value": "#9b6109",
           "$description": "",
           "$extensions": {
             "com.figma": {

@@ -3,16 +3,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator';
 import { LineChart } from '../LineChart';
+import {
+  CHART_HEIGHT,
+  CHART_WIDTH,
+  sampleSeries,
+} from '../LineChart/__stories__/chartStoryFixtures';
 
 import { ReferenceLine } from './ReferenceLine';
-
-const sampleSeries = [
-  {
-    id: 'prices',
-    stroke: '#7B61FF',
-    data: [10, 22, 29, 45, 98, 45, 22, 52, 21, 4, 68, 20, 21, 58],
-  },
-];
 
 const meta = {
   component: ReferenceLine,
@@ -22,7 +19,7 @@ const meta = {
     (Story, context) => {
       return (
         <StoryDecorator context={context}>
-          <div style={{ width: 600, padding: 16 }}>
+          <div style={{ width: CHART_WIDTH, padding: 16 }}>
             <Story />
           </div>
         </StoryDecorator>
@@ -35,22 +32,23 @@ export default meta;
 type Story = StoryObj<typeof ReferenceLine>;
 
 export const HorizontalLine: Story = {
-  render: () => (
-    <LineChart series={sampleSeries} height={250} showArea>
-      <ReferenceLine
-        dataY={50}
-        label='Target'
-        labelDy={-4}
-        labelVerticalAlignment='start'
-        labelHorizontalAlignment='start'
-      />
+  args: {
+    dataY: 50,
+    label: 'Target',
+    labelDy: -4,
+    labelVerticalAlignment: 'start',
+    labelHorizontalAlignment: 'start',
+  },
+  render: (args) => (
+    <LineChart series={sampleSeries} height={CHART_HEIGHT} showArea>
+      <ReferenceLine {...args} />
     </LineChart>
   ),
 };
 
 export const VerticalLine: Story = {
   render: () => (
-    <LineChart series={sampleSeries} height={250} showArea>
+    <LineChart series={sampleSeries} height={CHART_HEIGHT} showArea>
       <ReferenceLine
         dataX={7}
         label='Midpoint'
@@ -63,30 +61,38 @@ export const VerticalLine: Story = {
   ),
 };
 
-export const Combined: Story = {
+export const WithLabelAndStyling: Story = {
   render: () => (
-    <LineChart series={sampleSeries} height={250} showArea>
+    <LineChart
+      series={sampleSeries}
+      height={CHART_HEIGHT}
+      showArea
+      xAxis={{ showLine: true }}
+    >
       <ReferenceLine
-        dataY={98}
-        label='ATH'
-        labelDy={4}
+        dataY={75}
+        label='25th percentile'
+        labelDy={-4}
         labelVerticalAlignment='start'
+        labelHorizontalAlignment='start'
         stroke={cssVar('var(--border-success)')}
       />
       <ReferenceLine
-        dataY={4}
-        label='Low'
+        dataY={25}
+        label='75th percentile'
         labelDy={-4}
-        labelVerticalAlignment='end'
+        labelVerticalAlignment='start'
+        labelHorizontalAlignment='start'
         stroke={cssVar('var(--border-error)')}
       />
       <ReferenceLine
-        dataX={4}
-        label='Peak'
-        labelDx={8}
-        labelDy={8}
-        labelHorizontalAlignment='end'
-        labelPosition='start'
+        dataY={50}
+        label='Median'
+        lineStyle='solid'
+        stroke={cssVar('var(--border-muted-subtle)')}
+        labelDy={-4}
+        labelVerticalAlignment='start'
+        labelHorizontalAlignment='start'
       />
     </LineChart>
   ),

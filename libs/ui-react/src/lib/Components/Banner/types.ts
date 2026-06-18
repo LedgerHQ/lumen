@@ -9,11 +9,11 @@ export type BannerProps = HTMLAttributes<HTMLDivElement> & {
   /**
    * The main title of the banner.
    */
-  title?: string;
+  title?: ReactNode;
   /**
    * Optional descriptive text.
    */
-  description?: string;
+  description?: ReactNode;
   /**
    * Optional primary action.
    *

@@ -58,7 +58,7 @@
     },
     "icon-radius-square": {
       "$type": "number",
-      "$value": "{border-radius.lg}",
+      "$value": "{border-radius.xl}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -72,7 +72,7 @@
     },
     "icon-font-size": {
       "$type": "number",
-      "$value": "{font.size.28}",
+      "$value": "{font.size.32}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -102,7 +102,7 @@
   "icon-multiple": {
     "icon-multiple-network-spacing": {
       "$type": "number",
-      "$value": -5,
+      "$value": -7,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -116,7 +116,7 @@
     },
     "icon-multiple-coin-spacing": {
       "$type": "number",
-      "$value": -13.5,
+      "$value": -17.5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -130,7 +130,7 @@
     },
     "icon-multiple-radius": {
       "$type": "number",
-      "$value": 20,
+      "$value": 28,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -146,7 +146,7 @@
   "payment": {
     "payment-radius": {
       "$type": "number",
-      "$value": 5,
+      "$value": 5.5,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -218,7 +218,7 @@
     },
     "dot-symbol-border-path": {
       "$type": "number",
-      "$value": "{stroke.1}",
+      "$value": "{stroke.1,5}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -232,7 +232,7 @@
     },
     "dot-symbol-spinner-border-width": {
       "$type": "number",
-      "$value": "{spinner-border-width.16}",
+      "$value": "{spinner-border-width.20}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -246,7 +246,7 @@
     },
     "dot-symbol-icon-heigth": {
       "$type": "number",
-      "$value": "{icon-width.16}",
+      "$value": "{icon-width.20}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -260,7 +260,7 @@
     },
     "dot-symbol-icon-width": {
       "$type": "number",
-      "$value": "{icon-height.16}",
+      "$value": "{icon-height.20}",
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -274,7 +274,7 @@
     },
     "dot-symbol-icon-border-width": {
       "$type": "number",
-      "$value": "{icon-border-width.16}",
+      "$value": "{icon-border-width.20}",
       "$description": "",
       "$extensions": {
         "com.figma": {

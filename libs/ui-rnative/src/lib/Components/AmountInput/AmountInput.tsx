@@ -1,21 +1,28 @@
-import {
-  getFontSize,
-  textFormatter,
-  useDisabledContext,
-} from '@ledgerhq/lumen-utils-shared';
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Pressable, StyleSheet, TextInput } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { useImperativeHandle, useRef, useState } from 'react';
+import type { StyleProp, TextStyle } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
 import { Box } from '../Utility';
-import { type AmountInputProps } from './types';
+import type {
+  AmountInputAlign,
+  AmountInputProps,
+  AmountInputSize,
+} from './types';
+import { useAmountInputAnimations } from './useAmountInputAnimations/useAmountInputAnimations';
+import { useAmountInputFormatting } from './useAmountInputFormatting/useAmountInputFormatting';
+
+type CurrencyProps = {
+  style: StyleProp<TextStyle>;
+  children: string;
+};
+
+const Currency = ({ style, children }: CurrencyProps) => (
+  <Animated.Text style={style} allowFontScaling={false}>
+    {children}
+  </Animated.Text>
+);
 
 /**
  * AmountInput component for handling numeric input with currency display.
@@ -25,6 +32,8 @@ import { type AmountInputProps } from './types';
 export const AmountInput = ({
   lx = {},
   style,
+  size = 'md',
+  align = 'center',
   currencyText,
   currencyPosition = 'left',
   editable,
@@ -40,105 +49,43 @@ export const AmountInput = ({
   ...props
 }: AmountInputProps) => {
   const inputRef = useRef<TextInput>(null);
-  const inputValue = String(value);
   const [isFocused, setIsFocused] = useState(false);
+
   const disabled = useDisabledContext({
     consumerName: 'AmountInput',
     mergeWith: { disabled: disabledProp },
   });
 
-  const translateX = useSharedValue(0);
-  const animatedFontSize = useSharedValue(getFontSize(inputValue));
-  const caretOpacity = useSharedValue(0);
-
-  useImperativeHandle(ref, () => inputRef.current as TextInput, []);
-
-  const styles = useStyles({
-    hasValue: !!inputValue,
-    isEditable: !disabled,
-    isInvalid,
-  });
-
-  const animatedInputStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateX: translateX.value }],
-      fontSize: animatedFontSize.value,
-      letterSpacing: 0,
-    }),
-    [translateX, animatedFontSize],
-  );
-
-  const animatedCurrencyStyle = useAnimatedStyle(
-    () => ({
-      fontSize: animatedFontSize.value,
-      letterSpacing: 0,
-    }),
-    [animatedFontSize],
-  );
-
-  const animatedCaretStyle = useAnimatedStyle(
-    () => ({
-      opacity: caretOpacity.value,
-      height: animatedFontSize.value,
-    }),
-    [caretOpacity, animatedFontSize],
-  );
-
-  useEffect(() => {
-    const newSize = getFontSize(inputValue);
-
-    translateX.value = withSequence(
-      withTiming(4, { duration: 0 }),
-      withTiming(0, {
-        duration: 250,
-        easing: Easing.bezier(0.4, 0, 0.2, 1),
-      }),
-    );
-
-    animatedFontSize.value = withTiming(newSize, {
-      duration: 250,
-      easing: Easing.bezier(0.4, 0, 0.2, 1),
-    });
-  }, [inputValue, animatedFontSize, translateX]);
-
-  useEffect(() => {
-    if (isFocused && !disabled) {
-      caretOpacity.value = withRepeat(
-        withSequence(
-          withTiming(1, { duration: 150, easing: Easing.ease }),
-          withTiming(1, { duration: 500 }),
-          withTiming(0, { duration: 150, easing: Easing.ease }),
-          withTiming(0, { duration: 500 }),
-        ),
-        -1,
-        false,
-      );
-    } else {
-      caretOpacity.value = 0;
-    }
-  }, [isFocused, disabled, caretOpacity]);
-
-  const handleChangeText = (text: string) => {
-    const formatted = textFormatter(text, {
+  const { formattedValue, handleChangeText } = useAmountInputFormatting({
+    value,
+    onChangeText,
+    formatOptions: {
       allowDecimals,
       thousandsSeparator,
       maxIntegerLength,
       maxDecimalLength,
+    },
+  });
+
+  const { animatedInputStyle, animatedCurrencyStyle, animatedCaretStyle } =
+    useAmountInputAnimations({
+      formattedValue,
+      size,
+      isFocused,
+      disabled,
     });
 
-    onChangeText(formatted);
-  };
+  const styles = useStyles({
+    size,
+    align,
+    hasValue: !!formattedValue,
+    isEditable: !disabled,
+    isInvalid,
+  });
 
-  const CurrencyText = currencyText ? (
-    <Animated.Text
-      style={[styles.currency, animatedCurrencyStyle]}
-      allowFontScaling={false}
-    >
-      {currencyText}
-    </Animated.Text>
-  ) : null;
+  useImperativeHandle(ref, () => inputRef.current as TextInput, []);
 
-  const handlePress = () => {
+  const handlePress = (): void => {
     if (!disabled) {
       inputRef.current?.focus();
     }
@@ -151,7 +98,7 @@ export const AmountInput = ({
         ref={inputRef}
         keyboardType='decimal-pad'
         editable={editable !== false && !disabled}
-        value={inputValue}
+        value={formattedValue}
         onChangeText={handleChangeText}
         onFocus={(e) => {
           setIsFocused(true);
@@ -164,94 +111,135 @@ export const AmountInput = ({
         style={styles.hiddenInput}
         {...props}
       />
-      <Pressable
-        onPress={handlePress}
-        style={styles.pressable}
-        accessibilityLabel={props.accessibilityLabel || 'Amount input'}
-      >
-        {currencyPosition === 'left' && CurrencyText}
-
-        {/** display text that mirrors the hidden input's value */}
-        <Animated.Text
-          style={[styles.displayText, animatedInputStyle, style]}
-          allowFontScaling={false}
+      <View style={styles.alignRow}>
+        <Pressable
+          onPress={handlePress}
+          style={styles.pressable}
+          accessibilityLabel={props.accessibilityLabel || 'Amount input'}
         >
-          {inputValue || '0'}
-        </Animated.Text>
+          {currencyText && currencyPosition === 'left' && (
+            <Currency style={[styles.currency, animatedCurrencyStyle]}>
+              {currencyText}
+            </Currency>
+          )}
 
-        {/** custom caret */}
-        <Animated.View style={[styles.caret, animatedCaretStyle]} />
+          {/** display text that mirrors the hidden input's value */}
+          <Animated.Text
+            style={[styles.displayText, animatedInputStyle, style]}
+            allowFontScaling={false}
+          >
+            {formattedValue || '0'}
+          </Animated.Text>
 
-        {currencyPosition === 'right' && CurrencyText}
-      </Pressable>
+          {/** custom caret */}
+          <Animated.View style={[styles.caret, animatedCaretStyle]} />
+
+          {currencyText && currencyPosition === 'right' && (
+            <Currency style={[styles.currency, animatedCurrencyStyle]}>
+              {currencyText}
+            </Currency>
+          )}
+        </Pressable>
+      </View>
     </Box>
   );
 };
 
+const SIZE_TYPOGRAPHY = {
+  md: 'heading0SemiBold',
+  sm: 'heading2SemiBold',
+} as const satisfies Record<
+  AmountInputSize,
+  'heading0SemiBold' | 'heading2SemiBold'
+>;
+
+const ALIGN_ROW_JUSTIFY = {
+  center: 'center',
+  start: 'flex-start',
+  end: 'flex-end',
+} as const satisfies Record<
+  AmountInputAlign,
+  'center' | 'flex-start' | 'flex-end'
+>;
+
 const useStyles = ({
+  size,
+  align,
   hasValue,
   isEditable,
   isInvalid,
 }: {
+  size: AmountInputSize;
+  align: AmountInputAlign;
   hasValue: boolean;
   isEditable: boolean;
   isInvalid: boolean;
 }) => {
   return useStyleSheet(
-    (t) => ({
-      container: {
-        position: 'relative',
-      },
-      hiddenInput: {
-        position: 'absolute',
-        width: t.sizes.full,
-        height: t.sizes.full,
-        opacity: 0,
-      },
-      pressable: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      displayText: StyleSheet.flatten([
-        {
-          height: t.sizes.s56,
-          backgroundColor: 'transparent',
-          color: t.colors.text.base,
-          alignItems: 'flex-start',
-          ...t.typographies.heading0SemiBold,
+    (t) => {
+      const typography = t.typographies[SIZE_TYPOGRAPHY[size]];
+      const displayHeight = size === 'md' ? t.sizes.s56 : t.sizes.s36;
+
+      return {
+        container: {
+          position: 'relative',
+          width: t.sizes.full,
         },
-        !hasValue && {
-          color: t.colors.text.mutedSubtle,
+        hiddenInput: {
+          position: 'absolute',
+          width: t.sizes.full,
+          height: t.sizes.full,
+          opacity: 0,
         },
-        !isEditable && {
-          color: t.colors.text.disabled,
+        alignRow: {
+          width: t.sizes.full,
+          flexDirection: 'row',
+          justifyContent: ALIGN_ROW_JUSTIFY[align],
         },
-        isInvalid && {
-          color: t.colors.text.error,
+        pressable: {
+          flexDirection: 'row',
+          alignItems: 'center',
         },
-      ]),
-      currency: StyleSheet.flatten([
-        {
-          color: t.colors.text.base,
-          ...t.typographies.heading0SemiBold,
+        displayText: StyleSheet.flatten([
+          {
+            height: displayHeight,
+            backgroundColor: 'transparent',
+            color: t.colors.text.base,
+            alignItems: 'flex-start',
+            ...typography,
+          },
+          !hasValue && {
+            color: t.colors.text.mutedSubtle,
+          },
+          !isEditable && {
+            color: t.colors.text.disabled,
+          },
+          isInvalid && {
+            color: t.colors.text.error,
+          },
+        ]),
+        currency: StyleSheet.flatten([
+          {
+            color: t.colors.text.base,
+            ...typography,
+          },
+          !hasValue && {
+            color: t.colors.text.mutedSubtle,
+          },
+          !isEditable && {
+            color: t.colors.text.disabled,
+          },
+          isInvalid && {
+            color: t.colors.text.error,
+          },
+        ]),
+        caret: {
+          marginHorizontal: t.spacings.s2,
+          width: t.sizes.s2,
+          backgroundColor: t.colors.text.active,
         },
-        !hasValue && {
-          color: t.colors.text.mutedSubtle,
-        },
-        !isEditable && {
-          color: t.colors.text.disabled,
-        },
-        isInvalid && {
-          color: t.colors.text.error,
-        },
-      ]),
-      caret: {
-        marginHorizontal: t.spacings.s2,
-        width: t.sizes.s2,
-        backgroundColor: t.colors.text.active,
-      },
-    }),
-    [hasValue, isEditable, isInvalid],
+      };
+    },
+    [size, align, hasValue, isEditable, isInvalid],
   );
 };

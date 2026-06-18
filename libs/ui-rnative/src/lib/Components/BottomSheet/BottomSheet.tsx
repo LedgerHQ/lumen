@@ -57,14 +57,18 @@ const useStyles = ({
 };
 
 const [BottomSheetProvider, useBottomSheetContext] =
-  createSafeContext<Pick<BottomSheetProps, 'onBack' | 'hideCloseButton'>>(
-    'BottomSheet',
-  );
+  createSafeContext<
+    Pick<
+      BottomSheetProps,
+      'onBack' | 'hideCloseButton' | 'onHeaderClosePressed'
+    >
+  >('BottomSheet');
 
 export const BottomSheet = ({
   onOpen,
   onClose,
   onDismiss,
+  onHeaderClosePressed,
   onBack,
   onAnimate,
   children,
@@ -203,7 +207,9 @@ export const BottomSheet = ({
       handleComponent={hideHandle ? HiddenHandle : CustomHandle}
       backdropComponent={hideBackdrop ? undefined : renderBackdrop}
     >
-      <BottomSheetProvider value={{ onBack, hideCloseButton }}>
+      <BottomSheetProvider
+        value={{ onBack, hideCloseButton, onHeaderClosePressed }}
+      >
         {children}
       </BottomSheetProvider>
     </GorhomBottomSheetModal>

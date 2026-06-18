@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-export type DotSymbolSize = 8 | 10 | 12 | 16 | 20 | 24;
+export type DotSymbolSize = 8 | 10 | 12 | 16 | 20 | 24 | 32;
 
 export type DotSymbolPin =
   | 'top-start'
