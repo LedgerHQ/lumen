@@ -1,6 +1,6 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import type { ComponentProps } from 'react';
 import { useImperativeHandle, useRef, useState } from 'react';
-import type { StyleProp, TextStyle } from 'react-native';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
@@ -14,7 +14,7 @@ import { useAmountInputAnimations } from './useAmountInputAnimations/useAmountIn
 import { useAmountInputFormatting } from './useAmountInputFormatting/useAmountInputFormatting';
 
 type CurrencyProps = {
-  style: StyleProp<TextStyle>;
+  style: ComponentProps<typeof Animated.Text>['style'];
   children: string;
 };
 
