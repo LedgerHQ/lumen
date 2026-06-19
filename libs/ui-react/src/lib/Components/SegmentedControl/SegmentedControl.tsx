@@ -142,7 +142,7 @@ export function SegmentedControl<
     <SegmentedControlContextProvider
       value={{
         selectedValue,
-        onSelectedChange: onSelectedChange as (value: string) => void,
+        onSelectedChange: (value) => onSelectedChange(value as T),
         disabled,
         tabLayout,
       }}

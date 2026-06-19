@@ -260,7 +260,7 @@ export function TabBar<T extends TabBarValue = TabBarValue>({
     <TabBarContextProvider
       value={{
         active,
-        onTabPress: onTabPress as (value: string) => void,
+        onTabPress: (value) => onTabPress(value as T),
       }}
     >
       <Box

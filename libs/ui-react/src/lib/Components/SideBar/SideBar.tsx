@@ -111,7 +111,9 @@ export const SideBar = <T extends SideBarValue = SideBarValue>({
   const [active, setActive] = useControllableState<string>({
     prop: controlledActive,
     defaultProp: defaultActive ?? '',
-    onChange: onActiveChange as ((value: string) => void) | undefined,
+    onChange: onActiveChange
+      ? (value) => onActiveChange(value as T)
+      : undefined,
   });
 
   return (
