@@ -4,13 +4,17 @@ import type {
   MetaShape,
   OptionListItemData,
   OptionListItemGroup,
+  OptionListValue,
 } from '../types';
 
-const groupByField = <TMeta extends MetaShape = MetaShape>(
-  items: OptionListItemData<TMeta>[],
-): OptionListItemGroup<TMeta>[] => {
+const groupByField = <
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+>(
+  items: OptionListItemData<T, TMeta>[],
+): OptionListItemGroup<T, TMeta>[] => {
   const order: string[] = [];
-  const map: Record<string, OptionListItemData<TMeta>[]> = {};
+  const map: Record<string, OptionListItemData<T, TMeta>[]> = {};
   for (const item of items) {
     const key = item.group ?? '';
     if (!map[key]) {
@@ -30,31 +34,42 @@ export const defaultLabelFilter = (
   query: string,
 ): boolean => item.label.toLowerCase().includes(query.toLowerCase());
 
-type UseOptionListItemsParams<TMeta extends MetaShape = MetaShape> = {
-  items: OptionListItemData<TMeta>[];
-  filter?: null | ((item: OptionListItemData<TMeta>, query: string) => boolean);
-  filteredItems?: OptionListItemData<TMeta>[];
+type UseOptionListItemsParams<
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
+  items: OptionListItemData<T, TMeta>[];
+  filter?:
+    | null
+    | ((item: OptionListItemData<T, TMeta>, query: string) => boolean);
+  filteredItems?: OptionListItemData<T, TMeta>[];
   searchValue?: string;
   defaultSearchValue?: string;
   onSearchValueChange?: (value: string) => void;
 };
 
-type UseOptionListItemsResult<TMeta extends MetaShape = MetaShape> = {
+type UseOptionListItemsResult<
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   isGrouped: boolean;
-  groups: OptionListItemGroup<TMeta>[];
-  flatItems: OptionListItemData<TMeta>[];
+  groups: OptionListItemGroup<T, TMeta>[];
+  flatItems: OptionListItemData<T, TMeta>[];
   resolvedSearchValue: string;
   handleSearchValueChange: (val: string) => void;
 };
 
-export const useOptionListItems = <TMeta extends MetaShape = MetaShape>({
+export const useOptionListItems = <
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+>({
   items,
   filter,
   filteredItems,
   searchValue: searchValueProp,
   defaultSearchValue,
   onSearchValueChange,
-}: UseOptionListItemsParams<TMeta>): UseOptionListItemsResult<TMeta> => {
+}: UseOptionListItemsParams<T, TMeta>): UseOptionListItemsResult<T, TMeta> => {
   const [searchValue, handleSearchValueChange] = useControllableState<string>({
     prop: searchValueProp,
     defaultProp: defaultSearchValue ?? '',

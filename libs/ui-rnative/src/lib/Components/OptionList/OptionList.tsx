@@ -3,7 +3,7 @@ import {
   useDisabledContext,
   DisabledProvider,
 } from '@ledgerhq/lumen-utils-shared';
-import { Fragment, type ReactNode } from 'react';
+import { Fragment, type ReactElement, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Check, ChevronDown } from '../../Symbols';
@@ -27,13 +27,17 @@ import type {
   OptionListSearchProps,
   OptionListTriggerProps,
   OptionListLabelProps,
+  OptionListValue,
 } from './types';
 import { useOptionListItems } from './useOptionList/useOptionListItems';
 
 const [OptionListProvider, useOptionListContext] =
   createSafeContext<OptionListContextValue>('OptionList');
 
-export const OptionList = <TMeta extends MetaShape = MetaShape>({
+export const OptionList = <
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+>({
   items,
   value,
   defaultValue,
@@ -45,7 +49,7 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
   defaultSearchValue,
   onSearchValueChange,
   children,
-}: OptionListProps<TMeta>) => {
+}: OptionListProps<T, TMeta>) => {
   const disabled = useDisabledContext({
     consumerName: 'OptionList',
     mergeWith: { disabled: disabledProp },
@@ -55,7 +59,7 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
     {
       prop: value,
       defaultProp: defaultValue ?? null,
-      onChange: onValueChange,
+      onChange: (next: string | null) => onValueChange?.(next as T | null),
     },
   );
 
@@ -65,7 +69,7 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
     flatItems,
     resolvedSearchValue,
     handleSearchValueChange,
-  } = useOptionListItems<TMeta>({
+  } = useOptionListItems<T, TMeta>({
     items,
     filter,
     filteredItems,
@@ -93,20 +97,26 @@ export const OptionList = <TMeta extends MetaShape = MetaShape>({
   );
 };
 
-export const OptionListContent = <TMeta extends MetaShape = MetaShape>({
+export const OptionListContent = <
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+>({
   renderItem,
   lx,
   style,
   ref,
   ...props
-}: OptionListContentProps<TMeta>) => {
+}: OptionListContentProps<T, TMeta>) => {
   const { selectedValue, isGrouped, groups, flatItems } = useOptionListContext({
     consumerName: 'OptionListContent',
     contextRequired: true,
   });
 
   const renderItemWithState = (item: OptionListItemData) =>
-    renderItem(item as OptionListItemData<TMeta>, selectedValue === item.value);
+    renderItem(
+      item as OptionListItemData<T, TMeta>,
+      selectedValue === item.value,
+    );
 
   if (isGrouped) {
     return (
@@ -161,7 +171,7 @@ const useItemStyles = ({
   );
 };
 
-export const OptionListItem = ({
+export const OptionListItem = <T extends OptionListValue = OptionListValue>({
   value,
   disabled: disabledProp = false,
   children,
@@ -169,7 +179,7 @@ export const OptionListItem = ({
   style,
   ref,
   ...props
-}: OptionListItemProps) => {
+}: OptionListItemProps<T>) => {
   const { selectedValue, onValueChange } = useOptionListContext({
     consumerName: 'OptionListItem',
     contextRequired: true,
@@ -576,3 +586,40 @@ export const OptionListTrigger = ({
     </Pressable>
   );
 };
+
+export function createOptionList<
+  T extends OptionListValue = never,
+  TMeta extends MetaShape = MetaShape,
+>(): {
+  OptionList: (props: OptionListProps<T, TMeta>) => ReactElement;
+  OptionListContent: (props: OptionListContentProps<T, TMeta>) => ReactElement;
+  OptionListItem: (props: OptionListItemProps<T>) => ReactElement;
+  OptionListItemText: (props: OptionListItemTextProps) => ReactElement;
+  OptionListItemDescription: (
+    props: OptionListItemDescriptionProps,
+  ) => ReactElement;
+  OptionListItemContent: (props: OptionListItemContentProps) => ReactElement;
+  OptionListItemContentRow: (
+    props: OptionListItemContentRowProps,
+  ) => ReactElement;
+  OptionListItemLeading: (props: OptionListItemLeadingProps) => ReactElement;
+  OptionListSearch: (props: OptionListSearchProps) => ReactElement;
+  OptionListEmptyState: (
+    props: OptionListEmptyStateProps,
+  ) => ReactElement | null;
+  OptionListTrigger: (props: OptionListTriggerProps) => ReactElement;
+} {
+  return {
+    OptionList,
+    OptionListContent,
+    OptionListItem,
+    OptionListItemText,
+    OptionListItemDescription,
+    OptionListItemContent,
+    OptionListItemContentRow,
+    OptionListItemLeading,
+    OptionListSearch,
+    OptionListEmptyState,
+    OptionListTrigger,
+  };
+}

@@ -8,9 +8,14 @@ import type { SearchInputProps } from '../SearchInput';
 
 export type MetaShape = Record<string, unknown>;
 
-export type OptionListItemData<TMeta extends MetaShape = MetaShape> = {
+export type OptionListValue = string;
+
+export type OptionListItemData<
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /** Unique string identifier for this item, used for selection tracking. */
-  value: string;
+  value: T;
   /** Display text. */
   label: string;
   /** Secondary text displayed below the label inside the item. */
@@ -43,29 +48,35 @@ export type OptionListContextValue = {
 };
 
 /** Internal type -- consumers never construct this directly. */
-export type OptionListItemGroup<TMeta extends MetaShape = MetaShape> = {
+export type OptionListItemGroup<
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   label: string;
-  items: OptionListItemData<TMeta>[];
+  items: OptionListItemData<T, TMeta>[];
 };
 
-export type OptionListProps<TMeta extends MetaShape = MetaShape> = {
+export type OptionListProps<
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /**
    * Flat array of items.
    * Use the `group` field on each item for automatic grouping.
    */
-  items: OptionListItemData<TMeta>[];
+  items: OptionListItemData<T, TMeta>[];
   /**
    * The controlled selected value.
    */
-  value?: string | null;
+  value?: T | null;
   /**
    * The default selected value (uncontrolled)
    */
-  defaultValue?: string | null;
+  defaultValue?: T | null;
   /**
    * Called when the selected value changes.
    */
-  onValueChange?: (value: string | null) => void;
+  onValueChange?: (value: T | null) => void;
   /**
    * When true, prevents interaction with the entire list.
    */
@@ -74,12 +85,14 @@ export type OptionListProps<TMeta extends MetaShape = MetaShape> = {
    * Custom item/query matcher.
    * Defaults to case-insensitive label match; `null` disables filtering.
    */
-  filter?: null | ((item: OptionListItemData<TMeta>, query: string) => boolean);
+  filter?:
+    | null
+    | ((item: OptionListItemData<T, TMeta>, query: string) => boolean);
   /**
    * Pre-filtered items for async/remote search.
    * Bypasses internal filtering.
    */
-  filteredItems?: OptionListItemData<TMeta>[];
+  filteredItems?: OptionListItemData<T, TMeta>[];
   /**
    * Controlled search input value.
    */
@@ -95,14 +108,20 @@ export type OptionListProps<TMeta extends MetaShape = MetaShape> = {
   children: ReactNode;
 };
 
-export type OptionListContentProps<TMeta extends MetaShape = MetaShape> = {
+export type OptionListContentProps<
+  T extends OptionListValue = OptionListValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /** Render function called for each item. Receives the item data and selection/disabled state. */
-  renderItem: (item: OptionListItemData<TMeta>, selected: boolean) => ReactNode;
+  renderItem: (
+    item: OptionListItemData<T, TMeta>,
+    selected: boolean,
+  ) => ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type OptionListItemProps = {
+export type OptionListItemProps<T extends OptionListValue = OptionListValue> = {
   /** The value associated with this item, used for selection matching. */
-  value: string;
+  value: T;
   /** Whether the item is disabled. */
   disabled?: boolean;
   children: ReactNode;
