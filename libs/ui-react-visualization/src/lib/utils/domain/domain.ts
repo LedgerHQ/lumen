@@ -55,13 +55,13 @@ export const computeYDomain = (
     if (!s.data) continue;
     for (const v of s.data) {
       if (v !== null && v !== undefined) {
-        if (!hasValue) {
+        if (hasValue) {
+          if (v < min) min = v;
+          if (v > max) max = v;
+        } else {
           min = v;
           max = v;
           hasValue = true;
-        } else {
-          if (v < min) min = v;
-          if (v > max) max = v;
         }
       }
     }

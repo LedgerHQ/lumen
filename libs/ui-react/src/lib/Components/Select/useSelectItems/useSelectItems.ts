@@ -66,7 +66,7 @@ export function useSelectItems<TMeta extends MetaShape = MetaShape>({
     : null;
 
   const isGrouped = useMemo(
-    () => items.some((item) => item.group != null),
+    () => items.some((item) => item.group !== undefined),
     [items],
   );
 

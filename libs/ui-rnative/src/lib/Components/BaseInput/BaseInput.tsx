@@ -88,10 +88,10 @@ export const BaseInput = ({
   );
 
   const handleClear = () => {
-    if (!isControlled) {
-      setUncontrolledValue('');
-    } else {
+    if (isControlled) {
       onChangeTextProp?.('');
+    } else {
+      setUncontrolledValue('');
     }
     props.onClear?.();
   };

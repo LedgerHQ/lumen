@@ -301,7 +301,7 @@ const MissingData = () => (
           title: missingDataPages[i],
           items: missingDataSeries.map((series) => ({
             label: series.label,
-            value: series.data[i] == null ? '—' : `${series.data[i]}`,
+            value: series.data[i] === null ? '—' : `${series.data[i]}`,
           })),
         })}
       />

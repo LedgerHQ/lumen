@@ -26,10 +26,10 @@ type ConfigFileData = {
 
 const createDir = (dir: string): Promise<void> => {
   return new Promise<void>((resolve) => {
-    if (!fs.existsSync(dir)) {
-      fs.mkdir(dir, null, () => resolve());
-    } else {
+    if (fs.existsSync(dir)) {
       resolve();
+    } else {
+      fs.mkdir(dir, null, () => resolve());
     }
   });
 };

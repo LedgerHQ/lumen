@@ -75,7 +75,7 @@ export function Point({
   }
 
   const resolvedLabel = resolveLabel(label, dataX);
-  const hasLabel = resolvedLabel != null;
+  const hasLabel = resolvedLabel !== undefined;
   const renderArrow = showLabelArrow && hasLabel;
   const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
 
@@ -101,7 +101,7 @@ export function Point({
           fill={theme.colors.text.base}
         />
       )}
-      {resolvedLabel != null && (
+      {resolvedLabel !== undefined && (
         <Label x={pixel.x} y={labelY}>
           {resolvedLabel}
         </Label>
