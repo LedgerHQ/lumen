@@ -1,5 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { ReactElement } from 'react';
 import { useRef } from 'react';
 import {
   SegmentedControlContextProvider,
@@ -8,6 +9,7 @@ import {
 import type {
   SegmentedControlButtonProps,
   SegmentedControlProps,
+  SegmentedControlValue,
 } from './types';
 import {
   usePillElementLayoutEffect,
@@ -64,7 +66,9 @@ const segmentedControlStyles = {
   ),
 };
 
-export function SegmentedControlButton({
+export function SegmentedControlButton<
+  T extends SegmentedControlValue = SegmentedControlValue,
+>({
   value,
   children,
   icon: Icon,
@@ -72,7 +76,7 @@ export function SegmentedControlButton({
   onClick,
   className,
   ...props
-}: SegmentedControlButtonProps) {
+}: SegmentedControlButtonProps<T>) {
   const { selectedValue, onSelectedChange, disabled, tabLayout } =
     useSegmentedControlContext();
   const selected = selectedValue === value;
@@ -106,7 +110,9 @@ export function SegmentedControlButton({
   );
 }
 
-export function SegmentedControl({
+export function SegmentedControl<
+  T extends SegmentedControlValue = SegmentedControlValue,
+>({
   selectedValue,
   onSelectedChange,
   children,
@@ -115,7 +121,7 @@ export function SegmentedControl({
   appearance = 'background',
   tabLayout = 'fixed',
   ...props
-}: SegmentedControlProps) {
+}: SegmentedControlProps<T>) {
   const disabled = useDisabledContext({
     consumerName: 'SegmentedControl',
     mergeWith: { disabled: disabledProp },
@@ -134,7 +140,12 @@ export function SegmentedControl({
 
   return (
     <SegmentedControlContextProvider
-      value={{ selectedValue, onSelectedChange, disabled, tabLayout }}
+      value={{
+        selectedValue,
+        onSelectedChange: onSelectedChange as (value: string) => void,
+        disabled,
+        tabLayout,
+      }}
     >
       <div
         {...props}
@@ -162,4 +173,15 @@ export function SegmentedControl({
       </div>
     </SegmentedControlContextProvider>
   );
+}
+
+export function createSegmentedControl<
+  T extends SegmentedControlValue = never,
+>(): {
+  SegmentedControl: (props: SegmentedControlProps<T>) => ReactElement;
+  SegmentedControlButton: (
+    props: SegmentedControlButtonProps<T>,
+  ) => ReactElement;
+} {
+  return { SegmentedControl, SegmentedControlButton };
 }

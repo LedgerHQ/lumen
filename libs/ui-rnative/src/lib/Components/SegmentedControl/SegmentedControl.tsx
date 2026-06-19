@@ -1,4 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import type { ReactElement } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../styles';
@@ -11,20 +12,23 @@ import {
 import type {
   SegmentedControlButtonProps,
   SegmentedControlProps,
+  SegmentedControlValue,
 } from './types';
 import {
   usePillLayout,
   useSegmentedControlSelectedIndex,
 } from './usePillLayout';
 
-export function SegmentedControlButton({
+export function SegmentedControlButton<
+  T extends SegmentedControlValue = SegmentedControlValue,
+>({
   value,
   children,
   icon: Icon,
   trailingContent,
   onPress,
   ...props
-}: SegmentedControlButtonProps) {
+}: SegmentedControlButtonProps<T>) {
   const {
     selectedValue,
     onSelectedChange,
@@ -126,7 +130,9 @@ function useButtonStyles({
   return { ...styles, typography, textColor };
 }
 
-export function SegmentedControl({
+export function SegmentedControl<
+  T extends SegmentedControlValue = SegmentedControlValue,
+>({
   selectedValue,
   onSelectedChange,
   accessibilityLabel,
@@ -135,7 +141,7 @@ export function SegmentedControl({
   appearance = 'background',
   tabLayout = 'fixed',
   ...props
-}: SegmentedControlProps) {
+}: SegmentedControlProps<T>) {
   const disabled = useDisabledContext({
     consumerName: 'SegmentedControl',
     mergeWith: { disabled: disabledProp },
@@ -160,7 +166,7 @@ export function SegmentedControl({
     <SegmentedControlContextProvider
       value={{
         selectedValue,
-        onSelectedChange,
+        onSelectedChange: onSelectedChange as (value: string) => void,
         disabled,
         tabLayout,
         registerButtonLayout,
@@ -219,4 +225,15 @@ function useRootStyles({
     }),
     [disabled, appearance, tabLayout],
   );
+}
+
+export function createSegmentedControl<
+  T extends SegmentedControlValue = never,
+>(): {
+  SegmentedControl: (props: SegmentedControlProps<T>) => ReactElement;
+  SegmentedControlButton: (
+    props: SegmentedControlButtonProps<T>,
+  ) => ReactElement;
+} {
+  return { SegmentedControl, SegmentedControlButton };
 }
