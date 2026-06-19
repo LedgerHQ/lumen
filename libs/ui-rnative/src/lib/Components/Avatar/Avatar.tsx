@@ -77,7 +77,7 @@ const useStyles = ({
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-avatar--docs Storybook}
  *
  * @example
- * import { Avatar } from '@ledgerhq/lumen-ui-react';
+ * import { Avatar } from '@ledgerhq/lumen-ui-rnative';
  *
  * <Avatar src="https://example.com/photo.jpg" size="md" />
  *

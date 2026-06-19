@@ -43,7 +43,7 @@ const thumbVariants = cva(
  *
  * When disabled, it shows disabled styles for both track and thumb.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs-components-switch-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs-core-switch-overview--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/core-switch--docs Guidelines}
  *
  * @warning The `className` prop is applied to the label element. Use it for layout adjustments only.
