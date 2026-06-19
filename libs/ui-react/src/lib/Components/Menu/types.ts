@@ -7,6 +7,8 @@ import type {
 
 type MenuRootChangeEventDetails = MenuNamespace.Root.ChangeEventDetails;
 
+export type MenuRadioValue = string;
+
 /**
  * Props for the Menu root component.
  *
@@ -185,13 +187,13 @@ export type MenuCheckboxItemProps = {
  * An item that can be controlled and rendered like a radio button.
  * Must be used within a `MenuRadioGroup`.
  */
-export type MenuRadioItemProps = {
+export type MenuRadioItemProps<T extends MenuRadioValue = MenuRadioValue> = {
   /**
    * The unique value of the item.
    *
    * @required
    */
-  value: string;
+  value: T;
 } & MenuItemProps;
 
 /**
@@ -231,19 +233,19 @@ export type MenuGroupProps = ComponentPropsWithoutRef<'div'>;
  *
  * Used to group multiple radio items together.
  */
-export type MenuRadioGroupProps = {
+export type MenuRadioGroupProps<T extends MenuRadioValue = MenuRadioValue> = {
   /**
    * The controlled value of the radio item to check.
    * Should be used in conjunction with `onValueChange`.
    */
-  value?: string;
+  value?: T;
 
   /**
    * Event handler called when the value changes.
    *
    * @param value - The value of the radio item that was selected
    */
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: T) => void;
 } & ComponentPropsWithoutRef<'div'>;
 
 /**
