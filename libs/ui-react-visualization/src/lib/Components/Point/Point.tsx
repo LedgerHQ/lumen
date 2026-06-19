@@ -1,6 +1,6 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
-import { DEFAULT_SIZE, STROKE_WIDTH } from './constants';
+import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
 import type {
   PointArrowProps,
   PointLabelProps,
@@ -22,7 +22,7 @@ export function PointLabel({
       dominantBaseline={dominantBaseline}
       style={{
         fill: cssVar('var(--text-base)'),
-        fontSize: cssVar('var(--font-style-body-4-size)'),
+        fontSize: LABEL_FONT_SIZE,
         fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
         fontFamily: cssVar('var(--font-family-font)'),
         ...style,
@@ -114,7 +114,7 @@ export function Point({
       {!hidePoint && (
         <PointMarker x={pixel.x} y={pixel.y} size={size} color={color} />
       )}
-      {labelGeometry?.renderArrow && (
+      {isLabelVisible && showLabelArrow && (
         <PointArrow
           x={pixel.x}
           y={pixel.y}

@@ -115,9 +115,8 @@ export const computeLabelY = (
 };
 
 /**
- * Computes where a point's label and its connector arrow are drawn: the
- * (optionally clamped) horizontal placement, the vertical baseline, and whether
- * the arrow is rendered. Label content is resolved separately via
+ * Computes where a point's label is drawn: the (optionally clamped) horizontal
+ * placement and the vertical baseline. Label content is resolved separately via
  * {@link resolveLabel}.
  */
 export const computeLabelGeometry = ({
@@ -142,7 +141,6 @@ export const computeLabelGeometry = ({
   x: number;
   y: number;
   textAnchor: LabelTextAnchor;
-  renderArrow: boolean;
 } => {
   const { x, textAnchor } = computeLabelX(
     pixelX,
@@ -153,5 +151,5 @@ export const computeLabelGeometry = ({
   );
   const y = computeLabelY(pixelY, size / 2, labelPosition, showLabelArrow);
 
-  return { x, y, textAnchor, renderArrow: showLabelArrow };
+  return { x, y, textAnchor };
 };
