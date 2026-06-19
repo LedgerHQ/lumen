@@ -161,7 +161,7 @@ describe('DataTableColGroup', () => {
     const { container } = render(<TestDataTable columns={columns} />);
     const cols = getColElements(container);
 
-    expect(cols[1]?.className).toBe('w-52 hidden md:table-column');
+    expect(cols[1]?.className).toBe('hidden md:table-column w-52');
   });
 
   it('should render colgroup when hideHeader is true', () => {
