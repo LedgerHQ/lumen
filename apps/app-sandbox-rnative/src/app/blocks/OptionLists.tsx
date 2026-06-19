@@ -21,7 +21,10 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { useState } from 'react';
 
-const CURRENCIES: OptionListItemData<{ ticker: string; icon: string }>[] = [
+const CURRENCIES: OptionListItemData<
+  string,
+  { ticker: string; icon: string }
+>[] = [
   {
     value: 'btc',
     label: 'Bitcoin',
@@ -105,7 +108,7 @@ const CurrencySelectExample = () => {
   );
 };
 
-const FOODS: OptionListItemData<{ group: string }>[] = [
+const FOODS: OptionListItemData<string, { group: string }>[] = [
   { value: 'apple', label: 'Apple', group: 'Fruits' },
   { value: 'banana', label: 'Banana', group: 'Fruits' },
   { value: 'orange', label: 'Orange', group: 'Fruits' },
@@ -158,11 +161,14 @@ const GroupedSelectExample = () => {
   );
 };
 
-const NETWORKS: OptionListItemData<{
-  ticker: string;
-  icon: string;
-  tag: string;
-}>[] = [
+const NETWORKS: OptionListItemData<
+  string,
+  {
+    ticker: string;
+    icon: string;
+    tag: string;
+  }
+>[] = [
   {
     value: 'ethereum',
     label: 'Ethereum',
@@ -260,10 +266,13 @@ const NetworkSelectExample = () => {
   );
 };
 
-const SEARCHABLE_CURRENCIES: OptionListItemData<{
-  ticker: string;
-  icon: string;
-}>[] = [
+const SEARCHABLE_CURRENCIES: OptionListItemData<
+  string,
+  {
+    ticker: string;
+    icon: string;
+  }
+>[] = [
   { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC', icon: 'bitcoin' } },
   {
     value: 'eth',
