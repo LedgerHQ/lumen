@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import type { useAnimatedProps } from 'react-native-reanimated';
 
 import { projectPoint } from '../../utils/scales/scales';
 import type { DrawingArea } from '../../utils/types';
@@ -21,7 +20,7 @@ type UsePointGeometryParams = {
 type PointGeometry = {
   pixel: Pixel | undefined;
   drawingArea: DrawingArea;
-  fadeProps: ReturnType<typeof useAnimatedProps>;
+  fadeProps: ReturnType<typeof useRevealFadeProps>;
   isVisible: boolean;
 };
 

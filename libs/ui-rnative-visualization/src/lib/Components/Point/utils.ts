@@ -142,7 +142,6 @@ export const computeLabelGeometry = ({
   x: number;
   y: number;
   textAnchor: LabelTextAnchor;
-  renderArrow: boolean;
 } => {
   const { x, textAnchor } = computeLabelX(
     pixelX,
@@ -153,5 +152,5 @@ export const computeLabelGeometry = ({
   );
   const y = computeLabelY(pixelY, size / 2, labelPosition, showLabelArrow);
 
-  return { x, y, textAnchor, renderArrow: showLabelArrow };
+  return { x, y, textAnchor };
 };

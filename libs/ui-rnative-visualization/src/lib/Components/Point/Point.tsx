@@ -2,7 +2,7 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import Animated from 'react-native-reanimated';
 import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 
-import { DEFAULT_SIZE, STROKE_WIDTH } from './constants';
+import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
 import type {
   PointArrowProps,
   PointLabelProps,
@@ -24,7 +24,7 @@ export function PointLabel({
     <SvgText
       textAnchor={textAnchor}
       fill={theme.colors.text.base}
-      fontSize={theme.typographies.body4.fontSize}
+      fontSize={LABEL_FONT_SIZE}
       fontWeight={theme.typographies.body4.fontWeight}
       fontFamily={theme.fontFamilies.sans}
       {...props}
@@ -108,7 +108,7 @@ export function Point({
       {!hidePoint && (
         <PointMarker x={pixel.x} y={pixel.y} size={size} color={color} />
       )}
-      {labelGeometry?.renderArrow && (
+      {isLabelVisible && showLabelArrow && (
         <PointArrow
           x={pixel.x}
           y={pixel.y}
