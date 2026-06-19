@@ -234,8 +234,6 @@ const NetworkSelect = createSelect<Network, CryptoMeta>();
 // items[].meta is now typed as CryptoMeta, and so is renderItem(item).meta
 ```
 
-Zero runtime cost, as `createSelect` is a type-only wrapper.
-
 ### With Descriptions
 
 You can add descriptions or additional content to select items by including extra elements alongside `SelectItemText`:
