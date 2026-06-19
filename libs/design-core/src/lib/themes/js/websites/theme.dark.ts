@@ -253,7 +253,7 @@ export const websitesDarkColorTokens = {
     muted: primitiveColorTokens.dark.grey['700'],
     mutedHover: primitiveColorTokens.dark.grey['800'],
     mutedPressed: primitiveColorTokens.dark.grey['900'],
-    mutedSubtle: primitiveColorTokens.dark.grey['300'],
+    mutedSubtle: primitiveColorTokens.dark.grey['400'],
     active: primitiveColorTokens.dark.purple['400'],
     interactive: primitiveColorTokens.dark.purple['400'],
     interactiveHover: primitiveColorTokens.dark.purple['500'],
