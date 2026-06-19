@@ -120,8 +120,6 @@ function MyComponent() {
 
 `createSideBar<T>()` ties them to one literal union. `SideBarLeading`, `SideBarTrailing`, and `SideBarCollapseToggle` carry no value union, so the factory returns them as-is for ergonomic destructuring.
 
-<Canvas of={SideBarStories.Typed} />
-
 ```tsx
 import { createSideBar } from '@ledgerhq/lumen-ui-react';
 import { Home, HomeFill, Wallet, Settings } from '@ledgerhq/lumen-ui-react/symbols';

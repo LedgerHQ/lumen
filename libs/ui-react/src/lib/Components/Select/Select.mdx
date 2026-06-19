@@ -191,8 +191,6 @@ function MyComponent() {
 
 `Select` and its subcomponents communicate via context, so TypeScript cannot connect `value` / `items[].value` / `SelectItem.value` on its own. A typo in any of them compiles. `createSelect<T, TMeta>()` ties them together via one literal union (`T`) and an optional meta shape (`TMeta`) that flows into `renderItem(item)`.
 
-<Canvas of={SelectStories.Typed} />
-
 ```tsx
 import { createSelect } from '@ledgerhq/lumen-ui-react';
 import type { SelectItemData } from '@ledgerhq/lumen-ui-react';

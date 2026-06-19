@@ -136,8 +136,6 @@ function MyList() {
 
 `OptionList` and its subcomponents communicate via context, so TypeScript cannot connect `value` / `items[].value` / `OptionListItem.value` on its own. A typo compiles. `createOptionList<T, TMeta>()` ties them together via one literal union (`T`) and an optional meta shape (`TMeta`) that flows into `renderItem(item)`, removing the `as` cast on `item.meta`.
 
-<Canvas of={OptionListStories.Typed} />
-
 ```tsx
 import { createOptionList } from '@ledgerhq/lumen-ui-rnative';
 import type { OptionListItemData } from '@ledgerhq/lumen-ui-rnative';
