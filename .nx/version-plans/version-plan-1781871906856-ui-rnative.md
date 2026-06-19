@@ -4,7 +4,7 @@
 
 feat(ui-rnative): add type-safety for compound components
 
-Note: the generics on `OptionListItemData`, `OptionListProps`, `OptionListItemGroup`, `OptionListContentProps` and related types now take the value union `T` as the first parameter, followed by `TMeta` (previously `TMeta` was the only parameter).
+Note: the generics on `OptionList` components now take the value union `T` as the first parameter, followed by `TMeta` (previously `TMeta` was the only parameter).
 
 This enables type-safe `value` inference across the compound components. Normal usage (no explicit type arguments) and the new `createOptionList` factory are unaffected. 
 
