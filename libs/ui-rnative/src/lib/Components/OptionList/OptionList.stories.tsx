@@ -14,6 +14,7 @@ import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
 import { Box, Text } from '../Utility';
 import {
+  createOptionList,
   OptionList,
   OptionListContent,
   OptionListEmptyState,
@@ -1006,4 +1007,66 @@ export const WithDefaultValue: Story = {
       </OptionList>
     </Box>
   ),
+};
+
+type TypedNetwork = 'eth' | 'sol' | 'btc';
+type TypedNetworkMeta = { ticker: string; ledgerId: string };
+const NetworkList = createOptionList<TypedNetwork, TypedNetworkMeta>();
+
+const TYPED_NETWORKS: OptionListItemData<TypedNetwork, TypedNetworkMeta>[] = [
+  {
+    value: 'eth',
+    label: 'Ethereum',
+    meta: { ticker: 'ETH', ledgerId: 'ethereum' },
+  },
+  {
+    value: 'sol',
+    label: 'Solana',
+    meta: { ticker: 'SOL', ledgerId: 'solana' },
+  },
+  {
+    value: 'btc',
+    label: 'Bitcoin',
+    meta: { ticker: 'BTC', ledgerId: 'bitcoin' },
+  },
+];
+
+export const Typed: Story = {
+  render: () => {
+    const [value, setValue] = useState<TypedNetwork | null>('eth');
+
+    return (
+      <Box lx={{ width: 's320' }}>
+        <NetworkList.OptionList
+          items={TYPED_NETWORKS}
+          value={value}
+          onValueChange={setValue}
+        >
+          <NetworkList.OptionListContent
+            renderItem={({ value, label, meta }) =>
+              meta ? (
+                <NetworkList.OptionListItem value={value}>
+                  <NetworkList.OptionListItemLeading>
+                    <CryptoIcon
+                      ledgerId={meta.ledgerId}
+                      ticker={meta.ticker}
+                      size={32}
+                    />
+                  </NetworkList.OptionListItemLeading>
+                  <NetworkList.OptionListItemContent>
+                    <NetworkList.OptionListItemText>
+                      {label}
+                    </NetworkList.OptionListItemText>
+                    <NetworkList.OptionListItemDescription>
+                      {meta.ticker}
+                    </NetworkList.OptionListItemDescription>
+                  </NetworkList.OptionListItemContent>
+                </NetworkList.OptionListItem>
+              ) : null
+            }
+          />
+        </NetworkList.OptionList>
+      </Box>
+    );
+  },
 };

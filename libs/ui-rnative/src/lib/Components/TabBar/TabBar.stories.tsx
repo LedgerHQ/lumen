@@ -15,7 +15,7 @@ import {
   CreditCard,
   CreditCardFill,
 } from '../../Symbols';
-import { TabBar, TabBarItem } from './TabBar';
+import { createTabBar, TabBar, TabBarItem } from './TabBar';
 
 const meta = {
   title: 'Navigation/TabBar',
@@ -115,6 +115,39 @@ export const MissingLabel: Story = {
         <TabBarItem value='tab2' label='Tab' icon={Placeholder} />
         <TabBarItem value='tab3' icon={Cart} />
       </TabBar>
+    );
+  },
+};
+
+type Route = 'home' | 'swap' | 'card' | 'help';
+const Nav = createTabBar<Route>();
+
+export const Typed: Story = {
+  args: {} as React.ComponentProps<typeof TabBar>,
+  render: () => {
+    const [active, setActive] = useState<Route>('home');
+    return (
+      <Nav.TabBar active={active} onTabPress={setActive} lx={{ width: 's320' }}>
+        <Nav.TabBarItem
+          value='home'
+          label='Home'
+          icon={Home}
+          activeIcon={HomeFill}
+        />
+        <Nav.TabBarItem value='swap' label='Swap' icon={CoinPercent} />
+        <Nav.TabBarItem
+          value='card'
+          label='Card'
+          icon={CreditCard}
+          activeIcon={CreditCardFill}
+        />
+        <Nav.TabBarItem
+          value='help'
+          label='Help'
+          icon={LifeRing}
+          activeIcon={LifeRingFill}
+        />
+      </Nav.TabBar>
     );
   },
 };

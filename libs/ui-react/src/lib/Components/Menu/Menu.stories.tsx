@@ -4,6 +4,7 @@ import { MoreVertical } from '../../Symbols/Icons/MoreVertical';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton';
 import {
+  createMenuRadioGroup,
   Menu,
   MenuTrigger,
   MenuContent,
@@ -382,6 +383,49 @@ export const CompleteExample: Story = {
           </MenuSub>
           <MenuSeparator />
           <MenuItem>Log out</MenuItem>
+        </MenuContent>
+      </Menu>
+    );
+  },
+};
+
+type Position = 'top' | 'bottom' | 'left' | 'right';
+const PositionMenu = createMenuRadioGroup<Position>();
+
+export const Typed: Story = {
+  render: () => {
+    const [position, setPosition] = useState<Position>('bottom');
+
+    return (
+      <Menu>
+        <MenuTrigger
+          render={
+            <Button appearance='gray' size='md'>
+              Panel Position
+            </Button>
+          }
+        />
+        <MenuContent className='w-208'>
+          <MenuGroup>
+            <MenuLabel>Panel Position</MenuLabel>
+            <PositionMenu.MenuRadioGroup
+              value={position}
+              onValueChange={setPosition}
+            >
+              <PositionMenu.MenuRadioItem value='top'>
+                Top
+              </PositionMenu.MenuRadioItem>
+              <PositionMenu.MenuRadioItem value='bottom'>
+                Bottom
+              </PositionMenu.MenuRadioItem>
+              <PositionMenu.MenuRadioItem value='left'>
+                Left
+              </PositionMenu.MenuRadioItem>
+              <PositionMenu.MenuRadioItem value='right'>
+                Right
+              </PositionMenu.MenuRadioItem>
+            </PositionMenu.MenuRadioGroup>
+          </MenuGroup>
         </MenuContent>
       </Menu>
     );

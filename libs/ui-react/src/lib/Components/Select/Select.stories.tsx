@@ -6,6 +6,7 @@ import { Settings } from '../../Symbols';
 import { Button } from '../Button';
 import { MediaButton } from '../MediaButton';
 import {
+  createSelect,
   Select,
   SelectTrigger,
   SelectContent,
@@ -871,6 +872,44 @@ export const ControlledSearch: Story = {
             />
           </SelectContent>
         </Select>
+      </div>
+    );
+  },
+};
+
+type Network = 'eth' | 'sol' | 'btc';
+const NetworkSelect = createSelect<Network>();
+
+const NETWORKS: SelectItemData<Network>[] = [
+  { value: 'eth', label: 'Ethereum' },
+  { value: 'sol', label: 'Solana' },
+  { value: 'btc', label: 'Bitcoin' },
+];
+
+export const Typed: StoryObj<typeof Select> = {
+  render: () => {
+    const [network, setNetwork] = useState<Network | null>('eth');
+
+    return (
+      <div className='w-320'>
+        <NetworkSelect.Select
+          items={NETWORKS}
+          value={network}
+          onValueChange={setNetwork}
+        >
+          <NetworkSelect.SelectTrigger label='Network' />
+          <NetworkSelect.SelectContent>
+            <NetworkSelect.SelectList
+              renderItem={(item) => (
+                <NetworkSelect.SelectItem key={item.value} value={item.value}>
+                  <NetworkSelect.SelectItemText>
+                    {item.label}
+                  </NetworkSelect.SelectItemText>
+                </NetworkSelect.SelectItem>
+              )}
+            />
+          </NetworkSelect.SelectContent>
+        </NetworkSelect.Select>
       </div>
     );
   },

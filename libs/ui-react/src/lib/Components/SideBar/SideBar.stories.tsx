@@ -22,6 +22,7 @@ import {
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import {
+  createSideBar,
   SideBar,
   SideBarLeading,
   SideBarTrailing,
@@ -424,4 +425,43 @@ export const ManyItems: Story = {
       </SideBar>
     </div>
   ),
+};
+
+type Route = 'home' | 'wallet' | 'settings';
+const Nav = createSideBar<Route>();
+
+export const Typed: Story = {
+  render: () => {
+    const [route, setRoute] = useState<Route>('home');
+
+    return (
+      <div style={{ height: '500px' }}>
+        <Nav.SideBar active={route} onActiveChange={setRoute}>
+          <Nav.SideBarLeading>
+            <Nav.SideBarItem
+              value='home'
+              icon={Home}
+              activeIcon={HomeFill}
+              label='Home'
+            />
+            <Nav.SideBarItem
+              value='wallet'
+              icon={Wallet}
+              activeIcon={Wallet}
+              label='Wallet'
+            />
+          </Nav.SideBarLeading>
+          <Nav.SideBarTrailing>
+            <Nav.SideBarItem
+              value='settings'
+              icon={Settings}
+              activeIcon={Settings}
+              label='Settings'
+            />
+            <Nav.SideBarCollapseToggle />
+          </Nav.SideBarTrailing>
+        </Nav.SideBar>
+      </div>
+    );
+  },
 };
