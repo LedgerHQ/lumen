@@ -3,7 +3,7 @@ import { Box, Text } from '../Utility';
 import { Switch } from './Switch';
 
 const meta: Meta<typeof Switch> = {
-  title: 'Selection/Switch',
+  title: 'Core/Switch',
   component: Switch,
   parameters: {
     layout: 'fullscreen',

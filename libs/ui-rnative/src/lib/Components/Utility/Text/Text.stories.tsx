@@ -4,7 +4,7 @@ import type { TextProps } from './types';
 
 const meta: Meta<TextProps> = {
   component: Text,
-  title: 'Utility/Text',
+  title: 'Primitives/Text',
   parameters: {
     docs: {
       source: {

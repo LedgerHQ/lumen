@@ -5,7 +5,7 @@ import { RadialGradient } from './RadialGradient';
 
 const meta: Meta<typeof RadialGradient> = {
   component: RadialGradient,
-  title: 'Utility/RadialGradient',
+  title: 'Primitives/RadialGradient',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

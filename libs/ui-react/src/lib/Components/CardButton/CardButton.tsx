@@ -24,8 +24,8 @@ const buttonVariants = cva(
  *
  * It supports different appearances. takes full width by default. The chevron can be hidden if needed.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/action-cardbutton--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/action-cardbutton--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-cardbutton--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-cardbutton--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the card button's core appearance (colors, padding, etc). Use the `appearance` prop instead.

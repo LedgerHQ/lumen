@@ -21,8 +21,8 @@ const buttonVariants = cva('', {
  *
  * When in loading state, it displays a spinner. If an icon is provided without children, it renders as an icon-only button.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/action-button--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/action-button--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-button--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-button--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the button's core appearance (colors, padding, etc). Use the `appearance` prop instead.

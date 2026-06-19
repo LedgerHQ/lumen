@@ -34,7 +34,7 @@ const tooltipContentVariants = cva(
  * to enable tooltip functionality throughout the component tree. It manages global tooltip
  * state and configuration.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-tooltip--docs Storybook}
  *
  * @example
  * import { TooltipProvider } from '@ledgerhq/lumen-ui-react';
@@ -71,7 +71,7 @@ export const TooltipProvider = ({
  * if one is not already present in the component tree. It manages the tooltip's visibility
  * state and coordinates between the trigger and content components.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-tooltip--docs Storybook}
  *
  * @example
  * import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react';
@@ -104,7 +104,7 @@ export const Tooltip = ({ delayDuration = 200, ...props }: TooltipProps) => {
  * the trigger for the tooltip. When users hover over or focus on this element, the
  * associated tooltip content will be displayed.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-tooltip--docs Storybook}
  *
  * @example
  * import { TooltipTrigger } from '@ledgerhq/lumen-ui-react';
@@ -130,7 +130,7 @@ export const TooltipTrigger = ({ ...props }: TooltipTriggerProps) => {
  * positioned relative to the trigger and handles collision detection to stay within
  * the viewport boundaries.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-tooltip--docs Storybook}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the tooltip's core appearance (colors, padding, etc).

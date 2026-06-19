@@ -4,7 +4,7 @@ import { Trend } from './Trend';
 
 const meta: Meta<typeof Trend> = {
   component: Trend,
-  title: 'Communication/Trend',
+  title: 'Core/Trend',
   argTypes: {
     value: {
       control: 'number',

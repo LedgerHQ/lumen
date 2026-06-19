@@ -19,7 +19,7 @@ const meta: Meta<typeof Tile> = {
     TileDescription,
     TileTrailingContent,
   },
-  title: 'Containment/Tile',
+  title: 'Core/Tile',
   parameters: {
     docs: {
       source: {

@@ -8,7 +8,7 @@ import { MediaCard, MediaCardTitle } from './MediaCard';
 const meta = {
   component: MediaCard,
   subcomponents: { MediaCardTitle },
-  title: 'Communication/MediaCard',
+  title: 'Core/MediaCard',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

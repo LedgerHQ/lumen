@@ -21,7 +21,7 @@ import {
 
 const meta = {
   component: DescriptionItem,
-  title: 'Containment/DescriptionItem',
+  title: 'Core/DescriptionItem',
   subcomponents: {
     DescriptionItemLeading,
     DescriptionItemLabel,

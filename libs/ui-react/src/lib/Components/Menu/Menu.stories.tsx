@@ -20,7 +20,7 @@ import {
 } from './Menu';
 
 const meta: Meta<typeof Menu> = {
-  title: 'Selection/Menu',
+  title: 'Core/Menu',
   component: Menu,
   subcomponents: {
     MenuTrigger,

@@ -19,7 +19,7 @@ import { useBottomSheetRef } from './useBottomSheetRef';
 const meta = {
   component: BottomSheet,
   subcomponents: { BottomSheetHeader },
-  title: 'Containment/BottomSheet',
+  title: 'Core/BottomSheet',
   parameters: {
     docs: {
       source: {

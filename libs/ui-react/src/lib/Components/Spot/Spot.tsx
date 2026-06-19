@@ -48,7 +48,7 @@ const spotVariants = cva(
  * - `'number'` appearance requires a `number` prop
  * - All other appearances are self-contained
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/media-graphics-spot--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-spot--docs Storybook}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the spot's core appearance (colors, size, etc). Use the `appearance` prop instead.

@@ -130,7 +130,7 @@ const useCardStyles = ({
  * - `type="expandable"`: only CardHeader is pressable, toggles footer visibility.
  * - `type="info"`: data-display only, no built-in press handling.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_containment-card--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-card--docs Storybook}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the card's core appearance (colors, padding, etc).

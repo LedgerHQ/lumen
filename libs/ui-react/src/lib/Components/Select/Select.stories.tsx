@@ -20,7 +20,7 @@ import {
 import type { SelectItemData } from './types';
 
 const meta: Meta<typeof Select> = {
-  title: 'Selection/Select',
+  title: 'Core/Select',
   component: Select,
   subcomponents: {
     SelectTrigger,

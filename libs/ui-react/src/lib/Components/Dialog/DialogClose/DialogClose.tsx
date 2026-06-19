@@ -8,7 +8,7 @@ import type { DialogCloseProps } from '../types';
  * when clicked. It is typically used inside the dialog content to provide
  * an explicit close action, such as a "Cancel" or "Done" button.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';

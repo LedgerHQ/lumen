@@ -6,8 +6,8 @@ import type { ButtonProps } from './types';
  *
  * When in loading state, it displays a spinner. If an icon is provided without children, it renders as an icon-only button.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_action-button--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_action-button--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-button--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-button--docs Guidelines}
  *
  * @example
  * // Basic primary button

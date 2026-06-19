@@ -14,7 +14,7 @@ import {
 
 const meta: Meta<typeof ContentBanner> = {
   component: ContentBanner,
-  title: 'Communication/ContentBanner',
+  title: 'Core/ContentBanner',
   parameters: {
     docs: {
       source: {

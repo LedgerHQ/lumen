@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
  * Uses react-native-svg to render gradients that work consistently across platforms.
  * Extends Box, so it supports all lx style props for layout and sizing.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/utility-lineargradient--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/primitives-lineargradient--docs Storybook}
  *
  * @example
  * ```tsx

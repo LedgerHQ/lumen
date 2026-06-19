@@ -14,7 +14,7 @@ import type {
 /**
  * A promotional banner with a background image, title, description, and an optional close button.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-mediabanner--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-mediabanner--docs Storybook}
  */
 export function MediaBanner({
   lx,

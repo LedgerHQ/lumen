@@ -3,7 +3,7 @@ import { MediaImage } from './MediaImage';
 
 const meta = {
   component: MediaImage,
-  title: 'Communication/MediaImage',
+  title: 'Core/MediaImage',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

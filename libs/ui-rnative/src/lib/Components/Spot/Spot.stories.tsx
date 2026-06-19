@@ -7,7 +7,7 @@ import type { SpotProps } from './types';
 
 const meta: Meta<typeof Spot> = {
   component: Spot,
-  title: 'Communication/Spot',
+  title: 'Core/Spot',
   parameters: {
     docs: {
       source: {

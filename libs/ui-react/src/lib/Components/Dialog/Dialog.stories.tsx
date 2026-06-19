@@ -44,7 +44,7 @@ const DialogContentTemplate = () => {
 
 const meta: Meta<typeof Dialog> = {
   component: Dialog,
-  title: 'Containment/Dialog',
+  title: 'Core/Dialog',
   subcomponents: {
     DialogTrigger,
     DialogContent,

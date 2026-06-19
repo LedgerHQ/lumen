@@ -54,7 +54,7 @@ const popoverOverlayStyles = cn(
  * The root component that manages the popover's open/closed state and
  * provides configuration to child components via context.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-popover-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-popover--docs Storybook}
  *
  * @example
  * import { Popover, PopoverTrigger, PopoverContent } from '@ledgerhq/lumen-ui-react';
@@ -97,7 +97,7 @@ const Popover = <Payload,>({
  * The element that toggles the popover.
  * Requires the `render` prop to compose trigger behavior onto your component.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-popover-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-popover--docs Storybook}
  */
 const PopoverTrigger = <Payload,>({
   handle,
@@ -120,7 +120,7 @@ const PopoverTrigger = <Payload,>({
  * The content panel of the popover. Internally renders the Portal,
  * optional Backdrop, Positioner, and Popup.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-popover-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-popover--docs Storybook}
  */
 const PopoverContent = ({
   side = 'bottom',

@@ -42,7 +42,7 @@ const dialogContentVariants = cva(
  * This component wraps the Radix UI Dialog Root. It manages the dialog's visibility
  * state and coordinates between the trigger and content components.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogBody, Button } from '@ledgerhq/lumen-ui-react';
@@ -84,7 +84,7 @@ export function Dialog({ height = 'fit', ...props }: DialogProps) {
  * the trigger for the dialog. When users click on this element, the
  * associated dialog content will be displayed.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * import { DialogTrigger, Button } from '@ledgerhq/lumen-ui-react';
@@ -106,7 +106,7 @@ export { DialogClose } from './DialogClose/DialogClose';
  * outside of the normal DOM hierarchy, typically at the body level to avoid
  * styling conflicts and ensure proper stacking context.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * // Used internally
@@ -127,7 +127,7 @@ function DialogPortal({
  * to dim the background and focus attention on the dialog. It also prevents
  * interaction with underlying elements.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @warning The `className` prop should only be used for layout adjustments.
  * Do not use it to modify the overlay's core appearance (colors, opacity, etc).
@@ -155,7 +155,7 @@ const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
  * This component renders the actual dialog content with custom styling.
  * The content is automatically positioned in the center of the viewport.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the dialog's core appearance (colors, padding, etc).
@@ -206,7 +206,7 @@ export function DialogContent({
  * remaining space between the header and footer. Use it when you have
  * content that may overflow the dialog height.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * <DialogContent>
@@ -256,7 +256,7 @@ export const DialogBody = ({
  * dialog body scrolls, such as search inputs, filters, or section controls.
  * It should be used inside `DialogBody`.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * <DialogBody>
@@ -290,7 +290,7 @@ export const DialogBodyStickyContent = ({
  * This component provides a fixed container at the bottom of the dialog
  * for actions like buttons. It stays in place while the body content scrolls.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-dialog-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-dialog--docs Storybook}
  *
  * @example
  * <DialogContent>

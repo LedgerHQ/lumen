@@ -24,8 +24,8 @@ const checkboxStyles = cn(
  * The checkbox follows the design system tokens and supports checked, unchecked,
  * disabled, and focus states with proper hover and active interactions.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-checkbox-overview--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/components-checkbox-implementation--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-checkbox--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-checkbox--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the checkbox's core appearance.

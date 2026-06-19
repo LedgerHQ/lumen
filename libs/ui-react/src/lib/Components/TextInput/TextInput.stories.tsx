@@ -8,7 +8,7 @@ import { TextInput } from './TextInput';
 
 const meta: Meta<typeof TextInput> = {
   component: TextInput,
-  title: 'Input/TextInput',
+  title: 'Core/TextInput',
   parameters: {
     docs: {
       source: {

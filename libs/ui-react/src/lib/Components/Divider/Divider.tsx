@@ -7,7 +7,7 @@ import type { DividerProps } from './types';
  * The Divider renders a horizontal or vertical line to create visual separation
  * between content areas. It uses design system tokens for consistent styling.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/layout-divider--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-divider--docs Storybook}
  *
  * @example
  * // Horizontal divider (default)

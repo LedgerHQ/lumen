@@ -6,7 +6,7 @@ import { Banner } from './Banner';
 
 const meta: Meta<typeof Banner> = {
   component: Banner,
-  title: 'Communication/Banner',
+  title: 'Core/Banner',
   parameters: {
     docs: {
       source: {

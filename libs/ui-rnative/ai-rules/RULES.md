@@ -28,57 +28,57 @@ Below is a complete list of all available Lumen React Native components. Click a
 
 **Components:**
 
-- [Button](https://ldls.vercel.app/?path=/docs/action-button--docs) - Primary action button component
-- [CardButton](https://ldls.vercel.app/?path=/docs/action-cardbutton--docs) - Card-style interactive button
-- [IconButton](https://ldls.vercel.app/?path=/docs/action-iconbutton--docs) - Button with icon only
-- [InteractiveIcon](https://ldls.vercel.app/?path=/docs/action-interactiveicon--docs) - Interactive icon with states
-- [Link](https://ldls.vercel.app/?path=/docs/action-link--docs) - Hyperlink component
-- [TileButton](https://ldls.vercel.app/?path=/docs/action-tilebutton--docs) - Interactive tile button
-- [AmountDisplay](https://ldls.vercel.app/?path=/docs/communication-amountdisplay--docs) - Display formatted amounts with currency
-- [Avatar](https://ldls.vercel.app/?path=/docs/communication-avatar--docs) - User avatar with image, initials, or placeholder
-- [Banner](https://ldls.vercel.app/?path=/docs/communication-banner--docs) - Alert and notification banners
-- [ContentBanner](https://ldls.vercel.app/?path=/docs/communication-contentbanner--docs) - Rich content banner with image support
-- [MediaBanner](https://ldls.vercel.app/?path=/docs/communication-mediabanner--docs) - Rich media banner with image and content
-- [MediaCard](https://ldls.vercel.app/?path=/docs/communication-mediacard--docs) - Card with media content
-- [MediaImage](https://ldls.vercel.app/?path=/docs/communication-mediaimage--docs) - Image display component with loading states
-- [PageIndicator](https://ldls.vercel.app/?path=/docs/communication-pageindicator--docs) - Step and page progress indicator
-- [Skeleton](https://ldls.vercel.app/?path=/docs/communication-skeleton--docs) - Loading placeholder skeleton
-- [Spinner](https://ldls.vercel.app/?path=/docs/communication-spinner--docs) - Loading spinner indicator
-- [Spot](https://ldls.vercel.app/?path=/docs/communication-spot--docs) - Icon container with background
-- [Stepper](https://ldls.vercel.app/?path=/docs/communication-stepper--docs) - Multi-step progress indicator
-- [Subheader](https://ldls.vercel.app/?path=/docs/communication-subheader--docs) - Section subheader component
-- [Tag](https://ldls.vercel.app/?path=/docs/communication-tag--docs) - Label and tag component
-- [Tooltip](https://ldls.vercel.app/?path=/docs/communication-tooltip--docs) - Tooltip overlay component
-- [BottomSheet](https://ldls.vercel.app/?path=/docs/containment-bottomsheet--docs) - Bottom sheet modal component
-- [Card](https://ldls.vercel.app/?path=/docs/containment-card--docs) - Content container card
-- [ListItem](https://ldls.vercel.app/?path=/docs/containment-listitem--docs) - List item with flexible composition
-- [Tile](https://ldls.vercel.app/?path=/docs/containment-tile--docs) - Content container tile
-- [AddressInput](https://ldls.vercel.app/?path=/docs/input-addressinput--docs) - Input field for cryptocurrency addresses
-- [AmountInput](https://ldls.vercel.app/?path=/docs/input-amountinput--docs) - Input field for amount values
-- [SearchInput](https://ldls.vercel.app/?path=/docs/input-searchinput--docs) - Search input field
-- [TextInput](https://ldls.vercel.app/?path=/docs/input-textinput--docs) - Text input field
-- [Divider](https://ldls.vercel.app/?path=/docs/layout-divider--docs) - Visual separator line
-- [NavBar](https://ldls.vercel.app/?path=/docs/navigation-navbar--docs) - Top navigation bar
-- [SegmentedControl](https://ldls.vercel.app/?path=/docs/navigation-segmentedcontrol--docs) - Segmented control for toggling between views
-- [TabBar](https://ldls.vercel.app/?path=/docs/navigation-tabbar--docs) - Bottom tab navigation bar
-- [Checkbox](https://ldls.vercel.app/?path=/docs/selection-checkbox--docs) - Checkbox input for selections
-- [Switch](https://ldls.vercel.app/?path=/docs/selection-switch--docs) - Toggle switch component
+- [Button](https://ldls-react-native.vercel.app/?path=/docs/core-button--docs) - Primary action button component
+- [CardButton](https://ldls-react-native.vercel.app/?path=/docs/core-cardbutton--docs) - Card-style interactive button
+- [IconButton](https://ldls-react-native.vercel.app/?path=/docs/core-iconbutton--docs) - Button with icon only
+- [InteractiveIcon](https://ldls-react-native.vercel.app/?path=/docs/core-interactiveicon--docs) - Interactive icon with states
+- [Link](https://ldls-react-native.vercel.app/?path=/docs/core-link--docs) - Hyperlink component
+- [TileButton](https://ldls-react-native.vercel.app/?path=/docs/core-tilebutton--docs) - Interactive tile button
+- [AmountDisplay](https://ldls-react-native.vercel.app/?path=/docs/core-amountdisplay--docs) - Display formatted amounts with currency
+- [Avatar](https://ldls-react-native.vercel.app/?path=/docs/core-avatar--docs) - User avatar with image, initials, or placeholder
+- [Banner](https://ldls-react-native.vercel.app/?path=/docs/core-banner--docs) - Alert and notification banners
+- [ContentBanner](https://ldls-react-native.vercel.app/?path=/docs/core-contentbanner--docs) - Rich content banner with image support
+- [MediaBanner](https://ldls-react-native.vercel.app/?path=/docs/core-mediabanner--docs) - Rich media banner with image and content
+- [MediaCard](https://ldls-react-native.vercel.app/?path=/docs/core-mediacard--docs) - Card with media content
+- [MediaImage](https://ldls-react-native.vercel.app/?path=/docs/core-mediaimage--docs) - Image display component with loading states
+- [PageIndicator](https://ldls-react-native.vercel.app/?path=/docs/core-pageindicator--docs) - Step and page progress indicator
+- [Skeleton](https://ldls-react-native.vercel.app/?path=/docs/core-skeleton--docs) - Loading placeholder skeleton
+- [Spinner](https://ldls-react-native.vercel.app/?path=/docs/core-spinner--docs) - Loading spinner indicator
+- [Spot](https://ldls-react-native.vercel.app/?path=/docs/core-spot--docs) - Icon container with background
+- [Stepper](https://ldls-react-native.vercel.app/?path=/docs/core-stepper--docs) - Multi-step progress indicator
+- [Subheader](https://ldls-react-native.vercel.app/?path=/docs/core-subheader--docs) - Section subheader component
+- [Tag](https://ldls-react-native.vercel.app/?path=/docs/core-tag--docs) - Label and tag component
+- [Tooltip](https://ldls-react-native.vercel.app/?path=/docs/core-tooltip--docs) - Tooltip overlay component
+- [BottomSheet](https://ldls-react-native.vercel.app/?path=/docs/core-bottomsheet--docs) - Bottom sheet modal component
+- [Card](https://ldls-react-native.vercel.app/?path=/docs/core-card--docs) - Content container card
+- [ListItem](https://ldls-react-native.vercel.app/?path=/docs/core-listitem--docs) - List item with flexible composition
+- [Tile](https://ldls-react-native.vercel.app/?path=/docs/core-tile--docs) - Content container tile
+- [AddressInput](https://ldls-react-native.vercel.app/?path=/docs/core-addressinput--docs) - Input field for cryptocurrency addresses
+- [AmountInput](https://ldls-react-native.vercel.app/?path=/docs/core-amountinput--docs) - Input field for amount values
+- [SearchInput](https://ldls-react-native.vercel.app/?path=/docs/core-searchinput--docs) - Search input field
+- [TextInput](https://ldls-react-native.vercel.app/?path=/docs/core-textinput--docs) - Text input field
+- [Divider](https://ldls-react-native.vercel.app/?path=/docs/core-divider--docs) - Visual separator line
+- [NavBar](https://ldls-react-native.vercel.app/?path=/docs/core-navbar--docs) - Top navigation bar
+- [SegmentedControl](https://ldls-react-native.vercel.app/?path=/docs/core-segmentedcontrol--docs) - Segmented control for toggling between views
+- [TabBar](https://ldls-react-native.vercel.app/?path=/docs/core-tabbar--docs) - Bottom tab navigation bar
+- [Checkbox](https://ldls-react-native.vercel.app/?path=/docs/core-checkbox--docs) - Checkbox input for selections
+- [Switch](https://ldls-react-native.vercel.app/?path=/docs/core-switch--docs) - Toggle switch component
 
 **Symbols:**
 
-- [Icon](https://ldls.vercel.app/?path=/docs/symbols-interface-icons--docs) - Interface icon components
+- [Icon](https://ldls-react-native.vercel.app/?path=/docs/symbols-interface-icons--docs) - Interface icon components
 
 **Utility Components:**
 
-- [Box](https://ldls.vercel.app/?path=/docs/utility-box--docs) - Layout container with style props
-- [LinearGradient](https://ldls.vercel.app/?path=/docs/utility-lineargradient--docs) - Linear gradient component
-- [Pressable](https://ldls.vercel.app/?path=/docs/utility-pressable--docs) - Pressable wrapper with visual feedback
-- [RadialGradient](https://ldls.vercel.app/?path=/docs/utility-radialgradient--docs) - Radial gradient component
-- [Text](https://ldls.vercel.app/?path=/docs/utility-text--docs) - Text component with style props
+- [Box](https://ldls-react-native.vercel.app/?path=/docs/primitives-box--docs) - Layout container with style props
+- [LinearGradient](https://ldls-react-native.vercel.app/?path=/docs/primitives-lineargradient--docs) - Linear gradient component
+- [Pressable](https://ldls-react-native.vercel.app/?path=/docs/primitives-pressable--docs) - Pressable wrapper with visual feedback
+- [RadialGradient](https://ldls-react-native.vercel.app/?path=/docs/primitives-radialgradient--docs) - Radial gradient component
+- [Text](https://ldls-react-native.vercel.app/?path=/docs/primitives-text--docs) - Text component with style props
 
 ### Icons
 
-[View all available icons in Storybook →](https://ldls.vercel.app/?path=/docs/symbols-interface-icons--docs)
+[View all available icons in Storybook →](https://ldls-react-native.vercel.app/?path=/docs/symbols-interface-icons--docs)
 
 - Always import icons from `/symbols` entry point
 - Import: `import { ArrowRight, CheckCircle } from '@ledgerhq/lumen-ui-rnative/symbols'`
@@ -94,20 +94,20 @@ Lumen React Native uses a custom style system called `lx` that provides type-saf
 
 Explore the complete theme reference:
 
-- [Colors](https://ldls.vercel.app/?path=/docs/style-system-theme-colors--docs) - Semantic color tokens for background, text, and borders
-- [Spacings](https://ldls.vercel.app/?path=/docs/style-system-theme-spacings--docs) - Spacing scale for padding, margin, and gaps
-- [Sizes](https://ldls.vercel.app/?path=/docs/style-system-theme-sizes--docs) - Size tokens for width and height
-- [Shadows](https://ldls.vercel.app/?path=/docs/style-system-theme-shadows--docs) - Elevation shadow styles
-- [Border Width](https://ldls.vercel.app/?path=/docs/style-system-theme-border-width--docs) - Border width tokens
-- [Border Radius](https://ldls.vercel.app/?path=/docs/style-system-theme-border-radius--docs) - Border radius tokens
+- [Colors](https://ldls-react-native.vercel.app/?path=/docs/style-system-theme-colors--docs) - Semantic color tokens for background, text, and borders
+- [Spacings](https://ldls-react-native.vercel.app/?path=/docs/style-system-theme-spacings--docs) - Spacing scale for padding, margin, and gaps
+- [Sizes](https://ldls-react-native.vercel.app/?path=/docs/style-system-theme-sizes--docs) - Size tokens for width and height
+- [Shadows](https://ldls-react-native.vercel.app/?path=/docs/style-system-theme-shadows--docs) - Elevation shadow styles
+- [Border Width](https://ldls-react-native.vercel.app/?path=/docs/style-system-theme-border-width--docs) - Border width tokens
+- [Border Radius](https://ldls-react-native.vercel.app/?path=/docs/style-system-theme-border-radius--docs) - Border radius tokens
 
 ### Style System Usage
 
 
-- [Style System](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-style-system--docs) - high level guidelines
-- [useTheme](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-usetheme--docs) - useTheme hook
-- [useStyleSheet](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-usestylesheet--docs) - useStyleSheet
-- [lx property](https://lumen-ldls.vercel.app/?path=/docs/react-native_style-system-lx--docs) - lx property
+- [Style System](https://ldls-react-native.vercel.app/?path=/docs/style-system-style-system--docs) - high level guidelines
+- [useTheme](https://ldls-react-native.vercel.app/?path=/docs/style-system-usetheme--docs) - useTheme hook
+- [useStyleSheet](https://ldls-react-native.vercel.app/?path=/docs/style-system-usestylesheet--docs) - useStyleSheet
+- [lx property](https://ldls-react-native.vercel.app/?path=/docs/style-system-lx--docs) - lx property
 
 
 ---

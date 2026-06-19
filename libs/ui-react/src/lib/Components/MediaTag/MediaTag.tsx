@@ -6,7 +6,7 @@ import type { MediaTagProps } from './types';
  *
  * The appearance determines the color scheme used.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-mediatag-overview--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-mediatag--docs Storybook}
  *
  * @example
  * import { MediaTag, MediaImage } from '@ledgerhq/lumen-ui-react';

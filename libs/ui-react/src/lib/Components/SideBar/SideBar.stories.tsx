@@ -31,7 +31,7 @@ import {
 
 const meta: Meta<typeof SideBar> = {
   component: SideBar,
-  title: 'Navigation/SideBar',
+  title: 'Core/SideBar',
   subcomponents: {
     SideBarLeading,
     SideBarTrailing,

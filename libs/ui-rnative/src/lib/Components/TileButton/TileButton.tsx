@@ -67,7 +67,7 @@ const useStyles = ({
  * A compact button component displaying an icon above a label in a vertical layout.
  * Ideal for grids, toolbars, or quick action menus.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_action-tilebutton--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-tilebutton--docs Storybook}
  *
  * @example
  * import { TileButton } from '@ledgerhq/lumen-ui-rnative';

@@ -227,8 +227,8 @@ export function TabBarItem({
  * A horizontal tab bar with animated pill background and icon transitions.
  * Provides smooth animations for active state changes and press interactions.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_navigation-tabbar--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_navigation-tabbar--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-tabbar--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-tabbar--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  *

@@ -44,7 +44,7 @@ const iconVariants = cva('shrink-0', {
  * A compact button component displaying an icon above a label in a vertical layout.
  * Ideal for grids, toolbars, or quick action menus.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/action-tilebutton--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-tilebutton--docs Storybook}
  *
  * @example
  * import { TileButton } from '@ledgerhq/lumen-ui-react';

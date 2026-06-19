@@ -20,7 +20,7 @@ import type {
  * This component coordinates between the trigger and content components.
  * It works with GlobalTooltipProvider to ensure only one tooltip can be shown at a time.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-tooltip--docs Storybook}
  *
  * @example
  * import { GlobalTooltipProvider, Tooltip, TooltipTrigger, TooltipContent, GlobalTooltipBottomSheet } from '@ledgerhq/lumen-ui-rnative';

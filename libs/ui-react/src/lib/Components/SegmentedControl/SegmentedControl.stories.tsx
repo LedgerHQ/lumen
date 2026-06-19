@@ -5,7 +5,7 @@ import { DotCount } from '../DotCount';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
-  title: 'Navigation/SegmentedControl',
+  title: 'Core/SegmentedControl',
   component: SegmentedControl,
   subcomponents: {
     SegmentedControlButton,

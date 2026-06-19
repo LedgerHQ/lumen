@@ -8,7 +8,7 @@ import { DotIndicator } from './DotIndicator';
 
 const meta = {
   component: DotIndicator,
-  title: 'Communication/DotIndicator',
+  title: 'Core/DotIndicator',
   parameters: {
     docs: {
       source: {

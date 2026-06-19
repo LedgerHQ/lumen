@@ -4,7 +4,7 @@ import { CardButton } from './CardButton';
 
 const meta: Meta<typeof CardButton> = {
   component: CardButton,
-  title: 'Action/CardButton',
+  title: 'Core/CardButton',
   parameters: {
     docs: {
       source: {

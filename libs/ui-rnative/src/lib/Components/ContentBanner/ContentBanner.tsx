@@ -136,7 +136,7 @@ export const ContentBannerDescription = ({
  * A content banner component for displaying a composable banner with an optional
  * leading visual, title, description, and close button.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-contentbanner-overview--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-contentbanner--docs Storybook}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the banner's core appearance (colors, padding, etc).

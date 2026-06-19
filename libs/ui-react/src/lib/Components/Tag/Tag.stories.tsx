@@ -4,7 +4,7 @@ import { Tag } from './Tag';
 
 const meta: Meta<typeof Tag> = {
   component: Tag,
-  title: 'Communication/Tag',
+  title: 'Core/Tag',
   argTypes: {
     icon: {
       control: {

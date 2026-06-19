@@ -19,7 +19,7 @@ import {
 
 const meta = {
   component: ListItem,
-  title: 'Containment/ListItem',
+  title: 'Core/ListItem',
   subcomponents: {
     ListItemLeading,
     ListItemContent,

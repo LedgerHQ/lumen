@@ -71,7 +71,7 @@ const sideBarVariants = {
  * A responsive sidebar navigation component with collapsible functionality.
  * Uses a composite pattern for maximum flexibility with value-based selection.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-sidebar--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-sidebar--docs Storybook}
  *
  * @example
  * const [active, setActive] = useState('home');

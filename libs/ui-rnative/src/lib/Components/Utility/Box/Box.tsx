@@ -7,7 +7,7 @@ import { createStyledView } from '../../../../styles';
  * Box is a View wrapper that accepts design token-based style props directly,
  * providing type-safe styling with autocomplete for spacing, sizes, colors, etc.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/layout-box--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/primitives-box--docs Storybook}
  *
  * @example
  * ```tsx

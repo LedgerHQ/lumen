@@ -22,7 +22,7 @@ const ETH_ICON_SM = (
 
 const meta: Meta<typeof MediaTag> = {
   component: MediaTag,
-  title: 'Communication/MediaTag',
+  title: 'Core/MediaTag',
   argTypes: {
     appearance: {
       control: 'select',

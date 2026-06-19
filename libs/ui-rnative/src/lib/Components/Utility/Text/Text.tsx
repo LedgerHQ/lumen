@@ -7,7 +7,7 @@ import { createStyledText } from '../../../../styles';
  * Text is a wrapper around React Native's Text that accepts a `typography` prop for
  * typography presets, plus design token-based style props for colors, spacing, etc.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/typography-text--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/primitives-text--docs Storybook}
  *
  * @example
  * ```tsx

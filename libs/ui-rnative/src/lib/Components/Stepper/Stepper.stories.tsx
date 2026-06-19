@@ -4,7 +4,7 @@ import { Text } from '../Utility/Text';
 import { Stepper } from './Stepper';
 
 const meta: Meta<typeof Stepper> = {
-  title: 'Communication/Stepper',
+  title: 'Core/Stepper',
   component: Stepper,
   parameters: {
     actions: { disable: true },

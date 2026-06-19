@@ -51,7 +51,7 @@ const dotSizeMap: Partial<
  * When the image fails to load or no src is provided, displays a User icon fallback.
  * Supports an optional notification indicator.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/action-avatar--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-avatar--docs Storybook}
  *
  * @example
  * import { Avatar } from '@ledgerhq/lumen-ui-react';

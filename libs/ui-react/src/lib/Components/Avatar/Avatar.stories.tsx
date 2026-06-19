@@ -4,7 +4,7 @@ import { Avatar } from './Avatar';
 
 const meta = {
   component: Avatar,
-  title: 'Communication/Avatar',
+  title: 'Core/Avatar',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

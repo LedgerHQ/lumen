@@ -102,8 +102,8 @@ const iconsMap: Record<Appearance, ComponentType<IconProps>> = {
  *
  * The appearance determines the color scheme and icon used.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-banner-overview--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-banner-implementation--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-banner--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-banner--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the banner's core appearance (colors, padding, etc). Use the `appearance` prop instead.

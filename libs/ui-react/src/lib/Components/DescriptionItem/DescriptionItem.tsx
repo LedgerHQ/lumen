@@ -24,7 +24,7 @@ const [DescriptionItemSizeProvider, useDescriptionItemSizeContext] =
  * and DescriptionItemTrailing / DescriptionItemValue (value side).
  *
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-descriptionitem--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-descriptionitem--docs Storybook}
  *
  * @example
  * <DescriptionItem size="md">

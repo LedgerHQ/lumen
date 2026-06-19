@@ -107,8 +107,8 @@ const useAnimatedThumb = (checked: boolean, translate: number) => {
  * The switch follows the design system tokens and supports checked, unchecked,
  * disabled, and focus states with proper active interactions.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_selection-switch--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_selection-switch--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-switch--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-switch--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the switch's core appearance.

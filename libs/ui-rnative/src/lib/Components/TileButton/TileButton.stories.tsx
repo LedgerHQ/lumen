@@ -15,7 +15,7 @@ const iconOptions = {
 
 const meta: Meta<typeof TileButton> = {
   component: TileButton,
-  title: 'Action/TileButton',
+  title: 'Core/TileButton',
   argTypes: {
     icon: {
       options: Object.keys(iconOptions),

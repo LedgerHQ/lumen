@@ -20,7 +20,7 @@ const Container = ({ children }: { children: React.ReactNode }) => (
 
 const meta: Meta<typeof DescriptionItem> = {
   component: DescriptionItem,
-  title: 'Containment/DescriptionItem',
+  title: 'Core/DescriptionItem',
   subcomponents: {
     DescriptionItemLeading,
     DescriptionItemLabel,

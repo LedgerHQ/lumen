@@ -10,7 +10,7 @@ import { InteractiveIcon } from './InteractiveIcon';
 
 const meta: Meta<typeof InteractiveIcon> = {
   component: InteractiveIcon,
-  title: 'Action/InteractiveIcon',
+  title: 'Core/InteractiveIcon',
   parameters: {
     docs: {
       source: {

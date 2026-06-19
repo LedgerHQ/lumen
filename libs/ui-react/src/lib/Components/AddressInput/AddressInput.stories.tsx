@@ -5,7 +5,7 @@ import { AddressInput } from './AddressInput';
 
 const meta: Meta<typeof AddressInput> = {
   component: AddressInput,
-  title: 'Input/AddressInput',
+  title: 'Core/AddressInput',
   parameters: {
     docs: {
       source: {

@@ -58,8 +58,8 @@ const listItemVariants = cva(
  * A flexible list item component that provides a composable structure for displaying
  * interactive list items with leading content, title, description, and trailing content.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-listitem--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/containment-listitem--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-listitem--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-listitem--docs Guidelines}
  *
  * @example
  *

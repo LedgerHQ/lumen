@@ -8,7 +8,7 @@ import { createStyledPressable } from '../../../../styles';
  * token-based style props directly, providing type-safe styling with autocomplete
  * for spacing, sizes, colors, etc. Use the `style` prop for pressed-state styling.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/utility-pressable--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/primitives-pressable--docs Storybook}
  *
  * @example
  * ```tsx

@@ -5,7 +5,7 @@ import { IconButton } from '../IconButton';
 import { PageIndicator } from './PageIndicator';
 
 const meta = {
-  title: 'Communication/PageIndicator',
+  title: 'Core/PageIndicator',
   component: PageIndicator,
   parameters: {
     layout: 'centered',

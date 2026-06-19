@@ -12,7 +12,7 @@ import { DotIcon, mediaImageDotIconSizeMap } from './DotIcon';
 
 const meta = {
   component: DotIcon,
-  title: 'Communication/DotIcon',
+  title: 'Core/DotIcon',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

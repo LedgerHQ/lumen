@@ -131,8 +131,8 @@ DigitStripList.displayName = 'DigitStripList';
  * This component uses a formatter function pattern that gives you full control over how amounts are displayed,
  * including currency position, decimal separators, and precision. Use the `hidden` prop for privacy features.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-amountdisplay-overview--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-amountdisplay-implementation--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-amountdisplay--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/core-amountdisplay--docs Guidelines}
  *
  * @example
  * ```tsx

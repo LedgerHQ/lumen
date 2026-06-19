@@ -18,7 +18,7 @@ import {
 import { TabBar, TabBarItem } from './TabBar';
 
 const meta = {
-  title: 'Navigation/TabBar',
+  title: 'Core/TabBar',
   component: TabBar,
   subcomponents: {
     TabBarItem,

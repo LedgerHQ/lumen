@@ -20,7 +20,7 @@ const Container = ({ children }: { children: React.ReactNode }) => (
 
 const meta: Meta<typeof Subheader> = {
   component: Subheader,
-  title: 'Communication/Subheader',
+  title: 'Core/Subheader',
   subcomponents: {
     SubheaderRow,
     SubheaderTitle,

@@ -61,7 +61,7 @@ const largeData = [
 
 const meta: Meta<typeof TableRoot> = {
   component: TableRoot,
-  title: 'Data/Table',
+  title: 'Core/Table',
   subcomponents: {
     TableHeader,
     TableBody,
