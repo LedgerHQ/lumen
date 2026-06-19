@@ -1,5 +1,5 @@
 ---
-'@ledgerhq/lumen-ui-react': patch
+'@ledgerhq/lumen-ui-rnative-visualization': patch
 ---
 
-refactor(storybook): flatten component categories under a single Core group and normalize doc links
+chore: align version of react-native to 0.81.6
