@@ -2,9 +2,9 @@
 '@ledgerhq/lumen-ui-rnative': patch
 ---
 
-feat(ui-rnative): add type-safety for compound components
+BREAKING_CHANGE(ui-rnative): add type-safety for compound components
 
-Note: the generics on `OptionList` components now take the value union `T` as the first parameter, followed by `TMeta` (previously `TMeta` was the only parameter).
+The generics on `OptionList` components now take the value union `T` as the first parameter, followed by `TMeta` (previously `TMeta` was the only parameter).
 
 This enables type-safe `value` inference across the compound components. Normal usage (no explicit type arguments) and the new `createOptionList` factory are unaffected. 
 
