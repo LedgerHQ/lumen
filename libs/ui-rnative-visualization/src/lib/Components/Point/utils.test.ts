@@ -1,14 +1,12 @@
-import { describe, expect, it, jest } from '@jest/globals';
-import { renderHook } from '@testing-library/react-native';
+import { describe, expect, it } from '@jest/globals';
 
-import type { BaseAxisProps } from '../Axis';
 import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
 import {
   buildArrowPoints,
+  computeLabelX,
   computeLabelY,
   isWithinBounds,
   resolveLabel,
-  useMagneticRegistration,
 } from './utils';
 
 describe('isWithinBounds', () => {
@@ -117,92 +115,48 @@ describe('computeLabelY', () => {
   });
 });
 
-const makeContext = () => ({
-  register: jest.fn(),
-  unregister: jest.fn(),
-  version: 0,
-  getMagneticPoints: () => new Set<number>(),
-});
+describe('computeLabelX', () => {
+  const area = { x: 100, y: 0, width: 200, height: 100 };
+  const halfArrow = ARROW_WIDTH / 2;
 
-const noAxisConfig = (): BaseAxisProps | undefined => undefined;
-
-describe('useMagneticRegistration', () => {
-  it('registers the data index when magnetic is true', () => {
-    const ctx = makeContext();
-    renderHook(() => useMagneticRegistration(true, 3, noAxisConfig, ctx));
-
-    expect(ctx.register).toHaveBeenCalledWith(3);
-  });
-
-  it('does not register when magnetic is false', () => {
-    const ctx = makeContext();
-    renderHook(() => useMagneticRegistration(false, 3, noAxisConfig, ctx));
-
-    expect(ctx.register).not.toHaveBeenCalled();
-  });
-
-  it('unregisters on unmount', () => {
-    const ctx = makeContext();
-    const { unmount } = renderHook(() =>
-      useMagneticRegistration(true, 3, noAxisConfig, ctx),
-    );
-
-    unmount();
-    expect(ctx.unregister).toHaveBeenCalledWith(3);
-  });
-
-  it('resolves dataX through axis config data when provided', () => {
-    const ctx = makeContext();
-    const getXAxisConfig = (): BaseAxisProps => ({
-      scaleType: 'band',
-      data: [100, 200, 300],
+  it('centres the label on the point when clamping is disabled', () => {
+    expect(
+      computeLabelX(105, 'A very long label', area, 'center', true),
+    ).toEqual({
+      x: 105,
+      textAnchor: 'middle',
     });
-
-    renderHook(() => useMagneticRegistration(true, 200, getXAxisConfig, ctx));
-
-    expect(ctx.register).toHaveBeenCalledWith(1);
   });
 
-  it('does not register when axis data exists but does not contain the value', () => {
-    const ctx = makeContext();
-    const getXAxisConfig = (): BaseAxisProps => ({
-      scaleType: 'band',
-      data: [100, 200, 300],
+  it('centres the label on the point when it fits inside the bounds', () => {
+    expect(computeLabelX(200, 'Peak', area, 'auto', true)).toEqual({
+      x: 200,
+      textAnchor: 'middle',
     });
-
-    renderHook(() => useMagneticRegistration(true, 999, getXAxisConfig, ctx));
-
-    expect(ctx.register).not.toHaveBeenCalled();
   });
 
-  it('re-registers when dataX changes', () => {
-    const ctx = makeContext();
-    const { rerender } = renderHook(
-      ({ dataX }: { dataX: number }) =>
-        useMagneticRegistration(true, dataX, noAxisConfig, ctx),
-      { initialProps: { dataX: 2 } },
-    );
-
-    expect(ctx.register).toHaveBeenCalledWith(2);
-
-    rerender({ dataX: 4 });
-
-    expect(ctx.unregister).toHaveBeenCalledWith(2);
-    expect(ctx.register).toHaveBeenCalledWith(4);
+  it('anchors near the left edge, offset by half the arrow width from the point', () => {
+    expect(computeLabelX(105, 'Long label', area, 'auto', true)).toEqual({
+      x: 105 - halfArrow,
+      textAnchor: 'start',
+    });
   });
 
-  it('unregisters and stops when magnetic switches to false', () => {
-    const ctx = makeContext();
-    const { rerender } = renderHook(
-      ({ magnetic }: { magnetic: boolean }) =>
-        useMagneticRegistration(magnetic, 3, noAxisConfig, ctx),
-      { initialProps: { magnetic: true } },
-    );
+  it('anchors near the right edge, offset by half the arrow width from the point', () => {
+    expect(computeLabelX(295, 'Long label', area, 'auto', true)).toEqual({
+      x: 295 + halfArrow,
+      textAnchor: 'end',
+    });
+  });
 
-    expect(ctx.register).toHaveBeenCalledWith(3);
-
-    rerender({ magnetic: false });
-
-    expect(ctx.unregister).toHaveBeenCalledWith(3);
+  it('omits the arrow offset when no arrow is rendered', () => {
+    expect(computeLabelX(105, 'Long label', area, 'auto', false)).toEqual({
+      x: 105,
+      textAnchor: 'start',
+    });
+    expect(computeLabelX(295, 'Long label', area, 'auto', false)).toEqual({
+      x: 295,
+      textAnchor: 'end',
+    });
   });
 });

@@ -8,6 +8,7 @@ import { Text as SvgText } from 'react-native-svg';
 import { CartesianChart } from '../CartesianChart';
 
 import { Point } from './Point';
+import type { PointLabelProps } from './types';
 
 const sampleSeries = [{ id: 's1', stroke: '#000', data: [10, 20, 30, 40, 50] }];
 
@@ -184,6 +185,51 @@ describe('Point', () => {
     const topY = topSpy.mock.calls[0][0].y;
     const bottomY = bottomSpy.mock.calls[0][0].y;
     expect(bottomY).toBeGreaterThan(topY);
+  });
+
+  it('anchors a long label inward at the left edge by default', () => {
+    const labelSpy = jest.fn(({ x, y, children }: PointLabelProps) => (
+      <SvgText x={x} y={y}>
+        {children}
+      </SvgText>
+    ));
+
+    renderInChart(
+      <Point
+        dataX={0}
+        dataY={10}
+        label='A long edge label'
+        LabelComponent={labelSpy}
+      />,
+    );
+
+    expect(labelSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ textAnchor: 'start' }),
+      undefined,
+    );
+  });
+
+  it("centres a long edge label when labelAlignment is 'center'", () => {
+    const labelSpy = jest.fn(({ x, y, children }: PointLabelProps) => (
+      <SvgText x={x} y={y}>
+        {children}
+      </SvgText>
+    ));
+
+    renderInChart(
+      <Point
+        dataX={0}
+        dataY={10}
+        label='A long edge label'
+        labelAlignment='center'
+        LabelComponent={labelSpy}
+      />,
+    );
+
+    expect(labelSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ textAnchor: 'middle' }),
+      undefined,
+    );
   });
 
   it('calls onPress when the point is pressed', () => {
