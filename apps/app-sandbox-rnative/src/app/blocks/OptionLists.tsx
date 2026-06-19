@@ -2,16 +2,7 @@ import CryptoIconNative from '@ledgerhq/crypto-icons/native';
 import type { OptionListItemData } from '@ledgerhq/lumen-ui-rnative';
 import {
   MediaButton,
-  OptionList,
-  OptionListContent,
-  OptionListEmptyState,
-  OptionListItem,
-  OptionListItemLeading,
-  OptionListItemContent,
-  OptionListItemText,
-  OptionListItemDescription,
-  OptionListItemContentRow,
-  OptionListSearch,
+  createOptionList,
   Tag,
   Box,
   useBottomSheetRef,
@@ -21,10 +12,20 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { useState } from 'react';
 
-const CURRENCIES: OptionListItemData<
-  string,
-  { ticker: string; icon: string }
->[] = [
+type Currency = 'btc' | 'eth';
+type CryptoMeta = { ticker: string; icon: string };
+
+const {
+  OptionList: CurrencyList,
+  OptionListContent: CurrencyListContent,
+  OptionListItem: CurrencyListItem,
+  OptionListItemLeading: CurrencyListItemLeading,
+  OptionListItemContent: CurrencyListItemContent,
+  OptionListItemText: CurrencyListItemText,
+  OptionListItemDescription: CurrencyListItemDescription,
+} = createOptionList<Currency, CryptoMeta>();
+
+const CURRENCIES: OptionListItemData<Currency, CryptoMeta>[] = [
   {
     value: 'btc',
     label: 'Bitcoin',
@@ -38,22 +39,19 @@ const CURRENCIES: OptionListItemData<
 ];
 
 const CurrencySelectExample = () => {
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<Currency | null>(null);
   const bottomSheetRef = useBottomSheetRef();
 
   const selected = CURRENCIES.find((c) => c.value === value);
-  const selectedMeta = selected?.meta as
-    | { ticker: string; icon: string }
-    | undefined;
 
   return (
     <Box>
       <MediaButton
         leadingContent={
-          selectedMeta ? (
+          selected?.meta ? (
             <CryptoIconNative
-              ledgerId={selectedMeta.icon}
-              ticker={selectedMeta.ticker}
+              ledgerId={selected.meta.icon}
+              ticker={selected.meta.ticker}
               size={32}
             />
           ) : undefined
@@ -71,7 +69,7 @@ const CurrencySelectExample = () => {
       >
         <BottomSheetView>
           <BottomSheetHeader title='Select currency' />
-          <OptionList
+          <CurrencyList
             items={CURRENCIES}
             value={value}
             onValueChange={(v) => {
@@ -79,36 +77,45 @@ const CurrencySelectExample = () => {
               bottomSheetRef.current?.dismiss();
             }}
           >
-            <OptionListContent
-              renderItem={(item) => {
-                const meta = item.meta as { ticker: string; icon: string };
-                return (
-                  <OptionListItem value={item.value}>
-                    <OptionListItemLeading>
+            <CurrencyListContent
+              renderItem={({ value, label, meta }) =>
+                meta ? (
+                  <CurrencyListItem value={value}>
+                    <CurrencyListItemLeading>
                       <CryptoIconNative
                         ledgerId={meta.icon}
                         ticker={meta.ticker}
                         size={32}
                       />
-                    </OptionListItemLeading>
-                    <OptionListItemContent>
-                      <OptionListItemText>{item.label}</OptionListItemText>
-                      <OptionListItemDescription>
+                    </CurrencyListItemLeading>
+                    <CurrencyListItemContent>
+                      <CurrencyListItemText>{label}</CurrencyListItemText>
+                      <CurrencyListItemDescription>
                         {meta.ticker}
-                      </OptionListItemDescription>
-                    </OptionListItemContent>
-                  </OptionListItem>
-                );
-              }}
+                      </CurrencyListItemDescription>
+                    </CurrencyListItemContent>
+                  </CurrencyListItem>
+                ) : null
+              }
             />
-          </OptionList>
+          </CurrencyList>
         </BottomSheetView>
       </BottomSheet>
     </Box>
   );
 };
 
-const FOODS: OptionListItemData<string, { group: string }>[] = [
+type Food = 'apple' | 'banana' | 'orange' | 'carrot' | 'broccoli' | 'spinach';
+
+const {
+  OptionList: FoodList,
+  OptionListContent: FoodListContent,
+  OptionListItem: FoodListItem,
+  OptionListItemContent: FoodListItemContent,
+  OptionListItemText: FoodListItemText,
+} = createOptionList<Food>();
+
+const FOODS: OptionListItemData<Food>[] = [
   { value: 'apple', label: 'Apple', group: 'Fruits' },
   { value: 'banana', label: 'Banana', group: 'Fruits' },
   { value: 'orange', label: 'Orange', group: 'Fruits' },
@@ -118,7 +125,7 @@ const FOODS: OptionListItemData<string, { group: string }>[] = [
 ];
 
 const GroupedSelectExample = () => {
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<Food | null>(null);
   const bottomSheetRef = useBottomSheetRef();
 
   return (
@@ -137,7 +144,7 @@ const GroupedSelectExample = () => {
       >
         <BottomSheetView>
           <BottomSheetHeader title='Pick a food' />
-          <OptionList
+          <FoodList
             items={FOODS}
             value={value}
             onValueChange={(v) => {
@@ -145,30 +152,37 @@ const GroupedSelectExample = () => {
               bottomSheetRef.current?.dismiss();
             }}
           >
-            <OptionListContent
+            <FoodListContent
               renderItem={(item) => (
-                <OptionListItem value={item.value}>
-                  <OptionListItemContent>
-                    <OptionListItemText>{item.label}</OptionListItemText>
-                  </OptionListItemContent>
-                </OptionListItem>
+                <FoodListItem value={item.value}>
+                  <FoodListItemContent>
+                    <FoodListItemText>{item.label}</FoodListItemText>
+                  </FoodListItemContent>
+                </FoodListItem>
               )}
             />
-          </OptionList>
+          </FoodList>
         </BottomSheetView>
       </BottomSheet>
     </Box>
   );
 };
 
-const NETWORKS: OptionListItemData<
-  string,
-  {
-    ticker: string;
-    icon: string;
-    tag: string;
-  }
->[] = [
+type Network = 'ethereum' | 'polygon' | 'arbitrum' | 'optimism';
+type NetworkMeta = { ticker: string; icon: string; tag: string };
+
+const {
+  OptionList: NetworkList,
+  OptionListContent: NetworkListContent,
+  OptionListItem: NetworkListItem,
+  OptionListItemLeading: NetworkListItemLeading,
+  OptionListItemContent: NetworkListItemContent,
+  OptionListItemContentRow: NetworkListItemContentRow,
+  OptionListItemText: NetworkListItemText,
+  OptionListItemDescription: NetworkListItemDescription,
+} = createOptionList<Network, NetworkMeta>();
+
+const NETWORKS: OptionListItemData<Network, NetworkMeta>[] = [
   {
     value: 'ethereum',
     label: 'Ethereum',
@@ -192,7 +206,7 @@ const NETWORKS: OptionListItemData<
 ];
 
 const NetworkSelectExample = () => {
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<Network | null>(null);
   const bottomSheetRef = useBottomSheetRef();
 
   const selected = NETWORKS.find((n) => n.value === value);
@@ -222,7 +236,7 @@ const NetworkSelectExample = () => {
       >
         <BottomSheetView>
           <BottomSheetHeader title='Select network' />
-          <OptionList
+          <NetworkList
             items={NETWORKS}
             value={value}
             onValueChange={(v) => {
@@ -230,48 +244,62 @@ const NetworkSelectExample = () => {
               bottomSheetRef.current?.dismiss();
             }}
           >
-            <OptionListContent
-              renderItem={(item) => {
-                const meta = item.meta as {
-                  ticker: string;
-                  icon: string;
-                  tag: string;
-                };
-                return (
-                  <OptionListItem value={item.value}>
-                    <OptionListItemLeading>
+            <NetworkListContent
+              renderItem={({ value, label, meta }) =>
+                meta ? (
+                  <NetworkListItem value={value}>
+                    <NetworkListItemLeading>
                       <CryptoIconNative
                         ledgerId={meta.icon}
                         ticker={meta.ticker}
                         size={32}
                       />
-                    </OptionListItemLeading>
-                    <OptionListItemContent>
-                      <OptionListItemContentRow>
-                        <OptionListItemText>{item.label}</OptionListItemText>
+                    </NetworkListItemLeading>
+                    <NetworkListItemContent>
+                      <NetworkListItemContentRow>
+                        <NetworkListItemText>{label}</NetworkListItemText>
                         <Tag label={meta.tag} appearance='gray' size='sm' />
-                      </OptionListItemContentRow>
-                      <OptionListItemDescription>
+                      </NetworkListItemContentRow>
+                      <NetworkListItemDescription>
                         {meta.ticker}
-                      </OptionListItemDescription>
-                    </OptionListItemContent>
-                  </OptionListItem>
-                );
-              }}
+                      </NetworkListItemDescription>
+                    </NetworkListItemContent>
+                  </NetworkListItem>
+                ) : null
+              }
             />
-          </OptionList>
+          </NetworkList>
         </BottomSheetView>
       </BottomSheet>
     </Box>
   );
 };
 
+type SearchableCurrency =
+  | 'btc'
+  | 'eth'
+  | 'sol'
+  | 'ada'
+  | 'dot'
+  | 'matic'
+  | 'xrp'
+  | 'doge';
+
+const {
+  OptionList: SearchableCurrencyList,
+  OptionListContent: SearchableCurrencyListContent,
+  OptionListItem: SearchableCurrencyListItem,
+  OptionListItemLeading: SearchableCurrencyListItemLeading,
+  OptionListItemContent: SearchableCurrencyListItemContent,
+  OptionListItemText: SearchableCurrencyListItemText,
+  OptionListItemDescription: SearchableCurrencyListItemDescription,
+  OptionListSearch: SearchableCurrencyListSearch,
+  OptionListEmptyState: SearchableCurrencyListEmptyState,
+} = createOptionList<SearchableCurrency, CryptoMeta>();
+
 const SEARCHABLE_CURRENCIES: OptionListItemData<
-  string,
-  {
-    ticker: string;
-    icon: string;
-  }
+  SearchableCurrency,
+  CryptoMeta
 >[] = [
   { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC', icon: 'bitcoin' } },
   {
@@ -279,16 +307,8 @@ const SEARCHABLE_CURRENCIES: OptionListItemData<
     label: 'Ethereum',
     meta: { ticker: 'ETH', icon: 'ethereum' },
   },
-  {
-    value: 'sol',
-    label: 'Solana',
-    meta: { ticker: 'SOL', icon: 'solana' },
-  },
-  {
-    value: 'ada',
-    label: 'Cardano',
-    meta: { ticker: 'ADA', icon: 'cardano' },
-  },
+  { value: 'sol', label: 'Solana', meta: { ticker: 'SOL', icon: 'solana' } },
+  { value: 'ada', label: 'Cardano', meta: { ticker: 'ADA', icon: 'cardano' } },
   {
     value: 'dot',
     label: 'Polkadot',
@@ -299,11 +319,7 @@ const SEARCHABLE_CURRENCIES: OptionListItemData<
     label: 'Polygon',
     meta: { ticker: 'MATIC', icon: 'polygon' },
   },
-  {
-    value: 'xrp',
-    label: 'XRP',
-    meta: { ticker: 'XRP', icon: 'ripple' },
-  },
+  { value: 'xrp', label: 'XRP', meta: { ticker: 'XRP', icon: 'ripple' } },
   {
     value: 'doge',
     label: 'Dogecoin',
@@ -312,22 +328,19 @@ const SEARCHABLE_CURRENCIES: OptionListItemData<
 ];
 
 const SearchableSelectExample = () => {
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<SearchableCurrency | null>(null);
   const bottomSheetRef = useBottomSheetRef();
 
   const selected = SEARCHABLE_CURRENCIES.find((c) => c.value === value);
-  const selectedMeta = selected?.meta as
-    | { ticker: string; icon: string }
-    | undefined;
 
   return (
     <Box>
       <MediaButton
         leadingContent={
-          selectedMeta ? (
+          selected?.meta ? (
             <CryptoIconNative
-              ledgerId={selectedMeta.icon}
-              ticker={selectedMeta.ticker}
+              ledgerId={selected.meta.icon}
+              ticker={selected.meta.ticker}
               size={32}
             />
           ) : undefined
@@ -345,7 +358,7 @@ const SearchableSelectExample = () => {
       >
         <BottomSheetView>
           <BottomSheetHeader title='Select currency' />
-          <OptionList
+          <SearchableCurrencyList
             items={SEARCHABLE_CURRENCIES}
             value={value}
             onValueChange={(v) => {
@@ -353,34 +366,35 @@ const SearchableSelectExample = () => {
               bottomSheetRef.current?.dismiss();
             }}
           >
-            <OptionListSearch placeholder='Search currencies' />
-            <OptionListContent
-              renderItem={(item) => {
-                const meta = item.meta as { ticker: string; icon: string };
-                return (
-                  <OptionListItem value={item.value}>
-                    <OptionListItemLeading>
+            <SearchableCurrencyListSearch placeholder='Search currencies' />
+            <SearchableCurrencyListContent
+              renderItem={({ value, label, meta }) =>
+                meta ? (
+                  <SearchableCurrencyListItem value={value}>
+                    <SearchableCurrencyListItemLeading>
                       <CryptoIconNative
                         ledgerId={meta.icon}
                         ticker={meta.ticker}
                         size={32}
                       />
-                    </OptionListItemLeading>
-                    <OptionListItemContent>
-                      <OptionListItemText>{item.label}</OptionListItemText>
-                      <OptionListItemDescription>
+                    </SearchableCurrencyListItemLeading>
+                    <SearchableCurrencyListItemContent>
+                      <SearchableCurrencyListItemText>
+                        {label}
+                      </SearchableCurrencyListItemText>
+                      <SearchableCurrencyListItemDescription>
                         {meta.ticker}
-                      </OptionListItemDescription>
-                    </OptionListItemContent>
-                  </OptionListItem>
-                );
-              }}
+                      </SearchableCurrencyListItemDescription>
+                    </SearchableCurrencyListItemContent>
+                  </SearchableCurrencyListItem>
+                ) : null
+              }
             />
-            <OptionListEmptyState
+            <SearchableCurrencyListEmptyState
               title='No currencies found'
               description='Try a different search term'
             />
-          </OptionList>
+          </SearchableCurrencyList>
         </BottomSheetView>
       </BottomSheet>
     </Box>

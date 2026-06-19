@@ -1,4 +1,4 @@
-import { Box, TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
+import { Box, createTabBar } from '@ledgerhq/lumen-ui-rnative';
 import {
   Home,
   HomeFill,
@@ -11,8 +11,12 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
+type Route = 'home' | 'swap' | 'card' | 'help';
+
+const { TabBar, TabBarItem } = createTabBar<Route>();
+
 export function ExampleTabBar() {
-  const [active, setActive] = useState('home');
+  const [active, setActive] = useState<Route>('home');
 
   return (
     <Box
