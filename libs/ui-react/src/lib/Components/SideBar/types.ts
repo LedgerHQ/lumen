@@ -6,6 +6,8 @@ import type {
 } from 'react';
 import type { IconSize } from '../Icon/types';
 
+export type SideBarValue = string;
+
 /**
  * Context value for passing state to SideBar sub-components
  */
@@ -31,7 +33,7 @@ export type SideBarContextValue = {
 /**
  * Props for the SideBar root component
  */
-export type SideBarProps = {
+export type SideBarProps<T extends SideBarValue = SideBarValue> = {
   /**
    * Controlled collapsed state. When provided, the component becomes controlled.
    */
@@ -49,15 +51,15 @@ export type SideBarProps = {
    * The value of the currently active item.
    * When provided, the component becomes controlled for selection.
    */
-  active?: string;
+  active?: T;
   /**
    * Default active item value for uncontrolled mode.
    */
-  defaultActive?: string;
+  defaultActive?: T;
   /**
    * Callback fired when the active item changes.
    */
-  onActiveChange?: (value: string) => void;
+  onActiveChange?: (value: T) => void;
   /**
    * The children of the sidebar (SideBarLeading, SideBarTrailing).
    */
@@ -99,11 +101,11 @@ export type SideBarTrailingProps = {
 /**
  * Props for the SideBarItem component
  */
-export type SideBarItemProps = {
+export type SideBarItemProps<T extends SideBarValue = SideBarValue> = {
   /**
    * Unique identifier for this item. Used to determine which item is active.
    */
-  value: string;
+  value: T;
   /**
    * The icon component to display when inactive.
    */

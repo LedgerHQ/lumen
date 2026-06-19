@@ -4,6 +4,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { ReactElement } from 'react';
 import { useCallback } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { useControllableState } from '../../../utils/useControllableState';
@@ -16,6 +17,7 @@ import type {
   SideBarTrailingProps,
   SideBarItemProps,
   SideBarCollapseToggleProps,
+  SideBarValue,
 } from './types';
 
 const [SideBarProvider, useSideBarContext] =
@@ -87,7 +89,7 @@ const sideBarVariants = {
  *   </SideBarTrailing>
  * </SideBar>
  */
-export const SideBar = ({
+export const SideBar = <T extends SideBarValue = SideBarValue>({
   ref,
   collapsed: controlledCollapsed,
   defaultCollapsed = false,
@@ -98,7 +100,7 @@ export const SideBar = ({
   children,
   className,
   ...props
-}: SideBarProps) => {
+}: SideBarProps<T>) => {
   const { t } = useCommonTranslation();
   const [collapsed, setCollapsed] = useControllableState({
     prop: controlledCollapsed,
@@ -106,10 +108,10 @@ export const SideBar = ({
     onChange: onCollapsedChange,
   });
 
-  const [active, setActive] = useControllableState({
+  const [active, setActive] = useControllableState<string>({
     prop: controlledActive,
     defaultProp: defaultActive ?? '',
-    onChange: onActiveChange,
+    onChange: onActiveChange as ((value: string) => void) | undefined,
   });
 
   return (
@@ -193,7 +195,7 @@ export const SideBarTrailing = ({
  *   tooltipContent="Wallet"
  * />
  */
-export const SideBarItem = ({
+export const SideBarItem = <T extends SideBarValue = SideBarValue>({
   ref,
   value,
   icon: Icon,
@@ -204,7 +206,7 @@ export const SideBarItem = ({
   className,
   onClick,
   ...props
-}: SideBarItemProps) => {
+}: SideBarItemProps<T>) => {
   const disabled = useDisabledContext({
     consumerName: 'SideBarItem',
     mergeWith: { disabled: disabledProp },
@@ -318,3 +320,19 @@ export const SideBarCollapseToggle = ({
     </Tooltip>
   );
 };
+
+export function createSideBar<T extends SideBarValue = never>(): {
+  SideBar: (props: SideBarProps<T>) => ReactElement;
+  SideBarLeading: (props: SideBarLeadingProps) => ReactElement;
+  SideBarTrailing: (props: SideBarTrailingProps) => ReactElement;
+  SideBarItem: (props: SideBarItemProps<T>) => ReactElement;
+  SideBarCollapseToggle: (props: SideBarCollapseToggleProps) => ReactElement;
+} {
+  return {
+    SideBar,
+    SideBarLeading,
+    SideBarTrailing,
+    SideBarItem,
+    SideBarCollapseToggle,
+  };
+}
