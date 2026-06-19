@@ -677,7 +677,12 @@ describe('SideBar Component', () => {
       render(
         <TypedSideBar onActiveChange={handleActiveChange}>
           <TypedLeading>
-            <TypedItem value='home' icon={Home} activeIcon={HomeFill} label='Home' />
+            <TypedItem
+              value='home'
+              icon={Home}
+              activeIcon={HomeFill}
+              label='Home'
+            />
           </TypedLeading>
           <TypedTrailing>
             <TypedItem
