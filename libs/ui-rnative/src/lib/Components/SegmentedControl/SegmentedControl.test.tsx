@@ -3,7 +3,11 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, fireEvent } from '@testing-library/react-native';
 import { DotCount } from '../DotCount';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
+import {
+  SegmentedControl,
+  SegmentedControlButton,
+  createSegmentedControl,
+} from './SegmentedControl';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -170,6 +174,33 @@ describe('SegmentedControl', () => {
       fireEvent.press(getByText('Preview'));
 
       expect(onSelectedChange).toHaveBeenCalledWith('preview');
+    });
+  });
+
+  describe('createSegmentedControl', () => {
+    it('returns typed components that render and select like the originals', () => {
+      const {
+        SegmentedControl: TypedControl,
+        SegmentedControlButton: TypedButton,
+      } = createSegmentedControl<'send' | 'receive'>();
+      const onSelectedChange = jest.fn();
+
+      const { getByText } = render(
+        <TestWrapper>
+          <TypedControl
+            selectedValue='send'
+            onSelectedChange={onSelectedChange}
+            accessibilityLabel='Transaction type'
+          >
+            <TypedButton value='send'>Send</TypedButton>
+            <TypedButton value='receive'>Receive</TypedButton>
+          </TypedControl>
+        </TestWrapper>,
+      );
+
+      fireEvent.press(getByText('Receive'));
+
+      expect(onSelectedChange).toHaveBeenCalledWith('receive');
     });
   });
 });

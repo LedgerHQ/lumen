@@ -15,6 +15,7 @@ import {
   SideBarTrailing,
   SideBarItem,
   SideBarCollapseToggle,
+  createSideBar,
 } from './SideBar';
 
 describe('SideBar Component', () => {
@@ -659,6 +660,42 @@ describe('SideBar Component', () => {
 
       expect(homeButton).toHaveClass('bg-base-transparent');
       expect(walletButton).toHaveClass('bg-muted-transparent');
+    });
+  });
+
+  describe('createSideBar', () => {
+    it('returns typed components that render and respond to clicks', () => {
+      const {
+        SideBar: TypedSideBar,
+        SideBarLeading: TypedLeading,
+        SideBarTrailing: TypedTrailing,
+        SideBarItem: TypedItem,
+        SideBarCollapseToggle: TypedToggle,
+      } = createSideBar<'home' | 'settings'>();
+      const handleActiveChange = vi.fn();
+
+      render(
+        <TypedSideBar onActiveChange={handleActiveChange}>
+          <TypedLeading>
+            <TypedItem value='home' icon={Home} activeIcon={HomeFill} label='Home' />
+          </TypedLeading>
+          <TypedTrailing>
+            <TypedItem
+              value='settings'
+              icon={SettingsAlt}
+              activeIcon={SettingsAlt2}
+              label='Settings'
+            />
+            <TypedToggle />
+          </TypedTrailing>
+        </TypedSideBar>,
+      );
+
+      expect(screen.getByText('Home')).toBeInTheDocument();
+
+      fireEvent.click(screen.getByText('Settings').closest('button')!);
+
+      expect(handleActiveChange).toHaveBeenCalledWith('settings');
     });
   });
 });
