@@ -1,6 +1,7 @@
 import { Combobox } from '@base-ui/react/combobox';
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { ReactElement } from 'react';
 import { useLayoutEffect } from 'react';
 import { useControllableState } from '../../../utils/useControllableState';
 import { ChevronDown, Check } from '../../Symbols';
@@ -22,11 +23,15 @@ import type {
   SelectItemDescriptionProps,
   SelectSeparatorProps,
   SelectEmptyStateProps,
+  SelectValue,
 } from './types';
 import { useSelectItems } from './useSelectItems';
 import { resolveValue } from './utils';
 
-function Select<TMeta extends MetaShape = MetaShape>({
+function Select<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+>({
   value,
   defaultValue,
   onValueChange,
@@ -43,7 +48,7 @@ function Select<TMeta extends MetaShape = MetaShape>({
   name,
   required,
   children,
-}: Readonly<SelectProps<TMeta>>) {
+}: Readonly<SelectProps<T, TMeta>>) {
   const disabled = useDisabledContext({
     consumerName: 'Select',
     mergeWith: { disabled: disabledProp },
@@ -54,7 +59,7 @@ function Select<TMeta extends MetaShape = MetaShape>({
       prop: value,
       defaultProp: defaultValue ?? null,
       onChange: (next) => {
-        onValueChange?.(next);
+        onValueChange?.(next as T | null);
       },
     },
   );
@@ -67,7 +72,7 @@ function Select<TMeta extends MetaShape = MetaShape>({
     searchMounted,
     registerSearch,
     handleSearchValueChange,
-  } = useSelectItems({
+  } = useSelectItems<T, TMeta>({
     items,
     filter,
     filteredItems,
@@ -162,7 +167,11 @@ const SelectInputTrigger = ({
   );
 };
 
-const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
+const SelectTrigger = <T extends SelectValue = SelectValue>({
+  render,
+  disabled,
+  ...props
+}: SelectTriggerProps<T>) => {
   const { selectedValue } = useSelectContext({
     consumerName: 'SelectTrigger',
     contextRequired: true,
@@ -175,7 +184,10 @@ const SelectTrigger = ({ render, disabled, ...props }: SelectTriggerProps) => {
         disabled={disabled}
         ref={props.ref}
         data-slot='select-trigger'
-        render={render({ selectedValue, selectedContent })}
+        render={render({
+          selectedValue: selectedValue as T | null,
+          selectedContent,
+        })}
       />
     );
   }
@@ -244,12 +256,15 @@ const SelectContent = ({
   </Combobox.Portal>
 );
 
-const SelectList = <TMeta extends MetaShape = MetaShape>({
+const SelectList = <
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+>({
   ref,
   className,
   renderItem,
   ...props
-}: SelectListProps<TMeta>) => {
+}: SelectListProps<T, TMeta>) => {
   const { isGrouped } = useSelectContext({
     consumerName: 'SelectList',
     contextRequired: true,
@@ -266,7 +281,7 @@ const SelectList = <TMeta extends MetaShape = MetaShape>({
       {...props}
     >
       {isGrouped
-        ? (group: SelectItemGroup<TMeta>, groupIndex: number) => (
+        ? (group: SelectItemGroup<T, TMeta>, groupIndex: number) => (
             <Combobox.Group
               key={group.label}
               items={group.items}
@@ -301,12 +316,12 @@ const itemStyles = cn(
   'data-disabled:cursor-not-allowed data-disabled:text-disabled',
 );
 
-const SelectItem = ({
+const SelectItem = <T extends SelectValue = SelectValue>({
   ref,
   className,
   children,
   ...props
-}: SelectItemProps) => (
+}: SelectItemProps<T>) => (
   <Combobox.Item
     ref={ref}
     data-slot='select-item'
@@ -445,3 +460,34 @@ export {
   SelectSeparator,
   SelectEmptyState,
 };
+
+export function createSelect<
+  T extends SelectValue = never,
+  TMeta extends MetaShape = MetaShape,
+>(): {
+  Select: (props: Readonly<SelectProps<T, TMeta>>) => ReactElement;
+  SelectTrigger: (props: SelectTriggerProps<T>) => ReactElement;
+  SelectContent: (props: SelectContentProps) => ReactElement;
+  SelectSearch: (props: SelectSearchProps) => ReactElement;
+  SelectList: (props: SelectListProps<T, TMeta>) => ReactElement;
+  SelectItemText: (props: SelectItemTextProps) => ReactElement;
+  SelectItemContent: (props: SelectItemContentProps) => ReactElement;
+  SelectItemDescription: (props: SelectItemDescriptionProps) => ReactElement;
+  SelectItem: (props: SelectItemProps<T>) => ReactElement;
+  SelectSeparator: (props: SelectSeparatorProps) => ReactElement;
+  SelectEmptyState: (props: SelectEmptyStateProps) => ReactElement;
+} {
+  return {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectSearch,
+    SelectList,
+    SelectItemText,
+    SelectItemContent,
+    SelectItemDescription,
+    SelectItem,
+    SelectSeparator,
+    SelectEmptyState,
+  };
+}
