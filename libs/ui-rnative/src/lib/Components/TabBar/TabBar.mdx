@@ -69,6 +69,8 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 ### Basic Usage
 
+> **Recommended:** prefer the [type-safe variant](#type-safe-variant) below. It shares one literal union across `active` and every `TabBarItem.value`.
+
 ```tsx
 import { useState } from 'react';
 import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
@@ -85,6 +87,38 @@ function MyComponent() {
   );
 }
 ```
+
+### Type-safe variant
+
+`TabBar` and `TabBarItem` communicate via context, so TypeScript cannot connect the root's `active` to each item's `value` on its own. A typo compiles, and the wrong tab (or none) is highlighted.
+
+`createTabBar<T>()` ties both components to one literal union. Call it once at module scope; the returned pair are typed against your `T`.
+
+<Canvas of={TabBarStories.Typed} />
+
+```tsx
+import { createTabBar } from '@ledgerhq/lumen-ui-rnative';
+import { Home, HomeFill, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+type Route = 'home' | 'swap' | 'settings';
+
+const { TabBar, TabBarItem } = createTabBar<Route>();
+
+function Example() {
+  const [active, setActive] = React.useState<Route>('home');
+
+  return (
+    <TabBar active={active} onTabPress={setActive}>
+      <TabBarItem value='home' label='Home' icon={Home} activeIcon={HomeFill} />
+      <TabBarItem value='swap' label='Swap' icon={Settings} />
+      <TabBarItem value='settings' label='Settings' icon={Settings} />
+      {/* <TabBarItem value='wrong' /> ts(2322) */}
+    </TabBar>
+  );
+}
+```
+
+Zero runtime cost, as `createTabBar` is a type-only wrapper.
 
 ### With Active Icons
 

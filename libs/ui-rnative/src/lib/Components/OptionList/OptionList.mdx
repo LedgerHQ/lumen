@@ -97,6 +97,8 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 ## Basic usage
 
+> **Recommended:** prefer the [type-safe variant](#type-safe-variant) below. It ties `value`, `items[].value`, `OptionListItem.value`, and the `renderItem(item).meta` shape to one literal union plus an optional `TMeta`, dropping the `as Meta` casts in `renderItem`.
+
 ```tsx
 import {
   OptionList,
@@ -129,6 +131,53 @@ function MyList() {
   );
 }
 ```
+
+## Type-safe variant
+
+`OptionList` and its subcomponents communicate via context, so TypeScript cannot connect `value` / `items[].value` / `OptionListItem.value` on its own. A typo compiles. `createOptionList<T, TMeta>()` ties them together via one literal union (`T`) and an optional meta shape (`TMeta`) that flows into `renderItem(item)`, removing the `as` cast on `item.meta`.
+
+<Canvas of={OptionListStories.Typed} />
+
+```tsx
+import { createOptionList } from '@ledgerhq/lumen-ui-rnative';
+import type { OptionListItemData } from '@ledgerhq/lumen-ui-rnative';
+
+type Network = 'eth' | 'sol' | 'btc';
+type NetworkMeta = { ticker: string; ledgerId: string };
+
+const NetworkList = createOptionList<Network, NetworkMeta>();
+
+const NETWORKS: OptionListItemData<Network, NetworkMeta>[] = [
+  { value: 'eth', label: 'Ethereum', meta: { ticker: 'ETH', ledgerId: 'ethereum' } },
+  { value: 'sol', label: 'Solana', meta: { ticker: 'SOL', ledgerId: 'solana' } },
+  { value: 'btc', label: 'Bitcoin', meta: { ticker: 'BTC', ledgerId: 'bitcoin' } },
+];
+
+function Example() {
+  const [value, setValue] = React.useState<Network | null>('eth');
+
+  return (
+    <NetworkList.OptionList items={NETWORKS} value={value} onValueChange={setValue}>
+      <NetworkList.OptionListContent
+        renderItem={({ value, label, meta }) =>
+          meta ? (
+            <NetworkList.OptionListItem value={value}>
+              <NetworkList.OptionListItemContent>
+                <NetworkList.OptionListItemText>{label}</NetworkList.OptionListItemText>
+                <NetworkList.OptionListItemDescription>
+                  {meta.ticker}
+                </NetworkList.OptionListItemDescription>
+              </NetworkList.OptionListItemContent>
+            </NetworkList.OptionListItem>
+          ) : null
+        }
+      />
+    </NetworkList.OptionList>
+  );
+}
+```
+
+Zero runtime cost, as `createOptionList` is a type-only wrapper.
 
 ## Inside a BottomSheet
 

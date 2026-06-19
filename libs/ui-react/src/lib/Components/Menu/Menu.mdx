@@ -225,6 +225,8 @@ function MyComponent() {
 
 ### With Radio Items
 
+> **Recommended:** prefer the [type-safe radio group](#type-safe-radio-group) below. It shares one literal union between the group's `value` and each item's `value`.
+
 ```tsx
 import {
   Menu,
@@ -258,6 +260,53 @@ function MyComponent() {
   );
 }
 ```
+
+### Type-safe radio group
+
+`MenuRadioGroup` and `MenuRadioItem` communicate via context, so TypeScript cannot connect the group's `value` to each item's `value` on its own. A typo compiles, and the wrong item (or none) shows the check. `createMenuRadioGroup<T>()` ties them together via one literal union.
+
+The non-radio Menu pieces (`Menu`, `MenuTrigger`, `MenuContent`, `MenuItem`, `MenuCheckboxItem`, ...) carry no value union. Import them as-is alongside the factory output.
+
+<Canvas of={MenuStories.TypedRadioGroup} />
+
+```tsx
+import {
+  createMenuRadioGroup,
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuGroup,
+  MenuLabel,
+} from '@ledgerhq/lumen-ui-react';
+
+type Position = 'top' | 'bottom' | 'left' | 'right';
+
+const PositionMenu = createMenuRadioGroup<Position>();
+
+function Example() {
+  const [position, setPosition] = React.useState<Position>('bottom');
+
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Position</Button>} />
+      <MenuContent>
+        <MenuGroup>
+          <MenuLabel>Panel Position</MenuLabel>
+          <PositionMenu.MenuRadioGroup value={position} onValueChange={setPosition}>
+            <PositionMenu.MenuRadioItem value='top'>Top</PositionMenu.MenuRadioItem>
+            <PositionMenu.MenuRadioItem value='bottom'>Bottom</PositionMenu.MenuRadioItem>
+            <PositionMenu.MenuRadioItem value='left'>Left</PositionMenu.MenuRadioItem>
+            <PositionMenu.MenuRadioItem value='right'>Right</PositionMenu.MenuRadioItem>
+            {/* <PositionMenu.MenuRadioItem value='wrong' /> ts(2322) */}
+          </PositionMenu.MenuRadioGroup>
+        </MenuGroup>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+Zero runtime cost, as `createMenuRadioGroup` is a type-only wrapper.
 
 ### With Submenus
 

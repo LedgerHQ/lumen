@@ -83,6 +83,8 @@ npm install @ledgerhq/lumen-ui-react
 
 ## Basic Usage
 
+> **Recommended:** prefer the [type-safe variant](#type-safe-variant) below. It shares one literal union across `active` and every `SideBarItem.value`.
+
 ```tsx
 import {
   SideBar,
@@ -112,6 +114,42 @@ function MyComponent() {
 }
 ```
 
+## Type-safe variant
+
+`SideBar` and `SideBarItem` communicate via context, so TypeScript cannot connect the root's `active` to each item's `value` on its own. A typo compiles, and the wrong item (or none) is highlighted.
+
+`createSideBar<T>()` ties them to one literal union. `SideBarLeading`, `SideBarTrailing`, and `SideBarCollapseToggle` carry no value union, so the factory returns them as-is for ergonomic destructuring.
+
+<Canvas of={SideBarStories.Typed} />
+
+```tsx
+import { createSideBar } from '@ledgerhq/lumen-ui-react';
+import { Home, HomeFill, Wallet, Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+type Route = 'home' | 'wallet' | 'settings';
+
+const Nav = createSideBar<Route>();
+
+function Example() {
+  const [route, setRoute] = React.useState<Route>('home');
+
+  return (
+    <Nav.SideBar active={route} onActiveChange={setRoute}>
+      <Nav.SideBarLeading>
+        <Nav.SideBarItem value='home' icon={Home} activeIcon={HomeFill} label='Home' />
+        <Nav.SideBarItem value='wallet' icon={Wallet} activeIcon={Wallet} label='Wallet' />
+        {/* <Nav.SideBarItem value='wrong' .../> ts(2322) */}
+      </Nav.SideBarLeading>
+      <Nav.SideBarTrailing>
+        <Nav.SideBarItem value='settings' icon={Settings} activeIcon={Settings} label='Settings' />
+        <Nav.SideBarCollapseToggle />
+      </Nav.SideBarTrailing>
+    </Nav.SideBar>
+  );
+}
+```
+
+Zero runtime cost, as `createSideBar` is a type-only wrapper.
 
 ### Uncontrolled Mode
 

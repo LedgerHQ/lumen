@@ -149,6 +149,8 @@ The `@base-ui/react` dependency provides accessible, unstyled select functionali
 
 > **Content width:** `SelectContent` has a minimum width equal to the trigger width (`min-w-[trigger-width]`). The dropdown will grow wider if items need more space but will never be narrower than the trigger.
 
+> **Recommended:** prefer the [type-safe variant](#type-safe-variant) below. It ties `value`, `items[].value`, `SelectItem.value`, and `SelectTrigger.render({ selectedValue })` to the same literal union, and propagates your `TMeta` shape into `renderItem(item)` without casts.
+
 ```tsx
 import {
   Select,
@@ -184,6 +186,57 @@ function MyComponent() {
   );
 }
 ```
+
+## Type-safe variant
+
+`Select` and its subcomponents communicate via context, so TypeScript cannot connect `value` / `items[].value` / `SelectItem.value` on its own. A typo in any of them compiles. `createSelect<T, TMeta>()` ties them together via one literal union (`T`) and an optional meta shape (`TMeta`) that flows into `renderItem(item)`.
+
+<Canvas of={SelectStories.Typed} />
+
+```tsx
+import { createSelect } from '@ledgerhq/lumen-ui-react';
+import type { SelectItemData } from '@ledgerhq/lumen-ui-react';
+
+type Network = 'eth' | 'sol' | 'btc';
+
+const NetworkSelect = createSelect<Network>();
+
+const NETWORKS: SelectItemData<Network>[] = [
+  { value: 'eth', label: 'Ethereum' },
+  { value: 'sol', label: 'Solana' },
+  { value: 'btc', label: 'Bitcoin' },
+];
+
+function Example() {
+  const [network, setNetwork] = React.useState<Network | null>('eth');
+
+  return (
+    <NetworkSelect.Select items={NETWORKS} value={network} onValueChange={setNetwork}>
+      <NetworkSelect.SelectTrigger label='Network' />
+      <NetworkSelect.SelectContent>
+        <NetworkSelect.SelectList
+          renderItem={(item) => (
+            <NetworkSelect.SelectItem key={item.value} value={item.value}>
+              <NetworkSelect.SelectItemText>{item.label}</NetworkSelect.SelectItemText>
+            </NetworkSelect.SelectItem>
+          )}
+        />
+      </NetworkSelect.SelectContent>
+    </NetworkSelect.Select>
+  );
+}
+```
+
+To carry extra fields on each item (icons, tickers, IDs…), pass a `TMeta`:
+
+```tsx
+type CryptoMeta = { ticker: string };
+const NetworkSelect = createSelect<Network, CryptoMeta>();
+
+// items[].meta is now typed as CryptoMeta, and so is renderItem(item).meta
+```
+
+Zero runtime cost, as `createSelect` is a type-only wrapper.
 
 ### With Descriptions
 
