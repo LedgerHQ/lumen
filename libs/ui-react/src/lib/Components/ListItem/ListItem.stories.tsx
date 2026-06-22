@@ -210,7 +210,7 @@ export const InteractiveShowcase: Story = {
               </ListItemContent>
             </ListItemLeading>
             <ListItemTrailing>
-              <Switch tabIndex={-1} selected={selected} />
+              <Switch aria-label='Toggle' tabIndex={-1} selected={selected} />
             </ListItemTrailing>
           </ListItem>
 
@@ -247,7 +247,11 @@ export const DisabledState: Story = {
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
-          <Switch selected={false} disabled={args.disabled} />
+          <Switch
+            aria-label='Toggle'
+            selected={false}
+            disabled={args.disabled}
+          />
         </ListItemTrailing>
       </ListItem>
 

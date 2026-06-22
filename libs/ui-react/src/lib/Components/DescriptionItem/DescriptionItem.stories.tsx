@@ -143,7 +143,7 @@ export const WithInfoIcon: Story = {
         <DescriptionItemLeading>
           <DescriptionItemLabel>Fees</DescriptionItemLabel>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger aria-label='Open tooltip'>
               <Information size={16} className='shrink-0 text-muted' />
             </TooltipTrigger>
             <TooltipContent>Network fee paid to miners</TooltipContent>
@@ -158,7 +158,7 @@ export const WithInfoIcon: Story = {
         <DescriptionItemLeading>
           <DescriptionItemLabel>Estimated time</DescriptionItemLabel>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger aria-label='Open tooltip'>
               <Information size={16} className='shrink-0 text-muted' />
             </TooltipTrigger>
             <TooltipContent>
@@ -236,7 +236,7 @@ export const WithSelect: Story = {
             value={network}
             onValueChange={setNetwork}
           >
-            <SelectTrigger label='Network' />
+            <SelectTrigger aria-label='Open tooltip' label='Network' />
             <SelectContent>
               <SelectList
                 renderItem={(item) => (

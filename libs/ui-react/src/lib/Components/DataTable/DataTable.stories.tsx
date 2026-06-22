@@ -538,7 +538,7 @@ export const WithCustomHeader: Story = {
             align: 'end',
             headerTrailingContent: (
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger aria-label='Open tooltip' asChild>
                   <TableInfoIcon />
                 </TooltipTrigger>
                 <TooltipContent>Total market capitalization</TooltipContent>
@@ -554,7 +554,7 @@ export const WithCustomHeader: Story = {
             align: 'end',
             headerTrailingContent: (
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger aria-label='Open tooltip' asChild>
                   <TableInfoIcon />
                 </TooltipTrigger>
                 <TooltipContent>

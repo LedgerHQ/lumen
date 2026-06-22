@@ -117,7 +117,7 @@ export const WithInfoIcon: Story = {
         <SubheaderRow>
           <SubheaderTitle>Section with Info</SubheaderTitle>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger aria-label='Open tooltip'>
               <SubheaderInfo />
             </TooltipTrigger>
             <TooltipContent>

@@ -426,7 +426,7 @@ export const WithCustomHeader: Story = {
                   children='Market cap long text that should be truncated'
                   trailingContent={
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <TooltipTrigger aria-label='Open tooltip' asChild>
                         <TableInfoIcon />
                       </TooltipTrigger>
                       <TooltipContent>
@@ -439,7 +439,7 @@ export const WithCustomHeader: Story = {
                   align='end'
                   trailingContent={
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <TooltipTrigger aria-label='Open tooltip' asChild>
                         <TableInfoIcon />
                       </TooltipTrigger>
                       <TooltipContent>
@@ -656,7 +656,9 @@ export const WithNetworkIconsAndActionBar: Story = {
             >
               <SelectTrigger
                 render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
+                  <MediaButton aria-label='Filter by category'>
+                    {selectedContent}
+                  </MediaButton>
                 )}
               />
               <SelectContent className='w-208'>
