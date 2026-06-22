@@ -7,7 +7,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
-import { useMagneticPointsContext } from '../Point/pointContext';
+import { useMagneticSnapshot } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberProviderProps } from './types';
 import {
@@ -46,7 +46,7 @@ export function ScrubberProvider({
   >();
 
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
-  const { getMagneticPoints, version } = useMagneticPointsContext();
+  const { getMagneticPoints, version } = useMagneticSnapshot();
 
   // All values touched by the gesture's JS-thread callback live in a single
   // ref. Reading via `latest.current` keeps the callbacks reference-stable

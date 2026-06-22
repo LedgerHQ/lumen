@@ -1,5 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
+import { memo } from 'react';
+
 import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
 import type {
   PointArrowProps,
@@ -7,6 +9,7 @@ import type {
   PointMarkerProps,
   PointProps,
 } from './types';
+
 import { usePointGeometry } from './usePointGeometry';
 import { buildArrowPoints, computeLabelGeometry, resolveLabel } from './utils';
 
@@ -61,7 +64,7 @@ function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
   );
 }
 
-export function Point({
+export const Point = memo(function Point({
   dataX,
   dataY,
   color,
@@ -133,4 +136,4 @@ export function Point({
       )}
     </g>
   );
-}
+});

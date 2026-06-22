@@ -1,4 +1,4 @@
-import { useId, useMemo } from 'react';
+import { memo, useId, useMemo } from 'react';
 
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
@@ -12,7 +12,7 @@ import {
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
 
-export function Line({
+export const Line = memo(function Line({
   seriesId,
   stroke,
   showArea = false,
@@ -107,4 +107,4 @@ export function Line({
       />
     </g>
   );
-}
+});

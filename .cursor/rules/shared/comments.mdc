@@ -1,0 +1,35 @@
+---
+description: Commenting discipline — comment intent, not mechanics
+globs:
+alwaysApply: true
+---
+
+# Comments
+
+Write comments only when they add information the code cannot convey on its own.
+Prefer clear names and small functions over explanatory comments.
+
+## Do comment
+
+- **Why**, not what: non-obvious intent, trade-offs, constraints, workarounds.
+- Gotchas a reader would otherwise hit (e.g. ordering requirements, env quirks).
+- Links to a spec/issue when the reasoning lives elsewhere.
+
+## Don't comment
+
+- Restating the code or narrating steps (`// increment counter`, `// import x`).
+- Section banners, redundant JSDoc that repeats the signature, commented-out code.
+- Explaining the change you just made (that belongs in the commit message).
+
+```ts
+// ❌ BAD — narrates the obvious
+// loop over points and project them
+points.map((p) => project(p));
+
+// ✅ GOOD — explains a non-obvious constraint
+// d3 mutates the scale's domain in place, so clone before reuse.
+const safeScale = scale.copy();
+```
+
+Descriptive test names usually replace per-assertion comments. If a comment
+risks going stale, delete it or encode the fact in code instead.
