@@ -3,6 +3,7 @@ import { Box, Text } from '../Utility';
 import { Switch } from './Switch';
 
 const meta: Meta<typeof Switch> = {
+  id: 'rnative-switch',
   title: 'Core/Switch',
   component: Switch,
   parameters: {

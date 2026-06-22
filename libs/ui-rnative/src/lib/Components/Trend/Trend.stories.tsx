@@ -4,6 +4,7 @@ import { Trend } from './Trend';
 
 const meta: Meta<typeof Trend> = {
   component: Trend,
+  id: 'rnative-trend',
   title: 'Core/Trend',
   argTypes: {
     value: {

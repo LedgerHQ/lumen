@@ -12,6 +12,7 @@ import { DotIcon, mediaImageDotIconSizeMap } from './DotIcon';
 
 const meta = {
   component: DotIcon,
+  id: 'react-doticon',
   title: 'Core/DotIcon',
   parameters: {
     layout: 'centered',

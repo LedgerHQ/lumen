@@ -14,6 +14,7 @@ const ETH_ICON = (
 
 const meta: Meta<typeof MediaTag> = {
   component: MediaTag,
+  id: 'rnative-mediatag',
   title: 'Core/MediaTag',
   argTypes: {
     appearance: {

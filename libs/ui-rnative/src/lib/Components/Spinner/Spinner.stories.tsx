@@ -4,6 +4,7 @@ import { Text } from '../Utility/Text';
 import { Spinner } from './Spinner';
 
 const meta: Meta<typeof Spinner> = {
+  id: 'rnative-spinner',
   title: 'Core/Spinner',
   component: Spinner,
   parameters: {

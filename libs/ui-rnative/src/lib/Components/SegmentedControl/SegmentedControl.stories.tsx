@@ -6,6 +6,7 @@ import { Box } from '../Utility';
 import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
 
 const meta = {
+  id: 'rnative-segmentedcontrol',
   title: 'Core/SegmentedControl',
   component: SegmentedControl,
   subcomponents: {

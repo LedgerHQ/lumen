@@ -6,6 +6,7 @@ import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
   component: Button,
+  id: 'rnative-button',
   title: 'Core/Button',
   parameters: {
     docs: {

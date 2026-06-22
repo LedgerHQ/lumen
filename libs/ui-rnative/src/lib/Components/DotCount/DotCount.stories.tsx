@@ -10,6 +10,7 @@ import { DotCount } from './DotCount';
 
 const meta = {
   component: DotCount,
+  id: 'rnative-dotcount',
   title: 'Core/DotCount',
   parameters: {
     docs: {

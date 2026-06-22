@@ -3,6 +3,7 @@ import { Trend } from './Trend';
 
 const meta: Meta<typeof Trend> = {
   component: Trend,
+  id: 'react-trend',
   title: 'Core/Trend',
   argTypes: {
     value: {

@@ -13,6 +13,7 @@ import {
 
 const meta: Meta<typeof ContentBanner> = {
   component: ContentBanner,
+  id: 'react-contentbanner',
   title: 'Core/ContentBanner',
   subcomponents: {
     ContentBannerContent,

@@ -3,6 +3,7 @@ import { Divider } from './Divider';
 
 const meta: Meta<typeof Divider> = {
   component: Divider,
+  id: 'react-divider',
   title: 'Core/Divider',
   parameters: {
     docs: {

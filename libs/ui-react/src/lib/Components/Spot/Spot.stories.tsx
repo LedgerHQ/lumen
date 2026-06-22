@@ -7,6 +7,7 @@ import type { SpotAppearance } from './types';
 
 const meta: Meta<typeof Spot> = {
   component: Spot,
+  id: 'react-spot',
   title: 'Core/Spot',
   parameters: {
     docs: {

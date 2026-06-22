@@ -16,6 +16,7 @@ const iconMap = {
 } as const;
 
 const meta: Meta<typeof IconButton> = {
+  id: 'react-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
   parameters: {

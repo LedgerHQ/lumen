@@ -15,6 +15,7 @@ const iconOptions = {
 
 const meta: Meta<typeof TileButton> = {
   component: TileButton,
+  id: 'rnative-tilebutton',
   title: 'Core/TileButton',
   argTypes: {
     icon: {

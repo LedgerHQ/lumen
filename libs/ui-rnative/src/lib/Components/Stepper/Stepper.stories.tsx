@@ -4,6 +4,7 @@ import { Text } from '../Utility/Text';
 import { Stepper } from './Stepper';
 
 const meta: Meta<typeof Stepper> = {
+  id: 'rnative-stepper',
   title: 'Core/Stepper',
   component: Stepper,
   parameters: {

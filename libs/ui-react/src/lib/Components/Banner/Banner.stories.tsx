@@ -5,6 +5,7 @@ import { Banner } from './Banner';
 
 const meta: Meta<typeof Banner> = {
   component: Banner,
+  id: 'react-banner',
   title: 'Core/Banner',
   parameters: {
     docs: {

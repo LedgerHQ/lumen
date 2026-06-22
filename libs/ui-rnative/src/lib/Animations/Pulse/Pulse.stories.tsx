@@ -18,6 +18,7 @@ const usdFormatter = (value: number): FormattedValue => {
 };
 
 const meta: Meta<typeof Pulse> = {
+  id: 'rnative-pulse',
   title: 'Primitives/Pulse',
   component: Pulse,
   parameters: {

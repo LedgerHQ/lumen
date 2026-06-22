@@ -6,6 +6,7 @@ import { Banner } from './Banner';
 
 const meta: Meta<typeof Banner> = {
   component: Banner,
+  id: 'rnative-banner',
   title: 'Core/Banner',
   parameters: {
     docs: {

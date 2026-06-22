@@ -7,6 +7,7 @@ import { DotIndicator } from './DotIndicator';
 
 const meta = {
   component: DotIndicator,
+  id: 'react-dotindicator',
   title: 'Core/DotIndicator',
   parameters: {
     layout: 'centered',

@@ -5,6 +5,7 @@ import { Link } from './Link';
 
 const meta: Meta<typeof Link> = {
   component: Link,
+  id: 'rnative-link',
   title: 'Core/Link',
   parameters: {
     docs: {

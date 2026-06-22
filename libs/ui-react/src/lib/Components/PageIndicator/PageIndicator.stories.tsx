@@ -5,6 +5,7 @@ import { IconButton } from '../IconButton';
 import { PageIndicator } from './PageIndicator';
 
 const meta = {
+  id: 'react-pageindicator',
   title: 'Core/PageIndicator',
   component: PageIndicator,
   parameters: {

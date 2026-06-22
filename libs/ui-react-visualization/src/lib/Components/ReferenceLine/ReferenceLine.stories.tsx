@@ -13,6 +13,7 @@ import { ReferenceLine } from './ReferenceLine';
 
 const meta = {
   component: ReferenceLine,
+  id: 'react-referenceline',
   title: 'Visualization/ReferenceLine',
   tags: ['experimental'],
   decorators: [

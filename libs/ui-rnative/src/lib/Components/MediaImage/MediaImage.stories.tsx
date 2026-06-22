@@ -4,6 +4,7 @@ import { MediaImage } from './MediaImage';
 
 const meta = {
   component: MediaImage,
+  id: 'rnative-mediaimage',
   title: 'Core/MediaImage',
   parameters: {
     docs: {

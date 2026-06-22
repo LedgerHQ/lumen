@@ -10,6 +10,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from './Tooltip';
 const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
   subcomponents: { TooltipTrigger, TooltipContent },
+  id: 'rnative-tooltip',
   title: 'Core/Tooltip',
 };
 

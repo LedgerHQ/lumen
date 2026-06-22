@@ -3,6 +3,7 @@ import { Stepper } from './Stepper';
 
 const meta: Meta<typeof Stepper> = {
   component: Stepper,
+  id: 'react-stepper',
   title: 'Core/Stepper',
   parameters: {
     layout: 'centered',

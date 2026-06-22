@@ -14,6 +14,7 @@ const iconOptions = {
 
 const meta: Meta<typeof TileButton> = {
   component: TileButton,
+  id: 'react-tilebutton',
   title: 'Core/TileButton',
   parameters: {
     layout: 'centered',

@@ -202,6 +202,7 @@ const data: CryptoAsset[] = [
 
 const meta: Meta<typeof DataTableRoot> = {
   component: DataTableRoot,
+  id: 'react-datatable',
   title: 'Core/DataTable',
   argTypes: {
     appearance: {

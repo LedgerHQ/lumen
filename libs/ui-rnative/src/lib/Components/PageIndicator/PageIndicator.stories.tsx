@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from '../../Symbols';
 import { PageIndicator } from './PageIndicator';
 
 const meta = {
+  id: 'rnative-pageindicator',
   title: 'Core/PageIndicator',
   component: PageIndicator,
   parameters: {

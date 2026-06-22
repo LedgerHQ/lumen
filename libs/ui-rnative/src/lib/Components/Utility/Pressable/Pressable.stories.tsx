@@ -3,6 +3,7 @@ import { Pressable } from './Pressable';
 
 const meta: Meta<typeof Pressable> = {
   component: Pressable,
+  id: 'rnative-pressable',
   title: 'Primitives/Pressable',
   parameters: {
     docs: {

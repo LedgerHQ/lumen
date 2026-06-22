@@ -6,6 +6,7 @@ import type { SearchInputProps } from './types';
 
 const meta: Meta<typeof SearchInput> = {
   component: SearchInput,
+  id: 'rnative-searchinput',
   title: 'Core/SearchInput',
   args: {
     appearance: 'plain',

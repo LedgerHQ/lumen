@@ -4,6 +4,7 @@ import type { TextProps } from './types';
 
 const meta: Meta<TextProps> = {
   component: Text,
+  id: 'rnative-text',
   title: 'Primitives/Text',
   parameters: {
     docs: {

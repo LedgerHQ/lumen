@@ -19,6 +19,7 @@ const meta: Meta<typeof Tile> = {
     TileDescription,
     TileTrailingContent,
   },
+  id: 'rnative-tile',
   title: 'Core/Tile',
   parameters: {
     docs: {

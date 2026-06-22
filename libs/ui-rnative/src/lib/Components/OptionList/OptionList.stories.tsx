@@ -30,6 +30,7 @@ import type { OptionListItemData } from './types';
 
 const meta = {
   component: OptionList,
+  id: 'rnative-optionlist',
   title: 'Core/OptionList',
   subcomponents: {
     OptionListContent,

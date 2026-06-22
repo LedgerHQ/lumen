@@ -3,6 +3,7 @@ import { Box } from '../Utility/Box';
 import { Skeleton } from './Skeleton';
 
 const meta: Meta<typeof Skeleton> = {
+  id: 'rnative-skeleton',
   title: 'Core/Skeleton',
   component: Skeleton,
   parameters: {

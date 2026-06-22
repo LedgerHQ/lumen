@@ -4,6 +4,7 @@ import { Button } from '../Button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 const meta: Meta<typeof TooltipContent> = {
+  id: 'react-tooltip',
   title: 'Core/Tooltip',
   component: TooltipContent,
   subcomponents: {

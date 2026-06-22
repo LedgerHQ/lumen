@@ -5,6 +5,7 @@ import { RadialGradient } from './RadialGradient';
 
 const meta: Meta<typeof RadialGradient> = {
   component: RadialGradient,
+  id: 'rnative-radialgradient',
   title: 'Primitives/RadialGradient',
   parameters: {
     layout: 'centered',

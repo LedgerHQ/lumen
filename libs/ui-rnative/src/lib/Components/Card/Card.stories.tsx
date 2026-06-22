@@ -21,6 +21,7 @@ import {
 
 const meta: Meta<typeof Card> = {
   component: Card,
+  id: 'rnative-card',
   title: 'Core/Card',
   subcomponents: {
     CardHeader,

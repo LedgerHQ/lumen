@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Pagination } from './Pagination';
 
 const meta = {
+  id: 'react-pagination',
   title: 'Core/Pagination',
   component: Pagination,
   parameters: {

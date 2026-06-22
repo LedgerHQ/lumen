@@ -19,6 +19,7 @@ const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
 
 const meta: Meta<typeof Subheader> = {
   component: Subheader,
+  id: 'react-subheader',
   title: 'Core/Subheader',
   subcomponents: {
     SubheaderRow,

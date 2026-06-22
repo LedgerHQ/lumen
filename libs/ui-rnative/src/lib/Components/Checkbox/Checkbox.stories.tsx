@@ -3,6 +3,7 @@ import { Box, Text } from '../Utility';
 import { Checkbox } from './Checkbox';
 
 const meta: Meta<typeof Checkbox> = {
+  id: 'rnative-checkbox',
   title: 'Core/Checkbox',
   component: Checkbox,
   parameters: {

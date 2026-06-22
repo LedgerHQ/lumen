@@ -21,6 +21,7 @@ type PlaygroundArgs = {
 
 const meta: Meta<typeof NavBar> = {
   component: NavBar,
+  id: 'react-navbar',
   title: 'Core/NavBar',
   subcomponents: {
     NavBarBackButton,

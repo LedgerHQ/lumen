@@ -20,6 +20,7 @@ import {
 } from './Menu';
 
 const meta: Meta<typeof Menu> = {
+  id: 'react-menu',
   title: 'Core/Menu',
   component: Menu,
   subcomponents: {

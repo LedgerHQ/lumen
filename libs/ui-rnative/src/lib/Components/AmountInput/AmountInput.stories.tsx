@@ -17,6 +17,7 @@ const SIZES: { size: AmountInputSize; value: string }[] = [
 
 const meta: Meta<typeof AmountInput> = {
   component: AmountInput,
+  id: 'rnative-amountinput',
   title: 'Core/AmountInput',
   parameters: {
     docs: {

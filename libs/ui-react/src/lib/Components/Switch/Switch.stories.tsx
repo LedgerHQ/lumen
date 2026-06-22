@@ -3,6 +3,7 @@ import { Switch } from './Switch';
 
 const meta: Meta<typeof Switch> = {
   component: Switch,
+  id: 'react-switch',
   title: 'Core/Switch',
   parameters: {
     docs: {

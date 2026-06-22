@@ -19,6 +19,7 @@ import {
 
 const meta = {
   component: ListItem,
+  id: 'rnative-listitem',
   title: 'Core/ListItem',
   subcomponents: {
     ListItemLeading,

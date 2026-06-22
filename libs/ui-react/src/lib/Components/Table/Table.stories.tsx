@@ -61,6 +61,7 @@ const largeData = [
 
 const meta: Meta<typeof TableRoot> = {
   component: TableRoot,
+  id: 'react-table',
   title: 'Core/Table',
   subcomponents: {
     TableHeader,

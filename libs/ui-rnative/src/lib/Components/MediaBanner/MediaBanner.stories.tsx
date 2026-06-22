@@ -13,6 +13,7 @@ const IMAGE_URL =
 
 const meta: Meta<typeof MediaBanner> = {
   component: MediaBanner,
+  id: 'rnative-mediabanner',
   title: 'Core/MediaBanner',
   subcomponents: {
     MediaBannerTitle,

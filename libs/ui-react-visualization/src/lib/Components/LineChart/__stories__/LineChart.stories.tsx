@@ -42,6 +42,7 @@ import {
 
 const meta = {
   component: LineChart,
+  id: 'react-linechart',
   title: 'Visualization/LineChart',
   tags: ['experimental'],
   args: {

@@ -7,6 +7,7 @@ import { Box, Text, Pressable } from '../Utility';
 import type { IconSize } from './types';
 
 const meta: Meta = {
+  id: 'rnative-icon',
   title: 'Symbols/Interface Icons',
 };
 

@@ -5,6 +5,7 @@ import { Box, Text } from '../../Components/Utility';
 import { Spin } from './Spin';
 
 const meta: Meta<typeof Spin> = {
+  id: 'rnative-spin',
   title: 'Primitives/Spin',
   component: Spin,
   parameters: {

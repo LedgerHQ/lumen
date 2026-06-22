@@ -11,6 +11,7 @@ import { SearchInput } from './SearchInput';
 
 const meta: Meta<typeof SearchInput> = {
   component: SearchInput,
+  id: 'react-searchinput',
   title: 'Core/SearchInput',
   args: {
     appearance: 'plain',

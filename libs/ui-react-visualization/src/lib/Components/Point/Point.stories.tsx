@@ -15,6 +15,7 @@ import { Point, PointLabel } from './Point';
 
 const meta = {
   component: Point,
+  id: 'react-point',
   title: 'Visualization/Point',
   tags: ['experimental'],
   decorators: [

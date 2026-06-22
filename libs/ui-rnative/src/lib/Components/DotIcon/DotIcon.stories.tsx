@@ -7,6 +7,7 @@ import { DotIcon, mediaImageDotIconSizeMap } from './DotIcon';
 
 const meta = {
   component: DotIcon,
+  id: 'rnative-doticon',
   title: 'Core/DotIcon',
   parameters: {
     docs: {

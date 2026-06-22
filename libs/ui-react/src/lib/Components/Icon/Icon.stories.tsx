@@ -5,6 +5,7 @@ import { SearchInput } from '../SearchInput/SearchInput';
 import type { IconSize } from './types';
 
 const meta: Meta = {
+  id: 'react-icon',
   title: 'Symbols/Interface Icons',
 };
 
