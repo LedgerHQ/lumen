@@ -320,7 +320,7 @@ export const WithInfiniteLoading: Story = {
           loading={loading}
           onScrollBottom={loadMore}
         >
-          <Table>
+          <Table tabIndex={0}>
             <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>Asset</TableHeaderCell>
@@ -359,7 +359,7 @@ export const WithoutStickyHeader: Story = {
   render: (args) => (
     <div className='w-3xl text-base'>
       <TableRoot {...args} className='h-320'>
-        <Table>
+        <Table tabIndex={0}>
           <TableHeader>
             <TableHeaderRow stickyHeader={false}>
               <TableHeaderCell className='w-224'>Asset</TableHeaderCell>

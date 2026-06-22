@@ -506,7 +506,7 @@ export const WithGroupHeader: Story = {
           </>
         )}
       >
-        <DataTable className='max-h-480' />
+        <DataTable className='max-h-480' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -626,7 +626,7 @@ export const WithoutStickyHeader: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-400' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -752,7 +752,7 @@ export const WithGlobalFilter: Story = {
             </Button>
           </TableActionBarTrailing>
         </TableActionBar>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-400' tabIndex={0} />
       </DataTableRoot>
     );
   },
