@@ -197,7 +197,7 @@ export const CompositionShowcase: Story = {
       </MediaCard>
 
       <MediaCard {...baseArgs}>
-        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} alt='Bitcoin' />
         <MediaCardTitle>With crypto icon</MediaCardTitle>
       </MediaCard>
     </div>

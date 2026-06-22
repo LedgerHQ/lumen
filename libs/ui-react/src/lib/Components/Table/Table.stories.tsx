@@ -699,6 +699,7 @@ export const WithNetworkIconsAndActionBar: Story = {
                           ledgerId={cryptoIconLedgerIds[row.symbol]}
                           ticker={row.symbol}
                           size={40}
+                          alt={row.name}
                         />
                       }
                     />

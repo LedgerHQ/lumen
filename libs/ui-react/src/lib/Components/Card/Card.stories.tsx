@@ -55,7 +55,7 @@ export const Base: Story = {
     <Card {...args}>
       <CardHeader>
         <CardLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} alt='Bitcoin' />
           <CardContent>
             <CardContentTitle>Bitcoin</CardContentTitle>
             <CardContentDescription>BTC</CardContentDescription>
@@ -87,7 +87,12 @@ export const StatesShowcase: Story = {
       <Card {...args} className='w-320'>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentTitle>Interactive (default)</CardContentTitle>
               <CardContentDescription>
@@ -112,7 +117,12 @@ export const StatesShowcase: Story = {
       <Card {...args} className='w-320' outlined>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentTitle>Outlined</CardContentTitle>
               <CardContentDescription>Selected state</CardContentDescription>
@@ -135,7 +145,12 @@ export const StatesShowcase: Story = {
       <Card {...args} className='w-320' type='info'>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentTitle>Info</CardContentTitle>
               <CardContentDescription>Data display only</CardContentDescription>
@@ -158,7 +173,13 @@ export const StatesShowcase: Story = {
       <Card {...args} className='w-320' disabled>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} disabled />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              disabled
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentTitle>Disabled</CardContentTitle>
               <CardContentDescription>Non-interactive</CardContentDescription>
@@ -276,7 +297,12 @@ export const ExpandableShowcase: Story = {
         >
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>Expandable Card</CardContentTitle>
                 <CardContentDescription>Click to toggle</CardContentDescription>
@@ -319,7 +345,12 @@ export const LayoutShowcase: Story = {
       <Card {...args} className='w-fit'>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentTitle>Fit content</CardContentTitle>
               <CardContentDescription>BTC</CardContentDescription>
@@ -334,7 +365,12 @@ export const LayoutShowcase: Story = {
       <Card {...args} className='w-320'>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentRow>
                 <CardContentTitle>Defined width (320px)</CardContentTitle>
@@ -359,7 +395,12 @@ export const LayoutShowcase: Story = {
         <CardHeader>
           <CardLeading>
             <div className='shrink-0'>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
             </div>
             <CardContent>
               <CardContentRow>
@@ -395,7 +436,12 @@ export const LayoutShowcase: Story = {
       <Card {...args} className='w-full'>
         <CardHeader>
           <CardLeading>
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
             <CardContent>
               <CardContentTitle>Full width (fills parent)</CardContentTitle>
               <CardContentDescription>BTC</CardContentDescription>
@@ -431,7 +477,12 @@ export const CompositionsShowcase: Story = {
         <Card {...args} className='w-320' type='info'>
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>Account 1</CardContentTitle>
                 <CardContentDescription>Ethereum</CardContentDescription>
@@ -455,7 +506,12 @@ export const CompositionsShowcase: Story = {
         <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>Bitcoin</CardContentTitle>
                 <CardContentDescription>BTC</CardContentDescription>
@@ -501,7 +557,12 @@ export const CompositionsShowcase: Story = {
         <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>My Wallet</CardContentTitle>
                 <CardContentDescription>Ethereum</CardContentDescription>
@@ -521,7 +582,12 @@ export const CompositionsShowcase: Story = {
         <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentRow>
                   <CardContentTitle>Bitcoin</CardContentTitle>
@@ -574,7 +640,12 @@ export const CompositionsShowcase: Story = {
         <Card {...args} className='w-320' type='info'>
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>Staking</CardContentTitle>
                 <CardContentDescription>Earn rewards</CardContentDescription>
@@ -602,7 +673,12 @@ export const CompositionsShowcase: Story = {
         <Card {...args} className='w-320' type='info'>
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>My Wallet</CardContentTitle>
                 <CardContentDescription>Ethereum</CardContentDescription>
@@ -630,7 +706,12 @@ export const CompositionsShowcase: Story = {
         >
           <CardHeader>
             <CardLeading>
-              <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+              <CryptoIcon
+                ledgerId='bitcoin'
+                ticker='BTC'
+                size={48}
+                alt='Bitcoin'
+              />
               <CardContent>
                 <CardContentTitle>Bitcoin</CardContentTitle>
                 <CardContentDescription>BTC</CardContentDescription>

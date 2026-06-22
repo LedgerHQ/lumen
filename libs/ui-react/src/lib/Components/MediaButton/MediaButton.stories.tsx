@@ -78,7 +78,12 @@ export const LeadingContentShapeShowcase: Story = {
         </MediaButton>
         <MediaButton
           leadingContent={
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={32}
+              alt='Bitcoin'
+            />
           }
           leadingContentShape='rounded'
           appearance='gray'
@@ -98,7 +103,12 @@ export const LeadingContentShapeShowcase: Story = {
         </MediaButton>
         <MediaButton
           leadingContent={
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={24}
+              alt='Bitcoin'
+            />
           }
           leadingContentShape='rounded'
           appearance='gray'
@@ -132,7 +142,12 @@ export const AllAppearancesWithLeadingShowcase: Story = {
             <MediaButton
               appearance={appearance}
               leadingContent={
-                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+                <CryptoIcon
+                  ledgerId='bitcoin'
+                  ticker='BTC'
+                  size={32}
+                  alt='Bitcoin'
+                />
               }
               leadingContentShape='rounded'
             >
