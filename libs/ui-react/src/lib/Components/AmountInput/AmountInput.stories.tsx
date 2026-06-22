@@ -44,6 +44,7 @@ export const WithValue: Story = {
     value: '1234.56',
     currencyText: '$',
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -61,6 +62,7 @@ export const Size: Story = {
             value='1234.56'
             currencyText='$'
             onChange={() => console.log('onChange triggered')}
+            aria-label='Input amount'
           />
         </div>
       ))}
@@ -82,6 +84,7 @@ export const Alignment: Story = {
             value='1234.56'
             currencyText='$'
             onChange={() => console.log('onChange triggered')}
+            aria-label='Input amount'
           />
         </div>
       ))}
@@ -96,6 +99,7 @@ export const Disabled: Story = {
     currencyPosition: 'right',
     disabled: true,
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -105,6 +109,7 @@ export const Error: Story = {
     currencyText: '$',
     'aria-invalid': true,
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -114,6 +119,7 @@ export const IntegerOnly: Story = {
     currencyText: '$',
     allowDecimals: false,
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
   parameters: {
     docs: {
@@ -138,6 +144,7 @@ export const CustomMaxLength: Story = {
     value: '123',
     currencyText: '$',
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -172,6 +179,7 @@ export const LargeAmountDisplay: Story = {
             currencyText={currentCurrency}
             currencyPosition={isEth ? 'right' : 'left'}
             aria-invalid={hasError}
+            aria-label='Input amount'
           />
           <div className='mt-16 text-center body-2 text-muted'>
             {convertedValue}
