@@ -185,6 +185,7 @@ export function AmountDisplay({
         'relative inline-flex',
         className,
       )}
+      role='img'
       aria-label={ariaLabel}
       aria-busy={loading}
       {...props}
