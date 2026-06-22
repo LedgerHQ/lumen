@@ -1,6 +1,7 @@
 import { useEffect, memo } from 'react';
 import Animated, {
   cancelAnimation,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -29,7 +30,13 @@ export const Pulse = memo(
 
     useEffect(() => {
       if (animate) {
-        sv.value = withRepeat(withTiming(MIN_OPACITY, timingConfig), -1, true);
+        sv.value = withRepeat(
+          withTiming(MIN_OPACITY, timingConfig),
+          -1,
+          true,
+          undefined,
+          ReduceMotion.System,
+        );
       } else {
         cancelAnimation(sv);
         sv.value = withTiming(1, timingConfig);
