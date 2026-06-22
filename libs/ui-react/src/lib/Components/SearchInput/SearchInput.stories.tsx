@@ -109,6 +109,7 @@ export const Error: Story = {
     helperText: 'Search term is invalid',
     status: 'error',
     className: 'max-w-md',
+    'aria-label': 'Search',
   },
   parameters: {
     docs: {
