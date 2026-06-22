@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react-native-web-vite';
-
+import isChromatic from 'chromatic/isChromatic';
+import { ReducedMotionConfig, ReduceMotion } from 'react-native-reanimated';
 import {
   WithProvidersDocsContainer,
   withBrandDecorator,
@@ -60,7 +61,21 @@ const preview: Preview = {
     },
   },
 
-  decorators: [withBrandDecorator, withProvidersDecorator],
+  decorators: [
+    withBrandDecorator,
+    withProvidersDecorator,
+    // Disable all Reanimated JS-driven animations in Chromatic so snapshots
+    // are always captured at a deterministic, static frame.
+    (Story) =>
+      isChromatic() ? (
+        <>
+          <ReducedMotionConfig mode={ReduceMotion.Always} />
+          <Story />
+        </>
+      ) : (
+        <Story />
+      ),
+  ],
 };
 
 export default preview;

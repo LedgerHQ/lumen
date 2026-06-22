@@ -92,7 +92,6 @@ export const Loading: Story = {
     loading: true,
   },
   parameters: {
-    chromatic: { pauseAnimationAtEnd: true },
     docs: {
       source: {
         code: `
@@ -159,9 +158,6 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
-  parameters: {
-    chromatic: { pauseAnimationAtEnd: true },
-  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Button appearance='base'>Default</Button>
