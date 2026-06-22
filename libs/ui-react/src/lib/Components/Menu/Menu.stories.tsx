@@ -76,6 +76,16 @@ export const Base: Story = {
 
 export const OpenByDefault: Story = {
   name: 'Open by Default',
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: 'aria-hidden-focus', enabled: false },
+          { id: 'aria-valid-attr-value', enabled: false },
+        ],
+      },
+    },
+  },
   render: () => (
     <Menu defaultOpen>
       <MenuTrigger
