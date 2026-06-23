@@ -94,9 +94,9 @@ export const DataTableRoot = <TData extends RowData>({
 };
 
 /**
- * Internal component that defines column widths via `TableColGroup`.
- * Ensures `table-fixed` respects `meta.className` width tokens even when
- * the header is hidden or the first body row is a colSpan group header.
+ * Internal component that propagates `meta.className` width tokens to `<col>` elements
+ * via `TableColGroup`, so `table-fixed` layout reserves the correct column widths even
+ * when the header is hidden or the first body row is a colSpan group header row.
  */
 const DataTableColGroup = () => {
   const { table } = useDataTableContext({
@@ -109,13 +109,7 @@ const DataTableColGroup = () => {
       {table.getVisibleLeafColumns().map((column) => {
         const meta = column.columnDef.meta;
 
-        return (
-          <TableCol
-            key={column.id}
-            hideBelow={meta?.hideBelow}
-            className={meta?.className}
-          />
-        );
+        return <TableCol key={column.id} className={meta?.className} />;
       })}
     </TableColGroup>
   );

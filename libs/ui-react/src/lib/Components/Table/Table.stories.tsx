@@ -205,6 +205,10 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  parameters: {
+    chromatic: { viewports: [800, 1280] },
+    viewport: { defaultViewport: 'tablet' },
+  },
   render: (args) => (
     <div className='w-3xl text-base'>
       <TableRoot {...args}>

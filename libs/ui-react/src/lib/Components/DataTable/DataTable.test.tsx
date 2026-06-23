@@ -131,39 +131,6 @@ describe('DataTableColGroup', () => {
     expect(cols[1]).toHaveClass('w-144');
   });
 
-  it('should apply meta.hideBelow responsive display rules to col elements', () => {
-    const columns: ColumnDef<TestData>[] = [
-      { accessorKey: 'name', header: 'Asset' },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { hideBelow: 'lg' as const },
-      },
-    ];
-
-    const { container } = render(<TestDataTable columns={columns} />);
-    const cols = getColElements(container);
-
-    expect(cols[0]?.className).toBe('');
-    expect(cols[1]?.className).toBe('hidden lg:table-column');
-  });
-
-  it('should apply both meta.className and meta.hideBelow to col elements', () => {
-    const columns: ColumnDef<TestData>[] = [
-      { accessorKey: 'name', header: 'Asset' },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        meta: { hideBelow: 'md' as const, className: 'w-52' },
-      },
-    ];
-
-    const { container } = render(<TestDataTable columns={columns} />);
-    const cols = getColElements(container);
-
-    expect(cols[1]?.className).toBe('hidden md:table-column w-52');
-  });
-
   it('should render colgroup when hideHeader is true', () => {
     const columns: ColumnDef<TestData>[] = [
       { accessorKey: 'name', header: 'Asset', meta: { className: 'w-224' } },

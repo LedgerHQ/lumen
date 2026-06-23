@@ -255,11 +255,6 @@ export type TableColGroupProps = {
 
 export type TableColProps = {
   /**
-   * Hides this column when the screen width is below the specified breakpoint.
-   * Keeps the column hidden by setting `display: table-column` at the given breakpoint.
-   */
-  hideBelow?: Breakpoints;
-  /**
    * Custom classname
    */
   className?: string;
