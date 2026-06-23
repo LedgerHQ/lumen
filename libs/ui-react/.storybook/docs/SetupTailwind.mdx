@@ -17,8 +17,8 @@ Our Tailwind implementation includes:
 
 - **Custom Preset**: A comprehensive configuration that implements our design tokens and styling rules. [See custom utilities →](#-custom-utilities)
 - **Plugin System**: Custom plugins for [typography](#3-typography), [colors](#2-colors--backgrounds), [shadows](#5-shadows), and [more](#-custom-utilities)
-- **Theme System**: Dynamic theming with support for [light/dark modes](#-dark-mode-support) and [different brand themes](/docs/foundations-colors--docs)
-- **Design Token Integration**: Direct mapping of design tokens to Tailwind utilities. [Explore foundations →](/docs/foundations-colors--docs)
+- **Theme System**: Dynamic theming with support for [light/dark modes](#-dark-mode-support) and [different brand themes](/docs/react-colors--docs)
+- **Design Token Integration**: Direct mapping of design tokens to Tailwind utilities. [Explore foundations →](/docs/react-colors--docs)
 - **Component Patterns**: Common patterns and best practices for component styling. [View components →](/docs/action-button--docs)
 
 ---
@@ -173,7 +173,7 @@ The Ledger Design System builds on Tailwind CSS's utility-first methodology whil
 
 ### 1. Spacing & Sizing
 
-Our spacing scale uses a 1:1 pixel mapping, where each number directly corresponds to its pixel value. For example, m-4 equals 4px of margin. [Learn more about our spacing system](/docs/foundations-spacing--docs).
+Our spacing scale uses a 1:1 pixel mapping, where each number directly corresponds to its pixel value. For example, m-4 equals 4px of margin. [Learn more about our spacing system](/docs/react-spacing--docs).
 
 ```tsx
 // Spacing Examples
@@ -191,12 +191,12 @@ Our spacing scale uses a 1:1 pixel mapping, where each number directly correspon
 
 ### 2. Colors & Backgrounds
 
-Our color system uses semantic tokens. [Explore our color system](/docs/foundations-colors--docs).
-[background colors](/docs/foundations-colors-backgrounds--docs).
-[text colors](/story/foundations-colors-text--text).
-[border colors](/story/foundations-colors-border--border).
-[Crypto colors](/story/foundations-colors-crypto-background--crypto).
-[Discover colors](/story/foundations-colors-discover-background--discover).
+Our color system uses semantic tokens. [Explore our color system](/docs/react-colors--docs).
+[background colors](/story/react-colors--background).
+[text colors](/story/react-colors--text).
+[border colors](/story/react-colors--border).
+[Crypto colors](/story/react-colors--crypto).
+[Discover colors](/story/react-colors--discover).
 
 ```tsx
 // Background Colors
@@ -229,7 +229,7 @@ corePlugins: {
 }
 ```
 
-Pre-configured typography classes that handle font family, size, weight, line height, and letter spacing. [View typography guidelines](/story/foundations-styles-typography--typography).
+Pre-configured typography classes that handle font family, size, weight, line height, and letter spacing. [View typography guidelines](/story/react-typography--typography).
 
 ```tsx
 // Responsive Display Text
@@ -250,7 +250,7 @@ Pre-configured typography classes that handle font family, size, weight, line he
 
 ### 4. Gradients
 
-[See gradient examples](/story/foundations-styles-gradients--gradients).
+[See gradient examples](/story/react-gradients--gradients).
 
 ```tsx
 // Directional Gradients
@@ -264,7 +264,7 @@ Pre-configured typography classes that handle font family, size, weight, line he
 
 ### 5. Shadows
 
-[View shadow system](/story/foundations-styles-shadows--shadows).
+[View shadow system](/story/react-shadows--shadows).
 
 ```tsx
 <div className="shadow-sm">   {/* Subtle elevation */}
@@ -276,7 +276,7 @@ Pre-configured typography classes that handle font family, size, weight, line he
 
 ### 6. Border Radius
 
-[Explore border radius tokens](/docs/foundations-border-radius--docs).
+[Explore border radius tokens](/docs/react-borderradius--docs).
 
 ```tsx
 <div className="rounded-sm">      {/* Small radius */}
@@ -479,8 +479,8 @@ The rules help AI assistants:
 
 Once you have everything configured, check out:
 
-- [Button component](?path=/docs/core-button--docs) for usage examples
-- [Foundations](/docs/foundations-colors--docs) to explore design tokens
+- [Button component](?path=/docs/react-button--docs) for usage examples
+- [Foundations](/docs/react-colors--docs) to explore design tokens
 - [Components](/docs/action-button--docs) to see all available components
 
 ---

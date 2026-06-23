@@ -14,7 +14,7 @@ const iconSizeMap: Record<Size, IconSize> = {
  *
  * The appearance determines the color scheme used.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/core-tag--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-tag--docs Storybook}
  *
  * @example
  * import { Tag } from '@ledgerhq/lumen-ui-react';

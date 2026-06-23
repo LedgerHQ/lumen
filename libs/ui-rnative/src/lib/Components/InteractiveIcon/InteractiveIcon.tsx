@@ -72,8 +72,8 @@ const useStyles = ({
  * The InteractiveIcon provides two visual styles - 'filled' and 'stroked' - optimized for different icon types and use cases.
  * It ensures proper pressed states and accessibility features while maintaining a minimal footprint.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-interactiveicon--docs Storybook}
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/core-interactiveicon--docs Guidelines}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-interactiveicon--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-interactiveicon--docs Guidelines}
  *
  * @component
  *

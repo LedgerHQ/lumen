@@ -1,19 +1,12 @@
-import {
-  Meta,
-  Canvas,
-  Controls,
-  IconGallery,
-  IconItem,
-} from '@storybook/addon-docs/blocks';
-import * as Icons from '../../Symbols';
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as IconsStories from './Icon.stories';
+import { Box } from '../Utility';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
 import {
-  CustomTabs,
-  Tab,
   DoVsDontRow,
   DoBlockItem,
   DontBlockItem,
-} from '../../../../.storybook/components';
+} from '../../../../.storybook/components/DoVsDont';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Symbols/Interface Icons' of={IconsStories} />
@@ -61,26 +54,24 @@ Here's a preview of all the icons available in our design system. To use an icon
 </Tab>
 <Tab label="Implementation">
 
-```bash
-npm install @ledgerhq/lumen-ui-react
-```
+## Setup
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
 
 ## Basic Usage
 
 Import and use specific icons from the symbols library:
 
 ```tsx
-import { ArrowUp, Settings, Plus } from '@ledgerhq/lumen-ui-react/symbols';
+import { ArrowUp, Settings, Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function MyComponent() {
   return (
-    <div>
+    <Box lx={{ flexDirection: 'row', gap: 's8' }}>
       <ArrowUp size={24} />
       <Settings size={20} />
       <Plus size={16} />
-    </div>
+    </Box>
   );
 }
 ```
@@ -90,18 +81,18 @@ function MyComponent() {
 Icons support predefined size variants that ensure consistent visual hierarchy:
 
 ```tsx
-import { ArrowUp } from '@ledgerhq/lumen-ui-react/symbols';
+import { ArrowUp } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function IconSizes() {
   return (
-    <div className='flex items-center gap-4'>
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
       <ArrowUp size={16} />
       <ArrowUp size={20} />
       <ArrowUp size={24} /> {/* Default size */}
       <ArrowUp size={40} />
       <ArrowUp size={48} />
       <ArrowUp size={56} />
-    </div>
+    </Box>
   );
 }
 ```
@@ -111,8 +102,8 @@ function IconSizes() {
 The Button component supports icons with automatic size adjustment based on the button size:
 
 ```tsx
-import { Button } from '@ledgerhq/lumen-ui-react';
-import { ArrowRight } from '@ledgerhq/lumen-ui-react/symbols';
+import { Button } from '@ledgerhq/lumen-ui-rnative';
+import { ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function MyComponent() {
   return (
@@ -128,38 +119,40 @@ function MyComponent() {
 Always provide proper accessibility attributes for interactive icons:
 
 ```tsx
-import { Information } from '@ledgerhq/lumen-ui-react/symbols';
+import { Information } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function AccessibleIcon() {
-  return <Information size={20} aria-label='Account verification required' />;
+  return (
+    <Information size={20} accessibilityLabel='Account verification required' />
+  );
 }
 ```
 
 ### With Semantic Colors
 
-Icons inherit the current text color and can be styled with semantic color utilities:
+Icons inherit the current text color and can be styled with semantic color tokens:
 
 ```tsx
 import {
   CheckmarkCircle,
   DeleteCircle,
   Clock,
-} from '@ledgerhq/lumen-ui-react/symbols';
+} from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function SemanticIcons() {
   return (
-    <div className='flex gap-4'>
-      <CheckmarkCircle size={24} className='text-success' />
-      <DeleteCircle size={24} className='text-error' />
-      <Clock size={24} className='text-warning' />
-    </div>
+    <Box lx={{ flexDirection: 'row', gap: 's8' }}>
+      <CheckmarkCircle size={24} lx={{ color: 'success' }} />
+      <DeleteCircle size={24} lx={{ color: 'error' }} />
+      <Clock size={24} lx={{ color: 'warning' }} />
+    </Box>
   );
 }
 ```
 
 ## Do's and Don'ts
 
-<div className='flex flex-col gap-24'>
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
 
   <DoVsDontRow>
     <DoBlockItem
@@ -174,12 +167,12 @@ function SemanticIcons() {
     </DoBlockItem>
     <DontBlockItem
       title="Don't use custom sizes"
-      description='Avoid CSS sizing, prop overrides, or non-standard sizes'
+      description='Avoid non-standard sizes or arbitrary prop overrides'
     >
 
 {/* prettier-ignore */}
 ```tsx
-<ArrowUp className='w-6 h-6' />
+<ArrowUp size={23} />
 ```
 
     </DontBlockItem>
@@ -193,18 +186,18 @@ function SemanticIcons() {
     >
 
 ```tsx
-<ArrowUp className='text-success' />
+<ArrowUp lx={{ color: 'success' }} />
 ```
 
     </DoBlockItem>
     <DontBlockItem
       title="Don't use arbitrary colors"
-      description='Don not use arbitrary colors or overriding currentColor unnecessarily'
+      description='Avoid arbitrary color values or overriding currentColor unnecessarily'
     >
 
 {/* prettier-ignore */}
 ```tsx
-<ArrowUp className='text-[red]' />
+<ArrowUp color='#ff0000' />
 ```
 
     </DontBlockItem>
@@ -212,7 +205,7 @@ function SemanticIcons() {
   </DoVsDontRow>
 
   <CommonRulesDoAndDont />
-</div>
+</Box>
 
 </Tab>
 </CustomTabs>

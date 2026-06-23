@@ -180,8 +180,8 @@ export const NavBarTrailing = ({
  * A navigation bar component for displaying page headers with optional back button, title, and trailing elements.
  * Uses a composable compound component API where you explicitly nest sub-components to define the layout.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/core-navbar--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/core-navbar--docs Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-navbar--docs Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-navbar--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the navbar's core appearance (colors, padding, etc).

@@ -28,57 +28,57 @@ Below is a complete list of all available Lumen React Native components. Click a
 
 **Components:**
 
-- [Button](https://ldls-react-native.vercel.app/?path=/docs/core-button--docs) - Primary action button component
-- [CardButton](https://ldls-react-native.vercel.app/?path=/docs/core-cardbutton--docs) - Card-style interactive button
-- [IconButton](https://ldls-react-native.vercel.app/?path=/docs/core-iconbutton--docs) - Button with icon only
-- [InteractiveIcon](https://ldls-react-native.vercel.app/?path=/docs/core-interactiveicon--docs) - Interactive icon with states
-- [Link](https://ldls-react-native.vercel.app/?path=/docs/core-link--docs) - Hyperlink component
-- [TileButton](https://ldls-react-native.vercel.app/?path=/docs/core-tilebutton--docs) - Interactive tile button
-- [AmountDisplay](https://ldls-react-native.vercel.app/?path=/docs/core-amountdisplay--docs) - Display formatted amounts with currency
-- [Avatar](https://ldls-react-native.vercel.app/?path=/docs/core-avatar--docs) - User avatar with image, initials, or placeholder
-- [Banner](https://ldls-react-native.vercel.app/?path=/docs/core-banner--docs) - Alert and notification banners
-- [ContentBanner](https://ldls-react-native.vercel.app/?path=/docs/core-contentbanner--docs) - Rich content banner with image support
-- [MediaBanner](https://ldls-react-native.vercel.app/?path=/docs/core-mediabanner--docs) - Rich media banner with image and content
-- [MediaCard](https://ldls-react-native.vercel.app/?path=/docs/core-mediacard--docs) - Card with media content
-- [MediaImage](https://ldls-react-native.vercel.app/?path=/docs/core-mediaimage--docs) - Image display component with loading states
-- [PageIndicator](https://ldls-react-native.vercel.app/?path=/docs/core-pageindicator--docs) - Step and page progress indicator
-- [Skeleton](https://ldls-react-native.vercel.app/?path=/docs/core-skeleton--docs) - Loading placeholder skeleton
-- [Spinner](https://ldls-react-native.vercel.app/?path=/docs/core-spinner--docs) - Loading spinner indicator
-- [Spot](https://ldls-react-native.vercel.app/?path=/docs/core-spot--docs) - Icon container with background
-- [Stepper](https://ldls-react-native.vercel.app/?path=/docs/core-stepper--docs) - Multi-step progress indicator
-- [Subheader](https://ldls-react-native.vercel.app/?path=/docs/core-subheader--docs) - Section subheader component
-- [Tag](https://ldls-react-native.vercel.app/?path=/docs/core-tag--docs) - Label and tag component
-- [Tooltip](https://ldls-react-native.vercel.app/?path=/docs/core-tooltip--docs) - Tooltip overlay component
-- [BottomSheet](https://ldls-react-native.vercel.app/?path=/docs/core-bottomsheet--docs) - Bottom sheet modal component
-- [Card](https://ldls-react-native.vercel.app/?path=/docs/core-card--docs) - Content container card
-- [ListItem](https://ldls-react-native.vercel.app/?path=/docs/core-listitem--docs) - List item with flexible composition
-- [Tile](https://ldls-react-native.vercel.app/?path=/docs/core-tile--docs) - Content container tile
-- [AddressInput](https://ldls-react-native.vercel.app/?path=/docs/core-addressinput--docs) - Input field for cryptocurrency addresses
-- [AmountInput](https://ldls-react-native.vercel.app/?path=/docs/core-amountinput--docs) - Input field for amount values
-- [SearchInput](https://ldls-react-native.vercel.app/?path=/docs/core-searchinput--docs) - Search input field
-- [TextInput](https://ldls-react-native.vercel.app/?path=/docs/core-textinput--docs) - Text input field
-- [Divider](https://ldls-react-native.vercel.app/?path=/docs/core-divider--docs) - Visual separator line
-- [NavBar](https://ldls-react-native.vercel.app/?path=/docs/core-navbar--docs) - Top navigation bar
-- [SegmentedControl](https://ldls-react-native.vercel.app/?path=/docs/core-segmentedcontrol--docs) - Segmented control for toggling between views
-- [TabBar](https://ldls-react-native.vercel.app/?path=/docs/core-tabbar--docs) - Bottom tab navigation bar
-- [Checkbox](https://ldls-react-native.vercel.app/?path=/docs/core-checkbox--docs) - Checkbox input for selections
-- [Switch](https://ldls-react-native.vercel.app/?path=/docs/core-switch--docs) - Toggle switch component
+- [Button](https://ldls-react-native.vercel.app/?path=/docs/rnative-button--docs) - Primary action button component
+- [CardButton](https://ldls-react-native.vercel.app/?path=/docs/rnative-cardbutton--docs) - Card-style interactive button
+- [IconButton](https://ldls-react-native.vercel.app/?path=/docs/rnative-iconbutton--docs) - Button with icon only
+- [InteractiveIcon](https://ldls-react-native.vercel.app/?path=/docs/rnative-interactiveicon--docs) - Interactive icon with states
+- [Link](https://ldls-react-native.vercel.app/?path=/docs/rnative-link--docs) - Hyperlink component
+- [TileButton](https://ldls-react-native.vercel.app/?path=/docs/rnative-tilebutton--docs) - Interactive tile button
+- [AmountDisplay](https://ldls-react-native.vercel.app/?path=/docs/rnative-amountdisplay--docs) - Display formatted amounts with currency
+- [Avatar](https://ldls-react-native.vercel.app/?path=/docs/rnative-avatar--docs) - User avatar with image, initials, or placeholder
+- [Banner](https://ldls-react-native.vercel.app/?path=/docs/rnative-banner--docs) - Alert and notification banners
+- [ContentBanner](https://ldls-react-native.vercel.app/?path=/docs/rnative-contentbanner--docs) - Rich content banner with image support
+- [MediaBanner](https://ldls-react-native.vercel.app/?path=/docs/rnative-mediabanner--docs) - Rich media banner with image and content
+- [MediaCard](https://ldls-react-native.vercel.app/?path=/docs/rnative-mediacard--docs) - Card with media content
+- [MediaImage](https://ldls-react-native.vercel.app/?path=/docs/rnative-mediaimage--docs) - Image display component with loading states
+- [PageIndicator](https://ldls-react-native.vercel.app/?path=/docs/rnative-pageindicator--docs) - Step and page progress indicator
+- [Skeleton](https://ldls-react-native.vercel.app/?path=/docs/rnative-skeleton--docs) - Loading placeholder skeleton
+- [Spinner](https://ldls-react-native.vercel.app/?path=/docs/rnative-spinner--docs) - Loading spinner indicator
+- [Spot](https://ldls-react-native.vercel.app/?path=/docs/rnative-spot--docs) - Icon container with background
+- [Stepper](https://ldls-react-native.vercel.app/?path=/docs/rnative-stepper--docs) - Multi-step progress indicator
+- [Subheader](https://ldls-react-native.vercel.app/?path=/docs/rnative-subheader--docs) - Section subheader component
+- [Tag](https://ldls-react-native.vercel.app/?path=/docs/rnative-tag--docs) - Label and tag component
+- [Tooltip](https://ldls-react-native.vercel.app/?path=/docs/rnative-tooltip--docs) - Tooltip overlay component
+- [BottomSheet](https://ldls-react-native.vercel.app/?path=/docs/rnative-bottomsheet--docs) - Bottom sheet modal component
+- [Card](https://ldls-react-native.vercel.app/?path=/docs/rnative-card--docs) - Content container card
+- [ListItem](https://ldls-react-native.vercel.app/?path=/docs/rnative-listitem--docs) - List item with flexible composition
+- [Tile](https://ldls-react-native.vercel.app/?path=/docs/rnative-tile--docs) - Content container tile
+- [AddressInput](https://ldls-react-native.vercel.app/?path=/docs/rnative-addressinput--docs) - Input field for cryptocurrency addresses
+- [AmountInput](https://ldls-react-native.vercel.app/?path=/docs/rnative-amountinput--docs) - Input field for amount values
+- [SearchInput](https://ldls-react-native.vercel.app/?path=/docs/rnative-searchinput--docs) - Search input field
+- [TextInput](https://ldls-react-native.vercel.app/?path=/docs/rnative-textinput--docs) - Text input field
+- [Divider](https://ldls-react-native.vercel.app/?path=/docs/rnative-divider--docs) - Visual separator line
+- [NavBar](https://ldls-react-native.vercel.app/?path=/docs/rnative-navbar--docs) - Top navigation bar
+- [SegmentedControl](https://ldls-react-native.vercel.app/?path=/docs/rnative-segmentedcontrol--docs) - Segmented control for toggling between views
+- [TabBar](https://ldls-react-native.vercel.app/?path=/docs/rnative-tabbar--docs) - Bottom tab navigation bar
+- [Checkbox](https://ldls-react-native.vercel.app/?path=/docs/rnative-checkbox--docs) - Checkbox input for selections
+- [Switch](https://ldls-react-native.vercel.app/?path=/docs/rnative-switch--docs) - Toggle switch component
 
 **Symbols:**
 
-- [Icon](https://ldls-react-native.vercel.app/?path=/docs/symbols-interface-icons--docs) - Interface icon components
+- [Icon](https://ldls-react-native.vercel.app/?path=/docs/rnative-icon--docs) - Interface icon components
 
 **Utility Components:**
 
-- [Box](https://ldls-react-native.vercel.app/?path=/docs/primitives-box--docs) - Layout container with style props
-- [LinearGradient](https://ldls-react-native.vercel.app/?path=/docs/primitives-lineargradient--docs) - Linear gradient component
-- [Pressable](https://ldls-react-native.vercel.app/?path=/docs/primitives-pressable--docs) - Pressable wrapper with visual feedback
-- [RadialGradient](https://ldls-react-native.vercel.app/?path=/docs/primitives-radialgradient--docs) - Radial gradient component
-- [Text](https://ldls-react-native.vercel.app/?path=/docs/primitives-text--docs) - Text component with style props
+- [Box](https://ldls-react-native.vercel.app/?path=/docs/rnative-box--docs) - Layout container with style props
+- [LinearGradient](https://ldls-react-native.vercel.app/?path=/docs/rnative-lineargradient--docs) - Linear gradient component
+- [Pressable](https://ldls-react-native.vercel.app/?path=/docs/rnative-pressable--docs) - Pressable wrapper with visual feedback
+- [RadialGradient](https://ldls-react-native.vercel.app/?path=/docs/rnative-radialgradient--docs) - Radial gradient component
+- [Text](https://ldls-react-native.vercel.app/?path=/docs/rnative-text--docs) - Text component with style props
 
 ### Icons
 
-[View all available icons in Storybook →](https://ldls-react-native.vercel.app/?path=/docs/symbols-interface-icons--docs)
+[View all available icons in Storybook →](https://ldls-react-native.vercel.app/?path=/docs/rnative-icon--docs)
 
 - Always import icons from `/symbols` entry point
 - Import: `import { ArrowRight, CheckCircle } from '@ledgerhq/lumen-ui-rnative/symbols'`

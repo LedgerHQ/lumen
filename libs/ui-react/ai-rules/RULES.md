@@ -246,51 +246,51 @@ const InteractiveList = () => (
 
 Below is a complete list of all available Lumen components. Click any component name to view its documentation and interactive examples in Storybook.
 
-- [AddressInput](https://ldls.vercel.app/?path=/docs/core-addressinput--docs) - Input field for cryptocurrency addresses
-- [AmountDisplay](https://ldls.vercel.app/?path=/docs/core-amountdisplay--docs) - Display formatted amounts with currency
-- [AmountInput](https://ldls.vercel.app/?path=/docs/core-amountinput--docs) - Input field for amount values
-- [Avatar](https://ldls.vercel.app/?path=/docs/core-avatar--docs) - User avatar with image, initials, or placeholder
-- [Banner](https://ldls.vercel.app/?path=/docs/core-banner--docs) - Alert and notification banners
-- [Button](https://ldls.vercel.app/?path=/docs/core-button--docs) - Primary action button component
-- [Card](https://ldls.vercel.app/?path=/docs/core-card--docs) - Content container card
-- [CardButton](https://ldls.vercel.app/?path=/docs/core-cardbutton--docs) - Card-style interactive button
-- [Checkbox](https://ldls.vercel.app/?path=/docs/core-checkbox--docs) - Checkbox input for selections
-- [ContentBanner](https://ldls.vercel.app/?path=/docs/core-contentbanner--docs) - Rich content banner with image support
-- [DataTable](https://ldls.vercel.app/?path=/docs/core-datatable--docs) - Advanced data table with sorting and filtering
-- [Dialog](https://ldls.vercel.app/?path=/docs/core-dialog--docs) - Modal dialog and sheet component
-- [Divider](https://ldls.vercel.app/?path=/docs/core-divider--docs) - Visual separator line
-- [Icon](https://ldls.vercel.app/?path=/docs/symbols-interface-icons--docs) - Interface icon components
-- [IconButton](https://ldls.vercel.app/?path=/docs/core-iconbutton--docs) - Button with icon only
-- [InteractiveIcon](https://ldls.vercel.app/?path=/docs/core-interactiveicon--docs) - Interactive icon with states
-- [Link](https://ldls.vercel.app/?path=/docs/core-link--docs) - Hyperlink component
-- [ListItem](https://ldls.vercel.app/?path=/docs/core-listitem--docs) - List item with flexible composition
-- [MediaBanner](https://ldls.vercel.app/?path=/docs/core-mediabanner--docs) - Rich media banner with image and content
-- [MediaCard](https://ldls.vercel.app/?path=/docs/core-mediacard--docs) - Card with media content
-- [MediaImage](https://ldls.vercel.app/?path=/docs/core-mediaimage--docs) - Image display component with loading states
-- [Menu](https://ldls.vercel.app/?path=/docs/core-menu--docs) - Dropdown menu component
-- [NavBar](https://ldls.vercel.app/?path=/docs/core-navbar--docs) - Top navigation bar
-- [PageIndicator](https://ldls.vercel.app/?path=/docs/core-pageindicator--docs) - Step and page progress indicator
-- [Popover](https://ldls.vercel.app/?path=/docs/core-popover--docs) - Popover overlay component
-- [SearchInput](https://ldls.vercel.app/?path=/docs/core-searchinput--docs) - Search input field
-- [SegmentedControl](https://ldls.vercel.app/?path=/docs/core-segmentedcontrol--docs) - Segmented control for toggling between views
-- [Select](https://ldls.vercel.app/?path=/docs/core-select--docs) - Dropdown select component
-- [SideBar](https://ldls.vercel.app/?path=/docs/core-sidebar--docs) - Side navigation panel
-- [Skeleton](https://ldls.vercel.app/?path=/docs/core-skeleton--docs) - Loading placeholder skeleton
-- [Spinner](https://ldls.vercel.app/?path=/docs/core-spinner--docs) - Loading spinner indicator
-- [Spot](https://ldls.vercel.app/?path=/docs/core-spot--docs) - Icon container with background
-- [Stepper](https://ldls.vercel.app/?path=/docs/core-stepper--docs) - Multi-step progress indicator
-- [Subheader](https://ldls.vercel.app/?path=/docs/core-subheader--docs) - Section subheader component
-- [Switch](https://ldls.vercel.app/?path=/docs/core-switch--docs) - Toggle switch component
-- [Table](https://ldls.vercel.app/?path=/docs/core-table--docs) - Static data table component
-- [Tag](https://ldls.vercel.app/?path=/docs/core-tag--docs) - Label and tag component
-- [TextInput](https://ldls.vercel.app/?path=/docs/core-textinput--docs) - Text input field
-- [Tile](https://ldls.vercel.app/?path=/docs/core-tile--docs) - Content container tile
-- [TileButton](https://ldls.vercel.app/?path=/docs/core-tilebutton--docs) - Interactive tile button
-- [Tooltip](https://ldls.vercel.app/?path=/docs/core-tooltip--docs) - Tooltip overlay component
+- [AddressInput](https://ldls.vercel.app/?path=/docs/react-addressinput--docs) - Input field for cryptocurrency addresses
+- [AmountDisplay](https://ldls.vercel.app/?path=/docs/react-amountdisplay--docs) - Display formatted amounts with currency
+- [AmountInput](https://ldls.vercel.app/?path=/docs/react-amountinput--docs) - Input field for amount values
+- [Avatar](https://ldls.vercel.app/?path=/docs/react-avatar--docs) - User avatar with image, initials, or placeholder
+- [Banner](https://ldls.vercel.app/?path=/docs/react-banner--docs) - Alert and notification banners
+- [Button](https://ldls.vercel.app/?path=/docs/react-button--docs) - Primary action button component
+- [Card](https://ldls.vercel.app/?path=/docs/react-card--docs) - Content container card
+- [CardButton](https://ldls.vercel.app/?path=/docs/react-cardbutton--docs) - Card-style interactive button
+- [Checkbox](https://ldls.vercel.app/?path=/docs/react-checkbox--docs) - Checkbox input for selections
+- [ContentBanner](https://ldls.vercel.app/?path=/docs/react-contentbanner--docs) - Rich content banner with image support
+- [DataTable](https://ldls.vercel.app/?path=/docs/react-datatable--docs) - Advanced data table with sorting and filtering
+- [Dialog](https://ldls.vercel.app/?path=/docs/react-dialog--docs) - Modal dialog and sheet component
+- [Divider](https://ldls.vercel.app/?path=/docs/react-divider--docs) - Visual separator line
+- [Icon](https://ldls.vercel.app/?path=/docs/react-icon--docs) - Interface icon components
+- [IconButton](https://ldls.vercel.app/?path=/docs/react-iconbutton--docs) - Button with icon only
+- [InteractiveIcon](https://ldls.vercel.app/?path=/docs/react-interactiveicon--docs) - Interactive icon with states
+- [Link](https://ldls.vercel.app/?path=/docs/react-link--docs) - Hyperlink component
+- [ListItem](https://ldls.vercel.app/?path=/docs/react-listitem--docs) - List item with flexible composition
+- [MediaBanner](https://ldls.vercel.app/?path=/docs/react-mediabanner--docs) - Rich media banner with image and content
+- [MediaCard](https://ldls.vercel.app/?path=/docs/react-mediacard--docs) - Card with media content
+- [MediaImage](https://ldls.vercel.app/?path=/docs/react-mediaimage--docs) - Image display component with loading states
+- [Menu](https://ldls.vercel.app/?path=/docs/react-menu--docs) - Dropdown menu component
+- [NavBar](https://ldls.vercel.app/?path=/docs/react-navbar--docs) - Top navigation bar
+- [PageIndicator](https://ldls.vercel.app/?path=/docs/react-pageindicator--docs) - Step and page progress indicator
+- [Popover](https://ldls.vercel.app/?path=/docs/react-popover--docs) - Popover overlay component
+- [SearchInput](https://ldls.vercel.app/?path=/docs/react-searchinput--docs) - Search input field
+- [SegmentedControl](https://ldls.vercel.app/?path=/docs/react-segmentedcontrol--docs) - Segmented control for toggling between views
+- [Select](https://ldls.vercel.app/?path=/docs/react-select--docs) - Dropdown select component
+- [SideBar](https://ldls.vercel.app/?path=/docs/react-sidebar--docs) - Side navigation panel
+- [Skeleton](https://ldls.vercel.app/?path=/docs/react-skeleton--docs) - Loading placeholder skeleton
+- [Spinner](https://ldls.vercel.app/?path=/docs/react-spinner--docs) - Loading spinner indicator
+- [Spot](https://ldls.vercel.app/?path=/docs/react-spot--docs) - Icon container with background
+- [Stepper](https://ldls.vercel.app/?path=/docs/react-stepper--docs) - Multi-step progress indicator
+- [Subheader](https://ldls.vercel.app/?path=/docs/react-subheader--docs) - Section subheader component
+- [Switch](https://ldls.vercel.app/?path=/docs/react-switch--docs) - Toggle switch component
+- [Table](https://ldls.vercel.app/?path=/docs/react-table--docs) - Static data table component
+- [Tag](https://ldls.vercel.app/?path=/docs/react-tag--docs) - Label and tag component
+- [TextInput](https://ldls.vercel.app/?path=/docs/react-textinput--docs) - Text input field
+- [Tile](https://ldls.vercel.app/?path=/docs/react-tile--docs) - Content container tile
+- [TileButton](https://ldls.vercel.app/?path=/docs/react-tilebutton--docs) - Interactive tile button
+- [Tooltip](https://ldls.vercel.app/?path=/docs/react-tooltip--docs) - Tooltip overlay component
 
 ### Icons
 
-[View all available icons in Storybook →](https://ldls.vercel.app/?path=/docs/symbols-interface-icons--docs)
+[View all available icons in Storybook →](https://ldls.vercel.app/?path=/docs/react-icon--docs)
 
 - Always import icons from `/symbols` entry point
 - Import: `import { ArrowRight, CheckCircle } from '@ledgerhq/lumen-ui-react/symbols'`
