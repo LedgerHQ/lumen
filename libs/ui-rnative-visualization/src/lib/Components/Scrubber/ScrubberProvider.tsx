@@ -153,7 +153,8 @@ export function ScrubberProvider({
       .onStart((e) => {
         'worklet';
         scheduleOnRN(handlePositionChange, e.x);
-      });
+      })
+      .onEnd(resetScrubber);
 
     const pan = Gesture.Pan()
       .activeOffsetX([-PAN_AXIS_THRESHOLD_PX, PAN_AXIS_THRESHOLD_PX])
@@ -162,7 +163,6 @@ export function ScrubberProvider({
         'worklet';
         scheduleOnRN(handlePositionChange, e.x);
       })
-      .onEnd(resetScrubber)
       .onFinalize(resetScrubber);
 
     return Gesture.Simultaneous(longPress, pan);
