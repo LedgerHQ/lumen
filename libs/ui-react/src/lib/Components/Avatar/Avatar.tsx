@@ -100,6 +100,7 @@ export const Avatar = ({
     >
       {shouldFallback ? (
         <User
+          className='text-base'
           size={fallbackSizes[size]}
           aria-label='Fallback Icon'
           aria-hidden='true'
