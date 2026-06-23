@@ -91,7 +91,7 @@ const IconCard = ({ name, size = 24, color }: IconCardProps) => {
   );
 };
 
-export const Icon: StoryObj<IconStoryProps> = {
+export const Base: StoryObj<IconStoryProps> = {
   args: {
     size: 24,
     name: 'Home',
@@ -140,7 +140,7 @@ export const Icon: StoryObj<IconStoryProps> = {
   },
 };
 
-export const IconSizes: StoryObj = {
+export const Sizes: StoryObj = {
   render: () => {
     const { theme } = useTheme();
 

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader } from '../shared';
 
 const meta: Meta = {
+  id: 'react-gradients',
   title: 'Foundations/Styles/Gradients',
 };
 
