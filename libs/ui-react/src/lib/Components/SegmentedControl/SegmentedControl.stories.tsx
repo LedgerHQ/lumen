@@ -172,7 +172,7 @@ export const WithTrailingContent: Story = {
 type View = 'preview' | 'raw' | 'blame';
 const TypedSegmentedControl = createSegmentedControl<View>();
 
-export const Typed: Story = {
+export const TypesafeFactory: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => {
     const [view, setView] = useState<View>('preview');

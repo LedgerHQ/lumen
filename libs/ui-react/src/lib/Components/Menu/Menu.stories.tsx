@@ -392,7 +392,7 @@ export const CompleteExample: Story = {
 type Position = 'top' | 'bottom' | 'left' | 'right';
 const PositionMenu = createMenuRadioGroup<Position>();
 
-export const Typed: Story = {
+export const TypesafeFactory: Story = {
   render: () => {
     const [position, setPosition] = useState<Position>('bottom');
 

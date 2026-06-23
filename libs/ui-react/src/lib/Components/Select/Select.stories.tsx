@@ -886,7 +886,7 @@ const NETWORKS: SelectItemData<Network>[] = [
   { value: 'btc', label: 'Bitcoin' },
 ];
 
-export const Typed: StoryObj<typeof Select> = {
+export const TypesafeFactory: StoryObj<typeof Select> = {
   render: () => {
     const [network, setNetwork] = useState<Network | null>('eth');
 

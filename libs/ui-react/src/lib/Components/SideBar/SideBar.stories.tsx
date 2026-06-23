@@ -430,7 +430,7 @@ export const ManyItems: Story = {
 type Route = 'home' | 'wallet' | 'settings';
 const Nav = createSideBar<Route>();
 
-export const Typed: Story = {
+export const TypesafeFactory: Story = {
   render: () => {
     const [route, setRoute] = useState<Route>('home');
 

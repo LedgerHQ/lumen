@@ -1031,7 +1031,7 @@ const TYPED_NETWORKS: OptionListItemData<TypedNetwork, TypedNetworkMeta>[] = [
   },
 ];
 
-export const Typed: Story = {
+export const TypesafeFactory: Story = {
   render: () => {
     const [value, setValue] = useState<TypedNetwork | null>('eth');
 
