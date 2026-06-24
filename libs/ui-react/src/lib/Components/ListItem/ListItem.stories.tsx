@@ -18,7 +18,8 @@ import {
 
 const meta = {
   component: ListItem,
-  title: 'Containment/ListItem',
+  id: 'react-listitem',
+  title: 'Core/ListItem',
   subcomponents: {
     ListItemLeading,
     ListItemContent,

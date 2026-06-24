@@ -11,7 +11,7 @@ import { useGlobalTooltipSafeContext } from './GlobalTooltipContext';
  * BottomSheet component that displays tooltip content.
  * This should be placed at the root level inside GestureHandlerRootView.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-tooltip-overview--docs Storybook}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tooltip--docs Storybook}
  *
  * @example
  * import { GlobalTooltipProvider, GlobalTooltipBottomSheet } from '@ledgerhq/lumen-ui-rnative';

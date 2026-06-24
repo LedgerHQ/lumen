@@ -7,7 +7,8 @@ import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
 
 const meta = {
   component: DotSymbol,
-  title: 'Communication/DotSymbol',
+  id: 'rnative-dotsymbol',
+  title: 'Core/DotSymbol',
   parameters: {
     docs: {
       source: {

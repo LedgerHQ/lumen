@@ -20,7 +20,8 @@ import {
 
 const meta: Meta<typeof Card> = {
   component: Card,
-  title: 'Containment/Card',
+  id: 'react-card',
+  title: 'Core/Card',
   subcomponents: {
     CardHeader,
     CardLeading,

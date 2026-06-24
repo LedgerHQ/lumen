@@ -19,6 +19,7 @@ import { XAxis } from './XAxis';
  */
 const meta = {
   component: XAxis,
+  id: 'react-xaxis',
   title: 'Visualization/XAxis',
   tags: ['experimental'],
   args: {

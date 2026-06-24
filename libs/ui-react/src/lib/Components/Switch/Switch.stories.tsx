@@ -3,7 +3,8 @@ import { Switch } from './Switch';
 
 const meta: Meta<typeof Switch> = {
   component: Switch,
-  title: 'Selection/Switch',
+  id: 'react-switch',
+  title: 'Core/Switch',
   parameters: {
     docs: {
       source: {

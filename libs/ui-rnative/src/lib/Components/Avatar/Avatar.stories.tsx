@@ -6,7 +6,8 @@ import { Avatar } from './Avatar';
 
 const meta = {
   component: Avatar,
-  title: 'Communication/Avatar',
+  id: 'rnative-avatar',
+  title: 'Core/Avatar',
   parameters: {
     docs: {
       source: {

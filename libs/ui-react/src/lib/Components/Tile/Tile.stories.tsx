@@ -28,7 +28,8 @@ const meta: Meta<typeof Tile> = {
     TileDescription,
     TileTrailingContent,
   },
-  title: 'Containment/Tile',
+  id: 'react-tile',
+  title: 'Core/Tile',
   parameters: {
     docs: {
       source: {

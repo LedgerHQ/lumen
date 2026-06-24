@@ -3,7 +3,8 @@ import { Box } from '../Utility/Box';
 import { Skeleton } from './Skeleton';
 
 const meta: Meta<typeof Skeleton> = {
-  title: 'Communication/Skeleton',
+  id: 'rnative-skeleton',
+  title: 'Core/Skeleton',
   component: Skeleton,
   parameters: {
     actions: { disable: true },

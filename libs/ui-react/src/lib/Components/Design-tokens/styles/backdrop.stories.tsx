@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader } from '../shared';
 
 const meta: Meta = {
+  id: 'react-backdrop',
   title: 'Foundations/Styles/Backdrop',
 };
 

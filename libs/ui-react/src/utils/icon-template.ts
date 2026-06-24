@@ -12,7 +12,7 @@ const template: Template = (variables, { tpl }) => {
  * to create a consistent icon interface. It supports all standard SVG props and additional
  * size variants defined in the Icon component.
  * 
- * @see {@link https://ldls.vercel.app/?path=/story/symbols-interface-icons--icon&args=name:${componentName} Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/story/react-icon--base&args=name:${componentName} Storybook}
  * 
  * @component
  * @param {16 | 20 | 24 | 40 | 48 | 56} [size=24] - The size of the icon in pixels.

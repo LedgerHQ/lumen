@@ -3,7 +3,8 @@ import { Box } from './Box';
 
 const meta: Meta<typeof Box> = {
   component: Box,
-  title: 'Utility/Box',
+  id: 'rnative-box',
+  title: 'Primitives/Box',
   parameters: {
     docs: {
       source: {

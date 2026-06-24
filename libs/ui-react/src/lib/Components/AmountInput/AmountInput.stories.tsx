@@ -10,7 +10,8 @@ const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
 const SIZES: AmountInputSize[] = ['md', 'sm'];
 
 const meta = {
-  title: 'Input/AmountInput',
+  id: 'react-amountinput',
+  title: 'Core/AmountInput',
   component: AmountInput,
   parameters: {
     layout: 'centered',

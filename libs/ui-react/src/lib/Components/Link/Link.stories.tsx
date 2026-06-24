@@ -8,7 +8,8 @@ const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
 
 const meta: Meta<typeof Link> = {
   component: Link,
-  title: 'Action/Link',
+  id: 'react-link',
+  title: 'Core/Link',
   parameters: {
     docs: {
       source: {

@@ -6,6 +6,7 @@ import { Button } from '../../Button';
 import { Tag } from '../../Tag';
 
 const meta: Meta = {
+  id: 'react-animations',
   title: 'Foundations/Animations',
   parameters: {
     layout: 'centered',

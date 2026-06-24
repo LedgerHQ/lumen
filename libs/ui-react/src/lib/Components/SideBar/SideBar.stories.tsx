@@ -31,7 +31,8 @@ import {
 
 const meta: Meta<typeof SideBar> = {
   component: SideBar,
-  title: 'Navigation/SideBar',
+  id: 'react-sidebar',
+  title: 'Core/SideBar',
   subcomponents: {
     SideBarLeading,
     SideBarTrailing,

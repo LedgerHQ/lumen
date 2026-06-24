@@ -6,7 +6,8 @@ import { DotCount } from './DotCount';
 
 const meta = {
   component: DotCount,
-  title: 'Communication/DotCount',
+  id: 'react-dotcount',
+  title: 'Core/DotCount',
   parameters: {
     layout: 'centered',
     docs: {

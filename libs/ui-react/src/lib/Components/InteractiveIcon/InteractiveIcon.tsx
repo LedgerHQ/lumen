@@ -35,8 +35,7 @@ const buttonVariants = cva(
  * The InteractiveIcon provides two visual styles - 'filled' and 'stroked' - optimized for different icon types and use cases.
  * It ensures proper focus states, hover effects, and accessibility features while maintaining a minimal footprint.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/components-interactiveicon-overview--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/components-interactiveicon-implementation--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-interactiveicon--docs Guidelines}
  *
  * @component
  *

@@ -6,7 +6,8 @@ import { MediaButton } from './MediaButton';
 
 const meta: Meta<typeof MediaButton> = {
   component: MediaButton,
-  title: 'Action/MediaButton',
+  id: 'rnative-mediabutton',
+  title: 'Core/MediaButton',
   parameters: {
     layout: 'centered',
     docs: {

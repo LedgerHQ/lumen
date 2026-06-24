@@ -3,7 +3,8 @@ import { MediaImage } from './MediaImage';
 
 const meta = {
   component: MediaImage,
-  title: 'Communication/MediaImage',
+  id: 'react-mediaimage',
+  title: 'Core/MediaImage',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

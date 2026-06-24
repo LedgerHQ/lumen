@@ -10,7 +10,8 @@ import {
   createPopoverHandle,
 } from './Popover';
 const meta: Meta<typeof Popover> = {
-  title: 'Containment/Popover',
+  id: 'react-popover',
+  title: 'Core/Popover',
   component: Popover,
   subcomponents: {
     PopoverTrigger,

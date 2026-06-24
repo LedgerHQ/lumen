@@ -2,4 +2,4 @@
 
 ## 📦 Setup
 
-See docs: https://ldls.vercel.app/?path=/docs/react-native_getting-started-setup--docs
+See docs: https://ldls-react-native.vercel.app/?path=/docs/getting-started-setup--docs
