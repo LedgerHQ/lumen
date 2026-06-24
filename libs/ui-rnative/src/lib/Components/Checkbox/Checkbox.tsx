@@ -12,7 +12,6 @@ import type { CheckboxProps } from './types';
  * The checkbox follows the design system tokens and supports checked, unchecked,
  * disabled, and focus states with proper hover and active interactions.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-checkbox--docs Storybook}
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-checkbox--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.

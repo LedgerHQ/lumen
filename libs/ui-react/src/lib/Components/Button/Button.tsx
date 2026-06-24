@@ -21,7 +21,6 @@ const buttonVariants = cva('', {
  *
  * When in loading state, it displays a spinner. If an icon is provided without children, it renders as an icon-only button.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-button--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-button--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.

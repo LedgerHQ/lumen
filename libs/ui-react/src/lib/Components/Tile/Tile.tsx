@@ -53,7 +53,6 @@ const tileVariants = {
  * A flexible tile component that uses a composite pattern for maximum customization.
  * Displays content in a vertical layout with support for spots, text, and custom content.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-tile--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-tile--docs Guidelines}
  *
  * @example

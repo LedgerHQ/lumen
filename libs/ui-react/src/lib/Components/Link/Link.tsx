@@ -41,7 +41,6 @@ const linkVariants = cva(
 /**
  * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-link--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-link--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.

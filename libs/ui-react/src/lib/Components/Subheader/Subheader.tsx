@@ -153,7 +153,6 @@ export const SubheaderDescription = ({
  * A subheader component for displaying section titles with optional count, hints, descriptions, and action elements.
  * Uses a composable API where you explicitly nest sub-components to define the layout.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-subheader--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-subheader--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.

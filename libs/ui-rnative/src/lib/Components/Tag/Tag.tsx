@@ -14,7 +14,6 @@ const iconSizeMap: Record<Size, IconSize> = {
  *
  * The appearance determines the color scheme used.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tag--docs Storybook}
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tag--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.

@@ -57,7 +57,6 @@ const useRootStyles = ({
  * A flexible list item component that provides a composable structure for displaying
  * interactive list items with leading content, title, description, and trailing content.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-listitem--docs Storybook}
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-listitem--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.

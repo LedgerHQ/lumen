@@ -73,7 +73,6 @@ const useRootStyles = ({
  * A flexible tile component that uses a composite pattern for maximum customization.
  * Displays content in a vertical layout with support for spots, text, and custom content.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tile--docs Storybook}
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tile--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.

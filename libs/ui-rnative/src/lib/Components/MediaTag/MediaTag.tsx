@@ -6,7 +6,6 @@ import type { MediaTagProps } from './types';
  *
  * The appearance determines the color scheme used.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-mediatag--docs Storybook}
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-mediatag--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.

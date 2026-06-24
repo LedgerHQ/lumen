@@ -73,7 +73,6 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
  * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
  * Opens URLs using React Native's Linking API.
  *
- * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-link--docs Storybook}
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-link--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.

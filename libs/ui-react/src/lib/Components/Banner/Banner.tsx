@@ -36,7 +36,6 @@ const bannerVariants = {
  *
  * The appearance determines the color scheme and icon used.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-banner--docs Storybook}
  * @see {@link https://ldls.vercel.app/?path=/docs/react-banner--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
