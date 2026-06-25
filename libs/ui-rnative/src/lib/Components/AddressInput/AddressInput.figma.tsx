@@ -27,7 +27,7 @@ figma.connect(
     example: (props) => (
       <AddressInput
         disabled={props.disabled}
-        value={props.value as string}
+        value={props.value}
         placeholder={props.placeholder}
         onQrCodeClick={() => {}}
         helperText={props.helperText.label}
