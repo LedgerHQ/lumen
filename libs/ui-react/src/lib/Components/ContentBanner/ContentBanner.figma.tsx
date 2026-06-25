@@ -27,7 +27,10 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={props.onClose} closeAriaLabel='Close content banner'>
+      <ContentBanner
+        onClose={props.onClose}
+        closeAriaLabel='Close content banner'
+      >
         <Spot appearance='icon' icon={Wallet} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
@@ -57,7 +60,10 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={props.onClose} closeAriaLabel='Close content banner'>
+      <ContentBanner
+        onClose={props.onClose}
+        closeAriaLabel='Close content banner'
+      >
         <Stepper currentStep={1} totalSteps={4} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
@@ -87,7 +93,10 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={props.onClose} closeAriaLabel='Close content banner'>
+      <ContentBanner
+        onClose={props.onClose}
+        closeAriaLabel='Close content banner'
+      >
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>

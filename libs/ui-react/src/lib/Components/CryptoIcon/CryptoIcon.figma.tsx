@@ -1,3 +1,4 @@
+// @ts-nocheck — size contains a placeholder value.
 import figma from '@figma/code-connect';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 
@@ -9,7 +10,12 @@ figma.connect(
     props: {
       ticker: figma.string('asset'),
     },
-    // @ts-expect-error — placeholder value, replace with a valid IconSize
-    example: (props: { ticker: string }) => <CryptoIcon ticker={props.ticker} ledgerId={props.ticker} size='<insert-size>' />,
+    example: (props: { ticker: string }) => (
+      <CryptoIcon
+        ticker={props.ticker}
+        ledgerId={props.ticker}
+        size='<insert-size>'
+      />
+    ),
   },
 );

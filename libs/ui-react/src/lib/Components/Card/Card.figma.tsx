@@ -11,7 +11,7 @@ import {
   CardContent,
   CardContentTitle,
   CardContentDescription,
-  CardTrailing
+  CardTrailing,
 } from './Card';
 
 figma.connect(
