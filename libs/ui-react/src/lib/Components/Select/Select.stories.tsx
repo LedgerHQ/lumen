@@ -912,7 +912,10 @@ export const TypesafeFactory: StoryObj<typeof Select> = {
           value={network}
           onValueChange={setNetwork}
         >
-          <NetworkSelect.SelectTrigger label='Network' />
+          <NetworkSelect.SelectTrigger
+            aria-label='Select network'
+            label='Network'
+          />
           <NetworkSelect.SelectContent>
             <NetworkSelect.SelectList
               renderItem={(item) => (
