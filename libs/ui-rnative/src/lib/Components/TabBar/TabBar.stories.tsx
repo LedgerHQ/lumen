@@ -123,7 +123,7 @@ export const MissingLabel: Story = {
 type Route = 'home' | 'swap' | 'card' | 'help';
 const Nav = createTabBar<Route>();
 
-export const Typed: Story = {
+export const TypesafeFactory: Story = {
   args: {} as React.ComponentProps<typeof TabBar>,
   render: () => {
     const [active, setActive] = useState<Route>('home');
