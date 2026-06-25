@@ -1,13 +1,12 @@
 import figma from '@figma/code-connect';
-
-import { Wallet } from '../../Symbols';
+import { Settings } from '../../Symbols';
 import { Spot } from '../Spot';
 import { Stepper } from '../Stepper';
 import {
   ContentBanner,
   ContentBannerContent,
-  ContentBannerTitle,
   ContentBannerDescription,
+  ContentBannerTitle,
 } from './ContentBanner';
 
 figma.connect(
@@ -15,7 +14,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11235-5966',
   {
     imports: [
-      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
+      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-rnative'",
     ],
     variant: { 'leading-content': 'spot' },
     props: {
@@ -27,8 +26,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={props.onClose} closeAriaLabel='Close content banner'>
-        <Spot appearance='icon' icon={Wallet} size={48} />
+      <ContentBanner
+        onClose={props.onClose}
+        closeAccessibilityLabel='Close content banner'
+      >
+        <Spot appearance='icon' icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>
@@ -45,7 +47,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11235-5966',
   {
     imports: [
-      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
+      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-rnative'",
     ],
     variant: { 'leading-content': 'stepper' },
     props: {
@@ -57,7 +59,10 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={props.onClose} closeAriaLabel='Close content banner'>
+      <ContentBanner
+        onClose={props.onClose}
+        closeAccessibilityLabel='Close content banner'
+      >
         <Stepper currentStep={1} totalSteps={4} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
@@ -75,7 +80,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11235-5966',
   {
     imports: [
-      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
+      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-rnative'",
     ],
     variant: { 'leading-content': 'none' },
     props: {
@@ -87,7 +92,10 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={props.onClose} closeAriaLabel='Close content banner'>
+      <ContentBanner
+        onClose={props.onClose}
+        closeAccessibilityLabel='Close content banner'
+      >
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>

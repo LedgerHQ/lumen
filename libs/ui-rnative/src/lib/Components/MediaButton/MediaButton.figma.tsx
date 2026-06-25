@@ -8,7 +8,8 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6389-45680',
   {
     imports: [
-      "import { MediaButton } from '@ledgerhq/lumen-ui-react'",
+      "import { MediaButton } from '@ledgerhq/lumen-ui-rnative'",
+      "// import { YourIconName } from '@ledgerhq/lumen-ui-rnative/symbols'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
     ],
     props: {
@@ -50,6 +51,7 @@ figma.connect(
         size={props.size}
         leadingContent={props.leadingContent}
         leadingContentShape={props.leadingContentShape}
+        onPress={() => {}}
       >
         {props.children}
       </MediaButton>
