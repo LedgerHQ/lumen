@@ -5,6 +5,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { ReactElement } from 'react';
 import { Check, ChevronRight } from '../../Symbols';
 import { Divider } from '../Divider';
 import type {
@@ -14,6 +15,7 @@ import type {
   MenuItemProps,
   MenuCheckboxItemProps,
   MenuRadioItemProps,
+  MenuRadioValue,
   MenuLabelProps,
   MenuSeparatorProps,
   MenuSubTriggerProps,
@@ -99,11 +101,14 @@ function MenuSub({ ...props }: MenuSubProps) {
   return <MenuPrimitive.SubmenuRoot {...props} />;
 }
 
-function MenuRadioGroup({ onValueChange, ...props }: MenuRadioGroupProps) {
+function MenuRadioGroup<T extends MenuRadioValue = MenuRadioValue>({
+  onValueChange,
+  ...props
+}: MenuRadioGroupProps<T>) {
   return (
     <MenuPrimitive.RadioGroup
       data-slot='menu-radio-group'
-      onValueChange={(value) => onValueChange?.(String(value))}
+      onValueChange={(value) => onValueChange?.(String(value) as T)}
       {...props}
     />
   );
@@ -241,13 +246,13 @@ const MenuCheckboxItem = ({
   );
 };
 
-const MenuRadioItem = ({
+const MenuRadioItem = <T extends MenuRadioValue = MenuRadioValue>({
   ref,
   className,
   children,
   disabled: disabledProp,
   ...props
-}: MenuRadioItemProps) => {
+}: MenuRadioItemProps<T>) => {
   const disabled = useDisabledContext({
     consumerName: 'MenuRadioItem',
     mergeWith: { disabled: disabledProp },
@@ -301,3 +306,10 @@ export {
   MenuSubTrigger,
   MenuRadioGroup,
 };
+
+export function createMenuRadioGroup<T extends MenuRadioValue = never>(): {
+  MenuRadioGroup: (props: MenuRadioGroupProps<T>) => ReactElement;
+  MenuRadioItem: (props: MenuRadioItemProps<T>) => ReactElement;
+} {
+  return { MenuRadioGroup, MenuRadioItem };
+}

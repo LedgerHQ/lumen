@@ -1,20 +1,26 @@
 import {
   Box,
+  createSegmentedControl,
   DotCount,
-  SegmentedControl,
-  SegmentedControlButton,
   Text,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Code, Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
+type ViewType = 'preview' | 'raw' | 'blame';
+
+const { SegmentedControl, SegmentedControlButton } =
+  createSegmentedControl<ViewType>();
+
 export const SegmentedControls = () => {
-  const [fitState, setFitState] = useState('preview');
-  const [fixedState, setFixedState] = useState('preview');
-  const [iconsState, setIconsState] = useState('preview');
-  const [trailingState, setTrailingState] = useState('preview');
-  const [preSelectedFitState, setPreSelectedFitState] = useState('blame');
-  const [preSelectedFixedState, setPreSelectedFixedState] = useState('blame');
+  const [fitState, setFitState] = useState<ViewType>('preview');
+  const [fixedState, setFixedState] = useState<ViewType>('preview');
+  const [iconsState, setIconsState] = useState<ViewType>('preview');
+  const [trailingState, setTrailingState] = useState<ViewType>('preview');
+  const [preSelectedFitState, setPreSelectedFitState] =
+    useState<ViewType>('blame');
+  const [preSelectedFixedState, setPreSelectedFixedState] =
+    useState<ViewType>('blame');
 
   return (
     <Box lx={{ gap: 's24', width: 'full' }}>

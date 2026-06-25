@@ -11,7 +11,9 @@ import {
   SelectList,
   SelectSearch,
   SelectTrigger,
+  createSelect,
 } from './Select';
+import type { SelectItemData } from './types';
 
 const options = [
   { value: 'opt1', label: 'Option 1' },
@@ -596,5 +598,45 @@ describe('Disabled items', () => {
     fireEvent.click(screen.getByText('Option 3'));
 
     expect(handleChange).toHaveBeenCalledWith('opt3');
+  });
+
+  describe('createSelect', () => {
+    it('returns typed components that render and select', () => {
+      type Opt = 'opt1' | 'opt2' | 'opt3';
+      const typedOptions: SelectItemData<Opt>[] = [
+        { value: 'opt1', label: 'Option 1' },
+        { value: 'opt2', label: 'Option 2' },
+        { value: 'opt3', label: 'Option 3' },
+      ];
+      const {
+        Select: TypedSelect,
+        SelectTrigger: TypedTrigger,
+        SelectContent: TypedContent,
+        SelectList: TypedList,
+        SelectItem: TypedItem,
+        SelectItemText: TypedItemText,
+      } = createSelect<Opt>();
+      const handleChange = vi.fn();
+
+      render(
+        <TypedSelect items={typedOptions} onValueChange={handleChange}>
+          <TypedTrigger label='Choose an option' />
+          <TypedContent>
+            <TypedList
+              renderItem={(item) => (
+                <TypedItem key={item.value} value={item.value}>
+                  <TypedItemText>{item.label}</TypedItemText>
+                </TypedItem>
+              )}
+            />
+          </TypedContent>
+        </TypedSelect>,
+      );
+
+      fireEvent.click(screen.getByRole('combobox'));
+      fireEvent.click(screen.getByText('Option 3'));
+
+      expect(handleChange).toHaveBeenCalledWith('opt3');
+    });
   });
 });

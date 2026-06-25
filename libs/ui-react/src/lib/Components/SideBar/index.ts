@@ -1,8 +1,2 @@
-export {
-  SideBar,
-  SideBarLeading,
-  SideBarTrailing,
-  SideBarItem,
-  SideBarCollapseToggle,
-} from './SideBar';
-export * from './types';
+export * from './SideBar';
+export type * from './types';

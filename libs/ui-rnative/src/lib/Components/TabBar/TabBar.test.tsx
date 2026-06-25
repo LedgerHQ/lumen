@@ -3,7 +3,7 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, fireEvent } from '@testing-library/react-native';
 import { HomeFill, Settings, BasketPutIn } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { TabBar, TabBarItem } from './TabBar';
+import { TabBar, TabBarItem, createTabBar } from './TabBar';
 
 const renderWithProvider = (component: React.ReactElement) => {
   return render(
@@ -53,5 +53,27 @@ describe('TabBar', () => {
     expect(getByText('Home')).toBeTruthy();
     expect(getByText('Shop')).toBeTruthy();
     expect(getByText('Settings')).toBeTruthy();
+  });
+
+  describe('createTabBar', () => {
+    it('returns typed components that render and respond to presses', () => {
+      const { TabBar: TypedTabBar, TabBarItem: TypedItem } = createTabBar<
+        'home' | 'settings'
+      >();
+      const onTabPress = jest.fn();
+
+      const { getByText } = renderWithProvider(
+        <TypedTabBar active='home' onTabPress={onTabPress}>
+          <TypedItem value='home' label='Home' icon={HomeFill} />
+          <TypedItem value='settings' label='Settings' icon={Settings} />
+        </TypedTabBar>,
+      );
+
+      expect(getByText('Home')).toBeTruthy();
+
+      fireEvent.press(getByText('Settings'));
+
+      expect(onTabPress).toHaveBeenCalledWith('settings');
+    });
   });
 });

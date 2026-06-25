@@ -3,7 +3,11 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { DotCount } from '../DotCount';
-import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
+import {
+  SegmentedControl,
+  SegmentedControlButton,
+  createSegmentedControl,
+} from './SegmentedControl';
 
 describe('SegmentedControl', () => {
   it('renders segments with labels', () => {
@@ -61,5 +65,30 @@ describe('SegmentedControl', () => {
     );
 
     expect(screen.getByLabelText('3 tokens')).toBeTruthy();
+  });
+
+  describe('createSegmentedControl', () => {
+    it('returns typed components that render and select like the originals', () => {
+      const {
+        SegmentedControl: TypedControl,
+        SegmentedControlButton: TypedButton,
+      } = createSegmentedControl<'send' | 'receive'>();
+      const onSelectedChange = vi.fn();
+
+      render(
+        <TypedControl
+          selectedValue='send'
+          onSelectedChange={onSelectedChange}
+          aria-label='Transaction type'
+        >
+          <TypedButton value='send'>Send</TypedButton>
+          <TypedButton value='receive'>Receive</TypedButton>
+        </TypedControl>,
+      );
+
+      fireEvent.click(screen.getByText('Receive'));
+
+      expect(onSelectedChange).toHaveBeenCalledWith('receive');
+    });
   });
 });

@@ -8,6 +8,7 @@ import {
   MenuCheckboxItem,
   MenuRadioGroup,
   MenuRadioItem,
+  createMenuRadioGroup,
 } from './Menu';
 
 const openMenu = (trigger: HTMLElement) => {
@@ -150,5 +151,34 @@ describe('Menu', () => {
     });
 
     expect(screen.getByText('Disabled Item')).toHaveAttribute('data-disabled');
+  });
+
+  describe('createMenuRadioGroup', () => {
+    it('returns typed radio components that render and select', async () => {
+      const { MenuRadioGroup: TypedGroup, MenuRadioItem: TypedItem } =
+        createMenuRadioGroup<'option1' | 'option2'>();
+      const onValueChange = vi.fn();
+
+      render(
+        <Menu>
+          <MenuTrigger render={<button type='button'>Open Menu</button>} />
+          <MenuContent>
+            <TypedGroup value='option1' onValueChange={onValueChange}>
+              <TypedItem value='option1'>Option 1</TypedItem>
+              <TypedItem value='option2'>Option 2</TypedItem>
+            </TypedGroup>
+          </MenuContent>
+        </Menu>,
+      );
+
+      openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+      await waitFor(() => {
+        expect(screen.getByText('Option 2')).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText('Option 2'));
+
+      expect(onValueChange).toHaveBeenCalledWith('option2');
+    });
   });
 });

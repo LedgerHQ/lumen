@@ -8,9 +8,14 @@ import type { SearchInputProps } from '../SearchInput/types';
 
 export type MetaShape = Record<string, unknown>;
 
-export type SelectItemData<TMeta extends MetaShape = MetaShape> = {
+export type SelectValue = string;
+
+export type SelectItemData<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /** Unique string identifier for this item, used for selection tracking. */
-  value: string;
+  value: T;
   /** Display text used in the trigger. Also the field matched against by the default search filter. */
   label: string;
   /** When true, the item cannot be selected or focused. */
@@ -35,25 +40,31 @@ export type SelectItemData<TMeta extends MetaShape = MetaShape> = {
 };
 
 /** @internal A named group of select items, used to represent a resolved group with its header label and child items. */
-export type SelectItemGroup<TMeta extends MetaShape = MetaShape> = {
+export type SelectItemGroup<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /** The displayed group name, matching the `group` field on each child item. */
   label: string;
   /** The items belonging to this group. */
-  items: SelectItemData<TMeta>[];
+  items: SelectItemData<T, TMeta>[];
 };
 
-export type SelectTriggerRenderProps = {
+export type SelectTriggerRenderProps<T extends SelectValue = SelectValue> = {
   /**
    * The currently selected value, or null if nothing is selected.
    */
-  selectedValue: string | null;
+  selectedValue: T | null;
   /**
    * A ReactNode that renders the selected item's content via `Combobox.Value`.
    */
   selectedContent: ReactNode;
 };
 
-export type SelectProps<TMeta extends MetaShape = MetaShape> = {
+export type SelectProps<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /**
    * The children of the select.
    */
@@ -69,7 +80,7 @@ export type SelectProps<TMeta extends MetaShape = MetaShape> = {
    * them by that value, rendering group headers, separators, and per-group
    * collection iteration internally.
    */
-  items: SelectItemData<TMeta>[];
+  items: SelectItemData<T, TMeta>[];
   /**
    * Filter function used to match items against a search query.
    * When `SelectSearch` is rendered inside the content, a default case-insensitive
@@ -80,13 +91,13 @@ export type SelectProps<TMeta extends MetaShape = MetaShape> = {
    * items within each group. Empty groups are automatically hidden.
    * @default undefined
    */
-  filter?: null | ((item: SelectItemData<TMeta>, query: string) => boolean);
+  filter?: null | ((item: SelectItemData<T, TMeta>, query: string) => boolean);
   /**
    * Pre-filtered items to display in the list. When provided, the component uses
    * these items directly instead of filtering `items` internally. Use alongside
    * `onSearchValueChange` for async/remote search where the server handles filtering.
    */
-  filteredItems?: SelectItemData<TMeta>[];
+  filteredItems?: SelectItemData<T, TMeta>[];
   /**
    * The controlled search input value.
    * Should be used in conjunction with `onSearchValueChange`.
@@ -116,7 +127,7 @@ export type SelectProps<TMeta extends MetaShape = MetaShape> = {
   /**
    * The value of the select when initially rendered (uncontrolled).
    */
-  defaultValue?: string;
+  defaultValue?: T;
   /**
    * Event handler called when the open state of the popup changes.
    */
@@ -125,12 +136,12 @@ export type SelectProps<TMeta extends MetaShape = MetaShape> = {
    * The controlled value of the select.
    * Should be used in conjunction with `onValueChange`.
    */
-  value?: string | null;
+  value?: T | null;
   /**
    * Event handler called when the selected value changes.
    * Receives `null` when the selection is cleared (e.g. combobox clear behavior).
    */
-  onValueChange?: (value: string | null) => void;
+  onValueChange?: (value: T | null) => void;
   /**
    * The name of the select for form submission.
    */
@@ -146,7 +157,7 @@ export type SelectProps<TMeta extends MetaShape = MetaShape> = {
   required?: boolean;
 };
 
-export type SelectTriggerProps = {
+export type SelectTriggerProps<T extends SelectValue = SelectValue> = {
   /**
    * Render function that replaces the default input-style trigger.
    * When provided, the trigger delegates rendering to this function.
@@ -155,7 +166,7 @@ export type SelectTriggerProps = {
    * @example render={({ selectedValue, selectedContent }) => <MediaButton>{selectedValue ? selectedContent : 'Label'}</MediaButton>}
    * @example render={({ selectedValue, selectedContent }) => <MyTrigger />}
    */
-  render?: (props: SelectTriggerRenderProps) => ReactElement;
+  render?: (props: SelectTriggerRenderProps<T>) => ReactElement;
   /**
    * Extra class names to apply to the trigger element.
    */
@@ -206,7 +217,10 @@ export type SelectContentProps = {
   initialFocus?: boolean | RefObject<HTMLElement | null>;
 } & ComponentPropsWithRef<'div'>;
 
-export type SelectListProps<TMeta extends MetaShape = MetaShape> = {
+export type SelectListProps<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   /**
    * A render function that receives each item and its index, returning a ReactNode.
    *
@@ -215,7 +229,7 @@ export type SelectListProps<TMeta extends MetaShape = MetaShape> = {
    * is handled automatically by `SelectList`.
    * @example renderItem={(item) => <SelectItem value={item.value}>{item.label}</SelectItem>}
    */
-  renderItem: (item: SelectItemData<TMeta>, index: number) => ReactNode;
+  renderItem: (item: SelectItemData<T, TMeta>, index: number) => ReactNode;
   /**
    * Extra class names to apply to the list element.
    */
@@ -244,11 +258,11 @@ export type SelectItemTextProps = {
   className?: string;
 } & ComponentPropsWithRef<'span'>;
 
-export type SelectItemProps = {
+export type SelectItemProps<T extends SelectValue = SelectValue> = {
   /**
    * The unique string value associated with this item.
    */
-  value: string;
+  value: T;
   /**
    * The children of the select item. Supports custom content
    * (icons, tags, descriptions, etc.) alongside `SelectItemText`.

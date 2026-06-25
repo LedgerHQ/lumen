@@ -1,21 +1,34 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
-import type { MetaShape, SelectItemData, SelectItemGroup } from '../types';
+import type {
+  MetaShape,
+  SelectItemData,
+  SelectItemGroup,
+  SelectValue,
+} from '../types';
 import { defaultLabelFilter, groupItemsByKey } from '../utils';
 
-type UseSelectItemsParams<TMeta extends MetaShape = MetaShape> = {
-  items: SelectItemData<TMeta>[];
-  filter?: null | ((item: SelectItemData<TMeta>, query: string) => boolean);
-  filteredItems?: SelectItemData<TMeta>[];
+type UseSelectItemsParams<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
+  items: SelectItemData<T, TMeta>[];
+  filter?: null | ((item: SelectItemData<T, TMeta>, query: string) => boolean);
+  filteredItems?: SelectItemData<T, TMeta>[];
   searchValue?: string;
   defaultSearchValue?: string;
   onSearchValueChange?: (value: string) => void;
 };
 
-type UseSelectItemsReturn<TMeta extends MetaShape = MetaShape> = {
+type UseSelectItemsReturn<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+> = {
   isGrouped: boolean;
-  groupedItems: SelectItemGroup<TMeta>[] | null;
-  filteredItemsForRoot: SelectItemData<TMeta>[] | SelectItemGroup<TMeta>[];
+  groupedItems: SelectItemGroup<T, TMeta>[] | null;
+  filteredItemsForRoot:
+    | SelectItemData<T, TMeta>[]
+    | SelectItemGroup<T, TMeta>[];
   resolvedSearchValue: string;
   searchMounted: boolean;
   registerSearch: () => () => void;
@@ -32,14 +45,17 @@ type UseSelectItemsReturn<TMeta extends MetaShape = MetaShape> = {
  *   the internal filter entirely.
  * - Supports controlled and uncontrolled `searchValue` via `useControllableState`.
  */
-export function useSelectItems<TMeta extends MetaShape = MetaShape>({
+export function useSelectItems<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+>({
   items,
   filter,
   filteredItems: filteredItemsProp,
   searchValue: searchValueProp,
   defaultSearchValue,
   onSearchValueChange: onSearchValueChangeProp,
-}: UseSelectItemsParams<TMeta>): UseSelectItemsReturn<TMeta> {
+}: UseSelectItemsParams<T, TMeta>): UseSelectItemsReturn<T, TMeta> {
   const [searchMounted, setSearchMounted] = useState(false);
   const [searchValue, setSearchValue] = useControllableState<string>({
     prop: searchValueProp,
@@ -76,8 +92,8 @@ export function useSelectItems<TMeta extends MetaShape = MetaShape>({
   );
 
   const internalFilteredItems = useMemo(():
-    | SelectItemData<TMeta>[]
-    | SelectItemGroup<TMeta>[] => {
+    | SelectItemData<T, TMeta>[]
+    | SelectItemGroup<T, TMeta>[] => {
     if (!filterFn || !searchValue.trim()) return groupedItems ?? items;
 
     if (groupedItems) {
@@ -93,8 +109,8 @@ export function useSelectItems<TMeta extends MetaShape = MetaShape>({
   }, [groupedItems, items, searchValue, filterFn]);
 
   const externalGroupedItems = useMemo(():
-    | SelectItemData<TMeta>[]
-    | SelectItemGroup<TMeta>[]
+    | SelectItemData<T, TMeta>[]
+    | SelectItemGroup<T, TMeta>[]
     | null => {
     if (!filteredItemsProp) return null;
     return isGrouped ? groupItemsByKey(filteredItemsProp) : filteredItemsProp;

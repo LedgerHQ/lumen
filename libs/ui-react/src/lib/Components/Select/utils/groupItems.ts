@@ -1,4 +1,9 @@
-import type { MetaShape, SelectItemData, SelectItemGroup } from '../types';
+import type {
+  MetaShape,
+  SelectItemData,
+  SelectItemGroup,
+  SelectValue,
+} from '../types';
 
 /**
  * base-ui's Combobox calls onValueChange with either a string (click on
@@ -23,11 +28,12 @@ export const resolveValue = (value: unknown): string | null => {
  * the insertion order of the first occurrence of each group key.
  * Items without a `group` value are collected under an empty-string key.
  */
-export function groupItemsByKey<TMeta extends MetaShape = MetaShape>(
-  items: SelectItemData<TMeta>[],
-): SelectItemGroup<TMeta>[] {
+export function groupItemsByKey<
+  T extends SelectValue = SelectValue,
+  TMeta extends MetaShape = MetaShape,
+>(items: SelectItemData<T, TMeta>[]): SelectItemGroup<T, TMeta>[] {
   const order: string[] = [];
-  const map: Record<string, SelectItemData<TMeta>[]> = {};
+  const map: Record<string, SelectItemData<T, TMeta>[]> = {};
   for (const item of items) {
     const key = item.group ?? '';
     if (!map[key]) {
