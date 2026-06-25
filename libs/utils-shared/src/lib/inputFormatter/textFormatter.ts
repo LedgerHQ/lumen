@@ -18,7 +18,7 @@ export type TextFormatterOptions = {
 
 /** Keep only digits and dots; commas are treated as decimal separators. */
 const sanitize = (value: string): string =>
-  value.replace(/,/g, '.').replace(/[^\d.]/g, '');
+  value.replaceAll(',', '.').replaceAll(/[^\d.]/g, '');
 
 /** Drop leading zeros, keeping one when it precedes a dot or stands alone (e.g. "0", "0.5"). */
 const stripLeadingZeros = (value: string): string =>
@@ -29,7 +29,7 @@ const limitIntegerLength = (value: string, max: number): string =>
   max > 0 ? value.slice(0, max) : value;
 
 const formatIntegerOnly = (value: string, maxIntegerLength: number): string =>
-  limitIntegerLength(value.replace(/\D/g, ''), maxIntegerLength);
+  limitIntegerLength(value.replaceAll(/\D/g, ''), maxIntegerLength);
 
 const formatDecimal = (
   value: string,
@@ -47,7 +47,7 @@ const formatDecimal = (
   // Extra dots are ignored, e.g. the decimal part of "1.2.3" is "23".
   const decimalPart = value
     .slice(firstDot + 1)
-    .replace(/\./g, '')
+    .replaceAll('.', '')
     .slice(0, maxDecimalLength);
 
   if (decimalPart.length > 0) return `${integerPart}.${decimalPart}`;
@@ -100,8 +100,8 @@ export function textFormatter(
   const grouped = thousandsSeparator ? formatThousands(cleaned) : cleaned;
 
   // formatThousands groups with spaces and keeps a single dot for the decimal,
-  // so one replace safely localizes the separator for display.
+  // so localizing the separator only ever touches that one dot.
   return decimalSeparator === '.'
     ? grouped
-    : grouped.replace('.', decimalSeparator);
+    : grouped.replaceAll('.', decimalSeparator);
 }
