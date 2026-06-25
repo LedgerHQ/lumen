@@ -59,6 +59,14 @@ const meta: Meta<typeof Tile> = {
 export default meta;
 type Story = StoryObj<typeof Tile>;
 
+const tileSecondaryAction = (
+  <TileSecondaryAction
+    aria-label='More actions'
+    icon={MoreVertical}
+    onClick={() => console.log('secondary action clicked')}
+  />
+);
+
 export const Base: Story = {
   args: {
     appearance: 'no-background',
@@ -66,11 +74,7 @@ export const Base: Story = {
     centered: false,
   },
   render: (args) => (
-    <Tile {...args} className='w-112'>
-      <TileSecondaryAction
-        icon={MoreVertical}
-        onClick={() => console.log('secondary action clicked')}
-      />
+    <Tile {...args} className='w-112' secondaryAction={tileSecondaryAction}>
       <Spot appearance='icon' icon={Settings} />
       <TileContent>
         <TileTitle>Item with Spot and Description</TileTitle>
@@ -107,30 +111,14 @@ export const Base: Story = {
 export const VariantsShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
-      <Tile
-        className='max-w-160'
-        secondaryAction={
-          <TileSecondaryAction
-            icon={MoreVertical}
-            onClick={() => console.log('secondary action clicked')}
-          />
-        }
-      >
+      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
         <Spot appearance='icon' icon={User} />
         <TileContent>
           <TileTitle>User</TileTitle>
           <TileDescription>With description</TileDescription>
         </TileContent>
       </Tile>
-      <Tile
-        className='max-w-160'
-        secondaryAction={
-          <TileSecondaryAction
-            icon={MoreVertical}
-            onClick={() => console.log('secondary action clicked')}
-          />
-        }
-      >
+      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
         <Spot appearance='icon' icon={Plus} />
         <TileContent>
           <TileTitle>Without Description</TileTitle>
@@ -143,15 +131,7 @@ export const VariantsShowcase: Story = {
           <TileDescription>Additional information</TileDescription>
         </TileContent>
       </Tile>
-      <Tile
-        className='max-w-160'
-        secondaryAction={
-          <TileSecondaryAction
-            icon={MoreVertical}
-            onClick={() => console.log('secondary action clicked')}
-          />
-        }
-      >
+      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
         <Spot appearance='icon' icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
@@ -161,15 +141,7 @@ export const VariantsShowcase: Story = {
           </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile
-        className='max-w-160'
-        secondaryAction={
-          <TileSecondaryAction
-            icon={MoreVertical}
-            onClick={() => console.log('secondary action clicked')}
-          />
-        }
-      >
+      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
         <Spot appearance='icon' icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
@@ -180,15 +152,7 @@ export const VariantsShowcase: Story = {
         </TileContent>
       </Tile>
 
-      <Tile
-        className='max-w-160'
-        secondaryAction={
-          <TileSecondaryAction
-            icon={MoreVertical}
-            onClick={() => console.log('secondary action clicked')}
-          />
-        }
-      >
+      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
         <Spot appearance='icon' icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
@@ -206,15 +170,7 @@ export const HorizontalList: Story = {
     <div className='flex flex-col gap-16'>
       <div className='flex w-480 bg-base'>
         {Array.from({ length: 3 }).map((_, i) => (
-          <Tile
-            key={`list-1-${i}`}
-            secondaryAction={
-              <TileSecondaryAction
-                icon={MoreVertical}
-                onClick={() => console.log('secondary action clicked')}
-              />
-            }
-          >
+          <Tile key={`list-1-${i}`} secondaryAction={tileSecondaryAction}>
             <Spot appearance='icon' icon={Apps} />
             <TileContent>
               <TileTitle>Item {i + 1}</TileTitle>
@@ -228,12 +184,7 @@ export const HorizontalList: Story = {
           <Tile
             key={`list-2-${i}`}
             className='w-128 shrink-0'
-            secondaryAction={
-              <TileSecondaryAction
-                icon={MoreVertical}
-                onClick={() => console.log('secondary action clicked')}
-              />
-            }
+            secondaryAction={tileSecondaryAction}
           >
             <Spot appearance='icon' icon={Apps} />
             <TileContent>

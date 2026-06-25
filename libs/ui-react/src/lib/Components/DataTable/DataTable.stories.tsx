@@ -507,7 +507,7 @@ export const WithGroupHeader: Story = {
           </>
         )}
       >
-        <DataTable className='max-h-480' />
+        <DataTable className='max-h-480' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -539,7 +539,7 @@ export const WithCustomHeader: Story = {
             align: 'end',
             headerTrailingContent: (
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger aria-label='Open tooltip' asChild>
                   <TableInfoIcon />
                 </TooltipTrigger>
                 <TooltipContent>Total market capitalization</TooltipContent>
@@ -555,7 +555,7 @@ export const WithCustomHeader: Story = {
             align: 'end',
             headerTrailingContent: (
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger aria-label='Open tooltip' asChild>
                   <TableInfoIcon />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -627,7 +627,7 @@ export const WithoutStickyHeader: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-400' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -753,7 +753,7 @@ export const WithGlobalFilter: Story = {
             </Button>
           </TableActionBarTrailing>
         </TableActionBar>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-400' tabIndex={0} />
       </DataTableRoot>
     );
   },

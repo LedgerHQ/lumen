@@ -321,7 +321,7 @@ export const WithInfiniteLoading: Story = {
           loading={loading}
           onScrollBottom={loadMore}
         >
-          <Table>
+          <Table tabIndex={0}>
             <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>Asset</TableHeaderCell>
@@ -360,7 +360,7 @@ export const WithoutStickyHeader: Story = {
   render: (args) => (
     <div className='w-3xl text-base'>
       <TableRoot {...args} className='h-320'>
-        <Table>
+        <Table tabIndex={0}>
           <TableHeader>
             <TableHeaderRow stickyHeader={false}>
               <TableHeaderCell className='w-224'>Asset</TableHeaderCell>
@@ -427,7 +427,7 @@ export const WithCustomHeader: Story = {
                   children='Market cap long text that should be truncated'
                   trailingContent={
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <TooltipTrigger aria-label='Open tooltip' asChild>
                         <TableInfoIcon />
                       </TooltipTrigger>
                       <TooltipContent>
@@ -440,7 +440,7 @@ export const WithCustomHeader: Story = {
                   align='end'
                   trailingContent={
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <TooltipTrigger aria-label='Open tooltip' asChild>
                         <TableInfoIcon />
                       </TooltipTrigger>
                       <TooltipContent>
@@ -657,7 +657,9 @@ export const WithNetworkIconsAndActionBar: Story = {
             >
               <SelectTrigger
                 render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
+                  <MediaButton aria-label='Filter by category'>
+                    {selectedContent}
+                  </MediaButton>
                 )}
               />
               <SelectContent className='w-208'>
@@ -698,6 +700,7 @@ export const WithNetworkIconsAndActionBar: Story = {
                           ledgerId={cryptoIconLedgerIds[row.symbol]}
                           ticker={row.symbol}
                           size={40}
+                          alt={row.name}
                         />
                       }
                     />

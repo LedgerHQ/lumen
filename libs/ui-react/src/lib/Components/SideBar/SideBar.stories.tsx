@@ -139,7 +139,11 @@ export const CollapsedShowcase: Story = {
     <div className='flex h-480 gap-32'>
       <div>
         <div className='mb-8 body-3 text-muted'>Expanded</div>
-        <SideBar collapsed={false} active='home'>
+        <SideBar
+          collapsed={false}
+          active='home'
+          aria-label='Expanded navigation'
+        >
           <SideBarLeading>
             <SideBarItem
               value='home'

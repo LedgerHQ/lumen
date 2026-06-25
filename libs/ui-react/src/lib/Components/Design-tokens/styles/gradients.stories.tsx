@@ -13,7 +13,7 @@ const GradientShowcase = () => (
   <div className='mb-32'>
     <div className='space-y-32'>
       <div>
-        <h4 className='mb-16 heading-5 text-base'>Directional Gradients</h4>
+        <h3 className='mb-16 heading-5 text-base'>Directional Gradients</h3>
         <div className='grid grid-cols-1 gap-16 sm:grid-cols-2'>
           {[
             { name: 'Top', class: 'bg-gradient-top' },
@@ -31,7 +31,7 @@ const GradientShowcase = () => (
       </div>
 
       <div>
-        <h4 className='mb-16 heading-5 text-base'>Status Gradients</h4>
+        <h3 className='mb-16 heading-5 text-base'>Status Gradients</h3>
         <div className='grid grid-cols-1 gap-16 sm:grid-cols-3'>
           {[
             { name: 'Error', class: 'bg-gradient-error' },
@@ -50,7 +50,7 @@ const GradientShowcase = () => (
       </div>
 
       <div>
-        <h4 className='mb-16 heading-5 text-base'>Asset Gradients</h4>
+        <h3 className='mb-16 heading-5 text-base'>Asset Gradients</h3>
         <div className='grid grid-cols-2 gap-16 sm:grid-cols-3 lg:grid-cols-6'>
           {[
             { name: 'Aion', class: 'bg-gradient-aion' },

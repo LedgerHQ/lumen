@@ -31,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   render: (args) => (
     <div className='flex size-80 items-center justify-center'>
-      <Checkbox {...args} />
+      <Checkbox aria-label='Toggle' {...args} />
     </div>
   ),
 };
@@ -46,11 +46,11 @@ export const AllStates: Story = {
         <h3 className='heading-5'>Enabled</h3>
         <div className='space-y-8'>
           <div className='flex items-center space-x-8'>
-            <Checkbox checked={false} />
+            <Checkbox aria-label='Toggle' checked={false} />
             <span>Unchecked</span>
           </div>
           <div className='flex items-center space-x-8'>
-            <Checkbox checked />
+            <Checkbox aria-label='Toggle' checked />
             <span>Checked</span>
           </div>
         </div>
@@ -59,11 +59,11 @@ export const AllStates: Story = {
         <h3 className='heading-5'>Disabled</h3>
         <div className='space-y-8'>
           <div className='flex items-center space-x-8'>
-            <Checkbox disabled checked={false} />
+            <Checkbox aria-label='Toggle' disabled checked={false} />
             <span className='text-muted'>Unchecked</span>
           </div>
           <div className='flex items-center space-x-8'>
-            <Checkbox disabled checked />
+            <Checkbox aria-label='Toggle' disabled checked />
             <span className='text-muted'>Checked</span>
           </div>
         </div>
@@ -82,19 +82,30 @@ export const FormExample: Story = {
         <h3 className='body-1'>Subscribe to newsletters</h3>
         <div className='space-y-8'>
           <div className='flex items-center space-x-8'>
-            <Checkbox id='weekly' name='newsletter' value='weekly' />
+            <Checkbox
+              aria-label='Toggle'
+              id='weekly'
+              name='newsletter'
+              value='weekly'
+            />
             <label htmlFor='weekly' className='cursor-pointer body-3'>
               Weekly newsletter
             </label>
           </div>
           <div className='flex items-center space-x-8'>
-            <Checkbox id='monthly' name='newsletter' value='monthly' />
+            <Checkbox
+              aria-label='Toggle'
+              id='monthly'
+              name='newsletter'
+              value='monthly'
+            />
             <label htmlFor='monthly' className='cursor-pointer body-3'>
               Monthly newsletter
             </label>
           </div>
           <div className='flex items-center space-x-8'>
             <Checkbox
+              aria-label='Toggle'
               id='product-updates'
               name='newsletter'
               value='product-updates'
@@ -107,7 +118,7 @@ export const FormExample: Story = {
         </div>
       </div>
       <div className='flex items-center space-x-8'>
-        <Checkbox id='terms' name='terms' required />
+        <Checkbox aria-label='Toggle' id='terms' name='terms' required />
         <label htmlFor='terms' className='cursor-pointer body-3'>
           I agree to the{' '}
           <a href='#' onClick={(e) => e.preventDefault()} className='underline'>

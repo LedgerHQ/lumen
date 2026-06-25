@@ -72,7 +72,7 @@ export const Base: Story = {
           onValueChange={setValue}
           disabled={args.disabled}
         >
-          <SelectTrigger label='Label' />
+          <SelectTrigger aria-label='Select option' label='Label' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -111,7 +111,7 @@ export const WithGroups: Story = {
     return (
       <div className='w-400'>
         <Select items={produceItems} value={value} onValueChange={setValue}>
-          <SelectTrigger label='Category' />
+          <SelectTrigger aria-label='Select option' label='Category' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -134,7 +134,7 @@ export const WithGroupsAndSearch: Story = {
     return (
       <div className='w-400'>
         <Select items={produceItems} value={value} onValueChange={setValue}>
-          <SelectTrigger label='Category' />
+          <SelectTrigger aria-label='Select category' label='Category' />
           <SelectContent>
             <SelectSearch placeholder='Search produce' />
             <SelectList
@@ -184,7 +184,7 @@ export const LongList: Story = {
     return (
       <div className='w-208'>
         <Select items={countryOptions} value={value} onValueChange={setValue}>
-          <SelectTrigger label='Country' />
+          <SelectTrigger aria-label='Select country' label='Country' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -207,7 +207,7 @@ export const WithSearch: Story = {
     return (
       <div className='w-400'>
         <Select items={countryOptions} value={value} onValueChange={setValue}>
-          <SelectTrigger label='Country' />
+          <SelectTrigger aria-label='Select country' label='Country' />
           <SelectContent>
             <SelectSearch placeholder='Search countries' />
             <SelectList
@@ -255,7 +255,7 @@ export const WithCustomFilter: Story = {
             );
           }}
         >
-          <SelectTrigger label='Token' />
+          <SelectTrigger aria-label='Select token' label='Token' />
           <SelectContent>
             <SelectSearch placeholder='Search by name or ticker' />
             <SelectList
@@ -292,7 +292,7 @@ export const Disabled: Story = {
     return (
       <div className='w-208'>
         <Select items={simpleOptions} disabled>
-          <SelectTrigger label='Disabled' />
+          <SelectTrigger aria-label='Select option' label='Disabled' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -313,7 +313,7 @@ export const WithDefaultValue: Story = {
     return (
       <div className='w-208'>
         <Select items={simpleOptions} defaultValue='option2'>
-          <SelectTrigger label='Label' />
+          <SelectTrigger aria-label='Select option' label='Label' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -340,7 +340,7 @@ export const WithDescription: Story = {
     return (
       <div className='w-208'>
         <Select items={descriptionOptions}>
-          <SelectTrigger label='Label' />
+          <SelectTrigger aria-label='Select option' label='Label' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -395,7 +395,7 @@ export const FormIntegration: Story = {
           name='category'
           required
         >
-          <SelectTrigger label='Category' />
+          <SelectTrigger aria-label='Select category' label='Category' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -414,7 +414,7 @@ export const FormIntegration: Story = {
           name='priority'
           required
         >
-          <SelectTrigger label='Priority' />
+          <SelectTrigger aria-label='Select priority' label='Priority' />
           <SelectContent>
             <SelectList
               renderItem={(item) => (
@@ -494,8 +494,9 @@ export const TriggerShowcase: Story = {
           onValueChange={setButtonValue}
         >
           <SelectTrigger
+            aria-label='Select account'
             render={({ selectedValue, selectedContent }) => (
-              <MediaButton>
+              <MediaButton aria-label='Select all accounts'>
                 {selectedValue ? selectedContent : 'All accounts'}
               </MediaButton>
             )}
@@ -513,8 +514,9 @@ export const TriggerShowcase: Story = {
 
         <Select items={accountOptions} disabled>
           <SelectTrigger
+            aria-label='Select option'
             render={({ selectedValue, selectedContent }) => (
-              <MediaButton>
+              <MediaButton aria-label='Select option'>
                 {selectedValue ? selectedContent : 'Disabled'}
               </MediaButton>
             )}
@@ -536,10 +538,12 @@ export const TriggerShowcase: Story = {
           onValueChange={setIconValue}
         >
           <SelectTrigger
+            aria-label='Select option'
             render={({ selectedValue, selectedContent }) => (
               <MediaButton
                 leadingContent={<Settings size={20} />}
                 leadingContentShape='flat'
+                aria-label='Select settings'
               >
                 {selectedValue ? selectedContent : 'Settings'}
               </MediaButton>
@@ -562,8 +566,10 @@ export const TriggerShowcase: Story = {
           onValueChange={setCryptoValue}
         >
           <SelectTrigger
+            aria-label='Select crypto'
             render={({ selectedValue, selectedContent }) => (
               <MediaButton
+                aria-label='Select network'
                 leadingContent={
                   selectedCrypto ? (
                     <CryptoIcon
@@ -603,8 +609,12 @@ export const TriggerShowcase: Story = {
           {appearances.map((appearance) => (
             <Select key={appearance} items={appearanceOptions}>
               <SelectTrigger
+                aria-label='Select appearance'
                 render={({ selectedValue, selectedContent }) => (
-                  <MediaButton appearance={appearance}>
+                  <MediaButton
+                    aria-label='Select appearance'
+                    appearance={appearance}
+                  >
                     {selectedValue ? selectedContent : appearance}
                   </MediaButton>
                 )}
@@ -628,8 +638,12 @@ export const TriggerShowcase: Story = {
           onValueChange={setCustomValue}
         >
           <SelectTrigger
+            aria-label='Select option'
             render={({ selectedValue, selectedContent }) => (
-              <button className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'>
+              <button
+                aria-label='Select an option'
+                className='flex items-center gap-8 rounded-sm bg-muted px-16 py-12 body-2 text-base hover:bg-muted-hover'
+              >
                 {selectedValue ? (
                   selectedContent
                 ) : (
@@ -737,7 +751,7 @@ export const LeadingContentShowcase: Story = {
             value={smCoinValue}
             onValueChange={setSmCoinValue}
           >
-            <SelectTrigger label='Token' />
+            <SelectTrigger aria-label='Select token' label='Token' />
             <SelectContent>
               <SelectList
                 renderItem={(item) => (
@@ -762,7 +776,7 @@ export const LeadingContentShowcase: Story = {
             value={mdCoinValue}
             onValueChange={setMdCoinValue}
           >
-            <SelectTrigger label='Token' />
+            <SelectTrigger aria-label='Select token' label='Token' />
             <SelectContent>
               <SelectList
                 renderItem={(item) => (
@@ -792,7 +806,7 @@ export const LeadingContentShowcase: Story = {
             value={iconValue}
             onValueChange={setIconValue}
           >
-            <SelectTrigger label='Settings' />
+            <SelectTrigger aria-label='Select setting' label='Settings' />
             <SelectContent>
               <SelectList
                 renderItem={(item) => (
@@ -856,7 +870,7 @@ export const ControlledSearch: Story = {
           value={value}
           onValueChange={setValue}
         >
-          <SelectTrigger label='Assign reviewer' />
+          <SelectTrigger aria-label='Select reviewer' label='Assign reviewer' />
           <SelectContent>
             <SelectSearch placeholder='Search users...' />
             <SelectList

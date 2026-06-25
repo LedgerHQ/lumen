@@ -73,6 +73,7 @@ const AnimationDemo = ({
 
       <div className='relative'>
         <button
+          aria-label='Play animation'
           className='relative h-80 w-144 overflow-hidden rounded-sm border border-muted-subtle'
           onClick={handleTrigger}
         >

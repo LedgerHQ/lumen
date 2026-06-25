@@ -96,7 +96,7 @@ export const DensityShowcase: Story = {
     <div className='flex max-w-320 flex-col gap-16'>
       <ListItem density='compact' onClick={() => {}}>
         <ListItemLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} alt='Bitcoin' />
           <ListItemContent>
             <ListItemTitle>Compact with crypto icon</ListItemTitle>
           </ListItemContent>
@@ -120,7 +120,7 @@ export const DensityShowcase: Story = {
 
       <ListItem density='expanded' onClick={() => {}}>
         <ListItemLeading>
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} alt='Bitcoin' />
           <ListItemContent>
             <ListItemTitle>Expanded with crypto icon</ListItemTitle>
             <ListItemDescription>Additional information</ListItemDescription>
@@ -211,7 +211,7 @@ export const InteractiveShowcase: Story = {
               </ListItemContent>
             </ListItemLeading>
             <ListItemTrailing>
-              <Switch tabIndex={-1} selected={selected} />
+              <Switch aria-label='Toggle' tabIndex={-1} selected={selected} />
             </ListItemTrailing>
           </ListItem>
 
@@ -248,7 +248,11 @@ export const DisabledState: Story = {
           </ListItemContent>
         </ListItemLeading>
         <ListItemTrailing>
-          <Switch selected={false} disabled={args.disabled} />
+          <Switch
+            aria-label='Toggle'
+            selected={false}
+            disabled={args.disabled}
+          />
         </ListItemTrailing>
       </ListItem>
 

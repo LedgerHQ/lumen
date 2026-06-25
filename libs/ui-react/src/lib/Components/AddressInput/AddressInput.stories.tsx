@@ -119,6 +119,7 @@ export const Error: Story = {
     status: 'error',
     className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
+    'aria-label': 'Address or ENS',
   },
   parameters: {
     docs: {
