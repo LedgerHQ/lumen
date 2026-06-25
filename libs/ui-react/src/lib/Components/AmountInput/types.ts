@@ -58,6 +58,14 @@ export type AmountInputProps = {
    * @default true
    */
   thousandsSeparator?: boolean;
+  /**
+   * Character used to display the decimal separator (e.g. `1 234,5` vs `1 234.5`).
+   * Typing always accepts both `,` and `.` regardless of this value, so it stays
+   * compatible with any locale keyboard. The value returned by `onChange` uses
+   * this separator.
+   * @default '.'
+   */
+  decimalSeparator?: '.' | ',';
 } & Omit<
   ComponentPropsWithRef<'input'>,
   'size' | 'prefix' | 'value' | 'onChange'

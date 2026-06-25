@@ -8,6 +8,7 @@ const defaultFormatOptions = {
   thousandsSeparator: true,
   maxIntegerLength: 9,
   maxDecimalLength: 9,
+  decimalSeparator: '.' as const,
 };
 
 const createChangeEvent = (value: string): ChangeEvent<HTMLInputElement> =>
@@ -64,6 +65,29 @@ describe('useAmountInputValue', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         target: expect.objectContaining({ value: '1 000' }),
+      }),
+    );
+  });
+
+  it('displays and emits the configured decimal separator', () => {
+    const onChange = vi.fn();
+    const { result } = renderHook(() =>
+      useAmountInputValue({
+        value: '1234.5',
+        onChange,
+        formatOptions: { ...defaultFormatOptions, decimalSeparator: ',' },
+      }),
+    );
+
+    expect(result.current.inputValue).toBe('1 234,5');
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('12,5'));
+    });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: '12,5' }),
       }),
     );
   });
