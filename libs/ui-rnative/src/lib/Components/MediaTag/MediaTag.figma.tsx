@@ -27,10 +27,14 @@ figma.connect(
         md: 'md',
         sm: 'sm',
       }),
+      tagSize: figma.enum('size', {
+        md: 16,
+        sm: 12,
+      }),
       disabled: figma.enum('appearance', {
         disabled: true,
       }),
-      coin: figma.nestedProps('.coin', {
+      coin: figma.nestedProps('coin', {
         asset: figma.enum('asset', {
           btc: 'btc',
           eth: 'eth',
@@ -47,7 +51,7 @@ figma.connect(
           <CryptoIcon
             ticker={props.coin.asset}
             ledgerId={props.coin.asset}
-            size={'<insert-size>' as any}
+            size={props.tagSize}
           />
         }
       />
@@ -80,10 +84,14 @@ figma.connect(
         md: 'md',
         sm: 'sm',
       }),
+      tagSize: figma.enum('size', {
+        md: 16,
+        sm: 12,
+      }),
       disabled: figma.enum('appearance', {
         disabled: true,
       }),
-      network: figma.nestedProps('.network', {
+      network: figma.nestedProps('network', {
         ticker: figma.enum('network', {
           eth: 'eth',
         }),
@@ -99,7 +107,7 @@ figma.connect(
           <CryptoIcon
             ticker={props.network.ticker}
             ledgerId={props.network.ticker}
-            size={'<insert-size>' as any}
+            size={props.tagSize}
           />
         }
       />
