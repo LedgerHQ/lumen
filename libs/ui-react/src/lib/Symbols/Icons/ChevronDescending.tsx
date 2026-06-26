@@ -41,7 +41,7 @@ export const ChevronDescending = createIcon(
       d='M5.333 10 8 12.667 10.667 10'
     />
     <path
-      stroke='#E8E8E8'
+      stroke='#D5D5D5'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}

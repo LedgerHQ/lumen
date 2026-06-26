@@ -190,7 +190,7 @@
       "surface-transparent": {
         "default": {
           "$type": "color",
-          "$value": "{color.light.grey.950-3%}",
+          "$value": "{color.light.grey.950-2%}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -228,7 +228,7 @@
         },
         "disabled": {
           "$type": "color",
-          "$value": "{color.light.grey.950-3%}",
+          "$value": "{color.light.grey.950-2%}",
           "$description": "",
           "$extensions": {
             "com.figma": {
