@@ -17,7 +17,8 @@ const SIZES: { size: AmountInputSize; value: string }[] = [
 
 const meta: Meta<typeof AmountInput> = {
   component: AmountInput,
-  title: 'Input/AmountInput',
+  id: 'rnative-amountinput',
+  title: 'Core/AmountInput',
   parameters: {
     docs: {
       source: {
@@ -195,6 +196,20 @@ export const WithoutThousandsSeparator: Story = {
     currencyPosition: 'left',
     allowDecimals: true,
     thousandsSeparator: false,
+    isInvalid: false,
+    editable: true,
+  },
+};
+
+export const DecimalSeparatorComma: Story = {
+  render: (args) => <AmountInputStory {...args} />,
+  args: {
+    value: '1234.5',
+    currencyText: '€',
+    currencyPosition: 'right',
+    allowDecimals: true,
+    thousandsSeparator: true,
+    decimalSeparator: ',',
     isInvalid: false,
     editable: true,
   },

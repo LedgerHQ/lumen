@@ -14,7 +14,8 @@ import {
 
 const meta: Meta<typeof NavBar> = {
   component: NavBar,
-  title: 'Navigation/NavBar',
+  id: 'rnative-navbar',
+  title: 'Core/NavBar',
   subcomponents: {
     NavBarBackButton,
     NavBarContent,

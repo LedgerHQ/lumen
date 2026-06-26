@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import {
@@ -49,7 +50,9 @@ export function usePillLayout({
   const pillWidth = useSharedValue(0);
   const pillHeight = useSharedValue(0);
   const hasLayoutRef = useRef(false);
+  const animatePillRef = useRef(false);
   const buttonLayoutsRef = useRef(new Map<string, ButtonLayout>());
+  const [layoutReady, setLayoutReady] = useState(false);
 
   const timingConfig = useTimingConfig({
     duration: 300,
@@ -67,9 +70,7 @@ export function usePillLayout({
 
       if (!hasLayoutRef.current) {
         hasLayoutRef.current = true;
-        if (selectedIndex >= 0) {
-          pillTranslateX.value = selectedIndex * slotWidth;
-        }
+        setLayoutReady(true);
       }
     }
   };
@@ -78,31 +79,38 @@ export function usePillLayout({
     (value: string, layout: ButtonLayout): void => {
       buttonLayoutsRef.current.set(value, layout);
 
-      if (tabLayout === 'fit' && !hasLayoutRef.current) {
+      if (
+        tabLayout === 'fit' &&
+        !hasLayoutRef.current &&
+        value === selectedValue
+      ) {
         hasLayoutRef.current = true;
-        if (value === selectedValue) {
-          pillTranslateX.value = layout.x;
-          pillWidth.value = layout.width;
-        }
+        setLayoutReady(true);
       }
     },
-    [tabLayout, selectedValue, pillTranslateX, pillWidth],
+    [tabLayout, selectedValue],
   );
 
   useEffect(() => {
     if (!hasLayoutRef.current) return;
 
+    const skipAnimation = !animatePillRef.current;
+    if (skipAnimation) {
+      animatePillRef.current = true;
+    }
+    const config = skipAnimation ? { duration: 0 } : timingConfig;
+
     if (tabLayout === 'fit') {
       const layout = buttonLayoutsRef.current.get(selectedValue);
       if (layout) {
-        pillTranslateX.value = withTiming(layout.x, timingConfig);
-        pillWidth.value = withTiming(layout.width, timingConfig);
+        pillTranslateX.value = withTiming(layout.x, config);
+        pillWidth.value = withTiming(layout.width, config);
       }
     } else {
       if (selectedIndex >= 0 && pillWidth.value > 0) {
         pillTranslateX.value = withTiming(
           selectedIndex * pillWidth.value,
-          timingConfig,
+          config,
         );
       }
     }
@@ -113,6 +121,7 @@ export function usePillLayout({
     pillWidth,
     pillTranslateX,
     timingConfig,
+    layoutReady,
   ]);
 
   const animatedPillStyle = useAnimatedStyle(

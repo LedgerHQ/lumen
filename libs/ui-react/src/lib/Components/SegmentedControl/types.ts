@@ -1,15 +1,19 @@
 import type { ComponentType, ReactNode, ComponentPropsWithoutRef } from 'react';
 import type { IconSize } from '../Icon/types';
 
-export type SegmentedControlProps = {
+export type SegmentedControlValue = string;
+
+export type SegmentedControlProps<
+  T extends SegmentedControlValue = SegmentedControlValue,
+> = {
   /**
    * The value of the currently selected segment (drives the sliding pill).
    */
-  selectedValue: string;
+  selectedValue: T;
   /**
    * Callback when the selected segment value changes.
    */
-  onSelectedChange: (value: string) => void;
+  onSelectedChange: (value: T) => void;
   /**
    * When true, the entire control is disabled (no interaction, selected uses muted styling).
    */
@@ -37,11 +41,13 @@ type IconComponent = ComponentType<{
   className?: string;
 }>;
 
-export type SegmentedControlButtonProps = {
+export type SegmentedControlButtonProps<
+  T extends SegmentedControlValue = SegmentedControlValue,
+> = {
   /**
    * Value for this segment (must be unique among siblings).
    */
-  value: string;
+  value: T;
   /**
    * Button label.
    */

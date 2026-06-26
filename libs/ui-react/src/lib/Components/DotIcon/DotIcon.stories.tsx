@@ -12,7 +12,8 @@ import { DotIcon, mediaImageDotIconSizeMap } from './DotIcon';
 
 const meta = {
   component: DotIcon,
-  title: 'Communication/DotIcon',
+  id: 'react-doticon',
+  title: 'Core/DotIcon',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -49,16 +50,16 @@ export const PinShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-32'>
       <DotIcon appearance='success' icon={ArrowDown} pin='bottom-end'>
-        <MediaImage src={parentSrc} shape='circle' />
+        <MediaImage src={parentSrc} shape='circle' aria-label='Arrow down' />
       </DotIcon>
       <DotIcon appearance='success' icon={ArrowDown} pin='top-end'>
-        <MediaImage src={parentSrc} shape='circle' />
+        <MediaImage src={parentSrc} shape='circle' aria-label='Arrow down' />
       </DotIcon>
       <DotIcon appearance='success' icon={ArrowDown} pin='bottom-start'>
-        <MediaImage src={parentSrc} shape='circle' />
+        <MediaImage src={parentSrc} shape='circle' aria-label='Arrow down' />
       </DotIcon>
       <DotIcon appearance='success' icon={ArrowDown} pin='top-start'>
-        <MediaImage src={parentSrc} shape='circle' />
+        <MediaImage src={parentSrc} shape='circle' aria-label='Arrow down' />
       </DotIcon>
     </div>
   ),
@@ -74,7 +75,12 @@ export const ShapeShowcase: Story = {
         shape='circle'
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Arrow down'
+        />
       </DotIcon>
       <DotIcon
         appearance='muted'
@@ -82,7 +88,12 @@ export const ShapeShowcase: Story = {
         shape='square'
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={48} shape='square' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='square'
+          aria-label='Arrow down'
+        />
       </DotIcon>
     </div>
   ),
@@ -98,7 +109,12 @@ export const AppearanceShowcase: Story = {
         size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Arrow down'
+        />
       </DotIcon>
       <DotIcon
         appearance='muted'
@@ -106,7 +122,12 @@ export const AppearanceShowcase: Story = {
         size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Arrow up'
+        />
       </DotIcon>
       <DotIcon
         appearance='error'
@@ -114,7 +135,12 @@ export const AppearanceShowcase: Story = {
         size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Close'
+        />
       </DotIcon>
     </div>
   ),
@@ -131,7 +157,12 @@ export const DisabledShowcase: Story = {
         pin='bottom-end'
         disabled
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Arrow down'
+        />
       </DotIcon>
       <DotIcon
         appearance='muted'
@@ -140,7 +171,12 @@ export const DisabledShowcase: Story = {
         pin='bottom-end'
         disabled
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Arrow up'
+        />
       </DotIcon>
       <DotIcon
         appearance='error'
@@ -149,7 +185,12 @@ export const DisabledShowcase: Story = {
         pin='bottom-end'
         disabled
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Close'
+        />
       </DotIcon>
     </div>
   ),
@@ -165,7 +206,12 @@ export const SizeShowcase: Story = {
         size={mediaImageDotIconSizeMap[40]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={40} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={40}
+          shape='circle'
+          aria-label='Link'
+        />
       </DotIcon>
       <DotIcon
         appearance='success'
@@ -173,7 +219,12 @@ export const SizeShowcase: Story = {
         size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Star'
+        />
       </DotIcon>
       <DotIcon
         appearance='success'
@@ -181,7 +232,12 @@ export const SizeShowcase: Story = {
         size={mediaImageDotIconSizeMap[56]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={56} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={56}
+          shape='circle'
+          aria-label='Arrow down'
+        />
       </DotIcon>
       <DotIcon
         appearance='muted'
@@ -189,7 +245,12 @@ export const SizeShowcase: Story = {
         size={mediaImageDotIconSizeMap[64]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={64} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={64}
+          shape='circle'
+          aria-label='Spinner'
+        />
       </DotIcon>
       <DotIcon
         appearance='muted'
@@ -197,7 +258,12 @@ export const SizeShowcase: Story = {
         size={mediaImageDotIconSizeMap[72]}
         pin='bottom-end'
       >
-        <MediaImage src={parentSrc} size={72} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={72}
+          shape='circle'
+          aria-label='Spinner'
+        />
       </DotIcon>
     </div>
   ),

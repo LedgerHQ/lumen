@@ -25,6 +25,12 @@ export type BaseAxisProps = {
    */
   showTickMark?: boolean;
   /**
+   * Whether to render the tick labels along the axis.
+   * Set to `false` to keep ticks/grid while hiding their text labels.
+   * @default true
+   */
+  showLabels?: boolean;
+  /**
    * Explicit tick positions along the axis.
    * When omitted, ticks are computed automatically from the scale.
    */

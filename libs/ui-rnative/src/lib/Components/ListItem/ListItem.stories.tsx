@@ -19,7 +19,8 @@ import {
 
 const meta = {
   component: ListItem,
-  title: 'Containment/ListItem',
+  id: 'rnative-listitem',
+  title: 'Core/ListItem',
   subcomponents: {
     ListItemLeading,
     ListItemContent,

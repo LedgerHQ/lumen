@@ -44,6 +44,18 @@ export type CartesianChartProps = {
    */
   ariaLabel?: string;
   /**
+   * Marks the chart as busy for assistive technologies (via the container's
+   * accessibility state) to signal that its content is loading.
+   * @default false
+   */
+  ariaBusy?: boolean;
+  /**
+   * Content rendered as an absolutely-positioned overlay above the chart SVG,
+   * within the same positioned container (so it aligns with the chart
+   * footprint). Used for e.g. an empty-state label.
+   */
+  overlay?: ReactNode;
+  /**
    * SVG content rendered inside the chart's context provider.
    */
   children?: ReactNode;

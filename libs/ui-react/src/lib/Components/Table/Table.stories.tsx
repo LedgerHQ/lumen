@@ -6,6 +6,7 @@ import { Button } from '../Button/Button';
 import { DotIcon } from '../DotIcon/DotIcon';
 import { MediaButton } from '../MediaButton';
 import { MediaImage } from '../MediaImage';
+import { Pagination } from '../Pagination';
 import { SearchInput } from '../SearchInput';
 import {
   Select,
@@ -60,7 +61,8 @@ const largeData = [
 
 const meta: Meta<typeof TableRoot> = {
   component: TableRoot,
-  title: 'Data/Table',
+  id: 'react-table',
+  title: 'Core/Table',
   subcomponents: {
     TableHeader,
     TableBody,
@@ -323,7 +325,7 @@ export const WithInfiniteLoading: Story = {
           loading={loading}
           onScrollBottom={loadMore}
         >
-          <Table>
+          <Table tabIndex={0}>
             <TableHeader>
               <TableHeaderRow>
                 <TableHeaderCell>Asset</TableHeaderCell>
@@ -362,7 +364,7 @@ export const WithoutStickyHeader: Story = {
   render: (args) => (
     <div className='w-3xl text-base'>
       <TableRoot {...args} className='h-320'>
-        <Table>
+        <Table tabIndex={0}>
           <TableHeader>
             <TableHeaderRow stickyHeader={false}>
               <TableHeaderCell className='w-224'>Asset</TableHeaderCell>
@@ -429,7 +431,7 @@ export const WithCustomHeader: Story = {
                   children='Market cap long text that should be truncated'
                   trailingContent={
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <TooltipTrigger aria-label='Open tooltip' asChild>
                         <TableInfoIcon />
                       </TooltipTrigger>
                       <TooltipContent>
@@ -442,7 +444,7 @@ export const WithCustomHeader: Story = {
                   align='end'
                   trailingContent={
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <TooltipTrigger aria-label='Open tooltip' asChild>
                         <TableInfoIcon />
                       </TooltipTrigger>
                       <TooltipContent>
@@ -659,7 +661,9 @@ export const WithNetworkIconsAndActionBar: Story = {
             >
               <SelectTrigger
                 render={({ selectedContent }) => (
-                  <MediaButton>{selectedContent}</MediaButton>
+                  <MediaButton aria-label='Filter by category'>
+                    {selectedContent}
+                  </MediaButton>
                 )}
               />
               <SelectContent className='w-208'>
@@ -700,6 +704,7 @@ export const WithNetworkIconsAndActionBar: Story = {
                           ledgerId={cryptoIconLedgerIds[row.symbol]}
                           ticker={row.symbol}
                           size={40}
+                          alt={row.name}
                         />
                       }
                     />
@@ -712,6 +717,57 @@ export const WithNetworkIconsAndActionBar: Story = {
             </TableBody>
           </Table>
         </TableRoot>
+      </div>
+    );
+  },
+};
+
+const TABLE_PAGE_SIZE = 5;
+
+export const WithPagination: Story = {
+  render: (args) => {
+    const [page, setPage] = useState(1);
+    const totalPages = Math.ceil(largeData.length / TABLE_PAGE_SIZE);
+    const paginatedData = largeData.slice(
+      (page - 1) * TABLE_PAGE_SIZE,
+      page * TABLE_PAGE_SIZE,
+    );
+
+    return (
+      <div className='flex w-3xl flex-col gap-16 text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {paginatedData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellContent
+                      title={row.name}
+                      description={row.symbol}
+                      leadingContent={<Spot appearance='icon' icon={Android} />}
+                    />
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+        <div className='flex justify-center'>
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </div>
       </div>
     );
   },

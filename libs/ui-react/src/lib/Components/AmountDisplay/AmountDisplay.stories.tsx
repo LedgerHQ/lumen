@@ -43,7 +43,8 @@ const btcFormatter = (value: number): FormattedValue => {
 
 const meta = {
   component: AmountDisplay,
-  title: 'Communication/AmountDisplay',
+  id: 'react-amountdisplay',
+  title: 'Core/AmountDisplay',
   args: {
     formatter: eurFormatter,
     hidden: false,

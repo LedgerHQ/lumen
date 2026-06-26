@@ -12,7 +12,8 @@ const IMAGE_URL =
 
 const meta: Meta<typeof MediaBanner> = {
   component: MediaBanner,
-  title: 'Communication/MediaBanner',
+  id: 'react-mediabanner',
+  title: 'Core/MediaBanner',
   subcomponents: {
     MediaBannerTitle,
     MediaBannerDescription,

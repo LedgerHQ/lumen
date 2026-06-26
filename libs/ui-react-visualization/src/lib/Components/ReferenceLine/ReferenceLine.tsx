@@ -2,7 +2,11 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 
-import { DEFAULT_STROKE, DASH_ARRAY, STROKE_WIDTH } from './constants';
+import {
+  REFERENCE_LINE_DEFAULT_STROKE,
+  REFERENCE_LINE_DASH_ARRAY,
+  REFERENCE_LINE_STROKE_WIDTH,
+} from './constants';
 import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
@@ -24,14 +28,15 @@ export function ReferenceLine({
   labelHorizontalAlignment,
   labelVerticalAlignment,
   labelPosition = 'end',
-  stroke = DEFAULT_STROKE,
+  stroke = REFERENCE_LINE_DEFAULT_STROKE,
   lineStyle = 'dashed',
   ...props
 }: Readonly<ReferenceLineProps>) {
   const { getXScale, getYScale, getXAxisConfig, getYAxisConfig, drawingArea } =
     useCartesianChartContext();
 
-  const dashArray = lineStyle === 'dashed' ? DASH_ARRAY : undefined;
+  const dashArray =
+    lineStyle === 'dashed' ? REFERENCE_LINE_DASH_ARRAY : undefined;
 
   if (props.dataY !== undefined) {
     const yPixel = resolvePixel({
@@ -64,7 +69,7 @@ export function ReferenceLine({
           x2={drawingArea.x + drawingArea.width}
           y2={yPixel}
           stroke={stroke}
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
         />
@@ -115,7 +120,7 @@ export function ReferenceLine({
           x2={xPixel}
           y2={drawingArea.y + drawingArea.height}
           stroke={stroke}
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
           strokeDasharray={dashArray}
           strokeLinecap='round'
         />

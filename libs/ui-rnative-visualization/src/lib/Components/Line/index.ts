@@ -1,2 +1,2 @@
 export { Line } from './Line';
-export type { LineProps } from './types';
+export type { CurveType, LineProps } from './types';

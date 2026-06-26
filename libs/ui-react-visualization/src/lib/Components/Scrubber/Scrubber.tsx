@@ -2,6 +2,8 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useId, useMemo } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { LINE_DEFAULT_STROKE_COLOR } from '../Line/constants';
+
 import { useScrubberContext } from './context';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
@@ -71,7 +73,11 @@ export function Scrubber({
         const seriesData = seriesMap.get(s.id)?.data;
         const pixelY = resolvePixelY(scrubberPosition, seriesData, getYScale);
         if (pixelY === undefined) return null;
-        return { id: s.id, stroke: s.stroke, pixelY };
+        return {
+          id: s.id,
+          stroke: s.stroke || LINE_DEFAULT_STROKE_COLOR,
+          pixelY,
+        };
       })
       .filter(
         (b): b is { id: string; stroke: string; pixelY: number } => b !== null,

@@ -1,6 +1,7 @@
 import type { RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { clamp } from '../../../utils/numbers';
 import type { DrawingArea } from '../../../utils/types';
 import type { ChartTooltipItemData, SvgBBoxElement } from '../types';
 import {
@@ -77,7 +78,7 @@ export const computeTooltipX = (
     drawingArea.x,
     drawingArea.x + drawingArea.width - tooltipWidth,
   );
-  return Math.min(maxTooltipX, Math.max(drawingArea.x, preferredTooltipX));
+  return clamp(preferredTooltipX, drawingArea.x, maxTooltipX);
 };
 
 /**

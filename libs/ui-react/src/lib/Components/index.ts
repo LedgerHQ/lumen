@@ -30,6 +30,7 @@ export * from './Menu';
 export * from './NavBar';
 export * from './Popover';
 export * from './PageIndicator';
+export * from './Pagination';
 export * from './SearchInput';
 export * from './SegmentedControl';
 export * from './Select';

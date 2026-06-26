@@ -21,7 +21,8 @@ type PlaygroundArgs = {
 
 const meta: Meta<typeof NavBar> = {
   component: NavBar,
-  title: 'Navigation/NavBar',
+  id: 'react-navbar',
+  title: 'Core/NavBar',
   subcomponents: {
     NavBarBackButton,
     NavBarTitle,
@@ -243,7 +244,7 @@ export const WithCoinCapsule: Story = {
       <NavBarCoinCapsule
         ticker='BTC'
         leadingContent={
-          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} alt='Bitcoin' />
         }
       />
       <NavBarTrailing>

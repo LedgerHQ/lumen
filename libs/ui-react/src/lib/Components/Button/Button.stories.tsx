@@ -5,7 +5,8 @@ import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
   component: Button,
-  title: 'Action/Button',
+  id: 'react-button',
+  title: 'Core/Button',
   parameters: {
     docs: {
       source: {
@@ -85,6 +86,7 @@ export const Loading: Story = {
     loading: true,
   },
   parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
     docs: {
       source: {
         code: `
@@ -153,6 +155,9 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
   render: () => (
     <div className='flex items-center gap-4'>
       <Button appearance='base'>Default</Button>

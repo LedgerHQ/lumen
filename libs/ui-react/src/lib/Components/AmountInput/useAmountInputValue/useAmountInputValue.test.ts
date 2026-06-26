@@ -1,0 +1,143 @@
+import { renderHook, act } from '@testing-library/react';
+import type { ChangeEvent } from 'react';
+import { describe, it, expect, vi } from 'vitest';
+import { useAmountInputValue } from './useAmountInputValue';
+
+const defaultFormatOptions = {
+  allowDecimals: true,
+  thousandsSeparator: true,
+  maxIntegerLength: 9,
+  maxDecimalLength: 9,
+  decimalSeparator: '.' as const,
+};
+
+const createChangeEvent = (value: string): ChangeEvent<HTMLInputElement> =>
+  ({
+    target: { value },
+  }) as ChangeEvent<HTMLInputElement>;
+
+describe('useAmountInputValue', () => {
+  it('formats the initial value', () => {
+    const { result } = renderHook(() =>
+      useAmountInputValue({
+        value: '1000',
+        onChange: vi.fn(),
+        formatOptions: defaultFormatOptions,
+      }),
+    );
+
+    expect(result.current.inputValue).toBe('1 000');
+  });
+
+  it('syncs inputValue when the value prop changes', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) =>
+        useAmountInputValue({
+          value,
+          onChange: vi.fn(),
+          formatOptions: defaultFormatOptions,
+        }),
+      { initialProps: { value: '100' } },
+    );
+
+    expect(result.current.inputValue).toBe('100');
+
+    rerender({ value: '2000' });
+
+    expect(result.current.inputValue).toBe('2 000');
+  });
+
+  it('formats user input and calls onChange with the cleaned value', () => {
+    const onChange = vi.fn();
+    const { result } = renderHook(() =>
+      useAmountInputValue({
+        value: '',
+        onChange,
+        formatOptions: defaultFormatOptions,
+      }),
+    );
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('1000'));
+    });
+
+    expect(result.current.inputValue).toBe('1 000');
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: '1 000' }),
+      }),
+    );
+  });
+
+  it('displays and emits the configured decimal separator', () => {
+    const onChange = vi.fn();
+    const { result } = renderHook(() =>
+      useAmountInputValue({
+        value: '1234.5',
+        onChange,
+        formatOptions: { ...defaultFormatOptions, decimalSeparator: ',' },
+      }),
+    );
+
+    expect(result.current.inputValue).toBe('1 234,5');
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('12,5'));
+    });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: '12,5' }),
+      }),
+    );
+  });
+
+  it('sets isChanging when the formatted value changes', () => {
+    const { result } = renderHook(() =>
+      useAmountInputValue({
+        value: '',
+        onChange: vi.fn(),
+        formatOptions: defaultFormatOptions,
+      }),
+    );
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('1'));
+    });
+
+    expect(result.current.isChanging).toBe(true);
+  });
+
+  it('does not animate when the value stays the same', () => {
+    const { result, rerender } = renderHook<
+      ReturnType<typeof useAmountInputValue>,
+      { value: string }
+    >(
+      ({ value }) =>
+        useAmountInputValue({
+          value,
+          onChange: vi.fn(),
+          formatOptions: defaultFormatOptions,
+        }),
+      { initialProps: { value: '2000' } },
+    );
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('2 000'));
+    });
+
+    act(() => {
+      result.current.setIsChanging(false);
+    });
+
+    rerender({ value: '1000' });
+
+    expect(result.current.inputValue).toBe('1 000');
+
+    act(() => {
+      result.current.handleChange(createChangeEvent('1 000'));
+    });
+
+    expect(result.current.isChanging).toBe(false);
+  });
+});

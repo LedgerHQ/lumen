@@ -1,3 +1,4 @@
+import { clamp } from '../../utils/numbers';
 import {
   getPointOnScale,
   isCategoricalScale,
@@ -108,10 +109,7 @@ export const getDataIndexFromPosition = (
     }
 
     const inverted = scale.invert(pixelX);
-    return Math.max(
-      0,
-      Math.min(Math.round(inverted as number), dataLength - 1),
-    );
+    return clamp(Math.round(inverted as number), 0, dataLength - 1);
   }
 
   return 0;

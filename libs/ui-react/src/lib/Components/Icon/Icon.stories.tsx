@@ -5,6 +5,7 @@ import { SearchInput } from '../SearchInput/SearchInput';
 import type { IconSize } from './types';
 
 const meta: Meta = {
+  id: 'react-icon',
   title: 'Symbols/Interface Icons',
 };
 
@@ -63,7 +64,7 @@ const IconCard = ({
   );
 };
 
-export const Icon: StoryObj<IconStoryProps> = {
+export const Base: StoryObj<IconStoryProps> = {
   args: {
     size: 24,
     name: 'Home',
@@ -104,7 +105,7 @@ export const Icon: StoryObj<IconStoryProps> = {
   },
 };
 
-export const IconSizes: StoryObj = {
+export const Sizes: StoryObj = {
   render: () => (
     <div className='space-y-16 text-base'>
       {sizes.map((size) => (

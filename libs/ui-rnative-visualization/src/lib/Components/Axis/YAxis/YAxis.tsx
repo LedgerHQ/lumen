@@ -2,10 +2,7 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import {
-  buildTicksData,
-  isTickOnYAxisDomainEdge,
-} from '../../../utils/ticks/ticks';
+import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { YAxisProps } from './types';
@@ -20,6 +17,7 @@ export const YAxis = ({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  showLabels = true,
   gridLineStyle = 'dashed',
   ticks: ticksProp,
   tickLabelFormatter,
@@ -56,20 +54,18 @@ export const YAxis = ({
   return (
     <G>
       {showGrid &&
-        ticksData
-          .filter((tick) => isTickOnYAxisDomainEdge(tick, drawingArea))
-          .map((tick, i) => (
-            <SvgLine
-              key={`grid-${tick.value}-${i}`}
-              x1={drawingArea.x}
-              y1={tick.position}
-              x2={drawingArea.x + drawingArea.width}
-              y2={tick.position}
-              stroke={gridStroke}
-              strokeWidth={STROKE_WIDTH}
-              strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
-            />
-          ))}
+        ticksData.map((tick, i) => (
+          <SvgLine
+            key={`grid-${tick.value}-${i}`}
+            x1={drawingArea.x}
+            y1={tick.position}
+            x2={drawingArea.x + drawingArea.width}
+            y2={tick.position}
+            stroke={gridStroke}
+            strokeWidth={STROKE_WIDTH}
+            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
+          />
+        ))}
 
       {showLine && (
         <SvgLine
@@ -96,20 +92,21 @@ export const YAxis = ({
           />
         ))}
 
-      {ticksData.map((tick, i) => (
-        <SvgText
-          key={`label-${tick.value}-${i}`}
-          x={labelX}
-          y={tick.position}
-          dy={labelDy}
-          textAnchor={position === 'start' ? 'end' : 'start'}
-          fill={textFill}
-          fontSize={theme.typographies.body4.fontSize}
-          fontFamily={theme.fontFamilies.sans}
-        >
-          {tick.label}
-        </SvgText>
-      ))}
+      {showLabels &&
+        ticksData.map((tick, i) => (
+          <SvgText
+            key={`label-${tick.value}-${i}`}
+            x={labelX}
+            y={tick.position}
+            dy={labelDy}
+            textAnchor={position === 'start' ? 'end' : 'start'}
+            fill={textFill}
+            fontSize={theme.typographies.body4.fontSize}
+            fontFamily={theme.fontFamilies.sans}
+          >
+            {tick.label}
+          </SvgText>
+        ))}
     </G>
   );
 };

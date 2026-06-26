@@ -154,6 +154,51 @@ describe('Point', () => {
     expect(bottomY).toBeGreaterThan(topY);
   });
 
+  it('anchors a long label inward at the left edge by default', () => {
+    const labelSpy = vi.fn(({ x, y, children }: PointLabelProps) => (
+      <text x={x} y={y}>
+        {children}
+      </text>
+    ));
+
+    renderInChart(
+      <Point
+        dataX={0}
+        dataY={10}
+        label='A long edge label'
+        LabelComponent={labelSpy}
+      />,
+    );
+
+    expect(labelSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ textAnchor: 'start' }),
+      undefined,
+    );
+  });
+
+  it("centres a long edge label when labelAlignment is 'center'", () => {
+    const labelSpy = vi.fn(({ x, y, children }: PointLabelProps) => (
+      <text x={x} y={y}>
+        {children}
+      </text>
+    ));
+
+    renderInChart(
+      <Point
+        dataX={0}
+        dataY={10}
+        label='A long edge label'
+        labelAlignment='center'
+        LabelComponent={labelSpy}
+      />,
+    );
+
+    expect(labelSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ textAnchor: 'middle' }),
+      undefined,
+    );
+  });
+
   it('does not render arrow when showLabelArrow is false', () => {
     const { queryByTestId } = renderInChart(
       <Point dataX={2} dataY={30} label='Peak' showLabelArrow={false} />,

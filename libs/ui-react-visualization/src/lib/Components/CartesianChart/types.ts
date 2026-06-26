@@ -46,6 +46,17 @@ export type CartesianChartProps = {
    */
   ariaLabel?: string;
   /**
+   * Sets `aria-busy` on the chart SVG to signal that its content is loading.
+   * @default false
+   */
+  ariaBusy?: boolean;
+  /**
+   * HTML content rendered as an absolutely-positioned overlay above the chart
+   * SVG, within the same positioned container (so it aligns with the chart
+   * footprint). Used for e.g. an empty-state label.
+   */
+  overlay?: ReactNode;
+  /**
    * SVG content rendered inside the chart's context provider.
    */
   children?: ReactNode;

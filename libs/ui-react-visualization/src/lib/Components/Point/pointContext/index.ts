@@ -1,5 +1,7 @@
 export {
-  useMagneticPointsContext,
-  type MagneticPointsContextValue,
+  useMagneticRegistry,
+  useMagneticSnapshot,
+  type MagneticRegistryValue,
+  type MagneticSnapshotValue,
 } from './magneticPointsContext';
 export { MagneticPointsProvider } from './MagneticPointsProvider';

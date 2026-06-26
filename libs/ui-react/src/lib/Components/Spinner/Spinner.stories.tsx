@@ -2,10 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Spinner } from './Spinner';
 
 const meta: Meta<typeof Spinner> = {
-  title: 'Communication/Spinner',
+  id: 'react-spinner',
+  title: 'Core/Spinner',
   component: Spinner,
   parameters: {
     actions: { disable: true },
+    chromatic: { pauseAnimationAtEnd: true },
   },
   argTypes: {
     size: {

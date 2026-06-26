@@ -5,7 +5,8 @@ import { MediaButton } from './MediaButton';
 
 const meta: Meta<typeof MediaButton> = {
   component: MediaButton,
-  title: 'Action/MediaButton',
+  id: 'react-mediabutton',
+  title: 'Core/MediaButton',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -78,7 +79,12 @@ export const LeadingContentShapeShowcase: Story = {
         </MediaButton>
         <MediaButton
           leadingContent={
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={32}
+              alt='Bitcoin'
+            />
           }
           leadingContentShape='rounded'
           appearance='gray'
@@ -98,7 +104,12 @@ export const LeadingContentShapeShowcase: Story = {
         </MediaButton>
         <MediaButton
           leadingContent={
-            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={24}
+              alt='Bitcoin'
+            />
           }
           leadingContentShape='rounded'
           appearance='gray'
@@ -132,7 +143,12 @@ export const AllAppearancesWithLeadingShowcase: Story = {
             <MediaButton
               appearance={appearance}
               leadingContent={
-                <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+                <CryptoIcon
+                  ledgerId='bitcoin'
+                  ticker='BTC'
+                  size={32}
+                  alt='Bitcoin'
+                />
               }
               leadingContentShape='rounded'
             >

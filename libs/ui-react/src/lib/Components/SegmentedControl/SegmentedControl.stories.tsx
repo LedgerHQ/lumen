@@ -2,10 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Coins, TransferHorizontal, Nft } from '../../Symbols';
 import { DotCount } from '../DotCount';
-import { SegmentedControl, SegmentedControlButton } from './SegmentedControl';
+import {
+  createSegmentedControl,
+  SegmentedControl,
+  SegmentedControlButton,
+} from './SegmentedControl';
 
 const meta = {
-  title: 'Navigation/SegmentedControl',
+  id: 'react-segmentedcontrol',
+  title: 'Core/SegmentedControl',
   component: SegmentedControl,
   subcomponents: {
     SegmentedControlButton,
@@ -161,6 +166,34 @@ export const WithTrailingContent: Story = {
         </SegmentedControlButton>
         <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
       </SegmentedControl>
+    );
+  },
+};
+
+type View = 'preview' | 'raw' | 'blame';
+const TypedSegmentedControl = createSegmentedControl<View>();
+
+export const TypesafeFactory: Story = {
+  args: {} as React.ComponentProps<typeof SegmentedControl>,
+  render: (args) => {
+    const [view, setView] = useState<View>('preview');
+
+    return (
+      <TypedSegmentedControl.SegmentedControl
+        {...args}
+        selectedValue={view}
+        onSelectedChange={setView}
+      >
+        <TypedSegmentedControl.SegmentedControlButton value='preview'>
+          Preview
+        </TypedSegmentedControl.SegmentedControlButton>
+        <TypedSegmentedControl.SegmentedControlButton value='raw'>
+          Raw
+        </TypedSegmentedControl.SegmentedControlButton>
+        <TypedSegmentedControl.SegmentedControlButton value='blame'>
+          Blame
+        </TypedSegmentedControl.SegmentedControlButton>
+      </TypedSegmentedControl.SegmentedControl>
     );
   },
 };

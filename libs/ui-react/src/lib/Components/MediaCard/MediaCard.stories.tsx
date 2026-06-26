@@ -8,7 +8,8 @@ import { MediaCard, MediaCardTitle } from './MediaCard';
 const meta = {
   component: MediaCard,
   subcomponents: { MediaCardTitle },
-  title: 'Communication/MediaCard',
+  id: 'react-mediacard',
+  title: 'Core/MediaCard',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -197,7 +198,7 @@ export const CompositionShowcase: Story = {
       </MediaCard>
 
       <MediaCard {...baseArgs}>
-        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+        <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} alt='Bitcoin' />
         <MediaCardTitle>With crypto icon</MediaCardTitle>
       </MediaCard>
     </div>

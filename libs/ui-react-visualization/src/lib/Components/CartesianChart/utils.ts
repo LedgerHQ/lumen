@@ -1,36 +1,8 @@
 import type { ChartInset } from '../../utils/types';
 import type { CartesianChartProps } from './types';
 
-export const DEFAULT_HEIGHT = 160;
+export const DEFAULT_HEIGHT = 240;
 
-/**
- * Internal buffer added around the drawing area so SVG content (labels, points,
- * ticks) drawn at the edges is not clipped. The SVG canvas is enlarged by this
- * buffer on every side and shifted back by {@link OVERFLOW_OFFSET} so
- * the chart's layout footprint (and the drawing area) stays exactly the
- * consumer-provided width/height.
- */
-export const OVERFLOW_BUFFER: ChartInset = {
-  top: 25,
-  right: 25,
-  bottom: 25,
-  left: 25,
-};
-/**
- * Top/left offset applied to the (enlarged) SVG so its drawing area aligns with
- * the container's top-left. The extra width/height added to the SVG overflows
- * symmetrically on every side via `overflow: visible`.
- *
- * Uses `position: relative` rather than negative margins: a negative
- * `margin-top` would collapse through the container (which has no border,
- * padding, or block-formatting context), shifting the whole container instead
- * of offsetting the SVG inside it.
- */
-export const OVERFLOW_OFFSET = {
-  position: 'relative' as const,
-  top: -OVERFLOW_BUFFER.top,
-  left: -OVERFLOW_BUFFER.left,
-};
 export const ZERO_PADDING: ChartInset = {
   top: 0,
   right: 0,
@@ -56,10 +28,10 @@ export const resolveInset = (
   }
 
   return {
-    top: consumer.top + OVERFLOW_BUFFER.top,
-    right: consumer.right + OVERFLOW_BUFFER.right,
-    bottom: consumer.bottom + OVERFLOW_BUFFER.bottom,
-    left: consumer.left + OVERFLOW_BUFFER.left,
+    top: consumer.top,
+    right: consumer.right,
+    bottom: consumer.bottom,
+    left: consumer.left,
   };
 };
 

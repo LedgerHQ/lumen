@@ -22,6 +22,7 @@ import {
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import {
+  createSideBar,
   SideBar,
   SideBarLeading,
   SideBarTrailing,
@@ -31,7 +32,8 @@ import {
 
 const meta: Meta<typeof SideBar> = {
   component: SideBar,
-  title: 'Navigation/SideBar',
+  id: 'react-sidebar',
+  title: 'Core/SideBar',
   subcomponents: {
     SideBarLeading,
     SideBarTrailing,
@@ -138,7 +140,11 @@ export const CollapsedShowcase: Story = {
     <div className='flex h-480 gap-32'>
       <div>
         <div className='mb-8 body-3 text-muted'>Expanded</div>
-        <SideBar collapsed={false} active='home'>
+        <SideBar
+          collapsed={false}
+          active='home'
+          aria-label='Expanded navigation'
+        >
           <SideBarLeading>
             <SideBarItem
               value='home'
@@ -424,4 +430,43 @@ export const ManyItems: Story = {
       </SideBar>
     </div>
   ),
+};
+
+type Route = 'home' | 'wallet' | 'settings';
+const Nav = createSideBar<Route>();
+
+export const TypesafeFactory: Story = {
+  render: () => {
+    const [route, setRoute] = useState<Route>('home');
+
+    return (
+      <div style={{ height: '500px' }}>
+        <Nav.SideBar active={route} onActiveChange={setRoute}>
+          <Nav.SideBarLeading>
+            <Nav.SideBarItem
+              value='home'
+              icon={Home}
+              activeIcon={HomeFill}
+              label='Home'
+            />
+            <Nav.SideBarItem
+              value='wallet'
+              icon={Wallet}
+              activeIcon={Wallet}
+              label='Wallet'
+            />
+          </Nav.SideBarLeading>
+          <Nav.SideBarTrailing>
+            <Nav.SideBarItem
+              value='settings'
+              icon={Settings}
+              activeIcon={Settings}
+              label='Settings'
+            />
+            <Nav.SideBarCollapseToggle />
+          </Nav.SideBarTrailing>
+        </Nav.SideBar>
+      </div>
+    );
+  },
 };

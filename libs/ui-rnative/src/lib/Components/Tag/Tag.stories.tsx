@@ -5,7 +5,8 @@ import { Tag } from './Tag';
 
 const meta: Meta<typeof Tag> = {
   component: Tag,
-  title: 'Communication/Tag',
+  id: 'rnative-tag',
+  title: 'Core/Tag',
   argTypes: {
     appearance: {
       control: 'select',

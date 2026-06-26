@@ -79,8 +79,10 @@ export function DefaultScrubberTooltip({
         y={drawingArea.y}
         width={tooltipWidth}
         height={tooltipHeight}
-        rx={cssVar('var(--border-radius-sm)')}
         fill={cssVar('var(--background-muted)')}
+        style={{
+          rx: cssVar('var(--border-radius-sm)'),
+        }}
       />
       {hasTitle && (
         <text

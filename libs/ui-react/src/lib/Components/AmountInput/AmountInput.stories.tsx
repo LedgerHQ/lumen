@@ -10,7 +10,8 @@ const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
 const SIZES: AmountInputSize[] = ['md', 'sm'];
 
 const meta = {
-  title: 'Input/AmountInput',
+  id: 'react-amountinput',
+  title: 'Core/AmountInput',
   component: AmountInput,
   parameters: {
     layout: 'centered',
@@ -44,6 +45,7 @@ export const WithValue: Story = {
     value: '1234.56',
     currencyText: '$',
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -61,6 +63,7 @@ export const Size: Story = {
             value='1234.56'
             currencyText='$'
             onChange={() => console.log('onChange triggered')}
+            aria-label='Input amount'
           />
         </div>
       ))}
@@ -82,6 +85,7 @@ export const Alignment: Story = {
             value='1234.56'
             currencyText='$'
             onChange={() => console.log('onChange triggered')}
+            aria-label='Input amount'
           />
         </div>
       ))}
@@ -96,6 +100,7 @@ export const Disabled: Story = {
     currencyPosition: 'right',
     disabled: true,
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -105,6 +110,7 @@ export const Error: Story = {
     currencyText: '$',
     'aria-invalid': true,
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
 };
 
@@ -114,6 +120,7 @@ export const IntegerOnly: Story = {
     currencyText: '$',
     allowDecimals: false,
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
   },
   parameters: {
     docs: {
@@ -138,6 +145,35 @@ export const CustomMaxLength: Story = {
     value: '123',
     currencyText: '$',
     onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+};
+
+export const DecimalSeparator: Story = {
+  args: {
+    value: '1234.5',
+    currencyText: '€',
+    currencyPosition: 'right',
+    decimalSeparator: ',',
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Use `decimalSeparator=","` to display decimals with a comma (e.g. for fr-FR). Typing still accepts both `,` and `.`, so it stays compatible with any locale keyboard.',
+      },
+      source: {
+        code: `<AmountInput
+  value="1234.5"
+  currencyText="€"
+  currencyPosition="right"
+  decimalSeparator="," // displays "1 234,5"
+  onChange={() => console.log('onChange triggered')}
+/>`,
+      },
+    },
   },
 };
 
@@ -172,6 +208,7 @@ export const LargeAmountDisplay: Story = {
             currencyText={currentCurrency}
             currencyPosition={isEth ? 'right' : 'left'}
             aria-invalid={hasError}
+            aria-label='Input amount'
           />
           <div className='mt-16 text-center body-2 text-muted'>
             {convertedValue}

@@ -6,7 +6,8 @@ import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
 
 const meta = {
   component: DotSymbol,
-  title: 'Communication/DotSymbol',
+  id: 'react-dotsymbol',
+  title: 'Core/DotSymbol',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -47,16 +48,16 @@ export const PinShowcase: Story = {
     <div className='flex flex-col items-center gap-24'>
       <div className='flex items-center gap-32'>
         <DotSymbol src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} shape='circle' />
+          <MediaImage src={parentSrc} shape='circle' aria-label='Bitcoin' />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-end'>
-          <MediaImage src={parentSrc} shape='circle' />
+          <MediaImage src={parentSrc} shape='circle' aria-label='Bitcoin' />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='bottom-start'>
-          <MediaImage src={parentSrc} shape='circle' />
+          <MediaImage src={parentSrc} shape='circle' aria-label='Bitcoin' />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-start'>
-          <MediaImage src={parentSrc} shape='circle' />
+          <MediaImage src={parentSrc} shape='circle' aria-label='Bitcoin' />
         </DotSymbol>
       </div>
       <div className='flex items-center gap-32'>
@@ -83,19 +84,39 @@ export const ShapeShowcase: Story = {
     <div className='flex flex-col items-center gap-48 body-2'>
       <div className='inline-flex items-center gap-48'>
         <DotSymbol shape='square' src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={48}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol shape='square' src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={48}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
       </div>
 
       <div className='inline-flex items-center gap-48'>
         <DotSymbol src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={48}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='bottom-end'>
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={48}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
       </div>
     </div>
@@ -107,10 +128,20 @@ export const DisabledShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-32'>
       <DotSymbol src={dotSrc} pin='bottom-end' disabled>
-        <MediaImage src={parentSrc} size={48} shape='circle' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='circle'
+          aria-label='Bitcoin'
+        />
       </DotSymbol>
       <DotSymbol src={dotSrc} pin='bottom-end' shape='square' disabled>
-        <MediaImage src={parentSrc} size={48} shape='square' />
+        <MediaImage
+          src={parentSrc}
+          size={48}
+          shape='square'
+          aria-label='Bitcoin'
+        />
       </DotSymbol>
       <DotSymbol src={dotSrc} pin='bottom-end' disabled>
         <Spot appearance='icon' icon={CoinAlert} />
@@ -129,56 +160,96 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[20]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={20} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={20}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[24]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={24} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={24}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[32]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={32} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={32}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={40} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={40}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[48]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={48} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={48}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[56]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={56} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={56}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[64]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={64} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={64}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
           size={mediaImageDotSizeMap[72]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={72} shape='circle' />
+          <MediaImage
+            src={parentSrc}
+            size={72}
+            shape='circle'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
       </div>
       <div className='inline-flex items-end gap-24 body-2'>
@@ -188,7 +259,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[20]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={20} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={20}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -196,7 +272,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[24]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={24} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={24}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -204,7 +285,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[32]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={32} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={32}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -212,7 +298,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={40} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={40}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -220,7 +311,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[48]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={48} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={48}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -228,7 +324,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[56]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={56} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={56}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -236,7 +337,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[64]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={64} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={64}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
         <DotSymbol
           shape='square'
@@ -244,7 +350,12 @@ export const SizeShowcase: Story = {
           size={mediaImageDotSizeMap[72]}
           pin='bottom-end'
         >
-          <MediaImage src={parentSrc} size={72} shape='square' />
+          <MediaImage
+            src={parentSrc}
+            size={72}
+            shape='square'
+            aria-label='Bitcoin'
+          />
         </DotSymbol>
       </div>
     </div>

@@ -66,7 +66,7 @@ function rgbToHex({ r, g, b, ...rest }: RGB | RGBA) {
   };
 
   const hex = [toHex(r), toHex(g), toHex(b)].join('');
-  return `#${hex}` + (a !== 1 ? toHex(a) : '');
+  return `#${hex}` + (a === 1 ? '' : toHex(a));
 }
 
 export default function tokenFilesFromLocalVariables(

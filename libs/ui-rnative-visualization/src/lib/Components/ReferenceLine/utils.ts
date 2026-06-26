@@ -1,3 +1,4 @@
+import { isFiniteNumber } from '../../utils/numbers';
 import { getPointOnScale, isCategoricalScale } from '../../utils/scales/scales';
 import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
@@ -127,7 +128,7 @@ export const resolvePixel = ({
 
   const p = getPointOnScale(resolved, scale);
 
-  if (!Number.isFinite(p) || !isPixelWithinDrawingArea(p, axis, drawingArea)) {
+  if (!isFiniteNumber(p) || !isPixelWithinDrawingArea(p, axis, drawingArea)) {
     return undefined;
   }
   return p;

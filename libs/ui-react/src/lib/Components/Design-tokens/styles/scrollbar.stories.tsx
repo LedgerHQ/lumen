@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader } from '../shared';
 
 const meta: Meta = {
+  id: 'react-scrollbar',
   title: 'Foundations/Styles/Scrollbar',
 };
 
@@ -21,6 +22,7 @@ const ScrollableBox = ({
 }) => (
   <div>
     <div
+      tabIndex={0}
       className={`h-224 overflow-y-auto rounded-lg border border-muted-subtle bg-canvas p-16 ${utilityClass}`}
     >
       {PLACEHOLDER_ITEMS.map((item) => (

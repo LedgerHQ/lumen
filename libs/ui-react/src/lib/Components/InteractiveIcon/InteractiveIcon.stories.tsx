@@ -9,7 +9,8 @@ import { InteractiveIcon } from './InteractiveIcon';
 
 const meta: Meta<typeof InteractiveIcon> = {
   component: InteractiveIcon,
-  title: 'Action/InteractiveIcon',
+  id: 'react-interactiveicon',
+  title: 'Core/InteractiveIcon',
   parameters: {
     docs: {
       source: {

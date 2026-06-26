@@ -3,6 +3,7 @@ export type {
   CategoricalScale,
   ChartInset,
   ChartScaleFunction,
+  CurveType,
   DrawingArea,
   NumericScale,
   Series,

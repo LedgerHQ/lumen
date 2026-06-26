@@ -3,7 +3,8 @@ import { Switch } from './Switch';
 
 const meta: Meta<typeof Switch> = {
   component: Switch,
-  title: 'Selection/Switch',
+  id: 'react-switch',
+  title: 'Core/Switch',
   parameters: {
     docs: {
       source: {
@@ -27,15 +28,16 @@ export const Base: Story = {
       },
     },
   },
+  render: () => <Switch aria-label='Toggle example' />,
 };
 
 export const StatesShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-32'>
-      <Switch selected={false} />
-      <Switch selected={true} />
-      <Switch disabled />
-      <Switch disabled selected={true} />
+      <Switch aria-label='Toggle' selected={false} />
+      <Switch aria-label='Toggle' selected={true} />
+      <Switch aria-label='Toggle' disabled />
+      <Switch aria-label='Toggle' disabled selected={true} />
     </div>
   ),
 };
@@ -43,8 +45,8 @@ export const StatesShowcase: Story = {
 export const SizesShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-32'>
-      <Switch size='sm' />
-      <Switch size='md' />
+      <Switch aria-label='Toggle' size='sm' />
+      <Switch aria-label='Toggle' size='md' />
     </div>
   ),
 };

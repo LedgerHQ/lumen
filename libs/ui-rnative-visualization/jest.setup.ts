@@ -205,6 +205,7 @@ jest.mock('react-native-reanimated', () => {
     useAnimatedProps: (_cb: any) => {
       return {};
     },
+    useReducedMotion: () => false,
     useAnimatedGestureHandler: (handlers: any) => handlers,
     useAnimatedScrollHandler: () => () => {
       return;

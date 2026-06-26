@@ -253,7 +253,7 @@ export const enterpriseDarkColorTokens = {
     muted: primitiveColorTokens.dark.grey['700'],
     mutedHover: primitiveColorTokens.dark.grey['800'],
     mutedPressed: primitiveColorTokens.dark.grey['900'],
-    mutedSubtle: primitiveColorTokens.dark.grey['300'],
+    mutedSubtle: primitiveColorTokens.dark.grey['400'],
     active: primitiveColorTokens.dark.blue['500'],
     interactive: primitiveColorTokens.dark.blue['500'],
     interactiveHover: primitiveColorTokens.dark.blue['600'],

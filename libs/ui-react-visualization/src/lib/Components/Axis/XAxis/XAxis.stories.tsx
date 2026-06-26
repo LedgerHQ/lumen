@@ -19,6 +19,7 @@ import { XAxis } from './XAxis';
  */
 const meta = {
   component: XAxis,
+  id: 'react-xaxis',
   title: 'Visualization/XAxis',
   tags: ['experimental'],
   args: {
@@ -49,16 +50,17 @@ type Story = StoryObj<typeof XAxis>;
 export const Base: Story = {
   args: {
     showLine: true,
+    showGrid: true,
   },
 };
 
 /**
- * `showGrid` draws a grid line at each tick. `gridLineStyle` switches between
- * `'dashed'` and `'solid'`.
+ * `gridLineStyle` switches between `'dashed'` and `'solid'`.
  */
-export const ShowGrid: Story = {
+export const GridLineStyle: Story = {
   args: {
     showGrid: true,
+    showLine: true,
     gridLineStyle: 'dashed',
   },
 };
@@ -86,6 +88,19 @@ export const TickLabelFormatter: Story = {
   args: {
     data: monthLabels,
     tickLabelFormatter: (value) => `${String(value).slice(0, 1)}`,
+  },
+};
+
+/**
+ * `showLabels={false}` hides the tick text while keeping grid lines and tick
+ * marks, useful when the values are conveyed elsewhere (e.g. a scrubber tooltip).
+ */
+export const HideLabels: Story = {
+  args: {
+    data: monthLabels,
+    showGrid: true,
+    showTickMark: true,
+    showLabels: false,
   },
 };
 

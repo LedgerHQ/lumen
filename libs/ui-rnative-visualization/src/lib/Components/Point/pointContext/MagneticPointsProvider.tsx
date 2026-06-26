@@ -2,8 +2,10 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import {
-  MagneticPointsContextProvider,
-  type MagneticPointsContextValue,
+  MagneticRegistryProvider,
+  MagneticSnapshotProvider,
+  type MagneticRegistryValue,
+  type MagneticSnapshotValue,
 } from './magneticPointsContext';
 
 type MagneticPointsProviderProps = {
@@ -32,14 +34,24 @@ export function MagneticPointsProvider({
     return pointsRef.current;
   }, []);
 
-  const value: MagneticPointsContextValue = useMemo(
-    () => ({ register, unregister, getMagneticPoints, version }),
-    [register, unregister, getMagneticPoints, version],
+  // Stable identity for the provider's lifetime: `Point` consumers read this
+  // and therefore never re-render when the magnetic set changes.
+  const registry: MagneticRegistryValue = useMemo(
+    () => ({ register, unregister }),
+    [register, unregister],
+  );
+
+  // Changes on every register/unregister: consumed only by the scrubber.
+  const snapshot: MagneticSnapshotValue = useMemo(
+    () => ({ version, getMagneticPoints }),
+    [version, getMagneticPoints],
   );
 
   return (
-    <MagneticPointsContextProvider value={value}>
-      {children}
-    </MagneticPointsContextProvider>
+    <MagneticRegistryProvider value={registry}>
+      <MagneticSnapshotProvider value={snapshot}>
+        {children}
+      </MagneticSnapshotProvider>
+    </MagneticRegistryProvider>
   );
 }

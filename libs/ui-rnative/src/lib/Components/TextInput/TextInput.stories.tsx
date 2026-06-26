@@ -6,7 +6,8 @@ import { type TextInputProps } from './types';
 
 const meta: Meta<typeof TextInput> = {
   component: TextInput,
-  title: 'Input/TextInput',
+  id: 'rnative-textinput',
+  title: 'Core/TextInput',
   parameters: {
     docs: {
       source: {

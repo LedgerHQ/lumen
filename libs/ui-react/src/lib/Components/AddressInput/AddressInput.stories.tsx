@@ -5,7 +5,8 @@ import { AddressInput } from './AddressInput';
 
 const meta: Meta<typeof AddressInput> = {
   component: AddressInput,
-  title: 'Input/AddressInput',
+  id: 'react-addressinput',
+  title: 'Core/AddressInput',
   parameters: {
     docs: {
       source: {
@@ -118,6 +119,7 @@ export const Error: Story = {
     status: 'error',
     className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
+    'aria-label': 'Address or ENS',
   },
   parameters: {
     docs: {

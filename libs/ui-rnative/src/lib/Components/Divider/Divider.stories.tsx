@@ -5,7 +5,8 @@ import { Divider } from './Divider';
 
 const meta: Meta<typeof Divider> = {
   component: Divider,
-  title: 'Layout/Divider',
+  id: 'rnative-divider',
+  title: 'Core/Divider',
   parameters: {
     actions: { disable: true },
   },

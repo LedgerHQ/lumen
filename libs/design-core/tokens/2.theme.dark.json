@@ -1348,7 +1348,7 @@
       "muted-subtle": {
         "default": {
           "$type": "color",
-          "$value": "{color.dark.grey.300}",
+          "$value": "{color.dark.grey.400}",
           "$description": "",
           "$extensions": {
             "com.figma": {

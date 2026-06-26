@@ -1,0 +1,211 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as IconsStories from './Icon.stories';
+import { Box } from '../Utility';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+import {
+  DoVsDontRow,
+  DoBlockItem,
+  DontBlockItem,
+} from '../../../../.storybook/components/DoVsDont';
+import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
+<Meta title='Symbols/Interface Icons' of={IconsStories} />
+
+# Icons
+
+<CustomTabs>
+  <Tab label="Overview">
+
+Icons are essential elements that communicate meaning quickly and visually. They support navigation, clarify actions, and enhance the overall user experience. A well-designed icon set ensures clarity, consistency, and scalability across platforms.
+
+---
+
+## Figma Library
+
+All icons are designed and managed in our Figma Foundations library. This is the single source of truth for our icon set.
+
+- 🔗 **[Figma - Icons Library](https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.Symbol-Library?node-id=50-5110&m=dev)**
+
+---
+
+## Interactive Example
+
+<Canvas of={IconsStories.Base} />
+<Controls of={IconsStories.Base} />
+
+## 📏 Sizing
+
+Our icons are designed to be scalable and are available in 7 standard sizes to fit various contexts within the UI.
+
+The available sizes are: **16px, 20px, 24px, 32px, 40px, 48px, and 56px**
+
+The thickness of each icon is automatically managed by our token system when you apply a size variable, ensuring visual consistency at any scale.
+
+<Canvas of={IconsStories.Sizes} />
+
+---
+
+## Icon Gallery
+
+Here's a preview of all the icons available in our design system. To use an icon, just reference its name.
+
+<Canvas of={IconsStories.Gallery} />
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+Import and use specific icons from the symbols library:
+
+```tsx
+import { ArrowUp, Settings, Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <Box lx={{ flexDirection: 'row', gap: 's8' }}>
+      <ArrowUp size={24} />
+      <Settings size={20} />
+      <Plus size={16} />
+    </Box>
+  );
+}
+```
+
+### Size Variants
+
+Icons support predefined size variants that ensure consistent visual hierarchy:
+
+```tsx
+import { ArrowUp } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function IconSizes() {
+  return (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
+      <ArrowUp size={16} />
+      <ArrowUp size={20} />
+      <ArrowUp size={24} /> {/* Default size */}
+      <ArrowUp size={40} />
+      <ArrowUp size={48} />
+      <ArrowUp size={56} />
+    </Box>
+  );
+}
+```
+
+### Within Buttons
+
+The Button component supports icons with automatic size adjustment based on the button size:
+
+```tsx
+import { Button } from '@ledgerhq/lumen-ui-rnative';
+import { ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <Button size='m' appearance='base' icon={ArrowRight}>
+      Continue
+    </Button>
+  );
+}
+```
+
+### Accessibility
+
+Always provide proper accessibility attributes for interactive icons:
+
+```tsx
+import { Information } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function AccessibleIcon() {
+  return (
+    <Information size={20} accessibilityLabel='Account verification required' />
+  );
+}
+```
+
+### With Semantic Colors
+
+Icons inherit the current text color and can be styled with semantic color tokens:
+
+```tsx
+import {
+  CheckmarkCircle,
+  DeleteCircle,
+  Clock,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function SemanticIcons() {
+  return (
+    <Box lx={{ flexDirection: 'row', gap: 's8' }}>
+      <CheckmarkCircle size={24} lx={{ color: 'success' }} />
+      <DeleteCircle size={24} lx={{ color: 'error' }} />
+      <Clock size={24} lx={{ color: 'warning' }} />
+    </Box>
+  );
+}
+```
+
+## Do's and Don'ts
+
+<Box lx={{ flexDirection: 'column', gap: 's24' }}>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use predefined size variants'
+      description='Standard sizes ensure consistent visual hierarchy'
+    >
+
+```tsx
+<ArrowUp size={24} />
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use custom sizes"
+      description='Avoid non-standard sizes or arbitrary prop overrides'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<ArrowUp size={23} />
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <DoVsDontRow>
+    <DoBlockItem
+      title='Use semantic colors for icons'
+      description='Use semantic color tokens and inherit text color'
+    >
+
+```tsx
+<ArrowUp lx={{ color: 'success' }} />
+```
+
+    </DoBlockItem>
+    <DontBlockItem
+      title="Don't use arbitrary colors"
+      description='Avoid arbitrary color values or overriding currentColor unnecessarily'
+    >
+
+{/* prettier-ignore */}
+```tsx
+<ArrowUp color='#ff0000' />
+```
+
+    </DontBlockItem>
+
+  </DoVsDontRow>
+
+  <CommonRulesDoAndDont />
+</Box>
+
+</Tab>
+</CustomTabs>

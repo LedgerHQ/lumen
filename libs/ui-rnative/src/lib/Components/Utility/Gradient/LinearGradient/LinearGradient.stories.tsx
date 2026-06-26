@@ -6,7 +6,8 @@ import { LinearGradient } from './LinearGradient';
 
 const meta: Meta<typeof LinearGradient> = {
   component: LinearGradient,
-  title: 'Utility/LinearGradient',
+  id: 'rnative-lineargradient',
+  title: 'Primitives/LinearGradient',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

@@ -6,7 +6,8 @@ import type { AddressInputProps } from './types';
 
 const meta: Meta<typeof AddressInput> = {
   component: AddressInput,
-  title: 'Input/AddressInput',
+  id: 'rnative-addressinput',
+  title: 'Core/AddressInput',
   parameters: {
     docs: {
       source: {

@@ -1,5 +1,5 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import { Children, isValidElement, useEffect, useMemo, useRef } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
@@ -18,7 +18,7 @@ import { Placeholder } from '../../Symbols';
 import { RuntimeConstants } from '../../utils';
 import { Box, Pressable } from '../Utility';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
-import type { TabBarItemProps, TabBarProps } from './types';
+import type { TabBarItemProps, TabBarProps, TabBarValue } from './types';
 
 export const TAB_BAR_HEIGHT = 60;
 const PILL_INSET = 4;
@@ -227,8 +227,7 @@ export function TabBarItem({
  * A horizontal tab bar with animated pill background and icon transitions.
  * Provides smooth animations for active state changes and press interactions.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_navigation-tabbar--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/react-native_navigation-tabbar--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tabbar--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
  *
@@ -242,12 +241,12 @@ export function TabBarItem({
  *   <TabBarItem value="settings" label="Settings" icon={Settings} />
  * </TabBar>
  */
-export function TabBar({
+export function TabBar<T extends TabBarValue = TabBarValue>({
   active,
   onTabPress,
   children,
   ...props
-}: TabBarProps) {
+}: TabBarProps<T>) {
   const styles = useStyles();
   const { theme, colorScheme } = useTheme();
 
@@ -256,12 +255,13 @@ export function TabBar({
     children,
   });
 
-  function handleTabPress(value: string) {
-    onTabPress?.(value);
-  }
-
   return (
-    <TabBarContextProvider value={{ active, onTabPress: handleTabPress }}>
+    <TabBarContextProvider
+      value={{
+        active,
+        onTabPress: (value) => onTabPress(value as T),
+      }}
+    >
       <Box
         style={styles.container}
         onLayout={onLayout}
@@ -349,3 +349,10 @@ const useStyles = () =>
     }),
     [],
   );
+
+export function createTabBar<T extends TabBarValue = never>(): {
+  TabBar: (props: TabBarProps<T>) => ReactElement;
+  TabBarItem: (props: TabBarItemProps<T>) => ReactElement;
+} {
+  return { TabBar, TabBarItem };
+}

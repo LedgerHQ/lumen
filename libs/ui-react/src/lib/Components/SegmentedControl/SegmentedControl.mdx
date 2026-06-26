@@ -4,7 +4,7 @@ import { SegmentedControl } from './SegmentedControl';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
 import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
-<Meta title='Navigation/SegmentedControl' of={SegmentedControlStories} />
+<Meta title='Core/SegmentedControl' of={SegmentedControlStories} />
 
 # SegmentedControl
 
@@ -81,6 +81,32 @@ export default function Example() {
       <SegmentedControlButton value='send'>Send</SegmentedControlButton>
       <SegmentedControlButton value='receive'>Receive</SegmentedControlButton>
       <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+    </SegmentedControl>
+  );
+}
+```
+
+## Type-safe variant
+
+`SegmentedControl` and `SegmentedControlButton` communicate via context, so TypeScript cannot connect the root's `selectedValue` to each button's `value` on its own. A typo in `value` compiles, and the pill silently never moves to that segment.
+
+`createSegmentedControl<T>()` ties both components to one literal union. Call it once at module scope; the returned pair are typed against your `T`.
+
+```tsx
+import { createSegmentedControl } from '@ledgerhq/lumen-ui-react';
+
+type View = 'preview' | 'raw' | 'blame';
+
+const { SegmentedControl, SegmentedControlButton } = createSegmentedControl<View>();
+
+function Example() {
+  const [view, setView] = React.useState<View>('preview');
+
+  return (
+    <SegmentedControl selectedValue={view} onSelectedChange={setView}>
+      <SegmentedControlButton value='preview'>Preview</SegmentedControlButton>
+      <SegmentedControlButton value='raw'>Raw</SegmentedControlButton>
+      <SegmentedControlButton value='blame'>Blame</SegmentedControlButton>
     </SegmentedControl>
   );
 }

@@ -104,6 +104,17 @@ describe('YAxis', () => {
     expect(labels[1].textContent).toBe('$50');
   });
 
+  it('hides tick labels when showLabels is false but keeps tick marks', () => {
+    const { getByTestId } = renderYAxis({
+      showLabels: false,
+      showTickMark: true,
+      ticks: [10, 50],
+    });
+    const axis = getByTestId('y-axis');
+    expect(axis.querySelectorAll('text')).toHaveLength(0);
+    expect(axis.querySelectorAll('line')).toHaveLength(2);
+  });
+
   it('returns null when drawing area height is 0', () => {
     const { queryByTestId } = render(
       <CartesianChart series={sampleSeries} width={400} height={0}>

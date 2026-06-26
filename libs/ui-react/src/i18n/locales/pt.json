@@ -40,6 +40,21 @@
     },
     "stepper": {
       "progressAriaLabel": "Passo {{currentStep}} de {{totalSteps}}"
+    },
+    "table": {
+      "ascAriaLabel": "Sort ascending",
+      "descAriaLabel": "Sort descending"
+    },
+    "pagination": {
+      "navigationAriaLabel": "Pagination",
+      "previousPageAriaLabel": "Previous page",
+      "nextPageAriaLabel": "Next page",
+      "pageAriaLabel": "Page {{page}}"
+    },
+    "trend": {
+      "positiveAriaLabel": "Trend up {{value}}",
+      "negativeAriaLabel": "Trend down {{value}}",
+      "neutralAriaLabel": "Neutral trend {{value}}"
     }
   }
 }

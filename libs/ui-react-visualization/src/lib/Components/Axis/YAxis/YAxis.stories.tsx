@@ -19,6 +19,7 @@ import { YAxis } from './YAxis';
  */
 const meta = {
   component: YAxis,
+  id: 'react-yaxis',
   title: 'Visualization/YAxis',
   tags: ['experimental'],
   args: {
@@ -70,6 +71,18 @@ export const ShowGrid: Story = {
 export const TickLabelFormatter: Story = {
   args: {
     tickLabelFormatter: (value) => `$${value}`,
+  },
+};
+
+/**
+ * `showLabels={false}` hides the tick text while keeping grid lines. Pair it
+ * with `width: 0` to also reclaim the horizontal space the labels would use.
+ */
+export const HideLabels: Story = {
+  args: {
+    showGrid: true,
+    showLabels: false,
+    width: 0,
   },
 };
 

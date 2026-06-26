@@ -1,10 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
-import {
-  buildTicksData,
-  isTickOnYAxisDomainEdge,
-} from '../../../utils/ticks/ticks';
+import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import { TICK_MARK_SIZE, TICK_LABEL_OFFSET } from '../Axis.constants';
@@ -16,6 +13,7 @@ export function YAxis({
   showGrid = false,
   showLine = false,
   showTickMark = false,
+  showLabels = true,
   ticks: ticksProp,
   tickLabelFormatter,
 }: YAxisProps) {
@@ -44,22 +42,20 @@ export function YAxis({
   return (
     <g data-testid='y-axis'>
       {showGrid &&
-        ticksData
-          .filter((tick) => isTickOnYAxisDomainEdge(tick, drawingArea))
-          .map((tick, i) => (
-            <line
-              key={`grid-${tick.value}-${i}`}
-              x1={drawingArea.x}
-              y1={tick.position}
-              x2={drawingArea.x + drawingArea.width}
-              y2={tick.position}
-              style={{
-                stroke: cssVar('var(--border-muted-subtle-transparent)'),
-              }}
-              strokeWidth={cssVar('var(--stroke-1)')}
-              strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
-            />
-          ))}
+        ticksData.map((tick, i) => (
+          <line
+            key={`grid-${tick.value}-${i}`}
+            x1={drawingArea.x}
+            y1={tick.position}
+            x2={drawingArea.x + drawingArea.width}
+            y2={tick.position}
+            style={{
+              stroke: cssVar('var(--border-muted-subtle-transparent)'),
+            }}
+            strokeWidth={cssVar('var(--stroke-1)')}
+            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
+          />
+        ))}
 
       {showLine && (
         <line
@@ -87,22 +83,23 @@ export function YAxis({
           />
         ))}
 
-      {ticksData.map((tick, i) => (
-        <text
-          key={`label-${tick.value}-${i}`}
-          x={labelX}
-          y={tick.position}
-          textAnchor={position === 'start' ? 'end' : 'start'}
-          dominantBaseline='central'
-          style={{
-            fill: cssVar('var(--text-muted)'),
-            fontSize: cssVar('var(--font-style-body-4-size)'),
-            fontFamily: cssVar('var(--font-family-font)'),
-          }}
-        >
-          {tick.label}
-        </text>
-      ))}
+      {showLabels &&
+        ticksData.map((tick, i) => (
+          <text
+            key={`label-${tick.value}-${i}`}
+            x={labelX}
+            y={tick.position}
+            textAnchor={position === 'start' ? 'end' : 'start'}
+            dominantBaseline='central'
+            style={{
+              fill: cssVar('var(--text-muted)'),
+              fontSize: cssVar('var(--font-style-body-4-size)'),
+              fontFamily: cssVar('var(--font-family-font)'),
+            }}
+          >
+            {tick.label}
+          </text>
+        ))}
     </g>
   );
 }

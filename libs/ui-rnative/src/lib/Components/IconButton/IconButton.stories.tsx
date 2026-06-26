@@ -12,7 +12,8 @@ const iconMap = {
 } as const;
 
 const meta: Meta<typeof IconButton> = {
-  title: 'Action/IconButton',
+  id: 'rnative-iconbutton',
+  title: 'Core/IconButton',
   component: IconButton,
   argTypes: {
     icon: {

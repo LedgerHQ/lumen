@@ -19,7 +19,8 @@ const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
 
 const meta: Meta<typeof Subheader> = {
   component: Subheader,
-  title: 'Communication/Subheader',
+  id: 'react-subheader',
+  title: 'Core/Subheader',
   subcomponents: {
     SubheaderRow,
     SubheaderTitle,
@@ -117,7 +118,7 @@ export const WithInfoIcon: Story = {
         <SubheaderRow>
           <SubheaderTitle>Section with Info</SubheaderTitle>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger aria-label='Open tooltip'>
               <SubheaderInfo />
             </TooltipTrigger>
             <TooltipContent>

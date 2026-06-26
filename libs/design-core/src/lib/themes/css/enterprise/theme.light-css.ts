@@ -129,7 +129,7 @@ export const tokens = {
     '--color-text-muted': 'var(--color-light-grey-700)',
     '--color-text-muted-hover': 'var(--color-light-grey-800)',
     '--color-text-muted-pressed': 'var(--color-light-grey-900)',
-    '--color-text-muted-subtle': 'var(--color-light-grey-300)',
+    '--color-text-muted-subtle': 'var(--color-light-grey-400)',
     '--color-text-active-ledger-live': 'var(--color-light-purple-800)',
     '--color-text-active-enterprise': 'var(--color-light-blue-700)',
     '--color-text-active-websites': 'var(--color-light-purple-800)',

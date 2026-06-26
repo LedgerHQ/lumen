@@ -3,7 +3,8 @@ import { Divider } from './Divider';
 
 const meta: Meta<typeof Divider> = {
   component: Divider,
-  title: 'Layout/Divider',
+  id: 'react-divider',
+  title: 'Core/Divider',
   parameters: {
     docs: {
       source: {

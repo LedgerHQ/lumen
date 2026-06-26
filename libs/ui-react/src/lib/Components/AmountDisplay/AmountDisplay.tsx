@@ -95,7 +95,7 @@ const DigitStrip = memo(({ value, animate, widths }: DigitStripProps) => {
         }}
       >
         {DIGITS.map((d, i) => (
-          <span inert={d !== value ? true : false} key={i}>
+          <span inert={d === value ? false : true} key={i}>
             {d}
           </span>
         ))}
@@ -131,8 +131,7 @@ DigitStripList.displayName = 'DigitStripList';
  * This component uses a formatter function pattern that gives you full control over how amounts are displayed,
  * including currency position, decimal separators, and precision. Use the `hidden` prop for privacy features.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-amountdisplay-overview--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-amountdisplay-implementation--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-amountdisplay--docs Guidelines}
  *
  * @example
  * ```tsx
@@ -185,6 +184,7 @@ export function AmountDisplay({
         'relative inline-flex',
         className,
       )}
+      role='img'
       aria-label={ariaLabel}
       aria-busy={loading}
       {...props}

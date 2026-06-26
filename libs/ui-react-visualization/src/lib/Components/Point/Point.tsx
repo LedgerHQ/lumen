@@ -1,20 +1,17 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { useMemo } from 'react';
 
-import { projectPoint } from '../../utils/scales/scales';
-import { useCartesianChartContext } from '../CartesianChart/context';
-import { useRevealClip } from '../CartesianChart/RevealClip';
-import { DEFAULT_SIZE, STROKE_WIDTH } from './constants';
-import { useMagneticPointsContext } from './pointContext';
+import { memo } from 'react';
 
-import type { PointLabelProps, PointProps } from './types';
-import {
-  buildArrowPoints,
-  computeLabelY,
-  isWithinBounds,
-  resolveLabel,
-  useMagneticRegistration,
-} from './utils';
+import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
+import type {
+  PointArrowProps,
+  PointLabelProps,
+  PointMarkerProps,
+  PointProps,
+} from './types';
+
+import { usePointGeometry } from './usePointGeometry';
+import { buildArrowPoints, computeLabelGeometry, resolveLabel } from './utils';
 
 export function PointLabel({
   style,
@@ -28,7 +25,7 @@ export function PointLabel({
       dominantBaseline={dominantBaseline}
       style={{
         fill: cssVar('var(--text-base)'),
-        fontSize: cssVar('var(--font-style-body-4-size)'),
+        fontSize: LABEL_FONT_SIZE,
         fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
         fontFamily: cssVar('var(--font-family-font)'),
         ...style,
@@ -38,7 +35,36 @@ export function PointLabel({
   );
 }
 
-export function Point({
+function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
+  const radius = size / 2;
+  const fill = color ?? cssVar('var(--background-muted-strong)');
+
+  return (
+    <circle
+      data-testid='point-circle'
+      cx={x}
+      cy={y}
+      r={radius}
+      style={{
+        fill,
+        stroke: cssVar('var(--background-canvas)'),
+      }}
+      strokeWidth={STROKE_WIDTH}
+    />
+  );
+}
+
+function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
+  return (
+    <polygon
+      data-testid='point-arrow'
+      points={buildArrowPoints(x, y, size / 2, position)}
+      style={{ fill: cssVar('var(--text-base)') }}
+    />
+  );
+}
+
+export const Point = memo(function Point({
   dataX,
   dataY,
   color,
@@ -50,68 +76,64 @@ export function Point({
   size = DEFAULT_SIZE,
   onClick,
   magnetic = false,
+  labelAlignment = 'auto',
 }: Readonly<PointProps>) {
-  const { getXScale, getYScale, getXAxisConfig, drawingArea } =
-    useCartesianChartContext();
-  const clipPath = useRevealClip();
-  const magneticContext = useMagneticPointsContext();
+  const { pixel, drawingArea, revealStyle, isVisible } = usePointGeometry({
+    dataX,
+    dataY,
+    magnetic,
+  });
 
-  useMagneticRegistration(magnetic, dataX, getXAxisConfig, magneticContext);
-
-  const xScale = getXScale();
-  const yScale = getYScale();
-
-  const radius = size / 2;
-  const fill = color ?? cssVar('var(--background-muted-strong)');
-
-  const pixel = useMemo(() => {
-    if (!xScale || !yScale) return undefined;
-    return projectPoint(dataX, dataY, xScale, yScale);
-  }, [dataX, dataY, xScale, yScale]);
-
-  if (!pixel || !isWithinBounds(pixel.x, pixel.y, drawingArea)) {
+  if (!isVisible || !pixel) {
     return null;
   }
 
-  const resolvedLabel = resolveLabel(label, dataX);
-  const hasLabel = resolvedLabel != null;
-  const renderArrow = showLabelArrow && hasLabel;
-  const labelY = computeLabelY(pixel.y, radius, labelPosition, renderArrow);
+  const labelText = resolveLabel(label, dataX);
+  const isLabelVisible = labelText !== undefined;
+  const labelGeometry = isLabelVisible
+    ? computeLabelGeometry({
+        text: labelText,
+        pixelX: pixel.x,
+        pixelY: pixel.y,
+        size,
+        labelPosition,
+        showLabelArrow,
+        area: drawingArea,
+        alignment: labelAlignment,
+      })
+    : null;
 
   const Label = LabelComponent ?? PointLabel;
 
   return (
     <g
       data-testid='point-group'
-      clipPath={clipPath}
       onClick={onClick}
-      style={onClick ? { cursor: 'pointer' } : undefined}
+      style={{
+        ...revealStyle,
+        ...(onClick ? { cursor: 'pointer' } : undefined),
+      }}
     >
       {!hidePoint && (
-        <circle
-          data-testid='point-circle'
-          cx={pixel.x}
-          cy={pixel.y}
-          r={radius}
-          style={{
-            fill,
-            stroke: cssVar('var(--background-canvas)'),
-          }}
-          strokeWidth={STROKE_WIDTH}
+        <PointMarker x={pixel.x} y={pixel.y} size={size} color={color} />
+      )}
+      {isLabelVisible && showLabelArrow && (
+        <PointArrow
+          x={pixel.x}
+          y={pixel.y}
+          size={size}
+          position={labelPosition}
         />
       )}
-      {renderArrow && (
-        <polygon
-          data-testid='point-arrow'
-          points={buildArrowPoints(pixel.x, pixel.y, radius, labelPosition)}
-          style={{ fill: cssVar('var(--text-base)') }}
-        />
-      )}
-      {resolvedLabel != null && (
-        <Label x={pixel.x} y={labelY}>
-          {resolvedLabel}
+      {labelText != null && labelGeometry && (
+        <Label
+          x={labelGeometry.x}
+          y={labelGeometry.y}
+          textAnchor={labelGeometry.textAnchor}
+        >
+          {labelText}
         </Label>
       )}
     </g>
   );
-}
+});

@@ -51,6 +51,10 @@ A `Series` is the core data model:
       <code>label</code>,
       'Optional, human-readable name used in legends and tooltips.',
     ],
+    [
+      <code>curve</code>,
+      'Optional, interpolation used to draw the line between data points.',
+    ],
   ]}
 />
 
@@ -59,14 +63,24 @@ Add a `label` and `stroke` to give the series identity:
 <Canvas of={LineChartStories.Series} />
 
 `series` also accepts multiple entries to draw several lines that share the same
-scales:
+scales. Each line can have a different `stroke`, `curve` and `showArea`:
 
 <Canvas of={LineChartStories.MultipleSeries} />
 
-## Data
+## Customizing lines
 
-Each series' `data` array defines the y-values, one per index. `null` entries
-render as gaps in the line.
+Every line is configured through its own `series` entry, so lines in the same
+chart can be styled independently. Today that means a per-line `stroke` color
+and `curve` — more per-line options (dashes, gradients, custom areas) will land
+here over time.
+
+<Canvas of={LineChartStories.CustomLine} />
+
+## Missing Data
+
+By default, null values in data create gaps in a line.
+Use `connectNulls` to skip null values and draw a continuous line.
+Note that scrubber beacons and points are still only shown at non-null data values.
 
 <Canvas of={LineChartStories.MissingData} />
 
@@ -119,6 +133,7 @@ Toggle axes with `showXAxis` / `showYAxis` and configure them through the
 
 <Canvas of={LineChartStories.WithXAxis} />
 <Canvas of={LineChartStories.WithYAxis} />
+<Canvas of={LineChartStories.WithBothAxis} />
 
 For the full set of axis options, see the dedicated **XAxis** and **YAxis**
 pages.
@@ -139,6 +154,24 @@ Highlight a threshold or baseline with a `<ReferenceLine>` child.
 <Canvas of={LineChartStories.WithReferenceLine} />
 
 See the **ReferenceLine** page for vertical lines and label alignment.
+
+## States
+
+### Empty
+
+When there is no drawable data and the chart is not `loading`, it renders an
+empty placeholder with the `emptyLabel` text centred in the chart.
+
+<Canvas of={LineChartStories.Empty} />
+
+### Loading
+
+`loading` signals that new data is being fetched. The placeholder depends on
+whether data is already on screen: without a series it shows an animated shimmer
+line (initial fetch); with a series it fades the current line to a muted grey
+and animates it until a new `series` is provided (refreshing existing data).
+
+<Canvas of={LineChartStories.Loading} />
 
 ## Composed example
 

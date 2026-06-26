@@ -15,6 +15,7 @@ import {
   OptionListEmptyState,
   OptionListSearch,
   OptionListTrigger,
+  createOptionList,
 } from './OptionList';
 import type { OptionListItemData } from './types';
 
@@ -550,6 +551,45 @@ describe('OptionList', () => {
 
       expect(getByRole('button')).toBeTruthy();
       expect(queryByText('Selected value')).toBeTruthy();
+    });
+  });
+
+  describe('createOptionList', () => {
+    it('returns typed components that render and select', () => {
+      type Value = 'a' | 'b' | 'c';
+      const typedItems: OptionListItemData<Value>[] = [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+        { value: 'c', label: 'Gamma' },
+      ];
+      const {
+        OptionList: TypedList,
+        OptionListContent: TypedContent,
+        OptionListItem: TypedItem,
+        OptionListItemContent: TypedItemContent,
+        OptionListItemText: TypedItemText,
+      } = createOptionList<Value>();
+      const onValueChange = jest.fn();
+
+      const { getByText } = render(
+        <TestWrapper>
+          <TypedList items={typedItems} onValueChange={onValueChange}>
+            <TypedContent
+              renderItem={(item) => (
+                <TypedItem value={item.value}>
+                  <TypedItemContent>
+                    <TypedItemText>{item.label}</TypedItemText>
+                  </TypedItemContent>
+                </TypedItem>
+              )}
+            />
+          </TypedList>
+        </TestWrapper>,
+      );
+
+      fireEvent.press(getByText('Beta'));
+
+      expect(onValueChange).toHaveBeenCalledWith('b');
     });
   });
 });

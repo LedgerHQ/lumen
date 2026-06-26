@@ -8,7 +8,8 @@ import { TextInput } from './TextInput';
 
 const meta: Meta<typeof TextInput> = {
   component: TextInput,
-  title: 'Input/TextInput',
+  id: 'react-textinput',
+  title: 'Core/TextInput',
   parameters: {
     docs: {
       source: {
@@ -241,9 +242,9 @@ export const WithError: Story = {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           helperText={
-            !isValidEmail ? 'Please enter a valid email address' : undefined
+            isValidEmail ? undefined : 'Please enter a valid email address'
           }
-          status={!isValidEmail ? 'error' : undefined}
+          status={isValidEmail ? undefined : 'error'}
         />
         <div className='mt-12 body-3 text-muted'>
           Try typing a valid email address or clicking the clear button to

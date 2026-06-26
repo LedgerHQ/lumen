@@ -11,7 +11,8 @@ import { SearchInput } from './SearchInput';
 
 const meta: Meta<typeof SearchInput> = {
   component: SearchInput,
-  title: 'Input/SearchInput',
+  id: 'react-searchinput',
+  title: 'Core/SearchInput',
   args: {
     appearance: 'plain',
   },
@@ -109,6 +110,7 @@ export const Error: Story = {
     helperText: 'Search term is invalid',
     status: 'error',
     className: 'max-w-md',
+    'aria-label': 'Search',
   },
   parameters: {
     docs: {
@@ -220,7 +222,7 @@ export const DebouncedSearchInput: Story = {
               <div>
                 <p className='mb-8 body-3 text-muted'>
                   Found {filteredResults.length} result
-                  {filteredResults.length !== 1 ? 's' : ''} for "{searchQuery}"
+                  {filteredResults.length === 1 ? '' : 's'} for "{searchQuery}"
                 </p>
                 <div className='space-y-4'>
                   {filteredResults.map((result) => (

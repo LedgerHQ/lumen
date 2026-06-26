@@ -36,8 +36,7 @@ const bannerVariants = {
  *
  * The appearance determines the color scheme and icon used.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-banner-overview--docs Storybook}
- * @see {@link https://ldls.vercel.app/?path=/docs/communication-banner-implementation--docs#dos-and-donts Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-banner--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
  * Do not use it to modify the banner's core appearance (colors, padding, etc). Use the `appearance` prop instead.
@@ -97,7 +96,7 @@ export const Banner = ({
           )}
         </div>
         {(primaryAction || secondaryAction) && (
-          <div className='flex gap-4'>
+          <div className='flex flex-wrap gap-4'>
             {primaryAction}
             {secondaryAction}
           </div>
