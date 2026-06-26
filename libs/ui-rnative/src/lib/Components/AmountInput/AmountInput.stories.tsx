@@ -201,6 +201,20 @@ export const WithoutThousandsSeparator: Story = {
   },
 };
 
+export const DecimalSeparatorComma: Story = {
+  render: (args) => <AmountInputStory {...args} />,
+  args: {
+    value: '1234.5',
+    currencyText: '€',
+    currencyPosition: 'right',
+    allowDecimals: true,
+    thousandsSeparator: true,
+    decimalSeparator: ',',
+    isInvalid: false,
+    editable: true,
+  },
+};
+
 export const ErrorState: Story = {
   render: (args) => <AmountInputStory {...args} />,
   args: {

@@ -6,6 +6,7 @@ type FormatOptions = {
   thousandsSeparator: boolean;
   maxIntegerLength: number;
   maxDecimalLength: number;
+  decimalSeparator: '.' | ',';
 };
 
 type UseAmountInputFormattingArgs = {
@@ -32,6 +33,7 @@ export const useAmountInputFormatting = ({
       formatOptions.thousandsSeparator,
       formatOptions.maxIntegerLength,
       formatOptions.maxDecimalLength,
+      formatOptions.decimalSeparator,
     ],
   );
 

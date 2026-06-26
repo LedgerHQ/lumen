@@ -73,6 +73,12 @@ You can customize these limits using `maxIntegerLength` and `maxDecimalLength` p
 
 <Canvas of={AmountInputStories.CustomMaxLength} />
 
+### Decimal Separator
+
+Use the `decimalSeparator` prop to control how decimals are **displayed** (`'.'` by default, or `','` for locales such as fr-FR). Typing always accepts both `,` and `.`, so the input stays compatible with any locale keyboard — only the displayed (and emitted) separator changes.
+
+<Canvas of={AmountInputStories.DecimalSeparator} />
+
 ### Error State
 
 The input supports error handling through:
@@ -159,6 +165,20 @@ By default, the component allows up to 9 digits for the integer part and 9 digit
   currencyText="USD"
   maxIntegerLength={12} // Allow larger integer amounts
   maxDecimalLength={8} // Allow up to 8 decimal places
+/>
+```
+
+### Decimal Separator
+
+By default decimals are displayed with a dot. Pass `decimalSeparator=","` to display them with a comma (e.g. for fr-FR). Input parsing always accepts both `,` and `.`, so this only affects the displayed value and the value passed to `onChange`.
+
+```tsx
+// Displays "1 234,5" and emits "1 234,5" through onChange
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText='€'
+  decimalSeparator=','
 />
 ```
 
