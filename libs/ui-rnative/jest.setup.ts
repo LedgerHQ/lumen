@@ -179,6 +179,11 @@ jest.mock('react-native-reanimated', () => {
       out: (easing: any) => easing,
       inOut: (easing: any) => easing,
     },
+    ReduceMotion: {
+      System: 'system',
+      Always: 'always',
+      Never: 'never',
+    },
   };
 
   return Reanimated;
