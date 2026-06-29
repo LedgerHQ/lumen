@@ -5,6 +5,7 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
+import type { DotIndicatorProps } from '../DotIndicator';
 import type { IconSize } from '../Icon';
 import type { DotIconPin, DotIconProps, DotIconSize } from './types';
 
@@ -52,6 +53,12 @@ const dotVariants = cva(
     ],
   },
 );
+
+// larger avatars (`lg`, `xl`) don't render a dot indicator
+export const avatarDotIconSizeMap = {
+  sm: 'lg',
+  md: 'xl',
+} as const satisfies Record<'sm' | 'md', DotIndicatorProps['size']>;
 
 export const mediaImageDotIconSizeMap = {
   40: 16,

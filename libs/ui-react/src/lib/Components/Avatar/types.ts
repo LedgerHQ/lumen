@@ -25,12 +25,6 @@ export type AvatarProps = {
    */
   size?: 'sm' | 'md' | 'lg' | 'xl';
   /**
-   * Whether to show the notifications indicator.
-   * @optional
-   * @default false
-   */
-  showNotification?: boolean;
-  /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    * @optional
    */
