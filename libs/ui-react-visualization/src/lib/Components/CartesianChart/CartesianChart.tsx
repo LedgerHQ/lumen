@@ -2,10 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
+import { DEFAULT_HEIGHT } from './constants';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealAnimationProvider } from './RevealAnimation';
 import type { CartesianChartProps } from './types';
-import { DEFAULT_HEIGHT, resolveAxisPadding, resolveInset } from './utils';
+import { resolveAxisPadding, resolveInset } from './utils';
 
 export function CartesianChart({
   series,

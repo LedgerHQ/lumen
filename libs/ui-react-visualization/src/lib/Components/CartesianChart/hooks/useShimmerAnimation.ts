@@ -1,7 +1,6 @@
 import { useId, useMemo } from 'react';
 
-const PULSE_DURATION_IN_SECONDS = 2;
-const PULSE_EASING = 'cubic-bezier(0.4, 0, 0.6, 1)';
+import { PULSE_DURATION_IN_SECONDS, PULSE_EASING } from './constants';
 
 type ShimmerAnimationResult = {
   /**

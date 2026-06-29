@@ -4,10 +4,9 @@ import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';
 
+import { GRID_LINE_RATIOS, PLACEHOLDER_LINE_PATH } from '../constants';
 import type { LineChartEmptyStateProps } from './types';
-import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
-
-const GRID_LINE_RATIOS = [0.3, 0.5, 0.7];
+import { buildPlaceholderTransform } from './utils';
 
 /**
  * SVG placeholder line shown when a LineChart is loading with no data yet (with

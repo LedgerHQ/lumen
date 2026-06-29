@@ -3,12 +3,7 @@ import type { ChartInset, Series } from '../../utils/types';
 import { DEFAULT_AXIS_HEIGHT, DEFAULT_AXIS_WIDTH } from '../Axis';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
-
-/**
- * Minimum number of finite points a series needs to be drawable as a line.
- */
-const MIN_DRAWABLE_POINTS = 2;
-const LOADING_ARIA_LABEL = 'Loading chart';
+import { LOADING_ARIA_LABEL, MIN_DRAWABLE_POINTS } from './constants';
 
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;

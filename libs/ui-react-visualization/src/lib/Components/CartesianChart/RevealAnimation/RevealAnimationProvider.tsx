@@ -1,11 +1,9 @@
 import { useMemo } from 'react';
 
+import { DEFAULT_DURATION_IN_SECONDS, DEFAULT_EASING } from './constants';
 import { RevealAnimationContext } from './context';
 import type { RevealAnimationProps } from './types';
 import { useRevealAnimation, useDataFingerprint } from './utils';
-
-const DEFAULT_DURATION_IN_SECONDS = 0.8;
-const DEFAULT_EASING = 'linear';
 
 export function RevealAnimationProvider({
   children,

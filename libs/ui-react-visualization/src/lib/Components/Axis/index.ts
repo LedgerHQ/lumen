@@ -1,2 +1,2 @@
-export * from './Axis.types';
-export * from './Axis.constants';
+export * from './types';
+export * from './constants';
