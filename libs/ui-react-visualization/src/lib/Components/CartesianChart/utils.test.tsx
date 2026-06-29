@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ZERO_PADDING, resolveAxisPadding, resolveInset } from './utils';
+import { ZERO_PADDING } from './constants';
+import { resolveAxisPadding, resolveInset } from './utils';
 
 describe('resolveInset', () => {
   it('should return ZERO_PADDING when undefined', () => {

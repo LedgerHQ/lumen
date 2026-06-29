@@ -3,6 +3,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticSnapshot } from '../Point/pointContext';
+import {
+  DEFAULT_MAGNET_RADIUS,
+  KEYBOARD_PAGE_STEP_MAX,
+  KEYBOARD_PAGE_STEP_MIN,
+  KEYBOARD_PAGE_STEP_RATIO,
+  KEYBOARD_STEP,
+} from './constants';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
 import {
@@ -17,7 +24,7 @@ export function ScrubberProvider({
   svgRef,
   enableScrubbing,
   onScrubberPositionChange,
-  magnetRadius = 8,
+  magnetRadius = DEFAULT_MAGNET_RADIUS,
 }: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
   const { getMagneticPoints, version } = useMagneticSnapshot();
@@ -151,8 +158,12 @@ export function ScrubberProvider({
       const maxIndex = dataLength - 1;
       const current = scrubberPositionRef.current ?? maxIndex;
       const step = event.shiftKey
-        ? clamp(Math.floor(maxIndex * 0.1), 1, 10)
-        : 1;
+        ? clamp(
+            Math.floor(maxIndex * KEYBOARD_PAGE_STEP_RATIO),
+            KEYBOARD_PAGE_STEP_MIN,
+            KEYBOARD_PAGE_STEP_MAX,
+          )
+        : KEYBOARD_STEP;
 
       let next: number | undefined;
 

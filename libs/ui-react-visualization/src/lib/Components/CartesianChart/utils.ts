@@ -1,14 +1,6 @@
 import type { ChartInset } from '../../utils/types';
+import { ZERO_PADDING } from './constants';
 import type { CartesianChartProps } from './types';
-
-export const DEFAULT_HEIGHT = 240;
-
-export const ZERO_PADDING: ChartInset = {
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-};
 
 export const resolveInset = (
   inset: CartesianChartProps['inset'],

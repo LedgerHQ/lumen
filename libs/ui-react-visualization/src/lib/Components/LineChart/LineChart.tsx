@@ -6,9 +6,11 @@ import { XAxis } from '../Axis/XAxis';
 import { YAxis } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel/ChartEmptyLabel';
+import { DEFAULT_HEIGHT } from '../CartesianChart/constants';
 import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
 import { Line } from '../Line';
 
+import { DEFAULT_EMPTY_LABEL } from './constants';
 import { LineChartEmptyState } from './LineChartEmptyState';
 import type {
   LineChartContentProps,
@@ -115,14 +117,14 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = 240,
+  height = DEFAULT_HEIGHT,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
   animate,
   magnetRadius,
   loading = false,
-  emptyLabel = 'No data',
+  emptyLabel = DEFAULT_EMPTY_LABEL,
   children,
 }: Readonly<LineChartProps>) {
   const xAxisConfig = useMemo(

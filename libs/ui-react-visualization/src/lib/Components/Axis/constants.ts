@@ -5,6 +5,7 @@ export const DEFAULT_AXIS_HEIGHT = 28;
 export const DEFAULT_AXIS_WIDTH = 40;
 export const TICK_MARK_SIZE = 4;
 export const TICK_LABEL_OFFSET = 6;
+export const GRID_DASH_ARRAY = '3 3';
 
 export const defaultXAxisProps: XAxisProps = {
   position: 'bottom',

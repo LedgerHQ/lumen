@@ -3,11 +3,10 @@ import type { CSSProperties } from 'react';
 
 import type { DrawingArea, Series } from '../../../utils/types';
 
-/**
- * Duration in seconds of an individual point's opacity fade-in.
- */
-const POINT_FADE_DURATION_IN_SECONDS = 0.2;
-const POINT_FADE_IN_AFTER_CLIP_IN_SECONDS = -0.1;
+import {
+  POINT_FADE_DURATION_IN_SECONDS,
+  POINT_FADE_IN_AFTER_CLIP_IN_SECONDS,
+} from './constants';
 
 type RevealAnimationConfig = {
   duration: number;

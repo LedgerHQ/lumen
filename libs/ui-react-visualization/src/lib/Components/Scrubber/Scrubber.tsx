@@ -4,9 +4,6 @@ import { useId, useMemo } from 'react';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { LINE_DEFAULT_STROKE_COLOR } from '../Line/constants';
 
-import { useScrubberContext } from './context';
-import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
-import type { ScrubberProps } from './types';
 import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
@@ -14,9 +11,11 @@ import {
   OVERLAY_OFFSET,
   OVERLAY_OPACITY,
   LINE_GRADIENT_EDGE_OPACITY,
-  resolvePixelX,
-  resolvePixelY,
-} from './utils';
+} from './constants';
+import { useScrubberContext } from './context';
+import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
+import type { ScrubberProps } from './types';
+import { resolvePixelX, resolvePixelY } from './utils';
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
