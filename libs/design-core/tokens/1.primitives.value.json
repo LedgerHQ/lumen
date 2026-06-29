@@ -436,6 +436,18 @@
             }
           }
         },
+        "950-2%": {
+          "$type": "color",
+          "$value": "#00000005",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "950-3%": {
           "$type": "color",
           "$value": "#00000008",
@@ -3902,9 +3914,33 @@
             }
           }
         },
+        "950-8%": {
+          "$type": "color",
+          "$value": "#ffffff14",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "950-10%": {
           "$type": "color",
           "$value": "#ffffff1a",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "950-12%": {
+          "$type": "color",
+          "$value": "#ffffff1f",
           "$description": "",
           "$extensions": {
             "com.figma": {

@@ -19,10 +19,10 @@
   --color-background-surface-hover: var(--color-dark-grey-200);
   --color-background-surface-pressed: var(--color-dark-grey-300);
   --color-background-surface-disabled: var(--color-dark-grey-100);
-  --color-background-surface-transparent: var(--color-dark-grey-950-5);
+  --color-background-surface-transparent: var(--color-dark-grey-950-8);
   --color-background-surface-transparent-hover: var(--color-dark-grey-950-10);
   --color-background-surface-transparent-pressed: var(--color-dark-grey-950-20);
-  --color-background-surface-transparent-disabled: var(--color-dark-grey-950-5);
+  --color-background-surface-transparent-disabled: var(--color-dark-grey-950-8);
   --color-background-base: var(--color-dark-grey-050);
   --color-background-base-hover: var(--color-dark-grey-100);
   --color-background-base-pressed: var(--color-dark-grey-200);
@@ -34,10 +34,10 @@
   --color-background-muted: var(--color-dark-grey-200);
   --color-background-muted-hover: var(--color-dark-grey-300);
   --color-background-muted-pressed: var(--color-dark-grey-400);
-  --color-background-muted-transparent: var(--color-dark-grey-950-10);
+  --color-background-muted-transparent: var(--color-dark-grey-950-12);
   --color-background-muted-transparent-hover: var(--color-dark-grey-950-20);
   --color-background-muted-transparent-pressed: var(--color-dark-grey-950-30);
-  --color-background-muted-transparent-disabled: var(--color-dark-grey-950-10);
+  --color-background-muted-transparent-disabled: var(--color-dark-grey-950-12);
   --color-background-muted-transparent-0: var(--color-dark-grey-200-0);
   --color-background-muted-strong: var(--color-dark-grey-600);
   --color-background-muted-strong-hover: var(--color-dark-grey-700);

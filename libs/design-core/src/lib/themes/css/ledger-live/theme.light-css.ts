@@ -20,13 +20,13 @@ export const tokens = {
     '--color-background-surface-hover': 'var(--color-light-grey-200)',
     '--color-background-surface-pressed': 'var(--color-light-grey-300)',
     '--color-background-surface-disabled': 'var(--color-light-grey-100)',
-    '--color-background-surface-transparent': 'var(--color-light-grey-950-3)',
+    '--color-background-surface-transparent': 'var(--color-light-grey-950-2)',
     '--color-background-surface-transparent-hover':
       'var(--color-light-grey-950-5)',
     '--color-background-surface-transparent-pressed':
       'var(--color-light-grey-950-10)',
     '--color-background-surface-transparent-disabled':
-      'var(--color-light-grey-950-3)',
+      'var(--color-light-grey-950-2)',
     '--color-background-base': 'var(--color-light-grey-050)',
     '--color-background-base-hover': 'var(--color-light-grey-100)',
     '--color-background-base-pressed': 'var(--color-light-grey-200)',
