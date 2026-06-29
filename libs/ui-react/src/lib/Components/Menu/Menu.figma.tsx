@@ -34,10 +34,7 @@ figma.connect(
         }),
         false: figma.string('title'),
       }),
-      icon: figma.boolean('show-icon', {
-        true: figma.instance('icon'),
-        false: undefined,
-      }),
+      icon: figma.instance('icon'),
       disabled: figma.enum('state', {
         disabled: true,
       }),

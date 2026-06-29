@@ -29,46 +29,49 @@ const commonProps = {
     ),
     false: <ListItemTitle>Title</ListItemTitle>,
   }),
-  descriptionArea: figma.boolean('show-description', {
-    true: figma.boolean('show-description-tag', {
-      true: figma.boolean('show-description-network', {
-        true: (
-          <ListItemContentRow>
-            <ListItemDescription>Description</ListItemDescription>
-            <Tag label='Label' size='sm' appearance='gray' />
-            <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
-          </ListItemContentRow>
-        ),
-        false: (
-          <ListItemContentRow>
-            <ListItemDescription>Description</ListItemDescription>
-            <Tag label='Label' size='sm' appearance='gray' />
-          </ListItemContentRow>
-        ),
+  descriptionArea: figma.enum('density', {
+    compact: undefined,
+    expanded: figma.boolean('show-description', {
+      true: figma.boolean('show-description-tag', {
+        true: figma.boolean('show-description-network', {
+          true: (
+            <ListItemContentRow>
+              <ListItemDescription>Description</ListItemDescription>
+              <Tag label='Label' size='sm' appearance='gray' />
+              <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
+            </ListItemContentRow>
+          ),
+          false: (
+            <ListItemContentRow>
+              <ListItemDescription>Description</ListItemDescription>
+              <Tag label='Label' size='sm' appearance='gray' />
+            </ListItemContentRow>
+          ),
+        }),
+        false: figma.boolean('show-description-network', {
+          true: (
+            <ListItemContentRow>
+              <ListItemDescription>Description</ListItemDescription>
+              <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
+            </ListItemContentRow>
+          ),
+          false: <ListItemDescription>Description</ListItemDescription>,
+        }),
       }),
-      false: figma.boolean('show-description-network', {
-        true: (
-          <ListItemContentRow>
-            <ListItemDescription>Description</ListItemDescription>
-            <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
-          </ListItemContentRow>
-        ),
-        false: <ListItemDescription>Description</ListItemDescription>,
-      }),
-    }),
-    false: figma.boolean('show-description-tag', {
-      true: figma.boolean('show-description-network', {
-        true: (
-          <ListItemContentRow>
-            <Tag label='Label' size='sm' appearance='gray' />
-            <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
-          </ListItemContentRow>
-        ),
-        false: <Tag label='Label' size='sm' appearance='gray' />,
-      }),
-      false: figma.boolean('show-description-network', {
-        true: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
-        false: undefined,
+      false: figma.boolean('show-description-tag', {
+        true: figma.boolean('show-description-network', {
+          true: (
+            <ListItemContentRow>
+              <Tag label='Label' size='sm' appearance='gray' />
+              <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />
+            </ListItemContentRow>
+          ),
+          false: <Tag label='Label' size='sm' appearance='gray' />,
+        }),
+        false: figma.boolean('show-description-network', {
+          true: <CryptoIcon ledgerId='ethereum' ticker='ETH' size={20} />,
+          false: undefined,
+        }),
       }),
     }),
   }),
@@ -245,7 +248,7 @@ figma.connect(
     variant: { 'trailing-content': 'icon' },
     props: {
       ...commonProps,
-      trailingIcon: figma.instance('trailing-icon'),
+      trailingIcon: <Placeholder size={24} />,
       chevron: figma.boolean('show-chevron', {
         true: <ChevronRight size={24} />,
         false: undefined,

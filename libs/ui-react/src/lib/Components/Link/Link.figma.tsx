@@ -28,7 +28,10 @@ figma.connect(
         sm: 'sm',
         md: 'md',
       }),
-      icon: Placeholder,
+      icon: figma.boolean('show-icon', {
+        true: Placeholder,
+        false: undefined,
+      }),
     },
     example: (
       props: Omit<LinkProps, 'icon' | 'children'> & {
