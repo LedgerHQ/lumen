@@ -34,8 +34,9 @@ figma.connect(
         />
       );
 
-      return props.showNotification ? (
-        <DotIndicator size={getDotSize('avatar', props.size as 'sm' | 'md')}>
+      return props.showNotification &&
+        (props.size === 'sm' || props.size === 'md') ? (
+        <DotIndicator size={getDotSize('avatar', props.size)}>
           {avatar}
         </DotIndicator>
       ) : (
