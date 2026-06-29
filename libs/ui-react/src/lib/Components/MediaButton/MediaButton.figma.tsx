@@ -10,6 +10,7 @@ figma.connect(
     imports: [
       "import { MediaButton } from '@ledgerhq/lumen-ui-react'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       appearance: figma.enum('appearance', {
@@ -23,8 +24,8 @@ figma.connect(
       }),
       leadingContent: figma.enum('leading-content', {
         'interface-icon': figma.enum('size', {
-          sm: figma.instance('icon'),
-          md: figma.instance('icon'),
+          sm: <Placeholder size={24} />,
+          md: <Placeholder size={32} />,
         }),
         coin: figma.enum('size', {
           sm: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />,

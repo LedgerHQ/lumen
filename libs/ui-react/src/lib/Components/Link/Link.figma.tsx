@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { Link } from './Link';
 import type { LinkProps } from './types';
 
@@ -8,7 +9,7 @@ figma.connect(
   {
     imports: [
       "import { Link } from '@ledgerhq/lumen-ui-react'",
-      "// import { YourIconName } from '@ledgerhq/lumen-ui-react/Symbols'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       isExternal: figma.boolean('show-external-link', {
@@ -27,7 +28,7 @@ figma.connect(
         sm: 'sm',
         md: 'md',
       }),
-      icon: figma.instance('icon'),
+      icon: Placeholder,
     },
     example: (
       props: Omit<LinkProps, 'icon' | 'children'> & {

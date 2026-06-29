@@ -14,7 +14,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6345-2641',
   {
     imports: [
-      "import { Dialog, DialogContent, DialogTrigger, DialogHeader } from '@ledgerhq/lumen-ui-react'",
+      "import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogBody, DialogFooter } from '@ledgerhq/lumen-ui-react'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
     props: {

@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { Button } from './Button';
 import type { ButtonProps } from './types';
 
@@ -8,7 +9,7 @@ figma.connect(
   {
     imports: [
       "import { Button } from '@ledgerhq/lumen-ui-rnative'",
-      "// import { YourIconName } from '@ledgerhq/lumen-ui-rnative/symbols'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols'",
     ],
     props: {
       disabled: figma.enum('state', {
@@ -31,7 +32,10 @@ figma.connect(
         lg: 'lg',
       }),
       children: figma.string('label'),
-      icon: figma.instance('icon'),
+      icon: figma.enum('content', {
+        'icon-text': Placeholder,
+        text: undefined,
+      }),
     },
     example: (
       props: Omit<ButtonProps, 'icon'> & {

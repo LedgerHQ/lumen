@@ -14,7 +14,7 @@ figma.connect(
     ],
     props: {
       header: figma.nestedProps('.bottom-sheet-header', {
-        density: figma.enum('appearance', {
+        density: figma.enum('density', {
           compact: 'compact',
           expanded: 'expanded',
         }),

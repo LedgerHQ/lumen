@@ -15,6 +15,7 @@ figma.connect(
   MenuItem,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7897-7037',
   {
+    imports: ["import { MenuItem } from '@ledgerhq/lumen-ui-react'"],
     props: {
       children: figma.boolean('show-description', {
         true: figma.enum('state', {
@@ -55,6 +56,9 @@ figma.connect(
   MenuContent,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7983-4755',
   {
+    imports: [
+      "import { MenuContent, MenuItem, MenuGroup, MenuLabel, MenuSeparator } from '@ledgerhq/lumen-ui-react'",
+    ],
     props: {
       section2: figma.boolean('show-section-2', {
         true: figma.boolean('show-divider', {
@@ -167,6 +171,9 @@ figma.connect(
   Menu,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=7983-5431',
   {
+    imports: [
+      "import { Menu, MenuTrigger, MenuContent, MenuItem, MenuCheckboxItem } from '@ledgerhq/lumen-ui-react'",
+    ],
     example: () => (
       <Menu>
         <MenuTrigger render={<button type='button'>Open Menu</button>} />

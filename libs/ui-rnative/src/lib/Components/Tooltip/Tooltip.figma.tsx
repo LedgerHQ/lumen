@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Text } from '../Utility/Text';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 figma.connect(
@@ -9,14 +10,20 @@ figma.connect(
       "import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-rnative'",
     ],
     props: {
-      label: figma.string('label'),
+      header: figma.nestedProps('.bottom-sheet-header', {
+        title: figma.string('title'),
+        description: figma.string('description'),
+      }),
     },
     example: (props) => (
       <Tooltip>
         <TooltipTrigger>
           <></>
         </TooltipTrigger>
-        <TooltipContent content={props.label} />
+        <TooltipContent
+          title={props.header.title}
+          content={<Text>{props.header.description}</Text>}
+        />
       </Tooltip>
     ),
   },

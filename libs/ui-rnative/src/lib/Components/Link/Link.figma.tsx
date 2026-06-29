@@ -1,11 +1,16 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { Link } from './Link';
+import type { LinkProps } from './types';
 
 figma.connect(
   Link,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=9661-18364',
   {
-    imports: ["import { Link } from '@ledgerhq/lumen-ui-rnative'"],
+    imports: [
+      "import { Link } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols'",
+    ],
     props: {
       isExternal: figma.boolean('show-external-link', {
         true: true,
@@ -23,13 +28,19 @@ figma.connect(
         sm: 'sm',
         md: 'md',
       }),
+      icon: Placeholder,
     },
-    example: (props) => (
+    example: (
+      props: Omit<LinkProps, 'icon' | 'children'> & {
+        icon?: any;
+      },
+    ) => (
       <Link
         isExternal={props.isExternal}
         underline={props.underline}
         appearance={props.appearance}
         size={props.size}
+        icon={props.icon}
         onPress={() => {}}
       >
         Label

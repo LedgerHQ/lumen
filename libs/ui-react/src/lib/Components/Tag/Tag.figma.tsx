@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { Tag } from './Tag';
 import type { TagProps } from './types';
 
@@ -6,7 +7,10 @@ figma.connect(
   Tag,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=722%3A5547',
   {
-    imports: ["import { Tag } from '@ledgerhq/lumen-ui-react'"],
+    imports: [
+      "import { Tag } from '@ledgerhq/lumen-ui-react'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+    ],
     props: {
       label: figma.string('label'),
       appearance: figma.enum('appearance', {
@@ -22,8 +26,10 @@ figma.connect(
         md: 'md',
         sm: 'sm',
       }),
-      showicon: figma.boolean('show-icon'),
-      icon: figma.instance('icon'),
+      icon: figma.boolean('show-icon', {
+        true: Placeholder,
+        false: undefined,
+      }),
       disabled: figma.enum('appearance', {
         disabled: true,
       }),

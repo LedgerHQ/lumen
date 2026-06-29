@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { IconButton } from './IconButton';
 import type { IconButtonProps } from './types';
 
@@ -8,7 +9,7 @@ figma.connect(
   {
     imports: [
       "import { IconButton } from '@ledgerhq/lumen-ui-rnative'",
-      "// import { YourIconName } from '@ledgerhq/lumen-ui-rnative/symbols'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols'",
     ],
     props: {
       disabled: figma.enum('state', {
@@ -31,7 +32,7 @@ figma.connect(
         md: 'md',
         lg: 'lg',
       }),
-      icon: figma.instance('icon'),
+      icon: Placeholder,
     },
     example: (
       props: Omit<IconButtonProps, 'icon' | 'accessibilityLabel'> & {

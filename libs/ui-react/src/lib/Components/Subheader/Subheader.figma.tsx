@@ -21,7 +21,6 @@ figma.connect(
     variant: { 'leading-action': 'none' },
     props: {
       title: figma.string('title'),
-      description: figma.string('description'),
       info: figma.boolean('show-info', {
         true: (
           <Tooltip>
@@ -55,12 +54,11 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=16477-1522&',
   {
     imports: [
-      "import { SubheaderShowMore, SubheaderCount } from '@ledgerhq/lumen-ui-react'",
+      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderCount, SubheaderDescription, SubheaderShowMore } from '@ledgerhq/lumen-ui-react'",
     ],
     variant: { 'leading-action': 'show-more' },
     props: {
       title: figma.string('title'),
-      description: figma.string('description'),
       count: figma.boolean('show-number', {
         true: <SubheaderCount value={5} />,
         false: undefined,

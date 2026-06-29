@@ -53,10 +53,6 @@ figma.connect(
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
     ],
     props: {
-      type: figma.enum('type', {
-        interactive: 'interactive',
-        expandable: 'expandable',
-      }),
       title: figma.string('title'),
       description: figma.string('description'),
       leading: figma.enum('leading', {
@@ -96,9 +92,6 @@ figma.connect(
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
     },
     example: (props) => (
       <CardHeader>
@@ -106,7 +99,7 @@ figma.connect(
           {props.leading}
           <CardContent>
             <CardContentTitle>{props.title}</CardContentTitle>
-            {props.description}
+            <CardContentDescription>{props.description}</CardContentDescription>
           </CardContent>
         </CardLeading>
         <CardTrailing>{props.trailing}</CardTrailing>

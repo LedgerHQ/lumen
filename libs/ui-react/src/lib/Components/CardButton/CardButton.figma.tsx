@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { CardButton } from './CardButton';
 import type { CardButtonProps } from './types';
 
@@ -8,7 +9,7 @@ figma.connect(
   {
     imports: [
       "import { CardButton } from '@ledgerhq/lumen-ui-react'",
-      "// import { YourIconName } from '@ledgerhq/lumen-ui-react/Symbols'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       title: figma.string('title'),
@@ -27,7 +28,7 @@ figma.connect(
         base: 'base',
         outline: 'outline',
       }),
-      icon: figma.instance('icon'),
+      icon: Placeholder,
     },
     example: (
       props: Omit<CardButtonProps, 'icon'> & {

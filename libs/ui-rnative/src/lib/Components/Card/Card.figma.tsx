@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import { Wallet } from '../../Symbols';
+import { ChevronRight, Wallet } from '../../Symbols';
 import { Button } from '../Button';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag';
@@ -9,8 +9,6 @@ import {
   CardContent,
   CardContentDescription,
   CardContentTitle,
-  CardFooter,
-  CardFooterActions,
   CardHeader,
   CardLeading,
   CardTrailing,
@@ -21,10 +19,7 @@ figma.connect(
   Card,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11025-33000',
   {
-    imports: [
-      "import { Card, CardHeader, CardLeading, CardContent, CardContentTitle, CardContentDescription, CardTrailing, CardFooter, CardFooterActions } from '@ledgerhq/lumen-ui-rnative'",
-      "import { Button } from '@ledgerhq/lumen-ui-rnative'",
-    ],
+    imports: ["import { Card, CardFooter } from '@ledgerhq/lumen-ui-rnative'"],
     props: {
       outlined: figma.boolean('is-selected', {
         true: true,
@@ -33,37 +28,15 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      header: figma.children('.card-header'),
       footer: figma.boolean('show-footer', {
-        true: (
-          <CardFooter>
-            <CardFooterActions>
-              <Button size='sm' appearance='gray' onPress={() => {}}>
-                Cancel
-              </Button>
-              <Button size='sm' appearance='base' onPress={() => {}}>
-                Confirm
-              </Button>
-            </CardFooterActions>
-          </CardFooter>
-        ),
+        true: figma.children('.card-footer'),
         false: undefined,
       }),
     },
     example: (props) => (
       <Card outlined={props.outlined} disabled={props.disabled}>
-        <CardHeader>
-          <CardLeading>
-            <CardContent>
-              <CardContentTitle>Title</CardContentTitle>
-              <CardContentDescription>Description</CardContentDescription>
-            </CardContent>
-          </CardLeading>
-          <CardTrailing>
-            <CardContent>
-              <CardContentTitle>$43,210.00</CardContentTitle>
-            </CardContent>
-          </CardTrailing>
-        </CardHeader>
+        {props.header}
         {props.footer}
       </Card>
     ),
@@ -76,12 +49,13 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=10541-743',
   {
     imports: [
-      "import { CardHeader, CardLeading, CardContent, CardContentTitle, CardContentDescription, CardTrailing, Spot, Button, Tag } from '@ledgerhq/lumen-ui-rnative'",
-      "import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols'",
+      "import { CardHeader, CardLeading, CardContent, CardContentTitle, CardContentDescription, CardTrailing } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Spot, Button, Tag } from '@ledgerhq/lumen-ui-rnative'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
     ],
     props: {
       title: figma.string('title'),
+      description: figma.string('description'),
       leading: figma.enum('leading', {
         spot: <Spot appearance='icon' icon={Wallet} />,
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
@@ -119,9 +93,6 @@ figma.connect(
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
     },
     example: (props) => (
       <CardHeader>
@@ -129,7 +100,7 @@ figma.connect(
           {props.leading}
           <CardContent>
             <CardContentTitle>{props.title}</CardContentTitle>
-            <CardContentDescription>Description</CardContentDescription>
+            <CardContentDescription>{props.description}</CardContentDescription>
           </CardContent>
         </CardLeading>
         <CardTrailing>{props.trailing}</CardTrailing>
@@ -138,13 +109,13 @@ figma.connect(
   },
 );
 
-// —— Card (expandable/info variant with footer) ——
+// —— Card (expandable/info variant) ——
 figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=14481-33979',
   {
     imports: [
       "import { Card, CardHeader, CardLeading, CardContent, CardContentTitle, CardContentDescription, CardTrailing } from '@ledgerhq/lumen-ui-rnative'",
-      "import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols'",
+      "import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols'",
     ],
     props: {
       title: figma.string('title'),
@@ -169,7 +140,7 @@ figma.connect(
             </CardContent>
           </CardLeading>
           <CardTrailing>
-            <Wallet size={20} />
+            <ChevronRight size={20} />
           </CardTrailing>
         </CardHeader>
       </Card>

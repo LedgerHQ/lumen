@@ -5,6 +5,7 @@ import {
   SubheaderRow,
   SubheaderShowMore,
   SubheaderTitle,
+  SubheaderCount,
 } from './Subheader';
 
 figma.connect(
@@ -12,7 +13,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=16477-1522',
   {
     imports: [
-      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderDescription } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Subheader, SubheaderRow, SubheaderTitle, SubheaderDescription, SubheaderCount } from '@ledgerhq/lumen-ui-rnative'",
     ],
     variant: { 'leading-action': 'none' },
     props: {
@@ -21,11 +22,16 @@ figma.connect(
         true: <SubheaderDescription>Description</SubheaderDescription>,
         false: undefined,
       }),
+      count: figma.boolean('show-number', {
+        true: <SubheaderCount value={5} />,
+        false: undefined,
+      }),
     },
     example: (props) => (
       <Subheader>
         <SubheaderRow>
           <SubheaderTitle>{props.title}</SubheaderTitle>
+          {props.count}
         </SubheaderRow>
         {props.descriptionBlock}
       </Subheader>
@@ -47,11 +53,16 @@ figma.connect(
         true: <SubheaderDescription>Description</SubheaderDescription>,
         false: undefined,
       }),
+      count: figma.boolean('show-number', {
+        true: <SubheaderCount value={5} />,
+        false: undefined,
+      }),
     },
-    example: ({ title, descriptionBlock }) => (
+    example: ({ title, descriptionBlock, count }) => (
       <Subheader>
         <SubheaderRow onPress={() => {}}>
           <SubheaderTitle>{title}</SubheaderTitle>
+          {count}
           <SubheaderShowMore />
         </SubheaderRow>
         {descriptionBlock}
