@@ -60,12 +60,12 @@ The Avatar component handles two primary states automatically:
 
 ### Notification Indicator
 
-To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot size from the avatar size with the `getDotIconSize` helper:
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot size from the avatar size with the `getDotSize` helper:
 
 ```tsx
-import { Avatar, DotIndicator, getDotIconSize } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-rnative';
 
-<DotIndicator size={getDotIconSize('avatar', 'md')}>
+<DotIndicator size={getDotSize('avatar', 'md')}>
   <Avatar src="https://example.com/photo.jpg" size="md" />
 </DotIndicator>;
 ```
@@ -122,14 +122,14 @@ function MyComponent() {
 
 ### With Notification
 
-Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotIconSize` to match the dot to the avatar size:
+Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotSize` to match the dot to the avatar size:
 
 ```tsx
-import { Avatar, DotIndicator, getDotIconSize } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
   return (
-    <DotIndicator size={getDotIconSize('avatar', 'md')}>
+    <DotIndicator size={getDotSize('avatar', 'md')}>
       <Avatar
         src="https://example.com/photo.jpg"
         size="md"
@@ -164,7 +164,7 @@ function MyComponent() {
 Avatars are commonly used as interactive triggers for navigation or actions. Wrap the Avatar in a `Pressable` component:
 
 ```tsx
-import { Avatar, DotIndicator, getDotIconSize } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-rnative';
 import { Pressable, Linking } from 'react-native';
 
 function UserProfile() {
@@ -182,7 +182,7 @@ function UserProfile() {
         backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
       })}
     >
-      <DotIndicator size={getDotIconSize('avatar', 'md')}>
+      <DotIndicator size={getDotSize('avatar', 'md')}>
         <Avatar src="https://example.com/photo.jpg" size="md" alt="User menu" />
       </DotIndicator>
     </Pressable>
@@ -223,7 +223,7 @@ You can also use the `style` prop for escape-hatch styling when needed:
 Here's a comprehensive example showing all Avatar features in a user profile context:
 
 ```tsx
-import { Avatar, Box, Text, DotIndicator, getDotIconSize } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, Box, Text, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-rnative';
 import { Pressable } from 'react-native';
 import { useState } from 'react';
 
@@ -258,7 +258,7 @@ function UserProfileHeader() {
         })}
       >
         {user.hasNotifications ? (
-          <DotIndicator size={getDotIconSize('avatar', 'md')}>
+          <DotIndicator size={getDotSize('avatar', 'md')}>
             {avatar}
           </DotIndicator>
         ) : (
