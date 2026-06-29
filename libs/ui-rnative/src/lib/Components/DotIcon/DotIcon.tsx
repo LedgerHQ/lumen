@@ -27,6 +27,12 @@ const dotSquareRadiusMap: Record<DotIconSize, number> = {
   32: 10,
 };
 
+// larger avatars (`lg`, `xl`) don't render a dot indicator
+export const avatarDotIconSizeMap = {
+  sm: 'lg',
+  md: 'xl',
+} as const satisfies Record<'sm' | 'md', DotIndicatorProps['size']>;
+
 export const mediaImageDotIconSizeMap = {
   40: 16,
   48: 20,
@@ -41,12 +47,6 @@ export const spotDotIconSizeMap = {
   56: 24,
   72: 32,
 } as const satisfies Record<number, DotIconSize>;
-
-// larger avatars (`lg`, `xl`) don't render a dot indicator.
-export const avatarDotIconSizeMap = {
-  sm: 'lg',
-  md: 'xl',
-} as const satisfies Record<'sm' | 'md', DotIndicatorProps['size']>;
 
 const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
   'top-start': ['top', 'left'],

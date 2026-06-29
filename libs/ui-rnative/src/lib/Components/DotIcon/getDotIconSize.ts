@@ -5,15 +5,15 @@ import {
 } from './DotIcon';
 
 type ContextSizeMap = {
+  avatar: keyof typeof avatarDotIconSizeMap;
   mediaImage: keyof typeof mediaImageDotIconSizeMap;
   spot: keyof typeof spotDotIconSizeMap;
-  avatar: keyof typeof avatarDotIconSizeMap;
 };
 
 type ContextResultMap = {
+  avatar: (typeof avatarDotIconSizeMap)[ContextSizeMap['avatar']];
   mediaImage: (typeof mediaImageDotIconSizeMap)[ContextSizeMap['mediaImage']];
   spot: (typeof spotDotIconSizeMap)[ContextSizeMap['spot']];
-  avatar: (typeof avatarDotIconSizeMap)[ContextSizeMap['avatar']];
 };
 
 export type DotIconSizeContext = keyof ContextSizeMap;
