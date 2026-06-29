@@ -7,6 +7,7 @@ const meta: Meta<typeof Spinner> = {
   component: Spinner,
   parameters: {
     actions: { disable: true },
+    chromatic: { pauseAnimationAtEnd: true },
   },
   argTypes: {
     size: {

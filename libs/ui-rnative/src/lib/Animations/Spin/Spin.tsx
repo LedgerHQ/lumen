@@ -1,6 +1,7 @@
 import { memo, useEffect } from 'react';
 import Animated, {
   cancelAnimation,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -23,7 +24,13 @@ export const Spin = memo(({ children, timing }: SpinProps) => {
   });
 
   useEffect(() => {
-    sv.value = withRepeat(withTiming(1, timingConfig), -1);
+    sv.value = withRepeat(
+      withTiming(1, timingConfig),
+      -1,
+      false,
+      undefined,
+      ReduceMotion.System,
+    );
 
     return () => cancelAnimation(sv);
   }, [sv, timingConfig]);
