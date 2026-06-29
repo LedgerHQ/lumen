@@ -3,6 +3,7 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../styles';
+import type { DotIndicatorProps } from '../DotIndicator';
 import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
 import type {
@@ -40,6 +41,12 @@ export const spotDotIconSizeMap = {
   56: 24,
   72: 32,
 } as const satisfies Record<number, DotIconSize>;
+
+// larger avatars (`lg`, `xl`) don't render a dot indicator.
+export const avatarDotIconSizeMap = {
+  sm: 'lg',
+  md: 'xl',
+} as const satisfies Record<'sm' | 'md', DotIndicatorProps['size']>;
 
 const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
   'top-start': ['top', 'left'],
