@@ -68,12 +68,14 @@ To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive th
 ```tsx
 import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-react';
 
-<DotIndicator size={getDotSize('avatar', 'md')}>
+<DotIndicator size={getDotSize('avatar', 'md')} aria-label="New notifications">
   <Avatar src="https://example.com/photo.jpg" size="md" />
 </DotIndicator>;
 ```
 
 > The notification dot is only supported on the `sm` and `md` sizes.
+
+> When the dot conveys state to the user, pass an `aria-label` to `DotIndicator`. Without one the dot is `aria-hidden` and won't be announced by assistive technology.
 
 <Canvas of={AvatarStories.NotificationShowcase} />
 
@@ -135,7 +137,7 @@ import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-react';
 
 function MyComponent() {
   return (
-    <DotIndicator size={getDotSize('avatar', 'md')}>
+    <DotIndicator size={getDotSize('avatar', 'md')} aria-label="New notifications">
       <Avatar src="https://example.com/photo.jpg" size="md" />
     </DotIndicator>
   );
@@ -178,7 +180,10 @@ function UserMenu() {
             type="button"
             className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover"
           >
-            <DotIndicator size={getDotSize('avatar', 'md')}>
+            <DotIndicator
+              size={getDotSize('avatar', 'md')}
+              aria-label="New notifications"
+            >
               <Avatar
                 src="https://example.com/photo.jpg"
                 size="md"
