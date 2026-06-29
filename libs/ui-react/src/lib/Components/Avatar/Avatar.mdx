@@ -63,11 +63,17 @@ The Avatar component handles two primary states automatically:
 
 ### Notification Indicator
 
-An optional notification indicator can be displayed to show status or alerts:
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot size from the avatar size with the `getDotSize` helper:
 
-- **showNotification**: Boolean prop to toggle the notification dot (default: false)
+```tsx
+import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-react';
 
-> The notification dot is only rendered on the `sm` and `md` sizes. It is suppressed on `lg` and `xl` even when `showNotification` is `true`.
+<DotIndicator size={getDotSize('avatar', 'md')}>
+  <Avatar src="https://example.com/photo.jpg" size="md" />
+</DotIndicator>;
+```
+
+> The notification dot is only supported on the `sm` and `md` sizes.
 
 <Canvas of={AvatarStories.NotificationShowcase} />
 
@@ -122,20 +128,16 @@ function MyComponent() {
 
 ### With Notification
 
-Display a notification indicator to show status or alerts:
+Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotSize` to match the dot to the avatar size:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-react';
+import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-react';
 
 function MyComponent() {
-  const hasNotifications = true;
-  
   return (
-    <Avatar 
-      src="https://example.com/photo.jpg" 
-      showNotification={hasNotifications}
-      size="md" 
-    />
+    <DotIndicator size={getDotSize('avatar', 'md')}>
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+    </DotIndicator>
   );
 }
 ```
@@ -164,7 +166,7 @@ function MyComponent() {
 Avatars are commonly used as interactive triggers for menus, dropdowns, or navigation. Wrap the Avatar in a semantic HTML element (`<button>` or `<a>`) and add appropriate hover states:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-react';
+import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-react';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '@ledgerhq/lumen-ui-react';
 
 function UserMenu() {
@@ -176,12 +178,13 @@ function UserMenu() {
             type="button"
             className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover"
           >
-            <Avatar
-              src="https://example.com/photo.jpg"
-              size="md"
-              alt="User menu"
-              showNotification
-            />
+            <DotIndicator size={getDotSize('avatar', 'md')}>
+              <Avatar
+                src="https://example.com/photo.jpg"
+                size="md"
+                alt="User menu"
+              />
+            </DotIndicator>
           </button>
         }
       />
