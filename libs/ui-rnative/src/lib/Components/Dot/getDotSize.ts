@@ -2,7 +2,7 @@ import {
   avatarDotIconSizeMap,
   mediaImageDotIconSizeMap,
   spotDotIconSizeMap,
-} from './DotIcon';
+} from '../DotIcon';
 
 type ContextSizeMap = {
   avatar: keyof typeof avatarDotIconSizeMap;
@@ -16,22 +16,22 @@ type ContextResultMap = {
   spot: (typeof spotDotIconSizeMap)[ContextSizeMap['spot']];
 };
 
-export type DotIconSizeContext = keyof ContextSizeMap;
+export type DotSizeContext = keyof ContextSizeMap;
 
-const dotIconSizeByContext: {
-  [T in DotIconSizeContext]: (size: ContextSizeMap[T]) => ContextResultMap[T];
+const dotSizeByContext: {
+  [T in DotSizeContext]: (size: ContextSizeMap[T]) => ContextResultMap[T];
 } = {
   avatar: (size) => avatarDotIconSizeMap[size],
   mediaImage: (size) => mediaImageDotIconSizeMap[size],
   spot: (size) => spotDotIconSizeMap[size],
 };
 
-export function getDotIconSize<T extends DotIconSizeContext>(
+export function getDotSize<T extends DotSizeContext>(
   context: T,
   size: ContextSizeMap[T],
 ): ContextResultMap[T] {
   return (
-    dotIconSizeByContext[context] as (
+    dotSizeByContext[context] as (
       size: ContextSizeMap[T],
     ) => ContextResultMap[T]
   )(size);

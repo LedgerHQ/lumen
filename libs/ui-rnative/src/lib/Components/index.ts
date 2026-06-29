@@ -11,6 +11,7 @@ export * from './Checkbox';
 export * from './ContentBanner';
 export * from './DescriptionItem';
 export * from './Divider';
+export * from './Dot';
 export * from './DotCount';
 export * from './DotIcon';
 export * from './DotIndicator';

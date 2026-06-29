@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, waitFor } from '@testing-library/react-native';
-import { getDotIconSize } from '../DotIcon';
+import { getDotSize } from '../Dot';
 import { DotIndicator } from '../DotIndicator';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Avatar } from './Avatar';
@@ -187,7 +187,7 @@ describe('Avatar Component', () => {
   it('should render a notification indicator when wrapped in DotIndicator', () => {
     const { getByTestId, toJSON } = render(
       <TestWrapper>
-        <DotIndicator size={getDotIconSize('avatar', 'md')}>
+        <DotIndicator size={getDotSize('avatar', 'md')}>
           <Avatar testID='avatar-id' size='md' />
         </DotIndicator>
       </TestWrapper>,
@@ -203,7 +203,7 @@ describe('Avatar Component', () => {
   it('should size the notification indicator based on the avatar size', () => {
     const { toJSON, rerender } = render(
       <TestWrapper>
-        <DotIndicator size={getDotIconSize('avatar', 'sm')}>
+        <DotIndicator size={getDotSize('avatar', 'sm')}>
           <Avatar testID='avatar-id' size='sm' />
         </DotIndicator>
       </TestWrapper>,
@@ -214,7 +214,7 @@ describe('Avatar Component', () => {
 
     rerender(
       <TestWrapper>
-        <DotIndicator size={getDotIconSize('avatar', 'md')}>
+        <DotIndicator size={getDotSize('avatar', 'md')}>
           <Avatar testID='avatar-id' size='md' />
         </DotIndicator>
       </TestWrapper>,

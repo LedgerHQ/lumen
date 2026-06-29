@@ -1,5 +1,5 @@
 import figma from '@figma/code-connect';
-import { getDotIconSize } from '../DotIcon';
+import { getDotSize } from '../Dot';
 import { DotIndicator } from '../DotIndicator';
 import { Avatar } from './Avatar';
 
@@ -8,7 +8,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11097-8',
   {
     imports: [
-      "import { Avatar, DotIndicator, getDotIconSize } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Avatar, DotIndicator, getDotSize } from '@ledgerhq/lumen-ui-rnative'",
     ],
     props: {
       appearance: figma.enum('appearance', {
@@ -34,9 +34,7 @@ figma.connect(
       );
 
       return props.showNotification ? (
-        <DotIndicator
-          size={getDotIconSize('avatar', props.size as 'sm' | 'md')}
-        >
+        <DotIndicator size={getDotSize('avatar', props.size as 'sm' | 'md')}>
           {avatar}
         </DotIndicator>
       ) : (
