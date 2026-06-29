@@ -72,9 +72,6 @@ const useStyles = ({
  * import { Avatar } from '@ledgerhq/lumen-ui-rnative';
  *
  * <Avatar src="https://example.com/photo.jpg" size="md" />
- *
- * // With notification indicator
- * <Avatar src="https://example.com/photo.jpg" showNotification />
  */
 export const Avatar = ({
   lx,
