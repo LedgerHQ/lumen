@@ -2,7 +2,7 @@
   "name": "app-sandbox-rnative",
   "version": "0.0.1",
   "private": true,
-  "main": "expo-router/entry",
+  "main": "index.js",
   "scripts": {
     "android": "expo run:android",
     "ios": "expo run:ios",
