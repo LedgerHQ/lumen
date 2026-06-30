@@ -47,8 +47,8 @@ export default function SandboxScreen() {
             <TileButton
               key={slug}
               icon={Eye}
+              lx={{ flexGrow: 1 }}
               onPress={() => router.push(`/${slug}`)}
-              style={{ flex: 1 }}
             >
               {title}
             </TileButton>
