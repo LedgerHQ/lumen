@@ -1,70 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
-
-export const ColorSwatch = ({
-  name,
-  className,
-  textClassName = 'text-base',
-  category = 'background',
-}: {
-  name: string;
-  className: string;
-  textClassName?: string;
-  category?: 'background' | 'text' | 'border';
-}) => {
-  const getSwatchContent = () => {
-    switch (category) {
-      case 'text':
-        return (
-          <>
-            <div
-              className={cn(
-                'h-64 rounded-lg border border-muted p-16',
-                className,
-              )}
-            >
-              <div className={cn('heading-5', textClassName)}>Aa</div>
-            </div>
-            <div className='mt-8 body-1-semi-bold text-base'>{name}</div>
-            <div className='body-3 text-muted'>{textClassName}</div>
-          </>
-        );
-      case 'border':
-        return (
-          <>
-            <div
-              className={cn(
-                'h-64 rounded-lg border-2 p-16',
-                className.replace('bg-base', ''),
-              )}
-            />
-            <div className='mt-8 body-1-semi-bold text-base'>{name}</div>
-            <div className='body-3 text-muted'>
-              {className.replace('bg-base ', '')}
-            </div>
-          </>
-        );
-      default:
-        return (
-          <>
-            <div
-              className={cn(
-                'flex h-64 flex-col justify-between rounded-lg border border-muted-subtle p-16',
-                className,
-              )}
-            />
-            <div className={cn('mt-8 body-1-semi-bold', textClassName)}>
-              {name}
-            </div>
-            <div className={cn('body-3 text-muted', textClassName)}>
-              {className}
-            </div>
-          </>
-        );
-    }
-  };
-
-  return <div className='group'>{getSwatchContent()}</div>;
-};
+import type { ReactNode } from 'react';
 
 export const SectionHeader = ({
   title,
@@ -79,27 +13,51 @@ export const SectionHeader = ({
   </div>
 );
 
-export const ColorSection = ({
-  title,
-  tokens,
-  category = 'background',
+export type TokenTableRow = {
+  key: string;
+  cells: ReactNode[];
+};
+
+/**
+ * Theme-aware table used by the foundation token docs, styled to match the
+ * Storybook docs tables of the React Native package. Layout/borders use static
+ * Tailwind utilities; only the per-token sample cells use inline styles.
+ */
+export const TokenTable = ({
+  headers,
+  rows,
 }: {
-  title?: string;
-  tokens: { name: string; className: string; textClassName?: string }[];
-  category?: 'background' | 'text' | 'border';
+  headers: string[];
+  rows: TokenTableRow[];
 }) => (
-  <div className='mb-32'>
-    {title && <h3 className='mb-32 heading-4 text-base'>{title}</h3>}
-    <div className='grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-      {tokens.map(({ name, className, textClassName }) => (
-        <ColorSwatch
-          key={name}
-          name={name}
-          className={className}
-          textClassName={textClassName}
-          category={category}
-        />
-      ))}
-    </div>
+  <div className='overflow-hidden rounded-lg border border-muted-subtle'>
+    <table className='w-full border-collapse body-3 text-base'>
+      <thead>
+        <tr>
+          {headers.map((header) => (
+            <th
+              key={header}
+              className='border border-muted-subtle bg-muted p-12 text-start body-2-semi-bold text-base'
+            >
+              {header}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(({ key, cells }) => (
+          <tr key={key}>
+            {cells.map((cell, index) => (
+              <td
+                key={index}
+                className='border border-muted-subtle p-12 text-left align-middle'
+              >
+                {cell}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 );

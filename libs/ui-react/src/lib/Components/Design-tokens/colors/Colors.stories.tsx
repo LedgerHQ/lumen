@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SectionHeader, ColorSection } from '../shared';
+import type { CSSProperties } from 'react';
+import { toKebab } from '../formatToken';
+import { SectionHeader, TokenTable } from '../shared';
+import { useResolvedTheme } from '../useResolvedTheme';
 
 const meta: Meta = {
   id: 'react-colors',
   title: 'Foundations/Colors',
-  globals: { backgrounds: { grid: true } },
   parameters: {
     backgrounds: {
       grid: {
@@ -19,363 +21,129 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+type ColorCategory = 'bg' | 'text' | 'border' | 'crypto' | 'discover';
+
+const isCloseToWhite = (hex: string, threshold = 230): boolean => {
+  if (parseInt(hex.slice(7, 9)) === 0) {
+    return true;
+  }
+
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return (r + g + b) / 3 >= threshold;
+};
+
+const formatCSSToken = (key: string, category: ColorCategory): string => {
+  const prefix =
+    category === 'bg' ? 'background' : category === 'text' ? 'text' : category;
+  return `--color-${prefix}-${toKebab(key)}`;
+};
+
+const formatTailwindUtility = (
+  key: string,
+  category: ColorCategory,
+): string => {
+  const suffix = toKebab(key);
+  switch (category) {
+    case 'text':
+      return `text-${suffix}`;
+    case 'border':
+      return `border-${suffix}`;
+    case 'crypto':
+      return `bg-crypto-${suffix}`;
+    case 'discover':
+      return `bg-discover-${suffix}`;
+    default:
+      return `bg-${suffix}`;
+  }
+};
+
+const ColorSample = ({
+  category,
+  value,
+}: {
+  category: ColorCategory;
+  value: string;
+}) => {
+  if (category === 'text') {
+    const style: CSSProperties = {
+      color: value,
+      fontWeight: 'bold',
+      paddingInline: 4,
+      borderRadius: 6,
+      backgroundColor: isCloseToWhite(value)
+        ? 'var(--color-background-black)'
+        : 'var(--color-background-white)',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'var(--color-border-muted-subtle)',
+    };
+    return <span style={style}>Aa</span>;
+  }
+
+  if (category === 'border') {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: 32,
+          borderWidth: 2,
+          borderStyle: 'solid',
+          borderColor: value,
+          borderRadius: 8,
+        }}
+      />
+    );
+  }
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: 32,
+        backgroundColor: value,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'var(--color-border-muted-subtle)',
+      }}
+    />
+  );
+};
+
+const ColorTable = ({ category }: { category: ColorCategory }) => {
+  const { colors } = useResolvedTheme();
+
+  const rows = Object.entries(colors[category])
+    .filter(([, value]) => !(category === 'crypto' && value.endsWith('00')))
+    .map(([key, value]) => ({
+      key,
+      cells: [
+        <code>{formatCSSToken(key, category)}</code>,
+        <code>{formatTailwindUtility(key, category)}</code>,
+        <code>{value}</code>,
+        <ColorSample category={category} value={value} />,
+      ],
+    }));
+
+  return (
+    <TokenTable
+      headers={['CSS token name', 'Tailwind utility', 'Hex', 'Sample']}
+      rows={rows}
+    />
+  );
+};
+
 export const Background: Story = {
   render: () => (
     <div className='p-24 transition-colors duration-300'>
       <SectionHeader
         title='Background Colors'
-        description='Tailwind classes for controlling the background color of an element.'
+        description='Background color tokens, used via the matching `bg-*` Tailwind utility.'
       />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Canvas',
-            className: 'bg-canvas',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Canvas Muted',
-            className: 'bg-canvas-muted',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Canvas Sheet',
-            className: 'bg-canvas-sheet',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Canvas Sheet Transparent',
-            className: 'bg-canvas-sheet-transparent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Canvas Overlay',
-            className: 'bg-canvas-overlay',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Canvas Overlay Subtle',
-            className: 'bg-canvas-overlay-subtle',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Canvas Overlay Chart',
-            className: 'bg-canvas-overlay-chart',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          { name: 'Base', className: 'bg-base', textClassName: 'text-base' },
-          {
-            name: 'Base Hover',
-            className: 'bg-base-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Base Pressed',
-            className: 'bg-base-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Base Transparent',
-            className: 'bg-base-transparent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Base Transparent Hover',
-            className: 'bg-base-transparent-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Base Transparent Pressed',
-            className: 'bg-base-transparent-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          { name: 'Muted', className: 'bg-muted', textClassName: 'text-base' },
-          {
-            name: 'Muted Hover',
-            className: 'bg-muted-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Pressed',
-            className: 'bg-muted-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Muted Transparent',
-            className: 'bg-muted-transparent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Transparent Hover',
-            className: 'bg-muted-transparent-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Transparent Pressed',
-            className: 'bg-muted-transparent-pressed',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Transparent Disabled',
-            className: 'bg-muted-transparent-disabled',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Transparent 0',
-            className: 'bg-muted-transparent-0',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Muted Strong',
-            className: 'bg-muted-strong',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Strong Hover',
-            className: 'bg-muted-strong-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Muted Strong Pressed',
-            className: 'bg-muted-strong-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Accent',
-            className: 'bg-accent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Accent Hover',
-            className: 'bg-accent-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Accent Pressed',
-            className: 'bg-accent-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Interactive',
-            className: 'bg-interactive',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Interactive Hover',
-            className: 'bg-interactive-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Interactive Pressed',
-            className: 'bg-interactive-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          { name: 'Error', className: 'bg-error', textClassName: 'text-base' },
-          {
-            name: 'Error Strong',
-            className: 'bg-error-strong',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Error Transparent',
-            className: 'bg-error-transparent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Error Transparent 0',
-            className: 'bg-error-transparent-0',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Warning',
-            className: 'bg-warning',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Warning Strong',
-            className: 'bg-warning-strong',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Success',
-            className: 'bg-success',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Success Strong',
-            className: 'bg-success-strong',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Success Transparent',
-            className: 'bg-success-transparent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Success Transparent 0',
-            className: 'bg-success-transparent-0',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Active',
-            className: 'bg-active',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Active Hover',
-            className: 'bg-active-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Active Pressed',
-            className: 'bg-active-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Active Subtle',
-            className: 'bg-active-subtle',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Active Subtle Hover',
-            className: 'bg-active-subtle-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Active Subtle Pressed',
-            className: 'bg-active-subtle-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Surface',
-            className: 'bg-surface',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Surface Hover',
-            className: 'bg-surface-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Surface Pressed',
-            className: 'bg-surface-pressed',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Surface Transparent',
-            className: 'bg-surface-transparent',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Surface Transparent Hover',
-            className: 'bg-surface-transparent-hover',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Surface Transparent Pressed',
-            className: 'bg-surface-transparent-pressed',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Surface Transparent Disabled',
-            className: 'bg-surface-transparent-disabled',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='background'
-        tokens={[
-          { name: 'White', className: 'bg-white', textClassName: 'text-base' },
-          { name: 'Black', className: 'bg-black', textClassName: 'text-base' },
-          { name: 'Grey', className: 'bg-grey', textClassName: 'text-base' },
-          {
-            name: 'Disabled',
-            className: 'bg-disabled',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Disabled Strong',
-            className: 'bg-disabled-strong',
-            textClassName: 'text-base',
-          },
-        ]}
-      />
+      <ColorTable category='bg' />
     </div>
   ),
 };
@@ -385,152 +153,9 @@ export const Text: Story = {
     <div className='p-24 transition-colors duration-300'>
       <SectionHeader
         title='Text Colors'
-        description='Tailwind classes for controlling the text color of an element.'
+        description='Text color tokens, used via the matching `text-*` Tailwind utility.'
       />
-      <ColorSection
-        category='text'
-        tokens={[
-          { name: 'Base', className: '', textClassName: 'text-base' },
-          {
-            name: 'Base Hover',
-            className: '',
-            textClassName: 'text-base-hover',
-          },
-          {
-            name: 'Base Pressed',
-            className: '',
-            textClassName: 'text-base-pressed',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='text'
-        tokens={[
-          { name: 'Muted', className: '', textClassName: 'text-muted' },
-          {
-            name: 'Muted Hover',
-            className: '',
-            textClassName: 'text-muted-hover',
-          },
-          {
-            name: 'Muted Pressed',
-            className: '',
-            textClassName: 'text-muted-pressed',
-          },
-          {
-            name: 'Muted Subtle',
-            className: '',
-            textClassName: 'text-muted-subtle',
-          },
-        ]}
-      />
-      <ColorSection
-        category='text'
-        tokens={[
-          {
-            name: 'interactive',
-            className: '',
-            textClassName: 'text-interactive',
-          },
-          {
-            name: 'interactive Hover',
-            className: '',
-            textClassName: 'text-interactive-hover',
-          },
-          {
-            name: 'interactive Pressed',
-            className: '',
-            textClassName: 'text-interactive-pressed',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='text'
-        tokens={[
-          { name: 'Error', className: '', textClassName: 'text-error' },
-          { name: 'Warning', className: '', textClassName: 'text-warning' },
-          { name: 'Success', className: '', textClassName: 'text-success' },
-        ]}
-      />
-
-      <ColorSection
-        category='text'
-        tokens={[
-          {
-            name: 'On Accent',
-            className: 'bg-accent',
-            textClassName: 'text-on-accent',
-          },
-          {
-            name: 'On Interactive',
-            className: 'bg-interactive',
-            textClassName: 'text-on-interactive',
-          },
-          {
-            name: 'On Error Strong',
-            className: 'bg-error-strong',
-            textClassName: 'text-on-error-strong',
-          },
-          {
-            name: 'On Warning Strong',
-            className: 'bg-warning-strong',
-            textClassName: 'text-on-warning',
-          },
-          {
-            name: 'On success strong',
-            className: 'bg-success-strong',
-            textClassName: 'text-on-success-strong',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='text'
-        tokens={[
-          {
-            name: 'White',
-            className: 'bg-black',
-            textClassName: 'text-white',
-          },
-          {
-            name: 'White Hover',
-            className: 'bg-base text-white-hover',
-          },
-          {
-            name: 'White Pressed',
-            className: 'bg-base text-white-pressed',
-          },
-          {
-            name: 'Black',
-            className: 'bg-white',
-            textClassName: 'text-black',
-          },
-          {
-            name: 'Grey',
-            className: 'bg-grey',
-            textClassName: 'text-grey',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='text'
-        tokens={[
-          { name: 'Disabled', className: '', textClassName: 'text-disabled' },
-        ]}
-      />
-      <ColorSection
-        category='text'
-        tokens={[
-          {
-            name: 'active',
-            className: '',
-            textClassName: 'text-active',
-          },
-        ]}
-      />
+      <ColorTable category='text' />
     </div>
   ),
 };
@@ -540,86 +165,9 @@ export const Border: Story = {
     <div className='p-24 transition-colors duration-300'>
       <SectionHeader
         title='Border Colors'
-        description='Tailwind classes for controlling the border color of an element.'
+        description='Border color tokens, used via the matching `border-*` Tailwind utility.'
       />
-      <ColorSection
-        category='border'
-        tokens={[
-          { name: 'Base', className: 'bg-base border-base' },
-          { name: 'Base Hover', className: 'bg-base border-base-hover' },
-          {
-            name: 'Base Pressed',
-            className: 'bg-base border-base-pressed',
-          },
-          {
-            name: 'Base Transparent 0',
-            className: 'bg-base border-base-transparent-0',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='border'
-        tokens={[
-          { name: 'Muted', className: 'bg-base border-muted' },
-          {
-            name: 'Muted Hover',
-            className: 'bg-base border-muted-hover',
-          },
-          {
-            name: 'Muted Pressed',
-            className: 'bg-base border-muted-pressed',
-          },
-          {
-            name: 'Muted Subtle',
-            className: 'bg-base border-muted-subtle',
-          },
-          {
-            name: 'Muted Subtle Transparent',
-            className: 'bg-base border-muted-subtle-transparent',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='border'
-        tokens={[
-          { name: 'Error', className: 'bg-base border-error' },
-          {
-            name: 'Error Transparent',
-            className: 'bg-base border-error-transparent',
-          },
-          { name: 'Warning', className: 'bg-base border-warning' },
-          { name: 'Success', className: 'bg-base border-success' },
-          {
-            name: 'Success Transparent',
-            className: 'bg-base border-success-transparent',
-          },
-        ]}
-      />
-
-      <ColorSection
-        category='border'
-        tokens={[
-          { name: 'Focus', className: 'bg-base border-focus' },
-          { name: 'Active', className: 'bg-base border-active' },
-        ]}
-      />
-
-      <ColorSection
-        category='border'
-        tokens={[
-          { name: 'Black', className: 'bg-base border-black' },
-          { name: 'White', className: 'bg-base border-white' },
-          { name: 'White Hover', className: 'bg-base border-white-hover' },
-          { name: 'White Pressed', className: 'bg-base border-white-pressed' },
-        ]}
-      />
-
-      <ColorSection
-        category='border'
-        tokens={[{ name: 'Disabled', className: 'bg-base border-disabled' }]}
-      />
+      <ColorTable category='border' />
     </div>
   ),
 };
@@ -630,203 +178,9 @@ export const Crypto: Story = {
     <div className='p-24'>
       <SectionHeader
         title='Crypto Colors'
-        description='Tailwind classes for crypto colors tokens for different cryptocurrencies'
+        description='Crypto color tokens for different cryptocurrencies.'
       />
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: 'Aion',
-            className: 'bg-crypto-aion',
-          },
-          {
-            name: 'Algorand',
-            className: 'bg-crypto-algorand',
-          },
-          {
-            name: 'Avalanche',
-            className: 'bg-crypto-avax',
-          },
-          { name: 'BAT', className: 'bg-crypto-bat' },
-          { name: 'BGB', className: 'bg-crypto-bgb' },
-          {
-            name: 'Bitcoin',
-            className: 'bg-crypto-bitcoin',
-          },
-          {
-            name: 'Bitcoin Cash',
-            className: 'bg-crypto-bitcoin-cash',
-          },
-          {
-            name: 'Bitcoin Gold',
-            className: 'bg-crypto-bitcoin-gold',
-          },
-          {
-            name: 'Bitcoin SV',
-            className: 'bg-crypto-bitcoin-sv',
-          },
-          {
-            name: 'Binance',
-            className: 'bg-crypto-binance',
-          },
-          {
-            name: 'Bytecoin',
-            className: 'bg-crypto-bytecoin',
-          },
-          {
-            name: 'Cardano',
-            className: 'bg-crypto-cardano',
-          },
-          {
-            name: 'Cosmos',
-            className: 'bg-crypto-cosmos',
-          },
-          {
-            name: 'Compound',
-            className: 'bg-crypto-compound',
-          },
-          {
-            name: 'Celo',
-            className: 'bg-crypto-celo',
-            textClassName: 'text-black',
-          },
-          {
-            name: 'Chainlink',
-            className: 'bg-crypto-chainlink',
-          },
-          { name: 'CRO', className: 'bg-crypto-cro' },
-          { name: 'Dash', className: 'bg-crypto-dash' },
-          { name: 'DAI', className: 'bg-crypto-dai' },
-          {
-            name: 'Decred',
-            className: 'bg-crypto-decred',
-          },
-          {
-            name: 'Digibyte',
-            className: 'bg-crypto-digibyte',
-          },
-          {
-            name: 'Dogecoin',
-            className: 'bg-crypto-dogecoin',
-          },
-          { name: 'dYdX', className: 'bg-crypto-dydx' },
-          {
-            name: 'Dymension',
-            className: 'bg-crypto-dym',
-            textClassName: 'text-black',
-          },
-          {
-            name: 'Elrond',
-            className: 'bg-crypto-elrond',
-          },
-          { name: 'Enigma', className: 'bg-crypto-eng' },
-          { name: 'EOS', className: 'bg-crypto-eos' },
-          {
-            name: 'EtherGem',
-            className: 'bg-crypto-ethergem',
-          },
-          {
-            name: 'Ethereum',
-            className: 'bg-crypto-ethereum',
-          },
-          {
-            name: 'Ethereum Classic',
-            className: 'bg-crypto-ethereum-classic',
-          },
-          { name: 'Flare', className: 'bg-crypto-flr' },
-          { name: 'Fantom', className: 'bg-crypto-ftm' },
-          {
-            name: 'Hedera',
-            className: 'bg-crypto-hedera',
-          },
-          { name: 'Helium', className: 'bg-crypto-hnt' },
-          { name: 'Huobi', className: 'bg-crypto-huobi' },
-          { name: 'IOTA', className: 'bg-crypto-iota' },
-          {
-            name: 'Komodo',
-            className: 'bg-crypto-komodo',
-          },
-          { name: 'LEO', className: 'bg-crypto-leo' },
-          {
-            name: 'Litecoin',
-            className: 'bg-crypto-litecoin',
-          },
-          {
-            name: 'Monero',
-            className: 'bg-crypto-monero',
-          },
-          {
-            name: 'MultiversX',
-            className: 'bg-crypto-multiverse-x',
-          },
-          { name: 'Nano', className: 'bg-crypto-nano' },
-          { name: 'Near', className: 'bg-crypto-near' },
-          { name: 'NEO', className: 'bg-crypto-neo' },
-          { name: 'Nimiq', className: 'bg-crypto-nimiq' },
-          {
-            name: 'OMG Network',
-            className: 'bg-crypto-omg-network',
-          },
-          { name: 'OKB', className: 'bg-crypto-okb' },
-          {
-            name: 'Osmosis',
-            className: 'bg-crypto-osmo',
-          },
-          {
-            name: 'Peercoin',
-            className: 'bg-crypto-peercoin',
-          },
-          { name: 'Pirl', className: 'bg-crypto-pirl' },
-          { name: 'PIVX', className: 'bg-crypto-pivx' },
-          {
-            name: 'Polkadot',
-            className: 'bg-crypto-polkadot',
-          },
-          {
-            name: 'Polygon',
-            className: 'bg-crypto-polygon',
-          },
-          { name: 'Sats', className: 'bg-crypto-sats' },
-          {
-            name: 'Stellar',
-            className: 'bg-crypto-stellar',
-          },
-          {
-            name: 'Solana',
-            className: 'bg-crypto-sol',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'USDT',
-            className: 'bg-crypto-tether-usdt',
-          },
-          { name: 'Tezos', className: 'bg-crypto-tezos' },
-          { name: 'TKX', className: 'bg-crypto-tkx' },
-          { name: 'Tron', className: 'bg-crypto-tron' },
-          {
-            name: 'Uniswap',
-            className: 'bg-crypto-uniswap',
-          },
-          {
-            name: 'TrueUSD',
-            className: 'bg-crypto-tusd',
-          },
-          {
-            name: 'USDC',
-            className: 'bg-crypto-usdc',
-            textClassName: 'text-base',
-          },
-          { name: 'UNI', className: 'bg-crypto-uni' },
-          { name: 'Waves', className: 'bg-crypto-waves' },
-          { name: 'XRP', className: 'bg-crypto-xrp' },
-          { name: 'Mixin', className: 'bg-crypto-xin' },
-          {
-            name: 'Yieldly',
-            className: 'bg-crypto-yieldly',
-          },
-          { name: 'Zcash', className: 'bg-crypto-zcash' },
-        ]}
-      />
+      <ColorTable category='crypto' />
     </div>
   ),
 };
@@ -834,90 +188,12 @@ export const Crypto: Story = {
 export const Discover: Story = {
   name: 'Discover background',
   render: () => (
-    <div className='border p-24'>
+    <div className='p-24'>
       <SectionHeader
         title='Discover Colors'
-        description='Tailwind classes for brand colors for discover services and platform integrations'
+        description='Brand colors for discover services and platform integrations.'
       />
-      <ColorSection
-        category='background'
-        tokens={[
-          {
-            name: '1inch',
-            className: 'bg-discover-1inch',
-            textClassName: 'text-base',
-          },
-          {
-            name: 'Changelly',
-            className: 'bg-discover-changelly',
-          },
-          {
-            name: 'Compound',
-            className: 'bg-discover-compound',
-          },
-
-          {
-            name: 'Deversifi',
-            className: 'bg-discover-deversifi',
-          },
-          {
-            name: 'Lido',
-            className: 'bg-discover-lido',
-          },
-          {
-            name: 'OpenSea',
-            className: 'bg-discover-opensea',
-          },
-          {
-            name: 'Paraswap',
-            className: 'bg-discover-paraswap',
-          },
-          {
-            name: 'Rarible',
-            className: 'bg-discover-rarible',
-          },
-          {
-            name: 'Zerion',
-            className: 'bg-discover-zerion',
-          },
-          {
-            name: 'Bitrefill',
-            className: 'bg-discover-bitrefill',
-          },
-          {
-            name: 'Loopipay Blue',
-            className: 'bg-discover-loopipay-blue',
-          },
-          {
-            name: 'Loopipay Black',
-            className: 'bg-discover-loopipay-black',
-          },
-          {
-            name: 'Loopipay Lime',
-            className: 'bg-discover-loopipay-lime',
-          },
-          {
-            name: 'Simplex',
-            className: 'bg-discover-simplex',
-          },
-          {
-            name: 'Baanx',
-            className: 'bg-discover-baanx',
-          },
-          {
-            name: 'Mercuryo',
-            className: 'bg-discover-mercuryo',
-          },
-          {
-            name: 'Juno',
-            className: 'bg-discover-juno',
-          },
-          {
-            name: 'Sardine',
-            className: 'bg-discover-sardine',
-          },
-        ]}
-      />
+      <ColorTable category='discover' />
     </div>
   ),
 };
