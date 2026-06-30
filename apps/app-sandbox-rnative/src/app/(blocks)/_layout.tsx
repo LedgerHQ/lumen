@@ -1,13 +1,10 @@
-import { Box, TileButton } from '@ledgerhq/lumen-ui-rnative';
+import { Box } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
-import { Eye } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { useRouter } from 'expo-router';
+import { Slot } from 'expo-router';
 import { ScrollView } from 'react-native';
-import { blocks } from '../blocks';
 
-export default function SandboxScreen() {
+export default function BlocksLayout() {
   const { theme } = useTheme();
-  const router = useRouter();
 
   return (
     <ScrollView
@@ -22,19 +19,11 @@ export default function SandboxScreen() {
         lx={{
           flexDirection: 'row',
           flexWrap: 'wrap',
-          gap: 's8',
+          gap: 's12',
           paddingVertical: 's40',
         }}
       >
-        {blocks.map(({ slug, title }) => (
-          <TileButton
-            key={slug}
-            icon={Eye}
-            onPress={() => router.push(`/${slug}`)}
-          >
-            {title}
-          </TileButton>
-        ))}
+        <Slot />
       </Box>
     </ScrollView>
   );

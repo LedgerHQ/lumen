@@ -11,7 +11,6 @@ import { useState } from 'react';
 import type { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SandboxHeader } from '../components/ui/Header';
-import { SandboxProvider } from '../contexts/SandboxContext';
 import { ThemeControlsProvider } from '../hooks/useThemeControls';
 
 export default function RootLayout() {
@@ -28,12 +27,10 @@ export default function RootLayout() {
         <ThemeControlsProvider
           value={{ colorScheme, setColorScheme, locale, setLocale }}
         >
-          <SandboxProvider>
-            <BottomSheetModalProvider>
-              <RootNavigator />
-              <GlobalTooltipBottomSheet />
-            </BottomSheetModalProvider>
-          </SandboxProvider>
+          <BottomSheetModalProvider>
+            <RootNavigator />
+            <GlobalTooltipBottomSheet />
+          </BottomSheetModalProvider>
         </ThemeControlsProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
@@ -44,6 +41,7 @@ const RootNavigator = () => {
   return (
     <Stack screenOptions={{ header: () => <SandboxHeader /> }}>
       <Stack.Screen name='index' />
+      <Stack.Screen name='(blocks)' />
     </Stack>
   );
 };
