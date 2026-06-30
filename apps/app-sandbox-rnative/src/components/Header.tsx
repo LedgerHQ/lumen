@@ -4,8 +4,8 @@ import { ArrowLeft, Moon, Sun } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useRouter, useSegments } from 'expo-router';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getBlockTitle } from '../../blocks';
-import { useThemeControls } from '../../hooks/useThemeControls';
+import { getBlockTitle } from '../blocks';
+import { useThemeControls } from '../hooks/useThemeControls';
 
 export const SandboxHeader = () => {
   const { theme } = useTheme();

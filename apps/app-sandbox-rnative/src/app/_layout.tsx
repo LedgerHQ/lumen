@@ -10,7 +10,7 @@ import { Stack } from 'expo-router';
 import { useState } from 'react';
 import type { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SandboxHeader } from '../components/ui/Header';
+import { SandboxHeader } from '../components/Header';
 import { ThemeControlsProvider } from '../hooks/useThemeControls';
 
 export default function RootLayout() {
