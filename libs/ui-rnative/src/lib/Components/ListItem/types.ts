@@ -1,4 +1,4 @@
-import type { Density } from '@ledgerhq/lumen-utils-shared';
+import type { Density, Priority } from '@ledgerhq/lumen-utils-shared';
 import type {
   StyledPressableProps,
   StyledTextProps,
@@ -18,6 +18,10 @@ export type ListItemProps = {
    * @default 'expanded'
    */
   density?: Density;
+  /**
+   * The parts which are protected from shrinking and truncation when horizontal space is limited.
+   */
+  priority?: Priority;
   /**
    * Whether the list item is disabled.
    */
