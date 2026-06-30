@@ -1,3 +1,4 @@
+import 'intl-pluralrules';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import type { SupportedLocale } from '@ledgerhq/lumen-ui-rnative';
 import {
