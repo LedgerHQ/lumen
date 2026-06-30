@@ -2,17 +2,23 @@ import { Box } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Slot } from 'expo-router';
 import { ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function BlocksLayout() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
     <ScrollView
       contentInsetAdjustmentBehavior='automatic'
       style={{
-        height: '100%',
+        flex: 1,
         backgroundColor: theme.colors.bg.canvas,
         paddingHorizontal: theme.spacings.s16,
+      }}
+      contentContainerStyle={{
+        paddingTop: theme.spacings.s40,
+        paddingBottom: insets.bottom + theme.spacings.s40,
       }}
     >
       <Box
@@ -20,7 +26,6 @@ export default function BlocksLayout() {
           flexDirection: 'row',
           flexWrap: 'wrap',
           gap: 's12',
-          paddingVertical: 's40',
         }}
       >
         <Slot />

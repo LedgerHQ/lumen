@@ -1,41 +1,60 @@
-import { Box, TileButton } from '@ledgerhq/lumen-ui-rnative';
+import { Box, SearchInput, TileButton } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Eye } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useRouter } from 'expo-router';
-import { ScrollView } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { blocks } from '../blocks';
 
 export default function SandboxScreen() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
+  const [search, setSearch] = useState<string>();
+
+  const filteredBlocks = search
+    ? blocks.filter((block) => block.title.toLowerCase().includes(search))
+    : blocks;
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior='automatic'
-      style={{
-        height: '100%',
-        backgroundColor: theme.colors.bg.canvas,
-        paddingHorizontal: theme.spacings.s16,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: theme.colors.bg.canvas }}>
       <Box
         lx={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: 's8',
-          paddingVertical: 's40',
+          backgroundColor: 'canvas',
+          paddingHorizontal: 's16',
+          paddingBottom: 's16',
         }}
       >
-        {blocks.map(({ slug, title }) => (
-          <TileButton
-            key={slug}
-            icon={Eye}
-            onPress={() => router.push(`/${slug}`)}
-          >
-            {title}
-          </TileButton>
-        ))}
+        <SearchInput value={search} onChangeText={setSearch} />
       </Box>
-    </ScrollView>
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingHorizontal: theme.spacings.s8,
+        }}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
+      >
+        <Box
+          lx={{
+            paddingHorizontal: 's8',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 's8',
+          }}
+        >
+          {filteredBlocks.map(({ slug, title }) => (
+            <TileButton
+              key={slug}
+              icon={Eye}
+              onPress={() => router.push(`/${slug}`)}
+              style={{ flex: 1 }}
+            >
+              {title}
+            </TileButton>
+          ))}
+        </Box>
+      </ScrollView>
+    </View>
   );
 }
