@@ -1,3 +1,4 @@
+import type { Priority } from '@ledgerhq/lumen-utils-shared';
 import type { ReactNode } from 'react';
 import type { StyledTextProps, StyledViewProps } from '../../../styles';
 
@@ -13,6 +14,11 @@ export type DescriptionItemProps = {
    * @default 'md'
    */
   size?: DescriptionItemSize;
+  /**
+   * The parts which are protected from shrinking and truncation when horizontal space is limited.
+   * @default 'end'
+   */
+  priority?: Priority;
 } & Omit<StyledViewProps, 'children'>;
 
 export type DescriptionItemLeadingProps = {
