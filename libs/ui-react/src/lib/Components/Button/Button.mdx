@@ -1,22 +1,14 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as ButtonStories from './Button.stories';
 import { Button } from './Button';
-import {
-  CustomTabs,
-  Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
-} from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
-import { Plus, Settings } from '../../Symbols';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 
 <Meta title='Core/Button' of={ButtonStories} />
 
 # Button
 
 <CustomTabs>
-  <Tab label="Overview ">
+  <Tab label="Overview">
 
 ## Introduction
 
@@ -72,7 +64,6 @@ Buttons come in four different sizes:
 
 > Note: For `xs` size (32 px), use the [IconButton](/docs/react-iconbutton--docs) component instead.
 
-
 <Canvas of={ButtonStories.SizesShowcase} />
 
 ### States
@@ -80,8 +71,6 @@ Buttons come in four different sizes:
 <Canvas of={ButtonStories.StatesShowcase} />
 
 > **Important Note:** The `loading` and `disabled` states are **not coupled**. When `disabled` is set, all event handlers are deactivated. When only `loading` is set (without `disabled`), the button remains clickable. Combine both props if you need to prevent interactions during loading.
-
-
 
 ## Responsive Layout
 
@@ -95,20 +84,11 @@ When a label is too long, it's truncated to 2 lines, with a maximum width of the
 
 > The Button must dynamically resize to its container constraints.
 
-## Accessibility
-
-To be implemented:
-
-- Color contrast
-- Text zoom
-- Keyboard navigation
-- Semantic labeling
-
-### Interactive States
+## Interactive States
 
 <Canvas of={ButtonStories.InteractiveLoadingStates} />
 
-### As Child
+## As Child
 
 <Canvas of={ButtonStories.AsChild} />
 
@@ -123,60 +103,25 @@ To be implemented:
   </li>
 </ul>
 
-</Tab> <Tab label="Implementation ">
+</Tab> <Tab label="Implementation">
 
 ```bash
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
-The `@radix-ui/react-slot` dependency enables flexible composition patterns, allowing the Button to merge its props with child elements when needed.
+The `@radix-ui/react-slot` dependency enables the `asChild` composition pattern, allowing the Button to merge its props with child elements when needed.
 
-## Basic Usage
+### Basic Usage
 
-```tsx
-import { Button } from '@ledgerhq/lumen-ui-react';
-
-function MyComponent() {
-  return (
-    <Button size='md' appearance='base'>
-      Click me
-    </Button>
-  );
-}
-```
-
-### Custom Styling
-
-While the component comes with predefined styles, you can extend them using Tailwind classes:
-
-```tsx
-<Button
-  size='md'
-  appearance='base'
-  className='md:hidden' // Custom responsive width
->
-  Custom Button
-</Button>
-```
+<Source of={ButtonStories.Base} />
 
 ### With Icons
 
-The Button component supports icons with automatic size adjustment based on the button size:
+The Button supports icons with automatic size adjustment based on the button size.
 
-```tsx
-import { Button } from '@ledgerhq/lumen-ui-react';
-import { ArrowRight } from '@ledgerhq/lumen-ui-react/symbols';
-
-function MyComponent() {
-  return (
-    <Button size='md' appearance='base' icon={ArrowRight}>
-      Continue
-    </Button>
-  );
-}
-```
+<Source of={ButtonStories.IconText} />
 
 ### Full Width
 
@@ -190,143 +135,25 @@ Use the `isFull` prop to make the button take the full width of its container:
 
 ### Loading and Disabled States
 
-The `loading` and `disabled` props are **independent** and not coupled:
+The `loading` and `disabled` props are **independent**: `disabled` deactivates all event handlers and makes the button non-interactive, while `loading` shows a spinner but keeps the button clickable. Combine both to prevent interactions during loading.
 
-- **`disabled`**: Deactivates all event handlers (`onClick`, etc.). The button becomes non-interactive.
-- **`loading`**: Shows a spinner but **does not** prevent clicks. The button remains interactive.
-
-```tsx
-// Button is non-interactive
-<Button disabled>Disabled</Button>
-
-// Button shows spinner but is still clickable
-<Button loading>Loading</Button>
-
-// Combine both to prevent interactions during loading
-<Button loading disabled>
-  Submitting...
-</Button>
-```
-
-> ⚠️ If you need to prevent user interactions while loading (e.g., form submission), always combine `loading` with `disabled`.
+<Source of={ButtonStories.StatesShowcase} />
 
 ### Using with Routers (asChild)
 
-The `asChild` prop allows integration with routing libraries by merging Button styles with child elements:
+The `asChild` prop merges Button styles with a child element, ideal for routing libraries. The child handles its own content; `icon` and `loading` are applied to the child.
+
+<Source of={ButtonStories.AsChild} />
+
+### Custom Styling
+
+Extend layout with Tailwind classes (layout utilities only, e.g. positioning or responsive visibility):
 
 ```tsx
-import { Button } from '@ledgerhq/lumen-ui-react';
-import { Link } from 'react-router-dom';
-
-function MyComponent() {
-  return (
-    <Button asChild appearance="accent" size="md">
-      <Link to="/dashboard">Dashboard</RouterLink>
-    </Link>
-  );
-}
-```
-
-Note: When using asChild, the child element handles its own content. Props like 'icon' and 'loading' are ignored - implement equivalent functionality in the child if needed.
-
-## Do's and Don'ts
-
-The following guidelines are based on our [Button Component API Design ADR](https://ledgerhq.atlassian.net/wiki/spaces/DLS/pages/6003949581/ADR-001+Button+Component+API+Design). These decisions were made to ensure consistency, maintainability, and proper implementation of our design system principles.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the icon prop'
-      description='Pass icon as a component reference for proper sizing'
-    >
-
-```tsx
-<Button icon={Plus} size='md'>
-  Add Item
+<Button size='md' appearance='base' className='md:hidden'>
+  Custom Button
 </Button>
 ```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't include icon in children"
-      description='This breaks automatic sizing and alignment'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button size='md'>
-  <Plus /> Add Item
-</Button>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Let Button handle sizing'
-      description='Icon size adjusts automatically based on button size'
-    >
-
-```tsx
-<Button icon={Settings} size='sm'>
-  Settings
-</Button>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't override icon size"
-      description='Avoid className or style props that affect icon dimensions'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button icon={Settings} size='sm' className='w-6 h-6'>
-  Settings
-</Button>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<div className='flex flex-col gap-24'>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use isFull for width'
-      description='Use the isFull prop for full-width buttons'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button isFull>
- Full Width
-</Button>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use className for width"
-      description='Avoid arbitrary width values'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button className='w-full'>
-  Full Width
-</Button>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>
