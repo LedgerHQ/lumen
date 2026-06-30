@@ -1,3 +1,1 @@
-type PriorityValue = 'start' | 'middle' | 'end';
-
-export type Priority = PriorityValue | PriorityValue[];
+export type Priority = 'start' | 'end';

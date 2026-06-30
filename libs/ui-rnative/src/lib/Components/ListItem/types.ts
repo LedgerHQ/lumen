@@ -20,6 +20,7 @@ export type ListItemProps = {
   density?: Density;
   /**
    * The parts which are protected from shrinking and truncation when horizontal space is limited.
+   * @default 'end'
    */
   priority?: Priority;
   /**
