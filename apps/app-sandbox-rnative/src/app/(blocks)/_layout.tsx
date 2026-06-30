@@ -17,8 +17,8 @@ export default function BlocksLayout() {
         paddingHorizontal: theme.spacings.s16,
       }}
       contentContainerStyle={{
-        paddingTop: theme.spacings.s40,
-        paddingBottom: insets.bottom + theme.spacings.s40,
+        paddingTop: theme.spacings.s16,
+        paddingBottom: insets.bottom + theme.spacings.s16,
       }}
     >
       <Box
