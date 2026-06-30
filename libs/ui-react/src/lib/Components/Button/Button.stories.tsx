@@ -12,7 +12,7 @@ const meta: Meta<typeof Button> = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -44,17 +44,6 @@ export const Base: Story = {
     appearance: 'base',
     children: 'Base Button',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button appearance="base">
-  Base Button
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const IconText: Story = {
@@ -62,20 +51,6 @@ export const IconText: Story = {
     appearance: 'base',
     children: 'Add Item',
     icon: Plus,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  icon={Plus}
->
-  Add Item
-</Button>
-`,
-      },
-    },
   },
 };
 
@@ -85,24 +60,14 @@ export const Loading: Story = {
     children: 'Loading...',
     loading: true,
   },
-  parameters: {
-    chromatic: { pauseAnimationAtEnd: true },
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  loading
->
-  Loading...
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {
+  tags: ['!dev'],
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
+
   render: () => {
     const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
@@ -126,6 +91,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentTypesShowcase: Story = {
+  tags: ['!dev'],
   render: () => (
     <div className='flex items-center gap-4'>
       <Button appearance='base'>Text Only</Button>
@@ -137,6 +103,7 @@ export const ContentTypesShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
+  tags: ['!dev'],
   render: () => {
     return (
       <div className='flex items-center gap-4'>
@@ -158,6 +125,7 @@ export const StatesShowcase: Story = {
   parameters: {
     chromatic: { pauseAnimationAtEnd: true },
   },
+  tags: ['!dev'],
   render: () => (
     <div className='flex items-center gap-4'>
       <Button appearance='base'>Default</Button>
@@ -175,6 +143,7 @@ export const StatesShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  tags: ['!dev'],
   render: () => (
     <div className='flex flex-col gap-8 p-8'>
       <Button appearance='base'>Short</Button>
@@ -187,6 +156,7 @@ export const ResponsiveLayout: Story = {
 };
 
 export const LabelTruncate: Story = {
+  tags: ['!dev'],
   render: () => (
     <>
       <p className='body-4-semi-bold text-muted'>
@@ -203,6 +173,7 @@ export const LabelTruncate: Story = {
 };
 
 export const InteractiveLoadingStates: Story = {
+  tags: ['!dev'],
   render: () => {
     const [states, setStates] = useState<
       Record<'text' | 'withIcon', 'idle' | 'loading' | 'red'>
@@ -276,24 +247,5 @@ export const AsChild: Story = {
         </div>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Button as a router link
-<Button asChild appearance="base" size="md">
-  <Link to="/dashboard">Go to Dashboard</Link>
-</Button>
-
-// Button as an external link
-<Button asChild appearance="accent" icon={ExternalLink}>
-  <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-    External Link
-  </a>
-</Button>
-`,
-      },
-    },
   },
 };
