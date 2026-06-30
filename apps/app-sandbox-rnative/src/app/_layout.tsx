@@ -6,11 +6,12 @@ import {
   GlobalTooltipBottomSheet,
   ThemeProvider,
 } from '@ledgerhq/lumen-ui-rnative';
-import { Stack } from 'expo-router';
+import { Stack, useSegments } from 'expo-router';
 import { useState } from 'react';
 import type { ColorSchemeName } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SandboxHeader } from '../components/Header';
+import { getBlockTitle } from '../blocks';
+import { Header } from '../components/Header';
 import { ThemeControlsProvider } from '../hooks/useThemeControls';
 
 export default function RootLayout() {
@@ -38,10 +39,16 @@ export default function RootLayout() {
 }
 
 const RootNavigator = () => {
+  const segments = useSegments();
+  const slug = segments[segments.length - 1] ?? '';
+
   return (
-    <Stack screenOptions={{ header: () => <SandboxHeader /> }}>
-      <Stack.Screen name='index' />
-      <Stack.Screen name='(blocks)' />
+    <Stack>
+      <Stack.Screen name='index' options={{ header: () => <Header /> }} />
+      <Stack.Screen
+        name='(blocks)'
+        options={{ header: () => <Header title={getBlockTitle(slug)} /> }}
+      />
     </Stack>
   );
 };

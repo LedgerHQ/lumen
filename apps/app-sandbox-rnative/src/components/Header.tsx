@@ -1,22 +1,16 @@
 import { Box, IconButton, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ArrowLeft, Moon, Sun } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { useRouter, useSegments } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getBlockTitle } from '../blocks';
 import { useThemeControls } from '../hooks/useThemeControls';
 
-export const SandboxHeader = () => {
+export const Header = ({ title }: { title?: string }) => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { colorScheme, setColorScheme } = useThemeControls();
   const router = useRouter();
-  const segments = useSegments();
-
-  const slug = segments[segments.length - 1] ?? '';
-  const title = getBlockTitle(slug) ?? '';
-  const isBlock = title !== '';
 
   return (
     <View
@@ -35,17 +29,19 @@ export const SandboxHeader = () => {
         }}
       >
         <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
-          {isBlock && (
-            <IconButton
-              appearance='no-background'
-              accessibilityLabel='Back'
-              icon={ArrowLeft}
-              onPress={() => router.back()}
-            />
-          )}
-          <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
-            {title}
-          </Text>
+          {title ? (
+            <>
+              <IconButton
+                appearance='no-background'
+                accessibilityLabel='Back'
+                icon={ArrowLeft}
+                onPress={() => router.back()}
+              />
+              <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
+                {title}
+              </Text>
+            </>
+          ) : null}
         </Box>
         <IconButton
           lx={{ flexGrow: 0 }}
