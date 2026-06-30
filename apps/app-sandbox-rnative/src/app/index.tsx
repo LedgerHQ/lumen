@@ -51,8 +51,8 @@ import {
   Tooltips,
   Trends,
 } from '../components/blocks';
-import { SandboxBlock } from '../components/SandboxBlock';
-import { useThemeControls } from '../components/ThemeControls';
+import { SandboxBlock } from '../components/ui/SandboxBlock';
+import { useThemeControls } from '../hooks/useThemeControls';
 
 export default function SandboxScreen() {
   const { theme } = useTheme();

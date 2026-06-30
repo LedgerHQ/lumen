@@ -1,7 +1,7 @@
 import { Box, TileButton } from '@ledgerhq/lumen-ui-rnative';
 import { Eye } from '@ledgerhq/lumen-ui-rnative/symbols';
 import React from 'react';
-import { useSandboxContext } from './SandboxContext';
+import { useSandboxContext } from '../../contexts/SandboxContext';
 
 type SandboxBlockProps = {
   title: string;
