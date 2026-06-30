@@ -12,7 +12,7 @@ type ViewType = 'preview' | 'raw' | 'blame';
 const { SegmentedControl, SegmentedControlButton } =
   createSegmentedControl<ViewType>();
 
-const SegmentedControls = () => {
+export default function SegmentedControls() {
   const [fitState, setFitState] = useState<ViewType>('preview');
   const [fixedState, setFixedState] = useState<ViewType>('preview');
   const [iconsState, setIconsState] = useState<ViewType>('preview');
@@ -126,6 +126,4 @@ const SegmentedControls = () => {
       </SegmentedControl>
     </Box>
   );
-};
-
-export default SegmentedControls;
+}

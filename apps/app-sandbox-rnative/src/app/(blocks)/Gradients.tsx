@@ -4,7 +4,7 @@ import {
   RadialGradient,
 } from '@ledgerhq/lumen-ui-rnative';
 
-const Gradients = () => {
+export default function Gradients() {
   return (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', gap: 's8' }}>
@@ -41,6 +41,4 @@ const Gradients = () => {
       </Box>
     </Box>
   );
-};
-
-export default Gradients;
+}

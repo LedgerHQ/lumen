@@ -2,7 +2,7 @@ import type { TagProps } from '@ledgerhq/lumen-ui-rnative';
 import { Box, Tag, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import { ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const Tags = () => {
+export default function Tags() {
   const styles = useStyles();
 
   type Appearance = NonNullable<TagProps['appearance']>;
@@ -31,7 +31,7 @@ const Tags = () => {
       </Box>
     </Box>
   );
-};
+}
 
 const useStyles = () =>
   useStyleSheet(
@@ -48,5 +48,3 @@ const useStyles = () =>
     }),
     [],
   );
-
-export default Tags;

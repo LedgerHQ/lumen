@@ -1,6 +1,6 @@
 import { Button, DotIndicator, Box, Avatar } from '@ledgerhq/lumen-ui-rnative';
 
-function DotIndicators() {
+export default function DotIndicators() {
   return (
     <Box lx={{ gap: 's24' }}>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
@@ -25,5 +25,3 @@ function DotIndicators() {
     </Box>
   );
 }
-
-export default DotIndicators;

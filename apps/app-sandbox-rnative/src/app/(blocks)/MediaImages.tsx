@@ -1,6 +1,6 @@
 import { Box, MediaImage } from '@ledgerhq/lumen-ui-rnative';
 
-const MediaImages = () => {
+export default function MediaImages() {
   return (
     <Box lx={{ gap: 's32' }}>
       <MediaImage
@@ -50,6 +50,4 @@ const MediaImages = () => {
       />
     </Box>
   );
-};
-
-export default MediaImages;
+}

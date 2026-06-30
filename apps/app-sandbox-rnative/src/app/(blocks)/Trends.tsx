@@ -1,6 +1,6 @@
 import { Box, Trend } from '@ledgerhq/lumen-ui-rnative';
 
-function Trends() {
+export default function Trends() {
   return (
     <Box lx={{ gap: 's24' }}>
       <Box lx={{ gap: 's16', flexDirection: 'row' }}>
@@ -22,5 +22,3 @@ function Trends() {
     </Box>
   );
 }
-
-export default Trends;

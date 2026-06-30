@@ -1,6 +1,6 @@
 import { Box, Divider, Text } from '@ledgerhq/lumen-ui-rnative';
 
-const Dividers = () => {
+export default function Dividers() {
   return (
     <Box lx={{ gap: 's32' }}>
       {/* Horizontal Dividers */}
@@ -69,6 +69,4 @@ const Dividers = () => {
       </Box>
     </Box>
   );
-};
-
-export default Dividers;
+}

@@ -1,7 +1,7 @@
 import { Box, Spot } from '@ledgerhq/lumen-ui-rnative';
 import { ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const Spots = () => {
+export default function Spots() {
   return (
     <Box lx={{ gap: 's32' }}>
       <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's8' }}>
@@ -22,6 +22,4 @@ const Spots = () => {
       </Box>
     </Box>
   );
-};
-
-export default Spots;
+}

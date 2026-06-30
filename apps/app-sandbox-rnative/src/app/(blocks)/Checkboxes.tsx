@@ -1,6 +1,6 @@
 import { Checkbox } from '@ledgerhq/lumen-ui-rnative';
 
-const Checkboxes = () => {
+export default function Checkboxes() {
   return (
     <>
       <Checkbox aria-valuetext='custom' label='Label' />
@@ -9,6 +9,4 @@ const Checkboxes = () => {
       <Checkbox aria-valuetext='custom' label='Label' defaultChecked disabled />
     </>
   );
-};
-
-export default Checkboxes;
+}

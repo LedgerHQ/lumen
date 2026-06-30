@@ -1,7 +1,7 @@
 import { Button } from '@ledgerhq/lumen-ui-rnative';
 import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const Buttons = () => {
+export default function Buttons() {
   return (
     <>
       <Button
@@ -40,6 +40,4 @@ const Buttons = () => {
       </Button>
     </>
   );
-};
-
-export default Buttons;
+}

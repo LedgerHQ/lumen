@@ -8,7 +8,7 @@ import { Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useEffect, useState } from 'react';
 import { Alert, Pressable, View } from 'react-native';
 
-function TextInputs() {
+export default function TextInputs() {
   const [team, setTeam] = useState<string>();
   const [isTeamValid, setIsTeamValid] = useState(true);
 
@@ -90,5 +90,3 @@ function TextInputs() {
     </View>
   );
 }
-
-export default TextInputs;

@@ -10,7 +10,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { ChevronRight, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const Tiles = () => {
+export default function Tiles() {
   return (
     <Box lx={{ width: 'full', alignItems: 'center', gap: 's8' }}>
       <Box lx={{ flexDirection: 'row', gap: 's8', alignItems: 'stretch' }}>
@@ -57,6 +57,4 @@ const Tiles = () => {
       </Tile>
     </Box>
   );
-};
-
-export default Tiles;
+}

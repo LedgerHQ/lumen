@@ -7,7 +7,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { ArrowDown, ArrowUp, Link } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const DotIcons = () => {
+export default function DotIcons() {
   return (
     <Box lx={{ gap: 's32' }}>
       <Box
@@ -136,6 +136,4 @@ const DotIcons = () => {
       </Box>
     </Box>
   );
-};
-
-export default DotIcons;
+}

@@ -80,7 +80,7 @@ const TransactionSummary = ({
   </Box>
 );
 
-const DescriptionLists = () => {
+export default function DescriptionLists() {
   return (
     <Box lx={{ gap: 's8' }}>
       <SectionLabel>Medium (default)</SectionLabel>
@@ -106,6 +106,4 @@ const DescriptionLists = () => {
       </Box>
     </Box>
   );
-};
-
-export default DescriptionLists;
+}

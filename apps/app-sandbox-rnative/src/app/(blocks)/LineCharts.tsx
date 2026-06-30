@@ -10,41 +10,43 @@ import {
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
-const LineCharts = () => (
-  <Box
-    lx={{
-      flexDirection: 'column',
-      gap: 's24',
-      width: 'full',
-      paddingLeft: 's16',
-      paddingRight: 's16',
-    }}
-  >
-    <BasicLine />
-    <WithAreaFill />
-    <WithXAxis />
-    <WithBothAxes />
-    <WithStringLabels />
-    <MultipleSeries />
-    <MultipleSeriesWithArea />
-    <CustomLines />
-    <CustomDomain />
-    <MissingData />
-    <HiddenAxisLabels />
-    <PointMinMax />
-    <PointAllDataPoints />
-    <PointLabelFunction />
-    <PointHiddenPoint />
-    <PointWithAxes />
-    <ScrubberBasic />
-    <ScrubberMultiSeriesWithBeacons />
-    <ScrubberWithAxes />
-    <ReferenceLineBasic />
-    <ScrubberWithTooltip />
-    <RandomAutoUpdate />
-    <MagnetizedPoint />
-  </Box>
-);
+export default function LineCharts() {
+  return (
+    <Box
+      lx={{
+        flexDirection: 'column',
+        gap: 's24',
+        width: 'full',
+        paddingLeft: 's16',
+        paddingRight: 's16',
+      }}
+    >
+      <BasicLine />
+      <WithAreaFill />
+      <WithXAxis />
+      <WithBothAxes />
+      <WithStringLabels />
+      <MultipleSeries />
+      <MultipleSeriesWithArea />
+      <CustomLines />
+      <CustomDomain />
+      <MissingData />
+      <HiddenAxisLabels />
+      <PointMinMax />
+      <PointAllDataPoints />
+      <PointLabelFunction />
+      <PointHiddenPoint />
+      <PointWithAxes />
+      <ScrubberBasic />
+      <ScrubberMultiSeriesWithBeacons />
+      <ScrubberWithAxes />
+      <ReferenceLineBasic />
+      <ScrubberWithTooltip />
+      <RandomAutoUpdate />
+      <MagnetizedPoint />
+    </Box>
+  );
+}
 
 const sampleSeries = [
   {
@@ -712,5 +714,3 @@ const MagnetizedPoint = () => (
     </LineChart>
   </Section>
 );
-
-export default LineCharts;

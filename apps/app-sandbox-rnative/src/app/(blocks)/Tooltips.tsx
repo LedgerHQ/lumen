@@ -8,7 +8,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { InformationFill } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const Tooltips = () => {
+export default function Tooltips() {
   return (
     <Box lx={{ flexDirection: 'row', gap: 's12' }}>
       <Tooltip>
@@ -38,6 +38,4 @@ const Tooltips = () => {
       </Tooltip>
     </Box>
   );
-};
-
-export default Tooltips;
+}

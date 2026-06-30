@@ -7,7 +7,7 @@ import {
   useStyleSheet,
 } from '@ledgerhq/lumen-ui-rnative';
 
-const MediaTags = () => {
+export default function MediaTags() {
   const styles = useStyles();
 
   const icons = [
@@ -78,7 +78,7 @@ const MediaTags = () => {
       </Box>
     </Box>
   );
-};
+}
 
 const useStyles = () =>
   useStyleSheet(
@@ -95,5 +95,3 @@ const useStyles = () =>
     }),
     [],
   );
-
-export default MediaTags;

@@ -3,7 +3,7 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
-const Steppers = () => {
+export default function Steppers() {
   const [step, setStep] = useState(1);
   const totalSteps = 5;
   const { theme } = useTheme();
@@ -61,6 +61,4 @@ const Steppers = () => {
       </Box>
     </Box>
   );
-};
-
-export default Steppers;
+}

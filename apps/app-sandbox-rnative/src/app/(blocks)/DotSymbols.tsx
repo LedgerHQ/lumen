@@ -8,7 +8,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const DotSymbols = () => {
+export default function DotSymbols() {
   return (
     <Box lx={{ gap: 's32' }}>
       <Box
@@ -161,6 +161,4 @@ const DotSymbols = () => {
       </Box>
     </Box>
   );
-};
-
-export default DotSymbols;
+}

@@ -37,7 +37,7 @@ const SectionLabel = ({ children }: { children: string }) => (
   </Text>
 );
 
-const ListItems = () => {
+export default function ListItems() {
   const [selected, setSelected] = useState(false);
   const [checked, setChecked] = useState(false);
   return (
@@ -518,6 +518,4 @@ const ListItems = () => {
       </ListItem>
     </Box>
   );
-};
-
-export default ListItems;
+}

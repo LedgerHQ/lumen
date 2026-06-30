@@ -29,7 +29,7 @@ const usdFormatter = (value: number): FormattedValue => {
   };
 };
 
-function AmountDisplays() {
+export default function AmountDisplays() {
   const [hidden, setHidden] = useState(false);
   const [currentValue, setCurrentValue] = useState<number>(1234.56);
   const styles = useStyles();
@@ -104,5 +104,3 @@ const useStyles = () => {
     [],
   );
 };
-
-export default AmountDisplays;

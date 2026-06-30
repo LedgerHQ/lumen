@@ -1,6 +1,6 @@
 import { Banner, Box } from '@ledgerhq/lumen-ui-rnative';
 
-const Banners = () => {
+export default function Banners() {
   return (
     <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's8' }}>
       <Banner appearance='info' title='Info' description='Info description' />
@@ -21,6 +21,4 @@ const Banners = () => {
       />
     </Box>
   );
-};
-
-export default Banners;
+}

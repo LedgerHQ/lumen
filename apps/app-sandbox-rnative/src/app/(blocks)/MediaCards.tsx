@@ -9,7 +9,7 @@ import {
 const EXAMPLE_SRC =
   'https://ledger-wp-website-s3-prd.ledger.com/uploads/2026/03/hero_visual-1.webp';
 
-const MediaCards = () => {
+export default function MediaCards() {
   return (
     <Box lx={{ flexDirection: 'column', gap: 's12', width: 'full' }}>
       <MediaCard
@@ -35,6 +35,4 @@ const MediaCards = () => {
       </MediaCard>
     </Box>
   );
-};
-
-export default MediaCards;
+}

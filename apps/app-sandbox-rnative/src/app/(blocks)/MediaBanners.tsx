@@ -7,7 +7,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { useState } from 'react';
 
-const MediaBanners = () => {
+export default function MediaBanners() {
   const [showBanner1, setShowBanner1] = useState(true);
   const [showBanner2, setShowBanner2] = useState(true);
 
@@ -49,6 +49,4 @@ const MediaBanners = () => {
       </Button>
     </Box>
   );
-};
-
-export default MediaBanners;
+}

@@ -3,7 +3,7 @@ import { Heart, Star } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 const SIZES = [12, 16, 20, 24, 32, 40, 48, 56] as const;
 
-const InteractiveIcons = () => {
+export default function InteractiveIcons() {
   return (
     <Box lx={{ width: 'full', gap: 's16' }}>
       <Box>
@@ -41,6 +41,4 @@ const InteractiveIcons = () => {
       </Box>
     </Box>
   );
-};
-
-export default InteractiveIcons;
+}

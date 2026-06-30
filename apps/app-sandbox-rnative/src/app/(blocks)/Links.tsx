@@ -6,7 +6,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { Alert } from 'react-native';
 
-function Links() {
+export default function Links() {
   return (
     <Box lx={{ gap: 's8' }}>
       <Link href={'https://github.com/LedgerHQ/lumen'} icon={Github} isExternal>
@@ -51,5 +51,3 @@ function Links() {
     </Box>
   );
 }
-
-export default Links;

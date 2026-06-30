@@ -17,7 +17,7 @@ import {
 import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
-const Cards = () => {
+export default function Cards() {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -316,6 +316,4 @@ const Cards = () => {
       </Card>
     </Box>
   );
-};
-
-export default Cards;
+}

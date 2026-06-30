@@ -8,7 +8,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { Coins } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-function DotCounts() {
+export default function DotCounts() {
   return (
     <Box lx={{ gap: 's24' }}>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
@@ -58,5 +58,3 @@ function DotCounts() {
     </Box>
   );
 }
-
-export default DotCounts;

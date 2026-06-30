@@ -401,7 +401,7 @@ const SearchableSelectExample = () => {
   );
 };
 
-const OptionLists = () => {
+export default function OptionLists() {
   return (
     <Box lx={{ gap: 's16', alignItems: 'flex-start' }}>
       <CurrencySelectExample />
@@ -410,6 +410,4 @@ const OptionLists = () => {
       <SearchableSelectExample />
     </Box>
   );
-};
-
-export default OptionLists;
+}

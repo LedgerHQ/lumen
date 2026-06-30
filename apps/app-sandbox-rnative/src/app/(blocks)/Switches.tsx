@@ -1,6 +1,6 @@
 import { Switch } from '@ledgerhq/lumen-ui-rnative';
 
-const Switches = () => {
+export default function Switches() {
   return (
     <>
       <Switch aria-valuetext='custom' />
@@ -9,6 +9,4 @@ const Switches = () => {
       <Switch aria-valuetext='custom' defaultChecked disabled />
     </>
   );
-};
-
-export default Switches;
+}

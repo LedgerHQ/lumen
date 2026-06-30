@@ -5,7 +5,7 @@ import {
   Settings,
 } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const IconButtons = () => {
+export default function IconButtons() {
   return (
     <>
       <IconButton
@@ -48,6 +48,4 @@ const IconButtons = () => {
       />
     </>
   );
-};
-
-export default IconButtons;
+}

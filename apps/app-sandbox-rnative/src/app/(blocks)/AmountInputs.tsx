@@ -4,7 +4,7 @@ import { TransferVertical } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 import { View, Text } from 'react-native';
 
-function AmountInputs() {
+export default function AmountInputs() {
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
   const [value3, setValue3] = useState('');
@@ -171,5 +171,3 @@ const useStyles = () => {
     [],
   );
 };
-
-export default AmountInputs;

@@ -1,7 +1,7 @@
 import { Box, Pulse, Spin, Text } from '@ledgerhq/lumen-ui-rnative';
 import { View } from 'react-native';
 
-const Animations = () => {
+export default function Animations() {
   return (
     <Box lx={{ gap: 's32' }}>
       <Box lx={{ gap: 's12' }}>
@@ -26,6 +26,4 @@ const Animations = () => {
       </Box>
     </Box>
   );
-};
-
-export default Animations;
+}

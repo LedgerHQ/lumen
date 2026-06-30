@@ -17,7 +17,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
-const NavBars = () => {
+export default function NavBars() {
   const [isFavorited, setIsFavorited] = useState(false);
 
   return (
@@ -97,6 +97,4 @@ const NavBars = () => {
       </Box>
     </Box>
   );
-};
-
-export default NavBars;
+}

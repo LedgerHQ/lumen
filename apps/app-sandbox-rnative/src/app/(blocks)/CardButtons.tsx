@@ -1,7 +1,7 @@
 import { Box, CardButton } from '@ledgerhq/lumen-ui-rnative';
 import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const CardButtons = () => {
+export default function CardButtons() {
   return (
     <Box lx={{ width: 'full', flexDirection: 'row', gap: 's8' }}>
       <CardButton
@@ -12,6 +12,4 @@ const CardButtons = () => {
       />
     </Box>
   );
-};
-
-export default CardButtons;
+}

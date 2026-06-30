@@ -13,7 +13,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { View, Alert } from 'react-native';
 
-const Subheaders = () => {
+export default function Subheaders() {
   return (
     <View style={{ gap: 24 }}>
       <Subheader>
@@ -96,6 +96,4 @@ const Subheaders = () => {
       </Subheader>
     </View>
   );
-};
-
-export default Subheaders;
+}

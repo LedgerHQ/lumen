@@ -1,7 +1,7 @@
 import { Box, MediaButton, MediaImage } from '@ledgerhq/lumen-ui-rnative';
 import { Star } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const MediaButtons = () => {
+export default function MediaButtons() {
   return (
     <Box lx={{ gap: 's16' }}>
       <Box lx={{ gap: 's16', flexDirection: 'row' }}>
@@ -54,6 +54,4 @@ const MediaButtons = () => {
       </Box>
     </Box>
   );
-};
-
-export default MediaButtons;
+}

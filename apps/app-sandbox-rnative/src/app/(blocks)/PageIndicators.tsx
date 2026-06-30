@@ -8,7 +8,7 @@ import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 
-const PageIndicators = () => {
+export default function PageIndicators() {
   const [page, setPage] = useState(1);
   const totalPages = 9;
   const { theme } = useTheme();
@@ -49,6 +49,4 @@ const PageIndicators = () => {
       </Box>
     </Box>
   );
-};
-
-export default PageIndicators;
+}

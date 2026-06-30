@@ -1,6 +1,6 @@
 import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
 
-const Skeletons = () => {
+export default function Skeletons() {
   return (
     <Box lx={{ flexDirection: 'column', gap: 's16', width: 'full' }}>
       <Box lx={{ flexDirection: 'column', gap: 's8' }}>
@@ -25,6 +25,4 @@ const Skeletons = () => {
       </Box>
     </Box>
   );
-};
-
-export default Skeletons;
+}

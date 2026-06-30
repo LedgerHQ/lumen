@@ -9,7 +9,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative';
 import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 
-const ContentBanners = () => {
+export default function ContentBanners() {
   return (
     <Box lx={{ flexDirection: 'column', gap: 's12', width: 'full' }}>
       <ContentBanner>
@@ -54,6 +54,4 @@ const ContentBanners = () => {
       </ContentBanner>
     </Box>
   );
-};
-
-export default ContentBanners;
+}

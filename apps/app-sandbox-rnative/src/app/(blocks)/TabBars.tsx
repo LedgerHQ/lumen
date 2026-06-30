@@ -15,7 +15,7 @@ type Route = 'home' | 'swap' | 'card' | 'help';
 
 const { TabBar, TabBarItem } = createTabBar<Route>();
 
-function ExampleTabBar() {
+export default function ExampleTabBar() {
   const [active, setActive] = useState<Route>('home');
 
   return (
@@ -65,5 +65,3 @@ function ExampleTabBar() {
     </Box>
   );
 }
-
-export default ExampleTabBar;
