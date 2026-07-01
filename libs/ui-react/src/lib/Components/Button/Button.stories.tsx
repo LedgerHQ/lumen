@@ -12,7 +12,7 @@ const meta: Meta<typeof Button> = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -44,17 +44,6 @@ export const Base: Story = {
     appearance: 'base',
     children: 'Base Button',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button appearance="base">
-  Base Button
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const IconText: Story = {
@@ -62,20 +51,6 @@ export const IconText: Story = {
     appearance: 'base',
     children: 'Add Item',
     icon: Plus,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  icon={Plus}
->
-  Add Item
-</Button>
-`,
-      },
-    },
   },
 };
 
@@ -85,24 +60,13 @@ export const Loading: Story = {
     children: 'Loading...',
     loading: true,
   },
-  parameters: {
-    chromatic: { pauseAnimationAtEnd: true },
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  loading
->
-  Loading...
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
+
   render: () => {
     const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
@@ -243,7 +207,6 @@ export const InteractiveLoadingStates: Story = {
 
 export const AsChild: Story = {
   render: () => {
-    // Mock Link component for demonstration
     const Link = ({
       to,
       children,
@@ -276,24 +239,5 @@ export const AsChild: Story = {
         </div>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Button as a router link
-<Button asChild appearance="base" size="md">
-  <Link to="/dashboard">Go to Dashboard</Link>
-</Button>
-
-// Button as an external link
-<Button asChild appearance="accent" icon={ExternalLink}>
-  <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-    External Link
-  </a>
-</Button>
-`,
-      },
-    },
   },
 };

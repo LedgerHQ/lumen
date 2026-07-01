@@ -13,7 +13,7 @@ const meta: Meta<typeof Button> = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -50,17 +50,6 @@ export const Base: Story = {
     children: 'Base Button',
   },
   render: (args) => <Button {...args} />,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button appearance="base">
-  Base Button
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const IconText: Story = {
@@ -68,20 +57,6 @@ export const IconText: Story = {
     appearance: 'base',
     children: 'Add Item',
     icon: Plus,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  icon={Plus}
->
-  Add Item
-</Button>
-`,
-      },
-    },
   },
 };
 
@@ -91,23 +66,13 @@ export const Loading: Story = {
     children: 'Loading...',
     loading: true,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  loading
->
-  Loading...
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
+
   render: () => {
     const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
@@ -158,6 +123,9 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Button appearance='base'>Default</Button>
