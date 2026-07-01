@@ -11,10 +11,14 @@ export default function SandboxScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [search, setSearch] = useState<string>();
+
+  const [search, setSearch] = useState('');
+  const normalizedSearch = search.trim().toLowerCase();
 
   const filteredBlocks = search
-    ? blocks.filter((block) => block.title.toLowerCase().includes(search))
+    ? blocks.filter((block) =>
+        block.title.toLowerCase().includes(normalizedSearch),
+      )
     : blocks;
 
   return (
