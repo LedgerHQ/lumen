@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { PLACEHOLDER_LINE_PATH } from '../constants';
+import { PLACEHOLDER_LINE_PATH } from '../../../config';
 import { buildPlaceholderTransform } from './utils';
 
 describe('PLACEHOLDER_LINE_PATH', () => {

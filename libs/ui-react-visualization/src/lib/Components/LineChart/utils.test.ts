@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { AXIS_DEFAULT_HEIGHT } from '../../config';
 import type { Series } from '../../utils/types';
-import { DEFAULT_AXIS_HEIGHT } from '../Axis';
 
 import {
   canRenderLine,
@@ -94,7 +94,7 @@ describe('computeAxisPadding', () => {
         showYAxis: false,
         xAxisPosition: 'bottom',
       }),
-    ).toEqual({ top: 0, bottom: DEFAULT_AXIS_HEIGHT, left: 0, right: 0 });
+    ).toEqual({ top: 0, bottom: AXIS_DEFAULT_HEIGHT, left: 0, right: 0 });
 
     expect(
       computeAxisPadding({
@@ -103,7 +103,7 @@ describe('computeAxisPadding', () => {
         showYAxis: false,
         xAxisPosition: 'top',
       }),
-    ).toEqual({ top: DEFAULT_AXIS_HEIGHT, bottom: 0, left: 0, right: 0 });
+    ).toEqual({ top: AXIS_DEFAULT_HEIGHT, bottom: 0, left: 0, right: 0 });
   });
 
   it('reserves the y-axis width on the side where it sits', () => {
@@ -137,7 +137,7 @@ describe('computeAxisPadding', () => {
         yAxisPosition: 'start',
         yAxisWidth: 40,
       }),
-    ).toEqual({ top: 0, bottom: DEFAULT_AXIS_HEIGHT, left: 40, right: 0 });
+    ).toEqual({ top: 0, bottom: AXIS_DEFAULT_HEIGHT, left: 40, right: 0 });
   });
 });
 

@@ -1,14 +1,19 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
+import {
+  AXIS_GRID_DASH_ARRAY,
+  AXIS_LINE_COLOR,
+  AXIS_TICK_LABEL_OFFSET,
+  AXIS_TICK_MARK_SIZE,
+  CHART_FONT_FAMILY,
+  CHART_GRID_LINE_COLOR,
+  CHART_HAIRLINE_STROKE_WIDTH,
+  CHART_TEXT_MUTED_COLOR,
+} from '../../../config';
 import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
-import {
-  GRID_DASH_ARRAY,
-  TICK_MARK_SIZE,
-  TICK_LABEL_OFFSET,
-} from '../constants';
 import type { YAxisProps } from './types';
 
 export function YAxis({
@@ -41,7 +46,8 @@ export function YAxis({
   const isStart = position === 'start';
   const axisX = isStart ? drawingArea.x : drawingArea.x + drawingArea.width;
   const tickDirection = isStart ? -1 : 1;
-  const labelX = axisX + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
+  const labelX =
+    axisX + tickDirection * (AXIS_TICK_MARK_SIZE + AXIS_TICK_LABEL_OFFSET);
 
   return (
     <g data-testid='y-axis'>
@@ -54,11 +60,11 @@ export function YAxis({
             x2={drawingArea.x + drawingArea.width}
             y2={tick.position}
             style={{
-              stroke: cssVar('var(--border-muted-subtle-transparent)'),
+              stroke: CHART_GRID_LINE_COLOR,
             }}
-            strokeWidth={cssVar('var(--stroke-1)')}
+            strokeWidth={CHART_HAIRLINE_STROKE_WIDTH}
             strokeDasharray={
-              gridLineStyle === 'dashed' ? GRID_DASH_ARRAY : undefined
+              gridLineStyle === 'dashed' ? AXIS_GRID_DASH_ARRAY : undefined
             }
           />
         ))}
@@ -69,8 +75,8 @@ export function YAxis({
           y1={drawingArea.y}
           x2={axisX}
           y2={drawingArea.y + drawingArea.height}
-          style={{ stroke: cssVar('var(--border-muted)') }}
-          strokeWidth={cssVar('var(--stroke-1)')}
+          style={{ stroke: AXIS_LINE_COLOR }}
+          strokeWidth={CHART_HAIRLINE_STROKE_WIDTH}
           shapeRendering='crispEdges'
           strokeLinecap='square'
         />
@@ -82,10 +88,10 @@ export function YAxis({
             key={`tick-${tick.value}-${i}`}
             x1={axisX}
             y1={tick.position}
-            x2={axisX + tickDirection * TICK_MARK_SIZE}
+            x2={axisX + tickDirection * AXIS_TICK_MARK_SIZE}
             y2={tick.position}
-            style={{ stroke: cssVar('var(--border-muted)') }}
-            strokeWidth={cssVar('var(--stroke-1)')}
+            style={{ stroke: AXIS_LINE_COLOR }}
+            strokeWidth={CHART_HAIRLINE_STROKE_WIDTH}
           />
         ))}
 
@@ -98,9 +104,9 @@ export function YAxis({
             textAnchor={position === 'start' ? 'end' : 'start'}
             dominantBaseline='central'
             style={{
-              fill: cssVar('var(--text-muted)'),
+              fill: CHART_TEXT_MUTED_COLOR,
               fontSize: cssVar('var(--font-style-body-4-size)'),
-              fontFamily: cssVar('var(--font-family-font)'),
+              fontFamily: CHART_FONT_FAMILY,
             }}
           >
             {tick.label}

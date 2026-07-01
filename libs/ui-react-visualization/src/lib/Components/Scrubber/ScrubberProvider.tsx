@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { clamp } from '../../utils/numbers';
-import { useCartesianChartContext } from '../CartesianChart/context';
-import { useMagneticSnapshot } from '../Point/pointContext';
 import {
   DEFAULT_MAGNET_RADIUS,
   KEYBOARD_PAGE_STEP_MAX,
   KEYBOARD_PAGE_STEP_MIN,
   KEYBOARD_PAGE_STEP_RATIO,
   KEYBOARD_STEP,
-} from './constants';
+} from '../../config';
+import { clamp } from '../../utils/numbers';
+import { useCartesianChartContext } from '../CartesianChart/context';
+import { useMagneticSnapshot } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
 import {

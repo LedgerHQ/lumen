@@ -1,16 +1,18 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
+import {
+  CHART_FONT_FAMILY,
+  CHART_TEXT_MUTED_COLOR,
+  TOOLTIP_DEFAULT_MIN_WIDTH,
+  TOOLTIP_DEFAULT_OFFSET,
+  TOOLTIP_PADDING_X,
+  TOOLTIP_PADDING_Y,
+  TOOLTIP_ROW_GAP,
+  TOOLTIP_ROW_HEIGHT,
+  TOOLTIP_TRANSITION,
+} from '../../../config';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
-import {
-  DEFAULT_OFFSET,
-  DEFAULT_TOOLTIP_MIN_WIDTH,
-  PADDING_X,
-  PADDING_Y,
-  ROW_GAP,
-  ROW_HEIGHT,
-  TOOLTIP_TRANSITION,
-} from './constants';
 import {
   computeItemsBaseY,
   computeTooltipHeight,
@@ -22,8 +24,8 @@ import {
 
 const TITLE_STYLE = {
   fontSize: cssVar('var(--font-style-body-3-size)'),
-  fontFamily: cssVar('var(--font-family-font)'),
-  fill: cssVar('var(--text-muted)'),
+  fontFamily: CHART_FONT_FAMILY,
+  fill: CHART_TEXT_MUTED_COLOR,
   fontWeight: cssVar('var(--font-style-body-3-weight-medium)'),
 };
 
@@ -41,8 +43,8 @@ export function DefaultScrubberTooltip({
   drawingArea,
   title,
   items,
-  offset = DEFAULT_OFFSET,
-  minWidth = DEFAULT_TOOLTIP_MIN_WIDTH,
+  offset = TOOLTIP_DEFAULT_OFFSET,
+  minWidth = TOOLTIP_DEFAULT_MIN_WIDTH,
 }: Readonly<ScrubberTooltipProps>) {
   const hasTitle = title !== undefined;
 
@@ -88,8 +90,8 @@ export function DefaultScrubberTooltip({
         <text
           ref={titleRef}
           data-testid='chart-tooltip-title'
-          x={tooltipX + PADDING_X}
-          y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
+          x={tooltipX + TOOLTIP_PADDING_X}
+          y={drawingArea.y + TOOLTIP_PADDING_Y + TOOLTIP_ROW_HEIGHT / 2}
           dominantBaseline='middle'
           style={TITLE_STYLE}
         >
@@ -102,7 +104,11 @@ export function DefaultScrubberTooltip({
           label={item.label}
           value={item.value}
           x={tooltipX}
-          y={itemsBaseY + i * (ROW_HEIGHT + ROW_GAP) + ROW_HEIGHT / 2}
+          y={
+            itemsBaseY +
+            i * (TOOLTIP_ROW_HEIGHT + TOOLTIP_ROW_GAP) +
+            TOOLTIP_ROW_HEIGHT / 2
+          }
           width={tooltipWidth}
           labelRef={labelRefSetters[i]}
           valueRef={valueRefSetters[i]}

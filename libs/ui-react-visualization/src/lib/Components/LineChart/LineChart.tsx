@@ -1,16 +1,18 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
-import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
-import { XAxis } from '../Axis/XAxis';
-import { YAxis } from '../Axis/YAxis';
+import {
+  AXIS_DEFAULT_WIDTH,
+  CHART_DEFAULT_HEIGHT,
+  CHART_MUTED_LINE_COLOR,
+  DEFAULT_EMPTY_LABEL,
+} from '../../config';
+import { XAxis, type XAxisProps } from '../Axis/XAxis';
+import { YAxis, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel/ChartEmptyLabel';
-import { DEFAULT_HEIGHT } from '../CartesianChart/constants';
 import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
 import { Line } from '../Line';
 
-import { DEFAULT_EMPTY_LABEL } from './constants';
 import { LineChartEmptyState } from './LineChartEmptyState';
 import type {
   LineChartContentProps,
@@ -23,6 +25,25 @@ import {
   computeAxisPadding,
   getChartDisplayState,
 } from './utils';
+
+const defaultXAxisProps: XAxisProps = {
+  position: 'bottom',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: false,
+};
+
+const defaultYAxisProps: YAxisProps = {
+  position: 'start',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: true,
+  width: AXIS_DEFAULT_WIDTH,
+};
 
 const LineChartLines = ({
   series,
@@ -64,7 +85,7 @@ const LineChartTransitionLines = ({
           showArea={showArea}
           areaType={areaType}
           connectNulls={connectNulls}
-          stroke={cssVar('var(--border-muted-subtle)')}
+          stroke={CHART_MUTED_LINE_COLOR}
         />
       </g>
     </>
@@ -117,7 +138,7 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = DEFAULT_HEIGHT,
+  height = CHART_DEFAULT_HEIGHT,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
