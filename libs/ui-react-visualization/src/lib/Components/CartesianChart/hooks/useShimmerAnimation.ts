@@ -1,6 +1,6 @@
 import { useId, useMemo } from 'react';
 
-import { PULSE_DURATION_IN_SECONDS, PULSE_EASING } from './constants';
+import { PULSE_DURATION_IN_SECONDS, PULSE_EASING } from '../../../config';
 
 type ShimmerAnimationResult = {
   /**

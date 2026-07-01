@@ -1,17 +1,19 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useId, useMemo } from 'react';
 
-import { useCartesianChartContext } from '../CartesianChart/context';
-import { LINE_DEFAULT_STROKE_COLOR } from '../Line/constants';
-
 import {
   BEACON_RADIUS,
   BEACON_STROKE_WIDTH,
+  CHART_DEFAULT_STROKE,
+  CHART_HAIRLINE_STROKE_WIDTH,
+  CHART_MARK_OUTLINE_COLOR,
   OVERLAY_LINE_INSET,
   OVERLAY_OFFSET,
   OVERLAY_OPACITY,
-  LINE_GRADIENT_EDGE_OPACITY,
-} from './constants';
+  SCRUBBER_LINE_GRADIENT_EDGE_OPACITY,
+} from '../../config';
+import { useCartesianChartContext } from '../CartesianChart/context';
+
 import { useScrubberContext } from './context';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
@@ -74,7 +76,7 @@ export function Scrubber({
         if (pixelY === undefined) return null;
         return {
           id: s.id,
-          stroke: s.stroke || LINE_DEFAULT_STROKE_COLOR,
+          stroke: s.stroke || CHART_DEFAULT_STROKE,
           pixelY,
         };
       })
@@ -140,14 +142,14 @@ export function Scrubber({
               <stop
                 offset='0%'
                 stopColor={cssVar('var(--border-base)')}
-                stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
+                stopOpacity={SCRUBBER_LINE_GRADIENT_EDGE_OPACITY}
               />
               <stop offset='20%' stopColor={cssVar('var(--border-base)')} />
               <stop offset='80%' stopColor={cssVar('var(--border-base)')} />
               <stop
                 offset='100%'
                 stopColor={cssVar('var(--border-base)')}
-                stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
+                stopOpacity={SCRUBBER_LINE_GRADIENT_EDGE_OPACITY}
               />
             </linearGradient>
           </defs>
@@ -158,7 +160,7 @@ export function Scrubber({
             x2={pixelX}
             y2={drawY + drawHeight}
             stroke={`url(#${lineGradientId})`}
-            strokeWidth={cssVar('var(--stroke-1)')}
+            strokeWidth={CHART_HAIRLINE_STROKE_WIDTH}
           />
         </>
       )}
@@ -184,7 +186,7 @@ export function Scrubber({
             cy={beacon.pixelY}
             r={BEACON_RADIUS}
             fill={beacon.stroke}
-            stroke={cssVar('var(--background-canvas)')}
+            stroke={CHART_MARK_OUTLINE_COLOR}
             strokeWidth={BEACON_STROKE_WIDTH}
           />
         ))}

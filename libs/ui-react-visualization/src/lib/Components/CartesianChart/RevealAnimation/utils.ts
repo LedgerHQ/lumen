@@ -1,12 +1,11 @@
 import { useId, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
-import type { DrawingArea, Series } from '../../../utils/types';
-
 import {
   POINT_FADE_DURATION_IN_SECONDS,
   POINT_FADE_IN_AFTER_CLIP_IN_SECONDS,
-} from './constants';
+} from '../../../config';
+import type { DrawingArea, Series } from '../../../utils/types';
 
 type RevealAnimationConfig = {
   duration: number;

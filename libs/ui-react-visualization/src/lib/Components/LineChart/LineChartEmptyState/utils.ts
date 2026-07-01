@@ -1,5 +1,8 @@
+import {
+  PLACEHOLDER_VIEW_HEIGHT,
+  PLACEHOLDER_VIEW_WIDTH,
+} from '../../../config';
 import type { DrawingArea } from '../../../utils/types';
-import { PLACEHOLDER_VIEW_HEIGHT, PLACEHOLDER_VIEW_WIDTH } from '../constants';
 
 /**
  * Transform that fits {@link PLACEHOLDER_LINE_PATH} into the drawing area. Pair

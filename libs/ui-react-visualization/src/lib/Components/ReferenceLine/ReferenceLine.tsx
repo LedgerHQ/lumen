@@ -1,12 +1,14 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 
-import { useCartesianChartContext } from '../CartesianChart/context';
-
 import {
-  REFERENCE_LINE_DEFAULT_STROKE,
+  CHART_DEFAULT_STROKE,
+  CHART_FONT_FAMILY,
+  CHART_TEXT_MUTED_COLOR,
   REFERENCE_LINE_DASH_ARRAY,
   REFERENCE_LINE_STROKE_WIDTH,
-} from './constants';
+} from '../../config';
+import { useCartesianChartContext } from '../CartesianChart/context';
+
 import type { ReferenceLineProps } from './types';
 import {
   computeHorizontalLabelCoordinates,
@@ -15,10 +17,10 @@ import {
 } from './utils';
 
 const labelStyle = {
-  fill: cssVar('var(--text-muted)'),
+  fill: CHART_TEXT_MUTED_COLOR,
   fontSize: cssVar('var(--font-style-body-4-size)'),
   fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-  fontFamily: cssVar('var(--font-family-font)'),
+  fontFamily: CHART_FONT_FAMILY,
 };
 
 export function ReferenceLine({
@@ -28,7 +30,7 @@ export function ReferenceLine({
   labelHorizontalAlignment,
   labelVerticalAlignment,
   labelPosition = 'end',
-  stroke = REFERENCE_LINE_DEFAULT_STROKE,
+  stroke = CHART_DEFAULT_STROKE,
   lineStyle = 'dashed',
   ...props
 }: Readonly<ReferenceLineProps>) {
