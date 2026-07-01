@@ -12,6 +12,8 @@ import { Spot } from '../Spot';
 import type {
   TableBodyProps,
   TableCellProps,
+  TableColGroupProps,
+  TableColProps,
   TableHeaderCellProps,
   TableHeaderRowProps,
   TableHeaderProps,
@@ -105,6 +107,37 @@ export const Table = ({ children, className, ref, ...props }: TableProps) => {
       {children}
     </table>
   );
+};
+
+/**
+ * Column group component. Wraps the HTML `<colgroup>` element.
+ * Use with `TableCol` to define column widths.
+ *
+ * @example
+ * <TableColGroup>
+ *   <TableCol className="w-40" />
+ *   <TableCol className="w-144" />
+ * </TableColGroup>
+ */
+export const TableColGroup = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableColGroupProps) => {
+  return (
+    <colgroup ref={ref} className={className} {...props}>
+      {children}
+    </colgroup>
+  );
+};
+
+/**
+ * Column component. Wraps the HTML `<col>` element.
+ * Use to define column widths within a `TableColGroup`.
+ */
+export const TableCol = ({ className, ref, ...props }: TableColProps) => {
+  return <col ref={ref} className={className} {...props} />;
 };
 
 /**

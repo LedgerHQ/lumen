@@ -18,7 +18,8 @@ export type LumenColumnMeta = {
    */
   hideBelow?: Breakpoints;
   /**
-   * Custom className applied to each cell in this column including the header cell.
+   * Custom className applied to the `<col>` element (for width tokens such as `w-144`)
+   * and to each cell in this column including the header cell.
    */
   className?: string;
   /**

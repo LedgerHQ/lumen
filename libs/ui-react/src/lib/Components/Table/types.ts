@@ -242,6 +242,24 @@ export type TableInfoIconProps = {
   className?: string;
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
+export type TableColGroupProps = {
+  /**
+   * The column definitions (TableCol)
+   */
+  children: ReactNode;
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'colgroup'>;
+
+export type TableColProps = {
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'col'>;
+
 export type TableSortValue = 'asc' | 'desc' | undefined;
 
 export type TableSortButtonProps = {
