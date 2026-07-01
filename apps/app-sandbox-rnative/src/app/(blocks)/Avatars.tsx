@@ -2,7 +2,7 @@ import {
   Box,
   Avatar,
   DotIndicator,
-  getDotConfig,
+  getDotIndicatorConfig,
 } from '@ledgerhq/lumen-ui-rnative';
 
 const exampleSrc =
@@ -20,10 +20,10 @@ export default function Avatars() {
       <Avatar size='xl' />
       <Avatar src={exampleSrc} size='xl' />
 
-      <DotIndicator {...getDotConfig('avatar', 'sm')}>
+      <DotIndicator {...getDotIndicatorConfig('avatar', 'sm')}>
         <Avatar src={exampleSrc} size='sm' />
       </DotIndicator>
-      <DotIndicator {...getDotConfig('avatar', 'md')}>
+      <DotIndicator {...getDotIndicatorConfig('avatar', 'md')}>
         <Avatar src={exampleSrc} size='md' />
       </DotIndicator>
     </Box>

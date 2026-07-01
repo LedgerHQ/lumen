@@ -1,28 +1,11 @@
-import { avatarDotConfigMap } from './constants';
+export type DotConfigMap<Size extends string, Props> = Record<Size, Props>;
+export type DotContextConfigMap = Record<string, DotConfigMap<string, unknown>>;
 
-type ContextConfigMap = {
-  avatar: keyof typeof avatarDotConfigMap;
-};
-
-type ContextResultMap = {
-  avatar: (typeof avatarDotConfigMap)[ContextConfigMap['avatar']];
-};
-
-type DotConfigContext = keyof ContextConfigMap;
-
-const dotConfigByContext: {
-  [T in DotConfigContext]: (size: ContextConfigMap[T]) => ContextResultMap[T];
-} = {
-  avatar: (size) => avatarDotConfigMap[size],
-};
-
-export function getDotConfig<T extends DotConfigContext>(
-  context: T,
-  size: ContextConfigMap[T],
-): ContextResultMap[T] {
-  return (
-    dotConfigByContext[context] as (
-      size: ContextConfigMap[T],
-    ) => ContextResultMap[T]
-  )(size);
+export function createGetDotConfig<T extends DotContextConfigMap>(config: T) {
+  return function getDotConfig<
+    Context extends keyof T,
+    Size extends keyof T[Context],
+  >(context: Context, size: Size) {
+    return config[context][size];
+  };
 }
