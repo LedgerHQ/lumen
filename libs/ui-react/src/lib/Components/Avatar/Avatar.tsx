@@ -62,7 +62,7 @@ export const Avatar = ({
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
 
-  const resolvedAlt = alt || t('components.avatar.defaultAlt');
+  const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
   useEffect(() => {
     setError(false);

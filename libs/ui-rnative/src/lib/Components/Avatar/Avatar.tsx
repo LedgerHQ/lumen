@@ -88,7 +88,7 @@ export const Avatar = ({
   const shouldFallback = !src || error;
   const styles = useStyles({ appearance, size });
 
-  const resolvedAlt = alt || t('components.avatar.defaultAlt');
+  const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
   useEffect(() => {
     setError(false);
