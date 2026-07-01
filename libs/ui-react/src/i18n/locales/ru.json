@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "Сумма скрыта"
     },
     "avatar": {
-      "defaultAlt": "Аватар пользователя",
-      "notificationAriaLabel": "Есть уведомление",
-      "fallbackIconAriaLabel": "Стандартная иконка"
+      "defaultAriaLabel": "Аватар пользователя"
     },
     "baseInput": {
       "clearInputAriaLabel": "Очистить поле"

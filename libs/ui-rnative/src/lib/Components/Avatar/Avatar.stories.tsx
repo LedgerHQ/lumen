@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View, Text, Pressable, Linking } from 'react-native';
 
+import { getDotConfig } from '../Dot';
+import { DotIndicator } from '../DotIndicator';
 import { Box } from '../Utility';
 import { Avatar } from './Avatar';
 
@@ -30,13 +32,12 @@ export const Base: Story = {
     src: exampleSrc,
     alt: 'avatar',
     size: 'md',
-    showNotification: false,
   },
   render: (args) => <Avatar {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://example.com" size="md" alt="avatar" showNotification={false} />`,
+        code: `<Avatar src="https://example.com" size="md" alt="avatar" />`,
       },
     },
   },
@@ -52,39 +53,19 @@ export const SizeShowcase: Story = {
       }}
     >
       <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar
-          src={exampleSrc}
-          alt='avatar'
-          size='sm'
-          showNotification={false}
-        />
+        <Avatar src={exampleSrc} alt='avatar' size='sm' />
         <Text style={{ marginTop: 4 }}>sm</Text>
       </View>
       <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar
-          src={exampleSrc}
-          alt='avatar'
-          size='md'
-          showNotification={false}
-        />
+        <Avatar src={exampleSrc} alt='avatar' size='md' />
         <Text style={{ marginTop: 4 }}>md</Text>
       </View>
       <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar
-          src={exampleSrc}
-          alt='avatar'
-          size='lg'
-          showNotification={false}
-        />
+        <Avatar src={exampleSrc} alt='avatar' size='lg' />
         <Text style={{ marginTop: 4 }}>lg</Text>
       </View>
       <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar
-          src={exampleSrc}
-          alt='avatar'
-          size='xl'
-          showNotification={false}
-        />
+        <Avatar src={exampleSrc} alt='avatar' size='xl' />
         <Text style={{ marginTop: 4 }}>xl</Text>
       </View>
     </Box>
@@ -95,18 +76,8 @@ const AppearanceShowcaseRender = () => {
   return (
     <Box lx={{ gap: 's8' }}>
       <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
-        <Avatar
-          alt='gray fallback'
-          size='md'
-          appearance='gray'
-          showNotification={false}
-        />
-        <Avatar
-          alt='transparent fallback'
-          size='md'
-          appearance='transparent'
-          showNotification={false}
-        />
+        <Avatar alt='gray fallback' size='md' appearance='gray' />
+        <Avatar alt='transparent fallback' size='md' appearance='transparent' />
       </Box>
       <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
         <Avatar
@@ -114,14 +85,12 @@ const AppearanceShowcaseRender = () => {
           alt='gray with image'
           size='md'
           appearance='gray'
-          showNotification={false}
         />
         <Avatar
           src={exampleSrc}
           alt='transparent with image'
           size='md'
           appearance='transparent'
-          showNotification={false}
         />
       </Box>
     </Box>
@@ -137,13 +106,12 @@ export const FallbackShowcase: Story = {
     src: 'https://brokenLink.random',
     size: 'md',
     alt: 'Fallback example',
-    showNotification: false,
   },
   render: (args) => <Avatar {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" showNotification={false} />`,
+        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" />`,
       },
     },
   },
@@ -157,13 +125,10 @@ export const NotificationShowcase: Story = {
         gap: 's16',
       }}
     >
-      <Avatar
-        src={exampleSrc}
-        alt='avatar'
-        size='md'
-        showNotification={false}
-      />
-      <Avatar src={exampleSrc} alt='avatar' size='md' showNotification={true} />
+      <Avatar src={exampleSrc} alt='avatar' size='md' />
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
+        <Avatar src={exampleSrc} alt='avatar' size='md' />
+      </DotIndicator>
     </Box>
   ),
 };
@@ -181,7 +146,9 @@ export const InteractiveShowcase: Story = {
         backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
       })}
     >
-      <Avatar src={exampleSrc} size='md' showNotification />
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
+        <Avatar src={exampleSrc} size='md' />
+      </DotIndicator>
     </Pressable>
   ),
 };

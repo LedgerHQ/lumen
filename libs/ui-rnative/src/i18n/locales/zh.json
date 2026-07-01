@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "金额已隐藏"
     },
     "avatar": {
-      "defaultAlt": "用户头像",
-      "notificationAriaLabel": "有通知",
-      "fallbackIconAriaLabel": "备用图标"
+      "defaultAriaLabel": "用户头像"
     },
     "baseInput": {
       "clearInputAriaLabel": "清空输入框"

@@ -60,11 +60,17 @@ The Avatar component handles two primary states automatically:
 
 ### Notification Indicator
 
-An optional notification indicator can be displayed to show status or alerts:
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotConfig` helper:
 
-- **showNotification**: Boolean prop to toggle the notification dot (default: false)
+```tsx
+import { Avatar, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-rnative';
 
-> The notification dot is only rendered on the `sm` and `md` sizes. It is suppressed on `lg` and `xl` even when `showNotification` is `true`.
+<DotIndicator {...getDotConfig('avatar', 'md')}>
+  <Avatar src="https://example.com/photo.jpg" size="md" />
+</DotIndicator>;
+```
+
+> The notification dot is only supported on the `sm` and `md` sizes.
 
 <Canvas of={AvatarStories.NotificationShowcase} />
 
@@ -116,21 +122,20 @@ function MyComponent() {
 
 ### With Notification
 
-Display a notification indicator to show status or alerts:
+Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotConfig` to match the dot to the avatar size:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
-  const hasNotifications = true;
-  
   return (
-    <Avatar 
-      src="https://example.com/photo.jpg" 
-      showNotification={hasNotifications}
-      size="md" 
-      alt="User profile"
-    />
+    <DotIndicator {...getDotConfig('avatar', 'md')}>
+      <Avatar
+        src="https://example.com/photo.jpg"
+        size="md"
+        alt="User profile"
+      />
+    </DotIndicator>
   );
 }
 ```
@@ -159,7 +164,7 @@ function MyComponent() {
 Avatars are commonly used as interactive triggers for navigation or actions. Wrap the Avatar in a `Pressable` component:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-rnative';
 import { Pressable, Linking } from 'react-native';
 
 function UserProfile() {
@@ -177,12 +182,9 @@ function UserProfile() {
         backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
       })}
     >
-      <Avatar 
-        src="https://example.com/photo.jpg"
-        size="md" 
-        alt="User menu" 
-        showNotification 
-      />
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
+        <Avatar src="https://example.com/photo.jpg" size="md" alt="User menu" />
+      </DotIndicator>
     </Pressable>
   );
 }
@@ -221,7 +223,7 @@ You can also use the `style` prop for escape-hatch styling when needed:
 Here's a comprehensive example showing all Avatar features in a user profile context:
 
 ```tsx
-import { Avatar, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, Box, Text, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-rnative';
 import { Pressable } from 'react-native';
 import { useState } from 'react';
 
@@ -237,6 +239,14 @@ function UserProfileHeader() {
     // Navigate to profile or show menu
   };
 
+  const avatar = (
+    <Avatar
+      src={user.avatar}
+      size="md"
+      alt={`${user.name} profile picture`}
+    />
+  );
+
   return (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12', padding: 's16' }}>
       <Pressable
@@ -247,12 +257,13 @@ function UserProfileHeader() {
           backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
         })}
       >
-        <Avatar
-          src={user.avatar}
-          size="md"
-          showNotification={user.hasNotifications}
-          alt={`${user.name} profile picture`}
-        />
+        {user.hasNotifications ? (
+          <DotIndicator {...getDotConfig('avatar', 'md')}>
+            {avatar}
+          </DotIndicator>
+        ) : (
+          avatar
+        )}
       </Pressable>
       <Box lx={{ flexDirection: 'column' }}>
         <Text>{user.name}</Text>

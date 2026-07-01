@@ -1,4 +1,9 @@
-import { Box, Avatar } from '@ledgerhq/lumen-ui-rnative';
+import {
+  Box,
+  Avatar,
+  DotIndicator,
+  getDotIndicatorConfig,
+} from '@ledgerhq/lumen-ui-rnative';
 
 const exampleSrc =
   'https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
@@ -14,7 +19,13 @@ export default function Avatars() {
       <Avatar src={exampleSrc} size='lg' />
       <Avatar size='xl' />
       <Avatar src={exampleSrc} size='xl' />
-      <Avatar src={exampleSrc} showNotification />
+
+      <DotIndicator {...getDotIndicatorConfig('avatar', 'sm')}>
+        <Avatar src={exampleSrc} size='sm' />
+      </DotIndicator>
+      <DotIndicator {...getDotIndicatorConfig('avatar', 'md')}>
+        <Avatar src={exampleSrc} size='md' />
+      </DotIndicator>
     </Box>
   );
 }

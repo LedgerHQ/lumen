@@ -23,10 +23,4 @@ export type AvatarProps = {
    * @default md
    */
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  /**
-   * Whether to show the notifications indicator.
-   * @optional
-   * @default false
-   */
-  showNotification?: boolean;
 } & Omit<StyledViewProps, 'children'>;

@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { getDotConfig } from '../Dot';
+import { DotIndicator } from '../DotIndicator';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
 import { Avatar } from './Avatar';
 
@@ -30,12 +32,11 @@ export const Base: Story = {
     src: exampleSrc,
     size: 'md',
     alt: 'Avatar',
-    showNotification: false,
   },
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://example.com" size="md" alt="Avatar" showNotification={false} />`,
+        code: `<Avatar src="https://example.com" size="md" alt="Avatar" />`,
       },
     },
   },
@@ -45,39 +46,19 @@ export const SizeShowcase: Story = {
   render: () => (
     <div className='inline-flex items-stretch gap-16 body-2'>
       <div className='flex flex-col items-center justify-end'>
-        <Avatar
-          size='sm'
-          alt='small'
-          src={exampleSrc}
-          showNotification={false}
-        />
+        <Avatar size='sm' alt='small' src={exampleSrc} />
         <span className='mt-4'>sm</span>
       </div>
       <div className='flex flex-col items-center justify-end'>
-        <Avatar
-          size='md'
-          alt='medium'
-          src={exampleSrc}
-          showNotification={false}
-        />
+        <Avatar size='md' alt='medium' src={exampleSrc} />
         <span className='mt-4'>md</span>
       </div>
       <div className='flex flex-col items-center justify-end'>
-        <Avatar
-          size='lg'
-          alt='large'
-          src={exampleSrc}
-          showNotification={false}
-        />
+        <Avatar size='lg' alt='large' src={exampleSrc} />
         <span className='mt-4'>lg</span>
       </div>
       <div className='flex flex-col items-center justify-end'>
-        <Avatar
-          size='xl'
-          alt='extra large'
-          src={exampleSrc}
-          showNotification={false}
-        />
+        <Avatar size='xl' alt='extra large' src={exampleSrc} />
         <span className='mt-4'>xl</span>
       </div>
     </div>
@@ -88,18 +69,8 @@ export const AppearanceShowcase: Story = {
   render: () => (
     <div className='inline-flex flex-col gap-8'>
       <div className='flex items-center justify-end gap-16'>
-        <Avatar
-          size='md'
-          alt='gray fallback'
-          appearance='gray'
-          showNotification={false}
-        />
-        <Avatar
-          size='md'
-          alt='transparent fallback'
-          appearance='transparent'
-          showNotification={false}
-        />
+        <Avatar size='md' alt='gray fallback' appearance='gray' />
+        <Avatar size='md' alt='transparent fallback' appearance='transparent' />
       </div>
       <div className='flex items-center justify-end gap-16'>
         <Avatar
@@ -107,14 +78,12 @@ export const AppearanceShowcase: Story = {
           src={exampleSrc}
           alt='gray with image'
           appearance='gray'
-          showNotification={false}
         />
         <Avatar
           size='md'
           src={exampleSrc}
           alt='transparent with image'
           appearance='transparent'
-          showNotification={false}
         />
       </div>
     </div>
@@ -126,12 +95,11 @@ export const FallbackShowcase: Story = {
     src: 'https://brokenLink.random',
     size: 'md',
     alt: 'Fallback example',
-    showNotification: false,
   },
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" showNotification={false} />`,
+        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" />`,
       },
     },
   },
@@ -140,8 +108,10 @@ export const FallbackShowcase: Story = {
 export const NotificationShowcase: Story = {
   render: () => (
     <div className='inline-flex items-center gap-16'>
-      <Avatar src={exampleSrc} showNotification={false} />
-      <Avatar src={exampleSrc} showNotification={true} />
+      <Avatar src={exampleSrc} />
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
+        <Avatar src={exampleSrc} />
+      </DotIndicator>
     </div>
   ),
 };
@@ -156,7 +126,9 @@ export const InteractiveShowcase: Story = {
               type='button'
               className='cursor-pointer rounded-full transition-colors hover:bg-muted-hover'
             >
-              <Avatar size='md' alt='Avatar as trigger' showNotification />
+              <DotIndicator {...getDotConfig('avatar', 'md')}>
+                <Avatar size='md' alt='Avatar as trigger' />
+              </DotIndicator>
             </button>
           }
         />
