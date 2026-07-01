@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { Spot } from './Spot';
 import type { SpotAppearance } from './types';
 
@@ -6,7 +7,10 @@ figma.connect(
   Spot,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6786%3A4738',
   {
-    imports: ["import { Spot } from '@ledgerhq/lumen-ui-react'"],
+    imports: [
+      "import { Spot } from '@ledgerhq/lumen-ui-react'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+    ],
     props: {
       disabled: figma.enum('state', {
         disabled: true,
@@ -21,7 +25,9 @@ figma.connect(
         check: 'check',
         bluetooth: 'bluetooth',
       }),
-      icon: figma.instance('icon'),
+      icon: figma.enum('appearance', {
+        'interface-icon': Placeholder,
+      }),
       number: figma.enum('appearance', {
         number: 1,
       }),

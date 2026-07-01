@@ -1,4 +1,5 @@
 import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
 import { InteractiveIcon } from './InteractiveIcon';
 import type { InteractiveIconProps } from './types';
 
@@ -32,14 +33,20 @@ const example = (props: Omit<InteractiveIconProps, 'icon'> & { icon: any }) => (
 
 figma.connect(InteractiveIcon, URL, {
   variant: { appearance: 'filled' },
-  imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
-  props: { ...sharedProps, icon: figma.instance('icon-filled') },
+  imports: [
+    "import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'",
+    "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+  ],
+  props: { ...sharedProps, icon: Placeholder },
   example,
 });
 
 figma.connect(InteractiveIcon, URL, {
   variant: { appearance: 'stroked' },
-  imports: ["import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'"],
-  props: { ...sharedProps, icon: figma.instance('icon-stroked') },
+  imports: [
+    "import { InteractiveIcon } from '@ledgerhq/lumen-ui-react'",
+    "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+  ],
+  props: { ...sharedProps, icon: Placeholder },
   example,
 });

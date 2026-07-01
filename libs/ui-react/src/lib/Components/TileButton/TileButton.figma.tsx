@@ -1,5 +1,6 @@
 import figma from '@figma/code-connect';
 
+import { Placeholder } from '../../Symbols';
 import { TileButton } from './TileButton';
 import type { TileButtonProps } from './types';
 
@@ -9,14 +10,14 @@ figma.connect(
   {
     imports: [
       "import { TileButton } from '@ledgerhq/lumen-ui-react'",
-      "// import { YourIconName } from '@ledgerhq/lumen-ui-react/symbols'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       disabled: figma.enum('state', {
         disabled: true,
       }),
       children: figma.string('label'),
-      icon: figma.instance('icon'),
+      icon: Placeholder,
     },
     example: (
       props: Omit<TileButtonProps, 'icon'> & {

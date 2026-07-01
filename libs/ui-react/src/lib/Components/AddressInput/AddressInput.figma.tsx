@@ -31,7 +31,7 @@ figma.connect(
         disabled={props.disabled}
         value={props.value}
         placeholder={props.placeholder}
-        onQrCodeClick={() => openQrScanner}
+        onQrCodeClick={openQrScanner}
         helperText={props.helperText.label}
         status={props.status}
       />
