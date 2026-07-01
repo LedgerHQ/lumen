@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View, Text, Pressable, Linking } from 'react-native';
 
-import { getDotSize } from '../Dot';
+import { getDotConfig } from '../Dot';
 import { DotIndicator } from '../DotIndicator';
 import { Box } from '../Utility';
 import { Avatar } from './Avatar';
@@ -126,7 +126,7 @@ export const NotificationShowcase: Story = {
       }}
     >
       <Avatar src={exampleSrc} alt='avatar' size='md' />
-      <DotIndicator size={getDotSize('avatar', 'md')}>
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
         <Avatar src={exampleSrc} alt='avatar' size='md' />
       </DotIndicator>
     </Box>
@@ -146,7 +146,7 @@ export const InteractiveShowcase: Story = {
         backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
       })}
     >
-      <DotIndicator size={getDotSize('avatar', 'md')}>
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
         <Avatar src={exampleSrc} size='md' />
       </DotIndicator>
     </Pressable>

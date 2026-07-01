@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Settings } from '../../Symbols/Icons/Settings';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button';
-import { getDotSize } from '../Dot';
+import { getDotConfig } from '../Dot';
 import { IconButton } from '../IconButton/IconButton';
 import { DotIndicator } from './DotIndicator';
 
@@ -68,7 +68,7 @@ export const WithChildren: Story = {
       <DotIndicator appearance='red'>
         <Button size='sm'>Submit</Button>
       </DotIndicator>
-      <DotIndicator size={getDotSize('avatar', 'md')}>
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
         <Avatar size='md' />
       </DotIndicator>
       <DotIndicator appearance='red'>

@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
-import { getDotSize } from '../Dot';
+import { getDotConfig } from '../Dot';
 import { DotIndicator } from '../DotIndicator';
 import { Avatar } from './Avatar';
 
@@ -94,7 +94,7 @@ describe('Avatar Component', () => {
 
   it('should render a notification indicator when wrapped in DotIndicator', () => {
     const { container } = render(
-      <DotIndicator size={getDotSize('avatar', 'md')}>
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
         <Avatar src={validSrc} size='md' />
       </DotIndicator>,
     );
@@ -104,9 +104,9 @@ describe('Avatar Component', () => {
     expect(screen.getByRole('img')).toBeInTheDocument();
   });
 
-  it('should size the notification indicator based on the avatar size', () => {
+  it('should style the notification indicator based on the avatar size', () => {
     const { container, rerender } = render(
-      <DotIndicator size={getDotSize('avatar', 'sm')}>
+      <DotIndicator {...getDotConfig('avatar', 'sm')}>
         <Avatar src={validSrc} size='sm' />
       </DotIndicator>,
     );
@@ -114,7 +114,7 @@ describe('Avatar Component', () => {
     expect(container.querySelector('.size-10')).toBeInTheDocument();
 
     rerender(
-      <DotIndicator size={getDotSize('avatar', 'md')}>
+      <DotIndicator {...getDotConfig('avatar', 'md')}>
         <Avatar src={validSrc} size='md' />
       </DotIndicator>,
     );

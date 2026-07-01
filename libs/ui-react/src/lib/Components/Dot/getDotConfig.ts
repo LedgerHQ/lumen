@@ -8,7 +8,7 @@ type ContextResultMap = {
   avatar: (typeof avatarDotConfigMap)[ContextConfigMap['avatar']];
 };
 
-export type DotConfigContext = keyof ContextConfigMap;
+type DotConfigContext = keyof ContextConfigMap;
 
 const dotConfigByContext: {
   [T in DotConfigContext]: (size: ContextConfigMap[T]) => ContextResultMap[T];
