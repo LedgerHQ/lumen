@@ -70,6 +70,14 @@ export type AmountInputProps = Omit<
    */
   thousandsSeparator?: boolean;
   /**
+   * Character used to display the decimal separator (e.g. `1 234,5` vs `1 234.5`).
+   * Typing always accepts both `,` and `.` regardless of this value, so it stays
+   * compatible with any locale keyboard. The value returned by `onChangeText`
+   * uses this separator.
+   * @default '.'
+   */
+  decimalSeparator?: '.' | ',';
+  /**
    * Mark input as invalid (e.g. for error display)
    * @default false
    */

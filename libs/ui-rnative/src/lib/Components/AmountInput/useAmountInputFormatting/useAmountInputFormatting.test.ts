@@ -7,6 +7,7 @@ const defaultFormatOptions = {
   thousandsSeparator: true,
   maxIntegerLength: 9,
   maxDecimalLength: 9,
+  decimalSeparator: '.' as const,
 };
 
 describe('useAmountInputFormatting', () => {
@@ -58,5 +59,24 @@ describe('useAmountInputFormatting', () => {
     });
 
     expect(onChangeText).toHaveBeenCalledWith('1 000');
+  });
+
+  it('displays and emits the configured decimal separator', () => {
+    const onChangeText = jest.fn();
+    const { result } = renderHook(() =>
+      useAmountInputFormatting({
+        value: '1234.5',
+        onChangeText,
+        formatOptions: { ...defaultFormatOptions, decimalSeparator: ',' },
+      }),
+    );
+
+    expect(result.current.formattedValue).toBe('1 234,5');
+
+    act(() => {
+      result.current.handleChangeText('12,5');
+    });
+
+    expect(onChangeText).toHaveBeenCalledWith('12,5');
   });
 });

@@ -20,6 +20,7 @@ figma.connect(
   {
     imports: [
       "import { SideBar, SideBarLeading, SideBarTrailing, SideBarItem, SideBarCollapseToggle } from '@ledgerhq/lumen-ui-react'",
+      "import { Home, HomeFill, Wallet, SettingsAlt, SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       appearance: figma.enum('appearance', {

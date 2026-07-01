@@ -113,6 +113,7 @@ export const AmountInput = ({
   maxDecimalLength = 9,
   allowDecimals = true,
   thousandsSeparator = true,
+  decimalSeparator = '.',
   value,
   onChange,
   ...props
@@ -131,6 +132,7 @@ export const AmountInput = ({
         thousandsSeparator,
         maxIntegerLength,
         maxDecimalLength,
+        decimalSeparator,
       },
     });
 

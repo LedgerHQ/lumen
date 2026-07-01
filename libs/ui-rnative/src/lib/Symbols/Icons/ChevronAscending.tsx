@@ -35,7 +35,7 @@ export const ChevronAscending = createIcon(
   'ChevronAscending',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
-      stroke='#E8E8E8'
+      stroke='#D5D5D5'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}

@@ -149,6 +149,34 @@ export const CustomMaxLength: Story = {
   },
 };
 
+export const DecimalSeparator: Story = {
+  args: {
+    value: '1234.5',
+    currencyText: '€',
+    currencyPosition: 'right',
+    decimalSeparator: ',',
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Use `decimalSeparator=","` to display decimals with a comma (e.g. for fr-FR). Typing still accepts both `,` and `.`, so it stays compatible with any locale keyboard.',
+      },
+      source: {
+        code: `<AmountInput
+  value="1234.5"
+  currencyText="€"
+  currencyPosition="right"
+  decimalSeparator="," // displays "1 234,5"
+  onChange={() => console.log('onChange triggered')}
+/>`,
+      },
+    },
+  },
+};
+
 export const LargeAmountDisplay: Story = {
   args: {
     // This story uses its own state management, so we provide placeholder args

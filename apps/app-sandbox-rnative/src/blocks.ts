@@ -1,0 +1,54 @@
+export type BlockMeta = {
+  slug: string;
+  title: string;
+};
+
+export const blocks: BlockMeta[] = [
+  { slug: 'AmountDisplays', title: 'AmountDisplay' },
+  { slug: 'AmountInputs', title: 'AmountInput' },
+  { slug: 'Animations', title: 'Animation' },
+  { slug: 'Avatars', title: 'Avatar' },
+  { slug: 'Banners', title: 'Banner' },
+  { slug: 'BottomSheets', title: 'BottomSheet' },
+  { slug: 'Buttons', title: 'Button' },
+  { slug: 'CardButtons', title: 'CardButton' },
+  { slug: 'Cards', title: 'Card' },
+  { slug: 'Checkboxes', title: 'Checkbox' },
+  { slug: 'ContentBanners', title: 'ContentBanner' },
+  { slug: 'DescriptionLists', title: 'DescriptionList' },
+  { slug: 'Dividers', title: 'Divider' },
+  { slug: 'DotCounts', title: 'DotCount' },
+  { slug: 'DotIcons', title: 'DotIcon' },
+  { slug: 'DotIndicators', title: 'DotIndicator' },
+  { slug: 'DotSymbols', title: 'DotSymbol' },
+  { slug: 'Gradients', title: 'Gradient' },
+  { slug: 'IconButtons', title: 'IconButton' },
+  { slug: 'InteractiveIcons', title: 'InteractiveIcon' },
+  { slug: 'LineCharts', title: 'LineChart' },
+  { slug: 'Links', title: 'Link' },
+  { slug: 'ListItems', title: 'ListItem' },
+  { slug: 'MediaBanners', title: 'MediaBanner' },
+  { slug: 'MediaButtons', title: 'MediaButton' },
+  { slug: 'MediaCards', title: 'MediaCard' },
+  { slug: 'MediaImages', title: 'MediaImage' },
+  { slug: 'MediaTags', title: 'MediaTag' },
+  { slug: 'NavBars', title: 'Navbar' },
+  { slug: 'OptionLists', title: 'OptionList' },
+  { slug: 'PageIndicators', title: 'PageIndicator' },
+  { slug: 'SegmentedControls', title: 'SegmentedControl' },
+  { slug: 'Skeletons', title: 'Skeleton' },
+  { slug: 'Spots', title: 'Spot' },
+  { slug: 'Steppers', title: 'Stepper' },
+  { slug: 'Subheaders', title: 'Subheader' },
+  { slug: 'Switches', title: 'Switch' },
+  { slug: 'TabBars', title: 'TabBar' },
+  { slug: 'Tags', title: 'Tag' },
+  { slug: 'TextInputs', title: 'TextInput' },
+  { slug: 'ThemeProviderToggles', title: 'ThemeProviderToggle' },
+  { slug: 'Tiles', title: 'Tile' },
+  { slug: 'Tooltips', title: 'Tooltip' },
+  { slug: 'Trends', title: 'Trend' },
+];
+
+export const getBlockTitle = (slug: string): string | undefined =>
+  blocks.find((block) => block.slug === slug)?.title;

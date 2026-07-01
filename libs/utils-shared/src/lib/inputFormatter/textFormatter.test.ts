@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { textFormatter } from './textFormatter.js';
+import { textFormatter, type TextFormatterOptions } from './textFormatter.js';
 
 describe('textFormatter', () => {
   describe('decimal handling with allowDecimals=true (default)', () => {
@@ -90,6 +90,64 @@ describe('textFormatter', () => {
 
     it.each(commaCases)('$name', ({ input, expected }) => {
       expect(textFormatter(input)).toBe(expected);
+    });
+  });
+
+  describe('decimalSeparator display', () => {
+    type Case = {
+      name: string;
+      input: string;
+      expected: string;
+      options?: TextFormatterOptions;
+    };
+
+    const commaSeparatorCases: Case[] = [
+      {
+        name: 'display dot decimal as comma',
+        input: '1.5',
+        expected: '1,5',
+        options: { decimalSeparator: ',' },
+      },
+      {
+        name: 'display comma input as comma',
+        input: '1,5',
+        expected: '1,5',
+        options: { decimalSeparator: ',' },
+      },
+      {
+        name: 'comma decimal with space thousands',
+        input: '1234.5',
+        expected: '1 234,5',
+        options: { decimalSeparator: ',' },
+      },
+      {
+        name: 'preserve trailing separator while typing',
+        input: '12.',
+        expected: '12,',
+        options: { decimalSeparator: ',' },
+      },
+      {
+        name: 'no decimal part is unaffected',
+        input: '1234',
+        expected: '1 234',
+        options: { decimalSeparator: ',' },
+      },
+      {
+        name: 'integer-only mode is unaffected by comma separator',
+        input: '1.5',
+        expected: '15',
+        options: { decimalSeparator: ',', allowDecimals: false },
+      },
+      {
+        name: 'explicit dot separator matches default',
+        input: '1234.5',
+        expected: '1 234.5',
+        options: { decimalSeparator: '.' },
+      },
+    ];
+
+    it.each(commaSeparatorCases)('$name', ({ input, expected, options }) => {
+      expect(textFormatter(input, options)).toBe(expected);
     });
   });
 

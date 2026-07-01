@@ -276,10 +276,33 @@ To publish Code Connect for the Symbol Library (Icons and CryptoIcons), use the 
 npx figma connect publish --config libs/ui-react/figma.symbol-lib.config.json
 ```
 
+#### Publish React Native Components
+To publish Code Connect for all React Native components, use the dedicated config:
+```bash
+npx figma connect publish --config libs/ui-rnative/figma.config.json
+```
+
+To dry-run first:
+```bash
+npx figma connect publish --config libs/ui-rnative/figma.config.json --dry-run
+```
+
+To publish a single React Native component directory:
+```bash
+figma connect publish --dir libs/ui-rnative/src/lib/Components/YourComponent/
+```
+
+To unpublish all React Native connections:
+```bash
+npx figma connect unpublish --config libs/ui-rnative/figma.config.json
+```
+
 #### Remove Broken Connections
 If a component connection is broken, unpublish it by node URL, and label, specified in figma.config.json:
 ```bash
 figma connect unpublish --node "https://figma.com/file/abc?node-id=123" --label "React"
+# Or for React Native:
+figma connect unpublish --node "https://figma.com/file/abc?node-id=123" --label "React Native"
 ```
 
 ## Testing Guidelines

@@ -86,6 +86,7 @@ export const Loading: Story = {
     loading: true,
   },
   parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
     docs: {
       source: {
         code: `
@@ -154,6 +155,9 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
   render: () => (
     <div className='flex items-center gap-4'>
       <Button appearance='base'>Default</Button>

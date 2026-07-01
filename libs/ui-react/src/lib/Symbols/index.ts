@@ -71,6 +71,7 @@ export { CoinsEye } from './Icons/CoinsEye';
 export { ColorPalette } from './Icons/ColorPalette';
 export { Compass } from './Icons/Compass';
 export { ComputerMobile } from './Icons/ComputerMobile';
+export { Contact } from './Icons/Contact';
 export { Copy } from './Icons/Copy';
 export { CreditCard } from './Icons/CreditCard';
 export { CreditCardFill } from './Icons/CreditCardFill';

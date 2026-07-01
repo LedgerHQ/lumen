@@ -34,7 +34,7 @@ export const ChevronAscending = createIcon(
     viewBox='0 0 16 16'
   >
     <path
-      stroke='#E8E8E8'
+      stroke='#D5D5D5'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
