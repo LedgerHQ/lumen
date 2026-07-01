@@ -117,7 +117,7 @@ const ColorTable = ({ category }: { category: ColorCategory }) => {
   const { colors } = useResolvedTheme();
 
   const rows = Object.entries(colors[category])
-    .filter(([, value]) => !(category === 'crypto' && value.endsWith('00')))
+    .filter(([key]) => !(category === 'crypto' && key.endsWith('0')))
     .map(([key, value]) => ({
       key,
       cells: [
