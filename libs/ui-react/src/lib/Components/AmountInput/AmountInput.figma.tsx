@@ -45,7 +45,7 @@ figma.connect(
 
 figma.connect(
   AmountInput,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=17523-37413&',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=17523-37413',
   {
     imports: ["import { AmountInput } from '@ledgerhq/lumen-ui-react'"],
     variant: { currency: 'crypto' },

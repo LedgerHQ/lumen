@@ -7,7 +7,6 @@
     "jsx": "react-jsx",
     "lib": ["dom"],
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
-    "baseUrl": "."
   },
   "files": ["../../node_modules/@nx/react-native/typings/svg.d.ts"],
   "exclude": [

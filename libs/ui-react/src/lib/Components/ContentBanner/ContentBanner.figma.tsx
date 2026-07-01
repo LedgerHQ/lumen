@@ -1,6 +1,6 @@
 import figma from '@figma/code-connect';
 
-import { Placeholder, Wallet } from '../../Symbols';
+import { Wallet } from '../../Symbols';
 import { Spot } from '../Spot';
 import { Stepper } from '../Stepper';
 import {
@@ -17,18 +17,21 @@ figma.connect(
     imports: [
       "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
     ],
-    variant: { 'show-close-button': true },
+    variant: { 'leading-content': 'spot' },
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leadingElement: figma.enum('leading-content', {
-        spot: <Spot appearance='icon' icon={Placeholder} size={48} />,
-        stepper: <Stepper currentStep={1} totalSteps={4} />,
+      onClose: figma.boolean('show-close-button', {
+        true: () => {},
+        false: undefined,
       }),
     },
     example: (props) => (
-      <ContentBanner onClose={() => {}} closeAriaLabel='Close content banner'>
-        {props.leadingElement}
+      <ContentBanner
+        onClose={props.onClose}
+        closeAriaLabel='Close content banner'
+      >
+        <Spot appearance='icon' icon={Wallet} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>
@@ -47,18 +50,53 @@ figma.connect(
     imports: [
       "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
     ],
-    variant: { 'show-close-button': false },
+    variant: { 'leading-content': 'stepper' },
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leadingElement: figma.enum('leading-content', {
-        spot: <Spot appearance='icon' icon={Wallet} size={48} />,
-        stepper: <Stepper currentStep={1} totalSteps={4} />,
+      onClose: figma.boolean('show-close-button', {
+        true: () => {},
+        false: undefined,
       }),
     },
     example: (props) => (
-      <ContentBanner>
-        {props.leadingElement}
+      <ContentBanner
+        onClose={props.onClose}
+        closeAriaLabel='Close content banner'
+      >
+        <Stepper currentStep={1} totalSteps={4} />
+        <ContentBannerContent>
+          <ContentBannerTitle>{props.title}</ContentBannerTitle>
+          <ContentBannerDescription>
+            {props.description}
+          </ContentBannerDescription>
+        </ContentBannerContent>
+      </ContentBanner>
+    ),
+  },
+);
+
+figma.connect(
+  ContentBanner,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11235-5966',
+  {
+    imports: [
+      "import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription, Spot, Stepper } from '@ledgerhq/lumen-ui-react'",
+    ],
+    variant: { 'leading-content': 'none' },
+    props: {
+      title: figma.string('title'),
+      description: figma.string('description'),
+      onClose: figma.boolean('show-close-button', {
+        true: () => {},
+        false: undefined,
+      }),
+    },
+    example: (props) => (
+      <ContentBanner
+        onClose={props.onClose}
+        closeAriaLabel='Close content banner'
+      >
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>

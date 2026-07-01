@@ -1,0 +1,100 @@
+import Icon from '@ledgerhq/crypto-icons/native';
+import {
+  Box,
+  IconButton,
+  NavBar,
+  NavBarBackButton,
+  NavBarCoinCapsule,
+  NavBarContent,
+  NavBarDescription,
+  NavBarTitle,
+  NavBarTrailing,
+} from '@ledgerhq/lumen-ui-rnative';
+import {
+  MoreVertical,
+  Star,
+  StarFill,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
+import { useState } from 'react';
+
+export default function NavBars() {
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  return (
+    <Box lx={{ gap: 's16', marginVertical: 's4' }}>
+      <Box
+        lx={{
+          backgroundColor: 'surfaceTransparent',
+          borderRadius: 'lg',
+        }}
+      >
+        <NavBar density='compact'>
+          <NavBarBackButton />
+          <NavBarTrailing>
+            <IconButton
+              icon={MoreVertical}
+              appearance='no-background'
+              size='md'
+              accessibilityLabel='More'
+            />
+          </NavBarTrailing>
+          <NavBarContent>
+            <NavBarTitle>Portfolio</NavBarTitle>
+            <NavBarDescription>Manage your positions</NavBarDescription>
+          </NavBarContent>
+        </NavBar>
+      </Box>
+      <Box
+        lx={{
+          backgroundColor: 'surfaceTransparent',
+          borderRadius: 'lg',
+        }}
+      >
+        <NavBar density='expanded'>
+          <NavBarBackButton />
+          <NavBarContent>
+            <NavBarTitle>
+              Are you sure you want to continue? This transfer can't be undone
+              once confirmed.
+            </NavBarTitle>
+            <NavBarDescription>
+              Please carefully and thoroughly review, verify, and confirm all
+              provided information, assumptions, inputs, and associated details
+              in their entirety to ensure absolute accuracy and completeness
+              before taking any further action or proceeding to the next step.
+            </NavBarDescription>
+          </NavBarContent>
+        </NavBar>
+      </Box>
+
+      <Box
+        lx={{
+          backgroundColor: 'surfaceTransparent',
+          borderRadius: 'lg',
+        }}
+      >
+        <NavBar density='compact'>
+          <NavBarBackButton />
+          <NavBarTrailing>
+            <IconButton
+              icon={isFavorited ? StarFill : Star}
+              appearance='no-background'
+              size='md'
+              accessibilityLabel='Favorite'
+              onPress={() => setIsFavorited((s) => !s)}
+              hapticFeedback='light'
+            />
+          </NavBarTrailing>
+          <NavBarContent>
+            <NavBarCoinCapsule
+              ticker='BTC'
+              leadingContent={
+                <Icon ledgerId='bitcoin' ticker='BTC' size={24} />
+              }
+            />
+          </NavBarContent>
+        </NavBar>
+      </Box>
+    </Box>
+  );
+}

@@ -1,59 +1,63 @@
 import figma from '@figma/code-connect';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
-
-import { MoreVertical, Settings } from '../../Symbols';
-
-import { Placeholder } from '../../Symbols/Icons/Placeholder';
+import { MoreVertical, Placeholder, Settings } from '../../Symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag';
+import { Trend } from '../Trend';
 import {
   Tile,
   TileContent,
-  TileTitle,
   TileDescription,
   TileSecondaryAction,
+  TileTitle,
   TileTrailingContent,
 } from './Tile';
 
-// —— no additional content ——
+const sharedProps = {
+  title: figma.string('title'),
+  description: figma.boolean('show-description', {
+    true: <TileDescription>Description</TileDescription>,
+    false: undefined,
+  }),
+  appearance: figma.enum('appearance', {
+    'no-background': 'no-background',
+    card: 'card',
+  }),
+  disabled: figma.enum('state', {
+    disabled: true,
+  }),
+  secondaryAction: figma.boolean('show-more-action', {
+    true: <TileSecondaryAction icon={MoreVertical} onClick={() => {}} />,
+    false: undefined,
+  }),
+  leadingContent: figma.enum('leading-icon', {
+    coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
+    spot: <Spot appearance='icon' icon={Settings} />,
+    'interface-icon': <Placeholder size={24} />,
+  }),
+};
+
+const sharedImports = [
+  "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
+  "import { Tag } from '@ledgerhq/lumen-ui-react'",
+  "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
+  "import { Placeholder, MoreVertical, Settings } from '@ledgerhq/lumen-ui-react/symbols'",
+];
+
 figma.connect(
   Tile,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
-    imports: [
-      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
-      "import { Tag } from '@ledgerhq/lumen-ui-react'",
-      "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
-      "import { Placeholder, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
-    ],
+    imports: sharedImports,
     variant: { 'show-additionnal-content': false },
-    props: {
-      title: figma.string('title'),
-      description: figma.boolean('show-description', {
-        true: <TileDescription>Description</TileDescription>,
-        false: undefined,
-      }),
-      appearance: figma.enum('appearance', {
-        'no-background': 'no-background',
-        card: 'card',
-      }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
-      leadingContent: figma.enum('leading-icon', {
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
-        spot: <Spot appearance='icon' icon={Settings} />,
-        'interface-icon': <Placeholder size={24} />,
-      }),
-    },
+    props: sharedProps,
     example: (props) => (
       <Tile
         appearance={props.appearance}
         disabled={props.disabled}
         onClick={() => {}}
       >
-        <TileSecondaryAction icon={MoreVertical} onClick={() => {}} />
-        <Spot appearance='icon' icon={Settings} />
+        {props.secondaryAction}
         {props.leadingContent}
         <TileContent>
           <TileTitle>{props.title}</TileTitle>
@@ -64,36 +68,14 @@ figma.connect(
   },
 );
 
-// —— with additional content ——
 figma.connect(
   Tile,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=5783-1328',
   {
-    imports: [
-      "import { Tile, Spot, TileContent, TileTitle, TileDescription, TileSecondaryAction, TileTrailingContent } from '@ledgerhq/lumen-ui-react'",
-      "import { Tag } from '@ledgerhq/lumen-ui-react'",
-      "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
-      "import { Placeholder, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols'",
-    ],
+    imports: sharedImports,
     variant: { 'show-additionnal-content': true },
     props: {
-      title: figma.string('title'),
-      description: figma.boolean('show-description', {
-        true: <TileDescription>Description</TileDescription>,
-        false: undefined,
-      }),
-      appearance: figma.enum('appearance', {
-        'no-background': 'no-background',
-        card: 'card',
-      }),
-      disabled: figma.enum('state', {
-        disabled: true,
-      }),
-      leadingContent: figma.enum('leading-icon', {
-        coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
-        spot: <Spot appearance='icon' icon={Settings} />,
-        'interface-icon': <Placeholder size={24} />,
-      }),
+      ...sharedProps,
       tag: figma.boolean('show-tag', {
         true: <Tag label='Label' appearance='base' />,
         false: undefined,
@@ -103,7 +85,7 @@ figma.connect(
         false: undefined,
       }),
       trend: figma.boolean('show-trend', {
-        true: <div className='body-2-semi-bold text-success'>+7.87%</div>,
+        true: <Trend value={7.87} size='sm' />,
         false: undefined,
       }),
     },
@@ -113,7 +95,7 @@ figma.connect(
         disabled={props.disabled}
         onClick={() => {}}
       >
-        <TileSecondaryAction icon={MoreVertical} onClick={() => {}} />
+        {props.secondaryAction}
         {props.leadingContent}
         <TileContent>
           <TileTitle>{props.title}</TileTitle>

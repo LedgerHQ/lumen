@@ -1,0 +1,57 @@
+import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
+import { Button } from './Button';
+import type { ButtonProps } from './types';
+
+figma.connect(
+  Button,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=9%3A28',
+  {
+    imports: [
+      "import { Button } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols'",
+    ],
+    props: {
+      disabled: figma.enum('state', {
+        disabled: true,
+      }),
+      loading: figma.enum('state', {
+        loading: true,
+      }),
+      appearance: figma.enum('appearance', {
+        base: 'base',
+        gray: 'gray',
+        accent: 'accent',
+        transparent: 'transparent',
+        'no-background': 'no-background',
+        red: 'red',
+      }),
+      size: figma.enum('size', {
+        sm: 'sm',
+        md: 'md',
+        lg: 'lg',
+      }),
+      children: figma.string('label'),
+      icon: figma.enum('content', {
+        'icon-text': Placeholder,
+        text: undefined,
+      }),
+    },
+    example: (
+      props: Omit<ButtonProps, 'icon'> & {
+        icon?: any;
+      },
+    ) => (
+      <Button
+        disabled={props.disabled}
+        loading={props.loading}
+        appearance={props.appearance}
+        size={props.size}
+        icon={props.icon}
+        onPress={() => {}}
+      >
+        {props.children}
+      </Button>
+    ),
+  },
+);

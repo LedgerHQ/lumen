@@ -1,0 +1,54 @@
+import figma from '@figma/code-connect';
+import { Checkbox } from './Checkbox';
+
+figma.connect(
+  Checkbox,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6688-3600',
+  {
+    imports: ["import { Checkbox } from '@ledgerhq/lumen-ui-rnative'"],
+    variant: { 'show-label': true },
+    props: {
+      checkbox: figma.nestedProps('.checkbox', {
+        checked: figma.boolean('selected'),
+        disabled: figma.enum('state', {
+          disabled: true,
+        }),
+      }),
+      label: figma.string('label'),
+    },
+    example: (props) => (
+      <Checkbox
+        checked={props.checkbox.checked}
+        onCheckedChange={(_checked: boolean) => {}}
+        defaultChecked={false}
+        disabled={props.checkbox.disabled}
+        label={props.label}
+      />
+    ),
+  },
+);
+
+figma.connect(
+  Checkbox,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6688-3600',
+  {
+    imports: ["import { Checkbox } from '@ledgerhq/lumen-ui-rnative'"],
+    variant: { 'show-label': false },
+    props: {
+      checkbox: figma.nestedProps('.checkbox', {
+        checked: figma.boolean('selected'),
+        disabled: figma.enum('state', {
+          disabled: true,
+        }),
+      }),
+    },
+    example: (props) => (
+      <Checkbox
+        checked={props.checkbox.checked}
+        onCheckedChange={(_checked: boolean) => {}}
+        defaultChecked={false}
+        disabled={props.checkbox.disabled}
+      />
+    ),
+  },
+);

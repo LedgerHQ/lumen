@@ -1,0 +1,49 @@
+import figma from '@figma/code-connect';
+import { Placeholder } from '../../Symbols';
+import { CardButton } from './CardButton';
+import type { CardButtonProps } from './types';
+
+figma.connect(
+  CardButton,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=89%3A525',
+  {
+    imports: [
+      "import { CardButton } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols'",
+    ],
+    props: {
+      title: figma.string('title'),
+      description: figma.boolean('show-description', {
+        true: figma.string('description'),
+        false: undefined,
+      }),
+      hideChevron: figma.boolean('show-chevron', {
+        true: false,
+        false: true,
+      }),
+      disabled: figma.enum('state', {
+        disabled: true,
+      }),
+      appearance: figma.enum('appearance', {
+        base: 'base',
+        outline: 'outline',
+      }),
+      icon: Placeholder,
+    },
+    example: (
+      props: Omit<CardButtonProps, 'icon'> & {
+        icon?: any;
+      },
+    ) => (
+      <CardButton
+        title={props.title}
+        description={props.description}
+        icon={props.icon}
+        hideChevron={props.hideChevron}
+        disabled={props.disabled}
+        appearance={props.appearance}
+        onPress={() => {}}
+      />
+    ),
+  },
+);
