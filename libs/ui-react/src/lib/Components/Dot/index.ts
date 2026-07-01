@@ -1,2 +1,3 @@
-export { getDotSize } from './getDotSize';
-export type { DotSizeContext } from './getDotSize';
+export { getDotSize } from './getDotConfig';
+export type { DotSizeContext } from './getDotConfig';
+export * from './constants';

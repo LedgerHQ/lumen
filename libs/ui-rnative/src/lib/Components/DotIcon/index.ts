@@ -1,5 +1,4 @@
 export {
-  avatarDotIconSizeMap,
   DotIcon,
   mediaImageDotIconSizeMap,
   spotDotIconSizeMap,
