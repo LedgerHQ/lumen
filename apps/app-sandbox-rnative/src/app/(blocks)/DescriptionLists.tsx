@@ -104,6 +104,35 @@ export default function DescriptionLists() {
           </DescriptionItemTrailing>
         </DescriptionItem>
       </Box>
+
+      <SectionLabel>Priority</SectionLabel>
+      <Box lx={{ width: 's320', gap: 's16' }}>
+        <DescriptionItem priority='start'>
+          <DescriptionItemLeading>
+            <DescriptionItemLabel>
+              Long label which will not truncate
+            </DescriptionItemLabel>
+          </DescriptionItemLeading>
+          <DescriptionItemTrailing>
+            <DescriptionItemValue>
+              0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+            </DescriptionItemValue>
+          </DescriptionItemTrailing>
+        </DescriptionItem>
+
+        <DescriptionItem priority='end'>
+          <DescriptionItemLeading>
+            <DescriptionItemLabel>
+              Long label which will truncate
+            </DescriptionItemLabel>
+          </DescriptionItemLeading>
+          <DescriptionItemTrailing>
+            <DescriptionItemValue>
+              0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+            </DescriptionItemValue>
+          </DescriptionItemTrailing>
+        </DescriptionItem>
+      </Box>
     </Box>
   );
 }

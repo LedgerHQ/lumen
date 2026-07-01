@@ -1,4 +1,4 @@
-import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import { createSafeContext, type Priority } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
@@ -18,6 +18,11 @@ type DescriptionItemSizeContextValue = {
 const [DescriptionItemSizeProvider, useDescriptionItemSizeContext] =
   createSafeContext<DescriptionItemSizeContextValue>('DescriptionItemSize', {
     size: 'md',
+  });
+
+const [DescriptionItemPriorityProvider, useDescriptionItemPriorityContext] =
+  createSafeContext<{ priority?: Priority }>('DescriptionItemPriority', {
+    priority: undefined,
   });
 
 /**
@@ -42,6 +47,7 @@ export const DescriptionItem = ({
   lx = {},
   style,
   size = 'md',
+  priority = 'end',
   ...props
 }: DescriptionItemProps) => {
   const styles = useStyleSheet(
@@ -58,9 +64,15 @@ export const DescriptionItem = ({
 
   return (
     <DescriptionItemSizeProvider value={{ size }}>
-      <Box lx={lx} style={StyleSheet.flatten([styles.root, style])} {...props}>
-        {children}
-      </Box>
+      <DescriptionItemPriorityProvider value={{ priority }}>
+        <Box
+          lx={lx}
+          style={StyleSheet.flatten([styles.root, style])}
+          {...props}
+        >
+          {children}
+        </Box>
+      </DescriptionItemPriorityProvider>
     </DescriptionItemSizeProvider>
   );
 };
@@ -75,17 +87,23 @@ export const DescriptionItemLeading = ({
   style,
   ...props
 }: DescriptionItemLeadingProps) => {
+  const { priority } = useDescriptionItemPriorityContext({
+    consumerName: 'DescriptionItemLeading',
+    contextRequired: false,
+  });
+
   const styles = useStyleSheet(
     (t) => ({
       leading: {
-        flex: 1,
+        flexGrow: 1,
+        flexShrink: priority === 'end' ? 1 : 0,
         minWidth: 0,
         flexDirection: 'row',
         alignItems: 'center',
         gap: t.spacings.s4,
       },
     }),
-    [],
+    [priority],
   );
 
   return (
@@ -151,17 +169,22 @@ export const DescriptionItemTrailing = ({
   style,
   ...props
 }: DescriptionItemTrailingProps) => {
+  const { priority } = useDescriptionItemPriorityContext({
+    consumerName: 'DescriptionItemTrailing',
+    contextRequired: false,
+  });
+
   const styles = useStyleSheet(
     (t) => ({
       trailing: {
-        flexShrink: 0,
+        flexShrink: priority === 'start' ? 1 : 0,
         maxWidth: '80%',
         flexDirection: 'row',
         alignItems: 'center',
         gap: t.spacings.s4,
       },
     }),
-    [],
+    [priority],
   );
 
   return (
