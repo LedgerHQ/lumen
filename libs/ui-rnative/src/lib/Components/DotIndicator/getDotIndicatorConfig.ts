@@ -1,4 +1,4 @@
-import { createGetDotConfig } from '../Dot';
+import { createGetDotConfig } from '@ledgerhq/lumen-utils-shared';
 import type { DotIndicatorProps } from './types';
 
 export const getDotIndicatorConfig = createGetDotConfig({
