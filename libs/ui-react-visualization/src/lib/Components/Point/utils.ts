@@ -1,12 +1,12 @@
+import {
+  POINT_ARROW_HEIGHT,
+  POINT_ARROW_WIDTH,
+  POINT_LABEL_CHAR_WIDTH_RATIO,
+  POINT_LABEL_FONT_SIZE,
+  POINT_LABEL_GAP,
+} from '../../config';
 import type { DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
-import {
-  ARROW_HEIGHT,
-  ARROW_WIDTH,
-  GAP,
-  LABEL_CHAR_WIDTH_RATIO,
-  LABEL_FONT_SIZE,
-} from './constants';
 import type { LabelAlignment } from './types';
 
 export type LabelTextAnchor = 'start' | 'middle' | 'end';
@@ -33,16 +33,16 @@ export const buildArrowPoints = (
   radius: number,
   position: 'top' | 'bottom',
 ): string => {
-  const halfW = ARROW_WIDTH / 2;
+  const halfW = POINT_ARROW_WIDTH / 2;
 
   if (position === 'top') {
-    const tipY = cy - radius - GAP;
-    const baseY = tipY - ARROW_HEIGHT;
+    const tipY = cy - radius - POINT_LABEL_GAP;
+    const baseY = tipY - POINT_ARROW_HEIGHT;
     return `${cx},${tipY} ${cx - halfW},${baseY} ${cx + halfW},${baseY}`;
   }
 
-  const tipY = cy + radius + GAP;
-  const baseY = tipY + ARROW_HEIGHT;
+  const tipY = cy + radius + POINT_LABEL_GAP;
+  const baseY = tipY + POINT_ARROW_HEIGHT;
   return `${cx},${tipY} ${cx - halfW},${baseY} ${cx + halfW},${baseY}`;
 };
 
@@ -86,8 +86,8 @@ export const computeLabelX = (
   }
 
   const halfWidth =
-    (label.length * LABEL_FONT_SIZE * LABEL_CHAR_WIDTH_RATIO) / 2;
-  const arrowOffset = hasArrow ? ARROW_WIDTH / 2 : 0;
+    (label.length * POINT_LABEL_FONT_SIZE * POINT_LABEL_CHAR_WIDTH_RATIO) / 2;
+  const arrowOffset = hasArrow ? POINT_ARROW_WIDTH / 2 : 0;
 
   if (pixelX - halfWidth < area.x) {
     return { x: pixelX - arrowOffset, textAnchor: 'start' };
@@ -107,11 +107,13 @@ export const computeLabelY = (
   labelPosition: 'top' | 'bottom',
   renderArrow: boolean,
 ): number => {
-  const arrowOffset = renderArrow ? ARROW_HEIGHT + GAP : GAP;
+  const arrowOffset = renderArrow
+    ? POINT_ARROW_HEIGHT + POINT_LABEL_GAP
+    : POINT_LABEL_GAP;
 
   return labelPosition === 'top'
-    ? pixelY - radius - arrowOffset - GAP
-    : pixelY + radius + arrowOffset + GAP + LABEL_FONT_SIZE;
+    ? pixelY - radius - arrowOffset - POINT_LABEL_GAP
+    : pixelY + radius + arrowOffset + POINT_LABEL_GAP + POINT_LABEL_FONT_SIZE;
 };
 
 /**

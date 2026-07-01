@@ -2,7 +2,14 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 
 import { memo } from 'react';
 
-import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
+import {
+  CHART_FONT_FAMILY,
+  CHART_MARK_OUTLINE_COLOR,
+  CHART_TEXT_COLOR,
+  POINT_DEFAULT_SIZE,
+  POINT_LABEL_FONT_SIZE,
+  POINT_STROKE_WIDTH,
+} from '../../config';
 import type {
   PointArrowProps,
   PointLabelProps,
@@ -24,10 +31,10 @@ export function PointLabel({
       textAnchor={textAnchor}
       dominantBaseline={dominantBaseline}
       style={{
-        fill: cssVar('var(--text-base)'),
-        fontSize: LABEL_FONT_SIZE,
+        fill: CHART_TEXT_COLOR,
+        fontSize: POINT_LABEL_FONT_SIZE,
         fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-        fontFamily: cssVar('var(--font-family-font)'),
+        fontFamily: CHART_FONT_FAMILY,
         ...style,
       }}
       {...props}
@@ -47,9 +54,9 @@ function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
       r={radius}
       style={{
         fill,
-        stroke: cssVar('var(--background-canvas)'),
+        stroke: CHART_MARK_OUTLINE_COLOR,
       }}
-      strokeWidth={STROKE_WIDTH}
+      strokeWidth={POINT_STROKE_WIDTH}
     />
   );
 }
@@ -59,7 +66,7 @@ function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
     <polygon
       data-testid='point-arrow'
       points={buildArrowPoints(x, y, size / 2, position)}
-      style={{ fill: cssVar('var(--text-base)') }}
+      style={{ fill: CHART_TEXT_COLOR }}
     />
   );
 }
@@ -73,7 +80,7 @@ export const Point = memo(function Point({
   labelPosition = 'top',
   hidePoint = false,
   showLabelArrow = true,
-  size = DEFAULT_SIZE,
+  size = POINT_DEFAULT_SIZE,
   onClick,
   magnetic = false,
   labelAlignment = 'auto',

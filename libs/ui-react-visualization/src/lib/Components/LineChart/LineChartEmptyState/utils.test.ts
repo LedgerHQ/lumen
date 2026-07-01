@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
+import { PLACEHOLDER_LINE_PATH } from '../../../config';
+import { buildPlaceholderTransform } from './utils';
 
 describe('PLACEHOLDER_LINE_PATH', () => {
   it('is an svg path starting with a move command', () => {

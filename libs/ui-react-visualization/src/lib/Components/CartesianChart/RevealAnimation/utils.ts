@@ -1,13 +1,11 @@
 import { useId, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
+import {
+  POINT_FADE_DURATION_IN_SECONDS,
+  POINT_FADE_IN_AFTER_CLIP_IN_SECONDS,
+} from '../../../config';
 import type { DrawingArea, Series } from '../../../utils/types';
-
-/**
- * Duration in seconds of an individual point's opacity fade-in.
- */
-const POINT_FADE_DURATION_IN_SECONDS = 0.2;
-const POINT_FADE_IN_AFTER_CLIP_IN_SECONDS = -0.1;
 
 type RevealAnimationConfig = {
   duration: number;

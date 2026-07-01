@@ -1,14 +1,13 @@
+import {
+  AXIS_DEFAULT_HEIGHT,
+  AXIS_DEFAULT_WIDTH,
+  LOADING_ARIA_LABEL,
+  MIN_DRAWABLE_POINTS,
+} from '../../config';
 import { isFiniteNumber } from '../../utils/numbers';
 import type { ChartInset, Series } from '../../utils/types';
-import { DEFAULT_AXIS_HEIGHT, DEFAULT_AXIS_WIDTH } from '../Axis';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
-
-/**
- * Minimum number of finite points a series needs to be drawable as a line.
- */
-const MIN_DRAWABLE_POINTS = 2;
-const LOADING_ARIA_LABEL = 'Loading chart';
 
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;
@@ -46,11 +45,11 @@ export const computeAxisPadding = ({
     return undefined;
   }
 
-  const resolvedYAxisWidth = yAxisWidth ?? DEFAULT_AXIS_WIDTH;
+  const resolvedYAxisWidth = yAxisWidth ?? AXIS_DEFAULT_WIDTH;
 
   return {
-    top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
-    bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
+    top: showXAxis && xAxisPosition === 'top' ? AXIS_DEFAULT_HEIGHT : 0,
+    bottom: showXAxis && xAxisPosition === 'bottom' ? AXIS_DEFAULT_HEIGHT : 0,
     left: showYAxis && yAxisPosition === 'start' ? resolvedYAxisWidth : 0,
     right: showYAxis && yAxisPosition === 'end' ? resolvedYAxisWidth : 0,
   };

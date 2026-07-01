@@ -1,21 +1,13 @@
+import { CHART_ZERO_PADDING } from '../../config';
 import type { ChartInset } from '../../utils/types';
 import type { CartesianChartProps } from './types';
-
-export const DEFAULT_HEIGHT = 240;
-
-export const ZERO_PADDING: ChartInset = {
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-};
 
 export const resolveInset = (
   inset: CartesianChartProps['inset'],
 ): ChartInset => {
   let consumer: ChartInset;
   if (inset === undefined) {
-    consumer = ZERO_PADDING;
+    consumer = CHART_ZERO_PADDING;
   } else if (typeof inset === 'number') {
     consumer = { top: inset, right: inset, bottom: inset, left: inset };
   } else {
@@ -38,7 +30,7 @@ export const resolveInset = (
 export const resolveAxisPadding = (
   padding: CartesianChartProps['axisPadding'],
 ): ChartInset => {
-  if (padding === undefined) return ZERO_PADDING;
+  if (padding === undefined) return CHART_ZERO_PADDING;
   return {
     top: padding.top ?? 0,
     right: padding.right ?? 0,

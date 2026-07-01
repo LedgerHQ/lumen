@@ -1,14 +1,14 @@
 import { memo, useId, useMemo } from 'react';
 
+import {
+  CHART_DEFAULT_STROKE,
+  CHART_LINE_STROKE_WIDTH,
+  LINE_AREA_GRADIENT_OPACITY,
+} from '../../config';
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePathReveal } from '../CartesianChart/RevealAnimation';
 
-import {
-  LINE_AREA_GRADIENT_OPACITY,
-  LINE_DEFAULT_STROKE_COLOR,
-  LINE_STROKE_WIDTH,
-} from './constants';
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
 
@@ -30,8 +30,7 @@ export const Line = memo(function Line({
 
   const gradientId = useId();
   const seriesData = seriesMap.get(seriesId);
-  const resolvedStroke =
-    (stroke ?? seriesData?.stroke) || LINE_DEFAULT_STROKE_COLOR;
+  const resolvedStroke = (stroke ?? seriesData?.stroke) || CHART_DEFAULT_STROKE;
   const resolvedCurve = curve ?? seriesData?.curve;
   const resolvedConnectNulls =
     connectNulls ?? seriesData?.connectNulls ?? false;
@@ -101,7 +100,7 @@ export const Line = memo(function Line({
         d={linePath}
         fill='none'
         stroke={resolvedStroke}
-        strokeWidth={LINE_STROKE_WIDTH}
+        strokeWidth={CHART_LINE_STROKE_WIDTH}
         strokeLinecap='round'
         strokeLinejoin='round'
       />

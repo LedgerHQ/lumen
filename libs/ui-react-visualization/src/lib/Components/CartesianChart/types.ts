@@ -25,7 +25,7 @@ export type CartesianChartProps = {
   width?: number | string;
   /**
    * Height of the chart in pixels.
-   * @default 160
+   * @default 240
    */
   height?: number;
   /**

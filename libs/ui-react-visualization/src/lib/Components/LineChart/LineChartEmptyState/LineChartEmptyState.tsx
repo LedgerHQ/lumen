@@ -1,13 +1,17 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-
+import {
+  CHART_GRID_LINE_COLOR,
+  CHART_HAIRLINE_STROKE_WIDTH,
+  CHART_LINE_STROKE_WIDTH,
+  CHART_MUTED_LINE_COLOR,
+  EMPTY_STATE_GRID_LINE_RATIOS,
+  PLACEHOLDER_LINE_PATH,
+} from '../../../config';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
-import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
-
-const GRID_LINE_RATIOS = [0.3, 0.5, 0.7];
+import { buildPlaceholderTransform } from './utils';
 
 /**
  * SVG placeholder line shown when a LineChart is loading with no data yet (with
@@ -31,7 +35,7 @@ export function LineChartEmptyState({
       {loading && <style>{keyframe}</style>}
       <g data-testid='chart-empty-state'>
         <g data-testid='chart-empty-state-grid'>
-          {GRID_LINE_RATIOS.map((ratio) => {
+          {EMPTY_STATE_GRID_LINE_RATIOS.map((ratio) => {
             const y = drawingArea.y + drawingArea.height * ratio;
 
             return (
@@ -42,9 +46,9 @@ export function LineChartEmptyState({
                 x2={drawingArea.x + drawingArea.width}
                 y2={y}
                 style={{
-                  stroke: cssVar('var(--border-muted-subtle-transparent)'),
+                  stroke: CHART_GRID_LINE_COLOR,
                 }}
-                strokeWidth={cssVar('var(--stroke-1)')}
+                strokeWidth={CHART_HAIRLINE_STROKE_WIDTH}
               />
             );
           })}
@@ -57,8 +61,8 @@ export function LineChartEmptyState({
               transform={buildPlaceholderTransform(drawingArea)}
               vectorEffect='non-scaling-stroke'
               fill='none'
-              stroke={cssVar('var(--border-muted-subtle)')}
-              strokeWidth={cssVar('var(--stroke-2)')}
+              stroke={CHART_MUTED_LINE_COLOR}
+              strokeWidth={CHART_LINE_STROKE_WIDTH}
               strokeLinecap='round'
               strokeLinejoin='round'
             />

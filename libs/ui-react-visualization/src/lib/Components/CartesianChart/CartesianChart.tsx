@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { CHART_DEFAULT_HEIGHT } from '../../config';
 import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
 import { RevealAnimationProvider } from './RevealAnimation';
 import type { CartesianChartProps } from './types';
-import { DEFAULT_HEIGHT, resolveAxisPadding, resolveInset } from './utils';
+import { resolveAxisPadding, resolveInset } from './utils';
 
 export function CartesianChart({
   series,
   xAxis,
   yAxis,
   width = '100%',
-  height = DEFAULT_HEIGHT,
+  height = CHART_DEFAULT_HEIGHT,
   inset,
   axisPadding,
   ariaLabel = 'Chart',

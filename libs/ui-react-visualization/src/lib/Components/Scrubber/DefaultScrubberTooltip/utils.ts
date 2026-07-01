@@ -1,16 +1,16 @@
 import type { RefObject } from 'react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
+import {
+  TOOLTIP_LABEL_VALUE_GAP,
+  TOOLTIP_PADDING_X,
+  TOOLTIP_PADDING_Y,
+  TOOLTIP_ROW_GAP,
+  TOOLTIP_ROW_HEIGHT,
+  TOOLTIP_TITLE_GAP,
+} from '../../../config';
 import type { DrawingArea } from '../../../utils/types';
 import type { ChartTooltipItemData, SvgTextContent } from '../types';
-import {
-  LABEL_VALUE_GAP,
-  PADDING_X,
-  PADDING_Y,
-  ROW_GAP,
-  ROW_HEIGHT,
-  TITLE_GAP,
-} from './constants';
 
 type Widths = {
   title: number;
@@ -46,11 +46,11 @@ export const computeTooltipWidth = (
   const titleWidth = widths && hasTitle ? widths.title : 0;
   const rowWidths = widths
     ? widths.labels.map(
-        (lw, i) => lw + LABEL_VALUE_GAP + (widths.values[i] ?? 0),
+        (lw, i) => lw + TOOLTIP_LABEL_VALUE_GAP + (widths.values[i] ?? 0),
       )
     : [];
   const contentWidth = Math.max(titleWidth, ...rowWidths);
-  const fitWidth = contentWidth + PADDING_X * 2;
+  const fitWidth = contentWidth + TOOLTIP_PADDING_X * 2;
   return Math.max(fitWidth, minWidth);
 };
 
@@ -79,12 +79,14 @@ export const computeTooltipHeight = (
   itemCount: number,
   hasTitle: boolean,
 ): number => {
-  const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
+  const titleBlockHeight = hasTitle
+    ? TOOLTIP_ROW_HEIGHT + TOOLTIP_TITLE_GAP
+    : 0;
   return (
-    PADDING_Y * 2 +
+    TOOLTIP_PADDING_Y * 2 +
     titleBlockHeight +
-    itemCount * ROW_HEIGHT +
-    (itemCount - 1) * ROW_GAP
+    itemCount * TOOLTIP_ROW_HEIGHT +
+    (itemCount - 1) * TOOLTIP_ROW_GAP
   );
 };
 
@@ -95,8 +97,10 @@ export const computeItemsBaseY = (
   drawingAreaY: number,
   hasTitle: boolean,
 ): number => {
-  const titleBlockHeight = hasTitle ? ROW_HEIGHT + TITLE_GAP : 0;
-  return drawingAreaY + PADDING_Y + titleBlockHeight;
+  const titleBlockHeight = hasTitle
+    ? TOOLTIP_ROW_HEIGHT + TOOLTIP_TITLE_GAP
+    : 0;
+  return drawingAreaY + TOOLTIP_PADDING_Y + titleBlockHeight;
 };
 
 /**
