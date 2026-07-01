@@ -1,10 +1,4 @@
-import type { FC, ReactNode } from 'react';
-
-type SetupNoteProps = {
-  children?: ReactNode;
-};
-
-export const SetupNote: FC<SetupNoteProps> = ({ children }) => {
+export const SetupNote = () => {
   return (
     <blockquote>
       <strong>Note</strong>: <code>@ledgerhq/lumen-design-core</code> and other
@@ -14,7 +8,6 @@ export const SetupNote: FC<SetupNoteProps> = ({ children }) => {
         Setup Guide →
       </a>{' '}
       for complete installation and Tailwind configuration.
-      {children}
     </blockquote>
   );
 };

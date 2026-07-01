@@ -1,17 +1,14 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as ButtonStories from './Button.stories';
 import { Button } from './Button';
-import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
-import { Box } from '../Utility';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 
 <Meta title='Core/Button' of={ButtonStories} />
 
 # Button
 
 <CustomTabs>
-  <Tab label="Overview ">
+  <Tab label="Overview">
 
 ## Introduction
 
@@ -69,7 +66,6 @@ Buttons come in four different sizes:
 
 <Canvas of={ButtonStories.SizesShowcase} />
 
-
 ### States
 
 <Canvas of={ButtonStories.StatesShowcase} />
@@ -86,84 +82,23 @@ When a label is too long, it's truncated to 2 lines, with a maximum width of the
 
 > The Button must dynamically resize to its container constraints.
 
-## Accessibility
-
-To be implemented:
-
-- Color contrast
-- Text zoom
-- Touch target sizing (minimum 44px)
-- Screen reader compatibility
-- Semantic labeling
-
-### Interactive States
+## Interactive States
 
 <Canvas of={ButtonStories.InteractiveLoadingStates} />
 
-</Tab> <Tab label="Implementation ">
+</Tab> <Tab label="Implementation">
 
-## Setup
-
-Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+<SetupNote />
 
 ### Basic Usage
 
-```tsx
-import { Button } from '@ledgerhq/lumen-ui-rnative';
-
-function MyComponent() {
-  return (
-    <Button size='md' appearance='base' onPress={() => console.log('Pressed!')}>
-      Click me
-    </Button>
-  );
-}
-```
-
-### Custom Styling
-
-While the component comes with predefined styles, you can extend them using the `lx` prop for token-based styling:
-
-```tsx
-<Button
-  size='md'
-  appearance='base'
-  lx={{ marginTop: 's4' }} // Custom margin top using design tokens
-  onPress={() => {}}
->
-  Custom Button
-</Button>
-```
-
-You can also use the `style` prop for escape-hatch styling when needed:
-
-```tsx
-<Button
-  size='md'
-  appearance='base'
-  style={{ marginTop: 16 }} // Raw style values
-  onPress={() => {}}
->
-  Custom Button
-</Button>
-```
+<Source of={ButtonStories.Base} />
 
 ### With Icons
 
-The Button component supports icons with automatic size adjustment based on the button size:
+The Button supports icons with automatic size adjustment based on the button size.
 
-```tsx
-import { Button } from '@ledgerhq/lumen-ui-rnative';
-import { ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-function MyComponent() {
-  return (
-    <Button size='md' appearance='base' icon={ArrowRight} onPress={() => {}}>
-      Continue
-    </Button>
-  );
-}
-```
+<Source of={ButtonStories.IconText} />
 
 ### Full Width
 
@@ -175,172 +110,36 @@ Use the `isFull` prop to make the button take the full width of its container:
 </Button>
 ```
 
-### Loading State
+### States
 
-Use the `loading` prop to show a spinner and disable interaction:
+Use the `loading` and `disabled` props to reflect state. `loading` shows a spinner; combine it with `disabled` to block interaction while loading.
+
+<Source of={ButtonStories.StatesShowcase} />
+
+### Custom Styling
+
+Extend layout with the token-based `lx` prop, or the `style` prop as an escape hatch:
 
 ```tsx
-<Button
-  size='md'
-  appearance='base'
-  loading={isLoading}
-  disabled={isLoading}
-  onPress={() => {}}
->
-  {isLoading ? 'Loading...' : 'Submit'}
+<Button size='md' appearance='base' lx={{ marginTop: 's4' }} onPress={() => {}}>
+  Custom Button
 </Button>
 ```
 
 ### Pressable Integration
 
-The Button component is built on React Native's `Pressable` and accepts all its props:
+The Button is built on React Native's `Pressable` and accepts all its props:
 
 ```tsx
 <Button
-  size='md'
   appearance='base'
   onPress={() => console.log('Pressed!')}
   onPressIn={() => console.log('Press started')}
   onPressOut={() => console.log('Press ended')}
-  disabled={false}
 >
   Interactive Button
 </Button>
 ```
-
-## Do's and Don'ts
-
-The following guidelines are based on our [Button Component API Design ADR](https://ledgerhq.atlassian.net/wiki/spaces/DLS/pages/6003949581/ADR-001+Button+Component+API+Design). These decisions were made to ensure consistency, maintainability, and proper implementation of our design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-  <DoBlockItem
-    title='Use icon prop'
-    description='Pass icon as a component reference for proper sizing and alignment'
-  >
-
-
-{/* prettier-ignore */}
-```tsx
-import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Button icon={Plus} onPress={() => {}}>
-  Add Item
-</Button>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't include icon in children"
-      description='Avoid placing icons inside children as this breaks automatic sizing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Button onPress={() => {}}>
-  <Plus /> Add Item
-</Button>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Let Button handle icon sizing'
-      description='Icon size adjusts automatically based on button size'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Button icon={Settings} size='sm' onPress={() => {}}>
-  Settings
-</Button>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't modify icon size directly"
-      description='Avoid overriding icon dimensions in children'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Button size='sm' onPress={() => {}}>
-  <Settings size={24} /> Settings
-</Button>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use isFull for width'
-      description='Use the isFull prop for full-width buttons'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button isFull onPress={() => {}}>
-  Full Width
-</Button>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use style for full width"
-      description='Avoid using style to control button width'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button style={{ width: '100%' }} onPress={() => {}}>
-  Full Width
-</Button>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide proper onPress handlers'
-      description='Always provide an onPress handler for interactive buttons'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button onPress={() => navigation.navigate('Details')}>
-  View Details
-</Button>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit onPress"
-      description='Avoid creating buttons without onPress handlers'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Button>
-  Clickable Looking Button
-</Button>
-```
-</DontBlockItem>
-</DoVsDontRow>
-<CommonRulesDoAndDont />
-</Box>
 
 ## Platform Considerations
 
