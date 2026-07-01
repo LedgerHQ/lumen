@@ -63,7 +63,6 @@ export const Loading: Story = {
 };
 
 export const AppearanceShowcase: Story = {
-  tags: ['!dev'],
   parameters: {
     chromatic: { pauseAnimationAtEnd: true },
   },
@@ -91,7 +90,6 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentTypesShowcase: Story = {
-  tags: ['!dev'],
   render: () => (
     <div className='flex items-center gap-4'>
       <Button appearance='base'>Text Only</Button>
@@ -103,7 +101,6 @@ export const ContentTypesShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
-  tags: ['!dev'],
   render: () => {
     return (
       <div className='flex items-center gap-4'>
@@ -125,7 +122,6 @@ export const StatesShowcase: Story = {
   parameters: {
     chromatic: { pauseAnimationAtEnd: true },
   },
-  tags: ['!dev'],
   render: () => (
     <div className='flex items-center gap-4'>
       <Button appearance='base'>Default</Button>
@@ -143,7 +139,6 @@ export const StatesShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
-  tags: ['!dev'],
   render: () => (
     <div className='flex flex-col gap-8 p-8'>
       <Button appearance='base'>Short</Button>
@@ -156,7 +151,6 @@ export const ResponsiveLayout: Story = {
 };
 
 export const LabelTruncate: Story = {
-  tags: ['!dev'],
   render: () => (
     <>
       <p className='body-4-semi-bold text-muted'>
@@ -173,7 +167,6 @@ export const LabelTruncate: Story = {
 };
 
 export const InteractiveLoadingStates: Story = {
-  tags: ['!dev'],
   render: () => {
     const [states, setStates] = useState<
       Record<'text' | 'withIcon', 'idle' | 'loading' | 'red'>
@@ -214,7 +207,6 @@ export const InteractiveLoadingStates: Story = {
 
 export const AsChild: Story = {
   render: () => {
-    // Mock Link component for demonstration
     const Link = ({
       to,
       children,
