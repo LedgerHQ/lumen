@@ -3,7 +3,7 @@ import {
   DotIndicator,
   Box,
   Avatar,
-  getDotConfig,
+  getDotIndicatorProps,
 } from '@ledgerhq/lumen-ui-rnative';
 
 export default function DotIndicators() {
@@ -21,7 +21,7 @@ export default function DotIndicators() {
         <DotIndicator disabled />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
-        <DotIndicator {...getDotConfig('avatar', 'md')}>
+        <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
           <Avatar size='md' />
         </DotIndicator>
         <DotIndicator size='xl' appearance='red'>

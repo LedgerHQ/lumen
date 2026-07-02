@@ -13,7 +13,6 @@ export * from './DataTable';
 export * from './DescriptionItem';
 export * from './Dialog';
 export * from './Divider';
-export * from './Dot';
 export * from './DotCount';
 export * from './DotIcon';
 export * from './DotIndicator';

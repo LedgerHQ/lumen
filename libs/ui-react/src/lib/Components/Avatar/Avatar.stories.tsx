@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { getDotConfig } from '../Dot';
+import { getDotIndicatorProps } from '../DotIndicator';
 import { DotIndicator } from '../DotIndicator';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
 import { Avatar } from './Avatar';
@@ -109,7 +109,7 @@ export const NotificationShowcase: Story = {
   render: () => (
     <div className='inline-flex items-center gap-16'>
       <Avatar src={exampleSrc} />
-      <DotIndicator {...getDotConfig('avatar', 'md')}>
+      <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
         <Avatar src={exampleSrc} />
       </DotIndicator>
     </div>
@@ -126,7 +126,7 @@ export const InteractiveShowcase: Story = {
               type='button'
               className='cursor-pointer rounded-full transition-colors hover:bg-muted-hover'
             >
-              <DotIndicator {...getDotConfig('avatar', 'md')}>
+              <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
                 <Avatar size='md' alt='Avatar as trigger' />
               </DotIndicator>
             </button>

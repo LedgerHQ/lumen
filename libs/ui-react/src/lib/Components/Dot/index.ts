@@ -1,1 +1,0 @@
-export { getDotConfig } from './getDotConfig';

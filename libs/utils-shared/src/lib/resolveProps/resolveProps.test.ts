@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { createGetDotConfig } from './getDotConfig';
+import { createPropsResolver } from './resolveProps';
 
-describe('createGetDotConfig', () => {
-  const getConfig = createGetDotConfig({
+describe('createPropsResolver', () => {
+  const resolveProps = createPropsResolver({
     avatar: {
       sm: { size: 'lg', appearance: 'red' },
       md: { size: 'xl', appearance: 'red' },
@@ -10,11 +10,11 @@ describe('createGetDotConfig', () => {
   });
 
   it('resolves the config for a given context and size', () => {
-    expect(getConfig('avatar', 'sm')).toEqual({
+    expect(resolveProps('avatar', 'sm')).toEqual({
       size: 'lg',
       appearance: 'red',
     });
-    expect(getConfig('avatar', 'md')).toEqual({
+    expect(resolveProps('avatar', 'md')).toEqual({
       size: 'xl',
       appearance: 'red',
     });

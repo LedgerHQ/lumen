@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Settings } from '../../Symbols';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
-import { getDotConfig } from '../Dot';
+import { getDotIndicatorProps } from '../DotIndicator';
 import { IconButton } from '../IconButton/IconButton';
 import { Box } from '../Utility/Box';
 import { DotIndicator } from './DotIndicator';
@@ -68,7 +68,7 @@ export const WithChildren: Story = {
       <DotIndicator appearance='red'>
         <Button size='sm'>Submit</Button>
       </DotIndicator>
-      <DotIndicator {...getDotConfig('avatar', 'md')}>
+      <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
         <Avatar size='md' />
       </DotIndicator>
       <DotIndicator appearance='red'>
