@@ -69,10 +69,6 @@ export const Loading: Story = {
 };
 
 export const AppearanceShowcase: Story = {
-  parameters: {
-    chromatic: { pauseAnimationAtEnd: true },
-  },
-
   render: () => {
     const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
@@ -123,9 +119,6 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
-  parameters: {
-    chromatic: { pauseAnimationAtEnd: true },
-  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Button appearance='base'>Default</Button>
