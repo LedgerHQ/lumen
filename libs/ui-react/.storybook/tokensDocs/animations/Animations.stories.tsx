@@ -1,9 +1,9 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { CursorTouch, Refresh } from '../../../Symbols';
-import { Button } from '../../Button';
-import { Tag } from '../../Tag';
+import { Button } from '../../../src/lib/Components/Button';
+import { Tag } from '../../../src/lib/Components/Tag';
+import { CursorTouch, Refresh } from '../../../src/lib/Symbols';
 
 const meta: Meta = {
   id: 'react-animations',
