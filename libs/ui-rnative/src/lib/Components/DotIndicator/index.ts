@@ -1,3 +1,3 @@
 export * from './DotIndicator';
-export * from './getDotIndicatorConfig';
+export * from './getDotIndicatorProps';
 export * from './types';
