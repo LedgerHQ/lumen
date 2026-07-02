@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { PLACEHOLDER_LINE_PATH } from '../../../config';
+import { chartConfig } from '../../../config';
 import { buildPlaceholderTransform } from './utils';
 
-describe('PLACEHOLDER_LINE_PATH', () => {
+describe('placeholderLinePath', () => {
   it('is an svg path starting with a move command', () => {
-    expect(PLACEHOLDER_LINE_PATH).toMatch(/^M/);
+    expect(chartConfig.emptyState.placeholderLinePath).toMatch(/^M/);
   });
 });
 

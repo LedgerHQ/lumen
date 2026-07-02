@@ -1,15 +1,6 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-
 import { memo } from 'react';
 
-import {
-  CHART_FONT_FAMILY,
-  CHART_MARK_OUTLINE_COLOR,
-  CHART_TEXT_COLOR,
-  POINT_DEFAULT_SIZE,
-  POINT_LABEL_FONT_SIZE,
-  POINT_STROKE_WIDTH,
-} from '../../config';
+import { chartConfig } from '../../config';
 import type {
   PointArrowProps,
   PointLabelProps,
@@ -31,10 +22,10 @@ export function PointLabel({
       textAnchor={textAnchor}
       dominantBaseline={dominantBaseline}
       style={{
-        fill: CHART_TEXT_COLOR,
-        fontSize: POINT_LABEL_FONT_SIZE,
-        fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-        fontFamily: CHART_FONT_FAMILY,
+        fill: chartConfig.color.text,
+        fontSize: chartConfig.point.labelFontSize,
+        fontWeight: chartConfig.font.labelWeightMedium,
+        fontFamily: chartConfig.font.family,
         ...style,
       }}
       {...props}
@@ -44,7 +35,7 @@ export function PointLabel({
 
 function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
   const radius = size / 2;
-  const fill = color ?? cssVar('var(--background-muted-strong)');
+  const fill = color ?? chartConfig.point.defaultColor;
 
   return (
     <circle
@@ -54,9 +45,9 @@ function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
       r={radius}
       style={{
         fill,
-        stroke: CHART_MARK_OUTLINE_COLOR,
+        stroke: chartConfig.color.markOutline,
       }}
-      strokeWidth={POINT_STROKE_WIDTH}
+      strokeWidth={chartConfig.point.strokeWidth}
     />
   );
 }
@@ -66,7 +57,7 @@ function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
     <polygon
       data-testid='point-arrow'
       points={buildArrowPoints(x, y, size / 2, position)}
-      style={{ fill: CHART_TEXT_COLOR }}
+      style={{ fill: chartConfig.color.text }}
     />
   );
 }
@@ -80,7 +71,7 @@ export const Point = memo(function Point({
   labelPosition = 'top',
   hidePoint = false,
   showLabelArrow = true,
-  size = POINT_DEFAULT_SIZE,
+  size = chartConfig.point.defaultSize,
   onClick,
   magnetic = false,
   labelAlignment = 'auto',

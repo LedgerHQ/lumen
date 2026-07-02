@@ -1,16 +1,11 @@
 import type { RefObject } from 'react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import {
-  TOOLTIP_LABEL_VALUE_GAP,
-  TOOLTIP_PADDING_X,
-  TOOLTIP_PADDING_Y,
-  TOOLTIP_ROW_GAP,
-  TOOLTIP_ROW_HEIGHT,
-  TOOLTIP_TITLE_GAP,
-} from '../../../config';
+import { chartConfig } from '../../../config';
 import type { DrawingArea } from '../../../utils/types';
 import type { ChartTooltipItemData, SvgTextContent } from '../types';
+
+const { tooltip } = chartConfig;
 
 type Widths = {
   title: number;
@@ -46,11 +41,11 @@ export const computeTooltipWidth = (
   const titleWidth = widths && hasTitle ? widths.title : 0;
   const rowWidths = widths
     ? widths.labels.map(
-        (lw, i) => lw + TOOLTIP_LABEL_VALUE_GAP + (widths.values[i] ?? 0),
+        (lw, i) => lw + tooltip.labelValueGap + (widths.values[i] ?? 0),
       )
     : [];
   const contentWidth = Math.max(titleWidth, ...rowWidths);
-  const fitWidth = contentWidth + TOOLTIP_PADDING_X * 2;
+  const fitWidth = contentWidth + tooltip.paddingX * 2;
   return Math.max(fitWidth, minWidth);
 };
 
@@ -79,14 +74,12 @@ export const computeTooltipHeight = (
   itemCount: number,
   hasTitle: boolean,
 ): number => {
-  const titleBlockHeight = hasTitle
-    ? TOOLTIP_ROW_HEIGHT + TOOLTIP_TITLE_GAP
-    : 0;
+  const titleBlockHeight = hasTitle ? tooltip.rowHeight + tooltip.titleGap : 0;
   return (
-    TOOLTIP_PADDING_Y * 2 +
+    tooltip.paddingY * 2 +
     titleBlockHeight +
-    itemCount * TOOLTIP_ROW_HEIGHT +
-    (itemCount - 1) * TOOLTIP_ROW_GAP
+    itemCount * tooltip.rowHeight +
+    (itemCount - 1) * tooltip.rowGap
   );
 };
 
@@ -97,10 +90,8 @@ export const computeItemsBaseY = (
   drawingAreaY: number,
   hasTitle: boolean,
 ): number => {
-  const titleBlockHeight = hasTitle
-    ? TOOLTIP_ROW_HEIGHT + TOOLTIP_TITLE_GAP
-    : 0;
-  return drawingAreaY + TOOLTIP_PADDING_Y + titleBlockHeight;
+  const titleBlockHeight = hasTitle ? tooltip.rowHeight + tooltip.titleGap : 0;
+  return drawingAreaY + tooltip.paddingY + titleBlockHeight;
 };
 
 /**

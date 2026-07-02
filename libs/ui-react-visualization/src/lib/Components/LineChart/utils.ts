@@ -1,13 +1,10 @@
-import {
-  AXIS_DEFAULT_HEIGHT,
-  AXIS_DEFAULT_WIDTH,
-  LOADING_ARIA_LABEL,
-  MIN_DRAWABLE_POINTS,
-} from '../../config';
+import { chartConfig } from '../../config';
 import { isFiniteNumber } from '../../utils/numbers';
 import type { ChartInset, Series } from '../../utils/types';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
+
+const { axis, emptyState } = chartConfig;
 
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;
@@ -45,11 +42,11 @@ export const computeAxisPadding = ({
     return undefined;
   }
 
-  const resolvedYAxisWidth = yAxisWidth ?? AXIS_DEFAULT_WIDTH;
+  const resolvedYAxisWidth = yAxisWidth ?? axis.defaultWidth;
 
   return {
-    top: showXAxis && xAxisPosition === 'top' ? AXIS_DEFAULT_HEIGHT : 0,
-    bottom: showXAxis && xAxisPosition === 'bottom' ? AXIS_DEFAULT_HEIGHT : 0,
+    top: showXAxis && xAxisPosition === 'top' ? axis.defaultHeight : 0,
+    bottom: showXAxis && xAxisPosition === 'bottom' ? axis.defaultHeight : 0,
     left: showYAxis && yAxisPosition === 'start' ? resolvedYAxisWidth : 0,
     right: showYAxis && yAxisPosition === 'end' ? resolvedYAxisWidth : 0,
   };
@@ -67,7 +64,7 @@ export const getChartDisplayState = ({
   if (loading) {
     return {
       status: hasData ? 'transition-loading' : 'initial-loading',
-      ariaLabel: LOADING_ARIA_LABEL,
+      ariaLabel: emptyState.loadingAriaLabel,
     };
   }
 
@@ -79,7 +76,7 @@ export const getChartDisplayState = ({
 };
 
 /**
- * Whether any series has at least {@link MIN_DRAWABLE_POINTS} finite points,
+ * Whether any series has at least `emptyState.minDrawablePoints` finite points,
  * i.e. enough to actually draw a line. Drives the empty / loading / data states
  * of the chart.
  *
@@ -98,7 +95,7 @@ export const canRenderLine = (
     let drawablePoints = 0;
     for (let i = 0; i < limit; i++) {
       if (isFiniteNumber(data[i])) drawablePoints++;
-      if (drawablePoints >= MIN_DRAWABLE_POINTS) return true;
+      if (drawablePoints >= emptyState.minDrawablePoints) return true;
     }
     return false;
   });

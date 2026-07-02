@@ -1,11 +1,6 @@
 import { useMemo } from 'react';
 
-import {
-  AXIS_DEFAULT_WIDTH,
-  CHART_DEFAULT_HEIGHT,
-  CHART_MUTED_LINE_COLOR,
-  DEFAULT_EMPTY_LABEL,
-} from '../../config';
+import { chartConfig } from '../../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
@@ -42,7 +37,7 @@ const defaultYAxisProps: YAxisProps = {
   showTickMark: false,
   scaleType: 'linear',
   nice: true,
-  width: AXIS_DEFAULT_WIDTH,
+  width: chartConfig.axis.defaultWidth,
 };
 
 const LineChartLines = ({
@@ -85,7 +80,7 @@ const LineChartTransitionLines = ({
           showArea={showArea}
           areaType={areaType}
           connectNulls={connectNulls}
-          stroke={CHART_MUTED_LINE_COLOR}
+          stroke={chartConfig.color.mutedLine}
         />
       </g>
     </>
@@ -138,14 +133,14 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = CHART_DEFAULT_HEIGHT,
+  height = chartConfig.chart.defaultHeight,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
   animate,
   magnetRadius,
   loading = false,
-  emptyLabel = DEFAULT_EMPTY_LABEL,
+  emptyLabel = chartConfig.emptyState.defaultLabel,
   children,
 }: Readonly<LineChartProps>) {
   const xAxisConfig = useMemo(

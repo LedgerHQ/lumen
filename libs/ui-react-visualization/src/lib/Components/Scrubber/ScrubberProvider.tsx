@@ -1,12 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import {
-  DEFAULT_MAGNET_RADIUS,
-  KEYBOARD_PAGE_STEP_MAX,
-  KEYBOARD_PAGE_STEP_MIN,
-  KEYBOARD_PAGE_STEP_RATIO,
-  KEYBOARD_STEP,
-} from '../../config';
+import { chartConfig } from '../../config';
 import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticSnapshot } from '../Point/pointContext';
@@ -19,12 +13,14 @@ import {
   resolvePixelX,
 } from './utils';
 
+const { scrubber } = chartConfig;
+
 export function ScrubberProvider({
   children,
   svgRef,
   enableScrubbing,
   onScrubberPositionChange,
-  magnetRadius = DEFAULT_MAGNET_RADIUS,
+  magnetRadius = scrubber.defaultMagnetRadius,
 }: Readonly<ScrubberProviderProps>) {
   const { getXScale, getXAxisConfig, dataLength } = useCartesianChartContext();
   const { getMagneticPoints, version } = useMagneticSnapshot();
@@ -159,11 +155,11 @@ export function ScrubberProvider({
       const current = scrubberPositionRef.current ?? maxIndex;
       const step = event.shiftKey
         ? clamp(
-            Math.floor(maxIndex * KEYBOARD_PAGE_STEP_RATIO),
-            KEYBOARD_PAGE_STEP_MIN,
-            KEYBOARD_PAGE_STEP_MAX,
+            Math.floor(maxIndex * scrubber.keyboardPageStepRatio),
+            scrubber.keyboardPageStepMin,
+            scrubber.keyboardPageStepMax,
           )
-        : KEYBOARD_STEP;
+        : scrubber.keyboardStep;
 
       let next: number | undefined;
 

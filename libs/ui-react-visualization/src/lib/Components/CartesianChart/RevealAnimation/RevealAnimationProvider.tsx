@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { REVEAL_DURATION_IN_SECONDS, REVEAL_EASING } from '../../../config';
+import { chartConfig } from '../../../config';
 import { RevealAnimationContext } from './context';
 import type { RevealAnimationProps } from './types';
 import { useRevealAnimation, useDataFingerprint } from './utils';
@@ -13,8 +13,9 @@ export function RevealAnimationProvider({
   transitions,
 }: RevealAnimationProps) {
   const isDisabled = !animate;
-  const duration = transitions?.enter?.duration ?? REVEAL_DURATION_IN_SECONDS;
-  const easing = transitions?.enter?.easing ?? REVEAL_EASING;
+  const duration =
+    transitions?.enter?.duration ?? chartConfig.reveal.durationInSeconds;
+  const easing = transitions?.enter?.easing ?? chartConfig.reveal.easing;
 
   const dataFingerprint = useDataFingerprint({ series });
   const { clipId, clipPathAttr, clipPathAnimation, fadeAnimation } =

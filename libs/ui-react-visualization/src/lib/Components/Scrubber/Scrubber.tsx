@@ -1,23 +1,14 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useId, useMemo } from 'react';
 
-import {
-  BEACON_RADIUS,
-  BEACON_STROKE_WIDTH,
-  CHART_DEFAULT_STROKE,
-  CHART_HAIRLINE_STROKE_WIDTH,
-  CHART_MARK_OUTLINE_COLOR,
-  OVERLAY_LINE_INSET,
-  OVERLAY_OFFSET,
-  OVERLAY_OPACITY,
-  SCRUBBER_LINE_GRADIENT_EDGE_OPACITY,
-} from '../../config';
+import { chartConfig } from '../../config';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
 import { useScrubberContext } from './context';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { resolvePixelX, resolvePixelY } from './utils';
+
+const { color, strokeWidth, scrubber } = chartConfig;
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
@@ -76,7 +67,7 @@ export function Scrubber({
         if (pixelY === undefined) return null;
         return {
           id: s.id,
-          stroke: s.stroke || CHART_DEFAULT_STROKE,
+          stroke: s.stroke || color.stroke,
           pixelY,
         };
       })
@@ -118,13 +109,17 @@ export function Scrubber({
     height: drawHeight,
   } = drawingArea;
 
-  const overlayX = pixelX + OVERLAY_LINE_INSET;
-  const overlayY = drawY - OVERLAY_OFFSET;
+  const overlayX = pixelX + scrubber.overlayLineInset;
+  const overlayY = drawY - scrubber.overlayOffset;
   const overlayWidth = Math.max(
     0,
-    drawX + drawWidth - pixelX - OVERLAY_LINE_INSET + OVERLAY_OFFSET,
+    drawX +
+      drawWidth -
+      pixelX -
+      scrubber.overlayLineInset +
+      scrubber.overlayOffset,
   );
-  const overlayHeight = drawHeight + OVERLAY_OFFSET * 2;
+  const overlayHeight = drawHeight + scrubber.overlayOffset * 2;
 
   return (
     <g data-testid='scrubber'>
@@ -141,15 +136,15 @@ export function Scrubber({
             >
               <stop
                 offset='0%'
-                stopColor={cssVar('var(--border-base)')}
-                stopOpacity={SCRUBBER_LINE_GRADIENT_EDGE_OPACITY}
+                stopColor={scrubber.lineColor}
+                stopOpacity={scrubber.lineGradientEdgeOpacity}
               />
-              <stop offset='20%' stopColor={cssVar('var(--border-base)')} />
-              <stop offset='80%' stopColor={cssVar('var(--border-base)')} />
+              <stop offset='20%' stopColor={scrubber.lineColor} />
+              <stop offset='80%' stopColor={scrubber.lineColor} />
               <stop
                 offset='100%'
-                stopColor={cssVar('var(--border-base)')}
-                stopOpacity={SCRUBBER_LINE_GRADIENT_EDGE_OPACITY}
+                stopColor={scrubber.lineColor}
+                stopOpacity={scrubber.lineGradientEdgeOpacity}
               />
             </linearGradient>
           </defs>
@@ -160,7 +155,7 @@ export function Scrubber({
             x2={pixelX}
             y2={drawY + drawHeight}
             stroke={`url(#${lineGradientId})`}
-            strokeWidth={CHART_HAIRLINE_STROKE_WIDTH}
+            strokeWidth={strokeWidth.hairline}
           />
         </>
       )}
@@ -172,8 +167,8 @@ export function Scrubber({
           y={overlayY}
           width={overlayWidth}
           height={overlayHeight}
-          fill={cssVar('var(--background-base)')}
-          opacity={OVERLAY_OPACITY}
+          fill={scrubber.overlayColor}
+          opacity={scrubber.overlayOpacity}
         />
       )}
 
@@ -184,10 +179,10 @@ export function Scrubber({
             data-testid={`scrubber-beacon-${beacon.id}`}
             cx={pixelX}
             cy={beacon.pixelY}
-            r={BEACON_RADIUS}
+            r={scrubber.beaconRadius}
             fill={beacon.stroke}
-            stroke={CHART_MARK_OUTLINE_COLOR}
-            strokeWidth={BEACON_STROKE_WIDTH}
+            stroke={color.markOutline}
+            strokeWidth={scrubber.beaconStrokeWidth}
           />
         ))}
       {tooltipPayload !== undefined && (

@@ -1,16 +1,4 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-
-import {
-  CHART_FONT_FAMILY,
-  CHART_TEXT_MUTED_COLOR,
-  TOOLTIP_DEFAULT_MIN_WIDTH,
-  TOOLTIP_DEFAULT_OFFSET,
-  TOOLTIP_PADDING_X,
-  TOOLTIP_PADDING_Y,
-  TOOLTIP_ROW_GAP,
-  TOOLTIP_ROW_HEIGHT,
-  TOOLTIP_TRANSITION,
-} from '../../../config';
+import { chartConfig } from '../../../config';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {
@@ -22,11 +10,13 @@ import {
   useTooltipMeasurement,
 } from './utils';
 
+const { color, font, tooltip } = chartConfig;
+
 const TITLE_STYLE = {
-  fontSize: cssVar('var(--font-style-body-3-size)'),
-  fontFamily: CHART_FONT_FAMILY,
-  fill: CHART_TEXT_MUTED_COLOR,
-  fontWeight: cssVar('var(--font-style-body-3-weight-medium)'),
+  fontSize: font.bodySize,
+  fontFamily: font.family,
+  fill: color.textMuted,
+  fontWeight: font.bodyWeightMedium,
 };
 
 /**
@@ -43,8 +33,8 @@ export function DefaultScrubberTooltip({
   drawingArea,
   title,
   items,
-  offset = TOOLTIP_DEFAULT_OFFSET,
-  minWidth = TOOLTIP_DEFAULT_MIN_WIDTH,
+  offset = tooltip.defaultOffset,
+  minWidth = tooltip.defaultMinWidth,
 }: Readonly<ScrubberTooltipProps>) {
   const hasTitle = title !== undefined;
 
@@ -72,7 +62,7 @@ export function DefaultScrubberTooltip({
       role='tooltip'
       style={{
         opacity: widths === null ? 0 : 1,
-        transition: TOOLTIP_TRANSITION,
+        transition: tooltip.transition,
         pointerEvents: 'none',
       }}
     >
@@ -81,17 +71,17 @@ export function DefaultScrubberTooltip({
         y={drawingArea.y}
         width={tooltipWidth}
         height={tooltipHeight}
-        fill={cssVar('var(--background-muted)')}
+        fill={tooltip.background}
         style={{
-          rx: cssVar('var(--border-radius-sm)'),
+          rx: tooltip.borderRadius,
         }}
       />
       {hasTitle && (
         <text
           ref={titleRef}
           data-testid='chart-tooltip-title'
-          x={tooltipX + TOOLTIP_PADDING_X}
-          y={drawingArea.y + TOOLTIP_PADDING_Y + TOOLTIP_ROW_HEIGHT / 2}
+          x={tooltipX + tooltip.paddingX}
+          y={drawingArea.y + tooltip.paddingY + tooltip.rowHeight / 2}
           dominantBaseline='middle'
           style={TITLE_STYLE}
         >
@@ -106,8 +96,8 @@ export function DefaultScrubberTooltip({
           x={tooltipX}
           y={
             itemsBaseY +
-            i * (TOOLTIP_ROW_HEIGHT + TOOLTIP_ROW_GAP) +
-            TOOLTIP_ROW_HEIGHT / 2
+            i * (tooltip.rowHeight + tooltip.rowGap) +
+            tooltip.rowHeight / 2
           }
           width={tooltipWidth}
           labelRef={labelRefSetters[i]}

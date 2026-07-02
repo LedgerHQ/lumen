@@ -1,12 +1,4 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-
-import {
-  CHART_DEFAULT_STROKE,
-  CHART_FONT_FAMILY,
-  CHART_TEXT_MUTED_COLOR,
-  REFERENCE_LINE_DASH_ARRAY,
-  REFERENCE_LINE_STROKE_WIDTH,
-} from '../../config';
+import { chartConfig } from '../../config';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
 import type { ReferenceLineProps } from './types';
@@ -16,11 +8,13 @@ import {
   resolvePixel,
 } from './utils';
 
+const { color, font, referenceLine } = chartConfig;
+
 const labelStyle = {
-  fill: CHART_TEXT_MUTED_COLOR,
-  fontSize: cssVar('var(--font-style-body-4-size)'),
-  fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-  fontFamily: CHART_FONT_FAMILY,
+  fill: color.textMuted,
+  fontSize: font.labelSize,
+  fontWeight: font.labelWeightMedium,
+  fontFamily: font.family,
 };
 
 export function ReferenceLine({
@@ -30,7 +24,7 @@ export function ReferenceLine({
   labelHorizontalAlignment,
   labelVerticalAlignment,
   labelPosition = 'end',
-  stroke = CHART_DEFAULT_STROKE,
+  stroke = color.stroke,
   lineStyle = 'dashed',
   ...props
 }: Readonly<ReferenceLineProps>) {
@@ -38,7 +32,7 @@ export function ReferenceLine({
     useCartesianChartContext();
 
   const dashArray =
-    lineStyle === 'dashed' ? REFERENCE_LINE_DASH_ARRAY : undefined;
+    lineStyle === 'dashed' ? referenceLine.dashArray : undefined;
 
   if (props.dataY !== undefined) {
     const yPixel = resolvePixel({
@@ -71,7 +65,7 @@ export function ReferenceLine({
           x2={drawingArea.x + drawingArea.width}
           y2={yPixel}
           stroke={stroke}
-          strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
+          strokeWidth={referenceLine.strokeWidth}
           strokeDasharray={dashArray}
           strokeLinecap='round'
         />
@@ -122,7 +116,7 @@ export function ReferenceLine({
           x2={xPixel}
           y2={drawingArea.y + drawingArea.height}
           stroke={stroke}
-          strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
+          strokeWidth={referenceLine.strokeWidth}
           strokeDasharray={dashArray}
           strokeLinecap='round'
         />
