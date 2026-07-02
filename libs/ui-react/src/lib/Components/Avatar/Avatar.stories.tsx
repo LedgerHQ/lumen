@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { getDotIndicatorProps } from '../DotIndicator';
-import { DotIndicator } from '../DotIndicator';
+import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
 import { Avatar } from './Avatar';
 
