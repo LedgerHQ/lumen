@@ -63,12 +63,12 @@ The Avatar component handles two primary states automatically:
 
 ### Notification Indicator
 
-To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotConfig` helper:
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotIndicatorProps` helper:
 
 ```tsx
-import { Avatar, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-react';
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-react';
 
-<DotIndicator {...getDotConfig('avatar', 'md')} aria-label="New notifications">
+<DotIndicator {...getDotIndicatorProps('avatar', 'md')} aria-label="New notifications">
   <Avatar src="https://example.com/photo.jpg" size="md" />
 </DotIndicator>;
 ```
@@ -130,14 +130,14 @@ function MyComponent() {
 
 ### With Notification
 
-Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotConfig` to match the dot to the avatar size:
+Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotIndicatorProps` to match the dot to the avatar size:
 
 ```tsx
-import { Avatar, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-react';
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-react';
 
 function MyComponent() {
   return (
-    <DotIndicator {...getDotConfig('avatar', 'md')} aria-label="New notifications">
+    <DotIndicator {...getDotIndicatorProps('avatar', 'md')} aria-label="New notifications">
       <Avatar src="https://example.com/photo.jpg" size="md" />
     </DotIndicator>
   );
@@ -168,7 +168,7 @@ function MyComponent() {
 Avatars are commonly used as interactive triggers for menus, dropdowns, or navigation. Wrap the Avatar in a semantic HTML element (`<button>` or `<a>`) and add appropriate hover states:
 
 ```tsx
-import { Avatar, DotIndicator, getDotConfig } from '@ledgerhq/lumen-ui-react';
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-react';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '@ledgerhq/lumen-ui-react';
 
 function UserMenu() {
@@ -181,7 +181,7 @@ function UserMenu() {
             className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover"
           >
             <DotIndicator
-              {...getDotConfig('avatar', 'md')}
+              {...getDotIndicatorProps('avatar', 'md')}
               aria-label="New notifications"
             >
               <Avatar
