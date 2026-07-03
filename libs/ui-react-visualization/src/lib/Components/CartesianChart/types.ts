@@ -1,9 +1,15 @@
 import type { ReactNode } from 'react';
 
-import type { ChartInset, Series } from '../../utils/types';
+import type {
+  ChartInset,
+  ChartScaleFunction,
+  DrawingArea,
+  Series,
+} from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
+import type { ScrubbingOptions } from '../Scrubber/types';
 
-export type CartesianChartProps = {
+export type CartesianChartProps = ScrubbingOptions & {
   /**
    * Data series provided to child components via context.
    */
@@ -61,27 +67,44 @@ export type CartesianChartProps = {
    */
   children?: ReactNode;
   /**
-   * Enables scrubbing (hover/touch/keyboard) interactions on the chart.
-   * When true, the SVG becomes focusable and captures pointer/keyboard events.
-   * @default false
-   */
-  enableScrubbing?: boolean;
-  /**
-   * Callback fired whenever the scrubber moves to a new data index or is cleared.
-   * Receives `undefined` when the scrubber leaves the chart.
-   */
-  onScrubberPositionChange?: (index: number | undefined) => void;
-  /**
    * Whether to animate the chart on mount and data changes.
    * Duration is 0.8 seconds and easing is linear.
    * @default true
    */
   animate?: boolean;
+};
+
+export type CartesianChartContextValue = {
   /**
-   * Pixel radius within which the scrubber magnetically snaps to registered
-   * magnetic `<Point>` components. Requires `enableScrubbing` to be `true`.
-   * Set to `0` to disable magnetization.
-   * @default 8
+   * All data series registered in the chart.
    */
-  magnetRadius?: number;
+  series: Series[];
+  /**
+   * Lookup map for series by ID. Stable reference when series identity is unchanged.
+   */
+  seriesMap: Map<string, Series>;
+  /**
+   * Returns the x-axis scale. Accepts an optional axis ID for future multi-axis support.
+   */
+  getXScale: (id?: string) => ChartScaleFunction | undefined;
+  /**
+   * Returns the y-axis scale. Accepts an optional axis ID for future multi-axis support.
+   */
+  getYScale: (id?: string) => ChartScaleFunction | undefined;
+  /**
+   * Returns the x-axis config. Accepts an optional axis ID for future multi-axis support.
+   */
+  getXAxisConfig: (id?: string) => BaseAxisProps | undefined;
+  /**
+   * Returns the y-axis config. Accepts an optional axis ID for future multi-axis support.
+   */
+  getYAxisConfig: (id?: string) => BaseAxisProps | undefined;
+  /**
+   * Pixel bounds of the drawable region.
+   */
+  drawingArea: DrawingArea;
+  /**
+   * Number of data points along the x-axis.
+   */
+  dataLength: number;
 };

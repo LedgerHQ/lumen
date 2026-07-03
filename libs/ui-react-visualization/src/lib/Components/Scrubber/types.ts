@@ -17,27 +17,40 @@ export type ScrubberContextValue = {
   onScrubberPositionChange: (index: number | undefined) => void;
 };
 
-export type ScrubberProviderProps = {
-  children: ReactNode;
+/**
+ * Chart-level scrubbing configuration. Owned here and composed by
+ * {@link ScrubberProviderProps} and the chart types so the JSDoc lives in a
+ * single place.
+ */
+export type ScrubbingOptions = {
   /**
-   * Ref to the root SVG element where event listeners will be attached.
+   * Enables scrubbing (hover/touch/keyboard) interactions on the chart.
+   * When true, the SVG becomes focusable and captures pointer/keyboard events.
+   * @default false
    */
-  svgRef: RefObject<SVGSVGElement | null>;
+  enableScrubbing?: boolean;
   /**
-   * Whether scrubbing is enabled.
-   */
-  enableScrubbing: boolean;
-  /**
-   * Optional external callback fired whenever the scrubber position changes.
+   * Callback fired whenever the scrubber moves to a new data index or is cleared.
+   * Receives `undefined` when the scrubber leaves the chart.
    */
   onScrubberPositionChange?: (index: number | undefined) => void;
   /**
    * Pixel radius within which the scrubber magnetically snaps to registered
-   * magnetic points. Set to `0` to disable magnetization.
+   * magnetic `<Point>` components. Requires `enableScrubbing` to be `true`.
+   * Set to `0` to disable magnetization.
    * @default 8
    */
   magnetRadius?: number;
 };
+
+export type ScrubberProviderProps = Omit<ScrubbingOptions, 'enableScrubbing'> &
+  Required<Pick<ScrubbingOptions, 'enableScrubbing'>> & {
+    children: ReactNode;
+    /**
+     * Ref to the root SVG element where event listeners will be attached.
+     */
+    svgRef: RefObject<SVGSVGElement | null>;
+  };
 
 /**
  * Valid content for an SVG `<text>` element: a plain string,
