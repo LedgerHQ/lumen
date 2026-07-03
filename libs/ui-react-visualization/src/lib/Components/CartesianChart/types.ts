@@ -7,7 +7,32 @@ import type {
   Series,
 } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
-import type { ScrubbingOptions } from '../Scrubber/types';
+
+/**
+ * Chart-level scrubbing configuration. Owned here and composed by the chart
+ * types and {@link ScrubberProviderProps} so the JSDoc lives in a single place.
+ */
+export type ScrubbingOptions = {
+  /**
+   * Enables scrubbing (hover/touch/keyboard) interactions on the chart.
+   * When true, the SVG becomes focusable; add a `<Scrubber>` child to
+   * visualise the interaction.
+   * @default false
+   */
+  enableScrubbing?: boolean;
+  /**
+   * Callback fired whenever the scrubber moves to a new data index or is cleared.
+   * Receives `undefined` when the scrubber leaves the chart.
+   */
+  onScrubberPositionChange?: (index: number | undefined) => void;
+  /**
+   * Pixel radius within which the scrubber magnetically snaps to registered
+   * magnetic `<Point>` components. Requires `enableScrubbing` to be `true`.
+   * Set to `0` to disable magnetization.
+   * @default 8
+   */
+  magnetRadius?: number;
+};
 
 export type CartesianChartProps = ScrubbingOptions & {
   /**

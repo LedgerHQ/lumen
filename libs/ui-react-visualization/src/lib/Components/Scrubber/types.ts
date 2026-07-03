@@ -1,46 +1,15 @@
 import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
 import type { DrawingArea } from '../../utils/types';
+import type { ScrubbingOptions } from '../CartesianChart/types';
 
-export type ScrubberContextValue = {
-  /**
-   * Whether scrubbing interactions are enabled.
-   */
-  enableScrubbing: boolean;
+export type ScrubberContextValue = Required<
+  Pick<ScrubbingOptions, 'enableScrubbing' | 'onScrubberPositionChange'>
+> & {
   /**
    * The current data index of the scrubber, or undefined when idle.
    */
   scrubberPosition: number | undefined;
-  /**
-   * Callback to update the scrubber position.
-   */
-  onScrubberPositionChange: (index: number | undefined) => void;
-};
-
-/**
- * Chart-level scrubbing configuration. Owned here and composed by
- * {@link ScrubberProviderProps} and the chart types so the JSDoc lives in a
- * single place.
- */
-export type ScrubbingOptions = {
-  /**
-   * Enables scrubbing (hover/touch/keyboard) interactions on the chart.
-   * When true, the SVG becomes focusable and captures pointer/keyboard events.
-   * @default false
-   */
-  enableScrubbing?: boolean;
-  /**
-   * Callback fired whenever the scrubber moves to a new data index or is cleared.
-   * Receives `undefined` when the scrubber leaves the chart.
-   */
-  onScrubberPositionChange?: (index: number | undefined) => void;
-  /**
-   * Pixel radius within which the scrubber magnetically snaps to registered
-   * magnetic `<Point>` components. Requires `enableScrubbing` to be `true`.
-   * Set to `0` to disable magnetization.
-   * @default 8
-   */
-  magnetRadius?: number;
 };
 
 export type ScrubberProviderProps = Omit<ScrubbingOptions, 'enableScrubbing'> &
