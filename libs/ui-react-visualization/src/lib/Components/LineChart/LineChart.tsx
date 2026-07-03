@@ -20,6 +20,7 @@ import {
   computeAxisPadding,
   getChartAriaLabel,
   getChartDisplayStates,
+  mergeDefaults,
 } from './utils';
 
 const defaultXAxisProps: XAxisProps = {
@@ -145,20 +146,11 @@ export function LineChart({
   children,
 }: Readonly<LineChartProps>) {
   const xAxisConfig = useMemo(
-    () => ({
-      ...defaultXAxisProps,
-      ...xAxis,
-      position: xAxis?.position ?? defaultXAxisProps.position,
-    }),
+    () => mergeDefaults(defaultXAxisProps, xAxis),
     [xAxis],
   );
   const yAxisConfig = useMemo(
-    () => ({
-      ...defaultYAxisProps,
-      ...yAxis,
-      position: yAxis?.position ?? defaultYAxisProps.position,
-      width: yAxis?.width ?? defaultYAxisProps.width,
-    }),
+    () => mergeDefaults(defaultYAxisProps, yAxis),
     [yAxis],
   );
 

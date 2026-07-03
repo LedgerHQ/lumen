@@ -6,6 +6,24 @@ import type { YAxisProps } from '../Axis/YAxis';
 
 const { axis, emptyState } = chartConfig;
 
+/**
+ * Overlays `overrides` on top of `defaults`, skipping keys whose override is
+ * `undefined`.
+ */
+export const mergeDefaults = <T extends object>(
+  defaults: T,
+  overrides?: Partial<T>,
+): T => {
+  if (!overrides) return defaults;
+  const result = { ...defaults };
+  for (const key in overrides) {
+    if (overrides[key] !== undefined) {
+      result[key] = overrides[key] as T[typeof key];
+    }
+  }
+  return result;
+};
+
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;
   showYAxis: boolean;
