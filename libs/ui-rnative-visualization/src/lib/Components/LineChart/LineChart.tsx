@@ -21,7 +21,8 @@ import type {
 import {
   canRenderLine,
   computeAxisPadding,
-  getChartDisplayState,
+  getChartAriaLabel,
+  getChartDisplayStates,
 } from './utils';
 
 const AnimatedG = Animated.createAnimatedComponent(G);
@@ -164,14 +165,8 @@ export const LineChart = ({
 
   const hasData = canRenderLine(series, xAxisConfig.data);
 
-  const { status, ariaLabel } = getChartDisplayState({
-    loading,
-    hasData,
-    emptyLabel,
-  });
-
-  const isTransitionLoading = status === 'transition-loading';
-  const isPlaceholder = status === 'initial-loading' || status === 'empty';
+  const states = getChartDisplayStates({ loading, hasData });
+  const ariaLabel = getChartAriaLabel({ loading, hasData, emptyLabel });
 
   return (
     <CartesianChart
@@ -184,18 +179,18 @@ export const LineChart = ({
       axisPadding={axisPadding}
       enableScrubbing={enableScrubbing}
       onScrubberPositionChange={onScrubberPositionChange}
-      animate={isTransitionLoading ? false : animate}
+      animate={states.isTransitionLoading ? false : animate}
       magnetRadius={magnetRadius}
       ariaLabel={ariaLabel}
       ariaBusy={loading}
       overlay={
-        status === 'empty' ? (
+        states.showEmptyOverlay ? (
           <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel>
         ) : undefined
       }
     >
-      {isPlaceholder ? (
-        <LineChartEmptyState loading={status === 'initial-loading'} />
+      {states.showPlaceholder ? (
+        <LineChartEmptyState loading={states.placeholderLoading} />
       ) : (
         <LineChartContent
           series={series ?? []}
@@ -205,7 +200,7 @@ export const LineChart = ({
           showYAxis={showYAxis}
           xAxisConfig={xAxisConfig}
           yAxisConfig={yAxisConfig}
-          isTransitionLoading={isTransitionLoading}
+          isTransitionLoading={states.isTransitionLoading}
           connectNulls={connectNulls}
         >
           {children}

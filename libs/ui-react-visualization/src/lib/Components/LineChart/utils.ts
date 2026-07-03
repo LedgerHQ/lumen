@@ -14,19 +14,6 @@ type ComputeAxisPaddingParams = {
   yAxisWidth: YAxisProps['width'];
 };
 
-type ChartDisplayStateParams = {
-  loading: boolean;
-  hasData: boolean;
-  emptyLabel: string;
-};
-
-type ChartStatus = 'initial-loading' | 'empty' | 'transition-loading' | 'ready';
-
-type ChartDisplayState = {
-  status: ChartStatus;
-  ariaLabel: string | undefined;
-};
-
 /**
  * Reserves space on the relevant sides of the drawing area for visible axes.
  * Returns `undefined` when no axis is shown so the chart keeps its full area.
@@ -53,26 +40,45 @@ export const computeAxisPadding = ({
 };
 
 /**
- * Derives the chart's {@link ChartStatus} from its loading flag and whether it
- * has drawable data, along with the matching accessibility label.
+ * Derives the chart's display flags from its loading flag and whether it has
+ * drawable data. The four input combinations map to the initial-loading, empty,
+ * transition-loading, and ready states the chart renders.
  */
-export const getChartDisplayState = ({
+export const getChartDisplayStates = ({
+  loading,
+  hasData,
+}: {
+  loading: boolean;
+  hasData: boolean;
+}) => ({
+  showPlaceholder: !hasData,
+  placeholderLoading: loading && !hasData,
+  showEmptyOverlay: !loading && !hasData,
+  isTransitionLoading: loading && hasData,
+});
+
+/**
+ * Accessibility label matching the chart's current state: the loading label
+ * while loading, the empty label when there is nothing to draw, otherwise none.
+ */
+export const getChartAriaLabel = ({
   loading,
   hasData,
   emptyLabel,
-}: ChartDisplayStateParams): ChartDisplayState => {
+}: {
+  loading: boolean;
+  hasData: boolean;
+  emptyLabel: string;
+}): string | undefined => {
   if (loading) {
-    return {
-      status: hasData ? 'transition-loading' : 'initial-loading',
-      ariaLabel: emptyState.loadingAriaLabel,
-    };
+    return emptyState.loadingAriaLabel;
   }
 
   if (!hasData) {
-    return { status: 'empty', ariaLabel: emptyLabel };
+    return emptyLabel;
   }
 
-  return { status: 'ready', ariaLabel: undefined };
+  return undefined;
 };
 
 /**

@@ -18,7 +18,8 @@ import type {
 import {
   canRenderLine,
   computeAxisPadding,
-  getChartDisplayState,
+  getChartAriaLabel,
+  getChartDisplayStates,
 } from './utils';
 
 const defaultXAxisProps: XAxisProps = {
@@ -178,15 +179,8 @@ export function LineChart({
   );
 
   const hasData = canRenderLine(series, xAxisConfig.data);
-
-  const { status, ariaLabel } = getChartDisplayState({
-    loading,
-    hasData,
-    emptyLabel,
-  });
-
-  const isTransitionLoading = status === 'transition-loading';
-  const isPlaceholder = status === 'initial-loading' || status === 'empty';
+  const states = getChartDisplayStates({ loading, hasData });
+  const ariaLabel = getChartAriaLabel({ loading, hasData, emptyLabel });
 
   return (
     <CartesianChart
@@ -204,13 +198,13 @@ export function LineChart({
       ariaLabel={ariaLabel}
       ariaBusy={loading}
       overlay={
-        status === 'empty' ? (
+        states.showEmptyOverlay ? (
           <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel>
         ) : undefined
       }
     >
-      {isPlaceholder ? (
-        <LineChartEmptyState loading={status === 'initial-loading'} />
+      {states.showPlaceholder ? (
+        <LineChartEmptyState loading={states.placeholderLoading} />
       ) : (
         <LineChartContent
           series={series ?? []}
@@ -221,7 +215,7 @@ export function LineChart({
           showYAxis={showYAxis}
           xAxisConfig={xAxisConfig}
           yAxisConfig={yAxisConfig}
-          isTransitionLoading={isTransitionLoading}
+          isTransitionLoading={states.isTransitionLoading}
         >
           {children}
         </LineChartContent>
