@@ -255,6 +255,13 @@ export type TableColGroupProps = {
 
 export type TableColProps = {
   /**
+   * Collapses this column's width to 0 when the screen width is below the
+   * specified breakpoint. Pair with `hideBelow` on the matching cells so the
+   * column is fully removed responsively while keeping its fixed width above
+   * the breakpoint.
+   */
+  hideBelow?: Breakpoints;
+  /**
    * Custom classname
    */
   className?: string;

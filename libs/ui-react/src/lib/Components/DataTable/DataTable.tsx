@@ -109,7 +109,13 @@ const DataTableColGroup = () => {
       {table.getVisibleLeafColumns().map((column) => {
         const meta = column.columnDef.meta;
 
-        return <TableCol key={column.id} className={meta?.className} />;
+        return (
+          <TableCol
+            key={column.id}
+            hideBelow={meta?.hideBelow}
+            className={meta?.className}
+          />
+        );
       })}
     </TableColGroup>
   );
