@@ -83,6 +83,30 @@ describe('DescriptionItem', () => {
     });
   });
 
+  describe('priority', () => {
+    it('in "end" priority, leading shrinks, trailing shows', () => {
+      renderDescriptionItem();
+
+      expect(screen.getByTestId('leading').props.style).toEqual(
+        expect.objectContaining({ flexShrink: 1 }),
+      );
+      expect(screen.getByTestId('trailing').props.style).toEqual(
+        expect.objectContaining({ flexShrink: 0 }),
+      );
+    });
+
+    it('in "start" priority: trailing shrinks, leading shows', () => {
+      renderDescriptionItem({ priority: 'start' });
+
+      expect(screen.getByTestId('leading').props.style).toEqual(
+        expect.objectContaining({ flexShrink: 0 }),
+      );
+      expect(screen.getByTestId('trailing').props.style).toEqual(
+        expect.objectContaining({ flexShrink: 1 }),
+      );
+    });
+  });
+
   describe('DescriptionItemValue', () => {
     it.each([
       ['md', typographies.body2SemiBold],
