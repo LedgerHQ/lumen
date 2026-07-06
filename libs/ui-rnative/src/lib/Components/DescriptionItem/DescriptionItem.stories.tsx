@@ -193,6 +193,36 @@ export const WithInfoIcon: Story = {
   ),
 };
 
+export const PriorityShowcase: Story = {
+  render: () => (
+    <View style={{ gap: 16 }}>
+      <DescriptionItem priority='end'>
+        <DescriptionItemLeading>
+          <DescriptionItemLabel>priority="end" (default)</DescriptionItemLabel>
+        </DescriptionItemLeading>
+        <DescriptionItemTrailing>
+          <DescriptionItemValue>
+            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+          </DescriptionItemValue>
+        </DescriptionItemTrailing>
+      </DescriptionItem>
+
+      <DescriptionItem priority='start'>
+        <DescriptionItemLeading>
+          <DescriptionItemLabel>
+            priority="start" long label which will not truncate
+          </DescriptionItemLabel>
+        </DescriptionItemLeading>
+        <DescriptionItemTrailing>
+          <DescriptionItemValue>
+            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+          </DescriptionItemValue>
+        </DescriptionItemTrailing>
+      </DescriptionItem>
+    </View>
+  ),
+};
+
 export const TruncationBehavior: Story = {
   render: () => (
     <View style={{ gap: 16 }}>
