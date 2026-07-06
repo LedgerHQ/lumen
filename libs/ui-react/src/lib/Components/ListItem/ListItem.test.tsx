@@ -117,6 +117,41 @@ describe('ListItem', () => {
     });
   });
 
+  describe('priority', () => {
+    const renderWithPriority = (priority?: ListItemProps['priority']) =>
+      render(
+        <ListItem priority={priority}>
+          <ListItemLeading data-testid='leading'>
+            <ListItemContent data-testid='content'>
+              <ListItemTitle>Title</ListItemTitle>
+            </ListItemContent>
+          </ListItemLeading>
+          <ListItemTrailing data-testid='trailing'>
+            <span>Trailing</span>
+          </ListItemTrailing>
+        </ListItem>,
+      );
+
+    it('in "end" priority (default), leading shrinks, trailing shows', () => {
+      renderWithPriority();
+
+      expect(screen.getByTestId('leading')).toHaveClass('flex-1');
+      expect(screen.getByTestId('content')).toHaveClass('flex-1');
+      expect(screen.getByTestId('trailing')).toHaveClass('shrink-0');
+      expect(screen.getByTestId('trailing')).not.toHaveClass('shrink');
+    });
+
+    it('in "start" priority, trailing shrinks, leading shows', () => {
+      renderWithPriority('start');
+
+      expect(screen.getByTestId('leading')).toHaveClass('shrink-0');
+      expect(screen.getByTestId('leading')).not.toHaveClass('flex-1');
+      expect(screen.getByTestId('content')).toHaveClass('shrink', 'grow-0');
+      expect(screen.getByTestId('trailing')).toHaveClass('shrink');
+      expect(screen.getByTestId('trailing')).not.toHaveClass('shrink-0');
+    });
+  });
+
   describe('ListItemContentRow', () => {
     it('renders title alongside additional content in a row', () => {
       render(
