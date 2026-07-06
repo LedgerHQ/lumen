@@ -20,8 +20,10 @@ Buttons are key interactive elements that trigger actions and guide users throug
 
 <Canvas of={ButtonStories.IconText} />
 
-- **Label**: describes the action that occurs when the button is tapped
+- **Label(required)**: must be present and describe the action that occurs when the button is tapped
 - **Icon (optional)**: visually communicate the button's action, and helps draw attention
+
+> Note: For **icon-only buttons**, use the [IconButton](https://ldls-react-native.vercel.app/?path=/docs/rnative-iconbutton--docs) component instead. It's specifically designed for icon-only interactions with proper accessibility support.
 
 ## Properties
 
@@ -50,8 +52,6 @@ Buttons' contents can be of two types:
 - text (default)
 - icon-text
 
-> Note: For `icon-only` buttons, use the [IconButton](https://ldls-react-native.vercel.app/?path=/docs/rnative-iconbutton--docs) component instead. It's specifically designed for icon-only interactions with proper accessibility support.
-
 <Canvas of={ButtonStories.ContentTypesShowcase} />
 
 ### Size
@@ -69,6 +69,8 @@ Buttons come in four different sizes:
 ### States
 
 <Canvas of={ButtonStories.StatesShowcase} />
+
+> **Important Note:** The `loading` and `disabled` states are **not coupled**. When `disabled` is set, all event handlers are deactivated. When only `loading` is set (without `disabled`), the button remains pressable. Combine both props if you need to prevent interactions during loading.
 
 ## Responsive Layout
 
