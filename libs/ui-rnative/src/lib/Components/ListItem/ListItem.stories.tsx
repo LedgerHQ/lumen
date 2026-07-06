@@ -406,7 +406,7 @@ export const PriorityShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
       <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
-        priority="end" (default) — leading shrinks, trailing is protected
+        priority="end" (default)
       </Text>
       <ListItem priority='end'>
         <ListItemLeading>
@@ -427,7 +427,7 @@ export const PriorityShowcase: Story = {
       </ListItem>
 
       <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
-        priority="start" — leading is protected, trailing shrinks
+        priority="start"
       </Text>
       <ListItem priority='start'>
         <ListItemLeading>
