@@ -433,7 +433,9 @@ export const PriorityShowcase: Story = {
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Wallet} />
           <ListItemContent>
-            <ListItemTitle>Short title</ListItemTitle>
+            <ListItemTitle>
+              Long title competing with trailing value content
+            </ListItemTitle>
             <ListItemDescription>priority="start"</ListItemDescription>
           </ListItemContent>
         </ListItemLeading>

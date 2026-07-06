@@ -60,6 +60,8 @@ When horizontal space is constrained and both the leading and trailing sides hav
 - `priority='end'` (default): the leading side (title/description) shrinks and truncates, while the trailing content keeps its natural size.
 - `priority='start'`: the trailing content shrinks and truncates, while the leading side is protected.
 
+> **Platform note:** On native, the protected side truncates with an ellipsis. On web (react-native-web), CSS flexbox will not shrink a protected item below its content width, so it is clipped by the container instead of showing an ellipsis. This is a rendering difference only - the behavior is correct on device.
+
 <Canvas of={ListItemStories.PriorityShowcase} />
 
 ### Interactivity

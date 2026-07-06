@@ -49,6 +49,7 @@ const useRootStyles = ({
           borderRadius: t.borderRadius.md,
           backgroundColor: 'transparent',
           paddingHorizontal: t.spacings.s8,
+          overflow: 'hidden',
         },
         pressed && {
           backgroundColor: t.colors.bg.baseTransparentPressed,
@@ -242,7 +243,7 @@ export const ListItemContent = ({
     (t) => ({
       content: {
         flex: isInTrailing || priority === 'start' ? 0 : 1,
-        ...(priority === 'start' && { flexShrink: 1 }),
+        ...(priority === 'start' && { flexShrink: 1, flexBasis: 'auto' }),
         minWidth: 0,
         gap: t.spacings.s4,
         alignItems: isInTrailing ? 'flex-end' : 'stretch',
