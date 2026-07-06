@@ -1,4 +1,4 @@
-import type { Density } from '@ledgerhq/lumen-utils-shared';
+import type { Density, Priority } from '@ledgerhq/lumen-utils-shared';
 import type {
   ComponentPropsWithRef,
   MouseEventHandler,
@@ -18,6 +18,11 @@ export type ListItemProps = {
    * @default 'expanded'
    */
   density?: Density;
+  /**
+   * The parts which are protected from shrinking and truncation when horizontal space is limited.
+   * @default 'end'
+   */
+  priority?: Priority;
   /**
    * custom classname
    */

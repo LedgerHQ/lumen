@@ -1,4 +1,8 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  createSafeContext,
+  type Priority,
+} from '@ledgerhq/lumen-utils-shared';
 
 import type {
   DescriptionItemLabelProps,
@@ -16,6 +20,11 @@ type DescriptionItemSizeContextValue = {
 const [DescriptionItemSizeProvider, useDescriptionItemSizeContext] =
   createSafeContext<DescriptionItemSizeContextValue>('DescriptionItemSize', {
     size: 'md',
+  });
+
+const [DescriptionItemPriorityProvider, useDescriptionItemPriorityContext] =
+  createSafeContext<{ priority?: Priority }>('DescriptionItemPriority', {
+    priority: undefined,
   });
 
 /**
@@ -41,17 +50,20 @@ export const DescriptionItem = ({
   children,
   className,
   size = 'md',
+  priority = 'end',
   ...props
 }: DescriptionItemProps) => {
   return (
     <DescriptionItemSizeProvider value={{ size }}>
-      <div
-        ref={ref}
-        className={cn('flex w-full items-start gap-12', className)}
-        {...props}
-      >
-        {children}
-      </div>
+      <DescriptionItemPriorityProvider value={{ priority }}>
+        <div
+          ref={ref}
+          className={cn('flex w-full items-start gap-12', className)}
+          {...props}
+        >
+          {children}
+        </div>
+      </DescriptionItemPriorityProvider>
     </DescriptionItemSizeProvider>
   );
 };
@@ -66,10 +78,19 @@ export const DescriptionItemLeading = ({
   className,
   ...props
 }: DescriptionItemLeadingProps) => {
+  const { priority } = useDescriptionItemPriorityContext({
+    consumerName: 'DescriptionItemLeading',
+    contextRequired: false,
+  });
+
   return (
     <div
       ref={ref}
-      className={cn('flex min-w-0 flex-1 items-center gap-4', className)}
+      className={cn(
+        'flex min-w-0 grow items-center gap-4',
+        priority === 'end' ? 'shrink' : 'shrink-0',
+        className,
+      )}
       {...props}
     >
       {children}
@@ -98,7 +119,7 @@ export const DescriptionItemLabel = ({
     <div
       ref={ref}
       className={cn(
-        'line-clamp-2 min-w-0 wrap-break-word text-ellipsis text-muted',
+        'line-clamp-1 min-w-0 wrap-break-word text-ellipsis text-muted',
         size === 'md' ? 'body-2' : 'body-3',
         className,
       )}
@@ -119,10 +140,19 @@ export const DescriptionItemTrailing = ({
   className,
   ...props
 }: DescriptionItemTrailingProps) => {
+  const { priority } = useDescriptionItemPriorityContext({
+    consumerName: 'DescriptionItemTrailing',
+    contextRequired: false,
+  });
+
   return (
     <div
       ref={ref}
-      className={cn('flex max-w-4/5 shrink-0 items-center gap-4', className)}
+      className={cn(
+        'flex max-w-4/5 items-center gap-4',
+        priority === 'start' ? 'shrink' : 'shrink-0',
+        className,
+      )}
       {...props}
     >
       {children}

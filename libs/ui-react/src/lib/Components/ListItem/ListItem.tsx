@@ -3,6 +3,7 @@ import {
   createSafeContext,
   DisabledProvider,
   getButtonA11yProps,
+  type Priority,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 
@@ -23,9 +24,14 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
     isInTrailing: false,
   });
 
+const [ListItemPriorityProvider, useListItemPriorityContext] =
+  createSafeContext<{ priority?: Priority }>('ListItemPriority', {
+    priority: undefined,
+  });
+
 const listItemVariants = cva(
   [
-    'flex w-full items-center gap-16 px-8',
+    'flex w-full items-center gap-16 overflow-hidden px-8',
     'rounded-md bg-base-transparent text-base transition-colors',
   ],
   {
@@ -81,6 +87,7 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
     className,
     disabled: disabledProp = false,
     density = 'expanded',
+    priority = 'end',
     ...buttonProps
   } = props;
   const disabled = useDisabledContext({
@@ -90,21 +97,23 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <div
-        ref={ref}
-        {...getButtonA11yProps({ onClick, disabled })}
-        className={cn(
-          listItemVariants({
-            density,
-            interactive: !!onClick,
-            disabled,
-          }),
-          className,
-        )}
-        {...buttonProps}
-      >
-        {children}
-      </div>
+      <ListItemPriorityProvider value={{ priority }}>
+        <div
+          ref={ref}
+          {...getButtonA11yProps({ onClick, disabled })}
+          className={cn(
+            listItemVariants({
+              density,
+              interactive: !!onClick,
+              disabled,
+            }),
+            className,
+          )}
+          {...buttonProps}
+        >
+          {children}
+        </div>
+      </ListItemPriorityProvider>
     </DisabledProvider>
   );
 };
@@ -119,10 +128,19 @@ export const ListItemLeading = ({
   className,
   ...props
 }: ListItemLeadingProps) => {
+  const { priority } = useListItemPriorityContext({
+    consumerName: 'ListItemLeading',
+    contextRequired: false,
+  });
+
   return (
     <div
       ref={ref}
-      className={cn('flex min-w-0 flex-1 items-center gap-12', className)}
+      className={cn(
+        'flex min-w-0 items-center gap-12',
+        priority === 'end' ? 'flex-1' : 'shrink-0',
+        className,
+      )}
       {...props}
     >
       {children}
@@ -139,10 +157,19 @@ export const ListItemContent = ({
   className,
   ...props
 }: ListItemContentProps) => {
+  const { priority } = useListItemPriorityContext({
+    consumerName: 'ListItemContent',
+    contextRequired: false,
+  });
+
   return (
     <div
       ref={ref}
-      className={cn('flex min-w-0 flex-1 flex-col gap-4', className)}
+      className={cn(
+        'flex min-w-0 flex-col gap-4',
+        priority === 'start' ? 'shrink basis-auto grow-0' : 'flex-1',
+        className,
+      )}
       {...props}
     >
       {children}
@@ -263,13 +290,18 @@ export const ListItemTrailing = ({
     consumerName: 'ListItemTrailing',
     contextRequired: true,
   });
+  const { priority } = useListItemPriorityContext({
+    consumerName: 'ListItemTrailing',
+    contextRequired: false,
+  });
 
   return (
     <ListItemTrailingProvider value={{ isInTrailing: true }}>
       <div
         ref={ref}
         className={cn(
-          'flex shrink-0 items-center',
+          'flex items-center',
+          priority === 'start' ? 'min-w-0 shrink' : 'shrink-0',
           disabled && 'text-disabled',
           className,
         )}
