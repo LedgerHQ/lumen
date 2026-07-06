@@ -1,12 +1,7 @@
 import { chartConfig } from '../../config';
-import { useCartesianChartContext } from '../CartesianChart/context';
 
 import type { ReferenceLineProps } from './types';
-import {
-  computeHorizontalLabelCoordinates,
-  computeVerticalLabelCoordinates,
-  resolvePixel,
-} from './utils';
+import { useReferenceLineGeometry } from './useReferenceLineGeometry';
 
 const { color, font, referenceLine } = chartConfig;
 
@@ -17,124 +12,39 @@ const labelStyle = {
   fontFamily: font.family,
 };
 
-export function ReferenceLine({
-  label,
-  labelDx = 0,
-  labelDy = 0,
-  labelHorizontalAlignment,
-  labelVerticalAlignment,
-  labelPosition = 'end',
-  stroke = color.stroke,
-  lineStyle = 'dashed',
-  ...props
-}: Readonly<ReferenceLineProps>) {
-  const { getXScale, getYScale, getXAxisConfig, getYAxisConfig, drawingArea } =
-    useCartesianChartContext();
+export function ReferenceLine(props: Readonly<ReferenceLineProps>) {
+  const geometry = useReferenceLineGeometry(props);
 
+  const { label, stroke = color.stroke, lineStyle = 'dashed' } = props;
   const dashArray =
     lineStyle === 'dashed' ? referenceLine.dashArray : undefined;
 
-  if (props.dataY !== undefined) {
-    const yPixel = resolvePixel({
-      dataValue: props.dataY,
-      scale: getYScale(),
-      axis: 'y',
-      drawingArea,
-      axisConfig: getYAxisConfig(),
-    });
-    if (yPixel === undefined) return null;
+  if (!geometry) return null;
 
-    const labelCoords = label
-      ? computeHorizontalLabelCoordinates({
-          pixel: yPixel,
-          labelPosition,
-          drawingArea,
-          dx: labelDx,
-          dy: labelDy,
-          horizontalAlignment: labelHorizontalAlignment,
-          verticalAlignment: labelVerticalAlignment,
-        })
-      : null;
+  const { linePoints, labelCoords } = geometry;
 
-    return (
-      <g data-testid='reference-line'>
-        <line
-          data-testid='reference-line-line'
-          x1={drawingArea.x}
-          y1={yPixel}
-          x2={drawingArea.x + drawingArea.width}
-          y2={yPixel}
-          stroke={stroke}
-          strokeWidth={referenceLine.strokeWidth}
-          strokeDasharray={dashArray}
-          strokeLinecap='round'
-        />
-        {labelCoords && (
-          <text
-            data-testid='reference-line-label'
-            x={labelCoords.x}
-            y={labelCoords.y}
-            textAnchor={labelCoords.textAnchor}
-            dominantBaseline={labelCoords.dominantBaseline}
-            style={labelStyle}
-          >
-            {label}
-          </text>
-        )}
-      </g>
-    );
-  }
-
-  if (props.dataX !== undefined) {
-    const xPixel = resolvePixel({
-      dataValue: props.dataX,
-      scale: getXScale(),
-      axis: 'x',
-      drawingArea,
-      axisConfig: getXAxisConfig(),
-    });
-    if (xPixel === undefined) return null;
-
-    const labelCoords = label
-      ? computeVerticalLabelCoordinates({
-          pixel: xPixel,
-          labelPosition,
-          drawingArea,
-          dx: labelDx,
-          dy: labelDy,
-          horizontalAlignment: labelHorizontalAlignment,
-          verticalAlignment: labelVerticalAlignment,
-        })
-      : null;
-
-    return (
-      <g data-testid='reference-line'>
-        <line
-          data-testid='reference-line-line'
-          x1={xPixel}
-          y1={drawingArea.y}
-          x2={xPixel}
-          y2={drawingArea.y + drawingArea.height}
-          stroke={stroke}
-          strokeWidth={referenceLine.strokeWidth}
-          strokeDasharray={dashArray}
-          strokeLinecap='round'
-        />
-        {labelCoords && (
-          <text
-            data-testid='reference-line-label'
-            x={labelCoords.x}
-            y={labelCoords.y}
-            textAnchor={labelCoords.textAnchor}
-            dominantBaseline={labelCoords.dominantBaseline}
-            style={labelStyle}
-          >
-            {label}
-          </text>
-        )}
-      </g>
-    );
-  }
-
-  return null;
+  return (
+    <g data-testid='reference-line'>
+      <line
+        data-testid='reference-line-line'
+        {...linePoints}
+        stroke={stroke}
+        strokeWidth={referenceLine.strokeWidth}
+        strokeDasharray={dashArray}
+        strokeLinecap='round'
+      />
+      {labelCoords && (
+        <text
+          data-testid='reference-line-label'
+          x={labelCoords.x}
+          y={labelCoords.y}
+          textAnchor={labelCoords.textAnchor}
+          dominantBaseline={labelCoords.dominantBaseline}
+          style={labelStyle}
+        >
+          {label}
+        </text>
+      )}
+    </g>
+  );
 }
