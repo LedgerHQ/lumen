@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "Amount hidden"
     },
     "avatar": {
-      "defaultAlt": "User avatar",
-      "notificationAriaLabel": "Has notification",
-      "fallbackIconAriaLabel": "Fallback Icon"
+      "defaultAriaLabel": "User avatar"
     },
     "baseInput": {
       "clearInputAriaLabel": "Clear input"

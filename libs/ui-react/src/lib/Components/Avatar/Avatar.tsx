@@ -2,7 +2,6 @@ import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
-import { DotIndicator } from '../DotIndicator';
 import type { AvatarProps } from './types';
 
 const avatarVariants = {
@@ -29,21 +28,12 @@ const avatarVariants = {
   ),
 };
 
-type Size = NonNullable<AvatarProps['size']>;
-
 const fallbackSizes = {
   sm: 16,
   md: 24,
   lg: 32,
   xl: 40,
 } as const;
-
-const dotSizeMap: Partial<
-  Record<Size, NonNullable<React.ComponentProps<typeof DotIndicator>['size']>>
-> = {
-  sm: 'lg',
-  md: 'xl',
-};
 
 /**
  * A circular avatar component that displays a user image or fallback icon.
@@ -57,9 +47,6 @@ const dotSizeMap: Partial<
  * import { Avatar } from '@ledgerhq/lumen-ui-react';
  *
  * <Avatar src="https://example.com/photo.jpg" size="md" />
- *
- * // With notification indicator
- * <Avatar src="https://example.com/photo.jpg" showNotification />
  */
 export const Avatar = ({
   ref,
@@ -69,22 +56,13 @@ export const Avatar = ({
   appearance = 'transparent',
   size = 'md',
   imgLoading,
-  showNotification: showNotificationProp = false,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
 
-  const resolvedAlt = alt || t('components.avatar.defaultAlt');
-
-  // dot indicator is not visible on larger sizes, regardless of the `showNotification` prop
-  const showNotification =
-    showNotificationProp && (size === 'sm' || size === 'md');
-
-  const ariaLabel = showNotification
-    ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
-    : resolvedAlt;
+  const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
   useEffect(() => {
     setError(false);
@@ -95,7 +73,7 @@ export const Avatar = ({
       ref={ref}
       className={avatarVariants.root({ appearance, size, className })}
       role='img'
-      aria-label={ariaLabel}
+      aria-label={resolvedAlt}
       {...props}
     >
       {shouldFallback ? (
@@ -117,14 +95,6 @@ export const Avatar = ({
       )}
     </div>
   );
-
-  if (showNotification) {
-    return (
-      <DotIndicator size={dotSizeMap[size]} appearance='red'>
-        {avatarContent}
-      </DotIndicator>
-    );
-  }
 
   return avatarContent;
 };

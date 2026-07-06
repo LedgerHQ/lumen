@@ -60,11 +60,22 @@ The Avatar component handles two primary states automatically:
 
 ### Notification Indicator
 
-An optional notification indicator can be displayed to show status or alerts:
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotIndicatorProps` helper:
 
-- **showNotification**: Boolean prop to toggle the notification dot (default: false)
+```tsx
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative';
 
-> The notification dot is only rendered on the `sm` and `md` sizes. It is suppressed on `lg` and `xl` even when `showNotification` is `true`.
+<DotIndicator
+  {...getDotIndicatorProps('avatar', 'md')}
+  accessibilityLabel="New notifications"
+>
+  <Avatar src="https://example.com/photo.jpg" size="md" />
+</DotIndicator>;
+```
+
+> The notification dot is only supported on the `sm` and `md` sizes.
+
+> When the dot conveys state to the user, pass an `accessibilityLabel` to `DotIndicator`.
 
 <Canvas of={AvatarStories.NotificationShowcase} />
 
@@ -116,21 +127,23 @@ function MyComponent() {
 
 ### With Notification
 
-Display a notification indicator to show status or alerts:
+Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotIndicatorProps` to match the dot to the avatar size:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
-  const hasNotifications = true;
-  
   return (
-    <Avatar 
-      src="https://example.com/photo.jpg" 
-      showNotification={hasNotifications}
-      size="md" 
-      alt="User profile"
-    />
+    <DotIndicator
+      {...getDotIndicatorProps('avatar', 'md')}
+      accessibilityLabel="New notifications"
+    >
+      <Avatar
+        src="https://example.com/photo.jpg"
+        size="md"
+        alt="User profile"
+      />
+    </DotIndicator>
   );
 }
 ```
@@ -159,7 +172,7 @@ function MyComponent() {
 Avatars are commonly used as interactive triggers for navigation or actions. Wrap the Avatar in a `Pressable` component:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative';
 import { Pressable, Linking } from 'react-native';
 
 function UserProfile() {
@@ -177,12 +190,12 @@ function UserProfile() {
         backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
       })}
     >
-      <Avatar 
-        src="https://example.com/photo.jpg"
-        size="md" 
-        alt="User menu" 
-        showNotification 
-      />
+      <DotIndicator
+        {...getDotIndicatorProps('avatar', 'md')}
+        accessibilityLabel="New notifications"
+      >
+        <Avatar src="https://example.com/photo.jpg" size="md" alt="User menu" />
+      </DotIndicator>
     </Pressable>
   );
 }
@@ -193,6 +206,7 @@ function UserProfile() {
 - Use `borderRadius: 9999` to maintain circular touch area
 - Add opacity changes for visual feedback on press
 - Provide appropriate `alt` text for accessibility
+- Pass an `accessibilityLabel` to `DotIndicator` so the notification state is announced by screen readers
 
 ### Custom Styling
 
@@ -221,7 +235,7 @@ You can also use the `style` prop for escape-hatch styling when needed:
 Here's a comprehensive example showing all Avatar features in a user profile context:
 
 ```tsx
-import { Avatar, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, Box, Text, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative';
 import { Pressable } from 'react-native';
 import { useState } from 'react';
 
@@ -237,6 +251,14 @@ function UserProfileHeader() {
     // Navigate to profile or show menu
   };
 
+  const avatar = (
+    <Avatar
+      src={user.avatar}
+      size="md"
+      alt={`${user.name} profile picture`}
+    />
+  );
+
   return (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12', padding: 's16' }}>
       <Pressable
@@ -247,12 +269,16 @@ function UserProfileHeader() {
           backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
         })}
       >
-        <Avatar
-          src={user.avatar}
-          size="md"
-          showNotification={user.hasNotifications}
-          alt={`${user.name} profile picture`}
-        />
+        {user.hasNotifications ? (
+          <DotIndicator
+            {...getDotIndicatorProps('avatar', 'md')}
+            accessibilityLabel="You have new notifications"
+          >
+            {avatar}
+          </DotIndicator>
+        ) : (
+          avatar
+        )}
       </Pressable>
       <Box lx={{ flexDirection: 'column' }}>
         <Text>{user.name}</Text>

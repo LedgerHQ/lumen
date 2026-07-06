@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
-import { DotIndicator } from '../DotIndicator';
 import { Box } from '../Utility';
 import type { AvatarProps } from './types';
 
@@ -16,13 +15,6 @@ const fallbackSizes = {
   lg: 32,
   xl: 40,
 } as const;
-
-const dotSizeMap: Partial<
-  Record<Size, NonNullable<React.ComponentProps<typeof DotIndicator>['size']>>
-> = {
-  sm: 'lg',
-  md: 'xl',
-};
 
 const useStyles = ({
   appearance,
@@ -80,9 +72,6 @@ const useStyles = ({
  * import { Avatar } from '@ledgerhq/lumen-ui-rnative';
  *
  * <Avatar src="https://example.com/photo.jpg" size="md" />
- *
- * // With notification indicator
- * <Avatar src="https://example.com/photo.jpg" showNotification />
  */
 export const Avatar = ({
   lx,
@@ -91,8 +80,6 @@ export const Avatar = ({
   alt = 'avatar',
   appearance = 'transparent',
   size = 'md',
-  showNotification: showNotificationProp = false,
-  testID,
   ref,
   ...props
 }: AvatarProps) => {
@@ -101,15 +88,7 @@ export const Avatar = ({
   const shouldFallback = !src || error;
   const styles = useStyles({ appearance, size });
 
-  const resolvedAlt = alt || t('components.avatar.defaultAlt');
-
-  // dot indicator is not visible on larger sizes, regardless of the `showNotification` prop
-  const showNotification =
-    showNotificationProp && (size === 'sm' || size === 'md');
-
-  const accessibilityLabel = showNotification
-    ? `${resolvedAlt}, ${t('components.avatar.notificationAriaLabel')}`
-    : resolvedAlt;
+  const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
   useEffect(() => {
     setError(false);
@@ -121,8 +100,7 @@ export const Avatar = ({
       lx={lx}
       style={StyleSheet.flatten([styles.root, style])}
       accessibilityRole='image'
-      accessibilityLabel={accessibilityLabel}
-      testID={showNotification ? undefined : testID}
+      accessibilityLabel={resolvedAlt}
       {...props}
     >
       {shouldFallback ? (
@@ -142,14 +120,6 @@ export const Avatar = ({
       )}
     </Box>
   );
-
-  if (showNotification) {
-    return (
-      <DotIndicator size={dotSizeMap[size]} appearance='red' testID={testID}>
-        {avatarContent}
-      </DotIndicator>
-    );
-  }
 
   return avatarContent;
 };

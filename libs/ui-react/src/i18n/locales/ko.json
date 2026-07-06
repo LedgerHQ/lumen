@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "금액 숨김"
     },
     "avatar": {
-      "defaultAlt": "사용자 아바타",
-      "notificationAriaLabel": "알림 있음",
-      "fallbackIconAriaLabel": "대체 아이콘"
+      "defaultAriaLabel": "사용자 아바타"
     },
     "baseInput": {
       "clearInputAriaLabel": "입력 값 지우기"

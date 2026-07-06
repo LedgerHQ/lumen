@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
+import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Avatar } from './Avatar';
 
 describe('Avatar Component', () => {
@@ -90,78 +91,44 @@ describe('Avatar Component', () => {
     expect(wrapper).toHaveClass('size-72');
   });
 
-  it('should not show notification indicator by default', () => {
-    const { container } = render(<Avatar src={validSrc} />);
+  it('should render a notification indicator when wrapped in DotIndicator', () => {
+    const { container } = render(
+      <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
+        <Avatar src={validSrc} size='md' />
+      </DotIndicator>,
+    );
 
-    const notificationDot = container.querySelector('.bg-error-strong');
-    expect(notificationDot).not.toBeInTheDocument();
-  });
-
-  it('should show notification indicator when showNotification is true', () => {
-    const { container } = render(<Avatar src={validSrc} showNotification />);
-
-    const notificationDot = container.querySelector('.bg-error-strong');
+    const notificationDot = container.querySelector('.size-12');
     expect(notificationDot).toBeInTheDocument();
+    expect(screen.getByRole('img')).toBeInTheDocument();
   });
 
-  it.each(['sm', 'md'] as const)(
-    'should render the notification indicator on size=%s',
-    (size) => {
-      const { container } = render(
-        <Avatar src={validSrc} size={size} showNotification />,
-      );
-
-      const notificationDot = container.querySelector('.bg-error-strong');
-      expect(notificationDot).toBeInTheDocument();
-    },
-  );
-
-  it.each(['lg', 'xl'] as const)(
-    'should not render the notification indicator on size=%s',
-    (size) => {
-      const { container } = render(
-        <Avatar src={validSrc} size={size} showNotification />,
-      );
-
-      const notificationDot = container.querySelector('.bg-error-strong');
-      expect(notificationDot).not.toBeInTheDocument();
-    },
-  );
-
-  it('should not include notification in aria-label on lg/xl even when showNotification is true', () => {
-    render(<Avatar src={validSrc} size='lg' showNotification />);
-
-    const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('aria-label', 'components.avatar.defaultAlt');
-  });
-
-  it('should include notification in aria-label when showNotification is true', () => {
-    render(<Avatar src={validSrc} showNotification />);
-
-    const container = screen.getByRole('img');
-
-    expect(container).toHaveAttribute(
-      'aria-label',
-      'components.avatar.defaultAlt, components.avatar.notificationAriaLabel',
+  it('should style the notification indicator based on the avatar size', () => {
+    const { container, rerender } = render(
+      <DotIndicator {...getDotIndicatorProps('avatar', 'sm')}>
+        <Avatar src={validSrc} size='sm' />
+      </DotIndicator>,
     );
-  });
 
-  it('should include notification with custom alt when provided', () => {
-    render(<Avatar src={validSrc} alt='John Doe' showNotification />);
+    expect(container.querySelector('.size-10')).toBeInTheDocument();
 
-    const container = screen.getByRole('img');
-
-    expect(container).toHaveAttribute(
-      'aria-label',
-      'John Doe, components.avatar.notificationAriaLabel',
+    rerender(
+      <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
+        <Avatar src={validSrc} size='md' />
+      </DotIndicator>,
     );
+
+    expect(container.querySelector('.size-12')).toBeInTheDocument();
   });
 
   it('should use default aria-label text when not provided', () => {
     render(<Avatar src={validSrc} />);
 
     const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('aria-label', 'components.avatar.defaultAlt');
+    expect(img).toHaveAttribute(
+      'aria-label',
+      'components.avatar.defaultAriaLabel',
+    );
   });
 
   it('should use custom alt text when provided', () => {

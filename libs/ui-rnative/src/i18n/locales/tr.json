@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "Tutar gizlendi"
     },
     "avatar": {
-      "defaultAlt": "Kullanıcı avatarı",
-      "notificationAriaLabel": "Bildirim var",
-      "fallbackIconAriaLabel": "Yedek simge"
+      "defaultAriaLabel": "Kullanıcı avatarı"
     },
     "baseInput": {
       "clearInputAriaLabel": "Girdiyi temizle"
