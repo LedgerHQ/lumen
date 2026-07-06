@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "Importe oculto"
     },
     "avatar": {
-      "defaultAlt": "Avatar de usuario",
-      "notificationAriaLabel": "Tiene notificación",
-      "fallbackIconAriaLabel": "Ícono alternativo"
+      "defaultAriaLabel": "Avatar de usuario"
     },
     "baseInput": {
       "clearInputAriaLabel": "Borrar entrada"

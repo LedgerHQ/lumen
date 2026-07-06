@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "金額非表示"
     },
     "avatar": {
-      "defaultAlt": "ユーザーアバター",
-      "notificationAriaLabel": "通知あり",
-      "fallbackIconAriaLabel": "フォールバックアイコン"
+      "defaultAriaLabel": "ユーザーアバター"
     },
     "baseInput": {
       "clearInputAriaLabel": "インプットを削除"

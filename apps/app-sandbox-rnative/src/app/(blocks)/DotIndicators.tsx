@@ -1,4 +1,10 @@
-import { Button, DotIndicator, Box, Avatar } from '@ledgerhq/lumen-ui-rnative';
+import {
+  Button,
+  DotIndicator,
+  Box,
+  Avatar,
+  getDotIndicatorProps,
+} from '@ledgerhq/lumen-ui-rnative';
 
 export default function DotIndicators() {
   return (
@@ -15,7 +21,9 @@ export default function DotIndicators() {
         <DotIndicator disabled />
       </Box>
       <Box lx={{ gap: 's12', flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar size='md' showNotification />
+        <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
+          <Avatar size='md' />
+        </DotIndicator>
         <DotIndicator size='xl' appearance='red'>
           <Button size='sm' disabled>
             Submit

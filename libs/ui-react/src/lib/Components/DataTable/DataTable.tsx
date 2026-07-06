@@ -13,6 +13,8 @@ import { SearchInput } from '../SearchInput';
 import {
   TableRoot,
   Table,
+  TableColGroup,
+  TableCol,
   TableHeader,
   TableHeaderRow,
   TableHeaderCell,
@@ -88,6 +90,34 @@ export const DataTableRoot = <TData extends RowData>({
         {children}
       </div>
     </DataTableProvider>
+  );
+};
+
+/**
+ * Internal component that propagates `meta.className` width tokens to `<col>` elements
+ * via `TableColGroup`, so `table-fixed` layout reserves the correct column widths even
+ * when the header is hidden or the first body row is a colSpan group header row.
+ */
+const DataTableColGroup = () => {
+  const { table } = useDataTableContext({
+    consumerName: 'DataTableColGroup',
+    contextRequired: true,
+  });
+
+  return (
+    <TableColGroup>
+      {table.getVisibleLeafColumns().map((column) => {
+        const meta = column.columnDef.meta;
+
+        return (
+          <TableCol
+            key={column.id}
+            hideBelow={meta?.hideBelow}
+            className={meta?.className}
+          />
+        );
+      })}
+    </TableColGroup>
   );
 };
 
@@ -178,6 +208,7 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
       {...props}
     >
       <Table>
+        <DataTableColGroup />
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>

@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "Montant masqué"
     },
     "avatar": {
-      "defaultAlt": "Avatar de l'utilisateur",
-      "notificationAriaLabel": "A une notification",
-      "fallbackIconAriaLabel": "Icône par défaut"
+      "defaultAriaLabel": "Avatar de l'utilisateur"
     },
     "baseInput": {
       "clearInputAriaLabel": "Effacer la saisie"

@@ -242,6 +242,31 @@ export type TableInfoIconProps = {
   className?: string;
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
 
+export type TableColGroupProps = {
+  /**
+   * The column definitions (TableCol)
+   */
+  children: ReactNode;
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'colgroup'>;
+
+export type TableColProps = {
+  /**
+   * Collapses this column's width to 0 when the screen width is below the
+   * specified breakpoint. Pair with `hideBelow` on the matching cells so the
+   * column is fully removed responsively while keeping its fixed width above
+   * the breakpoint.
+   */
+  hideBelow?: Breakpoints;
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'col'>;
+
 export type TableSortValue = 'asc' | 'desc' | undefined;
 
 export type TableSortButtonProps = {

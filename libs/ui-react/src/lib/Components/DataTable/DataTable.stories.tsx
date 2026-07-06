@@ -404,6 +404,10 @@ export const WithClickableRow: Story = {
 };
 
 export const ColumnsLayout: Story = {
+  parameters: {
+    chromatic: { viewports: [800, 1280] },
+    viewport: { defaultViewport: 'tablet' },
+  },
   render: (args) => {
     const table = useLumenDataTable({
       data,
@@ -423,9 +427,9 @@ export const ColumnsLayout: Story = {
         },
         {
           accessorKey: 'price',
-          header: 'w-52 column',
+          header: 'w-80 column',
           enableSorting: false,
-          meta: { align: 'end', hideBelow: 'lg', className: 'w-52' },
+          meta: { align: 'end', className: 'w-80' },
         },
         {
           accessorKey: 'change',
@@ -477,7 +481,7 @@ export const WithGroupHeader: Story = {
           accessorKey: 'price',
           header: 'Price',
           enableSorting: false,
-          meta: { align: 'end' },
+          meta: { align: 'end', className: 'w-80' },
         },
         {
           accessorKey: 'change',

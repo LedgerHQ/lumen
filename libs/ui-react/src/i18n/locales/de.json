@@ -10,9 +10,7 @@
       "amountHiddenAriaLabel": "Betrag ausgeblendet"
     },
     "avatar": {
-      "defaultAlt": "Benutzer-Avatar",
-      "notificationAriaLabel": "Hat Benachrichtigung",
-      "fallbackIconAriaLabel": "Fallback-Icon"
+      "defaultAriaLabel": "Benutzer-Avatar"
     },
     "baseInput": {
       "clearInputAriaLabel": "Eingabe löschen"

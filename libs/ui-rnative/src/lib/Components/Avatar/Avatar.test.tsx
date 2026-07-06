@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, waitFor } from '@testing-library/react-native';
+import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Avatar } from './Avatar';
 
@@ -182,10 +183,12 @@ describe('Avatar Component', () => {
     });
   });
 
-  it('should show notification indicator when showNotification is true', () => {
+  it('should render a notification indicator when wrapped in DotIndicator', () => {
     const { getByTestId, toJSON } = render(
       <TestWrapper>
-        <Avatar testID='avatar-id' showNotification />
+        <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
+          <Avatar testID='avatar-id' size='md' />
+        </DotIndicator>
       </TestWrapper>,
     );
 
@@ -196,21 +199,12 @@ describe('Avatar Component', () => {
     expect(getByTestId('avatar-id')).toBeTruthy();
   });
 
-  it('should not show notification indicator by default', () => {
-    const { toJSON } = render(
-      <TestWrapper>
-        <Avatar testID='avatar-id' />
-      </TestWrapper>,
-    );
-
-    const tree = toJSON();
-    expect(tree.props.testID).toBe('avatar-id');
-  });
-
-  it('should apply correct notification indicator size based on avatar size', () => {
+  it('should style the notification indicator based on the avatar size', () => {
     const { toJSON, rerender } = render(
       <TestWrapper>
-        <Avatar testID='avatar-id' size='sm' showNotification />
+        <DotIndicator {...getDotIndicatorProps('avatar', 'sm')}>
+          <Avatar testID='avatar-id' size='sm' />
+        </DotIndicator>
       </TestWrapper>,
     );
 
@@ -219,29 +213,15 @@ describe('Avatar Component', () => {
 
     rerender(
       <TestWrapper>
-        <Avatar testID='avatar-id' size='md' showNotification />
+        <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
+          <Avatar testID='avatar-id' size='md' />
+        </DotIndicator>
       </TestWrapper>,
     );
 
     dot = toJSON().children[0];
     expect(dot.props.style.height).toBe(sizes.s12);
   });
-
-  it.each(['lg', 'xl'] as const)(
-    'should not render the notification indicator on size=%s even when showNotification is true',
-    (size) => {
-      const { toJSON } = render(
-        <TestWrapper>
-          <Avatar testID='avatar-id' size={size} showNotification />
-        </TestWrapper>,
-      );
-
-      const tree = toJSON();
-      expect(tree.props.testID).toBe('avatar-id');
-      expect(tree.props.accessibilityRole).toBe('image');
-      expect(tree.props.accessibilityLabel).toBe('avatar');
-    },
-  );
 
   it('should apply custom styles', () => {
     const customStyle = { borderWidth: 2 };

@@ -12,6 +12,8 @@ import { Spot } from '../Spot';
 import type {
   TableBodyProps,
   TableCellProps,
+  TableColGroupProps,
+  TableColProps,
   TableHeaderCellProps,
   TableHeaderRowProps,
   TableHeaderProps,
@@ -104,6 +106,60 @@ export const Table = ({ children, className, ref, ...props }: TableProps) => {
     >
       {children}
     </table>
+  );
+};
+
+/**
+ * Column group component. Wraps the HTML `<colgroup>` element.
+ * Use with `TableCol` to define column widths.
+ *
+ * @example
+ * <TableColGroup>
+ *   <TableCol className="w-40" />
+ *   <TableCol className="w-144" />
+ * </TableColGroup>
+ */
+export const TableColGroup = ({
+  children,
+  className,
+  ref,
+  ...props
+}: TableColGroupProps) => {
+  return (
+    <colgroup ref={ref} className={className} {...props}>
+      {children}
+    </colgroup>
+  );
+};
+
+const colVariants = cva('', {
+  variants: {
+    hideBelow: {
+      xs: 'hidden xs:table-column',
+      sm: 'hidden sm:table-column',
+      md: 'hidden md:table-column',
+      lg: 'hidden lg:table-column',
+      xl: 'hidden xl:table-column',
+    },
+  },
+});
+
+/**
+ * Column component. Wraps the HTML `<col>` element.
+ * Use to define column widths within a `TableColGroup`.
+ */
+export const TableCol = ({
+  className,
+  hideBelow,
+  ref,
+  ...props
+}: TableColProps) => {
+  return (
+    <col
+      ref={ref}
+      className={colVariants({ hideBelow, className })}
+      {...props}
+    />
   );
 };
 
