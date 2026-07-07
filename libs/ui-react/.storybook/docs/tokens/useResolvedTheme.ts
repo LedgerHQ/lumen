@@ -1,3 +1,4 @@
+// STORYBOOK / DOCS ONLY — do NOT import this hook in library source code.
 import {
   enterpriseThemes,
   ledgerLiveThemes,
