@@ -4,11 +4,8 @@ import { IconButton } from './IconButton';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/IconButton' of={IconButtonStories} />
 
@@ -94,7 +91,7 @@ This is useful when you want to use the IconButton as a child of a Link componen
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@radix-ui/react-slot` dependency enables flexible composition patterns, allowing the IconButton to merge its props with child elements when needed.
 
@@ -150,98 +147,6 @@ function MyComponent() {
 ```
 
 Note: When using asChild, the child element handles its own content. The icon prop is ignored - implement equivalent functionality in the child if needed.
-
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use icon prop correctly'
-      description='Pass icon as a component reference using the icon prop'
-    >
-
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<IconButton icon={Settings} aria-label='Settings' />;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't pass icon in children"
-      description='Do not pass icon components as children'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<IconButton aria-label='Settings'>
-  <Settings />
-</IconButton>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Let IconButton handle icon sizing'
-      description='Icon size adjusts automatically based on button size'
-    >
-
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<IconButton icon={Settings} aria-label='Settings' />;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't customize icon size"
-      description='Do not customize icon size or pass strings'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<IconButton icon={() => <Settings size={20} />} aria-label='Settings' />;
-
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Always provide descriptive aria-labels'
-      description='Ensure proper accessibility for screen readers'
-    >
-
-```tsx
-<IconButton aria-label='Open settings menu' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit aria-label"
-      description='Avoid omitting aria-label'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<IconButton icon={Settings} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
   </Tab>
 </CustomTabs>

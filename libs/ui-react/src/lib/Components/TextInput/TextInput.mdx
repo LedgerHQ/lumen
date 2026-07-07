@@ -4,11 +4,8 @@ import { TextInput } from './TextInput';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/TextInput' of={TextInputStories} />
 
@@ -132,7 +129,7 @@ The Input component follows accessibility best practices:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -271,149 +268,6 @@ function MyComponent() {
 
 > **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use hideClearButton to hide the clear button'
-      description='Use the hideClearButton prop. The clear button appears automatically when input has content; use onClear to extend behavior'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput 
-  label='Email'
-  value={value} 
-  onChange={(e) => setValue(e.target.value)}
-  hideClearButton // Hide the clear button
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use empty suffix to hide the clear button"
-      description='Do not try to use empty suffix to hide the clear button. Use hideClearButton instead'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput
-  suffix={null}
-  value={value}
-  onChange={handleChange}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the built-in clear button'
-      description='The clear button appears automatically when input has content. Use onClear to extend behavior with custom logic'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput 
-  label='Email'
-  value={value} 
-  onChange={(e) => setValue(e.target.value)}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't override the clear button"
-      description='Do not create custom clear buttons or try to override the built-in clear button behavior'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput
-  value={value}
-  onChange={handleChange}
-  suffix={<Button onClick={() => setValue('')}>Clear</Button>}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use status for errors'
-      description='status drives visual styling and automatically sets aria-invalid on the input for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput
-  value={value}
-  onChange={handleChange}
-  helperText={hasError ? 'Invalid input' : undefined}
-  status={hasError ? 'error' : undefined}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't rely on aria-invalid for styling"
-      description='aria-invalid is for screen readers only — it no longer drives the error ring on the container'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput 
-  value={value}
-  onChange={handleChange}
-  aria-invalid={hasError}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Always provide labels'
-      description='Use the label prop to provide clear, descriptive labels for inputs'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput
-  label='Email Address'
-  value={value}
-  onChange={(e) => setValue(e.target.value)}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use placeholder as label replacement"
-      description='Placeholder text disappears when typing - use the label prop instead'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<TextInput
-  placeholder='Enter your email'
-  value={value}
-  onChange={(e) => setValue(e.target.value)}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

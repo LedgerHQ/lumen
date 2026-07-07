@@ -4,11 +4,8 @@ import { Skeleton } from './Skeleton';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Skeleton' of={SkeletonStories} />
 
@@ -82,7 +79,7 @@ Skeletons can take various shapes depending on the content they're representing.
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -130,70 +127,6 @@ For custom layouts, compose multiple skeleton elements:
 </div>
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use component prop for common patterns'
-      description='Use pre-built variants for consistent loading states'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Skeleton component='list-item' />
-<Skeleton component='tile' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't manually recreate common patterns"
-      description='Avoid recreating patterns that already exist as component variants'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<div className='flex items-center gap-16'>
-  <Skeleton className='size-48 rounded-full' />
-  <div className='flex flex-col gap-8'>
-    <Skeleton className='h-12 w-176' />
-    <Skeleton className='h-12 w-112' />
-  </div>
-</div>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use className for sizing'
-      description='Use pixel values for consistent sizing and styling'
-    >
-
-```tsx
-<Skeleton className='h-16 w-256' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary values"
-      description='Avoid arbitrary values or overriding core animation'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Skeleton className='h-4 w-[200px]' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

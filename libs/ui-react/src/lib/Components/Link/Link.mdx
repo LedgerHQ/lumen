@@ -4,11 +4,8 @@ import { Link } from './Link';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Link' of={LinkStories} />
 
@@ -108,7 +105,7 @@ To be implemented:
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@radix-ui/react-slot` dependency enables flexible composition patterns, allowing the Link to merge its props with child elements when needed.
 
@@ -238,157 +235,6 @@ You can specify explicit appearance and size if needed:
 
 Note: When using asChild, the child element handles its own content. Props like 'icon' and 'isExternal' are ignored - implement equivalent functionality in the child if needed.
 
-## Do's and Don'ts
-
-These guidelines ensure consistency, maintainability, and proper implementation of our design system principles.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use children for content'
-      description='Pass icon as a component reference for proper sizing'
-    >
-
-```tsx
-<Link>
-  See <em>Terms and Conditions</em>
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use text prop or string icons"
-      description='Avoid text prop, string-based icons, or including icons in children'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link text='Accept Terms and Conditions' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use underline prop'
-      description='Control underline decoration using the underline prop'
-    >
-
-```tsx
-<Link href='/page' underline={false}>
-  No Underline
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use className for underline"
-      description='Avoid using className to control underline decoration'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link href='/page' className='no-underline'>
-  No Underline
-</Link>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appearance prop for color'
-      description='Control link color using the appearance prop'
-    >
-
-```tsx
-<Link href='/page' appearance='accent'>
-  Accent Link
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use className for color"
-      description='Avoid using className to override link colors'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link href='/page' className='text-accent'>
-  Accent Link
-</Link>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use size prop for typography'
-      description='Control link size and typography using the size prop'
-    >
-
-```tsx
-<Link href='/page' size='sm'>
-  Small Link
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use className for typography"
-      description='Avoid using className to override link typography'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link href='/page' className='body-2'>
-  Small Link
-</Link>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Keep underline for base appearance'
-      description='Base links should remain underlined for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link appearance='base' href='/page'>
-  Go to Ledger store
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't remove underline from base appearance"
-      description='Makes it hard to distinguish from regular bold text, hurting accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link appearance='base' underline={false} href='/page'>
-  Go to Ledger store
-</Link>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

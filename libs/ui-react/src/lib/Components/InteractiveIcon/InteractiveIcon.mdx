@@ -4,11 +4,8 @@ import { InteractiveIcon } from './InteractiveIcon';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/InteractiveIcon' of={InteractiveIconStories} />
 
@@ -97,7 +94,7 @@ InteractiveIcons support full keyboard navigation:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Usage examples
 
@@ -179,86 +176,6 @@ function SizeExamples() {
 }
 ```
 
-## Do's and Don'ts
-
-The following guidelines are based on our design system principles and accessibility best practices for icon-only interactive elements.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appropriate icon types'
-      description='Match icon style with variant and use consistent sizes'
-    >
-
-```tsx
-import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
-
-<InteractiveIcon
-  iconType='filled'
-  icon={DeleteCircleFill}
-  size={20}
-  aria-label='Delete'
-/>;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix icon styles"
-      description='Avoid mismatched icon styles or inconsistent sizes in same context'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
-
-<InteractiveIcon
-  iconType='stroked'
-  icon={DeleteCircleFill}
-  size={20}
-  aria-label='Delete'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Always provide descriptive aria-label'
-      description='Ensure proper accessibility for screen readers'
-    >
-
-```tsx
-<InteractiveIcon
-  iconType='stroked'
-  icon={Download}
-  size={20}
-  aria-label='Download PDF document'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit aria-label"
-      description='Avoid omitting labels or using generic/icon names as labels'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<InteractiveIcon
-  iconType='stroked'
-  icon={Settings}
-  size={20}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

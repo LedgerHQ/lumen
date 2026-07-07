@@ -13,11 +13,7 @@ import {
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/ListItem' of={ListItemStories} />
 
@@ -443,131 +439,6 @@ import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 </ListItem>
 ```
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the ListItem component and maintain design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the composite pattern correctly'
-      description='ListItemContent should be nested inside ListItemLeading to group visual and text content together'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ListItem>
-  <ListItemLeading>
-    <Spot appearance='icon' icon={Settings} />
-    <ListItemContent>
-      <ListItemTitle>Settings</ListItemTitle>
-      <ListItemDescription>Manage preferences</ListItemDescription>
-    </ListItemContent>
-  </ListItemLeading>
-  <ListItemTrailing>
-    <ChevronRight size={24} />
-  </ListItemTrailing>
-</ListItem>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't place ListItemContent outside ListItemLeading"
-      description='ListItemContent must be inside ListItemLeading for proper layout'
-    >
-
-{/* prettier-ignore */}
-```tsx
-// DON'T - ListItemContent outside ListItemLeading
-<ListItem>
-  <ListItemLeading>
-    <Spot appearance='icon' icon={Settings} />
-  </ListItemLeading>
-  <ListItemContent>
-    <ListItemTitle>Settings</ListItemTitle>
-  </ListItemContent>
-</ListItem>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use ListItemContentRow for inline Tags'
-      description='Wrap title or description with a Tag inside ListItemContentRow for proper layout'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ListItemContent>
-  <ListItemContentRow>
-    <ListItemTitle>New Item</ListItemTitle>
-    <Tag label='New' appearance='base' size='sm' />
-  </ListItemContentRow>
-  <ListItemDescription>Recently added</ListItemDescription>
-</ListItemContent>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't place Tags outside ListItemContentRow"
-      description='Tags placed directly inside ListItemContent break the layout'
-    >
-
-{/* prettier-ignore */}
-```tsx
-// DON'T - Tag outside ListItemContentRow
-<ListItemContent>
-  <ListItemTitle>New Item</ListItemTitle>
-  <ListItemDescription>Recently added</ListItemDescription>
-  <Tag label='New' appearance='base' size='sm' />
-</ListItemContent>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use concise text for title and description'
-      description='Keep title and description short since they truncate to one line'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ListItemContent>
-  <ListItemTitle>Account Settings</ListItemTitle>
-  <ListItemDescription>Manage preferences</ListItemDescription>
-</ListItemContent>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use long text"
-      description='Title and description truncate to one line'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ListItemContent>
-  <ListItemTitle>
-    This is a very long title that will be truncated
-  </ListItemTitle>
-  <ListItemDescription>
-    This is also a very long description that will be truncated
-  </ListItemDescription>
-</ListItemContent>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

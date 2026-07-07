@@ -3,11 +3,8 @@ import * as AmountInputStories from './AmountInput.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/AmountInput' of={AmountInputStories} />
 
@@ -107,7 +104,7 @@ Example of a large amount display interface with currency toggle:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -233,79 +230,6 @@ function MyComponent() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appropriate validation'
-      description='Use integer-only for quantities, custom length for specific cases'
-    >
-
-```tsx
-<AmountInput
-  value={value}
-  onChange={handleChange}
-  currencyText='$'
-  allowDecimals={false}
-  maxIntegerLength={8}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use incorrect lengths"
-      description='Do not use maxIntegerLength and maxDecimalLength props incorrectly'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<AmountInput 
-  value={value}
-  onChange={handleChange}
-  currencyText='$'
-  maxIntegerLength={20}
-  maxDecimalLength={20}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Always use controlled pattern'
-      description='AmountInput is controlled only - requires value and onChange'
-    >
-
-```tsx
-const [value, setValue] = useState('');
-<AmountInput
-  value={value}
-  onChange={(e) => setValue(e.target.value)}
-  currencyText='USD'
-/>;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use uncontrolled patterns"
-      description='Uncontrolled patterns or custom error props are not supported'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<AmountInput defaultValue='0.00' currencyText='USD' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

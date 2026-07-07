@@ -3,8 +3,6 @@ import * as CheckboxStories from './Checkbox.stories';
 import { Checkbox } from './Checkbox';
 import { Box } from '../Utility';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Checkbox' of={CheckboxStories} />
 
@@ -148,77 +146,6 @@ The Checkbox component automatically supports:
 - **Space**: Toggle checked/unchecked state
 - **Enter**: Submit form (when inside a form)
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Checkbox component and maintain design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the built-in label prop'
-      description='Use the label prop for simple text labels'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Checkbox label='Subscribe to newsletter' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use unlabeled checkboxes"
-      description='Always provide labels for accessibility and clarity'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Checkbox id='newsletter' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use controlled components for form state'
-      description='Use checked and onCheckedChange props for controlled checkboxes'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const [isChecked, setIsChecked] = useState(false);
-
-<Checkbox 
-  label='Accept terms'
-  checked={isChecked} 
-  onCheckedChange={setIsChecked} 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix controlled and uncontrolled patterns"
-      description='Avoid using both checked and defaultChecked props together'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const [isChecked, setIsChecked] = useState(false);
-
-<Checkbox 
-  label='Accept terms'
-  checked={isChecked} 
-  defaultChecked={true} 
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

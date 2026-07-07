@@ -2,8 +2,6 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as TileButtonStories from './TileButton.stories';
 import { TileButton } from './TileButton';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/TileButton' of={TileButtonStories} />
 
@@ -154,44 +152,6 @@ Or use the `style` prop for escape-hatch styling:
 </TileButton>
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the icon prop'
-      description='Pass icon as a component reference'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<TileButton icon={Plus} onPress={() => {}}>
-  Add
-</TileButton>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't include icon in children"
-      description='The icon and children are separate'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Plus } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<TileButton icon={Plus} onPress={() => {}}>
-  <Plus /> Add
-</TileButton>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 ## Platform Considerations
 

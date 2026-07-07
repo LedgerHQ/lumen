@@ -4,11 +4,8 @@ import { CardButton } from './CardButton';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/CardButton' of={CardButtonStories} />
 
@@ -105,7 +102,7 @@ To be implemented:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -219,50 +216,6 @@ While the component comes with predefined styles, you can extend them using Tail
 />
 ```
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the CardButton component and maintain design system principles.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use icon prop correctly'
-      description='Pass icon as a component reference for proper sizing'
-    >
-
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<CardButton
-  icon={Settings}
-  title='Settings'
-  description='Configure preferences'
-/>;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't customize icon size"
-      description='Avoid customizing icon size or passing strings'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<CardButton
-  icon={() => <Settings size={20} />}
-  title='Settings'
-  description='Configure preferences'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

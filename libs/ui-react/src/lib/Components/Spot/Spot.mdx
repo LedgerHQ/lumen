@@ -4,11 +4,8 @@ import { Spot } from './Spot';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Spot' of={SpotStories} />
 
@@ -94,7 +91,7 @@ To be implemented:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -183,63 +180,6 @@ function StatusIndicators() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use icon and number props correctly'
-      description='Import specific icons and use appropriate number values (0-9)'
-    >
-
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
-
-<Spot appearance='icon' icon={Settings} />;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't import all icons or use invalid values"
-      description='Avoid importing entire library, invalid numbers, or omitting required props'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spot appearance='icon' /> // Missing required 'icon' prop
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use for status indication'
-      description='Spot is designed for status indication only'
-    >
-
-```tsx
-<Spot appearance='check' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't make spots interactive"
-      description='Avoid making spots directly clickable or interactive'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spot appearance='check' className='cursor-pointer' onClick={handleClick} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

@@ -12,11 +12,8 @@ import {
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/NavBar' of={NavBarStories} />
 
@@ -99,7 +96,7 @@ Built-in accessibility features:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -246,75 +243,6 @@ function AssetDetailPage() {
 </NavBar>
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use compound components'
-      description='Compose the NavBar using the provided sub-components'
-    >
-
-```tsx
-<NavBar>
-  <NavBarBackButton onClick={handleBack} />
-  <NavBarTitle>Title</NavBarTitle>
-  <NavBarTrailing>
-    <IconButton ... />
-  </NavBarTrailing>
-</NavBar>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use custom elements directly"
-      description='Avoid placing arbitrary elements without using sub-components'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<NavBar>
-  <button>Back</button>
-  <h1>Title</h1>
-  <div>Actions</div>
-</NavBar>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Keep titles concise'
-      description='Use short, descriptive titles that fit the available space'
-    >
-
-```tsx
-<NavBarTitle>Account Settings</NavBarTitle>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use overly long titles"
-      description='Avoid extremely long titles that will be truncated'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<NavBarTitle>
-  Your Personal Account Settings and Preferences Page
-</NavBarTitle>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

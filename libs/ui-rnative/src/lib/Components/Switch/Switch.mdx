@@ -3,8 +3,6 @@ import * as SwitchStories from './Switch.stories';
 import { Switch } from './Switch';
 import { Box } from '../Utility';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Switch' of={SwitchStories} />
 
@@ -146,43 +144,6 @@ The Switch component automatically supports:
 - **Space**: Toggle checked/unchecked state
 - **Enter**: Submit form (when inside a form)
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Switch component and maintain design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use controlled components for form state'
-      description='Use checked and onCheckedChange props for controlled switches'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const [isChecked, setIsChecked] = useState(false);
-
-<Switch checked={isChecked} onCheckedChange={setIsChecked} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix controlled and uncontrolled patterns"
-      description='Avoid using both checked and defaultChecked props together'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const [isChecked, setIsChecked] = useState(false);
-
-<Switch checked={isChecked} defaultChecked={true} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

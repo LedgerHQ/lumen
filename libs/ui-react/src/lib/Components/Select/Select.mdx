@@ -3,11 +3,8 @@ import * as SelectStories from './Select.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Select' of={SelectStories} />
 
@@ -141,7 +138,7 @@ This component is built on top of [Base UI](https://base-ui.com/), which provide
 npm install @ledgerhq/lumen-ui-react @base-ui/react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@base-ui/react` dependency provides accessible, unstyled select functionality with proper keyboard navigation, focus management, and screen reader support.
 
@@ -283,41 +280,6 @@ function MyComponent() {
 ```
 
 **Important:** Always use `SelectItemText` for the main option text. Description text should be placed in separate elements alongside `SelectItemText`, never inside it.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use SelectItemText for main text'
-      description='Place description text in separate elements alongside SelectItemText'
-    >
-
-```tsx
-<SelectItem value='option1' className='flex flex-col items-start gap-4'>
-  <SelectItemText>Option Title</SelectItemText>
-  <div className='body-4 text-muted'>This is a correct description</div>
-</SelectItem>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't nest description inside SelectItemText"
-      description='Avoid nesting description or using raw text without SelectItemText'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SelectItem value='option1'>
-  <SelectItemText>
-    Option Title
-    <div>This a wrong description</div>
-  </SelectItemText>
-</SelectItem>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
 
 ### With Groups
 
@@ -676,149 +638,6 @@ const categoryOptions = [
 </form>
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use proper component composition'
-      description='Use all required sub-components: SelectTrigger, SelectContent, SelectList, SelectItem, and SelectItemText'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Select items={options} value={value} onValueChange={setValue}>
-  <SelectTrigger label='Category' />
-  <SelectContent>
-    <SelectList
-      renderItem={(item) => (
-        <SelectItem key={item.value} value={item.value}>
-          <SelectItemText>{item.label}</SelectItemText>
-        </SelectItem>
-      )}
-    />
-  </SelectContent>
-</Select>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't skip required components"
-      description='All sub-components are required. Do not skip SelectList or SelectItemText'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Select items={options} value={value} onValueChange={setValue}>
-  <SelectTrigger label='Category' />
-  <SelectContent>
-    <SelectItem value='option1'>
-      Option 1
-    </SelectItem>
-  </SelectContent>
-</Select>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use labelClassName for label styling'
-      description='Use labelClassName prop on SelectTrigger to style the floating label specifically'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Select items={options} value={value} onValueChange={setValue}>
-  <SelectTrigger 
-    label='Category' 
-    labelClassName='font-semibold'
-  />
-  <SelectContent>
-    <SelectList
-      renderItem={(item) => (
-        <SelectItem key={item.value} value={item.value}>
-          <SelectItemText>{item.label}</SelectItemText>
-        </SelectItem>
-      )}
-    />
-  </SelectContent>
-</Select>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use className to style the label"
-      description='className on SelectTrigger styles the trigger element, not the label. Use labelClassName instead'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Select items={options} value={value} onValueChange={setValue}>
-  <SelectTrigger 
-    label='Category' 
-    className='font-semibold'
-  />
-  <SelectContent>
-    <SelectList
-      renderItem={(item) => (
-        <SelectItem key={item.value} value={item.value}>
-          <SelectItemText>{item.label}</SelectItemText>
-        </SelectItem>
-      )}
-    />
-  </SelectContent>
-</Select>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use render for custom triggers'
-      description='Pass a render function to SelectTrigger when you need a different trigger style. Use selectedValue and selectedContent from the render props.'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SelectTrigger
-  render={({ selectedValue, selectedContent }) => (
-    <MediaButton>
-      {selectedValue ? selectedContent : 'All accounts'}
-    </MediaButton>
-  )}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix render with label props"
-      description='When using render, the label, className, and labelClassName props are ignored. Style your custom trigger directly instead.'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SelectTrigger
-  label='Category'
-  className='bg-accent'
-  render={({ selectedValue, selectedContent }) => (
-    <MediaButton>
-      {selectedValue ? selectedContent : 'All accounts'}
-    </MediaButton>
-  )}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

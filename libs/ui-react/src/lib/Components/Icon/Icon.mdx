@@ -10,11 +10,8 @@ import * as IconsStories from './Icon.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Symbols/Interface Icons' of={IconsStories} />
 
@@ -65,7 +62,7 @@ Here's a preview of all the icons available in our design system. To use an icon
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -157,62 +154,6 @@ function SemanticIcons() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use predefined size variants'
-      description='Standard sizes ensure consistent visual hierarchy'
-    >
-
-```tsx
-<ArrowUp size={24} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use custom sizes"
-      description='Avoid CSS sizing, prop overrides, or non-standard sizes'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ArrowUp className='w-6 h-6' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use semantic colors for icons'
-      description='Use semantic color tokens and inherit text color'
-    >
-
-```tsx
-<ArrowUp className='text-success' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary colors"
-      description='Don not use arbitrary colors or overriding currentColor unnecessarily'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ArrowUp className='text-[red]' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

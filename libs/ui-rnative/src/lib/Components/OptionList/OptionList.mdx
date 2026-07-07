@@ -3,9 +3,6 @@ import * as OptionListStories from './OptionList.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
 
 <Meta title='Core/OptionList' of={OptionListStories} />
@@ -276,93 +273,6 @@ const items = [
 />
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-
-<DoVsDontRow>
-<DoBlockItem
-title='Pass items as a flat array'
-description='Use the group field for grouping — the component handles labels and separators automatically.'
->
-
-{/* prettier-ignore */}
-```tsx
-<OptionList
-  items={[
-    { value: 'a', label: 'A', group: 'Group 1' },
-    { value: 'b', label: 'B', group: 'Group 2' },
-  ]}
-  value={value}
-  onValueChange={setValue}
->
-  <OptionListContent renderItem={...} />
-</OptionList>
-```
-
-</DoBlockItem>
-<DontBlockItem
-title="Don't manually render group labels or separators"
-description='OptionListContent handles group rendering internally based on item data.'
->
-
-{/* prettier-ignore */}
-```tsx
-<OptionList
-  items={items}
-  value={value}
-  onValueChange={setValue}
->
-  <Text>Group 1</Text>
-  <OptionListContent renderItem={...} />
-  <Divider />
-  <Text>Group 2</Text>
-  <OptionListContent renderItem={...} />
-</OptionList>
-```
-
-</DontBlockItem>
-</DoVsDontRow>
-
-<DoVsDontRow>
-<DoBlockItem
-title='Compose OptionList inside your own container'
-description='OptionList is display-only — wrap it in a BottomSheet, screen, or any layout.'
->
-
-{/* prettier-ignore */}
-```tsx
-<BottomSheet ref={ref}>
-  <BottomSheetView>
-    <OptionList items={items} value={value} onValueChange={setValue}>
-      <OptionListContent renderItem={...} />
-    </OptionList>
-  </BottomSheetView>
-</BottomSheet>
-```
-
-</DoBlockItem>
-<DontBlockItem
-title="Don't expect OptionList to manage the BottomSheet"
-description='Use OptionListTrigger to open the sheet yourself — OptionList only handles selection state, not the container.'
->
-
-{/* prettier-ignore */}
-```tsx
-<OptionList
-  items={items}
-  value={value}
-  onValueChange={setValue}
-  trigger={<Button>Open</Button>}
->
-  <OptionListContent renderItem={...} />
-</OptionList>
-```
-
-</DontBlockItem>
-</DoVsDontRow>
-
-</div>
 
 </Tab>
 </CustomTabs>
