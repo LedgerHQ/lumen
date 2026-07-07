@@ -135,7 +135,7 @@ describe('ListItem', () => {
     it('in "end" priority (default), leading shrinks, trailing shows', () => {
       renderWithPriority();
 
-      expect(screen.getByTestId('leading')).toHaveClass('flex-1');
+      expect(screen.getByTestId('leading')).toHaveClass('grow', 'shrink');
       expect(screen.getByTestId('content')).toHaveClass('flex-1');
       expect(screen.getByTestId('trailing')).toHaveClass('shrink-0');
       expect(screen.getByTestId('trailing')).not.toHaveClass('shrink');

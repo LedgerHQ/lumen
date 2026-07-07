@@ -76,10 +76,10 @@ describe('DescriptionItem', () => {
       expect(labelStyle.fontWeight).toBe(typographies.body2.fontWeight);
     });
 
-    it('truncates label to two lines by default', () => {
+    it('truncates label to a single line by default', () => {
       renderDescriptionItem();
 
-      expect(screen.getByText('Label').props.numberOfLines).toBe(2);
+      expect(screen.getByText('Label').props.numberOfLines).toBe(1);
     });
   });
 
