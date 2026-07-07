@@ -58,7 +58,10 @@ export const DescriptionItem = ({
       <DescriptionItemPriorityProvider value={{ priority }}>
         <div
           ref={ref}
-          className={cn('flex w-full items-start gap-12', className)}
+          className={cn(
+            'flex w-full items-start gap-12 overflow-hidden',
+            className,
+          )}
           {...props}
         >
           {children}
@@ -150,7 +153,7 @@ export const DescriptionItemTrailing = ({
       ref={ref}
       className={cn(
         'flex max-w-4/5 items-center gap-4',
-        priority === 'start' ? 'shrink' : 'shrink-0',
+        priority === 'start' ? 'min-w-0 shrink' : 'shrink-0',
         className,
       )}
       {...props}
