@@ -390,7 +390,9 @@ export const ResponsiveLayout: Story = {
 export const PriorityShowcase: Story = {
   render: () => (
     <div className='flex w-320 flex-col gap-8'>
-      <div className='body-4-semi-bold text-muted'>priority="end" (default)</div>
+      <div className='body-4-semi-bold text-muted'>
+        priority="end" (default)
+      </div>
       <ListItem priority='end'>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Wallet} />

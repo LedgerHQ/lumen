@@ -167,7 +167,7 @@ export const ListItemContent = ({
       ref={ref}
       className={cn(
         'flex min-w-0 flex-col gap-4',
-        priority === 'start' ? 'shrink basis-auto grow-0' : 'flex-1',
+        priority === 'start' ? 'shrink grow-0 basis-auto' : 'flex-1',
         className,
       )}
       {...props}
