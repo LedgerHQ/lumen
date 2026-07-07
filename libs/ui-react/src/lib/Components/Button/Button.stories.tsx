@@ -52,6 +52,13 @@ export const IconText: Story = {
     children: 'Add Item',
     icon: Plus,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button appearance="base" icon={Plus}>Add Item</Button>`,
+      },
+    },
+  },
 };
 
 export const Loading: Story = {
