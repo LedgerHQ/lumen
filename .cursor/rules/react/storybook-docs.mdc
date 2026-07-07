@@ -1,5 +1,5 @@
 ---
-description: MDX documentation structure, Do's and Don'ts patterns, and table guidelines for Storybook docs
+description: MDX documentation structure, and table guidelines for Storybook docs
 globs: *.mdx
 alwaysApply: false
 ---
@@ -32,113 +32,7 @@ Component documentation MUST use the two-tab structure with Overview and Impleme
 - Installation instructions
 - Basic usage examples
 - Advanced patterns (icons, routing, custom styling)
-- Do's and Don'ts section
 - Performance considerations
-
-### Do's and Don'ts Section
-
-**ALWAYS** use `DoVsDontRow` with `DoBlockItem` and `DontBlockItem` for side-by-side comparisons:
-
-```tsx
-import {
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
-} from '../../../../.storybook/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/DoVsDont/CommonRulesDoAndDont.mdx';
-```
-
-**Structure:**
-
-- Group related DO/DON'T pairs in a `<div className='flex flex-col gap-24'>` container
-- Use `DoVsDontRow` to display DO and DON'T side-by-side
-- Each `DoBlockItem` and `DontBlockItem` should include:
-  - `title`: Brief heading (use "Don't" prefix for don'ts)
-  - `description`: Explanation of why it's correct/incorrect
-  - Code snippet in ```tsx block with proper formatting
-
-**Usage Pattern:**
-
-````tsx
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the correct prop'
-      description='This ensures proper behavior'
-    >
-      ```tsx
-      <Component prop='value' />
-      ```
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use wrong prop"
-      description='This breaks the component'
-    >
-      ```tsx
-      <Component wrongProp='value' />
-      ```
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem title='Another correct usage' description='Why this works'>
-      ```tsx
-      <Component anotherProp='value' />
-      ```
-    </DoBlockItem>
-    <DontBlockItem title="Don't do this either" description='Why this fails'>
-      ```tsx
-      <Component badProp='value' />
-      ```
-    </DontBlockItem>
-  </DoVsDontRow>
-</div>
-````
-
-**Key Points:**
-
-- Always wrap code in ```tsx blocks with blank lines before and after
-- Indent the closing `</DoBlockItem>` and `</DontBlockItem>` tags properly
-- Add blank line after each `</DoVsDontRow>` except the last one in the section
-- Group related comparisons together in sections with headings (e.g., "### Icon Usage")
-
-See `Button.mdx` for complete examples.
-
-## Do's and Don'ts Best Practices
-
-When creating Do's and Don'ts sections, follow these critical rules:
-
-### Use Same Examples in Do and Don't Blocks
-
-**CRITICAL**: Always use the **same example code** in both the Do and Don't blocks within the same row. Only change what makes it wrong in the Don't block.
-
-### Code Block Formatting
-
-- Use `{/* prettier-ignore */}` before code blocks in both Don't and Do blocks to prevent code from going on one line (always keep multi-line for readability, making it easy to detect what not to do)
-- Include necessary imports in code examples when showing component usage
-- Use consistent variable names across examples (e.g., `value`, `setValue`, `hasError`)
-
-### Writing Effective Do's and Don'ts
-
-1. **Be Specific**: Focus on one concept per row
-2. **Show Real Examples**: Use realistic, practical code examples
-3. **Explain Why**: Include descriptions that explain why something is correct/incorrect
-4. **Check Component API**: Always verify which props are actually available before documenting them
-5. **Consistent Formatting**: Use the same code structure, variable names, and formatting in both Do and Don't blocks
-
-### Verification Checklist
-
-Before finalizing Do's and Don'ts sections:
-
-- [ ] Both Do and Don't blocks use the same base example (only changing what's wrong)
-- [ ] All code examples include necessary imports
-- [ ] Props mentioned actually exist on the component (check TypeScript types)
-- [ ] Descriptions explain why something is correct/incorrect
-- [ ] Code examples are realistic and practical
-- [ ] Formatting is consistent (use `{/* prettier-ignore */}` for both blocks)
-- [ ] Variable names are consistent across examples
-
-See `Button.mdx`, `SearchInput.mdx`, `AddressInput.mdx`, `Banner.mdx`, `ListItem.mdx`, and `Tile.mdx` for reference implementations.
 
 ### Required Structure
 
@@ -146,12 +40,6 @@ See `Button.mdx`, `SearchInput.mdx`, `AddressInput.mdx`, `Banner.mdx`, `ListItem
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as ComponentStories from './Component.stories';
 import { Component } from './Component';
-import {
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
-} from '../../../../.storybook/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Components/Component' of={ComponentStories} />
 
@@ -184,9 +72,6 @@ import CommonRulesDoAndDont from '../../../../.storybook/DoVsDont/CommonRulesDoA
 
     ## Advanced Patterns
     {/* Icons, routing, custom styling */}
-
-    ## Do's and Don'ts
-    {/* Use DoVsDontRow with DoBlockItem/DontBlockItem - see section above */}
 
     ## Performance Considerations
     {/* Performance tips if applicable */}
