@@ -196,9 +196,7 @@ export const PriorityShowcase: Story = {
           <DescriptionItemLabel>priority="end" (default)</DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e
-          </DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
 
@@ -209,9 +207,7 @@ export const PriorityShowcase: Story = {
           </DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e
-          </DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
     </Box>
