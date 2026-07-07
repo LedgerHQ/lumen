@@ -122,7 +122,7 @@ export const DescriptionItemLabel = ({
     <div
       ref={ref}
       className={cn(
-        'line-clamp-1 min-w-0 wrap-break-word text-ellipsis text-muted',
+        'line-clamp-2 min-w-0 wrap-break-word text-ellipsis text-muted',
         size === 'md' ? 'body-2' : 'body-3',
         className,
       )}

@@ -122,7 +122,7 @@ export const DescriptionItemLabel = ({
   children,
   lx = {},
   style,
-  numberOfLines = 1,
+  numberOfLines = 2,
   ellipsizeMode = 'tail',
   ...props
 }: DescriptionItemLabelProps) => {
