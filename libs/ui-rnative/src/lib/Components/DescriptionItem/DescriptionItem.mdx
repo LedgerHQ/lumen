@@ -21,7 +21,7 @@ DescriptionItem is a compound component for displaying key-value rows — typica
 
 - **DescriptionItem**: Root row container. Accepts an optional `size` prop (`md` | `sm`) and a `priority` prop (`end` | `start`).
 - **DescriptionItemLeading**: Left section holding the label and any optional sibling (e.g. a tooltip icon).
-- **DescriptionItemLabel**: Muted text label. Wraps to a second line before truncating (`numberOfLines={2}`).
+- **DescriptionItemLabel**: Muted text label. Truncates to a single line (`numberOfLines={1}`).
 - **DescriptionItemTrailing**: Right section holding the value or any inline element (Tag, Link, etc.). Has layout priority by default (does not shrink), but shrinks when `priority='start'`.
 - **DescriptionItemValue**: Semi-bold value text. Truncates to a single line (`numberOfLines={1}`).
 
@@ -62,7 +62,7 @@ When both sides have long content and horizontal space is constrained, the `prio
 
 ### Truncation
 
-The label can wrap to two lines before truncating. The trailing value truncates after one line. When both sides have long content, the trailing gets layout priority by default (see [Priority](#priority) to invert this).
+The label and the trailing value each truncate after one line. When both sides have long content, the trailing gets layout priority by default (see [Priority](#priority) to invert this).
 
 <Canvas of={DescriptionItemStories.TruncationBehavior} />
 

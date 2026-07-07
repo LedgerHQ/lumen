@@ -137,8 +137,8 @@ export const ListItemLeading = ({
     <div
       ref={ref}
       className={cn(
-        'flex min-w-0 items-center gap-12',
-        priority === 'end' ? 'flex-1' : 'shrink-0',
+        'flex min-w-0 grow items-center gap-12',
+        priority === 'end' ? 'shrink' : 'shrink-0',
         className,
       )}
       {...props}

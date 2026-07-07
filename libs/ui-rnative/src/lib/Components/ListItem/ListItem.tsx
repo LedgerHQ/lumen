@@ -197,7 +197,8 @@ export const ListItemLeading = ({
   const styles = useStyleSheet(
     (t) => ({
       leading: {
-        ...(priority === 'end' && { flexShrink: 1 }),
+        flexGrow: 1,
+        flexShrink: priority === 'end' ? 1 : 0,
         minWidth: 0,
         flexDirection: 'row',
         alignItems: 'center',
@@ -417,7 +418,8 @@ export const ListItemTrailing = ({
   const styles = useStyleSheet(
     () => ({
       trailing: {
-        ...(priority === 'start' && { flexShrink: 1 }),
+        flexShrink: priority === 'start' ? 1 : 0,
+        alignItems: 'center',
       },
     }),
     [priority],
