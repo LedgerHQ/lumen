@@ -1,0 +1,32 @@
+import { Canvas, Markdown, Meta } from '@storybook/addon-docs/blocks';
+import spacingExample from '../images/Token-spacing-example.png';
+import * as Spacing from './spacing.stories';
+
+<Meta title='Foundations/Spacing' of={Spacing} />
+
+# Spacing
+
+Spacing defines the distance between elements—including margins, paddings, and gaps—to create structure, clarity, and rhythm throughout our interfaces.
+
+## ⚡ Structure
+
+All spacing tokens follow the structure: `spacing-size`
+
+Example: `spacing-8`
+
+<Markdown>
+  {`
+| Element  | Definition | Example |
+| -------- | ---------- | ------- |
+| Property | spacing specifies the dimensional values applied as margins, padding, or gaps | spacing |
+| Size     | define the value | 0, 4, 8, 12, 16, 24, 32, 40 ...|
+`}
+</Markdown>
+
+## 📏 Spacing Scale
+
+<Canvas></Canvas>
+
+## Implementation
+
+<img src={spacingExample} alt="Examples of spacing tokens in use" />

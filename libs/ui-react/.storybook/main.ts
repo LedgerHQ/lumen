@@ -11,6 +11,7 @@ const config: StorybookConfig = {
     '../../ui-react-visualization/src/**/*.mdx',
     '../../ui-react-visualization/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
+    './docs/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
   addons: [

@@ -1,0 +1,38 @@
+import { Markdown, Meta, Canvas } from '@storybook/addon-docs/blocks';
+import borderRadiusTaxonomy from '../images/border-radius-Taxonomy.png';
+import radiusExample from '../images/Token-radius-example.png';
+import * as BorderRadius from './borderRadius.stories';
+
+<Meta title='Foundations/Border/Radius' of={BorderRadius} />
+
+# Border Radius
+
+Border radius defines the curvature of UI elements, ensuring consistency and visual harmony across our products.
+
+## ⚡ Structure
+
+All radius tokens follow the structure: `border-radius-size`
+
+Example:
+
+- `border-radius-md`
+- `border-radius-lg`
+
+<img src={borderRadiusTaxonomy} alt="Border radius token taxonomy structure" />
+
+<Markdown>
+  {`
+| Element  | Definition | Example |
+| -------- | ---------- | ------- |
+| Property | border-radius token determining the curvature of elements | border-radius |
+| Size     | defines the curvature of an element's corners | none, xxs, xs, sm, md, lg, xl, 2xl, full |
+`}
+</Markdown>
+
+## 📏 Border Radius Sizes
+
+<Canvas></Canvas>
+
+## Implementation
+
+<img src={radiusExample} alt="Examples of border radius tokens in use" />

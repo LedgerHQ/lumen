@@ -1,0 +1,43 @@
+import { Markdown, Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Height from './height.stories';
+
+<Meta title='Foundations/Height' of={Height} />
+
+# Height
+
+Height tokens are derived from the [size token system](?path=/docs/foundations-dimensions-size--docs) and are used to define the vertical dimensions of elements.
+
+## Usage in Tailwind
+
+Height tokens use the `h-*` prefix followed by the size value. These tokens directly correspond to the size tokens, ensuring consistent vertical dimensions across the design system.
+
+```jsx
+<div className="h-32" /> // Sets height to 32px
+```
+
+## Implementation
+
+Height tokens are implemented using the same values as size tokens, but with the `h-` prefix instead of `size-`. This means that any size token value can be used as a height value.
+
+### Example Use Cases
+
+- Setting button heights
+- Controlling image dimensions
+- Setting minimum heights for containers
+- Defining consistent form input heights
+
+### Best Practices
+
+1. **Use for Fixed Heights**: Height tokens are best used when you need a fixed height that should remain consistent across different contexts.
+
+2. **Consider Responsive Design**: For responsive layouts, consider using relative units or min/max height constraints instead of fixed height tokens.
+
+3. **Maintain Consistency**: Use the same height tokens for similar elements to maintain visual harmony.
+
+4. **Accessibility**: Ensure that using fixed heights doesn't compromise content visibility or readability, especially for text containers.
+
+## Available Values
+
+All height tokens correspond directly to size tokens. For a complete list of available values and their usage, refer to the [Size Tokens documentation](?path=/docs/foundations-dimensions-size--docs#available-values).
+
+<Canvas></Canvas>
