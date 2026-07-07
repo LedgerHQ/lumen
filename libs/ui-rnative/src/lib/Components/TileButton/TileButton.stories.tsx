@@ -23,10 +23,6 @@ const meta: Meta<typeof TileButton> = {
       mapping: iconOptions,
       control: { type: 'select' },
     },
-    appearance: {
-      options: ['gray', 'red'],
-      control: { type: 'select' },
-    },
     onPress: {
       action: 'pressed',
     },
@@ -49,34 +45,6 @@ export const Base: Story = {
       },
     },
   },
-};
-
-export const AppearanceShowcase: Story = {
-  render: (args) => (
-    <View style={{ gap: 16 }}>
-      <View style={{ flexDirection: 'row', gap: 16 }}>
-        <TileButton icon={Settings} onPress={args.onPress}>
-          Gray
-        </TileButton>
-        <TileButton icon={Settings} appearance='red' onPress={args.onPress}>
-          Red
-        </TileButton>
-      </View>
-      <View style={{ flexDirection: 'row', gap: 16 }}>
-        <TileButton icon={Settings} onPress={args.onPress} disabled>
-          Gray disabled
-        </TileButton>
-        <TileButton
-          icon={Settings}
-          appearance='red'
-          onPress={args.onPress}
-          disabled
-        >
-          Red disabled
-        </TileButton>
-      </View>
-    </View>
-  ),
 };
 
 export const DisabledShowcase: Story = {

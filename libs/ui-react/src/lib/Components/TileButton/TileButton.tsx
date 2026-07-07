@@ -7,17 +7,13 @@ import type { TileButtonProps } from './types';
 const tileButtonVariants = cva(
   [
     'flex flex-col items-center gap-8 rounded-md p-12',
-    'bg-surface body-2-semi-bold transition-colors',
+    'bg-surface body-2-semi-bold text-base transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
   ],
   {
     variants: {
-      appearance: {
-        gray: 'text-base',
-        red: 'text-error',
-      },
       disabled: {
-        true: 'cursor-not-allowed bg-disabled text-disabled',
+        true: 'bg-disabled text-disabled cursor-not-allowed',
         false:
           'hover:bg-surface-hover active:bg-surface-pressed cursor-pointer',
       },
@@ -26,7 +22,6 @@ const tileButtonVariants = cva(
       },
     },
     defaultVariants: {
-      appearance: 'gray',
       disabled: false,
       isFull: false,
     },
@@ -35,16 +30,12 @@ const tileButtonVariants = cva(
 
 const iconVariants = cva('shrink-0', {
   variants: {
-    appearance: {
-      gray: 'text-base',
-      red: 'text-error',
-    },
     disabled: {
       true: 'text-disabled',
+      false: 'text-base',
     },
   },
   defaultVariants: {
-    appearance: 'gray',
     disabled: false,
   },
 });
@@ -78,7 +69,6 @@ export const TileButton = ({
   onClick,
   disabled: disabledProp = false,
   isFull = false,
-  appearance = 'gray',
   className,
   asChild = false,
   'aria-label': ariaLabel,
@@ -105,17 +95,14 @@ export const TileButton = ({
     <Comp
       ref={ref}
       type={asChild ? undefined : 'button'}
-      className={cn(
-        tileButtonVariants({ disabled, isFull, appearance }),
-        className,
-      )}
+      className={cn(tileButtonVariants({ disabled, isFull }), className)}
       onClick={handleClick}
       disabled={disabled}
       data-disabled={disabled || undefined}
       aria-label={ariaLabel}
       {...props}
     >
-      <Icon size={20} className={iconVariants({ disabled, appearance })} />
+      <Icon size={20} className={iconVariants({ disabled })} />
       {asChild ? (
         <Slottable>{children}</Slottable>
       ) : (

@@ -26,55 +26,40 @@ const useStyles = ({
   disabled,
   pressed,
   isFull,
-  appearance,
 }: {
   disabled: boolean;
   pressed: boolean;
   isFull: boolean;
-  appearance: 'gray' | 'red';
 }) => {
   return useStyleSheet(
-    (t) => {
-      const foregroundColors: Record<'gray' | 'red', string> = {
-        gray: t.colors.text.base,
-        red: t.colors.text.error,
-      };
-      const foregroundColor = disabled
-        ? t.colors.text.disabled
-        : foregroundColors[appearance];
-
-      return {
-        container: StyleSheet.flatten([
-          {
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: t.spacings.s8,
-            padding: t.spacings.s12,
-            borderRadius: t.borderRadius.md,
-            backgroundColor: t.colors.bg.surface,
-          },
-          isFull && { width: t.sizes.full },
-          pressed &&
-            !disabled && {
-              backgroundColor: t.colors.bg.surfacePressed,
-            },
-          disabled && { backgroundColor: t.colors.bg.disabled },
-        ]),
-        label: StyleSheet.flatten([
-          t.typographies.body2SemiBold,
-          {
-            textAlign: 'center',
-            color: foregroundColor,
-          },
-        ]),
-        icon: {
-          flexShrink: 0,
-          color: foregroundColor,
+    (t) => ({
+      container: StyleSheet.flatten([
+        {
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: t.spacings.s8,
+          padding: t.spacings.s12,
+          borderRadius: t.borderRadius.md,
+          backgroundColor: t.colors.bg.surface,
         },
-      };
-    },
-    [disabled, pressed, isFull, appearance],
+        isFull && { width: t.sizes.full },
+        pressed && !disabled && { backgroundColor: t.colors.bg.surfacePressed },
+        disabled && { backgroundColor: t.colors.bg.disabled },
+      ]),
+      label: StyleSheet.flatten([
+        t.typographies.body2SemiBold,
+        {
+          textAlign: 'center',
+          color: disabled ? t.colors.text.disabled : t.colors.text.base,
+        },
+      ]),
+      icon: {
+        flexShrink: 0,
+        color: disabled ? t.colors.text.disabled : t.colors.text.base,
+      },
+    }),
+    [disabled, pressed, isFull],
   );
 };
 
@@ -99,7 +84,6 @@ export const TileButton = ({
   children,
   disabled: disabledProp = false,
   isFull = false,
-  appearance = 'gray',
   numberOfLines = 2,
   ...props
 }: TileButtonProps) => {
@@ -123,7 +107,6 @@ export const TileButton = ({
           disabled={disabled}
           pressed={pressed}
           isFull={isFull}
-          appearance={appearance}
           IconProp={IconProp}
           numberOfLines={numberOfLines}
         >
@@ -138,7 +121,6 @@ type TileButtonContentProps = PropsWithChildren<{
   disabled: boolean;
   pressed: boolean;
   isFull: boolean;
-  appearance: 'gray' | 'red';
   IconProp: TileButtonProps['icon'];
   numberOfLines?: number;
 }>;
@@ -147,12 +129,11 @@ const TileButtonContent: FC<TileButtonContentProps> = ({
   disabled,
   pressed,
   isFull,
-  appearance,
   IconProp,
   numberOfLines,
   children,
 }) => {
-  const styles = useStyles({ disabled, pressed, isFull, appearance });
+  const styles = useStyles({ disabled, pressed, isFull });
 
   return (
     <View style={styles.container} testID='tile-button-content'>

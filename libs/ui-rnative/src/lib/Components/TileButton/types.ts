@@ -24,11 +24,6 @@ export type TileButtonProps = {
    */
   isFull?: boolean;
   /**
-   * The visual appearance of the button.
-   * @default 'gray'
-   */
-  appearance?: 'gray' | 'red';
-  /**
    * Maximum number of lines for the label text.
    * Text will be truncated with ellipsis if it exceeds this limit.
    * @default 2

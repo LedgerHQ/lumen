@@ -2,8 +2,8 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as TileButtonStories from './TileButton.stories';
 import { TileButton } from './TileButton';
 import {
-  CustomTabs,
-  Tab,
+    CustomTabs,
+    Tab,
   SetupNote,
 } from '../../../../.storybook/components';
 import { Settings, Plus } from '../../Symbols';
@@ -35,18 +35,9 @@ TileButton is a compact interactive component that displays an icon above a labe
 <Canvas of={TileButtonStories.Base} />
 <Controls of={TileButtonStories.Base} />
 
-### Appearance
-
-TileButton comes in two appearances:
-
-- **gray** (default): neutral surface background with base text and icon color
-- **red**: same surface background but with red text and icon, for destructive or error actions
-
-<Canvas of={TileButtonStories.AppearanceShowcase} />
-
 ### States
 
-TileButton supports default, hover, pressed, and disabled states. The disabled state renders identically regardless of appearance:
+TileButton supports default, hover, pressed, and disabled states:
 
 <Canvas of={TileButtonStories.DisabledShowcase} />
 
