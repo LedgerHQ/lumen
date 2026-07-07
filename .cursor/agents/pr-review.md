@@ -171,7 +171,6 @@ Cross-reference with existing patterns in the repo:
 
 - Do Storybook stories (`.stories.tsx`) accurately reflect the current component API? No stories referencing removed or renamed props.
 - Does the MDX documentation (`.mdx`) match the actual props, variants, and behavior of the component?
-- Are code examples in Do's and Don'ts sections using props that actually exist on the component?
 - If props were added, removed, or renamed, are the docs and stories updated accordingly?
 - Are default values documented correctly (matching the implementation)?
 - Do interactive examples still work with the current component API?
