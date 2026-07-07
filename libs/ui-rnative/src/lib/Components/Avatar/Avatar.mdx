@@ -2,8 +2,6 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as AvatarStories from './Avatar.stories';
 import { Avatar } from './Avatar';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 import { Box } from '../Utility';
 
 <Meta title='Core/Avatar' of={AvatarStories} />
@@ -293,46 +291,6 @@ function UserProfileHeader() {
 }
 ```
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Avatar component and maintain design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide descriptive alt text'
-      description='Use meaningful alt text for better accessibility and screen reader support'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-  alt="John Doe profile picture" 
-  size="md"
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit alt text"
-      description='Missing alt text reduces accessibility for screen reader users'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-  size="md"
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 ## Platform Considerations
 

@@ -3,8 +3,8 @@ import * as MediaCardStories from './MediaCard.stories';
 import {
   CustomTabs,
   Tab,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/MediaCard' of={MediaCardStories} />
 
@@ -57,7 +57,7 @@ Leading content is optional — just place any JSX before `MediaCardTitle` insid
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -112,7 +112,6 @@ Use inline elements inside `MediaCardTitle` for mixed styling:
 </MediaCard>
 ```
 
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

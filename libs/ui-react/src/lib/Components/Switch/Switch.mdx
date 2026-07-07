@@ -4,11 +4,8 @@ import { Switch } from './Switch';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Switch' of={SwitchStories} />
 
@@ -63,7 +60,7 @@ Includes small and large sizes.
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-switch
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@radix-ui/react-switch` dependency provides accessible switch functionality with proper keyboard navigation, focus management, and screen reader support.
 
@@ -141,43 +138,6 @@ The Switch component automatically supports:
 - **Tab**: Navigate to the Switch
 - **Space** or **Enter**: Switch selected/unselected state
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Switch component and maintain design system principles.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use controlled components'
-      description='Use defaultSelected for simple uncontrolled cases'
-    >
-
-```tsx
-const [isSelected, setIsSelected] = useState(false);
-<Switch selected={isSelected} onChange={setIsSelected} />
-
-<Switch defaultSelected={false} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix patterns"
-      description='Avoid mixing controlled/uncontrolled patterns or string values'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Switch selected={isSelected} defaultSelected={true} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
-
-> `className` only for layout-related utilities (positioning, margins, display properties). The switch's core styling (colors, size, focus states, etc.) should be controlled through the design system to maintain consistency.
 
 </Tab>
 </CustomTabs>

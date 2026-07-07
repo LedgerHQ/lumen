@@ -29,7 +29,7 @@ export const ComponentCard: React.FC<ComponentCardProps> = ({
     <button
       onClick={handleClick}
       className={cn(
-        'group relative flex flex-col gap-16 overflow-hidden rounded-md border-2 border-[#F4F4F4] px-8 pt-8 transition-all duration-200',
+        'group relative flex flex-col gap-16 overflow-hidden rounded-md border-2 border-[#F4F4F4] px-8 pt-8 transition-all duration-200 dark:border-[#3A3A3A]',
         'hover:-translate-y-1 hover:border-[#B380DD] hover:shadow-lg',
         'cursor-pointer',
         className,

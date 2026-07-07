@@ -3,8 +3,6 @@ import * as SpotStories from './Spot.stories';
 import { Spot } from './Spot';
 import { Box } from '../Utility';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Spot' of={SpotStories} />
 
@@ -171,98 +169,6 @@ function StatusIndicators() {
 }
 ```
 
-## Do's and Don'ts
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use required props for discriminated types'
-      description='Icon appearance requires icon prop, number appearance requires number prop'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Spot appearance='icon' icon={Settings} />
-<Spot appearance='number' number={5} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit required props"
-      description='Discriminated union types require their specific props'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Spot appearance='icon' /> // Missing required 'icon' prop
-<Spot appearance='number' /> // Missing required 'number' prop
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use valid number values'
-      description='Number appearance only accepts values from 0 to 9'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spot appearance='number' number={5} />
-<Spot appearance='number' number={0} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't pass invalid number values"
-      description='Only values 0-9 are allowed for number appearance'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spot appearance='number' number={10} />
-<Spot appearance='number' number={-1} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use Spot for status indication only'
-      description='Spots are designed to display status, not to be interactive elements'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spot appearance='check' />
-<Spot appearance='error' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't make spots interactive"
-      description='Avoid adding press handlers or making spots clickable'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spot appearance='check' onPress={handlePress} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

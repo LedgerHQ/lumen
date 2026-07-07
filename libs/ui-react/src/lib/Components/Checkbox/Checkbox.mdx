@@ -4,11 +4,8 @@ import { Checkbox } from './Checkbox';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Checkbox' of={CheckboxStories} />
 
@@ -78,7 +75,7 @@ When using checkboxes in forms, provide the `name` and `value` attributes for pr
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-checkbox
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@radix-ui/react-checkbox` dependency provides accessible checkbox functionality with proper keyboard navigation, focus management, and screen reader support.
 
@@ -154,67 +151,6 @@ The Checkbox component automatically supports:
 - **Space**: Toggle checked/unchecked state
 - **Enter**: Submit form (when inside a form)
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Checkbox component and maintain design system principles.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Associate labels properly'
-      description='Use aria-label for standalone checkboxes'
-    >
-
-```tsx
-<div className='flex items-center space-x-8'>
-  <Checkbox id='newsletter' />
-  <label htmlFor='newsletter'>Subscribe to newsletter</label>
-</div>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use unlabeled checkboxes"
-      description='All checkboxes must have proper labels for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Checkbox />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use controlled components'
-      description='Handle form integration properly or use defaultChecked for simple cases'
-    >
-
-```tsx
-const [isChecked, setIsChecked] = useState(false);
-<Checkbox checked={isChecked} onCheckedChange={setIsChecked} />;
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix patterns"
-      description='Avoid mixing controlled/uncontrolled or using string values'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Checkbox checked={isChecked} defaultChecked={true} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

@@ -2,8 +2,6 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as IconButtonStories from './IconButton.stories';
 import { IconButton } from './IconButton';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 import { Box } from '../Utility';
 
 <Meta title='Core/IconButton' of={IconButtonStories} />
@@ -134,72 +132,6 @@ The Button component is built on React Native's `Pressable` and accepts all its 
   disabled={false}
 />
 ```
-
-## Do's and Don'ts
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use icon prop for consistent sizing'
-      description='Pass icon as a component reference and let IconButton handle sizing automatically'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<IconButton accessibilityLabel='Settings' icon={Settings} size='md' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't modify icon size directly"
-      description='Avoid passing icon size prop or overriding dimensions through lx'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<IconButton accessibilityLabel='Settings' icon={Settings} lx={{ width: 's32', height: 's32' }} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Always provide accessibilityLabel'
-      description='Icon-only buttons require descriptive accessibility labels for screen readers'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<IconButton accessibilityLabel='Open settings menu' icon={Settings} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit accessibilityLabel"
-      description='Icon buttons without labels are not accessible to screen reader users'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<IconButton icon={Settings} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
   </Tab>
 </CustomTabs>

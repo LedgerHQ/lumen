@@ -1,6 +1,6 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as DescriptionItemStories from './DescriptionItem.stories';
-import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 
 <Meta title='Core/DescriptionItem' of={DescriptionItemStories} />
 
@@ -46,7 +46,6 @@ Two sizes are available — `md` (default) and `sm`.
 <Canvas of={DescriptionItemStories.SizeShowcase} />
 
 
-
 ### With info tooltip
 
 Pair a `Tooltip` with an info icon inside `DescriptionItemLeading` to surface additional context without cluttering the label.
@@ -66,7 +65,7 @@ The label can wrap to two lines before truncating. The trailing value truncates 
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 

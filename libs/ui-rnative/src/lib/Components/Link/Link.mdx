@@ -3,8 +3,6 @@ import * as LinkStories from './Link.stories';
 import { Link } from './Link';
 import { Box } from '../Utility';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Link' of={LinkStories} />
 
@@ -189,106 +187,6 @@ The Link component is built on React Native's `Pressable` and accepts all its pr
 </Link>
 ```
 
-## Do's and Don'ts
-
-The following guidelines are based on our design system principles. These decisions were made to ensure consistency, maintainability, and proper implementation of our design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Keep underline for base appearance'
-      description='Base appearance links should keep underlines for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link appearance='base' href='https://example.com'>
-  Accessible Link
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't remove underline from base appearance"
-      description='This makes links hard to distinguish from regular bold text, hurting accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link appearance='base' underline={false} href='https://example.com'>
-  Hard to Distinguish
-</Link>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use icon prop for consistent sizing'
-      description='Pass icon as a component reference and let Link handle sizing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Link icon={ArrowRight} size='sm' href='https://example.com'>
-  Next
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't include icon in children"
-      description='Avoid placing icons inside children as this breaks automatic sizing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<Link size='sm' href='https://example.com'>
-  <ArrowRight /> Next
-</Link>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide href or onPress'
-      description='Always provide either href for URL navigation or onPress for custom navigation'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link href='https://example.com'>
-  Visit External Site
-</Link>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit both href and onPress"
-      description='Links need either href or onPress to function properly'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Link>
-  Clickable Looking Link
-</Link>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 ## Platform Considerations
 

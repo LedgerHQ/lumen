@@ -13,7 +13,7 @@ const meta: Meta<typeof Button> = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -50,17 +50,6 @@ export const Base: Story = {
     children: 'Base Button',
   },
   render: (args) => <Button {...args} />,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button appearance="base">
-  Base Button
-</Button>
-`,
-      },
-    },
-  },
 };
 
 export const IconText: Story = {
@@ -72,14 +61,7 @@ export const IconText: Story = {
   parameters: {
     docs: {
       source: {
-        code: `
-<Button
-  appearance="base"
-  icon={Plus}
->
-  Add Item
-</Button>
-`,
+        code: `<Button appearance="base" icon={Plus}>Add Item</Button>`,
       },
     },
   },
@@ -90,20 +72,6 @@ export const Loading: Story = {
     appearance: 'base',
     children: 'Loading...',
     loading: true,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Button
-  appearance="base"
-  loading
->
-  Loading...
-</Button>
-`,
-      },
-    },
   },
 };
 
@@ -168,7 +136,7 @@ export const StatesShowcase: Story = {
         Loading
       </Button>
       <Button appearance='base' loading disabled>
-        Loading
+        Disabled Loading
       </Button>
     </Box>
   ),

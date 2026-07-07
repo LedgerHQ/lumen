@@ -4,11 +4,7 @@ import { Tile } from './Tile';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 import { Box } from '../Utility';
 
 <Meta title='Core/Tile' of={TileStories} />
@@ -250,56 +246,7 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
 </Tile>
 ```
 
-## Do's and Don'ts
 
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-
-### Trailing Content
-
-<DoVsDontRow>
-  <DoBlockItem
-    title='Use TileTrailingContent for additional elements'
-    description='Wrap Tags, labels, or supplementary content inside TileTrailingContent within TileContent for proper spacing.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<Tile>
-  <Spot appearance="icon" icon={Settings} />
-  <TileContent>
-    <TileTitle>Title</TileTitle>
-    <TileDescription>Description</TileDescription>
-    <TileTrailingContent>
-      <Tag label="Active" />
-    </TileTrailingContent>
-  </TileContent>
-</Tile>
-```
-
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't place trailing content directly in TileContent"
-    description='Placing Tags or other elements directly in TileContent without TileTrailingContent results in incorrect spacing.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<Tile>
-  <Spot appearance="icon" icon={Settings} />
-  <TileContent>
-    <TileTitle>Title</TileTitle>
-    <TileDescription>Description</TileDescription>
-    <Tag label="Active" />
-  </TileContent>
-</Tile>
-```
-
-  </DontBlockItem>
-</DoVsDontRow>
-
-<CommonRulesDoAndDont />
-
-</Box>
 
 </Tab>
 </CustomTabs>

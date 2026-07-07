@@ -1,0 +1,26 @@
+[10:36:50.970] [INFO] storybook v10.2.14
+[10:36:51.802] [DEBUG] Getting package.json info for /Users/abla.ammami/dev/ldls/package.json...
+[10:36:52.414] [DEBUG] Serving static files from [36mnode_modules/@chromatic-com/storybook/assets[39m at [36m/addon-visual-tests-assets[39m
+[10:36:52.420] [INFO] Starting...
+[10:36:53.500] [DEBUG] Starting preview..
+[10:36:54.389] [WARN] 🚨 Unable to index files:
+- ./src/lib/Components/DescriptionItem/DescriptionItem.mdx: Could not parse import/exports with acorn
+- ./src/lib/Components/DotIcon/DotIcon.mdx: Could not parse import/exports with acorn
+- ./src/lib/Components/DotSymbol/DotSymbol.mdx: Could not parse import/exports with acorn
+[10:36:54.391] [ERROR] Failed to build the preview
+[10:36:54.392] [ERROR] Error: [38;2;241;97;97mUnable to index files:
+- ./src/lib/Components/DescriptionItem/DescriptionItem.mdx: Could not parse import/exports with acorn
+- ./src/lib/Components/DotIcon/DotIcon.mdx: Could not parse import/exports with acorn
+- ./src/lib/Components/DotSymbol/DotSymbol.mdx: Could not parse import/exports with acorn[39m
+    at _StoryIndexGenerator.getIndexAndStats (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/core-server/index.js:6085:15)
+    at async _StoryIndexGenerator.getIndex (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/core-server/index.js:6074:13)
+    at async getOptimizeDeps (file:///Users/abla.ammami/dev/ldls/node_modules/@storybook/builder-vite/dist/index.js:1861:15)
+    at async createViteServer (file:///Users/abla.ammami/dev/ldls/node_modules/@storybook/builder-vite/dist/index.js:1887:19)
+    at async Module.start (file:///Users/abla.ammami/dev/ldls/node_modules/@storybook/builder-vite/dist/index.js:1922:17)
+    at async storybookDevServer (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/core-server/index.js:7241:83)
+    at async buildOrThrow (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/core-server/index.js:4504:12)
+    at async buildDevStandalone (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/core-server/index.js:7611:66)
+    at async withTelemetry (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/_node-chunks/chunk-DTZLXIO2.js:218:12)
+    at async dev (file:///Users/abla.ammami/dev/ldls/node_modules/storybook/dist/bin/core.js:2734:3)
+[10:36:54.396] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.

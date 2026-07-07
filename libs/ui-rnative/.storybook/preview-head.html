@@ -59,4 +59,81 @@
   .sbdocs-content :is(h1, h2, h3, h4, h5, h6)>a[aria-hidden='true']:focus-visible {
     outline: none;
   }
+
+  /*
+   * Dark mode overrides for the Source block (.docblock-source).
+   * Storybook's SyntaxHighlighter applies token colors as inline styles via
+   * prism-react-renderer. !important is required to beat those inline styles.
+   */
+  .dark .docblock-source {
+    background: #1e1e1e !important;
+  }
+
+  .dark .docblock-source code,
+  .dark .docblock-source pre {
+    background: transparent !important;
+    color: #d4d4d4 !important;
+  }
+
+  .dark .docblock-source .token.comment,
+  .dark .docblock-source .token.prolog,
+  .dark .docblock-source .token.doctype,
+  .dark .docblock-source .token.cdata {
+    color: #6a9955 !important;
+  }
+
+  .dark .docblock-source .token.punctuation {
+    color: #d4d4d4 !important;
+  }
+
+  .dark .docblock-source .token.tag,
+  .dark .docblock-source .token.keyword,
+  .dark .docblock-source .token.boolean,
+  .dark .docblock-source .token.important {
+    color: #569cd6 !important;
+  }
+
+  .dark .docblock-source .token.string,
+  .dark .docblock-source .token.char,
+  .dark .docblock-source .token.url,
+  .dark .docblock-source .token.attr-value,
+  .dark .docblock-source .token.inserted {
+    color: #ce9178 !important;
+  }
+
+  .dark .docblock-source .token.number,
+  .dark .docblock-source .token.unit {
+    color: #b5cea8 !important;
+  }
+
+  .dark .docblock-source .token.function,
+  .dark .docblock-source .token.function-variable {
+    color: #dcdcaa !important;
+  }
+
+  .dark .docblock-source .token.class-name,
+  .dark .docblock-source .token.maybe-class-name {
+    color: #4ec9b0 !important;
+  }
+
+  .dark .docblock-source .token.attr-name,
+  .dark .docblock-source .token.property,
+  .dark .docblock-source .token.selector {
+    color: #9cdcfe !important;
+  }
+
+  .dark .docblock-source .token.operator,
+  .dark .docblock-source .token.entity {
+    color: #d4d4d4 !important;
+  }
+
+  .dark .docblock-source .token.constant,
+  .dark .docblock-source .token.symbol,
+  .dark .docblock-source .token.deleted {
+    color: #f44747 !important;
+  }
+
+  .dark .docblock-source .token.namespace {
+    opacity: 0.7;
+  }
 </style>

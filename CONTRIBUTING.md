@@ -216,7 +216,7 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 
 <CustomTabs>
   <Tab label='Overview '>{/* Design documentation, anatomy, properties, showcases */}</Tab>
-  <Tab label='Implementation '>{/* Installation, code examples, do's and don'ts */}</Tab>
+  <Tab label='Implementation '>{/* Installation, code examples */}</Tab>
 </CustomTabs>;
 ```
 

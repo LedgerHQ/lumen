@@ -1,7 +1,6 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as StepperStories from './Stepper.stories';
-import { DoVsDontRow, DoBlockItem, DontBlockItem, CustomTabs, Tab } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+
 
 <Meta title='Core/Stepper' of={StepperStories} />
 
@@ -53,7 +52,6 @@ The progress arc starts at the top (12 o'clock position) and fills clockwise. Wh
 The Stepper supports a disabled state that changes the progress arc to a muted appearance:
 
 <Canvas of={StepperStories.DisabledShowcase} />
-
 
 
 ## Custom Labels
@@ -180,71 +178,6 @@ function LocalizedStepper() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide meaningful step counts'
-      description='Use realistic total steps that match your flow'
-    >
-
-```tsx
-{/* prettier-ignore */}
-<Stepper currentStep={3} totalSteps={5} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use for single-step processes"
-      description='Steppers are for multi-step workflows only'
-    >
-
-```tsx
-{/* prettier-ignore */}
-<Stepper currentStep={1} totalSteps={1} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use disabled for paused steppers'
-      description='Reserve disabled for steppers that are not actively progressing'
-    >
-
-```tsx
-{/* prettier-ignore */}
-<Stepper 
-  currentStep={2} 
-  totalSteps={4} 
-  disabled 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't disable active steps"
-      description='Active steps in progress should not be disabled'
-    >
-
-```tsx
-{/* prettier-ignore */}
-<Stepper 
-  currentStep={2} 
-  totalSteps={4} 
-  disabled // Wrong for active step
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

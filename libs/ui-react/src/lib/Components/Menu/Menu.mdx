@@ -3,11 +3,8 @@ import * as MenuStories from './Menu.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Menu' of={MenuStories} />
 
@@ -156,7 +153,7 @@ Full-featured menu with all components:
 npm install @ledgerhq/lumen-ui-react @base-ui/react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The Base UI dependency provides accessible menu behavior with proper keyboard navigation, focus management, and screen reader support.
 
@@ -440,126 +437,6 @@ Available alignments: `'start'` (default), `'center'`, `'end'`
 
 You can also use `alignOffset` to fine-tune the position with a pixel offset.
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-<DoVsDontRow>
-  <DoBlockItem
-    title='Group related items with labels and separators'
-    description='Use labels and separators to organize menu items logically'
-  >
-    ```tsx
-    <MenuContent>
-      <MenuGroup>
-        <MenuLabel>Account</MenuLabel>
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>Settings</MenuItem>
-      </MenuGroup>
-      <MenuSeparator />
-      <MenuGroup>
-        <MenuLabel>Actions</MenuLabel>
-        <MenuItem>Share</MenuItem>
-      </MenuGroup>
-    </MenuContent>
-    ```
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't mix unrelated items without grouping"
-    description='Avoid flat lists of unrelated actions'
-  >
-    ```tsx
-    <MenuContent>
-      <MenuItem>Profile</MenuItem>
-      <MenuItem>Share</MenuItem>
-      <MenuItem>Settings</MenuItem>
-      <MenuItem>Export</MenuItem>
-    </MenuContent>
-    ```
-  </DontBlockItem>
-</DoVsDontRow>
-
-<DoVsDontRow>
-  <DoBlockItem
-    title='Use CheckboxItem for toggles'
-    description='Use checkbox items for options that can be toggled on/off'
-  >
-    ```tsx
-    <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
-      Show Panel
-    </MenuCheckboxItem>
-    ```
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't use regular items for toggles"
-    description='Regular items should be used for actions, not toggleable states'
-  >
-    ```tsx
-    <MenuItem onClick={() => setShowPanel(!showPanel)}>Show Panel</MenuItem>
-    ```
-  </DontBlockItem>
-</DoVsDontRow>
-
-<DoVsDontRow>
-  <DoBlockItem
-    title='Use RadioGroup for single selection'
-    description='When user should select one option from multiple choices'
-  >
-    ```tsx
-    <MenuRadioGroup value={theme} onValueChange={setTheme}>
-      <MenuRadioItem value='light'>Light</MenuRadioItem>
-      <MenuRadioItem value='dark'>Dark</MenuRadioItem>
-      <MenuRadioItem value='system'>System</MenuRadioItem>
-    </MenuRadioGroup>
-    ```
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't use multiple checkboxes for single selection"
-    description='Multiple checkboxes suggest multiple selections are allowed'
-  >
-    ```tsx
-    <MenuCheckboxItem checked={theme === 'light'}>Light</MenuCheckboxItem>
-    <MenuCheckboxItem checked={theme === 'dark'}>Dark</MenuCheckboxItem>
-    ```
-  </DontBlockItem>
-</DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Limit menu depth to 2-3 levels'
-      description='Keep menu hierarchies shallow for better usability'
-    >
-      ```tsx
-
-      <MenuSub>
-        <MenuSubTrigger>Share</MenuSubTrigger>
-        <MenuSubContent>
-          <MenuItem>Email</MenuItem>
-          <MenuItem>Messages</MenuItem>
-        </MenuSubContent>
-      </MenuSub>
-      ```
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't create deeply nested menus"
-      description='Deep nesting makes navigation difficult'
-    >
-      ```tsx
-      <MenuSub>
-        <MenuSubTrigger>Share</MenuSubTrigger>
-        <MenuSubContent>
-          <MenuSub>
-            <MenuSubTrigger>Social</MenuSubTrigger>
-            {/* Too deep! */}
-          </MenuSub>
-        </MenuSubContent>
-      </MenuSub>
-      ```
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 ## Performance Considerations
 

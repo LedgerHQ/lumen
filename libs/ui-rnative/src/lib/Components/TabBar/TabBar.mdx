@@ -2,8 +2,6 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as TabBarStories from './TabBar.stories';
 import { TabBar } from './TabBar';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 import { Box } from '../Utility';
 
 <Meta title='Core/TabBar' of={TabBarStories} />
@@ -206,9 +204,6 @@ export default function TabLayout() {
 }
 ```
 
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>
