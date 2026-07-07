@@ -183,63 +183,18 @@ export const PriorityShowcase: Story = {
           <DescriptionItemLabel>priority="end" (default)</DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
 
       <DescriptionItem priority='start'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>
-            priority="start" long label which will not truncate
+            priority="start" long label
           </DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-    </div>
-  ),
-};
-
-export const TruncationBehavior: Story = {
-  render: () => (
-    <div className='flex w-320 flex-col gap-16'>
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>
-            This is a very long label that should go to a second line.
-          </DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>0.001 BTC</DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>Label</DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>
-            Destination address on network
-          </DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
     </div>

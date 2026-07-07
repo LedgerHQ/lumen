@@ -197,7 +197,7 @@ export const PriorityShowcase: Story = {
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
           <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+            0xd8dA6BF26964aF9D7eEd9e
           </DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
@@ -210,48 +210,7 @@ export const PriorityShowcase: Story = {
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
           <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-    </Box>
-  ),
-};
-
-export const TruncationBehavior: Story = {
-  render: () => (
-    <Box lx={{ gap: 's16' }}>
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>
-            This is a very long label that should go to a second line.
-          </DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>0.001 BTC</DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>Label</DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>
-            Destination address on network
-          </DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+            0xd8dA6BF26964aF9D7eEd9e
           </DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>

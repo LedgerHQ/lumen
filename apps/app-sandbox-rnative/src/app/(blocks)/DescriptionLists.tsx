@@ -99,7 +99,7 @@ export default function DescriptionLists() {
           </DescriptionItemLeading>
           <DescriptionItemTrailing>
             <DescriptionItemValue>
-              0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+              0xd8dA6BF26964aF9D7eEd9e
             </DescriptionItemValue>
           </DescriptionItemTrailing>
         </DescriptionItem>
@@ -115,7 +115,7 @@ export default function DescriptionLists() {
           </DescriptionItemLeading>
           <DescriptionItemTrailing>
             <DescriptionItemValue>
-              0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+              0xd8dA6BF26964aF9D7eEd9e
             </DescriptionItemValue>
           </DescriptionItemTrailing>
         </DescriptionItem>
@@ -128,7 +128,7 @@ export default function DescriptionLists() {
           </DescriptionItemLeading>
           <DescriptionItemTrailing>
             <DescriptionItemValue>
-              0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+              0xd8dA6BF26964aF9D7eEd9e
             </DescriptionItemValue>
           </DescriptionItemTrailing>
         </DescriptionItem>

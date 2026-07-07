@@ -53,18 +53,12 @@ Pair a `Tooltip` with an info icon inside `DescriptionItemLeading` to surface ad
 
 ### Priority
 
-When both sides have long content and horizontal space is constrained, the `priority` prop controls which side is protected from shrinking and truncation.
+The label and the trailing value each truncate after one line. When both sides have long content and horizontal space is constrained, the `priority` prop controls which side is protected from shrinking and truncation.
 
 - `priority='end'` (default): the leading label shrinks and truncates, while the trailing value is protected.
 - `priority='start'`: the trailing value shrinks and truncates, while the leading label is protected.
 
 <Canvas of={DescriptionItemStories.PriorityShowcase} />
-
-### Truncation
-
-The label and the trailing value each truncate after one line. When both sides have long content, the trailing gets layout priority by default (see [Priority](#priority) to invert this).
-
-<Canvas of={DescriptionItemStories.TruncationBehavior} />
 
 </Tab>
 <Tab label="Implementation">
