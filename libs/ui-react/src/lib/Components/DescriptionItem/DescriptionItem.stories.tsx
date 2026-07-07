@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Information } from '../../Symbols';
+import { MediaButton } from '../MediaButton/MediaButton';
 import {
   Select,
   SelectContent,
@@ -222,7 +223,14 @@ export const WithSelect: Story = {
             value={network}
             onValueChange={setNetwork}
           >
-            <SelectTrigger aria-label='Open tooltip' label='Network' />
+            <SelectTrigger
+              aria-label='Select network'
+              render={({ selectedContent }) => (
+                <MediaButton appearance='transparent'>
+                  {selectedContent}
+                </MediaButton>
+              )}
+            />
             <SelectContent>
               <SelectList
                 renderItem={(item) => (
