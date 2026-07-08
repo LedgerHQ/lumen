@@ -8,7 +8,11 @@ import { cva } from 'class-variance-authority';
 import type { ChangeEvent, PointerEvent } from 'react';
 import { useRef, useId, useState, useCallback } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import { CheckmarkCircleFill, DeleteCircleFill } from '../../Symbols';
+import {
+  CheckmarkCircleFill,
+  DeleteCircleFill,
+  InformationFill,
+} from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type { BaseInputProps } from './types';
 
@@ -68,7 +72,7 @@ const labelVariants = cva(baseLabelStyles, {
   },
 });
 
-const helperVariants = cva('mt-8 flex items-center gap-2 body-3', {
+const helperVariants = cva('flex items-center gap-2 body-3', {
   variants: {
     status: {
       default: 'text-muted',
@@ -111,6 +115,7 @@ export const BaseInput = ({
   id,
   disabled: disabledProp,
   helperText,
+  maxCount,
   status,
   suffix,
   prefix,
@@ -169,6 +174,12 @@ export const BaseInput = ({
     });
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
+
+  const currentValue = isControlled
+    ? (props.value?.toString() ?? '')
+    : uncontrolledValue;
+  const count = currentValue.length;
+  const showCount = maxCount != null;
 
   const helperId = `${inputId}-helper`;
   const showHelper = !!helperText;
@@ -270,19 +281,31 @@ export const BaseInput = ({
 
         {!showClearButton && suffix}
       </div>
-      {showHelper && (
-        <div
-          id={helperId}
-          className={helperVariants({ status })}
-          role={status === 'error' ? 'alert' : undefined}
-        >
-          {status === 'error' && (
-            <DeleteCircleFill size={16} className='text-error' />
+      {(showHelper || showCount) && (
+        <div className='mt-8 flex items-start justify-between gap-8'>
+          {showHelper ? (
+            <div
+              id={helperId}
+              className={helperVariants({ status })}
+              role={status === 'error' ? 'alert' : undefined}
+            >
+              {!status && <InformationFill size={16} className='text-muted' />}
+              {status === 'error' && (
+                <DeleteCircleFill size={16} className='text-error' />
+              )}
+              {status === 'success' && (
+                <CheckmarkCircleFill size={16} className='text-success' />
+              )}
+              <span className='body-3'>{helperText}</span>
+            </div>
+          ) : (
+            <span />
           )}
-          {status === 'success' && (
-            <CheckmarkCircleFill size={16} className='text-success' />
+          {showCount && (
+            <span aria-live='polite' className='shrink-0 body-3 text-muted'>
+              {`${count}/${maxCount}`}
+            </span>
           )}
-          <span>{helperText}</span>
         </div>
       )}
     </div>

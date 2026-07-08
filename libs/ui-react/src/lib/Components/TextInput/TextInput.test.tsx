@@ -368,4 +368,53 @@ describe('Input Component', () => {
     // Input should be focused after clearing
     expect(inputElement).toHaveFocus();
   });
+
+  it('should render character counter when maxCount is set', () => {
+    render(
+      <TextInput
+        label='Bio'
+        {...createControlledProps({ value: 'Hello' })}
+        maxCount={32}
+      />,
+    );
+
+    expect(screen.getByText('5/32')).toBeInTheDocument();
+  });
+
+  it('should not render character counter when maxCount is omitted', () => {
+    render(
+      <TextInput label='Bio' {...createControlledProps({ value: 'Hello' })} />,
+    );
+
+    expect(screen.queryByText(/\d+\/\d+/)).not.toBeInTheDocument();
+  });
+
+  it('should keep counter muted when count exceeds maxCount', () => {
+    const longValue = 'This text exceeds the character limit';
+    render(
+      <TextInput
+        label='Bio'
+        {...createControlledProps({ value: longValue })}
+        maxCount={32}
+      />,
+    );
+
+    const counter = screen.getByText(`${longValue.length}/32`);
+    expect(counter).toHaveClass('text-muted');
+    expect(counter).not.toHaveClass('text-warning');
+  });
+
+  it('should not truncate input when count exceeds maxCount', () => {
+    const longValue = 'This text exceeds the character limit';
+    render(
+      <TextInput
+        label='Bio'
+        {...createControlledProps({ value: longValue })}
+        maxCount={32}
+      />,
+    );
+
+    const inputElement = screen.getByRole('textbox');
+    expect(inputElement).toHaveValue(longValue);
+  });
 });

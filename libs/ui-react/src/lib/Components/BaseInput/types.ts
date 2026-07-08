@@ -13,6 +13,10 @@ export type BaseInputProps = {
    */
   helperText?: string;
   /**
+   * Soft character limit. When set, renders a `count/maxCount` counter below the input.
+   */
+  maxCount?: number;
+  /**
    * Visual state for border, label, helper text, and helper icon.
    * Omit when `helperText` is a neutral hint.
    */

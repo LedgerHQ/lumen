@@ -15,7 +15,7 @@ const meta: Meta<typeof TextInput> = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -35,6 +35,9 @@ const meta: Meta<typeof TextInput> = {
     hideClearButton: {
       control: 'boolean',
     },
+    maxCount: {
+      control: 'number',
+    },
   },
   // Default args moved to Default story
 };
@@ -42,9 +45,6 @@ const meta: Meta<typeof TextInput> = {
 export default meta;
 type Story = StoryObj<typeof TextInput>;
 
-/**
- * The default input with a label.
- */
 export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState(args.value || '');
@@ -68,21 +68,8 @@ export const Default: Story = {
     suffix: undefined,
     hideClearButton: false,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TextInput 
-  label="Label" 
-  type="text" 
-/>`,
-      },
-    },
-  },
 };
 
-/**
- * Input with content showing the floating label behavior and clear button.
- */
 export const WithContent: Story = {
   render: () => {
     const [value, setValue] = useState('Initial content');
@@ -95,22 +82,8 @@ export const WithContent: Story = {
       />
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TextInput 
-  label="Label"
-  value="Initial content"
-  onChange={(e) => setValue(e.target.value)}
-/>`,
-      },
-    },
-  },
 };
 
-/**
- * `label` and `placeholder` together (empty field shows floated label and hint text).
- */
 export const WithLabelAndPlaceholder: Story = {
   render: () => {
     const [value, setValue] = useState('');
@@ -123,18 +96,6 @@ export const WithLabelAndPlaceholder: Story = {
         className='max-w-md'
       />
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TextInput
-  label="Phone"
-  placeholder="+1 (555) 000-0000"
-  value={value}
-  onChange={(e) => setValue(e.target.value)}
-/>`,
-      },
-    },
   },
 };
 
@@ -150,22 +111,8 @@ export const ExtendedClearBehavior: Story = {
       />
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TextInput 
-  label="Extended Clear Behavior"
-  onClear={() => {
-    alert('Extended clear behavior');
-  }}
-  className="max-w-md"
-/>`,
-      },
-    },
-  },
 };
 
-// Separate components to avoid state interference
 export const ControlledInputExample = () => {
   const [value, setValue] = useState('Type here to see default clear button');
   return (
@@ -190,9 +137,6 @@ export const UncontrolledInputExample = () => {
   );
 };
 
-/**
- * Input with hidden clear button using hideClearButton prop.
- */
 export const HiddenClearButton: Story = {
   render: () => {
     const [value, setValue] = useState('Content with no clear button');
@@ -204,29 +148,11 @@ export const HiddenClearButton: Story = {
           onChange={(e) => setValue(e.target.value)}
           hideClearButton
         />
-        <div className='body-3 text-muted'>
-          Use hideClearButton to prevent the clear button from appearing.
-        </div>
       </div>
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TextInput 
-  label="Clear Button Hidden" 
-  value="Content with no clear button"
-  onChange={(e) => setValue(e.target.value)}
-  hideClearButton
-/>`,
-      },
-    },
-  },
 };
 
-/**
- * Input in an error state with visual indicators.
- */
 export const WithError: Story = {
   render: () => {
     const [email, setEmail] = useState('invalid.email');
@@ -246,18 +172,68 @@ export const WithError: Story = {
           }
           status={isValidEmail ? undefined : 'error'}
         />
-        <div className='mt-12 body-3 text-muted'>
-          Try typing a valid email address or clicking the clear button to
-          remove the error state
-        </div>
       </div>
     );
   },
 };
 
-/**
- * Success feedback below the input.
- */
+export const WithCounter: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Label'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          helperText='Info text'
+          maxCount={32}
+        />
+      </div>
+    );
+  },
+};
+
+export const WithCounterExceeded: Story = {
+  render: () => {
+    const [value, setValue] = useState('This text exceeds the character limit');
+    const maxCount = 32;
+    const isOverLimit = value.length > maxCount;
+
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Label'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          helperText={isOverLimit ? 'Character limit exceeded' : 'Info text'}
+          status={isOverLimit ? 'error' : undefined}
+          maxCount={maxCount}
+        />
+      </div>
+    );
+  },
+};
+
+export const WithNativeMaxLength: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    const maxCount = 8;
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Label'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          helperText='Input is capped at 8 characters'
+          maxLength={maxCount}
+          maxCount={maxCount}
+        />
+      </div>
+    );
+  },
+};
+
 export const WithSuccess: Story = {
   render: () => (
     <div className='max-w-md'>
@@ -274,9 +250,6 @@ export const WithSuccess: Story = {
   ),
 };
 
-/**
- * Neutral hint (no status): muted helper text without an icon.
- */
 export const WithNeutralHint: Story = {
   render: () => {
     const [value, setValue] = useState('');
@@ -296,9 +269,6 @@ export const WithNeutralHint: Story = {
   },
 };
 
-/**
- * Disabled input state.
- */
 export const Disabled: Story = {
   render: () => {
     const [value] = useState('Disabled content');
@@ -314,28 +284,8 @@ export const Disabled: Story = {
       />
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TextInput 
-  label="Label" 
-  value="Disabled content"
-  onChange={handleChange}
-  disabled
-  className="max-w-md"
-/>`,
-      },
-    },
-  },
 };
 
-/**
- * Interactive example showing how the input behaves with user interaction and external error handling.
- */
-/**
- * Input with an info icon that provides additional context.
- */
-// Custom right elements
 const InfoTooltip = () => {
   return (
     <Tooltip>
@@ -394,18 +344,11 @@ export const WithCustomElement: Story = {
             />
           </div>
         </div>
-        <div className='mt-16 body-3 text-muted'>
-          The suffix prop allows you to add custom interactive elements like
-          tooltips, or action buttons
-        </div>
       </div>
     );
   },
 };
 
-/**
- * Interactive form example showing how Input components work together in a real form with validation and submission.
- */
 export const Interactive: Story = {
   render: () => {
     const [formData, setFormData] = useState({
@@ -555,11 +498,6 @@ export const Interactive: Story = {
             >
               Reset
             </Button>
-          </div>
-
-          <div className='body-3 text-muted'>
-            This example demonstrates form validation, error handling, clear
-            buttons, and right elements working together.
           </div>
         </form>
       </div>
