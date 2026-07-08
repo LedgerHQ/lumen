@@ -31,6 +31,11 @@ export type TileButtonProps = {
    */
   isFull?: boolean;
   /**
+   * The visual appearance of the button.
+   * @default 'gray'
+   */
+  appearance?: 'gray' | 'red';
+  /**
    * Additional CSS classes for layout adjustments.
    */
   className?: string;
