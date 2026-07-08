@@ -27,6 +27,11 @@ export type ListItemProps = {
    */
   disabled?: boolean;
   /**
+   * Whether the list item is in an active/selected state.
+   * @default false
+   */
+  active?: boolean;
+  /**
    * Callback function when the list item is pressed.
    */
   onClick?: MouseEventHandler<HTMLDivElement>;

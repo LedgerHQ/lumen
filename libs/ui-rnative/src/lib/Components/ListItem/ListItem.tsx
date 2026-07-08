@@ -27,29 +27,36 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
 const useRootStyles = ({
   pressed,
   density,
+  active,
+  disabled,
 }: {
   pressed: boolean;
   density: Density;
+  active: boolean;
+  disabled: boolean;
 }) => {
   return useStyleSheet(
-    (t) => ({
-      container: StyleSheet.flatten([
-        {
-          flexDirection: 'row',
-          alignItems: 'center',
-          height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
-          width: t.sizes.full,
-          gap: t.spacings.s16,
-          borderRadius: t.borderRadius.md,
-          backgroundColor: 'transparent',
-          paddingHorizontal: t.spacings.s8,
-        },
-        pressed && {
-          backgroundColor: t.colors.bg.baseTransparentPressed,
-        },
-      ]),
-    }),
-    [pressed, density],
+    (t) => {
+      return {
+        container: StyleSheet.flatten([
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
+            width: t.sizes.full,
+            gap: t.spacings.s16,
+            borderRadius: t.borderRadius.md,
+            backgroundColor: 'transparent',
+            paddingHorizontal: t.spacings.s8,
+          },
+          pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
+          active && { backgroundColor: t.colors.bg.muted },
+          active && pressed && { backgroundColor: t.colors.bg.mutedPressed },
+          active && disabled && { backgroundColor: t.colors.bg.disabled },
+        ]),
+      };
+    },
+    [pressed, density, active, disabled],
   );
 };
 
@@ -93,6 +100,7 @@ export const ListItem = ({
   style,
   disabled: disabledProp = false,
   density = 'expanded',
+  active = false,
   onPress,
   onLongPress,
   ref,
@@ -116,11 +124,11 @@ export const ListItem = ({
           onPress={onPress}
           onLongPress={onLongPress}
           accessibilityRole='button'
-          accessibilityState={{ disabled }}
+          accessibilityState={{ disabled, selected: active }}
           {...props}
         >
           {({ pressed }) => (
-            <ListItemInner pressed={pressed} density={density}>
+            <ListItemInner pressed={pressed} density={density} active={active}>
               {children}
             </ListItemInner>
           )}
@@ -135,10 +143,10 @@ export const ListItem = ({
         ref={ref}
         lx={lx}
         style={style}
-        accessibilityState={{ disabled }}
+        accessibilityState={{ disabled, selected: active }}
         {...props}
       >
-        <ListItemInner pressed={false} density={density}>
+        <ListItemInner pressed={false} density={density} active={active}>
           {children}
         </ListItemInner>
       </Box>
@@ -152,13 +160,19 @@ export const ListItem = ({
 const ListItemInner = ({
   pressed,
   density,
+  active,
   children,
 }: {
   pressed: boolean;
   density: Density;
+  active: boolean;
   children: ReactNode;
 }) => {
-  const styles = useRootStyles({ pressed, density });
+  const disabled = useDisabledContext({
+    consumerName: 'ListItemInner',
+    contextRequired: false,
+  });
+  const styles = useRootStyles({ pressed, density, active, disabled });
   return (
     <View style={styles.container} testID='list-item-content'>
       {children}

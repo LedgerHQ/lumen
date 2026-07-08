@@ -323,6 +323,50 @@ export const DisabledState: Story = {
   },
 };
 
+export const ActiveState: Story = {
+  args: {
+    active: true,
+  },
+  render: (args) => (
+    <Box lx={{ flexDirection: 'column', width: 's320' }}>
+      <ListItem {...args}>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Active Item</ListItemTitle>
+            <ListItemDescription>
+              Static with muted background
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+
+      <ListItem {...args} onPress={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Active Interactive</ListItemTitle>
+            <ListItemDescription>Press for muted-pressed</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem {...args} disabled>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Active Disabled</ListItemTitle>
+            <ListItemDescription>Uses disabled background</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+    </Box>
+  ),
+};
+
 export const ResponsiveLayout: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
