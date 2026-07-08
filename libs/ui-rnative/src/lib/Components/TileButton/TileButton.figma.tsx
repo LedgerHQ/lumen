@@ -15,6 +15,10 @@ figma.connect(
       disabled: figma.enum('state', {
         disabled: true,
       }),
+      appearance: figma.enum('appearance', {
+        gray: 'gray',
+        red: 'red',
+      }),
       children: figma.string('label'),
       icon: Placeholder,
     },
@@ -25,6 +29,7 @@ figma.connect(
     ) => (
       <TileButton
         disabled={props.disabled}
+        appearance={props.appearance}
         icon={props.icon}
         onPress={() => {}}
       >
