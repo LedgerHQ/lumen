@@ -37,25 +37,23 @@ const useRootStyles = ({
 }) => {
   return useStyleSheet(
     (t) => {
-      const backgroundColor = (() => {
-        if (active && disabled) return t.colors.bg.disabled;
-        if (active && pressed) return t.colors.bg.mutedPressed;
-        if (active) return t.colors.bg.muted;
-        if (pressed) return t.colors.bg.baseTransparentPressed;
-        return 'transparent';
-      })();
-
       return {
-        container: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
-          width: t.sizes.full,
-          gap: t.spacings.s16,
-          borderRadius: t.borderRadius.md,
-          backgroundColor,
-          paddingHorizontal: t.spacings.s8,
-        },
+        container: StyleSheet.flatten([
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
+            width: t.sizes.full,
+            gap: t.spacings.s16,
+            borderRadius: t.borderRadius.md,
+            backgroundColor: 'transparent',
+            paddingHorizontal: t.spacings.s8,
+          },
+          pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
+          active && { backgroundColor: t.colors.bg.muted },
+          active && pressed && { backgroundColor: t.colors.bg.mutedPressed },
+          active && disabled && { backgroundColor: t.colors.bg.disabled },
+        ]),
       };
     },
     [pressed, density, active, disabled],
