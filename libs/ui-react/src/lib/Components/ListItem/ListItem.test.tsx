@@ -114,6 +114,21 @@ describe('ListItem', () => {
       renderListItem();
       expect(screen.getByTestId('list-item')).not.toHaveClass('bg-muted');
     });
+
+    it('sets aria-selected when active', () => {
+      renderListItem({ active: true });
+      expect(screen.getByTestId('list-item')).toHaveAttribute(
+        'aria-selected',
+        'true',
+      );
+    });
+
+    it('omits aria-selected when not active', () => {
+      renderListItem();
+      expect(screen.getByTestId('list-item')).not.toHaveAttribute(
+        'aria-selected',
+      );
+    });
   });
 
   describe('disabled', () => {

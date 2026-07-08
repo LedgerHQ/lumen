@@ -127,6 +127,18 @@ describe('ListItem', () => {
       const inner = screen.getByTestId('list-item-content');
       expect(inner.props.style.backgroundColor).toBe('transparent');
     });
+
+    it('sets selected accessibility state when active', () => {
+      renderListItem({ active: true });
+      const item = screen.getByTestId('list-item');
+      expect(item.props.accessibilityState?.selected).toBe(true);
+    });
+
+    it('does not set selected accessibility state when not active', () => {
+      renderListItem();
+      const item = screen.getByTestId('list-item');
+      expect(item.props.accessibilityState?.selected).toBeFalsy();
+    });
   });
 
   describe('disabled', () => {

@@ -126,7 +126,7 @@ export const ListItem = ({
           onPress={onPress}
           onLongPress={onLongPress}
           accessibilityRole='button'
-          accessibilityState={{ disabled }}
+          accessibilityState={{ disabled, selected: active }}
           {...props}
         >
           {({ pressed }) => (
@@ -145,7 +145,7 @@ export const ListItem = ({
         ref={ref}
         lx={lx}
         style={style}
-        accessibilityState={{ disabled }}
+        accessibilityState={{ disabled, selected: active }}
         {...props}
       >
         <ListItemInner pressed={false} density={density} active={active}>
