@@ -124,6 +124,8 @@ export type MenuItemProps = {
    */
   className?: string;
 
+  appearance?: 'base' | 'red';
+
   /**
    * When `true`, prevents the user from interacting with the item.
    *

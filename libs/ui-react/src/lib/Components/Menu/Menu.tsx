@@ -57,20 +57,33 @@ const contentStyles = cva(
   },
 );
 
-const itemStyles = cn(
-  'relative flex cursor-default items-center gap-12 select-none',
-  'h-44 rounded-sm px-8 outline-hidden',
-  'body-2-semi-bold text-base',
-  'transition-colors',
-  'data-highlighted:bg-base-transparent-hover',
-  'active:bg-base-transparent-pressed',
-  'data-disabled:pointer-events-none data-disabled:text-disabled',
+const itemStyles = cva(
+  cn(
+    'relative flex cursor-default items-center gap-12 select-none',
+    'h-44 rounded-sm px-8 outline-hidden',
+    'body-2-semi-bold',
+    'transition-colors',
+    'data-highlighted:bg-base-transparent-hover',
+    'active:bg-base-transparent-pressed',
+    'data-disabled:pointer-events-none data-disabled:text-disabled',
+  ),
+  {
+    variants: {
+      appearance: {
+        base: 'text-base',
+        red: 'text-error',
+      },
+    },
+    defaultVariants: {
+      appearance: 'base',
+    },
+  },
 );
 
 const labelStyles = cn('px-8 py-4 body-3-semi-bold text-muted');
 
 const subTriggerStyles = cn(
-  itemStyles,
+  itemStyles(),
   'data-popup-open:bg-base-transparent-hover',
 );
 
@@ -177,6 +190,7 @@ const MenuContent = ({
 const MenuItem = ({
   ref,
   className,
+  appearance = 'base',
   disabled: disabledProp,
   onClick,
   label,
@@ -196,7 +210,7 @@ const MenuItem = ({
         label={label}
         disabled={disabled}
         closeOnClick={closeOnClick}
-        className={cn(itemStyles, className)}
+        className={cn(itemStyles({ appearance }), className)}
         onClick={onClick}
         {...props}
       />
@@ -231,7 +245,7 @@ const MenuCheckboxItem = ({
         defaultChecked={defaultChecked}
         disabled={disabled}
         closeOnClick={closeOnClick ?? false}
-        className={cn(itemStyles, className)}
+        className={cn(itemStyles(), className)}
         onCheckedChange={onCheckedChange}
         {...props}
       >
@@ -264,7 +278,7 @@ const MenuRadioItem = <T extends MenuRadioValue = MenuRadioValue>({
         ref={ref}
         data-slot='menu-radio-item'
         disabled={disabled}
-        className={cn(itemStyles, className)}
+        className={cn(itemStyles(), className)}
         {...props}
       >
         {children}
