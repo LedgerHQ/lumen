@@ -270,6 +270,27 @@ export const Disabled: Story = {
   ),
 };
 
+export const Appearance: Story = {
+  name: 'Item Appearance',
+  render: () => (
+    <Menu>
+      <MenuTrigger
+        render={
+          <Button appearance='gray' size='md'>
+            Open Menu
+          </Button>
+        }
+      />
+      <MenuContent className='w-208'>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Duplicate</MenuItem>
+        <MenuSeparator />
+        <MenuItem appearance='red'>Delete</MenuItem>
+      </MenuContent>
+    </Menu>
+  ),
+};
+
 export const PositionShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
