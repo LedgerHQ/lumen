@@ -38,6 +38,10 @@ const listItemVariants = cva(
         true: '',
         false: '',
       },
+      active: {
+        true: '',
+        false: '',
+      },
       disabled: {
         true: 'cursor-default bg-base-transparent text-disabled',
         false: '',
@@ -49,6 +53,22 @@ const listItemVariants = cva(
         disabled: false,
         className:
           'cursor-pointer hover:bg-base-transparent-hover focus-visible:outline-2 focus-visible:outline-focus active:bg-base-transparent-pressed',
+      },
+      {
+        active: true,
+        disabled: false,
+        className: 'bg-muted',
+      },
+      {
+        active: true,
+        disabled: true,
+        className: 'bg-disabled',
+      },
+      {
+        active: true,
+        interactive: true,
+        disabled: false,
+        className: 'hover:bg-muted-hover active:bg-muted-pressed',
       },
     ],
   },
@@ -81,6 +101,7 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
     className,
     disabled: disabledProp = false,
     density = 'expanded',
+    active = false,
     ...buttonProps
   } = props;
   const disabled = useDisabledContext({
@@ -97,6 +118,7 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
           listItemVariants({
             density,
             interactive: !!onClick,
+            active,
             disabled,
           }),
           className,

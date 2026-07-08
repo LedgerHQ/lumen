@@ -61,6 +61,12 @@ When disabled, the ListItem becomes non-interactive. The disabled state is autom
 
 <Canvas of={ListItemStories.DisabledState} />
 
+### Active State
+
+When `active` is `true`, the background uses the muted token to indicate a selected or highlighted item. 
+
+<Canvas of={ListItemStories.ActiveState} />
+
 ### Responsive Layout
 
 ListItems adapt to their container width, truncating long titles and descriptions as needed.
@@ -380,6 +386,36 @@ import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
   </ListItemLeading>
   <ListItemTrailing>
     <Switch selected={false} disabled />
+  </ListItemTrailing>
+</ListItem>
+```
+
+### Active State
+
+Use `active` to indicate a selected or highlighted item. The background shifts to `bg-muted` and interactive states update accordingly:
+
+```tsx
+import {
+  ListItem,
+  ListItemLeading,
+  ListItemContent,
+  ListItemTitle,
+  ListItemDescription,
+  ListItemTrailing,
+  Spot,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings, ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
+
+<ListItem active onClick={() => {}}>
+  <ListItemLeading>
+    <Spot appearance='icon' icon={Settings} />
+    <ListItemContent>
+      <ListItemTitle>Selected Account</ListItemTitle>
+      <ListItemDescription>Currently active</ListItemDescription>
+    </ListItemContent>
+  </ListItemLeading>
+  <ListItemTrailing>
+    <ChevronRight size={24} />
   </ListItemTrailing>
 </ListItem>
 ```

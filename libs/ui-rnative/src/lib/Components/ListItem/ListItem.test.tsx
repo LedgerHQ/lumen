@@ -109,6 +109,26 @@ describe('ListItem', () => {
     });
   });
 
+  describe('active', () => {
+    it('applies muted background when active', () => {
+      renderListItem({ active: true });
+      const inner = screen.getByTestId('list-item-content');
+      expect(inner.props.style.backgroundColor).not.toBe('transparent');
+    });
+
+    it('applies disabled background when active and disabled', () => {
+      renderListItem({ active: true, disabled: true });
+      const inner = screen.getByTestId('list-item-content');
+      expect(inner.props.style.backgroundColor).not.toBe('transparent');
+    });
+
+    it('uses transparent background when not active', () => {
+      renderListItem();
+      const inner = screen.getByTestId('list-item-content');
+      expect(inner.props.style.backgroundColor).toBe('transparent');
+    });
+  });
+
   describe('disabled', () => {
     it('sets disabled accessibility state', () => {
       renderListItem({ disabled: true });

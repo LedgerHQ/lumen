@@ -99,6 +99,23 @@ describe('ListItem', () => {
     });
   });
 
+  describe('active', () => {
+    it('applies bg-muted when active', () => {
+      renderListItem({ active: true });
+      expect(screen.getByTestId('list-item')).toHaveClass('bg-muted');
+    });
+
+    it('applies bg-disabled when active and disabled', () => {
+      renderListItem({ active: true, disabled: true });
+      expect(screen.getByTestId('list-item')).toHaveClass('bg-disabled');
+    });
+
+    it('does not apply active background by default', () => {
+      renderListItem();
+      expect(screen.getByTestId('list-item')).not.toHaveClass('bg-muted');
+    });
+  });
+
   describe('disabled', () => {
     it('sets aria-disabled on the interactive element', () => {
       renderListItem({ onClick: vi.fn(), disabled: true });
