@@ -80,6 +80,38 @@ describe('TileButton Component', () => {
     });
   });
 
+  describe('Appearance', () => {
+    it('should apply gray appearance classes by default', () => {
+      render(<TileButton icon={Settings}>Settings</TileButton>);
+
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('text-base');
+    });
+
+    it('should apply red appearance classes when appearance is red', () => {
+      render(
+        <TileButton icon={Settings} appearance='red'>
+          Settings
+        </TileButton>,
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('text-error');
+    });
+
+    it('should override red appearance with disabled styles when disabled', () => {
+      render(
+        <TileButton icon={Settings} appearance='red' disabled>
+          Settings
+        </TileButton>,
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('text-disabled');
+      expect(button).not.toHaveClass('text-error');
+    });
+  });
+
   describe('Custom Styling', () => {
     it('should apply custom className', () => {
       const customClass = 'custom-test-class';

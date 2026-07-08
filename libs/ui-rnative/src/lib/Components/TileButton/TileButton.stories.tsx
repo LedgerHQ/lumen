@@ -62,19 +62,6 @@ export const AppearanceShowcase: Story = {
           Red
         </TileButton>
       </View>
-      <View style={{ flexDirection: 'row', gap: 16 }}>
-        <TileButton icon={Settings} onPress={args.onPress} disabled>
-          Gray disabled
-        </TileButton>
-        <TileButton
-          icon={Settings}
-          appearance='red'
-          onPress={args.onPress}
-          disabled
-        >
-          Red disabled
-        </TileButton>
-      </View>
     </View>
   ),
 };
@@ -82,11 +69,16 @@ export const AppearanceShowcase: Story = {
 export const DisabledShowcase: Story = {
   render: (args) => (
     <View style={{ flexDirection: 'row', gap: 16 }}>
-      <TileButton icon={Settings} onPress={args.onPress}>
-        Enabled
-      </TileButton>
       <TileButton icon={Settings} onPress={args.onPress} disabled>
-        Disabled
+        Gray disabled
+      </TileButton>
+      <TileButton
+        icon={Settings}
+        appearance='red'
+        onPress={args.onPress}
+        disabled
+      >
+        Red disabled
       </TileButton>
     </View>
   ),
