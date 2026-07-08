@@ -5,7 +5,7 @@ import { resolveAxisPadding, resolveInset } from './utils';
 
 describe('resolveInset', () => {
   it('should return zero padding when undefined', () => {
-    expect(resolveInset(undefined)).toEqual(chartConfig.chart.zeroPadding);
+    expect(resolveInset(undefined)).toEqual(chartConfig.root.zeroPadding);
   });
 
   it('should resolve a uniform number', () => {
@@ -18,7 +18,7 @@ describe('resolveInset', () => {
   });
 
   it('should handle zero as a uniform number', () => {
-    expect(resolveInset(0)).toEqual(chartConfig.chart.zeroPadding);
+    expect(resolveInset(0)).toEqual(chartConfig.root.zeroPadding);
   });
 
   it('should handle negative uniform values', () => {
@@ -49,15 +49,13 @@ describe('resolveInset', () => {
   });
 
   it('should handle an empty object', () => {
-    expect(resolveInset({})).toEqual(chartConfig.chart.zeroPadding);
+    expect(resolveInset({})).toEqual(chartConfig.root.zeroPadding);
   });
 });
 
 describe('resolveAxisPadding', () => {
   it('should return zero padding when undefined', () => {
-    expect(resolveAxisPadding(undefined)).toEqual(
-      chartConfig.chart.zeroPadding,
-    );
+    expect(resolveAxisPadding(undefined)).toEqual(chartConfig.root.zeroPadding);
   });
 
   it('should resolve a full padding object', () => {
@@ -81,6 +79,6 @@ describe('resolveAxisPadding', () => {
   });
 
   it('should handle an empty object', () => {
-    expect(resolveAxisPadding({})).toEqual(chartConfig.chart.zeroPadding);
+    expect(resolveAxisPadding({})).toEqual(chartConfig.root.zeroPadding);
   });
 });

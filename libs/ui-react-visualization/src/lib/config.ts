@@ -29,7 +29,7 @@ export const chartConfig = {
     bodyWeightSemiBold: cssVar('var(--font-style-body-3-weight-semi-bold)'),
   },
 
-  chart: {
+  root: {
     defaultHeight: 240,
     zeroPadding: { top: 0, right: 0, bottom: 0, left: 0 } as ChartInset,
   },
@@ -117,4 +117,4 @@ export const chartConfig = {
     pulseDurationInSeconds: 2,
     pulseEasing: 'cubic-bezier(0.4, 0, 0.6, 1)',
   },
-};
+} as const;

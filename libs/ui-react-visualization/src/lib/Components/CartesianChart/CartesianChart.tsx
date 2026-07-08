@@ -13,7 +13,7 @@ export function CartesianChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = chartConfig.chart.defaultHeight,
+  height = chartConfig.root.defaultHeight,
   inset,
   axisPadding,
   ariaLabel = 'Chart',

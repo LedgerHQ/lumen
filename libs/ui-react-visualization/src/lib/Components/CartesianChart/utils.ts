@@ -7,7 +7,7 @@ export const resolveInset = (
 ): ChartInset => {
   let consumer: ChartInset;
   if (inset === undefined) {
-    consumer = chartConfig.chart.zeroPadding;
+    consumer = chartConfig.root.zeroPadding;
   } else if (typeof inset === 'number') {
     consumer = { top: inset, right: inset, bottom: inset, left: inset };
   } else {
@@ -30,7 +30,7 @@ export const resolveInset = (
 export const resolveAxisPadding = (
   padding: CartesianChartProps['axisPadding'],
 ): ChartInset => {
-  if (padding === undefined) return chartConfig.chart.zeroPadding;
+  if (padding === undefined) return chartConfig.root.zeroPadding;
   return {
     top: padding.top ?? 0,
     right: padding.right ?? 0,

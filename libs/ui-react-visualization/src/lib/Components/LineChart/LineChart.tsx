@@ -135,7 +135,7 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = chartConfig.chart.defaultHeight,
+  height = chartConfig.root.defaultHeight,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
