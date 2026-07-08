@@ -4,11 +4,8 @@ import { SearchInput } from './SearchInput';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/SearchInput' of={SearchInputStories} />
 
@@ -86,7 +83,7 @@ Use SearchInput for search functionality and data querying. Use Input for form d
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -199,149 +196,6 @@ function MyComponent() {
 />
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use placeholder text for SearchInput'
-      description='SearchInput component uses placeholder text instead of labels for optimal search UX patterns'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput 
-  placeholder='Search products' 
-  value={query} 
-  onChange={(e) => setQuery(e.target.value)} 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use label prop"
-      description='SearchInput component does not support labels. The label prop is not available and will cause TypeScript errors'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput 
-  label='Search' // This will cause a TypeScript error
-  placeholder='Search products' 
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the built-in search icon'
-      description='The search icon is automatically included and properly styled. It cannot be changed or removed'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput 
-  placeholder='Search products' 
-  value={query} 
-  onChange={handleChange} 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't override or remove the search icon"
-      description='The search icon (prefix) is built-in and immutable. The prefix prop is not available on SearchInput component'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput 
-  prefix={<CustomIcon />} // This will cause a TypeScript error
-  placeholder='Search products' 
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use hideClearButton to hide the clear button'
-      description='Use the hideClearButton prop. The clear button appears automatically when input has content; use onClear to extend behavior'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput 
-  placeholder='Search'
-  value={query} 
-  onChange={(e) => setQuery(e.target.value)}
-  hideClearButton // Hide the clear button
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use empty suffix or create custom clear buttons"
-      description='Do not try to use empty suffix to hide the clear button. Use hideClearButton instead. Also avoid creating custom clear buttons'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput
-  suffix={null}
-  value={query}
-  onChange={handleChange}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use status for errors'
-      description='status drives visual styling and automatically sets aria-invalid on the input for accessibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput
-  placeholder='Search users'
-  value={query}
-  onChange={handleChange}
-  helperText={hasError ? 'Search failed' : undefined}
-  status={hasError ? 'error' : undefined}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't rely on aria-invalid for styling"
-      description='aria-invalid is for screen readers only — it no longer drives the error ring on the container'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<SearchInput 
-  placeholder='Search users'
-  value={query}
-  onChange={handleChange}
-  aria-invalid={hasError}
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

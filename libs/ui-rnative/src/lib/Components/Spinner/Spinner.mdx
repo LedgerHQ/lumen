@@ -1,8 +1,6 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
 import * as SpinnerStories from './Spinner.stories';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 import { Box } from '../Utility/Box';
 import { Text } from '../Utility/Text';
 
@@ -116,104 +114,6 @@ function MyComponent() {
 }
 ```
 
-## Do's and Don'ts
-
-<Box lx={{ gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Match spinner size to context'
-      description='Use appropriate spinner sizes based on the context and prominence'
-    >
-
-{/* prettier-ignore */}
-```tsx
-// Small inline loading
-<Spinner size={12} />
-
-// Prominent loading state
-<Spinner size={40} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't override spinner size"
-      description='Avoid using style or additional props to override spinner dimensions'
-    >
-
-{/* prettier-ignore */}
-```tsx
-// Small inline loading
-<Spinner size={12} style={{ width: 6, height: 6 }} />
-
-// Prominent loading state
-<Spinner size={40} width={32} height={32} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide context with descriptive text'
-      description='Pair spinners with text to give users context about what is loading'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
-  <Spinner size={16} />
-  <Text>Syncing wallet...</Text>
-</Box>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't show spinners without context"
-      description='Avoid showing spinners alone without descriptive text'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
-  <Spinner size={16} />
-</Box>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use standard sizes from the design system'
-      description='Stick to predefined size values like 12, 16, 20, 24, 40'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spinner size={16} />
-<Spinner size={24} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use non-standard sizes"
-      description='Avoid arbitrary size values that are not part of the design system'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spinner size={22} />
-<Spinner size={35} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

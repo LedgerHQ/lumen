@@ -13,11 +13,7 @@ import {
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Subheader' of={SubheaderStories} />
 
@@ -364,118 +360,6 @@ Use the `lx` prop for layout adjustments like margins or positioning:
 </Subheader>
 ```
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Subheader component and maintain design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's16' }}>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use Count for numeric values'
-      description='Pass numbers using the value prop'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Accounts</SubheaderTitle>
-    <SubheaderCount value={30} />
-  </SubheaderRow>
-</Subheader>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't add parentheses manually"
-      description='Count component automatically formats the value'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Accounts (30)</SubheaderTitle>
-  </SubheaderRow>
-</Subheader>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the composite pattern'
-      description='Compose sub-components for flexibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Title</SubheaderTitle>
-    <SubheaderCount value={5} />
-  </SubheaderRow>
-  <SubheaderDescription>Description</SubheaderDescription>
-</Subheader>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use non-composite children"
-      description='Only use the provided sub-components'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader>
-  <Text>Title (5)</Text>
-  <Text>Description</Text>
-</Subheader>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use lx for layout adjustments only'
-      description='Use the lx prop for margins, positioning, and other layout adjustments'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader lx={{ marginTop: 's16' }}>
-  <SubheaderRow>
-    <SubheaderTitle>Title</SubheaderTitle>
-  </SubheaderRow>
-</Subheader>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use lx for appearance changes"
-      description='Avoid using lx to modify colors, padding, or other core appearance styles'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Subheader lx={{ backgroundColor: 'accent', padding: 's24' }}>
-  <SubheaderRow>
-    <SubheaderTitle>Title</SubheaderTitle>
-  </SubheaderRow>
-</Subheader>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

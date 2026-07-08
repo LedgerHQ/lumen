@@ -3,11 +3,8 @@ import * as AvatarStories from './Avatar.stories';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Avatar' of={AvatarStories} />
 
@@ -104,7 +101,7 @@ To be implemented:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -263,42 +260,6 @@ While the component comes with predefined styles, you can extend them for layout
 />
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Provide descriptive alt text'
-      description='Use meaningful alt text for better accessibility and screen reader support'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-  alt="John Doe profile picture" 
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit alt text"
-      description='Missing alt text reduces accessibility for screen reader users'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Avatar 
-  src="https://example.com/photo.jpg" 
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

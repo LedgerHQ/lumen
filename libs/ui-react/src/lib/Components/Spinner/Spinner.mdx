@@ -1,7 +1,7 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as SpinnerStories from './Spinner.stories';
-import { DoVsDontRow, DoBlockItem, DontBlockItem, CustomTabs, Tab } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
 
 <Meta title='Core/Spinner' of={SpinnerStories} />
 
@@ -119,62 +119,6 @@ function MyComponent() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Match spinner size to context'
-      description='Use appropriate sizes for different loading contexts'
-    >
-
-```tsx
-<Spinner size={12} /> // For small inline loading
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't override spinner size"
-      description='Avoid overriding size with CSS or using non-standard sizes'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Spinner className='w-6 h-6' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Show spinners for async operations'
-      description='Provide context and disable interactions during loading'
-    >
-
-```tsx
-{isLoading && <Spinner />}
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't show for instant operations"
-      description='Avoid spinners for synchronous operations or modifying animations'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const data = getLocalData(); // Synchronous
-return <Spinner />; // Not needed
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

@@ -4,11 +4,7 @@ import { Skeleton } from './Skeleton';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Skeleton' of={SkeletonStories} />
 
@@ -128,73 +124,6 @@ import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
 </Box>
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use component prop for common patterns'
-      description='Use pre-built variants for consistent loading states'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Skeleton component='list-item' />
-<Skeleton component='tile' />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't manually recreate common patterns"
-      description='Avoid recreating patterns that already exist as component variants'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
-
-<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
-  <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
-  <Box lx={{ flex: 1, flexDirection: 'column', gap: 's8' }}>
-    <Skeleton lx={{ height: 's12', width: 's176' }} />
-    <Skeleton lx={{ height: 's12', width: 's112' }} />
-  </Box>
-</Box>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use lx prop for sizing'
-      description='Use design system size tokens for consistent sizing'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Skeleton lx={{ height: 's16', width: 's256' }} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary style values"
-      description='Avoid using the style prop or arbitrary values'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Skeleton style={{ height: 16, width: 200 }} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

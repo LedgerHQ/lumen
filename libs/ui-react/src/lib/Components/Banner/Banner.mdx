@@ -4,11 +4,8 @@ import { Banner } from './Banner';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Banner' of={BannerStories} />
 
@@ -101,7 +98,7 @@ To be implemented:
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@radix-ui/react-slot` dependency enables flexible composition patterns for the Banner component's action buttons.
 
@@ -359,124 +356,6 @@ While the component comes with predefined styles, you can extend them using Tail
 />
 ```
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Banner component and maintain design system principles.
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appearance prop to control background'
-      description='The appearance prop controls the background color and styling. Use info, success, warning, or error'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='Update Available'
-  description='A new version is ready to install'
-  appearance='info'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use className for background colors"
-      description='Background colors are controlled by the appearance prop. Do not override with className'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='Update Available'
-  description='A new version is ready to install'
-  className='bg-success'
-  appearance='info'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use container elements for width'
-      description='Banner without container constraints - takes full parent width' >
-
-{/* prettier-ignore */}
-```tsx
-<div className='w-full'>
-  <Banner
-    title='System Notice'
-    description='Maintenance scheduled for tonight'
-    appearance='warning'
-  />
-</div>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Do not use className for full width"
-      description='Do not use className for full width'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='System Notice'
-  description='Maintenance scheduled for tonight'
-  className='w-full'
-  appearance='warning'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Pass complete Button components'
-      description='Action buttons should be properly styled Button components'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='Confirm Action'
-  description='This action cannot be undone'
-  primaryAction={
-    <Button appearance='transparent' size='sm' onClick={handleConfirm}>
-      Confirm
-    </Button>
-  }
-  appearance='warning'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't pass incomplete elements"
-      description='Avoid unstyled or incomplete button elements'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='Confirm Action'
-  description='This action cannot be undone'
-  primaryAction={<button onClick={handleConfirm}>Confirm</button>}
-  appearance='warning'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

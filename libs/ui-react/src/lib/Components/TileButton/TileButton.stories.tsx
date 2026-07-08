@@ -33,6 +33,10 @@ const meta: Meta<typeof TileButton> = {
       mapping: iconOptions,
       control: { type: 'select' },
     },
+    appearance: {
+      options: ['gray', 'red'],
+      control: { type: 'select' },
+    },
     onClick: {
       action: 'clicked',
     },
@@ -56,13 +60,30 @@ export const Base: Story = {
   },
 };
 
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <div className='flex flex-col gap-16'>
+      <div className='flex gap-16'>
+        <TileButton icon={Settings}>Gray</TileButton>
+        <TileButton icon={Settings} appearance='red'>
+          Red
+        </TileButton>
+      </div>
+    </div>
+  ),
+};
+
 export const DisabledShowcase: Story = {
   render: () => (
     <div className='flex gap-16'>
-      <TileButton icon={Settings}>Enabled</TileButton>
-      <TileButton icon={Settings} disabled>
-        Disabled
-      </TileButton>
+      <div className='flex gap-16'>
+        <TileButton icon={Settings} disabled>
+          Gray disabled
+        </TileButton>
+        <TileButton icon={Settings} appearance='red' disabled>
+          Red disabled
+        </TileButton>
+      </div>
     </div>
   ),
 };

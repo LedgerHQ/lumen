@@ -3,8 +3,6 @@ import * as BannerStories from './Banner.stories';
 import { Banner } from './Banner';
 import { Box } from '../Utility';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Banner' of={BannerStories} />
 
@@ -349,90 +347,6 @@ Use the `lx` prop for layout adjustments like margins or positioning:
 />
 ```
 
-## Do's and Don'ts
-
-The following guidelines ensure consistent usage of the Banner component and maintain design system principles.
-
-<Box lx={{ flexDirection: 'column', gap: 's16' }}>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use lx for layout adjustments only'
-      description='Use the lx prop for margins, positioning, and other layout adjustments'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='System Notice'
-  description='Maintenance scheduled for tonight'
-  lx={{ marginTop: 's16' }}
-  appearance='warning'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use lx for appearance changes"
-      description='Avoid using lx to modify colors, padding, or other core appearance styles'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='System Notice'
-  description='Maintenance scheduled for tonight'
-  lx={{ backgroundColor: 'accent', padding: 's24' }}
-  appearance='warning'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Pass complete Button components with proper styling'
-      description='Always provide fully styled Button components with appearance and size props for actions'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='Confirm Action'
-  description='This action cannot be undone'
-  primaryAction={
-    <Button appearance='transparent' size='sm' onPress={handleConfirm}>
-      Confirm
-    </Button>
-  }
-  appearance='warning'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't pass incomplete or unstyled buttons"
-      description='Avoid passing Button components without proper appearance and size props'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<Banner
-  title='Broken Action'
-  description="This won't work properly"
-  primaryAction={<Button onPress={handleSubmit}>Submit</Button>}
-  appearance='warning'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

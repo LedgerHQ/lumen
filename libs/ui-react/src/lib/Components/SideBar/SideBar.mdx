@@ -4,11 +4,8 @@ import { SideBar } from './SideBar';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/SideBar' of={SideBarStories} />
 
@@ -79,7 +76,7 @@ The collapsed state can be controlled externally for integration with applicatio
 npm install @ledgerhq/lumen-ui-react
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 ## Basic Usage
 
@@ -293,132 +290,6 @@ Not all items navigate. Some trigger modals or other actions. Use a value that w
 />
 ```
 
-## Do's and Don'ts
 
-<div className='flex flex-col gap-24'>
-
-<DoVsDontRow>
-  <DoBlockItem
-    title='Provide a distinct `activeIcon`'
-    description='This gives clear visual feedback for the active item.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBarItem
-  value="home"
-  icon={Home}
-  activeIcon={HomeFill}
-  label="Home"
-/>
-```
-
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't use the same icon for active and inactive"
-    description='This removes the visual distinction between states.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBarItem
-  value="home"
-  icon={Home}
-  activeIcon={HomeFill}
-  label="Home"
-/>
-```
-
-  </DontBlockItem>
-</DoVsDontRow>
-
-<DoVsDontRow>
-  <DoBlockItem
-    title='Provide `tooltipContent` for custom labels'
-    description='When using a React node label, provide tooltip content (string or ReactNode) for the collapsed state.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBarItem
-  value="notifications"
-  icon={Bell}
-  activeIcon={BellFill}
-  label={
-    <span className="flex gap-8">
-      <span>Notifications</span>
-      <Tag label="3" />
-    </span>
-  }
-  tooltipContent="Notifications (3 new)"
-/>
-```
-
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't forget `tooltipContent` with custom labels"
-    description='Without it, the tooltip may not display usable content when collapsed (label is a React node).'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBarItem
-  value="notifications"
-  icon={Bell}
-  activeIcon={BellFill}
-  label={
-    <span className="flex gap-8">
-      <span>Notifications</span>
-      <Tag label="3" />
-    </span>
-  }
-/>
-```
-
-  </DontBlockItem>
-</DoVsDontRow>
-
-<DoVsDontRow>
-  <DoBlockItem
-    title='Use section containers'
-    description='Wrap items in SideBarLeading/SideBarTrailing. Place the collapse toggle in SideBarTrailing.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBar active={active} onActiveChange={setActive}>
-  <SideBarLeading>
-    <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-    <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
-  </SideBarLeading>
-  <SideBarTrailing>
-    <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
-    <SideBarCollapseToggle />
-  </SideBarTrailing>
-</SideBar>
-```
-
-  </DoBlockItem>
-  <DontBlockItem
-    title="Don't place items directly in SideBar"
-    description='Items without section containers will not have proper spacing and layout.'
-  >
-
-```tsx
-{/* prettier-ignore */}
-<SideBar active={active} onActiveChange={setActive}>
-  <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
-  <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
-  <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
-  <SideBarCollapseToggle />
-</SideBar>
-```
-
-  </DontBlockItem>
-</DoVsDontRow>
-
-<CommonRulesDoAndDont />
-
-</div>
 </Tab>
 </CustomTabs>

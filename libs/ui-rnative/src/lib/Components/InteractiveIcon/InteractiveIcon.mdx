@@ -3,8 +3,6 @@ import * as InteractiveIconStories from './InteractiveIcon.stories';
 import { Box } from '../Utility';
 import { InteractiveIcon } from './InteractiveIcon';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import { DoVsDontRow, DoBlockItem, DontBlockItem } from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/InteractiveIcon' of={InteractiveIconStories} />
 
@@ -172,111 +170,6 @@ function SizeExamples() {
 }
 ```
 
-## Do's and Don'ts
-
-The following guidelines are based on our design system principles and accessibility best practices for icon-only interactive elements.
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use appropriate icon types for variants'
-      description='Match icon styles to iconType prop: filled icons with filled, outlined icons with stroked'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { DeleteCircleFill, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-// Filled icon with filled variant
-<InteractiveIcon
-  iconType='filled'
-  icon={DeleteCircleFill}
-  size={20}
-  accessibilityLabel='Delete'
-/>
-
-// Outlined icon with stroked variant
-<InteractiveIcon
-  iconType='stroked'
-  icon={Settings}
-  size={20}
-  accessibilityLabel='Settings'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't mix icon styles with wrong variants"
-      description='Avoid using filled icons with stroked variant or vice versa as it creates visual inconsistency'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { DeleteCircleFill, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-// Filled icon with stroked variant (wrong)
-<InteractiveIcon
-  iconType='stroked'
-  icon={DeleteCircleFill}
-  size={20}
-  accessibilityLabel='Delete'
-/>
-
-// Outlined icon with filled variant (wrong)
-<InteractiveIcon
-  iconType='filled'
-  icon={Settings}
-  size={20}
-  accessibilityLabel='Settings'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Always provide descriptive accessibilityLabel'
-      description='Use clear, action-oriented labels that describe what the icon does'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Download } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<InteractiveIcon
-  iconType='stroked'
-  icon={Download}
-  size={20}
-  accessibilityLabel='Download PDF document'
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't omit or use generic accessibilityLabel"
-      description='Avoid missing labels, generic labels like "Click here", or icon names as labels'
-    >
-
-{/* prettier-ignore */}
-```tsx
-import { Download } from '@ledgerhq/lumen-ui-rnative/symbols';
-
-<InteractiveIcon
-  iconType='stroked'
-  icon={Download}
-  size={20}
-  accessibilityLabel='Click here'
-/>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

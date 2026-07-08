@@ -1,7 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import type { ViewStyle } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
 
 import { Settings } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -98,6 +98,40 @@ describe('TileButton Component', () => {
       );
       const button = screen.getByTestId('tile-button');
       expect(button.props.style).toBeDefined();
+    });
+  });
+
+  describe('Appearances', () => {
+    const { dark: darkTheme } = ledgerLiveThemes;
+
+    it.each([
+      ['gray' as const, darkTheme.colors.text.base],
+      ['red' as const, darkTheme.colors.text.error],
+    ])(
+      'should apply correct text color for %s appearance',
+      (appearance, expectedColor) => {
+        renderWithProvider(
+          <TileButton icon={Settings} appearance={appearance}>
+            Label
+          </TileButton>,
+        );
+
+        const label = screen.getByText('Label');
+        const style = label.props.style as TextStyle;
+        expect(style.color).toBe(expectedColor);
+      },
+    );
+
+    it('should override red appearance with disabled color when disabled', () => {
+      renderWithProvider(
+        <TileButton icon={Settings} appearance='red' disabled>
+          Label
+        </TileButton>,
+      );
+
+      const label = screen.getByText('Label');
+      const style = label.props.style as TextStyle;
+      expect(style.color).toBe(darkTheme.colors.text.disabled);
     });
   });
 });

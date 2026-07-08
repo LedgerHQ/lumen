@@ -13,11 +13,8 @@ import {
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
+  SetupNote,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/Dialog' of={DialogStories} />
 
@@ -140,7 +137,7 @@ Built-in accessibility features from Radix UI:
 npm install @ledgerhq/lumen-ui-react @radix-ui/react-dialog
 ```
 
-> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `tailwindcss`, `clsx`, etc.) are required. See our [Setup Guide →](?path=/docs/getting-started-setup-tailwind--docs#1-tailwind-config) for complete installation and Tailwind configuration.
+<SetupNote />
 
 The `@radix-ui/react-dialog` dependency provides accessible dialog behavior primitives with custom styling and composition.
 
@@ -338,50 +335,6 @@ function MyControlledDialog() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Keep content simple'
-      description='Use state to control open/close behavior'
-    >
-
-```tsx
-<DialogContent>
-  <DialogHeader ... />
-  <DialogBody>
-    <p>Simple text</p>
-  </DialogBody>
-</DialogContent>
-
-const [open, setOpen] = useState(false);
-<Dialog open={open} onOpenChange={setOpen}>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't put heavy content"
-      description='Avoid heavy content or forcing dialog to always stay open'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<DialogContent>
-  <DialogHeader ... />
-  <DialogBody>
-    <ComplexChart />
-  </DialogBody>
-</DialogContent>
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-</div>
-
-<CommonRulesDoAndDont />
 
 </Tab>
 </CustomTabs>

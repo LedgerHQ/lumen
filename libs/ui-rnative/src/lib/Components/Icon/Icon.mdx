@@ -2,12 +2,6 @@ import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as IconsStories from './Icon.stories';
 import { Box } from '../Utility';
 import { CustomTabs, Tab } from '../../../../.storybook/components';
-import {
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
-} from '../../../../.storybook/components/DoVsDont';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Symbols/Interface Icons' of={IconsStories} />
 
@@ -150,62 +144,6 @@ function SemanticIcons() {
 }
 ```
 
-## Do's and Don'ts
-
-<Box lx={{ flexDirection: 'column', gap: 's24' }}>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use predefined size variants'
-      description='Standard sizes ensure consistent visual hierarchy'
-    >
-
-```tsx
-<ArrowUp size={24} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use custom sizes"
-      description='Avoid non-standard sizes or arbitrary prop overrides'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ArrowUp size={23} />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use semantic colors for icons'
-      description='Use semantic color tokens and inherit text color'
-    >
-
-```tsx
-<ArrowUp lx={{ color: 'success' }} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't use arbitrary colors"
-      description='Avoid arbitrary color values or overriding currentColor unnecessarily'
-    >
-
-{/* prettier-ignore */}
-```tsx
-<ArrowUp color='#ff0000' />
-```
-
-    </DontBlockItem>
-
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</Box>
 
 </Tab>
 </CustomTabs>

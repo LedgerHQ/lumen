@@ -298,6 +298,50 @@ export const DisabledState: Story = {
   ),
 };
 
+export const ActiveState: Story = {
+  args: {
+    active: true,
+  },
+  render: (args) => (
+    <div className='flex w-320 flex-col gap-4'>
+      <ListItem {...args}>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Active Item</ListItemTitle>
+            <ListItemDescription>
+              Static with muted background
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+
+      <ListItem {...args} onClick={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>Active Interactive</ListItemTitle>
+            <ListItemDescription>Hover for muted-hover</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} className='text-muted' />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem {...args} disabled>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>Active Disabled</ListItemTitle>
+            <ListItemDescription>Uses bg-disabled</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+      </ListItem>
+    </div>
+  ),
+};
+
 export const ResponsiveLayout: Story = {
   render: () => (
     <div className='flex w-480 flex-col gap-32'>

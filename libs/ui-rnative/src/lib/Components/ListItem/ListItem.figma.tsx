@@ -97,6 +97,9 @@ const commonProps = {
   disabled: figma.enum('state', {
     disabled: true,
   }),
+  active: figma.enum('state', {
+    active: true,
+  }),
   density: figma.enum('density', {
     compact: 'compact',
     expanded: 'expanded',
@@ -129,7 +132,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -167,7 +174,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -209,7 +220,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -252,7 +267,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -292,7 +311,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -329,7 +352,11 @@ figma.connect(
       ...commonProps,
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -369,7 +396,11 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}
@@ -411,7 +442,11 @@ figma.connect(
       ...commonProps,
     },
     example: (props) => (
-      <ListItem disabled={props.disabled} density={props.density}>
+      <ListItem
+        disabled={props.disabled}
+        active={props.active}
+        density={props.density}
+      >
         <ListItemLeading>
           {props.checkbox}
           {props.leadingContent}

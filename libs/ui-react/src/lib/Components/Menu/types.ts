@@ -125,6 +125,13 @@ export type MenuItemProps = {
   className?: string;
 
   /**
+   * The visual appearance of the item, used to signal intent.
+   *
+   * @default 'base'
+   */
+  appearance?: 'base' | 'red';
+
+  /**
    * When `true`, prevents the user from interacting with the item.
    *
    * @default false

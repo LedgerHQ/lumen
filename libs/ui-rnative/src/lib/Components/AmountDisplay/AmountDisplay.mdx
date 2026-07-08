@@ -4,11 +4,7 @@ import { AmountDisplay } from './AmountDisplay';
 import {
   CustomTabs,
   Tab,
-  DoVsDontRow,
-  DoBlockItem,
-  DontBlockItem,
 } from '../../../../.storybook/components';
-import CommonRulesDoAndDont from '../../../../.storybook/components/DoVsDont/CommonRulesDoAndDont.mdx';
 
 <Meta title='Core/AmountDisplay' of={AmountDisplayStories} />
 
@@ -199,92 +195,6 @@ function PrivateAmount() {
 }
 ```
 
-## Do's and Don'ts
-
-<div className='flex flex-col gap-24'>
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use formatter for all display logic'
-      description='Keep all formatting logic in the formatter function'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const formatter = (value: number): FormattedValue => {
-  const [integerPart, decimalPart] = value.toFixed(2).split('.');
-  return {
-    integerPart,
-    decimalPart,
-    currencyText: '$',
-    decimalSeparator: '.',
-    currencyPosition: 'start',
-  };
-};
-
-<AmountDisplay value={1234.56} formatter={formatter} />
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't format the value outside the component"
-      description='Pass the raw number value, not a pre-formatted string'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const formattedValue = `$${value.toFixed(2)}`;
-
-<AmountDisplay
-  value={formattedValue}
-  formatter={(v) => ({ integerPart: v, currencyText: '' })}
-/>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <DoVsDontRow>
-    <DoBlockItem
-      title='Use the hidden prop for privacy'
-      description='Use the built-in hidden prop to toggle amount visibility'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const [hidden, setHidden] = useState(false);
-
-<AmountDisplay
-  value={1234.56}
-  formatter={usdFormatter}
-  hidden={hidden}
-/>
-```
-
-    </DoBlockItem>
-    <DontBlockItem
-      title="Don't create separate formatters for hiding"
-      description='Avoid creating custom formatters just to show bullet points'
-    >
-
-{/* prettier-ignore */}
-```tsx
-const hiddenFormatter = () => ({
-  integerPart: '••••',
-  currencyText: '$',
-  currencyPosition: 'start',
-});
-
-<AmountDisplay
-  value={1234.56}
-  formatter={hidden ? hiddenFormatter : usdFormatter}
-/>
-```
-
-    </DontBlockItem>
-  </DoVsDontRow>
-
-  <CommonRulesDoAndDont />
-</div>
 
 </Tab>
 </CustomTabs>

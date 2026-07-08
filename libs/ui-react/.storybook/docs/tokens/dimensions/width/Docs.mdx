@@ -1,0 +1,44 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Width from './width.stories';
+
+<Meta title='Foundations/Width' of={Width} />
+
+# Width
+
+Width tokens are derived from the [size token system](?path=/docs/foundations-dimensions-size--docs) and are used to define the horizontal dimensions of elements.
+
+## Usage
+
+Width tokens use the `w-*` prefix followed by the size value. These tokens directly correspond to the size tokens, ensuring consistent horizontal dimensions across the design system.
+
+```jsx
+<div className="w-32" /> // Sets width to 32px
+```
+
+## Implementation
+
+Width tokens are implemented using the same values as size tokens, but with the `w-` prefix instead of `size-`. This means that any size token value can be used as a width value.
+
+### Example Use Cases
+
+- Setting button widths
+- Defining container widths
+- Controlling image dimensions
+- Setting column widths
+- Defining consistent form input widths
+
+### Best Practices
+
+1. **Use for Fixed Widths**: Width tokens are best used when you need a fixed width that should remain consistent across different contexts.
+
+2. **Consider Responsive Design**: For responsive layouts, consider using percentage widths or flex/grid systems instead of fixed width tokens.
+
+3. **Maintain Consistency**: Use the same width tokens for similar elements to maintain visual harmony.
+
+4. **Content Considerations**: Ensure that using fixed widths doesn't truncate or compromise content, especially for text containers.
+
+## Available Values
+
+All width tokens correspond directly to size tokens. For a complete list of available values and their usage, refer to the [Size Tokens documentation](?path=/docs/foundations-dimensions-size--docs#available-values).
+
+<Canvas></Canvas>
