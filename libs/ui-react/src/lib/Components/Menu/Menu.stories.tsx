@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { Duplicate, PenEdit, Trash } from '../../Symbols';
 import { MoreVertical } from '../../Symbols/Icons/MoreVertical';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton';
@@ -282,10 +283,19 @@ export const Appearance: Story = {
         }
       />
       <MenuContent className='w-208'>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Duplicate</MenuItem>
+        <MenuItem>
+          <PenEdit />
+          Edit
+        </MenuItem>
+        <MenuItem>
+          <Duplicate />
+          Duplicate
+        </MenuItem>
         <MenuSeparator />
-        <MenuItem appearance='red'>Delete</MenuItem>
+        <MenuItem appearance='red'>
+          <Trash />
+          Delete
+        </MenuItem>
       </MenuContent>
     </Menu>
   ),

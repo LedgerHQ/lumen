@@ -126,7 +126,6 @@ export type MenuItemProps = {
 
   /**
    * The visual appearance of the item, used to signal intent.
-   * Use `red` for destructive actions such as deleting.
    *
    * @default 'base'
    */
