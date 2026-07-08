@@ -114,7 +114,7 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
       <div
         ref={ref}
         {...getButtonA11yProps({ onClick, disabled })}
-        aria-selected={active ? true : undefined}
+        aria-selected={active || undefined}
         className={cn(
           listItemVariants({
             density,
