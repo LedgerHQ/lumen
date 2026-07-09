@@ -75,6 +75,7 @@ export const Avatar = ({
   const [error, setError] = useState<boolean>(false);
 
   const shouldFallback = !src || error;
+  const fallbackContentColor = fallbackColor ? 'text-black' : 'text-base';
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
@@ -94,16 +95,13 @@ export const Avatar = ({
       {shouldFallback ? (
         fallbackText ? (
           <span
-            className={cn(
-              avatarVariants.text({ size }),
-              fallbackColor ? 'text-black' : 'text-white',
-            )}
+            className={cn(avatarVariants.text({ size }), fallbackContentColor)}
           >
             {fallbackText}
           </span>
         ) : (
           <User
-            className={fallbackColor ? 'text-black' : 'text-white'}
+            className={fallbackContentColor}
             size={fallbackSizes[size]}
             aria-label='Fallback Icon'
             aria-hidden='true'

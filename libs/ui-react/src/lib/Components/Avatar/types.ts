@@ -39,7 +39,9 @@ export type AvatarProps = {
    */
   fallbackColor?: AvatarColor;
   /**
-   *
+   * Short text shown in place of the fallback icon when no image is displayed,
+   * typically a user's initials.
+   * @optional
    */
   fallbackText?: string;
 } & ComponentPropsWithRef<'div'>;

@@ -1,0 +1,58 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarButtonStories from './AvatarButton.stories';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
+
+<Meta title='Core/AvatarButton' of={AvatarButtonStories} />
+
+# AvatarButton
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+`AvatarButton` wraps an [`Avatar`](/docs/react-avatar--docs) in a semantic `<button>`, for use as an interactive trigger such as opening a user menu or navigating to a profile. It accepts every `Avatar` prop plus `onClick`.
+
+## Anatomy
+
+<Canvas of={AvatarButtonStories.Base} />
+<Controls of={AvatarButtonStories.Base} />
+
+## Fallback
+
+Like `Avatar`, it falls back to initials or a User icon when no image is available.
+
+<Canvas of={AvatarButtonStories.Fallback} />
+
+## Accessibility
+
+- Renders a real `<button type="button">`, so it is keyboard focusable and activatable out of the box.
+- Provide a meaningful `alt` describing the action (e.g. `"Open user menu"`); it is exposed as the avatar's accessible label.
+
+  </Tab>
+  <Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+```tsx
+import { AvatarButton } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <AvatarButton
+      src="https://example.com/photo.jpg"
+      alt="Open user menu"
+      onClick={openMenu}
+    />
+  );
+}
+```
+
+  </Tab>
+</CustomTabs>

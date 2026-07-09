@@ -2,6 +2,7 @@ export * from './AddressInput';
 export * from './AmountInput';
 export * from './AmountDisplay';
 export * from './Avatar';
+export * from './AvatarButton';
 export * from './Banner';
 export * from './BaseInput';
 export * from './Button';

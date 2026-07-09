@@ -1,12 +1,26 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { Avatar } from '../Avatar/Avatar';
 import type { AvatarButtonProps } from './types';
 
+/**
+ * An {@link Avatar} wrapped in a button, for use as an interactive trigger.
+ */
 export const AvatarButton = ({
-  onClick: onClickProp,
+  ref,
+  className,
+  onClick,
   ...props
 }: AvatarButtonProps) => {
   return (
-    <button onClick={onClickProp}>
+    <button
+      ref={ref}
+      type='button'
+      onClick={onClick}
+      className={cn(
+        'cursor-pointer rounded-full transition-colors hover:bg-muted-hover',
+        className,
+      )}
+    >
       <Avatar {...props} />
     </button>
   );

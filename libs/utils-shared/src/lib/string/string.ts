@@ -11,7 +11,7 @@ export function toPascalCase(str: string): string {
 }
 
 /**
- * Hashes a string into a stable 32-bit integer using the djb2 algorithm.
+ * Hashes a string into a stable, deterministic 32-bit signed integer.
  */
 export function hashString(str: string): number {
   let hash = 0;

@@ -15,7 +15,7 @@ import {
 
 ## Introduction
 
-The Avatar component displays a circular user profile image with automatic fallback to a User icon when the image is unavailable or fails to load. It supports an optional notification indicator and four size variants.
+The Avatar component displays a circular user profile image with automatic fallback (initials or a User icon) when the image is unavailable or fails to load. It supports an optional notification indicator and six size variants.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
 
@@ -25,7 +25,7 @@ The Avatar component displays a circular user profile image with automatic fallb
 
 - **Image/Fallback Icon**: The circular user image or User icon fallback displayed when image is unavailable
 - **Notification Indicator (optional)**: A red dot positioned at the top-right corner to indicate notifications
-- **Container**: Rounded full background with muted-transparent styling
+- **Container**: Rounded-full container with a subtle bordered background, or a solid `fallbackColor` when showing a fallback
 
 ## Properties
 
@@ -36,7 +36,7 @@ The Avatar component displays a circular user profile image with automatic fallb
 
 ### Size
 
-Avatars come in four different sizes:
+Avatars come in six sizes: `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
 
 <Canvas of={AvatarStories.SizeShowcase} />
 
@@ -45,7 +45,24 @@ Avatars come in four different sizes:
 The Avatar component handles two primary states automatically:
 
 - **With Image**: Displays the provided image when `src` is valid and loads successfully
-- **Fallback**: Shows a User icon when `src` is undefined or the image fails to load
+- **Fallback**: Shows `fallbackText` (e.g. initials) when provided, otherwise a User icon, when `src` is undefined or the image fails to load
+
+### Fallback
+
+When no image is shown, the Avatar renders a fallback. Provide `fallbackText` for initials, and pass a `fallbackColor` to give each user a stable background color. Use `resolveAvatarColor` to derive that color deterministically from an identifier such as a user id:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+import { resolveAvatarColor } from '@ledgerhq/lumen-utils-shared';
+
+<Avatar
+  fallbackColor={resolveAvatarColor(user.id)}
+  fallbackText={user.initials}
+  alt={user.name}
+/>;
+```
+
+<Canvas of={AvatarStories.FallbackShowcase} />
 
 
 ### Notification Indicator
