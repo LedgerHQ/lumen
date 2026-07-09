@@ -1,3 +1,4 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
@@ -50,6 +51,7 @@ export const Avatar = ({
   alt,
   size = 'md',
   imgLoading,
+  fallbackColor,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
@@ -65,7 +67,11 @@ export const Avatar = ({
   const avatarContent = (
     <div
       ref={ref}
-      className={avatarVariants.root({ size, className })}
+      className={cn(
+        avatarVariants.root({ size }),
+        shouldFallback && fallbackColor,
+        className,
+      )}
       role='img'
       aria-label={resolvedAlt}
       {...props}
