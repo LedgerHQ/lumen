@@ -38,4 +38,8 @@ export type AvatarProps = {
    * @optional
    */
   fallbackColor?: AvatarColor;
+  /**
+   *
+   */
+  fallbackText?: string;
 } & ComponentPropsWithRef<'div'>;

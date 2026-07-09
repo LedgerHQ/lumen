@@ -22,6 +22,16 @@ const avatarVariants = {
       },
     },
   ),
+  text: cva('', {
+    variants: {
+      size: {
+        sm: 'body-1-semi-bold',
+        md: 'heading-5-semi-bold',
+        lg: 'heading-4-semi-bold',
+        xl: 'heading-2-semi-bold',
+      },
+    },
+  }),
 };
 
 const fallbackSizes = {
@@ -51,11 +61,13 @@ export const Avatar = ({
   alt,
   size = 'md',
   imgLoading,
+  fallbackText,
   fallbackColor,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
+
   const shouldFallback = !src || error;
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
@@ -67,22 +79,30 @@ export const Avatar = ({
   const avatarContent = (
     <div
       ref={ref}
-      className={cn(
-        avatarVariants.root({ size }),
-        shouldFallback && fallbackColor,
-        className,
-      )}
+      className={cn(avatarVariants.root({ size }), className)}
+      style={shouldFallback ? { backgroundColor: fallbackColor } : undefined}
       role='img'
       aria-label={resolvedAlt}
       {...props}
     >
       {shouldFallback ? (
-        <User
-          className='text-base'
-          size={fallbackSizes[size]}
-          aria-label='Fallback Icon'
-          aria-hidden='true'
-        />
+        fallbackText ? (
+          <span
+            className={cn(
+              avatarVariants.text({ size }),
+              fallbackColor ? 'text-black' : 'text-white',
+            )}
+          >
+            {fallbackText}
+          </span>
+        ) : (
+          <User
+            className={fallbackColor ? 'text-black' : 'text-white'}
+            size={fallbackSizes[size]}
+            aria-label='Fallback Icon'
+            aria-hidden='true'
+          />
+        )
       ) : (
         <img
           src={src}

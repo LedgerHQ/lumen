@@ -68,7 +68,7 @@ export const SizeShowcase: Story = {
   ),
 };
 
-export const FallbackBackgroundShowcase: Story = {
+export const FallbackShowcase: Story = {
   parameters: {
     docs: {
       source: {
@@ -78,17 +78,39 @@ export const FallbackBackgroundShowcase: Story = {
       },
     },
   },
-  render: () => (
-    <div className='flex flex-wrap gap-16'>
-      {AVATAR_COLORS.map((_, i) => (
-        <Avatar
-          key={i}
-          fallbackColor={resolveAvatarColor(`user-${i}`)}
-          alt={`User ${i}`}
-        />
-      ))}
-    </div>
-  ),
+  render: () => {
+    const getInitials = (index: number) => {
+      const left = String.fromCharCode(65 + index * 2);
+      const right = String.fromCharCode(66 + index * 2);
+      return left + right;
+    };
+
+    return (
+      <div className='flex flex-col gap-16'>
+        <div className='flex flex-wrap gap-16'>
+          {AVATAR_COLORS.map((_, i) => (
+            <Avatar
+              key={i}
+              fallbackColor={resolveAvatarColor(`user-${i}`)}
+              fallbackText={getInitials(i)}
+              alt={getInitials(i)}
+            />
+          ))}
+          <Avatar fallbackText={getInitials(AVATAR_COLORS.length)} />
+        </div>
+        <div className='flex flex-wrap gap-16'>
+          {AVATAR_COLORS.map((_, i) => (
+            <Avatar
+              key={i}
+              fallbackColor={resolveAvatarColor(`user-${i}`)}
+              alt={`User ${i}`}
+            />
+          ))}
+          <Avatar />
+        </div>
+      </div>
+    );
+  },
 };
 
 export const NotificationShowcase: Story = {
