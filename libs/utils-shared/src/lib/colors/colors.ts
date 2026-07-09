@@ -4,15 +4,17 @@ import { hashString } from '../string';
  * The set of fallback background colors an Avatar can use when no image is
  * available. Each value maps to a `bg-avatar-letter-*` design token.
  */
+
+// TODO: update with actual tokens here
 export const AVATAR_COLORS = [
-  'bg-avatar-letter-orange',
-  'bg-avatar-letter-green',
-  'bg-avatar-letter-blue',
-  'bg-avatar-letter-purple',
-  'bg-avatar-letter-red',
-  'bg-avatar-letter-yellow',
-  'bg-avatar-letter-turquoise',
-  'bg-avatar-letter-pink',
+  '#f8b89b',
+  '#aed09c',
+  '#afc6fe',
+  '#e2b9eb',
+  '#ffb2b4',
+  '#fbd98d',
+  '#96dde9',
+  '#f3b4db',
 ] as const;
 
 export type AvatarColor = (typeof AVATAR_COLORS)[number];
