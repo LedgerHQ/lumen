@@ -7,7 +7,7 @@ import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(
-    'relative inline-flex items-center justify-center rounded-full transition-colors',
+    'relative inline-flex items-center justify-center rounded-full bg-base-transparent-hover transition-colors',
     {
       variants: {
         size: {
@@ -22,7 +22,7 @@ const avatarVariants = {
       },
     },
   ),
-  text: cva('', {
+  text: cva('select-none', {
     variants: {
       size: {
         sm: 'body-1-semi-bold',

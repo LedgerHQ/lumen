@@ -47,22 +47,24 @@ export const Base: Story = {
 
 export const SizeShowcase: Story = {
   render: () => (
-    <div className='inline-flex items-stretch gap-16 body-2'>
-      <div className='flex flex-col items-center justify-end'>
+    <div className='flex flex-col gap-8'>
+      <div className='flex items-baseline gap-16 body-2'>
         <Avatar size='sm' alt='small' src={exampleSrc} />
-        <span className='mt-4'>sm</span>
-      </div>
-      <div className='flex flex-col items-center justify-end'>
         <Avatar size='md' alt='medium' src={exampleSrc} />
-        <span className='mt-4'>md</span>
-      </div>
-      <div className='flex flex-col items-center justify-end'>
         <Avatar size='lg' alt='large' src={exampleSrc} />
-        <span className='mt-4'>lg</span>
-      </div>
-      <div className='flex flex-col items-center justify-end'>
         <Avatar size='xl' alt='extra large' src={exampleSrc} />
-        <span className='mt-4'>xl</span>
+      </div>
+      <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='sm' alt='small' fallbackText='AB' />
+        <Avatar size='md' alt='medium' fallbackText='AB' />
+        <Avatar size='lg' alt='large' fallbackText='AB' />
+        <Avatar size='xl' alt='extra large' fallbackText='AB' />
+      </div>
+      <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='sm' alt='small' />
+        <Avatar size='md' alt='medium' />
+        <Avatar size='lg' alt='large' />
+        <Avatar size='xl' alt='extra large' />
       </div>
     </div>
   ),
