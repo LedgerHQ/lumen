@@ -24,6 +24,7 @@ import { useStyleSheet, useTheme } from '../../../styles';
 import { useTimingConfig } from '../../Animations/useTimingConfig';
 import { CheckmarkCircleFill } from '../../Symbols/Icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
+import { InformationFill } from '../../Symbols/Icons/InformationFill';
 import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable } from '../Utility';
@@ -37,6 +38,7 @@ export const BaseInput = ({
   labelStyle,
   label,
   helperText,
+  maxCount,
   status,
   hideClearButton,
   onChangeText: onChangeTextProp,
@@ -65,9 +67,7 @@ export const BaseInput = ({
   const isControlled = props.value !== undefined;
   const value = isControlled ? props.value : uncontrolledValue;
 
-  const hasContent = isControlled
-    ? !!props.value && props.value.length > 0
-    : uncontrolledValue.length > 0;
+  const hasContent = (value ?? '').length > 0;
 
   const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
     resolveBaseInputPlaceholder({
@@ -76,6 +76,10 @@ export const BaseInput = ({
     });
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
+
+  const count = (value ?? '').length;
+  const showCount = maxCount != null;
+  const showHelper = !!helperText;
 
   const handleChangeText = useCallback(
     (text: string) => {
@@ -170,13 +174,27 @@ export const BaseInput = ({
           )}
         </Pressable>
 
-        {!!helperText && (
-          <View style={styles.helperContainer}>
-            {status === 'error' && <DeleteCircleFill size={16} color='error' />}
-            {status === 'success' && (
-              <CheckmarkCircleFill size={16} color='success' />
+        {(showHelper || showCount) && (
+          <View style={styles.footerContainer}>
+            {showHelper ? (
+              <View style={styles.helperContainer}>
+                {!status && <InformationFill size={16} color='muted' />}
+                {status === 'error' && (
+                  <DeleteCircleFill size={16} color='error' />
+                )}
+                {status === 'success' && (
+                  <CheckmarkCircleFill size={16} color='success' />
+                )}
+                <Text style={styles.helperText}>{helperText}</Text>
+              </View>
+            ) : (
+              <View />
             )}
-            <Text style={styles.helperText}>{helperText}</Text>
+            {showCount && (
+              <Text style={styles.counterText} accessibilityLiveRegion='polite'>
+                {`${count}/${maxCount}`}
+              </Text>
+            )}
           </View>
         )}
       </Box>
@@ -257,8 +275,15 @@ const useStyles = ({
             color: t.colors.text.disabled,
           },
         ]),
-        helperContainer: {
+        footerContainer: {
           marginTop: t.spacings.s8,
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: t.spacings.s8,
+        },
+        helperContainer: {
+          flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
           gap: t.spacings.s2,
@@ -271,6 +296,11 @@ const useStyles = ({
             success: t.colors.text.success,
             default: t.colors.text.muted,
           }[status ?? 'default'],
+        },
+        counterText: {
+          ...t.typographies.body3,
+          flexShrink: 0,
+          color: t.colors.text.muted,
         },
         suffixContainer: {
           minWidth: t.sizes.s20,

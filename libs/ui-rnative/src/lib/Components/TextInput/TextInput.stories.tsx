@@ -13,7 +13,7 @@ const meta: Meta<typeof TextInput> = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -84,6 +84,62 @@ export const WithError: Story = {
     label: 'Username',
     helperText: 'Username must be at least 3 characters',
     status: 'error',
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithCounter: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Label',
+    helperText: 'Info text',
+    maxCount: 32,
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithCounterExceeded: Story = {
+  render: () => {
+    const [value, setValue] = useState('This text exceeds the character limit');
+    const maxCount = 32;
+    const isOverLimit = value.length > maxCount;
+
+    return (
+      <View
+        style={{
+          flex: 1,
+          minHeight: 96,
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 24,
+        }}
+      >
+        <View style={{ width: '100%', maxWidth: 400 }}>
+          <TextInput
+            label='Label'
+            value={value}
+            onChangeText={setValue}
+            helperText={isOverLimit ? 'Character limit exceeded' : 'Info text'}
+            status={isOverLimit ? 'error' : undefined}
+            maxCount={maxCount}
+          />
+        </View>
+      </View>
+    );
+  },
+};
+
+export const WithNativeMaxLength: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Label',
+    helperText: 'Input is capped at 8 characters',
+    maxLength: 8,
+    maxCount: 8,
     editable: true,
     hideClearButton: false,
     keyboardType: 'default',
