@@ -1,3 +1,7 @@
+import {
+  AVATAR_COLORS,
+  resolveAvatarColor,
+} from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
@@ -64,19 +68,27 @@ export const SizeShowcase: Story = {
   ),
 };
 
-export const FallbackShowcase: Story = {
-  args: {
-    src: 'https://brokenLink.random',
-    size: 'md',
-    alt: 'Fallback example',
-  },
+export const FallbackBackgroundShowcase: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" />`,
+        code: `import { resolveAvatarColor } from '@ledgerhq/lumen-utils-shared';
+
+<Avatar fallbackColor={resolveAvatarColor(user.id)} alt={user.name} />`,
       },
     },
   },
+  render: () => (
+    <div className='flex flex-wrap gap-16'>
+      {AVATAR_COLORS.map((_, i) => (
+        <Avatar
+          key={i}
+          fallbackColor={resolveAvatarColor(`user-${i}`)}
+          alt={`User ${i}`}
+        />
+      ))}
+    </div>
+  ),
 };
 
 export const NotificationShowcase: Story = {
