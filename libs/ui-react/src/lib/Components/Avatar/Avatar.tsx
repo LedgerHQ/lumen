@@ -7,14 +7,16 @@ import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(
-    'relative inline-flex items-center justify-center rounded-full bg-base-transparent-hover transition-colors',
+    'relative box-border inline-flex items-center justify-center rounded-full border border-icon bg-base-transparent-hover transition-colors',
     {
       variants: {
         size: {
-          sm: 'size-40 p-4',
-          md: 'size-48 p-4',
-          lg: 'size-56 p-4',
-          xl: 'size-72 p-4',
+          xs: 'size-24',
+          sm: 'size-40',
+          md: 'size-48',
+          lg: 'size-56',
+          xl: 'size-72',
+          '2xl': 'size-128',
         },
       },
       defaultVariants: {
@@ -25,20 +27,24 @@ const avatarVariants = {
   text: cva('select-none', {
     variants: {
       size: {
+        xs: 'body-4-semi-bold',
         sm: 'body-1-semi-bold',
         md: 'heading-5-semi-bold',
         lg: 'heading-4-semi-bold',
         xl: 'heading-2-semi-bold',
+        '2xl': 'heading-1-semi-bold',
       },
     },
   }),
 };
 
 const fallbackSizes = {
+  xs: 12,
   sm: 16,
   md: 24,
   lg: 32,
   xl: 40,
+  '2xl': 56,
 } as const;
 
 /**

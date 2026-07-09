@@ -49,22 +49,28 @@ export const SizeShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-8'>
       <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='xs' alt='extra small' src={exampleSrc} />
         <Avatar size='sm' alt='small' src={exampleSrc} />
         <Avatar size='md' alt='medium' src={exampleSrc} />
         <Avatar size='lg' alt='large' src={exampleSrc} />
         <Avatar size='xl' alt='extra large' src={exampleSrc} />
+        <Avatar size='2xl' alt='extra extra large' src={exampleSrc} />
       </div>
       <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='xs' alt='extra small' fallbackText='AB' />
         <Avatar size='sm' alt='small' fallbackText='AB' />
         <Avatar size='md' alt='medium' fallbackText='AB' />
         <Avatar size='lg' alt='large' fallbackText='AB' />
         <Avatar size='xl' alt='extra large' fallbackText='AB' />
+        <Avatar size='2xl' alt='extra extra large' fallbackText='AB' />
       </div>
       <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='xs' alt='extra small' />
         <Avatar size='sm' alt='small' />
         <Avatar size='md' alt='medium' />
         <Avatar size='lg' alt='large' />
         <Avatar size='xl' alt='extra large' />
+        <Avatar size='2xl' alt='extra extra large' />
       </div>
     </div>
   ),

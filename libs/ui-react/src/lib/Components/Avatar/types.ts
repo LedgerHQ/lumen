@@ -13,11 +13,11 @@ export type AvatarProps = {
    */
   alt?: string;
   /**
-   * The size variant of the avatar: `sm`, `md`, `lg`, `xl`.
+   * The size variant of the avatar.
    * @optional
    * @default md
    */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    * @optional
