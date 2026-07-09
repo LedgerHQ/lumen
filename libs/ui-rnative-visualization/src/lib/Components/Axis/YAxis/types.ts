@@ -1,4 +1,4 @@
-import type { BaseAxisProps } from '../Axis.types';
+import type { BaseAxisProps } from '../types';
 
 export type YAxisProps = BaseAxisProps & {
   /**

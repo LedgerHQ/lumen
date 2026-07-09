@@ -3,9 +3,8 @@ import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
 
-import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
-import { XAxis } from '../Axis/XAxis';
-import { YAxis } from '../Axis/YAxis';
+import { XAxis, type XAxisProps } from '../Axis/XAxis';
+import { YAxis, DEFAULT_AXIS_WIDTH, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel';
 import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
@@ -23,9 +22,29 @@ import {
   computeAxisPadding,
   getChartAriaLabel,
   getChartDisplayStates,
+  mergeDefaults,
 } from './utils';
 
 const AnimatedG = Animated.createAnimatedComponent(G);
+
+const defaultXAxisProps: XAxisProps = {
+  position: 'bottom',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: false,
+};
+
+const defaultYAxisProps: YAxisProps = {
+  position: 'start',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: true,
+  width: DEFAULT_AXIS_WIDTH,
+};
 
 const LineChartLines = ({
   series,
@@ -129,21 +148,12 @@ export const LineChart = ({
   connectNulls,
 }: Readonly<LineChartProps>) => {
   const xAxisConfig = useMemo(
-    () => ({
-      ...defaultXAxisProps,
-      ...xAxis,
-      position: xAxis?.position ?? defaultXAxisProps.position,
-    }),
+    () => mergeDefaults(defaultXAxisProps, xAxis),
     [xAxis],
   );
 
   const yAxisConfig = useMemo(
-    () => ({
-      ...defaultYAxisProps,
-      ...yAxis,
-      position: yAxis?.position ?? defaultYAxisProps.position,
-      width: yAxis?.width ?? defaultYAxisProps.width,
-    }),
+    () => mergeDefaults(defaultYAxisProps, yAxis),
     [yAxis],
   );
 

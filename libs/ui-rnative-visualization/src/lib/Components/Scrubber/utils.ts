@@ -4,15 +4,30 @@ import {
   isCategoricalScale,
   isNumericScale,
 } from '../../utils/scales/scales';
-import type {
-  CartesianChartContextValue,
-  ChartScaleFunction,
-} from '../../utils/types';
+import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
+import type { CartesianChartContextValue } from '../CartesianChart/types';
+
+import { OVERLAY_LINE_INSET, OVERLAY_OFFSET } from './constants';
+import type { ChartTooltipItemData, ScrubberTooltipContent } from './types';
 
 export type MagnetEntry = {
   index: number;
   pixelX: number;
+};
+
+export type OverlayRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type ScrubberTooltipPayload = {
+  items: ChartTooltipItemData[];
+  resolvedTitle: string | number | undefined;
+  offset?: number;
+  minWidth?: number;
 };
 
 const isNumberArray = (arr: string[] | number[]): arr is number[] =>
@@ -211,4 +226,54 @@ export const applyMagnetisation = ({
     return sortedMagnets[nearest].index;
   }
   return resolvedIndex;
+};
+
+/**
+ * Computes the rect that dims the data after the scrubber line. It starts just
+ * right of the line and spans to the drawing area's right edge, padded by
+ * `OVERLAY_OFFSET` on the top, bottom, and right. Width is clamped at 0 so the
+ * rect never inverts when the line sits at the right edge.
+ */
+export const computeOverlayRect = (
+  pixelX: number,
+  drawingArea: DrawingArea,
+): OverlayRect => ({
+  x: pixelX + OVERLAY_LINE_INSET,
+  y: drawingArea.y - OVERLAY_OFFSET,
+  width: Math.max(
+    0,
+    drawingArea.x +
+      drawingArea.width -
+      pixelX -
+      OVERLAY_LINE_INSET +
+      OVERLAY_OFFSET,
+  ),
+  height: drawingArea.height + OVERLAY_OFFSET * 2,
+});
+
+/**
+ * Resolves the `tooltip` callback for a data index into render-ready payload:
+ * invokes the callback, resolves a function `title`, and returns `undefined`
+ * when there is no callback or it yields no items (so nothing is rendered).
+ */
+export const resolveTooltipPayload = (
+  tooltip: ((dataIndex: number) => ScrubberTooltipContent) | undefined,
+  scrubberPosition: number,
+): ScrubberTooltipPayload | undefined => {
+  if (!tooltip) return undefined;
+
+  const content = tooltip(scrubberPosition);
+  if (content.items.length === 0) return undefined;
+
+  const resolvedTitle =
+    typeof content.title === 'function'
+      ? content.title(scrubberPosition)
+      : content.title;
+
+  return {
+    items: content.items,
+    resolvedTitle,
+    offset: content.offset,
+    minWidth: content.minWidth,
+  };
 };
