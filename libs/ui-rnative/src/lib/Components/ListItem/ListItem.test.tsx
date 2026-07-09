@@ -157,6 +157,52 @@ describe('ListItem', () => {
     });
   });
 
+  describe('priority', () => {
+    const renderWithPriority = (priority?: ListItemProps['priority']) =>
+      render(
+        <TestWrapper>
+          <ListItem priority={priority}>
+            <ListItemLeading testID='leading'>
+              <ListItemContent testID='content'>
+                <ListItemTitle>Title</ListItemTitle>
+              </ListItemContent>
+            </ListItemLeading>
+            <ListItemTrailing testID='trailing'>
+              <RNText>Trailing</RNText>
+            </ListItemTrailing>
+          </ListItem>
+        </TestWrapper>,
+      );
+
+    it('in "end" priority, leading shrinks, trailing shows', () => {
+      renderWithPriority();
+
+      expect(screen.getByTestId('leading').props.style).toEqual(
+        expect.objectContaining({ flexShrink: 1 }),
+      );
+      expect(screen.getByTestId('content').props.style).toEqual(
+        expect.objectContaining({ flex: 1 }),
+      );
+      expect(screen.getByTestId('trailing').props.style).not.toEqual(
+        expect.objectContaining({ flexShrink: 1 }),
+      );
+    });
+
+    it('in "start" priority, trailing shrinks, leading shows', () => {
+      renderWithPriority('start');
+
+      expect(screen.getByTestId('leading').props.style).not.toEqual(
+        expect.objectContaining({ flexShrink: 1 }),
+      );
+      expect(screen.getByTestId('content').props.style).toEqual(
+        expect.objectContaining({ flex: 0, flexShrink: 1 }),
+      );
+      expect(screen.getByTestId('trailing').props.style).toEqual(
+        expect.objectContaining({ flexShrink: 1 }),
+      );
+    });
+  });
+
   describe('ListItemContentRow', () => {
     it('renders title alongside additional content in a row', () => {
       render(

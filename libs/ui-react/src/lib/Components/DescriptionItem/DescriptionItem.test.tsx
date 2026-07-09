@@ -58,6 +58,36 @@ describe('DescriptionItem', () => {
     });
   });
 
+  describe('priority', () => {
+    const renderWithPriority = (priority?: 'start' | 'end') =>
+      render(
+        <DescriptionItem priority={priority}>
+          <DescriptionItemLeading data-testid='leading'>
+            <DescriptionItemLabel>Label</DescriptionItemLabel>
+          </DescriptionItemLeading>
+          <DescriptionItemTrailing data-testid='trailing'>
+            <DescriptionItemValue>Value</DescriptionItemValue>
+          </DescriptionItemTrailing>
+        </DescriptionItem>,
+      );
+
+    it('in "end" priority (default), leading shrinks, trailing shows', () => {
+      renderWithPriority();
+
+      expect(screen.getByTestId('leading')).toHaveClass('shrink');
+      expect(screen.getByTestId('leading')).not.toHaveClass('shrink-0');
+      expect(screen.getByTestId('trailing')).toHaveClass('shrink-0');
+    });
+
+    it('in "start" priority, trailing shrinks, leading shows', () => {
+      renderWithPriority('start');
+
+      expect(screen.getByTestId('leading')).toHaveClass('shrink-0');
+      expect(screen.getByTestId('trailing')).toHaveClass('shrink');
+      expect(screen.getByTestId('trailing')).not.toHaveClass('shrink-0');
+    });
+  });
+
   describe('DescriptionItemValue', () => {
     it('applies body-2-semi-bold class for md size', () => {
       render(<BaseItem size='md' />);

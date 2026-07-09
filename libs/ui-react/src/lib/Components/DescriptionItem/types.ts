@@ -1,3 +1,4 @@
+import type { Priority } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type DescriptionItemSize = 'sm' | 'md';
@@ -12,6 +13,11 @@ export type DescriptionItemProps = {
    * @default 'md'
    */
   size?: DescriptionItemSize;
+  /**
+   * The parts which are protected from shrinking and truncation when horizontal space is limited.
+   * @default 'end'
+   */
+  priority?: Priority;
   /**
    * Additional CSS classes for layout adjustments.
    */
