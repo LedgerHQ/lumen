@@ -64,31 +64,6 @@ export const SizeShowcase: Story = {
   ),
 };
 
-export const AppearanceShowcase: Story = {
-  render: () => (
-    <div className='inline-flex flex-col gap-8'>
-      <div className='flex items-center justify-end gap-16'>
-        <Avatar size='md' alt='gray fallback' appearance='gray' />
-        <Avatar size='md' alt='transparent fallback' appearance='transparent' />
-      </div>
-      <div className='flex items-center justify-end gap-16'>
-        <Avatar
-          size='md'
-          src={exampleSrc}
-          alt='gray with image'
-          appearance='gray'
-        />
-        <Avatar
-          size='md'
-          src={exampleSrc}
-          alt='transparent with image'
-          appearance='transparent'
-        />
-      </div>
-    </div>
-  ),
-};
-
 export const FallbackShowcase: Story = {
   args: {
     src: 'https://brokenLink.random',
