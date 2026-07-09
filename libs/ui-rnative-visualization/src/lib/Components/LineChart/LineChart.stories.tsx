@@ -7,7 +7,6 @@ import { LineChart } from './LineChart';
 const meta = {
   component: LineChart,
   title: 'Visualization/LineChart',
-  tags: ['experimental'],
   decorators: [
     (Story, context) => {
       return (

@@ -18,7 +18,6 @@ const sampleSeries = [
 const meta = {
   component: ReferenceLine,
   title: 'Visualization/ReferenceLine',
-  tags: ['experimental'],
   decorators: [
     (Story, context) => {
       return (
