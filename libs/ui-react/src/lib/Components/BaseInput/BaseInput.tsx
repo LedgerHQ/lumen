@@ -148,7 +148,7 @@ export const BaseInput = ({
   //    to recalculate hasContent, causing clear button to stay visible
   // This state is only for UI reactivity (clear button visibility), not controlling the input
   const [uncontrolledValue, setUncontrolledValue] = useState(
-    props.defaultValue?.toString() || '',
+    props.defaultValue?.toString() ?? '',
   );
 
   const handleInput = useCallback(
@@ -163,9 +163,10 @@ export const BaseInput = ({
     [isControlled, onChangeProp],
   );
 
-  const hasContent = isControlled
-    ? !!props.value && props.value.toString().length > 0
-    : uncontrolledValue.length > 0;
+  const currentValue = isControlled
+    ? (props.value?.toString() ?? '')
+    : uncontrolledValue;
+  const hasContent = currentValue.length > 0;
 
   const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
     resolveBaseInputPlaceholder({
@@ -175,9 +176,6 @@ export const BaseInput = ({
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
-  const currentValue = isControlled
-    ? (props.value?.toString() ?? '')
-    : uncontrolledValue;
   const count = currentValue.length;
   const showCount = maxCount != null;
 
