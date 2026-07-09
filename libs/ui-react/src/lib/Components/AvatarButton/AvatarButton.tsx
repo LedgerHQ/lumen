@@ -16,10 +16,7 @@ export const AvatarButton = ({
       ref={ref}
       type='button'
       onClick={onClick}
-      className={cn(
-        'cursor-pointer rounded-full transition-colors hover:bg-muted-hover',
-        className,
-      )}
+      className={cn('cursor-pointer rounded-full', className)}
     >
       <Avatar {...props} />
     </button>

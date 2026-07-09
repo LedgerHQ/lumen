@@ -7,7 +7,7 @@ import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(
-    'relative box-border inline-flex items-center justify-center rounded-full border border-icon bg-base-transparent-hover transition-colors',
+    'relative box-border inline-flex items-center justify-center rounded-full border border-icon bg-base-transparent-hover align-middle transition-colors',
     {
       variants: {
         size: {

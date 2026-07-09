@@ -7,11 +7,11 @@ import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 # AvatarButton
 
 <CustomTabs>
-  <Tab label="Overview">
+<Tab label="Overview">
 
 ## Introduction
 
-`AvatarButton` wraps an [`Avatar`](/docs/react-avatar--docs) in a semantic `<button>`, for use as an interactive trigger such as opening a user menu or navigating to a profile. It accepts every `Avatar` prop plus `onClick`.
+`AvatarButton` wraps an [`Avatar`](/docs/react-avatar--docs) in a semantic button element, for use as an interactive trigger such as opening a user menu or navigating to a profile. It accepts every `Avatar` prop plus `onClick`.
 
 ## Anatomy
 
@@ -26,11 +26,11 @@ Like `Avatar`, it falls back to initials or a User icon when no image is availab
 
 ## Accessibility
 
-- Renders a real `<button type="button">`, so it is keyboard focusable and activatable out of the box.
+- Renders a real `button` element with `type="button"`, so it is keyboard focusable and activatable out of the box.
 - Provide a meaningful `alt` describing the action (e.g. `"Open user menu"`); it is exposed as the avatar's accessible label.
 
-  </Tab>
-  <Tab label="Implementation">
+</Tab>
+<Tab label="Implementation">
 
 ```bash
 npm install @ledgerhq/lumen-ui-react
@@ -54,5 +54,5 @@ function MyComponent() {
 }
 ```
 
-  </Tab>
+</Tab>
 </CustomTabs>
