@@ -83,6 +83,19 @@ export const Avatar = ({
     setError(false);
   }, [src]);
 
+  const fallbackContent = fallbackText ? (
+    <span className={cn(avatarVariants.text({ size }), fallbackContentColor)}>
+      {fallbackText}
+    </span>
+  ) : (
+    <User
+      className={fallbackContentColor}
+      size={fallbackSizes[size]}
+      aria-label='Fallback Icon'
+      aria-hidden='true'
+    />
+  );
+
   const avatarContent = (
     <div
       ref={ref}
@@ -93,20 +106,7 @@ export const Avatar = ({
       {...props}
     >
       {shouldFallback ? (
-        fallbackText ? (
-          <span
-            className={cn(avatarVariants.text({ size }), fallbackContentColor)}
-          >
-            {fallbackText}
-          </span>
-        ) : (
-          <User
-            className={fallbackContentColor}
-            size={fallbackSizes[size]}
-            aria-label='Fallback Icon'
-            aria-hidden='true'
-          />
-        )
+        fallbackContent
       ) : (
         <img
           src={src}
