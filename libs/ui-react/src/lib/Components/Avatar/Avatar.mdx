@@ -52,8 +52,7 @@ The Avatar component handles two primary states automatically:
 When no image is shown, the Avatar renders a fallback. Provide `fallbackText` for initials, and pass a `fallbackColor` to give each user a stable background color. Use `resolveAvatarColor` to derive that color deterministically from an identifier such as a user id:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-react';
-import { resolveAvatarColor } from '@ledgerhq/lumen-utils-shared';
+import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
 
 <Avatar
   fallbackColor={resolveAvatarColor(user.id)}

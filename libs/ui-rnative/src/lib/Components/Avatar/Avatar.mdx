@@ -91,8 +91,7 @@ function MyComponent() {
 Use `fallbackText` for initials and `fallbackColor` for a stable per-user background:
 
 ```tsx
-import { Avatar } from '@ledgerhq/lumen-ui-rnative';
-import { resolveAvatarColor } from '@ledgerhq/lumen-utils-shared';
+import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-rnative';
 
 <Avatar
   fallbackColor={resolveAvatarColor(user.id)}
