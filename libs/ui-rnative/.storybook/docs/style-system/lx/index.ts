@@ -3,24 +3,26 @@ import {
   ledgerLiveThemes,
   websitesThemes,
 } from '@ledgerhq/lumen-design-core';
+import { useDarkMode } from 'storybook-dark-mode';
 
-export function getSampleAccentColor(): string {
-  return resolveTheme().colors.bg.accent;
+export function useSampleAccentColor(): string {
+  return useResolvedTheme().colors.bg.accent;
 }
 
-function getGlobals() {
+function getGlobalsOverride() {
   const params = new URLSearchParams(window.location.search).get('globals');
 
   return Object.fromEntries(
     params?.split(';').map((param) => param.split(':')) ?? [],
-  );
-}
-
-export function resolveTheme() {
-  const { brand, mode } = getGlobals() as {
+  ) as {
     brand?: 'ledger-live' | 'enterprise' | 'websites';
     mode?: 'light' | 'dark';
   };
+}
+
+export function useResolvedTheme() {
+  const isDark = useDarkMode();
+  const { brand, mode } = getGlobalsOverride();
 
   const theme = {
     'ledger-live': ledgerLiveThemes,
@@ -28,5 +30,5 @@ export function resolveTheme() {
     websites: websitesThemes,
   }[brand || 'ledger-live'];
 
-  return theme[mode || 'light'];
+  return theme[mode ?? (isDark ? 'dark' : 'light')];
 }

@@ -14,8 +14,8 @@ function getVariant(value: number): TrendVariant {
 const trendVariants = cva('inline-flex items-center', {
   variants: {
     size: {
-      md: 'body-2 gap-2',
-      sm: 'body-3 gap-2',
+      md: 'gap-2 body-2',
+      sm: 'gap-2 body-3',
     },
     variant: {
       positive: '',
