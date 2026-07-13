@@ -6,7 +6,7 @@ import type {
   SectionHeaderTitleProps,
 } from './types';
 
-const sectionHeaderVariants = cva('inline-flex min-w-0 items-center gap-4', {
+const sectionHeaderVariants = cva('flex w-full min-w-0 items-center gap-4', {
   variants: {
     appearance: {
       'no-background': '',

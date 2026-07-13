@@ -23,6 +23,15 @@ export default function SectionHeaders() {
         </SectionHeaderLeading>
         <SectionHeaderTitle>Label</SectionHeaderTitle>
       </SectionHeader>
+
+      <SectionHeader appearance='plain'>
+        <SectionHeaderLeading>
+          <Settings size={16} />
+        </SectionHeaderLeading>
+        <SectionHeaderTitle>
+          Very long section header label that should truncate with an ellipsis
+        </SectionHeaderTitle>
+      </SectionHeader>
     </View>
   );
 }

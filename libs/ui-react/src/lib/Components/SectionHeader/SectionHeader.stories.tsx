@@ -81,13 +81,13 @@ export const WithLeadingIcon: Story = {
 
 export const TruncateShowcase: Story = {
   render: () => (
-    <Container className='w-160'>
+    <Container className='max-w-224'>
       <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <Settings size={16} />
         </SectionHeaderLeading>
         <SectionHeaderTitle>
-          Very long section header label that should truncate
+          Very long section header label that should truncate.
         </SectionHeaderTitle>
       </SectionHeader>
     </Container>
