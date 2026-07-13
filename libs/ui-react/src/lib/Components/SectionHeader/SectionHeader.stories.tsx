@@ -29,26 +29,38 @@ const meta: Meta<typeof SectionHeader> = {
       },
     },
   },
+  argTypes: {
+    appearance: {
+      control: 'radio',
+      options: ['no-background', 'plain'],
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof SectionHeader>;
 
-export const NoBackground: Story = {
-  render: () => (
+export const Base: Story = {
+  args: {
+    appearance: 'no-background',
+  },
+  render: ({ appearance }) => (
     <Container>
-      <SectionHeader>
+      <SectionHeader appearance={appearance}>
         <SectionHeaderTitle>Label</SectionHeaderTitle>
       </SectionHeader>
     </Container>
   ),
 };
 
-export const Plain: Story = {
+export const AppearanceShowcase: Story = {
   render: () => (
-    <Container>
+    <Container className='flex flex-col gap-8'>
+      <SectionHeader>
+        <SectionHeaderTitle>No background</SectionHeaderTitle>
+      </SectionHeader>
       <SectionHeader appearance='plain'>
-        <SectionHeaderTitle>Label</SectionHeaderTitle>
+        <SectionHeaderTitle>Plain</SectionHeaderTitle>
       </SectionHeader>
     </Container>
   ),

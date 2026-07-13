@@ -55,19 +55,16 @@ export const Base: Story = {
   ),
 };
 
-export const NoBackground: Story = {
+export const AppearanceShowcase: Story = {
   render: () => (
-    <SectionHeader>
-      <SectionHeaderTitle>Label</SectionHeaderTitle>
-    </SectionHeader>
-  ),
-};
-
-export const Plain: Story = {
-  render: () => (
-    <SectionHeader appearance='plain'>
-      <SectionHeaderTitle>Label</SectionHeaderTitle>
-    </SectionHeader>
+    <Box lx={{ gap: 's8' }}>
+      <SectionHeader>
+        <SectionHeaderTitle>No background</SectionHeaderTitle>
+      </SectionHeader>
+      <SectionHeader appearance='plain'>
+        <SectionHeaderTitle>Plain</SectionHeaderTitle>
+      </SectionHeader>
+    </Box>
   ),
 };
 

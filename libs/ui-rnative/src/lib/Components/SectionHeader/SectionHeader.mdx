@@ -28,18 +28,16 @@ The SectionHeader uses a composite structure with the following components:
 
 ## Properties
 
-### No background
+### Overview
 
-The default appearance renders plain muted text with no container styling.
-
-<Canvas of={SectionHeaderStories.NoBackground} />
+<Canvas of={SectionHeaderStories.Base} />
 <Controls of={SectionHeaderStories.Base} />
 
-### Plain
+### Appearance
 
-The plain appearance wraps the label in a subtle surface chip.
+There are two appearances: `no-background` (default) renders plain muted text with no container styling, and `plain` wraps the label in a subtle surface chip.
 
-<Canvas of={SectionHeaderStories.Plain} />
+<Canvas of={SectionHeaderStories.AppearanceShowcase} />
 
 ### With leading icon
 
@@ -64,12 +62,6 @@ Long titles truncate with an ellipsis while keeping leading content visible.
 ### Basic Usage
 
 <Source of={SectionHeaderStories.Base} />
-
-### Plain appearance
-
-Use the `plain` appearance to wrap the label in a subtle surface chip.
-
-<Source of={SectionHeaderStories.Plain} />
 
 ### With leading icon
 
