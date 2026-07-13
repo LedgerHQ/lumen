@@ -1,23 +1,23 @@
 import { View } from 'react-native';
-import { resolveTheme, getSampleAccentColor } from '../';
+import { useResolvedTheme, useSampleAccentColor } from '../';
 
 export const SpacingTable = () => {
-  const spacings = resolveTheme().spacings;
-  const cells = Object.entries(spacings);
-  const accentColor = getSampleAccentColor();
+  const theme = useResolvedTheme();
+  const cells = Object.entries(theme.spacings);
+  const accentColor = useSampleAccentColor();
 
   const formatCSSToken = (key: string): string => {
     return `--spacing-${key.replace('s', '')}`;
   };
 
   return (
-    <table style={{ width: '100%' }}>
+    <table style={{ width: '100%', color: theme.colors.text.base }}>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Theme object</th>
-          <th>Value</th>
-          <th>Sample</th>
+          <th style={{ textAlign: 'left' }}>Name</th>
+          <th style={{ textAlign: 'left' }}>Theme object</th>
+          <th style={{ textAlign: 'left' }}>Value</th>
+          <th style={{ textAlign: 'left' }}>Sample</th>
         </tr>
       </thead>
       <tbody>
