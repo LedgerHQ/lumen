@@ -78,7 +78,7 @@
       "grey": {
         "100": {
           "$type": "color",
-          "$value": "#fafafa",
+          "$value": "#f7f7f7",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -354,7 +354,7 @@
         },
         "075-0%": {
           "$type": "color",
-          "$value": "#fdfdfd00",
+          "$value": "#fcfcfc00",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -366,7 +366,7 @@
         },
         "075": {
           "$type": "color",
-          "$value": "#fdfdfd",
+          "$value": "#fcfcfc",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -378,7 +378,7 @@
         },
         "100-0%": {
           "$type": "color",
-          "$value": "#fafafa00",
+          "$value": "#f7f7f700",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -3452,6 +3452,104 @@
             }
           }
         }
+      },
+      "avatar": {
+        "orange": {
+          "$type": "color",
+          "$value": "#f8b89b",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "#aed09c",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "blue": {
+          "$type": "color",
+          "$value": "#afc6fe",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "#e2b9eb",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "#ffb2b4",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "#fbd98d",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "#96dde9",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "#f3b4db",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
       }
     },
     "dark": {
@@ -3808,7 +3906,7 @@
         },
         "075-0%": {
           "$type": "color",
-          "$value": "#10101000",
+          "$value": "#0d0d0d00",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -3820,7 +3918,7 @@
         },
         "075": {
           "$type": "color",
-          "$value": "#101010",
+          "$value": "#0d0d0d",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -6921,6 +7019,104 @@
         "bitrefill": {
           "$type": "color",
           "$value": "#449bf7",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "avatar": {
+        "orange": {
+          "$type": "color",
+          "$value": "#f8b89b",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "#aed09c",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "blue": {
+          "$type": "color",
+          "$value": "#afc6fe",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "#e2b9eb",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "#ffb2b4",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "#fbd98d",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "#96dde9",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "#f3b4db",
           "$description": "",
           "$extensions": {
             "com.figma": {

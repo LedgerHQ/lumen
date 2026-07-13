@@ -137,6 +137,20 @@
           }
         }
       },
+      "section": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.dark.grey.075}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
       "surface": {
         "default": {
           "$type": "color",
@@ -235,6 +249,22 @@
               "hiddenFromPublishing": true,
               "scopes": [],
               "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "surface-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.dark.grey.100-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {
+                "WEB": "var(--color-background-muted-transparent);"
+              }
             }
           }
         }
@@ -1161,6 +1191,104 @@
         "0%": {
           "$type": "color",
           "$value": "{color.dark.grey.050-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "avatar": {
+        "blue": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.blue}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.pink}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.turquoise}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.yellow}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "orange": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.orange}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.red}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.green}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "{color.dark.avatar.purple}",
           "$description": "",
           "$extensions": {
             "com.figma": {
