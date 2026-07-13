@@ -5,7 +5,7 @@ import {
   getDotIndicatorProps,
 } from '@ledgerhq/lumen-ui-rnative';
 import {
-  AVATAR_COLORS,
+  AVATAR_COLOR_KEYS,
   resolveAvatarColor,
 } from '@ledgerhq/lumen-utils-shared';
 
@@ -42,7 +42,7 @@ export default function Avatars() {
       </Box>
 
       <Box lx={{ flexDirection: 'row', gap: 's8', flexWrap: 'wrap' }}>
-        {AVATAR_COLORS.map((_, i) => (
+        {AVATAR_COLOR_KEYS.map((_, i) => (
           <Avatar
             key={i}
             fallbackColor={resolveAvatarColor(`user-${i}`)}

@@ -1,5 +1,5 @@
 import {
-  AVATAR_COLORS,
+  AVATAR_COLOR_KEYS,
   resolveAvatarColor,
 } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -96,7 +96,7 @@ export const FallbackShowcase: Story = {
     return (
       <div className='flex flex-col gap-16'>
         <div className='flex flex-wrap gap-16'>
-          {AVATAR_COLORS.map((_, i) => (
+          {AVATAR_COLOR_KEYS.map((_, i) => (
             <Avatar
               key={i}
               fallbackColor={resolveAvatarColor(`user-${i}`)}
@@ -104,10 +104,10 @@ export const FallbackShowcase: Story = {
               alt={getInitials(i)}
             />
           ))}
-          <Avatar fallbackText={getInitials(AVATAR_COLORS.length)} />
+          <Avatar fallbackText={getInitials(AVATAR_COLOR_KEYS.length)} />
         </div>
         <div className='flex flex-wrap gap-16'>
-          {AVATAR_COLORS.map((_, i) => (
+          {AVATAR_COLOR_KEYS.map((_, i) => (
             <Avatar
               key={i}
               fallbackColor={resolveAvatarColor(`user-${i}`)}

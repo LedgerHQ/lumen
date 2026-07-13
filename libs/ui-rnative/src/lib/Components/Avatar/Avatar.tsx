@@ -1,3 +1,4 @@
+import type { AvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
@@ -18,17 +19,35 @@ const fallbackIconSizes: Record<Size, IconSize> = {
   '2xl': 56,
 };
 
+const AVATAR_THEME_COLORS: Record<
+  AvatarColorKey,
+  `avatar${Capitalize<AvatarColorKey>}`
+> = {
+  orange: 'avatarOrange',
+  green: 'avatarGreen',
+  blue: 'avatarBlue',
+  purple: 'avatarPurple',
+  red: 'avatarRed',
+  yellow: 'avatarYellow',
+  turquoise: 'avatarTurquoise',
+  pink: 'avatarPink',
+};
+
 const useStyles = ({
   size,
   fallbackColor,
   shouldFallback,
 }: {
   size: Size;
-  fallbackColor?: string;
+  fallbackColor?: AvatarColorKey;
   shouldFallback: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
+      const resolvedFallbackColor = fallbackColor
+        ? t.colors.bg[AVATAR_THEME_COLORS[fallbackColor]]
+        : undefined;
+
       const sizeMap: Record<Size, { size: number; padding: number }> = {
         xs: { size: t.sizes.s24, padding: t.spacings.s4 },
         sm: { size: t.sizes.s40, padding: t.spacings.s4 },
@@ -54,8 +73,8 @@ const useStyles = ({
           height: sizeMap[size].size,
           borderRadius: 9999,
           backgroundColor:
-            shouldFallback && fallbackColor
-              ? fallbackColor
+            shouldFallback && resolvedFallbackColor
+              ? resolvedFallbackColor
               : t.colors.bg.baseTransparentHover,
           borderWidth: 1,
           borderColor: t.colors.border.icon,
@@ -65,7 +84,9 @@ const useStyles = ({
         },
         fallbackText: {
           ...fallbackTextTypography[size],
-          color: fallbackColor ? t.colors.text.black : t.colors.text.base,
+          color: resolvedFallbackColor
+            ? t.colors.text.black
+            : t.colors.text.base,
         },
         image: {
           width: '100%',

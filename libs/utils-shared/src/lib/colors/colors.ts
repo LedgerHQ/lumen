@@ -1,33 +1,32 @@
 import { hashString } from '../string';
 
 /**
- * The set of fallback background colors an Avatar can use when no image is
- * available.
+ * The set of semantic color keys an Avatar can use when no image is available.
+ * Each platform resolves these to its own color representation.
  */
-
-export const AVATAR_COLORS = [
-  'var(--color-background-avatar-orange)',
-  'var(--color-background-avatar-green)',
-  'var(--color-background-avatar-blue)',
-  'var(--color-background-avatar-purple)',
-  'var(--color-background-avatar-red)',
-  'var(--color-background-avatar-yellow)',
-  'var(--color-background-avatar-turquoise)',
-  'var(--color-background-avatar-pink)',
+export const AVATAR_COLOR_KEYS = [
+  'orange',
+  'green',
+  'blue',
+  'purple',
+  'red',
+  'yellow',
+  'turquoise',
+  'pink',
 ] as const;
 
-export type AvatarColor = (typeof AVATAR_COLORS)[number];
+export type AvatarColorKey = (typeof AVATAR_COLOR_KEYS)[number];
 
 /**
- * Resolves a stable identifier (e.g. a user id) to one of the {@link AVATAR_COLORS}.
- * The same identifier always resolves to the same color.
+ * Resolves a stable identifier (e.g. a user id) to one of the {@link AVATAR_COLOR_KEYS}.
+ * The same identifier always resolves to the same key.
  */
-export function resolveAvatarColor(identifier: string): AvatarColor {
+export function resolveAvatarColor(identifier: string): AvatarColorKey {
   const hash = hashString(identifier);
 
   const index =
-    ((hash % AVATAR_COLORS.length) + AVATAR_COLORS.length) %
-    AVATAR_COLORS.length;
+    ((hash % AVATAR_COLOR_KEYS.length) + AVATAR_COLOR_KEYS.length) %
+    AVATAR_COLOR_KEYS.length;
 
-  return AVATAR_COLORS[index];
+  return AVATAR_COLOR_KEYS[index];
 }

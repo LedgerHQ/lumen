@@ -1,9 +1,20 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, type AvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
 import type { AvatarProps } from './types';
+
+const AVATAR_CSS_COLORS: Record<AvatarColorKey, string> = {
+  orange: 'var(--color-background-avatar-orange)',
+  green: 'var(--color-background-avatar-green)',
+  blue: 'var(--color-background-avatar-blue)',
+  purple: 'var(--color-background-avatar-purple)',
+  red: 'var(--color-background-avatar-red)',
+  yellow: 'var(--color-background-avatar-yellow)',
+  turquoise: 'var(--color-background-avatar-turquoise)',
+  pink: 'var(--color-background-avatar-pink)',
+};
 
 const avatarVariants = {
   root: cva(
@@ -100,7 +111,11 @@ export const Avatar = ({
     <div
       ref={ref}
       className={cn(avatarVariants.root({ size }), className)}
-      style={shouldFallback ? { backgroundColor: fallbackColor } : undefined}
+      style={
+        shouldFallback && fallbackColor
+          ? { backgroundColor: AVATAR_CSS_COLORS[fallbackColor] }
+          : undefined
+      }
       role='img'
       aria-label={resolvedAlt}
       {...props}

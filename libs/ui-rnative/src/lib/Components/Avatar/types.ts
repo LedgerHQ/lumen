@@ -1,3 +1,4 @@
+import type { AvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import type { StyledViewProps } from '../../../styles';
 
 export type AvatarProps = {
@@ -19,11 +20,11 @@ export type AvatarProps = {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /**
    * Background color used behind the fallback when no image is displayed.
-   * Use `resolveAvatarColorValue` to derive a stable color from an identifier
+   * Use `resolveAvatarColor` to derive a stable color from an identifier
    * such as a user id.
    * @optional
    */
-  fallbackColor?: string;
+  fallbackColor?: AvatarColorKey;
   /**
    * Short text shown in place of the fallback icon when no image is displayed,
    * typically a user's initials.

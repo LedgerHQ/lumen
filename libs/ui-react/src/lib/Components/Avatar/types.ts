@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@ledgerhq/lumen-utils-shared';
+import type { AvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef } from 'react';
 
 export type AvatarProps = {
@@ -37,7 +37,7 @@ export type AvatarProps = {
    * color from an identifier such as a user id.
    * @optional
    */
-  fallbackColor?: AvatarColor;
+  fallbackColor?: AvatarColorKey;
   /**
    * Short text shown in place of the fallback icon when no image is displayed,
    * typically a user's initials.
