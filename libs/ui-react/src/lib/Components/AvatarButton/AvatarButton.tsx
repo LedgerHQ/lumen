@@ -16,9 +16,10 @@ export const AvatarButton = ({
       ref={ref}
       type='button'
       onClick={onClick}
-      className={cn('cursor-pointer rounded-full', className)}
+      className={cn('group relative cursor-pointer rounded-full', className)}
     >
       <Avatar {...props} />
+      <span className='pointer-events-none absolute inset-0 rounded-full transition-colors group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed' />
     </button>
   );
 };
