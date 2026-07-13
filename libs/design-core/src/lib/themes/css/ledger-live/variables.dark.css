@@ -15,6 +15,7 @@
   --color-background-white: var(--color-dark-constant-050);
   --color-background-grey: var(--color-dark-constant-200);
   --color-background-black: var(--color-dark-constant-950);
+  --color-background-section: var(--color-dark-grey-075);
   --color-background-surface: var(--color-dark-grey-100);
   --color-background-surface-hover: var(--color-dark-grey-200);
   --color-background-surface-pressed: var(--color-dark-grey-300);
@@ -23,6 +24,7 @@
   --color-background-surface-transparent-hover: var(--color-dark-grey-950-10);
   --color-background-surface-transparent-pressed: var(--color-dark-grey-950-20);
   --color-background-surface-transparent-disabled: var(--color-dark-grey-950-8);
+  --color-background-surface-transparent-0: var(--color-dark-grey-100-0);
   --color-background-base: var(--color-dark-grey-050);
   --color-background-base-hover: var(--color-dark-grey-100);
   --color-background-base-pressed: var(--color-dark-grey-200);
@@ -98,6 +100,14 @@
   --color-background-gradient-0: var(--color-dark-grey-050-0);
   --color-background-gradient-overlay-80: var(--color-dark-grey-050-80);
   --color-background-gradient-overlay-0: var(--color-dark-grey-050-0);
+  --color-background-avatar-blue: var(--color-dark-avatar-blue);
+  --color-background-avatar-pink: var(--color-dark-avatar-pink);
+  --color-background-avatar-turquoise: var(--color-dark-avatar-turquoise);
+  --color-background-avatar-yellow: var(--color-dark-avatar-yellow);
+  --color-background-avatar-orange: var(--color-dark-avatar-orange);
+  --color-background-avatar-red: var(--color-dark-avatar-red);
+  --color-background-avatar-green: var(--color-dark-avatar-green);
+  --color-background-avatar-purple: var(--color-dark-avatar-purple);
   --color-text-black: var(--color-dark-constant-950);
   --color-text-white: var(--color-dark-constant-050);
   --color-text-white-hover: var(--color-dark-constant-200);
@@ -352,6 +362,7 @@
   --background-white: var(--color-background-white-default);
   --background-grey: var(--color-background-grey-default);
   --background-black: var(--color-background-black-default);
+  --background-section: var(--color-background-section-default);
   --background-surface: var(--color-background-surface-default);
   --background-surface-hover: var(--color-background-surface-hover);
   --background-surface-pressed: var(--color-background-surface-pressed);
@@ -367,6 +378,9 @@
   );
   --background-surface-transparent-disabled: var(
     --color-background-surface-transparent-disabled
+  );
+  --background-surface-transparent-0: var(
+    --color-background-surface-transparent-0-default
   );
   --background-base: var(--color-background-base-default);
   --background-base-hover: var(--color-background-base-hover);
@@ -449,6 +463,14 @@
   --background-gradient-0: var(--color-background-gradient-0);
   --background-gradient-overlay-80: var(--color-background-gradient-overlay-80);
   --background-gradient-overlay-0: var(--color-background-gradient-overlay-0);
+  --background-avatar-blue: var(--color-background-avatar-blue);
+  --background-avatar-pink: var(--color-background-avatar-pink);
+  --background-avatar-purple: var(--color-background-avatar-purple);
+  --background-avatar-green: var(--color-background-avatar-green);
+  --background-avatar-turquoise: var(--color-background-avatar-turquoise);
+  --background-avatar-yellow: var(--color-background-avatar-yellow);
+  --background-avatar-orange: var(--color-background-avatar-orange);
+  --background-avatar-red: var(--color-background-avatar-red);
   --text-black: var(--color-text-black-default);
   --text-white: var(--color-text-white-default);
   --text-white-hover: var(--color-text-white-hover);

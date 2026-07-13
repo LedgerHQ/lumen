@@ -246,6 +246,7 @@ export { Truck } from './Icons/Truck';
 export { Twitter } from './Icons/Twitter';
 export { Unlink } from './Icons/Unlink';
 export { Unlock } from './Icons/Unlock';
+export { Upload } from './Icons/Upload';
 export { Usb } from './Icons/Usb';
 export { UsbC } from './Icons/UsbC';
 export { User } from './Icons/User';

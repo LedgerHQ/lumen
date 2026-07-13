@@ -179,6 +179,7 @@ export const ledgerLiveDarkColorTokens = {
     white: primitiveColorTokens.dark.constant['050'],
     black: primitiveColorTokens.dark.constant['950'],
     grey: primitiveColorTokens.dark.constant['200'],
+    section: primitiveColorTokens.dark.grey['075'],
     surface: primitiveColorTokens.dark.grey['100'],
     surfaceHover: primitiveColorTokens.dark.grey['200'],
     surfacePressed: primitiveColorTokens.dark.grey['300'],
@@ -186,6 +187,7 @@ export const ledgerLiveDarkColorTokens = {
     surfaceTransparentHover: primitiveColorTokens.dark.grey['950-10'],
     surfaceTransparentPressed: primitiveColorTokens.dark.grey['950-20'],
     surfaceTransparentDisabled: primitiveColorTokens.dark.grey['950-8'],
+    surfaceTransparent0: primitiveColorTokens.dark.grey['100-0'],
     base: primitiveColorTokens.dark.grey['050'],
     baseHover: primitiveColorTokens.dark.grey['100'],
     basePressed: primitiveColorTokens.dark.grey['200'],
@@ -239,6 +241,14 @@ export const ledgerLiveDarkColorTokens = {
     gradient0: primitiveColorTokens.dark.grey['050-0'],
     gradientOverlay80: primitiveColorTokens.dark.grey['050-80'], // Added missing token from CSS
     gradientOverlay0: primitiveColorTokens.dark.grey['050-0'], // Added missing token from CSS
+    avatarBlue: primitiveColorTokens.dark.avatar.blue,
+    avatarPink: primitiveColorTokens.dark.avatar.pink,
+    avatarTurquoise: primitiveColorTokens.dark.avatar.turquoise,
+    avatarYellow: primitiveColorTokens.dark.avatar.yellow,
+    avatarOrange: primitiveColorTokens.dark.avatar.orange,
+    avatarRed: primitiveColorTokens.dark.avatar.red,
+    avatarGreen: primitiveColorTokens.dark.avatar.green,
+    avatarPurple: primitiveColorTokens.dark.avatar.purple,
   },
   text: {
     black: primitiveColorTokens.dark.constant['950'],

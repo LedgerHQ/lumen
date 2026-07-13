@@ -97,7 +97,7 @@
         "$description": "",
         "$extensions": {
           "com.figma": {
-            "hiddenFromPublishing": false,
+            "hiddenFromPublishing": true,
             "scopes": [
               "FRAME_FILL",
               "SHAPE_FILL"
@@ -159,6 +159,25 @@
             ],
             "codeSyntax": {
               "WEB": "var(--background-black);"
+            }
+          }
+        }
+      }
+    },
+    "section": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.background.section.default}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
+            "codeSyntax": {
+              "WEB": "var(--background-section);"
             }
           }
         }
@@ -288,6 +307,25 @@
               "SHAPE_FILL"
             ],
             "codeSyntax": {}
+          }
+        }
+      }
+    },
+    "surface-transparent-0": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.background.surface-transparent-0.default}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
+            "codeSyntax": {
+              "WEB": "var(--surface-transparent);"
+            }
           }
         }
       }
@@ -1135,6 +1173,120 @@
               "FRAME_FILL",
               "SHAPE_FILL",
               "EFFECT_COLOR"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    },
+    "avatar": {
+      "blue": {
+        "$type": "color",
+        "$value": "{color.background.avatar.blue}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "pink": {
+        "$type": "color",
+        "$value": "{color.background.avatar.pink}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "purple": {
+        "$type": "color",
+        "$value": "{color.background.avatar.purple}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "green": {
+        "$type": "color",
+        "$value": "{color.background.avatar.green}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "turquoise": {
+        "$type": "color",
+        "$value": "{color.background.avatar.turquoise}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "yellow": {
+        "$type": "color",
+        "$value": "{color.background.avatar.yellow}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "orange": {
+        "$type": "color",
+        "$value": "{color.background.avatar.orange}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "red": {
+        "$type": "color",
+        "$value": "{color.background.avatar.red}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
             ],
             "codeSyntax": {}
           }
