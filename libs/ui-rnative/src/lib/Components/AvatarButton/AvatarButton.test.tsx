@@ -23,7 +23,7 @@ describe('AvatarButton Component', () => {
     );
 
     expect(getByRole('button')).toBeTruthy();
-    expect(getByLabelText('avatar')).toBeTruthy();
+    expect(getByLabelText('Open menu')).toBeTruthy();
   });
 
   it('should call onPress when pressed', () => {
