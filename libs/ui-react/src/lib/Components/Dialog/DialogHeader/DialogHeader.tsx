@@ -12,7 +12,7 @@ const dialogHeaderVariants = cva('flex px-24 text-base', {
   variants: {
     density: {
       compact: 'mb-12 h-64 min-h-64 flex-row items-center gap-12',
-      expanded: 'flex-col gap-16 pb-12 pt-10',
+      expanded: 'flex-col gap-16 pt-10 pb-12',
     },
   },
 });

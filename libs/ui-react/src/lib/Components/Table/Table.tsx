@@ -309,8 +309,8 @@ const cellVariants = {
   inner: cva('flex flex-1 justify-end', {
     variants: {
       align: {
-        start: 'text-start justify-start',
-        end: 'text-end justify-end',
+        start: 'justify-start text-start',
+        end: 'justify-end text-end',
       },
     },
   }),
@@ -389,8 +389,8 @@ const headerCellVariants = {
   content: cva('flex min-w-0 items-center gap-4 truncate', {
     variants: {
       align: {
-        start: 'text-start justify-start',
-        end: 'text-end justify-end',
+        start: 'justify-start text-start',
+        end: 'justify-end text-end',
       },
     },
   }),

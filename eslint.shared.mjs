@@ -122,6 +122,10 @@ export const defineTailwindRules = ({ entryPoint, tailwindConfig }) => ({
             { match: 'strings' },
             {
               match: 'objectValues',
+              pathPattern: '^variants.*$',
+            },
+            {
+              match: 'objectValues',
               pathPattern: '^compoundVariants\\[\\d+\\]\\.(?:className|class)$',
             },
           ],
