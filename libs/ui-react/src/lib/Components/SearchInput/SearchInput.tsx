@@ -22,7 +22,7 @@ const inputVariants = cva('', {
     appearance: {
       plain: '',
       transparent:
-        'bg-transparent group-hover:bg-transparent group-disabled:bg-transparent group-has-disabled:bg-transparent',
+        'bg-transparent group-hover:bg-transparent group-has-disabled:bg-transparent',
     },
   },
   defaultVariants: {
