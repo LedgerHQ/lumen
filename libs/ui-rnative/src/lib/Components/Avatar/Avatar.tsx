@@ -1,6 +1,6 @@
 import type { AvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
@@ -72,12 +72,11 @@ const useStyles = ({
           width: sizeMap[size].size,
           height: sizeMap[size].size,
           borderRadius: 9999,
+          overflow: 'hidden',
           backgroundColor:
             shouldFallback && resolvedFallbackColor
               ? resolvedFallbackColor
               : t.colors.bg.baseTransparentHover,
-          borderWidth: 1,
-          borderColor: t.colors.border.icon,
           alignItems: 'center',
           justifyContent: 'center',
           padding: sizeMap[size].padding,
@@ -89,10 +88,21 @@ const useStyles = ({
             : t.colors.text.base,
         },
         image: {
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        },
+        insetBorder: {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           borderRadius: 9999,
+          borderWidth: 1,
+          borderColor: t.colors.border.icon,
         },
       };
     },
@@ -165,6 +175,7 @@ export const Avatar = ({
           testID='avatar-image'
         />
       )}
+      <View style={styles.insetBorder} pointerEvents='none' />
     </Box>
   );
 };
