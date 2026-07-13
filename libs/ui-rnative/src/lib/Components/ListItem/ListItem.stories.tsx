@@ -446,6 +446,54 @@ export const ResponsiveLayout: Story = {
   ),
 };
 
+export const PriorityShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
+      <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
+        priority="end" (default)
+      </Text>
+      <ListItem priority='end'>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>
+              Long title competing with trailing value content
+            </ListItemTitle>
+            <ListItemDescription>priority="end"</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>1,234,567,891,234.56</ListItemTitle>
+            <ListItemDescription>USD</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+
+      <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
+        priority="start"
+      </Text>
+      <ListItem priority='start'>
+        <ListItemLeading>
+          <Spot size={48} appearance='icon' icon={Wallet} />
+          <ListItemContent>
+            <ListItemTitle>
+              Long title competing with trailing value content
+            </ListItemTitle>
+            <ListItemDescription>priority="start"</ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ListItemContent>
+            <ListItemTitle>1,234,567,891,234.56</ListItemTitle>
+            <ListItemDescription>USD</ListItemDescription>
+          </ListItemContent>
+        </ListItemTrailing>
+      </ListItem>
+    </Box>
+  ),
+};
+
 export const CompositionShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>

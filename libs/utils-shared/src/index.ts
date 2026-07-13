@@ -1,4 +1,5 @@
 export * from './lib/density';
+export * from './lib/priority';
 export * from './lib/string/string';
 export * from './lib/inputFormatter';
 export * from './lib/colors';

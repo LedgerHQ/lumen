@@ -2,6 +2,7 @@ import {
   createSafeContext,
   type Density,
   DisabledProvider,
+  type Priority,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentRef, ReactNode, Ref } from 'react';
@@ -24,6 +25,11 @@ const [ListItemTrailingProvider, useListItemTrailingContext] =
     isInTrailing: false,
   });
 
+const [ListItemPriorityProvider, useListItemPriorityContext] =
+  createSafeContext<{ priority?: Priority }>('ListItemPriority', {
+    priority: undefined,
+  });
+
 const useRootStyles = ({
   pressed,
   density,
@@ -36,26 +42,25 @@ const useRootStyles = ({
   disabled: boolean;
 }) => {
   return useStyleSheet(
-    (t) => {
-      return {
-        container: StyleSheet.flatten([
-          {
-            flexDirection: 'row',
-            alignItems: 'center',
-            height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
-            width: t.sizes.full,
-            gap: t.spacings.s16,
-            borderRadius: t.borderRadius.md,
-            backgroundColor: 'transparent',
-            paddingHorizontal: t.spacings.s8,
-          },
-          pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
-          active && { backgroundColor: t.colors.bg.muted },
-          active && pressed && { backgroundColor: t.colors.bg.mutedPressed },
-          active && disabled && { backgroundColor: t.colors.bg.disabled },
-        ]),
-      };
-    },
+    (t) => ({
+      container: StyleSheet.flatten([
+        {
+          flexDirection: 'row',
+          alignItems: 'center',
+          height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
+          width: t.sizes.full,
+          gap: t.spacings.s16,
+          borderRadius: t.borderRadius.md,
+          backgroundColor: 'transparent',
+          paddingHorizontal: t.spacings.s8,
+          overflow: 'hidden',
+        },
+        pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
+        active && { backgroundColor: t.colors.bg.muted },
+        active && pressed && { backgroundColor: t.colors.bg.mutedPressed },
+        active && disabled && { backgroundColor: t.colors.bg.disabled },
+      ]),
+    }),
     [pressed, density, active, disabled],
   );
 };
@@ -100,6 +105,7 @@ export const ListItem = ({
   style,
   disabled: disabledProp = false,
   density = 'expanded',
+  priority = 'end',
   active = false,
   onPress,
   onLongPress,
@@ -128,9 +134,15 @@ export const ListItem = ({
           {...props}
         >
           {({ pressed }) => (
-            <ListItemInner pressed={pressed} density={density} active={active}>
-              {children}
-            </ListItemInner>
+            <ListItemPriorityProvider value={{ priority }}>
+              <ListItemInner
+                pressed={pressed}
+                density={density}
+                active={active}
+              >
+                {children}
+              </ListItemInner>
+            </ListItemPriorityProvider>
           )}
         </Pressable>
       </DisabledProvider>
@@ -146,9 +158,11 @@ export const ListItem = ({
         accessibilityState={{ disabled, selected: active }}
         {...props}
       >
-        <ListItemInner pressed={false} density={density} active={active}>
-          {children}
-        </ListItemInner>
+        <ListItemPriorityProvider value={{ priority }}>
+          <ListItemInner pressed={false} density={density} active={active}>
+            {children}
+          </ListItemInner>
+        </ListItemPriorityProvider>
       </Box>
     </DisabledProvider>
   );
@@ -191,17 +205,23 @@ export const ListItemLeading = ({
   ref,
   ...props
 }: ListItemLeadingProps & { ref?: Ref<View> }) => {
+  const { priority } = useListItemPriorityContext({
+    consumerName: 'ListItemLeading',
+    contextRequired: false,
+  });
+
   const styles = useStyleSheet(
     (t) => ({
       leading: {
-        flex: 1,
+        flexGrow: 1,
+        flexShrink: priority === 'end' ? 1 : 0,
         minWidth: 0,
         flexDirection: 'row',
         alignItems: 'center',
         gap: t.spacings.s12,
       },
     }),
-    [],
+    [priority],
   );
 
   return (
@@ -231,16 +251,22 @@ export const ListItemContent = ({
     contextRequired: false,
   });
 
+  const { priority } = useListItemPriorityContext({
+    consumerName: 'ListItemContent',
+    contextRequired: false,
+  });
+
   const styles = useStyleSheet(
     (t) => ({
       content: {
-        flex: isInTrailing ? 0 : 1,
+        flex: isInTrailing || priority === 'start' ? 0 : 1,
+        ...(priority === 'start' && { flexShrink: 1, flexBasis: 'auto' }),
         minWidth: 0,
         gap: t.spacings.s4,
         alignItems: isInTrailing ? 'flex-end' : 'stretch',
       },
     }),
-    [isInTrailing],
+    [priority, isInTrailing],
   );
 
   return (
@@ -400,14 +426,19 @@ export const ListItemTrailing = ({
   ref,
   ...props
 }: ListItemTrailingProps & { ref?: Ref<View> }) => {
+  const { priority } = useListItemPriorityContext({
+    consumerName: 'ListItemTrailing',
+    contextRequired: false,
+  });
+
   const styles = useStyleSheet(
     () => ({
       trailing: {
-        flexShrink: 0,
+        flexShrink: priority === 'start' ? 1 : 0,
         alignItems: 'center',
       },
     }),
-    [],
+    [priority],
   );
 
   return (

@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react-native';
-import { Text, View } from 'react-native';
+import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Information } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Tag } from '../Tag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
+import { Box, Text } from '../Utility';
 import {
   DescriptionItem,
   DescriptionItemLabel,
@@ -11,12 +11,6 @@ import {
   DescriptionItemTrailing,
   DescriptionItemValue,
 } from './DescriptionItem';
-
-const Container = ({ children }: { children: React.ReactNode }) => (
-  <View style={{ padding: 8, backgroundColor: '#ffffff', width: 320 }}>
-    {children}
-  </View>
-);
 
 const meta: Meta<typeof DescriptionItem> = {
   component: DescriptionItem,
@@ -30,6 +24,7 @@ const meta: Meta<typeof DescriptionItem> = {
   },
   parameters: {
     layout: 'centered',
+    backgrounds: { default: 'light' },
     docs: {
       source: {
         language: 'tsx',
@@ -40,9 +35,9 @@ const meta: Meta<typeof DescriptionItem> = {
   },
   decorators: [
     (Story) => (
-      <Container>
+      <Box lx={{ padding: 's8', width: 's320' }}>
         <Story />
-      </Container>
+      </Box>
     ),
   ],
 };
@@ -71,7 +66,7 @@ export const SizeShowcase: Story = {
     size: 'md',
   },
   render: () => (
-    <View style={{ gap: 16 }}>
+    <Box lx={{ gap: 's16' }}>
       <DescriptionItem size='md'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
@@ -89,7 +84,7 @@ export const SizeShowcase: Story = {
           <Tag size='md' label='Ethereum' appearance='base' />
         </DescriptionItemTrailing>
       </DescriptionItem>
-      <br />
+
       <DescriptionItem size='sm'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
@@ -107,13 +102,13 @@ export const SizeShowcase: Story = {
           <Tag size='sm' label='Ethereum' appearance='base' />
         </DescriptionItemTrailing>
       </DescriptionItem>
-    </View>
+    </Box>
   ),
 };
 
 export const TrailingVariants: Story = {
   render: () => (
-    <View style={{ gap: 16 }}>
+    <Box lx={{ gap: 's16' }}>
       <DescriptionItem>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Plain value</DescriptionItemLabel>
@@ -141,13 +136,13 @@ export const TrailingVariants: Story = {
           <Tag size='md' label='New' appearance='accent' />
         </DescriptionItemTrailing>
       </DescriptionItem>
-    </View>
+    </Box>
   ),
 };
 
 export const WithInfoIcon: Story = {
   render: () => (
-    <View style={{ gap: 16 }}>
+    <Box lx={{ gap: 's16' }}>
       <DescriptionItem>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Fees</DescriptionItemLabel>
@@ -189,47 +184,32 @@ export const WithInfoIcon: Story = {
           <DescriptionItemValue>~30 min</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
-    </View>
+    </Box>
   ),
 };
 
-export const TruncationBehavior: Story = {
+export const PriorityShowcase: Story = {
   render: () => (
-    <View style={{ gap: 16 }}>
-      <DescriptionItem>
+    <Box lx={{ gap: 's16' }}>
+      <DescriptionItem priority='end'>
         <DescriptionItemLeading>
-          <DescriptionItemLabel>
-            This is a very long label that should go to a second line.
-          </DescriptionItemLabel>
+          <DescriptionItemLabel>priority="end" (default)</DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>0.001 BTC</DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
 
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>Label</DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem>
+      <DescriptionItem priority='start'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>
-            Destination address on network
+            priority="start" long label which will not truncate
           </DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
-    </View>
+    </Box>
   ),
 };

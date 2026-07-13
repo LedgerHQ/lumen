@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Information } from '../../Symbols';
+import { MediaButton } from '../MediaButton/MediaButton';
 import {
   Select,
   SelectContent,
@@ -175,41 +176,26 @@ export const WithInfoIcon: Story = {
   ),
 };
 
-export const TruncationBehavior: Story = {
+export const PriorityShowcase: Story = {
   render: () => (
     <div className='flex w-320 flex-col gap-16'>
-      <DescriptionItem>
+      <DescriptionItem priority='end'>
         <DescriptionItemLeading>
-          <DescriptionItemLabel>
-            This is a very long label that should go to a second line.
-          </DescriptionItemLabel>
+          <DescriptionItemLabel>priority="end" (default)</DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>0.001 BTC</DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
 
-      <DescriptionItem>
-        <DescriptionItemLeading>
-          <DescriptionItemLabel>Label</DescriptionItemLabel>
-        </DescriptionItemLeading>
-        <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
-        </DescriptionItemTrailing>
-      </DescriptionItem>
-
-      <DescriptionItem>
+      <DescriptionItem priority='start'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>
-            Destination address on network
+            priority="start" long label
           </DescriptionItemLabel>
         </DescriptionItemLeading>
         <DescriptionItemTrailing>
-          <DescriptionItemValue>
-            0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-          </DescriptionItemValue>
+          <DescriptionItemValue>0xd8dA6BF26964aF9D7eEd9e</DescriptionItemValue>
         </DescriptionItemTrailing>
       </DescriptionItem>
     </div>
@@ -237,7 +223,14 @@ export const WithSelect: Story = {
             value={network}
             onValueChange={setNetwork}
           >
-            <SelectTrigger aria-label='Open tooltip' label='Network' />
+            <SelectTrigger
+              aria-label='Select network'
+              render={({ selectedContent }) => (
+                <MediaButton appearance='transparent'>
+                  {selectedContent}
+                </MediaButton>
+              )}
+            />
             <SelectContent>
               <SelectList
                 renderItem={(item) => (

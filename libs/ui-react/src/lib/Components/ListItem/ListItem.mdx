@@ -49,6 +49,15 @@ ListItems are flexible interactive elements designed for lists. They use a compo
 
 <Canvas of={ListItemStories.DensityShowcase} />
 
+### Priority
+
+When horizontal space is constrained and both the leading and trailing sides have long content, the `priority` prop controls which side is protected from shrinking and truncation.
+
+- `priority='end'` (default): the leading side (title/description) shrinks and truncates, while the trailing content keeps its natural size.
+- `priority='start'`: the trailing content shrinks and truncates, while the leading side is protected.
+
+<Canvas of={ListItemStories.PriorityShowcase} />
+
 ### Interactivity
 
 The ListItem can be interactive or non-interactive. By default, the ListItem is non-interactive. To make it interactive, you need to pass a `onClick` prop.
