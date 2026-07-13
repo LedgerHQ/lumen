@@ -1,0 +1,56 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarButtonStories from './AvatarButton.stories';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Core/AvatarButton' of={AvatarButtonStories} />
+
+# AvatarButton
+
+<CustomTabs>
+<Tab label="Overview">
+
+## Introduction
+
+`AvatarButton` wraps an [`Avatar`](/docs/rnative-avatar--docs) in a `Pressable`, for use as an interactive trigger such as opening a user menu or navigating to a profile. It accepts every `Avatar` prop plus `onPress` and `onLongPress`.
+
+## Anatomy
+
+<Canvas of={AvatarButtonStories.Base} />
+<Controls of={AvatarButtonStories.Base} />
+
+## Fallback
+
+Like `Avatar`, it falls back to a User icon when no image is available.
+
+<Canvas of={AvatarButtonStories.Fallback} />
+
+## Accessibility
+
+- Renders with `accessibilityRole="button"` so it is announced as a button by screen readers.
+- Provide a meaningful `alt` describing the action (e.g. `"Open user menu"`); it is exposed as the avatar's accessible label.
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import { AvatarButton } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <AvatarButton
+      src="https://example.com/photo.jpg"
+      alt="Open user menu"
+      onPress={openMenu}
+    />
+  );
+}
+```
+
+</Tab>
+</CustomTabs>
