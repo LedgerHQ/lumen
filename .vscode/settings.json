@@ -11,10 +11,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   },
-  "eslint.codeActionsOnSave.rules": [
-    "!better-tailwindcss/*",
-    "*"
-  ],
   "eslint.workingDirectories": [
     "./libs/ui-react",
     "./libs/ui-rnative",
