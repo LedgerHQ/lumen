@@ -81,3 +81,18 @@ export const WithLeadingIcon: Story = {
     </SectionHeader>
   ),
 };
+
+export const TruncateShowcase: Story = {
+  render: () => (
+    <Box lx={{ width: 's144' }}>
+      <SectionHeader appearance='card'>
+        <SectionHeaderLeading>
+          <Settings size={16} color='muted' />
+        </SectionHeaderLeading>
+        <SectionHeaderTitle>
+          Very long section header label that should truncate
+        </SectionHeaderTitle>
+      </SectionHeader>
+    </Box>
+  ),
+};

@@ -80,4 +80,24 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Accounts')).toBeTruthy();
     expect(screen.getByTestId('section-header')).toBeTruthy();
   });
+
+  it('keeps leading content visible with a long title', () => {
+    render(
+      <TestWrapper>
+        <SectionHeader lx={{ maxWidth: 's80' }}>
+          <SectionHeaderLeading testID='leading'>
+            <Text>icon</Text>
+          </SectionHeaderLeading>
+          <SectionHeaderTitle>
+            Very long section header label that should truncate
+          </SectionHeaderTitle>
+        </SectionHeader>
+      </TestWrapper>,
+    );
+
+    expect(screen.getByTestId('leading')).toBeTruthy();
+    expect(
+      screen.getByText('Very long section header label that should truncate'),
+    ).toBeTruthy();
+  });
 });

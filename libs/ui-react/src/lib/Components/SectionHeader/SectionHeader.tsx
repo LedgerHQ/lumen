@@ -6,7 +6,7 @@ import type {
   SectionHeaderTitleProps,
 } from './types';
 
-const sectionHeaderVariants = cva('inline-flex items-center gap-4', {
+const sectionHeaderVariants = cva('inline-flex min-w-0 items-center gap-4', {
   variants: {
     appearance: {
       'no-background': '',
@@ -53,7 +53,13 @@ export const SectionHeaderTitle = ({
   ...props
 }: SectionHeaderTitleProps) => {
   return (
-    <span className={cn('body-2-semi-bold text-muted', className)} {...props}>
+    <span
+      className={cn(
+        'min-w-0 shrink truncate body-2-semi-bold text-muted',
+        className,
+      )}
+      {...props}
+    >
       {children}
     </span>
   );

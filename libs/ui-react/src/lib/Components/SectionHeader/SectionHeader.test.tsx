@@ -62,4 +62,24 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Accounts')).toBeInTheDocument();
     expect(container.firstChild).toHaveClass('rounded');
   });
+
+  it('truncates long titles', () => {
+    render(
+      <div className='w-80'>
+        <SectionHeader>
+          <SectionHeaderLeading>
+            <span data-testid='leading-icon'>icon</span>
+          </SectionHeaderLeading>
+          <SectionHeaderTitle>
+            Very long section header label that should truncate
+          </SectionHeaderTitle>
+        </SectionHeader>
+      </div>,
+    );
+
+    expect(screen.getByText(/Very long section header label/)).toHaveClass(
+      'truncate',
+    );
+    expect(screen.getByTestId('leading-icon')).toBeInTheDocument();
+  });
 });

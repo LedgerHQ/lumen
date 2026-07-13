@@ -51,6 +51,8 @@ export const SectionHeaderTitle = ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
+          flexShrink: 1,
+          minWidth: 0,
           color: t.colors.text.muted,
         },
       ]),
@@ -59,7 +61,13 @@ export const SectionHeaderTitle = ({
   );
 
   return (
-    <Text lx={lx} style={[styles.title, style]} {...props}>
+    <Text
+      lx={lx}
+      style={[styles.title, style]}
+      numberOfLines={1}
+      ellipsizeMode='tail'
+      {...props}
+    >
       {children}
     </Text>
   );
@@ -99,6 +107,7 @@ export const SectionHeader = ({
             flexDirection: 'row',
             alignItems: 'center',
             gap: t.spacings.s4,
+            minWidth: 0,
           },
           appearanceStyles[appearance],
         ]),
