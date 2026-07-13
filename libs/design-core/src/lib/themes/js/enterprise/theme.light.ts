@@ -179,6 +179,7 @@ export const enterpriseLightColorTokens = {
     white: primitiveColorTokens.light.constant['050'],
     black: primitiveColorTokens.light.constant['950'],
     grey: primitiveColorTokens.light.constant['200'],
+    section: primitiveColorTokens.light.grey['075'],
     surface: primitiveColorTokens.light.grey['100'],
     surfaceHover: primitiveColorTokens.light.grey['200'],
     surfacePressed: primitiveColorTokens.light.grey['300'],
@@ -186,6 +187,7 @@ export const enterpriseLightColorTokens = {
     surfaceTransparentHover: primitiveColorTokens.light.grey['950-10'],
     surfaceTransparentPressed: primitiveColorTokens.light.grey['950-20'],
     surfaceTransparentDisabled: primitiveColorTokens.light.grey['950-2'],
+    surfaceTransparent0: primitiveColorTokens.light.grey['100-0'],
     base: primitiveColorTokens.light.grey['050'],
     baseHover: primitiveColorTokens.light.grey['100'],
     basePressed: primitiveColorTokens.light.grey['200'],
@@ -239,6 +241,14 @@ export const enterpriseLightColorTokens = {
     gradient0: primitiveColorTokens.light.grey['950-0'],
     gradientOverlay80: primitiveColorTokens.light.grey['950-80'], // Added missing token from CSS
     gradientOverlay0: primitiveColorTokens.light.grey['950-0'], // Added missing token from CSS
+    avatarBlue: primitiveColorTokens.light.avatar.blue,
+    avatarPink: primitiveColorTokens.light.avatar.pink,
+    avatarTurquoise: primitiveColorTokens.light.avatar.turquoise,
+    avatarYellow: primitiveColorTokens.light.avatar.yellow,
+    avatarOrange: primitiveColorTokens.light.avatar.orange,
+    avatarRed: primitiveColorTokens.light.avatar.red,
+    avatarGreen: primitiveColorTokens.light.avatar.green,
+    avatarPurple: primitiveColorTokens.light.avatar.purple,
   },
   text: {
     black: primitiveColorTokens.light.constant['950'],
