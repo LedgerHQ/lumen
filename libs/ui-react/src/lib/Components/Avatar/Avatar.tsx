@@ -5,10 +5,9 @@ import { useCommonTranslation } from '../../../i18n';
 import { User } from '../../Symbols';
 import type { AvatarProps } from './types';
 
-
 const avatarVariants = {
   root: cva(
-    'relative box-border inline-flex items-center justify-center rounded-full border border-icon bg-base-transparent-hover align-middle transition-colors',
+    'relative inline-flex items-center justify-center rounded-full bg-base-transparent-hover align-middle transition-colors',
     {
       variants: {
         size: {
@@ -122,6 +121,10 @@ export const Avatar = ({
           aria-hidden='true'
         />
       )}
+      <span
+        className='pointer-events-none absolute inset-0 rounded-full ring-1 ring-icon ring-inset'
+        aria-hidden='true'
+      />
     </div>
   );
 
