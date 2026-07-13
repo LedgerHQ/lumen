@@ -38,9 +38,6 @@ const config: StorybookConfig = {
       '@ledgerhq/lumen-ui-rnative': fileURLToPath(
         new URL('../src/index.ts', import.meta.url),
       ),
-      // Resolve to source instead of the published dist so Chromatic's
-      // TurboSnap (which diffs git-tracked source files) can trace token
-      // changes back to affected stories; dist/*.js isn't git-tracked.
       '@ledgerhq/lumen-design-core': fileURLToPath(
         new URL('../../design-core/src/index.ts', import.meta.url),
       ),
