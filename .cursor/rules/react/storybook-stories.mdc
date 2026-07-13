@@ -29,6 +29,35 @@ export const Base: Story = {
 - **Layout**: Stories should be centered.
 - **Background**: Stories should use white background.
 
+### Docs source type
+
+Stories with interactive controls (`args` on `Base`) must use dynamic docs source so the code snippet updates when controls change. Set this on the story `meta`:
+
+```typescript
+const meta: Meta<typeof Component> = {
+  component: Component,
+  parameters: {
+    docs: {
+      source: {
+        language: 'tsx',
+        format: true,
+        type: 'dynamic',
+      },
+    },
+  },
+};
+```
+
+- Use `type: 'dynamic'` — not `'code'` — when the story exposes `args` / Controls.
+- Use `type: 'code'` only for static showcase stories with a fixed, hand-written `parameters.docs.source.code` block.
+
+### Controls
+
+Prefer controls inferred from component prop types (`react-docgen-typescript` is configured in Storybook). Do not duplicate `argTypes` for basic props already described in `types.ts` (unions, booleans, strings).
+
+- Add a `Base` story with `args` and a `render` that consumes them — required for Controls to appear in docs.
+- Add manual `argTypes` only for overrides docgen cannot express (actions, select mappings, hiding props).
+
 ## Story Export Names
 
 To maintain consistency across our Storybook documentation, follow these naming rules:

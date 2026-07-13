@@ -1,0 +1,52 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SectionHeaderStories from './SectionHeader.stories';
+import { SectionHeader } from './SectionHeader';
+import { CustomTabs, Tab } from '../../../../.storybook/components';
+
+<Meta title='Core/SectionHeader' of={SectionHeaderStories} />
+
+# SectionHeader
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+SectionHeader is a compact, muted label used to title grouped content areas. It is smaller and more subdued than Subheader, making it suitable for category labels, list group headers, and inline section markers.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=18640-48457&m=dev).
+
+## Anatomy
+
+<Canvas of={SectionHeaderStories.NoBackground} />
+
+The SectionHeader uses a composite structure with the following components:
+
+- **SectionHeader** (container): The root component with optional `appearance` variant
+- **SectionHeaderLeading** (optional): Slot for a leading icon or other content
+- **SectionHeaderTitle** (required): The muted label text
+
+## Properties
+
+### No background
+
+The default appearance renders plain muted text with no container styling.
+
+<Canvas of={SectionHeaderStories.NoBackground} />
+<Controls of={SectionHeaderStories.NoBackground} />
+
+### Card
+
+The card appearance wraps the label in a subtle surface chip.
+
+<Canvas of={SectionHeaderStories.Card} />
+
+### With leading icon
+
+Use `SectionHeaderLeading` to add an optional icon before the title.
+
+<Canvas of={SectionHeaderStories.WithLeadingIcon} />
+
+</Tab>
+
+</CustomTabs>

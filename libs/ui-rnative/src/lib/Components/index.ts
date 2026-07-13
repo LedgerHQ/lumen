@@ -29,6 +29,7 @@ export * from './NavBar';
 export * from './OptionList';
 export * from './PageIndicator';
 export * from './SearchInput';
+export * from './SectionHeader';
 export * from './SegmentedControl';
 export * from './Skeleton';
 export * from './Spinner';
