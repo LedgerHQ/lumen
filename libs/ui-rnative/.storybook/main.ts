@@ -10,6 +10,7 @@ const config: StorybookConfig = {
     '../src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     // '../../ui-rnative-visualization/src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
+    './docs/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
   addons: [
     getAbsolutePath('@storybook/addon-themes'),
@@ -36,6 +37,9 @@ const config: StorybookConfig = {
       ),
       '@ledgerhq/lumen-ui-rnative': fileURLToPath(
         new URL('../src/index.ts', import.meta.url),
+      ),
+      '@ledgerhq/lumen-design-core': fileURLToPath(
+        new URL('../../design-core/src/index.ts', import.meta.url),
       ),
     };
 

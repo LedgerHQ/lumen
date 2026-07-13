@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import { resolveTheme } from '../';
+import { useResolvedTheme } from '../';
 
 type TypographyCategory = 'heading' | 'body';
 
@@ -8,16 +8,15 @@ type TypographyTableProps = {
 };
 
 export const TypographyTable = ({ category }: TypographyTableProps) => {
-  const typographies = resolveTheme().typographies.xs[category];
-
-  const cells = Object.entries(typographies);
+  const theme = useResolvedTheme();
+  const cells = Object.entries(theme.typographies.xs[category]);
 
   return (
-    <table style={{ width: '100%' }}>
+    <table style={{ width: '100%', color: theme.colors.text.base }}>
       <thead>
         <tr>
-          <th>Token</th>
-          <th>Sample</th>
+          <th style={{ textAlign: 'left' }}>Token</th>
+          <th style={{ textAlign: 'left' }}>Sample</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +28,7 @@ export const TypographyTable = ({ category }: TypographyTableProps) => {
             <td>
               <Text
                 style={{
+                  color: theme.colors.text.base,
                   fontFamily: value.fontFamily,
                   fontSize: value.fontSize,
                   fontWeight: value.fontWeight,
