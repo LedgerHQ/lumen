@@ -68,14 +68,14 @@ describe('Avatar Component', () => {
   });
 
   it('should apply the fallback color as the background when falling back', () => {
-    const { container } = render(<Avatar fallbackColor='green' />);
+    const { container } = render(<Avatar fallbackColor='#aed09c' />);
 
     expect(container.firstChild).toHaveStyle({ backgroundColor: '#aed09c' });
   });
 
   it('should not apply a fallback background color when an image is shown', () => {
     const { container } = render(
-      <Avatar src={validSrc} fallbackColor='green' />,
+      <Avatar src={validSrc} fallbackColor='#aed09c' />,
     );
 
     expect(container.firstChild).not.toHaveStyle({

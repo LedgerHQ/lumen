@@ -115,7 +115,7 @@ describe('Avatar Component', () => {
   it('should apply the fallback color as the background when falling back', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <Avatar testID='avatar-id' fallbackColor='green' />
+        <Avatar testID='avatar-id' fallbackColor='#aed09c' />
       </TestWrapper>,
     );
 
@@ -127,7 +127,7 @@ describe('Avatar Component', () => {
   it('should not apply the fallback color when an image is shown', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <Avatar testID='avatar-id' src={testSrc} fallbackColor='green' />
+        <Avatar testID='avatar-id' src={testSrc} fallbackColor='#aed09c' />
       </TestWrapper>,
     );
 

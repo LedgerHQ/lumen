@@ -1,4 +1,3 @@
-import type { AvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef } from 'react';
 
 export type AvatarProps = {
@@ -32,12 +31,12 @@ export type AvatarProps = {
    */
   imgLoading?: 'eager' | 'lazy';
   /**
-   * Background color used behind the fallback icon when no image is displayed
-   * (no `src` or on load error). Use `resolveAvatarColor` to derive a stable
-   * color from an identifier such as a user id.
+   * Background color behind the fallback when no image is displayed.
+   * Use `resolveAvatarColor` from `@ledgerhq/lumen-ui-react` to derive
+   * a stable pastel color from an identifier such as a user id.
    * @optional
    */
-  fallbackColor?: AvatarColorKey;
+  fallbackColor?: string;
   /**
    * Short text shown in place of the fallback icon when no image is displayed,
    * typically a user's initials.

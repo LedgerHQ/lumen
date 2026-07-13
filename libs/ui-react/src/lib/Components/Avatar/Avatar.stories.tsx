@@ -1,11 +1,9 @@
-import {
-  AVATAR_COLOR_KEYS,
-  resolveAvatarColor,
-} from '@ledgerhq/lumen-utils-shared';
+import { AVATAR_COLOR_KEYS } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
 import { Avatar } from './Avatar';
+import { resolveAvatarColor } from '.';
 
 const meta = {
   component: Avatar,
@@ -80,7 +78,7 @@ export const FallbackShowcase: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { resolveAvatarColor } from '@ledgerhq/lumen-utils-shared';
+        code: `import { resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
 
 <Avatar fallbackColor={resolveAvatarColor(user.id)} alt={user.name} />`,
       },

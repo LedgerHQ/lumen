@@ -1,12 +1,10 @@
-import {
-  AVATAR_COLOR_KEYS,
-  resolveAvatarColor,
-} from '@ledgerhq/lumen-utils-shared';
+import { AVATAR_COLOR_KEYS } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Box } from '../Utility';
 import { Avatar } from './Avatar';
+import { resolveAvatarColor } from '.';
 
 const meta = {
   component: Avatar,
