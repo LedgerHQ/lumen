@@ -8,20 +8,7 @@ alwaysApply: false
 
 ## MDX Documentation Structure
 
-Component documentation MUST include an **Overview** tab. Add an **Implementation** tab only when the component is complex enough to warrant separate developer guidance beyond what Overview + Controls already show.
-
-### When to add an Implementation tab
-
-Add it when the component has distinct technical aspects that are hard to cover in Overview alone, for example:
-
-- Composition patterns (compound subcomponents, slots, `asChild`)
-- Router or platform integration (`asChild`, `onPress` vs `onClick`, native modules)
-- Controlled vs uncontrolled usage, refs, or form wiring
-- Non-obvious setup (peer deps, providers, hooks)
-- Several advanced patterns worth dedicated `<Source>` sections
-
-**Skip Implementation** for simple components whose usage is fully demonstrated by Overview stories and Controls (e.g. a small presentational label with one or two props). Do not duplicate the same examples in both tabs.
-
+Component documentation MUST use the two-tab structure with Overview and Implementation tabs.
 
 ### Overview Tab
 
@@ -36,11 +23,11 @@ Add it when the component has distinct technical aspects that are hard to cover 
 - Accessibility considerations
 - Interactive examples
 
-### Implementation Tab (optional)
+### Implementation Tab
 
-**Intent**: Give developers practical, copy-paste ready code examples and integration patterns for non-trivial components.
+**Intent**: Give developers practical, copy-paste ready code examples and integration patterns.
 
-**Include** (only when this tab is warranted):
+**Include**:
 
 - Installation instructions (`<SetupNote />` where applicable)
 - Code examples via `<Source of={ComponentStories.StoryName} />` — not hand-written fenced code blocks when a matching story exists
@@ -72,28 +59,6 @@ See `.cursor/rules/react/storybook-stories.mdc` for story setup (`type: 'dynamic
 
 ### Required Structure
 
-**Simple component** (Overview only):
-
-```tsx
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import * as ComponentStories from './Component.stories';
-import { CustomTabs, Tab } from '../../../../.storybook/components';
-
-<Meta title='Core/Component' of={ComponentStories} />
-
-# Component Name
-
-<CustomTabs>
-  <Tab label='Overview'>
-    ## Introduction
-    <Canvas of={ComponentStories.Base} />
-    <Controls of={ComponentStories.Base} />
-  </Tab>
-</CustomTabs>
-```
-
-**Complex component** (Overview + Implementation):
-
 ```tsx
 import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as ComponentStories from './Component.stories';
@@ -120,7 +85,7 @@ import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 </CustomTabs>
 ```
 
-**Example (with Implementation tab)**: See `Button.mdx` in ui-react or ui-rnative.
+**Example**: See `Button.mdx` in ui-react or ui-rnative for reference implementation.
 
 # Table Documentation Guidelines
 

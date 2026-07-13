@@ -1,7 +1,7 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as SectionHeaderStories from './SectionHeader.stories';
 import { SectionHeader } from './SectionHeader';
-import { CustomTabs, Tab } from '../../../../.storybook/components';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 
 <Meta title='Core/SectionHeader' of={SectionHeaderStories} />
 
@@ -52,6 +52,36 @@ Use `SectionHeaderLeading` to add an optional icon before the title.
 Long titles truncate with an ellipsis while keeping leading content visible.
 
 <Canvas of={SectionHeaderStories.TruncateShowcase} />
+
+</Tab>
+
+<Tab label="Implementation">
+
+<SetupNote />
+
+`SectionHeader` is a compound component. Compose it with `SectionHeaderTitle` (required) and, optionally, `SectionHeaderLeading` for a leading icon.
+
+### Basic Usage
+
+<Source of={SectionHeaderStories.Base} />
+
+### Plain appearance
+
+Use the `plain` appearance to wrap the label in a subtle surface chip.
+
+<Source of={SectionHeaderStories.Plain} />
+
+### With leading icon
+
+Add `SectionHeaderLeading` before the title to render a leading icon.
+
+<Source of={SectionHeaderStories.WithLeadingIcon} />
+
+### Truncation
+
+Titles truncate with an ellipsis when they exceed the available width, while leading content stays visible.
+
+<Source of={SectionHeaderStories.TruncateShowcase} />
 
 </Tab>
 </CustomTabs>
