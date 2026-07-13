@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { StyledTextProps, StyledViewProps } from '../../../styles';
 
-export type SectionHeaderAppearance = 'no-background' | 'card';
+export type SectionHeaderAppearance = 'no-background' | 'plain';
 
 export type SectionHeaderProps = {
   /**

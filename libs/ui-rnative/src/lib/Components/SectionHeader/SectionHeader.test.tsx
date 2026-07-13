@@ -27,10 +27,10 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Label')).toBeTruthy();
   });
 
-  it('renders with card appearance', () => {
+  it('renders with plain appearance', () => {
     render(
       <TestWrapper>
-        <SectionHeader appearance='card' testID='section-header'>
+        <SectionHeader appearance='plain' testID='section-header'>
           <SectionHeaderTitle>Label</SectionHeaderTitle>
         </SectionHeader>
       </TestWrapper>,
@@ -65,10 +65,10 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Label')).toBeTruthy();
   });
 
-  it('renders all subcomponents together with card appearance', () => {
+  it('renders all subcomponents together with plain appearance', () => {
     render(
       <TestWrapper>
-        <SectionHeader appearance='card' testID='section-header'>
+        <SectionHeader appearance='plain' testID='section-header'>
           <SectionHeaderLeading testID='leading'>
             <Text>icon</Text>
           </SectionHeaderLeading>

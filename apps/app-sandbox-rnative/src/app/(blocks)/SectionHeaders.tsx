@@ -13,11 +13,11 @@ export default function SectionHeaders() {
         <SectionHeaderTitle>Label</SectionHeaderTitle>
       </SectionHeader>
 
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderTitle>Label</SectionHeaderTitle>
       </SectionHeader>
 
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <Settings size={16} />
         </SectionHeaderLeading>

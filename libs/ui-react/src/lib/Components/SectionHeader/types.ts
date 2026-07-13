@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-export type SectionHeaderAppearance = 'no-background' | 'card';
+export type SectionHeaderAppearance = 'no-background' | 'plain';
 
 export type SectionHeaderProps = {
   /**

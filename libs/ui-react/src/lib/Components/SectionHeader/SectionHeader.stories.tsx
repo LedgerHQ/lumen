@@ -44,10 +44,10 @@ export const NoBackground: Story = {
   ),
 };
 
-export const Card: Story = {
+export const Plain: Story = {
   render: () => (
     <Container>
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderTitle>Label</SectionHeaderTitle>
       </SectionHeader>
     </Container>
@@ -57,7 +57,7 @@ export const Card: Story = {
 export const WithLeadingIcon: Story = {
   render: () => (
     <Container>
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <Settings size={16} />
         </SectionHeaderLeading>
@@ -70,7 +70,7 @@ export const WithLeadingIcon: Story = {
 export const TruncateShowcase: Story = {
   render: () => (
     <Container className='w-160'>
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <Settings size={16} />
         </SectionHeaderLeading>

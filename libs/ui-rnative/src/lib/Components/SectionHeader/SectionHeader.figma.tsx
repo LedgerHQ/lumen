@@ -11,7 +11,7 @@ figma.connect(
     props: {
       appearance: figma.enum('appearance', {
         'no-background': 'no-background',
-        card: 'card',
+        plain: 'plain',
       }),
       title: figma.string('label'),
     },

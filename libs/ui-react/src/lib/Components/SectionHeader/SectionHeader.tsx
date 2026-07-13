@@ -10,7 +10,7 @@ const sectionHeaderVariants = cva('inline-flex min-w-0 items-center gap-4', {
   variants: {
     appearance: {
       'no-background': '',
-      card: 'rounded bg-surface px-8 py-1',
+      plain: 'rounded-xs bg-surface px-8 py-1',
     },
   },
   defaultVariants: {

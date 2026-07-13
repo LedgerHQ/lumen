@@ -17,9 +17,9 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Label')).toBeInTheDocument();
   });
 
-  it('renders with card appearance', () => {
+  it('renders with plain appearance', () => {
     const { container } = render(
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderTitle>Label</SectionHeaderTitle>
       </SectionHeader>,
     );
@@ -49,9 +49,9 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Label')).toBeInTheDocument();
   });
 
-  it('renders all subcomponents together with card appearance', () => {
+  it('renders all subcomponents together with plain appearance', () => {
     const { container } = render(
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <span data-testid='leading-icon'>icon</span>
         </SectionHeaderLeading>
@@ -60,7 +60,7 @@ describe('SectionHeader', () => {
     );
     expect(screen.getByTestId('leading-icon')).toBeInTheDocument();
     expect(screen.getByText('Accounts')).toBeInTheDocument();
-    expect(container.firstChild).toHaveClass('rounded');
+    expect(container.firstChild).toHaveClass('rounded-xs');
   });
 
   it('truncates long titles', () => {

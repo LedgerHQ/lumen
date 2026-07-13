@@ -93,7 +93,7 @@ export const SectionHeader = ({
     (t) => {
       const appearanceStyles: Record<SectionHeaderAppearance, object> = {
         'no-background': {},
-        card: {
+        plain: {
           backgroundColor: t.colors.bg.surface,
           paddingHorizontal: t.spacings.s8,
           paddingVertical: t.spacings.s1,

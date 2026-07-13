@@ -29,7 +29,7 @@ const meta: Meta<typeof SectionHeader> = {
   argTypes: {
     appearance: {
       control: 'radio',
-      options: ['no-background', 'card'],
+      options: ['no-background', 'plain'],
     },
   },
   decorators: [
@@ -63,9 +63,9 @@ export const NoBackground: Story = {
   ),
 };
 
-export const Card: Story = {
+export const Plain: Story = {
   render: () => (
-    <SectionHeader appearance='card'>
+    <SectionHeader appearance='plain'>
       <SectionHeaderTitle>Label</SectionHeaderTitle>
     </SectionHeader>
   ),
@@ -73,7 +73,7 @@ export const Card: Story = {
 
 export const WithLeadingIcon: Story = {
   render: () => (
-    <SectionHeader appearance='card'>
+    <SectionHeader appearance='plain'>
       <SectionHeaderLeading>
         <Settings size={16} color='muted' />
       </SectionHeaderLeading>
@@ -85,7 +85,7 @@ export const WithLeadingIcon: Story = {
 export const TruncateShowcase: Story = {
   render: () => (
     <Box lx={{ width: 's144' }}>
-      <SectionHeader appearance='card'>
+      <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <Settings size={16} color='muted' />
         </SectionHeaderLeading>
