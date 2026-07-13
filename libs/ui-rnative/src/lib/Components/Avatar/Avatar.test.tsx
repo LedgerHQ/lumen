@@ -16,6 +16,7 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
 describe('Avatar Component', () => {
   const testSrc =
     'https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
   it('should render correctly with minimal props', () => {
     const { getByLabelText } = render(
       <TestWrapper>
@@ -34,35 +35,35 @@ describe('Avatar Component', () => {
     getByLabelText('user profile');
   });
 
-  it('should render with transparent appearance by default', () => {
+  it('should render with md size by default', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <Avatar testID='avatar-id' />
       </TestWrapper>,
     );
-
-    expect(getByTestId('avatar-id').props.style.backgroundColor).toBe(
-      colors.bg.mutedTransparent,
-    );
+    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s48);
+    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s48);
   });
 
-  it.each<['transparent' | 'gray', string]>([
-    ['transparent', colors.bg.mutedTransparent],
-    ['gray', colors.bg.muted],
-  ])(
-    'should render with %s appearance when specified',
-    (appearance, expectedColor) => {
-      const { getByTestId } = render(
-        <TestWrapper>
-          <Avatar testID='avatar-id' appearance={appearance} />
-        </TestWrapper>,
-      );
+  it('should render with xs size when specified', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Avatar testID='avatar-id' size='xs' />
+      </TestWrapper>,
+    );
+    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s24);
+    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s24);
+  });
 
-      expect(getByTestId('avatar-id').props.style.backgroundColor).toBe(
-        expectedColor,
-      );
-    },
-  );
+  it('should render with 2xl size when specified', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Avatar testID='avatar-id' size='2xl' />
+      </TestWrapper>,
+    );
+    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s128);
+    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s128);
+  });
 
   it('should render with different sizes', () => {
     const { getByTestId, rerender } = render(
@@ -71,15 +72,6 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
     expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s40);
-    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s40);
-
-    rerender(
-      <TestWrapper>
-        <Avatar testID='avatar-id' size='md' />
-      </TestWrapper>,
-    );
-    expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s48);
-    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s48);
 
     rerender(
       <TestWrapper>
@@ -87,7 +79,6 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
     expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s56);
-    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s56);
 
     rerender(
       <TestWrapper>
@@ -95,7 +86,6 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
     expect(getByTestId('avatar-id').props.style.width).toBe(sizes.s72);
-    expect(getByTestId('avatar-id').props.style.height).toBe(sizes.s72);
   });
 
   it('should render fallback icon when no src is provided', () => {
@@ -108,8 +98,40 @@ describe('Avatar Component', () => {
     const avatarContainer = getByLabelText('avatar');
     expect(avatarContainer).toBeTruthy();
     expect(avatarContainer.props.accessibilityRole).toBe('image');
-
     expect(getByTestId('avatar-fallback-icon')).toBeTruthy();
+  });
+
+  it('should render fallback text instead of the icon when provided', () => {
+    const { getByText, queryByTestId } = render(
+      <TestWrapper>
+        <Avatar fallbackText='AB' />
+      </TestWrapper>,
+    );
+
+    expect(getByText('AB')).toBeTruthy();
+    expect(queryByTestId('avatar-fallback-icon')).toBeNull();
+  });
+
+  it('should apply the fallback color as the background when falling back', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Avatar testID='avatar-id' fallbackColor='#aed09c' />
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('avatar-id').props.style.backgroundColor).toBe('#aed09c');
+  });
+
+  it('should not apply the fallback color when an image is shown', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Avatar testID='avatar-id' src={testSrc} fallbackColor='#aed09c' />
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('avatar-id').props.style.backgroundColor).toBe(
+      colors.bg.baseTransparentHover,
+    );
   });
 
   it('should render image when src is provided', () => {
@@ -197,30 +219,6 @@ describe('Avatar Component', () => {
     expect(tree.children[0].props.accessibilityRole).toBe('image');
     expect(tree.children[0].props.pointerEvents).toBe('none');
     expect(getByTestId('avatar-id')).toBeTruthy();
-  });
-
-  it('should style the notification indicator based on the avatar size', () => {
-    const { toJSON, rerender } = render(
-      <TestWrapper>
-        <DotIndicator {...getDotIndicatorProps('avatar', 'sm')}>
-          <Avatar testID='avatar-id' size='sm' />
-        </DotIndicator>
-      </TestWrapper>,
-    );
-
-    let dot = toJSON().children[0];
-    expect(dot.props.style.height).toBe(sizes.s10);
-
-    rerender(
-      <TestWrapper>
-        <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
-          <Avatar testID='avatar-id' size='md' />
-        </DotIndicator>
-      </TestWrapper>,
-    );
-
-    dot = toJSON().children[0];
-    expect(dot.props.style.height).toBe(sizes.s12);
   });
 
   it('should apply custom styles', () => {

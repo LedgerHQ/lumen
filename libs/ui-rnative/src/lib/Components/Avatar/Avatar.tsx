@@ -1,40 +1,50 @@
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet } from '../../../styles';
 import { User } from '../../Symbols';
+import type { IconSize } from '../Icon';
 import { Box } from '../Utility';
 import type { AvatarProps } from './types';
 
-type Appearance = NonNullable<AvatarProps['appearance']>;
 type Size = NonNullable<AvatarProps['size']>;
 
-const fallbackSizes = {
+const fallbackIconSizes: Record<Size, IconSize> = {
+  xs: 12,
   sm: 16,
   md: 24,
   lg: 32,
   xl: 40,
-} as const;
+  '2xl': 56,
+};
 
 const useStyles = ({
-  appearance,
   size,
+  fallbackColor,
+  shouldFallback,
 }: {
-  appearance: Appearance;
   size: Size;
+  fallbackColor?: string;
+  shouldFallback: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
-      const backgroundColors: Record<Appearance, string> = {
-        gray: t.colors.bg.muted,
-        transparent: t.colors.bg.mutedTransparent,
-      };
-
-      const sizeMap = {
+      const sizeMap: Record<Size, { size: number; padding: number }> = {
+        xs: { size: t.sizes.s24, padding: t.spacings.s4 },
         sm: { size: t.sizes.s40, padding: t.spacings.s4 },
         md: { size: t.sizes.s48, padding: t.spacings.s4 },
         lg: { size: t.sizes.s56, padding: t.spacings.s4 },
         xl: { size: t.sizes.s72, padding: t.spacings.s4 },
+        '2xl': { size: t.sizes.s128, padding: t.spacings.s4 },
+      };
+
+      const fallbackTextTypography = {
+        xs: t.typographies.body4SemiBold,
+        sm: t.typographies.body1SemiBold,
+        md: t.typographies.heading5SemiBold,
+        lg: t.typographies.heading4SemiBold,
+        xl: t.typographies.heading2SemiBold,
+        '2xl': t.typographies.heading1SemiBold,
       };
 
       return {
@@ -43,10 +53,19 @@ const useStyles = ({
           width: sizeMap[size].size,
           height: sizeMap[size].size,
           borderRadius: 9999,
-          backgroundColor: backgroundColors[appearance],
+          backgroundColor:
+            shouldFallback && fallbackColor
+              ? fallbackColor
+              : t.colors.bg.baseTransparentHover,
+          borderWidth: 1,
+          borderColor: t.colors.border.icon,
           alignItems: 'center',
           justifyContent: 'center',
           padding: sizeMap[size].padding,
+        },
+        fallbackText: {
+          ...fallbackTextTypography[size],
+          color: fallbackColor ? t.colors.text.black : t.colors.text.base,
         },
         image: {
           width: '100%',
@@ -56,15 +75,15 @@ const useStyles = ({
         },
       };
     },
-    [appearance, size],
+    [size, fallbackColor, shouldFallback],
   );
 };
 
 /**
  * A circular avatar component that displays a user image or fallback icon.
  *
- * When the image fails to load or no src is provided, displays a User icon fallback.
- * Supports an optional notification indicator.
+ * When the image fails to load or no src is provided, displays either the
+ * `fallbackText` (e.g. initials) or a User icon fallback.
  *
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-avatar--docs Storybook}
  *
@@ -78,15 +97,16 @@ export const Avatar = ({
   style,
   src,
   alt = 'avatar',
-  appearance = 'transparent',
   size = 'md',
+  fallbackText,
+  fallbackColor,
   ref,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
-  const styles = useStyles({ appearance, size });
+  const styles = useStyles({ size, fallbackColor, shouldFallback });
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
@@ -94,7 +114,7 @@ export const Avatar = ({
     setError(false);
   }, [src]);
 
-  const avatarContent = (
+  return (
     <Box
       ref={ref}
       lx={lx}
@@ -104,11 +124,17 @@ export const Avatar = ({
       {...props}
     >
       {shouldFallback ? (
-        <User
-          size={fallbackSizes[size]}
-          accessible={false}
-          testID='avatar-fallback-icon'
-        />
+        fallbackText ? (
+          <Text style={styles.fallbackText} selectable={false}>
+            {fallbackText}
+          </Text>
+        ) : (
+          <User
+            size={fallbackIconSizes[size]}
+            accessible={false}
+            testID='avatar-fallback-icon'
+          />
+        )
       ) : (
         <Image
           source={{ uri: src }}
@@ -120,6 +146,4 @@ export const Avatar = ({
       )}
     </Box>
   );
-
-  return avatarContent;
 };

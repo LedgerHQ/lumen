@@ -2,7 +2,7 @@ import type { StyledViewProps } from '../../../styles';
 
 export type AvatarProps = {
   /**
-   * Image source URL. When undefined or on load error, displays a fallback icon.
+   * Image source URL. When undefined or on load error, displays a fallback.
    * @optional
    */
   src?: string;
@@ -12,15 +12,22 @@ export type AvatarProps = {
    */
   alt?: string;
   /**
-   * The visual appearance of the avatar background: `gray` or `transparent`.
-   * @optional
-   * @default transparent
-   */
-  appearance?: 'gray' | 'transparent';
-  /**
    * The size variant of the avatar.
    * @optional
    * @default md
    */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /**
+   * Background color used behind the fallback when no image is displayed.
+   * Use `resolveAvatarColorValue` to derive a stable color from an identifier
+   * such as a user id.
+   * @optional
+   */
+  fallbackColor?: string;
+  /**
+   * Short text shown in place of the fallback icon when no image is displayed,
+   * typically a user's initials.
+   * @optional
+   */
+  fallbackText?: string;
 } & Omit<StyledViewProps, 'children'>;

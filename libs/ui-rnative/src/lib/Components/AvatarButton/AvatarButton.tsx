@@ -18,7 +18,8 @@ export const AvatarButton = ({
   src,
   alt,
   size,
-  appearance,
+  fallbackText,
+  fallbackColor,
   ...props
 }: AvatarButtonProps) => {
   const styles = useStyles();
@@ -27,7 +28,13 @@ export const AvatarButton = ({
     <Pressable accessibilityRole='button' {...props}>
       {({ pressed }) => (
         <>
-          <Avatar src={src} alt={alt} size={size} appearance={appearance} />
+          <Avatar
+            src={src}
+            alt={alt}
+            size={size}
+            fallbackText={fallbackText}
+            fallbackColor={fallbackColor}
+          />
           <View
             style={[styles.overlay, pressed && styles.overlayPressed]}
             pointerEvents='none'

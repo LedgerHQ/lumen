@@ -1,5 +1,8 @@
+import {
+  AVATAR_COLORS,
+  resolveAvatarColor,
+} from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { View, Text, Pressable, Linking } from 'react-native';
 
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Box } from '../Utility';
@@ -26,6 +29,12 @@ type Story = StoryObj<typeof meta>;
 const exampleSrc =
   'https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
+const getInitials = (index: number) => {
+  const left = String.fromCharCode(65 + index * 2);
+  const right = String.fromCharCode(66 + index * 2);
+  return left + right;
+};
+
 export const Base: Story = {
   args: {
     src: exampleSrc,
@@ -44,110 +53,68 @@ export const Base: Story = {
 
 export const SizeShowcase: Story = {
   render: () => (
-    <Box
-      lx={{
-        alignItems: 'stretch',
-        flexDirection: 'row',
-        gap: 's16',
-      }}
-    >
-      <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar src={exampleSrc} alt='avatar' size='sm' />
-        <Text style={{ marginTop: 4 }}>sm</Text>
-      </View>
-      <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar src={exampleSrc} alt='avatar' size='md' />
-        <Text style={{ marginTop: 4 }}>md</Text>
-      </View>
-      <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar src={exampleSrc} alt='avatar' size='lg' />
-        <Text style={{ marginTop: 4 }}>lg</Text>
-      </View>
-      <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Avatar src={exampleSrc} alt='avatar' size='xl' />
-        <Text style={{ marginTop: 4 }}>xl</Text>
-      </View>
+    <Box lx={{ gap: 's8' }}>
+      <Box lx={{ alignItems: 'flex-end', flexDirection: 'row', gap: 's16' }}>
+        {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => (
+          <Avatar key={size} src={exampleSrc} alt={size} size={size} />
+        ))}
+      </Box>
+      <Box lx={{ alignItems: 'flex-end', flexDirection: 'row', gap: 's16' }}>
+        {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => (
+          <Avatar key={size} alt={size} size={size} fallbackText='AB' />
+        ))}
+      </Box>
+      <Box lx={{ alignItems: 'flex-end', flexDirection: 'row', gap: 's16' }}>
+        {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => (
+          <Avatar key={size} alt={size} size={size} />
+        ))}
+      </Box>
     </Box>
   ),
 };
 
-const AppearanceShowcaseRender = () => {
-  return (
-    <Box lx={{ gap: 's8' }}>
-      <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
-        <Avatar alt='gray fallback' size='md' appearance='gray' />
-        <Avatar alt='transparent fallback' size='md' appearance='transparent' />
-      </Box>
-      <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
-        <Avatar
-          src={exampleSrc}
-          alt='gray with image'
-          size='md'
-          appearance='gray'
-        />
-        <Avatar
-          src={exampleSrc}
-          alt='transparent with image'
-          size='md'
-          appearance='transparent'
-        />
-      </Box>
-    </Box>
-  );
-};
-
-export const AppearanceShowcase: Story = {
-  render: () => <AppearanceShowcaseRender />,
-};
-
 export const FallbackShowcase: Story = {
-  args: {
-    src: 'https://brokenLink.random',
-    size: 'md',
-    alt: 'Fallback example',
-  },
-  render: (args) => <Avatar {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" />`,
+        code: `<Avatar fallbackColor={resolveAvatarColor(user.id)} alt={user.name} />`,
       },
     },
   },
+  render: () => (
+    <Box lx={{ gap: 's16' }}>
+      <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
+        {AVATAR_COLORS.map((_, i) => (
+          <Avatar
+            key={i}
+            fallbackColor={resolveAvatarColor(`user-${i}`)}
+            fallbackText={getInitials(i)}
+            alt={getInitials(i)}
+          />
+        ))}
+        <Avatar fallbackText={getInitials(AVATAR_COLORS.length)} />
+      </Box>
+      <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
+        {AVATAR_COLORS.map((_, i) => (
+          <Avatar
+            key={i}
+            fallbackColor={resolveAvatarColor(`user-${i}`)}
+            alt={`User ${i}`}
+          />
+        ))}
+        <Avatar />
+      </Box>
+    </Box>
+  ),
 };
 
 export const NotificationShowcase: Story = {
   render: () => (
-    <Box
-      lx={{
-        flexDirection: 'row',
-        gap: 's16',
-      }}
-    >
+    <Box lx={{ flexDirection: 'row', gap: 's16' }}>
       <Avatar src={exampleSrc} alt='avatar' size='md' />
       <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
         <Avatar src={exampleSrc} alt='avatar' size='md' />
       </DotIndicator>
     </Box>
-  ),
-};
-
-const onPressRedirect = () =>
-  Linking.openURL('https://shop.ledger.com/pages/ledger-nano-gen5');
-
-export const InteractiveShowcase: Story = {
-  render: () => (
-    <Pressable
-      onPress={onPressRedirect}
-      style={({ pressed }) => ({
-        borderRadius: 9999,
-        opacity: pressed ? 0.7 : 1,
-        backgroundColor: pressed ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
-      })}
-    >
-      <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
-        <Avatar src={exampleSrc} size='md' />
-      </DotIndicator>
-    </Pressable>
   ),
 };
