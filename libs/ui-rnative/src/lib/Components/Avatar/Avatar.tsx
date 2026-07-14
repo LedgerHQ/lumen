@@ -128,6 +128,18 @@ export const Avatar = ({
     setError(false);
   }, [src]);
 
+  const fallbackContent = fallbackText ? (
+    <Text style={styles.fallbackText} selectable={false}>
+      {fallbackText}
+    </Text>
+  ) : (
+    <User
+      size={fallbackIconSizes[size]}
+      accessible={false}
+      testID='avatar-fallback-icon'
+    />
+  );
+
   return (
     <Box
       ref={ref}
@@ -138,17 +150,7 @@ export const Avatar = ({
       {...props}
     >
       {shouldFallback ? (
-        fallbackText ? (
-          <Text style={styles.fallbackText} selectable={false}>
-            {fallbackText}
-          </Text>
-        ) : (
-          <User
-            size={fallbackIconSizes[size]}
-            accessible={false}
-            testID='avatar-fallback-icon'
-          />
-        )
+        fallbackContent
       ) : (
         <Image
           source={{ uri: src }}
