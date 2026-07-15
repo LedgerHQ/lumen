@@ -92,10 +92,12 @@ const useStyles = ({
 const FallbackContent = ({
   size,
   fallbackText,
+  fallbackColor,
   styles,
 }: {
   size: Size;
   fallbackText?: string;
+  fallbackColor?: string;
   styles: ReturnType<typeof useStyles>;
 }) =>
   fallbackText ? (
@@ -105,6 +107,7 @@ const FallbackContent = ({
   ) : (
     <User
       size={fallbackIconSizes[size]}
+      color={fallbackColor ? 'black' : 'base'}
       accessible={false}
       testID='avatar-fallback-icon'
     />
@@ -158,6 +161,7 @@ export const Avatar = ({
         <FallbackContent
           size={size}
           fallbackText={fallbackText}
+          fallbackColor={fallbackColor}
           styles={styles}
         />
       ) : (
