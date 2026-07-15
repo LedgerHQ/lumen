@@ -29,13 +29,13 @@ const useStyles = ({
 }) => {
   return useStyleSheet(
     (t) => {
-      const sizeMap: Record<Size, { size: number; padding: number }> = {
-        xs: { size: t.sizes.s24, padding: t.spacings.s4 },
-        sm: { size: t.sizes.s40, padding: t.spacings.s4 },
-        md: { size: t.sizes.s48, padding: t.spacings.s4 },
-        lg: { size: t.sizes.s56, padding: t.spacings.s4 },
-        xl: { size: t.sizes.s72, padding: t.spacings.s4 },
-        '2xl': { size: t.sizes.s128, padding: t.spacings.s4 },
+      const sizeMap: Record<Size, { size: number }> = {
+        xs: { size: t.sizes.s24 },
+        sm: { size: t.sizes.s40 },
+        md: { size: t.sizes.s48 },
+        lg: { size: t.sizes.s56 },
+        xl: { size: t.sizes.s72 },
+        '2xl': { size: t.sizes.s128 },
       };
 
       const fallbackTextTypography = {
@@ -60,7 +60,6 @@ const useStyles = ({
               : t.colors.bg.baseTransparentHover,
           alignItems: 'center',
           justifyContent: 'center',
-          padding: sizeMap[size].padding,
         },
         fallbackText: {
           ...fallbackTextTypography[size],
