@@ -22,14 +22,13 @@ type ComputeAxisPaddingParams = {
 type ChartDisplayStateParams = {
   loading: boolean;
   hasData: boolean;
-  emptyLabel: string;
 };
 
-type ChartStatus = 'initial-loading' | 'empty' | 'transition-loading' | 'ready';
-
-type ChartDisplayState = {
-  status: ChartStatus;
-  ariaLabel: string | undefined;
+type ChartDisplayStates = {
+  showPlaceholder: boolean;
+  placeholderLoading: boolean;
+  showEmptyOverlay: boolean;
+  isTransitionLoading: boolean;
 };
 
 /**
@@ -58,26 +57,38 @@ export const computeAxisPadding = ({
 };
 
 /**
- * Derives the chart's {@link ChartStatus} from its loading flag and whether it
- * has drawable data, along with the matching accessibility label.
+ * Derives the chart's display flags from its loading flag and whether it has
+ * drawable data. The four input combinations map to the initial-loading, empty,
+ * transition-loading, and ready states the chart renders.
  */
-export const getChartDisplayState = ({
+export const getChartDisplayStates = ({
+  loading,
+  hasData,
+}: ChartDisplayStateParams): ChartDisplayStates => ({
+  showPlaceholder: !hasData,
+  placeholderLoading: loading && !hasData,
+  showEmptyOverlay: !loading && !hasData,
+  isTransitionLoading: loading && hasData,
+});
+
+/**
+ * Accessibility label matching the chart's current state: the loading label
+ * while loading, the empty label when there is nothing to draw, otherwise none.
+ */
+export const getChartAriaLabel = ({
   loading,
   hasData,
   emptyLabel,
-}: ChartDisplayStateParams): ChartDisplayState => {
+}: ChartDisplayStateParams & { emptyLabel: string }): string | undefined => {
   if (loading) {
-    return {
-      status: hasData ? 'transition-loading' : 'initial-loading',
-      ariaLabel: LOADING_ARIA_LABEL,
-    };
+    return LOADING_ARIA_LABEL;
   }
 
   if (!hasData) {
-    return { status: 'empty', ariaLabel: emptyLabel };
+    return emptyLabel;
   }
 
-  return { status: 'ready', ariaLabel: undefined };
+  return undefined;
 };
 
 /**
@@ -104,4 +115,23 @@ export const canRenderLine = (
     }
     return false;
   });
+};
+
+/**
+ * Overlays `overrides` on top of `defaults`, skipping keys whose override is
+ * `undefined`.
+ */
+export const mergeDefaults = <T extends object>(
+  defaults: T,
+  overrides?: Partial<T>,
+): T => {
+  if (!overrides) return defaults;
+
+  const merged = { ...defaults };
+  for (const key of Object.keys(overrides) as (keyof T)[]) {
+    const value = overrides[key];
+    if (value !== undefined) merged[key] = value;
+  }
+
+  return merged;
 };

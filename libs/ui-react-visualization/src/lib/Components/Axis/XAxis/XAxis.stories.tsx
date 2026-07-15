@@ -21,7 +21,6 @@ const meta = {
   component: XAxis,
   id: 'react-xaxis',
   title: 'Visualization/XAxis',
-  tags: ['experimental'],
   args: {
     showLine: true,
   },

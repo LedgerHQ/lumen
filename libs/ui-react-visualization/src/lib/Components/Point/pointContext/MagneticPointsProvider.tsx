@@ -34,14 +34,11 @@ export function MagneticPointsProvider({
     return pointsRef.current;
   }, []);
 
-  // Stable identity for the provider's lifetime: `Point` consumers read this
-  // and therefore never re-render when the magnetic set changes.
   const registry: MagneticRegistryValue = useMemo(
     () => ({ register, unregister }),
     [register, unregister],
   );
 
-  // Changes on every register/unregister: consumed only by the scrubber.
   const snapshot: MagneticSnapshotValue = useMemo(
     () => ({ version, getMagneticPoints }),
     [version, getMagneticPoints],

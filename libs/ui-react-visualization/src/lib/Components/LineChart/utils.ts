@@ -1,14 +1,10 @@
+import { chartConfig } from '../../config';
 import { isFiniteNumber } from '../../utils/numbers';
 import type { ChartInset, Series } from '../../utils/types';
-import { DEFAULT_AXIS_HEIGHT, DEFAULT_AXIS_WIDTH } from '../Axis';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
 
-/**
- * Minimum number of finite points a series needs to be drawable as a line.
- */
-const MIN_DRAWABLE_POINTS = 2;
-const LOADING_ARIA_LABEL = 'Loading chart';
+const { axis, emptyState } = chartConfig;
 
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;
@@ -16,19 +12,6 @@ type ComputeAxisPaddingParams = {
   xAxisPosition: XAxisProps['position'];
   yAxisPosition: YAxisProps['position'];
   yAxisWidth: YAxisProps['width'];
-};
-
-type ChartDisplayStateParams = {
-  loading: boolean;
-  hasData: boolean;
-  emptyLabel: string;
-};
-
-type ChartStatus = 'initial-loading' | 'empty' | 'transition-loading' | 'ready';
-
-type ChartDisplayState = {
-  status: ChartStatus;
-  ariaLabel: string | undefined;
 };
 
 /**
@@ -46,41 +29,60 @@ export const computeAxisPadding = ({
     return undefined;
   }
 
-  const resolvedYAxisWidth = yAxisWidth ?? DEFAULT_AXIS_WIDTH;
+  const resolvedYAxisWidth = yAxisWidth ?? axis.defaultWidth;
 
   return {
-    top: showXAxis && xAxisPosition === 'top' ? DEFAULT_AXIS_HEIGHT : 0,
-    bottom: showXAxis && xAxisPosition === 'bottom' ? DEFAULT_AXIS_HEIGHT : 0,
+    top: showXAxis && xAxisPosition === 'top' ? axis.defaultHeight : 0,
+    bottom: showXAxis && xAxisPosition === 'bottom' ? axis.defaultHeight : 0,
     left: showYAxis && yAxisPosition === 'start' ? resolvedYAxisWidth : 0,
     right: showYAxis && yAxisPosition === 'end' ? resolvedYAxisWidth : 0,
   };
 };
 
 /**
- * Derives the chart's {@link ChartStatus} from its loading flag and whether it
- * has drawable data, along with the matching accessibility label.
+ * Derives the chart's display flags from its loading flag and whether it has
+ * drawable data. The four input combinations map to the initial-loading, empty,
+ * transition-loading, and ready states the chart renders.
  */
-export const getChartDisplayState = ({
+export const getChartDisplayStates = ({
+  loading,
+  hasData,
+}: {
+  loading: boolean;
+  hasData: boolean;
+}) => ({
+  showPlaceholder: !hasData,
+  placeholderLoading: loading && !hasData,
+  showEmptyOverlay: !loading && !hasData,
+  isTransitionLoading: loading && hasData,
+});
+
+/**
+ * Accessibility label matching the chart's current state: the loading label
+ * while loading, the empty label when there is nothing to draw, otherwise none.
+ */
+export const getChartAriaLabel = ({
   loading,
   hasData,
   emptyLabel,
-}: ChartDisplayStateParams): ChartDisplayState => {
+}: {
+  loading: boolean;
+  hasData: boolean;
+  emptyLabel: string;
+}): string | undefined => {
   if (loading) {
-    return {
-      status: hasData ? 'transition-loading' : 'initial-loading',
-      ariaLabel: LOADING_ARIA_LABEL,
-    };
+    return emptyState.loadingAriaLabel;
   }
 
   if (!hasData) {
-    return { status: 'empty', ariaLabel: emptyLabel };
+    return emptyLabel;
   }
 
-  return { status: 'ready', ariaLabel: undefined };
+  return undefined;
 };
 
 /**
- * Whether any series has at least {@link MIN_DRAWABLE_POINTS} finite points,
+ * Whether any series has at least `emptyState.minDrawablePoints` finite points,
  * i.e. enough to actually draw a line. Drives the empty / loading / data states
  * of the chart.
  *
@@ -99,8 +101,27 @@ export const canRenderLine = (
     let drawablePoints = 0;
     for (let i = 0; i < limit; i++) {
       if (isFiniteNumber(data[i])) drawablePoints++;
-      if (drawablePoints >= MIN_DRAWABLE_POINTS) return true;
+      if (drawablePoints >= emptyState.minDrawablePoints) return true;
     }
     return false;
   });
+};
+
+/**
+ * Overlays `overrides` on top of `defaults`, skipping keys whose override is
+ * `undefined`.
+ */
+export const mergeDefaults = <T extends object>(
+  defaults: T,
+  overrides?: Partial<T>,
+): T => {
+  if (!overrides) return defaults;
+
+  const merged = { ...defaults };
+  for (const key of Object.keys(overrides) as (keyof T)[]) {
+    const value = overrides[key];
+    if (value !== undefined) merged[key] = value;
+  }
+
+  return merged;
 };

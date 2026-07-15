@@ -44,7 +44,6 @@ const meta = {
   component: LineChart,
   id: 'react-linechart',
   title: 'Visualization/LineChart',
-  tags: ['experimental'],
   args: {
     series: sampleSeries,
     width: CHART_WIDTH,

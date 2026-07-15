@@ -1,7 +1,8 @@
 import { useId, useMemo } from 'react';
 
-const PULSE_DURATION_IN_SECONDS = 2;
-const PULSE_EASING = 'cubic-bezier(0.4, 0, 0.6, 1)';
+import { chartConfig } from '../../../config';
+
+const { shimmer } = chartConfig;
 
 type ShimmerAnimationResult = {
   /**
@@ -25,7 +26,7 @@ export const useShimmerAnimation = (): ShimmerAnimationResult => {
 
   return useMemo(
     () => ({
-      animationStyle: `${animationName} ${PULSE_DURATION_IN_SECONDS}s ${PULSE_EASING} infinite`,
+      animationStyle: `${animationName} ${shimmer.pulseDurationInSeconds}s ${shimmer.pulseEasing} infinite`,
       keyframe:
         `@keyframes ${animationName} { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } } ` +
         `@media (prefers-reduced-motion: reduce) { @keyframes ${animationName} { 0%, 100% { opacity: 1; } } }`,

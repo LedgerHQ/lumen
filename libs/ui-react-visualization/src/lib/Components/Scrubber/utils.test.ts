@@ -1,18 +1,25 @@
 import { describe, expect, it, vi } from 'vitest';
 
+import { chartConfig } from '../../config';
 import {
   getCategoricalScale,
   getNumericScale,
 } from '../../utils/scales/scales';
+import type { DrawingArea } from '../../utils/types';
+
 import {
   applyMagnetization,
   buildSortedMagnets,
+  computeOverlayRect,
   getDataIndexFromPosition,
   nearestIndex,
   resolvePixelX,
   resolvePixelY,
+  resolveTooltipPayload,
 } from './utils';
 import type { MagnetEntry } from './utils';
+
+const { scrubber } = chartConfig;
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {
@@ -320,5 +327,85 @@ describe('applyMagnetization', () => {
         magnetRadius: 30,
       }),
     ).toBe(2);
+  });
+});
+
+describe('computeOverlayRect', () => {
+  const drawingArea: DrawingArea = { x: 20, y: 10, width: 360, height: 180 };
+
+  it('starts just right of the line and pads the vertical bounds', () => {
+    const rect = computeOverlayRect(100, drawingArea);
+    expect(rect.x).toBe(100 + scrubber.overlayLineInset);
+    expect(rect.y).toBe(drawingArea.y - scrubber.overlayOffset);
+    expect(rect.height).toBe(drawingArea.height + scrubber.overlayOffset * 2);
+  });
+
+  it('spans from the line to the padded right edge', () => {
+    const pixelX = 100;
+    const rect = computeOverlayRect(pixelX, drawingArea);
+    expect(rect.width).toBe(
+      drawingArea.x +
+        drawingArea.width -
+        pixelX -
+        scrubber.overlayLineInset +
+        scrubber.overlayOffset,
+    );
+  });
+
+  it('clamps width to 0 when the line is past the right edge', () => {
+    const rect = computeOverlayRect(
+      drawingArea.x + drawingArea.width + 50,
+      drawingArea,
+    );
+    expect(rect.width).toBe(0);
+  });
+});
+
+describe('resolveTooltipPayload', () => {
+  const items = [{ label: 'L', value: 'V' }];
+
+  it('returns undefined when no tooltip callback is provided', () => {
+    expect(resolveTooltipPayload(undefined, 2)).toBeUndefined();
+  });
+
+  it('returns undefined when the callback yields no items', () => {
+    expect(resolveTooltipPayload(() => ({ items: [] }), 2)).toBeUndefined();
+  });
+
+  it('passes through items, offset and minWidth', () => {
+    const payload = resolveTooltipPayload(
+      () => ({ items, offset: 12, minWidth: 160 }),
+      2,
+    );
+    expect(payload).toEqual({
+      items,
+      resolvedTitle: undefined,
+      offset: 12,
+      minWidth: 160,
+    });
+  });
+
+  it('resolves a static title', () => {
+    const payload = resolveTooltipPayload(
+      () => ({ title: 'Static', items }),
+      2,
+    );
+    expect(payload?.resolvedTitle).toBe('Static');
+  });
+
+  it('resolves a function title with the scrubber position', () => {
+    const payload = resolveTooltipPayload(
+      () => ({ title: (idx) => `Index ${idx}`, items }),
+      3,
+    );
+    expect(payload?.resolvedTitle).toBe('Index 3');
+  });
+
+  it('supports a function title that suppresses itself by returning undefined', () => {
+    const payload = resolveTooltipPayload(
+      () => ({ title: () => undefined, items }),
+      1,
+    );
+    expect(payload?.resolvedTitle).toBeUndefined();
   });
 });
