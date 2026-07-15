@@ -1,25 +1,26 @@
+import { type CSSVarRef } from '@ledgerhq/lumen-design-core';
 import {
   resolveAvatarColorKey,
   type AvatarColorKey,
 } from '@ledgerhq/lumen-utils-shared';
 
-const AVATAR_HEX_COLORS: Record<AvatarColorKey, string> = {
-  orange: '#f8b89b',
-  green: '#aed09c',
-  blue: '#afc6fe',
-  purple: '#e2b9eb',
-  red: '#ffb2b4',
-  yellow: '#fbd98d',
-  turquoise: '#96dde9',
-  pink: '#f3b4db',
+const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, CSSVarRef> = {
+  orange: 'var(--background-avatar-orange)',
+  green: 'var(--background-avatar-green)',
+  blue: 'var(--background-avatar-blue)',
+  purple: 'var(--background-avatar-purple)',
+  red: 'var(--background-avatar-red)',
+  yellow: 'var(--background-avatar-yellow)',
+  turquoise: 'var(--background-avatar-turquoise)',
+  pink: 'var(--background-avatar-pink)',
 };
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
- * hex colors. The same identifier always resolves to the same color.
+ * color tokens. The same identifier always resolves to the same color.
  *
  * Pass the result directly to `<Avatar fallbackColor={resolveAvatarColor(id)} />`.
  */
-export function resolveAvatarColor(identifier: string): string {
-  return AVATAR_HEX_COLORS[resolveAvatarColorKey(identifier)];
+export function resolveAvatarColor(identifier: string): CSSVarRef {
+  return AVATAR_COLOR_TOKENS[resolveAvatarColorKey(identifier)];
 }
