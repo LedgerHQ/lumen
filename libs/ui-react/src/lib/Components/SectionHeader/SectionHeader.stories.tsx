@@ -79,7 +79,7 @@ export const WithLeadingIcon: Story = {
   ),
 };
 
-export const TruncateShowcase: Story = {
+export const ResponsiveShowcase: Story = {
   render: () => (
     <Container className='max-w-224'>
       <SectionHeader appearance='plain'>

@@ -82,6 +82,13 @@ Stories highlighting specific features.
 
 - Use: `With{Feature}` (e.g., `WithIcon`, `WithTooltip`)
 
+#### 4. Truncation / Responsiveness Stories
+
+Stories that demonstrate how a component truncates or adapts to constrained space.
+
+- Use: `ResponsivenessShowcase`
+- Do not use: `TruncateShowcase`, `Truncation`, `LongLabel`
+
 ## General Principles
 
 1. **Consistency over creativity**: Follow the patterns even if you think another name might be clearer

@@ -1,3 +1,4 @@
+import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Box, Text } from '../Utility';
@@ -91,7 +92,7 @@ export const SectionHeader = ({
 }: SectionHeaderProps) => {
   const styles = useStyleSheet(
     (t) => {
-      const appearanceStyles: Record<SectionHeaderAppearance, object> = {
+      const appearanceStyles = {
         'no-background': {},
         plain: {
           backgroundColor: t.colors.bg.surface,
@@ -99,7 +100,7 @@ export const SectionHeader = ({
           paddingVertical: t.spacings.s1,
           borderRadius: t.borderRadius.sm,
         },
-      };
+      } satisfies Record<SectionHeaderAppearance, ViewStyle>;
 
       return {
         container: StyleSheet.flatten([

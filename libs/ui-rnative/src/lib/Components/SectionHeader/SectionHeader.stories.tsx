@@ -79,7 +79,7 @@ export const WithLeadingIcon: Story = {
   ),
 };
 
-export const TruncateShowcase: Story = {
+export const ResponsiveShowcase: Story = {
   render: () => (
     <Box lx={{ width: 's144' }}>
       <SectionHeader appearance='plain'>
