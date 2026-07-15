@@ -21,7 +21,7 @@ export const AvatarButton = ({
       ref={ref}
       type='button'
       className={cn(
-        'group relative cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus',
+        'group relative cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus disabled:cursor-not-allowed',
         className,
       )}
       {...buttonProps}

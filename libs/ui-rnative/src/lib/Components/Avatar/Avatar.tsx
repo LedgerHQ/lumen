@@ -29,8 +29,6 @@ const useStyles = ({
 }) => {
   return useStyleSheet(
     (t) => {
-      const resolvedFallbackColor = fallbackColor;
-
       const sizeMap: Record<Size, { size: number; padding: number }> = {
         xs: { size: t.sizes.s24, padding: t.spacings.s4 },
         sm: { size: t.sizes.s40, padding: t.spacings.s4 },
@@ -57,8 +55,8 @@ const useStyles = ({
           borderRadius: 9999,
           overflow: 'hidden',
           backgroundColor:
-            shouldFallback && resolvedFallbackColor
-              ? resolvedFallbackColor
+            shouldFallback && fallbackColor
+              ? fallbackColor
               : t.colors.bg.baseTransparentHover,
           alignItems: 'center',
           justifyContent: 'center',
@@ -66,9 +64,7 @@ const useStyles = ({
         },
         fallbackText: {
           ...fallbackTextTypography[size],
-          color: resolvedFallbackColor
-            ? t.colors.text.black
-            : t.colors.text.base,
+          color: fallbackColor ? t.colors.text.black : t.colors.text.base,
         },
         image: {
           position: 'absolute',
