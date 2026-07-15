@@ -1,20 +1,21 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import { memo } from 'react';
 
+import { chartConfig } from '../../../config';
 import type { ChartTooltipItemProps } from '../types';
-import { PADDING_X } from './constants';
+
+const { color, font, tooltip } = chartConfig;
 
 const LABEL_STYLE = {
-  fontSize: cssVar('var(--font-style-body-3-size)'),
-  fontFamily: cssVar('var(--font-family-font)'),
-  fill: cssVar('var(--text-muted)'),
+  fontSize: font.bodySize,
+  fontFamily: font.family,
+  fill: color.textMuted,
 };
 
 const VALUE_STYLE = {
-  fontSize: cssVar('var(--font-style-body-3-size)'),
-  fontFamily: cssVar('var(--font-family-font)'),
-  fill: cssVar('var(--text-base)'),
-  fontWeight: cssVar('var(--font-style-body-3-weight-semi-bold)'),
+  fontSize: font.bodySize,
+  fontFamily: font.family,
+  fill: color.text,
+  fontWeight: font.bodyWeightSemiBold,
 };
 
 /**
@@ -36,7 +37,7 @@ export const ChartTooltipItem = memo(function ChartTooltipItem({
     <g>
       <text
         ref={labelRef}
-        x={x + PADDING_X}
+        x={x + tooltip.paddingX}
         y={y}
         dominantBaseline='middle'
         style={LABEL_STYLE}
@@ -45,7 +46,7 @@ export const ChartTooltipItem = memo(function ChartTooltipItem({
       </text>
       <text
         ref={valueRef}
-        x={x + width - PADDING_X}
+        x={x + width - tooltip.paddingX}
         y={y}
         dominantBaseline='middle'
         textAnchor='end'

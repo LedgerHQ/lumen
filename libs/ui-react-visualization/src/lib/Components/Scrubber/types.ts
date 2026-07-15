@@ -1,43 +1,25 @@
 import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
 import type { DrawingArea } from '../../utils/types';
+import type { ScrubbingOptions } from '../CartesianChart/types';
 
-export type ScrubberContextValue = {
-  /**
-   * Whether scrubbing interactions are enabled.
-   */
-  enableScrubbing: boolean;
+export type ScrubberContextValue = Required<
+  Pick<ScrubbingOptions, 'enableScrubbing' | 'onScrubberPositionChange'>
+> & {
   /**
    * The current data index of the scrubber, or undefined when idle.
    */
   scrubberPosition: number | undefined;
-  /**
-   * Callback to update the scrubber position.
-   */
-  onScrubberPositionChange: (index: number | undefined) => void;
 };
 
-export type ScrubberProviderProps = {
-  children: ReactNode;
-  /**
-   * Ref to the root SVG element where event listeners will be attached.
-   */
-  svgRef: RefObject<SVGSVGElement | null>;
-  /**
-   * Whether scrubbing is enabled.
-   */
-  enableScrubbing: boolean;
-  /**
-   * Optional external callback fired whenever the scrubber position changes.
-   */
-  onScrubberPositionChange?: (index: number | undefined) => void;
-  /**
-   * Pixel radius within which the scrubber magnetically snaps to registered
-   * magnetic points. Set to `0` to disable magnetization.
-   * @default 8
-   */
-  magnetRadius?: number;
-};
+export type ScrubberProviderProps = Omit<ScrubbingOptions, 'enableScrubbing'> &
+  Required<Pick<ScrubbingOptions, 'enableScrubbing'>> & {
+    children: ReactNode;
+    /**
+     * Ref to the root SVG element where event listeners will be attached.
+     */
+    svgRef: RefObject<SVGSVGElement | null>;
+  };
 
 /**
  * Valid content for an SVG `<text>` element: a plain string,

@@ -8,7 +8,7 @@ import type { LabelAlignment, LabelPosition } from './types';
 const DEFAULT_H_ALIGN: LabelAlignment = 'center';
 const DEFAULT_V_ALIGN: LabelAlignment = 'end';
 
-type LabelCoordinates = {
+export type LabelCoordinates = {
   x: number;
   y: number;
   textAnchor: 'start' | 'middle' | 'end';

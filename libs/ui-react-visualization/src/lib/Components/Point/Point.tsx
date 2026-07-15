@@ -1,8 +1,6 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-
 import { memo } from 'react';
 
-import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
+import { chartConfig } from '../../config';
 import type {
   PointArrowProps,
   PointLabelProps,
@@ -24,10 +22,10 @@ export function PointLabel({
       textAnchor={textAnchor}
       dominantBaseline={dominantBaseline}
       style={{
-        fill: cssVar('var(--text-base)'),
-        fontSize: LABEL_FONT_SIZE,
-        fontWeight: cssVar('var(--font-style-body-4-weight-medium)'),
-        fontFamily: cssVar('var(--font-family-font)'),
+        fill: chartConfig.color.text,
+        fontSize: chartConfig.point.labelFontSize,
+        fontWeight: chartConfig.font.labelWeightMedium,
+        fontFamily: chartConfig.font.family,
         ...style,
       }}
       {...props}
@@ -37,7 +35,7 @@ export function PointLabel({
 
 function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
   const radius = size / 2;
-  const fill = color ?? cssVar('var(--background-muted-strong)');
+  const fill = color ?? chartConfig.point.defaultColor;
 
   return (
     <circle
@@ -47,9 +45,9 @@ function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
       r={radius}
       style={{
         fill,
-        stroke: cssVar('var(--background-canvas)'),
+        stroke: chartConfig.color.markOutline,
       }}
-      strokeWidth={STROKE_WIDTH}
+      strokeWidth={chartConfig.point.strokeWidth}
     />
   );
 }
@@ -59,7 +57,7 @@ function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
     <polygon
       data-testid='point-arrow'
       points={buildArrowPoints(x, y, size / 2, position)}
-      style={{ fill: cssVar('var(--text-base)') }}
+      style={{ fill: chartConfig.color.text }}
     />
   );
 }
@@ -73,7 +71,7 @@ export const Point = memo(function Point({
   labelPosition = 'top',
   hidePoint = false,
   showLabelArrow = true,
-  size = DEFAULT_SIZE,
+  size = chartConfig.point.defaultSize,
   onClick,
   magnetic = false,
   labelAlignment = 'auto',

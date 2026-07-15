@@ -21,7 +21,6 @@ const meta = {
   component: Scrubber,
   id: 'react-scrubber',
   title: 'Visualization/Scrubber',
-  tags: ['experimental'],
   decorators: [
     (Story, context) => (
       <StoryDecorator context={context}>

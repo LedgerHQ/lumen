@@ -1,5 +1,4 @@
 export type {
-  CartesianChartContextValue,
   CategoricalScale,
   ChartInset,
   ChartScaleFunction,

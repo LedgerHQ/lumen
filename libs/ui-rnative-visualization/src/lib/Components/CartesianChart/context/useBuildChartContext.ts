@@ -11,13 +11,13 @@ import {
   isBandScaleType,
 } from '../../../utils/scales/scales';
 import type {
-  CartesianChartContextValue,
   ChartInset,
   ChartScaleFunction,
   DrawingArea,
   Series,
 } from '../../../utils/types';
 import type { AxisBounds, BaseAxisProps } from '../../Axis';
+import type { CartesianChartContextValue } from '../types';
 
 type UseBuildChartContextParams = {
   series: Series[];

@@ -1,13 +1,10 @@
 import { useId, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
+import { chartConfig } from '../../../config';
 import type { DrawingArea, Series } from '../../../utils/types';
 
-/**
- * Duration in seconds of an individual point's opacity fade-in.
- */
-const POINT_FADE_DURATION_IN_SECONDS = 0.2;
-const POINT_FADE_IN_AFTER_CLIP_IN_SECONDS = -0.1;
+const { reveal } = chartConfig;
 
 type RevealAnimationConfig = {
   duration: number;
@@ -72,10 +69,10 @@ const useRevealFadeAnimation = ({
       getPointRevealStyle: (): CSSProperties => {
         const delay = Math.max(
           0,
-          duration + POINT_FADE_IN_AFTER_CLIP_IN_SECONDS,
+          duration + reveal.pointFadeInAfterClipInSeconds,
         );
         return {
-          animation: `${fadeAnimationName} ${POINT_FADE_DURATION_IN_SECONDS}s ${easing} ${delay}s both`,
+          animation: `${fadeAnimationName} ${reveal.pointFadeDurationInSeconds}s ${easing} ${delay}s both`,
         };
       },
     }),

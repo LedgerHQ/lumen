@@ -1,13 +1,12 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
-
+import { chartConfig } from '../../../config';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
-import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
+import { buildPlaceholderTransform } from './utils';
 
-const GRID_LINE_RATIOS = [0.3, 0.5, 0.7];
+const { color, strokeWidth, emptyState } = chartConfig;
 
 /**
  * SVG placeholder line shown when a LineChart is loading with no data yet (with
@@ -31,7 +30,7 @@ export function LineChartEmptyState({
       {loading && <style>{keyframe}</style>}
       <g data-testid='chart-empty-state'>
         <g data-testid='chart-empty-state-grid'>
-          {GRID_LINE_RATIOS.map((ratio) => {
+          {emptyState.gridLineRatios.map((ratio) => {
             const y = drawingArea.y + drawingArea.height * ratio;
 
             return (
@@ -42,9 +41,9 @@ export function LineChartEmptyState({
                 x2={drawingArea.x + drawingArea.width}
                 y2={y}
                 style={{
-                  stroke: cssVar('var(--border-muted-subtle-transparent)'),
+                  stroke: color.gridLine,
                 }}
-                strokeWidth={cssVar('var(--stroke-1)')}
+                strokeWidth={strokeWidth.hairline}
               />
             );
           })}
@@ -53,12 +52,12 @@ export function LineChartEmptyState({
           <g style={loading ? { animation: animationStyle } : undefined}>
             <path
               data-testid='chart-empty-state-line'
-              d={PLACEHOLDER_LINE_PATH}
+              d={emptyState.placeholderLinePath}
               transform={buildPlaceholderTransform(drawingArea)}
               vectorEffect='non-scaling-stroke'
               fill='none'
-              stroke={cssVar('var(--border-muted-subtle)')}
-              strokeWidth={cssVar('var(--stroke-2)')}
+              stroke={color.mutedLine}
+              strokeWidth={strokeWidth.line}
               strokeLinecap='round'
               strokeLinejoin='round'
             />
