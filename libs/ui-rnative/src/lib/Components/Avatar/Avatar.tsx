@@ -1,3 +1,4 @@
+import type { TypographyDefinition } from '@ledgerhq/lumen-design-core';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
@@ -38,7 +39,7 @@ const useStyles = ({
         '2xl': { size: t.sizes.s128 },
       };
 
-      const fallbackTextTypography = {
+      const fallbackTextTypography: Record<Size, TypographyDefinition> = {
         xs: t.typographies.body4SemiBold,
         sm: t.typographies.body1SemiBold,
         md: t.typographies.heading5SemiBold,
