@@ -1,6 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { HTMLAttributes } from 'react';
 import { Settings } from '../../Symbols';
 import {
   SectionHeader,
@@ -8,18 +6,10 @@ import {
   SectionHeaderTitle,
 } from './SectionHeader';
 
-const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('w-400 bg-canvas p-8 text-base', className)} {...props} />
-);
-
 const meta: Meta<typeof SectionHeader> = {
   component: SectionHeader,
   id: 'react-sectionheader',
   title: 'Core/SectionHeader',
-  subcomponents: {
-    SectionHeaderLeading,
-    SectionHeaderTitle,
-  },
   parameters: {
     docs: {
       source: {
@@ -35,6 +25,13 @@ const meta: Meta<typeof SectionHeader> = {
       options: ['no-background', 'plain'],
     },
   },
+  decorators: [
+    (Story) => (
+      <div className='w-400 bg-canvas p-8 text-base'>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
@@ -45,43 +42,39 @@ export const Base: Story = {
     appearance: 'no-background',
   },
   render: ({ appearance }) => (
-    <Container>
-      <SectionHeader appearance={appearance}>
-        <SectionHeaderTitle>Label</SectionHeaderTitle>
-      </SectionHeader>
-    </Container>
+    <SectionHeader appearance={appearance}>
+      <SectionHeaderTitle>Label</SectionHeaderTitle>
+    </SectionHeader>
   ),
 };
 
 export const AppearanceShowcase: Story = {
   render: () => (
-    <Container className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8'>
       <SectionHeader>
         <SectionHeaderTitle>No background</SectionHeaderTitle>
       </SectionHeader>
       <SectionHeader appearance='plain'>
         <SectionHeaderTitle>Plain</SectionHeaderTitle>
       </SectionHeader>
-    </Container>
+    </div>
   ),
 };
 
 export const WithLeadingIcon: Story = {
   render: () => (
-    <Container>
-      <SectionHeader appearance='plain'>
-        <SectionHeaderLeading>
-          <Settings size={16} />
-        </SectionHeaderLeading>
-        <SectionHeaderTitle>Label</SectionHeaderTitle>
-      </SectionHeader>
-    </Container>
+    <SectionHeader appearance='plain'>
+      <SectionHeaderLeading>
+        <Settings size={16} />
+      </SectionHeaderLeading>
+      <SectionHeaderTitle>Label</SectionHeaderTitle>
+    </SectionHeader>
   ),
 };
 
 export const ResponsiveShowcase: Story = {
   render: () => (
-    <Container className='max-w-224'>
+    <div className='max-w-224'>
       <SectionHeader appearance='plain'>
         <SectionHeaderLeading>
           <Settings size={16} />
@@ -90,6 +83,6 @@ export const ResponsiveShowcase: Story = {
           Very long section header label that should truncate.
         </SectionHeaderTitle>
       </SectionHeader>
-    </Container>
+    </div>
   ),
 };
