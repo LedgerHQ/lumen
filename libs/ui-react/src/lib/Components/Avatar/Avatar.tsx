@@ -47,6 +47,30 @@ const fallbackSizes = {
   '2xl': 56,
 } as const;
 
+const FallbackContent = ({
+  size,
+  fallbackText,
+  fallbackColor,
+}: {
+  size: NonNullable<AvatarProps['size']>;
+  fallbackText?: string;
+  fallbackColor?: string;
+}) => {
+  const colorClass = fallbackColor ? 'text-black' : 'text-base';
+  return fallbackText ? (
+    <span className={cn(avatarVariants.text({ size }), colorClass)}>
+      {fallbackText}
+    </span>
+  ) : (
+    <User
+      className={colorClass}
+      size={fallbackSizes[size]}
+      aria-label='Fallback Icon'
+      aria-hidden='true'
+    />
+  );
+};
+
 /**
  * A circular avatar component that displays a user image or fallback icon.
  *
@@ -75,26 +99,12 @@ export const Avatar = ({
   const [error, setError] = useState<boolean>(false);
 
   const shouldFallback = !src || error;
-  const fallbackContentColor = fallbackColor ? 'text-black' : 'text-base';
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 
   useEffect(() => {
     setError(false);
   }, [src]);
-
-  const fallbackContent = fallbackText ? (
-    <span className={cn(avatarVariants.text({ size }), fallbackContentColor)}>
-      {fallbackText}
-    </span>
-  ) : (
-    <User
-      className={fallbackContentColor}
-      size={fallbackSizes[size]}
-      aria-label='Fallback Icon'
-      aria-hidden='true'
-    />
-  );
 
   const avatarContent = (
     <div
@@ -110,7 +120,11 @@ export const Avatar = ({
       {...props}
     >
       {shouldFallback ? (
-        fallbackContent
+        <FallbackContent
+          size={size}
+          fallbackText={fallbackText}
+          fallbackColor={fallbackColor}
+        />
       ) : (
         <img
           src={src}

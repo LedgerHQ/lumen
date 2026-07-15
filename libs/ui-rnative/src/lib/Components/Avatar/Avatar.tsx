@@ -89,6 +89,27 @@ const useStyles = ({
   );
 };
 
+const FallbackContent = ({
+  size,
+  fallbackText,
+  styles,
+}: {
+  size: Size;
+  fallbackText?: string;
+  styles: ReturnType<typeof useStyles>;
+}) =>
+  fallbackText ? (
+    <Text style={styles.fallbackText} selectable={false}>
+      {fallbackText}
+    </Text>
+  ) : (
+    <User
+      size={fallbackIconSizes[size]}
+      accessible={false}
+      testID='avatar-fallback-icon'
+    />
+  );
+
 /**
  * A circular avatar component that displays a user image or fallback icon.
  *
@@ -124,18 +145,6 @@ export const Avatar = ({
     setError(false);
   }, [src]);
 
-  const fallbackContent = fallbackText ? (
-    <Text style={styles.fallbackText} selectable={false}>
-      {fallbackText}
-    </Text>
-  ) : (
-    <User
-      size={fallbackIconSizes[size]}
-      accessible={false}
-      testID='avatar-fallback-icon'
-    />
-  );
-
   return (
     <Box
       ref={ref}
@@ -146,7 +155,11 @@ export const Avatar = ({
       {...props}
     >
       {shouldFallback ? (
-        fallbackContent
+        <FallbackContent
+          size={size}
+          fallbackText={fallbackText}
+          styles={styles}
+        />
       ) : (
         <Image
           source={{ uri: src }}
