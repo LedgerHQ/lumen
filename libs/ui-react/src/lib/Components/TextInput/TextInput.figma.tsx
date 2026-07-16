@@ -24,8 +24,12 @@ figma.connect(
       helperText: figma.nestedProps('.status', {
         label: figma.string('label'),
       }),
+      maxCount: figma.boolean('show-counter', {
+        true: figma.string('counter'),
+        false: undefined,
+      }),
     },
-    example: (props) => (
+    example: (props: any) => (
       <TextInput
         disabled={props.disabled}
         label={props.label}
@@ -33,6 +37,7 @@ figma.connect(
         value={props.value}
         helperText={props.helperText.label}
         status={props.status}
+        maxCount={props.maxCount}
       />
     ),
   },

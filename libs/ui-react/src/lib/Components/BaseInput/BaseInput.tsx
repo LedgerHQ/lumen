@@ -8,9 +8,17 @@ import { cva } from 'class-variance-authority';
 import type { ChangeEvent, PointerEvent } from 'react';
 import { useRef, useId, useState, useCallback } from 'react';
 import { useCommonTranslation } from '../../../i18n';
-import { CheckmarkCircleFill, DeleteCircleFill } from '../../Symbols';
+import {
+  CheckmarkCircleFill,
+  DeleteCircleFill,
+  InformationFill,
+} from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import type { BaseInputProps } from './types';
+import type {
+  BaseInputCounterProps,
+  BaseInputHelperTextProps,
+  BaseInputProps,
+} from './types';
 
 const containerVariants = cva(
   [
@@ -68,7 +76,7 @@ const labelVariants = cva(baseLabelStyles, {
   },
 });
 
-const helperVariants = cva('mt-8 flex items-center gap-2 body-3', {
+const helperVariants = cva('flex items-center gap-2 body-3', {
   variants: {
     status: {
       default: 'text-muted',
@@ -111,6 +119,7 @@ export const BaseInput = ({
   id,
   disabled: disabledProp,
   helperText,
+  maxCount,
   status,
   suffix,
   prefix,
@@ -143,7 +152,7 @@ export const BaseInput = ({
   //    to recalculate hasContent, causing clear button to stay visible
   // This state is only for UI reactivity (clear button visibility), not controlling the input
   const [uncontrolledValue, setUncontrolledValue] = useState(
-    props.defaultValue?.toString() || '',
+    props.defaultValue?.toString() ?? '',
   );
 
   const handleInput = useCallback(
@@ -158,9 +167,10 @@ export const BaseInput = ({
     [isControlled, onChangeProp],
   );
 
-  const hasContent = isControlled
-    ? !!props.value && props.value.toString().length > 0
-    : uncontrolledValue.length > 0;
+  const currentValue = isControlled
+    ? (props.value?.toString() ?? '')
+    : uncontrolledValue;
+  const hasContent = currentValue.length > 0;
 
   const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
     resolveBaseInputPlaceholder({
@@ -169,6 +179,9 @@ export const BaseInput = ({
     });
 
   const showClearButton = hasContent && !disabled && !hideClearButton;
+
+  const count = currentValue.length;
+  const showCount = Boolean(maxCount && maxCount > 0);
 
   const helperId = `${inputId}-helper`;
   const showHelper = !!helperText;
@@ -270,21 +283,56 @@ export const BaseInput = ({
 
         {!showClearButton && suffix}
       </div>
-      {showHelper && (
+      {(showHelper || showCount) && (
         <div
-          id={helperId}
-          className={helperVariants({ status })}
-          role={status === 'error' ? 'alert' : undefined}
+          className={cn(
+            'mt-8 flex items-start gap-8',
+            showHelper ? 'justify-between' : 'justify-end',
+          )}
         >
-          {status === 'error' && (
-            <DeleteCircleFill size={16} className='text-error' />
+          {showHelper && helperText && (
+            <BaseInputHelperText
+              id={helperId}
+              helperText={helperText}
+              status={status}
+            />
           )}
-          {status === 'success' && (
-            <CheckmarkCircleFill size={16} className='text-success' />
+          {showCount && maxCount != null && (
+            <BaseInputCounter count={count} maxCount={maxCount} />
           )}
-          <span>{helperText}</span>
         </div>
       )}
     </div>
+  );
+};
+
+const BaseInputHelperText = ({
+  id,
+  helperText,
+  status,
+}: BaseInputHelperTextProps) => {
+  return (
+    <div
+      id={id}
+      className={helperVariants({ status })}
+      role={status === 'error' ? 'alert' : undefined}
+    >
+      {!status && <InformationFill size={16} className='text-muted' />}
+      {status === 'error' && (
+        <DeleteCircleFill size={16} className='text-error' />
+      )}
+      {status === 'success' && (
+        <CheckmarkCircleFill size={16} className='text-success' />
+      )}
+      <span className='body-3'>{helperText}</span>
+    </div>
+  );
+};
+
+const BaseInputCounter = ({ count, maxCount }: BaseInputCounterProps) => {
+  return (
+    <span aria-live='polite' className='shrink-0 body-3 text-muted'>
+      {`${count}/${maxCount}`}
+    </span>
   );
 };

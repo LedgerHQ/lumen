@@ -42,6 +42,10 @@ export type BaseInputProps = {
    */
   helperText?: string;
   /**
+   * Soft character limit. When set, renders a `count/maxCount` counter below the input.
+   */
+  maxCount?: number;
+  /**
    * Visual state for border, helper text, helper icon, and the label in error state.
    * Omit when `helperText` is a neutral hint.
    */
@@ -66,3 +70,17 @@ export type BaseInputProps = {
   hideClearButton?: boolean;
 } & Omit<TextInputProps, 'style'> &
   BoxProps;
+
+export type BaseInputHelperTextProps = {
+  /**
+   * The helper copy shown below the input.
+   */
+  helperText: string;
+} & Pick<BaseInputProps, 'status'>;
+
+export type BaseInputCounterProps = {
+  /**
+   * Current character count.
+   */
+  count: number;
+} & Required<Pick<BaseInputProps, 'maxCount'>>;
