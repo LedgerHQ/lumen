@@ -14,7 +14,11 @@ import {
   InformationFill,
 } from '../../Symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
-import type { BaseInputProps } from './types';
+import type {
+  BaseInputCounterProps,
+  BaseInputHelperTextProps,
+  BaseInputProps,
+} from './types';
 
 const containerVariants = cva(
   [
@@ -177,7 +181,7 @@ export const BaseInput = ({
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
   const count = currentValue.length;
-  const showCount = maxCount != null;
+  const showCount = Boolean(maxCount && maxCount > 0);
 
   const helperId = `${inputId}-helper`;
   const showHelper = !!helperText;
@@ -280,32 +284,55 @@ export const BaseInput = ({
         {!showClearButton && suffix}
       </div>
       {(showHelper || showCount) && (
-        <div className='mt-8 flex items-start justify-between gap-8'>
-          {showHelper ? (
-            <div
-              id={helperId}
-              className={helperVariants({ status })}
-              role={status === 'error' ? 'alert' : undefined}
-            >
-              {!status && <InformationFill size={16} className='text-muted' />}
-              {status === 'error' && (
-                <DeleteCircleFill size={16} className='text-error' />
-              )}
-              {status === 'success' && (
-                <CheckmarkCircleFill size={16} className='text-success' />
-              )}
-              <span className='body-3'>{helperText}</span>
-            </div>
-          ) : (
-            <span />
+        <div
+          className={cn(
+            'mt-8 flex items-start gap-8',
+            showHelper ? 'justify-between' : 'justify-end',
           )}
-          {showCount && (
-            <span aria-live='polite' className='shrink-0 body-3 text-muted'>
-              {`${count}/${maxCount}`}
-            </span>
+        >
+          {showHelper && helperText && (
+            <BaseInputHelperText
+              id={helperId}
+              helperText={helperText}
+              status={status}
+            />
+          )}
+          {showCount && maxCount != null && (
+            <BaseInputCounter count={count} maxCount={maxCount} />
           )}
         </div>
       )}
     </div>
+  );
+};
+
+const BaseInputHelperText = ({
+  id,
+  helperText,
+  status,
+}: BaseInputHelperTextProps) => {
+  return (
+    <div
+      id={id}
+      className={helperVariants({ status })}
+      role={status === 'error' ? 'alert' : undefined}
+    >
+      {!status && <InformationFill size={16} className='text-muted' />}
+      {status === 'error' && (
+        <DeleteCircleFill size={16} className='text-error' />
+      )}
+      {status === 'success' && (
+        <CheckmarkCircleFill size={16} className='text-success' />
+      )}
+      <span className='body-3'>{helperText}</span>
+    </div>
+  );
+};
+
+const BaseInputCounter = ({ count, maxCount }: BaseInputCounterProps) => {
+  return (
+    <span aria-live='polite' className='shrink-0 body-3 text-muted'>
+      {`${count}/${maxCount}`}
+    </span>
   );
 };

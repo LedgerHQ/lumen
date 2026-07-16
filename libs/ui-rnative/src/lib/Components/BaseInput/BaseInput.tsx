@@ -28,7 +28,11 @@ import { InformationFill } from '../../Symbols/Icons/InformationFill';
 import { RuntimeConstants } from '../../utils';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Box, Pressable } from '../Utility';
-import { type BaseInputProps } from './types';
+import {
+  type BaseInputCounterProps,
+  type BaseInputHelperTextProps,
+  type BaseInputProps,
+} from './types';
 
 export const BaseInput = ({
   lx,
@@ -78,7 +82,7 @@ export const BaseInput = ({
   const showClearButton = hasContent && !disabled && !hideClearButton;
 
   const count = (value ?? '').length;
-  const showCount = maxCount != null;
+  const showCount = Boolean(maxCount && maxCount > 0);
   const showHelper = !!helperText;
 
   const handleChangeText = useCallback(
@@ -176,29 +180,46 @@ export const BaseInput = ({
 
         {(showHelper || showCount) && (
           <View style={styles.footerContainer}>
-            {showHelper ? (
-              <View style={styles.helperContainer}>
-                {!status && <InformationFill size={16} color='muted' />}
-                {status === 'error' && (
-                  <DeleteCircleFill size={16} color='error' />
-                )}
-                {status === 'success' && (
-                  <CheckmarkCircleFill size={16} color='success' />
-                )}
-                <Text style={styles.helperText}>{helperText}</Text>
-              </View>
+            {showHelper && helperText ? (
+              <BaseInputHelperText helperText={helperText} status={status} />
             ) : (
               <View />
             )}
-            {showCount && (
-              <Text style={styles.counterText} accessibilityLiveRegion='polite'>
-                {`${count}/${maxCount}`}
-              </Text>
+            {maxCount !== undefined && maxCount > 0 && (
+              <BaseInputCounter count={count} maxCount={maxCount} />
             )}
           </View>
         )}
       </Box>
     </DisabledProvider>
+  );
+};
+
+const BaseInputHelperText = ({
+  helperText,
+  status,
+}: BaseInputHelperTextProps) => {
+  const styles = useHelperTextStyles({ status });
+
+  return (
+    <View style={styles.helperContainer}>
+      {!status && <InformationFill size={16} color='muted' />}
+      {status === 'error' && <DeleteCircleFill size={16} color='error' />}
+      {status === 'success' && (
+        <CheckmarkCircleFill size={16} color='success' />
+      )}
+      <Text style={styles.helperText}>{helperText}</Text>
+    </View>
+  );
+};
+
+const BaseInputCounter = ({ count, maxCount }: BaseInputCounterProps) => {
+  const styles = useCounterStyles();
+
+  return (
+    <Text style={styles.counterText} accessibilityLiveRegion='polite'>
+      {`${count}/${maxCount}`}
+    </Text>
   );
 };
 
@@ -282,26 +303,6 @@ const useStyles = ({
           justifyContent: 'space-between',
           gap: t.spacings.s8,
         },
-        helperContainer: {
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: t.spacings.s2,
-        },
-        helperText: {
-          ...t.typographies.body3,
-          flex: 1,
-          color: {
-            error: t.colors.text.error,
-            success: t.colors.text.success,
-            default: t.colors.text.muted,
-          }[status ?? 'default'],
-        },
-        counterText: {
-          ...t.typographies.body3,
-          flexShrink: 0,
-          color: t.colors.text.muted,
-        },
         suffixContainer: {
           minWidth: t.sizes.s20,
           alignItems: 'center',
@@ -310,6 +311,46 @@ const useStyles = ({
       };
     },
     [status, isFocused, isEditable, hasLabel],
+  );
+};
+
+const useHelperTextStyles = ({
+  status,
+}: {
+  status: BaseInputProps['status'];
+}) => {
+  return useStyleSheet(
+    (t) => ({
+      helperContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: t.spacings.s2,
+      },
+      helperText: {
+        ...t.typographies.body3,
+        flex: 1,
+        color: {
+          error: t.colors.text.error,
+          success: t.colors.text.success,
+          default: t.colors.text.muted,
+        }[status ?? 'default'],
+      },
+    }),
+    [status],
+  );
+};
+
+const useCounterStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      counterText: {
+        ...t.typographies.body3,
+        flexShrink: 0,
+        color: t.colors.text.muted,
+      },
+    }),
+    [],
   );
 };
 

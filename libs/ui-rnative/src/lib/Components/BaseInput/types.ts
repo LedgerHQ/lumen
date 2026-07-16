@@ -70,3 +70,17 @@ export type BaseInputProps = {
   hideClearButton?: boolean;
 } & Omit<TextInputProps, 'style'> &
   BoxProps;
+
+export type BaseInputHelperTextProps = {
+  /**
+   * The helper copy shown below the input.
+   */
+  helperText: string;
+} & Pick<BaseInputProps, 'status'>;
+
+export type BaseInputCounterProps = {
+  /**
+   * Current character count.
+   */
+  count: number;
+} & Required<Pick<BaseInputProps, 'maxCount'>>;
