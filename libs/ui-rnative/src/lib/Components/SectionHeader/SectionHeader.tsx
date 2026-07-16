@@ -98,7 +98,7 @@ export const SectionHeader = ({
           backgroundColor: t.colors.bg.surface,
           paddingHorizontal: t.spacings.s8,
           paddingVertical: t.spacings.s1,
-          borderRadius: t.borderRadius.sm,
+          borderRadius: t.borderRadius.xs,
         },
       } satisfies Record<SectionHeaderAppearance, ViewStyle>;
 
