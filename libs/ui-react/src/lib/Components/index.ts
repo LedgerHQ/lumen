@@ -33,6 +33,7 @@ export * from './Popover';
 export * from './PageIndicator';
 export * from './Pagination';
 export * from './SearchInput';
+export * from './SectionHeader';
 export * from './SegmentedControl';
 export * from './Select';
 export * from './SideBar';
