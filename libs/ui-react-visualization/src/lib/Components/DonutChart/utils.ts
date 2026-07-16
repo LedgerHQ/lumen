@@ -5,15 +5,15 @@ import { chartConfig } from '../../config';
 import type { DonutSegment, DonutSize } from './types';
 
 /** Ring dimensions for a given size, in SVG user units. */
-export type DonutGeometry = {
+export type DonutGeometry = Readonly<{
   box: number;
   innerRadius: number;
   outerRadius: number;
   cornerRadius: number;
   padAngle: number;
-};
+}>;
 
-export const DONUT_GEOMETRY: Record<DonutSize, DonutGeometry> =
+export const DONUT_GEOMETRY: Readonly<Record<DonutSize, DonutGeometry>> =
   chartConfig.donut.size;
 
 /** A segment ready to draw: its path is centered at the origin. */
