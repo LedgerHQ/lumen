@@ -8626,9 +8626,7 @@
           "scopes": [
             "CORNER_RADIUS"
           ],
-          "codeSyntax": {
-            "WEB": "radius"
-          }
+          "codeSyntax": {}
         }
       }
     },
