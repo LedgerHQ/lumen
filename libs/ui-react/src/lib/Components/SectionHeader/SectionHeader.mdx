@@ -1,0 +1,80 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as SectionHeaderStories from './SectionHeader.stories';
+import { SectionHeader } from './SectionHeader';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
+
+<Meta title='Core/SectionHeader' of={SectionHeaderStories} />
+
+# SectionHeader
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+SectionHeader is a compact, muted label used to title grouped content areas. It is smaller and more subdued than Subheader, making it suitable for category labels, list group headers, and inline section markers.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=18640-48457&m=dev).
+
+## Anatomy
+
+<Canvas of={SectionHeaderStories.Base} />
+
+The SectionHeader uses a composite structure with the following components:
+
+- **SectionHeader** (container): The root component with optional `appearance` variant
+- **SectionHeaderLeading** (optional): Slot for a leading icon or other content
+- **SectionHeaderTitle** (required): The muted label text
+
+## Properties
+
+### Overview
+
+<Canvas of={SectionHeaderStories.Base} />
+<Controls of={SectionHeaderStories.Base} />
+
+### Appearance
+
+There are two appearances: `no-background` (default) renders plain muted text with no container styling, and `plain` wraps the label in a subtle surface chip.
+
+<Canvas of={SectionHeaderStories.AppearanceShowcase} />
+
+### With leading icon
+
+Use `SectionHeaderLeading` to add an optional icon before the title.
+
+<Canvas of={SectionHeaderStories.WithLeadingIcon} />
+
+### Truncation
+
+Long titles truncate with an ellipsis while keeping leading content visible.
+
+<Canvas of={SectionHeaderStories.ResponsiveShowcase} />
+
+</Tab>
+
+<Tab label="Implementation">
+
+<SetupNote />
+
+`SectionHeader` is a compound component. Compose it with `SectionHeaderTitle` (required) and, optionally, `SectionHeaderLeading` for a leading icon.
+
+### Basic Usage
+
+<Source of={SectionHeaderStories.Base} />
+
+### With leading icon
+
+Add `SectionHeaderLeading` before the title to render a leading icon.
+
+<Source of={SectionHeaderStories.WithLeadingIcon} />
+
+### Truncation
+
+Titles truncate with an ellipsis when they exceed the available width, while leading content stays visible.
+
+<Source of={SectionHeaderStories.TruncateShowcase} />
+
+</Tab>
+
+</CustomTabs>

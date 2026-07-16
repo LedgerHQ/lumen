@@ -29,57 +29,63 @@ Component documentation MUST use the two-tab structure with Overview and Impleme
 
 **Include**:
 
-- Installation instructions
-- Basic usage examples
-- Advanced patterns (icons, routing, custom styling)
-- Performance considerations
+- Installation instructions (`<SetupNote />` where applicable)
+- Code examples via `<Source of={ComponentStories.StoryName} />` — not hand-written fenced code blocks when a matching story exists
+- Advanced patterns (icons, routing, custom styling) — prefer `<Source>` linked to the relevant story; use fenced blocks only when no story covers the snippet (e.g. one-off prop combinations)
+
+**Use `<Source>` for story-backed examples:**
+
+```tsx
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ComponentStories from './Component.stories';
+
+<Tab label='Implementation'>
+  <SetupNote />
+
+  ### Basic Usage
+
+  <Source of={ComponentStories.Base} />
+
+  ### With icon
+
+  <Source of={ComponentStories.WithIcon} />
+</Tab>
+```
+
+- Pair each `<Source>` with a real story export — the snippet stays in sync with Storybook (`type: 'dynamic'` on stories keeps it accurate when controls change).
+- Do not duplicate story code as manual ` ```tsx ` blocks in the Implementation tab.
+
+See `.cursor/rules/react/storybook-stories.mdc` for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
 
 ### Required Structure
 
 ```tsx
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as ComponentStories from './Component.stories';
-import { Component } from './Component';
+import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 
-<Meta title='Components/Component' of={ComponentStories} />
+<Meta title='Core/Component' of={ComponentStories} />
 
 # Component Name
 
 <CustomTabs>
-  <Tab label='Overview '>
+  <Tab label='Overview'>
     ## Introduction
-    {/* Component description and Figma link */}
-
-    ## Anatomy
-    {/* Visual breakdown with Canvas */}
-
-    ## Properties
-    {/* Showcase stories for appearance, size, states, etc. */}
-
-    ## Responsive Layout
-    {/* Layout examples */}
-
-    ## Accessibility
-    {/* Accessibility guidelines */}
+    <Canvas of={ComponentStories.Base} />
+    <Controls of={ComponentStories.Base} />
   </Tab>
 
-  <Tab label='Implementation '>
-    ## Installation
-    {/* npm install command and peer dependencies */}
-
-    ## Basic Usage
-    {/* Simple code example */}
-
-    ## Advanced Patterns
-    {/* Icons, routing, custom styling */}
-
-    ## Performance Considerations
-    {/* Performance tips if applicable */}
+  <Tab label='Implementation'>
+    <SetupNote />
+    ### Basic Usage
+    <Source of={ComponentStories.Base} />
+    ### Advanced Patterns
+    <Source of={ComponentStories.WithFeature} />
   </Tab>
 </CustomTabs>
 ```
 
-**Example**: See `Button.mdx` in ui-react or ui-rnative for reference implementation
+**Example**: See `Button.mdx` in ui-react or ui-rnative for reference implementation.
 
 # Table Documentation Guidelines
 
