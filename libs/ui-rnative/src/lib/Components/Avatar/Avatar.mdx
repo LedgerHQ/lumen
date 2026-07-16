@@ -44,6 +44,17 @@ When no image is shown, the Avatar renders a fallback. Provide `fallbackText` fo
 
 <Canvas of={AvatarStories.FallbackShowcase} />
 
+### Ring Appearance
+
+Use `ringAppearance` to display an inset ring around the avatar. Two variants are available:
+
+- `thin` — 1px ring, `border-icon` color
+- `thick` — 2px ring, `border-muted-subtle-transparent` color
+
+Omit the prop (or leave it `undefined`) for no ring.
+
+<Canvas of={AvatarStories.RingAppearanceShowcase} />
+
 ### Notification Indicator
 
 To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotIndicatorProps` helper:
@@ -119,6 +130,15 @@ function MyComponent() {
     </DotIndicator>
   );
 }
+```
+
+## Ring Appearance
+
+Use the `ringAppearance` prop to display a predefined inset ring:
+
+```tsx
+<Avatar src="https://example.com/photo.jpg" size="md" ringAppearance="thin" />
+<Avatar src="https://example.com/photo.jpg" size="md" ringAppearance="thick" />
 ```
 
 ## Different Sizes

@@ -130,6 +130,16 @@ export const NotificationShowcase: Story = {
   ),
 };
 
+export const RingAppearanceShowcase: Story = {
+  render: () => (
+    <div className='flex items-center gap-16'>
+      <Avatar size='md' alt='No ring' />
+      <Avatar size='md' alt='Thin ring' ringAppearance='thin' />
+      <Avatar size='md' alt='Thick ring' ringAppearance='thick' />
+    </div>
+  ),
+};
+
 export const InteractiveShowcase: Story = {
   render: () => (
     <div className='inline-flex gap-24'>

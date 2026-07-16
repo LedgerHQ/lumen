@@ -106,6 +106,16 @@ export const FallbackShowcase: Story = {
   ),
 };
 
+export const RingAppearanceShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+      <Avatar size='md' alt='No ring' />
+      <Avatar size='md' alt='Thin ring' ringAppearance='thin' />
+      <Avatar size='md' alt='Thick ring' ringAppearance='thick' />
+    </Box>
+  ),
+};
+
 export const NotificationShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', gap: 's16' }}>

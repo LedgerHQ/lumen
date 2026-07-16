@@ -60,6 +60,12 @@ export default function Avatars() {
           <Avatar src={exampleSrc} size='md' />
         </DotIndicator>
       </Box>
+
+      <Box lx={{ flexDirection: 'row', gap: 's8', alignItems: 'center' }}>
+        <Avatar size='md' />
+        <Avatar size='md' ringAppearance='thin' />
+        <Avatar size='md' ringAppearance='thick' />
+      </Box>
     </Box>
   );
 }
