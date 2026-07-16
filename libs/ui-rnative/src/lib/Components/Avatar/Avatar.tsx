@@ -23,12 +23,12 @@ const useStyles = ({
   size,
   fallbackColor,
   shouldFallback,
-  borderWidth,
+  ringWidth,
 }: {
   size: Size;
   fallbackColor?: string;
   shouldFallback: boolean;
-  borderWidth: number;
+  ringWidth: number;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -82,12 +82,12 @@ const useStyles = ({
           right: 0,
           bottom: 0,
           borderRadius: 9999,
-          borderWidth,
+          ringWidth,
           borderColor: t.colors.border.icon,
         },
       };
     },
-    [size, fallbackColor, shouldFallback, borderWidth],
+    [size, fallbackColor, shouldFallback, ringWidth],
   );
 };
 
@@ -136,7 +136,7 @@ export const Avatar = ({
   size = 'md',
   fallbackText,
   fallbackColor,
-  borderWidth = 1,
+  ringWidth = 1,
   ref,
   ...props
 }: AvatarProps) => {
@@ -147,7 +147,7 @@ export const Avatar = ({
     size,
     fallbackColor,
     shouldFallback,
-    borderWidth,
+    ringWidth,
   });
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');

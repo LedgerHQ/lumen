@@ -34,5 +34,5 @@ export type AvatarProps = {
    * Ring width for the avatar.
    * @optional
    */
-  borderWidth?: number;
+  ringWidth?: number;
 } & Omit<StyledViewProps, 'children'>;
