@@ -44,8 +44,10 @@ export type AvatarProps = {
    */
   fallbackText?: string;
   /**
-   * Ring width for the avatar.
+   * Ring appearance for the avatar.
+   * - `thin`: 1px ring using the icon border color
+   * - `thick`: 2px ring using the muted subtle transparent border color
    * @optional
    */
-  ringWidth?: number;
+  ringAppearance?: 'thin' | 'thick';
 } & ComponentPropsWithRef<'div'>;
