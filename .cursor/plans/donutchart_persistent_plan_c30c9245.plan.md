@@ -3,7 +3,7 @@
 
 DonutChart is an allocation / part-to-whole chart for Lumen. It renders a ring of segments with an optional interactive center, and pairs with a standalone `Legend` that is also reused by `LineChart`.
 
-Target library: `libs/ui-react-visualization` (React/SVG, package `@ledgerhq/lumen-ui-react-visualization`). A React Native counterpart ships in `ui-rnative-visualization` (ldls-react-native), mirroring this architecture.
+Target library: `libs/ui-react-visualization` (React/SVG, package `@ledgerhq/lumen-ui-react-visualization`). A React Native counterpart ships in `ui-rnative-visualization` mirroring this architecture.
 
 ## Architecture
 
