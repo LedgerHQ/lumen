@@ -2,7 +2,25 @@ import type { CurveType } from '../../utils/types';
 
 export type { CurveType };
 
-export type LineProps = {
+/**
+ * Rendering options shared by `Line` (per-line) and `LineChart` (applied to
+ * every line). Owned here so both types stay in sync.
+ */
+export type LineRenderOptions = {
+  /**
+   * Whether to render a filled area under the line.
+   * @default false
+   */
+  showArea?: boolean;
+  /**
+   * Area fill style.
+   * When `'gradient'`, renders a vertical gradient from the stroke color to transparent.
+   * @default 'gradient'
+   */
+  areaType?: 'gradient';
+};
+
+export type LineProps = LineRenderOptions & {
   /**
    * The ID of the series to render.
    * Must match a `Series.id` provided to the parent chart.
@@ -13,17 +31,6 @@ export type LineProps = {
    * When omitted, falls back to the `stroke` defined on the series.
    */
   stroke?: string;
-  /**
-   * Whether to show a filled area under the line.
-   * @default false
-   */
-  showArea?: boolean;
-  /**
-   * Area fill style.
-   * When `'gradient'`, renders a vertical gradient from the stroke color to transparent.
-   * @default 'gradient'
-   */
-  areaType?: 'gradient';
   /**
    * Override interpolation used to draw the line between data points.
    * When omitted, falls back to the `curve` defined on the series.

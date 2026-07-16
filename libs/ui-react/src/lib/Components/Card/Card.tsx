@@ -82,7 +82,7 @@ const cardVariants = cva(
   {
     variants: {
       interactive: {
-        true: 'cursor-pointer hover:bg-surface-hover active:bg-surface-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        true: 'cursor-pointer hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-surface-pressed',
         false: '',
       },
       outlined: {

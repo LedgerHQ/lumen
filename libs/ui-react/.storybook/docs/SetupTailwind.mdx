@@ -90,6 +90,23 @@ For the best development experience, we recommend the following setup:
      ```bash
      npm install -D eslint-plugin-better-tailwindcss
      ```
+   - Configure ESLint to lint classes inside `cn` and `cva`:
+     ```javascript
+     callees: [
+       ['cn', [{ match: 'strings' }]],
+       [
+         'cva',
+         [
+           { match: 'strings' },
+           { match: 'objectValues', pathPattern: '^variants.*$' },
+           {
+             match: 'objectValues',
+             pathPattern: '^compoundVariants\\[\\d+\\]\\.(?:className|class)$',
+           },
+         ],
+       ],
+     ],
+     ```
 
 3. **AI Assistant Rules** (Optional)
    - Lumen includes AI rules for better code suggestions across multiple AI tools

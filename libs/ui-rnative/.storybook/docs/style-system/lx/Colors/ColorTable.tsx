@@ -1,12 +1,13 @@
 import { Text, View } from 'react-native';
-import { resolveTheme } from '../';
+import { useResolvedTheme } from '../';
 
 type ColorTableProps = {
   category: 'bg' | 'text' | 'border' | 'crypto' | 'discover';
 };
 
 export const ColorTable = ({ category }: ColorTableProps) => {
-  const colors = resolveTheme().colors[category];
+  const theme = useResolvedTheme();
+  const colors = theme.colors[category];
 
   const cells = Object.entries(colors).filter(([, v]) => {
     return !(category === 'crypto' && v.endsWith('00')); // filter out "[crypto] 0" tokens
@@ -88,13 +89,13 @@ export const ColorTable = ({ category }: ColorTableProps) => {
   };
 
   return (
-    <table style={{ width: '100%' }}>
+    <table style={{ width: '100%', color: theme.colors.text.base }}>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Theme object</th>
-          <th>Hex</th>
-          <th>Sample</th>
+          <th style={{ textAlign: 'left' }}>Name</th>
+          <th style={{ textAlign: 'left' }}>Theme object</th>
+          <th style={{ textAlign: 'left' }}>Hex</th>
+          <th style={{ textAlign: 'left' }}>Sample</th>
         </tr>
       </thead>
       <tbody>

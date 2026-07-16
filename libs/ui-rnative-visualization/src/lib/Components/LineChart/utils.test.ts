@@ -6,7 +6,8 @@ import { DEFAULT_AXIS_HEIGHT } from '../Axis/XAxis';
 import {
   canRenderLine,
   computeAxisPadding,
-  getChartDisplayState,
+  getChartAriaLabel,
+  getChartDisplayStates,
 } from './utils';
 
 const makeSeries = (data: (number | null)[]): Series => ({
@@ -141,56 +142,79 @@ describe('computeAxisPadding', () => {
   });
 });
 
-describe('getChartDisplayState', () => {
+describe('getChartDisplayStates', () => {
   it('is initial-loading when loading with no data', () => {
-    expect(
-      getChartDisplayState({
-        loading: true,
-        hasData: false,
-        emptyLabel: 'No data',
-      }),
-    ).toEqual({
-      status: 'initial-loading',
-      ariaLabel: 'Loading chart',
+    expect(getChartDisplayStates({ loading: true, hasData: false })).toEqual({
+      showPlaceholder: true,
+      placeholderLoading: true,
+      showEmptyOverlay: false,
+      isTransitionLoading: false,
     });
   });
 
   it('is empty when not loading with no data', () => {
-    expect(
-      getChartDisplayState({
-        loading: false,
-        hasData: false,
-        emptyLabel: 'Nothing here',
-      }),
-    ).toEqual({
-      status: 'empty',
-      ariaLabel: 'Nothing here',
+    expect(getChartDisplayStates({ loading: false, hasData: false })).toEqual({
+      showPlaceholder: true,
+      placeholderLoading: false,
+      showEmptyOverlay: true,
+      isTransitionLoading: false,
     });
   });
 
   it('is transition-loading when loading with data', () => {
+    expect(getChartDisplayStates({ loading: true, hasData: true })).toEqual({
+      showPlaceholder: false,
+      placeholderLoading: false,
+      showEmptyOverlay: false,
+      isTransitionLoading: true,
+    });
+  });
+
+  it('is ready when data is present and not loading', () => {
+    expect(getChartDisplayStates({ loading: false, hasData: true })).toEqual({
+      showPlaceholder: false,
+      placeholderLoading: false,
+      showEmptyOverlay: false,
+      isTransitionLoading: false,
+    });
+  });
+});
+
+describe('getChartAriaLabel', () => {
+  it('returns the loading label while loading, regardless of data', () => {
     expect(
-      getChartDisplayState({
+      getChartAriaLabel({
+        loading: true,
+        hasData: false,
+        emptyLabel: 'No data',
+      }),
+    ).toBe('Loading chart');
+    expect(
+      getChartAriaLabel({
         loading: true,
         hasData: true,
         emptyLabel: 'No data',
       }),
-    ).toEqual({
-      status: 'transition-loading',
-      ariaLabel: 'Loading chart',
-    });
+    ).toBe('Loading chart');
   });
 
-  it('is ready with no aria label when data is present and not loading', () => {
+  it('returns the empty label when not loading with no data', () => {
     expect(
-      getChartDisplayState({
+      getChartAriaLabel({
+        loading: false,
+        hasData: false,
+        emptyLabel: 'Nothing here',
+      }),
+    ).toBe('Nothing here');
+  });
+
+  it('returns undefined when data is present and not loading', () => {
+    expect(
+      getChartAriaLabel({
         loading: false,
         hasData: true,
         emptyLabel: 'No data',
       }),
-    ).toEqual({
-      status: 'ready',
-      ariaLabel: undefined,
-    });
+    ).toBeUndefined();
   });
 });

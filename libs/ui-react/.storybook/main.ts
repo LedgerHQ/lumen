@@ -44,6 +44,9 @@ const config: StorybookConfig = {
       ...viteConfig.resolve.alias,
       'react-native': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
+      '@ledgerhq/lumen-design-core': fileURLToPath(
+        new URL('../../design-core/src/index.ts', import.meta.url),
+      ),
     };
 
     return mergeConfig(viteConfig, {

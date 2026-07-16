@@ -17,7 +17,6 @@ const meta = {
   component: Point,
   id: 'react-point',
   title: 'Visualization/Point',
-  tags: ['experimental'],
   decorators: [
     (Story, context) => {
       return (

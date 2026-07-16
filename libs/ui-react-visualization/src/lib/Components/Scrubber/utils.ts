@@ -1,24 +1,39 @@
+import { chartConfig } from '../../config';
 import { clamp } from '../../utils/numbers';
 import {
   getPointOnScale,
   isCategoricalScale,
   isNumericScale,
 } from '../../utils/scales/scales';
-import type { ChartScaleFunction } from '../../utils/types';
+import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import type { useCartesianChartContext } from '../CartesianChart/context';
 
-export const BEACON_RADIUS = 5;
-export const BEACON_STROKE_WIDTH = 2;
-export const LABEL_OFFSET_Y = 12;
-export const OVERLAY_OFFSET = 2;
-export const OVERLAY_LINE_INSET = 0.5;
-export const OVERLAY_OPACITY = 0.8;
-export const LINE_GRADIENT_EDGE_OPACITY = 0.1;
+import type {
+  ChartTooltipItemData,
+  ScrubberTooltipContent,
+  SvgTextContent,
+} from './types';
+
+const { scrubber } = chartConfig;
 
 export type MagnetEntry = {
   index: number;
   pixelX: number;
+};
+
+export type OverlayRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type ScrubberTooltipPayload = {
+  items: ChartTooltipItemData[];
+  resolvedTitle: SvgTextContent | undefined;
+  offset?: number;
+  minWidth?: number;
 };
 
 /**
@@ -209,4 +224,54 @@ export const applyMagnetization = ({
     return sortedMagnets[nearest].index;
   }
   return resolvedIndex;
+};
+
+/**
+ * Computes the rect that dims the data after the scrubber line. It starts just
+ * right of the line and spans to the drawing area's right edge, padded by
+ * `overlayOffset` on the top, bottom, and right. Width is clamped at 0 so the
+ * rect never inverts when the line sits at the right edge.
+ */
+export const computeOverlayRect = (
+  pixelX: number,
+  drawingArea: DrawingArea,
+): OverlayRect => ({
+  x: pixelX + scrubber.overlayLineInset,
+  y: drawingArea.y - scrubber.overlayOffset,
+  width: Math.max(
+    0,
+    drawingArea.x +
+      drawingArea.width -
+      pixelX -
+      scrubber.overlayLineInset +
+      scrubber.overlayOffset,
+  ),
+  height: drawingArea.height + scrubber.overlayOffset * 2,
+});
+
+/**
+ * Resolves the `tooltip` callback for a data index into render-ready payload:
+ * invokes the callback, resolves a function `title`, and returns `undefined`
+ * when there is no callback or it yields no items (so nothing is rendered).
+ */
+export const resolveTooltipPayload = (
+  tooltip: ((dataIndex: number) => ScrubberTooltipContent) | undefined,
+  scrubberPosition: number,
+): ScrubberTooltipPayload | undefined => {
+  if (!tooltip) return undefined;
+
+  const content = tooltip(scrubberPosition);
+  if (content.items.length === 0) return undefined;
+
+  const resolvedTitle =
+    typeof content.title === 'function'
+      ? content.title(scrubberPosition)
+      : content.title;
+
+  return {
+    items: content.items,
+    resolvedTitle,
+    offset: content.offset,
+    minWidth: content.minWidth,
+  };
 };

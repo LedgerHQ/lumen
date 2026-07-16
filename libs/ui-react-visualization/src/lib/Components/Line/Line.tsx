@@ -1,16 +1,14 @@
 import { memo, useId, useMemo } from 'react';
 
+import { chartConfig } from '../../config';
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePathReveal } from '../CartesianChart/RevealAnimation';
 
-import {
-  LINE_AREA_GRADIENT_OPACITY,
-  LINE_DEFAULT_STROKE_COLOR,
-  LINE_STROKE_WIDTH,
-} from './constants';
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';
+
+const { color, strokeWidth, line } = chartConfig;
 
 export const Line = memo(function Line({
   seriesId,
@@ -30,8 +28,7 @@ export const Line = memo(function Line({
 
   const gradientId = useId();
   const seriesData = seriesMap.get(seriesId);
-  const resolvedStroke =
-    (stroke ?? seriesData?.stroke) || LINE_DEFAULT_STROKE_COLOR;
+  const resolvedStroke = (stroke ?? seriesData?.stroke) || color.stroke;
   const resolvedCurve = curve ?? seriesData?.curve;
   const resolvedConnectNulls =
     connectNulls ?? seriesData?.connectNulls ?? false;
@@ -83,7 +80,7 @@ export const Line = memo(function Line({
               <stop
                 offset='0%'
                 stopColor={resolvedStroke}
-                stopOpacity={LINE_AREA_GRADIENT_OPACITY}
+                stopOpacity={line.areaGradientOpacity}
               />
               <stop offset='100%' stopColor={resolvedStroke} stopOpacity={0} />
             </linearGradient>
@@ -101,7 +98,7 @@ export const Line = memo(function Line({
         d={linePath}
         fill='none'
         stroke={resolvedStroke}
-        strokeWidth={LINE_STROKE_WIDTH}
+        strokeWidth={strokeWidth.line}
         strokeLinecap='round'
         strokeLinejoin='round'
       />

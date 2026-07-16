@@ -21,8 +21,8 @@ const inputStyles = cva(
   {
     variants: {
       size: {
-        md: 'heading-0-semi-bold h-56',
-        sm: 'heading-2-semi-bold h-36',
+        md: 'h-56 heading-0-semi-bold',
+        sm: 'h-36 heading-2-semi-bold',
       },
       isChanging: {
         true: 'animate-translate-from-right',

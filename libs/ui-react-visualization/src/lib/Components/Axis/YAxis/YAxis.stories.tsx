@@ -21,7 +21,6 @@ const meta = {
   component: YAxis,
   id: 'react-yaxis',
   title: 'Visualization/YAxis',
-  tags: ['experimental'],
   args: {
     showLine: true,
   },

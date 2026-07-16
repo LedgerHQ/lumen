@@ -9,7 +9,6 @@ import type { ScrubberProps } from './types';
 const meta = {
   component: Scrubber,
   title: 'Visualization/Scrubber',
-  tags: ['experimental'],
   decorators: [
     (Story, context) => (
       <StoryDecorator context={context}>

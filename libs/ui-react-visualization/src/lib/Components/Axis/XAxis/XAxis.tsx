@@ -1,11 +1,12 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
+import { chartConfig } from '../../../config';
 import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
-import { TICK_MARK_SIZE, TICK_LABEL_OFFSET } from '../Axis.constants';
 import type { XAxisProps } from './types';
+
+const { axis, color, strokeWidth, font } = chartConfig;
 
 export function XAxis({
   gridLineStyle = 'solid',
@@ -37,7 +38,8 @@ export function XAxis({
   const isTop = position === 'top';
   const axisY = isTop ? drawingArea.y : drawingArea.y + drawingArea.height;
   const tickDirection = isTop ? -1 : 1;
-  const labelY = axisY + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
+  const labelY =
+    axisY + tickDirection * (axis.tickMarkSize + axis.tickLabelOffset);
 
   return (
     <g data-testid='x-axis'>
@@ -50,10 +52,12 @@ export function XAxis({
             x2={tick.position}
             y2={drawingArea.y + drawingArea.height}
             style={{
-              stroke: cssVar('var(--border-muted-subtle-transparent)'),
+              stroke: color.gridLine,
             }}
-            strokeWidth={cssVar('var(--stroke-1)')}
-            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
+            strokeWidth={strokeWidth.hairline}
+            strokeDasharray={
+              gridLineStyle === 'dashed' ? axis.gridDashArray : undefined
+            }
           />
         ))}
 
@@ -63,8 +67,8 @@ export function XAxis({
           y1={axisY}
           x2={drawingArea.x + drawingArea.width}
           y2={axisY}
-          style={{ stroke: cssVar('var(--border-muted)') }}
-          strokeWidth={cssVar('var(--stroke-1)')}
+          style={{ stroke: axis.lineColor }}
+          strokeWidth={strokeWidth.hairline}
           shapeRendering='crispEdges'
           strokeLinecap='square'
         />
@@ -77,9 +81,9 @@ export function XAxis({
             x1={tick.position}
             y1={axisY}
             x2={tick.position}
-            y2={axisY + tickDirection * TICK_MARK_SIZE}
-            style={{ stroke: cssVar('var(--border-muted)') }}
-            strokeWidth={cssVar('var(--stroke-1)')}
+            y2={axisY + tickDirection * axis.tickMarkSize}
+            style={{ stroke: axis.lineColor }}
+            strokeWidth={strokeWidth.hairline}
           />
         ))}
 
@@ -92,9 +96,9 @@ export function XAxis({
             textAnchor='middle'
             dominantBaseline={position === 'top' ? 'auto' : 'hanging'}
             style={{
-              fill: cssVar('var(--text-muted)'),
-              fontSize: cssVar('var(--font-style-body-4-size)'),
-              fontFamily: cssVar('var(--font-family-font)'),
+              fill: color.textMuted,
+              fontSize: font.labelSize,
+              fontFamily: font.family,
             }}
           >
             {tick.label}

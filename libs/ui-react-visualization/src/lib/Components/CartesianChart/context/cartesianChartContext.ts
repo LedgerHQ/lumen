@@ -1,6 +1,6 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 
-import type { CartesianChartContextValue } from '../../../utils/types';
+import type { CartesianChartContextValue } from '../types';
 
 const [CartesianChartProvider, _useCartesianChartSafeContext] =
   createSafeContext<CartesianChartContextValue>('CartesianChart');

@@ -1,9 +1,8 @@
-import { cssVar } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
 
-import { defaultXAxisProps, defaultYAxisProps } from '../Axis';
-import { XAxis } from '../Axis/XAxis';
-import { YAxis } from '../Axis/YAxis';
+import { chartConfig } from '../../config';
+import { XAxis, type XAxisProps } from '../Axis/XAxis';
+import { YAxis, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel/ChartEmptyLabel';
 import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
@@ -19,8 +18,29 @@ import type {
 import {
   canRenderLine,
   computeAxisPadding,
-  getChartDisplayState,
+  getChartAriaLabel,
+  getChartDisplayStates,
+  mergeDefaults,
 } from './utils';
+
+const defaultXAxisProps: XAxisProps = {
+  position: 'bottom',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: false,
+};
+
+const defaultYAxisProps: YAxisProps = {
+  position: 'start',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: true,
+  width: chartConfig.axis.defaultWidth,
+};
 
 const LineChartLines = ({
   series,
@@ -62,7 +82,7 @@ const LineChartTransitionLines = ({
           showArea={showArea}
           areaType={areaType}
           connectNulls={connectNulls}
-          stroke={cssVar('var(--border-muted-subtle)')}
+          stroke={chartConfig.color.mutedLine}
         />
       </g>
     </>
@@ -115,31 +135,22 @@ export function LineChart({
   xAxis,
   yAxis,
   width = '100%',
-  height = 240,
+  height = chartConfig.root.defaultHeight,
   inset,
   enableScrubbing,
   onScrubberPositionChange,
   animate,
   magnetRadius,
   loading = false,
-  emptyLabel = 'No data',
+  emptyLabel = chartConfig.emptyState.defaultLabel,
   children,
 }: Readonly<LineChartProps>) {
   const xAxisConfig = useMemo(
-    () => ({
-      ...defaultXAxisProps,
-      ...xAxis,
-      position: xAxis?.position ?? defaultXAxisProps.position,
-    }),
+    () => mergeDefaults(defaultXAxisProps, xAxis),
     [xAxis],
   );
   const yAxisConfig = useMemo(
-    () => ({
-      ...defaultYAxisProps,
-      ...yAxis,
-      position: yAxis?.position ?? defaultYAxisProps.position,
-      width: yAxis?.width ?? defaultYAxisProps.width,
-    }),
+    () => mergeDefaults(defaultYAxisProps, yAxis),
     [yAxis],
   );
 
@@ -160,15 +171,8 @@ export function LineChart({
   );
 
   const hasData = canRenderLine(series, xAxisConfig.data);
-
-  const { status, ariaLabel } = getChartDisplayState({
-    loading,
-    hasData,
-    emptyLabel,
-  });
-
-  const isTransitionLoading = status === 'transition-loading';
-  const isPlaceholder = status === 'initial-loading' || status === 'empty';
+  const states = getChartDisplayStates({ loading, hasData });
+  const ariaLabel = getChartAriaLabel({ loading, hasData, emptyLabel });
 
   return (
     <CartesianChart
@@ -186,13 +190,13 @@ export function LineChart({
       ariaLabel={ariaLabel}
       ariaBusy={loading}
       overlay={
-        status === 'empty' ? (
+        states.showEmptyOverlay ? (
           <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel>
         ) : undefined
       }
     >
-      {isPlaceholder ? (
-        <LineChartEmptyState loading={status === 'initial-loading'} />
+      {states.showPlaceholder ? (
+        <LineChartEmptyState loading={states.placeholderLoading} />
       ) : (
         <LineChartContent
           series={series ?? []}
@@ -203,7 +207,7 @@ export function LineChart({
           showYAxis={showYAxis}
           xAxisConfig={xAxisConfig}
           yAxisConfig={yAxisConfig}
-          isTransitionLoading={isTransitionLoading}
+          isTransitionLoading={states.isTransitionLoading}
         >
           {children}
         </LineChartContent>

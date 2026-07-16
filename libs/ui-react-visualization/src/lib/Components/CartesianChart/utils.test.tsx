@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { ZERO_PADDING, resolveAxisPadding, resolveInset } from './utils';
+import { chartConfig } from '../../config';
+import { resolveAxisPadding, resolveInset } from './utils';
 
 describe('resolveInset', () => {
-  it('should return ZERO_PADDING when undefined', () => {
-    expect(resolveInset(undefined)).toEqual(ZERO_PADDING);
+  it('should return zero padding when undefined', () => {
+    expect(resolveInset(undefined)).toEqual(chartConfig.root.zeroPadding);
   });
 
   it('should resolve a uniform number', () => {
@@ -17,7 +18,7 @@ describe('resolveInset', () => {
   });
 
   it('should handle zero as a uniform number', () => {
-    expect(resolveInset(0)).toEqual(ZERO_PADDING);
+    expect(resolveInset(0)).toEqual(chartConfig.root.zeroPadding);
   });
 
   it('should handle negative uniform values', () => {
@@ -48,13 +49,13 @@ describe('resolveInset', () => {
   });
 
   it('should handle an empty object', () => {
-    expect(resolveInset({})).toEqual(ZERO_PADDING);
+    expect(resolveInset({})).toEqual(chartConfig.root.zeroPadding);
   });
 });
 
 describe('resolveAxisPadding', () => {
-  it('should return ZERO_PADDING when undefined', () => {
-    expect(resolveAxisPadding(undefined)).toEqual(ZERO_PADDING);
+  it('should return zero padding when undefined', () => {
+    expect(resolveAxisPadding(undefined)).toEqual(chartConfig.root.zeroPadding);
   });
 
   it('should resolve a full padding object', () => {
@@ -78,6 +79,6 @@ describe('resolveAxisPadding', () => {
   });
 
   it('should handle an empty object', () => {
-    expect(resolveAxisPadding({})).toEqual(ZERO_PADDING);
+    expect(resolveAxisPadding({})).toEqual(chartConfig.root.zeroPadding);
   });
 });

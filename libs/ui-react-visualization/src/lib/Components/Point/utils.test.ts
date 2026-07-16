@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
+import { chartConfig } from '../../config';
 import {
   buildArrowPoints,
   computeLabelX,
@@ -8,6 +8,8 @@ import {
   isWithinBounds,
   resolveLabel,
 } from './utils';
+
+const { point } = chartConfig;
 
 describe('isWithinBounds', () => {
   const area = { x: 10, y: 20, width: 100, height: 50 };
@@ -45,12 +47,12 @@ describe('buildArrowPoints', () => {
   const cx = 100;
   const cy = 200;
   const radius = 5;
-  const halfW = ARROW_WIDTH / 2;
+  const halfW = point.arrowWidth / 2;
 
   it('builds a downward-pointing arrow for top position', () => {
     const result = buildArrowPoints(cx, cy, radius, 'top');
-    const tipY = cy - radius - GAP;
-    const baseY = tipY - ARROW_HEIGHT;
+    const tipY = cy - radius - point.labelGap;
+    const baseY = tipY - point.arrowHeight;
     expect(result).toBe(
       `${cx},${tipY} ${cx - halfW},${baseY} ${cx + halfW},${baseY}`,
     );
@@ -58,8 +60,8 @@ describe('buildArrowPoints', () => {
 
   it('builds an upward-pointing arrow for bottom position', () => {
     const result = buildArrowPoints(cx, cy, radius, 'bottom');
-    const tipY = cy + radius + GAP;
-    const baseY = tipY + ARROW_HEIGHT;
+    const tipY = cy + radius + point.labelGap;
+    const baseY = tipY + point.arrowHeight;
     expect(result).toBe(
       `${cx},${tipY} ${cx - halfW},${baseY} ${cx + halfW},${baseY}`,
     );
@@ -94,30 +96,34 @@ describe('computeLabelY', () => {
 
   it('positions label above the point when labelPosition is top with arrow', () => {
     const result = computeLabelY(pixelY, radius, 'top', true);
-    const arrowOffset = ARROW_HEIGHT + GAP;
-    expect(result).toBe(pixelY - radius - arrowOffset - GAP);
+    const arrowOffset = point.arrowHeight + point.labelGap;
+    expect(result).toBe(pixelY - radius - arrowOffset - point.labelGap);
   });
 
   it('positions label above the point when labelPosition is top without arrow', () => {
     const result = computeLabelY(pixelY, radius, 'top', false);
-    expect(result).toBe(pixelY - radius - GAP - GAP);
+    expect(result).toBe(pixelY - radius - point.labelGap - point.labelGap);
   });
 
   it('positions label below the point when labelPosition is bottom with arrow', () => {
     const result = computeLabelY(pixelY, radius, 'bottom', true);
-    const arrowOffset = ARROW_HEIGHT + GAP;
-    expect(result).toBe(pixelY + radius + arrowOffset + GAP + LABEL_FONT_SIZE);
+    const arrowOffset = point.arrowHeight + point.labelGap;
+    expect(result).toBe(
+      pixelY + radius + arrowOffset + point.labelGap + point.labelFontSize,
+    );
   });
 
   it('positions label below the point when labelPosition is bottom without arrow', () => {
     const result = computeLabelY(pixelY, radius, 'bottom', false);
-    expect(result).toBe(pixelY + radius + GAP + GAP + LABEL_FONT_SIZE);
+    expect(result).toBe(
+      pixelY + radius + point.labelGap + point.labelGap + point.labelFontSize,
+    );
   });
 });
 
 describe('computeLabelX', () => {
   const area = { x: 100, y: 0, width: 200, height: 100 };
-  const halfArrow = ARROW_WIDTH / 2;
+  const halfArrow = point.arrowWidth / 2;
 
   it('centres the label on the point when clamping is disabled', () => {
     expect(

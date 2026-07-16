@@ -18,7 +18,6 @@ const sampleSeries = [
 const meta = {
   component: Point,
   title: 'Visualization/Point',
-  tags: ['experimental'],
   decorators: [
     (Story, context) => {
       return (
