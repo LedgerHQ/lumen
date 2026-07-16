@@ -138,7 +138,9 @@ export const Avatar = ({
       )}
       <span
         className='pointer-events-none absolute inset-0 rounded-full'
-        style={{ boxShadow: `inset 0 0 0 ${borderWidth}px var(--color-icon)` }}
+        style={{
+          boxShadow: `inset 0 0 0 ${borderWidth}px var(--color-border-icon)`,
+        }}
         aria-hidden='true'
       />
     </div>
