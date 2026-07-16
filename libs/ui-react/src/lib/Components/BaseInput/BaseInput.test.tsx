@@ -28,7 +28,7 @@ describe('BaseInput', () => {
     expect(input).not.toHaveAttribute('aria-invalid');
     expect(screen.getByText('Enter your ETH address')).toBeInTheDocument();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    expect(document.querySelector('svg')).not.toBeInTheDocument();
+    expect(document.querySelector('svg.text-muted')).toBeInTheDocument();
   });
 
   it('shows success helper text with icon and keeps the input valid', () => {

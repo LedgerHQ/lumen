@@ -1,4 +1,4 @@
-import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as TextInputStories from './TextInput.stories';
 import { TextInput } from './TextInput';
 import {
@@ -57,6 +57,23 @@ The input supports error handling through:
 
 <Canvas of={TextInputStories.WithError} />
 
+### Character Counter
+
+Set `maxCount` to show a character counter below the input. The counter displays as `count/maxCount` on the bottom-right.
+
+<Canvas of={TextInputStories.WithCounter} />
+
+#### **Validation**
+
+When the count exceeds `maxCount`, handle validation in your app — pass `status` and `helperText` yourself:
+
+<Canvas of={TextInputStories.WithCounterExceeded} />
+
+#### **Hard Limit with Native `maxLength`**
+
+Pair `maxCount` with the native `maxLength` attribute to hard-cap input at the same limit. The browser prevents typing beyond `maxLength`, so the counter never exceeds `maxCount`.
+
+<Canvas of={TextInputStories.WithNativeMaxLength} />
 
 ### Custom Right Element
 
@@ -133,21 +150,7 @@ npm install @ledgerhq/lumen-ui-react
 
 ## Basic Usage
 
-```tsx
-import { TextInput } from '@ledgerhq/lumen-ui-react';
-
-function MyComponent() {
-  const [value, setValue] = React.useState('');
-
-  return (
-    <TextInput
-      label='Username'
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
-  );
-}
-```
+<Source of={TextInputStories.Default} />
 
 > **Note:** Clear button appears automatically when input has content. Use `hideClearButton` to hide it.
 
@@ -155,47 +158,13 @@ function MyComponent() {
 
 Use `hideClearButton` to prevent the clear button from appearing:
 
-```tsx
-import { TextInput } from '@ledgerhq/lumen-ui-react';
-
-function MyComponent() {
-  const [value, setValue] = React.useState('');
-
-  return (
-    <TextInput
-      label='Username'
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      hideClearButton // Clear button will not appear
-    />
-  );
-}
-```
+<Source of={TextInputStories.HiddenClearButton} />
 
 #### **Extending the Clear Behavior**
 
 Provide `onClear` to extend the default clear behavior with additional logic:
 
-```tsx
-import { TextInput } from '@ledgerhq/lumen-ui-react';
-
-function MyComponent() {
-  const [value, setValue] = React.useState('');
-
-  return (
-    <TextInput
-      label='Search'
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      onClear={() => {
-        // Default clearing happens automatically
-        // Add your custom logic here
-        analytics.track('search_cleared');
-      }}
-    />
-  );
-}
-```
+<Source of={TextInputStories.ExtendedClearBehavior} />
 
 ### With Custom Right Element
 
@@ -203,37 +172,7 @@ You can add custom elements to the right side of the input.
 
 > **Note:** Define reusable components for better organization and performance:
 
-```tsx
-import { TextInput } from '@ledgerhq/lumen-ui-react';
-import { InformationFill, SparksFill } from '@ledgerhq/lumen-ui-react/symbols';
-
-// Action button component
-const GeneratePasswordButton = () => (
-  <button
-    type='button'
-    onClick={() => alert('Generate password')}
-    aria-label='Generate random password'
-  >
-    <SparksFill size={20} className='text-muted' />
-  </button>
-);
-
-function MyComponent() {
-  const [value, setValue] = React.useState('');
-
-  return (
-    <div className='space-y-16'>
-      <TextInput
-        label='Password'
-        type='password'
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        suffix={<GeneratePasswordButton />}
-      />
-    </div>
-  );
-}
-```
+<Source of={TextInputStories.WithCustomElement} />
 
 > ⚠️ **Important:** The clear button appears automatically when input has content and will take priority over your `suffix`. Use `hideClearButton={true}` if you need persistent right-side content! 🔄
 
@@ -241,32 +180,27 @@ function MyComponent() {
 
 The Input component supports error states and messages:
 
-```tsx
-import { TextInput } from '@ledgerhq/lumen-ui-react';
-
-function MyComponent() {
-  const [value, setValue] = React.useState('');
-  const [error, setError] = React.useState(false);
-
-  const handleChange = (e) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    setError(newValue.length < 3);
-  };
-
-  return (
-    <TextInput
-      label='Username'
-      value={value}
-      onChange={handleChange}
-      helperText={error ? 'Must be at least 3 characters' : undefined}
-      status={error ? 'error' : undefined}
-    />
-  );
-}
-```
+<Source of={TextInputStories.WithError} />
 
 > **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
+
+### With Character Counter
+
+Set `maxCount` to enable the character counter.
+
+<Source of={TextInputStories.WithCounter} />
+
+### With Character Counter Validation
+
+When the count exceeds `maxCount`, handle validation in your app — pass `status` and `helperText` yourself:
+
+<Source of={TextInputStories.WithCounterExceeded} />
+
+### With Native `maxLength` Hard Limit
+
+Combine `maxCount` with the native `maxLength` attribute to hard-cap the input. The browser blocks input beyond `maxLength`, keeping the counter within bounds:
+
+<Source of={TextInputStories.WithNativeMaxLength} />
 
 
 </Tab>

@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { CheckmarkCircleFill } from '../../Symbols/Icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../Symbols/Icons/DeleteCircleFill';
+import { InformationFill } from '../../Symbols/Icons/InformationFill';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
 
@@ -36,7 +37,7 @@ describe('TextInput', () => {
   });
 
   describe('Helper text', () => {
-    it('renders neutral helper text without feedback icons', () => {
+    it('renders neutral helper text with an info icon', () => {
       renderWithProvider(
         <TextInput label='Address' helperText='Enter your ETH address' />,
       );
@@ -47,6 +48,7 @@ describe('TextInput', () => {
       expect(helperText.props.style).toEqual(
         expect.objectContaining({ color: colors.text.muted }),
       );
+      expect(screen.UNSAFE_getByType(InformationFill)).toBeTruthy();
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
       expect(screen.UNSAFE_queryByType(CheckmarkCircleFill)).toBeNull();
     });
@@ -85,6 +87,63 @@ describe('TextInput', () => {
       );
       expect(screen.UNSAFE_getByType(CheckmarkCircleFill)).toBeTruthy();
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
+    });
+  });
+
+  describe('Character counter', () => {
+    it('renders character counter when maxCount is set', () => {
+      renderWithProvider(
+        <TextInput
+          label='Bio'
+          value='Hello'
+          onChangeText={() => {}}
+          maxCount={32}
+        />,
+      );
+
+      expect(screen.getByText('5/32')).toBeTruthy();
+    });
+
+    it('does not render character counter when maxCount is omitted', () => {
+      renderWithProvider(
+        <TextInput label='Bio' value='Hello' onChangeText={() => {}} />,
+      );
+
+      expect(screen.queryByText(/\d+\/\d+/)).toBeNull();
+    });
+
+    it('keeps counter muted when count exceeds maxCount', () => {
+      const longValue = 'This text exceeds the character limit';
+
+      renderWithProvider(
+        <TextInput
+          label='Bio'
+          value={longValue}
+          onChangeText={() => {}}
+          maxCount={32}
+        />,
+      );
+
+      const counter = screen.getByText(`${longValue.length}/32`);
+
+      expect(counter.props.style).toEqual(
+        expect.objectContaining({ color: colors.text.muted }),
+      );
+    });
+
+    it('does not truncate input when count exceeds maxCount', () => {
+      const longValue = 'This text exceeds the character limit';
+
+      renderWithProvider(
+        <TextInput
+          label='Bio'
+          value={longValue}
+          onChangeText={() => {}}
+          maxCount={32}
+        />,
+      );
+
+      expect(screen.getByDisplayValue(longValue)).toBeTruthy();
     });
   });
 });

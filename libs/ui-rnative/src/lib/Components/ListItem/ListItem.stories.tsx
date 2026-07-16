@@ -328,7 +328,7 @@ export const ActiveState: Story = {
     active: true,
   },
   render: (args) => (
-    <Box lx={{ flexDirection: 'column', width: 's320' }}>
+    <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
       <ListItem {...args}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />

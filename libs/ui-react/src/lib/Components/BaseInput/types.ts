@@ -13,6 +13,10 @@ export type BaseInputProps = {
    */
   helperText?: string;
   /**
+   * Soft character limit. When set, renders a `count/maxCount` counter below the input.
+   */
+  maxCount?: number;
+  /**
    * Visual state for border, label, helper text, and helper icon.
    * Omit when `helperText` is a neutral hint.
    */
@@ -59,3 +63,25 @@ export type BaseInputProps = {
    */
   labelClassName?: string;
 } & Omit<ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;
+
+export type BaseInputHelperTextProps = {
+  /**
+   * The id linking the helper text to the input via `aria-describedby`.
+   */
+  id: string;
+  /**
+   * The helper copy shown below the input.
+   */
+  helperText: string;
+} & Pick<BaseInputProps, 'status'>;
+
+export type BaseInputCounterProps = {
+  /**
+   * Current character count.
+   */
+  count: number;
+  /**
+   * Soft character limit rendered as the counter denominator.
+   */
+  maxCount: number;
+};

@@ -11,6 +11,12 @@ import { Alert, Pressable, View } from 'react-native';
 export default function TextInputs() {
   const [team, setTeam] = useState<string>();
   const [isTeamValid, setIsTeamValid] = useState(true);
+  const [bio, setBio] = useState('');
+  const [note, setNote] = useState('This text exceeds the character limit');
+  const [shortCode, setShortCode] = useState('');
+
+  const noteMaxCount = 32;
+  const isNoteOverLimit = note.length > noteMaxCount;
 
   useEffect(() => {
     if (team) {
@@ -69,6 +75,29 @@ export default function TextInputs() {
             ? 'Team matches "lumen"!'
             : undefined
         }
+      />
+      <TextInput
+        label='Bio'
+        value={bio}
+        onChangeText={setBio}
+        helperText='Keep it short and descriptive'
+        maxCount={32}
+      />
+      <TextInput
+        label='Note'
+        value={note}
+        onChangeText={setNote}
+        helperText={isNoteOverLimit ? 'Character limit exceeded' : 'Info text'}
+        status={isNoteOverLimit ? 'error' : undefined}
+        maxCount={noteMaxCount}
+      />
+      <TextInput
+        label='Short code'
+        value={shortCode}
+        onChangeText={setShortCode}
+        helperText='Input is capped at 8 characters'
+        maxLength={8}
+        maxCount={8}
       />
       <TextInput
         label='A very long label that should really be truncated at different breakpoints'
