@@ -20,12 +20,19 @@ export const AvatarButton = ({
   size,
   fallbackText,
   fallbackColor,
+  disabled: disabledProp = false,
+  style,
   ...props
 }: AvatarButtonProps) => {
-  const styles = useStyles();
+  const styles = useStyles({ disabled: disabledProp });
 
   return (
-    <Pressable accessibilityRole='button' {...props}>
+    <Pressable
+      accessibilityRole='button'
+      disabled={disabledProp}
+      style={[styles.container, style]}
+      {...props}
+    >
       {({ pressed }) => (
         <>
           <Avatar
@@ -45,9 +52,12 @@ export const AvatarButton = ({
   );
 };
 
-const useStyles = () =>
+const useStyles = ({ disabled }: { disabled: boolean }) =>
   useStyleSheet(
     (t) => ({
+      container: {
+        ...(disabled && { opacity: 0.3 }),
+      },
       overlay: {
         ...StyleSheet.absoluteFillObject,
         borderRadius: 9999,
@@ -56,5 +66,5 @@ const useStyles = () =>
         backgroundColor: t.colors.bg.baseTransparentPressed,
       },
     }),
-    [],
+    [disabled],
   );

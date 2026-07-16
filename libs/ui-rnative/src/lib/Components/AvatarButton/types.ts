@@ -5,4 +5,11 @@ export type AvatarButtonProps = Pick<
   AvatarProps,
   'src' | 'alt' | 'size' | 'fallbackText' | 'fallbackColor'
 > &
-  StyledPressableProps;
+  StyledPressableProps & {
+    /**
+     * When `true`, prevents the user from interacting with the avatar.
+     *
+     * @default false
+     */
+    disabled?: boolean;
+  };

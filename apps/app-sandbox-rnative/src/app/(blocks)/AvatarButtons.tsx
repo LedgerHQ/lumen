@@ -57,6 +57,7 @@ export default function AvatarButtons() {
           />
         ))}
         <AvatarButton alt='Open user menu' />
+        <AvatarButton alt='Open user menu' disabled />
       </Box>
     </Box>
   );
