@@ -93,12 +93,15 @@ const segmentPalette = [
 ];
 
 const buildSegments = (count: number): DonutSegment[] =>
-  Array.from({ length: count }, (_, index) => ({
-    id: `segment-${index + 1}`,
-    label: `Segment ${index + 1}`,
-    value: 1,
-    color: segmentPalette[index % segmentPalette.length],
-  }));
+  Array.from({ length: count }, (_, index) => {
+    const n = index + 1;
+    return {
+      id: `segment-${n}`,
+      label: `Segment ${n}`,
+      value: 1,
+      color: segmentPalette[index],
+    };
+  });
 
 /**
  * The ring adapts to any number of segments, rendered in series order,
