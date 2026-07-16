@@ -23,10 +23,12 @@ const useStyles = ({
   size,
   fallbackColor,
   shouldFallback,
+  borderWidth,
 }: {
   size: Size;
   fallbackColor?: string;
   shouldFallback: boolean;
+  borderWidth: number;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -80,12 +82,12 @@ const useStyles = ({
           right: 0,
           bottom: 0,
           borderRadius: 9999,
-          borderWidth: 1,
+          borderWidth,
           borderColor: t.colors.border.icon,
         },
       };
     },
-    [size, fallbackColor, shouldFallback],
+    [size, fallbackColor, shouldFallback, borderWidth],
   );
 };
 
@@ -134,13 +136,19 @@ export const Avatar = ({
   size = 'md',
   fallbackText,
   fallbackColor,
+  borderWidth = 1,
   ref,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
-  const styles = useStyles({ size, fallbackColor, shouldFallback });
+  const styles = useStyles({
+    size,
+    fallbackColor,
+    shouldFallback,
+    borderWidth,
+  });
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
 

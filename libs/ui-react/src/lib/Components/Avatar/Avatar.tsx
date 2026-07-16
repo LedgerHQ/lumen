@@ -93,6 +93,7 @@ export const Avatar = ({
   imgLoading,
   fallbackText,
   fallbackColor,
+  borderWidth = 1,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
@@ -136,7 +137,8 @@ export const Avatar = ({
         />
       )}
       <span
-        className='pointer-events-none absolute inset-0 rounded-full ring-1 ring-icon ring-inset'
+        className='pointer-events-none absolute inset-0 rounded-full'
+        style={{ boxShadow: `inset 0 0 0 ${borderWidth}px var(--color-icon)` }}
         aria-hidden='true'
       />
     </div>

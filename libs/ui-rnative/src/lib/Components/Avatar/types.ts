@@ -30,4 +30,9 @@ export type AvatarProps = {
    * @optional
    */
   fallbackText?: string;
+  /**
+   * Ring width for the avatar.
+   * @optional
+   */
+  borderWidth?: number;
 } & Omit<StyledViewProps, 'children'>;
