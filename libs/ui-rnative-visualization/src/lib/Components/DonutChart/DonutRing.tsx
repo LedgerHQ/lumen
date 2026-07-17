@@ -1,5 +1,5 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
-import { Path, Svg } from 'react-native-svg';
+import { G, Path, Svg } from 'react-native-svg';
 
 import type { DonutGeometry } from './constants';
 import { buildEmptyRingPath, type DonutArc } from './utils';
@@ -13,6 +13,7 @@ const RingSegment = ({
 }) => (
   <Path
     testID='donut-segment'
+    id={segment.id}
     d={segment.path}
     fill={segment.color ?? defaultColor}
   />
@@ -34,12 +35,11 @@ type DonutRingProps = {
   ariaLabel?: string;
 };
 
-// Internal, not exported. Arc paths are origin-centered; the viewBox is sized to
-// the ring's outer diameter so the ring is never clipped when it exceeds `box`.
+// Internal, not exported. Arc paths are origin-centered, so the group is translated to the viewBox center.
 export const DonutRing = ({ arcs, geometry, ariaLabel }: DonutRingProps) => {
   const { theme } = useTheme();
-  const { box, outerRadius } = geometry;
-  const extent = outerRadius * 2;
+  const { box } = geometry;
+  const center = box / 2;
   const hasSegments = arcs.length > 0;
 
   return (
@@ -47,21 +47,23 @@ export const DonutRing = ({ arcs, geometry, ariaLabel }: DonutRingProps) => {
       testID='donut-ring'
       width={box}
       height={box}
-      viewBox={`${-outerRadius} ${-outerRadius} ${extent} ${extent}`}
+      viewBox={`0 0 ${box} ${box}`}
       accessibilityRole='image'
       accessibilityLabel={ariaLabel}
     >
-      {hasSegments ? (
-        arcs.map((segment) => (
-          <RingSegment
-            key={segment.id}
-            segment={segment}
-            defaultColor={theme.colors.bg.mutedStrong}
-          />
-        ))
-      ) : (
-        <EmptyRing geometry={geometry} color={theme.colors.bg.muted} />
-      )}
+      <G transform={`translate(${center}, ${center})`}>
+        {hasSegments ? (
+          arcs.map((segment) => (
+            <RingSegment
+              key={segment.id}
+              segment={segment}
+              defaultColor={theme.colors.bg.mutedStrong}
+            />
+          ))
+        ) : (
+          <EmptyRing geometry={geometry} color={theme.colors.bg.muted} />
+        )}
+      </G>
     </Svg>
   );
 };

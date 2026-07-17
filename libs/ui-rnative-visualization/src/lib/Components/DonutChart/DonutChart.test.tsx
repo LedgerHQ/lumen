@@ -30,6 +30,12 @@ describe('DonutChart', () => {
     expect(getAllByTestId('donut-segment')).toHaveLength(3);
   });
 
+  it('renders segments in series order', () => {
+    const { getAllByTestId } = renderDonut({});
+    const ids = getAllByTestId('donut-segment').map((el) => el.props.id);
+    expect(ids).toEqual(['bitcoin', 'ethereum', 'tether']);
+  });
+
   it('defaults to the md ring (168px)', () => {
     const { getByTestId } = renderDonut({});
     expect(getByTestId('donut-ring').props.width).toBe(168);
@@ -38,6 +44,18 @@ describe('DonutChart', () => {
   it('renders the sm ring (80px)', () => {
     const { getByTestId } = renderDonut({ size: 'sm' });
     expect(getByTestId('donut-ring').props.width).toBe(80);
+  });
+
+  it('skips zero-value segments and renders only the positive ones', () => {
+    const { getAllByTestId } = renderDonut({
+      series: [
+        { id: 'bitcoin', label: 'Bitcoin', value: 60 },
+        { id: 'empty', label: 'Empty', value: 0 },
+        { id: 'ethereum', label: 'Ethereum', value: 40 },
+      ],
+    });
+    const ids = getAllByTestId('donut-segment').map((el) => el.props.id);
+    expect(ids).toEqual(['bitcoin', 'ethereum']);
   });
 
   it('renders the faint empty ring and no segments for an empty series', () => {
