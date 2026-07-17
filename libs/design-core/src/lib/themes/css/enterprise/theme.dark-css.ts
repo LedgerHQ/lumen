@@ -196,7 +196,7 @@ export const tokens = {
     '--color-border-warning': 'var(--color-dark-yellow-600)',
     '--color-border-success': 'var(--color-dark-green-600)',
     '--color-border-success-transparent': 'var(--color-dark-green-600-50)',
-    '--color-border-icon': 'var(--color-dark-grey-950-5)',
+    '--color-border-icon': 'var(--color-dark-grey-950-10)',
     '--color-crypto-aion': 'var(--color-dark-crypto-aion)',
     '--color-crypto-aion-0': 'var(--color-dark-crypto-aion-0)',
     '--color-crypto-algorand': 'var(--color-dark-crypto-algorand)',
