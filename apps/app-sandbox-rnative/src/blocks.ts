@@ -17,6 +17,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'ContentBanners', title: 'ContentBanner' },
   { slug: 'DescriptionLists', title: 'DescriptionList' },
   { slug: 'Dividers', title: 'Divider' },
+  { slug: 'DonutCharts', title: 'DonutChart' },
   { slug: 'DotCounts', title: 'DotCount' },
   { slug: 'DotIcons', title: 'DotIcon' },
   { slug: 'DotIndicators', title: 'DotIndicator' },
