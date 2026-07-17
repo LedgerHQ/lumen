@@ -19,32 +19,42 @@ export const getSegmentPercents = (series: DonutSegment[]): number[] => {
   return series.map((s) => (Math.max(s.value, 0) / total) * 100);
 };
 
-/** One arc per segment, in series order, clockwise from 12 o'clock. Empty when there is nothing to draw. */
+/**
+ * One arc per drawable segment, in series order, clockwise from 12 o'clock.
+ * Zero and negative segments are dropped so they don't emit degenerate paths;
+ * percents are still computed against the full series total. Empty when there
+ * is nothing to draw.
+ */
 export const buildArcs = (
   series: DonutSegment[],
   geometry: DonutGeometry,
 ): DonutArc[] => {
   const percents = getSegmentPercents(series);
-  if (percents.every((percent) => percent === 0)) {
+
+  const drawable = series
+    .map((segment, index) => ({ segment, percent: percents[index] }))
+    .filter((entry) => entry.percent > 0);
+
+  if (drawable.length === 0) {
     return [];
   }
 
-  const layout = pie<DonutSegment>()
-    .value((segment) => Math.max(segment.value, 0))
+  const layout = pie<(typeof drawable)[number]>()
+    .value((entry) => entry.segment.value)
     .sort(null)
     .sortValues(null)
     .padAngle(geometry.padAngle);
 
-  const arcGenerator = arc<PieArcDatum<DonutSegment>>()
+  const arcGenerator = arc<PieArcDatum<(typeof drawable)[number]>>()
     .innerRadius(geometry.innerRadius)
     .outerRadius(geometry.outerRadius)
     .cornerRadius(geometry.cornerRadius);
 
-  return layout(series).map((datum, index) => ({
-    id: datum.data.id,
+  return layout(drawable).map((datum) => ({
+    id: datum.data.segment.id,
     path: arcGenerator(snapHalfCircle(datum)) ?? '',
-    color: resolveSegmentColor(datum.data),
-    percent: percents[index],
+    color: resolveSegmentColor(datum.data.segment),
+    percent: datum.data.percent,
   }));
 };
 
@@ -55,9 +65,7 @@ export const buildArcs = (
  * is sub-pixel and never fires for real sub-half-circle slices.
  */
 const HALF_CIRCLE_EPSILON = 1e-9;
-const snapHalfCircle = (
-  datum: PieArcDatum<DonutSegment>,
-): PieArcDatum<DonutSegment> => {
+const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {
   const span = datum.endAngle - datum.startAngle;
   if (span < Math.PI && Math.PI - span < HALF_CIRCLE_EPSILON) {
     return { ...datum, endAngle: datum.startAngle + Math.PI };

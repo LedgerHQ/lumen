@@ -85,6 +85,20 @@ describe('buildArcs', () => {
     expect(buildArcs([], DONUT_GEOMETRY.md)).toEqual([]);
   });
 
+  it('drops zero and negative segments while keeping positive ones', () => {
+    const arcs = buildArcs(
+      [
+        { id: 'a', label: 'A', value: 50 },
+        { id: 'zero', label: 'Zero', value: 0 },
+        { id: 'neg', label: 'Neg', value: -10 },
+        { id: 'b', label: 'B', value: 50 },
+      ],
+      DONUT_GEOMETRY.md,
+    );
+    expect(arcs.map((a) => a.id)).toEqual(['a', 'b']);
+    expect(arcs.map((a) => a.percent)).toEqual([50, 50]);
+  });
+
   it('returns an empty array when the total is zero', () => {
     expect(
       buildArcs(

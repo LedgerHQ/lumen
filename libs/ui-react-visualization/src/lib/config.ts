@@ -124,15 +124,15 @@ export const chartConfig = {
     size: {
       md: {
         box: 168,
-        innerRadius: 63,
-        outerRadius: 85,
+        innerRadius: 61,
+        outerRadius: 83,
         cornerRadius: 4,
         padAngle: 0.06,
       },
       sm: {
         box: 80,
-        innerRadius: 31,
-        outerRadius: 42,
+        innerRadius: 28,
+        outerRadius: 39,
         cornerRadius: 2,
         padAngle: 0.08,
       },
