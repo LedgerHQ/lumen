@@ -41,25 +41,25 @@ File `JxaLVMTWirCpU0rsbZ30k7` (2. Components Library). Three nodes define the co
 
 Sizes match Figma 1:1: `sm`(80px) and `md`(168px). Default `md`. The Figma "7+" variant illustrates what a grouped result looks like — NOT a behavior the component performs (see Grouping below).
 
-## 2. Data model (DLS-863, shared with LineChart)
-
-Add `DonutSegment` to shared `[utils/types.ts](libs/ui-react-visualization/src/lib/utils/types.ts)` and export from `[utils/index.ts](libs/ui-react-visualization/src/lib/utils/index.ts)`.
 
 ```ts
 export type DonutSegment = {
   id: string;      // stable key, e.g. "bitcoin"
   label: string;   // "Bitcoin"
   value: number;   // raw; component computes percent
-  color?: string;  // optional override; else default grey (--background-muted-strong). Palette + contrast is DLS-870.
+  color?: string;  // optional override; else default grey (--background-muted-strong). Palette + contrast is DLS-863.
 };
 ```
 
 ## 3. Public API (`DonutChart/types.ts`)
 
+Target (full) API:
+
 ```ts
 export type DonutChartProps = {
   series: DonutSegment[];
   size?: 'sm' | 'md';            // default 'md' (sm=80px, md=168px)
+  ariaLabel?: string;            // SVG role="img" label; default 'Donut chart'
   loading?: boolean;             // boolean, not a state variant
   activeId?: string | null;      // controlled; active is data-driven
   defaultActiveId?: string | null;
@@ -124,8 +124,7 @@ Use `cssVar` from `@ledgerhq/lumen-design-core`.
 
 - Default segment color: `--background-muted-strong` (#767676). Segments are neutral grey by default — the ring is NOT crypto-colored out of the box.
 - `resolveSegmentColor(segment)` -> `segment.color ?? cssVar('var(--background-muted-strong)')`.
-- Palette assignment + contrast adjustment vs the surface color is **DLS-870** (follow-up, shared with LineChart). Confirmed crypto tokens exist for overrides: `--color-crypto-bitcoin` (#f7931a), `--color-crypto-ethereum` (#454a75), `--color-crypto-tether-usdt` (#00a478), `--color-crypto-binance` (#f5bc00), `--color-crypto-sol` (#9945ff), `--color-crypto-tron` (#ff060a), `--color-crypto-usdc` (#2775ca).
-- Track/gaps = `--background-canvas`.
+- Palette assignment + contrast adjustment vs the surface color is **DLS-863** (follow-up, shared with LineChart).
 - Non-active dimming (active state): non-active segments render muted while the active segment keeps its resolved color — matched to node `17775:36056`.
 
 ## 7. Arc geometry (`DonutChart/utils.ts` + `utils.test.ts`)
@@ -133,8 +132,10 @@ Use `cssVar` from `@ledgerhq/lumen-design-core`.
 Use `d3-shape` (already a dependency, used by Line):
 
 - `getSegmentPercents(series)` — percent per segment from sum of `value` (guard total 0); also used to compute `activeSegment.percent` for `renderCenter`.
-- `buildArcs(series, geometry)` — `pie<DonutSegment>().value(s => s.value).sort(null).padAngle(...)` for series-order angles (`sort(null)`), then `arc().innerRadius(r).outerRadius(r + strokeWidth).cornerRadius(...).padAngle(...)` for each `d` path. Rounded caps + gaps. Clockwise from 12 o'clock. Returns ordered `{ id, path, color, percent }`.
-- `DONUT_GEOMETRY` per size — box (80/168), strokeWidth/thickness, innerRadius, cornerRadius, padAngle. Values measured from Figma per size; kept in one place for refinement.
+- `buildArcs(series, geometry)` — `pie<DonutSegment>().value(s => Math.max(s.value, 0)).sort(null).sortValues(null).padAngle(...)` for series-order angles, then `arc().innerRadius(r).outerRadius(r).cornerRadius(...)` for each `d` path. Rounded caps + gaps. Clockwise from 12 o'clock. Returns ordered `{ id, path, color, percent }`; returns `[]` for empty / all-zero series (drives the empty ring). Negative values are clamped to 0.
+- `snapHalfCircle(datum)` — nudges a near-`π` slice to exactly `π` so two equal half-circle slices round their corners consistently (d3-shape squares corners a hair under `π`). Sub-pixel; never fires for real sub-half-circle slices.
+- `buildEmptyRingPath(geometry)` — a full, gapless ring path used by `EmptyRing` for the no-data state.
+- `DONUT_GEOMETRY` per size — sourced from `chartConfig.donut.size`. Shipped values: `md` { box 168, innerRadius 63, outerRadius 85, cornerRadius 4, padAngle 0.06 }, `sm` { box 80, innerRadius 31, outerRadius 42, cornerRadius 2, padAngle 0.08 }. Kept in one place for refinement.
 
 ## 8. Grouping / overflow — handled OUTSIDE the component
 
@@ -144,7 +145,7 @@ Grouping ("top N + other") is product policy and is handled in the domain apps, 
 
 ## 9. Components
 
-- `DonutRing` (internal, not exported — like `Line`/`Axis`): renders `<svg viewBox>` with a faint background track, one `<path>` per segment (series order), non-active dimming when `activeId` is set, shimmer when loading, and the center content on top.
+- `DonutRing` (internal, not exported — like `Line`/`Axis`): renders `<svg viewBox>` with a centered `<g>`, one `<path>` per segment (series order), and a faint `EmptyRing` fallback for no-data. Iteration 1 ships the segments + empty ring; non-active dimming (`activeId`), shimmer (loading), and center content are pending (§5, §11).
 - `DonutChartCenter` / `DonutChartTitle` / `DonutChartDescription`: flat presentational sub-components for the center slot (no dot-namespacing). Rendered via `renderCenter`, centered over the ring.
 - `DonutChart` (top-level): resolves geometry from `size`, runs `getSegmentPercents` + `buildArcs`, wires `useControllableState` for `activeId`, derives state via `getDonutDisplayState`, and renders `DonutRing` + `renderCenter({ activeSegment, series })`. Stable `data-testid`s (`donut-chart`, `donut-segment`).
 
@@ -223,10 +224,9 @@ Add `.nx/version-plans/version-plan-<timestamp>-ui-react-visualization.md` with 
 
 ## Related tickets
 
-- DLS-863 — `DonutSegment` data model (shared with LineChart)
+- DLS-863 — shared color-contrast utility: palette assignment + contrast adjustment vs the surface, `applyContrastColors` opt-out, shared by DonutChart and LineChart (also covers the grouping helper's `Other` color). Flagged as an open design decision — see the ticket's Slack thread.
 - DLS-864 — segment interactivity (activeId)
 - DLS-869 — Legend
-- DLS-870 — palette + contrast color assignment
 - Grouping ticket — `groupSegments` helper
 - Accessibility ticket — consumes the activeId contract
 
