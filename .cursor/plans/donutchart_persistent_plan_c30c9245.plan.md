@@ -145,7 +145,7 @@ Grouping ("top N + other") is product policy and is handled in the domain apps, 
 
 ## 9. Components
 
-- `DonutRing` (internal, not exported — like `Line`/`Axis`): renders `<svg viewBox>` with a centered `<g>`, one `<path>` per segment (series order), and a faint `EmptyRing` fallback for no-data. Iteration 1 ships the segments + empty ring; non-active dimming (`activeId`), shimmer (loading), and center content are pending (§5, §11).
+- `DonutRing` (internal, not exported — like `Line`/`Axis`): renders `<svg>` with an origin-centered `viewBox` sized to the ring's outer diameter (so the ring is never clipped), one `<path>` per segment (series order), and a faint `EmptyRing` fallback for no-data. Iteration 1 ships the segments + empty ring; non-active dimming (`activeId`), shimmer (loading), and center content are pending (§5, §11). RN mirrors this with `react-native-svg` (`Svg`/`Path`) and resolves colors from `useTheme()` instead of `cssVar`.
 - `DonutChartCenter` / `DonutChartTitle` / `DonutChartDescription`: flat presentational sub-components for the center slot (no dot-namespacing). Rendered via `renderCenter`, centered over the ring.
 - `DonutChart` (top-level): resolves geometry from `size`, runs `getSegmentPercents` + `buildArcs`, wires `useControllableState` for `activeId`, derives state via `getDonutDisplayState`, and renders `DonutRing` + `renderCenter({ activeSegment, series })`. Stable `data-testid`s (`donut-chart`, `donut-segment`).
 
