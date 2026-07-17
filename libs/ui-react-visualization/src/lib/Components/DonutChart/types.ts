@@ -2,6 +2,23 @@ import type { chartConfig } from '../../config';
 
 export type DonutSize = keyof typeof chartConfig.donut.size;
 
+/** Ring dimensions for a given size, in SVG user units. */
+export type DonutGeometry = Readonly<{
+  box: number;
+  innerRadius: number;
+  outerRadius: number;
+  cornerRadius: number;
+  padAngle: number;
+}>;
+
+/** A segment ready to draw: its path is centered at the origin. */
+export type DonutArc = {
+  id: string;
+  path: string;
+  color: string;
+  percent: number;
+};
+
 /** A single part-to-whole slice. */
 export type DonutSegment = {
   /** Stable identifier for the segment. */

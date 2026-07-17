@@ -2,27 +2,10 @@ import { arc, pie, type PieArcDatum } from 'd3-shape';
 
 import { chartConfig } from '../../config';
 
-import type { DonutSegment, DonutSize } from './types';
-
-/** Ring dimensions for a given size, in SVG user units. */
-export type DonutGeometry = Readonly<{
-  box: number;
-  innerRadius: number;
-  outerRadius: number;
-  cornerRadius: number;
-  padAngle: number;
-}>;
+import type { DonutArc, DonutGeometry, DonutSegment, DonutSize } from './types';
 
 export const DONUT_GEOMETRY: Readonly<Record<DonutSize, DonutGeometry>> =
   chartConfig.donut.size;
-
-/** A segment ready to draw: its path is centered at the origin. */
-export type DonutArc = {
-  id: string;
-  path: string;
-  color: string;
-  percent: number;
-};
 
 export const resolveSegmentColor = (segment: DonutSegment): string =>
   segment.color ?? chartConfig.donut.defaultSegmentColor;

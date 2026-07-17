@@ -1,6 +1,7 @@
 import { chartConfig } from '../../config';
 
-import { buildEmptyRingPath, type DonutArc, type DonutGeometry } from './utils';
+import type { DonutArc, DonutGeometry } from './types';
+import { buildEmptyRingPath } from './utils';
 
 const RingSegment = ({ segment }: { segment: DonutArc }) => (
   <path

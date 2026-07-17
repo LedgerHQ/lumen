@@ -113,7 +113,9 @@ export const SegmentCounts: Story = {
       {[1, 2, 3, 4, 5, 6, 7].map((count) => (
         <div key={count} className='flex flex-col items-center gap-8'>
           <DonutChart series={buildSegments(count)} />
-          <span className='body-3 text-muted'>{count} segments</span>
+          <span className='body-3 text-muted'>
+            {count} {count === 1 ? 'segment' : 'segments'}
+          </span>
         </div>
       ))}
     </div>

@@ -9,6 +9,8 @@ import * as DonutChartStories from './DonutChart.stories';
 An allocation / part-to-whole chart. It renders a ring of segments sized by
 their share of the total, drawn as an SVG.
 
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=17763-34880).
+
 ## Usage
 
 `DonutChart` owns its `series` data and renders exactly the segments it
@@ -46,14 +48,14 @@ A `DonutSegment` is the core data model:
 
 ## Sizes
 
-Two sizes match Figma 1:1: `md` (168px, the default) and `sm` (80px).
+- `md` — 168px (the default)
+- `sm` — 80px
 
 <Canvas of={DonutChartStories.Sizes} />
 
 ## Colors
 
-Without a `color` override, segments fall back to the neutral default grey — the
-ring is not crypto-colored out of the box.
+Without a `color` override, segments fall back to the neutral default grey.
 
 <Canvas of={DonutChartStories.DefaultColors} />
 
