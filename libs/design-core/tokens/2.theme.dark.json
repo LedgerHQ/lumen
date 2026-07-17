@@ -2330,7 +2330,7 @@
       "icon": {
         "default": {
           "$type": "color",
-          "$value": "{color.dark.grey.950-5%}",
+          "$value": "{color.dark.grey.950-10%}",
           "$description": "",
           "$extensions": {
             "com.figma": {

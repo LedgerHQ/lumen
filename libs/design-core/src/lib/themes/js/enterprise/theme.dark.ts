@@ -307,7 +307,7 @@ export const enterpriseDarkColorTokens = {
     warning: primitiveColorTokens.dark.yellow['600'],
     success: primitiveColorTokens.dark.green['600'],
     successTransparent: primitiveColorTokens.dark.green['600-50'],
-    icon: primitiveColorTokens.dark.grey['950-5'],
+    icon: primitiveColorTokens.dark.grey['950-10'],
   },
   gradients: {
     crypto: primitiveGradientTokens.dark.crypto,
