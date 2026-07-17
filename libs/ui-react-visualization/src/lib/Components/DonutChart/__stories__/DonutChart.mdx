@@ -1,0 +1,79 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { DocTable } from '../../../../../../ui-react/.storybook/components';
+import * as DonutChartStories from './DonutChart.stories';
+
+<Meta of={DonutChartStories} />
+
+# DonutChart
+
+An allocation / part-to-whole chart. It renders a ring of segments sized by
+their share of the total, drawn as an SVG.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=17763-34880).
+
+## Usage
+
+`DonutChart` owns its `series` data and renders exactly the segments it
+receives — grouping ("top N + other") is handled outside the component. Each
+segment's angle is its `value` as a fraction of the summed total; segments are
+laid out in series order, clockwise from 12 o'clock, with rounded caps and gaps.
+
+## Basics
+
+Define your data as an array of `DonutSegment`s. Each segment needs a stable
+`id`, a `label`, and a raw `value`; `color` is optional.
+
+<Canvas of={DonutChartStories.Base} />
+
+A `DonutSegment` is the core data model:
+
+<DocTable
+  columnWidths={[120]}
+  headers={['Field', 'Description']}
+  rows={[
+    [<code>id</code>, 'Stable, unique identifier for the segment.'],
+    [<code>label</code>, 'Human-readable name used in legends.'],
+    [
+      <code>value</code>,
+      'Raw value; the component computes the percent from the total.',
+    ],
+    [
+      <code>color</code>,
+      <>
+        Optional CSS color override; defaults to a neutral grey.
+      </>,
+    ],
+  ]}
+/>
+
+## Sizes
+
+- `md` — 168px (the default)
+- `sm` — 80px
+
+<Canvas of={DonutChartStories.Sizes} />
+
+## Colors
+
+Without a `color` override, segments fall back to the neutral default grey.
+
+<Canvas of={DonutChartStories.DefaultColors} />
+
+## Segments
+
+The ring adapts to any number of segments.
+
+<Canvas of={DonutChartStories.SegmentCounts} />
+
+## States
+
+### No data
+
+With no data (an empty or all-zero series), the ring renders the faint empty
+ring.
+
+<Canvas of={DonutChartStories.NoData} />
+
+## Props
+
+<Controls of={DonutChartStories.Base} />
