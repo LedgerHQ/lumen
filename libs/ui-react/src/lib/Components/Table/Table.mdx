@@ -94,7 +94,9 @@ element (a `Spot`, icon or crypto-icon) directly inside it, followed by a
 `TableCellContent` that stacks a `TableCellContentTitle` and a
 `TableCellContentDescription`.
 
-Set `align='end'` on `TableCell` (to position content at the right edge) and on `TableCellItem` (to right-align the content parts); `TableCellItem` alignment is propagated to the content sub-components via context.
+Set `align='end'` on `TableCellItem` to right-align the content; it is
+propagated to the content sub-components via context.
+
 For more complex compositions, use `TableCellContentRow` to lay out a
 description alongside custom trailing content (e.g. a `Tag`).
 
