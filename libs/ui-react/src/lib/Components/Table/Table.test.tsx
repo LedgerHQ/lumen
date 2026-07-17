@@ -11,7 +11,11 @@ import {
   TableHeaderRow,
   TableHeaderCell,
   TableCell,
+  TableCellItem,
   TableCellContent,
+  TableCellContentTitle,
+  TableCellContentDescription,
+  TableCellContentRow,
   TableActionBar,
   TableActionBarLeading,
   TableActionBarTrailing,
@@ -187,21 +191,57 @@ describe('TableCell', () => {
   });
 });
 
-describe('TableCellContent', () => {
+describe('TableCellItem', () => {
   it('should render title and description', () => {
-    render(<TableCellContent title='Bitcoin' description='BTC' />);
+    render(
+      <TableCellItem>
+        <TableCellContent>
+          <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+          <TableCellContentDescription>BTC</TableCellContentDescription>
+        </TableCellContent>
+      </TableCellItem>,
+    );
     expect(screen.getByText('Bitcoin')).toBeInTheDocument();
     expect(screen.getByText('BTC')).toBeInTheDocument();
   });
 
   it('should render leading content', () => {
     render(
-      <TableCellContent
-        leadingContent={<span data-testid='icon'>icon</span>}
-        title='Ethereum'
-      />,
+      <TableCellItem>
+        <span data-testid='icon'>icon</span>
+        <TableCellContent>
+          <TableCellContentTitle>Ethereum</TableCellContentTitle>
+        </TableCellContent>
+      </TableCellItem>,
     );
     expect(screen.getByTestId('icon')).toBeInTheDocument();
+  });
+
+  it('should propagate end alignment to content parts via context', () => {
+    render(
+      <TableCellItem align='end'>
+        <TableCellContent data-testid='content'>
+          <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+        </TableCellContent>
+      </TableCellItem>,
+    );
+    expect(screen.getByTestId('content')).toHaveClass('text-end');
+  });
+
+  it('should render a TableCellContentRow with custom trailing content', () => {
+    render(
+      <TableCellItem>
+        <TableCellContent>
+          <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+          <TableCellContentRow>
+            <TableCellContentDescription>BTC</TableCellContentDescription>
+            <span data-testid='tag'>New</span>
+          </TableCellContentRow>
+        </TableCellContent>
+      </TableCellItem>,
+    );
+    expect(screen.getByText('BTC')).toBeInTheDocument();
+    expect(screen.getByTestId('tag')).toBeInTheDocument();
   });
 });
 

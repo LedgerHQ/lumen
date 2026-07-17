@@ -22,7 +22,11 @@ import type {
   TableActionBarLeadingProps,
   TableActionBarProps,
   TableActionBarTrailingProps,
+  TableCellItemProps,
   TableCellContentProps,
+  TableCellContentTitleProps,
+  TableCellContentDescriptionProps,
+  TableCellContentRowProps,
   TableLoadingRowProps,
   TableRootProps,
   TableInfoIconProps,
@@ -306,7 +310,7 @@ const cellVariants = {
       },
     },
   ),
-  inner: cva('flex flex-1 justify-end', {
+  inner: cva('flex flex-1', {
     variants: {
       align: {
         start: 'justify-start text-start',
@@ -338,7 +342,11 @@ export const TableCell = ({
   );
 };
 
-const cellContentVariants = cva('flex min-w-0 items-center gap-12', {
+const [TableCellAlignProvider, useTableCellAlignContext] = createSafeContext<{
+  align: 'start' | 'end';
+}>('TableCellItem', { align: 'start' });
+
+const cellItemVariants = cva('flex min-w-0 items-center gap-12', {
   variants: {
     align: {
       start: 'text-start',
@@ -348,28 +356,145 @@ const cellContentVariants = cva('flex min-w-0 items-center gap-12', {
 });
 
 /**
- * Cell content component. To be used inside a TableCell or inside tanstack column render.
+ * Cell item component. Root of the cell content composition.
+ * To be used inside a TableCell or inside a tanstack column render.
+ * Typically wraps a leading element (spot, icon or crypto-icon) followed by a
+ * TableCellContent.
+ */
+export const TableCellItem = ({
+  className,
+  align = 'start',
+  children,
+  ref,
+  ...props
+}: TableCellItemProps) => {
+  return (
+    <TableCellAlignProvider value={{ align }}>
+      <div
+        ref={ref}
+        className={cellItemVariants({ align, className })}
+        {...props}
+      >
+        {children}
+      </div>
+    </TableCellAlignProvider>
+  );
+};
+
+/**
+ * Cell content column. Stacks a TableCellContentTitle, TableCellContentDescription
+ * and/or TableCellContentRow.
  */
 export const TableCellContent = ({
   className,
-  align = 'start',
-  leadingContent,
-  title,
-  description,
+  children,
   ref,
   ...props
 }: TableCellContentProps) => {
+  const { align } = useTableCellAlignContext({
+    consumerName: 'TableCellContent',
+    contextRequired: false,
+  });
+
   return (
     <div
       ref={ref}
-      className={cellContentVariants({ align, className })}
+      className={cn(
+        'flex min-w-0 flex-col gap-4',
+        align === 'end' && 'items-end text-end',
+        className,
+      )}
       {...props}
     >
-      {leadingContent && <div className='shrink-0'>{leadingContent}</div>}
-      <div className='flex min-w-0 flex-col gap-4'>
-        <div className='shrink-0 body-2 text-base'>{title}</div>
-        <div className='truncate body-3 text-muted'>{description}</div>
-      </div>
+      {children}
+    </div>
+  );
+};
+
+/**
+ * Cell content title.
+ */
+export const TableCellContentTitle = ({
+  className,
+  children,
+  ref,
+  ...props
+}: TableCellContentTitleProps) => {
+  const { align } = useTableCellAlignContext({
+    consumerName: 'TableCellContentTitle',
+    contextRequired: false,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'shrink-0 body-2 text-base',
+        align === 'end' && 'text-end',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * Cell content description.
+ */
+export const TableCellContentDescription = ({
+  className,
+  children,
+  ref,
+  ...props
+}: TableCellContentDescriptionProps) => {
+  const { align } = useTableCellAlignContext({
+    consumerName: 'TableCellContentDescription',
+    contextRequired: false,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'truncate body-3 text-muted',
+        align === 'end' && 'text-end',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * Cell content row. Use for more complex composition, e.g. a description
+ * alongside a Tag.
+ */
+export const TableCellContentRow = ({
+  className,
+  children,
+  ref,
+  ...props
+}: TableCellContentRowProps) => {
+  const { align } = useTableCellAlignContext({
+    consumerName: 'TableCellContentRow',
+    contextRequired: false,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'flex min-w-0 items-center gap-8',
+        align === 'end' && 'justify-end',
+        className,
+      )}
+      {...props}
+    >
+      {children}
     </div>
   );
 };

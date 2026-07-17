@@ -101,9 +101,15 @@ export type TableCellProps = {
   align?: 'start' | 'end';
 } & Omit<ComponentPropsWithRef<'td'>, 'align'>;
 
-export type TableCellContentProps = {
+export type TableCellItemProps = {
   /**
-   * Text alignment within the cell
+   * The cell item content. Typically a leading element (spot, icon or
+   * crypto-icon) followed by a TableCellContent.
+   */
+  children: ReactNode;
+  /**
+   * Alignment of the cell item content.
+   * Propagated to TableCellContent and its sub-components via context.
    * @default 'start'
    */
   align?: 'start' | 'end';
@@ -111,20 +117,53 @@ export type TableCellContentProps = {
    * Custom classname
    */
   className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentProps = {
   /**
-   * The leading content of the cell
-   * Typically an spot, icon or crypto-icon.
+   * The content (TableCellContentTitle, TableCellContentDescription,
+   * TableCellContentRow).
    */
-  leadingContent?: ReactNode;
+  children: ReactNode;
   /**
-   * The title of the cell.
+   * Custom classname
    */
-  title?: ReactNode;
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentTitleProps = {
   /**
-   * The description of the cell
+   * The title content
    */
-  description?: ReactNode;
-} & Omit<ComponentPropsWithRef<'div'>, 'children' | 'title'>;
+  children: ReactNode;
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentDescriptionProps = {
+  /**
+   * The description content
+   */
+  children: ReactNode;
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentRowProps = {
+  /**
+   * The row content. Typically a TableCellContentDescription alongside
+   * custom trailing content (e.g. a Tag).
+   */
+  children: ReactNode;
+  /**
+   * Custom classname
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
 
 export type TableHeaderRowProps = {
   /**
