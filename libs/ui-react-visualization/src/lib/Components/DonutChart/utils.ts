@@ -50,12 +50,25 @@ export const buildArcs = (
     .outerRadius(geometry.outerRadius)
     .cornerRadius(geometry.cornerRadius);
 
-  return layout(drawable).map((datum) => ({
-    id: datum.data.segment.id,
-    path: arcGenerator(snapHalfCircle(datum)) ?? '',
-    color: resolveSegmentColor(datum.data.segment),
-    percent: datum.data.percent,
-  }));
+  const hoverEnabled = drawable.length > 1;
+
+  return layout(drawable).map((datum) => {
+    const midAngle = (datum.startAngle + datum.endAngle) / 2;
+    return {
+      id: datum.data.segment.id,
+      path: arcGenerator(snapHalfCircle(datum)) ?? '',
+      color: resolveSegmentColor(datum.data.segment),
+      percent: datum.data.percent,
+      midAngle,
+      hoverEnabled,
+      hoverTranslate: hoverEnabled
+        ? {
+            x: Math.sin(midAngle) * geometry.hoverOffset,
+            y: -Math.cos(midAngle) * geometry.hoverOffset,
+          }
+        : { x: 0, y: 0 },
+    };
+  });
 };
 
 /**

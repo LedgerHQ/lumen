@@ -122,6 +122,38 @@ describe('buildArcs', () => {
     );
     arcs.forEach((a) => expect(a.path).toMatch(cornerArc));
   });
+
+  it('computes midAngle and hoverTranslate per segment', () => {
+    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
+    const offset = DONUT_GEOMETRY.md.hoverOffset;
+
+    arcs.forEach((arc) => {
+      expect(arc.midAngle).toBeGreaterThanOrEqual(0);
+      expect(arc.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+      const magnitude = Math.hypot(arc.hoverTranslate.x, arc.hoverTranslate.y);
+      expect(magnitude).toBeCloseTo(offset);
+    });
+  });
+
+  it("pushes the first slice radially upward from 12 o'clock", () => {
+    const [first] = buildArcs(
+      [
+        { id: 'a', label: 'A', value: 1 },
+        { id: 'b', label: 'B', value: 1 },
+      ],
+      DONUT_GEOMETRY.md,
+    );
+    expect(first.hoverTranslate.y).toBeLessThan(0);
+  });
+
+  it('disables hover animation for a single segment', () => {
+    const [arc] = buildArcs(
+      [{ id: 'a', label: 'A', value: 1 }],
+      DONUT_GEOMETRY.md,
+    );
+    expect(arc.hoverEnabled).toBe(false);
+    expect(arc.hoverTranslate).toEqual({ x: 0, y: 0 });
+  });
 });
 
 describe('buildEmptyRingPath', () => {

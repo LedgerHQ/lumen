@@ -3,14 +3,44 @@ import { chartConfig } from '../../config';
 import type { DonutArc, DonutGeometry } from './types';
 import { buildEmptyRingPath } from './utils';
 
-const RingSegment = ({ segment }: { segment: DonutArc }) => (
-  <path
-    data-testid='donut-segment'
-    data-segment-id={segment.id}
-    d={segment.path}
-    fill={segment.color}
-  />
-);
+const { hover } = chartConfig.donut;
+
+type RingSegmentProps = {
+  segment: DonutArc;
+  activeId: string | null;
+  onSegmentEnter: (id: string) => void;
+};
+
+const RingSegment = ({
+  segment,
+  activeId,
+  onSegmentEnter,
+}: RingSegmentProps) => {
+  const isActive = activeId === segment.id;
+  const opacity =
+    !segment.hoverEnabled || activeId == null || isActive
+      ? 1
+      : hover.dimOpacity;
+  const { x, y } = isActive ? segment.hoverTranslate : { x: 0, y: 0 };
+
+  return (
+    <path
+      data-testid='donut-segment'
+      data-segment-id={segment.id}
+      d={segment.path}
+      fill={segment.color}
+      onMouseEnter={() => onSegmentEnter(segment.id)}
+      style={{
+        cursor: 'pointer',
+        opacity,
+        transform: `translate(${x}px, ${y}px)`,
+        transition: segment.hoverEnabled
+          ? `${hover.opacityTransition}, ${hover.popTransition}`
+          : undefined,
+      }}
+    />
+  );
+};
 
 const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => (
   <path
@@ -24,10 +54,18 @@ type DonutRingProps = {
   arcs: DonutArc[];
   geometry: DonutGeometry;
   ariaLabel?: string;
+  activeId: string | null;
+  onSegmentEnter: (id: string) => void;
 };
 
 // Internal, not exported. Arc paths are origin-centered, so the group is translated to the viewBox center.
-export const DonutRing = ({ arcs, geometry, ariaLabel }: DonutRingProps) => {
+export const DonutRing = ({
+  arcs,
+  geometry,
+  ariaLabel,
+  activeId,
+  onSegmentEnter,
+}: DonutRingProps) => {
   const { box } = geometry;
   const center = box / 2;
   const hasSegments = arcs.length > 0;
@@ -45,7 +83,12 @@ export const DonutRing = ({ arcs, geometry, ariaLabel }: DonutRingProps) => {
       <g transform={`translate(${center}, ${center})`}>
         {hasSegments ? (
           arcs.map((segment) => (
-            <RingSegment key={segment.id} segment={segment} />
+            <RingSegment
+              key={segment.id}
+              segment={segment}
+              activeId={activeId}
+              onSegmentEnter={onSegmentEnter}
+            />
           ))
         ) : (
           <EmptyRing geometry={geometry} />
