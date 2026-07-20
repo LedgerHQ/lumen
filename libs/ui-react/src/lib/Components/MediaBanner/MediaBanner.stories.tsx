@@ -90,6 +90,17 @@ export const WithBrokenImage: Story = {
   ),
 };
 
+export const DisabledState: Story = {
+  render: () => (
+    <div className='w-400'>
+      <MediaBanner imageUrl={IMAGE_URL} disabled>
+        <MediaBannerTitle>Firmware Update</MediaBannerTitle>
+        <MediaBannerDescription>Keep your Nano updated!</MediaBannerDescription>
+      </MediaBanner>
+    </div>
+  ),
+};
+
 export const WithClose: Story = {
   render: () => {
     const [visible, setVisible] = useState(true);

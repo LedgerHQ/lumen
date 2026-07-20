@@ -24,6 +24,11 @@ export type MediaBannerProps = {
    * The banner content (MediaBannerTitle, MediaBannerDescription).
    */
   children: ReactNode;
+  /**
+   * When `true`, shows a muted appearance on the banner.
+   * @default false
+   */
+  disabled?: boolean;
 } & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 /**
