@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Avatar } from '../Avatar/Avatar';
 import type { AvatarButtonProps } from './types';
 
@@ -14,12 +14,19 @@ export const AvatarButton = ({
   imgLoading,
   fallbackText,
   fallbackColor,
+  disabled: disabledProp = false,
   ...buttonProps
 }: AvatarButtonProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'AvatarButton',
+    mergeWith: { disabled: disabledProp },
+  });
+
   return (
     <button
       ref={ref}
       type='button'
+      disabled={disabled}
       className={cn(
         'group relative cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-30',
         className,

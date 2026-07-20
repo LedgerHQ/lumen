@@ -1,5 +1,7 @@
 import type { ComponentPropsWithRef } from 'react';
 
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 export type AvatarProps = {
   /**
    * Image source URL. When undefined or on load error, displays a fallback icon.
@@ -16,7 +18,7 @@ export type AvatarProps = {
    * @optional
    * @default md
    */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: AvatarSize;
   /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    * @optional
@@ -49,5 +51,5 @@ export type AvatarProps = {
    * - `thick`: 2px ring using the muted subtle transparent border color
    * @optional
    */
-  ringAppearance?: 'thin' | 'thick';
+  appearance?: 'thin' | 'thick';
 } & ComponentPropsWithRef<'div'>;

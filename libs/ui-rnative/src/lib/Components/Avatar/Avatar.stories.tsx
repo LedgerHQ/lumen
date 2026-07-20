@@ -110,8 +110,8 @@ export const RingAppearanceShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <Avatar size='md' alt='No ring' />
-      <Avatar size='md' alt='Thin ring' ringAppearance='thin' />
-      <Avatar size='md' alt='Thick ring' ringAppearance='thick' />
+      <Avatar size='md' alt='Thin ring' appearance='thin' />
+      <Avatar size='md' alt='Thick ring' appearance='thick' />
     </Box>
   ),
 };

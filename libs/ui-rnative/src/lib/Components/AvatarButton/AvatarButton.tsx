@@ -1,3 +1,4 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { Avatar } from '../Avatar/Avatar';
@@ -24,12 +25,16 @@ export const AvatarButton = ({
   style,
   ...props
 }: AvatarButtonProps) => {
-  const styles = useStyles({ disabled: disabledProp });
+  const disabled = useDisabledContext({
+    consumerName: 'AvatarButton',
+    mergeWith: { disabled: disabledProp },
+  });
+  const styles = useStyles({ disabled });
 
   return (
     <Pressable
       accessibilityRole='button'
-      disabled={disabledProp}
+      disabled={disabled}
       style={[styles.container, style]}
       {...props}
     >

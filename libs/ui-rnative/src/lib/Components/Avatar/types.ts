@@ -1,5 +1,7 @@
 import type { StyledViewProps } from '../../../styles';
 
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 export type AvatarProps = {
   /**
    * Image source URL. When undefined or on load error, displays a fallback.
@@ -16,7 +18,7 @@ export type AvatarProps = {
    * @optional
    * @default md
    */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: AvatarSize;
   /**
    * Background color behind the fallback when no image is displayed.
    * Use `resolveAvatarColor` from `@ledgerhq/lumen-ui-rnative` to derive
@@ -36,5 +38,5 @@ export type AvatarProps = {
    * - `thick`: 2px ring using the muted subtle transparent border color
    * @optional
    */
-  ringAppearance?: 'thin' | 'thick';
+  appearance?: 'thin' | 'thick';
 } & Omit<StyledViewProps, 'children'>;

@@ -63,8 +63,8 @@ export default function Avatars() {
 
       <Box lx={{ flexDirection: 'row', gap: 's8', alignItems: 'center' }}>
         <Avatar size='md' />
-        <Avatar size='md' ringAppearance='thin' />
-        <Avatar size='md' ringAppearance='thick' />
+        <Avatar size='md' appearance='thin' />
+        <Avatar size='md' appearance='thick' />
       </Box>
     </Box>
   );
