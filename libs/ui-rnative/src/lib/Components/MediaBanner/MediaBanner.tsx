@@ -77,7 +77,11 @@ export function MediaBanner({
   return (
     <Pressable
       lx={lx}
-      style={[styles.container, style]}
+      style={({ pressed }) => [
+        styles.container,
+        pressed && !disabled && { backgroundColor: t.colors.bg.surfacePressed },
+        style,
+      ]}
       disabled={disabled}
       accessibilityState={{ disabled }}
       {...props}
