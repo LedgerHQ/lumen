@@ -7,6 +7,10 @@ import {
 import type { ReactNode } from 'react';
 
 export default function DonutCharts() {
+  const { theme } = useTheme();
+  const cryptoSegments = getCryptoSegments(theme.colors.crypto);
+  const segmentPalette = getSegmentPalette(theme.colors.crypto);
+
   return (
     <Box
       lx={{
@@ -17,42 +21,42 @@ export default function DonutCharts() {
         paddingRight: 's16',
       }}
     >
-      <Basic />
-      <Sizes />
+      <Basic segments={cryptoSegments} />
+      <Sizes segments={cryptoSegments} />
       <DefaultColors />
-      <SegmentCounts />
-      <TwoEqualHalves />
-      <SingleSegment />
-      <DominantSegment />
+      <SegmentCounts palette={segmentPalette} />
+      <TwoEqualHalves palette={segmentPalette} />
+      <SingleSegment palette={segmentPalette} />
+      <DominantSegment palette={segmentPalette} />
       <NoData />
     </Box>
   );
 }
 
-const cryptoSegments: DonutSegment[] = [
-  { id: 'bitcoin', label: 'Bitcoin', value: 45, color: '#f7931a' },
-  { id: 'ethereum', label: 'Ethereum', value: 30, color: '#454a75' },
-  { id: 'tether', label: 'Tether', value: 25, color: '#00a478' },
+const getCryptoSegments = (crypto: Record<string, string>): DonutSegment[] => [
+  { id: 'bitcoin', label: 'Bitcoin', value: 45, color: crypto.bitcoin },
+  { id: 'ethereum', label: 'Ethereum', value: 30, color: crypto.ethereum },
+  { id: 'tether', label: 'Tether', value: 25, color: crypto.tetherUsdt },
 ];
 
-const segmentPalette = [
-  '#f7931a',
-  '#454a75',
-  '#00a478',
-  '#f5bc00',
-  '#9945ff',
-  '#ff060a',
-  '#2775ca',
+const getSegmentPalette = (crypto: Record<string, string>): string[] => [
+  crypto.bitcoin,
+  crypto.ethereum,
+  crypto.tetherUsdt,
+  crypto.binance,
+  crypto.sol,
+  crypto.tron,
+  crypto.usdc,
 ];
 
-const buildSegments = (count: number): DonutSegment[] =>
+const buildSegments = (count: number, palette: string[]): DonutSegment[] =>
   Array.from({ length: count }, (_, index) => {
     const n = index + 1;
     return {
       id: `segment-${n}`,
       label: `Segment ${n}`,
       value: 1,
-      color: segmentPalette[index],
+      color: palette[index],
     };
   });
 
@@ -62,35 +66,29 @@ const Section = ({
 }: {
   title: string;
   children: ReactNode;
-}) => {
-  const { theme } = useTheme();
-  return (
-    <Box lx={{ gap: 's16' }}>
-      <Text
-        style={{
-          fontSize: 10,
-          color: theme.colors.text.muted,
-          textTransform: 'uppercase',
-        }}
-      >
-        {title}
-      </Text>
-      <Box lx={{ padding: 's16' }}>{children}</Box>
-    </Box>
-  );
-};
+}) => (
+  <Box lx={{ gap: 's16' }}>
+    <Text
+      style={{ fontSize: 10 }}
+      lx={{ color: 'muted', textTransform: 'uppercase' }}
+    >
+      {title}
+    </Text>
+    <Box lx={{ padding: 's16' }}>{children}</Box>
+  </Box>
+);
 
-const Basic = () => (
+const Basic = ({ segments }: { segments: DonutSegment[] }) => (
   <Section title='Basic donut'>
-    <DonutChart series={cryptoSegments} />
+    <DonutChart series={segments} />
   </Section>
 );
 
-const Sizes = () => (
+const Sizes = ({ segments }: { segments: DonutSegment[] }) => (
   <Section title='Sizes'>
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
-      <DonutChart series={cryptoSegments} size='md' />
-      <DonutChart series={cryptoSegments} size='sm' />
+      <DonutChart series={segments} size='md' />
+      <DonutChart series={segments} size='sm' />
     </Box>
   </Section>
 );
@@ -107,30 +105,34 @@ const DefaultColors = () => (
   </Section>
 );
 
-const SegmentCounts = () => (
+const SegmentCounts = ({ palette }: { palette: string[] }) => (
   <Section title='Segment counts'>
     <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
       {[1, 2, 3, 4, 5, 6, 7].map((count) => (
-        <DonutChart key={count} series={buildSegments(count)} size='sm' />
+        <DonutChart
+          key={count}
+          series={buildSegments(count, palette)}
+          size='sm'
+        />
       ))}
     </Box>
   </Section>
 );
 
-const TwoEqualHalves = () => (
+const TwoEqualHalves = ({ palette }: { palette: string[] }) => (
   <Section title='Two equal halves (rounded corners on both)'>
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
       <DonutChart
         series={[
-          { id: 'a', label: 'A', value: 1, color: '#f7931a' },
-          { id: 'b', label: 'B', value: 1, color: '#454a75' },
+          { id: 'a', label: 'A', value: 1, color: palette[0] },
+          { id: 'b', label: 'B', value: 1, color: palette[1] },
         ]}
         size='md'
       />
       <DonutChart
         series={[
-          { id: 'a', label: 'A', value: 1, color: '#f7931a' },
-          { id: 'b', label: 'B', value: 1, color: '#454a75' },
+          { id: 'a', label: 'A', value: 1, color: palette[0] },
+          { id: 'b', label: 'B', value: 1, color: palette[1] },
         ]}
         size='sm'
       />
@@ -138,21 +140,21 @@ const TwoEqualHalves = () => (
   </Section>
 );
 
-const SingleSegment = () => (
+const SingleSegment = ({ palette }: { palette: string[] }) => (
   <Section title='Single segment (full ring)'>
     <DonutChart
-      series={[{ id: 'a', label: 'A', value: 100, color: '#00a478' }]}
+      series={[{ id: 'a', label: 'A', value: 100, color: palette[2] }]}
     />
   </Section>
 );
 
-const DominantSegment = () => (
+const DominantSegment = ({ palette }: { palette: string[] }) => (
   <Section title='Dominant segment'>
     <DonutChart
       series={[
-        { id: 'a', label: 'A', value: 92, color: '#f7931a' },
-        { id: 'b', label: 'B', value: 5, color: '#454a75' },
-        { id: 'c', label: 'C', value: 3, color: '#00a478' },
+        { id: 'a', label: 'A', value: 92, color: palette[0] },
+        { id: 'b', label: 'B', value: 5, color: palette[1] },
+        { id: 'c', label: 'C', value: 3, color: palette[2] },
       ]}
     />
   </Section>

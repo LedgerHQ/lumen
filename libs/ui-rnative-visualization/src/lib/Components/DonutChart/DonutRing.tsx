@@ -32,11 +32,15 @@ const EmptyRing = ({
 type DonutRingProps = {
   arcs: DonutArc[];
   geometry: DonutGeometry;
-  ariaLabel?: string;
+  accessibilityLabel?: string;
 };
 
 // Internal, not exported. Arc paths are origin-centered, so the group is translated to the viewBox center.
-export const DonutRing = ({ arcs, geometry, ariaLabel }: DonutRingProps) => {
+export const DonutRing = ({
+  arcs,
+  geometry,
+  accessibilityLabel,
+}: DonutRingProps) => {
   const { theme } = useTheme();
   const { box } = geometry;
   const center = box / 2;
@@ -49,7 +53,7 @@ export const DonutRing = ({ arcs, geometry, ariaLabel }: DonutRingProps) => {
       height={box}
       viewBox={`0 0 ${box} ${box}`}
       accessibilityRole='image'
-      accessibilityLabel={ariaLabel}
+      accessibilityLabel={accessibilityLabel}
     >
       <G transform={`translate(${center}, ${center})`}>
         {hasSegments ? (

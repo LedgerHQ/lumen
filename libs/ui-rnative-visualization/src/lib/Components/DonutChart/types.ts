@@ -26,5 +26,5 @@ export type DonutChartProps = {
    * Accessible label describing what the chart represents.
    * @default 'Donut chart'
    */
-  ariaLabel?: string;
+  accessibilityLabel?: string;
 };

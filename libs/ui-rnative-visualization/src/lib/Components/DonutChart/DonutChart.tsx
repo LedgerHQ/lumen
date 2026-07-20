@@ -9,7 +9,7 @@ import { buildArcs } from './utils';
 export function DonutChart({
   series,
   size = 'md',
-  ariaLabel = 'Donut chart',
+  accessibilityLabel = 'Donut chart',
 }: DonutChartProps) {
   const geometry = DONUT_GEOMETRY[size];
 
@@ -20,7 +20,11 @@ export function DonutChart({
       testID='donut-chart'
       style={{ width: geometry.box, height: geometry.box }}
     >
-      <DonutRing arcs={arcs} geometry={geometry} ariaLabel={ariaLabel} />
+      <DonutRing
+        arcs={arcs}
+        geometry={geometry}
+        accessibilityLabel={accessibilityLabel}
+      />
     </View>
   );
 }
