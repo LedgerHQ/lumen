@@ -130,7 +130,7 @@ export const NotificationShowcase: Story = {
   ),
 };
 
-export const RingAppearanceShowcase: Story = {
+export const AppearanceShowcase: Story = {
   render: () => (
     <div className='flex items-center gap-16'>
       <Avatar size='md' alt='No ring' />

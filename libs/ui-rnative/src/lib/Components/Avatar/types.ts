@@ -33,7 +33,7 @@ export type AvatarProps = {
    */
   fallbackText?: string;
   /**
-   * Ring appearance for the avatar.
+   * Appearance for the avatar.
    * - `thin`: 1px ring using the icon border color
    * - `thick`: 2px ring using the muted subtle transparent border color
    * @optional

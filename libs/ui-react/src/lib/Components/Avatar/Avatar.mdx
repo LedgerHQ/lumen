@@ -64,16 +64,16 @@ import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
 <Canvas of={AvatarStories.FallbackShowcase} />
 
 
-### Ring Appearance
+### Appearance
 
-Use `ringAppearance` to display an inset ring around the avatar. Two variants are available:
+Use `appearance` to display an inset ring around the avatar. Two variants are available:
 
 - `thin` — 1px ring, `border-icon` color
 - `thick` — 2px ring, `border-muted-subtle-transparent` color
 
 Omit the prop (or leave it `undefined`) for no ring.
 
-<Canvas of={AvatarStories.RingAppearanceShowcase} />
+<Canvas of={AvatarStories.AppearanceShowcase} />
 
 ### Notification Indicator
 
@@ -265,13 +265,13 @@ function UserProfile() {
 }
 ```
 
-### Ring Appearance
+### Appearance
 
-Use the `ringAppearance` prop to display a predefined inset ring:
+Use the `appearance` prop to display a predefined inset ring:
 
 ```tsx
-<Avatar src="https://example.com/photo.jpg" size="md" ringAppearance="thin" />
-<Avatar src="https://example.com/photo.jpg" size="md" ringAppearance="thick" />
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thin" />
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thick" />
 ```
 
 ### Custom Styling

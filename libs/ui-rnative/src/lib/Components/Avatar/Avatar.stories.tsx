@@ -106,7 +106,7 @@ export const FallbackShowcase: Story = {
   ),
 };
 
-export const RingAppearanceShowcase: Story = {
+export const AppearanceShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <Avatar size='md' alt='No ring' />
