@@ -23,10 +23,6 @@ const mediaBannerVariants = cva(
   },
 );
 
-const mediaBannerTitleVariants = cva('line-clamp-1 body-2-semi-bold text-base');
-
-const mediaBannerDescriptionVariants = cva('line-clamp-2 body-3 text-muted');
-
 /**
  * A promotional banner with a background image, title, description, and an optional close button.
  *
@@ -108,7 +104,7 @@ export const MediaBannerTitle = ({
   return (
     <div
       ref={ref}
-      className={cn(mediaBannerTitleVariants(), className)}
+      className={cn('line-clamp-1 body-2-semi-bold text-base', className)}
       {...props}
     >
       {children}
@@ -128,7 +124,7 @@ export const MediaBannerDescription = ({
   return (
     <div
       ref={ref}
-      className={cn(mediaBannerDescriptionVariants(), className)}
+      className={cn('line-clamp-2 body-3 text-muted', className)}
       {...props}
     >
       {children}
