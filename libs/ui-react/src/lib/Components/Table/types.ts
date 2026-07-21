@@ -12,7 +12,7 @@ export type TableRootProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -33,7 +33,7 @@ export type TableProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'table'>;
@@ -44,7 +44,7 @@ export type TableHeaderProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'thead'>;
@@ -55,7 +55,7 @@ export type TableBodyProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'tbody'>;
@@ -75,7 +75,7 @@ export type TableRowProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'tr'>;
@@ -91,7 +91,7 @@ export type TableCellProps = {
    */
   children?: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -114,7 +114,7 @@ export type TableCellItemProps = {
    */
   align?: 'start' | 'end';
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -126,7 +126,7 @@ export type TableCellContentProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -137,7 +137,7 @@ export type TableCellContentTitleProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -148,7 +148,7 @@ export type TableCellContentDescriptionProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -160,7 +160,7 @@ export type TableCellContentRowProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -175,7 +175,7 @@ export type TableHeaderRowProps = {
    */
   colSpan?: number;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -193,7 +193,7 @@ export type TableGroupHeaderRowProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -219,7 +219,7 @@ export type TableHeaderCellProps = {
    */
   trailingContent?: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -240,7 +240,7 @@ export type TableActionBarProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -251,7 +251,7 @@ export type TableActionBarLeadingProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -262,21 +262,21 @@ export type TableActionBarTrailingProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
 export type TableLoadingRowProps = {
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type TableInfoIconProps = {
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
@@ -287,7 +287,7 @@ export type TableColGroupProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'colgroup'>;
@@ -301,7 +301,7 @@ export type TableColProps = {
    */
   hideBelow?: Breakpoints;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'col'>;
@@ -326,7 +326,7 @@ export type TableSortButtonProps = {
    */
   onToggleSort?: (sort: TableSortValue) => void;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;

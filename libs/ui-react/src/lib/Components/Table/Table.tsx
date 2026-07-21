@@ -343,7 +343,7 @@ export const TableCell = ({
 };
 
 const [TableCellAlignProvider, useTableCellAlignContext] = createSafeContext<{
-  align: 'start' | 'end';
+  align: TableCellProps['align'];
 }>('TableCellItem', { align: 'start' });
 
 const cellItemVariants = cva('flex min-w-0 items-center gap-12', {
