@@ -15,7 +15,7 @@ import type {
 } from './types';
 
 const mediaBannerVariants = cva(
-  'relative flex h-72 cursor-pointer flex-row overflow-hidden rounded-md',
+  'relative flex h-72 cursor-pointer flex-row overflow-hidden rounded-md select-none',
   {
     variants: {
       disabled: {
