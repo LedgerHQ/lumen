@@ -1,6 +1,6 @@
-import type { DONUT_GEOMETRY } from './constants';
+import type { DonutSizeKey } from './constants';
 
-export type DonutSize = keyof typeof DONUT_GEOMETRY;
+export type DonutSize = DonutSizeKey;
 
 /** A single part-to-whole slice. */
 export type DonutSegment = {

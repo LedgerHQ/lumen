@@ -24,3 +24,5 @@ export const DONUT_GEOMETRY = {
     padAngle: 0.08,
   },
 } as const satisfies Record<string, DonutGeometry>;
+
+export type DonutSizeKey = keyof typeof DONUT_GEOMETRY;
