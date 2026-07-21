@@ -1,12 +1,12 @@
 import { renderHook } from '@testing-library/react';
 import { describe, it, expect, beforeAll } from 'vitest';
-import type { AmountInputSize } from '../types';
+import type { CurrencyInputSize } from '../types';
 import { useAutoWidthInput } from './useAutoWidthInput';
 
 type HookProps = {
   inputValue: string;
   currencyText: string | undefined;
-  size: AmountInputSize;
+  size: CurrencyInputSize;
 };
 
 beforeAll(() => {

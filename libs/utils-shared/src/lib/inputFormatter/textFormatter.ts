@@ -1,4 +1,6 @@
-import { formatThousands } from './formatThousands';
+import { formatAmount } from './formatAmount';
+import { parseAmount } from './parseAmount';
+import { sanitizeAmount } from './sanitizeAmount';
 
 export type TextFormatterOptions = {
   /** Whether to allow decimal values */
@@ -16,47 +18,12 @@ export type TextFormatterOptions = {
   decimalSeparator?: '.' | ',';
 };
 
-/** Keep only digits and dots; commas are treated as decimal separators. */
-const sanitize = (value: string): string =>
-  value.replaceAll(',', '.').replaceAll(/[^\d.]/g, '');
-
-/** Drop leading zeros, keeping one when it precedes a dot or stands alone (e.g. "0", "0.5"). */
-const stripLeadingZeros = (value: string): string =>
-  value.replace(/^0+(?=\d)/, '');
-
-/** Truncate to `max` characters. A `max` of 0 disables the limit. */
-const limitIntegerLength = (value: string, max: number): string =>
-  max > 0 ? value.slice(0, max) : value;
-
-const formatIntegerOnly = (value: string, maxIntegerLength: number): string =>
-  limitIntegerLength(value.replaceAll(/\D/g, ''), maxIntegerLength);
-
-const formatDecimal = (
-  value: string,
-  maxIntegerLength: number,
-  maxDecimalLength: number,
-): string => {
-  // A lone separator becomes "0." so the user can keep typing decimals.
-  if (value === '.') return '0.';
-
-  const firstDot = value.indexOf('.');
-  if (firstDot === -1) return limitIntegerLength(value, maxIntegerLength);
-
-  const integerPart =
-    limitIntegerLength(value.slice(0, firstDot), maxIntegerLength) || '0';
-  // Extra dots are ignored, e.g. the decimal part of "1.2.3" is "23".
-  const decimalPart = value
-    .slice(firstDot + 1)
-    .replaceAll('.', '')
-    .slice(0, maxDecimalLength);
-
-  if (decimalPart.length > 0) return `${integerPart}.${decimalPart}`;
-  // Preserve a trailing dot mid-typing (e.g. "12.").
-  return value.endsWith('.') ? `${integerPart}.` : integerPart;
-};
-
 /**
  * Formats and validates numeric input text for amount inputs.
+ *
+ * Composes the three formatting layers: {@link sanitizeAmount} (safety-gate),
+ * {@link parseAmount} (canonical numeric string) and {@link formatAmount}
+ * (display string).
  *
  * Parsing is always lenient: both `.` and `,` are accepted as the decimal
  * separator on input, so the result stays correct regardless of the locale
@@ -91,17 +58,11 @@ export function textFormatter(
     decimalSeparator = '.',
   } = options;
 
-  const sanitized = stripLeadingZeros(sanitize(value));
+  const canonical = parseAmount(sanitizeAmount(value), {
+    allowDecimals,
+    maxIntegerLength,
+    maxDecimalLength,
+  });
 
-  const cleaned = allowDecimals
-    ? formatDecimal(sanitized, maxIntegerLength, maxDecimalLength)
-    : formatIntegerOnly(sanitized, maxIntegerLength);
-
-  const grouped = thousandsSeparator ? formatThousands(cleaned) : cleaned;
-
-  // formatThousands groups with spaces and keeps a single dot for the decimal,
-  // so localizing the separator only ever touches that one dot.
-  return decimalSeparator === '.'
-    ? grouped
-    : grouped.replaceAll('.', decimalSeparator);
+  return formatAmount(canonical, { thousandsSeparator, decimalSeparator });
 }
