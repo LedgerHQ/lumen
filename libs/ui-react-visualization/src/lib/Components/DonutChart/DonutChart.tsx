@@ -18,6 +18,7 @@ export function DonutChart({
   renderCenterActive,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
+  const hoverPadding = Math.ceil(geometry.hoverOffset);
 
   const [activeId, setActiveId] = useControllableState({
     prop: activeIdProp,
@@ -62,6 +63,7 @@ export function DonutChart({
         position: 'relative',
         width: geometry.box,
         height: geometry.box,
+        padding: hoverPadding,
       }}
       onMouseLeave={resetActiveId}
       onBlur={handleRingBlur}
