@@ -15,7 +15,7 @@ import type {
 } from './types';
 
 const mediaBannerVariants = cva(
-  'relative flex h-72 cursor-pointer flex-row overflow-hidden rounded-md select-none',
+  'relative flex h-72 w-full cursor-pointer flex-row overflow-hidden rounded-md text-start select-none',
   {
     variants: {
       disabled: {
@@ -77,8 +77,10 @@ export const MediaBanner = ({
   const showImage = imageUrl && !imageLoadError;
 
   return (
-    <div
+    <button
       ref={ref}
+      type='button'
+      disabled={disabled}
       className={cn(mediaBannerVariants({ disabled }), className)}
       {...props}
     >
@@ -114,7 +116,7 @@ export const MediaBanner = ({
           />
         )}
       </DisabledProvider>
-    </div>
+    </button>
   );
 };
 
