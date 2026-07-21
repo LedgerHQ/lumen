@@ -39,14 +39,6 @@ const LOCALE_CONFIG: Record<string, LocaleConfig> = {
   },
 };
 
-/** Safety-gate that keeps digits and the active locale's group/decimal chars. */
-const makeLocaleSanitize =
-  ({ group, decimal }: LocaleSeparators) =>
-  (raw: string): string =>
-    [...raw]
-      .filter((char) => /\d/.test(char) || char === group || char === decimal)
-      .join('');
-
 /**
  * Turns the locale-formatted string into the canonical `.`-based value. After
  * removing group separators and normalizing the decimal to `.`, it delegates to
@@ -217,7 +209,6 @@ export const LocaleFormatting: Story = {
         <CurrencyInput
           value={value}
           onChange={setValue}
-          sanitize={makeLocaleSanitize(separators)}
           parse={makeLocaleParse(separators)}
           format={makeLocaleFormat(separators)}
           currencyText={currencyText}

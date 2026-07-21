@@ -1,3 +1,4 @@
+import { getSignificantCaretPosition } from '@ledgerhq/lumen-utils-shared';
 import type { ChangeEvent, RefObject } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -18,8 +19,9 @@ type UseCurrencyInputValueReturn = {
 /**
  * Drives the CurrencyInput value pipeline: sanitize -> parse -> format on every
  * keystroke. Emits the parsed value through `onChange`, keeps the displayed
- * text in sync with an externally controlled `value`, and pins the caret to the
- * end after each change.
+ * text in sync with an externally controlled `value`, and restores the caret
+ * after each change so mid-string edits stay put (append operations stay at the
+ * end).
  */
 export const useCurrencyInputValue = <T>({
   value,
@@ -36,16 +38,23 @@ export const useCurrencyInputValue = <T>({
   }, [value, format]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const parsed = parse(sanitize(event.target.value));
-    setInputValue(format(parsed));
+    const rawValue = event.target.value;
+    const caret = event.target.selectionStart ?? rawValue.length;
+    const wasAtEnd = caret >= rawValue.length;
+
+    const parsed = parse(sanitize(rawValue));
+    const formatted = format(parsed);
+    setInputValue(formatted);
     onChange(parsed);
 
-    // Keep the caret at the end once React has applied the formatted value.
+    // rAF so the caret is set after React commits the formatted value.
     const input = inputRef.current;
     if (input) {
       requestAnimationFrame(() => {
-        const end = input.value.length;
-        input.setSelectionRange(end, end);
+        const position = wasAtEnd
+          ? input.value.length
+          : getSignificantCaretPosition(rawValue, caret, input.value);
+        input.setSelectionRange(position, position);
       });
     }
   };

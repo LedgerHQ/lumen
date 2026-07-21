@@ -14,4 +14,4 @@
 export const sanitizeAmount = (
   /** The raw input value to sanitize */
   value: string,
-): string => value.replaceAll(',', '.').replaceAll(/[^\d.]/g, '');
+): string => value.replaceAll(/[^\d.]/g, '');

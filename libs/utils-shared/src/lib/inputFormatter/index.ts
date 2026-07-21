@@ -9,3 +9,4 @@ export {
   type FormatAmountOptions,
 } from './formatAmount';
 export { textFormatter, type TextFormatterOptions } from './textFormatter';
+export { getSignificantCaretPosition } from './caretPosition';
