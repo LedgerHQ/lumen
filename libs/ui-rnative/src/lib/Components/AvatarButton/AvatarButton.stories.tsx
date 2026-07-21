@@ -45,3 +45,14 @@ export const Fallback: Story = {
   },
   render: (args) => <AvatarButton {...args} />,
 };
+
+export const Disabled: Story = {
+  args: {
+    src: exampleSrc,
+    size: 'md',
+    alt: 'Open user menu',
+    disabled: true,
+    onPress: () => ({}),
+  },
+  render: (args) => <AvatarButton {...args} />,
+};

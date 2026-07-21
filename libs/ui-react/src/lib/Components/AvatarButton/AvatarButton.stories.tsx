@@ -46,3 +46,13 @@ export const Fallback: Story = {
     fallbackText: 'AB',
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    src: exampleSrc,
+    size: 'md',
+    alt: 'Open user menu',
+    disabled: true,
+    onClick: () => ({}),
+  },
+};

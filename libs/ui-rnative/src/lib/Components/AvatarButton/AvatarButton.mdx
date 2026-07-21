@@ -24,6 +24,12 @@ Like `Avatar`, it falls back to a User icon when no image is available.
 
 <Canvas of={AvatarButtonStories.Fallback} />
 
+## Disabled
+
+Pass `disabled` to prevent interaction. The pressable is not activatable, and the avatar renders at reduced opacity.
+
+<Canvas of={AvatarButtonStories.Disabled} />
+
 ## Accessibility
 
 - Renders with `accessibilityRole="button"` so it is announced as a button by screen readers.
