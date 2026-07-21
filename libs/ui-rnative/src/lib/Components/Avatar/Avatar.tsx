@@ -187,7 +187,7 @@ export const Avatar = ({
           testID='avatar-image'
         />
       )}
-      <View style={styles.insetBorder} pointerEvents='none' />
+      {appearance && <View style={styles.insetBorder} pointerEvents='none' />}
     </Box>
   );
 };
