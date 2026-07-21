@@ -23,7 +23,7 @@ describe('Avatar Component', () => {
         <Avatar src={testSrc} />
       </TestWrapper>,
     );
-    getByLabelText('avatar');
+    getByLabelText('User avatar');
   });
 
   it('should render with custom alt text', () => {
@@ -95,7 +95,7 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
 
-    const avatarContainer = getByLabelText('avatar');
+    const avatarContainer = getByLabelText('User avatar');
     expect(avatarContainer).toBeTruthy();
     expect(avatarContainer.props.accessibilityRole).toBe('image');
     expect(getByTestId('avatar-fallback-icon')).toBeTruthy();
