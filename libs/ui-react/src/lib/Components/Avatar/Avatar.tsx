@@ -65,7 +65,6 @@ const FallbackContent = ({
     <User
       className={colorClass}
       size={fallbackSizes[size]}
-      aria-label='Fallback Icon'
       aria-hidden='true'
     />
   );
