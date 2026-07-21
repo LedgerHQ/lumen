@@ -21,7 +21,7 @@ export type MediaBannerProps = {
    * The banner content (MediaBannerTitle, MediaBannerDescription).
    */
   children: ReactNode;
-} & Omit<StyledPressableProps, 'children'>;
+} & Omit<StyledPressableProps, 'children' | 'disabled'>;
 
 /**
  * Props for the MediaBannerTitle component.

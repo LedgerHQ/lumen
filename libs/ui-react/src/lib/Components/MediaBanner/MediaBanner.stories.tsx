@@ -93,21 +93,6 @@ export const WithBrokenImage: Story = {
   ),
 };
 
-export const DisabledState: Story = {
-  render: () => (
-    <div className='w-400'>
-      <MediaBanner
-        imageUrl={IMAGE_URL}
-        onClose={() => console.log('close')}
-        disabled
-      >
-        <MediaBannerTitle>Firmware Update</MediaBannerTitle>
-        <MediaBannerDescription>Keep your Nano updated!</MediaBannerDescription>
-      </MediaBanner>
-    </div>
-  ),
-};
-
 export const Clickable: Story = {
   render: () => {
     const [count, setCount] = useState(0);

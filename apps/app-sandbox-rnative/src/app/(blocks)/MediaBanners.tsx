@@ -43,7 +43,6 @@ export default function MediaBanners() {
         <MediaBanner
           imageUrl='https://images.unsplash.com/photo-1663741954108-d15d514529ef'
           onClose={() => setShowBanner3(false)}
-          disabled
         >
           <MediaBannerTitle>Update Unavailable</MediaBannerTitle>
           <MediaBannerDescription>
