@@ -88,12 +88,13 @@ export const MediaBanner = ({
 
   const showImage = imageUrl && !imageLoadError;
 
+  const Wrapper = (onClick ? 'button' : 'div') as 'button';
+
   return (
-    <button
+    <Wrapper
       ref={ref}
-      type='button'
-      disabled={disabled}
-      onClick={disabled ? undefined : onClick}
+      {...(onClick ? { type: 'button' as const, disabled } : {})}
+      onClick={onClick}
       className={cn(
         mediaBannerVariants({ interactive: !!onClick, disabled }),
         className,
@@ -116,24 +117,24 @@ export const MediaBanner = ({
           )}
           <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
         </div>
-        {onClose && (
-          <InteractiveIcon
-            data-testid='media-banner-close-button'
-            type='button'
-            iconType='stroked'
-            appearance='white'
-            icon={Close}
-            size={16}
-            className='absolute top-8 right-8'
-            onClick={(e) => {
-              e.stopPropagation();
-              onClose();
-            }}
-            aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
-          />
-        )}
       </DisabledProvider>
-    </button>
+      {onClose && (
+        <InteractiveIcon
+          data-testid='media-banner-close-button'
+          type='button'
+          iconType='stroked'
+          appearance='white'
+          icon={Close}
+          size={16}
+          className='absolute top-8 right-8'
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
+        />
+      )}
+    </Wrapper>
   );
 };
 

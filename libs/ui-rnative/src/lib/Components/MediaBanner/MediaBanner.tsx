@@ -88,6 +88,7 @@ export function MediaBanner({
       ]}
       onPress={onPress}
       disabled={disabled}
+      accessibilityRole={onPress ? 'button' : 'none'}
       accessibilityState={{ disabled }}
       {...props}
     >
@@ -116,23 +117,23 @@ export function MediaBanner({
             pointerEvents='none'
           />
         </Box>
-        {onClose && (
-          <Box style={styles.closeButton}>
-            <InteractiveIcon
-              testID='media-banner-close-button'
-              iconType='stroked'
-              appearance='white'
-              icon={Close}
-              size={16}
-              onPress={onClose}
-              accessibilityLabel={
-                closeAccessibilityLabel ||
-                translate('components.banner.closeAriaLabel')
-              }
-            />
-          </Box>
-        )}
       </DisabledProvider>
+      {onClose && (
+        <Box style={styles.closeButton}>
+          <InteractiveIcon
+            testID='media-banner-close-button'
+            iconType='stroked'
+            appearance='white'
+            icon={Close}
+            size={16}
+            onPress={onClose}
+            accessibilityLabel={
+              closeAccessibilityLabel ||
+              translate('components.banner.closeAriaLabel')
+            }
+          />
+        </Box>
+      )}
     </Pressable>
   );
 }
