@@ -11,7 +11,7 @@ import type {
 } from './types';
 
 const mediaBannerVariants = cva(
-  'relative flex h-72 w-full flex-row overflow-hidden rounded-md bg-surface text-start select-none',
+  'flex h-72 w-full flex-row overflow-hidden rounded-md bg-surface text-start select-none',
   {
     variants: {
       interactive: {
@@ -50,28 +50,30 @@ export const MediaBanner = ({
   const Wrapper = (onClick ? 'button' : 'div') as 'button';
 
   return (
-    <Wrapper
-      ref={ref}
-      {...(onClick ? { type: 'button' as const } : {})}
-      onClick={onClick}
-      className={cn(mediaBannerVariants({ interactive: !!onClick }), className)}
-      {...props}
-    >
-      <div className='flex flex-1 items-center px-12 py-2'>
-        <div className='flex flex-col gap-4 py-12'>{children}</div>
-      </div>
-      <div className='relative w-128'>
-        {showImage && (
-          <img
-            src={imageUrl}
-            alt=''
-            aria-hidden
-            className='absolute inset-0 size-full object-cover'
-            onError={() => setImageLoadError(true)}
-          />
-        )}
-        <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
-      </div>
+    <div className={cn('relative w-full', className)}>
+      <Wrapper
+        ref={ref}
+        {...(onClick ? { type: 'button' as const } : {})}
+        onClick={onClick}
+        className={mediaBannerVariants({ interactive: !!onClick })}
+        {...props}
+      >
+        <div className='flex flex-1 items-center px-12 py-2'>
+          <div className='flex flex-col gap-4 py-12'>{children}</div>
+        </div>
+        <div className='relative w-128'>
+          {showImage && (
+            <img
+              src={imageUrl}
+              alt=''
+              aria-hidden
+              className='absolute inset-0 size-full object-cover'
+              onError={() => setImageLoadError(true)}
+            />
+          )}
+          <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
+        </div>
+      </Wrapper>
       {onClose && (
         <InteractiveIcon
           data-testid='media-banner-close-button'
@@ -81,14 +83,11 @@ export const MediaBanner = ({
           icon={Close}
           size={16}
           className='absolute top-8 right-8'
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
+          onClick={onClose}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
         />
       )}
-    </Wrapper>
+    </div>
   );
 };
 

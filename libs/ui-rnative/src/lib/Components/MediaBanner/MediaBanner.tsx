@@ -67,41 +67,42 @@ export function MediaBanner({
   );
 
   return (
-    <Pressable
-      lx={lx}
-      style={({ pressed }) => [
-        styles.container,
-        pressed && onPress && { backgroundColor: t.colors.bg.surfacePressed },
-        style,
-      ]}
-      onPress={onPress}
-      accessibilityRole={onPress ? 'button' : 'none'}
-      {...props}
-    >
-      <Box style={styles.contentWrapper}>
-        <Box style={styles.contentContainer}>{children}</Box>
-      </Box>
-      <Box style={{ width: 120 }}>
-        {showImage && (
-          <Image
-            source={{ uri: imageUrl }}
+    <Box lx={lx} style={{ position: 'relative' }}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.container,
+          pressed && onPress && { backgroundColor: t.colors.bg.surfacePressed },
+          style,
+        ]}
+        onPress={onPress}
+        accessibilityRole={onPress ? 'button' : 'none'}
+        {...props}
+      >
+        <Box style={styles.contentWrapper}>
+          <Box style={styles.contentContainer}>{children}</Box>
+        </Box>
+        <Box style={{ width: 120 }}>
+          {showImage && (
+            <Image
+              source={{ uri: imageUrl }}
+              style={StyleSheet.absoluteFill}
+              resizeMode='cover'
+              onError={() => setImageLoadError(true)}
+              accessible={false}
+            />
+          )}
+          <LinearGradient
+            direction='to-topright'
+            stops={[
+              { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
+              { color: t.colors.bg.black, opacity: 0.8 },
+            ]}
             style={StyleSheet.absoluteFill}
-            resizeMode='cover'
-            onError={() => setImageLoadError(true)}
             accessible={false}
+            pointerEvents='none'
           />
-        )}
-        <LinearGradient
-          direction='to-topright'
-          stops={[
-            { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
-            { color: t.colors.bg.black, opacity: 0.8 },
-          ]}
-          style={StyleSheet.absoluteFill}
-          accessible={false}
-          pointerEvents='none'
-        />
-      </Box>
+        </Box>
+      </Pressable>
       {onClose && (
         <Box style={styles.closeButton}>
           <InteractiveIcon
@@ -118,7 +119,7 @@ export function MediaBanner({
           />
         </Box>
       )}
-    </Pressable>
+    </Box>
   );
 }
 
