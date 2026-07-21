@@ -17,7 +17,7 @@ import { CustomTabs, Tab } from '../../../../.storybook/components';
 
 ## Introduction
 
-MediaBanner is a promotional banner component that displays a background image alongside a title and description. It is designed for marketing or informational content and supports an optional close action for dismissibility.
+MediaBanner is a promotional banner component that displays a background image alongside a title and description. It is designed for marketing or informational content and supports an optional press action and an optional close button for dismissibility.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11235-5982&m=dev).
 
@@ -25,7 +25,7 @@ MediaBanner is a promotional banner component that displays a background image a
 
 <Canvas of={MediaBannerStories.Base} />
 
-- **MediaBanner**: Root pressable container with surface background, rounded corners, and a fixed height
+- **MediaBanner**: Root `Pressable` with surface background, rounded corners, and a fixed height.
 - **MediaBannerTitle**: The main label of the banner (clamps at 1 line)
 - **MediaBannerDescription**: Additional context below the title (clamps at 2 lines)
 - **Image**: Background image displayed on the right side with a gradient overlay
@@ -50,9 +50,15 @@ When the `imageUrl` fails to load, the broken image is hidden while the gradient
 
 <Canvas of={MediaBannerStories.WithBrokenImage} />
 
+### Clickable
+
+Pass `onPress` to make the banner interactive. The pressed background feedback is applied on touch.
+
+<Canvas of={MediaBannerStories.Clickable} />
+
 ### Disabled
 
-When `disabled` is `true`, the banner becomes muted. Press states are suppressed.
+When `disabled` is `true`, the banner becomes muted. Press states and `onPress` are suppressed.
 
 <Canvas of={MediaBannerStories.DisabledState} />
 
@@ -64,8 +70,9 @@ When `onClose` is provided, the close button allows the user to dismiss the bann
 
 ## Accessibility
 
+- The root renders as a `Pressable`, which is natively tappable and accessible
+- When `disabled`, `accessibilityState={{ disabled: true }}` is set and `onPress` is blocked
 - The close button uses `InteractiveIcon` with proper press states
-- The root element is a `Pressable` for interactive use cases
 - Title and description use semantic `Text` elements
 
 </Tab>
@@ -96,6 +103,22 @@ function MyComponent() {
     </MediaBanner>
   );
 }
+```
+
+### Clickable Banner
+
+Pass `onPress` to make the banner navigate or trigger an action:
+
+```tsx
+<MediaBanner
+  imageUrl='https://example.com/promo.jpg'
+  onPress={() => navigation.navigate('Staking')}
+>
+  <MediaBannerTitle>Start Staking</MediaBannerTitle>
+  <MediaBannerDescription>
+    Earn rewards on your crypto assets.
+  </MediaBannerDescription>
+</MediaBanner>
 ```
 
 ### With Close Button

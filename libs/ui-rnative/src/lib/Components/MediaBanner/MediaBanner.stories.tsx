@@ -33,6 +33,9 @@ const meta: Meta<typeof MediaBanner> = {
       control: 'text',
       description: 'URL of the background image',
     },
+    onPress: {
+      action: 'pressed',
+    },
     onClose: {
       control: 'select',
       description: 'Close action callback',
@@ -120,6 +123,28 @@ export const DisabledState: Story = {
       </MediaBanner>
     </Box>
   ),
+};
+
+export const Clickable: Story = {
+  render: () => {
+    const [count, setCount] = useState(0);
+
+    return (
+      <Box lx={{ width: 's400', gap: 's8' }}>
+        <MediaBanner
+          imageUrl={IMAGE_URL}
+          onPress={() => setCount((c) => c + 1)}
+        >
+          <MediaBannerTitle>Firmware Update</MediaBannerTitle>
+          <MediaBannerDescription>
+            {count === 0
+              ? 'Press the banner to get started!'
+              : `Pressed ${count} time${count === 1 ? '' : 's'}`}
+          </MediaBannerDescription>
+        </MediaBanner>
+      </Box>
+    );
+  },
 };
 
 export const WithClose: Story = {

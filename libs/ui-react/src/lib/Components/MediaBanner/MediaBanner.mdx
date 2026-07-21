@@ -20,13 +20,13 @@ import {
 
 ## Introduction
 
-MediaBanner is a promotional banner component that displays a background image alongside a title and description. It is designed for marketing or informational content and supports an optional close action for dismissibility.
+MediaBanner is a promotional banner component that displays a background image alongside a title and description. It is designed for marketing or informational content and supports an optional click action and an optional close button for dismissibility.
 
 ## Anatomy
 
 <Canvas of={MediaBannerStories.Base} />
 
-- **MediaBanner**: Root container with surface background, rounded corners, and a fixed height
+- **MediaBanner**: Root `<button>` with surface background, rounded corners, and a fixed height.
 - **MediaBannerTitle**: The main label of the banner (clamps at 1 line)
 - **MediaBannerDescription**: Additional context below the title (clamps at 2 lines)
 - **Image**: Background image displayed on the right side with a gradient overlay
@@ -51,9 +51,15 @@ When the `imageUrl` fails to load, the broken image is hidden while the gradient
 
 <Canvas of={MediaBannerStories.WithBrokenImage} />
 
+### Clickable
+
+Pass `onClick` to make the banner interactive. Hover and active styles are only applied when `onClick` is provided.
+
+<Canvas of={MediaBannerStories.Clickable} />
+
 ### Disabled
 
-When `disabled` is `true`, the banner becomes muted. Hover and active states are suppressed.
+When `disabled` is `true`, the banner becomes muted. Hover and active states are suppressed and clicks are blocked.
 
 <Canvas of={MediaBannerStories.DisabledState} />
 
@@ -65,6 +71,9 @@ When `onClose` is provided, a close button (InteractiveIcon) is rendered in the 
 
 ## Accessibility
 
+- The root renders as a `<button>`, which is keyboard-activatable and screen-reader friendly out of the box
+- When `disabled`, the native `disabled` attribute blocks all clicks and keyboard activation
+- Hover and active styles are suppressed when no `onClick` is provided, so non-interactive banners don't mislead users
 - The close button includes an auto-translated `aria-label`
 - The close button uses `InteractiveIcon` with proper focus states
 - All sub-components forward refs and spread HTML attributes for ARIA support
@@ -99,6 +108,22 @@ function MyComponent() {
     </MediaBanner>
   );
 }
+```
+
+### Clickable Banner
+
+Pass `onClick` to make the banner navigate or trigger an action:
+
+```tsx
+<MediaBanner
+  imageUrl='https://example.com/promo.jpg'
+  onClick={() => router.push('/staking')}
+>
+  <MediaBannerTitle>Start Staking</MediaBannerTitle>
+  <MediaBannerDescription>
+    Earn rewards on your crypto assets.
+  </MediaBannerDescription>
+</MediaBanner>
 ```
 
 ### With Close Button
