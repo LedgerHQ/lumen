@@ -24,6 +24,7 @@ export function MediaBanner({
   lx,
   style,
   imageUrl,
+  onPress,
   onClose,
   closeAccessibilityLabel,
   children,
@@ -80,9 +81,12 @@ export function MediaBanner({
       lx={lx}
       style={({ pressed }) => [
         styles.container,
-        pressed && !disabled && { backgroundColor: t.colors.bg.surfacePressed },
+        pressed &&
+          !disabled &&
+          onPress && { backgroundColor: t.colors.bg.surfacePressed },
         style,
       ]}
+      onPress={onPress}
       disabled={disabled}
       accessibilityState={{ disabled }}
       {...props}
