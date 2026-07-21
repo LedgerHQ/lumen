@@ -14,9 +14,14 @@ import {
   TableActionBar,
   TableActionBarLeading,
   TableActionBarTrailing,
+  TableCellItem,
   TableCellContent,
+  TableCellContentTitle,
+  TableCellContentDescription,
+  TableCellContentRow,
   TableInfoIcon,
 } from '../Table';
+import { Tag } from '../Tag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
   DataTableRoot,
@@ -258,11 +263,20 @@ export const Base: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentRow>
+                  <TableCellContentDescription>
+                    {row.original.symbol}
+                  </TableCellContentDescription>
+                  <Tag appearance='success' size='sm' label='New' />
+                </TableCellContentRow>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -282,11 +296,16 @@ export const Base: Story = {
           header: 'Performance',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -356,11 +375,17 @@ export const WithClickableRow: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -380,11 +405,16 @@ export const WithClickableRow: Story = {
           header: 'Performance',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -417,11 +447,18 @@ export const ColumnsLayout: Story = {
           header: 'w-256 column',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description='Very long description that should be truncated in the table cell'
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  Very long description that should be truncated in the table
+                  cell
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-256' },
         },
@@ -469,11 +506,17 @@ export const WithGroupHeader: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -488,11 +531,16 @@ export const WithGroupHeader: Story = {
           header: 'Performance',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -527,11 +575,17 @@ export const WithCustomHeader: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -594,11 +648,17 @@ export const WithoutStickyHeader: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -618,11 +678,16 @@ export const WithoutStickyHeader: Story = {
           header: 'Performance',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -650,11 +715,17 @@ export const WithSorting: Story = {
           accessorKey: 'name',
           header: 'Asset',
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -675,11 +746,16 @@ export const WithSorting: Story = {
           accessorKey: 'change',
           header: 'Performance',
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -708,11 +784,17 @@ export const WithGlobalFilter: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -732,11 +814,16 @@ export const WithGlobalFilter: Story = {
           header: 'Performance',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -804,11 +891,17 @@ export const WithInfiniteLoading: Story = {
           accessorKey: 'name',
           header: 'Asset',
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -825,11 +918,16 @@ export const WithInfiniteLoading: Story = {
           accessorKey: 'change',
           header: 'Performance',
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -871,11 +969,17 @@ export const WithServerSideState: Story = {
           accessorKey: 'name',
           header: 'Asset',
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -892,11 +996,16 @@ export const WithServerSideState: Story = {
           accessorKey: 'change',
           header: 'Performance',
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },
@@ -935,11 +1044,17 @@ export const WithPagination: Story = {
           header: 'Asset',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              title={row.original.name}
-              description={row.original.symbol}
-              leadingContent={<Spot appearance='icon' icon={Android} />}
-            />
+            <TableCellItem>
+              <Spot appearance='icon' icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { className: 'w-224' },
         },
@@ -959,11 +1074,16 @@ export const WithPagination: Story = {
           header: 'Performance',
           enableSorting: false,
           cell: ({ row }) => (
-            <TableCellContent
-              align='end'
-              title={row.original.price}
-              description={row.original.change}
-            />
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
           ),
           meta: { align: 'end', className: 'w-144' },
         },

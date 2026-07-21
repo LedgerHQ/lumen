@@ -17,6 +17,7 @@ import {
   SelectTrigger,
 } from '../Select';
 import { Spot } from '../Spot';
+import { Tag } from '../Tag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
   TableRoot,
@@ -32,7 +33,11 @@ import {
   TableActionBar,
   TableActionBarLeading,
   TableActionBarTrailing,
+  TableCellItem,
   TableCellContent,
+  TableCellContentTitle,
+  TableCellContentDescription,
+  TableCellContentRow,
   TableLoadingRow,
   TableInfoIcon,
 } from './Table';
@@ -75,6 +80,11 @@ const meta: Meta<typeof TableRoot> = {
     TableActionBarLeading,
     TableActionBarTrailing,
     TableRoot,
+    TableCellItem,
+    TableCellContent,
+    TableCellContentTitle,
+    TableCellContentDescription,
+    TableCellContentRow,
     TableLoadingRow,
     TableInfoIcon,
   },
@@ -134,34 +144,42 @@ export const Base: Story = {
             {smallData.map((row) => (
               <TableRow key={row.symbol}>
                 <TableCell className='w-224'>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <DotIcon
-                        appearance='success'
-                        size={16}
-                        pin='top-end'
-                        icon={ArrowDown}
-                      >
-                        <MediaImage
-                          shape='circle'
-                          size={40}
-                          src={'https://crypto-icons.ledger.com/ADA.png'}
-                          alt='Cardano'
-                        />
-                      </DotIcon>
-                    }
-                  />
+                  <TableCellItem>
+                    <DotIcon
+                      appearance='success'
+                      size={16}
+                      pin='top-end'
+                      icon={ArrowDown}
+                    >
+                      <MediaImage
+                        shape='circle'
+                        size={40}
+                        src={'https://crypto-icons.ledger.com/ADA.png'}
+                        alt='Cardano'
+                      />
+                    </DotIcon>
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentRow>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                        <Tag appearance='success' size='sm' label='New' />
+                      </TableCellContentRow>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
                 <TableCell>{row.symbol}</TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
                 <TableCell className='w-144' align='end'>
-                  <TableCellContent
-                    align='end'
-                    title={row.price}
-                    description={row.change}
-                  />
+                  <TableCellItem align='end'>
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.price}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.change}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
               </TableRow>
             ))}
@@ -233,13 +251,15 @@ export const ResponsiveLayout: Story = {
             {smallData.map((row) => (
               <TableRow key={row.symbol}>
                 <TableCell>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
+                  <TableCellItem>
+                    <Spot size={40} appearance='icon' icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
                 <TableCell hideBelow='lg' align='end'>
@@ -277,13 +297,15 @@ export const WithClickableRow: Story = {
                 onClick={() => console.log(`Clicked ${row.name}`)}
               >
                 <TableCell>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
+                  <TableCellItem>
+                    <Spot size={40} appearance='icon' icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
                 <TableCell align='end'>{row.change}</TableCell>
@@ -337,13 +359,17 @@ export const WithInfiniteLoading: Story = {
               {data.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
-                    <TableCellContent
-                      title={row.name}
-                      description={row.symbol}
-                      leadingContent={
-                        <Spot size={40} appearance='icon' icon={Android} />
-                      }
-                    />
+                    <TableCellItem>
+                      <Spot size={40} appearance='icon' icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
                   </TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
                   <TableCell align='end'>{row.change}</TableCell>
@@ -379,22 +405,27 @@ export const WithoutStickyHeader: Story = {
             {largeData.map((row) => (
               <TableRow key={row.symbol}>
                 <TableCell className='w-224'>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
+                  <TableCellItem>
+                    <Spot size={40} appearance='icon' icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
                 <TableCell>{row.symbol}</TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
                 <TableCell className='w-144' align='end'>
-                  <TableCellContent
-                    align='end'
-                    title={row.price}
-                    description={row.change}
-                  />
+                  <TableCellItem align='end'>
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.price}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.change}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
               </TableRow>
             ))}
@@ -467,13 +498,17 @@ export const WithCustomHeader: Story = {
               {smallData.map((row) => (
                 <TableRow key={row.symbol}>
                   <TableCell>
-                    <TableCellContent
-                      title={row.name}
-                      description={row.symbol}
-                      leadingContent={
-                        <Spot size={40} appearance='icon' icon={Android} />
-                      }
-                    />
+                    <TableCellItem>
+                      <Spot size={40} appearance='icon' icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
                   </TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
@@ -515,13 +550,15 @@ export const WithGroupHeader: Story = {
             {smallData.map((row) => (
               <TableRow key={row.symbol}>
                 <TableCell>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
+                  <TableCellItem>
+                    <Spot size={40} appearance='icon' icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
                 <TableCell align='end'>{row.change}</TableCell>
@@ -531,13 +568,15 @@ export const WithGroupHeader: Story = {
             {smallData.map((row) => (
               <TableRow clickable key={row.symbol}>
                 <TableCell>
-                  <TableCellContent
-                    title={row.name}
-                    description={row.symbol}
-                    leadingContent={
-                      <Spot size={40} appearance='icon' icon={Android} />
-                    }
-                  />
+                  <TableCellItem>
+                    <Spot size={40} appearance='icon' icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
                 </TableCell>
                 <TableCell align='end'>{row.price}</TableCell>
                 <TableCell align='end'>{row.change}</TableCell>
@@ -696,18 +735,22 @@ export const WithNetworkIconsAndActionBar: Story = {
               {filteredData.map((row) => (
                 <TableRow key={row.symbol}>
                   <TableCell>
-                    <TableCellContent
-                      title={row.name}
-                      description={row.symbol}
-                      leadingContent={
-                        <CryptoIcon
-                          ledgerId={cryptoIconLedgerIds[row.symbol]}
-                          ticker={row.symbol}
-                          size={40}
-                          alt={row.name}
-                        />
-                      }
-                    />
+                    <TableCellItem>
+                      <CryptoIcon
+                        ledgerId={cryptoIconLedgerIds[row.symbol]}
+                        ticker={row.symbol}
+                        size={40}
+                        alt={row.name}
+                      />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
                   </TableCell>
                   <TableCell>{getIconTypeLabel(row.symbol)}</TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
@@ -748,11 +791,17 @@ export const WithPagination: Story = {
               {paginatedData.map((row) => (
                 <TableRow key={row.symbol}>
                   <TableCell>
-                    <TableCellContent
-                      title={row.name}
-                      description={row.symbol}
-                      leadingContent={<Spot appearance='icon' icon={Android} />}
-                    />
+                    <TableCellItem>
+                      <Spot appearance='icon' icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
                   </TableCell>
                   <TableCell align='end'>{row.price}</TableCell>
                   <TableCell align='end'>{row.change}</TableCell>
@@ -771,4 +820,42 @@ export const WithPagination: Story = {
       </div>
     );
   },
+};
+
+export const WithComplexCellContent: Story = {
+  render: (args) => (
+    <div className='w-3xl text-base'>
+      <TableRoot {...args}>
+        <Table>
+          <TableHeader>
+            <TableHeaderRow>
+              <TableHeaderCell>Asset</TableHeaderCell>
+              <TableHeaderCell align='end'>Price</TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            {smallData.map((row) => (
+              <TableRow key={row.symbol}>
+                <TableCell>
+                  <TableCellItem>
+                    <Spot size={40} appearance='icon' icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentRow>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                        <Tag appearance='success' size='sm' label='New' />
+                      </TableCellContentRow>
+                    </TableCellContent>
+                  </TableCellItem>
+                </TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </div>
+  ),
 };
