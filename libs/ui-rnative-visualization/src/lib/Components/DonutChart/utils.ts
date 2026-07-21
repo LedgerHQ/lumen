@@ -9,6 +9,9 @@ export type DonutArc = {
   path: string;
   color?: string;
   percent: number;
+  midAngle: number;
+  activeEnabled: boolean;
+  activeTranslate: { x: number; y: number };
 };
 
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
@@ -51,12 +54,25 @@ export const buildArcs = (
     .outerRadius(geometry.outerRadius)
     .cornerRadius(geometry.cornerRadius);
 
-  return layout(drawable).map((datum) => ({
-    id: datum.data.segment.id,
-    path: arcGenerator(snapHalfCircle(datum)) ?? '',
-    color: datum.data.segment.color,
-    percent: datum.data.percent,
-  }));
+  const activeEnabled = drawable.length > 1;
+
+  return layout(drawable).map((datum) => {
+    const midAngle = (datum.startAngle + datum.endAngle) / 2;
+    return {
+      id: datum.data.segment.id,
+      path: arcGenerator(snapHalfCircle(datum)) ?? '',
+      color: datum.data.segment.color,
+      percent: datum.data.percent,
+      midAngle,
+      activeEnabled,
+      activeTranslate: activeEnabled
+        ? {
+            x: Math.sin(midAngle) * geometry.activeOffset,
+            y: -Math.cos(midAngle) * geometry.activeOffset,
+          }
+        : { x: 0, y: 0 },
+    };
+  });
 };
 
 /**

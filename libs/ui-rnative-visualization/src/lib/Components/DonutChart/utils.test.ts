@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { DONUT_GEOMETRY } from './constants';
+import { DONUT_GEOMETRY, getDonutViewBox } from './constants';
 import type { DonutSegment } from './types';
 import { buildArcs, buildEmptyRingPath, getSegmentPercents } from './utils';
 
@@ -14,6 +14,15 @@ describe('DONUT_GEOMETRY', () => {
   it('matches the Figma box sizes (md=168, sm=80)', () => {
     expect(DONUT_GEOMETRY.md.box).toBe(168);
     expect(DONUT_GEOMETRY.sm.box).toBe(80);
+  });
+});
+
+describe('getDonutViewBox', () => {
+  it('pads the viewBox by activeOffset on every side', () => {
+    expect(getDonutViewBox(DONUT_GEOMETRY.md)).toBe(
+      `-3.36 -3.36 174.72 174.72`,
+    );
+    expect(getDonutViewBox(DONUT_GEOMETRY.sm)).toBe(`-2 -2 84 84`);
   });
 });
 
@@ -109,6 +118,41 @@ describe('buildArcs', () => {
       DONUT_GEOMETRY.md,
     );
     arcs.forEach((a) => expect(a.path).toMatch(cornerArc));
+  });
+
+  it('computes midAngle and activeTranslate per segment', () => {
+    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
+    const offset = DONUT_GEOMETRY.md.activeOffset;
+
+    arcs.forEach((arc) => {
+      expect(arc.midAngle).toBeGreaterThanOrEqual(0);
+      expect(arc.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+      const magnitude = Math.hypot(
+        arc.activeTranslate.x,
+        arc.activeTranslate.y,
+      );
+      expect(magnitude).toBeCloseTo(offset);
+    });
+  });
+
+  it("pushes the first slice radially upward from 12 o'clock", () => {
+    const [first] = buildArcs(
+      [
+        { id: 'a', label: 'A', value: 1 },
+        { id: 'b', label: 'B', value: 1 },
+      ],
+      DONUT_GEOMETRY.md,
+    );
+    expect(first.activeTranslate.y).toBeLessThan(0);
+  });
+
+  it('disables active animation for a single segment', () => {
+    const [arc] = buildArcs(
+      [{ id: 'a', label: 'A', value: 1 }],
+      DONUT_GEOMETRY.md,
+    );
+    expect(arc.activeEnabled).toBe(false);
+    expect(arc.activeTranslate).toEqual({ x: 0, y: 0 });
   });
 });
 
