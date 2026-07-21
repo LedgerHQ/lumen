@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Close } from '../../Symbols';
@@ -69,39 +69,52 @@ export function MediaBanner({
   return (
     <Box lx={lx} style={{ position: 'relative' }}>
       <Pressable
-        style={({ pressed }) => [
-          styles.container,
-          pressed && onPress && { backgroundColor: t.colors.bg.surfacePressed },
-          style,
-        ]}
+        style={[styles.container, style]}
         onPress={onPress}
         accessibilityRole={onPress ? 'button' : 'none'}
         {...props}
       >
-        <Box style={styles.contentWrapper}>
-          <Box style={styles.contentContainer}>{children}</Box>
-        </Box>
-        <Box style={{ width: 120 }}>
-          {showImage && (
-            <Image
-              source={{ uri: imageUrl }}
-              style={StyleSheet.absoluteFill}
-              resizeMode='cover'
-              onError={() => setImageLoadError(true)}
-              accessible={false}
-            />
-          )}
-          <LinearGradient
-            direction='to-topright'
-            stops={[
-              { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
-              { color: t.colors.bg.black, opacity: 0.8 },
-            ]}
-            style={StyleSheet.absoluteFill}
-            accessible={false}
-            pointerEvents='none'
-          />
-        </Box>
+        {({ pressed }) => (
+          <>
+            <Box style={styles.contentWrapper}>
+              <Box style={styles.contentContainer}>{children}</Box>
+            </Box>
+            <Box style={{ width: 120 }}>
+              {showImage && (
+                <Image
+                  source={{ uri: imageUrl }}
+                  style={StyleSheet.absoluteFill}
+                  resizeMode='cover'
+                  onError={() => setImageLoadError(true)}
+                  accessible={false}
+                />
+              )}
+              <LinearGradient
+                direction='to-topright'
+                stops={[
+                  { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
+                  { color: t.colors.bg.black, opacity: 0.8 },
+                ]}
+                style={StyleSheet.absoluteFill}
+                accessible={false}
+                pointerEvents='none'
+              />
+            </Box>
+            {onPress && (
+              <View
+                pointerEvents='none'
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    backgroundColor: pressed
+                      ? t.colors.bg.baseTransparentPressed
+                      : t.colors.bg.baseTransparent,
+                  },
+                ]}
+              />
+            )}
+          </>
+        )}
       </Pressable>
       {onClose && (
         <Box style={styles.closeButton}>

@@ -15,7 +15,7 @@ const mediaBannerVariants = cva(
   {
     variants: {
       interactive: {
-        true: 'cursor-pointer hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-surface-pressed',
+        true: 'group relative cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
         false: 'cursor-default',
       },
     },
@@ -73,6 +73,12 @@ export const MediaBanner = ({
           )}
           <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
         </div>
+        {!!onClick && (
+          <div
+            aria-hidden
+            className='pointer-events-none absolute inset-0 group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed'
+          />
+        )}
       </Wrapper>
       {onClose && (
         <InteractiveIcon
