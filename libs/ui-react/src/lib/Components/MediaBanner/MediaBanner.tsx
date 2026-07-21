@@ -1,8 +1,4 @@
-import {
-  cn,
-  DisabledProvider,
-  useDisabledContext,
-} from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
@@ -15,48 +11,21 @@ import type {
 } from './types';
 
 const mediaBannerVariants = cva(
-  'relative flex h-72 w-full flex-row overflow-hidden rounded-md text-start select-none',
+  'relative flex h-72 w-full flex-row overflow-hidden rounded-md bg-surface text-start select-none',
   {
     variants: {
       interactive: {
-        true: 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        true: 'cursor-pointer hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-surface-pressed',
         false: 'cursor-default',
       },
-      disabled: {
-        false: 'bg-surface',
-        true: 'bg-surface-disabled',
-      },
     },
-    compoundVariants: [
-      {
-        interactive: true,
-        disabled: false,
-        className: 'hover:bg-surface-hover active:bg-surface-pressed',
-      },
-    ],
-    defaultVariants: { interactive: false, disabled: false },
+    defaultVariants: { interactive: false },
   },
 );
 
-const mediaBannerTitleVariants = cva('line-clamp-1 body-2-semi-bold', {
-  variants: {
-    disabled: {
-      false: 'text-base',
-      true: 'text-disabled',
-    },
-  },
-  defaultVariants: { disabled: false },
-});
+const mediaBannerTitleVariants = cva('line-clamp-1 body-2-semi-bold text-base');
 
-const mediaBannerDescriptionVariants = cva('line-clamp-2 body-3', {
-  variants: {
-    disabled: {
-      false: 'text-muted',
-      true: 'text-disabled',
-    },
-  },
-  defaultVariants: { disabled: false },
-});
+const mediaBannerDescriptionVariants = cva('line-clamp-2 body-3 text-muted');
 
 /**
  * A promotional banner with a background image, title, description, and an optional close button.
@@ -70,17 +39,11 @@ export const MediaBanner = ({
   closeAriaLabel,
   children,
   className,
-  disabled: disabledProp = false,
   onClick,
   ...props
 }: MediaBannerProps) => {
   const { t } = useCommonTranslation();
   const [imageLoadError, setImageLoadError] = useState(false);
-
-  const disabled = useDisabledContext({
-    consumerName: 'MediaBanner',
-    mergeWith: { disabled: disabledProp },
-  });
 
   useEffect(() => {
     setImageLoadError(false);
@@ -93,31 +56,26 @@ export const MediaBanner = ({
   return (
     <Wrapper
       ref={ref}
-      {...(onClick ? { type: 'button' as const, disabled } : {})}
+      {...(onClick ? { type: 'button' as const } : {})}
       onClick={onClick}
-      className={cn(
-        mediaBannerVariants({ interactive: !!onClick, disabled }),
-        className,
-      )}
+      className={cn(mediaBannerVariants({ interactive: !!onClick }), className)}
       {...props}
     >
-      <DisabledProvider value={{ disabled }}>
-        <div className='flex flex-1 items-center px-12 py-2'>
-          <div className='flex flex-col gap-4 py-12'>{children}</div>
-        </div>
-        <div className='relative w-128'>
-          {showImage && (
-            <img
-              src={imageUrl}
-              alt=''
-              aria-hidden
-              className='absolute inset-0 size-full object-cover'
-              onError={() => setImageLoadError(true)}
-            />
-          )}
-          <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
-        </div>
-      </DisabledProvider>
+      <div className='flex flex-1 items-center px-12 py-2'>
+        <div className='flex flex-col gap-4 py-12'>{children}</div>
+      </div>
+      <div className='relative w-128'>
+        {showImage && (
+          <img
+            src={imageUrl}
+            alt=''
+            aria-hidden
+            className='absolute inset-0 size-full object-cover'
+            onError={() => setImageLoadError(true)}
+          />
+        )}
+        <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
+      </div>
       {onClose && (
         <InteractiveIcon
           data-testid='media-banner-close-button'
@@ -147,12 +105,10 @@ export const MediaBannerTitle = ({
   className,
   ...props
 }: MediaBannerTitleProps) => {
-  const disabled = useDisabledContext({ consumerName: 'MediaBannerTitle' });
-
   return (
     <div
       ref={ref}
-      className={cn(mediaBannerTitleVariants({ disabled }), className)}
+      className={cn(mediaBannerTitleVariants(), className)}
       {...props}
     >
       {children}
@@ -169,14 +125,10 @@ export const MediaBannerDescription = ({
   className,
   ...props
 }: MediaBannerDescriptionProps) => {
-  const disabled = useDisabledContext({
-    consumerName: 'MediaBannerDescription',
-  });
-
   return (
     <div
       ref={ref}
-      className={cn(mediaBannerDescriptionVariants({ disabled }), className)}
+      className={cn(mediaBannerDescriptionVariants(), className)}
       {...props}
     >
       {children}

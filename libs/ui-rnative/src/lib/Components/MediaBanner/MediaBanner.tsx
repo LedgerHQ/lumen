@@ -1,7 +1,3 @@
-import {
-  DisabledProvider,
-  useDisabledContext,
-} from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
@@ -28,17 +24,11 @@ export function MediaBanner({
   onClose,
   closeAccessibilityLabel,
   children,
-  disabled: disabledProp = false,
   ...props
 }: MediaBannerProps) {
   const { t: translate } = useCommonTranslation();
   const { theme: t } = useTheme();
   const [imageLoadError, setImageLoadError] = useState(false);
-
-  const disabled = useDisabledContext({
-    consumerName: 'MediaBanner',
-    mergeWith: { disabled: disabledProp },
-  });
 
   useEffect(() => {
     setImageLoadError(false);
@@ -49,7 +39,7 @@ export function MediaBanner({
   const styles = useStyleSheet(
     (t) => ({
       container: {
-        backgroundColor: disabled ? t.colors.bg.disabled : t.colors.bg.surface,
+        backgroundColor: t.colors.bg.surface,
         borderRadius: t.borderRadius.md,
         overflow: 'hidden',
         flexDirection: 'row',
@@ -73,7 +63,7 @@ export function MediaBanner({
         right: 8.5,
       },
     }),
-    [disabled],
+    [],
   );
 
   return (
@@ -81,43 +71,37 @@ export function MediaBanner({
       lx={lx}
       style={({ pressed }) => [
         styles.container,
-        pressed &&
-          !disabled &&
-          onPress && { backgroundColor: t.colors.bg.surfacePressed },
+        pressed && onPress && { backgroundColor: t.colors.bg.surfacePressed },
         style,
       ]}
       onPress={onPress}
-      disabled={disabled}
       accessibilityRole={onPress ? 'button' : 'none'}
-      accessibilityState={{ disabled }}
       {...props}
     >
-      <DisabledProvider value={{ disabled }}>
-        <Box style={styles.contentWrapper}>
-          <Box style={styles.contentContainer}>{children}</Box>
-        </Box>
-        <Box style={{ width: 120 }}>
-          {showImage && (
-            <Image
-              source={{ uri: imageUrl }}
-              style={StyleSheet.absoluteFill}
-              resizeMode='cover'
-              onError={() => setImageLoadError(true)}
-              accessible={false}
-            />
-          )}
-          <LinearGradient
-            direction='to-topright'
-            stops={[
-              { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
-              { color: t.colors.bg.black, opacity: 0.8 },
-            ]}
+      <Box style={styles.contentWrapper}>
+        <Box style={styles.contentContainer}>{children}</Box>
+      </Box>
+      <Box style={{ width: 120 }}>
+        {showImage && (
+          <Image
+            source={{ uri: imageUrl }}
             style={StyleSheet.absoluteFill}
+            resizeMode='cover'
+            onError={() => setImageLoadError(true)}
             accessible={false}
-            pointerEvents='none'
           />
-        </Box>
-      </DisabledProvider>
+        )}
+        <LinearGradient
+          direction='to-topright'
+          stops={[
+            { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
+            { color: t.colors.bg.black, opacity: 0.8 },
+          ]}
+          style={StyleSheet.absoluteFill}
+          accessible={false}
+          pointerEvents='none'
+        />
+      </Box>
       {onClose && (
         <Box style={styles.closeButton}>
           <InteractiveIcon
@@ -147,18 +131,14 @@ export function MediaBannerTitle({
   children,
   ...props
 }: MediaBannerTitleProps) {
-  const disabled = useDisabledContext({ consumerName: 'MediaBannerTitle' });
-
   const styles = useStyleSheet(
     (t) => ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
-        {
-          color: disabled ? t.colors.text.disabled : t.colors.text.base,
-        },
+        { color: t.colors.text.base },
       ]),
     }),
-    [disabled],
+    [],
   );
 
   return (
@@ -177,20 +157,14 @@ export function MediaBannerDescription({
   children,
   ...props
 }: MediaBannerDescriptionProps) {
-  const disabled = useDisabledContext({
-    consumerName: 'MediaBannerDescription',
-  });
-
   const styles = useStyleSheet(
     (t) => ({
       description: StyleSheet.flatten([
         t.typographies.body3,
-        {
-          color: disabled ? t.colors.text.disabled : t.colors.text.muted,
-        },
+        { color: t.colors.text.muted },
       ]),
     }),
-    [disabled],
+    [],
   );
 
   return (

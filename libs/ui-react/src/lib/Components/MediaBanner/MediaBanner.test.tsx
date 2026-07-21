@@ -79,30 +79,6 @@ describe('MediaBanner', () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call onClick when disabled', () => {
-    const handleClick = vi.fn();
-    render(
-      <MediaBanner imageUrl={IMAGE_URL} disabled onClick={handleClick}>
-        <MediaBannerTitle>Title</MediaBannerTitle>
-      </MediaBanner>,
-    );
-
-    const banner = screen.getByRole('button');
-    expect(banner).toBeDisabled();
-    fireEvent.click(banner);
-    expect(handleClick).not.toHaveBeenCalled();
-  });
-
-  it('should apply disabled background when disabled', () => {
-    const { container } = render(
-      <MediaBanner imageUrl={IMAGE_URL} disabled>
-        <MediaBannerTitle>Title</MediaBannerTitle>
-      </MediaBanner>,
-    );
-
-    expect(container.firstChild).toHaveClass('bg-surface-disabled');
-  });
-
   it('should apply custom className', () => {
     const { container } = render(
       <MediaBanner imageUrl={IMAGE_URL} className='mb-16'>
