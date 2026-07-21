@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type FocusEvent } from 'react';
 
 import { useControllableState } from '../../utils/useControllableState';
 import { DonutRing } from './DonutRing';
@@ -14,6 +14,7 @@ export function DonutChart({
   onActiveIdChange,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
+  const hoverPadding = Math.ceil(geometry.hoverOffset);
 
   const [activeId, setActiveId] = useControllableState({
     prop: activeIdProp,
@@ -23,6 +24,22 @@ export function DonutChart({
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
 
+  const resetActiveId = (): void => {
+    if (activeId !== null) {
+      setActiveId(null);
+    }
+  };
+
+  const handleRingBlur = (event: FocusEvent<HTMLDivElement>): void => {
+    const { relatedTarget } = event;
+    const focusLeftRing =
+      !(relatedTarget instanceof Node) ||
+      !event.currentTarget.contains(relatedTarget);
+    if (focusLeftRing) {
+      resetActiveId();
+    }
+  };
+
   return (
     <div
       role='presentation'
@@ -31,8 +48,10 @@ export function DonutChart({
         position: 'relative',
         width: geometry.box,
         height: geometry.box,
+        padding: hoverPadding,
       }}
-      onMouseLeave={() => setActiveId(null)}
+      onMouseLeave={resetActiveId}
+      onBlur={handleRingBlur}
     >
       <DonutRing
         arcs={arcs}

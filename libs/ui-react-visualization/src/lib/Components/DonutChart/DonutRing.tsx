@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { chartConfig } from '../../config';
 
 import type { DonutArc, DonutGeometry } from './types';
@@ -23,13 +24,19 @@ const RingSegment = ({
       : hover.dimOpacity;
   const { x, y } = isActive ? segment.hoverTranslate : { x: 0, y: 0 };
 
+  const handleSegmentEnter = useCallback(() => {
+    onSegmentEnter(segment.id);
+  }, [segment.id, onSegmentEnter]);
+
   return (
     <path
       data-testid='donut-segment'
       data-segment-id={segment.id}
       d={segment.path}
       fill={segment.color}
-      onMouseEnter={() => onSegmentEnter(segment.id)}
+      tabIndex={0}
+      onMouseEnter={handleSegmentEnter}
+      onFocus={handleSegmentEnter}
       style={{
         cursor: 'pointer',
         opacity,
