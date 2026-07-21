@@ -15,15 +15,26 @@ import type {
 } from './types';
 
 const mediaBannerVariants = cva(
-  'relative flex h-72 w-full cursor-pointer flex-row overflow-hidden rounded-md text-start select-none',
+  'relative flex h-72 w-full flex-row overflow-hidden rounded-md text-start select-none',
   {
     variants: {
+      interactive: {
+        true: 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        false: 'cursor-default',
+      },
       disabled: {
-        false: 'bg-surface hover:bg-surface-hover active:bg-surface-pressed',
+        false: 'bg-surface',
         true: 'bg-surface-disabled',
       },
     },
-    defaultVariants: { disabled: false },
+    compoundVariants: [
+      {
+        interactive: true,
+        disabled: false,
+        className: 'hover:bg-surface-hover active:bg-surface-pressed',
+      },
+    ],
+    defaultVariants: { interactive: false, disabled: false },
   },
 );
 
@@ -60,6 +71,7 @@ export const MediaBanner = ({
   children,
   className,
   disabled: disabledProp = false,
+  onClick,
   ...props
 }: MediaBannerProps) => {
   const { t } = useCommonTranslation();
@@ -81,7 +93,11 @@ export const MediaBanner = ({
       ref={ref}
       type='button'
       disabled={disabled}
-      className={cn(mediaBannerVariants({ disabled }), className)}
+      onClick={disabled ? undefined : onClick}
+      className={cn(
+        mediaBannerVariants({ interactive: !!onClick, disabled }),
+        className,
+      )}
       {...props}
     >
       <DisabledProvider value={{ disabled }}>
@@ -102,6 +118,7 @@ export const MediaBanner = ({
         </div>
         {onClose && (
           <InteractiveIcon
+            data-testid='media-banner-close-button'
             type='button'
             iconType='stroked'
             appearance='white'

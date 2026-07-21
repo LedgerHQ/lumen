@@ -48,6 +48,43 @@ describe('MediaBanner', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
+  it('should call onPress when pressed', () => {
+    const handlePress = jest.fn();
+    const { getByTestId } = render(
+      <TestWrapper>
+        <MediaBanner
+          testID='media-banner'
+          imageUrl={IMAGE_URL}
+          onPress={handlePress}
+        >
+          <MediaBannerTitle>Title</MediaBannerTitle>
+        </MediaBanner>
+      </TestWrapper>,
+    );
+
+    fireEvent.press(getByTestId('media-banner'));
+    expect(handlePress).toHaveBeenCalledTimes(1);
+  });
+
+  it('should expose disabled accessibility state when disabled', () => {
+    const handlePress = jest.fn();
+    const { getByTestId } = render(
+      <TestWrapper>
+        <MediaBanner
+          testID='media-banner'
+          imageUrl={IMAGE_URL}
+          disabled
+          onPress={handlePress}
+        >
+          <MediaBannerTitle>Title</MediaBannerTitle>
+        </MediaBanner>
+      </TestWrapper>,
+    );
+
+    const banner = getByTestId('media-banner');
+    expect(banner.props.accessibilityState?.disabled).toBe(true);
+  });
+
   it('should apply surface background color', () => {
     const { getByTestId } = render(
       <TestWrapper>
@@ -60,6 +97,21 @@ describe('MediaBanner', () => {
     const banner = getByTestId('media-banner');
     expect(banner.props.style.backgroundColor).toBe(
       ledgerLiveThemes.dark.colors.bg.surface,
+    );
+  });
+
+  it('should apply disabled background color when disabled', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <MediaBanner testID='media-banner' imageUrl={IMAGE_URL} disabled>
+          <MediaBannerTitle>Title</MediaBannerTitle>
+        </MediaBanner>
+      </TestWrapper>,
+    );
+
+    const banner = getByTestId('media-banner');
+    expect(banner.props.style.backgroundColor).toBe(
+      ledgerLiveThemes.dark.colors.bg.disabled,
     );
   });
 
