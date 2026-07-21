@@ -3,7 +3,7 @@ import type { AvatarProps } from '../Avatar/types';
 
 export type AvatarButtonProps = Pick<
   AvatarProps,
-  'src' | 'alt' | 'size' | 'fallbackText' | 'fallbackColor'
+  'src' | 'alt' | 'size' | 'fallbackText' | 'fallbackColor' | 'appearance'
 > &
   StyledPressableProps & {
     /**

@@ -21,6 +21,7 @@ export const AvatarButton = ({
   size,
   fallbackText,
   fallbackColor,
+  appearance,
   disabled: disabledProp = false,
   style,
   ...props
@@ -46,6 +47,7 @@ export const AvatarButton = ({
             size={size}
             fallbackText={fallbackText}
             fallbackColor={fallbackColor}
+            appearance={appearance}
           />
           <View
             style={[styles.overlay, pressed && styles.overlayPressed]}

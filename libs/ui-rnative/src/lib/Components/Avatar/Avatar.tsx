@@ -138,7 +138,7 @@ export const Avatar = ({
   lx,
   style,
   src,
-  alt = 'avatar',
+  alt,
   size = 'md',
   fallbackText,
   fallbackColor,

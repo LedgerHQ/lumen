@@ -14,6 +14,7 @@ export const AvatarButton = ({
   imgLoading,
   fallbackText,
   fallbackColor,
+  appearance,
   disabled: disabledProp = false,
   ...buttonProps
 }: AvatarButtonProps) => {
@@ -40,6 +41,7 @@ export const AvatarButton = ({
         imgLoading={imgLoading}
         fallbackText={fallbackText}
         fallbackColor={fallbackColor}
+        appearance={appearance}
       />
       <span className='pointer-events-none absolute inset-0 rounded-full transition-colors group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed' />
     </button>
