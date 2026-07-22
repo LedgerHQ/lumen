@@ -28,12 +28,12 @@ export function DonutChart({
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
 
-  const handleSegmentPress = useCallback(
-    (id: string) => {
-      setActiveId((current) => (current === id ? null : id));
-    },
-    [setActiveId],
-  );
+const handleSegmentPress = useCallback(
+  (id: string) => {
+    setActiveId(activeId === id ? null : id);
+  },
+  [activeId, setActiveId],
+);
 
   // Resolves a tap to a segment via geometry instead of a per-segment onPress,
   // since touch handlers on SVG/Reanimated nodes are unreliable on Android
