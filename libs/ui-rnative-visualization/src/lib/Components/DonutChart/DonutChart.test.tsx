@@ -21,9 +21,6 @@ const renderDonut = (props: Partial<React.ComponentProps<typeof DonutChart>>) =>
     </ThemeProvider>,
   );
 
-// Inverse of `toRingLocalPoint`: maps an arc-space point back to the gesture
-// overlay's screen-pixel space, so tests can drive the same tap-to-segment
-// path the real gesture callback uses.
 const toOverlayPoint = (
   local: { x: number; y: number },
   geometry: DonutGeometry,

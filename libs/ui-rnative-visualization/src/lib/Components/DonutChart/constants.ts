@@ -7,7 +7,6 @@ export type DonutGeometry = {
   cornerRadius: number;
   padAngle: number;
   activeOffset: number;
-  /** Radial hitSlop: how far a tap can land beyond the ring's drawn edges and still hit. */
   hitSlopRadius: number;
 };
 
