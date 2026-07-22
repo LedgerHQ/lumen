@@ -12,7 +12,7 @@ export type TableRootProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -33,7 +33,7 @@ export type TableProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'table'>;
@@ -44,7 +44,7 @@ export type TableHeaderProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'thead'>;
@@ -55,7 +55,7 @@ export type TableBodyProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'tbody'>;
@@ -75,7 +75,7 @@ export type TableRowProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'tr'>;
@@ -91,7 +91,7 @@ export type TableCellProps = {
    */
   children?: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -101,30 +101,69 @@ export type TableCellProps = {
   align?: 'start' | 'end';
 } & Omit<ComponentPropsWithRef<'td'>, 'align'>;
 
-export type TableCellContentProps = {
+export type TableCellItemProps = {
   /**
-   * Text alignment within the cell
+   * The cell item content. Typically a leading element (spot, icon or
+   * crypto-icon) followed by a TableCellContent.
+   */
+  children: ReactNode;
+  /**
+   * Alignment of the cell item content.
+   * Propagated to TableCellContent and its sub-components via context.
    * @default 'start'
    */
   align?: 'start' | 'end';
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentProps = {
   /**
-   * The leading content of the cell
-   * Typically an spot, icon or crypto-icon.
+   * The content (TableCellContentTitle, TableCellContentDescription,
+   * TableCellContentRow).
    */
-  leadingContent?: ReactNode;
+  children: ReactNode;
   /**
-   * The title of the cell.
+   * @optional
    */
-  title?: ReactNode;
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentTitleProps = {
   /**
-   * The description of the cell
+   * The title content
    */
-  description?: ReactNode;
-} & Omit<ComponentPropsWithRef<'div'>, 'children' | 'title'>;
+  children: ReactNode;
+  /**
+   * @optional
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentDescriptionProps = {
+  /**
+   * The description content
+   */
+  children: ReactNode;
+  /**
+   * @optional
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
+
+export type TableCellContentRowProps = {
+  /**
+   * The row content. Typically a TableCellContentDescription alongside
+   * custom trailing content (e.g. a Tag).
+   */
+  children: ReactNode;
+  /**
+   * @optional
+   */
+  className?: string;
+} & ComponentPropsWithRef<'div'>;
 
 export type TableHeaderRowProps = {
   /**
@@ -136,7 +175,7 @@ export type TableHeaderRowProps = {
    */
   colSpan?: number;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -154,7 +193,7 @@ export type TableGroupHeaderRowProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -180,7 +219,7 @@ export type TableHeaderCellProps = {
    */
   trailingContent?: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
   /**
@@ -201,7 +240,7 @@ export type TableActionBarProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -212,7 +251,7 @@ export type TableActionBarLeadingProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
@@ -223,21 +262,21 @@ export type TableActionBarTrailingProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
 export type TableLoadingRowProps = {
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type TableInfoIconProps = {
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;
@@ -248,7 +287,7 @@ export type TableColGroupProps = {
    */
   children: ReactNode;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'colgroup'>;
@@ -262,7 +301,7 @@ export type TableColProps = {
    */
   hideBelow?: Breakpoints;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & ComponentPropsWithRef<'col'>;
@@ -287,7 +326,7 @@ export type TableSortButtonProps = {
    */
   onToggleSort?: (sort: TableSortValue) => void;
   /**
-   * Custom classname
+   * @optional
    */
   className?: string;
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;

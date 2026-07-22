@@ -1,10 +1,14 @@
 import { createPropsResolver } from '@ledgerhq/lumen-utils-shared';
+import type { AvatarSize } from '../Avatar/types';
 import type { DotIndicatorProps } from './types';
 
 export const getDotIndicatorProps = createPropsResolver({
-  // larger avatars (`lg`, `xl`) don't render a dot indicator
   avatar: {
+    xs: { size: 'sm', appearance: 'red' },
     sm: { size: 'lg', appearance: 'red' },
     md: { size: 'xl', appearance: 'red' },
-  } satisfies Record<'sm' | 'md', DotIndicatorProps>,
+    lg: { size: 'xl', appearance: 'red' },
+    xl: { size: 'xl', appearance: 'red' },
+    '2xl': { size: 'xl', appearance: 'red' },
+  } satisfies Record<AvatarSize, DotIndicatorProps>,
 });

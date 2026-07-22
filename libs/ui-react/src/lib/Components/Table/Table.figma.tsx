@@ -9,7 +9,10 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableCellItem,
   TableCellContent,
+  TableCellContentTitle,
+  TableCellContentDescription,
   TableSortButton,
 } from './Table';
 
@@ -18,7 +21,7 @@ figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=11618%3A5962',
   {
     imports: [
-      "import { TableRoot, Table, TableHeader, TableHeaderRow, TableHeaderCell, TableBody, TableRow, TableCell, TableCellContent, TableSortButton } from '@ledgerhq/lumen-ui-react'",
+      "import { TableRoot, Table, TableHeader, TableHeaderRow, TableHeaderCell, TableBody, TableRow, TableCell, TableCellItem, TableCellContent, TableCellContentTitle, TableCellContentDescription, TableSortButton } from '@ledgerhq/lumen-ui-react'",
       "import { CryptoIcon } from '@ledgerhq/crypto-icons'",
     ],
     props: {
@@ -46,13 +49,15 @@ figma.connect(
           <TableBody>
             <TableRow clickable onClick={() => {}}>
               <TableCell>
-                <TableCellContent
-                  leadingContent={
-                    <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
-                  }
-                  title='Bitcoin'
-                  description='BTC'
-                />
+                <TableCellItem>
+                  <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={32} />
+                  <TableCellContent>
+                    <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+                    <TableCellContentDescription>
+                      BTC
+                    </TableCellContentDescription>
+                  </TableCellContent>
+                </TableCellItem>
               </TableCell>
               <TableCell>$1.2T</TableCell>
               <TableCell align='end'>$62,000.00</TableCell>
@@ -60,13 +65,15 @@ figma.connect(
             </TableRow>
             <TableRow clickable onClick={() => {}}>
               <TableCell>
-                <TableCellContent
-                  leadingContent={
-                    <CryptoIcon ledgerId='ethereum' ticker='ETH' size={32} />
-                  }
-                  title='Ethereum'
-                  description='ETH'
-                />
+                <TableCellItem>
+                  <CryptoIcon ledgerId='ethereum' ticker='ETH' size={32} />
+                  <TableCellContent>
+                    <TableCellContentTitle>Ethereum</TableCellContentTitle>
+                    <TableCellContentDescription>
+                      ETH
+                    </TableCellContentDescription>
+                  </TableCellContent>
+                </TableCellItem>
               </TableCell>
               <TableCell>$380B</TableCell>
               <TableCell align='end'>$3,200.00</TableCell>

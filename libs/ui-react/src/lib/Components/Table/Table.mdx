@@ -87,6 +87,21 @@ It is rendered outside `TableRoot` so it doesn't scroll with the table content.
 
 <Canvas of={TableStories.WithNetworkIconsAndActionBar} />
 
+### Cell Content
+
+Compose rich cell content with `TableCellItem` as the root. Place a leading
+element (a `Spot`, icon or crypto-icon) directly inside it, followed by a
+`TableCellContent` that stacks a `TableCellContentTitle` and a
+`TableCellContentDescription`.
+
+Set `align='end'` on `TableCellItem` to right-align the content; it is
+propagated to the content sub-components via context.
+
+For more complex compositions, use `TableCellContentRow` to lay out a
+description alongside custom trailing content (e.g. a `Tag`).
+
+<Canvas of={TableStories.WithComplexCellContent} />
+
 
 ## Accessibility
 
@@ -143,6 +158,58 @@ function MyComponent() {
 ```
 
 ## Advanced Patterns
+
+### Cell Content
+
+Compose cell content with `TableCellItem` and its sub-components instead of a
+single element. A leading element is a direct child; the text column is a
+`TableCellContent`:
+
+```tsx
+import {
+  TableCell,
+  TableCellItem,
+  TableCellContent,
+  TableCellContentTitle,
+  TableCellContentDescription,
+  TableCellContentRow,
+} from '@ledgerhq/lumen-ui-react';
+
+<TableCell>
+  <TableCellItem>
+    <Spot size={40} appearance='icon' icon={Android} />
+    <TableCellContent>
+      <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+      <TableCellContentDescription>BTC</TableCellContentDescription>
+    </TableCellContent>
+  </TableCellItem>
+</TableCell>
+
+<TableCell align='end'>
+  <TableCellItem align='end'>
+    <TableCellContent>
+      <TableCellContentTitle>$62,000.00</TableCellContentTitle>
+      <TableCellContentDescription>+2.4%</TableCellContentDescription>
+    </TableCellContent>
+  </TableCellItem>
+</TableCell>
+```
+
+Use `TableCellContentRow` for richer compositions, e.g. a description next to a
+`Tag`:
+
+```tsx
+<TableCellItem>
+  <Spot size={40} appearance='icon' icon={Android} />
+  <TableCellContent>
+    <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+    <TableCellContentRow>
+      <TableCellContentDescription>BTC</TableCellContentDescription>
+      <Tag appearance='success' size='sm' label='New' />
+    </TableCellContentRow>
+  </TableCellContent>
+</TableCellItem>
+```
 
 ### Sorting
 

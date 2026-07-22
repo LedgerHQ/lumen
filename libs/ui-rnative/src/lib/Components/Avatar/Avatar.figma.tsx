@@ -10,15 +10,13 @@ figma.connect(
       "import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative'",
     ],
     props: {
-      appearance: figma.enum('appearance', {
-        gray: 'gray',
-        transparent: 'transparent',
-      }),
       size: figma.enum('size', {
+        xs: 'xs',
         sm: 'sm',
         md: 'md',
         lg: 'lg',
         xl: 'xl',
+        '2xl': '2xl',
       }),
       showNotification: figma.boolean('show-notification'),
     },
@@ -26,7 +24,6 @@ figma.connect(
       const avatar = (
         <Avatar
           src='https://example-image.com'
-          appearance={props.appearance}
           size={props.size}
           alt="John Doe's Avatar"
         />
