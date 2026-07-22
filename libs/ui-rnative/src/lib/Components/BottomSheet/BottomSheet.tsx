@@ -86,6 +86,7 @@ export const BottomSheet = ({
   snapPoints = 'fullWithOffset',
   backgroundComponent,
   hideHandle = false,
+  footerComponent,
   ref,
   ...props
 }: BottomSheetProps) => {
@@ -206,6 +207,7 @@ export const BottomSheet = ({
        */
       handleComponent={hideHandle ? HiddenHandle : CustomHandle}
       backdropComponent={hideBackdrop ? undefined : renderBackdrop}
+      footerComponent={footerComponent}
     >
       <BottomSheetProvider
         value={{ onBack, hideCloseButton, onHeaderClosePressed }}

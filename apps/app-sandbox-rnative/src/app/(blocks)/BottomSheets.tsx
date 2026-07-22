@@ -5,6 +5,7 @@ import type {
 import {
   BottomSheet,
   BottomSheetFlatList,
+  BottomSheetFooter,
   BottomSheetHeader,
   BottomSheetScrollView,
   BottomSheetView,
@@ -37,9 +38,12 @@ const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
       />
       <BottomSheetFlatList
         data={data}
-        keyExtractor={(item: any) => item.id}
-        renderItem={({ item }: { item: any }) => {
-          const typedItem = item as any;
+        keyExtractor={(item: { id: number }) => item.id}
+        renderItem={({
+          item,
+        }: {
+          item: { title: string; description: string };
+        }) => {
           return (
             <Box
               lx={{
@@ -51,10 +55,10 @@ const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
               }}
             >
               <Text typography='body2SemiBold' lx={{ color: 'base' }}>
-                {typedItem.title}
+                {item.title}
               </Text>
               <Text typography='body3' lx={{ color: 'muted' }}>
-                {typedItem.description}
+                {item.description}
               </Text>
             </Box>
           );
@@ -167,10 +171,45 @@ const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
   );
 };
 
+const BottomSheetWithFooter = ({ ref, ...props }: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={['40%']}
+      maxDynamicContentSize='full'
+      backdropPressBehavior='close'
+      footerComponent={(props) => (
+        <BottomSheetFooter {...props}>
+          <Button appearance='base'>Confirm</Button>
+          <Button appearance='no-background'>Cancel</Button>
+        </BottomSheetFooter>
+      )}
+    >
+      <BottomSheetView>
+        <BottomSheetHeader
+          title='With footer'
+          density='compact'
+          description='This bottom sheet has a sticky footer'
+        />
+        <Box lx={{ paddingHorizontal: 's16' }}>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+            turpis efficitur sit amet.
+          </Text>
+        </Box>
+      </BottomSheetView>
+    </BottomSheet>
+  );
+};
+
 export default function BottomSheets() {
   const flatListsRef = useBottomSheetRef();
   const dynamicSizeRef = useBottomSheetRef();
   const gradientRef = useBottomSheetRef();
+  const withFooterRef = useBottomSheetRef();
 
   return (
     <>
@@ -186,9 +225,16 @@ export default function BottomSheets() {
       <Button appearance='base' onPress={() => gradientRef.current?.present()}>
         Open
       </Button>
+      <Button
+        appearance='base'
+        onPress={() => withFooterRef.current?.present()}
+      >
+        Open
+      </Button>
       <BottomSheetFlatLists ref={flatListsRef} />
       <BottomSheetDynamicSize ref={dynamicSizeRef} />
       <BottomSheetWithGradient ref={gradientRef} />
+      <BottomSheetWithFooter ref={withFooterRef} />
     </>
   );
 }
