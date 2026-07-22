@@ -37,6 +37,7 @@ const RingSegment = ({
       role='button'
       aria-label={isActive ? `${segment.id}, selected` : segment.id}
       tabIndex={0}
+      className='outline-none focus-visible:outline-2 focus-visible:outline-focus'
       onMouseEnter={handleSegmentEnter}
       onFocus={handleSegmentEnter}
       style={{
