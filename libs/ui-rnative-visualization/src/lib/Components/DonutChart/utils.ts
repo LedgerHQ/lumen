@@ -10,6 +10,9 @@ export type DonutArc = {
   color?: string;
   percent: number;
   midAngle: number;
+  /** Angular span (radians, clockwise from 12 o'clock), used for tap hit-testing. */
+  startAngle: number;
+  endAngle: number;
   activeEnabled: boolean;
   activeTranslate: { x: number; y: number };
 };
@@ -64,6 +67,8 @@ export const buildArcs = (
       color: datum.data.segment.color,
       percent: datum.data.percent,
       midAngle,
+      startAngle: datum.startAngle,
+      endAngle: datum.endAngle,
       activeEnabled,
       activeTranslate: activeEnabled
         ? {
@@ -74,6 +79,33 @@ export const buildArcs = (
     };
   });
 };
+
+/**
+ * Resolves which arc (if any) contains a point in the same origin-centered
+ * coordinate space as `segment.path`. A single gesture-capture overlay hit-tests
+ * taps this way instead of attaching a handler per segment, since per-shape
+ * touch handlers on SVG/Reanimated nodes are unreliable on Android
+ * (react-native-svg#1321, reanimated#2995).
+ */
+export const findSegmentIdAtPoint = (
+  arcs: DonutArc[],
+  point: { x: number; y: number },
+  geometry: DonutGeometry,
+): string | null => {
+  const radius = Math.hypot(point.x, point.y);
+  if (radius < geometry.innerRadius || radius > geometry.outerRadius) {
+    return null;
+  }
+
+  const angle = normalizeAngle(Math.atan2(point.x, -point.y));
+  const hit = arcs.find(
+    (arc) => angle >= arc.startAngle && angle < arc.endAngle,
+  );
+  return hit?.id ?? null;
+};
+
+const normalizeAngle = (angle: number): number =>
+  angle < 0 ? angle + 2 * Math.PI : angle;
 
 /**
  * Snap a near-half-circle slice to exactly `π`. d3-shape squares the corners of

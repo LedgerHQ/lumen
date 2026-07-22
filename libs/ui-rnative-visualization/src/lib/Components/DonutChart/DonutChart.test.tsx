@@ -3,8 +3,10 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 
+import { DONUT_GEOMETRY, type DonutGeometry } from './constants';
 import { DonutChart } from './DonutChart';
 import type { DonutSegment } from './types';
+import { buildArcs } from './utils';
 
 const sampleSeries: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
@@ -18,6 +20,52 @@ const renderDonut = (props: Partial<React.ComponentProps<typeof DonutChart>>) =>
       <DonutChart series={sampleSeries} {...props} />
     </ThemeProvider>,
   );
+
+// Inverse of `toRingLocalPoint`: maps an arc-space point back to the gesture
+// overlay's screen-pixel space, so tests can drive the same tap-to-segment
+// path the real gesture callback uses.
+const toOverlayPoint = (
+  local: { x: number; y: number },
+  geometry: DonutGeometry,
+): { x: number; y: number } => {
+  const { box, activeOffset } = geometry;
+  const scale = (box + 2 * activeOffset) / box;
+  const center = box / 2;
+  return {
+    x: (local.x + activeOffset + center) / scale,
+    y: (local.y + activeOffset + center) / scale,
+  };
+};
+
+const pointForSegment = (
+  series: DonutSegment[],
+  id: string,
+  geometry: DonutGeometry = DONUT_GEOMETRY.md,
+): { x: number; y: number } => {
+  const arc = buildArcs(series, geometry).find((a) => a.id === id);
+  if (!arc) throw new Error(`No arc for segment "${id}"`);
+  const midRadius = (geometry.innerRadius + geometry.outerRadius) / 2;
+  return toOverlayPoint(
+    {
+      x: Math.sin(arc.midAngle) * midRadius,
+      y: -Math.cos(arc.midAngle) * midRadius,
+    },
+    geometry,
+  );
+};
+
+const tapSegment = (
+  getByTestId: ReturnType<typeof render>['getByTestId'],
+  series: DonutSegment[],
+  id: string,
+  geometry: DonutGeometry = DONUT_GEOMETRY.md,
+): void => {
+  fireEvent(
+    getByTestId('donut-gesture-overlay'),
+    'end',
+    pointForSegment(series, id, geometry),
+  );
+};
 
 describe('DonutChart', () => {
   it('renders the ring', () => {
@@ -44,6 +92,11 @@ describe('DonutChart', () => {
   it('renders the sm ring (80px)', () => {
     const { getByTestId } = renderDonut({ size: 'sm' });
     expect(getByTestId('donut-ring').props.width).toBe(80);
+  });
+
+  it('renders the tap gesture overlay', () => {
+    const { getByTestId } = renderDonut({});
+    getByTestId('donut-gesture-overlay');
   });
 
   it('skips zero-value segments and renders only the positive ones', () => {
@@ -81,11 +134,13 @@ describe('DonutChart', () => {
       id: string,
     ) => getAllByTestId('donut-segment').find((el) => el.props.id === id);
 
-    it('activates a segment on press and marks it selected', () => {
+    it('activates a segment on tap and marks it selected', () => {
       const onActiveIdChange = jest.fn();
-      const { getAllByTestId } = renderDonut({ onActiveIdChange });
+      const { getByTestId, getAllByTestId } = renderDonut({
+        onActiveIdChange,
+      });
 
-      fireEvent.press(getSegment(getAllByTestId, 'ethereum')!);
+      tapSegment(getByTestId, sampleSeries, 'ethereum');
 
       expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
 
@@ -99,19 +154,34 @@ describe('DonutChart', () => {
       });
     });
 
-    it('deselects the active segment when pressed again', () => {
+    it('deselects the active segment when tapped again', () => {
       const onActiveIdChange = jest.fn();
-      const { getAllByTestId } = renderDonut({ onActiveIdChange });
+      const { getByTestId, getAllByTestId } = renderDonut({
+        onActiveIdChange,
+      });
 
-      fireEvent.press(getSegment(getAllByTestId, 'bitcoin')!);
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
       onActiveIdChange.mockClear();
 
-      fireEvent.press(getSegment(getAllByTestId, 'bitcoin')!);
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
 
       expect(onActiveIdChange).toHaveBeenCalledWith(null);
       getAllByTestId('donut-segment').forEach((segment) => {
         expect(segment.props.accessibilityLabel).toBe(segment.props.id);
       });
+    });
+
+    it('ignores taps outside the ring band (the empty hole)', () => {
+      const onActiveIdChange = jest.fn();
+      const { getByTestId } = renderDonut({ onActiveIdChange });
+
+      const { box } = DONUT_GEOMETRY.md;
+      fireEvent(getByTestId('donut-gesture-overlay'), 'end', {
+        x: box / 2,
+        y: box / 2,
+      });
+
+      expect(onActiveIdChange).not.toHaveBeenCalled();
     });
 
     it('respects controlled activeId for selection state', () => {
@@ -129,12 +199,12 @@ describe('DonutChart', () => {
 
     it('calls onActiveIdChange in controlled mode without self-updating', () => {
       const onActiveIdChange = jest.fn();
-      const { getAllByTestId } = renderDonut({
+      const { getByTestId, getAllByTestId } = renderDonut({
         activeId: 'bitcoin',
         onActiveIdChange,
       });
 
-      fireEvent.press(getSegment(getAllByTestId, 'ethereum')!);
+      tapSegment(getByTestId, sampleSeries, 'ethereum');
 
       expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
 
@@ -159,12 +229,15 @@ describe('DonutChart', () => {
 
     it('still fires onActiveIdChange for a single segment', () => {
       const onActiveIdChange = jest.fn();
-      const { getAllByTestId } = renderDonut({
-        series: [{ id: 'bitcoin', label: 'Bitcoin', value: 100 }],
+      const singleSeries: DonutSegment[] = [
+        { id: 'bitcoin', label: 'Bitcoin', value: 100 },
+      ];
+      const { getByTestId, getAllByTestId } = renderDonut({
+        series: singleSeries,
         onActiveIdChange,
       });
 
-      fireEvent.press(getAllByTestId('donut-segment')[0]);
+      tapSegment(getByTestId, singleSeries, 'bitcoin');
 
       expect(onActiveIdChange).toHaveBeenCalledWith('bitcoin');
       expect(getAllByTestId('donut-segment')[0].props.accessibilityLabel).toBe(

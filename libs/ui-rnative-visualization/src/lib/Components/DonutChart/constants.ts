@@ -41,4 +41,23 @@ export const getDonutViewBox = (geometry: DonutGeometry): string => {
   return `-${padding} -${padding} ${paddedBox} ${paddedBox}`;
 };
 
+/**
+ * Converts a point from the gesture overlay's screen-pixel space (sized to
+ * `geometry.box`, stacked on top of the ring) into the origin-centered space
+ * `segment.path` is drawn in, undoing the `viewBox` padding/scale from
+ * `getDonutViewBox` so tap coordinates line up with arc hit-testing.
+ */
+export const toRingLocalPoint = (
+  point: { x: number; y: number },
+  geometry: DonutGeometry,
+): { x: number; y: number } => {
+  const { box, activeOffset } = geometry;
+  const scale = (box + 2 * activeOffset) / box;
+  const center = box / 2;
+  return {
+    x: point.x * scale - activeOffset - center,
+    y: point.y * scale - activeOffset - center,
+  };
+};
+
 export type DonutSizeKey = keyof typeof DONUT_GEOMETRY;

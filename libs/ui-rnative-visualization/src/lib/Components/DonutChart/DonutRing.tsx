@@ -20,15 +20,9 @@ type RingSegmentProps = {
   segment: DonutArc;
   defaultColor: string;
   activeId: string | null;
-  onSegmentPress: (id: string) => void;
 };
 
-const RingSegment = ({
-  segment,
-  defaultColor,
-  activeId,
-  onSegmentPress,
-}: RingSegmentProps) => {
+const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
   const isActive = activeId === segment.id;
   const opacity = useSharedValue(1);
   const translateX = useSharedValue(0);
@@ -71,17 +65,15 @@ const RingSegment = ({
   }));
 
   return (
-    <G onPress={() => onSegmentPress(segment.id)}>
-      <AnimatedPath
-        testID='donut-segment'
-        id={segment.id}
-        d={segment.path}
-        fill={segment.color ?? defaultColor}
-        accessible
-        accessibilityLabel={isActive ? `${segment.id}, selected` : segment.id}
-        animatedProps={animatedProps}
-      />
-    </G>
+    <AnimatedPath
+      testID='donut-segment'
+      id={segment.id}
+      d={segment.path}
+      fill={segment.color ?? defaultColor}
+      accessible
+      accessibilityLabel={isActive ? `${segment.id}, selected` : segment.id}
+      animatedProps={animatedProps}
+    />
   );
 };
 
@@ -100,16 +92,13 @@ type DonutRingProps = {
   geometry: DonutGeometry;
   accessibilityLabel?: string;
   activeId: string | null;
-  onSegmentPress: (id: string) => void;
 };
 
-// Internal, not exported. Arc paths are origin-centered, so the group is translated to the viewBox center.
 export const DonutRing = ({
   arcs,
   geometry,
   accessibilityLabel,
   activeId,
-  onSegmentPress,
 }: DonutRingProps) => {
   const { theme } = useTheme();
   const { box } = geometry;
@@ -133,7 +122,6 @@ export const DonutRing = ({
               segment={segment}
               defaultColor={theme.colors.bg.mutedStrong}
               activeId={activeId}
-              onSegmentPress={onSegmentPress}
             />
           ))
         ) : (

@@ -1,8 +1,13 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { DONUT_GEOMETRY, getDonutViewBox } from './constants';
+import { DONUT_GEOMETRY, getDonutViewBox, toRingLocalPoint } from './constants';
 import type { DonutSegment } from './types';
-import { buildArcs, buildEmptyRingPath, getSegmentPercents } from './utils';
+import {
+  buildArcs,
+  buildEmptyRingPath,
+  findSegmentIdAtPoint,
+  getSegmentPercents,
+} from './utils';
 
 const series: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
@@ -159,5 +164,74 @@ describe('buildArcs', () => {
 describe('buildEmptyRingPath', () => {
   it('builds a non-empty full-ring path', () => {
     expect(buildEmptyRingPath(DONUT_GEOMETRY.md).length).toBeGreaterThan(0);
+  });
+});
+
+describe('toRingLocalPoint', () => {
+  it('maps the gesture overlay center to the arc-space origin', () => {
+    const { box } = DONUT_GEOMETRY.md;
+    expect(
+      toRingLocalPoint({ x: box / 2, y: box / 2 }, DONUT_GEOMETRY.md),
+    ).toEqual({ x: 0, y: 0 });
+  });
+
+  it('maps the overlay top-left corner outside the outer radius', () => {
+    const point = toRingLocalPoint({ x: 0, y: 0 }, DONUT_GEOMETRY.md);
+    const radius = Math.hypot(point.x, point.y);
+    expect(radius).toBeGreaterThan(DONUT_GEOMETRY.md.outerRadius);
+  });
+});
+
+describe('findSegmentIdAtPoint', () => {
+  const midRadius =
+    (DONUT_GEOMETRY.md.innerRadius + DONUT_GEOMETRY.md.outerRadius) / 2;
+  const twoHalves: DonutSegment[] = [
+    { id: 'a', label: 'A', value: 1 },
+    { id: 'b', label: 'B', value: 1 },
+  ];
+
+  it('returns null inside the hole (below innerRadius)', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    expect(
+      findSegmentIdAtPoint(arcs, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
+    ).toBeNull();
+  });
+
+  it('returns null beyond outerRadius', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    expect(
+      findSegmentIdAtPoint(arcs, { x: 0, y: -200 }, DONUT_GEOMETRY.md),
+    ).toBeNull();
+  });
+
+  it('resolves a point at the top of the ring to the first slice', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    expect(
+      findSegmentIdAtPoint(arcs, { x: 0, y: -midRadius }, DONUT_GEOMETRY.md),
+    ).toBe('a');
+  });
+
+  it('resolves a point at the bottom of the ring to the second slice', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    expect(
+      findSegmentIdAtPoint(arcs, { x: 0, y: midRadius }, DONUT_GEOMETRY.md),
+    ).toBe('b');
+  });
+
+  it('resolves each series segment at its own midAngle', () => {
+    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
+    arcs.forEach((arc) => {
+      const point = {
+        x: Math.sin(arc.midAngle) * midRadius,
+        y: -Math.cos(arc.midAngle) * midRadius,
+      };
+      expect(findSegmentIdAtPoint(arcs, point, DONUT_GEOMETRY.md)).toBe(arc.id);
+    });
+  });
+
+  it('returns null for an empty series', () => {
+    expect(
+      findSegmentIdAtPoint([], { x: 0, y: -midRadius }, DONUT_GEOMETRY.md),
+    ).toBeNull();
   });
 });
