@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, getButtonA11yProps } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
@@ -47,14 +47,11 @@ export const MediaBanner = ({
 
   const showImage = imageUrl && !imageLoadError;
 
-  const Wrapper = (onClick ? 'button' : 'div') as 'button';
-
   return (
     <div className={cn('relative w-full', className)}>
-      <Wrapper
+      <div
         ref={ref}
-        {...(onClick ? { type: 'button' as const } : {})}
-        onClick={onClick}
+        {...getButtonA11yProps({ onClick })}
         className={mediaBannerVariants({ interactive: !!onClick })}
         {...props}
       >
@@ -79,7 +76,7 @@ export const MediaBanner = ({
             className='pointer-events-none absolute inset-0 group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed'
           />
         )}
-      </Wrapper>
+      </div>
       {onClose && (
         <InteractiveIcon
           data-testid='media-banner-close-button'

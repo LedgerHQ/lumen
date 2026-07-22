@@ -24,7 +24,7 @@ export type MediaBannerProps = {
    * The banner content (MediaBannerTitle, MediaBannerDescription).
    */
   children: ReactNode;
-} & Omit<ComponentPropsWithRef<'button'>, 'children'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 /**
  * Props for the MediaBannerTitle component.
