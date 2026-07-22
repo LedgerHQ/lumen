@@ -16,6 +16,7 @@ export default function MediaBanners() {
       {showBanner1 && (
         <MediaBanner
           imageUrl='https://images.unsplash.com/photo-1663741954108-d15d514529ef'
+          onPress={() => ''}
           onClose={() => setShowBanner1(false)}
         >
           <MediaBannerTitle>
@@ -30,6 +31,7 @@ export default function MediaBanners() {
       {showBanner2 && (
         <MediaBanner
           imageUrl='https://images.unsplash.com/photo-1663741954108-d15d514529ef'
+          onPress={() => ''}
           onClose={() => setShowBanner2(false)}
         >
           <MediaBannerTitle>Firmware Update</MediaBannerTitle>

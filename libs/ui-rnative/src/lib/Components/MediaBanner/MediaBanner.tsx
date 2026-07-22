@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { useCommonTranslation } from '../../../i18n';
 import { useStyleSheet, useTheme } from '../../../styles';
 import { Close } from '../../Symbols';
@@ -20,6 +20,7 @@ export function MediaBanner({
   lx,
   style,
   imageUrl,
+  onPress,
   onClose,
   closeAccessibilityLabel,
   children,
@@ -43,6 +44,7 @@ export function MediaBanner({
         overflow: 'hidden',
         flexDirection: 'row',
         minHeight: t.sizes.s72,
+        userSelect: 'none',
       },
       contentWrapper: {
         flex: 1,
@@ -65,31 +67,55 @@ export function MediaBanner({
   );
 
   return (
-    <Pressable lx={lx} style={[styles.container, style]} {...props}>
-      <Box style={styles.contentWrapper}>
-        <Box style={styles.contentContainer}>{children}</Box>
-      </Box>
-      <Box style={{ width: 120 }}>
-        {showImage && (
-          <Image
-            source={{ uri: imageUrl }}
-            style={StyleSheet.absoluteFill}
-            resizeMode='cover'
-            onError={() => setImageLoadError(true)}
-            accessible={false}
-          />
+    <Box lx={lx} style={{ position: 'relative' }}>
+      <Pressable
+        style={[styles.container, style]}
+        onPress={onPress}
+        accessibilityRole={onPress ? 'button' : 'none'}
+        {...props}
+      >
+        {({ pressed }) => (
+          <>
+            <Box style={styles.contentWrapper}>
+              <Box style={styles.contentContainer}>{children}</Box>
+            </Box>
+            <Box style={{ width: 120 }}>
+              {showImage && (
+                <Image
+                  source={{ uri: imageUrl }}
+                  style={StyleSheet.absoluteFill}
+                  resizeMode='cover'
+                  onError={() => setImageLoadError(true)}
+                  accessible={false}
+                />
+              )}
+              <LinearGradient
+                direction='to-topright'
+                stops={[
+                  { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
+                  { color: t.colors.bg.black, opacity: 0.8 },
+                ]}
+                style={StyleSheet.absoluteFill}
+                accessible={false}
+                pointerEvents='none'
+              />
+            </Box>
+            {onPress && (
+              <View
+                pointerEvents='none'
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    backgroundColor: pressed
+                      ? t.colors.bg.baseTransparentPressed
+                      : t.colors.bg.baseTransparent,
+                  },
+                ]}
+              />
+            )}
+          </>
         )}
-        <LinearGradient
-          direction='to-topright'
-          stops={[
-            { color: t.colors.bg.black, opacity: 0, offset: 0.67 },
-            { color: t.colors.bg.black, opacity: 0.8 },
-          ]}
-          style={StyleSheet.absoluteFill}
-          accessible={false}
-          pointerEvents='none'
-        />
-      </Box>
+      </Pressable>
       {onClose && (
         <Box style={styles.closeButton}>
           <InteractiveIcon
@@ -106,7 +132,7 @@ export function MediaBanner({
           />
         </Box>
       )}
-    </Pressable>
+    </Box>
   );
 }
 
@@ -123,9 +149,7 @@ export function MediaBannerTitle({
     (t) => ({
       title: StyleSheet.flatten([
         t.typographies.body2SemiBold,
-        {
-          color: t.colors.text.base,
-        },
+        { color: t.colors.text.base },
       ]),
     }),
     [],
@@ -151,9 +175,7 @@ export function MediaBannerDescription({
     (t) => ({
       description: StyleSheet.flatten([
         t.typographies.body3,
-        {
-          color: t.colors.text.muted,
-        },
+        { color: t.colors.text.muted },
       ]),
     }),
     [],

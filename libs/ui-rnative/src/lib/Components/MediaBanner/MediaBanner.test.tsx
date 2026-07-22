@@ -48,6 +48,24 @@ describe('MediaBanner', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
+  it('should call onPress when pressed', () => {
+    const handlePress = jest.fn();
+    const { getByTestId } = render(
+      <TestWrapper>
+        <MediaBanner
+          testID='media-banner'
+          imageUrl={IMAGE_URL}
+          onPress={handlePress}
+        >
+          <MediaBannerTitle>Title</MediaBannerTitle>
+        </MediaBanner>
+      </TestWrapper>,
+    );
+
+    fireEvent.press(getByTestId('media-banner'));
+    expect(handlePress).toHaveBeenCalledTimes(1);
+  });
+
   it('should apply surface background color', () => {
     const { getByTestId } = render(
       <TestWrapper>

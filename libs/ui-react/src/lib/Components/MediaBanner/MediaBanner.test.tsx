@@ -31,7 +31,7 @@ describe('MediaBanner', () => {
       </MediaBanner>,
     );
 
-    const closeButton = screen.getByRole('button');
+    const closeButton = screen.getByTestId('media-banner-close-button');
     expect(closeButton).toBeInTheDocument();
     fireEvent.click(closeButton);
     expect(handleClose).toHaveBeenCalledTimes(1);
@@ -50,7 +50,7 @@ describe('MediaBanner', () => {
       </MediaBanner>,
     );
 
-    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByTestId('media-banner-close-button'));
     expect(handleClose).toHaveBeenCalledTimes(1);
     expect(handleClick).not.toHaveBeenCalled();
   });
@@ -62,7 +62,21 @@ describe('MediaBanner', () => {
       </MediaBanner>,
     );
 
-    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('media-banner-close-button'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should call onClick when clicked', () => {
+    const handleClick = vi.fn();
+    render(
+      <MediaBanner imageUrl={IMAGE_URL} onClick={handleClick}>
+        <MediaBannerTitle>Title</MediaBannerTitle>
+      </MediaBanner>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('should apply custom className', () => {
