@@ -34,6 +34,8 @@ const RingSegment = ({
       data-segment-id={segment.id}
       d={segment.path}
       fill={segment.color}
+      role='button'
+      aria-label={isActive ? `${segment.id}, selected` : segment.id}
       tabIndex={0}
       onMouseEnter={handleSegmentEnter}
       onFocus={handleSegmentEnter}
@@ -83,7 +85,7 @@ export const DonutRing = ({
       width={box}
       height={box}
       viewBox={`0 0 ${box} ${box}`}
-      role='img'
+      role={hasSegments ? 'group' : 'img'}
       aria-label={ariaLabel}
       style={{ display: 'block', overflow: 'visible' }}
     >

@@ -1,7 +1,7 @@
+import { useControllableState } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { useControllableState } from '../../utils/useControllableState';
 import { DONUT_GEOMETRY } from './constants';
 import { DonutRing } from './DonutRing';
 import type { DonutChartProps } from './types';

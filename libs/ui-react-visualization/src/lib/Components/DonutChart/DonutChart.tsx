@@ -1,6 +1,6 @@
+import { useControllableState } from '@ledgerhq/lumen-ui-react';
 import { useMemo, type FocusEvent } from 'react';
 
-import { useControllableState } from '../../utils/useControllableState';
 import { DonutRing } from './DonutRing';
 import type { DonutChartProps } from './types';
 import { buildArcs, DONUT_GEOMETRY } from './utils';
