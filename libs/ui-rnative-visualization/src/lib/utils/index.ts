@@ -7,4 +7,3 @@ export type {
   NumericScale,
   Series,
 } from './types';
-export { useControllableState } from './useControllableState';
