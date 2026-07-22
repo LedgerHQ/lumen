@@ -57,9 +57,6 @@ export function DonutChart({
     [handleTap],
   );
 
-  // Resolves a tap to a segment via geometry instead of a per-segment onPress,
-  // since touch handlers on SVG/Reanimated nodes are unreliable on Android
-  // (react-native-svg#1321, reanimated#2995).
   const handleTap = useCallback(
     (point: { x: number; y: number }) => {
       const localPoint = toRingLocalPoint(point, geometry);
