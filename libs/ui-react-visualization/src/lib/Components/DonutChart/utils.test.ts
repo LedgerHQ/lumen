@@ -6,6 +6,7 @@ import {
   buildArcs,
   buildEmptyRingPath,
   DONUT_GEOMETRY,
+  getDonutViewBox,
   getSegmentPercents,
   resolveSegmentColor,
 } from './utils';
@@ -15,6 +16,15 @@ const series: DonutSegment[] = [
   { id: 'b', label: 'B', value: 30 },
   { id: 'c', label: 'C', value: 20 },
 ];
+
+describe('getDonutViewBox', () => {
+  it('pads the viewBox by hoverOffset on every side, matching the RN ring', () => {
+    expect(getDonutViewBox(DONUT_GEOMETRY.md)).toBe(
+      `-3.36 -3.36 174.72 174.72`,
+    );
+    expect(getDonutViewBox(DONUT_GEOMETRY.sm)).toBe(`-2 -2 84 84`);
+  });
+});
 
 describe('DONUT_GEOMETRY', () => {
   it('matches the Figma box sizes (md=168, sm=80)', () => {

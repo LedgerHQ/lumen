@@ -10,6 +10,12 @@ export const DONUT_GEOMETRY: Readonly<Record<DonutSize, DonutGeometry>> =
 export const resolveSegmentColor = (segment: DonutSegment): string =>
   segment.color ?? chartConfig.donut.defaultSegmentColor;
 
+export const getDonutViewBox = (geometry: DonutGeometry): string => {
+  const { box, hoverOffset } = geometry;
+  const paddedBox = box + 2 * hoverOffset;
+  return `-${hoverOffset} -${hoverOffset} ${paddedBox} ${paddedBox}`;
+};
+
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {
   const total = series.reduce((sum, s) => sum + Math.max(s.value, 0), 0);

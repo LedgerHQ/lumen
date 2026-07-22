@@ -64,6 +64,7 @@ const tapSegment = (
     getByTestId('donut-gesture-overlay'),
     'end',
     pointForSegment(series, id, geometry),
+    true,
   );
 };
 
@@ -176,10 +177,26 @@ describe('DonutChart', () => {
       const { getByTestId } = renderDonut({ onActiveIdChange });
 
       const { box } = DONUT_GEOMETRY.md;
-      fireEvent(getByTestId('donut-gesture-overlay'), 'end', {
-        x: box / 2,
-        y: box / 2,
-      });
+      fireEvent(
+        getByTestId('donut-gesture-overlay'),
+        'end',
+        { x: box / 2, y: box / 2 },
+        true,
+      );
+
+      expect(onActiveIdChange).not.toHaveBeenCalled();
+    });
+
+    it('ignores a rejected/cancelled tap even over a segment', () => {
+      const onActiveIdChange = jest.fn();
+      const { getByTestId } = renderDonut({ onActiveIdChange });
+
+      fireEvent(
+        getByTestId('donut-gesture-overlay'),
+        'end',
+        pointForSegment(sampleSeries, 'ethereum'),
+        false,
+      );
 
       expect(onActiveIdChange).not.toHaveBeenCalled();
     });
@@ -211,7 +228,7 @@ describe('DonutChart', () => {
       const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
       expect(bitcoin.props.accessibilityLabel).toBe('bitcoin, selected');
       expect(
-        getSegment(getAllByTestId, 'ethereum')!.props.accessibilityLabel,
+        getSegment(getAllByTestId, 'ethereum')?.props.accessibilityLabel,
       ).toBe('ethereum');
     });
 

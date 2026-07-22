@@ -51,9 +51,11 @@ export function DonutChart({
 
   const tap = useMemo(
     () =>
-      Gesture.Tap().onEnd((e) => {
+      Gesture.Tap().onEnd((e, success) => {
         'worklet';
-        scheduleOnRN(handleTap, { x: e.x, y: e.y });
+        if (success) {
+          scheduleOnRN(handleTap, { x: e.x, y: e.y });
+        }
       }),
     [handleTap],
   );

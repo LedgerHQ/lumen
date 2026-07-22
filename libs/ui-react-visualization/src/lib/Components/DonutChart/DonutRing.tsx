@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { chartConfig } from '../../config';
 
 import type { DonutArc, DonutGeometry } from './types';
-import { buildEmptyRingPath } from './utils';
+import { buildEmptyRingPath, getDonutViewBox } from './utils';
 
 const { hover } = chartConfig.donut;
 
@@ -85,7 +85,7 @@ export const DonutRing = ({
       data-testid='donut-ring'
       width={box}
       height={box}
-      viewBox={`0 0 ${box} ${box}`}
+      viewBox={getDonutViewBox(geometry)}
       role={hasSegments ? 'group' : 'img'}
       aria-label={ariaLabel}
       style={{ display: 'block', overflow: 'visible' }}
