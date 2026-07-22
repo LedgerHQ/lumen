@@ -22,6 +22,7 @@ const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
     title: `Item ${i + 1}`,
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
   }));
+  type Data = (typeof data)[number];
 
   return (
     <BottomSheet
@@ -38,12 +39,8 @@ const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
       />
       <BottomSheetFlatList
         data={data}
-        keyExtractor={(item: { id: number }) => item.id}
-        renderItem={({
-          item,
-        }: {
-          item: { title: string; description: string };
-        }) => {
+        keyExtractor={(item: { id: Pick<Data, 'id'> }) => item.id}
+        renderItem={({ item }: { item: Omit<Data, 'id'> }) => {
           return (
             <Box
               lx={{
