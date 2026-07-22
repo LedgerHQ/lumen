@@ -81,11 +81,10 @@ export const buildArcs = (
 };
 
 /**
- * Resolves which arc (if any) contains a point in the same origin-centered
- * coordinate space as `segment.path`. A single gesture-capture overlay hit-tests
- * taps this way instead of attaching a handler per segment, since per-shape
- * touch handlers on SVG/Reanimated nodes are unreliable on Android
- * (react-native-svg#1321, reanimated#2995).
+ * Resolves which arc (if any) contains a point in `segment.path`'s space.
+ * Hit-tests via a single gesture overlay instead of per-segment handlers,
+ * which are unreliable on Android (react-native-svg#1321, reanimated#2995).
+ * `hitSlopRadius` widens the radial bounds for near-miss taps.
  */
 export const findSegmentIdAtPoint = (
   arcs: DonutArc[],
@@ -93,7 +92,10 @@ export const findSegmentIdAtPoint = (
   geometry: DonutGeometry,
 ): string | null => {
   const radius = Math.hypot(point.x, point.y);
-  if (radius < geometry.innerRadius || radius > geometry.outerRadius) {
+  if (
+    radius < geometry.innerRadius - geometry.hitSlopRadius ||
+    radius > geometry.outerRadius + geometry.hitSlopRadius
+  ) {
     return null;
   }
 

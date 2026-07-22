@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
+import type { DonutGeometry } from './constants';
 import { DONUT_GEOMETRY, getDonutViewBox, toRingLocalPoint } from './constants';
 import type { DonutSegment } from './types';
 import {
@@ -232,6 +233,49 @@ describe('findSegmentIdAtPoint', () => {
   it('returns null for an empty series', () => {
     expect(
       findSegmentIdAtPoint([], { x: 0, y: -midRadius }, DONUT_GEOMETRY.md),
+    ).toBeNull();
+  });
+
+  it.each<[string, DonutGeometry]>([
+    ['md', DONUT_GEOMETRY.md],
+    ['sm', DONUT_GEOMETRY.sm],
+  ])(
+    'extends the tappable radius outward by hitSlopRadius (%s)',
+    (_size, geometry) => {
+      const arcs = buildArcs(twoHalves, geometry);
+      const justOutside = geometry.outerRadius + geometry.hitSlopRadius - 1;
+      expect(
+        findSegmentIdAtPoint(arcs, { x: 0, y: -justOutside }, geometry),
+      ).toBe('a');
+    },
+  );
+
+  it('still rejects taps beyond the padded outer radius', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const { outerRadius, hitSlopRadius } = DONUT_GEOMETRY.md;
+    const wayOutside = outerRadius + hitSlopRadius + 1;
+    expect(
+      findSegmentIdAtPoint(arcs, { x: 0, y: -wayOutside }, DONUT_GEOMETRY.md),
+    ).toBeNull();
+  });
+
+  it('extends the tappable radius inward into the hole by hitSlopRadius', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const { innerRadius, hitSlopRadius } = DONUT_GEOMETRY.md;
+    const justInsideHole = innerRadius - hitSlopRadius + 1;
+    expect(
+      findSegmentIdAtPoint(
+        arcs,
+        { x: 0, y: -justInsideHole },
+        DONUT_GEOMETRY.md,
+      ),
+    ).toBe('a');
+  });
+
+  it('still rejects taps deep inside the hole', () => {
+    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    expect(
+      findSegmentIdAtPoint(arcs, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
     ).toBeNull();
   });
 });

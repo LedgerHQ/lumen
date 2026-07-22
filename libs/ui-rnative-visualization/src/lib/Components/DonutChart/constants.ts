@@ -7,6 +7,8 @@ export type DonutGeometry = {
   cornerRadius: number;
   padAngle: number;
   activeOffset: number;
+  /** Radial hitSlop: how far a tap can land beyond the ring's drawn edges and still hit. */
+  hitSlopRadius: number;
 };
 
 export const DONUT_GEOMETRY = {
@@ -17,6 +19,7 @@ export const DONUT_GEOMETRY = {
     cornerRadius: 4,
     padAngle: 0.06,
     activeOffset: 3.36,
+    hitSlopRadius: 12,
   },
   sm: {
     box: 80,
@@ -25,6 +28,7 @@ export const DONUT_GEOMETRY = {
     cornerRadius: 2,
     padAngle: 0.08,
     activeOffset: 2,
+    hitSlopRadius: 8,
   },
 } as const satisfies Record<string, DonutGeometry>;
 
