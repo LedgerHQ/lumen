@@ -4,6 +4,7 @@ import {
   type AvatarColorKey,
 } from '@ledgerhq/lumen-utils-shared';
 
+// either light or dark works, they're the same regardless of theme
 const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, string> =
   primitiveColorTokens.light.avatar;
 
