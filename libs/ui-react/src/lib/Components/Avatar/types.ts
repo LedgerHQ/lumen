@@ -1,5 +1,7 @@
 import type { ComponentPropsWithRef } from 'react';
 
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 export type AvatarProps = {
   /**
    * Image source URL. When undefined or on load error, displays a fallback icon.
@@ -12,18 +14,11 @@ export type AvatarProps = {
    */
   alt?: string;
   /**
-   * The visual appearance of the avatar background: `gray` or `transparent`.
-   * @optional
-   * @default transparent
-   */
-  appearance?: 'gray' | 'transparent';
-
-  /**
-   * The size variant of the avatar: `sm`, `md`, `lg`, `xl`.
+   * The size variant of the avatar.
    * @optional
    * @default md
    */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: AvatarSize;
   /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    * @optional
@@ -37,4 +32,24 @@ export type AvatarProps = {
    * @default undefined (browser default: eager)
    */
   imgLoading?: 'eager' | 'lazy';
+  /**
+   * Background color behind the fallback when no image is displayed.
+   * Use `resolveAvatarColor` from `@ledgerhq/lumen-ui-react` to derive
+   * a stable pastel color from an identifier such as a user id.
+   * @optional
+   */
+  fallbackColor?: string;
+  /**
+   * Short text shown in place of the fallback icon when no image is displayed,
+   * typically a user's initials.
+   * @optional
+   */
+  fallbackText?: string;
+  /**
+   * Appearance for the avatar.
+   * - `thin`: 1px ring using the icon border color
+   * - `thick`: 2px ring using the muted subtle transparent border color
+   * @optional
+   */
+  appearance?: 'thin' | 'thick';
 } & ComponentPropsWithRef<'div'>;

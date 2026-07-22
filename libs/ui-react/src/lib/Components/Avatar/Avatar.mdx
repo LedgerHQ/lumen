@@ -15,7 +15,7 @@ import {
 
 ## Introduction
 
-The Avatar component displays a circular user profile image with automatic fallback to a User icon when the image is unavailable or fails to load. It supports an optional notification indicator and four size variants.
+The Avatar component displays a circular user profile image with automatic fallback (initials or a User icon) when the image is unavailable or fails to load. It supports an optional notification indicator and six size variants.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
 
@@ -25,7 +25,7 @@ The Avatar component displays a circular user profile image with automatic fallb
 
 - **Image/Fallback Icon**: The circular user image or User icon fallback displayed when image is unavailable
 - **Notification Indicator (optional)**: A red dot positioned at the top-right corner to indicate notifications
-- **Container**: Rounded full background with muted-transparent styling
+- **Container**: Rounded-full container with a subtle bordered background, or a solid `fallbackColor` when showing a fallback
 
 ## Properties
 
@@ -36,27 +36,44 @@ The Avatar component displays a circular user profile image with automatic fallb
 
 ### Size
 
-Avatars come in four different sizes:
+Avatars come in six sizes: `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
 
 <Canvas of={AvatarStories.SizeShowcase} />
-
-### Appearance
-
-The `appearance` prop controls the background color of the avatar container.
-
-- **`gray`**: Uses a muted gray background (`bg-muted`)
-- **`transparent`**: Uses a semi-transparent muted background (`bg-muted-transparent`) — default
-
-<Canvas of={AvatarStories.AppearanceShowcase} />
 
 ### States
 
 The Avatar component handles two primary states automatically:
 
 - **With Image**: Displays the provided image when `src` is valid and loads successfully
-- **Fallback**: Shows a User icon when `src` is undefined or the image fails to load
+- **Fallback**: Shows `fallbackText` (e.g. initials) when provided, otherwise a User icon, when `src` is undefined or the image fails to load
+
+### Fallback
+
+When no image is shown, the Avatar renders a fallback. Provide `fallbackText` for initials, and pass a `fallbackColor` to give each user a stable background color. Use `resolveAvatarColor` to derive that color deterministically from an identifier such as a user id:
+
+```tsx
+import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
+
+<Avatar
+  fallbackColor={resolveAvatarColor(user.id)}
+  fallbackText={user.initials}
+  alt={user.name}
+/>;
+```
 
 <Canvas of={AvatarStories.FallbackShowcase} />
+
+
+### Appearance
+
+Use `appearance` to display an inset ring around the avatar. Two variants are available:
+
+- `thin` — 1px ring, `border-icon` color
+- `thick` — 2px ring, `border-muted-subtle-transparent` color
+
+Omit the prop (or leave it `undefined`) for no ring.
+
+<Canvas of={AvatarStories.AppearanceShowcase} />
 
 ### Notification Indicator
 
@@ -72,8 +89,6 @@ import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-r
   <Avatar src="https://example.com/photo.jpg" size="md" />
 </DotIndicator>;
 ```
-
-> The notification dot is only supported on the `sm` and `md` sizes.
 
 > When the dot conveys state to the user, pass an `aria-label` to `DotIndicator`.
 
@@ -246,6 +261,15 @@ function UserProfile() {
     />
   );
 }
+```
+
+### Appearance
+
+Use the `appearance` prop to display a predefined inset ring:
+
+```tsx
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thin" />
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thick" />
 ```
 
 ### Custom Styling

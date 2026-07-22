@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toPascalCase } from './string.js';
+import { hashString, toPascalCase } from './string.js';
 
 describe('toPascalCase', () => {
   it('should convert kebab-case to PascalCase', () => {
@@ -81,5 +81,19 @@ describe('toPascalCase', () => {
     expect(toPascalCase('a-b-c')).toBe('ABC');
     expect(toPascalCase('x_y_z')).toBe('XYZ');
     expect(toPascalCase('i o s')).toBe('IOS');
+  });
+});
+
+describe('hashString', () => {
+  it('should be deterministic for the same input', () => {
+    expect(hashString('user-123')).toBe(hashString('user-123'));
+  });
+
+  it('should produce different hashes for different inputs', () => {
+    expect(hashString('user-1')).not.toBe(hashString('user-2'));
+  });
+
+  it('should return 0 for an empty string', () => {
+    expect(hashString('')).toBe(0);
   });
 });

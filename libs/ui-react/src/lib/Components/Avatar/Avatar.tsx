@@ -1,3 +1,4 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../i18n';
@@ -6,34 +7,68 @@ import type { AvatarProps } from './types';
 
 const avatarVariants = {
   root: cva(
-    'relative inline-flex items-center justify-center rounded-full transition-colors',
+    'relative inline-flex items-center justify-center rounded-full bg-base-transparent-hover align-middle transition-colors',
     {
       variants: {
-        appearance: {
-          gray: 'bg-muted',
-          transparent: 'bg-muted-transparent',
-        },
         size: {
-          sm: 'size-40 p-4',
-          md: 'size-48 p-4',
-          lg: 'size-56 p-4',
-          xl: 'size-72 p-4',
+          xs: 'size-24',
+          sm: 'size-40',
+          md: 'size-48',
+          lg: 'size-56',
+          xl: 'size-72',
+          '2xl': 'size-128',
         },
       },
       defaultVariants: {
-        appearance: 'transparent',
         size: 'md',
       },
     },
   ),
+  text: cva('select-none', {
+    variants: {
+      size: {
+        xs: 'body-4-semi-bold',
+        sm: 'body-1-semi-bold',
+        md: 'heading-5-semi-bold',
+        lg: 'heading-4-semi-bold',
+        xl: 'heading-2-semi-bold',
+        '2xl': 'heading-1-semi-bold',
+      },
+    },
+  }),
 };
 
 const fallbackSizes = {
+  xs: 12,
   sm: 16,
   md: 24,
   lg: 32,
   xl: 40,
+  '2xl': 56,
 } as const;
+
+const FallbackContent = ({
+  size,
+  fallbackText,
+  fallbackColor,
+}: {
+  size: NonNullable<AvatarProps['size']>;
+  fallbackText?: string;
+  fallbackColor?: string;
+}) => {
+  const colorClass = fallbackColor ? 'text-black' : 'text-base';
+  return fallbackText ? (
+    <span className={cn(avatarVariants.text({ size }), colorClass)}>
+      {fallbackText}
+    </span>
+  ) : (
+    <User
+      className={colorClass}
+      size={fallbackSizes[size]}
+      aria-hidden='true'
+    />
+  );
+};
 
 /**
  * A circular avatar component that displays a user image or fallback icon.
@@ -53,13 +88,16 @@ export const Avatar = ({
   className,
   src,
   alt,
-  appearance = 'transparent',
   size = 'md',
   imgLoading,
+  fallbackText,
+  fallbackColor,
+  appearance,
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
   const [error, setError] = useState<boolean>(false);
+
   const shouldFallback = !src || error;
 
   const resolvedAlt = alt || t('components.avatar.defaultAriaLabel');
@@ -71,17 +109,21 @@ export const Avatar = ({
   const avatarContent = (
     <div
       ref={ref}
-      className={avatarVariants.root({ appearance, size, className })}
+      className={cn(avatarVariants.root({ size }), className)}
+      style={
+        shouldFallback && fallbackColor
+          ? { backgroundColor: fallbackColor }
+          : undefined
+      }
       role='img'
       aria-label={resolvedAlt}
       {...props}
     >
       {shouldFallback ? (
-        <User
-          className='text-base'
-          size={fallbackSizes[size]}
-          aria-label='Fallback Icon'
-          aria-hidden='true'
+        <FallbackContent
+          size={size}
+          fallbackText={fallbackText}
+          fallbackColor={fallbackColor}
         />
       ) : (
         <img
@@ -90,6 +132,18 @@ export const Avatar = ({
           loading={imgLoading}
           onError={() => setError(true)}
           className='size-full overflow-hidden rounded-full object-cover'
+          aria-hidden='true'
+        />
+      )}
+      {appearance && (
+        <span
+          className='pointer-events-none absolute inset-0 rounded-full'
+          style={{
+            boxShadow:
+              appearance === 'thin'
+                ? 'inset 0 0 0 1px var(--color-border-icon)'
+                : 'inset 0 0 0 2px var(--color-border-muted-subtle-transparent)',
+          }}
           aria-hidden='true'
         />
       )}

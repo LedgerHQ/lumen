@@ -1,7 +1,9 @@
+import { AVATAR_COLOR_KEYS } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Menu, MenuTrigger, MenuContent, MenuItem } from '../Menu/Menu';
 import { Avatar } from './Avatar';
+import { resolveAvatarColor } from '.';
 
 const meta = {
   component: Avatar,
@@ -43,64 +45,77 @@ export const Base: Story = {
 
 export const SizeShowcase: Story = {
   render: () => (
-    <div className='inline-flex items-stretch gap-16 body-2'>
-      <div className='flex flex-col items-center justify-end'>
+    <div className='flex flex-col gap-8'>
+      <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='xs' alt='extra small' src={exampleSrc} />
         <Avatar size='sm' alt='small' src={exampleSrc} />
-        <span className='mt-4'>sm</span>
-      </div>
-      <div className='flex flex-col items-center justify-end'>
         <Avatar size='md' alt='medium' src={exampleSrc} />
-        <span className='mt-4'>md</span>
-      </div>
-      <div className='flex flex-col items-center justify-end'>
         <Avatar size='lg' alt='large' src={exampleSrc} />
-        <span className='mt-4'>lg</span>
-      </div>
-      <div className='flex flex-col items-center justify-end'>
         <Avatar size='xl' alt='extra large' src={exampleSrc} />
-        <span className='mt-4'>xl</span>
+        <Avatar size='2xl' alt='extra extra large' src={exampleSrc} />
       </div>
-    </div>
-  ),
-};
-
-export const AppearanceShowcase: Story = {
-  render: () => (
-    <div className='inline-flex flex-col gap-8'>
-      <div className='flex items-center justify-end gap-16'>
-        <Avatar size='md' alt='gray fallback' appearance='gray' />
-        <Avatar size='md' alt='transparent fallback' appearance='transparent' />
+      <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='xs' alt='extra small' fallbackText='AB' />
+        <Avatar size='sm' alt='small' fallbackText='AB' />
+        <Avatar size='md' alt='medium' fallbackText='AB' />
+        <Avatar size='lg' alt='large' fallbackText='AB' />
+        <Avatar size='xl' alt='extra large' fallbackText='AB' />
+        <Avatar size='2xl' alt='extra extra large' fallbackText='AB' />
       </div>
-      <div className='flex items-center justify-end gap-16'>
-        <Avatar
-          size='md'
-          src={exampleSrc}
-          alt='gray with image'
-          appearance='gray'
-        />
-        <Avatar
-          size='md'
-          src={exampleSrc}
-          alt='transparent with image'
-          appearance='transparent'
-        />
+      <div className='flex items-baseline gap-16 body-2'>
+        <Avatar size='xs' alt='extra small' />
+        <Avatar size='sm' alt='small' />
+        <Avatar size='md' alt='medium' />
+        <Avatar size='lg' alt='large' />
+        <Avatar size='xl' alt='extra large' />
+        <Avatar size='2xl' alt='extra extra large' />
       </div>
     </div>
   ),
 };
 
 export const FallbackShowcase: Story = {
-  args: {
-    src: 'https://brokenLink.random',
-    size: 'md',
-    alt: 'Fallback example',
-  },
   parameters: {
     docs: {
       source: {
-        code: `<Avatar src="https://brokenLink.random" size="md" alt="Fallback example" />`,
+        code: `import { resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
+
+<Avatar fallbackColor={resolveAvatarColor(user.id)} alt={user.name} />`,
       },
     },
+  },
+  render: () => {
+    const getInitials = (index: number) => {
+      const left = String.fromCharCode(65 + index * 2);
+      const right = String.fromCharCode(66 + index * 2);
+      return left + right;
+    };
+
+    return (
+      <div className='flex flex-col gap-16'>
+        <div className='flex flex-wrap gap-16'>
+          {AVATAR_COLOR_KEYS.map((_, i) => (
+            <Avatar
+              key={i}
+              fallbackColor={resolveAvatarColor(`user-${i}`)}
+              fallbackText={getInitials(i)}
+              alt={getInitials(i)}
+            />
+          ))}
+          <Avatar fallbackText={getInitials(AVATAR_COLOR_KEYS.length)} />
+        </div>
+        <div className='flex flex-wrap gap-16'>
+          {AVATAR_COLOR_KEYS.map((_, i) => (
+            <Avatar
+              key={i}
+              fallbackColor={resolveAvatarColor(`user-${i}`)}
+              alt={`User ${i}`}
+            />
+          ))}
+          <Avatar />
+        </div>
+      </div>
+    );
   },
 };
 
@@ -111,6 +126,16 @@ export const NotificationShowcase: Story = {
       <DotIndicator {...getDotIndicatorProps('avatar', 'md')}>
         <Avatar src={exampleSrc} />
       </DotIndicator>
+    </div>
+  ),
+};
+
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <div className='flex items-center gap-16'>
+      <Avatar size='md' alt='No ring' />
+      <Avatar size='md' alt='Thin ring' appearance='thin' />
+      <Avatar size='md' alt='Thick ring' appearance='thick' />
     </div>
   ),
 };

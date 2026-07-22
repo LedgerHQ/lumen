@@ -8,6 +8,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'AmountInputs', title: 'AmountInput' },
   { slug: 'Animations', title: 'Animation' },
   { slug: 'Avatars', title: 'Avatar' },
+  { slug: 'AvatarButtons', title: 'AvatarButton' },
   { slug: 'Banners', title: 'Banner' },
   { slug: 'BottomSheets', title: 'BottomSheet' },
   { slug: 'Buttons', title: 'Button' },

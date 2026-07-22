@@ -41,33 +41,46 @@ describe('Avatar Component', () => {
     expect(svg).toBeInTheDocument();
   });
 
-  it('should render with transparent appearance by default', () => {
-    const { container } = render(<Avatar src={validSrc} />);
-
-    const wrapper = container.firstChild;
-    expect(wrapper).toHaveClass('bg-muted-transparent');
-  });
-
-  it.each([
-    ['transparent', 'bg-muted-transparent'],
-    ['gray', 'bg-muted'],
-  ] as const)(
-    'should render with %s appearance when specified',
-    (appearance, expectedClass) => {
-      const { container } = render(
-        <Avatar src={validSrc} appearance={appearance} />,
-      );
-
-      const wrapper = container.firstChild;
-      expect(wrapper).toHaveClass(expectedClass);
-    },
-  );
-
   it('should render with md size by default', () => {
     const { container } = render(<Avatar src={validSrc} />);
 
     const wrapper = container.firstChild;
     expect(wrapper).toHaveClass('size-48');
+  });
+
+  it('should render with xs size when specified', () => {
+    const { container } = render(<Avatar src={validSrc} size='xs' />);
+
+    expect(container.firstChild).toHaveClass('size-24');
+  });
+
+  it('should render with 2xl size when specified', () => {
+    const { container } = render(<Avatar src={validSrc} size='2xl' />);
+
+    expect(container.firstChild).toHaveClass('size-128');
+  });
+
+  it('should render fallback text instead of the icon when provided', () => {
+    const { container } = render(<Avatar fallbackText='AB' />);
+
+    expect(screen.getByText('AB')).toBeInTheDocument();
+    expect(container.querySelector('svg')).not.toBeInTheDocument();
+  });
+
+  it('should apply the fallback color as the background when falling back', () => {
+    const { container } = render(<Avatar fallbackColor='#aed09c' />);
+
+    expect(container.firstChild).toHaveStyle({ backgroundColor: '#aed09c' });
+  });
+
+  it('should not apply a fallback background color when an image is shown', () => {
+    const { container } = render(
+      <Avatar src={validSrc} fallbackColor='#aed09c' />,
+    );
+
+    expect(container.firstChild).not.toHaveStyle({
+      backgroundColor: '#aed09c',
+    });
   });
 
   it('should render with sm size when specified', () => {
