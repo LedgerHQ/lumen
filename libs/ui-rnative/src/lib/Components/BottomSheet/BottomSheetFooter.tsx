@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
+import { useBottomSheetContext } from './BottomSheet';
 import type { BottomSheetFooterProps } from './types';
 
 const useStyles = () =>
@@ -21,5 +23,15 @@ export const BottomSheetFooter = ({
   style,
 }: BottomSheetFooterProps) => {
   const styles = useStyles();
+  const { setHasFooter } = useBottomSheetContext({
+    consumerName: 'BottomSheetFooter',
+    contextRequired: true,
+  });
+
+  useEffect(() => {
+    setHasFooter(true);
+    return () => setHasFooter(false);
+  }, [setHasFooter]);
+
   return <View style={[styles.root, style]}>{children}</View>;
 };

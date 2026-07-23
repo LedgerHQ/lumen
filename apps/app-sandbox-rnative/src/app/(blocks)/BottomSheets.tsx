@@ -191,8 +191,95 @@ const BottomSheetWithFooter = ({ ref, ...props }: BottomSheetProps) => {
       </BottomSheetContent>
       <BottomSheetFooter>
         <Button appearance='base'>Confirm</Button>
-        <Button appearance='no-background'>Cancel</Button>
+        <Button appearance='gray'>Cancel</Button>
       </BottomSheetFooter>
+    </BottomSheet>
+  );
+};
+
+const BottomSheetFooterWithFlatList = ({ ref, ...props }: BottomSheetProps) => {
+  const data = Array.from({ length: 50 }, (_, i) => ({
+    id: i.toString(),
+    title: `Item ${i + 1}`,
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+  }));
+  type Data = (typeof data)[number];
+
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      backdropPressBehavior='close'
+      snapPoints={['50%']}
+    >
+      <BottomSheetHeader
+        spacing
+        title='Footer + FlatList'
+        density='compact'
+        description='Footer stays sticky while the list scrolls'
+      />
+      <BottomSheetFlatList
+        data={data}
+        keyExtractor={(item: { id: Pick<Data, 'id'> }) => item.id}
+        renderItem={({ item }: { item: Omit<Data, 'id'> }) => (
+          <Box
+            lx={{
+              flexDirection: 'column',
+              gap: 's4',
+              borderBottomWidth: 's1',
+              borderColor: 'base',
+              paddingVertical: 's12',
+            }}
+          >
+            <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+              {item.title}
+            </Text>
+            <Text typography='body3' lx={{ color: 'muted' }}>
+              {item.description}
+            </Text>
+          </Box>
+        )}
+      />
+      <BottomSheetFooter>
+        <Button appearance='base'>Confirm</Button>
+        <Button appearance='gray'>Cancel</Button>
+      </BottomSheetFooter>
+    </BottomSheet>
+  );
+};
+
+const BottomSheetFooterWithDynamicSize = ({
+  ref,
+  ...props
+}: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={null}
+      enableDynamicSizing
+      maxDynamicContentSize='full'
+      backdropPressBehavior='close'
+    >
+      <BottomSheetView>
+        <BottomSheetHeader
+          title='Footer + Dynamic Size'
+          density='compact'
+          description='Sheet sizes to content'
+        />
+        <Box lx={{ flexDirection: 'column', gap: 's12' }}>
+          {Array.from({ length: 8 }, (_, i) => (
+            <Text key={i} typography='body2' lx={{ color: 'base' }}>
+              Item {i + 1}: Lorem ipsum dolor sit amet consectetur adipisicing
+              elit.
+            </Text>
+          ))}
+        </Box>
+        <BottomSheetFooter>
+          <Button appearance='base'>Confirm</Button>
+          <Button appearance='gray'>Cancel</Button>
+        </BottomSheetFooter>
+      </BottomSheetView>
     </BottomSheet>
   );
 };
@@ -202,6 +289,8 @@ export default function BottomSheets() {
   const dynamicSizeRef = useBottomSheetRef();
   const gradientRef = useBottomSheetRef();
   const withFooterRef = useBottomSheetRef();
+  const footerFlatListRef = useBottomSheetRef();
+  const footerDynamicRef = useBottomSheetRef();
 
   return (
     <>
@@ -223,10 +312,24 @@ export default function BottomSheets() {
       >
         Open
       </Button>
+      <Button
+        appearance='base'
+        onPress={() => footerFlatListRef.current?.present()}
+      >
+        Open
+      </Button>
+      <Button
+        appearance='base'
+        onPress={() => footerDynamicRef.current?.present()}
+      >
+        Open
+      </Button>
       <BottomSheetFlatLists ref={flatListsRef} />
       <BottomSheetDynamicSize ref={dynamicSizeRef} />
       <BottomSheetWithGradient ref={gradientRef} />
       <BottomSheetWithFooter ref={withFooterRef} />
+      <BottomSheetFooterWithFlatList ref={footerFlatListRef} />
+      <BottomSheetFooterWithDynamicSize ref={footerDynamicRef} />
     </>
   );
 }
