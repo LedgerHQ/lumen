@@ -185,7 +185,7 @@ export type BottomSheetHeaderProps = {
    */
   spacing?: boolean;
 } & Omit<StyledViewProps, 'children'>;
-
+export type BottomSheetContentProps = StyledViewProps;
 export type BottomSheetViewProps = Parameters<typeof GorhomBottomSheetView>[0];
 export type BottomSheetFlatListProps = Parameters<
   typeof GorhomBottomSheetFlatList

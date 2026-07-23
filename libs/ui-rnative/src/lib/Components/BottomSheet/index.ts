@@ -3,5 +3,6 @@ export * from './Scrollables';
 export * from './useBottomSheetRef';
 export * from './BottomSheetHeader';
 export * from './BottomSheetFooter';
+export * from './BottomSheetContent';
 export * from './types';
 export { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
