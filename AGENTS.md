@@ -60,6 +60,7 @@ One source, no duplication:
 - **`AGENTS.md`** (this file) is the canonical always-on core. Cursor and Copilot
   read it natively; Claude Code reads it via `CLAUDE.md` → `@AGENTS.md`.
 - **`.claude/skills/`** is the single skills tree, consumed by all three tools.
+  **`.claude/agents/`** (subagents) is shared by Claude Code and Cursor.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
   `.github/instructions/*`) are thin pointers/wrappers — they must not restate
   content. A CI drift check (to be added) will enforce that.

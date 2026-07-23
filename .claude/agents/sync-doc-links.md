@@ -1,11 +1,11 @@
 ---
-  Sync all Storybook documentation links to the stable permalink scheme and keep
-  them consistent across the codebase and Figma. Use when the user asks to sync doc
-  links, fix Storybook URLs, check link consistency, update Figma dev-mode links, or
-  after Storybook permalinks/story ids change.
 name: sync-doc-links
-model: claude-opus-4-8[]
-description: Sync & fix Storybook doc links across repo JSDoc/docs and Figma dev links
+description: >-
+  Sync all Storybook documentation links to the stable permalink scheme and keep
+  them consistent across the codebase and Figma. Use when the user asks to sync
+  doc links, fix Storybook URLs, check link consistency, update Figma dev-mode
+  links, or after Storybook permalinks/story ids change.
+model: opus
 readonly: false
 ---
 

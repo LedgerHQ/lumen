@@ -1,12 +1,14 @@
 ---
-  Review a PR for code quality, consistency, performance, type safety, and completeness.
-  Works with local branches (diffed against origin/main) or remote PRs when a GitHub link is provided.
-  Use when the user asks to review a PR, review code changes, check a branch, do a local code review,
-  or provides a GitHub PR URL.
 name: pr-review
-model: claude-opus-4-8[]
-description: Review current branch or remote pull-request
+description: >-
+  Review a PR for code quality, consistency, performance, type safety, and
+  completeness. Works with local branches (diffed against origin/main) or remote
+  PRs when a GitHub link is provided. Use when the user asks to review a PR,
+  review code changes, check a branch, do a local code review, or provides a
+  GitHub PR URL.
+model: opus
 readonly: true
+tools: Read, Grep, Glob, Bash, WebFetch
 ---
 
 # PR Review
@@ -243,7 +245,7 @@ Component Completeness:
 ## Output
 
 If the review is short (fewer than ~15 findings), return the review directly.
-If it is long, write the full review to `.cursor/tmp/pr-review-[branch-name].md` and report the path.
+If it is long, write the full review to `tmp/pr-review-[branch-name].md` and report the path.
 
 ### Format
 
