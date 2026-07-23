@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
+import { Box } from '../Utility';
 import { useBottomSheetContext } from './BottomSheet';
 import { useIsInsideScrollableView } from './Scrollables';
 import type { BottomSheetFooterProps } from './types';
@@ -24,6 +25,7 @@ const useStyles = (insideScrollableView: boolean) =>
 export const BottomSheetFooter = ({
   children,
   style,
+  lx,
 }: BottomSheetFooterProps) => {
   const insideScrollableView = useIsInsideScrollableView();
   const styles = useStyles(insideScrollableView);
@@ -37,5 +39,9 @@ export const BottomSheetFooter = ({
     return () => setHasFooter(false);
   }, [setHasFooter]);
 
-  return <View style={[styles.root, style]}>{children}</View>;
+  return (
+    <Box style={[styles.root, style]} lx={lx}>
+      {children}
+    </Box>
+  );
 };

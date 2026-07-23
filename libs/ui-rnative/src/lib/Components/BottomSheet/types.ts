@@ -15,7 +15,6 @@ import type {
   ReactNode,
   Ref,
 } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
 
 import type { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
@@ -199,6 +198,4 @@ export type BottomSheetScrollViewProps = Parameters<
 export type BottomSheetVirtualizedListProps = Parameters<
   typeof GorhomBottomSheetVirtualizedList
 >[0];
-export type BottomSheetFooterProps = PropsWithChildren<{
-  style?: StyleProp<ViewStyle>;
-}>;
+export type BottomSheetFooterProps = StyledViewProps;

@@ -105,12 +105,14 @@ const BottomSheetWithGradient = ({ ref, ...props }: BottomSheetProps) => {
           density='compact'
           description='Gradient spans the full sheet.'
         />
-        <Text typography='body2' lx={{ color: 'base' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
-          eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
-          Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
-          turpis efficitur sit amet.
-        </Text>
+        <BottomSheetContent>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+            turpis efficitur sit amet.
+          </Text>
+        </BottomSheetContent>
       </BottomSheetView>
     </BottomSheet>
   );
