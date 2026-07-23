@@ -6,7 +6,7 @@ import { useBottomSheetContext } from './BottomSheet';
 import { useIsInsideScrollableView } from './Scrollables';
 import type { BottomSheetFooterProps } from './types';
 
-const useStyles = (insideScrollableView: boolean) =>
+const useStyles = (isInsideScrollableView: boolean) =>
   useStyleSheet(
     (t) => ({
       root: StyleSheet.flatten([
@@ -16,10 +16,10 @@ const useStyles = (insideScrollableView: boolean) =>
           backgroundColor: t.colors.bg.canvasSheet,
           gap: t.spacings.s8,
         },
-        !insideScrollableView && { paddingHorizontal: t.spacings.s16 },
+        !isInsideScrollableView && { paddingHorizontal: t.spacings.s16 },
       ]),
     }),
-    [insideScrollableView],
+    [isInsideScrollableView],
   );
 
 export const BottomSheetFooter = ({
