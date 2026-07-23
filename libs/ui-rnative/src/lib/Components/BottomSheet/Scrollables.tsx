@@ -5,8 +5,9 @@ import {
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
-import type { ViewStyle } from 'react-native';
+import { createContext, useContext } from 'react';
 import { useStyleSheet } from '../../../styles';
+import { useBottomSheetContext } from './BottomSheet';
 import type {
   BottomSheetViewProps,
   BottomSheetFlatListProps,
@@ -15,16 +16,28 @@ import type {
   BottomSheetVirtualizedListProps,
 } from './types';
 
-const useScrollableStyles = () => {
+const BottomSheetScrollableViewContext = createContext(false);
+export const useIsInsideScrollableView = () =>
+  useContext(BottomSheetScrollableViewContext);
+
+const useHasFooter = () => {
+  const ctx = useBottomSheetContext({
+    consumerName: 'BottomSheetScrollable',
+    contextRequired: false,
+  });
+  return ctx?.hasFooter ?? false;
+};
+
+const useScrollableStyles = (hasFooter: boolean) => {
   return useStyleSheet(
     (t) => ({
       container: {
         flex: 1,
         paddingHorizontal: t.spacings.s16,
-        paddingBottom: t.spacings.s16,
+        paddingBottom: hasFooter ? 0 : t.spacings.s16,
       },
     }),
-    [],
+    [hasFooter],
   );
 };
 
@@ -33,14 +46,13 @@ export const BottomSheetView = ({
   style,
   ...props
 }: BottomSheetViewProps) => {
-  const styles = useScrollableStyles();
+  const styles = useScrollableStyles(useHasFooter());
 
   return (
-    <GorhomBottomSheetView
-      style={[styles.container as ViewStyle, style]}
-      {...props}
-    >
-      {children}
+    <GorhomBottomSheetView style={[styles.container, style]} {...props}>
+      <BottomSheetScrollableViewContext.Provider value={true}>
+        {children}
+      </BottomSheetScrollableViewContext.Provider>
     </GorhomBottomSheetView>
   );
 };
@@ -51,12 +63,12 @@ export const BottomSheetFlatList = ({
   ref,
   ...props
 }: BottomSheetFlatListProps) => {
-  const styles = useScrollableStyles();
+  const styles = useScrollableStyles(useHasFooter());
 
   return (
     <GorhomBottomSheetFlatList
       ref={ref}
-      style={[styles.container as ViewStyle, style]}
+      style={[styles.container, style]}
       {...props}
     >
       {children}
@@ -70,12 +82,12 @@ export const BottomSheetSectionList = ({
   ref,
   ...props
 }: BottomSheetSectionListProps) => {
-  const styles = useScrollableStyles();
+  const styles = useScrollableStyles(useHasFooter());
 
   return (
     <GorhomBottomSheetSectionList
       ref={ref}
-      style={[styles.container as ViewStyle, style]}
+      style={[styles.container, style]}
       {...props}
     >
       {children}
@@ -89,12 +101,12 @@ export const BottomSheetScrollView = ({
   ref,
   ...props
 }: BottomSheetScrollViewProps) => {
-  const styles = useScrollableStyles();
+  const styles = useScrollableStyles(useHasFooter());
 
   return (
     <GorhomBottomSheetScrollView
       ref={ref}
-      style={[styles.container as ViewStyle, style]}
+      style={[styles.container, style]}
       {...props}
     >
       {children}
@@ -108,12 +120,12 @@ export const BottomSheetVirtualizedList = ({
   ref,
   ...props
 }: BottomSheetVirtualizedListProps) => {
-  const styles = useScrollableStyles();
+  const styles = useScrollableStyles(useHasFooter());
 
   return (
     <GorhomBottomSheetVirtualizedList
       ref={ref}
-      style={[styles.container as ViewStyle, style]}
+      style={[styles.container, style]}
       {...props}
     >
       {children}
