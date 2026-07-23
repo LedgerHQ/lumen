@@ -1,0 +1,99 @@
+---
+name: storybook-stories
+description: >-
+  Use when creating or editing Storybook stories (*.stories.tsx, React or React
+  Native) — story layout, docs source type, controls, and export naming conventions.
+paths: "**/*.stories.tsx"
+---
+
+# Storybook Story Guidelines
+
+When creating or modifying Storybook stories, follow these conventions strictly:
+
+## Story Layout Configuration
+
+### Centering and Background
+
+All stories must include these parameters:
+
+```typescript
+export const Base: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    // Component props
+  },
+};
+```
+
+- **Layout**: Stories should be centered.
+- **Background**: Stories should use white background.
+
+### Docs source type
+
+Stories with interactive controls (`args` on `Base`) must use dynamic docs source so the code snippet updates when controls change. Set this on the story `meta`:
+
+```typescript
+const meta: Meta<typeof Component> = {
+  component: Component,
+  parameters: {
+    docs: {
+      source: {
+        language: 'tsx',
+        format: true,
+        type: 'dynamic',
+      },
+    },
+  },
+};
+```
+
+- Use `type: 'dynamic'` — not `'code'` — when the story exposes `args` / Controls.
+- Use `type: 'code'` only for static showcase stories with a fixed, hand-written `parameters.docs.source.code` block.
+
+### Controls
+
+Prefer controls inferred from component prop types (`react-docgen-typescript` is configured in Storybook). Do not duplicate `argTypes` for basic props already described in `types.ts` (unions, booleans, strings).
+
+- Add a `Base` story with `args` and a `render` that consumes them — required for Controls to appear in docs.
+- Add manual `argTypes` only for overrides docgen cannot express (actions, select mappings, hiding props).
+
+## Story Export Names
+
+To maintain consistency across our Storybook documentation, follow these naming rules:
+
+#### 1. Base Story
+
+The default, most basic usage of the component.
+
+- Use: `Base`
+- Do not use: `Default`, `Primary`, `Basic`
+
+#### 2. Showcase Stories
+
+Showcase stories demonstrate variations of a single property.
+
+- Use the pattern: `{Property}Showcase`
+- Do not use: `States`, `AllStates`, `StatesShowcase`
+
+#### 3. Feature-Specific Stories
+
+Stories highlighting specific features.
+
+- Use: `With{Feature}` (e.g., `WithIcon`, `WithTooltip`)
+
+#### 4. Truncation / Responsiveness Stories
+
+Stories that demonstrate how a component truncates or adapts to constrained space.
+
+- Use: `ResponsivenessShowcase`
+- Do not use: `TruncateShowcase`, `Truncation`, `LongLabel`
+
+## General Principles
+
+1. **Consistency over creativity**: Follow the patterns even if you think another name might be clearer
+2. **Singular property names**: Use `SizeShowcase` not `SizesShowcase`
+3. **PascalCase**: All story names use PascalCase (e.g., `WithTooltip`)
+4. **Avoid ambiguity**: Don't use generic names like `Example1`, `Test`, `Demo`
