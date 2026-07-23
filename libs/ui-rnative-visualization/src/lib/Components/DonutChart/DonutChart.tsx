@@ -28,12 +28,12 @@ export function DonutChart({
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
 
-const handleSegmentPress = useCallback(
-  (id: string) => {
-    setActiveId(activeId === id ? null : id);
-  },
-  [activeId, setActiveId],
-);
+  const handleSegmentPress = useCallback(
+    (id: string) => {
+      setActiveId(activeId === id ? null : id);
+    },
+    [activeId, setActiveId],
+  );
 
   const handleTap = useCallback(
     (point: { x: number; y: number }) => {
