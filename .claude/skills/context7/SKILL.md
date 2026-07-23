@@ -1,7 +1,9 @@
 ---
-description: Using Context7 MCP for documentation research
-globs:
-alwaysApply: true
+name: context7
+description: >-
+  Use when researching external libraries/frameworks (React, Radix, Tailwind,
+  etc.) — reach for the Context7 MCP to get up-to-date docs. Not for internal
+  codebase or design-system-token questions.
 ---
 
 # Context7 MCP Usage Guidelines

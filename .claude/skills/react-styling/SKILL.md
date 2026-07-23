@@ -1,14 +1,37 @@
 ---
-description: Tailwind design system token usage: typography, colors, spacing, sizes, shadows, gradients
-globs: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts
-alwaysApply: false
+name: react-styling
+description: >-
+  Use when building or styling a React component in libs/ui-react — cva usage,
+  props-drilling, and design-system Tailwind token usage (typography, colors,
+  spacing, sizes, shadows, gradients, and classname rules).
+paths: libs/ui-react/**/*.{ts,tsx}
 ---
+
+# React styling & component patterns (`libs/ui-react`)
+
+Conventions for composing classnames and authoring React components in the UI Kit.
+
+## class-variance-authority (cva)
+
+- Use `cva` at the top of the file to compose classnames **when there is variant composition**.
+- Use `cva` at the top of the file **when an element has many classnames** to declare.
+- Otherwise, for only a few classnames, set them inline in the JSX.
+
+## Props drilling
+
+- Component props should be **props-drilled to the top-level element** so behaviour
+  is never hidden or misleading.
+- For legitimate exceptions (e.g. a nested `ref` or a nested `className`), give the
+  prop a distinct name that makes the target explicit rather than overloading the
+  top-level prop.
+
+## Design-system Tailwind tokens
 
 - Use the figma mcp server when working from Figma, but these rules always apply even without it.
 - You can see our custom Tailwind plugins in `libs/design-core/src/lib/presets/allBrands.ts`.
 - All `-default` suffixes are removed via code syntax, so omit them from Tailwind utilities.
 
-# Typography Utilities Guidelines
+### Typography Utilities Guidelines
 
 - Do not use Tailwind Typography utilities (e.g., `font-bold`, `text-sm`, etc.).
 - Use our custom typography utilities from the design system.
@@ -18,7 +41,7 @@ alwaysApply: false
   - `.heading-0`, `.heading-0-semi-bold` through `.heading-4`, `.heading-4-semi-bold`
   - `.body-1`, `.body-1-semi-bold` through `.body-4`, `.body-4-semi-bold`
 
-# Colors and Background
+### Colors and Background
 
 - Do not use Tailwind default color palette (e.g., `text-gray-500`, `bg-blue-600`).
 - Use our design tokens from `createThemePlugin`:
@@ -28,7 +51,7 @@ alwaysApply: false
   - Crypto colors: `crypto-btc`, `crypto-eth`, etc. (and their variants like `crypto-btc-0`)
   - Discovery colors: `discover-base`, `discover-muted`, etc.
 
-# Spacing and Layout
+### Spacing and Layout
 
 - Use pixel values for spacing when raw values are needed
 - Available spacing utilities:
@@ -36,13 +59,13 @@ alwaysApply: false
   - Margin: `m-{size}`, `mx-{size}`, `my-{size}`, `mt-{size}`, etc.
   - Where size is a pixel-based value (e.g., 4, 8, 16, etc.)
 
-# Width, Height, and Size Utilities
+### Width, Height, and Size Utilities
 
 - Do not use arbitrary size values (e.g., `w-[108px]`, `h-[90px]`)
 - Only use size tokens that exist in `libs/design-core/src/lib/themes/primitives.ts`
 - Source of truth: `libs/design-core/src/lib/themes/primitives.ts` (see `--size-*` tokens)
 
-## Available Size Tokens
+#### Available Size Tokens
 
 Sizes available for width, height, max-width, max-height, min-width, min-height utilities:
 
@@ -50,7 +73,7 @@ Sizes available for width, height, max-width, max-height, min-width, min-height 
 
 **Large sizes**: 112, 128, 144, 176, 192, 208, 224, 256, 288, 320, 400, 480, 560
 
-## How to Check Available Tokens
+#### How to Check Available Tokens
 
 Before using width/height utilities:
 
@@ -58,7 +81,7 @@ Before using width/height utilities:
 2. Or use VSCode IntelliSense with Tailwind CSS extension
 3. If uncertain, use the Tailwind CSS IntelliSense autocomplete
 
-# Borders and Shadows
+### Borders and Shadows
 
 - Border radius utilities from `createThemePlugin`:
   - `rounded-sm`, `rounded-md`, `rounded-lg`, etc.
@@ -74,14 +97,14 @@ Before using width/height utilities:
   - `drop-shadow-xl`: 6px 24px rgba(0, 0, 0, 0.16)
   - `drop-shadow-2xl`: 8px 32px rgba(0, 0, 0, 0.16)
 
-# Gradients
+### Gradients
 
 - Background gradients from `createGradientPlugin`:
   - `bg-gradient-top`: 180deg gradient for top overlays
   - `bg-gradient-bottom`: 180deg gradient for bottom overlays
   - `bg-gradient-{crypto}`: 161deg gradient for crypto colors
 
-# Tailwind Classnames
+### Tailwind Classnames
 
 - Tailwind utilities should never be concatenated
 - Always use complete class names as strings

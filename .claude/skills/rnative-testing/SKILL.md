@@ -1,29 +1,35 @@
 ---
-globs: libs/ui-rnative/**/*.test.ts, libs/ui-rnative/**/*.test.tsx
-alwaysApply: false
+name: rnative-testing
+description: >-
+  Use when writing or editing React Native tests in libs/ui-rnative — Jest +
+  React Native Testing Library conventions (testID targeting, imports,
+  interactions, mocking, structure).
+paths: libs/ui-rnative/**/*.test.{ts,tsx}
 ---
 
-# Testing target elements
+# React Native testing (`libs/ui-rnative`)
+
+## Testing target elements
 - Target root elements using `testID`
 - Target content / text when it makes no sense to use `testID`
 - Use `getByRole` for semantic elements like switches
 
-# Test runner
+## Test runner
 - Uses Jest
 - Do not expose globals, instead import explicitly:
 ```ts
 import { describe, it, expect, jest } from '@jest/globals';
 ```
 
-# Interactions
+## Interactions
 - Use `fireEvent.press` for press events
 - Use `fireEvent(element, 'onPressIn')` for press-in/out lifecycle events
 
-# Mocking
+## Mocking
 - Use `jest.fn()` for callback/handler spies
 - Assert with `toHaveBeenCalledTimes`, `toHaveBeenCalledWith`, `not.toHaveBeenCalled`
 
-# Structure
+## Structure
 - Top-level `describe('<ComponentName>', () => { ... })`
 - Nested `describe` blocks for concern areas: `Rendering`, `Appearances`, `Sizes`, `Interactions`, `States`, `Styling`
 - Use `it.each([...])` for parameterized variant/size tests

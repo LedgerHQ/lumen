@@ -1,7 +1,9 @@
 ---
-description: Storybook story conventions: layout, naming, and export patterns
-globs: *.stories.tsx
-alwaysApply: false
+name: storybook-stories
+description: >-
+  Use when creating or editing Storybook stories (*.stories.tsx, React or React
+  Native) — story layout, docs source type, controls, and export naming conventions.
+paths: "**/*.stories.tsx"
 ---
 
 # Storybook Story Guidelines

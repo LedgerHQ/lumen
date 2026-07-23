@@ -1,23 +1,27 @@
 ---
-description: React Native component patterns: lx prop, useStyleSheet, variant composition, props drilling
-globs: libs/ui-rnative/**/*.tsx
-alwaysApply: false
+name: rnative-component-patterns
+description: >-
+  Use when building or editing a React Native component in libs/ui-rnative —
+  the `lx` prop, `useStyleSheet`, variant composition, and props-drilling conventions.
+paths: libs/ui-rnative/**/*.tsx
 ---
 
-# Style system
+# React Native component patterns (`libs/ui-rnative`)
+
+## Style system
 
 - Use `useStyleSheet((t) => ({ ... }), [deps])` to build component visuals from theme tokens
 - The callback argument `t` provides `t.colors`, `t.spacings`, `t.sizes`, `t.typographies`, `t.borderRadius`
 - Use `StyleSheet.flatten([...])` to merge conditional styles (pressed, disabled, variant-specific)
 - Use `useTheme()` only when you need raw theme values outside of stylesheets (e.g., `selectionColor`, animated interpolations)
 
-# lx prop
+## lx prop
 
 - `lx` is the token-based style prop on styled primitives (`Box`, `Pressable`, `Text`)
 - Forward `lx` from component props to the outermost styled primitive
 - `lx` is for layout/spacing overrides by consumers -- internal component visuals use `useStyleSheet`
 
-# Variant composition
+## Variant composition
 
 - Define `Record<Variant, value>` maps inside `useStyleSheet` for appearance, size, and state variants
 - Keep variant maps co-located inside the `useStyleSheet` callback so they access theme tokens
@@ -30,7 +34,7 @@ StyleSheet.flatten([
 ])
 ```
 
-# Props drilling
+## Props drilling
 
 - Forward `ref`, `lx`, `style`, and `...props` (including `testID`) to the outermost primitive
 - Merge consumer `style` with internal styles: `StyleSheet.flatten([style, internalStyles.root])`

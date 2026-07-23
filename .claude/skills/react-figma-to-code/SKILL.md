@@ -1,12 +1,15 @@
 ---
-description: When Asked to implement or update a component using a figma Link
-keywords: figma, mcp, figma.com, design, extract, implement from figma
-globs:
-alwaysApply: false
+name: react-figma-to-code
+description: >-
+  Use when implementing or updating a React component (libs/ui-react) from a
+  Figma link — Figma design-token → Tailwind classname mapping. React/Tailwind
+  only; React Native uses `useStyleSheet` (see `rnative-component-patterns`).
 ---
 
+# Figma → code (React / Tailwind)
+
 - Use the figma mcp server
-- These rules apply only when extracting from Figma. For the full design token reference see `/.cursor/rules/react/tailwind-guidelines.mdc`.
+- These rules apply only when extracting from Figma. For the full design token reference see the `react-styling` skill.
 
 - Token → Tailwind mapping (Figma-only):
 - Combine the Tailwind prefix for the CSS property with the unique part of the token name. Use ONLY the unique part after the last hyphen of the CSS variable name.

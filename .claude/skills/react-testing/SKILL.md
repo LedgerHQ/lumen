@@ -1,20 +1,25 @@
 ---
-globs: libs/ui-react/**/*.test.ts, libs/ui-react/**/*.test.tsx
-alwaysApply: false
+name: react-testing
+description: >-
+  Use when writing or editing React tests in libs/ui-react — Vitest + React
+  Testing Library conventions (queries, imports, interactions, mocking, structure).
+paths: libs/ui-react/**/*.test.{ts,tsx}
 ---
 
-# Testing target elements
+# React testing (`libs/ui-react`)
+
+## Testing target elements
 - Prefer accessible queries: `getByRole`, `getByLabelText`, `getByText`
 - Use `data-testid` only when no accessible query applies
 
-# Test runner
+## Test runner
 - Uses Vitest
 - Do not expose globals, instead import explicitly:
 ```ts
 import { describe, it, expect, vi } from 'vitest';
 ```
 
-# Rendering
+## Rendering
 - Import from `@testing-library/react`:
 ```ts
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -25,18 +30,18 @@ import '@testing-library/jest-dom';
 ```
 - Render components directly with `render(<Component />)` -- no custom wrapper needed
 
-# Interactions
+## Interactions
 - Use `fireEvent` for simple click/change events
 - Use `userEvent` from `@testing-library/user-event` for complex interactions (typing, keyboard, focus):
 ```ts
 import userEvent from '@testing-library/user-event';
 ```
 
-# Mocking
+## Mocking
 - Use `vi.fn()` for callback/handler spies
 - Assert with `toHaveBeenCalledTimes`, `toHaveBeenCalledWith`, `not.toHaveBeenCalled`
 
-# Structure
+## Structure
 - Single top-level `describe('<ComponentName>', () => { ... })`
 - Flat `it('should ...')` cases for simple components
 - Nested `describe` blocks for hooks or components with many concern areas

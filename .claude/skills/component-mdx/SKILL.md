@@ -1,7 +1,10 @@
 ---
-description: MDX documentation structure, and table guidelines for Storybook docs
-globs: *.mdx
-alwaysApply: false
+name: component-mdx
+description: >-
+  Use when writing or editing Storybook MDX docs (*.mdx) — the two-tab
+  Overview/Implementation structure, story-backed `<Source>` examples, and doc
+  table guidelines.
+paths: "**/*.mdx"
 ---
 
 # Documentation Guidelines
@@ -55,7 +58,7 @@ import * as ComponentStories from './Component.stories';
 - Pair each `<Source>` with a real story export — the snippet stays in sync with Storybook (`type: 'dynamic'` on stories keeps it accurate when controls change).
 - Do not duplicate story code as manual ` ```tsx ` blocks in the Implementation tab.
 
-See `.cursor/rules/react/storybook-stories.mdc` for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
+See the `storybook-stories` skill for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
 
 ### Required Structure
 
