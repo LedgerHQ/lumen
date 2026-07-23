@@ -1,6 +1,11 @@
 #!/bin/bash
 # Stop hook: auto-fix lint on the projects affected by the agent's changes.
 #
+# Shared by Claude Code and Cursor: wired once in `.claude/settings.json` (Stop).
+# Claude Code runs it natively; Cursor runs it via its Claude-hook loader
+# (maps `Stop` -> `stop`), which requires "third-party skills/hooks" enabled in
+# Cursor settings. The script ignores stdin, so it behaves identically in both.
+#
 # Lets Nx compute the affected project set (changed projects + their dependents)
 # and runs lint --fix across them:
 #
