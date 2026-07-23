@@ -9,6 +9,7 @@ export type DonutGeometry = Readonly<{
   outerRadius: number;
   cornerRadius: number;
   padAngle: number;
+  hoverOffset: number;
 }>;
 
 /** A segment ready to draw: its path is centered at the origin. */
@@ -17,6 +18,9 @@ export type DonutArc = {
   path: string;
   color: string;
   percent: number;
+  midAngle: number;
+  hoverTranslate: { x: number; y: number };
+  hoverEnabled: boolean;
 };
 
 /** A single part-to-whole slice. */
@@ -45,4 +49,10 @@ export type DonutChartProps = {
    * @default 'Donut chart'
    */
   ariaLabel?: string;
+  /** Controlled active segment id. Active is data-driven, not a state variant. */
+  activeId?: string | null;
+  /** Default active segment id for uncontrolled mode. */
+  defaultActiveId?: string | null;
+  /** Fired when the active segment changes (hover or external reset). */
+  onActiveIdChange?: (id: string | null) => void;
 };

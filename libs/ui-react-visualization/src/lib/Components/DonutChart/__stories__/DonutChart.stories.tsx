@@ -1,5 +1,6 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { DonutChart } from '../DonutChart';
@@ -129,5 +130,29 @@ export const SegmentCounts: Story = {
 export const NoData: Story = {
   args: {
     series: [],
+  },
+};
+
+/**
+ * Segments are hoverable by default. Hovering a segment sets `activeId`, dims
+ * the others, and pops the active slice out radially. Leaving the chart resets
+ * `activeId` to `null`.
+ */
+export const Interactive: Story = {};
+
+/**
+ * Lift `activeId` into parent state to drive the chart and a future legend from
+ * the same contract.
+ */
+export const Controlled: Story = {
+  render: (args) => {
+    const [activeId, setActiveId] = useState<string | null>(null);
+    return (
+      <DonutChart
+        {...args}
+        activeId={activeId}
+        onActiveIdChange={setActiveId}
+      />
+    );
   },
 };
