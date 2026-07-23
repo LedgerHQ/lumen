@@ -1,8 +1,13 @@
-import type { ChangeEvent, ComponentPropsWithRef } from 'react';
+import type { ChangeEvent } from 'react';
+import type {
+  CurrencyInputAlign,
+  CurrencyInputSize,
+  CurrencyInputVisualProps,
+} from '../CurrencyInput/types';
 
-export type AmountInputSize = 'md' | 'sm';
+export type AmountInputSize = CurrencyInputSize;
 
-export type AmountInputAlign = 'center' | 'start' | 'end';
+export type AmountInputAlign = CurrencyInputAlign;
 
 export type AmountInputProps = {
   /**
@@ -15,25 +20,6 @@ export type AmountInputProps = {
    * @required
    */
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  /**
-   * Visual size of the amount input.
-   * @default 'md'
-   */
-  size?: AmountInputSize;
-  /**
-   * Horizontal alignment of the amount and currency.
-   * @default 'center'
-   */
-  align?: AmountInputAlign;
-  /**
-   * The currency text (e.g. USD, EUR)
-   */
-  currencyText?: string;
-  /**
-   * Position of the currency text.
-   * @default 'left'
-   */
-  currencyPosition?: 'left' | 'right';
   /**
    * Maximum length for integer part (before decimal)
    * @default 9
@@ -50,10 +36,6 @@ export type AmountInputProps = {
    */
   allowDecimals?: boolean;
   /**
-   * Additional class names
-   */
-  className?: string;
-  /**
    * Whether to use thousands separator (e.g. 1 000 for 1000)
    * @default true
    */
@@ -66,7 +48,4 @@ export type AmountInputProps = {
    * @default '.'
    */
   decimalSeparator?: '.' | ',';
-} & Omit<
-  ComponentPropsWithRef<'input'>,
-  'size' | 'prefix' | 'value' | 'onChange'
->;
+} & CurrencyInputVisualProps;

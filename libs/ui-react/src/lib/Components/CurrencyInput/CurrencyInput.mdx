@@ -1,0 +1,113 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CurrencyInputStories from './CurrencyInput.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../.storybook/components';
+
+<Meta title='Core/CurrencyInput' of={CurrencyInputStories} />
+
+# CurrencyInput
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+CurrencyInput is a controlled numeric input built on a 3-layer pipeline:
+
+1. **sanitize** - a locale-agnostic safety-gate that keeps only characters valid in a number field.
+2. **parse** - turns the safety-gated string into your value (canonical string by default).
+3. **format** - turns the value back into the display string.
+
+It formats on every change and keeps the caret at the end. The value is generic: by default it is the canonical string (e.g. `"1234.56"`) and `parse`/`format` fall back to the built-in helpers. For any other value type, provide both `parse` and `format`.
+
+**⚠️ Important: CurrencyInput is a controlled component only.** Both `value` and `onChange` are required.
+
+## Anatomy
+
+<Canvas of={CurrencyInputStories.Default} />
+<Controls of={CurrencyInputStories.Default} />
+
+> **Layout:** CurrencyInput takes the full width of its container by default. Control the width by wrapping it in a container.
+
+### Size
+
+Use the `size` prop to control typography scale.
+
+<Canvas of={CurrencyInputStories.Size} />
+
+### Alignment
+
+Use the `align` prop to position the amount within its container. Defaults to `center`.
+
+<Canvas of={CurrencyInputStories.Alignment} />
+
+### Currency Text Position
+
+The currency text can be positioned on either the **left** (default) or **right** side.
+
+<Canvas of={CurrencyInputStories.Default} />
+<Canvas of={CurrencyInputStories.WithRightCurrency} />
+
+### Locale formatting
+
+Number shaping lives entirely in `sanitize`/`parse`/`format`. Switch locale below to change grouping and the decimal separator (US `1,234.5`, FR `1 234,5`, DE `1.234,56`) - the canonical value emitted by `onChange` stays `.`-based regardless of locale. For the built-in space grouping, the `createAmountParser` / `createAmountFormatter` helpers configure separators, decimal length, etc. without reimplementing the pipeline.
+
+<Canvas of={CurrencyInputStories.LocaleFormatting} />
+
+### Error State
+
+Pass `aria-invalid` to render the error styling.
+
+<Canvas of={CurrencyInputStories.Error} />
+
+### Disabled State
+
+<Canvas of={CurrencyInputStories.Disabled} />
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+CurrencyInput is a **controlled component only**. Provide both `value` and `onChange`. By default the value is the canonical string.
+
+```tsx
+import { CurrencyInput } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <CurrencyInput
+      value={value}
+      onChange={setValue} // receives the canonical string, e.g. "1234.56"
+      currencyText='USD'
+    />
+  );
+}
+```
+
+## Custom value type
+
+Provide `parse` and `format` to use any value type (both are required for non-string values):
+
+```tsx
+<CurrencyInput<number | null>
+  value={value}
+  onChange={setValue}
+  parse={(safe) => (safe === '' ? null : Number(safe))}
+  format={(val) => (val === null ? '' : String(val))}
+/>
+```
+
+</Tab>
+</CustomTabs>

@@ -10,6 +10,7 @@ export * from './Card';
 export * from './CardButton';
 export * from './Checkbox';
 export * from './ContentBanner';
+export * from './CurrencyInput';
 export * from './DataTable';
 export * from './DescriptionItem';
 export * from './Dialog';

@@ -1,0 +1,1 @@
+export { CurrencyLabel } from './CurrencyLabel';

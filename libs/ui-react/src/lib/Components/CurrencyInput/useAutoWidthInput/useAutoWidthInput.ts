@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import type { AmountInputSize } from '../types';
+import type { CurrencyInputSize } from '../types';
 
 /** Extra width for empty input (caret + placeholder). */
 const INPUT_WIDTH_PADDING_EMPTY = 33;
@@ -13,12 +13,12 @@ const INPUT_WIDTH_PADDING_NO_CURRENCY_SM = 16;
 const NO_CURRENCY_WIDTH_PADDING_BY_SIZE = {
   md: INPUT_WIDTH_PADDING_NO_CURRENCY_MD,
   sm: INPUT_WIDTH_PADDING_NO_CURRENCY_SM,
-} as const satisfies Record<AmountInputSize, number>;
+} as const satisfies Record<CurrencyInputSize, number>;
 
 const getInputWidthPadding = (
   inputValue: string,
   currencyText: string | undefined,
-  size: AmountInputSize,
+  size: CurrencyInputSize,
 ): number => {
   const basePadding =
     inputValue === '' ? INPUT_WIDTH_PADDING_EMPTY : INPUT_WIDTH_PADDING_FILLED;
@@ -33,7 +33,7 @@ const getInputWidthPadding = (
 type UseAutoWidthInputArgs = {
   inputValue: string;
   currencyText: string | undefined;
-  size: AmountInputSize;
+  size: CurrencyInputSize;
 };
 
 type UseAutoWidthInputReturn = {
