@@ -1,6 +1,4 @@
 import type {
-  BottomSheetFooter as GorhomBottomSheetFooter,
-  BottomSheetFooterProps as GorhomBottomSheetFooterProps,
   BottomSheetModal as GorhomBottomSheetModal,
   BottomSheetView as GorhomBottomSheetView,
   BottomSheetFlatList as GorhomBottomSheetFlatList,
@@ -17,6 +15,7 @@ import type {
   ReactNode,
   Ref,
 } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import type { StyledViewProps } from '../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
@@ -161,13 +160,6 @@ export type BottomSheetProps = PropsWithChildren & {
    * @default false
    */
   hideHandle?: boolean;
-  /**
-   * A component rendered as a sticky footer at the bottom of the sheet,
-   * floating above the scrollable content.
-   * Use with the `BottomSheetFooter` component from this library.
-   * @default undefined
-   */
-  footerComponent?: FC<GorhomBottomSheetFooterProps>;
 };
 
 export type { BottomSheetBackgroundProps };
@@ -207,6 +199,6 @@ export type BottomSheetScrollViewProps = Parameters<
 export type BottomSheetVirtualizedListProps = Parameters<
   typeof GorhomBottomSheetVirtualizedList
 >[0];
-export type BottomSheetFooterProps = Parameters<
-  typeof GorhomBottomSheetFooter
->[0];
+export type BottomSheetFooterProps = PropsWithChildren<{
+  style?: StyleProp<ViewStyle>;
+}>;

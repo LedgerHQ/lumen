@@ -1,7 +1,4 @@
-import {
-  BottomSheetFooter as GorhomBottomSheetFooter,
-} from '@gorhom/bottom-sheet';
-import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import type { BottomSheetFooterProps } from './types';
 
@@ -22,15 +19,7 @@ const useStyles = () =>
 export const BottomSheetFooter = ({
   children,
   style,
-  ...props
 }: BottomSheetFooterProps) => {
   const styles = useStyles();
-  return (
-    <GorhomBottomSheetFooter
-      {...props}
-      style={StyleSheet.flatten([styles.root, style])}
-    >
-      {children}
-    </GorhomBottomSheetFooter>
-  );
+  return <View style={[styles.root, style]}>{children}</View>;
 };
