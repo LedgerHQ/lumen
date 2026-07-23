@@ -267,14 +267,20 @@ const BottomSheetFooterWithDynamicSize = ({
           density='compact'
           description='Sheet sizes to content'
         />
-        <Box lx={{ flexDirection: 'column', gap: 's12' }}>
+        <BottomSheetContent
+          style={{
+            flexDirection: 'column',
+            gap: 's12',
+            backgroundColor: 'red',
+          }}
+        >
           {Array.from({ length: 8 }, (_, i) => (
             <Text key={i} typography='body2' lx={{ color: 'base' }}>
               Item {i + 1}: Lorem ipsum dolor sit amet consectetur adipisicing
               elit.
             </Text>
           ))}
-        </Box>
+        </BottomSheetContent>
         <BottomSheetFooter>
           <Button appearance='base'>Confirm</Button>
           <Button appearance='gray'>Cancel</Button>

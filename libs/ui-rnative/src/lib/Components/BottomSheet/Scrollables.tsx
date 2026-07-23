@@ -5,7 +5,7 @@ import {
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
-import type { PropsWithChildren } from 'react';
+import { createContext, useContext, type PropsWithChildren } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
@@ -17,6 +17,10 @@ import type {
   BottomSheetScrollViewProps,
   BottomSheetVirtualizedListProps,
 } from './types';
+
+const BottomSheetScrollableViewContext = createContext(false);
+export const useIsInsideScrollableView = () =>
+  useContext(BottomSheetScrollableViewContext);
 
 const useHasFooter = () => {
   const ctx = useBottomSheetContext({
@@ -48,7 +52,9 @@ export const BottomSheetView = ({
 
   return (
     <GorhomBottomSheetView style={[styles.container, style]} {...props}>
-      {children}
+      <BottomSheetScrollableViewContext.Provider value={true}>
+        {children}
+      </BottomSheetScrollableViewContext.Provider>
     </GorhomBottomSheetView>
   );
 };
@@ -58,7 +64,19 @@ export const BottomSheetContent = ({
   style,
 }: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) => {
   const styles = useScrollableStyles(useHasFooter());
-  return <View style={[styles.container, style]}>{children}</View>;
+  const insideScrollableView = useIsInsideScrollableView();
+
+  return (
+    <View
+      style={[
+        styles.container,
+        insideScrollableView && { paddingHorizontal: 0 },
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  );
 };
 
 export const BottomSheetFlatList = ({
