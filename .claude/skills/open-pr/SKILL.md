@@ -1,3 +1,12 @@
+---
+name: open-pr
+description: >-
+  Open a PR from the current branch to `main`: commit if needed, ensure an Nx
+  version plan exists, push, and create the PR with a filled-in description and
+  testing steps. Run only when the user explicitly asks to open/create a PR.
+disable-model-invocation: true
+---
+
 # open-pr
 
 Open a PR from the current branch to `main`. Commit if needed, push, then create the PR with a filled-in description and testing steps.
@@ -29,7 +38,7 @@ git diff main...HEAD --name-only -- .nx/version-plans/
 - Files under `libs/design-core/` → `'@ledgerhq/lumen-design-core'`
 - Files under `libs/utils-shared/` → `'@ledgerhq/lumen-utils-shared'`
 
-Always use `patch` as the bump type — never `minor`, never `major` — regardless of the change (feature, fix, breaking change, etc.). See `.cursor/rules/shared/release-plan.mdc`.
+Always use `patch` as the bump type — never `minor`, never `major` — regardless of the change (feature, fix, breaking change, etc.) — see the release-plan convention.
 
 Create **one file per affected package** — never group multiple packages in the same file. If N packages are affected, create N files named `.nx/version-plans/version-plan-<timestamp>-<pkg>.md`, each with a single-package frontmatter:
 

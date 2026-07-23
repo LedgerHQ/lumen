@@ -46,6 +46,7 @@ matches. They live in `.claude/skills/` — a single tree read by Claude Code
 | building or editing a React component in `libs/ui-react` | `react-component-patterns` |
 | creating/updating Figma Code Connect (`*.figma.ts`) | `code-connect` |
 | syncing design tokens to React Native JS themes after a Figma sync | `figma-token-sync` |
+| opening a PR from the current branch (manual — run `/open-pr`) | `open-pr` |
 
 > **Migration in progress.** The remaining conventions still live in
 > `.cursor/rules/` and are being moved into skills: react-native component
