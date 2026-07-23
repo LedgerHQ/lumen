@@ -4,6 +4,7 @@ import type {
 } from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheet,
+  BottomSheetContent,
   BottomSheetFlatList,
   BottomSheetFooter,
   BottomSheetHeader,
@@ -104,14 +105,12 @@ const BottomSheetWithGradient = ({ ref, ...props }: BottomSheetProps) => {
           density='compact'
           description='Gradient spans the full sheet.'
         />
-        <Box lx={{ paddingHorizontal: 's4', gap: 's12' }}>
-          <Text typography='body2' lx={{ color: 'base' }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
-            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
-            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
-            turpis efficitur sit amet.
-          </Text>
-        </Box>
+        <Text typography='body2' lx={{ color: 'base' }}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+          eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+          Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+          turpis efficitur sit amet.
+        </Text>
       </BottomSheetView>
     </BottomSheet>
   );
@@ -173,31 +172,27 @@ const BottomSheetWithFooter = ({ ref, ...props }: BottomSheetProps) => {
     <BottomSheet
       {...props}
       ref={ref}
-      snapPoints={['40%']}
-      maxDynamicContentSize='full'
+      snapPoints={['50%']}
       backdropPressBehavior='close'
-      footerComponent={(props) => (
-        <BottomSheetFooter {...props}>
-          <Button appearance='base'>Confirm</Button>
-          <Button appearance='no-background'>Cancel</Button>
-        </BottomSheetFooter>
-      )}
     >
-      <BottomSheetView>
-        <BottomSheetHeader
-          title='With footer'
-          density='compact'
-          description='This bottom sheet has a sticky footer'
-        />
-        <Box lx={{ paddingHorizontal: 's16' }}>
-          <Text typography='body2' lx={{ color: 'base' }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
-            eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
-            Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
-            turpis efficitur sit amet.
-          </Text>
-        </Box>
-      </BottomSheetView>
+      <BottomSheetHeader
+        spacing
+        title='With footer'
+        density='compact'
+        description='This bottom sheet has a sticky footer'
+      />
+      <BottomSheetContent>
+        <Text typography='body2' lx={{ color: 'base' }}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non
+          eleifend erat. Etiam ac justo luctus massa hendrerit pellentesque.
+          Vestibulum a dolor mi. Etiam sollicitudin dui quam, quis ultricies
+          turpis efficitur sit amet.
+        </Text>
+      </BottomSheetContent>
+      <BottomSheetFooter>
+        <Button appearance='base'>Confirm</Button>
+        <Button appearance='no-background'>Cancel</Button>
+      </BottomSheetFooter>
     </BottomSheet>
   );
 };

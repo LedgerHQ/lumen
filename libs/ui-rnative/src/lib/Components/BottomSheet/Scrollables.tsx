@@ -5,7 +5,9 @@ import {
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
-import type { ViewStyle } from 'react-native';
+import type { PropsWithChildren } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import type {
   BottomSheetViewProps,
@@ -43,6 +45,26 @@ export const BottomSheetView = ({
       {children}
     </GorhomBottomSheetView>
   );
+};
+
+const useContentStyles = () =>
+  useStyleSheet(
+    (t) => ({
+      container: {
+        flex: 1,
+        paddingHorizontal: t.spacings.s16,
+        paddingBottom: t.spacings.s16,
+      },
+    }),
+    [],
+  );
+
+export const BottomSheetContent = ({
+  children,
+  style,
+}: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) => {
+  const styles = useContentStyles();
+  return <View style={[styles.container, style]}>{children}</View>;
 };
 
 export const BottomSheetFlatList = ({
