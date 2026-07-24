@@ -1,9 +1,12 @@
 import { useControllableState } from '@ledgerhq/lumen-ui-react';
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import { useMemo, type FocusEvent } from 'react';
 
+import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
+import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutChartProps } from './types';
-import { buildArcs, DONUT_GEOMETRY } from './utils';
+import { buildArcs, DONUT_GEOMETRY, getSegmentPercents } from './utils';
 
 export function DonutChart({
   series,
@@ -12,6 +15,8 @@ export function DonutChart({
   activeId: activeIdProp,
   defaultActiveId = null,
   onActiveIdChange,
+  renderCenter,
+  renderCenterActive,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
 
@@ -22,6 +27,14 @@ export function DonutChart({
   });
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
+
+  const activeSegment = useMemo(() => {
+    const index = series.findIndex((segment) => segment.id === activeId);
+    if (activeId == null || index === -1) {
+      return null;
+    }
+    return { ...series[index], percent: getSegmentPercents(series)[index] };
+  }, [series, activeId]);
 
   const resetActiveId = (): void => {
     if (activeId !== null) {
@@ -38,6 +51,8 @@ export function DonutChart({
       resetActiveId();
     }
   };
+
+  const useAnimatedCenter = renderCenter != null && renderCenterActive != null;
 
   return (
     <div
@@ -58,6 +73,32 @@ export function DonutChart({
         activeId={activeId}
         onSegmentEnter={setActiveId}
       />
+      {renderCenter && (
+        <div
+          data-testid='donut-center'
+          className='pointer-events-none absolute inset-0 flex items-center justify-center'
+        >
+          <DonutSizeProvider value={{ size }}>
+            {useAnimatedCenter ? (
+              <DonutChartAnimatedCenter
+                activeSegment={activeSegment}
+                renderResting={() =>
+                  renderCenter({ series, activeSegment: null })
+                }
+                renderActive={(segment) =>
+                  renderCenterActive({ activeSegment: segment })
+                }
+              />
+            ) : (
+              <div
+                className={cn('pointer-events-auto flex flex-col items-center')}
+              >
+                {renderCenter({ activeSegment, series })}
+              </div>
+            )}
+          </DonutSizeProvider>
+        </div>
+      )}
     </div>
   );
 }

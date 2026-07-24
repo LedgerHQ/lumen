@@ -1,3 +1,5 @@
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+
 import type { chartConfig } from '../../config';
 
 export type DonutSize = keyof typeof chartConfig.donut.size;
@@ -55,4 +57,34 @@ export type DonutChartProps = {
   defaultActiveId?: string | null;
   /** Fired when the active segment changes (hover or external reset). */
   onActiveIdChange?: (id: string | null) => void;
+  /**
+   * Renders the ring's center content from `DonutChartTitle` and
+   * `DonutChartDescription`. Layout and pointer events are handled internally.
+   * Receives `{ activeSegment, series }`; `activeSegment` is enriched with its
+   * computed `percent` and is `null` when nothing is active.
+   */
+  renderCenter?: (params: {
+    activeSegment: (DonutSegment & { percent: number }) | null;
+    series: DonutSegment[];
+  }) => ReactNode;
+  /**
+   * Optional active center content on segment hover. When provided alongside
+   * `renderCenter`, the chart crossfades between the resting slot
+   * (`renderCenter`, called with `activeSegment: null`) and this active slot
+   * instead of swapping JSX in a single `renderCenter` callback.
+   */
+  renderCenterActive?: (params: {
+    activeSegment: DonutSegment & { percent: number };
+  }) => ReactNode;
 };
+
+export type DonutChartTitleProps = ComponentPropsWithRef<'div'> & {
+  /**
+   * The title's own typography scale, independent of the donut ring's
+   * `size`. Combined with the ring size to pick the exact typography.
+   * @default 'md'
+   */
+  size?: DonutSize;
+};
+
+export type DonutChartDescriptionProps = ComponentPropsWithRef<'div'>;

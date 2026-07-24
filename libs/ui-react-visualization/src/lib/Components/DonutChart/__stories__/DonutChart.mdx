@@ -87,6 +87,26 @@ slot can react to the same active segment.
 
 <Canvas of={DonutChartStories.Controlled} />
 
+## Center content
+
+`renderCenter` renders content in the middle of the ring from `DonutChartTitle`
+and `DonutChartDescription`. Layout and pointer events are handled internally.
+It receives `{ activeSegment, series }`; `activeSegment` is enriched with its
+computed `percent` and is `null` when nothing is active, so the center can
+switch content in one callback (e.g. a ternary on `activeSegment`).
+
+Pass the optional `renderCenterActive` alongside `renderCenter` to crossfade
+between resting and active layouts on segment hover (180ms opacity + slide)
+instead of swapping JSX trees.
+
+<Canvas of={DonutChartStories.WithCenter} />
+
+To make the whole active block clickable (with chevron hover following block
+hover), wrap `renderCenterActive` in a `group` button and keep `InteractiveIcon`
+decorative — see `WithCenterClickable`.
+
+<Canvas of={DonutChartStories.WithCenterClickable} />
+
 ## Props
 
 <Controls of={DonutChartStories.Base} />
