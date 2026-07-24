@@ -56,7 +56,7 @@ Names are scoped by prefix: `react-*` → `libs/ui-react`, `rnative-*` → `libs
 | building or styling a React component (`libs/ui-react`) | `react-styling` |
 | writing React tests (`libs/ui-react`) | `react-testing` |
 | implementing a React component from a Figma link | `react-figma-to-code` |
-| building a React Native component (`libs/ui-rnative`) | `rnative-component-patterns` |
+| building or styling a React Native component (`libs/ui-rnative`) | `rnative-styling` |
 | writing React Native tests (`libs/ui-rnative`) | `rnative-testing` |
 | running Nx tasks/generators, or asking workspace questions | `nx` |
 

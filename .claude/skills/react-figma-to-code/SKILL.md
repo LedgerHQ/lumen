@@ -3,7 +3,7 @@ name: react-figma-to-code
 description: >-
   Use when implementing or updating a React component (libs/ui-react) from a
   Figma link — Figma design-token → Tailwind classname mapping. React/Tailwind
-  only; React Native uses `useStyleSheet` (see `rnative-component-patterns`).
+  only; React Native uses `useStyleSheet` (see `rnative-styling`).
 ---
 
 # Figma → code (React / Tailwind)

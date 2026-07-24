@@ -1,9 +1,10 @@
 ---
 name: react-testing
 description: >-
-  Use when writing or editing React tests in libs/ui-react — Vitest + React
-  Testing Library conventions (queries, imports, interactions, mocking, structure).
-paths: libs/ui-react/**/*.test.{ts,tsx}, libs/ui-react-visualization/**/*.{ts,tsx}
+  Use when writing or editing React tests in libs/ui-react (and
+  ui-react-visualization) — Vitest + React Testing Library conventions (queries,
+  imports, interactions, mocking, structure).
+paths: libs/ui-react/**/*.test.{ts,tsx}, libs/ui-react-visualization/**/*.test.{ts,tsx}
 ---
 
 # React testing (`libs/ui-react`)

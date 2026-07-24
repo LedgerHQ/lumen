@@ -18,7 +18,7 @@ Button/
 ├── Button.test.tsx     # tests
 ├── Button.stories.tsx  # Storybook stories
 ├── Button.mdx          # Storybook docs
-├── Button.figma.ts     # Figma Code Connect
+├── Button.figma.tsx    # Figma Code Connect
 └── index.ts            # barrel exposing the public API
 ```
 

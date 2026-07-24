@@ -45,8 +45,5 @@ If the user wants help with tasks or commands (which include keywords like "test
 # Commands
 
 - Targets are defined in project.json of each lib or app, but these can also be inferred based on each project config
-- To run a command, you can run `nx run [project][:target]`, here are few useful examples:
-  - test react `npx nx run @ledgerhq/lumen-ui-react:test $1`
-  - test react-native `npx nx run @ledgerhq/lumen-ui-rnative:test $1`
-  - lint all `npx nx run-many --target=lint --all`
-  - typecheck all `npx nx run-many --target=typecheck --all`
+- To run a command, use `nx run [project][:target]`.
+- For the canonical list of common commands (test / lint / typecheck / build / storybook), see the `Commands` section of `AGENTS.md` — not duplicated here.

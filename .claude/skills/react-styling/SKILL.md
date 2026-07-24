@@ -1,9 +1,10 @@
 ---
 name: react-styling
 description: >-
-  Use when building or styling a React component in libs/ui-react — cva usage,
-  props-drilling, and design-system Tailwind token usage (typography, colors,
-  spacing, sizes, shadows, gradients, and classname rules).
+  Use when building or styling a React component in libs/ui-react (and
+  ui-react-visualization) — cva usage, props-drilling, and design-system Tailwind
+  token usage (typography, colors, spacing, sizes, shadows, gradients, and
+  classname rules).
 paths: libs/ui-react/**/*.{ts,tsx}, libs/ui-react-visualization/**/*.{ts,tsx}
 ---
 
@@ -62,8 +63,8 @@ Conventions for composing classnames and authoring React components in the UI Ki
 ### Width, Height, and Size Utilities
 
 - Do not use arbitrary size values (e.g., `w-[108px]`, `h-[90px]`)
-- Only use size tokens that exist in `libs/design-core/src/lib/themes/primitives.ts`
-- Source of truth: `libs/design-core/src/lib/themes/primitives.ts` (see `--size-*` tokens)
+- Only use size tokens that exist in `libs/design-core/src/lib/themes/css/primitives.css`
+- Source of truth: `libs/design-core/src/lib/themes/css/primitives.css` (see `--size-*` tokens)
 
 #### Available Size Tokens
 
@@ -77,7 +78,7 @@ Sizes available for width, height, max-width, max-height, min-width, min-height 
 
 Before using width/height utilities:
 
-1. Check `libs/design-core/src/lib/themes/primitives.css` for `--size-*` tokens
+1. Check `libs/design-core/src/lib/themes/css/primitives.css` for `--size-*` tokens
 2. Or use VSCode IntelliSense with Tailwind CSS extension
 3. If uncertain, use the Tailwind CSS IntelliSense autocomplete
 
@@ -90,12 +91,12 @@ Before using width/height utilities:
   - Use `border` for default width
   - Use `border-2` for active/emphasized states
 
-- Drop shadow utilities from `createDropShadowPlugin`:
-  - `drop-shadow-sm`: 1px 4px rgba(0, 0, 0, 0.16)
-  - `drop-shadow-md`: 2px 8px rgba(0, 0, 0, 0.16)
-  - `drop-shadow-lg`: 4px 16px rgba(0, 0, 0, 0.16)
-  - `drop-shadow-xl`: 6px 24px rgba(0, 0, 0, 0.16)
-  - `drop-shadow-2xl`: 8px 32px rgba(0, 0, 0, 0.16)
+- Shadow utilities from `createShadowPlugin`:
+  - `shadow-sm`: 1px 4px rgba(0, 0, 0, 0.16)
+  - `shadow-md`: 2px 8px rgba(0, 0, 0, 0.16)
+  - `shadow-lg`: 4px 16px rgba(0, 0, 0, 0.16)
+  - `shadow-xl`: 6px 24px rgba(0, 0, 0, 0.16)
+  - `shadow-2xl`: 8px 32px rgba(0, 0, 0, 0.16)
 
 ### Gradients
 
