@@ -6,6 +6,8 @@ import { SearchInput } from '../SearchInput';
 import { Spot } from '../Spot';
 import { Box, RadialGradient, Text } from '../Utility';
 import { BottomSheet } from './BottomSheet';
+import { BottomSheetContent } from './BottomSheetContent';
+import { BottomSheetFooter } from './BottomSheetFooter';
 import { BottomSheetHeader } from './BottomSheetHeader';
 import {
   BottomSheetFlatList,
@@ -137,7 +139,7 @@ export const Base: Story = {
               density='compact'
               description='Description'
             />
-            <Box lx={{ flexDirection: 'column', gap: 's12' }}>
+            <BottomSheetContent lx={{ flexDirection: 'column', gap: 's12' }}>
               {Array.from({ length: 3 }).map((_, index) => (
                 <Text typography='body2' lx={{ color: 'base' }} key={index}>
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -146,7 +148,7 @@ export const Base: Story = {
                   voluptates eum, sunt asperiores quod.
                 </Text>
               ))}
-            </Box>
+            </BottomSheetContent>
           </BottomSheetView>
         </BottomSheet>
       </Box>
@@ -187,7 +189,7 @@ export const TitleExpanded: Story = {
               density='expanded'
               description='Expanded description.'
             />
-            <Box lx={{ flexDirection: 'column', gap: 's12' }}>
+            <BottomSheetContent>
               <Text typography='body2' lx={{ color: 'base' }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
                 excepturi odit, quis tenetur iste perspiciatis mollitia porro
@@ -197,7 +199,7 @@ export const TitleExpanded: Story = {
                 consectetur adipiscing elit. Donec ullamcorper nulla non metus
                 auctor fringilla.
               </Text>
-            </Box>
+            </BottomSheetContent>
           </BottomSheetView>
         </BottomSheet>
       </Box>
@@ -824,6 +826,65 @@ export const InfoStateVariants: Story = {
               </Button>
             </Box>
           </BottomSheetView>
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
+export const WithFooter: Story = {
+  args: {
+    hideCloseButton: false,
+    enableHandlePanningGesture: true,
+    enablePanDownToClose: true,
+    enableBlurKeyboardOnGesture: true,
+    enableDynamicSizing: true,
+    detached: false,
+    backdropPressBehavior: 'close',
+  },
+  render: (args) => {
+    const bottomSheetRef = useBottomSheetRef();
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+        }}
+      >
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+          Toggle open
+        </Button>
+        <BottomSheet {...args} ref={bottomSheetRef}>
+          <BottomSheetHeader
+            spacing
+            title='With Footer'
+            density='compact'
+            description='Scrollable content with a sticky footer'
+          />
+          <BottomSheetScrollView>
+            <Box lx={{ flexDirection: 'column', gap: 's12' }}>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <Text typography='body2' lx={{ color: 'base' }} key={index}>
+                  Item {index + 1}: Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Vitae excepturi odit, quis tenetur iste
+                  perspiciatis mollitia porro velit laborum quasi numquam
+                  reiciendis dolor!
+                </Text>
+              ))}
+            </Box>
+          </BottomSheetScrollView>
+          <BottomSheetFooter>
+            <Button size='lg' isFull>
+              Confirm
+            </Button>
+            <Button size='lg' isFull appearance='gray'>
+              Cancel
+            </Button>
+          </BottomSheetFooter>
         </BottomSheet>
       </Box>
     );

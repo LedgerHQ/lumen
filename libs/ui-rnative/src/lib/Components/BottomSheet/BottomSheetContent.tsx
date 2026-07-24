@@ -18,7 +18,7 @@ const useStyles = (hasFooter: boolean, isInsideScrollableView: boolean) =>
         },
       ]),
     }),
-    [hasFooter],
+    [hasFooter, isInsideScrollableView],
   );
 
 export const BottomSheetContent = ({
