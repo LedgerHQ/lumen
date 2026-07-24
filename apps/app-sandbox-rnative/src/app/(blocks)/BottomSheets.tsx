@@ -40,8 +40,8 @@ const BottomSheetFlatLists = ({ ref, ...props }: BottomSheetProps) => {
       />
       <BottomSheetFlatList
         data={data}
-        keyExtractor={(item: { id: Pick<Data, 'id'> }) => item.id}
-        renderItem={({ item }: { item: Omit<Data, 'id'> }) => {
+        keyExtractor={(item: Data) => item.id}
+        renderItem={({ item }: { item: Data }) => {
           return (
             <Box
               lx={{
@@ -222,8 +222,8 @@ const BottomSheetFooterWithFlatList = ({ ref, ...props }: BottomSheetProps) => {
       />
       <BottomSheetFlatList
         data={data}
-        keyExtractor={(item: { id: Pick<Data, 'id'> }) => item.id}
-        renderItem={({ item }: { item: Omit<Data, 'id'> }) => (
+        keyExtractor={(item: Data) => item.id}
+        renderItem={({ item }: { item: Data }) => (
           <Box
             lx={{
               flexDirection: 'column',

@@ -440,7 +440,7 @@ describe('BottomSheetContent', () => {
     ).not.toThrow();
   });
 
-  it('removes paddingBottom when BottomSheetFooter is present as sibling', () => {
+  it('renders when BottomSheetFooter is present as a sibling inside BottomSheetView', () => {
     const { BottomSheet } = require('./BottomSheet');
     expect(() =>
       renderWithTheme(
@@ -521,7 +521,7 @@ describe('BottomSheetView', () => {
     expect(getByText('View child')).toBeTruthy();
   });
 
-  it('removes paddingBottom when BottomSheetFooter is a sibling inside the view', () => {
+  it('renders when BottomSheetFooter is a sibling inside BottomSheetView', () => {
     const { BottomSheet } = require('./BottomSheet');
     expect(() =>
       renderWithTheme(
