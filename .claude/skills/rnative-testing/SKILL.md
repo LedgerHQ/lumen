@@ -4,7 +4,7 @@ description: >-
   Use when writing or editing React Native tests in libs/ui-rnative — Jest +
   React Native Testing Library conventions (testID targeting, imports,
   interactions, mocking, structure).
-paths: libs/ui-rnative/**/*.test.{ts,tsx}
+paths: libs/ui-rnative/**/*.test.{ts,tsx}, libs/ui-rnative-visualization/**/*.test.{ts,tsx}
 ---
 
 # React Native testing (`libs/ui-rnative`)

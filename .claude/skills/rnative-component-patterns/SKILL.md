@@ -3,7 +3,7 @@ name: rnative-component-patterns
 description: >-
   Use when building or editing a React Native component in libs/ui-rnative —
   the `lx` prop, `useStyleSheet`, variant composition, and props-drilling conventions.
-paths: libs/ui-rnative/**/*.tsx
+paths: libs/ui-rnative/**/*.tsx, libs/ui-rnative-visualization/**/*.tsx
 ---
 
 # React Native component patterns (`libs/ui-rnative`)
