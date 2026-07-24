@@ -1,4 +1,5 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, getButtonA11yProps } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../i18n';
 import { Close } from '../../Symbols';
@@ -8,6 +9,19 @@ import type {
   MediaBannerProps,
   MediaBannerTitleProps,
 } from './types';
+
+const mediaBannerVariants = cva(
+  'flex h-72 w-full flex-row overflow-hidden rounded-md bg-surface text-start select-none',
+  {
+    variants: {
+      interactive: {
+        true: 'group relative cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        false: 'cursor-default',
+      },
+    },
+    defaultVariants: { interactive: false },
+  },
+);
 
 /**
  * A promotional banner with a background image, title, description, and an optional close button.
@@ -21,6 +35,7 @@ export const MediaBanner = ({
   closeAriaLabel,
   children,
   className,
+  onClick,
   ...props
 }: MediaBannerProps) => {
   const { t } = useCommonTranslation();
@@ -33,41 +48,45 @@ export const MediaBanner = ({
   const showImage = imageUrl && !imageLoadError;
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        'relative flex h-72 flex-row overflow-hidden rounded-md bg-surface',
-        className,
-      )}
-      {...props}
-    >
-      <div className='flex flex-1 items-center px-12 py-2'>
-        <div className='flex flex-col gap-4 py-12'>{children}</div>
-      </div>
-      <div className='relative w-128'>
-        {showImage && (
-          <img
-            src={imageUrl}
-            alt=''
+    <div className={cn('relative w-full', className)}>
+      <div
+        ref={ref}
+        {...getButtonA11yProps({ onClick })}
+        className={mediaBannerVariants({ interactive: !!onClick })}
+        {...props}
+      >
+        <div className='flex flex-1 items-center px-12 py-2'>
+          <div className='flex flex-col gap-4 py-12'>{children}</div>
+        </div>
+        <div className='relative w-128'>
+          {showImage && (
+            <img
+              src={imageUrl}
+              alt=''
+              aria-hidden
+              className='absolute inset-0 size-full object-cover'
+              onError={() => setImageLoadError(true)}
+            />
+          )}
+          <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
+        </div>
+        {!!onClick && (
+          <div
             aria-hidden
-            className='absolute inset-0 size-full object-cover'
-            onError={() => setImageLoadError(true)}
+            className='pointer-events-none absolute inset-0 group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed'
           />
         )}
-        <div className='absolute inset-0 bg-linear-[45deg] from-black/0 from-67% to-black/80' />
       </div>
       {onClose && (
         <InteractiveIcon
+          data-testid='media-banner-close-button'
           type='button'
           iconType='stroked'
           appearance='white'
           icon={Close}
           size={16}
           className='absolute top-8 right-8'
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
+          onClick={onClose}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
         />
       )}
