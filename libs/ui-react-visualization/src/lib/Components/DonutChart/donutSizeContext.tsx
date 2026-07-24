@@ -9,7 +9,8 @@ type DonutSizeContextValue = {
 /**
  * Carries the donut ring's `size` down to `DonutChartTitle` /
  * `DonutChartDescription` (rendered via `renderCenter`), which pick their
- * typography off it.
+ * typography off it. Defaults to `md` so the sub-components also work
+ * standalone, outside a `DonutChart`.
  */
 export const [DonutSizeProvider, useDonutSizeContext] =
   createSafeContext<DonutSizeContextValue>('DonutChart', { size: 'md' });
