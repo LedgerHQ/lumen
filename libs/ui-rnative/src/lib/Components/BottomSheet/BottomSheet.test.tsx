@@ -5,7 +5,10 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { Text, View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { BottomSheet as BottomSheetComponent } from './BottomSheet';
+import { BottomSheetContent } from './BottomSheetContent';
+import { BottomSheetFooter } from './BottomSheetFooter';
 import { BottomSheetHeader } from './BottomSheetHeader';
+import { BottomSheetView } from './Scrollables';
 // Mock react-native-gesture-handler which is used by @gorhom/bottom-sheet
 jest.mock('react-native-gesture-handler', () => ({}));
 
@@ -395,5 +398,142 @@ describe('BottomSheet', () => {
       expect(onChange).not.toHaveBeenCalled();
       expect(onBack).not.toHaveBeenCalled();
     });
+  });
+});
+
+describe('BottomSheetContent', () => {
+  it('renders children', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    const { getByText } = renderWithTheme(
+      <BottomSheet testID='bottom-sheet'>
+        <BottomSheetContent>
+          <Text>Content child</Text>
+        </BottomSheetContent>
+      </BottomSheet>,
+    );
+
+    expect(getByText('Content child')).toBeTruthy();
+  });
+
+  it('renders without BottomSheet context without throwing (contextRequired: false)', () => {
+    expect(() =>
+      renderWithTheme(
+        <BottomSheetContent>
+          <Text>Standalone</Text>
+        </BottomSheetContent>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('detects scrollable parent context and does not throw', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    expect(() =>
+      renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <BottomSheetView>
+            <BottomSheetContent>
+              <Text>Inside view</Text>
+            </BottomSheetContent>
+          </BottomSheetView>
+        </BottomSheet>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('removes paddingBottom when BottomSheetFooter is present as sibling', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    expect(() =>
+      renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <BottomSheetView>
+            <BottomSheetContent>
+              <Text>Content</Text>
+            </BottomSheetContent>
+            <BottomSheetFooter>
+              <Text>Footer</Text>
+            </BottomSheetFooter>
+          </BottomSheetView>
+        </BottomSheet>,
+      ),
+    ).not.toThrow();
+  });
+});
+
+describe('BottomSheetFooter', () => {
+  it('renders children', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    const { getByText } = renderWithTheme(
+      <BottomSheet testID='bottom-sheet'>
+        <BottomSheetFooter>
+          <Text>Footer content</Text>
+        </BottomSheetFooter>
+      </BottomSheet>,
+    );
+
+    expect(getByText('Footer content')).toBeTruthy();
+  });
+
+  it('renders inside BottomSheetView without throwing', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    expect(() =>
+      renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <BottomSheetView>
+            <BottomSheetFooter>
+              <Text>Footer inside view</Text>
+            </BottomSheetFooter>
+          </BottomSheetView>
+        </BottomSheet>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('signals footer presence to context (renders alongside BottomSheetContent without throwing)', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    expect(() =>
+      renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <BottomSheetView>
+            <BottomSheetContent>
+              <Text>Content</Text>
+            </BottomSheetContent>
+            <BottomSheetFooter>
+              <Text>Footer</Text>
+            </BottomSheetFooter>
+          </BottomSheetView>
+        </BottomSheet>,
+      ),
+    ).not.toThrow();
+  });
+});
+
+describe('BottomSheetView', () => {
+  it('renders children', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    const { getByText } = renderWithTheme(
+      <BottomSheet testID='bottom-sheet'>
+        <BottomSheetView>
+          <Text>View child</Text>
+        </BottomSheetView>
+      </BottomSheet>,
+    );
+
+    expect(getByText('View child')).toBeTruthy();
+  });
+
+  it('removes paddingBottom when BottomSheetFooter is a sibling inside the view', () => {
+    const { BottomSheet } = require('./BottomSheet');
+    expect(() =>
+      renderWithTheme(
+        <BottomSheet testID='bottom-sheet'>
+          <BottomSheetView>
+            <Text>Content</Text>
+            <BottomSheetFooter>
+              <Text>Footer</Text>
+            </BottomSheetFooter>
+          </BottomSheetView>
+        </BottomSheet>,
+      ),
+    ).not.toThrow();
   });
 });
