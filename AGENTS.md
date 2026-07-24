@@ -6,7 +6,7 @@ on-demand skill in [`.claude/skills/`](.claude/skills/) — see the index below.
 
 ## Stack
 
-Cross-platform design system (React + React Native) in an **Nx 21** monorepo, npm.
+Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
 Libs: `design-core`, `ui-react`, `ui-react-visualization`, `ui-rnative`,
 `ui-rnative-visualization`, `utils-shared`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
