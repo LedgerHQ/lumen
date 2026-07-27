@@ -1,8 +1,8 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
 
+import { useChartTokens } from '../../theme';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, DEFAULT_AXIS_WIDTH, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
@@ -75,7 +75,7 @@ const LineChartTransitionLines = ({
   areaType,
   connectNulls,
 }: Readonly<LineChartTransitionLinesProps>) => {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const { animatedProps } = useShimmerAnimation();
 
   return (
@@ -84,7 +84,7 @@ const LineChartTransitionLines = ({
         series={series}
         showArea={showArea}
         areaType={areaType}
-        stroke={theme.colors.border.mutedSubtle}
+        stroke={tokens.color.mutedLine}
         connectNulls={connectNulls}
       />
     </AnimatedG>

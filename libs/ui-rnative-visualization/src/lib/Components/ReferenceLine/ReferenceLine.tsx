@@ -1,23 +1,20 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import {
-  REFERENCE_LINE_DASH_ARRAY,
-  REFERENCE_LINE_STROKE_WIDTH,
-} from './constants';
+import { chartConfig } from '../../config';
+import { useChartTokens } from '../../theme';
 import type { ReferenceLineProps } from './types';
 import { useReferenceLineGeometry } from './useReferenceLineGeometry';
 import { dominantBaselineToDy } from './utils';
 
 export function ReferenceLine(props: Readonly<ReferenceLineProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const geometry = useReferenceLineGeometry(props);
 
   const { label, stroke, lineStyle = 'dashed' } = props;
-  const resolvedStroke = stroke ?? theme.colors.border.muted;
+  const resolvedStroke = stroke ?? tokens.color.stroke;
   const dashArray =
-    lineStyle === 'dashed' ? REFERENCE_LINE_DASH_ARRAY : undefined;
-  const fontSize = theme.typographies.body4.fontSize;
+    lineStyle === 'dashed' ? chartConfig.referenceLine.dashArray : undefined;
+  const fontSize = tokens.font.labelSize;
 
   if (!geometry) return null;
 
@@ -32,7 +29,7 @@ export function ReferenceLine(props: Readonly<ReferenceLineProps>) {
         testID='reference-line-line'
         {...linePoints}
         stroke={resolvedStroke}
-        strokeWidth={REFERENCE_LINE_STROKE_WIDTH}
+        strokeWidth={tokens.stroke.line}
         strokeDasharray={dashArray}
         strokeLinecap='round'
       />
@@ -43,10 +40,10 @@ export function ReferenceLine(props: Readonly<ReferenceLineProps>) {
           y={labelCoords.y}
           dy={baselineDy}
           textAnchor={labelCoords.textAnchor}
-          fill={theme.colors.text.muted}
+          fill={tokens.color.textMuted}
           fontSize={fontSize}
-          fontWeight={theme.typographies.body4.fontWeight}
-          fontFamily={theme.fontFamilies.sans}
+          fontWeight={tokens.font.labelWeight}
+          fontFamily={tokens.font.family}
         >
           {label}
         </SvgText>

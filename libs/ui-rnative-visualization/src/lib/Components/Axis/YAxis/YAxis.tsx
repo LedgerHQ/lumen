@@ -1,7 +1,7 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
+import { useChartTokens } from '../../../theme';
 import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
@@ -23,7 +23,7 @@ export const YAxis = ({
   tickLabelFormatter,
 }: YAxisProps) => {
   const { getYScale, getYAxisConfig, drawingArea } = useCartesianChartContext();
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
 
   const yScale = getYScale();
   const yAxisConfig = getYAxisConfig();
@@ -44,12 +44,12 @@ export const YAxis = ({
   const axisX = isStart ? drawingArea.x : drawingArea.x + drawingArea.width;
   const tickDirection = isStart ? -1 : 1;
   const labelX = axisX + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
-  const fontSize = theme.typographies.body4.fontSize;
+  const fontSize = tokens.font.labelSize;
   const labelDy = fontSize * 0.35;
 
-  const gridStroke = theme.colors.border.mutedSubtleTransparent;
-  const lineStroke = theme.colors.border.muted;
-  const textFill = theme.colors.text.muted;
+  const gridStroke = tokens.color.gridLine;
+  const lineStroke = tokens.color.stroke;
+  const textFill = tokens.color.textMuted;
 
   return (
     <G>
@@ -101,8 +101,8 @@ export const YAxis = ({
             dy={labelDy}
             textAnchor={position === 'start' ? 'end' : 'start'}
             fill={textFill}
-            fontSize={theme.typographies.body4.fontSize}
-            fontFamily={theme.fontFamilies.sans}
+            fontSize={tokens.font.labelSize}
+            fontFamily={tokens.font.family}
           >
             {tick.label}
           </SvgText>

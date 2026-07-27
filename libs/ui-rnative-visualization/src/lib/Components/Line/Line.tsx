@@ -1,12 +1,12 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useId, useMemo, memo } from 'react';
 import { Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
 
+import { chartConfig } from '../../config';
+import { useChartTokens } from '../../theme';
 import { isNumericScale } from '../../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePathReveal } from '../CartesianChart/RevealAnimation';
 
-import { LINE_AREA_GRADIENT_OPACITY, LINE_STROKE_WIDTH } from './constants';
 import type { LineProps } from './types';
 import { buildAreaPath, buildLinePath, toScaledPoints } from './utils';
 
@@ -26,11 +26,10 @@ export const Line = memo(function Line({
   const yScale = getYScale();
   const xAxisConfig = getXAxisConfig();
 
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const gradientId = useId();
   const seriesData = seriesMap.get(seriesId);
-  const resolvedStroke =
-    stroke ?? seriesData?.stroke ?? theme.colors.border.muted;
+  const resolvedStroke = stroke ?? seriesData?.stroke ?? tokens.color.stroke;
   const resolvedCurve = curve ?? seriesData?.curve;
   const resolvedConnectNulls =
     connectNulls ?? seriesData?.connectNulls ?? false;
@@ -75,7 +74,7 @@ export const Line = memo(function Line({
               <Stop
                 offset='0%'
                 stopColor={resolvedStroke}
-                stopOpacity={LINE_AREA_GRADIENT_OPACITY}
+                stopOpacity={chartConfig.line.areaGradientOpacity}
               />
               <Stop offset='100%' stopColor={resolvedStroke} stopOpacity={0} />
             </LinearGradient>
@@ -93,7 +92,7 @@ export const Line = memo(function Line({
         d={linePath}
         fill='none'
         stroke={resolvedStroke}
-        strokeWidth={LINE_STROKE_WIDTH}
+        strokeWidth={tokens.stroke.line}
         strokeLinecap='round'
         strokeLinejoin='round'
       />

@@ -1,4 +1,3 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useId } from 'react';
 import {
   Circle,
@@ -10,13 +9,8 @@ import {
   Stop,
 } from 'react-native-svg';
 
-import {
-  BEACON_RADIUS,
-  BEACON_STROKE_WIDTH,
-  LINE_GRADIENT_EDGE_OPACITY,
-  OVERLAY_LINE_INSET,
-  OVERLAY_OPACITY,
-} from './constants';
+import { chartConfig } from '../../config';
+import { useChartTokens } from '../../theme';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
@@ -29,8 +23,8 @@ type ScrubberLineProps = {
 
 function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
   const gradientId = useId();
-  const { theme } = useTheme();
-  const lineColor = theme.colors.border.base;
+  const tokens = useChartTokens();
+  const lineColor = tokens.color.scrubberLine;
 
   return (
     <>
@@ -46,14 +40,14 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
           <Stop
             offset='0%'
             stopColor={lineColor}
-            stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
+            stopOpacity={chartConfig.scrubber.lineGradientEdgeOpacity}
           />
           <Stop offset='20%' stopColor={lineColor} stopOpacity={1} />
           <Stop offset='80%' stopColor={lineColor} stopOpacity={1} />
           <Stop
             offset='100%'
             stopColor={lineColor}
-            stopOpacity={LINE_GRADIENT_EDGE_OPACITY}
+            stopOpacity={chartConfig.scrubber.lineGradientEdgeOpacity}
           />
         </LinearGradient>
       </Defs>
@@ -64,7 +58,7 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
         x2={pixelX}
         y2={bottom}
         stroke={`url(#${gradientId})`}
-        strokeWidth={OVERLAY_LINE_INSET}
+        strokeWidth={chartConfig.scrubber.overlayLineInset}
       />
     </>
   );
@@ -102,7 +96,7 @@ export function Scrubber({
   showBeacons = false,
   tooltip,
 }: Readonly<ScrubberProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const geometry = useScrubberGeometry({ showBeacons, tooltip });
 
   if (!geometry) {
@@ -128,8 +122,8 @@ export function Scrubber({
           y={overlay.y}
           width={overlay.width}
           height={overlay.height}
-          fill={theme.colors.bg.base}
-          opacity={OVERLAY_OPACITY}
+          fill={tokens.color.scrubberOverlay}
+          opacity={chartConfig.scrubber.overlayOpacity}
         />
       )}
 
@@ -140,10 +134,10 @@ export function Scrubber({
             testID={`scrubber-beacon-${beacon.id}`}
             cx={pixelX}
             cy={beacon.pixelY}
-            r={BEACON_RADIUS}
+            r={chartConfig.scrubber.beaconRadius}
             fill={beacon.stroke}
-            stroke={theme.colors.bg.canvas}
-            strokeWidth={BEACON_STROKE_WIDTH}
+            stroke={tokens.color.markOutline}
+            strokeWidth={tokens.stroke.line}
           />
         ))}
 

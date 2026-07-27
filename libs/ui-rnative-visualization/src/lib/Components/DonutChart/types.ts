@@ -1,4 +1,4 @@
-import type { DonutSizeKey } from './constants';
+import type { DonutSizeKey } from '../../config';
 
 export type DonutSize = DonutSizeKey;
 

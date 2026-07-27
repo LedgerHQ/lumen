@@ -1,17 +1,19 @@
 import type { RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { chartConfig } from '../../../config';
 import { clamp } from '../../../utils/numbers';
 import type { DrawingArea } from '../../../utils/types';
 import type { ChartTooltipItemData, SvgBBoxElement } from '../types';
-import {
-  LABEL_VALUE_GAP,
-  PADDING_X,
-  PADDING_Y,
-  ROW_GAP,
-  ROW_HEIGHT,
-  TITLE_GAP,
-} from './constants';
+
+const {
+  labelValueGap: LABEL_VALUE_GAP,
+  paddingX: PADDING_X,
+  paddingY: PADDING_Y,
+  rowGap: ROW_GAP,
+  rowHeight: ROW_HEIGHT,
+  titleGap: TITLE_GAP,
+} = chartConfig.tooltip;
 
 type Widths = {
   title: number;

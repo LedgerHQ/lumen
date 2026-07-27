@@ -1,6 +1,6 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 
+import { useChartTokens } from '../../theme';
 import type { DrawingArea } from '../../utils/types';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
@@ -41,7 +41,7 @@ export const useScrubberGeometry = ({
   showBeacons,
   tooltip,
 }: UseScrubberGeometryParams): ScrubberGeometry | null => {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const { scrubberPosition } = useScrubberContext();
   const {
     getXScale,
@@ -66,7 +66,7 @@ export const useScrubberGeometry = ({
         if (pixelY === undefined) return null;
         return {
           id: s.id,
-          stroke: s.stroke ?? theme.colors.border.muted,
+          stroke: s.stroke ?? tokens.color.stroke,
           pixelY,
         };
       })
@@ -77,7 +77,7 @@ export const useScrubberGeometry = ({
     series,
     seriesMap,
     getYScale,
-    theme.colors.border.muted,
+    tokens.color.stroke,
   ]);
 
   const tooltipPayload = useMemo(() => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { DONUT_GEOMETRY } from './constants';
+import { DONUT_GEOMETRY } from '../../config';
 import type { DonutSegment } from './types';
 import { buildArcs, buildEmptyRingPath, getSegmentPercents } from './utils';
 

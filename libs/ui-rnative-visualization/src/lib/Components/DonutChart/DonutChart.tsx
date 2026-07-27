@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { View } from 'react-native';
 
-import { DONUT_GEOMETRY } from './constants';
+import { DONUT_GEOMETRY } from '../../config';
 import { DonutRing } from './DonutRing';
 import type { DonutChartProps } from './types';
 import { buildArcs } from './utils';

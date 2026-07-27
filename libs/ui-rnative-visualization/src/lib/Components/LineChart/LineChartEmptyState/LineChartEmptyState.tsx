@@ -1,7 +1,7 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import Animated from 'react-native-reanimated';
 import { G, Line as SvgLine, Path } from 'react-native-svg';
 
+import { useChartTokens } from '../../../theme';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';
@@ -25,7 +25,7 @@ export function LineChartEmptyState({
   loading = false,
 }: Readonly<LineChartEmptyStateProps>) {
   const { drawingArea } = useCartesianChartContext();
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const { animatedProps } = useShimmerAnimation(loading);
   const clipPath = usePathReveal();
 
@@ -46,7 +46,7 @@ export function LineChartEmptyState({
               y1={y}
               x2={drawingArea.x + drawingArea.width}
               y2={y}
-              stroke={theme.colors.border.mutedSubtleTransparent}
+              stroke={tokens.color.gridLine}
               strokeWidth={GRID_STROKE_WIDTH}
             />
           );
@@ -60,7 +60,7 @@ export function LineChartEmptyState({
             transform={buildPlaceholderTransform(drawingArea)}
             vectorEffect='non-scaling-stroke'
             fill='none'
-            stroke={theme.colors.border.muted}
+            stroke={tokens.color.stroke}
             strokeWidth={PLACEHOLDER_STROKE_WIDTH}
             strokeLinecap='round'
             strokeLinejoin='round'
