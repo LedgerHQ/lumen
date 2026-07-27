@@ -12,8 +12,7 @@ figma.connect(
       "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
-      disabled: figma.e
-      num('state', {
+      disabled: figma.enum('state', {
         disabled: true,
       }),
       loading: figma.enum('state', {

@@ -121,6 +121,7 @@ export const chartConfig = {
   donut: {
     defaultSegmentColor: cssVar('var(--background-muted-strong)'),
     emptyRingColor: cssVar('var(--background-muted)'),
+    centerContentInset: 8,
     hover: {
       dimOpacity: 0.3,
       opacityTransition: 'opacity 150ms ease',

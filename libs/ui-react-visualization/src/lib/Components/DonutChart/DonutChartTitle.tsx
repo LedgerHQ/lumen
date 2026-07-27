@@ -2,6 +2,7 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartTitleProps, DonutSize } from './types';
+import { DONUT_GEOMETRY, getCenterMaxWidth } from './utils';
 
 /**
  * Typography per donut ring size (rows) x the title's own `size` (columns).
@@ -19,18 +20,21 @@ export const DonutChartTitle = ({
   children,
   className,
   size = 'md',
+  style,
   ...props
 }: DonutChartTitleProps) => {
   const { size: donutSize = 'md' } = useDonutSizeContext({
     consumerName: 'DonutChartTitle',
     contextRequired: false,
   });
+  const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
 
   return (
     <div
       ref={ref}
+      style={{ maxWidth, ...style }}
       className={cn(
-        'whitespace-nowrap text-base',
+        'truncate text-base',
         TITLE_TYPOGRAPHY[donutSize][size],
         className,
       )}

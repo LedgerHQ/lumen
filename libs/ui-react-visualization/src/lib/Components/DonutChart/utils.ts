@@ -16,6 +16,13 @@ export const getDonutViewBox = (geometry: DonutGeometry): string => {
   return `-${hoverOffset} -${hoverOffset} ${paddedBox} ${paddedBox}`;
 };
 
+/**
+ * Max width (px) for center content (`DonutChartTitle` /
+ * `DonutChartDescription`) so it truncates instead of overlapping the ring.
+ */
+export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
+  geometry.innerRadius * 2 - chartConfig.donut.centerContentInset;
+
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {
   const total = series.reduce((sum, s) => sum + Math.max(s.value, 0), 0);

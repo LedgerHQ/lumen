@@ -85,21 +85,30 @@ slot can react to the same active segment.
 
 <Canvas of={DonutChartStories.Interactive} />
 
-<Canvas of={DonutChartStories.Controlled} />
 
 ## Center content
 
 `renderCenter` renders content in the middle of the ring from `DonutChartTitle`
 and `DonutChartDescription`. Layout and pointer events are handled internally.
-It receives `{ activeSegment, series }`; `activeSegment` is enriched with its
-computed `percent` and is `null` when nothing is active, so the center can
-switch content in one callback (e.g. a ternary on `activeSegment`).
+Used alone, its `activeSegment` param (enriched with `percent`, `null` when
+nothing is active) lets you switch content in one callback, e.g. a ternary.
 
-Pass the optional `renderCenterActive` alongside `renderCenter` to crossfade
-between resting and active layouts on segment hover (180ms opacity + slide)
-instead of swapping JSX trees.
+Pass `renderCenterActive` alongside it to crossfade between resting and active
+layouts on hover instead: `renderCenter` then always gets `activeSegment: null`
+(resting only), while `renderCenterActive` handles the active layout.
+
+Both `DonutChartTitle` and `DonutChartDescription` cap their width to the
+ring's inner diameter, so long content truncates instead of overlapping the
+ring. In `DonutChartDescription`, mark the truncatable part of `children`
+(e.g. the label, not a trailing icon) with a `truncate` class so it shrinks
+while the icon stays fixed-size.
 
 <Canvas of={DonutChartStories.WithCenter} />
+
+The same pattern applies at the smaller `sm` ring size, where the center's
+available width is tighter.
+
+<Canvas of={DonutChartStories.WithCenterSmall} />
 
 To make the whole active block clickable (with chevron hover following block
 hover), wrap `renderCenterActive` in a `group` button and keep `InteractiveIcon`
