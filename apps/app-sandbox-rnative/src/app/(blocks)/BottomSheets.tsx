@@ -286,6 +286,34 @@ const BottomSheetFooterWithDynamicSize = ({
   );
 };
 
+const BottomSheetWithCustomInset = ({ ref, ...props }: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={null}
+      enableDynamicSizing
+      maxDynamicContentSize='full'
+      backdropPressBehavior='close'
+      bottomInset={80}
+    >
+      <BottomSheetView>
+        <BottomSheetHeader
+          title='Custom Bottom Inset'
+          density='compact'
+          description='bottomInset={80} overrides the system inset, raising the sheet exactly 80px'
+        />
+        <BottomSheetContent>
+          <Text typography='body2' lx={{ color: 'base' }}>
+            Use the bottomInset prop to override the automatic system inset.
+            Pass it when you need a specific offset.
+          </Text>
+        </BottomSheetContent>
+      </BottomSheetView>
+    </BottomSheet>
+  );
+};
+
 export default function BottomSheets() {
   const flatListsRef = useBottomSheetRef();
   const dynamicSizeRef = useBottomSheetRef();
@@ -293,6 +321,7 @@ export default function BottomSheets() {
   const withFooterRef = useBottomSheetRef();
   const footerFlatListRef = useBottomSheetRef();
   const footerDynamicRef = useBottomSheetRef();
+  const customInsetRef = useBottomSheetRef();
 
   return (
     <>
@@ -326,12 +355,19 @@ export default function BottomSheets() {
       >
         Footer + Dynamic Size
       </Button>
+      <Button
+        appearance='base'
+        onPress={() => customInsetRef.current?.present()}
+      >
+        Custom Bottom Inset
+      </Button>
       <BottomSheetFlatLists ref={flatListsRef} />
       <BottomSheetDynamicSize ref={dynamicSizeRef} />
       <BottomSheetWithGradient ref={gradientRef} />
       <BottomSheetWithFooter ref={withFooterRef} />
       <BottomSheetFooterWithFlatList ref={footerFlatListRef} />
       <BottomSheetFooterWithDynamicSize ref={footerDynamicRef} />
+      <BottomSheetWithCustomInset ref={customInsetRef} />
     </>
   );
 }

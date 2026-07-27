@@ -877,6 +877,51 @@ export const InfoStateVariants: Story = {
   },
 };
 
+export const BottomInsetOverride: Story = {
+  args: {
+    snapPoints: 'fullWithOffset',
+    bottomInset: 80,
+  },
+  render: (args) => {
+    const bottomSheetRef = useBottomSheetRef();
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+        }}
+      >
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+          Toggle open
+        </Button>
+        <BottomSheet {...args} ref={bottomSheetRef}>
+          <BottomSheetView>
+            <BottomSheetHeader
+              title='Custom Bottom Inset'
+              density='compact'
+              description='bottomInset={80} overrides the system inset, raising the sheet exactly 80px.'
+            />
+            <BottomSheetContent>
+              <Text typography='body2' lx={{ color: 'base' }}>
+                The{' '}
+                <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+                  bottomInset
+                </Text>{' '}
+                prop overrides the system safe area inset entirely. When omitted
+                the sheet clears the navigation bar automatically.
+              </Text>
+            </BottomSheetContent>
+          </BottomSheetView>
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
 export const WithFooter: Story = {
   args: {
     hideCloseButton: false,
