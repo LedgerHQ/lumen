@@ -27,7 +27,8 @@ export const DonutChartDescription = ({
       ref={ref}
       style={{ maxWidth, ...style }}
       className={cn(
-        '-mt-4 flex items-center gap-2 truncate overflow-hidden text-muted',
+        'flex items-center gap-2 truncate overflow-hidden text-muted',
+        donutSize === 'sm' && '-mt-4',
         DESCRIPTION_TYPOGRAPHY[donutSize],
         className,
       )}
