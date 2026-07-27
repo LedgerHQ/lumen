@@ -121,6 +121,11 @@ export const chartConfig = {
   donut: {
     defaultSegmentColor: cssVar('var(--background-muted-strong)'),
     emptyRingColor: cssVar('var(--background-muted)'),
+    hover: {
+      dimOpacity: 0.3,
+      opacityTransition: 'opacity 150ms ease',
+      popTransition: 'transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+    },
     size: {
       md: {
         box: 168,
@@ -128,6 +133,7 @@ export const chartConfig = {
         outerRadius: 83,
         cornerRadius: 4,
         padAngle: 0.06,
+        hoverOffset: 3.36,
       },
       sm: {
         box: 80,
@@ -135,6 +141,7 @@ export const chartConfig = {
         outerRadius: 39,
         cornerRadius: 2,
         padAngle: 0.08,
+        hoverOffset: 2,
       },
     },
   },

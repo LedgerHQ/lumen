@@ -9,6 +9,12 @@ export type DonutArc = {
   path: string;
   color?: string;
   percent: number;
+  midAngle: number;
+  /** Angular span (radians, clockwise from 12 o'clock), used for tap hit-testing. */
+  startAngle: number;
+  endAngle: number;
+  activeEnabled: boolean;
+  activeTranslate: { x: number; y: number };
 };
 
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
@@ -51,13 +57,57 @@ export const buildArcs = (
     .outerRadius(geometry.outerRadius)
     .cornerRadius(geometry.cornerRadius);
 
-  return layout(drawable).map((datum) => ({
-    id: datum.data.segment.id,
-    path: arcGenerator(snapHalfCircle(datum)) ?? '',
-    color: datum.data.segment.color,
-    percent: datum.data.percent,
-  }));
+  const activeEnabled = drawable.length > 1;
+
+  return layout(drawable).map((datum) => {
+    const midAngle = (datum.startAngle + datum.endAngle) / 2;
+    return {
+      id: datum.data.segment.id,
+      path: arcGenerator(snapHalfCircle(datum)) ?? '',
+      color: datum.data.segment.color,
+      percent: datum.data.percent,
+      midAngle,
+      startAngle: datum.startAngle,
+      endAngle: datum.endAngle,
+      activeEnabled,
+      activeTranslate: activeEnabled
+        ? {
+            x: Math.sin(midAngle) * geometry.activeOffset,
+            y: -Math.cos(midAngle) * geometry.activeOffset,
+          }
+        : { x: 0, y: 0 },
+    };
+  });
 };
+
+/**
+ * Resolves which arc (if any) contains a point in `segment.path`'s space.
+ * Hit-tests via a single gesture overlay instead of per-segment handlers,
+ * which are unreliable on Android (react-native-svg#1321, reanimated#2995).
+ * `hitSlopRadius` widens the radial bounds for near-miss taps.
+ */
+export const findSegmentIdAtPoint = (
+  arcs: DonutArc[],
+  point: { x: number; y: number },
+  geometry: DonutGeometry,
+): string | null => {
+  const radius = Math.hypot(point.x, point.y);
+  if (
+    radius < geometry.innerRadius - geometry.hitSlopRadius ||
+    radius > geometry.outerRadius + geometry.hitSlopRadius
+  ) {
+    return null;
+  }
+
+  const angle = normalizeAngle(Math.atan2(point.x, -point.y));
+  const hit = arcs.find(
+    (arc) => angle >= arc.startAngle && angle < arc.endAngle,
+  );
+  return hit?.id ?? null;
+};
+
+const normalizeAngle = (angle: number): number =>
+  angle < 0 ? angle + 2 * Math.PI : angle;
 
 /**
  * Snap a near-half-circle slice to exactly `π`. d3-shape squares the corners of

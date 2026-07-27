@@ -74,6 +74,19 @@ ring.
 
 <Canvas of={DonutChartStories.NoData} />
 
+## Interactivity
+
+Segments are hoverable by default. Hovering a segment sets `activeId`, dims
+non-active segments to 30% opacity, and pops the active slice out radially.
+Leaving the chart container resets `activeId` to `null`.
+
+Use `activeId` / `onActiveIdChange` for controlled mode so a legend or center
+slot can react to the same active segment.
+
+<Canvas of={DonutChartStories.Interactive} />
+
+<Canvas of={DonutChartStories.Controlled} />
+
 ## Props
 
 <Controls of={DonutChartStories.Base} />

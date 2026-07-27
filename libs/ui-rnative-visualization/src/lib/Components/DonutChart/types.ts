@@ -27,4 +27,10 @@ export type DonutChartProps = {
    * @default 'Donut chart'
    */
   accessibilityLabel?: string;
+  /** Controlled active segment id. Active is data-driven, not a state variant. */
+  activeId?: string | null;
+  /** Default active segment id for uncontrolled mode. */
+  defaultActiveId?: string | null;
+  /** Fired when the active segment changes (tap or external reset). */
+  onActiveIdChange?: (id: string | null) => void;
 };

@@ -133,11 +133,18 @@ jest.mock('react-native-gesture-handler', () => {
   const mockRN =
     jest.requireActual<typeof import('react-native')>('react-native');
 
-  const makePanGesture = () => {
-    const gesture: Record<string, (...args: any[]) => any> = {};
+  const makeGesture = () => {
+    const handlers: Record<string, (...args: any[]) => any> = {};
+    const gesture: Record<string, unknown> = { __handlers: handlers };
     const chainable = new Proxy(gesture, {
       get(target, prop) {
         if (prop in target) return target[prop as string];
+        if (typeof prop === 'string' && prop.startsWith('on')) {
+          return (callback: (...args: any[]) => any) => {
+            handlers[prop] = callback;
+            return chainable;
+          };
+        }
         return (..._args: any[]) => chainable;
       },
     });
@@ -146,16 +153,16 @@ jest.mock('react-native-gesture-handler', () => {
 
   return {
     __esModule: true,
-    GestureDetector: ({ children }: any) =>
-      mockReact.createElement(mockRN.View, {}, children),
+    GestureDetector: ({ children, gesture }: any) =>
+      mockReact.cloneElement(children, gesture?.__handlers ?? {}),
     Gesture: {
-      Pan: makePanGesture,
-      Tap: makePanGesture,
-      LongPress: makePanGesture,
-      Fling: makePanGesture,
-      Simultaneous: makePanGesture,
-      Exclusive: makePanGesture,
-      Race: makePanGesture,
+      Pan: makeGesture,
+      Tap: makeGesture,
+      LongPress: makeGesture,
+      Fling: makeGesture,
+      Simultaneous: makeGesture,
+      Exclusive: makeGesture,
+      Race: makeGesture,
     },
     State: {},
     GestureHandlerRootView: ({ children }: any) =>

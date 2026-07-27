@@ -4,7 +4,7 @@ import {
   DonutChart,
   type DonutSegment,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 export default function DonutCharts() {
   const { theme } = useTheme();
@@ -29,6 +29,7 @@ export default function DonutCharts() {
       <SingleSegment palette={segmentPalette} />
       <DominantSegment palette={segmentPalette} />
       <NoData />
+      <Controlled segments={cryptoSegments} />
     </Box>
   );
 }
@@ -165,3 +166,17 @@ const NoData = () => (
     <DonutChart series={[]} />
   </Section>
 );
+
+const Controlled = ({ segments }: { segments: DonutSegment[] }) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  return (
+    <Section title='Controlled (tap to select, tap again to deselect)'>
+      <DonutChart
+        series={segments}
+        activeId={activeId}
+        onActiveIdChange={setActiveId}
+      />
+    </Section>
+  );
+};

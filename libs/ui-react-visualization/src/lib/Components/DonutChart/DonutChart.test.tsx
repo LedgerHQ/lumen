@@ -1,5 +1,7 @@
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+
+import { chartConfig } from '../../config';
 
 import { DonutChart } from './DonutChart';
 import type { DonutSegment } from './types';
@@ -74,5 +76,138 @@ describe('DonutChart', () => {
     );
     getByTestId('donut-empty');
     expect(queryByTestId('donut-segment')).toBeNull();
+  });
+
+  describe('interactivity', () => {
+    const getSegment = (
+      getAllByTestId: ReturnType<typeof render>['getAllByTestId'],
+      id: string,
+    ) =>
+      getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === id,
+      );
+
+    it('activates a segment on hover and dims the others', () => {
+      const onActiveIdChange = vi.fn();
+      const { getAllByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          onActiveIdChange={onActiveIdChange}
+        />,
+      );
+
+      fireEvent.mouseEnter(getSegment(getAllByTestId, 'ethereum')!);
+
+      expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
+
+      const segments = getAllByTestId('donut-segment');
+      segments.forEach((segment) => {
+        const id = segment.getAttribute('data-segment-id');
+        const opacity = Number(segment.style.opacity);
+        if (id === 'ethereum') {
+          expect(opacity).toBe(1);
+          expect(segment.style.transform).not.toBe('translate(0px, 0px)');
+        } else {
+          expect(opacity).toBe(chartConfig.donut.hover.dimOpacity);
+          expect(segment.style.transform).toBe('translate(0px, 0px)');
+        }
+      });
+    });
+
+    it('resets activeId on mouseleave of the container', () => {
+      const onActiveIdChange = vi.fn();
+      const { getByTestId, getAllByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          onActiveIdChange={onActiveIdChange}
+        />,
+      );
+
+      fireEvent.mouseEnter(getSegment(getAllByTestId, 'bitcoin')!);
+      onActiveIdChange.mockClear();
+
+      fireEvent.mouseLeave(getByTestId('donut-chart'));
+
+      expect(onActiveIdChange).toHaveBeenCalledWith(null);
+    });
+
+    it('respects controlled activeId for dimming', () => {
+      const { getAllByTestId } = render(
+        <DonutChart series={sampleSeries} activeId='tether' />,
+      );
+
+      const segments = getAllByTestId('donut-segment');
+      segments.forEach((segment) => {
+        const id = segment.getAttribute('data-segment-id');
+        const opacity = Number(segment.style.opacity);
+        if (id === 'tether') {
+          expect(opacity).toBe(1);
+          expect(segment.style.transform).not.toBe('translate(0px, 0px)');
+        } else {
+          expect(opacity).toBe(chartConfig.donut.hover.dimOpacity);
+        }
+      });
+    });
+
+    it('calls onActiveIdChange in controlled mode without self-updating', () => {
+      const onActiveIdChange = vi.fn();
+      const { getAllByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          activeId='bitcoin'
+          onActiveIdChange={onActiveIdChange}
+        />,
+      );
+
+      fireEvent.mouseEnter(getSegment(getAllByTestId, 'ethereum')!);
+
+      expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
+
+      const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
+      expect(Number(bitcoin.style.opacity)).toBe(1);
+      expect(
+        Number(getSegment(getAllByTestId, 'ethereum')!.style.opacity),
+      ).toBe(chartConfig.donut.hover.dimOpacity);
+    });
+
+    it('renders with defaultActiveId in uncontrolled mode', () => {
+      const { getAllByTestId } = render(
+        <DonutChart series={sampleSeries} defaultActiveId='ethereum' />,
+      );
+
+      const ethereum = getSegment(getAllByTestId, 'ethereum')!;
+      expect(Number(ethereum.style.opacity)).toBe(1);
+      expect(ethereum.style.transform).not.toBe('translate(0px, 0px)');
+
+      const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
+      expect(Number(bitcoin.style.opacity)).toBe(
+        chartConfig.donut.hover.dimOpacity,
+      );
+    });
+
+    it('uses a pointer cursor on segments', () => {
+      const { getAllByTestId } = render(<DonutChart series={sampleSeries} />);
+      getAllByTestId('donut-segment').forEach((segment) => {
+        expect(segment.style.cursor).toBe('pointer');
+      });
+    });
+
+    it('does not animate hover for a single segment', () => {
+      const onActiveIdChange = vi.fn();
+      const { getAllByTestId } = render(
+        <DonutChart
+          series={[{ id: 'bitcoin', label: 'Bitcoin', value: 100 }]}
+          onActiveIdChange={onActiveIdChange}
+        />,
+      );
+
+      const segment = getAllByTestId('donut-segment')[0];
+      fireEvent.mouseEnter(segment);
+
+      expect(onActiveIdChange).toHaveBeenCalledWith('bitcoin');
+      expect(segment.style.transform).toBe('translate(0px, 0px)');
+      expect(segment.style.transition).toBe('');
+      expect(Number(segment.style.opacity)).toBe(1);
+    });
   });
 });

@@ -1,23 +1,81 @@
 import { useTheme } from '@ledgerhq/lumen-ui-rnative';
+import { useEffect } from 'react';
+import Animated, {
+  useAnimatedProps,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { G, Path, Svg } from 'react-native-svg';
 
-import type { DonutGeometry } from './constants';
+import {
+  DONUT_INTERACTION,
+  getDonutViewBox,
+  type DonutGeometry,
+} from './constants';
 import { buildEmptyRingPath, type DonutArc } from './utils';
 
-const RingSegment = ({
-  segment,
-  defaultColor,
-}: {
+const AnimatedPath = Animated.createAnimatedComponent(Path);
+
+type RingSegmentProps = {
   segment: DonutArc;
   defaultColor: string;
-}) => (
-  <Path
-    testID='donut-segment'
-    id={segment.id}
-    d={segment.path}
-    fill={segment.color ?? defaultColor}
-  />
-);
+  activeId: string | null;
+};
+
+const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
+  const isActive = activeId === segment.id;
+  const opacity = useSharedValue(1);
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+
+  useEffect(() => {
+    const targetOpacity =
+      !segment.activeEnabled || activeId == null || isActive
+        ? 1
+        : DONUT_INTERACTION.dimOpacity;
+    const { x, y } =
+      isActive && segment.activeEnabled
+        ? segment.activeTranslate
+        : { x: 0, y: 0 };
+
+    opacity.value = withTiming(targetOpacity, {
+      duration: DONUT_INTERACTION.opacityDurationMs,
+    });
+    translateX.value = withTiming(x, {
+      duration: DONUT_INTERACTION.popDurationMs,
+      easing: DONUT_INTERACTION.popEasing,
+    });
+    translateY.value = withTiming(y, {
+      duration: DONUT_INTERACTION.popDurationMs,
+      easing: DONUT_INTERACTION.popEasing,
+    });
+  }, [
+    activeId,
+    isActive,
+    opacity,
+    segment.activeEnabled,
+    segment.activeTranslate,
+    translateX,
+    translateY,
+  ]);
+
+  const animatedProps = useAnimatedProps(() => ({
+    opacity: opacity.value,
+    transform: `translate(${translateX.value}, ${translateY.value})`,
+  }));
+
+  return (
+    <AnimatedPath
+      testID='donut-segment'
+      id={segment.id}
+      d={segment.path}
+      fill={segment.color ?? defaultColor}
+      accessible
+      accessibilityLabel={isActive ? `${segment.id}, selected` : segment.id}
+      animatedProps={animatedProps}
+    />
+  );
+};
 
 const EmptyRing = ({
   geometry,
@@ -33,13 +91,14 @@ type DonutRingProps = {
   arcs: DonutArc[];
   geometry: DonutGeometry;
   accessibilityLabel?: string;
+  activeId: string | null;
 };
 
-// Internal, not exported. Arc paths are origin-centered, so the group is translated to the viewBox center.
 export const DonutRing = ({
   arcs,
   geometry,
   accessibilityLabel,
+  activeId,
 }: DonutRingProps) => {
   const { theme } = useTheme();
   const { box } = geometry;
@@ -51,7 +110,7 @@ export const DonutRing = ({
       testID='donut-ring'
       width={box}
       height={box}
-      viewBox={`0 0 ${box} ${box}`}
+      viewBox={getDonutViewBox(geometry)}
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
     >
@@ -62,6 +121,7 @@ export const DonutRing = ({
               key={segment.id}
               segment={segment}
               defaultColor={theme.colors.bg.mutedStrong}
+              activeId={activeId}
             />
           ))
         ) : (
