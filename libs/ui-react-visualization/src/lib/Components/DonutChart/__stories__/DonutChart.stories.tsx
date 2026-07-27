@@ -222,8 +222,8 @@ export const WithCenterSmall: Story = {
 
 /**
  * Consumer pattern: wrap `renderCenterActive` in a `group` button so the whole
- * active block is clickable and hover on the block drives the chevron hover
- * state (`InteractiveIcon` is decorative with `pointer-events-none`).
+ * active block is clickable and hover on the block drives the chevron's chip
+ * hover state.
  */
 export const WithCenterClickable: Story = {
   render: (args) => {
@@ -233,7 +233,7 @@ export const WithCenterClickable: Story = {
       <div>
         <DonutChart
           {...args}
-          defaultActiveId={null}
+          defaultActiveId='bitcoin'
           renderCenter={({ series }) => (
             <DonutChartTitle>{series.length}</DonutChartTitle>
           )}
@@ -255,16 +255,9 @@ export const WithCenterClickable: Story = {
                     'bg-base-transparent text-muted transition-colors',
                     'group-hover:bg-base-transparent-hover group-hover:text-muted-hover',
                     'group-active:bg-base-transparent-pressed group-active:text-muted-pressed',
-                    '[&_button]:pointer-events-none',
                   )}
                 >
-                  <InteractiveIcon
-                    iconType='stroked'
-                    icon={ChevronRight}
-                    size={16}
-                    aria-hidden
-                    tabIndex={-1}
-                  />
+                  <ChevronRight size={16} aria-hidden />
                 </span>
               </DonutChartDescription>
             </button>
