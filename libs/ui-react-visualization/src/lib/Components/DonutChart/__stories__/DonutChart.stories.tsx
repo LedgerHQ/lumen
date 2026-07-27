@@ -163,9 +163,8 @@ export const Controlled: Story = {
 };
 
 /**
- * `renderCenter` renders the resting center; optional `renderCenterActive`
- * crossfades to active content on segment hover. See the docs for using only
- * `renderCenter` with a ternary on `activeSegment` instead.
+ * `renderCenter` renders the resting center; `renderCenterActive` crossfades
+ * to active content on segment hover.
  */
 export const WithCenter: Story = {
   render: (args) => (

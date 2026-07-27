@@ -91,7 +91,7 @@ slot can react to the same active segment.
 `renderCenter` renders content in the middle of the ring from `DonutChartTitle`
 and `DonutChartDescription`. Layout and pointer events are handled internally.
 Used alone, its `activeSegment` param (enriched with `percent`, `null` when
-nothing is active) lets you switch content in one callback, e.g. a ternary.
+nothing is active).
 
 Pass `renderCenterActive` alongside it to crossfade between resting and active
 layouts on hover instead: `renderCenter` then always gets `activeSegment: null`

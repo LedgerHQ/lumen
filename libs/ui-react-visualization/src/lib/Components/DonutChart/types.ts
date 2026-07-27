@@ -80,8 +80,7 @@ export type DonutChartProps = {
 
 export type DonutChartTitleProps = ComponentPropsWithRef<'div'> & {
   /**
-   * The title's own typography scale, independent of the donut ring's
-   * `size`. Combined with the ring size to pick the exact typography.
+   * The title's own typography scale.
    * @default 'md'
    */
   size?: DonutSize;

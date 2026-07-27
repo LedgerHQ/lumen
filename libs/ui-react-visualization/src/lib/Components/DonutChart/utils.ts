@@ -17,8 +17,7 @@ export const getDonutViewBox = (geometry: DonutGeometry): string => {
 };
 
 /**
- * Max width (px) for center content (`DonutChartTitle` /
- * `DonutChartDescription`) so it truncates instead of overlapping the ring.
+ * Max width (px) for center content.
  */
 export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
   geometry.innerRadius * 2 - chartConfig.donut.centerContentInset;

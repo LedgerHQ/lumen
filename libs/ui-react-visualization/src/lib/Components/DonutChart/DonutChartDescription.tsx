@@ -9,9 +9,6 @@ const DESCRIPTION_TYPOGRAPHY: Record<DonutSize, string> = {
   sm: 'body-4',
 };
 
-/**
- * Secondary line of the donut center (e.g. the active segment's label).
- */
 export const DonutChartDescription = ({
   ref,
   children,

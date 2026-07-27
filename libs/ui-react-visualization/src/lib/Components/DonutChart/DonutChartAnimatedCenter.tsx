@@ -14,10 +14,6 @@ type DonutChartAnimatedCenterProps = {
 const { centerTextTransition } = chartConfig.donut.hover;
 const SLIDE_PX = 8;
 
-/**
- * Internal crossfade between resting and active center slots. Keeps both
- * mounted and toggles visibility with opacity + translateY transitions.
- */
 export const DonutChartAnimatedCenter = ({
   activeSegment,
   renderResting,
