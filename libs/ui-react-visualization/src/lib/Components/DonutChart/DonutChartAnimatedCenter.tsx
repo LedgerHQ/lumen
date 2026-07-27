@@ -47,15 +47,25 @@ export const DonutChartAnimatedCenter = ({
     <div className='pointer-events-auto grid'>
       <div
         data-visible={!isActive}
-        style={{ gridArea: '1 / 1', ...restingStyle }}
-        className='flex items-center justify-center'
+        aria-hidden={isActive}
+        style={{
+          gridArea: '1 / 1',
+          pointerEvents: isActive ? 'none' : 'auto',
+          ...restingStyle,
+        }}
+        className='flex flex-col items-center justify-center'
       >
         {renderResting()}
       </div>
       {shown && (
         <div
           data-visible={isActive}
-          style={{ gridArea: '1 / 1', ...activeStyle }}
+          aria-hidden={!isActive}
+          style={{
+            gridArea: '1 / 1',
+            pointerEvents: isActive ? 'auto' : 'none',
+            ...activeStyle,
+          }}
           className='flex flex-col items-center justify-center'
         >
           {renderActive(shown)}

@@ -52,7 +52,8 @@ export function DonutChart({
     }
   };
 
-  const useAnimatedCenter = renderCenter != null && renderCenterActive != null;
+  const hasCenter = renderCenter != null || renderCenterActive != null;
+  const useAnimatedCenter = renderCenterActive != null;
 
   return (
     <div
@@ -73,7 +74,7 @@ export function DonutChart({
         activeId={activeId}
         onSegmentEnter={setActiveId}
       />
-      {renderCenter && (
+      {hasCenter && (
         <div
           data-testid='donut-center'
           className='pointer-events-none absolute inset-0 flex items-center justify-center'
@@ -83,7 +84,7 @@ export function DonutChart({
               <DonutChartAnimatedCenter
                 activeSegment={activeSegment}
                 renderResting={() =>
-                  renderCenter({ series, activeSegment: null })
+                  renderCenter?.({ series, activeSegment: null }) ?? null
                 }
                 renderActive={(segment) =>
                   renderCenterActive({ activeSegment: segment })
@@ -93,7 +94,7 @@ export function DonutChart({
               <div
                 className={cn('pointer-events-auto flex flex-col items-center')}
               >
-                {renderCenter({ activeSegment, series })}
+                {renderCenter?.({ activeSegment, series })}
               </div>
             )}
           </DonutSizeProvider>

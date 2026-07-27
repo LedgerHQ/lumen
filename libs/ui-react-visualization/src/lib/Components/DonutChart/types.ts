@@ -58,8 +58,7 @@ export type DonutChartProps = {
   /** Fired when the active segment changes (hover or external reset). */
   onActiveIdChange?: (id: string | null) => void;
   /**
-   * Renders the ring's center content from `DonutChartTitle` and
-   * `DonutChartDescription`. Layout and pointer events are handled internally.
+   * Renders the resting center content from `DonutChartTitle` and `DonutChartDescription`.
    * Receives `{ activeSegment, series }`; `activeSegment` is enriched with its
    * computed `percent` and is `null` when nothing is active.
    */
@@ -68,10 +67,9 @@ export type DonutChartProps = {
     series: DonutSegment[];
   }) => ReactNode;
   /**
-   * Optional active center content on segment hover. When provided alongside
-   * `renderCenter`, the chart crossfades between the resting slot
-   * (`renderCenter`, called with `activeSegment: null`) and this active slot
-   * instead of swapping JSX in a single `renderCenter` callback.
+   * Optional active center content on segment hover. When set, the chart
+   * crossfades between the resting slot (`renderCenter`) and this
+   * active slot.
    */
   renderCenterActive?: (params: {
     activeSegment: DonutSegment & { percent: number };
