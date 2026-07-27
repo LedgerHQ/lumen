@@ -10,7 +10,6 @@ import {
   type SetStateAction,
 } from 'react';
 import { StyleSheet } from 'react-native';
-import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { useStyleSheet } from '../../../styles';
 import { RuntimeConstants } from '../../utils';
 import { CustomBackdrop } from './CustomBackdrop';
@@ -18,7 +17,6 @@ import { CustomHandle, HiddenHandle } from './CustomHandle';
 import type { BottomSheetProps } from './types';
 
 const OFFSET_TOP = 25;
-const BOTTOM_INSET = initialWindowMetrics?.insets?.bottom ?? 0;
 const FULL_HEIGHT = RuntimeConstants.insetDimensions.height;
 const FULL_WITH_OFFSET = FULL_HEIGHT - OFFSET_TOP;
 
@@ -97,7 +95,6 @@ export const BottomSheet = ({
   snapPoints = 'fullWithOffset',
   backgroundComponent,
   hideHandle = false,
-  bottomInset,
   ref,
   ...props
 }: BottomSheetProps) => {
@@ -198,7 +195,6 @@ export const BottomSheet = ({
       /**
        * Configuration
        */
-      bottomInset={bottomInset ?? BOTTOM_INSET}
       snapPoints={computedSnapPoints}
       enableDynamicSizing={enableDynamicSizing}
       detached={detached}

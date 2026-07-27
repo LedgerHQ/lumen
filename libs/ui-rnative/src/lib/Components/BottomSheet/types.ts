@@ -159,13 +159,6 @@ export type BottomSheetProps = PropsWithChildren & {
    * @default false
    */
   hideHandle?: boolean;
-  /**
-   * Overrides the system safe area bottom inset used to keep the sheet above
-   * the navigation bar. When omitted, the inset is read automatically from
-   * `initialWindowMetrics`.
-   * @default undefined (system inset)
-   */
-  bottomInset?: number;
 };
 
 export type { BottomSheetBackgroundProps };

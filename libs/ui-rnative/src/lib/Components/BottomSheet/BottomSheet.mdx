@@ -98,14 +98,6 @@ Set both properties:
 
 <Canvas of={BottomSheetStories.PreventClose} />
 
-### Bottom Inset
-
-The sheet automatically reads the device's safe area bottom inset (navigation bar height on Android, home indicator on iOS) via `initialWindowMetrics` from `react-native-safe-area-context` and passes it to the underlying sheet. This keeps the sheet above system UI on all devices with no extra configuration.
-
-Pass `bottomInset` to override this value entirely.
-
-<Canvas of={BottomSheetStories.BottomInsetOverride} />
-
 ### Footer
 
 `BottomSheetFooter` renders a sticky area pinned below the scrollable region.
@@ -402,12 +394,6 @@ function MyComponent() {
   </BottomSheetFooter>
 </BottomSheet>
 ```
-
-### Platform Insets
-
-The sheet automatically clears the system navigation bar (Android) and home indicator (iOS) by reading `initialWindowMetrics.insets.bottom` from `react-native-safe-area-context` at module initialisation time. No configuration is required for standard layouts.
-
-Use `bottomInset` to override this value entirely. When provided, it is passed directly to the underlying sheet, replacing the computed system inset.
 
 ### Important Notes
 
