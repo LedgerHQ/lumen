@@ -226,6 +226,34 @@ export const WithCenterSmall: Story = {
 };
 
 /**
+ * The same `renderCenter`/`renderCenterActive` pattern as `WithCenter`, sized
+ * for the 80px `sm` ring — typography scales down automatically via
+ * `donutSizeContext`.
+ */
+export const WithCenterSmall: Story = {
+  args: {
+    size: 'sm',
+  },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      defaultActiveId={null}
+      renderCenter={({ series }) => (
+        <DonutChartTitle>{series.length}</DonutChartTitle>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <>
+          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartDescription>
+            <span className='truncate'>{activeSegment.label}</span>
+          </DonutChartDescription>
+        </>
+      )}
+    />
+  ),
+};
+
+/**
  * Consumer pattern: wrap `renderCenterActive` in a `group` button so the whole
  * active block is clickable and hover on the block drives the chevron's chip
  * hover state.

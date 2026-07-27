@@ -34,28 +34,6 @@ export function DonutChart({
     [setActiveId],
   );
 
-  const handleTap = useCallback(
-    (point: { x: number; y: number }) => {
-      const localPoint = toRingLocalPoint(point, geometry);
-      const hitId = findSegmentIdAtPoint(arcs, localPoint, geometry);
-      if (hitId) {
-        handleSegmentPress(hitId);
-      }
-    },
-    [arcs, geometry, handleSegmentPress],
-  );
-
-  const tap = useMemo(
-    () =>
-      Gesture.Tap().onEnd((e, success) => {
-        'worklet';
-        if (success) {
-          scheduleOnRN(handleTap, { x: e.x, y: e.y });
-        }
-      }),
-    [handleTap],
-  );
-
   return (
     <View
       testID='donut-chart'
