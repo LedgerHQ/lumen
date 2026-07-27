@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../Button';
 import { SearchInput } from '../SearchInput';
 import { Spot } from '../Spot';
@@ -132,6 +132,51 @@ export const Base: Story = {
         <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open
         </Button>
+        <BottomSheet {...args} ref={bottomSheetRef}>
+          <BottomSheetView>
+            <BottomSheetHeader
+              title='Title'
+              density='compact'
+              description='Description'
+            />
+            <BottomSheetContent lx={{ flexDirection: 'column', gap: 's12' }}>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Text typography='body2' lx={{ color: 'base' }} key={index}>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Vitae excepturi odit, quis tenetur iste perspiciatis mollitia
+                  porro velit laborum quasi numquam reiciendis dolor! Et quia
+                  voluptates eum, sunt asperiores quod.
+                </Text>
+              ))}
+            </BottomSheetContent>
+          </BottomSheetView>
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
+export const BaseOpen: Story = {
+  args: {
+    ...Base.args,
+  },
+  render: (args) => {
+    const bottomSheetRef = useBottomSheetRef();
+
+    useEffect(() => {
+      bottomSheetRef.current?.present();
+    }, [bottomSheetRef]);
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+        }}
+      >
         <BottomSheet {...args} ref={bottomSheetRef}>
           <BottomSheetView>
             <BottomSheetHeader

@@ -297,34 +297,34 @@ export default function BottomSheets() {
   return (
     <>
       <Button appearance='base' onPress={() => flatListsRef.current?.present()}>
-        Open
+        Virtual List
       </Button>
       <Button
         appearance='base'
         onPress={() => dynamicSizeRef.current?.present()}
       >
-        Open
+        Dynamic Sizing
       </Button>
       <Button appearance='base' onPress={() => gradientRef.current?.present()}>
-        Open
+        Gradient Background
       </Button>
       <Button
         appearance='base'
         onPress={() => withFooterRef.current?.present()}
       >
-        Open
+        With Footer
       </Button>
       <Button
         appearance='base'
         onPress={() => footerFlatListRef.current?.present()}
       >
-        Open
+        Footer + FlatList
       </Button>
       <Button
         appearance='base'
         onPress={() => footerDynamicRef.current?.present()}
       >
-        Open
+        Footer + Dynamic Size
       </Button>
       <BottomSheetFlatLists ref={flatListsRef} />
       <BottomSheetDynamicSize ref={dynamicSizeRef} />
