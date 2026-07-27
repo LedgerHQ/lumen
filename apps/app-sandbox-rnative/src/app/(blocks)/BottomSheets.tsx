@@ -293,7 +293,6 @@ export default function BottomSheets() {
   const withFooterRef = useBottomSheetRef();
   const footerFlatListRef = useBottomSheetRef();
   const footerDynamicRef = useBottomSheetRef();
-  const customInsetRef = useBottomSheetRef();
 
   return (
     <>
@@ -326,12 +325,6 @@ export default function BottomSheets() {
         onPress={() => footerDynamicRef.current?.present()}
       >
         Footer + Dynamic Size
-      </Button>
-      <Button
-        appearance='base'
-        onPress={() => customInsetRef.current?.present()}
-      >
-        Custom Bottom Inset
       </Button>
       <BottomSheetFlatLists ref={flatListsRef} />
       <BottomSheetDynamicSize ref={dynamicSizeRef} />
