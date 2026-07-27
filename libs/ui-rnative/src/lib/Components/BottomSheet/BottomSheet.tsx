@@ -1,7 +1,14 @@
 import type { SNAP_POINT_TYPE } from '@gorhom/bottom-sheet';
 import { BottomSheetModal as GorhomBottomSheetModal } from '@gorhom/bottom-sheet';
 import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../styles';
 import { RuntimeConstants } from '../../utils';
@@ -56,13 +63,15 @@ const useStyles = ({
   );
 };
 
-const [BottomSheetProvider, useBottomSheetContext] =
-  createSafeContext<
-    Pick<
-      BottomSheetProps,
-      'onBack' | 'hideCloseButton' | 'onHeaderClosePressed'
-    >
-  >('BottomSheet');
+const [BottomSheetProvider, useBottomSheetContext] = createSafeContext<
+  Pick<
+    BottomSheetProps,
+    'onBack' | 'hideCloseButton' | 'onHeaderClosePressed'
+  > & {
+    hasFooter: boolean;
+    setHasFooter: Dispatch<SetStateAction<boolean>>;
+  }
+>('BottomSheet');
 
 export const BottomSheet = ({
   onOpen,
@@ -93,6 +102,7 @@ export const BottomSheet = ({
   const innerRef = useRef<GorhomBottomSheetModal>(null);
   const mergedRefs = useMergedRef<GorhomBottomSheetModal>(ref, innerRef);
   const [isOpen, setIsOpen] = useState(false);
+  const [hasFooter, setHasFooter] = useState(false);
 
   const styles = useStyles({
     shadow: hideBackdrop && isOpen,
@@ -208,7 +218,13 @@ export const BottomSheet = ({
       backdropComponent={hideBackdrop ? undefined : renderBackdrop}
     >
       <BottomSheetProvider
-        value={{ onBack, hideCloseButton, onHeaderClosePressed }}
+        value={{
+          onBack,
+          hideCloseButton,
+          onHeaderClosePressed,
+          hasFooter,
+          setHasFooter,
+        }}
       >
         {children}
       </BottomSheetProvider>

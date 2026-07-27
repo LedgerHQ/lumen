@@ -24,7 +24,8 @@ BottomSheet provides a flexible and performant way to present content, forms, or
 - **Handle**: Visual indicator for draggable area
 - **Backdrop**: Semi-transparent overlay behind the sheet
 - **Header**: Optional header with title, description, back button, and close button
-- **Content**: Scrollable or static content using specialized scrollable components
+- **Content**: Scrollable or static content
+- **Footer**: Optional sticky area pinned to the bottom of the sheet
 
 ## Properties
 
@@ -96,6 +97,37 @@ Set both properties:
 - `backdropPressBehavior='none'` 
 
 <Canvas of={BottomSheetStories.PreventClose} />
+
+### Footer
+
+`BottomSheetFooter` renders a sticky area pinned below the scrollable region.
+
+`BottomSheetContent` is a non-scrollable content block that applies standard paddings.
+
+#### BottomSheetContent
+
+Gorhom's `BottomSheetView` is `position: absolute; top: 0`, so it always overlaps content above it-including the header. For this reason you cannot nest a second `BottomSheetView` inside another one to wrap your body content.
+
+When using dynamic sizing (`enableDynamicSizing`), everything must live inside a single Gorhom-aware wrapper (`BottomSheetView`) so the library can measure the total height correctly. That rules out an extra `BottomSheetView` as a content wrapper.
+
+`BottomSheetContent` solves this: it is a plain `Box`-based container (not a Gorhom component) with the standard horizontal and vertical paddings already built in, so you get consistent spacing without fighting the absolute-positioning constraint.
+
+#### Automatic padding stripping
+
+To avoid double-padding, `BottomSheetContent` and `BottomSheetFooter` communicate with their parent via React context:
+
+- If `BottomSheetContent` is a child of `BottomSheetView`, its `paddingHorizontal` is dropped (the view already provides it).
+- If a `BottomSheetFooter` is present inside the bottom sheet, `BottomSheetContent` drops its `paddingBottom` (the footer already handles the bottom spacing).
+
+This means all combinations—with/without dynamic sizing, with/without a footer—produce consistent spacing automatically.
+
+#### Scrollable content with a sticky footer
+
+Footer and scrollable are siblings directly inside `BottomSheet`.
+
+<Canvas of={BottomSheetStories.WithFooter} />
+
+> **Android 3-button navigation:** If the footer is obscured by the system navigation bar, you can pass a bottom margin via `style` or `lx` to raise it.
 
 </Tab>
 <Tab label="Implementation">
@@ -266,10 +298,109 @@ import {
 </BottomSheet>
 ```
 
+### Footer and Content
+
+#### BottomSheetFooter
+
+`BottomSheetFooter` renders a sticky area at the bottom of the sheet. It must be placed inside a `BottomSheet` (context is required).
+
+#### BottomSheetContent
+
+`BottomSheetContent` is a non-scrollable `Box`-based container with `lx` support. By default it applies horizontal and vertical paddings.
+
+Use it as the body wrapper whenever you need a static (non-scrollable) content area inside a `BottomSheetView`. Do **not** use a second `BottomSheetView` for this purpose. Gorhom's `BottomSheetView` is `position: absolute; top: 0`, so nesting one inside another causes it to overlap the header rather than flow below it. `BottomSheetContent` is a plain `Box` that avoids this constraint entirely.
+
+When using dynamic sizing, all content must live inside a single `BottomSheetView` so the library can measure the sheet height. `BottomSheetContent` works correctly in this setup; a nested `BottomSheetView` does not.
+
+Padding is handled automatically via context:
+- `paddingHorizontal` is stripped when `BottomSheetContent` is a child of `BottomSheetView` (the view already provides it).
+- `paddingBottom` is stripped when a `BottomSheetFooter` is present (the footer owns the bottom spacing).
+
+#### Pattern A: scrollable content with a footer as siblings
+
+Footer and scrollable are direct children of `BottomSheet`.
+
+```tsx
+import {
+  BottomSheet,
+  BottomSheetHeader,
+  BottomSheetScrollView,
+  BottomSheetFooter,
+  useBottomSheetRef,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  const ref = useBottomSheetRef();
+
+  return (
+    <BottomSheet ref={ref} snapPoints={['50%']}>
+      <BottomSheetHeader spacing title="Title" density="compact" />
+      <BottomSheetScrollView>
+        {/* scrollable content */}
+      </BottomSheetScrollView>
+      <BottomSheetFooter>
+        <Button size="lg" isFull>Confirm</Button>
+        <Button size="lg" isFull appearance="ghost">Cancel</Button>
+      </BottomSheetFooter>
+    </BottomSheet>
+  );
+}
+```
+
+#### Pattern B: static content with a footer inside BottomSheetView
+
+Both `BottomSheetContent` and `BottomSheetFooter` are children of `BottomSheetView`.
+
+```tsx
+import {
+  BottomSheet,
+  BottomSheetView,
+  BottomSheetHeader,
+  BottomSheetContent,
+  BottomSheetFooter,
+  useBottomSheetRef,
+} from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  const ref = useBottomSheetRef();
+
+  return (
+    <BottomSheet ref={ref} snapPoints={null} enableDynamicSizing>
+      <BottomSheetView>
+        <BottomSheetHeader title="Title" density="compact" />
+        <BottomSheetContent lx={{ gap: 's12' }}>
+          {/* static content */}
+        </BottomSheetContent>
+        <BottomSheetFooter>
+          <Button size="lg" isFull>Confirm</Button>
+          <Button size="lg" isFull appearance="ghost">Cancel</Button>
+        </BottomSheetFooter>
+      </BottomSheetView>
+    </BottomSheet>
+  );
+}
+```
+
+#### Pattern C: standalone BottomSheetContent without a scrollable parent
+
+`BottomSheetContent` is a direct child of `BottomSheet`, not wrapped in any scrollable.
+
+```tsx
+<BottomSheet ref={ref} snapPoints={['50%']}>
+  <BottomSheetHeader spacing title="Title" density="compact" />
+  <BottomSheetContent>
+    {/* content */}
+  </BottomSheetContent>
+  <BottomSheetFooter>
+    <Button size="lg" isFull>Confirm</Button>
+  </BottomSheetFooter>
+</BottomSheet>
+```
+
 ### Important Notes
 
 - **Dynamic Sizing**: When using `enableDynamicSizing`, do not define `snapPoints`
-- **Header Spacing**: Use `spacing` prop on `BottomSheetHeader` when using FlatList/VirtualizedList
+- **Header Spacing**: Use `spacing` prop on `BottomSheetHeader` when using FlatList/VirtualizedList or when the footer is a sibling of a list-based scrollable
 - **SectionList**: Not compatible with react-native-web. See [Gorhom documentation](https://gorhom.dev/react-native-bottom-sheet/components/bottomsheetsectionlist).
 - **FlashList**: Requires `@shopify/flash-list` package. See [Gorhom docs](https://gorhom.dev/react-native-bottom-sheet/components/bottomsheetflashlist)
 
