@@ -204,7 +204,7 @@ export const WithCenterSmall: Story = {
   render: (args) => (
     <DonutChart
       {...args}
-      defaultActiveId={null}
+      defaultActiveId='bitcoin'
       renderCenter={({ series }) => (
         <DonutChartTitle>{series.length}</DonutChartTitle>
       )}
