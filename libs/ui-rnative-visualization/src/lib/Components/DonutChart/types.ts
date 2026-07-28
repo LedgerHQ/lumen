@@ -31,6 +31,6 @@ export type DonutChartProps = {
   activeId?: string | null;
   /** Default active segment id for uncontrolled mode. */
   defaultActiveId?: string | null;
-  /** Fired when the active segment changes (tap or external reset). */
+  /** Fired when the active segment changes (tap to select, tap again to deselect). */
   onActiveIdChange?: (id: string | null) => void;
 };

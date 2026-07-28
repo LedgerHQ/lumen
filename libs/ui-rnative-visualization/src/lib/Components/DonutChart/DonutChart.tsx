@@ -2,7 +2,6 @@ import { useControllableState } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { DONUT_GEOMETRY, toRingLocalPoint } from './constants';
@@ -30,9 +29,9 @@ export function DonutChart({
 
   const handleSegmentPress = useCallback(
     (id: string) => {
-      setActiveId(activeId === id ? null : id);
+      setActiveId((prev) => (prev === id ? null : id));
     },
-    [activeId, setActiveId],
+    [setActiveId],
   );
 
   const handleTap = useCallback(
@@ -69,10 +68,7 @@ export function DonutChart({
         activeId={activeId}
       />
       <GestureDetector gesture={tap}>
-        <Animated.View
-          testID='donut-gesture-overlay'
-          style={StyleSheet.absoluteFill}
-        />
+        <View testID='donut-gesture-overlay' style={StyleSheet.absoluteFill} />
       </GestureDetector>
     </View>
   );
