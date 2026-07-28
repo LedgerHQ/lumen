@@ -4,6 +4,11 @@ import type { chartConfig } from '../../config';
 
 export type DonutSize = keyof typeof chartConfig.donut.size;
 
+/**
+ * The title's own typography scale.
+ */
+export type DonutTitleSize = 'md' | 'sm';
+
 /** Ring dimensions for a given size, in SVG user units. */
 export type DonutGeometry = Readonly<{
   box: number;
@@ -81,7 +86,7 @@ export type DonutChartTitleProps = ComponentPropsWithRef<'div'> & {
    * The title's own typography scale.
    * @default 'md'
    */
-  size?: DonutSize;
+  size?: DonutTitleSize;
 };
 
 export type DonutChartDescriptionProps = ComponentPropsWithRef<'div'>;

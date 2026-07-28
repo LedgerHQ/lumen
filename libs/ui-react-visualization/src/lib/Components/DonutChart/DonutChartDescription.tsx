@@ -4,10 +4,10 @@ import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps, DonutSize } from './types';
 import { DONUT_GEOMETRY, getCenterMaxWidth } from './utils';
 
-const DESCRIPTION_TYPOGRAPHY: Record<DonutSize, string> = {
+const DESCRIPTION_TYPOGRAPHY = {
   md: 'body-3',
   sm: 'body-4',
-};
+} as const satisfies Record<DonutSize, string>;
 
 export const DonutChartDescription = ({
   ref,

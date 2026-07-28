@@ -88,20 +88,17 @@ slot can react to the same active segment.
 
 ## Center content
 
-`renderCenter` renders content in the middle of the ring from `DonutChartTitle`
-and `DonutChartDescription`. Layout and pointer events are handled internally.
-Used alone, its `activeSegment` param (enriched with `percent`, `null` when
-nothing is active).
+`renderCenter` renders content in the middle of the ring, e.g. a total count.
+Build it from `DonutChartTitle` and `DonutChartDescription`, which size and
+center themselves automatically.
 
-Pass `renderCenterActive` alongside it to crossfade between resting and active
-layouts on hover instead: `renderCenter` then always gets `activeSegment: null`
-(resting only), while `renderCenterActive` handles the active layout.
-
-Both `DonutChartTitle` and `DonutChartDescription` cap their width to the
-ring's inner diameter, so long content truncates instead of overlapping the
-ring. In `DonutChartDescription`, mark the truncatable part of `children`
-(e.g. the label, not a trailing icon) with a `truncate` class so it shrinks
-while the icon stays fixed-size.
+- Used alone: same content on active and not, `activeSegment` is just `null`
+  at rest.
+- Used with `renderCenterActive`: `renderCenter` stays resting-only
+  (`activeSegment` always `null`); `renderCenterActive` crossfades in on
+  hover instead.
+- If a label could overflow, add a `truncate` class to it (not to a trailing
+  icon).
 
 <Canvas of={DonutChartStories.WithCenter} />
 
