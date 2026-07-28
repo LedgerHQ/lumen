@@ -4,7 +4,8 @@ import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { DONUT_GEOMETRY, toRingLocalPoint } from './constants';
+import { DONUT_GEOMETRY } from '../../config';
+import { toRingLocalPoint } from './constants';
 import { DonutRing } from './DonutRing';
 import type { DonutChartProps } from './types';
 import { buildArcs, findSegmentIdAtPoint } from './utils';

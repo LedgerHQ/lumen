@@ -1,16 +1,13 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
+import { chartConfig, useChartTokens } from '../../../config';
 import { buildTicksData } from '../../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { XAxisProps } from './types';
 
-const STROKE_WIDTH = 1;
-const TICK_MARK_SIZE = 4;
-const TICK_LABEL_OFFSET = 6;
-export const DEFAULT_AXIS_HEIGHT = 28;
+export const DEFAULT_AXIS_HEIGHT = chartConfig.axis.defaultHeight;
 
 export const XAxis = ({
   gridLineStyle = 'dashed',
@@ -23,7 +20,7 @@ export const XAxis = ({
   tickLabelFormatter,
 }: XAxisProps) => {
   const { getXScale, getXAxisConfig, drawingArea } = useCartesianChartContext();
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
 
   const xScale = getXScale();
   const xAxisConfig = getXAxisConfig();
@@ -43,14 +40,16 @@ export const XAxis = ({
   const isTop = position === 'top';
   const axisY = isTop ? drawingArea.y : drawingArea.y + drawingArea.height;
 
-  const fontSize = theme.typographies.body4.fontSize;
+  const { tickMarkSize, tickLabelOffset, gridDashArray } = chartConfig.axis;
+  const fontSize = tokens.font.labelSize;
   const tickDirection = isTop ? -1 : 1;
-  const labelY = axisY + tickDirection * (TICK_MARK_SIZE + TICK_LABEL_OFFSET);
+  const labelY = axisY + tickDirection * (tickMarkSize + tickLabelOffset);
   const labelDy = isTop ? 0 : fontSize * 0.8;
 
-  const gridStroke = theme.colors.border.mutedSubtleTransparent;
-  const lineStroke = theme.colors.border.muted;
-  const textFill = theme.colors.text.muted;
+  const gridStroke = tokens.color.gridLine;
+  const lineStroke = tokens.color.stroke;
+  const textFill = tokens.color.textMuted;
+  const strokeWidth = tokens.stroke.hairline;
 
   return (
     <G>
@@ -63,8 +62,10 @@ export const XAxis = ({
             x2={tick.position}
             y2={drawingArea.y + drawingArea.height}
             stroke={gridStroke}
-            strokeWidth={STROKE_WIDTH}
-            strokeDasharray={gridLineStyle === 'dashed' ? '3 3' : undefined}
+            strokeWidth={strokeWidth}
+            strokeDasharray={
+              gridLineStyle === 'dashed' ? gridDashArray : undefined
+            }
           />
         ))}
 
@@ -75,7 +76,7 @@ export const XAxis = ({
           x2={drawingArea.x + drawingArea.width}
           y2={axisY}
           stroke={lineStroke}
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={strokeWidth}
           strokeLinecap='square'
         />
       )}
@@ -87,9 +88,9 @@ export const XAxis = ({
             x1={tick.position}
             y1={axisY}
             x2={tick.position}
-            y2={axisY + tickDirection * TICK_MARK_SIZE}
+            y2={axisY + tickDirection * tickMarkSize}
             stroke={lineStroke}
-            strokeWidth={STROKE_WIDTH}
+            strokeWidth={strokeWidth}
           />
         ))}
 
@@ -103,7 +104,7 @@ export const XAxis = ({
             textAnchor='middle'
             fill={textFill}
             fontSize={fontSize}
-            fontFamily={theme.fontFamilies.sans}
+            fontFamily={tokens.font.family}
           >
             {tick.label}
           </SvgText>

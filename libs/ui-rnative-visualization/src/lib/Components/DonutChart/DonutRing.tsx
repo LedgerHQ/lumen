@@ -1,4 +1,3 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useEffect } from 'react';
 import Animated, {
   useAnimatedProps,
@@ -9,9 +8,10 @@ import { G, Path, Svg } from 'react-native-svg';
 
 import {
   DONUT_INTERACTION,
-  getDonutViewBox,
+  useChartTokens,
   type DonutGeometry,
-} from './constants';
+} from '../../config';
+import { getDonutViewBox } from './constants';
 import { buildEmptyRingPath, type DonutArc } from './utils';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -100,7 +100,7 @@ export const DonutRing = ({
   accessibilityLabel,
   activeId,
 }: DonutRingProps) => {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const { box } = geometry;
   const center = box / 2;
   const hasSegments = arcs.length > 0;
@@ -120,12 +120,12 @@ export const DonutRing = ({
             <RingSegment
               key={segment.id}
               segment={segment}
-              defaultColor={theme.colors.bg.mutedStrong}
               activeId={activeId}
+              defaultColor={tokens.color.markFill}
             />
           ))
         ) : (
-          <EmptyRing geometry={geometry} color={theme.colors.bg.muted} />
+          <EmptyRing geometry={geometry} color={tokens.color.surface} />
         )}
       </G>
     </Svg>

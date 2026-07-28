@@ -6,14 +6,17 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
+import { chartConfig } from '../../../config';
 import type { DrawingArea, Series } from '../../../utils/types';
 import { OVERFLOW_BUFFER } from '../utils';
 
 /**
  * Duration in ms of an individual point's opacity fade-in.
  */
-const POINT_FADE_DURATION_IN_MS = 200;
-const POINT_FADE_IN_AFTER_CLIP_IN_MS = -100;
+const POINT_FADE_DURATION_IN_MS =
+  chartConfig.reveal.pointFadeDurationInSeconds * 1000;
+const POINT_FADE_IN_AFTER_CLIP_IN_MS =
+  chartConfig.reveal.pointFadeInAfterClipInSeconds * 1000;
 
 type RevealAnimationConfig = {
   durationMs: number;

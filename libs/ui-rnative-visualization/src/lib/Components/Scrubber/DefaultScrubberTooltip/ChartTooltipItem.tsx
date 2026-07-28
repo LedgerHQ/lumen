@@ -1,9 +1,8 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { memo } from 'react';
 import { G, Text as SvgText } from 'react-native-svg';
 
+import { chartConfig, useChartTokens } from '../../../config';
 import type { ChartTooltipItemProps } from '../types';
-import { PADDING_X } from './constants';
 
 /**
  * Memoized so it only re-renders when one of its primitive props actually
@@ -20,32 +19,32 @@ export const ChartTooltipItem = memo(function ChartTooltipItem({
   labelRef,
   valueRef,
 }: Readonly<ChartTooltipItemProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
 
   return (
     <G>
       <SvgText
         ref={labelRef}
-        x={x + PADDING_X}
+        x={x + chartConfig.tooltip.paddingX}
         y={y}
         textAnchor='start'
         alignmentBaseline='central'
-        fill={theme.colors.text.muted}
-        fontSize={theme.typographies.body3.fontSize}
-        fontFamily={theme.fontFamilies.sans}
+        fill={tokens.color.textMuted}
+        fontSize={tokens.font.bodySize}
+        fontFamily={tokens.font.family}
       >
         {String(label)}
       </SvgText>
       <SvgText
         ref={valueRef}
-        x={x + width - PADDING_X}
+        x={x + width - chartConfig.tooltip.paddingX}
         y={y}
         textAnchor='end'
         alignmentBaseline='central'
-        fill={theme.colors.text.base}
-        fontSize={theme.typographies.body3SemiBold.fontSize}
-        fontWeight={theme.typographies.body3SemiBold.fontWeight}
-        fontFamily={theme.fontFamilies.sans}
+        fill={tokens.color.text}
+        fontSize={tokens.font.bodySize}
+        fontWeight={tokens.font.bodyWeightSemiBold}
+        fontFamily={tokens.font.family}
       >
         {String(value)}
       </SvgText>

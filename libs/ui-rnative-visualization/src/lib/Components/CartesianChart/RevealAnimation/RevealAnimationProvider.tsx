@@ -4,13 +4,12 @@ import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { ClipPath, Defs, Rect } from 'react-native-svg';
 
+import { chartConfig } from '../../../config';
 import { OVERFLOW_BUFFER } from '../utils';
 
 import { RevealAnimationContext } from './context';
 import type { RevealAnimationProps } from './types';
 import { useDataFingerprint, useRevealAnimation } from './utils';
-
-const DEFAULT_DURATION_IN_SECONDS = 0.8;
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
@@ -27,7 +26,8 @@ export function RevealAnimationProvider({
    */
   const isDisabled = !animate || RuntimeConstants.isAndroid;
   const durationMs =
-    (transitions?.enter?.duration ?? DEFAULT_DURATION_IN_SECONDS) * 1000;
+    (transitions?.enter?.duration ?? chartConfig.reveal.durationInSeconds) *
+    1000;
 
   const dataFingerprint = useDataFingerprint(series);
   const { clipId, animatedRectProps, pointOpacity } = useRevealAnimation({

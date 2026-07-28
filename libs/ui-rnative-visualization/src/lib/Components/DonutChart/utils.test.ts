@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
-import type { DonutGeometry } from './constants';
-import { DONUT_GEOMETRY, getDonutViewBox, toRingLocalPoint } from './constants';
+import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { getDonutViewBox, toRingLocalPoint } from './constants';
 import type { DonutSegment } from './types';
 import {
   buildArcs,

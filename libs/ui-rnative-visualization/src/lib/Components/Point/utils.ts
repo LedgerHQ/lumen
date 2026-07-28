@@ -1,13 +1,15 @@
+import { chartConfig } from '../../config';
 import type { DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
-import {
-  ARROW_HEIGHT,
-  ARROW_WIDTH,
-  GAP,
-  LABEL_CHAR_WIDTH_RATIO,
-  LABEL_FONT_SIZE,
-} from './constants';
 import type { LabelAlignment } from './types';
+
+const {
+  arrowHeight: ARROW_HEIGHT,
+  arrowWidth: ARROW_WIDTH,
+  labelGap: GAP,
+  labelCharWidthRatio: LABEL_CHAR_WIDTH_RATIO,
+  labelFontSize: LABEL_FONT_SIZE,
+} = chartConfig.point;
 
 export type LabelTextAnchor = 'start' | 'middle' | 'end';
 

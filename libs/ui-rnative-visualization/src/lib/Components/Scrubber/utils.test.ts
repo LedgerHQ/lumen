@@ -1,12 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { chartConfig } from '../../config';
 import {
   getCategoricalScale,
   getNumericScale,
 } from '../../utils/scales/scales';
 import type { DrawingArea } from '../../utils/types';
 
-import { OVERLAY_LINE_INSET, OVERLAY_OFFSET } from './constants';
 import {
   applyMagnetisation,
   buildSortedMagnets,
@@ -18,6 +18,9 @@ import {
   resolveTooltipPayload,
 } from './utils';
 import type { MagnetEntry } from './utils';
+
+const { overlayLineInset: OVERLAY_LINE_INSET, overlayOffset: OVERLAY_OFFSET } =
+  chartConfig.scrubber;
 
 describe('getDataIndexFromPosition', () => {
   describe('with a categorical (band) scale', () => {

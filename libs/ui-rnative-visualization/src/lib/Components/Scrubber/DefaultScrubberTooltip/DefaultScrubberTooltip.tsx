@@ -1,16 +1,8 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { G, Rect, Text as SvgText } from 'react-native-svg';
 
+import { chartConfig, useChartTokens } from '../../../config';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
-import {
-  DEFAULT_OFFSET,
-  DEFAULT_TOOLTIP_MIN_WIDTH,
-  PADDING_X,
-  PADDING_Y,
-  ROW_GAP,
-  ROW_HEIGHT,
-} from './constants';
 import {
   computeItemsBaseY,
   computeTooltipHeight,
@@ -34,10 +26,10 @@ export function DefaultScrubberTooltip({
   drawingArea,
   title,
   items,
-  offset = DEFAULT_OFFSET,
-  minWidth = DEFAULT_TOOLTIP_MIN_WIDTH,
+  offset = chartConfig.tooltip.defaultOffset,
+  minWidth = chartConfig.tooltip.defaultMinWidth,
 }: Readonly<ScrubberTooltipProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
 
   const hasTitle = title !== undefined;
 
@@ -67,8 +59,8 @@ export function DefaultScrubberTooltip({
         y={drawingArea.y}
         width={tooltipWidth}
         height={tooltipHeight}
-        rx={theme.borderRadius.sm}
-        fill={theme.colors.bg.muted}
+        rx={tokens.radius.sm}
+        fill={tokens.color.surface}
       />
       {hasTitle && (
         <SvgText
@@ -76,13 +68,17 @@ export function DefaultScrubberTooltip({
             titleRef.current = el as unknown as (typeof titleRef)['current'];
           }}
           testID='chart-tooltip-title'
-          x={tooltipX + PADDING_X}
-          y={drawingArea.y + PADDING_Y + ROW_HEIGHT / 2}
+          x={tooltipX + chartConfig.tooltip.paddingX}
+          y={
+            drawingArea.y +
+            chartConfig.tooltip.paddingY +
+            chartConfig.tooltip.rowHeight / 2
+          }
           alignmentBaseline='central'
-          fill={theme.colors.text.muted}
-          fontSize={theme.typographies.body3.fontSize}
-          fontWeight={theme.typographies.body3.fontWeight}
-          fontFamily={theme.fontFamilies.sans}
+          fill={tokens.color.textMuted}
+          fontSize={tokens.font.bodySize}
+          fontWeight={tokens.font.bodyWeightMedium}
+          fontFamily={tokens.font.family}
         >
           {String(title)}
         </SvgText>
@@ -93,7 +89,11 @@ export function DefaultScrubberTooltip({
           label={item.label}
           value={item.value}
           x={tooltipX}
-          y={itemsBaseY + i * (ROW_HEIGHT + ROW_GAP) + ROW_HEIGHT / 2}
+          y={
+            itemsBaseY +
+            i * (chartConfig.tooltip.rowHeight + chartConfig.tooltip.rowGap) +
+            chartConfig.tooltip.rowHeight / 2
+          }
           width={tooltipWidth}
           labelRef={labelRefSetters[i]}
           valueRef={valueRefSetters[i]}
