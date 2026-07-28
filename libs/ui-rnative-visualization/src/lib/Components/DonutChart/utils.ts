@@ -1,6 +1,6 @@
 import { arc, pie, type PieArcDatum } from 'd3-shape';
-import { DONUT_CENTER } from './constants';
 import type { DonutGeometry } from '../../config';
+import { DONUT_CENTER } from './constants';
 import type { DonutSegment } from './types';
 
 /** A segment ready to draw: its path is centered at the origin. */

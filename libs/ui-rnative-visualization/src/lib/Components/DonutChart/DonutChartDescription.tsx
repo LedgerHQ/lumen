@@ -3,7 +3,7 @@ import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 
-import { DONUT_GEOMETRY } from './constants';
+import { DONUT_GEOMETRY } from '../../config';
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps, DonutSize } from './types';
 import { getCenterMaxWidth } from './utils';

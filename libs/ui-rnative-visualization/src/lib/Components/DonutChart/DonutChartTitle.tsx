@@ -2,7 +2,7 @@ import { Text } from '@ledgerhq/lumen-ui-rnative';
 import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { StyleSheet } from 'react-native';
 
-import { DONUT_GEOMETRY } from './constants';
+import { DONUT_GEOMETRY } from '../../config';
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartTitleProps, DonutSize, DonutTitleSize } from './types';
 import { getCenterMaxWidth } from './utils';
