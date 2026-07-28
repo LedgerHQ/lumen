@@ -1,15 +1,10 @@
+import { chartConfig } from '../../config';
 import { isFiniteNumber } from '../../utils/numbers';
 import type { ChartInset, Series } from '../../utils/types';
 import { DEFAULT_AXIS_HEIGHT } from '../Axis/XAxis';
 import type { XAxisProps } from '../Axis/XAxis';
 import { DEFAULT_AXIS_WIDTH } from '../Axis/YAxis';
 import type { YAxisProps } from '../Axis/YAxis';
-
-/**
- * Minimum number of finite points a series needs to be drawable as a line.
- */
-const MIN_DRAWABLE_POINTS = 2;
-const LOADING_ARIA_LABEL = 'Loading chart';
 
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;
@@ -81,7 +76,7 @@ export const getChartAriaLabel = ({
   emptyLabel,
 }: ChartDisplayStateParams & { emptyLabel: string }): string | undefined => {
   if (loading) {
-    return LOADING_ARIA_LABEL;
+    return chartConfig.emptyState.loadingAriaLabel;
   }
 
   if (!hasData) {
@@ -92,8 +87,9 @@ export const getChartAriaLabel = ({
 };
 
 /**
- * Whether any series has at least {@link MIN_DRAWABLE_POINTS} finite points,
- * i.e. enough to actually draw a line. Drives the empty / loading / data states
+ * Whether any series has at least `chartConfig.emptyState.minDrawablePoints`
+ * finite points, i.e. enough to actually draw a line. Drives the empty /
+ * loading / data states
  * of the chart.
  *
  * When `xData` (the x-axis domain) is provided, only the first `xData.length`
@@ -111,7 +107,8 @@ export const canRenderLine = (
     let drawablePoints = 0;
     for (let i = 0; i < limit; i++) {
       if (isFiniteNumber(data[i])) drawablePoints++;
-      if (drawablePoints >= MIN_DRAWABLE_POINTS) return true;
+      if (drawablePoints >= chartConfig.emptyState.minDrawablePoints)
+        return true;
     }
     return false;
   });

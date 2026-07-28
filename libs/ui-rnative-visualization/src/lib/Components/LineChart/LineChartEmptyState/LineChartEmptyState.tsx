@@ -1,17 +1,13 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import Animated from 'react-native-reanimated';
 import { G, Line as SvgLine, Path } from 'react-native-svg';
 
+import { chartConfig, useChartTokens } from '../../../config';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';
 
 import type { LineChartEmptyStateProps } from './types';
-import { buildPlaceholderTransform, PLACEHOLDER_LINE_PATH } from './utils';
-
-const GRID_LINE_RATIOS = [0.3, 0.5, 0.7];
-const GRID_STROKE_WIDTH = 1;
-const PLACEHOLDER_STROKE_WIDTH = 2;
+import { buildPlaceholderTransform } from './utils';
 
 const AnimatedG = Animated.createAnimatedComponent(G);
 
@@ -25,7 +21,7 @@ export function LineChartEmptyState({
   loading = false,
 }: Readonly<LineChartEmptyStateProps>) {
   const { drawingArea } = useCartesianChartContext();
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const { animatedProps } = useShimmerAnimation(loading);
   const clipPath = usePathReveal();
 
@@ -36,7 +32,7 @@ export function LineChartEmptyState({
   return (
     <G testID='chart-empty-state'>
       <G testID='chart-empty-state-grid'>
-        {GRID_LINE_RATIOS.map((ratio) => {
+        {chartConfig.emptyState.gridLineRatios.map((ratio) => {
           const y = drawingArea.y + drawingArea.height * ratio;
 
           return (
@@ -46,8 +42,8 @@ export function LineChartEmptyState({
               y1={y}
               x2={drawingArea.x + drawingArea.width}
               y2={y}
-              stroke={theme.colors.border.mutedSubtleTransparent}
-              strokeWidth={GRID_STROKE_WIDTH}
+              stroke={tokens.color.gridLine}
+              strokeWidth={tokens.stroke.hairline}
             />
           );
         })}
@@ -56,12 +52,12 @@ export function LineChartEmptyState({
         <AnimatedG animatedProps={animatedProps}>
           <Path
             testID='chart-empty-state-line'
-            d={PLACEHOLDER_LINE_PATH}
+            d={chartConfig.emptyState.placeholderLinePath}
             transform={buildPlaceholderTransform(drawingArea)}
             vectorEffect='non-scaling-stroke'
             fill='none'
-            stroke={theme.colors.border.muted}
-            strokeWidth={PLACEHOLDER_STROKE_WIDTH}
+            stroke={tokens.color.stroke}
+            strokeWidth={tokens.stroke.line}
             strokeLinecap='round'
             strokeLinejoin='round'
           />

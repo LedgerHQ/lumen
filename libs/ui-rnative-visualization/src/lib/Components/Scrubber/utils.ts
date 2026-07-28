@@ -1,3 +1,4 @@
+import { chartConfig } from '../../config';
 import { clamp } from '../../utils/numbers';
 import {
   getPointOnScale,
@@ -8,8 +9,10 @@ import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import type { CartesianChartContextValue } from '../CartesianChart/types';
 
-import { OVERLAY_LINE_INSET, OVERLAY_OFFSET } from './constants';
 import type { ChartTooltipItemData, ScrubberTooltipContent } from './types';
+
+const { overlayLineInset: OVERLAY_LINE_INSET, overlayOffset: OVERLAY_OFFSET } =
+  chartConfig.scrubber;
 
 export type MagnetEntry = {
   index: number;
