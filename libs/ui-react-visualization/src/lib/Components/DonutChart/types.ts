@@ -74,9 +74,8 @@ export type DonutChartProps = {
   }) => ReactNode;
   /**
    * Optional active center content on segment hover, wrapped in a top-level
-   * `DonutChartCenter`. When set, the chart crossfades between the resting
-   * slot (`renderCenter`, called with `activeSegment: null`) and this active
-   * slot instead of swapping JSX in a single `renderCenter` callback.
+   * `DonutChartCenter`. When set, the chart crossfade between the resting
+   * slot (`renderCenter`, called with `activeSegment: null`) and this active slot.
    */
   renderCenterActive?: (params: {
     activeSegment: DonutSegment & { percent: number };
