@@ -1,6 +1,6 @@
 import { arc, pie, type PieArcDatum } from 'd3-shape';
 
-import type { DonutGeometry } from './constants';
+import { DONUT_CENTER, type DonutGeometry } from './constants';
 import type { DonutSegment } from './types';
 
 /** A segment ready to draw: its path is centered at the origin. */
@@ -16,6 +16,9 @@ export type DonutArc = {
   activeEnabled: boolean;
   activeTranslate: { x: number; y: number };
 };
+
+export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
+  geometry.innerRadius * 2 - DONUT_CENTER.contentInset;
 
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {

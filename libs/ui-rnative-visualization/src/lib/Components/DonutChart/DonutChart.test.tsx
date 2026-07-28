@@ -5,6 +5,9 @@ import { fireEvent, render } from '@testing-library/react-native';
 
 import { DONUT_GEOMETRY, type DonutGeometry } from './constants';
 import { DonutChart } from './DonutChart';
+import { DonutChartCenter } from './DonutChartCenter';
+import { DonutChartDescription } from './DonutChartDescription';
+import { DonutChartTitle } from './DonutChartTitle';
 import type { DonutSegment } from './types';
 import { buildArcs } from './utils';
 
@@ -257,6 +260,196 @@ describe('DonutChart', () => {
       expect(getAllByTestId('donut-segment')[0].props.accessibilityLabel).toBe(
         'bitcoin, selected',
       );
+    });
+  });
+
+  describe('DonutChartCenter', () => {
+    const renderCenterComponent = (
+      props: Partial<React.ComponentProps<typeof DonutChartCenter>>,
+    ) =>
+      render(
+        <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+          <DonutChartCenter testID='center' {...props} />
+        </ThemeProvider>,
+      );
+
+    it('applies the default centered layout', () => {
+      const { getByTestId } = renderCenterComponent({});
+
+      expect(getByTestId('center').props.style).toMatchObject({
+        alignItems: 'center',
+      });
+    });
+
+    it('lets consumers override alignment via lx', () => {
+      const { getByTestId } = renderCenterComponent({
+        lx: { alignItems: 'flex-start' },
+      });
+
+      expect(getByTestId('center').props.style).toMatchObject({
+        alignItems: 'flex-start',
+      });
+    });
+  });
+
+  describe('renderCenter', () => {
+    it('does not render a center slot when renderCenter is omitted', () => {
+      const { queryByTestId } = renderDonut({});
+      expect(queryByTestId('donut-center')).toBeNull();
+    });
+
+    it('passes activeSegment=null and the full series when nothing is active', () => {
+      const renderCenter = jest.fn(() => null);
+      renderDonut({ renderCenter });
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: null,
+        series: sampleSeries,
+      });
+    });
+
+    it('enriches activeSegment with its computed percent', () => {
+      const renderCenter = jest.fn(() => null);
+      renderDonut({ defaultActiveId: 'ethereum', renderCenter });
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: { ...sampleSeries[1], percent: 30 },
+        series: sampleSeries,
+      });
+    });
+
+    it('renders the count by default and the percent/label when active', () => {
+      const { getByTestId, getByText, queryByText } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ activeSegment, series }) =>
+          activeSegment ? (
+            <DonutChartCenter>
+              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          ) : (
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
+          ),
+      });
+
+      getByText('3');
+      expect(queryByText('Bitcoin')).toBeNull();
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('50%');
+      getByText('Bitcoin');
+      expect(queryByText('3')).toBeNull();
+    });
+  });
+
+  describe('renderCenterActive', () => {
+    it('calls renderCenter with activeSegment=null for the resting slot', () => {
+      const renderCenter = jest.fn(() => null);
+      const renderCenterActive = jest.fn(() => null);
+      renderDonut({ renderCenter, renderCenterActive });
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: null,
+        series: sampleSeries,
+      });
+    });
+
+    it('passes the enriched active segment to renderCenterActive', () => {
+      const renderCenterActive = jest.fn(() => null);
+      renderDonut({
+        defaultActiveId: 'ethereum',
+        renderCenter: () => null,
+        renderCenterActive,
+      });
+
+      expect(renderCenterActive).toHaveBeenCalledWith({
+        activeSegment: { ...sampleSeries[1], percent: 30 },
+      });
+    });
+
+    it('shows resting content by default and percent/label on tap', () => {
+      const { getByTestId, getByText, queryByText } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{series.length}</DonutChartTitle>
+          </DonutChartCenter>
+        ),
+        renderCenterActive: ({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        ),
+      });
+
+      getByText('3');
+      expect(queryByText('Bitcoin')).toBeNull();
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('50%');
+      getByText('Bitcoin');
+    });
+
+    it('keeps both resting and active content mounted and toggles visibility', () => {
+      const { getByTestId, getByText, queryByTestId } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle testID='donut-center-resting'>
+              {series.length}
+            </DonutChartTitle>
+          </DonutChartCenter>
+        ),
+        renderCenterActive: ({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle testID='donut-center-active'>
+              {activeSegment.percent}%
+            </DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        ),
+      });
+
+      getByText('3');
+      getByTestId('donut-center-resting');
+      expect(queryByTestId('donut-center-active')).toBeNull();
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('50%');
+      getByText('Bitcoin');
+      getByTestId('donut-center-active');
+    });
+
+    it('shows resting content again after deselecting', () => {
+      const { getByTestId, getByText } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{series.length}</DonutChartTitle>
+          </DonutChartCenter>
+        ),
+        renderCenterActive: ({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        ),
+      });
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+      getByText('50%');
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('3');
     });
   });
 });

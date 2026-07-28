@@ -1,6 +1,17 @@
+import type { BoxProps, TextProps } from '@ledgerhq/lumen-ui-rnative';
+import type { ReactNode } from 'react';
+
 import type { DonutSizeKey } from './constants';
 
 export type DonutSize = DonutSizeKey;
+
+/**
+ * The title's own typography scale, independent of the donut ring's `size`.
+ * Combined with the ring size to pick the exact typography, e.g. a
+ * standalone count (`'md'`) reads bigger than a value paired with a
+ * `DonutChartDescription` below it (`'sm'`).
+ */
+export type DonutTitleSize = 'md' | 'sm';
 
 /** A single part-to-whole slice. */
 export type DonutSegment = {
@@ -33,4 +44,38 @@ export type DonutChartProps = {
   defaultActiveId?: string | null;
   /** Fired when the active segment changes (tap to select, tap again to deselect). */
   onActiveIdChange?: (id: string | null) => void;
+  /**
+   * Renders the resting center content, wrapped in a top-level
+   * `DonutChartCenter` containing `DonutChartTitle` and/or
+   * `DonutChartDescription`. Receives `{ activeSegment, series }`;
+   * `activeSegment` is enriched with its computed `percent` and is `null`
+   * when nothing is active.
+   */
+  renderCenter?: (params: {
+    activeSegment: (DonutSegment & { percent: number }) | null;
+    series: DonutSegment[];
+  }) => ReactNode;
+  /**
+   * Optional active center content on segment tap, wrapped in a top-level
+   * `DonutChartCenter`. When set, the chart crossfades between the resting
+   * slot (`renderCenter`) and this active slot.
+   */
+  renderCenterActive?: (params: {
+    activeSegment: DonutSegment & { percent: number };
+  }) => ReactNode;
 };
+
+export type DonutChartCenterProps = BoxProps;
+
+export type DonutChartTitleProps = Omit<TextProps, 'typography'> & {
+  /**
+   * The title's own typography scale.
+   * @default 'md'
+   */
+  size?: DonutTitleSize;
+};
+
+export type DonutChartDescriptionProps = {
+  /** Optional trailing icon, e.g. an `InteractiveIcon` with `ChevronRight`. */
+  icon?: ReactNode;
+} & BoxProps;

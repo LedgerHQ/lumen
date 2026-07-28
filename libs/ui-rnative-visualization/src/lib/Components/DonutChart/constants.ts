@@ -38,6 +38,12 @@ export const DONUT_INTERACTION = {
   popEasing: Easing.bezier(0.2, 0.8, 0.2, 1),
 } as const;
 
+export const DONUT_CENTER = {
+  contentInset: 8,
+  transitionDurationMs: 180,
+  transitionSlideDistance: 8,
+} as const;
+
 export const getDonutViewBox = (geometry: DonutGeometry): string => {
   const padding = geometry.activeOffset;
   const paddedBox = geometry.box + 2 * padding;

@@ -7,6 +7,7 @@ import {
   buildArcs,
   buildEmptyRingPath,
   findSegmentIdAtPoint,
+  getCenterMaxWidth,
   getSegmentPercents,
 } from './utils';
 
@@ -29,6 +30,13 @@ describe('getDonutViewBox', () => {
       `-3.36 -3.36 174.72 174.72`,
     );
     expect(getDonutViewBox(DONUT_GEOMETRY.sm)).toBe(`-2 -2 84 84`);
+  });
+});
+
+describe('getCenterMaxWidth', () => {
+  it('fits content inside the inner diameter minus the inset', () => {
+    expect(getCenterMaxWidth(DONUT_GEOMETRY.md)).toBe(61 * 2 - 8);
+    expect(getCenterMaxWidth(DONUT_GEOMETRY.sm)).toBe(28 * 2 - 8);
   });
 });
 
