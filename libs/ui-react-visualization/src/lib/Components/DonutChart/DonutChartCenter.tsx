@@ -5,8 +5,8 @@ import type { DonutChartCenterProps } from './types';
 /**
  * Layout wrapper for the donut center slot: a centered vertical stack for
  * `DonutChartTitle` / `DonutChartDescription`. Rendered via `renderCenter` /
- * `renderCenterActive` as the top-level element, so consumers can override
- * the default padding/gap/alignment through `className`.
+ * `renderCenterActive` as the top-level element.
+ * Use `className` to add custom styles.
  */
 export const DonutChartCenter = ({
   ref,

@@ -100,17 +100,22 @@ const WithCenter = ({ segments }: { segments: DonutSegment[] }) => (
       renderCenterActive={({ activeSegment }) => (
         <DonutChartCenter>
           <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
-          <DonutChartDescription
-            icon={
-              <InteractiveIcon
-                iconType='stroked'
-                icon={ChevronRight}
-                size={16}
-                aria-label={`View ${activeSegment.label} details`}
-              />
-            }
-          >
-            {activeSegment.label}
+          <DonutChartDescription>
+            <Text
+              typography='body3'
+              lx={{ color: 'muted' }}
+              style={{ flexShrink: 1, minWidth: 0 }}
+              numberOfLines={1}
+              ellipsizeMode='tail'
+            >
+              {activeSegment.label}
+            </Text>
+            <InteractiveIcon
+              iconType='stroked'
+              icon={ChevronRight}
+              size={16}
+              aria-label={`View ${activeSegment.label} details`}
+            />
           </DonutChartDescription>
         </DonutChartCenter>
       )}
@@ -163,17 +168,22 @@ const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
                 <DonutChartTitle size='sm'>
                   {activeSegment.percent}%
                 </DonutChartTitle>
-                <DonutChartDescription
-                  icon={
-                    <InteractiveIcon
-                      iconType='stroked'
-                      icon={ChevronRight}
-                      size={16}
-                      aria-label={`View ${activeSegment.label} details`}
-                    />
-                  }
-                >
-                  {activeSegment.label}
+                <DonutChartDescription>
+                  <Text
+                    typography='body3'
+                    lx={{ color: 'muted' }}
+                    style={{ flexShrink: 1, minWidth: 0 }}
+                    numberOfLines={1}
+                    ellipsizeMode='tail'
+                  >
+                    {activeSegment.label}
+                  </Text>
+                  <InteractiveIcon
+                    iconType='stroked'
+                    icon={ChevronRight}
+                    size={16}
+                    aria-label={`View ${activeSegment.label} details`}
+                  />
                 </DonutChartDescription>
               </DonutChartCenter>
             </Pressable>

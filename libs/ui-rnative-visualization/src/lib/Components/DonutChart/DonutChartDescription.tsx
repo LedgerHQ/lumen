@@ -1,5 +1,6 @@
 import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
 import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
+import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 
 import { DONUT_GEOMETRY } from './constants';
@@ -14,13 +15,8 @@ const DESCRIPTION_TYPOGRAPHY = {
   sm: 'body4',
 } as const satisfies Record<DonutSize, Typography>;
 
-/**
- * Secondary line of the donut center (e.g. the active segment's label), with
- * an optional trailing `icon` (e.g. an `InteractiveIcon` with `ChevronRight`).
- */
 export function DonutChartDescription({
   children,
-  icon,
   lx,
   style,
   ...props
@@ -30,6 +26,26 @@ export function DonutChartDescription({
     contextRequired: false,
   });
   const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
+  const typography = DESCRIPTION_TYPOGRAPHY[donutSize];
+  const smOffset = donutSize === 'sm' ? { marginTop: '-s4' as const } : {};
+
+  if (isTextChildren(children)) {
+    return (
+      <Text
+        typography={typography}
+        lx={{ color: 'muted', alignSelf: 'center', ...smOffset, ...lx }}
+        style={StyleSheet.flatten([
+          { maxWidth, flexShrink: 1, minWidth: 0, textAlign: 'center' },
+          style,
+        ])}
+        numberOfLines={1}
+        ellipsizeMode='tail'
+        {...props}
+      >
+        {children}
+      </Text>
+    );
+  }
 
   return (
     <Box
@@ -38,24 +54,13 @@ export function DonutChartDescription({
         alignItems: 'center',
         gap: 's2',
         alignSelf: 'center',
+        ...smOffset,
         ...lx,
       }}
-      style={StyleSheet.flatten([
-        { maxWidth, ...(donutSize === 'sm' ? { marginTop: -4 } : {}) },
-        style,
-      ])}
+      style={StyleSheet.flatten([{ maxWidth }, style])}
       {...props}
     >
-      <Text
-        typography={DESCRIPTION_TYPOGRAPHY[donutSize]}
-        lx={{ color: 'muted' }}
-        style={{ flexShrink: 1, minWidth: 0 }}
-        numberOfLines={1}
-        ellipsizeMode='tail'
-      >
-        {children}
-      </Text>
-      {icon}
+      {children}
     </Box>
   );
 }
