@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { chartConfig } from '../../config';
 import type { DonutSegment } from './types';
@@ -31,17 +31,23 @@ export const DonutChartAnimatedCenter = ({
   const isActive = activeSegment != null;
   const shown = activeSegment ?? lastActiveSegment;
 
-  const restingStyle = {
-    transition: centerTextTransition,
-    opacity: isActive ? 0 : 1,
-    transform: `translateY(${isActive ? -SLIDE_PX : 0}px)`,
-  };
+  const restingStyle = useMemo(
+    () => ({
+      transition: centerTextTransition,
+      opacity: isActive ? 0 : 1,
+      transform: `translateY(${isActive ? -SLIDE_PX : 0}px)`,
+    }),
+    [isActive],
+  );
 
-  const activeStyle = {
-    transition: centerTextTransition,
-    opacity: isActive ? 1 : 0,
-    transform: `translateY(${isActive ? 0 : SLIDE_PX}px)`,
-  };
+  const activeStyle = useMemo(
+    () => ({
+      transition: centerTextTransition,
+      opacity: isActive ? 1 : 0,
+      transform: `translateY(${isActive ? 0 : SLIDE_PX}px)`,
+    }),
+    [isActive],
+  );
 
   return (
     <div className='pointer-events-auto grid'>
@@ -53,7 +59,7 @@ export const DonutChartAnimatedCenter = ({
           pointerEvents: isActive ? 'none' : 'auto',
           ...restingStyle,
         }}
-        className='flex flex-col items-center justify-center'
+        className='flex items-center justify-center'
       >
         {renderResting()}
       </div>
@@ -66,7 +72,7 @@ export const DonutChartAnimatedCenter = ({
             pointerEvents: isActive ? 'auto' : 'none',
             ...activeStyle,
           }}
-          className='flex flex-col items-center justify-center'
+          className='flex items-center justify-center'
         >
           {renderActive(shown)}
         </div>

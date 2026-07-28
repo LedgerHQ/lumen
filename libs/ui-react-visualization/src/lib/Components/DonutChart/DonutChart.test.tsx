@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { chartConfig } from '../../config';
 
 import { DonutChart } from './DonutChart';
+import { DonutChartCenter } from './DonutChartCenter';
 import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
 import type { DonutSegment } from './types';
@@ -213,6 +214,31 @@ describe('DonutChart', () => {
     });
   });
 
+  describe('DonutChartCenter', () => {
+    it('applies the default layout classes', () => {
+      const { getByTestId } = render(<DonutChartCenter data-testid='center' />);
+
+      expect(getByTestId('center').className).toContain(
+        'pointer-events-auto flex flex-col items-center',
+      );
+    });
+
+    it('lets consumers add spacing and override alignment via className', () => {
+      const { getByTestId } = render(
+        <DonutChartCenter
+          data-testid='center'
+          className='items-start gap-4 p-8'
+        />,
+      );
+
+      const className = getByTestId('center').className;
+      expect(className).toContain('gap-4');
+      expect(className).toContain('p-8');
+      expect(className).toContain('items-start');
+      expect(className).not.toContain('items-center');
+    });
+  });
+
   describe('renderCenter', () => {
     it('does not render a center slot when render props are omitted', () => {
       const { queryByTestId } = render(<DonutChart series={sampleSeries} />);
@@ -252,14 +278,16 @@ describe('DonutChart', () => {
           defaultActiveId={null}
           renderCenter={({ activeSegment, series }) =>
             activeSegment ? (
-              <>
+              <DonutChartCenter>
                 <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
                 <DonutChartDescription>
                   {activeSegment.label}
                 </DonutChartDescription>
-              </>
+              </DonutChartCenter>
             ) : (
-              <DonutChartTitle>{series.length}</DonutChartTitle>
+              <DonutChartCenter>
+                <DonutChartTitle>{series.length}</DonutChartTitle>
+              </DonutChartCenter>
             )
           }
         />,
@@ -284,13 +312,13 @@ describe('DonutChart', () => {
           series={sampleSeries}
           defaultActiveId='bitcoin'
           renderCenter={({ activeSegment }) => (
-            <>
+            <DonutChartCenter>
               <DonutChartTitle>{activeSegment?.percent}%</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment?.label}
                 <button aria-label='Bitcoin details' />
               </DonutChartDescription>
-            </>
+            </DonutChartCenter>
           )}
         />,
       );
@@ -339,15 +367,17 @@ describe('DonutChart', () => {
           series={sampleSeries}
           defaultActiveId={null}
           renderCenter={({ series }) => (
-            <DonutChartTitle>{series.length}</DonutChartTitle>
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
           )}
           renderCenterActive={({ activeSegment }) => (
-            <>
+            <DonutChartCenter>
               <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
               </DonutChartDescription>
-            </>
+            </DonutChartCenter>
           )}
         />,
       );
@@ -371,13 +401,13 @@ describe('DonutChart', () => {
           defaultActiveId='bitcoin'
           renderCenter={() => null}
           renderCenterActive={({ activeSegment }) => (
-            <>
+            <DonutChartCenter>
               <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
                 <button aria-label='Bitcoin details' />
               </DonutChartDescription>
-            </>
+            </DonutChartCenter>
           )}
         />,
       );
@@ -391,19 +421,21 @@ describe('DonutChart', () => {
           series={sampleSeries}
           defaultActiveId={null}
           renderCenter={({ series }) => (
-            <DonutChartTitle data-testid='donut-center-resting'>
-              {series.length}
-            </DonutChartTitle>
+            <DonutChartCenter>
+              <DonutChartTitle data-testid='donut-center-resting'>
+                {series.length}
+              </DonutChartTitle>
+            </DonutChartCenter>
           )}
           renderCenterActive={({ activeSegment }) => (
-            <>
+            <DonutChartCenter>
               <DonutChartTitle data-testid='donut-center-active'>
                 {activeSegment.percent}%
               </DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
               </DonutChartDescription>
-            </>
+            </DonutChartCenter>
           )}
         />,
       );
@@ -428,15 +460,17 @@ describe('DonutChart', () => {
           series={sampleSeries}
           defaultActiveId={null}
           renderCenter={({ series }) => (
-            <DonutChartTitle>{series.length}</DonutChartTitle>
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
           )}
           renderCenterActive={({ activeSegment }) => (
-            <>
+            <DonutChartCenter>
               <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
               </DonutChartDescription>
-            </>
+            </DonutChartCenter>
           )}
         />,
       );

@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { DonutChart } from '../DonutChart';
+import { DonutChartCenter } from '../DonutChartCenter';
 import { DonutChartDescription } from '../DonutChartDescription';
 import { DonutChartTitle } from '../DonutChartTitle';
 import type { DonutSegment } from '../types';
@@ -172,10 +173,12 @@ export const WithCenter: Story = {
       {...args}
       defaultActiveId={null}
       renderCenter={({ series }) => (
-        <DonutChartTitle>{series.length}</DonutChartTitle>
+        <DonutChartCenter>
+          <DonutChartTitle>{series.length}</DonutChartTitle>
+        </DonutChartCenter>
       )}
       renderCenterActive={({ activeSegment }) => (
-        <>
+        <DonutChartCenter>
           <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
           <DonutChartDescription>
             <span className='truncate'>{activeSegment.label}</span>
@@ -186,7 +189,7 @@ export const WithCenter: Story = {
               aria-label={`View ${activeSegment.label} details`}
             />
           </DonutChartDescription>
-        </>
+        </DonutChartCenter>
       )}
     />
   ),
@@ -206,15 +209,17 @@ export const WithCenterSmall: Story = {
       {...args}
       defaultActiveId='bitcoin'
       renderCenter={({ series }) => (
-        <DonutChartTitle>{series.length}</DonutChartTitle>
+        <DonutChartCenter>
+          <DonutChartTitle>{series.length}</DonutChartTitle>
+        </DonutChartCenter>
       )}
       renderCenterActive={({ activeSegment }) => (
-        <>
+        <DonutChartCenter>
           <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
           <DonutChartDescription>
             <span className='truncate'>{activeSegment.label}</span>
           </DonutChartDescription>
-        </>
+        </DonutChartCenter>
       )}
     />
   ),
@@ -235,7 +240,9 @@ export const WithCenterClickable: Story = {
           {...args}
           defaultActiveId='bitcoin'
           renderCenter={({ series }) => (
-            <DonutChartTitle>{series.length}</DonutChartTitle>
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
           )}
           renderCenterActive={({ activeSegment }) => (
             <button

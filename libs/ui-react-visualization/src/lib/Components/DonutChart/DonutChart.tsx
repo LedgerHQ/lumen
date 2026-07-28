@@ -1,5 +1,4 @@
 import { useControllableState } from '@ledgerhq/lumen-ui-react';
-import { cn } from '@ledgerhq/lumen-utils-shared';
 import { useMemo, type FocusEvent } from 'react';
 
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
@@ -91,11 +90,7 @@ export function DonutChart({
                 }
               />
             ) : (
-              <div
-                className={cn('pointer-events-auto flex flex-col items-center')}
-              >
-                {renderCenter?.({ activeSegment, series })}
-              </div>
+              renderCenter?.({ activeSegment, series })
             )}
           </DonutSizeProvider>
         </div>
