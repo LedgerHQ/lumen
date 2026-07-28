@@ -1,9 +1,15 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
+import { InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { DonutChart } from '../DonutChart';
+import { DonutChartCenter } from '../DonutChartCenter';
+import { DonutChartDescription } from '../DonutChartDescription';
+import { DonutChartTitle } from '../DonutChartTitle';
 import type { DonutSegment } from '../types';
 
 const cryptoSegments: DonutSegment[] = [
@@ -153,6 +159,121 @@ export const Controlled: Story = {
         activeId={activeId}
         onActiveIdChange={setActiveId}
       />
+    );
+  },
+};
+
+/**
+ * `renderCenter` renders the resting center; `renderCenterActive` crossfades
+ * to active content on segment hover.
+ */
+export const WithCenter: Story = {
+  render: (args) => (
+    <DonutChart
+      {...args}
+      defaultActiveId={null}
+      renderCenter={({ series }) => (
+        <DonutChartCenter>
+          <DonutChartTitle>{series.length}</DonutChartTitle>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartDescription>
+            <span className='truncate'>{activeSegment.label}</span>
+            <InteractiveIcon
+              iconType='stroked'
+              icon={ChevronRight}
+              size={16}
+              aria-label={`View ${activeSegment.label} details`}
+            />
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
+};
+
+/**
+ * The same `renderCenter`/`renderCenterActive` pattern as `WithCenter`, sized
+ * for the 80px `sm` ring — typography scales down automatically via
+ * `donutSizeContext`.
+ */
+export const WithCenterSmall: Story = {
+  args: {
+    size: 'sm',
+  },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      defaultActiveId='bitcoin'
+      renderCenter={({ series }) => (
+        <DonutChartCenter>
+          <DonutChartTitle>{series.length}</DonutChartTitle>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartDescription>
+            <span className='truncate'>{activeSegment.label}</span>
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
+};
+
+/**
+ * Consumer pattern: wrap `renderCenterActive` in a `group` button so the whole
+ * active block is clickable and hover on the block drives the chevron's chip
+ * hover state.
+ */
+export const WithCenterClickable: Story = {
+  render: (args) => {
+    const [lastClick, setLastClick] = useState<string | null>(null);
+
+    return (
+      <div>
+        <DonutChart
+          {...args}
+          defaultActiveId='bitcoin'
+          renderCenter={({ series }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
+          )}
+          renderCenterActive={({ activeSegment }) => (
+            <button
+              type='button'
+              className='group flex cursor-pointer flex-col items-center'
+              aria-label={`View ${activeSegment.label} details`}
+              onClick={() => setLastClick(activeSegment.label)}
+            >
+              <DonutChartTitle size='sm'>
+                {activeSegment.percent}%
+              </DonutChartTitle>
+              <DonutChartDescription>
+                <span className='truncate'>{activeSegment.label}</span>
+                <span
+                  className={cn(
+                    'inline-flex size-fit items-center justify-center rounded-full',
+                    'bg-base-transparent text-muted transition-colors',
+                    'group-hover:bg-base-transparent-hover group-hover:text-muted-hover',
+                    'group-active:bg-base-transparent-pressed group-active:text-muted-pressed',
+                  )}
+                >
+                  <ChevronRight size={16} aria-hidden />
+                </span>
+              </DonutChartDescription>
+            </button>
+          )}
+        />
+        {lastClick != null && (
+          <span className='body-3 text-muted'>Clicked: {lastClick}</span>
+        )}
+      </div>
     );
   },
 };

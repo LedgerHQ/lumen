@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import { chartConfig } from '../../config';
 
 import { DonutChart } from './DonutChart';
+import { DonutChartCenter } from './DonutChartCenter';
+import { DonutChartDescription } from './DonutChartDescription';
+import { DonutChartTitle } from './DonutChartTitle';
 import type { DonutSegment } from './types';
 
 const sampleSeries: DonutSegment[] = [
@@ -208,6 +211,277 @@ describe('DonutChart', () => {
       expect(segment.style.transform).toBe('translate(0px, 0px)');
       expect(segment.style.transition).toBe('');
       expect(Number(segment.style.opacity)).toBe(1);
+    });
+  });
+
+  describe('DonutChartCenter', () => {
+    it('applies the default layout classes', () => {
+      const { getByTestId } = render(<DonutChartCenter data-testid='center' />);
+
+      expect(getByTestId('center').className).toContain(
+        'pointer-events-auto flex flex-col items-center',
+      );
+    });
+
+    it('lets consumers add spacing and override alignment via className', () => {
+      const { getByTestId } = render(
+        <DonutChartCenter
+          data-testid='center'
+          className='items-start gap-4 p-8'
+        />,
+      );
+
+      const className = getByTestId('center').className;
+      expect(className).toContain('gap-4');
+      expect(className).toContain('p-8');
+      expect(className).toContain('items-start');
+      expect(className).not.toContain('items-center');
+    });
+  });
+
+  describe('renderCenter', () => {
+    it('does not render a center slot when render props are omitted', () => {
+      const { queryByTestId } = render(<DonutChart series={sampleSeries} />);
+      expect(queryByTestId('donut-center')).toBeNull();
+    });
+
+    it('passes activeSegment=null and the full series when nothing is active', () => {
+      const renderCenter = vi.fn(() => null);
+      render(<DonutChart series={sampleSeries} renderCenter={renderCenter} />);
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: null,
+        series: sampleSeries,
+      });
+    });
+
+    it('enriches activeSegment with its computed percent', () => {
+      const renderCenter = vi.fn(() => null);
+      render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId='ethereum'
+          renderCenter={renderCenter}
+        />,
+      );
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: { ...sampleSeries[1], percent: 30 },
+        series: sampleSeries,
+      });
+    });
+
+    it('renders the count by default and the percent/label when active', () => {
+      const { getAllByTestId, getByText, queryByText } = render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId={null}
+          renderCenter={({ activeSegment, series }) =>
+            activeSegment ? (
+              <DonutChartCenter>
+                <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+                <DonutChartDescription>
+                  {activeSegment.label}
+                </DonutChartDescription>
+              </DonutChartCenter>
+            ) : (
+              <DonutChartCenter>
+                <DonutChartTitle>{series.length}</DonutChartTitle>
+              </DonutChartCenter>
+            )
+          }
+        />,
+      );
+
+      getByText('3');
+      expect(queryByText('Bitcoin')).toBeNull();
+
+      const bitcoinSegment = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+      )!;
+      fireEvent.mouseEnter(bitcoinSegment);
+
+      getByText('50%');
+      getByText('Bitcoin');
+      expect(queryByText('3')).toBeNull();
+    });
+
+    it('renders an interactive icon inside the center slot', () => {
+      const { getByRole } = render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId='bitcoin'
+          renderCenter={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{activeSegment?.percent}%</DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment?.label}
+                <button aria-label='Bitcoin details' />
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />,
+      );
+
+      getByRole('button', { name: 'Bitcoin details' });
+    });
+  });
+
+  describe('renderCenterActive', () => {
+    it('calls renderCenter with activeSegment=null for the resting slot', () => {
+      const renderCenter = vi.fn(() => null);
+      const renderCenterActive = vi.fn(() => null);
+      render(
+        <DonutChart
+          series={sampleSeries}
+          renderCenter={renderCenter}
+          renderCenterActive={renderCenterActive}
+        />,
+      );
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: null,
+        series: sampleSeries,
+      });
+    });
+
+    it('passes the enriched active segment to renderCenterActive', () => {
+      const renderCenterActive = vi.fn(() => null);
+      render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId='ethereum'
+          renderCenter={() => null}
+          renderCenterActive={renderCenterActive}
+        />,
+      );
+
+      expect(renderCenterActive).toHaveBeenCalledWith({
+        activeSegment: { ...sampleSeries[1], percent: 30 },
+      });
+    });
+
+    it('shows resting content by default and percent/label on hover', () => {
+      const { getAllByTestId, getByText, queryByText } = render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId={null}
+          renderCenter={({ series }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
+          )}
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />,
+      );
+
+      getByText('3');
+      expect(queryByText('Bitcoin')).toBeNull();
+
+      const bitcoinSegment = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+      )!;
+      fireEvent.mouseEnter(bitcoinSegment);
+
+      getByText('50%');
+      getByText('Bitcoin');
+    });
+
+    it('renders an interactive icon inside the center slot', () => {
+      const { getByRole } = render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId='bitcoin'
+          renderCenter={() => null}
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+                <button aria-label='Bitcoin details' />
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />,
+      );
+
+      getByRole('button', { name: 'Bitcoin details' });
+    });
+
+    it('keeps both resting and active content mounted and toggles visibility', () => {
+      const { getAllByTestId, getByTestId, getByText, queryByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId={null}
+          renderCenter={({ series }) => (
+            <DonutChartCenter>
+              <DonutChartTitle data-testid='donut-center-resting'>
+                {series.length}
+              </DonutChartTitle>
+            </DonutChartCenter>
+          )}
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle data-testid='donut-center-active'>
+                {activeSegment.percent}%
+              </DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />,
+      );
+
+      getByText('3');
+      getByTestId('donut-center-resting');
+      expect(queryByTestId('donut-center-active')).toBeNull();
+
+      const bitcoinSegment = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+      )!;
+      fireEvent.mouseEnter(bitcoinSegment);
+
+      getByText('50%');
+      getByText('Bitcoin');
+      getByTestId('donut-center-active');
+    });
+
+    it('shows resting content again after mouse leave', () => {
+      const { getAllByTestId, getByTestId, getByText } = render(
+        <DonutChart
+          series={sampleSeries}
+          defaultActiveId={null}
+          renderCenter={({ series }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
+          )}
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />,
+      );
+
+      const bitcoinSegment = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+      )!;
+      fireEvent.mouseEnter(bitcoinSegment);
+      fireEvent.mouseLeave(getByTestId('donut-chart'));
+
+      getByText('3');
     });
   });
 });

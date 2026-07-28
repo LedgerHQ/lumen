@@ -1,6 +1,13 @@
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+
 import type { chartConfig } from '../../config';
 
 export type DonutSize = keyof typeof chartConfig.donut.size;
+
+/**
+ * The title's own typography scale.
+ */
+export type DonutTitleSize = 'md' | 'sm';
 
 /** Ring dimensions for a given size, in SVG user units. */
 export type DonutGeometry = Readonly<{
@@ -55,4 +62,35 @@ export type DonutChartProps = {
   defaultActiveId?: string | null;
   /** Fired when the active segment changes (hover or external reset). */
   onActiveIdChange?: (id: string | null) => void;
+  /**
+   * Renders the resting center content, wrapped in a top-level
+   * `DonutChartCenter` containing `DonutChartTitle` and/or
+   * `DonutChartDescription`. Receives `{ activeSegment, series }`;
+   * `activeSegment` is enriched with its computed `percent` and is `null`
+   * when nothing is active.
+   */
+  renderCenter?: (params: {
+    activeSegment: (DonutSegment & { percent: number }) | null;
+    series: DonutSegment[];
+  }) => ReactNode;
+  /**
+   * Optional active center content on segment hover, wrapped in a top-level
+   * `DonutChartCenter`. When set, the chart crossfades between the resting
+   * slot (`renderCenter`) and this active slot.
+   */
+  renderCenterActive?: (params: {
+    activeSegment: DonutSegment & { percent: number };
+  }) => ReactNode;
 };
+
+export type DonutChartCenterProps = ComponentPropsWithRef<'div'>;
+
+export type DonutChartTitleProps = ComponentPropsWithRef<'div'> & {
+  /**
+   * The title's own typography scale.
+   * @default 'md'
+   */
+  size?: DonutTitleSize;
+};
+
+export type DonutChartDescriptionProps = ComponentPropsWithRef<'div'>;

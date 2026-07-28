@@ -85,7 +85,36 @@ slot can react to the same active segment.
 
 <Canvas of={DonutChartStories.Interactive} />
 
-<Canvas of={DonutChartStories.Controlled} />
+
+## Center content
+
+`renderCenter` renders content in the middle of the ring, e.g. a total count.
+Return a top-level `DonutChartCenter` wrapping `DonutChartTitle` and/or
+`DonutChartDescription`, which size and center themselves automatically.
+
+- Used alone: same content on active and not, `activeSegment` is just `null`
+  at rest.
+- Used with `renderCenterActive`: `renderCenter` stays resting-only
+  (`activeSegment` always `null`); `renderCenterActive` crossfades in on
+  hover instead.
+- If a label could overflow, add a `truncate` class to it (not to a trailing
+  icon).
+- `DonutChartCenter` applies a default centered vertical stack
+  (`flex flex-col items-center`) plus `pointer-events-auto`; override or
+  extend it with `className`.
+
+<Canvas of={DonutChartStories.WithCenter} />
+
+The same pattern applies at the smaller `sm` ring size, where the center's
+available width is tighter.
+
+<Canvas of={DonutChartStories.WithCenterSmall} />
+
+To make the whole active block clickable (with chevron hover following block
+hover), wrap `renderCenterActive` in a `group` button and keep the trailing
+chevron decorative (`aria-hidden`) — see `WithCenterClickable`.
+
+<Canvas of={DonutChartStories.WithCenterClickable} />
 
 ## Props
 
