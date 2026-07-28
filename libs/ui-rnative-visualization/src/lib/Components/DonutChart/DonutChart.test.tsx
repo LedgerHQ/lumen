@@ -3,7 +3,7 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 
-import { DONUT_GEOMETRY, type DonutGeometry } from './constants';
+import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { DonutChart } from './DonutChart';
 import { DonutChartCenter } from './DonutChartCenter';
 import { DonutChartDescription } from './DonutChartDescription';

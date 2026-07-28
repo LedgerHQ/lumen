@@ -1,10 +1,8 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
-
 import { memo } from 'react';
 import Animated from 'react-native-reanimated';
 import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 
-import { DEFAULT_SIZE, LABEL_FONT_SIZE, STROKE_WIDTH } from './constants';
+import { chartConfig, useChartTokens } from '../../config';
 import type {
   PointArrowProps,
   PointLabelProps,
@@ -21,24 +19,24 @@ export function PointLabel({
   textAnchor = 'middle',
   ...props
 }: Readonly<PointLabelProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
 
   return (
     <SvgText
       textAnchor={textAnchor}
-      fill={theme.colors.text.base}
-      fontSize={LABEL_FONT_SIZE}
-      fontWeight={theme.typographies.body4.fontWeight}
-      fontFamily={theme.fontFamilies.sans}
+      fill={tokens.color.text}
+      fontSize={chartConfig.point.labelFontSize}
+      fontWeight={tokens.font.labelWeightMedium}
+      fontFamily={tokens.font.family}
       {...props}
     />
   );
 }
 
 function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
   const radius = size / 2;
-  const fill = color ?? theme.colors.bg.mutedStrong;
+  const fill = color ?? tokens.color.markFill;
 
   return (
     <Circle
@@ -47,20 +45,20 @@ function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
       cy={y}
       r={radius}
       fill={fill}
-      stroke={theme.colors.bg.canvas}
-      strokeWidth={STROKE_WIDTH}
+      stroke={tokens.color.markOutline}
+      strokeWidth={tokens.stroke.line}
     />
   );
 }
 
 function PointArrow({ x, y, size, position }: Readonly<PointArrowProps>) {
-  const { theme } = useTheme();
+  const tokens = useChartTokens();
 
   return (
     <Polygon
       testID='point-arrow'
       points={buildArrowPoints(x, y, size / 2, position)}
-      fill={theme.colors.text.base}
+      fill={tokens.color.text}
     />
   );
 }
@@ -74,7 +72,7 @@ export const Point = memo(function Point({
   labelPosition = 'top',
   hidePoint = false,
   showLabelArrow = true,
-  size = DEFAULT_SIZE,
+  size = chartConfig.point.defaultSize,
   onPress,
   magnetic = false,
   labelAlignment = 'auto',

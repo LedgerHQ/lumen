@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { ARROW_HEIGHT, ARROW_WIDTH, GAP, LABEL_FONT_SIZE } from './constants';
+import { chartConfig } from '../../config';
 import {
   buildArrowPoints,
   computeLabelX,
@@ -8,6 +8,13 @@ import {
   isWithinBounds,
   resolveLabel,
 } from './utils';
+
+const {
+  arrowHeight: ARROW_HEIGHT,
+  arrowWidth: ARROW_WIDTH,
+  labelGap: GAP,
+  labelFontSize: LABEL_FONT_SIZE,
+} = chartConfig.point;
 
 describe('isWithinBounds', () => {
   const area = { x: 10, y: 20, width: 100, height: 50 };

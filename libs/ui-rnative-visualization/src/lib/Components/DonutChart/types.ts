@@ -1,7 +1,7 @@
 import type { BoxProps, TextProps } from '@ledgerhq/lumen-ui-rnative';
 import type { ReactNode } from 'react';
 
-import type { DonutSizeKey } from './constants';
+import type { DonutSizeKey } from '../../config';
 
 export type DonutSize = DonutSizeKey;
 
