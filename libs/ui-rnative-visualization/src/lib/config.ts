@@ -45,7 +45,6 @@ export const chartConfig = {
 
   scrubber: {
     beaconRadius: 5,
-    labelOffsetY: 12,
     overlayOffset: 2,
     overlayLineInset: 0.5,
     overlayOpacity: 0.8,
