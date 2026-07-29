@@ -6,9 +6,8 @@ description: >-
   PRs when a GitHub link is provided. Use when the user asks to review a PR,
   review code changes, check a branch, do a local code review, or provides a
   GitHub PR URL.
-model: opus
 readonly: true
-tools: Read, Grep, Glob, Bash, WebFetch
+tools: Read, Grep, Glob, Bash, Shell, WebFetch
 ---
 
 # PR Review

@@ -3,7 +3,6 @@ name: release-plan
 description: >-
   Use when generating or editing an Nx version plan in .nx/version-plans/ — the
   bump type must always be `patch`, one package per file.
-paths: ".nx/version-plans/**"
 ---
 
 # Release plan bump type

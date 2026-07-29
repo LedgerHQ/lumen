@@ -4,7 +4,7 @@ description: >-
   Use when writing or editing React tests in libs/ui-react (and
   ui-react-visualization) — Vitest + React Testing Library conventions (queries,
   imports, interactions, mocking, structure).
-paths: libs/ui-react/**/*.test.{ts,tsx}, libs/ui-react-visualization/**/*.test.{ts,tsx}
+paths: libs/ui-react/**/*.test.ts, libs/ui-react/**/*.test.tsx, libs/ui-react-visualization/**/*.test.ts, libs/ui-react-visualization/**/*.test.tsx
 ---
 
 # React testing (`libs/ui-react`)

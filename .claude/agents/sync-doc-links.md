@@ -5,7 +5,6 @@ description: >-
   them consistent across the codebase and Figma. Use when the user asks to sync
   doc links, fix Storybook URLs, check link consistency, update Figma dev-mode
   links, or after Storybook permalinks/story ids change.
-model: opus
 readonly: false
 ---
 

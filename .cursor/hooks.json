@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "hooks": {
+    "stop": [
+      { "command": "bash .claude/hooks/lint-fix.sh", "timeout": 300 }
+    ]
+  }
+}

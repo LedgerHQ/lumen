@@ -21,10 +21,11 @@ and publishes the snippets to Figma Dev Mode (CI:
 
 - Co-locate as `Component.figma.tsx` inside the component folder (e.g.
   `libs/ui-rnative/src/lib/Components/Tag/Tag.figma.tsx`).
-- Each lib has a `figma.config.json` with a `codeConnect` block: `include`
-  globs, `label` (e.g. `"React Native"`), and `interactiveSetupFigmaFileUrl`.
-  Read it to confirm the include path — there is no `parser`/`paths`/
-  `importPaths` key.
+- Only `libs/ui-react` and `libs/ui-rnative` have a `figma.config.json` (with a
+  `codeConnect` block: `include` globs, `label` (e.g. `"React Native"`), and
+  `interactiveSetupFigmaFileUrl`). The visualization libs have no Code Connect
+  coverage. Read the config to confirm the include path — there is no
+  `parser`/`paths`/`importPaths` key.
 
 ## File structure
 

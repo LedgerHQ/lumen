@@ -21,6 +21,8 @@ cat >/dev/null 2>&1 || true
 repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
 cd "$repo_root" || exit 0
 
-npx nx affected --target=lint --fix >/dev/null 2>&1 || true
+# Log to the gitignored tmp/ so a partial or timed-out run is diagnosable.
+mkdir -p "$repo_root/tmp"
+npx nx affected --target=lint --fix >"$repo_root/tmp/lint-fix.log" 2>&1 || true
 
 exit 0

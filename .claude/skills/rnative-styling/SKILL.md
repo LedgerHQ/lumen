@@ -4,7 +4,7 @@ description: >-
   Use when building or styling a React Native component in libs/ui-rnative —
   useStyleSheet + themeJS tokens, the `lx` prop, variant composition,
   props-drilling, and shared styling best-practices.
-paths: libs/ui-rnative/**/*.tsx, libs/ui-rnative-visualization/**/*.tsx
+paths: libs/ui-rnative/**/*.ts, libs/ui-rnative/**/*.tsx, libs/ui-rnative-visualization/**/*.ts, libs/ui-rnative-visualization/**/*.tsx
 ---
 
 # React Native styling (`libs/ui-rnative`)

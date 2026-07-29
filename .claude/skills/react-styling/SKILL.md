@@ -5,7 +5,7 @@ description: >-
   ui-react-visualization) — cva usage, props-drilling, and design-system Tailwind
   token usage (typography, colors, spacing, sizes, shadows, gradients, and
   classname rules).
-paths: libs/ui-react/**/*.{ts,tsx}, libs/ui-react-visualization/**/*.{ts,tsx}
+paths: libs/ui-react/**/*.ts, libs/ui-react/**/*.tsx, libs/ui-react-visualization/**/*.ts, libs/ui-react-visualization/**/*.tsx
 ---
 
 # React styling & component patterns (`libs/ui-react`)

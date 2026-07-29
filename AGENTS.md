@@ -33,19 +33,23 @@ questions and generators instead of guessing.
   gotchas, constraints), never restate the code. Prefer clear names over comments.
 - **Explicit return types** on module-level functions (helps future readers and
   agents). Exception: components returning JSX.
+- **Library changes need a version plan.** Any change under `libs/*/src/` requires
+  an Nx version plan in `.nx/version-plans/` — bump type always `patch`, one
+  package per file (see the `release-plan` skill).
 
 ## Skills index
 
 Skills load their full body on demand (progressive disclosure) when the trigger
 matches. They live in `.claude/skills/` — a single tree read by Claude Code
-(native), Cursor (compat loader), and Copilot.
+(native) and Cursor (compat loader). Copilot does not read this tree; it relies
+on `AGENTS.md` plus the `.github/instructions/*` restatements.
 
 Names are scoped by prefix: `react-*` → `libs/ui-react`, `rnative-*` → `libs/ui-rnative`, unprefixed → cross-platform / workflow. Each skill's `paths` frontmatter controls auto-attach.
 
 | When… | Skill |
 | --- | --- |
 | deciding where a new file/folder lives, or naming it | `file-structure` |
-| creating/updating Figma Code Connect (`*.figma.ts` / `*.figma.tsx`) | `code-connect` |
+| creating/updating Figma Code Connect (`*.figma.tsx`) | `code-connect` |
 | syncing design tokens to React Native JS themes after a Figma sync | `figma-token-sync` |
 | writing or editing Storybook stories (`*.stories.tsx`) | `storybook-stories` |
 | writing or editing Storybook MDX docs (`*.mdx`) | `component-mdx` |
@@ -67,8 +71,10 @@ One source, no duplication:
 
 - **`AGENTS.md`** (this file) is the canonical always-on core. Cursor and Copilot
   read it natively; Claude Code reads it via `CLAUDE.md` → `@AGENTS.md`.
-- **`.claude/skills/`** is the single skills tree, consumed by all three tools.
-  **`.claude/agents/`** (subagents) is shared by Claude Code and Cursor.
+- **`.claude/skills/`** is the single skills tree, consumed by Claude Code and
+  Cursor. Copilot has no skills mechanism, so per-skill review guidance is
+  restated under `.github/instructions/*`. **`.claude/agents/`** (subagents) is
+  shared by Claude Code and Cursor.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
   `.github/instructions/*`) are thin pointers/wrappers — they must not restate
   content. A CI drift check (to be added) will enforce that.
