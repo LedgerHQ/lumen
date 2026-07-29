@@ -2,9 +2,11 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
+import { Text } from 'react-native';
 
 import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { DonutChart } from './DonutChart';
+import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutChartCenter } from './DonutChartCenter';
 import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
@@ -450,6 +452,23 @@ describe('DonutChart', () => {
       tapSegment(getByTestId, sampleSeries, 'bitcoin');
 
       getByText('3');
+    });
+
+    it('invokes each render callback once on mount', () => {
+      const renderResting = jest.fn(() => <Text>rest</Text>);
+      const renderActive = jest.fn(() => <Text>active</Text>);
+
+      render(
+        <DonutChartAnimatedCenter
+          activeSegment={null}
+          contentWidth={100}
+          renderResting={renderResting}
+          renderActive={renderActive}
+        />,
+      );
+
+      expect(renderResting).toHaveBeenCalledTimes(1);
+      expect(renderActive).not.toHaveBeenCalled();
     });
   });
 });

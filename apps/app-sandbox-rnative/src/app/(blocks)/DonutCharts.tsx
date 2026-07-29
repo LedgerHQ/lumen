@@ -114,7 +114,7 @@ const WithCenter = ({ segments }: { segments: DonutSegment[] }) => (
               iconType='stroked'
               icon={ChevronRight}
               size={16}
-              aria-label={`View ${activeSegment.label} details`}
+              accessibilityLabel={`View ${activeSegment.label} details`}
             />
           </DonutChartDescription>
         </DonutChartCenter>
@@ -178,12 +178,7 @@ const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
                   >
                     {activeSegment.label}
                   </Text>
-                  <InteractiveIcon
-                    iconType='stroked'
-                    icon={ChevronRight}
-                    size={16}
-                    aria-label={`View ${activeSegment.label} details`}
-                  />
+                  <ChevronRight size={16} color='muted' />
                 </DonutChartDescription>
               </DonutChartCenter>
             </Pressable>

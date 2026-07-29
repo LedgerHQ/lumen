@@ -76,6 +76,17 @@ export function DonutChart({
   const hasCenter = renderCenter != null || renderCenterActive != null;
   const useAnimatedCenter = renderCenterActive != null;
 
+  const renderRestingCenter = useCallback(
+    () => renderCenter?.({ series, activeSegment: null }) ?? null,
+    [renderCenter, series],
+  );
+
+  const renderActiveCenter = useCallback(
+    (segment: NonNullable<typeof activeSegment>) =>
+      renderCenterActive?.({ activeSegment: segment }) ?? null,
+    [renderCenterActive],
+  );
+
   return (
     <View
       testID='donut-chart'
@@ -104,12 +115,8 @@ export function DonutChart({
               <DonutChartAnimatedCenter
                 activeSegment={activeSegment}
                 contentWidth={getCenterMaxWidth(geometry)}
-                renderResting={() =>
-                  renderCenter?.({ series, activeSegment: null }) ?? null
-                }
-                renderActive={(segment) =>
-                  renderCenterActive({ activeSegment: segment })
-                }
+                renderResting={renderRestingCenter}
+                renderActive={renderActiveCenter}
               />
             ) : (
               renderCenter?.({ activeSegment, series })

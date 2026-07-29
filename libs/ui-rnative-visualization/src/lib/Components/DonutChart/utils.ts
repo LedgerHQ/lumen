@@ -18,7 +18,7 @@ export type DonutArc = {
 };
 
 export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
-  geometry.innerRadius * 2 - DONUT_CENTER.contentInset;
+  Math.max(0, geometry.innerRadius * 2 - DONUT_CENTER.contentInset);
 
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {

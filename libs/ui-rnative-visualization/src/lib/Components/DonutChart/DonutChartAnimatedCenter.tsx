@@ -42,7 +42,7 @@ export const DonutChartAnimatedCenter = ({
 
   const isActive = activeSegment != null;
   const shown = activeSegment ?? lastActiveSegment;
-  const sizeContent = shown ? renderActive(shown) : renderResting();
+  const hasEverActivated = shown != null;
 
   const restingStyle = useAnimatedStyle(() => ({
     opacity: 1 - progress.value,
@@ -56,19 +56,14 @@ export const DonutChartAnimatedCenter = ({
 
   return (
     <View style={[styles.container, { width: contentWidth }]}>
-      <View
-        style={styles.sizeAnchor}
-        pointerEvents='none'
-        importantForAccessibility='no-hide-descendants'
-        accessibilityElementsHidden
-      >
-        {sizeContent}
-      </View>
       <Animated.View
         accessibilityElementsHidden={isActive}
         importantForAccessibility={isActive ? 'no-hide-descendants' : 'auto'}
         pointerEvents={isActive ? 'none' : 'auto'}
-        style={[styles.overlay, restingStyle]}
+        style={[
+          hasEverActivated ? styles.overlay : styles.primary,
+          restingStyle,
+        ]}
       >
         {renderResting()}
       </Animated.View>
@@ -77,7 +72,7 @@ export const DonutChartAnimatedCenter = ({
           accessibilityElementsHidden={!isActive}
           importantForAccessibility={isActive ? 'auto' : 'no-hide-descendants'}
           pointerEvents={isActive ? 'auto' : 'none'}
-          style={[styles.overlay, activeStyle]}
+          style={[styles.primary, activeStyle]}
         >
           {renderActive(shown)}
         </Animated.View>
@@ -91,8 +86,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sizeAnchor: {
-    opacity: 0,
+  primary: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
