@@ -133,3 +133,6 @@ mise.toml
 **/chromatic-diagnostics.json
 **/build-storybook.log
 !.nx/version-plans/**
+
+.claude/worktrees
+.claude/settings.local.json

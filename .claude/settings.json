@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-$PWD}/.claude/hooks/lint-fix.sh\"",
+            "timeout": 300,
+            "statusMessage": "Auto-fixing lint on affected projects (nx affected --target=lint --fix)..."
+          }
+        ]
+      }
+    ]
+  }
+}

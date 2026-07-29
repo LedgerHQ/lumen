@@ -2,9 +2,7 @@
   "version": 1,
   "hooks": {
     "stop": [
-      {
-        "command": ".cursor/hooks/lint-fix.sh"
-      }
+      { "command": "bash .claude/hooks/lint-fix.sh", "timeout": 300 }
     ]
   }
 }
