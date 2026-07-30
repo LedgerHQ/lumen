@@ -3453,7 +3453,7 @@
           }
         }
       },
-      "avatar": {
+      "decorative": {
         "orange": {
           "$type": "color",
           "$value": "#f8b89b",
@@ -7029,7 +7029,7 @@
           }
         }
       },
-      "avatar": {
+      "decorative": {
         "orange": {
           "$type": "color",
           "$value": "#f8b89b",

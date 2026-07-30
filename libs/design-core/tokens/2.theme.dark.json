@@ -1162,6 +1162,18 @@
             }
           }
         },
+        "10%": {
+          "$type": "color",
+          "$value": "{color.dark.grey.050-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
         "0%": {
           "$type": "color",
           "$value": "{color.dark.grey.050-0%}",
@@ -1201,10 +1213,10 @@
           }
         }
       },
-      "avatar": {
+      "decorative": {
         "blue": {
           "$type": "color",
-          "$value": "{color.dark.avatar.blue}",
+          "$value": "{color.dark.decorative.blue}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1216,7 +1228,7 @@
         },
         "pink": {
           "$type": "color",
-          "$value": "{color.dark.avatar.pink}",
+          "$value": "{color.dark.decorative.pink}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1228,7 +1240,7 @@
         },
         "turquoise": {
           "$type": "color",
-          "$value": "{color.dark.avatar.turquoise}",
+          "$value": "{color.dark.decorative.turquoise}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1240,7 +1252,7 @@
         },
         "yellow": {
           "$type": "color",
-          "$value": "{color.dark.avatar.yellow}",
+          "$value": "{color.dark.decorative.yellow}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1252,7 +1264,7 @@
         },
         "orange": {
           "$type": "color",
-          "$value": "{color.dark.avatar.orange}",
+          "$value": "{color.dark.decorative.orange}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1264,7 +1276,7 @@
         },
         "red": {
           "$type": "color",
-          "$value": "{color.dark.avatar.red}",
+          "$value": "{color.dark.decorative.red}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1276,7 +1288,7 @@
         },
         "green": {
           "$type": "color",
-          "$value": "{color.dark.avatar.green}",
+          "$value": "{color.dark.decorative.green}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1288,7 +1300,7 @@
         },
         "purple": {
           "$type": "color",
-          "$value": "{color.dark.avatar.purple}",
+          "$value": "{color.dark.decorative.purple}",
           "$description": "",
           "$extensions": {
             "com.figma": {
