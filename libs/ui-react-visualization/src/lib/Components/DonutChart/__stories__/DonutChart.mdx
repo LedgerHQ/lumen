@@ -70,10 +70,21 @@ The ring adapts to any number of segments.
 
 ### No data
 
-With no data (an empty or all-zero series), the ring renders the faint empty
-ring.
+With no data (an empty or all-zero series), the ring renders the static
+placeholder shape — the same fixed segments used for loading, without
+animation.
+
+To show a label like "No data", use `renderCenter` combine with `DonutChartDescription`.
 
 <Canvas of={DonutChartStories.NoData} />
+
+### Loading
+
+While `loading` is true, the ring shows an animated wave sweeping through the
+placeholder segments instead of the real data, regardless of `series`. Pass a
+translated `loadingAriaLabel` from the consuming app when needed.
+
+<Canvas of={DonutChartStories.Loading} />
 
 ## Interactivity
 

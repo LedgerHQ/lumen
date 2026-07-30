@@ -4,7 +4,7 @@ import type { DonutSegment } from './types';
 
 import {
   buildArcs,
-  buildEmptyRingPath,
+  buildPlaceholderArcs,
   DONUT_GEOMETRY,
   formatPercentLabel,
   getDonutViewBox,
@@ -190,8 +190,31 @@ describe('buildArcs', () => {
   });
 });
 
-describe('buildEmptyRingPath', () => {
-  it('produces a full-ring path', () => {
-    expect(buildEmptyRingPath(DONUT_GEOMETRY.md)).toMatch(/^M/);
+describe('buildPlaceholderArcs', () => {
+  it('returns seven placeholder segments', () => {
+    const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
+    expect(arcs).toHaveLength(7);
+    expect(arcs.map((arc) => arc.id)).toEqual([
+      'placeholder-0',
+      'placeholder-1',
+      'placeholder-2',
+      'placeholder-3',
+      'placeholder-4',
+      'placeholder-5',
+      'placeholder-6',
+    ]);
+  });
+
+  it('produces a non-empty path per placeholder segment', () => {
+    const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
+    arcs.forEach((arc) => expect(arc.path).toMatch(/^M/));
+  });
+
+  it('computes midAngle per placeholder segment', () => {
+    const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
+    arcs.forEach((arc) => {
+      expect(arc.midAngle).toBeGreaterThanOrEqual(0);
+      expect(arc.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+    });
   });
 });

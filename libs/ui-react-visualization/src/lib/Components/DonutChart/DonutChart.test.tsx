@@ -81,6 +81,42 @@ describe('DonutChart', () => {
     expect(queryByTestId('donut-segment')).toBeNull();
   });
 
+  describe('loading', () => {
+    it('renders the animated placeholder instead of real segments', () => {
+      const { getByTestId, queryByTestId } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      getByTestId('donut-loading');
+      expect(queryByTestId('donut-segment')).toBeNull();
+      expect(queryByTestId('donut-empty')).toBeNull();
+    });
+
+    it('renders seven placeholder paths while loading', () => {
+      const { getByTestId } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      expect(
+        getByTestId('donut-loading').querySelectorAll('path'),
+      ).toHaveLength(7);
+    });
+
+    it('sets aria-busy and the loading aria label on the ring', () => {
+      const { getByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          loading
+          loadingAriaLabel='Chargement du graphique'
+        />,
+      );
+
+      const ring = getByTestId('donut-ring');
+      expect(ring.getAttribute('aria-busy')).toBe('true');
+      expect(ring.getAttribute('aria-label')).toBe('Chargement du graphique');
+    });
+  });
+
   describe('interactivity', () => {
     const getSegment = (
       getAllByTestId: ReturnType<typeof render>['getAllByTestId'],

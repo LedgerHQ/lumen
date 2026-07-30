@@ -1,6 +1,7 @@
 import { useControllableState } from '@ledgerhq/lumen-ui-react';
 import { useMemo, type FocusEvent } from 'react';
 
+import { chartConfig } from '../../config';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
@@ -16,6 +17,8 @@ export function DonutChart({
   series,
   size = 'md',
   ariaLabel = 'Donut chart',
+  loading = false,
+  loadingAriaLabel = chartConfig.donut.loadingAriaLabel,
   activeId: activeIdProp,
   defaultActiveId = null,
   onActiveIdChange,
@@ -79,8 +82,9 @@ export function DonutChart({
       <DonutRing
         arcs={arcs}
         geometry={geometry}
-        ariaLabel={ariaLabel}
+        ariaLabel={loading ? loadingAriaLabel : ariaLabel}
         activeId={activeId}
+        loading={loading}
         onSegmentEnter={setActiveId}
       />
       {hasCenter && (

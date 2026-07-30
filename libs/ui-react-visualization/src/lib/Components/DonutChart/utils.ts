@@ -2,7 +2,13 @@ import { arc, pie, type PieArcDatum } from 'd3-shape';
 
 import { chartConfig } from '../../config';
 
-import type { DonutArc, DonutGeometry, DonutSegment, DonutSize } from './types';
+import type {
+  DonutArc,
+  DonutGeometry,
+  DonutPlaceholderArc,
+  DonutSegment,
+  DonutSize,
+} from './types';
 
 export const DONUT_GEOMETRY: Readonly<Record<DonutSize, DonutGeometry>> =
   chartConfig.donut.size;
@@ -110,12 +116,40 @@ const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {
   return datum;
 };
 
-/** Full, gapless ring path used for the empty ring. */
-export const buildEmptyRingPath = (geometry: DonutGeometry): string => {
-  const emptyRingArc = arc<unknown>()
+/**
+ * Fixed placeholder arcs shared by the empty ring and the loading wave: a
+ * full ring (values sum to 100) of unequal segments separated only by the
+ * same small `padAngle` gaps as real segments — no missing arc.
+ */
+export const buildPlaceholderArcs = (
+  geometry: DonutGeometry,
+): DonutPlaceholderArc[] => {
+  const { segmentValues } = chartConfig.donut.placeholder;
+
+  type PlaceholderDatum = { id: string; value: number };
+
+  const data: PlaceholderDatum[] = segmentValues.map((value, index) => ({
+    id: `placeholder-${index}`,
+    value,
+  }));
+
+  const layout = pie<PlaceholderDatum>()
+    .value((entry) => entry.value)
+    .sort(null)
+    .sortValues(null)
+    .padAngle(geometry.padAngle);
+
+  const arcGenerator = arc<PieArcDatum<PlaceholderDatum>>()
     .innerRadius(geometry.innerRadius)
     .outerRadius(geometry.outerRadius)
-    .startAngle(0)
-    .endAngle(2 * Math.PI);
-  return emptyRingArc(null) ?? '';
+    .cornerRadius(geometry.cornerRadius);
+
+  return layout(data).map((datum) => {
+    const midAngle = (datum.startAngle + datum.endAngle) / 2;
+    return {
+      id: datum.data.id,
+      path: arcGenerator(snapHalfCircle(datum)) ?? '',
+      midAngle,
+    };
+  });
 };
