@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -18,41 +19,15 @@ type DonutChartAnimatedCenterProps = {
   renderActive: (segment: ActiveSegment) => ReactNode;
 };
 
-const { transitionDurationMs, transitionSlideDistance } = DONUT_CENTER;
-
 export const DonutChartAnimatedCenter = ({
   activeSegment,
   contentWidth,
   renderResting,
   renderActive,
 }: DonutChartAnimatedCenterProps) => {
-  const [lastActiveSegment, setLastActiveSegment] =
-    useState<ActiveSegment | null>(null);
-
-  const progress = useSharedValue(activeSegment === null ? 0 : 1);
-
-  useEffect(() => {
-    if (activeSegment) {
-      setLastActiveSegment(activeSegment);
-    }
-    progress.value = withTiming(activeSegment === null ? 0 : 1, {
-      duration: transitionDurationMs,
-    });
-  }, [activeSegment, progress]);
-
-  const isActive = activeSegment != null;
-  const shown = activeSegment ?? lastActiveSegment;
-  const hasEverActivated = shown != null;
-
-  const restingStyle = useAnimatedStyle(() => ({
-    opacity: 1 - progress.value,
-    transform: [{ translateY: -progress.value * transitionSlideDistance }],
-  }));
-
-  const activeStyle = useAnimatedStyle(() => ({
-    opacity: progress.value,
-    transform: [{ translateY: (1 - progress.value) * transitionSlideDistance }],
-  }));
+  const { progress, isActive, shown, hasEverActivated } =
+    useCenterTransition(activeSegment);
+  const { restingStyle, activeStyle } = useCenterTransitionStyles(progress);
 
   return (
     <View style={[styles.container, { width: contentWidth }]}>
@@ -96,3 +71,54 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+/**
+ * Handles the transition of the center content when the active segment changes.
+ */
+const useCenterTransition = (activeSegment: ActiveSegment | null) => {
+  const [lastActiveSegment, setLastActiveSegment] =
+    useState<ActiveSegment | null>(null);
+
+  const progress = useSharedValue(activeSegment === null ? 0 : 1);
+
+  useEffect(() => {
+    if (activeSegment) {
+      setLastActiveSegment(activeSegment);
+    }
+    progress.value = withTiming(activeSegment === null ? 0 : 1, {
+      duration: DONUT_CENTER.transitionDurationMs,
+    });
+  }, [activeSegment, progress]);
+
+  const shown = activeSegment ?? lastActiveSegment;
+
+  return {
+    progress,
+    isActive: activeSegment != null,
+    shown,
+    hasEverActivated: shown != null,
+  };
+};
+
+/**
+ * Handles the styles of the center content when the active segment changes.
+ */
+const useCenterTransitionStyles = (progress: SharedValue<number>) => {
+  const restingStyle = useAnimatedStyle(() => ({
+    opacity: 1 - progress.value,
+    transform: [
+      { translateY: -progress.value * DONUT_CENTER.transitionSlideDistance },
+    ],
+  }));
+
+  const activeStyle = useAnimatedStyle(() => ({
+    opacity: progress.value,
+    transform: [
+      {
+        translateY: (1 - progress.value) * DONUT_CENTER.transitionSlideDistance,
+      },
+    ],
+  }));
+
+  return { restingStyle, activeStyle };
+};
