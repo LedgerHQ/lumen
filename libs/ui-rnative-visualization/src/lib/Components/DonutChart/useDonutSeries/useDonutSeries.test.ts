@@ -22,7 +22,8 @@ describe('useDonutSeries', () => {
         ],
         others: [],
       },
-      description: 'return default data, not grouping or sorting',
+      description:
+        'returns segments unchanged when already sorted and grouping does not apply',
     },
     {
       segments: [
@@ -41,7 +42,7 @@ describe('useDonutSeries', () => {
         ],
         others: [],
       },
-      description: 'sort segments by DESC value ',
+      description: 'sorts segments by value descending',
     },
     {
       segments: [

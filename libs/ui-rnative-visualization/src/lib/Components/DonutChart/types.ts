@@ -12,24 +12,36 @@ export type DonutTitleSize = 'md' | 'sm';
 
 /** A single part-to-whole slice. */
 export type DonutSegment = {
-  /** Stable identifier for the segment. */
+  /**
+   * Stable identifier for the segment.
+   */
   id: string;
-  /** Human-readable label. */
+  /**
+   * Human-readable label.
+   */
   label: string;
-  /** Raw value; the percent is computed from the total. */
+  /**
+   * Raw value; the percent is computed from the total.
+   */
   value: number;
-  /** Optional color override; defaults to a neutral grey. */
+  /**
+   * Optional color override; defaults to a neutral grey.
+   */
   color?: string;
 };
 
-/** A segment enriched with its computed share of the series total. */
+/**
+ * A segment enriched with its computed share of the series total.
+ */
 export type DonutActiveSegment = DonutSegment & {
   /**
    * Exact share of the total, 0–100. Use it to compute; it is unrounded and can
    * carry float artifacts (`7.000000000000001`), so prefer `percentLabel` to display.
    */
   percent: number;
-  /** Display-ready `percent`, rounded to at most 1 decimal and suffixed, e.g. `7%`. */
+  /**
+   * Display-ready `percent`, rounded to at most 1 decimal and suffixed, e.g. `7%`.
+   */
   percentLabel: string;
 };
 
@@ -59,14 +71,20 @@ export type DonutSeriesOptions = {
 };
 
 export type DonutSeriesResult = {
-  /** Kept slices, sorted by value descending, plus the appended `other` slice. */
+  /**
+   * Kept slices, sorted by value descending, plus the appended `other` slice.
+   */
   segments: DonutSegment[];
-  /** The raw segments folded into `other`; empty when nothing was grouped. */
+  /**
+   * The raw segments folded into `other`; empty when nothing was grouped.
+   */
   others: DonutSegment[];
 };
 
 export type DonutChartProps = {
-  /** Part-to-whole slices, rendered in order. */
+  /**
+   * Part-to-whole slices, rendered in order.
+   */
   series: DonutSegment[];
   /**
    * Ring size. `md` is 168px, `sm` is 80px.
@@ -78,11 +96,17 @@ export type DonutChartProps = {
    * @default 'Donut chart'
    */
   accessibilityLabel?: string;
-  /** Controlled active segment id. Active is data-driven, not a state variant. */
+  /**
+   * Controlled active segment id. Active is data-driven, not a state variant.
+   */
   activeId?: string | null;
-  /** Default active segment id for uncontrolled mode. */
+  /**
+   * Default active segment id for uncontrolled mode.
+   */
   defaultActiveId?: string | null;
-  /** Fired when the active segment changes (tap to select, tap again to deselect). */
+  /**
+   * Fired when the active segment changes (tap to select, tap again to deselect).
+   */
   onActiveIdChange?: (id: string | null) => void;
   /**
    * Renders the resting center content. Return a top-level `DonutChartCenter`

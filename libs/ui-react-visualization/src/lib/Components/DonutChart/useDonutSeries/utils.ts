@@ -72,7 +72,10 @@ export const prepareDonutSeries = (
         id,
         label,
         color,
-        value: others.reduce((sum, segment) => sum + Math.max(segment.value, 0), 0),
+        value: others.reduce(
+          (sum, segment) => sum + Math.max(segment.value, 0),
+          0,
+        ),
       },
     ],
     others,

@@ -32,17 +32,24 @@ export type DonutArc = {
 
 /** A single part-to-whole slice. */
 export type DonutSegment = {
-  /** Stable identifier for the segment. */
+  /**
+   * Stable identifier for the segment.
+   */
   id: string;
-  /** Human-readable label. */
+  /**
+   * Human-readable label.
+   */
   label: string;
-  /** Raw value; the percent is computed from the total. */
+  /**
+   * Raw value; the percent is computed from the total.
+   */
   value: number;
-  /** Optional CSS color override; defaults to a neutral grey. */
+  /**
+   * Optional CSS color override; defaults to a neutral grey.
+   */
   color?: string;
 };
 
-/** How `useDonutSeries` folds a raw series' long tail into a single slice. */
 export type DonutSeriesOptions = {
   /**
    * Segments below this share of total will be grouped into the "other" segment.
@@ -68,9 +75,13 @@ export type DonutSeriesOptions = {
 };
 
 export type DonutSeriesResult = {
-  /** Kept slices, sorted by value descending, plus the appended `other` slice. */
+  /**
+   * Kept slices, sorted by value descending, plus the appended `other` slice.
+   */
   segments: DonutSegment[];
-  /** The raw segments folded into `other`; empty when nothing was grouped. */
+  /**
+   * The raw segments folded into `other`; empty when nothing was grouped.
+   */
   others: DonutSegment[];
 };
 
@@ -86,7 +97,9 @@ export type DonutActiveSegment = DonutSegment & {
 };
 
 export type DonutChartProps = {
-  /** Part-to-whole slices, rendered in order. */
+  /**
+   * Part-to-whole slices, rendered in order.
+   */
   series: DonutSegment[];
   /**
    * Ring size. `md` is 168px, `sm` is 80px.
@@ -99,9 +112,13 @@ export type DonutChartProps = {
    * @default 'Donut chart'
    */
   ariaLabel?: string;
-  /** Controlled active segment id. Active is data-driven, not a state variant. */
+  /**
+   * Controlled active segment id. Active is data-driven, not a state variant.
+   */
   activeId?: string | null;
-  /** Default active segment id for uncontrolled mode. */
+  /**
+   * Default active segment id for uncontrolled mode.
+   */
   defaultActiveId?: string | null;
   /** Fired when the active segment changes (hover or external reset). */
   onActiveIdChange?: (id: string | null) => void;

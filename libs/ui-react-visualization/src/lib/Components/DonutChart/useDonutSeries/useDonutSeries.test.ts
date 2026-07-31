@@ -22,7 +22,8 @@ describe('useDonutSeries', () => {
         ],
         others: [],
       },
-      description: 'returns segments unchanged when already sorted and grouping does not apply',
+      description:
+        'returns segments unchanged when already sorted and grouping does not apply',
     },
     {
       segments: [
