@@ -266,7 +266,7 @@ describe('DonutChart', () => {
       );
 
       expect(renderCenter).toHaveBeenCalledWith({
-        activeSegment: { ...sampleSeries[1], percent: 30 },
+        activeSegment: { ...sampleSeries[1], percent: 30, percentLabel: '30%' },
         series: sampleSeries,
       });
     });
@@ -279,7 +279,7 @@ describe('DonutChart', () => {
           renderCenter={({ activeSegment, series }) =>
             activeSegment ? (
               <DonutChartCenter>
-                <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+                <DonutChartTitle>{activeSegment.percentLabel}</DonutChartTitle>
                 <DonutChartDescription>
                   {activeSegment.label}
                 </DonutChartDescription>
@@ -313,7 +313,7 @@ describe('DonutChart', () => {
           defaultActiveId='bitcoin'
           renderCenter={({ activeSegment }) => (
             <DonutChartCenter>
-              <DonutChartTitle>{activeSegment?.percent}%</DonutChartTitle>
+              <DonutChartTitle>{activeSegment?.percentLabel}</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment?.label}
                 <button aria-label='Bitcoin details' />
@@ -357,7 +357,29 @@ describe('DonutChart', () => {
       );
 
       expect(renderCenterActive).toHaveBeenCalledWith({
-        activeSegment: { ...sampleSeries[1], percent: 30 },
+        activeSegment: { ...sampleSeries[1], percent: 30, percentLabel: '30%' },
+      });
+    });
+
+    it('keeps percent exact while percentLabel stays display-ready', () => {
+      const renderCenterActive = vi.fn(() => null);
+      render(
+        <DonutChart
+          series={[
+            { id: 'sol', label: 'Solana', value: 7 },
+            { id: 'rest', label: 'Rest', value: 93 },
+          ]}
+          defaultActiveId='sol'
+          renderCenter={() => null}
+          renderCenterActive={renderCenterActive}
+        />,
+      );
+
+      expect(renderCenterActive).toHaveBeenCalledWith({
+        activeSegment: expect.objectContaining({
+          percent: (7 / 100) * 100,
+          percentLabel: '7%',
+        }),
       });
     });
 
@@ -373,7 +395,7 @@ describe('DonutChart', () => {
           )}
           renderCenterActive={({ activeSegment }) => (
             <DonutChartCenter>
-              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartTitle>{activeSegment.percentLabel}</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
               </DonutChartDescription>
@@ -402,7 +424,7 @@ describe('DonutChart', () => {
           renderCenter={() => null}
           renderCenterActive={({ activeSegment }) => (
             <DonutChartCenter>
-              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartTitle>{activeSegment.percentLabel}</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
                 <button aria-label='Bitcoin details' />
@@ -430,7 +452,7 @@ describe('DonutChart', () => {
           renderCenterActive={({ activeSegment }) => (
             <DonutChartCenter>
               <DonutChartTitle data-testid='donut-center-active'>
-                {activeSegment.percent}%
+                {activeSegment.percentLabel}
               </DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
@@ -466,7 +488,7 @@ describe('DonutChart', () => {
           )}
           renderCenterActive={({ activeSegment }) => (
             <DonutChartCenter>
-              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartTitle>{activeSegment.percentLabel}</DonutChartTitle>
               <DonutChartDescription>
                 {activeSegment.label}
               </DonutChartDescription>

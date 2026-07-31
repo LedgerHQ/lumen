@@ -22,6 +22,18 @@ export const getDonutViewBox = (geometry: DonutGeometry): string => {
 export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
   geometry.innerRadius * 2 - chartConfig.donut.centerContentInset;
 
+/** Round a percent to at most 1 decimal. */
+export const roundPercent = (percent: number): number =>
+  Math.round(percent * 10) / 10;
+
+/**
+ * Display-ready percent, e.g. `7%` or `7.3%`. Rounding here keeps float
+ * artifacts — `7 / 100 * 100` is `7.000000000000001` — out of labels while
+ * leaving the exact `percent` intact for consumers who compute with it.
+ */
+export const formatPercentLabel = (percent: number): string =>
+  `${roundPercent(percent)}%`;
+
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {
   const total = series.reduce((sum, s) => sum + Math.max(s.value, 0), 0);

@@ -11,6 +11,7 @@ import { DonutChartCenter } from '../DonutChartCenter';
 import { DonutChartDescription } from '../DonutChartDescription';
 import { DonutChartTitle } from '../DonutChartTitle';
 import type { DonutSegment } from '../types';
+import { useDonutSeries } from '../useDonutSeries';
 
 const cryptoSegments: DonutSegment[] = [
   {
@@ -165,63 +166,47 @@ export const Controlled: Story = {
 
 /**
  * `renderCenter` renders the resting center; `renderCenterActive` crossfades
- * to active content on segment hover.
+ * to active content on segment hover. Typography scales with the ring, so the
+ * same pattern fits both sizes — the tighter `sm` center drops the trailing
+ * icon.
  */
 export const WithCenter: Story = {
   render: (args) => (
-    <DonutChart
-      {...args}
-      defaultActiveId={null}
-      renderCenter={({ series }) => (
-        <DonutChartCenter>
-          <DonutChartTitle>{series.length}</DonutChartTitle>
-        </DonutChartCenter>
-      )}
-      renderCenterActive={({ activeSegment }) => (
-        <DonutChartCenter>
-          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
-          <DonutChartDescription>
-            <span className='truncate'>{activeSegment.label}</span>
-            <InteractiveIcon
-              iconType='stroked'
-              icon={ChevronRight}
-              size={16}
-              aria-label={`View ${activeSegment.label} details`}
-            />
-          </DonutChartDescription>
-        </DonutChartCenter>
-      )}
-    />
-  ),
-};
-
-/**
- * The same `renderCenter`/`renderCenterActive` pattern as `WithCenter`, sized
- * for the 80px `sm` ring — typography scales down automatically via
- * `donutSizeContext`.
- */
-export const WithCenterSmall: Story = {
-  args: {
-    size: 'sm',
-  },
-  render: (args) => (
-    <DonutChart
-      {...args}
-      defaultActiveId='bitcoin'
-      renderCenter={({ series }) => (
-        <DonutChartCenter>
-          <DonutChartTitle>{series.length}</DonutChartTitle>
-        </DonutChartCenter>
-      )}
-      renderCenterActive={({ activeSegment }) => (
-        <DonutChartCenter>
-          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
-          <DonutChartDescription>
-            <span className='truncate'>{activeSegment.label}</span>
-          </DonutChartDescription>
-        </DonutChartCenter>
-      )}
-    />
+    <div className='flex flex-wrap items-center gap-32'>
+      {(['md', 'sm'] as const).map((size) => (
+        <div key={size} className='flex flex-col items-center gap-8'>
+          <DonutChart
+            {...args}
+            size={size}
+            defaultActiveId={null}
+            renderCenter={({ series }) => (
+              <DonutChartCenter>
+                <DonutChartTitle>{series.length}</DonutChartTitle>
+              </DonutChartCenter>
+            )}
+            renderCenterActive={({ activeSegment }) => (
+              <DonutChartCenter>
+                <DonutChartTitle size='sm'>
+                  {activeSegment.percentLabel}
+                </DonutChartTitle>
+                <DonutChartDescription>
+                  <span className='truncate'>{activeSegment.label}</span>
+                  {size === 'md' && (
+                    <InteractiveIcon
+                      iconType='stroked'
+                      icon={ChevronRight}
+                      size={16}
+                      aria-label={`View ${activeSegment.label} details`}
+                    />
+                  )}
+                </DonutChartDescription>
+              </DonutChartCenter>
+            )}
+          />
+          <span className='body-3 text-muted'>{size}</span>
+        </div>
+      ))}
+    </div>
   ),
 };
 
@@ -252,7 +237,7 @@ export const WithCenterClickable: Story = {
               onClick={() => setLastClick(activeSegment.label)}
             >
               <DonutChartTitle size='sm'>
-                {activeSegment.percent}%
+                {activeSegment.percentLabel}
               </DonutChartTitle>
               <DonutChartDescription>
                 <span className='truncate'>{activeSegment.label}</span>
@@ -274,6 +259,92 @@ export const WithCenterClickable: Story = {
           <span className='body-3 text-muted'>Clicked: {lastClick}</span>
         )}
       </div>
+    );
+  },
+};
+
+const manyCryptoSegments: DonutSegment[] = [
+  {
+    id: 'bitcoin',
+    label: 'Bitcoin',
+    value: 33,
+    color: cssVar('var(--color-crypto-bitcoin)'),
+  },
+  {
+    id: 'ethereum',
+    label: 'Ethereum',
+    value: 21,
+    color: cssVar('var(--color-crypto-ethereum)'),
+  },
+  {
+    id: 'tether',
+    label: 'Tether',
+    value: 11,
+    color: cssVar('var(--color-crypto-tether-usdt)'),
+  },
+  {
+    id: 'binance',
+    label: 'BNB',
+    value: 10,
+    color: cssVar('var(--color-crypto-binance)'),
+  },
+  {
+    id: 'sol',
+    label: 'Solana',
+    value: 7,
+    color: cssVar('var(--color-crypto-sol)'),
+  },
+  {
+    id: 'tron',
+    label: 'Tron',
+    value: 6,
+    color: cssVar('var(--color-crypto-tron)'),
+  },
+  {
+    id: 'usdc',
+    label: 'USDC',
+    value: 5,
+    color: cssVar('var(--color-crypto-usdc)'),
+  },
+  {
+    id: 'avax',
+    label: 'AVAX',
+    value: 5,
+    color: cssVar('var(--color-crypto-avax)'),
+  },
+  { id: 'xrp', label: 'XRP', value: 1 },
+  { id: 'cardano', label: 'Cardano', value: 1 },
+  { id: 'dogecoin', label: 'Dogecoin', value: 1 },
+];
+
+/**
+ * `useDonutSeries` prepares a raw series before it reaches the chart: it sorts
+ * segments by `value` descending, then condenses the long tail into a single
+ * "Other" slice.
+ */
+export const WithPreparedSeries: Story = {
+  render: () => {
+    const { segments } = useDonutSeries(manyCryptoSegments, {
+      other: { label: 'Other' },
+    });
+    return (
+      <DonutChart
+        series={segments}
+        defaultActiveId={null}
+        renderCenter={({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{series.length}</DonutChartTitle>
+          </DonutChartCenter>
+        )}
+        renderCenterActive={({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle size='sm'>
+              {activeSegment.percentLabel}
+            </DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        )}
+      />
     );
   },
 };
