@@ -6,7 +6,7 @@
     "rootDir": "src",
     "jsx": "react-jsx",
     "lib": ["dom"],
-    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
+    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
   },
   "files": ["../../node_modules/@nx/react-native/typings/svg.d.ts"],
   "exclude": [
@@ -21,10 +21,13 @@
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
   "references": [
     {
-      "path": "../../libs/ui-rnative/tsconfig.lib.json"
+      "path": "../../libs/utils-shared/tsconfig.lib.json"
     },
     {
       "path": "../../libs/ui-rnative-visualization/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/ui-rnative/tsconfig.lib.json"
     },
     {
       "path": "../../libs/design-core/tsconfig.lib.json"
