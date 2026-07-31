@@ -30,7 +30,9 @@ const getTailStart = (
   const total = getTotal(sorted);
   const minValue = minShare > 0 && total > 0 ? minShare * total : 0;
   const firstBelowMinShare =
-    minValue > 0 ? sorted.findIndex((segment) => segment.value < minValue) : -1;
+    minValue > 0
+      ? sorted.findIndex((segment) => Math.max(segment.value, 0) < minValue)
+      : -1;
 
   return Math.min(
     maxSegments,
