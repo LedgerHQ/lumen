@@ -3,12 +3,18 @@ import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
-
 import { DONUT_GEOMETRY } from '../../config';
 import { toRingLocalPoint } from './constants';
+import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
+import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutChartProps } from './types';
-import { buildArcs, findSegmentIdAtPoint } from './utils';
+import {
+  buildArcs,
+  findSegmentIdAtPoint,
+  getCenterMaxWidth,
+  getSegmentPercents,
+} from './utils';
 
 export function DonutChart({
   series,
@@ -17,6 +23,8 @@ export function DonutChart({
   activeId: activeIdProp,
   defaultActiveId = null,
   onActiveIdChange,
+  renderCenter,
+  renderCenterActive,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
 
@@ -27,6 +35,14 @@ export function DonutChart({
   });
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
+
+  const activeSegment = useMemo(() => {
+    const index = series.findIndex((segment) => segment.id === activeId);
+    if (activeId == null || index === -1) {
+      return null;
+    }
+    return { ...series[index], percent: getSegmentPercents(series)[index] };
+  }, [series, activeId]);
 
   const handleSegmentPress = useCallback(
     (id: string) => {
@@ -57,6 +73,20 @@ export function DonutChart({
     [handleTap],
   );
 
+  const hasCenter = renderCenter != null || renderCenterActive != null;
+  const useAnimatedCenter = renderCenterActive != null;
+
+  const renderRestingCenter = useCallback(
+    () => renderCenter?.({ series, activeSegment: null }) ?? null,
+    [renderCenter, series],
+  );
+
+  const renderActiveCenter = useCallback(
+    (segment: NonNullable<typeof activeSegment>) =>
+      renderCenterActive?.({ activeSegment: segment }) ?? null,
+    [renderCenterActive],
+  );
+
   return (
     <View
       testID='donut-chart'
@@ -71,6 +101,29 @@ export function DonutChart({
       <GestureDetector gesture={tap}>
         <View testID='donut-gesture-overlay' style={StyleSheet.absoluteFill} />
       </GestureDetector>
+      {hasCenter && (
+        <View
+          testID='donut-center'
+          pointerEvents='box-none'
+          style={[
+            StyleSheet.absoluteFill,
+            { alignItems: 'center', justifyContent: 'center' },
+          ]}
+        >
+          <DonutSizeProvider value={{ size }}>
+            {useAnimatedCenter ? (
+              <DonutChartAnimatedCenter
+                activeSegment={activeSegment}
+                contentWidth={getCenterMaxWidth(geometry)}
+                renderResting={renderRestingCenter}
+                renderActive={renderActiveCenter}
+              />
+            ) : (
+              renderCenter?.({ activeSegment, series })
+            )}
+          </DonutSizeProvider>
+        </View>
+      )}
     </View>
   );
 }

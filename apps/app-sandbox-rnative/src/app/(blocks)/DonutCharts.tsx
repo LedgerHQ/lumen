@@ -1,10 +1,15 @@
-import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Box, InteractiveIcon, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
+import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import {
   DonutChart,
+  DonutChartCenter,
+  DonutChartDescription,
+  DonutChartTitle,
   type DonutSegment,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
 import { type ReactNode, useState } from 'react';
+import { Pressable } from 'react-native';
 
 export default function DonutCharts() {
   const { theme } = useTheme();
@@ -21,6 +26,9 @@ export default function DonutCharts() {
         paddingRight: 's16',
       }}
     >
+      <WithCenter segments={cryptoSegments} />
+      <WithCenterSmall segments={cryptoSegments} />
+      <WithCenterClickable segments={cryptoSegments} />
       <Basic segments={cryptoSegments} />
       <Sizes segments={cryptoSegments} />
       <DefaultColors />
@@ -78,6 +86,113 @@ const Section = ({
     <Box lx={{ padding: 's16' }}>{children}</Box>
   </Box>
 );
+
+const WithCenter = ({ segments }: { segments: DonutSegment[] }) => (
+  <Section title='With center (tap segment to crossfade)'>
+    <DonutChart
+      series={segments}
+      defaultActiveId={null}
+      renderCenter={({ series }) => (
+        <DonutChartCenter>
+          <DonutChartTitle>{series.length}</DonutChartTitle>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartDescription>
+            <Text
+              typography='body3'
+              lx={{ color: 'muted' }}
+              style={{ flexShrink: 1, minWidth: 0 }}
+              numberOfLines={1}
+              ellipsizeMode='tail'
+            >
+              {activeSegment.label}
+            </Text>
+            <InteractiveIcon
+              iconType='stroked'
+              icon={ChevronRight}
+              size={16}
+              accessibilityLabel={`View ${activeSegment.label} details`}
+            />
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  </Section>
+);
+
+const WithCenterSmall = ({ segments }: { segments: DonutSegment[] }) => (
+  <Section title='With center (sm ring)'>
+    <DonutChart
+      series={segments}
+      size='sm'
+      defaultActiveId='bitcoin'
+      renderCenter={({ series }) => (
+        <DonutChartCenter>
+          <DonutChartTitle>{series.length}</DonutChartTitle>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  </Section>
+);
+
+const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
+  const [lastClick, setLastClick] = useState<string | null>(null);
+
+  return (
+    <Section title='With clickable center'>
+      <Box lx={{ gap: 's8', alignItems: 'center' }}>
+        <DonutChart
+          series={segments}
+          defaultActiveId={null}
+          renderCenter={({ series }) => (
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
+          )}
+          renderCenterActive={({ activeSegment }) => (
+            <Pressable
+              accessibilityRole='button'
+              accessibilityLabel={`View ${activeSegment.label} details`}
+              onPress={() => setLastClick(activeSegment.label)}
+            >
+              <DonutChartCenter>
+                <DonutChartTitle size='sm'>
+                  {activeSegment.percent}%
+                </DonutChartTitle>
+                <DonutChartDescription>
+                  <Text
+                    typography='body3'
+                    lx={{ color: 'muted' }}
+                    style={{ flexShrink: 1, minWidth: 0 }}
+                    numberOfLines={1}
+                    ellipsizeMode='tail'
+                  >
+                    {activeSegment.label}
+                  </Text>
+                  <ChevronRight size={16} color='muted' />
+                </DonutChartDescription>
+              </DonutChartCenter>
+            </Pressable>
+          )}
+        />
+        {lastClick != null && (
+          <Text typography='body3' lx={{ color: 'muted' }}>
+            Clicked: {lastClick}
+          </Text>
+        )}
+      </Box>
+    </Section>
+  );
+};
 
 const Basic = ({ segments }: { segments: DonutSegment[] }) => (
   <Section title='Basic donut'>

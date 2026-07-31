@@ -2,17 +2,36 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
+import { Text } from 'react-native';
 
 import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { DonutChart } from './DonutChart';
-import type { DonutSegment } from './types';
-import { buildArcs } from './utils';
+import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
+import { DonutChartCenter } from './DonutChartCenter';
+import { DonutChartDescription } from './DonutChartDescription';
+import { DonutChartTitle } from './DonutChartTitle';
+import { DonutSizeProvider } from './donutSizeContext';
+import type { DonutSegment, DonutSize, DonutTitleSize } from './types';
+import { buildArcs, getCenterMaxWidth } from './utils';
 
 const sampleSeries: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
   { id: 'ethereum', label: 'Ethereum', value: 30 },
   { id: 'tether', label: 'Tether', value: 20 },
 ];
+
+const typographyTokens = ledgerLiveThemes.light.typographies.sm;
+const typographies = {
+  ...typographyTokens.heading,
+  ...typographyTokens.body,
+};
+
+const renderWithTheme = (children: React.ReactNode) =>
+  render(
+    <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+      {children}
+    </ThemeProvider>,
+  );
 
 const renderDonut = (props: Partial<React.ComponentProps<typeof DonutChart>>) =>
   render(
@@ -257,6 +276,471 @@ describe('DonutChart', () => {
       expect(getAllByTestId('donut-segment')[0].props.accessibilityLabel).toBe(
         'bitcoin, selected',
       );
+    });
+  });
+
+  describe('DonutRing', () => {
+    it('uses the default mark fill color when a segment has no color override', () => {
+      const { getAllByTestId } = renderDonut({});
+      getAllByTestId('donut-segment').forEach((segment) => {
+        expect(segment.props.fill).toBe(
+          ledgerLiveThemes.light.colors.bg.mutedStrong,
+        );
+      });
+    });
+
+    it("uses the segment's color override instead of the default fill", () => {
+      const { getByTestId } = renderDonut({
+        series: [
+          { id: 'bitcoin', label: 'Bitcoin', value: 100, color: '#f7931a' },
+        ],
+      });
+      expect(getByTestId('donut-segment').props.fill).toBe('#f7931a');
+    });
+
+    it('fills the empty ring with the muted surface color', () => {
+      const { getByTestId } = renderDonut({ series: [] });
+      expect(getByTestId('donut-empty').props.fill).toBe(
+        ledgerLiveThemes.light.colors.bg.muted,
+      );
+    });
+
+    it('forwards the accessibility label to the underlying svg', () => {
+      const { getByTestId } = renderDonut({
+        accessibilityLabel: 'Portfolio breakdown',
+      });
+      expect(getByTestId('donut-ring').props.accessibilityLabel).toBe(
+        'Portfolio breakdown',
+      );
+    });
+  });
+
+  describe('DonutChartCenter', () => {
+    const renderCenterComponent = (
+      props: Partial<React.ComponentProps<typeof DonutChartCenter>>,
+    ) =>
+      render(
+        <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+          <DonutChartCenter testID='center' {...props} />
+        </ThemeProvider>,
+      );
+
+    it('applies the default centered layout', () => {
+      const { getByTestId } = renderCenterComponent({});
+
+      expect(getByTestId('center').props.style).toMatchObject({
+        alignItems: 'center',
+      });
+    });
+
+    it('lets consumers override alignment via lx', () => {
+      const { getByTestId } = renderCenterComponent({
+        lx: { alignItems: 'flex-start' },
+      });
+
+      expect(getByTestId('center').props.style).toMatchObject({
+        alignItems: 'flex-start',
+      });
+    });
+  });
+
+  describe('DonutChartTitle', () => {
+    const renderTitle = (
+      donutSize: DonutSize,
+      props: Partial<React.ComponentProps<typeof DonutChartTitle>> = {},
+    ) =>
+      renderWithTheme(
+        <DonutSizeProvider value={{ size: donutSize }}>
+          <DonutChartTitle {...props}>42</DonutChartTitle>
+        </DonutSizeProvider>,
+      );
+
+    it.each<[DonutSize, DonutTitleSize | undefined, keyof typeof typographies]>(
+      [
+        ['md', undefined, 'heading1SemiBold'],
+        ['md', 'sm', 'heading2SemiBold'],
+        ['sm', undefined, 'heading4SemiBold'],
+        ['sm', 'sm', 'body2SemiBold'],
+      ],
+    )(
+      'applies %s ring / %s title typography',
+      (donutSize, titleSize, expectedKey) => {
+        const { getByText } = renderTitle(
+          donutSize,
+          titleSize ? { size: titleSize } : {},
+        );
+        const style = getByText('42').props.style;
+        const expected = typographies[expectedKey];
+        expect(style.fontSize).toBe(expected.fontSize);
+        expect(style.fontWeight).toBe(expected.fontWeight);
+      },
+    );
+
+    it('defaults to md ring sizing without a DonutSizeProvider ancestor', () => {
+      const { getByText } = renderWithTheme(
+        <DonutChartTitle>42</DonutChartTitle>,
+      );
+
+      const style = getByText('42').props.style;
+      expect(style.fontSize).toBe(typographies.heading1SemiBold.fontSize);
+    });
+
+    it('truncates to a single line with a tail ellipsis by default', () => {
+      const { getByText } = renderTitle('md');
+
+      const title = getByText('42');
+      expect(title.props.numberOfLines).toBe(1);
+      expect(title.props.ellipsizeMode).toBe('tail');
+    });
+
+    it('lets consumers override numberOfLines and ellipsizeMode', () => {
+      const { getByText } = renderTitle('md', {
+        numberOfLines: 2,
+        ellipsizeMode: 'head',
+      });
+
+      const title = getByText('42');
+      expect(title.props.numberOfLines).toBe(2);
+      expect(title.props.ellipsizeMode).toBe('head');
+    });
+
+    it('merges a custom style with the computed max width and centering', () => {
+      const { getByText } = renderTitle('md', {
+        style: { fontStyle: 'italic' },
+      });
+
+      const style = getByText('42').props.style;
+      expect(style.fontStyle).toBe('italic');
+      expect(style.textAlign).toBe('center');
+      expect(style.maxWidth).toBe(getCenterMaxWidth(DONUT_GEOMETRY.md));
+    });
+  });
+
+  describe('DonutChartDescription', () => {
+    const renderDescription = (
+      donutSize: DonutSize,
+      children: React.ReactNode,
+      props: Partial<React.ComponentProps<typeof DonutChartDescription>> = {},
+    ) =>
+      renderWithTheme(
+        <DonutSizeProvider value={{ size: donutSize }}>
+          <DonutChartDescription {...props}>{children}</DonutChartDescription>
+        </DonutSizeProvider>,
+      );
+
+    it.each<[DonutSize, keyof typeof typographies]>([
+      ['md', 'body3'],
+      ['sm', 'body4'],
+    ])(
+      'applies the %s ring typography for text children',
+      (donutSize, expectedKey) => {
+        const { getByText } = renderDescription(donutSize, 'Bitcoin');
+
+        const style = getByText('Bitcoin').props.style;
+        const expected = typographies[expectedKey];
+        expect(style.fontSize).toBe(expected.fontSize);
+        expect(style.fontWeight).toBe(expected.fontWeight);
+      },
+    );
+
+    it('renders text children as a single truncated, centered, muted line', () => {
+      const { getByText } = renderDescription('md', 'Bitcoin');
+
+      const text = getByText('Bitcoin');
+      expect(text.props.numberOfLines).toBe(1);
+      expect(text.props.ellipsizeMode).toBe('tail');
+      expect(text.props.style.textAlign).toBe('center');
+      expect(text.props.style.color).toBe(
+        ledgerLiveThemes.light.colors.text.muted,
+      );
+    });
+
+    it('defaults to md ring sizing without a DonutSizeProvider ancestor', () => {
+      const { getByText } = renderWithTheme(
+        <DonutChartDescription>Bitcoin</DonutChartDescription>,
+      );
+
+      expect(getByText('Bitcoin').props.style.fontSize).toBe(
+        typographies.body3.fontSize,
+      );
+    });
+
+    it('renders non-text children as a row container instead of truncated text', () => {
+      const { getByTestId, getByText } = renderDescription(
+        'md',
+        <>
+          <Text testID='description-icon'>●</Text>
+          <Text>Bitcoin</Text>
+        </>,
+      );
+
+      getByTestId('description-icon');
+      getByText('Bitcoin');
+    });
+  });
+
+  describe('renderCenter', () => {
+    it('does not render a center slot when renderCenter is omitted', () => {
+      const { queryByTestId } = renderDonut({});
+      expect(queryByTestId('donut-center')).toBeNull();
+    });
+
+    it('passes activeSegment=null and the full series when nothing is active', () => {
+      const renderCenter = jest.fn(() => null);
+      renderDonut({ renderCenter });
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: null,
+        series: sampleSeries,
+      });
+    });
+
+    it('enriches activeSegment with its computed percent', () => {
+      const renderCenter = jest.fn(() => null);
+      renderDonut({ defaultActiveId: 'ethereum', renderCenter });
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: { ...sampleSeries[1], percent: 30 },
+        series: sampleSeries,
+      });
+    });
+
+    it('renders the count by default and the percent/label when active', () => {
+      const { getByTestId, getByText, queryByText } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ activeSegment, series }) =>
+          activeSegment ? (
+            <DonutChartCenter>
+              <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          ) : (
+            <DonutChartCenter>
+              <DonutChartTitle>{series.length}</DonutChartTitle>
+            </DonutChartCenter>
+          ),
+      });
+
+      getByText('3');
+      expect(queryByText('Bitcoin')).toBeNull();
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('50%');
+      getByText('Bitcoin');
+      expect(queryByText('3')).toBeNull();
+    });
+  });
+
+  describe('renderCenterActive', () => {
+    it('calls renderCenter with activeSegment=null for the resting slot', () => {
+      const renderCenter = jest.fn(() => null);
+      const renderCenterActive = jest.fn(() => null);
+      renderDonut({ renderCenter, renderCenterActive });
+
+      expect(renderCenter).toHaveBeenCalledWith({
+        activeSegment: null,
+        series: sampleSeries,
+      });
+    });
+
+    it('passes the enriched active segment to renderCenterActive', () => {
+      const renderCenterActive = jest.fn(() => null);
+      renderDonut({
+        defaultActiveId: 'ethereum',
+        renderCenter: () => null,
+        renderCenterActive,
+      });
+
+      expect(renderCenterActive).toHaveBeenCalledWith({
+        activeSegment: { ...sampleSeries[1], percent: 30 },
+      });
+    });
+
+    it('shows resting content by default and percent/label on tap', () => {
+      const { getByTestId, getByText, queryByText } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{series.length}</DonutChartTitle>
+          </DonutChartCenter>
+        ),
+        renderCenterActive: ({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        ),
+      });
+
+      getByText('3');
+      expect(queryByText('Bitcoin')).toBeNull();
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('50%');
+      getByText('Bitcoin');
+    });
+
+    it('keeps both resting and active content mounted and toggles visibility', () => {
+      const { getByTestId, getByText, queryByTestId } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle testID='donut-center-resting'>
+              {series.length}
+            </DonutChartTitle>
+          </DonutChartCenter>
+        ),
+        renderCenterActive: ({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle testID='donut-center-active'>
+              {activeSegment.percent}%
+            </DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        ),
+      });
+
+      getByText('3');
+      getByTestId('donut-center-resting');
+      expect(queryByTestId('donut-center-active')).toBeNull();
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('50%');
+      getByText('Bitcoin');
+      getByTestId('donut-center-active');
+    });
+
+    it('shows resting content again after deselecting', () => {
+      const { getByTestId, getByText } = renderDonut({
+        defaultActiveId: null,
+        renderCenter: ({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{series.length}</DonutChartTitle>
+          </DonutChartCenter>
+        ),
+        renderCenterActive: ({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{activeSegment.percent}%</DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        ),
+      });
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+      getByText('50%');
+
+      tapSegment(getByTestId, sampleSeries, 'bitcoin');
+
+      getByText('3');
+    });
+  });
+
+  describe('DonutChartAnimatedCenter', () => {
+    const activeSegment = { ...sampleSeries[0], percent: 50 };
+
+    const renderAnimatedCenter = (
+      props: Partial<
+        React.ComponentProps<typeof DonutChartAnimatedCenter>
+      > = {},
+    ) => {
+      const renderResting = jest.fn(() => <Text testID='resting'>rest</Text>);
+      const renderActive = jest.fn((segment: DonutSegment) => (
+        <Text testID='active'>{segment.label}</Text>
+      ));
+      const utils = render(
+        <DonutChartAnimatedCenter
+          activeSegment={null}
+          contentWidth={100}
+          renderResting={renderResting}
+          renderActive={renderActive}
+          {...props}
+        />,
+      );
+      return { ...utils, renderResting, renderActive };
+    };
+
+    it('renders only the resting content on mount when nothing is active', () => {
+      const { getByTestId, queryByTestId, renderResting, renderActive } =
+        renderAnimatedCenter();
+
+      getByTestId('resting');
+      expect(queryByTestId('active')).toBeNull();
+      expect(renderResting).toHaveBeenCalledTimes(1);
+      expect(renderActive).not.toHaveBeenCalled();
+    });
+
+    it('renders both panes immediately when mounted with an already-active segment', () => {
+      const { getByTestId, renderActive } = renderAnimatedCenter({
+        activeSegment,
+      });
+
+      getByTestId('resting', { includeHiddenElements: true });
+      getByTestId('active');
+      expect(renderActive).toHaveBeenCalledWith(activeSegment);
+    });
+
+    it('keeps the active pane mounted after the segment is deactivated', () => {
+      const { getByTestId, queryByTestId, rerender } = render(
+        <DonutChartAnimatedCenter
+          activeSegment={activeSegment}
+          contentWidth={100}
+          renderResting={() => <Text testID='resting'>rest</Text>}
+          renderActive={(segment) => (
+            <Text testID='active'>{segment.label}</Text>
+          )}
+        />,
+      );
+      getByTestId('active');
+
+      rerender(
+        <DonutChartAnimatedCenter
+          activeSegment={null}
+          contentWidth={100}
+          renderResting={() => <Text testID='resting'>rest</Text>}
+          renderActive={(segment) => (
+            <Text testID='active'>{segment.label}</Text>
+          )}
+        />,
+      );
+
+      expect(
+        queryByTestId('active', { includeHiddenElements: true }),
+      ).not.toBeNull();
+    });
+
+    it('hides the resting pane from accessibility while the active pane is shown', () => {
+      const { getByTestId, rerender } = renderAnimatedCenter();
+
+      expect(getByTestId('resting').parent?.parent?.props).toMatchObject({
+        accessibilityElementsHidden: false,
+        pointerEvents: 'auto',
+      });
+
+      rerender(
+        <DonutChartAnimatedCenter
+          activeSegment={activeSegment}
+          contentWidth={100}
+          renderResting={() => <Text testID='resting'>rest</Text>}
+          renderActive={() => <Text testID='active'>active</Text>}
+        />,
+      );
+
+      expect(
+        getByTestId('resting', { includeHiddenElements: true }).parent?.parent
+          ?.props,
+      ).toMatchObject({
+        accessibilityElementsHidden: true,
+        pointerEvents: 'none',
+      });
+      expect(getByTestId('active').parent?.parent?.props).toMatchObject({
+        accessibilityElementsHidden: false,
+        pointerEvents: 'auto',
+      });
     });
   });
 });

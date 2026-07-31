@@ -63,11 +63,10 @@ export type DonutChartProps = {
   /** Fired when the active segment changes (hover or external reset). */
   onActiveIdChange?: (id: string | null) => void;
   /**
-   * Renders the resting center content, wrapped in a top-level
-   * `DonutChartCenter` containing `DonutChartTitle` and/or
-   * `DonutChartDescription`. Receives `{ activeSegment, series }`;
-   * `activeSegment` is enriched with its computed `percent` and is `null`
-   * when nothing is active.
+   * Renders the resting center content. Return a top-level `DonutChartCenter`
+   * wrapping `DonutChartTitle` and/or `DonutChartDescription`. Receives
+   * `{ activeSegment, series }`; `activeSegment` is enriched with its computed
+   * `percent` and is `null` when nothing is active.
    */
   renderCenter?: (params: {
     activeSegment: (DonutSegment & { percent: number }) | null;
@@ -76,7 +75,7 @@ export type DonutChartProps = {
   /**
    * Optional active center content on segment hover, wrapped in a top-level
    * `DonutChartCenter`. When set, the chart crossfades between the resting
-   * slot (`renderCenter`) and this active slot.
+   * slot (`renderCenter`, called with `activeSegment: null`) and this active slot.
    */
   renderCenterActive?: (params: {
     activeSegment: DonutSegment & { percent: number };

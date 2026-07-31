@@ -1,5 +1,11 @@
 import type { DonutGeometry } from '../../config';
 
+export const DONUT_CENTER = {
+  contentInset: 8,
+  transitionDurationMs: 180,
+  transitionSlideDistance: 8,
+} as const;
+
 export const getDonutViewBox = (geometry: DonutGeometry): string => {
   const padding = geometry.activeOffset;
   const paddedBox = geometry.box + 2 * padding;
