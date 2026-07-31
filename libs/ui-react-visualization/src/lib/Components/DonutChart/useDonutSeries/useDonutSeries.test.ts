@@ -41,7 +41,7 @@ describe('useDonutSeries', () => {
         ],
         others: [],
       },
-      description: 'sort segments by DESC value ',
+      description: 'sorts segments by value descending',
     },
     {
       segments: [
