@@ -84,6 +84,13 @@ export const chartConfig = {
   },
 
   donut: {
+    /** Defaults applied by `useDonutSeries` when preparing a raw series. */
+    series: {
+      maxSegments: 7,
+      otherId: 'other',
+      /** A tail shorter than this is kept as-is rather than folded into `other`. */
+      minGroupedSegments: 2,
+    },
     /** Per-size ring geometry measured from Figma; kept in one place for refinement. */
     size: {
       md: {

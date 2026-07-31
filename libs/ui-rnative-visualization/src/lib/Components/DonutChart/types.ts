@@ -22,6 +22,49 @@ export type DonutSegment = {
   color?: string;
 };
 
+/** A segment enriched with its computed share of the series total. */
+export type DonutActiveSegment = DonutSegment & {
+  /**
+   * Exact share of the total, 0–100. Use it to compute; it is unrounded and can
+   * carry float artifacts (`7.000000000000001`), so prefer `percentLabel` to display.
+   */
+  percent: number;
+  /** Display-ready `percent`, rounded to at most 1 decimal and suffixed, e.g. `7%`. */
+  percentLabel: string;
+};
+
+/** How `useDonutSeries` folds a raw series' long tail into a single slice. */
+export type DonutSeriesOptions = {
+  /**
+   * Segments below this share of total will be grouped into the "other" segment.
+   * `0` means no minimum.
+   * @default 0
+   */
+  minShare?: number;
+  /**
+   * Max segments kept before the tail is grouped; `0` disables grouping.
+   * @default 7
+   */
+  maxSegments?: number;
+  /**
+   * Shape of the aggregate segment; `value` is always computed.
+   */
+  other: {
+    /** @default 'other' */
+    id?: DonutSegment['id'];
+    label: DonutSegment['label'];
+    /** Optional color override; defaults to the chart's neutral segment color. */
+    color?: DonutSegment['color'];
+  };
+};
+
+export type DonutSeriesResult = {
+  /** Kept slices, sorted by value descending, plus the appended `other` slice. */
+  segments: DonutSegment[];
+  /** The raw segments folded into `other`; empty when nothing was grouped. */
+  others: DonutSegment[];
+};
+
 export type DonutChartProps = {
   /** Part-to-whole slices, rendered in order. */
   series: DonutSegment[];
@@ -45,10 +88,10 @@ export type DonutChartProps = {
    * Renders the resting center content. Return a top-level `DonutChartCenter`
    * wrapping `DonutChartTitle` and/or `DonutChartDescription`. Receives
    * `{ activeSegment, series }`; `activeSegment` is enriched with its computed
-   * `percent` and is `null` when nothing is active.
+   * `percent`/`percentLabel` and is `null` when nothing is active.
    */
   renderCenter?: (params: {
-    activeSegment: (DonutSegment & { percent: number }) | null;
+    activeSegment: DonutActiveSegment | null;
     series: DonutSegment[];
   }) => ReactNode;
   /**
@@ -57,7 +100,7 @@ export type DonutChartProps = {
    * slot (`renderCenter`, called with `activeSegment: null`) and this active slot.
    */
   renderCenterActive?: (params: {
-    activeSegment: DonutSegment & { percent: number };
+    activeSegment: DonutActiveSegment;
   }) => ReactNode;
 };
 

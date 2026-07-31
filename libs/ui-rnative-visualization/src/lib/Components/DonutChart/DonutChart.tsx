@@ -12,6 +12,7 @@ import type { DonutChartProps } from './types';
 import {
   buildArcs,
   findSegmentIdAtPoint,
+  formatPercentLabel,
   getCenterMaxWidth,
   getSegmentPercents,
 } from './utils';
@@ -41,7 +42,12 @@ export function DonutChart({
     if (activeId == null || index === -1) {
       return null;
     }
-    return { ...series[index], percent: getSegmentPercents(series)[index] };
+    const percent = getSegmentPercents(series)[index];
+    return {
+      ...series[index],
+      percent,
+      percentLabel: formatPercentLabel(percent),
+    };
   }, [series, activeId]);
 
   const handleSegmentPress = useCallback(

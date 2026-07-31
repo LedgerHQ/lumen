@@ -1,5 +1,5 @@
-import { renderHook } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from '@jest/globals';
+import { renderHook } from '@testing-library/react-native';
 
 import { useDonutSeries } from './useDonutSeries';
 
@@ -22,7 +22,7 @@ describe('useDonutSeries', () => {
         ],
         others: [],
       },
-      description: 'returns segments unchanged when already sorted and grouping does not apply',
+      description: 'return default data, not grouping or sorting',
     },
     {
       segments: [
@@ -41,7 +41,7 @@ describe('useDonutSeries', () => {
         ],
         others: [],
       },
-      description: 'sorts segments by value descending',
+      description: 'sort segments by DESC value ',
     },
     {
       segments: [

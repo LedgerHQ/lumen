@@ -8,15 +8,13 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { DONUT_CENTER } from './constants';
-import type { DonutSegment } from './types';
-
-type ActiveSegment = DonutSegment & { percent: number };
+import type { DonutActiveSegment } from './types';
 
 type DonutChartAnimatedCenterProps = {
-  activeSegment: ActiveSegment | null;
+  activeSegment: DonutActiveSegment | null;
   contentWidth: number;
   renderResting: () => ReactNode;
-  renderActive: (segment: ActiveSegment) => ReactNode;
+  renderActive: (segment: DonutActiveSegment) => ReactNode;
 };
 
 export const DonutChartAnimatedCenter = ({
@@ -75,9 +73,9 @@ const styles = StyleSheet.create({
 /**
  * Handles the transition of the center content when the active segment changes.
  */
-const useCenterTransition = (activeSegment: ActiveSegment | null) => {
+const useCenterTransition = (activeSegment: DonutActiveSegment | null) => {
   const [lastActiveSegment, setLastActiveSegment] =
-    useState<ActiveSegment | null>(null);
+    useState<DonutActiveSegment | null>(null);
 
   const progress = useSharedValue(activeSegment === null ? 0 : 1);
 

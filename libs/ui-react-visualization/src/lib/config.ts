@@ -126,7 +126,6 @@ export const chartConfig = {
     series: {
       maxSegments: 7,
       otherId: 'other',
-      otherColor: cssVar('var(--background-muted-strong)'),
       /** A tail shorter than this is kept as-is rather than folded into `other`. */
       minGroupedSegments: 2,
     },

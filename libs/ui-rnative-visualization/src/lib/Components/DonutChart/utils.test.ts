@@ -7,8 +7,10 @@ import {
   buildArcs,
   buildEmptyRingPath,
   findSegmentIdAtPoint,
+  formatPercentLabel,
   getCenterMaxWidth,
   getSegmentPercents,
+  roundPercent,
 } from './utils';
 
 const series: DonutSegment[] = [
@@ -37,6 +39,28 @@ describe('getCenterMaxWidth', () => {
   it('fits content inside the inner diameter minus the inset', () => {
     expect(getCenterMaxWidth(DONUT_GEOMETRY.md)).toBe(61 * 2 - 8);
     expect(getCenterMaxWidth(DONUT_GEOMETRY.sm)).toBe(28 * 2 - 8);
+  });
+});
+
+describe('roundPercent', () => {
+  it('keeps up to 1 decimal and drops the rest', () => {
+    expect(roundPercent(7.24)).toBe(7.2);
+    expect(roundPercent(7.26)).toBe(7.3);
+  });
+
+  it('absorbs float artifacts', () => {
+    expect(roundPercent((7 / 100) * 100)).toBe(7);
+  });
+});
+
+describe('formatPercentLabel', () => {
+  it('suffixes the rounded percent', () => {
+    expect(formatPercentLabel(30)).toBe('30%');
+    expect(formatPercentLabel(7.254)).toBe('7.3%');
+  });
+
+  it('never leaks a float artifact into the label', () => {
+    expect(formatPercentLabel((7 / 100) * 100)).toBe('7%');
   });
 });
 

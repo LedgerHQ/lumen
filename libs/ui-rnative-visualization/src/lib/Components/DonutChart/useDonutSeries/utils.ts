@@ -29,9 +29,7 @@ const getTailStart = (
   const total = getTotal(sorted);
   const minValue = minShare > 0 && total > 0 ? minShare * total : 0;
   const firstBelowMinShare =
-    minValue > 0
-      ? sorted.findIndex((segment) => Math.max(segment.value, 0) < minValue)
-      : -1;
+    minValue > 0 ? sorted.findIndex((segment) => segment.value < minValue) : -1;
 
   return Math.min(
     maxSegments,
@@ -41,7 +39,9 @@ const getTailStart = (
 
 /**
  * Sorts a raw series by value descending and folds its long tail into a single
- * aggregate segment. Pure counterpart of `useDonutSeries`.
+ * aggregate segment. Pure counterpart of `useDonutSeries`. The aggregate keeps
+ * its color unset unless `other.color` is given, so the ring paints it with the
+ * neutral default like any colorless segment.
  */
 export const prepareDonutSeries = (
   segments: DonutSegment[],
@@ -72,7 +72,7 @@ export const prepareDonutSeries = (
         id,
         label,
         color,
-        value: others.reduce((sum, segment) => sum + Math.max(segment.value, 0), 0),
+        value: others.reduce((sum, segment) => sum + segment.value, 0),
       },
     ],
     others,

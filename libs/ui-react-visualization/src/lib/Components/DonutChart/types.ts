@@ -62,7 +62,7 @@ export type DonutSeriesOptions = {
     /** @default 'other' */
     id?: DonutSegment['id'];
     label: DonutSegment['label'];
-    /** @default cssVar('var(--background-muted-strong)') */
+    /** Optional color override; defaults to the chart's neutral segment color. */
     color?: DonutSegment['color'];
   };
 };
