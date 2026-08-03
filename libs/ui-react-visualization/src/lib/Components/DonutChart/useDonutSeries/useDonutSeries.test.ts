@@ -53,7 +53,7 @@ describe('useDonutSeries', () => {
         { id: 'e', label: 'e', value: 2 },
       ],
       opts: {
-        minShare: 0.04,
+        groupBelowShare: 0.04,
         other: { id: 'other', label: 'Other' },
       },
       expected: {
@@ -72,7 +72,7 @@ describe('useDonutSeries', () => {
           { id: 'e', label: 'e', value: 2 },
         ],
       },
-      description: 'group fragments that are below a custom minShare',
+      description: 'group fragments that are below a custom groupBelowShare',
     },
     {
       segments: [
@@ -83,7 +83,7 @@ describe('useDonutSeries', () => {
         { id: 'e', label: 'e', value: 2 },
       ],
       opts: {
-        minShare: 0.04,
+        groupBelowShare: 0.04,
         other: { id: 'other', label: 'Other' },
       },
       expected: {
@@ -103,7 +103,7 @@ describe('useDonutSeries', () => {
         ],
       },
       description:
-        'group fragments that are below a custom minShare, even with larger values',
+        'group fragments that are below a custom groupBelowShare, even with larger values',
     },
     {
       segments: [
@@ -143,7 +143,7 @@ describe('useDonutSeries', () => {
         ],
       },
       description:
-        'group segments even if they are above the minShare, if the maxSegments is exceeded',
+        'group segments even if they are above the groupBelowShare, if the maxSegments is exceeded',
     },
     {
       segments: [
@@ -184,7 +184,7 @@ describe('useDonutSeries', () => {
         ],
       },
       description:
-        'group segments that are above the minShare, if the custom maxSegments is exceeded',
+        'group segments that are above the groupBelowShare, if the custom maxSegments is exceeded',
     },
     {
       segments: [
@@ -224,7 +224,7 @@ describe('useDonutSeries', () => {
         { id: 'd', label: 'd', value: 5 },
       ],
       opts: {
-        minShare: 0.06,
+        groupBelowShare: 0.06,
         other: { id: 'other', label: 'Other' },
       },
       expected: {
@@ -237,7 +237,7 @@ describe('useDonutSeries', () => {
         others: [],
       },
       description:
-        'keep a lone segment below minShare as-is rather than aggregate it',
+        'keep a lone segment below groupBelowShare as-is rather than aggregate it',
     },
     {
       segments: [
@@ -246,7 +246,7 @@ describe('useDonutSeries', () => {
         { id: 'c', label: 'c', value: 30 },
       ],
       opts: {
-        minShare: 1,
+        groupBelowShare: 1,
         other: { id: 'other', label: 'Other' },
       },
       expected: {
@@ -264,7 +264,7 @@ describe('useDonutSeries', () => {
         ],
       },
       description:
-        'keep the top segment when minShare is out of range, instead of collapsing to a single aggregate',
+        'keep the top segment when groupBelowShare is out of range, instead of collapsing to a single aggregate',
     },
   ])('should $description', ({ segments, opts, expected }) => {
     const { result } = renderHook(() => useDonutSeries(segments, opts));

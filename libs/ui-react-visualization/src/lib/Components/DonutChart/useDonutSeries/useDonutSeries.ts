@@ -19,7 +19,7 @@ export const useDonutSeries = (
   segments: DonutSegment[],
   options: DonutSeriesOptions,
 ): DonutSeriesResult => {
-  const { minShare, maxSegments, other } = options;
+  const { groupBelowShare, maxSegments, other } = options;
   const { id, label, color } = other;
 
   // Keyed on the option values rather than the `options`/`other` object
@@ -27,10 +27,10 @@ export const useDonutSeries = (
   return useMemo(
     () =>
       prepareDonutSeries(segments, {
-        minShare,
+        groupBelowShare,
         maxSegments,
         other: { id, label, color },
       }),
-    [segments, minShare, maxSegments, id, label, color],
+    [segments, groupBelowShare, maxSegments, id, label, color],
   );
 };

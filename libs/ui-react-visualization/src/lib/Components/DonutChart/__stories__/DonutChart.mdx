@@ -130,7 +130,8 @@ ring:
 - **Sorting** — orders segments by `value` descending, so the largest segment
   starts at 12 o'clock. Sorting always applies, including when grouping is off.
 - **Grouping** — folds the long tail into a single "Other" segment, keeping the
-  segments that are both within the top `maxSegments` and at or above `minShare`
+  segments that are both within the top `maxSegments` and at or above
+  `groupBelowShare`
   (a fraction of the total, so `0.04` for 4%). A tail of a single segment is left
   alone, since an "Other" worth exactly that one segment says less than the
   segment itself.
@@ -146,8 +147,8 @@ defaults alone. Use `prepareDonutSeries` for the same logic outside a component.
 type DonutSeriesOptions = {
   /** Max segments kept before the tail is grouped; `0` disables grouping. @default 7 */
   maxSegments?: number;
-  /** Fold segments below this fraction of the total into `other` (`0.04` = 4%); `0` = no minimum. @default 0 */
-  minShare?: number;
+  /** Fold segments below this fraction of the total into `other` (`0.04` = 4%); `0` groups nothing. @default 0 */
+  groupBelowShare?: number;
   /** Shape of the aggregate segment; its `value` is always computed. */
   other: {
     label: string;

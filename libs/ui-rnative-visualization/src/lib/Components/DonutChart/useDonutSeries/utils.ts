@@ -19,20 +19,22 @@ const getTotal = (segments: DonutSegment[]): number =>
 
 /**
  * Where the tail starts in a descending-sorted series: the first segment below
- * `minShare` of the total, capped by `maxSegments`. Both cutoffs are monotonic
- * on a sorted series, so a single index splits kept segments from the tail.
+ * `groupBelowShare` of the total, capped by `maxSegments`. Both cutoffs are
+ * monotonic on a sorted series, so a single index splits kept segments from the
+ * tail.
  *
- * Floored at `minKeptSegments`: a `minShare` of `1` or above puts every segment
- * in the tail, and a lone aggregate segment worth 100% is not a chart.
+ * Floored at `minKeptSegments`: a `groupBelowShare` of `1` or above puts every
+ * segment in the tail, and a lone aggregate segment worth 100% is not a chart.
  */
 const getTailStart = (
   sorted: DonutSegment[],
-  minShare: number,
+  groupBelowShare: number,
   maxSegments: number,
 ): number => {
   const total = getTotal(sorted);
-  const minValue = minShare > 0 && total > 0 ? minShare * total : 0;
-  const firstBelowMinShare =
+  const minValue =
+    groupBelowShare > 0 && total > 0 ? groupBelowShare * total : 0;
+  const firstBelowShare =
     minValue > 0
       ? sorted.findIndex((segment) => Math.max(segment.value, 0) < minValue)
       : -1;
@@ -41,7 +43,7 @@ const getTailStart = (
     minKeptSegments,
     Math.min(
       maxSegments,
-      firstBelowMinShare === -1 ? sorted.length : firstBelowMinShare,
+      firstBelowShare === -1 ? sorted.length : firstBelowShare,
     ),
   );
 };
@@ -56,14 +58,18 @@ export const prepareDonutSeries = (
   segments: DonutSegment[],
   options: DonutSeriesOptions,
 ): DonutSeriesResult => {
-  const { minShare = 0, maxSegments = defaultMaxSegments, other } = options;
+  const {
+    groupBelowShare = 0,
+    maxSegments = defaultMaxSegments,
+    other,
+  } = options;
   const sorted = [...segments].sort((a, b) => b.value - a.value);
 
   if (maxSegments <= 0) {
     return { segments: sorted, others: [] };
   }
 
-  const tailStart = getTailStart(sorted, minShare, maxSegments);
+  const tailStart = getTailStart(sorted, groupBelowShare, maxSegments);
   const others = sorted.slice(tailStart);
 
   // A tail of one would render an aggregate worth exactly that one segment,
