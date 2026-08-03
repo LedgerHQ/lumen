@@ -169,7 +169,7 @@ describe('buildArcs', () => {
     });
   });
 
-  it("pushes the first slice radially upward from 12 o'clock", () => {
+  it("pushes the first segment radially upward from 12 o'clock", () => {
     const [first] = buildArcs(
       [
         { id: 'a', label: 'A', value: 1 },

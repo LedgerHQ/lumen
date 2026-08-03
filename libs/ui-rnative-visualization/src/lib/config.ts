@@ -91,7 +91,7 @@ export const chartConfig = {
       /** A tail shorter than this is kept as-is rather than folded into `other`. */
       minGroupedSegments: 2,
       /**
-       * Floor on the slices kept before the tail, so an out-of-range `minShare`
+       * Floor on the segments kept before the tail, so an out-of-range `minShare`
        * (`1`, or `4` misread as "4%") can never fold the whole series away.
        */
       minKeptSegments: 1,

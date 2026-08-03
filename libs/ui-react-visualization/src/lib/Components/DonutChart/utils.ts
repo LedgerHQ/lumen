@@ -96,10 +96,10 @@ export const buildArcs = (
 };
 
 /**
- * Snap a near-half-circle slice to exactly `π`. d3-shape squares the corners of
- * a slice spanning a hair under `π` (its parallel edges never meet) but rounds
- * one landing exactly on `π`, so two equal slices end up mismatched. The nudge
- * is sub-pixel and never fires for real sub-half-circle slices.
+ * Snap a near-half-circle arc to exactly `π`. d3-shape squares the corners of
+ * an arc spanning a hair under `π` (its parallel edges never meet) but rounds
+ * one landing exactly on `π`, so two equal arcs end up mismatched. The nudge
+ * is sub-pixel and never fires for real sub-half-circle arcs.
  */
 const HALF_CIRCLE_EPSILON = 1e-9;
 const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {

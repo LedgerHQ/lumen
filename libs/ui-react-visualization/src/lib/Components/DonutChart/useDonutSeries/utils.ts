@@ -20,10 +20,10 @@ const getTotal = (segments: DonutSegment[]): number =>
 /**
  * Where the tail starts in a descending-sorted series: the first segment below
  * `minShare` of the total, capped by `maxSegments`. Both cutoffs are monotonic
- * on a sorted series, so a single index splits kept slices from the tail.
+ * on a sorted series, so a single index splits kept segments from the tail.
  *
  * Floored at `minKeptSegments`: a `minShare` of `1` or above puts every segment
- * in the tail, and a lone aggregate slice worth 100% is not a chart.
+ * in the tail, and a lone aggregate segment worth 100% is not a chart.
  */
 const getTailStart = (
   sorted: DonutSegment[],
@@ -66,8 +66,8 @@ export const prepareDonutSeries = (
   const tailStart = getTailStart(sorted, minShare, maxSegments);
   const others = sorted.slice(tailStart);
 
-  // A tail of one would render an aggregate slice worth exactly that one
-  // segment, which is strictly less informative than the segment itself.
+  // A tail of one would render an aggregate worth exactly that one segment,
+  // which is strictly less informative than the segment itself.
   if (others.length < minGroupedSegments) {
     return { segments: sorted, others: [] };
   }

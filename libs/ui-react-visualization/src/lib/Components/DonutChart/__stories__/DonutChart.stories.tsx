@@ -113,7 +113,7 @@ const buildSegments = (count: number): DonutSegment[] =>
 
 /**
  * The ring adapts to any number of segments, rendered in series order,
- * clockwise from 12 o'clock, with rounded caps and gaps between slices.
+ * clockwise from 12 o'clock, with rounded caps and gaps between segments.
  */
 export const SegmentCounts: Story = {
   render: () => (
@@ -142,7 +142,7 @@ export const NoData: Story = {
 
 /**
  * Segments are hoverable by default. Hovering a segment sets `activeId`, dims
- * the others, and pops the active slice out radially. Leaving the chart resets
+ * the others, and pops the active segment out radially. Leaving the chart resets
  * `activeId` to `null`.
  */
 export const Interactive: Story = {};
@@ -320,7 +320,7 @@ const manyCryptoSegments: DonutSegment[] = [
 /**
  * `useDonutSeries` prepares a raw series before it reaches the chart: it sorts
  * segments by `value` descending, then condenses the long tail into a single
- * "Other" slice.
+ * "Other" segment.
  */
 export const WithPreparedSeries: Story = {
   render: () => {

@@ -10,7 +10,7 @@ export type DonutSize = DonutSizeKey;
  */
 export type DonutTitleSize = 'md' | 'sm';
 
-/** A single part-to-whole slice. */
+/** A single part-to-whole segment. */
 export type DonutSegment = {
   /**
    * Stable identifier for the segment.
@@ -45,7 +45,7 @@ export type DonutActiveSegment = DonutSegment & {
   percentLabel: string;
 };
 
-/** How `useDonutSeries` folds a raw series' long tail into a single slice. */
+/** How `useDonutSeries` folds a raw series' long tail into a single segment. */
 export type DonutSeriesOptions = {
   /**
    * Segments below this share of the total are grouped into the "other" segment.
@@ -58,7 +58,7 @@ export type DonutSeriesOptions = {
   /**
    * Max segments kept before the tail is grouped; `0` disables grouping. A soft
    * cap: a tail of a single segment is kept as-is, so the result can hold
-   * `maxSegments + 1` slices.
+   * `maxSegments + 1` segments.
    * @default 7
    */
   maxSegments?: number;
@@ -76,7 +76,7 @@ export type DonutSeriesOptions = {
 
 export type DonutSeriesResult = {
   /**
-   * Kept slices, sorted by value descending, plus the appended `other` slice.
+   * Kept segments, sorted by value descending, plus the appended `other` segment.
    */
   segments: DonutSegment[];
   /**
@@ -87,7 +87,7 @@ export type DonutSeriesResult = {
 
 export type DonutChartProps = {
   /**
-   * Part-to-whole slices, rendered in order.
+   * Part-to-whole segments, rendered in order.
    */
   series: DonutSegment[];
   /**

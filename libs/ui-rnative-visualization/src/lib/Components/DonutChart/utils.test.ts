@@ -173,7 +173,7 @@ describe('buildArcs', () => {
     });
   });
 
-  it("pushes the first slice radially upward from 12 o'clock", () => {
+  it("pushes the first segment radially upward from 12 o'clock", () => {
     const [first] = buildArcs(
       [
         { id: 'a', label: 'A', value: 1 },
@@ -237,14 +237,14 @@ describe('findSegmentIdAtPoint', () => {
     ).toBeNull();
   });
 
-  it('resolves a point at the top of the ring to the first slice', () => {
+  it('resolves a point at the top of the ring to the first segment', () => {
     const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
     expect(
       findSegmentIdAtPoint(arcs, { x: 0, y: -midRadius }, DONUT_GEOMETRY.md),
     ).toBe('a');
   });
 
-  it('resolves a point at the bottom of the ring to the second slice', () => {
+  it('resolves a point at the bottom of the ring to the second segment', () => {
     const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
     expect(
       findSegmentIdAtPoint(arcs, { x: 0, y: midRadius }, DONUT_GEOMETRY.md),
