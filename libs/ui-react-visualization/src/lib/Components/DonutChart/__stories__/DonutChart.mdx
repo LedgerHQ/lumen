@@ -14,7 +14,8 @@ their share of the total, drawn as an SVG.
 ## Usage
 
 `DonutChart` owns its `series` data and renders exactly the segments it
-receives — grouping ("top N + other") is handled outside the component. Each
+receives — ordering and grouping ("top N + other") are handled outside the
+component. Each
 segment's angle is its `value` as a fraction of the summed total; segments are
 laid out in series order, clockwise from 12 o'clock, with rounded caps and gaps.
 
@@ -77,14 +78,17 @@ ring.
 ## Interactivity
 
 Segments are hoverable by default. Hovering a segment sets `activeId`, dims
-non-active segments to 30% opacity, and pops the active slice out radially.
+non-active segments to 30% opacity, and pops the active segment out radially.
 Leaving the chart container resets `activeId` to `null`.
-
-Use `activeId` / `onActiveIdChange` for controlled mode so a legend or center
-slot can react to the same active segment.
 
 <Canvas of={DonutChartStories.Interactive} />
 
+### Controlled
+
+Lift `activeId` into parent state and pair it with `onActiveIdChange` so a
+legend or center slot reacts to the same active segment as the ring.
+
+<Canvas of={DonutChartStories.Controlled} />
 
 ## Center content
 
@@ -103,18 +107,71 @@ Return a top-level `DonutChartCenter` wrapping `DonutChartTitle` and/or
   (`flex flex-col items-center`) plus `pointer-events-auto`; override or
   extend it with `className`.
 
+The same pattern serves both ring sizes — typography scales down with the ring,
+though the `sm` center's available width is tight enough that a trailing icon
+rarely fits.
+
 <Canvas of={DonutChartStories.WithCenter} />
 
-The same pattern applies at the smaller `sm` ring size, where the center's
-available width is tighter.
-
-<Canvas of={DonutChartStories.WithCenterSmall} />
+### Clickable center
 
 To make the whole active block clickable (with chevron hover following block
 hover), wrap `renderCenterActive` in a `group` button and keep the trailing
-chevron decorative (`aria-hidden`) — see `WithCenterClickable`.
+chevron decorative (`aria-hidden`).
 
 <Canvas of={DonutChartStories.WithCenterClickable} />
+
+## Preparing the series
+
+`DonutChart` renders exactly the series it receives — it never reorders or
+condenses on its own. The `useDonutSeries` hook prepares a raw series for the
+ring:
+
+- **Sorting** — orders segments by `value` descending, so the largest segment
+  starts at 12 o'clock. Sorting always applies, including when grouping is off.
+- **Grouping** — folds the long tail into a single "Other" segment, keeping the
+  segments that are both within the top `maxSegments` and at or above
+  `groupBelowShare`
+  (a fraction of the total, so `0.04` for 4%). A tail of a single segment is left
+  alone, since an "Other" worth exactly that one segment says less than the
+  segment itself.
+
+It returns `segments` (chart-ready, with `other` appended) and `others` (the raw
+segments that were folded in, handy for a "+N more" legend). Only `other.label`
+is required — every other option defaults, so the example below relies on the
+defaults alone. Use `prepareDonutSeries` for the same logic outside a component.
+
+<Canvas of={DonutChartStories.WithPreparedSeries} />
+
+```tsx
+type DonutSeriesOptions = {
+  /** Max segments kept before the tail is grouped; `0` disables grouping. @default 7 */
+  maxSegments?: number;
+  /** Fold segments below this fraction of the total into `other` (`0.04` = 4%); `0` groups nothing. @default 0 */
+  groupBelowShare?: number;
+  /** Shape of the aggregate segment; its `value` is always computed. */
+  other: {
+    label: string;
+    /** @default 'other' */
+    id?: string;
+    /** Optional; defaults to the chart's neutral segment color. */
+    color?: string;
+  };
+};
+
+type DonutSeriesResult = {
+  /** Top segments plus the appended `other` segment; chart-ready. */
+  segments: DonutSegment[];
+  /** The raw segments folded into `other`. */
+  others: DonutSegment[];
+};
+
+const { segments, others } = useDonutSeries(series, {
+  other: { label: 'Other' },
+});
+
+<DonutChart series={segments} />;
+```
 
 ## Props
 

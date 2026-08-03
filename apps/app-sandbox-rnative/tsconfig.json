@@ -3,13 +3,20 @@
   "files": [],
   "references": [
     {
+      "path": "../../libs/utils-shared"
+    },
+    {
+      "path": "../../libs/ui-rnative-visualization"
+    },
+    {
+      "path": "../../libs/ui-rnative"
+    },
+    {
+      "path": "../../libs/design-core"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }

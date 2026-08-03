@@ -20,6 +20,18 @@ export type DonutArc = {
 export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
   Math.max(0, geometry.innerRadius * 2 - DONUT_CENTER.contentInset);
 
+/** Round a percent to at most 1 decimal. */
+export const roundPercent = (percent: number): number =>
+  Math.round(percent * 10) / 10;
+
+/**
+ * Display-ready percent, e.g. `7%` or `7.3%`. Rounding here keeps float
+ * artifacts — `7 / 100 * 100` is `7.000000000000001` — out of labels while
+ * leaving the exact `percent` intact for consumers who compute with it.
+ */
+export const formatPercentLabel = (percent: number): string =>
+  `${roundPercent(percent)}%`;
+
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {
   const total = series.reduce((sum, s) => sum + Math.max(s.value, 0), 0);
@@ -113,10 +125,10 @@ const normalizeAngle = (angle: number): number =>
   angle < 0 ? angle + 2 * Math.PI : angle;
 
 /**
- * Snap a near-half-circle slice to exactly `π`. d3-shape squares the corners of
- * a slice spanning a hair under `π` (its parallel edges never meet) but rounds
- * one landing exactly on `π`, so two equal slices end up mismatched. The nudge
- * is sub-pixel and never fires for real sub-half-circle slices.
+ * Snap a near-half-circle arc to exactly `π`. d3-shape squares the corners of
+ * an arc spanning a hair under `π` (its parallel edges never meet) but rounds
+ * one landing exactly on `π`, so two equal arcs end up mismatched. The nudge
+ * is sub-pixel and never fires for real sub-half-circle arcs.
  */
 const HALF_CIRCLE_EPSILON = 1e-9;
 const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {

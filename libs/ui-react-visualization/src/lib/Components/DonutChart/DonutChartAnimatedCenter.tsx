@@ -1,14 +1,12 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { chartConfig } from '../../config';
-import type { DonutSegment } from './types';
-
-type ActiveSegment = DonutSegment & { percent: number };
+import type { DonutActiveSegment } from './types';
 
 type DonutChartAnimatedCenterProps = {
-  activeSegment: ActiveSegment | null;
+  activeSegment: DonutActiveSegment | null;
   renderResting: () => ReactNode;
-  renderActive: (segment: ActiveSegment) => ReactNode;
+  renderActive: (segment: DonutActiveSegment) => ReactNode;
 };
 
 const { centerTextTransition } = chartConfig.donut.hover;
@@ -20,7 +18,7 @@ export const DonutChartAnimatedCenter = ({
   renderActive,
 }: DonutChartAnimatedCenterProps) => {
   const [lastActiveSegment, setLastActiveSegment] =
-    useState<ActiveSegment | null>(null);
+    useState<DonutActiveSegment | null>(null);
 
   useEffect(() => {
     if (activeSegment) {

@@ -6,6 +6,7 @@ import {
   DonutChartCenter,
   DonutChartDescription,
   DonutChartTitle,
+  useDonutSeries,
   type DonutSegment,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
 import { type ReactNode, useState } from 'react';
@@ -14,6 +15,7 @@ import { Pressable } from 'react-native';
 export default function DonutCharts() {
   const { theme } = useTheme();
   const cryptoSegments = getCryptoSegments(theme.colors.crypto);
+  const manyCryptoSegments = getManyCryptoSegments(theme.colors.crypto);
   const segmentPalette = getSegmentPalette(theme.colors.crypto);
 
   return (
@@ -29,6 +31,7 @@ export default function DonutCharts() {
       <WithCenter segments={cryptoSegments} />
       <WithCenterSmall segments={cryptoSegments} />
       <WithCenterClickable segments={cryptoSegments} />
+      <WithPreparedSeries segments={manyCryptoSegments} />
       <Basic segments={cryptoSegments} />
       <Sizes segments={cryptoSegments} />
       <DefaultColors />
@@ -46,6 +49,22 @@ const getCryptoSegments = (crypto: Record<string, string>): DonutSegment[] => [
   { id: 'bitcoin', label: 'Bitcoin', value: 45, color: crypto.bitcoin },
   { id: 'ethereum', label: 'Ethereum', value: 30, color: crypto.ethereum },
   { id: 'tether', label: 'Tether', value: 25, color: crypto.tetherUsdt },
+];
+
+const getManyCryptoSegments = (
+  crypto: Record<string, string>,
+): DonutSegment[] => [
+  { id: 'bitcoin', label: 'Bitcoin', value: 33, color: crypto.bitcoin },
+  { id: 'ethereum', label: 'Ethereum', value: 21, color: crypto.ethereum },
+  { id: 'tether', label: 'Tether', value: 11, color: crypto.tetherUsdt },
+  { id: 'binance', label: 'BNB', value: 10, color: crypto.binance },
+  { id: 'sol', label: 'Solana', value: 7, color: crypto.sol },
+  { id: 'tron', label: 'Tron', value: 6, color: crypto.tron },
+  { id: 'usdc', label: 'USDC', value: 5, color: crypto.usdc },
+  { id: 'avax', label: 'AVAX', value: 5, color: crypto.avax },
+  { id: 'xrp', label: 'XRP', value: 1 },
+  { id: 'cardano', label: 'Cardano', value: 1 },
+  { id: 'dogecoin', label: 'Dogecoin', value: 1 },
 ];
 
 const getSegmentPalette = (crypto: Record<string, string>): string[] => [
@@ -99,7 +118,9 @@ const WithCenter = ({ segments }: { segments: DonutSegment[] }) => (
       )}
       renderCenterActive={({ activeSegment }) => (
         <DonutChartCenter>
-          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartTitle size='sm'>
+            {activeSegment.percentLabel}
+          </DonutChartTitle>
           <DonutChartDescription>
             <Text
               typography='body3'
@@ -136,7 +157,9 @@ const WithCenterSmall = ({ segments }: { segments: DonutSegment[] }) => (
       )}
       renderCenterActive={({ activeSegment }) => (
         <DonutChartCenter>
-          <DonutChartTitle size='sm'>{activeSegment.percent}%</DonutChartTitle>
+          <DonutChartTitle size='sm'>
+            {activeSegment.percentLabel}
+          </DonutChartTitle>
           <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
         </DonutChartCenter>
       )}
@@ -166,7 +189,7 @@ const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
             >
               <DonutChartCenter>
                 <DonutChartTitle size='sm'>
-                  {activeSegment.percent}%
+                  {activeSegment.percentLabel}
                 </DonutChartTitle>
                 <DonutChartDescription>
                   <Text
@@ -190,6 +213,34 @@ const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
           </Text>
         )}
       </Box>
+    </Section>
+  );
+};
+
+const WithPreparedSeries = ({ segments }: { segments: DonutSegment[] }) => {
+  const { segments: prepared } = useDonutSeries(segments, {
+    other: { label: 'Other' },
+  });
+
+  return (
+    <Section title='With prepared series (sort + group long tail)'>
+      <DonutChart
+        series={prepared}
+        defaultActiveId={null}
+        renderCenter={({ series }) => (
+          <DonutChartCenter>
+            <DonutChartTitle>{series.length}</DonutChartTitle>
+          </DonutChartCenter>
+        )}
+        renderCenterActive={({ activeSegment }) => (
+          <DonutChartCenter>
+            <DonutChartTitle size='sm'>
+              {activeSegment.percentLabel}
+            </DonutChartTitle>
+            <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+          </DonutChartCenter>
+        )}
+      />
     </Section>
   );
 };

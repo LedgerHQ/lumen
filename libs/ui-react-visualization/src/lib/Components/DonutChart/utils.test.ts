@@ -6,9 +6,11 @@ import {
   buildArcs,
   buildEmptyRingPath,
   DONUT_GEOMETRY,
+  formatPercentLabel,
   getDonutViewBox,
   getSegmentPercents,
   resolveSegmentColor,
+  roundPercent,
 } from './utils';
 
 const series: DonutSegment[] = [
@@ -58,6 +60,28 @@ describe('getSegmentPercents', () => {
         { id: 'b', label: 'B', value: 10 },
       ]),
     ).toEqual([0, 100]);
+  });
+});
+
+describe('roundPercent', () => {
+  it('keeps up to 1 decimal and drops the rest', () => {
+    expect(roundPercent(7.24)).toBe(7.2);
+    expect(roundPercent(7.26)).toBe(7.3);
+  });
+
+  it('absorbs float artifacts', () => {
+    expect(roundPercent((7 / 100) * 100)).toBe(7);
+  });
+});
+
+describe('formatPercentLabel', () => {
+  it('suffixes the rounded percent', () => {
+    expect(formatPercentLabel(30)).toBe('30%');
+    expect(formatPercentLabel(7.254)).toBe('7.3%');
+  });
+
+  it('never leaks a float artifact into the label', () => {
+    expect(formatPercentLabel((7 / 100) * 100)).toBe('7%');
   });
 });
 
@@ -145,7 +169,7 @@ describe('buildArcs', () => {
     });
   });
 
-  it("pushes the first slice radially upward from 12 o'clock", () => {
+  it("pushes the first segment radially upward from 12 o'clock", () => {
     const [first] = buildArcs(
       [
         { id: 'a', label: 'A', value: 1 },

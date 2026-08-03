@@ -122,6 +122,19 @@ export const chartConfig = {
     defaultSegmentColor: cssVar('var(--background-muted-strong)'),
     emptyRingColor: cssVar('var(--background-muted)'),
     centerContentInset: 8,
+    /** Defaults applied by `useDonutSeries` when preparing a raw series. */
+    series: {
+      maxSegments: 7,
+      otherId: 'other',
+      /** A tail shorter than this is kept as-is rather than folded into `other`. */
+      minGroupedSegments: 2,
+      /**
+       * Floor on the segments kept before the tail, so an out-of-range
+       * `groupBelowShare` (`1`, or `4` misread as "4%") can never fold the
+       * whole series away.
+       */
+      minKeptSegments: 1,
+    },
     hover: {
       dimOpacity: 0.3,
       opacityTransition: 'opacity 150ms ease',
