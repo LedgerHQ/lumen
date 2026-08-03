@@ -1,0 +1,16 @@
+/*
+ * Registers Lumen's compiled components as a Tailwind source.
+ *
+ * Tailwind only emits a utility it has actually seen in a scanned file, and it
+ * skips gitignored paths (node_modules) during automatic detection. Consumers
+ * therefore used to copy a `./node_modules/@ledgerhq/lumen-ui-react/dist/lib/**`
+ * glob into their own config, which turned our build layout into a de-facto
+ * public API: renaming a folder here silently dropped utilities from their CSS,
+ * with no build error.
+ *
+ * `@source` paths resolve relative to the stylesheet that declares them, so the
+ * glob lives next to the layout it describes. Consumers only ever hold the
+ * stable `@ledgerhq/lumen-ui-react/tailwind.css` specifier — restructuring
+ * `dist` becomes a one-line change here instead of a breaking change for them.
+ */
+@source "./dist/lib";

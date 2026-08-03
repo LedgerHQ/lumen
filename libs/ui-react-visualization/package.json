@@ -16,6 +16,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
+    "./tailwind.css": "./tailwind.css",
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
@@ -24,6 +25,7 @@
   },
   "files": [
     "dist",
+    "tailwind.css",
     "!**/*.tsbuildinfo"
   ],
   "nx": {
