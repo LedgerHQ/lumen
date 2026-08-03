@@ -130,9 +130,10 @@ ring:
 - **Sorting** — orders segments by `value` descending, so the largest slice
   starts at 12 o'clock. Sorting always applies, including when grouping is off.
 - **Grouping** — folds the long tail into a single "Other" slice, keeping the
-  top `maxSegments` and, optionally, anything at or above `minShare`. A tail of
-  a single segment is left alone, since an "Other" slice worth exactly that one
-  segment says less than the segment itself.
+  segments that are both within the top `maxSegments` and at or above `minShare`
+  (a fraction of the total, so `0.04` for 4%). A tail of a single segment is left
+  alone, since an "Other" slice worth exactly that one segment says less than the
+  segment itself.
 
 It returns `segments` (chart-ready, with `other` appended) and `others` (the raw
 segments that were folded in, handy for a "+N more" legend). Only `other.label`
@@ -143,9 +144,9 @@ defaults alone. Use `prepareDonutSeries` for the same logic outside a component.
 
 ```tsx
 type DonutSeriesOptions = {
-  /** Top N slices kept before the tail is grouped; `0` disables grouping. @default 7 */
+  /** Max slices kept before the tail is grouped; `0` disables grouping. @default 7 */
   maxSegments?: number;
-  /** Fold segments below this share of the total into `other`; `0` = no minimum. @default 0 */
+  /** Fold segments below this fraction of the total into `other` (`0.04` = 4%); `0` = no minimum. @default 0 */
   minShare?: number;
   /** Shape of the aggregate slice; its `value` is always computed. */
   other: {

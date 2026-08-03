@@ -186,6 +186,86 @@ describe('useDonutSeries', () => {
       description:
         'group segments that are above the minShare, if the custom maxSegments is exceeded',
     },
+    {
+      segments: [
+        { id: 'a', label: 'a', value: 10 },
+        { id: 'b', label: 'b', value: 10 },
+        { id: 'c', label: 'c', value: 10 },
+        { id: 'd', label: 'd', value: 10 },
+        { id: 'e', label: 'e', value: 10 },
+        { id: 'f', label: 'f', value: 10 },
+        { id: 'g', label: 'g', value: 10 },
+        { id: 'h', label: 'h', value: 10 },
+      ],
+      opts: {
+        other: { id: 'other', label: 'Other' },
+      },
+      expected: {
+        segments: [
+          { id: 'a', label: 'a', value: 10 },
+          { id: 'b', label: 'b', value: 10 },
+          { id: 'c', label: 'c', value: 10 },
+          { id: 'd', label: 'd', value: 10 },
+          { id: 'e', label: 'e', value: 10 },
+          { id: 'f', label: 'f', value: 10 },
+          { id: 'g', label: 'g', value: 10 },
+          { id: 'h', label: 'h', value: 10 },
+        ],
+        others: [],
+      },
+      description:
+        'keep a one-segment tail as-is, exceeding maxSegments by one, rather than aggregate it',
+    },
+    {
+      segments: [
+        { id: 'a', label: 'a', value: 50 },
+        { id: 'b', label: 'b', value: 25 },
+        { id: 'c', label: 'c', value: 20 },
+        { id: 'd', label: 'd', value: 5 },
+      ],
+      opts: {
+        minShare: 0.06,
+        other: { id: 'other', label: 'Other' },
+      },
+      expected: {
+        segments: [
+          { id: 'a', label: 'a', value: 50 },
+          { id: 'b', label: 'b', value: 25 },
+          { id: 'c', label: 'c', value: 20 },
+          { id: 'd', label: 'd', value: 5 },
+        ],
+        others: [],
+      },
+      description:
+        'keep a lone segment below minShare as-is rather than aggregate it',
+    },
+    {
+      segments: [
+        { id: 'a', label: 'a', value: 40 },
+        { id: 'b', label: 'b', value: 30 },
+        { id: 'c', label: 'c', value: 30 },
+      ],
+      opts: {
+        minShare: 1,
+        other: { id: 'other', label: 'Other' },
+      },
+      expected: {
+        segments: [
+          { id: 'a', label: 'a', value: 40 },
+          {
+            id: 'other',
+            label: 'Other',
+            value: 60,
+          },
+        ],
+        others: [
+          { id: 'b', label: 'b', value: 30 },
+          { id: 'c', label: 'c', value: 30 },
+        ],
+      },
+      description:
+        'keep the top segment when minShare is out of range, instead of collapsing to a single aggregate',
+    },
   ])('should $description', ({ segments, opts, expected }) => {
     const { result } = renderHook(() => useDonutSeries(segments, opts));
     expect(result.current).toEqual(expected);

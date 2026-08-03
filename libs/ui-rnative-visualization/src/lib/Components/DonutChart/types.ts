@@ -48,13 +48,17 @@ export type DonutActiveSegment = DonutSegment & {
 /** How `useDonutSeries` folds a raw series' long tail into a single slice. */
 export type DonutSeriesOptions = {
   /**
-   * Segments below this share of total will be grouped into the "other" segment.
-   * `0` means no minimum.
+   * Segments below this share of the total are grouped into the "other" segment.
+   * A fraction of the total, not a percentage: pass `0.04` for 4%. `0` means no
+   * minimum. The top segment is always kept, so `1` or above groups everything
+   * but the largest rather than collapsing the chart.
    * @default 0
    */
   minShare?: number;
   /**
-   * Max segments kept before the tail is grouped; `0` disables grouping.
+   * Max segments kept before the tail is grouped; `0` disables grouping. A soft
+   * cap: a tail of a single segment is kept as-is, so the result can hold
+   * `maxSegments + 1` slices.
    * @default 7
    */
   maxSegments?: number;

@@ -10,6 +10,7 @@ const {
   maxSegments: defaultMaxSegments,
   otherId: defaultOtherId,
   minGroupedSegments,
+  minKeptSegments,
 } = chartConfig.donut.series;
 
 /** Total of the drawable values, matching how the ring computes its percents. */
@@ -20,6 +21,9 @@ const getTotal = (segments: DonutSegment[]): number =>
  * Where the tail starts in a descending-sorted series: the first segment below
  * `minShare` of the total, capped by `maxSegments`. Both cutoffs are monotonic
  * on a sorted series, so a single index splits kept slices from the tail.
+ *
+ * Floored at `minKeptSegments`: a `minShare` of `1` or above puts every segment
+ * in the tail, and a lone aggregate slice worth 100% is not a chart.
  */
 const getTailStart = (
   sorted: DonutSegment[],
@@ -33,15 +37,20 @@ const getTailStart = (
       ? sorted.findIndex((segment) => Math.max(segment.value, 0) < minValue)
       : -1;
 
-  return Math.min(
-    maxSegments,
-    firstBelowMinShare === -1 ? sorted.length : firstBelowMinShare,
+  return Math.max(
+    minKeptSegments,
+    Math.min(
+      maxSegments,
+      firstBelowMinShare === -1 ? sorted.length : firstBelowMinShare,
+    ),
   );
 };
 
 /**
  * Sorts a raw series by value descending and folds its long tail into a single
- * aggregate segment. Pure counterpart of `useDonutSeries`.
+ * aggregate segment. Pure counterpart of `useDonutSeries`. The aggregate keeps
+ * its color unset unless `other.color` is given, so the ring paints it with the
+ * neutral default like any colorless segment.
  */
 export const prepareDonutSeries = (
   segments: DonutSegment[],
