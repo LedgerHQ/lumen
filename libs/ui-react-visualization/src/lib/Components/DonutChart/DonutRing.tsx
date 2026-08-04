@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { chartConfig } from '../../config';
 
+import { useDonutRevealAnimation } from './hooks/useDonutRevealAnimation';
 import type { DonutArc, DonutGeometry } from './types';
 import { buildEmptyRingPath, getDonutViewBox } from './utils';
 
@@ -79,31 +80,35 @@ export const DonutRing = ({
   const { box } = geometry;
   const center = box / 2;
   const hasSegments = arcs.length > 0;
+  useDonutRevealAnimation();
 
   return (
-    <svg
-      data-testid='donut-ring'
-      width={box}
-      height={box}
-      viewBox={getDonutViewBox(geometry)}
-      role={hasSegments ? 'group' : 'img'}
-      aria-label={ariaLabel}
-      style={{ display: 'block', overflow: 'visible' }}
-    >
-      <g transform={`translate(${center}, ${center})`}>
-        {hasSegments ? (
-          arcs.map((segment) => (
-            <RingSegment
-              key={segment.id}
-              segment={segment}
-              activeId={activeId}
-              onSegmentEnter={onSegmentEnter}
-            />
-          ))
-        ) : (
-          <EmptyRing geometry={geometry} />
-        )}
-      </g>
-    </svg>
+    // eslint-disable-next-line better-tailwindcss/no-unknown-classes
+    <div className='donut-ring-reveal'>
+      <svg
+        data-testid='donut-ring'
+        width={box}
+        height={box}
+        viewBox={getDonutViewBox(geometry)}
+        role={hasSegments ? 'group' : 'img'}
+        aria-label={ariaLabel}
+        style={{ display: 'block', overflow: 'visible' }}
+      >
+        <g transform={`translate(${center}, ${center})`}>
+          {hasSegments ? (
+            arcs.map((segment) => (
+              <RingSegment
+                key={segment.id}
+                segment={segment}
+                activeId={activeId}
+                onSegmentEnter={onSegmentEnter}
+              />
+            ))
+          ) : (
+            <EmptyRing geometry={geometry} />
+          )}
+        </g>
+      </svg>
+    </div>
   );
 };
