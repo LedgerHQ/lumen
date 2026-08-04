@@ -16,8 +16,8 @@ const REVEAL_CSS = `
   }
   @media (prefers-reduced-motion: no-preference) {
     .donut-ring-reveal {
-      mask-image: conic-gradient(from -0deg, black var(--donut-reveal), transparent var(--donut-reveal));
-      animation: donut-reveal 600ms ease-out forwards;
+      mask-image: conic-gradient(from 0deg, black var(--donut-reveal), transparent var(--donut-reveal));
+      animation: donut-reveal 1000ms ease-out forwards;
     }
   }
 `;
