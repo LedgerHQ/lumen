@@ -4,9 +4,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { G, Path, Svg } from 'react-native-svg';
+import { ClipPath, Defs, G, Path, Svg } from 'react-native-svg';
 
 import {
+  chartConfig,
   DONUT_INTERACTION,
   useChartTokens,
   type DonutGeometry,
@@ -102,8 +103,30 @@ export const DonutRing = ({
 }: DonutRingProps) => {
   const tokens = useChartTokens();
   const { box } = geometry;
-  const center = box / 2;
+  const R = box / 2;
   const hasSegments = arcs.length > 0;
+
+  const revealProgress = useSharedValue(0);
+
+  useEffect(() => {
+    revealProgress.value = withTiming(1, {
+      duration: chartConfig.donut.reveal.durationMs,
+    });
+  }, [revealProgress]);
+
+  const clipPathProps = useAnimatedProps(() => {
+    // full circle, don't clip anything
+    if (revealProgress.value >= 1) {
+      return { d: `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z` };
+    }
+    const angle = revealProgress.value * 2 * Math.PI; // convert 0-1 to radians (0-2pi)
+    const x = R * Math.sin(angle);
+    const y = -R * Math.cos(angle); // -R because of 12 o'clock
+
+    // large-arc-flag, so SVG draws the outer arc instead of inner at >0.5 progress (>180 deg)
+    const largeArc = revealProgress.value > 0.5 ? 1 : 0;
+    return { d: `M0,0 L0,-${R} A${R},${R} 0 ${largeArc} 1 ${x},${y} Z` };
+  });
 
   return (
     <Svg
@@ -114,7 +137,12 @@ export const DonutRing = ({
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
     >
-      <G transform={`translate(${center}, ${center})`}>
+      <Defs>
+        <ClipPath id='donut-reveal-clip'>
+          <AnimatedPath animatedProps={clipPathProps} />
+        </ClipPath>
+      </Defs>
+      <G transform={`translate(${R}, ${R})`} clipPath='url(#donut-reveal-clip)'>
         {hasSegments ? (
           arcs.map((segment) => (
             <RingSegment
