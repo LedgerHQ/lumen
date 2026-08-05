@@ -1,3 +1,4 @@
+import { RuntimeConstants } from '@ledgerhq/lumen-ui-rnative';
 import { useEffect } from 'react';
 import Animated, {
   useAnimatedProps,
@@ -108,16 +109,17 @@ export const DonutRing = ({
   const hasSegments = arcs.length > 0;
 
   const isReducedMotion = useReducedMotion();
-  const revealProgress = useSharedValue(isReducedMotion ? 1 : 0);
+  const skipReveal = isReducedMotion || RuntimeConstants.isAndroid;
+  const revealProgress = useSharedValue(skipReveal ? 1 : 0);
 
   useEffect(() => {
-    if (isReducedMotion) {
+    if (skipReveal) {
       return;
     }
     revealProgress.value = withTiming(1, {
       duration: chartConfig.donut.reveal.durationMs,
     });
-  }, [isReducedMotion, revealProgress]);
+  }, [skipReveal, revealProgress]);
 
   const clipPathProps = useAnimatedProps(() => {
     // full circle, don't clip anything
