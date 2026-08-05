@@ -22,7 +22,13 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 
 ### Tailwind Configuration (REQUIRED)
 
-- Tailwind config MUST include Lumen in content array: `'./node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}'`
+- Check the installed Tailwind major version first — the two paths differ:
+- **Tailwind v4 (recommended):** the main stylesheet MUST import Lumen's
+  stylesheet so Tailwind scans the compiled components:
+  `@import '@ledgerhq/lumen-ui-react/tailwind.css';` (add
+  `@import '@ledgerhq/lumen-ui-react-visualization/tailwind.css';` when using
+  charts). Do NOT also add `./node_modules/@ledgerhq/lumen-ui-react/dist/**` to
+  the `content` array — that path is internal and may change in any release.
 - Always use a preset from `@ledgerhq/lumen-design-core`: ledgerLivePreset, enterprisePreset or websitesPreset
 - Import presets: `import { ledgerLivePreset } from '@ledgerhq/lumen-design-core'`
 

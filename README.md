@@ -24,15 +24,24 @@ npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core clsx tailwind-m
 
 2. Configure Tailwind:
 
+In your main stylesheet, import Lumen's stylesheet alongside Tailwind. It
+registers Lumen's compiled components as a Tailwind source, so the utilities our
+components rely on end up in your CSS:
+
+```css
+@import 'tailwindcss';
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+@config '../tailwind.config.ts';
+```
+
+Then point your config at your own files and add the preset:
+
 ```typescript
 import type { Config } from 'tailwindcss';
 import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
 
 const config = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}', // Your project's files
-    './node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}', // Ledger UI Kit components
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Your project's files
   presets: [ledgerLivePreset], // the installed tailwind preset
 } satisfies Config;
 
