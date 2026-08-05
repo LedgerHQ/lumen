@@ -15,6 +15,12 @@ const sampleSeries: DonutSegment[] = [
   { id: 'tether', label: 'Tether', value: 20 },
 ];
 
+const hasLoadingWaveStyle = (container: HTMLElement): boolean => {
+  return Array.from(container.querySelectorAll('style')).some((styleEl) =>
+    styleEl.textContent?.includes('donut-loading-wave'),
+  );
+};
+
 describe('DonutChart', () => {
   it('renders the ring', () => {
     const { getByTestId } = render(<DonutChart series={sampleSeries} />);
@@ -102,18 +108,44 @@ describe('DonutChart', () => {
       ).toHaveLength(7);
     });
 
+    it('injects a keyframe style and animates the placeholder paths while loading', () => {
+      const { getByTestId, container } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      getByTestId('donut-loading');
+      expect(hasLoadingWaveStyle(container)).toBe(true);
+
+      const paths = getByTestId('donut-loading').querySelectorAll('path');
+      expect(paths.length).toBeGreaterThan(0);
+      paths.forEach((path) => {
+        expect(path.getAttribute('style')).toContain('animation');
+      });
+    });
+
+    it('does not inject a loading style when not loading', () => {
+      const { getByTestId, container } = render(<DonutChart series={[]} />);
+
+      getByTestId('donut-empty');
+      expect(hasLoadingWaveStyle(container)).toBe(false);
+
+      getByTestId('donut-empty')
+        .querySelectorAll('path')
+        .forEach((path) => {
+          expect(path.getAttribute('style') ?? '').not.toContain('animation');
+        });
+    });
+
     it('sets aria-busy and the loading aria label on the ring', () => {
       const { getByTestId } = render(
-        <DonutChart
-          series={sampleSeries}
-          loading
-          loadingAriaLabel='Chargement du graphique'
-        />,
+        <DonutChart series={sampleSeries} loading />,
       );
 
       const ring = getByTestId('donut-ring');
       expect(ring.getAttribute('aria-busy')).toBe('true');
-      expect(ring.getAttribute('aria-label')).toBe('Chargement du graphique');
+      expect(ring.getAttribute('aria-label')).toBe(
+        chartConfig.donut.loadingAriaLabel,
+      );
     });
   });
 

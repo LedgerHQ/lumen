@@ -130,12 +130,6 @@ export type DonutChartProps = {
    * @default false
    */
   loading?: boolean;
-  /**
-   * Accessible label for the loading placeholder ring. Pass a translated string
-   * from the consuming app when needed.
-   * @default 'Loading donut chart'
-   */
-  loadingAriaLabel?: string;
   /** Controlled active segment id. Active is data-driven, not a state variant. */
   activeId?: string | null;
   /**

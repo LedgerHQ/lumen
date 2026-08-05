@@ -18,7 +18,6 @@ export function DonutChart({
   size = 'md',
   ariaLabel = 'Donut chart',
   loading = false,
-  loadingAriaLabel = chartConfig.donut.loadingAriaLabel,
   activeId: activeIdProp,
   defaultActiveId = null,
   onActiveIdChange,
@@ -82,7 +81,7 @@ export function DonutChart({
       <DonutRing
         arcs={arcs}
         geometry={geometry}
-        ariaLabel={loading ? loadingAriaLabel : ariaLabel}
+        ariaLabel={loading ? chartConfig.donut.loadingAriaLabel : ariaLabel}
         activeId={activeId}
         loading={loading}
         onSegmentEnter={setActiveId}
