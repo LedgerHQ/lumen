@@ -238,17 +238,18 @@ export const ledgerLiveLightColorTokens = {
     gradient70: primitiveColorTokens.light.grey['950-70'],
     gradient40: primitiveColorTokens.light.grey['050-40'], // Added missing token from CSS (uses light grey 050)
     gradient30: primitiveColorTokens.light.grey['050-30'], // Added missing token from CSS (uses light grey 050)
+    gradient10: primitiveColorTokens.light.grey['050-10'],
     gradient0: primitiveColorTokens.light.grey['950-0'],
     gradientOverlay80: primitiveColorTokens.light.grey['950-80'], // Added missing token from CSS
     gradientOverlay0: primitiveColorTokens.light.grey['950-0'], // Added missing token from CSS
-    avatarBlue: primitiveColorTokens.light.avatar.blue,
-    avatarPink: primitiveColorTokens.light.avatar.pink,
-    avatarTurquoise: primitiveColorTokens.light.avatar.turquoise,
-    avatarYellow: primitiveColorTokens.light.avatar.yellow,
-    avatarOrange: primitiveColorTokens.light.avatar.orange,
-    avatarRed: primitiveColorTokens.light.avatar.red,
-    avatarGreen: primitiveColorTokens.light.avatar.green,
-    avatarPurple: primitiveColorTokens.light.avatar.purple,
+    decorativeBlue: primitiveColorTokens.light.decorative.blue,
+    decorativePink: primitiveColorTokens.light.decorative.pink,
+    decorativeTurquoise: primitiveColorTokens.light.decorative.turquoise,
+    decorativeYellow: primitiveColorTokens.light.decorative.yellow,
+    decorativeOrange: primitiveColorTokens.light.decorative.orange,
+    decorativeRed: primitiveColorTokens.light.decorative.red,
+    decorativeGreen: primitiveColorTokens.light.decorative.green,
+    decorativePurple: primitiveColorTokens.light.decorative.purple,
   },
   text: {
     black: primitiveColorTokens.light.constant['950'],

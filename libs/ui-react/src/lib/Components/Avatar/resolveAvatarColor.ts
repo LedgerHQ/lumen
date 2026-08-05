@@ -5,14 +5,14 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 
 const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, CSSVarRef> = {
-  orange: cssVar('var(--background-avatar-orange)'),
-  green: cssVar('var(--background-avatar-green)'),
-  blue: cssVar('var(--background-avatar-blue)'),
-  purple: cssVar('var(--background-avatar-purple)'),
-  red: cssVar('var(--background-avatar-red)'),
-  yellow: cssVar('var(--background-avatar-yellow)'),
-  turquoise: cssVar('var(--background-avatar-turquoise)'),
-  pink: cssVar('var(--background-avatar-pink)'),
+  orange: cssVar('var(--background-decorative-orange)'),
+  green: cssVar('var(--background-decorative-green)'),
+  blue: cssVar('var(--background-decorative-blue)'),
+  purple: cssVar('var(--background-decorative-purple)'),
+  red: cssVar('var(--background-decorative-red)'),
+  yellow: cssVar('var(--background-decorative-yellow)'),
+  turquoise: cssVar('var(--background-decorative-turquoise)'),
+  pink: cssVar('var(--background-decorative-pink)'),
 };
 
 /**
