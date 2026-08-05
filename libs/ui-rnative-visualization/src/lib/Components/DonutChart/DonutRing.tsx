@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Animated, {
   useAnimatedProps,
+  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
@@ -106,13 +107,17 @@ export const DonutRing = ({
   const R = box / 2;
   const hasSegments = arcs.length > 0;
 
-  const revealProgress = useSharedValue(0);
+  const isReducedMotion = useReducedMotion();
+  const revealProgress = useSharedValue(isReducedMotion ? 1 : 0);
 
   useEffect(() => {
+    if (isReducedMotion) {
+      return;
+    }
     revealProgress.value = withTiming(1, {
       duration: chartConfig.donut.reveal.durationMs,
     });
-  }, [revealProgress]);
+  }, [isReducedMotion, revealProgress]);
 
   const clipPathProps = useAnimatedProps(() => {
     // full circle, don't clip anything
