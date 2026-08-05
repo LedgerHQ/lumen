@@ -49,6 +49,7 @@ export const chartConfig = {
     overlayLineInset: 0.5,
     overlayOpacity: 0.8,
     lineGradientEdgeOpacity: 0.1,
+    defaultMagnetRadius: 6,
   },
 
   tooltip: {

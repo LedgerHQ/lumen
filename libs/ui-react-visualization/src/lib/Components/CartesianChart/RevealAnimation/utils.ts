@@ -106,10 +106,15 @@ const useRevealClipPathAnimation = ({
   );
 };
 
-export const useDataFingerprint = ({
-  series,
-}: {
-  series: Series[];
-}): string => {
-  return series.map((s) => s.data?.join(',') ?? '').join('|');
+/**
+ * Stable signature of every series' data points, memoized on the `series`
+ * reference. Used to key the reveal provider so the reveal animation only
+ * replays when the underlying data actually changes — not on unrelated
+ * re-renders such as scrubbing or hover.
+ */
+export const useDataFingerprint = (series: Series[]): string => {
+  return useMemo(
+    () => series.map((s) => s.data?.join(',') ?? '').join('|'),
+    [series],
+  );
 };
