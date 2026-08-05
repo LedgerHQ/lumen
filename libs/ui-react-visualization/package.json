@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-react-visualization",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "license": "Apache-2.0",
   "sideEffects": false,
   "keywords": [
@@ -35,8 +35,8 @@
     ]
   },
   "peerDependencies": {
-    "@ledgerhq/lumen-design-core": "0.1.23",
-    "@ledgerhq/lumen-ui-react": "0.1.50",
+    "@ledgerhq/lumen-design-core": "0.1.24",
+    "@ledgerhq/lumen-ui-react": "0.1.51",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "react": "^18.0.0 || ^19.0.0",
