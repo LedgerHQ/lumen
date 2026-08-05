@@ -310,7 +310,7 @@ export const primitiveColorTokens = {
       juno: '#4643ee',
       sardine: '#2d29d7',
     },
-    avatar: {
+    decorative: {
       orange: '#f8b89b',
       green: '#aed09c',
       blue: '#afc6fe',
@@ -632,7 +632,7 @@ export const primitiveColorTokens = {
       zerion: '#2962ef',
       bitrefill: '#449bf7',
     },
-    avatar: {
+    decorative: {
       orange: '#f8b89b',
       green: '#aed09c',
       blue: '#afc6fe',

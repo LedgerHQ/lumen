@@ -6,7 +6,7 @@ import {
 
 // either light or dark works, they're the same regardless of theme
 const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, string> =
-  primitiveColorTokens.light.avatar;
+  primitiveColorTokens.light.decorative;
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
