@@ -68,7 +68,7 @@ function hslToHex(hsl: HslValue): string {
 export function getContrastSafeColor(
   color: string,
   bgColor?: string,
-  threshold = 20,
+  threshold = 15,
 ): string {
   // TODO: we might want to default this to bg-surface or similar bg
   if (!bgColor) {
@@ -88,8 +88,8 @@ export function getContrastSafeColor(
   const needed = threshold - delta;
   fg.l =
     bg.l < 50
-      ? Math.max(0, fg.l - needed) // darken
-      : Math.min(100, fg.l + needed); // lighten
+      ? Math.min(100, fg.l + needed) // lighten
+      : Math.max(0, fg.l - needed); // darken
 
   return hslToHex(fg);
 }

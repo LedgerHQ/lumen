@@ -38,13 +38,17 @@ export function DonutChart({
     onChange: onActiveIdChange,
   });
 
-  const series = seriesProp.map((s) => ({
-    ...s,
-    ...(s.color &&
-      ensureColorContrast && {
-        color: getContrastSafeColor(s.color, theme.colors.bg.base),
-      }),
-  }));
+  const series = useMemo(
+    () =>
+      seriesProp.map((s) => ({
+        ...s,
+        ...(s.color &&
+          ensureColorContrast && {
+            color: getContrastSafeColor(s.color, theme.colors.bg.base),
+          }),
+      })),
+    [seriesProp, ensureColorContrast, theme.colors.bg.base],
+  );
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
 
