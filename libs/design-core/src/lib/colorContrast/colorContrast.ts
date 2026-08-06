@@ -48,8 +48,48 @@ function hexToHsl(hex: string): HslValue {
   return { h, s, l };
 }
 
+function hslToHex(hsl: HslValue): string {
+  const { h, s, l } = hsl;
+
+  const hDecimal = l / 100;
+  const a = (s * Math.min(hDecimal, 1 - hDecimal)) / 100;
+
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const color = hDecimal - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, '0'); // prefix hex with '0' if needed
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
 export function resolveColorContrast(
   color: string,
   bgColor?: string,
   threshold = 20,
-): string {}
+): string {
+  // TODO: we might want to default this to bg-surface or similar bg
+  if (!bgColor) {
+    return color;
+  }
+
+  const fg = hexToHsl(color);
+  const bg = hexToHsl(bgColor);
+
+  const delta = Math.abs(fg.l - bg.l);
+
+  // compare lightness values of bg and fg
+  if (delta >= threshold) {
+    return color; // already distinct enough
+  }
+
+  const needed = threshold - delta;
+  fg.l =
+    bg.l < 50
+      ? Math.max(0, fg.l - needed) // darken
+      : Math.min(100, fg.l + needed); // lighten
+
+  return hslToHex(fg);
+}
