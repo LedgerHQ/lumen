@@ -27,7 +27,7 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
-  ensureColorContrast,
+  ensureColorContrast = false,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
   const { theme } = useTheme();

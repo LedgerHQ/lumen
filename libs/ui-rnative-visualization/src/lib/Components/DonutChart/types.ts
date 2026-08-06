@@ -109,7 +109,12 @@ export type DonutChartProps = {
    */
   defaultActiveId?: string | null;
   /**
+   * When `true`, each segment's `color` is nudged so its HSL lightness differs
+   * from the surface background by at least 20 units.
    *
+   * Colors that already meet that minimum are left untouched. Useful when the
+   * segment palette includes colors that are close in lightness to the app background.
+   * @default false
    */
   ensureColorContrast?: boolean;
   /**
