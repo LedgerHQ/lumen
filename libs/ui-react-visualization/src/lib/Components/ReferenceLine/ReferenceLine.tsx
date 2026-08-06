@@ -3,7 +3,7 @@ import { chartConfig } from '../../config';
 import type { ReferenceLineProps } from './types';
 import { useReferenceLineGeometry } from './useReferenceLineGeometry';
 
-const { color, font, referenceLine } = chartConfig;
+const { color, font, referenceLine, strokeWidth } = chartConfig;
 
 const labelStyle = {
   fill: color.textMuted,
@@ -29,7 +29,7 @@ export function ReferenceLine(props: Readonly<ReferenceLineProps>) {
         data-testid='reference-line-line'
         {...linePoints}
         stroke={stroke}
-        strokeWidth={referenceLine.strokeWidth}
+        strokeWidth={strokeWidth.line}
         strokeDasharray={dashArray}
         strokeLinecap='round'
       />

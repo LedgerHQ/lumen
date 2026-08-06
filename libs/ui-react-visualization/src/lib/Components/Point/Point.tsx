@@ -47,7 +47,7 @@ function PointMarker({ x, y, size, color }: Readonly<PointMarkerProps>) {
         fill,
         stroke: chartConfig.color.markOutline,
       }}
-      strokeWidth={chartConfig.point.strokeWidth}
+      strokeWidth={chartConfig.strokeWidth.line}
     />
   );
 }

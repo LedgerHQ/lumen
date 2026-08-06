@@ -32,7 +32,9 @@ export type BaseAxisProps = {
   showLabels?: boolean;
   /**
    * Explicit tick positions along the axis.
-   * When omitted, ticks are computed automatically from the scale.
+   * When omitted, ticks are computed automatically from the scale. An empty
+   * array is honoured literally and renders no ticks — to keep ticks while
+   * hiding their marks or labels, use `showTickMark` / `showLabels` instead.
    */
   ticks?: number[];
   /**
@@ -64,13 +66,13 @@ export type BaseAxisProps = {
    * Round the domain outward to clean boundaries via d3's `.nice()`
    * (e.g. `[4, 98]` becomes `[0, 100]`).
    *
-   * Defaults to `true` for Y Axis and `false` for X Axis.
+   * Defaults to `true` in `CartesianChart`. `LineChart` overrides this per axis,
+   * defaulting to `false` for the X axis and `true` for the Y axis.
    *
-   * Set to `false` to keep the domain exactly as provided
-   * so data fills the plot area boundary-to-boundary — typically only useful
-   * when you also pass a full `domain: { min, max }` and don't have overlays
-   * (reference lines, scrubber positions, annotations) that may sit outside
-   * the data range.
+   * Set to `false` to keep the domain exactly as provided so data fills the plot
+   * area boundary-to-boundary — typically only useful when you also pass a full
+   * `domain: { min, max }` and don't have overlays (reference lines, scrubber
+   * positions, annotations) that may sit outside the data range.
    *
    * Applied after any {@link BaseAxisProps.domain} override.
    */

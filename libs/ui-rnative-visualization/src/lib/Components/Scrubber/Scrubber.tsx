@@ -57,7 +57,7 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
         x2={pixelX}
         y2={bottom}
         stroke={`url(#${gradientId})`}
-        strokeWidth={chartConfig.scrubber.overlayLineInset}
+        strokeWidth={tokens.stroke.hairline}
       />
     </>
   );

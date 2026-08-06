@@ -5,13 +5,14 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { chartConfig } from '../../config';
 import { clamp } from '../../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticSnapshot } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberProviderProps } from './types';
 import {
-  applyMagnetisation,
+  applyMagnetization,
   getDataIndexFromPosition,
   resolvePixelX,
   buildSortedMagnets,
@@ -41,7 +42,7 @@ export function ScrubberProvider({
   height,
   enableScrubbing,
   onScrubberPositionChange,
-  magnetRadius = 6,
+  magnetRadius = chartConfig.scrubber.defaultMagnetRadius,
   style,
 }: Readonly<ScrubberProviderProps>) {
   const [scrubberPosition, setScrubberPosition] = useState<
@@ -128,7 +129,7 @@ export function ScrubberProvider({
       );
 
       if (ref.magnetRadius > 0) {
-        index = applyMagnetisation({
+        index = applyMagnetization({
           resolvedIndex: index,
           pixelX,
           sortedMagnets: ref.sortedMagnets,

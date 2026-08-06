@@ -137,13 +137,13 @@ describe('buildTicksData', () => {
     expect(result[1].label).toBe('Tue');
   });
 
-  it('should derive ticks from numeric axis data (Base story regression)', () => {
+  it('should derive ticks from numeric axis data (no intermediate ticks)', () => {
     const result = buildTicksData(numericScale, { data: [0, 2, 4] });
     expect(result.map((t) => t.value)).toEqual([0, 2, 4]);
     expect(result.map((t) => t.label)).toEqual(['0', '2', '4']);
   });
 
-  it('should derive ticks from string axis data without intermediate values (Base2 story regression)', () => {
+  it('should derive ticks from string axis data without intermediate values', () => {
     const stringScale = getNumericScale({
       scaleType: 'linear',
       domain: { min: 0, max: 2 },

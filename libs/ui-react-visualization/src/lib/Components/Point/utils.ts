@@ -20,7 +20,7 @@ export const isWithinBounds = (
 /**
  * Builds the three SVG points of the arrow triangle.
  *
- * `'top'`  → arrow sits below the label, tip pointing **down** toward the circle.
+ * `'top'`    → arrow sits below the label, tip pointing **down** toward the circle.
  * `'bottom'` → arrow sits above the label, tip pointing **up** toward the circle.
  */
 export const buildArrowPoints = (

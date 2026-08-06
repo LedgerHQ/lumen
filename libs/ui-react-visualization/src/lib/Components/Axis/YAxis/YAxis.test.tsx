@@ -33,6 +33,12 @@ describe('YAxis', () => {
     expect(labels[2].textContent).toBe('50');
   });
 
+  it('does not render tick labels for empty ticks', () => {
+    const { getByTestId } = renderYAxis({ ticks: [] });
+    const axis = getByTestId('y-axis');
+    expect(axis.querySelectorAll('text')).toHaveLength(0);
+  });
+
   it('renders axis line when showLine is true', () => {
     const { getByTestId } = renderYAxis({ showLine: true, ticks: [] });
     const axis = getByTestId('y-axis');
