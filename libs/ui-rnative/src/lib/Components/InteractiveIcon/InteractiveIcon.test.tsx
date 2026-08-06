@@ -1,6 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen, fireEvent } from '@testing-library/react-native';
+import { View } from 'react-native';
 
 import { Settings, Plus } from '../../Symbols';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -151,6 +152,20 @@ describe('InteractiveIcon Component', () => {
     );
     const buttonElement = screen.getByTestId('custom-icon');
     expect(buttonElement.props.style).toMatchObject(customStyle);
+  });
+
+  it('should keep the rounded background view uncollapsed', () => {
+    renderWithProvider(
+      <InteractiveIcon
+        iconType='stroked'
+        icon={Settings}
+        accessibilityLabel='Stroked'
+        testID='uncollapsed-icon'
+      />,
+    );
+
+    const background = screen.getByTestId('uncollapsed-icon').findByType(View);
+    expect(background.props.collapsable).toBe(false);
   });
 
   it('should render with custom size', () => {
