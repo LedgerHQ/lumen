@@ -1,4 +1,4 @@
-import { Box, InteractiveIcon, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Button, InteractiveIcon, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import {
@@ -16,6 +16,7 @@ export default function DonutCharts() {
   const { theme } = useTheme();
   const cryptoSegments = getCryptoSegments(theme.colors.crypto);
   const manyCryptoSegments = getManyCryptoSegments(theme.colors.crypto);
+  const contrastUnsafeSegments = getContrastUnsafeSegments(theme.colors.crypto);
   const segmentPalette = getSegmentPalette(theme.colors.crypto);
 
   return (
@@ -41,6 +42,7 @@ export default function DonutCharts() {
       <DominantSegment palette={segmentPalette} />
       <NoData />
       <Controlled segments={cryptoSegments} />
+      <ContrastSafe segments={contrastUnsafeSegments} />
     </Box>
   );
 }
@@ -75,6 +77,14 @@ const getSegmentPalette = (crypto: Record<string, string>): string[] => [
   crypto.sol,
   crypto.tron,
   crypto.usdc,
+];
+
+const getContrastUnsafeSegments = (
+  crypto: Record<string, string>,
+): DonutSegment[] => [
+  { id: 'algorand', label: 'Algorand', value: 45, color: crypto.algorand },
+  { id: 'ethereum', label: 'Ethereum', value: 30, color: crypto.ethereum },
+  { id: 'tether', label: 'Tether', value: 25, color: crypto.tetherUsdt },
 ];
 
 const buildSegments = (count: number, palette: string[]): DonutSegment[] =>
@@ -343,6 +353,23 @@ const Controlled = ({ segments }: { segments: DonutSegment[] }) => {
         activeId={activeId}
         onActiveIdChange={setActiveId}
       />
+    </Section>
+  );
+};
+
+const ContrastSafe = ({ segments }: { segments: DonutSegment[] }) => {
+  const [isContrastSafe, setIsContrastSafe] = useState(false);
+
+  return (
+    <Section title='Contrast safe'>
+      <DonutChart series={segments} ensureColorContrast={isContrastSafe} />
+      <Button
+        appearance='transparent'
+        onPress={() => setIsContrastSafe((s) => !s)}
+        lx={{ marginTop: 's20' }}
+      >
+        {isContrastSafe ? 'Disable' : 'Enable'} contrast safety
+      </Button>
     </Section>
   );
 };

@@ -109,6 +109,10 @@ export type DonutChartProps = {
    */
   defaultActiveId?: string | null;
   /**
+   *
+   */
+  ensureColorContrast?: boolean;
+  /**
    * Fired when the active segment changes (tap to select, tap again to deselect).
    */
   onActiveIdChange?: (id: string | null) => void;

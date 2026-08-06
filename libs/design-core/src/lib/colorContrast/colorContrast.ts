@@ -65,7 +65,7 @@ function hslToHex(hsl: HslValue): string {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
-export function resolveColorContrast(
+export function getContrastSafeColor(
   color: string,
   bgColor?: string,
   threshold = 20,
