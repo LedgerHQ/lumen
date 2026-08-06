@@ -19,6 +19,20 @@ import { buildEmptyRingPath, type DonutArc } from './utils';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
+export function computeRevealClipPath(R: number, progress: number): string {
+  // full circle, don't clip anything
+  if (progress >= 1) {
+    return `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`;
+  }
+  const angle = progress * 2 * Math.PI; // convert 0-1 to radians (0-2pi)
+  const x = R * Math.sin(angle);
+  const y = -R * Math.cos(angle); // -R because of 12 o'clock
+
+  // large-arc-flag, so SVG draws the outer arc instead of inner at >0.5 progress (>180 deg)
+  const largeArc = progress > 0.5 ? 1 : 0;
+  return `M0,0 L0,-${R} A${R},${R} 0 ${largeArc} 1 ${x},${y} Z`;
+}
+
 type RingSegmentProps = {
   segment: DonutArc;
   defaultColor: string;
@@ -121,19 +135,9 @@ export const DonutRing = ({
     });
   }, [skipReveal, revealProgress]);
 
-  const clipPathProps = useAnimatedProps(() => {
-    // full circle, don't clip anything
-    if (revealProgress.value >= 1) {
-      return { d: `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z` };
-    }
-    const angle = revealProgress.value * 2 * Math.PI; // convert 0-1 to radians (0-2pi)
-    const x = R * Math.sin(angle);
-    const y = -R * Math.cos(angle); // -R because of 12 o'clock
-
-    // large-arc-flag, so SVG draws the outer arc instead of inner at >0.5 progress (>180 deg)
-    const largeArc = revealProgress.value > 0.5 ? 1 : 0;
-    return { d: `M0,0 L0,-${R} A${R},${R} 0 ${largeArc} 1 ${x},${y} Z` };
-  });
+  const clipPathProps = useAnimatedProps(() => ({
+    d: computeRevealClipPath(R, revealProgress.value),
+  }));
 
   return (
     <Svg
