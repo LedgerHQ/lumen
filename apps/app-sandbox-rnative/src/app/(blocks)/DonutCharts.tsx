@@ -40,6 +40,7 @@ export default function DonutCharts() {
       <SingleSegment palette={segmentPalette} />
       <DominantSegment palette={segmentPalette} />
       <NoData />
+      <Loading />
       <Controlled segments={cryptoSegments} />
     </Box>
   );
@@ -328,8 +329,17 @@ const DominantSegment = ({ palette }: { palette: string[] }) => (
 );
 
 const NoData = () => (
-  <Section title='No data (empty ring)'>
+  <Section title='No data (static placeholder ring)'>
     <DonutChart series={[]} />
+  </Section>
+);
+
+const Loading = () => (
+  <Section title='Loading (animated placeholder wave)'>
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
+      <DonutChart series={[]} loading />
+      <DonutChart series={[]} loading size='sm' />
+    </Box>
   </Section>
 );
 
