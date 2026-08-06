@@ -26,7 +26,7 @@ function hexToHsl(hex: string): HslValue {
 
   if (max === min) {
     // it's achromatic
-    return { h: 0, s: 0, l };
+    return { h: 0, s: 0, l: Math.round(l * 100) };
   }
 
   const d = max - min;
@@ -67,14 +67,9 @@ function hslToHex(hsl: HslValue): string {
 
 export function getContrastSafeColor(
   color: string,
-  bgColor?: string,
-  threshold = 15,
+  bgColor: string,
+  threshold = 20,
 ): string {
-  // TODO: we might want to default this to bg-surface or similar bg
-  if (!bgColor) {
-    return color;
-  }
-
   const fg = hexToHsl(color);
   const bg = hexToHsl(bgColor);
 
@@ -85,11 +80,11 @@ export function getContrastSafeColor(
     return color; // already distinct enough
   }
 
+  // push fg away from bg from where it already sits
+  // i.e., a fg lighter than bg gets a bit lighter (same with dark)
   const needed = threshold - delta;
   fg.l =
-    bg.l < 50
-      ? Math.min(100, fg.l + needed) // lighten
-      : Math.max(0, fg.l - needed); // darken
+    fg.l >= bg.l ? Math.min(100, fg.l + needed) : Math.max(0, fg.l - needed);
 
   return hslToHex(fg);
 }

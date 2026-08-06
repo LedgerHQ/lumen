@@ -82,9 +82,12 @@ const getSegmentPalette = (crypto: Record<string, string>): string[] => [
 const getContrastUnsafeSegments = (
   crypto: Record<string, string>,
 ): DonutSegment[] => [
-  { id: 'algorand', label: 'Algorand', value: 45, color: crypto.algorand },
-  { id: 'ethereum', label: 'Ethereum', value: 30, color: crypto.ethereum },
-  { id: 'tether', label: 'Tether', value: 25, color: crypto.tetherUsdt },
+  { id: 'stellar', label: 'Stellar', value: 15, color: crypto.algorand },
+  { id: 'aion', label: 'Aion', value: 30, color: crypto.aion },
+  { id: 'algorand', label: 'Algorand', value: 30, color: crypto.algorand },
+  { id: 'near', label: 'Near', value: 5, color: crypto.near },
+  { id: 'dym', label: 'Dymension', value: 10, color: crypto.dym },
+  { id: 'bitcoin', label: 'Bitcoin', value: 10, color: crypto.bitcoin },
 ];
 
 const buildSegments = (count: number, palette: string[]): DonutSegment[] =>
@@ -358,18 +361,19 @@ const Controlled = ({ segments }: { segments: DonutSegment[] }) => {
 };
 
 const ContrastSafe = ({ segments }: { segments: DonutSegment[] }) => {
-  const [isContrastSafe, setIsContrastSafe] = useState(false);
+  const [isContrastSafe, setIsContrastSafe] = useState(true);
 
   return (
-    <Section title='Contrast safe'>
-      <DonutChart series={segments} ensureColorContrast={isContrastSafe} />
+    <>
+      <Section title='Contrast safety'>
+        <DonutChart series={segments} ensureColorContrast={isContrastSafe} />
+      </Section>
       <Button
-        appearance='transparent'
+        appearance={isContrastSafe ? 'transparent' : 'base'}
         onPress={() => setIsContrastSafe((s) => !s)}
-        lx={{ marginTop: 's20' }}
       >
         {isContrastSafe ? 'Disable' : 'Enable'} contrast safety
       </Button>
-    </Section>
+    </>
   );
 };
