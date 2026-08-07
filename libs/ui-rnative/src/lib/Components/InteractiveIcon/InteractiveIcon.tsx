@@ -150,7 +150,10 @@ const InteractiveIconContent = ({
   const styles = useStyles({ iconType, appearance, pressed, disabled });
 
   return (
-    <View style={styles.container}>
+    // `collapsable={false}` keeps the native Android view alive: with a fully
+    // transparent resting background Fabric flattens it away, and the view
+    // recreated on press loses its border radius (facebook/react-native#52415).
+    <View style={styles.container} collapsable={false}>
       <Icon size={size} style={styles.icon} />
     </View>
   );
