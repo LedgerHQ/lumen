@@ -1,0 +1,175 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as InteractiveIconStories from './InteractiveIcon.stories';
+import { Box } from '../../primitives';
+import { InteractiveIcon } from './InteractiveIcon';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+
+<Meta title='Core/InteractiveIcon' of={InteractiveIconStories} />
+
+# InteractiveIcon
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+InteractiveIcons are specialized interactive elements designed exclusively for icon-based actions. They provide a compact way to trigger actions while maintaining clear visual hierarchy through two distinct styles optimized for different icon types.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6975-2571).
+
+## Anatomy
+
+<Canvas of={InteractiveIconStories.IconTypeShowcase} />
+
+- **Icon**: The visual representation of the action, displayed as a single icon element from the design system
+- **Container**: A circular touch target that provides the interactive area and visual feedback
+
+## Properties
+
+### Overview
+
+<Canvas of={InteractiveIconStories.Base} />
+<Controls of={InteractiveIconStories.Base} />
+
+### Icon Types
+
+InteractiveIcons come in two visual styles, each optimized for specific use cases:
+
+- **filled**: Best for filled/solid icons. Features a transparent background with colored icon that changes on interaction
+- **stroked**: Best for outlined icons. Features a subtle background that appears on press with colored icon states
+
+<Canvas of={InteractiveIconStories.IconTypeShowcase} />
+
+### Icon Sizes
+
+InteractiveIcons support various icon sizes via the `size` prop:
+
+<Canvas of={InteractiveIconStories.SizesShowcase} />
+
+Common sizes include:
+
+- **16px**: Compact actions in dense interfaces
+- **20px**: Standard size for most interactive icons (default)
+- **24px**: Prominent actions in toolbars
+- **40px**: Large touch targets for mobile interfaces
+
+### Icon States
+
+InteractiveIcons have enabled or disabled states:
+
+<Canvas of={InteractiveIconStories.StatesShowcase} />
+
+## Accessibility
+
+InteractiveIcons require special attention for accessibility since they contain only visual icons without text:
+
+### Screen Reader Support
+
+**Always provide an `accessibilityLabel` or `aria-label` prop** that clearly describes the action:
+
+```tsx
+<InteractiveIcon
+  iconType='filled'
+  icon={DeleteCircleFill}
+  size={20}
+  accessibilityLabel='Delete item'
+/>
+```
+
+### Touch Interaction
+
+InteractiveIcons support full touch interaction:
+
+- **Tap**: Activates the primary action via `onPress`
+- **Long Press**: Triggers secondary action via `onLongPress` (if provided)
+- **Pressed state**: Visual feedback when touched
+- **Disabled state**: Prevents interaction when disabled
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic usage
+
+```tsx
+import { InteractiveIcon, Box } from '@ledgerhq/lumen-ui-rnative';
+import { Settings, DeleteCircleFill } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <Box lx={{ gap: 's8' }}>
+      {/* Stroked interactive icon */}
+      <InteractiveIcon
+        iconType='stroked'
+        icon={Settings}
+        size={20}
+        accessibilityLabel='Open settings'
+        onPress={handleSettings}
+      />
+
+      {/* Filled interactive icon */}
+      <InteractiveIcon
+        iconType='filled'
+        icon={DeleteCircleFill}
+        size={20}
+        accessibilityLabel='Delete item'
+        onPress={handleDelete}
+      />
+    </Box>
+  );
+}
+```
+
+### With Event Handlers
+
+```tsx
+import { InteractiveIcon } from '@ledgerhq/lumen-ui-rnative';
+import {
+  CheckmarkCircle,
+  CheckmarkCircleFill,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function LikeButton({ isSelected, onToggle }) {
+  return (
+    <InteractiveIcon
+      iconType={isSelected ? 'filled' : 'stroked'}
+      icon={isSelected ? CheckmarkCircleFill : CheckmarkCircle}
+      size={20}
+      accessibilityLabel={isSelected ? 'Deselect' : 'Select'}
+      onPress={onToggle}
+    />
+  );
+}
+```
+
+### Different Icon Sizes
+
+```tsx
+import { InteractiveIcon, Box } from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function SizeExamples() {
+  return (
+    <Box lx={{ alignItems: 'center', gap: 's4' }}>
+      {/* Compact size for dense interfaces */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={16} accessibilityLabel='Settings' />
+
+      {/* Standard size (default) */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={20} accessibilityLabel='Settings' />
+
+      {/* Prominent size */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={24} accessibilityLabel='Settings' />
+
+      {/* Large touch target for mobile */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={40} accessibilityLabel='Settings' />
+    </Box>
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>

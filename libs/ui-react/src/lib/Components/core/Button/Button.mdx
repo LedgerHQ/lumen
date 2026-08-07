@@ -1,0 +1,159 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import { Button } from './Button';
+import { CustomTabs, Tab, SetupNote } from '../../../../../.storybook/components';
+
+<Meta title='Core/Button' of={ButtonStories} />
+
+# Button
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Buttons are key interactive elements that trigger actions and guide users through the interface. They come in various styles and states to reflect hierarchy, intent, and context
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=9-28&m=dev).
+
+## Anatomy
+
+<Canvas of={ButtonStories.IconText} />
+
+- **Label(required)**: must be present and describe the action that occurs when the button is tapped
+- **Icon (optional)**: visually communicate the button's action, and helps draw attention
+
+> Note: For **icon-only buttons**, use the [IconButton](/docs/react-iconbutton--docs) component instead. It's specifically designed for icon-only interactions with proper accessibility support.
+
+## Properties
+
+### Overview
+
+<Canvas of={ButtonStories.Base} />
+<Controls of={ButtonStories.Base} />
+
+### Appearance
+
+There are five button appearances, which indicate its emphasis. From strongest to weakest:
+
+- accent
+- base (default)
+- gray
+- transparent
+- no-background
+- red
+
+<Canvas of={ButtonStories.AppearanceShowcase} />
+
+### Content
+
+Buttons' contents can be of two types:
+
+- text (default)
+- icon-text
+
+<Canvas of={ButtonStories.ContentTypesShowcase} />
+
+### Size
+
+Buttons come in four different sizes:
+
+- `sm` (**40px**)
+- `md` (**48px**, default)
+- `lg` (**56px**)
+
+> Note: For `xs` size (32 px), use the [IconButton](/docs/react-iconbutton--docs) component instead.
+
+<Canvas of={ButtonStories.SizesShowcase} />
+
+### States
+
+<Canvas of={ButtonStories.StatesShowcase} />
+
+> **Important Note:** The `loading` and `disabled` states are **not coupled**. When `disabled` is set, all event handlers are deactivated. When only `loading` is set (without `disabled`), the button remains clickable. Combine both props if you need to prevent interactions during loading.
+
+## Responsive Layout
+
+Buttons dynamically adapt their width to the size of their content, while keeping the default paddings:
+
+<Canvas of={ButtonStories.ResponsiveLayout} />
+
+When a label is too long, it's truncated to 2 lines, with a maximum width of the button's container:
+
+<Canvas of={ButtonStories.LabelTruncate} />
+
+> The Button must dynamically resize to its container constraints.
+
+## Interactive States
+
+<Canvas of={ButtonStories.InteractiveLoadingStates} />
+
+## As Child
+
+<Canvas of={ButtonStories.AsChild} />
+
+<p className='mb-4 text-base body-2-semi-bold'>Important Notes:</p>
+<ul className='space-y-2 text-base body-2'>
+  <li>When using asChild, the child element receives all button styles</li>
+  <li>Icon and loading props are still applied to the child element.</li>
+  <li>Perfect for navigation links that should look like buttons</li>
+  <li>
+    Maintains semantic HTML (e.g., &lt;a&gt; for links, &lt;button&gt; for
+    actions)
+  </li>
+</ul>
+
+</Tab> <Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
+```
+
+<SetupNote />
+
+The `@radix-ui/react-slot` dependency enables the `asChild` composition pattern, allowing the Button to merge its props with child elements when needed.
+
+### Basic Usage
+
+<Source of={ButtonStories.Base} />
+
+### With Icons
+
+The Button supports icons with automatic size adjustment based on the button size.
+
+<Source of={ButtonStories.IconText} />
+
+### Full Width
+
+Use the `isFull` prop to make the button take the full width of its container:
+
+```tsx
+<Button size='md' appearance='base' isFull>
+  Full Width Button
+</Button>
+```
+
+### Loading and Disabled States
+
+The `loading` and `disabled` props are **independent**: `disabled` deactivates all event handlers and makes the button non-interactive, while `loading` shows a spinner but keeps the button clickable. Combine both to prevent interactions during loading.
+
+<Source of={ButtonStories.StatesShowcase} />
+
+### Using with Routers (asChild)
+
+The `asChild` prop merges Button styles with a child element, ideal for routing libraries. The child handles its own content; `icon` and `loading` are applied to the child.
+
+<Source of={ButtonStories.AsChild} />
+
+### Custom Styling
+
+Extend layout with Tailwind classes (layout utilities only, e.g. positioning or responsive visibility):
+
+```tsx
+<Button size='md' appearance='base' className='md:hidden'>
+  Custom Button
+</Button>
+```
+
+</Tab>
+</CustomTabs>

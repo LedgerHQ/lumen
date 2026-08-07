@@ -1,0 +1,235 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AmountInputStories from './AmountInput.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/AmountInput' of={AmountInputStories} />
+
+# AmountInput
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+AmountInput is a specialized input component designed for handling numeric values with currency display. It features configurable currency text positioning, error states, and proper numeric input handling.
+
+**⚠️ Important: AmountInput is a controlled component only.** Both `value` and `onChange` props are required.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=17523-37413&m=dev).
+
+## Anatomy
+
+<Canvas of={AmountInputStories.Default} />
+<Controls of={AmountInputStories.Default} />
+
+> **Layout:** The AmountInput component takes the full width of its container by default. You can control the width by wrapping it in a container.
+
+### Size
+
+Use the `size` prop to control typography scale.
+
+<Canvas of={AmountInputStories.Size} />
+
+### Alignment
+
+Use the `align` prop to position the amount within its container. Defaults to `center`. Use `start` or `end` for left- or right-aligned layouts.
+
+<Canvas of={AmountInputStories.Alignment} />
+
+### Currency Text Position
+
+The currency text can be positioned on either the **left** (default) or **right** side of the input:
+
+<Canvas of={AmountInputStories.Default} />
+<Canvas of={AmountInputStories.WithRightCurrency} />
+
+### Input Validation
+
+The AmountInput provides built-in validation controls:
+
+#### **Integer Only**
+
+`allowDecimals` is set to `true` by default, the input accepts decimal values.
+set it to `false` to only accept whole numbers:
+
+<Canvas of={AmountInputStories.IntegerOnly} />
+
+#### **Length Limits**
+
+By default, the AmountInput allows:
+
+- Up to **9 digits** for the integer part (before decimal)
+- Up to **9 digits** for the decimal part (after decimal)
+- **18 total digits** maximum
+
+You can customize these limits using `maxIntegerLength` and `maxDecimalLength` props if needed.
+
+<Canvas of={AmountInputStories.CustomMaxLength} />
+
+### Decimal Separator
+
+Use the `decimalSeparator` prop to control how decimals are **displayed** (`'.'` by default, or `','` for locales such as fr-FR). Typing always accepts both `,` and `.`, so the input stays compatible with any locale keyboard — only the displayed (and emitted) separator changes.
+
+<Canvas of={AmountInputStories.DecimalSeparator} />
+
+### Error State
+
+The input supports error handling through:
+
+- `aria-invalid`: Controls the error state styling
+- Error styling includes text color changes for both input and currency text
+
+<Canvas of={AmountInputStories.Error} />
+
+### Disabled State
+
+The component supports disabled state with appropriate visual feedback:
+
+<Canvas of={AmountInputStories.Disabled} />
+
+### Usage with Currency Toggle
+
+Example of a large amount display interface with currency toggle:
+
+<Canvas of={AmountInputStories.LargeAmountDisplay} />
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+AmountInput is a **controlled component only**. You must provide both `value` and `onChange` props.
+
+```tsx
+import { AmountInput } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <AmountInput
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      currencyText='USD'
+      allowDecimals={true} // Allow decimal points
+    />
+  );
+}
+```
+
+### Input Validation
+
+The AmountInput component provides two ways to control input validation:
+
+`allowDecimals`: Controls whether decimal points are allowed (default: true)
+
+By default, the component allows up to 9 digits for the integer part and 9 digits for the decimal part (18 total).
+
+```tsx
+// Integer-only input limited to 8 digits
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText="$"
+  maxIntegerLength={8}
+  maxDecimalLength={0} // Integer only
+  allowDecimals={false}
+/>
+
+// Short input with custom length (useful for codes or small amounts)
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText="$"
+  maxIntegerLength={3} // Only allow 3 digits
+  maxDecimalLength={0} // Integer only
+/>
+
+// Large number input with decimal support
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText="USD"
+  maxIntegerLength={12} // Allow larger integer amounts
+  maxDecimalLength={8} // Allow up to 8 decimal places
+/>
+```
+
+### Decimal Separator
+
+By default decimals are displayed with a dot. Pass `decimalSeparator=","` to display them with a comma (e.g. for fr-FR). Input parsing always accepts both `,` and `.`, so this only affects the displayed value and the value passed to `onChange`.
+
+```tsx
+// Displays "1 234,5" and emits "1 234,5" through onChange
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText='€'
+  decimalSeparator=','
+/>
+```
+
+### With Currency Position
+
+The currency text can be positioned on either side of the input:
+
+```tsx
+// Left position (default)
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText="USD"
+  currencyPosition="left"
+/>
+
+// Right position
+<AmountInput
+  value={value}
+  onChange={handleChange}
+  currencyText="USD"
+  currencyPosition="right"
+/>
+```
+
+### With Error State
+
+The AmountInput component supports error states through the `aria-invalid` prop:
+
+```tsx
+import { AmountInput } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  const [value, setValue] = React.useState('');
+  const [error, setError] = React.useState(false);
+
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    // Example validation: ensure it's a valid number
+    setError(isNaN(parseFloat(newValue)));
+  };
+
+  return (
+    <AmountInput
+      value={value}
+      onChange={handleChange}
+      currencyText='USD'
+      aria-invalid={error}
+    />
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>

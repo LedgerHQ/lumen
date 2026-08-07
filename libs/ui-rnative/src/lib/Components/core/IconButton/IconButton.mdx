@@ -1,0 +1,137 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as IconButtonStories from './IconButton.stories';
+import { IconButton } from './IconButton';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+import { Box } from '../../primitives';
+
+<Meta title='Core/IconButton' of={IconButtonStories} />
+
+# IconButton
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+**IconButton** is a specialized button component that displays only an icon. It's ideal for actions that can be represented by a clear, universally understood icon, such as `close`, `settings`, or `favorite`.
+
+## Properties
+
+### Overview
+
+<Canvas of={IconButtonStories.Base} />
+<Controls of={IconButtonStories.Base} />
+
+### Appearance
+
+IconButton supports the same appearances as the standard Button:
+
+- accent
+- base (default)
+- gray
+- transparent
+- no-background
+- red
+
+<Canvas of={IconButtonStories.AppearanceShowcase} />
+
+### Size
+
+IconButtons come in four different sizes:
+
+
+- `xs` (**32px**)
+- `sm` (**40px**)
+- `md` (**48px**, default)
+- `lg` (**56px**)
+
+
+<Canvas of={IconButtonStories.SizesShowcase} />
+
+### States
+
+<Canvas of={IconButtonStories.StatesShowcase} />
+
+  </Tab>
+  <Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { IconButton } from '@ledgerhq/lumen-ui-rnative';
+import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <IconButton
+      accessibilityLabel='Settings'
+      icon={Settings}
+      size='md'
+      appearance='base'
+    />
+  );
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using the `lx` prop for token-based styling:
+
+```tsx
+<IconButton accessibilityLabel='Close' icon={Close} lx={{ marginTop: 's4' }} />
+```
+
+### Full Width
+
+Use the `isFull` prop to make the button take the full width of its container:
+
+```tsx
+<IconButton
+  accessibilityLabel='Close'
+  icon={Close}
+  size='md'
+  appearance='base'
+  isFull
+  onPress={() => {}}
+/>
+```
+
+### Loading State
+
+Use the `loading` prop to show a spinner and disable interaction:
+
+```tsx
+<IconButton
+  accessibilityLabel='Close'
+  icon={Close}
+  size='md'
+  appearance='base'
+  loading={isLoading}
+  disabled={isLoading}
+  onPress={() => {}}
+/>
+```
+
+### Pressable Integration
+
+The Button component is built on React Native's `Pressable` and accepts all its props:
+
+```tsx
+<IconButton
+  accessibilityLabel='Close'
+  icon={Close}
+  size='md'
+  appearance='base'
+  onPress={() => console.log('Pressed!')}
+  onPressIn={() => console.log('Press started')}
+  onPressOut={() => console.log('Press ended')}
+  disabled={false}
+/>
+```
+
+  </Tab>
+</CustomTabs>

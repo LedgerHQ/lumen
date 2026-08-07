@@ -1,0 +1,181 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as InteractiveIconStories from './InteractiveIcon.stories';
+import { InteractiveIcon } from './InteractiveIcon';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/InteractiveIcon' of={InteractiveIconStories} />
+
+# InteractiveIcon
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+InteractiveIcons are specialized interactive elements designed exclusively for icon-based actions. They provide a compact way to trigger actions while maintaining clear visual hierarchy through two distinct styles optimized for different icon types.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6975-2571).
+
+## Anatomy
+
+<Canvas of={InteractiveIconStories.IconTypeShowcase} />
+
+- **Icon**: The visual representation of the action, displayed as a single icon element from the design system
+- **Container**: A circular touch target that provides the interactive area and visual feedback
+
+## Properties
+
+### Overview
+
+<Canvas of={InteractiveIconStories.Filled} />
+<Controls of={InteractiveIconStories.Filled} />
+
+### Icon Types
+
+InteractiveIcons come in two visual styles, each optimized for specific use cases:
+
+- **filled**: Best for filled/solid icons. Features a transparent background with colored icon that changes on interaction
+- **stroked**: Best for outlined icons. Features a subtle background that appears on hover with colored icon states
+
+<Canvas of={InteractiveIconStories.IconTypeShowcase} />
+
+### Icon Sizes
+
+InteractiveIcons support various icon sizes via the `size` prop:
+
+<Canvas of={InteractiveIconStories.SizesShowcase} />
+
+Common sizes include:
+
+- **16px**: Compact actions in dense interfaces
+- **20px**: Standard size for most interactive icons (default)
+- **24px**: Prominent actions in toolbars
+- **40px**: Large touch targets for mobile interfaces
+
+### Icon States
+
+InteractiveIcons have enabled or disabled states:
+
+<Canvas of={InteractiveIconStories.StatesShowcase} />
+
+## Accessibility
+
+InteractiveIcons require special attention for accessibility since they contain only visual icons without text:
+
+### Screen Reader Support
+
+**Always provide an `aria-label` prop** that clearly describes the action:
+
+```tsx
+<InteractiveIcon
+  iconType='filled'
+  icon={DeleteCircleFill}
+  size={20}
+  aria-label='Delete item'
+/>
+```
+
+### Keyboard Navigation
+
+InteractiveIcons support full keyboard navigation:
+
+- **Tab**: Moves focus to the interactive element
+- **Enter/Space**: Activates the action
+- **Focus ring**: Visible outline for keyboard users
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Usage examples
+
+### Basic usage
+
+```tsx
+import { InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import { Settings, DeleteCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <div>
+      {/* Stroked interactive icon */}
+      <InteractiveIcon
+        iconType='stroked'
+        icon={Settings}
+        size={20}
+        aria-label='Open settings'
+        onClick={handleSettings}
+      />
+
+      {/* Filled interactive icon */}
+      <InteractiveIcon
+        iconType='filled'
+        icon={DeleteCircleFill}
+        size={20}
+        aria-label='Delete item'
+        onClick={handleDelete}
+      />
+    </div>
+  );
+}
+```
+
+### With Event Handlers
+
+```tsx
+import { InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import {
+  CheckmarkCircle,
+  CheckmarkCircleFill,
+} from '@ledgerhq/lumen-ui-react/symbols';
+
+function LikeButton({ isSelected, onToggle }) {
+  return (
+    <InteractiveIcon
+      iconType={isSelected ? 'filled' : 'stroked'}
+      icon={isSelected ? CheckmarkCircleFill : CheckmarkCircle}
+      size={20}
+      aria-label={isSelected ? 'Deselect' : 'Select'}
+      onClick={onToggle}
+    />
+  );
+}
+```
+
+### Different Icon Sizes
+
+```tsx
+import { InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+function SizeExamples() {
+  return (
+    <div className='flex items-center gap-4'>
+      {/* Compact size for dense interfaces */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={16} aria-label='Settings' />
+
+      {/* Standard size (default) */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={20} aria-label='Settings' />
+
+      {/* Prominent size */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={24} aria-label='Settings' />
+
+      {/* Large touch target for mobile */}
+      <InteractiveIcon iconType='stroked' icon={Settings} size={40} aria-label='Settings' />
+    </div>
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>

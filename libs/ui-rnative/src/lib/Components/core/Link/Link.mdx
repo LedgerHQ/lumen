@@ -1,0 +1,215 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as LinkStories from './Link.stories';
+import { Link } from './Link';
+import { Box } from '../../primitives';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+
+<Meta title='Core/Link' of={LinkStories} />
+
+# Link
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Links are essential navigation elements that direct users to internal screens or external resources. This React Native implementation provides base and accent color appearances, optional underline decoration, and predefined sizing options. Links use React Native's Linking API to open URLs across mobile platforms.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=770-11743&p=f).
+
+## Anatomy
+
+<Canvas of={LinkStories.ExternalLinkWithIcon} />
+
+- **Label**: Describes the destination or action of the link
+- **Icon (optional)**: Leading icon to enhance visual communication
+- **External indicator (optional)**: Indicates that the link opens in an external browser
+
+## Properties
+
+### Overview
+
+<Canvas of={LinkStories.Base} />
+<Controls of={LinkStories.Base} />
+
+### Appearance
+
+There are two link appearance variants:
+
+- **base** (default): Standard link with base text color and pressed states
+- **accent**: Interactive accent color for emphasis
+
+<Canvas of={LinkStories.AppearanceShowcase} />
+
+### Underline
+
+The `underline` prop controls text decoration independently from appearance (default: `true`):
+
+<Canvas of={LinkStories.UnderlineShowcase} />
+
+### Size
+
+Links come in two size options:
+
+- **sm**: Small size
+- **md** (default): Medium size
+
+<Canvas of={LinkStories.SizesShowcase} />
+
+### States
+
+Links respond to press interactions with visual feedback:
+
+<Canvas of={LinkStories.StatesShowcase} />
+
+## Responsive Layout
+
+Links adapt to their container, truncating long text on a single line to prevent overflow:
+
+<Canvas of={LinkStories.ResponsiveLayout} />
+
+## Accessibility
+
+To be implemented:
+
+- Color contrast
+- Text zoom
+- Touch target sizing (minimum 44px)
+- Screen reader compatibility
+- Semantic labeling
+
+</Tab>
+  <Tab label="Implementation ">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import { Link } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return <Link href='https://example.com'>Go to Page</Link>;
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using the `lx` prop for layout purposes:
+
+```tsx
+<Link
+  href='https://example.com'
+  lx={{ marginTop: 's4' }}
+>
+  Custom Link
+</Link>
+```
+
+### With or Without Underline
+
+Links are underlined by default. Use `underline={false}` to remove the underline:
+
+```tsx
+// Default: with underline
+<Link href="https://example.com">
+  Underlined Link (default)
+</Link>
+
+// Explicitly without underline
+<Link underline={false} href="https://example.com">
+  Link without underline
+</Link>
+```
+
+### With Icons
+
+The Link component supports icons with automatic size adjustment based on the link size:
+
+```tsx
+import { Link } from '@ledgerhq/lumen-ui-rnative';
+import { ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <Link
+      appearance='accent'
+      size='sm'
+      href='https://example.com'
+      icon={ArrowRight}
+    >
+      Continue
+    </Link>
+  );
+}
+```
+
+### External Links
+
+Use the `isExternal` prop to automatically add an external link icon:
+
+```tsx
+<Link href='https://example.com' isExternal>
+  Visit External Site
+</Link>
+```
+
+### Custom Navigation
+
+For custom navigation (e.g., React Navigation), use the `onPress` prop which takes precedence over `href`:
+
+```tsx
+import { Link } from '@ledgerhq/lumen-ui-rnative';
+import { useNavigation } from '@react-navigation/native';
+
+function MyComponent() {
+  const navigation = useNavigation();
+
+  return (
+    <Link onPress={() => navigation.navigate('Dashboard')}>Dashboard</Link>
+  );
+}
+```
+
+### Pressable Integration
+
+The Link component is built on React Native's `Pressable` and accepts all its props:
+
+```tsx
+<Link
+  href='https://example.com'
+  onPressIn={() => console.log('Press started')}
+  onPressOut={() => console.log('Press ended')}
+>
+  Interactive Link
+</Link>
+```
+
+
+## Platform Considerations
+
+### iOS Specific
+
+- Links automatically adapt to iOS design guidelines
+- Touch feedback uses appropriate opacity transitions
+- Respects iOS accessibility settings like reduced motion
+- URLs open in Safari or the app specified by the system
+
+### Android Specific
+
+- Material Design touch feedback is supported through React Native
+- Handles Android back button interactions appropriately
+- Respects Android accessibility services
+- URLs open in Chrome or the user's default browser
+
+### Cross-Platform
+
+- Consistent visual appearance across platforms
+- Platform-appropriate touch feedback
+- Unified API regardless of platform
+- React Native's Linking API handles URL opening across platforms
+
+</Tab>
+</CustomTabs>

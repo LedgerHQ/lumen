@@ -1,0 +1,361 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as BannerStories from './Banner.stories';
+import { Banner } from './Banner';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Banner' of={BannerStories} />
+
+# Banner
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Banners are prominent message containers used to communicate system status, alerts, or informational notices to users. They support different appearance types to indicate the severity or type of message and can include optional descriptions, action buttons, and a dismissal option.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=85-227&p=f&m=dev).
+
+## Anatomy
+
+<Canvas of={BannerStories.WithFullFeatures} />
+
+- **Icon**: Automatically displays based on appearance (info, success, warning, error)
+- **Title**: The main message or heading (required)
+- **Description (optional)**: Additional details or explanation
+- **Actions (optional)**: Primary and/or secondary buttons for user interaction. Pass Button components as React nodes (e.g. `primaryAction={<Button appearance="transparent" size="sm" onClick={() => {}}>Action</Button>}`).
+- **Close (optional)**: Button to dismiss the banner. Use the `onClose` prop with a callback function and optionally `closeAriaLabel` for accessibility.
+
+## Properties
+
+### Overview
+
+<Canvas of={BannerStories.Base} />
+<Controls of={BannerStories.Base} />
+
+### Appearance
+
+Banners have four appearances to convey different types of messages:
+
+- **info** (default): General information
+- **success**: Positive outcomes or confirmations
+- **warning**: Caution or important notices
+- **error**: Problems or failures
+
+<Canvas of={BannerStories.AppearanceShowcase} />
+
+### Content Variations
+
+Banners support various content configurations:
+
+- **Title only**: Basic message
+- **Title + Description**: Detailed information
+- **With Actions**: Includes primary and/or secondary buttons
+- **With Close**: Dismissible banner
+- **Complete**: All elements combined
+
+<Canvas of={BannerStories.ContentVariations} />
+
+> **Note**: Title, description, actions, and close are all optional and can be combined as needed. Actions should be passed as Button components with their own styling and click handlers.
+
+### Width Behavior
+
+Banners naturally flow within their containers and take the full width by default:
+
+<Canvas of={BannerStories.NaturalWidth} />
+
+### Responsive Layout
+
+Banners adapt to their container constraints:
+
+<Canvas of={BannerStories.ResponsiveLayout} />
+
+> **Key behaviors:**
+>
+> - Banners flow naturally to fill their parent container width
+> - Container elements control the banner width, not the banner itself
+> - Title limited to 2 lines, description to 5 lines with truncation
+> - Icons and buttons maintain consistent sizing
+
+## Accessibility
+
+To be implemented:
+
+- **Color contrast**: Ensure readable text on all background colors
+- **Text zoom**: Maintain layout integrity
+- **Keyboard navigation**: Tab order for actions and close
+- **Semantic labeling**: Proper ARIA roles for alerts
+- **Focus management**: Visible focus indicators on interactive elements
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react @radix-ui/react-slot
+```
+
+<SetupNote />
+
+The `@radix-ui/react-slot` dependency enables flexible composition patterns for the Banner component's action buttons.
+
+## Basic Usage
+
+```tsx
+import { Banner } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Banner
+      title='Information'
+      description='This is an informational message for the user'
+      appearance='info'
+    />
+  );
+}
+```
+
+### Banner Appearances
+
+The Banner component supports four different appearances, each with its own semantic meaning and visual styling:
+
+```tsx
+import { Banner } from '@ledgerhq/lumen-ui-react';
+
+function NotificationSystem() {
+  return (
+    <div className='space-y-4'>
+      {/* Info - Default informational messages */}
+      <Banner
+        appearance='info'
+        title='Information'
+        description='General information or tips'
+      />
+
+      {/* Success - Positive feedback or completion */}
+      <Banner
+        appearance='success'
+        title='Success'
+        description='Action completed successfully'
+      />
+
+      {/* Warning - Caution or important notices */}
+      <Banner
+        appearance='warning'
+        title='Warning'
+        description='Please review this important information'
+      />
+
+      {/* Error - Error states or critical issues */}
+      <Banner
+        appearance='error'
+        title='Error'
+        description='Something went wrong, please try again'
+      />
+    </div>
+  );
+}
+```
+
+### With Action Buttons
+
+Banners can include primary and secondary action buttons to allow user interaction:
+
+```tsx
+import { Banner, Button } from '@ledgerhq/lumen-ui-react';
+
+function ActionableBanner() {
+  const handleAccept = () => {
+    console.log('User accepted');
+  };
+
+  const handleDecline = () => {
+    console.log('User declined');
+  };
+
+  return (
+    <Banner
+      appearance='warning'
+      title='Terms of Service Updated'
+      description='Please review and accept the updated terms of service to continue using our platform'
+      primaryAction={
+        <Button appearance='transparent' size='sm' onClick={handleAccept}>
+          Accept
+        </Button>
+      }
+      secondaryAction={
+        <Button appearance='no-background' size='sm' onClick={handleDecline}>
+          Review Later
+        </Button>
+      }
+    />
+  );
+}
+```
+
+### Dismissible Banner
+
+Add a close button to make banners dismissible by the user:
+
+```tsx
+import { Banner } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function DismissibleBanner() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
+  return (
+    <Banner
+      appearance='info'
+      title='Welcome!'
+      description='Thanks for joining our platform. Here are some tips to get started.'
+      onClose={() => setIsVisible(false)}
+      closeAriaLabel='Close welcome banner'
+    />
+  );
+}
+```
+
+### Natural Width Behavior
+
+Banners automatically flow to fill their parent container width. No additional props are needed:
+
+```tsx
+<Banner
+  title='System Maintenance'
+  description='Scheduled maintenance will occur tonight from 2:00 AM to 4:00 AM EST'
+  appearance='warning'
+  onClose={() => handleDismiss()}
+  closeAriaLabel='Dismiss'
+/>
+```
+
+To control banner width, use container elements:
+
+```tsx
+{
+  /* Full viewport width */
+}
+<Banner
+  title='Full Width'
+  description='This banner fills the viewport width'
+/>;
+
+{
+  /* Constrained width */
+}
+<div className='max-w-4xl mx-auto'>
+  <Banner
+    title='Constrained'
+    description='This banner is limited by its container'
+  />
+</div>;
+
+{
+  /* Responsive width */
+}
+<div className='w-full lg:max-w-2xl'>
+  <Banner title='Responsive' description='Width adapts based on screen size' />
+</div>;
+```
+
+### Complete Example
+
+Here's a comprehensive example showing all Banner features:
+
+```tsx
+import { Banner, Button } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function NotificationCenter() {
+  const [notifications, setNotifications] = useState([
+    {
+      id: '1',
+      type: 'success',
+      title: 'Payment Processed',
+      description: 'Your payment of $299.99 has been successfully processed.',
+      dismissible: true,
+    },
+    {
+      id: '2',
+      type: 'warning',
+      title: 'Verification Required',
+      description:
+        'Please verify your email address to continue using all features.',
+      dismissible: true,
+      actions: true,
+    },
+  ]);
+
+  const dismissNotification = (id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
+
+  const handleVerify = () => {
+    console.log('Redirecting to verification...');
+  };
+
+  const handleLater = () => {
+    console.log('Remind me later');
+  };
+
+  return (
+    <div className='space-y-4'>
+      {notifications.map((notification) => (
+        <Banner
+          key={notification.id}
+          appearance={notification.type as any}
+          title={notification.title}
+          description={notification.description}
+          onClose={
+            notification.dismissible
+              ? () => dismissNotification(notification.id)
+              : undefined
+          }
+          closeAriaLabel='Close notification'
+          primaryAction={
+            notification.actions ? (
+              <Button appearance='transparent' size='sm' onClick={handleVerify}>
+                Verify Now
+              </Button>
+            ) : undefined
+          }
+          secondaryAction={
+            notification.actions ? (
+              <Button
+                appearance='no-background'
+                size='sm'
+                onClick={handleLater}
+              >
+                Later
+              </Button>
+            ) : undefined
+          }
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using Tailwind classes for layout purposes:
+
+```tsx
+<Banner
+  title='Mobile Alert'
+  description='This banner only shows on mobile devices'
+  className='md:hidden mb-4' // Custom responsive display and margin
+  appearance='info'
+/>
+```
+
+
+</Tab>
+</CustomTabs>

@@ -1,0 +1,149 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DividerStories from './Divider.stories';
+import { Divider } from './Divider';
+import {
+  CustomTabs,
+  Tab,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Divider' of={DividerStories} />
+
+# Divider
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+## Introduction
+
+The Divider component provides a simple, semantic way to visually separate content sections in your interface. It creates a horizontal or vertical line that helps organize information and improve content hierarchy.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=285-5969&m=dev).
+
+> ⚠️ **Note on Web Preview:** The Storybook preview below may display visual inconsistencies as certain React Native APIs cannot be fully translated to web environments. For the complete native experience, please refer to the component on an actual iOS or Android device.
+
+## Anatomy
+
+<Canvas of={DividerStories.Base} />
+
+The Divider is a simple component consisting of a single line that uses design system tokens for consistent styling.
+
+## Properties
+
+### Overview
+
+<Canvas of={DividerStories.Base} />
+<Controls of={DividerStories.Base} />
+
+### Orientation
+
+Dividers support both horizontal and vertical orientations to accommodate different layout needs:
+
+- `horizontal` (default): Creates a horizontal line spanning the full width of its container
+- `vertical`: Creates a vertical line with a height determined by its container or custom styling via `lx` props
+
+<Canvas of={DividerStories.OrientationShowcase} />
+
+## Usage Examples
+
+### In Lists
+
+A common use case is separating list items or sections within a card:
+
+<Canvas of={DividerStories.InList} />
+
+## Responsive Layout
+
+Dividers automatically adapt to their container's dimensions. For horizontal dividers, they span the full width. For vertical dividers, set an explicit height using the `lx` prop.
+
+## Accessibility
+
+The Divider component uses `accessibilityRole='none'` as it's purely decorative and doesn't require accessibility announcements.
+
+</Tab>
+
+  <Tab label="Implementation">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-rnative
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react-native`, etc.) are required. See our Setup Guide for complete installation.
+
+## Basic Usage
+
+```tsx
+import { Divider } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <Box>
+      <Text>Content above the divider</Text>
+      <Divider />
+      <Text>Content below the divider</Text>
+    </Box>
+  );
+}
+```
+
+### Vertical Divider
+
+For vertical separation between content:
+
+```tsx
+import { Divider, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+      <Text>Left content</Text>
+      <Divider orientation='vertical' lx={{ height: 's48' }} />
+      <Text>Right content</Text>
+    </Box>
+  );
+}
+```
+
+Note: For vertical dividers, you typically need to set an explicit height using the `lx` prop.
+
+### In List Components
+
+Dividers are perfect for separating items in lists, menus, or cards:
+
+```tsx
+import { Divider, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+
+function MyList() {
+  return (
+    <Box
+      lx={{
+        borderRadius: 'lg',
+        borderWidth: 's1',
+        borderColor: 'muted',
+      }}
+    >
+      <Box lx={{ padding: 's16' }}>
+        <Text>Item 1</Text>
+      </Box>
+      <Divider />
+      <Box lx={{ padding: 's16' }}>
+        <Text>Item 2</Text>
+      </Box>
+      <Divider />
+      <Box lx={{ padding: 's16' }}>
+        <Text>Item 3</Text>
+      </Box>
+    </Box>
+  );
+}
+```
+
+
+## Performance Considerations
+
+The Divider component is extremely lightweight with minimal performance impact. It renders a simple `Box` component with border styling, making it suitable for use in FlatLists and ScrollViews with many items.
+
+</Tab>
+</CustomTabs>
+
