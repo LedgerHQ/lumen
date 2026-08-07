@@ -1,27 +1,9 @@
 import { useCallback } from 'react';
 import { chartConfig } from '../../config';
 
+import { RevealAnimation } from './RevealAnimation';
 import type { DonutArc, DonutGeometry } from './types';
 import { buildEmptyRingPath, getDonutViewBox } from './utils';
-
-const REVEAL_CSS = `
-  @property --donut-reveal {
-    syntax: '<percentage>';
-    inherits: false;
-    initial-value: 100%;
-  }
-  @keyframes donut-reveal {
-    from { --donut-reveal: 0%; }
-    to { --donut-reveal: 100%; }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .donut-ring-reveal {
-      mask-image: conic-gradient(from 0deg, black var(--donut-reveal), transparent var(--donut-reveal));
-      -webkit-mask-image: conic-gradient(from 0deg, black var(--donut-reveal), transparent var(--donut-reveal));
-      animation: donut-reveal 1000ms ease-out forwards;
-    }
-  }
-`;
 
 const { hover } = chartConfig.donut;
 
@@ -100,9 +82,7 @@ export const DonutRing = ({
   const hasSegments = arcs.length > 0;
 
   return (
-    // eslint-disable-next-line better-tailwindcss/no-unknown-classes
-    <div className='donut-ring-reveal'>
-      <style>{REVEAL_CSS}</style>
+    <RevealAnimation>
       <svg
         data-testid='donut-ring'
         width={box}
@@ -127,6 +107,6 @@ export const DonutRing = ({
           )}
         </g>
       </svg>
-    </div>
+    </RevealAnimation>
   );
 };

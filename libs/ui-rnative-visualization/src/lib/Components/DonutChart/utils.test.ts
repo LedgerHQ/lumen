@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { getDonutViewBox, toRingLocalPoint } from './constants';
-import { computeRevealClipPath } from './DonutRing';
+import { computeRevealClipPath } from './RevealAnimation';
 import type { DonutSegment } from './types';
 import {
   buildArcs,

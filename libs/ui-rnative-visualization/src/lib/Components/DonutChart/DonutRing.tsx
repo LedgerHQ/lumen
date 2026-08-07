@@ -1,38 +1,21 @@
-import { RuntimeConstants } from '@ledgerhq/lumen-ui-rnative';
 import { useEffect } from 'react';
 import Animated, {
   useAnimatedProps,
-  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { ClipPath, Defs, G, Path, Svg } from 'react-native-svg';
+import { Path, Svg } from 'react-native-svg';
 
 import {
-  chartConfig,
   DONUT_INTERACTION,
   useChartTokens,
   type DonutGeometry,
 } from '../../config';
 import { getDonutViewBox } from './constants';
+import { RevealAnimation } from './RevealAnimation';
 import { buildEmptyRingPath, type DonutArc } from './utils';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-
-export function computeRevealClipPath(R: number, progress: number): string {
-  'worklet';
-  // full circle, don't clip anything
-  if (progress >= 1) {
-    return `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`;
-  }
-  const angle = progress * 2 * Math.PI; // convert 0-1 to radians (0-2pi)
-  const x = R * Math.sin(angle);
-  const y = -R * Math.cos(angle); // -R because of 12 o'clock
-
-  // large-arc-flag, so SVG draws the outer arc instead of inner at >0.5 progress (>180 deg)
-  const largeArc = progress > 0.5 ? 1 : 0;
-  return `M0,0 L0,-${R} A${R},${R} 0 ${largeArc} 1 ${x},${y} Z`;
-}
 
 type RingSegmentProps = {
   segment: DonutArc;
@@ -123,23 +106,6 @@ export const DonutRing = ({
   const R = box / 2;
   const hasSegments = arcs.length > 0;
 
-  const isReducedMotion = useReducedMotion();
-  const skipReveal = isReducedMotion || RuntimeConstants.isAndroid;
-  const revealProgress = useSharedValue(skipReveal ? 1 : 0);
-
-  useEffect(() => {
-    if (skipReveal) {
-      return;
-    }
-    revealProgress.value = withTiming(1, {
-      duration: chartConfig.donut.reveal.durationMs,
-    });
-  }, [skipReveal, revealProgress]);
-
-  const clipPathProps = useAnimatedProps(() => ({
-    d: computeRevealClipPath(R, revealProgress.value),
-  }));
-
   return (
     <Svg
       testID='donut-ring'
@@ -149,12 +115,7 @@ export const DonutRing = ({
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
     >
-      <Defs>
-        <ClipPath id='donut-reveal-clip'>
-          <AnimatedPath animatedProps={clipPathProps} />
-        </ClipPath>
-      </Defs>
-      <G transform={`translate(${R}, ${R})`} clipPath='url(#donut-reveal-clip)'>
+      <RevealAnimation R={R}>
         {hasSegments ? (
           arcs.map((segment) => (
             <RingSegment
@@ -167,7 +128,7 @@ export const DonutRing = ({
         ) : (
           <EmptyRing geometry={geometry} color={tokens.color.surface} />
         )}
-      </G>
+      </RevealAnimation>
     </Svg>
   );
 };
