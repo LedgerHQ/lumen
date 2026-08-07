@@ -1,4 +1,5 @@
-import { useControllableState } from '@ledgerhq/lumen-ui-rnative';
+import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
+import { useControllableState, useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -18,7 +19,7 @@ import {
 } from './utils';
 
 export function DonutChart({
-  series,
+  series: seriesProp,
   size = 'md',
   accessibilityLabel = 'Donut chart',
   activeId: activeIdProp,
@@ -26,14 +27,28 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
+  ensureColorContrast = false,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
+  const { theme } = useTheme();
 
   const [activeId, setActiveId] = useControllableState({
     prop: activeIdProp,
     defaultProp: defaultActiveId,
     onChange: onActiveIdChange,
   });
+
+  const series = useMemo(
+    () =>
+      seriesProp.map((s) => ({
+        ...s,
+        ...(s.color &&
+          ensureColorContrast && {
+            color: getContrastSafeColor(s.color, theme.colors.bg.base),
+          }),
+      })),
+    [seriesProp, ensureColorContrast, theme.colors.bg.base],
+  );
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
 
