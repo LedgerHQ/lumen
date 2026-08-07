@@ -1,4 +1,5 @@
-import { useControllableState } from '@ledgerhq/lumen-ui-react';
+import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
+import { useControllableState, useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo, type FocusEvent } from 'react';
 
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
@@ -13,7 +14,7 @@ import {
 } from './utils';
 
 export function DonutChart({
-  series,
+  series: seriesProp,
   size = 'md',
   ariaLabel = 'Donut chart',
   activeId: activeIdProp,
@@ -21,8 +22,27 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
+  ensureColorContrast = false,
 }: Readonly<DonutChartProps>) {
   const geometry = DONUT_GEOMETRY[size];
+  const { colorScheme } = useTheme();
+
+  const series = useMemo(
+    () =>
+      seriesProp.map((s) => ({
+        ...s,
+        ...(s.color &&
+          ensureColorContrast && {
+            color: getContrastSafeColor(
+              s.color,
+              getComputedStyle(document.documentElement)
+                .getPropertyValue('--background-canvas')
+                .trim() || (colorScheme === 'dark' ? '#141414' : '#ffffff'),
+            ),
+          }),
+      })),
+    [seriesProp, ensureColorContrast, colorScheme],
+  );
 
   const [activeId, setActiveId] = useControllableState({
     prop: activeIdProp,

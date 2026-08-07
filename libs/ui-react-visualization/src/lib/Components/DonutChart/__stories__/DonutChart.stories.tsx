@@ -322,6 +322,46 @@ const manyCryptoSegments: DonutSegment[] = [
  * segments by `value` descending, then condenses the long tail into a single
  * "Other" segment.
  */
+
+const lightContrastSegments: DonutSegment[] = [
+  { id: 'a', label: 'Amber', value: 40, color: '#fdf0c2' },
+  { id: 'b', label: 'Sky', value: 35, color: '#c8e8fb' },
+  { id: 'c', label: 'Coral', value: 25, color: '#fcd5c8' },
+];
+
+const darkContrastSegments: DonutSegment[] = [
+  { id: 'd', label: 'Forest', value: 40, color: '#1a4a2e' },
+  { id: 'e', label: 'Navy', value: 35, color: '#0f1e3d' },
+  { id: 'f', label: 'Plum', value: 25, color: '#2d1040' },
+];
+
+export const WithColorContrast: Story = {
+  render: () => (
+    <div className='flex flex-col gap-24'>
+      <div className='flex items-end gap-32'>
+        <div className='flex flex-col items-center gap-8'>
+          <DonutChart series={lightContrastSegments} />
+          <span className='body-3 text-muted'>original</span>
+        </div>
+        <div className='flex flex-col items-center gap-8'>
+          <DonutChart series={lightContrastSegments} ensureColorContrast />
+          <span className='body-3 text-muted'>contrast-safe</span>
+        </div>
+      </div>
+      <div className='flex items-end gap-32'>
+        <div className='flex flex-col items-center gap-8'>
+          <DonutChart series={darkContrastSegments} />
+          <span className='body-3 text-muted'>original</span>
+        </div>
+        <div className='flex flex-col items-center gap-8'>
+          <DonutChart series={darkContrastSegments} ensureColorContrast />
+          <span className='body-3 text-muted'>contrast-safe</span>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
 export const WithPreparedSeries: Story = {
   render: () => {
     const { segments } = useDonutSeries(manyCryptoSegments, {
