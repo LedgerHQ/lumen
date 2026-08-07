@@ -1,0 +1,191 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TooltipStories from './Tooltip.stories';
+import { Tooltip, TooltipTrigger, TooltipContent } from './Tooltip';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Tooltip' of={TooltipStories} />
+
+# Tooltip
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Tooltips provide contextual information on hover or focus, helping users understand interface elements without cluttering the main UI. They feature smooth animations and a thoughtful default delay for optimal user experience.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6387-409).
+
+## Features
+
+- **Smart Default Delay**: 200ms delay before showing to prevent accidental triggers
+- **Smooth Animations**: Direction-based slide animations for both entry and exit
+- **Accessible**: Proper focus handling and screen reader support
+
+## Anatomy
+
+<Canvas of={TooltipStories.Basic} />
+
+<Controls of={TooltipStories.Basic} />
+
+- **Trigger**: The element that activates the tooltip on hover or focus
+- **Content**: The informational text or content displayed with smooth animations
+- **Arrow**: Visual connector pointing to the trigger
+
+## Properties
+
+### Placement & Animations
+
+Each placement comes with its own directional slide animation:
+
+- top (default): Slides in from top
+- bottom: Slides in from bottom
+- left: Slides in from left
+- right: Slides in from right
+
+<Canvas of={TooltipStories.AnimatedPlacements} />
+
+### Timing & Delay
+
+The tooltip has a default 200ms delay before showing, which can be customized:
+
+<Canvas of={TooltipStories.CustomDelay} />
+
+### Content (long text)
+
+Tooltips animate smoothly regardless of content length. Use a max-width token on `TooltipContent` when copy may wrap:
+
+<Canvas of={TooltipStories.LongContent} />
+
+### Trigger Types
+
+Works with any trigger while maintaining smooth animations:
+
+<Canvas of={TooltipStories.WithIconTrigger} />
+
+## Accessibility
+
+- Default 200ms delay helps prevent tooltip flicker
+- Smooth animations improve visual experience
+- Proper ARIA attributes for screen readers
+- Keyboard focus triggers animations
+
+<div className='rounded-8 mt-8 p-12 text-base'>
+  <p className='mb-4 body-2-semi-bold'>Important Notes:</p>
+  <ul className='space-y-2 body-2'>
+    <li>200ms default delay provides optimal user experience</li>
+    <li>Animations match tooltip placement for intuitive feedback</li>
+    <li>Content transitions smoothly in and out</li>
+    <li>All animations respect reduced-motion preferences</li>
+  </ul>
+</div>
+
+  </Tab>
+  <Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react @radix-ui/react-tooltip
+```
+
+<SetupNote />
+
+The `@radix-ui/react-tooltip` dependency provides accessible tooltip behavior primitives, enhanced with our custom animations and styling.
+
+## Basic Usage with Animations
+
+```tsx
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  Button,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button>Hover me</Button>
+      </TooltipTrigger>
+      <TooltipContent>Tooltip with automatic animations</TooltipContent>
+    </Tooltip>
+  );
+}
+```
+
+### Placement with Directional Animations
+
+```tsx
+// Each placement has its own directional animation
+<Tooltip>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent side="right">
+    Slides in from the right
+  </TooltipContent>
+</Tooltip>
+
+<Tooltip>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent side="top">
+    Slides in from the top
+  </TooltipContent>
+</Tooltip>
+```
+
+### Custom Delay Duration
+
+```tsx
+// Override the default 200ms delay
+<Tooltip delayDuration={500}>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent>
+    Shows after 500ms
+  </TooltipContent>
+</Tooltip>
+
+// Instant tooltip
+<Tooltip delayDuration={0}>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent>
+    Shows immediately
+  </TooltipContent>
+</Tooltip>
+```
+
+### Global Provider with Default Delay
+
+```tsx
+import { TooltipProvider } from '@ledgerhq/lumen-ui-react';
+
+function App() {
+  return (
+    <TooltipProvider delayDuration={200}>
+      {/* Default delay */}
+      {/* Your app content */}
+    </TooltipProvider>
+  );
+}
+```
+
+## Animation Details
+
+The tooltip uses smooth slide animations that match its placement:
+
+```tsx
+// Animation classes are automatically applied based on side prop
+<TooltipContent side="top">    // Slides from top
+<TooltipContent side="bottom"> // Slides from bottom
+<TooltipContent side="left">   // Slides from left
+<TooltipContent side="right">  // Slides from right
+
+// Animations are handled automatically on both enter and exit
+// Entry: animate-slide-in-from-{direction}
+// Exit: data-[state=closed]:animate-slide-out-to-{direction}
+```
+
+  </Tab>
+</CustomTabs>

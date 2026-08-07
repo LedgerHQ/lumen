@@ -1,0 +1,167 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import { Button } from './Button';
+import { CustomTabs, Tab, SetupNote } from '../../../../../.storybook/components';
+
+<Meta title='Core/Button' of={ButtonStories} />
+
+# Button
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Buttons are key interactive elements that trigger actions and guide users through the interface. They come in various styles and states to reflect hierarchy, intent, and context. This React Native implementation ensures consistent behavior across mobile platforms while maintaining design system coherence.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=9-28&m=dev).
+
+## Anatomy
+
+<Canvas of={ButtonStories.IconText} />
+
+- **Label(required)**: must be present and describe the action that occurs when the button is tapped
+- **Icon (optional)**: visually communicate the button's action, and helps draw attention
+
+> Note: For **icon-only buttons**, use the [IconButton](https://ldls-react-native.vercel.app/?path=/docs/rnative-iconbutton--docs) component instead. It's specifically designed for icon-only interactions with proper accessibility support.
+
+## Properties
+
+### Overview
+
+<Canvas of={ButtonStories.Base} />
+<Controls of={ButtonStories.Base} />
+
+### Appearance
+
+There are six button appearances, which indicate its emphasis. From strongest to weakest:
+
+- accent
+- base (default)
+- gray
+- transparent
+- no-background
+- red
+
+<Canvas of={ButtonStories.AppearanceShowcase} />
+
+### Content
+
+Buttons' contents can be of two types:
+
+- text (default)
+- icon-text
+
+<Canvas of={ButtonStories.ContentTypesShowcase} />
+
+### Size
+
+Buttons come in four different sizes:
+
+- `sm` (**40px**)
+- `md` (**48px**, default)
+- `lg` (**56px**)
+
+> Note: For `xs` size (32 px), use the [IconButton](/docs/rnative-iconbutton--docs) component instead.
+
+<Canvas of={ButtonStories.SizesShowcase} />
+
+### States
+
+<Canvas of={ButtonStories.StatesShowcase} />
+
+> **Important Note:** The `loading` and `disabled` states are **not coupled**. When `disabled` is set, all event handlers are deactivated. When only `loading` is set (without `disabled`), the button remains pressable. Combine both props if you need to prevent interactions during loading.
+
+## Responsive Layout
+
+Buttons dynamically adapt their width to the size of their content, while keeping the default paddings:
+
+<Canvas of={ButtonStories.ResponsiveLayout} />
+
+When a label is too long, it's truncated to 2 lines, with a maximum width of the button's container:
+
+<Canvas of={ButtonStories.LabelTruncate} />
+
+> The Button must dynamically resize to its container constraints.
+
+## Interactive States
+
+<Canvas of={ButtonStories.InteractiveLoadingStates} />
+
+</Tab> <Tab label="Implementation">
+
+<SetupNote />
+
+### Basic Usage
+
+<Source of={ButtonStories.Base} />
+
+### With Icons
+
+The Button supports icons with automatic size adjustment based on the button size.
+
+<Source of={ButtonStories.IconText} />
+
+### Full Width
+
+Use the `isFull` prop to make the button take the full width of its container:
+
+```tsx
+<Button size='md' appearance='base' isFull onPress={() => {}}>
+  Full Width Button
+</Button>
+```
+
+### States
+
+Use the `loading` and `disabled` props to reflect state. `loading` shows a spinner; combine it with `disabled` to block interaction while loading.
+
+<Source of={ButtonStories.StatesShowcase} />
+
+### Custom Styling
+
+Extend layout with the token-based `lx` prop, or the `style` prop as an escape hatch:
+
+```tsx
+<Button size='md' appearance='base' lx={{ marginTop: 's4' }} onPress={() => {}}>
+  Custom Button
+</Button>
+```
+
+### Pressable Integration
+
+The Button is built on React Native's `Pressable` and accepts all its props:
+
+```tsx
+<Button
+  appearance='base'
+  onPress={() => console.log('Pressed!')}
+  onPressIn={() => console.log('Press started')}
+  onPressOut={() => console.log('Press ended')}
+>
+  Interactive Button
+</Button>
+```
+
+## Platform Considerations
+
+### iOS Specific
+
+- Buttons automatically adapt to iOS design guidelines
+- Touch feedback uses appropriate opacity transitions
+- Respects iOS accessibility settings like reduced motion
+
+### Android Specific
+
+- Material Design touch ripples are supported through React Native
+- Handles Android back button interactions appropriately
+- Respects Android accessibility services
+
+### Cross-Platform
+
+- Consistent visual appearance across platforms
+- Platform-appropriate touch feedback
+- Unified API regardless of platform
+
+</Tab>
+</CustomTabs>

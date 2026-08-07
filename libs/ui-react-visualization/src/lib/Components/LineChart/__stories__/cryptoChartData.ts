@@ -1,5 +1,5 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import type { FormattedValue } from '@ledgerhq/lumen-ui-react';
+import type { ButtonProps, FormattedValue } from '@ledgerhq/lumen-ui-react';
 import {
   ArrowDown,
   ArrowUp,
@@ -122,12 +122,18 @@ export const PERIODS: Record<Period, PeriodConfig> = {
   },
 };
 
-export const ACTIONS = [
+type ChartAction = {
+  label: string;
+  appearance: ButtonProps['appearance'];
+  icon: ButtonProps['icon'];
+};
+
+export const ACTIONS: ChartAction[] = [
   { label: 'Receive', appearance: 'base', icon: ArrowDown },
   { label: 'Buy', appearance: 'gray', icon: Plus },
   { label: 'Sell', appearance: 'gray', icon: Minus },
   { label: 'Send', appearance: 'gray', icon: ArrowUp },
-] as const;
+];
 
 const BASE_VALUE = 42156.78;
 

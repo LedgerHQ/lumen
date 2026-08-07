@@ -1,0 +1,151 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+import { Checkbox } from './Checkbox';
+import { Box } from '../../primitives';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+
+<Meta title='Core/Checkbox' of={CheckboxStories} />
+
+# Checkbox
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Checkboxes are form controls that allow users to select one or multiple options from a list. They provide clear visual feedback about the selection state and support various interaction states including hover, focus, and disabled modes.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=90-1197&m=dev).
+
+## Anatomy
+
+<Canvas of={CheckboxStories.Base} />
+
+- **Checkbox**: The main interactive element that can be checked or unchecked
+- **Check mark**: Visual indicator shown when the checkbox is in a checked state
+
+## Properties
+
+### Overview
+
+<Canvas of={CheckboxStories.Base} />
+<Controls of={CheckboxStories.Base} />
+
+### States
+
+Checkboxes support multiple states to provide clear feedback to users:
+
+- **Unchecked**: Default state when not selected
+- **Checked**: Selected state with a visible check mark
+- **Disabled**: Non-interactive state for both checked and unchecked variants
+- **Focus**: Accessible focus state with visible ring indicator
+
+<Canvas of={CheckboxStories.AllStates} />
+
+## Usage Guidelines
+
+### Best Practices
+
+- Use checkboxes when users can select multiple options from a list
+- Always provide clear labels that describe what checking the box means
+- Group related checkboxes logically
+- Use consistent spacing between checkbox options
+
+### Accessibility
+
+- Provide descriptive labels for screen readers
+- Ensure sufficient color contrast in all states
+
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import { Checkbox, Box, Text } from '@ledgerhq/lumen-ui-rnative';
+
+function MyForm() {
+  const [isChecked, setIsChecked] = useState(false);
+
+  return (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
+      <Checkbox
+        checked={isChecked}
+        onCheckedChange={setIsChecked}
+      />
+      <Text>Accept terms and conditions</Text>
+    </Box>
+  );
+}
+```
+
+## Controlled vs Uncontrolled
+
+### Controlled
+
+Use the `checked` and `onCheckedChange` props for full control:
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Checkbox
+  checked={checked}
+  onCheckedChange={setChecked}
+/>
+```
+
+### Uncontrolled
+
+Use `defaultChecked` for simple cases:
+
+```tsx
+<Checkbox defaultChecked={true} />
+```
+
+## Accessibility Best Practices
+
+### Labels and ARIA
+
+```tsx
+// ✅ Using built-in label prop
+<Checkbox label="I agree to the terms" />
+
+// ✅ ARIA label for standalone checkbox
+<Checkbox accessibilityLabel="Select all items" />
+
+// ✅ Custom layout with Box and Text
+<Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
+  <Checkbox id="terms" />
+  <Text>I agree to the terms</Text>
+</Box>
+
+// ✅ ARIA described by for complex descriptions
+<Box lx={{ gap: 's4' }}>
+  <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
+    <Checkbox
+      id="marketing"
+      aria-describedby="marketing-description"
+    />
+    <Text>Marketing emails</Text>
+  </Box>
+  <Text id="marketing-description" lx={{ color: 'muted' }} typography="body4">
+    Receive promotional offers and product updates
+  </Text>
+</Box>
+```
+
+### Keyboard Navigation
+
+The Checkbox component automatically supports:
+
+- **Tab**: Navigate to the checkbox
+- **Space**: Toggle checked/unchecked state
+- **Enter**: Submit form (when inside a form)
+
+
+</Tab>
+</CustomTabs>

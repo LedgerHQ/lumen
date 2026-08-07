@@ -1,0 +1,176 @@
+import { useBottomSheet } from '@gorhom/bottom-sheet';
+import { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
+import { useCommonTranslation } from '../../../../i18n';
+import { useStyleSheet } from '../../../../styles';
+import { Box, Text } from '../../primitives';
+import { ArrowLeft, Close } from '../../symbols';
+import { IconButton } from '../IconButton';
+import { useBottomSheetContext } from './BottomSheet';
+import type { BottomSheetHeaderProps } from './types';
+
+type DensityValue = NonNullable<BottomSheetHeaderProps['density']>;
+
+const Z_INDEX_DIALOG_CONTENT = 1000;
+
+const useStyles = ({
+  density,
+  spacing,
+  hidden,
+}: {
+  density: DensityValue;
+  spacing: boolean;
+  hidden: boolean;
+}) => {
+  return useStyleSheet(
+    (t) => ({
+      root: StyleSheet.flatten([
+        {
+          position: 'relative',
+          zIndex: Z_INDEX_DIALOG_CONTENT,
+          backgroundColor: 'transparent',
+          paddingBottom: t.spacings.s12,
+        },
+        spacing && {
+          paddingHorizontal: t.spacings.s16,
+        },
+      ]),
+      inner: StyleSheet.flatten([
+        {
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: t.spacings.s16,
+        },
+        density === 'expanded' && {
+          marginBottom: t.spacings.s16,
+        },
+        hidden && {
+          display: 'none',
+        },
+      ]),
+      textWrapper: StyleSheet.flatten([
+        {
+          flex: 1,
+        },
+        density === 'expanded' && {
+          gap: t.spacings.s4,
+          flex: 0,
+        },
+      ]),
+      title: StyleSheet.flatten([
+        {
+          color: t.colors.text.base,
+        },
+        density === 'expanded' && {
+          ...t.typographies.heading3SemiBold,
+        },
+        density === 'compact' && {
+          textAlign: 'center',
+          ...t.typographies.heading5SemiBold,
+        },
+      ]),
+      description: StyleSheet.flatten([
+        t.typographies.body2,
+        {
+          color: t.colors.text.muted,
+          textAlign: density === 'compact' ? 'center' : 'left',
+        },
+      ]),
+      iconPlaceholder: {
+        width: t.sizes.s32,
+        height: t.sizes.s32,
+      },
+    }),
+    [density, spacing, hidden],
+  );
+};
+
+export const BottomSheetHeader = ({
+  lx,
+  style,
+  title,
+  description,
+  density = 'compact',
+  spacing = false,
+  ...props
+}: BottomSheetHeaderProps) => {
+  const { t } = useCommonTranslation();
+  const { close } = useBottomSheet();
+  const { onBack, hideCloseButton, onHeaderClosePressed } =
+    useBottomSheetContext({
+      consumerName: 'BottomSheetHeader',
+      contextRequired: true,
+    });
+
+  const handleClose = useCallback(() => {
+    if (onHeaderClosePressed) {
+      onHeaderClosePressed();
+    }
+    close();
+  }, [close, onHeaderClosePressed]);
+
+  const hasTitleSection = Boolean(title || description);
+  const hasIcons = Boolean(onBack || !hideCloseButton);
+
+  const styles = useStyles({
+    density,
+    spacing,
+    hidden: !hasIcons && density !== 'compact',
+  });
+
+  const titleComponent = hasTitleSection ? (
+    <Box style={styles.textWrapper}>
+      {title && (
+        <Text style={styles.title} testID='bottom-sheet-header-title'>
+          {title}
+        </Text>
+      )}
+      {description && (
+        <Text
+          style={styles.description}
+          testID='bottom-sheet-header-description'
+        >
+          {description}
+        </Text>
+      )}
+    </Box>
+  ) : null;
+
+  return (
+    <Box {...props} lx={lx} style={[styles.root, style]}>
+      <Box style={styles.inner}>
+        <Box style={styles.iconPlaceholder}>
+          {onBack && (
+            <IconButton
+              accessibilityLabel={t(
+                'components.bottomSheetHeader.goBackAriaLabel',
+              )}
+              size='xs'
+              onPress={onBack}
+              icon={ArrowLeft}
+              appearance='transparent'
+              testID='bottom-sheet-header-back-button'
+            />
+          )}
+        </Box>
+        {density === 'compact' && titleComponent}
+        <Box style={styles.iconPlaceholder}>
+          {!hideCloseButton && (
+            <IconButton
+              accessibilityLabel={t(
+                'components.bottomSheetHeader.closeAriaLabel',
+              )}
+              size='xs'
+              onPress={handleClose}
+              icon={Close}
+              appearance='transparent'
+              testID='bottom-sheet-header-close-button'
+            />
+          )}
+        </Box>
+      </Box>
+      {density === 'expanded' && titleComponent}
+    </Box>
+  );
+};

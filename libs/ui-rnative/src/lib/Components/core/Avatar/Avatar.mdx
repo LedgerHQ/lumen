@@ -1,0 +1,162 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+import { Avatar } from './Avatar';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+import { Box } from '../../primitives';
+
+<Meta title='Core/Avatar' of={AvatarStories} />
+
+# Avatar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The Avatar component displays a circular user profile image with automatic fallback (initials or a User icon) when the image is unavailable or fails to load. It supports an optional notification indicator and six size variants.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
+
+## Anatomy
+
+<Canvas of={AvatarStories.Base} />
+
+- **Image/Fallback Icon**: The circular user image or User icon fallback displayed when image is unavailable
+- **Notification Indicator (optional)**: A red dot positioned at the top-right corner to indicate notifications
+- **Container**: Rounded-full container with a subtle bordered background, or a solid `fallbackColor` when showing a fallback
+
+## Properties
+
+### Overview
+
+<Canvas of={AvatarStories.Base} />
+<Controls of={AvatarStories.Base} />
+
+### Size
+
+Avatars come in six sizes: `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
+
+<Canvas of={AvatarStories.SizeShowcase} />
+
+### Fallback
+
+When no image is shown, the Avatar renders a fallback. Provide `fallbackText` for initials, and pass a `fallbackColor` to give each user a stable background color.
+
+<Canvas of={AvatarStories.FallbackShowcase} />
+
+### Appearance
+
+Use `appearance` to display an inset ring around the avatar. Two variants are available:
+
+- `thin` — 1px ring, `border-icon` color
+- `thick` — 2px ring, `border-muted-subtle-transparent` color
+
+Omit the prop (or leave it `undefined`) for no ring.
+
+<Canvas of={AvatarStories.AppearanceShowcase} />
+
+### Notification Indicator
+
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotIndicatorProps` helper:
+
+```tsx
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative';
+
+<DotIndicator
+  {...getDotIndicatorProps('avatar', 'md')}
+  accessibilityLabel="New notifications"
+>
+  <Avatar src="https://example.com/photo.jpg" size="md" />
+</DotIndicator>;
+```
+
+<Canvas of={AvatarStories.NotificationShowcase} />
+
+## Accessibility
+
+- Renders with `accessibilityRole="image"` and exposes `alt` as `accessibilityLabel`.
+- Provide a meaningful `alt` describing the user (e.g. `"John Doe's profile picture"`).
+- When using `DotIndicator` for notifications, pass an `accessibilityLabel` to it so the notification state is announced by screen readers.
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+## Basic Usage
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return <Avatar src="https://example.com/photo.jpg" size="md" />;
+}
+```
+
+## Fallback with Initials and Color
+
+Use `fallbackText` for initials and `fallbackColor` for a stable per-user background:
+
+```tsx
+import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-rnative';
+
+<Avatar
+  fallbackColor={resolveAvatarColor(user.id)}
+  fallbackText={user.initials}
+  alt={user.name}
+/>;
+```
+
+## With Notification
+
+```tsx
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <DotIndicator
+      {...getDotIndicatorProps('avatar', 'md')}
+      accessibilityLabel="New notifications"
+    >
+      <Avatar
+        src="https://example.com/photo.jpg"
+        size="md"
+        alt="User profile"
+      />
+    </DotIndicator>
+  );
+}
+```
+
+## Appearance
+
+Use the `appearance` prop to display a predefined inset ring:
+
+```tsx
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thin" />
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thick" />
+```
+
+## Different Sizes
+
+```tsx
+import { Avatar, Box } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
+      <Avatar src="https://example.com/photo.jpg" size="xs" />
+      <Avatar src="https://example.com/photo.jpg" size="sm" />
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+      <Avatar src="https://example.com/photo.jpg" size="lg" />
+      <Avatar src="https://example.com/photo.jpg" size="xl" />
+      <Avatar src="https://example.com/photo.jpg" size="2xl" />
+    </Box>
+  );
+}
+```
+
+</Tab>
+</CustomTabs>

@@ -1,0 +1,242 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CardButtonStories from './CardButton.stories';
+import { CardButton } from './CardButton';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+import { Box } from '../../primitives';
+
+<Meta title='Core/CardButton' of={CardButtonStories} />
+
+# CardButton
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+CardButtons are interactive elements designed for presenting options, settings, or navigation items in a card-like format for React Native applications. They provide a structured way to display a title and optional description, icon, and navigation chevron, making them ideal for menus, settings panels, and option lists in mobile and native applications.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=89-525&m=dev).
+
+## Anatomy
+
+<Canvas of={CardButtonStories.FullFeatures} />
+
+- **Icon (optional)**: visually communicates the card's purpose or category
+- **Title**: the main label describing the action or option
+- **Description (optional)**: provides additional context or explanation
+- **Hide chevron (optional)**: hides the chevron right icon that is displayed by default on the right side
+
+## Properties
+
+### Overview
+
+<Canvas of={CardButtonStories.Base} />
+<Controls of={CardButtonStories.Base} />
+
+### Appearance
+
+There are two CardButton appearances, indicating different visual emphasis:
+
+- **base** (default): solid background for primary options
+- **outline**: dashed outline for secondary or alternative options
+
+<Canvas of={CardButtonStories.AppearanceShowcase} />
+
+### Content Variations
+
+CardButtons support flexible content combinations to suit different use cases:
+
+- **Title + Description**: provides additional explanation
+- **Title + Icon + Description**: combines visual context with detailed explanation for enhanced clarity
+- **Title + Description + Chevron**: provides detailed explanation with clear navigation indication
+- **Complete card**: combines all elements for rich, informative options
+- **Title + Icon**: adds visual context to the option
+- **Title + Chevron**: indicates navigation or expansion
+
+<Canvas of={CardButtonStories.ContentVariations} />
+
+> **Note**: The title is required, while icon, description, and hideChevron are all optional and can be combined as needed.
+
+### States
+
+CardButtons support standard interactive states for both appearance variants:
+
+<Canvas of={CardButtonStories.StatesShowcase} />
+
+### Width Behavior
+
+CardButtons naturally flow within their containers and adapt their width based on content:
+
+<Canvas of={CardButtonStories.NaturalWidth} />
+
+## Responsive Layout
+
+CardButtons automatically adapt to their container constraints while maintaining proper content layout:
+
+<Canvas of={CardButtonStories.ResponsiveLayout} />
+
+> **Key behaviors:**
+>
+> - CardButtons flow naturally to fit their parent container width
+> - Container elements control the button width, not the component itself
+> - Long titles and descriptions automatically wrap and truncate as needed
+> - Icons (including the chevron) maintain fixed sizes for visual consistency
+
+## Touch Interactions
+
+The CardButton component is built on Pressable and provides:
+
+- **Touch feedback**: Visual indication when pressed through opacity changes
+- **Disabled state**: Prevents touch interactions when disabled prop is true
+- **Accessibility**: Built-in support for screen readers and assistive technologies
+
+## Accessibility
+
+To be implemented:
+
+- **Color contrast**: ensure sufficient contrast for all appearance variants
+- **Text zoom**: maintain usability when text is enlarged
+- **Touch target size**: minimum 44pt touch targets for accessibility compliance
+- **Semantic labeling**: proper accessibility attributes for screen readers
+- **Focus management**: clear focus indicators and logical navigation order
+- **Voice control**: support for voice-based navigation
+
+</Tab>
+<Tab label="Implementation">
+## Setup
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+```tsx
+import { CardButton } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <CardButton
+      title='Payment Method'
+      description='Add or edit your payment information'
+      appearance='base'
+      onPress={() => console.log('Card button pressed')}
+    />
+  );
+}
+```
+
+### With Icon
+
+The CardButton component supports icons that automatically scale to 24px size:
+
+```tsx
+import { CardButton } from '@ledgerhq/lumen-ui-rnative';
+import { CreditCard } from '@ledgerhq/lumen-ui-rnative/symbols';
+
+function MyComponent() {
+  return (
+    <CardButton
+      icon={CreditCard}
+      title='Payment Method'
+      description='Add or edit your payment information'
+      appearance='base'
+      onPress={() => console.log('Payment method pressed')}
+    />
+  );
+}
+```
+
+### Without Chevron
+
+By default, a ChevronRight icon will be rendered on the right side. Use the `hideChevron` prop to hide it:
+
+```tsx
+<CardButton
+  title='Settings'
+  description='Configure your account preferences'
+  hideChevron
+  appearance='base'
+  onPress={() => console.log('Settings pressed')}
+/>
+```
+
+### Natural Width Behavior
+
+CardButtons automatically flow to fit their parent container width. No additional props are needed:
+
+```tsx
+<CardButton
+  title='Continue Setup'
+  description='Complete your account configuration'
+  appearance='base'
+  onPress={() => console.log('Continue pressed')}
+/>
+```
+
+To control card button width, use container elements:
+
+```tsx
+import { Box } from '@ledgerhq/lumen-ui-rnative';
+
+{
+  /* Full container width */
+}
+<CardButton
+  title='Full Width'
+  description='This button fills the container width'
+  onPress={() => console.log('Full width pressed')}
+/>;
+
+{
+  /* Constrained width using Box with lx prop */
+}
+<Box lx={{ maxWidth: 's320' }}>
+  <CardButton
+    title='Constrained'
+    description='This button is limited by its container'
+    onPress={() => console.log('Constrained pressed')}
+  />
+</Box>;
+```
+
+### Outline Appearance
+
+Use the outline appearance for a more subtle card style:
+
+```tsx
+<CardButton
+  title='Optional Feature'
+  description='Enable this feature for enhanced functionality'
+  appearance='outline'
+  onPress={() => console.log('Optional feature pressed')}
+/>
+```
+
+### Disabled State
+
+Disable the card button to prevent user interaction:
+
+```tsx
+<CardButton
+  title='Unavailable Option'
+  description='This option is currently unavailable'
+  appearance='base'
+  disabled={true}
+/>
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using the `lx` prop for layout purposes:
+
+```tsx
+<CardButton
+  title='Mobile Only'
+  description='This option is only available on mobile'
+  lx={{ marginTop: 's4', marginHorizontal: 's2' }}
+  appearance='base'
+  onPress={() => console.log('Mobile only pressed')}
+/>
+```
+
+
+</Tab>
+</CustomTabs>
