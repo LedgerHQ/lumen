@@ -20,6 +20,8 @@ const sampleSeries: DonutSegment[] = [
   { id: 'tether', label: 'Tether', value: 20 },
 ];
 
+const placeholderCount = chartConfig.donut.placeholder.segmentValues.length;
+
 const typographyTokens = ledgerLiveThemes.light.typographies.sm;
 const typographies = {
   ...typographyTokens.heading,
@@ -154,10 +156,12 @@ describe('DonutChart', () => {
       expect(queryByTestId('donut-empty')).toBeNull();
     });
 
-    it('renders seven placeholder paths while loading', () => {
+    it('renders one placeholder path per configured placeholder segment', () => {
       const { getAllByTestId } = renderDonut({ loading: true });
 
-      expect(getAllByTestId('donut-placeholder')).toHaveLength(7);
+      expect(getAllByTestId('donut-placeholder')).toHaveLength(
+        placeholderCount,
+      );
     });
 
     it('animates the placeholder paths while loading', () => {
@@ -185,7 +189,7 @@ describe('DonutChart', () => {
       const ring = getByTestId('donut-ring');
       expect(ring.props.accessibilityState).toEqual({ busy: true });
       expect(ring.props.accessibilityLabel).toBe(
-        chartConfig.donut.loadingAriaLabel,
+        chartConfig.donut.loading.ariaLabel,
       );
     });
 
@@ -196,6 +200,17 @@ describe('DonutChart', () => {
       tapSegment(getByTestId, sampleSeries, 'ethereum');
 
       expect(onActiveIdChange).not.toHaveBeenCalled();
+    });
+
+    it('keeps rendering the center content, left to the consumer', () => {
+      const renderCenter = jest.fn(() => null);
+      const { getByTestId } = renderDonut({
+        loading: true,
+        renderCenter,
+      });
+
+      getByTestId('donut-center');
+      expect(renderCenter).toHaveBeenCalled();
     });
   });
 

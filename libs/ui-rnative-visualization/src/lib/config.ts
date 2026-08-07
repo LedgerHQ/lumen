@@ -130,8 +130,8 @@ export const chartConfig = {
     loading: {
       durationInSeconds: 2,
       minOpacity: 0.5,
+      ariaLabel: 'Loading donut chart',
     },
-    loadingAriaLabel: 'Loading donut chart',
   },
 } as const;
 

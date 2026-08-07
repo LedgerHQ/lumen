@@ -150,6 +150,9 @@ export const NoData: Story = {
  * real segments, regardless of `series`.
  */
 export const Loading: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
   args: {
     loading: true,
   },

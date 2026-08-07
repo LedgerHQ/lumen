@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { chartConfig } from '../../config';
 import type { DonutSegment } from './types';
 
 import {
@@ -191,18 +192,14 @@ describe('buildArcs', () => {
 });
 
 describe('buildPlaceholderArcs', () => {
-  it('returns seven placeholder segments', () => {
+  const { segmentValues } = chartConfig.donut.placeholder;
+
+  it('returns one index-named segment per configured placeholder value', () => {
     const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
-    expect(arcs).toHaveLength(7);
-    expect(arcs.map((arc) => arc.id)).toEqual([
-      'placeholder-0',
-      'placeholder-1',
-      'placeholder-2',
-      'placeholder-3',
-      'placeholder-4',
-      'placeholder-5',
-      'placeholder-6',
-    ]);
+    expect(arcs).toHaveLength(segmentValues.length);
+    expect(arcs.map((arc) => arc.id)).toEqual(
+      segmentValues.map((_, index) => `placeholder-${index}`),
+    );
   });
 
   it('produces a non-empty path per placeholder segment', () => {

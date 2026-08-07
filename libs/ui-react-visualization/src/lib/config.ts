@@ -148,8 +148,8 @@ export const chartConfig = {
       durationInSeconds: 2,
       minOpacity: 0.5,
       easing: 'cubic-bezier(0.4, 0, 0.6, 1)',
+      ariaLabel: 'Loading donut chart',
     },
-    loadingAriaLabel: 'Loading donut chart',
     size: {
       md: {
         box: 168,

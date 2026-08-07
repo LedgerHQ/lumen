@@ -4,6 +4,8 @@ import { chartConfig } from '../../../config';
 
 const { loading } = chartConfig.donut;
 
+const FULL_TURN = 2 * Math.PI;
+
 type DonutLoadingAnimationResult = {
   animationStyle: string;
   keyframe: string;
@@ -21,7 +23,7 @@ export const useDonutLoadingAnimation = (): DonutLoadingAnimationResult => {
         `@keyframes ${animationName} { 0%, 100% { opacity: 1; } 50% { opacity: ${loading.minOpacity}; } } ` +
         `@media (prefers-reduced-motion: reduce) { @keyframes ${animationName} { 0%, 100% { opacity: 1; } } }`,
       getSegmentDelay: (midAngle: number): string =>
-        `-${((2 * Math.PI - midAngle) / (2 * Math.PI)) * loading.durationInSeconds}s`,
+        `-${((FULL_TURN - midAngle) / FULL_TURN) * loading.durationInSeconds}s`,
     }),
     [animationName],
   );

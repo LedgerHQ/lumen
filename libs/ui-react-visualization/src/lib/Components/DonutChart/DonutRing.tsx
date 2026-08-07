@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { chartConfig } from '../../config';
 
 import { useDonutLoadingAnimation } from './hooks/useDonutLoadingAnimation';
@@ -54,13 +54,14 @@ const RingSegment = ({
 };
 
 const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => {
-  const arcs = buildPlaceholderArcs(geometry);
+  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
 
   return (
     <g data-testid='donut-empty'>
       {arcs.map((segment) => (
         <path
           key={segment.id}
+          data-testid='donut-placeholder'
           d={segment.path}
           fill={chartConfig.donut.emptyRingColor}
         />
@@ -70,7 +71,7 @@ const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => {
 };
 
 const LoadingRing = ({ geometry }: { geometry: DonutGeometry }) => {
-  const arcs = buildPlaceholderArcs(geometry);
+  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
   const { animationStyle, keyframe, getSegmentDelay } =
     useDonutLoadingAnimation();
 
@@ -81,6 +82,7 @@ const LoadingRing = ({ geometry }: { geometry: DonutGeometry }) => {
         {arcs.map((segment) => (
           <path
             key={segment.id}
+            data-testid='donut-placeholder'
             d={segment.path}
             fill={chartConfig.donut.emptyRingColor}
             style={{

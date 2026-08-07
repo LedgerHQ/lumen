@@ -106,7 +106,7 @@ export function DonutChart({
         arcs={arcs}
         geometry={geometry}
         accessibilityLabel={
-          loading ? chartConfig.donut.loadingAriaLabel : accessibilityLabel
+          loading ? chartConfig.donut.loading.ariaLabel : accessibilityLabel
         }
         activeId={activeId}
         loading={loading}

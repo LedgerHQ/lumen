@@ -15,10 +15,13 @@ const sampleSeries: DonutSegment[] = [
   { id: 'tether', label: 'Tether', value: 20 },
 ];
 
-const hasLoadingWaveStyle = (container: HTMLElement): boolean => {
-  return Array.from(container.querySelectorAll('style')).some((styleEl) =>
-    styleEl.textContent?.includes('donut-loading-wave'),
+const placeholderCount = chartConfig.donut.placeholder.segmentValues.length;
+
+const getLoadingWaveStyle = (container: HTMLElement): string | null => {
+  const styleEl = Array.from(container.querySelectorAll('style')).find((el) =>
+    el.textContent?.includes('donut-loading-wave'),
   );
+  return styleEl?.textContent ?? null;
 };
 
 describe('DonutChart', () => {
@@ -98,54 +101,79 @@ describe('DonutChart', () => {
       expect(queryByTestId('donut-empty')).toBeNull();
     });
 
-    it('renders seven placeholder paths while loading', () => {
-      const { getByTestId } = render(
+    it('renders one placeholder path per configured placeholder segment', () => {
+      const { getAllByTestId } = render(
         <DonutChart series={sampleSeries} loading />,
       );
 
-      expect(
-        getByTestId('donut-loading').querySelectorAll('path'),
-      ).toHaveLength(7);
+      expect(getAllByTestId('donut-placeholder')).toHaveLength(
+        placeholderCount,
+      );
     });
 
     it('injects a keyframe style and animates the placeholder paths while loading', () => {
-      const { getByTestId, container } = render(
+      const { getAllByTestId, container } = render(
         <DonutChart series={sampleSeries} loading />,
       );
 
-      getByTestId('donut-loading');
-      expect(hasLoadingWaveStyle(container)).toBe(true);
+      expect(getLoadingWaveStyle(container)).toContain('@keyframes');
 
-      const paths = getByTestId('donut-loading').querySelectorAll('path');
-      expect(paths.length).toBeGreaterThan(0);
-      paths.forEach((path) => {
+      getAllByTestId('donut-placeholder').forEach((path) => {
         expect(path.getAttribute('style')).toContain('animation');
       });
     });
 
+    it('holds the placeholder opaque under reduced motion', () => {
+      const { container } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      expect(getLoadingWaveStyle(container)).toContain(
+        '@media (prefers-reduced-motion: reduce)',
+      );
+    });
+
     it('does not inject a loading style when not loading', () => {
-      const { getByTestId, container } = render(<DonutChart series={[]} />);
+      const { getByTestId, getAllByTestId, container } = render(
+        <DonutChart series={[]} />,
+      );
 
       getByTestId('donut-empty');
-      expect(hasLoadingWaveStyle(container)).toBe(false);
+      expect(getLoadingWaveStyle(container)).toBeNull();
 
-      getByTestId('donut-empty')
-        .querySelectorAll('path')
-        .forEach((path) => {
-          expect(path.getAttribute('style') ?? '').not.toContain('animation');
-        });
+      getAllByTestId('donut-placeholder').forEach((path) => {
+        expect(path.getAttribute('style') ?? '').not.toContain('animation');
+      });
     });
 
     it('sets aria-busy and the loading aria label on the ring', () => {
       const { getByTestId } = render(
-        <DonutChart series={sampleSeries} loading />,
+        <DonutChart
+          series={sampleSeries}
+          ariaLabel='Portfolio breakdown'
+          loading
+        />,
       );
 
       const ring = getByTestId('donut-ring');
       expect(ring.getAttribute('aria-busy')).toBe('true');
       expect(ring.getAttribute('aria-label')).toBe(
-        chartConfig.donut.loadingAriaLabel,
+        chartConfig.donut.loading.ariaLabel,
       );
+    });
+
+    it('keeps rendering the center content, left to the consumer', () => {
+      const renderCenter = vi.fn(() => null);
+      const { getByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          renderCenter={renderCenter}
+          loading
+        />,
+      );
+
+      getByTestId('donut-center');
+      expect(renderCenter).toHaveBeenCalled();
     });
   });
 

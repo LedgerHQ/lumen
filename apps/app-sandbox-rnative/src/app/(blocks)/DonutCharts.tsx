@@ -1,4 +1,10 @@
-import { Box, InteractiveIcon, Text } from '@ledgerhq/lumen-ui-rnative';
+import {
+  Box,
+  Button,
+  InteractiveIcon,
+  Skeleton,
+  Text,
+} from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import {
@@ -9,13 +15,14 @@ import {
   useDonutSeries,
   type DonutSegment,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 
 export default function DonutCharts() {
   const { theme } = useTheme();
   const cryptoSegments = getCryptoSegments(theme.colors.crypto);
   const manyCryptoSegments = getManyCryptoSegments(theme.colors.crypto);
+  const portfolioSegments = getPortfolioSegments(theme.colors.crypto);
   const segmentPalette = getSegmentPalette(theme.colors.crypto);
 
   return (
@@ -41,6 +48,7 @@ export default function DonutCharts() {
       <DominantSegment palette={segmentPalette} />
       <NoData />
       <Loading />
+      <LoadingWithCenter segments={portfolioSegments} />
       <Controlled segments={cryptoSegments} />
     </Box>
   );
@@ -66,6 +74,15 @@ const getManyCryptoSegments = (
   { id: 'xrp', label: 'XRP', value: 1 },
   { id: 'cardano', label: 'Cardano', value: 1 },
   { id: 'dogecoin', label: 'Dogecoin', value: 1 },
+];
+
+const getPortfolioSegments = (
+  crypto: Record<string, string>,
+): DonutSegment[] => [
+  { id: 'bitcoin', label: 'Bitcoin', value: 4520.4, color: crypto.bitcoin },
+  { id: 'ethereum', label: 'Ethereum', value: 2310.15, color: crypto.ethereum },
+  { id: 'sol', label: 'Solana', value: 890.25, color: crypto.sol },
+  { id: 'usdc', label: 'USDC', value: 500, color: crypto.usdc },
 ];
 
 const getSegmentPalette = (crypto: Record<string, string>): string[] => [
@@ -342,6 +359,85 @@ const Loading = () => (
     </Box>
   </Section>
 );
+
+const FETCH_DELAY_IN_MS = 2500;
+
+const formatUsd = (amount: number): string =>
+  `$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+
+const sumBalances = (segments: DonutSegment[]): number =>
+  segments.reduce((total, segment) => total + segment.value, 0);
+
+/**
+ * The ring swaps itself to the placeholder wave, but center content is
+ * consumer-owned: `renderCenter` reads `series`, so it has to render its own
+ * placeholder while the balances are in flight.
+ */
+const LoadingWithCenter = ({ segments }: { segments: DonutSegment[] }) => {
+  const [balances, setBalances] = useState<DonutSegment[] | null>(null);
+  const loading = balances === null;
+
+  useEffect(() => {
+    if (balances !== null) {
+      return;
+    }
+    const timer = setTimeout(() => setBalances(segments), FETCH_DELAY_IN_MS);
+    return () => clearTimeout(timer);
+  }, [balances, segments]);
+
+  return (
+    <Section title='Loading with center content (tap Reload to replay)'>
+      <Box lx={{ gap: 's16', alignItems: 'center' }}>
+        <DonutChart
+          series={balances ?? []}
+          loading={loading}
+          defaultActiveId={null}
+          accessibilityLabel='Portfolio breakdown'
+          renderCenter={({ series }) =>
+            loading ? (
+              <DonutChartCenter lx={{ gap: 's8' }}>
+                <Skeleton
+                  lx={{ width: 's72', height: 's24', borderRadius: 'full' }}
+                />
+                <Skeleton
+                  lx={{ width: 's48', height: 's12', borderRadius: 'full' }}
+                />
+              </DonutChartCenter>
+            ) : (
+              <DonutChartCenter>
+                <DonutChartTitle size='sm'>
+                  {formatUsd(sumBalances(series))}
+                </DonutChartTitle>
+                <DonutChartDescription>Total balance</DonutChartDescription>
+              </DonutChartCenter>
+            )
+          }
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle size='sm'>
+                {activeSegment.percentLabel}
+              </DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />
+        <Button
+          appearance='gray'
+          size='sm'
+          loading={loading}
+          onPress={() => setBalances(null)}
+        >
+          Reload
+        </Button>
+      </Box>
+    </Section>
+  );
+};
 
 const Controlled = ({ segments }: { segments: DonutSegment[] }) => {
   const [activeId, setActiveId] = useState<string | null>(null);
