@@ -173,6 +173,19 @@ const { segments, others } = useDonutSeries(series, {
 <DonutChart series={segments} />;
 ```
 
+## Color contrast
+
+Segment colors are used as-is. If a palette contains colors whose lightness
+sits close to the chart's background the segments may be hard to distinguish
+from the surrounding surface.
+
+Pass `ensureColorContrast` to let the chart correct this automatically. Each
+segment's color is nudged in HSL lightness space until it differs from the
+surface background by at least 20 units. Colors that already meet that minimum
+are left unchanged.
+
+<Canvas of={DonutChartStories.WithColorContrast} />
+
 ## Props
 
 <Controls of={DonutChartStories.Base} />
