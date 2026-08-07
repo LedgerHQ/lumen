@@ -1,11 +1,11 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { getDonutViewBox, toRingLocalPoint } from './constants';
 import type { DonutSegment } from './types';
 import {
   buildArcs,
-  buildEmptyRingPath,
+  buildPlaceholderArcs,
   findSegmentIdAtPoint,
   formatPercentLabel,
   getCenterMaxWidth,
@@ -194,9 +194,28 @@ describe('buildArcs', () => {
   });
 });
 
-describe('buildEmptyRingPath', () => {
-  it('builds a non-empty full-ring path', () => {
-    expect(buildEmptyRingPath(DONUT_GEOMETRY.md).length).toBeGreaterThan(0);
+describe('buildPlaceholderArcs', () => {
+  const { segmentValues } = chartConfig.donut.placeholder;
+
+  it('returns one index-named segment per configured placeholder value', () => {
+    const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
+    expect(arcs).toHaveLength(segmentValues.length);
+    expect(arcs.map((arc) => arc.id)).toEqual(
+      segmentValues.map((_, index) => `placeholder-${index}`),
+    );
+  });
+
+  it('produces a non-empty path per placeholder segment', () => {
+    const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
+    arcs.forEach((arc) => expect(arc.path).toMatch(/^M/));
+  });
+
+  it('computes midAngle per placeholder segment', () => {
+    const arcs = buildPlaceholderArcs(DONUT_GEOMETRY.md);
+    arcs.forEach((arc) => {
+      expect(arc.midAngle).toBeGreaterThanOrEqual(0);
+      expect(arc.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+    });
   });
 });
 

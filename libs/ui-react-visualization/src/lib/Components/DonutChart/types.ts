@@ -19,7 +19,14 @@ export type DonutGeometry = Readonly<{
   hoverOffset: number;
 }>;
 
-/** An arc ready to draw: its path is centered at the origin. */
+/** A placeholder arc for the empty ring and loading wave. */
+export type DonutPlaceholderArc = {
+  id: string;
+  path: string;
+  midAngle: number;
+};
+
+/** A segment ready to draw: its path is centered at the origin. */
 export type DonutArc = {
   id: string;
   path: string;
@@ -118,8 +125,12 @@ export type DonutChartProps = {
    */
   ariaLabel?: string;
   /**
-   * Controlled active segment id. Active is data-driven, not a state variant.
+   * Whether the chart is loading. When true, renders an animated placeholder
+   * wave instead of the real segments, regardless of `series`.
+   * @default false
    */
+  loading?: boolean;
+  /** Controlled active segment id. Active is data-driven, not a state variant. */
   activeId?: string | null;
   /**
    * Default active segment id for uncontrolled mode.

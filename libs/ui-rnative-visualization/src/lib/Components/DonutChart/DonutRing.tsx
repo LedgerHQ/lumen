@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Animated, {
   useAnimatedProps,
   useSharedValue,
   withTiming,
+  type SharedValue,
 } from 'react-native-reanimated';
 import { G, Path, Svg } from 'react-native-svg';
 
@@ -12,7 +13,15 @@ import {
   type DonutGeometry,
 } from '../../config';
 import { getDonutViewBox } from './constants';
-import { buildEmptyRingPath, type DonutArc } from './utils';
+import {
+  useDonutLoadingAnimation,
+  useDonutLoadingSegmentProps,
+} from './hooks/useDonutLoadingAnimation';
+import {
+  buildPlaceholderArcs,
+  type DonutArc,
+  type DonutPlaceholderArc,
+} from './utils';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -83,15 +92,74 @@ const EmptyRing = ({
 }: {
   geometry: DonutGeometry;
   color: string;
-}) => (
-  <Path testID='donut-empty' d={buildEmptyRingPath(geometry)} fill={color} />
-);
+}) => {
+  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
+
+  return (
+    <G testID='donut-empty'>
+      {arcs.map((segment) => (
+        <Path
+          key={segment.id}
+          testID='donut-placeholder'
+          d={segment.path}
+          fill={color}
+        />
+      ))}
+    </G>
+  );
+};
+
+const LoadingSegment = ({
+  segment,
+  color,
+  progress,
+}: {
+  segment: DonutPlaceholderArc;
+  color: string;
+  progress: SharedValue<number>;
+}) => {
+  const animatedProps = useDonutLoadingSegmentProps(progress, segment.midAngle);
+
+  return (
+    <AnimatedPath
+      testID='donut-placeholder'
+      d={segment.path}
+      fill={color}
+      animatedProps={animatedProps}
+    />
+  );
+};
+
+const LoadingRing = ({
+  geometry,
+  color,
+}: {
+  geometry: DonutGeometry;
+  color: string;
+}) => {
+  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
+  const progress = useDonutLoadingAnimation();
+
+  return (
+    <G testID='donut-loading'>
+      {arcs.map((segment) => (
+        <LoadingSegment
+          key={segment.id}
+          segment={segment}
+          color={color}
+          progress={progress}
+        />
+      ))}
+    </G>
+  );
+};
 
 type DonutRingProps = {
   arcs: DonutArc[];
   geometry: DonutGeometry;
   accessibilityLabel?: string;
   activeId: string | null;
+  loading?: boolean;
 };
 
 export const DonutRing = ({
@@ -99,6 +167,7 @@ export const DonutRing = ({
   geometry,
   accessibilityLabel,
   activeId,
+  loading = false,
 }: DonutRingProps) => {
   const tokens = useChartTokens();
   const { box } = geometry;
@@ -113,9 +182,12 @@ export const DonutRing = ({
       viewBox={getDonutViewBox(geometry)}
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
+      accessibilityState={loading ? { busy: true } : undefined}
     >
       <G transform={`translate(${center}, ${center})`}>
-        {hasSegments ? (
+        {loading ? (
+          <LoadingRing geometry={geometry} color={tokens.color.surface} />
+        ) : hasSegments ? (
           arcs.map((segment) => (
             <RingSegment
               key={segment.id}

@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { chartConfig } from '../../config';
 
+import { useDonutLoadingAnimation } from './hooks/useDonutLoadingAnimation';
 import type { DonutArc, DonutGeometry } from './types';
-import { buildEmptyRingPath, getDonutViewBox } from './utils';
+import { buildPlaceholderArcs, getDonutViewBox } from './utils';
 
 const { hover } = chartConfig.donut;
 
@@ -52,19 +53,55 @@ const RingSegment = ({
   );
 };
 
-const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => (
-  <path
-    data-testid='donut-empty'
-    d={buildEmptyRingPath(geometry)}
-    fill={chartConfig.donut.emptyRingColor}
-  />
-);
+const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => {
+  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
+
+  return (
+    <g data-testid='donut-empty'>
+      {arcs.map((segment) => (
+        <path
+          key={segment.id}
+          data-testid='donut-placeholder'
+          d={segment.path}
+          fill={chartConfig.donut.emptyRingColor}
+        />
+      ))}
+    </g>
+  );
+};
+
+const LoadingRing = ({ geometry }: { geometry: DonutGeometry }) => {
+  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
+  const { animationStyle, keyframe, getSegmentDelay } =
+    useDonutLoadingAnimation();
+
+  return (
+    <>
+      <style>{keyframe}</style>
+      <g data-testid='donut-loading'>
+        {arcs.map((segment) => (
+          <path
+            key={segment.id}
+            data-testid='donut-placeholder'
+            d={segment.path}
+            fill={chartConfig.donut.emptyRingColor}
+            style={{
+              animation: animationStyle,
+              animationDelay: getSegmentDelay(segment.midAngle),
+            }}
+          />
+        ))}
+      </g>
+    </>
+  );
+};
 
 type DonutRingProps = {
   arcs: DonutArc[];
   geometry: DonutGeometry;
   ariaLabel?: string;
   activeId: string | null;
+  loading?: boolean;
   onSegmentEnter: (id: string) => void;
 };
 
@@ -74,6 +111,7 @@ export const DonutRing = ({
   geometry,
   ariaLabel,
   activeId,
+  loading = false,
   onSegmentEnter,
 }: DonutRingProps) => {
   const { box } = geometry;
@@ -86,12 +124,15 @@ export const DonutRing = ({
       width={box}
       height={box}
       viewBox={getDonutViewBox(geometry)}
-      role={hasSegments ? 'group' : 'img'}
+      role={loading || !hasSegments ? 'img' : 'group'}
       aria-label={ariaLabel}
+      aria-busy={loading || undefined}
       style={{ display: 'block', overflow: 'visible' }}
     >
       <g transform={`translate(${center}, ${center})`}>
-        {hasSegments ? (
+        {loading ? (
+          <LoadingRing geometry={geometry} />
+        ) : hasSegments ? (
           arcs.map((segment) => (
             <RingSegment
               key={segment.id}

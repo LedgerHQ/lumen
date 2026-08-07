@@ -4,7 +4,7 @@ import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
-import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { DonutChart } from './DonutChart';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutChartCenter } from './DonutChartCenter';
@@ -19,6 +19,8 @@ const sampleSeries: DonutSegment[] = [
   { id: 'ethereum', label: 'Ethereum', value: 30 },
   { id: 'tether', label: 'Tether', value: 20 },
 ];
+
+const placeholderCount = chartConfig.donut.placeholder.segmentValues.length;
 
 const typographyTokens = ledgerLiveThemes.light.typographies.sm;
 const typographies = {
@@ -143,6 +145,73 @@ describe('DonutChart', () => {
     });
     getByTestId('donut-empty');
     expect(queryByTestId('donut-segment')).toBeNull();
+  });
+
+  describe('loading', () => {
+    it('renders the animated placeholder instead of real segments', () => {
+      const { getByTestId, queryByTestId } = renderDonut({ loading: true });
+
+      getByTestId('donut-loading');
+      expect(queryByTestId('donut-segment')).toBeNull();
+      expect(queryByTestId('donut-empty')).toBeNull();
+    });
+
+    it('renders one placeholder path per configured placeholder segment', () => {
+      const { getAllByTestId } = renderDonut({ loading: true });
+
+      expect(getAllByTestId('donut-placeholder')).toHaveLength(
+        placeholderCount,
+      );
+    });
+
+    it('animates the placeholder paths while loading', () => {
+      const { getAllByTestId } = renderDonut({ loading: true });
+
+      getAllByTestId('donut-placeholder').forEach((segment) => {
+        expect(segment.props.animatedProps).toBeDefined();
+      });
+    });
+
+    it('leaves the empty-ring placeholder static when not loading', () => {
+      const { getAllByTestId } = renderDonut({ series: [] });
+
+      getAllByTestId('donut-placeholder').forEach((segment) => {
+        expect(segment.props.animatedProps).toBeUndefined();
+      });
+    });
+
+    it('marks the ring busy and swaps in the loading label', () => {
+      const { getByTestId } = renderDonut({
+        loading: true,
+        accessibilityLabel: 'Portfolio breakdown',
+      });
+
+      const ring = getByTestId('donut-ring');
+      expect(ring.props.accessibilityState).toEqual({ busy: true });
+      expect(ring.props.accessibilityLabel).toBe(
+        chartConfig.donut.loading.ariaLabel,
+      );
+    });
+
+    it('ignores taps while loading', () => {
+      const onActiveIdChange = jest.fn();
+      const { getByTestId } = renderDonut({ loading: true, onActiveIdChange });
+
+      tapSegment(getByTestId, sampleSeries, 'ethereum');
+
+      expect(onActiveIdChange).not.toHaveBeenCalled();
+    });
+
+    it('keeps rendering the center content, left to the consumer', () => {
+      const renderCenter = jest.fn(() => null);
+      const { getByTestId } = renderDonut({
+        loading: true,
+        renderCenter,
+      });
+
+      getByTestId('donut-center');
+      expect(renderCenter).toHaveBeenCalled();
+    });
   });
 
   describe('interactivity', () => {
@@ -299,10 +368,10 @@ describe('DonutChart', () => {
     });
 
     it('fills the empty ring with the muted surface color', () => {
-      const { getByTestId } = renderDonut({ series: [] });
-      expect(getByTestId('donut-empty').props.fill).toBe(
-        ledgerLiveThemes.light.colors.bg.muted,
-      );
+      const { getAllByTestId } = renderDonut({ series: [] });
+      getAllByTestId('donut-placeholder').forEach((segment) => {
+        expect(segment.props.fill).toBe(ledgerLiveThemes.light.colors.bg.muted);
+      });
     });
 
     it('forwards the accessibility label to the underlying svg', () => {
