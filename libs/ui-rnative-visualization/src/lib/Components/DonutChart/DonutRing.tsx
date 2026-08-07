@@ -4,7 +4,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { G, Path, Svg } from 'react-native-svg';
+import { Path, Svg } from 'react-native-svg';
 
 import {
   DONUT_INTERACTION,
@@ -12,6 +12,7 @@ import {
   type DonutGeometry,
 } from '../../config';
 import { getDonutViewBox } from './constants';
+import { RevealAnimation } from './RevealAnimation';
 import { buildEmptyRingPath, type DonutArc } from './utils';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -102,7 +103,7 @@ export const DonutRing = ({
 }: DonutRingProps) => {
   const tokens = useChartTokens();
   const { box } = geometry;
-  const center = box / 2;
+  const R = box / 2;
   const hasSegments = arcs.length > 0;
 
   return (
@@ -114,7 +115,7 @@ export const DonutRing = ({
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
     >
-      <G transform={`translate(${center}, ${center})`}>
+      <RevealAnimation R={R}>
         {hasSegments ? (
           arcs.map((segment) => (
             <RingSegment
@@ -127,7 +128,7 @@ export const DonutRing = ({
         ) : (
           <EmptyRing geometry={geometry} color={tokens.color.surface} />
         )}
-      </G>
+      </RevealAnimation>
     </Svg>
   );
 };

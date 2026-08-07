@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { chartConfig } from '../../config';
 
+import { RevealAnimation } from './RevealAnimation';
 import type { DonutArc, DonutGeometry } from './types';
 import { buildEmptyRingPath, getDonutViewBox } from './utils';
 
@@ -81,29 +82,31 @@ export const DonutRing = ({
   const hasSegments = arcs.length > 0;
 
   return (
-    <svg
-      data-testid='donut-ring'
-      width={box}
-      height={box}
-      viewBox={getDonutViewBox(geometry)}
-      role={hasSegments ? 'group' : 'img'}
-      aria-label={ariaLabel}
-      style={{ display: 'block', overflow: 'visible' }}
-    >
-      <g transform={`translate(${center}, ${center})`}>
-        {hasSegments ? (
-          arcs.map((segment) => (
-            <RingSegment
-              key={segment.id}
-              segment={segment}
-              activeId={activeId}
-              onSegmentEnter={onSegmentEnter}
-            />
-          ))
-        ) : (
-          <EmptyRing geometry={geometry} />
-        )}
-      </g>
-    </svg>
+    <RevealAnimation>
+      <svg
+        data-testid='donut-ring'
+        width={box}
+        height={box}
+        viewBox={getDonutViewBox(geometry)}
+        role={hasSegments ? 'group' : 'img'}
+        aria-label={ariaLabel}
+        style={{ display: 'block', overflow: 'visible' }}
+      >
+        <g transform={`translate(${center}, ${center})`}>
+          {hasSegments ? (
+            arcs.map((segment) => (
+              <RingSegment
+                key={segment.id}
+                segment={segment}
+                activeId={activeId}
+                onSegmentEnter={onSegmentEnter}
+              />
+            ))
+          ) : (
+            <EmptyRing geometry={geometry} />
+          )}
+        </g>
+      </svg>
+    </RevealAnimation>
   );
 };

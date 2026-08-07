@@ -506,4 +506,26 @@ describe('DonutChart', () => {
       getByText('3');
     });
   });
+
+  describe('reveal animation', () => {
+    it('wraps the ring in the reveal container', () => {
+      const { container } = render(<DonutChart series={sampleSeries} />);
+      expect(container.querySelector('.donut-ring-reveal')).not.toBeNull();
+    });
+
+    it('injects the conic-gradient keyframe CSS', () => {
+      const { container } = render(<DonutChart series={sampleSeries} />);
+      expect(container.querySelector('style')?.textContent).toContain(
+        'donut-reveal',
+      );
+    });
+
+    it('renders the ring inside the reveal wrapper', () => {
+      const { container, getByTestId } = render(
+        <DonutChart series={sampleSeries} />,
+      );
+      const wrapper = container.querySelector('.donut-ring-reveal');
+      expect(wrapper?.contains(getByTestId('donut-ring'))).toBe(true);
+    });
+  });
 });
