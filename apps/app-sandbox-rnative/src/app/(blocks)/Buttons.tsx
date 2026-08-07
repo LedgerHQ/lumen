@@ -38,6 +38,38 @@ export default function Buttons() {
       >
         With Icon
       </Button>
+      <Button
+        appearance='no-background'
+        onPress={() => {
+          console.log('Button pressed');
+        }}
+      >
+        No Background
+      </Button>
+      <Button
+        appearance='transparent'
+        onPress={() => {
+          console.log('Button pressed');
+        }}
+      >
+        Transparent
+      </Button>
+      <Button
+        appearance='gray'
+        onPress={() => {
+          console.log('Button pressed');
+        }}
+      >
+        Gray
+      </Button>
+      <Button
+        appearance='red'
+        onPress={() => {
+          console.log('Button pressed');
+        }}
+      >
+        Red
+      </Button>
     </>
   );
 }
