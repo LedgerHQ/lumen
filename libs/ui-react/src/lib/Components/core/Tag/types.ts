@@ -1,0 +1,38 @@
+import type { ComponentPropsWithRef, ComponentType } from 'react';
+import type { IconSize } from '../../internal/Icon/types';
+
+export type TagProps = {
+  /**
+   * The appearance of the tag.
+   * @default accent
+   */
+  appearance?:
+    | 'base'
+    | 'gray'
+    | 'accent'
+    | 'accent-subtle'
+    | 'success'
+    | 'error'
+    | 'warning'
+    | 'white';
+  /**
+   * The size of the tag.
+   * @default md
+   */
+  size?: 'sm' | 'md';
+  /**
+   * Icon component to render.
+   */
+  icon?: ComponentType<{ size?: IconSize; className?: string }>;
+  /**
+   * Label text to display.
+   * @required
+   */
+  label: string;
+  /**
+   * When `true`, prevents the user from interacting with the tag.
+   *
+   * @default false
+   */
+  disabled?: boolean;
+} & ComponentPropsWithRef<'div'>;

@@ -1,0 +1,299 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Table' of={TableStories} />
+
+# Table
+
+<CustomTabs>
+  <Tab label="Overview ">
+
+## Introduction
+
+Table provides **low-level UI primitives** for building tables with full control over the markup and rendering. Every row, cell, and header is explicitly authored by you.
+
+Use Table when you need **maximum flexibility** over the layout, or when your data doesn't fit a standard flat-array model.
+
+> If you want built-in sorting, filtering, pagination, and more without wiring the UI yourself, see [DataTable](?path=/docs/react-datatable--docs) instead.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11618-5962&m=dev).
+
+## Anatomy
+
+<Canvas of={TableStories.Base} />
+
+<Controls of={TableStories.Base} />
+
+## Properties
+
+### Appearance
+
+The `TableRoot` component supports two appearance modes:
+
+- `no-background` (default): uses the canvas background, ideal when the table sits directly on the page
+- `plain`: uses a surface background, useful when the table needs visual separation from its surroundings
+
+<Canvas of={TableStories.AppearanceShowcase} />
+
+### Responsive Layout
+
+Columns can be hidden below specific breakpoints using the `hideBelow` prop on both `TableHeaderCell` and `TableCell`.  
+Make sure to apply `hideBelow` to matching header and body cells so they stay in sync.  
+Long header text should be wrapped into a non-flex element with `truncate` classname.
+
+<Canvas of={TableStories.ResponsiveLayout} />
+
+### Clickable Rows
+
+Set `clickable` on `TableRow` to enable hover and active background states, and pass an `onClick` handler. This adds `role="button"` for accessibility. Use this when rows navigate to a detail view or trigger an action.
+
+<Canvas of={TableStories.WithClickableRow} />
+
+### Custom Header
+
+Sorting controls can be defined using `TableSortButton` that will be shown on hover.  
+Make sure to match the `TableSortButton` alignment with the cell one.  
+Additional content can be defined using the `trailingContent` prop of the `TableHeaderCell`.  
+
+
+<Canvas of={TableStories.WithCustomHeader} />
+
+### Infinite Loading
+
+Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls near the bottom.  
+Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicate calls.  
+
+Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
+A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
+
+<Canvas of={TableStories.WithInfiniteLoading} />
+
+### Group Header
+
+The `TableGroupHeaderRow` sits can be used to group rows together by a date or other category. It is rendered as `<tr>` + `<td>`.
+Be sure to define the `colSpan` property to match the total number of columns in the table.
+
+<Canvas of={TableStories.WithGroupHeader} />
+
+### Action Bar
+
+The `TableActionBar` sits above the table and splits into `TableActionBarLeading` and `TableActionBarTrailing`.  
+It is rendered outside `TableRoot` so it doesn't scroll with the table content.  
+
+<Canvas of={TableStories.WithNetworkIconsAndActionBar} />
+
+### Cell Content
+
+Compose rich cell content with `TableCellItem` as the root. Place a leading
+element (a `Spot`, icon or crypto-icon) directly inside it, followed by a
+`TableCellContent` that stacks a `TableCellContentTitle` and a
+`TableCellContentDescription`.
+
+Set `align='end'` on `TableCellItem` to right-align the content; it is
+propagated to the content sub-components via context.
+
+For more complex compositions, use `TableCellContentRow` to lay out a
+description alongside custom trailing content (e.g. a `Tag`).
+
+<Canvas of={TableStories.WithComplexCellContent} />
+
+
+## Accessibility
+
+To be implemented:
+
+- Keyboard navigation between rows and cells
+- ARIA attributes for sortable columns
+- Screen reader announcements for loading states
+
+</Tab> <Tab label="Implementation ">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+```tsx
+import {
+  TableRoot,
+  Table,
+  TableHeader,
+  TableHeaderRow,
+  TableHeaderCell,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <TableRoot>
+      <Table>
+        <TableHeader>
+          <TableHeaderRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell align='right'>Price</TableHeaderCell>
+          </TableHeaderRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Bitcoin</TableCell>
+            <TableCell align='right'>$43,250.00</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableRoot>
+  );
+}
+```
+
+## Advanced Patterns
+
+### Cell Content
+
+Compose cell content with `TableCellItem` and its sub-components instead of a
+single element. A leading element is a direct child; the text column is a
+`TableCellContent`:
+
+```tsx
+import {
+  TableCell,
+  TableCellItem,
+  TableCellContent,
+  TableCellContentTitle,
+  TableCellContentDescription,
+  TableCellContentRow,
+} from '@ledgerhq/lumen-ui-react';
+
+<TableCell>
+  <TableCellItem>
+    <Spot size={40} appearance='icon' icon={Android} />
+    <TableCellContent>
+      <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+      <TableCellContentDescription>BTC</TableCellContentDescription>
+    </TableCellContent>
+  </TableCellItem>
+</TableCell>
+
+<TableCell align='end'>
+  <TableCellItem align='end'>
+    <TableCellContent>
+      <TableCellContentTitle>$62,000.00</TableCellContentTitle>
+      <TableCellContentDescription>+2.4%</TableCellContentDescription>
+    </TableCellContent>
+  </TableCellItem>
+</TableCell>
+```
+
+Use `TableCellContentRow` for richer compositions, e.g. a description next to a
+`Tag`:
+
+```tsx
+<TableCellItem>
+  <Spot size={40} appearance='icon' icon={Android} />
+  <TableCellContent>
+    <TableCellContentTitle>Bitcoin</TableCellContentTitle>
+    <TableCellContentRow>
+      <TableCellContentDescription>BTC</TableCellContentDescription>
+      <Tag appearance='success' size='sm' label='New' />
+    </TableCellContentRow>
+  </TableCellContent>
+</TableCellItem>
+```
+
+### Sorting
+
+Use `TableSortButton` inside `TableHeaderCell` to add sortable columns:
+
+```tsx
+import { TableSortButton } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function SortableTable() {
+  const [sortDir, setSortDir] = useState(undefined);
+
+  return (
+    <TableHeaderCell>
+      <TableSortButton
+        sortDirection={sortDir}
+        onToggleSort={setSortDir}
+      >
+        Name
+      </TableSortButton>
+    </TableHeaderCell>
+  );
+}
+```
+
+### Info Icon with Tooltip
+
+Combine a truncatable `<span>` and `TableInfoIcon` inside a `TableHeaderCell`:
+
+```tsx
+import {
+  TableHeaderCell,
+  TableInfoIcon,
+} from '@ledgerhq/lumen-ui-react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@ledgerhq/lumen-ui-react';
+
+<TableHeaderCell align='right'>
+  <span className='truncate'>Market cap</span>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <TableInfoIcon />
+    </TooltipTrigger>
+    <TooltipContent>Total market capitalization</TooltipContent>
+  </Tooltip>
+</TableHeaderCell>
+```
+
+### Infinite Scroll
+
+Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the bottom:
+
+```tsx
+<TableRoot
+  className='h-480'
+  loading={loading}
+  onScrollBottom={loadMore}
+>
+  <Table>
+    {/* ... */}
+  </Table>
+  <TableLoadingRow />
+</TableRoot>
+```
+
+### Action Bar
+
+Place `TableActionBar` above the table for search and action controls:
+
+```tsx
+import {
+  TableActionBar,
+  TableActionBarLeading,
+  TableActionBarTrailing,
+} from '@ledgerhq/lumen-ui-react';
+
+<TableActionBar>
+  <TableActionBarLeading>
+    <SearchInput placeholder='Search...' />
+  </TableActionBarLeading>
+  <TableActionBarTrailing>
+    <Button appearance='base' size='md'>Export</Button>
+  </TableActionBarTrailing>
+</TableActionBar>
+```
+
+</Tab>
+</CustomTabs>

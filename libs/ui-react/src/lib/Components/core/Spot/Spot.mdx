@@ -1,0 +1,185 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SpotStories from './Spot.stories';
+import { Spot } from './Spot';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Spot' of={SpotStories} />
+
+# Spot
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Spots are circular status indicators that provide visual feedback about different states, actions, or information. They come in various predefined appearances and can display custom icons or numbers to convey specific meanings in the interface.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6786-4738).
+
+## Anatomy
+
+<Canvas of={SpotStories.Base} />
+
+- **Circular Container**: Circular background
+- **Content**: Icon, number, or loading indicator based on appearance type
+
+## Properties
+
+### Overview
+
+<Canvas of={SpotStories.Base} />
+<Controls of={SpotStories.Base} />
+
+### Appearance Types
+
+There are 8 predefined spot appearances, each serving different purposes:
+
+- **icon**: Custom icon display
+- **bluetooth**: Bluetooth connectivity indicator
+- **check**: Success/completion state
+- **error**: Error or failure state
+- **warning**: Warning or caution state
+- **info**: Information state
+- **loader**: Loading or processing state
+- **number**: Numeric display (0-9)
+
+<Canvas of={SpotStories.AppearanceShowcase} />
+
+### Sizes
+
+There are 3 predefined spot sizes:
+
+<Canvas of={SpotStories.SizesShowcase} />
+
+### States
+
+The Spot component has an optional disabled state.
+
+<Canvas of={SpotStories.StatesShowcase} />
+
+### With DotSymbol
+
+The Spot can be combined with DotSymbol.
+
+<Canvas of={SpotStories.WithDotSymbol} />
+
+### Discriminated Union Types
+
+The Spot component uses TypeScript's discriminated union pattern to ensure type safety:
+
+- `appearance: 'icon'` requires an `icon` prop
+- `appearance: 'number'` requires a `number` prop (0-9)
+- All other appearances are self-contained
+
+## Accessibility
+
+To be implemented:
+
+- Color contrast verification
+- Screen reader support for status descriptions
+- Keyboard navigation considerations
+- Semantic labeling for different states
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+```tsx
+import { Spot } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return <Spot appearance='check' />;
+}
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them using Tailwind classes:
+
+```tsx
+<Spot appearance='icon' icon={Settings} className='mt-4 ml-2' />
+```
+
+### With Icons
+
+The Spot component supports custom icons through the discriminated union type system:
+
+```tsx
+import { Spot } from '@ledgerhq/lumen-ui-react';
+import { Settings, Heart, Star } from '@ledgerhq/lumen-ui-react/symbols';
+
+function MyComponent() {
+  return (
+    <div className='flex gap-4'>
+      <Spot appearance='icon' icon={Settings} />
+      <Spot appearance='icon' icon={Heart} />
+      <Spot appearance='icon' icon={Star} />
+    </div>
+  );
+}
+```
+
+### With Numbers
+
+The Spot component can display numeric values from 0-9:
+
+```tsx
+import { Spot } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <div className='flex gap-4'>
+      <Spot appearance='number' number={1} />
+      <Spot appearance='number' number={2} />
+      <Spot appearance='number' number={3} />
+    </div>
+  );
+}
+```
+
+### Status Indicators
+
+Spot is designed for status indication with predefined appearances:
+
+```tsx
+import { Spot } from '@ledgerhq/lumen-ui-react';
+
+function StatusIndicators() {
+  return (
+    <div className='flex gap-4'>
+      {/* Success state */}
+      <Spot appearance='check' />
+
+      {/* Error state */}
+      <Spot appearance='error' />
+
+      {/* Warning state */}
+      <Spot appearance='warning' />
+
+      {/* Info state */}
+      <Spot appearance='info' />
+
+      {/* Loading state */}
+      <Spot appearance='loader' />
+
+      {/* Connectivity */}
+      <Spot appearance='bluetooth' />
+    </div>
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>

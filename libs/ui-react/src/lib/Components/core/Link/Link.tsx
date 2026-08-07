@@ -1,0 +1,139 @@
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { Slot } from '@radix-ui/react-slot';
+import { cva } from 'class-variance-authority';
+import type { IconSize } from '../../internal/Icon/types';
+import { ExternalLink } from '../../symbols';
+import type { LinkProps } from './types';
+
+const linkVariants = cva(
+  'inline-flex w-fit max-w-full items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus',
+  {
+    variants: {
+      appearance: {
+        base: 'text-base hover:text-base-hover active:text-base-pressed',
+        accent:
+          'text-interactive hover:text-interactive-hover active:text-interactive-pressed',
+        inherit: '',
+      },
+      size: {
+        sm: 'gap-4 body-2-semi-bold',
+        md: 'gap-8 body-1-semi-bold',
+        inherit: '',
+      },
+      underline: {
+        true: 'underline underline-offset-2',
+        false: '',
+      },
+      disabled: {
+        true: 'pointer-events-none text-disabled',
+        false: '',
+      },
+    },
+    defaultVariants: {
+      appearance: 'inherit',
+      size: 'inherit',
+      underline: true,
+      disabled: false,
+    },
+  },
+);
+
+/**
+ * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
+ *
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-link--docs Guidelines}
+ *
+ * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
+ * Do not use it to modify the link's core appearance (colors, padding, etc). Use the `appearance` and `underline` props instead.
+ *
+ * @example
+ * import { Link } from '@ledgerhq/lumen-ui-react';
+ *
+ * // Default link with underline and inherited appearance and size
+ * <Link href="/page">
+ *   Go to Page
+ * </Link>
+ *
+ * // Accent link with icon
+ * import { ArrowRight } from '@ledgerhq/lumen-ui-react/symbols';
+ *
+ * <Link appearance="accent" size="sm" href="https://example.com" isExternal icon={ArrowRight}>
+ *   External Site
+ * </Link>
+ *
+ * // Link with inherited styles
+ * <Link appearance="inherit" size="inherit" href="/page">
+ *   Inherit Styles
+ * </Link>
+ *
+ * // Link as a router link (asChild pattern)
+ * import { Link as RouterLink } from 'react-router-dom';
+ *
+ * <Link asChild>
+ *   <RouterLink to="/dashboard">Dashboard</RouterLink>
+ * </Link>
+ *
+ * // Note: When using asChild, the child element is responsible for its own content.
+ * // Icons and other Link props like 'icon' are ignored when asChild is true - handle these in the child if needed.
+ */
+export const Link = ({
+  ref,
+  className,
+  children,
+  appearance,
+  size = 'inherit',
+  underline = true,
+  icon,
+  isExternal = false,
+  asChild = false,
+  disabled: disabledProp,
+  ...props
+}: LinkProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'Link',
+    mergeWith: { disabled: disabledProp },
+  });
+  const iconSizeMap: { [key: string]: IconSize } = {
+    sm: 16,
+    md: 20,
+  };
+
+  const calculatedIconSize = size ? iconSizeMap[size] : 20;
+  const IconComponent = icon;
+
+  const Comp = asChild ? Slot : 'a';
+
+  return (
+    <Comp
+      ref={ref}
+      className={cn(
+        linkVariants({
+          appearance,
+          size,
+          underline,
+          disabled,
+        }),
+        className,
+      )}
+      aria-disabled={disabled || undefined}
+      target={isExternal && !asChild ? '_blank' : undefined}
+      rel={isExternal && !asChild ? 'noopener noreferrer' : undefined}
+      {...props}
+    >
+      {asChild ? (
+        children
+      ) : (
+        <>
+          {IconComponent && <IconComponent size={calculatedIconSize} />}
+          <span className='min-w-0 truncate'>{children}</span>
+          {isExternal && (
+            <>
+              <ExternalLink size={calculatedIconSize} aria-hidden='true' />
+              <span className='sr-only'>(opens in a new tab)</span>
+            </>
+          )}
+        </>
+      )}
+    </Comp>
+  );
+};

@@ -24,11 +24,11 @@
       "default": "./dist/index.js"
     },
     "./symbols": {
-      "types": "./dist/lib/Symbols/index.d.ts",
-      "import": "./dist/lib/Symbols/index.js",
-      "default": "./dist/lib/Symbols/index.js"
+      "types": "./dist/lib/Components/symbols/index.d.ts",
+      "import": "./dist/lib/Components/symbols/index.js",
+      "default": "./dist/lib/Components/symbols/index.js"
     },
-    "./*": "./dist/lib/Components/*/index.js"
+    "./*": "./dist/lib/Components/core/*/index.js"
   },
   "files": [
     "dist",

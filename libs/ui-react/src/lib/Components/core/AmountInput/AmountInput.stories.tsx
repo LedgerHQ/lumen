@@ -1,0 +1,234 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { TransferVertical } from '../../symbols/icons/TransferVertical';
+import { IconButton } from '../IconButton';
+import { AmountInput } from './AmountInput';
+import type { AmountInputAlign, AmountInputSize } from './types';
+
+const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
+
+const SIZES: AmountInputSize[] = ['md', 'sm'];
+
+const meta = {
+  id: 'react-amountinput',
+  title: 'Core/AmountInput',
+  component: AmountInput,
+  parameters: {
+    layout: 'centered',
+  },
+} satisfies Meta<typeof AmountInput>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    placeholder: '0',
+    currencyText: '$',
+    value: '',
+    onChange: () => console.log('onChange triggered'),
+  },
+};
+
+export const WithRightCurrency: Story = {
+  args: {
+    placeholder: '0',
+    currencyText: 'ETH',
+    currencyPosition: 'right',
+    value: '',
+    onChange: () => console.log('onChange triggered'),
+  },
+};
+
+export const WithValue: Story = {
+  args: {
+    value: '1234.56',
+    currencyText: '$',
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+};
+
+export const Size: Story = {
+  args: {
+    value: '1234.56',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => (
+    <div className='flex w-560 flex-col gap-24'>
+      {SIZES.map((size) => (
+        <div key={size} className='w-full'>
+          <AmountInput
+            size={size}
+            value='1234.56'
+            currencyText='$'
+            onChange={() => console.log('onChange triggered')}
+            aria-label='Input amount'
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Alignment: Story = {
+  args: {
+    value: '1234.56',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => (
+    <div className='flex w-560 flex-col gap-24'>
+      {ALIGNMENTS.map((align) => (
+        <div key={align} className='w-full'>
+          <AmountInput
+            align={align}
+            value='1234.56'
+            currencyText='$'
+            onChange={() => console.log('onChange triggered')}
+            aria-label='Input amount'
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Disabled: Story = {
+  args: {
+    value: '1234.56',
+    currencyText: 'ETH',
+    currencyPosition: 'right',
+    disabled: true,
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+};
+
+export const Error: Story = {
+  args: {
+    value: '1234.56',
+    currencyText: '$',
+    'aria-invalid': true,
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+};
+
+export const IntegerOnly: Story = {
+  args: {
+    value: '1234',
+    currencyText: '$',
+    allowDecimals: false,
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Integer-only input with allowDecimals set to false to prevent decimal values.',
+      },
+      source: {
+        code: `<AmountInput
+  value="1234"
+  currencyText="$"
+  allowDecimals={false} // Important: disables decimal input
+  onChange={() => console.log('onChange triggered')}
+/>`,
+      },
+    },
+  },
+};
+
+export const CustomMaxLength: Story = {
+  args: {
+    value: '123',
+    currencyText: '$',
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+};
+
+export const DecimalSeparator: Story = {
+  args: {
+    value: '1234.5',
+    currencyText: '€',
+    currencyPosition: 'right',
+    decimalSeparator: ',',
+    onChange: () => console.log('onChange triggered'),
+    'aria-label': 'Input amount',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Use `decimalSeparator=","` to display decimals with a comma (e.g. for fr-FR). Typing still accepts both `,` and `.`, so it stays compatible with any locale keyboard.',
+      },
+      source: {
+        code: `<AmountInput
+  value="1234.5"
+  currencyText="€"
+  currencyPosition="right"
+  decimalSeparator="," // displays "1 234,5"
+  onChange={() => console.log('onChange triggered')}
+/>`,
+      },
+    },
+  },
+};
+
+export const LargeAmountDisplay: Story = {
+  args: {
+    // This story uses its own state management, so we provide placeholder args
+    value: '',
+    onChange: () => console.log('onChange triggered'),
+  },
+  render: () => {
+    const [isEth, setIsEth] = useState(true);
+    const [value, setValue] = useState('');
+
+    const currentCurrency = isEth ? 'ETH' : '$';
+    const convertedValue = isEth ? '$0' : '0 ETH';
+
+    // Check if value exceeds max length (6 digits)
+    const digitCount = value.replace(/\D/g, '').length;
+    const hasError = digitCount > 3;
+    const balanceErrorText = hasError ? 'Insufficient balance' : '';
+
+    return (
+      <div className='relative h-128 w-[359px] rounded-lg'>
+        {/* Large amount input */}
+        <div className='flex-col items-center justify-center'>
+          <AmountInput
+            value={value}
+            placeholder='0'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setValue(e.target.value)
+            }
+            currencyText={currentCurrency}
+            currencyPosition={isEth ? 'right' : 'left'}
+            aria-invalid={hasError}
+            aria-label='Input amount'
+          />
+          <div className='mt-16 text-center body-2 text-muted'>
+            {convertedValue}
+          </div>
+
+          {hasError && (
+            <div className='mt-8 text-center text-error'>
+              {balanceErrorText}
+            </div>
+          )}
+        </div>
+        <IconButton
+          icon={TransferVertical}
+          size='xs'
+          appearance='gray'
+          aria-label='Toggle currency'
+          className='absolute top-12 right-8'
+          onClick={() => setIsEth(!isEth)}
+        />
+      </div>
+    );
+  },
+};
