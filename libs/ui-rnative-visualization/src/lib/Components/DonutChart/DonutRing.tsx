@@ -20,6 +20,7 @@ import { buildEmptyRingPath, type DonutArc } from './utils';
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 export function computeRevealClipPath(R: number, progress: number): string {
+  'worklet';
   // full circle, don't clip anything
   if (progress >= 1) {
     return `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`;
