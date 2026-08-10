@@ -1,6 +1,6 @@
 import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
 import { useControllableState, useTheme } from '@ledgerhq/lumen-ui-react';
-import { useMemo, type FocusEvent } from 'react';
+import { useEffect, useMemo, useState, type FocusEvent } from 'react';
 
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
@@ -27,21 +27,26 @@ export function DonutChart({
   const geometry = DONUT_GEOMETRY[size];
   const { colorScheme } = useTheme();
 
+  const [bgColor, setBgColor] = useState(() =>
+    colorScheme === 'dark' ? '#151515' : '#f7f7f7',
+  );
+  useEffect(() => {
+    const resolved = getComputedStyle(document.documentElement)
+      .getPropertyValue('--background-canvas')
+      .trim();
+    setBgColor(resolved || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'));
+  }, [colorScheme]);
+
   const series = useMemo(
     () =>
       seriesProp.map((s) => ({
         ...s,
         ...(s.color &&
           ensureColorContrast && {
-            color: getContrastSafeColor(
-              s.color,
-              getComputedStyle(document.documentElement)
-                .getPropertyValue('--background-canvas')
-                .trim() || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'),
-            ),
+            color: getContrastSafeColor(s.color, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, colorScheme],
+    [seriesProp, ensureColorContrast, bgColor],
   );
 
   const [activeId, setActiveId] = useControllableState({

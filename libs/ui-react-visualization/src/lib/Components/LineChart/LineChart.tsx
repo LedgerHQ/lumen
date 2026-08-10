@@ -1,6 +1,6 @@
 import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
 import { useTheme } from '@ledgerhq/lumen-ui-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { chartConfig } from '../../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
@@ -150,21 +150,26 @@ export function LineChart({
 }: Readonly<LineChartProps>) {
   const { colorScheme } = useTheme();
 
+  const [bgColor, setBgColor] = useState(() =>
+    colorScheme === 'dark' ? '#151515' : '#f7f7f7',
+  );
+  useEffect(() => {
+    const resolved = getComputedStyle(document.documentElement)
+      .getPropertyValue('--background-canvas')
+      .trim();
+    setBgColor(resolved || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'));
+  }, [colorScheme]);
+
   const series = useMemo(
     () =>
       seriesProp?.map((s) => ({
         ...s,
         ...(s.stroke &&
           ensureColorContrast && {
-            stroke: getContrastSafeColor(
-              s.stroke,
-              getComputedStyle(document.documentElement)
-                .getPropertyValue('--background-canvas')
-                .trim() || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'),
-            ),
+            stroke: getContrastSafeColor(s.stroke, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, colorScheme],
+    [seriesProp, ensureColorContrast, bgColor],
   );
 
   const xAxisConfig = useMemo(
