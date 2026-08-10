@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 import type { StyledViewProps } from '../../../../styles';
-import type { IconProps } from '../../internal/Icon';
+import type { IconProps } from '../../symbols/Icon';
 
 export type SpotAppearance =
   | 'icon'

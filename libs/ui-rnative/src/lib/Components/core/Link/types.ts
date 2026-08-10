@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { StyledPressableProps } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
+import type { IconSize } from '../../symbols/Icon';
 
 export type LinkProps = {
   /**

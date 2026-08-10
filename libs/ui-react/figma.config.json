@@ -1,12 +1,10 @@
 {
   "codeConnect": {
     "include": [
-      "libs/ui-react/src/lib/Components/**/*.{tsx,jsx}"
+      "libs/ui-react/src/lib/Components/core/**/*.{tsx,jsx}",
+      "libs/ui-react/src/lib/Components/internal/InfoState/**/*.{tsx,jsx}"
     ],
-    "exclude": [
-      "libs/ui-react/src/lib/Components/internal/CryptoIcon/**",
-      "libs/ui-react/src/lib/Components/internal/Icon/Icon.figma.tsx"
-    ],
+    "exclude": [],
     "label": "React",
     "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7"
   }

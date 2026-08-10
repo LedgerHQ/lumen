@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import { Box } from '../../primitives';
 import { User } from '../../symbols';
+import type { IconSize } from '../../symbols/Icon';
 import type { AvatarProps } from './types';
 
 type Size = NonNullable<AvatarProps['size']>;

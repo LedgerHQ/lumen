@@ -5,7 +5,7 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
-import type { IconSize } from '../../internal/Icon';
+import type { IconSize } from '../../symbols/Icon';
 import type { DotIconPin, DotIconProps, DotIconSize } from './types';
 
 const rootVariants = cva('relative inline-flex w-fit', {

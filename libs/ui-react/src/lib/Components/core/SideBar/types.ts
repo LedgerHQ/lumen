@@ -4,7 +4,7 @@ import type {
   MouseEventHandler,
   ReactNode,
 } from 'react';
-import type { IconSize } from '../../internal/Icon/types';
+import type { IconSize } from '../../symbols/Icon/types';
 
 export type SideBarValue = string;
 

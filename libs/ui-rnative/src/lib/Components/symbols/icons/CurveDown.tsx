@@ -1,5 +1,5 @@
 import Svg, { Path, Circle } from 'react-native-svg';
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * CurveDown icon component for React Native.

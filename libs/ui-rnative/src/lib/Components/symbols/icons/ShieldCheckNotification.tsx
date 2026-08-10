@@ -1,5 +1,5 @@
 import Svg, { G, Mask, Path, Circle, Defs, ClipPath } from 'react-native-svg';
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * ShieldCheckNotification icon component for React Native.

@@ -1,4 +1,4 @@
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * P2p icon component.

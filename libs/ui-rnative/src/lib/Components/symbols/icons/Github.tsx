@@ -1,5 +1,5 @@
 import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg';
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * Github icon component for React Native.

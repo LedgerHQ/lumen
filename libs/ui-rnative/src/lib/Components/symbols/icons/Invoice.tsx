@@ -1,5 +1,5 @@
 import Svg, { Path } from 'react-native-svg';
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * Invoice icon component for React Native.

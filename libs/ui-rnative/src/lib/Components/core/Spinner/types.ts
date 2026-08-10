@@ -1,6 +1,6 @@
 import type { LumenTextStyle } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import type { TextProps } from '../../primitives';
+import type { IconSize } from '../../symbols/Icon';
 
 export type SpinnerProps = {
   /**

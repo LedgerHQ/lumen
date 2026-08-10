@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
-import type { IconSize } from '../../internal/Icon';
+import type { IconSize } from '../../symbols/Icon';
 
 export type DotIconSize = 16 | 20 | 24 | 32;
 

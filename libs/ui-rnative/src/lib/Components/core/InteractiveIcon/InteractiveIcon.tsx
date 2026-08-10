@@ -3,8 +3,8 @@ import type { ComponentType } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 
-import type { IconProps, IconSize } from '../../internal/Icon';
 import { Pressable } from '../../primitives';
+import type { IconProps, IconSize } from '../../symbols/Icon';
 import type { InteractiveIconProps } from './types';
 import { HIT_SLOP_MAP } from './types';
 

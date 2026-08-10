@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import type { IconProps } from '../../internal/Icon';
 import { Box, Text } from '../../primitives';
 import { Settings, Plus, Heart, Star } from '../../symbols';
+import type { IconProps } from '../../symbols/Icon';
 import { Spot } from './Spot';
 import type { SpotProps } from './types';
 

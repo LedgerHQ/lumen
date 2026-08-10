@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import type { LumenTypographyTokens } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon/types';
 import { Box } from '../../primitives';
 import {
   BluetoothCircleFill,
@@ -12,6 +11,7 @@ import {
   InformationFill,
   WarningFill,
 } from '../../symbols';
+import type { IconSize } from '../../symbols/Icon/types';
 import type { SpinnerProps } from '../Spinner';
 import { Spinner } from '../Spinner';
 import type { SpotAppearance, SpotProps, SpotSize } from './types';

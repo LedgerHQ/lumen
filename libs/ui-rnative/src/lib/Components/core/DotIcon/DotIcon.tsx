@@ -3,8 +3,8 @@ import {
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { useStyleSheet } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import { Box } from '../../primitives';
+import type { IconSize } from '../../symbols/Icon';
 import type {
   DotIconAppearance,
   DotIconPin,

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import type { IconSize } from '../../internal/Icon/types';
+import type { IconSize } from '../../symbols/Icon/types';
 import { Tag } from './Tag';
 
 describe('Tag', () => {

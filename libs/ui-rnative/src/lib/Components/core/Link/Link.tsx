@@ -1,8 +1,8 @@
 import { Linking, StyleSheet, Text, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import { Pressable } from '../../primitives';
 import { ExternalLink } from '../../symbols';
+import type { IconSize } from '../../symbols/Icon';
 import type { LinkProps } from './types';
 
 const iconSizeMap: Record<Size, IconSize> = {

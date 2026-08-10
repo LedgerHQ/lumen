@@ -1,5 +1,5 @@
 import Svg, { Path, Mask } from 'react-native-svg';
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * Chart5 icon component for React Native.

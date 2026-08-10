@@ -33,7 +33,7 @@ const template: Template = (variables, { tpl }) => {
 
   return tpl`
 ${variables.imports};
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 ${variables.interfaces};
 

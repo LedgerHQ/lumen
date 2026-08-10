@@ -1,7 +1,7 @@
 import type { ComponentType, ReactNode } from 'react';
 import type { LumenTextStyle, StyledPressableProps } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import type { BoxProps } from '../../primitives';
+import type { IconSize } from '../../symbols/Icon';
 
 export type SegmentedControlValue = string;
 

@@ -1,5 +1,5 @@
 import Svg, { Path, Rect } from 'react-native-svg';
-import createIcon from '../../internal/Icon/createIcon';
+import createIcon from '../Icon/createIcon';
 
 /**
  * ExchangeFill icon component for React Native.

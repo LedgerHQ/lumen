@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { IconSize } from '../../internal/Icon';
 import { Settings, Plus, Heart, Star, CoinAlert } from '../../symbols';
+import type { IconSize } from '../../symbols/Icon';
 import { DotSymbol, spotDotSizeMap } from '../DotSymbol';
 import { Spot } from './Spot';
 import type { SpotAppearance } from './types';

@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ComponentType } from 'react';
-import type { IconSize } from '../../internal/Icon/types';
+import type { IconSize } from '../../symbols/Icon/types';
 
 export type CardButtonProps = {
   /**

@@ -1,7 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
-import type { IconSize } from '../../internal/Icon/types';
 import {
   BluetoothCircleFill,
   CheckmarkCircleFill,
@@ -9,6 +8,7 @@ import {
   InformationFill,
   WarningFill,
 } from '../../symbols';
+import type { IconSize } from '../../symbols/Icon/types';
 import { Spinner } from '../Spinner';
 import type { SpotProps, SpotSize } from './types';
 

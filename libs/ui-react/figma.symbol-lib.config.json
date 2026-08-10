@@ -2,7 +2,7 @@
   "codeConnect": {
     "include": [
       "libs/ui-react/src/lib/Components/internal/CryptoIcon/**/*.{tsx,jsx}",
-      "libs/ui-react/src/lib/Components/internal/Icon/Icon.figma.tsx"
+      "libs/ui-react/src/lib/Components/symbols/Icon/Icon.figma.tsx"
     ],
     "label": "React",
     "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA"

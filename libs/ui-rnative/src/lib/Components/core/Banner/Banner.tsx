@@ -3,7 +3,6 @@ import type { ComponentType } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
-import type { IconProps } from '../../internal/Icon';
 import { Box } from '../../primitives';
 import {
   InformationFill,
@@ -12,6 +11,7 @@ import {
   DeleteCircleFill,
   Close,
 } from '../../symbols';
+import type { IconProps } from '../../symbols/Icon';
 import { IconButton } from '../IconButton';
 import type { BannerProps } from './types';
 

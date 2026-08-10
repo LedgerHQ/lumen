@@ -5,8 +5,8 @@ import {
 import type { FC, PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import { Pressable, Text } from '../../primitives';
+import type { IconSize } from '../../symbols/Icon';
 import type { TileButtonProps } from './types';
 
 const ICON_SIZE: IconSize = 20;

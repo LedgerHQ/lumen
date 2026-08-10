@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import type { Insets } from 'react-native';
 import type { StyledPressableProps } from '../../../../styles';
-import type { IconProps, IconSize } from '../../internal/Icon';
+import type { IconProps, IconSize } from '../../symbols/Icon';
 
 export const HIT_SLOP_MAP: Partial<
   Record<HitSlopType, Partial<Record<IconSize, Insets>>>

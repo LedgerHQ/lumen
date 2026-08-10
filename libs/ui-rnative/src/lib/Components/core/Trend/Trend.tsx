@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
 import type { LumenTextStyle } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
-import type { IconSize } from '../../internal/Icon';
 import { Box, Text } from '../../primitives';
 import { TriangleDown, TriangleUp } from '../../symbols';
+import type { IconSize } from '../../symbols/Icon';
 import type { TrendProps } from './types';
 
 type TrendVariant = 'positive' | 'negative' | 'neutral';
