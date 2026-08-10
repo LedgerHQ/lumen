@@ -44,10 +44,10 @@ export function DonutChart({
         ...s,
         ...(s.color &&
           ensureColorContrast && {
-            color: getContrastSafeColor(s.color, theme.colors.bg.surface),
+            color: getContrastSafeColor(s.color, theme.colors.bg.canvas),
           }),
       })),
-    [seriesProp, ensureColorContrast, theme.colors.bg.surface],
+    [seriesProp, ensureColorContrast, theme.colors.bg.canvas],
   );
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);

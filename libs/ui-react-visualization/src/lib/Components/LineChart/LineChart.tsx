@@ -159,7 +159,7 @@ export function LineChart({
             stroke: getContrastSafeColor(
               s.stroke,
               getComputedStyle(document.documentElement)
-                .getPropertyValue('--background-surface')
+                .getPropertyValue('--background-canvas')
                 .trim() || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'),
             ),
           }),

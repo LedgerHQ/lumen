@@ -252,7 +252,9 @@ describe('LineChart', () => {
     it('renders without error when ensureColorContrast is true and series have strokes', () => {
       const { getAllByTestId } = render(
         <LineChartWrapper
-          series={[{ id: 'test', stroke: '#f5f5f5', data: [10, 20, 30, 40, 50] }]}
+          series={[
+            { id: 'test', stroke: '#f5f5f5', data: [10, 20, 30, 40, 50] },
+          ]}
           width={400}
           height={200}
           ensureColorContrast

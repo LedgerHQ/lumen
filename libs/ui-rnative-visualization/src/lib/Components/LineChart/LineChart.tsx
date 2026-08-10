@@ -158,10 +158,10 @@ export const LineChart = ({
         ...s,
         ...(s.stroke &&
           ensureColorContrast && {
-            stroke: getContrastSafeColor(s.stroke, theme.colors.bg.surface),
+            stroke: getContrastSafeColor(s.stroke, theme.colors.bg.canvas),
           }),
       })),
-    [seriesProp, ensureColorContrast, theme.colors.bg.surface],
+    [seriesProp, ensureColorContrast, theme.colors.bg.canvas],
   );
 
   const xAxisConfig = useMemo(
