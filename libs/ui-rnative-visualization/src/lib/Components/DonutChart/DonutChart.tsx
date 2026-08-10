@@ -10,7 +10,7 @@ import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutChartProps } from './types';
 import {
-  buildArcs,
+  buildRingSegments,
   findSegmentIdAtPoint,
   formatPercentLabel,
   getCenterMaxWidth,
@@ -36,7 +36,10 @@ export function DonutChart({
     onChange: onActiveIdChange,
   });
 
-  const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
+  const segments = useMemo(
+    () => buildRingSegments(series, geometry),
+    [series, geometry],
+  );
 
   const activeSegment = useMemo(() => {
     const index = series.findIndex((segment) => segment.id === activeId);
@@ -64,12 +67,12 @@ export function DonutChart({
         return;
       }
       const localPoint = toRingLocalPoint(point, geometry);
-      const hitId = findSegmentIdAtPoint(arcs, localPoint, geometry);
+      const hitId = findSegmentIdAtPoint(segments, localPoint, geometry);
       if (hitId) {
         handleSegmentPress(hitId);
       }
     },
-    [arcs, geometry, handleSegmentPress, loading],
+    [segments, geometry, handleSegmentPress, loading],
   );
 
   const tap = useMemo(
@@ -103,7 +106,7 @@ export function DonutChart({
       style={{ width: geometry.box, height: geometry.box }}
     >
       <DonutRing
-        arcs={arcs}
+        segments={segments}
         geometry={geometry}
         accessibilityLabel={
           loading ? chartConfig.donut.loading.ariaLabel : accessibilityLabel

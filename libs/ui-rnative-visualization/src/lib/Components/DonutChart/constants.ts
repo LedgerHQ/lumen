@@ -16,7 +16,7 @@ export const getDonutViewBox = (geometry: DonutGeometry): string => {
  * Converts a point from the gesture overlay's screen-pixel space (sized to
  * `geometry.box`, stacked on top of the ring) into the origin-centered space
  * `segment.path` is drawn in, undoing the `viewBox` padding/scale from
- * `getDonutViewBox` so tap coordinates line up with arc hit-testing.
+ * `getDonutViewBox` so tap coordinates line up with segment hit-testing.
  */
 export const toRingLocalPoint = (
   point: { x: number; y: number },

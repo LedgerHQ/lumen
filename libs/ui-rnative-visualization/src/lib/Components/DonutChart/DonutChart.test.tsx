@@ -12,7 +12,7 @@ import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutSegment, DonutSize, DonutTitleSize } from './types';
-import { buildArcs, getCenterMaxWidth } from './utils';
+import { buildRingSegments, getCenterMaxWidth } from './utils';
 
 const sampleSeries: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
@@ -60,13 +60,13 @@ const pointForSegment = (
   id: string,
   geometry: DonutGeometry = DONUT_GEOMETRY.md,
 ): { x: number; y: number } => {
-  const arc = buildArcs(series, geometry).find((a) => a.id === id);
-  if (!arc) throw new Error(`No arc for segment "${id}"`);
+  const segment = buildRingSegments(series, geometry).find((s) => s.id === id);
+  if (!segment) throw new Error(`No segment "${id}"`);
   const midRadius = (geometry.innerRadius + geometry.outerRadius) / 2;
   return toOverlayPoint(
     {
-      x: Math.sin(arc.midAngle) * midRadius,
-      y: -Math.cos(arc.midAngle) * midRadius,
+      x: Math.sin(segment.midAngle) * midRadius,
+      y: -Math.cos(segment.midAngle) * midRadius,
     },
     geometry,
   );

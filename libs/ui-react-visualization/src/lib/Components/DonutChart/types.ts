@@ -19,15 +19,15 @@ export type DonutGeometry = Readonly<{
   hoverOffset: number;
 }>;
 
-/** A placeholder arc for the empty ring and loading wave. */
-export type DonutPlaceholderArc = {
+/** A placeholder segment for the empty ring and loading wave. */
+export type DonutPlaceholderSegment = {
   id: string;
   path: string;
   midAngle: number;
 };
 
 /** A segment ready to draw: its path is centered at the origin. */
-export type DonutArc = {
+export type DonutRingSegment = {
   id: string;
   path: string;
   color: string;

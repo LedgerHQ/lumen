@@ -7,7 +7,7 @@ import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutChartProps } from './types';
 import {
-  buildArcs,
+  buildRingSegments,
   DONUT_GEOMETRY,
   formatPercentLabel,
   getSegmentPercents,
@@ -32,7 +32,10 @@ export function DonutChart({
     onChange: onActiveIdChange,
   });
 
-  const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
+  const segments = useMemo(
+    () => buildRingSegments(series, geometry),
+    [series, geometry],
+  );
 
   const activeSegment = useMemo(() => {
     const index = series.findIndex((segment) => segment.id === activeId);
@@ -79,7 +82,7 @@ export function DonutChart({
       onBlur={handleRingBlur}
     >
       <DonutRing
-        arcs={arcs}
+        segments={segments}
         geometry={geometry}
         ariaLabel={loading ? chartConfig.donut.loading.ariaLabel : ariaLabel}
         activeId={activeId}

@@ -3,15 +3,15 @@ import { chartConfig, type DonutGeometry } from '../../config';
 import { DONUT_CENTER } from './constants';
 import type { DonutSegment } from './types';
 
-/** A placeholder arc for the empty ring and the loading wave. */
-export type DonutPlaceholderArc = {
+/** A placeholder segment for the empty ring and the loading wave. */
+export type DonutPlaceholderSegment = {
   id: string;
   path: string;
   midAngle: number;
 };
 
 /** A segment ready to draw: its path is centered at the origin. */
-export type DonutArc = {
+export type DonutRingSegment = {
   id: string;
   path: string;
   color?: string;
@@ -49,15 +49,15 @@ export const getSegmentPercents = (series: DonutSegment[]): number[] => {
 };
 
 /**
- * One arc per drawable segment, in series order, clockwise from 12 o'clock.
- * Zero and negative segments are dropped so they don't emit degenerate paths;
- * percents are still computed against the full series total. Empty when there
- * is nothing to draw.
+ * One ring segment per drawable series entry, in series order, clockwise from
+ * 12 o'clock. Zero and negative segments are dropped so they don't emit
+ * degenerate paths; percents are still computed against the full series total.
+ * Empty when there is nothing to draw.
  */
-export const buildArcs = (
+export const buildRingSegments = (
   series: DonutSegment[],
   geometry: DonutGeometry,
-): DonutArc[] => {
+): DonutRingSegment[] => {
   const percents = getSegmentPercents(series);
 
   const drawable = series
@@ -103,13 +103,13 @@ export const buildArcs = (
 };
 
 /**
- * Resolves which arc (if any) contains a point in `segment.path`'s space.
+ * Resolves which segment (if any) contains a point in `segment.path`'s space.
  * Hit-tests via a single gesture overlay instead of per-segment handlers,
  * which are unreliable on Android (react-native-svg#1321, reanimated#2995).
  * `hitSlopRadius` widens the radial bounds for near-miss taps.
  */
 export const findSegmentIdAtPoint = (
-  arcs: DonutArc[],
+  segments: DonutRingSegment[],
   point: { x: number; y: number },
   geometry: DonutGeometry,
 ): string | null => {
@@ -122,8 +122,8 @@ export const findSegmentIdAtPoint = (
   }
 
   const angle = normalizeAngle(Math.atan2(point.x, -point.y));
-  const hit = arcs.find(
-    (arc) => angle >= arc.startAngle && angle < arc.endAngle,
+  const hit = segments.find(
+    (segment) => angle >= segment.startAngle && angle < segment.endAngle,
   );
   return hit?.id ?? null;
 };
@@ -132,10 +132,10 @@ const normalizeAngle = (angle: number): number =>
   angle < 0 ? angle + 2 * Math.PI : angle;
 
 /**
- * Snap a near-half-circle arc to exactly `π`. d3-shape squares the corners of
- * an arc spanning a hair under `π` (its parallel edges never meet) but rounds
- * one landing exactly on `π`, so two equal arcs end up mismatched. The nudge
- * is sub-pixel and never fires for real sub-half-circle arcs.
+ * Snap a near-half-circle span to exactly `π`. d3-shape squares the corners of
+ * a segment spanning a hair under `π` (its parallel edges never meet) but
+ * rounds one landing exactly on `π`, so two equal halves end up mismatched.
+ * The nudge is sub-pixel and never fires for real sub-half-circle segments.
  */
 const HALF_CIRCLE_EPSILON = 1e-9;
 const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {
@@ -147,13 +147,13 @@ const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {
 };
 
 /**
- * Fixed placeholder arcs shared by the empty ring and the loading wave: a
+ * Fixed placeholder segments shared by the empty ring and the loading wave: a
  * full ring (values sum to 100) of unequal segments separated only by the
- * same small `padAngle` gaps as real segments — no missing arc.
+ * same small `padAngle` gaps as real segments — no missing segment.
  */
-export const buildPlaceholderArcs = (
+export const buildPlaceholderSegments = (
   geometry: DonutGeometry,
-): DonutPlaceholderArc[] => {
+): DonutPlaceholderSegment[] => {
   const { segmentValues } = chartConfig.donut.placeholder;
 
   type PlaceholderDatum = { id: string; value: number };

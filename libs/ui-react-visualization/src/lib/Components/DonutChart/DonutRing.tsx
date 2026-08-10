@@ -2,13 +2,13 @@ import { useCallback, useMemo } from 'react';
 import { chartConfig } from '../../config';
 
 import { useDonutLoadingAnimation } from './hooks/useDonutLoadingAnimation';
-import type { DonutArc, DonutGeometry } from './types';
-import { buildPlaceholderArcs, getDonutViewBox } from './utils';
+import type { DonutGeometry, DonutRingSegment } from './types';
+import { buildPlaceholderSegments, getDonutViewBox } from './utils';
 
 const { hover } = chartConfig.donut;
 
 type RingSegmentProps = {
-  segment: DonutArc;
+  segment: DonutRingSegment;
   activeId: string | null;
   onSegmentEnter: (id: string) => void;
 };
@@ -54,11 +54,14 @@ const RingSegment = ({
 };
 
 const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => {
-  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
+  const segments = useMemo(
+    () => buildPlaceholderSegments(geometry),
+    [geometry],
+  );
 
   return (
     <g data-testid='donut-empty'>
-      {arcs.map((segment) => (
+      {segments.map((segment) => (
         <path
           key={segment.id}
           data-testid='donut-placeholder'
@@ -71,7 +74,10 @@ const EmptyRing = ({ geometry }: { geometry: DonutGeometry }) => {
 };
 
 const LoadingRing = ({ geometry }: { geometry: DonutGeometry }) => {
-  const arcs = useMemo(() => buildPlaceholderArcs(geometry), [geometry]);
+  const segments = useMemo(
+    () => buildPlaceholderSegments(geometry),
+    [geometry],
+  );
   const { animationStyle, keyframe, getSegmentDelay } =
     useDonutLoadingAnimation();
 
@@ -79,7 +85,7 @@ const LoadingRing = ({ geometry }: { geometry: DonutGeometry }) => {
     <>
       <style>{keyframe}</style>
       <g data-testid='donut-loading'>
-        {arcs.map((segment) => (
+        {segments.map((segment) => (
           <path
             key={segment.id}
             data-testid='donut-placeholder'
@@ -97,7 +103,7 @@ const LoadingRing = ({ geometry }: { geometry: DonutGeometry }) => {
 };
 
 type DonutRingProps = {
-  arcs: DonutArc[];
+  segments: DonutRingSegment[];
   geometry: DonutGeometry;
   ariaLabel?: string;
   activeId: string | null;
@@ -105,9 +111,9 @@ type DonutRingProps = {
   onSegmentEnter: (id: string) => void;
 };
 
-// Internal, not exported. Arc paths are origin-centered, so the group is translated to the viewBox center.
+// Internal, not exported. Segment paths are origin-centered, so the group is translated to the viewBox center.
 export const DonutRing = ({
-  arcs,
+  segments,
   geometry,
   ariaLabel,
   activeId,
@@ -116,7 +122,7 @@ export const DonutRing = ({
 }: DonutRingProps) => {
   const { box } = geometry;
   const center = box / 2;
-  const hasSegments = arcs.length > 0;
+  const hasSegments = segments.length > 0;
 
   return (
     <svg
@@ -133,7 +139,7 @@ export const DonutRing = ({
         {loading ? (
           <LoadingRing geometry={geometry} />
         ) : hasSegments ? (
-          arcs.map((segment) => (
+          segments.map((segment) => (
             <RingSegment
               key={segment.id}
               segment={segment}

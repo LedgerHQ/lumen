@@ -3,9 +3,9 @@ import { arc, pie, type PieArcDatum } from 'd3-shape';
 import { chartConfig } from '../../config';
 
 import type {
-  DonutArc,
   DonutGeometry,
-  DonutPlaceholderArc,
+  DonutPlaceholderSegment,
+  DonutRingSegment,
   DonutSegment,
   DonutSize,
 } from './types';
@@ -50,15 +50,15 @@ export const getSegmentPercents = (series: DonutSegment[]): number[] => {
 };
 
 /**
- * One arc per drawable segment, in series order, clockwise from 12 o'clock.
- * Zero and negative segments are dropped so they don't emit degenerate paths;
- * percents are still computed against the full series total. Empty when there
- * is nothing to draw.
+ * One ring segment per drawable series entry, in series order, clockwise from
+ * 12 o'clock. Zero and negative segments are dropped so they don't emit
+ * degenerate paths; percents are still computed against the full series total.
+ * Empty when there is nothing to draw.
  */
-export const buildArcs = (
+export const buildRingSegments = (
   series: DonutSegment[],
   geometry: DonutGeometry,
-): DonutArc[] => {
+): DonutRingSegment[] => {
   const percents = getSegmentPercents(series);
 
   const drawable = series
@@ -102,10 +102,10 @@ export const buildArcs = (
 };
 
 /**
- * Snap a near-half-circle arc to exactly `π`. d3-shape squares the corners of
- * an arc spanning a hair under `π` (its parallel edges never meet) but rounds
- * one landing exactly on `π`, so two equal arcs end up mismatched. The nudge
- * is sub-pixel and never fires for real sub-half-circle arcs.
+ * Snap a near-half-circle span to exactly `π`. d3-shape squares the corners of
+ * a segment spanning a hair under `π` (its parallel edges never meet) but
+ * rounds one landing exactly on `π`, so two equal halves end up mismatched.
+ * The nudge is sub-pixel and never fires for real sub-half-circle segments.
  */
 const HALF_CIRCLE_EPSILON = 1e-9;
 const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {
@@ -117,13 +117,13 @@ const snapHalfCircle = <T>(datum: PieArcDatum<T>): PieArcDatum<T> => {
 };
 
 /**
- * Fixed placeholder arcs shared by the empty ring and the loading wave: a
+ * Fixed placeholder segments shared by the empty ring and the loading wave: a
  * full ring (values sum to 100) of unequal segments separated only by the
- * same small `padAngle` gaps as real segments — no missing arc.
+ * same small `padAngle` gaps as real segments — no missing segment.
  */
-export const buildPlaceholderArcs = (
+export const buildPlaceholderSegments = (
   geometry: DonutGeometry,
-): DonutPlaceholderArc[] => {
+): DonutPlaceholderSegment[] => {
   const { segmentValues } = chartConfig.donut.placeholder;
 
   type PlaceholderDatum = { id: string; value: number };
