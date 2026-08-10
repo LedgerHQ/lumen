@@ -114,6 +114,11 @@ export const BaseButton = ({
       data-disabled={disabled || undefined}
       disabled={disabled}
       onClick={onClick}
+      // Default native buttons to type="button" so they do not accidentally
+      // submit a surrounding form. Placed before {...props} so a caller can
+      // still opt into type="submit"/"reset". Skipped for asChild, where the
+      // rendered element (e.g. an anchor) is not a native button.
+      {...(asChild ? {} : { type: 'button' as const })}
       {...props}
     >
       {loading && (

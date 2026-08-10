@@ -73,6 +73,10 @@ export const CardButton = ({
         className,
       )}
       disabled={disabled}
+      // Default to type="button" so this button does not accidentally submit a
+      // surrounding form. Placed before {...props} so a caller can still opt
+      // into type="submit"/"reset".
+      type='button'
       {...props}
     >
       {IconComponent && <IconComponent size={24} />}

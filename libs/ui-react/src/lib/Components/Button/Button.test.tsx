@@ -58,4 +58,14 @@ describe('Button Component', () => {
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toHaveClass('w-full');
   });
+
+  it('should default to type="button" so it does not submit a form', () => {
+    render(<Button>Default type</Button>);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+  });
+
+  it('should let the caller override the type', () => {
+    render(<Button type='submit'>Submit</Button>);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
+  });
 });

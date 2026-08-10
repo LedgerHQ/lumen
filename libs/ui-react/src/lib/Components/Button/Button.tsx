@@ -21,6 +21,9 @@ const buttonVariants = cva('', {
  *
  * When in loading state, it displays a spinner. If an icon is provided without children, it renders as an icon-only button.
  *
+ * Defaults to `type="button"` so it does not accidentally submit a surrounding
+ * `<form>`. Pass `type="submit"` (or `type="reset"`) to opt into form behaviour.
+ *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-button--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
@@ -46,6 +49,11 @@ const buttonVariants = cva('', {
  * <Button asChild appearance="base" size="md">
  *   <Link to="/dashboard">Go to Dashboard</Link>
  * </Button>
+ *
+ * // Submit button inside a form (opt into type="submit")
+ * <form onSubmit={handleSubmit}>
+ *   <Button type="submit">Save</Button>
+ * </form>
  *
  */
 export const Button = ({
