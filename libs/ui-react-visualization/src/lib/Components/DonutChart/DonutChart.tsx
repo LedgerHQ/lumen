@@ -36,8 +36,8 @@ export function DonutChart({
             color: getContrastSafeColor(
               s.color,
               getComputedStyle(document.documentElement)
-                .getPropertyValue('--background-canvas')
-                .trim() || (colorScheme === 'dark' ? '#141414' : '#ffffff'),
+                .getPropertyValue('--background-surface')
+                .trim() || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'),
             ),
           }),
       })),

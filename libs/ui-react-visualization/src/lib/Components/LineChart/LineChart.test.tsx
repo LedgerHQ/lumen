@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -13,7 +14,11 @@ const sampleSeries = [
 ];
 
 const LineChartWrapper = (props: LineChartProps) => {
-  return <LineChart {...props} />;
+  return (
+    <ThemeProvider>
+      <LineChart {...props} />
+    </ThemeProvider>
+  );
 };
 
 const hasShimmerStyle = (container: HTMLElement): boolean => {

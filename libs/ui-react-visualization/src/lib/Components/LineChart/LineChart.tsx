@@ -1,4 +1,5 @@
 import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
+import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
 
 import { chartConfig } from '../../config';
@@ -147,6 +148,8 @@ export function LineChart({
   ensureColorContrast = false,
   children,
 }: Readonly<LineChartProps>) {
+  const { colorScheme } = useTheme();
+
   const series = useMemo(
     () =>
       seriesProp?.map((s) => ({
@@ -156,12 +159,12 @@ export function LineChart({
             stroke: getContrastSafeColor(
               s.stroke,
               getComputedStyle(document.documentElement)
-                .getPropertyValue('--background-canvas')
-                .trim() || '#ffffff',
+                .getPropertyValue('--background-surface')
+                .trim() || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'),
             ),
           }),
       })),
-    [seriesProp, ensureColorContrast],
+    [seriesProp, ensureColorContrast, colorScheme],
   );
 
   const xAxisConfig = useMemo(
