@@ -14,7 +14,7 @@ import { chartConfig } from '../../../config';
 
 const { loading } = chartConfig.donut;
 
-const DURATION_IN_MS = loading.durationInSeconds * 1000;
+const DURATION_IN_MS = loading.duration;
 const FULL_TURN = 2 * Math.PI;
 
 /**
