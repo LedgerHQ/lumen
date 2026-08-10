@@ -35,5 +35,13 @@ export type MediaButtonProps = {
    * The label content of the media button.
    */
   children: ReactNode;
+  /**
+   * The native button `type`. Defaults to `'button'` so the media button does
+   * not accidentally submit a surrounding `<form>`. Set `'submit'` or `'reset'`
+   * to opt into form behaviour. Ignored when `asChild` is used, since the
+   * rendered element (e.g. an anchor) is not a native button.
+   * @default 'button'
+   */
+  type?: 'button' | 'submit' | 'reset';
 } & Pick<BaseButtonProps, 'disabled' | 'className' | 'asChild'> &
   ComponentPropsWithRef<'button'>;

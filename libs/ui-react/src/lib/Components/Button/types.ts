@@ -50,6 +50,14 @@ export type BaseButtonProps = {
    * Optional children to render inside the button.
    */
   children?: ReactNode;
+  /**
+   * The native button `type`. Defaults to `'button'` so the button does not
+   * accidentally submit a surrounding `<form>`. Set `'submit'` or `'reset'` to
+   * opt into form behaviour. Ignored when `asChild` is used, since the rendered
+   * element (e.g. an anchor) is not a native button.
+   * @default 'button'
+   */
+  type?: 'button' | 'submit' | 'reset';
 } & ComponentPropsWithRef<'button'>;
 
 export type ButtonProps = {

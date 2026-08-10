@@ -25,4 +25,11 @@ export type CardButtonProps = {
    * @default false
    */
   hideChevron?: boolean;
+  /**
+   * The native button `type`. Defaults to `'button'` so the card button does
+   * not accidentally submit a surrounding `<form>`. Set `'submit'` or `'reset'`
+   * to opt into form behaviour.
+   * @default 'button'
+   */
+  type?: 'button' | 'submit' | 'reset';
 } & Omit<ComponentPropsWithRef<'button'>, 'children'>;

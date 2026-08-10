@@ -47,6 +47,11 @@ const buttonVariants = cva('', {
  *   <Link to="/dashboard">Go to Dashboard</Link>
  * </Button>
  *
+ * // Submit button inside a form (opt into type="submit")
+ * <form onSubmit={handleSubmit}>
+ *   <Button type="submit">Save</Button>
+ * </form>
+ *
  */
 export const Button = ({
   ref,
