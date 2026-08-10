@@ -1,3 +1,5 @@
+import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
@@ -128,7 +130,7 @@ const LineChartContent = ({
 };
 
 export const LineChart = ({
-  series,
+  series: seriesProp,
   showArea = false,
   areaType = 'gradient',
   showXAxis = false,
@@ -146,7 +148,22 @@ export const LineChart = ({
   loading = false,
   emptyLabel = chartConfig.emptyState.defaultLabel,
   connectNulls,
+  ensureColorContrast = false,
 }: Readonly<LineChartProps>) => {
+  const { theme } = useTheme();
+
+  const series = useMemo(
+    () =>
+      seriesProp?.map((s) => ({
+        ...s,
+        ...(s.stroke &&
+          ensureColorContrast && {
+            stroke: getContrastSafeColor(s.stroke, theme.colors.bg.base),
+          }),
+      })),
+    [seriesProp, ensureColorContrast, theme.colors.bg.base],
+  );
+
   const xAxisConfig = useMemo(
     () => mergeDefaults(defaultXAxisProps, xAxis),
     [xAxis],
