@@ -13,9 +13,9 @@ function hexToHsl(hex: string): HslValue {
 
   const [, rHex, gHex, bHex] = result;
 
-  const r = parseInt(rHex, 16) / 255;
-  const g = parseInt(gHex, 16) / 255;
-  const b = parseInt(bHex, 16) / 255;
+  const r = Number.parseInt(rHex, 16) / 255;
+  const g = Number.parseInt(gHex, 16) / 255;
+  const b = Number.parseInt(bHex, 16) / 255;
 
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
