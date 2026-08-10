@@ -70,7 +70,7 @@ export type LineChartProps = LineRenderOptions &
      * differs from the surface background by at least 20 units.
      *
      * Colors that already meet that minimum are left untouched. Only applies to
-     * explicit hex stroke values; CSS variables are passed through unchanged.
+     * explicit 6-digit hex stroke values; other formats are passed through unchanged.
      * @default false
      */
     ensureColorContrast?: boolean;
