@@ -21,8 +21,10 @@ const buttonVariants = cva('', {
  *
  * When in loading state, it displays a spinner. If an icon is provided without children, it renders as an icon-only button.
  *
- * Defaults to `type="button"` so it does not accidentally submit a surrounding
- * `<form>`. Pass `type="submit"` (or `type="reset"`) to opt into form behaviour.
+ * On the native `<button>` render path it defaults to `type="button"` so it does
+ * not accidentally submit a surrounding `<form>`. Pass `type="submit"` (or
+ * `type="reset"`) to opt into form behaviour. When `asChild` is used, no `type`
+ * is injected, since the rendered element (e.g. an anchor) is not a button.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-button--docs Guidelines}
  *

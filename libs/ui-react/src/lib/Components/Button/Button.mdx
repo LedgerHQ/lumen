@@ -74,7 +74,7 @@ Buttons come in four different sizes:
 
 ### Form submission
 
-The Button defaults to `type="button"`, so placing it inside a `<form>` does **not** submit the form by accident. To use it as a submit or reset control, pass the native `type` explicitly:
+On the native `<button>` render path, the Button defaults to `type="button"`, so placing it inside a `<form>` does **not** submit the form by accident. To use it as a submit or reset control, pass the native `type` explicitly:
 
 ```tsx
 <form onSubmit={handleSubmit}>
@@ -82,6 +82,8 @@ The Button defaults to `type="button"`, so placing it inside a `<form>` does **n
   <Button type='reset' appearance='gray'>Reset</Button>
 </form>
 ```
+
+When `asChild` is used, no `type` is injected, since the rendered element (e.g. an anchor) is not a native button.
 
 ## Responsive Layout
 

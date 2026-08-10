@@ -68,4 +68,13 @@ describe('Button Component', () => {
     render(<Button type='submit'>Submit</Button>);
     expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
   });
+
+  it('should not inject a type onto asChild (Slot) renders', () => {
+    render(
+      <Button asChild>
+        <a href='/home'>Link</a>
+      </Button>,
+    );
+    expect(screen.getByRole('link')).not.toHaveAttribute('type');
+  });
 });
