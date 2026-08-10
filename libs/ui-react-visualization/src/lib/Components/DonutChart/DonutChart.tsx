@@ -1,4 +1,7 @@
-import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
+import {
+  getContrastSafeColor,
+  primitiveColorTokens,
+} from '@ledgerhq/lumen-design-core';
 import { useControllableState, useTheme } from '@ledgerhq/lumen-ui-react';
 import { useEffect, useMemo, useState, type FocusEvent } from 'react';
 
@@ -27,14 +30,23 @@ export function DonutChart({
   const geometry = DONUT_GEOMETRY[size];
   const { colorScheme } = useTheme();
 
-  const [bgColor, setBgColor] = useState(() =>
-    colorScheme === 'dark' ? '#151515' : '#f7f7f7',
+  const [bgColor, setBgColor] = useState<string>(() =>
+    colorScheme === 'dark'
+      ? primitiveColorTokens.dark.grey['050']
+      : primitiveColorTokens.light.grey['050'],
   );
+
   useEffect(() => {
+    const fallback =
+      colorScheme === 'dark'
+        ? primitiveColorTokens.dark.grey['050']
+        : primitiveColorTokens.light.grey['050'];
+
     const resolved = getComputedStyle(document.documentElement)
-      .getPropertyValue('--background-canvas')
+      .getPropertyValue('--color-background-canvas')
       .trim();
-    setBgColor(resolved || (colorScheme === 'dark' ? '#151515' : '#f7f7f7'));
+
+    setBgColor(resolved || fallback);
   }, [colorScheme]);
 
   const series = useMemo(
@@ -43,7 +55,7 @@ export function DonutChart({
         ...s,
         ...(s.color &&
           ensureColorContrast && {
-            color: getContrastSafeColor(s.color, bgColor),
+            color: getContrastSafeColor(s.color, bgColor, 35),
           }),
       })),
     [seriesProp, ensureColorContrast, bgColor],
