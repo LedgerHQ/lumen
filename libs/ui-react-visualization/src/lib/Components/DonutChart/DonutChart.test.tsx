@@ -384,6 +384,39 @@ describe('DonutChart', () => {
     });
   });
 
+  describe('ensureColorContrast', () => {
+    it('renders without error when ensureColorContrast is true and series have colors', () => {
+      const seriesWithColors: DonutSegment[] = [
+        { id: 'bitcoin', label: 'Bitcoin', value: 50, color: '#f5f5f5' },
+        { id: 'ethereum', label: 'Ethereum', value: 50, color: '#000000' },
+      ];
+      const { getAllByTestId } = render(
+        <DonutChart series={seriesWithColors} ensureColorContrast />,
+        { wrapper },
+      );
+      expect(getAllByTestId('donut-segment')).toHaveLength(2);
+    });
+
+    it('renders without error when ensureColorContrast is true and series have no color', () => {
+      const { getAllByTestId } = render(
+        <DonutChart series={sampleSeries} ensureColorContrast />,
+        { wrapper },
+      );
+      expect(getAllByTestId('donut-segment')).toHaveLength(3);
+    });
+
+    it('renders without error when ensureColorContrast is false (default)', () => {
+      const seriesWithColors: DonutSegment[] = [
+        { id: 'bitcoin', label: 'Bitcoin', value: 100, color: '#f5f5f5' },
+      ];
+      const { getAllByTestId } = render(
+        <DonutChart series={seriesWithColors} />,
+        { wrapper },
+      );
+      expect(getAllByTestId('donut-segment')).toHaveLength(1);
+    });
+  });
+
   describe('renderCenterActive', () => {
     it('calls renderCenter with activeSegment=null for the resting slot', () => {
       const renderCenter = vi.fn(() => null);

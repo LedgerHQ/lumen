@@ -248,6 +248,40 @@ describe('LineChart', () => {
     });
   });
 
+  describe('ensureColorContrast', () => {
+    it('renders without error when ensureColorContrast is true and series have strokes', () => {
+      const { getAllByTestId } = render(
+        <LineChartWrapper
+          series={[{ id: 'test', stroke: '#f5f5f5', data: [10, 20, 30, 40, 50] }]}
+          width={400}
+          height={200}
+          ensureColorContrast
+        />,
+      );
+      expect(getAllByTestId('line-path')).toHaveLength(1);
+    });
+
+    it('renders without error when ensureColorContrast is true and series have no stroke', () => {
+      const noStrokeSeries = [{ id: 'test', data: [10, 20, 30] }];
+      const { getAllByTestId } = render(
+        <LineChartWrapper
+          series={noStrokeSeries}
+          width={400}
+          height={200}
+          ensureColorContrast
+        />,
+      );
+      expect(getAllByTestId('line-path')).toHaveLength(1);
+    });
+
+    it('renders without error when ensureColorContrast is false (default)', () => {
+      const { getAllByTestId } = render(
+        <LineChartWrapper series={sampleSeries} width={400} height={200} />,
+      );
+      expect(getAllByTestId('line-path')).toHaveLength(1);
+    });
+  });
+
   describe('loading and empty states', () => {
     it('renders the shimmering placeholder with no data while loading (state 1)', () => {
       const { getByTestId, queryByTestId, container } = render(
