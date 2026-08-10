@@ -130,27 +130,7 @@ const LineChartContent = ({
   );
 };
 
-export function LineChart({
-  series: seriesProp,
-  showArea = false,
-  areaType = 'gradient',
-  connectNulls,
-  showXAxis = false,
-  showYAxis = false,
-  xAxis,
-  yAxis,
-  width = '100%',
-  height = chartConfig.root.defaultHeight,
-  inset,
-  enableScrubbing,
-  onScrubberPositionChange,
-  animate,
-  magnetRadius,
-  loading = false,
-  emptyLabel = chartConfig.emptyState.defaultLabel,
-  ensureColorContrast = false,
-  children,
-}: Readonly<LineChartProps>) {
+function useContrastBgColor(): string {
   const { colorScheme } = useTheme();
 
   const [bgColor, setBgColor] = useState<string>(() =>
@@ -172,6 +152,43 @@ export function LineChart({
     setBgColor(resolved || fallback);
   }, [colorScheme]);
 
+  return bgColor;
+}
+
+function LineChartWithContrast(props: Readonly<LineChartProps>) {
+  const bgColor = useContrastBgColor();
+  return <LineChartInner {...props} bgColor={bgColor} />;
+}
+
+export function LineChart(props: Readonly<LineChartProps>) {
+  if (props.ensureColorContrast) {
+    return <LineChartWithContrast {...props} />;
+  }
+  return <LineChartInner {...props} />;
+}
+
+function LineChartInner({
+  series: seriesProp,
+  showArea = false,
+  areaType = 'gradient',
+  connectNulls,
+  showXAxis = false,
+  showYAxis = false,
+  xAxis,
+  yAxis,
+  width = '100%',
+  height = chartConfig.root.defaultHeight,
+  inset,
+  enableScrubbing,
+  onScrubberPositionChange,
+  animate,
+  magnetRadius,
+  loading = false,
+  emptyLabel = chartConfig.emptyState.defaultLabel,
+  ensureColorContrast = false,
+  children,
+  bgColor = '',
+}: LineChartProps & { bgColor?: string }) {
   const series = useMemo(
     () =>
       seriesProp?.map((s) => ({

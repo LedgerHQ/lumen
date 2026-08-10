@@ -18,7 +18,19 @@ import {
   getSegmentPercents,
 } from './utils';
 
-export function DonutChart({
+function DonutChartWithContrast(props: Readonly<DonutChartProps>) {
+  const { theme } = useTheme();
+  return <DonutChartInner {...props} bgColor={theme.colors.bg.canvas} />;
+}
+
+export function DonutChart(props: Readonly<DonutChartProps>) {
+  if (props.ensureColorContrast) {
+    return <DonutChartWithContrast {...props} />;
+  }
+  return <DonutChartInner {...props} />;
+}
+
+function DonutChartInner({
   series: seriesProp,
   size = 'md',
   accessibilityLabel = 'Donut chart',
@@ -28,9 +40,9 @@ export function DonutChart({
   renderCenter,
   renderCenterActive,
   ensureColorContrast = false,
-}: Readonly<DonutChartProps>) {
+  bgColor = '',
+}: DonutChartProps & { bgColor?: string }) {
   const geometry = DONUT_GEOMETRY[size];
-  const { theme } = useTheme();
 
   const [activeId, setActiveId] = useControllableState({
     prop: activeIdProp,
@@ -44,10 +56,10 @@ export function DonutChart({
         ...s,
         ...(s.color &&
           ensureColorContrast && {
-            color: getContrastSafeColor(s.color, theme.colors.bg.canvas),
+            color: getContrastSafeColor(s.color, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, theme.colors.bg.canvas],
+    [seriesProp, ensureColorContrast, bgColor],
   );
 
   const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);

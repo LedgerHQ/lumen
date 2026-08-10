@@ -16,18 +16,7 @@ import {
   getSegmentPercents,
 } from './utils';
 
-export function DonutChart({
-  series: seriesProp,
-  size = 'md',
-  ariaLabel = 'Donut chart',
-  activeId: activeIdProp,
-  defaultActiveId = null,
-  onActiveIdChange,
-  renderCenter,
-  renderCenterActive,
-  ensureColorContrast = false,
-}: Readonly<DonutChartProps>) {
-  const geometry = DONUT_GEOMETRY[size];
+function useContrastBgColor(): string {
   const { colorScheme } = useTheme();
 
   const [bgColor, setBgColor] = useState<string>(() =>
@@ -48,6 +37,35 @@ export function DonutChart({
 
     setBgColor(resolved || fallback);
   }, [colorScheme]);
+
+  return bgColor;
+}
+
+function DonutChartWithContrast(props: Readonly<DonutChartProps>) {
+  const bgColor = useContrastBgColor();
+  return <DonutChartInner {...props} bgColor={bgColor} />;
+}
+
+export function DonutChart(props: Readonly<DonutChartProps>) {
+  if (props.ensureColorContrast) {
+    return <DonutChartWithContrast {...props} />;
+  }
+  return <DonutChartInner {...props} />;
+}
+
+function DonutChartInner({
+  series: seriesProp,
+  size = 'md',
+  ariaLabel = 'Donut chart',
+  activeId: activeIdProp,
+  defaultActiveId = null,
+  onActiveIdChange,
+  renderCenter,
+  renderCenterActive,
+  ensureColorContrast = false,
+  bgColor = '',
+}: DonutChartProps & { bgColor?: string }) {
+  const geometry = DONUT_GEOMETRY[size];
 
   const series = useMemo(
     () =>

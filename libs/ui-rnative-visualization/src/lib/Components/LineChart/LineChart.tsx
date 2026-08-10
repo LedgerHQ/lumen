@@ -129,7 +129,19 @@ const LineChartContent = ({
   );
 };
 
-export const LineChart = ({
+function LineChartWithContrast(props: Readonly<LineChartProps>) {
+  const { theme } = useTheme();
+  return <LineChartInner {...props} bgColor={theme.colors.bg.canvas} />;
+}
+
+export function LineChart(props: Readonly<LineChartProps>) {
+  if (props.ensureColorContrast) {
+    return <LineChartWithContrast {...props} />;
+  }
+  return <LineChartInner {...props} />;
+}
+
+const LineChartInner = ({
   series: seriesProp,
   showArea = false,
   areaType = 'gradient',
@@ -149,19 +161,18 @@ export const LineChart = ({
   emptyLabel = chartConfig.emptyState.defaultLabel,
   connectNulls,
   ensureColorContrast = false,
-}: Readonly<LineChartProps>) => {
-  const { theme } = useTheme();
-
+  bgColor = '',
+}: LineChartProps & { bgColor?: string }) => {
   const series = useMemo(
     () =>
       seriesProp?.map((s) => ({
         ...s,
         ...(s.stroke &&
           ensureColorContrast && {
-            stroke: getContrastSafeColor(s.stroke, theme.colors.bg.canvas),
+            stroke: getContrastSafeColor(s.stroke, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, theme.colors.bg.canvas],
+    [seriesProp, ensureColorContrast, bgColor],
   );
 
   const xAxisConfig = useMemo(
