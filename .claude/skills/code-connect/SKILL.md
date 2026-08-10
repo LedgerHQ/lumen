@@ -20,7 +20,7 @@ and publishes the snippets to Figma Dev Mode (CI:
 ## Where files live & config
 
 - Co-locate as `Component.figma.tsx` inside the component folder (e.g.
-  `libs/ui-rnative/src/lib/Components/Tag/Tag.figma.tsx`).
+  `libs/ui-rnative/src/lib/Components/core/Tag/Tag.figma.tsx`).
 - Only `libs/ui-react` and `libs/ui-rnative` have a `figma.config.json` (with a
   `codeConnect` block: `include` globs, `label` (e.g. `"React Native"`), and
   `interactiveSetupFigmaFileUrl`). The visualization libs have no Code Connect
@@ -31,7 +31,7 @@ and publishes the snippets to Figma Dev Mode (CI:
 
 ```tsx
 import figma from '@figma/code-connect';
-import { Placeholder } from '../../Symbols';
+import { Placeholder } from '../../symbols';
 import { Tag } from './Tag';
 
 figma.connect(Tag, 'https://www.figma.com/design/<fileKey>?node-id=<node-id>', {

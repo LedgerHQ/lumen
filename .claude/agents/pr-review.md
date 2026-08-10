@@ -267,17 +267,17 @@ The review is a **flat, scored list** — one item per finding, sorted by severi
 
 | # | Severity | Category | Finding | Location |
 |---|----------|----------|---------|----------|
-| 1 | 9/10 | Type Safety | Uses `any` for payload type | `libs/ui-react/src/lib/Components/Menu/types.ts:28` |
-| 2 | 7/10 | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/Menu/Menu.tsx:26` |
+| 1 | 9/10 | Type Safety | Uses `any` for payload type | `libs/ui-react/src/lib/Components/core/Menu/types.ts:28` |
+| 2 | 7/10 | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:26` |
 | 3 | ... | ... | ... | ... |
 
 ### Details
 
-**1. [Finding title]** — 9/10 Type Safety — `libs/ui-react/src/lib/Components/Menu/types.ts:42`
+**1. [Finding title]** — 9/10 Type Safety — `libs/ui-react/src/lib/Components/core/Menu/types.ts:42`
 [Description of the issue in 1-3 sentences]
 > **Fix**: [Concrete code suggestion or action]
 
-**2. [Finding title]** — 7/10 Consistency — `libs/ui-react/src/lib/Components/Menu/Menu.tsx:26`
+**2. [Finding title]** — 7/10 Consistency — `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:26`
 [Description]
 > **Fix**: [Suggestion]
 
@@ -288,7 +288,7 @@ The review is a **flat, scored list** — one item per finding, sorted by severi
 - Each finding has exactly one severity score, one category, and one location (file + line).
 - The number of findings is unbounded and unrelated to the `/10` severity score (see "Findings count vs. severity score").
 - Categories are strictly: `Correctness`, `Type Safety`, `Consistency`, `Performance`, `Abstraction`, `API Quality`, `Clarity`, `Robustness`, `Design Principles`, `Docs Consistency`, `Release`.
-- **Location is mandatory and must include the line number** in `repo-relative/path/to/file.ext:lineNumber` form (e.g. `libs/ui-react/src/lib/Components/Menu/Menu.tsx:42`), so the related source code can be opened directly. Use a line range (`:42-50`) when a finding spans multiple lines.
+- **Location is mandatory and must include the line number** in `repo-relative/path/to/file.ext:lineNumber` form (e.g. `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:42`), so the related source code can be opened directly. Use a line range (`:42-50`) when a finding spans multiple lines.
 - Every finding's `Location` in the summary table must match the location shown in its `Details` entry.
 - The summary table comes first for a quick scan; the details section follows for depth.
 - **If there are zero findings, say so explicitly and recommend approval.** Do not invent findings to fill the report — an empty findings list is a valid, good result.
