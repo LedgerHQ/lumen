@@ -116,6 +116,14 @@ export const chartConfig = {
     pulseEasing: 'cubic-bezier(0.4, 0, 0.6, 1)',
   },
 
+  legend: {
+    defaultSwatchColor: cssVar('var(--background-muted-strong)'),
+    swatchSize: 8,
+    itemGap: 8,
+    rowGap: 6,
+    columnGap: 16,
+  },
+
   donut: {
     defaultSegmentColor: cssVar('var(--background-muted-strong)'),
     emptyRingColor: cssVar('var(--background-muted)'),

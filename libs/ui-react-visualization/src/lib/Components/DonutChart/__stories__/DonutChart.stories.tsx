@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { Legend } from '../../Legend';
 import { DonutChart } from '../DonutChart';
 import { DonutChartCenter } from '../DonutChartCenter';
 import { DonutChartDescription } from '../DonutChartDescription';
@@ -166,8 +167,21 @@ export const Loading: Story = {
 export const Interactive: Story = {};
 
 /**
- * Lift `activeId` into parent state to drive the chart and a future legend from
- * the same contract.
+ * Pair the ring with `Legend`: pass the same `series` as `items`. The legend
+ * wraps within the width it is given.
+ */
+export const WithLegend: Story = {
+  render: (args) => (
+    <div className='flex items-center gap-24'>
+      <DonutChart {...args} />
+      <Legend items={args.series} className='max-w-176' />
+    </div>
+  ),
+};
+
+/**
+ * Lift `activeId` into parent state to drive the chart center or other slots
+ * from the same contract.
  */
 export const Controlled: Story = {
   render: (args) => {

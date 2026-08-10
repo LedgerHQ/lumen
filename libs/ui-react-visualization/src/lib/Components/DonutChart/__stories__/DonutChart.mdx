@@ -100,6 +100,13 @@ legend or center slot reacts to the same active segment as the ring.
 
 <Canvas of={DonutChartStories.Controlled} />
 
+## With Legend
+
+Place a `Legend` beside the ring and pass the same `series` as `items`. The
+legend is static for now and does not share `activeId` with the chart.
+
+<Canvas of={DonutChartStories.WithLegend} />
+
 ## Center content
 
 `renderCenter` renders content in the middle of the ring, e.g. a total count.

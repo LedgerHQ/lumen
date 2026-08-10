@@ -84,6 +84,13 @@ export const chartConfig = {
     pulseDuration: 2000,
   },
 
+  legend: {
+    swatchSize: 8,
+    itemGap: 8,
+    rowGap: 6,
+    columnGap: 16,
+  },
+
   donut: {
     /** Defaults applied by `useDonutSeries` when preparing a raw series. */
     series: {

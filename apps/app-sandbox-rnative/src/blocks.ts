@@ -27,6 +27,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'Gradients', title: 'Gradient' },
   { slug: 'IconButtons', title: 'IconButton' },
   { slug: 'InteractiveIcons', title: 'InteractiveIcon' },
+  { slug: 'Legends', title: 'Legend' },
   { slug: 'LineCharts', title: 'LineChart' },
   { slug: 'Links', title: 'Link' },
   { slug: 'ListItems', title: 'ListItem' },
