@@ -368,6 +368,69 @@ export const WithReferenceLine: Story = {
 const INITIAL_FETCH_DELAY_IN_MS = 1200;
 const TRANSITION_FETCH_DELAY_IN_MS = 2000;
 
+const lightContrastSeries = [
+  {
+    id: 'alpha',
+    stroke: '#f0f7ff',
+    data: [10, 22, 18, 35, 42, 38, 51, 45, 60, 55],
+  },
+  {
+    id: 'beta',
+    stroke: '#fff5e6',
+    data: [40, 35, 45, 30, 25, 38, 28, 42, 30, 45],
+  },
+];
+
+const darkContrastSeries = [
+  {
+    id: 'gamma',
+    stroke: '#0d1117',
+    data: [10, 22, 18, 35, 42, 38, 51, 45, 60, 55],
+  },
+  {
+    id: 'delta',
+    stroke: '#0f0d17',
+    data: [40, 35, 45, 30, 25, 38, 28, 42, 30, 45],
+  },
+];
+
+export const WithColorContrast: Story = {
+  render: () => (
+    <div className='flex flex-col gap-24'>
+      <div className='flex items-end gap-32'>
+        <div className='flex flex-col items-center gap-8'>
+          <LineChart series={lightContrastSeries} width={280} height={120} />
+          <span className='body-3 text-muted'>original</span>
+        </div>
+        <div className='flex flex-col items-center gap-8'>
+          <LineChart
+            series={lightContrastSeries}
+            ensureColorContrast
+            width={280}
+            height={120}
+          />
+          <span className='body-3 text-muted'>contrast-safe</span>
+        </div>
+      </div>
+      <div className='flex items-end gap-32'>
+        <div className='flex flex-col items-center gap-8'>
+          <LineChart series={darkContrastSeries} width={280} height={120} />
+          <span className='body-3 text-muted'>original</span>
+        </div>
+        <div className='flex flex-col items-center gap-8'>
+          <LineChart
+            series={darkContrastSeries}
+            ensureColorContrast
+            width={280}
+            height={120}
+          />
+          <span className='body-3 text-muted'>contrast-safe</span>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
 export const Interactive: Story = {
   render: () => {
     const [period, setPeriod] = useState<Period>('1Y');
