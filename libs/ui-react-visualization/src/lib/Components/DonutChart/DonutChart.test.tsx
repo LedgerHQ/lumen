@@ -1,4 +1,6 @@
+import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { fireEvent, render } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { chartConfig } from '../../config';
@@ -9,6 +11,10 @@ import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
 import type { DonutSegment } from './types';
 
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <ThemeProvider>{children}</ThemeProvider>
+);
+
 const sampleSeries: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
   { id: 'ethereum', label: 'Ethereum', value: 30 },
@@ -17,17 +23,23 @@ const sampleSeries: DonutSegment[] = [
 
 describe('DonutChart', () => {
   it('renders the ring', () => {
-    const { getByTestId } = render(<DonutChart series={sampleSeries} />);
+    const { getByTestId } = render(<DonutChart series={sampleSeries} />, {
+      wrapper,
+    });
     getByTestId('donut-ring');
   });
 
   it('renders one segment path per series entry', () => {
-    const { getAllByTestId } = render(<DonutChart series={sampleSeries} />);
+    const { getAllByTestId } = render(<DonutChart series={sampleSeries} />, {
+      wrapper,
+    });
     expect(getAllByTestId('donut-segment')).toHaveLength(3);
   });
 
   it('renders segments in series order', () => {
-    const { getAllByTestId } = render(<DonutChart series={sampleSeries} />);
+    const { getAllByTestId } = render(<DonutChart series={sampleSeries} />, {
+      wrapper,
+    });
     const ids = getAllByTestId('donut-segment').map((el) =>
       el.getAttribute('data-segment-id'),
     );
@@ -35,13 +47,16 @@ describe('DonutChart', () => {
   });
 
   it('defaults to the md ring (168px)', () => {
-    const { getByTestId } = render(<DonutChart series={sampleSeries} />);
+    const { getByTestId } = render(<DonutChart series={sampleSeries} />, {
+      wrapper,
+    });
     expect(getByTestId('donut-ring').getAttribute('width')).toBe('168');
   });
 
   it('renders the sm ring (80px)', () => {
     const { getByTestId } = render(
       <DonutChart series={sampleSeries} size='sm' />,
+      { wrapper },
     );
     expect(getByTestId('donut-ring').getAttribute('width')).toBe('80');
   });
@@ -55,6 +70,7 @@ describe('DonutChart', () => {
           { id: 'ethereum', label: 'Ethereum', value: 40 },
         ]}
       />,
+      { wrapper },
     );
     const ids = getAllByTestId('donut-segment').map((el) =>
       el.getAttribute('data-segment-id'),
@@ -63,7 +79,9 @@ describe('DonutChart', () => {
   });
 
   it('renders the faint empty ring and no segments for an empty series', () => {
-    const { getByTestId, queryByTestId } = render(<DonutChart series={[]} />);
+    const { getByTestId, queryByTestId } = render(<DonutChart series={[]} />, {
+      wrapper,
+    });
     getByTestId('donut-empty');
     expect(queryByTestId('donut-segment')).toBeNull();
   });
@@ -76,20 +94,13 @@ describe('DonutChart', () => {
           { id: 'b', label: 'B', value: 0 },
         ]}
       />,
+      { wrapper },
     );
     getByTestId('donut-empty');
     expect(queryByTestId('donut-segment')).toBeNull();
   });
 
   describe('interactivity', () => {
-    const getSegment = (
-      getAllByTestId: ReturnType<typeof render>['getAllByTestId'],
-      id: string,
-    ) =>
-      getAllByTestId('donut-segment').find(
-        (el) => el.getAttribute('data-segment-id') === id,
-      );
-
     it('activates a segment on hover and dims the others', () => {
       const onActiveIdChange = vi.fn();
       const { getAllByTestId } = render(
@@ -97,9 +108,14 @@ describe('DonutChart', () => {
           series={sampleSeries}
           onActiveIdChange={onActiveIdChange}
         />,
+        { wrapper },
       );
 
-      fireEvent.mouseEnter(getSegment(getAllByTestId, 'ethereum')!);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'ethereum',
+        )!,
+      );
 
       expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
 
@@ -124,9 +140,14 @@ describe('DonutChart', () => {
           series={sampleSeries}
           onActiveIdChange={onActiveIdChange}
         />,
+        { wrapper },
       );
 
-      fireEvent.mouseEnter(getSegment(getAllByTestId, 'bitcoin')!);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+        )!,
+      );
       onActiveIdChange.mockClear();
 
       fireEvent.mouseLeave(getByTestId('donut-chart'));
@@ -137,6 +158,7 @@ describe('DonutChart', () => {
     it('respects controlled activeId for dimming', () => {
       const { getAllByTestId } = render(
         <DonutChart series={sampleSeries} activeId='tether' />,
+        { wrapper },
       );
 
       const segments = getAllByTestId('donut-segment');
@@ -160,36 +182,58 @@ describe('DonutChart', () => {
           activeId='bitcoin'
           onActiveIdChange={onActiveIdChange}
         />,
+        { wrapper },
       );
 
-      fireEvent.mouseEnter(getSegment(getAllByTestId, 'ethereum')!);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'ethereum',
+        )!,
+      );
 
       expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
 
-      const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const bitcoin = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+      )!;
       expect(Number(bitcoin.style.opacity)).toBe(1);
+
       expect(
-        Number(getSegment(getAllByTestId, 'ethereum')!.style.opacity),
+        Number(
+          getAllByTestId('donut-segment').find(
+            (el) => el.getAttribute('data-segment-id') === 'ethereum',
+          )!.style.opacity,
+        ),
       ).toBe(chartConfig.donut.hover.dimOpacity);
     });
 
     it('renders with defaultActiveId in uncontrolled mode', () => {
       const { getAllByTestId } = render(
         <DonutChart series={sampleSeries} defaultActiveId='ethereum' />,
+        { wrapper },
       );
 
-      const ethereum = getSegment(getAllByTestId, 'ethereum')!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const ethereum = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'ethereum',
+      )!;
       expect(Number(ethereum.style.opacity)).toBe(1);
       expect(ethereum.style.transform).not.toBe('translate(0px, 0px)');
 
-      const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const bitcoin = getAllByTestId('donut-segment').find(
+        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+      )!;
       expect(Number(bitcoin.style.opacity)).toBe(
         chartConfig.donut.hover.dimOpacity,
       );
     });
 
     it('uses a pointer cursor on segments', () => {
-      const { getAllByTestId } = render(<DonutChart series={sampleSeries} />);
+      const { getAllByTestId } = render(<DonutChart series={sampleSeries} />, {
+        wrapper,
+      });
       getAllByTestId('donut-segment').forEach((segment) => {
         expect(segment.style.cursor).toBe('pointer');
       });
@@ -202,6 +246,7 @@ describe('DonutChart', () => {
           series={[{ id: 'bitcoin', label: 'Bitcoin', value: 100 }]}
           onActiveIdChange={onActiveIdChange}
         />,
+        { wrapper },
       );
 
       const segment = getAllByTestId('donut-segment')[0];
@@ -216,7 +261,10 @@ describe('DonutChart', () => {
 
   describe('DonutChartCenter', () => {
     it('applies the default layout classes', () => {
-      const { getByTestId } = render(<DonutChartCenter data-testid='center' />);
+      const { getByTestId } = render(
+        <DonutChartCenter data-testid='center' />,
+        { wrapper },
+      );
 
       expect(getByTestId('center').className).toContain(
         'pointer-events-auto flex flex-col items-center',
@@ -229,6 +277,7 @@ describe('DonutChart', () => {
           data-testid='center'
           className='items-start gap-4 p-8'
         />,
+        { wrapper },
       );
 
       const className = getByTestId('center').className;
@@ -241,13 +290,17 @@ describe('DonutChart', () => {
 
   describe('renderCenter', () => {
     it('does not render a center slot when render props are omitted', () => {
-      const { queryByTestId } = render(<DonutChart series={sampleSeries} />);
+      const { queryByTestId } = render(<DonutChart series={sampleSeries} />, {
+        wrapper,
+      });
       expect(queryByTestId('donut-center')).toBeNull();
     });
 
     it('passes activeSegment=null and the full series when nothing is active', () => {
       const renderCenter = vi.fn(() => null);
-      render(<DonutChart series={sampleSeries} renderCenter={renderCenter} />);
+      render(<DonutChart series={sampleSeries} renderCenter={renderCenter} />, {
+        wrapper,
+      });
 
       expect(renderCenter).toHaveBeenCalledWith({
         activeSegment: null,
@@ -263,6 +316,7 @@ describe('DonutChart', () => {
           defaultActiveId='ethereum'
           renderCenter={renderCenter}
         />,
+        { wrapper },
       );
 
       expect(renderCenter).toHaveBeenCalledWith({
@@ -291,15 +345,17 @@ describe('DonutChart', () => {
             )
           }
         />,
+        { wrapper },
       );
 
       getByText('3');
       expect(queryByText('Bitcoin')).toBeNull();
 
-      const bitcoinSegment = getAllByTestId('donut-segment').find(
-        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
-      )!;
-      fireEvent.mouseEnter(bitcoinSegment);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+        )!,
+      );
 
       getByText('50%');
       getByText('Bitcoin');
@@ -321,6 +377,7 @@ describe('DonutChart', () => {
             </DonutChartCenter>
           )}
         />,
+        { wrapper },
       );
 
       getByRole('button', { name: 'Bitcoin details' });
@@ -337,6 +394,7 @@ describe('DonutChart', () => {
           renderCenter={renderCenter}
           renderCenterActive={renderCenterActive}
         />,
+        { wrapper },
       );
 
       expect(renderCenter).toHaveBeenCalledWith({
@@ -354,6 +412,7 @@ describe('DonutChart', () => {
           renderCenter={() => null}
           renderCenterActive={renderCenterActive}
         />,
+        { wrapper },
       );
 
       expect(renderCenterActive).toHaveBeenCalledWith({
@@ -373,6 +432,7 @@ describe('DonutChart', () => {
           renderCenter={() => null}
           renderCenterActive={renderCenterActive}
         />,
+        { wrapper },
       );
 
       expect(renderCenterActive).toHaveBeenCalledWith({
@@ -402,15 +462,17 @@ describe('DonutChart', () => {
             </DonutChartCenter>
           )}
         />,
+        { wrapper },
       );
 
       getByText('3');
       expect(queryByText('Bitcoin')).toBeNull();
 
-      const bitcoinSegment = getAllByTestId('donut-segment').find(
-        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
-      )!;
-      fireEvent.mouseEnter(bitcoinSegment);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+        )!,
+      );
 
       getByText('50%');
       getByText('Bitcoin');
@@ -432,6 +494,7 @@ describe('DonutChart', () => {
             </DonutChartCenter>
           )}
         />,
+        { wrapper },
       );
 
       getByRole('button', { name: 'Bitcoin details' });
@@ -460,16 +523,18 @@ describe('DonutChart', () => {
             </DonutChartCenter>
           )}
         />,
+        { wrapper },
       );
 
       getByText('3');
       getByTestId('donut-center-resting');
       expect(queryByTestId('donut-center-active')).toBeNull();
 
-      const bitcoinSegment = getAllByTestId('donut-segment').find(
-        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
-      )!;
-      fireEvent.mouseEnter(bitcoinSegment);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+        )!,
+      );
 
       getByText('50%');
       getByText('Bitcoin');
@@ -495,12 +560,14 @@ describe('DonutChart', () => {
             </DonutChartCenter>
           )}
         />,
+        { wrapper },
       );
 
-      const bitcoinSegment = getAllByTestId('donut-segment').find(
-        (el) => el.getAttribute('data-segment-id') === 'bitcoin',
-      )!;
-      fireEvent.mouseEnter(bitcoinSegment);
+      fireEvent.mouseEnter(
+        getAllByTestId('donut-segment').find(
+          (el) => el.getAttribute('data-segment-id') === 'bitcoin',
+        )!,
+      );
       fireEvent.mouseLeave(getByTestId('donut-chart'));
 
       getByText('3');
