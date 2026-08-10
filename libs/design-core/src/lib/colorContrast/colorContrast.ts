@@ -65,6 +65,8 @@ function hslToHex(hsl: HslValue): string {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
+const HEX_COLOR_RE = /^#[a-f\d]{6}$/i;
+
 /**
  * Nudges a foreground color's HSL lightness away from a background color so
  * the two are at least `threshold` lightness units apart.
@@ -83,7 +85,6 @@ function hslToHex(hsl: HslValue): string {
  * @param bgColor - The background hex color to contrast against.
  * @param threshold - Minimum lightness delta to enforce. Defaults to `20`.
  */
-const HEX_COLOR_RE = /^#[a-f\d]{6}$/i;
 
 export function getContrastSafeColor(
   color: string,
