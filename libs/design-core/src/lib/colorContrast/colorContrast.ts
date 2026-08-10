@@ -83,11 +83,17 @@ function hslToHex(hsl: HslValue): string {
  * @param bgColor - The background hex color to contrast against.
  * @param threshold - Minimum lightness delta to enforce. Defaults to `20`.
  */
+const HEX_COLOR_RE = /^#[a-f\d]{6}$/i;
+
 export function getContrastSafeColor(
   color: string,
   bgColor: string,
   threshold = 20,
 ): string {
+  if (!HEX_COLOR_RE.test(color) || !HEX_COLOR_RE.test(bgColor)) {
+    return color;
+  }
+
   const fg = hexToHsl(color);
   const bg = hexToHsl(bgColor);
 

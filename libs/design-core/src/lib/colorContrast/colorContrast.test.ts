@@ -44,19 +44,52 @@ describe('getContrastSafeColor', () => {
     });
   });
 
+  describe('chromatic colors', () => {
+    it('handles a red-dominant fg against a dark bg', () => {
+      const result = getContrastSafeColor('#ff4444', '#1a1a1a');
+      expect(typeof result).toBe('string');
+      expect(result).toMatch(/^#[0-9a-f]{6}$/i);
+    });
+
+    it('handles a green-dominant fg against a light bg', () => {
+      const result = getContrastSafeColor('#44ff44', '#ffffff');
+      expect(typeof result).toBe('string');
+      expect(result).toMatch(/^#[0-9a-f]{6}$/i);
+    });
+
+    it('handles a blue-dominant fg against a light bg', () => {
+      const result = getContrastSafeColor('#4444ff', '#ffffff');
+      expect(typeof result).toBe('string');
+      expect(result).toMatch(/^#[0-9a-f]{6}$/i);
+    });
+
+    it('returns a chromatic color unchanged when it already has sufficient contrast', () => {
+      expect(getContrastSafeColor('#ff0000', '#000000')).toBe('#ff0000');
+    });
+
+    it('adjusts a dark red fg close to a dark bg', () => {
+      const result = getContrastSafeColor('#800000', '#1a1a1a');
+      expect(result).toMatch(/^#[0-9a-f]{6}$/i);
+    });
+
+    it('adjusts two close chromatic colors', () => {
+      expect(getContrastSafeColor('#ff8080', '#ff9999')).toBe('#ff3333');
+    });
+  });
+
   describe('error handling', () => {
-    it('throws on an invalid fg hex string', () => {
-      expect(() => getContrastSafeColor('not-a-hex', '#ffffff')).toThrow();
+    it('returns the fg color unchanged when fg is not a hex string', () => {
+      expect(getContrastSafeColor('not-a-hex', '#ffffff')).toBe('not-a-hex');
     });
 
-    it('throws on an invalid bg hex string', () => {
-      expect(() => getContrastSafeColor('#ffffff', 'not-a-hex')).toThrow();
+    it('returns the fg color unchanged when bg is not a hex string', () => {
+      expect(getContrastSafeColor('#ffffff', 'not-a-hex')).toBe('#ffffff');
     });
 
-    it('throws on a CSS variable reference', () => {
-      expect(() =>
-        getContrastSafeColor('var(--color-bg-base)', '#ffffff'),
-      ).toThrow();
+    it('returns the fg color unchanged when fg is a CSS variable reference', () => {
+      expect(getContrastSafeColor('var(--color-bg-base)', '#ffffff')).toBe(
+        'var(--color-bg-base)',
+      );
     });
   });
 });
