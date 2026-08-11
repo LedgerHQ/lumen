@@ -151,6 +151,7 @@ export const MediaButton = ({
         className,
       )}
       disabled={disabled}
+      {...(asChild ? {} : { type: 'button' as const })}
       {...props}
     >
       {leadingContent && (

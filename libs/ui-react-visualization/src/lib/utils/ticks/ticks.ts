@@ -26,7 +26,7 @@ export const getTickValues = (
   explicitTicks?: number[],
   axisData?: BaseAxisProps['data'],
 ): number[] => {
-  if (explicitTicks && explicitTicks.length > 0) return explicitTicks;
+  if (explicitTicks) return explicitTicks;
   if (axisData && axisData.length > 0) {
     return typeof axisData[0] === 'number'
       ? (axisData as number[])

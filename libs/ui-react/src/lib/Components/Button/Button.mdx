@@ -72,6 +72,19 @@ Buttons come in four different sizes:
 
 > **Important Note:** The `loading` and `disabled` states are **not coupled**. When `disabled` is set, all event handlers are deactivated. When only `loading` is set (without `disabled`), the button remains clickable. Combine both props if you need to prevent interactions during loading.
 
+### Form submission
+
+On the native `<button>` render path, the Button defaults to `type="button"`, so placing it inside a `<form>` does **not** submit the form by accident. To use it as a submit or reset control, pass the native `type` explicitly:
+
+```tsx
+<form onSubmit={handleSubmit}>
+  <Button type='submit'>Save</Button>
+  <Button type='reset' appearance='gray'>Reset</Button>
+</form>
+```
+
+When `asChild` is used, no `type` is injected, since the rendered element (e.g. an anchor) is not a native button.
+
 ## Responsive Layout
 
 Buttons dynamically adapt their width to the size of their content, while keeping the default paddings:

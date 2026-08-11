@@ -53,17 +53,41 @@ import type { Config } from 'tailwindcss';
 import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
 
 const config = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}', // Your project's files
-    './node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}', // Ledger UI Kit components
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Your project's files
   presets: [ledgerLivePreset], // the installed tailwind preset
 } satisfies Config;
 
 export default config;
 ```
 
-### 2. VSCode Extensions and Setup
+### 2. Register Lumen as a Tailwind source
+
+Tailwind only emits a utility if it has seen the class name in a file it scans,
+and it skips `node_modules` by default. Our components ship with their class
+names compiled into the published JS, so your Tailwind build has to scan them.
+
+Import our stylesheet next to Tailwind in your main CSS file — that's all:
+
+```css
+@import 'tailwindcss';
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+@config '../tailwind.config.ts';
+```
+
+If you use the charts package, add its stylesheet too:
+
+```css
+@import '@ledgerhq/lumen-ui-react-visualization/tailwind.css';
+```
+
+
+
+This is the legacy path. It works, but it pins your build to our internal `dist`
+layout, which may change in any release — and when it does, the glob stops
+matching and your utilities disappear with no build failure. Moving to Tailwind v4
+and the import above is the durable fix.
+
+### 3. VSCode Extensions and Setup
 
 For the best development experience, we recommend the following setup:
 
@@ -116,7 +140,7 @@ For the best development experience, we recommend the following setup:
      ```
    - [View documentation →](https://www.npmjs.com/package/@ledgerhq/lumen-ui-react#-ai-assistant-setup)
 
-### 3. Utility Functions
+### 4. Utility Functions
 
 We recommend creating utility functions to help you work with Tailwind classes. Here's how to create powerful utilities that handle conditional classes, Tailwind class conflicts, and type-safe variants:
 

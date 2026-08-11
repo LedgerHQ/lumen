@@ -238,17 +238,18 @@ export const websitesDarkColorTokens = {
     gradient70: primitiveColorTokens.dark.grey['050-70'],
     gradient40: primitiveColorTokens.dark.grey['050-40'], // Added missing token from CSS
     gradient30: primitiveColorTokens.dark.grey['050-30'], // Added missing token from CSS
+    gradient10: primitiveColorTokens.dark.grey['050-10'],
     gradient0: primitiveColorTokens.dark.grey['050-0'],
     gradientOverlay80: primitiveColorTokens.dark.grey['050-80'], // Added missing token from CSS
     gradientOverlay0: primitiveColorTokens.dark.grey['050-0'], // Added missing token from CSS
-    avatarBlue: primitiveColorTokens.dark.avatar.blue,
-    avatarPink: primitiveColorTokens.dark.avatar.pink,
-    avatarTurquoise: primitiveColorTokens.dark.avatar.turquoise,
-    avatarYellow: primitiveColorTokens.dark.avatar.yellow,
-    avatarOrange: primitiveColorTokens.dark.avatar.orange,
-    avatarRed: primitiveColorTokens.dark.avatar.red,
-    avatarGreen: primitiveColorTokens.dark.avatar.green,
-    avatarPurple: primitiveColorTokens.dark.avatar.purple,
+    decorativeBlue: primitiveColorTokens.dark.decorative.blue,
+    decorativePink: primitiveColorTokens.dark.decorative.pink,
+    decorativeTurquoise: primitiveColorTokens.dark.decorative.turquoise,
+    decorativeYellow: primitiveColorTokens.dark.decorative.yellow,
+    decorativeOrange: primitiveColorTokens.dark.decorative.orange,
+    decorativeRed: primitiveColorTokens.dark.decorative.red,
+    decorativeGreen: primitiveColorTokens.dark.decorative.green,
+    decorativePurple: primitiveColorTokens.dark.decorative.purple,
   },
   text: {
     black: primitiveColorTokens.dark.constant['950'],

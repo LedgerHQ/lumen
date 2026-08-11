@@ -73,6 +73,7 @@ export const CardButton = ({
         className,
       )}
       disabled={disabled}
+      type='button'
       {...props}
     >
       {IconComponent && <IconComponent size={24} />}

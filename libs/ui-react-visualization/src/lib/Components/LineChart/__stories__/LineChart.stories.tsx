@@ -245,17 +245,12 @@ export const Empty: Story = {
 export const Loading: Story = {
   render: () => (
     <div className='flex flex-wrap gap-24'>
-      <div className='flex w-400 flex-col gap-8'>
-        <LineChart series={[]} width={CHART_WIDTH} height={150} loading />
+      <div className='flex w-full flex-col gap-8'>
+        <LineChart series={[]} height={150} loading />
         <span className='body-3 text-muted'>Without data</span>
       </div>
-      <div className='flex w-400 flex-col gap-8'>
-        <LineChart
-          series={sampleSeries}
-          width={CHART_WIDTH}
-          height={150}
-          loading
-        />
+      <div className='flex w-full flex-col gap-8'>
+        <LineChart series={sampleSeries} height={150} loading />
         <span className='body-3 text-muted'>With data</span>
       </div>
     </div>

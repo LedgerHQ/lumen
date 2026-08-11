@@ -22,12 +22,23 @@ import type { Config } from 'tailwindcss';
 import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
 
 const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   presets: [ledgerLivePreset],
 } satisfies Config;
 
 export default config;
 ```
+
+If you also use `@ledgerhq/lumen-ui-react`, import its stylesheet next to
+Tailwind in your main CSS file — it registers the compiled components as a
+Tailwind source so their utilities are emitted:
+
+```css
+@import 'tailwindcss';
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+@config '../tailwind.config.ts';
+```
+
 
 ## 🎨 Design Tokens
 

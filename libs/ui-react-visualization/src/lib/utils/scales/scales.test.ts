@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getCategoricalScale,
   getNumericScale,
+  getPointOnScale,
   isBandScaleType,
   isCategoricalScale,
   isNumericScale,
@@ -152,24 +153,46 @@ describe('isCategoricalScale / isNumericScale', () => {
   });
 });
 
+describe('getPointOnScale', () => {
+  it('returns the center of a band for categorical scales', () => {
+    const scale = getCategoricalScale({
+      domain: { min: 0, max: 3 },
+      range: { min: 0, max: 400 },
+      padding: 0,
+    });
+    const expected = (scale(0) ?? 0) + scale.bandwidth() / 2;
+    expect(getPointOnScale(0, scale)).toBe(expected);
+  });
+
+  it('returns the direct scale value for numeric scales', () => {
+    const scale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 4 },
+      range: { min: 0, max: 400 },
+    });
+    expect(getPointOnScale(2, scale)).toBe(scale(2));
+  });
+});
+
 describe('projectPoint', () => {
-  it('should project data coordinates to pixel coordinates with linear scales', () => {
+  it('should project using two linear scales', () => {
     const xScale = getNumericScale({
       scaleType: 'linear',
       domain: { min: 0, max: 10 },
-      range: { min: 0, max: 400 },
+      range: { min: 0, max: 500 },
     });
     const yScale = getNumericScale({
       scaleType: 'linear',
       domain: { min: 0, max: 100 },
-      range: { min: 200, max: 0 },
+      range: { min: 300, max: 0 },
     });
-    const result = projectPoint(5, 50, xScale, yScale);
-    expect(result.x).toBe(200);
-    expect(result.y).toBe(100);
+
+    const pt = projectPoint(5, 50, xScale, yScale);
+    expect(pt.x).toBe(250);
+    expect(pt.y).toBe(150);
   });
 
-  it('should center on band for categorical x-scale', () => {
+  it('should center on band for a categorical x scale', () => {
     const xScale = getCategoricalScale({
       domain: { min: 0, max: 3 },
       range: { min: 0, max: 400 },
@@ -180,9 +203,26 @@ describe('projectPoint', () => {
       domain: { min: 0, max: 100 },
       range: { min: 200, max: 0 },
     });
-    const result = projectPoint(1, 50, xScale, yScale);
+
+    const pt = projectPoint(1, 50, xScale, yScale);
     const expectedX = (xScale(1) ?? 0) + xScale.bandwidth() / 2;
-    expect(result.x).toBe(expectedX);
-    expect(result.y).toBe(100);
+    expect(pt.x).toBe(expectedX);
+    expect(pt.y).toBe(100);
+  });
+
+  it('should handle edge values at domain boundaries', () => {
+    const xScale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 10 },
+      range: { min: 0, max: 500 },
+    });
+    const yScale = getNumericScale({
+      scaleType: 'linear',
+      domain: { min: 0, max: 100 },
+      range: { min: 300, max: 0 },
+    });
+
+    expect(projectPoint(0, 0, xScale, yScale)).toEqual({ x: 0, y: 300 });
+    expect(projectPoint(10, 100, xScale, yScale)).toEqual({ x: 500, y: 0 });
   });
 });

@@ -80,4 +80,14 @@ describe('MediaButton', () => {
     render(<MediaButton className='ml-16'>Label</MediaButton>);
     expect(screen.getByRole('button')).toHaveClass('ml-16');
   });
+
+  it('should default to type="button" so it does not submit a form', () => {
+    render(<MediaButton>Label</MediaButton>);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+  });
+
+  it('should let the caller override the type', () => {
+    render(<MediaButton type='submit'>Label</MediaButton>);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
+  });
 });

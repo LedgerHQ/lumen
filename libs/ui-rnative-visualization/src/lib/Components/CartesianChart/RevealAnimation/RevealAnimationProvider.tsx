@@ -26,8 +26,9 @@ export function RevealAnimationProvider({
    */
   const isDisabled = !animate || RuntimeConstants.isAndroid;
   const durationMs =
-    (transitions?.enter?.duration ?? chartConfig.reveal.durationInSeconds) *
-    1000;
+    transitions?.enter?.duration == null
+      ? chartConfig.reveal.duration
+      : transitions.enter.duration * 1000;
 
   const dataFingerprint = useDataFingerprint(series);
   const { clipId, animatedRectProps, pointOpacity } = useRevealAnimation({

@@ -3,14 +3,14 @@ import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
-import { DONUT_GEOMETRY } from '../../config';
+import { chartConfig, DONUT_GEOMETRY } from '../../config';
 import { toRingLocalPoint } from './constants';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutChartProps } from './types';
 import {
-  buildArcs,
+  buildRingSegments,
   findSegmentIdAtPoint,
   formatPercentLabel,
   getCenterMaxWidth,
@@ -21,6 +21,7 @@ export function DonutChart({
   series,
   size = 'md',
   accessibilityLabel = 'Donut chart',
+  loading = false,
   activeId: activeIdProp,
   defaultActiveId = null,
   onActiveIdChange,
@@ -35,7 +36,10 @@ export function DonutChart({
     onChange: onActiveIdChange,
   });
 
-  const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
+  const segments = useMemo(
+    () => buildRingSegments(series, geometry),
+    [series, geometry],
+  );
 
   const activeSegment = useMemo(() => {
     const index = series.findIndex((segment) => segment.id === activeId);
@@ -59,13 +63,16 @@ export function DonutChart({
 
   const handleTap = useCallback(
     (point: { x: number; y: number }) => {
+      if (loading) {
+        return;
+      }
       const localPoint = toRingLocalPoint(point, geometry);
-      const hitId = findSegmentIdAtPoint(arcs, localPoint, geometry);
+      const hitId = findSegmentIdAtPoint(segments, localPoint, geometry);
       if (hitId) {
         handleSegmentPress(hitId);
       }
     },
-    [arcs, geometry, handleSegmentPress],
+    [segments, geometry, handleSegmentPress, loading],
   );
 
   const tap = useMemo(
@@ -99,10 +106,13 @@ export function DonutChart({
       style={{ width: geometry.box, height: geometry.box }}
     >
       <DonutRing
-        arcs={arcs}
+        segments={segments}
         geometry={geometry}
-        accessibilityLabel={accessibilityLabel}
+        accessibilityLabel={
+          loading ? chartConfig.donut.loading.ariaLabel : accessibilityLabel
+        }
         activeId={activeId}
+        loading={loading}
       />
       <GestureDetector gesture={tap}>
         <View testID='donut-gesture-overlay' style={StyleSheet.absoluteFill} />

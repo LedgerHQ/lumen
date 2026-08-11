@@ -114,6 +114,7 @@ export const BaseButton = ({
       data-disabled={disabled || undefined}
       disabled={disabled}
       onClick={onClick}
+      {...(asChild ? {} : { type: 'button' as const })}
       {...props}
     >
       {loading && (
