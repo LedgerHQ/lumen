@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
-import type { StyledPressableProps } from '../../../../styles';
+import type { StyleProp, TextStyle } from 'react-native';
+import type { StyledTextProps } from '../../../../styles';
+import type { ImpactFeedbackStyle } from '../../../Haptics';
 import type { IconSize } from '../../symbols/Icon';
 
 export type LinkProps = {
@@ -25,7 +26,7 @@ export type LinkProps = {
    */
   icon?: React.ComponentType<{
     size?: IconSize;
-    style?: StyleProp<ViewStyle>;
+    style?: StyleProp<TextStyle>;
   }>;
   /**
    * If true, displays an external link icon next to the link text.
@@ -40,5 +41,11 @@ export type LinkProps = {
    * Custom press handler (overrides default href navigation)
    */
   onPress?: () => void;
+  /**
+   * Triggers haptic feedback on press-in.
+   * - `true` — default medium intensity.
+   * - Impact style: `"light"` | `"medium"` | `"heavy"` | `"soft"` | `"rigid"`.
+   */
+  hapticFeedback?: ImpactFeedbackStyle | true;
 } & PropsWithChildren &
-  Omit<StyledPressableProps, 'onPress' | 'children'>;
+  Omit<StyledTextProps, 'onPress' | 'children'>;

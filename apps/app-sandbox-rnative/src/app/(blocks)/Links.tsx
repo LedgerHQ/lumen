@@ -4,12 +4,14 @@ import {
   LedgerLogo,
   Screens,
 } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
+
+const href = 'https://www.ledger.com/';
 
 export default function Links() {
   return (
-    <Box lx={{ gap: 's8' }}>
-      <Link href={'https://github.com/LedgerHQ/lumen'} icon={Github} isExternal>
+    <Box lx={{ gap: 's24' }}>
+      <Link href={href} icon={Github} isExternal>
         Set up Lumen in your project
       </Link>
       <Link
@@ -48,6 +50,39 @@ export default function Links() {
           during business hours (9am-5pm).
         </Text>
       </Box>
+      <Box
+        lx={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
+      >
+        <Link size='sm' isExternal href='https://github.com/LedgerHQ/lumen'>
+          <Text typography='body3' lx={{ color: 'base' }}>
+            If you require assistance, please contact us via our{' '}
+          </Text>
+          support page
+          <Text typography='body3' lx={{ color: 'base' }}>
+            {' '}
+            during business hours (9am-5pm).
+          </Text>
+        </Link>
+      </Box>
+      <Text typography='body2' lx={{ color: 'muted', textAlign: 'center' }}>
+        By signing, you agree to Provider&apos;s{' '}
+        <Link
+          size='sm'
+          onPress={() => void Linking.openURL(href)}
+          accessibilityRole='link'
+        >
+          terms of use{' '}
+        </Link>
+        and{' '}
+        <Link
+          size='sm'
+          onPress={() => void Linking.openURL(href)}
+          accessibilityRole='link'
+        >
+          privacy policy
+        </Link>
+        .
+      </Text>
     </Box>
   );
 }
