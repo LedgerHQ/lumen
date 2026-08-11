@@ -89,7 +89,15 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - run: npx nx affected -t test --passWithNoTests --coverage
+      - name: Run unit tests
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            # Always run the full suite on main so the SonarCloud baseline
+            # never depends on which projects a given merge happened to touch.
+            npx nx run-many -t test --all --passWithNoTests --coverage
+          else
+            npx nx affected -t test --passWithNoTests --coverage
+          fi
 
       - name: Fix lcov paths to be relative to workspace root
         run: |
@@ -122,4 +130,5 @@ jobs:
     uses: ./.github/workflows/scan-sonar-called.yml
     with:
       should_download_coverage: true
+      require_coverage: ${{ github.ref == 'refs/heads/main' }}
     secrets: inherit
