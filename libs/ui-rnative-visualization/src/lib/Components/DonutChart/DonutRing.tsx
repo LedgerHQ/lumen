@@ -115,7 +115,7 @@ export const DonutRing = ({
       accessibilityRole='image'
       accessibilityLabel={accessibilityLabel}
     >
-      <RevealAnimation R={R}>
+      <RevealAnimation R={R} activeOffset={geometry.activeOffset}>
         {hasSegments ? (
           arcs.map((segment) => (
             <RingSegment

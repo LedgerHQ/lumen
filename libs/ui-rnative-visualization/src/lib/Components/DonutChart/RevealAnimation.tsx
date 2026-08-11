@@ -26,13 +26,19 @@ export function computeRevealClipPath(R: number, progress: number): string {
 
 type RevealAnimationProps = {
   R: number;
+  activeOffset?: number;
   children: ReactNode;
 };
 
-export const RevealAnimation = ({ R, children }: RevealAnimationProps) => {
+export const RevealAnimation = ({
+  R,
+  activeOffset = 0,
+  children,
+}: RevealAnimationProps) => {
   const isReducedMotion = useReducedMotion();
   const skipReveal = isReducedMotion || RuntimeConstants.isAndroid;
   const revealProgress = useSharedValue(skipReveal ? 1 : 0);
+  const clipR = R + activeOffset;
 
   useEffect(() => {
     if (skipReveal) return;
@@ -42,7 +48,7 @@ export const RevealAnimation = ({ R, children }: RevealAnimationProps) => {
   }, [skipReveal, revealProgress]);
 
   const clipPathProps = useAnimatedProps(() => ({
-    d: computeRevealClipPath(R, revealProgress.value),
+    d: computeRevealClipPath(clipR, revealProgress.value),
   }));
 
   return (
