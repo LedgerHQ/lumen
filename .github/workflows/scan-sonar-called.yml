@@ -10,6 +10,13 @@ on:
         required: false
         default: false
         type: boolean
+      require_coverage:
+        description: >-
+          Fail the job if no coverage report was found, instead of silently
+          scanning without coverage data.
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   id-token: write
@@ -28,10 +35,22 @@ jobs:
       - name: Download unit test coverage
         if: ${{ inputs.should_download_coverage }}
         uses: actions/download-artifact@v4
-        continue-on-error: true
+        # When coverage is required, let a download failure (e.g. missing or
+        # corrupt artifact) fail the job here with its own clear error,
+        # rather than continuing and getting a confusing "no reports found"
+        # failure from the verification step below.
+        continue-on-error: ${{ !inputs.require_coverage }}
         with:
           name: coverage
           path: libs
+
+      - name: Verify coverage was collected
+        if: ${{ inputs.should_download_coverage && inputs.require_coverage }}
+        run: |
+          if ! find libs -name lcov.info -size +0c | grep -q .; then
+            echo "::error::No coverage reports found, refusing to submit 0% coverage to SonarCloud."
+            exit 1
+          fi
 
       - uses: SonarSource/sonarqube-scan-action@v7
         env:
