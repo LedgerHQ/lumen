@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { BaseButton } from '../Button';
+import { BaseButton } from '../../internal/BaseButton';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';
 import type { IconButtonProps } from './types';
 

@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { BaseButton } from './BaseButton';
+import { BaseButton } from '../../internal/BaseButton';
 import type { ButtonProps } from './types';
 
 const buttonVariants = cva('', {

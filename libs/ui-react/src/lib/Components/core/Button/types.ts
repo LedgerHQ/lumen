@@ -1,71 +1,7 @@
-import type { ComponentPropsWithRef, ComponentType, ReactNode } from 'react';
-import type { IconSize } from '../../symbols/Icon/types';
-
-export type BaseButtonProps = {
-  /**
-   * The visual style of the button.
-   * @default base
-   */
-  appearance?:
-    | 'base'
-    | 'gray'
-    | 'accent'
-    | 'transparent'
-    | 'no-background'
-    | 'red';
-  /**
-   * The size variant of the button.
-   * @default md
-   */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  /**
-   * If true, the button expands to full width of its container.
-   * @default false
-   */
-  isFull?: boolean;
-  /**
-   * Whether the button is disabled.
-   * @default false
-   */
-  disabled?: boolean;
-  /**
-   * If true, shows a loading spinner instead of the icon.
-   * @default false
-   */
-  loading?: boolean;
-  /**
-   * Additional custom CSS classes to apply.
-   */
-  className?: string;
-  /**
-   * Optional prop to render the button as a child element.
-   * @default false
-   */
-  asChild?: boolean;
-  /**
-   * An optional icon component to render inside the button.
-   */
-  icon?: ComponentType<{ size?: IconSize; className?: string }>;
-  /**
-   * Optional children to render inside the button.
-   */
-  children?: ReactNode;
-  /**
-   * The native button `type`. Defaults to `'button'` so the button does not
-   * accidentally submit a surrounding `<form>`. Set `'submit'` or `'reset'` to
-   * opt into form behaviour. Ignored when `asChild` is used, since the rendered
-   * element (e.g. an anchor) is not a native button.
-   * @default 'button'
-   */
-  type?: 'button' | 'submit' | 'reset';
-} & ComponentPropsWithRef<'button'>;
+import type { ReactNode } from 'react';
+import type { BaseButtonProps } from '../../internal/BaseButton/types';
 
 export type ButtonProps = {
-  /**
-   * If true, shows a loading spinner and disables the button.
-   * @default false
-   */
-  loading?: boolean;
   /**
    * The content of the button. This is required to ensure buttons always have a label.
    * @required

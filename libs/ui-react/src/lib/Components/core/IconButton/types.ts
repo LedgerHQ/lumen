@@ -1,6 +1,5 @@
 import type * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import type { ComponentPropsWithRef } from 'react';
-import type { BaseButtonProps } from '../Button/types';
+import type { BaseButtonProps } from '../../internal/BaseButton/types';
 
 export type IconButtonProps = {
   /**
@@ -31,5 +30,4 @@ export type IconButtonProps = {
    * Useful for analytics tracking (e.g. logging tooltip impressions).
    */
   onTooltipOpenChange?: (open: boolean) => void;
-} & Omit<BaseButtonProps, 'isFull'> &
-  ComponentPropsWithRef<'button'>;
+} & Omit<BaseButtonProps, 'isFull'>;

@@ -1,8 +1,8 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
+import { Spinner } from '../../core/Spinner';
 import type { IconSize } from '../../symbols/Icon/types';
-import { Spinner } from '../Spinner';
 import type { BaseButtonProps } from './types';
 
 export const baseButtonVariants = cva(

@@ -1,8 +1,8 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
+import { baseButtonVariants } from '../../internal/BaseButton';
 import { ChevronDown } from '../../symbols';
-import { baseButtonVariants } from '../Button/BaseButton';
 import type { MediaButtonProps } from './types';
 
 const triggerVariants = cva('gap-8 body-2-semi-bold', {

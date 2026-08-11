@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
-import type { BaseButtonProps } from '../Button/types';
+import type { BaseButtonProps } from '../../internal/BaseButton/types';
 
 export type MediaButtonProps = {
   /**
