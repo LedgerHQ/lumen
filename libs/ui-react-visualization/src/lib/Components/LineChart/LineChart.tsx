@@ -155,12 +155,12 @@ function useContrastBgColor(): string {
   return bgColor;
 }
 
-function LineChartWithContrast(props: Readonly<LineChartProps>) {
+function LineChartWithContrast(props: LineChartProps) {
   const bgColor = useContrastBgColor();
   return <LineChartInner {...props} bgColor={bgColor} />;
 }
 
-export function LineChart(props: Readonly<LineChartProps>) {
+export function LineChart(props: LineChartProps) {
   if (props.ensureColorContrast) {
     return <LineChartWithContrast {...props} />;
   }

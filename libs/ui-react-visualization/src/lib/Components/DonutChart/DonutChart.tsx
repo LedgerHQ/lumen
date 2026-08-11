@@ -41,12 +41,12 @@ function useContrastBgColor(): string {
   return bgColor;
 }
 
-function DonutChartWithContrast(props: Readonly<DonutChartProps>) {
+function DonutChartWithContrast(props: DonutChartProps) {
   const bgColor = useContrastBgColor();
   return <DonutChartInner {...props} bgColor={bgColor} />;
 }
 
-export function DonutChart(props: Readonly<DonutChartProps>) {
+export function DonutChart(props: DonutChartProps) {
   if (props.ensureColorContrast) {
     return <DonutChartWithContrast {...props} />;
   }
