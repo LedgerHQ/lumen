@@ -1,35 +1,26 @@
-import { chartConfig } from '../../config';
+import { cssVar } from '@ledgerhq/lumen-design-core';
 
 import type { LegendItem as LegendItemData } from './types';
-import { resolveLegendItemColor, resolveLegendItemLabel } from './utils';
-
-const { legend } = chartConfig;
 
 type LegendItemProps = {
   item: LegendItemData;
 };
 
 // Internal, not exported from the barrel: the legend owns its own row markup.
-export const LegendItem = ({ item }: Readonly<LegendItemProps>) => {
-  const swatchColor = resolveLegendItemColor(item, legend.defaultSwatchColor);
-
-  return (
-    <li
-      data-testid='legend-item'
-      data-legend-id={item.id}
-      className='inline-flex items-center gap-8'
-    >
-      <span
-        aria-hidden='true'
-        data-testid='legend-swatch'
-        className='shrink-0 rounded-full'
-        style={{
-          width: legend.swatchSize,
-          height: legend.swatchSize,
-          backgroundColor: swatchColor,
-        }}
-      />
-      <span className='body-3 text-base'>{resolveLegendItemLabel(item)}</span>
-    </li>
-  );
-};
+export const LegendItem = ({ item }: Readonly<LegendItemProps>) => (
+  <li
+    data-testid='legend-item'
+    data-legend-id={item.id}
+    className='inline-flex items-center gap-8'
+  >
+    <span
+      aria-hidden='true'
+      data-testid='legend-swatch'
+      className='size-8 shrink-0 rounded-full'
+      style={{
+        backgroundColor: item.color ?? cssVar('var(--background-muted-strong)'),
+      }}
+    />
+    <span className='body-3 text-base'>{item.label ?? item.id}</span>
+  </li>
+);

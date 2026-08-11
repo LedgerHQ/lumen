@@ -3,8 +3,6 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { chartConfig } from '../../config';
-
 import { Legend } from './Legend';
 
 const sampleItems = [
@@ -60,7 +58,7 @@ describe('Legend', () => {
   it('uses the default swatch color when color is omitted', () => {
     render(<Legend items={[{ id: 'a', label: 'A' }]} />);
     expect(screen.getByTestId('legend-swatch')).toHaveStyle({
-      backgroundColor: chartConfig.legend.defaultSwatchColor,
+      backgroundColor: 'var(--background-muted-strong)',
     });
   });
 

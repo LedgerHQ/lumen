@@ -49,9 +49,7 @@ describe('Legend', () => {
       <Legend items={[{ id: 'a', label: 'A', color: 'rgb(255, 0, 0)' }]} />,
     );
     expect(getByTestId('legend-swatch').props.style).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ backgroundColor: 'rgb(255, 0, 0)' }),
-      ]),
+      expect.objectContaining({ backgroundColor: 'rgb(255, 0, 0)' }),
     );
   });
 
@@ -60,11 +58,9 @@ describe('Legend', () => {
       <Legend items={[{ id: 'a', label: 'A' }]} />,
     );
     expect(getByTestId('legend-swatch').props.style).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          backgroundColor: ledgerLiveThemes.light.colors.bg.mutedStrong,
-        }),
-      ]),
+      expect.objectContaining({
+        backgroundColor: ledgerLiveThemes.light.colors.bg.mutedStrong,
+      }),
     );
   });
 

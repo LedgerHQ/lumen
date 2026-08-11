@@ -1,21 +1,17 @@
 import { useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import { StyleSheet, View } from 'react-native';
 
-import { chartConfig } from '../../config';
-
 import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';
 
-const { legend } = chartConfig;
-
 const useLegendStyles = () =>
   useStyleSheet(
-    () => ({
+    (t) => ({
       root: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        columnGap: legend.columnGap,
-        rowGap: legend.rowGap,
+        columnGap: t.spacings.s16,
+        rowGap: t.spacings.s6,
       },
     }),
     [],

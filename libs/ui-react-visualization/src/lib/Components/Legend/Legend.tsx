@@ -1,11 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 
-import { chartConfig } from '../../config';
-
 import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';
-
-const { legend } = chartConfig;
 
 export function Legend({
   items,
@@ -20,11 +16,10 @@ export function Legend({
     <ul
       aria-label={ariaLabel}
       data-testid='legend'
-      className={cn('m-0 flex list-none flex-wrap p-0', className)}
-      style={{
-        columnGap: legend.columnGap,
-        rowGap: legend.rowGap,
-      }}
+      className={cn(
+        'm-0 flex list-none flex-wrap gap-x-16 gap-y-6 p-0',
+        className,
+      )}
     >
       {items.map((item) => (
         <LegendItem key={item.id} item={item} />
