@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  InteractiveIcon,
-  Skeleton,
-  Text,
-} from '@ledgerhq/lumen-ui-rnative';
+import { Box, Button, InteractiveIcon, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import {
@@ -398,14 +392,7 @@ const LoadingWithCenter = ({ segments }: { segments: DonutSegment[] }) => {
           accessibilityLabel='Portfolio breakdown'
           renderCenter={({ series }) =>
             loading ? (
-              <DonutChartCenter lx={{ gap: 's8' }}>
-                <Skeleton
-                  lx={{ width: 's72', height: 's24', borderRadius: 'full' }}
-                />
-                <Skeleton
-                  lx={{ width: 's48', height: 's12', borderRadius: 'full' }}
-                />
-              </DonutChartCenter>
+              <Box />
             ) : (
               <DonutChartCenter>
                 <DonutChartTitle size='sm'>
