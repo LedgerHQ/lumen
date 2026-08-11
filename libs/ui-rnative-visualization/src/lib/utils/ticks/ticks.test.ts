@@ -128,7 +128,7 @@ describe('buildTicksData', () => {
   it('should use explicit ticks when provided', () => {
     const result = buildTicksData(numericScale, undefined, [0, 50, 100]);
     expect(result).toHaveLength(3);
-    expect(result.map((t: { value: number }) => t.value)).toEqual([0, 50, 100]);
+    expect(result.map((t) => t.value)).toEqual([0, 50, 100]);
   });
 
   it('should resolve string labels from axis config', () => {
@@ -141,12 +141,8 @@ describe('buildTicksData', () => {
 
   it('should derive ticks from numeric axis data (no intermediate ticks)', () => {
     const result = buildTicksData(numericScale, { data: [0, 2, 4] });
-    expect(result.map((t: { value: number }) => t.value)).toEqual([0, 2, 4]);
-    expect(result.map((t: { label: string }) => t.label)).toEqual([
-      '0',
-      '2',
-      '4',
-    ]);
+    expect(result.map((t) => t.value)).toEqual([0, 2, 4]);
+    expect(result.map((t) => t.label)).toEqual(['0', '2', '4']);
   });
 
   it('should derive ticks from string axis data without intermediate values', () => {
@@ -158,16 +154,12 @@ describe('buildTicksData', () => {
     const result = buildTicksData(stringScale, {
       data: ['Jan', 'Feb', 'Mar'],
     });
-    expect(result.map((t: { value: number }) => t.value)).toEqual([0, 1, 2]);
-    expect(result.map((t: { label: string }) => t.label)).toEqual([
-      'Jan',
-      'Feb',
-      'Mar',
-    ]);
+    expect(result.map((t) => t.value)).toEqual([0, 1, 2]);
+    expect(result.map((t) => t.label)).toEqual(['Jan', 'Feb', 'Mar']);
   });
 
   it('should apply tick formatter', () => {
-    const formatter = (v: number | string): string => `$${v}`;
+    const formatter = (v: number | string) => `$${v}`;
     const result = buildTicksData(numericScale, undefined, [0, 50], formatter);
     expect(result[0].label).toBe('$0');
     expect(result[1].label).toBe('$50');

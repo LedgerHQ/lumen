@@ -108,4 +108,14 @@ describe('CardButton Component', () => {
     render(<CardButton title='Ref Test' ref={ref} />);
     expect(ref).toHaveBeenCalled();
   });
+
+  it('should default to type="button" so it does not submit a form', () => {
+    render(<CardButton title='Default type' />);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+  });
+
+  it('should let the caller override the type', () => {
+    render(<CardButton title='Submit' type='submit' />);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
+  });
 });

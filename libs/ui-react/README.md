@@ -33,11 +33,21 @@ import type { Config } from 'tailwindcss';
 import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
 
 const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './node_modules/@ledgerhq/lumen-ui-react/dist/lib/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   presets: [ledgerLivePreset],
 } satisfies Config;
 
 export default config;
+```
+
+Then import Lumen's stylesheet next to Tailwind in your main CSS file. It
+registers our compiled components as a Tailwind source, so you never have to
+reference our build layout yourself:
+
+```css
+@import 'tailwindcss';
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+@config '../tailwind.config.ts';
 ```
 
 ### 2. Start Using Components

@@ -48,13 +48,11 @@ export const chartConfig = {
   },
 
   referenceLine: {
-    strokeWidth: 2,
     dashArray: '0.1 6',
   },
 
   point: {
     defaultSize: 10,
-    strokeWidth: 2,
     arrowWidth: 6,
     arrowHeight: 4,
     labelGap: 4,

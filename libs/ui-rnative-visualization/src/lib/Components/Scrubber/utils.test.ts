@@ -8,7 +8,7 @@ import {
 import type { DrawingArea } from '../../utils/types';
 
 import {
-  applyMagnetisation,
+  applyMagnetization,
   buildSortedMagnets,
   computeOverlayRect,
   getDataIndexFromPosition,
@@ -258,13 +258,13 @@ describe('nearestIndex', () => {
   });
 });
 
-describe('applyMagnetisation', () => {
+describe('applyMagnetization', () => {
   const toMagnets = (...indices: number[]): MagnetEntry[] =>
     indices.map((i) => ({ index: i, pixelX: i * 100 }));
 
   it('returns resolvedIndex when sortedMagnets is empty', () => {
     expect(
-      applyMagnetisation({
+      applyMagnetization({
         resolvedIndex: 2,
         pixelX: 200,
         sortedMagnets: [],
@@ -275,7 +275,7 @@ describe('applyMagnetisation', () => {
 
   it('returns resolvedIndex when magnetRadius is 0', () => {
     expect(
-      applyMagnetisation({
+      applyMagnetization({
         resolvedIndex: 1,
         pixelX: 200,
         sortedMagnets: toMagnets(2),
@@ -286,7 +286,7 @@ describe('applyMagnetisation', () => {
 
   it('returns resolvedIndex when nearest magnet is outside radius', () => {
     expect(
-      applyMagnetisation({
+      applyMagnetization({
         resolvedIndex: 2,
         pixelX: 200,
         sortedMagnets: toMagnets(0, 4),
@@ -297,7 +297,7 @@ describe('applyMagnetisation', () => {
 
   it('snaps to nearest magnet when within radius', () => {
     expect(
-      applyMagnetisation({
+      applyMagnetization({
         resolvedIndex: 2,
         pixelX: 280,
         sortedMagnets: toMagnets(3),
@@ -308,7 +308,7 @@ describe('applyMagnetisation', () => {
 
   it('snaps at the exact boundary of magnetRadius', () => {
     expect(
-      applyMagnetisation({
+      applyMagnetization({
         resolvedIndex: 2,
         pixelX: 270,
         sortedMagnets: toMagnets(3),
@@ -319,7 +319,7 @@ describe('applyMagnetisation', () => {
 
   it('does not snap when distance exceeds magnetRadius by 1', () => {
     expect(
-      applyMagnetisation({
+      applyMagnetization({
         resolvedIndex: 2,
         pixelX: 269,
         sortedMagnets: toMagnets(3),

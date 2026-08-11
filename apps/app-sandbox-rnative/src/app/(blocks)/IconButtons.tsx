@@ -40,6 +40,16 @@ export default function IconButtons() {
         appearance='gray'
         icon={Settings}
       />
+      <IconButton
+        accessibilityLabel='Go to Ledger Shop'
+        appearance='transparent'
+        icon={Settings}
+      />
+      <IconButton
+        accessibilityLabel='Go to Ledger Shop'
+        appearance='no-background'
+        icon={Settings}
+      />
       <IconButton accessibilityLabel='Go to Ledger Shop' icon={Settings} />
       <IconButton
         accessibilityLabel='Go to Ledger Shop'

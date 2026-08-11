@@ -3,9 +3,8 @@ import type { Config } from 'tailwindcss';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './src/**/*.{ts,tsx,html}',
-    '../../node_modules/@ledgerhq/lumen-ui-react/dist/**/**/*.{ts,js,tsx,jsx}',
-  ],
+  // Lumen registers its own compiled components via
+  // `@ledgerhq/lumen-ui-react/tailwind.css` (imported in src/global.css).
+  content: ['./src/**/*.{ts,tsx,html}'],
   presets: [ledgerLivePreset],
 } satisfies Config;
