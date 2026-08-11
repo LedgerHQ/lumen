@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
+import { chartConfig } from '../../config';
 import type { DonutSegment } from './types';
 
 import {
-  buildArcs,
-  buildEmptyRingPath,
+  buildPlaceholderSegments,
+  buildRingSegments,
   DONUT_GEOMETRY,
   formatPercentLabel,
   getDonutViewBox,
@@ -99,28 +100,28 @@ describe('resolveSegmentColor', () => {
   });
 });
 
-describe('buildArcs', () => {
-  it('returns one arc per segment in series order', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
-    expect(arcs.map((a) => a.id)).toEqual(['a', 'b', 'c']);
+describe('buildRingSegments', () => {
+  it('returns one ring segment per series entry in series order', () => {
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
+    expect(segments.map((s) => s.id)).toEqual(['a', 'b', 'c']);
   });
 
   it('produces a non-empty path per segment', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
-    arcs.forEach((a) => expect(a.path).toMatch(/^M/));
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
+    segments.forEach((s) => expect(s.path).toMatch(/^M/));
   });
 
   it('carries the percent for each segment', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
-    expect(arcs.map((a) => a.percent)).toEqual([50, 30, 20]);
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
+    expect(segments.map((s) => s.percent)).toEqual([50, 30, 20]);
   });
 
   it('returns an empty array for an empty series', () => {
-    expect(buildArcs([], DONUT_GEOMETRY.md)).toEqual([]);
+    expect(buildRingSegments([], DONUT_GEOMETRY.md)).toEqual([]);
   });
 
   it('drops zero and negative segments while keeping positive ones', () => {
-    const arcs = buildArcs(
+    const segments = buildRingSegments(
       [
         { id: 'a', label: 'A', value: 50 },
         { id: 'zero', label: 'Zero', value: 0 },
@@ -129,13 +130,13 @@ describe('buildArcs', () => {
       ],
       DONUT_GEOMETRY.md,
     );
-    expect(arcs.map((a) => a.id)).toEqual(['a', 'b']);
-    expect(arcs.map((a) => a.percent)).toEqual([50, 50]);
+    expect(segments.map((s) => s.id)).toEqual(['a', 'b']);
+    expect(segments.map((s) => s.percent)).toEqual([50, 50]);
   });
 
   it('returns an empty array when the total is zero', () => {
     expect(
-      buildArcs(
+      buildRingSegments(
         [
           { id: 'a', label: 'A', value: 0 },
           { id: 'b', label: 'B', value: 0 },
@@ -147,30 +148,33 @@ describe('buildArcs', () => {
 
   it('rounds the corners of both halves of an equal 2-segment ring', () => {
     const cornerArc = new RegExp(`A${DONUT_GEOMETRY.md.cornerRadius},`);
-    const arcs = buildArcs(
+    const segments = buildRingSegments(
       [
         { id: 'a', label: 'A', value: 1 },
         { id: 'b', label: 'B', value: 1 },
       ],
       DONUT_GEOMETRY.md,
     );
-    arcs.forEach((a) => expect(a.path).toMatch(cornerArc));
+    segments.forEach((s) => expect(s.path).toMatch(cornerArc));
   });
 
   it('computes midAngle and hoverTranslate per segment', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
     const offset = DONUT_GEOMETRY.md.hoverOffset;
 
-    arcs.forEach((arc) => {
-      expect(arc.midAngle).toBeGreaterThanOrEqual(0);
-      expect(arc.midAngle).toBeLessThanOrEqual(2 * Math.PI);
-      const magnitude = Math.hypot(arc.hoverTranslate.x, arc.hoverTranslate.y);
+    segments.forEach((segment) => {
+      expect(segment.midAngle).toBeGreaterThanOrEqual(0);
+      expect(segment.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+      const magnitude = Math.hypot(
+        segment.hoverTranslate.x,
+        segment.hoverTranslate.y,
+      );
       expect(magnitude).toBeCloseTo(offset);
     });
   });
 
   it("pushes the first segment radially upward from 12 o'clock", () => {
-    const [first] = buildArcs(
+    const [first] = buildRingSegments(
       [
         { id: 'a', label: 'A', value: 1 },
         { id: 'b', label: 'B', value: 1 },
@@ -181,17 +185,36 @@ describe('buildArcs', () => {
   });
 
   it('disables hover animation for a single segment', () => {
-    const [arc] = buildArcs(
+    const [segment] = buildRingSegments(
       [{ id: 'a', label: 'A', value: 1 }],
       DONUT_GEOMETRY.md,
     );
-    expect(arc.hoverEnabled).toBe(false);
-    expect(arc.hoverTranslate).toEqual({ x: 0, y: 0 });
+    expect(segment.hoverEnabled).toBe(false);
+    expect(segment.hoverTranslate).toEqual({ x: 0, y: 0 });
   });
 });
 
-describe('buildEmptyRingPath', () => {
-  it('produces a full-ring path', () => {
-    expect(buildEmptyRingPath(DONUT_GEOMETRY.md)).toMatch(/^M/);
+describe('buildPlaceholderSegments', () => {
+  const { segmentValues } = chartConfig.donut.placeholder;
+
+  it('returns one index-named segment per configured placeholder value', () => {
+    const segments = buildPlaceholderSegments(DONUT_GEOMETRY.md);
+    expect(segments).toHaveLength(segmentValues.length);
+    expect(segments.map((segment) => segment.id)).toEqual(
+      segmentValues.map((_, index) => `placeholder-${index}`),
+    );
+  });
+
+  it('produces a non-empty path per placeholder segment', () => {
+    const segments = buildPlaceholderSegments(DONUT_GEOMETRY.md);
+    segments.forEach((segment) => expect(segment.path).toMatch(/^M/));
+  });
+
+  it('computes midAngle per placeholder segment', () => {
+    const segments = buildPlaceholderSegments(DONUT_GEOMETRY.md);
+    segments.forEach((segment) => {
+      expect(segment.midAngle).toBeGreaterThanOrEqual(0);
+      expect(segment.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+    });
   });
 });

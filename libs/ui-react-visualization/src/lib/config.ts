@@ -139,6 +139,15 @@ export const chartConfig = {
       popTransition: 'transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)',
       centerTextTransition: 'opacity 180ms ease, transform 180ms ease',
     },
+    placeholder: {
+      segmentValues: [25, 19, 15, 13, 10, 10, 8],
+    },
+    loading: {
+      durationInSeconds: 2,
+      minOpacity: 0.5,
+      easing: 'cubic-bezier(0.4, 0, 0.6, 1)',
+      ariaLabel: 'Loading donut chart',
+    },
     size: {
       md: {
         box: 168,

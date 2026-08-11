@@ -131,12 +131,30 @@ export const SegmentCounts: Story = {
 };
 
 /**
- * With no data (empty or all-zero series), the ring renders the faint empty
- * ring.
+ * With no data (empty or all-zero series), the ring renders the static
+ * placeholder shape shared with the loading state.
  */
 export const NoData: Story = {
   args: {
     series: [],
+    renderCenter: () => (
+      <DonutChartCenter>
+        <DonutChartDescription>No data</DonutChartDescription>
+      </DonutChartCenter>
+    ),
+  },
+};
+
+/**
+ * While loading, the ring shows the animated placeholder wave instead of the
+ * real segments, regardless of `series`.
+ */
+export const Loading: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
+  args: {
+    loading: true,
   },
 };
 
