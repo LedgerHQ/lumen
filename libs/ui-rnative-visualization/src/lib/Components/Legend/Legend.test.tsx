@@ -30,8 +30,8 @@ describe('Legend', () => {
   });
 
   it('renders nothing when items is empty', () => {
-    const { toJSON, queryByRole } = renderWithTheme(<Legend items={[]} />);
-    expect(queryByRole('list')).toBeNull();
+    const { toJSON, queryByLabelText } = renderWithTheme(<Legend items={[]} />);
+    expect(queryByLabelText('Legend')).toBeNull();
     expect(toJSON()).toBeNull();
   });
 
@@ -84,10 +84,10 @@ describe('Legend', () => {
   });
 
   it('merges consumer styles into the root', () => {
-    const { getByRole } = renderWithTheme(
+    const { getByLabelText } = renderWithTheme(
       <Legend items={sampleItems} style={{ maxWidth: 176 }} />,
     );
-    expect(getByRole('list').props.style).toEqual(
+    expect(getByLabelText('Legend').props.style).toEqual(
       expect.objectContaining({ maxWidth: 176, flexWrap: 'wrap' }),
     );
   });

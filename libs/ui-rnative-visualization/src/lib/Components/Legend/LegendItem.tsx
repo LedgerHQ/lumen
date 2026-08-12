@@ -38,8 +38,8 @@ export const LegendItem = ({ item }: LegendItemProps) => {
   const styles = useLegendItemStyles(item.color);
 
   return (
-    <View role='listitem' style={styles.root}>
-      <View accessible={false} testID='legend-swatch' style={styles.swatch} />
+    <View accessible role='listitem' style={styles.root}>
+      <View testID='legend-swatch' style={styles.swatch} />
       <Text style={styles.label} numberOfLines={1} ellipsizeMode='tail'>
         {item.label ?? item.id}
       </Text>
