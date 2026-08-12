@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { chartConfig } from '../../config';
 
 import { useDonutLoadingAnimation } from './hooks/useDonutLoadingAnimation';
@@ -112,6 +112,16 @@ type DonutRingProps = {
   onSegmentEnter: (id: string) => void;
 };
 
+function useRevealKey(loading: boolean): number {
+  const keyRef = useRef(0);
+  const prevRef = useRef(loading);
+  if (prevRef.current && !loading) {
+    keyRef.current += 1;
+  }
+  prevRef.current = loading;
+  return keyRef.current;
+}
+
 // Internal, not exported. Segment paths are origin-centered, so the group is translated to the viewBox center.
 export const DonutRing = ({
   segments,
@@ -124,9 +134,10 @@ export const DonutRing = ({
   const { box } = geometry;
   const center = box / 2;
   const hasSegments = segments.length > 0;
+  const revealKey = useRevealKey(loading);
 
   return (
-    <RevealAnimation>
+    <RevealAnimation key={revealKey}>
       <svg
         data-testid='donut-ring'
         width={box}

@@ -27,12 +27,14 @@ export function computeRevealClipPath(R: number, progress: number): string {
 type RevealAnimationProps = {
   R: number;
   activeOffset?: number;
+  revealTrigger?: number;
   children: ReactNode;
 };
 
 export const RevealAnimation = ({
   R,
   activeOffset = 0,
+  revealTrigger = 0,
   children,
 }: RevealAnimationProps) => {
   const isReducedMotion = useReducedMotion();
@@ -41,11 +43,14 @@ export const RevealAnimation = ({
   const clipR = R + activeOffset;
 
   useEffect(() => {
-    if (skipReveal) return;
+    if (skipReveal) {
+      return;
+    }
+    revealProgress.value = 0;
     revealProgress.value = withTiming(1, {
       duration: chartConfig.donut.reveal.durationMs,
     });
-  }, [skipReveal, revealProgress]);
+  }, [skipReveal, revealProgress, revealTrigger]);
 
   const clipPathProps = useAnimatedProps(() => ({
     d: computeRevealClipPath(clipR, revealProgress.value),

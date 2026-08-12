@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -161,6 +161,16 @@ const LoadingRing = ({
   );
 };
 
+function useRevealKey(loading: boolean): number {
+  const keyRef = useRef(0);
+  const prevRef = useRef(loading);
+  if (prevRef.current && !loading) {
+    keyRef.current += 1;
+  }
+  prevRef.current = loading;
+  return keyRef.current;
+}
+
 type DonutRingProps = {
   segments: DonutRingSegment[];
   geometry: DonutGeometry;
@@ -180,6 +190,7 @@ export const DonutRing = ({
   const { box } = geometry;
   const center = box / 2;
   const hasSegments = segments.length > 0;
+  const revealKey = useRevealKey(loading);
 
   return (
     <Svg
@@ -191,7 +202,11 @@ export const DonutRing = ({
       accessibilityLabel={accessibilityLabel}
       accessibilityState={loading ? { busy: true } : undefined}
     >
-      <RevealAnimation R={center} activeOffset={geometry.activeOffset}>
+      <RevealAnimation
+        R={center}
+        activeOffset={geometry.activeOffset}
+        revealTrigger={revealKey}
+      >
         {loading ? (
           <LoadingRing geometry={geometry} color={tokens.color.surface} />
         ) : hasSegments ? (
