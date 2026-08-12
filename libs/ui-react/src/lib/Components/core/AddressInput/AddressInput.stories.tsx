@@ -109,6 +109,26 @@ export const Disabled: Story = {
 };
 
 /**
+ * Read-only address field input.
+ */
+export const ReadOnly: Story = {
+  args: {
+    placeholder: 'Enter address or ENS',
+    readOnly: true,
+    defaultValue: '0x95f980s5ag77xe7csuz',
+    className: 'max-w-md',
+    onQrCodeClick: () => console.log('QR code clicked!'),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: '<AddressInput placeholder="Enter address or ENS" readOnly defaultValue="0x95f980s5ag77xe7csuz" className="max-w-md" />',
+      },
+    },
+  },
+};
+
+/**
  * Address field in error state with error message.
  */
 export const Error: Story = {
