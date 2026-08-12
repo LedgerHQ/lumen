@@ -18,19 +18,7 @@ import {
   getSegmentPercents,
 } from './utils';
 
-function DonutChartWithContrast(props: Readonly<DonutChartProps>) {
-  const { theme } = useTheme();
-  return <DonutChartInner {...props} bgColor={theme.colors.bg.canvas} />;
-}
-
-export function DonutChart(props: Readonly<DonutChartProps>) {
-  if (props.ensureColorContrast) {
-    return <DonutChartWithContrast {...props} />;
-  }
-  return <DonutChartInner {...props} />;
-}
-
-function DonutChartInner({
+export function DonutChart({
   series: seriesProp,
   size = 'md',
   accessibilityLabel = 'Donut chart',
@@ -41,8 +29,9 @@ function DonutChartInner({
   renderCenter,
   renderCenterActive,
   ensureColorContrast = false,
-  bgColor = '',
-}: DonutChartProps & { bgColor?: string }) {
+}: DonutChartProps) {
+  const { theme } = useTheme();
+  const bgColor = theme.colors.bg.canvas;
   const geometry = DONUT_GEOMETRY[size];
 
   const [activeId, setActiveId] = useControllableState({

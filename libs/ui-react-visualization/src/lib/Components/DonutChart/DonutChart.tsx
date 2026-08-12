@@ -42,19 +42,7 @@ function useContrastBgColor(): string {
   return bgColor;
 }
 
-function DonutChartWithContrast(props: DonutChartProps) {
-  const bgColor = useContrastBgColor();
-  return <DonutChartInner {...props} bgColor={bgColor} />;
-}
-
-export function DonutChart(props: DonutChartProps) {
-  if (props.ensureColorContrast) {
-    return <DonutChartWithContrast {...props} />;
-  }
-  return <DonutChartInner {...props} />;
-}
-
-function DonutChartInner({
+export function DonutChart({
   series: seriesProp,
   size = 'md',
   ariaLabel = 'Donut chart',
@@ -65,8 +53,8 @@ function DonutChartInner({
   renderCenter,
   renderCenterActive,
   ensureColorContrast = false,
-  bgColor = '',
-}: DonutChartProps & { bgColor?: string }) {
+}: DonutChartProps) {
+  const bgColor = useContrastBgColor();
   const geometry = DONUT_GEOMETRY[size];
 
   const series = useMemo(
