@@ -101,6 +101,12 @@ export type DonutChartProps = {
    */
   accessibilityLabel?: string;
   /**
+   * Whether the chart is loading. When true, renders an animated placeholder
+   * wave instead of the real segments, regardless of `series`.
+   * @default false
+   */
+  loading?: boolean;
+  /**
    * Controlled active segment id. Active is data-driven, not a state variant.
    */
   activeId?: string | null;

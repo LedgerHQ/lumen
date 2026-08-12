@@ -5,12 +5,13 @@ import {
 import { useControllableState, useTheme } from '@ledgerhq/lumen-ui-react';
 import { useEffect, useMemo, useState, type FocusEvent } from 'react';
 
+import { chartConfig } from '../../config';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutChartProps } from './types';
 import {
-  buildArcs,
+  buildRingSegments,
   DONUT_GEOMETRY,
   formatPercentLabel,
   getSegmentPercents,
@@ -57,6 +58,7 @@ function DonutChartInner({
   series: seriesProp,
   size = 'md',
   ariaLabel = 'Donut chart',
+  loading = false,
   activeId: activeIdProp,
   defaultActiveId = null,
   onActiveIdChange,
@@ -85,7 +87,10 @@ function DonutChartInner({
     onChange: onActiveIdChange,
   });
 
-  const arcs = useMemo(() => buildArcs(series, geometry), [series, geometry]);
+  const segments = useMemo(
+    () => buildRingSegments(series, geometry),
+    [series, geometry],
+  );
 
   const activeSegment = useMemo(() => {
     const index = series.findIndex((segment) => segment.id === activeId);
@@ -132,10 +137,11 @@ function DonutChartInner({
       onBlur={handleRingBlur}
     >
       <DonutRing
-        arcs={arcs}
+        segments={segments}
         geometry={geometry}
-        ariaLabel={ariaLabel}
+        ariaLabel={loading ? chartConfig.donut.loading.ariaLabel : ariaLabel}
         activeId={activeId}
+        loading={loading}
         onSegmentEnter={setActiveId}
       />
       {hasCenter && (

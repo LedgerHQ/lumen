@@ -49,6 +49,7 @@ export const chartConfig = {
     overlayLineInset: 0.5,
     overlayOpacity: 0.8,
     lineGradientEdgeOpacity: 0.1,
+    defaultMagnetRadius: 6,
   },
 
   tooltip: {
@@ -74,13 +75,13 @@ export const chartConfig = {
   },
 
   reveal: {
-    durationInSeconds: 0.8,
-    pointFadeDurationInSeconds: 0.2,
-    pointFadeInAfterClipInSeconds: -0.1,
+    duration: 800,
+    pointFadeDuration: 200,
+    pointFadeInAfterClip: -100,
   },
 
   shimmer: {
-    pulseDurationInSeconds: 2,
+    pulseDuration: 2000,
   },
 
   donut: {
@@ -123,6 +124,17 @@ export const chartConfig = {
       opacityDurationMs: 150,
       popDurationMs: 180,
       popEasing: Easing.bezier(0.2, 0.8, 0.2, 1),
+    },
+    reveal: {
+      durationMs: 1000,
+    },
+    placeholder: {
+      segmentValues: [25, 19, 15, 13, 10, 10, 8],
+    },
+    loading: {
+      duration: 2000,
+      minOpacity: 0.5,
+      ariaLabel: 'Loading donut chart',
     },
   },
 } as const;

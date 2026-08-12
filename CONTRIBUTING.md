@@ -261,13 +261,13 @@ figma connect publish
 Always dry run before publishing to catch errors early:
 ```bash
 # Dry run with directory
-figma connect publish --dry-run --dir libs/ui-react/src/lib/Components/YourComponent/
+figma connect publish --dry-run --dir libs/ui-react/src/lib/Components/core/YourComponent/
 ```
 
 #### Publish Specific Directory
 When working on a single component, publish only its directory:
 ```bash
-figma connect publish --dir libs/ui-react/src/lib/Components/YourComponent/
+figma connect publish --dir libs/ui-react/src/lib/Components/core/YourComponent/
 ```
 
 #### Publish Symbol Library (Icons & CryptoIcons)
@@ -289,7 +289,7 @@ npx figma connect publish --config libs/ui-rnative/figma.config.json --dry-run
 
 To publish a single React Native component directory:
 ```bash
-figma connect publish --dir libs/ui-rnative/src/lib/Components/YourComponent/
+figma connect publish --dir libs/ui-rnative/src/lib/Components/core/YourComponent/
 ```
 
 To unpublish all React Native connections:

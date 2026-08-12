@@ -129,7 +129,7 @@ rg --hidden -l '(/docs/core-|/docs/primitives-|symbols-interface-icons)' libs/ui
   perl -pi -e 's{/docs/core-}{/docs/rnative-}g; s{/docs/primitives-}{/docs/rnative-}g; s{symbols-interface-icons}{rnative-icon}g' "$f"; done
 ```
 
-Confirm the SVGR template `libs/ui-react/src/utils/icon-template.ts` points at `react-icon--base`.
+Confirm the SVGR template `libs/ui-react/src/lib/Components/symbols/utils/icon-template.ts` points at `react-icon--base`.
 
 ### 2b. `@see` dedup
 

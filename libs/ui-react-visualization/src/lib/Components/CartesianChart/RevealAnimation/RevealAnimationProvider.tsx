@@ -17,7 +17,7 @@ export function RevealAnimationProvider({
     transitions?.enter?.duration ?? chartConfig.reveal.durationInSeconds;
   const easing = transitions?.enter?.easing ?? chartConfig.reveal.easing;
 
-  const dataFingerprint = useDataFingerprint({ series });
+  const dataFingerprint = useDataFingerprint(series);
   const { clipId, clipPathAttr, clipPathAnimation, fadeAnimation } =
     useRevealAnimation({
       duration,

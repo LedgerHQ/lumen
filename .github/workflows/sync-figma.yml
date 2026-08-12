@@ -135,7 +135,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: react-symbols
-          path: libs/ui-react/src/lib/Symbols/
+          path: libs/ui-react/src/lib/Components/symbols/
 
   generate-symbols-react-native:
     name: Generate React Native Symbol Components
@@ -168,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: react-native-symbols
-          path: libs/ui-rnative/src/lib/Symbols/
+          path: libs/ui-rnative/src/lib/Components/symbols/
 
   create-pull-request:
     name: Create Pull Request
@@ -207,13 +207,13 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: react-symbols
-          path: libs/ui-react/src/lib/Symbols/
+          path: libs/ui-react/src/lib/Components/symbols/
 
       - name: Download React Native symbols artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: react-native-symbols
-          path: libs/ui-rnative/src/lib/Symbols/
+          path: libs/ui-rnative/src/lib/Components/symbols/
 
       - name: Add release plan
         run: |

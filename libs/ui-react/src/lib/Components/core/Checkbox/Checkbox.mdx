@@ -1,0 +1,156 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+import { Checkbox } from './Checkbox';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Checkbox' of={CheckboxStories} />
+
+# Checkbox
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Checkboxes are form controls that allow users to select one or multiple options from a list. They provide clear visual feedback about the selection state and support various interaction states including hover, focus, and disabled modes.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=90-1197&m=dev).
+
+## Anatomy
+
+<Canvas of={CheckboxStories.Base} />
+
+- **Checkbox**: The main interactive element that can be checked or unchecked
+- **Check mark**: Visual indicator shown when the checkbox is in a checked state
+
+## Properties
+
+### Overview
+
+<Canvas of={CheckboxStories.Base} />
+<Controls of={CheckboxStories.Base} />
+
+### States
+
+Checkboxes support multiple states to provide clear feedback to users:
+
+- **Unchecked**: Default state when not selected
+- **Checked**: Selected state with a visible check mark
+- **Disabled**: Non-interactive state for both checked and unchecked variants
+- **Focus**: Accessible focus state with visible ring indicator
+
+<Canvas of={CheckboxStories.AllStates} />
+
+## Usage Guidelines
+
+### Best Practices
+
+- Use checkboxes when users can select multiple options from a list
+- Always provide clear labels that describe what checking the box means
+- Group related checkboxes logically
+- Use consistent spacing between checkbox options
+
+### Accessibility
+
+- Checkboxes automatically include proper ARIA attributes via Radix UI
+- Use `required` prop for mandatory form fields
+- Provide descriptive labels for screen readers
+- Ensure sufficient color contrast in all states
+- Support keyboard navigation (Space to toggle, Tab to navigate)
+
+### Form Integration
+
+<Canvas of={CheckboxStories.FormExample} />
+
+When using checkboxes in forms, provide the `name` and `value` attributes for proper form submission. Use the `required` prop to indicate mandatory selections.
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react @radix-ui/react-checkbox
+```
+
+<SetupNote />
+
+The `@radix-ui/react-checkbox` dependency provides accessible checkbox functionality with proper keyboard navigation, focus management, and screen reader support.
+
+## Basic Usage
+
+```tsx
+import { Checkbox } from '@ledgerhq/lumen-ui-react';
+
+function MyForm() {
+  const [isChecked, setIsChecked] = useState(false);
+
+  return (
+    <div className='flex items-center space-x-8'>
+      <Checkbox checked={isChecked} onCheckedChange={setIsChecked} />
+      <label>Accept terms and conditions</label>
+    </div>
+  );
+}
+```
+
+## Controlled vs Uncontrolled
+
+### Controlled
+
+Use the `checked` and `onCheckedChange` props for full control:
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Checkbox checked={checked} onCheckedChange={setChecked} />;
+```
+
+### Uncontrolled
+
+Use `defaultChecked` for simple cases:
+
+```tsx
+<Checkbox defaultChecked={true} />
+```
+
+## Accessibility Best Practices
+
+### Labels and ARIA
+
+```tsx
+// ✅ Associated label
+<div className="flex items-center space-x-8">
+  <Checkbox id="terms" />
+  <label htmlFor="terms">I agree to the terms</label>
+</div>
+
+// ✅ ARIA label for standalone checkbox
+<Checkbox aria-label="Select all items" />
+
+// ✅ ARIA described by for complex descriptions
+<div>
+  <Checkbox
+    id="marketing"
+    aria-describedby="marketing-description"
+  />
+  <label htmlFor="marketing">Marketing emails</label>
+  <p id="marketing-description" className="text-muted body-4">
+    Receive promotional offers and product updates
+  </p>
+</div>
+```
+
+### Keyboard Navigation
+
+The Checkbox component automatically supports:
+
+- **Tab**: Navigate to the checkbox
+- **Space**: Toggle checked/unchecked state
+- **Enter**: Submit form (when inside a form)
+
+
+</Tab>
+</CustomTabs>

@@ -1,0 +1,340 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DialogStories from './Dialog.stories';
+import {
+  Dialog,
+  DialogBody,
+  DialogBodyStickyContent,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from './Dialog';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Dialog' of={DialogStories} />
+
+# Dialog
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+Dialogs are modal windows that interrupt the normal workflow to grab the user's attention, typically for critical information, confirmation, or additional input.
+
+> This Dialog component is built on top of [Radix UI Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) primitives.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6345-2641&m=dev).
+
+## Anatomy
+
+<Canvas of={DialogStories.Base} />
+
+<Controls of={DialogStories.Base} />
+
+- **Trigger**: The element that opens the dialog when interacted with
+- **Overlay**: Dimmed background that covers the underlying content
+- **Header**: Use `DialogHeader` component for a consistent dialog header with title, description, and controls. The `onClose` prop is optional — the header close button uses `DialogClose` internally. For uncontrolled dialogs this will dismiss the dialog automatically; for controlled dialogs (using the `open` prop), dismissal also requires handling `onOpenChange` and updating `open` accordingly, with `onClose` firing as a side-effect when provided
+- **Close**: Use `DialogClose` to wrap any element that should dismiss the dialog when clicked (e.g., Cancel buttons). In uncontrolled dialogs this will close the dialog automatically; in controlled dialogs you must handle `onOpenChange` and update the `open` prop for the dialog to actually close
+- **Content**: The main container for dialog content
+- **Body**: Scrollable area that expands to fill remaining space (use with `DialogBody`)
+- **Body Sticky Content**: Sticky content region inside `DialogBody` for search, filters, or controls that should remain visible while the body scrolls
+- **Footer**: Fixed bottom area for actions like buttons (use with `DialogFooter`)
+
+> **Note**: The **width** of the dialog is `400px` by default, you can adjust the width of the dialog content by using the `className` prop on `DialogContent`.
+
+## Properties
+
+### Height
+
+The dialog supports two height modes via the `height` prop on `Dialog`:
+
+- **fit** (default): Content-fit height up to 560px max
+- **fixed**: Always exactly 560px height
+
+<Canvas of={DialogStories.HeightLayouts} />
+
+### Footer
+
+Use `DialogFooter` for dialogs with scrollable content and fixed actions:
+
+- **DialogFooter**: Fixed at the bottom for action buttons
+- Best used with `height="fixed"` to ensure consistent layout. 
+
+
+<Canvas of={DialogStories.WithFooter} />
+
+### Header Variants
+
+Always use the `DialogHeader` component as the header for dialogs to maintain consistency. `DialogHeader` provides:
+
+- Title and optional description
+- Close button
+- Optional back button for navigation
+- Two appearance variants: `compact` and `expanded`
+- Automatic accessibility with proper ARIA roles
+
+<Canvas of={DialogStories.HeaderVariants} />
+
+### With multiple steps
+
+For multi-step dialogs:
+
+- Use `height="fixed"` to maintain consistent dialog height between steps
+- Use `DialogFooter` for action buttons to keep them fixed at the bottom
+- Use `DialogHeader`'s `onBack` prop to enable back navigation
+
+<Canvas of={DialogStories.WithMultiSteps} />
+
+### With Lists Content
+
+When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margins** to align content edge-to-edge with the dialog padding:
+
+- Use negative margin for `ListItem` to align with dialog horizontal padding
+- Use combination of negative margin and positive padding for horizontal scrollable `Tile` lists to allow edge-to-edge scrolling while maintaining content padding
+
+<Canvas of={DialogStories.WithListsContent} />
+
+
+### With Sticky Body Content
+
+Use `DialogBodyStickyContent` inside `DialogBody` when controls such as a search input should remain pinned to the top of the scroll area:
+
+<Canvas of={DialogStories.WithStickyBodyContent} />
+
+## Examples
+
+### Info State Variants
+
+<Canvas of={DialogStories.InfoStateVariants} />
+
+### Controlled Pattern
+
+When you need to manage the dialog's open state externally (e.g., for form submission, analytics, or multi-step flows), use the controlled pattern with `open`, `onOpenChange`, and `onClose`:
+
+<Canvas of={DialogStories.Controlled} />
+
+## Accessibility
+
+Built-in accessibility features from Radix UI:
+
+- **ARIA roles**: Automatically applies `role="dialog"` and `aria-modal="true"`
+- **Focus trapping**: Focus is contained within the dialog when open
+- **Keyboard navigation**: Press `ESC` to close the dialog
+- **Focus management**: Focus returns to the trigger element on close
+- **Screen reader support**: Uses `DialogTitle` and `DialogDescription` for proper announcements
+
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react @radix-ui/react-dialog
+```
+
+<SetupNote />
+
+The `@radix-ui/react-dialog` dependency provides accessible dialog behavior primitives with custom styling and composition.
+
+## Basic Usage
+
+```tsx
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react'; // Example trigger
+
+function MyComponent() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader density='compact' title='Dialog Title' />
+        <DialogBody>Content here</DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+### Expanded Appearance
+
+Use expanded `DialogHeader` for bigger dialogs:
+
+```tsx
+<Dialog>
+  <DialogTrigger>Open Expanded</DialogTrigger>
+  <DialogContent className='w-[800px]'>
+    <DialogHeader density='expanded' title='Expanded Dialog' />
+    <DialogBody>Expanded content here</DialogBody>
+  </DialogContent>
+</Dialog>
+```
+
+### With Back Button
+
+```tsx
+<Dialog>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader
+      density='compact'
+      title='Title'
+      onBack={() => console.log('Back')}
+    />
+    <DialogBody>Content here</DialogBody>
+  </DialogContent>
+</Dialog>
+```
+
+### Custom Content Width
+
+Control dialog width via className on DialogContent:
+
+```tsx
+<DialogContent className='w-[600px]'>{/* Content */}</DialogContent>
+```
+
+### Scrollable Content with Fixed Footer
+
+Use `DialogBody` and `DialogFooter` for scrollable content with fixed actions:
+
+```tsx
+<Dialog height='fixed'>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader title='Title' />
+    <DialogBody>
+      {/* Scrollable content */}
+      <div className='space-y-16'>{items.map((item) => /* ... */)}</div>
+    </DialogBody>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button appearance='base' size='lg' isFull>
+          Confirm
+        </Button>
+      </DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+### Sticky Content Inside The Body
+
+Use `DialogBodyStickyContent` inside `DialogBody` when controls such as a search input should remain pinned to the top of the scroll area:
+
+```tsx
+import {
+  Dialog,
+  DialogBody,
+  DialogBodyStickyContent,
+  DialogContent,
+  DialogHeader,
+  ListItem,
+  SearchInput,
+} from '@ledgerhq/lumen-ui-react';
+
+<Dialog height='fixed'>
+  <DialogContent>
+    <DialogHeader title='Browse Options' />
+    <DialogBody>
+      <div className='-mx-8 flex flex-col gap-4'>
+        <DialogBodyStickyContent className='bg-canvas'>
+          <SearchInput className='mx-8' placeholder='Search item...' />
+        </DialogBodyStickyContent>
+        {items.map((item) => (
+          <ListItem key={item.id}>{item.label}</ListItem>
+        ))}
+      </div>
+    </DialogBody>
+  </DialogContent>
+</Dialog>
+```
+
+### DialogClose
+
+Use `DialogClose` to wrap any element that should dismiss the dialog when clicked. This is useful for Cancel or Done buttons in the dialog footer:
+
+```tsx
+import { DialogClose, Button } from '@ledgerhq/lumen-ui-react';
+
+<DialogFooter>
+  <DialogClose asChild>
+    <Button appearance='no-background'>Cancel</Button>
+  </DialogClose>
+  <Button appearance='base'>Confirm</Button>
+</DialogFooter>;
+```
+
+> **Note**: The `DialogHeader` close button automatically uses `DialogClose` internally. For uncontrolled dialogs (the default), `DialogClose` closes the dialog automatically. For controlled dialogs (with an `open` prop), you must also handle `onOpenChange` and update your `open` state. The `onClose` prop on `DialogHeader` is optional — use it only for controlled usage or side-effects like analytics.
+
+### Controlled Pattern
+
+When you need to manage the dialog's open state externally (e.g., for form validation, multi-step flows, or analytics), use the controlled pattern with `open`, `onOpenChange`, and `onClose`:
+
+```tsx
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTrigger,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyControlledDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          density='compact'
+          title='Controlled Dialog'
+          onClose={() => setOpen(false)}
+        />
+        <DialogBody>Content here</DialogBody>
+        <DialogFooter>
+          <Button appearance='no-background' onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button appearance='base' onClick={() => setOpen(false)}>
+            Done
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>

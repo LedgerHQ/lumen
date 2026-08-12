@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-rnative",
-  "version": "0.1.54",
+  "version": "0.1.55",
   "license": "Apache-2.0",
   "keywords": [
     "react-native",
@@ -24,10 +24,10 @@
       "default": "./dist/module/index.js"
     },
     "./symbols": {
-      "react-native": "./src/lib/Symbols/index.ts",
-      "types": "./dist/typescript/src/lib/Symbols/index.d.ts",
-      "import": "./dist/module/lib/Symbols/index.js",
-      "default": "./dist/module/lib/Symbols/index.js"
+      "react-native": "./src/lib/Components/symbols/index.ts",
+      "types": "./dist/typescript/src/lib/Components/symbols/index.d.ts",
+      "import": "./dist/module/lib/Components/symbols/index.js",
+      "default": "./dist/module/lib/Components/symbols/index.js"
     },
     "./styles": {
       "react-native": "./src/styles/index.ts",

@@ -69,11 +69,6 @@ const svgrConfig = {
     ],
   },
 };
-
-function pascalCasePath(relativePath: string): string {
-  return relativePath.split(path.sep).map(toPascalCase).join(path.sep);
-}
-
 async function generateSymbols() {
   console.log('🔥 Starting symbol generation...');
 
@@ -88,12 +83,12 @@ async function generateSymbols() {
   for (const ignoredSvg of ignoredSvgFiles) {
     const relativeSvgPath = path.relative(INPUT_DIR, ignoredSvg);
     const relativeDir = path.dirname(relativeSvgPath);
-    const pascalCaseDir = pascalCasePath(relativeDir);
+    const symbolDir = relativeDir;
     const baseName = path.basename(ignoredSvg, '.svg');
     const componentName = toPascalCase(baseName);
     const outputFilePath = path.join(
       OUTPUT_DIR,
-      pascalCaseDir,
+      symbolDir,
       `${componentName}.tsx`,
     );
     preservedPaths.add(outputFilePath);
@@ -113,13 +108,21 @@ async function generateSymbols() {
     }
   }
 
-  await fs.rm(OUTPUT_DIR, { recursive: true, force: true });
+  // Only clean the generated symbol subdirectories (e.g. `icons/`), not the
+  // whole OUTPUT_DIR, so hand-maintained files living alongside them (such as
+  // `symbols/utils/icon-template.ts`) survive a regeneration.
+  const generatedDirs = new Set(
+    svgFiles.map((file) => path.dirname(path.relative(INPUT_DIR, file))),
+  );
+  for (const dir of generatedDirs) {
+    await fs.rm(path.join(OUTPUT_DIR, dir), { recursive: true, force: true });
+  }
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   await fs.cp(tempDir, OUTPUT_DIR, { recursive: true });
   await fs.rm(tempDir, { recursive: true, force: true });
 
   console.log(
-    '🧹 Cleaned output directory, preserving manual files for ignored SVGs.',
+    '🧹 Cleaned generated symbol directories, preserving manual files for ignored SVGs.',
   );
 
   if (svgFiles.length === 0) {
@@ -145,8 +148,8 @@ async function generateSymbols() {
   for (const svgFile of filteredSvgFiles) {
     const relativeSvgPath = path.relative(INPUT_DIR, svgFile);
     const relativeDir = path.dirname(relativeSvgPath);
-    const pascalCaseDir = pascalCasePath(relativeDir);
-    const finalOutputDir = path.join(OUTPUT_DIR, pascalCaseDir);
+    const symbolDir = relativeDir;
+    const finalOutputDir = path.join(OUTPUT_DIR, symbolDir);
 
     const baseName = path.basename(svgFile, '.svg');
     const componentName = toPascalCase(baseName);
@@ -163,7 +166,7 @@ async function generateSymbols() {
       await fs.writeFile(outputFilePath, componentCode);
 
       const barrelExportPath = path
-        .join(pascalCaseDir, componentName)
+        .join(symbolDir, componentName)
         .replace(/\\/g, '/');
 
       exportPaths.push({ barrelExportPath, componentName });
@@ -176,18 +179,18 @@ async function generateSymbols() {
   for (const ignoredSvg of ignoredSvgFiles) {
     const relativeSvgPath = path.relative(INPUT_DIR, ignoredSvg);
     const relativeDir = path.dirname(relativeSvgPath);
-    const pascalCaseDir = pascalCasePath(relativeDir);
+    const symbolDir = relativeDir;
     const baseName = path.basename(ignoredSvg, '.svg');
     const componentName = toPascalCase(baseName);
     const outputFilePath = path.join(
       OUTPUT_DIR,
-      pascalCaseDir,
+      symbolDir,
       `${componentName}.tsx`,
     );
     try {
       await fs.access(outputFilePath);
       const barrelExportPath = path
-        .join(pascalCaseDir, componentName)
+        .join(symbolDir, componentName)
         .replace(/\\/g, '/');
       exportPaths.push({ barrelExportPath, componentName });
     } catch {

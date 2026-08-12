@@ -22,9 +22,10 @@ export type LineChartProps = LineRenderOptions &
      */
     series?: Series[];
     /**
-     * Chart-wide override for null handling. When set, it applies to every line
-     * and overrides any per-series `connectNulls`. When omitted, each series
-     * follows its own `connectNulls` (default `false`, i.e. gaps at nulls).
+     * Chart-wide override controlling how null values are handled across all lines.
+     * When true, skips null values and draws continuous lines across gaps.
+     * When false, null values create gaps in the lines.
+     * When omitted, each series' own `connectNulls` value is used (defaulting to `false`).
      */
     connectNulls?: boolean;
     /**
@@ -48,12 +49,13 @@ export type LineChartProps = LineRenderOptions &
      */
     yAxis?: YAxisProps;
     /**
-     * Signals that new data is being fetched.
+     * Whether the chart is loading. When there is no data, renders an animated
+     * shimmer placeholder line (initial loading). When data is present (e.g. a
+     * time-range change), the current line is recoloured to a muted grey and
+     * shimmers until the new `series` is provided (transition loading).
      *
-     * - **No series**: renders an animated shimmer placeholder line.
-     * - **Series present**: fades the current line to a muted grey and
-     *   animates it until a new `series` is provided.
-     *
+     * To get the transition behaviour, keep passing the previous `series` while
+     * refetching; clearing it falls back to the initial placeholder.
      * @default false
      */
     loading?: boolean;

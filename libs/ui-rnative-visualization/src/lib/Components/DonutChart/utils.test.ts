@@ -1,11 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { getDonutViewBox, toRingLocalPoint } from './constants';
+import { computeRevealClipPath } from './RevealAnimation';
 import type { DonutSegment } from './types';
 import {
-  buildArcs,
-  buildEmptyRingPath,
+  buildRingSegments,
+  buildPlaceholderSegments,
   findSegmentIdAtPoint,
   formatPercentLabel,
   getCenterMaxWidth,
@@ -92,32 +93,36 @@ describe('getSegmentPercents', () => {
   });
 });
 
-describe('buildArcs', () => {
-  it('returns one arc per segment in series order', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
-    expect(arcs.map((a) => a.id)).toEqual(['bitcoin', 'ethereum', 'tether']);
+describe('buildRingSegments', () => {
+  it('returns one ring segment per series entry in series order', () => {
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
+    expect(segments.map((a) => a.id)).toEqual([
+      'bitcoin',
+      'ethereum',
+      'tether',
+    ]);
   });
 
-  it('carries the percent and color override per arc', () => {
-    const arcs = buildArcs(
+  it('carries the percent and color override per segment', () => {
+    const segments = buildRingSegments(
       [{ id: 'a', label: 'A', value: 1, color: '#f7931a' }],
       DONUT_GEOMETRY.sm,
     );
-    expect(arcs[0].color).toBe('#f7931a');
-    expect(arcs[0].percent).toBe(100);
-    expect(arcs[0].path.length).toBeGreaterThan(0);
+    expect(segments[0].color).toBe('#f7931a');
+    expect(segments[0].percent).toBe(100);
+    expect(segments[0].path.length).toBeGreaterThan(0);
   });
 
   it('leaves color undefined when the segment has no override', () => {
-    const arcs = buildArcs(
+    const segments = buildRingSegments(
       [{ id: 'a', label: 'A', value: 1 }],
       DONUT_GEOMETRY.md,
     );
-    expect(arcs[0].color).toBeUndefined();
+    expect(segments[0].color).toBeUndefined();
   });
 
   it('drops zero and negative segments while keeping positive ones', () => {
-    const arcs = buildArcs(
+    const segments = buildRingSegments(
       [
         { id: 'a', label: 'A', value: 50 },
         { id: 'zero', label: 'Zero', value: 0 },
@@ -126,17 +131,17 @@ describe('buildArcs', () => {
       ],
       DONUT_GEOMETRY.md,
     );
-    expect(arcs.map((a) => a.id)).toEqual(['a', 'b']);
-    expect(arcs.map((a) => a.percent)).toEqual([50, 50]);
+    expect(segments.map((a) => a.id)).toEqual(['a', 'b']);
+    expect(segments.map((a) => a.percent)).toEqual([50, 50]);
   });
 
-  it('returns no arcs for an empty series', () => {
-    expect(buildArcs([], DONUT_GEOMETRY.md)).toEqual([]);
+  it('returns no segments for an empty series', () => {
+    expect(buildRingSegments([], DONUT_GEOMETRY.md)).toEqual([]);
   });
 
-  it('returns no arcs when every value is zero', () => {
+  it('returns no segments when every value is zero', () => {
     expect(
-      buildArcs(
+      buildRingSegments(
         [
           { id: 'a', label: 'A', value: 0 },
           { id: 'b', label: 'B', value: 0 },
@@ -148,33 +153,33 @@ describe('buildArcs', () => {
 
   it('rounds the corners of both halves of an equal 2-segment ring', () => {
     const cornerArc = new RegExp(`A${DONUT_GEOMETRY.md.cornerRadius},`);
-    const arcs = buildArcs(
+    const segments = buildRingSegments(
       [
         { id: 'a', label: 'A', value: 1 },
         { id: 'b', label: 'B', value: 1 },
       ],
       DONUT_GEOMETRY.md,
     );
-    arcs.forEach((a) => expect(a.path).toMatch(cornerArc));
+    segments.forEach((a) => expect(a.path).toMatch(cornerArc));
   });
 
   it('computes midAngle and activeTranslate per segment', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
     const offset = DONUT_GEOMETRY.md.activeOffset;
 
-    arcs.forEach((arc) => {
-      expect(arc.midAngle).toBeGreaterThanOrEqual(0);
-      expect(arc.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+    segments.forEach((segment) => {
+      expect(segment.midAngle).toBeGreaterThanOrEqual(0);
+      expect(segment.midAngle).toBeLessThanOrEqual(2 * Math.PI);
       const magnitude = Math.hypot(
-        arc.activeTranslate.x,
-        arc.activeTranslate.y,
+        segment.activeTranslate.x,
+        segment.activeTranslate.y,
       );
       expect(magnitude).toBeCloseTo(offset);
     });
   });
 
   it("pushes the first segment radially upward from 12 o'clock", () => {
-    const [first] = buildArcs(
+    const [first] = buildRingSegments(
       [
         { id: 'a', label: 'A', value: 1 },
         { id: 'b', label: 'B', value: 1 },
@@ -185,23 +190,42 @@ describe('buildArcs', () => {
   });
 
   it('disables active animation for a single segment', () => {
-    const [arc] = buildArcs(
+    const [segment] = buildRingSegments(
       [{ id: 'a', label: 'A', value: 1 }],
       DONUT_GEOMETRY.md,
     );
-    expect(arc.activeEnabled).toBe(false);
-    expect(arc.activeTranslate).toEqual({ x: 0, y: 0 });
+    expect(segment.activeEnabled).toBe(false);
+    expect(segment.activeTranslate).toEqual({ x: 0, y: 0 });
   });
 });
 
-describe('buildEmptyRingPath', () => {
-  it('builds a non-empty full-ring path', () => {
-    expect(buildEmptyRingPath(DONUT_GEOMETRY.md).length).toBeGreaterThan(0);
+describe('buildPlaceholderSegments', () => {
+  const { segmentValues } = chartConfig.donut.placeholder;
+
+  it('returns one index-named segment per configured placeholder value', () => {
+    const segments = buildPlaceholderSegments(DONUT_GEOMETRY.md);
+    expect(segments).toHaveLength(segmentValues.length);
+    expect(segments.map((segment) => segment.id)).toEqual(
+      segmentValues.map((_, index) => `placeholder-${index}`),
+    );
+  });
+
+  it('produces a non-empty path per placeholder segment', () => {
+    const segments = buildPlaceholderSegments(DONUT_GEOMETRY.md);
+    segments.forEach((segment) => expect(segment.path).toMatch(/^M/));
+  });
+
+  it('computes midAngle per placeholder segment', () => {
+    const segments = buildPlaceholderSegments(DONUT_GEOMETRY.md);
+    segments.forEach((segment) => {
+      expect(segment.midAngle).toBeGreaterThanOrEqual(0);
+      expect(segment.midAngle).toBeLessThanOrEqual(2 * Math.PI);
+    });
   });
 });
 
 describe('toRingLocalPoint', () => {
-  it('maps the gesture overlay center to the arc-space origin', () => {
+  it('maps the gesture overlay center to the segment-space origin', () => {
     const { box } = DONUT_GEOMETRY.md;
     expect(
       toRingLocalPoint({ x: box / 2, y: box / 2 }, DONUT_GEOMETRY.md),
@@ -224,41 +248,47 @@ describe('findSegmentIdAtPoint', () => {
   ];
 
   it('returns null inside the hole (below innerRadius)', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     expect(
-      findSegmentIdAtPoint(arcs, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
+      findSegmentIdAtPoint(segments, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
     ).toBeNull();
   });
 
   it('returns null beyond outerRadius', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     expect(
-      findSegmentIdAtPoint(arcs, { x: 0, y: -200 }, DONUT_GEOMETRY.md),
+      findSegmentIdAtPoint(segments, { x: 0, y: -200 }, DONUT_GEOMETRY.md),
     ).toBeNull();
   });
 
   it('resolves a point at the top of the ring to the first segment', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     expect(
-      findSegmentIdAtPoint(arcs, { x: 0, y: -midRadius }, DONUT_GEOMETRY.md),
+      findSegmentIdAtPoint(
+        segments,
+        { x: 0, y: -midRadius },
+        DONUT_GEOMETRY.md,
+      ),
     ).toBe('a');
   });
 
   it('resolves a point at the bottom of the ring to the second segment', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     expect(
-      findSegmentIdAtPoint(arcs, { x: 0, y: midRadius }, DONUT_GEOMETRY.md),
+      findSegmentIdAtPoint(segments, { x: 0, y: midRadius }, DONUT_GEOMETRY.md),
     ).toBe('b');
   });
 
   it('resolves each series segment at its own midAngle', () => {
-    const arcs = buildArcs(series, DONUT_GEOMETRY.md);
-    arcs.forEach((arc) => {
+    const segments = buildRingSegments(series, DONUT_GEOMETRY.md);
+    segments.forEach((segment) => {
       const point = {
-        x: Math.sin(arc.midAngle) * midRadius,
-        y: -Math.cos(arc.midAngle) * midRadius,
+        x: Math.sin(segment.midAngle) * midRadius,
+        y: -Math.cos(segment.midAngle) * midRadius,
       };
-      expect(findSegmentIdAtPoint(arcs, point, DONUT_GEOMETRY.md)).toBe(arc.id);
+      expect(findSegmentIdAtPoint(segments, point, DONUT_GEOMETRY.md)).toBe(
+        segment.id,
+      );
     });
   });
 
@@ -274,30 +304,34 @@ describe('findSegmentIdAtPoint', () => {
   ])(
     'extends the tappable radius outward by hitSlopRadius (%s)',
     (_size, geometry) => {
-      const arcs = buildArcs(twoHalves, geometry);
+      const segments = buildRingSegments(twoHalves, geometry);
       const justOutside = geometry.outerRadius + geometry.hitSlopRadius - 1;
       expect(
-        findSegmentIdAtPoint(arcs, { x: 0, y: -justOutside }, geometry),
+        findSegmentIdAtPoint(segments, { x: 0, y: -justOutside }, geometry),
       ).toBe('a');
     },
   );
 
   it('still rejects taps beyond the padded outer radius', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     const { outerRadius, hitSlopRadius } = DONUT_GEOMETRY.md;
     const wayOutside = outerRadius + hitSlopRadius + 1;
     expect(
-      findSegmentIdAtPoint(arcs, { x: 0, y: -wayOutside }, DONUT_GEOMETRY.md),
+      findSegmentIdAtPoint(
+        segments,
+        { x: 0, y: -wayOutside },
+        DONUT_GEOMETRY.md,
+      ),
     ).toBeNull();
   });
 
   it('extends the tappable radius inward into the hole by hitSlopRadius', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     const { innerRadius, hitSlopRadius } = DONUT_GEOMETRY.md;
     const justInsideHole = innerRadius - hitSlopRadius + 1;
     expect(
       findSegmentIdAtPoint(
-        arcs,
+        segments,
         { x: 0, y: -justInsideHole },
         DONUT_GEOMETRY.md,
       ),
@@ -305,9 +339,30 @@ describe('findSegmentIdAtPoint', () => {
   });
 
   it('still rejects taps deep inside the hole', () => {
-    const arcs = buildArcs(twoHalves, DONUT_GEOMETRY.md);
+    const segments = buildRingSegments(twoHalves, DONUT_GEOMETRY.md);
     expect(
-      findSegmentIdAtPoint(arcs, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
+      findSegmentIdAtPoint(segments, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
     ).toBeNull();
+  });
+});
+
+describe('computeRevealClipPath', () => {
+  const R = 84;
+
+  it('returns the full-circle path when progress is complete', () => {
+    expect(computeRevealClipPath(R, 1)).toBe(
+      `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`,
+    );
+    expect(computeRevealClipPath(R, 1.5)).toBe(
+      `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`,
+    );
+  });
+
+  it('uses largeArc=0 when progress is below 50%', () => {
+    expect(computeRevealClipPath(R, 0.3)).toContain(' 0 1 ');
+  });
+
+  it('uses largeArc=1 when progress exceeds 50%', () => {
+    expect(computeRevealClipPath(R, 0.7)).toContain(' 1 1 ');
   });
 });

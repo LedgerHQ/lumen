@@ -17,14 +17,12 @@ import type {
   Series,
 } from '../../../utils/types';
 import type { AxisBounds, BaseAxisProps } from '../../Axis';
-import type { XAxisProps } from '../../Axis/XAxis';
-import type { YAxisProps } from '../../Axis/YAxis';
 import type { CartesianChartContextValue } from '../types';
 
 type UseBuildChartContextParams = {
   series: Series[];
-  xAxis?: XAxisProps;
-  yAxis?: YAxisProps;
+  xAxis?: Partial<BaseAxisProps>;
+  yAxis?: Partial<BaseAxisProps>;
   width: number;
   height: number;
   inset: ChartInset;

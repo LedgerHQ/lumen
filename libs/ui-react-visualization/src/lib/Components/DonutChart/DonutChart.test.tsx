@@ -21,6 +21,15 @@ const sampleSeries: DonutSegment[] = [
   { id: 'tether', label: 'Tether', value: 20 },
 ];
 
+const placeholderCount = chartConfig.donut.placeholder.segmentValues.length;
+
+const getLoadingWaveStyle = (container: HTMLElement): string | null => {
+  const styleEl = Array.from(container.querySelectorAll('style')).find((el) =>
+    el.textContent?.includes('donut-loading-wave'),
+  );
+  return styleEl?.textContent ?? null;
+};
+
 describe('DonutChart', () => {
   it('renders the ring', () => {
     const { getByTestId } = render(<DonutChart series={sampleSeries} />, {
@@ -98,6 +107,93 @@ describe('DonutChart', () => {
     );
     getByTestId('donut-empty');
     expect(queryByTestId('donut-segment')).toBeNull();
+  });
+
+  describe('loading', () => {
+    it('renders the animated placeholder instead of real segments', () => {
+      const { getByTestId, queryByTestId } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      getByTestId('donut-loading');
+      expect(queryByTestId('donut-segment')).toBeNull();
+      expect(queryByTestId('donut-empty')).toBeNull();
+    });
+
+    it('renders one placeholder path per configured placeholder segment', () => {
+      const { getAllByTestId } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      expect(getAllByTestId('donut-placeholder')).toHaveLength(
+        placeholderCount,
+      );
+    });
+
+    it('injects a keyframe style and animates the placeholder paths while loading', () => {
+      const { getAllByTestId, container } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      expect(getLoadingWaveStyle(container)).toContain('@keyframes');
+
+      getAllByTestId('donut-placeholder').forEach((path) => {
+        expect(path.getAttribute('style')).toContain('animation');
+      });
+    });
+
+    it('holds the placeholder opaque under reduced motion', () => {
+      const { container } = render(
+        <DonutChart series={sampleSeries} loading />,
+      );
+
+      expect(getLoadingWaveStyle(container)).toContain(
+        '@media (prefers-reduced-motion: reduce)',
+      );
+    });
+
+    it('does not inject a loading style when not loading', () => {
+      const { getByTestId, getAllByTestId, container } = render(
+        <DonutChart series={[]} />,
+      );
+
+      getByTestId('donut-empty');
+      expect(getLoadingWaveStyle(container)).toBeNull();
+
+      getAllByTestId('donut-placeholder').forEach((path) => {
+        expect(path.getAttribute('style') ?? '').not.toContain('animation');
+      });
+    });
+
+    it('sets aria-busy and the loading aria label on the ring', () => {
+      const { getByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          ariaLabel='Portfolio breakdown'
+          loading
+        />,
+      );
+
+      const ring = getByTestId('donut-ring');
+      expect(ring.getAttribute('aria-busy')).toBe('true');
+      expect(ring.getAttribute('aria-label')).toBe(
+        chartConfig.donut.loading.ariaLabel,
+      );
+    });
+
+    it('keeps rendering the center content, left to the consumer', () => {
+      const renderCenter = vi.fn(() => null);
+      const { getByTestId } = render(
+        <DonutChart
+          series={sampleSeries}
+          renderCenter={renderCenter}
+          loading
+        />,
+      );
+
+      getByTestId('donut-center');
+      expect(renderCenter).toHaveBeenCalled();
+    });
   });
 
   describe('interactivity', () => {
@@ -604,6 +700,28 @@ describe('DonutChart', () => {
       fireEvent.mouseLeave(getByTestId('donut-chart'));
 
       getByText('3');
+    });
+  });
+
+  describe('reveal animation', () => {
+    it('wraps the ring in the reveal container', () => {
+      const { container } = render(<DonutChart series={sampleSeries} />);
+      expect(container.querySelector('.donut-ring-reveal')).not.toBeNull();
+    });
+
+    it('injects the conic-gradient keyframe CSS', () => {
+      const { container } = render(<DonutChart series={sampleSeries} />);
+      expect(container.querySelector('style')?.textContent).toContain(
+        'donut-reveal',
+      );
+    });
+
+    it('renders the ring inside the reveal wrapper', () => {
+      const { container, getByTestId } = render(
+        <DonutChart series={sampleSeries} />,
+      );
+      const wrapper = container.querySelector('.donut-ring-reveal');
+      expect(wrapper?.contains(getByTestId('donut-ring'))).toBe(true);
     });
   });
 });

@@ -1,0 +1,289 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Avatar' of={AvatarStories} />
+
+# Avatar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The Avatar component displays a circular user profile image with automatic fallback (initials or a User icon) when the image is unavailable or fails to load. It supports an optional notification indicator and six size variants.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10546-614&p=f&m=dev).
+
+## Anatomy
+
+<Canvas of={AvatarStories.Base} />
+
+- **Image/Fallback Icon**: The circular user image or User icon fallback displayed when image is unavailable
+- **Notification Indicator (optional)**: A red dot positioned at the top-right corner to indicate notifications
+- **Container**: Rounded-full container with a subtle bordered background, or a solid `fallbackColor` when showing a fallback
+
+## Properties
+
+### Overview
+
+<Canvas of={AvatarStories.Base} />
+<Controls of={AvatarStories.Base} />
+
+### Size
+
+Avatars come in six sizes: `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
+
+<Canvas of={AvatarStories.SizeShowcase} />
+
+### States
+
+The Avatar component handles two primary states automatically:
+
+- **With Image**: Displays the provided image when `src` is valid and loads successfully
+- **Fallback**: Shows `fallbackText` (e.g. initials) when provided, otherwise a User icon, when `src` is undefined or the image fails to load
+
+### Fallback
+
+When no image is shown, the Avatar renders a fallback. Provide `fallbackText` for initials, and pass a `fallbackColor` to give each user a stable background color. Use `resolveAvatarColor` to derive that color deterministically from an identifier such as a user id:
+
+```tsx
+import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
+
+<Avatar
+  fallbackColor={resolveAvatarColor(user.id)}
+  fallbackText={user.initials}
+  alt={user.name}
+/>;
+```
+
+<Canvas of={AvatarStories.FallbackShowcase} />
+
+
+### Appearance
+
+Use `appearance` to display an inset ring around the avatar. Two variants are available:
+
+- `thin` — 1px ring, `border-icon` color
+- `thick` — 2px ring, `border-muted-subtle-transparent` color
+
+Omit the prop (or leave it `undefined`) for no ring.
+
+<Canvas of={AvatarStories.AppearanceShowcase} />
+
+### Notification Indicator
+
+To show a status or alert dot, wrap the Avatar in a `DotIndicator` and derive the dot props from the avatar size with the `getDotIndicatorProps` helper:
+
+```tsx
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-react';
+
+<DotIndicator
+  {...getDotIndicatorProps('avatar', 'md')}
+  aria-label="New notifications"
+>
+  <Avatar src="https://example.com/photo.jpg" size="md" />
+</DotIndicator>;
+```
+
+> When the dot conveys state to the user, pass an `aria-label` to `DotIndicator`.
+
+<Canvas of={AvatarStories.NotificationShowcase} />
+
+### As Interactive Trigger
+
+Avatars are commonly used as interactive triggers for menus, dropdowns, or navigation:
+
+<Canvas of={AvatarStories.InteractiveShowcase} />
+
+## Accessibility
+
+To be implemented:
+
+- **Color contrast**
+- **Text zoom support**
+- **Semantic alt text for images**
+- **Screen reader announcements for notification state**
+
+</Tab>
+<Tab label="Implementation">
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return <Avatar src="https://example.com/photo.jpg" size="md" />;
+}
+```
+
+## Advanced Patterns
+
+### Fallback Handling
+
+The Avatar component automatically displays a fallback User icon when the image source is undefined or fails to load:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  // Fallback will be shown automatically
+  return <Avatar size="md" alt="User profile" />;
+}
+```
+
+### With Notification
+
+Wrap the Avatar in a `DotIndicator` to show a status or alert dot, using `getDotIndicatorProps` to match the dot to the avatar size:
+
+```tsx
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <DotIndicator {...getDotIndicatorProps('avatar', 'md')} aria-label="New notifications">
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+    </DotIndicator>
+  );
+}
+```
+
+### Different Sizes
+
+Choose the appropriate size based on your layout needs:
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <div className="flex items-center gap-8">
+      <Avatar src="https://example.com/photo.jpg" size="sm" />
+      <Avatar src="https://example.com/photo.jpg" size="md" />
+      <Avatar src="https://example.com/photo.jpg" size="lg" />
+      <Avatar src="https://example.com/photo.jpg" size="xl" />
+    </div>
+  );
+}
+```
+
+### As Interactive Trigger
+
+Avatars are commonly used as interactive triggers for menus, dropdowns, or navigation. Wrap the Avatar in a semantic HTML element (`<button>` or `<a>`) and add appropriate hover states:
+
+```tsx
+import { Avatar, DotIndicator, getDotIndicatorProps } from '@ledgerhq/lumen-ui-react';
+import { Menu, MenuTrigger, MenuContent, MenuItem } from '@ledgerhq/lumen-ui-react';
+
+function UserMenu() {
+  return (
+    <Menu>
+      <MenuTrigger
+        render={
+          <button
+            type="button"
+            className="cursor-pointer rounded-full transition-colors hover:bg-muted-hover"
+          >
+            <DotIndicator
+              {...getDotIndicatorProps('avatar', 'md')}
+              aria-label="New notifications"
+            >
+              <Avatar
+                src="https://example.com/photo.jpg"
+                size="md"
+                alt="User menu"
+              />
+            </DotIndicator>
+          </button>
+        }
+      />
+      <MenuContent>
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>Settings</MenuItem>
+        <MenuItem>Logout</MenuItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+**Key points:**
+- Wrap Avatar in a semantic interactive element (`<button>` for actions, `<a>` for navigation)
+- Use `rounded-full` to maintain circular hover area
+- Add `transition-colors` and `hover:bg-muted-hover` for visual feedback
+- Use `cursor-pointer` to indicate interactivity
+
+### Image Loading Strategy
+
+The `imgLoading` prop controls the **loading strategy for the avatar's image** (not the component itself). It allows you to optimize image loading performance based on where the avatar appears on your page.
+
+> **Note**: This prop specifically controls when the browser loads the image resource. It does not affect the component's rendering or display state.
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function UserList() {
+  return (
+    <div className="flex flex-col gap-8">
+      {users.map((user) => (
+        <Avatar
+          key={user.id}
+          src={user.avatarUrl}
+          imgLoading="lazy"
+          alt={user.name}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+```tsx
+import { Avatar } from '@ledgerhq/lumen-ui-react';
+
+function UserProfile() {
+  return (
+    <Avatar
+      src="https://example.com/photo.jpg"
+      imgLoading="eager"
+      alt="Current user profile"
+    />
+  );
+}
+```
+
+### Appearance
+
+Use the `appearance` prop to display a predefined inset ring:
+
+```tsx
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thin" />
+<Avatar src="https://example.com/photo.jpg" size="md" appearance="thick" />
+```
+
+### Custom Styling
+
+While the component comes with predefined styles, you can extend them for layout purposes using Tailwind classes:
+
+```tsx
+<Avatar 
+  src="https://example.com/photo.jpg" 
+  size="md" 
+  className="mr-8" // Layout positioning only
+/>
+```
+
+
+</Tab>
+</CustomTabs>
