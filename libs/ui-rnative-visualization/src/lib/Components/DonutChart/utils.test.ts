@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { getDonutViewBox, toRingLocalPoint } from './constants';
+import { computeRevealClipPath } from './RevealAnimation';
 import type { DonutSegment } from './types';
 import {
   buildRingSegments,
@@ -342,5 +343,26 @@ describe('findSegmentIdAtPoint', () => {
     expect(
       findSegmentIdAtPoint(segments, { x: 0, y: 0 }, DONUT_GEOMETRY.md),
     ).toBeNull();
+  });
+});
+
+describe('computeRevealClipPath', () => {
+  const R = 84;
+
+  it('returns the full-circle path when progress is complete', () => {
+    expect(computeRevealClipPath(R, 1)).toBe(
+      `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`,
+    );
+    expect(computeRevealClipPath(R, 1.5)).toBe(
+      `M0,-${R} A${R},${R} 0 1 1 -0.001,-${R} Z`,
+    );
+  });
+
+  it('uses largeArc=0 when progress is below 50%', () => {
+    expect(computeRevealClipPath(R, 0.3)).toContain(' 0 1 ');
+  });
+
+  it('uses largeArc=1 when progress exceeds 50%', () => {
+    expect(computeRevealClipPath(R, 0.7)).toContain(' 1 1 ');
   });
 });

@@ -1,7 +1,8 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { chartConfig } from '../../config';
 
 import { useDonutLoadingAnimation } from './hooks/useDonutLoadingAnimation';
+import { RevealAnimation } from './RevealAnimation';
 import type { DonutGeometry, DonutRingSegment } from './types';
 import { buildPlaceholderSegments, getDonutViewBox } from './utils';
 
@@ -111,6 +112,16 @@ type DonutRingProps = {
   onSegmentEnter: (id: string) => void;
 };
 
+function useRevealKey(loading: boolean): number {
+  const keyRef = useRef(0);
+  const prevRef = useRef(loading);
+  if (prevRef.current && !loading) {
+    keyRef.current += 1;
+  }
+  prevRef.current = loading;
+  return keyRef.current;
+}
+
 // Internal, not exported. Segment paths are origin-centered, so the group is translated to the viewBox center.
 export const DonutRing = ({
   segments,
@@ -123,34 +134,37 @@ export const DonutRing = ({
   const { box } = geometry;
   const center = box / 2;
   const hasSegments = segments.length > 0;
+  const revealKey = useRevealKey(loading);
 
   return (
-    <svg
-      data-testid='donut-ring'
-      width={box}
-      height={box}
-      viewBox={getDonutViewBox(geometry)}
-      role={loading || !hasSegments ? 'img' : 'group'}
-      aria-label={ariaLabel}
-      aria-busy={loading || undefined}
-      style={{ display: 'block', overflow: 'visible' }}
-    >
-      <g transform={`translate(${center}, ${center})`}>
-        {loading ? (
-          <LoadingRing geometry={geometry} />
-        ) : hasSegments ? (
-          segments.map((segment) => (
-            <RingSegment
-              key={segment.id}
-              segment={segment}
-              activeId={activeId}
-              onSegmentEnter={onSegmentEnter}
-            />
-          ))
-        ) : (
-          <EmptyRing geometry={geometry} />
-        )}
-      </g>
-    </svg>
+    <RevealAnimation key={revealKey}>
+      <svg
+        data-testid='donut-ring'
+        width={box}
+        height={box}
+        viewBox={getDonutViewBox(geometry)}
+        role={loading || !hasSegments ? 'img' : 'group'}
+        aria-label={ariaLabel}
+        aria-busy={loading || undefined}
+        style={{ display: 'block', overflow: 'visible' }}
+      >
+        <g transform={`translate(${center}, ${center})`}>
+          {loading ? (
+            <LoadingRing geometry={geometry} />
+          ) : hasSegments ? (
+            segments.map((segment) => (
+              <RingSegment
+                key={segment.id}
+                segment={segment}
+                activeId={activeId}
+                onSegmentEnter={onSegmentEnter}
+              />
+            ))
+          ) : (
+            <EmptyRing geometry={geometry} />
+          )}
+        </g>
+      </svg>
+    </RevealAnimation>
   );
 };

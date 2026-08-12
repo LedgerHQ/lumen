@@ -125,6 +125,9 @@ export const chartConfig = {
       popDurationMs: 180,
       popEasing: Easing.bezier(0.2, 0.8, 0.2, 1),
     },
+    reveal: {
+      durationMs: 1000,
+    },
     placeholder: {
       segmentValues: [25, 19, 15, 13, 10, 10, 8],
     },

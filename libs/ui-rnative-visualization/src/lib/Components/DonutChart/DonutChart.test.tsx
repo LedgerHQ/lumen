@@ -1,6 +1,6 @@
-import { describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
+import { RuntimeConstants, ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
@@ -310,8 +310,9 @@ describe('DonutChart', () => {
 
       expect(onActiveIdChange).toHaveBeenCalledWith('ethereum');
 
-      const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
-      expect(bitcoin.props.accessibilityLabel).toBe('bitcoin, selected');
+      expect(
+        getSegment(getAllByTestId, 'bitcoin')?.props.accessibilityLabel,
+      ).toBe('bitcoin, selected');
       expect(
         getSegment(getAllByTestId, 'ethereum')?.props.accessibilityLabel,
       ).toBe('ethereum');
@@ -322,11 +323,12 @@ describe('DonutChart', () => {
         defaultActiveId: 'ethereum',
       });
 
-      const ethereum = getSegment(getAllByTestId, 'ethereum')!;
-      expect(ethereum.props.accessibilityLabel).toBe('ethereum, selected');
-
-      const bitcoin = getSegment(getAllByTestId, 'bitcoin')!;
-      expect(bitcoin.props.accessibilityLabel).toBe('bitcoin');
+      expect(
+        getSegment(getAllByTestId, 'ethereum')?.props.accessibilityLabel,
+      ).toBe('ethereum, selected');
+      expect(
+        getSegment(getAllByTestId, 'bitcoin')?.props.accessibilityLabel,
+      ).toBe('bitcoin');
     });
 
     it('still fires onActiveIdChange for a single segment', () => {
@@ -381,6 +383,27 @@ describe('DonutChart', () => {
       expect(getByTestId('donut-ring').props.accessibilityLabel).toBe(
         'Portfolio breakdown',
       );
+    });
+
+    describe('reveal animation', () => {
+      afterEach(() => {
+        jest.restoreAllMocks();
+      });
+
+      it('renders without errors when reduced motion is preferred', () => {
+        const Reanimated = jest.requireMock('react-native-reanimated') as {
+          useReducedMotion: () => boolean;
+        };
+        jest.spyOn(Reanimated, 'useReducedMotion').mockReturnValue(true);
+        const { getByTestId } = renderDonut({});
+        getByTestId('donut-ring');
+      });
+
+      it('renders without errors on Android', () => {
+        jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+        const { getByTestId } = renderDonut({});
+        getByTestId('donut-ring');
+      });
     });
   });
 
