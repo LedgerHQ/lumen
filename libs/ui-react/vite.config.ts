@@ -50,9 +50,9 @@ export default defineConfig(() => ({
       // Could also be a dictionary or array of multiple entry points.
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
-        'lib/Symbols/index': path.resolve(
+        'lib/Components/symbols/index': path.resolve(
           __dirname,
-          'src/lib/Symbols/index.ts',
+          'src/lib/Components/symbols/index.ts',
         ),
       },
       name: '@ledgerhq/lumen-ui-react',

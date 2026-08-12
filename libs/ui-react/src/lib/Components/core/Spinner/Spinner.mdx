@@ -1,0 +1,130 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SpinnerStories from './Spinner.stories';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+
+
+<Meta title='Core/Spinner' of={SpinnerStories} />
+
+# Spinner
+
+<CustomTabs>
+  <Tab label="Overview">
+
+The Spinner component provides visual feedback for loading states and background processes. It's a crucial element for maintaining user engagement during asynchronous operations and preventing perceived delays.
+
+## Figma Library
+
+All spinner designs are created and managed in our components library. This ensures consistency across all platforms and use cases.
+
+- 🔗 **[Figma - Components Library](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=9023-3681&m=dev)**
+
+## Interactive Example
+
+<Canvas of={SpinnerStories.Base} />
+<Controls of={SpinnerStories.Base} />
+
+## 🎨 Appearances
+
+The Spinner component is designed to inherit text color from its parent, making it especially versatile when used inside a button, it will automatically match the button's label color for seamless integration. By default, it adopts the primary text color (`text-base`), but you can easily emphasize it using accent colors (such as `text-interactive`).
+
+Additionally, you can customize the spinner's appearance by applying your own styles with the `className` prop, allowing for further flexibility to match any specific design requirement.
+
+---
+
+## 📏 Sizing
+
+Our spinners are designed to be scalable and available in 7 standard sizes to fit various contexts within the UI, matching our icon sizing system for consistency. The available sizes are: **12, 16, 20, 24, 40, 48** and **56** pixels.
+
+<Canvas of={SpinnerStories.Sizes} />
+
+---
+
+## Usage Guidelines
+
+### When to Use
+
+- **Loading States**: During data fetching, form submissions, or content loading
+- **Background Processes**: When operations take longer than 1-2 seconds
+- **Page Transitions**: During navigation between views or routes
+- **Button Actions**: Within buttons to indicate processing
+
+### When Not to Use
+
+- **Very Quick Operations**: For processes under 1 second
+- **Static Content**: Don't use spinners for content that's already loaded
+
+</Tab>
+<Tab label="Implementation">
+
+## Installation
+
+Install the packages and their peer dependencies:
+
+```bash
+# Install the UI Kit
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core
+
+# Install peer dependencies
+npm install tailwindcss@^4.1.17 react@^19.0.0 clsx tailwind-merge class-variance-authority
+```
+
+### Tailwind Configuration
+
+To use Spinner components with our custom Tailwind preset, you need to configure your `tailwind.config.ts`:
+
+```typescript
+import type { Config } from 'tailwindcss';
+import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
+
+const config = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Your project's files
+  presets: [ledgerLivePreset], // the installed tailwind preset
+} satisfies Config;
+
+export default config;
+```
+
+And import our stylesheet next to Tailwind in your main CSS file, so the
+utilities compiled into our components are emitted:
+
+```css
+@import 'tailwindcss';
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+@config '../tailwind.config.ts';
+```
+
+### Basic Usage
+
+Import and use the Spinner component:
+
+```tsx
+import { Spinner } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  return <div>{isLoading && <Spinner />}</div>;
+}
+```
+
+### Size Variants
+
+Spinners support predefined size variants that ensure consistent visual hierarchy:
+
+```tsx
+import { Spinner } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <div className='flex items-center gap-4'>
+      <Spinner size={12} />
+      <Spinner size={16} />
+      <Spinner size={20} />
+    </div>
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>

@@ -3,7 +3,7 @@ import { Children, isValidElement, useState } from 'react';
 import {
   SegmentedControl,
   SegmentedControlButton,
-} from '../../src/lib/Components/SegmentedControl';
+} from '../../src/lib/Components/core/SegmentedControl';
 
 type TabProps = {
   label: string;

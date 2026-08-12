@@ -1,0 +1,455 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MenuStories from './Menu.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Menu' of={MenuStories} />
+
+# Menu
+
+<CustomTabs>
+  <Tab label='Overview'>
+
+## Introduction
+
+The Menu component provides a dropdown menu triggered by clicking a button or trigger element. It offers contextual actions and options to users in a clean, organized interface.
+
+Built on top of [Base UI Menu](https://base-ui.com/react/components/menu) primitives, it provides excellent accessibility, keyboard navigation, and customization options.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=7966-3068&m=dev).
+
+## Anatomy
+
+<Canvas of={MenuStories.Base} />
+
+- **Trigger**: The button or element that activates the menu when clicked
+- **Content**: The container for menu items with background and shadow
+- **Item**: Individual selectable menu items
+- **Label**: Non-interactive text labels for grouping
+- **Separator**: Visual dividers between groups
+- **CheckboxItem**: Items with checkbox selection
+- **RadioItem**: Items with radio selection (single choice in group)
+- **SubMenu**: Nested menus for hierarchical options
+
+## Properties
+
+### Basic Items
+
+Simple menu items for actions:
+
+<Canvas of={MenuStories.Base} />
+<Controls of={MenuStories.Base} />
+
+### Checkbox Items
+
+For toggleable options:
+
+<Canvas of={MenuStories.WithCheckboxItems} />
+
+### Radio Items
+
+For single selection from multiple options:
+
+<Canvas of={MenuStories.WithRadioItems} />
+
+### Submenus
+
+For hierarchical menu structures:
+
+<Canvas of={MenuStories.WithSubmenu} />
+
+### Groups and Labels
+
+Organize related items:
+
+<Canvas of={MenuStories.WithGroups} />
+
+### Item Appearance
+
+Use the `appearance` prop on `MenuItem` to signal intent. Defaults to `base`. Set `red` for destructive actions such as deleting or removing:
+
+<Canvas of={MenuStories.Appearance} />
+
+### Disabled State
+
+Items can be disabled to prevent interaction:
+
+<Canvas of={MenuStories.Disabled} />
+
+### Position
+
+The menu can be positioned on any side of the trigger using the `side` prop:
+
+<Canvas of={MenuStories.PositionShowcase} />
+
+Available positions: `top`, `bottom`, `left`, `right` (default: `bottom`)
+
+### Complete Example
+
+Full-featured menu with all components:
+
+<Canvas of={MenuStories.CompleteExample} />
+
+## Responsive Behavior
+
+- Menus automatically position themselves to stay within viewport
+- Menu content width is customizable via className
+- Default minimum width is 160px
+- Collision detection prevents menus from going offscreen
+
+## Accessibility
+
+- **Keyboard Navigation**: Full keyboard support with Arrow keys, Enter, Space, and Escape
+- **Screen Reader Support**: Proper ARIA attributes and roles
+- **Focus Management**: Clear focus indicators and logical tab order
+- **RTL Support**: Automatic layout adjustment for right-to-left languages
+- **High Contrast**: Compatible with high contrast mode
+
+### Keyboard Shortcuts
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Key</th>
+        <th className='p-12 text-left text-on-accent body-2'>Action</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Space / Enter</td>
+        <td className='p-12 text-muted'>Activates the focused item</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>ArrowDown</td>
+        <td className='p-12 text-muted'>Moves focus to the next item</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>ArrowUp</td>
+        <td className='p-12 text-muted'>Moves focus to the previous item</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>ArrowRight / ArrowLeft</td>
+        <td className='p-12 text-muted'>
+          Opens/closes submenu (based on direction)
+        </td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Esc</td>
+        <td className='p-12 text-muted'>Closes the menu</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>Home / End</td>
+        <td className='p-12 text-muted'>Moves to first/last item</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</Tab>
+
+<Tab label='Implementation'>
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-react @base-ui/react
+```
+
+<SetupNote />
+
+The Base UI dependency provides accessible menu behavior with proper keyboard navigation, focus management, and screen reader support.
+
+## Basic Usage
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Open Menu</Button>} />
+      <MenuContent>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Delete</MenuItem>
+        <MenuItem>Share</MenuItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+## Advanced Patterns
+
+### With Checkbox Items
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuCheckboxItem,
+  MenuSeparator,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [showPanel, setShowPanel] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
+
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>View</Button>} />
+      <MenuContent>
+        <MenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
+          Show Panel
+        </MenuCheckboxItem>
+        <MenuCheckboxItem
+          checked={showSidebar}
+          onCheckedChange={setShowSidebar}
+        >
+          Show Sidebar
+        </MenuCheckboxItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+### With Radio Items
+
+> **Recommended:** prefer the [type-safe radio group](#type-safe-radio-group) below. It shares one literal union between the group's `value` and each item's `value`.
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuGroup,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuLabel,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [position, setPosition] = useState('bottom');
+
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Position</Button>} />
+      <MenuContent>
+        <MenuGroup>
+          <MenuLabel>Panel Position</MenuLabel>
+          <MenuRadioGroup value={position} onValueChange={setPosition}>
+            <MenuRadioItem value='top'>Top</MenuRadioItem>
+            <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
+            <MenuRadioItem value='right'>Right</MenuRadioItem>
+          </MenuRadioGroup>
+        </MenuGroup>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+### Type-safe radio group
+
+`MenuRadioGroup` and `MenuRadioItem` communicate via context, so TypeScript cannot connect the group's `value` to each item's `value` on its own. A typo compiles, and the wrong item (or none) shows the check. `createMenuRadioGroup<T>()` ties them together via one literal union.
+
+The non-radio Menu pieces (`Menu`, `MenuTrigger`, `MenuContent`, `MenuItem`, `MenuCheckboxItem`, ...) carry no value union. Import them as-is alongside the factory output.
+
+```tsx
+import {
+  createMenuRadioGroup,
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuGroup,
+  MenuLabel,
+} from '@ledgerhq/lumen-ui-react';
+
+type Position = 'top' | 'bottom' | 'left' | 'right';
+
+const PositionMenu = createMenuRadioGroup<Position>();
+
+function Example() {
+  const [position, setPosition] = React.useState<Position>('bottom');
+
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Position</Button>} />
+      <MenuContent>
+        <MenuGroup>
+          <MenuLabel>Panel Position</MenuLabel>
+          <PositionMenu.MenuRadioGroup value={position} onValueChange={setPosition}>
+            <PositionMenu.MenuRadioItem value='top'>Top</PositionMenu.MenuRadioItem>
+            <PositionMenu.MenuRadioItem value='bottom'>Bottom</PositionMenu.MenuRadioItem>
+            <PositionMenu.MenuRadioItem value='left'>Left</PositionMenu.MenuRadioItem>
+            <PositionMenu.MenuRadioItem value='right'>Right</PositionMenu.MenuRadioItem>
+          </PositionMenu.MenuRadioGroup>
+        </MenuGroup>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+### With Submenus
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuSub,
+  MenuSubTrigger,
+  MenuSubContent,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Options</Button>} />
+      <MenuContent>
+        <MenuItem>New File</MenuItem>
+        <MenuSub>
+          <MenuSubTrigger>Share</MenuSubTrigger>
+          <MenuSubContent>
+            <MenuItem>Email</MenuItem>
+            <MenuItem>Messages</MenuItem>
+            <MenuItem>Copy Link</MenuItem>
+          </MenuSubContent>
+        </MenuSub>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+### With Groups and Labels
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuLabel,
+  MenuSeparator,
+  MenuGroup,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Account</Button>} />
+      <MenuContent className='w-56'>
+        <MenuGroup>
+          <MenuLabel>My Account</MenuLabel>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>Billing</MenuItem>
+          <MenuItem>Settings</MenuItem>
+        </MenuGroup>
+        <MenuSeparator />
+        <MenuGroup>
+          <MenuLabel>Team</MenuLabel>
+          <MenuItem>Invite Users</MenuItem>
+          <MenuItem>Team Settings</MenuItem>
+        </MenuGroup>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+### Custom Widths
+
+Control the width of the menu content using the `className` prop, by default, the menu content has a minimum width of `160px`.
+
+```tsx
+<MenuContent className='w-80'>{/* Menu items */}</MenuContent>
+```
+
+### Custom Positioning
+
+Control where the menu appears using the `side` prop:
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Options</Button>} />
+      <MenuContent side='top' sideOffset={8}>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+Available positions: `'top'`, `'bottom'` (default), `'left'`, `'right'`
+
+### Custom Alignment
+
+Control the alignment of the menu relative to the trigger using the `align` prop:
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+
+function MyComponent() {
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Options</Button>} />
+      <MenuContent align='start' alignOffset={0}>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+Available alignments: `'start'` (default), `'center'`, `'end'`
+
+You can also use `alignOffset` to fine-tune the position with a pixel offset.
+
+
+## Performance Considerations
+
+- Menu content is only rendered when open (Portal-based)
+- Use `render` on trigger to compose a custom element without an extra wrapper
+- Memoize expensive menu item content when needed
+- For very long lists, consider virtualization or search
+
+</Tab>
+</CustomTabs>

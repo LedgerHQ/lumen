@@ -1,0 +1,358 @@
+import { BlurView } from '@sbaiahmed1/react-native-blur';
+import type { ReactElement, ReactNode } from 'react';
+import { Children, isValidElement, useEffect, useMemo, useRef } from 'react';
+import type { LayoutChangeEvent } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
+import { useStyleSheet, useTheme } from '../../../../styles';
+import { triggerHapticFeedback } from '../../../Haptics';
+import { RuntimeConstants } from '../../../utils';
+import { useTimingConfig } from '../../animations/useTimingConfig';
+import { Box, Pressable } from '../../primitives';
+import { Placeholder } from '../../symbols';
+import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
+import type { TabBarItemProps, TabBarProps, TabBarValue } from './types';
+
+export const TAB_BAR_HEIGHT = 60;
+const PILL_INSET = 4;
+
+const useTabBarItemAnimations = ({ isActive }: { isActive: boolean }) => {
+  const activeProgress = useSharedValue(isActive ? 1 : 0);
+  const pressProgress = useSharedValue(1);
+
+  const activeTimingConfig = useTimingConfig({
+    duration: 200,
+    easing: 'easeInOut',
+  });
+
+  const pressInTimingConfig = useTimingConfig({
+    duration: 100,
+    easing: 'easeOut',
+  });
+
+  const pressOutTimingConfig = useTimingConfig({
+    duration: 100,
+    easing: 'easeOut',
+  });
+
+  useEffect(() => {
+    activeProgress.value = withDelay(
+      50,
+      withTiming(isActive ? 1 : 0, activeTimingConfig),
+    );
+  }, [isActive, activeProgress, activeTimingConfig]);
+
+  useEffect(() => () => cancelAnimation(activeProgress), [activeProgress]);
+
+  const onPressIn = () => {
+    pressProgress.value = withTiming(0.9, pressInTimingConfig);
+  };
+
+  const onPressOut = () => {
+    triggerHapticFeedback('light');
+    pressProgress.value = withSequence(
+      withTiming(0.95, { duration: 0 }),
+      withTiming(1, pressOutTimingConfig),
+    );
+  };
+
+  const scaleStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ scale: pressProgress.value }],
+    }),
+    [pressProgress],
+  );
+
+  const activeIconStyle = useAnimatedStyle(
+    () => ({
+      opacity: activeProgress.value,
+    }),
+    [activeProgress],
+  );
+
+  const inactiveIconStyle = useAnimatedStyle(
+    () => ({
+      opacity: 1 - activeProgress.value,
+    }),
+    [activeProgress],
+  );
+
+  return {
+    onPressIn,
+    onPressOut,
+    scaleStyle,
+    activeIconStyle,
+    inactiveIconStyle,
+  };
+};
+
+const useTabBarPillLayout = ({
+  active,
+  children,
+}: {
+  active: string;
+  children: ReactNode;
+}) => {
+  const pillProgress = useSharedValue(0);
+  const itemWidth = useSharedValue(0);
+  const itemHeight = useSharedValue(0);
+  const hasLayoutRef = useRef(false);
+
+  const timingConfig = useTimingConfig({
+    duration: 300,
+    easing: 'easeInOut',
+  });
+
+  const activeIndex = useMemo(() => {
+    return Children.toArray(children).findIndex((child) => {
+      if (isValidElement<TabBarItemProps>(child)) {
+        return child.props.value === active;
+      }
+      return false;
+    });
+  }, [active, children]);
+
+  const activeIndexRef = useRef(activeIndex);
+  activeIndexRef.current = activeIndex;
+
+  const onLayout = (e: LayoutChangeEvent): void => {
+    const { width, height } = e.nativeEvent.layout;
+    const count = Children.count(children);
+    const slotWidth = (width - PILL_INSET * 2) / count;
+
+    itemWidth.value = slotWidth;
+    itemHeight.value = height;
+
+    if (!hasLayoutRef.current) {
+      hasLayoutRef.current = true;
+      const index = activeIndexRef.current;
+      if (index >= 0) {
+        pillProgress.value = index * slotWidth;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!hasLayoutRef.current) return;
+    if (activeIndex >= 0 && itemWidth.value > 0) {
+      pillProgress.value = withTiming(
+        activeIndex * itemWidth.value,
+        timingConfig,
+      );
+    }
+  }, [activeIndex, itemWidth, pillProgress, timingConfig]);
+
+  useEffect(() => () => cancelAnimation(pillProgress), [pillProgress]);
+
+  const animatedPillStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: pillProgress.value }],
+      width: itemWidth.value,
+      height: itemHeight.value - PILL_INSET * 2,
+    }),
+    [pillProgress, itemWidth, itemHeight],
+  );
+
+  return { onLayout, animatedPillStyle };
+};
+
+export function TabBarItem({
+  value,
+  label,
+  icon,
+  activeIcon,
+  style,
+  ...props
+}: TabBarItemProps) {
+  const styles = useStyles();
+  const { active, onTabPress } = useTabBarContext();
+
+  const isActive = active === value;
+  const Icon = icon ?? Placeholder;
+  const ActiveIcon = activeIcon ?? Icon;
+
+  const {
+    onPressIn,
+    onPressOut,
+    scaleStyle,
+    activeIconStyle,
+    inactiveIconStyle,
+  } = useTabBarItemAnimations({ isActive });
+
+  function onPress() {
+    onTabPress(value);
+  }
+
+  return (
+    <Pressable
+      style={StyleSheet.flatten([styles.item, style])}
+      onPress={onPress}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      accessibilityRole='tab'
+      accessibilityLabel={label ?? value}
+      accessibilityState={{ selected: isActive }}
+      {...props}
+    >
+      <Animated.View style={scaleStyle}>
+        <Box style={styles.itemIconContainer}>
+          <Animated.View style={[styles.itemIcon, inactiveIconStyle]}>
+            <Icon size={20} />
+          </Animated.View>
+          <Animated.View style={[styles.itemIcon, activeIconStyle]}>
+            <ActiveIcon size={20} />
+          </Animated.View>
+        </Box>
+      </Animated.View>
+      {label && (
+        <Text
+          style={[styles.itemText, isActive && styles.activeItemText]}
+          numberOfLines={1}
+        >
+          {label}
+        </Text>
+      )}
+    </Pressable>
+  );
+}
+
+/**
+ * A horizontal tab bar with animated pill background and icon transitions.
+ * Provides smooth animations for active state changes and press interactions.
+ *
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-tabbar--docs Guidelines}
+ *
+ * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
+ *
+ * @example
+ * import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
+ * import { HomeFill, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
+ *
+ * const [activeTab, setActiveTab] = useState('home');
+ * <TabBar active={activeTab} onTabPress={setActiveTab}>
+ *   <TabBarItem value="home" label="Home" icon={HomeFill} />
+ *   <TabBarItem value="settings" label="Settings" icon={Settings} />
+ * </TabBar>
+ */
+export function TabBar<T extends TabBarValue = TabBarValue>({
+  active,
+  onTabPress,
+  children,
+  ...props
+}: TabBarProps<T>) {
+  const styles = useStyles();
+  const { theme, colorScheme } = useTheme();
+
+  const { onLayout, animatedPillStyle } = useTabBarPillLayout({
+    active,
+    children,
+  });
+
+  return (
+    <TabBarContextProvider
+      value={{
+        active,
+        onTabPress: (value) => onTabPress(value as T),
+      }}
+    >
+      <Box
+        style={styles.container}
+        onLayout={onLayout}
+        accessibilityRole='tablist'
+        {...props}
+      >
+        {children}
+        {RuntimeConstants.isAndroid ? (
+          <View style={styles.fallbackBackground} />
+        ) : (
+          <BlurView
+            style={styles.blur}
+            blurAmount={theme.blur.lg}
+            blurType={colorScheme === 'dark' ? 'dark' : 'light'}
+            overlayColor={
+              colorScheme === 'dark'
+                ? 'rgba(0,0,0,0.15)'
+                : 'rgba(255,255,255,0.2)'
+            }
+            reducedTransparencyFallbackColor={
+              styles.fallbackBackground.backgroundColor
+            }
+          />
+        )}
+        <Animated.View style={[styles.pill, animatedPillStyle]} />
+      </Box>
+    </TabBarContextProvider>
+  );
+}
+
+const useStyles = () =>
+  useStyleSheet(
+    (t) => ({
+      container: {
+        minHeight: TAB_BAR_HEIGHT,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        padding: t.spacings.s4,
+        alignItems: 'center',
+        borderRadius: t.borderRadius.full,
+        backgroundColor: t.colors.bg.mutedTransparent,
+        overflow: 'hidden',
+      },
+      blur: {
+        ...StyleSheet.absoluteFillObject,
+        bottom: -t.sizes.s16,
+        zIndex: -1,
+      },
+      fallbackBackground: {
+        ...StyleSheet.absoluteFillObject,
+        zIndex: -1,
+        backgroundColor: t.colors.bg.muted,
+      },
+      item: {
+        flex: 1,
+        paddingVertical: t.spacings.s4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: t.spacings.s2,
+      },
+      itemText: {
+        ...t.typographies.body4,
+        paddingHorizontal: t.spacings.s12,
+        color: t.colors.text.base,
+      },
+      itemIcon: {
+        position: 'absolute',
+      },
+      itemIconContainer: {
+        width: 20,
+        height: 20,
+        position: 'relative',
+      },
+      activeItemText: {
+        ...t.typographies.body4SemiBold,
+      },
+      pill: {
+        position: 'absolute',
+        pointerEvents: 'none',
+        top: PILL_INSET,
+        left: PILL_INSET,
+        borderRadius: t.borderRadius.full,
+        backgroundColor: t.colors.bg.mutedTransparent,
+      },
+    }),
+    [],
+  );
+
+export function createTabBar<T extends TabBarValue = never>(): {
+  TabBar: (props: TabBarProps<T>) => ReactElement;
+  TabBarItem: (props: TabBarItemProps<T>) => ReactElement;
+} {
+  return { TabBar, TabBarItem };
+}

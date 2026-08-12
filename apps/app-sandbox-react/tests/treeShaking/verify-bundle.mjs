@@ -44,34 +44,34 @@ const hasSource = (pathFragment) =>
 
 // Modules that SHOULD be in the bundle (used in main.treeshaking.tsx)
 const requiredModules = [
-  { name: 'Button component', path: 'Components/Button/' },
-  { name: 'Incognito symbol', path: 'Symbols/Icons/Incognito' },
+  { name: 'Button component', path: 'Components/core/Button/' },
+  { name: 'Incognito symbol', path: 'Components/symbols/icons/Incognito' },
 ];
 
 // Modules that SHOULD NOT be in the bundle (tree-shaken away)
 const excludedModules = [
   // Components
-  { name: 'Switch component', path: 'Components/Switch/' },
-  { name: 'Checkbox component', path: 'Components/Checkbox/' },
-  { name: 'TextInput component', path: 'Components/TextInput/' },
-  { name: 'Select component', path: 'Components/Select/' },
-  { name: 'Dialog component', path: 'Components/Dialog/' },
-  { name: 'AmountInput component', path: 'Components/AmountInput/' },
-  { name: 'AddressInput component', path: 'Components/AddressInput/' },
-  { name: 'ListItem component', path: 'Components/ListItem/' },
-  { name: 'Tag component', path: 'Components/Tag/' },
+  { name: 'Switch component', path: 'Components/core/Switch/' },
+  { name: 'Checkbox component', path: 'Components/core/Checkbox/' },
+  { name: 'TextInput component', path: 'Components/core/TextInput/' },
+  { name: 'Select component', path: 'Components/core/Select/' },
+  { name: 'Dialog component', path: 'Components/core/Dialog/' },
+  { name: 'AmountInput component', path: 'Components/core/AmountInput/' },
+  { name: 'AddressInput component', path: 'Components/core/AddressInput/' },
+  { name: 'ListItem component', path: 'Components/core/ListItem/' },
+  { name: 'Tag component', path: 'Components/core/Tag/' },
   // Symbols
-  { name: 'Airplane symbol', path: 'Symbols/Icons/Airplane' },
-  { name: 'Android symbol', path: 'Symbols/Icons/Android' },
-  { name: 'Apple symbol', path: 'Symbols/Icons/Apple' },
-  { name: 'Calendar symbol', path: 'Symbols/Icons/Calendar' },
-  { name: 'Cart symbol', path: 'Symbols/Icons/Cart' },
-  { name: 'Wallet symbol', path: 'Symbols/Icons/Wallet' },
-  { name: 'Settings symbol', path: 'Symbols/Icons/Settings' },
-  { name: 'Github symbol', path: 'Symbols/Icons/Github' },
-  { name: 'Twitter symbol', path: 'Symbols/Icons/Twitter' },
-  { name: 'Discord symbol', path: 'Symbols/Icons/Discord' },
-  { name: 'Facebook symbol', path: 'Symbols/Icons/Facebook' },
+  { name: 'Airplane symbol', path: 'Components/symbols/icons/Airplane' },
+  { name: 'Android symbol', path: 'Components/symbols/icons/Android' },
+  { name: 'Apple symbol', path: 'Components/symbols/icons/Apple' },
+  { name: 'Calendar symbol', path: 'Components/symbols/icons/Calendar' },
+  { name: 'Cart symbol', path: 'Components/symbols/icons/Cart' },
+  { name: 'Wallet symbol', path: 'Components/symbols/icons/Wallet' },
+  { name: 'Settings symbol', path: 'Components/symbols/icons/Settings' },
+  { name: 'Github symbol', path: 'Components/symbols/icons/Github' },
+  { name: 'Twitter symbol', path: 'Components/symbols/icons/Twitter' },
+  { name: 'Discord symbol', path: 'Components/symbols/icons/Discord' },
+  { name: 'Facebook symbol', path: 'Components/symbols/icons/Facebook' },
 ];
 
 let hasErrors = false;

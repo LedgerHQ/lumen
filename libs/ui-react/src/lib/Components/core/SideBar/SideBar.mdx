@@ -1,0 +1,295 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SideBarStories from './SideBar.stories';
+import { SideBar } from './SideBar';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/SideBar' of={SideBarStories} />
+
+# SideBar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+SideBar is a responsive navigation component with collapsible functionality. It uses a composite pattern with value-based selection, allowing you to compose sidebars with leading (top) and trailing (bottom) sections. Selection is managed at the root via `active` and `onActiveChange` props, similar to TabBar.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10860-398).
+
+## Anatomy
+
+<Canvas of={SideBarStories.Base} />
+
+- **SideBar**: Root container that manages collapsed state and provides context
+- **SideBarLeading**: Top section for primary navigation items
+- **SideBarTrailing**: Bottom section for secondary navigation items (pushed to bottom)
+- **SideBarItem**: Individual navigation item with icon and optional label (icon-only when label is omitted)
+- **SideBarCollapseToggle**: Toggle button to collapse/expand the sidebar
+
+> **Note:** The sidebar has fixed widths - `72px` when collapsed (icon-only) and `208px` when expanded (with labels).
+
+<Controls of={SideBarStories.Base} />
+
+### Collapsed State
+
+The sidebar can be expanded (showing icons and labels) or collapsed (showing only icons with tooltips on hover).
+
+<Canvas of={SideBarStories.CollapsedShowcase} />
+
+
+### Custom Labels
+
+Labels can be strings or React nodes. Use React nodes to add Tags or other elements. When using custom label content, provide `tooltipContent` for the collapsed state.
+
+<Canvas of={SideBarStories.WithCustomLabel} />
+
+### Disabled Items
+
+Items can be disabled to indicate unavailable navigation options.
+
+<Canvas of={SideBarStories.WithDisabledItem} />
+
+
+### Controlled State
+
+The collapsed state can be controlled externally for integration with application state or external controls.
+
+<Canvas of={SideBarStories.ControlledState} />
+
+## Accessibility
+
+- The sidebar uses a `<nav>` element with `aria-label="Sidebar navigation"`
+- Items are focusable and support keyboard navigation
+- Tooltips appear when items are focused in collapsed mode
+- The collapse toggle has an `aria-label` describing its action
+
+</Tab>
+<Tab label="Implementation">
+
+# SideBar
+
+```bash
+npm install @ledgerhq/lumen-ui-react
+```
+
+<SetupNote />
+
+## Basic Usage
+
+> **Recommended:** prefer the [type-safe variant](#type-safe-variant) below. It shares one literal union across `active` and every `SideBarItem.value`.
+
+```tsx
+import {
+  SideBar,
+  SideBarLeading,
+  SideBarTrailing,
+  SideBarItem,
+  SideBarCollapseToggle,
+} from '@ledgerhq/lumen-ui-react';
+import { Home, HomeFill, Wallet, WalletFill, SettingsAlt, SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [active, setActive] = useState('home');
+
+  return (
+    <SideBar active={active} onActiveChange={setActive}>
+      <SideBarLeading>
+        <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+        <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
+      </SideBarLeading>
+      <SideBarTrailing>
+        <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
+        <SideBarCollapseToggle />
+      </SideBarTrailing>
+    </SideBar>
+  );
+}
+```
+
+## Type-safe variant
+
+`SideBar` and `SideBarItem` communicate via context, so TypeScript cannot connect the root's `active` to each item's `value` on its own. A typo compiles, and the wrong item (or none) is highlighted.
+
+`createSideBar<T>()` ties them to one literal union. `SideBarLeading`, `SideBarTrailing`, and `SideBarCollapseToggle` carry no value union, so the factory returns them as-is for ergonomic destructuring.
+
+```tsx
+import { createSideBar } from '@ledgerhq/lumen-ui-react';
+import { Home, HomeFill, Wallet, Settings } from '@ledgerhq/lumen-ui-react/symbols';
+
+type Route = 'home' | 'wallet' | 'settings';
+
+const Nav = createSideBar<Route>();
+
+function Example() {
+  const [route, setRoute] = React.useState<Route>('home');
+
+  return (
+    <Nav.SideBar active={route} onActiveChange={setRoute}>
+      <Nav.SideBarLeading>
+        <Nav.SideBarItem value='home' icon={Home} activeIcon={HomeFill} label='Home' />
+        <Nav.SideBarItem value='wallet' icon={Wallet} activeIcon={Wallet} label='Wallet' />
+      </Nav.SideBarLeading>
+      <Nav.SideBarTrailing>
+        <Nav.SideBarItem value='settings' icon={Settings} activeIcon={Settings} label='Settings' />
+        <Nav.SideBarCollapseToggle />
+      </Nav.SideBarTrailing>
+    </Nav.SideBar>
+  );
+}
+```
+
+### Uncontrolled Mode
+
+For simpler use cases, you can use `defaultActive` and `defaultCollapsed` instead of controlling the state.
+
+```tsx
+<SideBar defaultActive="home" defaultCollapsed={false}>
+  <SideBarLeading>
+    <SideBarItem value="home" icon={Home} activeIcon={HomeFill} label="Home" />
+    <SideBarItem value="wallet" icon={Wallet} activeIcon={WalletFill} label="Wallet" />
+  </SideBarLeading>
+  <SideBarTrailing>
+    <SideBarItem value="settings" icon={SettingsAlt} activeIcon={SettingsAlt2} label="Settings" />
+    <SideBarCollapseToggle />
+  </SideBarTrailing>
+</SideBar>
+```
+
+### Active/Inactive Icons
+
+Use different icon variants (e.g., filled vs outlined) for visual feedback. The `activeIcon` prop is **required**—you must provide both `icon` and `activeIcon`
+
+```tsx
+import { Star, StarFill, Bell, BellFill } from '@ledgerhq/lumen-ui-react/symbols';
+
+<SideBarItem
+  value="favorites"
+  icon={Star}
+  activeIcon={StarFill}
+  label="Favorites"
+/>
+```
+
+## State Management
+
+### Controlled vs Uncontrolled
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Mode</th>
+        <th className='p-12 text-left text-on-accent body-2'>Props</th>
+        <th className='p-12 text-left text-on-accent body-2'>Use Case</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Controlled (collapsed)</td>
+        <td className='p-12 text-muted'>`collapsed`, `onCollapsedChange`</td>
+        <td className='p-12 text-muted'>Sync with external state, persist preference</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Uncontrolled (collapsed)</td>
+        <td className='p-12 text-muted'>`defaultCollapsed`</td>
+        <td className='p-12 text-muted'>Simple usage without external state</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>Controlled (selection)</td>
+        <td className='p-12 text-muted'>`active`, `onActiveChange`</td>
+        <td className='p-12 text-muted'>Routing, external state management</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>Uncontrolled (selection)</td>
+        <td className='p-12 text-muted'>`defaultActive`</td>
+        <td className='p-12 text-muted'>Simple single-page usage</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```tsx
+// Fully controlled
+const [collapsed, setCollapsed] = useState(false);
+const [active, setActive] = useState('home');
+
+<SideBar
+  collapsed={collapsed}
+  onCollapsedChange={setCollapsed}
+  active={active}
+  onActiveChange={setActive}
+>
+  <SideBarLeading>...</SideBarLeading>
+  <SideBarTrailing>
+    <SideBarCollapseToggle />
+  </SideBarTrailing>
+</SideBar>
+
+// Fully uncontrolled
+<SideBar defaultCollapsed={false} defaultActive="home">
+  <SideBarLeading>...</SideBarLeading>
+  <SideBarTrailing>
+    <SideBarCollapseToggle />
+  </SideBarTrailing>
+</SideBar>
+```
+
+## Advanced Patterns
+
+### Nested Route Matching
+
+For routes with sub-pages, compute the active value from pathname:
+
+```tsx
+function Navigation() {
+  const { pathname } = useLocation();
+  
+  // Map nested routes to sidebar values
+  const getActiveValue = (path: string): string => {
+    if (path === '/' || path.startsWith('/asset/')) return '/';
+    if (path.startsWith('/account')) return '/accounts';
+    if (path.startsWith('/market')) return '/market';
+    if (path.startsWith('/platform')) return '/platform';
+    return path;
+  };
+
+  return (
+    <SideBar active={getActiveValue(pathname)}>
+      <SideBarLeading>
+        <SideBarItem value="/" icon={Home} activeIcon={HomeFill} label="Dashboard" />
+        <SideBarItem value="/accounts" icon={Wallet} activeIcon={WalletFill} label="Accounts" />
+      </SideBarLeading>
+    </SideBar>
+  );
+}
+```
+
+### Items That Open Modals
+
+Not all items navigate. Some trigger modals or other actions. Use a value that won't match any route to prevent false active state.
+
+```tsx
+<SideBarItem
+  value="__send__"  // Won't match pathname, so never "active"
+  icon={ArrowUp}
+  activeIcon={ArrowUp}
+  label="Send"
+  onClick={() => openSendModal()}
+/>
+
+<SideBarItem
+  value="__receive__"
+  icon={ArrowDown}
+  activeIcon={ArrowDown}
+  label="Receive"
+  onClick={() => dispatch(openModal("MODAL_RECEIVE", undefined))}
+/>
+```
+
+
+</Tab>
+</CustomTabs>

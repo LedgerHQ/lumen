@@ -1,0 +1,173 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+import * as TooltipStories from './Tooltip.stories';
+import { Box } from '../../primitives/Box';
+
+<Meta title='Core/Tooltip' of={TooltipStories} />
+
+# Tooltip
+
+<CustomTabs>
+  <Tab label="Overview">
+
+View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=9199-17893&m=dev)
+
+## Introduction
+
+Tooltips display contextual information in a bottom sheet when users press an interactive element. They're designed for mobile interfaces where hover states don't exist.
+
+## Anatomy
+
+- **TooltipTrigger:** The interactive element that opens the tooltip
+- **TooltipContent:** Defines the title and content displayed in the bottom sheet
+- **GlobalTooltipBottomSheet:** The shared bottom sheet (requires `ThemeProvider` and `BottomSheetModalProvider`)
+
+## Properties
+
+### Base Example
+
+⚠️ React-native-web doesn't support closing the tooltip by clicking outside of it.
+
+<Canvas of={TooltipStories.Base} />
+<Controls of={TooltipStories.Base} />
+
+### With Custom Content
+
+Tooltips can contain rich content including text, buttons, and custom layouts.
+
+<Canvas of={TooltipStories.WithCustomContent} />
+
+### Multiple Tooltips
+
+Multiple tooltips can be used on the same page. Only one tooltip displays at a time.
+
+<Canvas of={TooltipStories.WithMultipleTooltips} />
+
+### With Change Callback
+
+The `onOpenChange` prop is called with the opened state whenever the tooltip opens or closes.
+
+<Canvas of={TooltipStories.WithChangeCallback} />
+
+### Accessibility
+
+- Tooltips use bottom sheets for better touch interaction on mobile
+- Content is announced by screen readers
+- Dismissible via backdrop press or swipe gesture
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Requirements
+
+Tooltip uses a bottom sheet that requires specific providers. `BottomSheetModalProvider` must be **inside** `GestureHandlerRootView`:
+
+```tsx
+import { ThemeProvider, BottomSheetModalProvider, GlobalTooltipBottomSheet } from '@ledgerhq/lumen-ui-rnative';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+function App() {
+  return (
+    <ThemeProvider themes={yourThemes} colorScheme="light">
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <YourAppContent />
+          <GlobalTooltipBottomSheet />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
+  );
+}
+```
+
+### Basic Usage
+
+```tsx
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  Text,
+} from '@ledgerhq/lumen-ui-rnative';
+import { Button } from '@ledgerhq/lumen-ui-rnative';
+
+function MyComponent() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button>Help</Button>
+      </TooltipTrigger>
+      <TooltipContent
+        title='Help Information'
+        content={
+          <Text typography='body2'>
+            This is helpful information about the feature.
+          </Text>
+        }
+      />
+    </Tooltip>
+  );
+}
+```
+
+### With Custom Content
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild>
+    <InteractiveIcon iconType='filled'>
+      <Information />
+    </InteractiveIcon>
+  </TooltipTrigger>
+  <TooltipContent
+    title='Feature Details'
+    content={
+      <Box lx={{ gap: 's12' }}>
+        <Text typography='body2' lx={{ color: 'muted' }}>
+          Detailed explanation with rich formatting.
+        </Text>
+        <Button size='xs' appearance='accent'>
+          Learn More
+        </Button>
+      </Box>
+    }
+  />
+</Tooltip>
+```
+
+### Callback function
+
+The `onOpenChange` callback is called when the tooltip is opened or closed.
+
+```tsx
+function CallbackFunctionTooltip() {
+  return (
+    <Tooltip
+      onOpenChange={(isOpen) => {
+        // handle action, like tracking an event for instance
+        trackService.event('tooltip_opened', { isOpen });
+      }}
+    >
+      <TooltipTrigger asChild>
+        <Button>Toggle Tooltip</Button>
+      </TooltipTrigger>
+      <TooltipContent
+        title='Controlled'
+        content={<Text typography='body2'>Content</Text>}
+      />
+    </Tooltip>
+  );
+}
+```
+
+
+### Performance
+
+The Tooltip system is optimized to prevent unnecessary re-renders. When one tooltip opens, other tooltips on the page don't re-render.
+
+</Tab>
+</CustomTabs>

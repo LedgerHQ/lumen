@@ -1,0 +1,35 @@
+import { useStyleSheet } from '../../../../styles';
+import { Box, Text } from '../../primitives';
+import type { CoinCapsuleProps } from './types';
+
+export function CoinCapsule({ ticker, leadingContent }: CoinCapsuleProps) {
+  const styles = useStyles();
+
+  return (
+    <Box style={styles.container}>
+      {leadingContent}
+      <Text style={styles.text}>{ticker}</Text>
+    </Box>
+  );
+}
+
+const useStyles = () =>
+  useStyleSheet(
+    (t) => ({
+      container: {
+        flexDirection: 'row',
+        gap: t.spacings.s8,
+        padding: t.spacings.s8,
+        paddingRight: t.spacings.s12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: t.borderRadius.full,
+        backgroundColor: t.colors.bg.mutedTransparent,
+      },
+      text: {
+        ...t.typographies.body1,
+        color: t.colors.text.base,
+      },
+    }),
+    [],
+  );

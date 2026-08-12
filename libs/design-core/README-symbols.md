@@ -26,7 +26,7 @@ npx nx generate-symbols-react-native @ledgerhq/lumen-design-core
 
 ```tsx
 // ✅ GOOD - Only imports what you need (tree-shakeable)
-import { ArrowUp, Home } from '@ledgerhq/lumen-ui-react/Symbols';
+import { ArrowUp, Home } from '@ledgerhq/lumen-ui-react/symbols';
 
 <Home size={24} className="text-base" />;
 ```

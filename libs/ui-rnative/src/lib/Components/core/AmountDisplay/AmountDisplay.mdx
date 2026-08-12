@@ -1,0 +1,200 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AmountDisplayStories from './AmountDisplay.stories';
+import { AmountDisplay } from './AmountDisplay';
+import {
+  CustomTabs,
+  Tab,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/AmountDisplay' of={AmountDisplayStories} />
+
+# AmountDisplay
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+The AmountDisplay component renders formatted monetary amounts with flexible currency positioning and decimal formatting. It uses a formatter function pattern that gives you full control over how amounts are displayed.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=85-227&p=f&m=dev).
+
+## Anatomy
+
+<Canvas of={AmountDisplayStories.Base} />
+
+- **Integer Part**: Large, bold text for the main amount
+- **Decimal Part**: Smaller, muted text for fractional values
+- **Currency Symbol**: Positioned before or after based on formatter
+- **Decimal Separator**: Configurable (either `.` or `,`)
+
+## Properties
+
+### Overview
+
+<Canvas of={AmountDisplayStories.Base} />
+<Controls of={AmountDisplayStories.Base} />
+
+### Size
+
+The `size` prop controls the typographic scale of the amount display. Use `md` (default) for primary amounts and `sm` for secondary or contextual amounts.
+
+<Canvas of={AmountDisplayStories.Sizes} />
+
+### Privacy
+
+The `hidden` prop allows you to toggle amount visibility for privacy-sensitive applications. When set to `true`, the component displays bullet points (••••) instead of the actual amount, while keeping the currency symbol visible. The example below demonstrates toggling amount visibility with a button.
+
+<Canvas of={AmountDisplayStories.WithHideButton} />
+
+### Animation
+
+The `animate` prop controls whether the odometer-style animation plays when the value changes. When set to `true` (the default), digits smoothly transition between values. Set to `false` to display values instantly without animation.
+
+<Canvas of={AmountDisplayStories.AnimationShowcase} />
+
+### Loading State
+
+The `loading` prop displays a pulse animation to indicate that the amount is being fetched or updated. When set to `true`, the component applies a subtle pulsing effect while maintaining the displayed value.
+
+<Canvas of={AmountDisplayStories.Loading} />
+
+## Accessibility
+
+- Uses semantic components for proper screen reader support
+- Maintains readable text contrast ratios
+- Works with text zoom up to 200%
+
+</Tab>
+<Tab label="Implementation">
+
+## Installation
+
+```bash
+npm install @ledgerhq/lumen-ui-rnative
+```
+
+> **Note**: `@ledgerhq/lumen-design-core` and other peer dependencies (`react`, `react-native`, etc.) are required. See our Setup Guide for complete installation.
+
+## Basic Usage
+
+```tsx
+import { AmountDisplay } from '@ledgerhq/lumen-ui-rnative';
+import type { FormattedValue } from '@ledgerhq/lumen-ui-rnative';
+
+// Create a formatter function
+const usdFormatter = (value: number): FormattedValue => {
+  const [integerPart, decimalPart] = value.toFixed(2).split('.');
+  
+  return {
+    integerPart,
+    decimalPart,
+    currencyText: '$',
+    decimalSeparator: '.',
+    currencyPosition: 'start',
+  };
+};
+
+function MyComponent() {
+  return <AmountDisplay value={1234.56} formatter={usdFormatter} />;
+}
+
+// With privacy/hidden state
+function PrivateComponent() {
+  const [hidden, setHidden] = useState(false);
+  
+  return (
+    <AmountDisplay
+      value={1234.56}
+      formatter={usdFormatter}
+      hidden={hidden}
+    />
+  );
+}
+```
+
+## Custom Formatters
+
+### EUR with Comma Separator
+
+```tsx
+const eurFormatter = (value: number): FormattedValue => {
+  const [integerPart, decimalPart] = value.toFixed(2).split('.');
+  
+  return {
+    integerPart,
+    decimalPart,
+    currencyText: '€',
+    decimalSeparator: ',',
+    currencyPosition: 'end',
+  };
+};
+
+<AmountDisplay value={999.99} formatter={eurFormatter} />
+// Displays: 999,99 €
+```
+
+### Cryptocurrency with Variable Precision
+
+```tsx
+const btcFormatter = (value: number): FormattedValue => {
+  const [integerPart, decimalPart] = value.toFixed(8).split('.');
+  
+  return {
+    integerPart,
+    decimalPart,
+    currencyText: 'BTC',
+    decimalSeparator: '.',
+    currencyPosition: 'end',
+  };
+};
+
+<AmountDisplay value={0.00123456} formatter={btcFormatter} />
+// Displays: 0.00123456 BTC
+```
+
+### Hidden Amount for Privacy
+
+```tsx
+import { AmountDisplay } from '@ledgerhq/lumen-ui-rnative';
+import { IconButton } from '@ledgerhq/lumen-ui-rnative';
+import { Eye, EyeCross } from '@ledgerhq/lumen-ui-rnative';
+import { useState } from 'react';
+import { View } from 'react-native';
+
+function PrivateAmount() {
+  const [hidden, setHidden] = useState(false);
+  
+  const usdFormatter = (value: number): FormattedValue => {
+    const [integerPart, decimalPart] = value.toFixed(2).split('.');
+    return {
+      integerPart,
+      decimalPart,
+      currencyText: '$',
+      decimalSeparator: '.',
+      currencyPosition: 'start',
+    };
+  };
+  
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+      <AmountDisplay
+        formatter={usdFormatter}
+        value={1234.56}
+        hidden={hidden}
+      />
+      <IconButton
+        appearance='transparent'
+        size='sm'
+        icon={hidden ? EyeCross : Eye}
+        accessibilityLabel={hidden ? 'Show amount' : 'Hide amount'}
+        onPress={() => setHidden(!hidden)}
+      />
+    </View>
+  );
+}
+```
+
+
+</Tab>
+</CustomTabs>
