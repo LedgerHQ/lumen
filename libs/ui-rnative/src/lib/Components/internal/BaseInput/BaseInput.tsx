@@ -106,6 +106,9 @@ export const BaseInput = ({
     props.onClear?.();
   };
 
+  // Both properties can be used to determine if the input is editable.
+  const isEditable = editable !== false && !readOnly && !disabled;
+
   const styles = useStyles({
     status,
     isFocused,
@@ -140,7 +143,7 @@ export const BaseInput = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onChangeText={handleChangeText}
-            editable={editable !== false && !readOnly && !disabled}
+            editable={isEditable}
             autoCapitalize='none'
             autoCorrect={false}
             selectionColor={theme.colors.text.active}

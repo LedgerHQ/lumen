@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-docs(AddressInput, TextInput): add read-only story
+feat(BaseInput): hide the clear button when readOnly; add read-only AddressInput/TextInput stories
