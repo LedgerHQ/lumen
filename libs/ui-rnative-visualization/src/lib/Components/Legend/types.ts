@@ -1,4 +1,4 @@
-import type { StyleProp, ViewStyle } from 'react-native';
+import type { BoxProps } from '@ledgerhq/lumen-ui-rnative';
 
 export type LegendItem = {
   /**
@@ -27,8 +27,4 @@ export type LegendProps = {
    * @default 'Legend'
    */
   accessibilityLabel?: string;
-  /**
-   * Additional styles for the root list.
-   */
-  style?: StyleProp<ViewStyle>;
-};
+} & Omit<BoxProps, 'children'>;

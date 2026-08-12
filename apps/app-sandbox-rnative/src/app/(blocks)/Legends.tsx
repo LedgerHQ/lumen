@@ -19,12 +19,12 @@ export default function Legends() {
         flexDirection: 'column',
         gap: 's24',
         width: 'full',
-        paddingLeft: 's16',
-        paddingRight: 's16',
+        paddingHorizontal: 's16',
       }}
     >
       <Base items={cryptoItems} />
       <DefaultColors />
+      <LongLabels items={cryptoItems} />
       <WithDonutChart segments={cryptoSegments} />
     </Box>
   );
@@ -78,11 +78,23 @@ const DefaultColors = () => (
   </Section>
 );
 
+const LongLabels = ({ items }: { items: LegendItem[] }) => (
+  <Section title='Long labels'>
+    <Legend
+      lx={{ maxWidth: 's176' }}
+      items={items.map((item, index) => ({
+        ...item,
+        label: index === 1 ? 'Wrapped Staked Ethereum Liquidity' : item.label,
+      }))}
+    />
+  </Section>
+);
+
 const WithDonutChart = ({ segments }: { segments: DonutSegment[] }) => (
   <Section title='With DonutChart'>
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's24' }}>
       <DonutChart series={segments} />
-      <Legend items={segments} style={{ maxWidth: 176, flexShrink: 1 }} />
+      <Legend items={segments} lx={{ maxWidth: 's176', flexShrink: 1 }} />
     </Box>
   </Section>
 );

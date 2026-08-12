@@ -81,6 +81,25 @@ export const DefaultColors: Story = {
 };
 
 /**
+ * Items wrap onto the next line, and a label too long for the width it has is
+ * truncated with an ellipsis instead of overflowing.
+ */
+export const LongLabels: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  args: {
+    className: 'w-112',
+    items: [
+      { ...cryptoItems[0], label: 'Bitcoin' },
+      { ...cryptoItems[1], label: 'Wrapped Staked Ethereum' },
+      { ...cryptoItems[2], label: 'Tether USD' },
+    ],
+  },
+};
+
+/**
  * The legend sits beside the ring and wraps within the width it is given, so a
  * narrow column breaks the items across several lines.
  */

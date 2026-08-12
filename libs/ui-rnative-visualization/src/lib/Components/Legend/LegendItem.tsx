@@ -23,6 +23,7 @@ const useLegendItemStyles = (color?: string) =>
       },
       label: {
         color: t.colors.text.base,
+        flexShrink: 1,
         ...t.typographies.body3,
       },
     }),
@@ -33,13 +34,15 @@ const useLegendItemStyles = (color?: string) =>
  * Internal row: swatch + label. Not exported from the barrel — the legend owns
  * its own row markup.
  */
-export const LegendItem = ({ item }: Readonly<LegendItemProps>) => {
+export const LegendItem = ({ item }: LegendItemProps) => {
   const styles = useLegendItemStyles(item.color);
 
   return (
-    <View testID='legend-item' nativeID={item.id} style={styles.root}>
+    <View role='listitem' style={styles.root}>
       <View accessible={false} testID='legend-swatch' style={styles.swatch} />
-      <Text style={styles.label}>{item.label ?? item.id}</Text>
+      <Text style={styles.label} numberOfLines={1} ellipsizeMode='tail'>
+        {item.label ?? item.id}
+      </Text>
     </View>
   );
 };

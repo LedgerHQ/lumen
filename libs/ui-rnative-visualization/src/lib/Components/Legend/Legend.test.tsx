@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
-import { render } from '@testing-library/react-native';
+import { render, within } from '@testing-library/react-native';
 
 import { Legend } from './Legend';
 
@@ -20,20 +20,18 @@ const renderWithTheme = (children: React.ReactNode) =>
 
 describe('Legend', () => {
   it('renders one item per entry in order', () => {
-    const { getAllByTestId } = renderWithTheme(<Legend items={sampleItems} />);
+    const { getAllByRole } = renderWithTheme(<Legend items={sampleItems} />);
 
-    const items = getAllByTestId('legend-item');
+    const items = getAllByRole('listitem');
     expect(items).toHaveLength(3);
-    expect(items.map((item) => item.props.nativeID)).toEqual([
-      'bitcoin',
-      'ethereum',
-      'tether',
-    ]);
+    expect(
+      items.map((item) => within(item).getByText(/.+/).props.children),
+    ).toEqual(['Bitcoin', 'Ethereum', 'Tether']);
   });
 
   it('renders nothing when items is empty', () => {
-    const { toJSON, queryByTestId } = renderWithTheme(<Legend items={[]} />);
-    expect(queryByTestId('legend')).toBeNull();
+    const { toJSON, queryByRole } = renderWithTheme(<Legend items={[]} />);
+    expect(queryByRole('list')).toBeNull();
     expect(toJSON()).toBeNull();
   });
 
@@ -42,6 +40,13 @@ describe('Legend', () => {
       <Legend items={[{ id: 'segment-a' }]} />,
     );
     expect(getByText('segment-a')).toBeTruthy();
+  });
+
+  it('truncates a label that does not fit on one line', () => {
+    const { getByText } = renderWithTheme(
+      <Legend items={[{ id: 'a', label: 'A very long series label' }]} />,
+    );
+    expect(getByText('A very long series label').props.numberOfLines).toBe(1);
   });
 
   it('uses the item color on the swatch', () => {
@@ -65,10 +70,9 @@ describe('Legend', () => {
   });
 
   it('does not expose pressable legend items', () => {
-    const { getAllByTestId } = renderWithTheme(<Legend items={sampleItems} />);
-    getAllByTestId('legend-item').forEach((item) => {
+    const { getAllByRole } = renderWithTheme(<Legend items={sampleItems} />);
+    getAllByRole('listitem').forEach((item) => {
       expect(item.props.onPress).toBeUndefined();
-      expect(item.props.accessibilityRole).not.toBe('button');
     });
   });
 
@@ -77,5 +81,14 @@ describe('Legend', () => {
       <Legend items={sampleItems} accessibilityLabel='Portfolio allocation' />,
     );
     expect(getByLabelText('Portfolio allocation')).toBeTruthy();
+  });
+
+  it('merges consumer styles into the root', () => {
+    const { getByRole } = renderWithTheme(
+      <Legend items={sampleItems} style={{ maxWidth: 176 }} />,
+    );
+    expect(getByRole('list').props.style).toEqual(
+      expect.objectContaining({ maxWidth: 176, flexWrap: 'wrap' }),
+    );
   });
 });

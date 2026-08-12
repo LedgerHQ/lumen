@@ -1,5 +1,4 @@
-import { useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
-import { StyleSheet, View } from 'react-native';
+import { Box, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 
 import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';
@@ -21,7 +20,8 @@ export function Legend({
   items,
   accessibilityLabel = 'Legend',
   style,
-}: Readonly<LegendProps>) {
+  ...props
+}: LegendProps) {
   const styles = useLegendStyles();
 
   if (items.length === 0) {
@@ -29,15 +29,15 @@ export function Legend({
   }
 
   return (
-    <View
-      accessibilityRole='list'
+    <Box
+      role='list'
       accessibilityLabel={accessibilityLabel}
-      testID='legend'
-      style={StyleSheet.flatten([styles.root, style])}
+      style={[styles.root, style]}
+      {...props}
     >
       {items.map((item) => (
         <LegendItem key={item.id} item={item} />
       ))}
-    </View>
+    </Box>
   );
 }

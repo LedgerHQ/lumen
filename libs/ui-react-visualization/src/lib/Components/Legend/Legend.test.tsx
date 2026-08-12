@@ -27,12 +27,12 @@ describe('Legend', () => {
   it('renders one item per entry in order', () => {
     render(<Legend items={sampleItems} />);
 
-    const items = screen.getAllByTestId('legend-item');
+    const items = screen.getAllByRole('listitem');
     expect(items).toHaveLength(3);
-    expect(items.map((item) => item.getAttribute('data-legend-id'))).toEqual([
-      'bitcoin',
-      'ethereum',
-      'tether',
+    expect(items.map((item) => item.textContent)).toEqual([
+      'Bitcoin',
+      'Ethereum',
+      'Tether',
     ]);
   });
 
@@ -44,6 +44,13 @@ describe('Legend', () => {
   it('falls back to id when label is omitted', () => {
     render(<Legend items={[{ id: 'segment-a' }]} />);
     expect(screen.getByText('segment-a')).toBeInTheDocument();
+  });
+
+  it('truncates a label that does not fit the available width', () => {
+    render(<Legend items={[{ id: 'a', label: 'A very long series label' }]} />);
+    expect(screen.getByText('A very long series label')).toHaveClass(
+      'truncate',
+    );
   });
 
   it('uses the item color on the swatch', () => {
@@ -64,7 +71,7 @@ describe('Legend', () => {
 
   it('does not expose focusable legend items', () => {
     render(<Legend items={sampleItems} />);
-    screen.getAllByTestId('legend-item').forEach((item) => {
+    screen.getAllByRole('listitem').forEach((item) => {
       expect(item).not.toHaveAttribute('tabindex');
       expect(item.querySelector('button')).toBeNull();
     });
@@ -75,5 +82,10 @@ describe('Legend', () => {
     expect(
       screen.getByRole('list', { name: 'Portfolio allocation' }),
     ).toBeInTheDocument();
+  });
+
+  it('merges consumer classes into the root', () => {
+    render(<Legend items={sampleItems} className='max-w-176' />);
+    expect(screen.getByRole('list')).toHaveClass('max-w-176');
   });
 });

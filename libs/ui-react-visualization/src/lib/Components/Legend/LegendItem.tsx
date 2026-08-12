@@ -7,12 +7,8 @@ type LegendItemProps = {
 };
 
 // Internal, not exported from the barrel: the legend owns its own row markup.
-export const LegendItem = ({ item }: Readonly<LegendItemProps>) => (
-  <li
-    data-testid='legend-item'
-    data-legend-id={item.id}
-    className='inline-flex items-center gap-8'
-  >
+export const LegendItem = ({ item }: LegendItemProps) => (
+  <li className='inline-flex min-w-0 items-center gap-8'>
     <span
       aria-hidden='true'
       data-testid='legend-swatch'
@@ -21,6 +17,8 @@ export const LegendItem = ({ item }: Readonly<LegendItemProps>) => (
         backgroundColor: item.color ?? cssVar('var(--background-muted-strong)'),
       }}
     />
-    <span className='body-3 text-base'>{item.label ?? item.id}</span>
+    <span className='min-w-0 truncate body-3 text-base'>
+      {item.label ?? item.id}
+    </span>
   </li>
 );
