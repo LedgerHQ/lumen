@@ -113,6 +113,7 @@ describe('DonutChart', () => {
     it('renders the animated placeholder instead of real segments', () => {
       const { getByTestId, queryByTestId } = render(
         <DonutChart series={sampleSeries} loading />,
+        { wrapper },
       );
 
       getByTestId('donut-loading');
@@ -123,6 +124,7 @@ describe('DonutChart', () => {
     it('renders one placeholder path per configured placeholder segment', () => {
       const { getAllByTestId } = render(
         <DonutChart series={sampleSeries} loading />,
+        { wrapper },
       );
 
       expect(getAllByTestId('donut-placeholder')).toHaveLength(
@@ -133,6 +135,7 @@ describe('DonutChart', () => {
     it('injects a keyframe style and animates the placeholder paths while loading', () => {
       const { getAllByTestId, container } = render(
         <DonutChart series={sampleSeries} loading />,
+        { wrapper },
       );
 
       expect(getLoadingWaveStyle(container)).toContain('@keyframes');
@@ -145,6 +148,7 @@ describe('DonutChart', () => {
     it('holds the placeholder opaque under reduced motion', () => {
       const { container } = render(
         <DonutChart series={sampleSeries} loading />,
+        { wrapper },
       );
 
       expect(getLoadingWaveStyle(container)).toContain(
@@ -155,6 +159,7 @@ describe('DonutChart', () => {
     it('does not inject a loading style when not loading', () => {
       const { getByTestId, getAllByTestId, container } = render(
         <DonutChart series={[]} />,
+        { wrapper },
       );
 
       getByTestId('donut-empty');
@@ -172,6 +177,7 @@ describe('DonutChart', () => {
           ariaLabel='Portfolio breakdown'
           loading
         />,
+        { wrapper },
       );
 
       const ring = getByTestId('donut-ring');
@@ -189,6 +195,7 @@ describe('DonutChart', () => {
           renderCenter={renderCenter}
           loading
         />,
+        { wrapper },
       );
 
       getByTestId('donut-center');
@@ -705,12 +712,16 @@ describe('DonutChart', () => {
 
   describe('reveal animation', () => {
     it('wraps the ring in the reveal container', () => {
-      const { container } = render(<DonutChart series={sampleSeries} />);
+      const { container } = render(<DonutChart series={sampleSeries} />, {
+        wrapper,
+      });
       expect(container.querySelector('.donut-ring-reveal')).not.toBeNull();
     });
 
     it('injects the conic-gradient keyframe CSS', () => {
-      const { container } = render(<DonutChart series={sampleSeries} />);
+      const { container } = render(<DonutChart series={sampleSeries} />, {
+        wrapper,
+      });
       expect(container.querySelector('style')?.textContent).toContain(
         'donut-reveal',
       );
@@ -719,9 +730,10 @@ describe('DonutChart', () => {
     it('renders the ring inside the reveal wrapper', () => {
       const { container, getByTestId } = render(
         <DonutChart series={sampleSeries} />,
+        { wrapper },
       );
-      const wrapper = container.querySelector('.donut-ring-reveal');
-      expect(wrapper?.contains(getByTestId('donut-ring'))).toBe(true);
+      const revealWrapper = container.querySelector('.donut-ring-reveal');
+      expect(revealWrapper?.contains(getByTestId('donut-ring'))).toBe(true);
     });
   });
 });
