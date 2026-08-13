@@ -1,17 +1,37 @@
-import { Linking, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import type { GestureResponderEvent } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
-import { Pressable } from '../../primitives';
+import type { LumenTypographyTokenName } from '../../../../styles';
+import { useHapticFeedbackWithPressIn } from '../../../Haptics';
+import type { HapticFeedback } from '../../../Haptics/types';
+import { Text } from '../../primitives/Text';
 import { ExternalLink } from '../../symbols';
 import type { IconSize } from '../../symbols/Icon';
 import type { LinkProps } from './types';
+
+type Appearance = NonNullable<LinkProps['appearance']>;
+type Size = NonNullable<LinkProps['size']>;
 
 const iconSizeMap: Record<Size, IconSize> = {
   sm: 16,
   md: 20,
 };
 
-type Appearance = NonNullable<LinkProps['appearance']>;
-type Size = NonNullable<LinkProps['size']>;
+const typographyMap: Record<Size, LumenTypographyTokenName> = {
+  sm: 'body2SemiBold',
+  md: 'body1SemiBold',
+};
+
+/**
+ * Icons nested in a Text are laid out as inline attachments sitting on the
+ * baseline, which places them above the text's optical centre. These offsets
+ * (`iconSize / 2 - 0.35 * fontSize`, rounded) push them back down.
+ */
+const iconOffsetMap: Record<Size, number> = {
+  sm: 3,
+  md: 4,
+};
 
 type StyleParams = {
   appearance: Appearance;
@@ -33,35 +53,32 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
         accent: t.colors.text.interactivePressed,
       };
 
-      const typography =
-        size === 'sm'
-          ? t.typographies.body2SemiBold
-          : t.typographies.body1SemiBold;
+      const color = pressed
+        ? pressedTextColors[appearance]
+        : textColors[appearance];
       const gap = size === 'sm' ? t.spacings.s4 : t.spacings.s8;
+      const iconOffset = iconOffsetMap[size];
 
       return {
-        container: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap,
-        },
-        textWrapper: {
+        text: {
           flexShrink: 1,
+          color,
+          textDecorationLine: underline ? 'underline' : 'none',
         },
-        text: StyleSheet.flatten([
-          typography,
-          {
-            color: pressed
-              ? pressedTextColors[appearance]
-              : textColors[appearance],
-            textDecorationLine: underline ? 'underline' : 'none',
-          },
-        ]),
         icon: {
-          flexShrink: 0,
-          color: pressed
-            ? pressedTextColors[appearance]
-            : textColors[appearance],
+          color,
+        },
+        // Inline attachments only reserve their own layout box, so the spacing
+        // has to be padding on a wrapper — a margin on the icon is dropped.
+        leadingIconWrapper: {
+          paddingRight: gap,
+          pointerEvents: 'none',
+          transform: [{ translateY: iconOffset }],
+        },
+        trailingIconWrapper: {
+          paddingLeft: gap,
+          pointerEvents: 'none',
+          transform: [{ translateY: iconOffset }],
         },
       };
     },
@@ -72,6 +89,9 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
 /**
  * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
  * Opens URLs using React Native's Linking API.
+ *
+ * Rendered as a `Text`, so it can be nested inside a paragraph of text and flows
+ * with it (no extra line height) as well as used on its own.
  *
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-link--docs Guidelines}
  *
@@ -114,9 +134,35 @@ export const Link = ({
   isExternal = false,
   href,
   onPress,
+  onPressIn,
+  onPressOut,
+  hapticFeedback,
+  numberOfLines = 1,
+  suppressHighlighting = true,
   ref,
   ...props
 }: LinkProps) => {
+  const [pressed, setPressed] = useState(false);
+  const styles = useStyles({ appearance, size, underline, pressed });
+  const calculatedIconSize = iconSizeMap[size];
+  const IconComponent = icon;
+
+  const intensity: HapticFeedback | undefined =
+    hapticFeedback === true ? 'medium' : (hapticFeedback ?? undefined);
+
+  const { handlePressIn } = useHapticFeedbackWithPressIn({
+    hapticFeedback: intensity,
+    onPressIn: (event: GestureResponderEvent) => {
+      setPressed(true);
+      onPressIn?.(event);
+    },
+  });
+
+  const handlePressOut = (event: GestureResponderEvent) => {
+    setPressed(false);
+    onPressOut?.(event);
+  };
+
   const handlePress = async () => {
     if (onPress) {
       onPress();
@@ -126,75 +172,34 @@ export const Link = ({
   };
 
   return (
-    <Pressable
+    <Text
       ref={ref}
       lx={lx}
-      style={[style, { flexShrink: 1 }]}
+      typography={typographyMap[size]}
+      style={StyleSheet.flatten([styles.text, style])}
       onPress={handlePress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      suppressHighlighting={suppressHighlighting}
+      numberOfLines={numberOfLines}
       accessibilityRole='link'
       {...props}
     >
-      {({ pressed }) => (
-        <LinkContent
-          appearance={appearance}
-          size={size}
-          underline={underline}
-          pressed={pressed}
-          icon={icon}
-          isExternal={isExternal}
-        >
-          {children}
-        </LinkContent>
-      )}
-    </Pressable>
-  );
-};
-
-type LinkContentProps = {
-  appearance: Appearance;
-  size: Size;
-  underline: boolean;
-  pressed: boolean;
-  icon: LinkProps['icon'];
-  isExternal: boolean;
-  children: React.ReactNode;
-};
-
-const LinkContent = ({
-  appearance,
-  size,
-  underline,
-  pressed,
-  icon,
-  isExternal,
-  children,
-}: LinkContentProps) => {
-  const calculatedIconSize = iconSizeMap[size];
-  const IconComponent = icon;
-  const styles = useStyles({
-    appearance,
-    size,
-    underline,
-    pressed,
-  });
-
-  return (
-    <View style={styles.container} testID='link-content'>
       {IconComponent && (
-        <IconComponent size={calculatedIconSize} style={styles.icon} />
+        <View style={styles.leadingIconWrapper}>
+          <IconComponent size={calculatedIconSize} style={styles.icon} />
+        </View>
       )}
-      <View style={styles.textWrapper}>
-        <Text style={styles.text} numberOfLines={1}>
-          {children}
-        </Text>
-      </View>
+      {children}
       {isExternal && (
-        <ExternalLink
-          size={calculatedIconSize}
-          style={styles.icon}
-          accessible={false}
-        />
+        <View style={styles.trailingIconWrapper}>
+          <ExternalLink
+            size={calculatedIconSize}
+            style={styles.icon}
+            accessible={false}
+          />
+        </View>
       )}
-    </View>
+    </Text>
   );
 };

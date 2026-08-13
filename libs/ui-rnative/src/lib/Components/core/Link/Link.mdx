@@ -68,6 +68,12 @@ Links adapt to their container, truncating long text on a single line to prevent
 
 <Canvas of={LinkStories.ResponsiveLayout} />
 
+## Inline within text
+
+Links render as text, so they can be nested inside a sentence and flow with it without affecting the line height:
+
+<Canvas of={LinkStories.InTextUsage} />
+
 ## Accessibility
 
 To be implemented:
@@ -173,13 +179,28 @@ function MyComponent() {
 }
 ```
 
-### Pressable Integration
+### Inline Within Text
 
-The Link component is built on React Native's `Pressable` and accepts all its props:
+The Link component is built on React Native's `Text`, so it can be nested inside a sentence without breaking the line height:
+
+```tsx
+<Text typography='body2' lx={{ color: 'base' }}>
+  By continuing, you agree to our{' '}
+  <Link size='sm' href='https://example.com/terms'>
+    Terms & Conditions
+  </Link>
+  .
+</Text>
+```
+
+### Text Integration
+
+The Link component accepts all `Text` props, e.g. press callbacks or line clamping:
 
 ```tsx
 <Link
   href='https://example.com'
+  numberOfLines={2}
   onPressIn={() => console.log('Press started')}
   onPressOut={() => console.log('Press ended')}
 >

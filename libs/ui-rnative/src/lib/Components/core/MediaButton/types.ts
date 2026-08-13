@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { StyledPressableProps } from '../../../../styles';
+import type { BaseButtonProps } from '../../internal/BaseButton';
 
 export type MediaButtonProps = {
   /**
@@ -32,12 +33,8 @@ export type MediaButtonProps = {
    */
   hideChevron?: boolean;
   /**
-   * Whether the media button is disabled.
-   * @default false
-   */
-  disabled?: boolean;
-  /**
    * The label content of the media button.
    */
   children: ReactNode;
-} & Omit<StyledPressableProps, 'children'>;
+} & Pick<BaseButtonProps, 'disabled'> &
+  Omit<StyledPressableProps, 'children'>;

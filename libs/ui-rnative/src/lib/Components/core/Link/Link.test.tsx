@@ -21,6 +21,25 @@ const renderWithProvider = (component: React.ReactElement) => {
   );
 };
 
+type LinkElement = ReturnType<typeof screen.getByText>;
+type IconWrapperStyle = {
+  paddingLeft?: number;
+  paddingRight?: number;
+  transform?: { translateY: number }[];
+};
+
+// Icons are rendered inline as children of the link Text, so they are read from
+// the element tree rather than queried by testID.
+const getLinkChildren = (link: LinkElement): React.ReactNode[] =>
+  Children.toArray(link.props.children as React.ReactNode);
+
+const getIconWrapperStyle = (link: LinkElement): IconWrapperStyle => {
+  const [iconWrapper] = getLinkChildren(link) as React.ReactElement<{
+    style: IconWrapperStyle;
+  }>[];
+  return iconWrapper.props.style;
+};
+
 const typographyTokens = ledgerLiveThemes.dark.typographies.sm;
 const typographies = {
   ...typographyTokens.heading,
@@ -41,7 +60,7 @@ describe('Link Component', () => {
         </Link>,
       );
 
-      expect(screen.getByText('Click me').props.children).toBe('Click me');
+      expect(screen.getByText('Click me')).toBe(screen.getByTestId('link'));
       expect(screen.getByTestId('link').props.accessibilityRole).toBe('link');
     });
 
@@ -73,13 +92,17 @@ describe('Link Component', () => {
 
   describe('Sizes', () => {
     it.each([
-      ['sm', typographies.body2SemiBold, spacings.s4],
-      ['md', typographies.body1SemiBold, spacings.s8],
+      ['sm', typographies.body2SemiBold, spacings.s4, 3],
+      ['md', typographies.body1SemiBold, spacings.s8, 4],
     ])(
-      'should apply %s size with correct typography and gap',
-      (size, typography, expectedGap) => {
+      'should apply %s size with correct typography and icon spacing',
+      (size, typography, expectedGap, expectedOffset) => {
         renderWithProvider(
-          <Link href='https://example.com' size={size as LinkProps['size']}>
+          <Link
+            href='https://example.com'
+            size={size as LinkProps['size']}
+            icon={Information}
+          >
             Link
           </Link>,
         );
@@ -87,9 +110,11 @@ describe('Link Component', () => {
         const textStyle = screen.getByText('Link').props.style;
         expect(textStyle.fontSize).toBe(typography.fontSize);
         expect(textStyle.fontWeight).toBe(typography.fontWeight);
-        expect(screen.getByTestId('link-content').props.style.gap).toBe(
-          expectedGap,
-        );
+
+        const iconStyle = getIconWrapperStyle(screen.getByText('Link'));
+        expect(iconStyle.paddingRight).toBe(expectedGap);
+        // Keeps the inline icons optically centred on the text baseline.
+        expect(iconStyle.transform).toEqual([{ translateY: expectedOffset }]);
       },
     );
   });
@@ -113,6 +138,31 @@ describe('Link Component', () => {
     );
   });
 
+  describe('States', () => {
+    it.each([
+      ['base', colors.text.base, colors.text.basePressed],
+      ['accent', colors.text.interactive, colors.text.interactivePressed],
+    ])(
+      'should apply the %s pressed color while pressed',
+      (appearance, restingColor, pressedColor) => {
+        renderWithProvider(
+          <Link
+            href='https://example.com'
+            appearance={appearance as LinkProps['appearance']}
+          >
+            Link
+          </Link>,
+        );
+
+        fireEvent(screen.getByText('Link'), 'onPressIn');
+        expect(screen.getByText('Link').props.style.color).toBe(pressedColor);
+
+        fireEvent(screen.getByText('Link'), 'onPressOut');
+        expect(screen.getByText('Link').props.style.color).toBe(restingColor);
+      },
+    );
+  });
+
   describe('Icons', () => {
     it('should render leading icon when provided', () => {
       renderWithProvider(
@@ -121,10 +171,9 @@ describe('Link Component', () => {
         </Link>,
       );
 
-      const children = Children.toArray(
-        screen.getByTestId('link-content').props.children,
-      );
-      expect(children.length).toBe(2); // icon + text wrapper
+      const link = screen.getByText('With Icon');
+      expect(getLinkChildren(link).length).toBe(2); // icon + label
+      expect(getIconWrapperStyle(link).paddingRight).toBe(spacings.s8);
     });
 
     it('should render external link icon when isExternal is true', () => {
@@ -134,10 +183,8 @@ describe('Link Component', () => {
         </Link>,
       );
 
-      const children = Children.toArray(
-        screen.getByTestId('link-content').props.children,
-      );
-      expect(children.length).toBe(2); // text wrapper + external icon
+      const children = getLinkChildren(screen.getByText('External'));
+      expect(children.length).toBe(2); // label + external icon
     });
   });
 
