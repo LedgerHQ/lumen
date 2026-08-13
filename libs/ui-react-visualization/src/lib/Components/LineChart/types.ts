@@ -73,7 +73,7 @@ export type LineChartProps = LineRenderOptions &
      * explicit 6-digit hex stroke values; other formats are passed through unchanged.
      * @default false
      */
-    ensureColorContrast?: boolean;
+    enableColorContrast?: boolean;
   };
 
 /**

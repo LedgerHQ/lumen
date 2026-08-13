@@ -691,14 +691,14 @@ const ContrastSafe = () => {
         <LineChart
           series={lightContrastSeries}
           height={125}
-          ensureColorContrast={isContrastSafe}
+          enableColorContrast={isContrastSafe}
         />
       </Section>
       <Section title='Contrast safety - dark series'>
         <LineChart
           series={darkContrastSeries}
           height={125}
-          ensureColorContrast={isContrastSafe}
+          enableColorContrast={isContrastSafe}
         />
       </Section>
       <Button

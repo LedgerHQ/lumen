@@ -425,7 +425,7 @@ export const WithColorContrast: Story = {
         <div className='flex flex-col items-center gap-8'>
           <LineChart
             series={lightContrastSeries}
-            ensureColorContrast
+            enableColorContrast
             width={280}
             height={120}
           />
@@ -440,7 +440,7 @@ export const WithColorContrast: Story = {
         <div className='flex flex-col items-center gap-8'>
           <LineChart
             series={darkContrastSeries}
-            ensureColorContrast
+            enableColorContrast
             width={280}
             height={120}
           />

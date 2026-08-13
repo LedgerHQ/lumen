@@ -487,28 +487,28 @@ describe('DonutChart', () => {
     });
   });
 
-  describe('ensureColorContrast', () => {
-    it('renders without error when ensureColorContrast is true and series have colors', () => {
+  describe('enableColorContrast', () => {
+    it('renders without error when enableColorContrast is true and series have colors', () => {
       const seriesWithColors: DonutSegment[] = [
         { id: 'bitcoin', label: 'Bitcoin', value: 50, color: '#f5f5f5' },
         { id: 'ethereum', label: 'Ethereum', value: 50, color: '#000000' },
       ];
       const { getAllByTestId } = render(
-        <DonutChart series={seriesWithColors} ensureColorContrast />,
+        <DonutChart series={seriesWithColors} enableColorContrast />,
         { wrapper },
       );
       expect(getAllByTestId('donut-segment')).toHaveLength(2);
     });
 
-    it('renders without error when ensureColorContrast is true and series have no color', () => {
+    it('renders without error when enableColorContrast is true and series have no color', () => {
       const { getAllByTestId } = render(
-        <DonutChart series={sampleSeries} ensureColorContrast />,
+        <DonutChart series={sampleSeries} enableColorContrast />,
         { wrapper },
       );
       expect(getAllByTestId('donut-segment')).toHaveLength(3);
     });
 
-    it('renders without error when ensureColorContrast is false (default)', () => {
+    it('renders without error when enableColorContrast is false (default)', () => {
       const seriesWithColors: DonutSegment[] = [
         { id: 'bitcoin', label: 'Bitcoin', value: 100, color: '#f5f5f5' },
       ];

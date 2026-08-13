@@ -144,7 +144,7 @@ export type DonutChartProps = {
    * segment palette includes colors that are close in lightness to the app background.
    * @default false
    */
-  ensureColorContrast?: boolean;
+  enableColorContrast?: boolean;
   /** Fired when the active segment changes (hover or external reset). */
   onActiveIdChange?: (id: string | null) => void;
   /**

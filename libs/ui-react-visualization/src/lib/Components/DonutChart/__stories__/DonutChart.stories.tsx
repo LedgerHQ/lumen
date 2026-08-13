@@ -376,7 +376,7 @@ export const WithColorContrast: Story = {
           <span className='body-3 text-muted'>original</span>
         </div>
         <div className='flex flex-col items-center gap-8'>
-          <DonutChart series={lightContrastSegments} ensureColorContrast />
+          <DonutChart series={lightContrastSegments} enableColorContrast />
           <span className='body-3 text-muted'>contrast-safe</span>
         </div>
       </div>
@@ -386,7 +386,7 @@ export const WithColorContrast: Story = {
           <span className='body-3 text-muted'>original</span>
         </div>
         <div className='flex flex-col items-center gap-8'>
-          <DonutChart series={darkContrastSegments} ensureColorContrast />
+          <DonutChart series={darkContrastSegments} enableColorContrast />
           <span className='body-3 text-muted'>contrast-safe</span>
         </div>
       </div>

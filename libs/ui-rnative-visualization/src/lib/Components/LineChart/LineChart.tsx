@@ -135,7 +135,7 @@ function LineChartWithContrast(props: Readonly<LineChartProps>) {
 }
 
 export function LineChart(props: Readonly<LineChartProps>) {
-  if (props.ensureColorContrast) {
+  if (props.enableColorContrast) {
     return <LineChartWithContrast {...props} />;
   }
   return <LineChartInner {...props} />;
@@ -160,7 +160,7 @@ const LineChartInner = ({
   loading = false,
   emptyLabel = chartConfig.emptyState.defaultLabel,
   connectNulls,
-  ensureColorContrast = false,
+  enableColorContrast = false,
   bgColor = '',
 }: LineChartProps & { bgColor?: string }) => {
   const series = useMemo(
@@ -168,11 +168,11 @@ const LineChartInner = ({
       seriesProp?.map((s) => ({
         ...s,
         ...(s.stroke &&
-          ensureColorContrast && {
+          enableColorContrast && {
             stroke: getContrastSafeColor(s.stroke, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, bgColor],
+    [seriesProp, enableColorContrast, bgColor],
   );
 
   const xAxisConfig = useMemo(

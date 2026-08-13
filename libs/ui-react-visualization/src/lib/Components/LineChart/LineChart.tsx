@@ -161,7 +161,7 @@ function LineChartWithContrast(props: LineChartProps) {
 }
 
 export function LineChart(props: LineChartProps) {
-  if (props.ensureColorContrast) {
+  if (props.enableColorContrast) {
     return <LineChartWithContrast {...props} />;
   }
   return <LineChartInner {...props} />;
@@ -185,7 +185,7 @@ function LineChartInner({
   magnetRadius,
   loading = false,
   emptyLabel = chartConfig.emptyState.defaultLabel,
-  ensureColorContrast = false,
+  enableColorContrast = false,
   children,
   bgColor = '',
 }: LineChartProps & { bgColor?: string }) {
@@ -194,11 +194,11 @@ function LineChartInner({
       seriesProp?.map((s) => ({
         ...s,
         ...(s.stroke &&
-          ensureColorContrast && {
+          enableColorContrast && {
             stroke: getContrastSafeColor(s.stroke, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, bgColor],
+    [seriesProp, enableColorContrast, bgColor],
   );
 
   const xAxisConfig = useMemo(

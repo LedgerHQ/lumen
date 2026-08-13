@@ -470,7 +470,7 @@ const ContrastSafe = ({ segments }: { segments: DonutSegment[] }) => {
   return (
     <>
       <Section title='Contrast safety'>
-        <DonutChart series={segments} ensureColorContrast={isContrastSafe} />
+        <DonutChart series={segments} enableColorContrast={isContrastSafe} />
       </Section>
       <Button
         appearance={isContrastSafe ? 'transparent' : 'base'}

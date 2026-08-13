@@ -52,7 +52,7 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
-  ensureColorContrast = false,
+  enableColorContrast = false,
 }: DonutChartProps) {
   const bgColor = useContrastBgColor();
   const geometry = DONUT_GEOMETRY[size];
@@ -62,11 +62,11 @@ export function DonutChart({
       seriesProp.map((s) => ({
         ...s,
         ...(s.color &&
-          ensureColorContrast && {
+          enableColorContrast && {
             color: getContrastSafeColor(s.color, bgColor, 35),
           }),
       })),
-    [seriesProp, ensureColorContrast, bgColor],
+    [seriesProp, enableColorContrast, bgColor],
   );
 
   const [activeId, setActiveId] = useControllableState({

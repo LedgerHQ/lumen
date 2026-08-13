@@ -28,7 +28,7 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
-  ensureColorContrast = false,
+  enableColorContrast = false,
 }: DonutChartProps) {
   const { theme } = useTheme();
   const bgColor = theme.colors.bg.canvas;
@@ -45,11 +45,11 @@ export function DonutChart({
       seriesProp.map((s) => ({
         ...s,
         ...(s.color &&
-          ensureColorContrast && {
+          enableColorContrast && {
             color: getContrastSafeColor(s.color, bgColor),
           }),
       })),
-    [seriesProp, ensureColorContrast, bgColor],
+    [seriesProp, enableColorContrast, bgColor],
   );
 
   const segments = useMemo(
