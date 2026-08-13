@@ -10,6 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useRef, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { Legend } from '../../Legend';
 import { Point } from '../../Point';
 import { ReferenceLine } from '../../ReferenceLine';
 import { Scrubber } from '../../Scrubber';
@@ -353,6 +354,30 @@ export const WithReferenceLine: Story = {
         labelHorizontalAlignment='start'
       />
     </LineChart>
+  ),
+};
+
+const legendItems = multiSeries.map(({ id, label, stroke }) => ({
+  id,
+  label,
+  color: stroke,
+}));
+
+/**
+ * Name each line by pairing the chart with a `<Legend>`. The legend is a
+ * sibling, not a chart child: build its `items` from the same `series`, mapping
+ * each `stroke` to the swatch `color` so both stay in sync.
+ */
+export const WithLegend: Story = {
+  args: {
+    series: multiSeries,
+    showArea: true,
+  },
+  render: (args) => (
+    <div className='flex flex-col gap-16'>
+      <LineChart {...args} />
+      <Legend items={legendItems} />
+    </div>
   ),
 };
 
