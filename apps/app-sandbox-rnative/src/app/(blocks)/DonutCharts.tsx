@@ -40,6 +40,7 @@ export default function DonutCharts() {
       <TwoEqualHalves palette={segmentPalette} />
       <SingleSegment palette={segmentPalette} />
       <DominantSegment palette={segmentPalette} />
+      <TinyValue palette={segmentPalette} />
       <NoData />
       <Loading />
       <LoadingWithCenter segments={portfolioSegments} />
@@ -335,6 +336,33 @@ const DominantSegment = ({ palette }: { palette: string[] }) => (
         { id: 'b', label: 'B', value: 5, color: palette[1] },
         { id: 'c', label: 'C', value: 3, color: palette[2] },
       ]}
+    />
+  </Section>
+);
+
+/**
+ * A near-zero value is floored to a minimum arc so it stays visible and
+ * tappable; the label still reports its true share.
+ */
+const TinyValue = ({ palette }: { palette: string[] }) => (
+  <Section title='Tiny value (tap the sliver)'>
+    <DonutChart
+      series={[
+        { id: 'a', label: 'A', value: 60, color: palette[0] },
+        { id: 'b', label: 'B', value: 40, color: palette[1] },
+        { id: 'dust', label: 'Dust', value: 0.00001, color: palette[2] },
+      ]}
+      defaultActiveId='dust'
+      renderCenter={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment?.percentLabel ?? '100%'}
+          </DonutChartTitle>
+          <DonutChartDescription>
+            {activeSegment?.label ?? 'Total'}
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
     />
   </Section>
 );

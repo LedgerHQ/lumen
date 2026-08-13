@@ -33,12 +33,17 @@ export const roundPercent = (percent: number): number =>
   Math.round(percent * 10) / 10;
 
 /**
- * Display-ready percent, e.g. `7%` or `7.3%`. Rounding here keeps float
- * artifacts — `7 / 100 * 100` is `7.000000000000001` — out of labels while
- * leaving the exact `percent` intact for consumers who compute with it.
+ * Display-ready percent, e.g. `7%`, `7.3%` or `<0.1%`. Rounding here keeps
+ * float artifacts — `7 / 100 * 100` is `7.000000000000001` — out of labels
+ * while leaving the exact `percent` intact for consumers who compute with it.
  */
-export const formatPercentLabel = (percent: number): string =>
-  `${roundPercent(percent)}%`;
+export const formatPercentLabel = (percent: number): string => {
+  const rounded = roundPercent(percent);
+  if (rounded === 0 && percent > 0) {
+    return '<0.1%';
+  }
+  return `${rounded}%`;
+};
 
 /** Percent (0–100) of the total per segment. Negatives count as 0; a zero total yields all zeros. */
 export const getSegmentPercents = (series: DonutSegment[]): number[] => {
@@ -50,10 +55,56 @@ export const getSegmentPercents = (series: DonutSegment[]): number[] => {
 };
 
 /**
+ * `minSegmentArcLength` as a share of the angle `pie` has left to hand out once
+ * it reserves a `padAngle` gap per segment.
+ */
+const getMinSegmentShare = (geometry: DonutGeometry, count: number): number => {
+  const midRadius = (geometry.innerRadius + geometry.outerRadius) / 2;
+  const distributable = 2 * Math.PI - count * geometry.padAngle;
+  if (distributable <= 0) {
+    return 0;
+  }
+  return geometry.minSegmentArcLength / midRadius / distributable;
+};
+
+/**
+ * Drawing weights summing to 1, none below `minShare`, so a value too small to
+ * see still gets a visible sliver. The room comes out of the segments above the
+ * minimum, which shrinks them and can push another under it — hence the loop.
+ */
+export const applyMinSegmentShare = (
+  values: number[],
+  minShare: number,
+): number[] => {
+  const total = values.reduce((sum, value) => sum + value, 0);
+  if (total <= 0) {
+    return values.map(() => 0);
+  }
+
+  const minVisibleShare = Math.min(minShare, 1 / values.length);
+  let shares = values.map((value) => value / total);
+
+  while (shares.some((share) => share < minVisibleShare)) {
+    const visible = shares.map((share) => Math.max(share, minVisibleShare));
+    const aboveMinimum = visible.filter((share) => share > minVisibleShare);
+    const roomLeft =
+      1 - (visible.length - aboveMinimum.length) * minVisibleShare;
+    // NaN when nothing is above the minimum — no share uses it in that case.
+    const shrinkFactor =
+      roomLeft / aboveMinimum.reduce((sum, share) => sum + share, 0);
+    shares = visible.map((share) =>
+      share > minVisibleShare ? share * shrinkFactor : share,
+    );
+  }
+
+  return shares;
+};
+
+/**
  * One ring segment per drawable series entry, in series order, clockwise from
  * 12 o'clock. Zero and negative segments are dropped so they don't emit
- * degenerate paths; percents are still computed against the full series total.
- * Empty when there is nothing to draw.
+ * degenerate paths; percents are still computed against the full series total,
+ * and what survives is drawn at `minSegmentArcLength` or wider.
  */
 export const buildRingSegments = (
   series: DonutSegment[],
@@ -69,20 +120,29 @@ export const buildRingSegments = (
     return [];
   }
 
-  const layout = pie<(typeof drawable)[number]>()
-    .value((entry) => entry.segment.value)
+  const weights = applyMinSegmentShare(
+    drawable.map((entry) => entry.percent),
+    getMinSegmentShare(geometry, drawable.length),
+  );
+  const data = drawable.map((entry, index) => ({
+    ...entry,
+    weight: weights[index],
+  }));
+
+  const layout = pie<(typeof data)[number]>()
+    .value((entry) => entry.weight)
     .sort(null)
     .sortValues(null)
     .padAngle(geometry.padAngle);
 
-  const arcGenerator = arc<PieArcDatum<(typeof drawable)[number]>>()
+  const arcGenerator = arc<PieArcDatum<(typeof data)[number]>>()
     .innerRadius(geometry.innerRadius)
     .outerRadius(geometry.outerRadius)
     .cornerRadius(geometry.cornerRadius);
 
   const hoverEnabled = drawable.length > 1;
 
-  return layout(drawable).map((datum) => {
+  return layout(data).map((datum) => {
     const midAngle = (datum.startAngle + datum.endAngle) / 2;
     return {
       id: datum.data.segment.id,
