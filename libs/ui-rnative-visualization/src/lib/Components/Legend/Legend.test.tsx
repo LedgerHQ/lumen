@@ -30,7 +30,9 @@ describe('Legend', () => {
   });
 
   it('renders nothing when series is empty', () => {
-    const { toJSON, queryByLabelText } = renderWithTheme(<Legend series={[]} />);
+    const { toJSON, queryByLabelText } = renderWithTheme(
+      <Legend series={[]} />,
+    );
     expect(queryByLabelText('Legend')).toBeNull();
     expect(toJSON()).toBeNull();
   });

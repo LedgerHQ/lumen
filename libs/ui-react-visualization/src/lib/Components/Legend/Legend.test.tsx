@@ -47,7 +47,9 @@ describe('Legend', () => {
   });
 
   it('truncates a label that does not fit the available width', () => {
-    render(<Legend series={[{ id: 'a', label: 'A very long series label' }]} />);
+    render(
+      <Legend series={[{ id: 'a', label: 'A very long series label' }]} />,
+    );
     expect(screen.getByText('A very long series label')).toHaveClass(
       'truncate',
     );
