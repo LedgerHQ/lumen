@@ -24,6 +24,13 @@ function defaultTokenFileNameRenamer(
   return `${collection.name}.${mode.name}.json`;
 }
 
+const SUPPORTED_RESOLVED_TYPES: ReadonlySet<string> = new Set([
+  'BOOLEAN',
+  'COLOR',
+  'FLOAT',
+  'STRING',
+]);
+
 function tokenTypeFromVariable(variable: LocalVariable) {
   switch (variable.resolvedType) {
     case 'BOOLEAN':
@@ -51,7 +58,9 @@ function tokenValueFromVariable(
       return rgbToHex(value);
     }
 
-    throw new Error(`Format of variable value is invalid: ${value}`);
+    throw new Error(
+      `Format of variable value is invalid: ${JSON.stringify(value)}`,
+    );
   } else {
     return value;
   }
@@ -82,7 +91,11 @@ export default function tokenFilesFromLocalVariables(
   const localVariables = localVariablesResponse.meta.variables;
 
   Object.values(localVariables).forEach((variable) => {
-    if (variable.remote) {
+    // EASING (and any future Figma types) are not mapped yet — skip so export can proceed.
+    if (
+      variable.remote ||
+      !SUPPORTED_RESOLVED_TYPES.has(variable.resolvedType)
+    ) {
       return;
     }
 

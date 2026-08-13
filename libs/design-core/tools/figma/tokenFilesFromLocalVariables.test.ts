@@ -52,4 +52,34 @@ describe('tokenFilesFromLocalVariables', () => {
       '4.Breakpoint.XL.json',
     ]);
   });
+
+  it('skips EASING variables', async () => {
+    const localVariablesMockResponse =
+      await figmaApiMock.getMocksFromFileSystem(
+        'get-local-variables-response.json',
+      );
+    localVariablesMockResponse.meta.variables['VariableID:easing'] = {
+      ...localVariablesMockResponse.meta.variables['VariableID:2215:48'],
+      id: 'VariableID:easing',
+      name: 'easing/ease-in',
+      resolvedType: 'EASING',
+      valuesByMode: {
+        '2213:2': {
+          easingType: 7,
+          bezierValues: { p1x: 0.4, p1y: 0, p2x: 1, p2y: 1 },
+        },
+      },
+    } as never;
+
+    const tokenFilesDictionary = tokenFilesFromLocalVariables(
+      localVariablesMockResponse,
+    );
+
+    expect(tokenFilesDictionary['1.Primitives.Value.json']).not.toHaveProperty(
+      'easing',
+    );
+    expect(tokenFilesDictionary['1.Primitives.Value.json']).toHaveProperty(
+      'Radius',
+    );
+  });
 });
