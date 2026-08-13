@@ -128,7 +128,7 @@ export const WithError: Story = {
   },
 };
 
-export const DisabledAddressInput: Story = {
+export const Disabled: Story = {
   render: (args) => <AddressInputStory {...args} />,
   args: {
     placeholder: 'Enter address or ENS',
@@ -139,7 +139,7 @@ export const DisabledAddressInput: Story = {
   },
 };
 
-export const ReadOnlyAddressInput: Story = {
+export const ReadOnly: Story = {
   render: (args) => <AddressInputStory {...args} />,
   args: {
     placeholder: 'Enter address or ENS',
