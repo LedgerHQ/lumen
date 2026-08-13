@@ -62,11 +62,13 @@ The input supports error handling through `helperText` and `status` (`'error'` \
 
 The input can be fully disabled using the `disabled` prop, which prevents interaction and applies a muted visual style.
 
-<Canvas of={AddressInputStories.DisabledAddressInput} />
+<Canvas of={AddressInputStories.Disabled} />
 
 ### Read-Only State
 
-Alternatively, use `editable={false}` to prevent editing without applying the muted visual style. This is useful for displaying confirmed addresses that should still look like regular inputs.
+Alternatively, use `readOnly` to prevent editing without applying the muted visual style. This is useful for displaying confirmed addresses that should still look like regular inputs.
+
+<Canvas of={AddressInputStories.ReadOnly} />
 
 ## Controlled vs Uncontrolled
 
@@ -343,13 +345,13 @@ Use the `disabled` prop to disable the input with a muted visual style:
 
 ### Read-Only State
 
-Use the `editable` prop to make the input non-editable without the muted visual style:
+Use the `readOnly` prop to make the input non-editable without the muted visual style:
 
 ```tsx
 <AddressInput
   placeholder='Enter address or ENS'
   value='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27'
-  editable={false}
+  readOnly
 />
 ```
 

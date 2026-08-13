@@ -16,10 +16,18 @@ export type BaseInputProps = {
   /**
    * Whether the input is disabled.
    * When true, the input is not editable and displays a muted visual style.
-   * This differs from `editable={false}` which only prevents interaction.
+   * This differs from `readOnly` which only prevents editing.
    * @default false
    */
   disabled?: boolean;
+  /**
+   * Whether the input is read-only.
+   * When true, the input prevents editing without applying the muted visual
+   * style of `disabled` — useful for displaying values that should still look
+   * like regular inputs. The clear button is hidden while read-only.
+   * @default false
+   */
+  readOnly?: boolean;
   /**
    * Additional styles to apply to the outer wrapper element.
    */
@@ -66,6 +74,7 @@ export type BaseInputProps = {
   onClear?: () => void;
   /**
    * Hide the clear button (shown by default when input has content).
+   * @default false
    */
   hideClearButton?: boolean;
 } & Omit<TextInputProps, 'style'> &

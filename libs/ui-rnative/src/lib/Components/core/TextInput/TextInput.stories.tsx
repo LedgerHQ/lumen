@@ -184,6 +184,16 @@ export const DisabledTextInput: Story = {
   },
 };
 
+export const ReadOnlyTextInput: Story = {
+  render: (args) => <TextInputStory {...args} initialValue='johndoe' />,
+  args: {
+    label: 'Username',
+    readOnly: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
 export const WithHiddenClearButton: Story = {
   render: (args) => (
     <TextInputStory {...args} initialValue='Content with hidden clear' />

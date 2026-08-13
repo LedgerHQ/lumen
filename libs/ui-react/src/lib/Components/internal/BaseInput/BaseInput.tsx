@@ -125,6 +125,7 @@ export const BaseInput = ({
   prefix,
   onClear,
   hideClearButton = false,
+  readOnly = false,
   'aria-invalid': ariaInvalidProp,
   onChange: onChangeProp,
   placeholder: placeholderProp,
@@ -178,7 +179,8 @@ export const BaseInput = ({
       placeholder: placeholderProp,
     });
 
-  const showClearButton = hasContent && !disabled && !hideClearButton;
+  const showClearButton =
+    hasContent && !disabled && !readOnly && !hideClearButton;
 
   const count = currentValue.length;
   const showCount = Boolean(maxCount && maxCount > 0);
@@ -244,6 +246,7 @@ export const BaseInput = ({
           ref={composedRef}
           id={inputId}
           disabled={disabled}
+          readOnly={readOnly}
           placeholder={inputPlaceholder}
           aria-invalid={ariaInvalid}
           aria-describedby={showHelper ? helperId : undefined}

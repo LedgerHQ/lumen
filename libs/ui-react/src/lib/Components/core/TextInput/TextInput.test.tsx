@@ -241,6 +241,32 @@ describe('Input Component', () => {
     expect(clearButton).not.toBeInTheDocument();
   });
 
+  it('should mark the input as readOnly when readOnly is true', () => {
+    render(
+      <TextInput
+        label='Username'
+        {...createControlledProps({ value: 'test content' })}
+        readOnly
+      />,
+    );
+    const inputElement = screen.getByRole('textbox');
+    expect(inputElement).toHaveAttribute('readonly');
+  });
+
+  it('should not show clear button when input is readOnly even with content', () => {
+    render(
+      <TextInput
+        label='Username'
+        {...createControlledProps({ value: 'test content' })}
+        readOnly
+      />,
+    );
+    const clearButton = screen.queryByRole('button', {
+      name: /components.baseInput.clearInputAriaLabel/i,
+    });
+    expect(clearButton).not.toBeInTheDocument();
+  });
+
   it('should call onClear after default clearing when clear button is clicked', () => {
     const handleClear = vi.fn();
     const handleChange = vi.fn();

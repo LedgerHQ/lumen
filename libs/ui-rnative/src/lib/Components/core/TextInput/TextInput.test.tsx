@@ -146,4 +146,28 @@ describe('TextInput', () => {
       expect(screen.getByDisplayValue(longValue)).toBeTruthy();
     });
   });
+
+  describe('Read-only', () => {
+    it('shows the clear button when it has content and is editable', () => {
+      renderWithProvider(
+        <TextInput label='Company' value='Ledger' onChangeText={() => {}} />,
+      );
+
+      expect(screen.UNSAFE_getByType(DeleteCircleFill)).toBeTruthy();
+    });
+
+    it('sets the input to editable={false} and hides the clear button when readOnly', () => {
+      renderWithProvider(
+        <TextInput
+          label='Company'
+          value='Ledger'
+          onChangeText={() => {}}
+          readOnly
+        />,
+      );
+
+      expect(screen.getByDisplayValue('Ledger').props.editable).toBe(false);
+      expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
+    });
+  });
 });

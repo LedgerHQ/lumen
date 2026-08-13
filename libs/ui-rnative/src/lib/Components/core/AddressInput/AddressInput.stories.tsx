@@ -128,13 +128,24 @@ export const WithError: Story = {
   },
 };
 
-export const DisabledAddressInput: Story = {
+export const Disabled: Story = {
   render: (args) => <AddressInputStory {...args} />,
   args: {
     placeholder: 'Enter address or ENS',
     value: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
     prefix: 'To:',
     disabled: true,
+    hideClearButton: false,
+  },
+};
+
+export const ReadOnly: Story = {
+  render: (args) => <AddressInputStory {...args} />,
+  args: {
+    placeholder: 'Enter address or ENS',
+    value: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
+    prefix: 'To:',
+    readOnly: true,
     hideClearButton: false,
   },
 };

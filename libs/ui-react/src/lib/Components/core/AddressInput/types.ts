@@ -14,19 +14,11 @@ export type AddressInputProps = {
    * Custom prefix text to show instead of the "To:" prefix.
    * @default "To:"
    */
-  prefix?: string;
-  /**
-   * Whether to hide the clear button that appears when input has content.
-   * @default false
-   */
-  hideClearButton?: boolean;
+  prefix?: ReactNode;
   /**
    * Callback fired when the QR code scanner icon is clicked.
    * When provided, the QR code scanner icon will be displayed when input is empty.
    * When not provided, no QR code scanner icon will be shown.
    */
   onQrCodeClick?: () => void;
-} & Omit<
-  BaseInputProps,
-  'prefix' | 'label' | 'labelClassName' | 'inputClassName'
->;
+} & Omit<BaseInputProps, 'prefix' | 'label'>;
