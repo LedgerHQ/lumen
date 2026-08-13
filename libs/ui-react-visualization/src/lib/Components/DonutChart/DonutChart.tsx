@@ -17,13 +17,6 @@ import {
   getSegmentPercents,
 } from './utils';
 
-function useContrastBgColor(): string {
-  const { colorScheme } = useTheme();
-  return colorScheme === 'dark'
-    ? primitiveColorTokens.dark.grey['050']
-    : primitiveColorTokens.light.grey['050'];
-}
-
 export function DonutChart({
   series: seriesProp,
   size = 'md',
@@ -36,7 +29,11 @@ export function DonutChart({
   renderCenterActive,
   enableColorContrast = false,
 }: DonutChartProps) {
-  const bgColor = useContrastBgColor();
+  const { colorScheme } = useTheme();
+  const bgColor =
+    colorScheme === 'dark'
+      ? primitiveColorTokens.dark.grey['050']
+      : primitiveColorTokens.light.grey['050'];
   const geometry = DONUT_GEOMETRY[size];
 
   const series = useMemo(

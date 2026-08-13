@@ -130,26 +130,7 @@ const LineChartContent = ({
   );
 };
 
-function useContrastBgColor(): string {
-  const { colorScheme } = useTheme();
-  return colorScheme === 'dark'
-    ? primitiveColorTokens.dark.grey['050']
-    : primitiveColorTokens.light.grey['050'];
-}
-
-function LineChartWithContrast(props: LineChartProps) {
-  const bgColor = useContrastBgColor();
-  return <LineChartInner {...props} bgColor={bgColor} />;
-}
-
-export function LineChart(props: LineChartProps) {
-  if (props.enableColorContrast) {
-    return <LineChartWithContrast {...props} />;
-  }
-  return <LineChartInner {...props} />;
-}
-
-function LineChartInner({
+export function LineChart({
   series: seriesProp,
   showArea = false,
   areaType = 'gradient',
@@ -169,8 +150,12 @@ function LineChartInner({
   emptyLabel = chartConfig.emptyState.defaultLabel,
   enableColorContrast = false,
   children,
-  bgColor = '',
-}: LineChartProps & { bgColor?: string }) {
+}: LineChartProps) {
+  const { colorScheme } = useTheme();
+  const bgColor =
+    colorScheme === 'dark'
+      ? primitiveColorTokens.dark.grey['050']
+      : primitiveColorTokens.light.grey['050'];
   const series = useMemo(
     () =>
       seriesProp?.map((s) => ({

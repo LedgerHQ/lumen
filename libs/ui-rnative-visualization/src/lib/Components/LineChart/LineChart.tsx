@@ -129,19 +129,7 @@ const LineChartContent = ({
   );
 };
 
-function LineChartWithContrast(props: Readonly<LineChartProps>) {
-  const { theme } = useTheme();
-  return <LineChartInner {...props} bgColor={theme.colors.bg.canvas} />;
-}
-
-export function LineChart(props: Readonly<LineChartProps>) {
-  if (props.enableColorContrast) {
-    return <LineChartWithContrast {...props} />;
-  }
-  return <LineChartInner {...props} />;
-}
-
-const LineChartInner = ({
+export function LineChart({
   series: seriesProp,
   showArea = false,
   areaType = 'gradient',
@@ -161,8 +149,9 @@ const LineChartInner = ({
   emptyLabel = chartConfig.emptyState.defaultLabel,
   connectNulls,
   enableColorContrast = false,
-  bgColor = '',
-}: LineChartProps & { bgColor?: string }) => {
+}: LineChartProps) {
+  const { theme } = useTheme();
+  const bgColor = theme.colors.bg.canvas;
   const series = useMemo(
     () =>
       seriesProp?.map((s) => ({
@@ -246,4 +235,4 @@ const LineChartInner = ({
       )}
     </CartesianChart>
   );
-};
+}
