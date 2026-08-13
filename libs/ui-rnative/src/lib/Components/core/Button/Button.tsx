@@ -1,4 +1,4 @@
-import { BaseButton } from './BaseButton';
+import { BaseButton } from '../../internal/BaseButton';
 import type { ButtonProps } from './types';
 
 /**

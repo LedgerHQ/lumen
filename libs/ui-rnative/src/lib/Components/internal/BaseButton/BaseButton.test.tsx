@@ -3,8 +3,8 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import type { ViewStyle } from 'react-native';
 
+import { ThemeProvider } from '../../core/ThemeProvider/ThemeProvider';
 import { Plus, Settings } from '../../symbols';
-import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { BaseButton } from './BaseButton';
 
 const renderWithProvider = (component: React.ReactElement) => {
