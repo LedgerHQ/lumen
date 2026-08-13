@@ -3,7 +3,7 @@ import {
   primitiveColorTokens,
 } from '@ledgerhq/lumen-design-core';
 import { useTheme } from '@ledgerhq/lumen-ui-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { chartConfig } from '../../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
@@ -132,27 +132,9 @@ const LineChartContent = ({
 
 function useContrastBgColor(): string {
   const { colorScheme } = useTheme();
-
-  const [bgColor, setBgColor] = useState<string>(() =>
-    colorScheme === 'dark'
-      ? primitiveColorTokens.dark.grey['050']
-      : primitiveColorTokens.light.grey['050'],
-  );
-
-  useEffect(() => {
-    const fallback =
-      colorScheme === 'dark'
-        ? primitiveColorTokens.dark.grey['050']
-        : primitiveColorTokens.light.grey['050'];
-
-    const resolved = getComputedStyle(document.documentElement)
-      .getPropertyValue('--color-background-canvas')
-      .trim();
-
-    setBgColor(resolved || fallback);
-  }, [colorScheme]);
-
-  return bgColor;
+  return colorScheme === 'dark'
+    ? primitiveColorTokens.dark.grey['050']
+    : primitiveColorTokens.light.grey['050'];
 }
 
 function LineChartWithContrast(props: LineChartProps) {
