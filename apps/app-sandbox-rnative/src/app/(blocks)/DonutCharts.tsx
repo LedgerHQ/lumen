@@ -6,6 +6,7 @@ import {
   DonutChartCenter,
   DonutChartDescription,
   DonutChartTitle,
+  Legend,
   useDonutSeries,
   type DonutSegment,
 } from '@ledgerhq/lumen-ui-rnative-visualization';
@@ -33,6 +34,7 @@ export default function DonutCharts() {
       <WithCenter segments={cryptoSegments} />
       <WithCenterSmall segments={cryptoSegments} />
       <WithCenterClickable segments={cryptoSegments} />
+      <WithLegend segments={cryptoSegments} />
       <WithPreparedSeries segments={manyCryptoSegments} />
       <Basic segments={cryptoSegments} />
       <Sizes segments={cryptoSegments} />
@@ -241,6 +243,15 @@ const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
     </Section>
   );
 };
+
+const WithLegend = ({ segments }: { segments: DonutSegment[] }) => (
+  <Section title='With legend'>
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's24' }}>
+      <DonutChart series={segments} />
+      <Legend series={segments} style={{ maxWidth: 176, flexShrink: 1 }} />
+    </Box>
+  </Section>
+);
 
 const WithPreparedSeries = ({ segments }: { segments: DonutSegment[] }) => {
   const { segments: prepared } = useDonutSeries(segments, {

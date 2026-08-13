@@ -286,6 +286,17 @@ export const Disabled: Story = {
   },
 };
 
+export const ReadOnly: Story = {
+  render: () => (
+    <TextInput
+      label='Label'
+      value='Read-only content'
+      readOnly
+      className='max-w-md'
+    />
+  ),
+};
+
 const InfoTooltip = () => {
   return (
     <Tooltip>

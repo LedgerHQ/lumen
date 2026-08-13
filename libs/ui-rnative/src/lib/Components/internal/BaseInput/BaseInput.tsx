@@ -47,6 +47,7 @@ export const BaseInput = ({
   hideClearButton,
   onChangeText: onChangeTextProp,
   editable,
+  readOnly = false,
   disabled: disabledProp = false,
   prefix,
   suffix,
@@ -79,7 +80,8 @@ export const BaseInput = ({
       placeholder: placeholderProp,
     });
 
-  const showClearButton = hasContent && !disabled && !hideClearButton;
+  const showClearButton =
+    hasContent && !disabled && !readOnly && !hideClearButton;
 
   const count = (value ?? '').length;
   const showCount = Boolean(maxCount && maxCount > 0);
@@ -103,6 +105,9 @@ export const BaseInput = ({
     }
     props.onClear?.();
   };
+
+  // Both properties can be used to determine if the input is editable.
+  const isEditable = editable !== false && !readOnly && !disabled;
 
   const styles = useStyles({
     status,
@@ -138,7 +143,7 @@ export const BaseInput = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onChangeText={handleChangeText}
-            editable={editable !== false && !disabled}
+            editable={isEditable}
             autoCapitalize='none'
             autoCorrect={false}
             selectionColor={theme.colors.text.active}

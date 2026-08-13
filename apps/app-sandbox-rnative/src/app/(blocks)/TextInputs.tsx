@@ -52,7 +52,7 @@ export default function TextInputs() {
           </Pressable>
         }
       />
-      <TextInput label='Company' defaultValue='Ledger' editable={false} />
+      <TextInput label='Company' defaultValue='Ledger' readOnly />
       <TextInput
         label='Team'
         value={team}

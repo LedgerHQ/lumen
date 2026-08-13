@@ -1,0 +1,76 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { DocTable } from '../../../../../../ui-react/.storybook/components';
+import * as LegendStories from './Legend.stories';
+
+<Meta of={LegendStories} />
+
+# Legend
+
+A display-only key for chart series or segments. Each item shows a color swatch
+and a label, and the legend composes next to `DonutChart` and `LineChart`.
+
+For the time being it is purely static: it neither reacts to nor changes the
+chart's state and active segment.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=16550-7583).
+
+## Usage
+
+Pass an array of `LegendItem`s to `series`. `DonutSegment[]` is assignable
+as-is; for `LineChart`, map each `Series` to `{ id, label, color: stroke }`.
+
+Nothing ties the legend to a chart, and the component does not check that the
+two match. Pass the same collection you passed to the chart, in the same order,
+so that every item lines up with a segment or series.
+
+<Canvas of={LegendStories.Base} />
+
+A `LegendItem` is the core data model:
+
+<DocTable
+  columnWidths={[120]}
+  headers={['Field', 'Description']}
+  rows={[
+    [<code>id</code>, 'Stable, unique identifier for the series or segment.'],
+    [
+      <code>label</code>,
+      'Human-readable name. Falls back to `id` when omitted.',
+    ],
+    [
+      <code>color</code>,
+      <>
+        Optional CSS color for the swatch; defaults to a neutral grey.
+      </>,
+    ],
+  ]}
+/>
+
+## Colors
+
+Without a `color` override, swatches fall back to the neutral default grey.
+
+<Canvas of={LegendStories.DefaultColors} />
+
+## Layout and truncation
+
+The legend is a wrapping flex row that fills the width it is given — it makes no
+layout decision of its own. Where it sits (beside a chart, stacked underneath)
+and how it flexes (`flex-1`, `shrink-0`, a `max-w-*` cap) belong to the
+surrounding layout, via `className`.
+
+Items wrap onto the next line, and a label too long for the width it has is
+truncated with an ellipsis rather than overflowing.
+
+<Canvas of={LegendStories.LongLabels} />
+
+## With DonutChart
+
+Place the legend beside the chart and pass the chart's `series` straight
+through, capping its width so it wraps into the column it is given. The legend
+is static for now and does not share `activeId` with the ring.
+
+<Canvas of={LegendStories.WithDonutChart} />
+
+## Props
+
+<Controls of={LegendStories.Base} />
