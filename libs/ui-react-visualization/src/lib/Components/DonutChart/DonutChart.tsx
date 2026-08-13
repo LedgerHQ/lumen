@@ -63,7 +63,7 @@ export function DonutChart({
         ...s,
         ...(s.color &&
           enableColorContrast && {
-            color: getContrastSafeColor(s.color, bgColor, 35),
+            color: getContrastSafeColor(s.color, bgColor),
           }),
       })),
     [seriesProp, enableColorContrast, bgColor],

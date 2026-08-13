@@ -356,15 +356,15 @@ const manyCryptoSegments: DonutSegment[] = [
  */
 
 const lightContrastSegments: DonutSegment[] = [
-  { id: 'a', label: 'Amber', value: 40, color: '#fdf0c2' },
-  { id: 'b', label: 'Sky', value: 35, color: '#c8e8fb' },
-  { id: 'c', label: 'Coral', value: 25, color: '#fcd5c8' },
+  { id: 'a', label: 'Amber', value: 40, color: '#fefae8' },
+  { id: 'b', label: 'Sky', value: 35, color: '#e8f6fe' },
+  { id: 'c', label: 'Coral', value: 25, color: '#fef0ec' },
 ];
 
 const darkContrastSegments: DonutSegment[] = [
-  { id: 'd', label: 'Forest', value: 40, color: '#1a4a2e' },
-  { id: 'e', label: 'Navy', value: 35, color: '#0f1e3d' },
-  { id: 'f', label: 'Plum', value: 25, color: '#2d1040' },
+  { id: 'd', label: 'Forest', value: 40, color: '#0a1f13' },
+  { id: 'e', label: 'Navy', value: 35, color: '#060d1f' },
+  { id: 'f', label: 'Plum', value: 25, color: '#160820' },
 ];
 
 export const WithColorContrast: Story = {
