@@ -21,7 +21,7 @@ export type LegendProps = {
   /**
    * Series or segments to display in the legend.
    */
-  items: LegendItem[];
+  series: LegendItem[];
   /**
    * Accessible label for the legend group.
    * @default 'Legend'

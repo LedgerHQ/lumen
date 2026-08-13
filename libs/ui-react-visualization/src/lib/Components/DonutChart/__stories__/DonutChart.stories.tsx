@@ -167,14 +167,14 @@ export const Loading: Story = {
 export const Interactive: Story = {};
 
 /**
- * Pair the ring with `Legend`: pass the same `series` as `items`. The legend
- * wraps within the width it is given.
+ * Pair the ring with `Legend`: pass it the same `series`. The legend wraps
+ * within the width it is given.
  */
 export const WithLegend: Story = {
   render: (args) => (
     <div className='flex items-center gap-24'>
       <DonutChart {...args} />
-      <Legend items={args.series} className='max-w-176' />
+      <Legend series={args.series} className='max-w-176' />
     </div>
   ),
 };

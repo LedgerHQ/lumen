@@ -62,14 +62,14 @@ const Section = ({
 
 const Base = ({ items }: { items: LegendItem[] }) => (
   <Section title='Base'>
-    <Legend items={items} />
+    <Legend series={items} />
   </Section>
 );
 
 const DefaultColors = () => (
   <Section title='Default colors'>
     <Legend
-      items={[
+      series={[
         { id: 'a', label: 'Segment A' },
         { id: 'b', label: 'Segment B' },
         { id: 'c', label: 'Segment C' },
@@ -82,7 +82,7 @@ const LongLabels = ({ items }: { items: LegendItem[] }) => (
   <Section title='Long labels'>
     <Legend
       lx={{ maxWidth: 's176' }}
-      items={items.map((item, index) => ({
+      series={items.map((item, index) => ({
         ...item,
         label: index === 1 ? 'Wrapped Staked Ethereum Liquidity' : item.label,
       }))}
@@ -94,7 +94,7 @@ const WithDonutChart = ({ segments }: { segments: DonutSegment[] }) => (
   <Section title='With DonutChart'>
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's24' }}>
       <DonutChart series={segments} />
-      <Legend items={segments} lx={{ maxWidth: 's176', flexShrink: 1 }} />
+      <Legend series={segments} lx={{ maxWidth: 's176', flexShrink: 1 }} />
     </Box>
   </Section>
 );

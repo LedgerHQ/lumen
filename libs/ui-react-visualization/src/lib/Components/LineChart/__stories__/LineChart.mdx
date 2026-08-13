@@ -158,8 +158,8 @@ See the **ReferenceLine** page for vertical lines and label alignment.
 ### Legend
 
 Name each line by rendering a `<Legend>` next to the chart. It is a sibling
-rather than a chart child, so build its `items` from the same `series` — one
-entry per line, with the series `stroke` as the swatch `color`.
+rather than a chart child, so build its `series` from the chart's own `series` —
+one entry per line, with the series `stroke` as the swatch `color`.
 
 <Canvas of={LineChartStories.WithLegend} />
 

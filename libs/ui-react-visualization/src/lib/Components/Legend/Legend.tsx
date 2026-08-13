@@ -4,11 +4,11 @@ import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';
 
 export function Legend({
-  items,
+  series,
   ariaLabel = 'Legend',
   className,
 }: LegendProps) {
-  if (items.length === 0) {
+  if (series.length === 0) {
     return null;
   }
 
@@ -20,7 +20,7 @@ export function Legend({
         className,
       )}
     >
-      {items.map((item) => (
+      {series.map((item) => (
         <LegendItem key={item.id} item={item} />
       ))}
     </ul>

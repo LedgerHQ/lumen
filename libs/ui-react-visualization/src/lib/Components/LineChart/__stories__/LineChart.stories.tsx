@@ -365,8 +365,8 @@ const legendItems = multiSeries.map(({ id, label, stroke }) => ({
 
 /**
  * Name each line by pairing the chart with a `<Legend>`. The legend is a
- * sibling, not a chart child: build its `items` from the same `series`, mapping
- * each `stroke` to the swatch `color` so both stay in sync.
+ * sibling, not a chart child: build its `series` from the chart's own `series`,
+ * mapping each `stroke` to the swatch `color` so both stay in sync.
  */
 export const WithLegend: Story = {
   args: {
@@ -376,7 +376,7 @@ export const WithLegend: Story = {
   render: (args) => (
     <div className='flex flex-col gap-16'>
       <LineChart {...args} />
-      <Legend items={legendItems} />
+      <Legend series={legendItems} />
     </div>
   ),
 };

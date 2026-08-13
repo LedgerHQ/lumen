@@ -17,14 +17,14 @@ const useLegendStyles = () =>
   );
 
 export function Legend({
-  items,
+  series,
   accessibilityLabel = 'Legend',
   style,
   ...props
 }: LegendProps) {
   const styles = useLegendStyles();
 
-  if (items.length === 0) {
+  if (series.length === 0) {
     return null;
   }
 
@@ -35,7 +35,7 @@ export function Legend({
       style={[styles.root, style]}
       {...props}
     >
-      {items.map((item) => (
+      {series.map((item) => (
         <LegendItem key={item.id} item={item} />
       ))}
     </Box>

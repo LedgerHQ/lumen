@@ -25,7 +25,7 @@ const sampleItems = [
 
 describe('Legend', () => {
   it('renders one item per entry in order', () => {
-    render(<Legend items={sampleItems} />);
+    render(<Legend series={sampleItems} />);
 
     const items = screen.getAllByRole('listitem');
     expect(items).toHaveLength(3);
@@ -36,18 +36,18 @@ describe('Legend', () => {
     ]);
   });
 
-  it('renders nothing when items is empty', () => {
-    const { container } = render(<Legend items={[]} />);
+  it('renders nothing when series is empty', () => {
+    const { container } = render(<Legend series={[]} />);
     expect(container).toBeEmptyDOMElement();
   });
 
   it('falls back to id when label is omitted', () => {
-    render(<Legend items={[{ id: 'segment-a' }]} />);
+    render(<Legend series={[{ id: 'segment-a' }]} />);
     expect(screen.getByText('segment-a')).toBeInTheDocument();
   });
 
   it('truncates a label that does not fit the available width', () => {
-    render(<Legend items={[{ id: 'a', label: 'A very long series label' }]} />);
+    render(<Legend series={[{ id: 'a', label: 'A very long series label' }]} />);
     expect(screen.getByText('A very long series label')).toHaveClass(
       'truncate',
     );
@@ -55,7 +55,7 @@ describe('Legend', () => {
 
   it('uses the item color on the swatch', () => {
     render(
-      <Legend items={[{ id: 'a', label: 'A', color: 'rgb(255, 0, 0)' }]} />,
+      <Legend series={[{ id: 'a', label: 'A', color: 'rgb(255, 0, 0)' }]} />,
     );
     expect(screen.getByTestId('legend-swatch')).toHaveStyle({
       backgroundColor: 'rgb(255, 0, 0)',
@@ -63,14 +63,14 @@ describe('Legend', () => {
   });
 
   it('uses the default swatch color when color is omitted', () => {
-    render(<Legend items={[{ id: 'a', label: 'A' }]} />);
+    render(<Legend series={[{ id: 'a', label: 'A' }]} />);
     expect(screen.getByTestId('legend-swatch')).toHaveStyle({
       backgroundColor: 'var(--background-muted-strong)',
     });
   });
 
   it('does not expose focusable legend items', () => {
-    render(<Legend items={sampleItems} />);
+    render(<Legend series={sampleItems} />);
     screen.getAllByRole('listitem').forEach((item) => {
       expect(item).not.toHaveAttribute('tabindex');
       expect(item.querySelector('button')).toBeNull();
@@ -78,14 +78,14 @@ describe('Legend', () => {
   });
 
   it('exposes the legend group with an accessible label', () => {
-    render(<Legend items={sampleItems} ariaLabel='Portfolio allocation' />);
+    render(<Legend series={sampleItems} ariaLabel='Portfolio allocation' />);
     expect(
       screen.getByRole('list', { name: 'Portfolio allocation' }),
     ).toBeInTheDocument();
   });
 
   it('merges consumer classes into the root', () => {
-    render(<Legend items={sampleItems} className='max-w-176' />);
+    render(<Legend series={sampleItems} className='max-w-176' />);
     expect(screen.getByRole('list')).toHaveClass('max-w-176');
   });
 });

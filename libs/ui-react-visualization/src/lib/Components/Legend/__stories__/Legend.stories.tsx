@@ -45,7 +45,7 @@ const meta = {
     },
   },
   args: {
-    items: cryptoItems,
+    series: cryptoItems,
   },
   decorators: [
     (Story, context) => (
@@ -72,7 +72,7 @@ export const DefaultColors: Story = {
     backgrounds: { default: 'light' },
   },
   args: {
-    items: [
+    series: [
       { id: 'a', label: 'Segment A' },
       { id: 'b', label: 'Segment B' },
       { id: 'c', label: 'Segment C' },
@@ -91,7 +91,7 @@ export const LongLabels: Story = {
   },
   args: {
     className: 'w-112',
-    items: [
+    series: [
       { ...cryptoItems[0], label: 'Bitcoin' },
       { ...cryptoItems[1], label: 'Wrapped Staked Ethereum' },
       { ...cryptoItems[2], label: 'Tether USD' },
@@ -111,7 +111,7 @@ export const WithDonutChart: Story = {
   render: () => (
     <div className='flex items-center gap-24'>
       <DonutChart series={cryptoSegments} />
-      <Legend items={cryptoSegments} className='max-w-176' />
+      <Legend series={cryptoSegments} className='max-w-176' />
     </div>
   ),
 };

@@ -235,7 +235,7 @@ const WithLegend = ({ segments }: { segments: DonutSegment[] }) => (
   <Section title='With legend'>
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's24' }}>
       <DonutChart series={segments} />
-      <Legend items={segments} style={{ maxWidth: 176, flexShrink: 1 }} />
+      <Legend series={segments} style={{ maxWidth: 176, flexShrink: 1 }} />
     </Box>
   </Section>
 );

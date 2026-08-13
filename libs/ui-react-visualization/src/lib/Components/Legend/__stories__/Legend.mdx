@@ -16,8 +16,8 @@ chart's state and active segment.
 
 ## Usage
 
-Pass an array of `LegendItem`s. `DonutSegment[]` is assignable as-is; for
-`LineChart`, map each `Series` to `{ id, label, color: stroke }`.
+Pass an array of `LegendItem`s to `series`. `DonutSegment[]` is assignable
+as-is; for `LineChart`, map each `Series` to `{ id, label, color: stroke }`.
 
 Nothing ties the legend to a chart, and the component does not check that the
 two match. Pass the same collection you passed to the chart, in the same order,
@@ -65,9 +65,9 @@ truncated with an ellipsis rather than overflowing.
 
 ## With DonutChart
 
-Place the legend beside the chart and pass the same series as `items`, capping
-its width so it wraps into the column it is given. The legend is static for now
-and does not share `activeId` with the ring.
+Place the legend beside the chart and pass the chart's `series` straight
+through, capping its width so it wraps into the column it is given. The legend
+is static for now and does not share `activeId` with the ring.
 
 <Canvas of={LegendStories.WithDonutChart} />
 

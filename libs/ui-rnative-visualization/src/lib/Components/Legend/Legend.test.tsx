@@ -20,7 +20,7 @@ const renderWithTheme = (children: React.ReactNode) =>
 
 describe('Legend', () => {
   it('renders one item per entry in order', () => {
-    const { getAllByRole } = renderWithTheme(<Legend items={sampleItems} />);
+    const { getAllByRole } = renderWithTheme(<Legend series={sampleItems} />);
 
     const items = getAllByRole('listitem');
     expect(items).toHaveLength(3);
@@ -29,29 +29,29 @@ describe('Legend', () => {
     ).toEqual(['Bitcoin', 'Ethereum', 'Tether']);
   });
 
-  it('renders nothing when items is empty', () => {
-    const { toJSON, queryByLabelText } = renderWithTheme(<Legend items={[]} />);
+  it('renders nothing when series is empty', () => {
+    const { toJSON, queryByLabelText } = renderWithTheme(<Legend series={[]} />);
     expect(queryByLabelText('Legend')).toBeNull();
     expect(toJSON()).toBeNull();
   });
 
   it('falls back to id when label is omitted', () => {
     const { getByText } = renderWithTheme(
-      <Legend items={[{ id: 'segment-a' }]} />,
+      <Legend series={[{ id: 'segment-a' }]} />,
     );
     expect(getByText('segment-a')).toBeTruthy();
   });
 
   it('truncates a label that does not fit on one line', () => {
     const { getByText } = renderWithTheme(
-      <Legend items={[{ id: 'a', label: 'A very long series label' }]} />,
+      <Legend series={[{ id: 'a', label: 'A very long series label' }]} />,
     );
     expect(getByText('A very long series label').props.numberOfLines).toBe(1);
   });
 
   it('uses the item color on the swatch', () => {
     const { getByTestId } = renderWithTheme(
-      <Legend items={[{ id: 'a', label: 'A', color: 'rgb(255, 0, 0)' }]} />,
+      <Legend series={[{ id: 'a', label: 'A', color: 'rgb(255, 0, 0)' }]} />,
     );
     expect(getByTestId('legend-swatch').props.style).toEqual(
       expect.objectContaining({ backgroundColor: 'rgb(255, 0, 0)' }),
@@ -60,7 +60,7 @@ describe('Legend', () => {
 
   it('uses the default swatch color when color is omitted', () => {
     const { getByTestId } = renderWithTheme(
-      <Legend items={[{ id: 'a', label: 'A' }]} />,
+      <Legend series={[{ id: 'a', label: 'A' }]} />,
     );
     expect(getByTestId('legend-swatch').props.style).toEqual(
       expect.objectContaining({
@@ -70,7 +70,7 @@ describe('Legend', () => {
   });
 
   it('does not expose pressable legend items', () => {
-    const { getAllByRole } = renderWithTheme(<Legend items={sampleItems} />);
+    const { getAllByRole } = renderWithTheme(<Legend series={sampleItems} />);
     getAllByRole('listitem').forEach((item) => {
       expect(item.props.onPress).toBeUndefined();
     });
@@ -78,14 +78,14 @@ describe('Legend', () => {
 
   it('exposes the legend group with an accessible label', () => {
     const { getByLabelText } = renderWithTheme(
-      <Legend items={sampleItems} accessibilityLabel='Portfolio allocation' />,
+      <Legend series={sampleItems} accessibilityLabel='Portfolio allocation' />,
     );
     expect(getByLabelText('Portfolio allocation')).toBeTruthy();
   });
 
   it('merges consumer styles into the root', () => {
     const { getByLabelText } = renderWithTheme(
-      <Legend items={sampleItems} style={{ maxWidth: 176 }} />,
+      <Legend series={sampleItems} style={{ maxWidth: 176 }} />,
     );
     expect(getByLabelText('Legend').props.style).toEqual(
       expect.objectContaining({ maxWidth: 176, flexWrap: 'wrap' }),
