@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import { useCommonTranslation } from '../../../../../i18n';
 import { ArrowLeft, Close } from '../../../symbols';
 import { IconButton } from '../../IconButton';
-import { DialogClose } from '../Dialog';
+import { DialogClose } from '../DialogClose/DialogClose';
 import type { DialogHeaderProps } from '../types';
 
 const dialogHeaderVariants = cva('flex px-24 text-base', {

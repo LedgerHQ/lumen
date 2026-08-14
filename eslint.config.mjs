@@ -22,6 +22,10 @@ export const sharedConfig = defineConfig(
       import: importPlugin,
       'jsx-a11y': jsxA11y,
     },
+    settings: {
+      ...importPlugin.flatConfigs.typescript.settings,
+      'import/ignore': ['node_modules'],
+    },
   },
   defineGlobalRules({
     rules: {
@@ -36,6 +40,7 @@ export const sharedConfig = defineConfig(
       'import/no-unused-modules': 'error',
       'import/no-mutable-exports': 'error',
       'import/no-duplicates': 'error',
+      'import/no-cycle': ['error', { ignoreExternal: true }],
 
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/array-type': ['error', { default: 'array' }],
