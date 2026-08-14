@@ -1,5 +1,4 @@
-import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
-import { useControllableState, useTheme } from '@ledgerhq/lumen-ui-rnative';
+import { useControllableState } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -9,6 +8,7 @@ import { toRingLocalPoint } from './constants';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
+import { useContrastSafeSeries } from './hooks/useContrastSafeSeries';
 import type { DonutChartProps } from './types';
 import {
   buildRingSegments,
@@ -30,8 +30,6 @@ export function DonutChart({
   renderCenterActive,
   enableColorContrast = false,
 }: DonutChartProps) {
-  const { theme } = useTheme();
-  const bgColor = theme.colors.bg.canvas;
   const geometry = DONUT_GEOMETRY[size];
 
   const [activeId, setActiveId] = useControllableState({
@@ -40,17 +38,7 @@ export function DonutChart({
     onChange: onActiveIdChange,
   });
 
-  const series = useMemo(
-    () =>
-      seriesProp.map((s) => ({
-        ...s,
-        ...(s.color &&
-          enableColorContrast && {
-            color: getContrastSafeColor(s.color, bgColor),
-          }),
-      })),
-    [seriesProp, enableColorContrast, bgColor],
-  );
+  const series = useContrastSafeSeries(seriesProp, enableColorContrast);
 
   const segments = useMemo(
     () => buildRingSegments(series, geometry),
