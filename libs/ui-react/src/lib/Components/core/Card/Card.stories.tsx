@@ -226,7 +226,7 @@ export const StatesShowcase: Story = {
   ),
 };
 
-export const AppearanceShowcase: Story = {
+export const FooterAppearance: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
       <Card type='info' className='w-320'>

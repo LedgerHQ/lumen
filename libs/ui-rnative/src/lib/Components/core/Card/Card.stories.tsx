@@ -243,7 +243,7 @@ export const StatesShowcase: Story = {
   ),
 };
 
-export const AppearanceShowcase: Story = {
+export const FooterAppearance: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Card type='info' lx={{ width: 's320' }}>
