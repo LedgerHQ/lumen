@@ -133,8 +133,6 @@ export type CardFooterAppearance = 'plain' | 'no-background';
 export type CardFooterProps = {
   /**
    * The visual appearance of the footer background.
-   * - `'plain'` (default): muted transparent background.
-   * - `'no-background'`: transparent, blends with the card surface.
    * @default 'plain'
    */
   appearance?: CardFooterAppearance;
