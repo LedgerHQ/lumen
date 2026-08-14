@@ -81,6 +81,37 @@ describe('MediaBanner', () => {
     );
   });
 
+  it('should keep a fixed height regardless of description line count', () => {
+    const { getByTestId, rerender } = render(
+      <TestWrapper>
+        <MediaBanner testID='media-banner' imageUrl={IMAGE_URL}>
+          <MediaBannerTitle>Title</MediaBannerTitle>
+          <MediaBannerDescription>One line</MediaBannerDescription>
+        </MediaBanner>
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('media-banner').props.style.height).toBe(
+      ledgerLiveThemes.dark.sizes.s72,
+    );
+
+    rerender(
+      <TestWrapper>
+        <MediaBanner testID='media-banner' imageUrl={IMAGE_URL}>
+          <MediaBannerTitle>Title</MediaBannerTitle>
+          <MediaBannerDescription>
+            The image failed to load so the banner decided to gracefully hide
+            it.
+          </MediaBannerDescription>
+        </MediaBanner>
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('media-banner').props.style.height).toBe(
+      ledgerLiveThemes.dark.sizes.s72,
+    );
+  });
+
   it('should render with imageUrl prop', () => {
     const { getByTestId } = render(
       <TestWrapper>
