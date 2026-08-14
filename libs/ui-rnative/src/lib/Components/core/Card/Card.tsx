@@ -25,6 +25,7 @@ import type {
   CardContentTitleProps,
   CardContextValue,
   CardFooterActionsProps,
+  CardFooterAppearance,
   CardFooterProps,
   CardHeaderProps,
   CardLeadingProps,
@@ -661,6 +662,7 @@ const useCardFooterAnimation = ({
 export const CardFooter = ({
   ref,
   children,
+  appearance = 'plain',
   lx = {},
   style,
   ...props
@@ -675,24 +677,31 @@ export const CardFooter = ({
   });
 
   const footerStyles = useStyleSheet(
-    (t) => ({
-      wrapper: {
-        backgroundColor: t.colors.bg.mutedTransparent,
-      },
-      content: StyleSheet.flatten([
-        {
-          width: t.sizes.full,
-          flexDirection: 'column',
-          gap: t.spacings.s8,
-          paddingHorizontal: t.spacings.s12,
-          paddingVertical: t.spacings.s10,
+    (t) => {
+      const appearanceStyles = {
+        plain: {
+          backgroundColor: t.colors.bg.mutedTransparent,
         },
-        disabled && {
-          opacity: 0.5,
-        },
-      ]),
-    }),
-    [disabled],
+        'no-background': {},
+      } satisfies Record<CardFooterAppearance, ViewStyle>;
+
+      return {
+        wrapper: appearanceStyles[appearance],
+        content: StyleSheet.flatten([
+          {
+            width: t.sizes.full,
+            flexDirection: 'column',
+            gap: t.spacings.s8,
+            paddingHorizontal: t.spacings.s12,
+            paddingVertical: t.spacings.s10,
+          },
+          disabled && {
+            opacity: 0.5,
+          },
+        ]),
+      };
+    },
+    [disabled, appearance],
   );
 
   return (

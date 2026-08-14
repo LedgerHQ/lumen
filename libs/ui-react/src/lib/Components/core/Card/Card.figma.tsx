@@ -12,6 +12,7 @@ import {
   CardContentTitle,
   CardContentDescription,
   CardTrailing,
+  CardFooter,
 } from './Card';
 
 figma.connect(
@@ -108,6 +109,25 @@ figma.connect(
   },
 );
 
+figma.connect(
+  CardFooter,
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=14067-7402',
+  {
+    imports: ["import { CardFooter } from '@ledgerhq/lumen-ui-react'"],
+    props: {
+      appearance: figma.enum('appearance', {
+        'no-background': 'no-background',
+        plain: 'plain',
+      }),
+      children: figma.children('*'),
+    },
+    example: (props) => (
+      <CardFooter appearance={props.appearance}>{props.children}</CardFooter>
+    ),
+  },
+);
+
+// —— Card (expandable/info variant) ——
 figma.connect(
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=14481-33979',
   {

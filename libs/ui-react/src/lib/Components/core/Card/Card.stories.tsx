@@ -226,6 +226,60 @@ export const StatesShowcase: Story = {
   ),
 };
 
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <div className='flex flex-col gap-16'>
+      <Card type='info' className='w-320'>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
+            <CardContent>
+              <CardContentTitle>Plain</CardContentTitle>
+              <CardContentDescription>
+                Muted footer background
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+        <CardFooter appearance='plain'>
+          <CardContentDescription>
+            3 assets on 2 networks
+          </CardContentDescription>
+        </CardFooter>
+      </Card>
+
+      <Card type='info' className='w-320'>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
+            <CardContent>
+              <CardContentTitle>No background</CardContentTitle>
+              <CardContentDescription>
+                Blends with the card surface
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+        <CardFooter appearance='no-background'>
+          <CardContentDescription>
+            3 assets on 2 networks
+          </CardContentDescription>
+        </CardFooter>
+      </Card>
+    </div>
+  ),
+};
+
 export const DisabledWithIcon: Story = {
   args: {
     className: 'w-320',

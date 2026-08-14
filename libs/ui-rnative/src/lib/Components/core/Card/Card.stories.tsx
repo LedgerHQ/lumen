@@ -243,6 +243,50 @@ export const StatesShowcase: Story = {
   ),
 };
 
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'column', gap: 's16' }}>
+      <Card type='info' lx={{ width: 's320' }}>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CardContent>
+              <CardContentTitle>Plain</CardContentTitle>
+              <CardContentDescription>
+                Muted footer background
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+        <CardFooter appearance='plain'>
+          <CardContentDescription>
+            3 assets on 2 networks
+          </CardContentDescription>
+        </CardFooter>
+      </Card>
+
+      <Card type='info' lx={{ width: 's320' }}>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CardContent>
+              <CardContentTitle>No background</CardContentTitle>
+              <CardContentDescription>
+                Blends with the card surface
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+        <CardFooter appearance='no-background'>
+          <CardContentDescription>
+            3 assets on 2 networks
+          </CardContentDescription>
+        </CardFooter>
+      </Card>
+    </Box>
+  ),
+};
+
 export const DisabledWithSpot: Story = {
   args: {
     lx: { width: 's320' },

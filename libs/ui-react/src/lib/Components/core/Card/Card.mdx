@@ -27,7 +27,7 @@ Card is a flexible container component that uses a composite pattern for display
 - **CardContentTitle**: Primary text label with truncation.
 - **CardContentDescription**: Secondary muted text with truncation.
 - **CardTrailing**: Right section for trailing content (Button, Tag, right-aligned values, etc.).
-- **CardFooter**: Footer container with muted background. Collapses with a 300ms transition when `expanded === false`.
+- **CardFooter**: Footer container. `appearance="plain"` (default) uses a muted background; `appearance="no-background"` blends with the card surface. Collapses with a 300ms transition when `expanded === false`.
 
 ## States
 
@@ -41,6 +41,15 @@ Use `outlined` for selection state.
 The `disabled` prop cascades disabled styling to all sub-components (except for crypto-icon, it needs to managed in the app).
 
 <Canvas of={CardStories.StatesShowcase} />
+
+## Appearance
+
+`CardFooter` supports two appearances:
+
+- **`"plain"`** (default): muted transparent background that visually separates the footer from the header.
+- **`"no-background"`**: transparent, so the footer blends with the card surface.
+
+<Canvas of={CardStories.AppearanceShowcase} />
 
 ## Expandable
 
