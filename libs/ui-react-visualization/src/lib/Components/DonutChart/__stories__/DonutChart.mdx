@@ -68,20 +68,13 @@ The ring adapts to any number of segments.
 
 ### Very small values
 
-A value like `0.00001` is thinner than one pixel, so at its real size you would
-not see it. The chart never draws a segment smaller than 8px at `md` or 4px at
-`sm`. The space it needs comes from the bigger segments.
-
-This only changes how the chart looks. `percent` and `percentLabel` still use
-the real values, so a tiny segment reports its real share. Under 0.1%, the label
-reads `<0.1%`.
-
-Zero and negative values are never drawn.
+Segments are drawn at least 8px (`md`) or 4px (`sm`) so tiny values stay
+visible; the extra space is taken from larger segments. Labels still use the
+real share (`<0.1%` under 0.1%). Zero and negative values are not drawn.
 
 <Canvas of={DonutChartStories.WithTinyValues} />
 
-A tiny segment shows that the value exists, but not how big it is. If you have
-many tiny values, group them into an "Other" segment with
+Group many tiny values into an "Other" segment with
 [`useDonutSeries`](#preparing-the-series).
 
 ## States

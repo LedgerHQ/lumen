@@ -40,7 +40,7 @@ export default function DonutCharts() {
       <TwoEqualHalves palette={segmentPalette} />
       <SingleSegment palette={segmentPalette} />
       <DominantSegment palette={segmentPalette} />
-      <TinyValue palette={segmentPalette} />
+      <SmallPercentValue palette={segmentPalette} />
       <NoData />
       <Loading />
       <LoadingWithCenter segments={portfolioSegments} />
@@ -344,7 +344,7 @@ const DominantSegment = ({ palette }: { palette: string[] }) => (
  * A near-zero value is floored to a minimum arc so it stays visible and
  * tappable; the label still reports its true share.
  */
-const TinyValue = ({ palette }: { palette: string[] }) => (
+const SmallPercentValue = ({ palette }: { palette: string[] }) => (
   <Section title='Tiny value (tap the sliver)'>
     <DonutChart
       series={[
