@@ -75,7 +75,7 @@ export function debounce<T extends (...args: never[]) => unknown>(
 
   const invokeFunc = (time: number): ReturnType<T> => {
     lastInvokeTime = time;
-    const args = lastArgs!;
+    const args = lastArgs ?? [];
     const thisArg = lastThis;
     lastArgs = null;
     lastThis = null;

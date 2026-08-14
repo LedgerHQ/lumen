@@ -4,6 +4,7 @@ import { defineConfig } from 'eslint/config';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import tseslint from 'typescript-eslint';
 import {
   definedGlobalIgnores,
   defineGlobalRules,
@@ -17,6 +18,8 @@ export const sharedConfig = defineConfig(
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   ...storybook.configs['flat/recommended'],
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.stylistic,
   {
     plugins: {
       import: importPlugin,
@@ -41,9 +44,6 @@ export const sharedConfig = defineConfig(
       'import/no-mutable-exports': 'error',
       'import/no-duplicates': 'error',
       'import/no-cycle': ['error', { ignoreExternal: true }],
-
-      '@typescript-eslint/consistent-type-imports': 'error',
-      '@typescript-eslint/array-type': ['error', { default: 'array' }],
       'import/order': [
         'error',
         {
@@ -61,6 +61,8 @@ export const sharedConfig = defineConfig(
       /**
        * typescript
        */
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/array-type': ['error', { default: 'array' }],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -73,6 +75,9 @@ export const sharedConfig = defineConfig(
         },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
       /**
        * Others
        */
@@ -132,6 +137,9 @@ export const prodConfig = defineConfig(
       'no-console': 'error',
       'import/no-extraneous-dependencies': ['error'],
       'import/no-default-export': 'error',
+
+      '@typescript-eslint/no-non-null-assertion': 'error',
+      '@typescript-eslint/no-require-imports': 'error',
       /**
        * nx
        */

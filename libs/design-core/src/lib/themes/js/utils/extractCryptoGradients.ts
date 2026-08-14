@@ -13,7 +13,7 @@ export const extractCryptoGradients = (mode: 'dark' | 'light') => {
   const cryptoTransparentColors = primitiveColorTokens[mode].cryptoTransparent;
   const keys = typedKeys(cryptoColors);
 
-  return keys.reduce<{ [key in CryptoColorKey]: { color: string }[] }>(
+  return keys.reduce<Record<CryptoColorKey, { color: string }[]>>(
     (acc, colorKey: CryptoColorKey) => {
       return {
         ...acc,
@@ -27,6 +27,6 @@ export const extractCryptoGradients = (mode: 'dark' | 'light') => {
         ],
       };
     },
-    {} as any,
+    {} as Record<CryptoColorKey, { color: string }[]>,
   );
 };

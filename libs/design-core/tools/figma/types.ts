@@ -21,13 +21,9 @@ export type Token = {
 
 type TokenOrTokenGroup =
   | Token
-  | ({
-      [tokenName: string]: Token;
-    } & { $type?: never; $value?: never });
+  | (Record<string, Token> & { $type?: never; $value?: never });
 
-export type TokenFileContent = {
-  [key: string]: TokenOrTokenGroup;
-};
+export type TokenFileContent = Record<string, TokenOrTokenGroup>;
 
 export type LocalVariableCollectionMode = {
   modeId: string;

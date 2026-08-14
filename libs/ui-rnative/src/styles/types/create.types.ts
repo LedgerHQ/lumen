@@ -10,12 +10,12 @@ type FlatLumensValues = {
 
 type LumensValues = FlatLumensValues | FlatLumensValues[];
 
-export type LumenStyleSheet = {
-  [styleName: string]:
-    | LumensValues
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    | ((...args: any) => LumensValues);
-};
+export type LumenStyleSheet = Record<
+  string,
+  | LumensValues
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | ((...args: any) => LumensValues)
+>;
 
 export type LumenStyleSheetExtended<S extends LumenStyleSheet> =
   | ((theme: LumenStyleSheetTheme) => S)
