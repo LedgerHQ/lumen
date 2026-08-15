@@ -8,6 +8,7 @@ import { toRingLocalPoint } from './constants';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
+import { useContrastSafeSeries } from './hooks/useContrastSafeSeries';
 import type { DonutChartProps } from './types';
 import {
   buildRingSegments,
@@ -18,7 +19,7 @@ import {
 } from './utils';
 
 export function DonutChart({
-  series,
+  series: seriesProp,
   size = 'md',
   accessibilityLabel = 'Donut chart',
   loading = false,
@@ -27,7 +28,8 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
-}: Readonly<DonutChartProps>) {
+  enableColorContrast = false,
+}: DonutChartProps) {
   const geometry = DONUT_GEOMETRY[size];
 
   const [activeId, setActiveId] = useControllableState({
@@ -35,6 +37,8 @@ export function DonutChart({
     defaultProp: defaultActiveId,
     onChange: onActiveIdChange,
   });
+
+  const series = useContrastSafeSeries(seriesProp, enableColorContrast);
 
   const segments = useMemo(
     () => buildRingSegments(series, geometry),

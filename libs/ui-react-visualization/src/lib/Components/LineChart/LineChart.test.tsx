@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -13,7 +14,11 @@ const sampleSeries = [
 ];
 
 const LineChartWrapper = (props: LineChartProps) => {
-  return <LineChart {...props} />;
+  return (
+    <ThemeProvider>
+      <LineChart {...props} />
+    </ThemeProvider>
+  );
 };
 
 const hasShimmerStyle = (container: HTMLElement): boolean => {
@@ -240,6 +245,42 @@ describe('LineChart', () => {
       );
 
       expect(linePathD(container).match(/M/g)).toHaveLength(1);
+    });
+  });
+
+  describe('enableColorContrast', () => {
+    it('renders without error when enableColorContrast is true and series have strokes', () => {
+      const { getAllByTestId } = render(
+        <LineChartWrapper
+          series={[
+            { id: 'test', stroke: '#f5f5f5', data: [10, 20, 30, 40, 50] },
+          ]}
+          width={400}
+          height={200}
+          enableColorContrast
+        />,
+      );
+      expect(getAllByTestId('line-path')).toHaveLength(1);
+    });
+
+    it('renders without error when enableColorContrast is true and series have no stroke', () => {
+      const noStrokeSeries = [{ id: 'test', data: [10, 20, 30] }];
+      const { getAllByTestId } = render(
+        <LineChartWrapper
+          series={noStrokeSeries}
+          width={400}
+          height={200}
+          enableColorContrast
+        />,
+      );
+      expect(getAllByTestId('line-path')).toHaveLength(1);
+    });
+
+    it('renders without error when enableColorContrast is false (default)', () => {
+      const { getAllByTestId } = render(
+        <LineChartWrapper series={sampleSeries} width={400} height={200} />,
+      );
+      expect(getAllByTestId('line-path')).toHaveLength(1);
     });
   });
 

@@ -1,12 +1,17 @@
+import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { Profiler } from 'react';
-import type { ProfilerOnRenderCallback } from 'react';
+import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { Point } from '../Point';
 import { Scrubber } from '../Scrubber';
 
 import { LineChart } from './LineChart';
+
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <ThemeProvider>{children}</ThemeProvider>
+);
 
 // Deterministic render budgets: assert on counts, never time, so CI never flakes.
 // A failing budget should be an intentional, reviewed change.
@@ -65,6 +70,7 @@ describe('LineChart performance budgets', () => {
           <Point key={index} dataX={index} dataY={value} />
         ))}
       </LineChart>,
+      { wrapper },
     );
 
     const groups = container.querySelectorAll('[data-testid="point-group"]');
@@ -97,6 +103,7 @@ describe('LineChart performance budgets', () => {
           </Profiler>
         ))}
       </LineChart>,
+      { wrapper },
     );
 
     expect(pointMountCommits).toBe(POINT_COUNT);
@@ -125,6 +132,7 @@ describe('LineChart performance budgets', () => {
           })}
         />
       </LineChart>,
+      { wrapper },
     );
 
     const svg = getByTestId('chart-svg');

@@ -1,4 +1,4 @@
-import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Button, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
   LineChart,
@@ -44,6 +44,7 @@ export default function LineCharts() {
       <ScrubberWithTooltip />
       <RandomAutoUpdate />
       <MagnetizedPoint />
+      <ContrastSafe />
     </Box>
   );
 }
@@ -654,6 +655,61 @@ const magneticSeries = [
     ],
   },
 ];
+
+const lightContrastSeries: Series[] = [
+  {
+    id: 'alpha',
+    stroke: '#f0f7ff',
+    data: [10, 22, 18, 35, 42, 38, 51, 45, 60, 55],
+  },
+  {
+    id: 'beta',
+    stroke: '#fff5e6',
+    data: [40, 35, 45, 30, 25, 38, 28, 42, 30, 45],
+  },
+];
+
+const darkContrastSeries: Series[] = [
+  {
+    id: 'gamma',
+    stroke: '#0d1117',
+    data: [10, 22, 18, 35, 42, 38, 51, 45, 60, 55],
+  },
+  {
+    id: 'delta',
+    stroke: '#0f0d17',
+    data: [40, 35, 45, 30, 25, 38, 28, 42, 30, 45],
+  },
+];
+
+const ContrastSafe = () => {
+  const [isContrastSafe, setIsContrastSafe] = useState(true);
+
+  return (
+    <>
+      <Section title='Contrast safety - light series'>
+        <LineChart
+          series={lightContrastSeries}
+          height={125}
+          enableColorContrast={isContrastSafe}
+        />
+      </Section>
+      <Section title='Contrast safety - dark series'>
+        <LineChart
+          series={darkContrastSeries}
+          height={125}
+          enableColorContrast={isContrastSafe}
+        />
+      </Section>
+      <Button
+        appearance={isContrastSafe ? 'transparent' : 'base'}
+        onPress={() => setIsContrastSafe((s) => !s)}
+      >
+        {isContrastSafe ? 'Disable' : 'Enable'} contrast safety
+      </Button>
+    </>
+  );
+};
 
 const MagnetizedPoint = () => (
   <Section title='Magnetized point'>

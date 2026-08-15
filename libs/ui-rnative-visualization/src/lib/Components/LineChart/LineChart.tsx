@@ -1,3 +1,5 @@
+import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
@@ -127,8 +129,8 @@ const LineChartContent = ({
   );
 };
 
-export const LineChart = ({
-  series,
+export function LineChart({
+  series: seriesProp,
   showArea = false,
   areaType = 'gradient',
   showXAxis = false,
@@ -146,7 +148,22 @@ export const LineChart = ({
   loading = false,
   emptyLabel = chartConfig.emptyState.defaultLabel,
   connectNulls,
-}: Readonly<LineChartProps>) => {
+  enableColorContrast = false,
+}: LineChartProps) {
+  const { theme } = useTheme();
+  const bgColor = theme.colors.bg.canvas;
+  const series = useMemo(
+    () =>
+      seriesProp?.map((s) => ({
+        ...s,
+        ...(s.stroke &&
+          enableColorContrast && {
+            stroke: getContrastSafeColor(s.stroke, bgColor),
+          }),
+      })),
+    [seriesProp, enableColorContrast, bgColor],
+  );
+
   const xAxisConfig = useMemo(
     () => mergeDefaults(defaultXAxisProps, xAxis),
     [xAxis],
@@ -218,4 +235,4 @@ export const LineChart = ({
       )}
     </CartesianChart>
   );
-};
+}

@@ -24,13 +24,13 @@ type Story = StoryObj;
 type ColorCategory = 'bg' | 'text' | 'border' | 'crypto' | 'discover';
 
 const isCloseToWhite = (hex: string, threshold = 230): boolean => {
-  if (parseInt(hex.slice(7, 9)) === 0) {
+  if (Number.parseInt(hex.slice(7, 9)) === 0) {
     return true;
   }
 
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
+  const r = Number.parseInt(hex.slice(1, 3), 16);
+  const g = Number.parseInt(hex.slice(3, 5), 16);
+  const b = Number.parseInt(hex.slice(5, 7), 16);
 
   return (r + g + b) / 3 >= threshold;
 };

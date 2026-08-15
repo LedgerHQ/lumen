@@ -65,6 +65,15 @@ export type LineChartProps = LineRenderOptions &
      * @default 'No data'
      */
     emptyLabel?: string;
+    /**
+     * When `true`, each series' `stroke` color is nudged so its HSL lightness
+     * differs from the surface background by at least 20 units.
+     *
+     * Colors that already meet that minimum are left untouched. Only applies to
+     * explicit 6-digit hex stroke values; other formats are passed through unchanged.
+     * @default false
+     */
+    enableColorContrast?: boolean;
   };
 
 /**
