@@ -191,6 +191,19 @@ tooltip alongside design-system components.
 
 <Canvas of={LineChartStories.Interactive} />
 
+## Color contrast
+
+Series stroke colors are used as-is. If a palette contains colors whose
+lightness sits close to the chart's background the lines may be hard to
+distinguish from the surrounding surface.
+
+Pass `enableColorContrast` to let the chart correct this automatically. Each
+series' stroke is nudged in HSL lightness space until it differs from the
+surface background by at least 20 units. Colors that already meet that minimum
+are left unchanged.
+
+<Canvas of={LineChartStories.WithColorContrast} />
+
 ## Props
 
 <Controls of={LineChartStories.Base} />

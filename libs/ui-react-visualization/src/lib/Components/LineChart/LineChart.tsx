@@ -1,3 +1,8 @@
+import {
+  getContrastSafeColor,
+  primitiveColorTokens,
+} from '@ledgerhq/lumen-design-core';
+import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
 
 import { chartConfig } from '../../config';
@@ -126,7 +131,7 @@ const LineChartContent = ({
 };
 
 export function LineChart({
-  series,
+  series: seriesProp,
   showArea = false,
   areaType = 'gradient',
   connectNulls,
@@ -143,8 +148,26 @@ export function LineChart({
   magnetRadius,
   loading = false,
   emptyLabel = chartConfig.emptyState.defaultLabel,
+  enableColorContrast = false,
   children,
-}: Readonly<LineChartProps>) {
+}: LineChartProps) {
+  const { colorScheme } = useTheme();
+  const bgColor =
+    colorScheme === 'dark'
+      ? primitiveColorTokens.dark.grey['050']
+      : primitiveColorTokens.light.grey['050'];
+  const series = useMemo(
+    () =>
+      seriesProp?.map((s) => ({
+        ...s,
+        ...(s.stroke &&
+          enableColorContrast && {
+            stroke: getContrastSafeColor(s.stroke, bgColor),
+          }),
+      })),
+    [seriesProp, enableColorContrast, bgColor],
+  );
+
   const xAxisConfig = useMemo(
     () => mergeDefaults(defaultXAxisProps, xAxis),
     [xAxis],

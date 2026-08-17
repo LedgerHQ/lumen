@@ -32,18 +32,21 @@ import type {
   DataTableRootProps,
 } from './types';
 
-const [DataTableProvider, useDataTableContext] = createSafeContext<{
-  table: TanstackTable<any>;
+type DataTableContextValue<TData extends RowData = RowData> = {
+  table: TanstackTable<TData>;
   appearance: DataTableRootProps['appearance'];
   loading: DataTableRootProps['loading'];
   paginationMode: DataTableRootProps['paginationMode'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
-  onRowClick?: (row: Row<any>) => void;
-  groupBy?: (row: Row<any>) => string;
-  renderGroupHeader?: (info: { row: Row<any>; count: number }) => ReactNode;
-}>('DataTableContext');
+  onRowClick?: (row: Row<TData>) => void;
+  groupBy?: (row: Row<TData>) => string;
+  renderGroupHeader?: (info: { row: Row<TData>; count: number }) => ReactNode;
+};
+
+const [DataTableProvider, useDataTableContext] =
+  createSafeContext<DataTableContextValue<RowData>>('DataTableContext');
 
 /**
  * Context provider for the DataTable compound.
@@ -55,7 +58,7 @@ const [DataTableProvider, useDataTableContext] = createSafeContext<{
  *   <DataTable />
  * </DataTableRoot>
  */
-export const DataTableRoot = <TData extends RowData>({
+export const DataTableRoot = <TData extends RowData = RowData>({
   table,
   appearance = 'no-background',
   paginationMode = 'none',
@@ -73,18 +76,20 @@ export const DataTableRoot = <TData extends RowData>({
 }: DataTableRootProps<TData>) => {
   return (
     <DataTableProvider
-      value={{
-        hideHeader,
-        stickyHeader,
-        paginationMode,
-        table,
-        appearance,
-        loading,
-        onScrollBottom,
-        onRowClick,
-        groupBy,
-        renderGroupHeader,
-      }}
+      value={
+        {
+          hideHeader,
+          stickyHeader,
+          paginationMode,
+          table,
+          appearance,
+          loading,
+          onScrollBottom,
+          onRowClick,
+          groupBy,
+          renderGroupHeader,
+        } as DataTableContextValue
+      }
     >
       <div ref={ref} className={cn('flex flex-col', className)} {...props}>
         {children}
@@ -281,7 +286,10 @@ const DataTableGroupedBody = ({
     contextRequired: true,
   });
 
-  const groups = groupRows(table.getRowModel().rows, groupBy!);
+  const groups = groupRows(
+    table.getRowModel().rows,
+    groupBy as (row: Row<RowData>) => string,
+  );
 
   return (
     <TableBody ref={ref} className={className} {...props}>

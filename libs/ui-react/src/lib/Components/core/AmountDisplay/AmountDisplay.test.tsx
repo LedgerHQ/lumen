@@ -23,7 +23,7 @@ describe('AmountDisplay', () => {
     );
     return Array.from(strips).map((el) => {
       const match = el.style.transform.match(/translateY\(-(\d+)%\)/);
-      return match ? parseInt(match[1]) / 10 : -1;
+      return match ? Number.parseInt(match[1]) / 10 : -1;
     });
   };
 

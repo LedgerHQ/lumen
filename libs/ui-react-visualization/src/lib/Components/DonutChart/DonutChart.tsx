@@ -5,6 +5,7 @@ import { chartConfig } from '../../config';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
+import { useContrastSafeSeries } from './hooks/useContrastSafeSeries';
 import type { DonutChartProps } from './types';
 import {
   buildRingSegments,
@@ -14,7 +15,7 @@ import {
 } from './utils';
 
 export function DonutChart({
-  series,
+  series: seriesProp,
   size = 'md',
   ariaLabel = 'Donut chart',
   loading = false,
@@ -23,8 +24,11 @@ export function DonutChart({
   onActiveIdChange,
   renderCenter,
   renderCenterActive,
-}: Readonly<DonutChartProps>) {
+  enableColorContrast = false,
+}: DonutChartProps) {
   const geometry = DONUT_GEOMETRY[size];
+
+  const series = useContrastSafeSeries(seriesProp, enableColorContrast);
 
   const [activeId, setActiveId] = useControllableState({
     prop: activeIdProp,
