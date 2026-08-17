@@ -184,6 +184,52 @@ describe('Card', () => {
     });
   });
 
+  describe('CardFooter appearance', () => {
+    const getFooterWrapper = (testId = 'card-footer'): HTMLElement => {
+      const footer = screen.getByTestId(testId);
+      return footer.parentElement!.parentElement!;
+    };
+
+    it('applies muted background for plain appearance by default', () => {
+      renderCard();
+      expect(getFooterWrapper()).toHaveClass('bg-muted-transparent');
+    });
+
+    it('applies muted background when appearance is plain', () => {
+      render(
+        <Card>
+          <CardHeader>
+            <CardLeading>
+              <CardContentTitle>Title</CardContentTitle>
+            </CardLeading>
+          </CardHeader>
+          <CardFooter appearance='plain' data-testid='card-footer'>
+            <CardContentDescription>Footer text</CardContentDescription>
+          </CardFooter>
+        </Card>,
+      );
+
+      expect(getFooterWrapper()).toHaveClass('bg-muted-transparent');
+    });
+
+    it('does not apply muted background when appearance is no-background', () => {
+      render(
+        <Card>
+          <CardHeader>
+            <CardLeading>
+              <CardContentTitle>Title</CardContentTitle>
+            </CardLeading>
+          </CardHeader>
+          <CardFooter appearance='no-background' data-testid='card-footer'>
+            <CardContentDescription>Footer text</CardContentDescription>
+          </CardFooter>
+        </Card>,
+      );
+
+      expect(getFooterWrapper()).not.toHaveClass('bg-muted-transparent');
+    });
+  });
+
   describe('info', () => {
     it('has no role="button" and is not focusable', () => {
       renderCard({ type: 'info' });

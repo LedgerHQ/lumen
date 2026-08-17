@@ -165,6 +165,31 @@ describe('Card', () => {
     });
   });
 
+  describe('CardFooter appearance', () => {
+    it.each(['plain', 'no-background'] as const)(
+      'renders with %s appearance',
+      (appearance) => {
+        render(
+          <TestWrapper>
+            <Card>
+              <CardHeader>
+                <CardLeading>
+                  <CardContentTitle>Title</CardContentTitle>
+                </CardLeading>
+              </CardHeader>
+              <CardFooter appearance={appearance} testID='card-footer'>
+                <CardContentDescription>Footer text</CardContentDescription>
+              </CardFooter>
+            </Card>
+          </TestWrapper>,
+        );
+
+        expect(screen.getByTestId('card-footer')).toBeTruthy();
+        expect(screen.getByText('Footer text')).toBeTruthy();
+      },
+    );
+  });
+
   describe('CardContentRow', () => {
     it('renders title alongside additional content in a row', () => {
       render(

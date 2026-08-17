@@ -103,7 +103,14 @@ export type CardTrailingProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
+export type CardFooterAppearance = 'plain' | 'no-background';
+
 export type CardFooterProps = {
+  /**
+   * The visual appearance of the footer background.
+   * @default 'plain'
+   */
+  appearance?: CardFooterAppearance;
   /**
    * The footer content (DescriptionList, Button, etc.).
    */

@@ -128,7 +128,14 @@ export type CardTrailingProps = {
   className?: string;
 } & ComponentPropsWithRef<'div'>;
 
+export type CardFooterAppearance = 'plain' | 'no-background';
+
 export type CardFooterProps = {
+  /**
+   * The visual appearance of the footer background.
+   * @default 'plain'
+   */
+  appearance?: CardFooterAppearance;
   /**
    * The footer content (DescriptionItem, Button, etc.).
    */

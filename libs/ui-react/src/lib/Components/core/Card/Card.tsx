@@ -386,6 +386,21 @@ export const CardTrailing = ({
   );
 };
 
+const cardFooterVariants = cva(
+  'grid flex-1 transition-[grid-template-rows] duration-300',
+  {
+    variants: {
+      appearance: {
+        plain: 'bg-muted-transparent',
+        'no-background': '',
+      },
+    },
+    defaultVariants: {
+      appearance: 'plain',
+    },
+  },
+);
+
 /**
  * Footer container for the card. Collapses with a 300ms transition
  * when `footerExpanded` is `false` (only happens in `"expandable"` mode).
@@ -394,6 +409,7 @@ export const CardFooter = ({
   ref,
   children,
   className,
+  appearance = 'plain',
   ...props
 }: CardFooterProps) => {
   const { disabled, footerExpanded } = useCardContext({
@@ -404,7 +420,7 @@ export const CardFooter = ({
   return (
     <div
       className={cn(
-        'grid flex-1 bg-muted-transparent transition-[grid-template-rows] duration-300',
+        cardFooterVariants({ appearance }),
         footerExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
       )}
     >

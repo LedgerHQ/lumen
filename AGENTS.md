@@ -31,6 +31,8 @@ questions and generators instead of guessing.
   authoritative conventions; when a skill conflicts with this file, the skill wins.
 - **Comments explain intent, not mechanics.** Comment the *why* (trade-offs,
   gotchas, constraints), never restate the code. Prefer clear names over comments.
+- **JSDoc must not restate TypeScript.** Do not list union/literal values in
+  JSDoc (e.g. `- \`'plain'\`: …`). Types and JSDoc parsers already surface them.
 - **Explicit return types** on module-level functions (helps future readers and
   agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
