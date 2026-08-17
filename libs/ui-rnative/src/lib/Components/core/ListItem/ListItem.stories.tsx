@@ -30,7 +30,6 @@ const meta = {
     ListItemContentRow,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -53,7 +52,7 @@ const meta = {
 } satisfies Meta<typeof ListItem>;
 
 export default meta;
-type Story = StoryObj<typeof ListItem>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

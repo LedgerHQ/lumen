@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { TextInput } from './TextInput';
 import { type TextInputProps } from './types';
 
-const meta: Meta<typeof TextInput> = {
+const meta = {
   component: TextInput,
   id: 'rnative-textinput',
   title: 'Core/TextInput',
@@ -17,10 +17,10 @@ const meta: Meta<typeof TextInput> = {
       },
     },
   },
-};
+} satisfies Meta<typeof TextInput>;
 
 export default meta;
-type Story = StoryObj<typeof TextInput>;
+type Story = StoryObj<typeof meta>;
 
 const TextInputStory = (args: TextInputProps & { initialValue?: string }) => {
   const [value, setValue] = useState(args.initialValue ?? '');

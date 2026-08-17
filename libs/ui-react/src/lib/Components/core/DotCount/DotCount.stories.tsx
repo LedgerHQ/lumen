@@ -9,7 +9,6 @@ const meta = {
   id: 'react-dotcount',
   title: 'Core/DotCount',
   parameters: {
-    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

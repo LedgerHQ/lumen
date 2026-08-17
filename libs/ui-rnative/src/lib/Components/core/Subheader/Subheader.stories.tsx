@@ -18,7 +18,7 @@ const Container = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
-const meta: Meta<typeof Subheader> = {
+const meta = {
   component: Subheader,
   id: 'rnative-subheader',
   title: 'Core/Subheader',
@@ -37,10 +37,10 @@ const meta: Meta<typeof Subheader> = {
       </Container>
     ),
   ],
-};
+} satisfies Meta<typeof Subheader>;
 
 export default meta;
-type Story = StoryObj<typeof Subheader>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   render: () => (

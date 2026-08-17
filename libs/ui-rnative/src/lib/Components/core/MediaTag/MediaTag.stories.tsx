@@ -12,7 +12,7 @@ const ETH_ICON = (
   />
 );
 
-const meta: Meta<typeof MediaTag> = {
+const meta = {
   component: MediaTag,
   id: 'rnative-mediatag',
   title: 'Core/MediaTag',
@@ -38,11 +38,11 @@ const meta: Meta<typeof MediaTag> = {
       control: 'text',
     },
   },
-};
+} satisfies Meta<typeof MediaTag>;
 
 export default meta;
 
-type Story = StoryObj<typeof MediaTag>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

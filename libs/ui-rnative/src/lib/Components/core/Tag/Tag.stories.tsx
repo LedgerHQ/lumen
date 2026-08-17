@@ -3,7 +3,7 @@ import { Box } from '../../primitives/Box';
 import { Check } from '../../symbols/icons/Check';
 import { Tag } from './Tag';
 
-const meta: Meta<typeof Tag> = {
+const meta = {
   component: Tag,
   id: 'rnative-tag',
   title: 'Core/Tag',
@@ -35,11 +35,11 @@ const meta: Meta<typeof Tag> = {
       description: 'Show icon',
     },
   },
-};
+} satisfies Meta<typeof Tag>;
 
 export default meta;
 
-type Story = StoryObj<typeof Tag>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

@@ -3,13 +3,13 @@ import { stripSizePrefix } from '../formatToken';
 import { SectionHeader } from '../shared';
 import { DimensionTable } from './dimensionTable';
 
-const meta: Meta = {
+const meta = {
   id: 'react-spacing',
   title: 'Foundations/Spacing',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 export const Spacing: Story = {
   render: () => (

@@ -3,7 +3,7 @@ import { Box, Text } from '../../primitives';
 import { Settings, Plus, Coins, CreditCard, Bank } from '../../symbols';
 import { CardButton } from './CardButton';
 
-const meta: Meta<typeof CardButton> = {
+const meta = {
   component: CardButton,
   id: 'rnative-cardbutton',
   title: 'Core/CardButton',
@@ -49,10 +49,10 @@ const meta: Meta<typeof CardButton> = {
       description: 'Whether the card button is disabled',
     },
   },
-};
+} satisfies Meta<typeof CardButton>;
 
 export default meta;
-type Story = StoryObj<typeof CardButton>;
+type Story = StoryObj<typeof meta>;
 type CardButtonAppearance = 'base' | 'outline';
 
 export const Base: Story = {

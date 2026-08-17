@@ -54,7 +54,7 @@ const meta = {
 } satisfies Meta<typeof DonutChart>;
 
 export default meta;
-type Story = StoryObj<typeof DonutChart>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {};
 

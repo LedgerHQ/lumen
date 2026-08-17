@@ -43,7 +43,7 @@ const meta = {
 } satisfies Meta<typeof XAxis>;
 
 export default meta;
-type Story = StoryObj<typeof XAxis>;
+type Story = StoryObj<typeof meta>;
 
 /** Numeric, index-based axis with no decorations beyond labels. */
 export const Base: Story = {

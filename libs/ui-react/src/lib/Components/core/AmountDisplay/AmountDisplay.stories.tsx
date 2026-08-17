@@ -87,7 +87,6 @@ const meta = {
     },
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -100,7 +99,7 @@ const meta = {
 } satisfies Meta<typeof AmountDisplay>;
 
 export default meta;
-type Story = StoryObj<typeof AmountDisplay>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

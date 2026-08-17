@@ -3,7 +3,7 @@ import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import { Spinner } from './Spinner';
 
-const meta: Meta<typeof Spinner> = {
+const meta = {
   id: 'rnative-spinner',
   title: 'Core/Spinner',
   component: Spinner,
@@ -16,10 +16,10 @@ const meta: Meta<typeof Spinner> = {
       options: [12, 16, 20, 24, 40, 48, 56],
     },
   },
-};
+} satisfies Meta<typeof Spinner>;
 
 export default meta;
-type Story = StoryObj<typeof Spinner>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

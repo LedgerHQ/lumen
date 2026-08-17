@@ -11,7 +11,7 @@ import {
   ContentBannerTitle,
 } from './ContentBanner';
 
-const meta: Meta<typeof ContentBanner> = {
+const meta = {
   component: ContentBanner,
   id: 'react-contentbanner',
   title: 'Core/ContentBanner',
@@ -21,7 +21,6 @@ const meta: Meta<typeof ContentBanner> = {
     ContentBannerDescription,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -39,10 +38,10 @@ const meta: Meta<typeof ContentBanner> = {
       control: 'text',
     },
   },
-};
+} satisfies Meta<typeof ContentBanner>;
 
 export default meta;
-type Story = StoryObj<typeof ContentBanner>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

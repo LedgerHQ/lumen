@@ -74,7 +74,7 @@ const meta = {
 } satisfies Meta<typeof OptionList>;
 
 export default meta;
-type Story = StoryObj<typeof OptionList>;
+type Story = StoryObj<typeof meta>;
 
 const CURRENCIES: OptionListItemData[] = [
   {

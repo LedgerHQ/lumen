@@ -31,7 +31,6 @@ const meta = {
     DescriptionItemValue,
   },
   parameters: {
-    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',
@@ -43,7 +42,7 @@ const meta = {
 } satisfies Meta<typeof DescriptionItem>;
 
 export default meta;
-type Story = StoryObj<typeof DescriptionItem>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

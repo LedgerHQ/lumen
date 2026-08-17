@@ -6,7 +6,7 @@ import { Button } from '../Button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip';
 import { TextInput } from './TextInput';
 
-const meta: Meta<typeof TextInput> = {
+const meta = {
   component: TextInput,
   id: 'react-textinput',
   title: 'Core/TextInput',
@@ -40,10 +40,10 @@ const meta: Meta<typeof TextInput> = {
     },
   },
   // Default args moved to Default story
-};
+} satisfies Meta<typeof TextInput>;
 
 export default meta;
-type Story = StoryObj<typeof TextInput>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => {

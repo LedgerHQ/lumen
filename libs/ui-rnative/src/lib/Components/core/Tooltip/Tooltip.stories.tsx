@@ -7,16 +7,16 @@ import { InteractiveIcon } from '../InteractiveIcon';
 import { GlobalTooltipBottomSheet } from './GlobalTooltipBottomSheet';
 import { Tooltip, TooltipTrigger, TooltipContent } from './Tooltip';
 
-const meta: Meta<typeof Tooltip> = {
+const meta = {
   component: Tooltip,
   subcomponents: { TooltipTrigger, TooltipContent },
   id: 'rnative-tooltip',
   title: 'Core/Tooltip',
-};
+} satisfies Meta<typeof Tooltip>;
 
 export default meta;
 
-type Story = StoryObj<typeof Tooltip>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   render: () => (

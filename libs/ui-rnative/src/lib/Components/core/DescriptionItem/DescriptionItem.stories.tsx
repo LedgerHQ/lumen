@@ -12,7 +12,7 @@ import {
   DescriptionItemValue,
 } from './DescriptionItem';
 
-const meta: Meta<typeof DescriptionItem> = {
+const meta = {
   component: DescriptionItem,
   id: 'rnative-descriptionitem',
   title: 'Core/DescriptionItem',
@@ -23,7 +23,6 @@ const meta: Meta<typeof DescriptionItem> = {
     DescriptionItemValue,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -40,10 +39,10 @@ const meta: Meta<typeof DescriptionItem> = {
       </Box>
     ),
   ],
-};
+} satisfies Meta<typeof DescriptionItem>;
 
 export default meta;
-type Story = StoryObj<typeof DescriptionItem>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

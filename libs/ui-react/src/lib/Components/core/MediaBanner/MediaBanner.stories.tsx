@@ -10,7 +10,7 @@ import {
 const IMAGE_URL =
   'https://images.unsplash.com/photo-1663741954108-d15d514529ef';
 
-const meta: Meta<typeof MediaBanner> = {
+const meta = {
   component: MediaBanner,
   id: 'react-mediabanner',
   title: 'Core/MediaBanner',
@@ -19,7 +19,6 @@ const meta: Meta<typeof MediaBanner> = {
     MediaBannerDescription,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -41,10 +40,10 @@ const meta: Meta<typeof MediaBanner> = {
       action: 'closed',
     },
   },
-};
+} satisfies Meta<typeof MediaBanner>;
 
 export default meta;
-type Story = StoryObj<typeof MediaBanner>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

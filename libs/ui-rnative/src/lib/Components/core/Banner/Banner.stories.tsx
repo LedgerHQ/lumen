@@ -4,7 +4,7 @@ import { Box, Text } from '../../primitives';
 import { Button } from '../Button';
 import { Banner } from './Banner';
 
-const meta: Meta<typeof Banner> = {
+const meta = {
   component: Banner,
   id: 'rnative-banner',
   title: 'Core/Banner',
@@ -81,10 +81,10 @@ const meta: Meta<typeof Banner> = {
       description: 'Close action with onClick and ariaLabel',
     },
   },
-};
+} satisfies Meta<typeof Banner>;
 
 export default meta;
-type Story = StoryObj<typeof Banner>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

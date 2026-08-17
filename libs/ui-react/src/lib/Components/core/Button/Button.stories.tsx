@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Settings, Plus, ExternalLink } from '../../symbols';
 import { Button } from './Button';
 
-const meta: Meta<typeof Button> = {
+const meta = {
   component: Button,
   id: 'react-button',
   title: 'Core/Button',
@@ -27,10 +27,10 @@ const meta: Meta<typeof Button> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 type ButtonAppearance =
   | 'base'
   | 'gray'

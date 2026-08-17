@@ -4,12 +4,11 @@ import { Box } from '../../primitives';
 import { Settings, Star } from '../../symbols';
 import { MediaButton } from './MediaButton';
 
-const meta: Meta<typeof MediaButton> = {
+const meta = {
   component: MediaButton,
   id: 'rnative-mediabutton',
   title: 'Core/MediaButton',
   parameters: {
-    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',
@@ -18,10 +17,10 @@ const meta: Meta<typeof MediaButton> = {
       },
     },
   },
-};
+} satisfies Meta<typeof MediaButton>;
 
 export default meta;
-type Story = StoryObj<typeof MediaButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

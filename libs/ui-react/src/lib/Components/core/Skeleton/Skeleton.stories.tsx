@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from './Skeleton';
 
-const meta: Meta<typeof Skeleton> = {
+const meta = {
   id: 'react-skeleton',
   title: 'Core/Skeleton',
   component: Skeleton,
   parameters: {
     backgrounds: { default: 'light' },
-    layout: 'centered',
   },
   decorators: [
     (Story) => (
@@ -23,7 +22,7 @@ const meta: Meta<typeof Skeleton> = {
       description: 'Pre-built skeleton component variant',
     },
   },
-};
+} satisfies Meta<typeof Skeleton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

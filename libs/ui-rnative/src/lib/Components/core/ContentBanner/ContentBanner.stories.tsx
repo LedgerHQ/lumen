@@ -12,7 +12,7 @@ import {
   ContentBannerTitle,
 } from './ContentBanner';
 
-const meta: Meta<typeof ContentBanner> = {
+const meta = {
   component: ContentBanner,
   id: 'rnative-contentbanner',
   title: 'Core/ContentBanner',
@@ -42,10 +42,10 @@ const meta: Meta<typeof ContentBanner> = {
       description: 'Accessibility label for the close button',
     },
   },
-};
+} satisfies Meta<typeof ContentBanner>;
 
 export default meta;
-type Story = StoryObj<typeof ContentBanner>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

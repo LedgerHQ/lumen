@@ -42,7 +42,7 @@ const DialogContentTemplate = () => {
   );
 };
 
-const meta: Meta<typeof Dialog> = {
+const meta = {
   component: Dialog,
   id: 'react-dialog',
   title: 'Core/Dialog',
@@ -64,10 +64,10 @@ const meta: Meta<typeof Dialog> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Dialog>;
 
 export default meta;
-type Story = StoryObj<typeof Dialog>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   render: () => (

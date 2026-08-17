@@ -11,7 +11,7 @@ const iconMap = {
   Close,
 } as const;
 
-const meta: Meta<typeof IconButton> = {
+const meta = {
   id: 'rnative-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
@@ -53,10 +53,10 @@ const meta: Meta<typeof IconButton> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
-type Story = StoryObj<typeof IconButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

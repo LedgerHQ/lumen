@@ -9,7 +9,7 @@ import {
   PopoverContent,
   createPopoverHandle,
 } from './Popover';
-const meta: Meta<typeof Popover> = {
+const meta = {
   id: 'react-popover',
   title: 'Core/Popover',
   component: Popover,
@@ -18,16 +18,15 @@ const meta: Meta<typeof Popover> = {
     PopoverContent,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: {
       default: 'light',
     },
   },
-};
+} satisfies Meta<typeof Popover>;
 
 export default meta;
 
-type Story = StoryObj<typeof Popover>;
+type Story = StoryObj<typeof meta>;
 
 const DefaultContent = () => {
   return (

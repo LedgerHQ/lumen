@@ -26,6 +26,8 @@ const preview: Preview = {
   },
 
   parameters: {
+    // Start-aligned canvas. Override per-story with `fullscreen` when needed.
+    layout: 'padded',
     darkMode: {
       light: lightTheme,
       dark: darkTheme,

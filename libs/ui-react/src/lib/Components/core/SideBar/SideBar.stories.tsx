@@ -30,7 +30,7 @@ import {
   SideBarCollapseToggle,
 } from './SideBar';
 
-const meta: Meta<typeof SideBar> = {
+const meta = {
   component: SideBar,
   id: 'react-sidebar',
   title: 'Core/SideBar',
@@ -41,8 +41,6 @@ const meta: Meta<typeof SideBar> = {
     SideBarCollapseToggle,
   },
   parameters: {
-    layout: 'padded',
-
     docs: {
       source: {
         language: 'tsx',
@@ -71,10 +69,10 @@ const meta: Meta<typeof SideBar> = {
       action: 'active changed',
     },
   },
-};
+} satisfies Meta<typeof SideBar>;
 
 export default meta;
-type Story = StoryObj<typeof SideBar>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   parameters: {

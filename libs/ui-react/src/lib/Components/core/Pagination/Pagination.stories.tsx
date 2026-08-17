@@ -7,7 +7,6 @@ const meta = {
   title: 'Core/Pagination',
   component: Pagination,
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {

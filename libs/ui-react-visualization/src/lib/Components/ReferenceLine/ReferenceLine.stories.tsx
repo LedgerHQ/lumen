@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof ReferenceLine>;
 
 export default meta;
-type Story = StoryObj<typeof ReferenceLine>;
+type Story = StoryObj<typeof meta>;
 
 export const HorizontalLine: Story = {
   args: {

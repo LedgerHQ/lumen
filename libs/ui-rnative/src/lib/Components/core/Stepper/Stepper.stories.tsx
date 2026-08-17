@@ -3,7 +3,7 @@ import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import { Stepper } from './Stepper';
 
-const meta: Meta<typeof Stepper> = {
+const meta = {
   id: 'rnative-stepper',
   title: 'Core/Stepper',
   component: Stepper,
@@ -15,10 +15,10 @@ const meta: Meta<typeof Stepper> = {
     totalSteps: { control: 'number' },
     disabled: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof Stepper>;
 
 export default meta;
-type Story = StoryObj<typeof Stepper>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

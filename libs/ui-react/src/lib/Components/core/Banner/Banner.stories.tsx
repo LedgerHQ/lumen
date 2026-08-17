@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '../Button';
 import { Banner } from './Banner';
 
-const meta: Meta<typeof Banner> = {
+const meta = {
   component: Banner,
   id: 'react-banner',
   title: 'Core/Banner',
@@ -60,10 +60,10 @@ const meta: Meta<typeof Banner> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Banner>;
 
 export default meta;
-type Story = StoryObj<typeof Banner>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

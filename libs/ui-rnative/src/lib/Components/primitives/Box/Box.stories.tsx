@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from './Box';
 
-const meta: Meta<typeof Box> = {
+const meta = {
   component: Box,
   id: 'rnative-box',
   title: 'Primitives/Box',
@@ -14,10 +14,10 @@ const meta: Meta<typeof Box> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Box>;
 
 export default meta;
-type Story = StoryObj<typeof Box>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

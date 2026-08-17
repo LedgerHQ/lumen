@@ -3,12 +3,11 @@ import { Box } from '../../Box';
 import { Text } from '../../Text';
 import { RadialGradient } from './RadialGradient';
 
-const meta: Meta<typeof RadialGradient> = {
+const meta = {
   component: RadialGradient,
   id: 'rnative-radialgradient',
   title: 'Primitives/RadialGradient',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -18,10 +17,10 @@ const meta: Meta<typeof RadialGradient> = {
       },
     },
   },
-};
+} satisfies Meta<typeof RadialGradient>;
 
 export default meta;
-type Story = StoryObj<typeof RadialGradient>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

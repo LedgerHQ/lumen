@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { AddressInput } from './AddressInput';
 import type { AddressInputProps } from './types';
 
-const meta: Meta<typeof AddressInput> = {
+const meta = {
   component: AddressInput,
   id: 'rnative-addressinput',
   title: 'Core/AddressInput',
@@ -17,10 +17,10 @@ const meta: Meta<typeof AddressInput> = {
       },
     },
   },
-};
+} satisfies Meta<typeof AddressInput>;
 
 export default meta;
-type Story = StoryObj<typeof AddressInput>;
+type Story = StoryObj<typeof meta>;
 
 const AddressInputStory = (args: AddressInputProps) => {
   const [address, setAddress] = useState(args.value?.toString() ?? '');

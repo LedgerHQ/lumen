@@ -4,13 +4,10 @@ import { Spinner } from '../../core/Spinner';
 import { Box, Text } from '../../primitives';
 import { Spin } from './Spin';
 
-const meta: Meta<typeof Spin> = {
+const meta = {
   id: 'rnative-spin',
   title: 'Primitives/Spin',
   component: Spin,
-  parameters: {
-    layout: 'centered',
-  },
 } satisfies Meta<typeof Spin>;
 
 export default meta;

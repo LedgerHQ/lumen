@@ -20,7 +20,7 @@ import {
 } from './Select';
 import type { SelectItemData } from './types';
 
-const meta: Meta<typeof Select> = {
+const meta = {
   id: 'react-select',
   title: 'Core/Select',
   component: Select,
@@ -36,7 +36,6 @@ const meta: Meta<typeof Select> = {
     SelectEmptyState,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   argTypes: {
@@ -50,10 +49,10 @@ const meta: Meta<typeof Select> = {
     required: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof Select>;
 
 export default meta;
-type Story = StoryObj<typeof Select>;
+type Story = StoryObj<typeof meta>;
 
 const baseOptions = [
   { value: 'option1', label: 'Option 1' },

@@ -15,7 +15,7 @@ const SIZES: { size: AmountInputSize; value: string }[] = [
   { size: 'sm', value: '55 555' },
 ];
 
-const meta: Meta<typeof AmountInput> = {
+const meta = {
   component: AmountInput,
   id: 'rnative-amountinput',
   title: 'Core/AmountInput',
@@ -37,10 +37,10 @@ const meta: Meta<typeof AmountInput> = {
   args: {
     isInvalid: false,
   },
-};
+} satisfies Meta<typeof AmountInput>;
 
 export default meta;
-type Story = StoryObj<typeof AmountInput>;
+type Story = StoryObj<typeof meta>;
 
 const AmountInputStory = (args: AmountInputProps) => {
   const [value, setValue] = useState(args.value?.toString() ?? '');

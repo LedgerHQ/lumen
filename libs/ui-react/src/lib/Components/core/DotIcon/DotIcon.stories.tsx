@@ -15,7 +15,6 @@ const meta = {
   id: 'react-doticon',
   title: 'Core/DotIcon',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

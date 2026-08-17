@@ -10,7 +10,6 @@ const meta = {
   id: 'react-avatar',
   title: 'Core/Avatar',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

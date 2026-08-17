@@ -43,7 +43,7 @@ const meta = {
 } satisfies Meta<typeof YAxis>;
 
 export default meta;
-type Story = StoryObj<typeof YAxis>;
+type Story = StoryObj<typeof meta>;
 
 /** Base y-axis with labels and a baseline. */
 export const Base: Story = {

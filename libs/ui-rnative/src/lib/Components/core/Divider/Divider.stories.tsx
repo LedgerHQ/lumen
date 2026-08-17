@@ -3,17 +3,17 @@ import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import { Divider } from './Divider';
 
-const meta: Meta<typeof Divider> = {
+const meta = {
   component: Divider,
   id: 'rnative-divider',
   title: 'Core/Divider',
   parameters: {
     actions: { disable: true },
   },
-};
+} satisfies Meta<typeof Divider>;
 
 export default meta;
-type Story = StoryObj<typeof Divider>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

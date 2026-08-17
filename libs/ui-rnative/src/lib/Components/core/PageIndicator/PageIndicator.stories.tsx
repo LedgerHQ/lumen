@@ -10,7 +10,6 @@ const meta = {
   title: 'Core/PageIndicator',
   component: PageIndicator,
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   argTypes: {

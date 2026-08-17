@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { SearchInput } from './SearchInput';
 import type { SearchInputProps } from './types';
 
-const meta: Meta<typeof SearchInput> = {
+const meta = {
   component: SearchInput,
   id: 'rnative-searchinput',
   title: 'Core/SearchInput',
@@ -20,10 +20,10 @@ const meta: Meta<typeof SearchInput> = {
       },
     },
   },
-};
+} satisfies Meta<typeof SearchInput>;
 
 export default meta;
-type Story = StoryObj<typeof SearchInput>;
+type Story = StoryObj<typeof meta>;
 
 const SearchInputStory = (
   args: SearchInputProps & { initialValue?: string },

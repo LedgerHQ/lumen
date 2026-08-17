@@ -5,7 +5,7 @@ import type { IconProps } from '../../symbols/Icon';
 import { Spot } from './Spot';
 import type { SpotProps } from './types';
 
-const meta: Meta<typeof Spot> = {
+const meta = {
   component: Spot,
   id: 'rnative-spot',
   title: 'Core/Spot',
@@ -60,10 +60,10 @@ const meta: Meta<typeof Spot> = {
       description: 'Number to display (required for number appearance)',
     },
   },
-};
+} satisfies Meta<typeof Spot>;
 
 export default meta;
-type Story = StoryObj<typeof Spot>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

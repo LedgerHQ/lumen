@@ -3,13 +3,13 @@ import { toKebab } from '../formatToken';
 import { SectionHeader, TokenTable } from '../shared';
 import { useResolvedTheme } from '../useResolvedTheme';
 
-const meta: Meta = {
+const meta = {
   id: 'react-typography',
   title: 'Foundations/Styles/Typography',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 type TypographyCategory = 'responsive' | 'heading' | 'body';
 

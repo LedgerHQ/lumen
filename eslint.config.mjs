@@ -10,6 +10,7 @@ import {
   defineGlobalRules,
   defineProdRules,
   defineDevRules,
+  defineStorybookStoryRules,
 } from './eslint.shared.mjs';
 
 export const sharedConfig = defineConfig(
@@ -18,6 +19,7 @@ export const sharedConfig = defineConfig(
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   ...storybook.configs['flat/recommended'],
+  defineStorybookStoryRules(),
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylistic,
   {

@@ -6,7 +6,7 @@ const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault();
 };
 
-const meta: Meta<typeof Link> = {
+const meta = {
   component: Link,
   id: 'react-link',
   title: 'Core/Link',
@@ -30,10 +30,10 @@ const meta: Meta<typeof Link> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Link>;
 
 export default meta;
-type Story = StoryObj<typeof Link>;
+type Story = StoryObj<typeof meta>;
 type LinkAppearance = 'base' | 'accent' | 'inherit';
 
 export const Base: Story = {

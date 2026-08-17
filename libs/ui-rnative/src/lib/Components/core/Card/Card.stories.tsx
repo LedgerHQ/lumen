@@ -19,7 +19,7 @@ import {
   CardFooterActions,
 } from './Card';
 
-const meta: Meta<typeof Card> = {
+const meta = {
   component: Card,
   id: 'rnative-card',
   title: 'Core/Card',
@@ -35,7 +35,6 @@ const meta: Meta<typeof Card> = {
     CardFooterActions,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -59,10 +58,10 @@ const meta: Meta<typeof Card> = {
       description: 'The function to be called when the card is pressed',
     },
   },
-};
+} satisfies Meta<typeof Card>;
 
 export default meta;
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

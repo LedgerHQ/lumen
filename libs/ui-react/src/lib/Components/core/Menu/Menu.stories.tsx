@@ -21,7 +21,7 @@ import {
   MenuGroup,
 } from './Menu';
 
-const meta: Meta<typeof Menu> = {
+const meta = {
   id: 'react-menu',
   title: 'Core/Menu',
   component: Menu,
@@ -40,16 +40,15 @@ const meta: Meta<typeof Menu> = {
     MenuGroup,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: {
       default: 'light',
     },
   },
-};
+} satisfies Meta<typeof Menu>;
 
 export default meta;
 
-type Story = StoryObj<typeof Menu>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

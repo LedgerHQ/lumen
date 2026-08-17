@@ -4,7 +4,7 @@ import { Box, Text } from '../../primitives';
 import { Plus, Settings } from '../../symbols';
 import { Button } from './Button';
 
-const meta: Meta<typeof Button> = {
+const meta = {
   component: Button,
   id: 'rnative-button',
   title: 'Core/Button',
@@ -32,10 +32,10 @@ const meta: Meta<typeof Button> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 type ButtonAppearance =
   | 'base'
   | 'gray'

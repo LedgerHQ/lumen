@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives/Box';
 import { Trend } from './Trend';
 
-const meta: Meta<typeof Trend> = {
+const meta = {
   component: Trend,
   id: 'rnative-trend',
   title: 'Core/Trend',
@@ -18,11 +18,11 @@ const meta: Meta<typeof Trend> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof Trend>;
 
 export default meta;
 
-type Story = StoryObj<typeof Trend>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

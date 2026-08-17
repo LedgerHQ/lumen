@@ -32,11 +32,10 @@ const meta = {
 } satisfies Meta<typeof Point>;
 
 export default meta;
-type Story = StoryObj<typeof Point>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {
@@ -64,7 +63,6 @@ export const Base: Story = {
 
 export const WithCustomLabelComponent: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {
@@ -110,7 +108,6 @@ export const WithCustomLabelComponent: Story = {
 
 export const NoPoint: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -123,7 +120,6 @@ export const NoPoint: Story = {
 
 export const CustomSize: Story = {
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {

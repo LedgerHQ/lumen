@@ -19,7 +19,7 @@ type PlaygroundArgs = {
   showCoinCapsule: boolean;
 };
 
-const meta: Meta<typeof NavBar> = {
+const meta = {
   component: NavBar,
   id: 'react-navbar',
   title: 'Core/NavBar',
@@ -48,10 +48,10 @@ const meta: Meta<typeof NavBar> = {
       control: false,
     },
   },
-};
+} satisfies Meta<typeof NavBar>;
 
 export default meta;
-type Story = StoryObj<typeof NavBar>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: StoryObj<PlaygroundArgs> = {
   args: {

@@ -6,7 +6,6 @@ const meta = {
   id: 'react-avatar-button',
   title: 'Core/AvatarButton',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

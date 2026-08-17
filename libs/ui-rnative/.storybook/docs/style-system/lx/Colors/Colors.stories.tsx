@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { ColorTable } from './ColorTable';
 
-const meta: Meta = {
+const meta = {
   id: 'rnative-colors',
   title: 'Style System/Theme/Colors',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 export const Background: Story = {
   render: () => <ColorTable category='bg' />,

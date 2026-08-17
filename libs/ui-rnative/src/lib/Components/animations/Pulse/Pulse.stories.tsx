@@ -17,13 +17,10 @@ const usdFormatter = (value: number): FormattedValue => {
   };
 };
 
-const meta: Meta<typeof Pulse> = {
+const meta = {
   id: 'rnative-pulse',
   title: 'Primitives/Pulse',
   component: Pulse,
-  parameters: {
-    layout: 'centered',
-  },
 } satisfies Meta<typeof Pulse>;
 
 export default meta;

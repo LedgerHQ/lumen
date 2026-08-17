@@ -11,7 +11,6 @@ const meta = {
   id: 'react-dotindicator',
   title: 'Core/DotIndicator',
   parameters: {
-    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

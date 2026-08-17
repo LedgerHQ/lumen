@@ -4,12 +4,11 @@ import { Box } from '../../Box';
 import { Text } from '../../Text';
 import { LinearGradient } from './LinearGradient';
 
-const meta: Meta<typeof LinearGradient> = {
+const meta = {
   component: LinearGradient,
   id: 'rnative-lineargradient',
   title: 'Primitives/LinearGradient',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -19,10 +18,10 @@ const meta: Meta<typeof LinearGradient> = {
       },
     },
   },
-};
+} satisfies Meta<typeof LinearGradient>;
 
 export default meta;
-type Story = StoryObj<typeof LinearGradient>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

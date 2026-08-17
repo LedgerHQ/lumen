@@ -131,14 +131,14 @@ Components are documented using Storybook stories. Create a `.stories.tsx` file 
 import type { Meta, StoryObj } from '@storybook/react';
 import { YourComponent } from './YourComponent';
 
-const meta: Meta<typeof YourComponent> = {
+const meta = {
   component: YourComponent,
   title: 'Components/YourComponent',
   tags: ['autodocs'], // Enables automatic documentation
-};
+} satisfies Meta<typeof YourComponent>;
 
 export default meta;
-type Story = StoryObj<typeof YourComponent>;
+type Story = StoryObj<typeof meta>;
 
 // Basic usage example
 export const Base: Story = {
@@ -174,24 +174,12 @@ Stories highlighting specific features.
 
 ### Story Layout Configuration
 
-All stories should follow these visual guidelines:
+The canvas defaults to **padded** (start-aligned). Do not set
+`layout: 'centered'`. Override with `layout: 'fullscreen'` only when the
+story needs a full-bleed canvas.
 
-#### Centering and Background
-
-- **Layout**: Stories should be centered.
-- **Background**: Stories should use white background.
-
-**Example**:
-
-```typescript
-export const Base: Story = {
-  parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
-  },
-  // ...
-};
-```
+Stories that need a guaranteed white canvas can set
+`backgrounds: { default: 'light' }`.
 
 ### MDX Documentation Structure
 

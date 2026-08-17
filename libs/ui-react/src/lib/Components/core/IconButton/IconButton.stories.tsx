@@ -15,13 +15,10 @@ const iconMap = {
   Close,
 } as const;
 
-const meta: Meta<typeof IconButton> = {
+const meta = {
   id: 'react-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
-  parameters: {
-    layout: 'centered',
-  },
   argTypes: {
     icon: {
       options: Object.keys(iconMap),
@@ -41,10 +38,10 @@ const meta: Meta<typeof IconButton> = {
       control: false,
     },
   },
-};
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
-type Story = StoryObj<typeof IconButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

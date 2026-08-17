@@ -3,13 +3,13 @@ import { humanize, toKebab } from '../formatToken';
 import { SectionHeader, TokenTable } from '../shared';
 import { useResolvedTheme } from '../useResolvedTheme';
 
-const meta: Meta = {
+const meta = {
   id: 'react-gradients',
   title: 'Foundations/Styles/Gradients',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 const StaticGradients = () => (
   <div className='space-y-32'>

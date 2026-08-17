@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { InformationFill, QrCode } from '../../symbols';
 import { AddressInput } from './AddressInput';
 
-const meta: Meta<typeof AddressInput> = {
+const meta = {
   component: AddressInput,
   id: 'react-addressinput',
   title: 'Core/AddressInput',
@@ -29,10 +29,10 @@ const meta: Meta<typeof AddressInput> = {
       action: 'qr-code-clicked',
     },
   },
-};
+} satisfies Meta<typeof AddressInput>;
 
 export default meta;
-type Story = StoryObj<typeof AddressInput>;
+type Story = StoryObj<typeof meta>;
 
 /**
  * The default address field input with "To:" prefix and clickable QR code scanner icon.

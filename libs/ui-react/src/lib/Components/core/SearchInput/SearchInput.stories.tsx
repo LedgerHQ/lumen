@@ -9,7 +9,7 @@ import {
 } from '../ListItem';
 import { SearchInput } from './SearchInput';
 
-const meta: Meta<typeof SearchInput> = {
+const meta = {
   component: SearchInput,
   id: 'react-searchinput',
   title: 'Core/SearchInput',
@@ -25,10 +25,10 @@ const meta: Meta<typeof SearchInput> = {
       },
     },
   },
-};
+} satisfies Meta<typeof SearchInput>;
 
 export default meta;
-type Story = StoryObj<typeof SearchInput>;
+type Story = StoryObj<typeof meta>;
 
 /**
  * The default search component with a search icon prefix and automatic clear button functionality.

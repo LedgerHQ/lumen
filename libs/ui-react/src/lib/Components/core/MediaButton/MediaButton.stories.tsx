@@ -3,12 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Settings, Star } from '../../symbols';
 import { MediaButton } from './MediaButton';
 
-const meta: Meta<typeof MediaButton> = {
+const meta = {
   component: MediaButton,
   id: 'react-mediabutton',
   title: 'Core/MediaButton',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -27,10 +26,10 @@ const meta: Meta<typeof MediaButton> = {
       control: false,
     },
   },
-};
+} satisfies Meta<typeof MediaButton>;
 
 export default meta;
-type Story = StoryObj<typeof MediaButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

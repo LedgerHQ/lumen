@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader } from '../../shared';
 import { SizeTable } from '../dimensionTable';
 
-const meta: Meta = {
+const meta = {
   id: 'react-height',
   title: 'Foundations/Height',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (

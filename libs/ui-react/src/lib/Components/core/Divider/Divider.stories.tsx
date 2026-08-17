@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Divider } from './Divider';
 
-const meta: Meta<typeof Divider> = {
+const meta = {
   component: Divider,
   id: 'react-divider',
   title: 'Core/Divider',
@@ -14,10 +14,10 @@ const meta: Meta<typeof Divider> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Divider>;
 
 export default meta;
-type Story = StoryObj<typeof Divider>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

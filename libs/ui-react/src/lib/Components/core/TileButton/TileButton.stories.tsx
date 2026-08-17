@@ -12,12 +12,11 @@ const iconOptions = {
   Cart,
 };
 
-const meta: Meta<typeof TileButton> = {
+const meta = {
   component: TileButton,
   id: 'react-tilebutton',
   title: 'Core/TileButton',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -41,10 +40,10 @@ const meta: Meta<typeof TileButton> = {
       action: 'clicked',
     },
   },
-};
+} satisfies Meta<typeof TileButton>;
 
 export default meta;
-type Story = StoryObj<typeof TileButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {

@@ -99,6 +99,32 @@ export const defineStorybookAddons = ({ packageJsonLocation }) => ({
 });
 
 /**
+ * CSF conventions for story files: `satisfies Meta` (preserves type
+ * narrowing) and start-aligned canvas (Storybook `padded`, not `centered`).
+ * @returns {Linter.Config}
+ */
+export const defineStorybookStoryRules = () => ({
+  name: 'storybook-stories-conventions',
+  files: ['**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)'],
+  rules: {
+    'storybook/meta-satisfies-type': 'error',
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'Property[key.name="layout"][value.value="centered"]',
+        message:
+          "Do not use layout: 'centered'. Stories default to padded (start-aligned). Override with 'fullscreen' only when the story needs a full-bleed canvas.",
+      },
+      {
+        selector: 'VariableDeclarator[id.name="meta"][id.typeAnnotation]',
+        message:
+          'Do not annotate `meta` with a type. Use `const meta = { ... } satisfies Meta<typeof Component>` so Storybook preserves type narrowing.',
+      },
+    ],
+  },
+});
+
+/**
  * Better Tailwind CSS rules and settings for a project's class utilities.
  * @param {{ entryPoint: string, tailwindConfig: string }} options
  * @returns {Linter.Config}

@@ -31,7 +31,7 @@ const meta = {
 } satisfies Meta<typeof Point>;
 
 export default meta;
-type Story = StoryObj<typeof Point>;
+type Story = StoryObj<typeof meta>;
 
 const magneticPoints = [
   { index: 20, color: cssVar('var(--background-success-strong)') },

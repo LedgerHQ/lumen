@@ -10,11 +10,19 @@ paths: "**/*.stories.tsx"
 
 When creating or modifying Storybook stories, follow these conventions strictly:
 
+## Meta typing
+
+Use `satisfies Meta<typeof Component>` so Storybook preserves type narrowing
+and inference. Do not annotate `meta` with `Meta<...>`.
+
 ## Story Layout Configuration
 
-### Centering and Background
+The canvas defaults to **padded** (start-aligned) in `.storybook/preview.tsx`.
+Do not set `layout: 'centered'` and do not repeat `layout: 'padded'` on stories.
 
-All stories must include these parameters:
+### Background
+
+Stories that need a guaranteed white canvas can set:
 
 ```typescript
 export const Base: Story = {
@@ -27,15 +35,12 @@ export const Base: Story = {
 };
 ```
 
-- **Layout**: Stories should be centered.
-- **Background**: Stories should use white background.
-
 ### Docs source type
 
 Stories with interactive controls (`args` on `Base`) must use dynamic docs source so the code snippet updates when controls change. Set this on the story `meta`:
 
 ```typescript
-const meta: Meta<typeof Component> = {
+const meta = {
   component: Component,
   parameters: {
     docs: {
@@ -46,7 +51,7 @@ const meta: Meta<typeof Component> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Component>;
 ```
 
 - Use `type: 'dynamic'` — not `'code'` — when the story exposes `args` / Controls.

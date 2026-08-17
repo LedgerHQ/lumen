@@ -11,7 +11,6 @@ const meta = {
   id: 'react-mediacard',
   title: 'Core/MediaCard',
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
@@ -25,7 +24,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof MediaCard>;
+type Story = StoryObj<typeof meta>;
 
 const EXAMPLE_SRC =
   'https://ledger-wp-website-s3-prd.ledger.com/uploads/2026/03/hero_visual-1.webp';

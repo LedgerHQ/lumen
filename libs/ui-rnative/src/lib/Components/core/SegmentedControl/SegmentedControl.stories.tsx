@@ -17,7 +17,6 @@ const meta = {
     SegmentedControlButton,
   },
   parameters: {
-    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   decorators: [
