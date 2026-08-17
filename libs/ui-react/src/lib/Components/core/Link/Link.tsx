@@ -93,7 +93,7 @@ export const Link = ({
     consumerName: 'Link',
     mergeWith: { disabled: disabledProp },
   });
-  const iconSizeMap: { [key: string]: IconSize } = {
+  const iconSizeMap: Record<string, IconSize> = {
     sm: 16,
     md: 20,
   };

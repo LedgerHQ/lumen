@@ -47,7 +47,7 @@ function tokenTypeFromVariable(variable: LocalVariable) {
 function tokenValueFromVariable(
   variable: LocalVariable,
   modeId: string,
-  localVariables: { [id: string]: LocalVariable },
+  localVariables: Record<string, LocalVariable>,
 ) {
   const value = variable.valuesByMode[modeId];
   if (typeof value === 'object') {
@@ -85,7 +85,7 @@ export default function tokenFilesFromLocalVariables(
     mode: LocalVariableCollectionMode,
   ) => string = defaultTokenFileNameRenamer,
 ) {
-  const tokenFiles: { [fileName: string]: TokenFileContent } = {};
+  const tokenFiles: Record<string, TokenFileContent> = {};
   const localVariableCollections =
     localVariablesResponse.meta.variableCollections;
   const localVariables = localVariablesResponse.meta.variables;

@@ -78,7 +78,7 @@ async function generateSymbols() {
     ignoredFiles.includes(path.basename(file)),
   );
 
-  const preservedPaths: Set<string> = new Set();
+  const preservedPaths = new Set<string>();
 
   for (const ignoredSvg of ignoredSvgFiles) {
     const relativeSvgPath = path.relative(INPUT_DIR, ignoredSvg);

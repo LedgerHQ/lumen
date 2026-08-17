@@ -94,7 +94,7 @@ export const BaseButton = ({
     consumerName: 'BaseButton',
     mergeWith: { disabled: disabledProp },
   });
-  const iconSizeMap: { [key: string]: IconSize } = {
+  const iconSizeMap: Record<string, IconSize> = {
     xs: 16,
     sm: 20,
     md: 24,
