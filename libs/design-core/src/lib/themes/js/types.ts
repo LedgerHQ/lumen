@@ -14,7 +14,7 @@ export type PrimitiveColorTokens = {
     crypto: Record<string, string>;
     cryptoTransparent: Record<string, string>;
     discover: Record<string, string>;
-    decorative: Record<string, string>;
+    decorative: Record<string, Record<string, string>>;
   };
   dark: {
     constant: Record<string, string>;
@@ -28,7 +28,7 @@ export type PrimitiveColorTokens = {
     crypto: Record<string, string>;
     cryptoTransparent: Record<string, string>;
     discover: Record<string, string>;
-    decorative: Record<string, string>;
+    decorative: Record<string, Record<string, string>>;
   };
 };
 

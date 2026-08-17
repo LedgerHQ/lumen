@@ -90,14 +90,14 @@ const KNOWN_EXCEPTIONS: SyncException[] = [
   ),
   ...forAllBrands(
     ['light'],
-    'bg',
-    'warningStrong',
+    'text',
+    'warning',
     'JS primitive yellow-700 differs from CSS primitive (#ae731a vs #9b6109)',
   ),
   ...forAllBrands(
     ['light'],
     'text',
-    'warning',
+    'warningStrong',
     'JS primitive yellow-700 differs from CSS primitive (#ae731a vs #9b6109)',
   ),
   ...forAllBrands(
