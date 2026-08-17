@@ -59,6 +59,7 @@ Names are scoped by prefix: `react-*` → `libs/ui-react`, `rnative-*` → `libs
 | a component has or owns a `disabled` state | `disabled-context` |
 | researching an external library/framework | `context7` |
 | opening a PR from the current branch (manual — run `/open-pr`) | `open-pr` |
+| reviewing a PR, a branch, or code changes | `pr-review` |
 | building or styling a React component (`libs/ui-react`) | `react-styling` |
 | writing React tests (`libs/ui-react`) | `react-testing` |
 | implementing a React component from a Figma link | `react-figma-to-code` |
