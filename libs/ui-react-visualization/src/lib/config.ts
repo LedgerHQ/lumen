@@ -156,6 +156,7 @@ export const chartConfig = {
         cornerRadius: 4,
         padAngle: 0.06,
         hoverOffset: 3.36,
+        minSegmentArc: 8,
       },
       sm: {
         box: 80,
@@ -164,6 +165,7 @@ export const chartConfig = {
         cornerRadius: 2,
         padAngle: 0.08,
         hoverOffset: 2,
+        minSegmentArc: 4,
       },
     },
   },

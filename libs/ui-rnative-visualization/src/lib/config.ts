@@ -108,6 +108,7 @@ export const chartConfig = {
         padAngle: 0.06,
         activeOffset: 3.36,
         hitSlopRadius: 12,
+        minSegmentArc: 8,
       },
       sm: {
         box: 80,
@@ -117,6 +118,7 @@ export const chartConfig = {
         padAngle: 0.08,
         activeOffset: 2,
         hitSlopRadius: 8,
+        minSegmentArc: 4,
       },
     },
     interaction: {
@@ -150,6 +152,8 @@ export type DonutGeometry = {
   activeOffset: number;
   /** Radial tolerance added when hit-testing taps near the ring edges. */
   hitSlopRadius: number;
+  /** Shortest arc a segment may be drawn with, measured at the mid-radius. */
+  minSegmentArc: number;
 };
 
 export const DONUT_GEOMETRY = chartConfig.donut.size;

@@ -4,6 +4,7 @@ import { chartConfig } from '../../config';
 import type { DonutSegment } from './types';
 
 import {
+  applyMinSegmentShare,
   buildPlaceholderSegments,
   buildRingSegments,
   DONUT_GEOMETRY,
@@ -84,6 +85,19 @@ describe('formatPercentLabel', () => {
   it('never leaks a float artifact into the label', () => {
     expect(formatPercentLabel((7 / 100) * 100)).toBe('7%');
   });
+
+  it('flags a share too small to round rather than calling it zero', () => {
+    expect(formatPercentLabel(0.00001)).toBe('<0.1%');
+    expect(formatPercentLabel(0.04)).toBe('<0.1%');
+  });
+
+  it('rounds up to a real label as soon as it can', () => {
+    expect(formatPercentLabel(0.05)).toBe('0.1%');
+  });
+
+  it('reads 0% only for an exact zero', () => {
+    expect(formatPercentLabel(0)).toBe('0%');
+  });
 });
 
 describe('resolveSegmentColor', () => {
@@ -97,6 +111,50 @@ describe('resolveSegmentColor', () => {
     expect(resolveSegmentColor({ id: 'a', label: 'A', value: 1 })).toContain(
       'background-muted-strong',
     );
+  });
+});
+
+describe('applyMinSegmentShare', () => {
+  it('leaves the shares alone when every value is already big enough', () => {
+    expect(applyMinSegmentShare([50, 30, 20], 0.1)).toEqual([0.5, 0.3, 0.2]);
+  });
+
+  it('lifts values under the minimum and still sums to 1', () => {
+    const shares = applyMinSegmentShare([98, 1, 1], 0.1);
+    expect(shares[0]).toBeCloseTo(0.8, 10);
+    expect(shares[1]).toBeCloseTo(0.1, 10);
+    expect(shares[2]).toBeCloseTo(0.1, 10);
+    expect(shares.reduce((sum, share) => sum + share, 0)).toBeCloseTo(1, 10);
+  });
+
+  it('keeps the segments that shrink in proportion to each other', () => {
+    const [a, b] = applyMinSegmentShare([60, 39, 1], 0.1);
+    expect(a / b).toBeCloseTo(60 / 39, 10);
+  });
+
+  it('repeats until a segment shrunk under the minimum is lifted too', () => {
+    // A single pass would leave the two 16s at ~0.122, under the minimum.
+    const shares = applyMinSegmentShare([60, 16, 16, 7, 1], 0.15);
+    expect(shares[0]).toBeCloseTo(0.4, 10);
+    shares.slice(1).forEach((share) => expect(share).toBeCloseTo(0.15, 10));
+  });
+
+  it('caps the minimum at an equal split so it stays satisfiable', () => {
+    applyMinSegmentShare([1, 1, 1e-9], 0.9).forEach((share) =>
+      expect(share).toBeCloseTo(1 / 3, 10),
+    );
+  });
+
+  it('survives a minimum that leaves no segment to take from', () => {
+    // Every share lands on exactly 1/4, so the last pass divides by zero.
+    const shares = applyMinSegmentShare([1, 1, 1, 1e-9], 1 / 4);
+    shares.forEach((share) => expect(share).toBeCloseTo(0.25, 10));
+    expect(shares.reduce((sum, share) => sum + share, 0)).toBeCloseTo(1, 10);
+  });
+
+  it('returns zeros when there is nothing to distribute', () => {
+    expect(applyMinSegmentShare([], 0.1)).toEqual([]);
+    expect(applyMinSegmentShare([0, 0], 0.1)).toEqual([0, 0]);
   });
 });
 
@@ -156,6 +214,39 @@ describe('buildRingSegments', () => {
       DONUT_GEOMETRY.md,
     );
     segments.forEach((s) => expect(s.path).toMatch(cornerArc));
+  });
+
+  describe('with a value too small to see', () => {
+    const geometry = DONUT_GEOMETRY.md;
+    const midRadius = (geometry.innerRadius + geometry.outerRadius) / 2;
+    const withDust: DonutSegment[] = [
+      { id: 'dust', label: 'Dust', value: 0.00001 },
+      { id: 'a', label: 'A', value: 50 },
+      { id: 'b', label: 'B', value: 50 },
+    ];
+
+    it('draws it at the minimum visible arc instead of vanishing', () => {
+      const [dust] = buildRingSegments(withDust, geometry);
+      // The first segment starts at 12 o'clock, so its span is twice its
+      // midAngle; the gap it reserves comes off that span.
+      const visibleSpan = dust.midAngle * 2 - geometry.padAngle;
+      expect(visibleSpan).toBeCloseTo(geometry.minSegmentArc / midRadius, 6);
+      expect(dust.path).toMatch(/^M/);
+    });
+
+    it('leaves the reported percent untouched', () => {
+      const [dust] = buildRingSegments(withDust, geometry);
+      expect(dust.percent).toBeLessThan(0.001);
+      expect(formatPercentLabel(dust.percent)).toBe('<0.1%');
+    });
+
+    it('keeps the two equal segments mirrored about the sliver', () => {
+      const [dust, a, b] = buildRingSegments(withDust, geometry);
+      expect((a.midAngle + b.midAngle) / 2).toBeCloseTo(
+        Math.PI + dust.midAngle,
+        10,
+      );
+    });
   });
 
   it('computes midAngle and hoverTranslate per segment', () => {

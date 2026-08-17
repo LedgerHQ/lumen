@@ -66,6 +66,17 @@ The ring adapts to any number of segments.
 
 <Canvas of={DonutChartStories.SegmentCounts} />
 
+### Very small values
+
+Segments are drawn at least 8px (`md`) or 4px (`sm`) so tiny values stay
+visible; the extra space is taken from larger segments. Labels still use the
+real share (`<0.1%` under 0.1%). Zero and negative values are not drawn.
+
+<Canvas of={DonutChartStories.WithTinyValues} />
+
+Group many tiny values into an "Other" segment with
+[`useDonutSeries`](#preparing-the-series).
+
 ## States
 
 ### No data

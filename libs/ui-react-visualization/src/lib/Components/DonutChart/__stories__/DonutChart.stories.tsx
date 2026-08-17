@@ -132,6 +132,35 @@ export const SegmentCounts: Story = {
 };
 
 /**
+ * A value too small to draw to scale is still given a minimum arc, so it stays
+ * visible and hoverable instead of collapsing into a gap; the room it needs
+ * comes proportionally out of the larger segments. Only the geometry is
+ * inflated — the label keeps the true share and reads `<0.1%` rather than `0%`.
+ * When a long tail of these carries no meaning on its own, condense it with
+ * `useDonutSeries` instead (see `WithPreparedSeries`).
+ */
+export const WithTinyValues: Story = {
+  args: {
+    series: [
+      { ...cryptoSegments[0], value: 60 },
+      { ...cryptoSegments[1], value: 40 },
+      { id: 'dust', label: 'Dust', value: 0.00001 },
+    ],
+    defaultActiveId: 'dust',
+    renderCenter: ({ activeSegment }) => (
+      <DonutChartCenter>
+        <DonutChartTitle size='sm'>
+          {activeSegment?.percentLabel ?? '100%'}
+        </DonutChartTitle>
+        <DonutChartDescription>
+          {activeSegment?.label ?? 'Total'}
+        </DonutChartDescription>
+      </DonutChartCenter>
+    ),
+  },
+};
+
+/**
  * With no data (empty or all-zero series), the ring renders the static
  * placeholder shape shared with the loading state.
  */
