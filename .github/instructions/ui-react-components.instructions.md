@@ -4,8 +4,8 @@ applyTo: "libs/ui-react/**/*.tsx"
 
 # Review checklist — React components (`libs/ui-react`)
 
-Review against the conventions in the `react-styling` and
-`file-structure` skills (`/.claude/skills/`) and `/AGENTS.md`. Flag when:
+Review against the conventions in the `component-styling` and
+`component-anatomy` skills (`/.claude/skills/`) and `/AGENTS.md`. Flag when:
 
 - Variant composition or many classnames are inlined instead of using `cva` at
   the top of the file (or `cva` is used where a couple of inline classnames would do).

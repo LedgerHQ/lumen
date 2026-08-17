@@ -46,6 +46,9 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      - name: Check agent docs for drift (AGENTS.md ↔ .claude/skills)
+        run: npm run check:agent-docs
+
       - run: npx nx run-many --targets=build-deps --all
       - run: npx nx affected -t lint typecheck
 

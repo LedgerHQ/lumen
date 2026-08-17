@@ -6,7 +6,6 @@ description: >-
   guidelines, checks the Nx version plan, and reports a flat, severity-scored
   finding list. Use when the user asks to review a PR, review code changes,
   check a branch, do a local code review, or provides a GitHub PR URL.
-disable-model-invocation: false
 ---
 
 # PR Review
@@ -41,40 +40,45 @@ new files, modified files, deleted files.
 
 ## Platform routing (do this first)
 
-Derive the touched platforms from the changed paths, then load only the
-reference file(s) you need. Reading the wrong platform's rules is the main
-failure mode — decide deliberately.
+Derive the touched libs from the changed paths (`git diff origin/main...HEAD
+--name-only | cut -d/ -f1-2 | sort -u`), map each to its platform via the
+`Libraries` table in `AGENTS.md`, then apply the matching topic skill's
+`## Review checks`. Applying the wrong platform's rules is the main failure mode
+— decide deliberately.
 
-| Path prefix | Platform | Load |
-| --- | --- | --- |
-| `libs/ui-react/**`, `libs/ui-react-visualization/**` | React web (Tailwind) | `references/react.md` |
-| `libs/ui-rnative/**`, `libs/ui-rnative-visualization/**` | React Native (`useStyleSheet`) | `references/rnative.md` |
-| `libs/design-core/**` | Token source of truth | token parity (below) |
-| `libs/utils-shared/**` | Cross-platform TS/React utilities | shared criteria only, no styling rules |
+The concrete, diff-verifiable violations for each topic live in that topic
+skill's `## Review checks` table — this skill does **not** restate them:
+
+| Topic | Skill (see its `## Review checks`) |
+| --- | --- |
+| API design & composition (props, compound, controlled state, parity) | `component-architecture` |
+| Styling (Tailwind vs `useStyleSheet`) | `component-styling` |
+| Tests (Vitest vs Jest) | `component-testing` |
+| File/folder layout & required files | `component-anatomy` |
+| Stories | `component-stories` |
+| MDX docs | `component-mdx` |
+| Code Connect | `code-connect` |
+| Version plan | `release-plan` (scored below) |
 
 Rules:
 
 - A single PR often touches **both** platforms (a component usually ships on web
   and native together). When both `ui-react*` and `ui-rnative*` are touched,
-  load **both** references and add the **API-parity check**: prop names,
-  defaults, and variant vocabulary should match across the two implementations
-  unless there's a platform reason not to.
+  apply **both** the web and RN review checks and add the **API-parity check**:
+  prop names, defaults, and variant vocabulary should match across the two
+  implementations unless there's a platform reason not to (`Parity`).
 - **Never apply Tailwind rules to an RN file or `useStyleSheet` rules to a web
   file.** The token *vocabulary* is shared (`bg-muted` ↔ `t.colors.bg.muted`),
   the *mechanism* is not.
-- **Visualization exceptions** (`libs/ui-react-visualization`,
-  `libs/ui-rnative-visualization`): stories live in a `__stories__/` subfolder,
-  there is no `.mdx` or `.figma.tsx` coverage, and
-  `ui-rnative-visualization` styles with `useTheme()` + inline styles rather
-  than `useStyleSheet`/`lx`. Don't flag the absence of docs/code-connect there.
+- **Visualization / lib exceptions** are described once in the `Libraries` table
+  and in each skill's Review checks (e.g. `ui-rnative-visualization` uses
+  `useTheme()` + flat stories, no `.mdx`/figma). Don't flag files a lib does not
+  use.
 - `libs/design-core/**`: the CSS/Tailwind tokens and the JS theme objects must
   stay in sync (see the `figma-token-sync` skill). If a token is added/changed
   on one side only, flag it under `Consistency`.
-
-The authoritative styling/testing rules live in the platform skills
-(`react-styling`, `rnative-styling`, `react-testing`, `rnative-testing`). The
-reference files here list only the **review-checkable violations** and point
-back to those skills — do not restate them.
+- `libs/utils-shared/**`: cross-platform TS/React — apply the shared criteria
+  below, no styling rules.
 
 ## Already enforced — do not review by hand
 
@@ -97,7 +101,7 @@ spend findings on things a linter can't catch. Do **not** raise:
 
 Caveat: a **valid** Tailwind class that should be a design token
 (`text-gray-500`, `font-bold`, `w-[108px]`) lints clean — that stays a **manual**
-check, see `references/react.md`.
+check, see `component-styling`'s Review checks.
 
 ## Findings vs severity — independent
 
@@ -151,18 +155,10 @@ Apply these regardless of platform; platform specifics are in the references.
 
 ### Abstraction & API quality
 
-- Right level of abstraction; responsibilities separated across files
-  (impl / types / tests / stories / docs).
-- Public API is minimal and self-explanatory. Prop names follow established
-  conventions (`onOpenChange` not `onToggle`, `appearance` not `variant`).
-- Boolean props phrased positively (`overlay` not `noOverlay`), sensible
-  defaults. No silent failure when a needed prop is omitted.
-- Public prop types carry JSDoc that conveys intent, not just the type.
-- A hook that manages state **and** derives data **and** subscribes to events is
-  doing too much — flag it to be split.
-- Logic duplicated across components that belongs in `libs/utils-shared`.
-- A wrapper that spreads `ComponentPropsWithRef<'el'>` must actually forward
-  those props and `ref` faithfully (don't silently drop `onClick` etc.).
+The rules — prop naming, positive booleans, minimal public API, `Base*Props`
+layering, compound composition, controlled/uncontrolled state, cross-platform
+parity, memoization — are owned by the `component-architecture` skill. Apply its
+`## Review checks` table here (routed above); this skill does not restate them.
 
 ### Docs vs implementation consistency
 
@@ -172,40 +168,23 @@ Apply these regardless of platform; platform specifics are in the references.
 
 ## Version plan check
 
-Any change to production source under `libs/*/src/` requires an Nx version plan
-in `.nx/version-plans/`.
+The version-plan **rules** (when a plan is required, the exemption list, the
+path→package mapping, filename convention, always-`patch`, one-package-per-file)
+live in the `release-plan` skill — the single source. Load it if you need the
+detail. Here, just verify and score:
 
 ```bash
 git diff origin/main...HEAD --name-only -- .nx/version-plans/
 ```
 
-- Exemptions are defined authoritatively in `nx.json` under
-  `release.versionPlans.ignorePatternsForPlanCheck`: `*.test.*`/`*.spec.*`,
-  `*.stories.*`, `*.md`, `*.mdx`, `*.figma.@(ts|tsx)`, `tsconfig*.json`,
-  eslint configs, `jest.config.*`, `test-setup.*`, `*.snap`, `.storybook/**`.
-  A PR touching only these needs no version plan.
-- If production code changed and no version plan exists → **Major (8/10)**,
-  category `Release`.
-- **Bump type is always `patch`.** This is a hard convention while the library
-  is in alpha — do not apply Semver, do not suggest `minor` for `feat(...)` or
-  `major` for breaking changes. Anything other than `patch` → **Moderate
-  (6/10)**, `Release`, recommend `patch`.
-- **One package per file.** Each version-plan file lists exactly one package in
-  its frontmatter. A change affecting N packages needs N files. A file grouping
-  multiple packages → **Moderate (6/10)**, `Release`.
-- Verify the plan references the correct package for the paths changed:
-
-  | Path | Package |
-  | --- | --- |
-  | `libs/ui-react/` | `@ledgerhq/lumen-ui-react` |
-  | `libs/ui-react-visualization/` | `@ledgerhq/lumen-ui-react-visualization` |
-  | `libs/ui-rnative/` | `@ledgerhq/lumen-ui-rnative` |
-  | `libs/ui-rnative-visualization/` | `@ledgerhq/lumen-ui-rnative-visualization` |
-  | `libs/design-core/` | `@ledgerhq/lumen-design-core` |
-  | `libs/utils-shared/` | `@ledgerhq/lumen-utils-shared` |
-
-  Filename convention: `version-plan-<timestamp>-<pkg-slug>.md` (slug is the
-  short name, e.g. `ui-react`, `ui-rnative-visualization`).
+- Production code under `libs/*/src/` changed but **no plan exists** → **Major
+  (8/10)**, category `Release`. (A PR touching only exempt files needs no plan.)
+- Bump type is **not** `patch` → **Moderate (6/10)**, `Release`, recommend
+  `patch`.
+- A single file **groups multiple packages** (should be one file per package) →
+  **Moderate (6/10)**, `Release`.
+- Plan names the **wrong package** for the changed paths (see the mapping in
+  `release-plan`) → **Moderate (6/10)**, `Release`.
 
 ## Output
 
@@ -228,8 +207,8 @@ The review is a **flat, scored list** — one item per finding, sorted by severi
 
 ## Component Checklist (if a new component was added)
 
-[Fill in the platform-appropriate checklist from the reference file, marking
-each item pass/fail]
+[Fill in the required-files checklist from `component-anatomy` for the component's
+lib, marking each item pass/fail]
 
 ## Findings
 

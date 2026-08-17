@@ -11,6 +11,21 @@ Libs: `design-core`, `ui-react`, `ui-react-visualization`, `ui-rnative`,
 `ui-rnative-visualization`, `utils-shared`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
 
+## Libraries
+
+The canonical map from a path to its platform and conventions. Skills route by
+lib rather than re-describing this table; derive the touched libs from a diff
+with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
+
+| Lib path | Package | Platform | Styling | Tests | Docs (stories / mdx / figma) |
+| --- | --- | --- | --- | --- | --- |
+| `libs/ui-react` | `@ledgerhq/lumen-ui-react` | React web | Tailwind + `cva` + `cn` | Vitest + RTL, no wrapper | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
+| `libs/ui-react-visualization` | `@ledgerhq/lumen-ui-react-visualization` | React web | Tailwind | Vitest + RTL | `__stories__/` / `.mdx` / **no** figma |
+| `libs/ui-rnative` | `@ledgerhq/lumen-ui-rnative` | React Native | `useStyleSheet` + themeJS + `lx` | Jest + RNTL, `ThemeProvider` wrapper | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
+| `libs/ui-rnative-visualization` | `@ledgerhq/lumen-ui-rnative-visualization` | React Native | `useTheme()` + inline styles | Jest + RNTL, `ThemeProvider` wrapper | flat `.stories.tsx` / **no** mdx / **no** figma |
+| `libs/design-core` | `@ledgerhq/lumen-design-core` | Cross-platform tokens | CSS/Tailwind tokens + JS theme objects (source of truth) | — | — |
+| `libs/utils-shared` | `@ledgerhq/lumen-utils-shared` | Cross-platform TS/React | — | Vitest | — |
+
 ## Commands
 
 - Install: `npm install --legacy-peer-deps`
@@ -46,25 +61,27 @@ matches. They live in `.claude/skills/` — a single tree read by Claude Code
 (native) and Cursor (compat loader). Copilot does not read this tree; it relies
 on `AGENTS.md` plus the `.github/instructions/*` restatements.
 
-Names are scoped by prefix: `react-*` → `libs/ui-react`, `rnative-*` → `libs/ui-rnative`, unprefixed → cross-platform / workflow. Each skill's `paths` frontmatter controls auto-attach.
+Skills are grouped by **topic**, not by platform: a `component-*` skill is
+cross-platform and routes internally by lib (web vs React Native) using the
+`Libraries` table above. Unprefixed skills are workflow / meta. Each skill's
+`paths` frontmatter controls auto-attach.
 
 | When… | Skill |
 | --- | --- |
-| deciding where a new file/folder lives, or naming it | `file-structure` |
+| designing a component's API, composition, or state model | `component-architecture` |
+| deciding where a file/folder lives, naming it, or scaffolding a component | `component-anatomy` |
+| building or styling a component (web Tailwind or RN `useStyleSheet`) | `component-styling` |
+| writing component tests (Vitest or Jest) | `component-testing` |
+| implementing a component from a Figma link | `figma-to-code` |
 | creating/updating Figma Code Connect (`*.figma.tsx`) | `code-connect` |
 | syncing design tokens to React Native JS themes after a Figma sync | `figma-token-sync` |
-| writing or editing Storybook stories (`*.stories.tsx`) | `storybook-stories` |
+| writing or editing Storybook stories (`*.stories.tsx`) | `component-stories` |
 | writing or editing Storybook MDX docs (`*.mdx`) | `component-mdx` |
 | generating an Nx version plan (`.nx/version-plans/`) | `release-plan` |
 | a component has or owns a `disabled` state | `disabled-context` |
 | researching an external library/framework | `context7` |
 | opening a PR from the current branch (manual — run `/open-pr`) | `open-pr` |
 | reviewing a PR, a branch, or code changes | `pr-review` |
-| building or styling a React component (`libs/ui-react`) | `react-styling` |
-| writing React tests (`libs/ui-react`) | `react-testing` |
-| implementing a React component from a Figma link | `react-figma-to-code` |
-| building or styling a React Native component (`libs/ui-rnative`) | `rnative-styling` |
-| writing React Native tests (`libs/ui-rnative`) | `rnative-testing` |
 | running Nx tasks/generators, or asking workspace questions | `nx` |
 
 
@@ -78,9 +95,20 @@ One source, no duplication:
   Cursor. Copilot has no skills mechanism, so per-skill review guidance is
   restated under `.github/instructions/*`. **`.claude/agents/`** (subagents) is
   shared by Claude Code and Cursor.
+- **Internal vs published skills.** `.claude/skills/` is the **internal** tree —
+  skills for people *building* Lumen (maintainers). A future top-level `skills/`
+  tree will hold **published**, consumer-facing skills for people *using* Lumen
+  in their apps — versioned, with `evals/` and a `## Performance` section per
+  README, following the [CDS](https://github.com/coinbase/cds) layout. Nothing is
+  published yet; the boundary is reserved. Name internal skills for the
+  maintainer task (`component-styling`, `component-anatomy`), leaving
+  consumer-facing names (e.g. `lumen-code`) free for the published tree.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
   `.github/instructions/*`) are thin pointers/wrappers — they must not restate
-  content. A CI drift check (to be added) will enforce that.
+  content. The `scripts/check-agent-docs.mjs` drift check (run in CI via
+  `npm run check:agent-docs`) enforces the mechanical invariants: the AGENTS.md
+  index and the skill folders stay in bijection, inter-skill references resolve,
+  cited repo paths exist, and no skill hardcodes a stale tool version.
 - **MCP servers are the one exception to "no duplication":** each tool hardcodes
   its own project-scoped path (Claude Code → `.mcp.json`, Cursor →
   `.cursor/mcp.json`), so these files are kept in parallel and synced by hand —

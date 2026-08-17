@@ -1,5 +1,5 @@
 ---
-name: storybook-stories
+name: component-stories
 description: >-
   Use when creating or editing Storybook stories (*.stories.tsx, React or React
   Native) — story layout, docs source type, controls, and export naming conventions.
@@ -100,3 +100,15 @@ Do not add comments in `*.stories.tsx` — no JSDoc above stories, no `//` or `/
 2. **Singular property names**: Use `SizeShowcase` not `SizesShowcase`
 3. **PascalCase**: All story names use PascalCase (e.g., `WithTooltip`)
 4. **Avoid ambiguity**: Don't use generic names like `Example1`, `Test`, `Demo`
+
+## Review checks
+
+Rules verifiable from a diff.
+
+| Check | Applies to | Detect | Skip |
+| --- | --- | --- | --- |
+| Base story named `Default`/`Primary`/`Basic` instead of `Base` | all stories | export name | — |
+| Showcase/feature story off-convention | all stories | not `{Property}Showcase` / `With{Feature}` / `ResponsivenessShowcase` | — |
+| Missing `layout: 'centered'` + `backgrounds: { default: 'light' }` | all stories | `Base` parameters | — |
+| `type: 'code'` on a story that exposes `args`/Controls | all stories | `docs.source.type` vs presence of `args` | static showcase with hand-written `source.code` |
+| `argTypes` duplicated for props docgen already infers | all stories | manual `argTypes` for plain unions/booleans/strings | overrides docgen can't express (actions, select mappings, hiding) |

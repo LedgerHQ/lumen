@@ -31,26 +31,13 @@ Run:
 git diff main...HEAD --name-only -- .nx/version-plans/
 ```
 - If the output is non-empty, a version plan already exists — **skip to Step 2**.
-- Otherwise, create one. Determine which packages are affected by looking at the changed files (`git diff main...HEAD --name-only`):
-
-- Files under `libs/ui-react/` → `'@ledgerhq/lumen-ui-react'`
-- Files under `libs/ui-rnative/` → `'@ledgerhq/lumen-ui-rnative'`
-- Files under `libs/design-core/` → `'@ledgerhq/lumen-design-core'`
-- Files under `libs/utils-shared/` → `'@ledgerhq/lumen-utils-shared'`
-
-Always use `patch` as the bump type — never `minor`, never `major` — regardless of the change (feature, fix, breaking change, etc.) — see the release-plan convention.
-
-Create **one file per affected package** — never group multiple packages in the same file. If N packages are affected, create N files named `.nx/version-plans/version-plan-<timestamp>-<pkg>.md`, each with a single-package frontmatter:
-
-```markdown
----
-'@ledgerhq/lumen-ui-rnative': patch
----
-
-feat(Select): add render prop and SelectButtonTrigger
-```
-
-The description line should match the PR title / commit message style.
+- Otherwise, create one. The rules — path→package mapping, always-`patch`, one
+  file per affected package, filename convention — live in the `release-plan`
+  skill; follow them. In short: look at the changed paths
+  (`git diff main...HEAD --name-only`), and create one
+  `.nx/version-plans/version-plan-<timestamp>-<pkg>.md` per affected package with
+  single-package `patch` frontmatter, using a description line that matches the
+  PR title / commit message style.
 
 ## Step 2: Create a commit if needed
 
