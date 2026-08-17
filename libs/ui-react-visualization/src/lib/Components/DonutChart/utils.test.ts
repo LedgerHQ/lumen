@@ -230,10 +230,7 @@ describe('buildRingSegments', () => {
       // The first segment starts at 12 o'clock, so its span is twice its
       // midAngle; the gap it reserves comes off that span.
       const visibleSpan = dust.midAngle * 2 - geometry.padAngle;
-      expect(visibleSpan).toBeCloseTo(
-        geometry.minSegmentArcLength / midRadius,
-        6,
-      );
+      expect(visibleSpan).toBeCloseTo(geometry.minSegmentArc / midRadius, 6);
       expect(dust.path).toMatch(/^M/);
     });
 

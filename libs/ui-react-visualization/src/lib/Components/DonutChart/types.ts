@@ -18,7 +18,7 @@ export type DonutGeometry = Readonly<{
   padAngle: number;
   hoverOffset: number;
   /** Shortest arc a segment may be drawn with, measured at the mid-radius. */
-  minSegmentArcLength: number;
+  minSegmentArc: number;
 }>;
 
 /** A placeholder segment for the empty ring and loading wave. */

@@ -258,7 +258,7 @@ describe('buildRingSegments', () => {
   describe('with a value too small to see', () => {
     const geometry = DONUT_GEOMETRY.md;
     const midRadius = (geometry.innerRadius + geometry.outerRadius) / 2;
-    const minVisibleAngle = geometry.minSegmentArcLength / midRadius;
+    const minVisibleAngle = geometry.minSegmentArc / midRadius;
     const withDust: DonutSegment[] = [
       { id: 'dust', label: 'Dust', value: 0.00001 },
       { id: 'a', label: 'A', value: 50 },
@@ -305,7 +305,7 @@ describe('buildRingSegments', () => {
       const visibleSpan =
         dust.endAngle - dust.startAngle - DONUT_GEOMETRY.sm.padAngle;
       expect(visibleSpan).toBeCloseTo(
-        DONUT_GEOMETRY.sm.minSegmentArcLength / smMidRadius,
+        DONUT_GEOMETRY.sm.minSegmentArc / smMidRadius,
         6,
       );
     });

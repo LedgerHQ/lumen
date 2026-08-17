@@ -54,7 +54,7 @@ export const getSegmentPercents = (series: DonutSegment[]): number[] => {
 };
 
 /**
- * `minSegmentArcLength` as a share of the angle `pie` has left to hand out once
+ * `minSegmentArc` as a share of the angle `pie` has left to hand out once
  * it reserves a `padAngle` gap per segment.
  */
 const getMinSegmentShare = (geometry: DonutGeometry, count: number): number => {
@@ -63,7 +63,7 @@ const getMinSegmentShare = (geometry: DonutGeometry, count: number): number => {
   if (distributable <= 0) {
     return 0;
   }
-  return geometry.minSegmentArcLength / midRadius / distributable;
+  return geometry.minSegmentArc / midRadius / distributable;
 };
 
 /**
@@ -103,7 +103,7 @@ export const applyMinSegmentShare = (
  * One ring segment per drawable series entry, in series order, clockwise from
  * 12 o'clock. Zero and negative segments are dropped so they don't emit
  * degenerate paths; percents are still computed against the full series total,
- * and what survives is drawn at `minSegmentArcLength` or wider.
+ * and what survives is drawn at `minSegmentArc` or wider.
  */
 export const buildRingSegments = (
   series: DonutSegment[],
