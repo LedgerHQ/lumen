@@ -20,13 +20,13 @@ describe('Trend Component', () => {
     expect(getByText('5.50%')).toBeTruthy();
   });
 
-  it('should render negative value', () => {
+  it('should render negative value without a minus sign', () => {
     const { getByText } = render(
       <TestWrapper>
         <Trend value={-3.2} />
       </TestWrapper>,
     );
-    expect(getByText('-3.20%')).toBeTruthy();
+    expect(getByText('3.20%')).toBeTruthy();
   });
 
   it('should render neutral when value is zero', () => {
@@ -84,15 +84,14 @@ describe('Trend Component', () => {
   });
 
   it('should render all variants side by side', () => {
-    const { getByText } = render(
+    const { getByText, getAllByText } = render(
       <TestWrapper>
         <Trend value={10} />
         <Trend value={-10} />
         <Trend value={0} />
       </TestWrapper>,
     );
-    expect(getByText('10.00%')).toBeTruthy();
-    expect(getByText('-10.00%')).toBeTruthy();
+    expect(getAllByText('10.00%')).toHaveLength(2);
     expect(getByText('0.00%')).toBeTruthy();
   });
 

@@ -57,8 +57,6 @@ export function Trend({
   const iconColor = iconColorMap[variant];
 
   const absoluteFormattedValue = `${Math.abs(value).toFixed(2)}%`;
-  const formattedValue =
-    value < 0 ? `-${absoluteFormattedValue}` : absoluteFormattedValue;
 
   return (
     <Box
@@ -74,7 +72,7 @@ export function Trend({
       {Icon && (
         <Icon size={iconSize} color={disabled ? 'disabled' : iconColor} />
       )}
-      <Text style={styles.text}>{formattedValue}</Text>
+      <Text style={styles.text}>{absoluteFormattedValue}</Text>
     </Box>
   );
 }
