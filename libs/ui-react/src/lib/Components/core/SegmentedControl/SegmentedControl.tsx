@@ -268,7 +268,7 @@ export function SegmentedControl<
             ref={scrollRef}
             className='scrollbar-none overflow-x-auto'
             style={{
-              maskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, black 40px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 40px), transparent 100%' : 'black 100%'})`,
+              maskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
             }}
           >
             <div
@@ -295,7 +295,7 @@ export function SegmentedControl<
               side: 'left',
             })}
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={20} />
           </button>
           <button
             type='button'
@@ -307,7 +307,7 @@ export function SegmentedControl<
               side: 'right',
             })}
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={20} />
           </button>
         </div>
       ) : (
