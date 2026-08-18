@@ -1,12 +1,13 @@
 ---
 name: component-anatomy
 description: >-
-  Use when creating, naming, or placing a new file or folder in libs/* —
-  component vs utility naming, the one-responsibility-per-file layout with a
-  barrel, and the required set of files a new component needs per lib. Load this
-  before scaffolding a component or adding a file so the layout matches the
+  Use when creating, naming, or placing a file or folder in libs/*, or when
+  modifying or adding a file to an existing component (even when the barrel isn't
+  touched) — component vs utility naming, the one-responsibility-per-file layout
+  with a barrel, and the required set of files a component needs per lib. Load
+  this before scaffolding or restructuring a component so the layout matches the
   codebase.
-paths: libs/**/index.ts
+paths: libs/*/src/lib/Components/**/*.tsx, libs/**/index.ts
 ---
 
 # Component & file anatomy

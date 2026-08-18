@@ -1,12 +1,13 @@
 ---
 name: component-architecture
 description: >-
-  Use when designing a component's public API, its composition, or its state
-  model in libs/ui-react or libs/ui-rnative — layering (core vs internal vs
-  primitives), BaseProps/Props splits, compound components with createSafeContext,
-  controlled/uncontrolled state, prop-naming conventions, and cross-platform API
-  parity. Load this before shaping a new component or changing its props.
-paths: libs/ui-react/src/lib/Components/**/types.ts, libs/ui-rnative/src/lib/Components/**/types.ts
+  Use when designing or changing a component's public API, its composition, or
+  its state model in libs/ui-react or libs/ui-rnative — layering (core vs internal
+  vs primitives), BaseProps/Props splits, converting a component to compound /
+  changing its composition with createSafeContext, controlled/uncontrolled state,
+  prop-naming conventions, and cross-platform API parity. Load this before shaping
+  a new component, changing its props, or refactoring its composition.
+paths: libs/ui-react/src/lib/Components/**/*.tsx, libs/ui-rnative/src/lib/Components/**/*.tsx, libs/ui-react/src/lib/Components/**/types.ts, libs/ui-rnative/src/lib/Components/**/types.ts
 ---
 
 # Component architecture & API design
