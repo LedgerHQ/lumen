@@ -42,6 +42,9 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    children: 'All accounts',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <MediaButton
@@ -63,6 +66,9 @@ export const SizeShowcase: Story = {
 };
 
 export const LeadingContentShapeShowcase: Story = {
+  args: {
+    children: 'All accounts',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
@@ -112,6 +118,9 @@ export const LeadingContentShapeShowcase: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    children: 'All accounts',
+  },
   render: () => {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
     return (

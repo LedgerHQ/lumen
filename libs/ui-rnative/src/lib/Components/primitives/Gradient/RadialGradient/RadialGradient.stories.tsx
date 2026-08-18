@@ -34,6 +34,9 @@ export const Base: Story = {
 };
 
 export const CenterPositionShowcase: Story = {
+  args: {
+    stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
+  },
   render: () => {
     const positions = [
       {

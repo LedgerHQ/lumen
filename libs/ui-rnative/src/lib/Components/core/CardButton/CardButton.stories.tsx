@@ -162,6 +162,9 @@ export const FullFeatures: Story = {
 };
 
 export const NaturalWidth: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box lx={{ backgroundColor: 'mutedPressed', padding: 's16' }}>
       <Text
@@ -195,6 +198,9 @@ export const NaturalWidth: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => {
     const appearances: {
       name: string;
@@ -228,6 +234,9 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentVariations: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box
       lx={{
@@ -268,6 +277,9 @@ export const ContentVariations: Story = {
 };
 
 export const StatesShowcase: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box
       lx={{
@@ -308,6 +320,9 @@ export const StatesShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box
       lx={{

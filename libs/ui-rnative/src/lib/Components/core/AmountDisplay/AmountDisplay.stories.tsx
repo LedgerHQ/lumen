@@ -128,6 +128,9 @@ export const Sizes: Story = {
 };
 
 export const WithHideButton: Story = {
+  args: {
+    value: 1234.56,
+  },
   render: (props) => {
     const [hidden, setHidden] = useState(false);
 
@@ -173,6 +176,9 @@ export const AnimationShowcase: Story = {
 };
 
 export const Loading: Story = {
+  args: {
+    value: 1234.56,
+  },
   render: (props) => {
     return (
       <AmountDisplay

@@ -52,6 +52,10 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    icon: Settings,
+    children: 'Settings',
+  },
   render: (args) => (
     <View style={{ gap: 16 }}>
       <View style={{ flexDirection: 'row', gap: 16 }}>
@@ -67,6 +71,10 @@ export const AppearanceShowcase: Story = {
 };
 
 export const DisabledShowcase: Story = {
+  args: {
+    icon: Settings,
+    children: 'Settings',
+  },
   render: (args) => (
     <View style={{ flexDirection: 'row', gap: 16 }}>
       <TileButton icon={Settings} onPress={args.onPress} disabled>
@@ -85,6 +93,10 @@ export const DisabledShowcase: Story = {
 };
 
 export const IconsShowcase: Story = {
+  args: {
+    icon: Settings,
+    children: 'Settings',
+  },
   render: (args) => (
     <View style={{ flexDirection: 'row', gap: 16 }}>
       <TileButton icon={Settings} onPress={args.onPress}>
@@ -104,6 +116,10 @@ export const IconsShowcase: Story = {
 };
 
 export const GridLayout: Story = {
+  args: {
+    icon: Settings,
+    children: 'Settings',
+  },
   render: (args) => (
     <View style={{ width: 343, gap: 8 }}>
       {/* 2-button row */}
@@ -142,6 +158,10 @@ export const GridLayout: Story = {
 };
 
 export const WidthShowcase: Story = {
+  args: {
+    icon: Settings,
+    children: 'Settings',
+  },
   render: (args) => (
     <View
       style={{
@@ -163,6 +183,10 @@ export const WidthShowcase: Story = {
 };
 
 export const TruncationShowcase: Story = {
+  args: {
+    icon: Settings,
+    children: 'Settings',
+  },
   render: (args) => (
     <View style={{ flexDirection: 'row', gap: 16 }}>
       <View style={{ width: 80 }}>

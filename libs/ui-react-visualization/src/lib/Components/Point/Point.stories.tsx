@@ -56,6 +56,10 @@ export const Base: Story = {
 };
 
 export const NoPoint: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   render: () => (
     <LineChart series={sampleSeries} height={CHART_HEIGHT} showArea>
       <Point
@@ -78,6 +82,10 @@ export const NoPoint: Story = {
 };
 
 export const CustomSize: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   render: () => (
     <LineChart series={sampleSeries} height={CHART_HEIGHT} showArea>
       <Point
@@ -100,6 +108,10 @@ export const CustomSize: Story = {
 };
 
 export const WithCustomLabelComponent: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   render: () => (
     <LineChart
       series={sampleSeries}
@@ -151,6 +163,10 @@ export const WithCustomLabelComponent: Story = {
  * with only a few magnetic points, scrubbing visibly latches onto them.
  */
 export const MagneticPoints: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   render: () => (
     <LineChart
       series={denseSeries}

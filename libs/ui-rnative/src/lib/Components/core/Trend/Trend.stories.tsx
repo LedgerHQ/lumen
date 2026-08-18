@@ -33,6 +33,9 @@ export const Base: Story = {
 };
 
 export const VariantShowcase: Story = {
+  args: {
+    value: 5.25,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's8' }}>
       <Trend value={5.25} />
@@ -43,6 +46,9 @@ export const VariantShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    value: 5.25,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <Trend value={5.25} size='md' />
@@ -52,6 +58,9 @@ export const SizeShowcase: Story = {
 };
 
 export const DisabledShowcase: Story = {
+  args: {
+    value: 5.25,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's8' }}>
       <Trend value={5.25} disabled />

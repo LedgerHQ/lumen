@@ -31,6 +31,7 @@ const EXAMPLE_SRC =
 
 const baseArgs = {
   imageUrl: EXAMPLE_SRC,
+  children: null,
   onPress: () => ({}),
   onClose: () => ({}),
 };
@@ -73,6 +74,10 @@ export const Base: Story = {
 };
 
 export const LayoutShowcase: Story = {
+  args: {
+    imageUrl: EXAMPLE_SRC,
+    children: null,
+  },
   render: () => (
     <Box
       lx={{
@@ -102,6 +107,10 @@ export const LayoutShowcase: Story = {
 };
 
 export const CompositionShowcase: Story = {
+  args: {
+    imageUrl: EXAMPLE_SRC,
+    children: null,
+  },
   render: () => (
     <Box
       lx={{
@@ -152,6 +161,10 @@ export const CompositionShowcase: Story = {
 };
 
 export const WithClose: Story = {
+  args: {
+    imageUrl: EXAMPLE_SRC,
+    children: null,
+  },
   render: () => {
     const [visible, setVisible] = useState(true);
 

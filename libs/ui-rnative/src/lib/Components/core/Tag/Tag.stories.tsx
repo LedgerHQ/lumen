@@ -51,6 +51,9 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    label: 'Label',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', gap: 's4' }}>
@@ -80,6 +83,9 @@ export const AppearanceShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    label: 'Label',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Tag size='md' label='Large Tag' />
@@ -89,6 +95,9 @@ export const SizeShowcase: Story = {
 };
 
 export const ContentTypeShowcase: Story = {
+  args: {
+    label: 'Label',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Tag label='Label only' />
@@ -98,6 +107,9 @@ export const ContentTypeShowcase: Story = {
 };
 
 export const TruncateShowcase: Story = {
+  args: {
+    label: 'Label',
+  },
   render: () => (
     <Box lx={{ width: 's176' }}>
       <Tag label='Very long custom Tag text that should truncate' />

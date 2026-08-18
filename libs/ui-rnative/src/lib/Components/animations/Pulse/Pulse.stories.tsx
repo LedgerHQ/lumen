@@ -75,6 +75,11 @@ export const DurationShowcase: Story = {
 };
 
 export const WithAmountDisplay: Story = {
+  args: {
+    children: (
+      <Box lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }} />
+    ),
+  },
   render: () => {
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center', gap: 16 }}>

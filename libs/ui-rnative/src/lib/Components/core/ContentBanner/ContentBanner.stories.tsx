@@ -49,6 +49,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {
+    children: null,
     closeAccessibilityLabel: 'Close content banner',
   },
   render: (args) => (
@@ -84,6 +85,9 @@ export const Base: Story = {
 };
 
 export const WithClose: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     const [visible, setVisible] = useState(true);
 
@@ -119,6 +123,9 @@ export const WithClose: Story = {
 };
 
 export const ContentVariationsShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box
       lx={{
@@ -173,6 +180,9 @@ export const ContentVariationsShowcase: Story = {
 };
 
 export const WithStepper: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ maxWidth: 's400' }}>
       <ContentBanner onClose={() => console.log('close')}>
@@ -189,6 +199,9 @@ export const WithStepper: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box
       lx={{

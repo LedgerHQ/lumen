@@ -29,6 +29,10 @@ export const Base: Story = {
 };
 
 export const DisabledShowcase: Story = {
+  args: {
+    currentStep: 2,
+    totalSteps: 4,
+  },
   render: () => (
     <Box lx={{ gap: 's32', alignItems: 'center' }}>
       <Box lx={{ alignItems: 'center', gap: 's8' }}>

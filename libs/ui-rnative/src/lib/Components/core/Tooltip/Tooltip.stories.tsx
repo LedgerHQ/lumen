@@ -19,6 +19,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <>
       <Box
@@ -45,6 +48,9 @@ export const Base: Story = {
 };
 
 export const WithCustomContent: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <>
       <Box
@@ -83,6 +89,9 @@ export const WithCustomContent: Story = {
 };
 
 export const WithMultipleTooltips: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <>
       <Box
@@ -135,6 +144,9 @@ export const WithMultipleTooltips: Story = {
 };
 
 export const WithChangeCallback: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     return (
       <>

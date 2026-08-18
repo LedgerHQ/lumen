@@ -66,6 +66,7 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   args: {
     lx: { width: 's320' },
+    children: null,
   },
   render: (args) => (
     <Card {...args}>
@@ -120,6 +121,9 @@ export const Base: Story = {
 };
 
 export const StatesShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: (args) => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Card {...args} lx={{ width: 's320' }}>
@@ -243,6 +247,9 @@ export const StatesShowcase: Story = {
 };
 
 export const FooterAppearance: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Card type='info' lx={{ width: 's320' }}>
@@ -290,6 +297,7 @@ export const DisabledWithSpot: Story = {
   args: {
     lx: { width: 's320' },
     disabled: true,
+    children: null,
   },
   render: (args) => (
     <Card {...args}>
@@ -316,6 +324,9 @@ export const DisabledWithSpot: Story = {
 };
 
 export const ExpandableShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     const [expanded, setExpanded] = useState(false);
 
@@ -362,6 +373,9 @@ export const ExpandableShowcase: Story = {
 };
 
 export const LayoutShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: (args) => (
     <Box
       lx={{
@@ -467,6 +481,9 @@ export const LayoutShowcase: Story = {
 };
 
 export const CompositionsShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     const [expanded, setExpanded] = useState(false);
 

@@ -54,6 +54,9 @@ export const DurationShowcase: Story = {
 };
 
 export const WithSpinner: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center', gap: 16 }}>

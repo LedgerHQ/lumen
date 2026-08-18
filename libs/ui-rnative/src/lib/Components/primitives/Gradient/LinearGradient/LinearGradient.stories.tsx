@@ -36,6 +36,9 @@ export const Base: Story = {
 };
 
 export const DirectionShowcase: Story = {
+  args: {
+    stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
+  },
   render: () => {
     const orientations = [
       'to-bottom',
@@ -129,6 +132,7 @@ export const WithMultipleStops: Story = {
 
 export const CryptoGradients: Story = {
   args: {
+    stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
     direction: 'to-bottomright',
     lx: {
       borderRadius: 'md',

@@ -58,6 +58,7 @@ export const Base: Story = {
   args: {
     density: 'expanded',
     lx: { maxWidth: 's320' },
+    children: null,
   },
   render: (args) => (
     <ListItem {...args}>
@@ -98,6 +99,9 @@ export const Base: Story = {
 };
 
 export const DensityShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
       <ListItem density='compact' onPress={() => {}}>
@@ -154,6 +158,9 @@ export const DensityShowcase: Story = {
 };
 
 export const InteractiveShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     const [selected, setSelected] = useState(false);
 
@@ -244,6 +251,7 @@ export const InteractiveShowcase: Story = {
 export const DisabledState: Story = {
   args: {
     disabled: true,
+    children: null,
   },
   render: (args) => (
     <Box lx={{ flexDirection: 'column', width: 's320' }}>
@@ -325,6 +333,7 @@ export const DisabledState: Story = {
 export const ActiveState: Story = {
   args: {
     active: true,
+    children: null,
   },
   render: (args) => (
     <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
@@ -367,6 +376,9 @@ export const ActiveState: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
       <ListItem lx={{ alignSelf: 'flex-start' }} onPress={() => {}}>
@@ -446,6 +458,9 @@ export const ResponsiveLayout: Story = {
 };
 
 export const PriorityShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
       <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
@@ -494,6 +509,9 @@ export const PriorityShowcase: Story = {
 };
 
 export const CompositionShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
       <ListItem>
