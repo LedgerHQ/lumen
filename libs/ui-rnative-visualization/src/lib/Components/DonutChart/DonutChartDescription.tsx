@@ -15,6 +15,11 @@ const DESCRIPTION_TYPOGRAPHY = {
   sm: 'body4',
 } as const satisfies Record<DonutSize, Typography>;
 
+const PADDING_X = {
+  md: 's4',
+  sm: 's2',
+} as const satisfies Record<DonutSize, 's2' | 's4'>;
+
 export function DonutChartDescription({
   children,
   lx,
@@ -28,14 +33,26 @@ export function DonutChartDescription({
   const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
   const typography = DESCRIPTION_TYPOGRAPHY[donutSize];
   const smOffset = donutSize === 'sm' ? { marginTop: '-s4' as const } : {};
+  const paddingX = PADDING_X[donutSize];
 
   if (isTextChildren(children)) {
     return (
       <Text
         typography={typography}
-        lx={{ color: 'muted', alignSelf: 'center', ...smOffset, ...lx }}
+        lx={{
+          color: 'muted',
+          alignSelf: 'center',
+          paddingHorizontal: paddingX,
+          ...smOffset,
+          ...lx,
+        }}
         style={StyleSheet.flatten([
-          { maxWidth, flexShrink: 1, minWidth: 0, textAlign: 'center' },
+          {
+            maxWidth,
+            flexShrink: 1,
+            minWidth: 0,
+            textAlign: 'center',
+          },
           style,
         ])}
         numberOfLines={1}
@@ -53,6 +70,7 @@ export function DonutChartDescription({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 's2',
+        paddingHorizontal: paddingX,
         alignSelf: 'center',
         ...smOffset,
         ...lx,

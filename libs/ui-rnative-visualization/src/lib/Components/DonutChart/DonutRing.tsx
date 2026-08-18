@@ -38,40 +38,32 @@ const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
 
-  useEffect(() => {
-    const targetOpacity =
-      !segment.activeEnabled || activeId == null || isActive
-        ? 1
-        : DONUT_INTERACTION.dimOpacity;
-    const { x, y } =
-      isActive && segment.activeEnabled
-        ? segment.activeTranslate
-        : { x: 0, y: 0 };
+  const targetOpacity =
+    !segment.activeEnabled || activeId == null || isActive
+      ? 1
+      : DONUT_INTERACTION.dimOpacity;
+  const targetX =
+    isActive && segment.activeEnabled ? segment.activeTranslate.x : 0;
+  const targetY =
+    isActive && segment.activeEnabled ? segment.activeTranslate.y : 0;
 
+  useEffect(() => {
     opacity.value = withTiming(targetOpacity, {
       duration: DONUT_INTERACTION.opacityDurationMs,
     });
-    translateX.value = withTiming(x, {
+    translateX.value = withTiming(targetX, {
       duration: DONUT_INTERACTION.popDurationMs,
       easing: DONUT_INTERACTION.popEasing,
     });
-    translateY.value = withTiming(y, {
+    translateY.value = withTiming(targetY, {
       duration: DONUT_INTERACTION.popDurationMs,
       easing: DONUT_INTERACTION.popEasing,
     });
-  }, [
-    activeId,
-    isActive,
-    opacity,
-    segment.activeEnabled,
-    segment.activeTranslate,
-    translateX,
-    translateY,
-  ]);
+  }, [opacity, targetOpacity, targetX, targetY, translateX, translateY]);
 
   const animatedProps = useAnimatedProps(() => ({
     opacity: opacity.value,
-    transform: `translate(${translateX.value}, ${translateY.value})`,
+    matrix: [1, 0, 0, 1, translateX.value, translateY.value],
   }));
 
   return (

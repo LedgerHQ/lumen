@@ -129,8 +129,6 @@ Return a top-level `DonutChartCenter` wrapping `DonutChartTitle` and/or
 - Used with `renderCenterActive`: `renderCenter` stays resting-only
   (`activeSegment` always `null`); `renderCenterActive` crossfades in on
   hover instead.
-- If a label could overflow, add a `truncate` class to it (not to a trailing
-  icon).
 - `DonutChartCenter` applies a default centered vertical stack
   (`flex flex-col items-center`) plus `pointer-events-auto`; override or
   extend it with `className`.
@@ -213,6 +211,16 @@ surface background by at least 20 units. Colors that already meet that minimum
 are left unchanged.
 
 <Canvas of={DonutChartStories.WithColorContrast} />
+
+## Responsiveness
+
+A long center title or description truncates inside the hole.
+
+When the description is a React node (label plus icon), wrap the text in a
+`span` with `min-w-0 truncate`.
+
+<Canvas of={DonutChartStories.ResponsivenessShowcase} />
+
 
 ## Props
 

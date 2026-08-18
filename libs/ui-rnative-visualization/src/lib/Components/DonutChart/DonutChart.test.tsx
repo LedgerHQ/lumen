@@ -468,6 +468,14 @@ describe('DonutChart', () => {
       },
     );
 
+    it.each<[DonutSize, number]>([
+      ['md', 4],
+      ['sm', 2],
+    ])('applies %s-ring horizontal padding (%spx)', (donutSize, padding) => {
+      const { getByText } = renderTitle(donutSize);
+      expect(getByText('42').props.style.paddingHorizontal).toBe(padding);
+    });
+
     it('defaults to md ring sizing without a DonutSizeProvider ancestor', () => {
       const { getByText } = renderWithTheme(
         <DonutChartTitle>42</DonutChartTitle>,
@@ -534,6 +542,14 @@ describe('DonutChart', () => {
         expect(style.fontWeight).toBe(expected.fontWeight);
       },
     );
+
+    it.each<[DonutSize, number]>([
+      ['md', 4],
+      ['sm', 2],
+    ])('applies %s-ring horizontal padding (%spx)', (donutSize, padding) => {
+      const { getByText } = renderDescription(donutSize, 'Bitcoin');
+      expect(getByText('Bitcoin').props.style.paddingHorizontal).toBe(padding);
+    });
 
     it('renders text children as a single truncated, centered, muted line', () => {
       const { getByText } = renderDescription('md', 'Bitcoin');

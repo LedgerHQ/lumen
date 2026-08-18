@@ -19,6 +19,11 @@ const TITLE_TYPOGRAPHY = {
   sm: { md: 'heading4SemiBold', sm: 'body2SemiBold' },
 } as const satisfies Record<DonutSize, Record<DonutTitleSize, Typography>>;
 
+const PADDING_X = {
+  md: 's4',
+  sm: 's2',
+} as const satisfies Record<DonutSize, 's2' | 's4'>;
+
 /** The dominant value of the donut center (e.g. the series count, or the active segment's percent). */
 export function DonutChartTitle({
   children,
@@ -38,7 +43,7 @@ export function DonutChartTitle({
   return (
     <Text
       typography={TITLE_TYPOGRAPHY[donutSize][size]}
-      lx={{ color: 'base', ...lx }}
+      lx={{ color: 'base', paddingHorizontal: PADDING_X[donutSize], ...lx }}
       style={StyleSheet.flatten([{ maxWidth, textAlign: 'center' }, style])}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}

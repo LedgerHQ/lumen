@@ -1,19 +1,24 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn, isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps } from './types';
 import { DONUT_GEOMETRY, getCenterMaxWidth } from './utils';
 
-const descriptionVariants = cva('flex items-center gap-2 truncate text-muted', {
+const descriptionVariants = cva('min-w-0 text-muted', {
   variants: {
     donutSize: {
-      md: 'body-3',
-      sm: '-mt-4 body-4',
+      md: 'px-4 body-3',
+      sm: '-mt-4 px-2 body-4',
+    },
+    layout: {
+      text: 'truncate',
+      cluster: 'flex min-w-0 items-center gap-2',
     },
   },
   defaultVariants: {
     donutSize: 'md',
+    layout: 'text',
   },
 });
 
@@ -29,12 +34,13 @@ export const DonutChartDescription = ({
     contextRequired: false,
   });
   const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
+  const layout = isTextChildren(children) ? 'text' : 'cluster';
 
   return (
     <div
       ref={ref}
       style={{ maxWidth, ...style }}
-      className={cn(descriptionVariants({ donutSize }), className)}
+      className={cn(descriptionVariants({ donutSize, layout }), className)}
       {...props}
     >
       {children}

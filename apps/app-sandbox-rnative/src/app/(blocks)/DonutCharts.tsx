@@ -49,6 +49,7 @@ export default function DonutCharts() {
       <LoadingWithCenter segments={portfolioSegments} />
       <Controlled segments={cryptoSegments} />
       <ContrastSafe segments={contrastUnsafeSegments} />
+      <LongCenterLabel segments={cryptoSegments} />
     </Box>
   );
 }
@@ -112,7 +113,7 @@ const buildSegments = (count: number, palette: string[]): DonutSegment[] =>
       id: `segment-${n}`,
       label: `Segment ${n}`,
       value: 1,
-      color: palette[index],
+      color: palette[index % palette.length],
     };
   });
 
@@ -509,3 +510,35 @@ const ContrastSafe = ({ segments }: { segments: DonutSegment[] }) => {
     </>
   );
 };
+
+const LongCenterLabel = ({ segments }: { segments: DonutSegment[] }) => (
+  <Section title='Long center label (sm, should truncate)'>
+    <DonutChart
+      series={[
+        {
+          ...segments[0],
+          label: 'A very long allocation name that should truncate',
+        },
+        segments[1],
+        segments[2],
+      ]}
+      size='sm'
+      defaultActiveId={segments[0]?.id ?? null}
+      renderCenter={() => (
+        <DonutChartCenter>
+          <DonutChartDescription>
+            Total portfolio allocation overview
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment.percentLabel}
+          </DonutChartTitle>
+          <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  </Section>
+);

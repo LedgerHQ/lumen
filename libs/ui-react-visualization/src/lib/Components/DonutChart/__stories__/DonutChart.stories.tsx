@@ -1,9 +1,9 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import { Button, InteractiveIcon } from '@ledgerhq/lumen-ui-react';
 import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { Legend } from '../../Legend';
@@ -108,10 +108,11 @@ const buildSegments = (count: number): DonutSegment[] =>
       id: `segment-${n}`,
       label: `Segment ${n}`,
       value: 1,
-      color: segmentPalette[index],
+      color: segmentPalette[index % segmentPalette.length],
     };
   });
 
+const LOAD_REPLAY_DELAY_MS = 1500;
 /**
  * The ring adapts to any number of segments, rendered in series order,
  * clockwise from 12 o'clock, with rounded caps and gaps between segments.
@@ -251,7 +252,9 @@ export const WithCenter: Story = {
                   {activeSegment.percentLabel}
                 </DonutChartTitle>
                 <DonutChartDescription>
-                  <span className='truncate'>{activeSegment.label}</span>
+                  <span className='min-w-0 truncate'>
+                    {activeSegment.label}
+                  </span>
                   {size === 'md' && (
                     <InteractiveIcon
                       iconType='stroked'
@@ -301,7 +304,9 @@ export const WithCenterClickable: Story = {
                 {activeSegment.percentLabel}
               </DonutChartTitle>
               <DonutChartDescription>
-                <span className='truncate'>{activeSegment.label}</span>
+                <span className='min-w-0 truncate'>
+                  w;ejpewjfpewjf;ekwjfpejf; {activeSegment.label}
+                </span>
                 <span
                   className={cn(
                     'inline-flex size-fit items-center justify-center rounded-full',
@@ -446,6 +451,127 @@ export const WithPreparedSeries: Story = {
           </DonutChartCenter>
         )}
       />
+    );
+  },
+};
+
+/**
+ * A long center label in the `sm` hole should truncate instead of overflowing
+ * the ring. Hover to swap the resting total for the active name.
+ */
+export const ResponsivenessShowcase: Story = {
+  args: {
+    size: 'sm',
+    series: [
+      {
+        ...cryptoSegments[0],
+        label: 'A very long allocation name that should truncate',
+      },
+      cryptoSegments[1],
+      cryptoSegments[2],
+    ],
+    defaultActiveId: 'bitcoin',
+    renderCenter: () => (
+      <DonutChartCenter>
+        <DonutChartDescription>
+          Total portfolio allocation overview
+        </DonutChartDescription>
+      </DonutChartCenter>
+    ),
+    renderCenterActive: ({ activeSegment }) => (
+      <DonutChartCenter>
+        <DonutChartTitle size='sm'>
+          {activeSegment.percentLabel}
+        </DonutChartTitle>
+        <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+      </DonutChartCenter>
+    ),
+  },
+};
+
+export const ResponsivenessShowcaseWithReactNode: Story = {
+  args: {
+    series: [
+      {
+        ...cryptoSegments[0],
+        label: 'A very long allocation name that should truncate',
+      },
+      cryptoSegments[1],
+      cryptoSegments[2],
+    ],
+    defaultActiveId: 'bitcoin',
+    renderCenter: () => (
+      <DonutChartCenter>
+        <DonutChartTitle>Very long title that should truncate</DonutChartTitle>
+        <DonutChartDescription>
+          <span className='min-w-0 truncate'>
+            Total portfolio allocation overview
+          </span>
+          <InteractiveIcon
+            iconType='stroked'
+            icon={ChevronRight}
+            size={16}
+            aria-label='View total portfolio allocation overview details'
+          />
+        </DonutChartDescription>
+      </DonutChartCenter>
+    ),
+  },
+};
+
+/**
+ * Flips `loading` off so the reveal animation remounts the ring. Replay to
+ * watch CSS mask cost; the ring should remount once, not on every hover after.
+ */
+export const LoadingToData: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
+  render: (args) => {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      if (!loading) {
+        return;
+      }
+      const timeoutId = window.setTimeout(() => {
+        setLoading(false);
+      }, LOAD_REPLAY_DELAY_MS);
+      return () => window.clearTimeout(timeoutId);
+    }, [loading]);
+
+    return (
+      <div className='flex flex-col items-center gap-16'>
+        <DonutChart
+          {...args}
+          loading={loading}
+          renderCenter={({ series }) =>
+            loading ? null : (
+              <DonutChartCenter>
+                <DonutChartTitle>{series.length}</DonutChartTitle>
+              </DonutChartCenter>
+            )
+          }
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle size='sm'>
+                {activeSegment.percentLabel}
+              </DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />
+        <Button
+          appearance='gray'
+          size='sm'
+          loading={loading}
+          onClick={() => setLoading(true)}
+        >
+          Replay load
+        </Button>
+      </div>
     );
   },
 };
