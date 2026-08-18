@@ -10,9 +10,9 @@ describe('Trend Component', () => {
     expect(screen.getByText('5.50%')).toBeInTheDocument();
   });
 
-  it('should render negative value', () => {
+  it('should render negative value without a minus sign', () => {
     render(<Trend value={-3.2} />);
-    expect(screen.getByText('-3.20%')).toBeInTheDocument();
+    expect(screen.getByText('3.20%')).toBeInTheDocument();
   });
 
   it('should render neutral when value is zero', () => {
@@ -53,8 +53,7 @@ describe('Trend Component', () => {
         <Trend value={0} />
       </>,
     );
-    expect(screen.getByText('10.00%')).toBeInTheDocument();
-    expect(screen.getByText('-10.00%')).toBeInTheDocument();
+    expect(screen.getAllByText('10.00%')).toHaveLength(2);
     expect(screen.getByText('0.00%')).toBeInTheDocument();
   });
 

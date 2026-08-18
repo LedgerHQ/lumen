@@ -65,8 +65,6 @@ export function Trend({
   const Icon = iconMap[variant];
 
   const absoluteFormattedValue = `${Math.abs(value).toFixed(2)}%`;
-  const formattedValue =
-    value < 0 ? `-${absoluteFormattedValue}` : absoluteFormattedValue;
 
   return (
     <span
@@ -77,7 +75,7 @@ export function Trend({
       {...props}
     >
       {Icon && <Icon size={iconSize[size]} disabled={disabled} />}
-      {formattedValue}
+      {absoluteFormattedValue}
     </span>
   );
 }
