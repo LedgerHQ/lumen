@@ -34,6 +34,25 @@ jobs:
       - name: Check that affected publishable libs have a version plan
         run: npx nx release plan:check --base=origin/main --verbose
 
+  agent-drift:
+    name: Agent docs & structure drift
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      # Zero-dependency Node script (AGENTS.md ↔ .claude/skills ↔ codebase);
+      # no npm install or Nx needed, so keep this job lean.
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22.13.1'
+
+      - name: Check agent docs & structure for drift
+        run: npm run check:agent-docs
+
   static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest
@@ -45,9 +64,6 @@ jobs:
           persist-credentials: false
 
       - uses: ./.github/actions/setup
-
-      - name: Check agent docs for drift (AGENTS.md ↔ .claude/skills)
-        run: npm run check:agent-docs
 
       - run: npx nx run-many --targets=build-deps --all
       - run: npx nx affected -t lint typecheck

@@ -1,7 +1,7 @@
 ---
 name: figma-token-sync
 description: Sync processed CSS design tokens with JavaScript theme objects for React Native. Use when aligning tokens after Figma sync, checking token consistency, or updating JS theme files manually.
-paths: libs/design-core/**/*.ts, libs/design-core/**/*.tsx, libs/design-core/**/*.css, libs/design-core/**/*.json
+paths: libs/design-core/**/*.ts, libs/design-core/**/*.css, libs/design-core/**/*.json
 ---
 
 # Figma Token Sync
