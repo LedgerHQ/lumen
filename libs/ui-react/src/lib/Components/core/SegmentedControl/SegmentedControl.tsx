@@ -1,13 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { ReactElement, RefObject } from 'react';
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import {
   SegmentedControlContextProvider,
@@ -33,7 +27,6 @@ const segmentedControlStyles = {
       tabLayout: {
         fit: 'inline-flex',
         fixed: 'w-full',
-        'fit-controls': 'inline-flex',
       },
     },
   }),
@@ -91,7 +84,6 @@ const segmentedControlStyles = {
 
 function useScrollArrows(
   scrollRef: RefObject<HTMLDivElement | null>,
-  innerRef: RefObject<HTMLDivElement | null>,
   enabled: boolean,
 ): {
   canScrollLeft: boolean;
@@ -111,29 +103,24 @@ function useScrollArrows(
   }, [scrollRef]);
 
   useLayoutEffect(() => {
-    if (enabled) update();
-  }, [enabled, update]);
-
-  useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
     const el = scrollRef.current;
-    const inner = innerRef.current;
     if (!el) {
       return;
     }
+    update();
     el.addEventListener('scroll', update, { passive: true });
 
     const ro = new ResizeObserver(update);
     ro.observe(el);
 
-    if (inner) {
-      ro.observe(inner);
-    }
     return () => {
       el.removeEventListener('scroll', update);
       ro.disconnect();
     };
-  }, [enabled, update, scrollRef, innerRef]);
+  }, [enabled, update, scrollRef]);
 
   const scrollBy = useCallback(
     (direction: 'left' | 'right') => {
@@ -231,7 +218,6 @@ export function SegmentedControl<
 
   const { canScrollLeft, canScrollRight, scrollBy } = useScrollArrows(
     scrollRef,
-    ref,
     showControls,
   );
 
@@ -278,7 +264,7 @@ export function SegmentedControl<
               aria-disabled={disabled}
               className={segmentedControlStyles.root({
                 appearance: 'no-background',
-                tabLayout,
+                tabLayout: 'fit',
               })}
             >
               {children}

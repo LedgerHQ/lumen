@@ -45,9 +45,15 @@ Use `trailingContent` to render content (e.g. `DotCount`) to the right of the la
 
 <Canvas of={SegmentedControlStories.WithTrailingContent} />
 
-## Responsive Layout
+## Tab layout
 
-SegmentedControl lays out segments in a horizontal row with equal width per segment. The sliding pill animates to the selected segment.
+`tabLayout` controls how segment widths are calculated:
+
+- **`fixed`** (default) — all segments share equal width and fill the container. Text truncates if needed.
+- **`fit`** — each segment sizes to its content. The control is as wide as its content.
+- **`fit-controls`** — same as `fit` but adds left/right arrow buttons when the control overflows its container.
+
+<Canvas of={SegmentedControlStories.TabLayoutShowcase} />
 
 ## Accessibility
 
