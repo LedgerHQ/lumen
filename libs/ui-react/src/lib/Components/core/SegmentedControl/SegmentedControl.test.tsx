@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { DotCount } from '../DotCount';
@@ -10,13 +10,21 @@ import {
 } from './SegmentedControl';
 
 class MockResizeObserver {
+  callback: ResizeObserverCallback;
   observe = vi.fn();
   unobserve = vi.fn();
   disconnect = vi.fn();
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback;
+  }
 }
 
+const originalResizeObserver = global.ResizeObserver;
 beforeAll(() => {
   global.ResizeObserver = MockResizeObserver;
+});
+afterAll(() => {
+  global.ResizeObserver = originalResizeObserver;
 });
 
 describe('SegmentedControl', () => {

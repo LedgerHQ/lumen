@@ -116,6 +116,10 @@ function useScrollArrows(
     const ro = new ResizeObserver(update);
     ro.observe(el);
 
+    if (el.firstElementChild instanceof HTMLElement) {
+      ro.observe(el.firstElementChild);
+    }
+
     return () => {
       el.removeEventListener('scroll', update);
       ro.disconnect();
@@ -255,6 +259,7 @@ export function SegmentedControl<
             className='scrollbar-none overflow-x-auto'
             style={{
               maskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
+              WebkitMaskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
             }}
           >
             <div
@@ -273,8 +278,9 @@ export function SegmentedControl<
           </div>
           <button
             type='button'
-            aria-hidden
+            aria-label='Scroll left'
             tabIndex={-1}
+            disabled={!canScrollLeft}
             onClick={() => scrollBy('left')}
             className={segmentedControlStyles.arrowButton({
               visible: canScrollLeft,
@@ -285,8 +291,9 @@ export function SegmentedControl<
           </button>
           <button
             type='button'
-            aria-hidden
+            aria-label='Scroll right'
             tabIndex={-1}
+            disabled={!canScrollRight}
             onClick={() => scrollBy('right')}
             className={segmentedControlStyles.arrowButton({
               visible: canScrollRight,
