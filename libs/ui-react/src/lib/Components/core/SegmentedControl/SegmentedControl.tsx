@@ -73,12 +73,16 @@ const segmentedControlStyles = {
     },
   ),
   arrowButton: cva(
-    'z-20 flex shrink-0 cursor-pointer items-center justify-center self-stretch px-8 text-muted transition-opacity duration-200 hover:text-muted-hover',
+    'absolute inset-y-0 z-20 flex cursor-pointer items-center justify-center rounded-sm py-8 text-muted transition-opacity duration-200 hover:text-muted-hover',
     {
       variants: {
         visible: {
           true: 'opacity-100',
           false: 'pointer-events-none opacity-0',
+        },
+        side: {
+          left: 'left-0 pr-16 pl-8',
+          right: 'right-0 pr-8 pl-16',
         },
       },
     },
@@ -217,7 +221,7 @@ export function SegmentedControl<
     selectedValue,
     children,
   );
-  const { pill, isReady } = usePillElementLayoutEffect({
+  const { pill: pillState, isReady } = usePillElementLayoutEffect({
     ref,
     selectedIndex,
     children,
@@ -231,31 +235,16 @@ export function SegmentedControl<
     showControls,
   );
 
-  const radioGroup = (
+  const pill = (
     <div
-      {...props}
-      ref={ref}
-      role='radiogroup'
-      aria-disabled={disabled}
-      className={cn(
-        segmentedControlStyles.root({
-          appearance,
-          tabLayout,
-        }),
-        !showControls && className,
-      )}
-    >
-      {children}
-      <div
-        aria-hidden
-        className={segmentedControlStyles.pill({ disabled, isReady })}
-        style={{
-          width: pill.width,
-          height: pill.height,
-          transform: `translateX(${pill.x}px)`,
-        }}
-      />
-    </div>
+      aria-hidden
+      className={segmentedControlStyles.pill({ disabled, isReady })}
+      style={{
+        width: pillState.width,
+        height: pillState.height,
+        transform: `translateX(${pillState.x}px)`,
+      }}
+    />
   );
 
   return (
@@ -268,7 +257,28 @@ export function SegmentedControl<
       }}
     >
       {showControls ? (
-        <div className={cn('flex items-stretch', className)}>
+        <div
+          className={cn(
+            'relative rounded-sm',
+            appearance === 'background' ? 'bg-surface' : 'bg-transparent',
+            className,
+          )}
+        >
+          <div ref={scrollRef} className='scrollbar-none overflow-x-auto'>
+            <div
+              {...props}
+              ref={ref}
+              role='radiogroup'
+              aria-disabled={disabled}
+              className={segmentedControlStyles.root({
+                appearance: 'no-background',
+                tabLayout,
+              })}
+            >
+              {children}
+              {pill}
+            </div>
+          </div>
           <button
             type='button'
             aria-hidden
@@ -276,16 +286,15 @@ export function SegmentedControl<
             onClick={() => scrollBy('left')}
             className={segmentedControlStyles.arrowButton({
               visible: canScrollLeft,
+              side: 'left',
             })}
+            style={{
+              background:
+                'linear-gradient(270deg, var(--background-surface-transparent) 0.01%, var(--background-surface) 26.93%)',
+            }}
           >
             <ChevronLeft size={20} />
           </button>
-          <div
-            ref={scrollRef}
-            className='scrollbar-none min-w-0 flex-1 overflow-x-auto'
-          >
-            {radioGroup}
-          </div>
           <button
             type='button'
             aria-hidden
@@ -293,13 +302,30 @@ export function SegmentedControl<
             onClick={() => scrollBy('right')}
             className={segmentedControlStyles.arrowButton({
               visible: canScrollRight,
+              side: 'right',
             })}
+            style={{
+              background:
+                'linear-gradient(90deg, var(--background-surface-transparent) 0.01%, var(--background-surface) 26.93%)',
+            }}
           >
             <ChevronRight size={20} />
           </button>
         </div>
       ) : (
-        radioGroup
+        <div
+          {...props}
+          ref={ref}
+          role='radiogroup'
+          aria-disabled={disabled}
+          className={cn(
+            segmentedControlStyles.root({ appearance, tabLayout }),
+            className,
+          )}
+        >
+          {children}
+          {pill}
+        </div>
       )}
     </SegmentedControlContextProvider>
   );
