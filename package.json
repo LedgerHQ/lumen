@@ -10,15 +10,11 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.6",
     "@sbaiahmed1/react-native-blur": "^4.5.5",
-    "ajv": "^8.17.1",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "invariant": "^2.2.4",
     "react-native-gesture-handler": "^2.28.0",
     "react-native-reanimated": "~4.3.0",
     "react-native-safe-area-context": "^5.6.0",
-    "react-native-worklets": "0.8.1",
-    "tailwind-merge": "^2.6.0"
+    "react-native-worklets": "0.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -51,7 +47,6 @@
     "@react-native-community/cli-platform-android": "18.0.1",
     "@react-native-community/cli-platform-ios": "18.0.1",
     "@react-native/babel-preset": "~0.81.6",
-    "@react-native/metro-config": "~0.81.6",
     "@rollup/plugin-url": "^8.0.2",
     "@storybook/addon-a11y": "^10.4.2",
     "@storybook/addon-docs": "10.2.13",
@@ -91,7 +86,6 @@
     "@types/react-dom": "~19.1.7",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "4.0.9",
-    "@vitest/ui": "4.0.9",
     "chromatic": "^13.3.5",
     "eslint": "9.36.0",
     "eslint-config-prettier": "^10.1.8",
@@ -106,7 +100,6 @@
     "jest-environment-node": "30.0.5",
     "jest-react-native": "18.0.0",
     "jest-util": "30.0.5",
-    "jiti": "2.4.2",
     "jsdom": "~22.1.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lodash-es": "^4.17.21",
