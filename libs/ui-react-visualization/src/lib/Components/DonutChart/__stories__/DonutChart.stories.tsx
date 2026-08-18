@@ -1,5 +1,5 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { Button, InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
 import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -78,16 +78,18 @@ export const Sizes: Story = {
   ),
 };
 
+const uncoloredSegments: DonutSegment[] = [
+  { id: 'a', label: 'A', value: 45 },
+  { id: 'b', label: 'B', value: 30 },
+  { id: 'c', label: 'C', value: 25 },
+];
+
 /**
  * Without a `color` override, segments fall back to the neutral default grey.
  */
 export const DefaultColors: Story = {
   args: {
-    series: [
-      { id: 'a', label: 'A', value: 45 },
-      { id: 'b', label: 'B', value: 30 },
-      { id: 'c', label: 'C', value: 25 },
-    ],
+    series: uncoloredSegments,
   },
 };
 
@@ -132,6 +134,12 @@ export const SegmentCounts: Story = {
   ),
 };
 
+const tinyValueSegments: DonutSegment[] = [
+  { ...cryptoSegments[0], value: 60 },
+  { ...cryptoSegments[1], value: 40 },
+  { id: 'dust', label: 'Dust', value: 0.00001 },
+];
+
 /**
  * A value too small to draw to scale is still given a minimum arc, so it stays
  * visible and hoverable instead of collapsing into a gap; the room it needs
@@ -141,39 +149,77 @@ export const SegmentCounts: Story = {
  * `useDonutSeries` instead (see `WithPreparedSeries`).
  */
 export const WithTinyValues: Story = {
-  args: {
-    series: [
-      { ...cryptoSegments[0], value: 60 },
-      { ...cryptoSegments[1], value: 40 },
-      { id: 'dust', label: 'Dust', value: 0.00001 },
-    ],
-    defaultActiveId: 'dust',
-    renderCenter: ({ activeSegment }) => (
-      <DonutChartCenter>
-        <DonutChartTitle size='sm'>
-          {activeSegment?.percentLabel ?? '100%'}
-        </DonutChartTitle>
-        <DonutChartDescription>
-          {activeSegment?.label ?? 'Total'}
-        </DonutChartDescription>
-      </DonutChartCenter>
-    ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DonutChart
+  series={tinyValueSegments}
+  defaultActiveId="dust"
+  renderCenter={({ activeSegment }) => (
+    <DonutChartCenter>
+      <DonutChartTitle size="sm">
+        {activeSegment?.percentLabel ?? '100%'}
+      </DonutChartTitle>
+      <DonutChartDescription>
+        {activeSegment?.label ?? 'Total'}
+      </DonutChartDescription>
+    </DonutChartCenter>
+  )}
+/>`,
+      },
+    },
   },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      series={tinyValueSegments}
+      defaultActiveId='dust'
+      renderCenter={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment?.percentLabel ?? '100%'}
+          </DonutChartTitle>
+          <DonutChartDescription>
+            {activeSegment?.label ?? 'Total'}
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
 };
+
+const emptySegments: DonutSegment[] = [];
 
 /**
  * With no data (empty or all-zero series), the ring renders the static
  * placeholder shape shared with the loading state.
  */
 export const NoData: Story = {
-  args: {
-    series: [],
-    renderCenter: () => (
-      <DonutChartCenter>
-        <DonutChartDescription>No data</DonutChartDescription>
-      </DonutChartCenter>
-    ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DonutChart
+  series={emptySegments}
+  renderCenter={() => (
+    <DonutChartCenter>
+      <DonutChartDescription>No data</DonutChartDescription>
+    </DonutChartCenter>
+  )}
+/>`,
+      },
+    },
   },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      series={emptySegments}
+      renderCenter={() => (
+        <DonutChartCenter>
+          <DonutChartDescription>No data</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
 };
 
 /**
@@ -252,17 +298,7 @@ export const WithCenter: Story = {
                   {activeSegment.percentLabel}
                 </DonutChartTitle>
                 <DonutChartDescription>
-                  <span className='min-w-0 truncate'>
-                    {activeSegment.label}
-                  </span>
-                  {size === 'md' && (
-                    <InteractiveIcon
-                      iconType='stroked'
-                      icon={ChevronRight}
-                      size={16}
-                      aria-label={`View ${activeSegment.label} details`}
-                    />
-                  )}
+                  {activeSegment.label}
                 </DonutChartDescription>
               </DonutChartCenter>
             )}
@@ -304,9 +340,7 @@ export const WithCenterClickable: Story = {
                 {activeSegment.percentLabel}
               </DonutChartTitle>
               <DonutChartDescription>
-                <span className='min-w-0 truncate'>
-                  w;ejpewjfpewjf;ekwjfpejf; {activeSegment.label}
-                </span>
+                <span className='min-w-0 truncate'>{activeSegment.label}</span>
                 <span
                   className={cn(
                     'inline-flex size-fit items-center justify-center rounded-full',
@@ -455,68 +489,82 @@ export const WithPreparedSeries: Story = {
   },
 };
 
+const longLabelSegments: DonutSegment[] = [
+  {
+    ...cryptoSegments[0],
+    label: 'A very long allocation name that should truncate',
+  },
+  cryptoSegments[1],
+  cryptoSegments[2],
+];
+
 /**
  * A long center label in the `sm` hole should truncate instead of overflowing
  * the ring. Hover to swap the resting total for the active name.
  */
 export const ResponsivenessShowcase: Story = {
-  args: {
-    size: 'sm',
-    series: [
-      {
-        ...cryptoSegments[0],
-        label: 'A very long allocation name that should truncate',
-      },
-      cryptoSegments[1],
-      cryptoSegments[2],
-    ],
-    defaultActiveId: 'bitcoin',
-    renderCenter: () => (
-      <DonutChartCenter>
-        <DonutChartDescription>
-          Total portfolio allocation overview
-        </DonutChartDescription>
-      </DonutChartCenter>
-    ),
-    renderCenterActive: ({ activeSegment }) => (
-      <DonutChartCenter>
-        <DonutChartTitle size='sm'>
-          {activeSegment.percentLabel}
-        </DonutChartTitle>
-        <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
-      </DonutChartCenter>
-    ),
-  },
+  parameters: { docs: { source: { type: 'code' } } },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      size='sm'
+      series={longLabelSegments}
+      defaultActiveId='bitcoin'
+      renderCenter={() => (
+        <DonutChartCenter>
+          <DonutChartDescription>
+            Total portfolio allocation overview
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment.percentLabel}
+          </DonutChartTitle>
+          <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
 };
 
 export const ResponsivenessShowcaseWithReactNode: Story = {
-  args: {
-    series: [
-      {
-        ...cryptoSegments[0],
-        label: 'A very long allocation name that should truncate',
-      },
-      cryptoSegments[1],
-      cryptoSegments[2],
-    ],
-    defaultActiveId: 'bitcoin',
-    renderCenter: () => (
-      <DonutChartCenter>
-        <DonutChartTitle>Very long title that should truncate</DonutChartTitle>
-        <DonutChartDescription>
-          <span className='min-w-0 truncate'>
-            Total portfolio allocation overview
-          </span>
-          <InteractiveIcon
-            iconType='stroked'
-            icon={ChevronRight}
-            size={16}
-            aria-label='View total portfolio allocation overview details'
-          />
-        </DonutChartDescription>
-      </DonutChartCenter>
-    ),
-  },
+  parameters: { docs: { source: { type: 'code' } } },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      series={longLabelSegments}
+      defaultActiveId='bitcoin'
+      renderCenter={() => (
+        <button
+          type='button'
+          className='group flex cursor-pointer flex-col items-center'
+        >
+          <DonutChartCenter>
+            <DonutChartTitle>
+              Very long title that should truncate
+            </DonutChartTitle>
+            <DonutChartDescription>
+              <span className='min-w-0 truncate'>
+                Total portfolio allocation overview
+              </span>
+              <span
+                className={cn(
+                  'inline-flex size-fit items-center justify-center rounded-full',
+                  'bg-base-transparent text-muted transition-colors',
+                  'group-hover:bg-base-transparent-hover group-hover:text-muted-hover',
+                  'group-active:bg-base-transparent-pressed group-active:text-muted-pressed',
+                )}
+              >
+                <ChevronRight size={16} aria-hidden />
+              </span>
+            </DonutChartDescription>
+          </DonutChartCenter>
+        </button>
+      )}
+    />
+  ),
 };
 
 /**
