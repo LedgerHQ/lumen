@@ -1,7 +1,14 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import type { ReactElement } from 'react';
-import { useRef } from 'react';
+import type { ReactElement, RefObject } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import { ChevronLeft, ChevronRight } from '../../symbols';
 import {
   SegmentedControlContextProvider,
   useSegmentedControlContext,
@@ -26,6 +33,7 @@ const segmentedControlStyles = {
       tabLayout: {
         fit: 'inline-flex',
         fixed: 'w-full',
+        'fit-controls': 'inline-flex',
       },
     },
   }),
@@ -64,7 +72,82 @@ const segmentedControlStyles = {
       ],
     },
   ),
+  arrowButton: cva(
+    'z-20 flex shrink-0 cursor-pointer items-center justify-center self-stretch px-8 text-muted transition-opacity duration-200 hover:text-muted-hover',
+    {
+      variants: {
+        visible: {
+          true: 'opacity-100',
+          false: 'pointer-events-none opacity-0',
+        },
+      },
+    },
+  ),
 };
+
+function useScrollArrows(
+  scrollRef: RefObject<HTMLDivElement | null>,
+  innerRef: RefObject<HTMLDivElement | null>,
+  enabled: boolean,
+): {
+  canScrollLeft: boolean;
+  canScrollRight: boolean;
+  scrollBy: (direction: 'left' | 'right') => void;
+} {
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const update = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) {
+      return;
+    }
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, [scrollRef]);
+
+  useLayoutEffect(() => {
+    if (enabled) update();
+  }, [enabled, update]);
+
+  useEffect(() => {
+    if (!enabled) return;
+    const el = scrollRef.current;
+    const inner = innerRef.current;
+    if (!el) {
+      return;
+    }
+    el.addEventListener('scroll', update, { passive: true });
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+
+    if (inner) {
+      ro.observe(inner);
+    }
+    return () => {
+      el.removeEventListener('scroll', update);
+      ro.disconnect();
+    };
+  }, [enabled, update, scrollRef, innerRef]);
+
+  const scrollBy = useCallback(
+    (direction: 'left' | 'right') => {
+      const el = scrollRef.current;
+      if (!el) {
+        return;
+      }
+      const amount = el.clientWidth / 2;
+      el.scrollBy({
+        left: direction === 'left' ? -amount : amount,
+        behavior: 'smooth',
+      });
+    },
+    [scrollRef],
+  );
+
+  return { canScrollLeft, canScrollRight, scrollBy };
+}
 
 export function SegmentedControlButton<
   T extends SegmentedControlValue = SegmentedControlValue,
@@ -128,6 +211,8 @@ export function SegmentedControl<
   });
 
   const ref = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const selectedIndex = useSegmentedControlSelectedIndex(
     selectedValue,
     children,
@@ -138,6 +223,41 @@ export function SegmentedControl<
     children,
   });
 
+  const showControls = tabLayout === 'fit-controls';
+
+  const { canScrollLeft, canScrollRight, scrollBy } = useScrollArrows(
+    scrollRef,
+    ref,
+    showControls,
+  );
+
+  const radioGroup = (
+    <div
+      {...props}
+      ref={ref}
+      role='radiogroup'
+      aria-disabled={disabled}
+      className={cn(
+        segmentedControlStyles.root({
+          appearance,
+          tabLayout,
+        }),
+        !showControls && className,
+      )}
+    >
+      {children}
+      <div
+        aria-hidden
+        className={segmentedControlStyles.pill({ disabled, isReady })}
+        style={{
+          width: pill.width,
+          height: pill.height,
+          transform: `translateX(${pill.x}px)`,
+        }}
+      />
+    </div>
+  );
+
   return (
     <SegmentedControlContextProvider
       value={{
@@ -147,30 +267,40 @@ export function SegmentedControl<
         tabLayout,
       }}
     >
-      <div
-        {...props}
-        ref={ref}
-        role='radiogroup'
-        aria-disabled={disabled}
-        className={cn(
-          segmentedControlStyles.root({
-            appearance,
-            tabLayout,
-          }),
-          className,
-        )}
-      >
-        {children}
-        <div
-          aria-hidden
-          className={segmentedControlStyles.pill({ disabled, isReady })}
-          style={{
-            width: pill.width,
-            height: pill.height,
-            transform: `translateX(${pill.x}px)`,
-          }}
-        />
-      </div>
+      {showControls ? (
+        <div className={cn('flex items-stretch', className)}>
+          <button
+            type='button'
+            aria-hidden
+            tabIndex={-1}
+            onClick={() => scrollBy('left')}
+            className={segmentedControlStyles.arrowButton({
+              visible: canScrollLeft,
+            })}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <div
+            ref={scrollRef}
+            className='scrollbar-none min-w-0 flex-1 overflow-x-auto'
+          >
+            {radioGroup}
+          </div>
+          <button
+            type='button'
+            aria-hidden
+            tabIndex={-1}
+            onClick={() => scrollBy('right')}
+            className={segmentedControlStyles.arrowButton({
+              visible: canScrollRight,
+            })}
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      ) : (
+        radioGroup
+      )}
     </SegmentedControlContextProvider>
   );
 }

@@ -84,6 +84,7 @@ export const TabLayoutShowcase: Story = {
   render: (args) => {
     const [fitState, setFitState] = useState('send');
     const [fixedState, setFixedState] = useState('send');
+    const [controlsState, setControlsState] = useState('tokens');
 
     return (
       <div className='flex flex-col gap-24'>
@@ -115,6 +116,28 @@ export const TabLayoutShowcase: Story = {
               Receive
             </SegmentedControlButton>
             <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+          </SegmentedControl>
+        </div>
+        <div className='w-320'>
+          <p className='mb-8 body-2 text-muted'>Fit with controls</p>
+          <SegmentedControl
+            {...args}
+            tabLayout='fit-controls'
+            selectedValue={controlsState}
+            onSelectedChange={setControlsState}
+          >
+            <SegmentedControlButton value='tokens'>
+              Tokens
+            </SegmentedControlButton>
+            <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
+            <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
+            <SegmentedControlButton value='earn'>Earn</SegmentedControlButton>
+            <SegmentedControlButton value='market'>
+              Market
+            </SegmentedControlButton>
+            <SegmentedControlButton value='history'>
+              History
+            </SegmentedControlButton>
           </SegmentedControl>
         </div>
       </div>
