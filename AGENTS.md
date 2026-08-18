@@ -58,8 +58,10 @@ questions and generators instead of guessing.
 
 Skills load their full body on demand (progressive disclosure) when the trigger
 matches. They live in `.claude/skills/` — a single tree read by Claude Code
-(native) and Cursor (compat loader). Copilot does not read this tree; it relies
-on `AGENTS.md` plus the `.github/instructions/*` restatements.
+(native), Cursor (compat loader), and GitHub Copilot code review (which reads
+`AGENTS.md` and the skills tree from the PR head branch). A single
+`.github/instructions/*` hook (`applyTo: "**"`) routes Copilot review into the
+`pr-review` skill; it restates no rules.
 
 Skills are grouped by **topic**, not by platform: a `component-*` skill is
 cross-platform and routes internally by lib (web vs React Native) using the
@@ -91,10 +93,12 @@ One source, no duplication:
 
 - **`AGENTS.md`** (this file) is the canonical always-on core. Cursor and Copilot
   read it natively; Claude Code reads it via `CLAUDE.md` → `@AGENTS.md`.
-- **`.claude/skills/`** is the single skills tree, consumed by Claude Code and
-  Cursor. Copilot has no skills mechanism, so per-skill review guidance is
-  restated under `.github/instructions/*`. **`.claude/agents/`** (subagents) is
-  shared by Claude Code and Cursor.
+- **`.claude/skills/`** is the single skills tree, consumed by Claude Code,
+  Cursor, and GitHub Copilot code review (it reads the skills tree and `AGENTS.md`
+  from the PR head branch). A single `.github/instructions/*` file
+  (`applyTo: "**"`) is a thin, ruleless hook that routes Copilot review into the
+  `pr-review` skill — no per-skill restatements. **`.claude/agents/`** (subagents)
+  is shared by Claude Code and Cursor.
 - **Internal vs published skills.** `.claude/skills/` is the **internal** tree —
   skills for people *building* Lumen (maintainers). A future top-level `skills/`
   tree will hold **published**, consumer-facing skills for people *using* Lumen
