@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { DotCount } from '../DotCount';
@@ -8,6 +8,16 @@ import {
   SegmentedControlButton,
   createSegmentedControl,
 } from './SegmentedControl';
+
+class MockResizeObserver {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+
+beforeAll(() => {
+  global.ResizeObserver = MockResizeObserver;
+});
 
 describe('SegmentedControl', () => {
   it('renders segments with labels', () => {
@@ -65,6 +75,37 @@ describe('SegmentedControl', () => {
     );
 
     expect(screen.getByLabelText('3 tokens')).toBeTruthy();
+  });
+
+  describe('tabLayout fit-controls', () => {
+    function renderWithControls() {
+      return render(
+        <SegmentedControl
+          tabLayout='fit-controls'
+          selectedValue='a'
+          onSelectedChange={() => {
+            /* empty */
+          }}
+          aria-label='Nav'
+        >
+          <SegmentedControlButton value='a'>A</SegmentedControlButton>
+          <SegmentedControlButton value='b'>B</SegmentedControlButton>
+          <SegmentedControlButton value='c'>C</SegmentedControlButton>
+        </SegmentedControl>,
+      );
+    }
+
+    it('renders segments', () => {
+      renderWithControls();
+      expect(screen.getByText('A')).toBeTruthy();
+      expect(screen.getByText('B')).toBeTruthy();
+    });
+
+    it('renders left and right arrow buttons', () => {
+      const { container } = renderWithControls();
+      const arrows = container.querySelectorAll('button[tabindex="-1"]');
+      expect(arrows).toHaveLength(2);
+    });
   });
 
   describe('createSegmentedControl', () => {
