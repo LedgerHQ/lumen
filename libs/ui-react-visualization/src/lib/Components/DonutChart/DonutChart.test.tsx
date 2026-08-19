@@ -11,6 +11,7 @@ import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutSegment } from './types';
+import { getCenterContentInset } from './utils';
 
 const wrapper = ({ children }: { children: ReactNode }) => (
   <ThemeProvider>{children}</ThemeProvider>
@@ -424,37 +425,35 @@ describe('DonutChart', () => {
       expect(description?.className).not.toContain('truncate');
     });
 
-    it.each([
-      ['md', 'px-4'],
-      ['sm', 'px-2'],
-    ] as const)(
-      'applies %s-ring horizontal padding (%s)',
-      (donutSize, paddingClass) => {
+    it.each(['md', 'sm'] as const)(
+      'applies %s-ring horizontal padding from centerContentInset',
+      (donutSize) => {
         const { getByText } = render(
           <DonutSizeProvider value={{ size: donutSize }}>
             <DonutChartDescription>Label</DonutChartDescription>
           </DonutSizeProvider>,
           { wrapper },
         );
-        expect(getByText('Label').className).toContain(paddingClass);
+        expect(getByText('Label').style.paddingInline).toBe(
+          `${getCenterContentInset(donutSize)}px`,
+        );
       },
     );
   });
 
   describe('DonutChartTitle', () => {
-    it.each([
-      ['md', 'px-4'],
-      ['sm', 'px-2'],
-    ] as const)(
-      'applies %s-ring horizontal padding (%s)',
-      (donutSize, paddingClass) => {
+    it.each(['md', 'sm'] as const)(
+      'applies %s-ring horizontal padding from centerContentInset',
+      (donutSize) => {
         const { getByText } = render(
           <DonutSizeProvider value={{ size: donutSize }}>
             <DonutChartTitle>42</DonutChartTitle>
           </DonutSizeProvider>,
           { wrapper },
         );
-        expect(getByText('42').className).toContain(paddingClass);
+        expect(getByText('42').style.paddingInline).toBe(
+          `${getCenterContentInset(donutSize)}px`,
+        );
       },
     );
   });

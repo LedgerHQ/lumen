@@ -12,7 +12,7 @@ import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutSegment, DonutSize, DonutTitleSize } from './types';
-import { buildRingSegments, getCenterMaxWidth } from './utils';
+import { buildRingSegments, getCenterContentInset, getCenterMaxWidth } from './utils';
 
 const sampleSeries: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
@@ -468,13 +468,15 @@ describe('DonutChart', () => {
       },
     );
 
-    it.each<[DonutSize, number]>([
-      ['md', 4],
-      ['sm', 2],
-    ])('applies %s-ring horizontal padding (%spx)', (donutSize, padding) => {
-      const { getByText } = renderTitle(donutSize);
-      expect(getByText('42').props.style.paddingHorizontal).toBe(padding);
-    });
+    it.each(['md', 'sm'] as const)(
+      'applies %s-ring horizontal padding from contentInset',
+      (donutSize) => {
+        const { getByText } = renderTitle(donutSize);
+        expect(getByText('42').props.style.paddingHorizontal).toBe(
+          getCenterContentInset(donutSize),
+        );
+      },
+    );
 
     it('defaults to md ring sizing without a DonutSizeProvider ancestor', () => {
       const { getByText } = renderWithTheme(
@@ -512,7 +514,7 @@ describe('DonutChart', () => {
       const style = getByText('42').props.style;
       expect(style.fontStyle).toBe('italic');
       expect(style.textAlign).toBe('center');
-      expect(style.maxWidth).toBe(getCenterMaxWidth(DONUT_GEOMETRY.md));
+      expect(style.maxWidth).toBe(getCenterMaxWidth('md'));
     });
   });
 
@@ -543,13 +545,15 @@ describe('DonutChart', () => {
       },
     );
 
-    it.each<[DonutSize, number]>([
-      ['md', 4],
-      ['sm', 2],
-    ])('applies %s-ring horizontal padding (%spx)', (donutSize, padding) => {
-      const { getByText } = renderDescription(donutSize, 'Bitcoin');
-      expect(getByText('Bitcoin').props.style.paddingHorizontal).toBe(padding);
-    });
+    it.each(['md', 'sm'] as const)(
+      'applies %s-ring horizontal padding from contentInset',
+      (donutSize) => {
+        const { getByText } = renderDescription(donutSize, 'Bitcoin');
+        expect(getByText('Bitcoin').props.style.paddingHorizontal).toBe(
+          getCenterContentInset(donutSize),
+        );
+      },
+    );
 
     it('renders text children as a single truncated, centered, muted line', () => {
       const { getByText } = renderDescription('md', 'Bitcoin');

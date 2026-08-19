@@ -2,10 +2,9 @@ import { Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { StyleSheet } from 'react-native';
 
-import { DONUT_GEOMETRY } from '../../config';
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartTitleProps, DonutSize, DonutTitleSize } from './types';
-import { getCenterMaxWidth } from './utils';
+import { getCenterContentInset, getCenterMaxWidth } from './utils';
 
 type Typography = NonNullable<TextProps['typography']>;
 
@@ -22,22 +21,15 @@ const useStyles = ({
   size: DonutTitleSize;
 }) => {
   return useStyleSheet(
-    (t) => {
-      const paddingX = {
-        md: t.spacings.s4,
-        sm: t.spacings.s2,
-      } satisfies Record<DonutSize, number>;
-
-      return {
-        root: {
-          ...t.typographies[TITLE_TYPOGRAPHY[donutSize][size]],
-          color: t.colors.text.base,
-          paddingHorizontal: paddingX[donutSize],
-          maxWidth: getCenterMaxWidth(DONUT_GEOMETRY[donutSize]),
-          textAlign: 'center' as const,
-        },
-      };
-    },
+    (t) => ({
+      root: {
+        ...t.typographies[TITLE_TYPOGRAPHY[donutSize][size]],
+        color: t.colors.text.base,
+        paddingHorizontal: getCenterContentInset(donutSize),
+        maxWidth: getCenterMaxWidth(donutSize),
+        textAlign: 'center' as const,
+      },
+    }),
     [donutSize, size],
   );
 };

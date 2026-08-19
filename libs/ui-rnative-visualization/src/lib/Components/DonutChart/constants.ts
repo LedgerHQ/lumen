@@ -1,7 +1,8 @@
 import type { DonutGeometry } from '../../config';
 
 export const DONUT_CENTER = {
-  contentInset: 8,
+  /** Horizontal inset (px per side) so center text clears the inner ring. */
+  contentInset: { md: 4, sm: 2 },
   transitionDurationMs: 180,
   transitionSlideDistance: 8,
 } as const;

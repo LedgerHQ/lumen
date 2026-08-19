@@ -3,17 +3,17 @@ import { cva } from 'class-variance-authority';
 
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps } from './types';
-import { DONUT_GEOMETRY, getCenterMaxWidth } from './utils';
+import { getCenterContentInset, getCenterMaxWidth } from './utils';
 
 const descriptionVariants = cva('min-w-0 text-muted', {
   variants: {
     donutSize: {
-      md: 'px-4 body-3',
-      sm: '-mt-4 px-2 body-4',
+      md: 'body-3',
+      sm: '-mt-4 body-4',
     },
     layout: {
       text: 'truncate',
-      cluster: 'flex min-w-0 items-center gap-2',
+      cluster: 'flex items-center gap-2',
     },
   },
   defaultVariants: {
@@ -33,13 +33,17 @@ export const DonutChartDescription = ({
     consumerName: 'DonutChartDescription',
     contextRequired: false,
   });
-  const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
+  const inset = getCenterContentInset(donutSize);
   const layout = isTextChildren(children) ? 'text' : 'cluster';
 
   return (
     <div
       ref={ref}
-      style={{ maxWidth, ...style }}
+      style={{
+        maxWidth: getCenterMaxWidth(donutSize),
+        paddingInline: inset,
+        ...style,
+      }}
       className={cn(descriptionVariants({ donutSize, layout }), className)}
       {...props}
     >

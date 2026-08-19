@@ -3,10 +3,9 @@ import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 
-import { DONUT_GEOMETRY } from '../../config';
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps, DonutSize } from './types';
-import { getCenterMaxWidth } from './utils';
+import { getCenterContentInset, getCenterMaxWidth } from './utils';
 
 type Typography = NonNullable<TextProps['typography']>;
 
@@ -18,12 +17,8 @@ const DESCRIPTION_TYPOGRAPHY = {
 const useStyles = ({ donutSize }: { donutSize: DonutSize }) => {
   return useStyleSheet(
     (t) => {
-      const paddingX = {
-        md: t.spacings.s4,
-        sm: t.spacings.s2,
-      } satisfies Record<DonutSize, number>;
-      const paddingHorizontal = paddingX[donutSize];
-      const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
+      const paddingHorizontal = getCenterContentInset(donutSize);
+      const maxWidth = getCenterMaxWidth(donutSize);
       const smOffset =
         donutSize === 'sm' ? { marginTop: t.spacings['-s4'] } : {};
 

@@ -1,7 +1,7 @@
 import { arc, pie, type PieArcDatum } from 'd3-shape';
-import { chartConfig, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
 import { DONUT_CENTER } from './constants';
-import type { DonutSegment } from './types';
+import type { DonutSegment, DonutSize } from './types';
 
 /** A placeholder segment for the empty ring and the loading wave. */
 export type DonutPlaceholderSegment = {
@@ -24,8 +24,14 @@ export type DonutRingSegment = {
   activeTranslate: { x: number; y: number };
 };
 
-export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
-  Math.max(0, geometry.innerRadius * 2 - DONUT_CENTER.contentInset);
+export const getCenterContentInset = (size: DonutSize): number =>
+  DONUT_CENTER.contentInset[size];
+
+export const getCenterMaxWidth = (size: DonutSize): number =>
+  Math.max(
+    0,
+    DONUT_GEOMETRY[size].innerRadius * 2 - 2 * getCenterContentInset(size),
+  );
 
 /** Round a percent to at most 1 decimal. */
 export const roundPercent = (percent: number): number =>
