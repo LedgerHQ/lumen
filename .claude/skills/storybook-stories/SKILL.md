@@ -23,8 +23,7 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   args: {
-    appearance: 'accent',
-  },
+    // Component props  },
 };
 ```
 
