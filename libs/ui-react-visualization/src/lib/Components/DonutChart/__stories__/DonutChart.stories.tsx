@@ -56,11 +56,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof DonutChart>;
 
-/**
- * The simplest chart: a `series` of `DonutSegment`s rendered as a ring. Each
- * segment's angle is its share of the summed `value`; `color` overrides the
- * neutral default.
- */
 export const Base: Story = {};
 
 export const Sizes: Story = {
@@ -84,9 +79,6 @@ const uncoloredSegments: DonutSegment[] = [
   { id: 'c', label: 'C', value: 25 },
 ];
 
-/**
- * Without a `color` override, segments fall back to the neutral default grey.
- */
 export const DefaultColors: Story = {
   args: {
     series: uncoloredSegments,
@@ -115,10 +107,7 @@ const buildSegments = (count: number): DonutSegment[] =>
   });
 
 const LOAD_REPLAY_DELAY_MS = 1500;
-/**
- * The ring adapts to any number of segments, rendered in series order,
- * clockwise from 12 o'clock, with rounded caps and gaps between segments.
- */
+
 export const SegmentCounts: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-32'>
@@ -140,14 +129,6 @@ const tinyValueSegments: DonutSegment[] = [
   { id: 'dust', label: 'Dust', value: 0.00001 },
 ];
 
-/**
- * A value too small to draw to scale is still given a minimum arc, so it stays
- * visible and hoverable instead of collapsing into a gap; the room it needs
- * comes proportionally out of the larger segments. Only the geometry is
- * inflated — the label keeps the true share and reads `<0.1%` rather than `0%`.
- * When a long tail of these carries no meaning on its own, condense it with
- * `useDonutSeries` instead (see `WithPreparedSeries`).
- */
 export const WithTinyValues: Story = {
   parameters: {
     docs: {
@@ -190,10 +171,6 @@ export const WithTinyValues: Story = {
 
 const emptySegments: DonutSegment[] = [];
 
-/**
- * With no data (empty or all-zero series), the ring renders the static
- * placeholder shape shared with the loading state.
- */
 export const NoData: Story = {
   parameters: {
     docs: {
@@ -222,10 +199,6 @@ export const NoData: Story = {
   ),
 };
 
-/**
- * While loading, the ring shows the animated placeholder wave instead of the
- * real segments, regardless of `series`.
- */
 export const Loading: Story = {
   parameters: {
     chromatic: { pauseAnimationAtEnd: true },
@@ -235,17 +208,8 @@ export const Loading: Story = {
   },
 };
 
-/**
- * Segments are hoverable by default. Hovering a segment sets `activeId`, dims
- * the others, and pops the active segment out radially. Leaving the chart resets
- * `activeId` to `null`.
- */
 export const Interactive: Story = {};
 
-/**
- * Pair the ring with `Legend`: pass it the same `series`. The legend wraps
- * within the width it is given.
- */
 export const WithLegend: Story = {
   render: (args) => (
     <div className='flex items-center gap-24'>
@@ -255,10 +219,6 @@ export const WithLegend: Story = {
   ),
 };
 
-/**
- * Lift `activeId` into parent state to drive the chart center or other slots
- * from the same contract.
- */
 export const Controlled: Story = {
   render: (args) => {
     const [activeId, setActiveId] = useState<string | null>(null);
@@ -272,12 +232,6 @@ export const Controlled: Story = {
   },
 };
 
-/**
- * `renderCenter` renders the resting center; `renderCenterActive` crossfades
- * to active content on segment hover. Typography scales with the ring, so the
- * same pattern fits both sizes — the tighter `sm` center drops the trailing
- * icon.
- */
 export const WithCenter: Story = {
   render: (args) => (
     <div className='flex flex-wrap items-center gap-32'>
@@ -310,11 +264,6 @@ export const WithCenter: Story = {
   ),
 };
 
-/**
- * Consumer pattern: wrap `renderCenterActive` in a `group` button so the whole
- * active block is clickable and hover on the block drives the chevron's chip
- * hover state.
- */
 export const WithCenterClickable: Story = {
   render: (args) => {
     const [lastClick, setLastClick] = useState<string | null>(null);
@@ -417,12 +366,6 @@ const manyCryptoSegments: DonutSegment[] = [
   { id: 'dogecoin', label: 'Dogecoin', value: 1 },
 ];
 
-/**
- * `useDonutSeries` prepares a raw series before it reaches the chart: it sorts
- * segments by `value` descending, then condenses the long tail into a single
- * "Other" segment.
- */
-
 const lightContrastSegments: DonutSegment[] = [
   { id: 'a', label: 'Amber', value: 40, color: '#fefae8' },
   { id: 'b', label: 'Sky', value: 35, color: '#e8f6fe' },
@@ -498,10 +441,6 @@ const longLabelSegments: DonutSegment[] = [
   cryptoSegments[2],
 ];
 
-/**
- * A long center label in the `sm` hole should truncate instead of overflowing
- * the ring. Hover to swap the resting total for the active name.
- */
 export const ResponsivenessShowcase: Story = {
   parameters: { docs: { source: { type: 'code' } } },
   render: (args) => (
@@ -567,10 +506,6 @@ export const ResponsivenessShowcaseWithReactNode: Story = {
   ),
 };
 
-/**
- * Flips `loading` off so the reveal animation remounts the ring. Replay to
- * watch CSS mask cost; the ring should remount once, not on every hover after.
- */
 export const LoadingToData: Story = {
   parameters: {
     chromatic: { pauseAnimationAtEnd: true },
