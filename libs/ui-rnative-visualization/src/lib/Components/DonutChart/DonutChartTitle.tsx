@@ -1,4 +1,4 @@
-import { Text } from '@ledgerhq/lumen-ui-rnative';
+import { Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { StyleSheet } from 'react-native';
 
@@ -9,22 +9,39 @@ import { getCenterMaxWidth } from './utils';
 
 type Typography = NonNullable<TextProps['typography']>;
 
-/**
- * Typography per donut ring size (rows) x the title's own `size` (columns).
- * `md` ring / `md` title is the standalone count; `md` ring / `sm` title is
- * the active percent, sized down to leave room for the description below it.
- */
 const TITLE_TYPOGRAPHY = {
   md: { md: 'heading1SemiBold', sm: 'heading2SemiBold' },
   sm: { md: 'heading4SemiBold', sm: 'body2SemiBold' },
 } as const satisfies Record<DonutSize, Record<DonutTitleSize, Typography>>;
 
-const PADDING_X = {
-  md: 's4',
-  sm: 's2',
-} as const satisfies Record<DonutSize, 's2' | 's4'>;
+const useStyles = ({
+  donutSize,
+  size,
+}: {
+  donutSize: DonutSize;
+  size: DonutTitleSize;
+}) => {
+  return useStyleSheet(
+    (t) => {
+      const paddingX = {
+        md: t.spacings.s4,
+        sm: t.spacings.s2,
+      } satisfies Record<DonutSize, number>;
 
-/** The dominant value of the donut center (e.g. the series count, or the active segment's percent). */
+      return {
+        root: {
+          ...t.typographies[TITLE_TYPOGRAPHY[donutSize][size]],
+          color: t.colors.text.base,
+          paddingHorizontal: paddingX[donutSize],
+          maxWidth: getCenterMaxWidth(DONUT_GEOMETRY[donutSize]),
+          textAlign: 'center' as const,
+        },
+      };
+    },
+    [donutSize, size],
+  );
+};
+
 export function DonutChartTitle({
   children,
   lx,
@@ -38,13 +55,12 @@ export function DonutChartTitle({
     consumerName: 'DonutChartTitle',
     contextRequired: false,
   });
-  const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
+  const styles = useStyles({ donutSize, size });
 
   return (
     <Text
-      typography={TITLE_TYPOGRAPHY[donutSize][size]}
-      lx={{ color: 'base', paddingHorizontal: PADDING_X[donutSize], ...lx }}
-      style={StyleSheet.flatten([{ maxWidth, textAlign: 'center' }, style])}
+      lx={lx}
+      style={StyleSheet.flatten([styles.root, style])}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       {...props}
