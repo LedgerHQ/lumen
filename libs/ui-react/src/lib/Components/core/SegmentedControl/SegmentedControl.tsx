@@ -237,7 +237,7 @@ export function SegmentedControl<
     const target = buttons[selectedIndex] as HTMLElement | undefined;
 
     // scroll the selected item into view in case of "fit-controls" on mount
-    target?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    target?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
