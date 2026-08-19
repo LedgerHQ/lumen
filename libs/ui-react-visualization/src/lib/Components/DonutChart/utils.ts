@@ -22,11 +22,12 @@ export const getDonutViewBox = (geometry: DonutGeometry): string => {
   return `-${hoverOffset} -${hoverOffset} ${paddedBox} ${paddedBox}`;
 };
 
-/**
- * Max width (px) for center content.
- */
-export const getCenterMaxWidth = (geometry: DonutGeometry): number =>
-  geometry.innerRadius * 2 - chartConfig.donut.centerContentInset;
+export const getCenterContentInset = (size: DonutSize): number =>
+  chartConfig.donut.centerContentInset[size];
+
+/** Max width (px) for center content, inner diameter minus inset on both sides. */
+export const getCenterMaxWidth = (size: DonutSize): number =>
+  DONUT_GEOMETRY[size].innerRadius * 2 - 2 * getCenterContentInset(size);
 
 /** Round a percent to at most 1 decimal. */
 export const roundPercent = (percent: number): number =>

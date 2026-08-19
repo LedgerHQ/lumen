@@ -4,6 +4,7 @@ import Animated, {
   useSharedValue,
   withTiming,
   type SharedValue,
+  type WithTimingConfig,
 } from 'react-native-reanimated';
 import { G, Path, Svg } from 'react-native-svg';
 
@@ -26,6 +27,17 @@ import {
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
+const animateIfChanged = (
+  value: SharedValue<number>,
+  target: number,
+  config: WithTimingConfig,
+): void => {
+  if (value.value === target) {
+    return;
+  }
+  value.value = withTiming(target, config);
+};
+
 type RingSegmentProps = {
   segment: DonutRingSegment;
   defaultColor: string;
@@ -38,40 +50,32 @@ const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
 
-  useEffect(() => {
-    const targetOpacity =
-      !segment.activeEnabled || activeId == null || isActive
-        ? 1
-        : DONUT_INTERACTION.dimOpacity;
-    const { x, y } =
-      isActive && segment.activeEnabled
-        ? segment.activeTranslate
-        : { x: 0, y: 0 };
+  const targetOpacity =
+    !segment.activeEnabled || activeId == null || isActive
+      ? 1
+      : DONUT_INTERACTION.dimOpacity;
+  const targetX =
+    isActive && segment.activeEnabled ? segment.activeTranslate.x : 0;
+  const targetY =
+    isActive && segment.activeEnabled ? segment.activeTranslate.y : 0;
 
-    opacity.value = withTiming(targetOpacity, {
+  useEffect(() => {
+    animateIfChanged(opacity, targetOpacity, {
       duration: DONUT_INTERACTION.opacityDurationMs,
     });
-    translateX.value = withTiming(x, {
+    animateIfChanged(translateX, targetX, {
       duration: DONUT_INTERACTION.popDurationMs,
       easing: DONUT_INTERACTION.popEasing,
     });
-    translateY.value = withTiming(y, {
+    animateIfChanged(translateY, targetY, {
       duration: DONUT_INTERACTION.popDurationMs,
       easing: DONUT_INTERACTION.popEasing,
     });
-  }, [
-    activeId,
-    isActive,
-    opacity,
-    segment.activeEnabled,
-    segment.activeTranslate,
-    translateX,
-    translateY,
-  ]);
+  }, [opacity, targetOpacity, targetX, targetY, translateX, translateY]);
 
   const animatedProps = useAnimatedProps(() => ({
     opacity: opacity.value,
-    transform: `translate(${translateX.value}, ${translateY.value})`,
+    matrix: [1, 0, 0, 1, translateX.value, translateY.value],
   }));
 
   return (

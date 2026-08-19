@@ -9,6 +9,8 @@ import {
   buildRingSegments,
   DONUT_GEOMETRY,
   formatPercentLabel,
+  getCenterContentInset,
+  getCenterMaxWidth,
   getDonutViewBox,
   getSegmentPercents,
   resolveSegmentColor,
@@ -34,6 +36,17 @@ describe('DONUT_GEOMETRY', () => {
   it('matches the Figma box sizes (md=168, sm=80)', () => {
     expect(DONUT_GEOMETRY.md.box).toBe(168);
     expect(DONUT_GEOMETRY.sm.box).toBe(80);
+  });
+});
+
+describe('getCenterMaxWidth', () => {
+  it('fits content inside the inner diameter minus the inset on both sides', () => {
+    expect(getCenterMaxWidth('md')).toBe(
+      DONUT_GEOMETRY.md.innerRadius * 2 - 2 * getCenterContentInset('md'),
+    );
+    expect(getCenterMaxWidth('sm')).toBe(
+      DONUT_GEOMETRY.sm.innerRadius * 2 - 2 * getCenterContentInset('sm'),
+    );
   });
 });
 

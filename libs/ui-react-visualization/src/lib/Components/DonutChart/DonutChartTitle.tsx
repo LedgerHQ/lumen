@@ -1,13 +1,31 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 
 import { useDonutSizeContext } from './donutSizeContext';
-import type { DonutChartTitleProps, DonutSize, DonutTitleSize } from './types';
-import { DONUT_GEOMETRY, getCenterMaxWidth } from './utils';
+import type { DonutChartTitleProps } from './types';
+import { getCenterContentInset, getCenterMaxWidth } from './utils';
 
-const TITLE_TYPOGRAPHY = {
-  md: { md: 'heading-1-semi-bold', sm: 'heading-2-semi-bold' },
-  sm: { md: 'heading-4-semi-bold', sm: 'body-2-semi-bold' },
-} as const satisfies Record<DonutSize, Record<DonutTitleSize, string>>;
+const titleVariants = cva('min-w-0 truncate text-base', {
+  variants: {
+    donutSize: {
+      md: '',
+      sm: '',
+    },
+    size: {
+      md: '',
+      sm: '',
+    },
+  },
+  compoundVariants: [
+    { donutSize: 'md', size: 'md', class: 'heading-1-semi-bold' },
+    { donutSize: 'md', size: 'sm', class: 'heading-2-semi-bold' },
+    { donutSize: 'sm', size: 'md', class: 'heading-4-semi-bold' },
+    { donutSize: 'sm', size: 'sm', class: 'body-2-semi-bold' },
+  ],
+  defaultVariants: {
+    donutSize: 'md',
+    size: 'md',
+  },
+});
 
 export const DonutChartTitle = ({
   ref,
@@ -21,17 +39,17 @@ export const DonutChartTitle = ({
     consumerName: 'DonutChartTitle',
     contextRequired: false,
   });
-  const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
+  const inset = getCenterContentInset(donutSize);
 
   return (
     <div
       ref={ref}
-      style={{ maxWidth, ...style }}
-      className={cn(
-        'truncate text-base',
-        TITLE_TYPOGRAPHY[donutSize][size],
-        className,
-      )}
+      style={{
+        maxWidth: getCenterMaxWidth(donutSize),
+        paddingInline: inset,
+        ...style,
+      }}
+      className={titleVariants({ donutSize, size, className })}
       {...props}
     >
       {children}

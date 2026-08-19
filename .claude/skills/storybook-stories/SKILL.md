@@ -23,8 +23,7 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   args: {
-    // Component props
-  },
+    // Component props  },
 };
 ```
 
@@ -90,6 +89,10 @@ Stories that demonstrate how a component truncates or adapts to constrained spac
 
 - Use: `ResponsivenessShowcase`
 - Do not use: `TruncateShowcase`, `Truncation`, `LongLabel`
+
+## Comments
+
+Do not add comments in `*.stories.tsx` — no JSDoc above stories, no `//` or `/* */` explanations. Story intent belongs in MDX or the export name. Keep only a required lint directive (e.g. `eslint-disable-next-line`) when a suppression is unavoidable.
 
 ## General Principles
 

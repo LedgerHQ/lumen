@@ -1,9 +1,9 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { InteractiveIcon } from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
 import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
 import { Legend } from '../../Legend';
@@ -56,11 +56,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof DonutChart>;
 
-/**
- * The simplest chart: a `series` of `DonutSegment`s rendered as a ring. Each
- * segment's angle is its share of the summed `value`; `color` overrides the
- * neutral default.
- */
 export const Base: Story = {};
 
 export const Sizes: Story = {
@@ -78,16 +73,15 @@ export const Sizes: Story = {
   ),
 };
 
-/**
- * Without a `color` override, segments fall back to the neutral default grey.
- */
+const uncoloredSegments: DonutSegment[] = [
+  { id: 'a', label: 'A', value: 45 },
+  { id: 'b', label: 'B', value: 30 },
+  { id: 'c', label: 'C', value: 25 },
+];
+
 export const DefaultColors: Story = {
   args: {
-    series: [
-      { id: 'a', label: 'A', value: 45 },
-      { id: 'b', label: 'B', value: 30 },
-      { id: 'c', label: 'C', value: 25 },
-    ],
+    series: uncoloredSegments,
   },
 };
 
@@ -108,14 +102,12 @@ const buildSegments = (count: number): DonutSegment[] =>
       id: `segment-${n}`,
       label: `Segment ${n}`,
       value: 1,
-      color: segmentPalette[index],
+      color: segmentPalette[index % segmentPalette.length],
     };
   });
 
-/**
- * The ring adapts to any number of segments, rendered in series order,
- * clockwise from 12 o'clock, with rounded caps and gaps between segments.
- */
+const LOAD_REPLAY_DELAY_MS = 1500;
+
 export const SegmentCounts: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-32'>
@@ -131,54 +123,82 @@ export const SegmentCounts: Story = {
   ),
 };
 
-/**
- * A value too small to draw to scale is still given a minimum arc, so it stays
- * visible and hoverable instead of collapsing into a gap; the room it needs
- * comes proportionally out of the larger segments. Only the geometry is
- * inflated — the label keeps the true share and reads `<0.1%` rather than `0%`.
- * When a long tail of these carries no meaning on its own, condense it with
- * `useDonutSeries` instead (see `WithPreparedSeries`).
- */
+const tinyValueSegments: DonutSegment[] = [
+  { ...cryptoSegments[0], value: 60 },
+  { ...cryptoSegments[1], value: 40 },
+  { id: 'dust', label: 'Dust', value: 0.00001 },
+];
+
 export const WithTinyValues: Story = {
-  args: {
-    series: [
-      { ...cryptoSegments[0], value: 60 },
-      { ...cryptoSegments[1], value: 40 },
-      { id: 'dust', label: 'Dust', value: 0.00001 },
-    ],
-    defaultActiveId: 'dust',
-    renderCenter: ({ activeSegment }) => (
-      <DonutChartCenter>
-        <DonutChartTitle size='sm'>
-          {activeSegment?.percentLabel ?? '100%'}
-        </DonutChartTitle>
-        <DonutChartDescription>
-          {activeSegment?.label ?? 'Total'}
-        </DonutChartDescription>
-      </DonutChartCenter>
-    ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DonutChart
+  series={tinyValueSegments}
+  defaultActiveId="dust"
+  renderCenter={({ activeSegment }) => (
+    <DonutChartCenter>
+      <DonutChartTitle size="sm">
+        {activeSegment?.percentLabel ?? '100%'}
+      </DonutChartTitle>
+      <DonutChartDescription>
+        {activeSegment?.label ?? 'Total'}
+      </DonutChartDescription>
+    </DonutChartCenter>
+  )}
+/>`,
+      },
+    },
   },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      series={tinyValueSegments}
+      defaultActiveId='dust'
+      renderCenter={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment?.percentLabel ?? '100%'}
+          </DonutChartTitle>
+          <DonutChartDescription>
+            {activeSegment?.label ?? 'Total'}
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
 };
 
-/**
- * With no data (empty or all-zero series), the ring renders the static
- * placeholder shape shared with the loading state.
- */
+const emptySegments: DonutSegment[] = [];
+
 export const NoData: Story = {
-  args: {
-    series: [],
-    renderCenter: () => (
-      <DonutChartCenter>
-        <DonutChartDescription>No data</DonutChartDescription>
-      </DonutChartCenter>
-    ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DonutChart
+  series={emptySegments}
+  renderCenter={() => (
+    <DonutChartCenter>
+      <DonutChartDescription>No data</DonutChartDescription>
+    </DonutChartCenter>
+  )}
+/>`,
+      },
+    },
   },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      series={emptySegments}
+      renderCenter={() => (
+        <DonutChartCenter>
+          <DonutChartDescription>No data</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
 };
 
-/**
- * While loading, the ring shows the animated placeholder wave instead of the
- * real segments, regardless of `series`.
- */
 export const Loading: Story = {
   parameters: {
     chromatic: { pauseAnimationAtEnd: true },
@@ -188,17 +208,8 @@ export const Loading: Story = {
   },
 };
 
-/**
- * Segments are hoverable by default. Hovering a segment sets `activeId`, dims
- * the others, and pops the active segment out radially. Leaving the chart resets
- * `activeId` to `null`.
- */
 export const Interactive: Story = {};
 
-/**
- * Pair the ring with `Legend`: pass it the same `series`. The legend wraps
- * within the width it is given.
- */
 export const WithLegend: Story = {
   render: (args) => (
     <div className='flex items-center gap-24'>
@@ -208,10 +219,6 @@ export const WithLegend: Story = {
   ),
 };
 
-/**
- * Lift `activeId` into parent state to drive the chart center or other slots
- * from the same contract.
- */
 export const Controlled: Story = {
   render: (args) => {
     const [activeId, setActiveId] = useState<string | null>(null);
@@ -225,12 +232,6 @@ export const Controlled: Story = {
   },
 };
 
-/**
- * `renderCenter` renders the resting center; `renderCenterActive` crossfades
- * to active content on segment hover. Typography scales with the ring, so the
- * same pattern fits both sizes — the tighter `sm` center drops the trailing
- * icon.
- */
 export const WithCenter: Story = {
   render: (args) => (
     <div className='flex flex-wrap items-center gap-32'>
@@ -251,15 +252,7 @@ export const WithCenter: Story = {
                   {activeSegment.percentLabel}
                 </DonutChartTitle>
                 <DonutChartDescription>
-                  <span className='truncate'>{activeSegment.label}</span>
-                  {size === 'md' && (
-                    <InteractiveIcon
-                      iconType='stroked'
-                      icon={ChevronRight}
-                      size={16}
-                      aria-label={`View ${activeSegment.label} details`}
-                    />
-                  )}
+                  {activeSegment.label}
                 </DonutChartDescription>
               </DonutChartCenter>
             )}
@@ -271,11 +264,6 @@ export const WithCenter: Story = {
   ),
 };
 
-/**
- * Consumer pattern: wrap `renderCenterActive` in a `group` button so the whole
- * active block is clickable and hover on the block drives the chevron's chip
- * hover state.
- */
 export const WithCenterClickable: Story = {
   render: (args) => {
     const [lastClick, setLastClick] = useState<string | null>(null);
@@ -301,7 +289,7 @@ export const WithCenterClickable: Story = {
                 {activeSegment.percentLabel}
               </DonutChartTitle>
               <DonutChartDescription>
-                <span className='truncate'>{activeSegment.label}</span>
+                <span className='min-w-0 truncate'>{activeSegment.label}</span>
                 <span
                   className={cn(
                     'inline-flex size-fit items-center justify-center rounded-full',
@@ -378,12 +366,6 @@ const manyCryptoSegments: DonutSegment[] = [
   { id: 'dogecoin', label: 'Dogecoin', value: 1 },
 ];
 
-/**
- * `useDonutSeries` prepares a raw series before it reaches the chart: it sorts
- * segments by `value` descending, then condenses the long tail into a single
- * "Other" segment.
- */
-
 const lightContrastSegments: DonutSegment[] = [
   { id: 'a', label: 'Amber', value: 40, color: '#fefae8' },
   { id: 'b', label: 'Sky', value: 35, color: '#e8f6fe' },
@@ -446,6 +428,133 @@ export const WithPreparedSeries: Story = {
           </DonutChartCenter>
         )}
       />
+    );
+  },
+};
+
+const longLabelSegments: DonutSegment[] = [
+  {
+    ...cryptoSegments[0],
+    label: 'A very long allocation name that should truncate',
+  },
+  cryptoSegments[1],
+  cryptoSegments[2],
+];
+
+export const ResponsivenessShowcase: Story = {
+  parameters: { docs: { source: { type: 'code' } } },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      size='sm'
+      series={longLabelSegments}
+      defaultActiveId='bitcoin'
+      renderCenter={() => (
+        <DonutChartCenter>
+          <DonutChartDescription>
+            Total portfolio allocation overview
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment.percentLabel}
+          </DonutChartTitle>
+          <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  ),
+};
+
+export const ResponsivenessShowcaseWithReactNode: Story = {
+  parameters: { docs: { source: { type: 'code' } } },
+  render: (args) => (
+    <DonutChart
+      {...args}
+      series={longLabelSegments}
+      defaultActiveId='bitcoin'
+      renderCenter={() => (
+        <button
+          type='button'
+          className='group flex cursor-pointer flex-col items-center'
+        >
+          <DonutChartCenter>
+            <DonutChartTitle>
+              Very long title that should truncate
+            </DonutChartTitle>
+            <DonutChartDescription>
+              <span className='min-w-0 truncate'>
+                Total portfolio allocation overview
+              </span>
+              <span
+                className={cn(
+                  'inline-flex size-fit items-center justify-center rounded-full',
+                  'bg-base-transparent text-muted transition-colors',
+                  'group-hover:bg-base-transparent-hover group-hover:text-muted-hover',
+                  'group-active:bg-base-transparent-pressed group-active:text-muted-pressed',
+                )}
+              >
+                <ChevronRight size={16} aria-hidden />
+              </span>
+            </DonutChartDescription>
+          </DonutChartCenter>
+        </button>
+      )}
+    />
+  ),
+};
+
+export const LoadingToData: Story = {
+  parameters: {
+    chromatic: { pauseAnimationAtEnd: true },
+  },
+  render: (args) => {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      if (!loading) {
+        return;
+      }
+      const timeoutId = window.setTimeout(() => {
+        setLoading(false);
+      }, LOAD_REPLAY_DELAY_MS);
+      return () => window.clearTimeout(timeoutId);
+    }, [loading]);
+
+    return (
+      <div className='flex flex-col items-center gap-16'>
+        <DonutChart
+          {...args}
+          loading={loading}
+          renderCenter={({ series }) =>
+            loading ? null : (
+              <DonutChartCenter>
+                <DonutChartTitle>{series.length}</DonutChartTitle>
+              </DonutChartCenter>
+            )
+          }
+          renderCenterActive={({ activeSegment }) => (
+            <DonutChartCenter>
+              <DonutChartTitle size='sm'>
+                {activeSegment.percentLabel}
+              </DonutChartTitle>
+              <DonutChartDescription>
+                {activeSegment.label}
+              </DonutChartDescription>
+            </DonutChartCenter>
+          )}
+        />
+        <Button
+          appearance='gray'
+          size='sm'
+          loading={loading}
+          onClick={() => setLoading(true)}
+        >
+          Replay load
+        </Button>
+      </div>
     );
   },
 };

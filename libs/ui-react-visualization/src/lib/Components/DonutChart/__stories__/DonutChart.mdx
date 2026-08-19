@@ -96,6 +96,12 @@ placeholder segments instead of the real data, regardless of `series`.
 
 <Canvas of={DonutChartStories.Loading} />
 
+When `loading` flips to `false`, the ring remounts once and plays the reveal
+into the real segments. Use **Replay load** to watch that transition; hover
+afterward should not remount the ring.
+
+<Canvas of={DonutChartStories.LoadingToData} />
+
 ## Interactivity
 
 Segments are hoverable by default. Hovering a segment sets `activeId`, dims
@@ -129,8 +135,6 @@ Return a top-level `DonutChartCenter` wrapping `DonutChartTitle` and/or
 - Used with `renderCenterActive`: `renderCenter` stays resting-only
   (`activeSegment` always `null`); `renderCenterActive` crossfades in on
   hover instead.
-- If a label could overflow, add a `truncate` class to it (not to a trailing
-  icon).
 - `DonutChartCenter` applies a default centered vertical stack
   (`flex flex-col items-center`) plus `pointer-events-auto`; override or
   extend it with `className`.
@@ -213,6 +217,18 @@ surface background by at least 20 units. Colors that already meet that minimum
 are left unchanged.
 
 <Canvas of={DonutChartStories.WithColorContrast} />
+
+## Responsiveness
+
+A long center title or description truncates inside the hole.
+
+When the description is a React node (label plus icon), wrap the text in a
+`span` with `min-w-0 truncate`.
+
+<Canvas of={DonutChartStories.ResponsivenessShowcase} />
+<Canvas of={DonutChartStories.ResponsivenessShowcaseWithReactNode} />
+
+
 
 ## Props
 

@@ -134,7 +134,7 @@ export function DonutChart({
             {useAnimatedCenter ? (
               <DonutChartAnimatedCenter
                 activeSegment={activeSegment}
-                contentWidth={getCenterMaxWidth(geometry)}
+                contentWidth={getCenterMaxWidth(size)}
                 renderResting={renderRestingCenter}
                 renderActive={renderActiveCenter}
               />

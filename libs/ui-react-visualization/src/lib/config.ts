@@ -119,7 +119,8 @@ export const chartConfig = {
   donut: {
     defaultSegmentColor: cssVar('var(--background-muted-strong)'),
     emptyRingColor: cssVar('var(--background-muted)'),
-    centerContentInset: 8,
+    /** Horizontal inset (px per side) so center text clears the inner ring. */
+    centerContentInset: { md: 4, sm: 2 },
     /** Defaults applied by `useDonutSeries` when preparing a raw series. */
     series: {
       maxSegments: 7,

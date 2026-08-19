@@ -1,12 +1,11 @@
-import { Box, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 
-import { DONUT_GEOMETRY } from '../../config';
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps, DonutSize } from './types';
-import { getCenterMaxWidth } from './utils';
+import { getCenterContentInset, getCenterMaxWidth } from './utils';
 
 type Typography = NonNullable<TextProps['typography']>;
 
@@ -14,6 +13,41 @@ const DESCRIPTION_TYPOGRAPHY = {
   md: 'body3',
   sm: 'body4',
 } as const satisfies Record<DonutSize, Typography>;
+
+const useStyles = ({ donutSize }: { donutSize: DonutSize }) => {
+  return useStyleSheet(
+    (t) => {
+      const paddingHorizontal = getCenterContentInset(donutSize);
+      const maxWidth = getCenterMaxWidth(donutSize);
+      const smOffset =
+        donutSize === 'sm' ? { marginTop: t.spacings['-s4'] } : {};
+
+      return {
+        text: {
+          ...t.typographies[DESCRIPTION_TYPOGRAPHY[donutSize]],
+          color: t.colors.text.muted,
+          alignSelf: 'center' as const,
+          paddingHorizontal,
+          maxWidth,
+          flexShrink: 1,
+          minWidth: 0,
+          textAlign: 'center' as const,
+          ...smOffset,
+        },
+        container: {
+          flexDirection: 'row' as const,
+          alignItems: 'center' as const,
+          gap: t.spacings.s2,
+          paddingHorizontal,
+          alignSelf: 'center' as const,
+          maxWidth,
+          ...smOffset,
+        },
+      };
+    },
+    [donutSize],
+  );
+};
 
 export function DonutChartDescription({
   children,
@@ -25,19 +59,13 @@ export function DonutChartDescription({
     consumerName: 'DonutChartDescription',
     contextRequired: false,
   });
-  const maxWidth = getCenterMaxWidth(DONUT_GEOMETRY[donutSize]);
-  const typography = DESCRIPTION_TYPOGRAPHY[donutSize];
-  const smOffset = donutSize === 'sm' ? { marginTop: '-s4' as const } : {};
+  const styles = useStyles({ donutSize });
 
   if (isTextChildren(children)) {
     return (
       <Text
-        typography={typography}
-        lx={{ color: 'muted', alignSelf: 'center', ...smOffset, ...lx }}
-        style={StyleSheet.flatten([
-          { maxWidth, flexShrink: 1, minWidth: 0, textAlign: 'center' },
-          style,
-        ])}
+        lx={lx}
+        style={StyleSheet.flatten([styles.text, style])}
         numberOfLines={1}
         ellipsizeMode='tail'
         {...props}
@@ -49,15 +77,8 @@ export function DonutChartDescription({
 
   return (
     <Box
-      lx={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 's2',
-        alignSelf: 'center',
-        ...smOffset,
-        ...lx,
-      }}
-      style={StyleSheet.flatten([{ maxWidth }, style])}
+      lx={lx}
+      style={StyleSheet.flatten([styles.container, style])}
       {...props}
     >
       {children}

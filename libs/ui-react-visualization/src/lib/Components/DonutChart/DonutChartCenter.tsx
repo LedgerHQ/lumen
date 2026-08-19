@@ -17,7 +17,7 @@ export const DonutChartCenter = ({
     <div
       ref={ref}
       className={cn(
-        'pointer-events-auto flex flex-col items-center',
+        'pointer-events-auto flex min-w-0 flex-col items-center',
         className,
       )}
       {...props}

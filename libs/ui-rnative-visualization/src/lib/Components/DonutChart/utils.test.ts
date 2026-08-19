@@ -6,10 +6,11 @@ import { computeRevealClipPath } from './RevealAnimation';
 import type { DonutSegment } from './types';
 import {
   applyMinSegmentShare,
-  buildRingSegments,
   buildPlaceholderSegments,
+  buildRingSegments,
   findSegmentIdAtPoint,
   formatPercentLabel,
+  getCenterContentInset,
   getCenterMaxWidth,
   getSegmentPercents,
   roundPercent,
@@ -38,9 +39,13 @@ describe('getDonutViewBox', () => {
 });
 
 describe('getCenterMaxWidth', () => {
-  it('fits content inside the inner diameter minus the inset', () => {
-    expect(getCenterMaxWidth(DONUT_GEOMETRY.md)).toBe(61 * 2 - 8);
-    expect(getCenterMaxWidth(DONUT_GEOMETRY.sm)).toBe(28 * 2 - 8);
+  it('fits content inside the inner diameter minus the inset on both sides', () => {
+    expect(getCenterMaxWidth('md')).toBe(
+      61 * 2 - 2 * getCenterContentInset('md'),
+    );
+    expect(getCenterMaxWidth('sm')).toBe(
+      28 * 2 - 2 * getCenterContentInset('sm'),
+    );
   });
 });
 

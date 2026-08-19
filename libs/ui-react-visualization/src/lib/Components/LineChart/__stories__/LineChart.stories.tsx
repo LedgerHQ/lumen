@@ -62,17 +62,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof LineChart>;
 
-/**
- * The simplest chart: a single `series` rendered with default settings.
- * No axes, no overlays — just the line.
- */
 export const Base: Story = {};
 
-/**
- * A `Series` is the core data model. Each entry has a stable `id`, a `stroke`
- * color, an optional `label`, and a `data` array of numbers (use `null` for
- * gaps). Every `series` produces one `<Line>`.
- */
 export const Series: Story = {
   args: {
     series: [
@@ -87,37 +78,18 @@ export const Series: Story = {
   },
 };
 
-/**
- * Pass multiple entries in `series` to draw several lines that share the same
- * x/y scales. Give each a distinct `stroke`.
- */
 export const MultipleSeries: Story = {
   args: {
     series: multiSeries,
   },
 };
 
-/**
- * Each line can be customized independently through its `series` entry. Today
- * that means a per-line `stroke` color and `curve`; more options will follow.
- * Here every line uses a different Lumen color and a different `curve`.
- */
 export const CustomLine: Story = {
   args: {
     series: curveSeries,
   },
 };
 
-/**
- * Null handling end-to-end. `null` entries in a series' `data` create gaps in
- * the line (and area) by default, so missing samples are not interpolated over
- * — see "Unique Visitors". Setting `connectNulls` on a series skips its nulls
- * and draws a continuous line across the gap instead — see "Page Views".
- *
- * `connectNulls` can also be set chart-wide on `<LineChart>` to override every
- * series at once. Either way, scrubber beacons only land on non-null values, so
- * the missing index shows no beacon for the broken series.
- */
 export const MissingData: Story = {
   args: {
     series: missingDataSeries,
@@ -144,11 +116,6 @@ export const MissingData: Story = {
   ),
 };
 
-/**
- * `width` accepts a number (pixels) or a string like `'100%'` to fill the
- * container. `height` is always in pixels. All docs stories share
- * `CHART_WIDTH` / `CHART_HEIGHT` for visual consistency.
- */
 export const WidthAndHeight: Story = {
   args: {
     width: CHART_WIDTH,
@@ -165,12 +132,6 @@ const insetExamples = [
   },
 ];
 
-/**
- * `inset` reserves padding between the SVG edge (outlined here) and the drawing
- * area where the line is plotted. A number applies the same padding on every
- * side; a partial object overrides individual sides. Compare the gap between
- * the border and the line across the examples.
- */
 export const Inset: Story = {
   render: () => (
     <div className='flex flex-wrap gap-24'>
@@ -192,11 +153,6 @@ export const Inset: Story = {
   ),
 };
 
-/**
- * Enable hover/touch/keyboard interaction with `enableScrubbing` and render a
- * `<Scrubber>` child. See the **Scrubber** page for tooltips, beacons and
- * magnetic points.
- */
 export const Scrubbing: Story = {
   args: {
     showArea: true,
@@ -216,20 +172,12 @@ export const Scrubbing: Story = {
   ),
 };
 
-/**
- * `showArea` fills the region under each line. `areaType='gradient'` (the
- * default) fades from the stroke color to transparent.
- */
 export const Area: Story = {
   args: {
     showArea: true,
   },
 };
 
-/**
- * When there is no drawable data and the chart is not `loading`, it renders an
- * empty placeholder with the `emptyLabel` text centred in the chart.
- */
 export const Empty: Story = {
   args: {
     series: [],
@@ -237,12 +185,6 @@ export const Empty: Story = {
   },
 };
 
-/**
- * `loading` signals that new data is being fetched, with two placeholders:
- * without a series it shows an animated shimmer line (initial fetch); with a
- * series it fades the current line to a muted grey and animates it until a new
- * `series` is provided (refreshing existing data).
- */
 export const Loading: Story = {
   render: () => (
     <div className='flex flex-wrap gap-24'>
@@ -258,11 +200,6 @@ export const Loading: Story = {
   ),
 };
 
-/**
- * Basic x-axis. Toggle it with `showXAxis` and configure it through `xAxis`.
- * See the **XAxis** page for the full set of options (ticks, labels, scale,
- * position, grid).
- */
 export const WithXAxis: Story = {
   args: {
     showXAxis: true,
@@ -273,11 +210,6 @@ export const WithXAxis: Story = {
   },
 };
 
-/**
- * Basic y-axis. Toggle it with `showYAxis` and configure it through `yAxis`.
- * See the **YAxis** page for the full set of options (domain, scale, width,
- * position, formatting).
- */
 export const WithYAxis: Story = {
   args: {
     showYAxis: true,
@@ -288,9 +220,6 @@ export const WithYAxis: Story = {
   },
 };
 
-/**
- * Combine y-axis and x-axis with grid lines and tick marks.
- */
 export const WithBothAxis: Story = {
   args: {
     showYAxis: true,
@@ -309,10 +238,6 @@ export const WithBothAxis: Story = {
   },
 };
 
-/**
- * Annotate specific data coordinates with `<Point>` children. See the
- * **Point** page for labels, colors, sizes and magnetic snapping.
- */
 export const WithPoint: Story = {
   args: {
     showArea: true,
@@ -336,10 +261,6 @@ export const WithPoint: Story = {
   ),
 };
 
-/**
- * Draw a threshold or baseline with `<ReferenceLine>`. See the
- * **ReferenceLine** page for vertical lines and label alignment.
- */
 export const WithReferenceLine: Story = {
   args: {
     showArea: true,
@@ -363,11 +284,6 @@ const legendItems = multiSeries.map(({ id, label, stroke }) => ({
   color: stroke,
 }));
 
-/**
- * Name each line by pairing the chart with a `<Legend>`. The legend is a
- * sibling, not a chart child: build its `series` from the chart's own `series`,
- * mapping each `stroke` to the swatch `color` so both stay in sync.
- */
 export const WithLegend: Story = {
   args: {
     series: multiSeries,
@@ -381,10 +297,6 @@ export const WithLegend: Story = {
   ),
 };
 
-/**
- * Putting it all together: a realistic, interactive portfolio chart composing
- * axes, points, a reference line and a scrubber with design-system components.
- */
 const INITIAL_FETCH_DELAY_IN_MS = 1200;
 const TRANSITION_FETCH_DELAY_IN_MS = 2000;
 

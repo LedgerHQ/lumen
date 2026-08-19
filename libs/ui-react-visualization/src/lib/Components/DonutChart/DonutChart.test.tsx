@@ -9,7 +9,9 @@ import { DonutChart } from './DonutChart';
 import { DonutChartCenter } from './DonutChartCenter';
 import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
+import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutSegment } from './types';
+import { getCenterContentInset } from './utils';
 
 const wrapper = ({ children }: { children: ReactNode }) => (
   <ThemeProvider>{children}</ThemeProvider>
@@ -370,7 +372,7 @@ describe('DonutChart', () => {
       );
 
       expect(getByTestId('center').className).toContain(
-        'pointer-events-auto flex flex-col items-center',
+        'pointer-events-auto flex min-w-0 flex-col items-center',
       );
     });
 
@@ -389,6 +391,71 @@ describe('DonutChart', () => {
       expect(className).toContain('items-start');
       expect(className).not.toContain('items-center');
     });
+  });
+
+  describe('DonutChartDescription', () => {
+    it('truncates a text label instead of clipping it as a flex item', () => {
+      const { getByText } = render(
+        <DonutChartDescription>
+          A very long allocation name that should truncate
+        </DonutChartDescription>,
+        { wrapper },
+      );
+
+      const className = getByText(
+        'A very long allocation name that should truncate',
+      ).className;
+      expect(className).toContain('truncate');
+      expect(className).not.toContain('flex');
+    });
+
+    it('keeps a flex row when the label shares the line with an icon', () => {
+      const { getByText } = render(
+        <DonutChartDescription>
+          <span>A very long allocation name that should truncate</span>
+          <button aria-label='Details' />
+        </DonutChartDescription>,
+        { wrapper },
+      );
+
+      const description = getByText(
+        'A very long allocation name that should truncate',
+      ).parentElement;
+      expect(description?.className).toContain('flex');
+      expect(description?.className).not.toContain('truncate');
+    });
+
+    it.each(['md', 'sm'] as const)(
+      'applies %s-ring horizontal padding from centerContentInset',
+      (donutSize) => {
+        const { getByText } = render(
+          <DonutSizeProvider value={{ size: donutSize }}>
+            <DonutChartDescription>Label</DonutChartDescription>
+          </DonutSizeProvider>,
+          { wrapper },
+        );
+        expect(getByText('Label').style.paddingInline).toBe(
+          `${getCenterContentInset(donutSize)}px`,
+        );
+      },
+    );
+  });
+
+  describe('DonutChartTitle', () => {
+    it.each(['md', 'sm'] as const)(
+      'applies %s-ring horizontal padding from centerContentInset',
+      (donutSize) => {
+        const { getByText } = render(
+          <DonutSizeProvider value={{ size: donutSize }}>
+            <DonutChartTitle>42</DonutChartTitle>
+          </DonutSizeProvider>,
+          { wrapper },
+        );
+        expect(getByText('42').style.paddingInline).toBe(
+          `${getCenterContentInset(donutSize)}px`,
+        );
+      },
+    );
   });
 
   describe('renderCenter', () => {

@@ -1,4 +1,4 @@
-import { Box, Button, InteractiveIcon, Text } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Button, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { ChevronRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import {
@@ -31,15 +31,12 @@ export default function DonutCharts() {
         paddingRight: 's16',
       }}
     >
-      <WithCenter segments={cryptoSegments} />
       <WithCenterSmall segments={cryptoSegments} />
       <WithCenterClickable segments={cryptoSegments} />
       <WithLegend segments={cryptoSegments} />
       <WithPreparedSeries segments={manyCryptoSegments} />
-      <Basic segments={cryptoSegments} />
       <Sizes segments={cryptoSegments} />
       <DefaultColors />
-      <SegmentCounts palette={segmentPalette} />
       <TwoEqualHalves palette={segmentPalette} />
       <SingleSegment palette={segmentPalette} />
       <DominantSegment palette={segmentPalette} />
@@ -49,6 +46,7 @@ export default function DonutCharts() {
       <LoadingWithCenter segments={portfolioSegments} />
       <Controlled segments={cryptoSegments} />
       <ContrastSafe segments={contrastUnsafeSegments} />
+      <LongCenterLabel segments={cryptoSegments} />
     </Box>
   );
 }
@@ -105,17 +103,6 @@ const getContrastUnsafeSegments = (
   { id: 'bitcoin', label: 'Bitcoin', value: 10, color: crypto.bitcoin },
 ];
 
-const buildSegments = (count: number, palette: string[]): DonutSegment[] =>
-  Array.from({ length: count }, (_, index) => {
-    const n = index + 1;
-    return {
-      id: `segment-${n}`,
-      label: `Segment ${n}`,
-      value: 1,
-      color: palette[index],
-    };
-  });
-
 const Section = ({
   title,
   children,
@@ -132,44 +119,6 @@ const Section = ({
     </Text>
     <Box lx={{ padding: 's16' }}>{children}</Box>
   </Box>
-);
-
-const WithCenter = ({ segments }: { segments: DonutSegment[] }) => (
-  <Section title='With center (tap segment to crossfade)'>
-    <DonutChart
-      series={segments}
-      defaultActiveId={null}
-      renderCenter={({ series }) => (
-        <DonutChartCenter>
-          <DonutChartTitle>{series.length}</DonutChartTitle>
-        </DonutChartCenter>
-      )}
-      renderCenterActive={({ activeSegment }) => (
-        <DonutChartCenter>
-          <DonutChartTitle size='sm'>
-            {activeSegment.percentLabel}
-          </DonutChartTitle>
-          <DonutChartDescription>
-            <Text
-              typography='body3'
-              lx={{ color: 'muted' }}
-              style={{ flexShrink: 1, minWidth: 0 }}
-              numberOfLines={1}
-              ellipsizeMode='tail'
-            >
-              {activeSegment.label}
-            </Text>
-            <InteractiveIcon
-              iconType='stroked'
-              icon={ChevronRight}
-              size={16}
-              accessibilityLabel={`View ${activeSegment.label} details`}
-            />
-          </DonutChartDescription>
-        </DonutChartCenter>
-      )}
-    />
-  </Section>
 );
 
 const WithCenterSmall = ({ segments }: { segments: DonutSegment[] }) => (
@@ -199,7 +148,7 @@ const WithCenterClickable = ({ segments }: { segments: DonutSegment[] }) => {
   const [lastClick, setLastClick] = useState<string | null>(null);
 
   return (
-    <Section title='With clickable center'>
+    <Section title='With clickable center (tap segment to crossfade)'>
       <Box lx={{ gap: 's8', alignItems: 'center' }}>
         <DonutChart
           series={segments}
@@ -282,14 +231,8 @@ const WithPreparedSeries = ({ segments }: { segments: DonutSegment[] }) => {
   );
 };
 
-const Basic = ({ segments }: { segments: DonutSegment[] }) => (
-  <Section title='Basic donut'>
-    <DonutChart series={segments} />
-  </Section>
-);
-
 const Sizes = ({ segments }: { segments: DonutSegment[] }) => (
-  <Section title='Sizes'>
+  <Section title='Sizes (md is the plain default ring)'>
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
       <DonutChart series={segments} size='md' />
       <DonutChart series={segments} size='sm' />
@@ -309,38 +252,14 @@ const DefaultColors = () => (
   </Section>
 );
 
-const SegmentCounts = ({ palette }: { palette: string[] }) => (
-  <Section title='Segment counts'>
-    <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
-      {[1, 2, 3, 4, 5, 6, 7].map((count) => (
-        <DonutChart
-          key={count}
-          series={buildSegments(count, palette)}
-          size='sm'
-        />
-      ))}
-    </Box>
-  </Section>
-);
-
 const TwoEqualHalves = ({ palette }: { palette: string[] }) => (
   <Section title='Two equal halves (rounded corners on both)'>
-    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
-      <DonutChart
-        series={[
-          { id: 'a', label: 'A', value: 1, color: palette[0] },
-          { id: 'b', label: 'B', value: 1, color: palette[1] },
-        ]}
-        size='md'
-      />
-      <DonutChart
-        series={[
-          { id: 'a', label: 'A', value: 1, color: palette[0] },
-          { id: 'b', label: 'B', value: 1, color: palette[1] },
-        ]}
-        size='sm'
-      />
-    </Box>
+    <DonutChart
+      series={[
+        { id: 'a', label: 'A', value: 1, color: palette[0] },
+        { id: 'b', label: 'B', value: 1, color: palette[1] },
+      ]}
+    />
   </Section>
 );
 
@@ -397,12 +316,10 @@ const NoData = () => (
   </Section>
 );
 
+/** The md wave is covered by `LoadingWithCenter`, replayable via its Reload button. */
 const Loading = () => (
-  <Section title='Loading (animated placeholder wave)'>
-    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
-      <DonutChart series={[]} loading />
-      <DonutChart series={[]} loading size='sm' />
-    </Box>
+  <Section title='Loading (animated placeholder wave, sm)'>
+    <DonutChart series={[]} loading size='sm' />
   </Section>
 );
 
@@ -509,3 +426,35 @@ const ContrastSafe = ({ segments }: { segments: DonutSegment[] }) => {
     </>
   );
 };
+
+const LongCenterLabel = ({ segments }: { segments: DonutSegment[] }) => (
+  <Section title='Long center label (sm, should truncate)'>
+    <DonutChart
+      series={[
+        {
+          ...segments[0],
+          label: 'A very long allocation name that should truncate',
+        },
+        segments[1],
+        segments[2],
+      ]}
+      size='sm'
+      defaultActiveId={segments[0]?.id ?? null}
+      renderCenter={() => (
+        <DonutChartCenter>
+          <DonutChartDescription>
+            Total portfolio allocation overview
+          </DonutChartDescription>
+        </DonutChartCenter>
+      )}
+      renderCenterActive={({ activeSegment }) => (
+        <DonutChartCenter>
+          <DonutChartTitle size='sm'>
+            {activeSegment.percentLabel}
+          </DonutChartTitle>
+          <DonutChartDescription>{activeSegment.label}</DonutChartDescription>
+        </DonutChartCenter>
+      )}
+    />
+  </Section>
+);
