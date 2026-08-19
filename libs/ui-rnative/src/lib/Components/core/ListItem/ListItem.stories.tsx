@@ -52,7 +52,7 @@ const meta = {
 } satisfies Meta<typeof ListItem>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ListItem>;
 
 export const Base: Story = {
   args: {

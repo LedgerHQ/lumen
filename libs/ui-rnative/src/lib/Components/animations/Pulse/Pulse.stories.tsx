@@ -24,7 +24,7 @@ const meta = {
 } satisfies Meta<typeof Pulse>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Pulse>;
 
 export const Base: Story = {
   args: {

@@ -27,7 +27,7 @@ const meta = {
 } satisfies Meta<typeof DotIcon>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DotIcon>;
 
 const parentSrc = 'https://crypto-icons.ledger.com/ADA.png';
 

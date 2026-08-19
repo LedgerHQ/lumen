@@ -20,7 +20,7 @@ const meta = {
 } satisfies Meta<typeof RadialGradient>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof RadialGradient>;
 
 export const Base: Story = {
   args: {

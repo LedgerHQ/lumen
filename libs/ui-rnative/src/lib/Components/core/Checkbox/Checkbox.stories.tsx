@@ -44,7 +44,7 @@ const meta = {
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Checkbox>;
 
 /**
  * The base checkbox in its normal state.

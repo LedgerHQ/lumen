@@ -63,7 +63,7 @@ const meta = {
 } satisfies Meta<typeof Spot>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Spot>;
 
 export const Base: Story = {
   args: {

@@ -21,7 +21,7 @@ const meta = {
 } satisfies Meta<typeof LinearGradient>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof LinearGradient>;
 
 export const Base: Story = {
   args: {

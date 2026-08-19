@@ -72,7 +72,7 @@ const meta = {
 } satisfies Meta<typeof SideBar>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SideBar>;
 
 export const Base: Story = {
   parameters: {

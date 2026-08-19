@@ -39,7 +39,7 @@ const meta = {
 } satisfies Meta<typeof SegmentedControl>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SegmentedControl>;
 
 export const Base: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,

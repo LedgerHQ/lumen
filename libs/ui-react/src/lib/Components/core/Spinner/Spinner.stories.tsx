@@ -18,7 +18,7 @@ const meta = {
 } satisfies Meta<typeof Spinner>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Spinner>;
 
 export const Base: Story = {
   args: {

@@ -99,7 +99,7 @@ const meta = {
 } satisfies Meta<typeof AmountDisplay>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof AmountDisplay>;
 
 export const Base: Story = {
   args: {

@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof MediaButton>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MediaButton>;
 
 export const Base: Story = {
   args: {

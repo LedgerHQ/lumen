@@ -37,7 +37,7 @@ const meta = {
 } satisfies Meta<typeof Switch>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Switch>;
 
 /**
  * The base switch in its normal state.

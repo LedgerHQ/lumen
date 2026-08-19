@@ -36,7 +36,7 @@ const meta = {
 } satisfies Meta<typeof DotCount>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DotCount>;
 
 export const Base: Story = {
   args: {

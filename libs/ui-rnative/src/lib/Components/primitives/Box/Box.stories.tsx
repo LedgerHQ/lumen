@@ -17,7 +17,7 @@ const meta = {
 } satisfies Meta<typeof Box>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Box>;
 
 export const Base: Story = {
   args: {

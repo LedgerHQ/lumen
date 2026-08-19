@@ -32,7 +32,7 @@ const meta = {
 } satisfies Meta<typeof AddressInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof AddressInput>;
 
 /**
  * The default address field input with "To:" prefix and clickable QR code scanner icon.

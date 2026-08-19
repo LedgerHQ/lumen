@@ -35,7 +35,7 @@ const meta = {
 } satisfies Meta<typeof SectionHeader>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SectionHeader>;
 
 export const Base: Story = {
   args: {

@@ -100,7 +100,7 @@ const meta = {
 } satisfies Meta<typeof BottomSheet>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof BottomSheet>;
 
 export const Base: Story = {
   args: {

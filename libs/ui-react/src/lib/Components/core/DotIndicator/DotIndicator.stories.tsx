@@ -32,7 +32,7 @@ const meta = {
 } satisfies Meta<typeof DotIndicator>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DotIndicator>;
 
 export const Base: Story = {
   args: {

@@ -13,7 +13,7 @@ const meta = {
 } satisfies Meta<typeof Divider>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Divider>;
 
 export const Base: Story = {
   args: {

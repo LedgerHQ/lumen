@@ -54,7 +54,7 @@ const meta = {
 } satisfies Meta<typeof Link>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Link>;
 type LinkAppearance = 'base' | 'accent';
 
 export const Base: Story = {

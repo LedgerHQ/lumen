@@ -18,7 +18,7 @@ const meta = {
 } satisfies Meta<TextProps>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<TextProps>;
 
 export const Base: Story = {
   args: {

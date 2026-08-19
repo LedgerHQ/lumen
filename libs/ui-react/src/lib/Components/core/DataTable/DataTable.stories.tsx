@@ -247,7 +247,7 @@ const meta = {
 } satisfies Meta<typeof DataTableRoot>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DataTableRoot>;
 
 export const Base: Story = {
   args: {

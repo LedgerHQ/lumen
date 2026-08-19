@@ -17,7 +17,7 @@ const meta = {
 } satisfies Meta<typeof Pressable>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Pressable>;
 
 export const Base: Story = {
   args: {

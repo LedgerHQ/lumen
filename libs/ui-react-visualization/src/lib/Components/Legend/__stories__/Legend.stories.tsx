@@ -57,7 +57,7 @@ const meta = {
 } satisfies Meta<typeof Legend>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Legend>;
 
 export const Base: Story = {
   parameters: {

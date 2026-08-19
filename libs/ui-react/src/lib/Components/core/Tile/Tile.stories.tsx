@@ -57,7 +57,7 @@ const meta = {
 } satisfies Meta<typeof Tile>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Tile>;
 
 const tileSecondaryAction = (
   <TileSecondaryAction

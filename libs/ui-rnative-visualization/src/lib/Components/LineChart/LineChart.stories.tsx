@@ -21,7 +21,7 @@ const meta = {
 } satisfies Meta<typeof LineChart>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof LineChart>;
 
 const sampleSeries = [
   {

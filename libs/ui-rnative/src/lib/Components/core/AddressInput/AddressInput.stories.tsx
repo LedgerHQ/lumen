@@ -20,7 +20,7 @@ const meta = {
 } satisfies Meta<typeof AddressInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof AddressInput>;
 
 const AddressInputStory = (args: AddressInputProps) => {
   const [address, setAddress] = useState(args.value?.toString() ?? '');

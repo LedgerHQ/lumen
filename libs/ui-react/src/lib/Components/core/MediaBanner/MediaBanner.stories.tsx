@@ -43,7 +43,7 @@ const meta = {
 } satisfies Meta<typeof MediaBanner>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MediaBanner>;
 
 export const Base: Story = {
   args: {

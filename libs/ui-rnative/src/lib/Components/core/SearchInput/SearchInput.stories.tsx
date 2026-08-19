@@ -23,7 +23,7 @@ const meta = {
 } satisfies Meta<typeof SearchInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SearchInput>;
 
 const SearchInputStory = (
   args: SearchInputProps & { initialValue?: string },

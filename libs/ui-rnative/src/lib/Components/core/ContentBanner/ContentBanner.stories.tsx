@@ -45,7 +45,7 @@ const meta = {
 } satisfies Meta<typeof ContentBanner>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ContentBanner>;
 
 export const Base: Story = {
   args: {

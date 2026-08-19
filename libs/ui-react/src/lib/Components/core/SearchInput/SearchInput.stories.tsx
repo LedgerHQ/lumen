@@ -28,7 +28,7 @@ const meta = {
 } satisfies Meta<typeof SearchInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SearchInput>;
 
 /**
  * The default search component with a search icon prefix and automatic clear button functionality.

@@ -42,7 +42,7 @@ const meta = {
 } satisfies Meta<typeof DescriptionItem>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DescriptionItem>;
 
 export const Base: Story = {
   args: {

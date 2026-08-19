@@ -19,7 +19,7 @@ const meta = {
 } satisfies Meta<typeof Skeleton>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Skeleton>;
 
 export const Base: Story = {
   args: {

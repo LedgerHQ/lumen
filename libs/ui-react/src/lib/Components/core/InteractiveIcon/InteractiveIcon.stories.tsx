@@ -34,7 +34,7 @@ const meta = {
 } satisfies Meta<typeof InteractiveIcon>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof InteractiveIcon>;
 
 export const Filled: Story = {
   args: {

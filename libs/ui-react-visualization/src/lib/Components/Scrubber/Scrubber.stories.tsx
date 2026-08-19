@@ -31,7 +31,7 @@ const meta = {
 } satisfies Meta<typeof Scrubber>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Scrubber>;
 
 const annotatedIndices = new Set([4, 9]);
 

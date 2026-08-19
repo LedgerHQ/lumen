@@ -20,7 +20,7 @@ const meta = {
 } satisfies Meta<typeof TextInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TextInput>;
 
 const TextInputStory = (args: TextInputProps & { initialValue?: string }) => {
   const [value, setValue] = useState(args.initialValue ?? '');

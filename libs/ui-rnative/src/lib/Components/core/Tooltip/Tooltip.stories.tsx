@@ -16,7 +16,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Tooltip>;
 
 export const Base: Story = {
   args: {

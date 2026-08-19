@@ -18,7 +18,7 @@ const meta = {
 } satisfies Meta<typeof MediaImage>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MediaImage>;
 
 const exampleSrc = 'https://crypto-icons.ledger.com/ADA.png';
 

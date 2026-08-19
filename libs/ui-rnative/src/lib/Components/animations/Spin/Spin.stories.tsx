@@ -11,7 +11,7 @@ const meta = {
 } satisfies Meta<typeof Spin>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Spin>;
 
 export const Base: Story = {
   args: {

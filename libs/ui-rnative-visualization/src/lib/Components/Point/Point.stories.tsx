@@ -32,7 +32,7 @@ const meta = {
 } satisfies Meta<typeof Point>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Point>;
 
 export const Base: Story = {
   args: {

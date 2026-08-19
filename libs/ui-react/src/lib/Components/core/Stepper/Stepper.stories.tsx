@@ -23,7 +23,7 @@ const meta = {
 } satisfies Meta<typeof Stepper>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Stepper>;
 
 export const Base: Story = {
   args: {
