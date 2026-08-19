@@ -225,6 +225,23 @@ export function SegmentedControl<
     showControls,
   );
 
+  useLayoutEffect(() => {
+    if (!showControls || selectedIndex < 0) {
+      return;
+    }
+    const container = scrollRef.current;
+    if (!container) {
+      return;
+    }
+    const buttons = container.querySelectorAll('button[role="radio"]');
+    const target = buttons[selectedIndex] as HTMLElement | undefined;
+
+    // scroll the selected item into view in case of "fit-controls" on mount
+    target?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const pill = (
     <div
       aria-hidden
