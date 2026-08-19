@@ -38,19 +38,37 @@ export const RevealAnimation = ({
   children,
 }: RevealAnimationProps) => {
   const isReducedMotion = useReducedMotion();
-  const skipReveal = isReducedMotion || RuntimeConstants.isAndroid;
-  const revealProgress = useSharedValue(skipReveal ? 1 : 0);
+
+  if (isReducedMotion || RuntimeConstants.isAndroid) {
+    return <G transform={`translate(${R}, ${R})`}>{children}</G>;
+  }
+
+  return (
+    <AnimatedReveal
+      R={R}
+      activeOffset={activeOffset}
+      revealTrigger={revealTrigger}
+    >
+      {children}
+    </AnimatedReveal>
+  );
+};
+
+const AnimatedReveal = ({
+  R,
+  activeOffset = 0,
+  revealTrigger = 0,
+  children,
+}: RevealAnimationProps) => {
+  const revealProgress = useSharedValue(0);
   const clipR = R + activeOffset;
 
   useEffect(() => {
-    if (skipReveal) {
-      return;
-    }
     revealProgress.value = 0;
     revealProgress.value = withTiming(1, {
       duration: chartConfig.donut.reveal.durationMs,
     });
-  }, [skipReveal, revealProgress, revealTrigger]);
+  }, [revealProgress, revealTrigger]);
 
   const clipPathProps = useAnimatedProps(() => ({
     d: computeRevealClipPath(clipR, revealProgress.value),

@@ -4,6 +4,7 @@ import Animated, {
   useSharedValue,
   withTiming,
   type SharedValue,
+  type WithTimingConfig,
 } from 'react-native-reanimated';
 import { G, Path, Svg } from 'react-native-svg';
 
@@ -25,6 +26,17 @@ import {
 } from './utils';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
+
+const animateIfChanged = (
+  value: SharedValue<number>,
+  target: number,
+  config: WithTimingConfig,
+): void => {
+  if (value.value === target) {
+    return;
+  }
+  value.value = withTiming(target, config);
+};
 
 type RingSegmentProps = {
   segment: DonutRingSegment;
@@ -48,14 +60,14 @@ const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
     isActive && segment.activeEnabled ? segment.activeTranslate.y : 0;
 
   useEffect(() => {
-    opacity.value = withTiming(targetOpacity, {
+    animateIfChanged(opacity, targetOpacity, {
       duration: DONUT_INTERACTION.opacityDurationMs,
     });
-    translateX.value = withTiming(targetX, {
+    animateIfChanged(translateX, targetX, {
       duration: DONUT_INTERACTION.popDurationMs,
       easing: DONUT_INTERACTION.popEasing,
     });
-    translateY.value = withTiming(targetY, {
+    animateIfChanged(translateY, targetY, {
       duration: DONUT_INTERACTION.popDurationMs,
       easing: DONUT_INTERACTION.popEasing,
     });
