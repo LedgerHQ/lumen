@@ -12,7 +12,11 @@ import { DonutChartDescription } from './DonutChartDescription';
 import { DonutChartTitle } from './DonutChartTitle';
 import { DonutSizeProvider } from './donutSizeContext';
 import type { DonutSegment, DonutSize, DonutTitleSize } from './types';
-import { buildRingSegments, getCenterContentInset, getCenterMaxWidth } from './utils';
+import {
+  buildRingSegments,
+  getCenterContentInset,
+  getCenterMaxWidth,
+} from './utils';
 
 const sampleSeries: DonutSegment[] = [
   { id: 'bitcoin', label: 'Bitcoin', value: 50 },
