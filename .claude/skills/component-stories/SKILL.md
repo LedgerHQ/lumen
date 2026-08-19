@@ -12,8 +12,18 @@ When creating or modifying Storybook stories, follow these conventions strictly:
 
 ## Meta typing
 
-Use `satisfies Meta<typeof Component>` so Storybook preserves type narrowing
-and inference. Do not annotate `meta` with `Meta<...>`.
+```typescript
+const meta = {
+  component: Component,
+} satisfies Meta<typeof Component>;
+
+export default meta;
+type Story = StoryObj<typeof Component>;
+```
+
+Use `satisfies Meta<typeof Component>` (not a `Meta<…>` annotation) and
+`StoryObj<typeof Component>` (not `typeof meta` — that makes `args` required
+on every story).
 
 ## Story Layout Configuration
 
