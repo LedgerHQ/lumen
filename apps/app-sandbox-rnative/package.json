@@ -19,6 +19,7 @@
     "expo": "^54.0.34",
     "expo-constants": "~18.0.13",
     "expo-dev-client": "~6.0.21",
+    "expo-font": "~14.0.11",
     "expo-haptics": "~15.0.8",
     "expo-linking": "~8.0.12",
     "expo-router": "~6.0.24",

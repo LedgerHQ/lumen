@@ -24,8 +24,16 @@
         "command": "npx expo start",
         "cwd": "apps/app-sandbox-rnative"
       }
+    },
+    "prebuild": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx expo prebuild --clean",
+        "cwd": "apps/app-sandbox-rnative"
+      }
     }
   },
-  "tags": ["scope:react-native"]
+  "tags": [
+    "scope:react-native"
+  ]
 }
-
