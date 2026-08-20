@@ -196,6 +196,7 @@ function ControlsWrapper({
       <button
         type='button'
         aria-label='Scroll left'
+        aria-hidden={!canScrollLeft}
         tabIndex={-1}
         disabled={!canScrollLeft}
         onClick={() => scrollBy('left')}
@@ -209,6 +210,7 @@ function ControlsWrapper({
       <button
         type='button'
         aria-label='Scroll right'
+        aria-hidden={!canScrollRight}
         tabIndex={-1}
         disabled={!canScrollRight}
         onClick={() => scrollBy('right')}
