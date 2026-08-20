@@ -1,6 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import type { ReactElement, RefObject } from 'react';
+import type { ReactElement, ReactNode, RefObject } from 'react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import {
@@ -82,10 +82,7 @@ const segmentedControlStyles = {
   ),
 };
 
-function useScrollArrows(
-  scrollRef: RefObject<HTMLDivElement | null>,
-  enabled: boolean,
-): {
+function useScrollArrows(scrollRef: RefObject<HTMLDivElement | null>): {
   canScrollLeft: boolean;
   canScrollRight: boolean;
   scrollBy: (direction: 'left' | 'right') => void;
@@ -103,9 +100,6 @@ function useScrollArrows(
   }, [scrollRef]);
 
   useLayoutEffect(() => {
-    if (!enabled) {
-      return;
-    }
     const el = scrollRef.current;
     if (!el) {
       return;
@@ -124,7 +118,7 @@ function useScrollArrows(
       el.removeEventListener('scroll', update);
       ro.disconnect();
     };
-  }, [enabled, update, scrollRef]);
+  }, [update, scrollRef]);
 
   const scrollBy = useCallback(
     (direction: 'left' | 'right') => {
@@ -142,6 +136,86 @@ function useScrollArrows(
   );
 
   return { canScrollLeft, canScrollRight, scrollBy };
+}
+
+type FitControlsWrapperProps = {
+  appearance: SegmentedControlProps['appearance'];
+  className?: string;
+  selectedIndex: number;
+  children: ReactNode;
+};
+
+function FitControlsWrapper({
+  appearance = 'background',
+  className,
+  selectedIndex,
+  children,
+}: FitControlsWrapperProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { canScrollLeft, canScrollRight, scrollBy } =
+    useScrollArrows(scrollRef);
+
+  useLayoutEffect(() => {
+    if (selectedIndex < 0) {
+      return;
+    }
+    const container = scrollRef.current;
+    if (!container) {
+      return;
+    }
+    const buttons = container.querySelectorAll('button[role="radio"]');
+    const target = buttons[selectedIndex] as HTMLElement | undefined;
+    target?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div
+      className={cn(
+        'relative rounded-sm',
+        appearance === 'background' ? 'bg-surface' : 'bg-transparent',
+        className,
+      )}
+    >
+      <div
+        ref={scrollRef}
+        className='scrollbar-none overflow-x-auto'
+        style={{
+          maskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
+          WebkitMaskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
+        }}
+      >
+        {children}
+      </div>
+      <button
+        type='button'
+        aria-label='Scroll left'
+        tabIndex={-1}
+        disabled={!canScrollLeft}
+        onClick={() => scrollBy('left')}
+        className={segmentedControlStyles.arrowButton({
+          visible: canScrollLeft,
+          side: 'left',
+        })}
+      >
+        <ChevronLeft size={20} />
+      </button>
+      <button
+        type='button'
+        aria-label='Scroll right'
+        tabIndex={-1}
+        disabled={!canScrollRight}
+        onClick={() => scrollBy('right')}
+        className={segmentedControlStyles.arrowButton({
+          visible: canScrollRight,
+          side: 'right',
+        })}
+      >
+        <ChevronRight size={20} />
+      </button>
+    </div>
+  );
 }
 
 export function SegmentedControlButton<
@@ -206,7 +280,6 @@ export function SegmentedControl<
   });
 
   const ref = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   const selectedIndex = useSegmentedControlSelectedIndex(
     selectedValue,
@@ -217,30 +290,6 @@ export function SegmentedControl<
     selectedIndex,
     children,
   });
-
-  const showControls = tabLayout === 'fit-controls';
-
-  const { canScrollLeft, canScrollRight, scrollBy } = useScrollArrows(
-    scrollRef,
-    showControls,
-  );
-
-  useLayoutEffect(() => {
-    if (!showControls || selectedIndex < 0) {
-      return;
-    }
-    const container = scrollRef.current;
-    if (!container) {
-      return;
-    }
-    const buttons = container.querySelectorAll('button[role="radio"]');
-    const target = buttons[selectedIndex] as HTMLElement | undefined;
-
-    // scroll the selected item into view in case of "fit-controls" on mount
-    target?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const pill = (
     <div
@@ -254,6 +303,27 @@ export function SegmentedControl<
     />
   );
 
+  const showControls = tabLayout === 'fit-controls';
+
+  const radioGroup = (
+    <div
+      {...props}
+      ref={ref}
+      role='radiogroup'
+      aria-disabled={disabled}
+      className={cn(
+        segmentedControlStyles.root({
+          appearance: showControls ? 'no-background' : appearance,
+          tabLayout: showControls ? 'fit' : tabLayout,
+        }),
+        !showControls && className,
+      )}
+    >
+      {children}
+      {pill}
+    </div>
+  );
+
   return (
     <SegmentedControlContextProvider
       value={{
@@ -264,76 +334,15 @@ export function SegmentedControl<
       }}
     >
       {showControls ? (
-        <div
-          className={cn(
-            'relative rounded-sm',
-            appearance === 'background' ? 'bg-surface' : 'bg-transparent',
-            className,
-          )}
+        <FitControlsWrapper
+          appearance={appearance}
+          className={className}
+          selectedIndex={selectedIndex}
         >
-          <div
-            ref={scrollRef}
-            className='scrollbar-none overflow-x-auto'
-            style={{
-              maskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
-              WebkitMaskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, transparent 40px, black 72px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%' : 'black 100%'})`,
-            }}
-          >
-            <div
-              {...props}
-              ref={ref}
-              role='radiogroup'
-              aria-disabled={disabled}
-              className={segmentedControlStyles.root({
-                appearance: 'no-background',
-                tabLayout: 'fit',
-              })}
-            >
-              {children}
-              {pill}
-            </div>
-          </div>
-          <button
-            type='button'
-            aria-label='Scroll left'
-            tabIndex={-1}
-            disabled={!canScrollLeft}
-            onClick={() => scrollBy('left')}
-            className={segmentedControlStyles.arrowButton({
-              visible: canScrollLeft,
-              side: 'left',
-            })}
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            type='button'
-            aria-label='Scroll right'
-            tabIndex={-1}
-            disabled={!canScrollRight}
-            onClick={() => scrollBy('right')}
-            className={segmentedControlStyles.arrowButton({
-              visible: canScrollRight,
-              side: 'right',
-            })}
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+          {radioGroup}
+        </FitControlsWrapper>
       ) : (
-        <div
-          {...props}
-          ref={ref}
-          role='radiogroup'
-          aria-disabled={disabled}
-          className={cn(
-            segmentedControlStyles.root({ appearance, tabLayout }),
-            className,
-          )}
-        >
-          {children}
-          {pill}
-        </div>
+        radioGroup
       )}
     </SegmentedControlContextProvider>
   );
