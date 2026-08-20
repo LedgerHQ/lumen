@@ -85,11 +85,11 @@ describe('SegmentedControl', () => {
     expect(screen.getByLabelText('3 tokens')).toBeTruthy();
   });
 
-  describe('tabLayout fit-controls', () => {
+  describe('tabLayout fit', () => {
     function renderWithControls() {
       return render(
         <SegmentedControl
-          tabLayout='fit-controls'
+          tabLayout='fit'
           selectedValue='a'
           onSelectedChange={() => {
             /* empty */

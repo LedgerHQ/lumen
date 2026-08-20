@@ -256,7 +256,7 @@ export function SegmentedControlButton<
       className={cn(
         segmentedControlStyles.item({ selected, disabled: !!disabled }),
         tabLayout === 'fixed' && 'min-w-0 flex-1',
-        tabLayout === 'fit-controls' && 'focus-visible:-outline-offset-2',
+        tabLayout === 'fit' && 'focus-visible:-outline-offset-2',
         className,
       )}
       {...props}
@@ -311,7 +311,7 @@ export function SegmentedControl<
     />
   );
 
-  const showControls = tabLayout === 'fit-controls';
+  const showControls = tabLayout === 'fit';
 
   const radioGroup = (
     <div

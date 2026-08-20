@@ -26,12 +26,11 @@ export type SegmentedControlProps<
   /**
    * Controls how tab widths are calculated.
    * - `"fixed"`: all tabs share equal width, filling the container
-   * - `"fit"`: each tab sizes to its content (inline)
-   * - `"fit-controls"`: same as `"fit"` but adds left/right arrow buttons that
-   *   scroll the control when it overflows its container
+   * - `"fit"`: each tab sizes to its content; when tabs overflow the container,
+   *   left/right arrow buttons appear automatically to scroll them into view
    * @default 'fixed'
    */
-  tabLayout?: 'fixed' | 'fit' | 'fit-controls';
+  tabLayout?: 'fixed' | 'fit';
   /**
    * Segment buttons (SegmentedControlButton).
    */
