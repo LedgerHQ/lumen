@@ -205,7 +205,7 @@ const data: CryptoAsset[] = [
   },
 ];
 
-const meta: Meta<typeof DataTableRoot> = {
+const meta = {
   component: DataTableRoot,
   id: 'react-datatable',
   title: 'Core/DataTable',
@@ -245,7 +245,7 @@ const meta: Meta<typeof DataTableRoot> = {
       </div>
     ),
   ],
-};
+} satisfies Meta<typeof DataTableRoot>;
 
 export default meta;
 type Story = StoryObj<typeof DataTableRoot>;

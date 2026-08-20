@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives/Box';
 import { Trend } from './Trend';
 
-const meta: Meta<typeof Trend> = {
+const meta = {
   component: Trend,
   id: 'rnative-trend',
   title: 'Core/Trend',
@@ -18,7 +18,7 @@ const meta: Meta<typeof Trend> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof Trend>;
 
 export default meta;
 
@@ -33,6 +33,9 @@ export const Base: Story = {
 };
 
 export const VariantShowcase: Story = {
+  args: {
+    value: 5.25,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's8' }}>
       <Trend value={5.25} />
@@ -43,6 +46,9 @@ export const VariantShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    value: 5.25,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <Trend value={5.25} size='md' />
@@ -52,6 +58,9 @@ export const SizeShowcase: Story = {
 };
 
 export const DisabledShowcase: Story = {
+  args: {
+    value: 5.25,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's8' }}>
       <Trend value={5.25} disabled />

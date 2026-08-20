@@ -54,7 +54,7 @@ const meta = {
 } satisfies Meta<typeof TabBar>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TabBar>;
 
 export const Base: Story = {
   args: {} as React.ComponentProps<typeof TabBar>,

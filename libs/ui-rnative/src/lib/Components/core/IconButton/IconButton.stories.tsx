@@ -11,7 +11,7 @@ const iconMap = {
   Close,
 } as const;
 
-const meta: Meta<typeof IconButton> = {
+const meta = {
   id: 'rnative-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
@@ -53,7 +53,7 @@ const meta: Meta<typeof IconButton> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
 type Story = StoryObj<typeof IconButton>;
@@ -68,6 +68,10 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    accessibilityLabel: 'Settings',
+    icon: Settings,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', gap: 's8' }}>
       <IconButton accessibilityLabel='Add' icon={Plus} appearance='accent' />
@@ -89,6 +93,10 @@ export const AppearanceShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
+  args: {
+    accessibilityLabel: 'Settings',
+    icon: Settings,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's8' }}>
       <IconButton
@@ -117,6 +125,8 @@ export const SizesShowcase: Story = {
 
 export const StatesShowcase: Story = {
   args: {
+    accessibilityLabel: 'Settings',
+    icon: Settings,
     appearance: 'base',
   },
   render: ({ appearance }) => (

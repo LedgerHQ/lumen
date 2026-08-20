@@ -3,7 +3,7 @@ import { Box, Text } from '../../primitives';
 import { Settings, Information, ArrowRight } from '../../symbols';
 import { Link } from './Link';
 
-const meta: Meta<typeof Link> = {
+const meta = {
   component: Link,
   id: 'rnative-link',
   title: 'Core/Link',
@@ -51,7 +51,7 @@ const meta: Meta<typeof Link> = {
       description: 'The content to be displayed inside the link',
     },
   },
-};
+} satisfies Meta<typeof Link>;
 
 export default meta;
 type Story = StoryObj<typeof Link>;

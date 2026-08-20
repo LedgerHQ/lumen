@@ -6,7 +6,7 @@ import {
   SectionHeaderTitle,
 } from './SectionHeader';
 
-const meta: Meta<typeof SectionHeader> = {
+const meta = {
   component: SectionHeader,
   id: 'react-sectionheader',
   title: 'Core/SectionHeader',
@@ -32,7 +32,7 @@ const meta: Meta<typeof SectionHeader> = {
       </div>
     ),
   ],
-};
+} satisfies Meta<typeof SectionHeader>;
 
 export default meta;
 type Story = StoryObj<typeof SectionHeader>;

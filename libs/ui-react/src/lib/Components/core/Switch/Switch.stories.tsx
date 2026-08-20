@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Switch } from './Switch';
 
-const meta: Meta<typeof Switch> = {
+const meta = {
   component: Switch,
   id: 'react-switch',
   title: 'Core/Switch',
@@ -14,7 +14,7 @@ const meta: Meta<typeof Switch> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Switch>;
 
 export default meta;
 type Story = StoryObj<typeof Switch>;

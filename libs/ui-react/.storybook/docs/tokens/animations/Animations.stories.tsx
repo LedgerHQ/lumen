@@ -5,7 +5,7 @@ import { Button } from '../../../../src/lib/Components/core/Button';
 import { Tag } from '../../../../src/lib/Components/core/Tag';
 import { CursorTouch, Refresh } from '../../../../src/lib/Components/symbols';
 
-const meta: Meta = {
+const meta = {
   id: 'react-animations',
   title: 'Foundations/Animations',
   parameters: {
@@ -17,10 +17,10 @@ const meta: Meta = {
       },
     },
   },
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 // Animation Demo Component
 const AnimationDemo = ({

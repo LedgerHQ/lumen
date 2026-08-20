@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader } from '../shared';
 
-const meta: Meta = {
+const meta = {
   id: 'react-scrollbar',
   title: 'Foundations/Styles/Scrollbar',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 const PLACEHOLDER_ITEMS = Array.from({ length: 30 }, (_, i) => `Item ${i + 1}`);
 

@@ -3,7 +3,7 @@ import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import { Stepper } from './Stepper';
 
-const meta: Meta<typeof Stepper> = {
+const meta = {
   id: 'rnative-stepper',
   title: 'Core/Stepper',
   component: Stepper,
@@ -15,7 +15,7 @@ const meta: Meta<typeof Stepper> = {
     totalSteps: { control: 'number' },
     disabled: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof Stepper>;
 
 export default meta;
 type Story = StoryObj<typeof Stepper>;
@@ -29,6 +29,10 @@ export const Base: Story = {
 };
 
 export const DisabledShowcase: Story = {
+  args: {
+    currentStep: 2,
+    totalSteps: 4,
+  },
   render: () => (
     <Box lx={{ gap: 's32', alignItems: 'center' }}>
       <Box lx={{ alignItems: 'center', gap: 's8' }}>

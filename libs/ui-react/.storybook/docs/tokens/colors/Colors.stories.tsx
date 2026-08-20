@@ -4,7 +4,7 @@ import { toKebab } from '../formatToken';
 import { SectionHeader, TokenTable } from '../shared';
 import { useResolvedTheme } from '../useResolvedTheme';
 
-const meta: Meta = {
+const meta = {
   id: 'react-colors',
   title: 'Foundations/Colors',
   parameters: {
@@ -16,10 +16,10 @@ const meta: Meta = {
       },
     },
   },
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 type ColorCategory = 'bg' | 'text' | 'border' | 'crypto' | 'discover';
 

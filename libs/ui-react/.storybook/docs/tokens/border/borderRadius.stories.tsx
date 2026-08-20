@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader, TokenTable } from '../shared';
 import { useResolvedTheme } from '../useResolvedTheme';
 
-const meta: Meta = {
+const meta = {
   id: 'react-borderradius',
   title: 'Foundations/Border/Radius',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 const BorderRadiusTable = () => {
   const theme = useResolvedTheme();

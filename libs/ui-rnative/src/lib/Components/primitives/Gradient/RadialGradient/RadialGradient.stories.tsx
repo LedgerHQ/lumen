@@ -3,7 +3,7 @@ import { Box } from '../../Box';
 import { Text } from '../../Text';
 import { RadialGradient } from './RadialGradient';
 
-const meta: Meta<typeof RadialGradient> = {
+const meta = {
   component: RadialGradient,
   id: 'rnative-radialgradient',
   title: 'Primitives/RadialGradient',
@@ -18,7 +18,7 @@ const meta: Meta<typeof RadialGradient> = {
       },
     },
   },
-};
+} satisfies Meta<typeof RadialGradient>;
 
 export default meta;
 type Story = StoryObj<typeof RadialGradient>;
@@ -35,6 +35,9 @@ export const Base: Story = {
 };
 
 export const CenterPositionShowcase: Story = {
+  args: {
+    stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
+  },
   render: () => {
     const positions = [
       {

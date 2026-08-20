@@ -20,7 +20,7 @@ const ETH_ICON_SM = (
   />
 );
 
-const meta: Meta<typeof MediaTag> = {
+const meta = {
   component: MediaTag,
   id: 'react-mediatag',
   title: 'Core/MediaTag',
@@ -46,7 +46,7 @@ const meta: Meta<typeof MediaTag> = {
       control: 'text',
     },
   },
-};
+} satisfies Meta<typeof MediaTag>;
 
 export default meta;
 

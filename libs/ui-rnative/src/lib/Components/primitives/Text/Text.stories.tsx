@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Text } from './Text';
 import type { TextProps } from './types';
 
-const meta: Meta<TextProps> = {
+const meta = {
   component: Text,
   id: 'rnative-text',
   title: 'Primitives/Text',
@@ -15,7 +15,7 @@ const meta: Meta<TextProps> = {
       },
     },
   },
-};
+} satisfies Meta<TextProps>;
 
 export default meta;
 type Story = StoryObj<TextProps>;

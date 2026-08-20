@@ -35,6 +35,10 @@ export default meta;
 type Story = StoryObj<typeof Point>;
 
 export const Base: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -63,6 +67,10 @@ export const Base: Story = {
 };
 
 export const WithCustomLabelComponent: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -109,6 +117,10 @@ export const WithCustomLabelComponent: Story = {
 };
 
 export const NoPoint: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -122,6 +134,10 @@ export const NoPoint: Story = {
 };
 
 export const CustomSize: Story = {
+  args: {
+    dataX: 4,
+    dataY: 98,
+  },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

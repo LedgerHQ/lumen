@@ -3,7 +3,7 @@ import { Box, Text } from '../../primitives';
 import { Settings, Plus, Coins, CreditCard, Bank } from '../../symbols';
 import { CardButton } from './CardButton';
 
-const meta: Meta<typeof CardButton> = {
+const meta = {
   component: CardButton,
   id: 'rnative-cardbutton',
   title: 'Core/CardButton',
@@ -49,7 +49,7 @@ const meta: Meta<typeof CardButton> = {
       description: 'Whether the card button is disabled',
     },
   },
-};
+} satisfies Meta<typeof CardButton>;
 
 export default meta;
 type Story = StoryObj<typeof CardButton>;
@@ -162,6 +162,9 @@ export const FullFeatures: Story = {
 };
 
 export const NaturalWidth: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box lx={{ backgroundColor: 'mutedPressed', padding: 's16' }}>
       <Text
@@ -195,6 +198,9 @@ export const NaturalWidth: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => {
     const appearances: {
       name: string;
@@ -228,6 +234,9 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentVariations: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box
       lx={{
@@ -268,6 +277,9 @@ export const ContentVariations: Story = {
 };
 
 export const StatesShowcase: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box
       lx={{
@@ -308,6 +320,9 @@ export const StatesShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  args: {
+    title: 'Basic Card Button',
+  },
   render: () => (
     <Box
       lx={{

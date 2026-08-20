@@ -64,7 +64,7 @@ const largeData = [
   { name: 'Stellar', symbol: 'XLM', price: '$0.12', change: '-0.3%' },
 ];
 
-const meta: Meta<typeof TableRoot> = {
+const meta = {
   component: TableRoot,
   id: 'react-table',
   title: 'Core/Table',
@@ -116,7 +116,7 @@ const meta: Meta<typeof TableRoot> = {
       },
     },
   },
-};
+} satisfies Meta<typeof TableRoot>;
 
 export default meta;
 type Story = StoryObj<typeof TableRoot>;

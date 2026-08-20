@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box, Text } from '../../primitives';
 import { Checkbox } from './Checkbox';
 
-const meta: Meta<typeof Checkbox> = {
+const meta = {
   id: 'rnative-checkbox',
   title: 'Core/Checkbox',
   component: Checkbox,
@@ -41,10 +41,10 @@ const meta: Meta<typeof Checkbox> = {
       description: 'The label text of the checkbox',
     },
   },
-};
+} satisfies Meta<typeof Checkbox>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Checkbox>;
 
 /**
  * The base checkbox in its normal state.

@@ -7,7 +7,7 @@ import {
 } from '../../symbols';
 import { InteractiveIcon } from './InteractiveIcon';
 
-const meta: Meta<typeof InteractiveIcon> = {
+const meta = {
   component: InteractiveIcon,
   id: 'react-interactiveicon',
   title: 'Core/InteractiveIcon',
@@ -31,7 +31,7 @@ const meta: Meta<typeof InteractiveIcon> = {
       },
     },
   },
-};
+} satisfies Meta<typeof InteractiveIcon>;
 
 export default meta;
 type Story = StoryObj<typeof InteractiveIcon>;

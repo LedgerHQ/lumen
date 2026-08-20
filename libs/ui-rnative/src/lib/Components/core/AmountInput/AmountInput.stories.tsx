@@ -15,7 +15,7 @@ const SIZES: { size: AmountInputSize; value: string }[] = [
   { size: 'sm', value: '55 555' },
 ];
 
-const meta: Meta<typeof AmountInput> = {
+const meta = {
   component: AmountInput,
   id: 'rnative-amountinput',
   title: 'Core/AmountInput',
@@ -37,7 +37,7 @@ const meta: Meta<typeof AmountInput> = {
   args: {
     isInvalid: false,
   },
-};
+} satisfies Meta<typeof AmountInput>;
 
 export default meta;
 type Story = StoryObj<typeof AmountInput>;
@@ -63,8 +63,9 @@ const AmountInputStory = (args: AmountInputProps) => {
 };
 
 export const Base: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
+    value: '',
+    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -74,12 +75,13 @@ export const Base: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const WithValue: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1234.56',
+    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -87,9 +89,14 @@ export const WithValue: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const Size: Story = {
+  args: {
+    value: '1234.56',
+    onChangeText: () => {},
+  },
   render: () => (
     <View
       style={{
@@ -114,6 +121,10 @@ export const Size: Story = {
 };
 
 export const Alignment: Story = {
+  args: {
+    value: '1234.56',
+    onChangeText: () => {},
+  },
   render: () => (
     <View
       style={{
@@ -137,9 +148,9 @@ export const Alignment: Story = {
 };
 
 export const CurrencyPositionLeft: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1000',
+    onChangeText: () => {},
     currencyText: '$',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -147,12 +158,13 @@ export const CurrencyPositionLeft: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const CurrencyPositionRight: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1000',
+    onChangeText: () => {},
     currencyText: 'ETH',
     currencyPosition: 'right',
     allowDecimals: true,
@@ -160,12 +172,13 @@ export const CurrencyPositionRight: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const IntegerOnly: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1234',
+    onChangeText: () => {},
     currencyText: 'items',
     currencyPosition: 'right',
     allowDecimals: false,
@@ -173,12 +186,13 @@ export const IntegerOnly: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const WithThousandsSeparator: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1000000',
+    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -186,12 +200,13 @@ export const WithThousandsSeparator: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const WithoutThousandsSeparator: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1000000',
+    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -199,12 +214,13 @@ export const WithoutThousandsSeparator: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const DecimalSeparatorComma: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1234.5',
+    onChangeText: () => {},
     currencyText: '€',
     currencyPosition: 'right',
     allowDecimals: true,
@@ -213,12 +229,13 @@ export const DecimalSeparatorComma: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const ErrorState: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1234.56',
+    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -226,12 +243,13 @@ export const ErrorState: Story = {
     isInvalid: true,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const DisabledAmountInput: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '1234.56',
+    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -239,12 +257,13 @@ export const DisabledAmountInput: Story = {
     isInvalid: false,
     disabled: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const CustomLengthLimits: Story = {
-  render: (args) => <AmountInputStory {...args} />,
   args: {
     value: '123',
+    onChangeText: () => {},
     currencyText: '$',
     currencyPosition: 'left',
     allowDecimals: true,
@@ -254,4 +273,5 @@ export const CustomLengthLimits: Story = {
     isInvalid: false,
     editable: true,
   },
+  render: (args) => <AmountInputStory {...args} />,
 };

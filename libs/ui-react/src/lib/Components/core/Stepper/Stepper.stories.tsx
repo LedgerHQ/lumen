@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Stepper } from './Stepper';
 
-const meta: Meta<typeof Stepper> = {
+const meta = {
   component: Stepper,
   id: 'react-stepper',
   title: 'Core/Stepper',
@@ -21,7 +21,7 @@ const meta: Meta<typeof Stepper> = {
     totalSteps: { control: 'number', min: 1 },
     disabled: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof Stepper>;
 
 export default meta;
 type Story = StoryObj<typeof Stepper>;

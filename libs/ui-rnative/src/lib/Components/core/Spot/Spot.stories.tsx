@@ -5,7 +5,7 @@ import type { IconProps } from '../../symbols/Icon';
 import { Spot } from './Spot';
 import type { SpotProps } from './types';
 
-const meta: Meta<typeof Spot> = {
+const meta = {
   component: Spot,
   id: 'rnative-spot',
   title: 'Core/Spot',
@@ -60,7 +60,7 @@ const meta: Meta<typeof Spot> = {
       description: 'Number to display (required for number appearance)',
     },
   },
-};
+} satisfies Meta<typeof Spot>;
 
 export default meta;
 type Story = StoryObj<typeof Spot>;
@@ -85,6 +85,10 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    appearance: 'icon',
+    icon: Settings,
+  },
   render: () => {
     const appearances: {
       name: string;
@@ -137,6 +141,10 @@ export const AppearanceShowcase: Story = {
 };
 
 export const IconVariants: Story = {
+  args: {
+    appearance: 'icon',
+    icon: Settings,
+  },
   render: () => {
     const icons = [
       { name: 'Settings', component: Settings },
@@ -156,6 +164,10 @@ export const IconVariants: Story = {
 };
 
 export const NumberVariants: Story = {
+  args: {
+    appearance: 'icon',
+    icon: Settings,
+  },
   render: () => {
     const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
@@ -177,6 +189,10 @@ export const NumberVariants: Story = {
 };
 
 export const SizesShowcase: Story = {
+  args: {
+    appearance: 'icon',
+    icon: Settings,
+  },
   render: () => {
     const sizes = [32, 40, 48, 56, 72] as const;
 
@@ -198,6 +214,10 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  args: {
+    appearance: 'icon',
+    icon: Settings,
+  },
   render: () => {
     return (
       <Box lx={{ flexDirection: 'column', gap: 's16' }}>

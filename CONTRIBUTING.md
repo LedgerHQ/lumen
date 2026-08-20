@@ -131,14 +131,14 @@ Components are documented using Storybook stories. Create a `.stories.tsx` file 
 import type { Meta, StoryObj } from '@storybook/react';
 import { YourComponent } from './YourComponent';
 
-const meta: Meta<typeof YourComponent> = {
+const meta = {
   component: YourComponent,
   title: 'Components/YourComponent',
   tags: ['autodocs'], // Enables automatic documentation
-};
+} satisfies Meta<typeof YourComponent>;
 
 export default meta;
-type Story = StoryObj<typeof YourComponent>;
+type Story = StoryObj<typeof meta>;
 
 // Basic usage example
 export const Base: Story = {

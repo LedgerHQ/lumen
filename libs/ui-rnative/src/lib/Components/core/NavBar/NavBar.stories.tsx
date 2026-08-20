@@ -12,7 +12,7 @@ import {
   NavBarTrailing,
 } from './NavBar';
 
-const meta: Meta<typeof NavBar> = {
+const meta = {
   component: NavBar,
   id: 'rnative-navbar',
   title: 'Core/NavBar',
@@ -42,7 +42,7 @@ const meta: Meta<typeof NavBar> = {
       description: 'Controls the density/layout of the NavBar',
     },
   },
-};
+} satisfies Meta<typeof NavBar>;
 
 export default meta;
 type Story = StoryObj<typeof NavBar>;

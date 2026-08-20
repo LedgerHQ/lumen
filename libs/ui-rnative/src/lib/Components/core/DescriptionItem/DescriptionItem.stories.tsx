@@ -12,7 +12,7 @@ import {
   DescriptionItemValue,
 } from './DescriptionItem';
 
-const meta: Meta<typeof DescriptionItem> = {
+const meta = {
   component: DescriptionItem,
   id: 'rnative-descriptionitem',
   title: 'Core/DescriptionItem',
@@ -40,13 +40,14 @@ const meta: Meta<typeof DescriptionItem> = {
       </Box>
     ),
   ],
-};
+} satisfies Meta<typeof DescriptionItem>;
 
 export default meta;
 type Story = StoryObj<typeof DescriptionItem>;
 
 export const Base: Story = {
   args: {
+    children: null,
     size: 'md',
   },
   render: (args) => (
@@ -63,6 +64,7 @@ export const Base: Story = {
 
 export const SizeShowcase: Story = {
   args: {
+    children: null,
     size: 'md',
   },
   render: () => (
@@ -107,6 +109,9 @@ export const SizeShowcase: Story = {
 };
 
 export const TrailingVariants: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ gap: 's16' }}>
       <DescriptionItem>
@@ -141,6 +146,9 @@ export const TrailingVariants: Story = {
 };
 
 export const WithInfoIcon: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ gap: 's16' }}>
       <DescriptionItem>
@@ -189,6 +197,9 @@ export const WithInfoIcon: Story = {
 };
 
 export const PriorityShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ gap: 's16' }}>
       <DescriptionItem priority='end'>

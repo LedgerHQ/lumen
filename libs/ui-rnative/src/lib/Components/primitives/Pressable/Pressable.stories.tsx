@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Pressable } from './Pressable';
 
-const meta: Meta<typeof Pressable> = {
+const meta = {
   component: Pressable,
   id: 'rnative-pressable',
   title: 'Primitives/Pressable',
@@ -14,7 +14,7 @@ const meta: Meta<typeof Pressable> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Pressable>;
 
 export default meta;
 type Story = StoryObj<typeof Pressable>;

@@ -4,7 +4,7 @@ import { Spinner } from '../../core/Spinner';
 import { Box, Text } from '../../primitives';
 import { Spin } from './Spin';
 
-const meta: Meta<typeof Spin> = {
+const meta = {
   id: 'rnative-spin',
   title: 'Primitives/Spin',
   component: Spin,
@@ -14,7 +14,7 @@ const meta: Meta<typeof Spin> = {
 } satisfies Meta<typeof Spin>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Spin>;
 
 export const Base: Story = {
   args: {
@@ -57,6 +57,9 @@ export const DurationShowcase: Story = {
 };
 
 export const WithSpinner: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center', gap: 16 }}>

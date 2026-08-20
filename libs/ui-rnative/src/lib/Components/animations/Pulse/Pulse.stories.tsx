@@ -17,7 +17,7 @@ const usdFormatter = (value: number): FormattedValue => {
   };
 };
 
-const meta: Meta<typeof Pulse> = {
+const meta = {
   id: 'rnative-pulse',
   title: 'Primitives/Pulse',
   component: Pulse,
@@ -27,7 +27,7 @@ const meta: Meta<typeof Pulse> = {
 } satisfies Meta<typeof Pulse>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Pulse>;
 
 export const Base: Story = {
   args: {
@@ -78,6 +78,11 @@ export const DurationShowcase: Story = {
 };
 
 export const WithAmountDisplay: Story = {
+  args: {
+    children: (
+      <Box lx={{ width: 's48', height: 's48', backgroundColor: 'accent' }} />
+    ),
+  },
   render: () => {
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center', gap: 16 }}>

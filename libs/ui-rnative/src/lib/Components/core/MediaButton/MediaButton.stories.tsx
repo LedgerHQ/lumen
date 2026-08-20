@@ -4,7 +4,7 @@ import { Box } from '../../primitives';
 import { Settings, Star } from '../../symbols';
 import { MediaButton } from './MediaButton';
 
-const meta: Meta<typeof MediaButton> = {
+const meta = {
   component: MediaButton,
   id: 'rnative-mediabutton',
   title: 'Core/MediaButton',
@@ -18,7 +18,7 @@ const meta: Meta<typeof MediaButton> = {
       },
     },
   },
-};
+} satisfies Meta<typeof MediaButton>;
 
 export default meta;
 type Story = StoryObj<typeof MediaButton>;
@@ -43,6 +43,9 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    children: 'All accounts',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <MediaButton
@@ -64,6 +67,9 @@ export const SizeShowcase: Story = {
 };
 
 export const LeadingContentShapeShowcase: Story = {
+  args: {
+    children: 'All accounts',
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
@@ -113,6 +119,9 @@ export const LeadingContentShapeShowcase: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    children: 'All accounts',
+  },
   render: () => {
     const appearances = ['gray', 'transparent', 'no-background'] as const;
     return (

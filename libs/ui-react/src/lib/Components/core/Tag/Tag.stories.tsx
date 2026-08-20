@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Check } from '../../symbols/icons/Check';
 import { Tag } from './Tag';
 
-const meta: Meta<typeof Tag> = {
+const meta = {
   component: Tag,
   id: 'react-tag',
   title: 'Core/Tag',
@@ -13,7 +13,7 @@ const meta: Meta<typeof Tag> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Tag>;
 
 export default meta;
 

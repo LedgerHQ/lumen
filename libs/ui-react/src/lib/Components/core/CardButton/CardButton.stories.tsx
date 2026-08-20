@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Settings, Plus, Coins, CreditCard, Bank } from '../../symbols';
 import { CardButton } from './CardButton';
 
-const meta: Meta<typeof CardButton> = {
+const meta = {
   component: CardButton,
   id: 'react-cardbutton',
   title: 'Core/CardButton',
@@ -26,7 +26,7 @@ const meta: Meta<typeof CardButton> = {
       },
     },
   },
-};
+} satisfies Meta<typeof CardButton>;
 
 export default meta;
 type Story = StoryObj<typeof CardButton>;

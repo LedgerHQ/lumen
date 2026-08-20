@@ -12,7 +12,7 @@ const ETH_ICON = (
   />
 );
 
-const meta: Meta<typeof MediaTag> = {
+const meta = {
   component: MediaTag,
   id: 'rnative-mediatag',
   title: 'Core/MediaTag',
@@ -38,7 +38,7 @@ const meta: Meta<typeof MediaTag> = {
       control: 'text',
     },
   },
-};
+} satisfies Meta<typeof MediaTag>;
 
 export default meta;
 
@@ -47,6 +47,7 @@ type Story = StoryObj<typeof MediaTag>;
 export const Base: Story = {
   args: {
     label: 'Ethereum',
+    leadingContent: ETH_ICON,
     appearance: 'accent',
     size: 'md',
   },
@@ -54,6 +55,10 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    label: 'Ethereum',
+    leadingContent: ETH_ICON,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's4' }}>
       <MediaTag appearance='base' label='Base' leadingContent={ETH_ICON} />
@@ -82,6 +87,10 @@ export const AppearanceShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    label: 'Ethereum',
+    leadingContent: ETH_ICON,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <MediaTag size='md' label='Medium' leadingContent={ETH_ICON} />
@@ -102,6 +111,10 @@ export const SizeShowcase: Story = {
 };
 
 export const TruncateShowcase: Story = {
+  args: {
+    label: 'Ethereum',
+    leadingContent: ETH_ICON,
+  },
   render: () => (
     <Box lx={{ width: 's176' }}>
       <MediaTag

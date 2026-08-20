@@ -42,7 +42,7 @@ const btcFormatter = (value: number): FormattedValue => {
   };
 };
 
-const meta: Meta<typeof AmountDisplay> = {
+const meta = {
   component: AmountDisplay,
   id: 'rnative-amountdisplay',
   title: 'Core/AmountDisplay',
@@ -98,7 +98,7 @@ const meta: Meta<typeof AmountDisplay> = {
       },
     },
   },
-};
+} satisfies Meta<typeof AmountDisplay>;
 
 export default meta;
 type Story = StoryObj<typeof AmountDisplay>;
@@ -129,6 +129,9 @@ export const Sizes: Story = {
 };
 
 export const WithHideButton: Story = {
+  args: {
+    value: 1234.56,
+  },
   render: (props) => {
     const [hidden, setHidden] = useState(false);
 
@@ -174,6 +177,9 @@ export const AnimationShowcase: Story = {
 };
 
 export const Loading: Story = {
+  args: {
+    value: 1234.56,
+  },
   render: (props) => {
     return (
       <AmountDisplay

@@ -9,7 +9,7 @@ import {
 } from '../ListItem';
 import { SearchInput } from './SearchInput';
 
-const meta: Meta<typeof SearchInput> = {
+const meta = {
   component: SearchInput,
   id: 'react-searchinput',
   title: 'Core/SearchInput',
@@ -25,7 +25,7 @@ const meta: Meta<typeof SearchInput> = {
       },
     },
   },
-};
+} satisfies Meta<typeof SearchInput>;
 
 export default meta;
 type Story = StoryObj<typeof SearchInput>;

@@ -9,7 +9,7 @@ import {
   PopoverContent,
   createPopoverHandle,
 } from './Popover';
-const meta: Meta<typeof Popover> = {
+const meta = {
   id: 'react-popover',
   title: 'Core/Popover',
   component: Popover,
@@ -23,7 +23,7 @@ const meta: Meta<typeof Popover> = {
       default: 'light',
     },
   },
-};
+} satisfies Meta<typeof Popover>;
 
 export default meta;
 

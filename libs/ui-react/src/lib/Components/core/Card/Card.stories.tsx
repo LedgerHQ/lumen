@@ -18,7 +18,7 @@ import {
   CardFooterActions,
 } from './Card';
 
-const meta: Meta<typeof Card> = {
+const meta = {
   component: Card,
   id: 'react-card',
   title: 'Core/Card',
@@ -40,7 +40,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     onClick: { action: 'clicked' },
   },
-};
+} satisfies Meta<typeof Card>;
 
 export default meta;
 type Story = StoryObj<typeof Card>;

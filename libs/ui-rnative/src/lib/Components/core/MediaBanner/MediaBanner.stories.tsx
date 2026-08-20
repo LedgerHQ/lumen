@@ -11,7 +11,7 @@ import {
 const IMAGE_URL =
   'https://images.unsplash.com/photo-1663741954108-d15d514529ef';
 
-const meta: Meta<typeof MediaBanner> = {
+const meta = {
   component: MediaBanner,
   id: 'rnative-mediabanner',
   title: 'Core/MediaBanner',
@@ -48,7 +48,7 @@ const meta: Meta<typeof MediaBanner> = {
       },
     },
   },
-};
+} satisfies Meta<typeof MediaBanner>;
 
 export default meta;
 type Story = StoryObj<typeof MediaBanner>;
@@ -56,6 +56,7 @@ type Story = StoryObj<typeof MediaBanner>;
 export const Base: Story = {
   args: {
     imageUrl: IMAGE_URL,
+    children: null,
   },
   render: (args) => (
     <Box lx={{ width: 's400' }}>
@@ -82,6 +83,10 @@ export const Base: Story = {
 };
 
 export const Truncation: Story = {
+  args: {
+    imageUrl: IMAGE_URL,
+    children: null,
+  },
   render: () => (
     <Box lx={{ width: 's400' }}>
       <MediaBanner imageUrl={IMAGE_URL} onClose={() => console.log('close')}>
@@ -99,6 +104,10 @@ export const Truncation: Story = {
 };
 
 export const WithBrokenImage: Story = {
+  args: {
+    imageUrl: IMAGE_URL,
+    children: null,
+  },
   render: () => (
     <Box lx={{ width: 's400' }}>
       <MediaBanner
@@ -115,6 +124,10 @@ export const WithBrokenImage: Story = {
 };
 
 export const Clickable: Story = {
+  args: {
+    imageUrl: IMAGE_URL,
+    children: null,
+  },
   render: () => {
     const [count, setCount] = useState(0);
 
@@ -137,6 +150,10 @@ export const Clickable: Story = {
 };
 
 export const WithClose: Story = {
+  args: {
+    imageUrl: IMAGE_URL,
+    children: null,
+  },
   render: () => {
     const [visible, setVisible] = useState(true);
 

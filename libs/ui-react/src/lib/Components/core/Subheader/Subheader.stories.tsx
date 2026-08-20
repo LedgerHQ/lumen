@@ -17,7 +17,7 @@ const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div className={cn('w-400 bg-canvas p-8 text-base', className)} {...props} />
 );
 
-const meta: Meta<typeof Subheader> = {
+const meta = {
   component: Subheader,
   id: 'react-subheader',
   title: 'Core/Subheader',
@@ -38,7 +38,7 @@ const meta: Meta<typeof Subheader> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Subheader>;
 
 export default meta;
 type Story = StoryObj<typeof Subheader>;

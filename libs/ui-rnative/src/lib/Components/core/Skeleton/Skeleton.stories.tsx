@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives/Box';
 import { Skeleton } from './Skeleton';
 
-const meta: Meta<typeof Skeleton> = {
+const meta = {
   id: 'rnative-skeleton',
   title: 'Core/Skeleton',
   component: Skeleton,
@@ -16,7 +16,7 @@ const meta: Meta<typeof Skeleton> = {
       description: 'Pre-built skeleton component variant',
     },
   },
-};
+} satisfies Meta<typeof Skeleton>;
 
 export default meta;
 type Story = StoryObj<typeof Skeleton>;

@@ -11,7 +11,7 @@ import {
   TileTrailingContent,
 } from './Tile';
 
-const meta: Meta<typeof Tile> = {
+const meta = {
   component: Tile,
   subcomponents: {
     TileContent,
@@ -48,7 +48,7 @@ const meta: Meta<typeof Tile> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof Tile>;
 
 export default meta;
 type Story = StoryObj<typeof Tile>;
@@ -58,6 +58,7 @@ export const Base: Story = {
     appearance: 'no-background',
     disabled: false,
     centered: false,
+    children: null,
   },
   render: (args) => (
     <Tile {...args} lx={{ maxWidth: 's112' }}>
@@ -86,6 +87,9 @@ export const Base: Story = {
 };
 
 export const VariantsShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Tile lx={{ maxWidth: 's176' }}>
@@ -128,6 +132,9 @@ export const VariantsShowcase: Story = {
 };
 
 export const WithSecondaryAction: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Tile
       onLongPress={() => alert('Long press - secondary action triggered!')}
@@ -161,6 +168,9 @@ export const WithSecondaryAction: Story = {
 };
 
 export const HorizontalList: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Box
@@ -207,6 +217,9 @@ export const HorizontalList: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ width: 'full', flexDirection: 'column', gap: 's16' }}>
       <Box>
@@ -235,6 +248,9 @@ export const ResponsiveLayout: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's24' }}>
       <Box>
@@ -284,6 +300,9 @@ export const AppearanceShowcase: Story = {
 };
 
 export const CenteredShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', gap: 's8' }}>
       <Tile appearance='card' lx={{ width: 's128' }}>
@@ -327,6 +346,9 @@ export const CenteredShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's24' }}>
       <Box>

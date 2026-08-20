@@ -2,13 +2,13 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SectionHeader } from '../shared';
 
-const meta: Meta = {
+const meta = {
   id: 'react-backdrop',
   title: 'Foundations/Styles/Backdrop',
-};
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 const IMAGE_URL =
   'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop';

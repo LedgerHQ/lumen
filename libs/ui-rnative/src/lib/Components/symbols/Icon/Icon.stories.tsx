@@ -6,10 +6,10 @@ import { Box, Text, Pressable } from '../../primitives';
 import * as Icons from '../../symbols';
 import type { IconSize } from './types';
 
-const meta: Meta = {
+const meta = {
   id: 'rnative-icon',
   title: 'Symbols/Interface Icons',
-};
+} satisfies Meta;
 
 export default meta;
 

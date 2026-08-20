@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Trend } from './Trend';
 
-const meta: Meta<typeof Trend> = {
+const meta = {
   component: Trend,
   id: 'react-trend',
   title: 'Core/Trend',
@@ -17,7 +17,7 @@ const meta: Meta<typeof Trend> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof Trend>;
 
 export default meta;
 

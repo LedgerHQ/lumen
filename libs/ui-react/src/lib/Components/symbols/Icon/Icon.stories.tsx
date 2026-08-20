@@ -4,10 +4,10 @@ import { SearchInput } from '../../core/SearchInput/SearchInput';
 import * as Icons from '../../symbols';
 import type { IconSize } from './types';
 
-const meta: Meta = {
+const meta = {
   id: 'react-icon',
   title: 'Symbols/Interface Icons',
-};
+} satisfies Meta;
 
 export default meta;
 

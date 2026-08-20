@@ -7,7 +7,7 @@ import {
   SectionHeaderTitle,
 } from './SectionHeader';
 
-const meta: Meta<typeof SectionHeader> = {
+const meta = {
   component: SectionHeader,
   id: 'rnative-sectionheader',
   title: 'Core/SectionHeader',
@@ -39,7 +39,7 @@ const meta: Meta<typeof SectionHeader> = {
       </Box>
     ),
   ],
-};
+} satisfies Meta<typeof SectionHeader>;
 
 export default meta;
 type Story = StoryObj<typeof SectionHeader>;

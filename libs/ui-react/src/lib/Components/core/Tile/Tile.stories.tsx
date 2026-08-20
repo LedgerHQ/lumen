@@ -18,7 +18,7 @@ import {
   TileSecondaryAction,
 } from './Tile';
 
-const meta: Meta<typeof Tile> = {
+const meta = {
   component: Tile,
   subcomponents: {
     TileSecondaryAction,
@@ -54,7 +54,7 @@ const meta: Meta<typeof Tile> = {
       control: 'boolean',
     },
   },
-};
+} satisfies Meta<typeof Tile>;
 
 export default meta;
 type Story = StoryObj<typeof Tile>;

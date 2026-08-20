@@ -4,7 +4,7 @@ import { Box } from '../../Box';
 import { Text } from '../../Text';
 import { LinearGradient } from './LinearGradient';
 
-const meta: Meta<typeof LinearGradient> = {
+const meta = {
   component: LinearGradient,
   id: 'rnative-lineargradient',
   title: 'Primitives/LinearGradient',
@@ -19,7 +19,7 @@ const meta: Meta<typeof LinearGradient> = {
       },
     },
   },
-};
+} satisfies Meta<typeof LinearGradient>;
 
 export default meta;
 type Story = StoryObj<typeof LinearGradient>;
@@ -37,6 +37,9 @@ export const Base: Story = {
 };
 
 export const DirectionShowcase: Story = {
+  args: {
+    stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
+  },
   render: () => {
     const orientations = [
       'to-bottom',
@@ -130,6 +133,7 @@ export const WithMultipleStops: Story = {
 
 export const CryptoGradients: Story = {
   args: {
+    stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
     direction: 'to-bottomright',
     lx: {
       borderRadius: 'md',

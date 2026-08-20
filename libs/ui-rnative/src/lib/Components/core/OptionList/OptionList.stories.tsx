@@ -100,6 +100,10 @@ const CURRENCIES: OptionListItemData[] = [
 ];
 
 export const Base: Story = {
+  args: {
+    items: CURRENCIES,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -169,6 +173,10 @@ const FOODS: OptionListItemData[] = [
 ];
 
 export const WithGroups: Story = {
+  args: {
+    items: FOODS,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -239,6 +247,10 @@ const NETWORKS: OptionListItemData[] = [
 ];
 
 export const WithContentRow: Story = {
+  args: {
+    items: NETWORKS,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -327,6 +339,10 @@ const ACCOUNTS: OptionListItemData[] = [
 ];
 
 export const WithDisabledItems: Story = {
+  args: {
+    items: ACCOUNTS,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -415,6 +431,10 @@ const GROUPED_NETWORKS: OptionListItemData[] = [
 ];
 
 export const GroupedWithContentRow: Story = {
+  args: {
+    items: GROUPED_NETWORKS,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -482,6 +502,10 @@ export const GroupedWithContentRow: Story = {
 };
 
 export const WithSearch: Story = {
+  args: {
+    items: CURRENCIES,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -547,6 +571,10 @@ export const WithSearch: Story = {
 };
 
 export const WithSearchAndGroups: Story = {
+  args: {
+    items: GROUPED_NETWORKS,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -596,6 +624,10 @@ export const WithSearchAndGroups: Story = {
 };
 
 export const WithCustomSearchFilter: Story = {
+  args: {
+    items: CURRENCIES,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
@@ -666,6 +698,10 @@ export const WithCustomSearchFilter: Story = {
 };
 
 export const WithControlledSearch: Story = {
+  args: {
+    items: CURRENCIES,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<string | null>(null);
     const [searchValue, setSearchValue] = useState('');
@@ -734,6 +770,10 @@ export const WithControlledSearch: Story = {
 };
 
 export const EmptyState: Story = {
+  args: {
+    items: [],
+    children: null,
+  },
   render: () => {
     const bottomSheetRef = useBottomSheetRef();
 
@@ -831,6 +871,10 @@ const SimpleOptionListSheet = ({
 );
 
 export const TriggerShowcase: Story = {
+  args: {
+    items: SIMPLE_OPTIONS,
+    children: null,
+  },
   render: () => {
     const [buttonValue, setButtonValue] = useState<string | null>(null);
     const [iconValue, setIconValue] = useState<string | null>(null);
@@ -980,6 +1024,10 @@ export const TriggerShowcase: Story = {
 };
 
 export const WithDefaultValue: Story = {
+  args: {
+    items: CURRENCIES,
+    children: null,
+  },
   render: () => (
     <Box lx={{ width: 's320' }}>
       <OptionList items={CURRENCIES} defaultValue='eth'>
@@ -1033,6 +1081,10 @@ const TYPED_NETWORKS: OptionListItemData<TypedNetwork, TypedNetworkMeta>[] = [
 ];
 
 export const TypesafeFactory: Story = {
+  args: {
+    items: TYPED_NETWORKS,
+    children: null,
+  },
   render: () => {
     const [value, setValue] = useState<TypedNetwork | null>('eth');
 

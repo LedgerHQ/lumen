@@ -8,7 +8,7 @@ import {
 } from '../../symbols';
 import { InteractiveIcon } from './InteractiveIcon';
 
-const meta: Meta<typeof InteractiveIcon> = {
+const meta = {
   component: InteractiveIcon,
   id: 'rnative-interactiveicon',
   title: 'Core/InteractiveIcon',
@@ -32,7 +32,7 @@ const meta: Meta<typeof InteractiveIcon> = {
       },
     },
   },
-};
+} satisfies Meta<typeof InteractiveIcon>;
 
 export default meta;
 type Story = StoryObj<typeof InteractiveIcon>;
@@ -72,6 +72,10 @@ export const Stroked: Story = {
 };
 
 export const IconTypeShowcase: Story = {
+  args: {
+    iconType: 'filled',
+    icon: DeleteCircleFill,
+  },
   render: () => {
     return (
       <Box lx={{ flexDirection: 'row', gap: 's16', padding: 's8' }}>
@@ -101,6 +105,10 @@ export const IconTypeShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
+  args: {
+    iconType: 'filled',
+    icon: DeleteCircleFill,
+  },
   render: () => {
     const iconSizes = [16, 20, 24, 40] as const;
     return (
@@ -132,6 +140,10 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  args: {
+    iconType: 'filled',
+    icon: DeleteCircleFill,
+  },
   render: () => {
     return (
       <Box

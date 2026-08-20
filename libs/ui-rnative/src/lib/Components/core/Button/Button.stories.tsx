@@ -4,7 +4,7 @@ import { Box, Text } from '../../primitives';
 import { Plus, Settings } from '../../symbols';
 import { Button } from './Button';
 
-const meta: Meta<typeof Button> = {
+const meta = {
   component: Button,
   id: 'rnative-button',
   title: 'Core/Button',
@@ -32,7 +32,7 @@ const meta: Meta<typeof Button> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof Button>;
@@ -76,6 +76,9 @@ export const Loading: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     const appearances: { name: string; appearance: ButtonAppearance }[] = [
       { name: 'Accent', appearance: 'accent' },
@@ -99,6 +102,9 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentTypesShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Button appearance='base'>Text Only</Button>
@@ -110,6 +116,9 @@ export const ContentTypesShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Button appearance='base' size='sm'>
@@ -126,6 +135,9 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's4' }}>
       <Button appearance='base'>Default</Button>
@@ -143,6 +155,9 @@ export const StatesShowcase: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box
       lx={{
@@ -162,6 +177,9 @@ export const ResponsiveLayout: Story = {
 };
 
 export const LabelTruncate: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <Box>
       <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
@@ -178,6 +196,9 @@ export const LabelTruncate: Story = {
 };
 
 export const InteractiveLoadingStates: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     const [states, setStates] = useState<
       Record<'text' | 'withIcon' | 'iconOnly', 'idle' | 'loading' | 'red'>

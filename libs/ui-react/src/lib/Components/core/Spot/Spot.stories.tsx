@@ -5,7 +5,7 @@ import { DotSymbol, spotDotSizeMap } from '../DotSymbol';
 import { Spot } from './Spot';
 import type { SpotAppearance } from './types';
 
-const meta: Meta<typeof Spot> = {
+const meta = {
   component: Spot,
   id: 'react-spot',
   title: 'Core/Spot',
@@ -35,7 +35,7 @@ const meta: Meta<typeof Spot> = {
       options: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     },
   },
-};
+} satisfies Meta<typeof Spot>;
 
 export default meta;
 type Story = StoryObj<typeof Spot>;

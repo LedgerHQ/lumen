@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box, Text } from '../../primitives';
 import { Switch } from './Switch';
 
-const meta: Meta<typeof Switch> = {
+const meta = {
   id: 'rnative-switch',
   title: 'Core/Switch',
   component: Switch,
@@ -34,10 +34,10 @@ const meta: Meta<typeof Switch> = {
       description: 'Callback function called when the checked state changes',
     },
   },
-};
+} satisfies Meta<typeof Switch>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Switch>;
 
 /**
  * The base switch in its normal state.

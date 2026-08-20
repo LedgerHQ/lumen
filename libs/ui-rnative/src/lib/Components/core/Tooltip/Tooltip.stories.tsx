@@ -7,18 +7,21 @@ import { InteractiveIcon } from '../InteractiveIcon';
 import { GlobalTooltipBottomSheet } from './GlobalTooltipBottomSheet';
 import { Tooltip, TooltipTrigger, TooltipContent } from './Tooltip';
 
-const meta: Meta<typeof Tooltip> = {
+const meta = {
   component: Tooltip,
   subcomponents: { TooltipTrigger, TooltipContent },
   id: 'rnative-tooltip',
   title: 'Core/Tooltip',
-};
+} satisfies Meta<typeof Tooltip>;
 
 export default meta;
 
 type Story = StoryObj<typeof Tooltip>;
 
 export const Base: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <>
       <Box
@@ -45,6 +48,9 @@ export const Base: Story = {
 };
 
 export const WithCustomContent: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <>
       <Box
@@ -83,6 +89,9 @@ export const WithCustomContent: Story = {
 };
 
 export const WithMultipleTooltips: Story = {
+  args: {
+    children: null,
+  },
   render: () => (
     <>
       <Box
@@ -135,6 +144,9 @@ export const WithMultipleTooltips: Story = {
 };
 
 export const WithChangeCallback: Story = {
+  args: {
+    children: null,
+  },
   render: () => {
     return (
       <>

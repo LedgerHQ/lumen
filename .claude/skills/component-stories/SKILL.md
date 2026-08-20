@@ -10,6 +10,21 @@ paths: "**/*.stories.tsx"
 
 When creating or modifying Storybook stories, follow these conventions strictly:
 
+## Meta typing
+
+```typescript
+const meta = {
+  component: Component,
+} satisfies Meta<typeof Component>;
+
+export default meta;
+type Story = StoryObj<typeof Component>;
+```
+
+Use `satisfies Meta<typeof Component>` (not a `Meta<…>` annotation) and
+`StoryObj<typeof Component>` (not `typeof meta` — that makes `args` required
+on every story).
+
 ## Story Layout Configuration
 
 ### Centering and Background
@@ -23,7 +38,8 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   args: {
-    // Component props  },
+    // Component props
+  },
 };
 ```
 
@@ -35,7 +51,7 @@ export const Base: Story = {
 Stories with interactive controls (`args` on `Base`) must use dynamic docs source so the code snippet updates when controls change. Set this on the story `meta`:
 
 ```typescript
-const meta: Meta<typeof Component> = {
+const meta = {
   component: Component,
   parameters: {
     docs: {
@@ -46,7 +62,7 @@ const meta: Meta<typeof Component> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Component>;
 ```
 
 - Use `type: 'dynamic'` — not `'code'` — when the story exposes `args` / Controls.

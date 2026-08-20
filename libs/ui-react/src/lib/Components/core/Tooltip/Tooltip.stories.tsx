@@ -3,7 +3,7 @@ import { Information } from '../../symbols';
 import { Button } from '../Button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
-const meta: Meta<typeof TooltipContent> = {
+const meta = {
   id: 'react-tooltip',
   title: 'Core/Tooltip',
   component: TooltipContent,
@@ -38,7 +38,7 @@ const meta: Meta<typeof TooltipContent> = {
       control: false,
     },
   },
-};
+} satisfies Meta<typeof TooltipContent>;
 
 export default meta;
 
