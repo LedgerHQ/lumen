@@ -109,10 +109,11 @@ describe('SegmentedControl', () => {
       expect(screen.getByText('B')).toBeTruthy();
     });
 
-    it('renders left and right arrow buttons', () => {
-      const { container } = renderWithControls();
-      const arrows = container.querySelectorAll('button[tabindex="-1"]');
-      expect(arrows).toHaveLength(2);
+    it('renders scroll arrows that stay inert while nothing overflows', () => {
+      renderWithControls();
+
+      expect(screen.getByLabelText('Scroll left')).toBeDisabled();
+      expect(screen.getByLabelText('Scroll right')).toBeDisabled();
     });
   });
 

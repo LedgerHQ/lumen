@@ -6,7 +6,7 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import type { IconSize } from '../../symbols/Icon/types';
 import {
@@ -26,15 +26,11 @@ import {
 import { useScrollArrows, useScrollSelectedIntoView } from './useScrollArrows';
 
 const segmentedControlStyles = {
-  root: cva('relative flex flex-row items-center rounded-sm', {
+  root: cva('relative flex-row items-center rounded-sm', {
     variants: {
-      appearance: {
-        background: 'bg-surface',
-        'no-background': 'bg-transparent',
-      },
       tabLayout: {
         fit: 'inline-flex',
-        fixed: 'w-full',
+        fixed: 'flex w-full',
       },
     },
   }),
@@ -51,7 +47,8 @@ const segmentedControlStyles = {
     },
   }),
   item: cva(
-    'z-10 flex cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
+    // The focus ring is inset because the scroll container clips anything drawn outside the box.
+    'z-10 flex cursor-pointer flex-row items-center justify-center rounded-sm px-16 py-8 select-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed',
     {
       variants: {
         selected: {
@@ -78,6 +75,11 @@ const segmentedControlStyles = {
       appearance: {
         background: 'bg-surface',
         'no-background': 'bg-transparent',
+      },
+      tabLayout: {
+        // Fit lets the segments size themselves, so the area must not stretch.
+        fit: '',
+        fixed: 'w-full',
       },
     },
   }),
@@ -119,9 +121,6 @@ type SegmentedControlArrowProps = {
   side: 'left' | 'right';
   icon: ComponentType<{ size?: IconSize }>;
   label: string;
-  /**
-   * Whether there is still content to scroll towards on that side.
-   */
   visible: boolean;
   onClick: () => void;
 };
@@ -150,13 +149,15 @@ function SegmentedControlArrow({
 }
 
 type SegmentedControlScrollAreaProps = HTMLAttributes<HTMLDivElement> & {
-  appearance: SegmentedControlProps['appearance'];
+  appearance: NonNullable<SegmentedControlProps['appearance']>;
+  tabLayout: NonNullable<SegmentedControlProps['tabLayout']>;
   selectedIndex: number;
   children: ReactNode;
 };
 
 function SegmentedControlScrollArea({
-  appearance = 'background',
+  appearance,
+  tabLayout,
   className,
   selectedIndex,
   children,
@@ -168,20 +169,25 @@ function SegmentedControlScrollArea({
 
   useScrollSelectedIntoView(scrollRef, selectedIndex);
 
-  const maskImage = getScrollMaskImage(canScrollLeft, canScrollRight);
+  const maskImage =
+    canScrollLeft || canScrollRight
+      ? getScrollMaskImage(canScrollLeft, canScrollRight)
+      : undefined;
 
   return (
     <div
       {...props}
       className={cn(
-        segmentedControlStyles.scrollArea({ appearance }),
+        segmentedControlStyles.scrollArea({ appearance, tabLayout }),
         className,
       )}
     >
       <div
         ref={scrollRef}
         className='scrollbar-none overflow-x-auto'
-        style={{ maskImage, WebkitMaskImage: maskImage }}
+        style={
+          maskImage ? { maskImage, WebkitMaskImage: maskImage } : undefined
+        }
       >
         {children}
       </div>
@@ -227,8 +233,7 @@ function SegmentedControlPill({
   );
 }
 
-type SegmentedControlRadioGroupProps = HTMLAttributes<HTMLDivElement> & {
-  appearance: NonNullable<SegmentedControlProps['appearance']>;
+type SegmentedControlRadioGroupProps = {
   tabLayout: NonNullable<SegmentedControlProps['tabLayout']>;
   disabled: boolean;
   selectedIndex: number;
@@ -236,13 +241,10 @@ type SegmentedControlRadioGroupProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 function SegmentedControlRadioGroup({
-  appearance,
   tabLayout,
   disabled,
   selectedIndex,
-  className,
   children,
-  ...props
 }: SegmentedControlRadioGroupProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { pill, isReady } = usePillElementLayoutEffect({
@@ -253,14 +255,10 @@ function SegmentedControlRadioGroup({
 
   return (
     <div
-      {...props}
       ref={ref}
       role='radiogroup'
       aria-disabled={disabled}
-      className={cn(
-        segmentedControlStyles.root({ appearance, tabLayout }),
-        className,
-      )}
+      className={segmentedControlStyles.root({ tabLayout })}
     >
       {children}
       {/* Must stay the last child: the pill layout measures its siblings. */}
@@ -282,29 +280,36 @@ export function SegmentedControlButton<
   trailingContent,
   onClick,
   className,
+  disabled,
   ...props
 }: SegmentedControlButtonProps<T>) {
-  const { selectedValue, onSelectedChange, disabled, tabLayout } =
-    useSegmentedControlContext();
+  const {
+    selectedValue,
+    onSelectedChange,
+    disabled: contextDisabled,
+    tabLayout,
+  } = useSegmentedControlContext();
   const selected = selectedValue === value;
+  const isDisabled = useMemo(() => {
+    return Boolean(disabled || contextDisabled);
+  }, [disabled, contextDisabled]);
 
   return (
     <button
       type='button'
       role='radio'
       aria-checked={selected}
-      aria-disabled={disabled}
-      disabled={disabled}
+      aria-disabled={isDisabled}
+      disabled={isDisabled}
       onClick={(e) => {
-        if (!disabled) {
+        if (!isDisabled) {
           onSelectedChange(value);
           onClick?.(e);
         }
       }}
       className={cn(
-        segmentedControlStyles.item({ selected, disabled: !!disabled }),
+        segmentedControlStyles.item({ selected, disabled: isDisabled }),
         tabLayout === 'fixed' && 'min-w-0 flex-1',
-        tabLayout === 'fit' && 'focus-visible:-outline-offset-2',
         className,
       )}
       {...props}
@@ -340,22 +345,6 @@ export function SegmentedControl<
     children,
   );
 
-  const showControls = tabLayout === 'fit';
-
-  // When arrows are shown the scroll area owns the background and the outer props.
-  const radioGroup = (
-    <SegmentedControlRadioGroup
-      {...(showControls ? {} : props)}
-      appearance={showControls ? 'no-background' : appearance}
-      tabLayout={tabLayout}
-      disabled={disabled}
-      selectedIndex={selectedIndex}
-      className={showControls ? undefined : className}
-    >
-      {children}
-    </SegmentedControlRadioGroup>
-  );
-
   return (
     <SegmentedControlContextProvider
       value={{
@@ -365,18 +354,21 @@ export function SegmentedControl<
         tabLayout,
       }}
     >
-      {showControls ? (
-        <SegmentedControlScrollArea
-          {...props}
-          appearance={appearance}
-          className={className}
+      <SegmentedControlScrollArea
+        {...props}
+        appearance={appearance}
+        tabLayout={tabLayout}
+        className={className}
+        selectedIndex={selectedIndex}
+      >
+        <SegmentedControlRadioGroup
+          tabLayout={tabLayout}
+          disabled={disabled}
           selectedIndex={selectedIndex}
         >
-          {radioGroup}
-        </SegmentedControlScrollArea>
-      ) : (
-        radioGroup
-      )}
+          {children}
+        </SegmentedControlRadioGroup>
+      </SegmentedControlScrollArea>
     </SegmentedControlContextProvider>
   );
 }
