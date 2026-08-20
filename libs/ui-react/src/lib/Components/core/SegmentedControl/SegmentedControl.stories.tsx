@@ -86,20 +86,9 @@ export const TabLayoutShowcase: Story = {
     const [fitManyState, setFitManyState] = useState('tokens');
     const [fixedState, setFixedState] = useState('send');
 
-    const manyButtons = (
-      <>
-        <SegmentedControlButton value='tokens'>Tokens</SegmentedControlButton>
-        <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
-        <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
-        <SegmentedControlButton value='earn'>Earn</SegmentedControlButton>
-        <SegmentedControlButton value='market'>Market</SegmentedControlButton>
-        <SegmentedControlButton value='history'>History</SegmentedControlButton>
-      </>
-    );
-
     return (
       <div className='flex flex-col gap-24'>
-        <div>
+        <div className='w-max'>
           <p className='mb-8 body-2 text-muted'>Fit (all items visible)</p>
           <SegmentedControl
             {...args}
@@ -122,7 +111,18 @@ export const TabLayoutShowcase: Story = {
             selectedValue={fitManyState}
             onSelectedChange={setFitManyState}
           >
-            {manyButtons}
+            <SegmentedControlButton value='tokens'>
+              Tokens
+            </SegmentedControlButton>
+            <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
+            <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
+            <SegmentedControlButton value='earn'>Earn</SegmentedControlButton>
+            <SegmentedControlButton value='market'>
+              Market
+            </SegmentedControlButton>
+            <SegmentedControlButton value='history'>
+              History
+            </SegmentedControlButton>
           </SegmentedControl>
         </div>
         <div>

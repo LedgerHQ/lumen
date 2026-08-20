@@ -28,15 +28,15 @@ export function usePillElementLayoutEffect({
 
   useLayoutEffect(() => {
     const el = ref.current;
-    if (!el) return;
-
-    const sync = (): void => {
-      const { height } = el.getBoundingClientRect();
+    if (!el) {
+      return;
+    }
+    const sync = () => {
       const buttons = Array.from(el.children).slice(0, -1) as HTMLElement[];
       const target = selectedIndex >= 0 ? buttons[selectedIndex] : undefined;
       setPill({
         width: target?.offsetWidth ?? 0,
-        height,
+        height: el.offsetHeight,
         x: target?.offsetLeft ?? 0,
       });
     };
