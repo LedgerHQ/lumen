@@ -19,6 +19,7 @@ const meta = {
     MediaBannerDescription,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

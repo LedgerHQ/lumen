@@ -17,6 +17,7 @@ const meta = {
   id: 'react-tilebutton',
   title: 'Core/TileButton',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

@@ -7,6 +7,7 @@ const meta = {
   component: Skeleton,
   parameters: {
     backgrounds: { default: 'light' },
+    layout: 'centered',
   },
   decorators: [
     (Story) => (

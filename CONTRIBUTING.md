@@ -174,12 +174,24 @@ Stories highlighting specific features.
 
 ### Story Layout Configuration
 
-The canvas defaults to **padded** (start-aligned). Do not set
-`layout: 'centered'`. Override with `layout: 'fullscreen'` only when the
-story needs a full-bleed canvas.
+All stories should follow these visual guidelines:
 
-Stories that need a guaranteed white canvas can set
-`backgrounds: { default: 'light' }`.
+#### Centering and Background
+
+- **Layout**: Stories should be centered.
+- **Background**: Stories should use white background.
+
+**Example**:
+
+```typescript
+export const Base: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  // ...
+};
+```
 
 ### MDX Documentation Structure
 

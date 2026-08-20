@@ -23,6 +23,7 @@ const meta = {
     DescriptionItemValue,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

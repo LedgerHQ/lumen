@@ -25,6 +25,7 @@ const meta = {
     TabBarItem,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   argTypes: {

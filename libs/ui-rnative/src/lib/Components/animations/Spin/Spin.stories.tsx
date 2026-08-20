@@ -8,6 +8,9 @@ const meta = {
   id: 'rnative-spin',
   title: 'Primitives/Spin',
   component: Spin,
+  parameters: {
+    layout: 'centered',
+  },
 } satisfies Meta<typeof Spin>;
 
 export default meta;

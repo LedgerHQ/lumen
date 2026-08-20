@@ -9,6 +9,7 @@ const meta = {
   id: 'rnative-lineargradient',
   title: 'Primitives/LinearGradient',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

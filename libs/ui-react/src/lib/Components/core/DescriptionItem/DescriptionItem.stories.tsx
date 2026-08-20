@@ -31,6 +31,7 @@ const meta = {
     DescriptionItemValue,
   },
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

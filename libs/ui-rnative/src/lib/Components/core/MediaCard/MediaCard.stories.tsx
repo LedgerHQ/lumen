@@ -12,6 +12,7 @@ const meta = {
   id: 'rnative-mediacard',
   title: 'Core/MediaCard',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

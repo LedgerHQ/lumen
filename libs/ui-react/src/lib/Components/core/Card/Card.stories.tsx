@@ -34,6 +34,7 @@ const meta = {
     CardFooterActions,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   argTypes: {

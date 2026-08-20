@@ -40,6 +40,7 @@ export const Base: Story = {
     dataY: 98,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {
@@ -71,6 +72,7 @@ export const WithCustomLabelComponent: Story = {
     dataY: 98,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {
@@ -120,6 +122,7 @@ export const NoPoint: Story = {
     dataY: 98,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -136,6 +139,7 @@ export const CustomSize: Story = {
     dataY: 98,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {

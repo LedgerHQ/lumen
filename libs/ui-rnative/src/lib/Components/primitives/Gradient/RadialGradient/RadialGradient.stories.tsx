@@ -8,6 +8,7 @@ const meta = {
   id: 'rnative-radialgradient',
   title: 'Primitives/RadialGradient',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

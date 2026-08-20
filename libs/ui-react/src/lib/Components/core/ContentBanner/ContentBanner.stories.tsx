@@ -21,6 +21,7 @@ const meta = {
     ContentBannerDescription,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

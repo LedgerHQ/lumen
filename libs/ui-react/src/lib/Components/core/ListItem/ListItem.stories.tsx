@@ -29,6 +29,7 @@ const meta = {
     ListItemContentRow,
   },
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

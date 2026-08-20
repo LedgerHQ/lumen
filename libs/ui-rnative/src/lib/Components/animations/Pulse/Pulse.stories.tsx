@@ -21,6 +21,9 @@ const meta = {
   id: 'rnative-pulse',
   title: 'Primitives/Pulse',
   component: Pulse,
+  parameters: {
+    layout: 'centered',
+  },
 } satisfies Meta<typeof Pulse>;
 
 export default meta;

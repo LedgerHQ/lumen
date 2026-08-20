@@ -9,6 +9,7 @@ const meta = {
   id: 'react-animations',
   title: 'Foundations/Animations',
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:

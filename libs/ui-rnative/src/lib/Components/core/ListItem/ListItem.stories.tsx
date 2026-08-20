@@ -30,6 +30,7 @@ const meta = {
     ListItemContentRow,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

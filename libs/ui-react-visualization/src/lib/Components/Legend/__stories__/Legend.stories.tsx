@@ -61,12 +61,14 @@ type Story = StoryObj<typeof Legend>;
 
 export const Base: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
 };
 
 export const DefaultColors: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -84,6 +86,7 @@ export const DefaultColors: Story = {
  */
 export const LongLabels: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -102,6 +105,7 @@ export const LongLabels: Story = {
  */
 export const WithDonutChart: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (

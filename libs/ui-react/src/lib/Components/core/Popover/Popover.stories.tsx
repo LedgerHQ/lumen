@@ -18,6 +18,7 @@ const meta = {
     PopoverContent,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: {
       default: 'light',
     },

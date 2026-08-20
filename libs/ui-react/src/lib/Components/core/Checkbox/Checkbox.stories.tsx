@@ -6,6 +6,7 @@ const meta = {
   title: 'Core/Checkbox',
   component: Checkbox,
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

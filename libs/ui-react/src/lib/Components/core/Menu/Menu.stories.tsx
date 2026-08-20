@@ -40,6 +40,7 @@ const meta = {
     MenuGroup,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: {
       default: 'light',
     },

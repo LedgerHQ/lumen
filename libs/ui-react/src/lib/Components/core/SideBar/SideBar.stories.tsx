@@ -41,6 +41,8 @@ const meta = {
     SideBarCollapseToggle,
   },
   parameters: {
+    layout: 'padded',
+
     docs: {
       source: {
         language: 'tsx',

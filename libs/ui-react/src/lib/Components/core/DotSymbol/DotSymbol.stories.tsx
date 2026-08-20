@@ -9,6 +9,7 @@ const meta = {
   id: 'react-dotsymbol',
   title: 'Core/DotSymbol',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

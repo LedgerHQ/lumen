@@ -27,12 +27,9 @@ on every story).
 
 ## Story Layout Configuration
 
-The canvas defaults to **padded** (start-aligned) in `.storybook/preview.tsx`.
-Do not set `layout: 'centered'` and do not repeat `layout: 'padded'` on stories.
+### Centering and Background
 
-### Background
-
-Stories that need a guaranteed white canvas can set:
+All stories must include these parameters:
 
 ```typescript
 export const Base: Story = {
@@ -41,9 +38,13 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   args: {
-    // Component props  },
+    // Component props
+  },
 };
 ```
+
+- **Layout**: Stories should be centered.
+- **Background**: Stories should use white background.
 
 ### Docs source type
 

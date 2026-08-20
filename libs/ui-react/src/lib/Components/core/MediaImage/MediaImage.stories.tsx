@@ -6,6 +6,7 @@ const meta = {
   id: 'react-mediaimage',
   title: 'Core/MediaImage',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

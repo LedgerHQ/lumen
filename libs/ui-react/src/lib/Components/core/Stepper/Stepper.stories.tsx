@@ -6,6 +6,7 @@ const meta = {
   id: 'react-stepper',
   title: 'Core/Stepper',
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

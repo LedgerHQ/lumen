@@ -9,6 +9,7 @@ const meta = {
   id: 'rnative-mediabutton',
   title: 'Core/MediaButton',
   parameters: {
+    layout: 'centered',
     docs: {
       source: {
         language: 'tsx',

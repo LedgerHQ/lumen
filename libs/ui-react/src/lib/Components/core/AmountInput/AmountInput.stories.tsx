@@ -13,6 +13,9 @@ const meta = {
   id: 'react-amountinput',
   title: 'Core/AmountInput',
   component: AmountInput,
+  parameters: {
+    layout: 'centered',
+  },
 } satisfies Meta<typeof AmountInput>;
 
 export default meta;

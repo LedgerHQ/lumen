@@ -16,6 +16,7 @@ const meta = {
     SectionHeaderTitle,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

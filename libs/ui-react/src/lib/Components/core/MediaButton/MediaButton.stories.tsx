@@ -8,6 +8,7 @@ const meta = {
   id: 'react-mediabutton',
   title: 'Core/MediaButton',
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

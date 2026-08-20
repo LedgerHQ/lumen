@@ -19,6 +19,9 @@ const meta = {
   id: 'react-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     icon: {
       options: Object.keys(iconMap),

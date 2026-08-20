@@ -48,6 +48,7 @@ const multiSeries = [
 
 export const Base: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -59,6 +60,7 @@ export const Base: Story = {
 
 export const WithXAxis: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -75,6 +77,7 @@ export const WithXAxis: Story = {
 
 export const XAxisExplicitNumericData: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -92,6 +95,7 @@ export const XAxisExplicitNumericData: Story = {
 
 export const XAxisStringData: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -109,6 +113,7 @@ export const XAxisStringData: Story = {
 
 export const WithStringLabels: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -141,6 +146,7 @@ export const WithStringLabels: Story = {
 
 export const WithCustomTicks: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -158,6 +164,7 @@ export const WithCustomTicks: Story = {
 
 export const WithTickFormatter: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -190,6 +197,7 @@ export const WithTickFormatter: Story = {
 
 export const XAxisTop: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -207,6 +215,7 @@ export const XAxisTop: Story = {
 
 export const MultipleSeries: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -223,6 +232,7 @@ export const MultipleSeries: Story = {
 
 export const CustomDomain: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -242,6 +252,7 @@ export const CustomDomain: Story = {
 
 export const WithBothAxes: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -264,6 +275,7 @@ export const WithBothAxes: Story = {
 
 export const WithBothAxesMultipleSeries: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -285,6 +297,7 @@ export const WithBothAxesMultipleSeries: Story = {
 
 export const WithArea: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {
@@ -301,6 +314,7 @@ export const WithArea: Story = {
 
 export const WithAreaMultipleSeries: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   args: {

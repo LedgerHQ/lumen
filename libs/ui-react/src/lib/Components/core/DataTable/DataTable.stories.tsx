@@ -228,6 +228,7 @@ const meta = {
     },
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {

@@ -36,6 +36,7 @@ type Story = StoryObj<typeof ReferenceLine>;
 
 export const HorizontalLine: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -53,6 +54,7 @@ export const HorizontalLine: Story = {
 
 export const VerticalLine: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => (
@@ -71,6 +73,7 @@ export const VerticalLine: Story = {
 
 export const Combined: Story = {
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
   },
   render: () => {

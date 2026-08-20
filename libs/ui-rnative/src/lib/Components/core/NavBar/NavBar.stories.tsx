@@ -25,6 +25,7 @@ const meta = {
     NavBarTrailing,
   },
   parameters: {
+    layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
       source: {
