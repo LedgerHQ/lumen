@@ -1,6 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import type { ReactElement, ReactNode, RefObject } from 'react';
+import type { HTMLAttributes, ReactElement, ReactNode, RefObject } from 'react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import {
@@ -138,19 +138,19 @@ function useScrollArrows(scrollRef: RefObject<HTMLDivElement | null>): {
   return { canScrollLeft, canScrollRight, scrollBy };
 }
 
-type FitControlsWrapperProps = {
+type ControlsWrapperProps = HTMLAttributes<HTMLDivElement> & {
   appearance: SegmentedControlProps['appearance'];
-  className?: string;
   selectedIndex: number;
   children: ReactNode;
 };
 
-function FitControlsWrapper({
+function ControlsWrapper({
   appearance = 'background',
   className,
   selectedIndex,
   children,
-}: FitControlsWrapperProps) {
+  ...props
+}: ControlsWrapperProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { canScrollLeft, canScrollRight, scrollBy } =
     useScrollArrows(scrollRef);
@@ -176,6 +176,7 @@ function FitControlsWrapper({
 
   return (
     <div
+      {...props}
       className={cn(
         'relative rounded-sm',
         appearance === 'background' ? 'bg-surface' : 'bg-transparent',
@@ -311,7 +312,7 @@ export function SegmentedControl<
 
   const radioGroup = (
     <div
-      {...props}
+      {...(showControls ? {} : props)}
       ref={ref}
       role='radiogroup'
       aria-disabled={disabled}
@@ -338,13 +339,14 @@ export function SegmentedControl<
       }}
     >
       {showControls ? (
-        <FitControlsWrapper
+        <ControlsWrapper
+          {...props}
           appearance={appearance}
           className={className}
           selectedIndex={selectedIndex}
         >
           {radioGroup}
-        </FitControlsWrapper>
+        </ControlsWrapper>
       ) : (
         radioGroup
       )}
