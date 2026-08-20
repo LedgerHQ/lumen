@@ -39,11 +39,9 @@
   "devDependencies": {
     "@types/d3-array": "^3.2.2",
     "@types/d3-scale": "^4.0.9",
-    "@types/d3-shape": "^3.1.8",
-    "@types/react": "^19.0.0"
+    "@types/d3-shape": "^3.1.8"
   },
   "peerDependencies": {
-    "@types/react": "^19.0.0",
     "@ledgerhq/lumen-design-core": "0.1.26",
     "@ledgerhq/lumen-ui-rnative": "0.1.58",
     "react": "^19.0.0",
