@@ -102,12 +102,12 @@ export const tokens = {
     '--color-background-error': 'var(--color-light-red-600-10)',
     '--color-background-error-hover': 'var(--color-light-red-600-20)',
     '--color-background-error-pressed': 'var(--color-light-red-600-30)',
-    '--color-background-error-strong': 'var(--color-light-red-700)',
+    '--color-background-error-strong': 'var(--color-light-red-300)',
     '--color-background-error-transparent-0': 'var(--color-light-red-600-0)',
     '--color-background-warning': 'var(--color-light-yellow-600-10)',
-    '--color-background-warning-strong': 'var(--color-light-yellow-700)',
+    '--color-background-warning-strong': 'var(--color-light-yellow-300)',
     '--color-background-success': 'var(--color-light-green-600-10)',
-    '--color-background-success-strong': 'var(--color-light-green-700)',
+    '--color-background-success-strong': 'var(--color-light-green-300)',
     '--color-background-success-transparent-0':
       'var(--color-light-green-600-0)',
     '--color-background-native': '#f7f7f7',
@@ -120,19 +120,22 @@ export const tokens = {
     '--color-background-gradient-0': 'var(--color-light-grey-050-0)',
     '--color-background-gradient-overlay-80': 'var(--color-light-grey-950-80)',
     '--color-background-gradient-overlay-0': 'var(--color-light-grey-950-0)',
-    '--color-background-decorative-blue': 'var(--color-light-decorative-blue)',
-    '--color-background-decorative-pink': 'var(--color-light-decorative-pink)',
+    '--color-background-decorative-blue':
+      'var(--color-light-decorative-blue-300)',
+    '--color-background-decorative-pink':
+      'var(--color-light-decorative-pink-300)',
     '--color-background-decorative-turquoise':
-      'var(--color-light-decorative-turquoise)',
+      'var(--color-light-decorative-turquoise-300)',
     '--color-background-decorative-yellow':
-      'var(--color-light-decorative-yellow)',
+      'var(--color-light-decorative-yellow-300)',
     '--color-background-decorative-orange':
-      'var(--color-light-decorative-orange)',
-    '--color-background-decorative-red': 'var(--color-light-decorative-red)',
+      'var(--color-light-decorative-orange-300)',
+    '--color-background-decorative-red':
+      'var(--color-light-decorative-red-300)',
     '--color-background-decorative-green':
-      'var(--color-light-decorative-green)',
+      'var(--color-light-decorative-green-300)',
     '--color-background-decorative-purple':
-      'var(--color-light-decorative-purple)',
+      'var(--color-light-decorative-purple-300)',
     '--color-text-black': 'var(--color-light-constant-950)',
     '--color-text-white': 'var(--color-light-constant-050)',
     '--color-text-white-hover': 'var(--color-light-constant-200)',
@@ -163,8 +166,11 @@ export const tokens = {
     '--color-text-interactive-websites-pressed':
       'var(--color-light-purple-950)',
     '--color-text-error': 'var(--color-light-red-700)',
+    '--color-text-error-strong': 'var(--color-light-red-700)',
     '--color-text-warning': 'var(--color-light-yellow-700)',
+    '--color-text-warning-strong': 'var(--color-light-yellow-700)',
     '--color-text-success': 'var(--color-light-green-700)',
+    '--color-text-success-strong': 'var(--color-light-green-700)',
     '--color-text-on-accent-ledger-live': 'var(--color-light-grey-950)',
     '--color-text-on-accent-enterprise': 'var(--color-light-grey-050)',
     '--color-text-on-accent-websites': 'var(--color-light-grey-950)',
@@ -173,6 +179,34 @@ export const tokens = {
     '--color-text-on-warning-strong': 'var(--color-light-grey-950)',
     '--color-text-on-success-strong': 'var(--color-light-grey-050)',
     '--color-text-native': '#007aff',
+    '--color-text-decorative-orange':
+      'var(--color-light-decorative-orange-500)',
+    '--color-text-decorative-green': 'var(--color-light-decorative-green-500)',
+    '--color-text-decorative-blue': 'var(--color-light-decorative-blue-500)',
+    '--color-text-decorative-purple':
+      'var(--color-light-decorative-purple-500)',
+    '--color-text-decorative-red': 'var(--color-light-decorative-red-500)',
+    '--color-text-decorative-yellow':
+      'var(--color-light-decorative-yellow-600)',
+    '--color-text-decorative-turquoise':
+      'var(--color-light-decorative-turquoise-500)',
+    '--color-text-decorative-pink': 'var(--color-light-decorative-pink-500)',
+    '--color-text-decorative-strong-orange':
+      'var(--color-light-decorative-orange-700)',
+    '--color-text-decorative-strong-green':
+      'var(--color-light-decorative-green-700)',
+    '--color-text-decorative-strong-blue':
+      'var(--color-light-decorative-blue-700)',
+    '--color-text-decorative-strong-purple':
+      'var(--color-light-decorative-purple-700)',
+    '--color-text-decorative-strong-red':
+      'var(--color-light-decorative-red-700)',
+    '--color-text-decorative-strong-yellow':
+      'var(--color-light-decorative-yellow-700)',
+    '--color-text-decorative-strong-turquoise':
+      'var(--color-light-decorative-turquoise-700)',
+    '--color-text-decorative-strong-pink':
+      'var(--color-light-decorative-pink-700)',
     '--color-border-black': 'var(--color-light-constant-950)',
     '--color-border-white': 'var(--color-light-constant-050)',
     '--color-border-base': 'var(--color-light-grey-950)',
@@ -506,14 +540,38 @@ export const tokens = {
     '--text-interactive-pressed':
       'var(--color-text-interactive-websites-pressed)',
     '--text-error': 'var(--color-text-error)',
+    '--text-error-strong': 'var(--color-text-error-strong)',
     '--text-warning': 'var(--color-text-warning)',
+    '--text-warning-strong': 'var(--color-text-warning-strong)',
     '--text-success': 'var(--color-text-success)',
+    '--text-success-strong': 'var(--color-text-success-strong)',
     '--text-on-accent': 'var(--color-text-on-accent-websites)',
     '--text-on-interactive': 'var(--color-text-on-interactive)',
     '--text-on-error-strong': 'var(--color-text-on-error-strong)',
     '--text-on-warning-strong': 'var(--color-text-on-warning-strong)',
     '--text-on-success-strong': 'var(--color-text-on-success-strong)',
     '--text-native': 'var(--color-text-native)',
+    '--text-decorative-orange': 'var(--color-text-decorative-orange)',
+    '--text-decorative-green': 'var(--color-text-decorative-green)',
+    '--text-decorative-blue': 'var(--color-text-decorative-blue)',
+    '--text-decorative-purple': 'var(--color-text-decorative-purple)',
+    '--text-decorative-red': 'var(--color-text-decorative-red)',
+    '--text-decorative-yellow': 'var(--color-text-decorative-yellow)',
+    '--text-decorative-turquoise': 'var(--color-text-decorative-turquoise)',
+    '--text-decorative-pink': 'var(--color-text-decorative-pink)',
+    '--text-decorative-strong-orange':
+      'var(--color-text-decorative-strong-orange)',
+    '--text-decorative-strong-green':
+      'var(--color-text-decorative-strong-green)',
+    '--text-decorative-strong-blue': 'var(--color-text-decorative-strong-blue)',
+    '--text-decorative-strong-purple':
+      'var(--color-text-decorative-strong-purple)',
+    '--text-decorative-strong-red': 'var(--color-text-decorative-strong-red)',
+    '--text-decorative-strong-yellow':
+      'var(--color-text-decorative-strong-yellow)',
+    '--text-decorative-strong-turquoise':
+      'var(--color-text-decorative-strong-turquoise)',
+    '--text-decorative-strong-pink': 'var(--color-text-decorative-strong-pink)',
     '--border-black': 'var(--color-border-black)',
     '--border-white': 'var(--color-border-white)',
     '--border-disabled': 'var(--color-border-disabled)',
