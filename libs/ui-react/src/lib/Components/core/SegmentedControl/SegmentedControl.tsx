@@ -165,7 +165,11 @@ function FitControlsWrapper({
     }
     const buttons = container.querySelectorAll('button[role="radio"]');
     const target = buttons[selectedIndex] as HTMLElement | undefined;
-    target?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+    if (target) {
+      const { offsetLeft, offsetWidth } = target;
+      const { clientWidth } = container;
+      container.scrollLeft = offsetLeft - (clientWidth - offsetWidth) / 2;
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
