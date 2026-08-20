@@ -1,176 +1,82 @@
 ---
 name: figma-token-sync
 description: Sync processed CSS design tokens with JavaScript theme objects for React Native. Use when aligning tokens after Figma sync, checking token consistency, or updating JS theme files manually.
-paths: libs/design-core/**/*.ts, libs/design-core/**/*.tsx, libs/design-core/**/*.css, libs/design-core/**/*.json
+paths: libs/design-core/**/*.ts, libs/design-core/**/*.css, libs/design-core/**/*.json
 ---
 
 # Figma Token Sync
 
-Ensure alignment between processed CSS tokens (from ETL) and JavaScript theme objects used for React Native.
+Keep the processed CSS tokens (from ETL) aligned with the JavaScript theme
+objects used for React Native.
 
-## Core Process
+Pipeline: **Figma → JSON → CSS/Tailwind (automated)** → **JS themes (manual sync)**.
+CSS is the source of truth; the JS `theme.dark.ts` / `theme.light.ts` files are
+the sync targets.
 
-Your pipeline: **Figma → JSON → CSS/Tailwind (automated)** → **JS themes (manual sync)**
+## Never hardcode the brand/theme list
 
-```
-Sync Workflow:
-- [ ] 1. Discover all CSS and JS theme files
-- [ ] 2. Compare token coverage systematically  
-- [ ] 3. Update ALL JS theme files consistently
-- [ ] 4. Validate alignment across all themes
-```
-
-## Quick Discovery
+Brands come and go (today: `enterprise`, `ledger-live`, `websites` — but discover,
+don't assume). Always enumerate them from the filesystem so a new brand can't be
+silently missed:
 
 ```bash
-# Find CSS tokens (source of truth)
-find . -name "*.ts" -path "*/themes/css/*" | sort
-
-# Find JS theme files (sync targets - ALL must be updated)
-find . -name "theme*.ts" -path "*/themes/js/*" | grep -E "(dark|light)\.ts$" | sort
+bash .claude/skills/figma-token-sync/scripts/discover-themes.sh
 ```
 
-## Token Gap Analysis
+This prints the CSS brands, the JS brands, every JS theme file that must be
+updated together, and warns if the two sides disagree.
 
-### Compare CSS vs JS systematically
+## Gap analysis
+
+For a brand + category, compare CSS coverage against JS and list the token names
+present in CSS but missing from JS:
 
 ```bash
-# Generic comparison for any token category
-compare_category() {
-  local category=$1  # "background", "border", "text"
-  local css_file="libs/design-core/src/lib/themes/css/enterprise/theme.dark-css.ts"
-  local js_file="libs/design-core/src/lib/themes/js/enterprise/theme.dark.ts"
-  
-  echo "=== $category TOKENS ==="
-  echo "CSS: $(grep -c "color-$category-" "$css_file") tokens"
-  echo "JS:  $(awk "/${category%s}: \\{/,/\\},/" "$js_file" | grep -c ":")"
-}
-
-# Check all major categories
-compare_category "background"  # CSS: color-background-* → JS: bg: {}
-compare_category "border"      # CSS: color-border-* → JS: border: {}  
-compare_category "text"        # CSS: color-text-* → JS: text: {}
+bash .claude/skills/figma-token-sync/scripts/compare-tokens.sh <brand> <category>
+# e.g. compare-tokens.sh ledger-live background
 ```
 
-### Find specific missing tokens
+Run it for each category you touched (`background`, `border`, `text`, …) across
+every brand from the discovery step.
 
-```bash
-# Extract CSS token names and convert to JS naming
-css_to_js_tokens() {
-  local category=$1
-  local css_file=$2
-  
-  grep -o "color-$category-[a-z0-9-]*" "$css_file" | 
-    sed "s/color-$category-//" | 
-    sed 's/-\([a-z]\)/\U\1/g' | 
-    sort | uniq
-}
+## Applying updates
 
-# Compare what CSS has vs what JS has
-css_tokens=$(css_to_js_tokens "background" "libs/design-core/src/lib/themes/css/enterprise/theme.dark-css.ts")
-js_tokens=$(awk '/bg: \{/,/\},/' "libs/design-core/src/lib/themes/js/enterprise/theme.dark.ts" | 
-            grep -o '[a-zA-Z][a-zA-Z0-9]*:' | sed 's/://' | sort)
+- Update **every** JS theme file the discovery script listed — never just one.
+  Partial updates create per-brand inconsistencies.
+- **Reference primitives, never hardcode values**, and use the correct
+  light/dark primitive set:
 
-echo "$css_tokens" > /tmp/css_tokens
-echo "$js_tokens" > /tmp/js_tokens
-echo "Missing in JS:" && comm -23 /tmp/css_tokens /tmp/js_tokens
-```
-
-## Update All Theme Files
-
-**CRITICAL**: Never update just one theme - always update ALL 6 files:
-
-```bash
-# All theme files that must be synchronized
-THEME_FILES=(
-  "enterprise/theme.dark.ts"
-  "enterprise/theme.light.ts" 
-  "websites/theme.dark.ts"
-  "websites/theme.light.ts"
-  "ledger-live/theme.dark.ts"
-  "ledger-live/theme.light.ts"
-)
-
-# Apply same changes to all files
-for theme in "${THEME_FILES[@]}"; do
-  echo "Updating libs/design-core/src/lib/themes/js/$theme"
-done
-```
-
-## Common Transformations
-
-### CSS → JS Naming Patterns
 ```typescript
-// CSS uses kebab-case, JS uses camelCase
-'--color-border-base-inverted'         → baseInverted
-'--color-background-surface-disabled'  → surfaceDisabled
-'--color-text-muted-subtle'           → mutedSubtle
+// CSS is kebab-case, JS is camelCase
+'--color-border-base-inverted'        → baseInverted
+'--color-background-surface-disabled' → surfaceDisabled
 
-// Add to appropriate section in JS theme:
-border: {
-  // existing tokens...
-  baseInverted: primitiveColorTokens.dark.grey['050'],
-},
-bg: {
-  // existing tokens...
-  surfaceDisabled: primitiveColorTokens.dark.grey['100'],
-},
+// ✅ reference the primitive
+baseInverted: primitiveColorTokens.dark.grey['050']
+// ❌ never hardcode
+baseInverted: '#ffffff'
 ```
 
-### Token Value Mapping
-```typescript
-// Always reference primitives, never hardcode
-✅ baseInverted: primitiveColorTokens.dark.grey['050']
-❌ baseInverted: '#ffffff'
-
-// Use correct theme variant (light/dark)
-// Dark theme: primitiveColorTokens.dark.*
-// Light theme: primitiveColorTokens.light.*
-```
-
-## Comprehensive Validation
+## Validate
 
 ```bash
-# 1. Verify all theme files were updated
-for theme in enterprise websites ledger-live; do
-  echo "$theme dark: $(ls -la libs/design-core/src/lib/themes/js/$theme/theme.dark.ts)"
-  echo "$theme light: $(ls -la libs/design-core/src/lib/themes/js/$theme/theme.light.ts)"
-done
-
-# 2. Check token counts are consistent across themes
-for theme in enterprise websites ledger-live; do
-  css_count=$(grep -c "color-background-" "libs/design-core/src/lib/themes/css/$theme/theme.dark-css.ts")
-  js_count=$(awk '/bg: \{/,/\},/' "libs/design-core/src/lib/themes/js/$theme/theme.dark.ts" | grep -c ":")
-  echo "$theme: CSS=$css_count, JS=$js_count"
-done
-
-# 3. Standard validation
 npx tsc --noEmit --project libs/design-core/tsconfig.json
 npx nx lint @ledgerhq/lumen-design-core --fix
 npx nx build @ledgerhq/lumen-design-core
 ```
 
-## Validation Checklist
+Checklist:
 
-```
-Complete Token Sync Validation:
-- [ ] All 6 theme files have recent modification timestamps
-- [ ] Token counts are consistent between CSS and JS per theme
-- [ ] New tokens follow CSS→JS naming conventions  
-- [ ] All themes reference primitives (no hardcoded values)
-- [ ] TypeScript compilation passes
-- [ ] Linting passes
-- [ ] Build succeeds
-```
+- [ ] Every JS theme file from `discover-themes.sh` was updated (no partial sync)
+- [ ] `compare-tokens.sh` shows no CSS-only tokens for the categories you touched
+- [ ] New tokens follow the CSS kebab → JS camelCase convention
+- [ ] All values reference primitives (no hardcoded hex)
+- [ ] typecheck, lint and build pass
 
 ## Troubleshooting
 
-**Inconsistent token counts**: Run gap analysis scripts to find missing tokens systematically
-
-**Type errors**: Ensure new tokens match TypeScript interface definitions  
-
-**Only updated one theme**: Check all 6 theme files were modified - partial updates create inconsistencies
-
-**Naming mismatches**: Verify CSS kebab-case was properly converted to JS camelCase
-
-This skill ensures systematic alignment between your CSS and JS tokens across all brand themes without missing any variants.
+- **Counts differ**: rerun `compare-tokens.sh` to see which token names are
+  CSS-only.
+- **Type errors**: the new token must match the TypeScript theme interface.
+- **A brand looks stale**: rerun `discover-themes.sh` — it may be new since the
+  last sync, or present on only one side (it warns about that).

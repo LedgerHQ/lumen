@@ -11,6 +11,10 @@
     "figma": {
       "type": "http",
       "url": "https://mcp.figma.com/mcp"
+    },
+    "likec4": {
+      "type": "http",
+      "url": "https://aac.aws.stg.ldg-tech.com/likec4/mcp"
     }
   }
 }

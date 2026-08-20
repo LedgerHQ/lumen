@@ -8,5 +8,8 @@ source of truth. Do not duplicate that content here.
 For code generation and chat: follow `AGENTS.md` and load the skill whose trigger
 matches the task (see the skills index in `AGENTS.md`).
 
-For **code review**: path-specific review guidance lives in
-[`.github/instructions/`](instructions/) (`*.instructions.md`, scoped via `applyTo`).
+For **code review**: follow the `pr-review` skill
+([`/.claude/skills/pr-review/SKILL.md`](../.claude/skills/pr-review/SKILL.md)),
+which routes each changed file to the owning topic skill's `## Review checks`.
+The `applyTo: "**"` file in [`.github/instructions/`](instructions/) is a thin
+deterministic hook into that skill — it restates no rules.

@@ -58,7 +58,7 @@ import * as ComponentStories from './Component.stories';
 - Pair each `<Source>` with a real story export — the snippet stays in sync with Storybook (`type: 'dynamic'` on stories keeps it accurate when controls change).
 - Do not duplicate story code as manual ` ```tsx ` blocks in the Implementation tab.
 
-See the `storybook-stories` skill for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
+See the `component-stories` skill for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
 
 ### Required Structure
 
@@ -90,66 +90,19 @@ import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
 
 **Example**: See `Button.mdx` in ui-react or ui-rnative for reference implementation.
 
-# Table Documentation Guidelines
+# Tables in docs
 
-When writing tables in documentation, follow this structure:
+When a doc needs a table, use the copy-paste markup template in
+`references/tables.md` — it carries the container/header/body classnames and the
+design-system typography, colour, spacing and border tokens to use.
 
-## Table Container
+## Review checks
 
-```jsx
-<div className='my-24 overflow-hidden rounded-lg'>
-  <table className='w-full'>{/* table content */}</table>
-</div>
-```
+Rules verifiable from a diff.
 
-## Table Structure
-
-- **Container**: Use `my-24 overflow-hidden rounded-lg` for spacing and rounded corners
-- **Table**: Use `w-full` for full width
-- **Header**: Use `border-b border-muted bg-muted` for the thead row
-- **Header cells**: Use `p-12 text-left text-on-accent body-2` for th elements
-- **Body**: Use `bg-canvas` for tbody
-- **Body rows**: Use `border-b border-muted` for all rows except the last one
-- **Body cells**:
-  - First column (utilities/classes): Use `text-accent p-12`
-  - Other columns: Use `p-12 text-muted`
-
-## Example Structure
-
-```jsx
-<div className='my-24 overflow-hidden rounded-lg'>
-  <table className='w-full'>
-    <thead>
-      <tr className='border-b border-muted bg-muted'>
-        <th className='p-12 text-left text-on-accent body-2'>
-          Tailwind class (utilities)
-        </th>
-        <th className='p-12 text-left text-on-accent body-2'>styles</th>
-      </tr>
-    </thead>
-    <tbody className='bg-canvas'>
-      <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>h-1</td>
-        <td className='p-12 text-muted'>height: var(--size-1); /* 1px */</td>
-      </tr>
-      {/* More rows... */}
-      <tr>
-        <td className='text-accent p-12'>h-256</td>
-        <td className='p-12 text-muted'>
-          height: var(--size-256); /* 256px */
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-```
-
-## Key Points
-
-- Always use design system typography classes (`body-3`, `body-4`)
-- Use design system colors (`text-accent`, `text-muted`, `text-on-accent`, `bg-muted`, `bg-canvas`)
-- Use design system spacing (`p-12`, `my-24`)
-- Use design system borders (`border-muted`)
-- Last row should not have `border-b` class
-- First column typically shows utility classes and uses `text-accent`
-- Other columns show values/descriptions and use `text-muted`
+| Check | Applies to | Detect | Skip |
+| --- | --- | --- | --- |
+| Doc doesn't use the two-tab Overview / Implementation structure | `.mdx` | missing `<Tab label='Overview'>` / `'Implementation'` | visualization libs (no `.mdx`) |
+| Implementation example is a hand-written ` ```tsx ` block where a story exists | `.mdx` | fenced code duplicating a story instead of `<Source of={…} />` | snippets no story covers |
+| Doc references a removed/renamed prop or a stale default | `.mdx` | prop names vs current `types.ts` | — |
+| Table uses raw Tailwind palette instead of tokens | `.mdx` | `text-gray-`, arbitrary sizes in table markup | — |

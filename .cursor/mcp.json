@@ -1,13 +1,20 @@
 {
   "mcpServers": {
     "context7": {
+      "type": "http",
       "url": "https://mcp.context7.com/mcp"
     },
     "atlassian": {
+      "type": "http",
       "url": "https://mcp.atlassian.com/v1/mcp"
     },
     "figma": {
+      "type": "http",
       "url": "https://mcp.figma.com/mcp"
+    },
+    "likec4": {
+      "type": "http",
+      "url": "https://aac.aws.stg.ldg-tech.com/likec4/mcp"
     }
   }
 }

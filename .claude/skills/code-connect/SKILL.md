@@ -2,7 +2,6 @@
 name: code-connect
 description: Creates and maintains Figma Code Connect files (`*.figma.tsx`) that map Figma components to code via the parser-based `figma.connect()` API. Use when the user mentions Code Connect, Figma component mapping, design-to-code translation, or asks to create/update .figma.tsx files.
 paths: "**/*.figma.tsx"
-disable-model-invocation: false
 ---
 
 # Code Connect (`.figma.tsx`)
@@ -130,3 +129,15 @@ omit it.
 - Publishing happens in CI via `.github/workflows/figma-code-connect.yml`.
 - Note: `.figma.@(ts|tsx)` files are in `ignorePatternsForPlanCheck` (`nx.json`),
   so they don't require a version plan.
+
+## Review checks
+
+Rules verifiable from a diff.
+
+| Check | Applies to | Detect | Skip |
+| --- | --- | --- | --- |
+| Conditional logic / branching in `example` instead of `props` | `.figma.tsx` | `&&`, ternaries, derivation inside `example` | flat prop render |
+| `figma.enum` maps only some Figma values | `.figma.tsx` | enum with fewer cases than the Figma property | intentionally-omitted `undefined` mappings |
+| `imports` uses a relative path instead of the published specifier | `.figma.tsx` | `'../…'` in `imports` | — |
+| `example` references a prop that isn't on the component | `.figma.tsx` | attribute not in the component's props | typed placeholder for un-mappable props |
+| `.figma.tsx` added for a lib without Code Connect | `ui-*-visualization` | new `.figma.tsx` under a visualization lib | — |

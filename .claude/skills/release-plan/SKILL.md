@@ -54,11 +54,28 @@ Do NOT do this:
 ---
 ```
 
-This applies to all packages, including but not limited to:
+## Path → package
 
-- `@ledgerhq/lumen-ui-react`
-- `@ledgerhq/lumen-ui-rnative`
-- `@ledgerhq/lumen-ui-react-visualization`
-- `@ledgerhq/lumen-ui-rnative-visualization`
-- `@ledgerhq/lumen-design-core`
-- `@ledgerhq/lumen-utils-shared`
+Each version-plan file names the package for the paths that changed. This is the
+single source for the mapping; other skills link here rather than restating it.
+
+| Path | Package |
+| --- | --- |
+| `libs/ui-react/` | `@ledgerhq/lumen-ui-react` |
+| `libs/ui-react-visualization/` | `@ledgerhq/lumen-ui-react-visualization` |
+| `libs/ui-rnative/` | `@ledgerhq/lumen-ui-rnative` |
+| `libs/ui-rnative-visualization/` | `@ledgerhq/lumen-ui-rnative-visualization` |
+| `libs/design-core/` | `@ledgerhq/lumen-design-core` |
+| `libs/utils-shared/` | `@ledgerhq/lumen-utils-shared` |
+
+Filename convention: `version-plan-<timestamp>-<pkg-slug>.md`, where the slug is
+the short name (`ui-react`, `ui-rnative-visualization`, …).
+
+## When a plan is required
+
+Any change to production source under `libs/*/src/` requires a plan. Exemptions
+are defined authoritatively in `nx.json` under
+`release.versionPlans.ignorePatternsForPlanCheck`: `*.test.*` / `*.spec.*`,
+`*.stories.*`, `*.md`, `*.mdx`, `*.figma.@(ts|tsx)`, `tsconfig*.json`, eslint
+configs, `jest.config.*`, `test-setup.*`, `*.snap`, `.storybook/**`. A PR
+touching only these needs no plan.
