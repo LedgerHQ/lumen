@@ -82,31 +82,47 @@ export const WithIcons: Story = {
 export const TabLayoutShowcase: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => {
-    const [fitState, setFitState] = useState('tokens');
+    const [fitFewState, setFitFewState] = useState('send');
+    const [fitManyState, setFitManyState] = useState('tokens');
     const [fixedState, setFixedState] = useState('send');
+
+    const manyButtons = (
+      <>
+        <SegmentedControlButton value='tokens'>Tokens</SegmentedControlButton>
+        <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
+        <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
+        <SegmentedControlButton value='earn'>Earn</SegmentedControlButton>
+        <SegmentedControlButton value='market'>Market</SegmentedControlButton>
+        <SegmentedControlButton value='history'>History</SegmentedControlButton>
+      </>
+    );
 
     return (
       <div className='flex flex-col gap-24'>
-        <div className='w-320'>
-          <p className='mb-8 body-2 text-muted'>Fit</p>
+        <div>
+          <p className='mb-8 body-2 text-muted'>Fit (all items visible)</p>
           <SegmentedControl
             {...args}
             tabLayout='fit'
-            selectedValue={fitState}
-            onSelectedChange={setFitState}
+            selectedValue={fitFewState}
+            onSelectedChange={setFitFewState}
           >
-            <SegmentedControlButton value='tokens'>
-              Tokens
+            <SegmentedControlButton value='send'>Send</SegmentedControlButton>
+            <SegmentedControlButton value='receive'>
+              Receive
             </SegmentedControlButton>
-            <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
-            <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
-            <SegmentedControlButton value='earn'>Earn</SegmentedControlButton>
-            <SegmentedControlButton value='market'>
-              Market
-            </SegmentedControlButton>
-            <SegmentedControlButton value='history'>
-              History
-            </SegmentedControlButton>
+            <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+          </SegmentedControl>
+        </div>
+        <div className='w-320'>
+          <p className='mb-8 body-2 text-muted'>Fit (container too narrow)</p>
+          <SegmentedControl
+            {...args}
+            tabLayout='fit'
+            selectedValue={fitManyState}
+            onSelectedChange={setFitManyState}
+          >
+            {manyButtons}
           </SegmentedControl>
         </div>
         <div>
