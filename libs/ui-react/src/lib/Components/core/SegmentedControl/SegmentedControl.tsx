@@ -256,6 +256,7 @@ export function SegmentedControlButton<
       className={cn(
         segmentedControlStyles.item({ selected, disabled: !!disabled }),
         tabLayout === 'fixed' && 'min-w-0 flex-1',
+        tabLayout === 'fit-controls' && 'focus-visible:-outline-offset-2',
         className,
       )}
       {...props}
