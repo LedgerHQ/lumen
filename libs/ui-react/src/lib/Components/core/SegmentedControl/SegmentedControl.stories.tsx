@@ -82,24 +82,47 @@ export const WithIcons: Story = {
 export const TabLayoutShowcase: Story = {
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => {
-    const [fitState, setFitState] = useState('send');
+    const [fitFewState, setFitFewState] = useState('send');
+    const [fitManyState, setFitManyState] = useState('tokens');
     const [fixedState, setFixedState] = useState('send');
 
     return (
       <div className='flex flex-col gap-24'>
-        <div>
-          <p className='mb-8 body-2 text-muted'>Fit</p>
+        <div className='w-max'>
+          <p className='mb-8 body-2 text-muted'>Fit (all items visible)</p>
           <SegmentedControl
             {...args}
             tabLayout='fit'
-            selectedValue={fitState}
-            onSelectedChange={setFitState}
+            selectedValue={fitFewState}
+            onSelectedChange={setFitFewState}
           >
             <SegmentedControlButton value='send'>Send</SegmentedControlButton>
             <SegmentedControlButton value='receive'>
               Receive
             </SegmentedControlButton>
             <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
+          </SegmentedControl>
+        </div>
+        <div className='w-320'>
+          <p className='mb-8 body-2 text-muted'>Fit (container too narrow)</p>
+          <SegmentedControl
+            {...args}
+            tabLayout='fit'
+            selectedValue={fitManyState}
+            onSelectedChange={setFitManyState}
+          >
+            <SegmentedControlButton value='tokens'>
+              Tokens
+            </SegmentedControlButton>
+            <SegmentedControlButton value='nfts'>NFTs</SegmentedControlButton>
+            <SegmentedControlButton value='trade'>Trade</SegmentedControlButton>
+            <SegmentedControlButton value='earn'>Earn</SegmentedControlButton>
+            <SegmentedControlButton value='market'>
+              Market
+            </SegmentedControlButton>
+            <SegmentedControlButton value='history'>
+              History
+            </SegmentedControlButton>
           </SegmentedControl>
         </div>
         <div>

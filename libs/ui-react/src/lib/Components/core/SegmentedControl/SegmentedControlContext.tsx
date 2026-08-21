@@ -1,10 +1,11 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import type { SegmentedControlProps } from './types';
 
 export type SegmentedControlContextValue = {
   selectedValue: string;
   onSelectedChange: (value: string) => void;
   disabled: boolean;
-  tabLayout: 'fit' | 'fixed';
+  tabLayout: NonNullable<SegmentedControlProps['tabLayout']>;
 };
 
 const [SegmentedControlContextProvider, _useSegmentedControlSafeContext] =

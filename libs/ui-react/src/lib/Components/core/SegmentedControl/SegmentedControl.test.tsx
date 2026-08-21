@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
 import '@testing-library/jest-dom';
 
 import { DotCount } from '../DotCount';
@@ -8,6 +8,24 @@ import {
   SegmentedControlButton,
   createSegmentedControl,
 } from './SegmentedControl';
+
+class MockResizeObserver {
+  callback: ResizeObserverCallback;
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback;
+  }
+}
+
+const originalResizeObserver = global.ResizeObserver;
+beforeAll(() => {
+  global.ResizeObserver = MockResizeObserver;
+});
+afterAll(() => {
+  global.ResizeObserver = originalResizeObserver;
+});
 
 describe('SegmentedControl', () => {
   it('renders segments with labels', () => {
@@ -65,6 +83,38 @@ describe('SegmentedControl', () => {
     );
 
     expect(screen.getByLabelText('3 tokens')).toBeTruthy();
+  });
+
+  describe('tabLayout fit', () => {
+    function renderWithControls() {
+      return render(
+        <SegmentedControl
+          tabLayout='fit'
+          selectedValue='a'
+          onSelectedChange={() => {
+            /* empty */
+          }}
+          aria-label='Nav'
+        >
+          <SegmentedControlButton value='a'>A</SegmentedControlButton>
+          <SegmentedControlButton value='b'>B</SegmentedControlButton>
+          <SegmentedControlButton value='c'>C</SegmentedControlButton>
+        </SegmentedControl>,
+      );
+    }
+
+    it('renders segments', () => {
+      renderWithControls();
+      expect(screen.getByText('A')).toBeTruthy();
+      expect(screen.getByText('B')).toBeTruthy();
+    });
+
+    it('renders scroll arrows that stay inert while nothing overflows', () => {
+      renderWithControls();
+
+      expect(screen.getByLabelText('Scroll left')).toBeDisabled();
+      expect(screen.getByLabelText('Scroll right')).toBeDisabled();
+    });
   });
 
   describe('createSegmentedControl', () => {
