@@ -87,6 +87,7 @@ cross-platform and routes internally by lib (web vs React Native) using the
 | writing or editing Storybook stories (`*.stories.tsx`)                    | `component-stories`      |
 | writing or editing Storybook MDX docs (`*.mdx`)                           | `component-mdx`          |
 | generating an Nx version plan (`.nx/version-plans/`)                      | `release-plan`           |
+| adding/reclassifying a dependency, or picking its semver range            | `dependency-rules`       |
 | announcing a shipped release in Slack from a GitHub Releases dump         | `release-notes-slack`    |
 | a component has or owns a `disabled` state                                | `disabled-context`       |
 | researching an external library/framework                                 | `context7`               |

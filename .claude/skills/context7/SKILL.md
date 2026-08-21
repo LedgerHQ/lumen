@@ -1,7 +1,7 @@
 ---
 name: context7
 description: >-
-  Use when researching external libraries/frameworks (React, Radix, Tailwind,
+  Use when researching external libraries/frameworks (React, Radix, Base-UI, Tanstack, Tailwind,
   etc.) — reach for the Context7 MCP to get up-to-date docs. Not for internal
   codebase or design-system-token questions.
 ---
