@@ -34,7 +34,20 @@ export default defineConfig(() => ({
       treeshake: {
         preset: 'smallest',
       },
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        '@ledgerhq/lumen-design-core',
+        '@ledgerhq/lumen-ui-react',
+        '@ledgerhq/lumen-utils-shared',
+        'class-variance-authority',
+        'clsx',
+        'tailwind-merge',
+        'd3-array',
+        'd3-scale',
+        'd3-shape',
+      ],
       preserveEntrySignatures: 'strict' as const,
       output: {
         preserveModules: true,

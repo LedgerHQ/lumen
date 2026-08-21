@@ -65,7 +65,8 @@ export default defineConfig(() => ({
       treeshake: {
         preset: 'smallest',
       },
-      // External packages that should not be bundled into your library.
+      // Every dependency and peerDependency must be listed here, otherwise
+      // Rollup inlines a copy into dist/ alongside the one npm installs.
       external: [
         'react',
         'react-dom',
@@ -73,13 +74,18 @@ export default defineConfig(() => ({
         'class-variance-authority',
         'tailwind-merge',
         'clsx',
+        'i18next',
+        'react-i18next',
+        '@ledgerhq/lumen-design-core',
+        '@ledgerhq/lumen-utils-shared',
         '@radix-ui/react-checkbox',
         '@radix-ui/react-dialog',
         '@radix-ui/react-slot',
         '@radix-ui/react-switch',
         '@radix-ui/react-tooltip',
         '@tanstack/react-table',
-        '@base-ui/react',
+        // Base UI is consumed via subpaths (e.g. '@base-ui/react/menu'), so a regex is required
+        /^@base-ui\/react(\/|$)/,
       ],
       preserveEntrySignatures: 'strict' as const,
       output: {

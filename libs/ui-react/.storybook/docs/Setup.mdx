@@ -51,20 +51,9 @@ Install the package:
 npm install @ledgerhq/lumen-ui-react
 ```
 
-And its peer dependencies:
-
-```bash
-npm install clsx tailwind-merge class-variance-authority
-```
+Component dependencies (such as `clsx`, `tailwind-merge`, `class-variance-authority`, and the Radix / Base UI primitives) ship with the package, so you don't need to install them separately.
 
 4 . Start using components:
-
-```bash
-# Install peer dependency related to the button component
-npm install @radix-ui/react-slot
-```
-
-`@radix-ui/react-slot`: This dependency is used internally by the Button component to enable flexible composition patterns. It allows the Button to merge its props with child elements when needed.
 
 ```tsx
 import { Button } from '@ledgerhq/lumen-ui-react';
