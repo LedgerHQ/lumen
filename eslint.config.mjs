@@ -114,6 +114,11 @@ export const sharedConfig = defineConfig(
               importNames: ['MutableRefObject'],
               message: 'MutableRefObject is deprecated. Use RefObject instead.',
             },
+            {
+              name: '@base-ui/react',
+              message:
+                'Use path import "@base-ui/react/<component-name>" instead.',
+            },
           ],
         },
       ],
