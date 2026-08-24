@@ -45,14 +45,20 @@ export const BaseInput = ({
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
 
-  const { inputRef, value, hasContent, handleChangeText, handleClear } =
-    useBaseInputValue({
-      value: props.value,
-      defaultValue: props.defaultValue,
-      onChangeText: onChangeTextProp,
-      onClear: props.onClear,
-      ref,
-    });
+  const {
+    inputRef,
+    composedRef,
+    value,
+    hasContent,
+    handleChangeText,
+    handleClear,
+  } = useBaseInputValue({
+    value: props.value,
+    defaultValue: props.defaultValue,
+    onChangeText: onChangeTextProp,
+    onClear: props.onClear,
+    ref,
+  });
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -90,7 +96,7 @@ export const BaseInput = ({
           {prefix}
 
           <TextInput
-            ref={inputRef}
+            ref={composedRef}
             value={value}
             placeholder={inputPlaceholder}
             style={StyleSheet.flatten([styles.input, inputStyle])}
