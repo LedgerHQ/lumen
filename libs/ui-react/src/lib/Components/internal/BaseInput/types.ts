@@ -64,6 +64,36 @@ export type BaseInputProps = {
   labelClassName?: string;
 } & Omit<ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;
 
+export type BaseInputSingleLineProps = {
+  /**
+   * Whether a floating label sits above the value, reserving vertical space at
+   * the top of the input.
+   * @default false
+   */
+  hasLabel?: boolean;
+} & Omit<ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;
+
+export type BaseInputLabelProps = {
+  /**
+   * Id of the input the label describes.
+   */
+  htmlFor: string;
+  /**
+   * Keeps the label in its floated position even while the placeholder shows,
+   * used when a label and a placeholder are displayed together.
+   * @default false
+   */
+  floated?: boolean;
+  /**
+   * Additional class names to apply to the label element.
+   */
+  className?: string;
+  /**
+   * The label copy.
+   */
+  children: ReactNode;
+} & Pick<BaseInputProps, 'status'>;
+
 export type BaseInputHelperTextProps = {
   /**
    * The id linking the helper text to the input via `aria-describedby`.
