@@ -1,8 +1,9 @@
+import type { TextStyle } from 'react-native';
 import { Text } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import type { BaseInputCounterProps } from './types';
 
-const useCounterStyles = () => {
+const useCounterStyles = (): { counterText: TextStyle } => {
   return useStyleSheet(
     (t) => ({
       counterText: {

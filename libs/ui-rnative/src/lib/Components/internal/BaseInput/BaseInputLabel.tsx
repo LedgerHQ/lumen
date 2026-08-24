@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import type { TextStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import Animated, {
   interpolate,
@@ -6,6 +7,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   cancelAnimation,
+  type AnimatedStyle,
 } from 'react-native-reanimated';
 import type { LumenStyleSheetTheme } from '../../../../styles';
 import { useStyleSheet, useTheme } from '../../../../styles';
@@ -18,7 +20,7 @@ const useAnimatedFloatingLabel = ({
 }: {
   isFloatingLabel: boolean;
   theme: LumenStyleSheetTheme;
-}) => {
+}): { animatedStyle: AnimatedStyle<TextStyle> } => {
   const floatingAnimation = useSharedValue(isFloatingLabel ? 1 : 0);
   const timingConfig = useTimingConfig({
     duration: 150,
@@ -64,7 +66,7 @@ const useFloatingLabelStyles = ({
   status: 'error' | 'success' | undefined;
   isEditable: boolean;
   labelStaysFloatedWithPlaceholder: boolean;
-}) => {
+}): { label: TextStyle; animatedStyle: AnimatedStyle<TextStyle> } => {
   const { theme } = useTheme();
 
   const { label } = useStyleSheet(

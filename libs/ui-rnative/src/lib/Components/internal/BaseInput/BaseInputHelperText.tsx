@@ -1,3 +1,4 @@
+import type { TextStyle, ViewStyle } from 'react-native';
 import { Text, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { CheckmarkCircleFill } from '../../symbols/icons/CheckmarkCircleFill';
@@ -9,7 +10,7 @@ const useHelperTextStyles = ({
   status,
 }: {
   status: BaseInputProps['status'];
-}) => {
+}): { helperContainer: ViewStyle; helperText: TextStyle } => {
   return useStyleSheet(
     (t) => ({
       helperContainer: {
