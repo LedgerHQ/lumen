@@ -1,5 +1,6 @@
-import type { RefObject } from 'react';
-import { useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { useMergedRef } from '@ledgerhq/lumen-utils-shared';
+import type { RefCallback, RefObject } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import type { TextInput } from 'react-native';
 import type { BaseInputProps } from '../types';
 
@@ -13,6 +14,7 @@ type UseBaseInputValueArgs = {
 
 type UseBaseInputValueReturn = {
   inputRef: RefObject<TextInput | null>;
+  composedRef: RefCallback<TextInput>;
   value: string | undefined;
   hasContent: boolean;
   handleChangeText: (text: string) => void;
@@ -33,7 +35,7 @@ export const useBaseInputValue = ({
   ref,
 }: UseBaseInputValueArgs): UseBaseInputValueReturn => {
   const inputRef = useRef<TextInput>(null);
-  useImperativeHandle(ref, () => inputRef.current as TextInput);
+  const composedRef = useMergedRef(ref, inputRef);
 
   const [uncontrolledValue, setUncontrolledValue] = useState(
     defaultValue || '',
@@ -63,5 +65,12 @@ export const useBaseInputValue = ({
     onClear?.();
   };
 
-  return { inputRef, value, hasContent, handleChangeText, handleClear };
+  return {
+    inputRef,
+    composedRef,
+    value,
+    hasContent,
+    handleChangeText,
+    handleClear,
+  };
 };

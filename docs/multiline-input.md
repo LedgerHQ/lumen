@@ -4,8 +4,8 @@ Adds `multiline` / `minLines` / `maxLines` / `scrollbarWidth` to the internal `B
 both web and React Native, exposes them through `TextInput` and `AddressInput`, and narrows
 `SearchInput` to single-line only.
 
-Ships in two phases: a behaviour-preserving refactor of the web `BaseInput`, reviewable on its
-own, then the feature itself on both platforms.
+Ships in two phases: a behaviour-preserving refactor of `BaseInput` on both platforms,
+reviewable on its own, then the multiline feature itself.
 
 ## Public API (identical on both platforms)
 
@@ -47,29 +47,38 @@ Height per line, both collapsing to the existing 48px at one line:
 A consumer's explicit pixel `height` applies to the outer wrapper only, since the container moves
 from `h-48` to `min-h-48`.
 
-## Phase 1 — Refactor the web `BaseInput`
+## Phase 1 — Refactor `BaseInput` on both platforms
 
-No behaviour change, no API change, web only. RN has a single element and no split to mirror, so
-it is untouched here.
+No behaviour change, no public API change. Split the leaves out of each platform's
+`BaseInput.tsx`, keeping `BaseInput` as the orchestrator that owns the container,
+prefix/suffix, clear button, footer, and value tracking.
 
-[BaseInput.tsx](../libs/ui-react/src/lib/Components/internal/BaseInput/BaseInput.tsx) is 342 lines
-holding four concerns. Split the leaves out, keeping `BaseInput` as the orchestrator that owns the
-container, floating label, prefix/suffix, clear button, footer and value tracking:
+Shared on both platforms:
 
-- `BaseInputSingleLine.tsx` — the `<input>` element (lines 245-260) plus `baseInputStyles` (lines 44-51).
-- `BaseInputHelperText.tsx` — the sub-component at lines 312-333.
-- `BaseInputCounter.tsx` — the sub-component at lines 335-341.
+- `BaseInputLabel.tsx` — the floating label (CSS peers on web, Reanimated on RN).
+- `BaseInputHelperText.tsx` — hint / error / success copy under the field.
+- `BaseInputCounter.tsx` — the `count/maxCount` footer.
+- `useBaseInputValue/` — controlled/uncontrolled value mirror and clear. Web
+  dispatches a native `input` event (DOM `onChange`); RN calls `onChangeText('')`.
+  Both attach the consumer `ref` with `useMergedRef`. Each hook folder has its own
+  tests.
 
-The three leaves are only consumed by `BaseInput` itself, so they stay sibling imports and the
-folder barrel keeps exporting just `BaseInput` and its types. Nothing leaves the `internal/` layer,
-so there is no public surface change.
+Web only:
 
-Acceptance:
-[BaseInput.test.tsx](../libs/ui-react/src/lib/Components/internal/BaseInput/BaseInput.test.tsx)
-passes **untouched**, and the `TextInput` / `SearchInput` / `AddressInput` suites are green.
+- `BaseInputSingleLine.tsx` — the `<input>` plus `baseInputStyles`. RN keeps a
+  single `TextInput` in `BaseInput` (no element split to mirror).
 
-A patch version plan for `@ledgerhq/lumen-ui-react` is still required — the refactor touches
-production source under `libs/*/src/`, which is not on the exemption list in `nx.json`.
+The leaves are only consumed by `BaseInput` itself, so they stay sibling imports
+and each folder barrel keeps exporting just `BaseInput` and its types. Nothing
+leaves the `internal/` layer.
+
+Acceptance: existing `BaseInput` / `TextInput` / `SearchInput` / `AddressInput`
+suites stay green (web `BaseInput.test.tsx` untouched). New hook tests cover
+uncontrolled typing, controlled ignore-internal-tracking, and clear.
+
+Patch version plans are required for both `@ledgerhq/lumen-ui-react` and
+`@ledgerhq/lumen-ui-rnative` — the refactor touches production source under
+`libs/*/src/`, which is not on the exemption list in `nx.json`.
 
 ## Phase 2 — Multiline
 
@@ -136,16 +145,17 @@ Called only from `BaseInputMultiline`, so it needs no `multiline` guard:
 
 - `containerVariants`: add a `multiline` variant — `h-48` to `min-h-48`, `items-center` to
   `items-start`, `gap-8` to `gap-12`, plus `py-12` unlabeled / `py-6` labeled.
-- `labelVariants`: the unfloated position uses
-  `peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2` (line 55), which centers
+- `labelVariants` in `BaseInputLabel`: the unfloated position uses
+  `peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2`, which centers
   on a tall box. Add a `multiline` variant pinning it to `top-6`. The textarea then needs `pt-16`
   rather than the single-line `pt-12`.
 - Clear button and `suffix` render inside a `self-start pt-6` wrapper when multiline.
-- `handleClear` (line 196) grabs the setter off `window.HTMLInputElement.prototype` — must branch to
-  `HTMLTextAreaElement.prototype` when multiline, or React will not see the controlled update.
-- The container's `onPointerDown` early-return `target.closest('input, button, a')` (line 222) needs
-  `textarea` added.
-- `inputRef` becomes `useRef<HTMLInputElement | HTMLTextAreaElement>`.
+- `handleClear` in `useBaseInputValue` grabs the setter off
+  `window.HTMLInputElement.prototype` — must branch to `HTMLTextAreaElement.prototype`
+  when multiline, or React will not see the controlled update. `inputRef` becomes
+  `useRef<HTMLInputElement | HTMLTextAreaElement>`.
+- The container's `onPointerDown` early-return `target.closest('input, button, a')`
+  needs `textarea` added.
 
 #### 4. Wrappers
 
@@ -196,14 +206,15 @@ RN's `TextInput` already accepts `multiline` and
 
 #### 7. Style changes in RN `BaseInput`
 
-- `useStyles` container (line 252): `alignItems: 'center'` to `'flex-start'`, `gap` from `s8` to
+- `useStyles` container: `alignItems: 'center'` to `'flex-start'`, `gap` from `s8` to
   `s12`, and explicit `paddingVertical` (`s12` unlabeled, `s6` labeled).
-- Input style: `RuntimeConstants.isIOS && { lineHeight: 0 }` (line 297) collapses multiline text on
+- Input style: `RuntimeConstants.isIOS && { lineHeight: 0 }` collapses multiline text on
   iOS — must become the real token line height in the multiline branch.
 - Set `textAlignVertical: 'top'` explicitly (Android defaults to `center`).
 - `suffixContainer` needs top alignment plus an `s6` top offset when multiline.
-- Floating label `top` interpolation (line 386): the floated end (`s6`) already matches the design,
-  but the unfocused `s14` assumes a 48px centered box and needs a multiline-specific resting value.
+- Floating label `top` interpolation in `BaseInputLabel`: the floated end (`s6`) already
+  matches the design, but the unfocused `s14` assumes a 48px centered box and needs a
+  multiline-specific resting value.
 
 #### 8. RN wrappers, tests, docs
 
@@ -219,8 +230,8 @@ RN's `TextInput` already accepts `multiline` and
 
 One file per package (per the `release-plan` skill), all `patch`:
 
-- Phase 1: `@ledgerhq/lumen-ui-react` —
-  `refactor(BaseInput): split single-line input, helper text and counter into their own files`.
+- Phase 1: `@ledgerhq/lumen-ui-react` and `@ledgerhq/lumen-ui-rnative` —
+  `refactor(BaseInput): split the control, label, helper text and counter into their own files and extract the value/clear logic into useBaseInputValue`.
 - Phase 2: `@ledgerhq/lumen-ui-react` and `@ledgerhq/lumen-ui-rnative` —
   `feat(TextInput): add multiline, minLines and maxLines support`.
 
@@ -228,8 +239,9 @@ One file per package (per the `release-plan` skill), all `patch`:
 
 Phase 1:
 
-- [ ] Extract `BaseInputSingleLine.tsx`, `BaseInputHelperText.tsx` and `BaseInputCounter.tsx`; `BaseInput.test.tsx` passes untouched
-- [ ] Version plan for `@ledgerhq/lumen-ui-react`
+- [ ] Extract label, helper text, counter, and `useBaseInputValue` on both platforms; web also extracts `BaseInputSingleLine`
+- [ ] Hook tests on web and RN; existing input suites stay green
+- [ ] Version plans for `@ledgerhq/lumen-ui-react` and `@ledgerhq/lumen-ui-rnative`
 
 Phase 2 — web:
 

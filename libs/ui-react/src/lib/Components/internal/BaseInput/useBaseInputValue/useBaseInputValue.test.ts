@@ -107,7 +107,7 @@ describe('useBaseInputValue', () => {
     expect(onClear).toHaveBeenCalledTimes(1);
   });
 
-  it('dispatches a bubbling input event on clear so controlled consumers react', () => {
+  it('resets the node and dispatches a bubbling input event on clear when controlled', () => {
     const { result } = renderHook(() =>
       useBaseInputValue(createArgs({ value: 'controlled' })),
     );
@@ -122,6 +122,7 @@ describe('useBaseInputValue', () => {
     });
 
     expect(listener).toHaveBeenCalledTimes(1);
+    expect(listener.mock.calls[0][0].bubbles).toBe(true);
     expect(input.value).toBe('');
     // The prop still drives the rendered value until the consumer updates it.
     expect(result.current.currentValue).toBe('controlled');
