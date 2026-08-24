@@ -36,6 +36,7 @@ export const BaseInput = ({
   suffix,
   ref,
   placeholder: placeholderProp,
+  onClear,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -56,7 +57,7 @@ export const BaseInput = ({
     value: props.value,
     defaultValue: props.defaultValue,
     onChangeText: onChangeTextProp,
-    onClear: props.onClear,
+    onClear,
     ref,
   });
 

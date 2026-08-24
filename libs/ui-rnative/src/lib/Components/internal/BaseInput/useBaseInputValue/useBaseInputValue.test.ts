@@ -68,10 +68,13 @@ describe('useBaseInputValue', () => {
     expect(result.current.value).toBe('second');
   });
 
-  it('clears the mirror and calls onClear when uncontrolled', () => {
+  it('clears the mirror and forwards the cleared value when uncontrolled', () => {
+    const onChangeText = jest.fn();
     const onClear = jest.fn();
     const { result } = renderHook(() =>
-      useBaseInputValue(createArgs({ defaultValue: 'something', onClear })),
+      useBaseInputValue(
+        createArgs({ defaultValue: 'something', onChangeText, onClear }),
+      ),
     );
 
     act(() => {
@@ -80,6 +83,8 @@ describe('useBaseInputValue', () => {
 
     expect(result.current.value).toBe('');
     expect(result.current.hasContent).toBe(false);
+    expect(onChangeText).toHaveBeenCalledTimes(1);
+    expect(onChangeText).toHaveBeenCalledWith('');
     expect(onClear).toHaveBeenCalledTimes(1);
   });
 

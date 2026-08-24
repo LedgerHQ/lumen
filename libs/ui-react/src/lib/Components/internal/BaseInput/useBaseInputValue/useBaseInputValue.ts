@@ -5,7 +5,7 @@ import type {
   RefCallback,
   RefObject,
 } from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { BaseInputProps } from '../types';
 
 type UseBaseInputValueArgs = {
@@ -53,15 +53,12 @@ export const useBaseInputValue = ({
     defaultValue?.toString() ?? '',
   );
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      if (!isControlled) {
-        setUncontrolledValue(e.target.value);
-      }
-      onChange?.(e);
-    },
-    [isControlled, onChange],
-  );
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    if (!isControlled) {
+      setUncontrolledValue(e.target.value);
+    }
+    onChange?.(e);
+  };
 
   const currentValue = isControlled
     ? (value?.toString() ?? '')

@@ -1,6 +1,6 @@
 import { useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import type { RefCallback, RefObject } from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { TextInput } from 'react-native';
 import type { BaseInputProps } from '../types';
 
@@ -38,7 +38,7 @@ export const useBaseInputValue = ({
   const composedRef = useMergedRef(ref, inputRef);
 
   const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue || '',
+    defaultValue ?? '',
   );
 
   const isControlled = valueProp !== undefined;
@@ -46,22 +46,18 @@ export const useBaseInputValue = ({
 
   const hasContent = (value ?? '').length > 0;
 
-  const handleChangeText = useCallback(
-    (text: string) => {
-      if (!isControlled) {
-        setUncontrolledValue(text);
-      }
-      onChangeText?.(text);
-    },
-    [isControlled, onChangeText],
-  );
+  const handleChangeText = (text: string): void => {
+    if (!isControlled) {
+      setUncontrolledValue(text);
+    }
+    onChangeText?.(text);
+  };
 
   const handleClear = () => {
-    if (isControlled) {
-      onChangeText?.('');
-    } else {
+    if (!isControlled) {
       setUncontrolledValue('');
     }
+    onChangeText?.('');
     onClear?.();
   };
 

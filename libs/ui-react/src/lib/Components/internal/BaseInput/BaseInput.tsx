@@ -38,21 +38,7 @@ const containerVariants = cva(
 );
 
 /**
- * Base input component with floating label, error state styling, and clear button functionality.
- * Shows a clear button by default when input has content. Use hideClearButton to hide it.
- * This is an internal component used to build other input components.
- *
- * Features:
- * - Automatic clear button that works with both controlled and uncontrolled inputs
- * - Native-like clear behavior using HTMLInputElement.prototype.value setter
- * - Proper event dispatching that React can intercept for controlled components
- * - Floating label with smooth transitions
- * - Error state styling and accessibility
- *
- * Supports className customization for different elements:
- * - `className`: Applied to the container/root element
- * - `inputClassName`: Applied to the input element
- * - `labelClassName`: Applied to the floating label element
+ * Internal field chrome shared by `TextInput`, `SearchInput`, and `AddressInput`.
  *
  * @internal
  */
