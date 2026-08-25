@@ -39,6 +39,7 @@ export type BaseInputProps = {
   prefix?: ReactNode;
   /**
    * Optional function to extend the default clear behavior with custom logic
+   * Called after the field is emptied. Clearing always calls `onChange` first
    */
   onClear?: () => void;
   /**

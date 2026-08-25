@@ -49,19 +49,21 @@ from `h-48` to `min-h-48`.
 
 ## Phase 1 — Refactor `BaseInput` on both platforms
 
-No behaviour change, no public API change. Split the leaves out of each platform's
-`BaseInput.tsx`, keeping `BaseInput` as the orchestrator that owns the container,
-prefix/suffix, clear button, footer, and value tracking.
+Split the leaves out of each platform's `BaseInput.tsx`, keeping `BaseInput` as
+the orchestrator that owns the container, prefix/suffix, clear button, footer,
+and value tracking.
 
 Shared on both platforms:
 
 - `BaseInputLabel.tsx` — the floating label (CSS peers on web, Reanimated on RN).
 - `BaseInputHelperText.tsx` — hint / error / success copy under the field.
 - `BaseInputCounter.tsx` — the `count/maxCount` footer.
-- `useBaseInputValue/` — controlled/uncontrolled value mirror and clear. Web
-  dispatches a native `input` event (DOM `onChange`); RN calls `onChangeText('')`.
-  Both attach the consumer `ref` with `useMergedRef`. Each hook folder has its own
-  tests.
+- `useBaseInputValue/` — controlled/uncontrolled value mirror and clear. Clear
+  is a value change, then `onClear`, in both modes: web dispatches a native
+  `input` event (`onChange`); RN calls `onChangeText('')`. RN previously skipped
+  `onChangeText` on uncontrolled clear — that is an intentional alignment with
+  web. Both attach the consumer `ref` with `useMergedRef`. Each hook folder has
+  its own tests.
 
 Web only:
 

@@ -68,7 +68,7 @@ describe('useBaseInputValue', () => {
     expect(result.current.value).toBe('second');
   });
 
-  it('clears the mirror and forwards the cleared value when uncontrolled', () => {
+  it('clears the mirror and calls onChangeText when uncontrolled', () => {
     const onChangeText = jest.fn();
     const onClear = jest.fn();
     const { result } = renderHook(() =>

@@ -87,7 +87,7 @@ describe('useBaseInputValue', () => {
     expect(result.current.currentValue).toBe('42');
   });
 
-  it('clears the mirror, resets the DOM node and calls onClear when uncontrolled', () => {
+  it('clears the mirror, dispatches input and calls onClear when uncontrolled', () => {
     const onClear = vi.fn();
     const { result } = renderHook(() =>
       useBaseInputValue(createArgs({ defaultValue: 'something', onClear })),
@@ -95,6 +95,8 @@ describe('useBaseInputValue', () => {
 
     const input = attachInput(result.current.inputRef);
     input.value = 'something';
+    const listener = vi.fn();
+    input.addEventListener('input', listener);
 
     act(() => {
       result.current.handleClear();
@@ -103,6 +105,7 @@ describe('useBaseInputValue', () => {
     expect(result.current.currentValue).toBe('');
     expect(result.current.hasContent).toBe(false);
     expect(input.value).toBe('');
+    expect(listener).toHaveBeenCalledTimes(1);
     expect(document.activeElement).toBe(input);
     expect(onClear).toHaveBeenCalledTimes(1);
   });
