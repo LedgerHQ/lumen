@@ -2,23 +2,19 @@ import {
   cn,
   resolveBaseInputPlaceholder,
   useDisabledContext,
-  useMergedRef,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import type { ChangeEvent, PointerEvent } from 'react';
-import { useRef, useId, useState, useCallback } from 'react';
+import type { PointerEvent } from 'react';
+import { useId } from 'react';
 import { useCommonTranslation } from '../../../../i18n';
 import { InteractiveIcon } from '../../core/InteractiveIcon';
-import {
-  CheckmarkCircleFill,
-  DeleteCircleFill,
-  InformationFill,
-} from '../../symbols';
-import type {
-  BaseInputCounterProps,
-  BaseInputHelperTextProps,
-  BaseInputProps,
-} from './types';
+import { DeleteCircleFill } from '../../symbols';
+import { BaseInputCounter } from './BaseInputCounter';
+import { BaseInputHelperText } from './BaseInputHelperText';
+import { BaseInputLabel } from './BaseInputLabel';
+import { BaseInputSingleLine } from './BaseInputSingleLine';
+import type { BaseInputProps } from './types';
+import { useBaseInputValue } from './useBaseInputValue';
 
 const containerVariants = cva(
   [
@@ -41,70 +37,8 @@ const containerVariants = cva(
   },
 );
 
-const baseInputStyles = cn(
-  'peer w-full flex-1 bg-muted body-1 text-base caret-active outline-hidden transition-colors',
-  'group-hover:bg-muted-hover group-disabled:bg-disabled',
-  'group-has-disabled:cursor-not-allowed group-has-disabled:bg-disabled group-has-disabled:text-disabled',
-  'placeholder:text-muted group-has-disabled:placeholder:text-disabled',
-  '[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
-  'truncate',
-);
-
-const baseLabelStyles = cn(
-  'pointer-events-none absolute top-6 left-16 origin-left body-4 text-muted transition-all duration-300',
-  'peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:body-2',
-  'group-has-disabled:text-disabled',
-  'peer-focus:top-6 peer-focus:translate-y-0 peer-focus:body-4',
-  'w-[calc(100%-var(--size-56))] truncate',
-);
-
-const labelVariants = cva(baseLabelStyles, {
-  variants: {
-    status: {
-      default: '',
-      error: 'text-error',
-      success: '',
-    },
-    floated: {
-      true: 'peer-placeholder-shown:top-6 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:body-4',
-      false: '',
-    },
-  },
-  defaultVariants: {
-    status: 'default',
-    floated: false,
-  },
-});
-
-const helperVariants = cva('flex items-center gap-2 body-3', {
-  variants: {
-    status: {
-      default: 'text-muted',
-      error: 'text-error',
-      success: 'text-success',
-    },
-  },
-  defaultVariants: {
-    status: 'default',
-  },
-});
-
 /**
- * Base input component with floating label, error state styling, and clear button functionality.
- * Shows a clear button by default when input has content. Use hideClearButton to hide it.
- * This is an internal component used to build other input components.
- *
- * Features:
- * - Automatic clear button that works with both controlled and uncontrolled inputs
- * - Native-like clear behavior using HTMLInputElement.prototype.value setter
- * - Proper event dispatching that React can intercept for controlled components
- * - Floating label with smooth transitions
- * - Error state styling and accessibility
- *
- * Supports className customization for different elements:
- * - `className`: Applied to the container/root element
- * - `inputClassName`: Applied to the input element
- * - `labelClassName`: Applied to the floating label element
+ * Internal field chrome shared by `TextInput`, `SearchInput`, and `AddressInput`.
  *
  * @internal
  */
@@ -136,42 +70,27 @@ export const BaseInput = ({
     mergeWith: { disabled: disabledProp },
   });
   const { t } = useCommonTranslation();
-  const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    inputRef,
+    composedRef,
+    currentValue,
+    hasContent,
+    handleChange,
+    handleClear,
+  } = useBaseInputValue({
+    value: props.value,
+    defaultValue: props.defaultValue,
+    onChange: onChangeProp,
+    onClear,
+    ref,
+  });
 
   const reactId = useId();
   const inputId = id || `input-${reactId}`;
 
   const ariaInvalid =
     ariaInvalidProp ?? (status === 'error' ? true : undefined);
-
-  const isControlled = props.value !== undefined;
-
-  // For uncontrolled inputs, we need state to track value changes for UI reactivity.
-  // We can't use inputRef.current.value directly because:
-  // 1. On first render, inputRef.current is null (so we fallback to defaultValue)
-  // 2. When clearing the input, DOM value changes but React doesn't re-render
-  //    to recalculate hasContent, causing clear button to stay visible
-  // This state is only for UI reactivity (clear button visibility), not controlling the input
-  const [uncontrolledValue, setUncontrolledValue] = useState(
-    props.defaultValue?.toString() ?? '',
-  );
-
-  const handleInput = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      // Track uncontrolled input value changes
-      if (!isControlled) {
-        setUncontrolledValue(e.target.value);
-      }
-      // Always call the original onChange if provided
-      onChangeProp?.(e);
-    },
-    [isControlled, onChangeProp],
-  );
-
-  const currentValue = isControlled
-    ? (props.value?.toString() ?? '')
-    : uncontrolledValue;
-  const hasContent = currentValue.length > 0;
 
   const { inputPlaceholder, labelStaysFloatedWithPlaceholder } =
     resolveBaseInputPlaceholder({
@@ -187,31 +106,6 @@ export const BaseInput = ({
 
   const helperId = `${inputId}-helper`;
   const showHelper = !!helperText;
-
-  const handleClear = () => {
-    if (!inputRef.current) return;
-
-    // programmatically trigger an onChange for controlled components.
-    // It simulates a user action more closely by setting the value natively and dispatching a real event.
-    const valueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
-      'value',
-    )?.set;
-    valueSetter?.call(inputRef.current, '');
-
-    if (!isControlled) {
-      setUncontrolledValue('');
-    }
-
-    const event = new Event('input', { bubbles: true });
-    inputRef.current.dispatchEvent(event);
-
-    inputRef.current.focus();
-
-    onClear?.();
-  };
-
-  const composedRef = useMergedRef(ref, inputRef);
 
   return (
     <div className={className}>
@@ -242,7 +136,7 @@ export const BaseInput = ({
       >
         {prefix}
 
-        <input
+        <BaseInputSingleLine
           ref={composedRef}
           id={inputId}
           disabled={disabled}
@@ -250,28 +144,21 @@ export const BaseInput = ({
           placeholder={inputPlaceholder}
           aria-invalid={ariaInvalid}
           aria-describedby={showHelper ? helperId : undefined}
-          className={cn(
-            baseInputStyles,
-            label && 'pt-12 body-2',
-            inputClassName,
-          )}
-          onChange={handleInput}
+          hasLabel={!!label}
+          className={inputClassName}
+          onChange={handleChange}
           {...props}
         />
 
         {label && (
-          <label
+          <BaseInputLabel
             htmlFor={inputId}
-            className={cn(
-              labelVariants({
-                status,
-                floated: labelStaysFloatedWithPlaceholder,
-              }),
-              labelClassName,
-            )}
+            status={status}
+            floated={labelStaysFloatedWithPlaceholder}
+            className={labelClassName}
           >
             {label}
-          </label>
+          </BaseInputLabel>
         )}
 
         {showClearButton && (
@@ -306,36 +193,5 @@ export const BaseInput = ({
         </div>
       )}
     </div>
-  );
-};
-
-const BaseInputHelperText = ({
-  id,
-  helperText,
-  status,
-}: BaseInputHelperTextProps) => {
-  return (
-    <div
-      id={id}
-      className={helperVariants({ status })}
-      role={status === 'error' ? 'alert' : undefined}
-    >
-      {!status && <InformationFill size={16} className='text-muted' />}
-      {status === 'error' && (
-        <DeleteCircleFill size={16} className='text-error' />
-      )}
-      {status === 'success' && (
-        <CheckmarkCircleFill size={16} className='text-success' />
-      )}
-      <span className='body-3'>{helperText}</span>
-    </div>
-  );
-};
-
-const BaseInputCounter = ({ count, maxCount }: BaseInputCounterProps) => {
-  return (
-    <span aria-live='polite' className='shrink-0 body-3 text-muted'>
-      {`${count}/${maxCount}`}
-    </span>
   );
 };

@@ -70,6 +70,7 @@ export type BaseInputProps = {
   prefix?: React.ReactNode;
   /**
    * Optional function to extend the default clear behavior with custom logic.
+   * Called after the field is emptied. Clearing always calls `onChangeText('')`
    */
   onClear?: () => void;
   /**
@@ -79,6 +80,38 @@ export type BaseInputProps = {
   hideClearButton?: boolean;
 } & Omit<TextInputProps, 'style'> &
   BoxProps;
+
+export type BaseInputLabelProps = {
+  /**
+   * Whether the input currently has focus, which floats the label.
+   */
+  isFocused: boolean;
+  /**
+   * Whether the input holds a value, which keeps the label floated.
+   */
+  hasContent: boolean;
+  /**
+   * Whether the clear button is visible, which narrows the label to avoid it.
+   */
+  showClearButton: boolean;
+  /**
+   * Whether the input is editable, driving the disabled label colour.
+   */
+  isEditable: boolean;
+  /**
+   * Keeps the label floated even when empty and unfocused, used when a label
+   * and a placeholder are displayed together.
+   */
+  labelStaysFloatedWithPlaceholder: boolean;
+  /**
+   * Additional styles to apply to the label element.
+   */
+  style?: StyleProp<TextStyle>;
+  /**
+   * The label copy.
+   */
+  children: React.ReactNode;
+} & Pick<BaseInputProps, 'status'>;
 
 export type BaseInputHelperTextProps = {
   /**
