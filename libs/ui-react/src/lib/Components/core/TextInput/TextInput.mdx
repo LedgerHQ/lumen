@@ -89,6 +89,14 @@ You can add: Tooltips, Action buttons, Custom icons, Any interactive element
 
 <Canvas of={TextInputStories.WithLabelAndPlaceholder} />
 
+### Multiline
+
+Set `multiline` to render a `textarea` that auto-grows with its content. `minLines` sets the
+starting height and `maxLines` the ceiling — past it the field scrolls internally rather than
+growing. Setting them to the same value gives a fixed box. The field never offers a resize handle.
+
+<Canvas of={TextInputStories.WithMultiline} />
+
 ### Interactive in a Form
 
 <Canvas of={TextInputStories.Interactive} />
@@ -201,6 +209,17 @@ When the count exceeds `maxCount`, handle validation in your app — pass `statu
 Combine `maxCount` with the native `maxLength` attribute to hard-cap the input. The browser blocks input beyond `maxLength`, keeping the counter within bounds:
 
 <Source of={TextInputStories.WithNativeMaxLength} />
+
+### Multiline
+
+`multiline` swaps the `input` for an auto-growing `textarea`, bounded by `minLines` and `maxLines`:
+
+<Source of={TextInputStories.WithMultiline} />
+
+Equal `minLines` and `maxLines` give a fixed-height box. `scrollbarWidth='none'` hides the scroll
+affordance once the ceiling is reached — the field still scrolls:
+
+<Source of={TextInputStories.MultilineFixedHeight} />
 
 
 </Tab>

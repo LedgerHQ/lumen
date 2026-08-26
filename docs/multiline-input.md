@@ -47,7 +47,9 @@ Height per line, both collapsing to the existing 48px at one line:
 A consumer's explicit pixel `height` applies to the outer wrapper only, since the container moves
 from `h-48` to `min-h-48`.
 
-## Phase 1 — Refactor `BaseInput` on both platforms
+## Phase 1 — Refactor `BaseInput` on both platforms (shipped)
+
+Merged in [#849](https://github.com/LedgerHQ/lumen/pull/849) (`c233d951`).
 
 Split the leaves out of each platform's `BaseInput.tsx`, keeping `BaseInput` as
 the orchestrator that owns the container, prefix/suffix, clear button, footer,
@@ -119,10 +121,14 @@ Two things to know when reading that:
 
 #### 1. `BaseInputMultiline.tsx`
 
-Sibling to the `BaseInputSingleLine.tsx` created in Phase 1: renders the `<textarea>` with
-`whitespace-pre-wrap break-words resize-none` and owns the autosize hook. `break-words` is required
-for `AddressInput`'s unbroken hex strings. `BaseInput` branches on `multiline` and passes a shared
-prop bag (id, ref, disabled, readOnly, placeholder, aria attributes, className, onChange).
+Sibling to the `BaseInputSingleLine.tsx` created in Phase 1: renders a fragment with the visible
+`<textarea>` plus a hidden measurement clone, `whitespace-pre-wrap break-words resize-none` on the
+visible field, and owns the autosize hook. `break-words` is required for `AddressInput`'s unbroken
+hex strings. `BaseInput` branches on `multiline` and passes a shared prop bag (id, ref, disabled,
+readOnly, placeholder, aria attributes, className, onChange).
+
+Set `rows={minLines}` on the visible textarea for a correct first paint before the layout effect
+measures.
 
 Scrollbar appearance follows the same mapping as
 [Dialog.tsx](../libs/ui-react/src/lib/Components/core/Dialog/Dialog.tsx) line 242 —
@@ -132,21 +138,81 @@ Scrollbar appearance follows the same mapping as
 
 New `internal/BaseInput/useAutosizeTextarea/`, co-located like
 [useAutoWidthInput](../libs/ui-react/src/lib/Components/core/AmountInput/useAutoWidthInput/useAutoWidthInput.ts).
-Called only from `BaseInputMultiline`, so it needs no `multiline` guard:
+Called only from `BaseInputMultiline`, so it needs no `multiline` guard.
 
-- `useLayoutEffect` on value change: reset `height = 'auto'`, read `scrollHeight`, subtract computed
-  vertical padding, clamp to `[minLines * lineHeight, maxLines * lineHeight]`, write back
-  `height = clamped + padding`.
-- Toggle `overflowY` between `hidden` and `auto` depending on whether the clamp hit `maxLines`. This
-  controls whether the field scrolls; `scrollbarWidth` controls how the bar looks.
-- `ResizeObserver` on the element so width changes re-measure.
-- Read `lineHeight` from `getComputedStyle`, so it covers both the labeled (`body-2`) and unlabeled
-  (`body-1`) cases.
+Reference implementation:
+[MUI TextareaAutosize v9.3.1](https://github.com/mui/material-ui/tree/v9.3.1/packages/mui-material/src/TextareaAutosize).
+Re-implement the algorithm in-house (MIT) — do not add `@mui/material` as a dependency.
+
+The hook never measures the visible textarea. All measurement runs on an off-screen shadow clone:
+
+- **Shadow textarea.** `BaseInputMultiline` returns a fragment: the real `<textarea>` plus a
+  measurement clone with `aria-hidden`, `readOnly`, `tabIndex={-1}` and
+  `visibility:hidden; position:absolute; top:0; left:0; height:0; overflow:hidden; transform:translateZ(0)`.
+  `overflow:hidden` keeps the scrollbar out of the measurement; `translateZ(0)` isolates its
+  computed values. Vertical padding is zeroed inline so `scrollHeight` is pure content height — this
+  removes the "subtract computed vertical padding" step entirely.
+- **Single-row probe replaces `line-height`.** Copy the live width and value into the shadow, read
+  `scrollHeight` → `innerHeight`. Set the shadow's value to `'x'`, read `scrollHeight` →
+  `singleRowHeight`. Clamp with `minLines * singleRowHeight` / `maxLines * singleRowHeight`. This
+  drops a `getComputedStyle().lineHeight` read and covers labeled (`body-2`) vs unlabeled (`body-1`)
+  for free, without trusting a `normal` or fractional line-height.
+- **Box sizing.** Add `padding + border` back only for `border-box`; Tailwind preflight makes that
+  always true for us, but keep the branch faithful to MUI.
+- **Trailing newline.** Append a space when the value ends in `\n` — some fonts report a different
+  `scrollHeight` for an empty last line.
+- **Overflow with tolerance.** `fits = Math.abs(outerHeight - innerHeight) <= 1`, then
+  `style.overflow = fits ? 'hidden' : ''`. The 1px epsilon absorbs subpixel rounding. This controls
+  whether the field scrolls; `scrollbarWidth` controls how the bar looks.
+
+##### Computation and performance guards
+
+- **Height memo.** A `heightRef` holds the last applied height; `style.height` is written only when
+  the clamped value actually changes. Typing within a line costs zero DOM writes.
+- **ResizeObserver loop guard.** A naive `new ResizeObserver(syncHeight)` observes the element it
+  resizes, which throws "ResizeObserver loop completed with undelivered notifications". Adopt MUI's
+  dance: gate on a `didHeightChange()` pre-check, then `unobserve` → `cancelAnimationFrame` →
+  `syncHeight()` → re-`observe` inside a `requestAnimationFrame`.
+- **Width-0 bail-out.** Skip the sync when computed width is `0px` so a field inside a closed
+  Dialog, Drawer or inactive tab panel does not get a garbage height written.
+- **Debounced window resize** alongside the observer, using
+  [debounce](../libs/utils-shared/src/lib/debounce/debounce.ts) from `@ledgerhq/lumen-utils-shared`.
+  Two API differences from MUI: our debounce needs an explicit `wait` (MUI defaults to 166ms) and
+  cleanup is `.cancel()`, not MUI's `.clear()`.
+- **`useLayoutEffect` on every render** to sync height (see "Adapting to our `BaseInput`" below).
+- **Hooks we do not need.** `calculateTextareaStyles` depends only on primitives (`minLines`,
+  `maxLines`, `placeholder`), so plain `useCallback` gives a stable identity and MUI's
+  `useEventCallback` is unnecessary. Keep plain `useLayoutEffect` to match `useAutoWidthInput`; an
+  isomorphic wrapper is out of scope unless SSR becomes a target.
+- **Cost.** Two forced reflows per sync, both on the off-screen shadow, none on the live field —
+  versus write/read/write on the live element in the naive version, each invalidating the
+  container's layout.
+
+##### Adapting to our `BaseInput`
+
+- **The shadow must not carry `peer`.**
+  [BaseInputLabel.tsx](../libs/ui-react/src/lib/Components/internal/BaseInput/BaseInputLabel.tsx)
+  floats the label off `peer-placeholder-shown:`, and Tailwind compiles that to a general-sibling
+  rule. A second `.peer` sibling that renders empty before the first measurement would momentarily
+  satisfy `:placeholder-shown` and drop the label. Give the shadow the typography and horizontal
+  padding classes it needs to measure faithfully, minus `peer`.
+- **Probe `'x'`, not the placeholder.** MUI seeds the shadow with `value || placeholder || 'x'` so
+  the placeholder always fits. For `AddressInput`, a long hex placeholder plus `break-words` would
+  make an empty field several lines tall; our Figma governs the empty height through `minLines`
+  (343x120 unlabeled is 4 lines), so fall back straight to `'x'`.
+- **`useBaseInputValue` makes us effectively controlled.** It mirrors the value and re-renders on
+  every keystroke, so the unconditional every-render layout effect covers typing — do not call
+  `syncHeight` imperatively from `onChange`. A programmatic clear re-measures through the same
+  path.
+- **Caret pinning.** Port MUI's `handleChange` behaviour: when the last character is `\n` and the
+  caret sits at the end, `setSelectionRange` to the end so the field does not scroll-jump. Compose
+  around `handleChange` from `useBaseInputValue`.
 
 #### 3. Style changes in `BaseInput.tsx`
 
 - `containerVariants`: add a `multiline` variant — `h-48` to `min-h-48`, `items-center` to
-  `items-start`, `gap-8` to `gap-12`, plus `py-12` unlabeled / `py-6` labeled.
+  `items-start`, plus `py-12` unlabeled / `py-6` labeled. The `gap-8` is unchanged: Figma
+  uses the same gap on both variants.
 - `labelVariants` in `BaseInputLabel`: the unfloated position uses
   `peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2`, which centers
   on a tall box. Add a `multiline` variant pinning it to `top-6`. The textarea then needs `pt-16`
@@ -177,7 +243,10 @@ Called only from `BaseInputMultiline`, so it needs no `multiline` guard:
   [BaseInput.test.tsx](../libs/ui-react/src/lib/Components/internal/BaseInput/BaseInput.test.tsx):
   renders a `textarea` when multiline, respects the `minLines` floor, stops growing at `maxLines`
   and becomes scrollable, clear button still works on a textarea, error/disabled/readOnly/counter
-  unchanged. `scrollHeight` is 0 in jsdom, so stub it per-element with `Object.defineProperty`.
+  unchanged. `scrollHeight` is 0 in jsdom — stub it with a value-aware getter on
+  `HTMLTextAreaElement.prototype` returning `lineCount(value) * LINE_HEIGHT`, so the `'x'` probe
+  naturally yields one row. Assert `getByRole('textbox')` resolves to exactly one element: the
+  shadow is `aria-hidden` and stays out of the a11y tree.
 - Add multiline stories to `TextInput.stories.tsx` and `AddressInput.stories.tsx`, plus an MDX
   section in each.
 - Add to the `props` map in both `.figma.tsx` files:
@@ -206,10 +275,18 @@ RN's `TextInput` already accepts `multiline` and
   `theme.typographies.body1.lineHeight` / `body2.lineHeight`, and flip `scrollEnabled` on once the
   max is reached.
 
+MUI's shadow textarea trick does not port to RN: `onContentSizeChange` is measured natively with no
+JS reflow, so it is already the equivalent. Transferable parts only:
+
+- **Skip unchanged height writes.** Keep the last clamped height in a ref and skip the state write
+  when it is unchanged — avoids a render per keystroke while the clamped value stays the same.
+- **Derive line height from theme tokens.** Use `theme.typographies.body1.lineHeight` /
+  `body2.lineHeight` rather than measuring, since there is no shadow element to probe with `'x'`.
+
 #### 7. Style changes in RN `BaseInput`
 
-- `useStyles` container: `alignItems: 'center'` to `'flex-start'`, `gap` from `s8` to
-  `s12`, and explicit `paddingVertical` (`s12` unlabeled, `s6` labeled).
+- `useStyles` container: `alignItems: 'center'` to `'flex-start'`, and explicit
+  `paddingVertical` (`s12` unlabeled, `s6` labeled). `gap` stays `s8`, mirroring web.
 - Input style: `RuntimeConstants.isIOS && { lineHeight: 0 }` collapses multiline text on
   iOS — must become the real token line height in the multiline branch.
 - Set `textAlignVertical: 'top'` explicitly (Android defaults to `center`).
@@ -241,21 +318,22 @@ One file per package (per the `release-plan` skill), all `patch`:
 
 Phase 1:
 
-- [ ] Extract label, helper text, counter, and `useBaseInputValue` on both platforms; web also extracts `BaseInputSingleLine`
-- [ ] Hook tests on web and RN; existing input suites stay green
-- [ ] Version plans for `@ledgerhq/lumen-ui-react` and `@ledgerhq/lumen-ui-rnative`
+- [x] Extract label, helper text, counter, and `useBaseInputValue` on both platforms; web also extracts `BaseInputSingleLine`
+- [x] Hook tests on web and RN; existing input suites stay green
+- [x] Version plans for `@ledgerhq/lumen-ui-react` and `@ledgerhq/lumen-ui-rnative`
 
 Phase 2 — web:
 
 - [ ] Add the four props to `BaseInputProps` and swap in the union-parameterised element props
-- [ ] `useAutosizeTextarea` hook
+- [ ] `useAutosizeTextarea` hook (shadow textarea, `'x'` single-row probe, performance guards)
 - [ ] `BaseInputMultiline.tsx` plus the `BaseInput` style changes
+- [ ] Caret pinning on trailing newline in multiline `onChange`
 - [ ] Wrappers: `TextInput`, `AddressInput`, `SearchInput` narrowing
 - [ ] Tests, stories, MDX, Code Connect
 
 Phase 2 — React Native:
 
-- [ ] Types plus `useAutosizeTextInput` hook
+- [ ] Types plus `useAutosizeTextInput` hook (skip unchanged height writes)
 - [ ] `BaseInput` style changes
 - [ ] Wrappers, tests, stories, MDX, Code Connect
 

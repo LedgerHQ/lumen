@@ -269,6 +269,43 @@ export const WithNeutralHint: Story = {
   },
 };
 
+export const WithMultiline: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Note'
+          multiline
+          minLines={2}
+          maxLines={5}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          helperText='Grows from 2 to 5 lines, then scrolls'
+        />
+      </div>
+    );
+  },
+};
+
+export const MultilineFixedHeight: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <div className='max-w-md'>
+        <TextInput
+          label='Note'
+          multiline
+          minLines={4}
+          maxLines={4}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </div>
+    );
+  },
+};
+
 export const Disabled: Story = {
   render: () => {
     const [value] = useState('Disabled content');

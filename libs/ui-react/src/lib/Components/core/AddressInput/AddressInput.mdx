@@ -69,6 +69,13 @@ When onQrCodeClick is not provided, no QR code icon appears.
 
 <Canvas of={AddressInputStories.WithoutQrCode} />
 
+## Multiline
+
+Set `multiline` to wrap a long address over several lines instead of truncating it. `minLines` sets
+the starting height and `maxLines` the ceiling, past which the field scrolls internally.
+
+<Canvas of={AddressInputStories.WithMultiline} />
+
 ## Accessibility
 
 - **ARIA Labels**: Proper labeling for screen readers

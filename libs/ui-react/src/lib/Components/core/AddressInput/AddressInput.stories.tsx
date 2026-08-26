@@ -225,6 +225,33 @@ export const Controlled: Story = {
 };
 
 /**
+ * Multi-line address field that wraps a long address instead of truncating it.
+ */
+export const WithMultiline: Story = {
+  args: {
+    placeholder: 'Enter address or ENS',
+    multiline: true,
+    minLines: 4,
+    defaultValue: '0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434',
+    className: 'max-w-md',
+    onQrCodeClick: () => console.log('QR code clicked!'),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<AddressInput
+  placeholder="Enter address or ENS"
+  multiline
+  minLines={4}
+  defaultValue="0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434"
+  className="max-w-md"
+/>`,
+      },
+    },
+  },
+};
+
+/**
  * Address field without QR code scanner (no onQrCodeClick handler provided).
  */
 export const WithoutQrCode: Story = {

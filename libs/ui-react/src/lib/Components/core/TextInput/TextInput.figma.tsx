@@ -28,6 +28,9 @@ figma.connect(
         true: figma.string('counter'),
         false: undefined,
       }),
+      multiline: figma.enum('type', {
+        'multi-line': true,
+      }),
     },
     example: (props: any) => (
       <TextInput
@@ -38,6 +41,7 @@ figma.connect(
         helperText={props.helperText.label}
         status={props.status}
         maxCount={props.maxCount}
+        multiline={props.multiline}
       />
     ),
   },

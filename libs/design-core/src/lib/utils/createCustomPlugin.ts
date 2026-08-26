@@ -395,6 +395,15 @@ export function createShadowPlugin(): TailwindPlugin {
 export function createScrollbarPlugin(): TailwindPlugin {
   return plugin(function ({ addUtilities }) {
     addUtilities({
+      '.scrollbar-gutter-auto': {
+        'scrollbar-gutter': 'auto',
+      },
+      '.scrollbar-gutter-stable': {
+        'scrollbar-gutter': 'stable',
+      },
+      '.scrollbar-gutter-stable-both-edges': {
+        'scrollbar-gutter': 'stable both-edges',
+      },
       '.scrollbar-none': {
         'scrollbar-width': 'none',
         '&::-webkit-scrollbar': {

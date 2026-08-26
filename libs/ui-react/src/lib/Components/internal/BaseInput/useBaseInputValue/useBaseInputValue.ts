@@ -6,22 +6,22 @@ import type {
   RefObject,
 } from 'react';
 import { useRef, useState } from 'react';
-import type { BaseInputProps } from '../types';
+import type { BaseInputElement, BaseInputProps } from '../types';
 
 type UseBaseInputValueArgs = {
   value: BaseInputProps['value'];
   defaultValue: BaseInputProps['defaultValue'];
-  onChange: ChangeEventHandler<HTMLInputElement> | undefined;
+  onChange: ChangeEventHandler<BaseInputElement> | undefined;
   onClear: (() => void) | undefined;
   ref: BaseInputProps['ref'];
 };
 
 type UseBaseInputValueReturn = {
-  inputRef: RefObject<HTMLInputElement | null>;
-  composedRef: RefCallback<HTMLInputElement>;
+  inputRef: RefObject<BaseInputElement | null>;
+  composedRef: RefCallback<BaseInputElement>;
   currentValue: string;
   hasContent: boolean;
-  handleChange: ChangeEventHandler<HTMLInputElement>;
+  handleChange: ChangeEventHandler<BaseInputElement>;
   handleClear: () => void;
 };
 
@@ -38,7 +38,7 @@ export const useBaseInputValue = ({
   onClear,
   ref,
 }: UseBaseInputValueArgs): UseBaseInputValueReturn => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<BaseInputElement>(null);
 
   const isControlled = value !== undefined;
 
@@ -53,7 +53,7 @@ export const useBaseInputValue = ({
     defaultValue?.toString() ?? '',
   );
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: ChangeEvent<BaseInputElement>): void => {
     if (!isControlled) {
       setUncontrolledValue(e.target.value);
     }
@@ -69,9 +69,14 @@ export const useBaseInputValue = ({
     if (!inputRef.current) return;
 
     // Setting the value natively and dispatching a real event simulates a user action
-    // closely enough for React to pick it up on controlled components.
+    // closely enough for React to pick it up on controlled components. The setter is
+    // defined per element type, so a multiline field needs the textarea prototype.
+    const elementPrototype =
+      inputRef.current instanceof window.HTMLTextAreaElement
+        ? window.HTMLTextAreaElement.prototype
+        : window.HTMLInputElement.prototype;
     const valueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
+      elementPrototype,
       'value',
     )?.set;
     valueSetter?.call(inputRef.current, '');

@@ -57,6 +57,7 @@ classnames, banned imports and formatting — see the "already enforced" list in
 | --- | --- | --- | --- |
 | Raw Tailwind value instead of a token | react | `text-gray-`, `bg-blue-`, `font-bold`, `text-sm`, `w-[`, `h-[` | `.mdx` doc-table markup |
 | Dynamic classname built by concatenation | react | `` className={`...${ ` `` | — |
+| Classnames in a bare string variable instead of `cn()` / `cva()` | react | `const … = 'flex …'` outside a `cn(` / `cva(` call | strings inlined in `className` |
 | `cva` skipped where variants/many classes exist (or forced for 1–2 classes) | react | inline variant branching in JSX | — |
 | `data-[state=…]` on a Base UI primitive (or `data-[open]` on a Radix one) | react | import source vs attribute form | — |
 | Hardcoded colour/spacing/size literal instead of a `t.*` token | rnative | numeric or `'#…'` inside `useStyleSheet` | geometry constants in `ui-rnative-visualization` |
