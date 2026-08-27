@@ -72,9 +72,15 @@ When onQrCodeClick is not provided, no QR code icon appears.
 ## Multiline
 
 Set `multiline` to wrap a long address over several lines instead of truncating it. `minLines` sets
-the starting height and `maxLines` the ceiling, past which the field scrolls internally.
+the starting height and `maxLines` the ceiling, past which the field scrolls internally. Setting
+them to the same value gives a fixed box. Pass `scrollbarWidth='none'` to hide the scrollbar
+while keeping the field scrollable.
 
 <Canvas of={AddressInputStories.WithMultilineTextarea} />
+
+<Canvas of={AddressInputStories.WithMultilineOneToTwoLines} />
+
+<Canvas of={AddressInputStories.WithMultilineFixedHeight} />
 
 ## Accessibility
 

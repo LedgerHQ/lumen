@@ -288,7 +288,7 @@ export const WithMultilineTextarea: Story = {
   },
 };
 
-export const MultilineFixedHeight: Story = {
+export const WithMultilineFixedHeight: Story = {
   render: () => {
     const [value, setValue] = useState('');
     return (

@@ -228,7 +228,60 @@ export const WithMultilineTextarea: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     multiline: true,
+    minLines: 2,
+    maxLines: 5,
+    defaultValue: '0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434',
+    className: 'max-w-md',
+    onQrCodeClick: () => console.log('QR code clicked!'),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<AddressInput
+  placeholder="Enter address or ENS"
+  multiline
+  minLines={2}
+  maxLines={5}
+  defaultValue="0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434"
+  className="max-w-md"
+/>`,
+      },
+    },
+  },
+};
+
+export const WithMultilineOneToTwoLines: Story = {
+  args: {
+    placeholder: 'Enter address or ENS',
+    multiline: true,
+    minLines: 1,
+    maxLines: 2,
+    defaultValue: '0x742d35cc680f3434',
+    className: 'max-w-md',
+    onQrCodeClick: () => console.log('QR code clicked!'),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<AddressInput
+  placeholder="Enter address or ENS"
+  multiline
+  minLines={1}
+  maxLines={2}
+  defaultValue="0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434"
+  className="max-w-md"
+/>`,
+      },
+    },
+  },
+};
+
+export const WithMultilineFixedHeight: Story = {
+  args: {
+    placeholder: 'Enter address or ENS',
+    multiline: true,
     minLines: 4,
+    maxLines: 4,
     defaultValue: '0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434',
     className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
@@ -240,6 +293,7 @@ export const WithMultilineTextarea: Story = {
   placeholder="Enter address or ENS"
   multiline
   minLines={4}
+  maxLines={4}
   defaultValue="0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434"
   className="max-w-md"
 />`,

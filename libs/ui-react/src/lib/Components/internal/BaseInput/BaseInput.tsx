@@ -42,7 +42,7 @@ const containerVariants = cva(
     },
     compoundVariants: [
       { multiline: true, hasLabel: true, class: 'py-6' },
-      { multiline: true, hasLabel: false, class: 'py-12' },
+      { multiline: true, hasLabel: false, class: 'pt-12 pb-10' },
     ],
     defaultVariants: {
       status: 'default',
@@ -214,7 +214,7 @@ export const BaseInput = ({
         )}
 
         {multiline && trailing ? (
-          <div className='pt-6'>{trailing}</div>
+          <div className='pt-2'>{trailing}</div>
         ) : (
           trailing
         )}

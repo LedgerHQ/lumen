@@ -7,7 +7,8 @@ const RESIZE_DEBOUNCE_MS = 166;
 
 const SINGLE_ROW_PROBE = 'x';
 
-const getStyleValue = (value: string): number => parseInt(value, 10) || 0;
+const getStyleValue = (value: string): number =>
+  Number.parseInt(value, 10) || 0;
 
 type MeasuredHeight = {
   height: number;
