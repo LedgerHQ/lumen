@@ -78,8 +78,9 @@ export const BaseInputMultiline = ({
       />
       {/*
         Wraps text like the visible field but without `peer`, which would drive the
-        floating label from a second sibling. `py-0` makes scrollHeight the pure content
-        height, and `overflow-hidden` keeps the scrollbar out of the measurement.
+        floating label from a second sibling. Matching horizontal padding keeps wrap
+        breaks in sync. `py-0` makes scrollHeight the pure content height, and
+        `overflow-hidden` keeps the scrollbar out of the measurement.
       */}
       <textarea
         ref={shadowRef}
@@ -87,7 +88,7 @@ export const BaseInputMultiline = ({
         readOnly
         tabIndex={-1}
         className={cn(
-          textareaVariants({ hasLabel, scrollbarWidth: null }),
+          textareaVariants({ hasLabel, scrollbarWidth }),
           className,
           'invisible absolute top-0 left-0 h-0 transform-gpu overflow-hidden py-0',
         )}

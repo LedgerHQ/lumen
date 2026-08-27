@@ -224,10 +224,7 @@ export const Controlled: Story = {
   },
 };
 
-/**
- * Multi-line address field that wraps a long address instead of truncating it.
- */
-export const WithMultiline: Story = {
+export const WithMultilineTextarea: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     multiline: true,

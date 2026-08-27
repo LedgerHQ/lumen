@@ -269,7 +269,7 @@ export const WithNeutralHint: Story = {
   },
 };
 
-export const WithMultiline: Story = {
+export const WithMultilineTextarea: Story = {
   render: () => {
     const [value, setValue] = useState('');
     return (

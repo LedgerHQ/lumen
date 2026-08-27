@@ -262,13 +262,15 @@ describe('BaseInput', () => {
       expect(textbox).not.toHaveClass('pt-16');
     });
 
-    it('keeps a scrollbar gutter on the field but not on the measurement clone', () => {
+    it('mirrors the scrollbar gutter on the field and the measurement clone', () => {
       render(<BaseInput label='Note' multiline {...createProps()} />);
 
-      const [visible, shadow] = document.querySelectorAll('textarea');
+      const [visible, shadow] = Array.from(
+        document.querySelectorAll('textarea'),
+      );
 
-      expect(visible).toHaveClass('pr-12');
-      expect(shadow).not.toHaveClass('pr-12');
+      expect(visible).toHaveClass('pe-8');
+      expect(shadow).toHaveClass('pe-8');
     });
 
     it('drops the scrollbar gutter when the scrollbar is hidden', () => {
@@ -281,7 +283,12 @@ describe('BaseInput', () => {
         />,
       );
 
-      expect(screen.getByRole('textbox')).not.toHaveClass('pr-12');
+      const [visible, shadow] = Array.from(
+        document.querySelectorAll('textarea'),
+      );
+
+      expect(visible).not.toHaveClass('pe-8');
+      expect(shadow).not.toHaveClass('pe-8');
     });
 
     it('leaves the field background to the container', () => {
