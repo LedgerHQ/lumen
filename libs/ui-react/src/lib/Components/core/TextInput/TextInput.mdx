@@ -91,11 +91,19 @@ You can add: Tooltips, Action buttons, Custom icons, Any interactive element
 
 ### Multiline
 
-Set `multiline` to render a `textarea` that auto-grows with its content. `minLines` sets the
-starting height and `maxLines` the ceiling — past it the field scrolls internally rather than
-growing. Setting them to the same value gives a fixed box. The field never offers a resize handle.
+Set `multiline` to swap the single-line `input` for a `textarea` that grows with its content instead of scrolling sideways. Everything else is unchanged: floating label, clear button, helper text, and counter behave exactly as they do on a single-line field.
+
+- `minLines`: height the field starts at, in lines. Defaults to `1`
+- `maxLines`: growth ceiling, in lines. Once reached, the field scrolls internally instead of growing. Unbounded when omitted
+- `scrollbarWidth`: `'auto'` (default) shows a slim scrollbar once the ceiling is reached; `'none'` hides it while the field stays scrollable
 
 <Canvas of={TextInputStories.WithMultilineTextarea} />
+
+Equal `minLines` and `maxLines` give a fixed-height box that scrolls instead of growing:
+
+<Canvas of={TextInputStories.WithMultilineFixedHeight} />
+
+> **Note:** The height is always driven by the content and these bounds — the field never shows a native resize handle.
 
 ### Interactive in a Form
 

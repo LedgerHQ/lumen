@@ -12,7 +12,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -29,6 +29,13 @@ const meta = {
       action: 'qr-code-clicked',
     },
   },
+  decorators: [
+    (Story) => (
+      <div className='w-400'>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof AddressInput>;
 
 export default meta;
@@ -42,13 +49,6 @@ export const Default: Story = {
     placeholder: 'Enter address or ENS',
     onQrCodeClick: () => console.log('QR code clicked!'),
   },
-  parameters: {
-    docs: {
-      source: {
-        code: '<AddressInput placeholder="Enter address or ENS" onQrCodeClick={() => openQrScanner()} />',
-      },
-    },
-  },
 };
 
 /**
@@ -58,14 +58,6 @@ export const Empty: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     onQrCodeClick: () => console.log('QR code clicked!'),
-    className: 'max-w-md',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<AddressInput placeholder="Enter address or ENS" onQrCodeClick={() => openQrScanner()} className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -76,15 +68,7 @@ export const WithContent: Story = {
   args: {
     placeholder: 'Enter address or ENS',
     defaultValue: '0x95f980s5ag77xe7csuz',
-    className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<AddressInput placeholder="Enter address or ENS" defaultValue="0x95f980s5ag77xe7csuz" className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -96,15 +80,7 @@ export const Disabled: Story = {
     placeholder: 'Enter address or ENS',
     disabled: true,
     defaultValue: '0x95f980s5ag77xe7csuz',
-    className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<AddressInput placeholder="Enter address or ENS" disabled defaultValue="0x95f980s5ag77xe7csuz" className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -116,15 +92,7 @@ export const ReadOnly: Story = {
     placeholder: 'Enter address or ENS',
     readOnly: true,
     defaultValue: '0x95f980s5ag77xe7csuz',
-    className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<AddressInput placeholder="Enter address or ENS" readOnly defaultValue="0x95f980s5ag77xe7csuz" className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -137,22 +105,8 @@ export const Error: Story = {
     defaultValue: 'invalid-address-format',
     helperText: 'Invalid address format',
     status: 'error',
-    className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
     'aria-label': 'Address or ENS',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<AddressInput 
-  placeholder="Enter address or ENS"
-  defaultValue="invalid-address-format"
-  helperText="Invalid address format"
-  status="error"
-  className="max-w-md"
-/>`,
-      },
-    },
   },
 };
 
@@ -205,7 +159,6 @@ export const Controlled: Story = {
           }}
           helperText={error || (isValid ? 'Valid address' : undefined)}
           status={error ? 'error' : isValid ? 'success' : undefined}
-          className='max-w-md'
         />
 
         <div className='body-3 text-muted'>
@@ -225,22 +178,7 @@ export const WithMultilineTextarea: Story = {
     minLines: 2,
     maxLines: 5,
     defaultValue: '0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434',
-    className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<AddressInput
-  placeholder="Enter address or ENS"
-  multiline
-  minLines={2}
-  maxLines={5}
-  defaultValue="0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434"
-  className="max-w-md"
-/>`,
-      },
-    },
   },
 };
 
@@ -251,22 +189,7 @@ export const WithMultilineFixedHeight: Story = {
     minLines: 4,
     maxLines: 4,
     defaultValue: '0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434',
-    className: 'max-w-md',
     onQrCodeClick: () => console.log('QR code clicked!'),
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<AddressInput
-  placeholder="Enter address or ENS"
-  multiline
-  minLines={4}
-  maxLines={4}
-  defaultValue="0x742d35cc6234567c3c3c2f308bcfb8d6e80f3434"
-  className="max-w-md"
-/>`,
-      },
-    },
   },
 };
 
@@ -276,14 +199,6 @@ export const WithMultilineFixedHeight: Story = {
 export const WithoutQrCode: Story = {
   args: {
     placeholder: 'Enter address or ENS',
-    className: 'max-w-md',
     onQrCodeClick: undefined,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<AddressInput className="max-w-md" />',
-      },
-    },
   },
 };

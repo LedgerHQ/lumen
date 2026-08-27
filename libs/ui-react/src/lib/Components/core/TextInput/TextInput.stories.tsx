@@ -39,7 +39,6 @@ const meta = {
       control: 'number',
     },
   },
-  // Default args moved to Default story
 } satisfies Meta<typeof TextInput>;
 
 export default meta;
@@ -71,45 +70,25 @@ export const Default: Story = {
 };
 
 export const WithContent: Story = {
-  render: () => {
-    const [value, setValue] = useState('Initial content');
-    return (
-      <TextInput
-        label='Label'
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className='max-w-md'
-      />
-    );
+  args: {
+    label: 'Label',
+    defaultValue: 'Initial content',
   },
 };
 
 export const WithLabelAndPlaceholder: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    return (
-      <TextInput
-        label='Phone'
-        placeholder='+1 (555) 000-0000'
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className='max-w-md'
-      />
-    );
+  args: {
+    label: 'Phone',
+    placeholder: '+1 (555) 000-0000',
   },
 };
 
 export const ExtendedClearBehavior: Story = {
-  render: () => {
-    return (
-      <TextInput
-        label='Extended Clear Behavior'
-        onClear={() => {
-          alert('Extended clear behavior');
-        }}
-        className='max-w-md'
-      />
-    );
+  args: {
+    label: 'Extended Clear Behavior',
+    onClear: () => {
+      alert('Extended clear behavior');
+    },
   },
 };
 
@@ -121,7 +100,6 @@ export const ControlledInputExample = () => {
       value={value}
       onChange={(e) => setValue(e.target.value)}
       id='controlled-input'
-      className='max-w-md'
     />
   );
 };
@@ -132,24 +110,15 @@ export const UncontrolledInputExample = () => {
       label='Uncontrolled Input (Default Clear)'
       defaultValue='Default content'
       id='uncontrolled-input'
-      className='max-w-md'
     />
   );
 };
 
 export const HiddenClearButton: Story = {
-  render: () => {
-    const [value, setValue] = useState('Content with no clear button');
-    return (
-      <div className='max-w-md space-y-16'>
-        <TextInput
-          label='Clear Button Hidden'
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          hideClearButton
-        />
-      </div>
-    );
+  args: {
+    label: 'Clear Button Hidden',
+    defaultValue: 'Content with no clear button',
+    hideClearButton: true,
   },
 };
 
@@ -161,36 +130,25 @@ export const WithError: Story = {
       email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Email'
-          type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          helperText={
-            isValidEmail ? undefined : 'Please enter a valid email address'
-          }
-          status={isValidEmail ? undefined : 'error'}
-        />
-      </div>
+      <TextInput
+        label='Email'
+        type='email'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        helperText={
+          isValidEmail ? undefined : 'Please enter a valid email address'
+        }
+        status={isValidEmail ? undefined : 'error'}
+      />
     );
   },
 };
 
 export const WithCounter: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Label'
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText='Info text'
-          maxCount={32}
-        />
-      </div>
-    );
+  args: {
+    label: 'Label',
+    helperText: 'Info text',
+    maxCount: 32,
   },
 };
 
@@ -201,137 +159,77 @@ export const WithCounterExceeded: Story = {
     const isOverLimit = value.length > maxCount;
 
     return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Label'
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText={isOverLimit ? 'Character limit exceeded' : 'Info text'}
-          status={isOverLimit ? 'error' : undefined}
-          maxCount={maxCount}
-        />
-      </div>
+      <TextInput
+        label='Label'
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        helperText={isOverLimit ? 'Character limit exceeded' : 'Info text'}
+        status={isOverLimit ? 'error' : undefined}
+        maxCount={maxCount}
+      />
     );
   },
 };
 
 export const WithNativeMaxLength: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    const maxCount = 8;
-    return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Label'
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText='Input is capped at 8 characters'
-          maxLength={maxCount}
-          maxCount={maxCount}
-        />
-      </div>
-    );
+  args: {
+    label: 'Label',
+    helperText: 'Input is capped at 8 characters',
+    maxLength: 8,
+    maxCount: 8,
   },
 };
 
 export const WithSuccess: Story = {
-  render: () => (
-    <div className='max-w-md'>
-      <TextInput
-        label='Address'
-        value='0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27'
-        onChange={() => {
-          console.log('onChange');
-        }}
-        helperText='Address verified'
-        status='success'
-      />
-    </div>
-  ),
+  args: {
+    label: 'Address',
+    defaultValue: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
+    helperText: 'Address verified',
+    status: 'success',
+  },
 };
 
 export const WithNeutralHint: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Address'
-          placeholder='0x…'
-          value={value}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setValue(e.target.value)
-          }
-          helperText='Enter your ETH address'
-        />
-      </div>
-    );
+  args: {
+    label: 'Address',
+    placeholder: '0x…',
+    helperText: 'Enter your ETH address',
   },
 };
 
 export const WithMultilineTextarea: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Note'
-          multiline
-          minLines={2}
-          maxLines={5}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText='Grows from 2 to 5 lines, then scrolls'
-        />
-      </div>
-    );
+  args: {
+    label: 'Note',
+    multiline: true,
+    minLines: 2,
+    maxLines: 5,
+    helperText: 'Grows from 2 to 5 lines, then scrolls',
   },
 };
 
 export const WithMultilineFixedHeight: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    return (
-      <div className='max-w-md'>
-        <TextInput
-          label='Note'
-          multiline
-          minLines={4}
-          maxLines={4}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-      </div>
-    );
+  args: {
+    label: 'Note',
+    multiline: true,
+    minLines: 4,
+    maxLines: 4,
   },
 };
 
 export const Disabled: Story = {
-  render: () => {
-    const [value] = useState('Disabled content');
-    return (
-      <TextInput
-        label='Label'
-        value={value}
-        onChange={() => {
-          console.log('onChange');
-        }}
-        disabled
-        className='max-w-md'
-      />
-    );
+  args: {
+    label: 'Label',
+    defaultValue: 'Disabled content',
+    disabled: true,
   },
 };
 
 export const ReadOnly: Story = {
-  render: () => (
-    <TextInput
-      label='Label'
-      value='Read-only content'
-      readOnly
-      className='max-w-md'
-    />
-  ),
+  args: {
+    label: 'Label',
+    defaultValue: 'Read-only content',
+    readOnly: true,
+  },
 };
 
 const InfoTooltip = () => {
@@ -483,72 +381,68 @@ export const Interactive: Story = {
     }
 
     return (
-      <div className='max-w-md'>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-16'>
-          <div className='flex flex-col gap-16'>
-            <TextInput
-              label='Username'
-              value={formData.username}
-              onChange={handleChange('username')}
-              onClear={handleClear('username')}
-              helperText={errors.username}
-              status={errors.username ? 'error' : undefined}
-              suffix={<InformationFill size={20} className='text-muted' />}
-            />
+      <form onSubmit={handleSubmit} className='flex flex-col gap-16'>
+        <TextInput
+          label='Username'
+          value={formData.username}
+          onChange={handleChange('username')}
+          onClear={handleClear('username')}
+          helperText={errors.username}
+          status={errors.username ? 'error' : undefined}
+          suffix={<InformationFill size={20} className='text-muted' />}
+        />
 
-            <TextInput
-              label='Email'
-              type='email'
-              value={formData.email}
-              onChange={handleChange('email')}
-              onClear={handleClear('email')}
-              helperText={errors.email}
-              status={errors.email ? 'error' : undefined}
-            />
+        <TextInput
+          label='Email'
+          type='email'
+          value={formData.email}
+          onChange={handleChange('email')}
+          onClear={handleClear('email')}
+          helperText={errors.email}
+          status={errors.email ? 'error' : undefined}
+        />
 
-            <TextInput
-              label='Password'
-              type='password'
-              value={formData.password}
-              onChange={handleChange('password')}
-              onClear={handleClear('password')}
-              helperText={errors.password}
-              status={errors.password ? 'error' : undefined}
-            />
+        <TextInput
+          label='Password'
+          type='password'
+          value={formData.password}
+          onChange={handleChange('password')}
+          onClear={handleClear('password')}
+          helperText={errors.password}
+          status={errors.password ? 'error' : undefined}
+        />
 
-            <TextInput
-              label='Confirm Password'
-              type='password'
-              value={formData.confirmPassword}
-              onChange={handleChange('confirmPassword')}
-              onClear={handleClear('confirmPassword')}
-              helperText={errors.confirmPassword}
-              status={errors.confirmPassword ? 'error' : undefined}
-            />
-          </div>
+        <TextInput
+          label='Confirm Password'
+          type='password'
+          value={formData.confirmPassword}
+          onChange={handleChange('confirmPassword')}
+          onClear={handleClear('confirmPassword')}
+          helperText={errors.confirmPassword}
+          status={errors.confirmPassword ? 'error' : undefined}
+        />
 
-          <div className='flex gap-12'>
-            <Button type='submit' appearance='base'>
-              Create Account
-            </Button>
-            <Button
-              type='button'
-              appearance='gray'
-              onClick={() => {
-                setFormData({
-                  username: '',
-                  email: '',
-                  password: '',
-                  confirmPassword: '',
-                });
-                setErrors({});
-              }}
-            >
-              Reset
-            </Button>
-          </div>
-        </form>
-      </div>
+        <div className='flex gap-12'>
+          <Button type='submit' appearance='base'>
+            Create Account
+          </Button>
+          <Button
+            type='button'
+            appearance='gray'
+            onClick={() => {
+              setFormData({
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+              });
+              setErrors({});
+            }}
+          >
+            Reset
+          </Button>
+        </div>
+      </form>
     );
   },
 };
