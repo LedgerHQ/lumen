@@ -2,8 +2,9 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { useState } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { BaseInput } from './BaseInput';
+import type { BaseInputElement } from './types';
 
 const createProps = (
   overrides: Partial<ComponentProps<typeof BaseInput>> = {},
@@ -14,13 +15,32 @@ const createProps = (
 
 const CLEAR_LABEL = 'components.baseInput.clearInputAriaLabel';
 
+const LINE_HEIGHT = 20;
+
+beforeAll(() => {
+  global.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+
+  // jsdom never lays out, so scrollHeight is always 0. Deriving it from the value keeps
+  // the autosize hook's single-row probe honest at exactly one line.
+  Object.defineProperty(HTMLTextAreaElement.prototype, 'scrollHeight', {
+    configurable: true,
+    get(this: HTMLTextAreaElement): number {
+      return this.value.split('\n').length * LINE_HEIGHT;
+    },
+  });
+});
+
 /** Mirrors how a consumer drives BaseInput as a fully controlled input. */
 const ControlledBaseInput = ({
   initialValue,
   onChange,
 }: {
   initialValue: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<BaseInputElement>) => void;
 }) => {
   const [value, setValue] = useState(initialValue);
 
@@ -213,5 +233,132 @@ describe('BaseInput', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('textbox')).toHaveValue('0xabc');
+  });
+
+  describe('multiline', () => {
+    it('renders a textarea and keeps the measurement clone out of the a11y tree', () => {
+      render(<BaseInput label='Note' multiline {...createProps()} />);
+
+      const textbox = screen.getByRole('textbox');
+
+      expect(textbox.tagName).toBe('TEXTAREA');
+      expect(document.querySelectorAll('textarea')).toHaveLength(2);
+    });
+
+    it('does not forward type onto the textarea', () => {
+      render(
+        <BaseInput label='Note' multiline type='email' {...createProps()} />,
+      );
+
+      expect(screen.getByRole('textbox')).not.toHaveAttribute('type');
+    });
+
+    it('reserves the label band with margin so scrolled content stays clear of it', () => {
+      render(<BaseInput label='Note' multiline {...createProps()} />);
+
+      const textbox = screen.getByRole('textbox');
+
+      expect(textbox).toHaveClass('mt-16');
+      expect(textbox).not.toHaveClass('pt-16');
+    });
+
+    it('mirrors the scrollbar gutter on the field and the measurement clone', () => {
+      render(<BaseInput label='Note' multiline {...createProps()} />);
+
+      const [visible, shadow] = Array.from(
+        document.querySelectorAll('textarea'),
+      );
+
+      expect(visible).toHaveClass('pe-8');
+      expect(shadow).toHaveClass('pe-8');
+    });
+
+    it('drops the scrollbar gutter when the scrollbar is hidden', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          scrollbarWidth='none'
+          {...createProps()}
+        />,
+      );
+
+      const [visible, shadow] = Array.from(
+        document.querySelectorAll('textarea'),
+      );
+
+      expect(visible).not.toHaveClass('pe-8');
+      expect(shadow).not.toHaveClass('pe-8');
+    });
+
+    it('leaves the field background to the container', () => {
+      render(<BaseInput label='Note' multiline {...createProps()} />);
+
+      expect(screen.getByRole('textbox')).toHaveClass('bg-transparent');
+    });
+
+    it('holds the minLines floor when the content is shorter', () => {
+      render(
+        <BaseInput label='Note' multiline minLines={3} {...createProps()} />,
+      );
+
+      expect(screen.getByRole('textbox')).toHaveStyle({ height: '60px' });
+    });
+
+    it('stops growing at maxLines and lets the field scroll', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          maxLines={2}
+          defaultValue={'one\ntwo\nthree\nfour'}
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+
+      expect(textbox).toHaveStyle({ height: '40px' });
+      expect(textbox.style.overflow).toBe('');
+    });
+
+    it('clears a multiline field through the textarea value setter', () => {
+      const onChange = vi.fn();
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          defaultValue={'one\ntwo'}
+          {...createProps({ onChange })}
+        />,
+      );
+
+      fireEvent.click(screen.getByLabelText(CLEAR_LABEL));
+
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(screen.getByRole('textbox')).toHaveValue('');
+      expect(screen.queryByLabelText(CLEAR_LABEL)).not.toBeInTheDocument();
+    });
+
+    it('keeps helper text, counter and disabled semantics', () => {
+      render(
+        <BaseInput
+          id='note'
+          label='Note'
+          multiline
+          disabled
+          helperText='Keep it short'
+          maxCount={200}
+          defaultValue='hello'
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+
+      expect(textbox).toBeDisabled();
+      expect(textbox).toHaveAttribute('aria-describedby', 'note-helper');
+      expect(screen.getByText('5/200')).toBeInTheDocument();
+    });
   });
 });

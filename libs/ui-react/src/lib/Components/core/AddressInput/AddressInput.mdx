@@ -69,6 +69,22 @@ When onQrCodeClick is not provided, no QR code icon appears.
 
 <Canvas of={AddressInputStories.WithoutQrCode} />
 
+## Multiline
+
+Set `multiline` to wrap a long address over several lines instead of truncating it. Prefix, QR scanner, clear button, helper text, and counter behave exactly as they do on a single-line field.
+
+- `minLines`: height the field starts at, in lines. Defaults to `1`
+- `maxLines`: growth ceiling, in lines. Once reached, the field scrolls internally instead of growing. Unbounded when omitted
+- `scrollbarWidth`: `'auto'` (default) shows a slim scrollbar once the ceiling is reached; `'none'` hides it while the field stays scrollable
+
+<Canvas of={AddressInputStories.WithMultilineTextarea} />
+
+Equal `minLines` and `maxLines` give a fixed-height box that scrolls instead of growing:
+
+<Canvas of={AddressInputStories.WithMultilineFixedHeight} />
+
+> **Note:** The height is always driven by the content and these bounds — the field never shows a native resize handle.
+
 ## Accessibility
 
 - **ARIA Labels**: Proper labeling for screen readers

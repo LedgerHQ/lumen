@@ -17,6 +17,26 @@ in the parent `SKILL.md`; this file is the web mechanism and the token catalogue
   `cn("text-base", cond && "bg-muted")`. `cn` comes from
   `@ledgerhq/lumen-utils-shared`.
 
+## Never hold classnames in a bare string variable
+
+Classes belong in a JSX `className` or inside a `cn()` / `cva()` call. ESLint
+(`callees` in [eslint.shared.mjs](../../../../eslint.shared.mjs)) and Tailwind
+IntelliSense (`tailwindCSS.classFunctions` in
+[.vscode/settings.json](../../../../.vscode/settings.json)) both resolve classes from
+`className` plus those two names, so anything else ships with no validation, no
+autocomplete and no sorting — a typo stays silent.
+
+```tsx
+// Wrong — invisible to every Tailwind tool
+const shadowStyles = 'invisible absolute h-0 py-0';
+
+// Right — inline at the point of use
+<div className={cn(fieldStyles, 'invisible absolute h-0 py-0')} />;
+```
+
+Extract only when the classes are reused or numerous, and wrap the value in `cn()`.
+A new class helper must be registered in both configs above.
+
 ## Design-system tokens
 
 Custom plugins live in `libs/design-core/src/lib/presets/allBrands.ts`. All

@@ -89,6 +89,22 @@ You can add: Tooltips, Action buttons, Custom icons, Any interactive element
 
 <Canvas of={TextInputStories.WithLabelAndPlaceholder} />
 
+### Multiline
+
+Set `multiline` to swap the single-line `input` for a `textarea` that grows with its content instead of scrolling sideways. Everything else is unchanged: floating label, clear button, helper text, and counter behave exactly as they do on a single-line field.
+
+- `minLines`: height the field starts at, in lines. Defaults to `1`
+- `maxLines`: growth ceiling, in lines. Once reached, the field scrolls internally instead of growing. Unbounded when omitted
+- `scrollbarWidth`: `'auto'` (default) shows a slim scrollbar once the ceiling is reached; `'none'` hides it while the field stays scrollable
+
+<Canvas of={TextInputStories.WithMultilineTextarea} />
+
+Equal `minLines` and `maxLines` give a fixed-height box that scrolls instead of growing:
+
+<Canvas of={TextInputStories.WithMultilineFixedHeight} />
+
+> **Note:** The height is always driven by the content and these bounds — the field never shows a native resize handle.
+
 ### Interactive in a Form
 
 <Canvas of={TextInputStories.Interactive} />
@@ -201,6 +217,18 @@ When the count exceeds `maxCount`, handle validation in your app — pass `statu
 Combine `maxCount` with the native `maxLength` attribute to hard-cap the input. The browser blocks input beyond `maxLength`, keeping the counter within bounds:
 
 <Source of={TextInputStories.WithNativeMaxLength} />
+
+### Multiline
+
+`multiline` swaps the `input` for an auto-growing `textarea`, bounded by `minLines` and `maxLines`:
+
+<Source of={TextInputStories.WithMultilineTextarea} />
+
+Equal `minLines` and `maxLines` give a fixed-height box that scrolls once the ceiling is reached.
+
+<Source of={TextInputStories.WithMultilineFixedHeight} />
+
+> **Note:** Pass `scrollbarWidth='none'` to hide the scrollbar while keeping the field scrollable.
 
 
 </Tab>

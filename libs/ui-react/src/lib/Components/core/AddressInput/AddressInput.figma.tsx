@@ -25,6 +25,9 @@ figma.connect(
       helperText: figma.nestedProps('.status', {
         label: figma.string('label'),
       }),
+      multiline: figma.enum('type', {
+        'multi-line': true,
+      }),
     },
     example: (props) => (
       <AddressInput
@@ -34,6 +37,7 @@ figma.connect(
         onQrCodeClick={openQrScanner}
         helperText={props.helperText.label}
         status={props.status}
+        multiline={props.multiline}
       />
     ),
   },

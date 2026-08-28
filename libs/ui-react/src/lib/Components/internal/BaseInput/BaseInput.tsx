@@ -12,13 +12,14 @@ import { DeleteCircleFill } from '../../symbols';
 import { BaseInputCounter } from './BaseInputCounter';
 import { BaseInputHelperText } from './BaseInputHelperText';
 import { BaseInputLabel } from './BaseInputLabel';
+import { BaseInputMultiline } from './BaseInputMultiline';
 import { BaseInputSingleLine } from './BaseInputSingleLine';
 import type { BaseInputProps } from './types';
 import { useBaseInputValue } from './useBaseInputValue';
 
 const containerVariants = cva(
   [
-    'group relative flex h-48 w-full cursor-text items-center gap-8 rounded-sm bg-muted px-16 transition-colors',
+    'group relative flex w-full cursor-text gap-8 rounded-sm bg-muted px-16 transition-colors',
     'focus-within:ring-2 focus-within:ring-active hover:bg-muted-hover',
     'has-disabled:cursor-not-allowed has-disabled:bg-disabled has-disabled:text-disabled',
   ],
@@ -30,9 +31,23 @@ const containerVariants = cva(
         success:
           'ring-1 ring-success focus-within:ring-2 focus-within:ring-success',
       },
+      multiline: {
+        true: 'min-h-48 items-start',
+        false: 'h-48 items-center',
+      },
+      hasLabel: {
+        true: '',
+        false: '',
+      },
     },
+    compoundVariants: [
+      { multiline: true, hasLabel: true, class: 'py-6' },
+      { multiline: true, hasLabel: false, class: 'pt-12 pb-10' },
+    ],
     defaultVariants: {
       status: 'default',
+      multiline: false,
+      hasLabel: false,
     },
   },
 );
@@ -63,6 +78,11 @@ export const BaseInput = ({
   'aria-invalid': ariaInvalidProp,
   onChange: onChangeProp,
   placeholder: placeholderProp,
+  multiline = false,
+  minLines,
+  maxLines,
+  scrollbarWidth,
+  type,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -107,13 +127,40 @@ export const BaseInput = ({
   const helperId = `${inputId}-helper`;
   const showHelper = !!helperText;
 
+  const controlProps = {
+    id: inputId,
+    disabled,
+    readOnly,
+    placeholder: inputPlaceholder,
+    'aria-invalid': ariaInvalid,
+    'aria-describedby': showHelper ? helperId : undefined,
+    hasLabel: !!label,
+    className: inputClassName,
+    onChange: handleChange,
+  };
+
+  const trailing = showClearButton ? (
+    <InteractiveIcon
+      iconType='filled'
+      icon={DeleteCircleFill}
+      size={20}
+      onClick={handleClear}
+      aria-label={t('components.baseInput.clearInputAriaLabel')}
+    />
+  ) : (
+    suffix
+  );
+
   return (
     <div className={className}>
       <div
-        className={cn(containerVariants({ status }), containerClassName)}
+        className={cn(
+          containerVariants({ status, multiline, hasLabel: !!label }),
+          containerClassName,
+        )}
         onPointerDown={(event: PointerEvent<HTMLDivElement>) => {
           const target = event.target as Element;
-          if (target.closest('input, button, a')) return;
+          if (target.closest('input, textarea, button, a')) return;
 
           const input = inputRef.current;
           if (!input) return;
@@ -136,42 +183,41 @@ export const BaseInput = ({
       >
         {prefix}
 
-        <BaseInputSingleLine
-          ref={composedRef}
-          id={inputId}
-          disabled={disabled}
-          readOnly={readOnly}
-          placeholder={inputPlaceholder}
-          aria-invalid={ariaInvalid}
-          aria-describedby={showHelper ? helperId : undefined}
-          hasLabel={!!label}
-          className={inputClassName}
-          onChange={handleChange}
-          {...props}
-        />
+        {multiline ? (
+          <BaseInputMultiline
+            ref={composedRef}
+            minLines={minLines}
+            maxLines={maxLines}
+            scrollbarWidth={scrollbarWidth}
+            {...controlProps}
+            {...props}
+          />
+        ) : (
+          <BaseInputSingleLine
+            ref={composedRef}
+            type={type}
+            {...controlProps}
+            {...props}
+          />
+        )}
 
         {label && (
           <BaseInputLabel
             htmlFor={inputId}
             status={status}
             floated={labelStaysFloatedWithPlaceholder}
+            multiline={multiline}
             className={labelClassName}
           >
             {label}
           </BaseInputLabel>
         )}
 
-        {showClearButton && (
-          <InteractiveIcon
-            iconType='filled'
-            icon={DeleteCircleFill}
-            size={20}
-            onClick={handleClear}
-            aria-label={t('components.baseInput.clearInputAriaLabel')}
-          />
+        {multiline && trailing ? (
+          <div className='pt-2'>{trailing}</div>
+        ) : (
+          trailing
         )}
-
-        {!showClearButton && suffix}
       </div>
       {(showHelper || showCount) && (
         <div

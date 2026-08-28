@@ -17,6 +17,10 @@ const labelVariants = cva(baseLabelStyles, {
       error: 'text-error',
       success: '',
     },
+    multiline: {
+      true: 'peer-placeholder-shown:top-14 peer-placeholder-shown:translate-y-0',
+      false: '',
+    },
     floated: {
       true: 'peer-placeholder-shown:top-6 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:body-4',
       false: '',
@@ -24,6 +28,7 @@ const labelVariants = cva(baseLabelStyles, {
   },
   defaultVariants: {
     status: 'default',
+    multiline: false,
     floated: false,
   },
 });
@@ -37,13 +42,14 @@ export const BaseInputLabel = ({
   htmlFor,
   status,
   floated,
+  multiline,
   className,
   children,
 }: BaseInputLabelProps) => {
   return (
     <label
       htmlFor={htmlFor}
-      className={cn(labelVariants({ status, floated }), className)}
+      className={cn(labelVariants({ status, floated, multiline }), className)}
     >
       {children}
     </label>

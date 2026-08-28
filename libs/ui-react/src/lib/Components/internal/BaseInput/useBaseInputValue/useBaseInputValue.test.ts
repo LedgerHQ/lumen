@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import type { ChangeEvent } from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import type { BaseInputElement } from '../types';
 import { useBaseInputValue } from './useBaseInputValue';
 
 const createArgs = (
@@ -19,7 +20,7 @@ const createChangeEvent = (value: string): ChangeEvent<HTMLInputElement> =>
 
 /** Attaches a real input so handleClear has something to write to and focus. */
 const attachInput = (inputRef: {
-  current: HTMLInputElement | null;
+  current: BaseInputElement | null;
 }): HTMLInputElement => {
   const input = document.createElement('input');
   document.body.appendChild(input);

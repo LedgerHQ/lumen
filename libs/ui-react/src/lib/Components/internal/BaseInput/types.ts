@@ -1,6 +1,18 @@
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type {
+  ComponentPropsWithRef,
+  InputHTMLAttributes,
+  ReactNode,
+  Ref,
+} from 'react';
 
 export type BaseInputStatus = 'error' | 'success';
+
+export type BaseInputElement = HTMLInputElement | HTMLTextAreaElement;
+
+/**
+ * Visibility of the scroll affordance once the field reaches `maxLines`.
+ */
+export type BaseInputScrollbarWidth = 'none' | 'auto';
 
 export type BaseInputProps = {
   /**
@@ -63,7 +75,30 @@ export type BaseInputProps = {
    * Additional class names to apply to the label element
    */
   labelClassName?: string;
-} & Omit<ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;
+  /**
+   * Renders a multi-line `textarea` that auto-grows between `minLines` and `maxLines`
+   * @default false
+   */
+  multiline?: boolean;
+  /**
+   * Minimum height of the field, in lines. Ignored unless `multiline` is set.
+   * @default 1
+   */
+  minLines?: number;
+  /**
+   * Growth ceiling, in lines; past it the field scrolls internally. Unbounded when
+   * omitted. Ignored unless `multiline` is set.
+   */
+  maxLines?: number;
+  /**
+   * Appearance of the scroll affordance once the field reaches `maxLines`.
+   * Ignored unless `multiline` is set.
+   * @default 'auto'
+   */
+  scrollbarWidth?: BaseInputScrollbarWidth;
+} & Omit<InputHTMLAttributes<BaseInputElement>, 'size' | 'prefix'> & {
+    ref?: Ref<BaseInputElement>;
+  };
 
 export type BaseInputSingleLineProps = {
   /**
@@ -73,6 +108,16 @@ export type BaseInputSingleLineProps = {
    */
   hasLabel?: boolean;
 } & Omit<ComponentPropsWithRef<'input'>, 'size' | 'prefix'>;
+
+export type BaseInputMultilineProps = {
+  /**
+   * Whether a floating label sits above the value, reserving vertical space at
+   * the top of the field.
+   * @default false
+   */
+  hasLabel?: boolean;
+} & Pick<BaseInputProps, 'minLines' | 'maxLines' | 'scrollbarWidth'> &
+  Omit<ComponentPropsWithRef<'textarea'>, 'rows' | 'cols'>;
 
 export type BaseInputLabelProps = {
   /**
@@ -85,6 +130,12 @@ export type BaseInputLabelProps = {
    * @default false
    */
   floated?: boolean;
+  /**
+   * Pins the resting position to the first line instead of centering it, for a
+   * field that can grow past a single line.
+   * @default false
+   */
+  multiline?: boolean;
   /**
    * Additional class names to apply to the label element.
    */
