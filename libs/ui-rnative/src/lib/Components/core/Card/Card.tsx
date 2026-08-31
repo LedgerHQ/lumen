@@ -110,8 +110,10 @@ const useCardStyles = ({
           backgroundColor: t.colors.bg.surface,
         },
         outlined && {
-          borderWidth: t.borderWidth.s2,
-          borderColor: t.colors.border.active,
+          outlineColor: t.colors.border.active,
+          outlineWidth: t.borderWidth.s2,
+          outlineOffset: -t.borderWidth.s2,
+          outlineStyle: 'solid',
         },
         interactive &&
           pressed &&

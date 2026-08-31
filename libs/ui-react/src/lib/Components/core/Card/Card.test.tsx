@@ -121,16 +121,25 @@ describe('Card', () => {
   });
 
   describe('outlined', () => {
-    it('applies selection border when outlined', () => {
+    it('applies the selection outline when outlined', () => {
       renderCard({ outlined: true });
 
       const card = screen.getByTestId('card');
-      expect(card).toHaveClass('border-2');
-      expect(card).toHaveClass('border-active');
+      expect(card).toHaveClass('outline-2');
+      expect(card).toHaveClass('-outline-offset-2');
+      expect(card).toHaveClass('outline-active');
     });
 
-    it('does not apply selection border by default', () => {
+    it('does not apply the selection outline by default', () => {
       renderCard();
+
+      const card = screen.getByTestId('card');
+      expect(card).not.toHaveClass('outline-2');
+      expect(card).not.toHaveClass('outline-active');
+    });
+
+    it('keeps the selection outline out of the box model, so toggling it cannot shift layout', () => {
+      renderCard({ outlined: true });
 
       const card = screen.getByTestId('card');
       expect(card).not.toHaveClass('border-2');

@@ -86,7 +86,7 @@ const cardVariants = cva(
         false: '',
       },
       outlined: {
-        true: 'border-2 border-active',
+        true: 'outline-2 -outline-offset-2 outline-active',
         false: '',
       },
       disabled: {

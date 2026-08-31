@@ -1,6 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, fireEvent, screen } from '@testing-library/react-native';
+import type { ViewStyle } from 'react-native';
 import { Text as RNText } from 'react-native';
 
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -99,14 +100,32 @@ describe('Card', () => {
   });
 
   describe('outlined', () => {
-    it('renders without error when outlined', () => {
+    // The outline lives on the card container, the single child of the root
+    // element that carries the consumer testID.
+    const containerStyle = (): ViewStyle => {
+      const root = screen.toJSON();
+      const container =
+        root && !Array.isArray(root) ? root.children?.[0] : null;
+      if (!container || typeof container === 'string') {
+        throw new Error('Expected the card container element');
+      }
+      return container.props.style;
+    };
+
+    it('draws the selection state as an inset outline, outside the box model', () => {
       renderCard({ outlined: true });
-      expect(screen.getByTestId('card')).toBeTruthy();
+
+      expect(containerStyle()).toMatchObject({
+        outlineWidth: 2,
+        outlineOffset: -2,
+      });
+      expect(containerStyle().borderWidth).toBeUndefined();
     });
 
-    it('renders without error when not outlined', () => {
+    it('does not draw an outline by default', () => {
       renderCard({ outlined: false });
-      expect(screen.getByTestId('card')).toBeTruthy();
+
+      expect(containerStyle().outlineWidth).toBeUndefined();
     });
   });
 
