@@ -14,6 +14,8 @@ export default function TextInputs() {
   const [bio, setBio] = useState('');
   const [note, setNote] = useState('This text exceeds the character limit');
   const [shortCode, setShortCode] = useState('');
+  const [message, setMessage] = useState('');
+  const [memo, setMemo] = useState('');
 
   const noteMaxCount = 32;
   const isNoteOverLimit = note.length > noteMaxCount;
@@ -36,6 +38,24 @@ export default function TextInputs() {
             { text: 'Okay', style: 'default' },
           ])
         }
+      />
+      <TextInput
+        label='Message'
+        value={message}
+        onChangeText={setMessage}
+        helperText='Grows from 1 to 5 lines, then scrolls'
+        multiline
+        minLines={1}
+        maxLines={5}
+      />
+      <TextInput
+        label='Memo'
+        value={memo}
+        onChangeText={setMemo}
+        helperText='Fixed at 4 lines'
+        multiline
+        minLines={4}
+        maxLines={4}
       />
       <TextInput label='Email' placeholder='name@example.com' />
       <TextInput
@@ -103,6 +123,7 @@ export default function TextInputs() {
         label='A very long label that should really be truncated at different breakpoints'
         defaultValue='This is a default value!'
       />
+
       <SearchInput
         placeholder='Search for a component...'
         appearance='transparent'

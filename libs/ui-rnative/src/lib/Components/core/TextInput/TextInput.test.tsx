@@ -1,14 +1,22 @@
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
+import { RuntimeConstants } from '../../../utils';
+import { Pressable } from '../../primitives';
 import { CheckmarkCircleFill } from '../../symbols/icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../symbols/icons/DeleteCircleFill';
 import { InformationFill } from '../../symbols/icons/InformationFill';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
+import type { TextInputProps } from './types';
 
-const { colors } = ledgerLiveThemes.dark;
+const { colors, spacings, borderWidth } = ledgerLiveThemes.dark;
+const { body2 } = ledgerLiveThemes.dark.typographies.xs.body;
+
+// The floated label row, the container padding and the borders all sit outside the
+// text box the line count applies to.
+const labelledChrome = spacings.s16 + 2 * spacings.s6 + 2 * borderWidth.s2;
 
 const renderWithProvider = (
   component: ReactElement,
@@ -168,6 +176,103 @@ describe('TextInput', () => {
 
       expect(screen.getByDisplayValue('Ledger').props.editable).toBe(false);
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
+    });
+  });
+
+  // The height itself is native, so the bounds are all these tests can reach: the
+  // container carries the minLines floor, the input box carries the ceiling.
+  describe('Multiline', () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    const field = () => screen.getByPlaceholderText('Write a note');
+    const container = () => screen.UNSAFE_getByType(Pressable);
+
+    const renderMultiline = (props: Partial<TextInputProps> = {}) =>
+      renderWithProvider(
+        <TextInput
+          label='Note'
+          placeholder='Write a note'
+          value=''
+          onChangeText={() => {}}
+          {...props}
+        />,
+      );
+
+    it('stays single-line by default', () => {
+      renderMultiline();
+
+      const { multiline, style } = field().props;
+
+      expect(multiline).toBeFalsy();
+      expect(style.minHeight).toBeUndefined();
+    });
+
+    it('floors the field at minLines and leaves it unbounded above', () => {
+      renderMultiline({ multiline: true, minLines: 2 });
+
+      const { multiline, style } = field().props;
+
+      expect(multiline).toBe(true);
+      expect(container().props.style.minHeight).toBe(
+        2 * body2.lineHeight + labelledChrome,
+      );
+      expect(style.maxHeight).toBeUndefined();
+    });
+
+    // A box taller than its text would drop the value below the placeholder on
+    // Android, which centres a line within its box.
+    it('keeps the input box a single line whatever the floor is', () => {
+      renderMultiline({ multiline: true, minLines: 3 });
+
+      expect(field().props.style.minHeight).toBe(body2.lineHeight);
+    });
+
+    it('caps the growth at maxLines', () => {
+      renderMultiline({ multiline: true, minLines: 2, maxLines: 4 });
+
+      expect(container().props.style.minHeight).toBe(
+        2 * body2.lineHeight + labelledChrome,
+      );
+      expect(field().props.style.maxHeight).toBe(4 * body2.lineHeight);
+    });
+
+    it('gives a fixed box when minLines and maxLines match', () => {
+      renderMultiline({ multiline: true, minLines: 3, maxLines: 3 });
+
+      expect(container().props.style.minHeight).toBe(
+        3 * body2.lineHeight + labelledChrome,
+      );
+      expect(field().props.style.maxHeight).toBe(3 * body2.lineHeight);
+    });
+
+    it('takes the token line height on Android', () => {
+      jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+
+      renderMultiline({ multiline: true });
+
+      expect(field().props.style.lineHeight).toBe(body2.lineHeight);
+    });
+
+    it('leaves the line height natural on iOS', () => {
+      jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
+
+      renderMultiline({ multiline: true });
+
+      expect(field().props.style.lineHeight).toBe(0);
+    });
+
+    it('still renders the clear button and the counter', () => {
+      renderMultiline({
+        multiline: true,
+        minLines: 2,
+        value: 'Hello',
+        maxCount: 32,
+      });
+
+      expect(screen.UNSAFE_getByType(DeleteCircleFill)).toBeTruthy();
+      expect(screen.getByText('5/32')).toBeTruthy();
     });
   });
 });

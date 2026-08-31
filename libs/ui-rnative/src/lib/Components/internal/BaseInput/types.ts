@@ -78,7 +78,22 @@ export type BaseInputProps = {
    * @default false
    */
   hideClearButton?: boolean;
-} & Omit<TextInputProps, 'style'> &
+  /**
+   * Renders a multi-line field that auto-grows between `minLines` and `maxLines`.
+   * @default false
+   */
+  multiline?: boolean;
+  /**
+   * Minimum height of the field, in lines. Ignored unless `multiline` is set.
+   * @default 1
+   */
+  minLines?: number;
+  /**
+   * Growth ceiling, in lines; past it the field scrolls internally. Unbounded when
+   * omitted. Ignored unless `multiline` is set.
+   */
+  maxLines?: number;
+} & Omit<TextInputProps, 'style' | 'multiline' | 'numberOfLines'> &
   BoxProps;
 
 export type BaseInputLabelProps = {

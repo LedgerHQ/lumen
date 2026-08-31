@@ -1,7 +1,8 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
+import { RuntimeConstants } from '../../../utils';
 import { BaseInput } from '../../internal/BaseInput';
 import { QrCode } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -54,10 +55,16 @@ export const AddressInput = ({
 const useStyles = ({ disabled }: { disabled: boolean }) => {
   return useStyleSheet(
     (t) => ({
-      prefix: {
-        ...t.typographies.body1,
-        color: disabled ? t.colors.text.disabled : t.colors.text.base,
-      },
+      prefix: StyleSheet.flatten([
+        {
+          ...t.typographies.body1,
+          color: disabled ? t.colors.text.disabled : t.colors.text.base,
+        },
+        // iOS centres a Text's glyph inside an explicit line height but leaves the
+        // field's at the bottom of it, so the prefix needs the field's natural metrics
+        // to share a line with it.
+        RuntimeConstants.isIOS && { lineHeight: 0 },
+      ]),
     }),
     [disabled],
   );
