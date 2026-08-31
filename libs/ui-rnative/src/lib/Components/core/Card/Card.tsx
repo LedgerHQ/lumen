@@ -89,12 +89,10 @@ const [CardContentAlignProvider, useCardContentAlignContext] =
   });
 
 const useCardStyles = ({
-  outlined,
   pressed,
   disabled,
   interactive,
 }: {
-  outlined: boolean;
   pressed: boolean;
   disabled: boolean;
   interactive: boolean;
@@ -109,20 +107,20 @@ const useCardStyles = ({
           borderRadius: t.borderRadius.lg,
           backgroundColor: t.colors.bg.surface,
         },
-        outlined && {
-          outlineColor: t.colors.border.active,
-          outlineWidth: t.borderWidth.s2,
-          outlineOffset: -t.borderWidth.s2,
-          outlineStyle: 'solid',
-        },
         interactive &&
           pressed &&
           !disabled && {
             backgroundColor: t.colors.bg.surfacePressed,
           },
       ]),
+      outline: {
+        ...StyleSheet.absoluteFillObject,
+        borderRadius: t.borderRadius.lg,
+        borderWidth: t.borderWidth.s2,
+        borderColor: t.colors.border.active,
+      },
     }),
-    [outlined, pressed, disabled, interactive],
+    [pressed, disabled, interactive],
   );
 };
 
@@ -229,8 +227,19 @@ const CardInner = ({
   interactive: boolean;
   children: ReactNode;
 }) => {
-  const styles = useCardStyles({ outlined, pressed, disabled, interactive });
-  return <View style={styles.container}>{children}</View>;
+  const styles = useCardStyles({ pressed, disabled, interactive });
+  return (
+    <View style={styles.container}>
+      {children}
+      {outlined && (
+        <View
+          testID='card-outline'
+          style={styles.outline}
+          pointerEvents='none'
+        />
+      )}
+    </View>
+  );
 };
 
 const useHeaderStyles = ({ pressed }: { pressed: boolean }) => {

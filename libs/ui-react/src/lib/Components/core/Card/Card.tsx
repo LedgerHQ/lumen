@@ -78,15 +78,11 @@ const [CardContentAlignProvider, useCardContentAlignContext] =
   });
 
 const cardVariants = cva(
-  'flex w-full flex-col overflow-clip rounded-lg bg-surface text-base transition-colors',
+  'relative flex w-full flex-col overflow-clip rounded-lg bg-surface text-base transition-colors',
   {
     variants: {
       interactive: {
         true: 'cursor-pointer hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-surface-pressed',
-        false: '',
-      },
-      outlined: {
-        true: 'outline-2 -outline-offset-2 outline-active',
         false: '',
       },
       disabled: {
@@ -103,7 +99,6 @@ const cardVariants = cva(
     ],
     defaultVariants: {
       interactive: false,
-      outlined: false,
       disabled: false,
     },
   },
@@ -161,7 +156,6 @@ export const Card = ({
           className={cn(
             cardVariants({
               interactive: innerContext.cardClickable,
-              outlined,
               disabled,
             }),
             className,
@@ -169,6 +163,13 @@ export const Card = ({
           {...props}
         >
           {children}
+          {outlined && (
+            <span
+              data-testid='card-outline'
+              className='pointer-events-none absolute inset-0 rounded-[inherit] border-2 border-active'
+              aria-hidden='true'
+            />
+          )}
         </div>
       </DisabledProvider>
     </CardProvider>

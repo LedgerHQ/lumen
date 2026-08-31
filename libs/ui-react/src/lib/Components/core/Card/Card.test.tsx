@@ -121,29 +121,28 @@ describe('Card', () => {
   });
 
   describe('outlined', () => {
-    it('applies the selection outline when outlined', () => {
+    it('draws the selection outline as an overlay on top of the content', () => {
       renderCard({ outlined: true });
 
       const card = screen.getByTestId('card');
-      expect(card).toHaveClass('outline-2');
-      expect(card).toHaveClass('-outline-offset-2');
-      expect(card).toHaveClass('outline-active');
+      const outline = screen.getByTestId('card-outline');
+      expect(outline).toHaveClass('absolute', 'border-2', 'border-active');
+      expect(card.lastElementChild).toBe(outline);
     });
 
-    it('does not apply the selection outline by default', () => {
+    it('does not draw an outline by default', () => {
       renderCard();
 
-      const card = screen.getByTestId('card');
-      expect(card).not.toHaveClass('outline-2');
-      expect(card).not.toHaveClass('outline-active');
+      expect(screen.queryByTestId('card-outline')).not.toBeInTheDocument();
     });
 
-    it('keeps the selection outline out of the box model, so toggling it cannot shift layout', () => {
-      renderCard({ outlined: true });
+    it('keeps the card box model identical when outlined, so toggling cannot shift layout', () => {
+      const { unmount } = renderCard();
+      const plainClassName = screen.getByTestId('card').className;
+      unmount();
 
-      const card = screen.getByTestId('card');
-      expect(card).not.toHaveClass('border-2');
-      expect(card).not.toHaveClass('border-active');
+      renderCard({ outlined: true });
+      expect(screen.getByTestId('card').className).toBe(plainClassName);
     });
   });
 
