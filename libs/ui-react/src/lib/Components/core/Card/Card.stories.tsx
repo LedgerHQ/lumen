@@ -670,7 +670,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card className='w-320'>
+        <Card {...args} className='w-320'>
           <CardHeader>
             <CardLeading>
               <CardContent>
