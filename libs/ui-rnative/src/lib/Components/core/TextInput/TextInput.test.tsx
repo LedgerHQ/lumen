@@ -11,13 +11,11 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
 import type { TextInputProps } from './types';
 
-const { colors, spacings, borderWidth } = ledgerLiveThemes.dark;
+const { colors, spacings } = ledgerLiveThemes.dark;
 const { body1, body2 } = ledgerLiveThemes.dark.typographies.xs.body;
 
-// A labelled field sets its value in body2 and reserves a row above it for the floated
-// label; an unlabelled one — the shape AddressInput renders — sets it in body1 with no
-// such row. Either way the padding and the borders fall outside the text box the line
-// count applies to.
+// Labelled fields use body2 plus a reserved label row; unlabelled (AddressInput)
+// use body1. Chrome is padding (and that label row) so minLines={1} matches s48.
 const geometries: {
   name: string;
   props: Partial<TextInputProps>;
@@ -28,13 +26,13 @@ const geometries: {
     name: 'labelled',
     props: { label: 'Note' },
     lineHeight: body2.lineHeight,
-    chrome: spacings.s16 + 2 * spacings.s6 + 2 * borderWidth.s2,
+    chrome: spacings.s16 + 2 * spacings.s6,
   },
   {
     name: 'unlabelled',
     props: {},
     lineHeight: body1.lineHeight,
-    chrome: 2 * spacings.s12 + 2 * borderWidth.s2,
+    chrome: 2 * spacings.s12,
   },
 ];
 

@@ -14,7 +14,8 @@ import { DeleteCircleFill } from '../../symbols/icons/DeleteCircleFill';
 import { BaseInputCounter } from './BaseInputCounter';
 import { BaseInputHelperText } from './BaseInputHelperText';
 import { BaseInputLabel } from './BaseInputLabel';
-import { type BaseInputProps } from './types';
+import { getMultilineLayout, getMultilineMinHeight } from './multilineLayout';
+import { type BaseInputProps, type BaseInputStatus } from './types';
 import { useBaseInputValue } from './useBaseInputValue';
 
 export const BaseInput = ({
@@ -176,7 +177,17 @@ export const BaseInput = ({
   );
 };
 
-const useStyles = ({
+type StyleParams = {
+  status: BaseInputStatus | undefined;
+  isFocused: boolean;
+  isEditable: boolean;
+  hasLabel: boolean;
+  multiline: boolean;
+  minLines: number;
+  maxLines: number | undefined;
+};
+
+const useRowStyles = ({
   status,
   isFocused,
   isEditable,
@@ -184,15 +195,7 @@ const useStyles = ({
   multiline,
   minLines,
   maxLines,
-}: {
-  status: 'error' | 'success' | undefined;
-  isFocused: boolean;
-  isEditable: boolean;
-  hasLabel: boolean;
-  multiline: boolean;
-  minLines: number;
-  maxLines: number | undefined;
-}) => {
+}: StyleParams) => {
   return useStyleSheet(
     (t) => {
       const statusBorderColors = {
@@ -203,19 +206,7 @@ const useStyles = ({
       const borderWidth =
         statusBorderColor && !isFocused ? t.borderWidth.s1 : t.borderWidth.s2;
 
-      const multilineLineHeight = hasLabel
-        ? t.typographies.body2.lineHeight
-        : t.typographies.body1.lineHeight;
-      const labelRowHeight = hasLabel ? t.spacings.s16 : 0;
-      const multilinePaddingVertical = hasLabel
-        ? t.spacings.s6
-        : t.spacings.s12;
-      const floorLines = maxLines ? Math.min(minLines, maxLines) : minLines;
-      const multilineMinHeight =
-        floorLines * multilineLineHeight +
-        labelRowHeight +
-        2 * multilinePaddingVertical +
-        2 * t.borderWidth.s2;
+      const { paddingVertical } = getMultilineLayout(t, hasLabel);
 
       return {
         container: StyleSheet.flatten([
@@ -242,13 +233,42 @@ const useStyles = ({
             isEditable && { borderColor: t.colors.border.active },
           multiline && {
             alignItems: 'flex-start',
-            paddingVertical: multilinePaddingVertical,
+            paddingVertical,
             // The floor lives here so the input box stays exactly as tall as its text:
             // Android centres a line within its box, and that centring is what keeps
             // the value level with the placeholder, whose hint takes no line-height span.
-            minHeight: multilineMinHeight,
+            minHeight: getMultilineMinHeight(t, {
+              hasLabel,
+              minLines,
+              maxLines,
+            }),
           },
         ]),
+        suffixContainer: StyleSheet.flatten([
+          {
+            minWidth: t.sizes.s20,
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          multiline && { marginTop: t.spacings.s2 },
+        ]),
+      };
+    },
+    [status, isFocused, isEditable, hasLabel, multiline, minLines, maxLines],
+  );
+};
+
+const useInputStyles = ({
+  isEditable,
+  hasLabel,
+  multiline,
+  maxLines,
+}: Omit<StyleParams, 'status' | 'isFocused' | 'minLines'>) => {
+  return useStyleSheet(
+    (t) => {
+      const { lineHeight, labelRowHeight } = getMultilineLayout(t, hasLabel);
+
+      return {
         input: StyleSheet.flatten([
           {
             position: 'relative',
@@ -279,32 +299,39 @@ const useStyles = ({
             marginTop: labelRowHeight,
             // Native measures the text and Yoga clamps it between one line and
             // maxLines — that is the whole autosize mechanism.
-            minHeight: multilineLineHeight,
-            maxHeight: maxLines ? maxLines * multilineLineHeight : undefined,
+            minHeight: lineHeight,
+            maxHeight: maxLines ? maxLines * lineHeight : undefined,
           },
           // Only Android takes the token line height. iOS centres a Text's glyph inside
           // an explicit line height but leaves a TextInput's at the bottom of it, so one
           // here would drop the value and the placeholder below the prefix and the label.
-          multiline &&
-            RuntimeConstants.isAndroid && { lineHeight: multilineLineHeight },
-        ]),
-        footerContainer: {
-          marginTop: t.spacings.s8,
-          flexDirection: 'row',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: t.spacings.s8,
-        },
-        suffixContainer: StyleSheet.flatten([
-          {
-            minWidth: t.sizes.s20,
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-          multiline && { marginTop: t.spacings.s2 },
+          multiline && RuntimeConstants.isAndroid && { lineHeight },
         ]),
       };
     },
-    [status, isFocused, isEditable, hasLabel, multiline, minLines, maxLines],
+    [isEditable, hasLabel, multiline, maxLines],
   );
+};
+
+const useFooterStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      footerContainer: {
+        marginTop: t.spacings.s8,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: t.spacings.s8,
+      },
+    }),
+    [],
+  );
+};
+
+const useStyles = (params: StyleParams) => {
+  const { container, suffixContainer } = useRowStyles(params);
+  const { input } = useInputStyles(params);
+  const { footerContainer } = useFooterStyles();
+
+  return { container, input, suffixContainer, footerContainer };
 };
