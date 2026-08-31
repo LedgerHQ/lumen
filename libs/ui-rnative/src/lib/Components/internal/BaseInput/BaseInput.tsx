@@ -215,7 +215,7 @@ const useStyles = ({
         floorLines * multilineLineHeight +
         labelRowHeight +
         2 * multilinePaddingVertical +
-        2 * borderWidth;
+        2 * t.borderWidth.s2;
 
       return {
         container: StyleSheet.flatten([
