@@ -234,9 +234,6 @@ const useRowStyles = ({
           multiline && {
             alignItems: 'flex-start',
             paddingVertical,
-            // The floor lives here so the input box stays exactly as tall as its text:
-            // Android centres a line within its box, and that centring is what keeps
-            // the value level with the placeholder, whose hint takes no line-height span.
             minHeight: getMultilineMinHeight(t, {
               hasLabel,
               minLines,
@@ -297,14 +294,9 @@ const useInputStyles = ({
             paddingTop: 0,
             paddingBottom: 0,
             marginTop: labelRowHeight,
-            // Native measures the text and Yoga clamps it between one line and
-            // maxLines — that is the whole autosize mechanism.
             minHeight: lineHeight,
             maxHeight: maxLines ? maxLines * lineHeight : undefined,
           },
-          // Only Android takes the token line height. iOS centres a Text's glyph inside
-          // an explicit line height but leaves a TextInput's at the bottom of it, so one
-          // here would drop the value and the placeholder below the prefix and the label.
           multiline && RuntimeConstants.isAndroid && { lineHeight },
         ]),
       };

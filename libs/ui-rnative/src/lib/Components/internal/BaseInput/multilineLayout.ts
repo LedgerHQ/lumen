@@ -31,7 +31,7 @@ export const getMultilineLayout = (
 
 /**
  * Height floor of a multiline `BaseInput`: `minLines` of text — never more than
- * `maxLines` — plus the label row, the vertical padding and the borders.
+ * `maxLines` — plus the label row and the vertical padding.
  *
  * @internal
  */
@@ -45,10 +45,5 @@ export const getMultilineMinHeight = (
   );
   const floorLines = maxLines ? Math.min(minLines, maxLines) : minLines;
 
-  return (
-    floorLines * lineHeight +
-    labelRowHeight +
-    2 * paddingVertical +
-    2 * t.borderWidth.s2
-  );
+  return floorLines * lineHeight + labelRowHeight + 2 * paddingVertical;
 };
