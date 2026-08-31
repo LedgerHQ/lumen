@@ -123,7 +123,6 @@ export default function TextInputs() {
         label='A very long label that should really be truncated at different breakpoints'
         defaultValue='This is a default value!'
       />
-
       <SearchInput
         placeholder='Search for a component...'
         appearance='transparent'

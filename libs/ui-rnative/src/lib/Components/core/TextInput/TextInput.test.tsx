@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
+import { View } from 'react-native';
 import { RuntimeConstants } from '../../../utils';
 import { Pressable } from '../../primitives';
 import { CheckmarkCircleFill } from '../../symbols/icons/CheckmarkCircleFill';
@@ -11,12 +12,32 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
 import type { TextInputProps } from './types';
 
-const { colors, spacings, borderWidth } = ledgerLiveThemes.dark;
-const { body2 } = ledgerLiveThemes.dark.typographies.xs.body;
+const { colors, spacings, sizes, borderWidth } = ledgerLiveThemes.dark;
+const { body1, body2 } = ledgerLiveThemes.dark.typographies.xs.body;
 
-// The floated label row, the container padding and the borders all sit outside the
-// text box the line count applies to.
-const labelledChrome = spacings.s16 + 2 * spacings.s6 + 2 * borderWidth.s2;
+// A labelled field sets its value in body2 and reserves a row above it for the floated
+// label; an unlabelled one — the shape AddressInput renders — sets it in body1 with no
+// such row. Either way the padding and the borders fall outside the text box the line
+// count applies to.
+const geometries: {
+  name: string;
+  props: Partial<TextInputProps>;
+  lineHeight: number;
+  chrome: number;
+}[] = [
+  {
+    name: 'labelled',
+    props: { label: 'Note' },
+    lineHeight: body2.lineHeight,
+    chrome: spacings.s16 + 2 * spacings.s6 + 2 * borderWidth.s2,
+  },
+  {
+    name: 'unlabelled',
+    props: {},
+    lineHeight: body1.lineHeight,
+    chrome: 2 * spacings.s12 + 2 * borderWidth.s2,
+  },
+];
 
 const renderWithProvider = (
   component: ReactElement,
@@ -188,11 +209,16 @@ describe('TextInput', () => {
 
     const field = () => screen.getByPlaceholderText('Write a note');
     const container = () => screen.UNSAFE_getByType(Pressable);
+    // The suffix slot is the only element carrying the affordance's width floor.
+    const suffixSlot = () =>
+      screen
+        .UNSAFE_getAllByType(View)
+        .map((node) => node.props.style)
+        .find((style) => style?.minWidth === sizes.s20);
 
     const renderMultiline = (props: Partial<TextInputProps> = {}) =>
       renderWithProvider(
         <TextInput
-          label='Note'
           placeholder='Write a note'
           value=''
           onChangeText={() => {}}
@@ -201,7 +227,7 @@ describe('TextInput', () => {
       );
 
     it('stays single-line by default', () => {
-      renderMultiline();
+      renderMultiline({ label: 'Note' });
 
       const { multiline, style } = field().props;
 
@@ -209,62 +235,76 @@ describe('TextInput', () => {
       expect(style.minHeight).toBeUndefined();
     });
 
-    it('floors the field at minLines and leaves it unbounded above', () => {
-      renderMultiline({ multiline: true, minLines: 2 });
+    describe.each(geometries)('$name', ({ props, lineHeight, chrome }) => {
+      const renderCase = (extra: Partial<TextInputProps> = {}) =>
+        renderMultiline({ ...props, multiline: true, ...extra });
 
-      const { multiline, style } = field().props;
+      it('floors the field at minLines and leaves it unbounded above', () => {
+        renderCase({ minLines: 2 });
 
-      expect(multiline).toBe(true);
-      expect(container().props.style.minHeight).toBe(
-        2 * body2.lineHeight + labelledChrome,
-      );
-      expect(style.maxHeight).toBeUndefined();
-    });
+        expect(field().props.multiline).toBe(true);
+        expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBeUndefined();
+      });
 
-    // A box taller than its text would drop the value below the placeholder on
-    // Android, which centres a line within its box.
-    it('keeps the input box a single line whatever the floor is', () => {
-      renderMultiline({ multiline: true, minLines: 3 });
+      // A box taller than its text would drop the value below the placeholder on
+      // Android, which centres a line within its box.
+      it('keeps the input box a single line whatever the floor is', () => {
+        renderCase({ minLines: 3 });
 
-      expect(field().props.style.minHeight).toBe(body2.lineHeight);
-    });
+        expect(field().props.style.minHeight).toBe(lineHeight);
+      });
 
-    it('caps the growth at maxLines', () => {
-      renderMultiline({ multiline: true, minLines: 2, maxLines: 4 });
+      it('caps the growth at maxLines', () => {
+        renderCase({ minLines: 2, maxLines: 4 });
 
-      expect(container().props.style.minHeight).toBe(
-        2 * body2.lineHeight + labelledChrome,
-      );
-      expect(field().props.style.maxHeight).toBe(4 * body2.lineHeight);
-    });
+        expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBe(4 * lineHeight);
+      });
 
-    it('gives a fixed box when minLines and maxLines match', () => {
-      renderMultiline({ multiline: true, minLines: 3, maxLines: 3 });
+      it('gives a fixed box when minLines and maxLines match', () => {
+        renderCase({ minLines: 3, maxLines: 3 });
 
-      expect(container().props.style.minHeight).toBe(
-        3 * body2.lineHeight + labelledChrome,
-      );
-      expect(field().props.style.maxHeight).toBe(3 * body2.lineHeight);
-    });
+        expect(container().props.style.minHeight).toBe(3 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBe(3 * lineHeight);
+      });
 
-    it('takes the token line height on Android', () => {
-      jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+      it('lets maxLines win over a taller minLines', () => {
+        renderCase({ minLines: 5, maxLines: 2 });
 
-      renderMultiline({ multiline: true });
+        expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBe(2 * lineHeight);
+      });
 
-      expect(field().props.style.lineHeight).toBe(body2.lineHeight);
-    });
+      it('centres the affordance on the first line, not on the label', () => {
+        renderCase({ minLines: 2 });
 
-    it('leaves the line height natural on iOS', () => {
-      jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
+        const lineCentre = field().props.style.marginTop + lineHeight / 2;
+        const affordanceCentre = (suffixSlot()?.marginTop ?? 0) + sizes.s20 / 2;
 
-      renderMultiline({ multiline: true });
+        expect(affordanceCentre).toBe(lineCentre);
+      });
 
-      expect(field().props.style.lineHeight).toBe(0);
+      it('takes the token line height on Android', () => {
+        jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+
+        renderCase();
+
+        expect(field().props.style.lineHeight).toBe(lineHeight);
+      });
+
+      it('leaves the line height natural on iOS', () => {
+        jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
+
+        renderCase();
+
+        expect(field().props.style.lineHeight).toBe(0);
+      });
     });
 
     it('still renders the clear button and the counter', () => {
       renderMultiline({
+        label: 'Note',
         multiline: true,
         minLines: 2,
         value: 'Hello',

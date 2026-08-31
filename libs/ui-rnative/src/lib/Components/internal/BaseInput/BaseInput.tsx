@@ -210,8 +210,9 @@ const useStyles = ({
       const multilinePaddingVertical = hasLabel
         ? t.spacings.s6
         : t.spacings.s12;
+      const floorLines = maxLines ? Math.min(minLines, maxLines) : minLines;
       const multilineMinHeight =
-        minLines * multilineLineHeight +
+        floorLines * multilineLineHeight +
         labelRowHeight +
         2 * multilinePaddingVertical +
         2 * borderWidth;
@@ -300,7 +301,6 @@ const useStyles = ({
             alignItems: 'center',
             justifyContent: 'center',
           },
-          // Centres the 20px affordance on the first line rather than the whole box.
           multiline && { marginTop: t.spacings.s2 },
         ]),
       };

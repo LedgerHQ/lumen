@@ -13,6 +13,7 @@ export const AddressInput = ({
   suffix,
   onQrCodeClick,
   disabled: disabledProp,
+  multiline = false,
   ref,
   ...props
 }: AddressInputProps) => {
@@ -21,7 +22,7 @@ export const AddressInput = ({
     mergeWith: { disabled: disabledProp },
   });
   const { t } = useCommonTranslation();
-  const styles = useStyles({ disabled });
+  const styles = useStyles({ disabled, multiline });
 
   const actualPrefix = (
     <Text accessible={false} style={styles.prefix}>
@@ -47,12 +48,19 @@ export const AddressInput = ({
       prefix={actualPrefix}
       suffix={actualSuffix}
       disabled={disabledProp}
+      multiline={multiline}
       {...props}
     />
   );
 };
 
-const useStyles = ({ disabled }: { disabled: boolean }) => {
+const useStyles = ({
+  disabled,
+  multiline,
+}: {
+  disabled: boolean;
+  multiline: boolean;
+}) => {
   return useStyleSheet(
     (t) => ({
       prefix: StyleSheet.flatten([
@@ -60,12 +68,13 @@ const useStyles = ({ disabled }: { disabled: boolean }) => {
           ...t.typographies.body1,
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         },
-        // iOS centres a Text's glyph inside an explicit line height but leaves the
-        // field's at the bottom of it, so the prefix needs the field's natural metrics
+        // A multiline field top-aligns its row instead of centring it. iOS centres a
+        // Text's glyph inside an explicit line height but leaves the field's at the
+        // bottom of it, so only there does the prefix need the field's natural metrics
         // to share a line with it.
-        RuntimeConstants.isIOS && { lineHeight: 0 },
+        multiline && RuntimeConstants.isIOS && { lineHeight: 0 },
       ]),
     }),
-    [disabled],
+    [disabled, multiline],
   );
 };

@@ -174,6 +174,33 @@ export const WithNeutralHint: Story = {
   },
 };
 
+export const WithMultiline: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Note',
+    helperText: 'Grows from 2 to 5 lines, then scrolls',
+    multiline: true,
+    minLines: 2,
+    maxLines: 5,
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
+export const WithMultilineFixedHeight: Story = {
+  render: (args) => <TextInputStory {...args} />,
+  args: {
+    label: 'Note',
+    multiline: true,
+    minLines: 4,
+    maxLines: 4,
+    editable: true,
+    hideClearButton: false,
+    keyboardType: 'default',
+  },
+};
+
 export const DisabledTextInput: Story = {
   render: (args) => <TextInputStory {...args} initialValue='johndoe' />,
   args: {
