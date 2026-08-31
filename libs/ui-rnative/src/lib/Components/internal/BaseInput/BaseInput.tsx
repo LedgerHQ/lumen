@@ -14,7 +14,8 @@ import { DeleteCircleFill } from '../../symbols/icons/DeleteCircleFill';
 import { BaseInputCounter } from './BaseInputCounter';
 import { BaseInputHelperText } from './BaseInputHelperText';
 import { BaseInputLabel } from './BaseInputLabel';
-import { type BaseInputProps } from './types';
+import { getMultilineLayout, getMultilineMinHeight } from './multilineLayout';
+import { type BaseInputProps, type BaseInputStatus } from './types';
 import { useBaseInputValue } from './useBaseInputValue';
 
 export const BaseInput = ({
@@ -37,6 +38,9 @@ export const BaseInput = ({
   ref,
   placeholder: placeholderProp,
   onClear,
+  multiline = false,
+  minLines = 1,
+  maxLines,
   ...props
 }: BaseInputProps) => {
   const disabled = useDisabledContext({
@@ -79,11 +83,16 @@ export const BaseInput = ({
   // Both properties can be used to determine if the input is editable.
   const isEditable = editable !== false && !readOnly && !disabled;
 
+  const hasLabel = !!label;
+
   const styles = useStyles({
     status,
     isFocused,
     isEditable: !disabled,
-    hasLabel: !!label,
+    hasLabel,
+    multiline,
+    minLines,
+    maxLines,
   });
 
   return (
@@ -109,6 +118,10 @@ export const BaseInput = ({
             autoCorrect={false}
             selectionColor={theme.colors.text.active}
             placeholderTextColor={theme.colors.text.muted}
+            multiline={multiline}
+            // iOS hands the drag to the parent by default and the container Pressable
+            // claims it, which stops a clamped field from scrolling.
+            rejectResponderTermination={!multiline}
             {...props}
           />
 
@@ -164,25 +177,36 @@ export const BaseInput = ({
   );
 };
 
-const useStyles = ({
+type StyleParams = {
+  status: BaseInputStatus | undefined;
+  isFocused: boolean;
+  isEditable: boolean;
+  hasLabel: boolean;
+  multiline: boolean;
+  minLines: number;
+  maxLines: number | undefined;
+};
+
+const useRowStyles = ({
   status,
   isFocused,
   isEditable,
   hasLabel,
-}: {
-  status: 'error' | 'success' | undefined;
-  isFocused: boolean;
-  isEditable: boolean;
-  hasLabel: boolean;
-}) => {
+  multiline,
+  minLines,
+  maxLines,
+}: StyleParams) => {
   return useStyleSheet(
     (t) => {
-      const hasStatusBorder = status === 'error' || status === 'success';
       const statusBorderColors = {
         error: t.colors.border.error,
         success: t.colors.border.success,
       } as const;
       const statusBorderColor = status ? statusBorderColors[status] : undefined;
+      const borderWidth =
+        statusBorderColor && !isFocused ? t.borderWidth.s1 : t.borderWidth.s2;
+
+      const { paddingVertical } = getMultilineLayout(t, hasLabel);
 
       return {
         container: StyleSheet.flatten([
@@ -196,22 +220,52 @@ const useStyles = ({
             paddingHorizontal: t.spacings.s16,
             borderRadius: t.borderRadius.sm,
             backgroundColor: t.colors.bg.muted,
-            borderWidth: t.borderWidth.s2,
+            borderWidth,
             borderColor: 'transparent',
             overflow: 'hidden',
           },
-          hasStatusBorder &&
-            statusBorderColor && {
-              borderWidth: isFocused ? t.borderWidth.s2 : t.borderWidth.s1,
-              borderColor: statusBorderColor,
-            },
+          statusBorderColor && { borderColor: statusBorderColor },
           !isEditable && {
             backgroundColor: t.colors.bg.disabled,
           },
           isFocused &&
-            !hasStatusBorder &&
+            !statusBorderColor &&
             isEditable && { borderColor: t.colors.border.active },
+          multiline && {
+            alignItems: 'flex-start',
+            paddingVertical,
+            minHeight: getMultilineMinHeight(t, {
+              hasLabel,
+              minLines,
+              maxLines,
+            }),
+          },
         ]),
+        suffixContainer: StyleSheet.flatten([
+          {
+            minWidth: t.sizes.s20,
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          multiline && { marginTop: t.spacings.s2 },
+        ]),
+      };
+    },
+    [status, isFocused, isEditable, hasLabel, multiline, minLines, maxLines],
+  );
+};
+
+const useInputStyles = ({
+  isEditable,
+  hasLabel,
+  multiline,
+  maxLines,
+}: Omit<StyleParams, 'status' | 'isFocused' | 'minLines'>) => {
+  return useStyleSheet(
+    (t) => {
+      const { lineHeight, labelRowHeight } = getMultilineLayout(t, hasLabel);
+
+      return {
         input: StyleSheet.flatten([
           {
             position: 'relative',
@@ -236,21 +290,40 @@ const useStyles = ({
             backgroundColor: t.colors.bg.disabled,
             color: t.colors.text.disabled,
           },
+          multiline && {
+            paddingTop: 0,
+            paddingBottom: 0,
+            marginTop: labelRowHeight,
+            minHeight: lineHeight,
+            maxHeight: maxLines ? maxLines * lineHeight : undefined,
+          },
+          multiline && RuntimeConstants.isAndroid && { lineHeight },
         ]),
-        footerContainer: {
-          marginTop: t.spacings.s8,
-          flexDirection: 'row',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: t.spacings.s8,
-        },
-        suffixContainer: {
-          minWidth: t.sizes.s20,
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
       };
     },
-    [status, isFocused, isEditable, hasLabel],
+    [isEditable, hasLabel, multiline, maxLines],
   );
+};
+
+const useFooterStyles = () => {
+  return useStyleSheet(
+    (t) => ({
+      footerContainer: {
+        marginTop: t.spacings.s8,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: t.spacings.s8,
+      },
+    }),
+    [],
+  );
+};
+
+const useStyles = (params: StyleParams) => {
+  const { container, suffixContainer } = useRowStyles(params);
+  const { input } = useInputStyles(params);
+  const { footerContainer } = useFooterStyles();
+
+  return { container, input, suffixContainer, footerContainer };
 };

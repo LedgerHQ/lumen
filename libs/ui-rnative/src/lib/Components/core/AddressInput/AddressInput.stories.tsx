@@ -128,6 +128,34 @@ export const WithError: Story = {
   },
 };
 
+export const WithMultiline: Story = {
+  render: (args) => <AddressInputStory {...args} />,
+  args: {
+    placeholder: 'Enter address or ENS',
+    value: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
+    prefix: 'To:',
+    multiline: true,
+    minLines: 2,
+    maxLines: 5,
+    editable: true,
+    hideClearButton: false,
+  },
+};
+
+export const WithMultilineFixedHeight: Story = {
+  render: (args) => <AddressInputStory {...args} />,
+  args: {
+    placeholder: 'Enter address or ENS',
+    value: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
+    prefix: 'To:',
+    multiline: true,
+    minLines: 4,
+    maxLines: 4,
+    editable: true,
+    hideClearButton: false,
+  },
+};
+
 export const Disabled: Story = {
   render: (args) => <AddressInputStory {...args} />,
   args: {

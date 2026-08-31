@@ -8,6 +8,8 @@ export default function AddressInputs() {
   const [address, setAddress] = useState('');
   const [fromAddress, setFromAddress] = useState('');
   const [invalidAddress, setInvalidAddress] = useState('invalid-address');
+  const [growingAddress, setGrowingAddress] = useState(SAMPLE_ADDRESS);
+  const [fixedHeightAddress, setFixedHeightAddress] = useState(SAMPLE_ADDRESS);
 
   const openQrScanner = () =>
     Alert.alert(
@@ -22,6 +24,24 @@ export default function AddressInputs() {
         value={address}
         onChangeText={setAddress}
         onQrCodeClick={openQrScanner}
+      />
+      <AddressInput
+        placeholder='Enter address or ENS'
+        value={growingAddress}
+        onChangeText={setGrowingAddress}
+        onQrCodeClick={openQrScanner}
+        multiline
+        minLines={1}
+        maxLines={5}
+      />
+      <AddressInput
+        placeholder='Enter address or ENS'
+        value={fixedHeightAddress}
+        onChangeText={setFixedHeightAddress}
+        onQrCodeClick={openQrScanner}
+        multiline
+        minLines={4}
+        maxLines={4}
       />
       <AddressInput
         prefix='From:'

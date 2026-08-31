@@ -1,14 +1,40 @@
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
+import { RuntimeConstants } from '../../../utils';
+import { Pressable } from '../../primitives';
 import { CheckmarkCircleFill } from '../../symbols/icons/CheckmarkCircleFill';
 import { DeleteCircleFill } from '../../symbols/icons/DeleteCircleFill';
 import { InformationFill } from '../../symbols/icons/InformationFill';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
+import type { TextInputProps } from './types';
 
-const { colors } = ledgerLiveThemes.dark;
+const { colors, spacings } = ledgerLiveThemes.dark;
+const { body1, body2 } = ledgerLiveThemes.dark.typographies.xs.body;
+
+// Labelled fields use body2 plus a reserved label row; unlabelled (AddressInput)
+// use body1. Chrome is padding (and that label row) so minLines={1} matches s48.
+const geometries: {
+  name: string;
+  props: Partial<TextInputProps>;
+  lineHeight: number;
+  chrome: number;
+}[] = [
+  {
+    name: 'labelled',
+    props: { label: 'Note' },
+    lineHeight: body2.lineHeight,
+    chrome: spacings.s16 + 2 * spacings.s6,
+  },
+  {
+    name: 'unlabelled',
+    props: {},
+    lineHeight: body1.lineHeight,
+    chrome: 2 * spacings.s12,
+  },
+];
 
 const renderWithProvider = (
   component: ReactElement,
@@ -168,6 +194,107 @@ describe('TextInput', () => {
 
       expect(screen.getByDisplayValue('Ledger').props.editable).toBe(false);
       expect(screen.UNSAFE_queryByType(DeleteCircleFill)).toBeNull();
+    });
+  });
+
+  // The height itself is native, so the bounds are all these tests can reach: the
+  // container carries the minLines floor, the input box carries the ceiling.
+  describe('Multiline', () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    const field = () => screen.getByPlaceholderText('Write a note');
+    const container = () => screen.UNSAFE_getByType(Pressable);
+
+    const renderMultiline = (props: Partial<TextInputProps> = {}) =>
+      renderWithProvider(
+        <TextInput
+          placeholder='Write a note'
+          value=''
+          onChangeText={() => {}}
+          {...props}
+        />,
+      );
+
+    it('stays single-line by default', () => {
+      renderMultiline({ label: 'Note' });
+
+      const { multiline, style } = field().props;
+
+      expect(multiline).toBeFalsy();
+      expect(style.minHeight).toBeUndefined();
+    });
+
+    describe.each(geometries)('$name', ({ props, lineHeight, chrome }) => {
+      const renderCase = (extra: Partial<TextInputProps> = {}) =>
+        renderMultiline({ ...props, multiline: true, ...extra });
+
+      it('floors the field at minLines and leaves it unbounded above', () => {
+        renderCase({ minLines: 2 });
+
+        expect(field().props.multiline).toBe(true);
+        expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBeUndefined();
+      });
+
+      // A box taller than its text would drop the value below the placeholder on
+      // Android, which centres a line within its box.
+      it('keeps the input box a single line whatever the floor is', () => {
+        renderCase({ minLines: 3 });
+
+        expect(field().props.style.minHeight).toBe(lineHeight);
+      });
+
+      it('caps the growth at maxLines', () => {
+        renderCase({ minLines: 2, maxLines: 4 });
+
+        expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBe(4 * lineHeight);
+      });
+
+      it('gives a fixed box when minLines and maxLines match', () => {
+        renderCase({ minLines: 3, maxLines: 3 });
+
+        expect(container().props.style.minHeight).toBe(3 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBe(3 * lineHeight);
+      });
+
+      it('lets maxLines win over a taller minLines', () => {
+        renderCase({ minLines: 5, maxLines: 2 });
+
+        expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
+        expect(field().props.style.maxHeight).toBe(2 * lineHeight);
+      });
+
+      it('takes the token line height on Android', () => {
+        jest.spyOn(RuntimeConstants, 'isAndroid', 'get').mockReturnValue(true);
+
+        renderCase();
+
+        expect(field().props.style.lineHeight).toBe(lineHeight);
+      });
+
+      it('leaves the line height natural on iOS', () => {
+        jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
+
+        renderCase();
+
+        expect(field().props.style.lineHeight).toBe(0);
+      });
+    });
+
+    it('still renders the clear button and the counter', () => {
+      renderMultiline({
+        label: 'Note',
+        multiline: true,
+        minLines: 2,
+        value: 'Hello',
+        maxCount: 32,
+      });
+
+      expect(screen.UNSAFE_getByType(DeleteCircleFill)).toBeTruthy();
+      expect(screen.getByText('5/32')).toBeTruthy();
     });
   });
 });
