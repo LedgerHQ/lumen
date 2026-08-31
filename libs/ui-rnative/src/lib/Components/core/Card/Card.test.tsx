@@ -99,14 +99,21 @@ describe('Card', () => {
   });
 
   describe('outlined', () => {
-    it('renders without error when outlined', () => {
+    it('draws the selection outline as an absolutely positioned overlay', () => {
       renderCard({ outlined: true });
-      expect(screen.getByTestId('card')).toBeTruthy();
+
+      const outline = screen.getByTestId('card-outline');
+      expect(outline.props.style).toMatchObject({
+        position: 'absolute',
+        borderWidth: 2,
+      });
     });
 
-    it('renders without error when not outlined', () => {
+    it('does not draw an outline by default', () => {
       renderCard({ outlined: false });
+
       expect(screen.getByTestId('card')).toBeTruthy();
+      expect(screen.queryByTestId('card-outline')).toBeNull();
     });
   });
 
