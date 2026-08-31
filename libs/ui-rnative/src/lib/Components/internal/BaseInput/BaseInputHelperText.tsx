@@ -16,7 +16,7 @@ const useHelperTextStyles = ({
       helperContainer: {
         flex: 1,
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         gap: t.spacings.s2,
       },
       helperText: {
