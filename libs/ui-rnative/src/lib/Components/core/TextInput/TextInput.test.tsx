@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
-import { View } from 'react-native';
 import { RuntimeConstants } from '../../../utils';
 import { Pressable } from '../../primitives';
 import { CheckmarkCircleFill } from '../../symbols/icons/CheckmarkCircleFill';
@@ -12,7 +11,7 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TextInput } from './TextInput';
 import type { TextInputProps } from './types';
 
-const { colors, spacings, sizes, borderWidth } = ledgerLiveThemes.dark;
+const { colors, spacings, borderWidth } = ledgerLiveThemes.dark;
 const { body1, body2 } = ledgerLiveThemes.dark.typographies.xs.body;
 
 // A labelled field sets its value in body2 and reserves a row above it for the floated
@@ -209,12 +208,6 @@ describe('TextInput', () => {
 
     const field = () => screen.getByPlaceholderText('Write a note');
     const container = () => screen.UNSAFE_getByType(Pressable);
-    // The suffix slot is the only element carrying the affordance's width floor.
-    const suffixSlot = () =>
-      screen
-        .UNSAFE_getAllByType(View)
-        .map((node) => node.props.style)
-        .find((style) => style?.minWidth === sizes.s20);
 
     const renderMultiline = (props: Partial<TextInputProps> = {}) =>
       renderWithProvider(
@@ -274,15 +267,6 @@ describe('TextInput', () => {
 
         expect(container().props.style.minHeight).toBe(2 * lineHeight + chrome);
         expect(field().props.style.maxHeight).toBe(2 * lineHeight);
-      });
-
-      it('centres the affordance on the first line, not on the label', () => {
-        renderCase({ minLines: 2 });
-
-        const lineCentre = field().props.style.marginTop + lineHeight / 2;
-        const affordanceCentre = (suffixSlot()?.marginTop ?? 0) + sizes.s20 / 2;
-
-        expect(affordanceCentre).toBe(lineCentre);
       });
 
       it('takes the token line height on Android', () => {

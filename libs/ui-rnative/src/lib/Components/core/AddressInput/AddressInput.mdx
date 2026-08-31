@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as AddressInputStories from './AddressInput.stories';
 import { AddressInput } from './AddressInput';
 import { CustomTabs, Tab } from '../../../../../.storybook/components';
@@ -50,6 +50,21 @@ A clear button appears **automatically** when input has content, replacing the Q
 Use `hideClearButton` to prevent the clear button from appearing.
 
 <Canvas of={AddressInputStories.WithHiddenClearButton} />
+
+### Multiline
+
+Set `multiline` to wrap a long address over several lines instead of truncating it. Prefix, QR scanner, clear button, helper text, and counter behave exactly as they do on a single-line field.
+
+- `minLines`: height the field starts at, in lines. Defaults to `1`
+- `maxLines`: growth ceiling, in lines. Once reached, the field scrolls internally instead of growing. Unbounded when omitted
+
+<Canvas of={AddressInputStories.WithMultiline} />
+
+Equal `minLines` and `maxLines` give a fixed-height box that scrolls instead of growing:
+
+<Canvas of={AddressInputStories.WithMultilineFixedHeight} />
+
+> **Note:** The scroll indicator inside a clamped field is drawn by the platform, so unlike the web component there is no `scrollbarWidth` prop to configure it.
 
 ### Error State
 
@@ -293,6 +308,16 @@ function MyComponent() {
 ```
 
 > **Note:** Helper text is optional. Use `helperText` with `status="error"` to show validation feedback below the input.
+
+### Multiline
+
+`multiline` wraps a long address over several lines, bounded by `minLines` and `maxLines`:
+
+<Source of={AddressInputStories.WithMultiline} />
+
+Equal `minLines` and `maxLines` give a fixed-height box that scrolls once the ceiling is reached.
+
+<Source of={AddressInputStories.WithMultilineFixedHeight} />
 
 ### With Custom Styling
 
