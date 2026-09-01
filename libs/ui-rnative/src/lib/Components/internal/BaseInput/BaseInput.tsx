@@ -16,7 +16,7 @@ import { BaseInputHelperText } from './BaseInputHelperText';
 import { BaseInputLabel } from './BaseInputLabel';
 import { getMultilineLayout, getMultilineMinHeight } from './multilineLayout';
 import { type BaseInputProps, type BaseInputStatus } from './types';
-import { useBaseInputValue } from './useBaseInputValue';
+import { useBaseInputValue } from './useBaseInputValue/useBaseInputValue';
 
 export const BaseInput = ({
   lx,
