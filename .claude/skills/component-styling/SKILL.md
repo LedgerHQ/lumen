@@ -5,7 +5,7 @@ description: >-
   (and their visualization libs) — the cross-platform styling principles, plus
   routing to the platform mechanics: Tailwind + cva + cn on web, useStyleSheet +
   themeJS + lx on React Native. Load this before writing component styles.
-paths: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts, libs/ui-react-visualization/**/*.tsx, libs/ui-rnative/**/*.tsx, libs/ui-rnative/**/*.ts, libs/ui-rnative-visualization/**/*.tsx
+paths: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts, libs/ui-rnative/**/*.tsx, libs/ui-rnative/**/*.ts, libs/ui-rnative-visualization/**/*.tsx
 ---
 
 # Component styling
@@ -22,7 +22,7 @@ then read the matching reference:
 
 | Lib | Read |
 | --- | --- |
-| `libs/ui-react`, `libs/ui-react-visualization` | `references/react.md` (Tailwind + cva + cn) |
+| `libs/ui-react` | `references/react.md` (Tailwind + cva + cn) |
 | `libs/ui-rnative`, `libs/ui-rnative-visualization` | `references/rnative.md` (`useStyleSheet` + themeJS + `lx`) |
 
 **Never apply one platform's mechanics to the other lib.** A className on an RN

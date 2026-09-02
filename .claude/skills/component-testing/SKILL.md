@@ -5,7 +5,7 @@ description: >-
   libs/ui-rnative (and their visualization libs) — shared structure and coverage
   conventions, plus the per-platform runner: Vitest + React Testing Library on
   web, Jest + React Native Testing Library on RN. Load this before writing tests.
-paths: libs/ui-react/**/*.test.tsx, libs/ui-react/**/*.test.ts, libs/ui-react-visualization/**/*.test.tsx, libs/ui-rnative/**/*.test.tsx, libs/ui-rnative/**/*.test.ts, libs/ui-rnative-visualization/**/*.test.tsx
+paths: libs/ui-react/**/*.test.tsx, libs/ui-react/**/*.test.ts, libs/ui-rnative/**/*.test.tsx, libs/ui-rnative/**/*.test.ts, libs/ui-rnative-visualization/**/*.test.tsx
 ---
 
 # Component testing
@@ -27,7 +27,7 @@ differ. Read the shared conventions, then the section for the lib you're in
   richer components, and `it.each([...])` for variant/size matrices.
 - **No snapshot tests** unless there's a clear reason.
 
-## React web (`libs/ui-react`, `libs/ui-react-visualization`)
+## React web (`libs/ui-react`)
 
 Runner: **Vitest** + React Testing Library.
 
