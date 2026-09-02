@@ -1,6 +1,7 @@
 import { cn, useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, ChangeEventHandler, RefObject } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import type { BaseInputMultilineProps } from './types';
 import { useAutosizeTextarea } from './useAutosizeTextarea';
 
@@ -29,6 +30,45 @@ const textareaVariants = cva(
 );
 
 /**
+ * Scrolls a focused textarea to its trailing newline after the field has grown.
+ * Browsers park the caret before that newline, so the new empty line would otherwise
+ * sit out of view. Must run after `useAutosizeTextarea`: a scroll during the change
+ * event aims at the height the box had before it grew.
+ */
+const useScrollToTrailingNewline = (
+  textareaRef: RefObject<HTMLTextAreaElement | null>,
+  onChange: BaseInputMultilineProps['onChange'],
+): ChangeEventHandler<HTMLTextAreaElement> => {
+  const shouldRevealCaretRef = useRef(false);
+
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+    const textarea = event.target;
+    const isComposing =
+      'isComposing' in event.nativeEvent &&
+      event.nativeEvent.isComposing === true;
+
+    shouldRevealCaretRef.current =
+      !isComposing &&
+      textarea.value.endsWith('\n') &&
+      textarea.selectionStart === textarea.value.length;
+
+    onChange?.(event);
+  };
+
+  useLayoutEffect(() => {
+    if (!shouldRevealCaretRef.current) return;
+    shouldRevealCaretRef.current = false;
+
+    const textarea = textareaRef.current;
+    if (!textarea || document.activeElement !== textarea) return;
+
+    textarea.scrollTop = textarea.scrollHeight;
+  });
+
+  return handleChange;
+};
+
+/**
  * The auto-growing multi-line control rendered inside `BaseInput`, paired with the
  * hidden clone it is measured against.
  *
@@ -49,18 +89,7 @@ export const BaseInputMultiline = ({
     maxLines,
   });
   const composedRef = useMergedRef(ref, textareaRef);
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    const textarea = event.target;
-    const { length } = textarea.value;
-
-    // Browsers park the caret before a trailing newline, scrolling the new line out of view.
-    if (textarea.value.endsWith('\n') && textarea.selectionStart === length) {
-      textarea.setSelectionRange(length, length);
-    }
-
-    onChange?.(event);
-  };
+  const handleChange = useScrollToTrailingNewline(textareaRef, onChange);
 
   return (
     <>

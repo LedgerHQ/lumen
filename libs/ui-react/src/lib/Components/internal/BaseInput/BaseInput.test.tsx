@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { useState } from 'react';
+import type { Mock } from 'vitest';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { BaseInput } from './BaseInput';
 import type { BaseInputElement } from './types';
@@ -33,6 +34,19 @@ beforeAll(() => {
     },
   });
 });
+
+/** jsdom ignores scrollTop writes, so the assignment itself is what we observe. */
+const trackScrollTop = (element: HTMLElement): Mock => {
+  const setScrollTop = vi.fn();
+
+  Object.defineProperty(element, 'scrollTop', {
+    configurable: true,
+    get: () => 0,
+    set: setScrollTop,
+  });
+
+  return setScrollTop;
+};
 
 /** Mirrors how a consumer drives BaseInput as a fully controlled input. */
 const ControlledBaseInput = ({
@@ -320,6 +334,66 @@ describe('BaseInput', () => {
 
       expect(textbox).toHaveStyle({ height: '40px' });
       expect(textbox.style.overflow).toBe('');
+    });
+
+    it('pins a scrolled field to its bottom so a trailing newline stays visible', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          maxLines={2}
+          defaultValue={'one\ntwo'}
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+      textbox.focus();
+      const setScrollTop = trackScrollTop(textbox);
+
+      fireEvent.change(textbox, { target: { value: 'one\ntwo\n' } });
+
+      // The pin lands on the grown scrollHeight, not the height the field had while typing.
+      expect(setScrollTop).toHaveBeenCalledWith(3 * LINE_HEIGHT);
+    });
+
+    it('leaves the scroll position alone when the value has no trailing newline', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          maxLines={2}
+          defaultValue={'one\ntwo'}
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+      textbox.focus();
+      const setScrollTop = trackScrollTop(textbox);
+
+      fireEvent.change(textbox, { target: { value: 'one\ntwo\nthree' } });
+
+      expect(setScrollTop).not.toHaveBeenCalled();
+    });
+
+    it('leaves the scroll position alone when the field is not focused', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          maxLines={2}
+          defaultValue={'one\ntwo'}
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+      const setScrollTop = trackScrollTop(textbox);
+
+      fireEvent.change(textbox, { target: { value: 'one\ntwo\n' } });
+
+      expect(setScrollTop).not.toHaveBeenCalled();
     });
 
     it('clears a multiline field through the textarea value setter', () => {
