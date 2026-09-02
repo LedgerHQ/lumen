@@ -114,6 +114,10 @@ const [value, setValue] = useControllableState({
 - **Booleans are positive**: `isFull`, `overlay`, `loading` — never `noOverlay`.
 - **Keep the public surface minimal and self-explanatory.** Every public prop
   carries JSDoc with intent and an `@default` (or `@required`) tag.
+- **JSDoc describes behaviour, not the type.** Do not enumerate union/literal
+  values already on the TypeScript type (`'auto'` / `'none'`, `'plain'`, …).
+  That makes JSDoc a second API that can drift. Keep the behavioural
+  description; let the type (and JSDoc parsers) surface the literals.
 - **Shared logic goes in `utils-shared`**, not copied across components.
 - **A hook that manages state *and* derives data *and* subscribes to events is
   doing too much** — split it.
@@ -164,4 +168,5 @@ Rules verifiable from a diff.
 | Cross-platform prop divergence without a stated reason | both | prop names/defaults differ from the other platform's `types.ts` | documented platform-idiom divergence (e.g. `Switch`) |
 | Reflexive memoization with no measured need | both | `memo`/`useMemo`/`useCallback` around trivial work | measured hot paths |
 | Public prop missing JSDoc intent / `@default` | both | undocumented prop in `types.ts` | internal `Base*Props` |
+| JSDoc enumerates union/literal values already on the type | both | JSDoc lists `'foo' \\| 'bar'` or bullet-lists the same literals as the type | restating a default with `@default` |
 | Logic duplicated across components that belongs in `utils-shared` | both | copy-pasted helper in two component folders | — |
