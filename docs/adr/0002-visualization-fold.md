@@ -330,9 +330,33 @@ description, nothing to decommission.
 | **5** | Docs, skills, agent guidance, `.vscode`, sonar, issue template |
 | **6** | `npm deprecate` both packages; coordinate the ledger-live bump |
 
+### Retiring the published packages
+
 `npm deprecate` operates on already-published versions and needs no source, so
-deleting first is correct — do **not** try to publish a final release from a
-deleted project.
+deleting the folders first is correct — do **not** try to publish a final
+release from a deleted project.
+
+**But it must run *after* the release that ships the subpath, never before.**
+A deprecation notice is advice consumers act on immediately, and the replacement
+does not exist until ui-react and ui-rnative are published from this branch:
+`@ledgerhq/lumen-ui-react@0.1.56` declares only `.`, `./*`, `./package.json`,
+`./symbols` and `./tailwind.css`. Deprecating first would send every consumer to
+a subpath that resolves to nothing — the same ERR_MODULE_NOT_FOUND this ADR
+exists to prevent, delivered deliberately.
+
+Order: merge → `nx release` → confirm the subpath resolves in the published
+tarball → then deprecate, filling in the version that actually shipped:
+
+```
+npm deprecate @ledgerhq/lumen-ui-react-visualization@"*" \
+  "Merged into @ledgerhq/lumen-ui-react as the /visualization subpath (>=<VERSION>). Update imports to '@ledgerhq/lumen-ui-react/visualization' and drop the second tailwind.css import."
+
+npm deprecate @ledgerhq/lumen-ui-rnative-visualization@"*" \
+  "Merged into @ledgerhq/lumen-ui-rnative as the /visualization subpath (>=<VERSION>). Update imports to '@ledgerhq/lumen-ui-rnative/visualization'."
+```
+
+Both require publish rights on the `@ledgerhq` scope. Deprecation is reversible:
+re-running with an empty message clears it.
 
 Nx release (`nx.json:155-158`, `projects: ["libs/*"]`) self-adapts on folder
 deletion. Only ui-react and ui-rnative need a `patch` version plan.
