@@ -1,5 +1,6 @@
-import type { BoxProps, TextProps } from '@ledgerhq/lumen-ui-rnative';
 import type { ReactNode } from 'react';
+import type { BoxProps } from '../../primitives/Box';
+import type { TextProps } from '../../primitives/Text';
 
 import type { DonutSizeKey } from '../config';
 

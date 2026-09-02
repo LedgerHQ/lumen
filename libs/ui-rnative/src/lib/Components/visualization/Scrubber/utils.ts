@@ -1,3 +1,5 @@
+import type { BaseAxisProps } from '../Axis';
+import type { CartesianChartContextValue } from '../CartesianChart/types';
 import { chartConfig } from '../config';
 import { clamp } from '../utils/numbers';
 import {
@@ -6,8 +8,6 @@ import {
   isNumericScale,
 } from '../utils/scales/scales';
 import type { ChartScaleFunction, DrawingArea } from '../utils/types';
-import type { BaseAxisProps } from '../Axis';
-import type { CartesianChartContextValue } from '../CartesianChart/types';
 
 import type { ChartTooltipItemData, ScrubberTooltipContent } from './types';
 

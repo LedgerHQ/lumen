@@ -1,4 +1,4 @@
-import { Box } from '@ledgerhq/lumen-ui-rnative';
+import { Box } from '../../primitives/Box';
 
 import type { DonutChartCenterProps } from './types';
 

@@ -1,6 +1,7 @@
-import { Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
+import { useStyleSheet } from '../../../../../styles';
+import { Text } from '../../../primitives/Text';
 
 type ChartEmptyLabelProps = {
   children: ReactNode;

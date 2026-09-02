@@ -1,14 +1,14 @@
-import { triggerHapticFeedback } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import { triggerHapticFeedback } from '../../../Haptics';
 
-import { chartConfig } from '../config';
-import { clamp } from '../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { chartConfig } from '../config';
 import { useMagneticSnapshot } from '../Point/pointContext';
+import { clamp } from '../utils/numbers';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberProviderProps } from './types';
 import {

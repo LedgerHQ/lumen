@@ -1,15 +1,15 @@
 import { getContrastSafeColor } from '@ledgerhq/lumen-design-core';
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
+import { useTheme } from '../../../../styles';
 
-import { chartConfig, useChartTokens } from '../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, DEFAULT_AXIS_WIDTH, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel';
 import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
+import { chartConfig, useChartTokens } from '../config';
 import { Line } from '../Line';
 
 import { LineChartEmptyState } from './LineChartEmptyState';

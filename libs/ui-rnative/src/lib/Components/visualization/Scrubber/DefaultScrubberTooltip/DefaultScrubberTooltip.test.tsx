@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
 import type { ComponentProps, ReactNode } from 'react';
+import { ThemeProvider } from '../../../core/ThemeProvider';
 
 import { CartesianChart } from '../../CartesianChart';
 import { ScrubberContextProvider } from '../context';

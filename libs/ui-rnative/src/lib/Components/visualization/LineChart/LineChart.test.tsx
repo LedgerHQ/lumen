@@ -1,8 +1,8 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
 import { Circle } from 'react-native-svg';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { LineChart } from './LineChart';
 

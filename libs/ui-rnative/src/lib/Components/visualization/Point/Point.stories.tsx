@@ -1,9 +1,9 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View } from 'react-native';
 import { G } from 'react-native-svg';
 
 import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
+import { useTheme } from '../../../../styles';
 import { LineChart } from '../LineChart';
 import { Point, PointLabel } from './Point';
 

@@ -1,5 +1,5 @@
-import { useTheme } from '@ledgerhq/lumen-ui-rnative';
 import { Easing } from 'react-native-reanimated';
+import { useTheme } from '../../../styles';
 
 import type { ChartInset } from './utils/types';
 

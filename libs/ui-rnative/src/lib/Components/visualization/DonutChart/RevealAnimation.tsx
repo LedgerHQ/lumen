@@ -1,4 +1,3 @@
-import { RuntimeConstants } from '@ledgerhq/lumen-ui-rnative';
 import { type ReactNode, useEffect } from 'react';
 import Animated, {
   useAnimatedProps,
@@ -7,6 +6,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { ClipPath, Defs, G, Path } from 'react-native-svg';
+import { RuntimeConstants } from '../../../utils';
 
 import { chartConfig } from '../config';
 

@@ -1,4 +1,4 @@
-import type { BoxProps } from '@ledgerhq/lumen-ui-rnative';
+import type { BoxProps } from '../../primitives/Box';
 
 export type LegendItem = {
   /**

@@ -1,8 +1,8 @@
-import { useControllableState } from '@ledgerhq/lumen-ui-rnative';
 import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
+import { useControllableState } from '../../../utils';
 import { chartConfig, DONUT_GEOMETRY } from '../config';
 import { toRingLocalPoint } from './constants';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';

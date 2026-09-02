@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from 'react';
 
-import { projectPoint } from '../utils/scales/scales';
-import type { DrawingArea } from '../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useRevealFadeProps } from '../CartesianChart/RevealAnimation';
+import { projectPoint } from '../utils/scales/scales';
+import type { DrawingArea } from '../utils/types';
 import { useMagneticRegistry } from './pointContext';
 import type { MagneticRegistryValue } from './pointContext/magneticPointsContext';
 import { isWithinBounds, resolveDataXToIndex } from './utils';

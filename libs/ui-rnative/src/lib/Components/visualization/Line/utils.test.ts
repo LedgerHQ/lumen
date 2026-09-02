@@ -1,9 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import {
-  getCategoricalScale,
-  getNumericScale,
-} from '../utils/scales/scales';
+import { getCategoricalScale, getNumericScale } from '../utils/scales/scales';
 
 import { buildLinePath, toScaledPoints } from './utils';
 

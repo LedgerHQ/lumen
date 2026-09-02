@@ -1,15 +1,8 @@
 import { describe, expect, it } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
 
-import {
-  isCategoricalScale,
-  isNumericScale,
-} from '../../utils/scales/scales';
-import type {
-  ChartInset,
-  ChartScaleFunction,
-  Series,
-} from '../../utils/types';
+import { isCategoricalScale, isNumericScale } from '../../utils/scales/scales';
+import type { ChartInset, ChartScaleFunction, Series } from '../../utils/types';
 
 import {
   buildScale,

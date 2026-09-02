@@ -1,10 +1,10 @@
 import Animated from 'react-native-reanimated';
 import { G, Line as SvgLine, Path } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../config';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';
+import { chartConfig, useChartTokens } from '../../config';
 
 import type { LineChartEmptyStateProps } from './types';
 import { buildPlaceholderTransform } from './utils';

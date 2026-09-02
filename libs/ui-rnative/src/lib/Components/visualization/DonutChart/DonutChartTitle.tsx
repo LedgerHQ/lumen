@@ -1,6 +1,7 @@
-import { Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
-import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { StyleSheet } from 'react-native';
+import { useStyleSheet } from '../../../../styles';
+import { Text } from '../../primitives/Text';
+import type { TextProps } from '../../primitives/Text';
 
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartTitleProps, DonutSize, DonutTitleSize } from './types';

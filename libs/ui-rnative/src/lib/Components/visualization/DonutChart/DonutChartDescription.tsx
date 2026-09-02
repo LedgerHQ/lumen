@@ -1,7 +1,9 @@
-import { Box, Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
-import type { TextProps } from '@ledgerhq/lumen-ui-rnative';
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
+import { useStyleSheet } from '../../../../styles';
+import { Box } from '../../primitives/Box';
+import { Text } from '../../primitives/Text';
+import type { TextProps } from '../../primitives/Text';
 
 import { useDonutSizeContext } from './donutSizeContext';
 import type { DonutChartDescriptionProps, DonutSize } from './types';

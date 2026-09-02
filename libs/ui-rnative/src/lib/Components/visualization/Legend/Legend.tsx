@@ -1,4 +1,5 @@
-import { Box, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
+import { useStyleSheet } from '../../../../styles';
+import { Box } from '../../primitives/Box';
 
 import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';

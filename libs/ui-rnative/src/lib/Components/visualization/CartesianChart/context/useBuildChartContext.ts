@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import type { AxisBounds, BaseAxisProps } from '../../Axis';
 import {
   computeDataLength,
   computeXDomain,
@@ -16,7 +17,6 @@ import type {
   DrawingArea,
   Series,
 } from '../../utils/types';
-import type { AxisBounds, BaseAxisProps } from '../../Axis';
 import type { CartesianChartContextValue } from '../types';
 
 type UseBuildChartContextParams = {

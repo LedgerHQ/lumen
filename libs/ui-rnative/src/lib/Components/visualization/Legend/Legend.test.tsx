@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render, within } from '@testing-library/react-native';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { Legend } from './Legend';
 

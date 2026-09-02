@@ -1,5 +1,6 @@
-import { Text, useStyleSheet } from '@ledgerhq/lumen-ui-rnative';
 import { View } from 'react-native';
+import { useStyleSheet } from '../../../../styles';
+import { Text } from '../../primitives/Text';
 
 import type { LegendItem as LegendItemData } from './types';
 

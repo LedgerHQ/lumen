@@ -1,10 +1,10 @@
-import { chartConfig } from '../config';
-import { isFiniteNumber } from '../utils/numbers';
-import type { ChartInset, Series } from '../utils/types';
 import { DEFAULT_AXIS_HEIGHT } from '../Axis/XAxis';
 import type { XAxisProps } from '../Axis/XAxis';
 import { DEFAULT_AXIS_WIDTH } from '../Axis/YAxis';
 import type { YAxisProps } from '../Axis/YAxis';
+import { chartConfig } from '../config';
+import { isFiniteNumber } from '../utils/numbers';
+import type { ChartInset, Series } from '../utils/types';
 
 type ComputeAxisPaddingParams = {
   showXAxis: boolean;

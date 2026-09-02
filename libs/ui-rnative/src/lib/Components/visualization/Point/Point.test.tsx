@@ -1,9 +1,9 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { Text as SvgText } from 'react-native-svg';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { CartesianChart } from '../CartesianChart';
 

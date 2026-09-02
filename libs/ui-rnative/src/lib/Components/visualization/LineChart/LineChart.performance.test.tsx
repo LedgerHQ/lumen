@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
 import React, { Profiler } from 'react';
 import type { ProfilerOnRenderCallback } from 'react';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { Point } from '../Point';
 

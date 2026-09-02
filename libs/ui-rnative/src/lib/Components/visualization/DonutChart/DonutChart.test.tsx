@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { RuntimeConstants, ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 import { Text } from 'react-native';
+import { RuntimeConstants } from '../../../utils';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../config';
 import { DonutChart } from './DonutChart';

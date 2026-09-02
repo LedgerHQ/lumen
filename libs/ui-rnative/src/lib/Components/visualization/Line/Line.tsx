@@ -1,10 +1,10 @@
 import { useId, useMemo, memo } from 'react';
 import { Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../config';
-import { isNumericScale } from '../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePathReveal } from '../CartesianChart/RevealAnimation';
+import { chartConfig, useChartTokens } from '../config';
+import { isNumericScale } from '../utils/scales/scales';
 
 import type { LineProps } from './types';
 import { buildAreaPath, buildLinePath, toScaledPoints } from './utils';

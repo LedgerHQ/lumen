@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 import React, { Profiler } from 'react';
 import type { ProfilerOnRenderCallback } from 'react';
 import { Text } from 'react-native';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../config';
 import { DonutChart } from './DonutChart';
