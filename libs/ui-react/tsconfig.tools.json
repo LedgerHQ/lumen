@@ -23,6 +23,8 @@
     "src/**/*.stories.jsx",
     "src/**/*.stories.tsx",
     "src/**/*.mdx",
+    "src/**/__stories__/**/*.ts",
+    "src/**/__stories__/**/*.tsx",
     "src/**/*.figma.ts",
     "src/**/*.figma.js",
     "src/**/*.figma.jsx",
