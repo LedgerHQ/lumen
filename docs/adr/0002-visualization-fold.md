@@ -144,8 +144,12 @@ Twenty-five blockers, verified by reading files. Grouped by the PR that owns the
    packages: `d3-array`, `d3-color`, `d3-format`, `d3-interpolate`, `d3-path`,
    `d3-scale`, `d3-shape`, `internmap`, plus `class-variance-authority`, `clsx`
    and `tailwind-merge` — the last three **declared as peerDependencies and
-   bundled anyway**. npm never packs a `node_modules` directory into a tarball,
-   so this also leaves dangling relative imports. Add `/^d3-/` and `internmap`
+   bundled anyway**. These vendored copies **do** ship: `npm pack --dry-run`
+   lists 66 `dist/node_modules/**` entries, 332 KB of a 1.2 MB unpacked package,
+   and six emitted files import them by relative path
+   (`from "../../../node_modules/d3-scale/src/band.js"`). So the published
+   package is not broken — it is a **double-ship**: every consumer receives a
+   vendored copy alongside the one they install. Add `/^d3-/` and `internmap`
    to `external`; inherit ui-react's list, not the viz one.
 6. **Rewrite all self-imports to relative** — 13 statements / 11 files on web
    (2 of them `@ledgerhq/lumen-ui-react/symbols`, needing a different target),
@@ -160,6 +164,38 @@ Twenty-five blockers, verified by reading files. Grouped by the PR that owns the
    anywhere in the repo** — packaging is governed solely by `files` arrays, and
    `libs/ui-rnative/package.json` ships all of `src`.
 
+### The inner `Components/` segment — decide before moving
+
+Inside each viz lib the tree is `src/lib/{config.ts, utils/, Components/}`. When
+`src/lib/**` moves under `Components/visualization/`, that inner `Components/`
+either survives or is dissolved, and the choice sets the cost of the move.
+
+**158 imports cross that boundary** — 78 on web, 80 on RN — reaching `config` or
+`utils` from inside `Components/`, at two depths:
+
+| specifier | web | RN |
+| --- | --- | --- |
+| `'../../config'` | 24 | 22 |
+| `'../../../config'` | 13 | 14 |
+| `'../../utils/…'` | 28 | 28 |
+| `'../../../utils/…'` | 13 | 13 |
+| `'../utils'` | — | 3 |
+
+- **A — keep it.** Zero import churn; every relative depth is unchanged. Cost:
+  the permanent path `Components/visualization/Components/LineChart/`.
+- **B — dissolve it** (chart folders move up one level). All 158 imports lose one
+  `../`. Mechanical, one `sed` per depth class, and every miss is a loud `tsc`
+  error — never silent. Gives `Components/visualization/LineChart/`, consistent
+  with `Components/core/Button/`.
+- **C — rename it** to `charts/`. Depth is unchanged, so churn is **zero**, and
+  the name collision disappears: `Components/visualization/charts/LineChart/`.
+  Cost: one redundant directory level that means nothing.
+
+**Recommendation: B.** The PR already rewrites 47 self-imports and re-depths 12
+`StoryDecorator` imports, so the machinery is in place; 158 more scripted
+rewrites are the same operation, and this is the only chance to get the path
+right before it calcifies. Choose C if the PR is already too large to review.
+
 ### Types & peers
 
 8. **`@types/d3-scale` / `@types/d3-shape` must be real `dependencies`**, not
@@ -167,7 +203,8 @@ Twenty-five blockers, verified by reading files. Grouped by the PR that owns the
 9. **Add `react-native-gesture-handler` and `react-native-worklets` to
    `libs/ui-rnative` peerDependencies** with a `peerDependenciesMeta` optional
    block. `.npmrc:1` sets `legacy-peer-deps=true`, so there is zero local signal.
-10. **Decide the reanimated range** — `^4.1.0` (ui-rnative) vs `>=4.0.0` (viz).
+10. **Reanimated range: `^4.1.0`** (ui-rnative's, the narrower of the two).
+    The viz package's `>=4.0.0` is discarded. *Decided.*
 
 ### Test infrastructure
 
