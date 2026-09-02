@@ -1,1 +1,0 @@
-export { useBaseInputValue } from './useBaseInputValue';

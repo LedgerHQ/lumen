@@ -15,7 +15,7 @@ import { BaseInputLabel } from './BaseInputLabel';
 import { BaseInputMultiline } from './BaseInputMultiline';
 import { BaseInputSingleLine } from './BaseInputSingleLine';
 import type { BaseInputProps } from './types';
-import { useBaseInputValue } from './useBaseInputValue';
+import { useBaseInputValue } from './useBaseInputValue/useBaseInputValue';
 
 const containerVariants = cva(
   [

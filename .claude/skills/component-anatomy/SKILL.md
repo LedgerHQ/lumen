@@ -3,19 +3,20 @@ name: component-anatomy
 description: >-
   Use when creating, naming, or placing a file or folder in libs/*, or when
   modifying or adding a file to an existing component (even when the barrel isn't
-  touched) — component vs utility naming, the one-responsibility-per-file layout
-  with a barrel, and the required set of files a component needs per lib. Load
-  this before scaffolding or restructuring a component so the layout matches the
-  codebase.
+  touched) — component vs utility naming, the one-responsibility-per-file layout,
+  when a folder needs an `index.ts` barrel (public API only), and the required
+  set of files a component needs per lib. Load this before scaffolding or
+  restructuring a component so the layout matches the codebase.
 paths: libs/*/src/lib/Components/**/*.tsx, libs/**/index.ts
 ---
 
 # Component & file anatomy
 
 Naming and layout conventions for everything under `libs/*`. Each responsibility
-gets its own file; the folder's public API is exposed through an `index.ts`
-barrel. Which files a component *needs* depends on the lib — see the table below
-and the `Libraries` map in `AGENTS.md`.
+gets its own file. Barrels (`index.ts`) exist to expose a public API and to
+re-export several modules from one entry — not on every folder. Which files a
+component *needs* depends on the lib — see the table below and the `Libraries`
+map in `AGENTS.md`.
 
 ## Naming
 
@@ -32,10 +33,22 @@ files rather than one large module. This keeps diffs small and lets each skill
 
 ## Barrel & re-export
 
-- Every folder exposes its public API through `index.ts` (`export *` and
-  `export type *`). Import from the barrel, never from deep paths.
-- A new component must also be re-exported from its parent `Components` barrel so
-  it ships from the package root.
+A barrel is an `index.ts` that `export *` / `export type *` a folder's **public
+API**. Use one when consumers should import the folder, not a specific file:
+
+- **Package / layer barrels** (`Components/index.ts`, `core/index.ts`) — the
+  published surface.
+- **Component folders** (`Button/`, `TextInput/`, `BaseInput/`) — several files
+  (impl, types, sub-parts); the barrel is the import target. Import from that
+  barrel, never from `.../Button/Button`.
+- **A new public component** must also be re-exported from its parent
+  `Components` barrel so it ships from the package root.
+
+Do **not** add a barrel for every folder. Skip `index.ts` when the folder is an
+internal helper with a single implementation file (plus tests). Import the file
+directly (`useMyHook/useMyHook` is the pattern;
+`useMyHook/index.ts` is the anti-pattern to avoid repeating). A
+one-file folder does not need a barrel just to re-export that file.
 
 ## Component folder layout
 
@@ -53,10 +66,14 @@ ComponentName/
 ## Utility / hook folder layout
 
 ```
-useControllableState/
-├── useControllableState.ts       # implementation
-├── useControllableState.test.ts  # tests
-└── index.ts                      # barrel exposing the public API
+useControllableState/             # public util — barrel so consumers import the folder
+├── useControllableState.ts
+├── useControllableState.test.ts
+└── index.ts
+
+useBaseInputValue/                # internal helper, one impl file — no barrel
+├── useBaseInputValue.ts
+└── useBaseInputValue.test.ts
 ```
 
 ## Required files per lib
@@ -91,7 +108,9 @@ Rules verifiable from a diff. Everything above is authoring guidance.
 | Check | Applies to | Detect | Skip |
 | --- | --- | --- | --- |
 | Component folder/file not PascalCase, or utility not camelCase | all libs | folder/file casing vs kind | — |
-| Missing `index.ts` barrel, or import from a deep path instead of the barrel | all libs | new folder with no `index.ts`; `from '.../ComponentName/ComponentName'` | — |
+| Missing `index.ts` on a public component / package / layer folder | all libs | new public component folder with no barrel | internal helper folder (single impl + tests) |
+| Barrel on a single-file internal folder | all libs | new `index.ts` that only re-exports one sibling file | public component folders; folders that re-export several modules |
+| Import from a deep path instead of a public component barrel | all libs | `from '.../Button/Button'` when `Button/index.ts` exists | internal helpers that have no barrel |
 | New component not re-exported from the parent `Components` barrel | `ui-react`, `ui-rnative` | parent `index.ts` unchanged | — |
 | More than one responsibility in a file (impl + types + stories in one file) | all libs | stories/types/tests inlined in the impl file | — |
 | Required file missing for the lib (see table) | per lib | absent `.test.tsx` / `.mdx` / `.figma.tsx` where required | files a lib does not use (e.g. `.mdx`/figma in `ui-rnative-visualization`) |

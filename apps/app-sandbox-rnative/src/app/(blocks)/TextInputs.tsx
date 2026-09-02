@@ -14,8 +14,9 @@ export default function TextInputs() {
   const [bio, setBio] = useState('');
   const [note, setNote] = useState('This text exceeds the character limit');
   const [shortCode, setShortCode] = useState('');
-  const [message, setMessage] = useState('');
-  const [memo, setMemo] = useState('');
+  const [autoGrowNote, setAutoGrowNote] = useState('');
+  const [minLinesNote, setMinLinesNote] = useState('');
+  const [maxLinesNote, setMaxLinesNote] = useState('');
 
   const noteMaxCount = 32;
   const isNoteOverLimit = note.length > noteMaxCount;
@@ -30,7 +31,7 @@ export default function TextInputs() {
   const { theme } = useTheme();
 
   return (
-    <View style={{ minWidth: '100%', gap: 8 }}>
+    <View style={{ minWidth: '100%', gap: theme.spacings.s24 }}>
       <TextInput
         label='Username'
         onClear={() =>
@@ -40,22 +41,27 @@ export default function TextInputs() {
         }
       />
       <TextInput
-        label='Message'
-        value={message}
-        onChangeText={setMessage}
-        helperText='Grows from 1 to 5 lines, then scrolls'
+        label='Auto-grow'
+        value={autoGrowNote}
+        onChangeText={setAutoGrowNote}
+        helperText='multiline alone — grows forever, never scrolls'
         multiline
-        minLines={1}
-        maxLines={5}
       />
       <TextInput
-        label='Memo'
-        value={memo}
-        onChangeText={setMemo}
-        helperText='Fixed at 4 lines'
+        label='Min lines'
+        value={minLinesNote}
+        onChangeText={setMinLinesNote}
+        helperText='minLines 3 — starts at 3 lines, still unbounded'
         multiline
-        minLines={4}
-        maxLines={4}
+        minLines={3}
+      />
+      <TextInput
+        label='Max lines'
+        value={maxLinesNote}
+        onChangeText={setMaxLinesNote}
+        helperText='maxLines 3 — starts at 1 line, scrolls past 3'
+        multiline
+        maxLines={3}
       />
       <TextInput label='Email' placeholder='name@example.com' />
       <TextInput
