@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { createEvent, fireEvent, render, screen } from '@testing-library/react';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { useState } from 'react';
 import type { Mock } from 'vitest';
@@ -392,6 +392,57 @@ describe('BaseInput', () => {
       const setScrollTop = trackScrollTop(textbox);
 
       fireEvent.change(textbox, { target: { value: 'one\ntwo\n' } });
+
+      expect(setScrollTop).not.toHaveBeenCalled();
+    });
+
+    it('leaves the scroll position alone during IME composition', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          maxLines={2}
+          defaultValue={'one\ntwo'}
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+      textbox.focus();
+      const setScrollTop = trackScrollTop(textbox);
+
+      // Event() ignores isComposing in its init dict; stamp it on the native event React reads.
+      const event = createEvent.change(textbox, {
+        target: { value: 'one\ntwo\n' },
+      });
+      Object.defineProperty(event, 'isComposing', { value: true });
+      fireEvent(textbox, event);
+
+      expect(setScrollTop).not.toHaveBeenCalled();
+    });
+
+    it('leaves the scroll position alone when a trailing newline exists but the caret is earlier', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          maxLines={2}
+          defaultValue={'one\ntwo'}
+          {...createProps()}
+        />,
+      );
+
+      const textbox = screen.getByRole('textbox');
+      textbox.focus();
+      const setScrollTop = trackScrollTop(textbox);
+
+      fireEvent.change(textbox, {
+        target: {
+          value: 'one\ntwo\n',
+          selectionStart: 3,
+          selectionEnd: 3,
+        },
+      });
 
       expect(setScrollTop).not.toHaveBeenCalled();
     });
