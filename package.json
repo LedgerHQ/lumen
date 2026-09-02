@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "postinstall": "patch-package",
-    "check:agent-docs": "node scripts/check-agent-docs-drift.mjs"
+    "check:agent-docs": "node scripts/check-agent-docs-drift.mjs",
+    "check:package-exports": "node scripts/check-package-exports.mjs"
   },
   "private": true,
   "dependencies": {},

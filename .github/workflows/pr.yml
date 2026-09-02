@@ -96,6 +96,11 @@ jobs:
 
       - run: npx nx affected -t test:tree-shaking
 
+      - name: Verify every advertised export ships in the tarball
+        run: |
+          npx nx run-many -t build --projects='libs/*'
+          npm run check:package-exports
+
   unit-testing:
     name: Unit Testing
     runs-on: ubuntu-latest
