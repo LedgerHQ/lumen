@@ -14,6 +14,7 @@
 
 - Import components from `@ledgerhq/lumen-ui-rnative`
 - Import icons from `@ledgerhq/lumen-ui-rnative/symbols` (not from main package)
+- Import charts from `@ledgerhq/lumen-ui-rnative/visualization` (not from main package)
 - Import design tokens/presets from `@ledgerhq/lumen-design-core`
 
 ### Font Family (REQUIRED)

@@ -14,6 +14,7 @@
 
 - Import components from `@ledgerhq/lumen-ui-react`
 - Import icons from `@ledgerhq/lumen-ui-react/symbols` (not from main package)
+- Import charts from `@ledgerhq/lumen-ui-react/visualization` (not from main package)
 - Import design tokens/presets from `@ledgerhq/lumen-design-core`
 
 ### Font Family (REQUIRED)
@@ -25,10 +26,10 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 - Check the installed Tailwind major version first — the two paths differ:
 - **Tailwind v4 (recommended):** the main stylesheet MUST import Lumen's
   stylesheet so Tailwind scans the compiled components:
-  `@import '@ledgerhq/lumen-ui-react/tailwind.css';` (add
-  `@import '@ledgerhq/lumen-ui-react-visualization/tailwind.css';` when using
-  charts). Do NOT also add `./node_modules/@ledgerhq/lumen-ui-react/dist/**` to
-  the `content` array — that path is internal and may change in any release.
+  `@import '@ledgerhq/lumen-ui-react/tailwind.css';` — that single import
+  covers charts too. Do NOT also add
+  `./node_modules/@ledgerhq/lumen-ui-react/dist/**` to the `content` array —
+  that path is internal and may change in any release.
 - Always use a preset from `@ledgerhq/lumen-design-core`: ledgerLivePreset, enterprisePreset or websitesPreset
 - Import presets: `import { ledgerLivePreset } from '@ledgerhq/lumen-design-core'`
 

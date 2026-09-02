@@ -74,18 +74,9 @@ Import our stylesheet next to Tailwind in your main CSS file — that's all:
 @config '../tailwind.config.ts';
 ```
 
-If you use the charts package, add its stylesheet too:
-
-```css
-@import '@ledgerhq/lumen-ui-react-visualization/tailwind.css';
-```
-
-
-
-This is the legacy path. It works, but it pins your build to our internal `dist`
-layout, which may change in any release — and when it does, the glob stops
-matching and your utilities disappear with no build failure. Moving to Tailwind v4
-and the import above is the durable fix.
+That single import covers charts as well — they ship inside
+`@ledgerhq/lumen-ui-react` at the `/visualization` subpath, so there is no
+second stylesheet to add.
 
 ### 3. VSCode Extensions and Setup
 
