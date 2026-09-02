@@ -1,6 +1,6 @@
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { LineChart } from './LineChart';
 import type { LineChartProps } from './types';

@@ -1,15 +1,15 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import {
-  AmountDisplay,
-  Button,
-  SegmentedControl,
-  SegmentedControlButton,
-  Trend,
-} from '@ledgerhq/lumen-ui-react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useRef, useState } from 'react';
-
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { AmountDisplay } from '../../../core/AmountDisplay';
+import { Button } from '../../../core/Button';
+import {
+  SegmentedControl,
+  SegmentedControlButton,
+} from '../../../core/SegmentedControl';
+import { Trend } from '../../../core/Trend';
+
 import { Legend } from '../../Legend';
 import { Point } from '../../Point';
 import { ReferenceLine } from '../../ReferenceLine';

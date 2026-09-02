@@ -1,5 +1,5 @@
-import { useControllableState } from '@ledgerhq/lumen-ui-react';
 import { useMemo, type FocusEvent } from 'react';
+import { useControllableState } from '../../../../utils/useControllableState';
 
 import { chartConfig } from '../config';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';

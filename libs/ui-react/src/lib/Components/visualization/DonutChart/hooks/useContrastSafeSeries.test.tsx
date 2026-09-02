@@ -1,7 +1,7 @@
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { renderHook } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
+import { ThemeProvider } from '../../../core/ThemeProvider';
 
 import type { DonutSegment } from '../types';
 

@@ -1,9 +1,9 @@
 import { memo, useId, useMemo } from 'react';
 
-import { chartConfig } from '../config';
-import { isNumericScale } from '../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePathReveal } from '../CartesianChart/RevealAnimation';
+import { chartConfig } from '../config';
+import { isNumericScale } from '../utils/scales/scales';
 
 import type { LineProps } from './types';
 import { toScaledPoints, buildLinePath, buildAreaPath } from './utils';

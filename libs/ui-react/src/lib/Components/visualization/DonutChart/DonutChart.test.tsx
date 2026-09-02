@@ -1,7 +1,7 @@
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { fireEvent, render } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { chartConfig } from '../config';
 

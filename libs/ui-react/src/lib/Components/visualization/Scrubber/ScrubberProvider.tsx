@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { chartConfig } from '../config';
-import { clamp } from '../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
+import { chartConfig } from '../config';
 import { useMagneticSnapshot } from '../Point/pointContext';
+import { clamp } from '../utils/numbers';
 import { ScrubberContextProvider } from './context';
 import type { ScrubberContextValue, ScrubberProviderProps } from './types';
 import {

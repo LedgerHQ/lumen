@@ -1,11 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import type { ButtonProps, FormattedValue } from '@ledgerhq/lumen-ui-react';
-import {
-  ArrowDown,
-  ArrowUp,
-  Minus,
-  Plus,
-} from '@ledgerhq/lumen-ui-react/symbols';
+import type { FormattedValue } from '../../../core/AmountDisplay';
+import type { ButtonProps } from '../../../core/Button';
+import { ArrowDown, ArrowUp, Minus, Plus } from '../../../symbols';
 
 import type {
   ChartTooltipItemData,

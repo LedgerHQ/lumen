@@ -2,15 +2,15 @@ import {
   getContrastSafeColor,
   primitiveColorTokens,
 } from '@ledgerhq/lumen-design-core';
-import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
+import { useTheme } from '../../core/ThemeProvider';
 
-import { chartConfig } from '../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
 import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel/ChartEmptyLabel';
 import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
+import { chartConfig } from '../config';
 import { Line } from '../Line';
 
 import { LineChartEmptyState } from './LineChartEmptyState';

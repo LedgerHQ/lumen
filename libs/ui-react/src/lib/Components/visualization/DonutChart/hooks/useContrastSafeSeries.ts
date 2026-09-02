@@ -2,8 +2,8 @@ import {
   getContrastSafeColor,
   primitiveColorTokens,
 } from '@ledgerhq/lumen-design-core';
-import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
+import { useTheme } from '../../../core/ThemeProvider';
 
 import type { DonutSegment } from '../types';
 

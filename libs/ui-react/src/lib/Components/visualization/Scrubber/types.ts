@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
-import type { DrawingArea } from '../utils/types';
 import type { ScrubbingOptions } from '../CartesianChart/types';
+import type { DrawingArea } from '../utils/types';
 
 export type ScrubberContextValue = Required<
   Pick<ScrubbingOptions, 'enableScrubbing' | 'onScrubberPositionChange'>

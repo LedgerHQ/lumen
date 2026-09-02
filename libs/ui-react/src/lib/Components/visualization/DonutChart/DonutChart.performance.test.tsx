@@ -1,8 +1,8 @@
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { fireEvent, render } from '@testing-library/react';
 import { Profiler } from 'react';
 import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { chartConfig } from '../config';
 import { DonutChart } from './DonutChart';

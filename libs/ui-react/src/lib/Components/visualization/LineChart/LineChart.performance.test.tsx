@@ -1,8 +1,8 @@
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { Profiler } from 'react';
 import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { Point } from '../Point';
 import { Scrubber } from '../Scrubber';

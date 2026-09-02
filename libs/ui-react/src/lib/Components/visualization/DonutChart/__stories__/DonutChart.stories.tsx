@@ -1,11 +1,11 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { Button } from '@ledgerhq/lumen-ui-react';
-import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { Button } from '../../../core/Button';
+import { ChevronRight } from '../../../symbols';
 import { Legend } from '../../Legend';
 import { DonutChart } from '../DonutChart';
 import { DonutChartCenter } from '../DonutChartCenter';

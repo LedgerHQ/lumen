@@ -1,15 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import {
-  isCategoricalScale,
-  isNumericScale,
-} from '../../utils/scales/scales';
-import type {
-  ChartInset,
-  ChartScaleFunction,
-  Series,
-} from '../../utils/types';
+import { isCategoricalScale, isNumericScale } from '../../utils/scales/scales';
+import type { ChartInset, ChartScaleFunction, Series } from '../../utils/types';
 
 import {
   buildScale,

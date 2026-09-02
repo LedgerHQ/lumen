@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
+import { useCartesianChartContext } from '../CartesianChart/context';
 import { chartConfig } from '../config';
 import type { DrawingArea } from '../utils/types';
-import { useCartesianChartContext } from '../CartesianChart/context';
 
 import { useScrubberContext } from './context';
 import type { ScrubberProps } from './types';

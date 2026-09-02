@@ -1,10 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
 import { chartConfig } from '../config';
-import {
-  getCategoricalScale,
-  getNumericScale,
-} from '../utils/scales/scales';
+import { getCategoricalScale, getNumericScale } from '../utils/scales/scales';
 import type { DrawingArea } from '../utils/types';
 
 import {

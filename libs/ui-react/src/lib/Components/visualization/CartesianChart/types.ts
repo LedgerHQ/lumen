@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 
+import type { BaseAxisProps } from '../Axis';
 import type {
   ChartInset,
   ChartScaleFunction,
   DrawingArea,
   Series,
 } from '../utils/types';
-import type { BaseAxisProps } from '../Axis';
 
 /**
  * Chart-level scrubbing configuration. Owned here and composed by the chart

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
+import { useCartesianChartContext } from '../../CartesianChart/context';
 import { chartConfig } from '../../config';
 import { buildTicksData } from '../../utils/ticks/ticks';
-import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { YAxisProps } from './types';
 
