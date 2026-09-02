@@ -66,7 +66,7 @@ Gather everything that WOULD change. Do not write anything in this phase.
 ### 1a. Consistency (read-only lint — NO `--fix`)
 
 ```bash
-npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative @ledgerhq/lumen-ui-react-visualization
+npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative
 ```
 
 Note any story missing/with an incorrect `id` (the `storybook-stable-story-id` rule), and whether it is autofixable.
@@ -138,7 +138,7 @@ For each duplicate pair, remove the `Storybook` line and keep only the `Guidelin
 ### 2c. Consistency autofix
 
 ```bash
-npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative @ledgerhq/lumen-ui-react-visualization --fix
+npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative --fix
 ```
 
 ### 2d. Figma writes
@@ -155,7 +155,7 @@ Back up first (`GET /v1/files/:key/dev_resources` saved to disk), then reconcile
 
 ```bash
 rg --hidden -n '(/docs/(core|primitives)-|symbols-interface-icons|symbols-crypto-icons|lumen-ldls\.vercel\.app|react-native_)' libs   # expect none
-npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative @ledgerhq/lumen-ui-react-visualization
+npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative
 ```
 
 For Figma, re-`GET` dev_resources and assert every link uses a canonical host with a `react-`/`rnative-` id.

@@ -18,17 +18,11 @@ The Lumen Design System is structured as a monorepo using Nx, with the following
 ```sh
 lumen
   ├──libs/
-  │    ├── ui-react/                  # React components
+  │    ├── ui-react/                  # React components, charts included
   │    │                              # name: @ledgerhq/lumen-ui-react
   │    │
-  │    ├── ui-rnative/                # React Native components
+  │    ├── ui-rnative/                # React Native components, charts included
   │    │                              # name: @ledgerhq/lumen-ui-rnative
-  │    │       
-  │    ├── ui-react-visualization/    # React visualization components
-  │    │                              # name: @ledgerhq/lumen-ui-react-visualization
-  │    │
-  │    ├── ui-rnative-visualization/  # React Native components
-  │    │                              # name: @ledgerhq/lumen-ui-rnative-visualization
   │    │
   │    ├── design-core/               # Design tokens and themes
   │    │                              # name: @ledgerhq/lumen-design-core

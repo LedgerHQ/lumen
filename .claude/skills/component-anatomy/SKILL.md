@@ -86,10 +86,14 @@ lib does not use.
 | --- | --- | --- | --- | --- | --- | --- |
 | `ui-react` | required | required | required | co-located `.stories.tsx` | required | if in Figma |
 | `ui-rnative` | required | required | required | co-located `.stories.tsx` (id prefix `rnative-*`) | required | if in Figma |
-| `ui-react-visualization` | required | required | required | in `__stories__/` | required | none |
-| `ui-rnative-visualization` | required | required | required | flat `.stories.tsx` | none | none |
 | `design-core` | n/a (tokens, no components) | — | — | — | — | — |
 | `utils-shared` | camelCase util files | co-located or inline | required | — | — | — |
+
+**Charts** live at `Components/visualization/` inside `ui-react` and
+`ui-rnative`, exposed only at the `/visualization` subpath. They follow their
+lib's row above, with two exceptions: some web stories sit in `__stories__/`
+rather than co-located, and there is no `.figma.tsx` or `.mdx` coverage on the
+React Native side.
 
 Notes:
 
@@ -113,4 +117,4 @@ Rules verifiable from a diff. Everything above is authoring guidance.
 | Import from a deep path instead of a public component barrel | all libs | `from '.../Button/Button'` when `Button/index.ts` exists | internal helpers that have no barrel |
 | New component not re-exported from the parent `Components` barrel | `ui-react`, `ui-rnative` | parent `index.ts` unchanged | — |
 | More than one responsibility in a file (impl + types + stories in one file) | all libs | stories/types/tests inlined in the impl file | — |
-| Required file missing for the lib (see table) | per lib | absent `.test.tsx` / `.mdx` / `.figma.tsx` where required | files a lib does not use (e.g. `.mdx`/figma in `ui-rnative-visualization`) |
+| Required file missing for the lib (see table) | per lib | absent `.test.tsx` / `.mdx` / `.figma.tsx` where required | files a lib does not use (e.g. `.figma.tsx` under `Components/visualization/`) |
