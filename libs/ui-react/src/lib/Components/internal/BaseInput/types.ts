@@ -91,9 +91,8 @@ export type BaseInputProps = {
    */
   maxLines?: number;
   /**
-   * Visibility of the scroll affordance once the field reaches `maxLines`.
-   * `'auto'` uses the Lumen thin scrollbar; `'none'` hides it while the field
-   * stays scrollable. Ignored unless `multiline` is set.
+   * Controls whether the Lumen thin scrollbar is visible once the field reaches
+   * `maxLines`. Ignored unless `multiline` is set.
    * @default 'auto'
    */
   scrollbarWidth?: BaseInputScrollbarWidth;
