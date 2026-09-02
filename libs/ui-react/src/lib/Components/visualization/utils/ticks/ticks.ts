@@ -1,4 +1,4 @@
-import type { BaseAxisProps } from '../../Components/Axis';
+import type { BaseAxisProps } from '../../Axis';
 import { isCategoricalScale, isNumericScale } from '../scales/scales';
 import type { ChartScaleFunction } from '../types';
 
