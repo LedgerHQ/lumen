@@ -1,8 +1,8 @@
 import { useId, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
-import { chartConfig } from '../../../config';
-import type { DrawingArea, Series } from '../../../utils/types';
+import { chartConfig } from '../../config';
+import type { DrawingArea, Series } from '../../utils/types';
 
 const { reveal } = chartConfig;
 

@@ -1,11 +1,11 @@
-import { chartConfig } from '../../config';
-import { clamp } from '../../utils/numbers';
+import { chartConfig } from '../config';
+import { clamp } from '../utils/numbers';
 import {
   getPointOnScale,
   isCategoricalScale,
   isNumericScale,
-} from '../../utils/scales/scales';
-import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
+} from '../utils/scales/scales';
+import type { ChartScaleFunction, DrawingArea } from '../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import type { useCartesianChartContext } from '../CartesianChart/context';
 

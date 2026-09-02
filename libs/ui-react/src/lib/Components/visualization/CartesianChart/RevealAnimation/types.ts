@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 
-import type { DrawingArea, Series } from '../../../utils';
+import type { DrawingArea, Series } from '../../utils';
 
 /**
  * Value shared by the reveal animation provider.

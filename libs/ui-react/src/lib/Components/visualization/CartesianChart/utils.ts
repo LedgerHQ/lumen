@@ -1,5 +1,5 @@
-import { chartConfig } from '../../config';
-import type { ChartInset } from '../../utils/types';
+import { chartConfig } from '../config';
+import type { ChartInset } from '../utils/types';
 import type { CartesianChartProps } from './types';
 
 export const resolveInset = (

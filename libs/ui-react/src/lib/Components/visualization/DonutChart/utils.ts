@@ -1,6 +1,6 @@
 import { arc, pie, type PieArcDatum } from 'd3-shape';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 
 import type {
   DonutGeometry,

@@ -1,7 +1,7 @@
 import { type CSSProperties, useEffect, useMemo } from 'react';
 
-import { projectPoint } from '../../utils/scales/scales';
-import type { DrawingArea } from '../../utils/types';
+import { projectPoint } from '../utils/scales/scales';
+import type { DrawingArea } from '../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePointReveal } from '../CartesianChart/RevealAnimation';

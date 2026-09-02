@@ -1,4 +1,4 @@
-import type { Series } from '../../utils/types';
+import type { Series } from '../utils/types';
 import type { XAxisProps } from '../Axis/XAxis';
 import type { YAxisProps } from '../Axis/YAxis';
 import type { CartesianChartProps } from '../CartesianChart/types';

@@ -5,7 +5,7 @@ import {
 import { useTheme } from '@ledgerhq/lumen-ui-react';
 import { useMemo } from 'react';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';

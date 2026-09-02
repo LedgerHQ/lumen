@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import type { DrawingArea, Series } from '../../../utils/types';
+import type { DrawingArea, Series } from '../../utils/types';
 
 import { usePathReveal, usePointReveal } from './context';
 import { RevealAnimationProvider } from './RevealAnimationProvider';

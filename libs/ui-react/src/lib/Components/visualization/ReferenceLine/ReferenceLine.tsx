@@ -1,4 +1,4 @@
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 
 import type { ReferenceLineProps } from './types';
 import { useReferenceLineGeometry } from './useReferenceLineGeometry';

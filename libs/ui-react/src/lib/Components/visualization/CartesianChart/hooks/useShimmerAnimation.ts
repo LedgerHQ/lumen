@@ -1,6 +1,6 @@
 import { useId, useMemo } from 'react';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 
 const { shimmer } = chartConfig;
 

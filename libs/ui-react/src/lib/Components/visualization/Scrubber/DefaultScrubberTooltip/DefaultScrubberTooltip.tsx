@@ -1,4 +1,4 @@
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {

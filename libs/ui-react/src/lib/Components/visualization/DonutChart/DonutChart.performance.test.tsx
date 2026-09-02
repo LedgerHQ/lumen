@@ -4,7 +4,7 @@ import { Profiler } from 'react';
 import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import { DonutChart } from './DonutChart';
 import type { DonutSegment } from './types';
 

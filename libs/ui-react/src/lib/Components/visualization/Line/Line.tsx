@@ -1,7 +1,7 @@
 import { memo, useId, useMemo } from 'react';
 
-import { chartConfig } from '../../config';
-import { isNumericScale } from '../../utils/scales/scales';
+import { chartConfig } from '../config';
+import { isNumericScale } from '../utils/scales/scales';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { usePathReveal } from '../CartesianChart/RevealAnimation';
 

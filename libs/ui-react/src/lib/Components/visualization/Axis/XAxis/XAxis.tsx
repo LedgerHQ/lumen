@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { chartConfig } from '../../../config';
-import { buildTicksData } from '../../../utils/ticks/ticks';
+import { chartConfig } from '../../config';
+import { buildTicksData } from '../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { XAxisProps } from './types';

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 
 import { useDonutLoadingAnimation } from './hooks/useDonutLoadingAnimation';
 import { RevealAnimation } from './RevealAnimation';

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { chartConfig } from '../../config';
-import { clamp } from '../../utils/numbers';
+import { chartConfig } from '../config';
+import { clamp } from '../utils/numbers';
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useMagneticSnapshot } from '../Point/pointContext';
 import { ScrubberContextProvider } from './context';

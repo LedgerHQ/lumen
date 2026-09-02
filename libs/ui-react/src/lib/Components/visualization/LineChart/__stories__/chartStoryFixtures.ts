@@ -1,5 +1,5 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import type { Series } from '../../../utils/types';
+import type { Series } from '../../utils/types';
 
 /**
  * Shared fixtures for the Visualization Storybook stories.

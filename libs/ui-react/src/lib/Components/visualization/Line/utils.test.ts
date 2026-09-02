@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getCategoricalScale,
   getNumericScale,
-} from '../../utils/scales/scales';
+} from '../utils/scales/scales';
 
 import { buildLinePath, toScaledPoints } from './utils';
 

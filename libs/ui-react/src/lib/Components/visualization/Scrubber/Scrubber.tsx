@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';

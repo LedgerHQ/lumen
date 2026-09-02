@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { getNumericScale } from '../../utils/scales/scales';
-import type { DrawingArea } from '../../utils/types';
+import { getNumericScale } from '../utils/scales/scales';
+import type { DrawingArea } from '../utils/types';
 
 import {
   computeHorizontalLabelCoordinates,

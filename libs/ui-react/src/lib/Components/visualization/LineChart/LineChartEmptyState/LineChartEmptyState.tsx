@@ -1,4 +1,4 @@
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { useShimmerAnimation } from '../../CartesianChart/hooks/useShimmerAnimation';
 import { usePathReveal } from '../../CartesianChart/RevealAnimation';

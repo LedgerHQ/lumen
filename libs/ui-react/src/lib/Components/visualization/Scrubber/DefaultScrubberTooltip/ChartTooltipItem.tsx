@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import type { ChartTooltipItemProps } from '../types';
 
 const { color, font, tooltip } = chartConfig;

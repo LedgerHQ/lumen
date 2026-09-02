@@ -1,5 +1,5 @@
-import { chartConfig } from '../../../config';
-import type { DrawingArea } from '../../../utils/types';
+import { chartConfig } from '../../config';
+import type { DrawingArea } from '../../utils/types';
 
 /**
  * Transform that fits `chartConfig.emptyState.placeholderLinePath` into the

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import type { DonutActiveSegment } from './types';
 
 type DonutChartAnimatedCenterProps = {

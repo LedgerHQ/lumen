@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import type { DonutSegment } from './types';
 
 import {

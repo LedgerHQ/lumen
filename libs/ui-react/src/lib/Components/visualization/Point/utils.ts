@@ -1,5 +1,5 @@
-import { chartConfig } from '../../config';
-import type { DrawingArea } from '../../utils/types';
+import { chartConfig } from '../config';
+import type { DrawingArea } from '../utils/types';
 import type { BaseAxisProps } from '../Axis';
 import type { LabelAlignment } from './types';
 

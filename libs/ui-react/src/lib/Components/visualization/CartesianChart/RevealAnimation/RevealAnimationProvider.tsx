@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import { RevealAnimationContext } from './context';
 import type { RevealAnimationProps } from './types';
 import { useRevealAnimation, useDataFingerprint } from './utils';

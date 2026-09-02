@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-import type { chartConfig } from '../../config';
+import type { chartConfig } from '../config';
 
 export type DonutSize = keyof typeof chartConfig.donut.size;
 

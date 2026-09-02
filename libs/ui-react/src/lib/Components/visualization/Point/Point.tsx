@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import type {
   PointArrowProps,
   PointLabelProps,

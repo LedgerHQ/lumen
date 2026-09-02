@@ -1,8 +1,8 @@
 import type { RefObject } from 'react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { chartConfig } from '../../../config';
-import type { DrawingArea } from '../../../utils/types';
+import { chartConfig } from '../../config';
+import type { DrawingArea } from '../../utils/types';
 import type { ChartTooltipItemData, SvgTextContent } from '../types';
 
 const { tooltip } = chartConfig;

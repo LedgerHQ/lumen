@@ -11,14 +11,14 @@ import {
   type CurveFactory,
 } from 'd3-shape';
 
-import { isFiniteNumber } from '../../utils/numbers';
-import { isCategoricalScale } from '../../utils/scales/scales';
+import { isFiniteNumber } from '../utils/numbers';
+import { isCategoricalScale } from '../utils/scales/scales';
 import type {
   ChartScaleFunction,
   CurveType,
   DrawingArea,
   NumericScale,
-} from '../../utils/types';
+} from '../utils/types';
 
 type Point = [x: number, y: number | null];
 

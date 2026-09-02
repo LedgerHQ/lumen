@@ -5,7 +5,7 @@ import type {
   ChartScaleFunction,
   DrawingArea,
   Series,
-} from '../../utils/types';
+} from '../utils/types';
 import type { BaseAxisProps } from '../Axis';
 
 /**

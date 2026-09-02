@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 
 import { DonutChart } from './DonutChart';
 import { DonutChartCenter } from './DonutChartCenter';

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { chartConfig } from '../../config';
-import type { Series } from '../../utils/types';
+import { chartConfig } from '../config';
+import type { Series } from '../utils/types';
 
 import {
   canRenderLine,

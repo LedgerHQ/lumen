@@ -1,7 +1,7 @@
 import { useControllableState } from '@ledgerhq/lumen-ui-react';
 import { useMemo, type FocusEvent } from 'react';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';

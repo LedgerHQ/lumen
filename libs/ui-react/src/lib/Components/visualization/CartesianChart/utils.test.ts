@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import { resolveAxisPadding, resolveInset } from './utils';
 
 describe('resolveInset', () => {
