@@ -72,6 +72,11 @@ const excludedModules = [
   { name: 'Twitter symbol', path: 'Components/symbols/icons/Twitter' },
   { name: 'Discord symbol', path: 'Components/symbols/icons/Discord' },
   { name: 'Facebook symbol', path: 'Components/symbols/icons/Facebook' },
+  // Charts ship at the ./visualization subpath only. A Button-only bundle must
+  // carry neither the chart modules nor the d3 packages they pull in.
+  { name: 'visualization components', path: 'Components/visualization/' },
+  { name: 'd3 (any package)', path: 'node_modules/d3-' },
+  { name: 'internmap (d3-scale dep)', path: 'internmap' },
 ];
 
 let hasErrors = false;
@@ -94,6 +99,46 @@ for (const { name, path } of excludedModules) {
 
 if (foundUnwanted.length === 0) {
   logger.info('No unwanted components/symbols found');
+}
+
+/**
+ * Tailwind emits utilities only for classes it has actually seen. Lumen ships
+ * `@source "./dist/lib"` inside its own stylesheet, so if that glob ever stops
+ * matching — a dist restructure, a renamed folder — the consumer's CSS silently
+ * loses every Lumen utility with no build error. Nothing else in CI covers it.
+ *
+ * These utilities can only come from scanning Lumen's compiled dist: the
+ * fixture's own markup never writes them.
+ */
+const requiredUtilities = ['bg-accent', 'text-on-accent', 'body-2-semi-bold'];
+const MIN_CSS_BYTES = 50_000;
+
+const cssFile = files.find(
+  (file) => file.startsWith('index-') && file.endsWith('.css'),
+);
+
+if (!cssFile) {
+  logger.error('❌ No CSS emitted — Lumen\'s @source glob resolved nothing.');
+  hasErrors = true;
+} else {
+  const css = readFileSync(join(distPath, cssFile), 'utf-8');
+  logger.info(`Verifying Tailwind output: ${cssFile} (${css.length} bytes)`);
+
+  if (css.length < MIN_CSS_BYTES) {
+    logger.error(
+      `❌ CSS is only ${css.length} bytes (expected > ${MIN_CSS_BYTES}) — @source likely matched nothing.`,
+    );
+    hasErrors = true;
+  }
+
+  for (const utility of requiredUtilities) {
+    if (!css.includes(utility)) {
+      logger.error(
+        `❌ Utility "${utility}" missing from the emitted CSS — Lumen's dist is not being scanned.`,
+      );
+      hasErrors = true;
+    }
+  }
 }
 
 if (hasErrors) {
