@@ -10,7 +10,7 @@ export default defineConfig(() => ({
     postcss: resolve(__dirname, '../../postcss.config.js'),
   },
   build: {
-    outDir: './dist-visualization',
+    outDir: './dist/visualization',
     emptyOutDir: true,
     reportCompressedSize: true,
     minify: true,

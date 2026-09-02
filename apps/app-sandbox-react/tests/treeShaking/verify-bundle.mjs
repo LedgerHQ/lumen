@@ -95,7 +95,10 @@ const PROFILES = {
   visualization: {
     description: 'LineChart, imported from the ./visualization subpath',
     required: [
-      { name: 'LineChart component', path: 'Components/visualization/LineChart/' },
+      {
+        name: 'LineChart component',
+        path: 'Components/visualization/LineChart/',
+      },
       { name: 'd3-scale', path: 'node_modules/d3-scale' },
       { name: 'd3-shape', path: 'node_modules/d3-shape' },
     ],
@@ -155,10 +158,7 @@ const MIN_CSS_BYTES = 50_000;
 
 const cssFile = files.find((file) => file.endsWith('.css'));
 
-if (!cssFile) {
-  logger.error('❌ No CSS emitted — Lumen\'s @source glob resolved nothing.');
-  hasErrors = true;
-} else {
+if (cssFile) {
   const css = readFileSync(join(distPath, cssFile), 'utf-8');
   logger.info(`Verifying Tailwind output: ${cssFile} (${css.length} bytes)`);
 
@@ -177,6 +177,9 @@ if (!cssFile) {
       hasErrors = true;
     }
   }
+} else {
+  logger.error("❌ No CSS emitted — Lumen's @source glob resolved nothing.");
+  hasErrors = true;
 }
 
 if (hasErrors) {
