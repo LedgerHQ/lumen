@@ -13,9 +13,6 @@
       "path": "./libs/ui-react"
     },
     {
-      "path": "./libs/ui-react-visualization"
-    },
-    {
       "path": "./libs/design-core"
     },
     {

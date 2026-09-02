@@ -1,8 +1,0 @@
-/*
- * Registers the compiled visualization components as a Tailwind source.
- *
- * Same rationale as `@ledgerhq/lumen-ui-react/tailwind.css`: `@source` paths
- * resolve relative to this stylesheet, so consumers import a stable specifier
- * and our `dist` layout stays internal.
- */
-@source "./dist/lib";
