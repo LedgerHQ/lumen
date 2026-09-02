@@ -1,7 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useRef, useState } from 'react';
-import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { StoryDecorator } from '../../../../../../.storybook/StoryDecorator';
 import { AmountDisplay } from '../../../core/AmountDisplay';
 import { Button } from '../../../core/Button';
 import {

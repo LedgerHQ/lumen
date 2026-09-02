@@ -1,7 +1,7 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { StoryDecorator } from '../../../../../../.storybook/StoryDecorator';
 import { DonutChart } from '../../DonutChart';
 import type { DonutSegment } from '../../DonutChart/types';
 import { Legend } from '../Legend';

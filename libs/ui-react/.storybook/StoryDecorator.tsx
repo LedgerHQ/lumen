@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@ledgerhq/lumen-ui-react';
+import { ThemeProvider } from '../src/lib/Components/core/ThemeProvider';
 import React from 'react';
 import { useDarkMode } from 'storybook-dark-mode';
 

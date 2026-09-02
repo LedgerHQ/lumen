@@ -3,7 +3,7 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
-import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { StoryDecorator } from '../../../../../../.storybook/StoryDecorator';
 import { Button } from '../../../core/Button';
 import { ChevronRight } from '../../../symbols';
 import { Legend } from '../../Legend';
