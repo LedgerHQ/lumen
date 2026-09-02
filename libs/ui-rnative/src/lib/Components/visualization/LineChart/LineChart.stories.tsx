@@ -1,22 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View } from 'react-native';
 
-import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from './LineChart';
 
 const meta = {
   component: LineChart,
+  id: 'rnative-linechart',
   title: 'Visualization/LineChart',
   decorators: [
-    (Story, context) => {
-      return (
-        <StoryDecorator context={context}>
-          <View style={{ width: 600, padding: 16 }}>
-            <Story />
-          </View>
-        </StoryDecorator>
-      );
-    },
+    (Story) => (
+      <View style={{ width: 600, padding: 16 }}>
+        <Story />
+      </View>
+    ),
   ],
 } satisfies Meta<typeof LineChart>;
 

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 
-import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { LineChart } from '../LineChart';
 import { Point } from '../Point';
 import { Scrubber } from './Scrubber';
@@ -8,14 +7,8 @@ import type { ScrubberProps } from './types';
 
 const meta = {
   component: Scrubber,
+  id: 'rnative-scrubber',
   title: 'Visualization/Scrubber',
-  decorators: [
-    (Story, context) => (
-      <StoryDecorator context={context}>
-        <Story />
-      </StoryDecorator>
-    ),
-  ],
 } satisfies Meta<typeof Scrubber>;
 
 export default meta;

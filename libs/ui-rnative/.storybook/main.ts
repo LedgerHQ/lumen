@@ -8,7 +8,6 @@ const config: StorybookConfig = {
   stories: [
     '../src/lib/**/*.mdx',
     '../src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    // '../../ui-rnative-visualization/src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
     './docs/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
@@ -35,19 +34,10 @@ const config: StorybookConfig = {
       '@sbaiahmed1/react-native-blur': fileURLToPath(
         new URL('./mocks/blur.tsx', import.meta.url),
       ),
-      '@ledgerhq/lumen-ui-rnative': fileURLToPath(
-        new URL('../src/index.ts', import.meta.url),
-      ),
       '@ledgerhq/lumen-design-core': fileURLToPath(
         new URL('../../design-core/src/index.ts', import.meta.url),
       ),
     };
-
-    config.optimizeDeps = config.optimizeDeps || {};
-    config.optimizeDeps.exclude = [
-      ...(config.optimizeDeps.exclude ?? []),
-      '@ledgerhq/lumen-ui-rnative',
-    ];
 
     return mergeConfig(config, {
       plugins: [nxViteTsPaths()],

@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { View } from 'react-native';
 import { G } from 'react-native-svg';
 
-import { StoryDecorator } from '../../../../.storybook/StoryDecorator.tsx';
 import { useTheme } from '../../../../styles';
 import { LineChart } from '../LineChart';
 import { Point, PointLabel } from './Point';
@@ -17,17 +16,14 @@ const sampleSeries = [
 
 const meta = {
   component: Point,
+  id: 'rnative-point',
   title: 'Visualization/Point',
   decorators: [
-    (Story, context) => {
-      return (
-        <StoryDecorator context={context}>
-          <View style={{ width: 600, padding: 16 }}>
-            <Story />
-          </View>
-        </StoryDecorator>
-      );
-    },
+    (Story) => (
+      <View style={{ width: 600, padding: 16 }}>
+        <Story />
+      </View>
+    ),
   ],
 } satisfies Meta<typeof Point>;
 
