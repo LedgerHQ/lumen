@@ -15,12 +15,20 @@ const logger = {
 };
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const distPath = join(__dirname, 'dist', 'assets');
+
+const arg = (name, fallback) => {
+  const hit = process.argv.find((a) => a.startsWith(`--${name}=`));
+  return hit ? hit.slice(name.length + 3) : fallback;
+};
+
+const profileName = arg('profile', 'main');
+const distPath = join(__dirname, arg('dist', 'dist'), 'assets');
 
 const files = readdirSync(distPath);
-const mapFile = files.find(
-  (file) => file.startsWith('index-') && file.endsWith('.js.map'),
-);
+// `inlineDynamicImports` guarantees a single JS chunk, so the first match is
+// the whole bundle. Matched by extension rather than by an `index-` prefix
+// because Vite names chunks after the entry html.
+const mapFile = files.find((file) => file.endsWith('.js.map'));
 
 if (!mapFile) {
   logger.error(
@@ -42,42 +50,74 @@ logger.info(`Source map contains ${sources.length} modules`);
 const hasSource = (pathFragment) =>
   sources.some((source) => source.includes(pathFragment));
 
-// Modules that SHOULD be in the bundle (used in main.treeshaking.tsx)
-const requiredModules = [
-  { name: 'Button component', path: 'Components/core/Button/' },
-  { name: 'Incognito symbol', path: 'Components/symbols/icons/Incognito' },
-];
+/**
+ * Each fixture asserts one half of the chart-isolation contract, and both are
+ * required: `main` alone would pass even if ./visualization resolved to
+ * nothing, and `visualization` alone would pass even if charts also leaked into
+ * every other bundle.
+ */
+const PROFILES = {
+  main: {
+    description: 'Button + one symbol, imported from the main barrel',
+    required: [
+      { name: 'Button component', path: 'Components/core/Button/' },
+      { name: 'Incognito symbol', path: 'Components/symbols/icons/Incognito' },
+    ],
+    excluded: [
+      // Components
+      { name: 'Switch component', path: 'Components/core/Switch/' },
+      { name: 'Checkbox component', path: 'Components/core/Checkbox/' },
+      { name: 'TextInput component', path: 'Components/core/TextInput/' },
+      { name: 'Select component', path: 'Components/core/Select/' },
+      { name: 'Dialog component', path: 'Components/core/Dialog/' },
+      { name: 'AmountInput component', path: 'Components/core/AmountInput/' },
+      { name: 'AddressInput component', path: 'Components/core/AddressInput/' },
+      { name: 'ListItem component', path: 'Components/core/ListItem/' },
+      { name: 'Tag component', path: 'Components/core/Tag/' },
+      // Symbols
+      { name: 'Airplane symbol', path: 'Components/symbols/icons/Airplane' },
+      { name: 'Android symbol', path: 'Components/symbols/icons/Android' },
+      { name: 'Apple symbol', path: 'Components/symbols/icons/Apple' },
+      { name: 'Calendar symbol', path: 'Components/symbols/icons/Calendar' },
+      { name: 'Cart symbol', path: 'Components/symbols/icons/Cart' },
+      { name: 'Wallet symbol', path: 'Components/symbols/icons/Wallet' },
+      { name: 'Settings symbol', path: 'Components/symbols/icons/Settings' },
+      { name: 'Github symbol', path: 'Components/symbols/icons/Github' },
+      { name: 'Twitter symbol', path: 'Components/symbols/icons/Twitter' },
+      { name: 'Discord symbol', path: 'Components/symbols/icons/Discord' },
+      { name: 'Facebook symbol', path: 'Components/symbols/icons/Facebook' },
+      // Charts ship at the ./visualization subpath only.
+      { name: 'visualization components', path: 'Components/visualization/' },
+      { name: 'd3 (any package)', path: 'node_modules/d3-' },
+      { name: 'internmap (d3-scale dep)', path: 'internmap' },
+    ],
+  },
+  visualization: {
+    description: 'LineChart, imported from the ./visualization subpath',
+    required: [
+      { name: 'LineChart component', path: 'Components/visualization/LineChart/' },
+      { name: 'd3-scale', path: 'node_modules/d3-scale' },
+      { name: 'd3-shape', path: 'node_modules/d3-shape' },
+    ],
+    excluded: [
+      { name: 'Dialog component', path: 'Components/core/Dialog/' },
+      { name: 'DataTable component', path: 'Components/core/DataTable/' },
+      { name: 'Select component', path: 'Components/core/Select/' },
+      { name: 'Table component', path: 'Components/core/Table/' },
+      { name: 'AddressInput component', path: 'Components/core/AddressInput/' },
+    ],
+  },
+};
 
-// Modules that SHOULD NOT be in the bundle (tree-shaken away)
-const excludedModules = [
-  // Components
-  { name: 'Switch component', path: 'Components/core/Switch/' },
-  { name: 'Checkbox component', path: 'Components/core/Checkbox/' },
-  { name: 'TextInput component', path: 'Components/core/TextInput/' },
-  { name: 'Select component', path: 'Components/core/Select/' },
-  { name: 'Dialog component', path: 'Components/core/Dialog/' },
-  { name: 'AmountInput component', path: 'Components/core/AmountInput/' },
-  { name: 'AddressInput component', path: 'Components/core/AddressInput/' },
-  { name: 'ListItem component', path: 'Components/core/ListItem/' },
-  { name: 'Tag component', path: 'Components/core/Tag/' },
-  // Symbols
-  { name: 'Airplane symbol', path: 'Components/symbols/icons/Airplane' },
-  { name: 'Android symbol', path: 'Components/symbols/icons/Android' },
-  { name: 'Apple symbol', path: 'Components/symbols/icons/Apple' },
-  { name: 'Calendar symbol', path: 'Components/symbols/icons/Calendar' },
-  { name: 'Cart symbol', path: 'Components/symbols/icons/Cart' },
-  { name: 'Wallet symbol', path: 'Components/symbols/icons/Wallet' },
-  { name: 'Settings symbol', path: 'Components/symbols/icons/Settings' },
-  { name: 'Github symbol', path: 'Components/symbols/icons/Github' },
-  { name: 'Twitter symbol', path: 'Components/symbols/icons/Twitter' },
-  { name: 'Discord symbol', path: 'Components/symbols/icons/Discord' },
-  { name: 'Facebook symbol', path: 'Components/symbols/icons/Facebook' },
-  // Charts ship at the ./visualization subpath only. A Button-only bundle must
-  // carry neither the chart modules nor the d3 packages they pull in.
-  { name: 'visualization components', path: 'Components/visualization/' },
-  { name: 'd3 (any package)', path: 'node_modules/d3-' },
-  { name: 'internmap (d3-scale dep)', path: 'internmap' },
-];
+const profile = PROFILES[profileName];
+if (!profile) {
+  logger.error(`❌ Unknown profile "${profileName}".`);
+  process.exit(1);
+}
+logger.info(`Profile: ${profileName} — ${profile.description}`);
+
+const requiredModules = profile.required;
+const excludedModules = profile.excluded;
 
 let hasErrors = false;
 
@@ -113,9 +153,7 @@ if (foundUnwanted.length === 0) {
 const requiredUtilities = ['bg-accent', 'text-on-accent', 'body-2-semi-bold'];
 const MIN_CSS_BYTES = 50_000;
 
-const cssFile = files.find(
-  (file) => file.startsWith('index-') && file.endsWith('.css'),
-);
+const cssFile = files.find((file) => file.endsWith('.css'));
 
 if (!cssFile) {
   logger.error('❌ No CSS emitted — Lumen\'s @source glob resolved nothing.');

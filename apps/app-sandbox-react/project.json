@@ -6,18 +6,26 @@
   "targets": {
     "test:tree-shaking": {
       "executor": "nx:run-commands",
-      "outputs": ["{projectRoot}/tests/treeShaking/dist"],
+      "outputs": [
+        "{projectRoot}/tests/treeShaking/dist",
+        "{projectRoot}/tests/treeShaking/dist-visualization"
+      ],
       "options": {
         "commands": [
           "vite build --config tests/treeShaking/vite.treeshaking.config.ts",
-          "node tests/treeShaking/verify-bundle.mjs"
+          "node tests/treeShaking/verify-bundle.mjs --profile=main --dist=dist",
+          "vite build --config tests/treeShaking/vite.visualization.config.ts",
+          "node tests/treeShaking/verify-bundle.mjs --profile=visualization --dist=dist-visualization"
         ],
         "cwd": "apps/app-sandbox-react",
         "parallel": false
       },
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:react"]
+  "tags": [
+    "scope:react"
+  ]
 }
-
