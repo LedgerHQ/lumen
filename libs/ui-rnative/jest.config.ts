@@ -2,13 +2,19 @@ import type { Config } from 'jest';
 
 const transformIncludePatterns = [
   '@react-native/polyfills',
+  '@react-native/js-polyfills',
   'react-native-svg',
+  'react-native-gesture-handler',
   'react-native-reanimated',
+  'react-native-worklets',
   '(jest-)?react-native',
   '@react-native(-community)?',
   '@sbaiahmed1/react-native-blur',
   'expo-haptics',
   'expo-modules-core',
+  // d3-scale and d3-shape are pure ESM and must be transformed for Jest
+  'd3-.*',
+  'internmap',
 ];
 
 export default {
