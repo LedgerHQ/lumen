@@ -49,10 +49,17 @@ libs/ui-react/src/lib/Components/{core,internal,symbols}
 libs/ui-rnative/src/lib/Components/{animations,core,internal,primitives,symbols}
 ```
 
-Charts therefore land at `src/lib/Components/visualization/`. **If the `src/lib`
-flatten lands first**, apply this delta everywhere: `src/lib/Components/` →
-`src/components/`, `dist/lib/Components/` → `dist/components/`, and
-`libs/ui-react/tailwind.css:16` `@source "./dist/lib"` → `@source "./dist"`.
+Charts land at `src/lib/Components/visualization/`. **Decided: fold onto the
+current layout — the `src/lib` flatten is *not* a prerequisite for DLS-1022.**
+Three consequences, all favourable: `libs/ui-react/tailwind.css:16`
+`@source "./dist/lib"` needs **no change**; the ui-react
+`../src/lib/**/*.mdx` glob **already covers** the new tree; and the fold stops
+waiting on a large mechanical PR.
+
+The cost is that these 261 files move a second time when the flatten eventually
+happens — pure `git mv`, no logic. When it does, apply this delta everywhere:
+`src/lib/Components/` → `src/components/`, `dist/lib/Components/` →
+`dist/components/`, and `@source "./dist/lib"` → `@source "./dist"`.
 
 ---
 
@@ -129,10 +136,15 @@ Twenty-five blockers, verified by reading files. Grouped by the PR that owns the
    it and rewrite its specifiers from `./lib/Components` / `./lib/utils` to
    `./Components` / `./utils`.
 3. **Explicit `"./visualization"` export key**, as a conditions object with
-   `types` first. Required because `libs/ui-react/package.json:31` declares
-   `"./*": "./dist/lib/Components/core/*/index.js"`, which would otherwise
-   capture `/visualization` and resolve it to a nonexistent core path. An exact
-   key always beats a pattern key in Node resolution.
+   `types` first — and **delete the `"./*"` wildcard** at
+   `libs/ui-react/package.json:31`. *Decided.* The wildcard resolves to
+   `./dist/lib/Components/core/*/index.js`, and **all 52 core components ship
+   `index.d.ts` with no `index.js`**: rollup elides pure re-export barrels under
+   `treeshake: 'smallest'`, so `Button.js` survives and `Button/index.js` never
+   exists. `@ledgerhq/lumen-ui-react/Button` therefore throws
+   `ERR_MODULE_NOT_FOUND` in the published package today. It appears in no
+   README, no `RULES.md`, nothing consumer-facing, so removing it breaks nothing
+   that works — and it is the ADR's own failure mode, already shipping.
 4. **RN key must carry the `react-native` condition**, mirroring `./symbols`
    (`libs/ui-rnative/package.json:26-31`). `apps/app-sandbox-rnative/metro.config.js`
    enables package exports, so a `types`/`import`-only key compiles in CI and
@@ -164,37 +176,31 @@ Twenty-five blockers, verified by reading files. Grouped by the PR that owns the
    anywhere in the repo** — packaging is governed solely by `files` arrays, and
    `libs/ui-rnative/package.json` ships all of `src`.
 
-### The inner `Components/` segment — decide before moving
+### The inner `Components/` segment — dissolved
 
-Inside each viz lib the tree is `src/lib/{config.ts, utils/, Components/}`. When
-`src/lib/**` moves under `Components/visualization/`, that inner `Components/`
-either survives or is dissolved, and the choice sets the cost of the move.
+*Decided: option B.*
 
-**158 imports cross that boundary** — 78 on web, 80 on RN — reaching `config` or
-`utils` from inside `Components/`, at two depths:
+Inside each viz lib the tree is `src/lib/{config.ts, utils/, Components/}`. That
+inner `Components/` is **dissolved** — chart folders move up one level, giving
+`Components/visualization/LineChart/`, consistent with `Components/core/Button/`.
 
-| specifier | web | RN |
-| --- | --- | --- |
-| `'../../config'` | 24 | 22 |
-| `'../../../config'` | 13 | 14 |
-| `'../../utils/…'` | 28 | 28 |
-| `'../../../utils/…'` | 13 | 13 |
-| `'../utils'` | — | 3 |
+**155 imports cross that boundary** — 78 on web, 77 on RN — and each loses
+exactly one `../`:
 
-- **A — keep it.** Zero import churn; every relative depth is unchanged. Cost:
-  the permanent path `Components/visualization/Components/LineChart/`.
-- **B — dissolve it** (chart folders move up one level). All 158 imports lose one
-  `../`. Mechanical, one `sed` per depth class, and every miss is a loud `tsc`
-  error — never silent. Gives `Components/visualization/LineChart/`, consistent
-  with `Components/core/Button/`.
-- **C — rename it** to `charts/`. Depth is unchanged, so churn is **zero**, and
-  the name collision disappears: `Components/visualization/charts/LineChart/`.
-  Cost: one redundant directory level that means nothing.
+| specifier | web | RN | becomes |
+| --- | --- | --- | --- |
+| `'../../config'` | 24 | 22 | `'../config'` |
+| `'../../../config'` | 13 | 14 | `'../../config'` |
+| `'../../utils/…'` | 28 | 28 | `'../utils/…'` |
+| `'../../../utils/…'` | 13 | 13 | `'../../utils/…'` |
 
-**Recommendation: B.** The PR already rewrites 47 self-imports and re-depths 12
-`StoryDecorator` imports, so the machinery is in place; 158 more scripted
-rewrites are the same operation, and this is the only chance to get the path
-right before it calcifies. Choose C if the PR is already too large to review.
+**Do not touch `'../utils'`** (3 occurrences, RN only, under
+`Components/CartesianChart/RevealAnimation/`). Those resolve to the
+component-local `CartesianChart/utils.ts`, not the shared `lib/utils/` — a naive
+textual `sed` on `../utils` would silently repoint them. Every viz component
+folder has its own `utils.ts`, so the rewrite must be **resolution-aware**: strip
+one `../` only where the specifier resolves into `src/lib/`. A miss is a loud
+`tsc` error, never silent.
 
 ### Types & peers
 
@@ -229,13 +235,25 @@ right before it calcifies. Choose C if the PR is already too large to review.
 
 ### Storybook
 
-16. **Relocate both `StoryDecorator.tsx` files and re-depth 12 imports** — 8 web
-    at two different depths, 4 RN **written with an explicit `.tsx` extension**
-    (a rewrite assuming extensionless specifiers misses all four).
+16. **Web: relocate `StoryDecorator.tsx`** from the deleted
+    `libs/ui-react-visualization/.storybook/` into `libs/ui-react/.storybook/`
+    and re-depth its **8** imports (two different depths). It stays because it
+    adds `p-32` padding the global `withStorybookProviders` decorator does not —
+    dropping it would produce 8 gratuitous Chromatic diffs.
+    **RN: delete `StoryDecorator.tsx` outright.** *Decided.* Remove the import
+    and unwrap the JSX in all 4 stories (12 sites). `libs/ui-rnative/.storybook/preview.tsx:64-66`
+    already applies `withProvidersDecorator` with a `brand` global, whereas the
+    viz decorator hardcodes `ledgerLiveThemes` — dropping it un-pins RN charts
+    from ledger-live and puts them on the brand switcher. The 4 stories have
+    never been snapshotted, so there is no baseline to disturb; do give them a
+    visual check.
 17. `libs/ui-react/.storybook/main.ts:9` → `../src/**/*.mdx`; delete `:11-12`.
     There are **8** web chart MDX pages (not 6), and **0** RN ones.
-18. `libs/ui-rnative/.storybook/main.ts:9-10` → `../src/**`; delete the dead
-    comment at `:11`.
+18. `libs/ui-rnative/.storybook/main.ts:9-10` — the existing `../src/lib/**`
+    glob **already matches** the relocated chart stories, so no widening is
+    needed; just delete the dead comment at `:11`. Note this means the 4 RN
+    chart stories are enabled **whether or not anyone decides to** — excluding
+    them would require writing a negated glob on purpose.
 19. **Delete `libs/ui-rnative/.storybook/main.ts:38-50`** — a self-alias mapping
     `@ledgerhq/lumen-ui-rnative` to `../src/index.ts` plus an
     `optimizeDeps.exclude`. Once charts live inside that lib, any surviving
@@ -247,14 +265,20 @@ right before it calcifies. Choose C if the PR is already too large to review.
     `main` or on a PR carrying that label — otherwise the first run happens on
     the merge commit, after review is closed.
 
-### Story IDs — RN needs new ones
+### Story IDs — RN charts get `rnative-*` ids
 
-All **8** web chart stories set an explicit `id:` (`react-xaxis`, `react-donutchart`, …),
-so their public permalinks are path-independent. The **4 RN chart stories set no
-`id`** — enabling them yields title-derived `visualization-linechart--*` instead of
-the `rnative-*` prefix that `.claude/agents/sync-doc-links.md:44` requires. Add
-explicit `rnative-*` ids in the same PR, or the doc-link agent emits nothing for
-them forever.
+*Decided: enable the RN chart stories and give them explicit ids.*
+
+All **8** web chart stories already set an explicit `id:` (`react-xaxis`,
+`react-donutchart`, …), so their permalinks are path-independent and survive the
+move untouched. The **4 RN chart stories set none** — left alone they would enter
+Storybook as title-derived `visualization-linechart--*`, violating the
+platform-prefix contract at `.claude/agents/sync-doc-links.md:44` and producing
+nothing the doc-link agent can map.
+
+Add `id: 'rnative-linechart'`, `'rnative-point'`, `'rnative-referenceline'`,
+`'rnative-scrubber'` in the same PR. RN charts thereby get visual coverage for
+the first time — they currently ship nowhere.
 
 ### Docs, tooling, agent guidance
 
