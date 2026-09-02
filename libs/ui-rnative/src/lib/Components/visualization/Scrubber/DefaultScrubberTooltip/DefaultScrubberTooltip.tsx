@@ -1,6 +1,6 @@
 import { G, Rect, Text as SvgText } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../../config';
+import { chartConfig, useChartTokens } from '../../config';
 import type { ScrubberTooltipProps } from '../types';
 import { ChartTooltipItem } from './ChartTooltipItem';
 import {

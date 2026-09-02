@@ -1,9 +1,9 @@
 import type { RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { chartConfig } from '../../../config';
-import { clamp } from '../../../utils/numbers';
-import type { DrawingArea } from '../../../utils/types';
+import { chartConfig } from '../../config';
+import { clamp } from '../../utils/numbers';
+import type { DrawingArea } from '../../utils/types';
 import type { ChartTooltipItemData, SvgBBoxElement } from '../types';
 
 const {

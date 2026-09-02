@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import { buildPlaceholderTransform } from './utils';
 
 describe('placeholderLinePath', () => {

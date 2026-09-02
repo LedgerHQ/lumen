@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../config';
+import { chartConfig, useChartTokens } from '../config';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, DEFAULT_AXIS_WIDTH, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';

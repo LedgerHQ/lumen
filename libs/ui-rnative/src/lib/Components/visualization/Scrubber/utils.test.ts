@@ -1,11 +1,11 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 import {
   getCategoricalScale,
   getNumericScale,
-} from '../../utils/scales/scales';
-import type { DrawingArea } from '../../utils/types';
+} from '../utils/scales/scales';
+import type { DrawingArea } from '../utils/types';
 
 import {
   applyMagnetization,

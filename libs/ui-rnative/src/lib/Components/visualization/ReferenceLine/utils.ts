@@ -1,6 +1,6 @@
-import { isFiniteNumber } from '../../utils/numbers';
-import { getPointOnScale, isCategoricalScale } from '../../utils/scales/scales';
-import type { ChartScaleFunction, DrawingArea } from '../../utils/types';
+import { isFiniteNumber } from '../utils/numbers';
+import { getPointOnScale, isCategoricalScale } from '../utils/scales/scales';
+import type { ChartScaleFunction, DrawingArea } from '../utils/types';
 import type { BaseAxisProps } from '../Axis';
 
 import type { LabelAlignment, LabelPosition } from './types';

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { useChartTokens } from '../../config';
-import type { DrawingArea } from '../../utils/types';
+import { useChartTokens } from '../config';
+import type { DrawingArea } from '../utils/types';
 import { useCartesianChartContext } from '../CartesianChart/context';
 
 import { useScrubberContext } from './context';

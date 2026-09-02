@@ -4,7 +4,7 @@ import { RuntimeConstants, ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { fireEvent, render } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
-import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../config';
 import { DonutChart } from './DonutChart';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutChartCenter } from './DonutChartCenter';

@@ -9,7 +9,7 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 
 const HALF_PULSE_DURATION_IN_MS = chartConfig.shimmer.pulseDuration / 2;
 const MIN_OPACITY = 0.5;

@@ -4,12 +4,12 @@ import { renderHook } from '@testing-library/react-native';
 import {
   isCategoricalScale,
   isNumericScale,
-} from '../../../utils/scales/scales';
+} from '../../utils/scales/scales';
 import type {
   ChartInset,
   ChartScaleFunction,
   Series,
-} from '../../../utils/types';
+} from '../../utils/types';
 
 import {
   buildScale,

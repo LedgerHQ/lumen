@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { getNumericScale } from '../../utils/scales/scales';
-import type { DrawingArea } from '../../utils/types';
+import { getNumericScale } from '../utils/scales/scales';
+import type { DrawingArea } from '../utils/types';
 
 import {
   computeHorizontalLabelCoordinates,

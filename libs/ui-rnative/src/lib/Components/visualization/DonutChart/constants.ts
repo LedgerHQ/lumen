@@ -1,4 +1,4 @@
-import type { DonutGeometry } from '../../config';
+import type { DonutGeometry } from '../config';
 
 export const DONUT_CENTER = {
   /** Horizontal inset (px per side) so center text clears the inner ring. */

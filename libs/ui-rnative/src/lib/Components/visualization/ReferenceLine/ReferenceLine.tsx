@@ -1,6 +1,6 @@
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../config';
+import { chartConfig, useChartTokens } from '../config';
 import type { ReferenceLineProps } from './types';
 import { useReferenceLineGeometry } from './useReferenceLineGeometry';
 import { dominantBaselineToDy } from './utils';

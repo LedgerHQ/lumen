@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { G, Line as SvgLine, Text as SvgText } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../../config';
-import { buildTicksData } from '../../../utils/ticks/ticks';
+import { chartConfig, useChartTokens } from '../../config';
+import { buildTicksData } from '../../utils/ticks/ticks';
 import { useCartesianChartContext } from '../../CartesianChart/context';
 
 import type { YAxisProps } from './types';

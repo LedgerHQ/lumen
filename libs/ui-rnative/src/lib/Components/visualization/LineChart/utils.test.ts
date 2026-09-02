@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import type { Series } from '../../utils/types';
+import type { Series } from '../utils/types';
 import { DEFAULT_AXIS_HEIGHT } from '../Axis/XAxis';
 
 import {

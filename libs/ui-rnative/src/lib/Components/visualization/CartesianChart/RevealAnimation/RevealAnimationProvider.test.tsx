@@ -4,7 +4,7 @@ import { ThemeProvider } from '@ledgerhq/lumen-ui-rnative';
 import { render } from '@testing-library/react-native';
 import { Svg } from 'react-native-svg';
 
-import type { DrawingArea, Series } from '../../../utils/types';
+import type { DrawingArea, Series } from '../../utils/types';
 import { OVERFLOW_BUFFER } from '../utils';
 
 import { usePathReveal, usePointReveal } from './context';

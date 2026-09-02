@@ -1,4 +1,4 @@
-import type { CurveType } from '../../utils/types';
+import type { CurveType } from '../utils/types';
 
 export type { CurveType };
 

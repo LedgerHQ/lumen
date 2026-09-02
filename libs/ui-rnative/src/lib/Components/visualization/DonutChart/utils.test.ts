@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../config';
 import { getDonutViewBox, toRingLocalPoint } from './constants';
 import { computeRevealClipPath } from './RevealAnimation';
 import type { DonutSegment } from './types';

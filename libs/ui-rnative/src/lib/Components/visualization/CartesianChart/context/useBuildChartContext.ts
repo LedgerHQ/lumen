@@ -4,18 +4,18 @@ import {
   computeDataLength,
   computeXDomain,
   computeYDomain,
-} from '../../../utils/domain/domain';
+} from '../../utils/domain/domain';
 import {
   getCategoricalScale,
   getNumericScale,
   isBandScaleType,
-} from '../../../utils/scales/scales';
+} from '../../utils/scales/scales';
 import type {
   ChartInset,
   ChartScaleFunction,
   DrawingArea,
   Series,
-} from '../../../utils/types';
+} from '../../utils/types';
 import type { AxisBounds, BaseAxisProps } from '../../Axis';
 import type { CartesianChartContextValue } from '../types';
 

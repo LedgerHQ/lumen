@@ -12,7 +12,7 @@ import {
   DONUT_INTERACTION,
   useChartTokens,
   type DonutGeometry,
-} from '../../config';
+} from '../config';
 import { getDonutViewBox } from './constants';
 import {
   useDonutLoadingAnimation,

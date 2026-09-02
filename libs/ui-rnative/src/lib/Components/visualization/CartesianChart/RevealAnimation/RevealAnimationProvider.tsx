@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
 import { ClipPath, Defs, Rect } from 'react-native-svg';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import { OVERFLOW_BUFFER } from '../utils';
 
 import { RevealAnimationContext } from './context';

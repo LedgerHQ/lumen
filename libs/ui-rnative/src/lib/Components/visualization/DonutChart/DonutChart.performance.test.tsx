@@ -6,7 +6,7 @@ import React, { Profiler } from 'react';
 import type { ProfilerOnRenderCallback } from 'react';
 import { Text } from 'react-native';
 
-import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../config';
 import { DonutChart } from './DonutChart';
 import type { DonutSegment } from './types';
 import { buildRingSegments } from './utils';

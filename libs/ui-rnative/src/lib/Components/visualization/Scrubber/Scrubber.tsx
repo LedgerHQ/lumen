@@ -9,7 +9,7 @@ import {
   Stop,
 } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../config';
+import { chartConfig, useChartTokens } from '../config';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';

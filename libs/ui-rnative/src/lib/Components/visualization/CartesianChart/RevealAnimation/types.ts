@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { SharedValue } from 'react-native-reanimated';
 
-import type { DrawingArea, Series } from '../../../utils/types';
+import type { DrawingArea, Series } from '../../utils/types';
 
 export type EnterTransitionConfig = {
   /**

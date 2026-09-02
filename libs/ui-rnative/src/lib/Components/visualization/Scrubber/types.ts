@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import type { DrawingArea } from '../../utils/types';
+import type { DrawingArea } from '../utils/types';
 import type { ScrubbingOptions } from '../CartesianChart/types';
 
 export type ScrubberContextValue = Required<

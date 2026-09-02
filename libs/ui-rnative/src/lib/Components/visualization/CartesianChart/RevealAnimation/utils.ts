@@ -6,8 +6,8 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-import { chartConfig } from '../../../config';
-import type { DrawingArea, Series } from '../../../utils/types';
+import { chartConfig } from '../../config';
+import type { DrawingArea, Series } from '../../utils/types';
 import { OVERFLOW_BUFFER } from '../utils';
 
 /**

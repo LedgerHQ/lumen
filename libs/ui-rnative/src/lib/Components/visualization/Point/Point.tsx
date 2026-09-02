@@ -2,7 +2,7 @@ import { memo } from 'react';
 import Animated from 'react-native-reanimated';
 import { Circle, G, Polygon, Text as SvgText } from 'react-native-svg';
 
-import { chartConfig, useChartTokens } from '../../config';
+import { chartConfig, useChartTokens } from '../config';
 import type {
   PointArrowProps,
   PointLabelProps,

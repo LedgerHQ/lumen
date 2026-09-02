@@ -1,5 +1,5 @@
 import { arc, pie, type PieArcDatum } from 'd3-shape';
-import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../../config';
+import { chartConfig, DONUT_GEOMETRY, type DonutGeometry } from '../config';
 import { DONUT_CENTER } from './constants';
 import type { DonutSegment, DonutSize } from './types';
 

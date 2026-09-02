@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { ClipPath, Defs, G, Path } from 'react-native-svg';
 
-import { chartConfig } from '../../config';
+import { chartConfig } from '../config';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 

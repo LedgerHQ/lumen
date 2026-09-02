@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 import {
   computeItemsBaseY,
   computeTooltipHeight,

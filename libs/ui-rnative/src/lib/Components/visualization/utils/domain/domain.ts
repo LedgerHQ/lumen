@@ -1,4 +1,4 @@
-import type { AxisBounds, BaseAxisProps } from '../../Components/Axis';
+import type { AxisBounds, BaseAxisProps } from '../../Axis';
 import type { Series } from '../types';
 
 /**

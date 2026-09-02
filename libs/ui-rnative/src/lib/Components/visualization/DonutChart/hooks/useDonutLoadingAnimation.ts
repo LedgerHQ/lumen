@@ -10,7 +10,7 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
-import { chartConfig } from '../../../config';
+import { chartConfig } from '../../config';
 
 const { loading } = chartConfig.donut;
 
