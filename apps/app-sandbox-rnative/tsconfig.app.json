@@ -24,9 +24,6 @@
       "path": "../../libs/utils-shared/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/ui-rnative-visualization/tsconfig.lib.json"
-    },
-    {
       "path": "../../libs/ui-rnative/tsconfig.lib.json"
     },
     {

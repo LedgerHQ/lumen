@@ -14,7 +14,6 @@
     "@gorhom/bottom-sheet": "^5.2.6",
     "@ledgerhq/lumen-design-core": "*",
     "@ledgerhq/lumen-ui-rnative": "*",
-    "@ledgerhq/lumen-ui-rnative-visualization": "*",
     "@sbaiahmed1/react-native-blur": "^4.5.5",
     "expo": "^54.0.34",
     "expo-constants": "~18.0.13",

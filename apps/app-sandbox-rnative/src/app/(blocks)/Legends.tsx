@@ -5,7 +5,7 @@ import {
   Legend,
   type DonutSegment,
   type LegendItem,
-} from '@ledgerhq/lumen-ui-rnative-visualization';
+} from '@ledgerhq/lumen-ui-rnative/visualization';
 import type { ReactNode } from 'react';
 
 export default function Legends() {

@@ -6,7 +6,7 @@ import {
   ReferenceLine,
   Scrubber,
   type Series,
-} from '@ledgerhq/lumen-ui-rnative-visualization';
+} from '@ledgerhq/lumen-ui-rnative/visualization';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
