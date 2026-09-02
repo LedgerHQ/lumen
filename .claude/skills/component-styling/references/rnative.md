@@ -1,4 +1,4 @@
-# React Native styling (`libs/ui-rnative`, `libs/ui-rnative-visualization`)
+# React Native styling (`libs/ui-rnative`)
 
 `useStyleSheet` + the JS theme objects (themeJS) + the `lx` prop. There is **no
 Tailwind here.** The shared principles live in the parent `SKILL.md`; this file
@@ -81,7 +81,8 @@ see the `disabled-context` skill (this skill does not restate it).
 
 ## Visualization exception
 
-`libs/ui-rnative-visualization` styles **directly with `useTheme()`** plus plain
-inline styles / geometry constants rather than `useStyleSheet`/`lx`. The patterns
-above are written for `libs/ui-rnative`; don't require `useStyleSheet` in the
-visualization lib.
+Charts live in `src/lib/Components/visualization/` and are published only at the
+`@ledgerhq/lumen-ui-rnative/visualization` subpath. They style **directly with
+`useTheme()`** plus plain inline styles / geometry constants rather than
+`useStyleSheet`/`lx`. The patterns above are written for the rest of the lib;
+don't require `useStyleSheet` under `visualization/`.

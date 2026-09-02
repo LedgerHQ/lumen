@@ -5,7 +5,7 @@ description: >-
   libs/ui-rnative (and their visualization libs) — shared structure and coverage
   conventions, plus the per-platform runner: Vitest + React Testing Library on
   web, Jest + React Native Testing Library on RN. Load this before writing tests.
-paths: libs/ui-react/**/*.test.tsx, libs/ui-react/**/*.test.ts, libs/ui-rnative/**/*.test.tsx, libs/ui-rnative/**/*.test.ts, libs/ui-rnative-visualization/**/*.test.tsx
+paths: libs/ui-react/**/*.test.tsx, libs/ui-react/**/*.test.ts, libs/ui-rnative/**/*.test.tsx, libs/ui-rnative/**/*.test.ts
 ---
 
 # Component testing
@@ -41,7 +41,7 @@ Runner: **Vitest** + React Testing Library.
   `@testing-library/user-event` for typing / keyboard / focus.
 - Spies: `vi.fn()`.
 
-## React Native (`libs/ui-rnative`, `libs/ui-rnative-visualization`)
+## React Native (`libs/ui-rnative`)
 
 Runner: **Jest** + React Native Testing Library.
 

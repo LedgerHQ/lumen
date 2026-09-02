@@ -7,8 +7,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 ## Stack
 
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
-Libs: `design-core`, `ui-react`, `ui-rnative`,
-`ui-rnative-visualization`, `utils-shared`. Tailwind (design-core preset),
+Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
 
 ## Libraries
@@ -22,7 +21,6 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 | ------------------------------- | ------------------------------------------ | ----------------------- | -------------------------------------------------------- | ------------------------------------ | ------------------------------------------------- |
 | `libs/ui-react`                 | `@ledgerhq/lumen-ui-react`                 | React web               | Tailwind + `cva` + `cn`                                  | Vitest + RTL, no wrapper             | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
 | `libs/ui-rnative`               | `@ledgerhq/lumen-ui-rnative`               | React Native            | `useStyleSheet` + themeJS + `lx`                         | Jest + RNTL, `ThemeProvider` wrapper | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
-| `libs/ui-rnative-visualization` | `@ledgerhq/lumen-ui-rnative-visualization` | React Native            | `useTheme()` + inline styles                             | Jest + RNTL, `ThemeProvider` wrapper | flat `.stories.tsx` / **no** mdx / **no** figma   |
 | `libs/design-core`              | `@ledgerhq/lumen-design-core`              | Cross-platform tokens   | CSS/Tailwind tokens + JS theme objects (source of truth) | —                                    | —                                                 |
 | `libs/utils-shared`             | `@ledgerhq/lumen-utils-shared`             | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
 
