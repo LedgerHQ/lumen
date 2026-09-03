@@ -96,7 +96,7 @@ jobs:
 
       - run: npx nx affected -t test:tree-shaking
 
-      - name: Verify every advertised export ships in the tarball
+      - name: Verify advertised exports ship (publint)
         run: |
           npx nx run-many -t build --projects='libs/*'
           npm run check:package-exports
