@@ -34,7 +34,7 @@ Charts are a category of the design system, not a product of their own.
    and `@ledgerhq/lumen-ui-rnative/visualization` — mirroring `./symbols`.
    Charts never enter the main barrel (`src/index.ts`).
 3. **Delete both lib folders. Hard cut** — no shim package, no re-export.
-   Consumers migrate with a codemod.
+   Consumers migrate by hand, following steps that ship in the release notes.
 4. `d3-scale` and `d3-shape` become **regular `dependencies`** of the UI libs.
    (`d3-array` is dropped — no source file in either tree imports it.)
 5. The published packages are retired with `npm deprecate`, not a final release.
@@ -105,7 +105,7 @@ them — then after `nx build`:
 | `dist/.../visualization/index.js` | **missing** → `import`/`default` resolve to nothing |
 | `nx affected -t build` | exits 0 — rollup was never asked for that entry |
 | `nx affected -t test:tree-shaking` | green **and irrelevant** — `main.treeshaking.tsx` imports only the main barrel and `/symbols` |
-| Consumer's first import | `ERR_MODULE_NOT_FOUND` — after they ran the codemod and deleted the old package |
+| Consumer's first import | `ERR_MODULE_NOT_FOUND` — after they rewrote their imports and deleted the old package |
 
 **No job in this repo imports a Lumen subpath other than `/symbols`.** There is
 no `npm pack` check, no publint, no consumer-install smoke test.
@@ -326,7 +326,7 @@ description, nothing to decommission.
 | **1** | ui-react: move + barrel + Vite entry + export key + `external` + self-import rewrite + `tsconfig.lib.json` excludes + delete the lib + `AGENTS.md` row + Storybook globs + `tailwind.config.ts` globs. **Label `chromatic`.** |
 | **2** | ui-rnative: same, plus jest config/setup union, peer deps, sandbox app (3 imports + package.json + 2 tsconfigs), Storybook self-alias removal, RN story ids. **Label `chromatic`.** |
 | **3** | Pack-and-install smoke test + subpath tree-shaking fixture (see acceptance) |
-| **4** | Codemod in `migrator` |
+| **4** | Migration note in the version plans (becomes the release notes) |
 | **5** | Docs, skills, agent guidance, `.vscode`, sonar, issue template |
 | **6** | `npm deprecate` both packages; coordinate the ledger-live bump |
 
@@ -382,14 +382,30 @@ deletion. Only ui-react and ui-rnative need a `patch` version plan.
 ## Consequences
 
 **Accepted costs.** The hard cut breaks any consumer who upgrades ui-react
-without running the codemod — mitigated by the codemod and `npm deprecate`, not
-eliminated. d3 becomes install weight for every consumer, including those who
+without updating their imports — mitigated by the release-note steps and
+`npm deprecate`, not eliminated. d3 becomes install weight for every consumer, including those who
 never import a chart; criterion 3 proves it is not *bundle* weight.
 
 **Deferred, deliberately.** The chart math stays forked — `ticks.ts`,
 `scales.ts`, `types.ts` still exist twice after the fold, now inside two libs
 rather than two packages. `__stories__/` stays inconsistent with the co-located
 convention. These are follow-up tickets, not part of DLS-1022.
+
+**No codemod.** The ADR originally planned one, as the first use case for a
+published `migrator` package. Once the fold was built the transform turned out
+to be a specifier rename and nothing else: the new barrel reproduces the old
+package's surface symbol-for-symbol, including the chart-math types it
+re-exported from `./utils`, and the old package never permitted deep imports —
+its exports map had no wildcard. Weighed against creating the repo's first
+publishable tooling package, with its own release surface and versioning, a
+documented three-step note wins.
+
+The one thing a codemod would have added is a version guard: refusing to run
+against an installed `@ledgerhq/lumen-ui-react` that predates the subpath. That
+is handled instead by making "upgrade first" step 1 of the note, and by the
+ordering rule under *Retiring the published packages* — the deprecation notice
+that sends consumers to the steps is only published after the release that
+makes them valid.
 
 ## Alternatives considered
 
