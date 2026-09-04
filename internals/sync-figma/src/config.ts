@@ -1,15 +1,11 @@
 /**
- * Every path this project reads or writes, resolved from the workspace root.
- * All `sync-figma` targets run without a `cwd`, so this file is the single
- * place where the coupling to `libs/*` lives — keep it that way.
+ * Targets run without a `cwd`, so these are workspace-root-relative — and this
+ * file is the only place this project's coupling to `libs/*` is declared. Keep
+ * it that way.
  */
 export const automationConfig = {
-  /** Raw Figma variable export; input to the token ETL. */
   figmaTokensPath: 'internals/sync-figma/tokens/',
-  /** Generated CSS custom properties consumed by the Tailwind presets. */
   cssOutputPath: 'libs/design-core/src/lib/themes/css/',
-  /** Where `figma-download-svgs` writes the raw SVGs. */
-  symbolsPath: 'libs/design-core/symbols/icons/',
-  /** Where the symbol codegen reads them back from. */
+  symbolsOutputPath: 'libs/design-core/symbols/icons/',
   symbolsInputPath: 'libs/design-core/symbols/',
 };

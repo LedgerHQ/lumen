@@ -17,10 +17,8 @@
 //      package name matches that lib's package.json, and every lib on disk is in
 //      the table (bijection).
 //   7. Internals table ↔ filesystem — every `internals/*` project is documented
-//      (bijection), carries the `scope:internal` tag so the module-boundary rule
-//      applies, ships a `private: true` package.json, and spreads `prodConfig`
-//      in its eslint config. Keeps a new internal lib from silently skipping the
-//      category's guarantees.
+//      (bijection), carries the `scope:internal` tag, ships a `private: true`
+//      package.json, and spreads `prodConfig` in its eslint config.
 //   8. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
 //      servers with the same url/command (the one hand-synced, non-CI invariant).
 //
@@ -252,9 +250,6 @@ for (const lib of libsOnDisk) {
 }
 
 // --- 7. Internals table ↔ filesystem ------------------------------------
-// `internals/*` is the dev-only category: never published, and fenced off from
-// libs/apps by the `scope:internal` tag. Both guarantees are easy to forget when
-// adding the next one, so assert them here rather than trusting review.
 const tableInternals = new Set();
 for (const line of tableRows(h2Section(agents, 'Internals'))) {
   const path = line.split('|')[1]?.match(RE_INTERNAL_PATH)?.[1];
@@ -281,10 +276,6 @@ for (const path of internalsOnDisk) {
     err(`"${path}/project.json" must carry the "scope:internal" tag, or the module-boundary rule will not fence it off from libs/apps.`);
   }
 
-  // Internal projects carry a `private: true` manifest (the layout Coinbase's
-  // CDS uses for its own internal libs): it lets each declare its own
-  // devDependencies, and `private` is what stops npm publishing it. Being
-  // outside `nx.json`'s `release.projects` glob (`libs/*`) is the second guard.
   const manifestPath = join(root, path, 'package.json');
   if (!existsSync(manifestPath)) {
     err(`"${path}" needs a package.json declaring its own devDependencies, with "private": true.`);
@@ -299,7 +290,7 @@ for (const path of internalsOnDisk) {
   if (!existsSync(eslintConfig)) {
     err(`"${path}" is missing an eslint.config.mjs, so it is linted by nothing.`);
   } else if (!readFileSync(eslintConfig, 'utf8').includes('prodConfig')) {
-    err(`"${path}/eslint.config.mjs" must spread \`prodConfig\` — internal code is held to the same bar as libs (declare narrow per-rule exceptions instead of opting out).`);
+    err(`"${path}/eslint.config.mjs" must spread \`prodConfig\` — declare narrow per-rule exceptions instead of opting out.`);
   }
 }
 
