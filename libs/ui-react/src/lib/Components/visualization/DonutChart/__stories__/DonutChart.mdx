@@ -1,0 +1,235 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { DocTable } from '../../../../../../.storybook/components';
+import * as DonutChartStories from './DonutChart.stories';
+
+<Meta of={DonutChartStories} />
+
+# DonutChart
+
+An allocation / part-to-whole chart. It renders a ring of segments sized by
+their share of the total, drawn as an SVG.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=17763-34880).
+
+## Usage
+
+`DonutChart` owns its `series` data and renders exactly the segments it
+receives — ordering and grouping ("top N + other") are handled outside the
+component. Each
+segment's angle is its `value` as a fraction of the summed total; segments are
+laid out in series order, clockwise from 12 o'clock, with rounded caps and gaps.
+
+## Basics
+
+Define your data as an array of `DonutSegment`s. Each segment needs a stable
+`id`, a `label`, and a raw `value`; `color` is optional.
+
+<Canvas of={DonutChartStories.Base} />
+
+A `DonutSegment` is the core data model:
+
+<DocTable
+  columnWidths={[120]}
+  headers={['Field', 'Description']}
+  rows={[
+    [<code>id</code>, 'Stable, unique identifier for the segment.'],
+    [<code>label</code>, 'Human-readable name used in legends.'],
+    [
+      <code>value</code>,
+      'Raw value; the component computes the percent from the total.',
+    ],
+    [
+      <code>color</code>,
+      <>
+        Optional CSS color override; defaults to a neutral grey.
+      </>,
+    ],
+  ]}
+/>
+
+## Sizes
+
+- `md` — 168px (the default)
+- `sm` — 80px
+
+<Canvas of={DonutChartStories.Sizes} />
+
+## Colors
+
+Without a `color` override, segments fall back to the neutral default grey.
+
+<Canvas of={DonutChartStories.DefaultColors} />
+
+## Segments
+
+The ring adapts to any number of segments.
+
+<Canvas of={DonutChartStories.SegmentCounts} />
+
+### Very small values
+
+Segments are drawn at least 8px (`md`) or 4px (`sm`) so tiny values stay
+visible; the extra space is taken from larger segments. Labels still use the
+real share (`<0.1%` under 0.1%). Zero and negative values are not drawn.
+
+<Canvas of={DonutChartStories.WithTinyValues} />
+
+Group many tiny values into an "Other" segment with
+[`useDonutSeries`](#preparing-the-series).
+
+## States
+
+### No data
+
+With no data (an empty or all-zero series), the ring renders the static
+placeholder shape — the same fixed segments used for loading, without
+animation.
+
+To show a label like "No data", use `renderCenter` combined with `DonutChartDescription`.
+
+<Canvas of={DonutChartStories.NoData} />
+
+### Loading
+
+While `loading` is true, the ring shows an animated wave sweeping through the
+placeholder segments instead of the real data, regardless of `series`.
+
+<Canvas of={DonutChartStories.Loading} />
+
+When `loading` flips to `false`, the ring remounts once and plays the reveal
+into the real segments. Use **Replay load** to watch that transition; hover
+afterward should not remount the ring.
+
+<Canvas of={DonutChartStories.LoadingToData} />
+
+## Interactivity
+
+Segments are hoverable by default. Hovering a segment sets `activeId`, dims
+non-active segments to 30% opacity, and pops the active segment out radially.
+Leaving the chart container resets `activeId` to `null`.
+
+<Canvas of={DonutChartStories.Interactive} />
+
+### Controlled
+
+Lift `activeId` into parent state and pair it with `onActiveIdChange` so a
+legend or center slot reacts to the same active segment as the ring.
+
+<Canvas of={DonutChartStories.Controlled} />
+
+## With Legend
+
+Place a `Legend` beside the ring and pass it the same `series`. The legend is
+static for now and does not share `activeId` with the chart.
+
+<Canvas of={DonutChartStories.WithLegend} />
+
+## Center content
+
+`renderCenter` renders content in the middle of the ring, e.g. a total count.
+Return a top-level `DonutChartCenter` wrapping `DonutChartTitle` and/or
+`DonutChartDescription`, which size and center themselves automatically.
+
+- Used alone: same content on active and not, `activeSegment` is just `null`
+  at rest.
+- Used with `renderCenterActive`: `renderCenter` stays resting-only
+  (`activeSegment` always `null`); `renderCenterActive` crossfades in on
+  hover instead.
+- `DonutChartCenter` applies a default centered vertical stack
+  (`flex flex-col items-center`) plus `pointer-events-auto`; override or
+  extend it with `className`.
+
+The same pattern serves both ring sizes — typography scales down with the ring,
+though the `sm` center's available width is tight enough that a trailing icon
+rarely fits.
+
+<Canvas of={DonutChartStories.WithCenter} />
+
+### Clickable center
+
+To make the whole active block clickable (with chevron hover following block
+hover), wrap `renderCenterActive` in a `group` button and keep the trailing
+chevron decorative (`aria-hidden`).
+
+<Canvas of={DonutChartStories.WithCenterClickable} />
+
+## Preparing the series
+
+`DonutChart` renders exactly the series it receives — it never reorders or
+condenses on its own. The `useDonutSeries` hook prepares a raw series for the
+ring:
+
+- **Sorting** — orders segments by `value` descending, so the largest segment
+  starts at 12 o'clock. Sorting always applies, including when grouping is off.
+- **Grouping** — folds the long tail into a single "Other" segment, keeping the
+  segments that are both within the top `maxSegments` and at or above
+  `groupBelowShare`
+  (a fraction of the total, so `0.04` for 4%). A tail of a single segment is left
+  alone, since an "Other" worth exactly that one segment says less than the
+  segment itself.
+
+It returns `segments` (chart-ready, with `other` appended) and `others` (the raw
+segments that were folded in, handy for a "+N more" legend). Only `other.label`
+is required — every other option defaults, so the example below relies on the
+defaults alone. Use `prepareDonutSeries` for the same logic outside a component.
+
+<Canvas of={DonutChartStories.WithPreparedSeries} />
+
+```tsx
+type DonutSeriesOptions = {
+  /** Max segments kept before the tail is grouped; `0` disables grouping. @default 7 */
+  maxSegments?: number;
+  /** Fold segments below this fraction of the total into `other` (`0.04` = 4%); `0` groups nothing. @default 0 */
+  groupBelowShare?: number;
+  /** Shape of the aggregate segment; its `value` is always computed. */
+  other: {
+    label: string;
+    /** @default 'other' */
+    id?: string;
+    /** Optional; defaults to the chart's neutral segment color. */
+    color?: string;
+  };
+};
+
+type DonutSeriesResult = {
+  /** Top segments plus the appended `other` segment; chart-ready. */
+  segments: DonutSegment[];
+  /** The raw segments folded into `other`. */
+  others: DonutSegment[];
+};
+
+const { segments, others } = useDonutSeries(series, {
+  other: { label: 'Other' },
+});
+
+<DonutChart series={segments} />;
+```
+
+## Color contrast
+
+Segment colors are used as-is. If a palette contains colors whose lightness
+sits close to the chart's background the segments may be hard to distinguish
+from the surrounding surface.
+
+Pass `enableColorContrast` to let the chart correct this automatically. Each
+segment's color is nudged in HSL lightness space until it differs from the
+surface background by at least 20 units. Colors that already meet that minimum
+are left unchanged.
+
+<Canvas of={DonutChartStories.WithColorContrast} />
+
+## Responsiveness
+
+A long center title or description truncates inside the hole.
+
+When the description is a React node (label plus icon), wrap the text in a
+`span` with `min-w-0 truncate`.
+
+<Canvas of={DonutChartStories.ResponsivenessShowcase} />
+<Canvas of={DonutChartStories.ResponsivenessShowcaseWithReactNode} />
+
+
+
+## Props
+
+<Controls of={DonutChartStories.Base} />

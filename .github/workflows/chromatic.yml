@@ -34,11 +34,6 @@ jobs:
         with:
           set-shas: 'false'
 
-      - name: Build ui-react library
-        env:
-          NX_NO_CLOUD: true
-        run: npx nx build @ledgerhq/lumen-ui-react
-
       - name: Build Storybook
         env:
           NX_NO_CLOUD: true

@@ -5,7 +5,7 @@ description: >-
   (and their visualization libs) — the cross-platform styling principles, plus
   routing to the platform mechanics: Tailwind + cva + cn on web, useStyleSheet +
   themeJS + lx on React Native. Load this before writing component styles.
-paths: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts, libs/ui-react-visualization/**/*.tsx, libs/ui-rnative/**/*.tsx, libs/ui-rnative/**/*.ts, libs/ui-rnative-visualization/**/*.tsx
+paths: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts, libs/ui-rnative/**/*.tsx, libs/ui-rnative/**/*.ts
 ---
 
 # Component styling
@@ -22,8 +22,8 @@ then read the matching reference:
 
 | Lib | Read |
 | --- | --- |
-| `libs/ui-react`, `libs/ui-react-visualization` | `references/react.md` (Tailwind + cva + cn) |
-| `libs/ui-rnative`, `libs/ui-rnative-visualization` | `references/rnative.md` (`useStyleSheet` + themeJS + `lx`) |
+| `libs/ui-react` | `references/react.md` (Tailwind + cva + cn) |
+| `libs/ui-rnative` | `references/rnative.md` (`useStyleSheet` + themeJS + `lx`) |
 
 **Never apply one platform's mechanics to the other lib.** A className on an RN
 file or a `useStyleSheet` call on a web file is always wrong.
@@ -60,7 +60,7 @@ classnames, banned imports and formatting — see the "already enforced" list in
 | Classnames in a bare string variable instead of `cn()` / `cva()` | react | `const … = 'flex …'` outside a `cn(` / `cva(` call | strings inlined in `className` |
 | `cva` skipped where variants/many classes exist (or forced for 1–2 classes) | react | inline variant branching in JSX | — |
 | `data-[state=…]` on a Base UI primitive (or `data-[open]` on a Radix one) | react | import source vs attribute form | — |
-| Hardcoded colour/spacing/size literal instead of a `t.*` token | rnative | numeric or `'#…'` inside `useStyleSheet` | geometry constants in `ui-rnative-visualization` |
+| Hardcoded colour/spacing/size literal instead of a `t.*` token | rnative | numeric or `'#…'` inside `useStyleSheet` | geometry constants under `Components/visualization/` |
 | Large stylesheet inlined in the component body instead of a `useXStyles` hook | rnative | `useStyleSheet` call inline in the component | small one-off styles |
 | Consumer `style`/`lx` merged before internal styles (consumer can't win) | rnative | `flatten([style, styles.root])` (reversed order) | — |
 | Nested override overloads the top-level prop instead of a distinct name | both | one `className`/`style` prop feeding an inner element | — |

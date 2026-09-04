@@ -1,3 +1,5 @@
+import { type ReactNode } from 'react';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 
@@ -24,6 +26,45 @@ Animated.spring = (
 ): Animated.CompositeAnimation => {
   return originalSpring(value, { ...config, useNativeDriver: false });
 };
+
+jest.mock('react-native-svg', () => {
+  const mockReact = jest.requireActual<typeof import('react')>('react');
+
+  // Class components, not function components: react-test-renderer leaves refs
+  // to bare host elements null, while the real react-native-svg exports resolve
+  // to a component instance. A class instance reproduces that, so `ref.current`
+  // is non-null while the rendered tree still carries the svg element names the
+  // chart tests query by.
+  const createMockComponent = (name: string) => {
+    class Component extends mockReact.Component<Record<string, unknown>> {
+      override render() {
+        const { children, ...props } = this.props;
+        return mockReact.createElement(name, props, children as ReactNode);
+      }
+    }
+    Object.defineProperty(Component, 'displayName', { value: name });
+    return Component;
+  };
+
+  return {
+    __esModule: true,
+    default: createMockComponent('Svg'),
+    Svg: createMockComponent('Svg'),
+    Circle: createMockComponent('Circle'),
+    Rect: createMockComponent('Rect'),
+    Path: createMockComponent('Path'),
+    Line: createMockComponent('Line'),
+    Polygon: createMockComponent('Polygon'),
+    G: createMockComponent('G'),
+    Text: createMockComponent('Text'),
+    ClipPath: createMockComponent('ClipPath'),
+    Defs: createMockComponent('Defs'),
+    Mask: createMockComponent('Mask'),
+    LinearGradient: createMockComponent('LinearGradient'),
+    RadialGradient: createMockComponent('RadialGradient'),
+    Stop: createMockComponent('Stop'),
+  };
+});
 
 // Mock expo-haptics (uses native modules not available in Jest)
 jest.mock('expo-haptics', () => ({
@@ -114,6 +155,50 @@ jest.mock('@gorhom/bottom-sheet', () => {
 });
 
 // Mock react-native-reanimated
+jest.mock('react-native-gesture-handler', () => {
+  const mockReact = jest.requireActual<typeof import('react')>('react');
+  const mockRN =
+    jest.requireActual<typeof import('react-native')>('react-native');
+
+  const makeGesture = () => {
+    const handlers: Record<string, (...args: any[]) => any> = {};
+    const gesture: Record<string, unknown> = { __handlers: handlers };
+    const chainable = new Proxy(gesture, {
+      get(target, prop) {
+        if (prop in target) return target[prop as string];
+        if (typeof prop === 'string' && prop.startsWith('on')) {
+          return (callback: (...args: any[]) => any) => {
+            handlers[prop] = callback;
+            return chainable;
+          };
+        }
+        return (..._args: any[]) => chainable;
+      },
+    });
+    return chainable;
+  };
+
+  return {
+    __esModule: true,
+    GestureDetector: ({ children, gesture }: any) =>
+      mockReact.cloneElement(children, gesture?.__handlers ?? {}),
+    Gesture: {
+      Pan: makeGesture,
+      Tap: makeGesture,
+      LongPress: makeGesture,
+      Fling: makeGesture,
+      Simultaneous: makeGesture,
+      Exclusive: makeGesture,
+      Race: makeGesture,
+    },
+    State: {},
+    GestureHandlerRootView: ({ children }: any) =>
+      mockReact.createElement(mockRN.View, {}, children),
+    ScrollView: mockRN.ScrollView,
+    FlatList: mockRN.FlatList,
+  };
+});
+
 jest.mock('react-native-reanimated', () => {
   const mockRN =
     jest.requireActual<typeof import('react-native')>('react-native');
@@ -160,6 +245,7 @@ jest.mock('react-native-reanimated', () => {
     useAnimatedProps: (_cb: any) => {
       return {};
     },
+    useReducedMotion: () => false,
     useAnimatedGestureHandler: (handlers: any) => handlers,
     useAnimatedScrollHandler: () => () => {
       return;
@@ -188,3 +274,10 @@ jest.mock('react-native-reanimated', () => {
 
   return Reanimated;
 });
+
+jest.mock('react-native-worklets', () => ({
+  __esModule: true,
+  scheduleOnRN: (fn: any, ...args: any[]) => fn(...args),
+  scheduleOnUI: (fn: any, ...args: any[]) => fn(...args),
+  scheduleOnRuntime: (fn: any, ...args: any[]) => fn(...args),
+}));

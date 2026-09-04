@@ -1,0 +1,240 @@
+import {
+  getContrastSafeColor,
+  primitiveColorTokens,
+} from '@ledgerhq/lumen-design-core';
+import { useMemo } from 'react';
+import { useTheme } from '../../core/ThemeProvider';
+
+import { XAxis, type XAxisProps } from '../Axis/XAxis';
+import { YAxis, type YAxisProps } from '../Axis/YAxis';
+import { CartesianChart } from '../CartesianChart';
+import { ChartEmptyLabel } from '../CartesianChart/ChartEmptyLabel/ChartEmptyLabel';
+import { useShimmerAnimation } from '../CartesianChart/hooks/useShimmerAnimation';
+import { chartConfig } from '../config';
+import { Line } from '../Line';
+
+import { LineChartEmptyState } from './LineChartEmptyState';
+import type {
+  LineChartContentProps,
+  LineChartLinesProps,
+  LineChartProps,
+  LineChartTransitionLinesProps,
+} from './types';
+import {
+  canRenderLine,
+  computeAxisPadding,
+  getChartAriaLabel,
+  getChartDisplayStates,
+  mergeDefaults,
+} from './utils';
+
+const defaultXAxisProps: XAxisProps = {
+  position: 'bottom',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: false,
+};
+
+const defaultYAxisProps: YAxisProps = {
+  position: 'start',
+  showGrid: false,
+  showLine: false,
+  showTickMark: false,
+  scaleType: 'linear',
+  nice: true,
+  width: chartConfig.axis.defaultWidth,
+};
+
+const LineChartLines = ({
+  series,
+  showArea,
+  areaType,
+  connectNulls,
+  stroke,
+}: Readonly<LineChartLinesProps>) => {
+  return (
+    <>
+      {series.map((s) => (
+        <Line
+          key={s.id}
+          seriesId={s.id}
+          stroke={stroke ?? s.stroke}
+          showArea={showArea}
+          areaType={areaType}
+          connectNulls={connectNulls}
+        />
+      ))}
+    </>
+  );
+};
+
+const LineChartTransitionLines = ({
+  series,
+  showArea,
+  areaType,
+  connectNulls,
+}: Readonly<LineChartTransitionLinesProps>) => {
+  const { animationStyle, keyframe } = useShimmerAnimation();
+
+  return (
+    <>
+      <style>{keyframe}</style>
+      <g style={{ animation: animationStyle }}>
+        <LineChartLines
+          series={series}
+          showArea={showArea}
+          areaType={areaType}
+          connectNulls={connectNulls}
+          stroke={chartConfig.color.mutedLine}
+        />
+      </g>
+    </>
+  );
+};
+
+const LineChartContent = ({
+  series,
+  showArea,
+  areaType,
+  connectNulls,
+  showXAxis,
+  showYAxis,
+  xAxisConfig,
+  yAxisConfig,
+  isTransitionLoading,
+  children,
+}: Readonly<LineChartContentProps>) => {
+  return (
+    <>
+      {showXAxis && <XAxis {...xAxisConfig} />}
+      {showYAxis && <YAxis {...yAxisConfig} />}
+      {isTransitionLoading ? (
+        <LineChartTransitionLines
+          series={series}
+          showArea={showArea}
+          areaType={areaType}
+          connectNulls={connectNulls}
+        />
+      ) : (
+        <LineChartLines
+          series={series}
+          showArea={showArea}
+          areaType={areaType}
+          connectNulls={connectNulls}
+        />
+      )}
+      {children}
+    </>
+  );
+};
+
+export function LineChart({
+  series: seriesProp,
+  showArea = false,
+  areaType = 'gradient',
+  connectNulls,
+  showXAxis = false,
+  showYAxis = false,
+  xAxis,
+  yAxis,
+  width = '100%',
+  height = chartConfig.root.defaultHeight,
+  inset,
+  enableScrubbing,
+  onScrubberPositionChange,
+  animate,
+  magnetRadius,
+  loading = false,
+  emptyLabel = chartConfig.emptyState.defaultLabel,
+  enableColorContrast = false,
+  children,
+}: LineChartProps) {
+  const { colorScheme } = useTheme();
+  const bgColor =
+    colorScheme === 'dark'
+      ? primitiveColorTokens.dark.grey['050']
+      : primitiveColorTokens.light.grey['050'];
+  const series = useMemo(
+    () =>
+      seriesProp?.map((s) => ({
+        ...s,
+        ...(s.stroke &&
+          enableColorContrast && {
+            stroke: getContrastSafeColor(s.stroke, bgColor),
+          }),
+      })),
+    [seriesProp, enableColorContrast, bgColor],
+  );
+
+  const xAxisConfig = useMemo(
+    () => mergeDefaults(defaultXAxisProps, xAxis),
+    [xAxis],
+  );
+  const yAxisConfig = useMemo(
+    () => mergeDefaults(defaultYAxisProps, yAxis),
+    [yAxis],
+  );
+
+  const xAxisPosition = xAxisConfig.position;
+  const yAxisPosition = yAxisConfig.position;
+  const yAxisWidth = yAxisConfig.width;
+
+  const axisPadding = useMemo(
+    () =>
+      computeAxisPadding({
+        showXAxis,
+        showYAxis,
+        xAxisPosition,
+        yAxisPosition,
+        yAxisWidth,
+      }),
+    [showXAxis, showYAxis, xAxisPosition, yAxisPosition, yAxisWidth],
+  );
+
+  const hasData = canRenderLine(series, xAxisConfig.data);
+  const states = getChartDisplayStates({ loading, hasData });
+  const ariaLabel = getChartAriaLabel({ loading, hasData, emptyLabel });
+
+  return (
+    <CartesianChart
+      series={series ?? []}
+      xAxis={xAxisConfig}
+      yAxis={yAxisConfig}
+      width={width}
+      height={height}
+      inset={inset}
+      axisPadding={axisPadding}
+      enableScrubbing={enableScrubbing}
+      onScrubberPositionChange={onScrubberPositionChange}
+      animate={animate}
+      magnetRadius={magnetRadius}
+      ariaLabel={ariaLabel}
+      ariaBusy={loading}
+      overlay={
+        states.showEmptyOverlay ? (
+          <ChartEmptyLabel>{emptyLabel}</ChartEmptyLabel>
+        ) : undefined
+      }
+    >
+      {states.showPlaceholder ? (
+        <LineChartEmptyState loading={states.placeholderLoading} />
+      ) : (
+        <LineChartContent
+          series={series ?? []}
+          showArea={showArea}
+          areaType={areaType}
+          connectNulls={connectNulls}
+          showXAxis={showXAxis}
+          showYAxis={showYAxis}
+          xAxisConfig={xAxisConfig}
+          yAxisConfig={yAxisConfig}
+          isTransitionLoading={states.isTransitionLoading}
+        >
+          {children}
+        </LineChartContent>
+      )}
+    </CartesianChart>
+  );
+}

@@ -1,4 +1,4 @@
-# React web styling (`libs/ui-react`, `libs/ui-react-visualization`)
+# React web styling (`libs/ui-react`)
 
 Tailwind + `class-variance-authority` (`cva`) + `cn`. The shared principles live
 in the parent `SKILL.md`; this file is the web mechanism and the token catalogue.
@@ -114,5 +114,7 @@ one) is a `Consistency` bug.
 
 ## Visualization exception
 
-`libs/ui-react-visualization` still uses Tailwind, but stories live in
-`__stories__/` and it has no `.figma.tsx` coverage (see `component-anatomy`).
+Charts live in `src/lib/Components/visualization/` and are published only at the
+`@ledgerhq/lumen-ui-react/visualization` subpath. They use Tailwind like the rest
+of the lib, but some stories live in `__stories__/` and there is no `.figma.tsx`
+coverage (see `component-anatomy`).

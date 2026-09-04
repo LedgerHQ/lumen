@@ -54,6 +54,15 @@ export default defineConfig(() => ({
           __dirname,
           'src/lib/Components/symbols/index.ts',
         ),
+        // Charts are exposed only at `@ledgerhq/lumen-ui-react/visualization`
+        // and never re-exported from src/index.ts. Rollup emits JS only for
+        // modules reachable from a declared entry, so without this line the
+        // subpath would ship declarations with no runtime and no Tailwind
+        // classes to scan — typechecking green, 404 at import.
+        'lib/Components/visualization/index': path.resolve(
+          __dirname,
+          'src/lib/Components/visualization/index.ts',
+        ),
       },
       name: '@ledgerhq/lumen-ui-react',
       fileName: (_format) => 'index.js',
@@ -80,6 +89,13 @@ export default defineConfig(() => ({
         '@radix-ui/react-tooltip',
         '@tanstack/react-table',
         '@base-ui/react',
+        /^d3-/,
+        'internmap',
+        // Tripwires: nothing inside this package may import it by name. A
+        // leftover self-import would otherwise resolve through the workspace
+        // symlink and inline a second copy of the library.
+        '@ledgerhq/lumen-ui-react',
+        '@ledgerhq/lumen-ui-react/symbols',
       ],
       preserveEntrySignatures: 'strict' as const,
       output: {

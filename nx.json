@@ -123,6 +123,11 @@
         "^build"
       ]
     },
+    "build:storybook": {
+      "dependsOn": [
+        "build"
+      ]
+    },
     "bundle-cross-platform": {
       "dependsOn": [
         "^build"

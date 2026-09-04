@@ -35,6 +35,7 @@
     "**/*.stories.js",
     "**/*.stories.jsx",
     "**/*.stories.tsx",
+    "**/__stories__/**",
     "**/*.figma.ts",
     "**/*.figma.js",
     "**/*.figma.jsx",

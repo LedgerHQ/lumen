@@ -9,7 +9,7 @@ import {
   Legend,
   useDonutSeries,
   type DonutSegment,
-} from '@ledgerhq/lumen-ui-rnative-visualization';
+} from '@ledgerhq/lumen-ui-rnative/visualization';
 import { type ReactNode, useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 

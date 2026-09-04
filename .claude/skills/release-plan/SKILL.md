@@ -62,14 +62,12 @@ single source for the mapping; other skills link here rather than restating it.
 | Path | Package |
 | --- | --- |
 | `libs/ui-react/` | `@ledgerhq/lumen-ui-react` |
-| `libs/ui-react-visualization/` | `@ledgerhq/lumen-ui-react-visualization` |
 | `libs/ui-rnative/` | `@ledgerhq/lumen-ui-rnative` |
-| `libs/ui-rnative-visualization/` | `@ledgerhq/lumen-ui-rnative-visualization` |
 | `libs/design-core/` | `@ledgerhq/lumen-design-core` |
 | `libs/utils-shared/` | `@ledgerhq/lumen-utils-shared` |
 
 Filename convention: `version-plan-<timestamp>-<pkg-slug>.md`, where the slug is
-the short name (`ui-react`, `ui-rnative-visualization`, …).
+the short name (`ui-react`, `ui-rnative`, `utils-shared`, …).
 
 ## When a plan is required
 

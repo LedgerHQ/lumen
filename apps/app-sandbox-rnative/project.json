@@ -31,6 +31,23 @@
         "command": "npx expo prebuild --clean",
         "cwd": "apps/app-sandbox-rnative"
       }
+    },
+    "test:bundle": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "options": {
+        "commands": [
+          "npx expo export --platform ios --output-dir dist --source-maps --no-bytecode",
+          "node tests/bundle/verify-bundle.mjs"
+        ],
+        "cwd": "apps/app-sandbox-rnative",
+        "parallel": false
+      },
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
   "tags": [

@@ -8,7 +8,6 @@ const config: StorybookConfig = {
   stories: [
     '../src/lib/**/*.mdx',
     '../src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    // '../../ui-rnative-visualization/src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     './docs/**/*.@(mdx)',
     './docs/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
@@ -35,6 +34,9 @@ const config: StorybookConfig = {
       '@sbaiahmed1/react-native-blur': fileURLToPath(
         new URL('./mocks/blur.tsx', import.meta.url),
       ),
+      // Third-party packages (@ledgerhq/crypto-icons) import the lib by name.
+      // Without this they load a second copy from dist/, whose theme context is
+      // a different object than the one ThemeProvider fills from source.
       '@ledgerhq/lumen-ui-rnative': fileURLToPath(
         new URL('../src/index.ts', import.meta.url),
       ),
