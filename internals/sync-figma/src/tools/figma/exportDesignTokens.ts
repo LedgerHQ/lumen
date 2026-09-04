@@ -5,24 +5,26 @@
  */
 
 import * as fs from 'fs';
-import figmaApi from './api.js';
-import getEnvironmentVariables from './getEnvironmentVariables.js';
-import tokenFileNameRenamer from './tokenFileNameRenamer.js';
-import tokenFilesFromLocalVariables from './tokenFilesFromLocalVariables.js';
+import * as path from 'path';
+import { automationConfig } from '../../config.js';
+import { figmaApi } from './api.js';
+import { getEnvironmentVariables } from './getEnvironmentVariables.js';
+import { tokenFileNameRenamer } from './tokenFileNameRenamer.js';
+import { tokenFilesFromLocalVariables } from './tokenFilesFromLocalVariables.js';
 
-const outputDir = 'tokens';
+const outputDir = automationConfig.figmaTokensPath;
 
 function writeFilesSync<T>(
   outputDir: string,
   filesDictionary: Record<string, T>,
 ) {
   if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir);
+    fs.mkdirSync(outputDir, { recursive: true });
   }
 
   Object.entries(filesDictionary).forEach(([fileName, fileContent]) => {
     fs.writeFileSync(
-      `${outputDir}/${fileName}`,
+      path.join(outputDir, fileName),
       JSON.stringify(fileContent, null, 2),
     );
   });

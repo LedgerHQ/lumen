@@ -1,6 +1,6 @@
-import figmaApi from './api.js';
-import getEnvironmentVariables from './getEnvironmentVariables.js';
-import codeSyntaxUpdateBody from './localVariablesCodeSyntax.js';
+import { figmaApi } from './api.js';
+import { getEnvironmentVariables } from './getEnvironmentVariables.js';
+import { codeSyntaxUpdateBody } from './localVariablesCodeSyntax.js';
 
 async function updateCodeSyntax() {
   const { figmaToken, fileKey } = getEnvironmentVariables();

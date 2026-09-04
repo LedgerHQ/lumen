@@ -18,6 +18,6 @@ async function getMocksFromFileSystem(
   }
 }
 
-export default {
+export const figmaApiMock = {
   getMocksFromFileSystem,
 };

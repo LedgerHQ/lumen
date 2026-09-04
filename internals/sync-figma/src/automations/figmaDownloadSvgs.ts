@@ -1,11 +1,11 @@
 import { mkdirSync } from 'fs';
 import { dirname } from 'path';
 import { config } from 'dotenv';
+import { automationConfig } from '../config.js';
 import { downloadSvgs } from '../tools/figma/downloadSvgs.js';
 import { getSvgs } from '../tools/figma/getSvgs.js';
-import { automationConfig } from './automation.config.js';
 
-config({ path: '../../../../.env' });
+config({ path: '.env' });
 
 const fileKey = process.env.FIGMA_SYMBOLS_FILE_KEY;
 const iconsCanvas = process.env.FIGMA_ICONS_CANVAS;
@@ -24,7 +24,7 @@ const figmaDownloadSvgs = async () => {
 
   console.log(`🔎 Found ${svgsData.svgs.length} icons`);
 
-  const saveDirectory = automationConfig.symbolsOutputPath;
+  const saveDirectory = automationConfig.symbolsPath;
   mkdirSync(dirname(saveDirectory), { recursive: true });
 
   await downloadSvgs({

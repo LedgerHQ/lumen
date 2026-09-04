@@ -1,8 +1,8 @@
 import { describe } from 'node:test';
 import { it, expect } from 'vitest';
-import figmaApiMock from './apiMock.js';
-import tokenFileNameRenamer from './tokenFileNameRenamer.js';
-import tokenFilesFromLocalVariables from './tokenFilesFromLocalVariables.js';
+import { figmaApiMock } from './apiMock.js';
+import { tokenFileNameRenamer } from './tokenFileNameRenamer.js';
+import { tokenFilesFromLocalVariables } from './tokenFilesFromLocalVariables.js';
 
 describe('tokenFilesFromLocalVariables', () => {
   it('check filenames with default renamer', async () => {

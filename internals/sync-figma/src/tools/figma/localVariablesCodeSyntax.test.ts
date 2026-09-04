@@ -1,6 +1,6 @@
 import { describe } from 'node:test';
 import { it, expect } from 'vitest';
-import figmaApiMock from './apiMock.js';
+import { figmaApiMock } from './apiMock.js';
 import {
   findVariablesEndingByDefault,
   codeSyntaxFromVariableNameEndingByDefault,

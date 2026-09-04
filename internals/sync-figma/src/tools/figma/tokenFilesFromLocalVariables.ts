@@ -78,7 +78,7 @@ function rgbToHex({ r, g, b, ...rest }: RGB | RGBA) {
   return `#${hex}` + (a === 1 ? '' : toHex(a));
 }
 
-export default function tokenFilesFromLocalVariables(
+export function tokenFilesFromLocalVariables(
   localVariablesResponse: GetLocalVariablesResponse,
   fileNameRenamer: (
     collection: LocalVariableCollection,

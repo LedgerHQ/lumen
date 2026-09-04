@@ -1,0 +1,54 @@
+{
+  "name": "sync-figma",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "internals/sync-figma/src",
+  "projectType": "library",
+  "tags": ["scope:internal", "type:tooling"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "internals/sync-figma"
+      }
+    },
+    "figma-export": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/sync-figma/src/tools/figma/exportDesignTokens.ts"
+      }
+    },
+    "code-syntax": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/sync-figma/src/tools/figma/updateCodeSyntax.ts"
+      }
+    },
+    "design-tokens-etl": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/sync-figma/src/automations/designTokensEtl.ts"
+      }
+    },
+    "figma-download-svgs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/sync-figma/src/automations/figmaDownloadSvgs.ts"
+      }
+    },
+    "generate-symbols-react": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/sync-figma/src/automations/generate-symbols.mts --templatePath libs/ui-react/src/lib/Components/symbols/utils/icon-template.ts --outputPath libs/ui-react/src/lib/Components/symbols"
+      },
+      "dependsOn": ["^build"]
+    },
+    "generate-symbols-react-native": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/sync-figma/src/automations/generate-symbols.mts --templatePath libs/ui-rnative/src/lib/Components/symbols/utils/icon-template.ts --outputPath libs/ui-rnative/src/lib/Components/symbols --isReactNative true"
+      },
+      "dependsOn": ["^build"]
+    }
+  }
+}
