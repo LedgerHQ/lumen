@@ -1,8 +1,12 @@
 # sync-figma
 
 Dev-only Nx project holding everything that crosses the Figma boundary. It is
-**never published** — it has no `package.json` and is not an npm workspace, so
-changes here need no version plan.
+**never published**: the manifest is `private: true` and scoped `@lumen/…`
+rather than `@ledgerhq/lumen-…`, and `nx release` only ever looks at `libs/*`.
+Changes here need no version plan.
+
+It declares its own `devDependencies`, so add anything new to
+[`package.json`](package.json) here rather than to the root manifest.
 
 Driven in CI by [`.github/workflows/sync-figma.yml`](../../.github/workflows/sync-figma.yml),
 which runs the targets below and opens a PR with the result.

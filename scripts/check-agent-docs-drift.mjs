@@ -18,9 +18,9 @@
 //      the table (bijection).
 //   7. Internals table ↔ filesystem — every `internals/*` project is documented
 //      (bijection), carries the `scope:internal` tag so the module-boundary rule
-//      applies, ships no package.json, and spreads `prodConfig` in its eslint
-//      config. Keeps a new internal lib from silently skipping the category's
-//      guarantees.
+//      applies, ships a `private: true` package.json, and spreads `prodConfig`
+//      in its eslint config. Keeps a new internal lib from silently skipping the
+//      category's guarantees.
 //   8. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
 //      servers with the same url/command (the one hand-synced, non-CI invariant).
 //
@@ -281,10 +281,18 @@ for (const path of internalsOnDisk) {
     err(`"${path}/project.json" must carry the "scope:internal" tag, or the module-boundary rule will not fence it off from libs/apps.`);
   }
 
-  // A package.json would put it in npm workspaces and back in reach of
-  // `nx release`; the category's "unpublishable by construction" rests on this.
-  if (existsSync(join(root, path, 'package.json'))) {
-    err(`"${path}" must not have a package.json — internal projects are never published.`);
+  // Internal projects carry a `private: true` manifest (the layout Coinbase's
+  // CDS uses for its own internal libs): it lets each declare its own
+  // devDependencies, and `private` is what stops npm publishing it. Being
+  // outside `nx.json`'s `release.projects` glob (`libs/*`) is the second guard.
+  const manifestPath = join(root, path, 'package.json');
+  if (!existsSync(manifestPath)) {
+    err(`"${path}" needs a package.json declaring its own devDependencies, with "private": true.`);
+  } else {
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    if (manifest.private !== true) {
+      err(`"${path}/package.json" must set "private": true — internal projects are never published.`);
+    }
   }
 
   const eslintConfig = join(root, path, 'eslint.config.mjs');

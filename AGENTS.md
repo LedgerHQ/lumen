@@ -43,15 +43,21 @@ Rules for adding one:
 
 - **Naming** — folder = the job, named after the workflow or command that drives
   it (`internals/sync-figma` ↔ `.github/workflows/sync-figma.yml`). The Nx
-  project name equals the folder name and is **unscoped**; the absent
-  `@ledgerhq/lumen-` prefix is the visible "not a package" signal. Name for the
-  job, not the artefact it happens to produce today.
-- **Unpublishable by construction** — no `package.json` and no entry in the root
-  `workspaces`. That alone keeps it out of `nx release` (scoped to `libs/*`),
-  `plan:check` and dev-package publishing; shared devDeps go in the root
-  `package.json`. **Changes here never need a version plan.** It *is* a normal
-  TypeScript project, so `nx sync` lists it in the root `tsconfig.json`
-  `references` — run `npx nx sync` after adding one.
+  project name equals the folder name and is unscoped. Name for the job, not the
+  artefact it happens to produce today: this one syncs tokens *and* symbols and
+  writes code syntax back, so `sync-figma-tokens` would have aged badly.
+- **A `private: true` package.json, under the `@lumen/*` scope** — the layout
+  [CDS](https://github.com/coinbase/cds) uses for its own internal libs
+  (`@cds/figma-api` beside the published `@coinbase/cds-*`). The npm name is
+  scoped `@lumen/…` while the Nx project name in `project.json` stays unscoped
+  (`sync-figma`), so targets and workflow references read cleanly. Each internal
+  project declares **its own devDependencies** rather than borrowing the root's.
+- **Never published**, guarded three ways: `private: true` blocks npm, the
+  `libs/*` glob in `nx.json`'s `release.projects` excludes it from `nx release`
+  and `plan:check`, and `publish-dev-packages.yml` globs `libs/*/` too.
+  **Changes here never need a version plan.** It *is* a normal TypeScript
+  project, so `nx sync` lists it in the root `tsconfig.json` `references` — run
+  `npx nx sync` after adding one.
 - **Tags** — `["scope:internal", "type:tooling"]` in `project.json`.
 - **Dependency direction** — an internal project may import `scope:internal` and
   `scope:shared` only. Nothing under `libs/` or `apps/` may import
