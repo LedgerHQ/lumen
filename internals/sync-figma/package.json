@@ -6,7 +6,6 @@
   "type": "module",
   "devDependencies": {
     "@figma/rest-api-spec": "^0.28.0",
-    "@ledgerhq/lumen-utils-shared": "*",
     "@svgr/core": "^8.1.0",
     "@types/node": "^20.0.0",
     "dotenv": "^16.4.7",

@@ -1,4 +1,4 @@
-import { toPascalCase, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { createElement } from 'react';
 import type { SvgProps } from 'react-native-svg';
 import { useTheme } from '../../../../styles';
@@ -33,7 +33,7 @@ const createIcon = (
     });
   };
 
-  Component.displayName = toPascalCase(iconName);
+  Component.displayName = iconName;
 
   return Component;
 };
