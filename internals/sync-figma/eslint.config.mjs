@@ -6,10 +6,7 @@ export default [
     name: 'sync-figma-exceptions',
     files: ['src/**/*.{ts,mts}'],
     rules: {
-      /**
-       * These are CLI pipelines run by hand and by `sync-figma.yml`; their
-       * stdout is the only progress feedback a maintainer gets.
-       */
+      // CLI pipelines — stdout is their only progress output.
       'no-console': 'off',
     },
   },

@@ -24,7 +24,7 @@ const figmaDownloadSvgs = async () => {
 
   console.log(`🔎 Found ${svgsData.svgs.length} icons`);
 
-  const saveDirectory = automationConfig.symbolsPath;
+  const saveDirectory = automationConfig.symbolsOutputPath;
   mkdirSync(dirname(saveDirectory), { recursive: true });
 
   await downloadSvgs({

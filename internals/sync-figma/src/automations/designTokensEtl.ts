@@ -327,12 +327,9 @@ brands.forEach(function (brand) {
         const filePath = path.join(buildPath, destination);
         if (!fs.existsSync(filePath)) continue;
 
-        /**
-         * Resolve against the file, never the cwd: prettier searches upward
-         * from the argument's *parent*, so handing it a directory looks one
-         * level too high — from the repo root that lands outside the repo and
-         * silently falls back to defaults (double quotes).
-         */
+        // Pass the file, not a directory: prettier searches upward from the
+        // argument's *parent*, so a directory looks one level too high and
+        // silently falls back to defaults.
         const prettierConfig = await prettier.resolveConfig(filePath);
         const content = fs.readFileSync(filePath, 'utf8');
         const formatted = await prettier.format(content, {
