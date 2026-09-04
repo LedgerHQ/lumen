@@ -23,8 +23,7 @@
   "files": [
     "dist",
     "symbols",
-    "!**/*.tsbuildinfo",
-    "!dist/figma/*"
+    "!**/*.tsbuildinfo"
   ],
   "dependencies": {
     "tailwindcss": "^4.1.17",

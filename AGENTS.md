@@ -9,6 +9,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
 Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
+Dev-only tooling lives outside `libs/` in `internals/` — see `## Internals`.
 
 ## Libraries
 
@@ -26,6 +27,42 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 
 
 
+
+## Internals
+
+`internals/*` holds Nx projects that are **local/dev-only and never published**.
+Litmus test: *would a consumer of `@ledgerhq/lumen-*` ever load this code?* If
+no, it belongs here — codegen, ETL, external-API sync, maintenance scripts and
+their input data.
+
+| Path                     | Purpose                                                                    | Targets                                                                                                             |
+| ------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `internals/sync-figma`   | Everything crossing the Figma boundary: design tokens, SVG symbols, code-syntax write-back | `figma-export`, `design-tokens-etl`, `figma-download-svgs`, `generate-symbols-react`, `generate-symbols-react-native`, `code-syntax` |
+
+Rules for adding one:
+
+- **Naming** — folder = the job, named after the workflow or command that drives
+  it (`internals/sync-figma` ↔ `.github/workflows/sync-figma.yml`). The Nx
+  project name equals the folder name and is **unscoped**; the absent
+  `@ledgerhq/lumen-` prefix is the visible "not a package" signal. Name for the
+  job, not the artefact it happens to produce today.
+- **Unpublishable by construction** — no `package.json` and no entry in the root
+  `workspaces`. That alone keeps it out of `nx release` (scoped to `libs/*`),
+  `plan:check` and dev-package publishing; shared devDeps go in the root
+  `package.json`. **Changes here never need a version plan.** It *is* a normal
+  TypeScript project, so `nx sync` lists it in the root `tsconfig.json`
+  `references` — run `npx nx sync` after adding one.
+- **Tags** — `["scope:internal", "type:tooling"]` in `project.json`.
+- **Dependency direction** — an internal project may import `scope:internal` and
+  `scope:shared` only. Nothing under `libs/` or `apps/` may import
+  `internals/*`; `@nx/enforce-module-boundaries` rejects both directions.
+  Filesystem *writes* into libs are legal and expected — that is what codegen
+  does; only imports are governed.
+- **Code in `src/`, held to the prod lint profile** — spread `prodConfig` like
+  any lib. Where a rule genuinely cannot be met, declare a narrow exception in
+  the project's own `eslint.config.mjs` (see `internals/sync-figma` turning off
+  `no-console` for its CLI output) rather than opting out of the profile.
+- **Split only when pipelines stop sharing code**, not before.
 
 ## Commands
 
@@ -53,7 +90,8 @@ authoritative conventions; when a skill conflicts with this file, the skill wins
 agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
 an Nx version plan in `.nx/version-plans/` — bump type always `patch`, one
-package per file (see the `release-plan` skill).
+package per file (see the `release-plan` skill). `internals/*` is never
+published, so changes there need no plan.
 
 
 

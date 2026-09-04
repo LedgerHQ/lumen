@@ -174,6 +174,17 @@ export const prodConfig = defineConfig(
                 'scope:ui-shared',
               ],
             },
+            /**
+             * `internals/*` is dev-only tooling that never ships. Nothing
+             * published may import it — that direction is already blocked by
+             * the constraints above, none of which allow `scope:internal`.
+             * `scope:shared` is allowed inbound so tooling can reuse
+             * platform-agnostic helpers from `utils-shared`.
+             */
+            {
+              sourceTag: 'scope:internal',
+              onlyDependOnLibsWithTags: ['scope:internal', 'scope:shared'],
+            },
           ],
         },
       ],

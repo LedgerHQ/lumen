@@ -21,9 +21,6 @@ const devFilePatterns = [
   `**/*.figma.${ext}`,
   `**/*.test.${ext}`,
   `**/*.spec.${ext}`,
-
-  /** specific folders considered as dev */
-  `apps/**/*.${ext}`,
 ];
 
 const globalIgnorePatterns = [
@@ -51,8 +48,13 @@ export const defineGlobalRules = (config) => ({
 });
 
 /**
- * Define rules for production js/ts files
- * Production files should always be exposed in src/*
+ * Define rules for production js/ts files.
+ *
+ * A `src` folder is the production marker in every project type — under libs,
+ * apps and internals alike — so every project spreads `prodConfig` and is held
+ * to the same bar. A project that genuinely cannot satisfy a rule declares a
+ * narrow exception in its own eslint config rather than opting out of the
+ * profile.
  * @param {Linter.Config} config
  * @returns {Linter.Config}
  */

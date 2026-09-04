@@ -25,7 +25,7 @@ export function codeSyntaxFromVariableNameEndingByDefault(
   return `var(--${cssVariableName});`;
 }
 
-export default function codeSyntaxUpdateBody(
+export function codeSyntaxUpdateBody(
   localVariables: GetLocalVariablesResponse,
 ): PostVariablesRequestBody {
   const variablesChange: VariableUpdate[] = findVariablesEndingByDefault(

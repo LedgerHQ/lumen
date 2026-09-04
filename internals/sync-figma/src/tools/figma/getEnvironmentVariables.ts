@@ -1,4 +1,4 @@
-export default function getEnvironmentVariables(): {
+export function getEnvironmentVariables(): {
   figmaToken: string;
   fileKey: string;
 } {
