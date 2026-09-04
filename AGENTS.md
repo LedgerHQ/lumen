@@ -32,43 +32,27 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 
 `internals/*` holds Nx projects that are **local/dev-only and never published**.
 Litmus test: *would a consumer of `@ledgerhq/lumen-*` ever load this code?* If
-no, it belongs here — codegen, ETL, external-API sync, maintenance scripts and
-their input data.
+no, it belongs here — codegen, ETL, external-API sync and their input data.
 
-| Path                     | Purpose                                                                    | Targets                                                                                                             |
-| ------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `internals/sync-figma`   | Everything crossing the Figma boundary: design tokens, SVG symbols, code-syntax write-back | `figma-export`, `design-tokens-etl`, `figma-download-svgs`, `generate-symbols-react`, `generate-symbols-react-native`, `code-syntax` |
+| Path                   | Purpose                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
 
 Rules for adding one:
 
-- **Naming** — folder = the job, named after the workflow or command that drives
-  it (`internals/sync-figma` ↔ `.github/workflows/sync-figma.yml`). The Nx
-  project name equals the folder name and is unscoped. Name for the job, not the
-  artefact it happens to produce today: this one syncs tokens *and* symbols and
-  writes code syntax back, so `sync-figma-tokens` would have aged badly.
-- **A `private: true` package.json, under the `@lumen/*` scope** — the layout
-  [CDS](https://github.com/coinbase/cds) uses for its own internal libs
-  (`@cds/figma-api` beside the published `@coinbase/cds-*`). The npm name is
-  scoped `@lumen/…` while the Nx project name in `project.json` stays unscoped
-  (`sync-figma`), so targets and workflow references read cleanly. Each internal
-  project declares **its own devDependencies** rather than borrowing the root's.
-- **Never published**, guarded three ways: `private: true` blocks npm, the
-  `libs/*` glob in `nx.json`'s `release.projects` excludes it from `nx release`
-  and `plan:check`, and `publish-dev-packages.yml` globs `libs/*/` too.
-  **Changes here never need a version plan.** It *is* a normal TypeScript
-  project, so `nx sync` lists it in the root `tsconfig.json` `references` — run
-  `npx nx sync` after adding one.
-- **Tags** — `["scope:internal", "type:tooling"]` in `project.json`.
-- **Dependency direction** — an internal project may import `scope:internal` and
-  `scope:shared` only. Nothing under `libs/` or `apps/` may import
-  `internals/*`; `@nx/enforce-module-boundaries` rejects both directions.
-  Filesystem *writes* into libs are legal and expected — that is what codegen
-  does; only imports are governed.
-- **Code in `src/`, held to the prod lint profile** — spread `prodConfig` like
-  any lib. Where a rule genuinely cannot be met, declare a narrow exception in
-  the project's own `eslint.config.mjs` (see `internals/sync-figma` turning off
-  `no-console` for its CLI output) rather than opting out of the profile.
-- **Split only when pipelines stop sharing code**, not before.
+- Folder = the job, named after the workflow that drives it (`sync-figma` ↔
+  `.github/workflows/sync-figma.yml`). Nx project name = folder name, unscoped.
+- `private: true` package.json under the `@lumen/*` scope, declaring its own
+  devDependencies. Never needs a version plan.
+- Tags `["scope:internal", "type:tooling"]` in `project.json`.
+- Code in `src/`, spreading `prodConfig`. Narrow, commented exceptions belong in
+  the project's own `eslint.config.mjs`.
+- May import `scope:internal` and `scope:shared` only, and nothing under `libs/`
+  or `apps/` may import it — see `depConstraints` in `eslint.config.mjs`.
+  Filesystem *writes* into libs are expected; only imports are governed.
+- Run `npx nx sync` after adding one.
+
+`scripts/check-agent-docs-drift.mjs` enforces the table and the first four rules.
 
 ## Commands
 
