@@ -4,6 +4,13 @@ import type { Series } from '../types';
 type AxisData = NonNullable<BaseAxisProps['data']>;
 
 /**
+ * Running min/max, mutated in place. Scanning a chart's values allocates
+ * nothing beyond this single object — series can hold thousands of points and
+ * the scan reruns whenever `series` changes.
+ */
+type BoundsAccumulator = { min: number; max: number; hasValue: boolean };
+
+/**
  * Compute the X domain (index-based) from series data and axis config.
  * For the X axis the domain is typically 0..N-1 where N = longest series length,
  * unless explicit `data` is provided on the axis config.
@@ -46,33 +53,63 @@ const computeXBounds = (series: Series[], axisData?: AxisData): AxisBounds => {
 };
 
 const computeYBounds = (series: Series[]): AxisBounds => {
-  const values = definedValues(series);
+  const accumulator = createAccumulator();
 
-  return extentOf(values, { min: 0, max: 1 });
+  for (const { data } of series) {
+    if (!data) continue;
+    for (const value of data) {
+      if (value !== null) accumulate(accumulator, value);
+    }
+  }
+
+  return sealBounds(accumulator, { min: 0, max: 1 });
 };
 
 const isNumericAxis = (data: AxisData): data is number[] =>
   typeof data[0] === 'number';
 
 const extentOf = (values: number[], emptyBounds: AxisBounds): AxisBounds => {
-  if (values.length === 0) return emptyBounds;
+  const accumulator = createAccumulator();
 
-  const initialBounds = { min: values[0], max: values[0] };
+  for (const value of values) accumulate(accumulator, value);
 
-  return values.slice(1).reduce<AxisBounds>(
-    (bounds, value) => ({
-      min: Math.min(bounds.min, value),
-      max: Math.max(bounds.max, value),
-    }),
-    initialBounds,
-  );
+  return sealBounds(accumulator, emptyBounds);
 };
+
+const createAccumulator = (): BoundsAccumulator => ({
+  min: 0,
+  max: 0,
+  hasValue: false,
+});
+
+/**
+ * Non-finite values are skipped rather than folded in. `Math.min(x, NaN)` is
+ * NaN, so a single bad point — a division by zero upstream, a failed parse —
+ * would otherwise poison the whole domain, and d3 would map every coordinate to
+ * NaN: a blank chart with no error anywhere. `Series['data']` is typed
+ * `(number | null)[]`, so nothing upstream rules NaN out.
+ */
+const accumulate = (accumulator: BoundsAccumulator, value: number): void => {
+  if (!Number.isFinite(value)) return;
+
+  if (!accumulator.hasValue) {
+    accumulator.min = value;
+    accumulator.max = value;
+    accumulator.hasValue = true;
+    return;
+  }
+
+  if (value < accumulator.min) accumulator.min = value;
+  if (value > accumulator.max) accumulator.max = value;
+};
+
+const sealBounds = (
+  { min, max, hasValue }: BoundsAccumulator,
+  emptyBounds: AxisBounds,
+): AxisBounds => (hasValue ? { min, max } : emptyBounds);
 
 const longestSeriesLength = (series: Series[]): number =>
   series.reduce((max, s) => Math.max(max, s.data?.length ?? 0), 0);
-
-const definedValues = (series: Series[]): number[] =>
-  series.flatMap((s) => s.data ?? []).filter((v): v is number => v != null);
 
 const applyDomainOverride = (
   autoBounds: AxisBounds,

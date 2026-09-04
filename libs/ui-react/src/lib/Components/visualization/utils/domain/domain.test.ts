@@ -121,3 +121,30 @@ describe('computeDataLength', () => {
     expect(computeDataLength([{ id: 's', stroke: '#000' }])).toBe(0);
   });
 });
+
+describe('non-finite values', () => {
+  it('should skip NaN when computing the Y domain', () => {
+    const result = computeYDomain([makeSeries([10, NaN, 30, 20])]);
+    expect(result).toEqual({ min: 10, max: 30 });
+  });
+
+  it('should skip a leading NaN when computing the Y domain', () => {
+    const result = computeYDomain([makeSeries([NaN, 10, 30])]);
+    expect(result).toEqual({ min: 10, max: 30 });
+  });
+
+  it('should skip Infinity when computing the Y domain', () => {
+    const result = computeYDomain([makeSeries([10, Infinity, -Infinity, 30])]);
+    expect(result).toEqual({ min: 10, max: 30 });
+  });
+
+  it('should fall back to { 0, 1 } when every Y value is non-finite', () => {
+    const result = computeYDomain([makeSeries([NaN, NaN])]);
+    expect(result).toEqual({ min: 0, max: 1 });
+  });
+
+  it('should skip NaN in numeric axis data', () => {
+    const result = computeXDomain([makeSeries([1])], { data: [10, NaN, 30] });
+    expect(result).toEqual({ min: 10, max: 30 });
+  });
+});
