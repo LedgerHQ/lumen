@@ -42,11 +42,12 @@ Rules for adding one:
 
 - Folder = the job, named after the workflow that drives it (`sync-figma` ↔
   `.github/workflows/sync-figma.yml`). Nx project name = folder name, unscoped.
-- `private: true` package.json under the `@lumen/*` scope, declaring its own
-  devDependencies. Never needs a version plan.
-- Tags `["scope:internal", "type:tooling"]` in `project.json`.
-- Code in `src/`, spreading `prodConfig`. Narrow, commented exceptions belong in
-  the project's own `eslint.config.mjs`.
+- `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
+  in the root manifest. Never needs a version plan.
+- Tags `["scope:internal", "type:tooling"]` in `project.json` — the tag is what
+  the boundary rule matches on when a lib tries to import it.
+- Code in `src/`, spreading `sharedConfig` — the dev profile, same as `apps/*`.
+  `prodConfig` is for published libs.
 - May import `scope:internal` and `scope:shared` only, and nothing under `libs/`
   or `apps/` may import it — see `depConstraints` in `eslint.config.mjs`.
   Filesystem *writes* into libs are expected; only imports are governed.
