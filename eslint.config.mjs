@@ -174,10 +174,6 @@ export const prodConfig = defineConfig(
                 'scope:ui-shared',
               ],
             },
-            {
-              sourceTag: 'scope:internal',
-              onlyDependOnLibsWithTags: ['scope:internal', 'scope:shared'],
-            },
           ],
         },
       ],

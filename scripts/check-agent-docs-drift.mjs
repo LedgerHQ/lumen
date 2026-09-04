@@ -18,7 +18,7 @@
 //      the table (bijection).
 //   7. Internals table ↔ filesystem — every `internals/*` project is documented
 //      (bijection), carries the `scope:internal` tag, ships a `private: true`
-//      package.json, and spreads `prodConfig` in its eslint config.
+//      package.json, and spreads `sharedConfig` in its eslint config.
 //   8. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
 //      servers with the same url/command (the one hand-synced, non-CI invariant).
 //
@@ -278,7 +278,7 @@ for (const path of internalsOnDisk) {
 
   const manifestPath = join(root, path, 'package.json');
   if (!existsSync(manifestPath)) {
-    err(`"${path}" needs a package.json declaring its own devDependencies, with "private": true.`);
+    err(`"${path}" needs a package.json with "private": true.`);
   } else {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
     if (manifest.private !== true) {
@@ -289,8 +289,8 @@ for (const path of internalsOnDisk) {
   const eslintConfig = join(root, path, 'eslint.config.mjs');
   if (!existsSync(eslintConfig)) {
     err(`"${path}" is missing an eslint.config.mjs, so it is linted by nothing.`);
-  } else if (!readFileSync(eslintConfig, 'utf8').includes('prodConfig')) {
-    err(`"${path}/eslint.config.mjs" must spread \`prodConfig\` — declare narrow per-rule exceptions instead of opting out.`);
+  } else if (!readFileSync(eslintConfig, 'utf8').includes('sharedConfig')) {
+    err(`"${path}/eslint.config.mjs" must spread \`sharedConfig\` — the dev profile, same as apps; \`prodConfig\` is for published libs.`);
   }
 }
 
