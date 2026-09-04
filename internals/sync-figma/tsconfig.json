@@ -1,16 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": "src",
     "outDir": "out-tsc",
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.mts"],
-  "references": [
-    {
-      "path": "../../libs/utils-shared"
-    }
-  ]
+  "include": ["src/**/*.ts", "src/**/*.mts"]
 }

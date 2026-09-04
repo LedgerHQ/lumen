@@ -1,11 +1,11 @@
 import { promises as fs } from 'fs';
 import * as os from 'os';
 import path from 'path';
-import { toPascalCase } from '@ledgerhq/lumen-utils-shared';
 import { transform } from '@svgr/core';
 import { automationConfig } from '../config.js';
 import { findFilesByExtension } from '../tools/utils/fsUtils.js';
 import { parseCliArgs } from '../tools/utils/parseCliArgs.js';
+import { toPascalCase } from '../tools/utils/toPascalCase.js';
 
 const params = parseCliArgs(process.argv.slice(2));
 
