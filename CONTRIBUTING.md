@@ -41,10 +41,8 @@ lumen
 
 - NXJS libraries are prefixed by `@ledgerhq/lumen-*` - defined in the project.json
 - NPM package will match the name of the NXJS library, to make a library publishable a private:false needs to be set
-- `internals/*` projects are `private: true` and scoped `@lumen/*` (not
-  `@ledgerhq/lumen-*`), so they can never be published; their Nx project name
-  stays unscoped. Nothing under `libs/` or `apps/` may import them — see
-  `## Internals` in [AGENTS.md](AGENTS.md)
+- `internals/*` projects are dev-only and never published — see `## Internals` in
+  [AGENTS.md](AGENTS.md)
 
 ### Technology Stack
 

@@ -65,14 +65,8 @@ npx nx lint @ledgerhq/lumen-design-core --fix
 npx nx build @ledgerhq/lumen-design-core
 ```
 
-If you touched the ETL rather than the themes, the pipeline lives in
-`internals/sync-figma` (a dev-only project, so no version plan):
-
-```bash
-npx nx run sync-figma:design-tokens-etl   # rewrites libs/design-core/src/lib/themes/css/
-npx nx typecheck sync-figma
-npx nx test sync-figma
-```
+If you touched the ETL rather than the themes, it lives in `internals/sync-figma`
+— see its `README.md`.
 
 Checklist:
 
