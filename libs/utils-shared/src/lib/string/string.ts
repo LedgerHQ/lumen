@@ -1,16 +1,4 @@
 /**
- * Transforms a kebab-case or snake_case string into a PascalCase string.
- * e.g., 'arrow-up' -> 'ArrowUp'
- */
-export function toPascalCase(str: string): string {
-  if (!str) return '';
-  return str
-    .split(/[-_ ]+/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join('');
-}
-
-/**
  * Hashes a string into a stable, deterministic 32-bit signed integer.
  */
 export function hashString(str: string): number {

@@ -20,6 +20,9 @@
     },
     {
       "path": "./apps/app-sandbox-rnative"
+    },
+    {
+      "path": "./internals/sync-figma"
     }
   ],
   "ts-node": {

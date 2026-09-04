@@ -1,10 +1,11 @@
 import { promises as fs } from 'fs';
 import * as os from 'os';
 import path from 'path';
-import { toPascalCase } from '@ledgerhq/lumen-utils-shared';
 import { transform } from '@svgr/core';
+import { automationConfig } from '../config.js';
 import { findFilesByExtension } from '../tools/utils/fsUtils.js';
 import { parseCliArgs } from '../tools/utils/parseCliArgs.js';
+import { toPascalCase } from '../tools/utils/toPascalCase.js';
 
 const params = parseCliArgs(process.argv.slice(2));
 
@@ -19,7 +20,7 @@ if (!params.templatePath) {
 }
 
 const CWD = process.cwd();
-const INPUT_DIR = path.join(CWD, 'libs/design-core/symbols');
+const INPUT_DIR = path.join(CWD, automationConfig.symbolsInputPath);
 const OUTPUT_DIR = path.resolve(CWD, params.outputPath);
 const BARREL_FILE = path.join(OUTPUT_DIR, 'index.ts');
 const isReactNative = params.isReactNative === 'true';

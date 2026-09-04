@@ -83,6 +83,7 @@
     "@vitest/coverage-v8": "4.0.9",
     "chromatic": "^13.3.5",
     "class-variance-authority": "^0.7.1",
+    "dotenv": "^16.4.7",
     "eslint": "9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-better-tailwindcss": "^4.0.1",
@@ -137,6 +138,7 @@
   },
   "workspaces": [
     "apps/*",
+    "internals/*",
     "libs/*"
   ],
   "nx": {

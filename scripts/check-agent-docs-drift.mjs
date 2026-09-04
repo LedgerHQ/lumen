@@ -16,7 +16,10 @@
 //   6. Libraries table ↔ filesystem — every row's `libs/*` path exists, its
 //      package name matches that lib's package.json, and every lib on disk is in
 //      the table (bijection).
-//   7. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
+//   7. Internals table ↔ filesystem — every `internals/*` project is documented
+//      (bijection), carries the `scope:internal` tag, ships a `private: true`
+//      package.json, and spreads `sharedConfig` in its eslint config.
+//   8. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
 //      servers with the same url/command (the one hand-synced, non-CI invariant).
 //
 // Deterministic, no dependencies. Run: node scripts/check-agent-docs-drift.mjs
@@ -35,13 +38,14 @@ const RE_H2 = /^## /m;
 const RE_SKILL_SLUG = /`([a-z0-9-]+)`/;
 const RE_SKILL_REF = /`([a-z0-9-]+)`\s+skill/g;
 const RE_BACKTICK = /`([^`]+)`/g;
-const RE_CITED_ROOT = /^(libs|scripts|apps)\//;
+const RE_CITED_ROOT = /^(libs|scripts|apps|internals)\//;
 const RE_CITED_DOT_ROOT = /^\.(nx|github|claude|storybook)\//;
 const RE_TRAILING_PUNCT = /[.,:;)]+$/;
 const RE_NX_VERSION = /Nx (\d+\.\d+\.\d+)/g;
 const RE_FRONTMATTER = /^---\n([\s\S]*?)\n---/;
 const RE_PATHS_LINE = /^paths:\s*(.+)$/m;
 const RE_LIB_PATH = /`(libs\/[a-z0-9-]+)`/;
+const RE_INTERNAL_PATH = /`(internals\/[a-z0-9-]+)`/;
 const RE_PKG_NAME = /`(@[^`]+)`/;
 const RE_GLOB_WILD = /[*?{]/;
 const RE_BRACE_GROUP = /\{([^{}]*)\}/;
@@ -245,7 +249,52 @@ for (const lib of libsOnDisk) {
   if (!tableLibs.has(lib)) err(`Lib "${lib}" exists on disk but is missing from the AGENTS.md Libraries table.`);
 }
 
-// --- 7. MCP config parity (.mcp.json ↔ .cursor/mcp.json) -----------------
+// --- 7. Internals table ↔ filesystem ------------------------------------
+const tableInternals = new Set();
+for (const line of tableRows(h2Section(agents, 'Internals'))) {
+  const path = line.split('|')[1]?.match(RE_INTERNAL_PATH)?.[1];
+  if (path) tableInternals.add(path);
+}
+const internalsOnDisk = existsSync(join(root, 'internals'))
+  ? readdirSync(join(root, 'internals'), { withFileTypes: true })
+      .filter((d) => d.isDirectory() && existsSync(join(root, 'internals', d.name, 'project.json')))
+      .map((d) => `internals/${d.name}`)
+  : [];
+
+for (const path of tableInternals) {
+  if (!internalsOnDisk.includes(path)) {
+    err(`AGENTS.md Internals table lists "${path}" but it has no project.json on disk.`);
+  }
+}
+for (const path of internalsOnDisk) {
+  if (!tableInternals.has(path)) {
+    err(`Internal project "${path}" exists on disk but is missing from the AGENTS.md Internals table.`);
+  }
+
+  const project = JSON.parse(readFileSync(join(root, path, 'project.json'), 'utf8'));
+  if (!project.tags?.includes('scope:internal')) {
+    err(`"${path}/project.json" must carry the "scope:internal" tag, or the module-boundary rule will not fence it off from libs/apps.`);
+  }
+
+  const manifestPath = join(root, path, 'package.json');
+  if (!existsSync(manifestPath)) {
+    err(`"${path}" needs a package.json with "private": true.`);
+  } else {
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    if (manifest.private !== true) {
+      err(`"${path}/package.json" must set "private": true — internal projects are never published.`);
+    }
+  }
+
+  const eslintConfig = join(root, path, 'eslint.config.mjs');
+  if (!existsSync(eslintConfig)) {
+    err(`"${path}" is missing an eslint.config.mjs, so it is linted by nothing.`);
+  } else if (!readFileSync(eslintConfig, 'utf8').includes('sharedConfig')) {
+    err(`"${path}/eslint.config.mjs" must spread \`sharedConfig\` — the dev profile, same as apps; \`prodConfig\` is for published libs.`);
+  }
+}
+
+// --- 8. MCP config parity (.mcp.json ↔ .cursor/mcp.json) -----------------
 const readServers = (rel) => {
   const p = join(root, rel);
   if (!existsSync(p)) { err(`Expected MCP config "${rel}" is missing.`); return null; }

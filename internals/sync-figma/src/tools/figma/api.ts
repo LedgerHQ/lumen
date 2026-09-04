@@ -140,7 +140,7 @@ async function postVariables(
   });
 }
 
-export default {
+export const figmaApi = {
   getLocalVariables,
   getStylesMetadata,
   getFileNodes,

@@ -9,6 +9,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
 Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
+Dev-only tooling lives outside `libs/` in `internals/` — see `## Internals`.
 
 ## Libraries
 
@@ -26,6 +27,33 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 
 
 
+
+## Internals
+
+`internals/*` holds Nx projects that are **local/dev-only and never published**.
+Litmus test: *would a consumer of `@ledgerhq/lumen-*` ever load this code?* If
+no, it belongs here — codegen, ETL, external-API sync and their input data.
+
+| Path                   | Purpose                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
+
+Rules for adding one:
+
+- Folder = the job, named after the workflow that drives it (`sync-figma` ↔
+  `.github/workflows/sync-figma.yml`). Nx project name = folder name, unscoped.
+- `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
+  in the root manifest. Never needs a version plan.
+- Tags `["scope:internal", "type:tooling"]` in `project.json` — the tag is what
+  the boundary rule matches on when a lib tries to import it.
+- Code in `src/`, spreading `sharedConfig` — the dev profile, same as `apps/*`.
+  `prodConfig` is for published libs.
+- May import `scope:internal` and `scope:shared` only, and nothing under `libs/`
+  or `apps/` may import it — see `depConstraints` in `eslint.config.mjs`.
+  Filesystem *writes* into libs are expected; only imports are governed.
+- Run `npx nx sync` after adding one.
+
+`scripts/check-agent-docs-drift.mjs` enforces the table and the first four rules.
 
 ## Commands
 
@@ -53,7 +81,8 @@ authoritative conventions; when a skill conflicts with this file, the skill wins
 agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
 an Nx version plan in `.nx/version-plans/` — bump type always `patch`, one
-package per file (see the `release-plan` skill).
+package per file (see the `release-plan` skill). `internals/*` is never
+published, so changes there need no plan.
 
 
 

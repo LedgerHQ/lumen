@@ -3,12 +3,12 @@ import path from 'path';
 import prettier from 'prettier';
 import StyleDictionary from 'style-dictionary';
 import type { TransformedToken } from 'style-dictionary';
-import { automationConfig } from './automation.config';
+import { automationConfig } from '../config.js';
 
 const brands = ['enterprise', 'websites', 'ledger-live'];
 const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
 const themes = ['light', 'dark'];
-const tokensFolder = automationConfig.figmaTokensInputPath;
+const tokensFolder = automationConfig.figmaTokensPath;
 const defaultSuffix = '-default';
 
 StyleDictionary.registerTransform({
@@ -64,7 +64,9 @@ StyleDictionary.registerFormat({
       mainKey = `@media (min-width: theme("screens.${currentBreakpoint}"))`;
     }
 
-    const output = { [mainKey]: {} };
+    const output: Record<string, Record<string, string | number>> = {
+      [mainKey]: {},
+    };
 
     dictionary.allTokens.forEach((token: TransformedToken) => {
       const tokenName = sanitizeTokenName(token.name).replace(/ /g, '-');
@@ -314,25 +316,29 @@ brands.forEach(function (brand) {
         return;
       const { buildPath } = config;
       console.log(`\nRunning Prettier action on files in: ${buildPath}`);
-      const prettierConfig = await prettier.resolveConfig(process.cwd());
 
-      config.files.forEach(async (file) => {
-        if (
-          file.destination?.endsWith('-css.ts') ||
-          file.destination?.endsWith('.css')
-        ) {
-          const filePath = path.join(buildPath, file.destination);
-          if (fs.existsSync(filePath)) {
-            const content = fs.readFileSync(filePath, 'utf8');
-            const formatted = await prettier.format(content, {
-              ...prettierConfig,
-              parser: file.destination.endsWith('.ts') ? 'typescript' : 'css',
-            });
-            fs.writeFileSync(filePath, formatted);
-            console.log(` ✓ Formatted ${filePath}`);
-          }
+      for (const file of config.files) {
+        const destination = file.destination;
+        if (!destination) continue;
+        if (!destination.endsWith('-css.ts') && !destination.endsWith('.css')) {
+          continue;
         }
-      });
+
+        const filePath = path.join(buildPath, destination);
+        if (!fs.existsSync(filePath)) continue;
+
+        // Pass the file, not a directory: prettier searches upward from the
+        // argument's *parent*, so a directory looks one level too high and
+        // silently falls back to defaults.
+        const prettierConfig = await prettier.resolveConfig(filePath);
+        const content = fs.readFileSync(filePath, 'utf8');
+        const formatted = await prettier.format(content, {
+          ...prettierConfig,
+          parser: destination.endsWith('.ts') ? 'typescript' : 'css',
+        });
+        fs.writeFileSync(filePath, formatted);
+        console.log(` ✓ Formatted ${filePath}`);
+      }
     },
     undo: () => {
       // No undo operation is necessary for this action.

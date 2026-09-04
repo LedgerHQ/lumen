@@ -1,6 +1,6 @@
 import { describe } from 'node:test';
 import { it, expect } from 'vitest';
-import tokenFileNameRenamer from './tokenFileNameRenamer.js';
+import { tokenFileNameRenamer } from './tokenFileNameRenamer.js';
 
 describe('tokenFileNameRenamer', () => {
   it('rename breakpoints collection', async () => {

@@ -1,5 +1,5 @@
 import type { Node } from '@figma/rest-api-spec';
-import figmaApi from './api.js';
+import { figmaApi } from './api.js';
 
 /**
  * This file is based on `figma-api-exporter`: https://github.com/slawomirkolodziej/figma-api-exporter/blob/master/src/getSvgs.ts
@@ -55,7 +55,8 @@ function* walkNodes(root: Node, config: GetSvgsConfig) {
   const includeNode = nodeFilter(config.component);
 
   while (frontier.length) {
-    const node = frontier.pop()!;
+    const node = frontier.pop();
+    if (!node) break;
 
     if (node?.type === 'CANVAS') {
       if (!includeCanvas(node)) {
