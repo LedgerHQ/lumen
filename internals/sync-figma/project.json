@@ -40,15 +40,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npx tsx internals/sync-figma/src/automations/generate-symbols.mts --templatePath libs/ui-react/src/lib/Components/symbols/utils/icon-template.ts --outputPath libs/ui-react/src/lib/Components/symbols"
-      },
-      "dependsOn": ["^build"]
+      }
     },
     "generate-symbols-react-native": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx tsx internals/sync-figma/src/automations/generate-symbols.mts --templatePath libs/ui-rnative/src/lib/Components/symbols/utils/icon-template.ts --outputPath libs/ui-rnative/src/lib/Components/symbols --isReactNative true"
-      },
-      "dependsOn": ["^build"]
+      }
     }
   }
 }
