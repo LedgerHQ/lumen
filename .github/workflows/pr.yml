@@ -96,6 +96,8 @@ jobs:
 
       - run: npx nx affected -t test:tree-shaking
 
+      - run: npx nx affected -t test:bundle
+
       - name: Verify advertised exports ship (publint)
         run: |
           npx nx run-many -t build --projects='libs/*'
