@@ -40,10 +40,10 @@ const useItemStyles = ({
         {
           flexDirection: 'row',
           alignItems: 'center',
-          minHeight: t.sizes.s56,
+          paddingVertical: t.sizes.s12,
           paddingHorizontal: t.spacings.s8,
           gap: t.spacings.s12,
-          borderRadius: t.borderRadius.md,
+          borderRadius: t.borderRadius.sm,
           backgroundColor: t.colors.bg.baseTransparent,
         },
         pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
