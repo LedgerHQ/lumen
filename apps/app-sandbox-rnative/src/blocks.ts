@@ -4,6 +4,7 @@ export type BlockMeta = {
 };
 
 export const blocks: BlockMeta[] = [
+  { slug: 'ActionLists', title: 'ActionList' },
   { slug: 'AddressInputs', title: 'AddressInput' },
   { slug: 'AmountDisplays', title: 'AmountDisplay' },
   { slug: 'AmountInputs', title: 'AmountInput' },
