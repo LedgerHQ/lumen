@@ -1,4 +1,3 @@
-export * from './ActionList';
 export * from './AddressInput';
 export * from './AmountDisplay';
 export * from './AmountInput';
@@ -26,6 +25,7 @@ export * from './MediaButton';
 export * from './MediaCard';
 export * from './MediaImage';
 export * from './MediaTag';
+export * from './MenuList';
 export * from './NavBar';
 export * from './OptionList';
 export * from './PageIndicator';

@@ -1,13 +1,13 @@
 import {
-  ActionList,
-  ActionListItem,
-  Box,
   BottomSheet,
   BottomSheetHeader,
   BottomSheetView,
+  Box,
+  Button,
+  MenuList,
+  MenuListItem,
   Text,
   useBottomSheetRef,
-  Button,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Devices, Trash, Unlink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
@@ -24,38 +24,38 @@ const SectionLabel = ({ children }: { children: string }) => (
   </Text>
 );
 
-export default function ActionLists() {
+export default function MenuLists() {
   const ref = useBottomSheetRef();
 
   return (
     <Box lx={{ width: 'full', gap: 's8' }}>
       <SectionLabel>Standalone list</SectionLabel>
-      <ActionList>
-        <ActionListItem icon={Unlink} label='Unlink' onPress={() => ''} />
-        <ActionListItem
+      <MenuList>
+        <MenuListItem icon={Unlink} label='Unlink' onPress={() => ''} />
+        <MenuListItem
           icon={Trash}
           label='Remove'
           appearance='destructive'
           onPress={() => ''}
         />
-      </ActionList>
+      </MenuList>
 
       <SectionLabel>Disabled items</SectionLabel>
-      <ActionList>
-        <ActionListItem
+      <MenuList>
+        <MenuListItem
           icon={Unlink}
           label='Unlink'
           disabled
           onPress={() => ''}
         />
-        <ActionListItem
+        <MenuListItem
           icon={Trash}
           label='Remove'
           appearance='destructive'
           disabled
           onPress={() => ''}
         />
-      </ActionList>
+      </MenuList>
 
       <SectionLabel>Inside BottomSheet</SectionLabel>
       <Box lx={{ alignItems: 'flex-start' }}>
@@ -72,15 +72,15 @@ export default function ActionLists() {
         <BottomSheetView>
           <BottomSheetHeader />
           <Box lx={{ paddingBottom: 's16' }}>
-            <ActionList>
-              <ActionListItem
+            <MenuList>
+              <MenuListItem
                 icon={Unlink}
                 label='Unlink'
                 onPress={() => {
                   ref.current?.dismiss();
                 }}
               />
-              <ActionListItem
+              <MenuListItem
                 icon={Trash}
                 label='Remove'
                 appearance='destructive'
@@ -88,7 +88,7 @@ export default function ActionLists() {
                   ref.current?.dismiss();
                 }}
               />
-            </ActionList>
+            </MenuList>
           </Box>
         </BottomSheetView>
       </BottomSheet>

@@ -11,16 +11,16 @@ export type IconComponent = ComponentType<{
   color?: LumenTextStyle['color'];
 }>;
 
-export type ActionListItemAppearance = 'primary' | 'destructive';
+export type MenuListItemAppearance = 'primary' | 'destructive';
 
-export type ActionListProps = {
+export type MenuListProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type ActionListItemProps = {
+export type MenuListItemProps = {
   label: string;
   icon?: IconComponent;
-  appearance?: ActionListItemAppearance;
+  appearance?: MenuListItemAppearance;
   disabled?: boolean;
   onPress?: StyledPressableProps['onPress'];
 } & Omit<StyledPressableProps, 'children' | 'onPress'>;

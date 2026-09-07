@@ -7,14 +7,14 @@ import type { LumenTextStyle } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
 import { Box, Pressable, Text } from '../../primitives';
 import type {
-  ActionListItemAppearance,
-  ActionListItemProps,
-  ActionListProps,
+  MenuListItemAppearance,
+  MenuListItemProps,
+  MenuListProps,
 } from './types';
 
 const resolveIconColor = (
   disabled: boolean,
-  appearance: ActionListItemAppearance,
+  appearance: MenuListItemAppearance,
 ): LumenTextStyle['color'] => {
   if (disabled) {
     return 'disabled';
@@ -32,7 +32,7 @@ const useItemStyles = ({
 }: {
   pressed: boolean;
   disabled: boolean;
-  appearance: ActionListItemAppearance;
+  appearance: MenuListItemAppearance;
 }) =>
   useStyleSheet(
     (t) => ({
@@ -63,19 +63,19 @@ const useItemStyles = ({
     [pressed, disabled, appearance],
   );
 
-export const ActionList = ({
+export const MenuList = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: ActionListProps) => (
+}: MenuListProps) => (
   <Box lx={lx} style={style} ref={ref} {...props}>
     {children}
   </Box>
 );
 
-export const ActionListItem = ({
+export const MenuListItem = ({
   label,
   icon: Icon,
   appearance = 'primary',
@@ -85,9 +85,9 @@ export const ActionListItem = ({
   style,
   ref,
   ...props
-}: ActionListItemProps) => {
+}: MenuListItemProps) => {
   const disabled = useDisabledContext({
-    consumerName: 'ActionListItem',
+    consumerName: 'MenuListItem',
     mergeWith: { disabled: disabledProp },
   });
 
@@ -104,7 +104,7 @@ export const ActionListItem = ({
         {...props}
       >
         {({ pressed }) => (
-          <ActionListItemInner
+          <MenuListItemInner
             label={label}
             icon={Icon}
             appearance={appearance}
@@ -117,7 +117,7 @@ export const ActionListItem = ({
   );
 };
 
-const ActionListItemInner = ({
+const MenuListItemInner = ({
   label,
   icon: Icon,
   appearance,
@@ -125,8 +125,8 @@ const ActionListItemInner = ({
   disabled,
 }: {
   label: string;
-  icon: ActionListItemProps['icon'];
-  appearance: ActionListItemAppearance;
+  icon: MenuListItemProps['icon'];
+  appearance: MenuListItemAppearance;
   pressed: boolean;
   disabled: boolean;
 }) => {
