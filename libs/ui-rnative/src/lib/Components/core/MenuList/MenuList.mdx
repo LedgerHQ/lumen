@@ -1,0 +1,62 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as MenuListStories from './MenuList.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/MenuList' of={MenuListStories} />
+
+# MenuList
+
+<CustomTabs>
+  <Tab label='Overview'>
+
+## Introduction
+
+`MenuList` is a container for a set of tappable actions. Each `MenuListItem` displays a label, an optional leading icon, and supports `primary` and `destructive` appearances.
+
+## Anatomy
+
+<Canvas of={MenuListStories.Base} />
+<Controls of={MenuListStories.Base} />
+
+## Properties
+
+### Appearance
+
+`MenuListItem` supports two appearances: `primary` (default) for standard actions and `destructive` for irreversible or dangerous operations such as deleting or unlinking. The destructive appearance renders the label and icon in the error colour.
+
+<Canvas of={MenuListStories.AppearanceShowcase} />
+
+### Disabled
+
+Set `disabled` on individual `MenuListItem`s to prevent interaction. The label and icon are rendered in the disabled colour and the press handler is suppressed.
+
+<Canvas of={MenuListStories.DisabledShowcase} />
+
+## Accessibility
+
+Each `MenuListItem` has `accessibilityRole='button'` and sets `accessibilityState={{ disabled }}` to reflect its interaction state to assistive technologies.
+
+  </Tab>
+
+  <Tab label='Implementation'>
+
+<SetupNote />
+
+### Basic Usage
+
+<Source of={MenuListStories.Base} />
+
+### Appearances
+
+<Source of={MenuListStories.AppearanceShowcase} />
+
+### Disabled Items
+
+<Source of={MenuListStories.DisabledShowcase} />
+
+  </Tab>
+</CustomTabs>
