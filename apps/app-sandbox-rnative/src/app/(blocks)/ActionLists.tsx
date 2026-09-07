@@ -7,9 +7,9 @@ import {
   BottomSheetView,
   Text,
   useBottomSheetRef,
+  Button,
 } from '@ledgerhq/lumen-ui-rnative';
-import { Copy, Delete, Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
-import { useState } from 'react';
+import { Devices, Trash, Unlink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 const SectionLabel = ({ children }: { children: string }) => (
   <Text
@@ -26,38 +26,31 @@ const SectionLabel = ({ children }: { children: string }) => (
 
 export default function ActionLists() {
   const ref = useBottomSheetRef();
-  const [lastAction, setLastAction] = useState<string | null>(null);
 
   return (
-    <Box lx={{ width: 's320', gap: 's8' }}>
+    <Box lx={{ width: 'full', gap: 's8' }}>
       <SectionLabel>Standalone list</SectionLabel>
       <ActionList>
-        <ActionListItem icon={Copy} label='Copy address' onPress={() => ''} />
+        <ActionListItem icon={Unlink} label='Unlink' onPress={() => ''} />
         <ActionListItem
-          icon={Settings}
-          label='Manage account'
-          onPress={() => ''}
-        />
-        <ActionListItem
-          icon={Delete}
-          label='Remove account'
+          icon={Trash}
+          label='Remove'
           appearance='destructive'
           onPress={() => ''}
         />
       </ActionList>
 
-      <SectionLabel>With disabled items</SectionLabel>
+      <SectionLabel>Disabled items</SectionLabel>
       <ActionList>
-        <ActionListItem icon={Copy} label='Copy address' onPress={() => ''} />
         <ActionListItem
-          icon={Settings}
-          label='Manage account (disabled)'
+          icon={Unlink}
+          label='Unlink'
           disabled
           onPress={() => ''}
         />
         <ActionListItem
-          icon={Delete}
-          label='Remove account (disabled)'
+          icon={Trash}
+          label='Remove'
           appearance='destructive'
           disabled
           onPress={() => ''}
@@ -66,40 +59,32 @@ export default function ActionLists() {
 
       <SectionLabel>Inside BottomSheet</SectionLabel>
       <Box lx={{ alignItems: 'flex-start' }}>
-        <ActionListItem
-          icon={Settings}
-          label={`Open sheet${lastAction ? ` · last: ${lastAction}` : ''}`}
+        <Button
+          icon={Devices}
+          appearance='transparent'
           onPress={() => ref.current?.present()}
-        />
+        >
+          Open device settings
+        </Button>
       </Box>
 
       <BottomSheet ref={ref} enableDynamicSizing snapPoints={null}>
-        <BottomSheetHeader title='Account actions' />
         <BottomSheetView>
+          <BottomSheetHeader />
           <Box lx={{ paddingBottom: 's16' }}>
             <ActionList>
               <ActionListItem
-                icon={Copy}
-                label='Copy address'
+                icon={Unlink}
+                label='Unlink'
                 onPress={() => {
-                  setLastAction('copy');
                   ref.current?.dismiss();
                 }}
               />
               <ActionListItem
-                icon={Settings}
-                label='Manage account'
-                onPress={() => {
-                  setLastAction('manage');
-                  ref.current?.dismiss();
-                }}
-              />
-              <ActionListItem
-                icon={Delete}
-                label='Remove account'
+                icon={Trash}
+                label='Remove'
                 appearance='destructive'
                 onPress={() => {
-                  setLastAction('remove');
                   ref.current?.dismiss();
                 }}
               />
