@@ -127,7 +127,7 @@ const useStyles = ({
 };
 
 /**
- * Media button for option list/dropdown components. Displays a label with an optional
+ * Media button for select list/dropdown components. Displays a label with an optional
  * leading content and a trailing chevron indicator.
  *
  * This component is intended to be used exclusively as the trigger inside a SelectList or
