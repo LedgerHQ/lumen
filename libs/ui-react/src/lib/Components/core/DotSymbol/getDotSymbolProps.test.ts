@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getDotSymbolProps } from './getDotSymbolProps';
+import { getDotSymbolProps, mediaImageDotSizeMap } from './index';
 
 describe('getDotSymbolProps', () => {
   it('resolves mediaImage dot symbol props', () => {
@@ -13,6 +13,10 @@ describe('getDotSymbolProps', () => {
     expect(getDotSymbolProps('mediaImage', 56)).toEqual({ size: 24 });
     expect(getDotSymbolProps('mediaImage', 64)).toEqual({ size: 24 });
     expect(getDotSymbolProps('mediaImage', 72)).toEqual({ size: 32 });
+  });
+
+  it('exports mediaImageDotSizeMap shim', () => {
+    expect(mediaImageDotSizeMap[48]).toBe(20);
   });
 
   it('resolves spot dot symbol props', () => {
