@@ -3,7 +3,8 @@ import { Box } from '../../primitives';
 import { CoinAlert } from '../../symbols';
 import { MediaImage } from '../MediaImage';
 import { Spot } from '../Spot';
-import { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
+import { DotSymbol } from './DotSymbol';
+import { getDotSymbolProps } from './getDotSymbolProps';
 
 const meta = {
   component: DotSymbol,
@@ -117,57 +118,57 @@ export const SizeShowcase: Story = {
       <Box lx={{ flexDirection: 'row', alignItems: 'flex-end', gap: 's24' }}>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[20]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 20)}
         >
           <MediaImage src={parentSrc} size={20} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[24]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 24)}
         >
           <MediaImage src={parentSrc} size={24} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[32]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 32)}
         >
           <MediaImage src={parentSrc} size={32} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 40)}
         >
           <MediaImage src={parentSrc} size={40} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[48]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 48)}
         >
           <MediaImage src={parentSrc} size={48} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[56]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 56)}
         >
           <MediaImage src={parentSrc} size={56} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[64]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 64)}
         >
           <MediaImage src={parentSrc} size={64} shape='circle' />
         </DotSymbol>
         <DotSymbol
           src={dotSrc}
-          size={mediaImageDotSizeMap[72]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 72)}
         >
           <MediaImage src={parentSrc} size={72} shape='circle' />
         </DotSymbol>
@@ -176,64 +177,64 @@ export const SizeShowcase: Story = {
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[20]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 20)}
         >
           <MediaImage src={parentSrc} size={20} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[24]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 24)}
         >
           <MediaImage src={parentSrc} size={24} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[32]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 32)}
         >
           <MediaImage src={parentSrc} size={32} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[40]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 40)}
         >
           <MediaImage src={parentSrc} size={40} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[48]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 48)}
         >
           <MediaImage src={parentSrc} size={48} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[56]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 56)}
         >
           <MediaImage src={parentSrc} size={56} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[64]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 64)}
         >
           <MediaImage src={parentSrc} size={64} shape='square' />
         </DotSymbol>
         <DotSymbol
           shape='square'
           src={dotSrc}
-          size={mediaImageDotSizeMap[72]}
           pin='bottom-end'
+          {...getDotSymbolProps('mediaImage', 72)}
         >
           <MediaImage src={parentSrc} size={72} shape='square' />
         </DotSymbol>

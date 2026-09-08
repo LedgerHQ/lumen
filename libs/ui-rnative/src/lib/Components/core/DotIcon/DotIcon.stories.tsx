@@ -3,7 +3,8 @@ import { Box } from '../../primitives';
 import { ArrowDown, ArrowUp, Close, Link, Star } from '../../symbols';
 import { MediaImage } from '../MediaImage';
 import { Spinner } from '../Spinner';
-import { DotIcon, mediaImageDotIconSizeMap } from './DotIcon';
+import { DotIcon } from './DotIcon';
+import { getDotIconProps } from './getDotIconProps';
 
 const meta = {
   component: DotIcon,
@@ -30,7 +31,7 @@ export const Base: Story = {
     appearance: 'success',
     icon: ArrowDown,
     pin: 'bottom-end',
-    size: mediaImageDotIconSizeMap[48],
+    ...getDotIconProps('mediaImage', 48),
     shape: 'circle',
     children: (
       <MediaImage src={parentSrc} alt='Cardano' size={48} shape='circle' />
@@ -89,24 +90,24 @@ export const AppearanceShowcase: Story = {
       <DotIcon
         appearance='success'
         icon={ArrowDown}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='muted'
         icon={ArrowUp}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='error'
         icon={Close}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
@@ -121,27 +122,27 @@ export const DisabledShowcase: Story = {
       <DotIcon
         appearance='success'
         icon={ArrowDown}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
         disabled
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='muted'
         icon={ArrowUp}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
         disabled
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='error'
         icon={Close}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
         disabled
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
@@ -156,40 +157,40 @@ export const SizeShowcase: Story = {
       <DotIcon
         appearance='muted'
         icon={Link}
-        size={mediaImageDotIconSizeMap[40]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 40)}
       >
         <MediaImage src={parentSrc} size={40} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='success'
         icon={Star}
-        size={mediaImageDotIconSizeMap[48]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 48)}
       >
         <MediaImage src={parentSrc} size={48} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='success'
         icon={ArrowDown}
-        size={mediaImageDotIconSizeMap[56]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 56)}
       >
         <MediaImage src={parentSrc} size={56} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='muted'
         icon={Spinner}
-        size={mediaImageDotIconSizeMap[64]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 64)}
       >
         <MediaImage src={parentSrc} size={64} shape='circle' />
       </DotIcon>
       <DotIcon
         appearance='muted'
         icon={Spinner}
-        size={mediaImageDotIconSizeMap[72]}
         pin='bottom-end'
+        {...getDotIconProps('mediaImage', 72)}
       >
         <MediaImage src={parentSrc} size={72} shape='circle' />
       </DotIcon>

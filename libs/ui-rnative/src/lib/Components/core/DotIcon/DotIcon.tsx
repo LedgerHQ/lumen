@@ -26,21 +26,6 @@ const dotSquareRadiusMap: Record<DotIconSize, number> = {
   32: 10,
 };
 
-export const mediaImageDotIconSizeMap = {
-  40: 16,
-  48: 20,
-  56: 24,
-  64: 24,
-  72: 32,
-} as const satisfies Record<number, DotIconSize>;
-
-export const spotDotIconSizeMap = {
-  40: 16,
-  48: 20,
-  56: 24,
-  72: 32,
-} as const satisfies Record<number, DotIconSize>;
-
 const pinAxisMap: Record<DotIconPin, [vertical: string, horizontal: string]> = {
   'top-start': ['top', 'left'],
   'top-end': ['top', 'right'],
