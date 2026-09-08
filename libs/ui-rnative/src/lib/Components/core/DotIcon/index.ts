@@ -1,6 +1,3 @@
-export {
-  DotIcon,
-  mediaImageDotIconSizeMap,
-  spotDotIconSizeMap,
-} from './DotIcon';
+export { DotIcon } from './DotIcon';
+export * from './getDotIconProps';
 export * from './types';
