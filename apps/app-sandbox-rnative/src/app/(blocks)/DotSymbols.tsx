@@ -1,7 +1,6 @@
 import {
   Box,
   DotSymbol,
-  mediaImageDotSizeMap,
   MediaImage,
   Spot,
   getDotSymbolProps,
@@ -23,7 +22,7 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/ETH.png'
           alt='Ethereum'
           pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
+          {...getDotSymbolProps('mediaImage', 48)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/USDC.png'
@@ -37,7 +36,7 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/BTC.png'
           alt='Bitcoin'
           pin='bottom-start'
-          size={mediaImageDotSizeMap[56]}
+          {...getDotSymbolProps('mediaImage', 56)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/USDC.png'
@@ -51,7 +50,7 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/ETH.png'
           alt='Ethereum'
           pin='top-start'
-          size={mediaImageDotSizeMap[40]}
+          {...getDotSymbolProps('mediaImage', 40)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/XRP.png'
@@ -65,7 +64,7 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/AVAX.png'
           alt='Avalanche'
           pin='top-end'
-          size={mediaImageDotSizeMap[64]}
+          {...getDotSymbolProps('mediaImage', 64)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/ADA.png'
@@ -88,8 +87,8 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/BTC.png'
           alt='Bitcoin'
           pin='bottom-end'
-          size={mediaImageDotSizeMap[40]}
           shape='square'
+          {...getDotSymbolProps('mediaImage', 40)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/ETH.png'
@@ -103,8 +102,8 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/ETH.png'
           alt='Ethereum'
           pin='bottom-end'
-          size={mediaImageDotSizeMap[48]}
           shape='square'
+          {...getDotSymbolProps('mediaImage', 48)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/BTC.png'
@@ -118,8 +117,8 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/USDC.png'
           alt='USD Coin'
           pin='top-start'
-          size={mediaImageDotSizeMap[40]}
           shape='square'
+          {...getDotSymbolProps('mediaImage', 40)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/XRP.png'
@@ -133,8 +132,8 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/AVAX.png'
           alt='Avalanche'
           pin='top-end'
-          size={mediaImageDotSizeMap[64]}
           shape='square'
+          {...getDotSymbolProps('mediaImage', 64)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/ADA.png'
@@ -148,8 +147,8 @@ export default function DotSymbols() {
           src='https://crypto-icons.ledger.com/DOGE.png'
           alt='Dogecoin'
           pin='bottom-start'
-          size={mediaImageDotSizeMap[56]}
           shape='square'
+          {...getDotSymbolProps('mediaImage', 56)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/TRX.png'

@@ -1,3 +1,3 @@
-export { DotSymbol, mediaImageDotSizeMap } from './DotSymbol';
+export { DotSymbol } from './DotSymbol';
 export * from './getDotSymbolProps';
 export * from './types';
