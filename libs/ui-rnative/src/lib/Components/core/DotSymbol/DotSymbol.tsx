@@ -7,7 +7,6 @@ import { Image } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { Box } from '../../primitives';
 import type { MediaImageSize } from '../MediaImage';
-import type { SpotSize } from '../Spot';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
@@ -40,14 +39,6 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   48: 20,
   56: 24,
   64: 24,
-  72: 32,
-};
-
-export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
   72: 32,
 };
 
