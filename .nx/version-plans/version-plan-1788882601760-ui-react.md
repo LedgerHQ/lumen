@@ -15,11 +15,11 @@ If you previously overlayed dot indicators on components like Spot and MediaImag
 ```tsx
 // Before
 import { mediaImageDotIconSizeMap } from '@ledgerhq/lumen-ui-react';
-<DotIcon {...mediaImageDotIconSizeMap[parentSize]} />
+<DotIcon size={mediaImageDotIconSizeMap[48]} />
 
 // After
 import { getDotIconProps } from '@ledgerhq/lumen-ui-react';
-<DotIcon {...getDotIconProps('mediaImage', parentSize)} />
+<DotIcon {...getDotIconProps('mediaImage', 48)} />
 ```
 
 The same pattern applies to `getDotSymbolProps` for `DotSymbol`.
