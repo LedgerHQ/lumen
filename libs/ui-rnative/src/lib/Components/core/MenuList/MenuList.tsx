@@ -40,7 +40,7 @@ const useItemStyles = ({
         {
           flexDirection: 'row',
           alignItems: 'center',
-          paddingVertical: t.sizes.s12,
+          paddingVertical: t.spacings.s12,
           paddingHorizontal: t.spacings.s8,
           gap: t.spacings.s12,
           borderRadius: t.borderRadius.sm,
@@ -81,6 +81,7 @@ export const MenuListItem = ({
   appearance = 'primary',
   disabled: disabledProp = false,
   onPress,
+  accessibilityState,
   lx,
   style,
   ref,
@@ -100,7 +101,7 @@ export const MenuListItem = ({
         onPress={onPress}
         disabled={disabled}
         accessibilityRole='button'
-        accessibilityState={{ disabled }}
+        accessibilityState={{ ...accessibilityState, disabled }}
         {...props}
       >
         {({ pressed }) => (

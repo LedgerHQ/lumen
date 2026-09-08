@@ -88,7 +88,9 @@ describe('MenuListItem', () => {
       </TestWrapper>,
     );
 
-    expect(getByText('Delete')).toBeTruthy();
+    expect(getByText('Delete').props.style.color).toBe(
+      ledgerLiveThemes.dark.colors.text.error,
+    );
   });
 
   it('renders the icon when provided', () => {
