@@ -6,7 +6,6 @@ import {
 import { cva } from 'class-variance-authority';
 import { useEffect, useMemo, useState } from 'react';
 import type { MediaImageSize } from '../MediaImage';
-import type { SpotSize } from '../Spot';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const rootVariants = cva('relative inline-flex w-fit', {
@@ -78,14 +77,6 @@ export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
   48: 20,
   56: 24,
   64: 24,
-  72: 32,
-} as const;
-
-export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
   72: 32,
 } as const;
 
