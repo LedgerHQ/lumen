@@ -1,37 +1,37 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { renderHook, act } from '@testing-library/react-native';
-import type { OptionListItemData } from '../types';
-import { useOptionListItems } from './useOptionListItems';
+import type { SelectListItemData } from '../types';
+import { useSelectListItems } from './useSelectListItems';
 
-const apple: OptionListItemData = {
+const apple: SelectListItemData = {
   value: 'apple',
   label: 'Apple',
   group: 'Fruits',
 };
-const banana: OptionListItemData = {
+const banana: SelectListItemData = {
   value: 'banana',
   label: 'Banana',
   group: 'Fruits',
 };
-const carrot: OptionListItemData = {
+const carrot: SelectListItemData = {
   value: 'carrot',
   label: 'Carrot',
   group: 'Vegetables',
 };
-const spinach: OptionListItemData = {
+const spinach: SelectListItemData = {
   value: 'spinach',
   label: 'Spinach',
   group: 'Vegetables',
 };
 
-const btc: OptionListItemData = { value: 'btc', label: 'Bitcoin' };
-const eth: OptionListItemData = { value: 'eth', label: 'Ethereum' };
+const btc: SelectListItemData = { value: 'btc', label: 'Bitcoin' };
+const eth: SelectListItemData = { value: 'eth', label: 'Ethereum' };
 
-describe('useOptionListItems', () => {
+describe('useSelectListItems', () => {
   describe('flat items (no group field)', () => {
     it('returns isGrouped false and flatItems as-is', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth] }),
+        useSelectListItems({ items: [btc, eth] }),
       );
 
       expect(result.current.isGrouped).toBe(false);
@@ -40,7 +40,7 @@ describe('useOptionListItems', () => {
     });
 
     it('returns empty flatItems for empty array', () => {
-      const { result } = renderHook(() => useOptionListItems({ items: [] }));
+      const { result } = renderHook(() => useSelectListItems({ items: [] }));
 
       expect(result.current.isGrouped).toBe(false);
       expect(result.current.flatItems).toEqual([]);
@@ -48,9 +48,9 @@ describe('useOptionListItems', () => {
   });
 
   describe('grouped items (group field present)', () => {
-    it('detects groups and builds OptionListItemGroup[]', () => {
+    it('detects groups and builds SelectListItemGroup[]', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [apple, banana, carrot, spinach] }),
+        useSelectListItems({ items: [apple, banana, carrot, spinach] }),
       );
 
       expect(result.current.isGrouped).toBe(true);
@@ -63,7 +63,7 @@ describe('useOptionListItems', () => {
 
     it('preserves group order by first occurrence', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [carrot, apple, spinach, banana] }),
+        useSelectListItems({ items: [carrot, apple, spinach, banana] }),
       );
 
       expect(result.current.groups[0].label).toBe('Vegetables');
@@ -74,7 +74,7 @@ describe('useOptionListItems', () => {
   describe('filtering', () => {
     it('applies the default case-insensitive label filter', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth] }),
+        useSelectListItems({ items: [btc, eth] }),
       );
 
       act(() => {
@@ -86,7 +86,7 @@ describe('useOptionListItems', () => {
 
     it('filters within groups and removes empty groups', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [apple, banana, carrot, spinach] }),
+        useSelectListItems({ items: [apple, banana, carrot, spinach] }),
       );
 
       act(() => {
@@ -99,11 +99,11 @@ describe('useOptionListItems', () => {
     });
 
     it('uses a custom filter when provided', () => {
-      const customFilter = (item: OptionListItemData, query: string): boolean =>
+      const customFilter = (item: SelectListItemData, query: string): boolean =>
         item.value.startsWith(query);
 
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth], filter: customFilter }),
+        useSelectListItems({ items: [btc, eth], filter: customFilter }),
       );
 
       act(() => {
@@ -115,7 +115,7 @@ describe('useOptionListItems', () => {
 
     it('disables filtering when filter is null', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth], filter: null }),
+        useSelectListItems({ items: [btc, eth], filter: null }),
       );
 
       act(() => {
@@ -127,7 +127,7 @@ describe('useOptionListItems', () => {
 
     it('returns all items when the query is whitespace-only', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth] }),
+        useSelectListItems({ items: [btc, eth] }),
       );
 
       act(() => {
@@ -141,7 +141,7 @@ describe('useOptionListItems', () => {
   describe('external filteredItems', () => {
     it('uses filteredItems instead of internal filtering', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({
+        useSelectListItems({
           items: [btc, eth],
           filteredItems: [eth],
         }),
@@ -152,7 +152,7 @@ describe('useOptionListItems', () => {
 
     it('groups filteredItems when items are grouped', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({
+        useSelectListItems({
           items: [apple, banana, carrot],
           filteredItems: [apple, carrot],
         }),
@@ -170,7 +170,7 @@ describe('useOptionListItems', () => {
     it('calls onSearchValueChange with the new value', () => {
       const onSearchValueChange = jest.fn();
       const { result } = renderHook(() =>
-        useOptionListItems({ items: [btc, eth], onSearchValueChange }),
+        useSelectListItems({ items: [btc, eth], onSearchValueChange }),
       );
 
       act(() => {
@@ -183,7 +183,7 @@ describe('useOptionListItems', () => {
 
     it('uses defaultSearchValue as the initial uncontrolled value', () => {
       const { result } = renderHook(() =>
-        useOptionListItems({
+        useSelectListItems({
           items: [btc, eth],
           defaultSearchValue: 'default',
         }),
