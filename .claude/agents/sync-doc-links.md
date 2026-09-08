@@ -42,7 +42,7 @@ rg --no-filename -o "id:\s*'(react|rnative)-[a-z0-9]+'" libs --glob '*.stories.t
 ```
 
 - `react-<slug>` ids come from `libs/ui-react*/**`; `rnative-<slug>` from `libs/ui-rnative*/**`.
-- A slug exists on a platform only if a `*.stories.tsx` defines that `<prefix>-<slug>` id. Build a `slug -> {react, rnative}` map and only ever emit links for platforms that actually have the page. Examples that are single-platform: `menu`, `select`, `dialog`, `popover`, `sidebar`, `pagination`, `table`, `linechart` (React only); `bottomsheet`, `optionlist`, `tabbar` (RN only).
+- A slug exists on a platform only if a `*.stories.tsx` defines that `<prefix>-<slug>` id. Build a `slug -> {react, rnative}` map and only ever emit links for platforms that actually have the page. Examples that are single-platform: `menu`, `select`, `dialog`, `popover`, `sidebar`, `pagination`, `table`, `linechart` (React only); `bottomsheet`, `selectlist`, `tabbar` (RN only).
 
 This complements the lint rule `tools/eslint/storybook-stable-story-id.mjs`, which enforces that every component story has a correct `id`.
 

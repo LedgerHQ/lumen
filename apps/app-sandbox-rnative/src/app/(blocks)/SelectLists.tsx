@@ -1,8 +1,8 @@
 import CryptoIconNative from '@ledgerhq/crypto-icons/native';
-import type { OptionListItemData } from '@ledgerhq/lumen-ui-rnative';
+import type { SelectListItemData } from '@ledgerhq/lumen-ui-rnative';
 import {
   MediaButton,
-  createOptionList,
+  createSelectList,
   Tag,
   Box,
   useBottomSheetRef,
@@ -16,16 +16,16 @@ type Currency = 'btc' | 'eth';
 type CryptoMeta = { ticker: string; icon: string };
 
 const {
-  OptionList: CurrencyList,
-  OptionListContent: CurrencyListContent,
-  OptionListItem: CurrencyListItem,
-  OptionListItemLeading: CurrencyListItemLeading,
-  OptionListItemContent: CurrencyListItemContent,
-  OptionListItemText: CurrencyListItemText,
-  OptionListItemDescription: CurrencyListItemDescription,
-} = createOptionList<Currency, CryptoMeta>();
+  SelectList: CurrencyList,
+  SelectListContent: CurrencyListContent,
+  SelectListItem: CurrencyListItem,
+  SelectListItemLeading: CurrencyListItemLeading,
+  SelectListItemContent: CurrencyListItemContent,
+  SelectListItemText: CurrencyListItemText,
+  SelectListItemDescription: CurrencyListItemDescription,
+} = createSelectList<Currency, CryptoMeta>();
 
-const CURRENCIES: OptionListItemData<Currency, CryptoMeta>[] = [
+const CURRENCIES: SelectListItemData<Currency, CryptoMeta>[] = [
   {
     value: 'btc',
     label: 'Bitcoin',
@@ -108,14 +108,14 @@ const CurrencySelectExample = () => {
 type Food = 'apple' | 'banana' | 'orange' | 'carrot' | 'broccoli' | 'spinach';
 
 const {
-  OptionList: FoodList,
-  OptionListContent: FoodListContent,
-  OptionListItem: FoodListItem,
-  OptionListItemContent: FoodListItemContent,
-  OptionListItemText: FoodListItemText,
-} = createOptionList<Food>();
+  SelectList: FoodList,
+  SelectListContent: FoodListContent,
+  SelectListItem: FoodListItem,
+  SelectListItemContent: FoodListItemContent,
+  SelectListItemText: FoodListItemText,
+} = createSelectList<Food>();
 
-const FOODS: OptionListItemData<Food>[] = [
+const FOODS: SelectListItemData<Food>[] = [
   { value: 'apple', label: 'Apple', group: 'Fruits' },
   { value: 'banana', label: 'Banana', group: 'Fruits' },
   { value: 'orange', label: 'Orange', group: 'Fruits' },
@@ -172,17 +172,17 @@ type Network = 'ethereum' | 'polygon' | 'arbitrum' | 'optimism';
 type NetworkMeta = { ticker: string; icon: string; tag: string };
 
 const {
-  OptionList: NetworkList,
-  OptionListContent: NetworkListContent,
-  OptionListItem: NetworkListItem,
-  OptionListItemLeading: NetworkListItemLeading,
-  OptionListItemContent: NetworkListItemContent,
-  OptionListItemContentRow: NetworkListItemContentRow,
-  OptionListItemText: NetworkListItemText,
-  OptionListItemDescription: NetworkListItemDescription,
-} = createOptionList<Network, NetworkMeta>();
+  SelectList: NetworkList,
+  SelectListContent: NetworkListContent,
+  SelectListItem: NetworkListItem,
+  SelectListItemLeading: NetworkListItemLeading,
+  SelectListItemContent: NetworkListItemContent,
+  SelectListItemContentRow: NetworkListItemContentRow,
+  SelectListItemText: NetworkListItemText,
+  SelectListItemDescription: NetworkListItemDescription,
+} = createSelectList<Network, NetworkMeta>();
 
-const NETWORKS: OptionListItemData<Network, NetworkMeta>[] = [
+const NETWORKS: SelectListItemData<Network, NetworkMeta>[] = [
   {
     value: 'ethereum',
     label: 'Ethereum',
@@ -286,18 +286,18 @@ type SearchableCurrency =
   | 'doge';
 
 const {
-  OptionList: SearchableCurrencyList,
-  OptionListContent: SearchableCurrencyListContent,
-  OptionListItem: SearchableCurrencyListItem,
-  OptionListItemLeading: SearchableCurrencyListItemLeading,
-  OptionListItemContent: SearchableCurrencyListItemContent,
-  OptionListItemText: SearchableCurrencyListItemText,
-  OptionListItemDescription: SearchableCurrencyListItemDescription,
-  OptionListSearch: SearchableCurrencyListSearch,
-  OptionListEmptyState: SearchableCurrencyListEmptyState,
-} = createOptionList<SearchableCurrency, CryptoMeta>();
+  SelectList: SearchableCurrencyList,
+  SelectListContent: SearchableCurrencyListContent,
+  SelectListItem: SearchableCurrencyListItem,
+  SelectListItemLeading: SearchableCurrencyListItemLeading,
+  SelectListItemContent: SearchableCurrencyListItemContent,
+  SelectListItemText: SearchableCurrencyListItemText,
+  SelectListItemDescription: SearchableCurrencyListItemDescription,
+  SelectListSearch: SearchableCurrencyListSearch,
+  SelectListEmptyState: SearchableCurrencyListEmptyState,
+} = createSelectList<SearchableCurrency, CryptoMeta>();
 
-const SEARCHABLE_CURRENCIES: OptionListItemData<
+const SEARCHABLE_CURRENCIES: SelectListItemData<
   SearchableCurrency,
   CryptoMeta
 >[] = [
@@ -401,7 +401,7 @@ const SearchableSelectExample = () => {
   );
 };
 
-export default function OptionLists() {
+export default function SelectLists() {
   return (
     <Box lx={{ gap: 's16', alignItems: 'flex-start' }}>
       <CurrencySelectExample />

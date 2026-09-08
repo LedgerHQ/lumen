@@ -4,20 +4,20 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import {
-  OptionList,
-  OptionListContent,
-  OptionListItem,
-  OptionListItemContent,
-  OptionListItemContentRow,
-  OptionListItemLeading,
-  OptionListItemText,
-  OptionListItemDescription,
-  OptionListEmptyState,
-  OptionListSearch,
-  OptionListTrigger,
-  createOptionList,
-} from './OptionList';
-import type { OptionListItemData } from './types';
+  SelectList,
+  SelectListContent,
+  SelectListItem,
+  SelectListItemContent,
+  SelectListItemContentRow,
+  SelectListItemLeading,
+  SelectListItemText,
+  SelectListItemDescription,
+  SelectListEmptyState,
+  SelectListSearch,
+  SelectListTrigger,
+  createSelectList,
+} from './SelectList';
+import type { SelectListItemData } from './types';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -25,26 +25,26 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   </ThemeProvider>
 );
 
-const ITEMS: OptionListItemData[] = [
+const ITEMS: SelectListItemData[] = [
   { value: 'a', label: 'Alpha' },
   { value: 'b', label: 'Beta' },
   { value: 'c', label: 'Gamma' },
 ];
 
-const GROUPED_ITEMS: OptionListItemData[] = [
+const GROUPED_ITEMS: SelectListItemData[] = [
   { value: 'apple', label: 'Apple', group: 'Fruits' },
   { value: 'banana', label: 'Banana', group: 'Fruits' },
   { value: 'carrot', label: 'Carrot', group: 'Vegetables' },
 ];
 
-const renderOptionList = ({
+const renderSelectList = ({
   items = ITEMS,
   value,
   defaultValue,
   onValueChange,
   disabled,
 }: {
-  items?: OptionListItemData[];
+  items?: SelectListItemData[];
   value?: string | null;
   defaultValue?: string | null;
   onValueChange?: (v: string | null) => void;
@@ -52,29 +52,29 @@ const renderOptionList = ({
 } = {}) =>
   render(
     <TestWrapper>
-      <OptionList
+      <SelectList
         items={items}
         value={value}
         defaultValue={defaultValue}
         onValueChange={onValueChange}
         disabled={disabled}
       >
-        <OptionListContent
+        <SelectListContent
           renderItem={(item) => (
-            <OptionListItem value={item.value} disabled={item.disabled}>
-              <OptionListItemContent>
-                <OptionListItemText>{item.label}</OptionListItemText>
-              </OptionListItemContent>
-            </OptionListItem>
+            <SelectListItem value={item.value} disabled={item.disabled}>
+              <SelectListItemContent>
+                <SelectListItemText>{item.label}</SelectListItemText>
+              </SelectListItemContent>
+            </SelectListItem>
           )}
         />
-      </OptionList>
+      </SelectList>
     </TestWrapper>,
   );
 
-describe('OptionList', () => {
+describe('SelectList', () => {
   it('renders all items', () => {
-    const { getByText } = renderOptionList();
+    const { getByText } = renderSelectList();
 
     expect(getByText('Alpha')).toBeTruthy();
     expect(getByText('Beta')).toBeTruthy();
@@ -83,7 +83,7 @@ describe('OptionList', () => {
 
   it('calls onValueChange when an item is pressed', () => {
     const onValueChange = jest.fn();
-    const { getByText } = renderOptionList({ onValueChange });
+    const { getByText } = renderSelectList({ onValueChange });
 
     fireEvent.press(getByText('Beta'));
 
@@ -91,7 +91,7 @@ describe('OptionList', () => {
   });
 
   it('marks the selected item with accessibilityState', () => {
-    const { getAllByRole } = renderOptionList({ value: 'a' });
+    const { getAllByRole } = renderSelectList({ value: 'a' });
 
     const items = getAllByRole('radio');
     const selectedItem = items.find(
@@ -103,7 +103,7 @@ describe('OptionList', () => {
 
   it('updates selection on press (uncontrolled)', () => {
     const onValueChange = jest.fn();
-    const { getByText } = renderOptionList({
+    const { getByText } = renderSelectList({
       defaultValue: 'a',
       onValueChange,
     });
@@ -115,12 +115,12 @@ describe('OptionList', () => {
 
   it('does not fire onValueChange when disabled item is pressed', () => {
     const onValueChange = jest.fn();
-    const items: OptionListItemData[] = [
+    const items: SelectListItemData[] = [
       { value: 'a', label: 'Enabled' },
       { value: 'b', label: 'Disabled', disabled: true },
     ];
 
-    const { getByText } = renderOptionList({ items, onValueChange });
+    const { getByText } = renderSelectList({ items, onValueChange });
 
     fireEvent.press(getByText('Disabled'));
 
@@ -128,7 +128,7 @@ describe('OptionList', () => {
   });
 
   it('renders group labels for grouped items', () => {
-    const { getByText } = renderOptionList({ items: GROUPED_ITEMS });
+    const { getByText } = renderSelectList({ items: GROUPED_ITEMS });
 
     expect(getByText('Fruits')).toBeTruthy();
     expect(getByText('Vegetables')).toBeTruthy();
@@ -138,7 +138,7 @@ describe('OptionList', () => {
 
   it('passes selected state to renderItem', () => {
     const renderItem = jest.fn(
-      (item: OptionListItemData, selected: boolean) => (
+      (item: SelectListItemData, selected: boolean) => (
         <Text testID={`item-${item.value}`}>
           {item.label} {selected ? 'selected' : ''}
         </Text>
@@ -147,15 +147,15 @@ describe('OptionList', () => {
 
     render(
       <TestWrapper>
-        <OptionList
+        <SelectList
           items={[
             { value: 'a', label: 'A' },
             { value: 'b', label: 'B', disabled: true },
           ]}
           value='a'
         >
-          <OptionListContent renderItem={renderItem} />
-        </OptionList>
+          <SelectListContent renderItem={renderItem} />
+        </SelectList>
       </TestWrapper>,
     );
 
@@ -172,30 +172,30 @@ describe('OptionList', () => {
   it('renders description sub-component', () => {
     const { getByText } = render(
       <TestWrapper>
-        <OptionList items={ITEMS} value={null}>
-          <OptionListContent
+        <SelectList items={ITEMS} value={null}>
+          <SelectListContent
             renderItem={(item) => (
-              <OptionListItem value={item.value}>
-                <OptionListItemContent>
-                  <OptionListItemText>{item.label}</OptionListItemText>
-                  <OptionListItemDescription>
+              <SelectListItem value={item.value}>
+                <SelectListItemContent>
+                  <SelectListItemText>{item.label}</SelectListItemText>
+                  <SelectListItemDescription>
                     Description for {item.label}
-                  </OptionListItemDescription>
-                </OptionListItemContent>
-              </OptionListItem>
+                  </SelectListItemDescription>
+                </SelectListItemContent>
+              </SelectListItem>
             )}
           />
-        </OptionList>
+        </SelectList>
       </TestWrapper>,
     );
 
     expect(getByText('Description for Alpha')).toBeTruthy();
   });
 
-  describe('OptionList-level disabled', () => {
-    it('prevents all items from being pressed when OptionList is disabled', () => {
+  describe('SelectList-level disabled', () => {
+    it('prevents all items from being pressed when SelectList is disabled', () => {
       const onValueChange = jest.fn();
-      const { getByText } = renderOptionList({
+      const { getByText } = renderSelectList({
         disabled: true,
         onValueChange,
       });
@@ -207,7 +207,7 @@ describe('OptionList', () => {
     });
 
     it('sets disabled accessibilityState on all items', () => {
-      const { getAllByRole } = renderOptionList({ disabled: true });
+      const { getAllByRole } = renderSelectList({ disabled: true });
 
       const items = getAllByRole('radio');
       for (const item of items) {
@@ -216,24 +216,24 @@ describe('OptionList', () => {
     });
   });
 
-  describe('OptionListItemLeading', () => {
+  describe('SelectListItemLeading', () => {
     it('renders leading content beside item text', () => {
       const { getByTestId, getByText } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
-            <OptionListContent
+          <SelectList items={ITEMS} value={null}>
+            <SelectListContent
               renderItem={(item) => (
-                <OptionListItem value={item.value}>
-                  <OptionListItemLeading>
+                <SelectListItem value={item.value}>
+                  <SelectListItemLeading>
                     <Text testID={`leading-${item.value}`}>icon</Text>
-                  </OptionListItemLeading>
-                  <OptionListItemContent>
-                    <OptionListItemText>{item.label}</OptionListItemText>
-                  </OptionListItemContent>
-                </OptionListItem>
+                  </SelectListItemLeading>
+                  <SelectListItemContent>
+                    <SelectListItemText>{item.label}</SelectListItemText>
+                  </SelectListItemContent>
+                </SelectListItem>
               )}
             />
-          </OptionList>
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -242,26 +242,26 @@ describe('OptionList', () => {
     });
   });
 
-  describe('OptionListItemContentRow', () => {
+  describe('SelectListItemContentRow', () => {
     it('renders children in a row layout', () => {
-      const singleItem: OptionListItemData[] = [{ value: 'a', label: 'Alpha' }];
+      const singleItem: SelectListItemData[] = [{ value: 'a', label: 'Alpha' }];
 
       const { getByText } = render(
         <TestWrapper>
-          <OptionList items={singleItem} value={null}>
-            <OptionListContent
+          <SelectList items={singleItem} value={null}>
+            <SelectListContent
               renderItem={(item) => (
-                <OptionListItem value={item.value}>
-                  <OptionListItemContent>
-                    <OptionListItemContentRow>
-                      <OptionListItemText>{item.label}</OptionListItemText>
+                <SelectListItem value={item.value}>
+                  <SelectListItemContent>
+                    <SelectListItemContentRow>
+                      <SelectListItemText>{item.label}</SelectListItemText>
                       <Text>tag</Text>
-                    </OptionListItemContentRow>
-                  </OptionListItemContent>
-                </OptionListItem>
+                    </SelectListItemContentRow>
+                  </SelectListItemContent>
+                </SelectListItem>
               )}
             />
-          </OptionList>
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -270,14 +270,14 @@ describe('OptionList', () => {
     });
   });
 
-  describe('OptionListEmptyState', () => {
+  describe('SelectListEmptyState', () => {
     it('renders title when item list is empty', () => {
       const { getByText } = render(
         <TestWrapper>
-          <OptionList items={[]} value={null}>
-            <OptionListContent renderItem={() => null} />
-            <OptionListEmptyState title='No results' />
-          </OptionList>
+          <SelectList items={[]} value={null}>
+            <SelectListContent renderItem={() => null} />
+            <SelectListEmptyState title='No results' />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -287,13 +287,13 @@ describe('OptionList', () => {
     it('renders description when provided', () => {
       const { getByText } = render(
         <TestWrapper>
-          <OptionList items={[]} value={null}>
-            <OptionListContent renderItem={() => null} />
-            <OptionListEmptyState
+          <SelectList items={[]} value={null}>
+            <SelectListContent renderItem={() => null} />
+            <SelectListEmptyState
               title='No results'
               description='Try a different search'
             />
-          </OptionList>
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -304,18 +304,18 @@ describe('OptionList', () => {
     it('does not render when items are present', () => {
       const { queryByText } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
-            <OptionListContent
+          <SelectList items={ITEMS} value={null}>
+            <SelectListContent
               renderItem={(item) => (
-                <OptionListItem value={item.value}>
-                  <OptionListItemContent>
-                    <OptionListItemText>{item.label}</OptionListItemText>
-                  </OptionListItemContent>
-                </OptionListItem>
+                <SelectListItem value={item.value}>
+                  <SelectListItemContent>
+                    <SelectListItemText>{item.label}</SelectListItemText>
+                  </SelectListItemContent>
+                </SelectListItem>
               )}
             />
-            <OptionListEmptyState title='No results' />
-          </OptionList>
+            <SelectListEmptyState title='No results' />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -323,7 +323,7 @@ describe('OptionList', () => {
     });
   });
 
-  describe('OptionListSearch', () => {
+  describe('SelectListSearch', () => {
     const renderSearchable = ({
       items = ITEMS,
       filter,
@@ -331,33 +331,33 @@ describe('OptionList', () => {
       searchValue,
       onSearchValueChange,
     }: {
-      items?: OptionListItemData[];
-      filter?: null | ((item: OptionListItemData, query: string) => boolean);
-      filteredItems?: OptionListItemData[];
+      items?: SelectListItemData[];
+      filter?: null | ((item: SelectListItemData, query: string) => boolean);
+      filteredItems?: SelectListItemData[];
       searchValue?: string;
       onSearchValueChange?: (v: string) => void;
     } = {}) =>
       render(
         <TestWrapper>
-          <OptionList
+          <SelectList
             items={items}
             filter={filter}
             filteredItems={filteredItems}
             searchValue={searchValue}
             onSearchValueChange={onSearchValueChange}
           >
-            <OptionListSearch placeholder='Search' />
-            <OptionListContent
+            <SelectListSearch placeholder='Search' />
+            <SelectListContent
               renderItem={(item) => (
-                <OptionListItem value={item.value}>
-                  <OptionListItemContent>
-                    <OptionListItemText>{item.label}</OptionListItemText>
-                  </OptionListItemContent>
-                </OptionListItem>
+                <SelectListItem value={item.value}>
+                  <SelectListItemContent>
+                    <SelectListItemText>{item.label}</SelectListItemText>
+                  </SelectListItemContent>
+                </SelectListItem>
               )}
             />
-            <OptionListEmptyState title='No results' />
-          </OptionList>
+            <SelectListEmptyState title='No results' />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -389,7 +389,7 @@ describe('OptionList', () => {
     });
 
     it('uses a custom filter when provided', () => {
-      const filter = (item: OptionListItemData, query: string): boolean =>
+      const filter = (item: SelectListItemData, query: string): boolean =>
         item.value.startsWith(query);
 
       const { getByPlaceholderText, getByText, queryByText } = renderSearchable(
@@ -465,14 +465,14 @@ describe('OptionList', () => {
     });
   });
 
-  describe('OptionListTrigger', () => {
+  describe('SelectListTrigger', () => {
     it('calls onPress when pressed', () => {
       const onPress = jest.fn();
       const { getByRole } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
-            <OptionListTrigger label='Choose' onPress={onPress} />
-          </OptionList>
+          <SelectList items={ITEMS} value={null}>
+            <SelectListTrigger label='Choose' onPress={onPress} />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -484,9 +484,9 @@ describe('OptionList', () => {
     it('renders the label text', () => {
       const { getByText } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
-            <OptionListTrigger label='Pick a value' onPress={jest.fn()} />
-          </OptionList>
+          <SelectList items={ITEMS} value={null}>
+            <SelectListTrigger label='Pick a value' onPress={jest.fn()} />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -496,11 +496,11 @@ describe('OptionList', () => {
     it('renders children as selected value content', () => {
       const { getByText } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value='a'>
-            <OptionListTrigger label='Currency' onPress={jest.fn()}>
+          <SelectList items={ITEMS} value='a'>
+            <SelectListTrigger label='Currency' onPress={jest.fn()}>
               <Text>Alpha</Text>
-            </OptionListTrigger>
-          </OptionList>
+            </SelectListTrigger>
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -512,9 +512,9 @@ describe('OptionList', () => {
       const onPress = jest.fn();
       const { getByRole } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
-            <OptionListTrigger label='Choose' onPress={onPress} disabled />
-          </OptionList>
+          <SelectList items={ITEMS} value={null}>
+            <SelectListTrigger label='Choose' onPress={onPress} disabled />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -523,13 +523,13 @@ describe('OptionList', () => {
       expect(onPress).not.toHaveBeenCalled();
     });
 
-    it('inherits disabled from OptionList', () => {
+    it('inherits disabled from SelectList', () => {
       const onPress = jest.fn();
       const { getByRole } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null} disabled>
-            <OptionListTrigger label='Choose' onPress={onPress} />
-          </OptionList>
+          <SelectList items={ITEMS} value={null} disabled>
+            <SelectListTrigger label='Choose' onPress={onPress} />
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -541,11 +541,11 @@ describe('OptionList', () => {
     it('renders without a label', () => {
       const { getByRole, queryByText } = render(
         <TestWrapper>
-          <OptionList items={ITEMS} value={null}>
-            <OptionListTrigger onPress={jest.fn()}>
+          <SelectList items={ITEMS} value={null}>
+            <SelectListTrigger onPress={jest.fn()}>
               <Text>Selected value</Text>
-            </OptionListTrigger>
-          </OptionList>
+            </SelectListTrigger>
+          </SelectList>
         </TestWrapper>,
       );
 
@@ -554,21 +554,21 @@ describe('OptionList', () => {
     });
   });
 
-  describe('createOptionList', () => {
+  describe('createSelectList', () => {
     it('returns typed components that render and select', () => {
       type Value = 'a' | 'b' | 'c';
-      const typedItems: OptionListItemData<Value>[] = [
+      const typedItems: SelectListItemData<Value>[] = [
         { value: 'a', label: 'Alpha' },
         { value: 'b', label: 'Beta' },
         { value: 'c', label: 'Gamma' },
       ];
       const {
-        OptionList: TypedList,
-        OptionListContent: TypedContent,
-        OptionListItem: TypedItem,
-        OptionListItemContent: TypedItemContent,
-        OptionListItemText: TypedItemText,
-      } = createOptionList<Value>();
+        SelectList: TypedList,
+        SelectListContent: TypedContent,
+        SelectListItem: TypedItem,
+        SelectListItemContent: TypedItemContent,
+        SelectListItemText: TypedItemText,
+      } = createSelectList<Value>();
       const onValueChange = jest.fn();
 
       const { getByText } = render(
