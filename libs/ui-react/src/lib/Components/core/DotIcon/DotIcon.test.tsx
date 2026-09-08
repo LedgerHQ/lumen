@@ -92,6 +92,7 @@ describe('DotIcon Component', () => {
     { size: 16 as const, offset: '-3px' },
     { size: 20 as const, offset: '-3px' },
     { size: 24 as const, offset: '-3px' },
+    { size: 32 as const, offset: '-3px' },
   ])('should apply correct offset for size $size', ({ size, offset }) => {
     const { container } = render(
       <DotIcon
@@ -192,5 +193,13 @@ describe('DotIcon Component', () => {
 
   it('should have correct displayName', () => {
     expect(DotIcon.displayName).toBe('DotIcon');
+  });
+
+  it('should apply opacity class when disabled', () => {
+    const { container } = render(
+      <DotIcon appearance='success' icon={ArrowDown} disabled />,
+    );
+
+    expect(container.firstChild).toHaveClass('opacity-30');
   });
 });
