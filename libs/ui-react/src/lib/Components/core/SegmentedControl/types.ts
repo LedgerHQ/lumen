@@ -1,5 +1,5 @@
 import type { ComponentType, ReactNode, ComponentPropsWithoutRef } from 'react';
-import type { IconSize } from '../../symbols/Icon/types';
+import type { IconSize } from '../../symbols/Icon';
 
 export type SegmentedControlValue = string;
 

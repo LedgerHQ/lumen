@@ -12,14 +12,14 @@ import type {
   MenuListProps,
 } from './types';
 
-const resolveIconColor = (
+const resolveContentColor = (
   disabled: boolean,
   appearance: MenuListItemAppearance,
-): LumenTextStyle['color'] => {
+): NonNullable<LumenTextStyle['color']> => {
   if (disabled) {
     return 'disabled';
   }
-  if (appearance === 'destructive') {
+  if (appearance === 'red') {
     return 'error';
   }
   return 'base';
@@ -52,11 +52,7 @@ const useItemStyles = ({
         t.typographies.body2SemiBold,
         {
           flex: 1,
-          color: disabled
-            ? t.colors.text.disabled
-            : appearance === 'destructive'
-              ? t.colors.text.error
-              : t.colors.text.base,
+          color: t.colors.text[resolveContentColor(disabled, appearance)],
         },
       ]),
     }),
@@ -78,7 +74,7 @@ export const MenuList = ({
 export const MenuListItem = ({
   label,
   icon: Icon,
-  appearance = 'primary',
+  appearance = 'base',
   disabled: disabledProp = false,
   onPress,
   accessibilityState,
@@ -136,7 +132,7 @@ const MenuListItemInner = ({
   return (
     <Box style={styles.container}>
       {Icon && (
-        <Icon size={24} color={resolveIconColor(disabled, appearance)} />
+        <Icon size={24} color={resolveContentColor(disabled, appearance)} />
       )}
       <Text style={styles.label} numberOfLines={1}>
         {label}

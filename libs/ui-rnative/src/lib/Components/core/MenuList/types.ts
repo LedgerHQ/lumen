@@ -4,14 +4,14 @@ import type {
   StyledPressableProps,
   StyledViewProps,
 } from '../../../../styles';
-import type { IconSize } from '../../symbols/Icon/types';
+import type { IconSize } from '../../symbols/Icon';
 
 export type IconComponent = ComponentType<{
   size?: IconSize;
   color?: LumenTextStyle['color'];
 }>;
 
-export type MenuListItemAppearance = 'primary' | 'destructive';
+export type MenuListItemAppearance = 'base' | 'red';
 
 export type MenuListProps = {
   children: ReactNode;

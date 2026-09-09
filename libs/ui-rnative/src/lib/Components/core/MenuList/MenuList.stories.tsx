@@ -39,7 +39,7 @@ export const Base: Story = {
   },
   args: {
     label: 'Unlink device',
-    appearance: 'primary',
+    appearance: 'base',
     disabled: false,
     icon: Unlink,
   },
@@ -64,7 +64,7 @@ export const AppearanceShowcase: Story = {
         <MenuListItem
           label='Remove device'
           icon={Trash}
-          appearance='destructive'
+          appearance='red'
           onPress={() => {}}
         />
       </MenuList>
@@ -89,7 +89,7 @@ export const DisabledShowcase: Story = {
         <MenuListItem
           label='Remove device'
           icon={Trash}
-          appearance='destructive'
+          appearance='red'
           disabled
           onPress={() => {}}
         />

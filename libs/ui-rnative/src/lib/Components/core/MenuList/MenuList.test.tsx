@@ -6,8 +6,12 @@ import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { MenuList, MenuListItem } from './MenuList';
 import type { IconComponent } from './types';
 
-const TestIcon: IconComponent = ({ size }) => (
-  <View testID='icon' style={{ width: size, height: size }} />
+const TestIcon: IconComponent = ({ size, color }) => (
+  <View
+    testID='icon'
+    style={{ width: size, height: size }}
+    accessibilityLabel={String(color)}
+  />
 );
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -77,14 +81,10 @@ describe('MenuListItem', () => {
     expect(getByRole('button').props.accessibilityState?.disabled).toBe(true);
   });
 
-  it('renders with destructive appearance', () => {
+  it('renders with red appearance', () => {
     const { getByText } = render(
       <TestWrapper>
-        <MenuListItem
-          label='Delete'
-          appearance='destructive'
-          onPress={jest.fn()}
-        />
+        <MenuListItem label='Delete' appearance='red' onPress={jest.fn()} />
       </TestWrapper>,
     );
 
@@ -93,17 +93,17 @@ describe('MenuListItem', () => {
     );
   });
 
-  it('renders the icon when provided', () => {
+  it('renders the icon with base color by default', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MenuListItem label='With Icon' icon={TestIcon} onPress={jest.fn()} />
       </TestWrapper>,
     );
 
-    expect(getByTestId('icon')).toBeTruthy();
+    expect(getByTestId('icon').props.accessibilityLabel).toBe('base');
   });
 
-  it('renders icon with disabled appearance when disabled', () => {
+  it('renders icon with disabled color when disabled', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MenuListItem
@@ -115,21 +115,21 @@ describe('MenuListItem', () => {
       </TestWrapper>,
     );
 
-    expect(getByTestId('icon')).toBeTruthy();
+    expect(getByTestId('icon').props.accessibilityLabel).toBe('disabled');
   });
 
-  it('renders icon with destructive appearance', () => {
+  it('renders icon with error color when appearance is red', () => {
     const { getByTestId } = render(
       <TestWrapper>
         <MenuListItem
           label='Delete'
           icon={TestIcon}
-          appearance='destructive'
+          appearance='red'
           onPress={jest.fn()}
         />
       </TestWrapper>,
     );
 
-    expect(getByTestId('icon')).toBeTruthy();
+    expect(getByTestId('icon').props.accessibilityLabel).toBe('error');
   });
 });
