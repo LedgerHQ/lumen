@@ -35,7 +35,7 @@ export default function MenuLists() {
         <MenuListItem
           icon={Trash}
           label='Remove'
-          appearance='destructive'
+          appearance='red'
           onPress={() => ''}
         />
       </MenuList>
@@ -51,7 +51,7 @@ export default function MenuLists() {
         <MenuListItem
           icon={Trash}
           label='Remove'
-          appearance='destructive'
+          appearance='red'
           disabled
           onPress={() => ''}
         />
@@ -83,7 +83,7 @@ export default function MenuLists() {
               <MenuListItem
                 icon={Trash}
                 label='Remove'
-                appearance='destructive'
+                appearance='red'
                 onPress={() => {
                   ref.current?.dismiss();
                 }}
