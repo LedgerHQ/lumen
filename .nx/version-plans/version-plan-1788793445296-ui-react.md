@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-feat(MenuList): create MenuList & MenuListItem components
+refactor(Icon): import IconSize from the symbols/Icon barrel
