@@ -29,9 +29,12 @@ const useAnimatedFloatingLabel = ({
 
   useEffect(() => {
     floatingAnimation.value = withTiming(isFloatingLabel ? 1 : 0, timingConfig);
-
-    return () => cancelAnimation(floatingAnimation);
   }, [isFloatingLabel, timingConfig, floatingAnimation]);
+
+  useEffect(
+    () => () => cancelAnimation(floatingAnimation),
+    [floatingAnimation],
+  );
 
   const animatedStyle = useAnimatedStyle(
     () => ({
