@@ -6,7 +6,7 @@ import type {
 } from '../../../../styles';
 import type { IconSize } from '../../symbols/Icon';
 
-type IconComponent = ComponentType<{
+export type IconComponent = ComponentType<{
   size?: IconSize;
   color?: LumenTextStyle['color'];
 }>;
