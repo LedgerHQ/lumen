@@ -28,6 +28,8 @@ import {
 
 `MenuListItem` supports two appearances: `base` (default) for standard actions and `red` for irreversible or dangerous operations such as deleting or unlinking. The red appearance renders the label and icon in the error colour.
 
+Place `red` items **last** in the list. Both the Apple HIG and Material guidelines put destructive actions at the bottom, away from the items a user reaches for by habit. `MenuList` does not enforce the order.
+
 <Canvas of={MenuListStories.AppearanceShowcase} />
 
 ### Disabled
