@@ -8,7 +8,7 @@ import {
   InformationFill,
   WarningFill,
 } from '../../symbols';
-import type { IconSize } from '../../symbols/Icon/types';
+import type { IconSize } from '../../symbols/Icon';
 import { Spinner } from '../Spinner';
 import type { SpotProps, SpotSize } from './types';
 

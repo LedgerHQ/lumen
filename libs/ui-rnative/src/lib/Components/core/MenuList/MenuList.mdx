@@ -1,0 +1,66 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as MenuListStories from './MenuList.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/MenuList' of={MenuListStories} />
+
+# MenuList
+
+<CustomTabs>
+  <Tab label='Overview'>
+
+## Introduction
+
+`MenuList` is a container for a set of tappable actions. Each `MenuListItem` displays a label, an optional leading icon, and supports `base` and `red` appearances.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=7897-7037&m=dev).
+
+## Anatomy
+
+<Canvas of={MenuListStories.Base} />
+<Controls of={MenuListStories.Base} />
+
+## Properties
+
+### Appearance
+
+`MenuListItem` supports two appearances: `base` (default) for standard actions and `red` for irreversible or dangerous operations such as deleting or unlinking. The red appearance renders the label and icon in the error colour.
+
+Place `red` items **last** in the list. Both the Apple HIG and Material guidelines put destructive actions at the bottom, away from the items a user reaches for by habit. `MenuList` does not enforce the order.
+
+<Canvas of={MenuListStories.AppearanceShowcase} />
+
+### Disabled
+
+Set `disabled` on individual `MenuListItem`s to prevent interaction. The label and icon are rendered in the disabled colour and the press handler is suppressed.
+
+<Canvas of={MenuListStories.DisabledShowcase} />
+
+## Accessibility
+
+Each `MenuListItem` has `accessibilityRole='button'` and sets `accessibilityState={{ disabled }}` to reflect its interaction state to assistive technologies.
+
+  </Tab>
+
+  <Tab label='Implementation'>
+
+<SetupNote />
+
+### Basic Usage
+
+<Source of={MenuListStories.Base} />
+
+### Appearances
+
+<Source of={MenuListStories.AppearanceShowcase} />
+
+### Disabled Items
+
+<Source of={MenuListStories.DisabledShowcase} />
+
+  </Tab>
+</CustomTabs>

@@ -36,6 +36,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'MediaCards', title: 'MediaCard' },
   { slug: 'MediaImages', title: 'MediaImage' },
   { slug: 'MediaTags', title: 'MediaTag' },
+  { slug: 'MenuLists', title: 'MenuList' },
   { slug: 'NavBars', title: 'Navbar' },
   { slug: 'OptionLists', title: 'OptionList' },
   { slug: 'PageIndicators', title: 'PageIndicator' },
