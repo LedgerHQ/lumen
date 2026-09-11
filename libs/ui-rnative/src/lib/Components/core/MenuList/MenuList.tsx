@@ -1,7 +1,4 @@
-import {
-  DisabledProvider,
-  useDisabledContext,
-} from '@ledgerhq/lumen-utils-shared';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 import type { LumenTextStyle } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
@@ -59,6 +56,20 @@ const useItemStyles = ({
     [pressed, disabled, appearance],
   );
 
+/**
+ * A container for a set of tappable actions, rendered as `MenuListItem`s.
+ *
+ * `MenuList` is a content primitive: it owns no open/close state, so compose it
+ * inside a `BottomSheet` (or any other surface) to build a menu experience.
+ *
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-menulist--docs Storybook}
+ *
+ * @example
+ * <MenuList>
+ *   <MenuListItem icon={Unlink} label="Unlink" onPress={handleUnlink} />
+ *   <MenuListItem icon={Trash} label="Remove" appearance="red" onPress={handleRemove} />
+ * </MenuList>
+ */
 export const MenuList = ({
   children,
   lx,
@@ -71,6 +82,17 @@ export const MenuList = ({
   </Box>
 );
 
+/**
+ * A single action inside a `MenuList`: a label, an optional leading icon and a
+ * press handler.
+ *
+ * Place destructive (`appearance="red"`) items last, per platform convention.
+ *
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-menulist--docs Storybook}
+ *
+ * @example
+ * <MenuListItem icon={Trash} label="Remove" appearance="red" onPress={handleRemove} />
+ */
 export const MenuListItem = ({
   label,
   icon: Icon,
@@ -89,28 +111,26 @@ export const MenuListItem = ({
   });
 
   return (
-    <DisabledProvider value={{ disabled }}>
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={style}
-        onPress={onPress}
-        disabled={disabled}
-        accessibilityRole='button'
-        accessibilityState={{ ...accessibilityState, disabled }}
-        {...props}
-      >
-        {({ pressed }) => (
-          <MenuListItemInner
-            label={label}
-            icon={Icon}
-            appearance={appearance}
-            pressed={pressed}
-            disabled={disabled}
-          />
-        )}
-      </Pressable>
-    </DisabledProvider>
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={style}
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityRole='button'
+      accessibilityState={{ ...accessibilityState, disabled }}
+      {...props}
+    >
+      {({ pressed }) => (
+        <MenuListItemInner
+          label={label}
+          icon={Icon}
+          appearance={appearance}
+          pressed={pressed}
+          disabled={disabled}
+        />
+      )}
+    </Pressable>
   );
 };
 

@@ -14,6 +14,7 @@ const meta = {
   id: 'rnative-menulist',
   title: 'Core/MenuList',
   component: MenuListItem,
+  subcomponents: { MenuList },
   parameters: {
     docs: {
       source: { language: 'tsx', format: true, type: 'dynamic' },
