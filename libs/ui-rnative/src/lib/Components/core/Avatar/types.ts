@@ -21,7 +21,7 @@ export type AvatarProps = {
   size?: AvatarSize;
   /**
    * Background color behind the fallback when no image is displayed.
-   * Use `resolveAvatarColor` from `@ledgerhq/lumen-ui-rnative` to derive
+   * Use `useResolveAvatarColor` from `@ledgerhq/lumen-ui-rnative` to derive
    * a stable pastel color from an identifier such as a user id.
    * @optional
    */
