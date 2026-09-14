@@ -4,7 +4,7 @@ import { CoinAlert } from '../../symbols';
 import { MediaImage } from '../MediaImage';
 import { Spot } from '../Spot';
 import { DotSymbol } from './DotSymbol';
-import { getDotSymbolProps } from './getDotSymbolProps';
+import { getDotSymbolProps } from '.';
 
 const meta = {
   component: DotSymbol,

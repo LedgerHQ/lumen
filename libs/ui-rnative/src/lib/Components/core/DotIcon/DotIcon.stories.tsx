@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUp, Close, Link, Star } from '../../symbols';
 import { MediaImage } from '../MediaImage';
 import { Spinner } from '../Spinner';
 import { DotIcon } from './DotIcon';
-import { getDotIconProps } from './getDotIconProps';
+import { getDotIconProps } from '.';
 
 const meta = {
   component: DotIcon,
