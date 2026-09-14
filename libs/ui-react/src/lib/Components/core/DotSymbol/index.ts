@@ -1,3 +1,4 @@
+import type { DotSymbolSize } from './types';
 export { DotSymbol } from './DotSymbol';
 export * from './getDotSymbolProps';
 export * from './types';
@@ -15,4 +16,4 @@ export const mediaImageDotSizeMap = {
   56: 24,
   64: 24,
   72: 32,
-} as const;
+} as const satisfies Record<number, DotSymbolSize>;
