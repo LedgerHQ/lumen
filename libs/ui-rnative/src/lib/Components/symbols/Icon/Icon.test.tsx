@@ -57,7 +57,7 @@ describe('Icon', () => {
       </Icon>,
     );
 
-    expect(screen.getByTestId('icon').props.color).toBe('#f87274');
+    expect(screen.getByTestId('icon').props.color).toBe('#ff8486');
   });
 
   it('should forward ref and spread additional props', () => {
