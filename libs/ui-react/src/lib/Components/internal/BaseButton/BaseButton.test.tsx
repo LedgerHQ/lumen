@@ -36,7 +36,7 @@ describe('BaseButton', () => {
       ['accent', 'bg-accent'],
       ['transparent', 'bg-muted-transparent'],
       ['no-background', 'bg-transparent'],
-      ['red', 'bg-error'],
+      ['red', 'bg-error-transparent'],
     ] as const)(
       'should apply the background class for the %s appearance',
       (appearance, expectedClass) => {
