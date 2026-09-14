@@ -3,6 +3,7 @@ import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
 import { useCommonTranslation } from '../../../../i18n';
 import { User } from '../../symbols';
+import { getAvatarFallbackTextColor } from './resolveAvatarColor';
 import type { AvatarProps } from './types';
 
 const avatarVariants = {
@@ -56,17 +57,15 @@ const FallbackContent = ({
   fallbackText?: string;
   fallbackColor?: string;
 }) => {
-  const colorClass = fallbackColor ? 'text-black' : 'text-base';
+  const style = {
+    color: getAvatarFallbackTextColor(fallbackColor),
+  };
   return fallbackText ? (
-    <span className={cn(avatarVariants.text({ size }), colorClass)}>
+    <span className={avatarVariants.text({ size })} style={style}>
       {fallbackText}
     </span>
   ) : (
-    <User
-      className={colorClass}
-      size={fallbackSizes[size]}
-      aria-hidden='true'
-    />
+    <User style={style} size={fallbackSizes[size]} aria-hidden='true' />
   );
 };
 
