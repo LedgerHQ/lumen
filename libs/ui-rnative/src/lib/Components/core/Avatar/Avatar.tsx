@@ -79,7 +79,9 @@ const useStyles = ({
 
       const fallbackTextColor = decorativeKey
         ? t.colors.text[`decorativeStrong${decorativeKey}`]
-        : t.colors.text.base;
+        : fallbackColor
+          ? t.colors.text.black
+          : t.colors.text.base;
 
       return {
         root: {
@@ -184,7 +186,9 @@ export const Avatar = ({
   const decorativeKey = findDecorativeKey(theme.colors, fallbackColor);
   const fallbackIconColor: IconProps['color'] = decorativeKey
     ? `decorativeStrong${decorativeKey}`
-    : 'base';
+    : fallbackColor
+      ? 'black'
+      : 'base';
   const styles = useStyles({
     size,
     fallbackColor,
