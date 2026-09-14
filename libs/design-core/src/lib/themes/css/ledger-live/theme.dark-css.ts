@@ -97,14 +97,23 @@ export const tokens = {
       'var(--color-dark-purple-100)',
     '--color-background-active-subtle-website-pressed':
       'var(--color-dark-purple-200)',
-    '--color-background-error': 'var(--color-dark-red-600-15)',
-    '--color-background-error-hover': 'var(--color-dark-red-600-30)',
-    '--color-background-error-pressed': 'var(--color-dark-red-600-40)',
+    '--color-background-error-transparent': 'var(--color-dark-red-600-15)',
+    '--color-background-error-transparent-hover':
+      'var(--color-dark-red-600-30)',
+    '--color-background-error-transparent-pressed':
+      'var(--color-dark-red-600-40)',
+    '--color-background-error': 'var(--color-dark-red-300)',
     '--color-background-error-strong': 'var(--color-dark-red-600)',
     '--color-background-error-transparent-0': 'var(--color-dark-red-600-0)',
-    '--color-background-warning': 'var(--color-dark-yellow-600-15)',
+    '--color-background-warning-transparent': 'var(--color-dark-yellow-600-15)',
+    '--color-background-warning': 'var(--color-dark-yellow-300)',
     '--color-background-warning-strong': 'var(--color-dark-yellow-600)',
-    '--color-background-success': 'var(--color-dark-green-600-15)',
+    '--color-background-success-transparent': 'var(--color-dark-green-600-15)',
+    '--color-background-success-transparent-hover':
+      'var(--color-dark-green-600-30)',
+    '--color-background-success-transparent-pressed':
+      'var(--color-dark-green-600-40)',
+    '--color-background-success': 'var(--color-dark-green-300)',
     '--color-background-success-strong': 'var(--color-dark-green-600)',
     '--color-background-success-transparent-0': 'var(--color-dark-green-600-0)',
     '--color-background-native': '#c3c3c3',
@@ -117,18 +126,21 @@ export const tokens = {
     '--color-background-gradient-0': 'var(--color-dark-grey-050-0)',
     '--color-background-gradient-overlay-80': 'var(--color-dark-grey-050-80)',
     '--color-background-gradient-overlay-0': 'var(--color-dark-grey-050-0)',
-    '--color-background-decorative-blue': 'var(--color-dark-decorative-blue)',
-    '--color-background-decorative-pink': 'var(--color-dark-decorative-pink)',
+    '--color-background-decorative-blue':
+      'var(--color-dark-decorative-blue-400)',
+    '--color-background-decorative-pink':
+      'var(--color-dark-decorative-pink-400)',
     '--color-background-decorative-turquoise':
-      'var(--color-dark-decorative-turquoise)',
+      'var(--color-dark-decorative-turquoise-400)',
     '--color-background-decorative-yellow':
-      'var(--color-dark-decorative-yellow)',
+      'var(--color-dark-decorative-yellow-400)',
     '--color-background-decorative-orange':
-      'var(--color-dark-decorative-orange)',
-    '--color-background-decorative-red': 'var(--color-dark-decorative-red)',
-    '--color-background-decorative-green': 'var(--color-dark-decorative-green)',
+      'var(--color-dark-decorative-orange-400)',
+    '--color-background-decorative-red': 'var(--color-dark-decorative-red-400)',
+    '--color-background-decorative-green':
+      'var(--color-dark-decorative-green-400)',
     '--color-background-decorative-purple':
-      'var(--color-dark-decorative-purple)',
+      'var(--color-dark-decorative-purple-400)',
     '--color-text-black': 'var(--color-dark-constant-950)',
     '--color-text-white': 'var(--color-dark-constant-050)',
     '--color-text-white-hover': 'var(--color-dark-constant-200)',
@@ -157,8 +169,14 @@ export const tokens = {
     '--color-text-interactive-websites-hover': 'var(--color-dark-purple-500)',
     '--color-text-interactive-websites-pressed': 'var(--color-dark-purple-600)',
     '--color-text-error': 'var(--color-dark-red-600)',
+    '--color-text-error-strong': 'var(--color-dark-red-700)',
+    '--color-text-error-on-interactive': 'var(--color-dark-red-300)',
     '--color-text-warning': 'var(--color-dark-yellow-600)',
+    '--color-text-warning-strong': 'var(--color-dark-yellow-800)',
+    '--color-text-warning-on-interactive': 'var(--color-dark-yellow-300)',
     '--color-text-success': 'var(--color-dark-green-600)',
+    '--color-text-success-strong': 'var(--color-dark-green-700)',
+    '--color-text-success-on-interactive': 'var(--color-dark-green-300)',
     '--color-text-on-accent-ledger-live': 'var(--color-dark-grey-050)',
     '--color-text-on-accent-enterprise': 'var(--color-dark-grey-950)',
     '--color-text-on-accent-websites': 'var(--color-dark-grey-050)',
@@ -167,6 +185,31 @@ export const tokens = {
     '--color-text-on-warning-strong': 'var(--color-dark-grey-050)',
     '--color-text-on-success-strong': 'var(--color-dark-grey-050)',
     '--color-text-native': '#007aff',
+    '--color-text-decorative-orange': 'var(--color-dark-decorative-orange-500)',
+    '--color-text-decorative-green': 'var(--color-dark-decorative-green-500)',
+    '--color-text-decorative-blue': 'var(--color-dark-decorative-blue-500)',
+    '--color-text-decorative-purple': 'var(--color-dark-decorative-purple-500)',
+    '--color-text-decorative-red': 'var(--color-dark-decorative-red-400)',
+    '--color-text-decorative-yellow': 'var(--color-dark-decorative-yellow-500)',
+    '--color-text-decorative-turquoise':
+      'var(--color-dark-decorative-turquoise-500)',
+    '--color-text-decorative-pink': 'var(--color-dark-decorative-pink-500)',
+    '--color-text-decorative-strong-orange':
+      'var(--color-dark-decorative-orange-800)',
+    '--color-text-decorative-strong-green':
+      'var(--color-dark-decorative-green-800)',
+    '--color-text-decorative-strong-blue':
+      'var(--color-dark-decorative-blue-800)',
+    '--color-text-decorative-strong-purple':
+      'var(--color-dark-decorative-purple-800)',
+    '--color-text-decorative-strong-red':
+      'var(--color-dark-decorative-red-800)',
+    '--color-text-decorative-strong-yellow':
+      'var(--color-dark-decorative-yellow-800)',
+    '--color-text-decorative-strong-turquoise':
+      'var(--color-dark-decorative-turquoise-800)',
+    '--color-text-decorative-strong-pink':
+      'var(--color-dark-decorative-pink-800)',
     '--color-border-black': 'var(--color-dark-constant-950)',
     '--color-border-white': 'var(--color-dark-constant-050)',
     '--color-border-base': 'var(--color-dark-grey-950)',
@@ -408,8 +451,6 @@ export const tokens = {
     '--background-muted': 'var(--color-background-muted)',
     '--background-muted-hover': 'var(--color-background-muted-hover)',
     '--background-muted-pressed': 'var(--color-background-muted-pressed)',
-    '--background-muted-transparent-0':
-      'var(--color-background-muted-transparent-0)',
     '--background-muted-transparent':
       'var(--color-background-muted-transparent)',
     '--background-muted-transparent-hover':
@@ -418,6 +459,8 @@ export const tokens = {
       'var(--color-background-muted-transparent-pressed)',
     '--background-muted-transparent-disabled':
       'var(--color-background-muted-transparent-disabled)',
+    '--background-muted-transparent-0':
+      'var(--color-background-muted-transparent-0)',
     '--background-muted-strong': 'var(--color-background-muted-strong)',
     '--background-muted-strong-hover':
       'var(--color-background-muted-strong-hover)',
@@ -434,17 +477,29 @@ export const tokens = {
     '--background-interactive-pressed':
       'var(--color-background-interactive-pressed)',
     '--background-error': 'var(--color-background-error)',
-    '--background-error-hover': 'var(--color-background-error-hover)',
-    '--background-error-pressed': 'var(--color-background-error-pressed)',
-    '--background-error-strong': 'var(--color-background-error-strong)',
+    '--background-error-transparent':
+      'var(--color-background-error-transparent)',
+    '--background-error-transparent-hover':
+      'var(--color-background-error-transparent-hover)',
+    '--background-error-transparent-pressed':
+      'var(--color-background-error-transparent-pressed)',
     '--background-error-transparent-0':
       'var(--color-background-error-transparent-0)',
+    '--background-error-strong': 'var(--color-background-error-strong)',
     '--background-warning': 'var(--color-background-warning)',
-    '--background-warning-strong': 'var(--color-background-warning-strong)',
-    '--background-success': 'var(--color-background-success)',
-    '--background-success-strong': 'var(--color-background-success-strong)',
+    '--background-warning-transparent':
+      'var(--color-background-warning-transparent)',
     '--background-success-transparent-0':
       'var(--color-background-success-transparent-0)',
+    '--background-warning-strong': 'var(--color-background-warning-strong)',
+    '--background-success': 'var(--color-background-success)',
+    '--background-success-transparent':
+      'var(--color-background-success-transparent)',
+    '--background-success-transparent-hover':
+      'var(--color-background-success-transparent-hover)',
+    '--background-success-transparent-pressed':
+      'var(--color-background-success-transparent-pressed)',
+    '--background-success-strong': 'var(--color-background-success-strong)',
     '--background-active': 'var(--color-background-active-ledger-live)',
     '--background-active-hover':
       'var(--color-background-active-ledger-live-hover)',
@@ -500,14 +555,41 @@ export const tokens = {
     '--text-interactive-pressed':
       'var(--color-text-interactive-ledger-live-pressed)',
     '--text-error': 'var(--color-text-error)',
+    '--text-error-strong': 'var(--color-text-error-strong)',
+    '--text-error-on-interactive': 'var(--color-text-error-on-interactive)',
     '--text-warning': 'var(--color-text-warning)',
+    '--text-warning-strong': 'var(--color-text-warning-strong)',
+    '--text-warning-on-interactive': 'var(--color-text-warning-on-interactive)',
     '--text-success': 'var(--color-text-success)',
+    '--text-success-strong': 'var(--color-text-success-strong)',
+    '--text-success-on-interactive': 'var(--color-text-success-on-interactive)',
     '--text-on-accent': 'var(--color-text-on-accent-ledger-live)',
     '--text-on-interactive': 'var(--color-text-on-interactive)',
     '--text-on-error-strong': 'var(--color-text-on-error-strong)',
     '--text-on-warning-strong': 'var(--color-text-on-warning-strong)',
     '--text-on-success-strong': 'var(--color-text-on-success-strong)',
     '--text-native': 'var(--color-text-native)',
+    '--text-decorative-orange': 'var(--color-text-decorative-orange)',
+    '--text-decorative-green': 'var(--color-text-decorative-green)',
+    '--text-decorative-blue': 'var(--color-text-decorative-blue)',
+    '--text-decorative-purple': 'var(--color-text-decorative-purple)',
+    '--text-decorative-red': 'var(--color-text-decorative-red)',
+    '--text-decorative-yellow': 'var(--color-text-decorative-yellow)',
+    '--text-decorative-turquoise': 'var(--color-text-decorative-turquoise)',
+    '--text-decorative-pink': 'var(--color-text-decorative-pink)',
+    '--text-decorative-strong-orange':
+      'var(--color-text-decorative-strong-orange)',
+    '--text-decorative-strong-green':
+      'var(--color-text-decorative-strong-green)',
+    '--text-decorative-strong-blue': 'var(--color-text-decorative-strong-blue)',
+    '--text-decorative-strong-purple':
+      'var(--color-text-decorative-strong-purple)',
+    '--text-decorative-strong-red': 'var(--color-text-decorative-strong-red)',
+    '--text-decorative-strong-yellow':
+      'var(--color-text-decorative-strong-yellow)',
+    '--text-decorative-strong-turquoise':
+      'var(--color-text-decorative-strong-turquoise)',
+    '--text-decorative-strong-pink': 'var(--color-text-decorative-strong-pink)',
     '--border-black': 'var(--color-border-black)',
     '--border-white': 'var(--color-border-white)',
     '--border-disabled': 'var(--color-border-disabled)',
