@@ -58,9 +58,9 @@ describe('BaseTag Component', () => {
       ['gray', colors.bg.mutedTransparent],
       ['accent', colors.bg.accent],
       ['accent-subtle', colors.bg.activeSubtle],
-      ['success', colors.bg.success],
-      ['error', colors.bg.error],
-      ['warning', colors.bg.warning],
+      ['success', colors.bg.successTransparent],
+      ['error', colors.bg.errorTransparent],
+      ['warning', colors.bg.warningTransparent],
       ['white', colors.bg.white],
     ];
 

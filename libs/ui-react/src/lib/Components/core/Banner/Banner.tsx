@@ -23,9 +23,9 @@ const bannerVariants = {
     variants: {
       appearance: {
         info: 'bg-surface',
-        success: 'bg-success',
-        warning: 'bg-warning',
-        error: 'bg-error',
+        success: 'bg-success-transparent',
+        warning: 'bg-warning-transparent',
+        error: 'bg-error-transparent',
       },
     },
   }),
