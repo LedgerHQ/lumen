@@ -35,6 +35,7 @@ const AVATAR_TEXT_COLOR_BY_BACKGROUND: Partial<Record<CSSVarRef, CSSVarRef>> =
   );
 
 const DEFAULT_FALLBACK_TEXT_COLOR: CSSVarRef = cssVar('var(--text-base)');
+const CUSTOM_FALLBACK_TEXT_COLOR: CSSVarRef = cssVar('var(--text-black)');
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
@@ -48,15 +49,19 @@ export function resolveAvatarColor(identifier: string): CSSVarRef {
 
 /**
  * Resolves the fallback text/icon color matching a `fallbackColor` produced
- * by {@link resolveAvatarColor}. Falls back to `--text-base` when
- * `fallbackColor` is unset or isn't one of the known avatar color tokens.
+ * by {@link resolveAvatarColor}. Falls back to `--text-black` when
+ * `fallbackColor` is a custom color that isn't one of the known avatar color
+ * tokens, and to `--text-base` when `fallbackColor` is unset.
  *
  * @internal
  */
 export function getAvatarFallbackTextColor(fallbackColor?: string): CSSVarRef {
+  if (!fallbackColor) {
+    return DEFAULT_FALLBACK_TEXT_COLOR;
+  }
+
   return (
-    (fallbackColor &&
-      AVATAR_TEXT_COLOR_BY_BACKGROUND[fallbackColor as CSSVarRef]) ||
-    DEFAULT_FALLBACK_TEXT_COLOR
+    AVATAR_TEXT_COLOR_BY_BACKGROUND[fallbackColor as CSSVarRef] ??
+    CUSTOM_FALLBACK_TEXT_COLOR
   );
 }

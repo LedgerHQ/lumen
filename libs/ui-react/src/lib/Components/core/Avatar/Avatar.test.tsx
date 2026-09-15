@@ -95,11 +95,11 @@ describe('Avatar Component', () => {
     });
   });
 
-  it('should fall back to the base text color for an unknown custom fallbackColor', () => {
+  it('should use black text for an unknown custom fallbackColor', () => {
     render(<Avatar fallbackText='AB' fallbackColor='#aed09c' />);
 
     const text = screen.getByText('AB');
-    expect(text).toHaveStyle({ color: 'var(--text-base)' });
+    expect(text).toHaveStyle({ color: 'var(--text-black)' });
   });
 
   it('should render with sm size when specified', () => {

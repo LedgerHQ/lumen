@@ -37,7 +37,7 @@ const DECORATIVE_KEYS = [
 const findDecorativeKey = (
   colors: LumenStyleSheetTheme['colors'],
   fallbackColor: string | undefined,
-) =>
+): (typeof DECORATIVE_KEYS)[number] | undefined =>
   fallbackColor
     ? DECORATIVE_KEYS.find(
         (key) => colors.bg[`decorative${key}`] === fallbackColor,

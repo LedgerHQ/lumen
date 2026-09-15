@@ -23,6 +23,22 @@ const DarkWrapper = ({ children }: { children: React.ReactNode }) => (
   </ThemeProvider>
 );
 
+let currentColorScheme: 'light' | 'dark' = 'light';
+
+const SwitchableThemeWrapper = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => (
+  <ThemeProvider
+    themes={ledgerLiveThemes}
+    colorScheme={currentColorScheme}
+    locale='en'
+  >
+    {children}
+  </ThemeProvider>
+);
+
 describe('useResolveAvatarColor', () => {
   it('should resolve the identifier to the light-theme decorative color', () => {
     const key = decorativeBgKeyFor('user-1');
@@ -50,6 +66,29 @@ describe('useResolveAvatarColor', () => {
 
     expect(result.current).toBe(darkColor);
     expect(result.current).not.toBe(lightColor);
+  });
+
+  it('should react to the theme changing after the initial render', () => {
+    const key = decorativeBgKeyFor('user-1');
+    const lightColor = (
+      ledgerLiveThemes.light.colors.bg as Record<string, string>
+    )[key];
+    const darkColor = (
+      ledgerLiveThemes.dark.colors.bg as Record<string, string>
+    )[key];
+
+    currentColorScheme = 'light';
+    const { result, rerender } = renderHook(
+      () => useResolveAvatarColor('user-1'),
+      { wrapper: SwitchableThemeWrapper },
+    );
+
+    expect(result.current).toBe(lightColor);
+
+    currentColorScheme = 'dark';
+    rerender({});
+
+    expect(result.current).toBe(darkColor);
   });
 
   it('should always resolve the same identifier to the same color within a theme', () => {

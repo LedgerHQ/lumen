@@ -84,7 +84,9 @@ export const FallbackShowcase: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Avatar fallbackColor={useResolveAvatarColor(user.id)} alt={user.name} />`,
+        code: `function UserAvatar({ user }) {
+  return <Avatar fallbackColor={useResolveAvatarColor(user.id)} alt={user.name} />;
+}`,
       },
     },
   },

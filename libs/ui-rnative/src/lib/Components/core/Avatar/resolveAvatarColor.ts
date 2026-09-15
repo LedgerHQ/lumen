@@ -1,25 +1,13 @@
-import { primitiveColorTokens } from '@ledgerhq/lumen-design-core';
 import {
   resolveAvatarColorKey,
   type AvatarColorKey,
 } from '@ledgerhq/lumen-utils-shared';
-import { useTheme } from '../../../../styles';
+import { useTheme, type LumenStyleSheetTheme } from '../../../../styles';
 
-const buildAvatarColorTokens = (
-  decorative: Record<AvatarColorKey, Record<string, string>>,
-  shade: '300' | '400',
-): Record<AvatarColorKey, string> =>
-  Object.fromEntries(
-    Object.entries(decorative).map(([color, shades]) => [color, shades[shade]]),
-  ) as Record<AvatarColorKey, string>;
+type DecorativeBgKey = keyof LumenStyleSheetTheme['colors']['bg'];
 
-const AVATAR_COLOR_TOKENS: Record<
-  'light' | 'dark',
-  Record<AvatarColorKey, string>
-> = {
-  light: buildAvatarColorTokens(primitiveColorTokens.light.decorative, '300'),
-  dark: buildAvatarColorTokens(primitiveColorTokens.dark.decorative, '400'),
-};
+const decorativeBgKey = (key: AvatarColorKey) =>
+  `decorative${key.charAt(0).toUpperCase() + key.slice(1)}` as DecorativeBgKey;
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
@@ -29,9 +17,7 @@ const AVATAR_COLOR_TOKENS: Record<
  * Pass the result directly to `<Avatar fallbackColor={useResolveAvatarColor(id)} />`.
  */
 export function useResolveAvatarColor(identifier: string): string {
-  const { colorScheme } = useTheme();
+  const { theme } = useTheme();
 
-  return AVATAR_COLOR_TOKENS[colorScheme ?? 'light'][
-    resolveAvatarColorKey(identifier)
-  ];
+  return theme.colors.bg[decorativeBgKey(resolveAvatarColorKey(identifier))];
 }
