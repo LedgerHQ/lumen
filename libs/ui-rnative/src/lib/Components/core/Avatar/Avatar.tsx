@@ -1,4 +1,5 @@
 import type { TypographyDefinition } from '@ledgerhq/lumen-design-core';
+import { AVATAR_COLOR_KEYS, capitalize } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
@@ -23,16 +24,7 @@ const fallbackIconSizes: Record<Size, IconSize> = {
   '2xl': 56,
 };
 
-const DECORATIVE_KEYS = [
-  'Orange',
-  'Green',
-  'Blue',
-  'Purple',
-  'Red',
-  'Yellow',
-  'Turquoise',
-  'Pink',
-] as const;
+const DECORATIVE_KEYS = AVATAR_COLOR_KEYS.map(capitalize);
 
 const findDecorativeKey = (
   colors: LumenStyleSheetTheme['colors'],

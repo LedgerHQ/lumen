@@ -1,4 +1,5 @@
 import {
+  capitalize,
   resolveAvatarColorKey,
   type AvatarColorKey,
 } from '@ledgerhq/lumen-utils-shared';
@@ -6,8 +7,8 @@ import { useTheme, type LumenStyleSheetTheme } from '../../../../styles';
 
 type DecorativeBgKey = keyof LumenStyleSheetTheme['colors']['bg'];
 
-const decorativeBgKey = (key: AvatarColorKey) =>
-  `decorative${key.charAt(0).toUpperCase() + key.slice(1)}` as DecorativeBgKey;
+const decorativeBgKey = (key: AvatarColorKey): DecorativeBgKey =>
+  `decorative${capitalize(key)}` as DecorativeBgKey;
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel

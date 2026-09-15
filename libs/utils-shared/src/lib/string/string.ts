@@ -11,6 +11,13 @@ export function toPascalCase(str: string): string {
 }
 
 /**
+ * Capitalizes the first letter of a string, preserving the literal type.
+ */
+export function capitalize<T extends string>(value: T): Capitalize<T> {
+  return (value.charAt(0).toUpperCase() + value.slice(1)) as Capitalize<T>;
+}
+
+/**
  * Hashes a string into a stable, deterministic 32-bit signed integer.
  */
 export function hashString(str: string): number {
