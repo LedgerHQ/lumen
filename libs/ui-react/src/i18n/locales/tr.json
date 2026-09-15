@@ -25,6 +25,9 @@
     "banner": {
       "closeAriaLabel": "Kapat"
     },
+    "snackbar": {
+      "closeAriaLabel": "Kapat"
+    },
     "link": {
       "opensInNewTabAriaLabel": "(yeni sekmede açılır)"
     },
