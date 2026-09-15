@@ -1,5 +1,10 @@
-import { Box, Spot } from '@ledgerhq/lumen-ui-rnative';
-import { ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
+import {
+  Box,
+  DotSymbol,
+  getDotSymbolProps,
+  Spot,
+} from '@ledgerhq/lumen-ui-rnative';
+import { CoinAlert, ExternalLink } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 export default function Spots() {
   return (
@@ -14,6 +19,13 @@ export default function Spots() {
         <Spot appearance='warning' />
         <Spot appearance='info' />
         <Spot appearance='loader' />
+        <DotSymbol
+          src='https://crypto-icons.ledger.com/BTC.png'
+          pin='bottom-end'
+          {...getDotSymbolProps('spot', 48)}
+        >
+          <Spot appearance='icon' icon={CoinAlert} />
+        </DotSymbol>
       </Box>
       <Box lx={{ flexDirection: 'row', gap: 's8' }}>
         <Spot appearance='icon' icon={ExternalLink} size={48} />

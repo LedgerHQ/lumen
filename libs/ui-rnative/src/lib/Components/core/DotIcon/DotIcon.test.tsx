@@ -77,6 +77,7 @@ describe('DotIcon Component', () => {
       { size: 16 as const, expectedSize: sizes.s16 },
       { size: 20 as const, expectedSize: sizes.s20 },
       { size: 24 as const, expectedSize: sizes.s24 },
+      { size: 32 as const, expectedSize: sizes.s32 },
     ])(
       'should apply correct width and height for size $size',
       ({ size, expectedSize }) => {
@@ -159,6 +160,7 @@ describe('DotIcon Component', () => {
       { size: 16 as const, expectedRadius: 5 },
       { size: 20 as const, expectedRadius: 6 },
       { size: 24 as const, expectedRadius: 8 },
+      { size: 32 as const, expectedRadius: 10 },
     ])(
       'should apply correct border radius for square shape at size $size',
       ({ size, expectedRadius }) => {
@@ -191,6 +193,24 @@ describe('DotIcon Component', () => {
       );
 
       expect(ref.current).not.toBeNull();
+    });
+  });
+
+  describe('Disabled', () => {
+    it('should apply opacity when disabled', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <DotIcon
+            testID='dot-icon'
+            appearance='success'
+            icon={ArrowDown}
+            disabled
+          />
+        </TestWrapper>,
+      );
+
+      const root = getByTestId('dot-icon');
+      expect(root.props.style.opacity).toBe(0.3);
     });
   });
 

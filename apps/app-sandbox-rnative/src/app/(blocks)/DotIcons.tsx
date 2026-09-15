@@ -1,7 +1,7 @@
 import {
   Box,
   DotIcon,
-  mediaImageDotIconSizeMap,
+  getDotIconProps,
   MediaImage,
   Spinner,
 } from '@ledgerhq/lumen-ui-rnative';
@@ -22,8 +22,8 @@ export default function DotIcons() {
         <DotIcon
           appearance='success'
           icon={ArrowDown}
-          size={mediaImageDotIconSizeMap[48]}
           pin='bottom-end'
+          {...getDotIconProps('mediaImage', 48)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/USDC.png'
@@ -36,8 +36,8 @@ export default function DotIcons() {
         <DotIcon
           appearance='muted'
           icon={ArrowUp}
-          size={mediaImageDotIconSizeMap[48]}
           pin='bottom-end'
+          {...getDotIconProps('mediaImage', 48)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/ETH.png'
@@ -50,8 +50,8 @@ export default function DotIcons() {
         <DotIcon
           appearance='error'
           icon={Spinner}
-          size={mediaImageDotIconSizeMap[48]}
           pin='bottom-end'
+          {...getDotIconProps('mediaImage', 48)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/BTC.png'
@@ -64,8 +64,8 @@ export default function DotIcons() {
         <DotIcon
           appearance='muted'
           icon={Link}
-          size={mediaImageDotIconSizeMap[40]}
           pin='bottom-end'
+          {...getDotIconProps('mediaImage', 40)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/USDC.png'
@@ -78,8 +78,8 @@ export default function DotIcons() {
         <DotIcon
           appearance='success'
           icon={ArrowDown}
-          size={mediaImageDotIconSizeMap[64]}
           pin='top-end'
+          {...getDotIconProps('mediaImage', 64)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/ETH.png'
@@ -92,9 +92,9 @@ export default function DotIcons() {
         <DotIcon
           appearance='success'
           icon={ArrowDown}
-          size={mediaImageDotIconSizeMap[48]}
           shape='square'
           pin='bottom-end'
+          {...getDotIconProps('mediaImage', 48)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/BTC.png'
@@ -107,9 +107,9 @@ export default function DotIcons() {
         <DotIcon
           appearance='muted'
           icon={Link}
-          size={mediaImageDotIconSizeMap[40]}
           shape='square'
           pin='top-start'
+          {...getDotIconProps('mediaImage', 40)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/USDT.png'
@@ -122,9 +122,9 @@ export default function DotIcons() {
         <DotIcon
           appearance='error'
           icon={ArrowUp}
-          size={mediaImageDotIconSizeMap[64]}
           shape='square'
           pin='top-end'
+          {...getDotIconProps('mediaImage', 64)}
         >
           <MediaImage
             src='https://crypto-icons.ledger.com/SOL.png'

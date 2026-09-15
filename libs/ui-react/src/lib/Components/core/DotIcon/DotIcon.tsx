@@ -53,21 +53,6 @@ const dotVariants = cva(
   },
 );
 
-export const mediaImageDotIconSizeMap = {
-  40: 16,
-  48: 20,
-  56: 24,
-  64: 24,
-  72: 32,
-} as const satisfies Record<number, DotIconSize>;
-
-export const spotDotIconSizeMap = {
-  40: 16,
-  48: 20,
-  56: 24,
-  72: 32,
-} as const satisfies Record<number, DotIconSize>;
-
 export const dotIconSizeMap: Record<DotIconSize, IconSize> = {
   16: 12,
   20: 16,

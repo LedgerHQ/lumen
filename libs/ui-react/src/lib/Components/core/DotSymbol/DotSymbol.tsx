@@ -5,8 +5,6 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useMemo, useState } from 'react';
-import type { MediaImageSize } from '../MediaImage';
-import type { SpotSize } from '../Spot';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const rootVariants = cva('relative inline-flex w-fit', {
@@ -67,27 +65,6 @@ const offsetBySize: Record<DotSymbolSize, number> = {
   24: -3,
   32: -3,
 };
-
-export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-  64: 24,
-  72: 32,
-} as const;
-
-export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-  72: 32,
-} as const;
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =
   {
