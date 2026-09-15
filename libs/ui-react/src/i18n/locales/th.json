@@ -25,6 +25,9 @@
     "banner": {
       "closeAriaLabel": "ปิด"
     },
+    "snackbar": {
+      "closeAriaLabel": "ปิด"
+    },
     "link": {
       "opensInNewTabAriaLabel": "(เปิดในแท็บใหม่)"
     },

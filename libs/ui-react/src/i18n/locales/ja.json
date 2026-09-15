@@ -25,6 +25,9 @@
     "banner": {
       "closeAriaLabel": "閉じる"
     },
+    "snackbar": {
+      "closeAriaLabel": "閉じる"
+    },
     "link": {
       "opensInNewTabAriaLabel": "（新しいタブで開く）"
     },

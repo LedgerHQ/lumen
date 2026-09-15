@@ -33,6 +33,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
     'dialog-content': '100',
     select: '120',
     menu: '120',
+    snackbar: '150',
     tooltip: '200',
   };
 

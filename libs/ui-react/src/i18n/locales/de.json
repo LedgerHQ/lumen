@@ -25,6 +25,9 @@
     "banner": {
       "closeAriaLabel": "Schließen"
     },
+    "snackbar": {
+      "closeAriaLabel": "Schließen"
+    },
     "link": {
       "opensInNewTabAriaLabel": "(Öffnet in neuem Tab)"
     },
