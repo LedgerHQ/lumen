@@ -44,7 +44,7 @@ describe('Banner Component', () => {
       </TestWrapper>,
     );
     expect(getByTestId('banner-id').props.style.backgroundColor).toBe(
-      colors.bg.success,
+      colors.bg.successTransparent,
     );
 
     rerender(
@@ -57,7 +57,7 @@ describe('Banner Component', () => {
       </TestWrapper>,
     );
     expect(getByTestId('banner-id').props.style.backgroundColor).toBe(
-      colors.bg.warning,
+      colors.bg.warningTransparent,
     );
 
     rerender(
@@ -66,7 +66,7 @@ describe('Banner Component', () => {
       </TestWrapper>,
     );
     expect(getByTestId('banner-id').props.style.backgroundColor).toBe(
-      colors.bg.error,
+      colors.bg.errorTransparent,
     );
   });
 

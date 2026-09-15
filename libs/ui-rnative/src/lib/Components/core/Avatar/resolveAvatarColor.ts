@@ -4,9 +4,11 @@ import {
   type AvatarColorKey,
 } from '@ledgerhq/lumen-utils-shared';
 
-// either light or dark works, they're the same regardless of theme
-const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, string> =
-  primitiveColorTokens.light.decorative;
+const AVATAR_COLOR_TOKENS = Object.fromEntries(
+  Object.entries(primitiveColorTokens.light.decorative).map(
+    ([color, shades]) => [color, shades['300']],
+  ),
+) as Record<AvatarColorKey, string>;
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel

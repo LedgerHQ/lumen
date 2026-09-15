@@ -26,9 +26,9 @@ const useBaseTagStyles = ({
         gray: t.colors.bg.mutedTransparent,
         accent: t.colors.bg.accent,
         'accent-subtle': t.colors.bg.activeSubtle,
-        success: t.colors.bg.success,
-        error: t.colors.bg.error,
-        warning: t.colors.bg.warning,
+        success: t.colors.bg.successTransparent,
+        error: t.colors.bg.errorTransparent,
+        warning: t.colors.bg.warningTransparent,
         white: t.colors.bg.white,
       };
 
