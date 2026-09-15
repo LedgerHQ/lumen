@@ -1,21 +1,25 @@
-import { primitiveColorTokens } from '@ledgerhq/lumen-design-core';
 import {
+  capitalize,
   resolveAvatarColorKey,
   type AvatarColorKey,
 } from '@ledgerhq/lumen-utils-shared';
+import { useTheme, type LumenStyleSheetTheme } from '../../../../styles';
 
-const AVATAR_COLOR_TOKENS = Object.fromEntries(
-  Object.entries(primitiveColorTokens.light.decorative).map(
-    ([color, shades]) => [color, shades['300']],
-  ),
-) as Record<AvatarColorKey, string>;
+type DecorativeBgKey = keyof LumenStyleSheetTheme['colors']['bg'];
+
+const decorativeBgKey = (key: AvatarColorKey): DecorativeBgKey =>
+  `decorative${capitalize(key)}` as DecorativeBgKey;
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
- * colors. The same identifier always resolves to the same color.
+ * color keys, then to that key's value in the current theme. The same
+ * identifier always resolves to the same key, but its resolved color value
+ * follows the active theme.
  *
- * Pass the result directly to `<Avatar fallbackColor={resolveAvatarColor(id)} />`.
+ * Pass the result directly to `<Avatar fallbackColor={useResolveAvatarColor(id)} />`.
  */
-export function resolveAvatarColor(identifier: string): string {
-  return AVATAR_COLOR_TOKENS[resolveAvatarColorKey(identifier)];
+export function useResolveAvatarColor(identifier: string): string {
+  const { theme } = useTheme();
+
+  return theme.colors.bg[decorativeBgKey(resolveAvatarColorKey(identifier))];
 }

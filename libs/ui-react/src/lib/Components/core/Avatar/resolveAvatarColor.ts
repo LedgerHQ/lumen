@@ -15,6 +15,28 @@ const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, CSSVarRef> = {
   pink: cssVar('var(--background-decorative-pink)'),
 };
 
+const AVATAR_TEXT_COLOR_TOKENS: Record<AvatarColorKey, CSSVarRef> = {
+  orange: cssVar('var(--text-decorative-strong-orange)'),
+  green: cssVar('var(--text-decorative-strong-green)'),
+  blue: cssVar('var(--text-decorative-strong-blue)'),
+  purple: cssVar('var(--text-decorative-strong-purple)'),
+  red: cssVar('var(--text-decorative-strong-red)'),
+  yellow: cssVar('var(--text-decorative-strong-yellow)'),
+  turquoise: cssVar('var(--text-decorative-strong-turquoise)'),
+  pink: cssVar('var(--text-decorative-strong-pink)'),
+};
+
+const AVATAR_TEXT_COLOR_BY_BACKGROUND: Partial<Record<CSSVarRef, CSSVarRef>> =
+  Object.fromEntries(
+    (Object.keys(AVATAR_COLOR_TOKENS) as AvatarColorKey[]).map((key) => [
+      AVATAR_COLOR_TOKENS[key],
+      AVATAR_TEXT_COLOR_TOKENS[key],
+    ]),
+  );
+
+const DEFAULT_FALLBACK_TEXT_COLOR: CSSVarRef = cssVar('var(--text-base)');
+const CUSTOM_FALLBACK_TEXT_COLOR: CSSVarRef = cssVar('var(--text-black)');
+
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
  * color tokens. The same identifier always resolves to the same color.
@@ -23,4 +45,23 @@ const AVATAR_COLOR_TOKENS: Record<AvatarColorKey, CSSVarRef> = {
  */
 export function resolveAvatarColor(identifier: string): CSSVarRef {
   return AVATAR_COLOR_TOKENS[resolveAvatarColorKey(identifier)];
+}
+
+/**
+ * Resolves the fallback text/icon color matching a `fallbackColor` produced
+ * by {@link resolveAvatarColor}. Falls back to `--text-black` when
+ * `fallbackColor` is a custom color that isn't one of the known avatar color
+ * tokens, and to `--text-base` when `fallbackColor` is unset.
+ *
+ * @internal
+ */
+export function getAvatarFallbackTextColor(fallbackColor?: string): CSSVarRef {
+  if (!fallbackColor) {
+    return DEFAULT_FALLBACK_TEXT_COLOR;
+  }
+
+  return (
+    AVATAR_TEXT_COLOR_BY_BACKGROUND[fallbackColor as CSSVarRef] ??
+    CUSTOM_FALLBACK_TEXT_COLOR
+  );
 }

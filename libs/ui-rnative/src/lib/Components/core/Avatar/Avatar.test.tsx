@@ -124,6 +124,70 @@ describe('Avatar Component', () => {
     );
   });
 
+  it('should pair a decorative fallback background with its matching decorative text color', () => {
+    const { getByText } = render(
+      <TestWrapper>
+        <Avatar fallbackText='AB' fallbackColor={colors.bg.decorativeOrange} />
+      </TestWrapper>,
+    );
+
+    expect(getByText('AB').props.style.color).toBe(
+      colors.text.decorativeStrongOrange,
+    );
+  });
+
+  it('should pair a decorative fallback background with its matching decorative icon color', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Avatar fallbackColor={colors.bg.decorativeOrange} />
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('avatar-fallback-icon').props.color).toBe(
+      colors.text.decorativeStrongOrange,
+    );
+  });
+
+  it('should use black text/icon for an unknown custom fallbackColor', () => {
+    const { getByText, getByTestId, rerender } = render(
+      <TestWrapper>
+        <Avatar fallbackText='AB' fallbackColor='#aed09c' />
+      </TestWrapper>,
+    );
+
+    expect(getByText('AB').props.style.color).toBe(colors.text.black);
+
+    rerender(
+      <TestWrapper>
+        <Avatar fallbackColor='#aed09c' />
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('avatar-fallback-icon').props.color).toBe(
+      colors.text.black,
+    );
+  });
+
+  it('should use the base text/icon color when no fallbackColor is set', () => {
+    const { getByText, getByTestId, rerender } = render(
+      <TestWrapper>
+        <Avatar fallbackText='AB' />
+      </TestWrapper>,
+    );
+
+    expect(getByText('AB').props.style.color).toBe(colors.text.base);
+
+    rerender(
+      <TestWrapper>
+        <Avatar />
+      </TestWrapper>,
+    );
+
+    expect(getByTestId('avatar-fallback-icon').props.color).toBe(
+      colors.text.base,
+    );
+  });
+
   it('should not apply the fallback color when an image is shown', () => {
     const { getByTestId } = render(
       <TestWrapper>
