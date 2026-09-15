@@ -1,12 +1,12 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { resolveAvatarColorKey } from '@ledgerhq/lumen-utils-shared';
+import {
+  capitalize,
+  resolveAvatarColorKey,
+} from '@ledgerhq/lumen-utils-shared';
 import { renderHook } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { useResolveAvatarColor } from './resolveAvatarColor';
-
-const capitalize = (value: string): string =>
-  value.charAt(0).toUpperCase() + value.slice(1);
 
 const decorativeBgKeyFor = (identifier: string): string =>
   `decorative${capitalize(resolveAvatarColorKey(identifier))}`;
