@@ -13,29 +13,29 @@ import { Divider } from '../Divider';
 import { SearchInput } from '../SearchInput';
 import type {
   MetaShape,
-  OptionListContextValue,
-  OptionListItemData,
-  OptionListProps,
-  OptionListContentProps,
-  OptionListItemProps,
-  OptionListItemLeadingProps,
-  OptionListItemTextProps,
-  OptionListItemDescriptionProps,
-  OptionListItemContentProps,
-  OptionListItemContentRowProps,
-  OptionListEmptyStateProps,
-  OptionListSearchProps,
-  OptionListTriggerProps,
-  OptionListLabelProps,
-  OptionListValue,
+  SelectListContextValue,
+  SelectListItemData,
+  SelectListProps,
+  SelectListContentProps,
+  SelectListItemProps,
+  SelectListItemLeadingProps,
+  SelectListItemTextProps,
+  SelectListItemDescriptionProps,
+  SelectListItemContentProps,
+  SelectListItemContentRowProps,
+  SelectListEmptyStateProps,
+  SelectListSearchProps,
+  SelectListTriggerProps,
+  SelectListLabelProps,
+  SelectListValue,
 } from './types';
-import { useOptionListItems } from './useOptionList/useOptionListItems';
+import { useSelectListItems } from './useSelectList/useSelectListItems';
 
-const [OptionListProvider, useOptionListContext] =
-  createSafeContext<OptionListContextValue>('OptionList');
+const [SelectListProvider, useSelectListContext] =
+  createSafeContext<SelectListContextValue>('SelectList');
 
-export const OptionList = <
-  T extends OptionListValue = OptionListValue,
+export const SelectList = <
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 >({
   items,
@@ -49,9 +49,9 @@ export const OptionList = <
   defaultSearchValue,
   onSearchValueChange,
   children,
-}: OptionListProps<T, TMeta>) => {
+}: SelectListProps<T, TMeta>) => {
   const disabled = useDisabledContext({
-    consumerName: 'OptionList',
+    consumerName: 'SelectList',
     mergeWith: { disabled: disabledProp },
   });
 
@@ -69,7 +69,7 @@ export const OptionList = <
     flatItems,
     resolvedSearchValue,
     handleSearchValueChange,
-  } = useOptionListItems<T, TMeta>({
+  } = useSelectListItems<T, TMeta>({
     items,
     filter,
     filteredItems,
@@ -80,7 +80,7 @@ export const OptionList = <
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <OptionListProvider
+      <SelectListProvider
         value={{
           selectedValue,
           onValueChange: setSelectedValue,
@@ -92,13 +92,13 @@ export const OptionList = <
         }}
       >
         {children}
-      </OptionListProvider>
+      </SelectListProvider>
     </DisabledProvider>
   );
 };
 
-export const OptionListContent = <
-  T extends OptionListValue = OptionListValue,
+export const SelectListContent = <
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 >({
   renderItem,
@@ -106,15 +106,15 @@ export const OptionListContent = <
   style,
   ref,
   ...props
-}: OptionListContentProps<T, TMeta>) => {
-  const { selectedValue, isGrouped, groups, flatItems } = useOptionListContext({
-    consumerName: 'OptionListContent',
+}: SelectListContentProps<T, TMeta>) => {
+  const { selectedValue, isGrouped, groups, flatItems } = useSelectListContext({
+    consumerName: 'SelectListContent',
     contextRequired: true,
   });
 
-  const renderItemWithState = (item: OptionListItemData) =>
+  const renderItemWithState = (item: SelectListItemData) =>
     renderItem(
-      item as OptionListItemData<T, TMeta>,
+      item as SelectListItemData<T, TMeta>,
       selectedValue === item.value,
     );
 
@@ -126,7 +126,7 @@ export const OptionListContent = <
             {groupIndex > 0 && (
               <Divider lx={{ marginVertical: 's4', marginHorizontal: 's8' }} />
             )}
-            {group.label && <OptionListLabel>{group.label}</OptionListLabel>}
+            {group.label && <SelectListLabel>{group.label}</SelectListLabel>}
             {group.items.map((item) => (
               <Fragment key={item.value}>{renderItemWithState(item)}</Fragment>
             ))}
@@ -171,7 +171,7 @@ const useItemStyles = ({
   );
 };
 
-export const OptionListItem = <T extends OptionListValue = OptionListValue>({
+export const SelectListItem = <T extends SelectListValue = SelectListValue>({
   value,
   disabled: disabledProp = false,
   children,
@@ -179,13 +179,13 @@ export const OptionListItem = <T extends OptionListValue = OptionListValue>({
   style,
   ref,
   ...props
-}: OptionListItemProps<T>) => {
-  const { selectedValue, onValueChange } = useOptionListContext({
-    consumerName: 'OptionListItem',
+}: SelectListItemProps<T>) => {
+  const { selectedValue, onValueChange } = useSelectListContext({
+    consumerName: 'SelectListItem',
     contextRequired: true,
   });
   const disabled = useDisabledContext({
-    consumerName: 'OptionListItem',
+    consumerName: 'SelectListItem',
     mergeWith: { disabled: disabledProp },
   });
   const selected = selectedValue === value;
@@ -203,16 +203,16 @@ export const OptionListItem = <T extends OptionListValue = OptionListValue>({
         {...props}
       >
         {({ pressed }) => (
-          <OptionListItemInner pressed={pressed} selected={selected}>
+          <SelectListItemInner pressed={pressed} selected={selected}>
             {children}
-          </OptionListItemInner>
+          </SelectListItemInner>
         )}
       </Pressable>
     </DisabledProvider>
   );
 };
 
-const OptionListItemInner = ({
+const SelectListItemInner = ({
   pressed,
   selected,
   children,
@@ -222,7 +222,7 @@ const OptionListItemInner = ({
   children: ReactNode;
 }) => {
   const disabled = useDisabledContext({
-    consumerName: 'OptionListItemInner',
+    consumerName: 'SelectListItemInner',
     contextRequired: false,
   });
   const styles = useItemStyles({ disabled, pressed });
@@ -235,15 +235,15 @@ const OptionListItemInner = ({
   );
 };
 
-export const OptionListItemText = ({
+export const SelectListItemText = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: OptionListItemTextProps) => {
+}: SelectListItemTextProps) => {
   const disabled = useDisabledContext({
-    consumerName: 'OptionListItemText',
+    consumerName: 'SelectListItemText',
     contextRequired: false,
   });
 
@@ -272,15 +272,15 @@ export const OptionListItemText = ({
   );
 };
 
-export const OptionListItemDescription = ({
+export const SelectListItemDescription = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: OptionListItemDescriptionProps) => {
+}: SelectListItemDescriptionProps) => {
   const disabled = useDisabledContext({
-    consumerName: 'OptionListItemDescription',
+    consumerName: 'SelectListItemDescription',
     contextRequired: false,
   });
 
@@ -309,13 +309,13 @@ export const OptionListItemDescription = ({
   );
 };
 
-export const OptionListItemContent = ({
+export const SelectListItemContent = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: OptionListItemContentProps) => {
+}: SelectListItemContentProps) => {
   const styles = useStyleSheet(
     (t) => ({
       content: {
@@ -339,13 +339,13 @@ export const OptionListItemContent = ({
   );
 };
 
-export const OptionListItemContentRow = ({
+export const SelectListItemContentRow = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: OptionListItemContentRowProps) => {
+}: SelectListItemContentRowProps) => {
   const styles = useStyleSheet(
     (t) => ({
       row: {
@@ -370,13 +370,13 @@ export const OptionListItemContentRow = ({
   );
 };
 
-export const OptionListItemLeading = ({
+export const SelectListItemLeading = ({
   children,
   lx,
   style,
   ref,
   ...props
-}: OptionListItemLeadingProps) => {
+}: SelectListItemLeadingProps) => {
   const styles = useStyleSheet(
     () => ({
       leading: {
@@ -400,7 +400,7 @@ export const OptionListItemLeading = ({
   );
 };
 
-const OptionListLabel = ({ children }: OptionListLabelProps) => (
+const SelectListLabel = ({ children }: SelectListLabelProps) => (
   <Text
     lx={{
       color: 'muted',
@@ -413,10 +413,10 @@ const OptionListLabel = ({ children }: OptionListLabelProps) => (
   </Text>
 );
 
-export const OptionListSearch = ({ ref, ...props }: OptionListSearchProps) => {
-  const { resolvedSearchValue, handleSearchValueChange } = useOptionListContext(
+export const SelectListSearch = ({ ref, ...props }: SelectListSearchProps) => {
+  const { resolvedSearchValue, handleSearchValueChange } = useSelectListContext(
     {
-      consumerName: 'OptionListSearch',
+      consumerName: 'SelectListSearch',
       contextRequired: true,
     },
   );
@@ -432,16 +432,16 @@ export const OptionListSearch = ({ ref, ...props }: OptionListSearchProps) => {
   );
 };
 
-export const OptionListEmptyState = ({
+export const SelectListEmptyState = ({
   title,
   description,
   lx,
   style,
   ref,
   ...props
-}: OptionListEmptyStateProps) => {
-  const { isGrouped, groups, flatItems } = useOptionListContext({
-    consumerName: 'OptionListEmptyState',
+}: SelectListEmptyStateProps) => {
+  const { isGrouped, groups, flatItems } = useSelectListContext({
+    consumerName: 'SelectListEmptyState',
     contextRequired: true,
   });
   const visibleCount = isGrouped
@@ -544,7 +544,7 @@ const useTriggerStyles = ({
     [disabled, hasValue, hasLabel],
   );
 
-export const OptionListTrigger = ({
+export const SelectListTrigger = ({
   label,
   onPress,
   disabled: disabledProp,
@@ -553,9 +553,9 @@ export const OptionListTrigger = ({
   style,
   ref,
   ...props
-}: OptionListTriggerProps) => {
+}: SelectListTriggerProps) => {
   const disabled = useDisabledContext({
-    consumerName: 'OptionListTrigger',
+    consumerName: 'SelectListTrigger',
     mergeWith: { disabled: disabledProp },
   });
 
@@ -587,39 +587,39 @@ export const OptionListTrigger = ({
   );
 };
 
-export function createOptionList<
-  T extends OptionListValue = never,
+export function createSelectList<
+  T extends SelectListValue = never,
   TMeta extends MetaShape = MetaShape,
 >(): {
-  OptionList: (props: OptionListProps<T, TMeta>) => ReactElement;
-  OptionListContent: (props: OptionListContentProps<T, TMeta>) => ReactElement;
-  OptionListItem: (props: OptionListItemProps<T>) => ReactElement;
-  OptionListItemText: (props: OptionListItemTextProps) => ReactElement;
-  OptionListItemDescription: (
-    props: OptionListItemDescriptionProps,
+  SelectList: (props: SelectListProps<T, TMeta>) => ReactElement;
+  SelectListContent: (props: SelectListContentProps<T, TMeta>) => ReactElement;
+  SelectListItem: (props: SelectListItemProps<T>) => ReactElement;
+  SelectListItemText: (props: SelectListItemTextProps) => ReactElement;
+  SelectListItemDescription: (
+    props: SelectListItemDescriptionProps,
   ) => ReactElement;
-  OptionListItemContent: (props: OptionListItemContentProps) => ReactElement;
-  OptionListItemContentRow: (
-    props: OptionListItemContentRowProps,
+  SelectListItemContent: (props: SelectListItemContentProps) => ReactElement;
+  SelectListItemContentRow: (
+    props: SelectListItemContentRowProps,
   ) => ReactElement;
-  OptionListItemLeading: (props: OptionListItemLeadingProps) => ReactElement;
-  OptionListSearch: (props: OptionListSearchProps) => ReactElement;
-  OptionListEmptyState: (
-    props: OptionListEmptyStateProps,
+  SelectListItemLeading: (props: SelectListItemLeadingProps) => ReactElement;
+  SelectListSearch: (props: SelectListSearchProps) => ReactElement;
+  SelectListEmptyState: (
+    props: SelectListEmptyStateProps,
   ) => ReactElement | null;
-  OptionListTrigger: (props: OptionListTriggerProps) => ReactElement;
+  SelectListTrigger: (props: SelectListTriggerProps) => ReactElement;
 } {
   return {
-    OptionList,
-    OptionListContent,
-    OptionListItem,
-    OptionListItemText,
-    OptionListItemDescription,
-    OptionListItemContent,
-    OptionListItemContentRow,
-    OptionListItemLeading,
-    OptionListSearch,
-    OptionListEmptyState,
-    OptionListTrigger,
+    SelectList,
+    SelectListContent,
+    SelectListItem,
+    SelectListItemText,
+    SelectListItemDescription,
+    SelectListItemContent,
+    SelectListItemContentRow,
+    SelectListItemLeading,
+    SelectListSearch,
+    SelectListEmptyState,
+    SelectListTrigger,
   };
 }
