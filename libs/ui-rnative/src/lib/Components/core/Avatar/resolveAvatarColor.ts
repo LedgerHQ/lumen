@@ -12,8 +12,9 @@ const decorativeBgKey = (key: AvatarColorKey): DecorativeBgKey =>
 
 /**
  * Resolves a stable identifier (e.g. a user id) to one of the avatar pastel
- * colors for the current theme. The same identifier always resolves to the
- * same color.
+ * color keys, then to that key's value in the current theme. The same
+ * identifier always resolves to the same key, but its resolved color value
+ * follows the active theme.
  *
  * Pass the result directly to `<Avatar fallbackColor={useResolveAvatarColor(id)} />`.
  */
