@@ -32,9 +32,9 @@ const useStyles = ({ appearance }: { appearance: Appearance }) => {
     (t) => {
       const bgColors: Record<Appearance, string> = {
         info: t.colors.bg.surface,
-        success: t.colors.bg.success,
-        warning: t.colors.bg.warning,
-        error: t.colors.bg.error,
+        success: t.colors.bg.successTransparent,
+        warning: t.colors.bg.warningTransparent,
+        error: t.colors.bg.errorTransparent,
       };
 
       return {

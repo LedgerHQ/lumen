@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { Box } from '../../primitives';
-import type { MediaImageSize } from '../MediaImage';
-import type { SpotSize } from '../Spot';
 import type { DotSymbolPin, DotSymbolProps, DotSymbolSize } from './types';
 
 const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
@@ -28,27 +26,6 @@ const offsetBySize: Record<DotSymbolSize, number> = {
   20: -3,
   24: -3,
   32: -3,
-};
-
-export const mediaImageDotSizeMap: Record<MediaImageSize, DotSymbolSize> = {
-  12: 8,
-  16: 8,
-  20: 8,
-  24: 10,
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-  64: 24,
-  72: 32,
-};
-
-export const spotDotSizeMap: Record<SpotSize, DotSymbolSize> = {
-  32: 12,
-  40: 16,
-  48: 20,
-  56: 24,
-  72: 32,
 };
 
 const pinAxisMap: Record<DotSymbolPin, [vertical: string, horizontal: string]> =

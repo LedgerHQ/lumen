@@ -9,7 +9,7 @@ import type {
 } from './types';
 
 const tooltipContentVariants = cva(
-  'z-tooltip w-fit rounded-xs bg-interactive px-8 py-4 body-3 text-on-interactive select-none',
+  'z-tooltip w-fit max-w-224 rounded-xs bg-interactive px-8 py-4 body-3 text-on-interactive select-none',
   {
     variants: {
       side: {
@@ -140,14 +140,6 @@ export const TooltipTrigger = ({ ...props }: TooltipTriggerProps) => {
  *
  * <TooltipContent sideOffset={8}>
  *   <p className="text-accent">This tooltip provides helpful information</p>
- * </TooltipContent>
- *
- * // With custom styling for layout
- * <TooltipContent sideOffset={12} className="max-w-xs">
- *   <div className="space-y-2">
- *     <h4 className="heading-2">Tip Title</h4>
- *     <p>Detailed explanation of the feature.</p>
- *   </div>
  * </TooltipContent>
  */
 export const TooltipContent = ({

@@ -124,7 +124,7 @@ export const LongContent: Story = {
         <TooltipTrigger asChild>
           <Button>Hover for details</Button>
         </TooltipTrigger>
-        <TooltipContent className='max-w-192'>
+        <TooltipContent>
           This is a longer tooltip content that demonstrates smooth animations
           even with multi-line content. The tooltip slides in and out based on
           its placement.

@@ -49,9 +49,9 @@ describe('BaseTag', () => {
       ['gray', 'bg-muted-transparent'],
       ['accent', 'bg-accent'],
       ['accent-subtle', 'bg-active-subtle'],
-      ['success', 'bg-success'],
-      ['error', 'bg-error'],
-      ['warning', 'bg-warning'],
+      ['success', 'bg-success-transparent'],
+      ['error', 'bg-error-transparent'],
+      ['warning', 'bg-warning-transparent'],
       ['white', 'bg-white'],
     ];
 

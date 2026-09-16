@@ -45,7 +45,7 @@ Four corner placements are available: `bottom-end` (default), `top-end`, `bottom
 
 ### Sizes
 
-The dot size is driven by the parent MediaImage or Spot size via the mapping helpers `mediaImageDotSizeMap` and `spotDotSizeMap`.
+The dot size is driven by the parent MediaImage or Spot size via the `getDotSymbolProps` helper.
 
 <Canvas of={DotSymbolStories.SizeShowcase} />
 
@@ -106,12 +106,12 @@ Use `shape='square'` to match a square child element:
 The dot size is driven by the parent's size via the mapping helpers:
 
 ```tsx
-import { DotSymbol, mediaImageDotSizeMap, MediaImage } from '@ledgerhq/lumen-ui-rnative';
+import { DotSymbol, getDotSymbolProps, MediaImage } from '@ledgerhq/lumen-ui-rnative';
 
 <DotSymbol
   src='https://example.com/btc.png'
   alt='Bitcoin'
-  size={mediaImageDotSizeMap[48]}
+  {...getDotSymbolProps('mediaImage', 48)}
 >
   <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
 </DotSymbol>;

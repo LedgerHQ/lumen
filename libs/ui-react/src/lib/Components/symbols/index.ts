@@ -60,6 +60,7 @@ export { Clock } from './icons/Clock';
 export { ClockFill } from './icons/ClockFill';
 export { Close } from './icons/Close';
 export { CloudDownload } from './icons/CloudDownload';
+export { CloudSync } from './icons/CloudSync';
 export { CloudUpload } from './icons/CloudUpload';
 export { Code } from './icons/Code';
 export { CodeShield } from './icons/CodeShield';

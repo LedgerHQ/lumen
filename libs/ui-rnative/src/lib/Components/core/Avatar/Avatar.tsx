@@ -1,11 +1,16 @@
 import type { TypographyDefinition } from '@ledgerhq/lumen-design-core';
+import { AVATAR_COLOR_KEYS, capitalize } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
-import { useStyleSheet } from '../../../../styles';
+import {
+  useStyleSheet,
+  useTheme,
+  type LumenStyleSheetTheme,
+} from '../../../../styles';
 import { Box } from '../../primitives';
 import { User } from '../../symbols';
-import type { IconSize } from '../../symbols/Icon';
+import type { IconSize, IconProps } from '../../symbols/Icon';
 import type { AvatarProps } from './types';
 
 type Size = NonNullable<AvatarProps['size']>;
@@ -19,14 +24,28 @@ const fallbackIconSizes: Record<Size, IconSize> = {
   '2xl': 56,
 };
 
+const DECORATIVE_KEYS = AVATAR_COLOR_KEYS.map(capitalize);
+
+const findDecorativeKey = (
+  colors: LumenStyleSheetTheme['colors'],
+  fallbackColor: string | undefined,
+): (typeof DECORATIVE_KEYS)[number] | undefined =>
+  fallbackColor
+    ? DECORATIVE_KEYS.find(
+        (key) => colors.bg[`decorative${key}`] === fallbackColor,
+      )
+    : undefined;
+
 const useStyles = ({
   size,
   fallbackColor,
+  decorativeKey,
   shouldFallback,
   appearance,
 }: {
   size: Size;
   fallbackColor?: string;
+  decorativeKey: (typeof DECORATIVE_KEYS)[number] | undefined;
   shouldFallback: boolean;
   appearance?: 'thin' | 'thick';
 }) => {
@@ -50,6 +69,12 @@ const useStyles = ({
         '2xl': t.typographies.heading1SemiBold,
       };
 
+      const fallbackTextColor = decorativeKey
+        ? t.colors.text[`decorativeStrong${decorativeKey}`]
+        : fallbackColor
+          ? t.colors.text.black
+          : t.colors.text.base;
+
       return {
         root: {
           position: 'relative',
@@ -66,7 +91,7 @@ const useStyles = ({
         },
         fallbackText: {
           ...fallbackTextTypography[size],
-          color: fallbackColor ? t.colors.text.black : t.colors.text.base,
+          color: fallbackTextColor,
         },
         image: {
           position: 'absolute',
@@ -93,19 +118,19 @@ const useStyles = ({
         },
       };
     },
-    [size, fallbackColor, shouldFallback, appearance],
+    [size, fallbackColor, decorativeKey, shouldFallback, appearance],
   );
 };
 
 const FallbackContent = ({
   size,
   fallbackText,
-  fallbackColor,
+  fallbackIconColor,
   styles,
 }: {
   size: Size;
   fallbackText?: string;
-  fallbackColor?: string;
+  fallbackIconColor: IconProps['color'];
   styles: ReturnType<typeof useStyles>;
 }) =>
   fallbackText ? (
@@ -115,7 +140,7 @@ const FallbackContent = ({
   ) : (
     <User
       size={fallbackIconSizes[size]}
-      color={fallbackColor ? 'black' : 'base'}
+      color={fallbackIconColor}
       accessible={false}
       testID='avatar-fallback-icon'
     />
@@ -147,11 +172,19 @@ export const Avatar = ({
   ...props
 }: AvatarProps) => {
   const { t } = useCommonTranslation();
+  const { theme } = useTheme();
   const [error, setError] = useState<boolean>(false);
   const shouldFallback = !src || error;
+  const decorativeKey = findDecorativeKey(theme.colors, fallbackColor);
+  const fallbackIconColor: IconProps['color'] = decorativeKey
+    ? `decorativeStrong${decorativeKey}`
+    : fallbackColor
+      ? 'black'
+      : 'base';
   const styles = useStyles({
     size,
     fallbackColor,
+    decorativeKey,
     shouldFallback,
     appearance,
   });
@@ -175,7 +208,7 @@ export const Avatar = ({
         <FallbackContent
           size={size}
           fallbackText={fallbackText}
-          fallbackColor={fallbackColor}
+          fallbackIconColor={fallbackIconColor}
           styles={styles}
         />
       ) : (

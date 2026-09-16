@@ -51,7 +51,7 @@ The `appearance` prop controls the semantic background color of the dot: `succes
 
 ### Sizes
 
-The dot size is driven by the parent MediaImage or Spot size via the mapping helpers `mediaImageDotIconSizeMap` and `spotDotIconSizeMap`. Allowed sizes are `16`, `20`, and `24`. The icon size is handled internally by the component.
+The dot size is driven by the parent MediaImage or Spot size via the `getDotIconProps` helper. Allowed sizes are `16`, `20`, `24`, and `32`. The icon size is handled internally by the component.
 
 <Canvas of={DotIconStories.SizeShowcase} />
 
@@ -125,12 +125,12 @@ Pick a semantic color via `appearance`:
 The dot size is driven by the parent's size via the mapping helpers:
 
 ```tsx
-import { DotIcon, mediaImageDotIconSizeMap, MediaImage } from '@ledgerhq/lumen-ui-react';
+import { DotIcon, getDotIconProps, MediaImage } from '@ledgerhq/lumen-ui-react';
 
 <DotIcon
   appearance='success'
   icon={ArrowDown}
-  size={mediaImageDotIconSizeMap[48]}
+  {...getDotIconProps('mediaImage', 48)}
 >
   <MediaImage src='https://example.com/ada.png' alt='Cardano' size={48} />
 </DotIcon>;

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Settings, Plus, Heart, Star, CoinAlert } from '../../symbols';
 import type { IconSize } from '../../symbols/Icon';
-import { DotSymbol, spotDotSizeMap } from '../DotSymbol';
+import { DotSymbol, getDotSymbolProps } from '../DotSymbol';
 import { Spot } from './Spot';
 import type { SpotAppearance } from './types';
 
@@ -156,7 +156,7 @@ export const WithDotSymbol: Story = {
         <DotSymbol
           src='https://crypto-icons.ledger.com/BTC.png'
           pin='bottom-end'
-          size={spotDotSizeMap[48]}
+          {...getDotSymbolProps('spot', 48)}
         >
           <Spot appearance='icon' icon={CoinAlert} />
         </DotSymbol>
