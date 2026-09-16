@@ -29,7 +29,7 @@
   },
   "spot-icon-width": {
     "$type": "number",
-    "$value": "{icon-height.16}",
+    "$value": "{icon-width.16}",
     "$description": "",
     "$extensions": {
       "com.figma": {
@@ -57,7 +57,7 @@
   },
   "icon-border-width": {
     "$type": "number",
-    "$value": "{spinner-border-width.16}",
+    "$value": "{icon-border-width.16}",
     "$description": "",
     "$extensions": {
       "com.figma": {
