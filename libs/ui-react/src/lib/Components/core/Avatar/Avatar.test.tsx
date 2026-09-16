@@ -1,9 +1,10 @@
+import { resolveAvatarColorKey } from '@ledgerhq/lumen-utils-shared';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
-
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Avatar } from './Avatar';
+import { resolveAvatarColor } from './resolveAvatarColor';
 
 describe('Avatar Component', () => {
   const validSrc =
@@ -81,6 +82,24 @@ describe('Avatar Component', () => {
     expect(container.firstChild).not.toHaveStyle({
       backgroundColor: '#aed09c',
     });
+  });
+
+  it('should pair a resolveAvatarColor background with its matching decorative text color', () => {
+    const fallbackColor = resolveAvatarColor('user-1');
+    const key = resolveAvatarColorKey('user-1');
+    render(<Avatar fallbackText='AB' fallbackColor={fallbackColor} />);
+
+    const text = screen.getByText('AB');
+    expect(text).toHaveStyle({
+      color: `var(--text-decorative-strong-${key})`,
+    });
+  });
+
+  it('should use black text for an unknown custom fallbackColor', () => {
+    render(<Avatar fallbackText='AB' fallbackColor='#aed09c' />);
+
+    const text = screen.getByText('AB');
+    expect(text).toHaveStyle({ color: 'var(--text-black)' });
   });
 
   it('should render with sm size when specified', () => {

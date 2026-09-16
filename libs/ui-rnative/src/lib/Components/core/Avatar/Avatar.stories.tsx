@@ -1,10 +1,19 @@
 import { AVATAR_COLOR_KEYS } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import type { ComponentProps } from 'react';
 
 import { Box } from '../../primitives';
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Avatar } from './Avatar';
-import { resolveAvatarColor } from '.';
+import { useResolveAvatarColor } from '.';
+
+const FallbackAvatar = ({
+  identifier,
+  ...props
+}: { identifier: string } & Omit<
+  ComponentProps<typeof Avatar>,
+  'fallbackColor'
+>) => <Avatar {...props} fallbackColor={useResolveAvatarColor(identifier)} />;
 
 const meta = {
   component: Avatar,
@@ -75,7 +84,9 @@ export const FallbackShowcase: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Avatar fallbackColor={resolveAvatarColor(user.id)} alt={user.name} />`,
+        code: `function UserAvatar({ user }) {
+  return <Avatar fallbackColor={useResolveAvatarColor(user.id)} alt={user.name} />;
+}`,
       },
     },
   },
@@ -83,9 +94,9 @@ export const FallbackShowcase: Story = {
     <Box lx={{ gap: 's16' }}>
       <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
         {AVATAR_COLOR_KEYS.map((_, i) => (
-          <Avatar
+          <FallbackAvatar
             key={i}
-            fallbackColor={resolveAvatarColor(`user-${i}`)}
+            identifier={`user-${i}`}
             fallbackText={getInitials(i)}
             alt={getInitials(i)}
           />
@@ -94,11 +105,7 @@ export const FallbackShowcase: Story = {
       </Box>
       <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
         {AVATAR_COLOR_KEYS.map((_, i) => (
-          <Avatar
-            key={i}
-            fallbackColor={resolveAvatarColor(`user-${i}`)}
-            alt={`User ${i}`}
-          />
+          <FallbackAvatar key={i} identifier={`user-${i}`} alt={`User ${i}`} />
         ))}
         <Avatar />
       </Box>

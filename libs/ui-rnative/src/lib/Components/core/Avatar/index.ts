@@ -1,3 +1,3 @@
 export * from './Avatar';
-export { resolveAvatarColor } from './resolveAvatarColor';
+export { useResolveAvatarColor } from './useResolveAvatarColor';
 export * from './types';

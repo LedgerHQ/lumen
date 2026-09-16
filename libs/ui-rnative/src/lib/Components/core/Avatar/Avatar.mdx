@@ -100,13 +100,17 @@ function MyComponent() {
 Use `fallbackText` for initials and `fallbackColor` for a stable per-user background:
 
 ```tsx
-import { Avatar, resolveAvatarColor } from '@ledgerhq/lumen-ui-rnative';
+import { Avatar, useResolveAvatarColor } from '@ledgerhq/lumen-ui-rnative';
 
-<Avatar
-  fallbackColor={resolveAvatarColor(user.id)}
-  fallbackText={user.initials}
-  alt={user.name}
-/>;
+function UserAvatar({ user }) {
+  return (
+    <Avatar
+      fallbackColor={useResolveAvatarColor(user.id)}
+      fallbackText={user.initials}
+      alt={user.name}
+    />
+  );
+}
 ```
 
 ## With Notification

@@ -3,9 +3,18 @@ import {
   Avatar,
   DotIndicator,
   getDotIndicatorProps,
-  resolveAvatarColor,
+  useResolveAvatarColor,
 } from '@ledgerhq/lumen-ui-rnative';
 import { AVATAR_COLOR_KEYS } from '@ledgerhq/lumen-utils-shared';
+import type { ComponentProps } from 'react';
+
+const FallbackAvatar = ({
+  identifier,
+  ...props
+}: { identifier: string } & Omit<
+  ComponentProps<typeof Avatar>,
+  'fallbackColor'
+>) => <Avatar {...props} fallbackColor={useResolveAvatarColor(identifier)} />;
 
 const exampleSrc =
   'https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
@@ -41,9 +50,9 @@ export default function Avatars() {
 
       <Box lx={{ flexDirection: 'row', gap: 's8', flexWrap: 'wrap' }}>
         {AVATAR_COLOR_KEYS.map((_, i) => (
-          <Avatar
+          <FallbackAvatar
             key={i}
-            fallbackColor={resolveAvatarColor(`user-${i}`)}
+            identifier={`user-${i}`}
             fallbackText={
               String.fromCharCode(65 + i) + String.fromCharCode(66 + i)
             }
