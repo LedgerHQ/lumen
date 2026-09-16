@@ -13,12 +13,36 @@ const iconMap = {
 const meta = {
   id: 'rnative-menulist',
   title: 'Core/MenuList',
-  component: MenuListItem,
-  subcomponents: { MenuList },
+  component: MenuList,
+  subcomponents: { MenuListItem },
   parameters: {
     docs: {
       source: { language: 'tsx', format: true, type: 'dynamic' },
     },
+  },
+} satisfies Meta<typeof MenuList>;
+
+export default meta;
+type Story = StoryObj<typeof MenuList>;
+
+export const Base: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  render: () => (
+    <Box lx={{ width: 's320' }}>
+      <MenuList>
+        <MenuListItem label='Unlink device' appearance='base' icon={Unlink} />
+      </MenuList>
+    </Box>
+  ),
+};
+
+export const ItemShowcase: StoryObj<typeof MenuListItem> = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
   },
   argTypes: {
     icon: {
@@ -27,16 +51,6 @@ const meta = {
       control: { type: 'select' },
     },
     onPress: { action: 'pressed' },
-  },
-} satisfies Meta<typeof MenuListItem>;
-
-export default meta;
-type Story = StoryObj<typeof MenuListItem>;
-
-export const Base: Story = {
-  parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
   },
   args: {
     label: 'Unlink device',
