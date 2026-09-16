@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Dollar icon component for React Native.
+ * DollarFill icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,38 +15,28 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Dollar } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { DollarFill } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Dollar />
+ * <DollarFill />
  *
  * @example
  * // With custom size and style
- * <Dollar size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <DollarFill size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Dollar} size="md">
+ * <Button icon={DollarFill} size="md">
  *   Click me
  * </Button>
  */
-export const Dollar = createIcon(
-  'Dollar',
+export const DollarFill = createIcon(
+  'DollarFill',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth={1.3}
-      d='M3.522 3.515a6.333 6.333 0 1 1 8.956 8.957 6.333 6.333 0 0 1-8.956-8.957'
-    />
-    <Path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth={1.3}
-      d='M8.02 4.103v.974m0 6.82v-.974M9.951 6.44A1.457 1.457 0 0 0 8.5 5.077H7.433c-.756 0-1.372.608-1.372 1.364 0 .624.427 1.17 1.03 1.325l1.825.452a1.35 1.35 0 0 1 1.029 1.325c0 .756-.616 1.364-1.372 1.364H7.505c-.779 0-1.402-.608-1.457-1.372'
+      fill='currentColor'
+      d='M8.127 1.019a6.982 6.982 0 1 1 0 13.963 6.982 6.982 0 0 1 0-13.963m-.116 2.434a.65.65 0 0 0-.65.65v.328a2.015 2.015 0 0 0-1.958 2.01c0 .923.63 1.725 1.516 1.955l.007.001 1.826.453h.002c.31.075.533.354.533.693 0 .392-.32.713-.722.714H7.497a.815.815 0 0 1-.809-.768.65.65 0 0 0-1.296.093 2.114 2.114 0 0 0 1.97 1.968v.348a.65.65 0 0 0 1.3 0v-.346a2.015 2.015 0 0 0 .4-3.965H9.06l-1.819-.45a.724.724 0 0 1-.539-.696c0-.392.32-.713.722-.713h1.068c.422 0 .772.327.803.76a.65.65 0 0 0 1.296-.092 2.11 2.11 0 0 0-1.93-1.96v-.332a.65.65 0 0 0-.651-.65'
     />
   </Svg>,
 );
