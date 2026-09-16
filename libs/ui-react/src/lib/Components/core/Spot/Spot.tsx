@@ -75,18 +75,7 @@ const spotVariants = cva(
  * <Spot appearance="bluetooth" disabled />
  */
 export const Spot = (props: SpotProps) => {
-  const {
-    appearance,
-    className,
-    disabled: disabledProp = false,
-    size = 48,
-    ref,
-    ...rest
-  } = props;
-  const disabled = useDisabledContext({
-    consumerName: 'Spot',
-    mergeWith: { disabled: disabledProp },
-  });
+  const requestedSize = props.size ?? 48;
 
   const sizeMap: Record<SpotSize, IconSize> = {
     32: 12,
@@ -104,34 +93,59 @@ export const Spot = (props: SpotProps) => {
     72: 'heading-2',
   };
 
-  const calculatedIconSize = sizeMap[size] ?? 20;
-  const calculatedNumberTypography = numberTypographyMap[size] ?? 'heading-5';
+  const calculatedIconSize = sizeMap[requestedSize] ?? 20;
+  const calculatedNumberTypography =
+    numberTypographyMap[requestedSize] ?? 'heading-5';
 
-  const content = useMemo(() => {
-    switch (props.appearance) {
-      case 'icon': {
-        const { icon: Icon } = props;
-        return <Icon size={calculatedIconSize} />;
-      }
-      case 'number': {
-        return (
-          <span className={calculatedNumberTypography}>{props.number}</span>
-        );
-      }
-      case 'bluetooth':
-        return <BluetoothCircleFill size={calculatedIconSize} />;
-      case 'check':
-        return <CheckmarkCircleFill size={calculatedIconSize} />;
-      case 'error':
-        return <DeleteCircleFill size={calculatedIconSize} />;
-      case 'warning':
-        return <WarningFill size={calculatedIconSize} />;
-      case 'info':
-        return <InformationFill size={calculatedIconSize} />;
-      case 'loader':
-        return <Spinner size={calculatedIconSize} />;
+  const { componentProps, content } = useMemo(() => {
+    if (props.appearance === 'icon') {
+      const { icon: Icon, ...componentProps } = props;
+      return {
+        componentProps,
+        content: <Icon size={calculatedIconSize} />,
+      };
     }
+
+    if (props.appearance === 'number') {
+      const { number, ...componentProps } = props;
+      return {
+        componentProps,
+        content: <span className={calculatedNumberTypography}>{number}</span>,
+      };
+    }
+
+    const content = (() => {
+      switch (props.appearance) {
+        case 'bluetooth':
+          return <BluetoothCircleFill size={calculatedIconSize} />;
+        case 'check':
+          return <CheckmarkCircleFill size={calculatedIconSize} />;
+        case 'error':
+          return <DeleteCircleFill size={calculatedIconSize} />;
+        case 'warning':
+          return <WarningFill size={calculatedIconSize} />;
+        case 'info':
+          return <InformationFill size={calculatedIconSize} />;
+        case 'loader':
+          return <Spinner size={calculatedIconSize} />;
+      }
+    })();
+
+    return { componentProps: props, content };
   }, [props, calculatedIconSize, calculatedNumberTypography]);
+
+  const {
+    appearance,
+    className,
+    disabled: disabledProp = false,
+    size = 48,
+    ref,
+    ...rest
+  } = componentProps;
+  const disabled = useDisabledContext({
+    consumerName: 'Spot',
+    mergeWith: { disabled: disabledProp },
+  });
 
   return (
     <div
