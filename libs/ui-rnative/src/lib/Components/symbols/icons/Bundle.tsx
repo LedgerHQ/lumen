@@ -37,7 +37,6 @@ export const Bundle = createIcon(
     <Path
       stroke='currentColor'
       strokeLinecap='round'
-      strokeWidth={1.3}
       d='M9.6 3.2h.8a.8.8 0 0 1 .8.8v8a.8.8 0 0 1-.8.8h-.8m3.6-9.6h.8a.8.8 0 0 1 .8.8v8a.8.8 0 0 1-.8.8h-.8m-10.8 0h4.4a.8.8 0 0 0 .8-.8V4a.8.8 0 0 0-.8-.8H2.4a.8.8 0 0 0-.8.8v8a.8.8 0 0 0 .8.8Z'
     />
   </Svg>,

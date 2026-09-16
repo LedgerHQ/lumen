@@ -37,7 +37,6 @@ export const ChevronDown = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M5.333 6.667 8 9.333l2.667-2.666'
     />
   </svg>,

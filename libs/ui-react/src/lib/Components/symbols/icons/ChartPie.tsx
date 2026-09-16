@@ -37,14 +37,12 @@ export const ChartPie = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M7 4C4.233 4 2 6.233 2 9c0 2.76 2.233 5 5 5 2.76 0 5-2.24 5-5H7z'
     />
     <path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M14 6.667A4.667 4.667 0 0 0 9.333 2v4.667z'
     />
   </svg>,

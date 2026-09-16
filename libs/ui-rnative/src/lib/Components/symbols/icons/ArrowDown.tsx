@@ -38,7 +38,6 @@ export const ArrowDown = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8 12.667V3.333m3.334 5.994-3.34 3.333-3.34-3.34'
     />
   </Svg>,

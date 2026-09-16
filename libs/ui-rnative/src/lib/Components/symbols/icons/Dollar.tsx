@@ -38,14 +38,12 @@ export const Dollar = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M3.522 3.515a6.333 6.333 0 1 1 8.956 8.957 6.333 6.333 0 0 1-8.956-8.957'
     />
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8.02 4.103v.974m0 6.82v-.974M9.951 6.44A1.457 1.457 0 0 0 8.5 5.077H7.433c-.756 0-1.372.608-1.372 1.364 0 .624.427 1.17 1.03 1.325l1.825.452a1.35 1.35 0 0 1 1.029 1.325c0 .756-.616 1.364-1.372 1.364H7.505c-.779 0-1.402-.608-1.457-1.372'
     />
   </Svg>,

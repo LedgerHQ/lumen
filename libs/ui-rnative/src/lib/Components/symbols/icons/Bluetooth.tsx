@@ -38,7 +38,6 @@ export const Bluetooth = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M4 11.333 11.333 5l-4-3v12l4-3L4 4.667'
     />
   </Svg>,

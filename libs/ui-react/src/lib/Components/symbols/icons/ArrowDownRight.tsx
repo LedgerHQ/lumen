@@ -37,7 +37,6 @@ export const ArrowDownRight = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M11.3 11.3 4.7 4.7m6.6 1.88v4.715l-4.72-.006'
     />
   </svg>,

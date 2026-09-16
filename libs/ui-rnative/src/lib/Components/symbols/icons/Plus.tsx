@@ -38,7 +38,6 @@ export const Plus = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M3.333 8h9.334M8 12.667V3.333'
     />
   </Svg>,

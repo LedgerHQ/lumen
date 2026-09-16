@@ -38,7 +38,6 @@ export const Bank = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M9.762 6.667V12m2.905 0V6.667m-9.334 0V12m2.905 0V6.667m7.762 0H2V4.663L8.101 2 14 4.574zM2 14h12v-.667L13.333 12H2.667L2 13.333z'
     />
   </Svg>,

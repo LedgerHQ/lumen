@@ -37,7 +37,6 @@ export const ExpandRight = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M9.667 9.333 11 8 9.667 6.667M8.667 2h2A3.333 3.333 0 0 1 14 5.333v5.334A3.333 3.333 0 0 1 10.667 14h-2m-2 0V2H5.333A3.333 3.333 0 0 0 2 5.333v5.334A3.333 3.333 0 0 0 5.333 14z'
     />
   </svg>,

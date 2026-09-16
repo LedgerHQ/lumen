@@ -37,7 +37,6 @@ export const Merge = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M4.332 5.332a1.667 1.667 0 1 0 0-3.334 1.667 1.667 0 0 0 0 3.334m0 0v5.336m7.336-5.336a1.667 1.667 0 1 0 0-3.334 1.667 1.667 0 0 0 0 3.334m0 0V6a1.667 1.667 0 0 1-1.667 1.668H5.999c-.92 0-1.667.746-1.667 1.667v1.334m0 0a1.667 1.667 0 1 0 0 3.334 1.667 1.667 0 0 0 0-3.334'
     />
   </svg>,

@@ -37,14 +37,12 @@ export const ChevronAscending = createIcon(
       stroke='#D5D5D5'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M5.333 10 8 12.667 10.667 10'
     />
     <path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M5.333 6 8 3.333 10.667 6'
     />
   </svg>,

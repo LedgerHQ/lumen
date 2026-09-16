@@ -38,7 +38,6 @@ export const ChevronBigRight = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m5.003 2 5.994 6.018-6 5.982'
     />
   </Svg>,

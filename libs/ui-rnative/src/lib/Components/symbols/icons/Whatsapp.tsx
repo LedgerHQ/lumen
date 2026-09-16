@@ -44,7 +44,6 @@ export const Whatsapp = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m4.578 13.324-1.798.3a.352.352 0 0 1-.405-.404l.3-1.798a6.345 6.345 0 1 1 1.903 1.902'
       clipRule='evenodd'
     />

@@ -38,7 +38,6 @@ export const Fire = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m4.132 5.04 2.322-2.71 2.503 2.921 1.62-1.89 1.291 1.507a5.34 5.34 0 0 1 1.286 3.476v.171A5.154 5.154 0 0 1 8 13.67v0a5.154 5.154 0 0 1-5.154-5.154v0A5.34 5.34 0 0 1 4.132 5.04'
       clipRule='evenodd'
     />

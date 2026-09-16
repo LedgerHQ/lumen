@@ -37,14 +37,12 @@ export const DeleteStop = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m12.243 3.757-8.487 8.48 8.48-8.486z'
     />
     <path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8 2C4.68 2 2 4.686 2 8a6 6 0 1 0 12 0c0-3.32-2.686-6-6-6'
     />
   </svg>,

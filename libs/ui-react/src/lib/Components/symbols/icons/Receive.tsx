@@ -37,7 +37,6 @@ export const Receive = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8 11.333V2m5.333 12H2.667m8.666-6L8 11.334 4.666 8'
     />
   </svg>,

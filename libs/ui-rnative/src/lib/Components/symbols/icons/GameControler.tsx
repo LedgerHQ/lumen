@@ -38,7 +38,6 @@ export const GameControler = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m10.664 3.342-.512 1.535a.67.67 0 0 1-.633.456H6.48a.67.67 0 0 1-.632-.456l-.512-1.535M5.84 10 4.8 11.753a1.864 1.864 0 0 1-3.426-1.337l.94-4.44a3.33 3.33 0 0 1 3.262-2.643h4.846a3.33 3.33 0 0 1 3.261 2.642l.941 4.441a1.864 1.864 0 0 1-3.427 1.337L10.16 10z'
     />
   </Svg>,

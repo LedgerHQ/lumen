@@ -37,7 +37,6 @@ export const Switch = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M11 11a3 3 0 0 1 0-6m0 6a3 3 0 0 0 0-6m0 6H5a3 3 0 0 1 0-6h6'
     />
   </svg>,

@@ -37,7 +37,6 @@ export const PenEditWriting = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m10.334 6.333-2-2.001m5.669 7.67-.73.73a2.064 2.064 0 0 1-2.918 0 2.07 2.07 0 0 0-2.919 0m4.152-9.653a1.415 1.415 0 0 1 0 2L4.927 11.74c-.171.171-.385.292-.62.351l-2.31.578.578-2.31c.059-.235.18-.449.35-.62l6.662-6.66a1.415 1.415 0 0 1 2 0'
     />
   </svg>,

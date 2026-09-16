@@ -38,7 +38,6 @@ export const CurveUp = createIcon(
       strokeDasharray='1 2.2'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M1.52 4.208H10.2'
     />
     <path
@@ -46,22 +45,14 @@ export const CurveUp = createIcon(
       strokeDasharray='1 2'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M13.235 4.207h2.393'
     />
     <path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M2.264 13.901c-.108-1.203.447-3.305 3.236-3.932 2.719-.611 5.44-1.397 5.912-4.106'
     />
-    <circle
-      cx={11.71}
-      cy={4.207}
-      r={1.458}
-      stroke='currentColor'
-      strokeWidth={1.3}
-    />
+    <circle cx={11.71} cy={4.207} r={1.458} stroke='currentColor' />
   </svg>,
 );

@@ -38,7 +38,6 @@ export const SubArrow = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M13.317 10.016H5.984c-1.833 0-3.333-1.465-3.333-3.257v.02-3.43m7.968 9.366 2.698-2.699-2.698-2.699'
     />
   </Svg>,

@@ -37,7 +37,6 @@ export const Minimize = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M10.167 13.833V11.5c0-.737.596-1.333 1.333-1.333h2.333m-8-8V4.5c0 .737-.596 1.333-1.333 1.333H2.167m11.666 0H11.5A1.333 1.333 0 0 1 10.167 4.5V2.167m-8 8H4.5c.737 0 1.333.596 1.333 1.333v2.333'
     />
   </svg>,

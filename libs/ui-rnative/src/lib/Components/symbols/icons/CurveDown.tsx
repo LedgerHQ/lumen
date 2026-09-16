@@ -39,7 +39,6 @@ export const CurveDown = createIcon(
       strokeDasharray='1 2.2'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M1.52 11.793H10.2'
     />
     <Path
@@ -47,14 +46,12 @@ export const CurveDown = createIcon(
       strokeDasharray='1 2'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M13.235 11.793h2.393'
     />
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M2.264 2.099C2.156 3.302 2.711 5.404 5.5 6.03c2.719.611 5.44 1.397 5.912 4.106'
     />
     <Circle
@@ -62,7 +59,6 @@ export const CurveDown = createIcon(
       cy={2.108}
       r={1.458}
       stroke='currentColor'
-      strokeWidth={1.3}
       transform='matrix(1 0 0 -1 9.601 13.901)'
     />
   </Svg>,

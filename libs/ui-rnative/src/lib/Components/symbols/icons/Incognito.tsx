@@ -38,7 +38,6 @@ export const Incognito = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m3.958 6 .481-2.888a1.335 1.335 0 0 1 1.316-1.114h4.41c.652 0 1.208.471 1.315 1.114l.482 2.887m-5.145 6.003a2 2 0 1 1-4.002 0 2 2 0 0 1 4.002 0m0 0c.632-.763 1.655-.763 2.287 0m0 0a2 2 0 1 0 4.002 0 2 2 0 0 0-4.002 0M1.998 8.667c3.315-1.779 8.69-1.779 12.005 0'
     />
   </Svg>,
