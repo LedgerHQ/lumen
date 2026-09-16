@@ -6,7 +6,7 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { renderHook } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { useResolveAvatarColor } from './resolveAvatarColor';
+import { useResolveAvatarColor } from './useResolveAvatarColor';
 
 const decorativeBgKeyFor = (identifier: string): string =>
   `decorative${capitalize(resolveAvatarColorKey(identifier))}`;
