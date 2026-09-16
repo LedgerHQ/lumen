@@ -28,13 +28,13 @@ describe('Banner Component', () => {
     expect(container.firstChild).toHaveClass('bg-surface');
 
     rerender(<Banner title='Success Banner' appearance='success' />);
-    expect(container.firstChild).toHaveClass('bg-success');
+    expect(container.firstChild).toHaveClass('bg-success-transparent');
 
     rerender(<Banner title='Warning Banner' appearance='warning' />);
-    expect(container.firstChild).toHaveClass('bg-warning');
+    expect(container.firstChild).toHaveClass('bg-warning-transparent');
 
     rerender(<Banner title='Error Banner' appearance='error' />);
-    expect(container.firstChild).toHaveClass('bg-error');
+    expect(container.firstChild).toHaveClass('bg-error-transparent');
   });
 
   it('should render primary action button', () => {

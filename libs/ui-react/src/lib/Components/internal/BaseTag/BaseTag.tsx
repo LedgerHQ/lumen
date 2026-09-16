@@ -11,9 +11,9 @@ const baseTagVariants = cva(
         gray: 'bg-muted-transparent text-muted',
         accent: 'bg-accent text-on-accent',
         'accent-subtle': 'bg-active-subtle text-active',
-        success: 'bg-success text-success',
-        error: 'bg-error text-error',
-        warning: 'bg-warning text-warning',
+        success: 'bg-success-transparent text-success',
+        error: 'bg-error-transparent text-error',
+        warning: 'bg-warning-transparent text-warning',
         white: 'bg-white text-black',
       },
       size: {

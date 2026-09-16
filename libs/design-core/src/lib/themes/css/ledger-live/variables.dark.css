@@ -82,14 +82,21 @@
   --color-background-active-subtle-website-pressed: var(
     --color-dark-purple-200
   );
-  --color-background-error: var(--color-dark-red-600-15);
-  --color-background-error-hover: var(--color-dark-red-600-30);
-  --color-background-error-pressed: var(--color-dark-red-600-40);
+  --color-background-error-transparent: var(--color-dark-red-600-15);
+  --color-background-error-transparent-hover: var(--color-dark-red-600-30);
+  --color-background-error-transparent-pressed: var(--color-dark-red-600-40);
+  --color-background-error: var(--color-dark-red-300);
   --color-background-error-strong: var(--color-dark-red-600);
   --color-background-error-transparent-0: var(--color-dark-red-600-0);
-  --color-background-warning: var(--color-dark-yellow-600-15);
+  --color-background-warning-transparent: var(--color-dark-yellow-600-15);
+  --color-background-warning: var(--color-dark-yellow-300);
   --color-background-warning-strong: var(--color-dark-yellow-600);
-  --color-background-success: var(--color-dark-green-600-15);
+  --color-background-success-transparent: var(--color-dark-green-600-15);
+  --color-background-success-transparent-hover: var(--color-dark-green-600-30);
+  --color-background-success-transparent-pressed: var(
+    --color-dark-green-600-40
+  );
+  --color-background-success: var(--color-dark-green-300);
   --color-background-success-strong: var(--color-dark-green-600);
   --color-background-success-transparent-0: var(--color-dark-green-600-0);
   --color-background-gradient-100: var(--color-dark-grey-050);
@@ -101,16 +108,16 @@
   --color-background-gradient-0: var(--color-dark-grey-050-0);
   --color-background-gradient-overlay-80: var(--color-dark-grey-050-80);
   --color-background-gradient-overlay-0: var(--color-dark-grey-050-0);
-  --color-background-decorative-blue: var(--color-dark-decorative-blue);
-  --color-background-decorative-pink: var(--color-dark-decorative-pink);
+  --color-background-decorative-blue: var(--color-dark-decorative-blue-400);
+  --color-background-decorative-pink: var(--color-dark-decorative-pink-400);
   --color-background-decorative-turquoise: var(
-    --color-dark-decorative-turquoise
+    --color-dark-decorative-turquoise-400
   );
-  --color-background-decorative-yellow: var(--color-dark-decorative-yellow);
-  --color-background-decorative-orange: var(--color-dark-decorative-orange);
-  --color-background-decorative-red: var(--color-dark-decorative-red);
-  --color-background-decorative-green: var(--color-dark-decorative-green);
-  --color-background-decorative-purple: var(--color-dark-decorative-purple);
+  --color-background-decorative-yellow: var(--color-dark-decorative-yellow-400);
+  --color-background-decorative-orange: var(--color-dark-decorative-orange-400);
+  --color-background-decorative-red: var(--color-dark-decorative-red-400);
+  --color-background-decorative-green: var(--color-dark-decorative-green-400);
+  --color-background-decorative-purple: var(--color-dark-decorative-purple-400);
   --color-text-black: var(--color-dark-constant-950);
   --color-text-white: var(--color-dark-constant-050);
   --color-text-white-hover: var(--color-dark-constant-200);
@@ -137,8 +144,14 @@
   --color-text-interactive-websites-hover: var(--color-dark-purple-500);
   --color-text-interactive-websites-pressed: var(--color-dark-purple-600);
   --color-text-error: var(--color-dark-red-600);
+  --color-text-error-strong: var(--color-dark-red-700);
+  --color-text-error-on-interactive: var(--color-dark-red-300);
   --color-text-warning: var(--color-dark-yellow-600);
+  --color-text-warning-strong: var(--color-dark-yellow-800);
+  --color-text-warning-on-interactive: var(--color-dark-yellow-300);
   --color-text-success: var(--color-dark-green-600);
+  --color-text-success-strong: var(--color-dark-green-700);
+  --color-text-success-on-interactive: var(--color-dark-green-300);
   --color-text-on-accent-ledger-live: var(--color-dark-grey-050);
   --color-text-on-accent-enterprise: var(--color-dark-grey-950);
   --color-text-on-accent-websites: var(--color-dark-grey-050);
@@ -146,6 +159,30 @@
   --color-text-on-error-strong: var(--color-dark-grey-050);
   --color-text-on-warning-strong: var(--color-dark-grey-050);
   --color-text-on-success-strong: var(--color-dark-grey-050);
+  --color-text-decorative-orange: var(--color-dark-decorative-orange-500);
+  --color-text-decorative-green: var(--color-dark-decorative-green-500);
+  --color-text-decorative-blue: var(--color-dark-decorative-blue-500);
+  --color-text-decorative-purple: var(--color-dark-decorative-purple-500);
+  --color-text-decorative-red: var(--color-dark-decorative-red-400);
+  --color-text-decorative-yellow: var(--color-dark-decorative-yellow-500);
+  --color-text-decorative-turquoise: var(--color-dark-decorative-turquoise-500);
+  --color-text-decorative-pink: var(--color-dark-decorative-pink-500);
+  --color-text-decorative-strong-orange: var(
+    --color-dark-decorative-orange-800
+  );
+  --color-text-decorative-strong-green: var(--color-dark-decorative-green-800);
+  --color-text-decorative-strong-blue: var(--color-dark-decorative-blue-800);
+  --color-text-decorative-strong-purple: var(
+    --color-dark-decorative-purple-800
+  );
+  --color-text-decorative-strong-red: var(--color-dark-decorative-red-800);
+  --color-text-decorative-strong-yellow: var(
+    --color-dark-decorative-yellow-800
+  );
+  --color-text-decorative-strong-turquoise: var(
+    --color-dark-decorative-turquoise-800
+  );
+  --color-text-decorative-strong-pink: var(--color-dark-decorative-pink-800);
   --color-border-black: var(--color-dark-constant-950);
   --color-border-white: var(--color-dark-constant-050);
   --color-border-base: var(--color-dark-grey-950);
@@ -402,9 +439,6 @@
   --background-muted: var(--color-background-muted-default);
   --background-muted-hover: var(--color-background-muted-hover);
   --background-muted-pressed: var(--color-background-muted-pressed);
-  --background-muted-transparent-0: var(
-    --color-background-muted-transparent-0-default
-  );
   --background-muted-transparent: var(
     --color-background-muted-transparent-default
   );
@@ -416,6 +450,9 @@
   );
   --background-muted-transparent-disabled: var(
     --color-background-muted-transparent-disabled
+  );
+  --background-muted-transparent-0: var(
+    --color-background-muted-transparent-0-default
   );
   --background-muted-strong: var(--color-background-muted-strong-default);
   --background-muted-strong-hover: var(--color-background-muted-strong-hover);
@@ -431,19 +468,38 @@
   --background-interactive-hover: var(--color-background-interactive-hover);
   --background-interactive-pressed: var(--color-background-interactive-pressed);
   --background-error: var(--color-background-error-default);
-  --background-error-hover: var(--color-background-error-hover);
-  --background-error-pressed: var(--color-background-error-pressed);
-  --background-error-strong: var(--color-background-error-strong-default);
+  --background-error-transparent: var(
+    --color-background-error-transparent-default
+  );
+  --background-error-transparent-hover: var(
+    --color-background-error-transparent-hover
+  );
+  --background-error-transparent-pressed: var(
+    --color-background-error-transparent-pressed
+  );
   --background-error-transparent-0: var(
     --color-background-error-transparent-0-default
   );
+  --background-error-strong: var(--color-background-error-strong-default);
   --background-warning: var(--color-background-warning-default);
-  --background-warning-strong: var(--color-background-warning-strong-default);
-  --background-success: var(--color-background-success-default);
-  --background-success-strong: var(--color-background-success-strong-default);
+  --background-warning-transparent: var(
+    --color-background-warning-transparent-default
+  );
   --background-success-transparent-0: var(
     --color-background-success-transparent-0-default
   );
+  --background-warning-strong: var(--color-background-warning-strong-default);
+  --background-success: var(--color-background-success-default);
+  --background-success-transparent: var(
+    --color-background-success-transparent-default
+  );
+  --background-success-transparent-hover: var(
+    --color-background-success-transparent-hover
+  );
+  --background-success-transparent-pressed: var(
+    --color-background-success-transparent-pressed
+  );
+  --background-success-strong: var(--color-background-success-strong-default);
   --background-active: var(--color-background-active-ledger-live-default);
   --background-active-hover: var(--color-background-active-ledger-live-hover);
   --background-active-pressed: var(
@@ -495,13 +551,41 @@
   --text-interactive-hover: var(--color-text-interactive-ledger-live-hover);
   --text-interactive-pressed: var(--color-text-interactive-ledger-live-pressed);
   --text-error: var(--color-text-error-default);
+  --text-error-strong: var(--color-text-error-strong-default);
+  --text-error-on-interactive: var(--color-text-error-on-interactive-default);
   --text-warning: var(--color-text-warning-default);
+  --text-warning-strong: var(--color-text-warning-strong-default);
+  --text-warning-on-interactive: var(
+    --color-text-warning-on-interactive-default
+  );
   --text-success: var(--color-text-success-default);
+  --text-success-strong: var(--color-text-success-strong-default);
+  --text-success-on-interactive: var(
+    --color-text-success-on-interactive-default
+  );
   --text-on-accent: var(--color-text-on-accent-ledger-live-default);
   --text-on-interactive: var(--color-text-on-interactive-default);
   --text-on-error-strong: var(--color-text-on-error-strong-default);
   --text-on-warning-strong: var(--color-text-on-warning-strong-default);
   --text-on-success-strong: var(--color-text-on-success-strong-default);
+  --text-decorative-orange: var(--color-text-decorative-orange);
+  --text-decorative-green: var(--color-text-decorative-green);
+  --text-decorative-blue: var(--color-text-decorative-blue);
+  --text-decorative-purple: var(--color-text-decorative-purple);
+  --text-decorative-red: var(--color-text-decorative-red);
+  --text-decorative-yellow: var(--color-text-decorative-yellow);
+  --text-decorative-turquoise: var(--color-text-decorative-turquoise);
+  --text-decorative-pink: var(--color-text-decorative-pink);
+  --text-decorative-strong-orange: var(--color-text-decorative-strong-orange);
+  --text-decorative-strong-green: var(--color-text-decorative-strong-green);
+  --text-decorative-strong-blue: var(--color-text-decorative-strong-blue);
+  --text-decorative-strong-purple: var(--color-text-decorative-strong-purple);
+  --text-decorative-strong-red: var(--color-text-decorative-strong-red);
+  --text-decorative-strong-yellow: var(--color-text-decorative-strong-yellow);
+  --text-decorative-strong-turquoise: var(
+    --color-text-decorative-strong-turquoise
+  );
+  --text-decorative-strong-pink: var(--color-text-decorative-strong-pink);
   --border-black: var(--color-border-black-default);
   --border-white: var(--color-border-white-default);
   --border-disabled: var(--color-border-disabled-default);

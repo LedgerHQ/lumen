@@ -55,7 +55,7 @@ const useStyles = ({
         accent: t.colors.bg.accent,
         transparent: t.colors.bg.mutedTransparent,
         'no-background': 'transparent',
-        red: t.colors.bg.error,
+        red: t.colors.bg.errorTransparent,
       };
 
       const pressedBgColors: Record<Appearance, string> = {
@@ -64,7 +64,7 @@ const useStyles = ({
         accent: t.colors.bg.accentPressed,
         transparent: t.colors.bg.mutedTransparentPressed,
         'no-background': t.colors.bg.baseTransparentPressed,
-        red: t.colors.bg.errorPressed,
+        red: t.colors.bg.errorTransparentPressed,
       };
 
       const textColors: Record<Appearance, string> = {
