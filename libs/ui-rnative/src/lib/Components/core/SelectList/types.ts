@@ -8,10 +8,10 @@ import type { SearchInputProps } from '../SearchInput';
 
 export type MetaShape = Record<string, unknown>;
 
-export type OptionListValue = string;
+export type SelectListValue = string;
 
-export type OptionListItemData<
-  T extends OptionListValue = OptionListValue,
+export type SelectListItemData<
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 > = {
   /** Unique string identifier for this item, used for selection tracking. */
@@ -37,34 +37,34 @@ export type OptionListItemData<
 };
 
 /** Internal type -- used by sub-components to read shared state from context. */
-export type OptionListContextValue = {
+export type SelectListContextValue = {
   selectedValue: string | null;
   onValueChange: (value: string | null) => void;
   isGrouped: boolean;
-  groups: OptionListItemGroup[];
-  flatItems: OptionListItemData[];
+  groups: SelectListItemGroup[];
+  flatItems: SelectListItemData[];
   resolvedSearchValue: string;
   handleSearchValueChange: (value: string) => void;
 };
 
 /** Internal type -- consumers never construct this directly. */
-export type OptionListItemGroup<
-  T extends OptionListValue = OptionListValue,
+export type SelectListItemGroup<
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 > = {
   label: string;
-  items: OptionListItemData<T, TMeta>[];
+  items: SelectListItemData<T, TMeta>[];
 };
 
-export type OptionListProps<
-  T extends OptionListValue = OptionListValue,
+export type SelectListProps<
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 > = {
   /**
    * Flat array of items.
    * Use the `group` field on each item for automatic grouping.
    */
-  items: OptionListItemData<T, TMeta>[];
+  items: SelectListItemData<T, TMeta>[];
   /**
    * The controlled selected value.
    */
@@ -87,12 +87,12 @@ export type OptionListProps<
    */
   filter?:
     | null
-    | ((item: OptionListItemData<T, TMeta>, query: string) => boolean);
+    | ((item: SelectListItemData<T, TMeta>, query: string) => boolean);
   /**
    * Pre-filtered items for async/remote search.
    * Bypasses internal filtering.
    */
-  filteredItems?: OptionListItemData<T, TMeta>[];
+  filteredItems?: SelectListItemData<T, TMeta>[];
   /**
    * Controlled search input value.
    */
@@ -108,18 +108,18 @@ export type OptionListProps<
   children: ReactNode;
 };
 
-export type OptionListContentProps<
-  T extends OptionListValue = OptionListValue,
+export type SelectListContentProps<
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 > = {
   /** Render function called for each item. Receives the item data and selection/disabled state. */
   renderItem: (
-    item: OptionListItemData<T, TMeta>,
+    item: SelectListItemData<T, TMeta>,
     selected: boolean,
   ) => ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type OptionListItemProps<T extends OptionListValue = OptionListValue> = {
+export type SelectListItemProps<T extends SelectListValue = SelectListValue> = {
   /** The value associated with this item, used for selection matching. */
   value: T;
   /** Whether the item is disabled. */
@@ -127,49 +127,49 @@ export type OptionListItemProps<T extends OptionListValue = OptionListValue> = {
   children: ReactNode;
 } & Omit<StyledPressableProps, 'children' | 'disabled'>;
 
-export type OptionListItemTextProps = {
+export type SelectListItemTextProps = {
   children: ReactNode;
 } & Omit<StyledTextProps, 'children'>;
 
-export type OptionListItemDescriptionProps = {
+export type SelectListItemDescriptionProps = {
   children: ReactNode;
 } & Omit<StyledTextProps, 'children'>;
 
-export type OptionListItemContentRowProps = {
+export type SelectListItemContentRowProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type OptionListItemContentProps = {
+export type SelectListItemContentProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type OptionListItemLeadingProps = {
+export type SelectListItemLeadingProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type OptionListLabelProps = {
+export type SelectListLabelProps = {
   children: ReactNode;
 } & Omit<StyledTextProps, 'children'>;
 
-export type OptionListEmptyStateProps = {
+export type SelectListEmptyStateProps = {
   /** Heading displayed when the list is empty. */
   title: string;
   /** Optional secondary text displayed below the title. */
   description?: string;
 } & Omit<StyledViewProps, 'children'>;
 
-export type OptionListSearchProps = Omit<
+export type SelectListSearchProps = Omit<
   SearchInputProps,
   'value' | 'onChangeText' | 'defaultValue'
 >;
 
-export type OptionListTriggerProps = {
+export type SelectListTriggerProps = {
   /** Floating label shown above the selected value. */
   label?: string;
   /** Called when the trigger is pressed. Use to open a BottomSheet or navigate. */
   onPress: () => void;
   /** Content to display as the selected value. */
   children?: ReactNode;
-  /** Whether the trigger is disabled. Merges with OptionList disabled context. */
+  /** Whether the trigger is disabled. Merges with SelectList disabled context. */
   disabled?: boolean;
 } & Omit<StyledPressableProps, 'children' | 'disabled' | 'onPress'>;

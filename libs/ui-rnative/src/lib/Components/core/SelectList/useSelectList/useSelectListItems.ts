@@ -2,19 +2,19 @@ import { useMemo } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
 import type {
   MetaShape,
-  OptionListItemData,
-  OptionListItemGroup,
-  OptionListValue,
+  SelectListItemData,
+  SelectListItemGroup,
+  SelectListValue,
 } from '../types';
 
 const groupByField = <
-  T extends OptionListValue = OptionListValue,
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 >(
-  items: OptionListItemData<T, TMeta>[],
-): OptionListItemGroup<T, TMeta>[] => {
+  items: SelectListItemData<T, TMeta>[],
+): SelectListItemGroup<T, TMeta>[] => {
   const order: string[] = [];
-  const map: Record<string, OptionListItemData<T, TMeta>[]> = {};
+  const map: Record<string, SelectListItemData<T, TMeta>[]> = {};
   for (const item of items) {
     const key = item.group ?? '';
     if (!map[key]) {
@@ -26,41 +26,41 @@ const groupByField = <
   return order.map((label) => ({ label, items: map[label] }));
 };
 
-const hasGroups = (items: OptionListItemData[]): boolean =>
+const hasGroups = (items: SelectListItemData[]): boolean =>
   items.some((item) => item.group !== undefined);
 
 export const defaultLabelFilter = (
-  item: OptionListItemData,
+  item: SelectListItemData,
   query: string,
 ): boolean => item.label.toLowerCase().includes(query.toLowerCase());
 
-type UseOptionListItemsParams<
-  T extends OptionListValue = OptionListValue,
+type UseSelectListItemsParams<
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 > = {
-  items: OptionListItemData<T, TMeta>[];
+  items: SelectListItemData<T, TMeta>[];
   filter?:
     | null
-    | ((item: OptionListItemData<T, TMeta>, query: string) => boolean);
-  filteredItems?: OptionListItemData<T, TMeta>[];
+    | ((item: SelectListItemData<T, TMeta>, query: string) => boolean);
+  filteredItems?: SelectListItemData<T, TMeta>[];
   searchValue?: string;
   defaultSearchValue?: string;
   onSearchValueChange?: (value: string) => void;
 };
 
-type UseOptionListItemsResult<
-  T extends OptionListValue = OptionListValue,
+type UseSelectListItemsResult<
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 > = {
   isGrouped: boolean;
-  groups: OptionListItemGroup<T, TMeta>[];
-  flatItems: OptionListItemData<T, TMeta>[];
+  groups: SelectListItemGroup<T, TMeta>[];
+  flatItems: SelectListItemData<T, TMeta>[];
   resolvedSearchValue: string;
   handleSearchValueChange: (val: string) => void;
 };
 
-export const useOptionListItems = <
-  T extends OptionListValue = OptionListValue,
+export const useSelectListItems = <
+  T extends SelectListValue = SelectListValue,
   TMeta extends MetaShape = MetaShape,
 >({
   items,
@@ -69,7 +69,7 @@ export const useOptionListItems = <
   searchValue: searchValueProp,
   defaultSearchValue,
   onSearchValueChange,
-}: UseOptionListItemsParams<T, TMeta>): UseOptionListItemsResult<T, TMeta> => {
+}: UseSelectListItemsParams<T, TMeta>): UseSelectListItemsResult<T, TMeta> => {
   const [searchValue, handleSearchValueChange] = useControllableState<string>({
     prop: searchValueProp,
     defaultProp: defaultSearchValue ?? '',

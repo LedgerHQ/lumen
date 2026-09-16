@@ -14,35 +14,35 @@ import { MediaButton } from '../MediaButton';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
 import {
-  createOptionList,
-  OptionList,
-  OptionListContent,
-  OptionListEmptyState,
-  OptionListItem,
-  OptionListItemLeading,
-  OptionListItemContent,
-  OptionListItemDescription,
-  OptionListItemContentRow,
-  OptionListSearch,
-  OptionListTrigger,
-  OptionListItemText,
-} from './OptionList';
-import type { OptionListItemData } from './types';
+  createSelectList,
+  SelectList,
+  SelectListContent,
+  SelectListEmptyState,
+  SelectListItem,
+  SelectListItemLeading,
+  SelectListItemContent,
+  SelectListItemDescription,
+  SelectListItemContentRow,
+  SelectListSearch,
+  SelectListTrigger,
+  SelectListItemText,
+} from './SelectList';
+import type { SelectListItemData } from './types';
 
 const meta = {
-  component: OptionList,
-  id: 'rnative-optionlist',
-  title: 'Core/OptionList',
+  component: SelectList,
+  id: 'rnative-selectlist',
+  title: 'Core/SelectList',
   subcomponents: {
-    OptionListContent,
-    OptionListItem,
-    OptionListItemLeading,
-    OptionListItemContent,
-    OptionListItemText,
-    OptionListItemDescription,
-    OptionListItemContentRow,
-    OptionListSearch,
-    OptionListTrigger,
+    SelectListContent,
+    SelectListItem,
+    SelectListItemLeading,
+    SelectListItemContent,
+    SelectListItemText,
+    SelectListItemDescription,
+    SelectListItemContentRow,
+    SelectListSearch,
+    SelectListTrigger,
   },
   decorators: [
     (Story) => (
@@ -71,12 +71,12 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof OptionList>;
+} satisfies Meta<typeof SelectList>;
 
 export default meta;
-type Story = StoryObj<typeof OptionList>;
+type Story = StoryObj<typeof SelectList>;
 
-const CURRENCIES: OptionListItemData[] = [
+const CURRENCIES: SelectListItemData[] = [
   {
     value: 'btc',
     label: 'Bitcoin',
@@ -111,12 +111,12 @@ export const Base: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -125,7 +125,7 @@ export const Base: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select currency' />
-            <OptionList
+            <SelectList
               items={CURRENCIES}
               value={value}
               onValueChange={(v) => {
@@ -133,29 +133,29 @@ export const Base: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListContent
+              <SelectListContent
                 renderItem={(item) => {
                   const ticker = (item.meta as { ticker: string }).ticker;
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemText>{item.label}</OptionListItemText>
-                        <OptionListItemDescription>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemText>{item.label}</SelectListItemText>
+                        <SelectListItemDescription>
                           {ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -163,7 +163,7 @@ export const Base: Story = {
   },
 };
 
-const FOODS: OptionListItemData[] = [
+const FOODS: SelectListItemData[] = [
   { value: 'apple', label: 'Apple', group: 'Fruits' },
   { value: 'banana', label: 'Banana', group: 'Fruits' },
   { value: 'orange', label: 'Orange', group: 'Fruits' },
@@ -184,12 +184,12 @@ export const WithGroups: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Food'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -198,7 +198,7 @@ export const WithGroups: Story = {
         >
           <BottomSheetScrollView>
             <BottomSheetHeader title='Pick a food' />
-            <OptionList
+            <SelectList
               items={FOODS}
               value={value}
               onValueChange={(v) => {
@@ -206,16 +206,16 @@ export const WithGroups: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListContent
+              <SelectListContent
                 renderItem={(item) => (
-                  <OptionListItem value={item.value}>
-                    <OptionListItemContent>
-                      <OptionListItemText>{item.label}</OptionListItemText>
-                    </OptionListItemContent>
-                  </OptionListItem>
+                  <SelectListItem value={item.value}>
+                    <SelectListItemContent>
+                      <SelectListItemText>{item.label}</SelectListItemText>
+                    </SelectListItemContent>
+                  </SelectListItem>
                 )}
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetScrollView>
         </BottomSheet>
       </>
@@ -223,7 +223,7 @@ export const WithGroups: Story = {
   },
 };
 
-const NETWORKS: OptionListItemData[] = [
+const NETWORKS: SelectListItemData[] = [
   {
     value: 'ethereum',
     label: 'Ethereum',
@@ -258,12 +258,12 @@ export const WithContentRow: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Network'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -272,7 +272,7 @@ export const WithContentRow: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select network' />
-            <OptionList
+            <SelectList
               items={NETWORKS}
               value={value}
               onValueChange={(v) => {
@@ -280,7 +280,7 @@ export const WithContentRow: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListContent
+              <SelectListContent
                 renderItem={(item) => {
                   const meta = item.meta as {
                     ticker: string;
@@ -288,28 +288,28 @@ export const WithContentRow: Story = {
                     tag: string;
                   };
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={meta.ledgerId}
                           ticker={meta.ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemContentRow>
-                          <OptionListItemText>{item.label}</OptionListItemText>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemContentRow>
+                          <SelectListItemText>{item.label}</SelectListItemText>
                           <Tag label={meta.tag} appearance='gray' size='sm' />
-                        </OptionListItemContentRow>
-                        <OptionListItemDescription>
+                        </SelectListItemContentRow>
+                        <SelectListItemDescription>
                           {meta.ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -317,7 +317,7 @@ export const WithContentRow: Story = {
   },
 };
 
-const ACCOUNTS: OptionListItemData[] = [
+const ACCOUNTS: SelectListItemData[] = [
   {
     value: 'savings',
     label: 'Savings Account',
@@ -350,12 +350,12 @@ export const WithDisabledItems: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Account'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -364,7 +364,7 @@ export const WithDisabledItems: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select account' />
-            <OptionList
+            <SelectList
               items={ACCOUNTS}
               value={value}
               onValueChange={(v) => {
@@ -372,24 +372,24 @@ export const WithDisabledItems: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListContent
+              <SelectListContent
                 renderItem={(item) => (
-                  <OptionListItem value={item.value} disabled={item.disabled}>
-                    <OptionListItemLeading>
+                  <SelectListItem value={item.value} disabled={item.disabled}>
+                    <SelectListItemLeading>
                       <Spot appearance='icon' icon={Settings} />
-                    </OptionListItemLeading>
-                    <OptionListItemContent>
-                      <OptionListItemText>{item.label}</OptionListItemText>
+                    </SelectListItemLeading>
+                    <SelectListItemContent>
+                      <SelectListItemText>{item.label}</SelectListItemText>
                       {item.description && (
-                        <OptionListItemDescription>
+                        <SelectListItemDescription>
                           {item.description}
-                        </OptionListItemDescription>
+                        </SelectListItemDescription>
                       )}
-                    </OptionListItemContent>
-                  </OptionListItem>
+                    </SelectListItemContent>
+                  </SelectListItem>
                 )}
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -397,7 +397,7 @@ export const WithDisabledItems: Story = {
   },
 };
 
-const GROUPED_NETWORKS: OptionListItemData[] = [
+const GROUPED_NETWORKS: SelectListItemData[] = [
   {
     value: 'eth-main',
     label: 'Ethereum',
@@ -442,12 +442,12 @@ export const GroupedWithContentRow: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Network'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -456,7 +456,7 @@ export const GroupedWithContentRow: Story = {
         >
           <BottomSheetScrollView>
             <BottomSheetHeader title='Select network' />
-            <OptionList
+            <SelectList
               items={GROUPED_NETWORKS}
               value={value}
               onValueChange={(v) => {
@@ -464,7 +464,7 @@ export const GroupedWithContentRow: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListContent
+              <SelectListContent
                 renderItem={(item) => {
                   const meta = item.meta as {
                     ticker: string;
@@ -472,28 +472,28 @@ export const GroupedWithContentRow: Story = {
                     tag: string;
                   };
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={meta.ledgerId}
                           ticker={meta.ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemContentRow>
-                          <OptionListItemText>{item.label}</OptionListItemText>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemContentRow>
+                          <SelectListItemText>{item.label}</SelectListItemText>
                           <Tag label={meta.tag} appearance='gray' size='sm' />
-                        </OptionListItemContentRow>
-                        <OptionListItemDescription>
+                        </SelectListItemContentRow>
+                        <SelectListItemDescription>
                           {meta.ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetScrollView>
         </BottomSheet>
       </>
@@ -513,12 +513,12 @@ export const WithSearch: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -527,7 +527,7 @@ export const WithSearch: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select currency' />
-            <OptionList
+            <SelectList
               items={CURRENCIES}
               value={value}
               onValueChange={(v) => {
@@ -535,34 +535,34 @@ export const WithSearch: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListSearch placeholder='Search currencies' />
-              <OptionListContent
+              <SelectListSearch placeholder='Search currencies' />
+              <SelectListContent
                 renderItem={(item) => {
                   const ticker = (item.meta as { ticker: string }).ticker;
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemText>{item.label}</OptionListItemText>
-                        <OptionListItemDescription>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemText>{item.label}</SelectListItemText>
+                        <SelectListItemDescription>
                           {ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-              <OptionListEmptyState
+              <SelectListEmptyState
                 title='No currencies found'
                 description='Try a different search term'
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -582,12 +582,12 @@ export const WithSearchAndGroups: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Network'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -596,7 +596,7 @@ export const WithSearchAndGroups: Story = {
         >
           <BottomSheetScrollView>
             <BottomSheetHeader title='Select network' />
-            <OptionList
+            <SelectList
               items={GROUPED_NETWORKS}
               value={value}
               onValueChange={(v) => {
@@ -604,18 +604,18 @@ export const WithSearchAndGroups: Story = {
                 bottomSheetRef.current?.dismiss();
               }}
             >
-              <OptionListSearch placeholder='Search networks' />
-              <OptionListContent
+              <SelectListSearch placeholder='Search networks' />
+              <SelectListContent
                 renderItem={(item) => (
-                  <OptionListItem value={item.value}>
-                    <OptionListItemContent>
-                      <OptionListItemText>{item.label}</OptionListItemText>
-                    </OptionListItemContent>
-                  </OptionListItem>
+                  <SelectListItem value={item.value}>
+                    <SelectListItemContent>
+                      <SelectListItemText>{item.label}</SelectListItemText>
+                    </SelectListItemContent>
+                  </SelectListItem>
                 )}
               />
-              <OptionListEmptyState title='No networks found' />
-            </OptionList>
+              <SelectListEmptyState title='No networks found' />
+            </SelectList>
           </BottomSheetScrollView>
         </BottomSheet>
       </>
@@ -635,12 +635,12 @@ export const WithCustomSearchFilter: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -649,7 +649,7 @@ export const WithCustomSearchFilter: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select currency' />
-            <OptionList
+            <SelectList
               items={CURRENCIES}
               value={value}
               onValueChange={(v) => {
@@ -665,31 +665,31 @@ export const WithCustomSearchFilter: Story = {
                 );
               }}
             >
-              <OptionListSearch placeholder='Search by name or ticker' />
-              <OptionListContent
+              <SelectListSearch placeholder='Search by name or ticker' />
+              <SelectListContent
                 renderItem={(item) => {
                   const ticker = (item.meta as { ticker: string }).ticker;
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemText>{item.label}</OptionListItemText>
-                        <OptionListItemDescription>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemText>{item.label}</SelectListItemText>
+                        <SelectListItemDescription>
                           {ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-              <OptionListEmptyState title='No currencies found' />
-            </OptionList>
+              <SelectListEmptyState title='No currencies found' />
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -710,12 +710,12 @@ export const WithControlledSearch: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
         >
           {selected && <Text lx={{ color: 'base' }}>{selected.label}</Text>}
-        </OptionListTrigger>
+        </SelectListTrigger>
         <BottomSheet
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -727,7 +727,7 @@ export const WithControlledSearch: Story = {
             <Box lx={{ padding: 's8' }}>
               <Text lx={{ color: 'muted' }}>Search: "{searchValue}"</Text>
             </Box>
-            <OptionList
+            <SelectList
               items={CURRENCIES}
               value={value}
               onValueChange={(v) => {
@@ -737,31 +737,31 @@ export const WithControlledSearch: Story = {
               searchValue={searchValue}
               onSearchValueChange={setSearchValue}
             >
-              <OptionListSearch placeholder='Search currencies' />
-              <OptionListContent
+              <SelectListSearch placeholder='Search currencies' />
+              <SelectListContent
                 renderItem={(item) => {
                   const ticker = (item.meta as { ticker: string }).ticker;
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemText>{item.label}</OptionListItemText>
-                        <OptionListItemDescription>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemText>{item.label}</SelectListItemText>
+                        <SelectListItemDescription>
                           {ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-              <OptionListEmptyState title='No currencies found' />
-            </OptionList>
+              <SelectListEmptyState title='No currencies found' />
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -779,7 +779,7 @@ export const EmptyState: Story = {
 
     return (
       <>
-        <OptionListTrigger
+        <SelectListTrigger
           label='Currency'
           onPress={() => bottomSheetRef.current?.present()}
         />
@@ -791,21 +791,21 @@ export const EmptyState: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select currency' />
-            <OptionList items={[]} value={null}>
-              <OptionListContent
+            <SelectList items={[]} value={null}>
+              <SelectListContent
                 renderItem={(item) => (
-                  <OptionListItem value={item.value}>
-                    <OptionListItemContent>
-                      <OptionListItemText>{item.label}</OptionListItemText>
-                    </OptionListItemContent>
-                  </OptionListItem>
+                  <SelectListItem value={item.value}>
+                    <SelectListItemContent>
+                      <SelectListItemText>{item.label}</SelectListItemText>
+                    </SelectListItemContent>
+                  </SelectListItem>
                 )}
               />
-              <OptionListEmptyState
+              <SelectListEmptyState
                 title='No options available'
                 description='There are no items to display'
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
       </>
@@ -813,13 +813,13 @@ export const EmptyState: Story = {
   },
 };
 
-const SIMPLE_OPTIONS: OptionListItemData[] = [
+const SIMPLE_OPTIONS: SelectListItemData[] = [
   { value: 'all', label: 'All accounts' },
   { value: 'savings', label: 'Savings' },
   { value: 'checking', label: 'Checking' },
 ];
 
-const SETTINGS_OPTIONS: OptionListItemData[] = [
+const SETTINGS_OPTIONS: SelectListItemData[] = [
   { value: 'general', label: 'General' },
   { value: 'security', label: 'Security' },
   { value: 'notifications', label: 'Notifications' },
@@ -827,7 +827,7 @@ const SETTINGS_OPTIONS: OptionListItemData[] = [
 
 const appearances = ['gray', 'transparent', 'no-background'] as const;
 
-const SimpleOptionListSheet = ({
+const SimpleSelectListSheet = ({
   sheetRef,
   items,
   title,
@@ -835,7 +835,7 @@ const SimpleOptionListSheet = ({
   onValueChange,
 }: {
   sheetRef: ReturnType<typeof useBottomSheetRef>;
-  items: OptionListItemData[];
+  items: SelectListItemData[];
   title: string;
   value: string | null;
   onValueChange: (v: string | null) => void;
@@ -848,7 +848,7 @@ const SimpleOptionListSheet = ({
   >
     <BottomSheetView>
       <BottomSheetHeader title={title} />
-      <OptionList
+      <SelectList
         items={items}
         value={value}
         onValueChange={(v) => {
@@ -856,16 +856,16 @@ const SimpleOptionListSheet = ({
           sheetRef.current?.dismiss();
         }}
       >
-        <OptionListContent
+        <SelectListContent
           renderItem={(item) => (
-            <OptionListItem value={item.value}>
-              <OptionListItemContent>
-                <OptionListItemText>{item.label}</OptionListItemText>
-              </OptionListItemContent>
-            </OptionListItem>
+            <SelectListItem value={item.value}>
+              <SelectListItemContent>
+                <SelectListItemText>{item.label}</SelectListItemText>
+              </SelectListItemContent>
+            </SelectListItem>
           )}
         />
-      </OptionList>
+      </SelectList>
     </BottomSheetView>
   </BottomSheet>
 );
@@ -951,14 +951,14 @@ export const TriggerShowcase: Story = {
           })}
         </Box>
 
-        <SimpleOptionListSheet
+        <SimpleSelectListSheet
           sheetRef={buttonRef}
           items={SIMPLE_OPTIONS}
           title='All accounts'
           value={buttonValue}
           onValueChange={setButtonValue}
         />
-        <SimpleOptionListSheet
+        <SimpleSelectListSheet
           sheetRef={iconRef}
           items={SETTINGS_OPTIONS}
           title='Settings'
@@ -973,7 +973,7 @@ export const TriggerShowcase: Story = {
         >
           <BottomSheetView>
             <BottomSheetHeader title='Select network' />
-            <OptionList
+            <SelectList
               items={CURRENCIES}
               value={cryptoValue}
               onValueChange={(v) => {
@@ -981,33 +981,33 @@ export const TriggerShowcase: Story = {
                 cryptoRef.current?.dismiss();
               }}
             >
-              <OptionListContent
+              <SelectListContent
                 renderItem={(item) => {
                   const ticker = (item.meta as { ticker: string }).ticker;
                   return (
-                    <OptionListItem value={item.value}>
-                      <OptionListItemLeading>
+                    <SelectListItem value={item.value}>
+                      <SelectListItemLeading>
                         <CryptoIcon
                           ledgerId={(item.meta?.ledgerId as string) ?? ''}
                           ticker={ticker}
                           size={32}
                         />
-                      </OptionListItemLeading>
-                      <OptionListItemContent>
-                        <OptionListItemText>{item.label}</OptionListItemText>
-                        <OptionListItemDescription>
+                      </SelectListItemLeading>
+                      <SelectListItemContent>
+                        <SelectListItemText>{item.label}</SelectListItemText>
+                        <SelectListItemDescription>
                           {ticker}
-                        </OptionListItemDescription>
-                      </OptionListItemContent>
-                    </OptionListItem>
+                        </SelectListItemDescription>
+                      </SelectListItemContent>
+                    </SelectListItem>
                   );
                 }}
               />
-            </OptionList>
+            </SelectList>
           </BottomSheetView>
         </BottomSheet>
         {appearances.map((appearance) => (
-          <SimpleOptionListSheet
+          <SimpleSelectListSheet
             key={appearance}
             sheetRef={appearanceRefs[appearance]}
             items={SIMPLE_OPTIONS}
@@ -1030,39 +1030,39 @@ export const WithDefaultValue: Story = {
   },
   render: () => (
     <Box lx={{ width: 's320' }}>
-      <OptionList items={CURRENCIES} defaultValue='eth'>
-        <OptionListContent
+      <SelectList items={CURRENCIES} defaultValue='eth'>
+        <SelectListContent
           renderItem={(item) => {
             const meta = item.meta as { ticker: string; ledgerId: string };
             return (
-              <OptionListItem value={item.value}>
-                <OptionListItemLeading>
+              <SelectListItem value={item.value}>
+                <SelectListItemLeading>
                   <CryptoIcon
                     ledgerId={meta.ledgerId}
                     ticker={meta.ticker}
                     size={32}
                   />
-                </OptionListItemLeading>
-                <OptionListItemContent>
-                  <OptionListItemText>{item.label}</OptionListItemText>
-                  <OptionListItemDescription>
+                </SelectListItemLeading>
+                <SelectListItemContent>
+                  <SelectListItemText>{item.label}</SelectListItemText>
+                  <SelectListItemDescription>
                     {meta.ticker}
-                  </OptionListItemDescription>
-                </OptionListItemContent>
-              </OptionListItem>
+                  </SelectListItemDescription>
+                </SelectListItemContent>
+              </SelectListItem>
             );
           }}
         />
-      </OptionList>
+      </SelectList>
     </Box>
   ),
 };
 
 type TypedNetwork = 'eth' | 'sol' | 'btc';
 type TypedNetworkMeta = { ticker: string; ledgerId: string };
-const NetworkList = createOptionList<TypedNetwork, TypedNetworkMeta>();
+const NetworkList = createSelectList<TypedNetwork, TypedNetworkMeta>();
 
-const TYPED_NETWORKS: OptionListItemData<TypedNetwork, TypedNetworkMeta>[] = [
+const TYPED_NETWORKS: SelectListItemData<TypedNetwork, TypedNetworkMeta>[] = [
   {
     value: 'eth',
     label: 'Ethereum',
@@ -1090,35 +1090,35 @@ export const TypesafeFactory: Story = {
 
     return (
       <Box lx={{ width: 's320' }}>
-        <NetworkList.OptionList
+        <NetworkList.SelectList
           items={TYPED_NETWORKS}
           value={value}
           onValueChange={setValue}
         >
-          <NetworkList.OptionListContent
+          <NetworkList.SelectListContent
             renderItem={({ value, label, meta }) =>
               meta ? (
-                <NetworkList.OptionListItem value={value}>
-                  <NetworkList.OptionListItemLeading>
+                <NetworkList.SelectListItem value={value}>
+                  <NetworkList.SelectListItemLeading>
                     <CryptoIcon
                       ledgerId={meta.ledgerId}
                       ticker={meta.ticker}
                       size={32}
                     />
-                  </NetworkList.OptionListItemLeading>
-                  <NetworkList.OptionListItemContent>
-                    <NetworkList.OptionListItemText>
+                  </NetworkList.SelectListItemLeading>
+                  <NetworkList.SelectListItemContent>
+                    <NetworkList.SelectListItemText>
                       {label}
-                    </NetworkList.OptionListItemText>
-                    <NetworkList.OptionListItemDescription>
+                    </NetworkList.SelectListItemText>
+                    <NetworkList.SelectListItemDescription>
                       {meta.ticker}
-                    </NetworkList.OptionListItemDescription>
-                  </NetworkList.OptionListItemContent>
-                </NetworkList.OptionListItem>
+                    </NetworkList.SelectListItemDescription>
+                  </NetworkList.SelectListItemContent>
+                </NetworkList.SelectListItem>
               ) : null
             }
           />
-        </NetworkList.OptionList>
+        </NetworkList.SelectList>
       </Box>
     );
   },
