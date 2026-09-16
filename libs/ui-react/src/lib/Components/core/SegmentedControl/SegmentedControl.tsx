@@ -8,7 +8,7 @@ import type {
 } from 'react';
 import { useMemo, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from '../../symbols';
-import type { IconSize } from '../../symbols/Icon/types';
+import type { IconSize } from '../../symbols/Icon';
 import {
   SegmentedControlContextProvider,
   useSegmentedControlContext,

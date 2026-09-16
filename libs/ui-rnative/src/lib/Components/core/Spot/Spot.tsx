@@ -11,7 +11,7 @@ import {
   InformationFill,
   WarningFill,
 } from '../../symbols';
-import type { IconSize } from '../../symbols/Icon/types';
+import type { IconSize } from '../../symbols/Icon';
 import type { SpinnerProps } from '../Spinner';
 import { Spinner } from '../Spinner';
 import type { SpotAppearance, SpotProps, SpotSize } from './types';

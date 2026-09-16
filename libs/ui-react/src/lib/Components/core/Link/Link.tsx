@@ -2,7 +2,7 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { ExternalLink } from '../../symbols';
-import type { IconSize } from '../../symbols/Icon/types';
+import type { IconSize } from '../../symbols/Icon';
 import type { LinkProps } from './types';
 
 const linkVariants = cva(
