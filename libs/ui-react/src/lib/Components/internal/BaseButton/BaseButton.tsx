@@ -18,7 +18,7 @@ export const baseButtonVariants = cva(
           'bg-muted-transparent text-base hover:bg-muted-transparent-hover active:bg-muted-transparent-pressed',
         'no-background':
           'bg-transparent text-base hover:bg-base-transparent-hover active:bg-base-transparent-pressed disabled:bg-base-transparent',
-        red: 'bg-error-transparent hover:bg-error-transparent-hover active:bg-error-transparent-pressed text-error',
+        red: 'bg-error-transparent text-error hover:bg-error-transparent-hover active:bg-error-transparent-pressed',
       },
       disabled: {
         true: '',
