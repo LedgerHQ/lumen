@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Dollar icon component for React Native.
+ * FaceId icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,38 +15,31 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Dollar } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { FaceId } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Dollar />
+ * <FaceId />
  *
  * @example
  * // With custom size and style
- * <Dollar size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <FaceId size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Dollar} size="md">
+ * <Button icon={FaceId} size="md">
  *   Click me
  * </Button>
  */
-export const Dollar = createIcon(
-  'Dollar',
+export const FaceId = createIcon(
+  'FaceId',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M3.522 3.515a6.333 6.333 0 1 1 8.956 8.957 6.333 6.333 0 0 1-8.956-8.957'
-    />
-    <Path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth={1.3}
-      d='M8.02 4.103v.974m0 6.82v-.974M9.951 6.44A1.457 1.457 0 0 0 8.5 5.077H7.433c-.756 0-1.372.608-1.372 1.364 0 .624.427 1.17 1.03 1.325l1.825.452a1.35 1.35 0 0 1 1.029 1.325c0 .756-.616 1.364-1.372 1.364H7.505c-.779 0-1.402-.608-1.457-1.372'
+      d='M5 6.053v1m6-1v1M7.333 9.065h.334a.667.667 0 0 0 .666-.667V6.065m1.828 4.706a3.056 3.056 0 0 1-4.322 0M5.06 2H3.333C2.597 2 2 2.597 2 3.333V5.06M10.941 14h1.726c.736 0 1.333-.597 1.333-1.333V10.94m-12 0v1.726C2 13.403 2.597 14 3.333 14H5.06M14 5.059V3.333C14 2.597 13.403 2 12.667 2H10.94'
     />
   </Svg>,
 );

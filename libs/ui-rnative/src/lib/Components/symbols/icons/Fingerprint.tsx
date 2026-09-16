@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Dollar icon component for React Native.
+ * Fingerprint icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,38 +15,31 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Dollar } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Fingerprint } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Dollar />
+ * <Fingerprint />
  *
  * @example
  * // With custom size and style
- * <Dollar size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Fingerprint size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Dollar} size="md">
+ * <Button icon={Fingerprint} size="md">
  *   Click me
  * </Button>
  */
-export const Dollar = createIcon(
-  'Dollar',
+export const Fingerprint = createIcon(
+  'Fingerprint',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.3}
-      d='M3.522 3.515a6.333 6.333 0 1 1 8.956 8.957 6.333 6.333 0 0 1-8.956-8.957'
-    />
-    <Path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth={1.3}
-      d='M8.02 4.103v.974m0 6.82v-.974M9.951 6.44A1.457 1.457 0 0 0 8.5 5.077H7.433c-.756 0-1.372.608-1.372 1.364 0 .624.427 1.17 1.03 1.325l1.825.452a1.35 1.35 0 0 1 1.029 1.325c0 .756-.616 1.364-1.372 1.364H7.505c-.779 0-1.402-.608-1.457-1.372'
+      d='M5.447 14.037A7.96 7.96 0 0 1 4 9.453a3.999 3.999 0 1 1 7.996 0m.217 3.989c-.072.004-.143.01-.215.01a4 4 0 0 1-3.998-4m.83 5.095a6 6 0 0 1-2.83-5.094 2 2 0 1 1 3.999 0 2 2 0 1 0 3.999 0 5.999 5.999 0 1 0-11.995 0c0 .738.083 1.458.235 2.151m11.343-7.622A7.42 7.42 0 0 0 8 1.452c-2.225 0-4.219.981-5.582 2.53'
     />
   </Svg>,
 );
