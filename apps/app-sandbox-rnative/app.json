@@ -28,7 +28,8 @@
             "./assets/fonts/Inter-Bold.ttf"
           ]
         }
-      ]
+      ],
+      "@lottiefiles/dotlottie-react-native/plugin"
     ],
     "experiments": {
       "typedRoutes": true
