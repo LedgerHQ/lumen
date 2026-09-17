@@ -31,6 +31,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'LineCharts', title: 'LineChart' },
   { slug: 'Links', title: 'Link' },
   { slug: 'ListItems', title: 'ListItem' },
+  { slug: 'Lottie', title: 'Lottie' },
   { slug: 'MediaBanners', title: 'MediaBanner' },
   { slug: 'MediaButtons', title: 'MediaButton' },
   { slug: 'MediaCards', title: 'MediaCard' },
