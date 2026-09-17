@@ -39,7 +39,6 @@ export const RecoveryKey = createIcon(
         stroke='currentColor'
         strokeLinecap='round'
         strokeLinejoin='round'
-        strokeWidth={1.3}
         d='M6.333 4.667H4.667v1m1.666 5.666H4.667v-1m5-5.666h1.666v1m-1.666 5.666h1.666v-1m-8 4.334h9.334a2 2 0 0 0 2-2V3.333a2 2 0 0 0-2-2H3.333a2 2 0 0 0-2 2v9.334a2 2 0 0 0 2 2'
       />
     </G>

@@ -38,7 +38,6 @@ export const CoinStacked = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M6.131 2.798a5 5 0 0 1 7.071 7.07m-1.869-.201a5 5 0 1 1-10 0 5 5 0 0 1 10 0'
     />
   </Svg>,

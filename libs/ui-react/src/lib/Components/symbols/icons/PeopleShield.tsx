@@ -37,7 +37,6 @@ export const PeopleShield = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M2.667 13.333c0-1.666 1.333-3 3-3H7.4m3.8-.133c.267-.133.6-.133.933 0l1.2.467v1.4c0 1.2-1.666 2-1.666 2s-1.667-.8-1.667-2v-1.4zM10 3.467c1.133 1.133 1.133 2.933 0 4-1.133 1.066-2.933 1.133-4 0s-1.133-2.934 0-4a2.9 2.9 0 0 1 4 0'
     />
   </svg>,

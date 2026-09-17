@@ -38,7 +38,6 @@ export const Pin = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8 13.333V10m-3.34 0h6.68a.66.66 0 0 0 .383-1.197l-2.056-1.47v-2l1.703-1.135a.67.67 0 0 0 .297-.555v-.31A.667.667 0 0 0 11 2.667H5a.667.667 0 0 0-.667.666v.31c0 .223.112.432.297.555l1.703 1.135v2l-2.056 1.47A.66.66 0 0 0 4.66 10'
     />
   </Svg>,

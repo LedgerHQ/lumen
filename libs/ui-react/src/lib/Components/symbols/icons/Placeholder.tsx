@@ -36,7 +36,6 @@ export const Placeholder = createIcon(
     <g clipPath='url(#clip0_5625_429)'>
       <path
         stroke='currentColor'
-        strokeWidth={1.3}
         d='M1.889 1.889 14.11 14.11m-12.222 0L14.11 1.89M1.333 1.333h13.334v13.334H1.333z'
       />
     </g>

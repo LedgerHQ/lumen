@@ -37,7 +37,6 @@ export const ExchangeFill = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8.667 12.667h-2a3.334 3.334 0 0 1-3.334-3.334v-6M1.667 5l1.666-1.667L5 5m2.324-1.667h2a3.334 3.334 0 0 1 3.333 3.334v6M14.324 11l-1.667 1.667L10.99 11'
     />
     <rect

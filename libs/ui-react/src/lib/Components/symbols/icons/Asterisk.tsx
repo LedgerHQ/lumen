@@ -37,7 +37,6 @@ export const Asterisk = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M2 7.99h12m-9 4.974 6-9.948m0 10L5 3.067'
     />
   </svg>,

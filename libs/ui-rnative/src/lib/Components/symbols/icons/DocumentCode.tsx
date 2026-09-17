@@ -38,7 +38,6 @@ export const DocumentCode = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m4.667 6 1-1-1-1M4 11.333V10m9 4H3.333C2.593 14 2 13.4 2 12.667V12a.66.66 0 0 1 .667-.667h8.666c.367 0 .667.294.667.667v1c0 .547.447 1 1 1m0 0c.547 0 1-.453 1-1V3.333C14 2.593 13.4 2 12.667 2H10M3.667 2h2.666C7.253 2 8 2.746 8 3.667v2.666C8 7.253 7.254 8 6.333 8H3.667C2.747 8 2 7.254 2 6.333V3.667C2 2.747 2.746 2 3.667 2'
     />
   </Svg>,

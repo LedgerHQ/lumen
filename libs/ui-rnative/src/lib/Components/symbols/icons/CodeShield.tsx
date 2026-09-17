@@ -38,7 +38,6 @@ export const CodeShield = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m10.345 6.633.988.994-1 1.006m-2.333 5a6 6 0 1 1 6-6m-8.345-1-.988.995 1 1.005M8.5 5.971l-1 3.325m4.2 1.204c.267-.133.6-.133.933 0l1.2.467v1.4c0 1.2-1.666 2-1.666 2s-1.667-.8-1.667-2v-1.4z'
     />
   </Svg>,

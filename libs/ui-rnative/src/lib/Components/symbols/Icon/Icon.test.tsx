@@ -3,10 +3,14 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, screen } from '@testing-library/react-native';
 import { Path } from 'react-native-svg';
 import { ThemeProvider } from '../../core/ThemeProvider/ThemeProvider';
+import { Copy } from '../icons/Copy';
 import { Icon } from './Icon';
 import type { IconSize } from './types';
 
 const { icon: iconTokens } = ledgerLiveThemes.dark;
+
+const paintedStrokeWidth = (strokeWidth: number, size: IconSize) =>
+  strokeWidth * (size / 16);
 
 const renderWithProvider = (component: React.ReactElement) => {
   return render(
@@ -29,26 +33,32 @@ describe('Icon', () => {
     expect(svg.props.fill).toBe('none');
     expect(svg.props.width).toBe(iconTokens.width.s24);
     expect(svg.props.height).toBe(iconTokens.height.s24);
-    expect(svg.props.strokeWidth).toBe(iconTokens.borderWidth.s24);
+    expect(paintedStrokeWidth(svg.props.strokeWidth, 24)).toBeCloseTo(
+      iconTokens.borderWidth.s24,
+    );
   });
 
   it.each([12, 16, 20, 24, 32, 40, 48, 56] as IconSize[])(
-    'should apply correct dimensions for size %i',
+    'should paint the stroke token for size %i',
     (size) => {
-      renderWithProvider(
-        <Icon viewBox='0 0 24 24' size={size} testID='icon'>
-          <Path d='M12 2L2 7l10 5 10-5-10-5z' />
-        </Icon>,
-      );
+      renderWithProvider(<Copy size={size} testID='icon' />);
 
       const sizeKey = `s${size}` as `s${typeof size}`;
       const svg = screen.getByTestId('icon');
 
       expect(svg.props.width).toBe(iconTokens.width[sizeKey]);
       expect(svg.props.height).toBe(iconTokens.height[sizeKey]);
-      expect(svg.props.strokeWidth).toBe(iconTokens.borderWidth[sizeKey]);
+      expect(paintedStrokeWidth(svg.props.strokeWidth, size)).toBeCloseTo(
+        iconTokens.borderWidth[sizeKey],
+      );
     },
   );
+
+  it('should let generated paths inherit stroke width from Icon', () => {
+    const { UNSAFE_getByType } = renderWithProvider(<Copy testID='icon' />);
+
+    expect(UNSAFE_getByType(Path).props.strokeWidth).toBeUndefined();
+  });
 
   it('should apply color from style prop', () => {
     renderWithProvider(

@@ -38,7 +38,6 @@ export const Minus = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M3.333 8h9.334'
     />
   </Svg>,

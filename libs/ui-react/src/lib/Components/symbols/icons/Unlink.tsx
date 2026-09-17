@@ -37,7 +37,6 @@ export const Unlink = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m11.403 8.36 1.458-1.458a2.75 2.75 0 0 0-3.889-3.89L7.514 4.472M5.5 10.374l1.25-1.25m2.5-2.5 1.25-1.25m2.187 7.187L3.313 3.187m1.284 4.201L3.139 8.846a2.75 2.75 0 1 0 3.889 3.89l1.458-1.459'
     />
   </svg>,

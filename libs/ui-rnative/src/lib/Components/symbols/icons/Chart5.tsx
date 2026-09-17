@@ -38,7 +38,6 @@ export const Chart5 = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m3.96 10.313 2.562-2.639a.485.485 0 0 1 .712 0l1.082 1.114a.493.493 0 0 0 .713 0l3.012-3.101m-1.345.005h1.344v1.385'
     />
     <Mask id='path-2-inside-1_8174_813' fill='#fff'>

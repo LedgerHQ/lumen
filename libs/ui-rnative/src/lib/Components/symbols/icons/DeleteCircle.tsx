@@ -38,7 +38,6 @@ export const DeleteCircle = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M9.887 6.113 6.113 9.887m3.774 0L6.113 6.113M8 14c-3.32 0-6-2.686-6-6 0-3.32 2.686-6 6-6a6 6 0 1 1 0 12'
     />
   </Svg>,

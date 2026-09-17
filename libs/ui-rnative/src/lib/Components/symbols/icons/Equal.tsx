@@ -34,11 +34,6 @@ import createIcon from '../Icon/createIcon';
 export const Equal = createIcon(
   'Equal',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
-    <Path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeWidth={1.3}
-      d='M3 5.5h10m-10 5h10'
-    />
+    <Path stroke='currentColor' strokeLinecap='round' d='M3 5.5h10m-10 5h10' />
   </Svg>,
 );

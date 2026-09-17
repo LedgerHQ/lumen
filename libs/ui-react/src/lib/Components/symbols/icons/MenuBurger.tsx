@@ -37,7 +37,6 @@ export const MenuBurger = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M3.667 8h8.666m-8.666 3.667h8.666M3.667 4.333h8.666'
     />
   </svg>,

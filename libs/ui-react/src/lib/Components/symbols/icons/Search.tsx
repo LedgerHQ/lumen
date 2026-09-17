@@ -36,7 +36,6 @@ export const Search = createIcon(
     <path
       stroke='currentColor'
       strokeLinecap='round'
-      strokeWidth={1.3}
       d='m14 14-3.334-3.333m1.2-3.734a4.933 4.933 0 1 1-9.866 0 4.933 4.933 0 0 1 9.867 0Z'
     />
   </svg>,

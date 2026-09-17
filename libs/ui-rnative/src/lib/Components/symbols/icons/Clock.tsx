@@ -38,7 +38,6 @@ export const Clock = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M10.707 8.08h-3.1V4.347m.4-2.674a6 6 0 1 0 0 12 6 6 0 0 0 0-12'
     />
   </Svg>,

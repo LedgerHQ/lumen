@@ -38,7 +38,6 @@ export const TransferVertical = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m2.667 5.333 2-2 2 2m-2-2v9.334m8.667-2-2 2-2-2m2 2V3.333'
     />
   </Svg>,

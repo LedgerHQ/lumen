@@ -38,7 +38,6 @@ export const ChevronUpDown = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M5.333 10 8 12.667 10.667 10M5.333 6 8 3.333 10.667 6'
     />
   </Svg>,

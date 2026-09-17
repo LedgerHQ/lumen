@@ -41,7 +41,6 @@ export const StarHalf = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m6.113 5.733 1.44-2.837-.052 8.758L4.12 13.33l.8-4.08-2.926-2.997zl1.88-3.753 1.88 3.747 4.12.513-2.927 2.987.8 4.08L8 11.49l-3.88 1.84'
     />
   </svg>,

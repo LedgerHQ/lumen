@@ -33,11 +33,6 @@ export const Equal = createIcon(
     fill='currentColor'
     viewBox='0 0 16 16'
   >
-    <path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeWidth={1.3}
-      d='M3 5.5h10m-10 5h10'
-    />
+    <path stroke='currentColor' strokeLinecap='round' d='M3 5.5h10m-10 5h10' />
   </svg>,
 );

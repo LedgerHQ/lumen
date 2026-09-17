@@ -37,7 +37,6 @@ export const Target = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M13.818 8.316a5.684 5.684 0 1 1-5.685-5.684m3.158 5.684a3.158 3.158 0 1 1-3.158-3.158m2.53.629L8.136 8.313M12.555 2 10.66 3.895v1.894h1.895l1.894-1.894-1.263-.632z'
     />
   </svg>,

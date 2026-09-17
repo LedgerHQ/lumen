@@ -37,7 +37,6 @@ export const NotEqual = createIcon(
     <Path
       stroke='currentColor'
       strokeLinecap='round'
-      strokeWidth={1.3}
       d='M3 5.5h10m-10 5h10m-8.355 2.474 6.71-9.948'
     />
   </Svg>,

@@ -38,7 +38,6 @@ export const Calendar = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M5 2v2m6-2v2m3 2.667H2m2-3.668h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2'
     />
   </Svg>,

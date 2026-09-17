@@ -37,7 +37,6 @@ export const Bolt = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8.64 2 3.16 9.333h4.833L7.347 14l5.473-7.333H7.987z'
     />
   </svg>,

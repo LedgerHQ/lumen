@@ -65,6 +65,12 @@ const svgrConfig = {
           },
         },
       },
+      {
+        name: 'removeAttrs' as const,
+        params: {
+          attrs: 'stroke-width',
+        },
+      },
       ...(isReactNative ? ['removeXMLNS' as const] : []),
     ],
   },

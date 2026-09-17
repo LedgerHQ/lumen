@@ -37,7 +37,6 @@ export const Feather = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='m8.666 7.334-6 6m7.871-2.08a9.6 9.6 0 0 0 2.673-7.161 1.36 1.36 0 0 0-1.303-1.303 9.6 9.6 0 0 0-7.162 2.673c-1.92 1.921-2.182 4.775-.582 6.374 1.6 1.6 4.453 1.339 6.374-.582'
     />
   </svg>,

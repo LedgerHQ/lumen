@@ -4,6 +4,8 @@ import { useResolveTextStyle, useTheme } from '../../../../styles';
 import type { TextProps } from '../../primitives';
 import type { IconProps, IconSize } from './types';
 
+const ICON_VIEWBOX_SIZE = 16;
+
 const iconSizeMap = {
   12: 's12',
   16: 's16',
@@ -28,12 +30,18 @@ const useStyles = (
   });
 
   return useMemo(() => {
+    const sizeKey = iconSizeMap[size];
+
     return {
       container: {
         ...resolvedStyle,
-        width: theme.icon.width[iconSizeMap[size]],
-        height: theme.icon.height[iconSizeMap[size]],
-        strokeWidth: theme.icon.borderWidth[iconSizeMap[size]],
+        width: theme.icon.width[sizeKey],
+        height: theme.icon.height[sizeKey],
+        // strokeWidth is resolved in viewBox user units, so the renderer scales
+        // it by size / 16. Divide it out so the painted weight equals the token
+        // instead of token × size / 16.
+        strokeWidth:
+          theme.icon.borderWidth[sizeKey] * (ICON_VIEWBOX_SIZE / size),
       },
       color: resolvedStyle.color || theme.colors.text.base,
     };

@@ -37,7 +37,6 @@ export const Legal = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M6 14H3.333C2.593 14 2 13.4 2 12.667V3.333C2 2.593 2.593 2 3.333 2h8c.734 0 1.334.593 1.334 1.333V6m-8-.667h4M4.667 8H6m2.667 6H14m-4.667 0v-3.053m2 3.053v-3.053m2 3.053v-3.053m-4.666 0H14V9.753L11.333 8.66 8.667 9.747z'
     />
   </svg>,

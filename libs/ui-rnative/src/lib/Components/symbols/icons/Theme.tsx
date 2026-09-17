@@ -38,14 +38,12 @@ export const Theme = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2'
     />
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M8 11.667V4.333c2.02 0 3.667 1.64 3.667 3.667A3.673 3.673 0 0 1 8 11.667'
     />
   </Svg>,

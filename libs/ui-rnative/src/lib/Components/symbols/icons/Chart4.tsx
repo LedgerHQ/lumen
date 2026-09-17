@@ -38,7 +38,6 @@ export const Chart4 = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M12 6v.667m-4 .666v2m-2-2v3.334M4 9.333V10m6-4.667v4M10.667 14H5.333A3.333 3.333 0 0 1 2 10.667V5.333A3.333 3.333 0 0 1 5.333 2h5.334A3.333 3.333 0 0 1 14 5.333v5.334A3.333 3.333 0 0 1 10.667 14'
     />
   </Svg>,

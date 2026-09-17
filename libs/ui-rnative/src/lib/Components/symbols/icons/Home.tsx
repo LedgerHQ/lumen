@@ -38,7 +38,6 @@ export const Home = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M2.667 5.733V14H6v-4c0-.74.593-1.333 1.333-1.333h1.334C9.4 8.667 10 9.26 10 10v4h3.333V5.733m-12 .934L8 2l6.667 4.667'
     />
   </Svg>,

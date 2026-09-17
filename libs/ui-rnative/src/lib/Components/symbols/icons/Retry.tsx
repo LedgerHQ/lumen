@@ -38,7 +38,6 @@ export const Retry = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M12.992 3.093V5.45h-2.357m2.05 0A5.334 5.334 0 1 0 13.334 8'
     />
   </Svg>,

@@ -1,5 +1,7 @@
 import type plugin from 'tailwindcss/plugin.js';
 
+const ICON_VIEWBOX_SIZE = 16;
+
 export const createIconUtilities = (
   theme: Parameters<Parameters<typeof plugin>[0]>[0]['theme'],
 ) => {
@@ -23,7 +25,10 @@ export const createIconUtilities = (
   for (const key in iconStrokeWidths) {
     if (Object.hasOwnProperty.call(iconStrokeWidths, key)) {
       const value = iconStrokeWidths[key];
-      newUtilities[`.icon-stroke-${key}`] = { strokeWidth: value };
+      const renderScale = Number(key) / ICON_VIEWBOX_SIZE;
+      newUtilities[`.icon-stroke-${key}`] = {
+        strokeWidth: `calc(${value} / ${renderScale})`,
+      };
     }
   }
 

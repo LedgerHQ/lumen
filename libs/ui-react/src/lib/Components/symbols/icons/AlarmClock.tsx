@@ -37,7 +37,6 @@ export const AlarmClock = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M3.113 11.473c.39.546.868 1.024 1.414 1.414M2.09 7A6 6 0 0 0 2 8c0 .341.035.674.09 1m1.023-4.473a6 6 0 0 1 1.414-1.414M7 13.91c.326.055.659.09 1 .09A6 6 0 1 0 8 2a6 6 0 0 0-1 .09m3.667 4.577L7.333 10l-2-2'
     />
   </svg>,

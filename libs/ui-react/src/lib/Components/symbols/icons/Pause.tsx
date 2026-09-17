@@ -37,7 +37,6 @@ export const Pause = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      strokeWidth={1.3}
       d='M9.333 10V6m-2.666 4V6M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0'
     />
   </svg>,
