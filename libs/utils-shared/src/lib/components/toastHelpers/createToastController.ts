@@ -48,18 +48,24 @@ export const createToastController = ({
         loading: true,
       });
       void promise.then(
-        (value) =>
+        (value) => {
+          const state = resolvePromiseState(options.success, value);
           update(id, {
-            ...resolvePromiseState(options.success, value),
+            ...state,
             appearance: 'success',
             loading: false,
-          }),
-        (error: unknown) =>
+            action: state.action,
+          });
+        },
+        (error: unknown) => {
+          const state = resolvePromiseState(options.error, error);
           update(id, {
-            ...resolvePromiseState(options.error, error),
+            ...state,
             appearance: 'error',
             loading: false,
-          }),
+            action: state.action,
+          });
+        },
       );
       return { id };
     },

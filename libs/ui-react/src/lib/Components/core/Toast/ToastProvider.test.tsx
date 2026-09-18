@@ -328,6 +328,72 @@ describe('ToastProvider', () => {
       expect(await screen.findByText('Saved')).toBeInTheDocument();
     });
 
+    it('should drop the loading action when success omits it', async () => {
+      render(
+        <ToastProvider>
+          <Capture />
+        </ToastProvider>,
+      );
+
+      let resolveFn: (value: string) => void = () => {};
+      const promise = new Promise<string>((resolve) => {
+        resolveFn = resolve;
+      });
+
+      act(() => {
+        controller.promise(promise, {
+          loading: {
+            title: 'Saving',
+            action: { label: 'Cancel', onAction: () => {} },
+          },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      expect(
+        screen.getByRole('button', { name: 'Cancel' }),
+      ).toBeInTheDocument();
+
+      resolveFn('ok');
+      expect(await screen.findByText('Saved')).toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'Cancel' }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('should drop the loading action when error omits it', async () => {
+      render(
+        <ToastProvider>
+          <Capture />
+        </ToastProvider>,
+      );
+
+      let rejectFn: (reason: unknown) => void = () => {};
+      const promise = new Promise<string>((_resolve, reject) => {
+        rejectFn = reject;
+      });
+
+      act(() => {
+        controller.promise(promise, {
+          loading: {
+            title: 'Saving',
+            action: { label: 'Cancel', onAction: () => {} },
+          },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      expect(
+        screen.getByRole('button', { name: 'Cancel' }),
+      ).toBeInTheDocument();
+
+      rejectFn(new Error('nope'));
+      expect(await screen.findByText('Failed')).toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'Cancel' }),
+      ).not.toBeInTheDocument();
+    });
+
     it('should move the toast from loading to error on rejection', async () => {
       render(
         <ToastProvider>
