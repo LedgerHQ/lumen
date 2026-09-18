@@ -70,6 +70,15 @@ const toItem = (
   };
 };
 
+const DEFAULT_MAX_ITEMS = 3;
+
+/**
+ * `slice` and index comparisons disagree on fractions/NaN/negatives. Only a
+ * positive integer is a slot count; anything else falls back to the default.
+ */
+const resolveMaxItems = (maxItems: number): number =>
+  Number.isInteger(maxItems) && maxItems >= 1 ? maxItems : DEFAULT_MAX_ITEMS;
+
 const stripUndefined = (patch: ToastUpdateOptions): ToastUpdateOptions => {
   const result: ToastUpdateOptions = {};
   for (const key of Object.keys(patch) as (keyof ToastUpdateOptions)[]) {
@@ -93,14 +102,16 @@ export const useToastQueue = (
   durations?: Partial<Record<ToastAppearance, number>>,
 ): {
   items: ToastItem[];
+  maxItems: number;
   add: (options: ToastNotifyOptions) => string;
   update: (id: string, patch: ToastUpdateOptions) => void;
   dismiss: (id: string) => void;
   dismissAll: () => void;
 } => {
   const [items, setItems] = useState<ToastItem[]>([]);
-  const maxItemsRef = useRef(maxItems);
-  maxItemsRef.current = maxItems;
+  const resolvedMaxItems = resolveMaxItems(maxItems);
+  const maxItemsRef = useRef(resolvedMaxItems);
+  maxItemsRef.current = resolvedMaxItems;
   const durationsRef = useRef(durations);
   durationsRef.current = durations;
 
@@ -169,5 +180,12 @@ export const useToastQueue = (
     );
   }, []);
 
-  return { items, add, update, dismiss, dismissAll };
+  return {
+    items,
+    maxItems: resolvedMaxItems,
+    add,
+    update,
+    dismiss,
+    dismissAll,
+  };
 };

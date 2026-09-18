@@ -193,4 +193,35 @@ describe('useToastQueue', () => {
       expect(result.current.items[0].exiting).toBe(true);
     });
   });
+
+  describe('maxItems', () => {
+    it.each([1.5, Number.NaN, -1, 0, Number.POSITIVE_INFINITY])(
+      'falls back to 3 when maxItems is %s',
+      (maxItems) => {
+        const { result } = renderHook(() => useToastQueue(maxItems));
+
+        act(() => {
+          result.current.add({ title: 'A' });
+          result.current.add({ title: 'B' });
+          result.current.add({ title: 'C' });
+          result.current.add({ title: 'D' });
+        });
+
+        expect(result.current.maxItems).toBe(3);
+        expect(result.current.items.map((item) => item.queued)).toEqual([
+          false,
+          false,
+          false,
+          true,
+        ]);
+
+        const thirdId = result.current.items[2].id;
+        act(() => {
+          result.current.dismiss(thirdId);
+        });
+        expect(result.current.items[2].exiting).toBe(true);
+        expect(result.current.items).toHaveLength(4);
+      },
+    );
+  });
 });
