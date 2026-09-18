@@ -4,7 +4,7 @@ import {
   useToastQueue,
   useToastTimer,
 } from '@ledgerhq/lumen-utils-shared';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type FocusEvent } from 'react';
 import { createPortal } from 'react-dom';
 import {
   collapseVariants,
@@ -117,7 +117,8 @@ export const ToastProvider = ({
     maxItems,
     durations,
   );
-  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focusWithin, setFocusWithin] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -131,6 +132,14 @@ export const ToastProvider = ({
 
   const visibleItems = items.slice(0, maxItems);
 
+  const handleMouseEnter = () => setHovered(true);
+  const handleMouseLeave = () => setHovered(false);
+  const handleFocus = () => setFocusWithin(true);
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    setFocusWithin(false);
+  };
+
   return (
     <ToastContextProvider value={controller}>
       {children}
@@ -140,17 +149,17 @@ export const ToastProvider = ({
           <div
             data-slot='toast-viewport'
             className={positionVariants({ position })}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocus={() => setPaused(true)}
-            onBlur={() => setPaused(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           >
             {visibleItems.map((item) => (
               <ToastQueueItem
                 key={item.id}
                 item={item}
                 position={position}
-                paused={paused}
+                paused={hovered || focusWithin}
                 onDismiss={() => dismiss(item.id)}
               />
             ))}

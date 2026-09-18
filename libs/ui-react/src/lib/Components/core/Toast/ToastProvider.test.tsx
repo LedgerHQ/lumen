@@ -174,6 +174,57 @@ describe('ToastProvider', () => {
       flushExit();
       expect(screen.queryByText('Hover me')).not.toBeInTheDocument();
     });
+
+    it('should stay paused when the pointer leaves while focus is still inside', () => {
+      renderProvider();
+      act(() => {
+        controller.info({
+          title: 'Focus me',
+          action: { label: 'Undo', onAction: () => {} },
+        });
+      });
+
+      const viewport = document.querySelector('[data-slot="toast-viewport"]');
+      const action = screen.getByRole('button', { name: 'Undo' });
+
+      fireEvent.mouseEnter(viewport as Element);
+      fireEvent.focus(action);
+      fireEvent.mouseLeave(viewport as Element);
+
+      act(() => {
+        vi.advanceTimersByTime(60000);
+      });
+      expect(screen.getByText('Focus me')).toBeInTheDocument();
+
+      fireEvent.blur(action, { relatedTarget: document.body });
+      act(() => {
+        vi.advanceTimersByTime(5000);
+      });
+      flushExit();
+      expect(screen.queryByText('Focus me')).not.toBeInTheDocument();
+    });
+
+    it('should stay paused while focus moves between controls of a toast', () => {
+      renderProvider();
+      act(() => {
+        controller.info({
+          title: 'Tab me',
+          action: { label: 'Undo', onAction: () => {} },
+        });
+      });
+
+      const action = screen.getByRole('button', { name: 'Undo' });
+      const close = screen.getByRole('button', { name: CLOSE_LABEL });
+
+      fireEvent.focus(action);
+      fireEvent.blur(action, { relatedTarget: close });
+      fireEvent.focus(close);
+
+      act(() => {
+        vi.advanceTimersByTime(60000);
+      });
+      expect(screen.getByText('Tab me')).toBeInTheDocument();
+    });
   });
 
   describe('Dismissal', () => {
