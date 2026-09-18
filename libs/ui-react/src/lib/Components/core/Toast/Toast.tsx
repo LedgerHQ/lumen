@@ -14,9 +14,11 @@ import { toastVariants } from './styles';
 import type { ToastAppearance, ToastProps } from './types';
 
 const statusIconMap: Record<Exclude<ToastAppearance, 'info'>, ReactNode> = {
-  success: <CheckmarkCircleFill size={20} className='text-success' />,
-  warning: <WarningFill size={20} className='text-warning' />,
-  error: <DeleteCircleFill size={20} className='text-error' />,
+  success: (
+    <CheckmarkCircleFill size={20} className='text-success-on-interactive' />
+  ),
+  warning: <WarningFill size={20} className='text-warning-on-interactive' />,
+  error: <DeleteCircleFill size={20} className='text-error-on-interactive' />,
 };
 
 /**
