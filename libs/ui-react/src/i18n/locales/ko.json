@@ -25,7 +25,7 @@
     "banner": {
       "closeAriaLabel": "닫기"
     },
-    "snackbar": {
+    "toast": {
       "closeAriaLabel": "닫기"
     },
     "link": {

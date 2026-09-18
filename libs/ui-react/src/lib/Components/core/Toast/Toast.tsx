@@ -1,5 +1,4 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { cva } from 'class-variance-authority';
 import type { ReactNode } from 'react';
 import { useCommonTranslation } from '../../../../i18n';
 import {
@@ -11,49 +10,38 @@ import {
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
 import { Spinner } from '../Spinner';
-import type { SnackbarAppearance, SnackbarProps } from './types';
+import { toastVariants } from './styles';
+import type { ToastAppearance, ToastProps } from './types';
 
-const statusIconMap: Record<Exclude<SnackbarAppearance, 'info'>, ReactNode> = {
+const statusIconMap: Record<Exclude<ToastAppearance, 'info'>, ReactNode> = {
   success: <CheckmarkCircleFill size={20} className='text-success' />,
   warning: <WarningFill size={20} className='text-warning' />,
   error: <DeleteCircleFill size={20} className='text-error' />,
 };
 
-const snackbarVariants = cva(
-  'flex min-h-56 w-400 max-w-full items-center gap-8 rounded-md bg-interactive py-8 pr-10 text-on-interactive',
-  {
-    variants: {
-      hasLeading: {
-        true: 'pl-12',
-        false: 'pl-16',
-      },
-    },
-  },
-);
-
 /**
- * A single snackbar item: an inverted, compact surface with a status icon or
+ * A single toast item: an inverted, compact surface with a status icon or
  * spinner, a one-line title, an optional trailing action and a close button.
  *
  * This is the presentational piece. For the queue, timing and imperative API,
- * use `SnackbarProvider` + `useSnackbar`.
+ * use `ToastProvider` + `useToast`.
  *
- * @see {@link https://ldls.vercel.app/?path=/docs/react-snackbar--docs Guidelines}
+ * @see {@link https://ldls.vercel.app/?path=/docs/react-toast--docs Guidelines}
  *
  * @example
- * import { Snackbar } from '@ledgerhq/lumen-ui-react';
+ * import { Toast } from '@ledgerhq/lumen-ui-react';
  *
- * <Snackbar appearance="success" title="Payment done" onClose={() => {}} />
+ * <Toast appearance="success" title="Payment done" onClose={() => {}} />
  *
  * @example
  * // Loading with an action
- * <Snackbar
+ * <Toast
  *   loading
  *   title="Uploading…"
  *   action={{ label: 'Cancel', onAction: () => {} }}
  * />
  */
-export const Snackbar = ({
+export const Toast = ({
   ref,
   appearance = 'info',
   loading = false,
@@ -64,7 +52,7 @@ export const Snackbar = ({
   className,
   role,
   ...props
-}: SnackbarProps) => {
+}: ToastProps) => {
   const { t } = useCommonTranslation();
 
   const hasLeading = loading || appearance !== 'info';
@@ -76,7 +64,7 @@ export const Snackbar = ({
     <div
       ref={ref}
       role={resolvedRole}
-      className={cn(snackbarVariants({ hasLeading }), className)}
+      className={cn(toastVariants({ hasLeading }), className)}
       {...props}
     >
       {loading ? (
@@ -104,7 +92,7 @@ export const Snackbar = ({
           className='shrink-0'
           icon={Close}
           onClick={() => onClose()}
-          aria-label={closeAriaLabel || t('components.snackbar.closeAriaLabel')}
+          aria-label={closeAriaLabel || t('components.toast.closeAriaLabel')}
         />
       )}
     </div>

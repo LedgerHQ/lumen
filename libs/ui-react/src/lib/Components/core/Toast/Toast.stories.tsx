@@ -8,15 +8,15 @@ import {
   SelectList,
   SelectTrigger,
 } from '../Select';
-import { Snackbar } from './Snackbar';
-import { SnackbarProvider } from './SnackbarProvider';
-import type { SnackbarAppearance, SnackbarPosition } from './types';
-import { useSnackbar } from './useSnackbar';
+import { Toast } from './Toast';
+import { ToastProvider } from './ToastProvider';
+import type { ToastAppearance, ToastPosition } from './types';
+import { useToast } from './useToast';
 
 const meta = {
-  component: Snackbar,
-  id: 'react-snackbar',
-  title: 'Core/Snackbar',
+  component: Toast,
+  id: 'react-toast',
+  title: 'Core/Toast',
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -33,10 +33,10 @@ const meta = {
     onClose: { control: false },
     ref: { control: false },
   },
-} satisfies Meta<typeof Snackbar>;
+} satisfies Meta<typeof Toast>;
 
 export default meta;
-type Story = StoryObj<typeof Snackbar>;
+type Story = StoryObj<typeof Toast>;
 
 export const Base: Story = {
   args: {
@@ -44,21 +44,21 @@ export const Base: Story = {
     title: 'Your transaction was sent',
     onClose: () => {},
   },
-  render: (args) => <Snackbar {...args} />,
+  render: (args) => <Toast {...args} />,
 };
 
 export const AppearanceShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-8'>
-      <Snackbar
+      <Toast
         appearance='info'
         title='Your transaction was sent'
         onClose={() => {}}
       />
-      <Snackbar appearance='success' title='Payment done' onClose={() => {}} />
-      <Snackbar appearance='warning' title='Low balance' onClose={() => {}} />
-      <Snackbar appearance='error' title='Payment failed' onClose={() => {}} />
-      <Snackbar loading title='Processing payment' onClose={() => {}} />
+      <Toast appearance='success' title='Payment done' onClose={() => {}} />
+      <Toast appearance='warning' title='Low balance' onClose={() => {}} />
+      <Toast appearance='error' title='Payment failed' onClose={() => {}} />
+      <Toast loading title='Processing payment' onClose={() => {}} />
     </div>
   ),
 };
@@ -70,7 +70,7 @@ export const WithAction: Story = {
     action: { label: 'Retry', onAction: () => {} },
     onClose: () => {},
   },
-  render: (args) => <Snackbar {...args} />,
+  render: (args) => <Toast {...args} />,
 };
 
 export const LoadingShowcase: Story = {
@@ -79,18 +79,18 @@ export const LoadingShowcase: Story = {
     title: 'Processing payment',
     action: { label: 'Cancel', onAction: () => {} },
   },
-  render: (args) => <Snackbar {...args} />,
+  render: (args) => <Toast {...args} />,
 };
 
 export const ResponsivenessShowcase: Story = {
   args: {
     appearance: 'success',
     title:
-      'This is a very long snackbar message that will be truncated on a single line',
+      'This is a very long toast message that will be truncated on a single line',
     action: { label: 'Undo', onAction: () => {} },
     onClose: () => {},
   },
-  render: (args) => <Snackbar {...args} />,
+  render: (args) => <Toast {...args} />,
 };
 
 const APPEARANCE_ITEMS = [
@@ -115,12 +115,12 @@ const PlaygroundControls = ({
   onAppearanceChange,
   onPositionChange,
 }: {
-  position: SnackbarPosition;
-  appearance: SnackbarAppearance;
-  onAppearanceChange: (appearance: SnackbarAppearance) => void;
-  onPositionChange: (position: SnackbarPosition) => void;
+  position: ToastPosition;
+  appearance: ToastAppearance;
+  onAppearanceChange: (appearance: ToastAppearance) => void;
+  onPositionChange: (position: ToastPosition) => void;
 }) => {
-  const snackbar = useSnackbar();
+  const toast = useToast();
 
   return (
     <div className='flex w-256 flex-wrap gap-8'>
@@ -128,7 +128,7 @@ const PlaygroundControls = ({
         items={APPEARANCE_ITEMS}
         value={appearance}
         onValueChange={(value) =>
-          onAppearanceChange((value ?? 'info') as SnackbarAppearance)
+          onAppearanceChange((value ?? 'info') as ToastAppearance)
         }
       >
         <SelectTrigger />
@@ -144,7 +144,7 @@ const PlaygroundControls = ({
         items={POSITION_ITEMS}
         value={position}
         onValueChange={(value) =>
-          onPositionChange((value as SnackbarPosition) ?? 'bottom-right')
+          onPositionChange((value as ToastPosition) ?? 'bottom-right')
         }
       >
         <SelectTrigger />
@@ -160,9 +160,9 @@ const PlaygroundControls = ({
         appearance='base'
         size='sm'
         onClick={() =>
-          snackbar.notify({
+          toast.notify({
             appearance,
-            title: `${appearance[0].toUpperCase()}${appearance.slice(1)} snackbar`,
+            title: `${appearance[0].toUpperCase()}${appearance.slice(1)} toast`,
           })
         }
         isFull
@@ -173,13 +173,13 @@ const PlaygroundControls = ({
   );
 };
 
-export const WithTrigger: Story = {
+export const WithProvider: Story = {
   render: () => {
-    const [position, setPosition] = useState<SnackbarPosition>('bottom-right');
-    const [appearance, setAppearance] = useState<SnackbarAppearance>('info');
+    const [position, setPosition] = useState<ToastPosition>('bottom-right');
+    const [appearance, setAppearance] = useState<ToastAppearance>('info');
 
     return (
-      <SnackbarProvider
+      <ToastProvider
         position={position}
         maxItems={3}
         durations={{
@@ -195,7 +195,67 @@ export const WithTrigger: Story = {
           onAppearanceChange={setAppearance}
           onPositionChange={setPosition}
         />
-      </SnackbarProvider>
+      </ToastProvider>
     );
   },
+};
+
+const UpdateDemo = () => {
+  const toast = useToast();
+
+  return (
+    <Button
+      appearance='base'
+      onClick={() => {
+        const { id } = toast.loading({ title: 'Uploading…' });
+        setTimeout(() => {
+          toast.update(id, {
+            appearance: 'success',
+            loading: false,
+            title: 'Upload complete',
+          });
+        }, 2000);
+      }}
+    >
+      Upload file
+    </Button>
+  );
+};
+
+export const WithUpdate: Story = {
+  render: () => (
+    <ToastProvider>
+      <UpdateDemo />
+    </ToastProvider>
+  ),
+};
+
+const simulateSaveProfile = () =>
+  new Promise<void>((resolve) => setTimeout(resolve, 2000));
+
+const PromiseDemo = () => {
+  const toast = useToast();
+
+  return (
+    <Button
+      appearance='base'
+      onClick={() =>
+        toast.promise(simulateSaveProfile(), {
+          loading: { title: 'Saving…' },
+          success: { title: 'Profile saved' },
+          error: { title: 'Could not save' },
+        })
+      }
+    >
+      Save profile
+    </Button>
+  );
+};
+
+export const WithPromise: Story = {
+  render: () => (
+    <ToastProvider>
+      <PromiseDemo />
+    </ToastProvider>
+  ),
 };

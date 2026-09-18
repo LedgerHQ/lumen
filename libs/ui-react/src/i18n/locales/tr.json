@@ -25,7 +25,7 @@
     "banner": {
       "closeAriaLabel": "Kapat"
     },
-    "snackbar": {
+    "toast": {
       "closeAriaLabel": "Kapat"
     },
     "link": {
