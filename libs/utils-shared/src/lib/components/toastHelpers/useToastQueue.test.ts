@@ -138,6 +138,41 @@ describe('useToastQueue', () => {
       expect(result.current.items[0].durationMs).toBe(1234);
       expect(result.current.items[0].title).toBe('Renamed');
     });
+
+    it('clears a trailing action when the patch sets action to undefined', () => {
+      const { result } = renderHook(() => useToastQueue(3));
+      let id = '';
+
+      act(() => {
+        id = result.current.add({
+          title: 'Loading',
+          action: { label: 'Cancel', onAction: () => {} },
+        });
+      });
+      expect(result.current.items[0].action?.label).toBe('Cancel');
+
+      act(() => {
+        result.current.update(id, { title: 'Done', action: undefined });
+      });
+      expect(result.current.items[0].action).toBeUndefined();
+    });
+
+    it('keeps the trailing action when the patch omits action', () => {
+      const { result } = renderHook(() => useToastQueue(3));
+      let id = '';
+
+      act(() => {
+        id = result.current.add({
+          title: 'Loading',
+          action: { label: 'Cancel', onAction: () => {} },
+        });
+      });
+
+      act(() => {
+        result.current.update(id, { title: 'Still loading' });
+      });
+      expect(result.current.items[0].action?.label).toBe('Cancel');
+    });
   });
 
   describe('dismiss / dismissAll', () => {

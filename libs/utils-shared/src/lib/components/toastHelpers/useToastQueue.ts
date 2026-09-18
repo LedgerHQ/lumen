@@ -82,7 +82,7 @@ const resolveMaxItems = (maxItems: number): number =>
 const stripUndefined = (patch: ToastUpdateOptions): ToastUpdateOptions => {
   const result: ToastUpdateOptions = {};
   for (const key of Object.keys(patch) as (keyof ToastUpdateOptions)[]) {
-    if (patch[key] !== undefined) {
+    if (patch[key] !== undefined || key === 'action') {
       Object.assign(result, { [key]: patch[key] });
     }
   }

@@ -141,7 +141,8 @@ export type ToastController = {
   };
   /**
    * Patches a live toast. Recomputes `durationMs` when appearance, loading,
-   * or duration changes (e.g. a loading toast becoming a success).
+   * or duration changes (e.g. a loading toast becoming a success). Pass
+   * `action: undefined` to remove a trailing action.
    */
   update: (id: string, options: ToastUpdateOptions) => void;
   /**
