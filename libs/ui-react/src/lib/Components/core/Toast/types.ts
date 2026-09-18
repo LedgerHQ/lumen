@@ -1,18 +1,13 @@
 import type {
   ToastAction,
   ToastAppearance,
-  ToastDuration,
 } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-// Re-exported for consumers importing from '@ledgerhq/lumen-ui-react': the
-// domain model (appearance/duration/item/controller/...) is shared with
-// ui-rnative and lives in utils-shared.
 export type {
   ToastAction,
   ToastAppearance,
   ToastController,
-  ToastDuration,
   ToastItem,
   ToastNotifyOptions,
   ToastPromiseOptions,
@@ -83,5 +78,5 @@ export type ToastProviderProps = {
   /**
    * Per-appearance duration overrides, layered over the Lumen status defaults.
    */
-  durations?: Partial<Record<ToastAppearance, ToastDuration>>;
+  durations?: Partial<Record<ToastAppearance, number>>;
 };
