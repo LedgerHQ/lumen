@@ -65,8 +65,8 @@ export type ToastProps = {
 export type ToastProviderProps = {
   children: ReactNode;
   /**
-   * Maximum number of toasts visible at once. Extra items wait in a FIFO
-   * backlog and appear as visible slots free up.
+   * Maximum number of toasts visible at once. Must be a positive integer.
+   * Extra items wait in a FIFO backlog and appear as visible slots free up.
    * @default 3
    */
   maxItems?: number;

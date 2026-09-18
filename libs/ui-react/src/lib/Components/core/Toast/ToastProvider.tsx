@@ -113,10 +113,14 @@ export const ToastProvider = ({
   position = 'bottom-right',
   durations,
 }: ToastProviderProps) => {
-  const { items, add, update, dismiss, dismissAll } = useToastQueue(
-    maxItems,
-    durations,
-  );
+  const {
+    items,
+    maxItems: slotCount,
+    add,
+    update,
+    dismiss,
+    dismissAll,
+  } = useToastQueue(maxItems, durations);
   const [hovered, setHovered] = useState(false);
   const [focusWithin, setFocusWithin] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -130,7 +134,7 @@ export const ToastProvider = ({
     [add, update, dismiss, dismissAll],
   );
 
-  const visibleItems = items.slice(0, maxItems);
+  const visibleItems = items.slice(0, slotCount);
 
   const handleMouseEnter = () => setHovered(true);
   const handleMouseLeave = () => setHovered(false);
