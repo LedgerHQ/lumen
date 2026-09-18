@@ -60,6 +60,11 @@ const ToastQueueItem = ({
   }, [exiting]);
 
   const edge = position.startsWith('top') ? 'top' : 'bottom';
+  const resolveMotionClass = (): string => {
+    if (exiting) return slideExitVariants({ position });
+    if (item.queued) return queuedEnterVariants({ edge });
+    return slideEnterVariants({ position });
+  };
 
   return (
     <div
@@ -68,13 +73,7 @@ const ToastQueueItem = ({
     >
       <div
         data-slot='toast-item'
-        className={
-          exiting
-            ? slideExitVariants({ position })
-            : item.queued
-              ? queuedEnterVariants({ edge })
-              : slideEnterVariants({ position })
-        }
+        className={resolveMotionClass()}
         style={exiting ? { animationFillMode: 'forwards' } : undefined}
       >
         <Toast
