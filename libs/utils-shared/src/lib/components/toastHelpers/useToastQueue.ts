@@ -29,12 +29,11 @@ const resolveDurationMs = (
   },
   durations?: Partial<Record<ToastAppearance, number>>,
 ): number => {
-  const ms =
-    item.duration === undefined
-      ? item.loading
-        ? Infinity
-        : (durations?.[item.appearance] ?? DEFAULT_DURATIONS[item.appearance])
-      : item.duration;
+  if (item.duration !== undefined) {
+    return item.duration === 0 ? Infinity : item.duration;
+  }
+  if (item.loading) return Infinity;
+  const ms = durations?.[item.appearance] ?? DEFAULT_DURATIONS[item.appearance];
   return ms === 0 ? Infinity : ms;
 };
 
