@@ -1,9 +1,13 @@
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import type { SupportedLocale } from '@ledgerhq/lumen-ui-rnative';
+import type {
+  SupportedLocale,
+  ToastPosition,
+} from '@ledgerhq/lumen-ui-rnative';
 import {
   BottomSheetModalProvider,
   GlobalTooltipBottomSheet,
   ThemeProvider,
+  ToastProvider,
 } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Stack, useSegments } from 'expo-router';
@@ -14,10 +18,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { getBlockTitle } from '../blocks';
 import { Header } from '../components/Header';
 import { ThemeControlsProvider } from '../hooks/useThemeControls';
+import { ToastControlsProvider } from '../hooks/useToastControls';
 
 export default function RootLayout() {
   const [colorScheme, setColorScheme] = useState<ColorSchemeName>('dark');
   const [locale, setLocale] = useState<SupportedLocale>('en');
+  const [toastPosition, setToastPosition] = useState<ToastPosition>('bottom');
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -29,10 +35,19 @@ export default function RootLayout() {
         <ThemeControlsProvider
           value={{ colorScheme, setColorScheme, locale, setLocale }}
         >
-          <BottomSheetModalProvider>
-            <RootNavigator />
-            <GlobalTooltipBottomSheet />
-          </BottomSheetModalProvider>
+          <ToastControlsProvider
+            value={{ position: toastPosition, setPosition: setToastPosition }}
+          >
+            <ToastProvider
+              position={toastPosition}
+              insets={{ left: 10, right: 10 }}
+            >
+              <BottomSheetModalProvider>
+                <RootNavigator />
+                <GlobalTooltipBottomSheet />
+              </BottomSheetModalProvider>
+            </ToastProvider>
+          </ToastControlsProvider>
         </ThemeControlsProvider>
       </ThemeProvider>
     </GestureHandlerRootView>

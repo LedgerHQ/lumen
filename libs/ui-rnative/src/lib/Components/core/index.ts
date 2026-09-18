@@ -40,6 +40,7 @@ export * from './Subheader';
 export * from './Switch';
 export * from './TabBar';
 export * from './Tag';
+export * from './Toast';
 export * from './TextInput';
 export * from './ThemeProvider';
 export * from './Tile';
