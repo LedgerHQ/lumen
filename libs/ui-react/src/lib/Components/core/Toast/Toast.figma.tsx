@@ -1,11 +1,11 @@
 import figma from '@figma/code-connect';
-import { Snackbar } from './Snackbar';
+import { Toast } from './Toast';
 
 figma.connect(
-  Snackbar,
+  Toast,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=21016-59623',
   {
-    imports: ["import { Snackbar } from '@ledgerhq/lumen-ui-react'"],
+    imports: ["import { Toast } from '@ledgerhq/lumen-ui-react'"],
     props: {
       appearance: figma.enum('appearance', {
         info: 'info',
@@ -25,7 +25,7 @@ figma.connect(
       }),
     },
     example: (props) => (
-      <Snackbar
+      <Toast
         appearance={props.appearance}
         loading={props.loading}
         title={props.title}

@@ -25,7 +25,7 @@
     "banner": {
       "closeAriaLabel": "Закрыть"
     },
-    "snackbar": {
+    "toast": {
       "closeAriaLabel": "Закрыть"
     },
     "link": {

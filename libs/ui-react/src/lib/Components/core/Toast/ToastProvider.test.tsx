@@ -2,22 +2,22 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
-import { SnackbarProvider } from './SnackbarProvider';
-import type { SnackbarController, SnackbarProviderProps } from './types';
-import { useSnackbar } from './useSnackbar';
+import { ToastProvider } from './ToastProvider';
+import type { ToastController, ToastProviderProps } from './types';
+import { useToast } from './useToast';
 
-let controller: SnackbarController;
+let controller: ToastController;
 
 const Capture = () => {
-  controller = useSnackbar();
+  controller = useToast();
   return null;
 };
 
-const renderProvider = (props?: Omit<SnackbarProviderProps, 'children'>) =>
+const renderProvider = (props?: Omit<ToastProviderProps, 'children'>) =>
   render(
-    <SnackbarProvider {...props}>
+    <ToastProvider {...props}>
       <Capture />
-    </SnackbarProvider>,
+    </ToastProvider>,
   );
 
 const EXIT_ANIMATION_MS = 300;
@@ -28,9 +28,9 @@ const flushExit = (): void => {
   });
 };
 
-const CLOSE_LABEL = 'components.snackbar.closeAriaLabel';
+const CLOSE_LABEL = 'components.toast.closeAriaLabel';
 
-describe('SnackbarProvider', () => {
+describe('ToastProvider', () => {
   describe('Timing', () => {
     beforeEach(() => {
       vi.useFakeTimers();
@@ -43,7 +43,7 @@ describe('SnackbarProvider', () => {
       vi.useRealTimers();
     });
 
-    it('should render a snackbar on notify', () => {
+    it('should render a toast on notify', () => {
       renderProvider();
       act(() => {
         controller.info({ title: 'Hello' });
@@ -71,7 +71,7 @@ describe('SnackbarProvider', () => {
       expect(screen.queryByText('Hello')).not.toBeInTheDocument();
     });
 
-    it('should keep warning snackbars until dismissed', () => {
+    it('should keep warning toasts until dismissed', () => {
       renderProvider();
       act(() => {
         controller.warning({ title: 'Careful' });
@@ -124,7 +124,7 @@ describe('SnackbarProvider', () => {
       expect(screen.queryByText('Done')).not.toBeInTheDocument();
     });
 
-    it('should restart the timer when a loading snackbar becomes a success', () => {
+    it('should restart the timer when a loading toast becomes a success', () => {
       renderProvider();
       let id = '';
       act(() => {
@@ -158,9 +158,7 @@ describe('SnackbarProvider', () => {
         controller.info({ title: 'Hover me' });
       });
 
-      const viewport = document.querySelector(
-        '[data-slot="snackbar-viewport"]',
-      );
+      const viewport = document.querySelector('[data-slot="toast-viewport"]');
       expect(viewport).not.toBeNull();
 
       fireEvent.mouseEnter(viewport as Element);
@@ -196,7 +194,7 @@ describe('SnackbarProvider', () => {
         controller.warning({ title: 'Careful' });
       });
 
-      const slot = document.querySelector('[data-slot="snackbar-collapse"]');
+      const slot = document.querySelector('[data-slot="toast-collapse"]');
       expect(slot).toHaveClass('h-64', 'z-10');
 
       fireEvent.click(screen.getByRole('button', { name: CLOSE_LABEL }));
@@ -254,11 +252,11 @@ describe('SnackbarProvider', () => {
   });
 
   describe('promise', () => {
-    it('should move the snackbar from loading to success', async () => {
+    it('should move the toast from loading to success', async () => {
       render(
-        <SnackbarProvider>
+        <ToastProvider>
           <Capture />
-        </SnackbarProvider>,
+        </ToastProvider>,
       );
 
       let resolveFn: (value: string) => void = () => {};
@@ -279,11 +277,11 @@ describe('SnackbarProvider', () => {
       expect(await screen.findByText('Saved')).toBeInTheDocument();
     });
 
-    it('should move the snackbar from loading to error on rejection', async () => {
+    it('should move the toast from loading to error on rejection', async () => {
       render(
-        <SnackbarProvider>
+        <ToastProvider>
           <Capture />
-        </SnackbarProvider>,
+        </ToastProvider>,
       );
 
       let rejectFn: (reason: unknown) => void = () => {};
@@ -320,17 +318,17 @@ describe('SnackbarProvider', () => {
         act(() => {
           controller.warning({ title: 'Hello' });
         });
-        expect(
-          document.querySelector('[data-slot="snackbar-item"]'),
-        ).toHaveClass(animationClass);
+        expect(document.querySelector('[data-slot="toast-item"]')).toHaveClass(
+          animationClass,
+        );
       },
     );
   });
 
-  describe('useSnackbar', () => {
+  describe('useToast', () => {
     it('should throw when used outside a provider', () => {
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      expect(() => render(<Capture />)).toThrow(/SnackbarProvider/);
+      expect(() => render(<Capture />)).toThrow(/ToastProvider/);
       errorSpy.mockRestore();
     });
   });
