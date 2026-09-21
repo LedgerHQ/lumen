@@ -103,11 +103,7 @@ export const Toast = ({
     >
       {loading ? (
         <View style={styles.iconWrapper}>
-          <Spinner
-            testID='toast-spinner'
-            size={20}
-            lx={{ color: 'onInteractive' }}
-          />
+          <Spinner testID='toast-spinner' size={20} color='onInteractive' />
         </View>
       ) : (
         IconComponent && (
