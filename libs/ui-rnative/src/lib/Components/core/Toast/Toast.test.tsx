@@ -21,13 +21,13 @@ describe('Toast', () => {
       getByText('Payment done');
     });
 
-    it('should truncate the title on a single line', () => {
+    it('should wrap the title over up to five lines', () => {
       const { getByText } = render(
         <TestWrapper>
           <Toast title='A very long toast title' />
         </TestWrapper>,
       );
-      expect(getByText('A very long toast title').props.numberOfLines).toBe(1);
+      expect(getByText('A very long toast title').props.numberOfLines).toBe(5);
     });
 
     it('should not render a leading icon for the info appearance', () => {
@@ -55,6 +55,27 @@ describe('Toast', () => {
         </TestWrapper>,
       );
       getByTestId('toast-spinner');
+    });
+  });
+
+  describe('Layout', () => {
+    it('should lay the surface out as a wrapping row, so an action that does not fit drops to its own line right-aligned', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Toast
+            testID='toast'
+            title='Report ready'
+            action={{ label: 'Download the report', onAction: jest.fn() }}
+          />
+        </TestWrapper>,
+      );
+      expect(getByTestId('toast').props.style).toEqual(
+        expect.objectContaining({
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end',
+        }),
+      );
     });
   });
 
