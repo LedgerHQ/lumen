@@ -24,9 +24,9 @@ with the `useToast` hook.
 
 - **Leading (optional)**: a status icon for success, warning and error, or a
   spinner while loading. Info has no icon.
-- **Title**: the message, shown on a single line and truncated.
-- **Action (optional)**: a single text button. Pressing it never dismisses
-  the toast.
+- **Title**: the message, wrapping over up to five lines.
+- **Action (optional)**: a single text button, inline beside the title, wrapping
+  onto its own row when it no longer fits. Pressing it never dismisses the toast.
 - **Dismissal**: unlike web, there is no close icon. Toasts are dismissed by
   swiping left or right, unless `dismissible` is `false`.
 
@@ -48,6 +48,17 @@ Appearance drives the leading icon and the default timing:
 - **loading**: a spinner via the `loading` flag. Persists until updated or dismissed.
 
 <Canvas of={ToastStories.AppearanceShowcase} />
+
+### Layout
+
+The surface is a wrapping row, so the action placement is automatic — there is
+no prop for it. The action shares the title row while both fit; once the label
+is too long to sit beside the title, it wraps onto its own row underneath,
+right-aligned. The title wraps over up to five lines, then truncates with an
+ellipsis. Keep messages short anyway — a toast is not the place for a
+paragraph.
+
+<Canvas of={ToastStories.WrappingShowcase} />
 
 ### Position
 
@@ -113,7 +124,7 @@ function App() {
 
 ### Triggering toasts
 
-<Source of={ToastStories.Base} />
+<Source of={ToastStories.WithProvider} />
 
 ### With an action
 

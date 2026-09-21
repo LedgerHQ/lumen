@@ -54,12 +54,14 @@ export type ToastProps = {
    */
   loading?: boolean;
   /**
-   * The main text. Rendered on a single line and truncated with an ellipsis.
+   * The main text. Wraps over up to five lines, then truncates.
    * @required
    */
   title: string;
   /**
    * Optional trailing action button. Pressing it does not dismiss the toast.
+   * It wraps onto its own row, right-aligned, when it cannot share the title's
+   * row.
    */
   action?: ToastAction;
 } & StyledViewProps;

@@ -58,6 +58,23 @@ export const WithAction: Story = {
   render: (args) => <Toast {...args} />,
 };
 
+export const WrappingShowcase: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'column', gap: 's8', width: 's400' }}>
+      <Toast
+        appearance='success'
+        title='Report ready'
+        action={{ label: 'Open', onAction: () => {} }}
+      />
+      <Toast
+        appearance='success'
+        title='Report ready for review in 30 minutes that is a very long title that will wrap onto its own row'
+        action={{ label: 'Download the report', onAction: () => {} }}
+      />
+    </Box>
+  ),
+};
+
 export const LoadingShowcase: Story = {
   args: {
     loading: true,
@@ -70,8 +87,7 @@ export const LoadingShowcase: Story = {
 export const ResponsivenessShowcase: Story = {
   args: {
     appearance: 'success',
-    title:
-      'This is a very long toast message that will be truncated on a single line',
+    title: 'This is a very long toast message that wraps over up to five lines',
     action: { label: 'Undo', onAction: () => {} },
   },
   render: (args) => <Toast {...args} />,
