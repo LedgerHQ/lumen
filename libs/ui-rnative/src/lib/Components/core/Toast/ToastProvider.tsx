@@ -75,7 +75,7 @@ const useToastViewportStyles = ({
     ],
   );
 
-const ToastEntry = ({
+const ToastQueueItem = ({
   item,
   position,
   onDismiss,
@@ -134,13 +134,16 @@ const ToastEntry = ({
     }
   }, [exiting, enterTiming, exitTiming, enterOffset, opacity, translateY]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [
-      { translateY: translateY.value },
-      { translateX: translateX.value },
-    ],
-  }));
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      opacity: opacity.value,
+      transform: [
+        { translateY: translateY.value },
+        { translateX: translateX.value },
+      ],
+    }),
+    [opacity, translateY, translateX],
+  );
 
   const pan = Gesture.Pan()
     .enabled(item.dismissible)
@@ -234,7 +237,7 @@ export const ToastProvider = ({
         style={viewportStyles.root}
       >
         {visibleItems.map((item) => (
-          <ToastEntry
+          <ToastQueueItem
             key={item.id}
             item={item}
             position={position}
