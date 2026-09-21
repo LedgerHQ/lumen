@@ -47,3 +47,34 @@ export type MenuListItemProps = {
    */
   onPress?: StyledPressableProps['onPress'];
 } & Omit<StyledPressableProps, 'children' | 'onPress'>;
+
+export type MenuListSwitchItemProps = {
+  /**
+   * Text describing the action, truncated to a single line.
+   */
+  label: string;
+  /**
+   * Icon rendered before the label.
+   */
+  icon?: IconComponent;
+  /**
+   * Prevents interaction and dims the content.
+   *
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * The controlled checked state of the switch.
+   * @default false
+   */
+  checked?: boolean;
+  /**
+   * Sets the initial checked state for uncontrolled use.
+   * @default false
+   */
+  defaultChecked?: boolean;
+  /**
+   * The callback function called when the checked state changes.
+   */
+  onCheckedChange?: (checked: boolean) => void;
+} & Omit<StyledPressableProps, 'children' | 'onPress'>;
