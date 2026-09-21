@@ -115,12 +115,9 @@ const ToastEntry = ({
 
   const dismissedViaSwipeRef = useRef(false);
   const handleSwipeDismissRef = useRef(() => {
-    return;
-  });
-  handleSwipeDismissRef.current = () => {
     dismissedViaSwipeRef.current = true;
     onDismissRef.current();
-  };
+  });
 
   useEffect(() => {
     translateY.value = withTiming(0, enterTiming);
