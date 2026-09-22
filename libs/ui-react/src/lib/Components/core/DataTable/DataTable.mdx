@@ -105,12 +105,6 @@ npm install @ledgerhq/lumen-ui-react
 
 <SetupNote />
 
-## Row Props
-
-Use `getRowProps` when each data row needs attributes derived from its original item.
-
-<Source of={DataTableStories.WithRowProps} />
-
 ## useLumenDataTable
 
 A thin wrapper around TanStack's [useReactTable](https://tanstack.com/table/latest/docs/framework/react/react-table). It accepts the same options and returns the same Table instance, but injects these defaults:
@@ -233,6 +227,14 @@ Each column definition accepts a meta object with Lumen-specific properties that
     </tbody>
   </table>
 </div>
+
+## Advanced Patterns
+
+### Row Props
+
+Use `getRowProps` when each data row needs attributes derived from its original item.
+
+<Source of={DataTableStories.WithRowProps} />
 
 </Tab>
 </CustomTabs>
