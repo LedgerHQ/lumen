@@ -41,6 +41,7 @@ type DataTableContextValue<TData extends RowData = RowData> = {
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
   onRowClick?: (row: Row<TData>) => void;
+  getRowProps: DataTableRootProps<TData>['getRowProps'];
   groupBy?: (row: Row<TData>) => string;
   renderGroupHeader?: (info: { row: Row<TData>; count: number }) => ReactNode;
 };
@@ -65,6 +66,7 @@ export const DataTableRoot = <TData extends RowData = RowData>({
   loading = false,
   onScrollBottom,
   onRowClick,
+  getRowProps,
   groupBy,
   renderGroupHeader,
   hideHeader = false,
@@ -86,6 +88,7 @@ export const DataTableRoot = <TData extends RowData = RowData>({
           loading,
           onScrollBottom,
           onRowClick,
+          getRowProps,
           groupBy,
           renderGroupHeader,
         } as DataTableContextValue
@@ -313,7 +316,7 @@ const DataTableGroupedBody = ({
  * Leaf component that renders a single data row (click handling + cells).
  */
 const DataTableRow = ({ row }: { row: Row<RowData> }) => {
-  const { onRowClick } = useDataTableContext({
+  const { onRowClick, getRowProps } = useDataTableContext({
     consumerName: 'DataTableRow',
     contextRequired: true,
   });
@@ -321,8 +324,10 @@ const DataTableRow = ({ row }: { row: Row<RowData> }) => {
 
   return (
     <TableRow
+      {...getRowProps?.(row)}
       clickable={isClickable}
       onClick={isClickable ? () => onRowClick?.(row) : undefined}
+      role={isClickable ? 'button' : undefined}
     >
       {row.getVisibleCells().map((cell) => {
         const meta = cell.column.columnDef.meta;
