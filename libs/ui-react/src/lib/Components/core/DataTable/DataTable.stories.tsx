@@ -433,6 +433,54 @@ export const WithClickableRow: Story = {
   },
 };
 
+export const WithRowProps: Story = {
+  parameters: {
+    docs: {
+      source: {
+        language: 'tsx',
+        format: true,
+        type: 'dynamic',
+      },
+    },
+  },
+  render: (args) => {
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+      ],
+    });
+
+    return (
+      <DataTableRoot
+        {...args}
+        table={table}
+        getRowProps={(row) => ({
+          'data-testid': `asset-row-${row.original.symbol}`,
+          'aria-label': `${row.original.name} asset`,
+        })}
+      >
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
 export const ColumnsLayout: Story = {
   parameters: {
     chromatic: { viewports: [800, 1280] },

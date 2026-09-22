@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as DataTableStories from './DataTable.stories';
 import {
   CustomTabs,
@@ -37,6 +37,12 @@ The `appearance` prop controls the visual style of the table. Use `no-background
 Pass `onRowClick` to `DataTableRoot` to make rows interactive. Each row receives hover and press styles automatically. The callback receives the full TanStack `Row` object, giving access to `row.original` data.
 
 <Canvas of={DataTableStories.WithClickableRow} />
+
+## Row Props
+
+Pass `getRowProps` to `DataTableRoot` to add native attributes, styles, classes, or refs to individual data rows. The resolver receives the full TanStack `Row` object. Lumen continues to own row click behavior and accessibility roles.
+
+<Canvas of={DataTableStories.WithRowProps} />
 
 ## Columns Layout
 
